@@ -1,93 +1,286 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B444C7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Oct 2018 09:54:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0EB397D927
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Oct 2018 15:28:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726451AbeJ3SrL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Oct 2018 14:47:11 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:33717 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726247AbeJ3SrK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Oct 2018 14:47:10 -0400
-Received: by mail-qk1-f195.google.com with SMTP id o89so6819398qko.0;
-        Tue, 30 Oct 2018 02:54:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Qi5igCbxD3HrmBiL01UGExngrI5GuGC+v35qnbh4sAo=;
-        b=K1sd/7OZQ2aA2zBe9Mz57Jv1KhdeWPeVJArAfj9fTjiZS/a/CH17V3q5nlutYQnXDd
-         qy245i4gXwWY4dSQEvr6zJJKb98iP3FUUcWsazK31eYpS6cYH8H2WwCdx4s7RZr0ILBJ
-         YYQ58vIGAX1Y0bc65RLXJCTOEVx7laAgnDDwV4SfeKv9zXLW/zN2DZx+fL+V+vQf4JHj
-         Tvakk8I8xBnZ5jhG2Rsu8zaNMQNoCb2NJagAd/l9V3oK3/pwjMsE/G4Cm83BjHFFgdDx
-         BllMu4TlW/qJvGAj/4jhMK7r58/OXhzHdZG2WISYRY1lG10W6Ssn8PotFHwbtn2gTyg1
-         ZZBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Qi5igCbxD3HrmBiL01UGExngrI5GuGC+v35qnbh4sAo=;
-        b=a9Hcpg7hhC2cUU+7dFq++uOowd/VEZCigyi0/1qr7J9CqBqrOCE4jr+Ay4NGwLRe4W
-         M4OWWOsZn8C5ZfCh3SZUb5VNY9fL51rsh5dA/UT2aLqHabMpXUBVyGTx5E0g378ZqXgt
-         BoKHUdbdSXJ+rzSxkpVwZruxKT8yYBogQKSAb+5qg4DDrFoI62NS09QydcyEJSgAQAW3
-         DknDDDI4JJALdG/7iXWsOxDY4Kb4eVO7VzViq75+S22T6MnmzORI1G5wAS9rjpsYll0u
-         Ae7NrQoQlj2OrVIAZryPz6hdsoEFYcY3Z/0O69UeA7W07YvYIW5RJEQdtS6OVMzXaLWt
-         qldg==
-X-Gm-Message-State: AGRZ1gKUINCJv6Vlm8JKd7xLVd+sW5MnnsUZUPvKD7z7JdjJL5Asof2F
-        p3T3YZePqycHmIw1/DR+NHU8R9HJUTmtryD50Xo=
-X-Google-Smtp-Source: AJdET5fyR4I6GXzASuw6bAlnaUCKxEDcZAtwAmo6nDm4MRloCuq8ItP0ImuK9tYoTJ4sr7p8qDqyfc6Uh4uzBQMcawc=
-X-Received: by 2002:a37:c3c3:: with SMTP id r64mr941942qkl.70.1540893264827;
- Tue, 30 Oct 2018 02:54:24 -0700 (PDT)
+        id S1727497AbeJaAWL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 30 Oct 2018 20:22:11 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52872 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726491AbeJaAWK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Oct 2018 20:22:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=wHGp11HAaDCle3hbuoAqr3aCpac9p2AxS6QghFI+7jk=; b=oj6mwOG6K3x/MQafk4JIbKOBy
+        9rZgLPOh6ZV0ouWOqVvota++uL85RCu/BE+lLJ1fPUADAHQRVRAbYBQ6KAerWlSRv42ZLK9A7e8UO
+        bXveSkXX5C6WjS18O7VqpuwBYnRJu6F0WSfRLO+qWIHojB4gPxruPr0swMYHhBJNn6GNRmURiRXZl
+        0QwFPOYp0+H8MwXh15Xs2e6bJ05LpjYOR6xjbAoMiPq03kjozVt6o4zsNytxgrOtCQIwyBZQvumkG
+        jd3DX2TQJIk6GKs8m1X+dl4CT2vv8gFH31ZojonFQcAmvhbD0wyC8jsLSZyd4lL87qRXKCGAaikTN
+        jNutzUJ5g==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gHVum-0004fO-Hu; Tue, 30 Oct 2018 15:26:50 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id C3F292029FA14; Tue, 30 Oct 2018 16:26:41 +0100 (CET)
+Date:   Tue, 30 Oct 2018 16:26:41 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Igor Stoppa <igor.stoppa@gmail.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        James Morris <jmorris@namei.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        Igor Stoppa <igor.stoppa@huawei.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laura Abbott <labbott@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH 10/17] prmem: documentation
+Message-ID: <20181030152641.GE8177@hirez.programming.kicks-ass.net>
+References: <20181023213504.28905-1-igor.stoppa@huawei.com>
+ <20181023213504.28905-11-igor.stoppa@huawei.com>
+ <20181026092609.GB3159@worktop.c.hoisthospitality.com>
+ <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
+ <20181028183126.GB744@hirez.programming.kicks-ass.net>
+ <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
 MIME-Version: 1.0
-References: <CAHp75VcPmnKRdKVs8E+ov=h3roSvD-CKL7m9EZ6cGJWH1dyk1Q@mail.gmail.com>
- <201810301107515541204@zte.com.cn>
-In-Reply-To: <201810301107515541204@zte.com.cn>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 30 Oct 2018 11:54:03 +0200
-Message-ID: <CAHp75VfVitVWoXbUs0gQbv9Ny2gwccON-+qU06YaCs19tF9oAw@mail.gmail.com>
-Subject: Re: Re: [PATCH V3 3/5] misc/pvpanic: add MMIO support
-To:     peng.hao2@zte.com.cn
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        hutao@cn.fujitsu.com,
-        Linux Documentation List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 30, 2018 at 5:08 AM <peng.hao2@zte.com.cn> wrote:
-> >On Mon, Oct 29, 2018 at 12:54 PM <peng.hao2@zte.com.cn> wrote:
+On Mon, Oct 29, 2018 at 11:04:01PM +0200, Igor Stoppa wrote:
+> On 28/10/2018 18:31, Peter Zijlstra wrote:
+> > On Fri, Oct 26, 2018 at 11:46:28AM +0100, Kees Cook wrote:
+> > > On Fri, Oct 26, 2018 at 10:26 AM, Peter Zijlstra <peterz@infradead.org> wrote:
+> > > > I still don't really understand the whole write-rare thing; how does it
+> > > > really help? If we can write in kernel memory, we can write to
+> > > > page-tables too.
+> > 
+> > > One aspect of hardening the kernel against attack is reducing the
+> > > internal attack surface. Not all flaws are created equal, so there is
+> > > variation in what limitations an attacker may have when exploiting
+> > > flaws (not many flaws end up being a fully controlled "write anything,
+> > > anywhere, at any time"). By making the more sensitive data structures
+> > > of the kernel read-only, we reduce the risk of an attacker finding a
+> > > path to manipulating the kernel's behavior in a significant way.
+> > > 
+> > > Examples of typical sensitive targets are function pointers, security
+> > > policy, and page tables. Having these "read only at rest" makes them
+> > > much harder to control by an attacker using memory integrity flaws.
+> > 
+> > Because 'write-anywhere' exploits are easier than (and the typical first
+> > step to) arbitrary code execution thingies?
+> > 
+> > > The "write rarely" name itself may not sufficiently describe what is
+> > > wanted either (I'll take the blame for the inaccurate name), so I'm
+> > > open to new ideas there. The implementation requirements for the
+> > > "sensitive data read-only at rest" feature are rather tricky:
+> > > 
+> > > - allow writes only from specific places in the kernel
+> > > - keep those locations inline to avoid making them trivial ROP targets
+> > > - keep the writeability window open only to a single uninterruptable CPU
+> > 
+> > The current patch set does not achieve that because it uses a global
+> > address space for the alias mapping (vmap) which is equally accessible
+> > from all CPUs.
+> 
+> I never claimed to achieve 100% resilience to attacks.
 
-> >I would consider it as a bug if on some architectures iounmap() is not
-> >able to take a base got from ioport_map().
+You never even begun explaining what you were defending against. Let
+alone how well it achieved its stated goals.
 
-> I added TYPE_PVPANIC_MMIO in QEMU to the architecture that does not support IOPORT.
->  If some architectures does not support IOPORT, set TYPE_PVPANIC_MMIO in qemu. This setting is reflected in the kernel pvpanic driver
-> and does not invoke ioport_map (calling ioremap).  So I think the situation you described above will not happen.
+> While it's true that the address space is accessible to all the CPUs, it is
+> also true that the access has a limited duration in time, and the location
+> where the access can be performed is not fixed.
+> 
+> Iow, assuming that the CPUs not involved in the write-rare operations are
+> compromised and that they are trying to perform a concurrent access to the
+> data in the writable page, they have a limited window of opportunity.
 
-> But I should  resume one check like this to deal with the failure of ioremap/ioport_map.
->      if (base)
->            iounmap(base)
+That sounds like security through obscurity. Sure it makes it harder,
+but it doesn't stop anything.
 
-I'm a bit confused, how come that base == NULL when you about to call
-iounmap()? Where you would like to put this check?
+> Said this, this I have posted is just a tentative implementation.
+> My primary intent was to at least give an idea of what I'd like to do: alter
+> some data in a way that is not easily exploitable.
 
-> The patch of QEMU is still in review.
+Since you need to modify page-tables in order to achieve this, the
+page-tables are also there for the attacker to write to.
 
--- 
-With Best Regards,
-Andy Shevchenko
+> > > - fast enough to deal with page table updates
+> > 
+> > The proposed implementation needs page-tables for the alias; I don't see
+> > how you could ever do R/O page-tables when you need page-tables to
+> > modify your page-tables.
+> 
+> It's not all-or-nothing.
+
+I really am still strugging with what it is this thing is supposed to
+do. As it stands, I see very little value. Yes it makes a few things a
+little harder, but it doesn't really do away with things.
+
+> I hope we agree at least on the reasoning that having only a limited amount
+> of address space directly attackable, instead of the whole set of pages
+> containing exploitable data, is  reducing the attack surface.
+
+I do not in fact agree. Most pages are not interesting for an attack at
+all. So simply reducing the set of pages you can write to isn't
+sufficient.
+
+IOW. removing all noninteresting pages from the writable set will
+satisfy your criteria, but it avoids exactly 0 exploits.
+
+What you need to argue is that we remove common exploit targets, and
+you've utterly failed to do so.
+
+Kees mentioned: function pointers, page-tables and a few other things.
+You mentioned nothing.
+
+> Furthermore, if we think about possible limitations that the attack might
+> have (maximum reach), the level of protection might be even higher. I have
+> to use "might" because I cannot foresee the vulnerability.
+
+That's just a bunch of words together that don't really say anything
+afaict.
+
+> Furthermore, taking a different angle: your average attacker is not
+> necessarily very social and inclined to share the vulnerability found.
+> It is safe to assume that in most cases each attacker has to identify the
+> attack strategy autonomously.
+> Reducing the amount of individual who can perform an attack, by increasing
+> the expertise required is also a way of doing damage control.
+
+If you make RO all noninteresting pages, you in fact increase the
+density of interesting targets and make things easier.
+
+> > And this is entirely irrespective of performance.
+> 
+> I have not completely given up on performance, but, being write-rare, I see
+> improved performance as just a way of widening the range of possible
+> recipients for the hardening.
+
+What?! Are you saying you don't care about performance?
+
+> > Right... /me goes find the patches we did for text_poke. Hmm, those
+> > never seem to have made it:
+> > 
+> >    https://lkml.kernel.org/r/20180902173224.30606-1-namit@vmware.com
+> > 
+> > like that. That approach will in fact work and not be a completely
+> > broken mess like this thing.
+> 
+> That approach is x86 specific.
+
+It is not. Every architecture does switch_mm() with IRQs disabled, as
+that is exactly what the scheduler does.
+
+And keeping a second init_mm around also isn't very architecture
+specific I feel.
+
+> > > We need to find a good way to do the write-windowing that works well
+> > > for static and dynamic structures _and_ for the page tables... this
+> > > continues to be tricky.
+> > > 
+> > > Making it resilient against ROP-style targets makes it difficult to
+> > > deal with certain data structures (like list manipulation). In my
+> > > earlier RFC, I tried to provide enough examples of where this could
+> > > get used to let people see some of the complexity[1]. Igor's series
+> > > expands this to even more examples using dynamic allocation.
+> > 
+> > Doing 2 CR3 writes for 'every' WR write doesn't seem like it would be
+> > fast enough for much of anything.
+> 
+> Part of the reason for the duplication is that, even if the wr_API I came up
+> with, can be collapsed with the regular API, the implementation needs to be
+> different, to be faster.
+> 
+> Ex:
+> * force the list_head structure to be aligned so that it will always be
+> fully contained by a single page
+> * create alternate mapping for all the pages involved (max 1 page for each
+> list_head)
+> * do the lsit operation on the remapped list_heads
+> * destroy all the mappings
+
+Those constraints are due to single page aliases.
+
+> I can try to introduce some wrapper similar to kmap_atomic(), as suggested
+> by Dave Hansen, which can improve the coding, but it will not change the
+> actual set of operations performed.
+
+See below, I don't think kmap_atomic() is either correct or workable.
+
+One thing that might be interesting is teaching objtool about the
+write-enable write-disable markers and making it guarantee we reach a
+disable after every enable. IOW, ensure we never leak this state.
+
+I think that was part of why we hated on that initial thing Kees did --
+well that an disabling all WP is of course completely insane ;-).
+
+> > And I don't suppose we can take the WP fault and then fix up from there,
+> > because if we're doing R/O page-tables, that'll incrase the fault depth
+> > and we'll double fault all the time, and tripple fault where we
+> > currently double fault. And we all know how _awesome_ tripple faults
+> > are.
+> > 
+> > But duplicating (and wrapping in gunk) whole APIs is just not going to
+> > work.
+> 
+> Would something like kmap_atomic() be acceptable?
+
+Don't think so. kmap_atomic() on x86_32 (64bit doesn't have it at all)
+only does the TLB invalidate on the one CPU, which we've established is
+incorrect.
+
+Also, kmap_atomic is still page-table based, which means not all
+page-tables can be read-only.
+
+> Do you have some better proposal, now that (I hope) it should be more clear
+> what I'm trying to do and why?
+
+You've still not talked about any actual attack vectors and how they're
+mitigated by these patches.
+
+I suppose the 'normal' attack goes like:
+
+ 1) find buffer-overrun / bound check failure
+ 2) use that to write to 'interesting' location
+ 3) that write results arbitrary code execution
+ 4) win
+
+Of course, if the store of 2 is to the current cred structure, and
+simply sets the effective uid to 0, we can skip 3.
+
+Which seems to suggest all cred structures should be made r/o like this.
+But I'm not sure I remember these patches doing that.
+
+
+Also, there is an inverse situation with all this. If you make
+everything R/O, then you need this allow-write for everything you do,
+which then is about to include a case with an overflow / bound check
+fail, and we're back to square 1.
+
+What are you doing to avoid that?
