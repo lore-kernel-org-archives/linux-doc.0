@@ -1,86 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F239B7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Oct 2018 09:11:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B444C7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Oct 2018 09:54:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726984AbeJ3SE0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Oct 2018 14:04:26 -0400
-Received: from Galois.linutronix.de ([146.0.238.70]:53374 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726479AbeJ3SE0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Oct 2018 14:04:26 -0400
-Received: from tmo-115-37.customers.d1-online.com ([80.187.115.37] helo=nanos)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1gHQ3K-000325-El; Tue, 30 Oct 2018 10:11:10 +0100
-Date:   Tue, 30 Oct 2018 10:11:08 +0100 (CET)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     "Moger, Babu" <Babu.Moger@amd.com>
-cc:     "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>,
-        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
-        "pombredanne@nexb.com" <pombredanne@nexb.com>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
-        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Singh, Brijesh" <brijesh.singh@amd.com>,
-        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
-        "dwmw2@infradead.org" <dwmw2@infradead.org>,
-        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "jannh@google.com" <jannh@google.com>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "rian@alum.mit.edu" <rian@alum.mit.edu>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v5 00/13] arch/x86: AMD QoS support
-In-Reply-To: <8e9cf809-8827-d4f6-633d-b4212f6cabc4@amd.com>
-Message-ID: <alpine.DEB.2.21.1810301010230.5984@nanos.tec.linutronix.de>
-References: <20181018225124.23043-1-babu.moger@amd.com> <8e9cf809-8827-d4f6-633d-b4212f6cabc4@amd.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1726451AbeJ3SrL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 30 Oct 2018 14:47:11 -0400
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:33717 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726247AbeJ3SrK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Oct 2018 14:47:10 -0400
+Received: by mail-qk1-f195.google.com with SMTP id o89so6819398qko.0;
+        Tue, 30 Oct 2018 02:54:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Qi5igCbxD3HrmBiL01UGExngrI5GuGC+v35qnbh4sAo=;
+        b=K1sd/7OZQ2aA2zBe9Mz57Jv1KhdeWPeVJArAfj9fTjiZS/a/CH17V3q5nlutYQnXDd
+         qy245i4gXwWY4dSQEvr6zJJKb98iP3FUUcWsazK31eYpS6cYH8H2WwCdx4s7RZr0ILBJ
+         YYQ58vIGAX1Y0bc65RLXJCTOEVx7laAgnDDwV4SfeKv9zXLW/zN2DZx+fL+V+vQf4JHj
+         Tvakk8I8xBnZ5jhG2Rsu8zaNMQNoCb2NJagAd/l9V3oK3/pwjMsE/G4Cm83BjHFFgdDx
+         BllMu4TlW/qJvGAj/4jhMK7r58/OXhzHdZG2WISYRY1lG10W6Ssn8PotFHwbtn2gTyg1
+         ZZBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Qi5igCbxD3HrmBiL01UGExngrI5GuGC+v35qnbh4sAo=;
+        b=a9Hcpg7hhC2cUU+7dFq++uOowd/VEZCigyi0/1qr7J9CqBqrOCE4jr+Ay4NGwLRe4W
+         M4OWWOsZn8C5ZfCh3SZUb5VNY9fL51rsh5dA/UT2aLqHabMpXUBVyGTx5E0g378ZqXgt
+         BoKHUdbdSXJ+rzSxkpVwZruxKT8yYBogQKSAb+5qg4DDrFoI62NS09QydcyEJSgAQAW3
+         DknDDDI4JJALdG/7iXWsOxDY4Kb4eVO7VzViq75+S22T6MnmzORI1G5wAS9rjpsYll0u
+         Ae7NrQoQlj2OrVIAZryPz6hdsoEFYcY3Z/0O69UeA7W07YvYIW5RJEQdtS6OVMzXaLWt
+         qldg==
+X-Gm-Message-State: AGRZ1gKUINCJv6Vlm8JKd7xLVd+sW5MnnsUZUPvKD7z7JdjJL5Asof2F
+        p3T3YZePqycHmIw1/DR+NHU8R9HJUTmtryD50Xo=
+X-Google-Smtp-Source: AJdET5fyR4I6GXzASuw6bAlnaUCKxEDcZAtwAmo6nDm4MRloCuq8ItP0ImuK9tYoTJ4sr7p8qDqyfc6Uh4uzBQMcawc=
+X-Received: by 2002:a37:c3c3:: with SMTP id r64mr941942qkl.70.1540893264827;
+ Tue, 30 Oct 2018 02:54:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+References: <CAHp75VcPmnKRdKVs8E+ov=h3roSvD-CKL7m9EZ6cGJWH1dyk1Q@mail.gmail.com>
+ <201810301107515541204@zte.com.cn>
+In-Reply-To: <201810301107515541204@zte.com.cn>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 30 Oct 2018 11:54:03 +0200
+Message-ID: <CAHp75VfVitVWoXbUs0gQbv9Ny2gwccON-+qU06YaCs19tF9oAw@mail.gmail.com>
+Subject: Re: Re: [PATCH V3 3/5] misc/pvpanic: add MMIO support
+To:     peng.hao2@zte.com.cn
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        hutao@cn.fujitsu.com,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Babu,
+On Tue, Oct 30, 2018 at 5:08 AM <peng.hao2@zte.com.cn> wrote:
+> >On Mon, Oct 29, 2018 at 12:54 PM <peng.hao2@zte.com.cn> wrote:
 
-On Fri, 26 Oct 2018, Moger, Babu wrote:
+> >I would consider it as a bug if on some architectures iounmap() is not
+> >able to take a base got from ioport_map().
 
-> Hi Thomas,
-> > 
-> 
-> Do you have any concerns with these patches? Can this be included in the
-> maintainers tree and hopefully get into 4.21?
+> I added TYPE_PVPANIC_MMIO in QEMU to the architecture that does not support IOPORT.
+>  If some architectures does not support IOPORT, set TYPE_PVPANIC_MMIO in qemu. This setting is reflected in the kernel pvpanic driver
+> and does not invoke ioport_map (calling ioremap).  So I think the situation you described above will not happen.
 
-It's on my list to go through in detail. Give me a few days.
+> But I should  resume one check like this to deal with the failure of ioremap/ioport_map.
+>      if (base)
+>            iounmap(base)
 
-Thanks,
+I'm a bit confused, how come that base == NULL when you about to call
+iounmap()? Where you would like to put this check?
 
-	tglx
+> The patch of QEMU is still in review.
 
+-- 
+With Best Regards,
+Andy Shevchenko
