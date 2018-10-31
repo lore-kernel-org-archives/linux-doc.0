@@ -1,93 +1,139 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 566AB7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 03:41:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 193217D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 04:41:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729261AbeJaMhk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Oct 2018 08:37:40 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:40696 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729146AbeJaMhk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Oct 2018 08:37:40 -0400
-Received: by mail-pg1-f195.google.com with SMTP id o14-v6so6685522pgv.7;
-        Tue, 30 Oct 2018 20:41:26 -0700 (PDT)
+        id S1728954AbeJaNhw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Oct 2018 09:37:52 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:50635 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728889AbeJaNhw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Oct 2018 09:37:52 -0400
+Received: by mail-wm1-f66.google.com with SMTP id h2-v6so9947515wmb.0
+        for <linux-doc@vger.kernel.org>; Tue, 30 Oct 2018 21:41:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ARI2wOOdXKHCGw/EZBNSKV/KipdLXza0yLe1Fg56GKo=;
-        b=AbD8lzYwJU0k1FVVw4JYgG81pFkNpw7ZHAnmSB/yLT3gROZhm68DiFryBgOO1fogof
-         We4l+LXAiatJvZCszusgOqPz9oghwzRVAWQrM9D6qM0NQUyKAjNn2WNcTrjPXTG36vXA
-         8JLvz4BiCbdfl/xM7l3ZAoB/yRhyTT0KwsUK2MjFkV5s+tzKeeNHMEagYdDctDarvTJd
-         50CUMxl+KFoH2o4KSsU9xtsw5BWDZ/xGkHM12w11toQI/tNiaqk+MJHJclihMfrFzHwq
-         EzE0jnOxDePQ8U1qMBHqQT1w7CDHwVRjxFAHr/fylDSMORvlI++z+O7gDo+PBgYPpjzb
-         wUoQ==
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=TuB+km0LMAbwqhBPSE0z5upz2c8PWBTaUi2I3CbmuY8=;
+        b=Yr8Ov/5fvhd9aO52cRacUwUgzrmRLoK3jqgJ1sM7H7OFeYOLjAt676JaWoWPP5TUFl
+         syNvd4/1BU2W0xuYm7jYipw1hTNieCIOmcsB/DbJ74S66KvIgy2snJpguKmPDJ+wyT0V
+         9dxIGW3SiTsgNeiRYJ5e6P3cdBYllM8iQAZWpSffgobF2yTb/sff8cz7F6WTUUPhXBXu
+         1x2RtjrcYgk4Lc0mecMwXRswYpv7qk5g0ycW+WO9w4F85h9agfR3hzW+wyyB6dkvd24T
+         eJY1PQQX5zw/SRxelpQQu1HUDVO78oQHEWzsBptq9h8mq7ka6rz+MbQQXaU8SjFZAC78
+         /5Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ARI2wOOdXKHCGw/EZBNSKV/KipdLXza0yLe1Fg56GKo=;
-        b=DdjZjQEuSXxx5SAdEbfyGiV8ypbuf9KS5pUCoyUK3WaksqW8OX52xuhPeeFe/8WlZK
-         lrybnxsnS3dUA+1BQeXDxa8w122ca/VVcTp332MQvZ6gykg1mIw7khKzQ/Lg/D9A/DQb
-         p/MQaNwteN0d1G+y5kz7UujaM0TsaLEXkH1olLPD3nabu8dxID+jdL6oGI/ryl/gRaDr
-         GnTAi5tAr5+oQMMVHyo9VACmHAkdCPIqt7HRwy4Yp+EXkXbHT8T1+ZxZRYPrLtttxvWo
-         HBj176VcWUdgH0JV/ujOWY1fpEGu1bBHy3T1Rs5khsJK82ViS/BVRMVLkD6tga5qSD1c
-         J0Ig==
-X-Gm-Message-State: AGRZ1gJd57cbWO1K7FCy8C1ugBueDSpHS64GKCkUbZpSDMGVLIxb30Nz
-        l/6Dk/sJ77nhB8Z9vDaivEaqPXXD
-X-Google-Smtp-Source: AJdET5cnFC6nhO7CyX7pRt1XhwE+ryiK8YwkYomplCdmP+ma2CyeVrvtUx8C32meKvvA30W/VTMp/w==
-X-Received: by 2002:a63:e156:: with SMTP id h22mr1447717pgk.255.1540957286187;
-        Tue, 30 Oct 2018 20:41:26 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id g25-v6sm25879664pgg.73.2018.10.30.20.41.24
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 30 Oct 2018 20:41:25 -0700 (PDT)
-Subject: Re: [PATCH] hwmon: (adt7475) document mapping of sysfs entries to
- inputs
-To:     Chris Packham <chris.packham@alliedtelesis.co.nz>
-Cc:     jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20181030202527.14581-1-chris.packham@alliedtelesis.co.nz>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <092d62bc-8919-bb18-c377-57e3b7018c17@roeck-us.net>
-Date:   Tue, 30 Oct 2018 20:41:23 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TuB+km0LMAbwqhBPSE0z5upz2c8PWBTaUi2I3CbmuY8=;
+        b=dccbzWtQKpJtNR0E2ccXJgDyClg+QHyPiwLrNIECz1rI4U1GU6Kv65+Ma4HS7o/NTX
+         UcNXep2TKPvTCZgVIdsApsDwJ54E9uvHiUWkh3J/53aAe/0Iv+aEY6+kJ95cBIr6KKSe
+         pzaz/PT4pVX1H7sW4apljp2tdmkzx7rCKVNfL1KjFODcTn6+f/Fw4CMd6NTWT/8gL45I
+         riGyAlK9oLtTMU3VxV+DtwkO0RMg70tO5CZ+RtBBWXNKaiwjprCoI/EhQn2yZa0Bh9WG
+         1YiA0YjwcUbS95jelZMJ5DjEEs2fxRYzUrkV9bgTiGbfRrPpS7t65ikDb9mQU8DsgU0D
+         wl4Q==
+X-Gm-Message-State: AGRZ1gK8a+DJM3QdHdbdOGtZHMXDMtj9yYvr73mB1Kxcv3ENitpgM5rz
+        SKpncBmTs33wx4XfhViB8LPwv2dQZeYeotgrJaaWQA==
+X-Google-Smtp-Source: AJdET5da2fWDOBqUm/NfMQo0FfaejNVTvyDWDmJIuOPBGo9zkY9ccnZamzEZmlflpUrPCg3ryi2Q8jzp6SNqWde+UUU=
+X-Received: by 2002:a1c:410a:: with SMTP id o10-v6mr1003272wma.19.1540960885281;
+ Tue, 30 Oct 2018 21:41:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20181030202527.14581-1-chris.packham@alliedtelesis.co.nz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
+ <20181028183126.GB744@hirez.programming.kicks-ass.net> <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
+ <20181030152641.GE8177@hirez.programming.kicks-ass.net> <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
+ <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net> <20181030175814.GB10491@bombadil.infradead.org>
+ <20181030182841.GE7343@cisco> <20181030192021.GC10491@bombadil.infradead.org>
+ <9edbdf8b-b5fb-5a82-43b4-b639f5ec8484@gmail.com> <20181030213557.GE10491@bombadil.infradead.org>
+In-Reply-To: <20181030213557.GE10491@bombadil.infradead.org>
+From:   Andy Lutomirski <luto@amacapital.net>
+Date:   Tue, 30 Oct 2018 21:41:13 -0700
+Message-ID: <CALCETrW1FcT88u0QY9k_PMOeZj0G8H6KNb5Bnreo-12NvmmCEQ@mail.gmail.com>
+Subject: Re: [PATCH 10/17] prmem: documentation
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Igor Stoppa <igor.stoppa@gmail.com>,
+        Tycho Andersen <tycho@tycho.ws>,
+        Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Dave Chinner <david@fromorbit.com>,
+        James Morris <jmorris@namei.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Igor Stoppa <igor.stoppa@huawei.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laura Abbott <labbott@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/30/18 1:25 PM, Chris Packham wrote:
-> As per the usual standard with hwmon drivers the mapping to sysfs
-> entries follows the register map of the device e.g. in0_input
-> corresponds to the register 0x20, in1_input corresponds to 0x21 etc.
-> 
-> Hardware designers tend to work with input pins instead of registers
-> which is where things start to get confusing. A hardware designer might
-> say "the 1.5V rail is connected to the VCCP pin" leaving the software
-> designer none the wiser as to which of the sysfs entries should be
-> associated with the label "1.5V".
-> 
-> Try to bridge the gap by documenting the mapping of sysfs entries to
-> the corresponding pins. This should allow someone to create a
-> configuration file or other mapping without needing to dive into the
-> code and ADT datasheets.
-> 
-> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+On Tue, Oct 30, 2018 at 2:36 PM Matthew Wilcox <willy@infradead.org> wrote:
+>
+> On Tue, Oct 30, 2018 at 10:43:14PM +0200, Igor Stoppa wrote:
+> > On 30/10/2018 21:20, Matthew Wilcox wrote:
+> > > > > So the API might look something like this:
+> > > > >
+> > > > >         void *p = rare_alloc(...);      /* writable pointer */
+> > > > >         p->a = x;
+> > > > >         q = rare_protect(p);            /* read-only pointer */
+> >
+> > With pools and memory allocated from vmap_areas, I was able to say
+> >
+> > protect(pool)
+> >
+> > and that would do a swipe on all the pages currently in use.
+> > In the SELinux policyDB, for example, one doesn't really want to
+> > individually protect each allocation.
+> >
+> > The loading phase happens usually at boot, when the system can be assumed to
+> > be sane (one might even preload a bare-bone set of rules from initramfs and
+> > then replace it later on, with the full blown set).
+> >
+> > There is no need to process each of these tens of thousands allocations and
+> > initialization as write-rare.
+> >
+> > Would it be possible to do the same here?
+>
+> What Andy is proposing effectively puts all rare allocations into
+> one pool.  Although I suppose it could be generalised to multiple pools
+> ... one mm_struct per pool.  Andy, what do you think to doing that?
 
-Applied to hwmon-next.
+Hmm.  Let's see.
 
-Thanks,
-Guenter
+To clarify some of this thread, I think that the fact that rare_write
+uses an mm_struct and alias mappings under the hood should be
+completely invisible to users of the API.  No one should ever be
+handed a writable pointer to rare_write memory (except perhaps during
+bootup or when initializing a large complex data structure that will
+be rare_write but isn't yet, e.g. the policy db).
+
+For example, there could easily be architectures where having a
+writable alias is problematic.  On such architectures, an entirely
+different mechanism might work better.  And, if a tool like KNOX ever
+becomes a *part* of the Linux kernel (hint hint!)
+
+If you have multiple pools and one mm_struct per pool, you'll need a
+way to find the mm_struct from a given allocation.  Regardless of how
+the mm_structs are set up, changing rare_write memory to normal memory
+or vice versa will require a global TLB flush (all ASIDs and global
+pages) on all CPUs, so having extra mm_structs doesn't seem to buy
+much.
+
+(It's just possible that changing rare_write back to normal might be
+able to avoid the flush if the spurious faults can be handled
+reliably.)
