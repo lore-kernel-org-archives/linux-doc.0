@@ -6,51 +6,51 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DE41D7D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 12:46:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6F5ED7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 12:49:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729186AbeJaVoO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Oct 2018 17:44:14 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:46233 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728869AbeJaVoO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Oct 2018 17:44:14 -0400
-Received: by mail-qt1-f196.google.com with SMTP id c16-v6so17394822qtj.13;
-        Wed, 31 Oct 2018 05:46:21 -0700 (PDT)
+        id S1728977AbeJaVr2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Oct 2018 17:47:28 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:38428 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728582AbeJaVr2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Oct 2018 17:47:28 -0400
+Received: by mail-qk1-f196.google.com with SMTP id p3-v6so9378894qkb.5;
+        Wed, 31 Oct 2018 05:49:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Hhuj+PVBQ3t1A+bNUbpDproSezBVyVg86+pK9jUqytY=;
-        b=CQJ1qnR6P9DidwLo+WvcpcIg5pho1xQqbKyjL3CVnoc43gy5KnwZnmBoCQhBNjas+M
-         cyrcnvYCWbqhXbYZy9++wR8Pkl2BxjigNcssX0LvADvGB0VJZgFCCv4enH5AWkGfaQoV
-         JOmeW0ZiCfbCYCibHufoCwSDGGRVtA4Diw07kL9ldjpUDV9M9U9TnQ13VovOPXnTVkDY
-         9SO5vuBg2tdIKEjFjX1Omj09K78Lu3/o7s87MpTBBKO+47im6Dui7ml4Aicy94ToJ2nH
-         MYvT9vqh+Uoh00iy8V5hXjwO+SML07cmnTB/pQuLgZF/NduhQPz6or+h9JXxtI/nqdfK
-         7nFQ==
+         :cc:content-transfer-encoding;
+        bh=n4SKnKLCIfEwwiiWAv7UkRr8ZbdZ6pbIG/14rX1N1Kc=;
+        b=ULf9hPfiXw4Bp95h/cQpF6RP2YZ+3DQoNkCJOGzNPWB0FIbuXgKxaZO24rhZ1js7m8
+         +m+Bfk0SXBo20aWkMKWQtYCTKd/adpPTEX1V4MDIblTKhlD0RVTzfHNY3c/Pg91w7+s5
+         zgeUpdnyta9fgi/ZsuMDNEKa7mWYPYlVpyR83ULURupWgxFqiXmg41ZnQrMbboZX9fmr
+         Ar0QsfjkJFKwICccE/9qHUu+pboLrGynfCEEIDmUOIyykpB47WWGvKiTyhGc7z+ZS/6D
+         KxBD6/hdnwq45pv/FnlM4nYyVQquOm5envxbfCAcEv5A8IhLXoZO3uTJ7CplHfBYb+FQ
+         ftng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Hhuj+PVBQ3t1A+bNUbpDproSezBVyVg86+pK9jUqytY=;
-        b=DD/vUNTsXavHEEK5SQyiWmoDGTzrGM4KTgfQ7HHhAKhNUqfReEItsLhPGG/1IoCBzc
-         EwMb78jLbnmK/Xniovi8mXT2bvyp8RrPOKfJjKXOFVNF70qCOTJJchHo2Sw37FxL8dbR
-         vr3DRpxIYjwraZUqeIl40MuUAumBX2WcXSuWnNqooFn0xxHKfGOPCaoma0+gobVRPJMj
-         2e7wAOmgp8EYarf/T2+c3LR6JHUuNx1qPnVKQHhWcLJ+6yVAL+RresTVO4qTzEo2P01I
-         xFXFuFBvTY8+2T3Eb4PRFM8GEXqjXm1IgM3fRh/hadkXCriNH3Y/rzcQ5JTOWVLg4AVL
-         kRoQ==
-X-Gm-Message-State: AGRZ1gI27JDfY6xaXiWlruhVwDaQ4yQui/qV/y/u7QVKTS3Z69wyeW5V
-        ZuFImyf/6vxV2NShs6loWwmpOwoZRNHyhdkDt6q8mq/1
-X-Google-Smtp-Source: AJdET5clmrjUukTdgDP3lgUZCaxlhfdiNiP+kHVTPhyIoDVWp33oD5+ugy4t6Bw0n5SZ0gxnbPptHxP4H4sAZpKulb4=
-X-Received: by 2002:a0c:c402:: with SMTP id r2mr2493768qvi.138.1540989981423;
- Wed, 31 Oct 2018 05:46:21 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=n4SKnKLCIfEwwiiWAv7UkRr8ZbdZ6pbIG/14rX1N1Kc=;
+        b=B0oWaoD93iG3bCBl9or1MV4nmPErpiDpat0fxVR0xBU3ANj0LnChK/JteDHOXiJ5R0
+         ycOikZkWwNacW0xqIJ0Wyn1HQOKik2mAEDyj/NvKxS1GV9fZwLNDHiHhkRAKxI9ywtDo
+         sBeIC7ws5eKAFNmvF85A7971gRWgdqFTlPKbwT01WDqRmPHmuR8sVznqjYMcKDIceJ0W
+         DulWgXMd0GfGJsqk8y4DgVUQLKJpmbtvoBT0STiPC9EXIU9lUudnW40TZe1w2C0KBWem
+         lWQgM/fzCz8Uvj+pYYoTpp5o8hA867usMahUfg0IYYNYnRtP0cyTwduqyCbdFN+ZqHJo
+         HzPg==
+X-Gm-Message-State: AGRZ1gI9YRteUymU5V31uLPAhhBDb3RdL3TDkD24NqF29Jr+LLnzSb4M
+        yCIIX5zxlEXjPq3k08BBYha+M3BuxxzquObisVM=
+X-Google-Smtp-Source: AJdET5cg5eKjktdwJrG0rm6zMXhnQU8QmrSr9VnCkKJCbc7E2qk6SHs+RDep+g07PffEXAk0KHDVKpap/hCLnPE6ofA=
+X-Received: by 2002:a37:4792:: with SMTP id u140mr2417268qka.301.1540990174675;
+ Wed, 31 Oct 2018 05:49:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <1540993041-25611-1-git-send-email-peng.hao2@zte.com.cn> <1540993041-25611-2-git-send-email-peng.hao2@zte.com.cn>
-In-Reply-To: <1540993041-25611-2-git-send-email-peng.hao2@zte.com.cn>
+References: <1540993041-25611-1-git-send-email-peng.hao2@zte.com.cn> <1540993041-25611-3-git-send-email-peng.hao2@zte.com.cn>
+In-Reply-To: <1540993041-25611-3-git-send-email-peng.hao2@zte.com.cn>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 31 Oct 2018 14:46:10 +0200
-Message-ID: <CAHp75VemSb=MG3z3eAks1Jv8GPx4fif7wYEDKgMUGbzssTmrAQ@mail.gmail.com>
-Subject: Re: [PATCH V4 2/5] misc/pvpanic : convert to SPDX license tags
+Date:   Wed, 31 Oct 2018 14:49:23 +0200
+Message-ID: <CAHp75VewfhyeoAhfFkxjWm+ch_msCeDGqumOEzbawumx7aFjdQ@mail.gmail.com>
+Subject: Re: [PATCH V4 3/5] misc/pvpanic: add MMIO support
 To:     peng.hao2@zte.com.cn
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -63,6 +63,7 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         hutao@cn.fujitsu.com,
         Linux Documentation List <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -70,50 +71,33 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Wed, Oct 31, 2018 at 7:27 AM Peng Hao <peng.hao2@zte.com.cn> wrote:
 >
-> This patch updates license to use SPDX-License-Identifier
-> instead of verbose license text.
->
+> On some architectures (e.g. arm64), it's preferable to use MMIO, since
+> this can be used standalone. Add MMIO support to the pvpanic driver.
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+>         case ACPI_RESOURCE_TYPE_IO:
+> -               port =3D res->data.io.minimum;
+> +               if (acpi_dev_resource_io(res, &r))
+> +                       base =3D (void __iomem *) ioport_map(r.start,
+> +                                               r.end - r.start + 1);
+> +               return AE_OK;
+> +
+> +       case ACPI_RESOURCE_TYPE_FIXED_MEMORY32:
+> +               if (acpi_dev_resource_memory(res, &r))
+> +                       base =3D ioremap(r.start, r.end - r.start + 1);
+>                 return AE_OK;
 
-> Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
-> ---
->  drivers/misc/pvpanic.c | 17 ++---------------
->  1 file changed, 2 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
-> index fd86dab..9450376 100644
-> --- a/drivers/misc/pvpanic.c
-> +++ b/drivers/misc/pvpanic.c
-> @@ -1,21 +1,8 @@
-> +// SPDX-License-Identifier: GPL-2.0+
->  /*
-> - *  pvpanic.c - pvpanic Device Support
-> + *  Pvpanic Device Support
->   *
->   *  Copyright (C) 2013 Fujitsu.
-> - *
-> - *  This program is free software; you can redistribute it and/or modify
-> - *  it under the terms of the GNU General Public License as published by
-> - *  the Free Software Foundation; either version 2 of the License, or
-> - *  (at your option) any later version.
-> - *
-> - *  This program is distributed in the hope that it will be useful,
-> - *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> - *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> - *  GNU General Public License for more details.
-> - *
-> - *  You should have received a copy of the GNU General Public License
-> - *  along with this program; if not, write to the Free Software
-> - *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
->   */
->
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> --
-> 1.8.3.1
->
+You need to split this to two changes. First one converts existing
+code to use acpi_dev_resource_io() and the rest does the rest.
+Moreover, please, read carefully the code of those functions =E2=80=94 hint=
+:
+they check for resource type themselves.
 
+> +       if (base)
 
--- 
+Same question. At which conditions the base here can be NULL?
+
+> +               iounmap(base);
+
+--=20
 With Best Regards,
 Andy Shevchenko
