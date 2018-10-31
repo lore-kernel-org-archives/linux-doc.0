@@ -1,96 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C30D67D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 16:04:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7C83F7D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 16:49:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729642AbeKABDL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Oct 2018 21:03:11 -0400
-Received: from mail-it1-f195.google.com ([209.85.166.195]:39157 "EHLO
-        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729440AbeKABDK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Oct 2018 21:03:10 -0400
-Received: by mail-it1-f195.google.com with SMTP id m15so18998648itl.4;
-        Wed, 31 Oct 2018 09:04:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6/5Fvol5/w5tCddIGIMKsLSJ+D+Oc0lQRTz0vXRM994=;
-        b=QbrVd9/rRXbHu6HEOpEcPR7i8M9AvUKajJ/fyep1IMi5wdQSRDogbaqiEcdM/jzwxP
-         98M5XH3TNnNw/0IZXf+rRe80+J7n00tMHUx5qPiYFe3jQz5SPdJ7vV8c/MoXNIR52r9Z
-         Fg6sUgc+R7yRzEn8IwKxAXPrHmuB+Iw+l16zGnUCrEkqZ0RkMQKK+LgpaNcfxf6yv041
-         4q3KLbuA179jLbU5787kT7hpAZnf7WDxS9z9k/Q5Y25tHZbBUrQqCVRwXro2jHxHcHTh
-         qY2V/VyiO7GPIYkBMo+dYpB075up2zVQCtwvbga/ZGIcKhq1RsjrMITzDZd7ZxjzQKYj
-         zicQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6/5Fvol5/w5tCddIGIMKsLSJ+D+Oc0lQRTz0vXRM994=;
-        b=AH5VGHz64wSEnJ+nLg+fH63aTI9ehbinKBrL8xytseK2fh9M6v0QB1Fn1fUDNysyfx
-         s4nGf7vUt2FudQigsjvpYE07hjllBO1+YK0/mte5Ddj06pFmKM17QxaCMhnJvnXMQhqe
-         p6Ehhkis0nOPQ3fD5WDFcoh/0603s8D5VFcEDh78HU9UPwetAezNJsJbNFhok0iWRwOt
-         osFkse5fSyJDYVVEPaeuiOfLGRvDKJ2eA+TxTCetC9LMIihPchnpQXtOD/5aRD1dCwgt
-         QKgyv9a4dIodLtTRa/O/uUJemulG4F45CB/ybERuuyoI3Px1iGj6ixzQKk1NSMCAQliS
-         jAEw==
-X-Gm-Message-State: AGRZ1gKzNzGapvAE0LQZTBLHxFBlnW2NxgpJWcwpZlyT22AE2u34fkR1
-        aUwqAp7RIJv/wObzqHHTBaUI7jSiTzzkaJoz64I=
-X-Google-Smtp-Source: AJdET5fO+G/HwsD0kwvDZbfhvKZM+7ClWBVMCtYIANkNSporbZK6LsQd6ryYBoMNxHJ7urSOdmuGhgs9QYwF9U/H4rY=
-X-Received: by 2002:a05:660c:190:: with SMTP id v16mr2508486itj.92.1541001872522;
- Wed, 31 Oct 2018 09:04:32 -0700 (PDT)
+        id S1729979AbeKABsp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Oct 2018 21:48:45 -0400
+Received: from relay.sw.ru ([185.231.240.75]:42510 "EHLO relay.sw.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729916AbeKABso (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 31 Oct 2018 21:48:44 -0400
+X-Greylist: delayed 1020 seconds by postgrey-1.27 at vger.kernel.org; Wed, 31 Oct 2018 21:48:42 EDT
+Received: from [172.16.25.12]
+        by relay.sw.ru with esmtp (Exim 4.90_1)
+        (envelope-from <aryabinin@virtuozzo.com>)
+        id 1gHtQH-0005eh-C5; Wed, 31 Oct 2018 19:32:49 +0300
+Subject: Re: [PATCH v9 01/20] kasan, mm: change hooks signatures
+To:     Andrey Konovalov <andreyknvl@google.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org
+Cc:     Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
+References: <cover.1537542735.git.andreyknvl@google.com>
+ <37b1d7e7c372b60e2323b33bf2e57d4e3409df0b.1537542735.git.andreyknvl@google.com>
+From:   Andrey Ryabinin <aryabinin@virtuozzo.com>
+Message-ID: <64a7030a-d6bf-3b52-aa7d-dbb1b25a7bc8@virtuozzo.com>
+Date:   Wed, 31 Oct 2018 19:33:34 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20181026151223.16810-1-ahmedsoliman0x666@gmail.com>
- <20181026151223.16810-2-ahmedsoliman0x666@gmail.com> <20181029164229.GA27144@linux.intel.com>
-In-Reply-To: <20181029164229.GA27144@linux.intel.com>
-From:   Ahmed Soliman <ahmedsoliman0x666@gmail.com>
-Date:   Wed, 31 Oct 2018 18:02:59 +0200
-Message-ID: <CAAGnT3bJUSEnoZotJsMx1ZEMzKF94Fnx8jo=zx4q+uA7mjfLQg@mail.gmail.com>
-Subject: Re: gRe: [PATCH V5 1/5] KVM: X86: Memory ROE documentation
-To:     sean.j.christopherson@intel.com
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        nathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?B?6rmA7J246rK4?= <ovich00@gmail.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        nigel.edwards@hpe.com, Boris Lukashev <blukashev@sempervictus.com>,
-        Hossam Hassan <7ossam9063@gmail.com>,
-        Ahmed Lotfy <A7med.lotfey@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <37b1d7e7c372b60e2323b33bf2e57d4e3409df0b.1537542735.git.andreyknvl@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 29 Oct 2018 at 18:42, Sean Christopherson
-<sean.j.christopherson@intel.com> wrote:
->
-> On Fri, Oct 26, 2018 at 05:12:19PM +0200, Ahmed Abd El Mawgood wrote:
-> > Following up with my previous threads on KVM assisted Anti rootkit
-> > protections.
->
-> All of the changelogs in this series need to be rewritten to adhere to
-> Documentation/process[1].  In particular, use imperative mood and
-> describe why/what is being done in a self-contained manner, e.g. the
-> above line isn't very helpful without a lot of prior context.
->
-> [1] https://github.com/torvalds/linux/blob/master/Documentation/process/submitting-patches.rst#2-describe-your-changes
->
-> > The current version doesn't address the attacks involving pages
-> > remapping. It is still design in progress, nevertheless, it will be in
-> > my later patch sets.
->
-> This series should be tagged RFC if its design is a WIP.
-Ops my bad, the current description is obsolete and I forgot to remove
-it. I will have this fixed as well as your other comments in the next
-patch series.
+
+
+On 09/21/2018 06:13 PM, Andrey Konovalov wrote:
+> Tag-based KASAN changes the value of the top byte of pointers returned
+> from the kernel allocation functions (such as kmalloc). This patch updates
+> KASAN hooks signatures and their usage in SLAB and SLUB code to reflect
+> that.
+> 
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> ---
+>  include/linux/kasan.h | 43 +++++++++++++++++++++++++++++--------------
+>  mm/kasan/kasan.c      | 30 ++++++++++++++++++------------
+>  mm/slab.c             | 12 ++++++------
+>  mm/slab.h             |  2 +-
+>  mm/slab_common.c      |  4 ++--
+>  mm/slub.c             | 15 +++++++--------
+>  6 files changed, 63 insertions(+), 43 deletions(-)
+> 
+> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+> index 46aae129917c..52c86a568a4e 100644
+> --- a/include/linux/kasan.h
+> +++ b/include/linux/kasan.h
+> @@ -51,16 +51,16 @@ void kasan_cache_shutdown(struct kmem_cache *cache);
+>  void kasan_poison_slab(struct page *page);
+>  void kasan_unpoison_object_data(struct kmem_cache *cache, void *object);
+>  void kasan_poison_object_data(struct kmem_cache *cache, void *object);
+> -void kasan_init_slab_obj(struct kmem_cache *cache, const void *object);
+> +void *kasan_init_slab_obj(struct kmem_cache *cache, const void *object);
+>  
+> -void kasan_kmalloc_large(const void *ptr, size_t size, gfp_t flags);
+> +void *kasan_kmalloc_large(const void *ptr, size_t size, gfp_t flags);
+>  void kasan_kfree_large(void *ptr, unsigned long ip);
+>  void kasan_poison_kfree(void *ptr, unsigned long ip);
+> -void kasan_kmalloc(struct kmem_cache *s, const void *object, size_t size,
+> +void *kasan_kmalloc(struct kmem_cache *s, const void *object, size_t size,
+>  		  gfp_t flags);
+
+This patch missed couple call-sites, in kmem_cache_alloc_trace() and kmem_cache_alloc_node_trace() in include/linux/slab.h,
+the return value of kasan_kmalloc() is ignored. Probably worth adding __must_check to functions like this.
+
+Once that fixed you can add Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+here and to the rest of the patches. They look fine me.
