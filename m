@@ -5,26 +5,26 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 28D0D7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 05:27:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2CB797D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 05:27:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728662AbeJaOXa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Oct 2018 10:23:30 -0400
-Received: from mxhk.zte.com.cn ([63.217.80.70]:25490 "EHLO mxhk.zte.com.cn"
+        id S1725811AbeJaOX0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Oct 2018 10:23:26 -0400
+Received: from out1.zte.com.cn ([202.103.147.172]:49140 "EHLO mxct.zte.com.cn"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728564AbeJaOX3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 31 Oct 2018 10:23:29 -0400
+        id S1726200AbeJaOX0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 31 Oct 2018 10:23:26 -0400
 Received: from mse01.zte.com.cn (unknown [10.30.3.20])
-        by Forcepoint Email with ESMTPS id E2A6BDED23694E23EF8C;
-        Wed, 31 Oct 2018 13:26:54 +0800 (CST)
+        by Forcepoint Email with ESMTPS id 0831743EF76C67D18C15;
+        Wed, 31 Oct 2018 13:26:50 +0800 (CST)
 Received: from notes_smtp.zte.com.cn ([10.30.1.239])
-        by mse01.zte.com.cn with ESMTP id w9V5QmZa037582;
-        Wed, 31 Oct 2018 13:26:48 +0800 (GMT-8)
+        by mse01.zte.com.cn with ESMTP id w9V5QhaP037549;
+        Wed, 31 Oct 2018 13:26:43 +0800 (GMT-8)
         (envelope-from peng.hao2@zte.com.cn)
 Received: from localhost.localdomain.localdomain ([10.74.120.59])
           by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
-          with ESMTP id 2018103113270896-7767264 ;
-          Wed, 31 Oct 2018 13:27:08 +0800 
+          with ESMTP id 2018103113270485-7767261 ;
+          Wed, 31 Oct 2018 13:27:04 +0800 
 From:   Peng Hao <peng.hao2@zte.com.cn>
 To:     robh+dt@kernel.org, mark.rutland@arm.com, arnd@arndb.de,
         gregkh@linuxfoundation.org, andy@infradead.org,
@@ -32,66 +32,59 @@ To:     robh+dt@kernel.org, mark.rutland@arm.com, arnd@arndb.de,
 Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
         hutao@cn.fujitsu.com, linux-doc@vger.kernel.org,
         Peng Hao <peng.hao2@zte.com.cn>
-Subject: [PATCH V4 5/5]  dt-bindings/misc/pvpanic :add document for pvpanic-mmio
-Date:   Wed, 31 Oct 2018 21:37:21 +0800
-Message-Id: <1540993041-25611-5-git-send-email-peng.hao2@zte.com.cn>
+Subject: [PATCH V4 2/5]  misc/pvpanic : convert to SPDX license tags
+Date:   Wed, 31 Oct 2018 21:37:18 +0800
+Message-Id: <1540993041-25611-2-git-send-email-peng.hao2@zte.com.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1540993041-25611-1-git-send-email-peng.hao2@zte.com.cn>
 References: <1540993041-25611-1-git-send-email-peng.hao2@zte.com.cn>
 X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release 8.5.3FP6|November
- 21, 2013) at 2018-10-31 13:27:09,
+ 21, 2013) at 2018-10-31 13:27:04,
         Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
- 2018-10-31 13:26:39,
-        Serialize complete at 2018-10-31 13:26:39
-X-MAIL: mse01.zte.com.cn w9V5QmZa037582
+ 2018-10-31 13:26:35,
+        Serialize complete at 2018-10-31 13:26:35
+X-MAIL: mse01.zte.com.cn w9V5QhaP037549
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
- Add dt-bindings document for "qemu:pvpanic-mmio".
+This patch updates license to use SPDX-License-Identifier
+instead of verbose license text.
 
 Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
 ---
- .../devicetree/bindings/misc/pvpanic-mmio.txt      | 29 ++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/misc/pvpanic-mmio.txt
+ drivers/misc/pvpanic.c | 17 ++---------------
+ 1 file changed, 2 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/misc/pvpanic-mmio.txt b/Documentation/devicetree/bindings/misc/pvpanic-mmio.txt
-new file mode 100644
-index 0000000..985e907
---- /dev/null
-+++ b/Documentation/devicetree/bindings/misc/pvpanic-mmio.txt
-@@ -0,0 +1,29 @@
-+* QEMU PVPANIC MMIO Configuration bindings
-+
-+QEMU's emulation / virtualization targets provide the following PVPANIC
-+MMIO Configuration interface on the "virt" machine.
-+type:
-+
-+- a read-write, 16-bit wide data register.
-+
-+QEMU exposes the data register to guests as memory mapped registers.
-+
-+Required properties:
-+
-+- compatible: "qemu,pvpanic-mmio".
-+- reg: the MMIO region used by the device.
-+  * Bytes 0x0  Write panic event to the reg when guest OS panics.
-+  * Bytes 0x1  Reserved.
-+
-+Example:
-+
-+/ {
-+        #size-cells = <0x2>;
-+        #address-cells = <0x2>;
-+
-+        pvpanic-mmio@9060000 {
-+                compatible = "qemu,pvpanic-mmio";
-+                reg = <0x0 0x9060000 0x0 0x2>;
-+        };
-+};
-+
+diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
+index fd86dab..9450376 100644
+--- a/drivers/misc/pvpanic.c
++++ b/drivers/misc/pvpanic.c
+@@ -1,21 +1,8 @@
++// SPDX-License-Identifier: GPL-2.0+
+ /*
+- *  pvpanic.c - pvpanic Device Support
++ *  Pvpanic Device Support
+  *
+  *  Copyright (C) 2013 Fujitsu.
+- *
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License as published by
+- *  the Free Software Foundation; either version 2 of the License, or
+- *  (at your option) any later version.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- *  You should have received a copy of the GNU General Public License
+- *  along with this program; if not, write to the Free Software
+- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+  */
+ 
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 -- 
 1.8.3.1
 
