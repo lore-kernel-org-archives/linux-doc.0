@@ -6,51 +6,51 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 42E9F7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 12:45:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DE41D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 12:46:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728915AbeJaVn0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Oct 2018 17:43:26 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:43795 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728869AbeJaVn0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Oct 2018 17:43:26 -0400
-Received: by mail-qt1-f194.google.com with SMTP id q41-v6so17417635qtq.10;
-        Wed, 31 Oct 2018 05:45:34 -0700 (PDT)
+        id S1729186AbeJaVoO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Oct 2018 17:44:14 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:46233 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728869AbeJaVoO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Oct 2018 17:44:14 -0400
+Received: by mail-qt1-f196.google.com with SMTP id c16-v6so17394822qtj.13;
+        Wed, 31 Oct 2018 05:46:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=1FWHEK0w1nBh9NvZuTBldplpXmEvCYsj2q4pRDo/KSQ=;
-        b=C3JAnTyMM4ryzNIXk5R9y9rmKtIBsUWaZOEWE8Q4iFs7lphIqg+BFoUKWp4lcBjTfj
-         i3Ruc1gmRC7xOXRsdnlCaLQRpwllUZnIAsnhsTpzXKOuen3savvtLpUMogfzR1Th0FsF
-         MLs/FpTLSihZV/f0jselcWOTmtHqkr94+uU9HxNHZb3MfR6py0lzKBbnbJBnY9s10UMi
-         JshCuJfo2+2n8+Wwbarb1ELRQjxDxRVNtJlL1vDY3397581dnr3OuZuBG6RmqjgUq9GN
-         9wIUPGlvmyfl//VMtenpNzhnZ/Z7e0XIgsoviEaOllg4vjF1nErtfS3ufdHQy93bmC1t
-         aHKA==
+         :cc;
+        bh=Hhuj+PVBQ3t1A+bNUbpDproSezBVyVg86+pK9jUqytY=;
+        b=CQJ1qnR6P9DidwLo+WvcpcIg5pho1xQqbKyjL3CVnoc43gy5KnwZnmBoCQhBNjas+M
+         cyrcnvYCWbqhXbYZy9++wR8Pkl2BxjigNcssX0LvADvGB0VJZgFCCv4enH5AWkGfaQoV
+         JOmeW0ZiCfbCYCibHufoCwSDGGRVtA4Diw07kL9ldjpUDV9M9U9TnQ13VovOPXnTVkDY
+         9SO5vuBg2tdIKEjFjX1Omj09K78Lu3/o7s87MpTBBKO+47im6Dui7ml4Aicy94ToJ2nH
+         MYvT9vqh+Uoh00iy8V5hXjwO+SML07cmnTB/pQuLgZF/NduhQPz6or+h9JXxtI/nqdfK
+         7nFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=1FWHEK0w1nBh9NvZuTBldplpXmEvCYsj2q4pRDo/KSQ=;
-        b=Y/7Usf3chM4Yrh74KoT2PHA3Oe0RvgF02+q3z9jnGCLhmUko3ia4rHUmPX7maYgCyj
-         s5G8p05iBH5ZLc92Bak1HL1GlGH/TwvG6yc1FmLfkJDqNK1TtqXb1aEMc3kjfT1VGUV0
-         6QLIZa1UgOd3bDyNsPCtiVSJ9wMKmNuK+3K3kVEoGF4HwKTL2wcewP79zXb4HGhPPTca
-         WplwT7vNiOAF58Ne3nCOTRUDJlZg+2FLULdGDxOqX8oZNSNwzdImAeU39/7aVRsLTg8z
-         sTJTsV4dnz62Ry+mWBAy3oYY2j2ltzAqK7Lpx1Ntz+f5GsX9nqD411t/+axCQJQaYbor
-         ePwg==
-X-Gm-Message-State: AGRZ1gIHaoiKx+o+x/gFzQOY4bb18GO8+zi/35aqPZdLALYf4IaPDlV8
-        FaX4MQQRLT6YBtWRfKY3gKVt54gEdFDpL2adsno=
-X-Google-Smtp-Source: AJdET5ebGcxw+4ZKW6SvJJJE+2v9fq21UZeYgpRTvZAzGsF9eyXK2udD0iFsZ4ovDWyiU68/ILOQxkv/nY18Cg1R4jc=
-X-Received: by 2002:ac8:1909:: with SMTP id t9mr2352915qtj.327.1540989933484;
- Wed, 31 Oct 2018 05:45:33 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=Hhuj+PVBQ3t1A+bNUbpDproSezBVyVg86+pK9jUqytY=;
+        b=DD/vUNTsXavHEEK5SQyiWmoDGTzrGM4KTgfQ7HHhAKhNUqfReEItsLhPGG/1IoCBzc
+         EwMb78jLbnmK/Xniovi8mXT2bvyp8RrPOKfJjKXOFVNF70qCOTJJchHo2Sw37FxL8dbR
+         vr3DRpxIYjwraZUqeIl40MuUAumBX2WcXSuWnNqooFn0xxHKfGOPCaoma0+gobVRPJMj
+         2e7wAOmgp8EYarf/T2+c3LR6JHUuNx1qPnVKQHhWcLJ+6yVAL+RresTVO4qTzEo2P01I
+         xFXFuFBvTY8+2T3Eb4PRFM8GEXqjXm1IgM3fRh/hadkXCriNH3Y/rzcQ5JTOWVLg4AVL
+         kRoQ==
+X-Gm-Message-State: AGRZ1gI27JDfY6xaXiWlruhVwDaQ4yQui/qV/y/u7QVKTS3Z69wyeW5V
+        ZuFImyf/6vxV2NShs6loWwmpOwoZRNHyhdkDt6q8mq/1
+X-Google-Smtp-Source: AJdET5clmrjUukTdgDP3lgUZCaxlhfdiNiP+kHVTPhyIoDVWp33oD5+ugy4t6Bw0n5SZ0gxnbPptHxP4H4sAZpKulb4=
+X-Received: by 2002:a0c:c402:: with SMTP id r2mr2493768qvi.138.1540989981423;
+ Wed, 31 Oct 2018 05:46:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <1540993041-25611-1-git-send-email-peng.hao2@zte.com.cn>
-In-Reply-To: <1540993041-25611-1-git-send-email-peng.hao2@zte.com.cn>
+References: <1540993041-25611-1-git-send-email-peng.hao2@zte.com.cn> <1540993041-25611-2-git-send-email-peng.hao2@zte.com.cn>
+In-Reply-To: <1540993041-25611-2-git-send-email-peng.hao2@zte.com.cn>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 31 Oct 2018 14:45:21 +0200
-Message-ID: <CAHp75Ve4JhTbEFTYKWCx2DS80NKPXZJ8GDiamEFLq3vPCgVvzw@mail.gmail.com>
-Subject: Re: [PATCH V4 1/5] pvpanic: move pvpanic to misc as common driver
+Date:   Wed, 31 Oct 2018 14:46:10 +0200
+Message-ID: <CAHp75VemSb=MG3z3eAks1Jv8GPx4fif7wYEDKgMUGbzssTmrAQ@mail.gmail.com>
+Subject: Re: [PATCH V4 2/5] misc/pvpanic : convert to SPDX license tags
 To:     peng.hao2@zte.com.cn
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -63,7 +63,6 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         hutao@cn.fujitsu.com,
         Linux Documentation List <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -71,37 +70,50 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Wed, Oct 31, 2018 at 7:27 AM Peng Hao <peng.hao2@zte.com.cn> wrote:
 >
-> move pvpanic.c from drivers/platform/x86 to drivers/misc.
-> following patches will use pvpanic device in arm64.
-
-> --- a/drivers/platform/Kconfig
-> +++ b/drivers/platform/Kconfig
-> @@ -1,3 +1,6 @@
-> +if ARM64
-> +source "drivers/platform/arm/Kconfig"
-> +endif
->  if X86
->  source "drivers/platform/x86/Kconfig"
->  endif
-> diff --git a/drivers/platform/Makefile b/drivers/platform/Makefile
-> index 4b2ce58..232231c 100644
-> --- a/drivers/platform/Makefile
-> +++ b/drivers/platform/Makefile
-> @@ -3,6 +3,7 @@
->  # Makefile for linux/drivers/platform
->  #
+> This patch updates license to use SPDX-License-Identifier
+> instead of verbose license text.
 >
-> +obj-$(CONFIG_ARM64)               +=3D arm/
->  obj-$(CONFIG_X86)              +=3D x86/
->  obj-$(CONFIG_MELLANOX_PLATFORM)        +=3D mellanox/
->  obj-$(CONFIG_MIPS)             +=3D mips/
 
-I'm not sure:
-a) how it's related to the rest in this patch (should be split I suppose);
-b) how come arm64->arm replacement =E2=80=94 are platform drivers independe=
-nt
-from the (ARM) architecture?
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
---=20
+> Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
+> ---
+>  drivers/misc/pvpanic.c | 17 ++---------------
+>  1 file changed, 2 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
+> index fd86dab..9450376 100644
+> --- a/drivers/misc/pvpanic.c
+> +++ b/drivers/misc/pvpanic.c
+> @@ -1,21 +1,8 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+>  /*
+> - *  pvpanic.c - pvpanic Device Support
+> + *  Pvpanic Device Support
+>   *
+>   *  Copyright (C) 2013 Fujitsu.
+> - *
+> - *  This program is free software; you can redistribute it and/or modify
+> - *  it under the terms of the GNU General Public License as published by
+> - *  the Free Software Foundation; either version 2 of the License, or
+> - *  (at your option) any later version.
+> - *
+> - *  This program is distributed in the hope that it will be useful,
+> - *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+> - *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> - *  GNU General Public License for more details.
+> - *
+> - *  You should have received a copy of the GNU General Public License
+> - *  along with this program; if not, write to the Free Software
+> - *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+>   */
+>
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> --
+> 1.8.3.1
+>
+
+
+-- 
 With Best Regards,
 Andy Shevchenko
