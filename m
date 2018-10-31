@@ -1,114 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 91C7A7D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 11:33:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 42E9F7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 12:45:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728008AbeJaUbD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Oct 2018 16:31:03 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44280 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727546AbeJaUbC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Oct 2018 16:31:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=1Nx7BO2VnRh0a+k2wp2hDZfug8S8paE2B6A9HLC6QA8=; b=XOqqvlIVZO/TCdFsj9fzYAmfN
-        vtDeI48fJxQqPNLDNNW2FRQ59jRc0YgoyWc9OZk1adej3fYHmt+6SSNPQMTL73MRRLd51foZ5ngyr
-        mOrh1B6t1BAsAiyCg0xWZmKqF4Hgxwpr47JkvcOMd4rzIL/Q1J3OXgFO9Ypv3J3pITxZN52VnBJHM
-        9NTbMJHfSSrqWKf77P0SreElImwrKXths6lRkk/dsgFD2hqCOjfWr14YpuxIuDsVbloZVtzBCVKFO
-        FtwS1T7Tjfk3GwYpJGdLK1FynxfapKnEjRAkPuiE++hznb2wbpm7Ld7C8FaltPVcev3oq2gMlFkXh
-        Xk3OM+keA==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gHokB-0006ej-FS; Wed, 31 Oct 2018 11:33:03 +0000
-Date:   Wed, 31 Oct 2018 04:33:03 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Andy Lutomirski <luto@amacapital.net>,
-        Kees Cook <keescook@chromium.org>,
-        Igor Stoppa <igor.stoppa@gmail.com>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        Dave Chinner <david@fromorbit.com>,
-        James Morris <jmorris@namei.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Igor Stoppa <igor.stoppa@huawei.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laura Abbott <labbott@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH 10/17] prmem: documentation
-Message-ID: <20181031113303.GJ10491@bombadil.infradead.org>
-References: <20181023213504.28905-11-igor.stoppa@huawei.com>
- <20181026092609.GB3159@worktop.c.hoisthospitality.com>
- <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
- <20181028183126.GB744@hirez.programming.kicks-ass.net>
- <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
- <20181030152641.GE8177@hirez.programming.kicks-ass.net>
- <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
- <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net>
- <20181030175814.GB10491@bombadil.infradead.org>
- <20181031093659.GL744@hirez.programming.kicks-ass.net>
+        id S1728915AbeJaVn0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Oct 2018 17:43:26 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:43795 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728869AbeJaVn0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Oct 2018 17:43:26 -0400
+Received: by mail-qt1-f194.google.com with SMTP id q41-v6so17417635qtq.10;
+        Wed, 31 Oct 2018 05:45:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=1FWHEK0w1nBh9NvZuTBldplpXmEvCYsj2q4pRDo/KSQ=;
+        b=C3JAnTyMM4ryzNIXk5R9y9rmKtIBsUWaZOEWE8Q4iFs7lphIqg+BFoUKWp4lcBjTfj
+         i3Ruc1gmRC7xOXRsdnlCaLQRpwllUZnIAsnhsTpzXKOuen3savvtLpUMogfzR1Th0FsF
+         MLs/FpTLSihZV/f0jselcWOTmtHqkr94+uU9HxNHZb3MfR6py0lzKBbnbJBnY9s10UMi
+         JshCuJfo2+2n8+Wwbarb1ELRQjxDxRVNtJlL1vDY3397581dnr3OuZuBG6RmqjgUq9GN
+         9wIUPGlvmyfl//VMtenpNzhnZ/Z7e0XIgsoviEaOllg4vjF1nErtfS3ufdHQy93bmC1t
+         aHKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=1FWHEK0w1nBh9NvZuTBldplpXmEvCYsj2q4pRDo/KSQ=;
+        b=Y/7Usf3chM4Yrh74KoT2PHA3Oe0RvgF02+q3z9jnGCLhmUko3ia4rHUmPX7maYgCyj
+         s5G8p05iBH5ZLc92Bak1HL1GlGH/TwvG6yc1FmLfkJDqNK1TtqXb1aEMc3kjfT1VGUV0
+         6QLIZa1UgOd3bDyNsPCtiVSJ9wMKmNuK+3K3kVEoGF4HwKTL2wcewP79zXb4HGhPPTca
+         WplwT7vNiOAF58Ne3nCOTRUDJlZg+2FLULdGDxOqX8oZNSNwzdImAeU39/7aVRsLTg8z
+         sTJTsV4dnz62Ry+mWBAy3oYY2j2ltzAqK7Lpx1Ntz+f5GsX9nqD411t/+axCQJQaYbor
+         ePwg==
+X-Gm-Message-State: AGRZ1gIHaoiKx+o+x/gFzQOY4bb18GO8+zi/35aqPZdLALYf4IaPDlV8
+        FaX4MQQRLT6YBtWRfKY3gKVt54gEdFDpL2adsno=
+X-Google-Smtp-Source: AJdET5ebGcxw+4ZKW6SvJJJE+2v9fq21UZeYgpRTvZAzGsF9eyXK2udD0iFsZ4ovDWyiU68/ILOQxkv/nY18Cg1R4jc=
+X-Received: by 2002:ac8:1909:: with SMTP id t9mr2352915qtj.327.1540989933484;
+ Wed, 31 Oct 2018 05:45:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181031093659.GL744@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+References: <1540993041-25611-1-git-send-email-peng.hao2@zte.com.cn>
+In-Reply-To: <1540993041-25611-1-git-send-email-peng.hao2@zte.com.cn>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 31 Oct 2018 14:45:21 +0200
+Message-ID: <CAHp75Ve4JhTbEFTYKWCx2DS80NKPXZJ8GDiamEFLq3vPCgVvzw@mail.gmail.com>
+Subject: Re: [PATCH V4 1/5] pvpanic: move pvpanic to misc as common driver
+To:     peng.hao2@zte.com.cn
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        hutao@cn.fujitsu.com,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 31, 2018 at 10:36:59AM +0100, Peter Zijlstra wrote:
-> On Tue, Oct 30, 2018 at 10:58:14AM -0700, Matthew Wilcox wrote:
-> > On Tue, Oct 30, 2018 at 10:06:51AM -0700, Andy Lutomirski wrote:
-> > > > On Oct 30, 2018, at 9:37 AM, Kees Cook <keescook@chromium.org> wrote:
-> > > I support the addition of a rare-write mechanism to the upstream kernel.
-> > > And I think that there is only one sane way to implement it: using an
-> > > mm_struct. That mm_struct, just like any sane mm_struct, should only
-> > > differ from init_mm in that it has extra mappings in the *user* region.
-> > 
-> > I'd like to understand this approach a little better.  In a syscall path,
-> > we run with the user task's mm.  What you're proposing is that when we
-> > want to modify rare data, we switch to rare_mm which contains a
-> > writable mapping to all the kernel data which is rare-write.
-> > 
-> > So the API might look something like this:
-> > 
-> > 	void *p = rare_alloc(...);	/* writable pointer */
-> > 	p->a = x;
-> > 	q = rare_protect(p);		/* read-only pointer */
-> > 
-> > To subsequently modify q,
-> > 
-> > 	p = rare_modify(q);
-> > 	q->a = y;
-> > 	rare_protect(p);
-> 
-> Why would you have rare_alloc() imply rare_modify() ? Would you have the
-> allocator meta data inside the rare section?
+On Wed, Oct 31, 2018 at 7:27 AM Peng Hao <peng.hao2@zte.com.cn> wrote:
+>
+> move pvpanic.c from drivers/platform/x86 to drivers/misc.
+> following patches will use pvpanic device in arm64.
 
-Normally when I allocate some memory I need to initialise it before
-doing anything else with it ;-)
+> --- a/drivers/platform/Kconfig
+> +++ b/drivers/platform/Kconfig
+> @@ -1,3 +1,6 @@
+> +if ARM64
+> +source "drivers/platform/arm/Kconfig"
+> +endif
+>  if X86
+>  source "drivers/platform/x86/Kconfig"
+>  endif
+> diff --git a/drivers/platform/Makefile b/drivers/platform/Makefile
+> index 4b2ce58..232231c 100644
+> --- a/drivers/platform/Makefile
+> +++ b/drivers/platform/Makefile
+> @@ -3,6 +3,7 @@
+>  # Makefile for linux/drivers/platform
+>  #
+>
+> +obj-$(CONFIG_ARM64)               +=3D arm/
+>  obj-$(CONFIG_X86)              +=3D x86/
+>  obj-$(CONFIG_MELLANOX_PLATFORM)        +=3D mellanox/
+>  obj-$(CONFIG_MIPS)             +=3D mips/
 
-I mean, you could do:
+I'm not sure:
+a) how it's related to the rest in this patch (should be split I suppose);
+b) how come arm64->arm replacement =E2=80=94 are platform drivers independe=
+nt
+from the (ARM) architecture?
 
-	ro = rare_alloc(..);
-	rare = rare_modify(ro);
-	rare->a = x;
-	rare_protect(rare);
-
-but that's more typing.
+--=20
+With Best Regards,
+Andy Shevchenko
