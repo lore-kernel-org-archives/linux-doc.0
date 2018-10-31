@@ -5,150 +5,141 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 30AE87D08E
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 07:05:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 50C397D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 08:30:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725982AbeJaQCS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Oct 2018 12:02:18 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:36482 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725961AbeJaQCS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 31 Oct 2018 12:02:18 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BC39180D;
-        Wed, 31 Oct 2018 00:05:25 -0700 (PDT)
-Received: from salmiak (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 851733F71D;
-        Wed, 31 Oct 2018 00:05:23 -0700 (PDT)
-Date:   Wed, 31 Oct 2018 07:05:17 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Peng Hao <peng.hao2@zte.com.cn>
-Cc:     robh+dt@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org,
-        andy@infradead.org, dvhart@infradead.org,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        hutao@cn.fujitsu.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH V4 1/5]  pvpanic: move pvpanic to misc as common driver
-Message-ID: <20181031070517.ijplknobd6en4h5g@salmiak>
-References: <1540993041-25611-1-git-send-email-peng.hao2@zte.com.cn>
+        id S1727507AbeJaR1L (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Oct 2018 13:27:11 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:35602 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727420AbeJaR1L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Oct 2018 13:27:11 -0400
+Received: by mail-lj1-f193.google.com with SMTP id x85-v6so9788096ljb.2;
+        Wed, 31 Oct 2018 01:30:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=J86aAgGejyXGR4d0DwCOqCZU/jYNSzK0ZBDTevgbO7k=;
+        b=VMZiopSUdaq+f8d41IlFJ2IOCz/TKuC0/Po1IM2B+ljY2BInC+aN54yRhO9qEt8Kmu
+         kwge4Bgra4mfD2iCxpLGxTrCUiYeaPV/D1srvSlSDKYFFeoGivIL+5/mW79+LjfEe/vp
+         Q13YDqj7JnDaOMNRLaUAOoUvMR8mykvvxZnJLpt4sGOCta0wFvINVpV3apLKfjKaU5eB
+         5zhXKkOgERWU7Vvi3jek26tUHwFmm7gb/RcyWLWBpjeDRnzwIwZbxrtdhW7/3uANXhpr
+         60ZAysNeVWr1vj2HFBRgDh/tEJmsYFPD4Kux8NqYaLcyJjCNGB622Qbi5tfSUpl5Ab5R
+         5l9w==
+X-Gm-Message-State: AGRZ1gISJqH+0QVG1Z7kfUCZM2QXBIDUlIO4eCxzOjbUKDok+3eKqFQw
+        otW66a6E98h7aZ9cp43F5l4=
+X-Google-Smtp-Source: AJdET5e7vg1bM5i6SW182p0qKsty5NsWsnVeXqu530iDwvT8ODVLEG2wr3fQlgi/31k/Lw0tasWFVQ==
+X-Received: by 2002:a2e:5b93:: with SMTP id m19-v6mr1147367lje.115.1540974602567;
+        Wed, 31 Oct 2018 01:30:02 -0700 (PDT)
+Received: from localhost.localdomain ([213.255.186.46])
+        by smtp.gmail.com with ESMTPSA id t73-v6sm3630712lje.23.2018.10.31.01.30.00
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 31 Oct 2018 01:30:01 -0700 (PDT)
+Date:   Wed, 31 Oct 2018 10:29:53 +0200
+From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andy Gross <andy.gross@linaro.org>,
+        David Brown <david.brown@linaro.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Andrey Smirnov <andrew.smirnov@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh@kernel.org>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Huang Shijie <sjhuang@iluvatar.ai>,
+        Akshu Agrawal <Akshu.Agrawal@amd.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Daniel Kurtz <djkurtz@chromium.org>, mazziesaccount@gmail.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        matti.vaittinen@fi.rohmeurope.com
+Subject: [PATCH 0/8] clk: clkdev: managed clk lookup and provider
+ registrations
+Message-ID: <cover.1540970653.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1540993041-25611-1-git-send-email-peng.hao2@zte.com.cn>
-User-Agent: NeoMutt/20170113 (1.7.2)
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 31, 2018 at 09:37:17PM +0800, Peng Hao wrote:
-> move pvpanic.c from drivers/platform/x86 to drivers/misc.
-> following patches will use pvpanic device in arm64.
+Patch series adding managed clkdev and of_provider registrations
 
-FWIW, the series as a whole looks fine to me, so for all patches:
+Few clk drivers appear to be leaking clkdev lookup registrations at
+driver remove. The patch series adds devm versions of lookup
+registrations and cleans up few drivers. There is no intended functional
+changes besides adding clean-ups at remove or simplifying the clean-up
+code by using devm. So this patch series is not fixing any potential
+issues on binding the cleanups to parent device - this series only
+changes the cleanup to be done using devm.
 
-Acked-by: Mark Rutland <mark.rutland@arm.com>
+Driver clean-up patches have not been tested as I lack the HW. All testing
+and comments if driver/device removal is even possible for changed drivers
+is highly appreciated. If removal is not possible I will gladly drop the
+relevant patches from series - although leaking lookups may serve as bad
+example for new developers =)
 
-Thanks,
-Mark.
+Changed drivers are:
+clk-max77686, clk-s3c2410-dclk, clk-st, clk-hi655x, rk808, clk-twl6040
+and apcs-msm8916.
 
-> 
-> Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
-> ---
->  drivers/misc/Kconfig                     | 7 +++++++
->  drivers/misc/Makefile                    | 1 +
->  drivers/{platform/x86 => misc}/pvpanic.c | 0
->  drivers/platform/Kconfig                 | 3 +++
->  drivers/platform/Makefile                | 1 +
->  drivers/platform/x86/Kconfig             | 8 --------
->  drivers/platform/x86/Makefile            | 1 -
->  7 files changed, 12 insertions(+), 9 deletions(-)
->  rename drivers/{platform/x86 => misc}/pvpanic.c (100%)
-> 
-> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-> index 5d71300..ca55c94 100644
-> --- a/drivers/misc/Kconfig
-> +++ b/drivers/misc/Kconfig
-> @@ -499,6 +499,13 @@ config MISC_RTSX
->  	tristate
->  	default MISC_RTSX_PCI || MISC_RTSX_USB
->  
-> +config PVPANIC
-> +	tristate "pvpanic device support"
-> +	help
-> +          This driver provides support for the pvpanic device.  pvpanic is
-> +          a paravirtualized device provided by QEMU; it lets a virtual machine
-> +          (guest) communicate panic events to the host.
-> +
->  source "drivers/misc/c2port/Kconfig"
->  source "drivers/misc/eeprom/Kconfig"
->  source "drivers/misc/cb710/Kconfig"
-> diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
-> index 20be70c..39dc005 100644
-> --- a/drivers/misc/Makefile
-> +++ b/drivers/misc/Makefile
-> @@ -57,3 +57,4 @@ obj-$(CONFIG_ASPEED_LPC_SNOOP)	+= aspeed-lpc-snoop.o
->  obj-$(CONFIG_PCI_ENDPOINT_TEST)	+= pci_endpoint_test.o
->  obj-$(CONFIG_OCXL)		+= ocxl/
->  obj-$(CONFIG_MISC_RTSX)		+= cardreader/
-> +obj-$(CONFIG_PVPANIC)  		+= pvpanic.o
-> diff --git a/drivers/platform/x86/pvpanic.c b/drivers/misc/pvpanic.c
-> similarity index 100%
-> rename from drivers/platform/x86/pvpanic.c
-> rename to drivers/misc/pvpanic.c
-> diff --git a/drivers/platform/Kconfig b/drivers/platform/Kconfig
-> index d4c2e42..8b64b78 100644
-> --- a/drivers/platform/Kconfig
-> +++ b/drivers/platform/Kconfig
-> @@ -1,3 +1,6 @@
-> +if ARM64
-> +source "drivers/platform/arm/Kconfig"
-> +endif
->  if X86
->  source "drivers/platform/x86/Kconfig"
->  endif
-> diff --git a/drivers/platform/Makefile b/drivers/platform/Makefile
-> index 4b2ce58..232231c 100644
-> --- a/drivers/platform/Makefile
-> +++ b/drivers/platform/Makefile
-> @@ -3,6 +3,7 @@
->  # Makefile for linux/drivers/platform
->  #
->  
-> +obj-$(CONFIG_ARM64)               += arm/
->  obj-$(CONFIG_X86)		+= x86/
->  obj-$(CONFIG_MELLANOX_PLATFORM)	+= mellanox/
->  obj-$(CONFIG_MIPS)		+= mips/
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index ef016e4..a6b412e 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -1119,14 +1119,6 @@ config INTEL_SMARTCONNECT
->  	  This driver checks to determine whether the device has Intel Smart
->  	  Connect enabled, and if so disables it.
->  
-> -config PVPANIC
-> -	tristate "pvpanic device support"
-> -	depends on ACPI
-> -	---help---
-> -	  This driver provides support for the pvpanic device.  pvpanic is
-> -	  a paravirtualized device provided by QEMU; it lets a virtual machine
-> -	  (guest) communicate panic events to the host.
-> -
->  config INTEL_PMC_IPC
->  	tristate "Intel PMC IPC Driver"
->  	depends on ACPI
-> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-> index 2ba6cb7..a4ec299 100644
-> --- a/drivers/platform/x86/Makefile
-> +++ b/drivers/platform/x86/Makefile
-> @@ -75,7 +75,6 @@ obj-$(CONFIG_APPLE_GMUX)	+= apple-gmux.o
->  obj-$(CONFIG_INTEL_RST)		+= intel-rst.o
->  obj-$(CONFIG_INTEL_SMARTCONNECT)	+= intel-smartconnect.o
->  
-> -obj-$(CONFIG_PVPANIC)           += pvpanic.o
->  obj-$(CONFIG_ALIENWARE_WMI)	+= alienware-wmi.o
->  obj-$(CONFIG_INTEL_PMC_IPC)	+= intel_pmc_ipc.o
->  obj-$(CONFIG_SILEAD_DMI)	+= silead_dmi.o
-> -- 
-> 1.8.3.1
-> 
+New devm registration variants have been tested on BeagleBoneBlack
+using ROHM BD71837 PMIC driver.
+
+Same devm variants were earlier proposed together with BD71837/BD71847
+PMIC clk driver in this series:
+https://lore.kernel.org/linux-clk/cover.1535630942.git.matti.vaittinen@fi.rohmeurope.com/
+
+The BD71837/BD71847 work is currently pending for related MFD commits to
+get merged in clk-tree and the devm functions are now submitted in this
+series.
+
+This patch series is based on clk-next
+
+---
+
+Matti Vaittinen (8):
+  clk: clkdev/of_clk - add managed lookup and provider registrations
+  clk: clk-max77686: Clean clkdev lookup leak and use devm
+  clk: clk-s3c2410-dclk: clean up clkdev lookup leak
+  clk: clk-st: avoid clkdev lookup leak at remove
+  clk: clk-hi655x: Free of_provider at remove
+  clk: rk808: use managed version of of_provider registration
+  clk: clk-twl6040: Free of_provider at remove
+  clk: apcs-msm8916: simplify probe cleanup by using devm
+
+ Documentation/driver-model/devres.txt  |   3 +
+ drivers/clk/clk-hi655x.c               |   4 +-
+ drivers/clk/clk-max77686.c             |  25 ++-----
+ drivers/clk/clk-rk808.c                |  15 +---
+ drivers/clk/clk-twl6040.c              |   5 +-
+ drivers/clk/clk.c                      |  28 ++++++--
+ drivers/clk/clkdev.c                   | 122 ++++++++++++++++++++++++++-------
+ drivers/clk/qcom/apcs-msm8916.c        |   5 +-
+ drivers/clk/samsung/clk-s3c2410-dclk.c |  15 ++--
+ drivers/clk/x86/clk-st.c               |   3 +-
+ include/linux/clk-provider.h           |   4 ++
+ include/linux/clkdev.h                 |   4 ++
+ 12 files changed, 151 insertions(+), 82 deletions(-)
+
+-- 
+2.14.3
+
+
+-- 
+Matti Vaittinen
+ROHM Semiconductors
+~~~ "I don't think so," said Rene Descartes.  Just then, he vanished ~~~
