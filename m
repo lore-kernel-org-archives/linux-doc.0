@@ -5,120 +5,96 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2DC8B7D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 13:49:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 808F17D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 14:27:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729371AbeJaWrH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Oct 2018 18:47:07 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:42930 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729271AbeJaWrH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Oct 2018 18:47:07 -0400
-Received: by mail-lf1-f68.google.com with SMTP id q6-v6so11673456lfh.9;
-        Wed, 31 Oct 2018 06:48:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=3V5Plx9/dwtLa19kcNGTp3GLjGHwao6UZTFezL9clXs=;
-        b=SiZ9o3co9yzOIIE/aMXndaYBjqHzTpn7kqSGejSN5HmOJI1IBnkbgKU+M/5sGn8jyS
-         hi39tGYoodbM/iMwDeY9WHGxqjWR0PeN6o3m1FyE2YL+0vLNtKrB8v8SeDdRlgv3mOlg
-         ZoCOUlcPapz+LSBWGK49aRleI/J28E22TvG8RRNkALf6tvlvZKj8i0rAaBcWrM9r/18f
-         kZGzYCCQrV+99j/2xd/qW7OgwE63qi/ffNhEgJk71TZyPZkiN7oQm1UfbTbme/yYf5hg
-         rGEBO4hfeK3PnErjbDCu5dNgTBerrraBvzhYJGKoYiFsJEMn0OnVRLquJclQMT6sDkql
-         PNlg==
-X-Gm-Message-State: AGRZ1gIrHlPZzVJsNpXN6+aD7gO4HY3h+W5jm2mLMuAQv1RjAa4gr5SE
-        ojpldJEz9vHMsAZws0DhhiM=
-X-Google-Smtp-Source: AJdET5d8RuN3mn6hU2t7YVXPv2CD4WBfE5EXKPs+B+JdYd6vnFCVdMtG4K7jEWW0ieEXArAHuWT2VQ==
-X-Received: by 2002:a19:690d:: with SMTP id e13mr1893069lfc.84.1540993738707;
-        Wed, 31 Oct 2018 06:48:58 -0700 (PDT)
-Received: from localhost.localdomain ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id e14-v6sm469230ljl.43.2018.10.31.06.48.56
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 31 Oct 2018 06:48:57 -0700 (PDT)
-Date:   Wed, 31 Oct 2018 15:48:47 +0200
-From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Andrey Smirnov <andrew.smirnov@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh@kernel.org>,
-        Huang Shijie <sjhuang@iluvatar.ai>,
-        Akshu Agrawal <Akshu.Agrawal@amd.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Daniel Kurtz <djkurtz@chromium.org>, mazziesaccount@gmail.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH 1/8] clk: clkdev/of_clk - add managed lookup and provider
- registrations
-Message-ID: <20181031134847.GA29664@localhost.localdomain>
-References: <cover.1540970653.git.matti.vaittinen@fi.rohmeurope.com>
- <b3954431df109827c71d25d390adf22f6991a6df.1540970653.git.matti.vaittinen@fi.rohmeurope.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b3954431df109827c71d25d390adf22f6991a6df.1540970653.git.matti.vaittinen@fi.rohmeurope.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+        id S1729632AbeJaXZZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Oct 2018 19:25:25 -0400
+Received: from [199.201.65.133] ([199.201.65.133]:47084 "EHLO
+        alivneh-pro.localdomain" rhost-flags-FAIL-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729492AbeJaXZZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Oct 2018 19:25:25 -0400
+X-Greylist: delayed 571 seconds by postgrey-1.27 at vger.kernel.org; Wed, 31 Oct 2018 19:25:25 EDT
+Received: by alivneh-pro.localdomain (Postfix, from userid 1782071156)
+        id 7D434215633691; Wed, 31 Oct 2018 10:17:41 -0400 (EDT)
+From:   Amir Livneh <alivneh@fb.com>
+To:     corbet@lwn.net
+Cc:     rostedt@goodmis.org, mingo@redhat.com, linux-doc@vger.kernel.org,
+        Amir Livneh <alivneh@fb.com>
+Subject: [PATCH] doc: tracing: Fix a number of typos
+Date:   Wed, 31 Oct 2018 10:16:11 -0400
+Message-Id: <20181031141611.75480-1-alivneh@fb.com>
+X-Mailer: git-send-email 2.13.5
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 31, 2018 at 10:30:34AM +0200, Matti Vaittinen wrote:
-> With MFD devices the clk properties may be contained in MFD (parent) DT
-> node. Current devm_of_clk_add_hw_provider assumes the clk is bound to MFD
-> subdevice not to MFD device (parent). Add
-> devm_of_clk_add_hw_provider_parent to tackle this issue.
-> 
-> Also clkdev registration lacks of managed registration functions and it
-> seems few drivers do not drop clkdev lookups at exit. Add
-> devm_clk_hw_register_clkdev and devm_clk_release_clkdev to ease lookup
-> releasing at exit.
-> 
-> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Trivial fixes to spelling mistakes in ftrace.rst
 
-//snip
+Signed-off-by: Amir Livneh <alivneh@fb.com>
+---
+ Documentation/trace/ftrace.rst | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-> diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
-> index 60c51871b04b..94c7bf471c31 100644
-> --- a/include/linux/clk-provider.h
-> +++ b/include/linux/clk-provider.h
-> @@ -916,6 +916,10 @@ int devm_of_clk_add_hw_provider(struct device *dev,
->  			   struct clk_hw *(*get)(struct of_phandle_args *clkspec,
->  						 void *data),
->  			   void *data);
-> +int devm_of_clk_add_parent_hw_provider(struct device *dev,
-> +			   struct clk_hw *(*get)(struct of_phandle_args *clkspec,
-> +						 void *data),
-> +			   void *data);
->  void of_clk_del_provider(struct device_node *np);
->  void devm_of_clk_del_provider(struct device *dev);
->  struct clk *of_clk_src_simple_get(struct of_phandle_args *clkspec,
-
-Right. Didn't spot the 
-#ifdef CONFIG_OF
-in clk-provider.h. So patch lacks of stub functions for non OF
-architectures. The 0-Day test system spot this. Tomorrow I'll send v2
-where the inlined stub functions for non OF architectures are added.
-
-Br,
-	Matti Vaittinen
-
+diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
+index 7ea16a0ceffc..80fde12e6564 100644
+--- a/Documentation/trace/ftrace.rst
++++ b/Documentation/trace/ftrace.rst
+@@ -24,13 +24,13 @@ It can be used for debugging or analyzing latencies and
+ performance issues that take place outside of user-space.
+ 
+ Although ftrace is typically considered the function tracer, it
+-is really a frame work of several assorted tracing utilities.
++is really a framework of several assorted tracing utilities.
+ There's latency tracing to examine what occurs between interrupts
+ disabled and enabled, as well as for preemption and from a time
+ a task is woken to the task is actually scheduled in.
+ 
+ One of the most common uses of ftrace is the event tracing.
+-Through out the kernel is hundreds of static event points that
++Throughout the kernel is hundreds of static event points that
+ can be enabled via the tracefs file system to see what is
+ going on in certain parts of the kernel.
+ 
+@@ -462,7 +462,7 @@ of ftrace. Here is a list of some of the key files:
+ 
+ 	mono_raw:
+ 		This is the raw monotonic clock (CLOCK_MONOTONIC_RAW)
+-		which is montonic but is not subject to any rate adjustments
++		which is monotonic but is not subject to any rate adjustments
+ 		and ticks at the same rate as the hardware clocksource.
+ 
+ 	boot:
+@@ -914,8 +914,8 @@ The above is mostly meaningful for kernel developers.
+ 	current trace and the next trace.
+ 
+ 	  - '$' - greater than 1 second
+-	  - '@' - greater than 100 milisecond
+-	  - '*' - greater than 10 milisecond
++	  - '@' - greater than 100 millisecond
++	  - '*' - greater than 10 millisecond
+ 	  - '#' - greater than 1000 microsecond
+ 	  - '!' - greater than 100 microsecond
+ 	  - '+' - greater than 10 microsecond
+@@ -2541,7 +2541,7 @@ At compile time every C file object is run through the
+ recordmcount program (located in the scripts directory). This
+ program will parse the ELF headers in the C object to find all
+ the locations in the .text section that call mcount. Starting
+-with gcc verson 4.6, the -mfentry has been added for x86, which
++with gcc version 4.6, the -mfentry has been added for x86, which
+ calls "__fentry__" instead of "mcount". Which is called before
+ the creation of the stack frame.
+ 
+@@ -2978,7 +2978,7 @@ The following commands are supported:
+   When the function is hit, it will dump the contents of the ftrace
+   ring buffer to the console. This is useful if you need to debug
+   something, and want to dump the trace when a certain function
+-  is hit. Perhaps its a function that is called before a tripple
++  is hit. Perhaps it's a function that is called before a tripple
+   fault happens and does not allow you to get a regular dump.
+ 
+ - cpudump:
 -- 
-Matti Vaittinen
-ROHM Semiconductors
+2.13.5
 
-~~~ "I don't think so," said Rene Descartes.  Just then, he vanished ~~~
