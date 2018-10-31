@@ -1,411 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ED8287D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 15:26:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C30D67D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 16:04:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729409AbeKAAYr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Oct 2018 20:24:47 -0400
-Received: from mx2.mailbox.org ([80.241.60.215]:35358 "EHLO mx2.mailbox.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728698AbeKAAYr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 31 Oct 2018 20:24:47 -0400
-Received: from smtp1.mailbox.org (unknown [IPv6:2001:67c:2050:105:465:1:1:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mx2.mailbox.org (Postfix) with ESMTPS id EF8A7A120F;
-        Wed, 31 Oct 2018 16:26:15 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de [80.241.56.123]) (amavisd-new, port 10030)
-        with ESMTP id eL9jtq5T92kY; Wed, 31 Oct 2018 16:26:09 +0100 (CET)
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Christian Brauner <christian@brauner.io>,
-        Aleksa Sarai <asarai@suse.de>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: [PATCH v2 1/2] kretprobe: produce sane stack traces
-Date:   Thu,  1 Nov 2018 02:25:42 +1100
-Message-Id: <20181031152543.12138-2-cyphar@cyphar.com>
-In-Reply-To: <20181031152543.12138-1-cyphar@cyphar.com>
-References: <20181031152543.12138-1-cyphar@cyphar.com>
+        id S1729642AbeKABDL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Oct 2018 21:03:11 -0400
+Received: from mail-it1-f195.google.com ([209.85.166.195]:39157 "EHLO
+        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729440AbeKABDK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Oct 2018 21:03:10 -0400
+Received: by mail-it1-f195.google.com with SMTP id m15so18998648itl.4;
+        Wed, 31 Oct 2018 09:04:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6/5Fvol5/w5tCddIGIMKsLSJ+D+Oc0lQRTz0vXRM994=;
+        b=QbrVd9/rRXbHu6HEOpEcPR7i8M9AvUKajJ/fyep1IMi5wdQSRDogbaqiEcdM/jzwxP
+         98M5XH3TNnNw/0IZXf+rRe80+J7n00tMHUx5qPiYFe3jQz5SPdJ7vV8c/MoXNIR52r9Z
+         Fg6sUgc+R7yRzEn8IwKxAXPrHmuB+Iw+l16zGnUCrEkqZ0RkMQKK+LgpaNcfxf6yv041
+         4q3KLbuA179jLbU5787kT7hpAZnf7WDxS9z9k/Q5Y25tHZbBUrQqCVRwXro2jHxHcHTh
+         qY2V/VyiO7GPIYkBMo+dYpB075up2zVQCtwvbga/ZGIcKhq1RsjrMITzDZd7ZxjzQKYj
+         zicQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6/5Fvol5/w5tCddIGIMKsLSJ+D+Oc0lQRTz0vXRM994=;
+        b=AH5VGHz64wSEnJ+nLg+fH63aTI9ehbinKBrL8xytseK2fh9M6v0QB1Fn1fUDNysyfx
+         s4nGf7vUt2FudQigsjvpYE07hjllBO1+YK0/mte5Ddj06pFmKM17QxaCMhnJvnXMQhqe
+         p6Ehhkis0nOPQ3fD5WDFcoh/0603s8D5VFcEDh78HU9UPwetAezNJsJbNFhok0iWRwOt
+         osFkse5fSyJDYVVEPaeuiOfLGRvDKJ2eA+TxTCetC9LMIihPchnpQXtOD/5aRD1dCwgt
+         QKgyv9a4dIodLtTRa/O/uUJemulG4F45CB/ybERuuyoI3Px1iGj6ixzQKk1NSMCAQliS
+         jAEw==
+X-Gm-Message-State: AGRZ1gKzNzGapvAE0LQZTBLHxFBlnW2NxgpJWcwpZlyT22AE2u34fkR1
+        aUwqAp7RIJv/wObzqHHTBaUI7jSiTzzkaJoz64I=
+X-Google-Smtp-Source: AJdET5fO+G/HwsD0kwvDZbfhvKZM+7ClWBVMCtYIANkNSporbZK6LsQd6ryYBoMNxHJ7urSOdmuGhgs9QYwF9U/H4rY=
+X-Received: by 2002:a05:660c:190:: with SMTP id v16mr2508486itj.92.1541001872522;
+ Wed, 31 Oct 2018 09:04:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20181026151223.16810-1-ahmedsoliman0x666@gmail.com>
+ <20181026151223.16810-2-ahmedsoliman0x666@gmail.com> <20181029164229.GA27144@linux.intel.com>
+In-Reply-To: <20181029164229.GA27144@linux.intel.com>
+From:   Ahmed Soliman <ahmedsoliman0x666@gmail.com>
+Date:   Wed, 31 Oct 2018 18:02:59 +0200
+Message-ID: <CAAGnT3bJUSEnoZotJsMx1ZEMzKF94Fnx8jo=zx4q+uA7mjfLQg@mail.gmail.com>
+Subject: Re: gRe: [PATCH V5 1/5] KVM: X86: Memory ROE documentation
+To:     sean.j.christopherson@intel.com
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        nathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?B?6rmA7J246rK4?= <ovich00@gmail.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        nigel.edwards@hpe.com, Boris Lukashev <blukashev@sempervictus.com>,
+        Hossam Hassan <7ossam9063@gmail.com>,
+        Ahmed Lotfy <A7med.lotfey@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Historically, kretprobe has always produced unusable stack traces
-(kretprobe_trampoline is the only entry in most cases, because of the
-funky stack pointer overwriting). This has caused quite a few annoyances
-when using tracing to debug problems[1] -- since return values are only
-available with kretprobes but stack traces were only usable for kprobes,
-users had to probe both and then manually associate them.
-
-With the advent of bpf_trace, users would have been able to do this
-association in bpf, but this was less than ideal (because
-bpf_get_stackid would still produce rubbish and programs that didn't
-know better would get silly results). The main usecase for stack traces
-(at least with bpf_trace) is for DTrace-style aggregation on stack
-traces (both entry and exit). Therefore we cannot simply correct the
-stack trace on exit -- we must stash away the stack trace and return the
-entry stack trace when it is requested.
-
-[1]: https://github.com/iovisor/bpftrace/issues/101
-
-Cc: Brendan Gregg <bgregg@netflix.com>
-Cc: Christian Brauner <christian@brauner.io>
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
----
- Documentation/kprobes.txt                     |   6 +-
- include/linux/kprobes.h                       |  15 +++
- kernel/events/callchain.c                     |   8 +-
- kernel/kprobes.c                              | 101 +++++++++++++++++-
- kernel/trace/trace.c                          |  11 +-
- .../test.d/kprobe/kretprobe_stacktrace.tc     |  25 +++++
- 6 files changed, 161 insertions(+), 5 deletions(-)
- create mode 100644 tools/testing/selftests/ftrace/test.d/kprobe/kretprobe_stacktrace.tc
-
-diff --git a/Documentation/kprobes.txt b/Documentation/kprobes.txt
-index 10f4499e677c..1965585848f4 100644
---- a/Documentation/kprobes.txt
-+++ b/Documentation/kprobes.txt
-@@ -597,7 +597,11 @@ address with the trampoline's address, stack backtraces and calls
- to __builtin_return_address() will typically yield the trampoline's
- address instead of the real return address for kretprobed functions.
- (As far as we can tell, __builtin_return_address() is used only
--for instrumentation and error reporting.)
-+for instrumentation and error reporting.) However, since return probes
-+are used extensively in tracing (where stack backtraces are useful),
-+return probes will stash away the stack backtrace during function entry
-+so that return probe handlers can use the entry backtrace instead of
-+having a trace with just kretprobe_trampoline.
- 
- If the number of times a function is called does not match the number
- of times it returns, registering a return probe on that function may
-diff --git a/include/linux/kprobes.h b/include/linux/kprobes.h
-index e909413e4e38..b2d6e8b74731 100644
---- a/include/linux/kprobes.h
-+++ b/include/linux/kprobes.h
-@@ -40,6 +40,8 @@
- #include <linux/rcupdate.h>
- #include <linux/mutex.h>
- #include <linux/ftrace.h>
-+#include <linux/stacktrace.h>
-+#include <linux/perf_event.h>
- #include <asm/kprobes.h>
- 
- #ifdef CONFIG_KPROBES
-@@ -168,11 +170,18 @@ struct kretprobe {
- 	raw_spinlock_t lock;
- };
- 
-+#define KRETPROBE_TRACE_SIZE 127
-+struct kretprobe_trace {
-+	int nr_entries;
-+	unsigned long entries[KRETPROBE_TRACE_SIZE];
-+};
-+
- struct kretprobe_instance {
- 	struct hlist_node hlist;
- 	struct kretprobe *rp;
- 	kprobe_opcode_t *ret_addr;
- 	struct task_struct *task;
-+	struct kretprobe_trace entry;
- 	char data[0];
- };
- 
-@@ -371,6 +380,12 @@ void unregister_kretprobe(struct kretprobe *rp);
- int register_kretprobes(struct kretprobe **rps, int num);
- void unregister_kretprobes(struct kretprobe **rps, int num);
- 
-+struct kretprobe_instance *current_kretprobe_instance(void);
-+void kretprobe_save_stack_trace(struct kretprobe_instance *ri,
-+				struct stack_trace *trace);
-+void kretprobe_perf_callchain_kernel(struct kretprobe_instance *ri,
-+				     struct perf_callchain_entry_ctx *ctx);
-+
- void kprobe_flush_task(struct task_struct *tk);
- void recycle_rp_inst(struct kretprobe_instance *ri, struct hlist_head *head);
- 
-diff --git a/kernel/events/callchain.c b/kernel/events/callchain.c
-index 24a77c34e9ad..98edcd8a6987 100644
---- a/kernel/events/callchain.c
-+++ b/kernel/events/callchain.c
-@@ -12,6 +12,7 @@
- #include <linux/perf_event.h>
- #include <linux/slab.h>
- #include <linux/sched/task_stack.h>
-+#include <linux/kprobes.h>
- 
- #include "internal.h"
- 
-@@ -197,9 +198,14 @@ get_perf_callchain(struct pt_regs *regs, u32 init_nr, bool kernel, bool user,
- 	ctx.contexts_maxed = false;
- 
- 	if (kernel && !user_mode(regs)) {
-+		struct kretprobe_instance *ri = current_kretprobe_instance();
-+
- 		if (add_mark)
- 			perf_callchain_store_context(&ctx, PERF_CONTEXT_KERNEL);
--		perf_callchain_kernel(&ctx, regs);
-+		if (ri)
-+			kretprobe_perf_callchain_kernel(ri, &ctx);
-+		else
-+			perf_callchain_kernel(&ctx, regs);
- 	}
- 
- 	if (user) {
-diff --git a/kernel/kprobes.c b/kernel/kprobes.c
-index 90e98e233647..fca3964d18cd 100644
---- a/kernel/kprobes.c
-+++ b/kernel/kprobes.c
-@@ -1206,6 +1206,16 @@ __releases(hlist_lock)
- }
- NOKPROBE_SYMBOL(kretprobe_table_unlock);
- 
-+static bool kretprobe_hash_is_locked(struct task_struct *tsk)
-+{
-+	unsigned long hash = hash_ptr(tsk, KPROBE_HASH_BITS);
-+	raw_spinlock_t *hlist_lock;
-+
-+	hlist_lock = kretprobe_table_lock_ptr(hash);
-+	return raw_spin_is_locked(hlist_lock);
-+}
-+NOKPROBE_SYMBOL(kretprobe_hash_is_locked);
-+
- /*
-  * This function is called from finish_task_switch when task tk becomes dead,
-  * so that we can recycle any function-return probe instances associated
-@@ -1800,6 +1810,13 @@ unsigned long __weak arch_deref_entry_point(void *entry)
- 	return (unsigned long)entry;
- }
- 
-+static int pre_handler_kretprobe(struct kprobe *p, struct pt_regs *regs);
-+
-+static inline bool kprobe_is_retprobe(struct kprobe *kp)
-+{
-+	return kp->pre_handler == pre_handler_kretprobe;
-+}
-+
- #ifdef CONFIG_KRETPROBES
- /*
-  * This kprobe pre_handler is registered with every kretprobe. When probe
-@@ -1826,6 +1843,8 @@ static int pre_handler_kretprobe(struct kprobe *p, struct pt_regs *regs)
- 	hash = hash_ptr(current, KPROBE_HASH_BITS);
- 	raw_spin_lock_irqsave(&rp->lock, flags);
- 	if (!hlist_empty(&rp->free_instances)) {
-+		struct stack_trace trace = {};
-+
- 		ri = hlist_entry(rp->free_instances.first,
- 				struct kretprobe_instance, hlist);
- 		hlist_del(&ri->hlist);
-@@ -1834,6 +1853,11 @@ static int pre_handler_kretprobe(struct kprobe *p, struct pt_regs *regs)
- 		ri->rp = rp;
- 		ri->task = current;
- 
-+		trace.entries = &ri->entry.entries[0];
-+		trace.max_entries = KRETPROBE_TRACE_SIZE;
-+		save_stack_trace_regs(regs, &trace);
-+		ri->entry.nr_entries = trace.nr_entries;
-+
- 		if (rp->entry_handler && rp->entry_handler(ri, regs)) {
- 			raw_spin_lock_irqsave(&rp->lock, flags);
- 			hlist_add_head(&ri->hlist, &rp->free_instances);
-@@ -1856,6 +1880,65 @@ static int pre_handler_kretprobe(struct kprobe *p, struct pt_regs *regs)
- }
- NOKPROBE_SYMBOL(pre_handler_kretprobe);
- 
-+/*
-+ * Return the kretprobe_instance associated with the current_kprobe. Calling
-+ * this is only reasonable from within a kretprobe handler context (otherwise
-+ * return NULL).
-+ *
-+ * Must be called within a kretprobe_hash_lock(current, ...) context.
-+ */
-+struct kretprobe_instance *current_kretprobe_instance(void)
-+{
-+	struct kprobe *kp;
-+	struct kretprobe *rp;
-+	struct kretprobe_instance *ri;
-+	struct hlist_head *head;
-+	unsigned long hash = hash_ptr(current, KPROBE_HASH_BITS);
-+
-+	kp = kprobe_running();
-+	if (!kp || !kprobe_is_retprobe(kp))
-+		return NULL;
-+	if (WARN_ON(!kretprobe_hash_is_locked(current)))
-+		return NULL;
-+
-+	rp = container_of(kp, struct kretprobe, kp);
-+	head = &kretprobe_inst_table[hash];
-+
-+	hlist_for_each_entry(ri, head, hlist) {
-+		if (ri->task == current && ri->rp == rp)
-+			return ri;
-+	}
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(current_kretprobe_instance);
-+NOKPROBE_SYMBOL(current_kretprobe_instance);
-+
-+void kretprobe_save_stack_trace(struct kretprobe_instance *ri,
-+				struct stack_trace *trace)
-+{
-+	int i;
-+	struct kretprobe_trace *krt = &ri->entry;
-+
-+	for (i = trace->skip; i < krt->nr_entries; i++) {
-+		if (trace->nr_entries >= trace->max_entries)
-+			break;
-+		trace->entries[trace->nr_entries++] = krt->entries[i];
-+	}
-+}
-+
-+void kretprobe_perf_callchain_kernel(struct kretprobe_instance *ri,
-+				     struct perf_callchain_entry_ctx *ctx)
-+{
-+	int i;
-+	struct kretprobe_trace *krt = &ri->entry;
-+
-+	for (i = 0; i < krt->nr_entries; i++) {
-+		if (krt->entries[i] == ULONG_MAX)
-+			break;
-+		perf_callchain_store(ctx, (u64) krt->entries[i]);
-+	}
-+}
-+
- bool __weak arch_kprobe_on_func_entry(unsigned long offset)
- {
- 	return !offset;
-@@ -2005,6 +2088,22 @@ static int pre_handler_kretprobe(struct kprobe *p, struct pt_regs *regs)
- }
- NOKPROBE_SYMBOL(pre_handler_kretprobe);
- 
-+struct kretprobe_instance *current_kretprobe_instance(void)
-+{
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(current_kretprobe_instance);
-+NOKPROBE_SYMBOL(current_kretprobe_instance);
-+
-+void kretprobe_save_stack_trace(struct kretprobe_instance *ri,
-+				struct stack_trace *trace)
-+{
-+}
-+
-+void kretprobe_perf_callchain_kernel(struct kretprobe_instance *ri,
-+				     struct perf_callchain_entry_ctx *ctx)
-+{
-+}
- #endif /* CONFIG_KRETPROBES */
- 
- /* Set the kprobe gone and remove its instruction buffer. */
-@@ -2241,7 +2340,7 @@ static void report_probe(struct seq_file *pi, struct kprobe *p,
- 	char *kprobe_type;
- 	void *addr = p->addr;
- 
--	if (p->pre_handler == pre_handler_kretprobe)
-+	if (kprobe_is_retprobe(p))
- 		kprobe_type = "r";
- 	else
- 		kprobe_type = "k";
-diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-index bf6f1d70484d..2210d38a4dbf 100644
---- a/kernel/trace/trace.c
-+++ b/kernel/trace/trace.c
-@@ -42,6 +42,7 @@
- #include <linux/nmi.h>
- #include <linux/fs.h>
- #include <linux/trace.h>
-+#include <linux/kprobes.h>
- #include <linux/sched/clock.h>
- #include <linux/sched/rt.h>
- 
-@@ -2590,6 +2591,7 @@ static void __ftrace_trace_stack(struct ring_buffer *buffer,
- 	struct ring_buffer_event *event;
- 	struct stack_entry *entry;
- 	struct stack_trace trace;
-+	struct kretprobe_instance *ri = current_kretprobe_instance();
- 	int use_stack;
- 	int size = FTRACE_STACK_ENTRIES;
- 
-@@ -2626,7 +2628,9 @@ static void __ftrace_trace_stack(struct ring_buffer *buffer,
- 		trace.entries		= this_cpu_ptr(ftrace_stack.calls);
- 		trace.max_entries	= FTRACE_STACK_MAX_ENTRIES;
- 
--		if (regs)
-+		if (ri)
-+			kretprobe_save_stack_trace(ri, &trace);
-+		else if (regs)
- 			save_stack_trace_regs(regs, &trace);
- 		else
- 			save_stack_trace(&trace);
-@@ -2653,7 +2657,10 @@ static void __ftrace_trace_stack(struct ring_buffer *buffer,
- 	else {
- 		trace.max_entries	= FTRACE_STACK_ENTRIES;
- 		trace.entries		= entry->caller;
--		if (regs)
-+
-+		if (ri)
-+			kretprobe_save_stack_trace(ri, &trace);
-+		else if (regs)
- 			save_stack_trace_regs(regs, &trace);
- 		else
- 			save_stack_trace(&trace);
-diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/kretprobe_stacktrace.tc b/tools/testing/selftests/ftrace/test.d/kprobe/kretprobe_stacktrace.tc
-new file mode 100644
-index 000000000000..03146c6a1a3c
---- /dev/null
-+++ b/tools/testing/selftests/ftrace/test.d/kprobe/kretprobe_stacktrace.tc
-@@ -0,0 +1,25 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0+
-+# description: Kretprobe dynamic event with a stacktrace
-+
-+[ -f kprobe_events ] || exit_unsupported # this is configurable
-+
-+echo 0 > events/enable
-+echo 1 > options/stacktrace
-+
-+echo 'r:teststackprobe sched_fork $retval' > kprobe_events
-+grep teststackprobe kprobe_events
-+test -d events/kprobes/teststackprobe
-+
-+clear_trace
-+echo 1 > events/kprobes/teststackprobe/enable
-+( echo "forked")
-+echo 0 > events/kprobes/teststackprobe/enable
-+
-+# Make sure we don't see kretprobe_trampoline and we see _do_fork.
-+! grep 'kretprobe' trace
-+grep '_do_fork' trace
-+
-+echo '-:teststackprobe' >> kprobe_events
-+clear_trace
-+test -d events/kprobes/teststackprobe && exit_fail || exit_pass
--- 
-2.19.1
-
+On Mon, 29 Oct 2018 at 18:42, Sean Christopherson
+<sean.j.christopherson@intel.com> wrote:
+>
+> On Fri, Oct 26, 2018 at 05:12:19PM +0200, Ahmed Abd El Mawgood wrote:
+> > Following up with my previous threads on KVM assisted Anti rootkit
+> > protections.
+>
+> All of the changelogs in this series need to be rewritten to adhere to
+> Documentation/process[1].  In particular, use imperative mood and
+> describe why/what is being done in a self-contained manner, e.g. the
+> above line isn't very helpful without a lot of prior context.
+>
+> [1] https://github.com/torvalds/linux/blob/master/Documentation/process/submitting-patches.rst#2-describe-your-changes
+>
+> > The current version doesn't address the attacks involving pages
+> > remapping. It is still design in progress, nevertheless, it will be in
+> > my later patch sets.
+>
+> This series should be tagged RFC if its design is a WIP.
+Ops my bad, the current description is obsolete and I forgot to remove
+it. I will have this fixed as well as your other comments in the next
+patch series.
