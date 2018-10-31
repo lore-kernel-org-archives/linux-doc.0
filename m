@@ -1,139 +1,152 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 193217D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 04:41:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1F3F77D08E
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 05:26:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728954AbeJaNhw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Oct 2018 09:37:52 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:50635 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728889AbeJaNhw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Oct 2018 09:37:52 -0400
-Received: by mail-wm1-f66.google.com with SMTP id h2-v6so9947515wmb.0
-        for <linux-doc@vger.kernel.org>; Tue, 30 Oct 2018 21:41:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TuB+km0LMAbwqhBPSE0z5upz2c8PWBTaUi2I3CbmuY8=;
-        b=Yr8Ov/5fvhd9aO52cRacUwUgzrmRLoK3jqgJ1sM7H7OFeYOLjAt676JaWoWPP5TUFl
-         syNvd4/1BU2W0xuYm7jYipw1hTNieCIOmcsB/DbJ74S66KvIgy2snJpguKmPDJ+wyT0V
-         9dxIGW3SiTsgNeiRYJ5e6P3cdBYllM8iQAZWpSffgobF2yTb/sff8cz7F6WTUUPhXBXu
-         1x2RtjrcYgk4Lc0mecMwXRswYpv7qk5g0ycW+WO9w4F85h9agfR3hzW+wyyB6dkvd24T
-         eJY1PQQX5zw/SRxelpQQu1HUDVO78oQHEWzsBptq9h8mq7ka6rz+MbQQXaU8SjFZAC78
-         /5Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TuB+km0LMAbwqhBPSE0z5upz2c8PWBTaUi2I3CbmuY8=;
-        b=dccbzWtQKpJtNR0E2ccXJgDyClg+QHyPiwLrNIECz1rI4U1GU6Kv65+Ma4HS7o/NTX
-         UcNXep2TKPvTCZgVIdsApsDwJ54E9uvHiUWkh3J/53aAe/0Iv+aEY6+kJ95cBIr6KKSe
-         pzaz/PT4pVX1H7sW4apljp2tdmkzx7rCKVNfL1KjFODcTn6+f/Fw4CMd6NTWT/8gL45I
-         riGyAlK9oLtTMU3VxV+DtwkO0RMg70tO5CZ+RtBBWXNKaiwjprCoI/EhQn2yZa0Bh9WG
-         1YiA0YjwcUbS95jelZMJ5DjEEs2fxRYzUrkV9bgTiGbfRrPpS7t65ikDb9mQU8DsgU0D
-         wl4Q==
-X-Gm-Message-State: AGRZ1gK8a+DJM3QdHdbdOGtZHMXDMtj9yYvr73mB1Kxcv3ENitpgM5rz
-        SKpncBmTs33wx4XfhViB8LPwv2dQZeYeotgrJaaWQA==
-X-Google-Smtp-Source: AJdET5da2fWDOBqUm/NfMQo0FfaejNVTvyDWDmJIuOPBGo9zkY9ccnZamzEZmlflpUrPCg3ryi2Q8jzp6SNqWde+UUU=
-X-Received: by 2002:a1c:410a:: with SMTP id o10-v6mr1003272wma.19.1540960885281;
- Tue, 30 Oct 2018 21:41:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
- <20181028183126.GB744@hirez.programming.kicks-ass.net> <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
- <20181030152641.GE8177@hirez.programming.kicks-ass.net> <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
- <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net> <20181030175814.GB10491@bombadil.infradead.org>
- <20181030182841.GE7343@cisco> <20181030192021.GC10491@bombadil.infradead.org>
- <9edbdf8b-b5fb-5a82-43b4-b639f5ec8484@gmail.com> <20181030213557.GE10491@bombadil.infradead.org>
-In-Reply-To: <20181030213557.GE10491@bombadil.infradead.org>
-From:   Andy Lutomirski <luto@amacapital.net>
-Date:   Tue, 30 Oct 2018 21:41:13 -0700
-Message-ID: <CALCETrW1FcT88u0QY9k_PMOeZj0G8H6KNb5Bnreo-12NvmmCEQ@mail.gmail.com>
-Subject: Re: [PATCH 10/17] prmem: documentation
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Igor Stoppa <igor.stoppa@gmail.com>,
-        Tycho Andersen <tycho@tycho.ws>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        Dave Chinner <david@fromorbit.com>,
-        James Morris <jmorris@namei.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Igor Stoppa <igor.stoppa@huawei.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laura Abbott <labbott@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+        id S1728079AbeJaOXX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Oct 2018 10:23:23 -0400
+Received: from mxhk.zte.com.cn ([63.217.80.70]:7858 "EHLO mxhk.zte.com.cn"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725811AbeJaOXX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 31 Oct 2018 10:23:23 -0400
+Received: from mse01.zte.com.cn (unknown [10.30.3.20])
+        by Forcepoint Email with ESMTPS id EBF6FEB62EC6A53B074A;
+        Wed, 31 Oct 2018 13:26:48 +0800 (CST)
+Received: from notes_smtp.zte.com.cn ([10.30.1.239])
+        by mse01.zte.com.cn with ESMTP id w9V5Qf3r037520;
+        Wed, 31 Oct 2018 13:26:41 +0800 (GMT-8)
+        (envelope-from peng.hao2@zte.com.cn)
+Received: from localhost.localdomain.localdomain ([10.74.120.59])
+          by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
+          with ESMTP id 2018103113270268-7767258 ;
+          Wed, 31 Oct 2018 13:27:02 +0800 
+From:   Peng Hao <peng.hao2@zte.com.cn>
+To:     robh+dt@kernel.org, mark.rutland@arm.com, arnd@arndb.de,
+        gregkh@linuxfoundation.org, andy@infradead.org,
+        dvhart@infradead.org
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        hutao@cn.fujitsu.com, linux-doc@vger.kernel.org,
+        Peng Hao <peng.hao2@zte.com.cn>
+Subject: [PATCH V4 1/5]  pvpanic: move pvpanic to misc as common driver
+Date:   Wed, 31 Oct 2018 21:37:17 +0800
+Message-Id: <1540993041-25611-1-git-send-email-peng.hao2@zte.com.cn>
+X-Mailer: git-send-email 1.8.3.1
+X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release 8.5.3FP6|November
+ 21, 2013) at 2018-10-31 13:27:02,
+        Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
+ 2018-10-31 13:26:33,
+        Serialize complete at 2018-10-31 13:26:33
+X-MAIL: mse01.zte.com.cn w9V5Qf3r037520
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 30, 2018 at 2:36 PM Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Tue, Oct 30, 2018 at 10:43:14PM +0200, Igor Stoppa wrote:
-> > On 30/10/2018 21:20, Matthew Wilcox wrote:
-> > > > > So the API might look something like this:
-> > > > >
-> > > > >         void *p = rare_alloc(...);      /* writable pointer */
-> > > > >         p->a = x;
-> > > > >         q = rare_protect(p);            /* read-only pointer */
-> >
-> > With pools and memory allocated from vmap_areas, I was able to say
-> >
-> > protect(pool)
-> >
-> > and that would do a swipe on all the pages currently in use.
-> > In the SELinux policyDB, for example, one doesn't really want to
-> > individually protect each allocation.
-> >
-> > The loading phase happens usually at boot, when the system can be assumed to
-> > be sane (one might even preload a bare-bone set of rules from initramfs and
-> > then replace it later on, with the full blown set).
-> >
-> > There is no need to process each of these tens of thousands allocations and
-> > initialization as write-rare.
-> >
-> > Would it be possible to do the same here?
->
-> What Andy is proposing effectively puts all rare allocations into
-> one pool.  Although I suppose it could be generalised to multiple pools
-> ... one mm_struct per pool.  Andy, what do you think to doing that?
+move pvpanic.c from drivers/platform/x86 to drivers/misc.
+following patches will use pvpanic device in arm64.
 
-Hmm.  Let's see.
+Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
+---
+ drivers/misc/Kconfig                     | 7 +++++++
+ drivers/misc/Makefile                    | 1 +
+ drivers/{platform/x86 => misc}/pvpanic.c | 0
+ drivers/platform/Kconfig                 | 3 +++
+ drivers/platform/Makefile                | 1 +
+ drivers/platform/x86/Kconfig             | 8 --------
+ drivers/platform/x86/Makefile            | 1 -
+ 7 files changed, 12 insertions(+), 9 deletions(-)
+ rename drivers/{platform/x86 => misc}/pvpanic.c (100%)
 
-To clarify some of this thread, I think that the fact that rare_write
-uses an mm_struct and alias mappings under the hood should be
-completely invisible to users of the API.  No one should ever be
-handed a writable pointer to rare_write memory (except perhaps during
-bootup or when initializing a large complex data structure that will
-be rare_write but isn't yet, e.g. the policy db).
+diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+index 5d71300..ca55c94 100644
+--- a/drivers/misc/Kconfig
++++ b/drivers/misc/Kconfig
+@@ -499,6 +499,13 @@ config MISC_RTSX
+ 	tristate
+ 	default MISC_RTSX_PCI || MISC_RTSX_USB
+ 
++config PVPANIC
++	tristate "pvpanic device support"
++	help
++          This driver provides support for the pvpanic device.  pvpanic is
++          a paravirtualized device provided by QEMU; it lets a virtual machine
++          (guest) communicate panic events to the host.
++
+ source "drivers/misc/c2port/Kconfig"
+ source "drivers/misc/eeprom/Kconfig"
+ source "drivers/misc/cb710/Kconfig"
+diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
+index 20be70c..39dc005 100644
+--- a/drivers/misc/Makefile
++++ b/drivers/misc/Makefile
+@@ -57,3 +57,4 @@ obj-$(CONFIG_ASPEED_LPC_SNOOP)	+= aspeed-lpc-snoop.o
+ obj-$(CONFIG_PCI_ENDPOINT_TEST)	+= pci_endpoint_test.o
+ obj-$(CONFIG_OCXL)		+= ocxl/
+ obj-$(CONFIG_MISC_RTSX)		+= cardreader/
++obj-$(CONFIG_PVPANIC)  		+= pvpanic.o
+diff --git a/drivers/platform/x86/pvpanic.c b/drivers/misc/pvpanic.c
+similarity index 100%
+rename from drivers/platform/x86/pvpanic.c
+rename to drivers/misc/pvpanic.c
+diff --git a/drivers/platform/Kconfig b/drivers/platform/Kconfig
+index d4c2e42..8b64b78 100644
+--- a/drivers/platform/Kconfig
++++ b/drivers/platform/Kconfig
+@@ -1,3 +1,6 @@
++if ARM64
++source "drivers/platform/arm/Kconfig"
++endif
+ if X86
+ source "drivers/platform/x86/Kconfig"
+ endif
+diff --git a/drivers/platform/Makefile b/drivers/platform/Makefile
+index 4b2ce58..232231c 100644
+--- a/drivers/platform/Makefile
++++ b/drivers/platform/Makefile
+@@ -3,6 +3,7 @@
+ # Makefile for linux/drivers/platform
+ #
+ 
++obj-$(CONFIG_ARM64)               += arm/
+ obj-$(CONFIG_X86)		+= x86/
+ obj-$(CONFIG_MELLANOX_PLATFORM)	+= mellanox/
+ obj-$(CONFIG_MIPS)		+= mips/
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index ef016e4..a6b412e 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -1119,14 +1119,6 @@ config INTEL_SMARTCONNECT
+ 	  This driver checks to determine whether the device has Intel Smart
+ 	  Connect enabled, and if so disables it.
+ 
+-config PVPANIC
+-	tristate "pvpanic device support"
+-	depends on ACPI
+-	---help---
+-	  This driver provides support for the pvpanic device.  pvpanic is
+-	  a paravirtualized device provided by QEMU; it lets a virtual machine
+-	  (guest) communicate panic events to the host.
+-
+ config INTEL_PMC_IPC
+ 	tristate "Intel PMC IPC Driver"
+ 	depends on ACPI
+diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+index 2ba6cb7..a4ec299 100644
+--- a/drivers/platform/x86/Makefile
++++ b/drivers/platform/x86/Makefile
+@@ -75,7 +75,6 @@ obj-$(CONFIG_APPLE_GMUX)	+= apple-gmux.o
+ obj-$(CONFIG_INTEL_RST)		+= intel-rst.o
+ obj-$(CONFIG_INTEL_SMARTCONNECT)	+= intel-smartconnect.o
+ 
+-obj-$(CONFIG_PVPANIC)           += pvpanic.o
+ obj-$(CONFIG_ALIENWARE_WMI)	+= alienware-wmi.o
+ obj-$(CONFIG_INTEL_PMC_IPC)	+= intel_pmc_ipc.o
+ obj-$(CONFIG_SILEAD_DMI)	+= silead_dmi.o
+-- 
+1.8.3.1
 
-For example, there could easily be architectures where having a
-writable alias is problematic.  On such architectures, an entirely
-different mechanism might work better.  And, if a tool like KNOX ever
-becomes a *part* of the Linux kernel (hint hint!)
-
-If you have multiple pools and one mm_struct per pool, you'll need a
-way to find the mm_struct from a given allocation.  Regardless of how
-the mm_structs are set up, changing rare_write memory to normal memory
-or vice versa will require a global TLB flush (all ASIDs and global
-pages) on all CPUs, so having extra mm_structs doesn't seem to buy
-much.
-
-(It's just possible that changing rare_write back to normal might be
-able to avoid the flush if the spurious faults can be handled
-reliably.)
