@@ -5,37 +5,37 @@ X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B42FE7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 09:09:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 30F8A7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 09:19:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727525AbeJaSGg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 31 Oct 2018 14:06:36 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:34634 "EHLO
+        id S1727883AbeJaSQv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 31 Oct 2018 14:16:51 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:34784 "EHLO
         merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727436AbeJaSGg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Oct 2018 14:06:36 -0400
+        with ESMTP id S1726054AbeJaSQv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Oct 2018 14:16:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=b+PNiizic8LnfCukl4WTQF/yDJSRLRR2Ckyz0vp16yM=; b=PVv3dc4wxhYzQ/Yyep2S2Ie6vj
-        swVR6pWp6uD9E1BJGqjDJoxLfBfAD4Q/FtqfsHWr9qmg49AfXyqbban4tU4RA/w8CYJkfWgW7/dm5
-        KZoHbc+H3PBIXcRRY6HxKH533QlEZFp8YQqbfn3XfikEkFdYayrHe6e/02uRDtgfHaxK8L4Iqvt+l
-        yy3i/qiePRVMSrnjYC414KDZJV2ZsnkC+R35lJxnLpROuja1BxBaVc+mb9lBc7HVCgWI+mWWkKOAs
-        s3uT0BKIxJxSzS+Z2nrNYmN2I/a8/of3G0G1zc35JikELiaxO2qjvnNn7qYZIZh/hTar/JSiHahuX
-        7p1iAxCw==;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=fVhXZWXj81sT/c2mZE0H4mJ1k8z+LPDjNU9EBM9zVvU=; b=kzi+2D/uyQhcVvTbEufaP92gn
+        nyDe5p2eDCiO4FJ1nv9mXiBFr4+Vhifg605AxkPfkblc1H1mSQoK8vMeruUP3pWZLoFjCdV2D5r3C
+        6Z/4WYmD74tckX8XvozBI0epdKJ27Tg1xvCKwI4iEE61plq+4eJf27iO8jL13jAt9IEPEw1ZxbBpo
+        KtPV3DmNlIHr8ZzdiYrXjL1GwYHfUUalZEV2bpe/59qZx/IV4gr6XuvQyTWvWRB6eyZVIYjolcQwq
+        33QzbBQh58hAxV5a/L2T8iLrfKE31Vqabllhz9w0kI8SVNmuNLKamKfs21WjbcyJP7y7dYRyApjHi
+        jVfTTfo/Q==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
         by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gHmUQ-0002NO-Dd; Wed, 31 Oct 2018 09:08:38 +0000
+        id 1gHmeS-0002R2-PK; Wed, 31 Oct 2018 09:19:01 +0000
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 1DCF02029FA14; Wed, 31 Oct 2018 10:08:35 +0100 (CET)
-Date:   Wed, 31 Oct 2018 10:08:35 +0100
+        id 4A63A2029FA14; Wed, 31 Oct 2018 10:18:59 +0100 (CET)
+Date:   Wed, 31 Oct 2018 10:18:59 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
-To:     Nadav Amit <nadav.amit@gmail.com>
-Cc:     Andy Lutomirski <luto@amacapital.net>,
-        Matthew Wilcox <willy@infradead.org>,
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Andy Lutomirski <luto@amacapital.net>,
         Kees Cook <keescook@chromium.org>,
         Igor Stoppa <igor.stoppa@gmail.com>,
         Mimi Zohar <zohar@linux.vnet.ibm.com>,
@@ -55,8 +55,9 @@ Cc:     Andy Lutomirski <luto@amacapital.net>,
         LKML <linux-kernel@vger.kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>
 Subject: Re: [PATCH 10/17] prmem: documentation
-Message-ID: <20181031090835.GG744@hirez.programming.kicks-ass.net>
-References: <20181026092609.GB3159@worktop.c.hoisthospitality.com>
+Message-ID: <20181031091859.GI744@hirez.programming.kicks-ass.net>
+References: <20181023213504.28905-11-igor.stoppa@huawei.com>
+ <20181026092609.GB3159@worktop.c.hoisthospitality.com>
  <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
  <20181028183126.GB744@hirez.programming.kicks-ass.net>
  <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
@@ -64,33 +65,37 @@ References: <20181026092609.GB3159@worktop.c.hoisthospitality.com>
  <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
  <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net>
  <20181030175814.GB10491@bombadil.infradead.org>
- <28C8CD2A-BDC0-49A5-854E-1E18968528B8@amacapital.net>
- <CAC99157-7A9B-4AC6-BA41-EAA7A99FE53D@gmail.com>
+ <d5b57049-419b-3bbb-dc8d-97e4024965df@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAC99157-7A9B-4AC6-BA41-EAA7A99FE53D@gmail.com>
+In-Reply-To: <d5b57049-419b-3bbb-dc8d-97e4024965df@intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 30, 2018 at 04:18:39PM -0700, Nadav Amit wrote:
-> > Nadav, want to resubmit your series? IIRC the only thing wrong with it was
-> > that it was a big change and we wanted a simpler fix to backport. But
-> > that’s all done now, and I, at least, rather liked your code. :)
+On Tue, Oct 30, 2018 at 11:03:51AM -0700, Dave Hansen wrote:
+> On 10/30/18 10:58 AM, Matthew Wilcox wrote:
+> > Does this satisfy Igor's requirements?  We wouldn't be able to
+> > copy_to/from_user() while rare_mm was active.  I think that's a feature
+> > though!  It certainly satisfies my interests (kernel code be able to
+> > mark things as dynamically-allocated-and-read-only-after-initialisation)
 > 
-> I guess since it was based on your ideas…
+> It has to be more than copy_to/from_user(), though, I think.
 > 
-> Anyhow, the only open issue that I have with v2 is Peter’s wish that I would
-> make kgdb use of poke_text() less disgusting. I still don’t know exactly
-> how to deal with it.
-> 
-> Perhaps it (fixing kgdb) can be postponed? In that case I can just resend
-> v2.
+> rare_modify(q) either has to preempt_disable(), or we need to teach the
+> context-switching code when and how to switch in/out of the rare_mm.
+> preempt_disable() would also keep us from sleeping.
 
-Oh man, I completely forgot about kgdb :/
+Yes, I think we want to have preempt disable at the very least. We could
+indeed make the context switch code smart and teach is about this state,
+but I think allowing preemption in such section is a bad idea. We want
+to keep these sections short and simple (and bounded), such that they
+can be analyzed for correctness.
 
-Also, would it be possible to entirely remove that kmap fallback path?
+Once you allow preemption, things tend to grow large and complex.
+
+Ideally we'd even disabled interrupts over this, to further limit what
+code runs in the rare_mm context. NMIs need special care anyway.
