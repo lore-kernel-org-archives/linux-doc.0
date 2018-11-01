@@ -1,117 +1,115 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 20D667D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 15:20:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E7A647D08E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 15:56:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728211AbeKBAYI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Nov 2018 20:24:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46130 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728197AbeKBAYI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Nov 2018 20:24:08 -0400
-Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3802E205F4;
-        Thu,  1 Nov 2018 15:20:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1541085644;
-        bh=lNYBockCrAM/hLc1wichrNOE5bSTSWLbqDsp+qU2fkQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=168F7c7D2E4BEUKaecNYiSmrBXBbQ8j9PZ9IsGTwvJ8zWyYUHvaz0jBHhr7vmp0zM
-         zhGmjdO2L2B4TtCx8sZUKtkJkL4MgJpo+GGHQv7UFnjTt4ZC5AXCCUclI+8iONfwWh
-         F9am2EXOd+6BgWuaGB3y/1UainYQ3UgsjRiK1ESs=
-Date:   Fri, 2 Nov 2018 00:20:39 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Christian Brauner <christian@brauner.io>,
-        Aleksa Sarai <asarai@suse.de>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] kretprobe: produce sane stack traces
-Message-Id: <20181102002039.8f22c10fa47cae75fa709165@kernel.org>
-In-Reply-To: <20181101083551.3805-2-cyphar@cyphar.com>
-References: <20181101083551.3805-1-cyphar@cyphar.com>
-        <20181101083551.3805-2-cyphar@cyphar.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S1728207AbeKBA7k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Nov 2018 20:59:40 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:37777 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727996AbeKBA7k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 20:59:40 -0400
+Received: by mail-lj1-f193.google.com with SMTP id c4-v6so18498616lja.4;
+        Thu, 01 Nov 2018 08:56:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=8QV1rRGD5z9KHxGTbGjJ7FsI1kGriDbSQ1hXAvqLolI=;
+        b=lFD7w06dF72k6QzUKBaMNXWH/IQCQSCLheAKXRc06PoOItT9U/GU9bR2FWM+bgdqVX
+         T56bAXcmTr1I5+EqvBxv7wzQ4CYrsf1obHudSuvdFQyNEc+q/UJeHmzHJh9q6GhDvBoK
+         hCf6ZhHA3ZxlnkeBnMxhNMxCzT8gbldponakybtRMIAq8XrHLqtaw8WHSjoI8iO/T22D
+         8ffBqJ6mwyeXY32QzvnpfjV9aK1Awx1teI62HIrlJbv7zQJGJcogyYeSbdt3KYfVZFZA
+         BlZcb/1db1ca+cm3t/Cb7256hYbGfsBQY3/qbExIfDLTe4zKGb5gF1ORNCkmKBjfVJCk
+         Vqzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=8QV1rRGD5z9KHxGTbGjJ7FsI1kGriDbSQ1hXAvqLolI=;
+        b=mto3xZ4i3ksFiZEyz0jKMm0dGDQacDoA2ImhEzIdvj/i8lo4KklFdLcWeJ3XyHWAqJ
+         LEaHcj7Khd4CBWFu5tpNKs5zk0EZPiSD8KFdQRMoMthiCVsneErjT5qLQPlj4E5AUn8c
+         XQMUShFwMgukIkYdWVljM8zD6EW3N27uwzaX5vrdcGa+2ERf8g7L/5XnwJapXmjxkOo9
+         ZJR/ivXu5MYBs8sosrCxHpFPKyrmCgM5SEITx5jyLvRUc5hkIrMBLhIJjN1X5W1v2/xx
+         0PaumGxnUELdKNO3eQGl/ZyLlGNlH3sNnu/tXdJeRFjWzx4WlIuygMooOLFGDY7KlhHf
+         xa+A==
+X-Gm-Message-State: AGRZ1gJHh45i/+NHGEOI44MpKYr+UJueWwluIo/090Hf80LTl3t5eevw
+        rKNJQvlU+SPrvc2xrbAoz8g=
+X-Google-Smtp-Source: AJdET5flN5tCH0lcdByhjC8oyML4ntiCOyXTXo17xsanGhoRcEEaPAByQkX+exGbMWMtXFh96utBGg==
+X-Received: by 2002:a2e:9715:: with SMTP id r21-v6mr3892456lji.30.1541087765665;
+        Thu, 01 Nov 2018 08:56:05 -0700 (PDT)
+Received: from ?IPv6:2001:14bb:52:7be:f0bf:dd2d:f008:5213? (dmkd798g-7z2-yccwcp-4.rev.dnainternet.fi. [2001:14bb:52:7be:f0bf:dd2d:f008:5213])
+        by smtp.gmail.com with ESMTPSA id h63-v6sm1840103lji.88.2018.11.01.08.56.03
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 01 Nov 2018 08:56:05 -0700 (PDT)
+Subject: Re: [PATCH V5 0/5] KVM: X86: Introducing ROE Protection Kernel
+ Hardening
+To:     Ahmed Soliman <ahmedsoliman0x666@gmail.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        nathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        =?UTF-8?B?6rmA7J246rK4?= <ovich00@gmail.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        nigel.edwards@hpe.com, Boris Lukashev <blukashev@sempervictus.com>,
+        Hossam Hassan <7ossam9063@gmail.com>,
+        Ahmed Lotfy <A7med.lotfey@gmail.com>,
+        Mohamed Azab <mazab@vt.edu>
+References: <20181026151223.16810-1-ahmedsoliman0x666@gmail.com>
+ <1b3eb10e-c492-dc77-cbe6-3a3e692326d7@gmail.com>
+ <CAAGnT3ao2YugWW_1TuZw4+OiLQsBYLXtcYjARagZ3pGwFhvGZg@mail.gmail.com>
+From:   Igor Stoppa <igor.stoppa@gmail.com>
+Message-ID: <2e91fc33-9601-b562-0fc5-4dc8756face4@gmail.com>
+Date:   Thu, 1 Nov 2018 17:56:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+MIME-Version: 1.0
+In-Reply-To: <CAAGnT3ao2YugWW_1TuZw4+OiLQsBYLXtcYjARagZ3pGwFhvGZg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Aleksa,
+Hello Ahmed,
 
-On Thu,  1 Nov 2018 19:35:50 +1100
-Aleksa Sarai <cyphar@cyphar.com> wrote:
-[...]
-> diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/kretprobe_stacktrace.tc b/tools/testing/selftests/ftrace/test.d/kprobe/kretprobe_stacktrace.tc
-
-Please split the test case as an independent patch.
-
-> new file mode 100644
-> index 000000000000..03146c6a1a3c
-> --- /dev/null
-> +++ b/tools/testing/selftests/ftrace/test.d/kprobe/kretprobe_stacktrace.tc
-> @@ -0,0 +1,25 @@
-> +#!/bin/sh
-> +# SPDX-License-Identifier: GPL-2.0+
-> +# description: Kretprobe dynamic event with a stacktrace
-> +
-> +[ -f kprobe_events ] || exit_unsupported # this is configurable
-> +
-> +echo 0 > events/enable
-> +echo 1 > options/stacktrace
-> +
-> +echo 'r:teststackprobe sched_fork $retval' > kprobe_events
-> +grep teststackprobe kprobe_events
-> +test -d events/kprobes/teststackprobe
-
-Hmm, what happen if we have 2 or more kretprobes on same stack?
-It seems you just save stack in pre_handler, but that stack can already
-includes another kretprobe's trampline address...
-
-Thank you,
-
-> +
-> +clear_trace
-> +echo 1 > events/kprobes/teststackprobe/enable
-> +( echo "forked")
-> +echo 0 > events/kprobes/teststackprobe/enable
-> +
-> +# Make sure we don't see kretprobe_trampoline and we see _do_fork.
-> +! grep 'kretprobe' trace
-> +grep '_do_fork' trace
-> +
-> +echo '-:teststackprobe' >> kprobe_events
-> +clear_trace
-> +test -d events/kprobes/teststackprobe && exit_fail || exit_pass
-> -- 
-> 2.19.1
+On 01/11/2018 01:21, Ahmed Soliman wrote:
+> Hello Igor,
+>> This is very interesting, because it seems a very good match to the work
+>> I'm doing, for supporting the creation of more targets for protection:
+>>
+>> https://www.openwall.com/lists/kernel-hardening/2018/10/23/3
+>>
+>> In my case the protection would extend also to write-rate type of data.
+>> There is an open problem of identifying legitimate write-rare
+>> operations, however it should be possible to provide at least a certain
+>> degree of confidence.
 > 
+> I have checked your patch set. In our work we were originally planning to do
+> something similar to write_rare just so we can differentiate between memory
+> chunks that may be modified and those that will be set once and never modify.
+> I see you are planning to do a white paper too, actually we are doing
+> an academic
+> paper based on our work. If you would like to collaborate, so that ROE
+> and write_rare
+> would integrate well from the beginning, we will be glad to do so.
 
+The offer is very kind, thanks a lot.
+I will contact you in private.
 
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
+--
+igor
