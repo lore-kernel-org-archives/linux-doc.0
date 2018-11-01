@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A1D577D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 07:00:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 82FE57D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 07:00:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727880AbeKAQBc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Nov 2018 12:01:32 -0400
-Received: from mxhk.zte.com.cn ([63.217.80.70]:17976 "EHLO mxhk.zte.com.cn"
+        id S1727675AbeKAQCM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Nov 2018 12:02:12 -0400
+Received: from out1.zte.com.cn ([202.103.147.172]:41776 "EHLO mxct.zte.com.cn"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727675AbeKAQBc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Nov 2018 12:01:32 -0400
+        id S1727716AbeKAQCM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Nov 2018 12:02:12 -0400
 Received: from mse01.zte.com.cn (unknown [10.30.3.20])
-        by Forcepoint Email with ESMTPS id C0CC72F5A170D76518B2;
-        Thu,  1 Nov 2018 14:59:48 +0800 (CST)
+        by Forcepoint Email with ESMTPS id BBAB5BBA5CA35E5CD227;
+        Thu,  1 Nov 2018 14:59:57 +0800 (CST)
 Received: from notes_smtp.zte.com.cn ([10.30.1.239])
-        by mse01.zte.com.cn with ESMTP id wA16xa4u022314;
-        Thu, 1 Nov 2018 14:59:36 +0800 (GMT-8)
+        by mse01.zte.com.cn with ESMTP id wA16xgim022537;
+        Thu, 1 Nov 2018 14:59:42 +0800 (GMT-8)
         (envelope-from peng.hao2@zte.com.cn)
 Received: from localhost.localdomain.localdomain ([10.74.120.59])
           by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
-          with ESMTP id 2018110115000552-7973439 ;
-          Thu, 1 Nov 2018 15:00:05 +0800 
+          with ESMTP id 2018110115001230-7973457 ;
+          Thu, 1 Nov 2018 15:00:12 +0800 
 From:   Peng Hao <peng.hao2@zte.com.cn>
 To:     robh+dt@kernel.org, mark.rutland@arm.com, arnd@arndb.de,
         gregkh@linuxfoundation.org, andy@infradead.org,
@@ -32,42 +32,66 @@ To:     robh+dt@kernel.org, mark.rutland@arm.com, arnd@arndb.de,
 Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
         hutao@cn.fujitsu.com, linux-doc@vger.kernel.org,
         Peng Hao <peng.hao2@zte.com.cn>
-Subject: [PATCH V5 3/8]  misc/pvpanic: revmove unnecessary header file
-Date:   Thu, 1 Nov 2018 23:09:57 +0800
-Message-Id: <1541085002-42993-3-git-send-email-peng.hao2@zte.com.cn>
+Subject: [PATCH V5 8/8]  dt-bindings/misc/pvpanic :add document for pvpanic-mmio
+Date:   Thu, 1 Nov 2018 23:10:02 +0800
+Message-Id: <1541085002-42993-8-git-send-email-peng.hao2@zte.com.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1541085002-42993-1-git-send-email-peng.hao2@zte.com.cn>
 References: <1541085002-42993-1-git-send-email-peng.hao2@zte.com.cn>
 X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release 8.5.3FP6|November
- 21, 2013) at 2018-11-01 15:00:05,
+ 21, 2013) at 2018-11-01 15:00:12,
         Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
- 2018-11-01 14:59:24,
-        Serialize complete at 2018-11-01 14:59:24
-X-MAIL: mse01.zte.com.cn wA16xa4u022314
+ 2018-11-01 14:59:30,
+        Serialize complete at 2018-11-01 14:59:30
+X-MAIL: mse01.zte.com.cn wA16xgim022537
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-remove unnecessary header file init.h.
+Add dt-bindings document for "qemu:pvpanic-mmio".
 
 Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
 ---
- drivers/misc/pvpanic.c | 1 -
- 1 file changed, 1 deletion(-)
+ .../devicetree/bindings/misc/pvpanic-mmio.txt      | 29 ++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/misc/pvpanic-mmio.txt
 
-diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
-index 059005c..66534d4 100644
---- a/drivers/misc/pvpanic.c
-+++ b/drivers/misc/pvpanic.c
-@@ -22,7 +22,6 @@
- 
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/init.h>
- #include <linux/types.h>
- #include <linux/acpi.h>
- 
+diff --git a/Documentation/devicetree/bindings/misc/pvpanic-mmio.txt b/Documentation/devicetree/bindings/misc/pvpanic-mmio.txt
+new file mode 100644
+index 0000000..985e907
+--- /dev/null
++++ b/Documentation/devicetree/bindings/misc/pvpanic-mmio.txt
+@@ -0,0 +1,29 @@
++* QEMU PVPANIC MMIO Configuration bindings
++
++QEMU's emulation / virtualization targets provide the following PVPANIC
++MMIO Configuration interface on the "virt" machine.
++type:
++
++- a read-write, 16-bit wide data register.
++
++QEMU exposes the data register to guests as memory mapped registers.
++
++Required properties:
++
++- compatible: "qemu,pvpanic-mmio".
++- reg: the MMIO region used by the device.
++  * Bytes 0x0  Write panic event to the reg when guest OS panics.
++  * Bytes 0x1  Reserved.
++
++Example:
++
++/ {
++        #size-cells = <0x2>;
++        #address-cells = <0x2>;
++
++        pvpanic-mmio@9060000 {
++                compatible = "qemu,pvpanic-mmio";
++                reg = <0x0 0x9060000 0x0 0x2>;
++        };
++};
++
 -- 
 1.8.3.1
 
