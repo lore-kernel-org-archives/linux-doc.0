@@ -2,129 +2,145 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B2A6A7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 07:09:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 55DB57D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 07:17:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727716AbeKAQKy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Nov 2018 12:10:54 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36886 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727744AbeKAQKx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 12:10:53 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wA173YR5120746
-        for <linux-doc@vger.kernel.org>; Thu, 1 Nov 2018 03:09:07 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2nfua53ask-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 01 Nov 2018 03:09:07 -0400
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Thu, 1 Nov 2018 07:09:05 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 1 Nov 2018 07:09:00 -0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wA1790Gh59703406
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 1 Nov 2018 07:09:00 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id EBA0B4C040;
-        Thu,  1 Nov 2018 07:08:59 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BB6454C04A;
-        Thu,  1 Nov 2018 07:08:58 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.8.68])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Thu,  1 Nov 2018 07:08:58 +0000 (GMT)
-Date:   Thu, 1 Nov 2018 09:08:57 +0200
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Daniel Colascione <dancol@google.com>
-Cc:     linux-kernel@vger.kernel.org, timmurray@google.com,
-        joelaf@google.com, surenb@google.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Prashant Dhamdhere <pdhamdhe@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: [PATCH] Document /proc/pid PID reuse behavior
-References: <20181031150625.147369-1-dancol@google.com>
+        id S1728112AbeKAQT1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Nov 2018 12:19:27 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:41848 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727816AbeKAQT1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 12:19:27 -0400
+Received: by mail-lf1-f65.google.com with SMTP id c16so13496697lfj.8;
+        Thu, 01 Nov 2018 00:17:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=tuTJsoBlJAz/Od17VS3XqtNOnWZ0QDYhBOZPEMrB3cY=;
+        b=qin6mLpp088d43uT1C38l6yCqG8PCSJvFpS76lEckDvYRPfPkhrz5bVHiGRtDjOsB6
+         7n/hdQG+X6fLtBG73hm9KQKGnWHHZAo94y+xABQMAxOZeBsb3SfaeAGAwGeEq7VPyLcd
+         FuAlwWcrLNpwZThvDVLxOAv1QDIPwUpjaqQ75QsuI98+8L3AG1E79wNfmj9zm86MTo4K
+         wnc3ysHIUQclWicvTPx03Yxlz43BIOtWVTqfYtNHEqj3dOZlKN8776/I7+QnIN5JxrOL
+         FKUbkfeHHtiOjNWNyb6dfD+Bzl7q3sPyWr8BXnLJBZVITQIEbyleX5wxUOl6EopqYeaK
+         eUEA==
+X-Gm-Message-State: AGRZ1gLCMRtB/PRZwiBuaSda4GGFAsedG+8FpUcx+c7b9q/5WT4QdR8v
+        DsMNjQsvYQsUnkfLNIsKrrU=
+X-Google-Smtp-Source: AJdET5c1a+hcUyKREw4h1DqWorReK39x9I3q7Lw7IWZWDL7EUEHCNtKaeAgyNeIKgrM7GoZmj75ivg==
+X-Received: by 2002:a19:fc09:: with SMTP id a9mr3921623lfi.21.1541056658953;
+        Thu, 01 Nov 2018 00:17:38 -0700 (PDT)
+Received: from localhost.localdomain ([213.255.186.46])
+        by smtp.gmail.com with ESMTPSA id d17-v6sm4596754lfg.97.2018.11.01.00.17.36
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 01 Nov 2018 00:17:38 -0700 (PDT)
+Date:   Thu, 1 Nov 2018 09:17:25 +0200
+From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andy Gross <andy.gross@linaro.org>,
+        David Brown <david.brown@linaro.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Andrey Smirnov <andrew.smirnov@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh@kernel.org>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Huang Shijie <sjhuang@iluvatar.ai>,
+        Akshu Agrawal <Akshu.Agrawal@amd.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Daniel Kurtz <djkurtz@chromium.org>, mazziesaccount@gmail.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        matti.vaittinen@fi.rohmeurope.com
+Subject: [PATCH v2 0/8] clk: clkdev: managed clk lookup and provider
+ registrations
+Message-ID: <cover.1541054985.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181031150625.147369-1-dancol@google.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18110107-0020-0000-0000-000002DDFA68
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18110107-0021-0000-0000-0000212D54F5
-Message-Id: <20181101070856.GB8866@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-01_04:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1811010062
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 31, 2018 at 03:06:22PM +0000, Daniel Colascione wrote:
-> State explicitly that holding a /proc/pid file descriptor open does
-> not reserve the PID. Also note that in the event of PID reuse, these
-> open file descriptors refer to the old, now-dead process, and not the
-> new one that happens to be named the same numeric PID.
+Patch series adding managed clkdev and of_provider registrations
 
-Signed-off is missing.
+Few clk drivers appear to be leaking clkdev lookup registrations at
+driver remove. The patch series adds devm versions of lookup
+registrations and cleans up few drivers. Driver clean-up patches have
+not been tested as I lack the HW. All testing and comments if
+driver/device removal is even possible for changed drivers is highly
+appreciated. If removal is not possible I will gladly drop the patches
+from series - although leaking lookups may serve as bad example for new
+developers =)
 
-> ---
->  Documentation/filesystems/proc.txt | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
-> index 12a5e6e693b6..567f66a8a23c 100644
-> --- a/Documentation/filesystems/proc.txt
-> +++ b/Documentation/filesystems/proc.txt
-> @@ -214,6 +214,14 @@ asynchronous manner and the value may not be very precise. To see a precise
->  snapshot of a moment, you can see /proc/<pid>/smaps file and scan page table.
->  It's slow but very precise.
-> 
-> +Note that an open a file descriptor to /proc/<pid> or to any of its
-> +contained files or subdirectories does not prevent <pid> being reused
-> +for some other process in the event that <pid> exits. Operations on
-> +open /proc/<pid> file descriptors corresponding to dead processes
-> +never act on any new process that the kernel may, through chance, have
-> +also assigned the process ID <pid>. Instead, operations on these FDs
-> +usually fail with ESRCH.
-> +
+Changed drivers are:
+clk-max77686, clk-s3c2410-dclk, clk-st, clk-hi655x, rk808, clk-twl6040
+and apcs-msm8916.
 
-I'd put this text in the beginning of the section, just before table 1-1.
-Otherwise looks good.
+New devm registration variants have been tested on BeagleBoneBlack
+using ROHM BD71837 PMIC driver.
 
-It maybe also useful to update 'man 5 proc' (1) as well
+Same devm variants were earlier proposed together with BD71837/BD71847
+PMIC clk driver in this series:
+https://lore.kernel.org/linux-clk/cover.1535630942.git.matti.vaittinen@fi.rohmeurope.com/
 
-[1] https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/man5/proc.5
+The BD71837/BD71847 work is currently pending for related MFD commits to
+get merged in clk-tree and the devm functions are now submitted in this
+series.
 
->  Table 1-2: Contents of the status files (as of 4.8)
->  ..............................................................................
->   Field                       Content
-> -- 
-> 2.19.1.568.g152ad8e336-goog
-> 
+Changelog v2
+Issue spotted by 0-Day test suite
+- Add a stub function 'devm_of_clk_add_parent_hw_provider' for no OF config.
+- patches 2-8 are unchanged.
+
+This patch series is based on clk-next
+
+---
+
+Matti Vaittinen (8):
+  clk: clkdev/of_clk - add managed lookup and provider registrations
+  clk: clk-max77686: Clean clkdev lookup leak and use devm
+  clk: clk-s3c2410-dclk: clean up clkdev lookup leak
+  clk: clk-st: avoid clkdev lookup leak at remove
+  clk: clk-hi655x: Free of_provider at remove
+  clk: rk808: use managed version of of_provider registration
+  clk: clk-twl6040: Free of_provider at remove
+  clk: apcs-msm8916: simplify probe cleanup by using devm
+
+ Documentation/driver-model/devres.txt  |   3 +
+ drivers/clk/clk-hi655x.c               |   4 +-
+ drivers/clk/clk-max77686.c             |  25 ++-----
+ drivers/clk/clk-rk808.c                |  15 +---
+ drivers/clk/clk-twl6040.c              |   5 +-
+ drivers/clk/clk.c                      |  28 ++++++--
+ drivers/clk/clkdev.c                   | 122 ++++++++++++++++++++++++++-------
+ drivers/clk/qcom/apcs-msm8916.c        |   5 +-
+ drivers/clk/samsung/clk-s3c2410-dclk.c |  15 ++--
+ drivers/clk/x86/clk-st.c               |   3 +-
+ include/linux/clk-provider.h           |  11 +++
+ include/linux/clkdev.h                 |   4 ++
+ 12 files changed, 158 insertions(+), 82 deletions(-)
 
 -- 
-Sincerely yours,
-Mike.
+2.14.3
 
+
+-- 
+Matti Vaittinen
+ROHM Semiconductors
+
+~~~ "I don't think so," said Rene Descartes.  Just then, he vanished ~~~
