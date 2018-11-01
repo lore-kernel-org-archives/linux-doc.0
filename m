@@ -4,113 +4,82 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0787E7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 31 Oct 2018 23:26:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 759157D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 01:34:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731305AbeKAI0p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Nov 2018 04:26:45 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:41240 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727546AbeKAI0m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 04:26:42 -0400
-Received: by mail-lf1-f66.google.com with SMTP id c16so12945153lfj.8;
-        Wed, 31 Oct 2018 16:26:24 -0700 (PDT)
+        id S1726008AbeKAKe6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Nov 2018 06:34:58 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:39622 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725955AbeKAKe6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 06:34:58 -0400
+Received: by mail-pl1-f193.google.com with SMTP id b5-v6so7514858pla.6;
+        Wed, 31 Oct 2018 18:34:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Dq7VC9OA51j0v9D76s73ZNiqY11Lfx+xMfnqOl+h9IY=;
-        b=QErZ8pNl4q35OEABZnKleOEqU+yK4KcnVy0PCybVaskL7VB2mnKgof7nOHKOKQQtvm
-         s2IylFcXQR3tbtuhIyN5xSGQz4uz7pN0I0LqsRaidL8jkzhjYEp9P5HRURrwhooEuvh2
-         CGDLJzbhDdvl61GaqfmNYA4j4GhLEMJc7oXa3HJfwERbezyiuXGn2qBTi7SGl41YF7Mz
-         j7wEekAKvELMmpMjnBW0zWKXM0EcZh7EvpbBTxFuSrviJOzuUkDEzZp9uvsmvY+m12hH
-         AxpGlXIKjIlZkzAo/rBqUUI5RyHILE93apAnPh4VBMIyp0yVo2dk33P3XnFwsR0eTMcg
-         WN/g==
+        h=from:to:cc:subject:date:message-id;
+        bh=tiiStvhrs8btuXa0jGw4HN8nMpuI2p8G//vdpzbYWXQ=;
+        b=VIkn9/tesll6aQF/ONOZthBNKQZrxk77AacCwpuGJGophbzD49+3I4kWRrjjb4mZso
+         IeeK0M0Ei+jadP80hCf8MrDdMA/fGJ6AFhXxDlWj1uVJKtVoKZhiGwzNv7qaVBoOfoYz
+         Jb2ogvm1ACEOcFBmup7qjDdoNUl1SftIYe/WmQadO2YctB3LGgV5Q9ox40uUbAJurkQz
+         AmVn8oPzQM8NsXQrE27zMDd9MlwyFSGIHxwV2cvzvKI7bfLX053RdINyPDTyxuiiGAwP
+         3vNFISm1EHwQbDdKhrU5s0069ytHp0QNiadEd1t5AufWpCCb34zTfN4BZghG+AuNLDqn
+         u2Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Dq7VC9OA51j0v9D76s73ZNiqY11Lfx+xMfnqOl+h9IY=;
-        b=rAq0v5FQq4aiCuzGwMqZXfWW5CLUC+VTYD+sE76T2uaqoLyDd/kjPlabRlb7F7pac5
-         18rBzIlwOe+8Dlz5sXS+gwf+KpwRWQ0OOmSNJXst5MCy2POQ0WXwHi+9tWb5YFJz40Oj
-         czFMeClgAFdX7RY0nYdyTpxizgTDzeJFu0JgTwtuUTohkHcLsVRCeLT14nFvcCCrb8jX
-         A1JVh7zON64AtsVZ+adSbC5QfMy95DqiDc0WtFWIYvoTllwELcLzJ/hGWBCpuKA+cD4f
-         aAq4Tq8uaZruMwc95bT7J8Z4xyyv8M7quCpYTNhB5XeoVUxsVuhfMuEzCTtUNmG/yugN
-         lZSQ==
-X-Gm-Message-State: AGRZ1gKMy9Of154TxmYNNqcEuIus4M7lmVSZA4dZY0+iFYI/xvW4J7bE
-        mKACUaKVTfpfmjlOBpUkVk8=
-X-Google-Smtp-Source: AJdET5fK56VAEVSIiEWpFJwkll6LM+hwh86+kCzurB3BUsHLIjdZ24L6MB9hcIinNrLzkd756zgcvg==
-X-Received: by 2002:a19:4948:: with SMTP id l8-v6mr2883476lfj.16.1541028383218;
-        Wed, 31 Oct 2018 16:26:23 -0700 (PDT)
-Received: from [192.168.10.160] (91-159-62-242.elisa-laajakaista.fi. [91.159.62.242])
-        by smtp.gmail.com with ESMTPSA id k2-v6sm2659485ljg.39.2018.10.31.16.26.21
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=tiiStvhrs8btuXa0jGw4HN8nMpuI2p8G//vdpzbYWXQ=;
+        b=GcgFbsrZJoJT6rkR1GtBEPncESvNoFE+xfUbRAv07PBhDEO1MBIoMb+T5Ku4Tp6aR+
+         vq6N7UKe56EF4S+E1YTjaIyWLmo8KO0MdCGAVm8uf4l6NADhqoVOUF84br2zJYBmvpQa
+         f9oBZGpp6Myn3c4lx3Xlps2b6DKU9WleXGpJ+A4fo16WmX5VUMoAVYMnC/2OtgmS7ec1
+         KGtRbMtN3mnoN9wsyaRPYusFgYpfodtzyz3C1WzvOpBRde4ksZl5jTVfnTcW/rDM+t6s
+         DyKzEnRoUF7kYWDD6J6Y82/QQEG6Ng4SNX+aZlK5S+dJ/4ygQS/nEA7kiodmTKjkmkf7
+         gWTQ==
+X-Gm-Message-State: AGRZ1gJLXw1eAzIY/kIuTFi+WE6K1C2/fwX7/ZX8hJjT/r1c+9xq6Zqb
+        ESy3t/ez6wcIv3RxZNmW8vzf9IQI1KY=
+X-Google-Smtp-Source: AJdET5dgU9a5xCO2+b1F4VhraipmfbNdk8kHvhWhK0ZWpn3a8fXJjn1mKrkzwouCzAIK26fP0ar4RQ==
+X-Received: by 2002:a17:902:6bc9:: with SMTP id m9-v6mr5775928plt.106.1541036051644;
+        Wed, 31 Oct 2018 18:34:11 -0700 (PDT)
+Received: from penguin.lxd ([175.156.134.220])
+        by smtp.gmail.com with ESMTPSA id c128-v6sm24756171pfb.147.2018.10.31.18.34.09
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 31 Oct 2018 16:26:22 -0700 (PDT)
-Subject: Re: [PATCH 10/17] prmem: documentation
-To:     Andy Lutomirski <luto@amacapital.net>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Tycho Andersen <tycho@tycho.ws>,
-        Kees Cook <keescook@chromium.org>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        Dave Chinner <david@fromorbit.com>,
-        James Morris <jmorris@namei.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Igor Stoppa <igor.stoppa@huawei.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laura Abbott <labbott@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-References: <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
- <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net>
- <20181030175814.GB10491@bombadil.infradead.org> <20181030182841.GE7343@cisco>
- <20181030192021.GC10491@bombadil.infradead.org>
- <9edbdf8b-b5fb-5a82-43b4-b639f5ec8484@gmail.com>
- <20181030213557.GE10491@bombadil.infradead.org>
- <CALCETrW1FcT88u0QY9k_PMOeZj0G8H6KNb5Bnreo-12NvmmCEQ@mail.gmail.com>
- <20181031100237.GN744@hirez.programming.kicks-ass.net>
- <659CFC78-22BF-492B-B2E4-B8E89AA08446@amacapital.net>
- <20181031210032.GA3159@hirez.programming.kicks-ass.net>
- <2E29C35B-3F98-473D-A874-0D9B9B15B399@amacapital.net>
- <4124995b-4363-9b37-19b1-1879bf04978b@gmail.com>
- <CALCETrWCvAfyfBWgcmhy8TGByiX3ZXXSOkLtZFdM385fDqYJVw@mail.gmail.com>
-From:   Igor Stoppa <igor.stoppa@gmail.com>
-Message-ID: <8675e9d8-0ef0-7515-a894-097d4be25b73@gmail.com>
-Date:   Thu, 1 Nov 2018 01:26:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-MIME-Version: 1.0
-In-Reply-To: <CALCETrWCvAfyfBWgcmhy8TGByiX3ZXXSOkLtZFdM385fDqYJVw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Wed, 31 Oct 2018 18:34:11 -0700 (PDT)
+From:   Zhao Wei Liew <zhaoweiliew@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-pm@vger.kernel.org, trivial@kernel.org,
+        Zhao Wei Liew <zhaoweiliew@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: cpufreq: Correct a typo
+Date:   Thu,  1 Nov 2018 01:32:46 +0000
+Message-Id: <20181101013257.659-1-zhaoweiliew@gmail.com>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Fix a typo in the admin-guide documentation for cpufreq.
 
+Signed-off-by: Zhao Wei Liew <zhaoweiliew@gmail.com>
+---
+ Documentation/admin-guide/pm/cpufreq.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 01/11/2018 01:19, Andy Lutomirski wrote:
+diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/Documentation/admin-guide/pm/cpufreq.rst
+index 47153e64dfb5..7eca9026a9ed 100644
+--- a/Documentation/admin-guide/pm/cpufreq.rst
++++ b/Documentation/admin-guide/pm/cpufreq.rst
+@@ -150,7 +150,7 @@ data structures necessary to handle the given policy and, possibly, to add
+ a governor ``sysfs`` interface to it.  Next, the governor is started by
+ invoking its ``->start()`` callback.
+ 
+-That callback it expected to register per-CPU utilization update callbacks for
++That callback is expected to register per-CPU utilization update callbacks for
+ all of the online CPUs belonging to the given policy with the CPU scheduler.
+ The utilization update callbacks will be invoked by the CPU scheduler on
+ important events, like task enqueue and dequeue, on every iteration of the
+-- 
+2.11.0
 
-> ISTM you don't need that atomic operation -- you could take a spinlock
-> and then just add one directly to the variable.
-
-It was my intention to provide a 1:1 conversion of existing code, as it 
-should be easier to verify the correctness of the conversion, as long as 
-there isn't any significant degradation in performance.
-
-The rework could be done afterward.
-
---
-igor
