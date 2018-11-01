@@ -4,56 +4,56 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3BB3D7D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 13:10:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3F68E7D08E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 13:38:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728351AbeKAWNs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Nov 2018 18:13:48 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:39683 "EHLO
+        id S1728364AbeKAWlh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Nov 2018 18:41:37 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:45200 "EHLO
         mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727644AbeKAWNs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 18:13:48 -0400
-Received: by mail-qt1-f193.google.com with SMTP id g10-v6so20932089qtq.6;
-        Thu, 01 Nov 2018 06:10:53 -0700 (PDT)
+        with ESMTP id S1727998AbeKAWlh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 18:41:37 -0400
+Received: by mail-qt1-f193.google.com with SMTP id l9-v6so21023067qtj.12;
+        Thu, 01 Nov 2018 06:38:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=QBY5sL5Zy9mI+DssTb3NLs4hwmm/8avIY7AmyIZGvOA=;
-        b=EDe8rrmki4lbc8lw8XkNLJ8s5Kgfpy6dy7S+91bkIIMm+ev2pz4gj0xJu/un7tWzRB
-         JpSsBENuWLTN7nJinqK1fyLRR9lTeo174qblRTLEw9refIVa1KOKl6SpK9BkqD44nLV/
-         55blvL3meg6Hj3XH6WWoPY/Y4H1BtpXQt/NjkDFoir+GNPr5kXwlU6OxU+zwCWJARQJL
-         6kC6fYdqPNRK2lWBmpG1e5VCdtNAqHFK8suCtTDwvXz6BDtRGuVm3eMZZQntxiyvEeZc
-         p3oQxguIOVzs+MXS1DMvFmOU2t8+0bRuTnhFipgIvcWQA3aCG5KC0HWLq5+WwG35eYoq
-         /x0g==
+        bh=HuTM7sGgHhD8wQ9YZaORRLHinF9WKXho2xHRzXJox0M=;
+        b=kefc4CO8HWx6jl2LZxK4T/wtgpykW4UtwjaPddq50BLqDT7mExQgrdH0gutYeF6jc6
+         zq2sxdYh9H1GW0FzTmfOsm22mLiudJEAil8M+sxIPu/tiyha3tVjydeFuumPhwqzZm9Z
+         R2i/3XzNLf0QKzpEMh8q0EyKZktR8Pj9kqnQoIhOtrkbHZOF1QZIXEnyEtwhgb+qsQeh
+         98MCfGLbJx3GqL0l+ze0QXqbVANPuI94lCzCCskdKBTVgpt6UZdYdLP0ljVijlplJuTd
+         fRILQRmRE1g3A5EJ/HR8NWQWOcBxs1gpi9NIagGQezDehPmevqxJuEF8bNNmYMsXOeB1
+         t5eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=QBY5sL5Zy9mI+DssTb3NLs4hwmm/8avIY7AmyIZGvOA=;
-        b=l/1s1vHM1K7ai7W1Wk9txvaZopGRE2jQRBf2pfkL8TnXlzM1ZMuaoswZT3B+aELFL8
-         +HiwSiXT3lHE8HKTBlTcBzHTgOL+hzb8UUKAj9KiFYDvx7lNWZSPPdOmGTpSbErzQ/Kt
-         W50WWvthVouVgkAgBYs9YmP8/CbRopfK92vCieSLY4Enoq/6iEMbP++wiBAMcZhreWh2
-         pObUuu/WQ4Q/d8S1UCxX0FTVh+V7EVtUjwSPrQAklDsGeDKJ9+5cHs9deNeyQ2Jf4xOG
-         EA67GuweKW91lZMI4pEspqFCUYqlUyDfxRAkixyhKGN2ZT97jLTbOfX3sKAkWMfroH1P
-         2I1A==
-X-Gm-Message-State: AGRZ1gIoSWJyOb5DeqQFNs4/jPNnIU5o6XighEhCJfKP9FuaUEu6hIny
-        clfsdr5Z6dSMmfKAH+AYxPzNwb2uQgx0YF3nctE=
-X-Google-Smtp-Source: AJdET5fGRKGoNfoOgpKUcuxjMiLuz3Js4Yw+4qjT5waJ7Q9gdcS+agGk06Mfi9nIRcnhcvQgDZ/tGV7/nDaefxEiJ4Y=
-X-Received: by 2002:aed:3e49:: with SMTP id m9mr4887532qtf.99.1541077853051;
- Thu, 01 Nov 2018 06:10:53 -0700 (PDT)
+        bh=HuTM7sGgHhD8wQ9YZaORRLHinF9WKXho2xHRzXJox0M=;
+        b=F0q+canzvGuKs6y1p6kczBZDKn50p//9miRhGiMy+4VLY5r44gnyOriqHardzolDlR
+         7qHnNs68XyQWbZvJzmdfPfTzsRetL7SmD7rpjMHKRnYUlq3kDYeQm9EE72KM6PxRTQSG
+         SC+3pFDzj3GJDMkB51BQQIfhiLKQ+0TlDFEMD5TlnK9LeYYkbU9n3ItObhdUWS1q2iOO
+         UfOTXyJISO2sGEKtAPFcFL6AcSffAiLB0TYzYmvotcZmgnh3vFGPaUmbwqQOPjdBHuHR
+         Uc9SEGmC45AGAE5Fl7IDj8ys6S+G6HHI28akpE4La+I+tkaRfyGPmri/laK+9gOeGETr
+         TNNw==
+X-Gm-Message-State: AGRZ1gJScafYWYKG1dA/GuiY2T9jtduwjiAhm/1Pzrqqex/3pnNegSXc
+        HbLFF8pX1xYO5R4UXzNODwS60VHVboDY2ny0EZs=
+X-Google-Smtp-Source: AJdET5d2yUTvwkC2ugstAvEEo92NYRXUc0rDzt5PrwH4HBgIb+suc9/F9sANBTnkipt7RUGlR07apEoECIKzTokuihc=
+X-Received: by 2002:ac8:1909:: with SMTP id t9mr6468488qtj.327.1541079516292;
+ Thu, 01 Nov 2018 06:38:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <1541085002-42993-1-git-send-email-peng.hao2@zte.com.cn>
-In-Reply-To: <1541085002-42993-1-git-send-email-peng.hao2@zte.com.cn>
+ <1541085002-42993-2-git-send-email-peng.hao2@zte.com.cn> <20181101113355.z6l3l33buhcpukl4@lakrids.cambridge.arm.com>
+In-Reply-To: <20181101113355.z6l3l33buhcpukl4@lakrids.cambridge.arm.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 1 Nov 2018 15:10:40 +0200
-Message-ID: <CAHp75VeLikOzXrdZ4zP_Ccr8DGx81hdhLRTdUrLJ85NPo3DHDw@mail.gmail.com>
-Subject: Re: [PATCH V5 1/8] pvpanic: move pvpanic to misc as common driver
-To:     peng.hao2@zte.com.cn
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+Date:   Thu, 1 Nov 2018 15:38:24 +0200
+Message-ID: <CAHp75VdTzFJ9ggQ+eMn-bAfbtXC4w69R+7UjYvWom6ALV9NfPA@mail.gmail.com>
+Subject: Re: [PATCH V5 2/8] misc/pvpanic: Remove one extra semicolon
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     peng.hao2@zte.com.cn, Rob Herring <robh+dt@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andy Shevchenko <andy@infradead.org>,
@@ -68,105 +68,63 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 1, 2018 at 8:59 AM Peng Hao <peng.hao2@zte.com.cn> wrote:
+On Thu, Nov 1, 2018 at 1:34 PM Mark Rutland <mark.rutland@arm.com> wrote:
 >
-> move pvpanic.c from drivers/platform/x86 to drivers/misc.
-> following patches will use pvpanic device in arm64.
+> On Thu, Nov 01, 2018 at 11:09:56PM +0800, Peng Hao wrote:
+> > There is an extra semicolon in pvpanic_device_ids, remove it.
+>
+> This is a comma, not a semicolon.
+>
+> How about:
+>
+>   Since there should be nothing after the sentinel entry in an
+>   acpi_device_id list, it doesn't make sense for it to have a trailing
+>   comma.
+>
+>   This patch removes the redundant comma.
+>
+> ... with that commit message (and the title fixed to say 'comma' rather
+> than 'semicolon':
 
-There are few items you need to address in the next revision:
-- use proper English grammar, i.e. Capitalize beginning of sentenses
-- don't forget the tags people gave you in case you didn't (much) change a patch
-
-Other than that, this one looks good to me
-
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-
-P.S. WRT tags this one in v6 should have something like:
-...
-
-Reviewed-by: me
-Acked-by: Mark
-Signed-off-by: you
-
-at the end of commit message
+Agree on this, but...
 
 >
-> Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
-> ---
->  drivers/misc/Kconfig                     | 8 +++++++
->  drivers/misc/Makefile                    | 1 +
->  drivers/{platform/x86 => misc}/pvpanic.c | 0
->  drivers/platform/x86/Kconfig             | 8 --------
->  drivers/platform/x86/Makefile            | 1 -
->  5 files changed, 9 insertions(+), 9 deletions(-)
->  rename drivers/{platform/x86 => misc}/pvpanic.c (100%)
+> Acked-by: Mark Rutland <mark.rutland@arm.com>
 >
-> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-> index 3726eac..1ba0f62 100644
-> --- a/drivers/misc/Kconfig
-> +++ b/drivers/misc/Kconfig
-> @@ -513,6 +513,14 @@ config MISC_RTSX
->         tristate
->         default MISC_RTSX_PCI || MISC_RTSX_USB
+> Either that, or simply drop this patch entirely.
+
+...point was to gather style changes here, like moving linux/acpi.h.
+
+And definitely the style changes should go last in the series.
+If you decide to leave this patch, it would be 8/8.
+
 >
-> +config PVPANIC
-> +       tristate "pvpanic device support"
-> +       depends on ACPI || OF
-> +       help
-> +         This driver provides support for the pvpanic device.  pvpanic is
-> +         a paravirtualized device provided by QEMU; it lets a virtual machine
-> +         (guest) communicate panic events to the host.
-> +
->  source "drivers/misc/c2port/Kconfig"
->  source "drivers/misc/eeprom/Kconfig"
->  source "drivers/misc/cb710/Kconfig"
-> diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
-> index af22bbc..df951f4 100644
-> --- a/drivers/misc/Makefile
-> +++ b/drivers/misc/Makefile
-> @@ -58,3 +58,4 @@ obj-$(CONFIG_ASPEED_LPC_SNOOP)        += aspeed-lpc-snoop.o
->  obj-$(CONFIG_PCI_ENDPOINT_TEST)        += pci_endpoint_test.o
->  obj-$(CONFIG_OCXL)             += ocxl/
->  obj-$(CONFIG_MISC_RTSX)                += cardreader/
-> +obj-$(CONFIG_PVPANIC)          += pvpanic.o
-> diff --git a/drivers/platform/x86/pvpanic.c b/drivers/misc/pvpanic.c
-> similarity index 100%
-> rename from drivers/platform/x86/pvpanic.c
-> rename to drivers/misc/pvpanic.c
-> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-> index 0c1aa6c..4ac276c 100644
-> --- a/drivers/platform/x86/Kconfig
-> +++ b/drivers/platform/x86/Kconfig
-> @@ -1121,14 +1121,6 @@ config INTEL_SMARTCONNECT
->           This driver checks to determine whether the device has Intel Smart
->           Connect enabled, and if so disables it.
+> Thanks,
+> Mark.
 >
-> -config PVPANIC
-> -       tristate "pvpanic device support"
-> -       depends on ACPI
-> -       ---help---
-> -         This driver provides support for the pvpanic device.  pvpanic is
-> -         a paravirtualized device provided by QEMU; it lets a virtual machine
-> -         (guest) communicate panic events to the host.
-> -
->  config INTEL_PMC_IPC
->         tristate "Intel PMC IPC Driver"
->         depends on ACPI
-> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-> index e6d1bec..e88f44e 100644
-> --- a/drivers/platform/x86/Makefile
-> +++ b/drivers/platform/x86/Makefile
-> @@ -75,7 +75,6 @@ obj-$(CONFIG_APPLE_GMUX)      += apple-gmux.o
->  obj-$(CONFIG_INTEL_RST)                += intel-rst.o
->  obj-$(CONFIG_INTEL_SMARTCONNECT)       += intel-smartconnect.o
->
-> -obj-$(CONFIG_PVPANIC)           += pvpanic.o
->  obj-$(CONFIG_ALIENWARE_WMI)    += alienware-wmi.o
->  obj-$(CONFIG_INTEL_PMC_IPC)    += intel_pmc_ipc.o
->  obj-$(CONFIG_TOUCHSCREEN_DMI)  += touchscreen_dmi.o
-> --
-> 1.8.3.1
->
+> >
+> > Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
+> > ---
+> >  drivers/misc/pvpanic.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
+> > index fd86dab..059005c 100644
+> > --- a/drivers/misc/pvpanic.c
+> > +++ b/drivers/misc/pvpanic.c
+> > @@ -35,7 +35,7 @@
+> >
+> >  static const struct acpi_device_id pvpanic_device_ids[] = {
+> >       { "QEMU0001", 0 },
+> > -     { "", 0 },
+> > +     { "", 0 }
+> >  };
+> >  MODULE_DEVICE_TABLE(acpi, pvpanic_device_ids);
+> >
+> > --
+> > 1.8.3.1
+> >
+
 
 
 -- 
