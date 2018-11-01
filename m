@@ -6,54 +6,54 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3F68E7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 13:38:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2CEF87D099
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 13:41:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728364AbeKAWlh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Nov 2018 18:41:37 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:45200 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727998AbeKAWlh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 18:41:37 -0400
-Received: by mail-qt1-f193.google.com with SMTP id l9-v6so21023067qtj.12;
-        Thu, 01 Nov 2018 06:38:36 -0700 (PDT)
+        id S1728244AbeKAWoi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Nov 2018 18:44:38 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:45036 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728238AbeKAWoi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 18:44:38 -0400
+Received: by mail-qt1-f195.google.com with SMTP id b22-v6so21032788qtr.11;
+        Thu, 01 Nov 2018 06:41:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=HuTM7sGgHhD8wQ9YZaORRLHinF9WKXho2xHRzXJox0M=;
-        b=kefc4CO8HWx6jl2LZxK4T/wtgpykW4UtwjaPddq50BLqDT7mExQgrdH0gutYeF6jc6
-         zq2sxdYh9H1GW0FzTmfOsm22mLiudJEAil8M+sxIPu/tiyha3tVjydeFuumPhwqzZm9Z
-         R2i/3XzNLf0QKzpEMh8q0EyKZktR8Pj9kqnQoIhOtrkbHZOF1QZIXEnyEtwhgb+qsQeh
-         98MCfGLbJx3GqL0l+ze0QXqbVANPuI94lCzCCskdKBTVgpt6UZdYdLP0ljVijlplJuTd
-         fRILQRmRE1g3A5EJ/HR8NWQWOcBxs1gpi9NIagGQezDehPmevqxJuEF8bNNmYMsXOeB1
-         t5eQ==
+        bh=1PluRsU9uIKIwWVhil85fvYx5AJLfIDxYn7akjHzphg=;
+        b=leFg6mQopRftZ5aVuB4VriURSfIWj4JGc/B9VF+eWLN30X0wPu59v3BjkUNbOACRcQ
+         fNgIudORiu8Ysy3Ogt3zkWZK8804qQfwK7y4CmfQQKI53SDr4gX331Mh17DLoYbwLt0/
+         OvbygR7VP/EMXPu7qi/Zrer7lcm4DlCMhSuV3++7mRKe/qCHMgozDd/2kyuKeSihgPfO
+         fFklR2CVDIuZ2W5uT5mdjo3YwMKPRekz39ZkG6XqT6Ykdm3/ljVS6nByaNZLL8czK5+Z
+         Hswjzz29rxRAPjfGvYlWSh1/Wp1SFeb7hWts0OrSzsc+HrF7OpFuNtoVG24kFsA8RT9M
+         tojA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=HuTM7sGgHhD8wQ9YZaORRLHinF9WKXho2xHRzXJox0M=;
-        b=F0q+canzvGuKs6y1p6kczBZDKn50p//9miRhGiMy+4VLY5r44gnyOriqHardzolDlR
-         7qHnNs68XyQWbZvJzmdfPfTzsRetL7SmD7rpjMHKRnYUlq3kDYeQm9EE72KM6PxRTQSG
-         SC+3pFDzj3GJDMkB51BQQIfhiLKQ+0TlDFEMD5TlnK9LeYYkbU9n3ItObhdUWS1q2iOO
-         UfOTXyJISO2sGEKtAPFcFL6AcSffAiLB0TYzYmvotcZmgnh3vFGPaUmbwqQOPjdBHuHR
-         Uc9SEGmC45AGAE5Fl7IDj8ys6S+G6HHI28akpE4La+I+tkaRfyGPmri/laK+9gOeGETr
-         TNNw==
-X-Gm-Message-State: AGRZ1gJScafYWYKG1dA/GuiY2T9jtduwjiAhm/1Pzrqqex/3pnNegSXc
-        HbLFF8pX1xYO5R4UXzNODwS60VHVboDY2ny0EZs=
-X-Google-Smtp-Source: AJdET5d2yUTvwkC2ugstAvEEo92NYRXUc0rDzt5PrwH4HBgIb+suc9/F9sANBTnkipt7RUGlR07apEoECIKzTokuihc=
-X-Received: by 2002:ac8:1909:: with SMTP id t9mr6468488qtj.327.1541079516292;
- Thu, 01 Nov 2018 06:38:36 -0700 (PDT)
+        bh=1PluRsU9uIKIwWVhil85fvYx5AJLfIDxYn7akjHzphg=;
+        b=OCxmG3ZS7YI8Etxglz0dWdkxtlDHxzRnQjc0YgXcPTOQs4m4ThMZtpygQPyg5YSJLz
+         +tIyj3qxxoLdtuLSihUU/LQlljpX73yvEtNxon/rPdzbD5Y8Dn8eNdC9oejC1KFTm2VT
+         cOJAysi6H2VKX1bJaAOPiqQQdFsvMrCdvG3MizZQtlqXX4sZ8ilv8s7fGFn061j2q3OG
+         GS1z6x7QFyRqi+N8U7NsGqeyG9QWVDtB3rEC4bjMsU6HBHvUKRS0LJ8ibmOWcNvw3FtE
+         heQdaB+nd0Fn8E+jxGYPtJW3SSqudbALswwTzplfJUjGE5qrVzF9Xyi7ICinJG8v9jaG
+         RMbQ==
+X-Gm-Message-State: AGRZ1gKLp8aHxXLc1sh/YjaJ7v0YGVAjAWzxN90KJeJepFYW36IAxn7+
+        kqEfUZ0pa7LGiVzzeJC64GPks5VNpWkKfotzycA=
+X-Google-Smtp-Source: AJdET5ejaKslp7Z/m5Z47VSVR4giR1QESNhXgjOrnyY6kWAlzsXOt7Ji48vH4miK0GTyAbwbcEtcl6jDDu6oYoqMGzU=
+X-Received: by 2002:ac8:764e:: with SMTP id i14-v6mr6810727qtr.373.1541079697361;
+ Thu, 01 Nov 2018 06:41:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <1541085002-42993-1-git-send-email-peng.hao2@zte.com.cn>
- <1541085002-42993-2-git-send-email-peng.hao2@zte.com.cn> <20181101113355.z6l3l33buhcpukl4@lakrids.cambridge.arm.com>
-In-Reply-To: <20181101113355.z6l3l33buhcpukl4@lakrids.cambridge.arm.com>
+References: <1541085002-42993-1-git-send-email-peng.hao2@zte.com.cn> <1541085002-42993-3-git-send-email-peng.hao2@zte.com.cn>
+In-Reply-To: <1541085002-42993-3-git-send-email-peng.hao2@zte.com.cn>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 1 Nov 2018 15:38:24 +0200
-Message-ID: <CAHp75VdTzFJ9ggQ+eMn-bAfbtXC4w69R+7UjYvWom6ALV9NfPA@mail.gmail.com>
-Subject: Re: [PATCH V5 2/8] misc/pvpanic: Remove one extra semicolon
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     peng.hao2@zte.com.cn, Rob Herring <robh+dt@kernel.org>,
+Date:   Thu, 1 Nov 2018 15:41:24 +0200
+Message-ID: <CAHp75Vfb4iUNJoUKj2T58yP2iCcObLiS3rWxpvoupmRH-qJw2g@mail.gmail.com>
+Subject: Re: [PATCH V5 3/8] misc/pvpanic: revmove unnecessary header file
+To:     peng.hao2@zte.com.cn
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
         Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andy Shevchenko <andy@infradead.org>,
@@ -68,63 +68,38 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 1, 2018 at 1:34 PM Mark Rutland <mark.rutland@arm.com> wrote:
+On Thu, Nov 1, 2018 at 9:00 AM Peng Hao <peng.hao2@zte.com.cn> wrote:
 >
-> On Thu, Nov 01, 2018 at 11:09:56PM +0800, Peng Hao wrote:
-> > There is an extra semicolon in pvpanic_device_ids, remove it.
+> remove unnecessary header file init.h.
 >
-> This is a comma, not a semicolon.
->
-> How about:
->
->   Since there should be nothing after the sentinel entry in an
->   acpi_device_id list, it doesn't make sense for it to have a trailing
->   comma.
->
->   This patch removes the redundant comma.
->
-> ... with that commit message (and the title fixed to say 'comma' rather
-> than 'semicolon':
 
-Agree on this, but...
+Same comments as per patch 1, on top of this is ordering issue. This
+patch should be 6/8.
+Also, address Mark's comments, please.
 
+Otherwise,
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+
+> Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
+> ---
+>  drivers/misc/pvpanic.c | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> Acked-by: Mark Rutland <mark.rutland@arm.com>
+> diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
+> index 059005c..66534d4 100644
+> --- a/drivers/misc/pvpanic.c
+> +++ b/drivers/misc/pvpanic.c
+> @@ -22,7 +22,6 @@
 >
-> Either that, or simply drop this patch entirely.
-
-...point was to gather style changes here, like moving linux/acpi.h.
-
-And definitely the style changes should go last in the series.
-If you decide to leave this patch, it would be 8/8.
-
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> -#include <linux/init.h>
+>  #include <linux/types.h>
+>  #include <linux/acpi.h>
 >
-> Thanks,
-> Mark.
+> --
+> 1.8.3.1
 >
-> >
-> > Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
-> > ---
-> >  drivers/misc/pvpanic.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
-> > index fd86dab..059005c 100644
-> > --- a/drivers/misc/pvpanic.c
-> > +++ b/drivers/misc/pvpanic.c
-> > @@ -35,7 +35,7 @@
-> >
-> >  static const struct acpi_device_id pvpanic_device_ids[] = {
-> >       { "QEMU0001", 0 },
-> > -     { "", 0 },
-> > +     { "", 0 }
-> >  };
-> >  MODULE_DEVICE_TABLE(acpi, pvpanic_device_ids);
-> >
-> > --
-> > 1.8.3.1
-> >
-
 
 
 -- 
