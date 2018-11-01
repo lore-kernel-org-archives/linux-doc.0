@@ -5,110 +5,68 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 346A57D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 07:22:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 733707D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 08:04:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728114AbeKAQXx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Nov 2018 12:23:53 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:46577 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727573AbeKAQXx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 12:23:53 -0400
-Received: by mail-lj1-f193.google.com with SMTP id x3-v6so17164259lji.13;
-        Thu, 01 Nov 2018 00:22:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=UWFrztTGBGBvTlJ4yv0DEf/05EQvWoHnl+hl24Atexs=;
-        b=BFsAvKuS++fK5voOACLR+1NloG/Q+EN0q9jPXXdYh+VruwIvDea1B2lz8FyyZPxMLE
-         2552QsVY6y9s+aiwJIJavW4tqcthPcPcDunXTLgKHR+xhhhjZM5nITf/aMz7WkF3taDN
-         JCXsuVZxI67PqcXb8TQEZEdzDPXmKafO3ViAutaVk0eyA6TjNXgra9wb4vILTsYXOs1x
-         26+t5OyciUoY+TS+ncd9G/MPhRWSBLUdRlcF/pDwIQsqIEouUNlYpKWsEl2drXEGPnrB
-         GxguQ8fE759pnURgbnE0w659pmUztcImcbktAD0SyqKXcH/MIVCu+Y4wd7E5H7jEi7qv
-         BP1g==
-X-Gm-Message-State: AGRZ1gI/Ar35EKNtUnptpIPxhF7MON8Ci+AoZITFlc+31FFtk9OFPvRB
-        vrGU2lllvQt8Otu+ZkCQW7E=
-X-Google-Smtp-Source: AJdET5eLVYg0nZSW1QuJupUecVJ92xhWQDqHlc1uFz9IPWq4XLZgxzSqkoz8rcTr/beMBrsmX+gP/Q==
-X-Received: by 2002:a2e:8845:: with SMTP id z5-v6mr3903121ljj.98.1541056923882;
-        Thu, 01 Nov 2018 00:22:03 -0700 (PDT)
-Received: from localhost.localdomain ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id g73-v6sm345390lje.24.2018.11.01.00.22.02
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 01 Nov 2018 00:22:03 -0700 (PDT)
-Date:   Thu, 1 Nov 2018 09:21:51 +0200
-From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Andrey Smirnov <andrew.smirnov@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh@kernel.org>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        Huang Shijie <sjhuang@iluvatar.ai>,
-        Akshu Agrawal <Akshu.Agrawal@amd.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Daniel Kurtz <djkurtz@chromium.org>, mazziesaccount@gmail.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        matti.vaittinen@fi.rohmeurope.com
-Subject: [PATCH v2 8/8] clk: apcs-msm8916: simplify probe cleanup by using
- devm
-Message-ID: <2e6cd9f1afae4f9e1216a6178a6987b11614f9c7.1541054985.git.matti.vaittinen@fi.rohmeurope.com>
-References: <cover.1541054985.git.matti.vaittinen@fi.rohmeurope.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1541054985.git.matti.vaittinen@fi.rohmeurope.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+        id S1727814AbeKARGp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Nov 2018 13:06:45 -0400
+Received: from out1.zte.com.cn ([202.103.147.172]:42422 "EHLO mxct.zte.com.cn"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727704AbeKARGp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Nov 2018 13:06:45 -0400
+Received: from mse01.zte.com.cn (unknown [10.30.3.20])
+        by Forcepoint Email with ESMTPS id BA52FFCE7656A1169C66;
+        Thu,  1 Nov 2018 16:03:10 +0800 (CST)
+Received: from notes_smtp.zte.com.cn ([10.30.1.239])
+        by mse01.zte.com.cn with ESMTP id wA1832Dt045432;
+        Thu, 1 Nov 2018 16:03:02 +0800 (GMT-8)
+        (envelope-from peng.hao2@zte.com.cn)
+Received: from localhost.localdomain.localdomain ([10.74.120.59])
+          by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
+          with ESMTP id 2018110116033274-7990048 ;
+          Thu, 1 Nov 2018 16:03:32 +0800 
+From:   Peng Hao <peng.hao2@zte.com.cn>
+To:     robh+dt@kernel.org, mark.rutland@arm.com, arnd@arndb.de,
+        gregkh@linuxfoundation.org, andy@infradead.org,
+        dvhart@infradead.org
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        hutao@cn.fujitsu.com, linux-doc@vger.kernel.org,
+        Peng Hao <peng.hao2@zte.com.cn>
+Subject: [PATCH V5 2/8]  misc/pvpanic: Remove one extra comma
+Date:   Fri, 2 Nov 2018 00:13:36 +0800
+Message-Id: <1541088816-43620-1-git-send-email-peng.hao2@zte.com.cn>
+X-Mailer: git-send-email 1.8.3.1
+X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release 8.5.3FP6|November
+ 21, 2013) at 2018-11-01 16:03:33,
+        Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
+ 2018-11-01 16:02:50,
+        Serialize complete at 2018-11-01 16:02:50
+X-MAIL: mse01.zte.com.cn wA1832Dt045432
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-use devm variant for of_provider registration.
+There is an extra comma in pvpanic_device_ids, remove it.
 
-Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
 ---
- drivers/clk/qcom/apcs-msm8916.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/misc/pvpanic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/clk/qcom/apcs-msm8916.c b/drivers/clk/qcom/apcs-msm8916.c
-index b1cc8dbcd327..f4e0c136ab1a 100644
---- a/drivers/clk/qcom/apcs-msm8916.c
-+++ b/drivers/clk/qcom/apcs-msm8916.c
-@@ -96,8 +96,8 @@ static int qcom_apcs_msm8916_clk_probe(struct platform_device *pdev)
- 		goto err;
- 	}
+diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
+index fd86dab..059005c 100644
+--- a/drivers/misc/pvpanic.c
++++ b/drivers/misc/pvpanic.c
+@@ -35,7 +35,7 @@
  
--	ret = of_clk_add_hw_provider(parent->of_node, of_clk_hw_simple_get,
--				     &a53cc->clkr.hw);
-+	ret = devm_of_clk_add_parent_hw_provider(dev, of_clk_hw_simple_get,
-+						 &a53cc->clkr.hw);
- 	if (ret) {
- 		dev_err(dev, "failed to add clock provider: %d\n", ret);
- 		goto err;
-@@ -118,7 +118,6 @@ static int qcom_apcs_msm8916_clk_remove(struct platform_device *pdev)
- 	struct device *parent = pdev->dev.parent;
+ static const struct acpi_device_id pvpanic_device_ids[] = {
+ 	{ "QEMU0001", 0 },
+-	{ "", 0 },
++	{ "", 0 }
+ };
+ MODULE_DEVICE_TABLE(acpi, pvpanic_device_ids);
  
- 	clk_notifier_unregister(a53cc->pclk, &a53cc->clk_nb);
--	of_clk_del_provider(parent->of_node);
- 
- 	return 0;
- }
 -- 
-2.14.3
-
+1.8.3.1
 
