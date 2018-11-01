@@ -6,51 +6,51 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D69387D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 13:42:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 48A157D08E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 13:44:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728295AbeKAWpd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Nov 2018 18:45:33 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:38578 "EHLO
+        id S1728900AbeKAWrs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Nov 2018 18:47:48 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:34765 "EHLO
         mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728198AbeKAWpd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 18:45:33 -0400
-Received: by mail-qt1-f195.google.com with SMTP id v1-v6so16845353qtq.5;
-        Thu, 01 Nov 2018 06:42:32 -0700 (PDT)
+        with ESMTP id S1728676AbeKAWrr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 18:47:47 -0400
+Received: by mail-qt1-f195.google.com with SMTP id z2-v6so21127853qts.1;
+        Thu, 01 Nov 2018 06:44:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=pMB5PMrMTYCRVJ3Z5w7mSTwmfDrCS/MwLqLqMx4V+Wk=;
-        b=oGhSWv7XODIa9r6+NVuo9v7LooSBgas1OtvW1F4D86BJlS09aDZb7aAuhmSUqHjWzE
-         v883+NSZDDmVMKRMufZo3FnpSU4/vRifYZCbx9+ybZZYfBmqA6rSB5SubYHigfJzP+7v
-         fzfqzQEbGkLYIC2LXl+g5wVU6ZMwgRJjrhjreMXL3vb9Hm1ySO2mwhh8ZoEIsBeFHQvk
-         aH5tXmUCQCUXMecvyC5EzZ2MbuViUMhttPP5v8M7AefNiagMGY35XqZ9p0dCV2Wx7TKm
-         IKwrKMjvNp7hfsiENCPPjCQ/PZu07ojRIgdwHZ3JPTEl4DUusZn/FBNGWME6G83T5Oy7
-         AOAg==
+        bh=Ngu/6E/81xEgZ53nEjR7sFfaI9G7qz85ekQLhGPWI/o=;
+        b=cg65fHXUy0RykEeLxkh1WtzH3yc9v39R6sNiy9ehgkNN6KtTNBy2WyGWBimjwq+V17
+         kGZjS1PxUR1LDxPaxizB2j7wmk2QShHS3RESLkJeKHPnnY2eDUTbC4xtJ9kpJhk3S30+
+         S3JCji5qqcoP4oKQqZDkhmFiCWJ1o2CHGnj08Iprdx9JNDin3d2SqQM/YV7+8mWLAz5Q
+         vV5QIfZHUDNMbxAmKnu/UpAXfzzZ8UoitjVqlM4I349RnAjCsTxGlI/NN9eHdSdD7zxq
+         Nr5zZafYn2MDbqEPmePIgFmeF4O34aENJpDWb6FzZyr/dvitM0nao76hrSS5QH1079y0
+         7cxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=pMB5PMrMTYCRVJ3Z5w7mSTwmfDrCS/MwLqLqMx4V+Wk=;
-        b=iah1mXNSkcs03NEb7Re/9HMdjxKvh5y5d9q6ylV0aHGJ+IDSZ5Bck8PYZw3Z4CPHIc
-         neYp6koWN4vaZZbyVwn/LAw46Hb6C8wF1zX1Krhrnu1hh+CcB6upgDxe5kRJPkR4TvYE
-         XTnXHxYr+ADlX0kMcV5lgJ1fpREbXbHcRCemFGRyZGpWTf3mWADqZ3gGftUDkxeuE9MK
-         hI6RPlTPnUlMDQw24uo/J2UlwSc5wzkoKseQ+ZTZwaoyCn0N3Oq0k294SivfGRAZmqIa
-         5YxGCXiqrCsFOj/bAyJveEp3TBN3OQWMW7gDJ9CptOID0AJKVGIAgLpshMNcJFotdfbb
-         ifjQ==
-X-Gm-Message-State: AGRZ1gIJOgGL1bSxbtn3eF0QirDAg1v9bwGuGDLP8853xj3UQP+OBtpy
-        aAMZfYJQPtKpRgzAeRnqJO0EKyKJll3Ty2Nh7l0MttfxLro=
-X-Google-Smtp-Source: AJdET5cIWmvZnw9Hp9j7szNy24cgSCOPzwnjb7QDDvwjTyQfz7T2uOgfmGtK9b1ncr6EtMgtRMOZpAIpqhAffcKQxEw=
-X-Received: by 2002:aed:3b76:: with SMTP id q51mr3578512qte.229.1541079752224;
- Thu, 01 Nov 2018 06:42:32 -0700 (PDT)
+        bh=Ngu/6E/81xEgZ53nEjR7sFfaI9G7qz85ekQLhGPWI/o=;
+        b=YpCZkN9RFb11maG0ybayfKfxl9ljOUv54rlk5B/YbGOmHgpeEvCOPZgWiuWpbMxWXn
+         GZEquEti2cAGvDeFifZLBWitIHRvkJVJTRFidF7sYYDPKaL2BOwDo1vhsEPC2XJi9MqO
+         6scgkJAUxJbTM3BPYn0GNySbu19vvRrZ9sclC9RsuNX9EDzoXSOW0jbW8Ev0XlLChOD4
+         sVBdBodhJOy4dN+rrQhRmuzwC1iTwh6DaBj51p1d9Hjg7lIzKgwgT3K9H8Mqp2FliVxC
+         B751c9cIJpQHvAy1gncOwLwtMkXbSzcLI2lzGGHOAw0ZyjBonHOJMy9XyUUmI8lmxcNs
+         JKfA==
+X-Gm-Message-State: AGRZ1gI5edyVdhSMX5WF4Fa79hArKv4PAvvGW51Ap1WYymeELdTP/XM8
+        eBN4Z/+p7Ox5wadyC2vdgaknmrdtjIqmI1TAfbA=
+X-Google-Smtp-Source: AJdET5fhIj6qjhKGtfMk532eeo8iJK7JTgBpQrag4Ox/GNh7c++ftZvH4QuKQB71yA3GGYyY96ZdP9mChhOMd7jtdng=
+X-Received: by 2002:ac8:2413:: with SMTP id c19-v6mr6596843qtc.194.1541079884536;
+ Thu, 01 Nov 2018 06:44:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <1541085002-42993-1-git-send-email-peng.hao2@zte.com.cn> <1541085002-42993-4-git-send-email-peng.hao2@zte.com.cn>
-In-Reply-To: <1541085002-42993-4-git-send-email-peng.hao2@zte.com.cn>
+References: <1541085002-42993-1-git-send-email-peng.hao2@zte.com.cn> <1541085002-42993-5-git-send-email-peng.hao2@zte.com.cn>
+In-Reply-To: <1541085002-42993-5-git-send-email-peng.hao2@zte.com.cn>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 1 Nov 2018 15:42:21 +0200
-Message-ID: <CAHp75VcvWwUJ=_LupAeuOFGLMTaBfB-g17kwQ=G1KF-zDS_8Hg@mail.gmail.com>
-Subject: Re: [PATCH V5 4/8] misc/pvpanic :convert to SPDX license tags
+Date:   Thu, 1 Nov 2018 15:44:33 +0200
+Message-ID: <CAHp75VdPmh7KAD-TKVnO7dZf7-mvWBH1osq6+DAq08MhJz-hhQ@mail.gmail.com>
+Subject: Re: [PATCH V5 5/8] misc/pvpanic: simplify the code using acpi_dev_resource_io
 To:     peng.hao2@zte.com.cn
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -70,48 +70,50 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, Nov 1, 2018 at 9:00 AM Peng Hao <peng.hao2@zte.com.cn> wrote:
 >
-> This patch updates license to use SPDX-License-Identifier
-> instead of verbose license text.
+> use acpi_dev_resource_io API.
 >
 
-After addressing Mark's comment consider to move this to be patch 7/8
-in the series.
+Same comments as per patch 1.
+This should be patch 2/8 in the series.
+
 Otherwise,
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
+Also, you might consider to use Suggested-by tag here.
+
 > Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
 > ---
->  drivers/misc/pvpanic.c | 16 ++--------------
->  1 file changed, 2 insertions(+), 14 deletions(-)
+>  drivers/misc/pvpanic.c | 14 ++++++--------
+>  1 file changed, 6 insertions(+), 8 deletions(-)
 >
 > diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
-> index 66534d4..0bcf1cd 100644
+> index 0bcf1cd..c20fdff 100644
 > --- a/drivers/misc/pvpanic.c
 > +++ b/drivers/misc/pvpanic.c
-> @@ -1,21 +1,9 @@
-> +// SPDX-License-Identifier: GPL-2.0+
->  /*
-> - *  pvpanic.c - pvpanic Device Support
-> + *  Pvpanic Device Support
->   *
->   *  Copyright (C) 2013 Fujitsu.
->   *
-> - *  This program is free software; you can redistribute it and/or modify
-> - *  it under the terms of the GNU General Public License as published by
-> - *  the Free Software Foundation; either version 2 of the License, or
-> - *  (at your option) any later version.
-> - *
-> - *  This program is distributed in the hope that it will be useful,
-> - *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> - *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> - *  GNU General Public License for more details.
-> - *
-> - *  You should have received a copy of the GNU General Public License
-> - *  along with this program; if not, write to the Free Software
-> - *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
->   */
+> @@ -64,17 +64,15 @@
+>  static acpi_status
+>  pvpanic_walk_resources(struct acpi_resource *res, void *context)
+>  {
+> -       switch (res->type) {
+> -       case ACPI_RESOURCE_TYPE_END_TAG:
+> -               return AE_OK;
+> +       struct resource r;
 >
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> -       case ACPI_RESOURCE_TYPE_IO:
+> -               port = res->data.io.minimum;
+> +       if (acpi_dev_resource_io(res, &r)) {
+> +               port = r.start;
+>                 return AE_OK;
+> -
+> -       default:
+> -               return AE_ERROR;
+>         }
+> +
+> +       return AE_ERROR;
+> +
+>  }
+>
+>  static int pvpanic_add(struct acpi_device *device)
 > --
 > 1.8.3.1
 >
