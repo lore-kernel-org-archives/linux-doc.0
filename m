@@ -1,171 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8C49A7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 02:58:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 726DF7D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 06:59:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727065AbeKAL7n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Nov 2018 07:59:43 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:46545 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726327AbeKAL7n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 07:59:43 -0400
-Received: by mail-io1-f67.google.com with SMTP id y22-v6so11242551ioj.13
-        for <linux-doc@vger.kernel.org>; Wed, 31 Oct 2018 19:58:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QOSxRggcjUksRsOCf6mfNAeYLRROOH7cdOzQ/0UZTUk=;
-        b=HJVMfI+jP8qwJ+T5gXrMmsDmI+ofJOL1Zc7zim6jzTGGjBzvvmdaAUYNxAcOCyoCZy
-         l2BbePFTLM8Xe7YOYDtJVOQBYIZquZv0DLCEil4aRxYlAUlkJQ9UBUU4/DZysgJ5+GCR
-         pRUeNr2la3NA+fWqclBbCtByJkyXS7UBZ8WCE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QOSxRggcjUksRsOCf6mfNAeYLRROOH7cdOzQ/0UZTUk=;
-        b=f2DaaIHfyXlkLVzaJcq+CKYAtE6FR8Pi0GGBYzbirfRj6qKDRtVUNnXknJFoFjs9j1
-         AtWeYTIQqQDGXAp/vBIHaPn9S8YenZ4muvT1Oomr4+WX0zY3ni9PcXfIlm5URKZzmn09
-         C6hrHbWO2Bs/N5vEuOpbBNHqMtGU1dq/OytkTKSuP7qC8aav/QMHptwAyAqqYt+loFy0
-         TtrBhTmn8/Tg2KGKnJdyO2A0ZLOSXlUqyIO541ya/BPeRXGpBeh2tTAFF2qmAuQhH5Vc
-         Q17ozAxJL+iseB1unE86nH0ed3pl0s5Qfdh1LZjvTW81halmuZLKrjqp5FM0xTry2bCC
-         FT2Q==
-X-Gm-Message-State: AGRZ1gK6tfYCORHoPYa2P0oaNeGrbtopMFfjPXZvGjplULgfj28cj0fe
-        X5qSZs8/1hd9sDwA2yODuw/+yy7owmAta5gqaaOGwmCnoB47Fg==
-X-Google-Smtp-Source: AJdET5eZA+CWKB3xMB0hzxG9LyRzNKdrWtn4v/9O4XdnjqqJTf5GvP/0beC1RDChfnU77Yt0UhEG+fBV1EhpsBA/Ruc=
-X-Received: by 2002:a6b:acc5:: with SMTP id v188-v6mr4363558ioe.66.1541041122644;
- Wed, 31 Oct 2018 19:58:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181024013132.115907-1-dbasehore@chromium.org> <20181024013132.115907-3-dbasehore@chromium.org>
-In-Reply-To: <20181024013132.115907-3-dbasehore@chromium.org>
-From:   "dbasehore ." <dbasehore@chromium.org>
-Date:   Wed, 31 Oct 2018 19:58:31 -0700
-Message-ID: <CAGAzgsp-tuSAThRGPtGM98opK0pJ5OfmxB9tx+9VBuxT6rz3cA@mail.gmail.com>
-Subject: Re: [PATCH 2/6] clk: fix clk_calc_subtree compute duplications
-To:     linux-kernel <linux-kernel@vger.kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-doc@vger.kernel.org,
-        sboyd@kernel.org, Michael Turquette <mturquette@baylibre.com>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        aisheng.dong@nxp.com, mchehab+samsung@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+        id S1727771AbeKAQBX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Nov 2018 12:01:23 -0400
+Received: from out1.zte.com.cn ([202.103.147.172]:41044 "EHLO mxct.zte.com.cn"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727675AbeKAQBX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Nov 2018 12:01:23 -0400
+Received: from mse01.zte.com.cn (unknown [10.30.3.20])
+        by Forcepoint Email with ESMTPS id 95CD2A8C5FE54F9BB3EF;
+        Thu,  1 Nov 2018 14:59:39 +0800 (CST)
+Received: from notes_smtp.zte.com.cn ([10.30.1.239])
+        by mse01.zte.com.cn with ESMTP id wA16xVnO022289;
+        Thu, 1 Nov 2018 14:59:31 +0800 (GMT-8)
+        (envelope-from peng.hao2@zte.com.cn)
+Received: from localhost.localdomain.localdomain ([10.74.120.59])
+          by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
+          with ESMTP id 2018110115000107-7973432 ;
+          Thu, 1 Nov 2018 15:00:01 +0800 
+From:   Peng Hao <peng.hao2@zte.com.cn>
+To:     robh+dt@kernel.org, mark.rutland@arm.com, arnd@arndb.de,
+        gregkh@linuxfoundation.org, andy@infradead.org,
+        dvhart@infradead.org
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        hutao@cn.fujitsu.com, linux-doc@vger.kernel.org,
+        Peng Hao <peng.hao2@zte.com.cn>
+Subject: [PATCH V5 1/8]  pvpanic: move pvpanic to misc as common driver
+Date:   Thu, 1 Nov 2018 23:09:55 +0800
+Message-Id: <1541085002-42993-1-git-send-email-peng.hao2@zte.com.cn>
+X-Mailer: git-send-email 1.8.3.1
+X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release 8.5.3FP6|November
+ 21, 2013) at 2018-11-01 15:00:01,
+        Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
+ 2018-11-01 14:59:19,
+        Serialize complete at 2018-11-01 14:59:19
+X-MAIL: mse01.zte.com.cn wA16xVnO022289
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 23, 2018 at 6:31 PM Derek Basehore <dbasehore@chromium.org> wrote:
->
-> clk_calc_subtree was called at every step up the clk tree in
-> clk_calc_new_rates. Since it recursively calls itself for its
-> children, this means it would be called once on each clk for each
-> step above the top clk is.
->
-> This fixes this by breaking the subtree calculation into two parts.
-> The first part recalcs the rate for each child of the parent clk in
-> clk_calc_new_rates. This part is not recursive itself. The second part
-> recursively calls a new clk_calc_subtree on the clk_core that was
-> passed into clk_set_rate.
->
-> Signed-off-by: Derek Basehore <dbasehore@chromium.org>
-> ---
->  drivers/clk/clk.c | 30 ++++++++++++++++++++----------
->  1 file changed, 20 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> index 95d818f5edb2..61de8ad3e4cf 100644
-> --- a/drivers/clk/clk.c
-> +++ b/drivers/clk/clk.c
-> @@ -1717,11 +1717,19 @@ static int __clk_speculate_rates(struct clk_core *core,
->         return ret;
->  }
->
-> -static void clk_calc_subtree(struct clk_core *core, unsigned long new_rate,
-> -                            struct clk_core *new_parent, u8 p_index)
-> +static void clk_calc_subtree(struct clk_core *core)
->  {
->         struct clk_core *child;
->
-> +       hlist_for_each_entry(child, &core->children, child_node) {
-> +               child->new_rate = clk_recalc(child, core->new_rate);
-> +               clk_calc_subtree(child);
-> +       }
-> +}
-> +
-> +static void clk_set_change(struct clk_core *core, unsigned long new_rate,
-> +                          struct clk_core *new_parent, u8 p_index)
-> +{
->         core->new_rate = new_rate;
->         core->new_parent = new_parent;
->         core->new_parent_index = p_index;
-> @@ -1729,11 +1737,6 @@ static void clk_calc_subtree(struct clk_core *core, unsigned long new_rate,
->         core->new_child = NULL;
->         if (new_parent && new_parent != core->parent)
->                 new_parent->new_child = core;
-> -
-> -       hlist_for_each_entry(child, &core->children, child_node) {
-> -               child->new_rate = clk_recalc(child, new_rate);
-> -               clk_calc_subtree(child, child->new_rate, NULL, 0);
-> -       }
->  }
->
->  /*
-> @@ -1744,7 +1747,7 @@ static struct clk_core *clk_calc_new_rates(struct clk_core *core,
->                                            unsigned long rate)
->  {
->         struct clk_core *top = core;
-> -       struct clk_core *old_parent, *parent;
-> +       struct clk_core *old_parent, *parent, *child;
->         unsigned long best_parent_rate = 0;
->         unsigned long new_rate;
->         unsigned long min_rate;
-> @@ -1791,6 +1794,8 @@ static struct clk_core *clk_calc_new_rates(struct clk_core *core,
->                 /* pass-through clock with adjustable parent */
->                 top = clk_calc_new_rates(parent, rate);
->                 new_rate = parent->new_rate;
-> +               hlist_for_each_entry(child, &parent->children, child_node)
-> +                       child->new_rate = clk_recalc(child, new_rate);
->                 goto out;
->         }
->
-> @@ -1813,11 +1818,14 @@ static struct clk_core *clk_calc_new_rates(struct clk_core *core,
->         }
->
->         if ((core->flags & CLK_SET_RATE_PARENT) && parent &&
-> -           best_parent_rate != parent->rate)
-> +           best_parent_rate != parent->rate) {
->                 top = clk_calc_new_rates(parent, best_parent_rate);
-> +               hlist_for_each_entry(child, &parent->children, child_node)
-> +                       child->new_rate = clk_recalc(child, parent->new_rate);
-> +       }
->
->  out:
-> -       clk_calc_subtree(core, new_rate, parent, p_index);
-> +       clk_set_change(core, new_rate, parent, p_index);
->
->         return top;
->  }
-> @@ -2018,6 +2026,8 @@ static int clk_core_set_rate_nolock(struct clk_core *core,
->         if (ret)
->                 return ret;
->
-> +       clk_calc_subtree(core);
+move pvpanic.c from drivers/platform/x86 to drivers/misc.
+following patches will use pvpanic device in arm64.
 
-This should be:
-hlist_for_each_entry(child, core->new_parent? core->new_parent :
-core->parent, child_node)
-  clk_calc_subtree(child);
+Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
+---
+ drivers/misc/Kconfig                     | 8 +++++++
+ drivers/misc/Makefile                    | 1 +
+ drivers/{platform/x86 => misc}/pvpanic.c | 0
+ drivers/platform/x86/Kconfig             | 8 --------
+ drivers/platform/x86/Makefile            | 1 -
+ 5 files changed, 9 insertions(+), 9 deletions(-)
+ rename drivers/{platform/x86 => misc}/pvpanic.c (100%)
 
-> +
->         /* notify that we are about to change rates */
->         fail_clk = clk_propagate_rate_change(top, PRE_RATE_CHANGE);
->         if (fail_clk) {
-> --
-> 2.19.1.568.g152ad8e336-goog
->
+diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+index 3726eac..1ba0f62 100644
+--- a/drivers/misc/Kconfig
++++ b/drivers/misc/Kconfig
+@@ -513,6 +513,14 @@ config MISC_RTSX
+ 	tristate
+ 	default MISC_RTSX_PCI || MISC_RTSX_USB
+ 
++config PVPANIC
++	tristate "pvpanic device support"
++	depends on ACPI || OF
++	help
++	  This driver provides support for the pvpanic device.  pvpanic is
++	  a paravirtualized device provided by QEMU; it lets a virtual machine
++	  (guest) communicate panic events to the host.
++
+ source "drivers/misc/c2port/Kconfig"
+ source "drivers/misc/eeprom/Kconfig"
+ source "drivers/misc/cb710/Kconfig"
+diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
+index af22bbc..df951f4 100644
+--- a/drivers/misc/Makefile
++++ b/drivers/misc/Makefile
+@@ -58,3 +58,4 @@ obj-$(CONFIG_ASPEED_LPC_SNOOP)	+= aspeed-lpc-snoop.o
+ obj-$(CONFIG_PCI_ENDPOINT_TEST)	+= pci_endpoint_test.o
+ obj-$(CONFIG_OCXL)		+= ocxl/
+ obj-$(CONFIG_MISC_RTSX)		+= cardreader/
++obj-$(CONFIG_PVPANIC)   	+= pvpanic.o
+diff --git a/drivers/platform/x86/pvpanic.c b/drivers/misc/pvpanic.c
+similarity index 100%
+rename from drivers/platform/x86/pvpanic.c
+rename to drivers/misc/pvpanic.c
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index 0c1aa6c..4ac276c 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -1121,14 +1121,6 @@ config INTEL_SMARTCONNECT
+ 	  This driver checks to determine whether the device has Intel Smart
+ 	  Connect enabled, and if so disables it.
+ 
+-config PVPANIC
+-	tristate "pvpanic device support"
+-	depends on ACPI
+-	---help---
+-	  This driver provides support for the pvpanic device.  pvpanic is
+-	  a paravirtualized device provided by QEMU; it lets a virtual machine
+-	  (guest) communicate panic events to the host.
+-
+ config INTEL_PMC_IPC
+ 	tristate "Intel PMC IPC Driver"
+ 	depends on ACPI
+diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+index e6d1bec..e88f44e 100644
+--- a/drivers/platform/x86/Makefile
++++ b/drivers/platform/x86/Makefile
+@@ -75,7 +75,6 @@ obj-$(CONFIG_APPLE_GMUX)	+= apple-gmux.o
+ obj-$(CONFIG_INTEL_RST)		+= intel-rst.o
+ obj-$(CONFIG_INTEL_SMARTCONNECT)	+= intel-smartconnect.o
+ 
+-obj-$(CONFIG_PVPANIC)           += pvpanic.o
+ obj-$(CONFIG_ALIENWARE_WMI)	+= alienware-wmi.o
+ obj-$(CONFIG_INTEL_PMC_IPC)	+= intel_pmc_ipc.o
+ obj-$(CONFIG_TOUCHSCREEN_DMI)	+= touchscreen_dmi.o
+-- 
+1.8.3.1
+
