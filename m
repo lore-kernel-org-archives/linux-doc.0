@@ -5,68 +5,88 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 733707D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 08:04:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 227FA7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 08:22:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727814AbeKARGp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Nov 2018 13:06:45 -0400
-Received: from out1.zte.com.cn ([202.103.147.172]:42422 "EHLO mxct.zte.com.cn"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727704AbeKARGp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Nov 2018 13:06:45 -0400
-Received: from mse01.zte.com.cn (unknown [10.30.3.20])
-        by Forcepoint Email with ESMTPS id BA52FFCE7656A1169C66;
-        Thu,  1 Nov 2018 16:03:10 +0800 (CST)
-Received: from notes_smtp.zte.com.cn ([10.30.1.239])
-        by mse01.zte.com.cn with ESMTP id wA1832Dt045432;
-        Thu, 1 Nov 2018 16:03:02 +0800 (GMT-8)
-        (envelope-from peng.hao2@zte.com.cn)
-Received: from localhost.localdomain.localdomain ([10.74.120.59])
-          by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
-          with ESMTP id 2018110116033274-7990048 ;
-          Thu, 1 Nov 2018 16:03:32 +0800 
-From:   Peng Hao <peng.hao2@zte.com.cn>
-To:     robh+dt@kernel.org, mark.rutland@arm.com, arnd@arndb.de,
-        gregkh@linuxfoundation.org, andy@infradead.org,
-        dvhart@infradead.org
-Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        hutao@cn.fujitsu.com, linux-doc@vger.kernel.org,
-        Peng Hao <peng.hao2@zte.com.cn>
-Subject: [PATCH V5 2/8]  misc/pvpanic: Remove one extra comma
-Date:   Fri, 2 Nov 2018 00:13:36 +0800
-Message-Id: <1541088816-43620-1-git-send-email-peng.hao2@zte.com.cn>
-X-Mailer: git-send-email 1.8.3.1
-X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release 8.5.3FP6|November
- 21, 2013) at 2018-11-01 16:03:33,
-        Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
- 2018-11-01 16:02:50,
-        Serialize complete at 2018-11-01 16:02:50
-X-MAIL: mse01.zte.com.cn wA1832Dt045432
+        id S1727874AbeKARX7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Nov 2018 13:23:59 -0400
+Received: from Galois.linutronix.de ([146.0.238.70]:57034 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727774AbeKARX7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 13:23:59 -0400
+Received: from p5492fe24.dip0.t-ipconnect.de ([84.146.254.36] helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1gI8ER-0000Qm-3H; Thu, 01 Nov 2018 09:21:35 +0100
+Date:   Thu, 1 Nov 2018 09:21:34 +0100 (CET)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Igor Stoppa <igor.stoppa@gmail.com>
+cc:     Andy Lutomirski <luto@amacapital.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Tycho Andersen <tycho@tycho.ws>,
+        Kees Cook <keescook@chromium.org>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Dave Chinner <david@fromorbit.com>,
+        James Morris <jmorris@namei.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Igor Stoppa <igor.stoppa@huawei.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laura Abbott <labbott@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 10/17] prmem: documentation
+In-Reply-To: <8675e9d8-0ef0-7515-a894-097d4be25b73@gmail.com>
+Message-ID: <alpine.DEB.2.21.1811010909480.1642@nanos.tec.linutronix.de>
+References: <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com> <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net> <20181030175814.GB10491@bombadil.infradead.org> <20181030182841.GE7343@cisco> <20181030192021.GC10491@bombadil.infradead.org>
+ <9edbdf8b-b5fb-5a82-43b4-b639f5ec8484@gmail.com> <20181030213557.GE10491@bombadil.infradead.org> <CALCETrW1FcT88u0QY9k_PMOeZj0G8H6KNb5Bnreo-12NvmmCEQ@mail.gmail.com> <20181031100237.GN744@hirez.programming.kicks-ass.net> <659CFC78-22BF-492B-B2E4-B8E89AA08446@amacapital.net>
+ <20181031210032.GA3159@hirez.programming.kicks-ass.net> <2E29C35B-3F98-473D-A874-0D9B9B15B399@amacapital.net> <4124995b-4363-9b37-19b1-1879bf04978b@gmail.com> <CALCETrWCvAfyfBWgcmhy8TGByiX3ZXXSOkLtZFdM385fDqYJVw@mail.gmail.com>
+ <8675e9d8-0ef0-7515-a894-097d4be25b73@gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There is an extra comma in pvpanic_device_ids, remove it.
+Igor,
 
-Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
----
- drivers/misc/pvpanic.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, 1 Nov 2018, Igor Stoppa wrote:
+> On 01/11/2018 01:19, Andy Lutomirski wrote:
+> 
+> > ISTM you don't need that atomic operation -- you could take a spinlock
+> > and then just add one directly to the variable.
+> 
+> It was my intention to provide a 1:1 conversion of existing code, as it should
+> be easier to verify the correctness of the conversion, as long as there isn't
+> any significant degradation in performance.
+> 
+> The rework could be done afterward.
 
-diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
-index fd86dab..059005c 100644
---- a/drivers/misc/pvpanic.c
-+++ b/drivers/misc/pvpanic.c
-@@ -35,7 +35,7 @@
- 
- static const struct acpi_device_id pvpanic_device_ids[] = {
- 	{ "QEMU0001", 0 },
--	{ "", 0 },
-+	{ "", 0 }
- };
- MODULE_DEVICE_TABLE(acpi, pvpanic_device_ids);
- 
--- 
-1.8.3.1
+Please don't go there. The usual approach is to
 
+  1) Rework existing code in a way that the new functionality can be added
+     with minimal effort afterwards and without creating API horrors.
+
+  2) Verify correctness of the rework
+
+  3) Add the new functionality
+  
+That avoids creation of odd functionality and APIs in the first place, so
+they won't be used in other places and does not leave half cleaned up code
+around which will stick for a long time.
+
+Thanks,
+
+	tglx
