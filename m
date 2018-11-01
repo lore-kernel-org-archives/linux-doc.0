@@ -6,63 +6,66 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A1C3A7D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 15:58:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 44C2D7D08E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 16:32:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728238AbeKBBCX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Nov 2018 21:02:23 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:40581 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727996AbeKBBCX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 21:02:23 -0400
-Received: by mail-lj1-f196.google.com with SMTP id t22-v6so18499247lji.7;
-        Thu, 01 Nov 2018 08:58:47 -0700 (PDT)
+        id S1728659AbeKBBfu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Nov 2018 21:35:50 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:34468 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728372AbeKBBfu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 21:35:50 -0400
+Received: by mail-pf1-f195.google.com with SMTP id f78-v6so9598297pfe.1;
+        Thu, 01 Nov 2018 09:32:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=VblXFF5BYqyBPIfRjNtcaglg3kxUmrfgtO12sNoK3KI=;
-        b=Qnmetnd6fkgk9PiavbPuxrjFpQ7cDwnlKVgV5I2fbioaKl7HK42mgQyuOXIx38qHz5
-         EdTpChdg5aBW3ruw/34Z/lA4VzTKSk1DnDq8m8oVRMlDiXjn6PS4XNZWx6tpsfWQHC2B
-         BvdMPj9Bhy78Gmr0FOOxO8UfunXEWIkGN7s97tX7CXxTm3qHLW1Vcz5tnaQrJKHO0Afv
-         M5/8aOadXN69Zbl8/HOvTROnsHiDTpoHmd21Fy94ySdQJcInD6MwFLMf7h7kw7+OZenS
-         q+KGDTebxyB/5b2u14f8my4Cny52RyOQylDo5odBvbnz2DCPNjAIqGR+L7ktaOPeNyRO
-         L19g==
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=nX6+O2gcmN+wf5wYI35jSqSfPHK0o+mAaMNAqvcu52I=;
+        b=AATcQtgw4OgBirkGwvnev1NHDLu20mOrNOBTk3mtc8rtBaSE7Rb1gc9g+oGWLVauTy
+         bC5LUZf64mIdb5FT1gqpKHTxXhQeTaaGUOmhyGfJzfWQ9nOMLPfSQgWKQ5chJEls2bNz
+         x6cTy4F0mA4fiKKhEFX16FkS/1U7a+pZPPfCD6pk0h+VxN0Uv+L2a015nfDLvpUJlTRO
+         pbVyzv/j4vNsdLtGTsq9DtZJ/IQN5ub2PnGDUqhO4NxSYNoA8kvkcPiJ3/Mf6e+zdUEw
+         VoHNbDZbexpieUNxDjQrya2xUCNW4zhk5nbE3zqXsoMnz/PQ14UmKipJQGaHrzIMFAFp
+         6Clg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=VblXFF5BYqyBPIfRjNtcaglg3kxUmrfgtO12sNoK3KI=;
-        b=rdqmW813PoXuJldoUpKYgW8fKLDq9uGMz/93UVnr5uIjfL5S/ShS2lZAKOlGLpgtJG
-         189WXH4EvwovmsUBcBh0hfqsxG3FJ0OxC+836umx4F5vloxgVmbksj+MzgoRE+TZ8ZmV
-         ssb01YY0mtcNjnM6y01bbiIDDdnRMIqcWbtVDgBVhMCiCvda7A4RKKBuaPqlcaMfXVaB
-         GqEa9aFQq1L2IwormI3raYuE5yILaC29+9Ye0vybttHcxMhGnWMmv1hd5VS0YDRe0Pba
-         81YYfnlh064WAd633+OrzWlExB2uicobG5Kel5REyd91kv/9y6Ol84oDvzanpHaBfuQi
-         VcLw==
-X-Gm-Message-State: AGRZ1gLaDx49BbAkAM7fEhaCT4cfLpYDK/hK1QGTnkHrb1odExLLNRPG
-        M2pFu4fGQrRsnHkhq8h4ul68l3PW+qw=
-X-Google-Smtp-Source: AJdET5fAKGsvRTBWbsD5cdHcp7QTOs2QTjGIyRTHm5nUCN1NecTipgNYaFlnzHmXRqsGbZW6URqa6g==
-X-Received: by 2002:a2e:990e:: with SMTP id v14-v6mr5716163lji.60.1541087926864;
-        Thu, 01 Nov 2018 08:58:46 -0700 (PDT)
-Received: from ?IPv6:2001:14bb:52:7be:f0bf:dd2d:f008:5213? (dmkd798g-7z2-yccwcp-4.rev.dnainternet.fi. [2001:14bb:52:7be:f0bf:dd2d:f008:5213])
-        by smtp.gmail.com with ESMTPSA id b22sm3680233lfg.32.2018.11.01.08.58.44
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=nX6+O2gcmN+wf5wYI35jSqSfPHK0o+mAaMNAqvcu52I=;
+        b=j6VIoGe9nXMOC8jnzLO51R5Av0NYSe0D0xLZ3AitxamzyyP23m88jiBwLEMkQcN7+0
+         oUpkGvuDbKdmqWKjR7CXYJfjBHx5OdMRR5NAhrKGKIblsufZ2KpaXLp8gLi5ZvEE1F/q
+         Id0p2MDJ6fcls53ECB54En3TmceiBtvZxebrZbc2VHP5sTWXnPxbvjqk2L2S1L2tbQ5r
+         Krfw8CZAaFQuerYLeNwTOmwAX8776FjPsWqqVZZjKq4wsWOu/J/RqsYNXBEM2CIy99+p
+         C5dmMeJj8JIAZTkirbWwUuBOHdhymUs+2y/1qS8+/hwz+RECcivsy6iis6t8RLz0tDxK
+         AKfA==
+X-Gm-Message-State: AGRZ1gLdHnbS0K5GYzXyVGCrm3GGbmixQULP72xcz+NaWMPLXSr+Nqbn
+        nxU74/qV/hCYSjdZRMbU54k=
+X-Google-Smtp-Source: AJdET5fgJblcobbtWN43vziOs7OA7inJWEFOO1N2KO5+PVOr8+1H0QPwzWqA786ws/jd50RrRywtsg==
+X-Received: by 2002:a63:e918:: with SMTP id i24-v6mr7767635pgh.64.1541089928101;
+        Thu, 01 Nov 2018 09:32:08 -0700 (PDT)
+Received: from [172.20.5.66] (rrcs-24-227-212-35.sw.biz.rr.com. [24.227.212.35])
+        by smtp.gmail.com with ESMTPSA id d67-v6sm9436155pfg.2.2018.11.01.09.32.05
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 01 Nov 2018 08:58:46 -0700 (PDT)
+        Thu, 01 Nov 2018 09:32:06 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
 Subject: Re: [PATCH 10/17] prmem: documentation
-To:     Thomas Gleixner <tglx@linutronix.de>
+From:   Nadav Amit <nadav.amit@gmail.com>
+In-Reply-To: <20181031090835.GG744@hirez.programming.kicks-ass.net>
+Date:   Thu, 1 Nov 2018 11:31:59 -0500
 Cc:     Andy Lutomirski <luto@amacapital.net>,
-        Peter Zijlstra <peterz@infradead.org>,
         Matthew Wilcox <willy@infradead.org>,
-        Tycho Andersen <tycho@tycho.ws>,
         Kees Cook <keescook@chromium.org>,
+        Igor Stoppa <igor.stoppa@gmail.com>,
         Mimi Zohar <zohar@linux.vnet.ibm.com>,
         Dave Chinner <david@fromorbit.com>,
         James Morris <jmorris@namei.org>,
         Michal Hocko <mhocko@kernel.org>,
         Kernel Hardening <kernel-hardening@lists.openwall.com>,
         linux-integrity <linux-integrity@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
         Igor Stoppa <igor.stoppa@huawei.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -70,51 +73,70 @@ Cc:     Andy Lutomirski <luto@amacapital.net>,
         Randy Dunlap <rdunlap@infradead.org>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
+        LKML <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <59E8A6FB-9762-499F-89AC-D85E1498BE38@gmail.com>
+References: <20181026092609.GB3159@worktop.c.hoisthospitality.com>
+ <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
+ <20181028183126.GB744@hirez.programming.kicks-ass.net>
+ <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
+ <20181030152641.GE8177@hirez.programming.kicks-ass.net>
+ <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
  <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net>
- <20181030175814.GB10491@bombadil.infradead.org> <20181030182841.GE7343@cisco>
- <20181030192021.GC10491@bombadil.infradead.org>
- <9edbdf8b-b5fb-5a82-43b4-b639f5ec8484@gmail.com>
- <20181030213557.GE10491@bombadil.infradead.org>
- <CALCETrW1FcT88u0QY9k_PMOeZj0G8H6KNb5Bnreo-12NvmmCEQ@mail.gmail.com>
- <20181031100237.GN744@hirez.programming.kicks-ass.net>
- <659CFC78-22BF-492B-B2E4-B8E89AA08446@amacapital.net>
- <20181031210032.GA3159@hirez.programming.kicks-ass.net>
- <2E29C35B-3F98-473D-A874-0D9B9B15B399@amacapital.net>
- <4124995b-4363-9b37-19b1-1879bf04978b@gmail.com>
- <CALCETrWCvAfyfBWgcmhy8TGByiX3ZXXSOkLtZFdM385fDqYJVw@mail.gmail.com>
- <8675e9d8-0ef0-7515-a894-097d4be25b73@gmail.com>
- <alpine.DEB.2.21.1811010909480.1642@nanos.tec.linutronix.de>
-From:   Igor Stoppa <igor.stoppa@gmail.com>
-Message-ID: <f344a62a-07be-8424-d4cd-73afacc4da76@gmail.com>
-Date:   Thu, 1 Nov 2018 17:58:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.1811010909480.1642@nanos.tec.linutronix.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+ <20181030175814.GB10491@bombadil.infradead.org>
+ <28C8CD2A-BDC0-49A5-854E-1E18968528B8@amacapital.net>
+ <CAC99157-7A9B-4AC6-BA41-EAA7A99FE53D@gmail.com>
+ <20181031090835.GG744@hirez.programming.kicks-ass.net>
+To:     Peter Zijlstra <peterz@infradead.org>
+X-Mailer: Apple Mail (2.3445.9.1)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/11/2018 10:21, Thomas Gleixner wrote:
-> On Thu, 1 Nov 2018, Igor Stoppa wrote:
+From: Peter Zijlstra
+Sent: October 31, 2018 at 9:08:35 AM GMT
+> To: Nadav Amit <nadav.amit@gmail.com>
+> Cc: Andy Lutomirski <luto@amacapital.net>, Matthew Wilcox =
+<willy@infradead.org>, Kees Cook <keescook@chromium.org>, Igor Stoppa =
+<igor.stoppa@gmail.com>, Mimi Zohar <zohar@linux.vnet.ibm.com>, Dave =
+Chinner <david@fromorbit.com>, James Morris <jmorris@namei.org>, Michal =
+Hocko <mhocko@kernel.org>, Kernel Hardening =
+<kernel-hardening@lists.openwall.com>, linux-integrity =
+<linux-integrity@vger.kernel.org>, linux-security-module =
+<linux-security-module@vger.kernel.org>, Igor Stoppa =
+<igor.stoppa@huawei.com>, Dave Hansen <dave.hansen@linux.intel.com>, =
+Jonathan Corbet <corbet@lwn.net>, Laura Abbott <labbott@redhat.com>, =
+Randy Dunlap <rdunlap@infradead.org>, Mike Rapoport =
+<rppt@linux.vnet.ibm.com>, open list:DOCUMENTATION =
+<linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, Thomas =
+Gleixner <tglx@linutronix.de>
+> Subject: Re: [PATCH 10/17] prmem: documentation
+>=20
+>=20
+> On Tue, Oct 30, 2018 at 04:18:39PM -0700, Nadav Amit wrote:
+>>> Nadav, want to resubmit your series? IIRC the only thing wrong with =
+it was
+>>> that it was a big change and we wanted a simpler fix to backport. =
+But
+>>> that=E2=80=99s all done now, and I, at least, rather liked your =
+code. :)
+>>=20
+>> I guess since it was based on your ideas=E2=80=A6
+>>=20
+>> Anyhow, the only open issue that I have with v2 is Peter=E2=80=99s =
+wish that I would
+>> make kgdb use of poke_text() less disgusting. I still don=E2=80=99t =
+know exactly
+>> how to deal with it.
+>>=20
+>> Perhaps it (fixing kgdb) can be postponed? In that case I can just =
+resend
+>> v2.
+>=20
+> Oh man, I completely forgot about kgdb :/
+>=20
+> Also, would it be possible to entirely remove that kmap fallback path?
 
->> The rework could be done afterward.
-> 
-> Please don't go there. The usual approach is to
-> 
->    1) Rework existing code in a way that the new functionality can be added
->       with minimal effort afterwards and without creating API horrors.
-
-
-Thanks a lot for the advice.
-It makes things even easier for me, as I can start the rework, while the 
-discussion on the actual write-rare mechanism continues.
-
---
-igor
+Let me see what I can do about it.=
