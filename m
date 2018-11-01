@@ -1,124 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 48A157D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 13:44:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9E6FA7D08E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 13:57:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728900AbeKAWrs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Nov 2018 18:47:48 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:34765 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728676AbeKAWrr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 18:47:47 -0400
-Received: by mail-qt1-f195.google.com with SMTP id z2-v6so21127853qts.1;
-        Thu, 01 Nov 2018 06:44:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ngu/6E/81xEgZ53nEjR7sFfaI9G7qz85ekQLhGPWI/o=;
-        b=cg65fHXUy0RykEeLxkh1WtzH3yc9v39R6sNiy9ehgkNN6KtTNBy2WyGWBimjwq+V17
-         kGZjS1PxUR1LDxPaxizB2j7wmk2QShHS3RESLkJeKHPnnY2eDUTbC4xtJ9kpJhk3S30+
-         S3JCji5qqcoP4oKQqZDkhmFiCWJ1o2CHGnj08Iprdx9JNDin3d2SqQM/YV7+8mWLAz5Q
-         vV5QIfZHUDNMbxAmKnu/UpAXfzzZ8UoitjVqlM4I349RnAjCsTxGlI/NN9eHdSdD7zxq
-         Nr5zZafYn2MDbqEPmePIgFmeF4O34aENJpDWb6FzZyr/dvitM0nao76hrSS5QH1079y0
-         7cxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ngu/6E/81xEgZ53nEjR7sFfaI9G7qz85ekQLhGPWI/o=;
-        b=YpCZkN9RFb11maG0ybayfKfxl9ljOUv54rlk5B/YbGOmHgpeEvCOPZgWiuWpbMxWXn
-         GZEquEti2cAGvDeFifZLBWitIHRvkJVJTRFidF7sYYDPKaL2BOwDo1vhsEPC2XJi9MqO
-         6scgkJAUxJbTM3BPYn0GNySbu19vvRrZ9sclC9RsuNX9EDzoXSOW0jbW8Ev0XlLChOD4
-         sVBdBodhJOy4dN+rrQhRmuzwC1iTwh6DaBj51p1d9Hjg7lIzKgwgT3K9H8Mqp2FliVxC
-         B751c9cIJpQHvAy1gncOwLwtMkXbSzcLI2lzGGHOAw0ZyjBonHOJMy9XyUUmI8lmxcNs
-         JKfA==
-X-Gm-Message-State: AGRZ1gI5edyVdhSMX5WF4Fa79hArKv4PAvvGW51Ap1WYymeELdTP/XM8
-        eBN4Z/+p7Ox5wadyC2vdgaknmrdtjIqmI1TAfbA=
-X-Google-Smtp-Source: AJdET5fhIj6qjhKGtfMk532eeo8iJK7JTgBpQrag4Ox/GNh7c++ftZvH4QuKQB71yA3GGYyY96ZdP9mChhOMd7jtdng=
-X-Received: by 2002:ac8:2413:: with SMTP id c19-v6mr6596843qtc.194.1541079884536;
- Thu, 01 Nov 2018 06:44:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <1541085002-42993-1-git-send-email-peng.hao2@zte.com.cn> <1541085002-42993-5-git-send-email-peng.hao2@zte.com.cn>
-In-Reply-To: <1541085002-42993-5-git-send-email-peng.hao2@zte.com.cn>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 1 Nov 2018 15:44:33 +0200
-Message-ID: <CAHp75VdPmh7KAD-TKVnO7dZf7-mvWBH1osq6+DAq08MhJz-hhQ@mail.gmail.com>
-Subject: Re: [PATCH V5 5/8] misc/pvpanic: simplify the code using acpi_dev_resource_io
-To:     peng.hao2@zte.com.cn
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        hutao@cn.fujitsu.com,
-        Linux Documentation List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1728691AbeKAXAl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Nov 2018 19:00:41 -0400
+Received: from [199.201.65.133] ([199.201.65.133]:52994 "EHLO
+        alivneh-pro.localdomain" rhost-flags-FAIL-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728563AbeKAXAl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 19:00:41 -0400
+Received: by alivneh-pro.localdomain (Postfix, from userid 1782071156)
+        id 153C7215C3C923; Thu,  1 Nov 2018 09:57:35 -0400 (EDT)
+From:   Amir Livneh <alivneh@fb.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Will Korteland <will@korte.land>, linux-doc@vger.kernel.org,
+        Ingo Molnar <mingo@redhat.com>, Amir Livneh <alivneh@fb.com>
+Subject: [PATCH v2] doc: tracing: Fix a number of typos
+Date:   Thu,  1 Nov 2018 09:57:17 -0400
+Message-Id: <20181101135717.21278-1-alivneh@fb.com>
+X-Mailer: git-send-email 2.13.5
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 1, 2018 at 9:00 AM Peng Hao <peng.hao2@zte.com.cn> wrote:
->
-> use acpi_dev_resource_io API.
->
+Trivial fixes to spelling mistakes in ftrace.rst
 
-Same comments as per patch 1.
-This should be patch 2/8 in the series.
+v2: tripple -> triple
 
-Otherwise,
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Signed-off-by: Amir Livneh <alivneh@fb.com>
+---
+ Documentation/trace/ftrace.rst | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Also, you might consider to use Suggested-by tag here.
-
-> Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
-> ---
->  drivers/misc/pvpanic.c | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
-> index 0bcf1cd..c20fdff 100644
-> --- a/drivers/misc/pvpanic.c
-> +++ b/drivers/misc/pvpanic.c
-> @@ -64,17 +64,15 @@
->  static acpi_status
->  pvpanic_walk_resources(struct acpi_resource *res, void *context)
->  {
-> -       switch (res->type) {
-> -       case ACPI_RESOURCE_TYPE_END_TAG:
-> -               return AE_OK;
-> +       struct resource r;
->
-> -       case ACPI_RESOURCE_TYPE_IO:
-> -               port = res->data.io.minimum;
-> +       if (acpi_dev_resource_io(res, &r)) {
-> +               port = r.start;
->                 return AE_OK;
-> -
-> -       default:
-> -               return AE_ERROR;
->         }
-> +
-> +       return AE_ERROR;
-> +
->  }
->
->  static int pvpanic_add(struct acpi_device *device)
-> --
-> 1.8.3.1
->
-
-
+diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
+index 7ea16a0ceffc..f25c50ea64ca 100644
+--- a/Documentation/trace/ftrace.rst
++++ b/Documentation/trace/ftrace.rst
+@@ -24,13 +24,13 @@ It can be used for debugging or analyzing latencies and
+ performance issues that take place outside of user-space.
+ 
+ Although ftrace is typically considered the function tracer, it
+-is really a frame work of several assorted tracing utilities.
++is really a framework of several assorted tracing utilities.
+ There's latency tracing to examine what occurs between interrupts
+ disabled and enabled, as well as for preemption and from a time
+ a task is woken to the task is actually scheduled in.
+ 
+ One of the most common uses of ftrace is the event tracing.
+-Through out the kernel is hundreds of static event points that
++Throughout the kernel is hundreds of static event points that
+ can be enabled via the tracefs file system to see what is
+ going on in certain parts of the kernel.
+ 
+@@ -462,7 +462,7 @@ of ftrace. Here is a list of some of the key files:
+ 
+ 	mono_raw:
+ 		This is the raw monotonic clock (CLOCK_MONOTONIC_RAW)
+-		which is montonic but is not subject to any rate adjustments
++		which is monotonic but is not subject to any rate adjustments
+ 		and ticks at the same rate as the hardware clocksource.
+ 
+ 	boot:
+@@ -914,8 +914,8 @@ The above is mostly meaningful for kernel developers.
+ 	current trace and the next trace.
+ 
+ 	  - '$' - greater than 1 second
+-	  - '@' - greater than 100 milisecond
+-	  - '*' - greater than 10 milisecond
++	  - '@' - greater than 100 millisecond
++	  - '*' - greater than 10 millisecond
+ 	  - '#' - greater than 1000 microsecond
+ 	  - '!' - greater than 100 microsecond
+ 	  - '+' - greater than 10 microsecond
+@@ -2541,7 +2541,7 @@ At compile time every C file object is run through the
+ recordmcount program (located in the scripts directory). This
+ program will parse the ELF headers in the C object to find all
+ the locations in the .text section that call mcount. Starting
+-with gcc verson 4.6, the -mfentry has been added for x86, which
++with gcc version 4.6, the -mfentry has been added for x86, which
+ calls "__fentry__" instead of "mcount". Which is called before
+ the creation of the stack frame.
+ 
+@@ -2978,7 +2978,7 @@ The following commands are supported:
+   When the function is hit, it will dump the contents of the ftrace
+   ring buffer to the console. This is useful if you need to debug
+   something, and want to dump the trace when a certain function
+-  is hit. Perhaps its a function that is called before a tripple
++  is hit. Perhaps it's a function that is called before a triple
+   fault happens and does not allow you to get a regular dump.
+ 
+ - cpudump:
 -- 
-With Best Regards,
-Andy Shevchenko
+2.13.5
+
