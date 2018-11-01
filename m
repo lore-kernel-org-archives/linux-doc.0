@@ -6,137 +6,91 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 44C2D7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 16:32:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CE24B7D099
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 17:04:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728659AbeKBBfu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Nov 2018 21:35:50 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:34468 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728372AbeKBBfu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 21:35:50 -0400
-Received: by mail-pf1-f195.google.com with SMTP id f78-v6so9598297pfe.1;
-        Thu, 01 Nov 2018 09:32:08 -0700 (PDT)
+        id S1727115AbeKBCID (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Nov 2018 22:08:03 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:43937 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725982AbeKBCIC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 22:08:02 -0400
+Received: by mail-qk1-f194.google.com with SMTP id r71so12696593qkr.10;
+        Thu, 01 Nov 2018 10:04:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=nX6+O2gcmN+wf5wYI35jSqSfPHK0o+mAaMNAqvcu52I=;
-        b=AATcQtgw4OgBirkGwvnev1NHDLu20mOrNOBTk3mtc8rtBaSE7Rb1gc9g+oGWLVauTy
-         bC5LUZf64mIdb5FT1gqpKHTxXhQeTaaGUOmhyGfJzfWQ9nOMLPfSQgWKQ5chJEls2bNz
-         x6cTy4F0mA4fiKKhEFX16FkS/1U7a+pZPPfCD6pk0h+VxN0Uv+L2a015nfDLvpUJlTRO
-         pbVyzv/j4vNsdLtGTsq9DtZJ/IQN5ub2PnGDUqhO4NxSYNoA8kvkcPiJ3/Mf6e+zdUEw
-         VoHNbDZbexpieUNxDjQrya2xUCNW4zhk5nbE3zqXsoMnz/PQ14UmKipJQGaHrzIMFAFp
-         6Clg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EgwtFZkC/rR7koRrJEVoHDkT2WR/nSpGr7t0u1xCW7E=;
+        b=dRWMfbIY0vHpLvHnKtS95RxAQRe4OFFNIuteYBqAC7kAPiJYKz/80JKem10zpHmUhB
+         iyw5vUN93IfUrWkhh4H9zcZk3tffPeKugvp9gxpGPjmxt2RtoO0LiDxF814JS3ffA1xT
+         MPm8Rm9gXACaSIO6JAKIDCK3E7TeOkAZ8yUK2dr3eGXbm43Nu5GWJl5RrJOQcVv5RyO1
+         FcDNwuXKlVoh5/ZozX6l3E/fDBnL4y3OZayfOarkPOTGWh1WAK9cKvo3bHHqgm6ndOmC
+         1hsOiFk4N6Tn+HxtwLErlyNQOsH1kD85LhzMWYlw6yX7PzZU0mA0m+GpjouFd3GRisRz
+         e/SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=nX6+O2gcmN+wf5wYI35jSqSfPHK0o+mAaMNAqvcu52I=;
-        b=j6VIoGe9nXMOC8jnzLO51R5Av0NYSe0D0xLZ3AitxamzyyP23m88jiBwLEMkQcN7+0
-         oUpkGvuDbKdmqWKjR7CXYJfjBHx5OdMRR5NAhrKGKIblsufZ2KpaXLp8gLi5ZvEE1F/q
-         Id0p2MDJ6fcls53ECB54En3TmceiBtvZxebrZbc2VHP5sTWXnPxbvjqk2L2S1L2tbQ5r
-         Krfw8CZAaFQuerYLeNwTOmwAX8776FjPsWqqVZZjKq4wsWOu/J/RqsYNXBEM2CIy99+p
-         C5dmMeJj8JIAZTkirbWwUuBOHdhymUs+2y/1qS8+/hwz+RECcivsy6iis6t8RLz0tDxK
-         AKfA==
-X-Gm-Message-State: AGRZ1gLdHnbS0K5GYzXyVGCrm3GGbmixQULP72xcz+NaWMPLXSr+Nqbn
-        nxU74/qV/hCYSjdZRMbU54k=
-X-Google-Smtp-Source: AJdET5fgJblcobbtWN43vziOs7OA7inJWEFOO1N2KO5+PVOr8+1H0QPwzWqA786ws/jd50RrRywtsg==
-X-Received: by 2002:a63:e918:: with SMTP id i24-v6mr7767635pgh.64.1541089928101;
-        Thu, 01 Nov 2018 09:32:08 -0700 (PDT)
-Received: from [172.20.5.66] (rrcs-24-227-212-35.sw.biz.rr.com. [24.227.212.35])
-        by smtp.gmail.com with ESMTPSA id d67-v6sm9436155pfg.2.2018.11.01.09.32.05
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 01 Nov 2018 09:32:06 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
-Subject: Re: [PATCH 10/17] prmem: documentation
-From:   Nadav Amit <nadav.amit@gmail.com>
-In-Reply-To: <20181031090835.GG744@hirez.programming.kicks-ass.net>
-Date:   Thu, 1 Nov 2018 11:31:59 -0500
-Cc:     Andy Lutomirski <luto@amacapital.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Kees Cook <keescook@chromium.org>,
-        Igor Stoppa <igor.stoppa@gmail.com>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        Dave Chinner <david@fromorbit.com>,
-        James Morris <jmorris@namei.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Igor Stoppa <igor.stoppa@huawei.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laura Abbott <labbott@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <59E8A6FB-9762-499F-89AC-D85E1498BE38@gmail.com>
-References: <20181026092609.GB3159@worktop.c.hoisthospitality.com>
- <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
- <20181028183126.GB744@hirez.programming.kicks-ass.net>
- <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
- <20181030152641.GE8177@hirez.programming.kicks-ass.net>
- <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
- <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net>
- <20181030175814.GB10491@bombadil.infradead.org>
- <28C8CD2A-BDC0-49A5-854E-1E18968528B8@amacapital.net>
- <CAC99157-7A9B-4AC6-BA41-EAA7A99FE53D@gmail.com>
- <20181031090835.GG744@hirez.programming.kicks-ass.net>
-To:     Peter Zijlstra <peterz@infradead.org>
-X-Mailer: Apple Mail (2.3445.9.1)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EgwtFZkC/rR7koRrJEVoHDkT2WR/nSpGr7t0u1xCW7E=;
+        b=bynke+9CuzWQPMUNXos/mScP0hyfoxJS+EaOOJnxrSfRGgvIPkyTjD7oN7qpQl0z1P
+         rn9IomVAQHt4WHR8+a05A6opj9ZMBxUC8Gp30O6r+EAUaO2Cmvxb05p09NPnZRh6p8Z3
+         RPeV8YIU8e5d/f6z09RoHV9XXqUY0UtGLGspsEHeTF2U0WLfzQuyUdg3iACEqlhtrTVU
+         KW7fmNbVwjnWLgDAnyiUO9CWcChb1ed1PVYKLPbQQJy1clXWgW+t1/A6cqUA9qnU9Caf
+         ual2K5Mwlu+lGG1vGqau9SviEd2xC8HK3s+LLze6F8NlM5RIDrhmiwHPd+5Cj1RYR92D
+         caVQ==
+X-Gm-Message-State: AGRZ1gIkcWD6KixKxXGSWv1HjFyrbQijaoRa+gUJUbGXpHipNDSemoqJ
+        nkXyctr87DnZ0MOerOLFXRLmf9ex+IfS3m0u++I=
+X-Google-Smtp-Source: AJdET5ffotE2aCRaWlgJzyYe5LJiHvS6ZTiw5uC01dgaJQYsSBphiNcF51BLfeX9rG9/8qAxrk/Y22/mIXG3cp7l3xY=
+X-Received: by 2002:a37:7983:: with SMTP id u125-v6mr6883413qkc.219.1541091853184;
+ Thu, 01 Nov 2018 10:04:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <1541085002-42993-1-git-send-email-peng.hao2@zte.com.cn> <1541085002-42993-6-git-send-email-peng.hao2@zte.com.cn>
+In-Reply-To: <1541085002-42993-6-git-send-email-peng.hao2@zte.com.cn>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 1 Nov 2018 19:04:00 +0200
+Message-ID: <CAHp75VfNDKgenuc0ApMODfCw6h9azwBDskPuV2S4E8nLFsuTxw@mail.gmail.com>
+Subject: Re: [PATCH V5 6/8] misc/pvpanic: add MMIO support
+To:     peng.hao2@zte.com.cn
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        hutao@cn.fujitsu.com,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Peter Zijlstra
-Sent: October 31, 2018 at 9:08:35 AM GMT
-> To: Nadav Amit <nadav.amit@gmail.com>
-> Cc: Andy Lutomirski <luto@amacapital.net>, Matthew Wilcox =
-<willy@infradead.org>, Kees Cook <keescook@chromium.org>, Igor Stoppa =
-<igor.stoppa@gmail.com>, Mimi Zohar <zohar@linux.vnet.ibm.com>, Dave =
-Chinner <david@fromorbit.com>, James Morris <jmorris@namei.org>, Michal =
-Hocko <mhocko@kernel.org>, Kernel Hardening =
-<kernel-hardening@lists.openwall.com>, linux-integrity =
-<linux-integrity@vger.kernel.org>, linux-security-module =
-<linux-security-module@vger.kernel.org>, Igor Stoppa =
-<igor.stoppa@huawei.com>, Dave Hansen <dave.hansen@linux.intel.com>, =
-Jonathan Corbet <corbet@lwn.net>, Laura Abbott <labbott@redhat.com>, =
-Randy Dunlap <rdunlap@infradead.org>, Mike Rapoport =
-<rppt@linux.vnet.ibm.com>, open list:DOCUMENTATION =
-<linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, Thomas =
-Gleixner <tglx@linutronix.de>
-> Subject: Re: [PATCH 10/17] prmem: documentation
->=20
->=20
-> On Tue, Oct 30, 2018 at 04:18:39PM -0700, Nadav Amit wrote:
->>> Nadav, want to resubmit your series? IIRC the only thing wrong with =
-it was
->>> that it was a big change and we wanted a simpler fix to backport. =
-But
->>> that=E2=80=99s all done now, and I, at least, rather liked your =
-code. :)
->>=20
->> I guess since it was based on your ideas=E2=80=A6
->>=20
->> Anyhow, the only open issue that I have with v2 is Peter=E2=80=99s =
-wish that I would
->> make kgdb use of poke_text() less disgusting. I still don=E2=80=99t =
-know exactly
->> how to deal with it.
->>=20
->> Perhaps it (fixing kgdb) can be postponed? In that case I can just =
-resend
->> v2.
->=20
-> Oh man, I completely forgot about kgdb :/
->=20
-> Also, would it be possible to entirely remove that kmap fallback path?
+On Thu, Nov 1, 2018 at 9:00 AM Peng Hao <peng.hao2@zte.com.cn> wrote:
+>
+> On some architectures (e.g. arm64), it's preferable to use MMIO, since
+> this can be used standalone. Add MMIO support to the pvpanic driver.
 
-Let me see what I can do about it.=
+> -       if (acpi_dev_resource_io(res, &r) {
+> -               port = r.start;
+> +       if (acpi_dev_resource_io(res, &r) ||
+> +           acpi_dev_resource_memory(res, &r)) {
+
+
+> +               if (r.flags & IORESOURCE_IO)
+
+You need spend some time to understand better how acpi_dev_resource_*() works.
+Hint: this condition is redundant.
+
+> +                       base = (void __iomem *) ioport_map(r.start,
+> +                                               r.end - r.start + 1);
+> +               else
+> +                       base = ioremap(r.start, r.end - r.start + 1);
+> +
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
