@@ -2,25 +2,25 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B6EF07D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 11:34:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E9CD17D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 11:35:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728318AbeKAUhH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Nov 2018 16:37:07 -0400
-Received: from foss.arm.com ([217.140.101.70]:55250 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728199AbeKAUhH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Nov 2018 16:37:07 -0400
+        id S1728199AbeKAUhn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Nov 2018 16:37:43 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:55286 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728188AbeKAUhm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Nov 2018 16:37:42 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B2A58A78;
-        Thu,  1 Nov 2018 04:34:33 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 00E9BA78;
+        Thu,  1 Nov 2018 04:35:09 -0700 (PDT)
 Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D578E3F71D;
-        Thu,  1 Nov 2018 04:34:31 -0700 (PDT)
-Date:   Thu, 1 Nov 2018 11:34:29 +0000
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 23EE23F71D;
+        Thu,  1 Nov 2018 04:35:06 -0700 (PDT)
+Date:   Thu, 1 Nov 2018 11:35:04 +0000
 From:   Mark Rutland <mark.rutland@arm.com>
 To:     Peng Hao <peng.hao2@zte.com.cn>
 Cc:     robh+dt@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org,
@@ -28,44 +28,30 @@ Cc:     robh+dt@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org,
         linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
         hutao@cn.fujitsu.com, linux-doc@vger.kernel.org
 Subject: Re: [PATCH V5 3/8]  misc/pvpanic: revmove unnecessary header file
-Message-ID: <20181101113428.h7i5ku54jpwxlc7q@lakrids.cambridge.arm.com>
+Message-ID: <20181101113504.ukz2ynjegafeu6pf@lakrids.cambridge.arm.com>
 References: <1541085002-42993-1-git-send-email-peng.hao2@zte.com.cn>
  <1541085002-42993-3-git-send-email-peng.hao2@zte.com.cn>
+ <20181101113428.h7i5ku54jpwxlc7q@lakrids.cambridge.arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1541085002-42993-3-git-send-email-peng.hao2@zte.com.cn>
+In-Reply-To: <20181101113428.h7i5ku54jpwxlc7q@lakrids.cambridge.arm.com>
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 01, 2018 at 11:09:57PM +0800, Peng Hao wrote:
-> remove unnecessary header file init.h.
+On Thu, Nov 01, 2018 at 11:34:29AM +0000, Mark Rutland wrote:
+> On Thu, Nov 01, 2018 at 11:09:57PM +0800, Peng Hao wrote:
+> > remove unnecessary header file init.h.
+> > 
+> > Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
 > 
-> Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
+> Acked-by: Mark Rutland <mark.rutland@arm.com>
 
-Acked-by: Mark Rutland <mark.rutland@arm.com>
+... though please fix the title:
+
+s/revmove/remove/
 
 Mark.
-
-> ---
->  drivers/misc/pvpanic.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
-> index 059005c..66534d4 100644
-> --- a/drivers/misc/pvpanic.c
-> +++ b/drivers/misc/pvpanic.c
-> @@ -22,7 +22,6 @@
->  
->  #include <linux/kernel.h>
->  #include <linux/module.h>
-> -#include <linux/init.h>
->  #include <linux/types.h>
->  #include <linux/acpi.h>
->  
-> -- 
-> 1.8.3.1
-> 
