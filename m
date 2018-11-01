@@ -1,130 +1,69 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C36797D982
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 08:36:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D0B4B7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  1 Nov 2018 11:12:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728263AbeKARie (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 1 Nov 2018 13:38:34 -0400
-Received: from mx1.mailbox.org ([80.241.60.212]:41586 "EHLO mx1.mailbox.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728287AbeKARie (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Nov 2018 13:38:34 -0400
-Received: from smtp2.mailbox.org (unknown [IPv6:2001:67c:2050:105:465:1:2:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mx1.mailbox.org (Postfix) with ESMTPS id 314BD4B93B;
-        Thu,  1 Nov 2018 09:36:31 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172]) (amavisd-new, port 10030)
-        with ESMTP id EVgxWEYcnJev; Thu,  1 Nov 2018 09:36:30 +0100 (CET)
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>, Aleksa Sarai <asarai@suse.de>,
-        Christian Brauner <christian@brauner.io>,
-        Brendan Gregg <bgregg@netflix.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: [PATCH v3 2/2] trace: remove kretprobed checks
-Date:   Thu,  1 Nov 2018 19:35:51 +1100
-Message-Id: <20181101083551.3805-3-cyphar@cyphar.com>
-In-Reply-To: <20181101083551.3805-1-cyphar@cyphar.com>
-References: <20181101083551.3805-1-cyphar@cyphar.com>
+        id S1727507AbeKAUP1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 1 Nov 2018 16:15:27 -0400
+Received: from o1.31pqt.s2shared.sendgrid.net ([167.89.100.227]:13823 "EHLO
+        o1.31pqt.s2shared.sendgrid.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726520AbeKAUP1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Nov 2018 16:15:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.net;
+        h=mime-version:content-type:content-transfer-encoding:from:to:cc:
+        subject:in-reply-to:references;
+        s=smtpapi; bh=FPVcEplEJf0vkVn2OqvUlR0zFFLlOUyNEfe1mChGIBw=;
+        b=IwkzG/tw4ONajJl07vHHvYkopMo5dC3U+iIM8RoZCj1KuRzhnRpHj2nEOLpaLBYCHPNG
+        rtkE1nSrlWe6hLFcvKpuzJPDo8md43B3bALWQm+FwiLHG55U8nyZHL0iCkaeX0m1SWT9or
+        BXrbgIElUt4isXoSpuLgqv3Z79Cu8VLcQ=
+Received: by filter0004p2las1.sendgrid.net with SMTP id filter0004p2las1-26391-5BDADFB7-1F
+        2018-11-01 11:12:56.046437308 +0000 UTC m=+42054.540311136
+Received: from korte.land (unknown [146.185.150.169])
+        by ismtpd0006p1lon1.sendgrid.net (SG) with ESMTP id meCFd9ghR7OKDtuhNTWJXw
+        Thu, 01 Nov 2018 11:12:55.560 +0000 (UTC)
+Received: from mail.korte.land (localhost [127.0.0.1])
+        by korte.land (Postfix) with ESMTP id 37B9F60416;
+        Thu,  1 Nov 2018 11:12:54 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Date:   Thu, 01 Nov 2018 11:12:56 +0000 (UTC)
+From:   Will Korteland <will@korte.land>
+To:     Amir Livneh <alivneh@fb.com>
+Cc:     corbet@lwn.net, rostedt@goodmis.org, mingo@redhat.com,
+        linux-doc@vger.kernel.org, linux-doc-owner@vger.kernel.org
+Subject: Re: [PATCH] doc: tracing: Fix a number of typos
+In-Reply-To: <20181031141611.75480-1-alivneh@fb.com>
+References: <20181031141611.75480-1-alivneh@fb.com>
+Message-ID: <763be3409a2edc2606aaa6caed3e6078@korte.land>
+X-Sender: will@korte.land
+X-SG-EID: =?us-ascii?Q?cUnx5NqAuhUbAHG4iZ9Vx1BO6oMeAW3Kqk+xSEzhkR48c1futjyLp2=2Fwp8OUBt?=
+ =?us-ascii?Q?=2F5X+h1tdyY33lVKbOQVGXUFVApdEpOu8HdTqkNE?=
+ =?us-ascii?Q?Lo75qqeXXr=2Fu4TlfoPtd8q=2FDiIhGyZTuCA0Ztj1?=
+ =?us-ascii?Q?Gfmv0ke1TwC1WKDMv1j3QDJKVbpX0zVdI+l0p8t?=
+ =?us-ascii?Q?u7I5METft4KDlI2dIPVbA2oIBFesGbtoaDp7G+9?=
+ =?us-ascii?Q?lb5caWzs1nuFH1oDH1kmztHhddy4IFR9dL8Nua?=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is effectively a reversion of commit 76094a2cf46e ("ftrace:
-distinguish kretprobe'd functions in trace logs"), as the checking of
-kretprobe_trampoline *for tracing* is no longer necessary with the new
-kretprobe stack trace changes.
+On 2018-10-31 14:16, Amir Livneh wrote:
+> @@ -2978,7 +2978,7 @@ The following commands are supported:
+>    When the function is hit, it will dump the contents of the ftrace
+>    ring buffer to the console. This is useful if you need to debug
+>    something, and want to dump the trace when a certain function
+> -  is hit. Perhaps its a function that is called before a tripple
+> +  is hit. Perhaps it's a function that is called before a tripple
+>    fault happens and does not allow you to get a regular dump.
+>  
+>  - cpudump:
 
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
----
- kernel/trace/trace_output.c | 34 ++++------------------------------
- 1 file changed, 4 insertions(+), 30 deletions(-)
+"tripple" -> "triple", while you're at it?
 
-diff --git a/kernel/trace/trace_output.c b/kernel/trace/trace_output.c
-index 6e6cc64faa38..951de16bd4fd 100644
---- a/kernel/trace/trace_output.c
-+++ b/kernel/trace/trace_output.c
-@@ -321,36 +321,14 @@ int trace_output_call(struct trace_iterator *iter, char *name, char *fmt, ...)
- }
- EXPORT_SYMBOL_GPL(trace_output_call);
- 
--#ifdef CONFIG_KRETPROBES
--static inline const char *kretprobed(const char *name)
--{
--	static const char tramp_name[] = "kretprobe_trampoline";
--	int size = sizeof(tramp_name);
--
--	if (strncmp(tramp_name, name, size) == 0)
--		return "[unknown/kretprobe'd]";
--	return name;
--}
--#else
--static inline const char *kretprobed(const char *name)
--{
--	return name;
--}
--#endif /* CONFIG_KRETPROBES */
--
- static void
- seq_print_sym_short(struct trace_seq *s, const char *fmt, unsigned long address)
- {
- 	char str[KSYM_SYMBOL_LEN];
- #ifdef CONFIG_KALLSYMS
--	const char *name;
--
- 	kallsyms_lookup(address, NULL, NULL, NULL, str);
--
--	name = kretprobed(str);
--
--	if (name && strlen(name)) {
--		trace_seq_printf(s, fmt, name);
-+	if (strlen(str)) {
-+		trace_seq_printf(s, fmt, str);
- 		return;
- 	}
- #endif
-@@ -364,13 +342,9 @@ seq_print_sym_offset(struct trace_seq *s, const char *fmt,
- {
- 	char str[KSYM_SYMBOL_LEN];
- #ifdef CONFIG_KALLSYMS
--	const char *name;
--
- 	sprint_symbol(str, address);
--	name = kretprobed(str);
--
--	if (name && strlen(name)) {
--		trace_seq_printf(s, fmt, name);
-+	if (strlen(str)) {
-+		trace_seq_printf(s, fmt, str);
- 		return;
- 	}
- #endif
--- 
-2.19.1
-
+- Will
