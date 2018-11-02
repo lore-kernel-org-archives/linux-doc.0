@@ -3,64 +3,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 139837D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 16:16:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0717A7D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 16:17:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727250AbeKCBXn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Nov 2018 21:23:43 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:39634 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726316AbeKCBXn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Nov 2018 21:23:43 -0400
-Received: by mail-lj1-f196.google.com with SMTP id a28-v6so2233347ljd.6
-        for <linux-doc@vger.kernel.org>; Fri, 02 Nov 2018 09:16:04 -0700 (PDT)
+        id S1726799AbeKCBYu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Nov 2018 21:24:50 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:40476 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726098AbeKCBYu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Nov 2018 21:24:50 -0400
+Received: by mail-lj1-f195.google.com with SMTP id t22-v6so2231113lji.7
+        for <linux-doc@vger.kernel.org>; Fri, 02 Nov 2018 09:17:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=N6NQYdEnyyumEGIqnbggvUd7c7kcqAbpdqPPaZKambw=;
-        b=KUQPvKPBHR9TpXynw2M+KoViGL6tVvgbpLaEaSeE4VjbibgN2er1BoC3ICEidWSVhh
-         UueqnAbiuWdd9zew14e+ll6RzGR/QGI67HjrQHRXRj66VkrNCZvTkI7NTUsRppxV4uZe
-         +IQCpHAwo7P0tzCF8zCmhc4oSToVrimkve5nE=
+        bh=6+P4iK4fHt0LiWsFvNUewIfKFkqWHvMdSXiLiQlyetQ=;
+        b=HYGGlVKQ9fhSw4jodiKkb0GemMp/GdNqnIvbWA9+JPiFu5GMT8ymoU6FeIEe4ibwaz
+         c/CyviajaOy6jfq3D/89VBpKrMt2fg9X83r3f1lUN6TOkZtaWecD5FxRltJkXVjGWmbB
+         RUtdV46H/wLUvvNMBCJyBGqW5fi9XyMeuYr08=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=N6NQYdEnyyumEGIqnbggvUd7c7kcqAbpdqPPaZKambw=;
-        b=M1SysCeGKeBxfzWGDQyE7dr1QHXCjFTs4HLRpd4HPG6lY+AynUtaS4F0jbBtIKiC3r
-         FKu0c/LzFYc/ouFIr+eNtCXl2Mqx+hdMoNBxpdPvMhtCq3bxXkQ+4kzngdSx3mqjSRrr
-         rAvPj7l1ReJhKxCkIHWHNrXRLktuVhfWhvo+XeFmvP3Zrli1vd1ig+t9Sx9Ux+n8Ok7I
-         JfZ8Tlsm9p7Z5Wv4Zzxkl7/lApoEhtsUMUUdMobRhTDEOXr0rt0dGClThf45wPyt5Oti
-         4R/X6l0sBdpPB8ocip4if68GcqQURPjRl870PvrkInENxAqkZ+nuCp09Gjm4lv3rZ/WZ
-         sY7g==
-X-Gm-Message-State: AGRZ1gKZsoMdJa2AYgmMDwRIM7D/PWgvISMj26xNx83CoRvvi30GeIHt
-        LCwcyF3binWnQ7HqyIvv3aYUHj3daZGpwA==
-X-Google-Smtp-Source: AJdET5dXnomg9bcL7IEDypdwPmy9MBvYwgvg98rFOCF/z5vs7T0lKTkwibyUUQy/aydNl1mK7FGsSw==
-X-Received: by 2002:a2e:458b:: with SMTP id s133-v6mr7953302lja.170.1541175362852;
-        Fri, 02 Nov 2018 09:16:02 -0700 (PDT)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com. [209.85.208.178])
-        by smtp.gmail.com with ESMTPSA id z8-v6sm3537855lfh.52.2018.11.02.09.16.02
+        bh=6+P4iK4fHt0LiWsFvNUewIfKFkqWHvMdSXiLiQlyetQ=;
+        b=sQf6gifxRxrrkI4D5/Szwz81EByMp09feEZuA68BagKEY/0xjmTtdFNS5QVQiwSNxn
+         4CrSRD5Sea9oTkHF094QIixOmOtVandJKF+xR803Z2XdP4gg1x3tq/jKbr68tcM6EPsP
+         fV9/W47rMkU528q9B2aRfzmnI/ZJxKhpAdLLoOVsH34xdfVn7gxsx4mGRu2+5otl+1ES
+         Uk9IRGgOkMMamEJn4w2IxAE6zO4wnGgVAr9ixxCoBTxt5VWfXnRjs2ur8xLKXyv4gr3k
+         v2tb/HXMk5K4+w+T2sxvL4hHx2ZptSjV5GkzYr5BMoqcbZs3IJhDGL6VLrsx1yqJvRQ9
+         /r+g==
+X-Gm-Message-State: AGRZ1gKJGtUebTNZttUSXwLCjK9Ew7IKWyKNExKVBfGb/BgA7P6XvQ87
+        qjtWS/N2LdohO+xfLNYL8yG/W15GpcJsZw==
+X-Google-Smtp-Source: AJdET5dR/t8P2Q9OI9SE8I4JMZHsvdMnG5YU4FREFvKr7GkcB7ioqJZhZJenhvrf9VeGrdSDgg/OLg==
+X-Received: by 2002:a2e:5418:: with SMTP id i24-v6mr8770375ljb.51.1541175430191;
+        Fri, 02 Nov 2018 09:17:10 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
+        by smtp.gmail.com with ESMTPSA id c5-v6sm2049202lja.62.2018.11.02.09.17.09
         for <linux-doc@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 02 Nov 2018 09:16:02 -0700 (PDT)
-Received: by mail-lj1-f178.google.com with SMTP id a28-v6so2233273ljd.6
-        for <linux-doc@vger.kernel.org>; Fri, 02 Nov 2018 09:16:02 -0700 (PDT)
-X-Received: by 2002:a2e:874e:: with SMTP id q14-v6mr5441095ljj.120.1541174988196;
- Fri, 02 Nov 2018 09:09:48 -0700 (PDT)
+        Fri, 02 Nov 2018 09:17:09 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id d7-v6so1725048lfi.2
+        for <linux-doc@vger.kernel.org>; Fri, 02 Nov 2018 09:17:09 -0700 (PDT)
+X-Received: by 2002:a19:3fcf:: with SMTP id m198mr7016033lfa.106.1541175091974;
+ Fri, 02 Nov 2018 09:11:31 -0700 (PDT)
 MIME-Version: 1.0
 References: <20181022105944.GA1411@gmail.com> <CAHk-=whpBiV5sVTvPsWOVx5WYOouxbNG1fWeCdpK4oFiaH0Zqg@mail.gmail.com>
- <29dba7c2-f612-7b35-d665-9939d7e10eb8@virtuozzo.com>
-In-Reply-To: <29dba7c2-f612-7b35-d665-9939d7e10eb8@virtuozzo.com>
+ <CAHk-=widcG7zGELniGoqjPyBZAHehA_Gyi2n1aRO94G7SBzwNQ@mail.gmail.com> <06d822ab-5bc8-2d63-05be-f694c699658d@virtuozzo.com>
+In-Reply-To: <06d822ab-5bc8-2d63-05be-f694c699658d@virtuozzo.com>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 2 Nov 2018 09:09:32 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wj2AEQbmhto6FwxaxLEwvh3GG8FD8p8UptOsh5bE7jcuQ@mail.gmail.com>
-Message-ID: <CAHk-=wj2AEQbmhto6FwxaxLEwvh3GG8FD8p8UptOsh5bE7jcuQ@mail.gmail.com>
+Date:   Fri, 2 Nov 2018 09:11:16 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgYQHheoc1A6np=yHy6mxgfmu0pdu-+-eRKbOjrywFZ2Q@mail.gmail.com>
+Message-ID: <CAHk-=wgYQHheoc1A6np=yHy6mxgfmu0pdu-+-eRKbOjrywFZ2Q@mail.gmail.com>
 Subject: Re: [GIT PULL] Compiler Attributes for v4.20-rc1
-To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>
+To:     Andrey Ryabinin <aryabinin@virtuozzo.com>
 Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         dan.carpenter@oracle.com, adilger.kernel@dilger.ca,
         yamada.masahiro@socionext.com, michal.lkml@markovi.net,
@@ -91,20 +89,22 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 2, 2018 at 2:43 AM Andrey Ryabinin <aryabinin@virtuozzo.com> wrote:
+On Fri, Nov 2, 2018 at 6:16 AM Andrey Ryabinin <aryabinin@virtuozzo.com> wrote:
 >
-> You're right, version checks shouldn't matter here. But __no_sanitize_address_or_inline
-> shouldn't have been added in the first place, because we already have almost the same
->__no_kasan_or_inline:
+> On 11/02/2018 04:46 AM, Linus Torvalds wrote:
+> >
+> > So I _think_ the KASAN config should have a
+> >
+> >     depends on CC_IS_GCC && GCC_VERSION >= 40902
+> >
+> > on it, but maybe there is something I'm missing.
+>
+> I'd rather use cc-option instead of version check, since we also support clang.
 
-Ahh, very good.
+That would be even better, but I thought the requirement for 4.9.2
+came not from the option existing, but because of some bugs getting
+fixed?
 
-Vasily, Martin - since __no_sanitize_address_or_inline was added just
-for s390, would you mind replacing it with __no_kasan_or_inline
-instead, and testing that in whatever failed before?
+But if we can do it without version checks, that would be lovely.
 
-Then we can just remove that unnecessary symbol #define entirely..
-
-Thanks,
-
-                 Linus
+                    Linus
