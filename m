@@ -1,109 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 45ED57D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 07:58:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7FB6D7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 08:15:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728237AbeKBRE4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Nov 2018 13:04:56 -0400
-Received: from mx1.mailbox.org ([80.241.60.212]:11326 "EHLO mx1.mailbox.org"
+        id S1725990AbeKBRVv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Nov 2018 13:21:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55728 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727387AbeKBRE4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Nov 2018 13:04:56 -0400
-Received: from smtp2.mailbox.org (unknown [IPv6:2001:67c:2050:105:465:1:2:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        id S1725843AbeKBRVv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Nov 2018 13:21:51 -0400
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mx1.mailbox.org (Postfix) with ESMTPS id 100A543409;
-        Fri,  2 Nov 2018 08:58:37 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by gerste.heinlein-support.de (gerste.heinlein-support.de [91.198.250.173]) (amavisd-new, port 10030)
-        with ESMTP id mW1eQMjYusdU; Fri,  2 Nov 2018 08:58:32 +0100 (CET)
-Date:   Fri, 2 Nov 2018 18:58:18 +1100
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Christian Brauner <christian@brauner.io>,
-        Aleksa Sarai <asarai@suse.de>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Josh Poimboeuf <jpoimboe@redhat.com>
-Subject: Re: [PATCH v3 1/2] kretprobe: produce sane stack traces
-Message-ID: <20181102075818.fk55mxb3snqj5rjt@yavin>
-References: <20181101083551.3805-1-cyphar@cyphar.com>
- <20181101083551.3805-2-cyphar@cyphar.com>
- <20181101204720.6ed3fe37@vmware.local.home>
- <20181102050509.tw3dhvj5urudvtjl@yavin>
+        by mail.kernel.org (Postfix) with ESMTPSA id E873420854;
+        Fri,  2 Nov 2018 08:15:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1541146531;
+        bh=EkvWRnn0Heptyyibu8w5GyDBooQmiwEveOHxIylk+gM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=hKyM6dvmRnQm7cEmbua4CO0T6Uv5y4wuCTMhXPFRyiVrG+JgxUDODBoE8sXTod+o5
+         LfW2XQ3lPSa0QYMc5HLJd22s5Jt0yi+PnyXriEcBkEL1Lig+6VYuR2i+6eiW4WCqLV
+         QwAPdBUKC46ptWgod9+l0VW7CHAbOhD3zdio1enI=
+Received: by mail-lj1-f176.google.com with SMTP id x85-v6so996241ljb.2;
+        Fri, 02 Nov 2018 01:15:30 -0700 (PDT)
+X-Gm-Message-State: AGRZ1gKUGFLEfAsXMWlvNfTvz/X8EKKAdQyWR5+BKyEiM+6uxrEuvQuj
+        j6d07h4shz1XLb4LgoqxQ4m5jDOssoewZxm+2pQ=
+X-Google-Smtp-Source: AJdET5fdYFlrkf/tLEE46Lc3Hc8N/fAyxg9i9W9jlScPjH7+7uXnMQueyxWPD/lX1Q0K8IZW55ss3H8Ovium8d75Ng8=
+X-Received: by 2002:a2e:85d3:: with SMTP id h19-v6mr2412555ljj.82.1541146528933;
+ Fri, 02 Nov 2018 01:15:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ohgwqw7to7laxvft"
-Content-Disposition: inline
-In-Reply-To: <20181102050509.tw3dhvj5urudvtjl@yavin>
+References: <cover.1541054985.git.matti.vaittinen@fi.rohmeurope.com> <83e985f2f60a68f89fac777aa29c55b1edb8769f.1541054985.git.matti.vaittinen@fi.rohmeurope.com>
+In-Reply-To: <83e985f2f60a68f89fac777aa29c55b1edb8769f.1541054985.git.matti.vaittinen@fi.rohmeurope.com>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+Date:   Fri, 2 Nov 2018 09:15:17 +0100
+X-Gmail-Original-Message-ID: <CAJKOXPd=E+S3j3XnpCVRs3JdStY2z+pHe0bh_HNzQTmJW_dH=Q@mail.gmail.com>
+Message-ID: <CAJKOXPd=E+S3j3XnpCVRs3JdStY2z+pHe0bh_HNzQTmJW_dH=Q@mail.gmail.com>
+Subject: Re: [PATCH v2 2/8] clk: clk-max77686: Clean clkdev lookup leak and
+ use devm
+To:     matti.vaittinen@fi.rohmeurope.com
+Cc:     corbet@lwn.net, mturquette@baylibre.com, sboyd@kernel.org,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        =?UTF-8?B?QmFydMWCb21pZWogxbtvxYJuaWVya2lld2ljeg==?= 
+        <b.zolnierkie@samsung.com>, linux@armlinux.org.uk,
+        andy.gross@linaro.org, david.brown@linaro.org, kgene@kernel.org,
+        s.nawrocki@samsung.com, Tomasz Figa <tomasz.figa@gmail.com>,
+        andrew.smirnov@gmail.com, sre@kernel.org, linux@roeck-us.net,
+        robh@kernel.org, sjhuang@iluvatar.ai, Akshu.Agrawal@amd.com,
+        rafael.j.wysocki@intel.com, djkurtz@chromium.org,
+        mazziesaccount@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org,
+        "linux-samsung-soc@vger.kernel.org" 
+        <linux-samsung-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, 1 Nov 2018 at 08:19, Matti Vaittinen
+<matti.vaittinen@fi.rohmeurope.com> wrote:
+>
+> clk-max77686 never clean clkdev lookup at remove. This can cause
+> oops if clk-max77686 is removed and inserted again. Fix leak by
+> using new devm clkdev lookup registration. Simplify also error
+> path by using new devm_of_clk_add_parent_hw_provider.
+>
+> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> ---
+>  drivers/clk/clk-max77686.c | 25 ++++---------------------
+>  1 file changed, 4 insertions(+), 21 deletions(-)
+>
+> diff --git a/drivers/clk/clk-max77686.c b/drivers/clk/clk-max77686.c
+> index 02551fe4b87c..b1920c1d9b76 100644
+> --- a/drivers/clk/clk-max77686.c
+> +++ b/drivers/clk/clk-max77686.c
+> @@ -235,7 +235,7 @@ static int max77686_clk_probe(struct platform_device *pdev)
+>                         return ret;
+>                 }
+>
+> -               ret = clk_hw_register_clkdev(&max_clk_data->hw,
+> +               ret = devm_clk_hw_register_clkdev(dev, &max_clk_data->hw,
+>                                              max_clk_data->clk_idata.name, NULL);
 
---ohgwqw7to7laxvft
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+You need to re-align the next line.
 
-On 2018-11-02, Aleksa Sarai <cyphar@cyphar.com> wrote:
-> Unfortunately, I'm having a lot of trouble understanding how the current
-> ftrace hooking works -- ORC has a couple of ftrace hooks that seem
-> reasonable on the surface but I don't understand (for instance) how
-> HAVE_FUNCTION_GRAPH_RET_ADDR_PTR *actually* works. Though your comment
-> appears to indicate that it doesn't work for stack traces?
+>                 if (ret < 0) {
+>                         dev_err(dev, "Failed to clkdev register: %d\n", ret);
+> @@ -244,8 +244,8 @@ static int max77686_clk_probe(struct platform_device *pdev)
+>         }
+>
+>         if (parent->of_node) {
+> -               ret = of_clk_add_hw_provider(parent->of_node, of_clk_max77686_get,
+> -                                            drv_data);
+> +               ret = devm_of_clk_add_parent_hw_provider(dev,
+> +                                               of_clk_max77686_get, drv_data);
 
-Sorry, I just figured out how it works! (To make sure I actually
-understand -- retp is a pointer to the place in the stack where the
-return address is stored, so it uniquely specifies what each trampoline
-actually points to -- this trick could also be used for kretprobes).
+The same, please.
 
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
+Rest looks good, so with these changes:
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 
---ohgwqw7to7laxvft
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEb6Gz4/mhjNy+aiz1Snvnv3Dem58FAlvcA5cACgkQSnvnv3De
-m5/Fbg//cNaNafzuvOJBuDYI+bTOXGARp3LQ1DyqUSj7Qmak6e5vxtjF6AQgkhs0
-HH9bGvIXRfUaWU5bRSCMOkXsRVs3vsuQK7RkDjOx9n3AOtu5+eXay6k/opldFjcG
-qRXfiiplsB8ijwF6o1shm95v/g9hsr0hRuP7mxFGdqmbH17i7pJ0VEYFjAIS0+b0
-130oOQvP119GVM3wRaOWN88N4DqVjCW5WWURfdWVzH31c9VQzSYy6p7Y/t0ZLkiW
-gOOi3/7JrE9dqj2Qp/+dSRa2MEzgD3mHCrcVTDwalR5NScuoDrJQEXHSkrRnborJ
-vZ8vDuwuVVNidRys7bH/EE4DSevswoExpNN1OtYKm6f7h3C35DMEyws6MgitHGXI
-F4yy07AUFoBUkMZKaFI51Y8gCQZEUv2MvLK+i+Pf0gW1nZNnORUOx4/WnVxO4XTZ
-IXoT/Exq8RMVnmEzOQHn6wWSgVLXQvel/TzwoDfbbZb4EJYbs9EevNx9QYcRhPYq
-Inte2hnvEW8MWufrxhJKHwE2lbMV90OX6bM4O+4TDZn1F8/Z5BdNI0xQ3K/zi4K/
-dWeXvFhkiCPoLsORSzqeby5bUp6c8gjzPNaWQC8BrWwZuSSzX85Dtcs3qIMOrzIj
-smbXYhS0nE1FdEIqeZ6RWNPHLHGRyDCHAvZ8mz55H+4+ZIxtqv8=
-=kzT1
------END PGP SIGNATURE-----
-
---ohgwqw7to7laxvft--
+Best regards,
+Krzysztof
