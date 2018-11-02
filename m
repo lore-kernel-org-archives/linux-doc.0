@@ -5,89 +5,155 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EB1047D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 16:58:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A1A0A7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 18:13:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727820AbeKCCGV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Nov 2018 22:06:21 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48068 "EHLO relay.sw.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727518AbeKCCGU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Nov 2018 22:06:20 -0400
-Received: from [172.16.25.12]
-        by relay.sw.ru with esmtp (Exim 4.90_1)
-        (envelope-from <aryabinin@virtuozzo.com>)
-        id 1gIcm5-0006zx-Az; Fri, 02 Nov 2018 19:58:21 +0300
-Subject: Re: [GIT PULL] Compiler Attributes for v4.20-rc1
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        dan.carpenter@oracle.com, adilger.kernel@dilger.ca,
-        yamada.masahiro@socionext.com, michal.lkml@markovi.net,
-        rostedt@goodmis.org, mchehab+samsung@kernel.org, olof@lxom.net,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        David Miller <davem@davemloft.net>,
-        Kees Cook <keescook@chromium.org>, tglx@linutronix.de,
-        Ingo Molnar <mingo@kernel.org>, paullawrence@google.com,
-        sandipan@linux.vnet.ibm.com, andreyknvl@google.com,
-        David Woodhouse <dwmw2@infradead.org>, will.deacon@arm.com,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        paul.burton@mips.com, rientjes@google.com, w@1wt.eu,
-        msebor@gmail.com, Chris Li <sparse@chrisli.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>, joe@perches.com,
-        Arnd Bergmann <arnd@arndb.de>, asmadeus@codewreck.org,
-        stefan@agner.ch, luc.vanoostenryck@gmail.com,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
-References: <20181022105944.GA1411@gmail.com>
- <CAHk-=whpBiV5sVTvPsWOVx5WYOouxbNG1fWeCdpK4oFiaH0Zqg@mail.gmail.com>
- <CAHk-=widcG7zGELniGoqjPyBZAHehA_Gyi2n1aRO94G7SBzwNQ@mail.gmail.com>
- <06d822ab-5bc8-2d63-05be-f694c699658d@virtuozzo.com>
- <CAHk-=wgYQHheoc1A6np=yHy6mxgfmu0pdu-+-eRKbOjrywFZ2Q@mail.gmail.com>
-From:   Andrey Ryabinin <aryabinin@virtuozzo.com>
-Message-ID: <46998a3f-f8e7-fac8-d73c-c9cd81ac32b9@virtuozzo.com>
-Date:   Fri, 2 Nov 2018 19:59:07 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <CAHk-=wgYQHheoc1A6np=yHy6mxgfmu0pdu-+-eRKbOjrywFZ2Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1728147AbeKCDVk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Nov 2018 23:21:40 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49746 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728140AbeKCDVk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Nov 2018 23:21:40 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wA2I3hSG111673
+        for <linux-doc@vger.kernel.org>; Fri, 2 Nov 2018 14:13:34 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2ngrn57tpu-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 02 Nov 2018 14:13:34 -0400
+Received: from localhost
+        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
+        Fri, 2 Nov 2018 18:13:32 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 2 Nov 2018 18:13:29 -0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wA2IDStZ60424436
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 2 Nov 2018 18:13:28 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 156FEAE056;
+        Fri,  2 Nov 2018 18:13:28 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 80CD3AE045;
+        Fri,  2 Nov 2018 18:13:26 +0000 (GMT)
+Received: from dhcp-9-31-102-82.watson.ibm.com (unknown [9.31.102.82])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Fri,  2 Nov 2018 18:13:26 +0000 (GMT)
+Subject: Re: [PATCH security-next v5 12/30] LSM: Provide separate ordered
+ initialization
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Kees Cook <keescook@chromium.org>, James Morris <jmorris@namei.org>
+Cc:     Casey Schaufler <casey@schaufler-ca.com>,
+        John Johansen <john.johansen@canonical.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Paul Moore <paul@paul-moore.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jordan Glover <Golden_Miller83@protonmail.ch>,
+        LSM <linux-security-module@vger.kernel.org>,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Fri, 02 Nov 2018 14:13:26 -0400
+In-Reply-To: <20181011001846.30964-13-keescook@chromium.org>
+References: <20181011001846.30964-1-keescook@chromium.org>
+         <20181011001846.30964-13-keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 18110218-0020-0000-0000-000002DEDA1D
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18110218-0021-0000-0000-0000212E3EEA
+Message-Id: <1541182406.20901.31.camel@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-02_10:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1811020160
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Kees,
 
-
-On 11/02/2018 07:11 PM, Linus Torvalds wrote:
-> On Fri, Nov 2, 2018 at 6:16 AM Andrey Ryabinin <aryabinin@virtuozzo.com> wrote:
->>
->> On 11/02/2018 04:46 AM, Linus Torvalds wrote:
->>>
->>> So I _think_ the KASAN config should have a
->>>
->>>     depends on CC_IS_GCC && GCC_VERSION >= 40902
->>>
->>> on it, but maybe there is something I'm missing.
->>
->> I'd rather use cc-option instead of version check, since we also support clang.
+On Wed, 2018-10-10 at 17:18 -0700, Kees Cook wrote:
+> This provides a place for ordered LSMs to be initialized, separate from
+> the "major" LSMs. This is mainly a copy/paste from major_lsm_init() to
+> ordered_lsm_init(), but it will change drastically in later patches.
 > 
-> That would be even better, but I thought the requirement for 4.9.2
-> came not from the option existing, but because of some bugs getting
-> fixed?
+> What is not obvious in the patch is that this change moves the integrity
+> LSM from major_lsm_init() into ordered_lsm_init(), since it is not marked
+> with the LSM_FLAG_LEGACY_MAJOR. As it is the only LSM in the "ordered"
+> list, there is no reordering yet created.
 
-It looks unusual but -fsanitize=kernel-address really showed up only in 4.9.2.
-It was actually backported from 5.0 branch to 4.9 for whatever reason.
+I'm so sorry for not reviewing these patches earlier.  Both IMA and
+EVM are dependent on "integrity", but "integrity", at least by itself,
+should not be considered an LSM.
+
+I don't recall why "integrity" is on the security_initcall, while both
+IMA and EVM are on the late_initcall().
+
+Mimi
 
 > 
-> But if we can do it without version checks, that would be lovely.
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
+> Reviewed-by: John Johansen <john.johansen@canonical.com>
+> ---
+>  security/security.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 > 
->                     Linus
+> diff --git a/security/security.c b/security/security.c
+> index 2055af907eba..ebbbb672ced5 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+> @@ -52,12 +52,30 @@ static __initdata bool debug;
+>  			pr_info(__VA_ARGS__);			\
+>  	} while (0)
 > 
+> +static void __init ordered_lsm_init(void)
+> +{
+> +	struct lsm_info *lsm;
+> +	int ret;
+> +
+> +	for (lsm = __start_lsm_info; lsm < __end_lsm_info; lsm++) {
+> +		if ((lsm->flags & LSM_FLAG_LEGACY_MAJOR) != 0)
+> +			continue;
+> +
+> +		init_debug("initializing %s\n", lsm->name);
+> +		ret = lsm->init();
+> +		WARN(ret, "%s failed to initialize: %d\n", lsm->name, ret);
+> +	}
+> +}
+> +
+>  static void __init major_lsm_init(void)
+>  {
+>  	struct lsm_info *lsm;
+>  	int ret;
+> 
+>  	for (lsm = __start_lsm_info; lsm < __end_lsm_info; lsm++) {
+> +		if ((lsm->flags & LSM_FLAG_LEGACY_MAJOR) == 0)
+> +			continue;
+> +
+>  		init_debug("initializing %s\n", lsm->name);
+>  		ret = lsm->init();
+>  		WARN(ret, "%s failed to initialize: %d\n", lsm->name, ret);
+> @@ -87,6 +105,9 @@ int __init security_init(void)
+>  	yama_add_hooks();
+>  	loadpin_add_hooks();
+> 
+> +	/* Load LSMs in specified order. */
+> +	ordered_lsm_init();
+> +
+>  	/*
+>  	 * Load all the remaining security modules.
+>  	 */
+
