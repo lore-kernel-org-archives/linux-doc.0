@@ -5,111 +5,140 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8A1967D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 13:16:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A1D067D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 13:17:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726265AbeKBWYB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Nov 2018 18:24:01 -0400
-Received: from relay.sw.ru ([185.231.240.75]:40638 "EHLO relay.sw.ru"
+        id S1726897AbeKBWYL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Nov 2018 18:24:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46576 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726104AbeKBWYB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Nov 2018 18:24:01 -0400
-Received: from [172.16.25.12]
-        by relay.sw.ru with esmtp (Exim 4.90_1)
-        (envelope-from <aryabinin@virtuozzo.com>)
-        id 1gIZJW-00066L-5X; Fri, 02 Nov 2018 16:16:38 +0300
-Subject: Re: [GIT PULL] Compiler Attributes for v4.20-rc1
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     dan.carpenter@oracle.com, adilger.kernel@dilger.ca,
-        yamada.masahiro@socionext.com, michal.lkml@markovi.net,
-        rostedt@goodmis.org, mchehab+samsung@kernel.org, olof@lxom.net,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        David Miller <davem@davemloft.net>,
-        Kees Cook <keescook@chromium.org>, tglx@linutronix.de,
-        Ingo Molnar <mingo@kernel.org>, paullawrence@google.com,
-        sandipan@linux.vnet.ibm.com, andreyknvl@google.com,
-        David Woodhouse <dwmw2@infradead.org>, will.deacon@arm.com,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        paul.burton@mips.com, rientjes@google.com, w@1wt.eu,
-        msebor@gmail.com, sparse@chrisli.org,
+        id S1726104AbeKBWYL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Nov 2018 18:24:11 -0400
+Received: from gandalf.local.home (cpe-66-24-56-78.stny.res.rr.com [66.24.56.78])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 905642081F;
+        Fri,  2 Nov 2018 13:17:00 +0000 (UTC)
+Date:   Fri, 2 Nov 2018 09:16:58 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>, joe@perches.com,
-        Arnd Bergmann <arnd@arndb.de>, asmadeus@codewreck.org,
-        stefan@agner.ch, luc.vanoostenryck@gmail.com,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
-References: <20181022105944.GA1411@gmail.com>
- <CAHk-=whpBiV5sVTvPsWOVx5WYOouxbNG1fWeCdpK4oFiaH0Zqg@mail.gmail.com>
- <CAHk-=widcG7zGELniGoqjPyBZAHehA_Gyi2n1aRO94G7SBzwNQ@mail.gmail.com>
-From:   Andrey Ryabinin <aryabinin@virtuozzo.com>
-Message-ID: <06d822ab-5bc8-2d63-05be-f694c699658d@virtuozzo.com>
-Date:   Fri, 2 Nov 2018 16:17:23 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Christian Brauner <christian@brauner.io>,
+        Aleksa Sarai <asarai@suse.de>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Josh Poimboeuf <jpoimboe@redhat.com>
+Subject: Re: [PATCH v3 1/2] kretprobe: produce sane stack traces
+Message-ID: <20181102091658.1bc979a4@gandalf.local.home>
+In-Reply-To: <20181102065932.bdt4pubbrkvql4mp@yavin>
+References: <20181101083551.3805-1-cyphar@cyphar.com>
+        <20181101083551.3805-2-cyphar@cyphar.com>
+        <20181101204720.6ed3fe37@vmware.local.home>
+        <20181102050509.tw3dhvj5urudvtjl@yavin>
+        <20181102065932.bdt4pubbrkvql4mp@yavin>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CAHk-=widcG7zGELniGoqjPyBZAHehA_Gyi2n1aRO94G7SBzwNQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, 2 Nov 2018 17:59:32 +1100
+Aleksa Sarai <cyphar@cyphar.com> wrote:
+
+> As an aside, I just tested with the frame unwinder and it isn't thrown
+> off-course by kretprobe_trampoline (though obviously the stack is still
+> wrong). So I think we just need to hook into the ORC unwinder to get it
+> to continue skipping up the stack, as well as add the rewriting code for
+> the stack traces (for all unwinders I guess -- though ideally we should
+
+I agree that this is the right solution.
+
+> do this without having to add the same code to every architecture).
+
+True, and there's an art to consolidating the code between
+architectures.
+
+I'm currently looking at function graph and seeing if I can consolidate
+it too. And I'm also trying to get multiple uses to hook into its
+infrastructure. I think I finally figured out a way to do so.
+
+The reason it is difficult, is that you need to maintain state between
+the entry of a function and the exit for each task and callback that is
+registered. Hence, it's a 3x tuple (function stack, task, callbacks).
+And this must be maintained with preemption. A task may sleep for
+minutes, and the state needs to be retained.
+
+The only state that must be retained is the function stack with the
+task, because if that gets out of sync, the system crashes. But the
+callback state can be removed.
+
+Here's what is there now:
+
+ When something is registered with the function graph tracer, every
+ task gets a shadowed stack. A hook is added to fork to add shadow
+ stacks to new tasks. Once a shadow stack is added to a task, that
+ shadow stack is never removed until the task exits.
+
+ When the function is entered, the real return code is stored in the
+ shadow stack and the trampoline address is put in its place.
+
+ On return, the trampoline is called, and it will pop off the return
+ code from the shadow stack and return to that.
+
+The issue with multiple users, is that different users may want to
+trace different functions. On entry, the user could say it doesn't want
+to trace the current function, and the return part must not be called
+on exit. Keeping track of which user needs the return called is the
+tricky part.
+
+Here's what I plan on implementing:
+
+ Along with a shadow stack, I was going to add a 4096 byte (one page)
+ array that holds 64 8 byte masks to every task as well. This will allow
+ 64 simultaneous users (which is rather extreme). If we need to support
+ more, we could allocate another page for all tasks. The 8 byte mask
+ will represent each depth (allowing to do this for 64 function call
+ stack depth, which should also be enough).
+
+ Each user will be assigned one of the masks. Each bit in the mask
+ represents the depth of the shadow stack. When a function is called,
+ each user registered with the function graph tracer will get called
+ (if they asked to be called for this function, via the ftrace_ops
+ hashes) and if they want to trace the function, then the bit is set in
+ the mask for that stack depth.
+
+ When the function exits the function and we pop off the return code
+ from the shadow stack, we then look at all the bits set for the
+ corresponding users, and call their return callbacks, and ignore
+ anything that is not set.
 
 
-On 11/02/2018 04:46 AM, Linus Torvalds wrote:
-> On Thu, Nov 1, 2018 at 10:06 AM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
->>
->> The logic for using __no_sanitize_address *used* to be
->>
->>     #if GCC_VERSION >= 40902
-> 
-> Ok, looking around, I think this has less to do with the attribute
-> being recognized, and simply just being because KASAN itself wants
-> gcc-4.9.2.
-> 
-> I'm actually not seeing that KASAN dependency in the Kconfig scripts
-> (and it probably _should_ be now that we can just add compiler version
-> dependencies there), but that explains why the gcc version check is
-> different from "gcc supports the attribute".
-> 
-> Anyway, I decided to do the merge by just getting rid of the
-> GCC_VERSION check around __no_sanitize_address_or_inline entirely. If
-> you enable KASAN, then a function with that marking just won't be
-> marked inline.
-> 
-> End result: pulled. I'm as confused as you are as to why
-> __no_sanitize_address_or_inline is in the gcc header, but I guess it
-> ends up being the same issue: KASAN depends on gcc even if that
-> dependency doesn't seem to be spelled out in lib/Kconfig.kasan.
-> 
-> So I _think_ the KASAN config should have a
-> 
->     depends on CC_IS_GCC && GCC_VERSION >= 40902
-> 
-> on it, but maybe there is something I'm missing.
-> 
+When a user is unregistered, it the corresponding bits that represent
+it are cleared, and it the return callback will not be called. But the
+tasks being traced will still have their shadow stack to allow it to
+get back to normal.
 
-I'd rather use cc-option instead of version check, since we also support clang.
+I'll hopefully have a prototype ready by plumbers.
 
-It should be possible to express compiler requirements for subfeatures
-like stack/inline instrumentation in Kconfig. But that would be not that trivial, 
-see the scripts/Makefile.kasan
+And this too will require each architecture to probably change. As a
+side project to this, I'm going to try to consolidate the function
+graph code among all the architectures as well. Not an easy task.
 
-> But from a pull standpoint, I don't want to mess with those
-> (unrelated) issues, so I just kept the merge resolution as simple and
-> straightforward as possible.
-> 
-> Miguel, please do double-check the merge (it's not pushed out yet, I'm
-> doing the usual build tests etc first).
-> 
->                     Linus
-> 
+-- Steve
