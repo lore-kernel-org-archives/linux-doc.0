@@ -2,143 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A1D067D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 13:17:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4FB527D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 14:34:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726897AbeKBWYL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Nov 2018 18:24:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46576 "EHLO mail.kernel.org"
+        id S1727869AbeKBXlq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Nov 2018 19:41:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47880 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726104AbeKBWYL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Nov 2018 18:24:11 -0400
-Received: from gandalf.local.home (cpe-66-24-56-78.stny.res.rr.com [66.24.56.78])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1727668AbeKBXlq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Nov 2018 19:41:46 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 905642081F;
-        Fri,  2 Nov 2018 13:17:00 +0000 (UTC)
-Date:   Fri, 2 Nov 2018 09:16:58 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Christian Brauner <christian@brauner.io>,
-        Aleksa Sarai <asarai@suse.de>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Josh Poimboeuf <jpoimboe@redhat.com>
-Subject: Re: [PATCH v3 1/2] kretprobe: produce sane stack traces
-Message-ID: <20181102091658.1bc979a4@gandalf.local.home>
-In-Reply-To: <20181102065932.bdt4pubbrkvql4mp@yavin>
-References: <20181101083551.3805-1-cyphar@cyphar.com>
-        <20181101083551.3805-2-cyphar@cyphar.com>
-        <20181101204720.6ed3fe37@vmware.local.home>
-        <20181102050509.tw3dhvj5urudvtjl@yavin>
-        <20181102065932.bdt4pubbrkvql4mp@yavin>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        by mx1.redhat.com (Postfix) with ESMTPS id 0E75C7BDA0;
+        Fri,  2 Nov 2018 14:34:27 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-8.bos.redhat.com [10.18.17.8])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5C6795D6A6;
+        Fri,  2 Nov 2018 14:34:22 +0000 (UTC)
+Subject: Re: [PATCH v14 12/12] cpuset: Show descriptive text when reading
+ cpuset.sched.partition
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>,
+        Tom Hromatka <tom.hromatka@oracle.com>
+References: <1539635377-22335-1-git-send-email-longman@redhat.com>
+ <1539635377-22335-13-git-send-email-longman@redhat.com>
+ <20181017150836.GS270328@devbig004.ftw2.facebook.com>
+ <b797288a-6088-f7b0-c881-81633c071754@redhat.com>
+ <20181019192444.GV270328@devbig004.ftw2.facebook.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <bd198f0c-e5b9-13f1-ffe2-05414d0b392f@redhat.com>
+Date:   Fri, 2 Nov 2018 10:34:21 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20181019192444.GV270328@devbig004.ftw2.facebook.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Fri, 02 Nov 2018 14:34:27 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2 Nov 2018 17:59:32 +1100
-Aleksa Sarai <cyphar@cyphar.com> wrote:
+On 10/19/2018 03:24 PM, Tejun Heo wrote:
+> On Fri, Oct 19, 2018 at 02:56:13PM -0400, Waiman Long wrote:
+>> On 10/17/2018 11:08 AM, Tejun Heo wrote:
+>>> On Mon, Oct 15, 2018 at 04:29:37PM -0400, Waiman Long wrote:
+>>>> Currently, cpuset.sched.partition returns the values, 0, 1 or -1 on
+>>>> read. A person who is not familiar with the partition code may not
+>>>> understand what they mean.
+>>>>
+>>>> In order to make cpuset.sched.partition more user-friendly, it will
+>>>> now display the following descriptive text on read:
+>>>>
+>>>>   "normal" - A normal cpuset, not a partition root
+>>>>   "partition" - A partition root
+>>>>   "partition invalid" - An invalid partition root
+>>>>
+>>>> Suggested-by: Tejun Heo <tj@kernel.org>
+>>>> Signed-off-by: Waiman Long <longman@redhat.com>
+>>> Can you also make this consistent when writing to the file?
+>>>
+>>> Thanks.
+>>>
+>> How about the attached patch instead?
+> Looks good to me.  Once Peter is okay with it, I'll roll it into
+> cgroup devel branch.  As v4.19 is almost done, I think it makes more
+> sense to target the next merge window (v4.21).
+>
+> Thanks.
+>
+Peter, are you OK with the current cpuset v2 patch which does allow
+hierarchical partitions as you have requested?
 
-> As an aside, I just tested with the frame unwinder and it isn't thrown
-> off-course by kretprobe_trampoline (though obviously the stack is still
-> wrong). So I think we just need to hook into the ORC unwinder to get it
-> to continue skipping up the stack, as well as add the rewriting code for
-> the stack traces (for all unwinders I guess -- though ideally we should
+Cheers,
+Longman
 
-I agree that this is the right solution.
-
-> do this without having to add the same code to every architecture).
-
-True, and there's an art to consolidating the code between
-architectures.
-
-I'm currently looking at function graph and seeing if I can consolidate
-it too. And I'm also trying to get multiple uses to hook into its
-infrastructure. I think I finally figured out a way to do so.
-
-The reason it is difficult, is that you need to maintain state between
-the entry of a function and the exit for each task and callback that is
-registered. Hence, it's a 3x tuple (function stack, task, callbacks).
-And this must be maintained with preemption. A task may sleep for
-minutes, and the state needs to be retained.
-
-The only state that must be retained is the function stack with the
-task, because if that gets out of sync, the system crashes. But the
-callback state can be removed.
-
-Here's what is there now:
-
- When something is registered with the function graph tracer, every
- task gets a shadowed stack. A hook is added to fork to add shadow
- stacks to new tasks. Once a shadow stack is added to a task, that
- shadow stack is never removed until the task exits.
-
- When the function is entered, the real return code is stored in the
- shadow stack and the trampoline address is put in its place.
-
- On return, the trampoline is called, and it will pop off the return
- code from the shadow stack and return to that.
-
-The issue with multiple users, is that different users may want to
-trace different functions. On entry, the user could say it doesn't want
-to trace the current function, and the return part must not be called
-on exit. Keeping track of which user needs the return called is the
-tricky part.
-
-Here's what I plan on implementing:
-
- Along with a shadow stack, I was going to add a 4096 byte (one page)
- array that holds 64 8 byte masks to every task as well. This will allow
- 64 simultaneous users (which is rather extreme). If we need to support
- more, we could allocate another page for all tasks. The 8 byte mask
- will represent each depth (allowing to do this for 64 function call
- stack depth, which should also be enough).
-
- Each user will be assigned one of the masks. Each bit in the mask
- represents the depth of the shadow stack. When a function is called,
- each user registered with the function graph tracer will get called
- (if they asked to be called for this function, via the ftrace_ops
- hashes) and if they want to trace the function, then the bit is set in
- the mask for that stack depth.
-
- When the function exits the function and we pop off the return code
- from the shadow stack, we then look at all the bits set for the
- corresponding users, and call their return callbacks, and ignore
- anything that is not set.
-
-
-When a user is unregistered, it the corresponding bits that represent
-it are cleared, and it the return callback will not be called. But the
-tasks being traced will still have their shadow stack to allow it to
-get back to normal.
-
-I'll hopefully have a prototype ready by plumbers.
-
-And this too will require each architecture to probably change. As a
-side project to this, I'm going to try to consolidate the function
-graph code among all the architectures as well. Not an easy task.
-
--- Steve
