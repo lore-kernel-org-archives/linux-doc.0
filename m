@@ -1,142 +1,143 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 096D27D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 09:43:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C5D017D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 10:13:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726021AbeKBSuF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Nov 2018 14:50:05 -0400
-Received: from relay.sw.ru ([185.231.240.75]:33754 "EHLO relay.sw.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725935AbeKBSuF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Nov 2018 14:50:05 -0400
-Received: from [172.16.25.12]
-        by relay.sw.ru with esmtp (Exim 4.90_1)
-        (envelope-from <aryabinin@virtuozzo.com>)
-        id 1gIVz0-0005Hu-Lu; Fri, 02 Nov 2018 12:43:14 +0300
+        id S1725990AbeKBTUH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Nov 2018 15:20:07 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:44261 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725987AbeKBTUH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Nov 2018 15:20:07 -0400
+Received: by mail-lf1-f66.google.com with SMTP id m18-v6so935141lfl.11;
+        Fri, 02 Nov 2018 03:13:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2keOT9J2D+cF+RdEWmWysKwcvVNp/0+LC02ESa3xzK8=;
+        b=OOMQHQfRE0wDG7eju9jTYk4s7fYpbxdw3cDLE1q292Evtg3iqZ37VYMAxE9Pjb4sC2
+         Q812wEa6ERobB1ba554BBBmv9ootsfAokxRGI3sMHb9w+by7bbsLqF4DZeK8gGYMYySh
+         z7CUCX+O8fKWunxyJld+dsWmfPrZXAFpmYQa3+wI88Vd20+t3Fr7vSY/xCGRadfsro6A
+         JzavER7Kz2aF/f9dMpQm41/y8k6i82lI27/MspZ6QhOke3JyRgAM28OChCz79BsgOuCB
+         7awEbjwdQgbpb6rNt/f9kSws7HMTrW+sGWs4S9VfUn/FSVUki7k7524rP2aCs7uSMtxj
+         PSuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2keOT9J2D+cF+RdEWmWysKwcvVNp/0+LC02ESa3xzK8=;
+        b=eEX/2f2q5Y24WPRGqL/kFscY4Nd94x1tL5QMvKSuYxpNWvxBBmJHoaV3GbrG8P/6Ja
+         Lvlux+AS3V9tG9gait9QwMlxkkzCUINYL4LTeDifIfDMWiMEpnVvkVu4Gi5K9LDmlFyc
+         O/xosHJUZtfu9CLaXYUepRazBl+R3YVeuDoay1dxVfQf+mpNzjTqxUYrQNeIBhZ1AuAm
+         vi/OWfKuYDmntD7Q8TbKhbZCn0R/ja9HlOpkuMfhKVyU0+Zr2+am13VguMICtWRY59pK
+         rk0a2HitTrVoamkeA+5EOFW5iCsXa6ZLhYnRBC4CrwiyFEVEMlkbRq4yclPZ+02sv5ZY
+         kfxA==
+X-Gm-Message-State: AGRZ1gIJIV6HIzweVwkcraBFwg6yHIF0fVXZx8e4pW3ON/4SMQd+5BWJ
+        uFJEvtm95EapZ37PkT+rtC6zBdl6qOE/O7kIrYw=
+X-Google-Smtp-Source: AJdET5f/MXsSboGL4EAOmuwqJQ+OdnryQotbTOMju8/7eabI7TStEgHB4Fqvvmr0xG07T7d6QmehEQmhPWwTNMt+53s=
+X-Received: by 2002:a19:4e9a:: with SMTP id u26-v6mr6253834lfk.91.1541153606705;
+ Fri, 02 Nov 2018 03:13:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <20181022105944.GA1411@gmail.com> <CAHk-=whpBiV5sVTvPsWOVx5WYOouxbNG1fWeCdpK4oFiaH0Zqg@mail.gmail.com>
+ <CAHk-=widcG7zGELniGoqjPyBZAHehA_Gyi2n1aRO94G7SBzwNQ@mail.gmail.com>
+In-Reply-To: <CAHk-=widcG7zGELniGoqjPyBZAHehA_Gyi2n1aRO94G7SBzwNQ@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Fri, 2 Nov 2018 11:13:15 +0100
+Message-ID: <CANiq72=jj6J0BmykqcExC2P4f1W82YPLmtRHztPmRMmNY9Zvqg@mail.gmail.com>
 Subject: Re: [GIT PULL] Compiler Attributes for v4.20-rc1
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     dan.carpenter@oracle.com, adilger.kernel@dilger.ca,
-        yamada.masahiro@socionext.com, michal.lkml@markovi.net,
-        rostedt@goodmis.org, mchehab+samsung@kernel.org, olof@lxom.net,
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Dan <dan.carpenter@oracle.com>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Olof Johansson <olof@lxom.net>,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         David Miller <davem@davemloft.net>,
-        Kees Cook <keescook@chromium.org>, tglx@linutronix.de,
-        Ingo Molnar <mingo@kernel.org>, paullawrence@google.com,
-        sandipan@linux.vnet.ibm.com, andreyknvl@google.com,
-        dwmw2@infradead.org, will.deacon@arm.com, pombredanne@nexb.com,
-        paul.burton@mips.com, rientjes@google.com, w@1wt.eu,
-        msebor@gmail.com, sparse@chrisli.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Theodore Ts'o <tytso@mit.edu>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Sandipan Das <sandipan@linux.vnet.ibm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Paul Burton <paul.burton@mips.com>,
+        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
+        Martin Sebor <msebor@gmail.com>,
+        Christopher Li <sparse@chrisli.org>,
+        Jonathan Corbet <corbet@lwn.net>, "Ted Ts'o" <tytso@mit.edu>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>, joe@perches.com,
-        Arnd Bergmann <arnd@arndb.de>, asmadeus@codewreck.org,
-        stefan@agner.ch, luc.vanoostenryck@gmail.com,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Greg KH <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Vasily Gorbik <gor@linux.ibm.com>
-References: <20181022105944.GA1411@gmail.com>
- <CAHk-=whpBiV5sVTvPsWOVx5WYOouxbNG1fWeCdpK4oFiaH0Zqg@mail.gmail.com>
-From:   Andrey Ryabinin <aryabinin@virtuozzo.com>
-Message-ID: <29dba7c2-f612-7b35-d665-9939d7e10eb8@virtuozzo.com>
-Date:   Fri, 2 Nov 2018 12:44:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <CAHk-=whpBiV5sVTvPsWOVx5WYOouxbNG1fWeCdpK4oFiaH0Zqg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/01/2018 08:06 PM, Linus Torvalds wrote:
-> On Mon, Oct 22, 2018 at 3:59 AM Miguel Ojeda
-> <miguel.ojeda.sandonis@gmail.com> wrote:
->>
->> Here it is the Compiler Attributes series/tree, which tries to disentangle
->> the include/linux/compiler*.h headers and bring them up to date.
-> 
-> I've finally emptied the "normal" pull queues, and am looking at the
-> odd ones that I felt I needed to review more in-depth.
-> 
-> This looked fine to me, and I already pulled, but when looking at the
-> conflict for __no_sanitize_address_or_inline, I also noticed that you
-> actually changed the gcc version logic.
-> 
-> The logic for using __no_sanitize_address *used* to be
-> 
->     #if GCC_VERSION >= 40902
-> 
-> but you have changed it to
-> 
->   # define __GCC4_has_attribute___no_sanitize_address__ (__GNUC_MINOR__ >= 8)
-> 
-> so now it's gcc-4.8+ rather than gcc-4.9.2+.
+On Fri, Nov 2, 2018 at 2:52 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> Anyway, I decided to do the merge by just getting rid of the
+> GCC_VERSION check around __no_sanitize_address_or_inline entirely. If
+> you enable KASAN, then a function with that marking just won't be
+> marked inline.
 
-As you said in other email - "this has less to do with the attribute
-being recognized, and simply just being because KASAN itself wants
-gcc-4.9.2."
+I was a bit confused when reading the gcc bug reports, i.e. why gcc
+did *not* complain in 4.9 but it did in 5.1 (when it was supposed to
+complain also in 4.9). It turns out that gcc 5.1 takes into account
+who is the actual caller due to this change:
 
-gcc < 4.9.2 simply doesn't have -fsanitize=kernel-address.
-But no_sanitize attribute originally comes with user space ASAN (-fsanitize=address)
-which exist in earlier GCCs like 4.8.
-Checking against 4.8 gcc should be fine. If we compile the kernel with gcc 4.8
-it will be compiled without instrumentation, so the attribute won't have any effect.
++  cgraph_node *caller = e->caller->global.inlined_to
++                       ? e->caller->global.inlined_to : e->caller;
+...
+-  else if (!sanitize_attrs_match_for_inline_p (e->caller->decl, callee->decl))
++  else if (!sanitize_attrs_match_for_inline_p (caller->decl, callee->decl))
 
-> 
-> I'm not sure how much that matters (maybe the original check for 4.9.2
-> was just a random pick by Andrey? Added to cc), but together with the
-> movement to <linux/compiler_attributes.h> that looks like it also
-> wouldn't want the CONFIG_KASAN tests, I wonder what the right merge
-> resolution would be.
-> 
-> Yes, I see the resolution in linux-next, and I think that one is odd
-> and dubious, and now it *mixes* that old test of gcc-4.9.2 with the
-> different test in compiler-attributes.
-> 
-> I'm _inclined_ to just do
-> 
-> #ifdef CONFIG_KASAN
->  #define __no_sanitize_address_or_inline \
->   __no_sanitize_address __maybe_unused notrace
-> #else
->  #define __no_sanitize_address_or_inline inline
-> #endif
-> 
-> without any compiler versions at all, because I don't think it matters
-> (maybe we won't get address sanitation, and we will not get inlining
-> either, but do we care?).
+change; e.g. this:
 
-You're right, version checks shouldn't matter here. But __no_sanitize_address_or_inline
-shouldn't have been added in the first place, because we already have almost the same __no_kasan_or_inline:
+#define really_inline inline __attribute__((always_inline))
+#define no_sanitize __attribute__((no_sanitize_address))
 
-#ifdef CONFIG_KASAN
-/*
- * We can't declare function 'inline' because __no_sanitize_address confilcts
- * with inlining. Attempt to inline it may cause a build failure.
- * 	https://gcc.gnu.org/bugzilla/show_bug.cgi?id=67368
- * '__maybe_unused' allows us to avoid defined-but-not-used warnings.
- */
-# define __no_kasan_or_inline __no_sanitize_address __maybe_unused
-#else
-# define __no_kasan_or_inline __always_inline
-#endif
+really_inline void f() {}
+really_inline void g() { f(); }
+no_sanitize void h() { g(); }
 
-There are small differences like absence of notrace, but notrace could be added
-to the function together with __no_kasan_or_inline.
-And inline is *not* redefined to __always_inline  only on x86 when CONFIG_OPTIMIZE_INLINING=y
+Complains in gcc 4.9 -O0, 5.1 -O0 and 5.1 -O2; but *not* in 4.9 -O2.
+https://godbolt.org/z/kNApqk
 
-So there is absolutely no reason to have both __no_kasan_or_inline and __no_sanitize_address_or_inline.
+Anyway, this is orthogonal but in case it clarifies that for someone else...
 
+> Miguel, please do double-check the merge (it's not pushed out yet, I'm
+> doing the usual build tests etc first).
+
+I was sleeping, didn't manage to see it (in your GitHub, I guess?).
+
+I did the merge myself, and arrived at the same thing as you. I
+quickly inspected the rest and seems fine. By the way, I spotted an
+extra space at:
+
++ * we do one or the other.
+
+Cheers,
+Miguel
