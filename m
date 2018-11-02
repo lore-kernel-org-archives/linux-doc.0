@@ -1,199 +1,142 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C26B17D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 09:39:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 096D27D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 09:43:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726316AbeKBSpt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Nov 2018 14:45:49 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:44029 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725986AbeKBSpt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Nov 2018 14:45:49 -0400
-Received: by mail-qk1-f194.google.com with SMTP id r71so2006685qkr.10;
-        Fri, 02 Nov 2018 02:39:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TdrzAsYOblILXnc0WReZ2X/iIk4eTAjTltRqBA9jMWs=;
-        b=fnxHJHRyDLfB6zmQpdg7gK/mN2glCsfwo96wCVC9M4sO6+Zzg9sbu+85JCukTR70vL
-         LvUAb7mGBzAd2awvgfYjJf7X/0CXkGpRJKlouHZGexhkoQnLqQ68+yGha9XOPmGgXdaO
-         9yRq+v7g8Bh72Kq7SgOuJeGBGKHgM9ydRw5inflWteOtxB/ZNIWS1ARLr2brIqzmnrHR
-         cNXdsSfFTMDxyYfiB8iIfk3T53v0yAf9uAoIGmTYJnB2uCeRcWFQvRUQCNc8ttzVybxH
-         zfui2Qb6Wpzr8VvHa2B6GsdQ4VnkkTF/yfpml+HiO3d4b7oJIoPrzwnb7a3kskZC/M9H
-         w6Gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TdrzAsYOblILXnc0WReZ2X/iIk4eTAjTltRqBA9jMWs=;
-        b=HA4RqMMlqk9Qu2EvaUjAu4KFxsBTVWwQNVbc8CgtMiRdYCy/5FQgmPfChAULQnrZSo
-         rFk9/T1iEMxF5q1+RqLRnU7i9JXC/ZDA2lfsD7ZzdRfCMjhFo1fklY6TXksXrL0JOOkD
-         t//8ZGDZd7K1zUMYUPs9ZD6+hTlC7jSwegKnTgijpjgvQUncra6giJa/cQGYvqSksVFO
-         tej9xMW1nnR4K/9hO0ovkEodSmduQjDgwSFSkODz2XhjptGCxOeK18VvjNx33T2rjOJw
-         oNqEpZIl9ngGkABSEvRn3hK6E7qICu7L9owB82qNVl5PyafLYRdA7IxDcnlT1zLdRGiP
-         cPRA==
-X-Gm-Message-State: AGRZ1gLAryGJ/BmNQQrCRA7O8FLsgmYjeRzx121WSqDoVwyeD4A8TOeQ
-        zzkWThLHXpXvOWu0tJsB+GBnNvIuQwVJGM60WoA=
-X-Google-Smtp-Source: AJdET5ef4EahZh3iOj9Zz3V0z0zqQL8CKq9DNDl9KVELUHCuSjPfP/uOm4otvaJDQtTjZX3g0tDg3Go/xt00hPbxxvA=
-X-Received: by 2002:a0c:f74c:: with SMTP id e12mr10139443qvo.26.1541151555576;
- Fri, 02 Nov 2018 02:39:15 -0700 (PDT)
+        id S1726021AbeKBSuF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Nov 2018 14:50:05 -0400
+Received: from relay.sw.ru ([185.231.240.75]:33754 "EHLO relay.sw.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725935AbeKBSuF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Nov 2018 14:50:05 -0400
+Received: from [172.16.25.12]
+        by relay.sw.ru with esmtp (Exim 4.90_1)
+        (envelope-from <aryabinin@virtuozzo.com>)
+        id 1gIVz0-0005Hu-Lu; Fri, 02 Nov 2018 12:43:14 +0300
+Subject: Re: [GIT PULL] Compiler Attributes for v4.20-rc1
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     dan.carpenter@oracle.com, adilger.kernel@dilger.ca,
+        yamada.masahiro@socionext.com, michal.lkml@markovi.net,
+        rostedt@goodmis.org, mchehab+samsung@kernel.org, olof@lxom.net,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        David Miller <davem@davemloft.net>,
+        Kees Cook <keescook@chromium.org>, tglx@linutronix.de,
+        Ingo Molnar <mingo@kernel.org>, paullawrence@google.com,
+        sandipan@linux.vnet.ibm.com, andreyknvl@google.com,
+        dwmw2@infradead.org, will.deacon@arm.com, pombredanne@nexb.com,
+        paul.burton@mips.com, rientjes@google.com, w@1wt.eu,
+        msebor@gmail.com, sparse@chrisli.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>, joe@perches.com,
+        Arnd Bergmann <arnd@arndb.de>, asmadeus@codewreck.org,
+        stefan@agner.ch, luc.vanoostenryck@gmail.com,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Vasily Gorbik <gor@linux.ibm.com>
+References: <20181022105944.GA1411@gmail.com>
+ <CAHk-=whpBiV5sVTvPsWOVx5WYOouxbNG1fWeCdpK4oFiaH0Zqg@mail.gmail.com>
+From:   Andrey Ryabinin <aryabinin@virtuozzo.com>
+Message-ID: <29dba7c2-f612-7b35-d665-9939d7e10eb8@virtuozzo.com>
+Date:   Fri, 2 Nov 2018 12:44:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <1541163378-54047-1-git-send-email-peng.hao2@zte.com.cn> <1541163378-54047-5-git-send-email-peng.hao2@zte.com.cn>
-In-Reply-To: <1541163378-54047-5-git-send-email-peng.hao2@zte.com.cn>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 2 Nov 2018 11:39:04 +0200
-Message-ID: <CAHp75VegH6fZi5cpoRERga+Z-rv=ahfTpvy-Fbu_bwX99gsZVw@mail.gmail.com>
-Subject: Re: [PATCH V6 5/8] misc/pvpanic: add support to get pvpanic device
- info by FDT
-To:     peng.hao2@zte.com.cn
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        hutao@cn.fujitsu.com,
-        Linux Documentation List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAHk-=whpBiV5sVTvPsWOVx5WYOouxbNG1fWeCdpK4oFiaH0Zqg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 2, 2018 at 6:46 AM Peng Hao <peng.hao2@zte.com.cn> wrote:
->
-> By default, when ACPI tables and FDT coexist for ARM64,
-> current kernel takes precedence over FDT to get device information.
-> Virt machine in qemu provides both FDT and ACPI table. Increases the
-> way to get information through FDT.
->
+On 11/01/2018 08:06 PM, Linus Torvalds wrote:
+> On Mon, Oct 22, 2018 at 3:59 AM Miguel Ojeda
+> <miguel.ojeda.sandonis@gmail.com> wrote:
+>>
+>> Here it is the Compiler Attributes series/tree, which tries to disentangle
+>> the include/linux/compiler*.h headers and bring them up to date.
+> 
+> I've finally emptied the "normal" pull queues, and am looking at the
+> odd ones that I felt I needed to review more in-depth.
+> 
+> This looked fine to me, and I already pulled, but when looking at the
+> conflict for __no_sanitize_address_or_inline, I also noticed that you
+> actually changed the gcc version logic.
+> 
+> The logic for using __no_sanitize_address *used* to be
+> 
+>     #if GCC_VERSION >= 40902
+> 
+> but you have changed it to
+> 
+>   # define __GCC4_has_attribute___no_sanitize_address__ (__GNUC_MINOR__ >= 8)
+> 
+> so now it's gcc-4.8+ rather than gcc-4.9.2+.
 
-so OF dependency in Kconfig is a matter of this patch.
-Since 0day bot complain you might need to add
+As you said in other email - "this has less to do with the attribute
+being recognized, and simply just being because KASAN itself wants
+gcc-4.9.2."
 
-#include <linux/mod_devicetable.h>
+gcc < 4.9.2 simply doesn't have -fsanitize=kernel-address.
+But no_sanitize attribute originally comes with user space ASAN (-fsanitize=address)
+which exist in earlier GCCs like 4.8.
+Checking against 4.8 gcc should be fine. If we compile the kernel with gcc 4.8
+it will be compiled without instrumentation, so the attribute won't have any effect.
 
-as well.
+> 
+> I'm not sure how much that matters (maybe the original check for 4.9.2
+> was just a random pick by Andrey? Added to cc), but together with the
+> movement to <linux/compiler_attributes.h> that looks like it also
+> wouldn't want the CONFIG_KASAN tests, I wonder what the right merge
+> resolution would be.
+> 
+> Yes, I see the resolution in linux-next, and I think that one is odd
+> and dubious, and now it *mixes* that old test of gcc-4.9.2 with the
+> different test in compiler-attributes.
+> 
+> I'm _inclined_ to just do
+> 
+> #ifdef CONFIG_KASAN
+>  #define __no_sanitize_address_or_inline \
+>   __no_sanitize_address __maybe_unused notrace
+> #else
+>  #define __no_sanitize_address_or_inline inline
+> #endif
+> 
+> without any compiler versions at all, because I don't think it matters
+> (maybe we won't get address sanitation, and we will not get inlining
+> either, but do we care?).
 
-> Acked-by: Mark Rutland <mark.rutland@arm.com>
-> Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
-> ---
->  drivers/misc/pvpanic.c | 67 +++++++++++++++++++++++++++++++++++++++++++++++---
->  1 file changed, 64 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
-> index 22fb487..5378d5f 100644
-> --- a/drivers/misc/pvpanic.c
-> +++ b/drivers/misc/pvpanic.c
-> @@ -2,6 +2,7 @@
->   *  pvpanic.c - pvpanic Device Support
->   *
->   *  Copyright (C) 2013 Fujitsu.
-> + *  Copyright (C) 2018 ZTE.
->   *
->   *  This program is free software; you can redistribute it and/or modify
->   *  it under the terms of the GNU General Public License as published by
-> @@ -20,11 +21,14 @@
->
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->
-> +#include <linux/acpi.h>
-> +#include <linux/init.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
-> -#include <linux/init.h>
-> +#include <linux/of.h>
-> +#include <linux/of_address.h>
-> +#include <linux/platform_device.h>
->  #include <linux/types.h>
-> -#include <linux/acpi.h>
->
->  MODULE_AUTHOR("Hu Tao <hutao@cn.fujitsu.com>");
->  MODULE_DESCRIPTION("pvpanic device driver");
-> @@ -73,6 +77,32 @@
->         .priority = 1, /* let this called before broken drm_fb_helper */
->  };
->
-> +static int pvpanic_mmio_probe(struct platform_device *pdev)
-> +{
-> +       struct resource *mem;
-> +
-> +       mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +       if (!mem)
-> +               return -EINVAL;
-> +
-> +       base = devm_ioremap_resource(&pdev->dev, mem);
-> +       if (base == NULL)
-> +               return -EFAULT;
-> +
-> +       atomic_notifier_chain_register(&panic_notifier_list,
-> +                                      &pvpanic_panic_nb);
-> +
-> +       return 0;
-> +}
-> +
-> +static int pvpanic_mmio_remove(struct platform_device *pdev)
-> +{
-> +
-> +       atomic_notifier_chain_unregister(&panic_notifier_list,
-> +                                        &pvpanic_panic_nb);
-> +
-> +       return 0;
-> +}
->
->  static acpi_status
->  pvpanic_walk_resources(struct acpi_resource *res, void *context)
-> @@ -124,4 +154,35 @@ static int pvpanic_remove(struct acpi_device *device)
->         return 0;
->  }
->
-> -module_acpi_driver(pvpanic_driver);
-> +static const struct of_device_id pvpanic_mmio_match[] = {
-> +       { .compatible = "qemu,pvpanic-mmio", },
-> +       {}
-> +};
-> +
-> +static struct platform_driver pvpanic_mmio_driver = {
-> +       .driver = {
-> +               .name = "pvpanic-mmio",
-> +               .of_match_table = pvpanic_mmio_match,
-> +       },
-> +       .probe = pvpanic_mmio_probe,
-> +       .remove = pvpanic_mmio_remove,
-> +};
-> +
-> +static int __init pvpanic_mmio_init(void)
-> +{
-> +       if (acpi_disabled)
-> +               return platform_driver_register(&pvpanic_mmio_driver);
-> +       else
-> +               return acpi_bus_register_driver(&pvpanic_driver);
-> +}
-> +
-> +static void __exit pvpanic_mmio_exit(void)
-> +{
-> +       if (acpi_disabled)
-> +               platform_driver_unregister(&pvpanic_mmio_driver);
-> +       else
-> +               acpi_bus_unregister_driver(&pvpanic_driver);
-> +}
-> +
-> +module_init(pvpanic_mmio_init);
-> +module_exit(pvpanic_mmio_exit);
-> --
-> 1.8.3.1
->
+You're right, version checks shouldn't matter here. But __no_sanitize_address_or_inline
+shouldn't have been added in the first place, because we already have almost the same __no_kasan_or_inline:
 
+#ifdef CONFIG_KASAN
+/*
+ * We can't declare function 'inline' because __no_sanitize_address confilcts
+ * with inlining. Attempt to inline it may cause a build failure.
+ * 	https://gcc.gnu.org/bugzilla/show_bug.cgi?id=67368
+ * '__maybe_unused' allows us to avoid defined-but-not-used warnings.
+ */
+# define __no_kasan_or_inline __no_sanitize_address __maybe_unused
+#else
+# define __no_kasan_or_inline __always_inline
+#endif
 
--- 
-With Best Regards,
-Andy Shevchenko
+There are small differences like absence of notrace, but notrace could be added
+to the function together with __no_kasan_or_inline.
+And inline is *not* redefined to __always_inline  only on x86 when CONFIG_OPTIMIZE_INLINING=y
+
+So there is absolutely no reason to have both __no_kasan_or_inline and __no_sanitize_address_or_inline.
+
