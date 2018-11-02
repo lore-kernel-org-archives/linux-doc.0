@@ -1,116 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AA9CC7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 10:57:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 65E957D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 11:04:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726055AbeKBUD4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Nov 2018 16:03:56 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:37987 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726008AbeKBUDz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Nov 2018 16:03:55 -0400
-Received: by mail-lj1-f193.google.com with SMTP id q186-v6so1367159ljb.5;
-        Fri, 02 Nov 2018 03:57:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=X0LKP1ViBIUDzybZ6UHMgA77PrdumiAw69YBzmrhxfA=;
-        b=C/0egDdgbZqtk4LAfDgucriN/4mV03+1a4LHuwy9vywDlUic0qjCBjU6v3WGC2bv5M
-         VpdwkPPM6eyUGcvlM5aWC/LRDnTn0MBFkpqQLlTQOotJB0Fy7zGQk0f+u3xnrKi01ryt
-         38DGZEEzTOduSDMq7bNahO022ypz3I2d+Ww4YCp2FdGRUQQrXCccLoGypIHZy7qvjjfn
-         ftpAtXjbItSNvOeseJwZoQ6pS1MsT1FCoVu5Yv1zMn8iQzul769AkfqGiz00P4+voIen
-         M0EQ3Zu1EpAtYGak8uibwe4Ny0INWsY5C5jYkh8KTzmHIgCnOfk48PhmrcF5FRMVM1YE
-         bYcA==
+        id S1726381AbeKBULg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Nov 2018 16:11:36 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:40051 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726104AbeKBULg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Nov 2018 16:11:36 -0400
+Received: by mail-lf1-f68.google.com with SMTP id n3-v6so1039074lfe.7;
+        Fri, 02 Nov 2018 04:04:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=X0LKP1ViBIUDzybZ6UHMgA77PrdumiAw69YBzmrhxfA=;
-        b=MQgVlCKDkBlc6zg7WwT/BC6+kK0LfcALWCj5kgLqZJrmYWZPWu036nIT9Mj9OrmBV8
-         yw9rjw+ZlVr0CZrjDu+eLqw4awLNuFIPnACfBuJtZ+nNWtyPYr/tuHRuHSUHZIzOn7eo
-         pz3GvoR2OA/tifHi84VrauAKuMoE/3IjjUk/damWpmrKNw3F+aG/0QmNnB/DmtHhf5Pe
-         5QNdzwjpT+779nJkHS/puCPRxHyvqHyYIu5BUOhUkX7cp6gmwcPQ9vnMHa1eDHnvjAxU
-         vi6NOBWp3m1MXBgF5kxMXW1tHy5sN5hfH1y58n5k7/q6qhGrvkovwJtgHZyerNAm6cDb
-         9A9Q==
-X-Gm-Message-State: AGRZ1gIfAzoEZrzD01/4OtSTde+AmCkZLIzQ+v1m7SuVcW+3PSdyWMbl
-        tvJZLfJIo57ZVkE6GfYt472wZLrZf8jq8ib+HPI=
-X-Google-Smtp-Source: AJdET5fb0KCjT0Va1vp1KB0+UQRADtdHgUT6R0un5RbFVB4VoRblJAzDZfMJuTS9J8NvmQe+6ZeITnYYHIImx58H0KI=
-X-Received: by 2002:a2e:c52:: with SMTP id o18-v6mr7254742ljd.94.1541156229590;
- Fri, 02 Nov 2018 03:57:09 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=RJLBWPTobejOHjhshGYxLBc/kfbkjwTRvM5ai8I8Bw0=;
+        b=n3vHO9KXoqSoo8xSv14zyN9BkoFwwpO8aZIKRsf9EkugHASeYfM5nlTICBglSjJMWO
+         pJUQDOnYzqOdSs2n2bHFL+tSiNL2wYfAjYOBzd5REmvTr1KHI0xAUFdtHoa4caj8jRSI
+         hKUKlkGRXTFXK7cIgfPXQVkrBXa86QghNXFYOYHk51YNea4Q5ex6DixRnEgbCFGwYOEQ
+         tV0S0MX5oDWzSL0Tua6gbbIN70N77y/1nvMki9VeYh1U1K+W29Gkch/qE6hXMdIGzlwx
+         N76pkF1ow63ySupoBLZ/EjaDYVX1DCEUI6w8tx6fx0JzAdYNvK8Tug5AnrTSNwOhhDFT
+         aX+g==
+X-Gm-Message-State: AGRZ1gJXvlUvR2sLqIjeTKX1bsK/rN3b+h1G4W5HhOC/0uFYEiobbJFM
+        EFTbvBno4AzJVwJqWYrfybw=
+X-Google-Smtp-Source: AJdET5e35/vKv7iA3Xh9gFr8i8h2SbcXQIHhDKKLWUasPAu8tofQ+Tnr5qS+7G3vwILJclyQrH0z4Q==
+X-Received: by 2002:a19:2106:: with SMTP id h6mr6505915lfh.29.1541156688851;
+        Fri, 02 Nov 2018 04:04:48 -0700 (PDT)
+Received: from localhost.localdomain ([213.255.186.46])
+        by smtp.gmail.com with ESMTPSA id v19-v6sm5283112lji.10.2018.11.02.04.04.47
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 02 Nov 2018 04:04:48 -0700 (PDT)
+Date:   Fri, 2 Nov 2018 13:04:45 +0200
+From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     corbet@lwn.net, mturquette@baylibre.com, sboyd@kernel.org,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        =?utf-8?Q?Bart=C5=82omiej_=C5=BBo=C5=82nierkiewicz?= 
+        <b.zolnierkie@samsung.com>, linux@armlinux.org.uk,
+        andy.gross@linaro.org, david.brown@linaro.org, kgene@kernel.org,
+        s.nawrocki@samsung.com, Tomasz Figa <tomasz.figa@gmail.com>,
+        andrew.smirnov@gmail.com, sre@kernel.org, linux@roeck-us.net,
+        robh@kernel.org, sjhuang@iluvatar.ai, Akshu.Agrawal@amd.com,
+        rafael.j.wysocki@intel.com, djkurtz@chromium.org,
+        mazziesaccount@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org,
+        "linux-samsung-soc@vger.kernel.org" 
+        <linux-samsung-soc@vger.kernel.org>
+Subject: Re: [PATCH v2 2/8] clk: clk-max77686: Clean clkdev lookup leak and
+ use devm
+Message-ID: <20181102110445.GC29664@localhost.localdomain>
+References: <cover.1541054985.git.matti.vaittinen@fi.rohmeurope.com>
+ <83e985f2f60a68f89fac777aa29c55b1edb8769f.1541054985.git.matti.vaittinen@fi.rohmeurope.com>
+ <CAJKOXPd=E+S3j3XnpCVRs3JdStY2z+pHe0bh_HNzQTmJW_dH=Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <20181021171414.22674-1-miguel.ojeda.sandonis@gmail.com>
- <20181021171414.22674-3-miguel.ojeda.sandonis@gmail.com> <CAGXu5j+3pR2mfcdbURv7MrPxUVjmjQEDRHH8BLpTNGiasJs1pg@mail.gmail.com>
- <20181023053542.lsklua2p3lnbkqir@mwanda> <CANiq72nrd70qTxEAfxxuNHNoi19MBo=yrJnm9_EnfrpEMQHXCg@mail.gmail.com>
-In-Reply-To: <CANiq72nrd70qTxEAfxxuNHNoi19MBo=yrJnm9_EnfrpEMQHXCg@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 2 Nov 2018 11:56:58 +0100
-Message-ID: <CANiq72k3rniqgoEqLwZxpTO0N9-BqkZKRJr_M-T7-y6khR03ww@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Compiler Attributes: auxdisplay: panel: use __fallthrough
-To:     Dan <dan.carpenter@oracle.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Olof Johansson <olof@lxom.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        David Miller <davem@davemloft.net>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Sandipan Das <sandipan@linux.vnet.ibm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Paul Burton <paul.burton@mips.com>,
-        David Rientjes <rientjes@google.com>, Willy Tarreau <w@1wt.eu>,
-        Martin Sebor <msebor@gmail.com>,
-        Christopher Li <sparse@chrisli.org>,
-        Jonathan Corbet <corbet@lwn.net>, "Ted Ts'o" <tytso@mit.edu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJKOXPd=E+S3j3XnpCVRs3JdStY2z+pHe0bh_HNzQTmJW_dH=Q@mail.gmail.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 2, 2018 at 11:49 AM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> Thanks for checking! Let's wait then a few months and see if we can
-> get cppcheck/Eclipse to support it.
+Thanks for taking the time and reviewing this!
 
-In the meantime, saved here too:
+On Fri, Nov 02, 2018 at 09:15:17AM +0100, Krzysztof Kozlowski wrote:
+> On Thu, 1 Nov 2018 at 08:19, Matti Vaittinen
+> <matti.vaittinen@fi.rohmeurope.com> wrote:
+> >
+> > clk-max77686 never clean clkdev lookup at remove. This can cause
+> > oops if clk-max77686 is removed and inserted again. Fix leak by
+> > using new devm clkdev lookup registration. Simplify also error
+> > path by using new devm_of_clk_add_parent_hw_provider.
+> >
+> > Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> > ---
+> >  drivers/clk/clk-max77686.c | 25 ++++---------------------
+> >  1 file changed, 4 insertions(+), 21 deletions(-)
+> >
+> > diff --git a/drivers/clk/clk-max77686.c b/drivers/clk/clk-max77686.c
+> > index 02551fe4b87c..b1920c1d9b76 100644
+> > --- a/drivers/clk/clk-max77686.c
+> > +++ b/drivers/clk/clk-max77686.c
+> > @@ -235,7 +235,7 @@ static int max77686_clk_probe(struct platform_device *pdev)
+> >                         return ret;
+> >                 }
+> >
+> > -               ret = clk_hw_register_clkdev(&max_clk_data->hw,
+> > +               ret = devm_clk_hw_register_clkdev(dev, &max_clk_data->hw,
+> >                                              max_clk_data->clk_idata.name, NULL);
+> 
+> You need to re-align the next line.
 
-  https://github.com/ojeda/linux/tree/compiler-attributes-fallthrough
+I'll change this to
+		ret = devm_clk_hw_register_clkdev(dev, &max_clk_data->hw,
+						  max_clk_data->clk_idata.name,
+						  NULL);
+> >                 if (ret < 0) {
+> >                         dev_err(dev, "Failed to clkdev register: %d\n", ret);
+> > @@ -244,8 +244,8 @@ static int max77686_clk_probe(struct platform_device *pdev)
+> >         }
+> >
+> >         if (parent->of_node) {
+> > -               ret = of_clk_add_hw_provider(parent->of_node, of_clk_max77686_get,
+> > -                                            drv_data);
+> > +               ret = devm_of_clk_add_parent_hw_provider(dev,
+> > +                                               of_clk_max77686_get, drv_data);
+> 
+> The same, please.
 
-rebased on top of e468f5c06b5e ("Merge tag
-'compiler-attributes-for-linus-4.20-rc1' of
-https://github.com/ojeda/linux").
+I will change this to 
+		ret = devm_of_clk_add_parent_hw_provider(dev,
+							 of_clk_max77686_get,
+							 drv_data);
+> 
+> Rest looks good, so with these changes:
+> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+> 
+> Best regards,
+> Krzysztof
 
-Cheers,
-Miguel
+-- 
+Matti Vaittinen
+ROHM Semiconductors
+
+~~~ "I don't think so," said Rene Descartes.  Just then, he vanished ~~~
