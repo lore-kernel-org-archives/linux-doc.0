@@ -1,95 +1,169 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9B1F77D8D4
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 20:49:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6AB047D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 21:11:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728128AbeKCF5w (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 3 Nov 2018 01:57:52 -0400
-Received: from mail-yw1-f68.google.com ([209.85.161.68]:37065 "EHLO
-        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726150AbeKCF5v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Nov 2018 01:57:51 -0400
-Received: by mail-yw1-f68.google.com with SMTP id v77-v6so1290484ywc.4
-        for <linux-doc@vger.kernel.org>; Fri, 02 Nov 2018 13:49:13 -0700 (PDT)
+        id S1726141AbeKCGUS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 3 Nov 2018 02:20:18 -0400
+Received: from mail-yw1-f65.google.com ([209.85.161.65]:33200 "EHLO
+        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726100AbeKCGUS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Nov 2018 02:20:18 -0400
+Received: by mail-yw1-f65.google.com with SMTP id z72-v6so1325751ywa.0;
+        Fri, 02 Nov 2018 14:11:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=AdbRP1e8hhSctEX2RFnFJdxI7Ntlt0NMbsw9ytVJYUQ=;
-        b=MZYRd/eHgIPhy4q251SCFQz1FbPFZ2DATzZ72cqhh0z59yxwEZeaeJxElQo3rkIg8r
-         66DpVpmMkRxdfasZ9XGXCa5VrZwEwR0DUm2vpUUoLaDrZvU3ydBRop6FG/ZZf4MlOQpB
-         vknMJ6EbPx2O443vkScDvzm/jGerGHoLcUHRI=
+        d=gmail.com; s=20161025;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=BeJmC4AmAsWdpXlgK55iLlOwRYQpI5sykBJJFBJdXzs=;
+        b=RiGKDhiH1VGlb6l62xZIomzQwUX3sesNq/40uJcF+2fDIr00g5uhOhQuSPi0Qm7hEG
+         6r0D2S1AklloFioOKWEibhrsLD2bfyS2I9mz8UQz4r/4nyABPOBzVtHS2aH5azcDJooB
+         vbQBFaGmvRSuBImLJOUWkEh3kZZCdSkyWEIn8o18y0kVM7phFLIHLIeY0qtr7DJ42EB3
+         1ARJHuL+ZJmC0SrsMUut8HpkpiKfqP0I+Y+QdeK9gYkQX+MB6pgaFQbr2p/DRxfvWBER
+         KZa9jSESMAho+5jRVBBUUQHeK9weAqrGpteBWSnicqgpwt84zYbnkg5Sh5rZAOgUI4dL
+         HM4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=AdbRP1e8hhSctEX2RFnFJdxI7Ntlt0NMbsw9ytVJYUQ=;
-        b=HIBCpgUDYD1TvBpXBIUEO0gAoplEVTTWz5QsmrDk49xQiEdN0AE97qTmFkFbdsvA2m
-         9BlIpCWZHoEjdfA+x8ORjGTdpJ2waXeHy2nfsNOYAS84U2p3f595/44aN0+mG6Jdllqg
-         ++NIDLFp4tZvpDhYNq/upzFl1Ylp6fzXcMeCsFhaxV6eSZe2mWyitWVmhFjgoGJsuqEK
-         T3bete4NZJmTn76O4O7hBEwyf96C2qXRqm3p+0255HC7YqM57mqGMety4V6+bEDcblFF
-         5WrcwkHWxPwLWd10uR171tUhSuy4BIFgNQ76AiCB+KkTMFPhdyQZo4r203LuRIUnIGCm
-         Zn0w==
-X-Gm-Message-State: AGRZ1gKfwi4Q8fuKpEp1BV5YeRGTwxJJY9tCf01OeckM+DurgqxCxQ6+
-        ixrpoT4Fr2a1V0iG8qzLYWwX594dMBI=
-X-Google-Smtp-Source: AJdET5c/sUlCz+uleU7MrVGSgf2E56jHUiRWqfjQy40jNQ7jJ4epWhYPYlFSY6AZWgCNeB75Jud6sQ==
-X-Received: by 2002:a81:ad11:: with SMTP id l17-v6mr12779356ywh.417.1541191752341;
-        Fri, 02 Nov 2018 13:49:12 -0700 (PDT)
-Received: from mail-yw1-f47.google.com (mail-yw1-f47.google.com. [209.85.161.47])
-        by smtp.gmail.com with ESMTPSA id 123-v6sm8956082ywu.91.2018.11.02.13.49.10
-        for <linux-doc@vger.kernel.org>
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=BeJmC4AmAsWdpXlgK55iLlOwRYQpI5sykBJJFBJdXzs=;
+        b=Ed/+D60GNodFp7kdT4eStHdXSi6SiitXObPHDlwuuQHGpv17c1UPNQa4shXa4DNPt6
+         +x3FAjCzpj22NwZrx0rGgqKZsLC5BR0HFUCTz9xdQQolTyYnJ4cS1wgDTN6jLaevZkIF
+         FQogOEBzeO+dpvXMClJD4bqJLntLXcn/w/vTIQuTAQ0azJw69+iu40xpKFjCZmrcZJW+
+         4P6eEBeAv+moXxNGaN+ZWSEsUZmpDPJknPyHpcVbipKTq/Latu15ZWH0qA1kyt1B0Fwr
+         IgQmQkfz7XMwbiHF+4ZNbqclSBwiJvt9Bjsh0vWucSgc4oWETZUrbA56a59QTqgbr9fG
+         9heQ==
+X-Gm-Message-State: AGRZ1gJiZ6OOl2LqlBSB8D9Ufh0QAH5SC2F5PZspJfspu1EzApRdgNKb
+        LYcrnSr6bmMIHqYapgorMUc=
+X-Google-Smtp-Source: AJdET5cHD2a32hUHlmAaHi4IzDmr3FFX/JCOTIjm47cjFORT3BJ69cYnKCqLr0u3iD4HHRdH0R+8Og==
+X-Received: by 2002:a81:a0cd:: with SMTP id x196-v6mr12466127ywg.73.1541193093953;
+        Fri, 02 Nov 2018 14:11:33 -0700 (PDT)
+Received: from [172.20.31.92] ([12.228.154.70])
+        by smtp.gmail.com with ESMTPSA id f68-v6sm9211332ywh.60.2018.11.02.14.11.32
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 02 Nov 2018 13:49:10 -0700 (PDT)
-Received: by mail-yw1-f47.google.com with SMTP id h21-v6so1291973ywa.3
-        for <linux-doc@vger.kernel.org>; Fri, 02 Nov 2018 13:49:10 -0700 (PDT)
-X-Received: by 2002:a0d:fec6:: with SMTP id o189-v6mr13322078ywf.237.1541191749802;
- Fri, 02 Nov 2018 13:49:09 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a25:3990:0:0:0:0:0 with HTTP; Fri, 2 Nov 2018 13:49:09 -0700 (PDT)
-In-Reply-To: <1541182406.20901.31.camel@linux.ibm.com>
-References: <20181011001846.30964-1-keescook@chromium.org> <20181011001846.30964-13-keescook@chromium.org>
- <1541182406.20901.31.camel@linux.ibm.com>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Fri, 2 Nov 2018 13:49:09 -0700
-X-Gmail-Original-Message-ID: <CAGXu5jKM_goC2519EXZu7Bh0VoW8jQeR=AJ0XovUPe4_635XNw@mail.gmail.com>
-Message-ID: <CAGXu5jKM_goC2519EXZu7Bh0VoW8jQeR=AJ0XovUPe4_635XNw@mail.gmail.com>
-Subject: Re: [PATCH security-next v5 12/30] LSM: Provide separate ordered initialization
-To:     Mimi Zohar <zohar@linux.ibm.com>
-Cc:     James Morris <jmorris@namei.org>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        John Johansen <john.johansen@canonical.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Paul Moore <paul@paul-moore.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Fri, 02 Nov 2018 14:11:32 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
+Subject: Re: [PATCH 10/17] prmem: documentation
+From:   Nadav Amit <nadav.amit@gmail.com>
+In-Reply-To: <59E8A6FB-9762-499F-89AC-D85E1498BE38@gmail.com>
+Date:   Fri, 2 Nov 2018 16:11:30 -0500
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Igor Stoppa <igor.stoppa@gmail.com>,
         Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Dave Chinner <david@fromorbit.com>,
+        James Morris <jmorris@namei.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        Igor Stoppa <igor.stoppa@huawei.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laura Abbott <labbott@redhat.com>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Jordan Glover <Golden_Miller83@protonmail.ch>,
-        LSM <linux-security-module@vger.kernel.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        LKML <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <1ECE02D5-2D80-4234-8523-E481B930A66D@gmail.com>
+References: <20181026092609.GB3159@worktop.c.hoisthospitality.com>
+ <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
+ <20181028183126.GB744@hirez.programming.kicks-ass.net>
+ <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
+ <20181030152641.GE8177@hirez.programming.kicks-ass.net>
+ <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
+ <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net>
+ <20181030175814.GB10491@bombadil.infradead.org>
+ <28C8CD2A-BDC0-49A5-854E-1E18968528B8@amacapital.net>
+ <CAC99157-7A9B-4AC6-BA41-EAA7A99FE53D@gmail.com>
+ <20181031090835.GG744@hirez.programming.kicks-ass.net>
+ <59E8A6FB-9762-499F-89AC-D85E1498BE38@gmail.com>
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@amacapital.net>
+X-Mailer: Apple Mail (2.3445.9.1)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 2, 2018 at 11:13 AM, Mimi Zohar <zohar@linux.ibm.com> wrote:
-> I don't recall why "integrity" is on the security_initcall, while both
-> IMA and EVM are on the late_initcall().
+From: Nadav Amit
+Sent: November 1, 2018 at 4:31:59 PM GMT
+> To: Peter Zijlstra <peterz@infradead.org>
+> Cc: Andy Lutomirski <luto@amacapital.net>, Matthew Wilcox =
+<willy@infradead.org>, Kees Cook <keescook@chromium.org>, Igor Stoppa =
+<igor.stoppa@gmail.com>, Mimi Zohar <zohar@linux.vnet.ibm.com>, Dave =
+Chinner <david@fromorbit.com>, James Morris <jmorris@namei.org>, Michal =
+Hocko <mhocko@kernel.org>, Kernel Hardening =
+<kernel-hardening@lists.openwall.com>, linux-integrity =
+<linux-integrity@vger.kernel.org>, linux-security-module =
+<linux-security-module@vger.kernel.org>, Igor Stoppa =
+<igor.stoppa@huawei.com>, Dave Hansen <dave.hansen@linux.intel.com>, =
+Jonathan Corbet <corbet@lwn.net>, Laura Abbott <labbott@redhat.com>, =
+Randy Dunlap <rdunlap@infradead.org>, Mike Rapoport =
+<rppt@linux.vnet.ibm.com>, open list:DOCUMENTATION =
+<linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, Thomas =
+Gleixner <tglx@linutronix.de>
+> Subject: Re: [PATCH 10/17] prmem: documentation
+>=20
+>=20
+> From: Peter Zijlstra
+> Sent: October 31, 2018 at 9:08:35 AM GMT
+>> To: Nadav Amit <nadav.amit@gmail.com>
+>> Cc: Andy Lutomirski <luto@amacapital.net>, Matthew Wilcox =
+<willy@infradead.org>, Kees Cook <keescook@chromium.org>, Igor Stoppa =
+<igor.stoppa@gmail.com>, Mimi Zohar <zohar@linux.vnet.ibm.com>, Dave =
+Chinner <david@fromorbit.com>, James Morris <jmorris@namei.org>, Michal =
+Hocko <mhocko@kernel.org>, Kernel Hardening =
+<kernel-hardening@lists.openwall.com>, linux-integrity =
+<linux-integrity@vger.kernel.org>, linux-security-module =
+<linux-security-module@vger.kernel.org>, Igor Stoppa =
+<igor.stoppa@huawei.com>, Dave Hansen <dave.hansen@linux.intel.com>, =
+Jonathan Corbet <corbet@lwn.net>, Laura Abbott <labbott@redhat.com>, =
+Randy Dunlap <rdunlap@infradead.org>, Mike Rapoport =
+<rppt@linux.vnet.ibm.com>, open list:DOCUMENTATION =
+<linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, Thomas =
+Gleixner <tglx@linutronix.de>
+>> Subject: Re: [PATCH 10/17] prmem: documentation
+>>=20
+>>=20
+>> On Tue, Oct 30, 2018 at 04:18:39PM -0700, Nadav Amit wrote:
+>>>> Nadav, want to resubmit your series? IIRC the only thing wrong with =
+it was
+>>>> that it was a big change and we wanted a simpler fix to backport. =
+But
+>>>> that=E2=80=99s all done now, and I, at least, rather liked your =
+code. :)
+>>>=20
+>>> I guess since it was based on your ideas=E2=80=A6
+>>>=20
+>>> Anyhow, the only open issue that I have with v2 is Peter=E2=80=99s =
+wish that I would
+>>> make kgdb use of poke_text() less disgusting. I still don=E2=80=99t =
+know exactly
+>>> how to deal with it.
+>>>=20
+>>> Perhaps it (fixing kgdb) can be postponed? In that case I can just =
+resend
+>>> v2.
+>>=20
+>> Oh man, I completely forgot about kgdb :/
+>>=20
+>> Also, would it be possible to entirely remove that kmap fallback =
+path?
+>=20
+> Let me see what I can do about it.
 
-It's because integrity needs to have a VFS buffer allocated extremely
-early, so it used the security init to do it. While it's not an LSM,
-it does use this part of LSM infrastructure. I didn't see an obvious
-alternative at the time, but now that I think about it, maybe just a
-simple postcore_initcall() would work?
+My patches had several embarrassing bugs. I=E2=80=99m fixing and will =
+resend later,
+hopefully today.
 
--Kees
-
--- 
-Kees Cook
