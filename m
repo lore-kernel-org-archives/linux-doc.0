@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2E2817D8D4
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 04:46:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EC57D7D8D4
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 04:46:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727465AbeKBNwB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 2 Nov 2018 09:52:01 -0400
-Received: from mxhk.zte.com.cn ([63.217.80.70]:60876 "EHLO mxhk.zte.com.cn"
+        id S1727713AbeKBNvs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 2 Nov 2018 09:51:48 -0400
+Received: from out1.zte.com.cn ([202.103.147.172]:36806 "EHLO mxct.zte.com.cn"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727648AbeKBNvu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Nov 2018 09:51:50 -0400
+        id S1727573AbeKBNvs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Nov 2018 09:51:48 -0400
 Received: from mse01.zte.com.cn (unknown [10.30.3.20])
-        by Forcepoint Email with ESMTPS id A5E88DB6C5C4C93A530C;
-        Fri,  2 Nov 2018 12:46:00 +0800 (CST)
+        by Forcepoint Email with ESMTPS id 4D1A8C4A04FDE5C49DB8;
+        Fri,  2 Nov 2018 12:45:55 +0800 (CST)
 Received: from notes_smtp.zte.com.cn ([10.30.1.239])
-        by mse01.zte.com.cn with ESMTP id wA24jspo095731;
-        Fri, 2 Nov 2018 12:45:54 +0800 (GMT-8)
+        by mse01.zte.com.cn with ESMTP id wA24jmqH095636;
+        Fri, 2 Nov 2018 12:45:48 +0800 (GMT-8)
         (envelope-from peng.hao2@zte.com.cn)
 Received: from localhost.localdomain.localdomain ([10.74.120.59])
           by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
-          with ESMTP id 2018110212463130-8146635 ;
-          Fri, 2 Nov 2018 12:46:31 +0800 
+          with ESMTP id 2018110212462541-8146628 ;
+          Fri, 2 Nov 2018 12:46:25 +0800 
 From:   Peng Hao <peng.hao2@zte.com.cn>
 To:     robh+dt@kernel.org, mark.rutland@arm.com, arnd@arndb.de,
         gregkh@linuxfoundation.org, andy@infradead.org,
@@ -32,61 +32,86 @@ To:     robh+dt@kernel.org, mark.rutland@arm.com, arnd@arndb.de,
 Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
         hutao@cn.fujitsu.com, linux-doc@vger.kernel.org,
         Peng Hao <peng.hao2@zte.com.cn>
-Subject: [PATCH V6 7/8]  misc/pvpanic: convert to SPDX license tags
-Date:   Fri, 2 Nov 2018 20:56:16 +0800
-Message-Id: <1541163378-54047-7-git-send-email-peng.hao2@zte.com.cn>
+Subject: [PATCH V6 3/8]  misc/pvpanic: add MMIO support
+Date:   Fri, 2 Nov 2018 20:56:12 +0800
+Message-Id: <1541163378-54047-3-git-send-email-peng.hao2@zte.com.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1541163378-54047-1-git-send-email-peng.hao2@zte.com.cn>
 References: <1541163378-54047-1-git-send-email-peng.hao2@zte.com.cn>
 X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release 8.5.3FP6|November
- 21, 2013) at 2018-11-02 12:46:31,
+ 21, 2013) at 2018-11-02 12:46:25,
         Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
- 2018-11-02 12:45:38,
-        Serialize complete at 2018-11-02 12:45:38
-X-MAIL: mse01.zte.com.cn wA24jspo095731
+ 2018-11-02 12:45:32,
+        Serialize complete at 2018-11-02 12:45:32
+X-MAIL: mse01.zte.com.cn wA24jmqH095636
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Updates license to use SPDX-License-Identifier instead of
-verbose license text.
+On some architectures (e.g. arm64), it's preferable to use MMIO, since
+this can be used standalone. Add MMIO support to the pvpanic driver.
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Acked-by: Mark Rutland <mark.rutland@arm.com>
 Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
 ---
- drivers/misc/pvpanic.c | 15 +--------------
- 1 file changed, 1 insertion(+), 14 deletions(-)
+ drivers/misc/pvpanic.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
-index 9c9d9f8..1826cdf 100644
+index 49c59e1..22fb487 100644
 --- a/drivers/misc/pvpanic.c
 +++ b/drivers/misc/pvpanic.c
-@@ -1,22 +1,9 @@
-+// SPDX-License-Identifier: GPL-2.0+
- /*
-  *  pvpanic.c - pvpanic Device Support
-  *
-  *  Copyright (C) 2013 Fujitsu.
-  *  Copyright (C) 2018 ZTE.
-- *
-- *  This program is free software; you can redistribute it and/or modify
-- *  it under the terms of the GNU General Public License as published by
-- *  the Free Software Foundation; either version 2 of the License, or
-- *  (at your option) any later version.
-- *
-- *  This program is distributed in the hope that it will be useful,
-- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- *  GNU General Public License for more details.
-- *
-- *  You should have received a copy of the GNU General Public License
-- *  along with this program; if not, write to the Free Software
-- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-  */
+@@ -41,7 +41,7 @@
  
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ #define PVPANIC_PANICKED	(1 << 0)
+ 
+-static u16 port;
++static void __iomem *base;
+ 
+ static struct acpi_driver pvpanic_driver = {
+ 	.name =		"pvpanic",
+@@ -57,7 +57,7 @@
+ static void
+ pvpanic_send_event(unsigned int event)
+ {
+-	outb(event, port);
++	iowrite8(event, base);
+ }
+ 
+ static int
+@@ -80,7 +80,11 @@
+ 	struct resource r;
+ 
+ 	if (acpi_dev_resource_io(res, &r)) {
+-		port = r.start;
++		base = (void __iomem *) ioport_map(r.start,
++					r.end - r.start + 1);
++		return AE_OK;
++	} else if (acpi_dev_resource_memory(res, &r)) {
++		base = ioremap(r.start, r.end - r.start + 1);
+ 		return AE_OK;
+ 	}
+ 
+@@ -101,7 +105,7 @@ static int pvpanic_add(struct acpi_device *device)
+ 	acpi_walk_resources(device->handle, METHOD_NAME__CRS,
+ 			    pvpanic_walk_resources, NULL);
+ 
+-	if (!port)
++	if (!base)
+ 		return -ENODEV;
+ 
+ 	atomic_notifier_chain_register(&panic_notifier_list,
+@@ -115,6 +119,8 @@ static int pvpanic_remove(struct acpi_device *device)
+ 
+ 	atomic_notifier_chain_unregister(&panic_notifier_list,
+ 					 &pvpanic_panic_nb);
++	iounmap(base);
++
+ 	return 0;
+ }
+ 
 -- 
 1.8.3.1
 
