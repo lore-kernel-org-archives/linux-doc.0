@@ -1,108 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4D0D17D089
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  3 Nov 2018 15:51:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EEF437D089
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  3 Nov 2018 16:34:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727603AbeKDBC4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 3 Nov 2018 21:02:56 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:41312 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726888AbeKDBC4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Nov 2018 21:02:56 -0400
-Received: by mail-qk1-f194.google.com with SMTP id 189so7945639qkj.8;
-        Sat, 03 Nov 2018 08:51:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bcHiBZWa8YTRhBpdntFxarM3Tl+o53jnvejKQU47TqA=;
-        b=VSW/H2JJQGrKw0ZgL35NePLXW883s6LWYsIDq9agrE6q61wHhhEcVgmuQywKbjj3hC
-         shkJszjMcvaVUw96LDOXtSTQ0vkoiATs4L9CgzIfKaGB/a3PPcxGHMjiEENAg0XRaO2V
-         dlwf9Q/aBjMP9irB2SaLF2y6oSP+1R5jOD/5OO3AMJFb0zQq4LyIsU2Rf0umrp/mPUt8
-         7y7fLGKTiqnk/CE4KctpZswJ4ABmQGE5IPOssN7v4pH6sT8ceGG3D4Cfh4HJa4TbmxjI
-         c/9mWfRcNc7f+vJeV3gfyuLB1LwbMyWhNQfLbUqCbqnROVyDAdfp+zbuM3UF12aaQNlX
-         mY/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bcHiBZWa8YTRhBpdntFxarM3Tl+o53jnvejKQU47TqA=;
-        b=qlvDbgFPACY6WJyfjMvR261umGolrnjhnfAzhN2DCb8pCgtPP3yj9CtXeg84DWOeNc
-         TkjlBc3SGfQ1dwGUKo6JGWJUH1uQ8Sr63vtjXfTfktlnNi0otvsgG1UyJ5W1IfT9Bt6v
-         sAfWcfWTTxROK+4YRoI986S8EhEvX+a5qJGvjoZvYthX+JswT0gDbOv9HfUNk2lRp5Q5
-         8D8ss7q39belG62HkiaOwMeobW0yOiq8dZ+a3VHG6ZOmsG4seGkSpxLueRr9KLhYaHoy
-         pjPEBSIW3ziS3PLfp1k524Q4XU3Mm1nr3hypgWtzk883tbhSQ4gddL8EvWJ0vTRVm7qf
-         uUmA==
-X-Gm-Message-State: AGRZ1gKcMOClcHxAKBN5smuIYQ2JXgfKwyUDOzXzU/XEb+/5UqnrO84F
-        YMdBuSvwgUP9yLAmitRPkyjDO3i9KBPHKWKnQ7E=
-X-Google-Smtp-Source: AJdET5c3PEnyoCHS5Vy78JPt3nZO7olCJtfOD6bID9VF79zzdrfgoVuhFXOhdqbp2jUMdU3whSTDeW4VSrWGinAQ2DY=
-X-Received: by 2002:a0c:e202:: with SMTP id q2mr14535857qvl.180.1541260275684;
- Sat, 03 Nov 2018 08:51:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAHp75VfxGpR1PWaP+FbTcgxsM8sRgyuCZBjTigZWbxJShFDrxQ@mail.gmail.com>
- <201811031027242806354@zte.com.cn>
-In-Reply-To: <201811031027242806354@zte.com.cn>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 3 Nov 2018 17:51:04 +0200
-Message-ID: <CAHp75Vc_Ohz9Yu6VbC3YnDTt0uNkqw5xkxusWDx9YjFYMqXGMA@mail.gmail.com>
-Subject: Re: Re: [PATCH V6 3/8] misc/pvpanic: add MMIO support
-To:     peng.hao2@zte.com.cn
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        hutao@cn.fujitsu.com,
-        Linux Documentation List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1727644AbeKDBqW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 3 Nov 2018 21:46:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56614 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726888AbeKDBqV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 3 Nov 2018 21:46:21 -0400
+Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8D4042082E;
+        Sat,  3 Nov 2018 16:34:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1541262874;
+        bh=Iy6FmRR8ErwQkljBCA7TBtflb5SxeaOb6vsXk6FDi34=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=kLCrB8lzfGqQ2SYSgHANtGqeAfb4/8MTo+6N5ETzqvfOY4MZgS8HeLazuYtOQxiHK
+         t0tUeAOARqX+eUlXF3epNQjyBmtzesKHmi0eYO0tdc0LKyJugoH8a2bJgfTQeitY0y
+         P4aCr0WRlaVSe2HvK8c4DqU41bPujqsafadIgQDM=
+Date:   Sun, 4 Nov 2018 01:34:30 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Josh Poimboeuf <jpoimboe@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Christian Brauner <christian@brauner.io>,
+        Aleksa Sarai <asarai@suse.de>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] kretprobe: produce sane stack traces
+Message-Id: <20181104013430.9d3e91b8ebbae7dcb6860ef1@kernel.org>
+In-Reply-To: <20181103091341.3d32683e@vmware.local.home>
+References: <20181101083551.3805-1-cyphar@cyphar.com>
+        <20181101083551.3805-2-cyphar@cyphar.com>
+        <20181101204720.6ed3fe37@vmware.local.home>
+        <20181102050509.tw3dhvj5urudvtjl@yavin>
+        <20181102065932.bdt4pubbrkvql4mp@yavin>
+        <20181102091658.1bc979a4@gandalf.local.home>
+        <20181102154325.bt6xoysl4xdl33wd@treble>
+        <20181102121307.32e99414@gandalf.local.home>
+        <20181103220012.55ecd97e671c43e4959c8b62@kernel.org>
+        <20181103091341.3d32683e@vmware.local.home>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Nov 3, 2018 at 4:27 AM <peng.hao2@zte.com.cn> wrote:
->
-> >>
-> >> On some architectures (e.g. arm64), it's preferable to use MMIO, since
-> >> this can be used standalone. Add MMIO support to the pvpanic driver.
-> >>
-> >
-> >0day complains b/c of 1st patch in the series.
-> >
-> >Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> >
-> >> Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> >
-> >This wasn't suggested by me. It's your idea to support to MMIO.
-> >
-> oh, I just want to express that acpi_dev_resource_memory is your suggestion.
-> I misunderstood the use of the "Suggested-by'.
+On Sat, 3 Nov 2018 09:13:41 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-No problem.
+> On Sat, 3 Nov 2018 22:00:12 +0900
+> Masami Hiramatsu <mhiramat@kernel.org> wrote:
+> 
+> > On Fri, 2 Nov 2018 12:13:07 -0400
+> > Steven Rostedt <rostedt@goodmis.org> wrote:
+> > 
+> 
+> > > Because that means if function graph tracer is active, then you can't
+> > > do a kretprobe, and vice versa. I'd really like to have it working for
+> > > multiple users, then we could trace different graph functions and store
+> > > them in different buffers. It would also allow for perf to use function
+> > > graph tracer too.  
+> > 
+> > Steve, how woul you allow multiple users on it? Something like this?
+> > 
+> > ret_trampoline_multiple(){
+> >    list_for_each(handler, &shadow_entry[i].handlers, list)
+> > 	handler(shadow_entry[i]);
+> >    restore_retval_and_jump_to(shadow_entry[i].orig);
+> > }
+> >
+> 
+> Something like that. But since it's not a single mapping between shadow
+> entries and handlers, that is we have multiple tasks with multiple
+> shadow entries and multiple handlers, we can't use a link list (two
+> different parents per handler).
 
-Actually there is a room for interpretation.
+Yes, I understand it.
 
-From my point of view Suggested-by can be used in the following cases:
-- idea came from other person
-- the implementation of something is heavily based on other person's
-view (usually with provided code samples)
+> I was thinking of a bitmask that represents the handlers, and use that
+> to map which handler gets called for which shadow entry for a
+> particular task.
 
-In the patch which converts to use specific API idea was mine, but
-here I just reviewed one small part of the code, while idea is
-completely yours IIUC.
+Hmm, I doubt that is too complicated and not scalable. I rather like to see
+the open shadow entry...
 
-Of course, you are free to give a credit if you would like to do so,
-just be little more specific.
+entry: [[original_retaddr][function][modified_retaddr]]
+
+So if there are many users on same function, the entries will be like this 
+
+[[original_return_address][function][trampoline_A]]
+[[trampline_A][function][trampoline_B]]
+[[trampline_B][function][trampoline_C]]
+
+And on the top of the stack, there is trampline_C instead of original_return_address.
+In this case, return to trampoline_C(), it jumps back to trampline_B() and then
+it jumps back to trampline_A(). And eventually it jumps back to
+original_return_address.
+
+This way, we don't need allocate another bitmap/pages for the shadow stack.
+We only need a shadow stack for each task.
+Also, unwinder can easily find the trampline_C from the shadow stack and restores
+original_return_address. (of course trampline_A,B,C must be registered so that
+search function can skip it.)
+
+Thank you,
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Masami Hiramatsu <mhiramat@kernel.org>
