@@ -5,266 +5,151 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D1C4F7D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  2 Nov 2018 23:19:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C1E547D08E
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  3 Nov 2018 03:54:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728357AbeKCI3B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 3 Nov 2018 04:29:01 -0400
-Received: from mga06.intel.com ([134.134.136.31]:32066 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726705AbeKCI3B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 3 Nov 2018 04:29:01 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Nov 2018 16:19:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,457,1534834800"; 
-   d="scan'208";a="270988522"
-Received: from btyborox-mobl.ger.corp.intel.com (HELO localhost) ([10.249.254.138])
-  by orsmga005.jf.intel.com with ESMTP; 02 Nov 2018 16:19:42 -0700
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-sgx@vger.kernel.org
-Cc:     dave.hansen@intel.com, sean.j.christopherson@intel.com,
-        nhorman@redhat.com, npmccallum@redhat.com, serge.ayoun@intel.com,
-        shay.katz-zamir@intel.com, haitao.huang@intel.com,
-        mark.shanahan@intel.com, andriy.shevchenko@linux.intel.com,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v15 23/23] x86/sgx: Driver documentation
-Date:   Sat,  3 Nov 2018 01:11:22 +0200
-Message-Id: <20181102231320.29164-24-jarkko.sakkinen@linux.intel.com>
+        id S1726200AbeKCNEB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 3 Nov 2018 09:04:01 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37918 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726016AbeKCNEB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Nov 2018 09:04:01 -0400
+Received: from localhost.localdomain (unknown [IPv6:2804:431:9718:2bff:decf:69f2:c4e6:79a6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: koike)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9A8F627E838;
+        Sat,  3 Nov 2018 03:53:54 +0000 (GMT)
+From:   Helen Koike <helen.koike@collabora.com>
+To:     dm-devel@redhat.com
+Cc:     agk@redhat.com, snitzer@redhat.com, linux-kernel@vger.kernel.org,
+        enric.balletbo@collabora.com, wad@chromium.org,
+        linux-doc@vger.kernel.org, linux-lvm@redhat.com,
+        kernel@collabora.com, richard.weinberger@gmail.com,
+        keescook@chromium.org
+Subject: [PATCH v10 0/2] dm: boot a mapped device without an initramfs
+Date:   Sat,  3 Nov 2018 00:53:39 -0300
+Message-Id: <20181103035341.16893-1-helen.koike@collabora.com>
 X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20181102231320.29164-1-jarkko.sakkinen@linux.intel.com>
-References: <20181102231320.29164-1-jarkko.sakkinen@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Documentation of the features of the Software Guard eXtensions used
-by the Linux kernel and basic design choices for the core and driver
-and functionality.
+As mentioned in the discussion from the previous version of this patch, Android
+and Chrome OS do not use initramfs mostly due to boot time and size liability.
+A practical example as mentioned by Kees is that Chrome OS has a limited amount
+of storage available for the boot image as it is covered by the static root of
+trust signature.
 
-Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
----
- Documentation/index.rst         |   1 +
- Documentation/x86/intel_sgx.rst | 185 ++++++++++++++++++++++++++++++++
- 2 files changed, 186 insertions(+)
- create mode 100644 Documentation/x86/intel_sgx.rst
+So instead of bringing up userspace to perform the required configuration for
+mapped devices, this patchset allows them to be configured in the kernel command
+line parameter for use early in the boot process, allowing booting from a mapped
+device without an initramfs.
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 5db7e87c7cb1..1cdc139adb40 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -104,6 +104,7 @@ implementation.
-    :maxdepth: 2
- 
-    sh/index
-+   x86/index
- 
- Filesystem Documentation
- ------------------------
-diff --git a/Documentation/x86/intel_sgx.rst b/Documentation/x86/intel_sgx.rst
-new file mode 100644
-index 000000000000..f6b7979c41f2
---- /dev/null
-+++ b/Documentation/x86/intel_sgx.rst
-@@ -0,0 +1,185 @@
-+===================
-+Intel(R) SGX driver
-+===================
-+
-+Introduction
-+============
-+
-+Intel(R) SGX is a set of CPU instructions that can be used by applications to
-+set aside private regions of code and data. The code outside the enclave is
-+disallowed to access the memory inside the enclave by the CPU access control.
-+In a way you can think that SGX provides inverted sandbox. It protects the
-+application from a malicious host.
-+
-+You can tell if your CPU supports SGX by looking into ``/proc/cpuinfo``:
-+
-+	``cat /proc/cpuinfo  | grep sgx``
-+
-+Overview of SGX
-+===============
-+
-+SGX has a set of data structures to maintain information about the enclaves and
-+their security properties. BIOS reserves a fixed size region of physical memory
-+for these structures by setting Processor Reserved Memory Range Registers
-+(PRMRR).
-+
-+This memory range is protected from outside access by the CPU and all the data
-+coming in and out of the CPU package is encrypted by a key that is generated for
-+each boot cycle.
-+
-+Enclaves execute in ring-3 in a special enclave submode using pages from the
-+reserved memory range. A fixed logical address range for the enclave is reserved
-+by ENCLS(ECREATE), a leaf instruction used to create enclaves. It is referred in
-+the documentation commonly as the ELRANGE.
-+
-+Every memory access to the ELRANGE is asserted by the CPU. If the CPU is not
-+executing in the enclave mode inside the enclave, #GP is raised. On the other
-+hand enclave code can make memory accesses both inside and outside of the
-+ELRANGE.
-+
-+Enclave can only execute code inside the ELRANGE. Instructions that may cause
-+VMEXIT, IO instructions and instructions that require a privilege change are
-+prohibited inside the enclave. Interrupts and exceptions always cause enclave
-+to exit and jump to an address outside the enclave given when the enclave is
-+entered by using the leaf instruction ENCLS(EENTER).
-+
-+Data types
-+----------
-+
-+The protected memory range contains the following data:
-+
-+* **Enclave Page Cache (EPC):** protected pages
-+* **Enclave Page Cache Map (EPCM):** a database that describes the state of the
-+  pages and link them to an enclave.
-+
-+EPC has a number of different types of pages:
-+
-+* **SGX Enclave Control Structure (SECS)**: describes the global
-+  properties of an enclave.
-+* **Regular (REG):** code and data pages in the ELRANGE.
-+* **Thread Control Structure (TCS):** pages that define entry points inside an
-+  enclave. The enclave can only be entered through these entry points and each
-+  can host a single hardware thread at a time.
-+* **Version Array (VA)**: 64-bit version numbers for pages that have been
-+  swapped outside the enclave. Each page contains 512 version numbers.
-+
-+Launch control
-+--------------
-+
-+To launch an enclave, two structures must be provided for ENCLS(EINIT):
-+
-+1. **SIGSTRUCT:** signed measurement of the enclave binary.
-+2. **EINITTOKEN:** a cryptographic token CMAC-signed with a AES256-key called
-+   *launch key*, which is re-generated for each boot cycle.
-+
-+The CPU holds a SHA256 hash of a 3072-bit RSA public key inside
-+IA32_SGXLEPUBKEYHASHn MSRs. Enclaves with a SIGSTRUCT that is signed with this
-+key do not require a valid EINITTOKEN and can be authorized with special
-+privileges. One of those privileges is ability to acquire the launch key with
-+ENCLS(EGETKEY).
-+
-+**IA32_FEATURE_CONTROL[17]** is used by the BIOS configure whether
-+IA32_SGXLEPUBKEYHASH MSRs are read-only or read-write before locking the
-+feature control register and handing over control to the operating system.
-+
-+Enclave construction
-+--------------------
-+
-+The construction is started by filling out the SECS that contains enclave
-+address range, privileged attributes and measurement of TCS and REG pages (pages
-+that will be mapped to the address range) among the other things. This structure
-+is passed out to the ENCLS(ECREATE) together with a physical address of a page
-+in EPC that will hold the SECS.
-+
-+The pages are added with ENCLS(EADD) and measured with ENCLS(EEXTEND) i.e.
-+SHA256 hash MRENCLAVE residing in the SECS is extended with the page data.
-+
-+After all of the pages have been added, the enclave is initialized with
-+ENCLS(EINIT). ENCLS(INIT) checks that the SIGSTRUCT is signed with the contained
-+public key. If the given EINITTOKEN has the valid bit set, the CPU checks that
-+the token is valid (CMAC'd with the launch key). If the token is not valid,
-+the CPU will check whether the enclave is signed with a key matching to the
-+IA32_SGXLEPUBKEYHASHn MSRs.
-+
-+Swapping pages
-+--------------
-+
-+Enclave pages can be swapped out with ENCLS(EWB) to the unprotected memory. In
-+addition to the EPC page, ENCLS(EWB) takes in a VA page and address for PCMD
-+structure (Page Crypto MetaData) as input. The VA page will seal a version
-+number for the page. PCMD is 128 byte structure that contains tracking
-+information for the page, most importantly its MAC. With these structures the
-+enclave is sealed and rollback protected while it resides in the unprotected
-+memory.
-+
-+Before the page can be swapped out it must not have any active TLB references.
-+ENCLS(EBLOCK) instruction moves a page to the *blocked* state, which means
-+that no new TLB entries can be created to it by the hardware threads.
-+
-+After this a shootdown sequence is started with ENCLS(ETRACK), which sets an
-+increased counter value to the entering hardware threads. ENCLS(EWB) will
-+return SGX_NOT_TRACKED error while there are still threads with the earlier
-+couner value because that means that there might be hardware thread inside
-+the enclave with TLB entries to pages that are to be swapped.
-+
-+Kernel internals
-+================
-+
-+Requirements
-+------------
-+
-+Because SGX has an ever evolving and expanding feature set, it's possible for
-+a BIOS or VMM to configure a system in such a way that not all CPUs are equal,
-+e.g. where Launch Control is only enabled on a subset of CPUs.  Linux does
-+*not* support such a heterogeneous system configuration, nor does it even
-+attempt to play nice in the face of a misconfigured system.  With the exception
-+of Launch Control's hash MSRs, which can vary per CPU, Linux assumes that all
-+CPUs have a configuration that is identical to the boot CPU.
-+
-+
-+Roles and responsibilities
-+--------------------------
-+
-+SGX introduces system resources, e.g. EPC memory, that must be accessible to
-+multiple entities, e.g. the native kernel driver (to expose SGX to userspace)
-+and KVM (to expose SGX to VMs), ideally without introducing any dependencies
-+between each SGX entity.  To that end, the kernel owns and manages the shared
-+system resources, i.e. the EPC and Launch Control MSRs, and defines functions
-+that provide appropriate access to the shared resources.  SGX support for
-+user space and VMs is left to the SGX platform driver and KVM respectively.
-+
-+Launching enclaves
-+------------------
-+
-+The current kernel implementation supports only unlocked MSRs i.e.
-+FEATURE_CONTROL_SGX_LE_WR must be set. The launch is performed by setting the
-+MSRs to the hash of the public key modulus of the enclave signer, which is one
-+f the fields in the SIGSTRUCT.
-+
-+EPC management
-+--------------
-+
-+Due to the unique requirements for swapping EPC pages, and because EPC pages
-+(currently) do not have associated page structures, management of the EPC is
-+not handled by the standard Linux swapper.  SGX directly handles swapping
-+of EPC pages, including a kthread to initiate reclaim and a rudimentary LRU
-+mechanism. The consumers of EPC pages, e.g. the SGX driver, are required to
-+implement function callbacks that can be invoked by the kernel to age,
-+swap, and/or forcefully reclaim a target EPC page.  In effect, the kernel
-+controls what happens and when, while the consumers (driver, KVM, etc..) do
-+the actual work.
-+
-+SGX uapi
-+========
-+
-+.. kernel-doc:: drivers/platform/x86/intel_sgx/sgx_ioctl.c
-+   :functions: sgx_ioc_enclave_create
-+               sgx_ioc_enclave_add_page
-+               sgx_ioc_enclave_init
-+
-+.. kernel-doc:: arch/x86/include/uapi/asm/sgx.h
-+
-+References
-+==========
-+
-+* System Programming Manual: 39.1.4 Intel® SGX Launch Control Configuration
+The syntax used in the boot param is based on the concise format from the dmsetup
+tool as described in its man page http://man7.org/linux/man-pages/man8/dmsetup.8.html#CONCISE_FORMAT
+
+Which is:
+	dm=<name>,<uuid>,<minor>,<flags>,<table>[,<table>+][;<name>,<uuid>,<minor>,<flags>,<table>[,<table>+]+]
+
+Where,
+	<name>		::= The device name.
+	<uuid>		::= xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | ""
+	<minor>		::= The device minor number | ""
+	<flags>		::= "ro" | "rw"
+	<table>		::= <start_sector> <num_sectors> <target_type> <target_args>
+	<target_type>	::= "verity" | "linear" | ...
+
+Example, the following could be added in the boot parameters.
+dm="lroot,,,rw, 0 4096 linear 98:16 0, 4096 4096 linear 98:32 0" root=/dev/dm-0
+
+Please check patch 2/2 with the documentation on the format.
+
+The idea to make it compatible with the dmsetup concise format is to make it
+easier for users, allowing just copy & paste from the output of the command:
+
+	sudo dmsetup table --concise /dev/mapper/lroot
+
+The implementation consists basically in parsing the command line argument and
+performing the ioctls that would be performed by userspace otherwise,
+i.e. DM_DEV_CREATE, followed by DM_TABLE_LOAD then DM_DEV_SUSPEND.
+
+Instead of performing the ioctls, we could by-pass it, calling the corresponding
+functions directly, but the ioctls calls perform some checks and also the
+implementation stays less invasive. Please let me know if you would prefer a
+directly call instead of going thought the ioctls.
+
+Changes since v9:
+ - https://www.redhat.com/archives/linux-lvm/2018-September/msg00016.html
+ - new file: drivers/md/dm-boot.c
+ - most of the parsing code was moved from init/do_mounts_dm.c to drivers/md/dm-boot.c
+ - parsing code was in essence replaced by the concise parser from dmsetup
+ _create_concise function:
+https://sourceware.org/git/?p=lvm2.git;a=blob;f=libdm/dm-tools/dmsetup.c;h=835fdcdc75e8f0f0f7c4ed46cc9788a6616f58b8;hb=7498f8383397a93db95655ca227257836cbcac82#l1265
+ the main reason is that this code is already being used/tested by dmsetup, so
+ we can have some level of confidence that it works as expected. Besides this,
+ it also looks more efficient.
+ - Not all targets are allowed to be used by dm=, as pointed previously, there
+ are some risks in creating a mapped device without some validation from
+ userspace (see documentation from the patch listing which targets are allowed).
+ - Instead of using a simple singly linked list (for devices and tables), use
+ the struct list_head. This occupies unnecessary space in the code, but it makes
+ the code cleaner and easier to read and less prone to silly errors.
+ - Documentation and comments were reviewed and refactored, e.g.:
+	* "is to possible" was removed
+	* s/specified as a simple string/specified as a string/
+ - Added docs above __align function, make it clear that the second parameter @a
+ must be a power of two.
+ - Clean ups: removal of unnecessary includes, macros, variables, some redundant
+ checks and warnings.
+ - when calling ioctls, the code was allocating and freeing the same structure
+ a couple of times. So instead of executing kzalloc/kfree 3 times, execute
+ kmalloc once and reuse the structure after a memset, then finally kfree it once.
+ - update commit message
+
+Changes since v8:
+ - https://www.redhat.com/archives/linux-lvm/2017-May/msg00055.html
+ - Add minor number to make it compatible with dmsetup concise format
+
+Changes since v7:
+ - http://lkml.iu.edu/hypermail/linux/kernel/1705.2/02657.html
+ - Fix build error due commit
+    e516db4f67 (dm ioctl: add a new DM_DEV_ARM_POLL ioctl)
+
+Changes since v6:
+ - https://www.redhat.com/archives/dm-devel/2017-April/msg00316.html
+ - Add a new function to issue the equivalent of a DM ioctl programatically.
+ - Use the new ioctl interface to create the devices.
+ - Use a comma-delimited and semi-colon delimited dmsetup-like commands.
+
+Changes since v5:
+ - https://www.redhat.com/archives/dm-devel/2016-February/msg00112.html
+
+Enric Balletbo i Serra (1):
+  dm ioctl: add a device mapper ioctl function.
+
+Will Drewry (1):
+  init: add support to directly boot to a mapped device
+
+ .../admin-guide/kernel-parameters.rst         |   1 +
+ .../admin-guide/kernel-parameters.txt         |   3 +
+ Documentation/device-mapper/dm-boot.txt       |  87 ++++
+ drivers/md/Makefile                           |   2 +-
+ drivers/md/dm-boot.c                          | 433 ++++++++++++++++++
+ drivers/md/dm-ioctl.c                         |  49 ++
+ include/linux/device-mapper.h                 |  12 +
+ init/Makefile                                 |   1 +
+ init/do_mounts.c                              |   1 +
+ init/do_mounts.h                              |  10 +
+ init/do_mounts_dm.c                           |  46 ++
+ 11 files changed, 644 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/device-mapper/dm-boot.txt
+ create mode 100644 drivers/md/dm-boot.c
+ create mode 100644 init/do_mounts_dm.c
+
 -- 
 2.19.1
 
