@@ -5,21 +5,21 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EEE4A7D089
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  3 Nov 2018 17:30:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 270327D089
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  3 Nov 2018 17:33:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727497AbeKDCmT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 3 Nov 2018 22:42:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37838 "EHLO mail.kernel.org"
+        id S1727879AbeKDCp2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 3 Nov 2018 22:45:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38310 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727281AbeKDCmT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 3 Nov 2018 22:42:19 -0400
+        id S1726985AbeKDCp2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 3 Nov 2018 22:45:28 -0400
 Received: from vmware.local.home (cpe-66-24-56-78.stny.res.rr.com [66.24.56.78])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DE824204FD;
-        Sat,  3 Nov 2018 17:30:22 +0000 (UTC)
-Date:   Sat, 3 Nov 2018 13:30:21 -0400
+        by mail.kernel.org (Postfix) with ESMTPSA id 6896D204FD;
+        Sat,  3 Nov 2018 17:33:31 +0000 (UTC)
+Date:   Sat, 3 Nov 2018 13:33:29 -0400
 From:   Steven Rostedt <rostedt@goodmis.org>
 To:     Masami Hiramatsu <mhiramat@kernel.org>
 Cc:     Josh Poimboeuf <jpoimboe@redhat.com>,
@@ -43,8 +43,8 @@ Cc:     Josh Poimboeuf <jpoimboe@redhat.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-kselftest@vger.kernel.org
 Subject: Re: [PATCH v3 1/2] kretprobe: produce sane stack traces
-Message-ID: <20181103133021.6676708c@vmware.local.home>
-In-Reply-To: <20181104013430.9d3e91b8ebbae7dcb6860ef1@kernel.org>
+Message-ID: <20181103133329.2160bfd7@vmware.local.home>
+In-Reply-To: <20181103133021.6676708c@vmware.local.home>
 References: <20181101083551.3805-1-cyphar@cyphar.com>
         <20181101083551.3805-2-cyphar@cyphar.com>
         <20181101204720.6ed3fe37@vmware.local.home>
@@ -56,6 +56,7 @@ References: <20181101083551.3805-1-cyphar@cyphar.com>
         <20181103220012.55ecd97e671c43e4959c8b62@kernel.org>
         <20181103091341.3d32683e@vmware.local.home>
         <20181104013430.9d3e91b8ebbae7dcb6860ef1@kernel.org>
+        <20181103133021.6676708c@vmware.local.home>
 X-Mailer: Claws Mail 3.15.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -65,67 +66,51 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 4 Nov 2018 01:34:30 +0900
-Masami Hiramatsu <mhiramat@kernel.org> wrote:
-> 
-> > I was thinking of a bitmask that represents the handlers, and use that
-> > to map which handler gets called for which shadow entry for a
-> > particular task.  
-> 
-> Hmm, I doubt that is too complicated and not scalable. I rather like to see
-> the open shadow entry...
+On Sat, 3 Nov 2018 13:30:21 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-It can scale and not too complex (I already played a little with it).
-But that said, I'm not committed to it, and using the shadow stack is
-also an interesting idea.
-
+> What I was thinking was to store a count and the functions to be called:
 > 
-> entry: [[original_retaddr][function][modified_retaddr]]
 > 
-> So if there are many users on same function, the entries will be like this 
+> 	[original_return_address]
+> 	[function_A]
+> 	[function_B]
+> 	[function_C]
+> 	[ 3 ]
 > 
-> [[original_return_address][function][trampoline_A]]
-> [[trampline_A][function][trampoline_B]]
-> [[trampline_B][function][trampoline_C]]
+> Then the trampoline that processes the return codes for ftrace (and
+> kretprobes and everyone else) can simply do:
 > 
-> And on the top of the stack, there is trampline_C instead of original_return_address.
-> In this case, return to trampoline_C(), it jumps back to trampline_B() and then
-> it jumps back to trampline_A(). And eventually it jumps back to
-> original_return_address.
-
-Where are trampolines A, B, and C made? Do we also need to dynamically
-create them? If I register multiple function tracing ones, each one
-will need its own trampoline?
-
+> 	count = pop_shadow_stack();
+> 	for (i = 0; i < count; i++) {
+> 		func = pop_shadow_stack();
+> 		func(...);
+> 	}
+> 	return_address = pop_shadow_stack();
 > 
-> This way, we don't need allocate another bitmap/pages for the shadow stack.
-> We only need a shadow stack for each task.
-> Also, unwinder can easily find the trampline_C from the shadow stack and restores
-> original_return_address. (of course trampline_A,B,C must be registered so that
-> search function can skip it.)
+> That way we only need to register a function to the return handler and
+> it will be called, without worrying about making trampolines. There
+> will just be a single trampoline that handles all the work.
 
-What I was thinking was to store a count and the functions to be called:
-
+And since the most common case is a single function to call, instead of
+using a count, we can take advantage that kernel functions are negative
+numbers and do:
 
 	[original_return_address]
 	[function_A]
-	[function_B]
-	[function_C]
-	[ 3 ]
 
-Then the trampoline that processes the return codes for ftrace (and
-kretprobes and everyone else) can simply do:
+	----
+
+	long count;
 
 	count = pop_shadow_stack();
-	for (i = 0; i < count; i++) {
-		func = pop_shadow_stack();
-		func(...);
-	}
-	return_address = pop_shadow_stack();
+	if (count < 0) {
+		func = (void *)count;
+		func();
+	} else {
+		for (i = 0; i < count; i++) {
+			[...]
 
-That way we only need to register a function to the return handler and
-it will be called, without worrying about making trampolines. There
-will just be a single trampoline that handles all the work.
+The unwinder will just need to know how to handle all this :-)
 
 -- Steve
-
