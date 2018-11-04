@@ -5,325 +5,132 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6F4667D089
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  4 Nov 2018 08:15:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C7A157D089
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  4 Nov 2018 11:59:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729157AbeKDR3b (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 4 Nov 2018 12:29:31 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56808 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729156AbeKDR3b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Nov 2018 12:29:31 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wA489VWK121358
-        for <linux-doc@vger.kernel.org>; Sun, 4 Nov 2018 03:15:25 -0500
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2nhs59emb3-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sun, 04 Nov 2018 03:15:24 -0500
-Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Sun, 4 Nov 2018 08:15:22 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sun, 4 Nov 2018 08:15:17 -0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wA48FGqa7537082
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sun, 4 Nov 2018 08:15:16 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 83350AE04D;
-        Sun,  4 Nov 2018 08:15:16 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 15DEAAE051;
-        Sun,  4 Nov 2018 08:15:15 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.8.72])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Sun,  4 Nov 2018 08:15:14 +0000 (GMT)
-Date:   Sun, 4 Nov 2018 10:15:13 +0200
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-sgx@vger.kernel.org, dave.hansen@intel.com,
-        sean.j.christopherson@intel.com, nhorman@redhat.com,
-        npmccallum@redhat.com, serge.ayoun@intel.com,
-        shay.katz-zamir@intel.com, haitao.huang@intel.com,
-        mark.shanahan@intel.com, andriy.shevchenko@linux.intel.com,
+        id S1729445AbeKDVOR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 4 Nov 2018 16:14:17 -0500
+Received: from mx1.mailbox.org ([80.241.60.212]:20968 "EHLO mx1.mailbox.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729293AbeKDVOR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 4 Nov 2018 16:14:17 -0500
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        (No client certificate requested)
+        by mx1.mailbox.org (Postfix) with ESMTPS id D930B40555;
+        Sun,  4 Nov 2018 12:59:29 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.241])
+        by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116]) (amavisd-new, port 10030)
+        with ESMTP id NdV5wkatz1zb; Sun,  4 Nov 2018 12:59:28 +0100 (CET)
+Date:   Sun, 4 Nov 2018 22:59:13 +1100
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v15 23/23] x86/sgx: Driver documentation
-References: <20181102231320.29164-1-jarkko.sakkinen@linux.intel.com>
- <20181102231320.29164-24-jarkko.sakkinen@linux.intel.com>
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Christian Brauner <christian@brauner.io>,
+        Aleksa Sarai <asarai@suse.de>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Josh Poimboeuf <jpoimboe@redhat.com>
+Subject: Re: [PATCH v3 1/2] kretprobe: produce sane stack traces
+Message-ID: <20181104115913.74l4yzecisvtt2j5@yavin>
+References: <20181101083551.3805-1-cyphar@cyphar.com>
+ <20181101083551.3805-2-cyphar@cyphar.com>
+ <20181101204720.6ed3fe37@vmware.local.home>
+ <20181102050509.tw3dhvj5urudvtjl@yavin>
+ <20181102065932.bdt4pubbrkvql4mp@yavin>
+ <20181102091658.1bc979a4@gandalf.local.home>
+ <20181103070253.ajrqzs5xu2vf5stu@yavin>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="2yaciluwfpe2adhl"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20181102231320.29164-24-jarkko.sakkinen@linux.intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18110408-0008-0000-0000-0000028AF78D
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18110408-0009-0000-0000-000021F5276E
-Message-Id: <20181104081512.GA7829@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-04_08:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1811040079
+In-Reply-To: <20181103070253.ajrqzs5xu2vf5stu@yavin>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Nov 03, 2018 at 01:11:22AM +0200, Jarkko Sakkinen wrote:
-> Documentation of the features of the Software Guard eXtensions used
-> by the Linux kernel and basic design choices for the core and driver
-> and functionality.
-> 
-> Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-> ---
->  Documentation/index.rst         |   1 +
->  Documentation/x86/intel_sgx.rst | 185 ++++++++++++++++++++++++++++++++
->  2 files changed, 186 insertions(+)
->  create mode 100644 Documentation/x86/intel_sgx.rst
-> 
-> diff --git a/Documentation/index.rst b/Documentation/index.rst
-> index 5db7e87c7cb1..1cdc139adb40 100644
-> --- a/Documentation/index.rst
-> +++ b/Documentation/index.rst
-> @@ -104,6 +104,7 @@ implementation.
->     :maxdepth: 2
-> 
->     sh/index
-> +   x86/index
 
-It seems there is no Documentation/x86/index.rst, probably you'd want to
-create one and link intel_sgx.rst there
+--2yaciluwfpe2adhl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
->  Filesystem Documentation
->  ------------------------
-> diff --git a/Documentation/x86/intel_sgx.rst b/Documentation/x86/intel_sgx.rst
-> new file mode 100644
-> index 000000000000..f6b7979c41f2
-> --- /dev/null
-> +++ b/Documentation/x86/intel_sgx.rst
-> @@ -0,0 +1,185 @@
-> +===================
-> +Intel(R) SGX driver
-> +===================
-> +
-> +Introduction
-> +============
-> +
-> +Intel(R) SGX is a set of CPU instructions that can be used by applications to
-> +set aside private regions of code and data. The code outside the enclave is
-> +disallowed to access the memory inside the enclave by the CPU access control.
-> +In a way you can think that SGX provides inverted sandbox. It protects the
-> +application from a malicious host.
-> +
-> +You can tell if your CPU supports SGX by looking into ``/proc/cpuinfo``:
-> +
-> +	``cat /proc/cpuinfo  | grep sgx``
-> +
-> +Overview of SGX
-> +===============
-> +
-> +SGX has a set of data structures to maintain information about the enclaves and
-> +their security properties. BIOS reserves a fixed size region of physical memory
-> +for these structures by setting Processor Reserved Memory Range Registers
-> +(PRMRR).
-> +
-> +This memory range is protected from outside access by the CPU and all the data
-> +coming in and out of the CPU package is encrypted by a key that is generated for
-> +each boot cycle.
-> +
-> +Enclaves execute in ring-3 in a special enclave submode using pages from the
-> +reserved memory range. A fixed logical address range for the enclave is reserved
-> +by ENCLS(ECREATE), a leaf instruction used to create enclaves. It is referred in
-> +the documentation commonly as the ELRANGE.
-> +
-> +Every memory access to the ELRANGE is asserted by the CPU. If the CPU is not
-> +executing in the enclave mode inside the enclave, #GP is raised. On the other
-> +hand enclave code can make memory accesses both inside and outside of the
+On 2018-11-03, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> This is actually a general bug in ftrace as well, because (for
+> instance) while the unwinder calls into ftrace_graph_ret_addr() while
+> walking up the stack this isn't used to correct regs->ip in
+> perf_callchain_kernel(). I think this is the cause of the bug in
+> ftrace-graph (if you switch to the "frame" unwinder you might be able
+> to see it more clearly) -- but when trying to fix it I'm having
+> trouble figuring out what retp should be (stack_addr(regs) doesn't
+> give the right result for some reason).
 
-comma  ^
+@Steven, @Masami: Can you verify whether this is an actual bug? The
+snippet is like (arch/x86/events/core.c):
 
-> +ELRANGE.
-> +
-> +Enclave can only execute code inside the ELRANGE. Instructions that may cause
-> +VMEXIT, IO instructions and instructions that require a privilege change are
-> +prohibited inside the enclave. Interrupts and exceptions always cause enclave
-> +to exit and jump to an address outside the enclave given when the enclave is
-> +entered by using the leaf instruction ENCLS(EENTER).
-> +
-> +Data types
-> +----------
-> +
-> +The protected memory range contains the following data:
-> +
-> +* **Enclave Page Cache (EPC):** protected pages
-> +* **Enclave Page Cache Map (EPCM):** a database that describes the state of the
-> +  pages and link them to an enclave.
+  void
+  perf_callchain_kernel(struct perf_callchain_entry_ctx *entry, struct pt_r=
+egs *regs)
+  {
+    /* ... */
+	if (perf_callchain_store(entry, regs->ip))
+		return;
+	/* rest of unwind code */
+  }
 
-I think it's better to use "definition list" here
+And it seems to me that there's an ftrace_graph_ret_addr missing here
+(though I was having trouble figuring out what the right retp would be
+in this context -- both stack_addr(regs) and &regs->sp appear to be
+wrong when I was trying to get this to work with kretprobes -- while my
+patch worked with all other kretprobe_trampoline cases in the unwinder).
 
-http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#definition-lists
+The same issue is present in __save_stack_trace
+(arch/x86/kernel/stacktrace.c). This is likely the only reason that --
+as Steven said -- stacktraces wouldn't work with ftrace-graph (and thus
+with the refactor both of you are discussing).
 
-> +EPC has a number of different types of pages:
-> +
-> +* **SGX Enclave Control Structure (SECS)**: describes the global
-> +  properties of an enclave.
-> +* **Regular (REG):** code and data pages in the ELRANGE.
-> +* **Thread Control Structure (TCS):** pages that define entry points inside an
-> +  enclave. The enclave can only be entered through these entry points and each
-> +  can host a single hardware thread at a time.
-> +* **Version Array (VA)**: 64-bit version numbers for pages that have been
-> +  swapped outside the enclave. Each page contains 512 version numbers.
+Thanks.
 
-ditto
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
 
-> +Launch control
-> +--------------
-> +
-> +To launch an enclave, two structures must be provided for ENCLS(EINIT):
-> +
-> +1. **SIGSTRUCT:** signed measurement of the enclave binary.
-> +2. **EINITTOKEN:** a cryptographic token CMAC-signed with a AES256-key called
-> +   *launch key*, which is re-generated for each boot cycle.
+--2yaciluwfpe2adhl
+Content-Type: application/pgp-signature; name="signature.asc"
 
-ditto
+-----BEGIN PGP SIGNATURE-----
 
-> +The CPU holds a SHA256 hash of a 3072-bit RSA public key inside
-> +IA32_SGXLEPUBKEYHASHn MSRs. Enclaves with a SIGSTRUCT that is signed with this
-> +key do not require a valid EINITTOKEN and can be authorized with special
-> +privileges. One of those privileges is ability to acquire the launch key with
-> +ENCLS(EGETKEY).
-> +
-> +**IA32_FEATURE_CONTROL[17]** is used by the BIOS configure whether
-> +IA32_SGXLEPUBKEYHASH MSRs are read-only or read-write before locking the
-> +feature control register and handing over control to the operating system.
-> +
-> +Enclave construction
-> +--------------------
-> +
-> +The construction is started by filling out the SECS that contains enclave
-> +address range, privileged attributes and measurement of TCS and REG pages (pages
-> +that will be mapped to the address range) among the other things. This structure
-> +is passed out to the ENCLS(ECREATE) together with a physical address of a page
-> +in EPC that will hold the SECS.
-> +
-> +The pages are added with ENCLS(EADD) and measured with ENCLS(EEXTEND) i.e.
-> +SHA256 hash MRENCLAVE residing in the SECS is extended with the page data.
-> +
-> +After all of the pages have been added, the enclave is initialized with
-> +ENCLS(EINIT). ENCLS(INIT) checks that the SIGSTRUCT is signed with the contained
+iQIzBAABCAAdFiEEb6Gz4/mhjNy+aiz1Snvnv3Dem58FAlve3w4ACgkQSnvnv3De
+m58I4g/8CFItPEhmf9/ruSZ+czcVr2kRsDAJsGofWkgUuGd3HTou7U2/r0xvZeDF
+1XgpwSWDxwkTrEumRZOQDaCjLwIrXqOBi8l12pEiTPC7V4hkxkzeUZpoh5UzgO7O
+Tr9T/aW/5Tdqu93PJgX0ky2ECc6n4SJB8F2GDBZkVrRQoemFf3ulWWYWvUnrNk8y
+8vxNrx4WoGYle32T9kTPwgQhReB86vyMSUZW3SjT1mLkIkqIf01hWHRefX8E66Ot
+DFQB7OG6ep4mQsbKuekWJ0DtCUY4u7T98EmhtFq6bQ53L5BmTmKSiiE0z6HF+iJB
+N1sGnkVyHIRNgjGxbchR8uxdJCpLg+MWM9rxpkMc4JWtQkTSoCRHXKnHMfYWOhN5
+N4+xijxq4lCfJwXShKJNeFFOwM66rwls3KVEzUKcojn5H+UXxmR84SyWrhFHYnB0
+5FSmJzvQcypLyuJuinxOt0EBXbQ6uDW5pgsFfWRcbfEu72VSXOZi+1AaAaYlBv3C
+zV//7hYQhzwd0FZoBinr2ukKqmQcy1w+2oUVeHckWU3NsXS0V02pSqna85Hzv6ce
+m82UwtpLUPcRtH53M7nmdwy4nOcAyPuuxGsscMfi0p+Fwc2i6R10Npr2wZ7/3zi8
+Hbkss2B5r+YHW2YMiQGSUnfnB93LjnafPasol5iLWJFldcSdvl4=
+=AUFA
+-----END PGP SIGNATURE-----
 
-                       EINIT?
-
-> +public key. If the given EINITTOKEN has the valid bit set, the CPU checks that
-> +the token is valid (CMAC'd with the launch key). If the token is not valid,
-> +the CPU will check whether the enclave is signed with a key matching to the
-> +IA32_SGXLEPUBKEYHASHn MSRs.
-> +
-> +Swapping pages
-> +--------------
-> +
-> +Enclave pages can be swapped out with ENCLS(EWB) to the unprotected memory. In
-> +addition to the EPC page, ENCLS(EWB) takes in a VA page and address for PCMD
-> +structure (Page Crypto MetaData) as input. The VA page will seal a version
-> +number for the page. PCMD is 128 byte structure that contains tracking
-> +information for the page, most importantly its MAC. With these structures the
-> +enclave is sealed and rollback protected while it resides in the unprotected
-> +memory.
-> +
-> +Before the page can be swapped out it must not have any active TLB references.
-> +ENCLS(EBLOCK) instruction moves a page to the *blocked* state, which means
-> +that no new TLB entries can be created to it by the hardware threads.
-> +
-> +After this a shootdown sequence is started with ENCLS(ETRACK), which sets an
-> +increased counter value to the entering hardware threads. ENCLS(EWB) will
-> +return SGX_NOT_TRACKED error while there are still threads with the earlier
-> +couner value because that means that there might be hardware thread inside
-> +the enclave with TLB entries to pages that are to be swapped.
-> +
-> +Kernel internals
-> +================
-> +
-> +Requirements
-> +------------
-> +
-> +Because SGX has an ever evolving and expanding feature set, it's possible for
-> +a BIOS or VMM to configure a system in such a way that not all CPUs are equal,
-> +e.g. where Launch Control is only enabled on a subset of CPUs.  Linux does
-> +*not* support such a heterogeneous system configuration, nor does it even
-> +attempt to play nice in the face of a misconfigured system.  With the exception
-> +of Launch Control's hash MSRs, which can vary per CPU, Linux assumes that all
-> +CPUs have a configuration that is identical to the boot CPU.
-> +
-> +
-> +Roles and responsibilities
-> +--------------------------
-> +
-> +SGX introduces system resources, e.g. EPC memory, that must be accessible to
-> +multiple entities, e.g. the native kernel driver (to expose SGX to userspace)
-> +and KVM (to expose SGX to VMs), ideally without introducing any dependencies
-> +between each SGX entity.  To that end, the kernel owns and manages the shared
-> +system resources, i.e. the EPC and Launch Control MSRs, and defines functions
-> +that provide appropriate access to the shared resources.  SGX support for
-> +user space and VMs is left to the SGX platform driver and KVM respectively.
-> +
-> +Launching enclaves
-> +------------------
-> +
-> +The current kernel implementation supports only unlocked MSRs i.e.
-> +FEATURE_CONTROL_SGX_LE_WR must be set. The launch is performed by setting the
-> +MSRs to the hash of the public key modulus of the enclave signer, which is one
-> +f the fields in the SIGSTRUCT.
-
-  of
-
-> +
-> +EPC management
-> +--------------
-> +
-> +Due to the unique requirements for swapping EPC pages, and because EPC pages
-> +(currently) do not have associated page structures, management of the EPC is
-> +not handled by the standard Linux swapper.  SGX directly handles swapping
-> +of EPC pages, including a kthread to initiate reclaim and a rudimentary LRU
-> +mechanism. The consumers of EPC pages, e.g. the SGX driver, are required to
-> +implement function callbacks that can be invoked by the kernel to age,
-> +swap, and/or forcefully reclaim a target EPC page.  In effect, the kernel
-> +controls what happens and when, while the consumers (driver, KVM, etc..) do
-> +the actual work.
-> +
-> +SGX uapi
-> +========
-> +
-> +.. kernel-doc:: drivers/platform/x86/intel_sgx/sgx_ioctl.c
-> +   :functions: sgx_ioc_enclave_create
-> +               sgx_ioc_enclave_add_page
-> +               sgx_ioc_enclave_init
-> +
-> +.. kernel-doc:: arch/x86/include/uapi/asm/sgx.h
-> +
-> +References
-> +==========
-> +
-> +* System Programming Manual: 39.1.4 Intel® SGX Launch Control Configuration
-> -- 
-> 2.19.1
-> 
-
--- 
-Sincerely yours,
-Mike.
-
+--2yaciluwfpe2adhl--
