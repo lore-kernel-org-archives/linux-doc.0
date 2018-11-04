@@ -6,47 +6,47 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6986F7D981
+	by archive.lwn.net (Postfix) with ESMTP id 9E49A7DBEB
 	for <lwn-linux-doc@archive.lwn.net>; Sun,  4 Nov 2018 17:12:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729189AbeKEC2O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 4 Nov 2018 21:28:14 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:42795 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729339AbeKEC2N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Nov 2018 21:28:13 -0500
-Received: by mail-wr1-f65.google.com with SMTP id y15-v6so6904796wru.9;
-        Sun, 04 Nov 2018 09:12:33 -0800 (PST)
+        id S1730800AbeKEC2R (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 4 Nov 2018 21:28:17 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:54925 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729529AbeKEC2R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Nov 2018 21:28:17 -0500
+Received: by mail-wm1-f66.google.com with SMTP id r63-v6so6045020wma.4;
+        Sun, 04 Nov 2018 09:12:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=DwaIjaOplxzcZ7ftx2a6kgsWPHMYRimWe+wNdR5/hJE=;
-        b=MhkdCSshEjRNx9P6uI8UFpbF8xhZBi+BXrVUGq0azBHVfb+d1zjeBVZE0MZmNYcXRY
-         MA6om+WJgl40o+v+zhnVpCAqEXp+JlmQvMJ4Xsll1pSAkOtANQ6qWh/Q+ckP7nV1hXa6
-         CqzPOGiKXUiwojtMSBT3idTVZQFRgNoqAw4wZ8VeT65adKtmaINQAET4gwQnH/RF30w3
-         f+cnlNNaERkdOCwvSvDkYWwImy5CnYaVJmX6iV8E9cqT+RePOhDQZSqKCdVOQeHKWsQn
-         AngBM2mt/BjtcyGnUowd/4FXyQ+gF42PKnufo74QdGHHdrfViUkkkv9gWRhFm4I0zBtW
-         4GyA==
+        bh=TGhpIguxZKqGE+GdUaatDC/UNPrNnEL4NBgLd2GI3no=;
+        b=t/EGvrw1MpSeR5jsmJkKVZg/m5oUFjSYOS8yLE8qz4cIL3Gcbn6/iPRjhO5O+lnmSU
+         nyZzJwr3j5F7HdkUS6YNQf1+53OZg5+8kIC+4SL8JQzJZDitH1DCBzYlDFMQbnfFDUNc
+         UP9aMK5MBCWXWGBkPIToeWyYPU2b58sCramhc7ZshzaAVB3gW5qS75TqutCV0qVJwjxr
+         m8FqotY01NXAfi4AFJHJVrZ7YOawRuIEdVDNfuRpyI1evVjJqVxYoxaUkmF5nT6SDB+o
+         dFc7PskmcOKqsW1RHd3pQL2cdhDUSEqwVyFUPKsl8g3oGQGC1x99w7QWqO4Ye0zsKEk+
+         zqdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=DwaIjaOplxzcZ7ftx2a6kgsWPHMYRimWe+wNdR5/hJE=;
-        b=lgPMlx9nQiZ6N7fHEu4jWaBTo6Sk62YlBNLQJTb4XN31yUP1F0cZhCPWEsOEmnXi30
-         2Sz0Qsxdq/FuryjcqJNRxwq+kI9MRn4jTdivK5d8tcDPQdeXxJ8Y6oBwAANzie1NvNDM
-         I6edUL9uyBua6h49Wl8P2n1JEaQ9Oq3F5boa9h7/36jTkkR5J53/fp1FntZANLs2bGP3
-         /V1zeM8E5dHiAuGTVlyVSH2JOf86dCS41H5ls+CXId+ASv33jn7ZXOPnu3+Otb61kGrv
-         pnvVZ7KQre6GZLGN90Q4LAGxGFCgrhtMbU4t9Yybn+gGdUMZLH4hrMF5kDNoF1MR9aJO
-         JgcA==
-X-Gm-Message-State: AGRZ1gKNOH9ExqxPmaqFCIzpGNtUNI0yPO1Ft7kJmFLJma33QbpfIJdt
-        9duIvwTSgRhdKFC1rRQ3V20=
-X-Google-Smtp-Source: AJdET5e89ZUGWapFPY6etHj5e1LT86pqcOptFq7O4qxay+gQJ0F3xdZD6d3MGP1AJX6TZZjit4uaxQ==
-X-Received: by 2002:adf:f148:: with SMTP id y8-v6mr4983695wro.303.1541351553120;
-        Sun, 04 Nov 2018 09:12:33 -0800 (PST)
+        bh=TGhpIguxZKqGE+GdUaatDC/UNPrNnEL4NBgLd2GI3no=;
+        b=dIxrx5YfJ8hA2WzJ6rMSCZsSHmRzKTKlqgQsGErnoY7gCt6pWNKxZzsKRn1O69I69u
+         UuMJHXZ+3tn4Foh/60hdZpsqZNv+gs+kPc6tSqnx0P7QoD54b9hjGpH7I9URXLmvRitz
+         HRmeGpi1Er8Lw0ejnFFecNzJVcik45FLQpX+nsKvui03dDHTje3dSY39x7p8uFNXzFkp
+         2uTDbZQrKOY86dNrstX9ewAjHpwsU1An4gPeeLgdhwHu6izwCNUOOmEjb9Vsi7bYqxup
+         bOZKb4oSgbIe0Uzz17X3aktnQv6ttcBHay7P4qI0JLpuA6+nIg5b9v/iKFON8OjhA7iP
+         /4MQ==
+X-Gm-Message-State: AGRZ1gIPfiCd0NLXBE4padr0dBp9XIHH5E7yHZsPWXllV4zbN2l0ycEB
+        Rgz56VqtC74g4rhkHxaAzgw=
+X-Google-Smtp-Source: AJdET5ejay/sWk71bozJheRrobQzLIg9jrGDQJAiR0ikmiurOlkCuZvlKrsGOAnug1qWJDWykMx8gA==
+X-Received: by 2002:a1c:578c:: with SMTP id l134-v6mr3895086wmb.135.1541351555736;
+        Sun, 04 Nov 2018 09:12:35 -0800 (PST)
 Received: from localhost.localdomain ([41.35.162.9])
-        by smtp.gmail.com with ESMTPSA id r2-v6sm23707749wrq.1.2018.11.04.09.12.30
+        by smtp.gmail.com with ESMTPSA id r2-v6sm23707749wrq.1.2018.11.04.09.12.33
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 04 Nov 2018 09:12:32 -0800 (PST)
+        Sun, 04 Nov 2018 09:12:35 -0800 (PST)
 From:   Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>
 To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Jonathan Corbet <corbet@lwn.net>,
@@ -59,9 +59,9 @@ To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Boris Lukashev <blukashev@sempervictus.com>,
         Hossam Hassan <7ossam9063@gmail.com>,
         "Ahmed Lotfy igor . stoppa @ gmail . com" <A7med.lotfey@gmail.com>
-Subject: [PATCH V6 7/8] KVM: X86: Port ROE_MPROTECT_CHUNK to x86
-Date:   Sun,  4 Nov 2018 19:11:23 +0200
-Message-Id: <20181104171124.5717-8-ahmedsoliman0x666@gmail.com>
+Subject: [PATCH V6 8/8] KVM: Log ROE violations in system log
+Date:   Sun,  4 Nov 2018 19:11:24 +0200
+Message-Id: <20181104171124.5717-9-ahmedsoliman0x666@gmail.com>
 X-Mailer: git-send-email 2.18.1
 In-Reply-To: <20181104171124.5717-1-ahmedsoliman0x666@gmail.com>
 References: <20181104171124.5717-1-ahmedsoliman0x666@gmail.com>
@@ -70,32 +70,90 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Apply d->memslot->partial_roe_bitmap to shadow page table entries
-too.
-
 Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman0x666@gmail.com>
 ---
- arch/x86/kvm/roe.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ virt/kvm/kvm_main.c    |  7 +++++++
+ virt/kvm/roe.c         | 14 ++++++++++++++
+ virt/kvm/roe_generic.h |  2 ++
+ 3 files changed, 23 insertions(+)
 
-diff --git a/arch/x86/kvm/roe.c b/arch/x86/kvm/roe.c
-index cd3e6944c15f..b2b50fbcd598 100644
---- a/arch/x86/kvm/roe.c
-+++ b/arch/x86/kvm/roe.c
-@@ -25,9 +25,12 @@ static bool __rmap_write_protect_roe(struct kvm *kvm,
- 	struct rmap_iterator iter;
- 	bool prot;
- 	bool flush = false;
-+	void *full_bmp =  d->memslot->roe_bitmap;
-+	void *part_bmp = d->memslot->partial_roe_bitmap;
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 48c5d9d9474e..d625db7f5350 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -63,6 +63,8 @@
+ #include "vfio.h"
+ #include "roe_generic.h"
  
- 	for_each_rmap_spte(rmap_head, &iter, sptep) {
--		prot = !test_bit(d->i, d->memslot->roe_bitmap) && pt_protect;
-+		prot = !(test_bit(d->i, full_bmp) || test_bit(d->i, part_bmp));
-+		prot = prot && pt_protect;
- 		flush |= spte_write_protect(sptep, prot);
- 		d->i++;
- 	}
++#include <kvm/roe.h>
++
+ #define CREATE_TRACE_POINTS
+ #include <trace/events/kvm.h>
+ 
+@@ -1867,6 +1869,7 @@ static u64 roe_gfn_to_hva(struct kvm_memory_slot *slot, gfn_t gfn, int offset,
+ 	addr = __gfn_to_hva_many(slot, gfn, NULL, false);
+ 	return addr;
+ }
++
+ static int __kvm_write_guest_page(struct kvm_memory_slot *memslot, gfn_t gfn,
+ 			          const void *data, int offset, int len)
+ {
+@@ -1874,6 +1877,10 @@ static int __kvm_write_guest_page(struct kvm_memory_slot *memslot, gfn_t gfn,
+ 	unsigned long addr;
+ 
+ 	addr = roe_gfn_to_hva(memslot, gfn, offset, len);
++	if (gfn_is_full_roe(memslot, gfn) ||
++			kvm_roe_check_range(memslot, gfn, offset, len))
++		kvm_warning_roe_violation((gfn << PAGE_SHIFT) + offset, data,
++				len);
+ 	if (kvm_is_error_hva(addr))
+ 		return -EFAULT;
+ 	r = __copy_to_user((void __user *)addr + offset, data, len);
+diff --git a/virt/kvm/roe.c b/virt/kvm/roe.c
+index e94314fed3a3..c30c6b028638 100644
+--- a/virt/kvm/roe.c
++++ b/virt/kvm/roe.c
+@@ -76,6 +76,20 @@ void kvm_roe_free(struct kvm_memory_slot *slot)
+ 	kvfree(slot->prot_list);
+ }
+ 
++void kvm_warning_roe_violation(u64 addr, const void *data, int len)
++{
++	int i;
++	const char *d = data;
++	char *buf = kvmalloc(len * 3 + 1, GFP_KERNEL);
++
++	for (i = 0; i < len; i++)
++		sprintf(buf+3*i, " %02x", d[i]);
++	pr_warn("ROE violation:\n");
++	pr_warn("\tAttempt to write %d bytes at address 0x%08llx\n", len, addr);
++	pr_warn("\tData: %s\n", buf);
++	kvfree(buf);
++}
++
+ static void kvm_roe_protect_slot(struct kvm *kvm, struct kvm_memory_slot *slot,
+ 		gfn_t gfn, u64 npages, bool partial)
+ {
+diff --git a/virt/kvm/roe_generic.h b/virt/kvm/roe_generic.h
+index 006fc7b52bba..bce426441468 100644
+--- a/virt/kvm/roe_generic.h
++++ b/virt/kvm/roe_generic.h
+@@ -11,6 +11,7 @@
+  */
+ #ifdef CONFIG_KVM_ROE
+ 
++void kvm_warning_roe_violation(u64 addr, const void *data, int len);
+ void kvm_roe_free(struct kvm_memory_slot *slot);
+ int kvm_roe_init(struct kvm_memory_slot *slot);
+ bool kvm_roe_check_range(struct kvm_memory_slot *slot, gfn_t gfn, int offset,
+@@ -39,6 +40,7 @@ static bool kvm_roe_check_range(struct kvm_memory_slot *slot, gfn_t gfn,
+ {
+ 	return false;
+ }
++static void kvm_warning_roe_violation(u64 addr, const void *data, int len) {}
+ #endif
+ 
+ #endif
 -- 
 2.18.1
 
