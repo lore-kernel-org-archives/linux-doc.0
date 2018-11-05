@@ -5,84 +5,97 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 54D627D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 21:00:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C29E57D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 21:12:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729559AbeKFGVh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 01:21:37 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:44830 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727592AbeKFGVh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 01:21:37 -0500
+        id S2387469AbeKFGeR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 01:34:17 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:51132 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387441AbeKFGeR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 01:34:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=ZXHRIvfpbMHmviYoB3hQk+w/al17V5PrSvRPefQufKw=; b=ONXHcFhBW/g3qIY/wUPtcNlEUO
-        XlN2Hb+PhrGoJ8yQ0grElpC//ZWKskzL1gcidkyGeOqQySu6KCgMaNCEHdhzSjQYHij/cQc0ts5sn
-        qm0LJMmaNuMCFpfVtr8SU4NlY6tA9ghXvFxLpWap2GK+z6g+0eC4hUVUwWHEVzLiVPa/LDeP606nW
-        ri/rU6tm9Lu+BqBWFLa18icWHP8i8cWNyv5a50aSBT4vBMnKRdMNq8iS2EJdPXA13sK6tFpe6RM0k
-        w6B4qRWlrj58pmNhfxmEqpoMezB2FCZ7fVI5Mvo4W7O/2Ld8Rn1RJXlzB30BLtG7NWiqmnEv1Ul6F
-        YNaHyszg==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gJlyc-0000ua-33; Mon, 05 Nov 2018 21:00:02 +0000
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=nu9+SQIOXkFG3LjBn56G+AmAXpjjepZQKqktfdRAhf4=; b=dcIDBKDHmS0m7kgXH/XFVZFnP
+        pcaLTdxSX/IItanBJcuQvHTV27xhYfQcrDU1tB7Kzphc1kvxJF2oUYDh5l/CeKoW4cDp/q8Ahop9w
+        WvnTRs20vWonvRR+VnsOVvyGLCFN1j3Rua1Uxiln3gYkf22MZY6lvdIgy8s7ZeEBRge1EITHWOiEZ
+        nP7xow47tQfGUYuOZMF0ODDG6wIZavxTRcG0VgI2sdpwilXqQbXi9it1ycKNzjV64RutkZp8iBP3Z
+        +191XZSi4SmJyqWH1O8ne6KTm0KpekUck71jOZ6SD+WKh3ftAP9PGC2yug1C7JOwcxVrVRf9Q5qYT
+        iU+TupDAg==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gJmAq-0002Xv-KQ; Mon, 05 Nov 2018 21:12:40 +0000
+Date:   Mon, 5 Nov 2018 13:12:40 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Mike Rapoport <rppt@linux.ibm.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>
 Subject: Re: [PATCH] docs/admin-guide/mm/concepts.rst: grammar fixups
-To:     Mike Rapoport <rppt@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, Mike Rapoport <rppt@linux.vnet.ibm.com>
+Message-ID: <20181105211240.GA3074@bombadil.infradead.org>
 References: <1541447895-14996-1-git-send-email-rppt@linux.ibm.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <d537e1e0-6e21-abbd-cd1e-28768a63266a@infradead.org>
-Date:   Mon, 5 Nov 2018 13:00:00 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <1541447895-14996-1-git-send-email-rppt@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/5/18 11:58 AM, Mike Rapoport wrote:
-> From: Mike Rapoport <rppt@linux.vnet.ibm.com>
-> 
-> Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> 
-> There was a couple of grammar fixes Randy suggested a while ago, but it
-> seems I've never sent them out. 
-> 
->  Documentation/admin-guide/mm/concepts.rst | 39 ++++++++++++++++---------------
->  1 file changed, 20 insertions(+), 19 deletions(-)
+On Mon, Nov 05, 2018 at 09:58:15PM +0200, Mike Rapoport wrote:
+> @@ -21,10 +21,10 @@ Virtual Memory Primer
+>  The physical memory in a computer system is a limited resource and
+>  even for systems that support memory hotplug there is a hard limit on
+>  the amount of memory that can be installed. The physical memory is not
+> -necessary contiguous, it might be accessible as a set of distinct
+> +necessary contiguous; it might be accessible as a set of distinct
 
-Hi Mike,
+necessarily
 
-one nit:
+>  address ranges. Besides, different CPU architectures, and even
+> -different implementations of the same architecture have different view
+> -how these address ranges defined.
+> +different implementations of the same architecture have different views
+> +of how these address ranges defined.
 
-> @@ -121,8 +122,8 @@ Nodes
->  Many multi-processor machines are NUMA - Non-Uniform Memory Access -
->  systems. In such systems the memory is arranged into banks that have
->  different access latency depending on the "distance" from the
-> -processor. Each bank is referred as `node` and for each node Linux
-> -constructs an independent memory management subsystem. A node has it's
-> +processor. Each bank is referred as a `node` and for each node Linux
+"are defined"?
 
-                        is referred to as a
+>  Each physical memory page can be mapped as one or more virtual
+>  pages. These mappings are described by page tables that allow
+> -translation from virtual address used by programs to real address in
+> -the physical memory. The page tables organized hierarchically.
+> +translation from a virtual address used by programs to the real
+> +address in the physical memory. The page tables are organized
+> +hierarchically.
 
-> +constructs an independent memory management subsystem. A node has its
->  own set of zones, lists of free and used pages and various statistics
->  counters. You can find more details about NUMA in
->  :ref:`Documentation/vm/numa.rst <numa>` and in
+I don't like the term "real address".  Can we say "physical address in memory" here, or "address of physical memory" or something?
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> -page filled with zeroes. When the program performs a write, regular
+> +page filled with zeroes. When the program performs a write, a regular
+>  physical page will be allocated to hold the written data. The page
+>  will be marked dirty and if the kernel will decide to repurpose it,
+>  the dirty page will be swapped out.
 
-thanks.
--- 
-~Randy
+"if the kernel will decide to repurpose it" is awkward.  How about
+
+if the kernel decides to repurpose it"?
+
+>  OOM killer
+>  ==========
+>  
+> -It may happen, that on a loaded machine memory will be exhausted. When
+> +It may happen that on a loaded machine memory will be exhausted. When
+>  the kernel detects that the system runs out of memory (OOM) it invokes
+>  `OOM killer`.
+> Its mission is simple: all it has to do is to select a
+>  task to sacrifice for the sake of the overall system health. The
+
+It is possible for the kernel to be unable to reclaim enough memory to
+continue to operate.  In order to save the rest of the system, it invokes
+the `OOM killer` to sacrifice one task.
+
