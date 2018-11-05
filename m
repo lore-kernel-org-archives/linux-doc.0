@@ -2,26 +2,26 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3E71E7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 15:45:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 89C037D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 15:46:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729657AbeKFBGL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Nov 2018 20:06:11 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:60092 "EHLO mx1.redhat.com"
+        id S1730189AbeKFBGT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Nov 2018 20:06:19 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:56302 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729019AbeKFBGL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 5 Nov 2018 20:06:11 -0500
+        id S1730166AbeKFBGS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 5 Nov 2018 20:06:18 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 05B1F30024A1;
-        Mon,  5 Nov 2018 15:45:53 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 53CC8307EAA5;
+        Mon,  5 Nov 2018 15:46:00 +0000 (UTC)
 Received: from llong.com (dhcp-17-8.bos.redhat.com [10.18.17.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8896B1057050;
-        Mon,  5 Nov 2018 15:45:22 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AF05810B034B;
+        Mon,  5 Nov 2018 15:45:58 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
@@ -34,71 +34,112 @@ Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>,
         Manfred Spraul <manfred@colorfullife.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v10 0/4] ipc: Increase IPCMNI limit & IPC id generation modes
-Date:   Mon,  5 Nov 2018 10:43:42 -0500
-Message-Id: <1541432626-27780-1-git-send-email-longman@redhat.com>
+Subject: [PATCH v10 4/4] ipc: Add a cyclic mode for id generation
+Date:   Mon,  5 Nov 2018 10:43:46 -0500
+Message-Id: <1541432626-27780-5-git-send-email-longman@redhat.com>
+In-Reply-To: <1541432626-27780-1-git-send-email-longman@redhat.com>
+References: <1541432626-27780-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]); Mon, 05 Nov 2018 15:45:53 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Mon, 05 Nov 2018 15:46:00 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-v9->v10:
- - Drop v9 patches 1 & 2 because they have been merged upstream.
- - Minor twist to fix checkpatch warnings.
- - Add a new ipcid_mode sysctl parameter (new patches 3 & 4) to control
-   how the IPC ids are being generated.
+The idea of using the cyclic mode to reduce id reuse came from Manfred
+Spraul <manfred@colorfullife.com>. There may be a little bit of
+additional memory/performance overhead in doing cyclic id allocation,
+but it is a slow path anyway and a bit of overhead shouldn't be an issue.
 
-v7 patch: https://lkml.org/lkml/2018/5/7/666
-v8 patch: https://lkml.org/lkml/2018/6/18/706
-v9 patch: https://lkml.org/lkml/2018/9/7/1141  
+This patch differs from his as the cyclic mode is not the default and
+has to be explicitly opted in for users who want that.
 
-There are users out there requesting increase in the IPCMNI value to
-more than 32k. This patchset does that by using a boot kernel parameter
-"ipcmni_extend" to increase the IPCMNI limit from 32k to 8M when that
-boot command line option is specified.
+Note that it is possible to use an identifier larger than the given
+IPC mni number in cyclic mode.
 
-To reduce the chance of id reuse, a new sysctl parameter ipcid_mode is
-added for changing the way an IPC id is being generated. Currently,
-three modes are supported - legacy, delete and cyclic. They differs
-in the way the identifier and sequence number within an id are being
-generated. This new mode is per IPC namespace.
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ Documentation/sysctl/kernel.txt | 10 ++++++++--
+ include/linux/ipc_namespace.h   |  1 +
+ ipc/ipc_sysctl.c                |  3 ++-
+ ipc/util.c                      |  6 +++++-
+ 4 files changed, 16 insertions(+), 4 deletions(-)
 
-The IPC id mode can be changed dynamically at run time, but extending
-the IPCMNI number can only be done at boot time.
-
-Patch 1 adds a "ipcmni_extend" boot command line parameter to extend
-the IPCMNI limit from 32k to 8M.
-
-Patch 2 changes how the sequence number within an id is being generated
-to reduce the chance of id reuse with "ipcmni_extend".
-
-Patch 3 decouples the new sequence generation mode into a new sysctl
-parameter "ipcid_mode" so that it can be used even if "ipcmni_extend"
-isn't specified.
-
-Patch 4 adds a cyclic mode to "ipcid_mode" to allocate identifier
-cyclically as well.
-
-Waiman Long (4):
-  ipc: Allow boot time extension of IPCMNI from 32k to 8M
-  ipc: Conserve sequence numbers in extended IPCMNI mode
-  ipc: Make the new sequence number generation mode available to all
-  ipc: Add a cyclic mode for id generation
-
- Documentation/admin-guide/kernel-parameters.txt |  3 ++
- Documentation/sysctl/kernel.txt                 | 23 ++++++++++++
- include/linux/ipc_namespace.h                   | 14 +++++++
- ipc/ipc_sysctl.c                                | 25 ++++++++++++-
- ipc/msg.c                                       |  3 +-
- ipc/namespace.c                                 |  2 +
- ipc/sem.c                                       |  3 +-
- ipc/shm.c                                       |  3 +-
- ipc/util.c                                      | 41 +++++++++++++++------
- ipc/util.h                                      | 49 ++++++++++++++++++++-----
- 10 files changed, 140 insertions(+), 26 deletions(-)
-
+diff --git a/Documentation/sysctl/kernel.txt b/Documentation/sysctl/kernel.txt
+index 91bada1..6de0679 100644
+--- a/Documentation/sysctl/kernel.txt
++++ b/Documentation/sysctl/kernel.txt
+@@ -406,12 +406,18 @@ are being generated.
+ 
+ 0: legacy mode
+ 1: delete mode
++2: cyclic mode
+ 
+ There are two components in an IPC id - an integer identifier and a
+ sequence number. In the legacy mode, the sequence number is incremented
+ every time a new id is generated. In the delete mode, the sequence number
+-is only incremented if one or more ids have been previously deleted. The
+-delete mode reduces the chance that a given id will be reused again.
++is only incremented if one or more ids have been previously deleted.
++In the cyclic mode, the sequence number increments in the same way as the
++delete mode, but the identifier is allocated cyclically through the whole
++IPC identifier number space instead of using the lowest available number.
++
++The cyclic mode has the lowest chance of IPC id reuse followed by the
++delete mode and the legacy mode.
+ 
+ ==============================================================
+ 
+diff --git a/include/linux/ipc_namespace.h b/include/linux/ipc_namespace.h
+index 79d9d50..481dc02 100644
+--- a/include/linux/ipc_namespace.h
++++ b/include/linux/ipc_namespace.h
+@@ -33,6 +33,7 @@ struct ipc_ids {
+ enum ipc_id_mode {
+ 	ipc_id_legacy,	/* Sequence # incremented on every allocation */
+ 	ipc_id_delete,	/* Sequence # incremented only if an ID was deleted */
++	ipc_id_cyclic,	/* Identifier is allocated cyclically */
+ };
+ 
+ struct ipc_namespace {
+diff --git a/ipc/ipc_sysctl.c b/ipc/ipc_sysctl.c
+index 4c30e62..8d114d0 100644
+--- a/ipc/ipc_sysctl.c
++++ b/ipc/ipc_sysctl.c
+@@ -119,6 +119,7 @@ static int proc_ipc_sem_dointvec(struct ctl_table *table, int write,
+ 
+ static int zero;
+ static int one = 1;
++static int two = 2;
+ static int int_max = INT_MAX;
+ int ipc_mni = IPCMNI;
+ int ipc_mni_shift = IPCMNI_SHIFT;
+@@ -207,7 +208,7 @@ static int proc_ipc_sem_dointvec(struct ctl_table *table, int write,
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_ipc_dointvec_minmax,
+ 		.extra1		= &zero,
+-		.extra2		= &one,
++		.extra2		= &two,
+ 	},
+ #ifdef CONFIG_CHECKPOINT_RESTORE
+ 	{
+diff --git a/ipc/util.c b/ipc/util.c
+index 04c8e31..8d73d17 100644
+--- a/ipc/util.c
++++ b/ipc/util.c
+@@ -230,7 +230,11 @@ static inline int ipc_idr_alloc(struct ipc_ids *ids, struct kern_ipc_perm *new,
+ 			ids->deleted = false;
+ 		}
+ 		new->seq = ids->seq;
+-		idx = idr_alloc(&ids->ipcs_idr, new, 0, 0, GFP_NOWAIT);
++		if (idmode == ipc_id_cyclic)
++			idx = idr_alloc_cyclic(&ids->ipcs_idr, new, 0, IPCMNI,
++						GFP_NOWAIT);
++		else
++			idx = idr_alloc(&ids->ipcs_idr, new, 0, 0, GFP_NOWAIT);
+ 	} else {
+ 		new->seq = ipcid_to_seqx(next_id);
+ 		idx = idr_alloc(&ids->ipcs_idr, new, ipcid_to_idx(next_id),
 -- 
 1.8.3.1
 
