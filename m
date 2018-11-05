@@ -2,57 +2,40 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 65AA57D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 16:37:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C812D7D982
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 16:58:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387547AbeKFB53 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Nov 2018 20:57:29 -0500
-Received: from mail-yb1-f193.google.com ([209.85.219.193]:37468 "EHLO
-        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387420AbeKFB52 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Nov 2018 20:57:28 -0500
-Received: by mail-yb1-f193.google.com with SMTP id d18-v6so4053395yba.4;
-        Mon, 05 Nov 2018 08:36:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=5D6B8SZiDJWloZJTLfl8O4vQl7ln5NDRmJQc+XqseP4=;
-        b=Kv6QzhDDiGVwesKpr09Smj12ROI23t+yHETDN2mC/n5VCP1cxi5lkMfplmQRjJ9RFk
-         7yWiOAG4kVquv49U/n+3BUWenNmRx7lx5H+h733vYQ5kbRTzR7uZu9R17qu4WC5PfvZS
-         M7wSvinTc0zBvoQLGhMucOV3HWyhY7wHpwfv4PjEcSPAj/bpiQvLUkoaJkags8XK1080
-         gAtIw11DHCU6+DtzNAnlXbTJDD0WLvgt+56Aph9EqhTqDgbiIQdIvgh8W1AxxwhKIs8X
-         vPTz4DPH/Ej4gxH/D3iGNpyECrjWMYDbKk9P7B01yUhgrA8j106UMBkVNw9v7fZmDvm7
-         FL9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5D6B8SZiDJWloZJTLfl8O4vQl7ln5NDRmJQc+XqseP4=;
-        b=GDTcdw7msC5a63bqGO8Rqkx2jaki+WGVGJ/9f5GYI+avozCmV5vOKF0AeAwAMXVLt5
-         RHMgE/ged1c+pG+cIos4SX/0qpheFpJG2aTWlBj/gdG5mF0harbFPUCPz5BcoR5GTgXN
-         BFD4823caR6HQH4BxIWVZki+9shwer1jcJv8d2QsrWr+KOGpzg+vOg5kHdirvgu87Rv6
-         TnbUzxi+JGIFoZoeWLtI3qAzHFaTF8ky4PEYevwhRH7nXkSQ/wuA4vSz3zHhHhkX5G0k
-         FebrV19dHT1GJ+1ZMqiGWK+sqlP42KpGSV+jMap8cZodBZgkrlxECDp1UBYpTG9OkCa4
-         fzEw==
-X-Gm-Message-State: AGRZ1gKJ1dLbDaRKSzUW/q+OW1DhLAcO1FY1Cn8g0ts0cAdRRy2fy0ja
-        /ZCervYB25MSd/Nra8fa95c=
-X-Google-Smtp-Source: AJdET5dof9JpV3V+E7V2G3PvKyFqIa9TSh8kWGQw3HPstZO8+lKgi5I2tUg9wUhOsCNmjT00KneQSw==
-X-Received: by 2002:a25:ec07:: with SMTP id j7-v6mr21456906ybh.405.1541435819098;
-        Mon, 05 Nov 2018 08:36:59 -0800 (PST)
-Received: from localhost ([2620:10d:c091:200::4:b217])
-        by smtp.gmail.com with ESMTPSA id m68-v6sm11381994ywf.95.2018.11.05.08.36.58
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 05 Nov 2018 08:36:58 -0800 (PST)
-Date:   Mon, 5 Nov 2018 08:36:56 -0800
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Li Zefan <lizefan@huawei.com>,
+        id S2387979AbeKFCSt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Nov 2018 21:18:49 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:36436 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387921AbeKFCSs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Nov 2018 21:18:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=8N9AblV9Wa3qf64I4Lx4g1cXc4FkR6iLu4HkGxAlMzM=; b=WLSxDH1QcoCw44DCmFYz3x3eG
+        ThEd+s6wH9AeunMiaZxdfJPj+Xjx8yfDokbPyBqd+dhxekWVU6evXKEUPPt4kmLx1wkJtMqJvoy+i
+        xCSEjwEYFmgcNWZaB8hrPBCxLIL1clEYgCFTstF01rYJ1xicuNCLdWjL3r2Y8zUMmz986m43F5oYz
+        dALXQ+K8z2XzyxwJSvB6AVQ8R5c1po2RLQPVnl0ziMzMYTil4z2dmVXmlAO1fNkaDDb7D95vtiQQK
+        HfLm/4GQnEDEH0LVSBfxzPFkAWpQugrcUxCn6qkaPkRbbwsKD3QTYYYP6QnJK37sF2EuLWIPi/pck
+        vCLSHDBSw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gJiCP-0003Jp-Pp; Mon, 05 Nov 2018 16:58:01 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 8A9F32029F9FF; Mon,  5 Nov 2018 17:57:59 +0100 (CET)
+Date:   Mon, 5 Nov 2018 17:57:59 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Waiman Long <longman@redhat.com>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
@@ -62,25 +45,24 @@ Cc:     Li Zefan <lizefan@huawei.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>,
         Tom Hromatka <tom.hromatka@oracle.com>
 Subject: Re: [PATCH v14 00/12] Enable cpuset controller in default hierarchy
-Message-ID: <20181105163656.GK4182586@devbig004.ftw2.facebook.com>
+Message-ID: <20181105165759.GE22431@hirez.programming.kicks-ass.net>
 References: <1539635377-22335-1-git-send-email-longman@redhat.com>
+ <20181105163656.GK4182586@devbig004.ftw2.facebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1539635377-22335-1-git-send-email-longman@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20181105163656.GK4182586@devbig004.ftw2.facebook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+On Mon, Nov 05, 2018 at 08:36:56AM -0800, Tejun Heo wrote:
+> Hello,
+> 
+> So, this looks good to me.  Peter, I'm gonna roll the series into
+> cgroup/for-4.21-cpuset.  Please holler if you have any objections /
+> comments.
 
-So, this looks good to me.  Peter, I'm gonna roll the series into
-cgroup/for-4.21-cpuset.  Please holler if you have any objections /
-comments.
-
-Thanks.
-
--- 
-tejun
+I'll try and have a look before LPC. Thanks!
