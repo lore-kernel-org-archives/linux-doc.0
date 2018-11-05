@@ -4,53 +4,55 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A2DF17D099
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 13:02:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AC2727D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 13:05:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729228AbeKEWWC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Nov 2018 17:22:02 -0500
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:36941 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728136AbeKEWWC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Nov 2018 17:22:02 -0500
-Received: by mail-qk1-f196.google.com with SMTP id 131so14428111qkd.4;
-        Mon, 05 Nov 2018 05:02:23 -0800 (PST)
+        id S1728961AbeKEWZK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Nov 2018 17:25:10 -0500
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:40064 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728947AbeKEWZK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Nov 2018 17:25:10 -0500
+Received: by mail-qk1-f195.google.com with SMTP id y16so13221280qki.7;
+        Mon, 05 Nov 2018 05:05:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=VGHCPFNS1XDl7BfaftTX/Qrdp5iwmkSiv+oafR/mpo8=;
-        b=a4/OQCbqnoz6EXv31kIDos0BCKrQ/oP4xCdAkLV3qRB2FyUsKP31rSOY2waAFiEixi
-         vNaoNzcd2CQaoRIWZvTTh91p0OMXoBZfTNB5GsFJnL59mkFTHlcMb2antU4xyJJItJhW
-         UOh+mls1L+1Z1xDERg5HCBmXYXodnulDTS6YoCrMuB6tPjbL/TJVHX+eRy5LbBq5yRmT
-         XHkficZDm/ZgRdg84AkQr2gITA2NyMTztGaHm/PDE1Y/8BeT+kj1UZMaC+zDbvE0cF5Y
-         Pz2UX54oezrMetM1MGGKwElty+M4GoQaVfK6CDqBNPRu1TTpM75hsBt3IdGPTgUBN9Ob
-         z5yA==
+        bh=llZyIDXQ1CUuKCh86p2LCR5eml/udVSP64MMDX5nXxU=;
+        b=kgHB8EG6954QcvQK53Y34fR8SLeFFA7IflrectdlWg1l7wGXhAupXtW+D8lwBrNFh8
+         he9C5KOlcEbMfCMpYBWiK0qabAER93WKg/R65v0gb5N+cH3kPQNeN1reyv/tOgTqF7Z2
+         yA2iYqPwy2+/Ve3IjRlkAtpVkDSm/ya2DXKzTeEQRQjO1EA1A6grPLhQxOzy6CDFxX8x
+         i2zaO181LpAjJlGHpH0TUQK0AHpJ8LRIjFOc89gIH8wxsN0kUgt/3RzGwEKtHxMzqtya
+         O345RT9Gmh+ArWrYNQ9FqizMPkrP64PlvP1VhiDRv889d9lxZjJiOC7VJVToS/vglMY0
+         t7kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=VGHCPFNS1XDl7BfaftTX/Qrdp5iwmkSiv+oafR/mpo8=;
-        b=ZD/88evp3uYDn3//sALBXhp4Jd3PnIz9PBPrxORdKks5GvGt5wGegkoeFEcGf5eKj/
-         A4MC4SIVFgePhMfEu7i0yoOBJ56OhNdu1PXuQ/vfcWs2hxHbXjr/CpFFBN4HdDg1bMLr
-         vdsns0X3a5CpYwTqSyPB7YwpFDSUALpFzMn3KV8ddzP8LFqXzE4bBtdQl+HfXKwqKU+Q
-         DaBz71tpSxRjaEMAbXshtCqJRuDAhNN0Le+3HKzvHQE1IfEQZBbWaZkG0DCXaJFluiHE
-         0wIWSzGQsyv0BXq/kpJkLfwnm8LAjwWrs5gm4G1MBvD4HUIge/degv/cnCdT7PrnBEV1
-         Aw/g==
-X-Gm-Message-State: AGRZ1gJ3JI+I63Ytp40xkvyPG4aQWTMgHYQkp77MCqDzgnKpRC9J+cWL
-        YQkNRHubPL8P02zHy1xFH4ODlQmeZUvMWsBfrwI=
-X-Google-Smtp-Source: AJdET5dJK2NMIiAv57f0u5C2AlRLHKqTS1izPn7eyNmMI/4m0DqB8M4aXEGAEewy/7cCl+tnLjM6ZTQaMKKHGjXIdds=
-X-Received: by 2002:a37:1f44:: with SMTP id f65mr19747854qkf.33.1541422943087;
- Mon, 05 Nov 2018 05:02:23 -0800 (PST)
+        bh=llZyIDXQ1CUuKCh86p2LCR5eml/udVSP64MMDX5nXxU=;
+        b=eVF6ebD3kCNB7ODdTV+GDnZk1w3/MZSB+E8SvchOkkbXnm8BNYEhW2ffCZACghREsx
+         xgHcjZSnwi0ngecFE852lWwjeCNEVOuekDBDPtRRzeLUOunAdb5nrOTMlJ9zyRPgL85C
+         JIch5LWa4RqVoICWZUPnQHHiSn2/GTVfhgYDawV5W9IWIxt0RbBOCz5hKjR/TCw23vTA
+         mHXYZW/sxEyQWESdsVxeNaoNvB0mH5NkR6UCxrWDk2dZWx6Uh4HPHp6iAkcCo1YkJZnx
+         68dQEyGGIw2rMavCkHleWApfFbAU8YOOPwJHId6YNCsVhDXCxYu60m7WBL8VPGbTf057
+         r0Pg==
+X-Gm-Message-State: AGRZ1gLcnMyRwCMGhxHRSQMjOS1ki9BxuXmIXhuX/F/rAomnVPYfN39K
+        EUyjV7VSM7MHYLtrgaM4xsBD0kD1VYQojs0yvJ8=
+X-Google-Smtp-Source: AJdET5f7PKQXl6rklRQ1BqpFEjuCzb9HB4pwYVCFsQB330CrBpAgfz9wdtKoN2sCrU2J05YO2b+6tKqOpD/8wlpic68=
+X-Received: by 2002:a37:4792:: with SMTP id u140mr21069643qka.301.1541423129598;
+ Mon, 05 Nov 2018 05:05:29 -0800 (PST)
 MIME-Version: 1.0
-References: <1541414431-84128-1-git-send-email-peng.hao2@zte.com.cn> <1541414431-84128-9-git-send-email-peng.hao2@zte.com.cn>
-In-Reply-To: <1541414431-84128-9-git-send-email-peng.hao2@zte.com.cn>
+References: <1541414431-84128-1-git-send-email-peng.hao2@zte.com.cn>
+ <1541414431-84128-5-git-send-email-peng.hao2@zte.com.cn> <CAHp75VfP4d0fK9NDbAcHqy4aqTiMGTKBX5VQ36QbSyhRzrpOSQ@mail.gmail.com>
+In-Reply-To: <CAHp75VfP4d0fK9NDbAcHqy4aqTiMGTKBX5VQ36QbSyhRzrpOSQ@mail.gmail.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 5 Nov 2018 15:02:11 +0200
-Message-ID: <CAHp75VcShwubDc0Mxkygs=zyVCJbztQeGjmpCmGEkT6uXzsELg@mail.gmail.com>
-Subject: Re: [PATCH V7 9/9] misc/pvpanic: remove a redundant comma
+Date:   Mon, 5 Nov 2018 15:05:03 +0200
+Message-ID: <CAHp75VfZfBox+DVNU=JWLkD0ETHPca5tUfuh0srnEAU8M+q0Zg@mail.gmail.com>
+Subject: Re: [PATCH V7 5/9] misc/pvpanic: add support to get pvpanic device
+ info by FDT
 To:     peng.hao2@zte.com.cn
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -68,35 +70,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 5, 2018 at 4:31 AM Peng Hao <peng.hao2@zte.com.cn> wrote:
+On Mon, Nov 5, 2018 at 2:58 PM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
 >
-> Remove a redundant comma in pvpanic_device_ids.
+> On Mon, Nov 5, 2018 at 4:31 AM Peng Hao <peng.hao2@zte.com.cn> wrote:
+> >
+> > By default, when ACPI tables and FDT coexist for ARM64,
+> > current kernel takes precedence over FDT to get device information.
+> > Virt machine in qemu provides both FDT and ACPI table. Increases the
+> > way to get information through FDT.
 >
+> > +#include <linux/acpi.h>
+> > +#include <linux/init.h>
+> >  #include <linux/kernel.h>
+> >  #include <linux/module.h>
+> > -#include <linux/init.h>
+> > +#include <linux/of.h>
+> > +#include <linux/of_address.h>
+> > +#include <linux/platform_device.h>
+> >  #include <linux/types.h>
+> > -#include <linux/acpi.h>
+>
+> Adding new headers in this change is okay, while shuffling them is
+> logically a separate change.
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Couple more remarks (regarding ping-pong style in this series):
 
-> Acked-by: Mark Rutland <mark.rutland@arm.com>
-> Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
-> ---
->  drivers/misc/pvpanic.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
-> index f416c01..8c4bfa6 100644
-> --- a/drivers/misc/pvpanic.c
-> +++ b/drivers/misc/pvpanic.c
-> @@ -29,7 +29,7 @@
->
->  static const struct acpi_device_id pvpanic_device_ids[] = {
->         { "QEMU0001", 0 },
-> -       { "", 0 },
-> +       { "", 0 }
->  };
->  MODULE_DEVICE_TABLE(acpi, pvpanic_device_ids);
->
-> --
-> 1.8.3.1
->
+1. The shuffling part should go after you remove init.h: no need to
+shuffle the stuff you eventually remove.
+2. When you introduce global variable for base, put it directly to the
+place where it would be after your ifdef patch.
 
 
 -- 
