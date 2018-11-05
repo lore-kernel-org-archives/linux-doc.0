@@ -4,53 +4,54 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AC58D7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 12:55:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 445167D099
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 12:58:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729687AbeKEWOx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Nov 2018 17:14:53 -0500
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:40726 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728971AbeKEWOw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Nov 2018 17:14:52 -0500
-Received: by mail-qk1-f196.google.com with SMTP id y16so13162874qki.7;
-        Mon, 05 Nov 2018 04:55:15 -0800 (PST)
+        id S1729622AbeKEWSE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Nov 2018 17:18:04 -0500
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:39914 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728971AbeKEWSE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Nov 2018 17:18:04 -0500
+Received: by mail-qk1-f193.google.com with SMTP id e4so14382421qkh.6;
+        Mon, 05 Nov 2018 04:58:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=nE6D3TcWm51I/5N4yCHXVCpDeNk8J1NZRSK213iJ1oc=;
-        b=DGgGesDTVM4g15L8ORVff8n0IjwvyRjVqM18tTKHDIws/XO2ZUT9xKCp4ePojOGw2X
-         ZyGgwUumI/tRJ1TBsIBBMdlLA9KC9P7R+wtul+sB4WuEUnbC7CBasZreFszMIs7/tB5o
-         QaBDQoGpdpZOVvU5R2oxaBOP3pdsBZR+Dk+AzPGCy52nvWO6R2+TEHWRF60tmrmE1l7O
-         eMkzzMtYlaNUgDolwbe1wUkTYMtS6bCKkqzVGORyCa6Zswdcwy5Wb2JuspDzPfhUmA9J
-         sxaEXtha90jwLqHkYgKtPUwWrJwYwa+t4BMGwgTMBK1tLEe5+yzHJLFOnqDRq4yBM0MK
-         4kNg==
+        bh=YceYsjkhh07ude2ut1IfbiK/KQIyGLVF1t8rrKXixKY=;
+        b=oUHdmX3J6oK7PMKLCO/OdXDsVB4kiGwAFdx5SB26KGJ+PhVP0lwJK+bSCibcXSqJwH
+         I73Mt0uUJZFJR3ZpGLCgfbwIyUSv5S6umbR4EJTiqm32H5Ms1nx308oz0NIip5DRMGp1
+         bGhGbcrJtC1EVKiOK/SVLF1WJZVJDHxcVLg7kAEfj740qta2I1CQQnrPsFozbZINmxYh
+         c6aZTKdolFIwJ+gF4d/GS0nYpEl3QTjZ8f3lHm61KxeQsQ8DJWbGbWO54fwShI/nmUw+
+         d9S6zJSz1cBRB/XW4y2mt5FAaPpvaAEC1XAUGR0IJAF2ZCbY428GDj3PGyZ3N8h0vFq7
+         bchA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nE6D3TcWm51I/5N4yCHXVCpDeNk8J1NZRSK213iJ1oc=;
-        b=g+bIjxiF5nW8+zvI6Z0e8vV/h4tnGxCLGhxJBAteEqQ8MmVxsc/QTkFqygzTLK35qD
-         8A8waH3VYrI9dNB3ZdQrekMkVFQxZuqHKenrRy+LswCGyvIYzcyN0gBcb/46pLAaDNar
-         yhWajkmVAzcfjWbx29PLvidfKSPbE89Mp7qc+iyVW/8cnnJK2rQ099vnTYNJ2GYWH0Gi
-         fpwYFYGW2q3eSGUv5WDUSlNuaAN+PCPGlri6PHn58ejCZ5R3f5yPRbdwQMbZT7BnP7Wo
-         LFzxfTrJFKOzHdXqvClAE4UWQbmXqyir4JIu6W6XE5a507rWsEGeJQ69qzZdAIikMjj3
-         9Vzw==
-X-Gm-Message-State: AGRZ1gK7J+iJBDUzz/2LDOU59oMFbM2f18+vSqNWA5Dvk2DohaTQsZyx
-        c1CHs45YImytddu8sBYi656MDkX9iHKLosv7EjQ=
-X-Google-Smtp-Source: AJdET5fof/xxT7bxQBozb0Bk6smZgRj5M3o8+1JqJS1BmBi2KQw93PG3+UZDsGQqpoug2uUJgK7vW9gA1O6zC2tZw0Q=
-X-Received: by 2002:a37:7983:: with SMTP id u125-v6mr19185933qkc.219.1541422515079;
- Mon, 05 Nov 2018 04:55:15 -0800 (PST)
+        bh=YceYsjkhh07ude2ut1IfbiK/KQIyGLVF1t8rrKXixKY=;
+        b=onhQADE5CFGC1DJa/5yYWNf66gtgfGFGpNL9ocQ/Cs2sAXX3uB+emyHKMgAUg2oYeK
+         ayj5C/avEhVdJs8zId/4PzZlKQz7iCS45JSU707BIRx2AWeO82m5fFr5YWXOoL4N5Wjz
+         MzgzfNSROang0GAtVRHrvqG4YDrS6NwTIatowWjvJSDJAtQV0Q02U05QBNq7JZ6df9DX
+         ze4MiFNQIdqm3PEzaamx3qf5wWUwfWXGciBuU9N/j5gPXDXz0NVzNXMWhbew+uiscL2D
+         YzPUg9hSKOvNS74w5WgQJdxcFWpf2nNGw5KlWl36FSI1PAC0WYnMLEi9dglB0o+/+g8B
+         7R7g==
+X-Gm-Message-State: AGRZ1gIzQSIZI/1EXWXqAagERSgGfXM6iAhIPGAjmGKFbEidBYWAB2/f
+        mjSmujAhLrKfttvyXKyPMUDYBB+/iNSUpizKk60=
+X-Google-Smtp-Source: AJdET5ctYx12LW5jpLHz8BRoEz2UnSARcZ8ppxY5ugZYINSg0+o8jiiLA++cFI0cGlEavxosGn1MRRiXe+CRvneCUqE=
+X-Received: by 2002:a37:4792:: with SMTP id u140mr21038069qka.301.1541422705590;
+ Mon, 05 Nov 2018 04:58:25 -0800 (PST)
 MIME-Version: 1.0
-References: <1541414431-84128-1-git-send-email-peng.hao2@zte.com.cn> <1541414431-84128-3-git-send-email-peng.hao2@zte.com.cn>
-In-Reply-To: <1541414431-84128-3-git-send-email-peng.hao2@zte.com.cn>
+References: <1541414431-84128-1-git-send-email-peng.hao2@zte.com.cn> <1541414431-84128-5-git-send-email-peng.hao2@zte.com.cn>
+In-Reply-To: <1541414431-84128-5-git-send-email-peng.hao2@zte.com.cn>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 5 Nov 2018 14:55:03 +0200
-Message-ID: <CAHp75VeJHjYUNz-O83qm1m8JZtW5t9JJDKxKRpbLtPYXr2VbnQ@mail.gmail.com>
-Subject: Re: [PATCH V7 3/9] misc/pvpanic: add MMIO support
+Date:   Mon, 5 Nov 2018 14:58:14 +0200
+Message-ID: <CAHp75VfP4d0fK9NDbAcHqy4aqTiMGTKBX5VQ36QbSyhRzrpOSQ@mail.gmail.com>
+Subject: Re: [PATCH V7 5/9] misc/pvpanic: add support to get pvpanic device
+ info by FDT
 To:     peng.hao2@zte.com.cn
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -70,30 +71,24 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Mon, Nov 5, 2018 at 4:31 AM Peng Hao <peng.hao2@zte.com.cn> wrote:
 >
-> On some architectures (e.g. arm64), it's preferable to use MMIO, since
-> this can be used standalone. Add MMIO support to the pvpanic driver.
+> By default, when ACPI tables and FDT coexist for ARM64,
+> current kernel takes precedence over FDT to get device information.
+> Virt machine in qemu provides both FDT and ACPI table. Increases the
+> way to get information through FDT.
 
-Thanks for an update, looks quite good, though couple of comments below.
+> +#include <linux/acpi.h>
+> +#include <linux/init.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> -#include <linux/init.h>
+> +#include <linux/of.h>
+> +#include <linux/of_address.h>
+> +#include <linux/platform_device.h>
+>  #include <linux/types.h>
+> -#include <linux/acpi.h>
 
->         if (acpi_dev_resource_io(res, &r)) {
-> -               port = r.start;
-
-> +               base = (void __iomem *) ioport_map(r.start,
-> +                                       r.end - r.start + 1);
-
-I'm so sorry I didn't notice this stuff.
-
-1. ioport_map() already returns void __iomem *. No need to cast.
-2. To calculate resource size we have a helper macro resource_size().
-
-> +               return AE_OK;
-> +       } else if (acpi_dev_resource_memory(res, &r)) {
-> +               base = ioremap(r.start, r.end - r.start + 1);
-
-Ditto for the size calculation.
-
->                 return AE_OK;
-
+Adding new headers in this change is okay, while shuffling them is
+logically a separate change.
 
 -- 
 With Best Regards,
