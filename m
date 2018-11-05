@@ -1,130 +1,74 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-7.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A52C27D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 18:35:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 107687D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 18:46:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387707AbeKFD41 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Nov 2018 22:56:27 -0500
-Received: from mail-yb1-f194.google.com ([209.85.219.194]:44881 "EHLO
-        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387702AbeKFD41 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Nov 2018 22:56:27 -0500
-Received: by mail-yb1-f194.google.com with SMTP id p144-v6so4212660yba.11;
-        Mon, 05 Nov 2018 10:35:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rw7yZs/KZ/2L+MwKTyvYUljc1s+TO7g8Kd7LxC69Y8s=;
-        b=SbtCH6Z9yRPE4TQJ22VsEMhGVhEjdS0ew6byvQoQgBEAm1+Q0MA6VyET8YNUglSoxU
-         xugYFFJqQXmkAoknHo2Pk80Iqb9cpfa8v7rg3y5O7BGjDownj0UgV3ch1wRjoACBM4Wk
-         8e1dFohSwJByb7uHaApAayfOAZKi39O5XPXtFFYcIO13xQlIrEx1ic9AUTCwGPxPxxqc
-         AKtsQQ4+WAyxCSrpBGxI/1gjgHXN1W8rZ+ZVZdz1B4zRJ6OhAM80cayK9qnj69g1sAmc
-         Zbs2MJpYd7i+Zu0ANEm0hsEgVGm0WSnim/bCPLmm5kqQCQ9GCMKjGFtZeZPtdYP7V4AP
-         LuFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rw7yZs/KZ/2L+MwKTyvYUljc1s+TO7g8Kd7LxC69Y8s=;
-        b=VilMEkEp7PlvlvPGjBA/sSjXYCKkMKMA5r4aFzBDoKJZsNydIJM+F1F0pfe8qRYvRO
-         sEUz99ipcpfq9rQiCX2Yz0RFxIGC0O5cDn2eHUm3b838F7xqqiWRQHs1MXqmvOMbchQP
-         Y3ejUjRj92TTr1i7yFwnpiITUgJAHtFQRhFwyXECk036RxyqkpdvPoOnIZoXOcgTmmkL
-         ZCBRVMxkQ0hPjnPFguHjnbNpX77rZcg53mOgFWceQvPCEO0Iv00H1kiux12krCADlJCa
-         GzqNbK6DJ54raMaQVihCMFZD2UD2pDH71qm61IicGlxqy4u9TSpfUkrypPgnF5dU/78u
-         Ckhw==
-X-Gm-Message-State: AGRZ1gKTUCKpr1alEcbAW51KEd5yfMuOqFyzgo8S+d1FWEvtTh5ZEG0Y
-        W9BZub20DwPS2muAiwMhzQ5ISF1p9lnvgk0HbGU=
-X-Google-Smtp-Source: AJdET5dZ8yN7ZHl+TeMFjFhS/ArWgaoueo6P8S+7YEcOzmWv9WxYxoo7KBhXxSaZ+7D03gjPE5w7jR7BqmH7EKbL+k8=
-X-Received: by 2002:a25:b002:: with SMTP id q2-v6mr2373648ybf.397.1541442929228;
- Mon, 05 Nov 2018 10:35:29 -0800 (PST)
+        id S1730132AbeKFEHh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Nov 2018 23:07:37 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41576 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726932AbeKFEHh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 5 Nov 2018 23:07:37 -0500
+Received: from [192.168.1.87] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C7AD82085A;
+        Mon,  5 Nov 2018 18:46:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1541443594;
+        bh=c0bP8Pe1i8Lf/mQ58LMuArG9iDkxT8R4Kd3KwpSKz7I=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=1kU7FGq+ppmfWJKGcYtA2a7Id23iv1sUZ2cI+rZPy9grUJWicYIuCzF6IQYzJ0gJB
+         /POfnMu0r736934hn+BK0EvQudwncWZ/vW+8cnXfbCo3r8p7rvgw0wyzAIVwF2bTWO
+         wqcdfLmdR0ijM68eVh/RzeKuizBHwCaRY2kjRDgM=
+Subject: Re: [PATCH resend] Documentation/dev-tools: clean up kselftest.rst
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>
+References: <67201746-13c6-2b05-7f3d-2b200e4d9af0@infradead.org>
+From:   Shuah Khan <shuah@kernel.org>
+Message-ID: <759a6f00-a45f-0f04-4efe-6beff9e724ae@kernel.org>
+Date:   Mon, 5 Nov 2018 11:46:20 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20181105182146.233025-1-salyzyn@android.com> <20181105182146.233025-2-salyzyn@android.com>
-In-Reply-To: <20181105182146.233025-2-salyzyn@android.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Mon, 5 Nov 2018 20:35:17 +0200
-Message-ID: <CAOQ4uxi_hY4UnGJhr83gfsrKEkK6pgi1OHv8L7p8GvRvR4tF6A@mail.gmail.com>
-Subject: Re: [PATCH v6 1/2] overlayfs: check CAP_DAC_READ_SEARCH before
- issuing exportfs_decode_fh
-To:     Mark Salyzyn <salyzyn@android.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        overlayfs <linux-unionfs@vger.kernel.org>,
-        linux-doc@vger.kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <67201746-13c6-2b05-7f3d-2b200e4d9af0@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 5, 2018 at 8:22 PM Mark Salyzyn <salyzyn@android.com> wrote:
->
-> Assumption never checked, should fail if the mounter creds are not
-> sufficient.
->
-> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
-> Cc: Miklos Szeredi <miklos@szeredi.hu>
+On 11/04/2018 03:06 PM, Randy Dunlap wrote:
+> From: Randy Dunlap <rdunlap@infradead.org>
+> 
+> This is a small cleanup to kselftest.rst:
+> 
+> - Fix some language typos in the usage instructions.
+> - Change one non-ASCII space to an ASCII space.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Shuah Khan <shuah@kernel.org>
 > Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Vivek Goyal <vgoyal@redhat.com>
-> Cc: Eric W. Biederman <ebiederm@xmission.com>
-> Cc: Amir Goldstein <amir73il@gmail.com>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Stephen Smalley <sds@tycho.nsa.gov>
-> Cc: linux-unionfs@vger.kernel.org
+> Cc: linux-kselftest@vger.kernel.org
 > Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: kernel-team@android.com
->
-> v5:
-> - dependency of "overlayfs: override_creds=off option bypass creator_cred"
->
-> v6:
-> - rebase
-
-1. rebase onto which branch? doesn't look like the right one
-2. pls keep patch revision outside of commit message
-    you can put it after --- line
-3. revisions are usually ordered latest on the top
-
 > ---
->  fs/overlayfs/namei.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
-> index efd372312ef1..aa012b6bd46e 100644
-> --- a/fs/overlayfs/namei.c
-> +++ b/fs/overlayfs/namei.c
-> @@ -163,6 +163,11 @@ struct dentry *ovl_decode_real_fh(struct ovl_fh *fh, struct vfsmount *mnt,
->         if (!uuid_equal(&fh->uuid, &mnt->mnt_sb->s_uuid))
->                 return NULL;
->
-> +       if (!capable(CAP_DAC_READ_SEARCH)) {
-> +               origin = ERR_PTR(-EPERM);
-> +               goto out;
+>  Documentation/dev-tools/kselftest.rst |   12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
 
-I have a deja vu
-there is no out label in this function in upstream kernel
-you must post patches that are applies and tested on upstream kernel
+Thanks for the patch. Here is my Ack for it go through doc tree
 
-Thanks,
-Amir.
+Acked-by: Shuah Khan <shuah@kernel.org>
 
-> +       }
-> +
->         bytes = (fh->len - offsetof(struct ovl_fh, fid));
->         real = exportfs_decode_fh(mnt, (struct fid *)fh->fid,
->                                   bytes >> 2, (int)fh->type,
-> --
-> 2.19.1.930.g4563a0d9d0-goog
->
+thanks,
+-- Shuah
