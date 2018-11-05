@@ -2,197 +2,116 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7DF047D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 19:58:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DECB37D08E
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 20:27:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726976AbeKFFTq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 00:19:46 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35582 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725735AbeKFFTq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 00:19:46 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wA5JrekB025193
-        for <linux-doc@vger.kernel.org>; Mon, 5 Nov 2018 14:58:27 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2njugqahw1-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 05 Nov 2018 14:58:27 -0500
-Received: from localhost
-        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Mon, 5 Nov 2018 19:58:25 -0000
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 5 Nov 2018 19:58:21 -0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wA5JwKBw8257942
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 5 Nov 2018 19:58:20 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 92D5D4C046;
-        Mon,  5 Nov 2018 19:58:20 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 17A514C040;
-        Mon,  5 Nov 2018 19:58:19 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.207.135])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Mon,  5 Nov 2018 19:58:18 +0000 (GMT)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Mon, 05 Nov 2018 21:58:18 +0200
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] docs/admin-guide/mm/concepts.rst: grammar fixups
-Date:   Mon,  5 Nov 2018 21:58:15 +0200
-X-Mailer: git-send-email 2.7.4
-X-TM-AS-GCONF: 00
-x-cbid: 18110519-0028-0000-0000-0000031352EF
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18110519-0029-0000-0000-000023CF9774
-Message-Id: <1541447895-14996-1-git-send-email-rppt@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-05_11:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1811050177
+        id S1726902AbeKFFsg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 00:48:36 -0500
+Received: from mga03.intel.com ([134.134.136.65]:54874 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725910AbeKFFsg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Nov 2018 00:48:36 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Nov 2018 12:27:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,469,1534834800"; 
+   d="scan'208";a="105628301"
+Received: from ray.jf.intel.com (HELO [10.7.201.17]) ([10.7.201.17])
+  by orsmga001.jf.intel.com with ESMTP; 05 Nov 2018 12:27:11 -0800
+Subject: Re: [PATCH v15 23/23] x86/sgx: Driver documentation
+To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-sgx@vger.kernel.org
+Cc:     sean.j.christopherson@intel.com, nhorman@redhat.com,
+        npmccallum@redhat.com, serge.ayoun@intel.com,
+        shay.katz-zamir@intel.com, haitao.huang@intel.com,
+        mark.shanahan@intel.com, andriy.shevchenko@linux.intel.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20181102231320.29164-1-jarkko.sakkinen@linux.intel.com>
+ <20181102231320.29164-24-jarkko.sakkinen@linux.intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <154ded23-fd1d-f324-4e0a-9de8eddcda6d@intel.com>
+Date:   Mon, 5 Nov 2018 12:27:11 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+MIME-Version: 1.0
+In-Reply-To: <20181102231320.29164-24-jarkko.sakkinen@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mike Rapoport <rppt@linux.vnet.ibm.com>
+On 11/2/18 4:11 PM, Jarkko Sakkinen wrote:
+>  Documentation/index.rst         |   1 +
+>  Documentation/x86/intel_sgx.rst | 185 ++++++++++++++++++++++++++++++++
+>  2 files changed, 186 insertions(+)
+>  create mode 100644 Documentation/x86/intel_sgx.rst
 
-Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>
----
+This patch set establishes an ABI.  It basically sets in stone a bunch
+of behaviors that the enclave, the kernel, and the out-of-enclave code
+must follow.
 
-There was a couple of grammar fixes Randy suggested a while ago, but it
-seems I've never sent them out. 
+There are a bunch of things that the enclave can do to %rsp or %rip, for
+instance, that it is capable and/or permitted to do.
 
- Documentation/admin-guide/mm/concepts.rst | 39 ++++++++++++++++---------------
- 1 file changed, 20 insertions(+), 19 deletions(-)
+The ABI seems entirely undocumented and rather lightly designed, which
+seems like something we should fix before this is merged.
 
-diff --git a/Documentation/admin-guide/mm/concepts.rst b/Documentation/admin-guide/mm/concepts.rst
-index 291699c..ab7a0f9 100644
---- a/Documentation/admin-guide/mm/concepts.rst
-+++ b/Documentation/admin-guide/mm/concepts.rst
-@@ -4,13 +4,13 @@
- Concepts overview
- =================
- 
--The memory management in Linux is complex system that evolved over the
--years and included more and more functionality to support variety of
-+The memory management in Linux is a complex system that evolved over the
-+years and included more and more functionality to support a variety of
- systems from MMU-less microcontrollers to supercomputers. The memory
--management for systems without MMU is called ``nommu`` and it
-+management for systems without an MMU is called ``nommu`` and it
- definitely deserves a dedicated document, which hopefully will be
- eventually written. Yet, although some of the concepts are the same,
--here we assume that MMU is available and CPU can translate a virtual
-+here we assume that an MMU is available and a CPU can translate a virtual
- address to a physical address.
- 
- .. contents:: :local:
-@@ -21,10 +21,10 @@ Virtual Memory Primer
- The physical memory in a computer system is a limited resource and
- even for systems that support memory hotplug there is a hard limit on
- the amount of memory that can be installed. The physical memory is not
--necessary contiguous, it might be accessible as a set of distinct
-+necessary contiguous; it might be accessible as a set of distinct
- address ranges. Besides, different CPU architectures, and even
--different implementations of the same architecture have different view
--how these address ranges defined.
-+different implementations of the same architecture have different views
-+of how these address ranges defined.
- 
- All this makes dealing directly with physical memory quite complex and
- to avoid this complexity a concept of virtual memory was developed.
-@@ -48,8 +48,9 @@ appropriate kernel configuration option.
- 
- Each physical memory page can be mapped as one or more virtual
- pages. These mappings are described by page tables that allow
--translation from virtual address used by programs to real address in
--the physical memory. The page tables organized hierarchically.
-+translation from a virtual address used by programs to the real
-+address in the physical memory. The page tables are organized
-+hierarchically.
- 
- The tables at the lowest level of the hierarchy contain physical
- addresses of actual pages used by the software. The tables at higher
-@@ -121,8 +122,8 @@ Nodes
- Many multi-processor machines are NUMA - Non-Uniform Memory Access -
- systems. In such systems the memory is arranged into banks that have
- different access latency depending on the "distance" from the
--processor. Each bank is referred as `node` and for each node Linux
--constructs an independent memory management subsystem. A node has it's
-+processor. Each bank is referred as a `node` and for each node Linux
-+constructs an independent memory management subsystem. A node has its
- own set of zones, lists of free and used pages and various statistics
- counters. You can find more details about NUMA in
- :ref:`Documentation/vm/numa.rst <numa>` and in
-@@ -149,7 +150,7 @@ for program's stack and heap or by explicit calls to mmap(2) system
- call. Usually, the anonymous mappings only define virtual memory areas
- that the program is allowed to access. The read accesses will result
- in creation of a page table entry that references a special physical
--page filled with zeroes. When the program performs a write, regular
-+page filled with zeroes. When the program performs a write, a regular
- physical page will be allocated to hold the written data. The page
- will be marked dirty and if the kernel will decide to repurpose it,
- the dirty page will be swapped out.
-@@ -181,8 +182,8 @@ pressure.
- The process of freeing the reclaimable physical memory pages and
- repurposing them is called (surprise!) `reclaim`. Linux can reclaim
- pages either asynchronously or synchronously, depending on the state
--of the system. When system is not loaded, most of the memory is free
--and allocation request will be satisfied immediately from the free
-+of the system. When the system is not loaded, most of the memory is free
-+and allocation requests will be satisfied immediately from the free
- pages supply. As the load increases, the amount of the free pages goes
- down and when it reaches a certain threshold (high watermark), an
- allocation request will awaken the ``kswapd`` daemon. It will
-@@ -190,7 +191,7 @@ asynchronously scan memory pages and either just free them if the data
- they contain is available elsewhere, or evict to the backing storage
- device (remember those dirty pages?). As memory usage increases even
- more and reaches another threshold - min watermark - an allocation
--will trigger the `direct reclaim`. In this case allocation is stalled
-+will trigger `direct reclaim`. In this case allocation is stalled
- until enough memory pages are reclaimed to satisfy the request.
- 
- Compaction
-@@ -200,7 +201,7 @@ As the system runs, tasks allocate and free the memory and it becomes
- fragmented. Although with virtual memory it is possible to present
- scattered physical pages as virtually contiguous range, sometimes it is
- necessary to allocate large physically contiguous memory areas. Such
--need may arise, for instance, when a device driver requires large
-+need may arise, for instance, when a device driver requires a large
- buffer for DMA, or when THP allocates a huge page. Memory `compaction`
- addresses the fragmentation issue. This mechanism moves occupied pages
- from the lower part of a memory zone to free pages in the upper part
-@@ -208,13 +209,13 @@ of the zone. When a compaction scan is finished free pages are grouped
- together at the beginning of the zone and allocations of large
- physically contiguous areas become possible.
- 
--Like reclaim, the compaction may happen asynchronously in ``kcompactd``
--daemon or synchronously as a result of memory allocation request.
-+Like reclaim, the compaction may happen asynchronously in the ``kcompactd``
-+daemon or synchronously as a result of a memory allocation request.
- 
- OOM killer
- ==========
- 
--It may happen, that on a loaded machine memory will be exhausted. When
-+It may happen that on a loaded machine memory will be exhausted. When
- the kernel detects that the system runs out of memory (OOM) it invokes
- `OOM killer`. Its mission is simple: all it has to do is to select a
- task to sacrifice for the sake of the overall system health. The
--- 
-2.7.4
-
+Also, for a feature as massive and complicated as this one, it seems
+irresponsible to not have a selftest.  Is that not feasible for some reason?
