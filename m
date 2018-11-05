@@ -1,142 +1,198 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E3C5E7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 18:55:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7DF047D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 19:58:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729265AbeKFEQx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Nov 2018 23:16:53 -0500
-Received: from mail-yw1-f67.google.com ([209.85.161.67]:33298 "EHLO
-        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726932AbeKFEQx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Nov 2018 23:16:53 -0500
-Received: by mail-yw1-f67.google.com with SMTP id z72-v6so4115604ywa.0;
-        Mon, 05 Nov 2018 10:55:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pYpnT5Aw/voFUXbalJP+VVpRDZL5f+GJ6XVIUU0XzQc=;
-        b=uLFV1x9bqKSkn8wx99aKsCtKj43N0txg0Ci7cJaXBZ2Ze4x0i7HveORSMKHuP0v9Sl
-         /YjUFpTeAnq/Q6Ze9Hvg79vNCUzI2KC/ZtFYYI3hB00Cu4AFksUlvSJxYVuu9iD+xW9R
-         arERh53lCBYFauD+S9lqL7hm1PspfpOC0Zewu1ykA0vvPd+IlqJqIn1+w+T5GULvEgWA
-         gFApzwh1hbtZ2b4w3QTbGSovpN6BL0jzqhFg4SbsjmBD9qyhIzSGCvt+yfskBTimSjD0
-         6sVqXTUCn1O4O/XFGQlT/8k6WRrvYo8/HhiGXXoRiu8/JbnEaW/FX2jgB1sOaML1MBWu
-         kn7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pYpnT5Aw/voFUXbalJP+VVpRDZL5f+GJ6XVIUU0XzQc=;
-        b=XCTwcBb1/N5PXeY+QgYpgkir9pl7hNhlRaq8lBfy9WfnSaIgDWik3eTzuwtFKoSz8u
-         srNy03Otk8BYX/u53aNoqpVvsmi762dGiBnEw0JCtfrO2N55FWOzJFtEP9a2w2aCaO1c
-         tCVYh+ab+NEn2pSJj5NBkBWV37bDmToHSaktrLJmtgdgbPZQi3lxTVVWO5/SFesw5sBr
-         tkpJypQXIPZZh6QmRLHx8tP0j78eZ3ivWT6mRqe2UU6VyFKtOSglxC4AxqFrOHbo6AaO
-         sDq91ri7SeMbcWpoRqpzuGxXAaRLpSbj5EESkLXv4pnUqkfi9qOdwZnmv0+FQBHRz87c
-         sj0g==
-X-Gm-Message-State: AGRZ1gJfsGmc3h6c1kOW7YXSrBlpr49+jOm0QL0LNtG0uxdeib2A64ug
-        +iSV4gNvvPdQVf+vAwpbunRVa01tbG6kOZFfCG4=
-X-Google-Smtp-Source: AJdET5fIqmYiOj2DewMIgmRJjStddlFbD3rOAV0xSVUFvtipi1LragSFkunx0wqj8Gu5whEljwhuALYKCDGwJ6J66nI=
-X-Received: by 2002:a81:ac1f:: with SMTP id k31-v6mr22022192ywh.248.1541444150476;
- Mon, 05 Nov 2018 10:55:50 -0800 (PST)
-MIME-Version: 1.0
-References: <20181105182146.233025-1-salyzyn@android.com>
-In-Reply-To: <20181105182146.233025-1-salyzyn@android.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Mon, 5 Nov 2018 20:55:39 +0200
-Message-ID: <CAOQ4uxiwxWDyz2yEfjcKdWK+iUEGKW4W=zoDKy2Z1xO0o7Zt9g@mail.gmail.com>
-Subject: Re: [PATCH v6 0/2]
-To:     Mark Salyzyn <salyzyn@android.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        overlayfs <linux-unionfs@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S1726976AbeKFFTq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 00:19:46 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35582 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725735AbeKFFTq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 00:19:46 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wA5JrekB025193
+        for <linux-doc@vger.kernel.org>; Mon, 5 Nov 2018 14:58:27 -0500
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2njugqahw1-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 05 Nov 2018 14:58:27 -0500
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Mon, 5 Nov 2018 19:58:25 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 5 Nov 2018 19:58:21 -0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wA5JwKBw8257942
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 5 Nov 2018 19:58:20 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 92D5D4C046;
+        Mon,  5 Nov 2018 19:58:20 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 17A514C040;
+        Mon,  5 Nov 2018 19:58:19 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.207.135])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Mon,  5 Nov 2018 19:58:18 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Mon, 05 Nov 2018 21:58:18 +0200
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] docs/admin-guide/mm/concepts.rst: grammar fixups
+Date:   Mon,  5 Nov 2018 21:58:15 +0200
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+x-cbid: 18110519-0028-0000-0000-0000031352EF
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18110519-0029-0000-0000-000023CF9774
+Message-Id: <1541447895-14996-1-git-send-email-rppt@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-05_11:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1811050177
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 5, 2018 at 8:22 PM Mark Salyzyn <salyzyn@android.com> wrote:
->
-> overlayfs: check CAP_DAC_READ_SEARCH before issuing exportfs_decode_fh
->
-> Assumption never checked, should fail if the mounter creds are not
-> sufficient.
->
-> overlayfs: override_creds=off option bypass creator_cred
->
-> By default, all access to the upper, lower and work directories is the
-> recorded mounter's MAC and DAC credentials.  The incoming accesses are
-> checked against the caller's credentials.
->
-> If the principles of least privilege are applied, the mounter's
-> credentials might not overlap the credentials of the caller's when
-> accessing the overlayfs filesystem.  For example, a file that a lower
-> DAC privileged caller can execute, is MAC denied to the generally
-> higher DAC privileged mounter, to prevent an attack vector.
->
-> We add the option to turn off override_creds in the mount options; all
-> subsequent operations after mount on the filesystem will be only the
-> caller's credentials.  The module boolean parameter and mount option
-> override_creds is also added as a presence check for this "feature",
-> existence of /sys/module/overlay/parameters/overlay_creds
->
-> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
-> Cc: Miklos Szeredi <miklos@szeredi.hu>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Vivek Goyal <vgoyal@redhat.com>
-> Cc: Eric W. Biederman <ebiederm@xmission.com>
-> Cc: Amir Goldstein <amir73il@gmail.com>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Stephen Smalley <sds@tycho.nsa.gov>
-> Cc: linux-unionfs@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
->
-> v2:
-> - Forward port changed attr to stat, resulting in a build error.
-> - altered commit message.
->
-> v3:
-> - Change name from caller_credentials / creator_credentials to the
->   boolean override_creds.
-> - Changed from creator to mounter credentials.
-> - Updated and fortified the documentation.
-> - Added CONFIG_OVERLAY_FS_OVERRIDE_CREDS
->
-> v4:
-> - spelling and grammar errors in text
->
-> v5:
-> - beefed up the caveats in the Documentation
-> - Is dependent on
->   "overlayfs: check CAP_DAC_READ_SEARCH before issuing exportfs_decode_fh"
->   "overlayfs: check CAP_MKNOD before issuing vfs_whiteout"
-> - Added prwarn when override_creds=off
->
-> v6:
-> - Drop CONFIG_OVERLAY_FS_OVERRIDE_CREDS.
-> - Do better with the documentation, drop rationalizations.
-> - pr_warn message adjusted to report consequences.
+From: Mike Rapoport <rppt@linux.vnet.ibm.com>
 
-For future reference, the cover letter is meant for introduction,
-not for concatenating all commit messages...
-Not sure how you generated this text.
-I think you were looking for git format-patch --cover.
-Anyway, IMO, having the patch revision in the cover letter is sufficient
-and you needn't bother with patch revision in every single patch, unless
-there is a good reason.
+Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+---
 
-Thanks,
-Amir.
+There was a couple of grammar fixes Randy suggested a while ago, but it
+seems I've never sent them out. 
+
+ Documentation/admin-guide/mm/concepts.rst | 39 ++++++++++++++++---------------
+ 1 file changed, 20 insertions(+), 19 deletions(-)
+
+diff --git a/Documentation/admin-guide/mm/concepts.rst b/Documentation/admin-guide/mm/concepts.rst
+index 291699c..ab7a0f9 100644
+--- a/Documentation/admin-guide/mm/concepts.rst
++++ b/Documentation/admin-guide/mm/concepts.rst
+@@ -4,13 +4,13 @@
+ Concepts overview
+ =================
+ 
+-The memory management in Linux is complex system that evolved over the
+-years and included more and more functionality to support variety of
++The memory management in Linux is a complex system that evolved over the
++years and included more and more functionality to support a variety of
+ systems from MMU-less microcontrollers to supercomputers. The memory
+-management for systems without MMU is called ``nommu`` and it
++management for systems without an MMU is called ``nommu`` and it
+ definitely deserves a dedicated document, which hopefully will be
+ eventually written. Yet, although some of the concepts are the same,
+-here we assume that MMU is available and CPU can translate a virtual
++here we assume that an MMU is available and a CPU can translate a virtual
+ address to a physical address.
+ 
+ .. contents:: :local:
+@@ -21,10 +21,10 @@ Virtual Memory Primer
+ The physical memory in a computer system is a limited resource and
+ even for systems that support memory hotplug there is a hard limit on
+ the amount of memory that can be installed. The physical memory is not
+-necessary contiguous, it might be accessible as a set of distinct
++necessary contiguous; it might be accessible as a set of distinct
+ address ranges. Besides, different CPU architectures, and even
+-different implementations of the same architecture have different view
+-how these address ranges defined.
++different implementations of the same architecture have different views
++of how these address ranges defined.
+ 
+ All this makes dealing directly with physical memory quite complex and
+ to avoid this complexity a concept of virtual memory was developed.
+@@ -48,8 +48,9 @@ appropriate kernel configuration option.
+ 
+ Each physical memory page can be mapped as one or more virtual
+ pages. These mappings are described by page tables that allow
+-translation from virtual address used by programs to real address in
+-the physical memory. The page tables organized hierarchically.
++translation from a virtual address used by programs to the real
++address in the physical memory. The page tables are organized
++hierarchically.
+ 
+ The tables at the lowest level of the hierarchy contain physical
+ addresses of actual pages used by the software. The tables at higher
+@@ -121,8 +122,8 @@ Nodes
+ Many multi-processor machines are NUMA - Non-Uniform Memory Access -
+ systems. In such systems the memory is arranged into banks that have
+ different access latency depending on the "distance" from the
+-processor. Each bank is referred as `node` and for each node Linux
+-constructs an independent memory management subsystem. A node has it's
++processor. Each bank is referred as a `node` and for each node Linux
++constructs an independent memory management subsystem. A node has its
+ own set of zones, lists of free and used pages and various statistics
+ counters. You can find more details about NUMA in
+ :ref:`Documentation/vm/numa.rst <numa>` and in
+@@ -149,7 +150,7 @@ for program's stack and heap or by explicit calls to mmap(2) system
+ call. Usually, the anonymous mappings only define virtual memory areas
+ that the program is allowed to access. The read accesses will result
+ in creation of a page table entry that references a special physical
+-page filled with zeroes. When the program performs a write, regular
++page filled with zeroes. When the program performs a write, a regular
+ physical page will be allocated to hold the written data. The page
+ will be marked dirty and if the kernel will decide to repurpose it,
+ the dirty page will be swapped out.
+@@ -181,8 +182,8 @@ pressure.
+ The process of freeing the reclaimable physical memory pages and
+ repurposing them is called (surprise!) `reclaim`. Linux can reclaim
+ pages either asynchronously or synchronously, depending on the state
+-of the system. When system is not loaded, most of the memory is free
+-and allocation request will be satisfied immediately from the free
++of the system. When the system is not loaded, most of the memory is free
++and allocation requests will be satisfied immediately from the free
+ pages supply. As the load increases, the amount of the free pages goes
+ down and when it reaches a certain threshold (high watermark), an
+ allocation request will awaken the ``kswapd`` daemon. It will
+@@ -190,7 +191,7 @@ asynchronously scan memory pages and either just free them if the data
+ they contain is available elsewhere, or evict to the backing storage
+ device (remember those dirty pages?). As memory usage increases even
+ more and reaches another threshold - min watermark - an allocation
+-will trigger the `direct reclaim`. In this case allocation is stalled
++will trigger `direct reclaim`. In this case allocation is stalled
+ until enough memory pages are reclaimed to satisfy the request.
+ 
+ Compaction
+@@ -200,7 +201,7 @@ As the system runs, tasks allocate and free the memory and it becomes
+ fragmented. Although with virtual memory it is possible to present
+ scattered physical pages as virtually contiguous range, sometimes it is
+ necessary to allocate large physically contiguous memory areas. Such
+-need may arise, for instance, when a device driver requires large
++need may arise, for instance, when a device driver requires a large
+ buffer for DMA, or when THP allocates a huge page. Memory `compaction`
+ addresses the fragmentation issue. This mechanism moves occupied pages
+ from the lower part of a memory zone to free pages in the upper part
+@@ -208,13 +209,13 @@ of the zone. When a compaction scan is finished free pages are grouped
+ together at the beginning of the zone and allocations of large
+ physically contiguous areas become possible.
+ 
+-Like reclaim, the compaction may happen asynchronously in ``kcompactd``
+-daemon or synchronously as a result of memory allocation request.
++Like reclaim, the compaction may happen asynchronously in the ``kcompactd``
++daemon or synchronously as a result of a memory allocation request.
+ 
+ OOM killer
+ ==========
+ 
+-It may happen, that on a loaded machine memory will be exhausted. When
++It may happen that on a loaded machine memory will be exhausted. When
+ the kernel detects that the system runs out of memory (OOM) it invokes
+ `OOM killer`. Its mission is simple: all it has to do is to select a
+ task to sacrifice for the sake of the overall system health. The
+-- 
+2.7.4
+
