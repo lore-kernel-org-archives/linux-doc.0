@@ -1,98 +1,87 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 723E07D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 02:31:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1AD467D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 05:10:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729112AbeKELsx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Nov 2018 06:48:53 -0500
-Received: from out1.zte.com.cn ([202.103.147.172]:60940 "EHLO mxct.zte.com.cn"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726770AbeKELsx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 5 Nov 2018 06:48:53 -0500
-Received: from mse01.zte.com.cn (unknown [10.30.3.20])
-        by Forcepoint Email with ESMTPS id E09B1589E08C35EB98B3;
-        Mon,  5 Nov 2018 10:30:35 +0800 (CST)
-Received: from notes_smtp.zte.com.cn ([10.30.1.239])
-        by mse01.zte.com.cn with ESMTP id wA52UEaD028281;
-        Mon, 5 Nov 2018 10:30:14 +0800 (GMT-8)
-        (envelope-from peng.hao2@zte.com.cn)
-Received: from localhost.localdomain.localdomain ([10.74.120.59])
-          by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
-          with ESMTP id 2018110510301779-8592993 ;
-          Mon, 5 Nov 2018 10:30:17 +0800 
-From:   Peng Hao <peng.hao2@zte.com.cn>
-To:     robh+dt@kernel.org, mark.rutland@arm.com, arnd@arndb.de,
-        gregkh@linuxfoundation.org, andy@infradead.org,
-        dvhart@infradead.org
-Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        hutao@cn.fujitsu.com, linux-doc@vger.kernel.org,
-        Peng Hao <peng.hao2@zte.com.cn>
-Subject: [PATCH V7 4/9]  dt-bindings: misc/pvpanic: add document for pvpanic-mmio
-Date:   Mon, 5 Nov 2018 18:40:26 +0800
-Message-Id: <1541414431-84128-4-git-send-email-peng.hao2@zte.com.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1541414431-84128-1-git-send-email-peng.hao2@zte.com.cn>
-References: <1541414431-84128-1-git-send-email-peng.hao2@zte.com.cn>
-X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release 8.5.3FP6|November
- 21, 2013) at 2018-11-05 10:30:17,
-        Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
- 2018-11-05 10:30:14,
-        Serialize complete at 2018-11-05 10:30:14
-X-MAIL: mse01.zte.com.cn wA52UEaD028281
+        id S1728945AbeKEO2N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Nov 2018 09:28:13 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:45523 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728918AbeKEO2N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Nov 2018 09:28:13 -0500
+Received: by mail-ot1-f68.google.com with SMTP id g10so6816893otl.12;
+        Sun, 04 Nov 2018 21:10:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OwePt3wgB2qqcmwt9IwlwwBhSLsCCpbxijgljI9iwlk=;
+        b=D5gKzrCCebKOJD6qoWpWKpRmGVh4d4Ummzx7BZapE3ABDWQeBGRT+qRixRXpW3ec63
+         4nlYYutCBYRuoeo+xEnjtOAUNWlx6NQljY+HUzwkiR/lRU0cf4PmQZVWYqOWq2MGw3VE
+         aqfP5L/htUPCis50ur6cRbqAb060M7ln4UddY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OwePt3wgB2qqcmwt9IwlwwBhSLsCCpbxijgljI9iwlk=;
+        b=cPDmRsmJAQY5rCml+TcB/uAK68DnYt2KSQRRYKIdIUBbTK/iOnh5k1jhGWYhiHF3f4
+         Oe4uEmbDWO5ET8nHoi9gUvRygRtCikSvQNP9X7CjVskpLj67AE/Bb8DuDNt9h9SDtV2Y
+         7dU/FdD1frGsily/SbiY/OpZQ18f1wy3J3ACEv2lzYeplAIL5bUqnxmPKnDhFP/OztEK
+         KCH8N2pTH1UVDzwNTBojZfM8OGZS9zNArebNFE2R1n81TY5UokBDZQJexFuYP997IrLW
+         ZVlyRe1ruDCNM9Et9l6fAC3eSJ8auMFyRkuzrwh8N8AjchPn7rmRhlKI3FBy6W6COxZF
+         2Qhw==
+X-Gm-Message-State: AGRZ1gIH8JewiWLcQtl13PGfZi8pBBCQe1+U9+qlCBsUkr2Idcoertbr
+        9O8VnwATYqExrsFL1dk2B4tXOd0LLrNTlPPeBdo=
+X-Google-Smtp-Source: AJdET5dhy2QHpYACskikjDPEq9blkMjL2qcc0yxNRXY4cKxp6fB+iDWf3Qk0cIgM6FthBCrh0Qqso3o8uK4tdDNlsBs=
+X-Received: by 2002:a9d:2817:: with SMTP id m23mr13011032otb.168.1541394624158;
+ Sun, 04 Nov 2018 21:10:24 -0800 (PST)
+MIME-Version: 1.0
+References: <20181101013257.659-1-zhaoweiliew@gmail.com>
+In-Reply-To: <20181101013257.659-1-zhaoweiliew@gmail.com>
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+Date:   Mon, 5 Nov 2018 10:40:12 +0530
+Message-ID: <CAOh2x=nSWwN90GsyRokUoCZo5OLHN-LyVS3t3rpcAMn0v6+yVA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: cpufreq: Correct a typo
+To:     zhaoweiliew@gmail.com, "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Linux Documentation <linux-doc@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Jiri Kosina <trivial@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add dt-bindings document for "qemu:pvpanic-mmio".
++Rafael
 
-Acked-by: Mark Rutland <mark.rutland@arm.com>
-Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
----
- .../devicetree/bindings/misc/pvpanic-mmio.txt      | 29 ++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/misc/pvpanic-mmio.txt
+On Thu, Nov 1, 2018 at 7:06 AM Zhao Wei Liew <zhaoweiliew@gmail.com> wrote:
+>
+> Fix a typo in the admin-guide documentation for cpufreq.
+>
+> Signed-off-by: Zhao Wei Liew <zhaoweiliew@gmail.com>
+> ---
+>  Documentation/admin-guide/pm/cpufreq.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/Documentation/admin-guide/pm/cpufreq.rst
+> index 47153e64dfb5..7eca9026a9ed 100644
+> --- a/Documentation/admin-guide/pm/cpufreq.rst
+> +++ b/Documentation/admin-guide/pm/cpufreq.rst
+> @@ -150,7 +150,7 @@ data structures necessary to handle the given policy and, possibly, to add
+>  a governor ``sysfs`` interface to it.  Next, the governor is started by
+>  invoking its ``->start()`` callback.
+>
+> -That callback it expected to register per-CPU utilization update callbacks for
+> +That callback is expected to register per-CPU utilization update callbacks for
+>  all of the online CPUs belonging to the given policy with the CPU scheduler.
+>  The utilization update callbacks will be invoked by the CPU scheduler on
+>  important events, like task enqueue and dequeue, on every iteration of the
 
-diff --git a/Documentation/devicetree/bindings/misc/pvpanic-mmio.txt b/Documentation/devicetree/bindings/misc/pvpanic-mmio.txt
-new file mode 100644
-index 0000000..985e907
---- /dev/null
-+++ b/Documentation/devicetree/bindings/misc/pvpanic-mmio.txt
-@@ -0,0 +1,29 @@
-+* QEMU PVPANIC MMIO Configuration bindings
-+
-+QEMU's emulation / virtualization targets provide the following PVPANIC
-+MMIO Configuration interface on the "virt" machine.
-+type:
-+
-+- a read-write, 16-bit wide data register.
-+
-+QEMU exposes the data register to guests as memory mapped registers.
-+
-+Required properties:
-+
-+- compatible: "qemu,pvpanic-mmio".
-+- reg: the MMIO region used by the device.
-+  * Bytes 0x0  Write panic event to the reg when guest OS panics.
-+  * Bytes 0x1  Reserved.
-+
-+Example:
-+
-+/ {
-+        #size-cells = <0x2>;
-+        #address-cells = <0x2>;
-+
-+        pvpanic-mmio@9060000 {
-+                compatible = "qemu,pvpanic-mmio";
-+                reg = <0x0 0x9060000 0x0 0x2>;
-+        };
-+};
-+
--- 
-1.8.3.1
-
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
