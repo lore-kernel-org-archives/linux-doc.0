@@ -1,195 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D56457D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 08:48:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AC58D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 12:55:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726173AbeKESHO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Nov 2018 13:07:14 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:33045 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726228AbeKESHN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Nov 2018 13:07:13 -0500
-Received: from sun05.dh.corp ([188.193.90.127]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPA (Nemesis) id
- 1MHX3R-1gFVxW0wPx-00DVeR; Mon, 05 Nov 2018 09:48:31 +0100
-Received: from sun05.dh.corp ([188.193.90.127]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPA (Nemesis) id
- 1MHX3R-1gFVxW0wPx-00DVeR; Mon, 05 Nov 2018 09:48:31 +0100
-Received: from sun1049.dh.corp (unknown [10.64.9.49])
-        by sun05.dh.corp (Postfix) with ESMTP id 18E5F1FC8F;
-        Mon,  5 Nov 2018 09:48:30 +0100 (CET)
-Received: from localhost (10.64.31.3) by sun1049.dh.corp (10.64.9.49) with
- Microsoft SMTP Server id 14.3.408.0; Mon, 5 Nov 2018 09:48:36 +0100
-From:   Christoph Niedermaier <cniedermaier@dh-electronics.de>
-To:     <corbet@lwn.net>, <linux-doc@vger.kernel.org>
-CC:     <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <C.Emde@osadl.org>
-Subject: [PATCH 2/2] Docs/EDID: Calculate CRC while building the code
-Date:   Mon, 5 Nov 2018 09:48:35 +0100
-Message-ID: <1541407715-5417-3-git-send-email-cniedermaier@dh-electronics.de>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1541407715-5417-1-git-send-email-cniedermaier@dh-electronics.de>
-References: <1541407715-5417-1-git-send-email-cniedermaier@dh-electronics.de>
+        id S1729687AbeKEWOx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Nov 2018 17:14:53 -0500
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:40726 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728971AbeKEWOw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Nov 2018 17:14:52 -0500
+Received: by mail-qk1-f196.google.com with SMTP id y16so13162874qki.7;
+        Mon, 05 Nov 2018 04:55:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nE6D3TcWm51I/5N4yCHXVCpDeNk8J1NZRSK213iJ1oc=;
+        b=DGgGesDTVM4g15L8ORVff8n0IjwvyRjVqM18tTKHDIws/XO2ZUT9xKCp4ePojOGw2X
+         ZyGgwUumI/tRJ1TBsIBBMdlLA9KC9P7R+wtul+sB4WuEUnbC7CBasZreFszMIs7/tB5o
+         QaBDQoGpdpZOVvU5R2oxaBOP3pdsBZR+Dk+AzPGCy52nvWO6R2+TEHWRF60tmrmE1l7O
+         eMkzzMtYlaNUgDolwbe1wUkTYMtS6bCKkqzVGORyCa6Zswdcwy5Wb2JuspDzPfhUmA9J
+         sxaEXtha90jwLqHkYgKtPUwWrJwYwa+t4BMGwgTMBK1tLEe5+yzHJLFOnqDRq4yBM0MK
+         4kNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nE6D3TcWm51I/5N4yCHXVCpDeNk8J1NZRSK213iJ1oc=;
+        b=g+bIjxiF5nW8+zvI6Z0e8vV/h4tnGxCLGhxJBAteEqQ8MmVxsc/QTkFqygzTLK35qD
+         8A8waH3VYrI9dNB3ZdQrekMkVFQxZuqHKenrRy+LswCGyvIYzcyN0gBcb/46pLAaDNar
+         yhWajkmVAzcfjWbx29PLvidfKSPbE89Mp7qc+iyVW/8cnnJK2rQ099vnTYNJ2GYWH0Gi
+         fpwYFYGW2q3eSGUv5WDUSlNuaAN+PCPGlri6PHn58ejCZ5R3f5yPRbdwQMbZT7BnP7Wo
+         LFzxfTrJFKOzHdXqvClAE4UWQbmXqyir4JIu6W6XE5a507rWsEGeJQ69qzZdAIikMjj3
+         9Vzw==
+X-Gm-Message-State: AGRZ1gK7J+iJBDUzz/2LDOU59oMFbM2f18+vSqNWA5Dvk2DohaTQsZyx
+        c1CHs45YImytddu8sBYi656MDkX9iHKLosv7EjQ=
+X-Google-Smtp-Source: AJdET5fof/xxT7bxQBozb0Bk6smZgRj5M3o8+1JqJS1BmBi2KQw93PG3+UZDsGQqpoug2uUJgK7vW9gA1O6zC2tZw0Q=
+X-Received: by 2002:a37:7983:: with SMTP id u125-v6mr19185933qkc.219.1541422515079;
+ Mon, 05 Nov 2018 04:55:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.64.31.3]
-X-Provags-ID: V03:K1:mFwzcpuctcdwSybWEjcPmOPRKhqqGg+HItzELNjJ9uXpW6Ep7zB
- aIuWrNEl22ijh9DIvH2Hf7pDTq1dUBCg0rLN0XirwpxbVd+dv6Wynp7tK94YRWQoL+ND08N
- 1v+uqDEKxWman3It8oVoMENcc4XEliBRXLWC06RZUfskL+BLxs4QHhkxlu6zflqVD3H7KKp
- +PeC/CxQofTu313xBMnuQ==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:8aO/WK1Wgvs=:GYv9D/7l3L0HWPFOJh7CQv
- km2+H5d+nzNWXM80S5/2EwTd2DfsxQtCGVlwiFSed0hv1C6wTjr+7Nfw+xmK7nFDitsIVZlmu
- alfNBmXfFFHbY6dtS2uozxbgkN3CM8kNyST/exw8hc2AjJv6nqLUAKpoXAQYSmLq1qJzG/bKm
- Xj/0c1ydG+gKtugF7vDo/YtxaqmG3Ua2VncjjlO8MbGaqtML7RzVD5/NM2DuvsoUQ9IYRWILQ
- J4Kv2QjVApdHSqbu9CdUrUXhzCsdtI2tgy3DAdVr9CQA/94u/RguaaWH67XOtCZzzB3IJ6hXn
- EyLL2A/Ijw/OWV99ReQazg/zOltrG0KY6a/eWnSmMkux4qzDBwd0LzosylvDL3/3uf1xTFPgB
- Wy7jw6iXw5HDhD6BiNhYeMDYKtLio3bHsTTPoZ5BeusFAjACMeRWsswQl7QKwapSeBfqYhj2Y
- OEQuoYybLRM/Uv0ajKNSOwl/Gxr6UOXBSVr7LV1tp6XdWsl8VKowgEf5wCJl7pnkkUjTBJP7t
- 2wE5s0QWX/EwGsbTggVRCXHOGrCHAuXnkSVQb4YZX64JdqCVBn1AeznQTE9BISm7HpCKM53D2
- 5c87cJ8hf2NNGzkvyF3CsALigc+auT+Wjl1YWnz9WLyPvnuzK8Y3C64JfyEaCCq3MiaHZIJz+
- uGxbu+f/68ivjhWxp0mx051swN0VzGVIrYDd1RuU4vQ6JHkqnnXVBDlqc0lr/uHJJzji1C9+h
- DwvPHN1DhizgB5Qr
+References: <1541414431-84128-1-git-send-email-peng.hao2@zte.com.cn> <1541414431-84128-3-git-send-email-peng.hao2@zte.com.cn>
+In-Reply-To: <1541414431-84128-3-git-send-email-peng.hao2@zte.com.cn>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 5 Nov 2018 14:55:03 +0200
+Message-ID: <CAHp75VeJHjYUNz-O83qm1m8JZtW5t9JJDKxKRpbLtPYXr2VbnQ@mail.gmail.com>
+Subject: Re: [PATCH V7 3/9] misc/pvpanic: add MMIO support
+To:     peng.hao2@zte.com.cn
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        hutao@cn.fujitsu.com,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The previous version made it necessary to first generate an
-EDID data set without correct CRC and then to fix the CRC in
-a second step. This patch adds the CRC calculation to the
-makefile in such a way that a correct EDID data set is generated
-in a single build step. Successfully tested with all existing
-and a couple of new data sets.
+On Mon, Nov 5, 2018 at 4:31 AM Peng Hao <peng.hao2@zte.com.cn> wrote:
+>
+> On some architectures (e.g. arm64), it's preferable to use MMIO, since
+> this can be used standalone. Add MMIO support to the pvpanic driver.
 
-Signed-off-by: Christoph Niedermaier <cniedermaier@dh-electronics.de>
-Reviewed-by: Carsten Emde <C.Emde@osadl.org>
----
- Documentation/EDID/1024x768.S  |  1 -
- Documentation/EDID/1280x1024.S |  1 -
- Documentation/EDID/1600x1200.S |  1 -
- Documentation/EDID/1680x1050.S |  1 -
- Documentation/EDID/1920x1080.S |  1 -
- Documentation/EDID/800x600.S   |  1 -
- Documentation/EDID/HOWTO.txt   |  9 ---------
- Documentation/EDID/Makefile    | 15 +++++++++++++--
- 8 files changed, 13 insertions(+), 17 deletions(-)
+Thanks for an update, looks quite good, though couple of comments below.
 
-diff --git a/Documentation/EDID/1024x768.S b/Documentation/EDID/1024x768.S
-index ff4013e..4aed3f9 100644
---- a/Documentation/EDID/1024x768.S
-+++ b/Documentation/EDID/1024x768.S
-@@ -39,6 +39,5 @@
- #define ESTABLISHED_TIMING2_BITS 0x08 /* Bit 3 -> 1024x768 @60 Hz */
- #define HSYNC_POL 0
- #define VSYNC_POL 0
--#define CRC 0x55
- 
- #include "edid.S"
-diff --git a/Documentation/EDID/1280x1024.S b/Documentation/EDID/1280x1024.S
-index ce0e85b..b26dd42 100644
---- a/Documentation/EDID/1280x1024.S
-+++ b/Documentation/EDID/1280x1024.S
-@@ -39,6 +39,5 @@
- /* No ESTABLISHED_TIMINGx_BITS */
- #define HSYNC_POL 1
- #define VSYNC_POL 1
--#define CRC 0xa0
- 
- #include "edid.S"
-diff --git a/Documentation/EDID/1600x1200.S b/Documentation/EDID/1600x1200.S
-index 5eeb751..0d091b2 100644
---- a/Documentation/EDID/1600x1200.S
-+++ b/Documentation/EDID/1600x1200.S
-@@ -39,6 +39,5 @@
- /* No ESTABLISHED_TIMINGx_BITS */
- #define HSYNC_POL 1
- #define VSYNC_POL 1
--#define CRC 0x9d
- 
- #include "edid.S"
-diff --git a/Documentation/EDID/1680x1050.S b/Documentation/EDID/1680x1050.S
-index ec67950..7dfed9a 100644
---- a/Documentation/EDID/1680x1050.S
-+++ b/Documentation/EDID/1680x1050.S
-@@ -39,6 +39,5 @@
- /* No ESTABLISHED_TIMINGx_BITS */
- #define HSYNC_POL 1
- #define VSYNC_POL 1
--#define CRC 0x26
- 
- #include "edid.S"
-diff --git a/Documentation/EDID/1920x1080.S b/Documentation/EDID/1920x1080.S
-index e0657af..d6ffbba 100644
---- a/Documentation/EDID/1920x1080.S
-+++ b/Documentation/EDID/1920x1080.S
-@@ -39,6 +39,5 @@
- /* No ESTABLISHED_TIMINGx_BITS */
- #define HSYNC_POL 1
- #define VSYNC_POL 1
--#define CRC 0x05
- 
- #include "edid.S"
-diff --git a/Documentation/EDID/800x600.S b/Documentation/EDID/800x600.S
-index b6853b2..a561658 100644
---- a/Documentation/EDID/800x600.S
-+++ b/Documentation/EDID/800x600.S
-@@ -36,6 +36,5 @@
- #define ESTABLISHED_TIMING1_BITS 0x01 /* Bit 0: 800x600 @ 60Hz */
- #define HSYNC_POL 1
- #define VSYNC_POL 1
--#define CRC 0xc2
- 
- #include "edid.S"
-diff --git a/Documentation/EDID/HOWTO.txt b/Documentation/EDID/HOWTO.txt
-index 7d05a7d..539871c 100644
---- a/Documentation/EDID/HOWTO.txt
-+++ b/Documentation/EDID/HOWTO.txt
-@@ -47,12 +47,3 @@ EDID:
- #define YBLANK vtotal-vdisp
- #define YOFFSET vsyncstart-vdisp
- #define YPULSE vsyncend-vsyncstart
--
--The CRC value in the last line
--  #define CRC 0x55
--also is a bit tricky. After a first version of the binary data set is
--created, it must be checked with the "edid-decode" utility which will
--most probably complain about a wrong CRC. Fortunately, the utility also
--displays the correct CRC which must then be inserted into the source
--file. After the make procedure is repeated, the EDID data set is ready
--to be used.
-diff --git a/Documentation/EDID/Makefile b/Documentation/EDID/Makefile
-index 17763ca..85a927d 100644
---- a/Documentation/EDID/Makefile
-+++ b/Documentation/EDID/Makefile
-@@ -15,10 +15,21 @@ clean:
- %.o:	%.S
- 	@cc -c $^
- 
--%.bin:	%.o
-+%.bin.nocrc:	%.o
- 	@objcopy -Obinary $^ $@
- 
--%.bin.ihex:	%.o
-+%.crc:	%.bin.nocrc
-+	@list=$$(for i in `seq 1 127`; do head -c$$i $^ | tail -c1 \
-+		| hexdump -v -e '/1 "%02X+"'; done); \
-+		echo "ibase=16;100-($${list%?})%100" | bc >$@
-+
-+%.p:	%.crc %.S
-+	@cc -c -DCRC="$$(cat $*.crc)" -o $@ $*.S
-+
-+%.bin:	%.p
-+	@objcopy -Obinary $^ $@
-+
-+%.bin.ihex:	%.p
- 	@objcopy -Oihex $^ $@
- 	@dos2unix $@ 2>/dev/null
- 
+>         if (acpi_dev_resource_io(res, &r)) {
+> -               port = r.start;
+
+> +               base = (void __iomem *) ioport_map(r.start,
+> +                                       r.end - r.start + 1);
+
+I'm so sorry I didn't notice this stuff.
+
+1. ioport_map() already returns void __iomem *. No need to cast.
+2. To calculate resource size we have a helper macro resource_size().
+
+> +               return AE_OK;
+> +       } else if (acpi_dev_resource_memory(res, &r)) {
+> +               base = ioremap(r.start, r.end - r.start + 1);
+
+Ditto for the size calculation.
+
+>                 return AE_OK;
+
+
 -- 
-2.1.4
-
+With Best Regards,
+Andy Shevchenko
