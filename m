@@ -4,53 +4,53 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 757837D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 13:00:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A2DF17D099
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 13:02:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728850AbeKEWUV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Nov 2018 17:20:21 -0500
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:33542 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728215AbeKEWUV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Nov 2018 17:20:21 -0500
-Received: by mail-qk1-f193.google.com with SMTP id o89so14461790qko.0;
-        Mon, 05 Nov 2018 05:00:42 -0800 (PST)
+        id S1729228AbeKEWWC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Nov 2018 17:22:02 -0500
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:36941 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728136AbeKEWWC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Nov 2018 17:22:02 -0500
+Received: by mail-qk1-f196.google.com with SMTP id 131so14428111qkd.4;
+        Mon, 05 Nov 2018 05:02:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=JaASoSmxpXVl42VaA4ASGf1QzfHeqbobutrpAHeTcYM=;
-        b=P969dGy3fEFAJYfX19jjH9qBE72QRLjsJWHPi/9dkhlWgRX/HKtwFxBN40QdSyGI+b
-         pQ1/EiAUtZMkBZtLkTE8zwxSdphH2qJzeIc6YliIevepvTiY3dctDiG4ynChfZGl3dDG
-         EvRYgIVRgRuMhfFTjHE0GbhVbCt0zAcLBDPEXpMadiTmX1aU8jRYYG29MVeDGhAq7bd/
-         irqB/VBD/t8QJq5VkOqP/2A2LIDKvMsNmun1c/S/mdely1wQJQOtX/5X+Fg6Wls4JOAF
-         sbDIPANYkTgtuKKsy2noU16D5TN9QeNPPDccaZignIkoaen9U3ZJzM0mLoPaHHsM5met
-         95Dw==
+        bh=VGHCPFNS1XDl7BfaftTX/Qrdp5iwmkSiv+oafR/mpo8=;
+        b=a4/OQCbqnoz6EXv31kIDos0BCKrQ/oP4xCdAkLV3qRB2FyUsKP31rSOY2waAFiEixi
+         vNaoNzcd2CQaoRIWZvTTh91p0OMXoBZfTNB5GsFJnL59mkFTHlcMb2antU4xyJJItJhW
+         UOh+mls1L+1Z1xDERg5HCBmXYXodnulDTS6YoCrMuB6tPjbL/TJVHX+eRy5LbBq5yRmT
+         XHkficZDm/ZgRdg84AkQr2gITA2NyMTztGaHm/PDE1Y/8BeT+kj1UZMaC+zDbvE0cF5Y
+         Pz2UX54oezrMetM1MGGKwElty+M4GoQaVfK6CDqBNPRu1TTpM75hsBt3IdGPTgUBN9Ob
+         z5yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=JaASoSmxpXVl42VaA4ASGf1QzfHeqbobutrpAHeTcYM=;
-        b=ezprPd88Xrx4621qcyCsxtRLjyRWQ0Nu/qxb9nvExY68lnRBBLBwwfUHabuRI/rjqW
-         FH26C3OYWR1PKtf6qflzAVfj8ayg6r8BHcxcsat5vUeHZiqz7kKjymihVXKZtGonMJhh
-         j0C9YFYxl2MjeqaoBOvsZEIeEElMFyoV7oAB5+8bVbS1emNYeqz7MIG7jjF4Wh94O6st
-         5ybVmMpGHUz22eZOgpJSA1QGHyK3bXYkE/yVHXy+jPoqj77XCeKtX2RZ2YtKuhcwsqyB
-         SIMjkm2eyMP+0uadTbraKZ1UvI5CPzIMZX2TeGV1Es5vidDEzxncbc94xlWAbIcHU0J0
-         5s1w==
-X-Gm-Message-State: AGRZ1gJyCikjoYwKoJctdpjgbRpWGFFV1QjB82LQJGuUx9mQ6HOLC8rl
-        8fDoT5ZaQMCObA0YwAiDlYqgsdMEjQ8VLFML4lsqeLrk
-X-Google-Smtp-Source: AJdET5ehaH1sup+t60WW3zQCxnCJHtGdXZtn6shspjVd6tcElDDRwqQUToL96iai0FduCnEmhFL+VUbKu58zYZsd7oQ=
-X-Received: by 2002:ac8:684:: with SMTP id f4-v6mr10799155qth.194.1541422841975;
- Mon, 05 Nov 2018 05:00:41 -0800 (PST)
+        bh=VGHCPFNS1XDl7BfaftTX/Qrdp5iwmkSiv+oafR/mpo8=;
+        b=ZD/88evp3uYDn3//sALBXhp4Jd3PnIz9PBPrxORdKks5GvGt5wGegkoeFEcGf5eKj/
+         A4MC4SIVFgePhMfEu7i0yoOBJ56OhNdu1PXuQ/vfcWs2hxHbXjr/CpFFBN4HdDg1bMLr
+         vdsns0X3a5CpYwTqSyPB7YwpFDSUALpFzMn3KV8ddzP8LFqXzE4bBtdQl+HfXKwqKU+Q
+         DaBz71tpSxRjaEMAbXshtCqJRuDAhNN0Le+3HKzvHQE1IfEQZBbWaZkG0DCXaJFluiHE
+         0wIWSzGQsyv0BXq/kpJkLfwnm8LAjwWrs5gm4G1MBvD4HUIge/degv/cnCdT7PrnBEV1
+         Aw/g==
+X-Gm-Message-State: AGRZ1gJ3JI+I63Ytp40xkvyPG4aQWTMgHYQkp77MCqDzgnKpRC9J+cWL
+        YQkNRHubPL8P02zHy1xFH4ODlQmeZUvMWsBfrwI=
+X-Google-Smtp-Source: AJdET5dJK2NMIiAv57f0u5C2AlRLHKqTS1izPn7eyNmMI/4m0DqB8M4aXEGAEewy/7cCl+tnLjM6ZTQaMKKHGjXIdds=
+X-Received: by 2002:a37:1f44:: with SMTP id f65mr19747854qkf.33.1541422943087;
+ Mon, 05 Nov 2018 05:02:23 -0800 (PST)
 MIME-Version: 1.0
-References: <1541414431-84128-1-git-send-email-peng.hao2@zte.com.cn> <1541414431-84128-6-git-send-email-peng.hao2@zte.com.cn>
-In-Reply-To: <1541414431-84128-6-git-send-email-peng.hao2@zte.com.cn>
+References: <1541414431-84128-1-git-send-email-peng.hao2@zte.com.cn> <1541414431-84128-9-git-send-email-peng.hao2@zte.com.cn>
+In-Reply-To: <1541414431-84128-9-git-send-email-peng.hao2@zte.com.cn>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 5 Nov 2018 15:00:30 +0200
-Message-ID: <CAHp75VeukhU7s_uyVoEPDaVYFe5r6dGq1iEzXU5Kumiw7f-4gQ@mail.gmail.com>
-Subject: Re: [PATCH V7 6/9] misc/pvpanic : break dependency on ACPI
+Date:   Mon, 5 Nov 2018 15:02:11 +0200
+Message-ID: <CAHp75VcShwubDc0Mxkygs=zyVCJbztQeGjmpCmGEkT6uXzsELg@mail.gmail.com>
+Subject: Re: [PATCH V7 9/9] misc/pvpanic: remove a redundant comma
 To:     peng.hao2@zte.com.cn
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -70,17 +70,34 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Mon, Nov 5, 2018 at 4:31 AM Peng Hao <peng.hao2@zte.com.cn> wrote:
 >
-> The pvpanic driver is available for architectures that do not
-> support ACPI.So break the dependency.
+> Remove a redundant comma in pvpanic_device_ids.
 >
 
-Logically better to split this to two patches:
-- preparation w/o any functional change, i.e. grouping ACPI related
-stuff (which will go under #ifdef later on)
-- do the OF extension
-
-After addressing the split,
 Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+
+> Acked-by: Mark Rutland <mark.rutland@arm.com>
+> Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
+> ---
+>  drivers/misc/pvpanic.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
+> index f416c01..8c4bfa6 100644
+> --- a/drivers/misc/pvpanic.c
+> +++ b/drivers/misc/pvpanic.c
+> @@ -29,7 +29,7 @@
+>
+>  static const struct acpi_device_id pvpanic_device_ids[] = {
+>         { "QEMU0001", 0 },
+> -       { "", 0 },
+> +       { "", 0 }
+>  };
+>  MODULE_DEVICE_TABLE(acpi, pvpanic_device_ids);
+>
+> --
+> 1.8.3.1
+>
+
 
 -- 
 With Best Regards,
