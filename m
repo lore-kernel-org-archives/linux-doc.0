@@ -5,26 +5,26 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4BC497D08E
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 02:31:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DF4EB7D08E
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 02:31:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727443AbeKELsX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Nov 2018 06:48:23 -0500
-Received: from out1.zte.com.cn ([202.103.147.172]:60396 "EHLO mxct.zte.com.cn"
+        id S1728976AbeKELsa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Nov 2018 06:48:30 -0500
+Received: from out1.zte.com.cn ([202.103.147.172]:60518 "EHLO mxct.zte.com.cn"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726770AbeKELsX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 5 Nov 2018 06:48:23 -0500
+        id S1726770AbeKELsa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 5 Nov 2018 06:48:30 -0500
 Received: from mse01.zte.com.cn (unknown [10.30.3.20])
-        by Forcepoint Email with ESMTPS id DEC2E2225677B55DB2F9;
-        Mon,  5 Nov 2018 10:30:35 +0800 (CST)
+        by Forcepoint Email with ESMTPS id B3EAECBAEAEE1DF6081A;
+        Mon,  5 Nov 2018 10:30:40 +0800 (CST)
 Received: from notes_smtp.zte.com.cn ([10.30.1.239])
-        by mse01.zte.com.cn with ESMTP id wA52U9p7028246;
-        Mon, 5 Nov 2018 10:30:09 +0800 (GMT-8)
+        by mse01.zte.com.cn with ESMTP id wA52UNNt028547;
+        Mon, 5 Nov 2018 10:30:23 +0800 (GMT-8)
         (envelope-from peng.hao2@zte.com.cn)
 Received: from localhost.localdomain.localdomain ([10.74.120.59])
           by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
-          with ESMTP id 2018110510301243-8592973 ;
-          Mon, 5 Nov 2018 10:30:12 +0800 
+          with ESMTP id 2018110510302650-8593013 ;
+          Mon, 5 Nov 2018 10:30:26 +0800 
 From:   Peng Hao <peng.hao2@zte.com.cn>
 To:     robh+dt@kernel.org, mark.rutland@arm.com, arnd@arndb.de,
         gregkh@linuxfoundation.org, andy@infradead.org,
@@ -32,99 +32,44 @@ To:     robh+dt@kernel.org, mark.rutland@arm.com, arnd@arndb.de,
 Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
         hutao@cn.fujitsu.com, linux-doc@vger.kernel.org,
         Peng Hao <peng.hao2@zte.com.cn>
-Subject: [PATCH V7 1/9]  pvpanic: move pvpanic to misc as common driver
-Date:   Mon, 5 Nov 2018 18:40:23 +0800
-Message-Id: <1541414431-84128-1-git-send-email-peng.hao2@zte.com.cn>
+Subject: [PATCH V7 9/9]  misc/pvpanic: remove a redundant comma
+Date:   Mon, 5 Nov 2018 18:40:31 +0800
+Message-Id: <1541414431-84128-9-git-send-email-peng.hao2@zte.com.cn>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1541414431-84128-1-git-send-email-peng.hao2@zte.com.cn>
+References: <1541414431-84128-1-git-send-email-peng.hao2@zte.com.cn>
 X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release 8.5.3FP6|November
- 21, 2013) at 2018-11-05 10:30:12,
+ 21, 2013) at 2018-11-05 10:30:26,
         Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
- 2018-11-05 10:30:08,
-        Serialize complete at 2018-11-05 10:30:08
-X-MAIL: mse01.zte.com.cn wA52U9p7028246
+ 2018-11-05 10:30:23,
+        Serialize complete at 2018-11-05 10:30:23
+X-MAIL: mse01.zte.com.cn wA52UNNt028547
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Move pvpanic.c from drivers/platform/x86 to drivers/misc.
-Following patches will use pvpanic device in arm64.
+Remove a redundant comma in pvpanic_device_ids.
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 Acked-by: Mark Rutland <mark.rutland@arm.com>
 Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
 ---
- drivers/misc/Kconfig                     | 8 ++++++++
- drivers/misc/Makefile                    | 1 +
- drivers/{platform/x86 => misc}/pvpanic.c | 0
- drivers/platform/x86/Kconfig             | 8 --------
- drivers/platform/x86/Makefile            | 1 -
- 5 files changed, 9 insertions(+), 9 deletions(-)
- rename drivers/{platform/x86 => misc}/pvpanic.c (100%)
+ drivers/misc/pvpanic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-index 3726eac..642626a 100644
---- a/drivers/misc/Kconfig
-+++ b/drivers/misc/Kconfig
-@@ -513,6 +513,14 @@ config MISC_RTSX
- 	tristate
- 	default MISC_RTSX_PCI || MISC_RTSX_USB
+diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
+index f416c01..8c4bfa6 100644
+--- a/drivers/misc/pvpanic.c
++++ b/drivers/misc/pvpanic.c
+@@ -29,7 +29,7 @@
  
-+config PVPANIC
-+	tristate "pvpanic device support"
-+	depends on ACPI
-+	help
-+	  This driver provides support for the pvpanic device.  pvpanic is
-+	  a paravirtualized device provided by QEMU; it lets a virtual machine
-+	  (guest) communicate panic events to the host.
-+
- source "drivers/misc/c2port/Kconfig"
- source "drivers/misc/eeprom/Kconfig"
- source "drivers/misc/cb710/Kconfig"
-diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
-index af22bbc..cd4b2f0 100644
---- a/drivers/misc/Makefile
-+++ b/drivers/misc/Makefile
-@@ -58,3 +58,4 @@ obj-$(CONFIG_ASPEED_LPC_SNOOP)	+= aspeed-lpc-snoop.o
- obj-$(CONFIG_PCI_ENDPOINT_TEST)	+= pci_endpoint_test.o
- obj-$(CONFIG_OCXL)		+= ocxl/
- obj-$(CONFIG_MISC_RTSX)		+= cardreader/
-+obj-$(CONFIG_PVPANIC)  		+= pvpanic.o
-diff --git a/drivers/platform/x86/pvpanic.c b/drivers/misc/pvpanic.c
-similarity index 100%
-rename from drivers/platform/x86/pvpanic.c
-rename to drivers/misc/pvpanic.c
-diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
-index 0c1aa6c..4ac276c 100644
---- a/drivers/platform/x86/Kconfig
-+++ b/drivers/platform/x86/Kconfig
-@@ -1121,14 +1121,6 @@ config INTEL_SMARTCONNECT
- 	  This driver checks to determine whether the device has Intel Smart
- 	  Connect enabled, and if so disables it.
+ static const struct acpi_device_id pvpanic_device_ids[] = {
+ 	{ "QEMU0001", 0 },
+-	{ "", 0 },
++	{ "", 0 }
+ };
+ MODULE_DEVICE_TABLE(acpi, pvpanic_device_ids);
  
--config PVPANIC
--	tristate "pvpanic device support"
--	depends on ACPI
--	---help---
--	  This driver provides support for the pvpanic device.  pvpanic is
--	  a paravirtualized device provided by QEMU; it lets a virtual machine
--	  (guest) communicate panic events to the host.
--
- config INTEL_PMC_IPC
- 	tristate "Intel PMC IPC Driver"
- 	depends on ACPI
-diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
-index e6d1bec..e88f44e 100644
---- a/drivers/platform/x86/Makefile
-+++ b/drivers/platform/x86/Makefile
-@@ -75,7 +75,6 @@ obj-$(CONFIG_APPLE_GMUX)	+= apple-gmux.o
- obj-$(CONFIG_INTEL_RST)		+= intel-rst.o
- obj-$(CONFIG_INTEL_SMARTCONNECT)	+= intel-smartconnect.o
- 
--obj-$(CONFIG_PVPANIC)           += pvpanic.o
- obj-$(CONFIG_ALIENWARE_WMI)	+= alienware-wmi.o
- obj-$(CONFIG_INTEL_PMC_IPC)	+= intel_pmc_ipc.o
- obj-$(CONFIG_TOUCHSCREEN_DMI)	+= touchscreen_dmi.o
 -- 
 1.8.3.1
 
