@@ -2,124 +2,93 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8B8057D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 06:03:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A734A7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  5 Nov 2018 08:48:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728947AbeKEPVN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 5 Nov 2018 10:21:13 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36218 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728653AbeKEPVN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Nov 2018 10:21:13 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wA55wbB8102978
-        for <linux-doc@vger.kernel.org>; Mon, 5 Nov 2018 01:03:13 -0500
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2njenru04k-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 05 Nov 2018 01:03:13 -0500
-Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <schwidefsky@de.ibm.com>;
-        Mon, 5 Nov 2018 06:03:11 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 5 Nov 2018 06:03:00 -0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wA562xsR59244588
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 5 Nov 2018 06:02:59 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3CF0E42041;
-        Mon,  5 Nov 2018 06:02:59 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CAD044203F;
-        Mon,  5 Nov 2018 06:02:57 +0000 (GMT)
-Received: from mschwideX1 (unknown [9.145.56.134])
-        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Mon,  5 Nov 2018 06:02:57 +0000 (GMT)
-Date:   Mon, 5 Nov 2018 07:02:56 +0100
-From:   Martin Schwidefsky <schwidefsky@de.ibm.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        dan.carpenter@oracle.com, adilger.kernel@dilger.ca,
-        yamada.masahiro@socionext.com, michal.lkml@markovi.net,
-        rostedt@goodmis.org, mchehab+samsung@kernel.org, olof@lxom.net,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        David Miller <davem@davemloft.net>,
-        Kees Cook <keescook@chromium.org>, tglx@linutronix.de,
-        Ingo Molnar <mingo@kernel.org>, paullawrence@google.com,
-        sandipan@linux.vnet.ibm.com, andreyknvl@google.com,
-        David Woodhouse <dwmw2@infradead.org>, will.deacon@arm.com,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        paul.burton@mips.com, rientjes@google.com, w@1wt.eu,
-        msebor@gmail.com, Chris Li <sparse@chrisli.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>, joe@perches.com,
-        Arnd Bergmann <arnd@arndb.de>, asmadeus@codewreck.org,
-        stefan@agner.ch, luc.vanoostenryck@gmail.com,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [GIT PULL] Compiler Attributes for v4.20-rc1
-In-Reply-To: <CAHk-=wj2AEQbmhto6FwxaxLEwvh3GG8FD8p8UptOsh5bE7jcuQ@mail.gmail.com>
-References: <20181022105944.GA1411@gmail.com>
-        <CAHk-=whpBiV5sVTvPsWOVx5WYOouxbNG1fWeCdpK4oFiaH0Zqg@mail.gmail.com>
-        <29dba7c2-f612-7b35-d665-9939d7e10eb8@virtuozzo.com>
-        <CAHk-=wj2AEQbmhto6FwxaxLEwvh3GG8FD8p8UptOsh5bE7jcuQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+        id S1726697AbeKESHO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 5 Nov 2018 13:07:14 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:41253 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726173AbeKESHN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Nov 2018 13:07:13 -0500
+Received: from sun05.dh.corp ([188.193.90.127]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPA (Nemesis) id
+ 1MIxmm-1g4oYm3wMc-00KQvE; Mon, 05 Nov 2018 09:48:31 +0100
+Received: from sun05.dh.corp ([188.193.90.127]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPA (Nemesis) id
+ 1MIxmm-1g4oYm3wMc-00KQvE; Mon, 05 Nov 2018 09:48:31 +0100
+Received: from sun1049.dh.corp (unknown [10.64.9.49])
+        by sun05.dh.corp (Postfix) with ESMTP id 9A2D51FA3D;
+        Mon,  5 Nov 2018 09:48:29 +0100 (CET)
+Received: from localhost (10.64.31.3) by sun1049.dh.corp (10.64.9.49) with
+ Microsoft SMTP Server id 14.3.408.0; Mon, 5 Nov 2018 09:48:35 +0100
+From:   Christoph Niedermaier <cniedermaier@dh-electronics.de>
+To:     <corbet@lwn.net>, <linux-doc@vger.kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <C.Emde@osadl.org>
+Subject: [PATCH 0/2] Docs/EDID: Fixed and improved EDID documentation
+Date:   Mon, 5 Nov 2018 09:48:33 +0100
+Message-ID: <1541407715-5417-1-git-send-email-cniedermaier@dh-electronics.de>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-x-cbid: 18110506-0016-0000-0000-0000021F4C36
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18110506-0017-0000-0000-000032778A18
-Message-Id: <20181105070256.52c6fd8f@mschwideX1>
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-05_04:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=996 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1811050054
+Content-Type: text/plain
+X-Originating-IP: [10.64.31.3]
+X-Provags-ID: V03:K1:HXOMch+g9joJ/JAT2212kn+m7rFqYoIIOq9PLp/XUNbCB/LbaTU
+ q4GTrLz+3ks1HgBbXT6rg3fpQnmexyuCy1S5iKYwq2XxRaZjmPQc4WScifa2oX1zyD2q5e7
+ VMIsmKA9oq59e6XlyL+5GfDAVoOZmSpOaisK3w/U68bMUhCKXCTSnuJjPbWP2rYJ2jIUeMP
+ l0y80l3JsaMf07X3tiBQA==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:AU7z7xkCYBY=:7CW3Jr0cm7bZO8bs3Xpo21
+ bdvtlDI/qGVyfTfLDj+OQ37Vj4uCurtyKwq2uepLm//7f4OcId+ayq01aq/rLCzga9D5xnvuk
+ y2Xp1zsfJd+icQG2cgFqWhJZQni+bs60BtAu88LiMchZI4m0f+SIL6y7Cb+zl1yBI+JPxgvfQ
+ lLfZKir3kn44Z1QQT4c43gTWQayko6EJYD+rmIEF3p78viQbq7KvJx0bNNcNmk0S+Ir5MMf3b
+ aews6uNoPO8SDf6QlRXpDzDCNBgBiueTrx/oNhBgQnBdHA6NgaOExGpU0/ZROpOEPV6tNWx4r
+ XdCdgTnWZnmCqfslidTLMRgdwqYjOJBWzaOQJJ7BKt0yt2xFzzP6EU8EML5oh/ISL7vXoIKiY
+ jKc7keqej1DexO9YytJgeHzYH33UI4kEf0xI9mnkQiANtD4dJjTBGbJU25+i4shAuCLciS4HE
+ pEsJT2Bapsrfh1CpQzu6qswLY2oEGudiwqWQHX+5l6EcyhdI+PKq+Em9n1lWLzwHEu65qgczC
+ wwlTqNI1h/kqXZmbob48rqXRJ9TBK6UbovJSkfphEXOwyrMPrby7qxiqIYeQ3Btt+NTPPmbDA
+ gzuRH7QYbUr+QbsFHtHV6KTbXBiXshttSw3p9p+HWcocRw9Jt+eBQueJPYm7ZPcjPxmqA6r2/
+ 6Z4EPbKMGXpK6mpKph+vfZAKis1CC5b0HDTuQ7IUskIT7oFe9E4qpWDz+PXUPLtjbmO70UJLf
+ VxLP/u8bL8bw5ePQ
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2 Nov 2018 09:09:32 -0700
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
+A problem was found when EDID data sets for displays other
+than the provided samples were generated. The patch series has
+no effect on the provided samples that still match the data
+used in drivers/gpu/drm/drm_edid_load.c.
+The provided samples use small values for XOFFSET, XPULSE,
+YOFFSET and YPULSE, where the error doesn't occur. This fix
+corrects the use of that values in case of high values, because
+the most significant bits were treated incorrectly.
 
-> On Fri, Nov 2, 2018 at 2:43 AM Andrey Ryabinin <aryabinin@virtuozzo.com> wrote:
-> >
-> > You're right, version checks shouldn't matter here. But __no_sanitize_address_or_inline
-> > shouldn't have been added in the first place, because we already have almost the same
-> >__no_kasan_or_inline:  
-> 
-> Ahh, very good.
-> 
-> Vasily, Martin - since __no_sanitize_address_or_inline was added just
-> for s390, would you mind replacing it with __no_kasan_or_inline
-> instead, and testing that in whatever failed before?
-> 
-> Then we can just remove that unnecessary symbol #define entirely..
+The previous version made it necessary to first generate an
+EDID data set without correct CRC and then to fix the CRC in
+a second step. This patch series adds the CRC calculation to the
+makefile in such a way that a correct EDID data set is generated
+in a single build step.
 
-Ok, will do.
+---
+
+Christoph Niedermaier (2):
+  Docs/EDID: Fixed erroneous bits of XOFFSET, XPULSE, YOFFSET and YPULSE
+  Docs/EDID: Calculate CRC while building the code
+
+ Documentation/EDID/1024x768.S  |  5 ++---
+ Documentation/EDID/1280x1024.S |  5 ++---
+ Documentation/EDID/1600x1200.S |  5 ++---
+ Documentation/EDID/1680x1050.S |  5 ++---
+ Documentation/EDID/1920x1080.S |  5 ++---
+ Documentation/EDID/800x600.S   |  5 ++---
+ Documentation/EDID/HOWTO.txt   | 13 ++-----------
+ Documentation/EDID/Makefile    | 15 +++++++++++++--
+ Documentation/EDID/edid.S      | 10 ++++++----
+ 9 files changed, 33 insertions(+), 35 deletions(-)
 
 -- 
-blue skies,
-   Martin.
-
-"Reality continues to ruin my life." - Calvin.
+2.1.4
 
