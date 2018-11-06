@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-13.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AA2A07D8AB
+	by archive.lwn.net (Postfix) with ESMTP id D03E37D982
 	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 17:31:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389777AbeKGC5O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 21:57:14 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:36151 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389759AbeKGC5N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 21:57:13 -0500
-Received: by mail-wr1-f65.google.com with SMTP id z13-v6so12091019wrs.3
-        for <linux-doc@vger.kernel.org>; Tue, 06 Nov 2018 09:30:57 -0800 (PST)
+        id S2389798AbeKGC5R (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 21:57:17 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:37725 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389759AbeKGC5R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 21:57:17 -0500
+Received: by mail-wm1-f68.google.com with SMTP id p2-v6so12901124wmc.2
+        for <linux-doc@vger.kernel.org>; Tue, 06 Nov 2018 09:31:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=O1vMMTGgXT5THnLF0kAS8Fu/LaAMqGXOrnmJN3ed1dI=;
-        b=JU9c3Lh5W2wYLQLUGxv+kevVq4L9hn60DTsEYc25P4TeQg+ERcQx2FYrqNFAvEfwbe
-         jqgqDdrR6kuCTDLQ4eWuEQP+DuGe18bR9H3mFPicPIZIOdHQa243yR+g7tRmvCh34XWL
-         u7pHrogECFVqcjMlrB8JlJdq4BoPgjg8+zgcnSMtYkJ4aiTkDac6/UZheFcBy37thRON
-         ii20clEmzr0bTQCUTZyhEib9HP1cOak0Iue3dVihlXHzPci5dFagib7AZS1yImZOR9XA
-         4/jLQ3Jh/ADBzJEbzF33Ocf39QDTIZBR9QL5ffaIOOlVIESWjJj3WRlpXmCTtsgoJPAC
-         aWtg==
+        bh=rI9jB7TmpIHEDx4oMZya4ulbXmsHhxN+ATa3+HN3hoo=;
+        b=udLfAObmnevegDvmjvehrjJ6fumrvuolhCuOXNHOAd13A3IJR05UKexovQypoDryBl
+         xLOfxlCW403tvGmJitkdVnWP7/inh2psYBnbktlBrzAK8mjKmw6moztKW1XJ6QYWQM1F
+         3PRa4CiYmZw0K3YGr1xsblXGBg4vv7sPsZssjowCWXs25jv1SARq4KappkjxjvWnJsDF
+         1tuvR5qdMddlKt/5Yj0fwcYGGAnCShDN/OSzNjeL+0o2oVf1rTI++h3oVLiW2rGdCUd2
+         hw2TBR1eOAjs9cRRTBWTQw9tCVAM1ZZAc8GBO34Bg7TV9cfuAYpgnPpRsVM/RsfLCtNr
+         i8kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=O1vMMTGgXT5THnLF0kAS8Fu/LaAMqGXOrnmJN3ed1dI=;
-        b=fTabeY1n6vl3JwhgfWUDVN2junH7hitqsV9wOUezEK3SKT6Nhzislz3Lk0z3JLhvNo
-         NJ+zgHTt58KtOqv1dJxFOxTvz/ts29DJPaaknhOHUtIFJzjGHe6UpJfw0BSDnIoeWcug
-         /zxMhllH3N2wSqGUviDcjaFPg1XtYcAUbZ0XzWVKZVqZyw9yJn2n3aJ3a4V4x51S9rX7
-         oldarIPhsncrCnT6w/CmT9Xhxrqxe7KwCj/CUtn8XlaO0FASMtSN+8+2rE3yeOvW7v68
-         xvjMvYI3zfymGxqXBYQxTblBLNu0qxP0KFIikhZuJfyyJgF+cTCTTBaWabPFW6oeMWqc
-         VOzA==
-X-Gm-Message-State: AGRZ1gKwgUDA9F/8bC2zLWT2ET06EXOoGNpX3KMfabxZSH8HnP2h2xp3
-        Jbu0i+7VvPiS6Vxv+sTT9fikJw==
-X-Google-Smtp-Source: AJdET5fvpmqGThFn+TWNzkerNUYwlOHmwCZNa3bl6LBLNUt6/mMfc5adpzrhtoxCTLMvuK3yymuxVA==
-X-Received: by 2002:adf:8b0a:: with SMTP id n10-v6mr22592268wra.282.1541525456128;
-        Tue, 06 Nov 2018 09:30:56 -0800 (PST)
+        bh=rI9jB7TmpIHEDx4oMZya4ulbXmsHhxN+ATa3+HN3hoo=;
+        b=EaJ6yxah2zsRGJdG6LWF+Z587VCC8DBnd5KzOo1GSRYB09EPWhb5t8sSoKLeTxdLzN
+         dBYsPGC5hk7zTCoYpOd4Mge3SJFIY/LbwngBoTbYG06Etdj2lO/4/3qK1j6eDnxLKa0K
+         jcVwn8p0JATM4iU1s0olF5AHHegPbc1hdAOzoULeXyyHwXNBUxewlLaUZNjn5p7zdkdY
+         mPrtI+Ms8YeR+0JgU003WJmmiVlk336Z1wRxFCM5dvV9ZlAubt66hpcZILU+Um31Cpbr
+         UuiCxYjERGm51kGQxlY41pirRmLoaR8lhJpwQV7ns8nYAC+cEfdrCNJICKrPPVMyPxPb
+         r6TQ==
+X-Gm-Message-State: AGRZ1gL5Ml93IcBR8QkbD5OeYBnNRsofyQgxc842f/ySg4P+Mbm65C01
+        fGr5xYuUIz6hUxvEKY+R39sxRQ==
+X-Google-Smtp-Source: AJdET5cXF3fWWc+IszXIBT7xTDA/coT3Nkazw/U/NtSkMe85oUqeoQTw9O2ShjMSgQDgFzZmWWgchA==
+X-Received: by 2002:a1c:1c0c:: with SMTP id c12-v6mr2675547wmc.18.1541525459907;
+        Tue, 06 Nov 2018 09:30:59 -0800 (PST)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id z17-v6sm16328416wrm.65.2018.11.06.09.30.54
+        by smtp.gmail.com with ESMTPSA id z17-v6sm16328416wrm.65.2018.11.06.09.30.58
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 06 Nov 2018 09:30:55 -0800 (PST)
+        Tue, 06 Nov 2018 09:30:58 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -85,192 +85,89 @@ Cc:     Kostya Serebryany <kcc@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Vishwath Mohan <vishwath@google.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v10 09/22] kasan: add tag related helper functions
-Date:   Tue,  6 Nov 2018 18:30:24 +0100
-Message-Id: <b8c56d36b79eecf0c331a0a7a2df12632aefccc9.1541525354.git.andreyknvl@google.com>
+Subject: [PATCH v10 11/22] mm: move obj_to_index to include/linux/slab_def.h
+Date:   Tue,  6 Nov 2018 18:30:26 +0100
+Message-Id: <c4424b4917e92007a20170909460aac91710f1df.1541525354.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.19.1.930.g4563a0d9d0-goog
 In-Reply-To: <cover.1541525354.git.andreyknvl@google.com>
 References: <cover.1541525354.git.andreyknvl@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit adds a few helper functions, that are meant to be used to
-work with tags embedded in the top byte of kernel pointers: to set, to
-get or to reset (set to 0xff) the top byte.
+While with SLUB we can actually preassign tags for caches with contructors
+and store them in pointers in the freelist, SLAB doesn't allow that since
+the freelist is stored as an array of indexes, so there are no pointers to
+store the tags.
 
+Instead we compute the tag twice, once when a slab is created before
+calling the constructor and then again each time when an object is
+allocated with kmalloc. Tag is computed simply by taking the lowest byte of
+the index that corresponds to the object. However in kasan_kmalloc we only
+have access to the objects pointer, so we need a way to find out which
+index this object corresponds to.
+
+This patch moves obj_to_index from slab.c to include/linux/slab_def.h to
+be reused by KASAN.
+
+Acked-by: Christoph Lameter <cl@linux.com>
 Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
 Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- arch/arm64/mm/kasan_init.c |  2 ++
- include/linux/kasan.h      | 13 +++++++++
- mm/kasan/kasan.h           | 55 ++++++++++++++++++++++++++++++++++++++
- mm/kasan/tags.c            | 37 +++++++++++++++++++++++++
- 4 files changed, 107 insertions(+)
+ include/linux/slab_def.h | 13 +++++++++++++
+ mm/slab.c                | 13 -------------
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
-index 18ebc8994a7b..370b19d0e2fb 100644
---- a/arch/arm64/mm/kasan_init.c
-+++ b/arch/arm64/mm/kasan_init.c
-@@ -249,6 +249,8 @@ void __init kasan_init(void)
- 	memset(kasan_zero_page, KASAN_SHADOW_INIT, PAGE_SIZE);
- 	cpu_replace_ttbr1(lm_alias(swapper_pg_dir));
+diff --git a/include/linux/slab_def.h b/include/linux/slab_def.h
+index 3485c58cfd1c..9a5eafb7145b 100644
+--- a/include/linux/slab_def.h
++++ b/include/linux/slab_def.h
+@@ -104,4 +104,17 @@ static inline void *nearest_obj(struct kmem_cache *cache, struct page *page,
+ 		return object;
+ }
  
-+	kasan_init_tags();
-+
- 	/* At this point kasan is fully initialized. Enable error messages */
- 	init_task.kasan_depth = 0;
- 	pr_info("KernelAddressSanitizer initialized\n");
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index 7f6574c35c62..4c9d6f9029f2 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -169,6 +169,19 @@ static inline void kasan_cache_shutdown(struct kmem_cache *cache) {}
- 
- #define KASAN_SHADOW_INIT 0xFF
- 
-+void kasan_init_tags(void);
-+
-+void *kasan_reset_tag(const void *addr);
-+
-+#else /* CONFIG_KASAN_SW_TAGS */
-+
-+static inline void kasan_init_tags(void) { }
-+
-+static inline void *kasan_reset_tag(const void *addr)
-+{
-+	return (void *)addr;
-+}
-+
- #endif /* CONFIG_KASAN_SW_TAGS */
- 
- #endif /* LINUX_KASAN_H */
-diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-index 19b950eaccff..f16bee55b610 100644
---- a/mm/kasan/kasan.h
-+++ b/mm/kasan/kasan.h
-@@ -8,6 +8,10 @@
- #define KASAN_SHADOW_SCALE_SIZE (1UL << KASAN_SHADOW_SCALE_SHIFT)
- #define KASAN_SHADOW_MASK       (KASAN_SHADOW_SCALE_SIZE - 1)
- 
-+#define KASAN_TAG_KERNEL	0xFF /* native kernel pointers tag */
-+#define KASAN_TAG_INVALID	0xFE /* inaccessible memory tag */
-+#define KASAN_TAG_MAX		0xFD /* maximum value for random tags */
-+
- #define KASAN_FREE_PAGE         0xFF  /* page was freed */
- #define KASAN_PAGE_REDZONE      0xFE  /* redzone for kmalloc_large allocations */
- #define KASAN_KMALLOC_REDZONE   0xFC  /* redzone inside slub object */
-@@ -126,6 +130,57 @@ static inline void quarantine_reduce(void) { }
- static inline void quarantine_remove_cache(struct kmem_cache *cache) { }
- #endif
- 
-+#ifdef CONFIG_KASAN_SW_TAGS
-+
-+#define KASAN_PTR_TAG_SHIFT 56
-+#define KASAN_PTR_TAG_MASK (0xFFUL << KASAN_PTR_TAG_SHIFT)
-+
-+u8 random_tag(void);
-+
-+static inline void *set_tag(const void *addr, u8 tag)
-+{
-+	u64 a = (u64)addr;
-+
-+	a &= ~KASAN_PTR_TAG_MASK;
-+	a |= ((u64)tag << KASAN_PTR_TAG_SHIFT);
-+
-+	return (void *)a;
-+}
-+
-+static inline u8 get_tag(const void *addr)
-+{
-+	return (u8)((u64)addr >> KASAN_PTR_TAG_SHIFT);
-+}
-+
-+static inline void *reset_tag(const void *addr)
-+{
-+	return set_tag(addr, KASAN_TAG_KERNEL);
-+}
-+
-+#else /* CONFIG_KASAN_SW_TAGS */
-+
-+static inline u8 random_tag(void)
-+{
-+	return 0;
-+}
-+
-+static inline void *set_tag(const void *addr, u8 tag)
-+{
-+	return (void *)addr;
-+}
-+
-+static inline u8 get_tag(const void *addr)
-+{
-+	return 0;
-+}
-+
-+static inline void *reset_tag(const void *addr)
-+{
-+	return (void *)addr;
-+}
-+
-+#endif /* CONFIG_KASAN_SW_TAGS */
-+
- /*
-  * Exported functions for interfaces called from assembly or from generated
-  * code. Declarations here to avoid warning about missing declarations.
-diff --git a/mm/kasan/tags.c b/mm/kasan/tags.c
-index 04194923c543..700323946867 100644
---- a/mm/kasan/tags.c
-+++ b/mm/kasan/tags.c
-@@ -38,6 +38,43 @@
- #include "kasan.h"
- #include "../slab.h"
- 
-+static DEFINE_PER_CPU(u32, prng_state);
-+
-+void kasan_init_tags(void)
-+{
-+	int cpu;
-+
-+	for_each_possible_cpu(cpu)
-+		per_cpu(prng_state, cpu) = get_random_u32();
-+}
-+
 +/*
-+ * If a preemption happens between this_cpu_read and this_cpu_write, the only
-+ * side effect is that we'll give a few allocated in different contexts objects
-+ * the same tag. Since tag-based KASAN is meant to be used a probabilistic
-+ * bug-detection debug feature, this doesn’t have significant negative impact.
-+ *
-+ * Ideally the tags use strong randomness to prevent any attempts to predict
-+ * them during explicit exploit attempts. But strong randomness is expensive,
-+ * and we did an intentional trade-off to use a PRNG. This non-atomic RMW
-+ * sequence has in fact positive effect, since interrupts that randomly skew
-+ * PRNG at unpredictable points do only good.
++ * We want to avoid an expensive divide : (offset / cache->size)
++ *   Using the fact that size is a constant for a particular cache,
++ *   we can replace (offset / cache->size) by
++ *   reciprocal_divide(offset, cache->reciprocal_buffer_size)
 + */
-+u8 random_tag(void)
++static inline unsigned int obj_to_index(const struct kmem_cache *cache,
++					const struct page *page, void *obj)
 +{
-+	u32 state = this_cpu_read(prng_state);
-+
-+	state = 1664525 * state + 1013904223;
-+	this_cpu_write(prng_state, state);
-+
-+	return (u8)(state % (KASAN_TAG_MAX + 1));
++	u32 offset = (obj - page->s_mem);
++	return reciprocal_divide(offset, cache->reciprocal_buffer_size);
 +}
 +
-+void *kasan_reset_tag(const void *addr)
-+{
-+	return reset_tag(addr);
-+}
-+
- void check_memory_region(unsigned long addr, size_t size, bool write,
- 				unsigned long ret_ip)
- {
+ #endif	/* _LINUX_SLAB_DEF_H */
+diff --git a/mm/slab.c b/mm/slab.c
+index 27859fb39889..d2f827316dfc 100644
+--- a/mm/slab.c
++++ b/mm/slab.c
+@@ -406,19 +406,6 @@ static inline void *index_to_obj(struct kmem_cache *cache, struct page *page,
+ 	return page->s_mem + cache->size * idx;
+ }
+ 
+-/*
+- * We want to avoid an expensive divide : (offset / cache->size)
+- *   Using the fact that size is a constant for a particular cache,
+- *   we can replace (offset / cache->size) by
+- *   reciprocal_divide(offset, cache->reciprocal_buffer_size)
+- */
+-static inline unsigned int obj_to_index(const struct kmem_cache *cache,
+-					const struct page *page, void *obj)
+-{
+-	u32 offset = (obj - page->s_mem);
+-	return reciprocal_divide(offset, cache->reciprocal_buffer_size);
+-}
+-
+ #define BOOT_CPUCACHE_ENTRIES	1
+ /* internal cache of cache description objs */
+ static struct kmem_cache kmem_cache_boot = {
 -- 
 2.19.1.930.g4563a0d9d0-goog
 
