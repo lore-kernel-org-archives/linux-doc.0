@@ -1,174 +1,120 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E65E77D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 22:15:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 64E837D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 23:01:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726604AbeKGHm3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Nov 2018 02:42:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52496 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726446AbeKGHm3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Nov 2018 02:42:29 -0500
-Received: from gandalf.local.home (cpe-66-24-56-78.stny.res.rr.com [66.24.56.78])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 37B7220830;
-        Tue,  6 Nov 2018 22:15:03 +0000 (UTC)
-Date:   Tue, 6 Nov 2018 17:15:01 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
+        id S2387745AbeKGI3B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Nov 2018 03:29:01 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:36316 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387612AbeKGI3B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Nov 2018 03:29:01 -0500
+Received: by mail-pg1-f194.google.com with SMTP id z17-v6so6483007pgv.3
+        for <linux-doc@vger.kernel.org>; Tue, 06 Nov 2018 15:01:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=android.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oXcFcbAp4U6rfBVC+DckoAio735dKa50uXkwgyQSrys=;
+        b=MGYq7IVLjHNtDi1RjL00w4I8U1UNzYGUroZaOT8g9eYlI9xUY1HQL1xlFExxN3mtAL
+         O7YlyX+2FvCHhp+GdPWhIjPq6/omXno7ySEYiLNdsErcAePLFDIiyGDVi5yoXJ8knkih
+         5dML6nZA3vbskrD+ASqmQBbkIFu0k+3sRi+CZcM9qfVCuuGGi5P/psEP9H8kaBIsSPoW
+         QavuAWIaUr70Sh+kWuMTkXT3WIO68Mc2cQRGswNcPbJWDaNsDwpzoc2RP2EyKc5MErFM
+         Vcjx4YmxyFZ6oqUBmnJC9L3O9+Hj7B/x3bhG4+61jERkvsEIl6rEBLllPWHv8AIJp3R/
+         zvQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oXcFcbAp4U6rfBVC+DckoAio735dKa50uXkwgyQSrys=;
+        b=Bta0AwyMALt+U0SfAkIp7H1MinW7q5zcAkvohIE/rSOlLT1wzRpBRqq+IPbOr07sPB
+         FVp8yfwoUz5+4gf8D45sQVQUJS26sImkKw5R9ucmyEV/rmZM7G8EWVEYQtNg/A83hQ/v
+         vqvl82CdXwrh0RYJZPk8wVjefbhD8LNzzte+je1eVr41pEyUrmNXcdsBDvPqFHDvS2Lq
+         gxx7kWamssXIScujpNNfIUfXZPv8P+kjv3lGysJ+llnsAR7sZiKueUrpNP1ICWOKbApD
+         Rp6mnNP9Y8z6HOUw3A+4tsqwHbg+QouJ6BG0Gd6KmsS/LUHLvl7PaoZg8hlp2zHB5dit
+         wHUw==
+X-Gm-Message-State: AGRZ1gL/AxhcYhUvPaEb5bIW0ZJwx2osVM2bwh46hKZx5/egoQweiLAh
+        fJF1Gc+aPVOgjWk5TYUB551RSA==
+X-Google-Smtp-Source: AJdET5eOROEQp05uY73W2tyFCMUI7xYIz7P2+BEmg8YjZoCpssDWXcqaBHlTWPuF5MrRHL1iBTOs/Q==
+X-Received: by 2002:a63:a51b:: with SMTP id n27mr2791633pgf.17.1541545286708;
+        Tue, 06 Nov 2018 15:01:26 -0800 (PST)
+Received: from nebulus.mtv.corp.google.com ([2620:0:1000:1612:b4fb:6752:f21f:3502])
+        by smtp.gmail.com with ESMTPSA id p15-v6sm66167157pfj.72.2018.11.06.15.01.25
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 06 Nov 2018 15:01:25 -0800 (PST)
+From:   Mark Salyzyn <salyzyn@android.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Mark Salyzyn <salyzyn@android.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
         Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Christian Brauner <christian@brauner.io>,
-        Aleksa Sarai <asarai@suse.de>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Josh Poimboeuf <jpoimboe@redhat.com>
-Subject: Re: [PATCH v3 1/2] kretprobe: produce sane stack traces
-Message-ID: <20181106171501.59ccabbc@gandalf.local.home>
-In-Reply-To: <20181104115913.74l4yzecisvtt2j5@yavin>
-References: <20181101083551.3805-1-cyphar@cyphar.com>
-        <20181101083551.3805-2-cyphar@cyphar.com>
-        <20181101204720.6ed3fe37@vmware.local.home>
-        <20181102050509.tw3dhvj5urudvtjl@yavin>
-        <20181102065932.bdt4pubbrkvql4mp@yavin>
-        <20181102091658.1bc979a4@gandalf.local.home>
-        <20181103070253.ajrqzs5xu2vf5stu@yavin>
-        <20181104115913.74l4yzecisvtt2j5@yavin>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Vivek Goyal <vgoyal@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@android.com
+Subject: [PATCH v8 1/2] overlayfs: check CAP_DAC_READ_SEARCH before issuing exportfs_decode_fh
+Date:   Tue,  6 Nov 2018 15:01:14 -0800
+Message-Id: <20181106230117.127616-1-salyzyn@android.com>
+X-Mailer: git-send-email 2.19.1.930.g4563a0d9d0-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 4 Nov 2018 22:59:13 +1100
-Aleksa Sarai <cyphar@cyphar.com> wrote:
+Assumption never checked, should fail if the mounter creds are not
+sufficient.
 
-> The same issue is present in __save_stack_trace
-> (arch/x86/kernel/stacktrace.c). This is likely the only reason that --
-> as Steven said -- stacktraces wouldn't work with ftrace-graph (and thus
-> with the refactor both of you are discussing).
+Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Vivek Goyal <vgoyal@redhat.com>
+Cc: Eric W. Biederman <ebiederm@xmission.com>
+Cc: Amir Goldstein <amir73il@gmail.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Stephen Smalley <sds@tycho.nsa.gov>
+Cc: linux-unionfs@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: kernel-team@android.com
+---
+v8:
+- rebase
 
-By the way, I was playing with the the orc unwinder and stack traces
-from the function graph tracer return code, and got it working with the
-below patch. Caution, that patch also has a stack trace hardcoded in
-the return path of the function graph tracer, so you don't want to run
-function graph tracing without filtering.
+v7:
+- This time for realz
 
-You can apply the patch and do:
+v6:
+- rebase
 
- # cd /sys/kernel/debug/tracing
- # echo schedule > set_ftrace_filter
- # echo function_graph > current_tracer
- # cat trace
+v5:
+- dependency of "overlayfs: override_creds=off option bypass creator_cred"
 
- 3)               |  schedule() {
-     rcu_preempt-10    [003] ....    91.160297: <stack trace>
- => ftrace_return_to_handler
- => return_to_handler
- => schedule_timeout
- => rcu_gp_kthread
- => kthread
- => ret_from_fork
- 3) # 4009.085 us |  }
- 3)               |  schedule() {
-     kworker/1:0-17    [001] ....    91.163288: <stack trace>
- => ftrace_return_to_handler
- => return_to_handler
- => worker_thread
- => kthread
- => ret_from_fork
- 1) # 7000.070 us |  }
- 1)               |  schedule() {
-     rcu_preempt-10    [003] ....    91.164311: <stack trace>
- => ftrace_return_to_handler
- => return_to_handler
- => schedule_timeout
- => rcu_gp_kthread
- => kthread
- => ret_from_fork
- 3) # 4006.540 us |  }
+ fs/overlayfs/namei.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-
-Where just adding the stack trace without the other code, these traces
-ended at "return_to_handler".
-
-This patch is not for inclusion, it was just a test to see how to make
-this work.
-
--- Steve
-
-diff --git a/arch/x86/kernel/ftrace_64.S b/arch/x86/kernel/ftrace_64.S
-index 91b2cff4b79a..4bcd646ae1f4 100644
---- a/arch/x86/kernel/ftrace_64.S
-+++ b/arch/x86/kernel/ftrace_64.S
-@@ -320,13 +320,15 @@ ENTRY(ftrace_graph_caller)
- ENDPROC(ftrace_graph_caller)
+diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
+index efd372312ef1..3ac9dc8f6cc0 100644
+--- a/fs/overlayfs/namei.c
++++ b/fs/overlayfs/namei.c
+@@ -163,6 +163,9 @@ struct dentry *ovl_decode_real_fh(struct ovl_fh *fh, struct vfsmount *mnt,
+ 	if (!uuid_equal(&fh->uuid, &mnt->mnt_sb->s_uuid))
+ 		return NULL;
  
- ENTRY(return_to_handler)
--	UNWIND_HINT_EMPTY
--	subq  $24, %rsp
-+	subq $8, %rsp
-+	UNWIND_HINT_FUNC
-+	subq  $16, %rsp
- 
- 	/* Save the return values */
- 	movq %rax, (%rsp)
- 	movq %rdx, 8(%rsp)
- 	movq %rbp, %rdi
-+	leaq 16(%rsp), %rsi
- 
- 	call ftrace_return_to_handler
- 
-diff --git a/kernel/trace/trace_functions_graph.c b/kernel/trace/trace_functions_graph.c
-index 169b3c44ee97..aaeca73218cc 100644
---- a/kernel/trace/trace_functions_graph.c
-+++ b/kernel/trace/trace_functions_graph.c
-@@ -242,13 +242,16 @@ ftrace_pop_return_trace(struct ftrace_graph_ret *trace, unsigned long *ret,
- 	trace->calltime = current->ret_stack[index].calltime;
- 	trace->overrun = atomic_read(&current->trace_overrun);
- 	trace->depth = index;
++	if (!capable(CAP_DAC_READ_SEARCH))
++		return ERR_PTR(-EPERM);
 +
-+	trace_dump_stack(0);
- }
- 
- /*
-  * Send the trace to the ring-buffer.
-  * @return the original return address.
-  */
--unsigned long ftrace_return_to_handler(unsigned long frame_pointer)
-+unsigned long ftrace_return_to_handler(unsigned long frame_pointer,
-+	unsigned long *ptr)
- {
- 	struct ftrace_graph_ret trace;
- 	unsigned long ret;
-@@ -257,6 +260,8 @@ unsigned long ftrace_return_to_handler(unsigned long frame_pointer)
- 	trace.rettime = trace_clock_local();
- 	barrier();
- 	current->curr_ret_stack--;
-+	*ptr = ret;
-+
- 	/*
- 	 * The curr_ret_stack can be less than -1 only if it was
- 	 * filtered out and it's about to return from the function.
+ 	bytes = (fh->len - offsetof(struct ovl_fh, fid));
+ 	real = exportfs_decode_fh(mnt, (struct fid *)fh->fid,
+ 				  bytes >> 2, (int)fh->type,
+-- 
+2.19.1.930.g4563a0d9d0-goog
+
