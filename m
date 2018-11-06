@@ -2,301 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0E10A7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 13:56:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1A8027D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 14:06:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388550AbeKFXVJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 18:21:09 -0500
-Received: from mga07.intel.com ([134.134.136.100]:35522 "EHLO mga07.intel.com"
+        id S1730481AbeKFXbc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 18:31:32 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:44496 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388358AbeKFXVJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Nov 2018 18:21:09 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Nov 2018 05:55:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,472,1534834800"; 
-   d="scan'208";a="83718312"
-Received: from fhoeg-mobl.ger.corp.intel.com (HELO localhost) ([10.249.254.66])
-  by fmsmga007.fm.intel.com with ESMTP; 06 Nov 2018 05:55:40 -0800
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-sgx@vger.kernel.org
-Cc:     dave.hansen@intel.com, sean.j.christopherson@intel.com,
-        nhorman@redhat.com, npmccallum@redhat.com, serge.ayoun@intel.com,
-        shay.katz-zamir@intel.com, haitao.huang@intel.com,
-        andriy.shevchenko@linux.intel.com, tglx@linutronix.de,
-        kai.svahn@intel.com,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v16 22/22] x86/sgx: SGX documentation
-Date:   Tue,  6 Nov 2018 15:46:01 +0200
-Message-Id: <20181106134758.10572-23-jarkko.sakkinen@linux.intel.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20181106134758.10572-1-jarkko.sakkinen@linux.intel.com>
-References: <20181106134758.10572-1-jarkko.sakkinen@linux.intel.com>
+        id S1730421AbeKFXbb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Nov 2018 18:31:31 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id CC01985A04;
+        Tue,  6 Nov 2018 14:06:06 +0000 (UTC)
+Received: from llong.remote.csb (ovpn-124-84.rdu2.redhat.com [10.10.124.84])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 14CBC1C938;
+        Tue,  6 Nov 2018 14:06:01 +0000 (UTC)
+Subject: Re: [PATCH v14 00/12] Enable cpuset controller in default hierarchy
+To:     Peter Zijlstra <peterz@infradead.org>, Tejun Heo <tj@kernel.org>
+Cc:     Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>,
+        Tom Hromatka <tom.hromatka@oracle.com>
+References: <1539635377-22335-1-git-send-email-longman@redhat.com>
+ <20181105163656.GK4182586@devbig004.ftw2.facebook.com>
+ <20181106115335.GQ22431@hirez.programming.kicks-ass.net>
+ <20181106115558.GB22485@hirez.programming.kicks-ass.net>
+From:   Waiman Long <longman@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ weim8xU=
+Organization: Red Hat
+Message-ID: <8c386375-b801-8adb-602e-40c73a7efedc@redhat.com>
+Date:   Tue, 6 Nov 2018 09:06:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20181106115558.GB22485@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Tue, 06 Nov 2018 14:06:07 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Documentation of the features of the Software Guard eXtensions used
-by the Linux kernel and basic design choices for the core and driver
-and functionality.
+On 11/06/2018 06:55 AM, Peter Zijlstra wrote:
+> On Tue, Nov 06, 2018 at 12:53:35PM +0100, Peter Zijlstra wrote:
+>> On Mon, Nov 05, 2018 at 08:36:56AM -0800, Tejun Heo wrote:
+>>> Hello,
+>>>
+>>> So, this looks good to me.  Peter, I'm gonna roll the series into
+>>> cgroup/for-4.21-cpuset.  Please holler if you have any objections /
+>>> comments.
+>> Mostly nits, except I think the interface for cpuset.sched.partition
+>> needs to find another term for "not a parition", "normal" really doesn't
+>> work for me.
+> cpuset.sched.partition: "true", "false", "error"
+>
+> makes more sense to me.
 
-Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
----
- Documentation/index.rst         |   1 +
- Documentation/x86/index.rst     |   8 ++
- Documentation/x86/intel_sgx.rst | 201 ++++++++++++++++++++++++++++++++
- 3 files changed, 210 insertions(+)
- create mode 100644 Documentation/x86/index.rst
- create mode 100644 Documentation/x86/intel_sgx.rst
+The terms "true", "false", "error" look good to me. I can change the
+patchset to use those if Tejun has no objection. I will fix the other
+nits you have as well.
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 5db7e87c7cb1..1cdc139adb40 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -104,6 +104,7 @@ implementation.
-    :maxdepth: 2
- 
-    sh/index
-+   x86/index
- 
- Filesystem Documentation
- ------------------------
-diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-new file mode 100644
-index 000000000000..11d5b18d9537
---- /dev/null
-+++ b/Documentation/x86/index.rst
-@@ -0,0 +1,8 @@
-+======================
-+x86 Architecture Guide
-+======================
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   intel_sgx
-diff --git a/Documentation/x86/intel_sgx.rst b/Documentation/x86/intel_sgx.rst
-new file mode 100644
-index 000000000000..096756c56070
---- /dev/null
-+++ b/Documentation/x86/intel_sgx.rst
-@@ -0,0 +1,201 @@
-+===================
-+Intel(R) SGX driver
-+===================
-+
-+Introduction
-+============
-+
-+Intel(R) SGX is a set of CPU instructions that can be used by applications to
-+set aside private regions of code and data. The code outside the enclave is
-+disallowed to access the memory inside the enclave by the CPU access control.
-+In a way you can think that SGX provides inverted sandbox. It protects the
-+application from a malicious host.
-+
-+You can tell if your CPU supports SGX by looking into ``/proc/cpuinfo``:
-+
-+	``cat /proc/cpuinfo  | grep sgx``
-+
-+Overview of SGX
-+===============
-+
-+SGX has a set of data structures to maintain information about the enclaves and
-+their security properties. BIOS reserves a fixed size region of physical memory
-+for these structures by setting Processor Reserved Memory Range Registers
-+(PRMRR).
-+
-+This memory range is protected from outside access by the CPU and all the data
-+coming in and out of the CPU package is encrypted by a key that is generated for
-+each boot cycle.
-+
-+Enclaves execute in ring-3 in a special enclave submode using pages from the
-+reserved memory range. A fixed logical address range for the enclave is reserved
-+by ENCLS(ECREATE), a leaf instruction used to create enclaves. It is referred in
-+the documentation commonly as the ELRANGE.
-+
-+Every memory access to the ELRANGE is asserted by the CPU. If the CPU is not
-+executing in the enclave mode inside the enclave, #GP is raised. On the other
-+hand, enclave code can make memory accesses both inside and outside of the
-+ELRANGE.
-+
-+Enclave can only execute code inside the ELRANGE. Instructions that may cause
-+VMEXIT, IO instructions and instructions that require a privilege change are
-+prohibited inside the enclave. Interrupts and exceptions always cause enclave
-+to exit and jump to an address outside the enclave given when the enclave is
-+entered by using the leaf instruction ENCLS(EENTER).
-+
-+Protected memory
-+----------------
-+
-+Enclave Page Cache (EPC)
-+    Physical pages used with enclaves that are protected by the CPU from
-+    unauthorized access.
-+
-+Enclave Page Cache Map (EPCM)
-+    A database that describes the properties and state of the pages e.g. their
-+    permissions or to which enclave they belong to.
-+
-+Memory Encryption Engine (MEE) integrity tree
-+    Autonomously updated integrity tree. The root of the tree located in on-die
-+    SRAM.
-+
-+EPC data types
-+--------------
-+
-+SGX Enclave Control Structure (SECS)
-+    Describes the global properties of an enclave. Will not be mapped to the
-+    ELRANGE.
-+
-+Regular (REG)
-+    These pages contain code and data.
-+
-+Thread Control Structure (TCS)
-+    The pages that define the entry points inside an enclave. An enclave can
-+    only be entered through these entry points and each can host a single
-+    hardware thread at a time.
-+
-+Version Array (VA)
-+   The pages contain 64-bit version numbers for pages that have been swapped
-+   outside the enclave. Each page has the capacity of 512 version numbers.
-+
-+Launch control
-+--------------
-+
-+To launch an enclave, two structures must be provided for ENCLS(EINIT):
-+
-+1. **SIGSTRUCT:** signed measurement of the enclave binary.
-+2. **EINITTOKEN:** a cryptographic token CMAC-signed with a AES256-key called
-+   *launch key*, which is re-generated for each boot cycle.
-+
-+The CPU holds a SHA256 hash of a 3072-bit RSA public key inside
-+IA32_SGXLEPUBKEYHASHn MSRs. Enclaves with a SIGSTRUCT that is signed with this
-+key do not require a valid EINITTOKEN and can be authorized with special
-+privileges. One of those privileges is ability to acquire the launch key with
-+ENCLS(EGETKEY).
-+
-+**IA32_FEATURE_CONTROL[17]** is used by the BIOS configure whether
-+IA32_SGXLEPUBKEYHASH MSRs are read-only or read-write before locking the
-+feature control register and handing over control to the operating system.
-+
-+Enclave construction
-+--------------------
-+
-+The construction is started by filling out the SECS that contains enclave
-+address range, privileged attributes and measurement of TCS and REG pages (pages
-+that will be mapped to the address range) among the other things. This structure
-+is passed out to the ENCLS(ECREATE) together with a physical address of a page
-+in EPC that will hold the SECS.
-+
-+The pages are added with ENCLS(EADD) and measured with ENCLS(EEXTEND) i.e.
-+SHA256 hash MRENCLAVE residing in the SECS is extended with the page data.
-+
-+After all of the pages have been added, the enclave is initialized with
-+ENCLS(EINIT). It will check that the SIGSTRUCT is signed with the contained
-+public key. If the given EINITTOKEN has the valid bit set, the CPU checks that
-+the token is valid (CMAC'd with the launch key). If the token is not valid,
-+the CPU will check whether the enclave is signed with a key matching to the
-+IA32_SGXLEPUBKEYHASHn MSRs.
-+
-+Swapping pages
-+--------------
-+
-+Enclave pages can be swapped out with ENCLS(EWB) to the unprotected memory. In
-+addition to the EPC page, ENCLS(EWB) takes in a VA page and address for PCMD
-+structure (Page Crypto MetaData) as input. The VA page will seal a version
-+number for the page. PCMD is 128 byte structure that contains tracking
-+information for the page, most importantly its MAC. With these structures the
-+enclave is sealed and rollback protected while it resides in the unprotected
-+memory.
-+
-+Before the page can be swapped out it must not have any active TLB references.
-+ENCLS(EBLOCK) instruction moves a page to the *blocked* state, which means
-+that no new TLB entries can be created to it by the hardware threads.
-+
-+After this a shootdown sequence is started with ENCLS(ETRACK), which sets an
-+increased counter value to the entering hardware threads. ENCLS(EWB) will
-+return SGX_NOT_TRACKED error while there are still threads with the earlier
-+couner value because that means that there might be hardware thread inside
-+the enclave with TLB entries to pages that are to be swapped.
-+
-+Kernel internals
-+================
-+
-+Requirements
-+------------
-+
-+Because SGX has an ever evolving and expanding feature set, it's possible for
-+a BIOS or VMM to configure a system in such a way that not all CPUs are equal,
-+e.g. where Launch Control is only enabled on a subset of CPUs.  Linux does
-+*not* support such a heterogeneous system configuration, nor does it even
-+attempt to play nice in the face of a misconfigured system.  With the exception
-+of Launch Control's hash MSRs, which can vary per CPU, Linux assumes that all
-+CPUs have a configuration that is identical to the boot CPU.
-+
-+
-+Roles and responsibilities
-+--------------------------
-+
-+SGX introduces system resources, e.g. EPC memory, that must be accessible to
-+multiple entities, e.g. the native kernel driver (to expose SGX to userspace)
-+and KVM (to expose SGX to VMs), ideally without introducing any dependencies
-+between each SGX entity.  To that end, the kernel owns and manages the shared
-+system resources, i.e. the EPC and Launch Control MSRs, and defines functions
-+that provide appropriate access to the shared resources.  SGX support for
-+user space and VMs is left to the SGX platform driver and KVM respectively.
-+
-+Launching enclaves
-+------------------
-+
-+The current kernel implementation supports only unlocked MSRs i.e.
-+FEATURE_CONTROL_SGX_LE_WR must be set. The launch is performed by setting the
-+MSRs to the hash of the public key modulus of the enclave signer, which is one
-+of the fields in the SIGSTRUCT.
-+
-+EPC management
-+--------------
-+
-+Due to the unique requirements for swapping EPC pages, and because EPC pages
-+(currently) do not have associated page structures, management of the EPC is
-+not handled by the standard Linux swapper.  SGX directly handles swapping
-+of EPC pages, including a kthread to initiate reclaim and a rudimentary LRU
-+mechanism. The consumers of EPC pages, e.g. the SGX driver, are required to
-+implement function callbacks that can be invoked by the kernel to age,
-+swap, and/or forcefully reclaim a target EPC page.  In effect, the kernel
-+controls what happens and when, while the consumers (driver, KVM, etc..) do
-+the actual work.
-+
-+SGX uapi
-+========
-+
-+.. kernel-doc:: drivers/platform/x86/intel_sgx/sgx_ioctl.c
-+   :functions: sgx_ioc_enclave_create
-+               sgx_ioc_enclave_add_page
-+               sgx_ioc_enclave_init
-+
-+.. kernel-doc:: arch/x86/include/uapi/asm/sgx.h
-+
-+References
-+==========
-+
-+* A Memory Encryption Engine Suitable for General Purpose Processors
-+  <https://eprint.iacr.org/2016/204.pdf>
-+* System Programming Manual: 39.1.4 Intel® SGX Launch Control Configuration
--- 
-2.19.1
+Cheers,
+Longman
 
