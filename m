@@ -1,138 +1,141 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7C4B27D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 18:43:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6D5257D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 19:05:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388065AbeKGEKL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 23:10:11 -0500
-Received: from mga02.intel.com ([134.134.136.20]:57844 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388053AbeKGEKL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Nov 2018 23:10:11 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Nov 2018 10:43:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,472,1534834800"; 
-   d="scan'208";a="106394039"
-Received: from ray.jf.intel.com (HELO [10.7.201.133]) ([10.7.201.133])
-  by orsmga002.jf.intel.com with ESMTP; 06 Nov 2018 10:43:28 -0800
-Subject: Re: [PATCH v5 21/27] x86/cet/shstk: Introduce WRUSS instruction
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
- <20181011151523.27101-22-yu-cheng.yu@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <ee5a93f7-ed42-dcc5-0e55-e73ac2637e84@intel.com>
-Date:   Tue, 6 Nov 2018 10:43:27 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-MIME-Version: 1.0
-In-Reply-To: <20181011151523.27101-22-yu-cheng.yu@intel.com>
-Content-Type: text/plain; charset=utf-8
+        id S1730603AbeKGEc1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 23:32:27 -0500
+Received: from mail-eopbgr710080.outbound.protection.outlook.com ([40.107.71.80]:41131
+        "EHLO NAM05-BY2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1730532AbeKGEc1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Nov 2018 23:32:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fzcweFaLqwiAYVnXPkcq3nFPGXJg7Tu53rNz4PnRggY=;
+ b=wPvONJFAPmXPL5Ei8ardv8BUyO+rHP/gxeBc5K4mxdric2CR/9jTDWqGET0menDdLd/Tb957cdcNdaADPFtCCW7LHuw6FHMM11USIyz7BT/tgeUU8AKeWvWV4Qdq2iPPxcVQRIZuuVhLSlq3GZdGUZckbnHY/ZY6ySt96Hk1X+A=
+Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
+ DM5PR12MB1404.namprd12.prod.outlook.com (10.168.238.143) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1294.26; Tue, 6 Nov 2018 19:03:02 +0000
+Received: from DM5PR12MB2471.namprd12.prod.outlook.com
+ ([fe80::4c23:f551:bc6a:554e]) by DM5PR12MB2471.namprd12.prod.outlook.com
+ ([fe80::4c23:f551:bc6a:554e%4]) with mapi id 15.20.1294.032; Tue, 6 Nov 2018
+ 19:03:02 +0000
+From:   "Moger, Babu" <Babu.Moger@amd.com>
+To:     Matthew Wilcox <willy@infradead.org>
+CC:     "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>,
+        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
+        "pombredanne@nexb.com" <pombredanne@nexb.com>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
+        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Singh, Brijesh" <brijesh.singh@amd.com>,
+        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
+        "dwmw2@infradead.org" <dwmw2@infradead.org>,
+        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "rian@alum.mit.edu" <rian@alum.mit.edu>,
+        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v6 13/14] Documentation/x86: Rename and update
+ intel_rdt_ui.txt
+Thread-Topic: [PATCH v6 13/14] Documentation/x86: Rename and update
+ intel_rdt_ui.txt
+Thread-Index: AQHUdectZ4UKh59MskOOj3g4CGTUh6VC5c2AgAAeOACAABbXgA==
+Date:   Tue, 6 Nov 2018 19:03:01 +0000
+Message-ID: <88595cc1-804f-c697-9cba-be40b9df7e39@amd.com>
+References: <20181106154034.15386-1-babu.moger@amd.com>
+ <20181106154034.15386-14-babu.moger@amd.com>
+ <20181106155305.GG3074@bombadil.infradead.org>
+ <20181106174114.GI3074@bombadil.infradead.org>
+In-Reply-To: <20181106174114.GI3074@bombadil.infradead.org>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: SN1PR12CA0059.namprd12.prod.outlook.com
+ (2603:10b6:802:20::30) To DM5PR12MB2471.namprd12.prod.outlook.com
+ (2603:10b6:4:b5::10)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Babu.Moger@amd.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [165.204.78.1]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;DM5PR12MB1404;20:b4MWbFHaItaf1hXGKgD6R0fV23TD9MhcIEPudjcte+ZCktPUkiRVgEawgDmBqDM2FKoXxiUeAL+/1KZP0N6Ee6pXX0y7Bi2IO0RnBbakOcP0fZAqAPXsa2cB86JiIYeeixeZW1N7aWiTj61Hh8nyOWgCYceVlDFu5Z5UBS9VxYpF8PeJCPfpL0t8+XV3VIsk3Cu30KuUJvRiObxDjSw95jk6QRtd9D6Q/QA/CsRiUHYofhmjj6ILkZRdjT9JaURV
+x-ms-office365-filtering-correlation-id: 96579434-4740-4295-8b55-08d6441a796b
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(7020095)(4652040)(8989299)(5600074)(711020)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:DM5PR12MB1404;
+x-ms-traffictypediagnostic: DM5PR12MB1404:
+x-microsoft-antispam-prvs: <DM5PR12MB14044A87C4BABEDA1E32205E95CB0@DM5PR12MB1404.namprd12.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:;
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(10201501046)(3002001)(3231382)(944501410)(52105095)(6055026)(148016)(149066)(150057)(6041310)(20161123562045)(20161123558120)(20161123564045)(20161123560045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(201708071742011)(7699051)(76991095);SRVR:DM5PR12MB1404;BCL:0;PCL:0;RULEID:;SRVR:DM5PR12MB1404;
+x-forefront-prvs: 0848C1A6AA
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(979002)(136003)(346002)(396003)(366004)(39860400002)(376002)(189003)(199004)(6486002)(71200400001)(7406005)(53936002)(478600001)(99286004)(71190400001)(229853002)(93886005)(54906003)(386003)(97736004)(7416002)(76176011)(6506007)(68736007)(26005)(256004)(53546011)(2616005)(486006)(6916009)(81166006)(8676002)(476003)(81156014)(36756003)(446003)(86362001)(66066001)(52116002)(11346002)(2900100001)(8936002)(31696002)(316002)(25786009)(6116002)(5660300001)(105586002)(31686004)(6246003)(106356001)(6512007)(3846002)(4326008)(15650500001)(305945005)(7736002)(6436002)(102836004)(186003)(72206003)(2906002)(14454004)(969003)(989001)(999001)(1009001)(1019001);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1404;H:DM5PR12MB2471.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: NBstvmctRZp5YAiV7b1ImBypW+upmosMVi2aWmM1nFw6zukBnsOV/bMAp0kpkzcRFLV/FshEj6BRnWsG1zBe6Zp0YPMi85Y51X/YRqWdb3hD1VWqlShotc4HPvQ+a2aE5O+zYhv/xa9ibN9d5iBn0gS/CbCAI1VS0xP1TOfMfTsUObua/591PhbTsvof21OTdOlRH1qXxDSorbptse2xW38Fs+BwKOJi6bscKJ3S/ujE8Zo9D8NFSXXnCl8zAYABKC0mdtoJ27P1KtS+2OTmut0C3PLqTFuArwnyLVylAee/tkimTm4fO3AZdETOYgAGDV0Kq6MAuc3BmylIMzZomNzyN7bZMUCrEgfPkVr2tqU=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9163D5A69FFA24428AC40078DED9A00E@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96579434-4740-4295-8b55-08d6441a796b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2018 19:03:01.9955
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1404
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/11/18 8:15 AM, Yu-cheng Yu wrote:
-> --- a/arch/x86/mm/fault.c
-> +++ b/arch/x86/mm/fault.c
-> @@ -1305,6 +1305,15 @@ __do_page_fault(struct pt_regs *regs, unsigned long error_code,
->  		error_code |= X86_PF_USER;
->  		flags |= FAULT_FLAG_USER;
->  	} else {
-> +		/*
-> +		 * WRUSS is a kernel instruction and but writes
-> +		 * to user shadow stack.  When a fault occurs,
-> +		 * both X86_PF_USER and X86_PF_SHSTK are set.
-> +		 * Clear X86_PF_USER here.
-> +		 */
-> +		if ((error_code & (X86_PF_USER | X86_PF_SHSTK)) ==
-> +		    (X86_PF_USER | X86_PF_SHSTK))
-> +			error_code &= ~X86_PF_USER;
-This hunk of code basically points out that the architecture of WRUSS is
-broken for Linux.  The setting of X86_PF_USER for a ring-0 instruction
-really is a mis-feature of the architecture for us and we *undo* it in
-software which is unfortunate.  Wish I would have caught this earlier.
-
-Andy, note that this is another case where hw_error_code and
-sw_error_code will diverge, unfortunately.
-
-Anyway, this is going to necessitate some comment updates in the page
-fault code.  Yu-cheng, you are going to collide with some recent changes
-I made to the page fault code.  Please be careful with the context when
-you do the merge and make sure that all the new comments stay correct.
+SGkgTWF0dGhldywNCg0KT24gMTEvNi8xOCAxMTo0MSBBTSwgTWF0dGhldyBXaWxjb3ggd3JvdGU6
+DQo+IE9uIFR1ZSwgTm92IDA2LCAyMDE4IGF0IDA3OjUzOjA1QU0gLTA4MDAsIE1hdHRoZXcgV2ls
+Y294IHdyb3RlOg0KPj4+IC1UaGlzIGZlYXR1cmUgaXMgZW5hYmxlZCBieSB0aGUgQ09ORklHX0lO
+VEVMX1JEVCBLY29uZmlnIGFuZCB0aGUNCj4+PiAtWDg2IC9wcm9jL2NwdWluZm8gZmxhZyBiaXRz
+Og0KPj4+ICtUaGlzIGZlYXR1cmUgaXMgZW5hYmxlZCBieSB0aGUgQ09ORklHX0lOVEVMX1JEVCBL
+Y29uZmlnKGZvciBJbnRlbCkgb3INCj4+PiArQ09ORklHX0FNRF9RT1MoZm9yIEFNRCkgYW5kIHRo
+ZSBYODYgL3Byb2MvY3B1aW5mbyBmbGFnIGJpdHM6DQo+Pg0KPj4gTm93IEknbSBjdXJpb3VzIHdo
+eSB3ZSBoYXZlIHR3byBkaWZmZXJlbnQgS2NvbmZpZyBvcHRpb25zIGZvciB0aGUgc2FtZQ0KPj4g
+ZmVhdHVyZS4gIEkgc2hvdWxkIGdvIGFuZCByZWFkIHRoZSBvdGhlciBwYXRjaGVzLCBJIHN1cHBv
+c2UuDQo+IA0KPiBOb3cgdGhhdCBJJ3ZlIHJlYWQgdGhyb3VnaCB0aGVtLCBJIGZpbmQgbm93aGVy
+ZSB0aGF0IHRoZSBjaG9pY2VzOg0KPiANCj4gQU1RX1FPUz15IElOVEVMX1JEVD1uDQo+IEFNRF9R
+T1M9biBJTlRFTF9SRFQ9eQ0KPiBBTURfUU9TPXkgSU5URUxfUkRUPXkNCj4gDQo+IGhhdmUgYW55
+IGRpZmZlcmVuY2UgdG8gdGhlIHJlc3VsdGluZyBjb2RlLiAgVGh1cywgdGhpcyBsb29rcyBsaWtl
+IGENCj4gdmFuaXR5IGNvbmZpZyBvcHRpb247IHBsZWFzZSBkb24ndCBkbyB0aGlzLiAgUmVuYW1l
+IHRoZSBjb25maWcgb3B0aW9uDQo+IHRvIGJlIHZlbmRvci1uZXV0cmFsIGlmIHlvdSBtdXN0LCBi
+dXQgcGxlYXNlIG5vIG5ldyBvcHRpb25zIHVubGVzcw0KPiBhYnNvbHV0ZWx5IG5lY2Vzc2FyeS4N
+Cj4gDQoNClllcy4gVGhhdCBpcyByaWdodC4gQ29kZSBkb2VzIG5vdCBjaGFuZ2Ugd2l0aCBhbnkg
+b2YgdGhlc2UgY29tYmluYXRpb25zLg0KV2UgY2FuIGdvIHdpdGggb25seSBvbmUgbmV1dHJhbCBw
+YXJhbWV0ZXIgd2hpY2ggaXMgY29uZmlnIFJFU0NUUkwuIEkgd2lsbA0KcmVtb3ZlIEFNRF9RT1Mg
+YW5kIElOVEVMX1JEVC4gVGhpcyBhbHNvIHJlcXVpcmVzIHNvbWUgdGV4dCBjaGFuZ2VzIHRvDQpj
+b3ZlciBib3RoIEludGVsIGFuZCBBTUQuIFdpbGwgc2VuZCB0aGUgdXBkYXRlZCBwYXRjaGVzLg0K
