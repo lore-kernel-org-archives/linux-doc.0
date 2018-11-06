@@ -1,316 +1,554 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-13.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ACB557D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 17:22:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 006A27D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 17:30:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389634AbeKGCsS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 21:48:18 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:41785 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389432AbeKGCsS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 21:48:18 -0500
-Received: by mail-pf1-f194.google.com with SMTP id e22-v6so6405640pfn.8
-        for <linux-doc@vger.kernel.org>; Tue, 06 Nov 2018 09:22:05 -0800 (PST)
+        id S1730813AbeKGC47 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 21:56:59 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:37681 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730448AbeKGC46 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 21:56:58 -0500
+Received: by mail-wm1-f66.google.com with SMTP id p2-v6so12899922wmc.2
+        for <linux-doc@vger.kernel.org>; Tue, 06 Nov 2018 09:30:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0P29fx4j0b2fN/VsDQOR7JxX04uvGoqIP5FOUvdji1I=;
+        b=I16U3b28NtqXMVDLME/fwBeEGNbIj7BMJKt1K4Xfg+ArFd2/nnvhv+tjSmFtMkoHjB
+         xhkdOwXEx1hjviSxt7KUFfs7+4045TgZG8BD0HKxUDrGm0IH7y5TLHlcZUfzLx9DKDXQ
+         d5HjKtINGP1uC1oXzrdJM4q8V9M4MMvMfjqds+gxXkQxGr1DQ3MSW2TrXOu58amksqKX
+         Nf6Xflm0d9fY3iqi5tWy9KDuLcaaCYpaJ6fdtnIUZPm3PX1/bHkPBZDuAPQ/Au4jiy7O
+         yYAwPdEKUpqbOEP3nUepfgN/7DSQVu+F3hdPjjFdjz/SMKd/M4kYnxs7kMJisI6tzH26
+         gjLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=q+aywkzd2zyvGu5y8HvDgUVkRiJC94jYOGjo8y4e77s=;
-        b=ZILwLgNB9mUMvWAN2wttTsZ/Kf1dM/U1C3Z0KPjjkNMhhkkqkELI4FjyO9Y5F4zUft
-         Dw1xN4TSVeNQrzW8m1cgJhWunxl76jOhqf+51yWUR1aBQC34xJXtPx0o2tpS7KOTj6xa
-         KguwvYhDju1Wm1uKzvr7GBeb0jpNxOxXAbBTXWNJgKbWG/p5rRB2RA4wCTf4mLTnlGYp
-         VGUPgOcj6qlhgU5dC3D+iKy3AWUijVfiiEgHWjdZngMdqwH/Octgit7RRzniMYK/qPUJ
-         TMQuTD+VmVqxmcb8e6gMNBipiomBNfYdjBJE0QuG45HAxrGNZqGNRSM+HTOmstlWRh3S
-         bUwA==
-X-Gm-Message-State: AGRZ1gKgwOM/UmZIvvD7/tBfy0UeOKYWNVdkLI0QKC/T957/p1gm7KmJ
-        usGoYpAJblpV1I3tmy4AiP6uxg==
-X-Google-Smtp-Source: AJdET5c+Dy/ixXyDFF/ur50TOIIE1vAXu8Iz0hb1bnwX57k5M12MsvvEuzmXBrIbDX0X2sGSXP7eBQ==
-X-Received: by 2002:a65:4646:: with SMTP id k6mr24137334pgr.153.1541524924783;
-        Tue, 06 Nov 2018 09:22:04 -0800 (PST)
-Received: from localhost ([207.114.172.147])
-        by smtp.gmail.com with ESMTPSA id z13sm16088247pgf.84.2018.11.06.09.22.03
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 06 Nov 2018 09:22:03 -0800 (PST)
-Date:   Tue, 6 Nov 2018 09:22:02 -0800
-From:   Moritz Fischer <mdf@kernel.org>
-To:     richard.gong@linux.intel.com
-Cc:     gregkh@linuxfoundation.org, catalin.marinas@arm.com,
-        will.deacon@arm.com, dinguyen@kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, atull@kernel.org, mdf@kernel.org,
-        arnd@arndb.de, corbet@lwn.net,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, todd.riffel@intel.com,
-        richard.gong@intel.com
-Subject: Re: [PATCHv10 8/8] firmware: add remote status update client support
-Message-ID: <20181106172202.GA4042@archbook>
-References: <1541523172-5171-1-git-send-email-richard.gong@linux.intel.com>
- <1541523172-5171-9-git-send-email-richard.gong@linux.intel.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0P29fx4j0b2fN/VsDQOR7JxX04uvGoqIP5FOUvdji1I=;
+        b=YLbop9vmk3WG3fX9ci6KylEfuRmOsVy0RmItnic6EySi3W/bCrViRNJ9jyI+mxZFMb
+         PXVZMHWqTPSJRulSR0aIivrKJy/74uIZ7Z8nvQ7q5XEnhc73gCHgNLQc/Xx6DmmqLTWi
+         1AgF285p/uDfG/hoG2yyzFdaU47/wAwGNZmMOyiNR+t56yeNsyRv9hbWE79TBbPvcvh3
+         bDrz4iZ0xgRshVQM5zAhfbjpSQb5mMQLiYTN+NTIoxQn6xdN26tuA5aDM0mxY/r80prz
+         BsE8ZLG9ML4cx+5Lx8I1GIHYWqu2Zk9D820wKp8y3Y8qNChanbo7uc2FiZHNQex4PZGs
+         fs6w==
+X-Gm-Message-State: AGRZ1gLIF+8CfN1FyqJ/pA5WPgwm7RziIcQiQ1CmYivO/d8Q6RdKztts
+        Oe27kw7dHnbuRUahGyYXJUtBiQ==
+X-Google-Smtp-Source: AJdET5fLKt2jZSPk/2ZIzVWMlpucnxnLxOlk9kzwkNvyJsGu407vlF3wpmcxo5bu3fcqqXjNxDbH4Q==
+X-Received: by 2002:a7b:c259:: with SMTP id b25-v6mr2758058wmj.70.1541525440742;
+        Tue, 06 Nov 2018 09:30:40 -0800 (PST)
+Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
+        by smtp.gmail.com with ESMTPSA id z17-v6sm16328416wrm.65.2018.11.06.09.30.39
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 06 Nov 2018 09:30:39 -0800 (PST)
+From:   Andrey Konovalov <andreyknvl@google.com>
+To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org
+Cc:     Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>,
+        Andrey Konovalov <andreyknvl@google.com>
+Subject: [PATCH v10 00/22] kasan: add software tag-based mode for arm64
+Date:   Tue,  6 Nov 2018 18:30:15 +0100
+Message-Id: <cover.1541525354.git.andreyknvl@google.com>
+X-Mailer: git-send-email 2.19.1.930.g4563a0d9d0-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1541523172-5171-9-git-send-email-richard.gong@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Richard,
+This patchset adds a new software tag-based mode to KASAN [1].
+(Initially this mode was called KHWASAN, but it got renamed,
+ see the naming rationale at the end of this section).
 
-On Tue, Nov 06, 2018 at 10:52:52AM -0600, richard.gong@linux.intel.com wrote:
-> From: Richard Gong <richard.gong@intel.com>
-> 
-> Extend Intel Stratix10 service layer to support the second service layer
-> client, Remote Status Update (RSU).
-> 
-> RSU is used to provide our customers with protection against loading bas
-Nit: 'bas' -> 'bad'
-> bitstreams onto their devices when those device are booting from flash.
-> 
-> Signed-off-by: Richard Gong <richard.gong@intel.com>
-> Signed-off-by: Alan Tull <atull@kernel.org>
-> ---
-> v7: this patch is added in patch set version 7
-> v8: no change
-> v9: add case for COMMAND_RSU_UPDATE at svc_thread_recv_status_ok() at
->     stratix10-svc.c file
->     add RSU related definitions at stratix10-smc.h file
-> v10: s/misc/firmware at commit header
-> ---
->  drivers/firmware/stratix10-svc.c                   | 35 +++++++++++++++-
->  include/linux/firmware/intel/stratix10-smc.h       | 47 ++++++++++++++++++++++
->  .../linux/firmware/intel/stratix10-svc-client.h    | 20 ++++++++-
->  3 files changed, 98 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/firmware/stratix10-svc.c b/drivers/firmware/stratix10-svc.c
-> index 898e588..ae99221 100644
-> --- a/drivers/firmware/stratix10-svc.c
-> +++ b/drivers/firmware/stratix10-svc.c
-> @@ -34,7 +34,7 @@
->   * timeout is set to 30 seconds (30 * 1000) at Intel Stratix10 SoC.
->   */
->  #define SVC_NUM_DATA_IN_FIFO			32
-> -#define SVC_NUM_CHANNEL				1
-> +#define SVC_NUM_CHANNEL				2
->  #define FPGA_CONFIG_DATA_CLAIM_TIMEOUT_MS	200
->  #define FPGA_CONFIG_STATUS_TIMEOUT_SEC		30
->  
-> @@ -271,7 +271,7 @@ static void svc_thread_cmd_config_status(struct stratix10_svc_controller *ctrl,
->   * @cb_data: pointer to callback data structure to service client
->   * @res: result from SMC or HVC call
->   *
-> - * Send back the correspond status to the service client (FPGA manager etc).
-> + * Send back the correspond status to the service clients.
->   */
->  static void svc_thread_recv_status_ok(struct stratix10_svc_data *p_data,
->  				      struct stratix10_svc_cb_data *cb_data,
-> @@ -295,6 +295,9 @@ static void svc_thread_recv_status_ok(struct stratix10_svc_data *p_data,
->  	case COMMAND_RECONFIG_STATUS:
->  		cb_data->status = BIT(SVC_STATUS_RECONFIG_COMPLETED);
->  		break;
-> +	case COMMAND_RSU_UPDATE:
-> +		cb_data->status = BIT(SVC_STATUS_RSU_OK);
-> +		break;
->  	default:
->  		pr_warn("it shouldn't happen\n");
->  		break;
-> @@ -373,6 +376,16 @@ static int svc_normal_to_secure_thread(void *data)
->  			a1 = 0;
->  			a2 = 0;
->  			break;
-> +		case COMMAND_RSU_STATUS:
-> +			a0 = INTEL_SIP_SMC_RSU_STATUS;
-> +			a1 = 0;
-> +			a2 = 0;
-> +			break;
-> +		case COMMAND_RSU_UPDATE:
-> +			a0 = INTEL_SIP_SMC_RSU_UPDATE;
-> +			a1 = pdata->arg[0];
-> +			a2 = 0;
-> +			break;
->  		default:
->  			pr_warn("it shouldn't happen\n");
->  			break;
-> @@ -389,6 +402,19 @@ static int svc_normal_to_secure_thread(void *data)
->  			 (unsigned int)res.a1, (unsigned int)res.a2);
->  		pr_debug(" res.a3=0x%016x\n", (unsigned int)res.a3);
->  
-> +		if (pdata->command == COMMAND_RSU_STATUS) {
-> +			if (res.a0 == INTEL_SIP_SMC_RSU_ERROR)
-> +				cbdata->status = BIT(SVC_STATUS_RSU_ERROR);
-> +			else
-> +				cbdata->status = BIT(SVC_STATUS_RSU_OK);
-> +
-> +			cbdata->kaddr1 = &res;
-> +			cbdata->kaddr2 = NULL;
-> +			cbdata->kaddr3 = NULL;
-> +			pdata->chan->scl->receive_cb(pdata->chan->scl, cbdata);
-> +			continue;
-> +		}
-> +
->  		switch (res.a0) {
->  		case INTEL_SIP_SMC_STATUS_OK:
->  			svc_thread_recv_status_ok(pdata, cbdata, res);
-> @@ -941,6 +967,11 @@ static int stratix10_svc_drv_probe(struct platform_device *pdev)
->  	chans[0].name = SVC_CLIENT_FPGA;
->  	spin_lock_init(&chans[0].lock);
->  
-> +	chans[1].scl = NULL;
-> +	chans[1].ctrl = controller;
-> +	chans[1].name = SVC_CLIENT_RSU;
-> +	spin_lock_init(&chans[1].lock);
-> +
->  	list_add_tail(&controller->node, &svc_ctrl);
->  	platform_set_drvdata(pdev, controller);
->  
-> diff --git a/include/linux/firmware/intel/stratix10-smc.h b/include/linux/firmware/intel/stratix10-smc.h
-> index a109e4c..5be5dab 100644
-> --- a/include/linux/firmware/intel/stratix10-smc.h
-> +++ b/include/linux/firmware/intel/stratix10-smc.h
-> @@ -67,6 +67,12 @@
->   *
->   * INTEL_SIP_SMC_FPGA_CONFIG_STATUS_ERROR:
->   * There is error during the FPGA configuration process.
-> + *
-> + * INTEL_SIP_SMC_REG_ERROR:
-> + * There is error during a read or write operation of the protected registers.
-> + *
-> + * INTEL_SIP_SMC_RSU_ERROR:
-> + * There is error during a remote status update.
->   */
->  #define INTEL_SIP_SMC_RETURN_UNKNOWN_FUNCTION		0xFFFFFFFF
->  #define INTEL_SIP_SMC_STATUS_OK				0x0
-> @@ -74,6 +80,7 @@
->  #define INTEL_SIP_SMC_FPGA_CONFIG_STATUS_REJECTED       0x2
->  #define INTEL_SIP_SMC_FPGA_CONFIG_STATUS_ERROR		0x4
->  #define INTEL_SIP_SMC_REG_ERROR				0x5
-> +#define INTEL_SIP_SMC_RSU_ERROR				0x7
->  
->  /**
->   * Request INTEL_SIP_SMC_FPGA_CONFIG_START
-> @@ -262,4 +269,44 @@ INTEL_SIP_SMC_FAST_CALL_VAL(INTEL_SIP_SMC_FUNCID_FPGA_CONFIG_COMPLETED_WRITE)
->  #define INTEL_SIP_SMC_REG_UPDATE \
->  	INTEL_SIP_SMC_FAST_CALL_VAL(INTEL_SIP_SMC_FUNCID_REG_UPDATE)
->  
-> +/*
-> + * Request INTEL_SIP_SMC_RSU_STATUS
-> + *
-> + * Request remote status update boot log, call is synchronous.
-> + *
-> + * Call register usage:
-> + * a0 INTEL_SIP_SMC_RSU_STATUS
-> + * a1-7 not used
-> + *
-> + * Return status
-> + * a0: Current Image
-> + * a1: Last Failing Image
-> + * a2: Version | State
-> + * a3: Error details | Error location
-> + *
-> + * Or
-> + *
-> + * a0: INTEL_SIP_SMC_RSU_ERROR
-> + */
-> +#define INTEL_SIP_SMC_FUNCID_RSU_STATUS 11
-> +#define INTEL_SIP_SMC_RSU_STATUS \
-> +	INTEL_SIP_SMC_FAST_CALL_VAL(INTEL_SIP_SMC_FUNCID_RSU_STATUS)
-> +
-> +/*
-> + * Request INTEL_SIP_SMC_RSU_UPDATE
-> + *
-> + * Request to set the offset of the bitstream to boot after reboot, call
-> + * is synchronous.
-> + *
-> + * Call register usage:
-> + * a0 INTEL_SIP_SMC_RSU_UPDATE
-> + * a1 64bit physical address of the configuration data memory in flash
-> + * a2-7 not used
-> + *
-> + * Return status
-> + * a0 INTEL_SIP_SMC_STATUS_OK
-> + */
-> +#define INTEL_SIP_SMC_FUNCID_RSU_UPDATE 12
-> +#define INTEL_SIP_SMC_RSU_UPDATE \
-> +	INTEL_SIP_SMC_FAST_CALL_VAL(INTEL_SIP_SMC_FUNCID_RSU_UPDATE)
->  #endif
-> diff --git a/include/linux/firmware/intel/stratix10-svc-client.h b/include/linux/firmware/intel/stratix10-svc-client.h
-> index f2fda7e..e521f17 100644
-> --- a/include/linux/firmware/intel/stratix10-svc-client.h
-> +++ b/include/linux/firmware/intel/stratix10-svc-client.h
-> @@ -10,8 +10,10 @@
->   * Service layer driver supports client names
->   *
->   * fpga: for FPGA configuration
-> + * rsu: for remote status update
->   */
->  #define SVC_CLIENT_FPGA			"fpga"
-> +#define SVC_CLIENT_RSU			"rsu"
->  
->  /**
->   * Status of the sent command, in bit number
-> @@ -36,6 +38,9 @@
->   *
->   * SVC_COMMAND_STATUS_RECONFIG_ERROR:
->   * Error encountered during FPGA configuration.
-> + *
-> + * SVC_STATUS_RSU_OK:
-> + * Secure firmware accepts the request of remote status update (RSU).
->   */
->  #define SVC_STATUS_RECONFIG_REQUEST_OK		0
->  #define SVC_STATUS_RECONFIG_BUFFER_SUBMITTED	1
-> @@ -43,7 +48,8 @@
->  #define SVC_STATUS_RECONFIG_COMPLETED		3
->  #define SVC_STATUS_RECONFIG_BUSY		4
->  #define SVC_STATUS_RECONFIG_ERROR		5
-> -
-> +#define SVC_STATUS_RSU_OK			6
-> +#define SVC_STATUS_RSU_ERROR			7
->  /**
->   * Flag bit for COMMAND_RECONFIG
->   *
-> @@ -56,9 +62,11 @@
->  /**
->   * Timeout settings for service clients:
->   * timeout value used in Stratix10 FPGA manager driver.
-> + * timeout value used in RSU driver
->   */
->  #define SVC_RECONFIG_REQUEST_TIMEOUT_MS         100
->  #define SVC_RECONFIG_BUFFER_TIMEOUT_MS          240
-> +#define SVC_RSU_REQUEST_TIMEOUT_MS              300
->  
->  struct stratix10_svc_chan;
->  
-> @@ -81,13 +89,21 @@ struct stratix10_svc_chan;
->   * @COMMAND_RECONFIG_STATUS: check the status of the configuration, return
->   * status is SVC_STATUS_RECONFIG_COMPLETED, or  SVC_STATUS_RECONFIG_BUSY, or
->   * SVC_STATUS_RECONFIG_ERROR
-> + *
-> + * @COMMAND_RSU_STATUS: request remote system update boot log, return status
-> + * is log data or SVC_STATUS_RSU_ERROR
-> + *
-> + * @COMMAND_RSU_UPDATE: set the offset of the bitstream to boot after reboot,
-> + * return status is SVC_STATUS_RSU_OK or SVC_STATUS_RSU_ERROR
->   */
->  enum stratix10_svc_command_code {
->  	COMMAND_NOOP = 0,
->  	COMMAND_RECONFIG,
->  	COMMAND_RECONFIG_DATA_SUBMIT,
->  	COMMAND_RECONFIG_DATA_CLAIM,
-> -	COMMAND_RECONFIG_STATUS
-> +	COMMAND_RECONFIG_STATUS,
-> +	COMMAND_RSU_STATUS,
-> +	COMMAND_RSU_UPDATE
->  };
->  
->  /**
-> -- 
-> 2.7.4
-> 
+The plan is to implement HWASan [2] for the kernel with the incentive,
+that it's going to have comparable to KASAN performance, but in the same
+time consume much less memory, trading that off for somewhat imprecise
+bug detection and being supported only for arm64.
 
-Thanks,
-Moritz
+The underlying ideas of the approach used by software tag-based KASAN are:
+
+1. By using the Top Byte Ignore (TBI) arm64 CPU feature, we can store
+   pointer tags in the top byte of each kernel pointer.
+
+2. Using shadow memory, we can store memory tags for each chunk of kernel
+   memory.
+
+3. On each memory allocation, we can generate a random tag, embed it into
+   the returned pointer and set the memory tags that correspond to this
+   chunk of memory to the same value.
+
+4. By using compiler instrumentation, before each memory access we can add
+   a check that the pointer tag matches the tag of the memory that is being
+   accessed.
+
+5. On a tag mismatch we report an error.
+
+With this patchset the existing KASAN mode gets renamed to generic KASAN,
+with the word "generic" meaning that the implementation can be supported
+by any architecture as it is purely software.
+
+The new mode this patchset adds is called software tag-based KASAN. The
+word "tag-based" refers to the fact that this mode uses tags embedded into
+the top byte of kernel pointers and the TBI arm64 CPU feature that allows
+to dereference such pointers. The word "software" here means that shadow
+memory manipulation and tag checking on pointer dereference is done in
+software. As it is the only tag-based implementation right now, "software
+tag-based" KASAN is sometimes referred to as simply "tag-based" in this
+patchset.
+
+A potential expansion of this mode is a hardware tag-based mode, which would
+use hardware memory tagging support (announced by Arm [3]) instead of
+compiler instrumentation and manual shadow memory manipulation.
+
+Same as generic KASAN, software tag-based KASAN is strictly a debugging
+feature.
+
+[1] https://www.kernel.org/doc/html/latest/dev-tools/kasan.html
+
+[2] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
+
+[3] https://community.arm.com/processors/b/blog/posts/arm-a-profile-architecture-2018-developments-armv85a
+
+
+====== Rationale
+
+On mobile devices generic KASAN's memory usage is significant problem. One
+of the main reasons to have tag-based KASAN is to be able to perform a
+similar set of checks as the generic one does, but with lower memory
+requirements.
+
+Comment from Vishwath Mohan <vishwath@google.com>:
+
+I don't have data on-hand, but anecdotally both ASAN and KASAN have proven
+problematic to enable for environments that don't tolerate the increased
+memory pressure well. This includes,
+(a) Low-memory form factors - Wear, TV, Things, lower-tier phones like Go,
+(c) Connected components like Pixel's visual core [1].
+
+These are both places I'd love to have a low(er) memory footprint option at
+my disposal.
+
+Comment from Evgenii Stepanov <eugenis@google.com>:
+
+Looking at a live Android device under load, slab (according to
+/proc/meminfo) + kernel stack take 8-10% available RAM (~350MB). KASAN's
+overhead of 2x - 3x on top of it is not insignificant.
+
+Not having this overhead enables near-production use - ex. running
+KASAN/KHWASAN kernel on a personal, daily-use device to catch bugs that do
+not reproduce in test configuration. These are the ones that often cost
+the most engineering time to track down.
+
+CPU overhead is bad, but generally tolerable. RAM is critical, in our
+experience. Once it gets low enough, OOM-killer makes your life miserable.
+
+[1] https://www.blog.google/products/pixel/pixel-visual-core-image-processing-and-machine-learning-pixel-2/
+
+
+====== Technical details
+
+Software tag-based KASAN mode is implemented in a very similar way to the
+generic one. This patchset essentially does the following:
+
+1. TCR_TBI1 is set to enable Top Byte Ignore.
+
+2. Shadow memory is used (with a different scale, 1:16, so each shadow
+   byte corresponds to 16 bytes of kernel memory) to store memory tags.
+
+3. All slab objects are aligned to shadow scale, which is 16 bytes.
+
+4. All pointers returned from the slab allocator are tagged with a random
+   tag and the corresponding shadow memory is poisoned with the same value.
+
+5. Compiler instrumentation is used to insert tag checks. Either by
+   calling callbacks or by inlining them (CONFIG_KASAN_OUTLINE and
+   CONFIG_KASAN_INLINE flags are reused).
+
+6. When a tag mismatch is detected in callback instrumentation mode
+   KASAN simply prints a bug report. In case of inline instrumentation,
+   clang inserts a brk instruction, and KASAN has it's own brk handler,
+   which reports the bug.
+
+7. The memory in between slab objects is marked with a reserved tag, and
+   acts as a redzone.
+
+8. When a slab object is freed it's marked with a reserved tag.
+
+Bug detection is imprecise for two reasons:
+
+1. We won't catch some small out-of-bounds accesses, that fall into the
+   same shadow cell, as the last byte of a slab object.
+
+2. We only have 1 byte to store tags, which means we have a 1/256
+   probability of a tag match for an incorrect access (actually even
+   slightly less due to reserved tag values).
+
+Despite that there's a particular type of bugs that tag-based KASAN can
+detect compared to generic KASAN: use-after-free after the object has been
+allocated by someone else.
+
+
+====== Testing
+
+Some kernel developers voiced a concern that changing the top byte of
+kernel pointers may lead to subtle bugs that are difficult to discover.
+To address this concern deliberate testing has been performed.
+
+It doesn't seem feasible to do some kind of static checking to find
+potential issues with pointer tagging, so a dynamic approach was taken.
+All pointer comparisons/subtractions have been instrumented in an LLVM
+compiler pass and a kernel module that would print a bug report whenever
+two pointers with different tags are being compared/subtracted (ignoring
+comparisons with NULL pointers and with pointers obtained by casting an
+error code to a pointer type) has been used. Then the kernel has been
+booted in QEMU and on an Odroid C2 board and syzkaller has been run.
+
+This yielded the following results.
+
+The two places that look interesting are:
+
+is_vmalloc_addr in include/linux/mm.h
+is_kernel_rodata in mm/util.c
+
+Here we compare a pointer with some fixed untagged values to make sure
+that the pointer lies in a particular part of the kernel address space.
+Since tag-based KASAN doesn't add tags to pointers that belong to rodata
+or vmalloc regions, this should work as is. To make sure debug checks to
+those two functions that check that the result doesn't change whether
+we operate on pointers with or without untagging has been added.
+
+A few other cases that don't look that interesting:
+
+Comparing pointers to achieve unique sorting order of pointee objects
+(e.g. sorting locks addresses before performing a double lock):
+
+tty_ldisc_lock_pair_timeout in drivers/tty/tty_ldisc.c
+pipe_double_lock in fs/pipe.c
+unix_state_double_lock in net/unix/af_unix.c
+lock_two_nondirectories in fs/inode.c
+mutex_lock_double in kernel/events/core.c
+
+ep_cmp_ffd in fs/eventpoll.c
+fsnotify_compare_groups fs/notify/mark.c
+
+Nothing needs to be done here, since the tags embedded into pointers
+don't change, so the sorting order would still be unique.
+
+Checks that a pointer belongs to some particular allocation:
+
+is_sibling_entry in lib/radix-tree.c
+object_is_on_stack in include/linux/sched/task_stack.h
+
+Nothing needs to be done here either, since two pointers can only belong
+to the same allocation if they have the same tag.
+
+Overall, since the kernel boots and works, there are no critical bugs.
+As for the rest, the traditional kernel testing way (use until fails) is
+the only one that looks feasible.
+
+Another point here is that tag-based KASAN is available under a separate
+config option that needs to be deliberately enabled. Even though it might
+be used in a "near-production" environment to find bugs that are not found
+during fuzzing or running tests, it is still a debug tool.
+
+
+====== Benchmarks
+
+The following numbers were collected on Odroid C2 board. Both generic and
+tag-based KASAN were used in inline instrumentation mode.
+
+Boot time [1]:
+* ~1.7 sec for clean kernel
+* ~5.0 sec for generic KASAN
+* ~5.0 sec for tag-based KASAN
+
+Network performance [2]:
+* 8.33 Gbits/sec for clean kernel
+* 3.17 Gbits/sec for generic KASAN
+* 2.85 Gbits/sec for tag-based KASAN
+
+Slab memory usage after boot [3]:
+* ~40 kb for clean kernel
+* ~105 kb (~260% overhead) for generic KASAN
+* ~47 kb (~20% overhead) for tag-based KASAN
+
+KASAN memory overhead consists of three main parts:
+1. Increased slab memory usage due to redzones.
+2. Shadow memory (the whole reserved once during boot).
+3. Quaratine (grows gradually until some preset limit; the more the limit,
+   the more the chance to detect a use-after-free).
+
+Comparing tag-based vs generic KASAN for each of these points:
+1. 20% vs 260% overhead.
+2. 1/16th vs 1/8th of physical memory.
+3. Tag-based KASAN doesn't require quarantine.
+
+[1] Time before the ext4 driver is initialized.
+[2] Measured as `iperf -s & iperf -c 127.0.0.1 -t 30`.
+[3] Measured as `cat /proc/meminfo | grep Slab`.
+
+
+====== Some notes
+
+A few notes:
+
+1. The patchset can be found here:
+   https://github.com/xairy/kasan-prototype/tree/khwasan
+
+2. Building requires a recent Clang version (7.0.0 or later).
+
+3. Stack instrumentation is not supported yet and will be added later.
+
+
+====== Changes
+
+Changes in v10:
+- Rebased onto 65102238 (4.20-rc1).
+- Don’t ignore kasan_kmalloc() return valued in kmem_cache_alloc_trace()
+  and kmem_cache_alloc_node_trace() in include/linux/slab.h.
+- New patch: don’t ignore kasan_kmalloc return value in
+  early_kmem_cache_node_alloc.
+- New patch: added __must_check annotations to KASAN hooks that assign
+  tags.
+- Changed KASAN clang version requirement to 7.0.0 (as we need rL329612).
+- Moved __no_sanitize_address definition from compiler_attributes.h to
+  compiler-gcc.h and compiler-clang.h.
+
+Changes in v9:
+- Fixed kasan_init_slab_obj() hook when KASAN is disabled.
+- Added assign_tag() function that preassigns tags for caches with
+  constructors.
+- Fixed KASAN_TAG_MASK redefinition in include/linux/mm.h vs
+  mm/kasan/kasan.h.
+
+Changes in v8:
+- Rebased onto 7876320f (4.19-rc4).
+- Renamed KHWASAN to software tag-based KASAN (see the top of the cover
+  letter for details).
+- Explicitly called tag-based KASAN a debug tool.
+- Reused kasan_init_slab_obj() callback to preassign tags to caches
+  without constructors, remove khwasan_preset_sl(u/a)b_tag().
+- Moved move obj_to_index to include/linux/slab_def.h from mm/slab.c.
+- Moved cache->s_mem untagging to alloc_slabmgmt() for SLAB.
+- Fixed check_memory_region() to correctly handle user memory accesses and
+  size == 0 case.
+- Merged __no_sanitize_hwaddress into __no_sanitize_address.
+- Defined KASAN_SET_TAG and KASAN_RESET_TAG macros for non KASAN builds to
+  avoid duplication of __kimg_to_phys, _virt_addr_is_linear and
+  page_to_virt macros.
+- Fixed and simplified find_first_bad_addr for generic KASAN.
+- Use non symbolized example KASAN report in documentation.
+- Mention clang version requirements for both KASAN modes in the Kconfig
+  options and in the documentation.
+- Various small fixes.
+
+Version v7 got accidentally skipped.
+
+Changes in v6:
+- Rebased onto 050cdc6c (4.19-rc1+).
+- Added notes regarding patchset testing into the cover letter.
+
+Changes in v5:
+- Rebased onto 1ffaddd029 (4.18-rc8).
+- Preassign tags for objects from caches with constructors and
+  SLAB_TYPESAFE_BY_RCU caches.
+- Fix SLAB allocator support by untagging page->s_mem in
+  kasan_poison_slab().
+- Performed dynamic testing to find potential places where pointer tagging
+  might result in bugs [1].
+- Clarified and fixed memory usage benchmarks in the cover letter.
+- Added a rationale for having KHWASAN to the cover letter.
+
+Changes in v4:
+- Fixed SPDX comment style in mm/kasan/kasan.h.
+- Fixed mm/kasan/kasan.h changes being included in a wrong patch.
+- Swapped "khwasan, arm64: fix up fault handling logic" and "khwasan: add
+  tag related helper functions" patches order.
+- Rebased onto 6f0d349d (4.18-rc2+).
+
+Changes in v3:
+- Minor documentation fixes.
+- Fixed CFLAGS variable name in KASAN makefile.
+- Added a "SPDX-License-Identifier: GPL-2.0" line to all source files
+  under mm/kasan.
+- Rebased onto 81e97f013 (4.18-rc1+).
+
+Changes in v2:
+- Changed kmalloc_large_node_hook to return tagged pointer instead of
+  using an output argument.
+- Fix checking whether -fsanitize=hwaddress is supported by the compiler.
+- Removed duplication of -fno-builtin for KASAN and KHWASAN.
+- Removed {} block for one line for_each_possible_cpu loop.
+- Made set_track() static inline as it is used only in common.c.
+- Moved optimal_redzone() to common.c.
+- Fixed using tagged pointer for shadow calculation in
+  kasan_unpoison_shadow().
+- Restored setting cache->align in kasan_cache_create(), which was
+  accidentally lost.
+- Simplified __kasan_slab_free(), kasan_alloc_pages() and kasan_kmalloc().
+- Removed tagging from kasan_kmalloc_large().
+- Added page_kasan_tag_reset() to kasan_poison_slab() and removed
+  !PageSlab() check from page_to_virt.
+- Reset pointer tag in _virt_addr_is_linear.
+- Set page tag for each page when multiple pages are allocated or freed.
+- Added a comment as to why we ignore cma allocated pages.
+
+Changes in v1:
+- Rebased onto 4.17-rc4.
+- Updated benchmarking stats.
+- Documented compiler version requirements, memory usage and slowdown.
+- Dropped kvm patches, as clang + arm64 + kvm is completely broken [1].
+
+Changes in RFC v3:
+- Renamed CONFIG_KASAN_CLASSIC and CONFIG_KASAN_TAGS to
+  CONFIG_KASAN_GENERIC and CONFIG_KASAN_HW respectively.
+- Switch to -fsanitize=kernel-hwaddress instead of -fsanitize=hwaddress.
+- Removed unnecessary excessive shadow initialization.
+- Removed khwasan_enabled flag (it’s not needed since KHWASAN is
+  initialized before any slab caches are used).
+- Split out kasan_report.c and khwasan_report.c from report.c.
+- Moved more common KASAN and KHWASAN functions to common.c.
+- Added tagging to pagealloc.
+- Rebased onto 4.17-rc1.
+- Temporarily dropped patch that adds kvm support (arm64 + kvm + clang
+  combo is broken right now [2]).
+
+Changes in RFC v2:
+- Removed explicit casts to u8 * for kasan_mem_to_shadow() calls.
+- Introduced KASAN_TCR_FLAGS for setting the TCR_TBI1 flag.
+- Added a comment regarding the non-atomic RMW sequence in
+  khwasan_random_tag().
+- Made all tag related functions accept const void *.
+- Untagged pointers in __kimg_to_phys, which is used by virt_to_phys.
+- Untagged pointers in show_ptr in fault handling logic.
+- Untagged pointers passed to KVM.
+- Added two reserved tag values: 0xFF and 0xFE.
+- Used the reserved tag 0xFF to disable validity checking (to resolve the
+  issue with pointer tag being lost after page_address + kmap usage).
+- Used the reserved tag 0xFE to mark redzones and freed objects.
+- Added mnemonics for esr manipulation in KHWASAN brk handler.
+- Added a comment about the -recover flag.
+- Some minor cleanups and fixes.
+- Rebased onto 3215b9d5 (4.16-rc6+).
+- Tested on real hardware (Odroid C2 board).
+- Added better benchmarks.
+
+[1] https://lkml.org/lkml/2018/7/18/765
+[2] https://lkml.org/lkml/2018/4/19/775
+
+Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+
+Andrey Konovalov (22):
+  kasan, mm: change hooks signatures
+  kasan, slub: handle pointer tags in early_kmem_cache_node_alloc
+  kasan: move common generic and tag-based code to common.c
+  kasan: rename source files to reflect the new naming scheme
+  kasan: add CONFIG_KASAN_GENERIC and CONFIG_KASAN_SW_TAGS
+  kasan, arm64: adjust shadow size for tag-based mode
+  kasan: initialize shadow to 0xff for tag-based mode
+  kasan, arm64: untag address in __kimg_to_phys and _virt_addr_is_linear
+  kasan: add tag related helper functions
+  kasan: preassign tags to objects with ctors or SLAB_TYPESAFE_BY_RCU
+  mm: move obj_to_index to include/linux/slab_def.h
+  kasan, arm64: fix up fault handling logic
+  kasan, arm64: enable top byte ignore for the kernel
+  kasan, mm: perform untagged pointers comparison in krealloc
+  kasan: split out generic_report.c from report.c
+  kasan: add bug reporting routines for tag-based mode
+  kasan: add hooks implementation for tag-based mode
+  kasan, arm64: add brk handler for inline instrumentation
+  kasan, mm, arm64: tag non slab memory allocated via pagealloc
+  kasan: add __must_check annotations to kasan hooks
+  kasan: update documentation
+  kasan: add SPDX-License-Identifier mark to source files
+
+ Documentation/dev-tools/kasan.rst      | 232 +++++----
+ arch/arm64/Kconfig                     |   1 +
+ arch/arm64/Makefile                    |   2 +-
+ arch/arm64/include/asm/brk-imm.h       |   2 +
+ arch/arm64/include/asm/memory.h        |  36 +-
+ arch/arm64/include/asm/pgtable-hwdef.h |   1 +
+ arch/arm64/kernel/traps.c              |  68 ++-
+ arch/arm64/mm/fault.c                  |   3 +
+ arch/arm64/mm/kasan_init.c             |  18 +-
+ arch/arm64/mm/proc.S                   |   8 +-
+ include/linux/compiler-clang.h         |   5 +-
+ include/linux/compiler-gcc.h           |   6 +
+ include/linux/compiler_attributes.h    |  13 -
+ include/linux/kasan.h                  |  89 +++-
+ include/linux/mm.h                     |  29 ++
+ include/linux/page-flags-layout.h      |  10 +
+ include/linux/slab.h                   |   4 +-
+ include/linux/slab_def.h               |  13 +
+ lib/Kconfig.kasan                      |  87 +++-
+ mm/cma.c                               |  11 +
+ mm/kasan/Makefile                      |  15 +-
+ mm/kasan/{kasan.c => common.c}         | 655 +++++++++----------------
+ mm/kasan/generic.c                     | 344 +++++++++++++
+ mm/kasan/generic_report.c              | 153 ++++++
+ mm/kasan/{kasan_init.c => init.c}      |   1 +
+ mm/kasan/kasan.h                       |  83 +++-
+ mm/kasan/quarantine.c                  |   1 +
+ mm/kasan/report.c                      | 272 +++-------
+ mm/kasan/tags.c                        | 161 ++++++
+ mm/kasan/tags_report.c                 |  58 +++
+ mm/page_alloc.c                        |   1 +
+ mm/slab.c                              |  29 +-
+ mm/slab.h                              |   2 +-
+ mm/slab_common.c                       |   6 +-
+ mm/slub.c                              |  51 +-
+ scripts/Makefile.kasan                 |  27 +-
+ 36 files changed, 1651 insertions(+), 846 deletions(-)
+ rename mm/kasan/{kasan.c => common.c} (59%)
+ create mode 100644 mm/kasan/generic.c
+ create mode 100644 mm/kasan/generic_report.c
+ rename mm/kasan/{kasan_init.c => init.c} (99%)
+ create mode 100644 mm/kasan/tags.c
+ create mode 100644 mm/kasan/tags_report.c
+
+-- 
+2.19.1.930.g4563a0d9d0-goog
+
