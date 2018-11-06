@@ -5,29 +5,29 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4EB707D8AB
+	by archive.lwn.net (Postfix) with ESMTP id 23AEA7D089
 	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 15:42:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388915AbeKGBG7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S2388907AbeKGBG7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Tue, 6 Nov 2018 20:06:59 -0500
-Received: from mail-eopbgr740077.outbound.protection.outlook.com ([40.107.74.77]:65176
-        "EHLO NAM01-BN3-obe.outbound.protection.outlook.com"
+Received: from mail-eopbgr810048.outbound.protection.outlook.com ([40.107.81.48]:11946
+        "EHLO NAM01-BY2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2388907AbeKGBG6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Nov 2018 20:06:58 -0500
+        id S2388554AbeKGBG5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Nov 2018 20:06:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mv35j3g/uj+9emp2Qs0Ms8T8rpiMQx3L70HcAj1xXLQ=;
- b=dS1cpYym6qztAIR5NwuPt39Nu82CVdOQQjOFLtzhM5tNSGOvlVj7ePNwMKU5Qt3mseN+3b66oPLF0g21XMi+iIz+1oLxhGXWzSiwGdoQsDjQDNabvSOuDl+WzCa7j6xeijOngaf+BG2S21S9bFHA59aSFGhcj55No/GIYlh8T7Y=
+ bh=BjvmQoXHltYj2bwnEMzrmnG6F9+A4sudshaqtUvgCUc=;
+ b=slBlDn3X06R1Pfsm9/x6AFs/6Td0inlJSvDtQgA0ttYaHT6b0S6P+Ic0JqK2JudjzsLA5yVOmqJ2mwAouCBv6cR+7kRqBmWu++kzEuVZafquFsUAJFus2smBINq0UM8xIa7xb/Knss1Kph9S7ARH9O2QtvXdapK3pfjynF+p1E0=
 Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
- DM5PR12MB1275.namprd12.prod.outlook.com (10.168.237.142) with Microsoft SMTP
+ DM5PR12MB1801.namprd12.prod.outlook.com (10.175.91.142) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1294.26; Tue, 6 Nov 2018 15:41:08 +0000
+ 15.20.1294.26; Tue, 6 Nov 2018 15:41:06 +0000
 Received: from DM5PR12MB2471.namprd12.prod.outlook.com
  ([fe80::4c23:f551:bc6a:554e]) by DM5PR12MB2471.namprd12.prod.outlook.com
  ([fe80::4c23:f551:bc6a:554e%4]) with mapi id 15.20.1294.032; Tue, 6 Nov 2018
- 15:41:08 +0000
+ 15:41:06 +0000
 From:   "Moger, Babu" <Babu.Moger@amd.com>
 To:     "tglx@linutronix.de" <tglx@linutronix.de>,
         "mingo@redhat.com" <mingo@redhat.com>,
@@ -62,12 +62,11 @@ CC:     "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
         "Moger, Babu" <Babu.Moger@amd.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: [PATCH v6 05/14] arch/x86: Introduce a new config parameter RESCTRL
-Thread-Topic: [PATCH v6 05/14] arch/x86: Introduce a new config parameter
- RESCTRL
-Thread-Index: AQHUdecilzEZl4eUzkirwOPTF+Q9Lg==
-Date:   Tue, 6 Nov 2018 15:41:08 +0000
-Message-ID: <20181106154034.15386-6-babu.moger@amd.com>
+Subject: [PATCH v6 04/14] arch/x86: Bring all the macros to resctrl.h
+Thread-Topic: [PATCH v6 04/14] arch/x86: Bring all the macros to resctrl.h
+Thread-Index: AQHUdechQDChg9YpPEW2M2a5wGk0qA==
+Date:   Tue, 6 Nov 2018 15:41:06 +0000
+Message-ID: <20181106154034.15386-5-babu.moger@amd.com>
 References: <20181106154034.15386-1-babu.moger@amd.com>
 In-Reply-To: <20181106154034.15386-1-babu.moger@amd.com>
 Accept-Language: en-US
@@ -82,65 +81,109 @@ authentication-results: spf=none (sender IP is )
 x-ms-exchange-messagesentrepresentingtype: 1
 x-originating-ip: [165.204.78.1]
 x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;DM5PR12MB1275;20:oJg8fBh4PrxqgOmCskKSXUcV8/3N/2tWx3igZSNDt7Xnm1QWhKOS8vWUB4WrSCjmEHnCP3+a+mGwGWpb5Bk0CLXVyBmT5XmNYXtrUfVYC8Jx/lHug8xc1sxLcwGY7KGzu+HBe1gakVod7eBedzZ1M9BDBkFeluAwCabLZuHq0x7RdFV4Db3yhM9m0IoOmd6bBYo46J6+QAraCpWbrnxhU7dG4lLZdhIqr8VUCwjcs2fP6hmDRcRxkmBu9em3gfOb
-x-ms-office365-filtering-correlation-id: 179f6f6d-748e-4a06-e9ba-08d643fe453e
+x-microsoft-exchange-diagnostics: 1;DM5PR12MB1801;20:+ewGmrMoBn/JsJ/koltt+W/0VQBwddBorVzDy5zEhjVnXWf+SSWs4Pj1THsj0zcu38Qegxq64N0jpGhlXzj7VgNddwk6l/9ga9gcr6/cdV6JzaZkfLMw0Dbgbg1aEtGSVTfdNAejGBpJ2gibLNlSDgAzxtpPgKsBgzW62pqt7rMCKEG0AbV4mr06cPQtbbIJFEsaG2t+UkfFa4vX6eYAN+yqXpjzTG8e+Xpu+QwgiUX8PvoPkjgGE4VRNAxJQJcL
+x-ms-office365-filtering-correlation-id: 76b8c018-c6c9-4d2d-77b1-08d643fe43a4
 x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(7020095)(4652040)(8989299)(5600074)(711020)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:DM5PR12MB1275;
-x-ms-traffictypediagnostic: DM5PR12MB1275:
-x-microsoft-antispam-prvs: <DM5PR12MB12757AACB6B53ADA02CB573D95CB0@DM5PR12MB1275.namprd12.prod.outlook.com>
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(7020095)(4652040)(8989299)(5600074)(711020)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:DM5PR12MB1801;
+x-ms-traffictypediagnostic: DM5PR12MB1801:
+x-microsoft-antispam-prvs: <DM5PR12MB180151AA388F54D1A981193895CB0@DM5PR12MB1801.namprd12.prod.outlook.com>
 x-exchange-antispam-report-test: UriScan:(767451399110);
 x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(823302103)(3231382)(944501410)(52105095)(3002001)(10201501046)(93006095)(93001095)(6055026)(148016)(149066)(150057)(6041310)(20161123558120)(20161123562045)(20161123564045)(20161123560045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(201708071742011)(7699051)(76991095);SRVR:DM5PR12MB1275;BCL:0;PCL:0;RULEID:;SRVR:DM5PR12MB1275;
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(823302103)(3231382)(944501410)(52105095)(3002001)(10201501046)(93006095)(93001095)(6055026)(148016)(149066)(150057)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123562045)(20161123564045)(20161123560045)(201708071742011)(7699051)(76991095);SRVR:DM5PR12MB1801;BCL:0;PCL:0;RULEID:;SRVR:DM5PR12MB1801;
 x-forefront-prvs: 0848C1A6AA
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(396003)(136003)(346002)(376002)(366004)(189003)(199004)(186003)(6486002)(97736004)(4326008)(486006)(6506007)(386003)(256004)(14444005)(2501003)(305945005)(26005)(6512007)(5660300001)(8936002)(7416002)(2906002)(6436002)(2900100001)(7406005)(81156014)(68736007)(446003)(53936002)(66066001)(86362001)(25786009)(575784001)(7736002)(71200400001)(476003)(71190400001)(81166006)(2201001)(2616005)(11346002)(99286004)(54906003)(478600001)(1076002)(3846002)(110136005)(102836004)(14454004)(316002)(72206003)(8676002)(36756003)(52116002)(76176011)(105586002)(106356001)(6116002)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1275;H:DM5PR12MB2471.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(136003)(346002)(396003)(376002)(366004)(199004)(189003)(476003)(6512007)(486006)(53936002)(2900100001)(76176011)(52116002)(26005)(186003)(102836004)(6506007)(446003)(11346002)(99286004)(4326008)(106356001)(386003)(105586002)(3846002)(6486002)(6116002)(1076002)(68736007)(66066001)(36756003)(14454004)(8676002)(81156014)(81166006)(2616005)(8936002)(7406005)(5660300001)(6436002)(316002)(2906002)(7416002)(305945005)(7736002)(54906003)(110136005)(575784001)(25786009)(72206003)(86362001)(478600001)(71190400001)(2201001)(71200400001)(2501003)(97736004)(256004)(14444005)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1801;H:DM5PR12MB2471.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
-x-microsoft-antispam-message-info: BHf8/BggH9bIfzHCSzTeShMFqy4OiyAb0AIR1FGVMDfZL+tL4qTmgEq/IEPHyJzJRbbxDZyHfZqMOzq6zzZf5IWaOhkQLFGses6gZF1LnC9UKoE0k95H9UxTwhPIrr+3fZ1/QAcOI33TlcdPv9NvMwN4upUMphkBZdEvdMMnSVJNTnlXyXSAul6Y5W02THhgb4iYBaEM8pP+bJJtHJUm7SkBH6wDhxppz9ili/D7OJ8EUtDsDQ7PznXudYIbLlBa1iTpthvGx9ITolI8BSUraGSOkW8Ww93+Ia1MvIMoswryUm4Q0YHFlRJIuoVA5GKxGHoghgiSw52DZD4hVlYWeomGmiNiQU7rwiy5VWfjee4=
+x-microsoft-antispam-message-info: HuqiMzm0zoS14knhljMjO5D/BJhC6N1IsWD+wXDj9HPQ9FEQkPva6H+zrNON3eA8qj0lTImWduf5oBMfCKGfckXwRYzuw75I93tjwTHyuLCyjgN36W9uhKXVKvVJD02tftU5gps6ctjP6Ej+SC346AzX2qtWPwuPlam/vZdOy/1DKRZ9Sbdbvqjl+WDZ+FGSUbddzC6JEmRGRPdJKehxjo8bt1+GRqQ7xYP2brr7eViR3gj0zRRwvTGYCODFK1Mjw1iIaNk3o5HzA12IWG1tvGXxW8ckz8mQY2PoabVvR0xIvFDDzNlBMeh6opMR4nnFT2f4vFk9tVT7/3x7OkF29gJgd3OT5ckYPcXC53yykiQ=
 spamdiagnosticoutput: 1:99
 spamdiagnosticmetadata: NSPM
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 179f6f6d-748e-4a06-e9ba-08d643fe453e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2018 15:41:08.5321
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76b8c018-c6c9-4d2d-77b1-08d643fe43a4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2018 15:41:06.3085
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1275
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1801
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduces a new config parameter RESCTRL.
-
-This will be used as a common config parameter for both Intel and AMD.
-Each vendor will have their own config parameter to enable RDT feature.
-One for Intel(INTEL_RDT) and one for AMD(AMD_QOS). It can be enabled or
-disabled separately. The new parameter RESCTRL will be dependent on
-INTEL_RDT or AMD_QOS.
+Bring all the macros to resctrl.h and rename for consistency.
 
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 ---
- arch/x86/Kconfig | 4 ++++
- 1 file changed, 4 insertions(+)
+ arch/x86/kernel/cpu/resctrl.c         | 3 ---
+ arch/x86/kernel/cpu/resctrl.h         | 5 +++++
+ arch/x86/kernel/cpu/resctrl_monitor.c | 7 ++-----
+ 3 files changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 1a0be022f91d..91a703ebdc04 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -458,6 +458,10 @@ config INTEL_RDT
+diff --git a/arch/x86/kernel/cpu/resctrl.c b/arch/x86/kernel/cpu/resctrl.c
+index fd5320dddddc..ddb2c65a309a 100644
+--- a/arch/x86/kernel/cpu/resctrl.c
++++ b/arch/x86/kernel/cpu/resctrl.c
+@@ -33,9 +33,6 @@
+ #include <asm/resctrl_sched.h>
+ #include "resctrl.h"
 =20
- 	  Say N if unsure.
+-#define MBA_IS_LINEAR	0x4
+-#define MBA_MAX_MBPS	U32_MAX
+-
+ /* Mutex to protect rdtgroup access. */
+ DEFINE_MUTEX(rdtgroup_mutex);
 =20
-+config RESCTRL
-+	def_bool y
-+	depends on X86 && INTEL_RDT
+diff --git a/arch/x86/kernel/cpu/resctrl.h b/arch/x86/kernel/cpu/resctrl.h
+index abf5c7e4c625..e5f7bf6a8d09 100644
+--- a/arch/x86/kernel/cpu/resctrl.h
++++ b/arch/x86/kernel/cpu/resctrl.h
+@@ -12,6 +12,9 @@
+ #define IA32_L2_CBM_BASE	0xd10
+ #define IA32_MBA_THRTL_BASE	0xd50
+=20
++#define IA32_QM_CTR		0x0c8e
++#define IA32_QM_EVTSEL		0x0c8d
 +
- if X86_32
- config X86_BIGSMP
- 	bool "Support for big SMP systems with more than 8 CPUs"
+ #define L3_QOS_CDP_ENABLE	0x01ULL
+=20
+ #define L2_QOS_CDP_ENABLE	0x01ULL
+@@ -29,6 +32,8 @@
+ #define MBM_CNTR_WIDTH			24
+ #define MBM_OVERFLOW_INTERVAL		1000
+ #define MAX_MBA_BW			100u
++#define MBA_IS_LINEAR			0x4
++#define MBA_MAX_MBPS			U32_MAX
+=20
+ #define RMID_VAL_ERROR			BIT_ULL(63)
+ #define RMID_VAL_UNAVAIL		BIT_ULL(62)
+diff --git a/arch/x86/kernel/cpu/resctrl_monitor.c b/arch/x86/kernel/cpu/re=
+sctrl_monitor.c
+index 68dbdbbf47df..ad0107bc16a0 100644
+--- a/arch/x86/kernel/cpu/resctrl_monitor.c
++++ b/arch/x86/kernel/cpu/resctrl_monitor.c
+@@ -28,9 +28,6 @@
+ #include <asm/cpu_device_id.h>
+ #include "resctrl.h"
+=20
+-#define MSR_IA32_QM_CTR		0x0c8e
+-#define MSR_IA32_QM_EVTSEL		0x0c8d
+-
+ struct rmid_entry {
+ 	u32				rmid;
+ 	int				busy;
+@@ -97,8 +94,8 @@ static u64 __rmid_read(u32 rmid, u32 eventid)
+ 	 * IA32_QM_CTR.Error (bit 63) and IA32_QM_CTR.Unavailable (bit 62)
+ 	 * are error bits.
+ 	 */
+-	wrmsr(MSR_IA32_QM_EVTSEL, eventid, rmid);
+-	rdmsrl(MSR_IA32_QM_CTR, val);
++	wrmsr(IA32_QM_EVTSEL, eventid, rmid);
++	rdmsrl(IA32_QM_CTR, val);
+=20
+ 	return val;
+ }
 --=20
 2.17.1
 
