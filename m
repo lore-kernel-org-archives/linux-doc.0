@@ -1,93 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DF26F7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 06:48:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 10CCA7D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 07:29:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387946AbeKFQLz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 11:11:55 -0500
-Received: from out1.zte.com.cn ([202.103.147.172]:47804 "EHLO mxct.zte.com.cn"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387813AbeKFQLz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Nov 2018 11:11:55 -0500
-Received: from mse01.zte.com.cn (unknown [10.30.3.20])
-        by Forcepoint Email with ESMTPS id 65ECA5E685B4B38924D8;
-        Tue,  6 Nov 2018 14:47:22 +0800 (CST)
-Received: from notes_smtp.zte.com.cn ([10.30.1.239])
-        by mse01.zte.com.cn with ESMTP id wA66lFG9044744;
-        Tue, 6 Nov 2018 14:47:15 +0800 (GMT-8)
-        (envelope-from peng.hao2@zte.com.cn)
-Received: from localhost.localdomain.localdomain ([10.74.120.59])
-          by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
-          with ESMTP id 2018110614472932-8886623 ;
-          Tue, 6 Nov 2018 14:47:29 +0800 
-From:   Peng Hao <peng.hao2@zte.com.cn>
-To:     robh+dt@kernel.org, mark.rutland@arm.com, arnd@arndb.de,
-        gregkh@linuxfoundation.org, andy@infradead.org,
-        dvhart@infradead.org
-Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        hutao@cn.fujitsu.com, linux-doc@vger.kernel.org,
-        Peng Hao <peng.hao2@zte.com.cn>
-Subject: [PATCH V8 10/11]  misc/pvpanic: convert to SPDX license tags
-Date:   Tue, 6 Nov 2018 22:57:21 +0800
-Message-Id: <1541516242-98568-10-git-send-email-peng.hao2@zte.com.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1541516242-98568-1-git-send-email-peng.hao2@zte.com.cn>
-References: <1541516242-98568-1-git-send-email-peng.hao2@zte.com.cn>
-X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release 8.5.3FP6|November
- 21, 2013) at 2018-11-06 14:47:29,
-        Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
- 2018-11-06 14:47:11,
-        Serialize complete at 2018-11-06 14:47:11
-X-MAIL: mse01.zte.com.cn wA66lFG9044744
+        id S2387617AbeKFQxZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 11:53:25 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:53080 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387457AbeKFQxZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 11:53:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=5ZgUrZ1l3+vHSBFxC7gpFL7jnXgahPv4xPdZTh+i1uw=; b=Oux0PF4a/Q5B+L4JQRVzqh4D3m
+        owR+oGuY450WT1TSzwdCESB+uWuYZU4EB1Alnlt2kPsK6cagA0hymcK+b7Bs/eeE7NvO7yIDk2tFV
+        kA9tQNg+iUG24avTkyzZVfwNH27Z25agRYYOppMyaSqaLPf0aAEyBFe0QssyEODrlEcKu1Xrws9i0
+        nPNvlXOsJJBNtIt5GPhhzaG1vLp65NWdvwib+ABn0RcTNsfMVC18ud93h6z1mYGiDe29EnyEKg2LY
+        C+IS4Jagua+Ke+bQ5rpQVFlOXoJsoj7U3micPcT7Yob5YIQSn4yoCltJgtty77o4J5hT9qSmSJq8v
+        S8lTuF5g==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=dragon.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gJvnm-00045a-Px; Tue, 06 Nov 2018 07:29:30 +0000
+Subject: Re: [PATCH] docs/admin-guide/mm/concepts.rst: grammar fixups
+To:     Mike Rapoport <rppt@linux.ibm.com>,
+        Matthew Wilcox <willy@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>
+References: <1541447895-14996-1-git-send-email-rppt@linux.ibm.com>
+ <20181105211240.GA3074@bombadil.infradead.org>
+ <20181106063511.GC4499@rapoport-lnx>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <19eb9ca8-d285-3ea9-faa5-f996a462f138@infradead.org>
+Date:   Mon, 5 Nov 2018 23:29:27 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+MIME-Version: 1.0
+In-Reply-To: <20181106063511.GC4499@rapoport-lnx>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Updates license to use SPDX-License-Identifier instead of
-verbose license text.
+On 11/5/18 10:35 PM, Mike Rapoport wrote:
+> On Mon, Nov 05, 2018 at 01:12:40PM -0800, Matthew Wilcox wrote:
+>> On Mon, Nov 05, 2018 at 09:58:15PM +0200, Mike Rapoport wrote:
+>>> @@ -21,10 +21,10 @@ Virtual Memory Primer
+>>>  The physical memory in a computer system is a limited resource and
+>>>  even for systems that support memory hotplug there is a hard limit on
+>>>  the amount of memory that can be installed. The physical memory is not
+>>> -necessary contiguous, it might be accessible as a set of distinct
+>>> +necessary contiguous; it might be accessible as a set of distinct
+>>
+>> necessarily
+>>
+>>>  address ranges. Besides, different CPU architectures, and even
+>>> -different implementations of the same architecture have different view
+>>> -how these address ranges defined.
+>>> +different implementations of the same architecture have different views
+>>> +of how these address ranges defined.
+>>
+>> "are defined"?
+>>
+>>>  Each physical memory page can be mapped as one or more virtual
+>>>  pages. These mappings are described by page tables that allow
+>>> -translation from virtual address used by programs to real address in
+>>> -the physical memory. The page tables organized hierarchically.
+>>> +translation from a virtual address used by programs to the real
+>>> +address in the physical memory. The page tables are organized
+>>> +hierarchically.
+>>
+>> I don't like the term "real address".  Can we say "physical address in memory" here, or "address of physical memory" or something?
+>  
+> I didn't really like it as well, but I couldn't think of any better
+> adjective to emphasize that address in the physical memory is "the real
+> thing".
+> 
+> Maybe the best would be to drop "real" and make it 
+> 
+> "translation from a virtual address used by programs to the 
+> address in the physical memory"
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Acked-by: Mark Rutland <mark.rutland@arm.com>
-Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
----
- drivers/misc/pvpanic.c | 17 ++---------------
- 1 file changed, 2 insertions(+), 15 deletions(-)
+physical memory address ?
 
-diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
-index e365604..8afb528 100644
---- a/drivers/misc/pvpanic.c
-+++ b/drivers/misc/pvpanic.c
-@@ -1,22 +1,9 @@
-+// SPDX-License-Identifier: GPL-2.0+
- /*
-- *  pvpanic.c - pvpanic Device Support
-+ *  Pvpanic Device Support
-  *
-  *  Copyright (C) 2013 Fujitsu.
-  *  Copyright (C) 2018 ZTE.
-- *
-- *  This program is free software; you can redistribute it and/or modify
-- *  it under the terms of the GNU General Public License as published by
-- *  the Free Software Foundation; either version 2 of the License, or
-- *  (at your option) any later version.
-- *
-- *  This program is distributed in the hope that it will be useful,
-- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- *  GNU General Public License for more details.
-- *
-- *  You should have received a copy of the GNU General Public License
-- *  along with this program; if not, write to the Free Software
-- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-  */
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+
 -- 
-1.8.3.1
-
+~Randy
