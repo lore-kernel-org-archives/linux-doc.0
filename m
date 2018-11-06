@@ -1,57 +1,31 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A033B7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 14:11:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 88E177D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 14:17:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730684AbeKFXgn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 18:36:43 -0500
-Received: from mail-yw1-f67.google.com ([209.85.161.67]:46469 "EHLO
-        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730481AbeKFXgn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 18:36:43 -0500
-Received: by mail-yw1-f67.google.com with SMTP id v5-v6so704339ywa.13;
-        Tue, 06 Nov 2018 06:11:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=gdt1kJmntyurggHbrPSal7IcRdlpLMCs8QQ+tTT63wQ=;
-        b=nFnkRYgCfWmZoENAc3hxQqb3oem6Dqi1Fzsjl34P34GjlCAWv2dUbLNpLZlJtN0A2R
-         SPCHRYNCW4HUjQlkH29zJwyff0RK8VU3U9fYfmlhcNzy9HQZtinG8ov+ZwsGSXH72sKB
-         blQQgIPRbLC3hp97L5UoehkD+SRiodlQoAdNN6SO8d5mwdvhfzjVlL5bKB4cSlIP7wa1
-         xiBr6WH8NpVqZyyZY1Z97Cx2tw9An4K3aLgy6IF/Fky5cBqxmiORnf7T/wUajQVMAJRP
-         qR6BiC4eJAGklw063yi1o6DY0YFcPFMNzi6jyLHBdFXUfMFy7FICkv314Ws6a5dp1n+N
-         GFgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=gdt1kJmntyurggHbrPSal7IcRdlpLMCs8QQ+tTT63wQ=;
-        b=qF6B4GseOs3ijrwBJz0F7mG+1h76oDeGHtKokSnvWKly4dYaj9pwWTmHXVlXyb291G
-         lkgNIQBppByZ3wZCkQT7D9xnTLMt0G1tm3gc/ucnYc/BcP31zA4AW0FOR5ZUxwkJEE8v
-         dI/1mKAmdmU2lK+nvjAIWXyqXajQ1p+8vlqmR19vQjCuH6uGcXVO3E7UmL+AQUUw36+n
-         Wvi1jeqccKUZgPoTbUsRqsLvh+DV19OpdoVXoX/aF8DoEdIR8Gimj5Qyeo2eMM5e0wUJ
-         ed/PDrL1BO76d9jpzE6VW+aHg3T5vc67GHqFeO/1rXprgsSdU10KjwAnL9TI62GHUrk8
-         f+ng==
-X-Gm-Message-State: AGRZ1gK0YD3LBcwwmt3n7waFHqrCcecwi8ppXk5bI4HLKVsSGgi/Jsfc
-        qPN/xaQhORTyNbgJ48ef2ztUrEyU
-X-Google-Smtp-Source: AJdET5eEHnLn/nhqvJjdpeBCJzdX/QVYhi+nqTY2V4aXeaTAm93dlvBIlviN06RLacPy24CHqJrygA==
-X-Received: by 2002:a0d:dd10:: with SMTP id g16-v6mr25189173ywe.59.1541513477826;
-        Tue, 06 Nov 2018 06:11:17 -0800 (PST)
-Received: from localhost ([2620:10d:c091:200::7:9d2a])
-        by smtp.gmail.com with ESMTPSA id j72-v6sm409510ywj.60.2018.11.06.06.11.16
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 06 Nov 2018 06:11:16 -0800 (PST)
-Date:   Tue, 6 Nov 2018 06:11:14 -0800
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Li Zefan <lizefan@huawei.com>,
+        id S1730686AbeKFXnQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 18:43:16 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:44070 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730663AbeKFXnP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Nov 2018 18:43:15 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 5452537E87;
+        Tue,  6 Nov 2018 14:17:49 +0000 (UTC)
+Received: from llong.remote.csb (ovpn-124-84.rdu2.redhat.com [10.10.124.84])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3841C60470;
+        Tue,  6 Nov 2018 14:17:36 +0000 (UTC)
+Subject: Re: [PATCH v14 05/12] cpuset: Add an error state to
+ cpuset.sched.partition
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -61,36 +35,89 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         Juri Lelli <juri.lelli@redhat.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>,
         Tom Hromatka <tom.hromatka@oracle.com>
-Subject: Re: [PATCH v14 00/12] Enable cpuset controller in default hierarchy
-Message-ID: <20181106141114.GA2351522@devbig004.ftw2.facebook.com>
 References: <1539635377-22335-1-git-send-email-longman@redhat.com>
- <20181105163656.GK4182586@devbig004.ftw2.facebook.com>
- <20181106115335.GQ22431@hirez.programming.kicks-ass.net>
- <20181106115558.GB22485@hirez.programming.kicks-ass.net>
- <8c386375-b801-8adb-602e-40c73a7efedc@redhat.com>
- <CAOS58YPye=7Ga+y-ujFsgHqo6vdVnjykmON1z+UjNQLvvM_g4w@mail.gmail.com>
+ <1539635377-22335-6-git-send-email-longman@redhat.com>
+ <20181106113712.GL22431@hirez.programming.kicks-ass.net>
+From:   Waiman Long <longman@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ weim8xU=
+Organization: Red Hat
+Message-ID: <98a0b581-584b-ef6e-e38b-20ab601b7c05@redhat.com>
+Date:   Tue, 6 Nov 2018 09:17:29 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOS58YPye=7Ga+y-ujFsgHqo6vdVnjykmON1z+UjNQLvvM_g4w@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20181106113712.GL22431@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]); Tue, 06 Nov 2018 14:17:49 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello, again, guys.
+On 11/06/2018 06:37 AM, Peter Zijlstra wrote:
+> On Mon, Oct 15, 2018 at 04:29:30PM -0400, Waiman Long wrote:
+>> Handling error returned by update_parent_subparts_cpumask() in
+>> update_cpumasks_hier() is problematic as the states may become
+>> inconsistent. To avoid that and increase flexibility in handling other
+>> error cases, a new error state (-1) is added to the partition_root_state
+>> flag. This new error state is set internally and user cannot write this
+>> value to "cpuset.sched.partition".
+>>
+>> In this error state, the partition root becomes an erroneous one. It is
+>> no longer a real partition root, but the CS_CPU_EXCLUSIVE flag will
+>> still be set as it can be changed back to a real one if appropriate
+>> change happens later on.
+> I feel this Changelog should be much more explicit about the reasons
+> this -1 state can happen. As is, I've got no clue.
 
-On Tue, Nov 06, 2018 at 09:09:07AM -0500, Tejun Heo wrote:
-> Hello, Waiman, Peter.
-> 
-> Let's skip this patch for now. I'll think more about the interface and
-> adapt your patch later.
+OK, I will elaborate more on this changelog.
 
-Sorry about the last message.  I thought I configured web interface
-but obviously didn't and it went out with html subpart.
+Cheers,
+Longman
 
-Thanks.
-
--- 
-tejun
