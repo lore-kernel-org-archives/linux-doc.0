@@ -1,35 +1,37 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 23AEA7D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 15:42:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C1EC47D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 15:53:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388907AbeKGBG7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 20:06:59 -0500
-Received: from mail-eopbgr810048.outbound.protection.outlook.com ([40.107.81.48]:11946
-        "EHLO NAM01-BY2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2388554AbeKGBG5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Nov 2018 20:06:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BjvmQoXHltYj2bwnEMzrmnG6F9+A4sudshaqtUvgCUc=;
- b=slBlDn3X06R1Pfsm9/x6AFs/6Td0inlJSvDtQgA0ttYaHT6b0S6P+Ic0JqK2JudjzsLA5yVOmqJ2mwAouCBv6cR+7kRqBmWu++kzEuVZafquFsUAJFus2smBINq0UM8xIa7xb/Knss1Kph9S7ARH9O2QtvXdapK3pfjynF+p1E0=
-Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
- DM5PR12MB1801.namprd12.prod.outlook.com (10.175.91.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1294.26; Tue, 6 Nov 2018 15:41:06 +0000
-Received: from DM5PR12MB2471.namprd12.prod.outlook.com
- ([fe80::4c23:f551:bc6a:554e]) by DM5PR12MB2471.namprd12.prod.outlook.com
- ([fe80::4c23:f551:bc6a:554e%4]) with mapi id 15.20.1294.032; Tue, 6 Nov 2018
- 15:41:06 +0000
-From:   "Moger, Babu" <Babu.Moger@amd.com>
-To:     "tglx@linutronix.de" <tglx@linutronix.de>,
+        id S2388559AbeKGBTf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 20:19:35 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:56128 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387685AbeKGBTf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 20:19:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=JBm0TxjK+YT/9uJcVZaN6FTpyAJoZyO2CN2vfmc48Z8=; b=IlmdNo7qk0roDwuGXixzv7tpv
+        XCYkYhyao0iTNr08dE25kpYtiymMJTRp2UoAQgQcu5XbqCqBCanePTZ+48dBAPTy7j7XiiLlR0yth
+        IkkOjp4LSbubE7yFjjdfPlmCIwx4iSEiGK9xNoGW5fW/+Xl4cdSxqvfy7Vb3fk9RFG/26ZU2MMIfq
+        NoFSvxh3yKitTFh1nKLHjaLob91XozGXlU7r42yxBZxXZe9GVNs9YYu7P8uOkAPBmmJ93Hrpz2Ky8
+        Bh6RyrpaeytpbDb6phId7a3pBpGngL8NAqHyg/vcWH847zGw5m4koOhlGtYhyl9pOJG/vVAje9VN7
+        bkXoUIftA==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gK3f7-0008EY-Vj; Tue, 06 Nov 2018 15:53:05 +0000
+Date:   Tue, 6 Nov 2018 07:53:05 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     "Moger, Babu" <Babu.Moger@amd.com>
+Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
         "mingo@redhat.com" <mingo@redhat.com>,
         "bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>,
         "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
@@ -37,8 +39,8 @@ To:     "tglx@linutronix.de" <tglx@linutronix.de>,
         "peterz@infradead.org" <peterz@infradead.org>,
         "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
         "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-CC:     "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
         "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
         "arnd@arndb.de" <arnd@arndb.de>,
         "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
@@ -59,131 +61,43 @@ CC:     "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
         "vkuznets@redhat.com" <vkuznets@redhat.com>,
         "rian@alum.mit.edu" <rian@alum.mit.edu>,
         "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "Moger, Babu" <Babu.Moger@amd.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: [PATCH v6 04/14] arch/x86: Bring all the macros to resctrl.h
-Thread-Topic: [PATCH v6 04/14] arch/x86: Bring all the macros to resctrl.h
-Thread-Index: AQHUdechQDChg9YpPEW2M2a5wGk0qA==
-Date:   Tue, 6 Nov 2018 15:41:06 +0000
-Message-ID: <20181106154034.15386-5-babu.moger@amd.com>
+Subject: Re: [PATCH v6 13/14] Documentation/x86: Rename and update
+ intel_rdt_ui.txt
+Message-ID: <20181106155305.GG3074@bombadil.infradead.org>
 References: <20181106154034.15386-1-babu.moger@amd.com>
-In-Reply-To: <20181106154034.15386-1-babu.moger@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: SN4PR0401CA0010.namprd04.prod.outlook.com
- (2603:10b6:803:21::20) To DM5PR12MB2471.namprd12.prod.outlook.com
- (2603:10b6:4:b5::10)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Babu.Moger@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [165.204.78.1]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;DM5PR12MB1801;20:+ewGmrMoBn/JsJ/koltt+W/0VQBwddBorVzDy5zEhjVnXWf+SSWs4Pj1THsj0zcu38Qegxq64N0jpGhlXzj7VgNddwk6l/9ga9gcr6/cdV6JzaZkfLMw0Dbgbg1aEtGSVTfdNAejGBpJ2gibLNlSDgAzxtpPgKsBgzW62pqt7rMCKEG0AbV4mr06cPQtbbIJFEsaG2t+UkfFa4vX6eYAN+yqXpjzTG8e+Xpu+QwgiUX8PvoPkjgGE4VRNAxJQJcL
-x-ms-office365-filtering-correlation-id: 76b8c018-c6c9-4d2d-77b1-08d643fe43a4
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(7020095)(4652040)(8989299)(5600074)(711020)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:DM5PR12MB1801;
-x-ms-traffictypediagnostic: DM5PR12MB1801:
-x-microsoft-antispam-prvs: <DM5PR12MB180151AA388F54D1A981193895CB0@DM5PR12MB1801.namprd12.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(767451399110);
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(823302103)(3231382)(944501410)(52105095)(3002001)(10201501046)(93006095)(93001095)(6055026)(148016)(149066)(150057)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123562045)(20161123564045)(20161123560045)(201708071742011)(7699051)(76991095);SRVR:DM5PR12MB1801;BCL:0;PCL:0;RULEID:;SRVR:DM5PR12MB1801;
-x-forefront-prvs: 0848C1A6AA
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(136003)(346002)(396003)(376002)(366004)(199004)(189003)(476003)(6512007)(486006)(53936002)(2900100001)(76176011)(52116002)(26005)(186003)(102836004)(6506007)(446003)(11346002)(99286004)(4326008)(106356001)(386003)(105586002)(3846002)(6486002)(6116002)(1076002)(68736007)(66066001)(36756003)(14454004)(8676002)(81156014)(81166006)(2616005)(8936002)(7406005)(5660300001)(6436002)(316002)(2906002)(7416002)(305945005)(7736002)(54906003)(110136005)(575784001)(25786009)(72206003)(86362001)(478600001)(71190400001)(2201001)(71200400001)(2501003)(97736004)(256004)(14444005)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1801;H:DM5PR12MB2471.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-microsoft-antispam-message-info: HuqiMzm0zoS14knhljMjO5D/BJhC6N1IsWD+wXDj9HPQ9FEQkPva6H+zrNON3eA8qj0lTImWduf5oBMfCKGfckXwRYzuw75I93tjwTHyuLCyjgN36W9uhKXVKvVJD02tftU5gps6ctjP6Ej+SC346AzX2qtWPwuPlam/vZdOy/1DKRZ9Sbdbvqjl+WDZ+FGSUbddzC6JEmRGRPdJKehxjo8bt1+GRqQ7xYP2brr7eViR3gj0zRRwvTGYCODFK1Mjw1iIaNk3o5HzA12IWG1tvGXxW8ckz8mQY2PoabVvR0xIvFDDzNlBMeh6opMR4nnFT2f4vFk9tVT7/3x7OkF29gJgd3OT5ckYPcXC53yykiQ=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ <20181106154034.15386-14-babu.moger@amd.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76b8c018-c6c9-4d2d-77b1-08d643fe43a4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2018 15:41:06.3085
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1801
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181106154034.15386-14-babu.moger@amd.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bring all the macros to resctrl.h and rename for consistency.
+On Tue, Nov 06, 2018 at 03:41:26PM +0000, Moger, Babu wrote:
+> @@ -1,4 +1,7 @@
+> -User Interface for Resource Allocation in Intel Resource Director Technology
+> +User Interface for RESCTRL feature
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
----
- arch/x86/kernel/cpu/resctrl.c         | 3 ---
- arch/x86/kernel/cpu/resctrl.h         | 5 +++++
- arch/x86/kernel/cpu/resctrl_monitor.c | 7 ++-----
- 3 files changed, 7 insertions(+), 8 deletions(-)
+"for Resource Control".
 
-diff --git a/arch/x86/kernel/cpu/resctrl.c b/arch/x86/kernel/cpu/resctrl.c
-index fd5320dddddc..ddb2c65a309a 100644
---- a/arch/x86/kernel/cpu/resctrl.c
-+++ b/arch/x86/kernel/cpu/resctrl.c
-@@ -33,9 +33,6 @@
- #include <asm/resctrl_sched.h>
- #include "resctrl.h"
-=20
--#define MBA_IS_LINEAR	0x4
--#define MBA_MAX_MBPS	U32_MAX
--
- /* Mutex to protect rdtgroup access. */
- DEFINE_MUTEX(rdtgroup_mutex);
-=20
-diff --git a/arch/x86/kernel/cpu/resctrl.h b/arch/x86/kernel/cpu/resctrl.h
-index abf5c7e4c625..e5f7bf6a8d09 100644
---- a/arch/x86/kernel/cpu/resctrl.h
-+++ b/arch/x86/kernel/cpu/resctrl.h
-@@ -12,6 +12,9 @@
- #define IA32_L2_CBM_BASE	0xd10
- #define IA32_MBA_THRTL_BASE	0xd50
-=20
-+#define IA32_QM_CTR		0x0c8e
-+#define IA32_QM_EVTSEL		0x0c8d
-+
- #define L3_QOS_CDP_ENABLE	0x01ULL
-=20
- #define L2_QOS_CDP_ENABLE	0x01ULL
-@@ -29,6 +32,8 @@
- #define MBM_CNTR_WIDTH			24
- #define MBM_OVERFLOW_INTERVAL		1000
- #define MAX_MBA_BW			100u
-+#define MBA_IS_LINEAR			0x4
-+#define MBA_MAX_MBPS			U32_MAX
-=20
- #define RMID_VAL_ERROR			BIT_ULL(63)
- #define RMID_VAL_UNAVAIL		BIT_ULL(62)
-diff --git a/arch/x86/kernel/cpu/resctrl_monitor.c b/arch/x86/kernel/cpu/re=
-sctrl_monitor.c
-index 68dbdbbf47df..ad0107bc16a0 100644
---- a/arch/x86/kernel/cpu/resctrl_monitor.c
-+++ b/arch/x86/kernel/cpu/resctrl_monitor.c
-@@ -28,9 +28,6 @@
- #include <asm/cpu_device_id.h>
- #include "resctrl.h"
-=20
--#define MSR_IA32_QM_CTR		0x0c8e
--#define MSR_IA32_QM_EVTSEL		0x0c8d
--
- struct rmid_entry {
- 	u32				rmid;
- 	int				busy;
-@@ -97,8 +94,8 @@ static u64 __rmid_read(u32 rmid, u32 eventid)
- 	 * IA32_QM_CTR.Error (bit 63) and IA32_QM_CTR.Unavailable (bit 62)
- 	 * are error bits.
- 	 */
--	wrmsr(MSR_IA32_QM_EVTSEL, eventid, rmid);
--	rdmsrl(MSR_IA32_QM_CTR, val);
-+	wrmsr(IA32_QM_EVTSEL, eventid, rmid);
-+	rdmsrl(IA32_QM_CTR, val);
-=20
- 	return val;
- }
---=20
-2.17.1
+> +Intel refers to this feature as Intel Resource Director Technology(Intel(R) RDT).
+> +AMD refers to this feature as AMD Platform Quality of Service(AMD QoS).
+>  
+>  Copyright (C) 2016 Intel Corporation
+>  
+> @@ -6,8 +9,8 @@ Fenghua Yu <fenghua.yu@intel.com>
+>  Tony Luck <tony.luck@intel.com>
+>  Vikas Shivappa <vikas.shivappa@intel.com>
+>  
+> -This feature is enabled by the CONFIG_INTEL_RDT Kconfig and the
+> -X86 /proc/cpuinfo flag bits:
+> +This feature is enabled by the CONFIG_INTEL_RDT Kconfig(for Intel) or
+> +CONFIG_AMD_QOS(for AMD) and the X86 /proc/cpuinfo flag bits:
 
+Now I'm curious why we have two different Kconfig options for the same
+feature.  I should go and read the other patches, I suppose.
