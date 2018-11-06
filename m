@@ -1,109 +1,78 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A98467D08E
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 10:02:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C89BB7D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 11:36:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387624AbeKFT0v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 14:26:51 -0500
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:37699 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387480AbeKFT0v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 14:26:51 -0500
-Received: by mail-qk1-f195.google.com with SMTP id 131so18056532qkd.4;
-        Tue, 06 Nov 2018 02:02:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rzkR19TRPPMVIHqr3bzW4tFWrW6lmag84rwz6NCkuFg=;
-        b=fAKQyDvCK1erbFPl5bYvDmW7TLyePo/hltfz0DwaqhnIBBGH/NOpwtPT0042qH21Kx
-         q+JcnxmiZxC6hCjLnpurSQuowpbxsNiee9kjvcmvjVyBZj5RHJ2jc9Sozb/EoKJVAmFT
-         qtdcSLlVkqtwTUhCA468hUhQ8J+3N6OLFN7Vf/LWjMbxJJJwzU6BgWcw1C2iNUDc15+J
-         XPAex8jlwFbVjf8cSISlFPxHV0a/kReDErUWtAlZurc7SWYLpxwCT5ZHu6iUbPK3/GM+
-         c0aM0jmAk41ItuCSQ81eYb4DW0lSeygZIxvK0ybaQN4DL2bKFy71rqOdm+L6A6OqkXqU
-         Wcdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rzkR19TRPPMVIHqr3bzW4tFWrW6lmag84rwz6NCkuFg=;
-        b=d2/5ZgrFEyJ6X3fHqCTXYjqNiTUK//G7dhTrBFBqNoMbqmALPJ9HhsppQhaObPpFHp
-         sGjEQ3aOIprfUZN3ttgFwERZ+TNyY1x3l615INh1downfOyhdaUjI7/RXdKVs0QT9RcI
-         +XLsa03XQUrB8kRBuODQ4bA2qo4nrJpN5+fBAmjOOEUQFdX16yDgq9qcqtOUreK2Uj9j
-         IWquX8l+sP+hwUUFn1kXwlxM9IPnSrREvedEIZeBXLe6PYKZKKkLZi2ooqPCskqx5WJY
-         cyLWSSA21gK6g8JvECV49n5k8VH2rqMFyw66UGyX13i4SNqu5Ea/IGX6xWxjOgx6S/1T
-         7jOQ==
-X-Gm-Message-State: AGRZ1gKMN5JEC/GNTjZucFO3OSV5akuxTA4LEn9/pEgfoA83BJtxF5IR
-        +IIGgINVCIrzXrmz5eMlhc6VICA3jQ2/+cdH/Pc=
-X-Google-Smtp-Source: AJdET5cYjS3EigcnsB4d2tsegquWt3nlk3g75gbL3XaV7z3RDC3CVCyYQQaid1SUuJP3Z7w2WMuLrwfbClgM3Ghz+GY=
-X-Received: by 2002:a37:7983:: with SMTP id u125-v6mr22630766qkc.219.1541498543794;
- Tue, 06 Nov 2018 02:02:23 -0800 (PST)
+        id S1730492AbeKFVBA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 16:01:00 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:57110 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726976AbeKFVBA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 16:01:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=QM4hvYp9M8WCw+TKG7IEIs4GRbuBxcFezGbs72Qu0ME=; b=u0IAF1St1Wpe7TnAmPmm8OeEr
+        F+Zqs6iTZufRWi83teDoGp96/aImqTTaRTSqECKAd5Tjn9V9lKrFl4ftSFcTTD20ouR0wMBT5ClNj
+        eXMhQd4JXUdndPqUCgg2I6QJTNQ0oxtv6UrZWo3C94/H7HzREFyJcJ2yhVWgflV6u5GRIInODRgK6
+        0lgFiDxwBUJN6HrwZJQNyR72J7m+tX2Q9silfTl8Ga3yzHOEGcKX3Hro5atHtMum+WQmeaXnD2tzJ
+        3+dXG2s19xJQ6HPZQlpAD/2bCqweNhxbpyq93SOriHpLXyYO552/uI7n1V090ddjjBGZ7Ck4L4q0l
+        jYXskh5yQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gJze5-0005h3-OF; Tue, 06 Nov 2018 11:35:46 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 541532029F9FF; Tue,  6 Nov 2018 12:35:38 +0100 (CET)
+Date:   Tue, 6 Nov 2018 12:35:38 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>,
+        Tom Hromatka <tom.hromatka@oracle.com>
+Subject: Re: [PATCH v14 04/12] cpuset: Add new v2 cpuset.sched.partition flag
+Message-ID: <20181106113538.GK22431@hirez.programming.kicks-ass.net>
+References: <1539635377-22335-1-git-send-email-longman@redhat.com>
+ <1539635377-22335-5-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
-References: <1541516242-98568-1-git-send-email-peng.hao2@zte.com.cn> <1541516242-98568-9-git-send-email-peng.hao2@zte.com.cn>
-In-Reply-To: <1541516242-98568-9-git-send-email-peng.hao2@zte.com.cn>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 6 Nov 2018 12:02:12 +0200
-Message-ID: <CAHp75Vd_Zs+DJrxNQ1r3YWhfxYpENZAENtnU+9Qi8mVvzSsCsg@mail.gmail.com>
-Subject: Re: [PATCH V8 09/11] misc/pvpanic: change header file sort style
-To:     peng.hao2@zte.com.cn
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        hutao@cn.fujitsu.com,
-        Linux Documentation List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1539635377-22335-5-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 6, 2018 at 8:47 AM Peng Hao <peng.hao2@zte.com.cn> wrote:
->
-> Make header files alphabetical order.
->
+On Mon, Oct 15, 2018 at 04:29:29PM -0400, Waiman Long wrote:
+> + * Called with cpuset_mutex held.
+> + */
+> +static int update_parent_subparts_cpumask(struct cpuset *cpuset, int cmd,
+> +					  struct cpumask *newmask,
+> +					  struct tmpmasks *tmp)
+> +{
+> +	struct cpuset *parent = parent_cs(cpuset);
+> +	int adding;	/* Moving cpus from effective_cpus to subparts_cpus */
+> +	int deleting;	/* Moving cpus from subparts_cpus to effective_cpus */
+> +
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+I much prefer doing away with that "called with * held" comment crud and
+add:
 
-> Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
-> ---
->  drivers/misc/pvpanic.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/misc/pvpanic.c b/drivers/misc/pvpanic.c
-> index 479f7ba..e365604 100644
-> --- a/drivers/misc/pvpanic.c
-> +++ b/drivers/misc/pvpanic.c
-> @@ -21,13 +21,13 @@
->
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->
-> +#include <linux/acpi.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/of_address.h>
->  #include <linux/platform_device.h>
->  #include <linux/types.h>
-> -#include <linux/acpi.h>
->
->  static void __iomem *base;
->
-> --
-> 1.8.3.1
->
+	lockdep_assert_held(&cpuset_mutex);
 
 
--- 
-With Best Regards,
-Andy Shevchenko
