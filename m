@@ -1,91 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 020DA7D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 13:05:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5F7947D8E7
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 13:22:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730366AbeKFWae (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 17:30:34 -0500
-Received: from mx2.suse.de ([195.135.220.15]:52304 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729272AbeKFWae (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Nov 2018 17:30:34 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 5D181ACC1;
-        Tue,  6 Nov 2018 13:05:25 +0000 (UTC)
-Date:   Tue, 6 Nov 2018 14:05:24 +0100
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Daniel Colascione <dancol@google.com>
-Cc:     linux-kernel@vger.kernel.org, rppt@linux.ibm.com,
-        timmurray@google.com, joelaf@google.com, surenb@google.com,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S2388499AbeKFWqN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 17:46:13 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:47712 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388105AbeKFWqM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 17:46:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=XcYA4IlPewmqzQReOhJL/EqItgnt4Pv+AIP/cOQCXT0=; b=kjiIMrU6k8o+HgEiPPL6Nc6Mg
+        aan5gZGWaa3L0+YZ5r+VIglQ7Y+MDRxCTgyTN8ou392ufr5wgovL2OhYKO7CODkQocYtoJF1shf6V
+        KTduZAyI47vY8KlbHhGWJlxKYkDsfxap9VxEPh054UfnXcGXvckf3xQnu0EcLnUnZlaOdWoksunM/
+        OfRtKKIp3VXVfU6vrfYH4sb1YYJrDWn4f4jRavV6GFwbvzbpjZxTcl4DDilxW4//tTRD1CnVC1kNO
+        lZylZnvOZmIe/3B5sdVQqxK1mxt8YQTTv1WnlVMRoz9cTsNq8KPfap0tOSStP3YbhI5mzZ0gpiyHc
+        jBnZiyWOQ==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gK1Hv-0002WG-JI; Tue, 06 Nov 2018 13:20:59 +0000
+Date:   Tue, 6 Nov 2018 05:20:59 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
-        Prashant Dhamdhere <pdhamdhe@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2] Document /proc/pid PID reuse behavior
-Message-ID: <20181106130524.GC2453@dhcp22.suse.cz>
-References: <20181031150625.147369-1-dancol@google.com>
- <20181105132205.138695-1-dancol@google.com>
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>,
+        Manfred Spraul <manfred@colorfullife.com>
+Subject: Re: [PATCH v10 1/4] ipc: Allow boot time extension of IPCMNI from
+ 32k to 8M
+Message-ID: <20181106132059.GD3074@bombadil.infradead.org>
+References: <1541432626-27780-1-git-send-email-longman@redhat.com>
+ <1541432626-27780-2-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181105132205.138695-1-dancol@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1541432626-27780-2-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 05-11-18 13:22:05, Daniel Colascione wrote:
-> State explicitly that holding a /proc/pid file descriptor open does
-> not reserve the PID. Also note that in the event of PID reuse, these
-> open file descriptors refer to the old, now-dead process, and not the
-> new one that happens to be named the same numeric PID.
-
-This sounds quite obvious otherwise anybody could simply DoS the system
-by consuming all available pids. But I do not see any strong reason
-against having that stated explicitly.
-
-> Signed-off-by: Daniel Colascione <dancol@google.com>
-
-Acked-by: Michal Hocko <mhocko@suse.com>
-
-> ---
->  Documentation/filesystems/proc.txt | 7 +++++++
->  1 file changed, 7 insertions(+)
+On Mon, Nov 05, 2018 at 10:43:43AM -0500, Waiman Long wrote:
+> The maximum number of unique System V IPC identifiers was limited to
+> 32k.  That limit should be big enough for most use cases.
 > 
-> Moved paragraphed to start of /proc/pid section; added signed-off-by.
-> 
-> diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
-> index 12a5e6e693b6..0b14460f721d 100644
-> --- a/Documentation/filesystems/proc.txt
-> +++ b/Documentation/filesystems/proc.txt
-> @@ -125,6 +125,13 @@ process running on the system, which is named after the process ID (PID).
->  The link  self  points  to  the  process reading the file system. Each process
->  subdirectory has the entries listed in Table 1-1.
->  
-> +Note that an open a file descriptor to /proc/<pid> or to any of its
-> +contained files or subdirectories does not prevent <pid> being reused
-> +for some other process in the event that <pid> exits. Operations on
-> +open /proc/<pid> file descriptors corresponding to dead processes
-> +never act on any new process that the kernel may, through chance, have
-> +also assigned the process ID <pid>. Instead, operations on these FDs
-> +usually fail with ESRCH.
->  
->  Table 1-1: Process specific entries in /proc
->  ..............................................................................
-> -- 
-> 2.19.1.930.g4563a0d9d0-goog
+> However, there are some users out there requesting for more, especially
+> those that are migrating from Solaris which uses 24 bits for unique
+> identifiers. To satisfy the need of those users, a new boot time kernel
+> option "ipcmni_extend" is added to extend the IPCMNI value to 8M. This
+> is a 256X increase which hopefully is big enough for them.
 
--- 
-Michal Hocko
-SUSE Labs
+Why go to 23 bits when people are coming from systems with 24 bits?
+Let's just go to 24 bits.  This happens to fit well with the underlying
+data structure which uses 6 bits per layer of the tree.
+
+> The use of this new option will change the pattern of the IPC identifiers
+> returned by functions like shmget(2). An application that depends on
+> such pattern may not work properly.  So it should only be used if the
+> users really need more than 32k of unique IPC numbers.
+
+Are there applications out there that rely on the internal structure of
+the IPC identifiers?!
+
+How about scrapping all this and just doing the following:
+
+Allocate 24 bits of the ID cyclically.  Increment the top 7 bits of the
+ID every time the cursor wraps.  That's not going to give us a perfect
+progression from 0-2 billion, because it'll skip the ones in use.
+But it'll ensure the ID isn't reused particularly quickly unless the
+application is really using millions of IDs.
