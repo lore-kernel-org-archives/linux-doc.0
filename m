@@ -5,138 +5,172 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5CC0C7D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 16:45:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6BDE97D08E
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 16:46:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389345AbeKGCLl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 21:11:41 -0500
-Received: from mga02.intel.com ([134.134.136.20]:39133 "EHLO mga02.intel.com"
+        id S2389415AbeKGCMP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 21:12:15 -0500
+Received: from mga11.intel.com ([192.55.52.93]:55008 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389239AbeKGCLl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Nov 2018 21:11:41 -0500
+        id S2388935AbeKGCMO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Nov 2018 21:12:14 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Nov 2018 08:45:37 -0800
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Nov 2018 08:46:10 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.54,472,1534834800"; 
-   d="scan'208";a="106363336"
-Received: from ray.jf.intel.com (HELO [10.7.201.133]) ([10.7.201.133])
-  by orsmga002.jf.intel.com with ESMTP; 06 Nov 2018 08:45:37 -0800
-Subject: Re: [PATCH v15 23/23] x86/sgx: Driver documentation
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-sgx@vger.kernel.org, sean.j.christopherson@intel.com,
-        nhorman@redhat.com, npmccallum@redhat.com, serge.ayoun@intel.com,
-        shay.katz-zamir@intel.com, haitao.huang@intel.com,
-        mark.shanahan@intel.com, andriy.shevchenko@linux.intel.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20181102231320.29164-1-jarkko.sakkinen@linux.intel.com>
- <20181102231320.29164-24-jarkko.sakkinen@linux.intel.com>
- <154ded23-fd1d-f324-4e0a-9de8eddcda6d@intel.com>
- <20181106054911.GA15575@linux.intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <e7b4c432-7005-308c-4da0-a80e0d294244@intel.com>
-Date:   Tue, 6 Nov 2018 08:45:37 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+   d="scan'208";a="83755852"
+Received: from marshy.an.intel.com ([10.122.105.159])
+  by fmsmga007.fm.intel.com with ESMTP; 06 Nov 2018 08:46:09 -0800
+From:   richard.gong@linux.intel.com
+To:     gregkh@linuxfoundation.org, catalin.marinas@arm.com,
+        will.deacon@arm.com, dinguyen@kernel.org, robh+dt@kernel.org,
+        mark.rutland@arm.com, atull@kernel.org, mdf@kernel.org,
+        arnd@arndb.de, corbet@lwn.net
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, todd.riffel@intel.com,
+        richard.gong@intel.com
+Subject: [PATCHv10 0/8] Add Intel Stratix10 FPGA manager and service layer 
+Date:   Tue,  6 Nov 2018 10:52:44 -0600
+Message-Id: <1541523172-5171-1-git-send-email-richard.gong@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20181106054911.GA15575@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/5/18 9:49 PM, Jarkko Sakkinen wrote:
-> On Mon, Nov 05, 2018 at 12:27:11PM -0800, Dave Hansen wrote:
->> The ABI seems entirely undocumented and rather lightly designed, which
->> seems like something we should fix before this is merged.
-> 
-> ABI is documented in arch/x86/include/uapi/asm/sgx.h that from which the
-> documentation is included to intel_sgx.rst. I'm not saying that there is
-> no space refine it but it is neither undocumented.
+From: Richard Gong <richard.gong@intel.com>
 
-I specifically mean the instruction flow around asynchronous exits or
-explicit enclave exit calls via EEXIT.  Signals are part of the ABI but
-go unmentioned in the documentation.
+This is the 10th submission of Intel Stratix10 service layer and FPGA
+manager driver patches. In this submission I have moved Stratix10 service
+layer driver .c file to drivers/firmware and header files to
+include/linux/firmware/intel. I have added Stratix10 service layer
+document to other firmware interface.
 
-It's also worth noting that EENTER *can* act (from the kernel's
-perspective) like an instruction that both jumps and sets a bunch of
-registers (including %rsp).  It's certainly abnormal in that regard.
+Stratix10 service layer patches have been reviewed internally by Alan Tull
+and other colleagues at Intel.
 
-In fact, in the docs:
+Some features of the Intel Stratix10 SoC require a level of privilege
+higher than the kernel is granted. Such secure features include
+FPGA programming, remote status update, read and write the secure
+registers. In terms of the ARMv8 architecture, the kernel runs at Exception
+Level 1 (EL1), access to the features requires Exception Level 3 (EL3).
 
-> +Enclave can only execute code inside the ELRANGE. Instructions that may cause
-> +VMEXIT, IO instructions and instructions that require a privilege change are
-> +prohibited inside the enclave. Interrupts and exceptions always cause enclave
-> +to exit and jump to an address outside the enclave given when the enclave is
-> +entered by using the leaf instruction ENCLS(EENTER).
+The Intel Stratix10 service layer provides kernel APIs for drivers to
+request access to the secure features. The requests are queued and
+processed one by one. ARM’s SMCCC is used to pass the execution of the
+requests on to a secure monitor (EL3).
 
-it's probably a really good idea to explain that the address outside of
-the enclave is enclave-provided, and is not, for instance, just the next
-instruction after EENTER.
+Later the Intel Stratix10 service layer driver will be extended to provide
+services for QSPI, Crypto and warm reset.
 
->> Also, for a feature as massive and complicated as this one, it seems
->> irresponsible to not have a selftest.  Is that not feasible for some reason?
-> 
-> I do have the in-kernel launch enclave stuff backed up here:
-> 
-> https://github.com/jsakkine-intel/sgx-le-host
-> https://github.com/jsakkine-intel/sgx-le
-> 
-> This is about as simple as it gets without any type of run-time.
+v2: add patches for FPGA manager, FPGA manager binding, dts and defconfig
+    remove intel-service subdirectory and intel-service.h, move intel-smc.h
+    and intel-service.c to driver/misc subdirectory.
+    remove global variables.
+    change service layer driver be 'default n'.
+    correct SPDX markers.
+    add timeout for do..while() loop.
+    add kernel-doc for the functions and structs, correct multiline
+    comments.
+    replace kfifo_in and kfifo_out with kfifo_in_spinlocked and
+    kfifo_out_spinlocked.
+    rename struct intel_svc_data (at client header) to
+    intel_svc_client_msg.
+    rename struct intel_svc_private_mem to intel_svc_data.
+    other corrections/changes from Intel internal code reviews.
+v3: change all exported functions with "intel_svc_" as the prefix.
+    increase timeout values for claiming back submitted buffer(s).
+    rename struct intel_command_reconfig_payload to
+    struct intel_svc_command_reconfig_payload.
+    add pr_err() to provide the error return value.
+    change to put fpga_mgr node under firmware/svc node.
+    change to FPGA manager to align the update of service client APIs, and
+    the update of fpga_mgr device node.
+    Other corrections/changes.
+v4: s/intel/stratix10/ on some variables, structs, functions, and file
+    names intel-service.c -> stratix10-svc.c
+    intel-smc.h -> stratix10-smc.h
+    intel-service-client.h -> stratix10-svc-client.h.
+    remove non-kernel-doc formatting.
+    s/fpga-mgr@0/fpga-mgr/ to remove unit_address at fpga_mgr node.
+    add Rob's Reviewed-by.
+    add Richard's signed-off-by.
+v5: add a new API statix10_svc_done() which is called by service client
+    when client request is completed or error occurs during request
+    process. Which allows service layer to free its resources.
+    remove dummy client from service layer client header and service layer
+    source file.
+    add Rob's Reviewed-by.
+    add a new file stratix10-svc.rst and add that to driver-api/index.rst.
+    kernel-doc fixes.
+v6: replace kthread_create_on_cpu() with kthread_create_on_node().
+    extend stratix_svc_send() to support service client which doesn't use
+    memory allocated by service layer.
+    add S10_RECONFIG_TIMEOUT.
+    rename s/S10_BUF_TIMEOUT/S10_BUFFER_TIMEOUT/.
+    fix service layer and FPGA manager Klocwork errors.
+v7: add remote status update client support.
+    s/pr_debug/dev_dbg, s/dev_info/dev_dbg.
+    add unlock buffer if s10_svc_send_msg() fails.
+    add release channel if fpga_mgr_create() fails.
+    handle invalid pointer at svc if the client passed an invalid name.
+v8: move stratix10-smc.h to include/linux from driver/misc.
+    revert version 7 error code & smc function ID value changes at
+    stratix10-smc.h.
+    add a goto and common error handling at the end of fpga driver's.
+    probe function.
+v9: remove a patch on defconfig for enable service layer and FPGA manager.
+    resolve a issue found at git-bisect test.
+    remove kernel-doc markups that aren't being built.
+v10:move stratix10-smc.h and stratix10-svc-client.h to
+    include/linux/firmware/intel.
+    move stratix10-svc.c to drivers/firmware.
+    s/STRATIX10_SERVICE/INTEL_STRATIX10_SERVICE, fix a Klocwork error at
+    service layer driver.
+    s/stratix10_svc_command_reconfig_payload/
+    stratix10_svc_command_config_type.
+    add stratix10 service layer document to other firmware interface.
+    update path for the included header in Stratix10 FPGA manager driver.
 
-Does this code run when I type "make kselftest"?  If not, I think we
-should rectify that.
+Alan Tull (3):
+  dt-bindings: fpga: add Stratix10 SoC FPGA manager binding
+  arm64: dts: stratix10: add fpga manager and region
+  fpga: add intel stratix10 soc fpga manager driver
+
+Richard Gong (5):
+  dt-bindings, firmware: add Intel Stratix10 service layer binding
+  arm64: dts: stratix10: add stratix10 service driver binding to base
+    dtsi
+  firmware: add Intel Stratix10 service layer driver
+  Documentation: driver-api: add stratix10 service layer
+  firmware: add remote status update client support
+
+ .../bindings/firmware/intel,stratix10-svc.txt      |   57 ++
+ .../bindings/fpga/intel-stratix10-soc-fpga-mgr.txt |   17 +
+ .../driver-api/firmware/other_interfaces.rst       |   30 +
+ arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi  |   33 +
+ drivers/firmware/Kconfig                           |   12 +
+ drivers/firmware/Makefile                          |    1 +
+ drivers/firmware/stratix10-svc.c                   | 1044 ++++++++++++++++++++
+ drivers/fpga/Kconfig                               |    6 +
+ drivers/fpga/Makefile                              |    1 +
+ drivers/fpga/stratix10-soc.c                       |  535 ++++++++++
+ include/linux/firmware/intel/stratix10-smc.h       |  312 ++++++
+ .../linux/firmware/intel/stratix10-svc-client.h    |  217 ++++
+ 12 files changed, 2265 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/firmware/intel,stratix10-svc.txt
+ create mode 100644 Documentation/devicetree/bindings/fpga/intel-stratix10-soc-fpga-mgr.txt
+ create mode 100644 drivers/firmware/stratix10-svc.c
+ create mode 100644 drivers/fpga/stratix10-soc.c
+ create mode 100644 include/linux/firmware/intel/stratix10-smc.h
+ create mode 100644 include/linux/firmware/intel/stratix10-svc-client.h
+
+-- 
+2.7.4
+
