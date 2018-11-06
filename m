@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 919EB7D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 06:20:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 02B357D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 06:27:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729842AbeKFPnu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 10:43:50 -0500
-Received: from mga04.intel.com ([192.55.52.120]:37725 "EHLO mga04.intel.com"
+        id S2387515AbeKFPuo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 10:50:44 -0500
+Received: from mga05.intel.com ([192.55.52.43]:15124 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729416AbeKFPnu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Nov 2018 10:43:50 -0500
+        id S2387393AbeKFPuo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Nov 2018 10:50:44 -0500
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Nov 2018 22:20:12 -0800
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Nov 2018 22:27:05 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.54,470,1534834800"; 
-   d="scan'208";a="271702801"
+   d="scan'208";a="97950852"
 Received: from unknown (HELO localhost) ([10.249.254.149])
-  by orsmga005.jf.intel.com with ESMTP; 05 Nov 2018 22:20:03 -0800
-Date:   Tue, 6 Nov 2018 08:20:02 +0200
+  by orsmga003.jf.intel.com with ESMTP; 05 Nov 2018 22:26:56 -0800
+Date:   Tue, 6 Nov 2018 08:26:55 +0200
 From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
 To:     Dave Hansen <dave.hansen@intel.com>
 Cc:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
@@ -39,15 +39,14 @@ Cc:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH v15 23/23] x86/sgx: Driver documentation
-Message-ID: <20181106062002.GA18360@linux.intel.com>
+Message-ID: <20181106062655.GA18671@linux.intel.com>
 References: <20181102231320.29164-1-jarkko.sakkinen@linux.intel.com>
  <20181102231320.29164-24-jarkko.sakkinen@linux.intel.com>
  <154ded23-fd1d-f324-4e0a-9de8eddcda6d@intel.com>
- <20181106054911.GA15575@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181106054911.GA15575@linux.intel.com>
+In-Reply-To: <154ded23-fd1d-f324-4e0a-9de8eddcda6d@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
@@ -55,34 +54,17 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 06, 2018 at 07:49:11AM +0200, Jarkko Sakkinen wrote:
-> On Mon, Nov 05, 2018 at 12:27:11PM -0800, Dave Hansen wrote:
-> > The ABI seems entirely undocumented and rather lightly designed, which
-> > seems like something we should fix before this is merged.
+On Mon, Nov 05, 2018 at 12:27:11PM -0800, Dave Hansen wrote:
+> This patch set establishes an ABI.  It basically sets in stone a bunch
+> of behaviors that the enclave, the kernel, and the out-of-enclave code
+> must follow.
 > 
-> ABI is documented in arch/x86/include/uapi/asm/sgx.h that from which the
-> documentation is included to intel_sgx.rst. I'm not saying that there is
-> no space refine it but it is neither undocumented.
-> 
-> > Also, for a feature as massive and complicated as this one, it seems
-> > irresponsible to not have a selftest.  Is that not feasible for some reason?
-> 
-> I do have the in-kernel launch enclave stuff backed up here:
-> 
-> https://github.com/jsakkine-intel/sgx-le-host
-> https://github.com/jsakkine-intel/sgx-le
-> 
-> This is about as simple as it gets without any type of run-time.
+> There are a bunch of things that the enclave can do to %rsp or %rip, for
+> instance, that it is capable and/or permitted to do.
 
-Of course the enclave could be simplified considerably since now it has
-full code for EINITTOKEN generation, which is probably an overkill for a
-selftest.
-
-It could be simple as just enter and return to and from enclave or
-something in-between in terms of complexity.
-
-Even for the simplest enclave you need a signing tool (see sgxsign.c in
-my sgx-le repository), a custom linker script and a sophisticated
-makefile.
+Just want to ask a follow-up from this so that I understand you better.
+Now we are talking abou ioctl API, right? I'm not exactly sure how
+EENTER/EEXIT/ERESUME behavior connects to that. I understand the tail
+of your message but this paragraph left me a bit puzzled...
 
 /Jarkko
