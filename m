@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-13.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 50E347D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 17:31:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2034D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 17:31:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389918AbeKGC5c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 21:57:32 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:38940 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389900AbeKGC5c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 21:57:32 -0500
-Received: by mail-wm1-f66.google.com with SMTP id u13-v6so13005168wmc.4
-        for <linux-doc@vger.kernel.org>; Tue, 06 Nov 2018 09:31:15 -0800 (PST)
+        id S2389670AbeKGC6E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 21:58:04 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:51572 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389880AbeKGC52 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 21:57:28 -0500
+Received: by mail-wm1-f67.google.com with SMTP id w7-v6so11802240wmc.1
+        for <linux-doc@vger.kernel.org>; Tue, 06 Nov 2018 09:31:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8r2DFMCmgv2dbc3cAFakXBt3nELpcd/DvTnHXWqU0so=;
-        b=lvmCGUI+87O0ce35KSXHBahMKJ94XjvOa/lc1RzDbLGdAMVgMJf/dEKG+kDc4wjr/N
-         SH5DgfCv1uex78tmHBn1CeQ5oQRZiRfXq/oKbb7MwNqgo7XFo3Ij8Xt2OkMIZcBGxroH
-         Z/00EW3ffnxNitl5dpxL53MIFDWucsW4MYcyodfy1MDGc5Z22Ei6D6VBvF1sAl+/TYWN
-         ijYS5Ns+oGXcEid8nTSC8bHf98JDq+0qw+Nb2NvtyLZwfcOpsuogr4u5sZiBj622KHoW
-         uxrlLbnWhzVexMHZMYlJhh+n7eisaAq6BmCE62Q7AbeW/FS0QBTGrwU+FaWIrry5HC16
-         rLEg==
+        bh=qG7GGQswG6z6qbF8z455/sUNiXtUU10lOp1Oj7JJWlA=;
+        b=usrC+MmM1aDZFeALAY/qucJYeM4DBspv73RKgp/1or3/pITpA9tPm07GhuzXp4K/qJ
+         NnundVooazUik2QJ9SkARp1FgSFa4am9Bx7wzJf5fUmyTdq83QfnHlZIk1Ck2yg1XoRt
+         89ehgwWlydiqqniexC0JAVha4GEz1HJ8sVb0k7qPLQWbzm/KfQhzI73ZABvu6g79Rvtb
+         JpcFj8ttwmrcGpijLGtYLl4vOUEFHDLJxMAvCsfsXf0p8MM9X8+NDsjYzRmljOBKMbB5
+         BE2quiA40/7eoG51sKOUETR5fhtyj66KeEoDmG0+yxrD3y9mvPBBEyBO/dYCigFCFC/D
+         v+Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8r2DFMCmgv2dbc3cAFakXBt3nELpcd/DvTnHXWqU0so=;
-        b=fP761q/6YlSt64x5QRzGMb2Kv7PCuVWnwKX8WeoVfyB3EV32j7z4lMcFJrgHBrU13j
-         Jn9HkR9JPG1vPCtVXF9syyHbqEMxzkufYgTd2HJo8yXMaS01c2ielQrnEPru3amQ8/IH
-         22sRk0uaU6RPuGq5rGHjrjKHZbZ6bx5XMABB2dH7TgA3G31mUcXOzw6xeHBGJzPO3RmC
-         MJBtHdxaekGboG9gWUz2s/IfG/MsNEzobuz8mbcuyGvvW9pZxTgdvasmiKXECGK7uGZo
-         vbnBNKPYluXjwhjaBKOJMIAwwQboCfUotj9p1/JsOsRHFd2F3wt/6gyrQKAql5jMUMEA
-         z2Ew==
-X-Gm-Message-State: AGRZ1gLHYjCkph0Qtd/f0QpWIGQhAcSGjfWPUiaJPiTYNQdONuZ7KmDn
-        z4e0QWvpbLp8G2T+RVqI2cbFhg==
-X-Google-Smtp-Source: AJdET5esDe6ZtATwtaDTsbSQ9FhotCf4hRaEsVPOy3OZwBrbEtOas7y6YubwybzaHKnZJ0hspUDlEg==
-X-Received: by 2002:a1c:a141:: with SMTP id k62-v6mr2678368wme.68.1541525474870;
-        Tue, 06 Nov 2018 09:31:14 -0800 (PST)
+        bh=qG7GGQswG6z6qbF8z455/sUNiXtUU10lOp1Oj7JJWlA=;
+        b=XKahNqp0eFw1/9LBl1d/ddI05Q7cbFdivcr3zVud8LgtaukCpRV/6jqcytniDpCdDm
+         4DSW7TM7lvnkxysVsmPBLp4qgSw/lcuLakzuU/UjgCkS7aDh8cbqRmDlnheTFXnGmE2L
+         Jr4zH/nFSq+dHnHBMPtbgpiVzvryqhEBnrtkk8y9xbzxkC7NJ1prmfPEUEh3AQnZ/vbf
+         dyAIH+58F4Ks5FiFf4ds1R8ipmVNUL/wyCtKyalubX25aZexYDvQPZv7om8BrX8mOZeW
+         9zw8xQTr9HwlB8VfrQ2PEmgmvcHFPMTIe56mglIQQbF3T29RJlv37LrZ+QjcxcG7Y0Jr
+         43qw==
+X-Gm-Message-State: AGRZ1gJAJiMO2gUnDdsZAw6DpqwWK/AB3wgP3+Z/EfLxuOo9dMuvZWdc
+        /5hRZ08IBnjFOUS5wIEpD2S8iA==
+X-Google-Smtp-Source: AJdET5d3fUoOAj9jJzdwBL4RII3aygkS9jrUMcIOVUis2WZl2TDUzOuau/0A2MWlKD+3Rw/caxIKfA==
+X-Received: by 2002:a1c:6c09:: with SMTP id h9-v6mr2715568wmc.131.1541525471472;
+        Tue, 06 Nov 2018 09:31:11 -0800 (PST)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id z17-v6sm16328416wrm.65.2018.11.06.09.31.13
+        by smtp.gmail.com with ESMTPSA id z17-v6sm16328416wrm.65.2018.11.06.09.31.09
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 06 Nov 2018 09:31:14 -0800 (PST)
+        Tue, 06 Nov 2018 09:31:10 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -85,9 +85,9 @@ Cc:     Kostya Serebryany <kcc@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Vishwath Mohan <vishwath@google.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v10 20/22] kasan: add __must_check annotations to kasan hooks
-Date:   Tue,  6 Nov 2018 18:30:35 +0100
-Message-Id: <b1fb38e57c70462fb7369b237cd04ff36fdae0b7.1541525354.git.andreyknvl@google.com>
+Subject: [PATCH v10 18/22] kasan, arm64: add brk handler for inline instrumentation
+Date:   Tue,  6 Nov 2018 18:30:33 +0100
+Message-Id: <e5d9fbbf054377c2a46b872be01f9dd4a2155154.1541525354.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.19.1.930.g4563a0d9d0-goog
 In-Reply-To: <cover.1541525354.git.andreyknvl@google.com>
 References: <cover.1541525354.git.andreyknvl@google.com>
@@ -98,99 +98,170 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds __must_check annotations to kasan hooks that return a
-pointer to make sure that a tagged pointer always gets propagated.
+Tag-based KASAN inline instrumentation mode (which embeds checks of shadow
+memory into the generated code, instead of inserting a callback) generates
+a brk instruction when a tag mismatch is detected.
 
+This commit adds a tag-based KASAN specific brk handler, that decodes the
+immediate value passed to the brk instructions (to extract information
+about the memory access that triggered the mismatch), reads the register
+values (x0 contains the guilty address) and reports the bug.
+
+Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- include/linux/kasan.h | 16 ++++++++++------
- mm/kasan/common.c     | 14 ++++++++------
- 2 files changed, 18 insertions(+), 12 deletions(-)
+ arch/arm64/include/asm/brk-imm.h |  2 +
+ arch/arm64/kernel/traps.c        | 68 +++++++++++++++++++++++++++++++-
+ include/linux/kasan.h            |  3 ++
+ 3 files changed, 71 insertions(+), 2 deletions(-)
 
+diff --git a/arch/arm64/include/asm/brk-imm.h b/arch/arm64/include/asm/brk-imm.h
+index ed693c5bcec0..2945fe6cd863 100644
+--- a/arch/arm64/include/asm/brk-imm.h
++++ b/arch/arm64/include/asm/brk-imm.h
+@@ -16,10 +16,12 @@
+  * 0x400: for dynamic BRK instruction
+  * 0x401: for compile time BRK instruction
+  * 0x800: kernel-mode BUG() and WARN() traps
++ * 0x9xx: tag-based KASAN trap (allowed values 0x900 - 0x9ff)
+  */
+ #define FAULT_BRK_IMM			0x100
+ #define KGDB_DYN_DBG_BRK_IMM		0x400
+ #define KGDB_COMPILED_DBG_BRK_IMM	0x401
+ #define BUG_BRK_IMM			0x800
++#define KASAN_BRK_IMM			0x900
+ 
+ #endif
+diff --git a/arch/arm64/kernel/traps.c b/arch/arm64/kernel/traps.c
+index 5f4d9acb32f5..04bdc53716ef 100644
+--- a/arch/arm64/kernel/traps.c
++++ b/arch/arm64/kernel/traps.c
+@@ -35,6 +35,7 @@
+ #include <linux/sizes.h>
+ #include <linux/syscalls.h>
+ #include <linux/mm_types.h>
++#include <linux/kasan.h>
+ 
+ #include <asm/atomic.h>
+ #include <asm/bug.h>
+@@ -284,10 +285,14 @@ void arm64_notify_die(const char *str, struct pt_regs *regs,
+ 	}
+ }
+ 
+-void arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
++void __arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
+ {
+ 	regs->pc += size;
++}
+ 
++void arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
++{
++	__arm64_skip_faulting_instruction(regs, size);
+ 	/*
+ 	 * If we were single stepping, we want to get the step exception after
+ 	 * we return from the trap.
+@@ -959,7 +964,7 @@ static int bug_handler(struct pt_regs *regs, unsigned int esr)
+ 	}
+ 
+ 	/* If thread survives, skip over the BUG instruction and continue: */
+-	arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
++	__arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
+ 	return DBG_HOOK_HANDLED;
+ }
+ 
+@@ -969,6 +974,58 @@ static struct break_hook bug_break_hook = {
+ 	.fn = bug_handler,
+ };
+ 
++#ifdef CONFIG_KASAN_SW_TAGS
++
++#define KASAN_ESR_RECOVER	0x20
++#define KASAN_ESR_WRITE	0x10
++#define KASAN_ESR_SIZE_MASK	0x0f
++#define KASAN_ESR_SIZE(esr)	(1 << ((esr) & KASAN_ESR_SIZE_MASK))
++
++static int kasan_handler(struct pt_regs *regs, unsigned int esr)
++{
++	bool recover = esr & KASAN_ESR_RECOVER;
++	bool write = esr & KASAN_ESR_WRITE;
++	size_t size = KASAN_ESR_SIZE(esr);
++	u64 addr = regs->regs[0];
++	u64 pc = regs->pc;
++
++	if (user_mode(regs))
++		return DBG_HOOK_ERROR;
++
++	kasan_report(addr, size, write, pc);
++
++	/*
++	 * The instrumentation allows to control whether we can proceed after
++	 * a crash was detected. This is done by passing the -recover flag to
++	 * the compiler. Disabling recovery allows to generate more compact
++	 * code.
++	 *
++	 * Unfortunately disabling recovery doesn't work for the kernel right
++	 * now. KASAN reporting is disabled in some contexts (for example when
++	 * the allocator accesses slab object metadata; this is controlled by
++	 * current->kasan_depth). All these accesses are detected by the tool,
++	 * even though the reports for them are not printed.
++	 *
++	 * This is something that might be fixed at some point in the future.
++	 */
++	if (!recover)
++		die("Oops - KASAN", regs, 0);
++
++	/* If thread survives, skip over the brk instruction and continue: */
++	__arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
++	return DBG_HOOK_HANDLED;
++}
++
++#define KASAN_ESR_VAL (0xf2000000 | KASAN_BRK_IMM)
++#define KASAN_ESR_MASK 0xffffff00
++
++static struct break_hook kasan_break_hook = {
++	.esr_val = KASAN_ESR_VAL,
++	.esr_mask = KASAN_ESR_MASK,
++	.fn = kasan_handler,
++};
++#endif
++
+ /*
+  * Initial handler for AArch64 BRK exceptions
+  * This handler only used until debug_traps_init().
+@@ -976,6 +1033,10 @@ static struct break_hook bug_break_hook = {
+ int __init early_brk64(unsigned long addr, unsigned int esr,
+ 		struct pt_regs *regs)
+ {
++#ifdef CONFIG_KASAN_SW_TAGS
++	if ((esr & KASAN_ESR_MASK) == KASAN_ESR_VAL)
++		return kasan_handler(regs, esr) != DBG_HOOK_HANDLED;
++#endif
+ 	return bug_handler(regs, esr) != DBG_HOOK_HANDLED;
+ }
+ 
+@@ -983,4 +1044,7 @@ int __init early_brk64(unsigned long addr, unsigned int esr,
+ void __init trap_init(void)
+ {
+ 	register_break_hook(&bug_break_hook);
++#ifdef CONFIG_KASAN_SW_TAGS
++	register_break_hook(&kasan_break_hook);
++#endif
+ }
 diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index d5a2a7f1f72c..a8ee04b3d1c1 100644
+index 4c9d6f9029f2..d5a2a7f1f72c 100644
 --- a/include/linux/kasan.h
 +++ b/include/linux/kasan.h
-@@ -49,16 +49,20 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
- void kasan_poison_slab(struct page *page);
- void kasan_unpoison_object_data(struct kmem_cache *cache, void *object);
- void kasan_poison_object_data(struct kmem_cache *cache, void *object);
--void *kasan_init_slab_obj(struct kmem_cache *cache, const void *object);
-+void * __must_check kasan_init_slab_obj(struct kmem_cache *cache,
-+					const void *object);
+@@ -173,6 +173,9 @@ void kasan_init_tags(void);
  
--void *kasan_kmalloc_large(const void *ptr, size_t size, gfp_t flags);
-+void * __must_check kasan_kmalloc_large(const void *ptr, size_t size,
-+						gfp_t flags);
- void kasan_kfree_large(void *ptr, unsigned long ip);
- void kasan_poison_kfree(void *ptr, unsigned long ip);
--void *kasan_kmalloc(struct kmem_cache *s, const void *object, size_t size,
--		  gfp_t flags);
--void *kasan_krealloc(const void *object, size_t new_size, gfp_t flags);
-+void * __must_check kasan_kmalloc(struct kmem_cache *s, const void *object,
-+					size_t size, gfp_t flags);
-+void * __must_check kasan_krealloc(const void *object, size_t new_size,
-+					gfp_t flags);
+ void *kasan_reset_tag(const void *addr);
  
--void *kasan_slab_alloc(struct kmem_cache *s, void *object, gfp_t flags);
-+void * __must_check kasan_slab_alloc(struct kmem_cache *s, void *object,
-+					gfp_t flags);
- bool kasan_slab_free(struct kmem_cache *s, void *object, unsigned long ip);
++void kasan_report(unsigned long addr, size_t size,
++		bool is_write, unsigned long ip);
++
+ #else /* CONFIG_KASAN_SW_TAGS */
  
- struct kasan_cache {
-diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-index 195ca385cf7a..ba8e78eb0c67 100644
---- a/mm/kasan/common.c
-+++ b/mm/kasan/common.c
-@@ -373,7 +373,7 @@ static u8 assign_tag(struct kmem_cache *cache, const void *object, bool new)
- #endif
- }
- 
--void *kasan_init_slab_obj(struct kmem_cache *cache, const void *object)
-+void * __must_check kasan_init_slab_obj(struct kmem_cache *cache, const void *object)
- {
- 	struct kasan_alloc_meta *alloc_info;
- 
-@@ -389,7 +389,8 @@ void *kasan_init_slab_obj(struct kmem_cache *cache, const void *object)
- 	return (void *)object;
- }
- 
--void *kasan_slab_alloc(struct kmem_cache *cache, void *object, gfp_t flags)
-+void * __must_check kasan_slab_alloc(struct kmem_cache *cache, void *object,
-+					gfp_t flags)
- {
- 	return kasan_kmalloc(cache, object, cache->object_size, flags);
- }
-@@ -449,8 +450,8 @@ bool kasan_slab_free(struct kmem_cache *cache, void *object, unsigned long ip)
- 	return __kasan_slab_free(cache, object, ip, true);
- }
- 
--void *kasan_kmalloc(struct kmem_cache *cache, const void *object, size_t size,
--		   gfp_t flags)
-+void * __must_check kasan_kmalloc(struct kmem_cache *cache, const void *object,
-+					size_t size, gfp_t flags)
- {
- 	unsigned long redzone_start;
- 	unsigned long redzone_end;
-@@ -482,7 +483,8 @@ void *kasan_kmalloc(struct kmem_cache *cache, const void *object, size_t size,
- }
- EXPORT_SYMBOL(kasan_kmalloc);
- 
--void *kasan_kmalloc_large(const void *ptr, size_t size, gfp_t flags)
-+void * __must_check kasan_kmalloc_large(const void *ptr, size_t size,
-+						gfp_t flags)
- {
- 	struct page *page;
- 	unsigned long redzone_start;
-@@ -506,7 +508,7 @@ void *kasan_kmalloc_large(const void *ptr, size_t size, gfp_t flags)
- 	return (void *)ptr;
- }
- 
--void *kasan_krealloc(const void *object, size_t size, gfp_t flags)
-+void * __must_check kasan_krealloc(const void *object, size_t size, gfp_t flags)
- {
- 	struct page *page;
- 
+ static inline void kasan_init_tags(void) { }
 -- 
 2.19.1.930.g4563a0d9d0-goog
 
