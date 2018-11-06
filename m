@@ -1,123 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 88E177D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 14:17:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1195E7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 14:24:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730686AbeKFXnQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 18:43:16 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:44070 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730663AbeKFXnP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Nov 2018 18:43:15 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 5452537E87;
-        Tue,  6 Nov 2018 14:17:49 +0000 (UTC)
-Received: from llong.remote.csb (ovpn-124-84.rdu2.redhat.com [10.10.124.84])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3841C60470;
-        Tue,  6 Nov 2018 14:17:36 +0000 (UTC)
-Subject: Re: [PATCH v14 05/12] cpuset: Add an error state to
- cpuset.sched.partition
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>,
-        Tom Hromatka <tom.hromatka@oracle.com>
-References: <1539635377-22335-1-git-send-email-longman@redhat.com>
- <1539635377-22335-6-git-send-email-longman@redhat.com>
- <20181106113712.GL22431@hirez.programming.kicks-ass.net>
-From:   Waiman Long <longman@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- weim8xU=
-Organization: Red Hat
-Message-ID: <98a0b581-584b-ef6e-e38b-20ab601b7c05@redhat.com>
-Date:   Tue, 6 Nov 2018 09:17:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S2388583AbeKFXto (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 18:49:44 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:40449 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388477AbeKFXto (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 18:49:44 -0500
+Received: by mail-wm1-f67.google.com with SMTP id b203-v6so12113748wme.5
+        for <linux-doc@vger.kernel.org>; Tue, 06 Nov 2018 06:24:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1KByZh80S8VO4Fsc4REMZ/axZc7RcKl8IBjbEoWc78Q=;
+        b=W5vaA9209PGLtwBkr+B6o8bl34tuXWynrInrxxJgWDlWBG3DBc+t6/hSxoaCLCMiGE
+         +UnpXpOPNfC5zew682Shc3iGaJy4Fw4fvX6quJaZgnd9i1pV7OH//ewe0oXq6U7MYIGG
+         4vLbJQ9GVtcmiWDcBBz9KrobnMQIZTjpj/iaE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1KByZh80S8VO4Fsc4REMZ/axZc7RcKl8IBjbEoWc78Q=;
+        b=Dfm4EhuBgtLsMmXkyo3PbHKUrjfdyMHhjkLbNShrMzmwDEa1uIdVDM9KEhpAr9FoF0
+         +UfqAt8JoaJdGubdHJFQiG5LXnOalcQtMd+Mz2MzmJ+55CQbUUKjvf17mioG0S/7bduJ
+         iFr8roycZlhy9vKDG+WbvbZd5kbX3yhgoxNgykoaCrEnATrXmjpv2/fOg0JTmXuX9hYc
+         skLEK3qhX2Gom6ZCy/0LUmGBgCQG6nZw5JceaZeUwfOapppWpH3rGZ2kgiRFLaO9b3OA
+         LaOC9Y+KAM9hcaD00cox3IAatEYr3S/Us9eKxMNz+aJFs6qZP0BUOdaQ6wU2lSDBRJOR
+         AnIQ==
+X-Gm-Message-State: AGRZ1gJxBcH1BnjX8jlpTj8wPDdwMkMbfdmUpKho+1N3rh4/d/BeOer8
+        DHga8aLTw7fE8yFJ89hg850+TmvsI3sXxG5Lv+bTDA==
+X-Google-Smtp-Source: AJdET5cigpTKg+K39Q4N2Q6Z6iCoARbpB79kh/S9uatU6qoEPHX3awVqtUMnoIy2jlVlwLNbUMhNZbovV0Sf+hpnpoQ=
+X-Received: by 2002:a1c:98ce:: with SMTP id a197-v6mr2289527wme.135.1541514255024;
+ Tue, 06 Nov 2018 06:24:15 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20181106113712.GL22431@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]); Tue, 06 Nov 2018 14:17:49 +0000 (UTC)
+References: <20181103035341.16893-1-helen.koike@collabora.com> <3624012.MiIzIq7dko@blindfold>
+In-Reply-To: <3624012.MiIzIq7dko@blindfold>
+From:   Will Drewry <wad@chromium.org>
+Date:   Tue, 6 Nov 2018 08:24:02 -0600
+Message-ID: <CAAFS_9F62S_rm2uJDzXJzJyM82-o-xBAnx5Rkk-3iDD53YS72g@mail.gmail.com>
+Subject: Re: [PATCH v10 0/2] dm: boot a mapped device without an initramfs
+To:     richard@nod.at
+Cc:     helen.koike@collabora.com, Kees Cook <keescook@chromium.org>,
+        device-mapper development <dm-devel@redhat.com>,
+        Alasdair G Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        enric.balletbo@collabora.com, linux-doc@vger.kernel.org,
+        linux-lvm@redhat.com, kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/06/2018 06:37 AM, Peter Zijlstra wrote:
-> On Mon, Oct 15, 2018 at 04:29:30PM -0400, Waiman Long wrote:
->> Handling error returned by update_parent_subparts_cpumask() in
->> update_cpumasks_hier() is problematic as the states may become
->> inconsistent. To avoid that and increase flexibility in handling other
->> error cases, a new error state (-1) is added to the partition_root_state
->> flag. This new error state is set internally and user cannot write this
->> value to "cpuset.sched.partition".
->>
->> In this error state, the partition root becomes an erroneous one. It is
->> no longer a real partition root, but the CS_CPU_EXCLUSIVE flag will
->> still be set as it can be changed back to a real one if appropriate
->> change happens later on.
-> I feel this Changelog should be much more explicit about the reasons
-> this -1 state can happen. As is, I've got no clue.
+Hi Richard, Helen,
 
-OK, I will elaborate more on this changelog.
+On Sat, Nov 3, 2018 at 4:10 AM Richard Weinberger <richard@nod.at> wrote:
+>
+> Helen,
+>
+> Am Samstag, 3. November 2018, 04:53:39 CET schrieb Helen Koike:
+> > As mentioned in the discussion from the previous version of this patch, Android
+> > and Chrome OS do not use initramfs mostly due to boot time and size liability.
+>
+> Do you have numbers on that?
 
-Cheers,
-Longman
+Originally, we saved ~200 ms, but I don't think we have recent
+numbers.  (Unless Helen has some!) We first authored and posted this
+patch in 2010:
+- https://marc.info/?l=dm-devel&m=127429492521964&w=2
+- https://marc.info/?l=dm-devel&m=127429499422096&w=2
+- https://marc.info/?l=dm-devel&m=127429493922000&w=2
 
+Every Chrome OS device uses a variant of this patch as well as
+Android devices starting last year (if they use AVB 2.0).
+
+Originally, the intent was the measured latency reduction.  We get a
+linear speed
+improvement when doing a cryptographic verification of the kernel and
+initramfs.
+Why? More data == more hashes (sha256 w/compute per block).  There's
+additional overhead from bringing up early userspace, but those are the
+numbers I don't have.
+
+> I understand that using something like dracut with systemd inside is not what you
+> want from a boot time point of view.
+> But having an initramfs embedded into the kernel image which contains only a single
+> static linked binary can be *very* small and fast.
+> If you invest a little more time, you don't even need a libc, just fire up some
+> syscalls to setup your dm. I use this technique regularly on deeply embedded systems
+> to setup non-trivial UBIFS/crypto stuff.
+>
+> Want I'm trying to say, before adding ad-hoc a feature to the kernel, we should be
+> very sure that there is no other way to solve this in a sane manner.
+> We have initramfs support for reasons.
+
+I very much appreciate the perspective, but after 8 years in shipping
+devices after
+integrating feedback from kernel maintainers over the subsequent years, this
+doesn't feel like an "ad-hoc" feature.  It's been effective and fit in
+well with the
+existing kernel functionality, etc (imho :).  What level of
+performance improvement or
+other changes might be necessary to make the cut?
+
+Thanks!
+will
