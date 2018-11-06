@@ -1,292 +1,136 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4D0F27DD2A
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 16:47:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CF3997D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 16:50:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389366AbeKGCNL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 21:13:11 -0500
-Received: from mga07.intel.com ([134.134.136.100]:48209 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388935AbeKGCNK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Nov 2018 21:13:10 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Nov 2018 08:47:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,472,1534834800"; 
-   d="scan'208";a="83756101"
-Received: from marshy.an.intel.com ([10.122.105.159])
-  by fmsmga007.fm.intel.com with ESMTP; 06 Nov 2018 08:47:05 -0800
-From:   richard.gong@linux.intel.com
-To:     gregkh@linuxfoundation.org, catalin.marinas@arm.com,
-        will.deacon@arm.com, dinguyen@kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, atull@kernel.org, mdf@kernel.org,
-        arnd@arndb.de, corbet@lwn.net
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, todd.riffel@intel.com,
-        richard.gong@intel.com
-Subject: [PATCHv10 8/8] firmware: add remote status update client support
-Date:   Tue,  6 Nov 2018 10:52:52 -0600
-Message-Id: <1541523172-5171-9-git-send-email-richard.gong@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1541523172-5171-1-git-send-email-richard.gong@linux.intel.com>
-References: <1541523172-5171-1-git-send-email-richard.gong@linux.intel.com>
+        id S2389427AbeKGCQZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 21:16:25 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:45520 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389322AbeKGCQZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 21:16:25 -0500
+Received: by mail-pg1-f196.google.com with SMTP id y4so5621609pgc.12
+        for <linux-doc@vger.kernel.org>; Tue, 06 Nov 2018 08:50:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=android.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=bQU53e3wvFihHKJi4h+ozpqI0TiL3gb/NhekbPw4mgo=;
+        b=dKcVCec4Z5UKXaZKCK3hTbPzEW8Aecb2qP1pP0zeQ7Dp5Py9gfLF9E3pZG9WVVebfE
+         9YvpHfnuCEhAJNOGUdi+yTXGkrSZgZ9KbM9DWFxTbgabn391GonKLosrFwLYo+07hdS5
+         J5jFBKH92977eTeniZcgTTcFTSYMeDwt3wlkgCp6vzBktZasyOPGG7221CDcggIL+uuF
+         Ppk2e30SwyjhpIzzKPf+NMacBgEO6JcXxQwngx2huAPjEavfP0tUioeAQvibD0X/wJvV
+         IOvN7wl/luQD0SHxBI7FS6zUohu5HmaBWCBSEpQJ9fgcwBcAWIk8ozHoTOEuBn/M5yHa
+         b8kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=bQU53e3wvFihHKJi4h+ozpqI0TiL3gb/NhekbPw4mgo=;
+        b=QZQiMsOrjzB4bQW2XIUbrJUqaZcVrJrpX8VmG0fW+sUx2n2Y6ZvDpAbK8eT0kVpjlt
+         gjRiTnZKM4sbAXwjlvZwxlvwL2GmnFnooGPI4vLctzgcRhtMpXIADfqulgZ+F/9DoNTY
+         V6KAQvh/g+P3BrZHRKdL+1wC3isvReVsXYJx+NhGoV+sRaFZWoB+4aG69TIzjLR1c1eq
+         ch7UFQmGTwIIzaDJaZVccYsv9FnwwT3TKi2U7t5tdjt6cOMN9DOUfuGCKnGSo19sdYKI
+         FdCb7ORSkqVlvqAmAZu0KlOJK3Ao5aH+1PZrk5XTwcgivhOZHEBefefZZ6sDgu5qKtz7
+         SISw==
+X-Gm-Message-State: AGRZ1gJKqTQyVHaBZFYcR0V8HAhlsyE4jbCDCKR7Q6/b+GE9HLAtIXMg
+        xXd0/b5K1rJtHsFia4tERH68+A==
+X-Google-Smtp-Source: AJdET5ctw2BlLnjZhx89xm6+7dmbieuTTqOO3yqi4gLigihaABx2vDG0J3/X4zJjING34MOZMXeMRA==
+X-Received: by 2002:a62:4e86:: with SMTP id c128-v6mr27182930pfb.101.1541523018951;
+        Tue, 06 Nov 2018 08:50:18 -0800 (PST)
+Received: from nebulus.mtv.corp.google.com ([2620:0:1000:1612:b4fb:6752:f21f:3502])
+        by smtp.googlemail.com with ESMTPSA id v189-v6sm58690753pfb.54.2018.11.06.08.50.17
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 06 Nov 2018 08:50:18 -0800 (PST)
+Subject: Re: [PATCH v6 2/2] overlayfs: override_creds=off option bypass
+ creator_cred
+To:     Miklos Szeredi <miklos@szeredi.hu>,
+        Amir Goldstein <amir73il@gmail.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        linux-doc@vger.kernel.org, kernel-team@android.com
+References: <20181105182146.233025-1-salyzyn@android.com>
+ <20181105182146.233025-3-salyzyn@android.com>
+ <CAOQ4uxjK5UUr7gZ8fOV7A09c+fKG2EnYGhKwty9OXxfjsWSDAA@mail.gmail.com>
+ <CAJfpeguesUtcSVsjkG1aT_bW03+HYpLrmP4w4Zo8MYiz1udrcQ@mail.gmail.com>
+From:   Mark Salyzyn <salyzyn@android.com>
+Message-ID: <8beaf21a-2242-3c60-4de7-76190b71842b@android.com>
+Date:   Tue, 6 Nov 2018 08:50:16 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <CAJfpeguesUtcSVsjkG1aT_bW03+HYpLrmP4w4Zo8MYiz1udrcQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Richard Gong <richard.gong@intel.com>
+On 11/06/2018 12:39 AM, Miklos Szeredi wrote:
+> On Mon, Nov 5, 2018 at 7:47 PM, Amir Goldstein <amir73il@gmail.com> wrote:
+>> On Mon, Nov 5, 2018 at 8:22 PM Mark Salyzyn <salyzyn@android.com> wrote:
+>>> @@ -1549,7 +1569,8 @@ static int ovl_fill_super(struct super_block *sb, void *data, int silent)
+>>>                         ovl_dentry_lower(root_dentry), NULL);
+>>>
+>>>          sb->s_root = root_dentry;
+>>> -
+>>> +       if (!ofs->config.override_creds)
+>>> +               pr_warn("overlayfs: override_creds=off, caller credentials may not be enough to delete file or directories, create nodes, or search directories.\n");
+>> The audience is someone that has this feature on by mistake or someone
+>> that turn it
+>> on without understanding what it does. I am not sure that this is
+>> scary enough, but
+>> I don't have a better suggestion.
+>> Will let others state their opinion.
+> I don't think we need any warning message, writing down the rules in
+> the documentation should be enough.
+I would be pleased to remove them, but maybe more historical background 
+is required in the documentation (see below [TL;DR])? I have been told 
+to not talk rationalization, history, use cases; but only about side 
+effects in the documentation.
 
-Extend Intel Stratix10 service layer to support the second service layer
-client, Remote Status Update (RSU).
+Yes, the documentation (in the v7 patch set) cites this problem, so can 
+remove this pr_warn in a v8 respin. Does anyone disagree? will respin by 
+EOD if nothing said.
 
-RSU is used to provide our customers with protection against loading bas
-bitstreams onto their devices when those device are booting from flash.
+[TL;DR]
 
-Signed-off-by: Richard Gong <richard.gong@intel.com>
-Signed-off-by: Alan Tull <atull@kernel.org>
----
-v7: this patch is added in patch set version 7
-v8: no change
-v9: add case for COMMAND_RSU_UPDATE at svc_thread_recv_status_ok() at
-    stratix10-svc.c file
-    add RSU related definitions at stratix10-smc.h file
-v10: s/misc/firmware at commit header
----
- drivers/firmware/stratix10-svc.c                   | 35 +++++++++++++++-
- include/linux/firmware/intel/stratix10-smc.h       | 47 ++++++++++++++++++++++
- .../linux/firmware/intel/stratix10-svc-client.h    | 20 ++++++++-
- 3 files changed, 98 insertions(+), 4 deletions(-)
+In 4.4 the default behaviour was effectively !override_creds since the 
+mounter or creator MAC and DAC credentials wrapping the existing caller 
+credentials had not yet been added until later. Except at that time the 
+capabilities were temporarily elevated inside the overlayfs driver 
+during the cited operations to (blindly) permit these few.
 
-diff --git a/drivers/firmware/stratix10-svc.c b/drivers/firmware/stratix10-svc.c
-index 898e588..ae99221 100644
---- a/drivers/firmware/stratix10-svc.c
-+++ b/drivers/firmware/stratix10-svc.c
-@@ -34,7 +34,7 @@
-  * timeout is set to 30 seconds (30 * 1000) at Intel Stratix10 SoC.
-  */
- #define SVC_NUM_DATA_IN_FIFO			32
--#define SVC_NUM_CHANNEL				1
-+#define SVC_NUM_CHANNEL				2
- #define FPGA_CONFIG_DATA_CLAIM_TIMEOUT_MS	200
- #define FPGA_CONFIG_STATUS_TIMEOUT_SEC		30
- 
-@@ -271,7 +271,7 @@ static void svc_thread_cmd_config_status(struct stratix10_svc_controller *ctrl,
-  * @cb_data: pointer to callback data structure to service client
-  * @res: result from SMC or HVC call
-  *
-- * Send back the correspond status to the service client (FPGA manager etc).
-+ * Send back the correspond status to the service clients.
-  */
- static void svc_thread_recv_status_ok(struct stratix10_svc_data *p_data,
- 				      struct stratix10_svc_cb_data *cb_data,
-@@ -295,6 +295,9 @@ static void svc_thread_recv_status_ok(struct stratix10_svc_data *p_data,
- 	case COMMAND_RECONFIG_STATUS:
- 		cb_data->status = BIT(SVC_STATUS_RECONFIG_COMPLETED);
- 		break;
-+	case COMMAND_RSU_UPDATE:
-+		cb_data->status = BIT(SVC_STATUS_RSU_OK);
-+		break;
- 	default:
- 		pr_warn("it shouldn't happen\n");
- 		break;
-@@ -373,6 +376,16 @@ static int svc_normal_to_secure_thread(void *data)
- 			a1 = 0;
- 			a2 = 0;
- 			break;
-+		case COMMAND_RSU_STATUS:
-+			a0 = INTEL_SIP_SMC_RSU_STATUS;
-+			a1 = 0;
-+			a2 = 0;
-+			break;
-+		case COMMAND_RSU_UPDATE:
-+			a0 = INTEL_SIP_SMC_RSU_UPDATE;
-+			a1 = pdata->arg[0];
-+			a2 = 0;
-+			break;
- 		default:
- 			pr_warn("it shouldn't happen\n");
- 			break;
-@@ -389,6 +402,19 @@ static int svc_normal_to_secure_thread(void *data)
- 			 (unsigned int)res.a1, (unsigned int)res.a2);
- 		pr_debug(" res.a3=0x%016x\n", (unsigned int)res.a3);
- 
-+		if (pdata->command == COMMAND_RSU_STATUS) {
-+			if (res.a0 == INTEL_SIP_SMC_RSU_ERROR)
-+				cbdata->status = BIT(SVC_STATUS_RSU_ERROR);
-+			else
-+				cbdata->status = BIT(SVC_STATUS_RSU_OK);
-+
-+			cbdata->kaddr1 = &res;
-+			cbdata->kaddr2 = NULL;
-+			cbdata->kaddr3 = NULL;
-+			pdata->chan->scl->receive_cb(pdata->chan->scl, cbdata);
-+			continue;
-+		}
-+
- 		switch (res.a0) {
- 		case INTEL_SIP_SMC_STATUS_OK:
- 			svc_thread_recv_status_ok(pdata, cbdata, res);
-@@ -941,6 +967,11 @@ static int stratix10_svc_drv_probe(struct platform_device *pdev)
- 	chans[0].name = SVC_CLIENT_FPGA;
- 	spin_lock_init(&chans[0].lock);
- 
-+	chans[1].scl = NULL;
-+	chans[1].ctrl = controller;
-+	chans[1].name = SVC_CLIENT_RSU;
-+	spin_lock_init(&chans[1].lock);
-+
- 	list_add_tail(&controller->node, &svc_ctrl);
- 	platform_set_drvdata(pdev, controller);
- 
-diff --git a/include/linux/firmware/intel/stratix10-smc.h b/include/linux/firmware/intel/stratix10-smc.h
-index a109e4c..5be5dab 100644
---- a/include/linux/firmware/intel/stratix10-smc.h
-+++ b/include/linux/firmware/intel/stratix10-smc.h
-@@ -67,6 +67,12 @@
-  *
-  * INTEL_SIP_SMC_FPGA_CONFIG_STATUS_ERROR:
-  * There is error during the FPGA configuration process.
-+ *
-+ * INTEL_SIP_SMC_REG_ERROR:
-+ * There is error during a read or write operation of the protected registers.
-+ *
-+ * INTEL_SIP_SMC_RSU_ERROR:
-+ * There is error during a remote status update.
-  */
- #define INTEL_SIP_SMC_RETURN_UNKNOWN_FUNCTION		0xFFFFFFFF
- #define INTEL_SIP_SMC_STATUS_OK				0x0
-@@ -74,6 +80,7 @@
- #define INTEL_SIP_SMC_FPGA_CONFIG_STATUS_REJECTED       0x2
- #define INTEL_SIP_SMC_FPGA_CONFIG_STATUS_ERROR		0x4
- #define INTEL_SIP_SMC_REG_ERROR				0x5
-+#define INTEL_SIP_SMC_RSU_ERROR				0x7
- 
- /**
-  * Request INTEL_SIP_SMC_FPGA_CONFIG_START
-@@ -262,4 +269,44 @@ INTEL_SIP_SMC_FAST_CALL_VAL(INTEL_SIP_SMC_FUNCID_FPGA_CONFIG_COMPLETED_WRITE)
- #define INTEL_SIP_SMC_REG_UPDATE \
- 	INTEL_SIP_SMC_FAST_CALL_VAL(INTEL_SIP_SMC_FUNCID_REG_UPDATE)
- 
-+/*
-+ * Request INTEL_SIP_SMC_RSU_STATUS
-+ *
-+ * Request remote status update boot log, call is synchronous.
-+ *
-+ * Call register usage:
-+ * a0 INTEL_SIP_SMC_RSU_STATUS
-+ * a1-7 not used
-+ *
-+ * Return status
-+ * a0: Current Image
-+ * a1: Last Failing Image
-+ * a2: Version | State
-+ * a3: Error details | Error location
-+ *
-+ * Or
-+ *
-+ * a0: INTEL_SIP_SMC_RSU_ERROR
-+ */
-+#define INTEL_SIP_SMC_FUNCID_RSU_STATUS 11
-+#define INTEL_SIP_SMC_RSU_STATUS \
-+	INTEL_SIP_SMC_FAST_CALL_VAL(INTEL_SIP_SMC_FUNCID_RSU_STATUS)
-+
-+/*
-+ * Request INTEL_SIP_SMC_RSU_UPDATE
-+ *
-+ * Request to set the offset of the bitstream to boot after reboot, call
-+ * is synchronous.
-+ *
-+ * Call register usage:
-+ * a0 INTEL_SIP_SMC_RSU_UPDATE
-+ * a1 64bit physical address of the configuration data memory in flash
-+ * a2-7 not used
-+ *
-+ * Return status
-+ * a0 INTEL_SIP_SMC_STATUS_OK
-+ */
-+#define INTEL_SIP_SMC_FUNCID_RSU_UPDATE 12
-+#define INTEL_SIP_SMC_RSU_UPDATE \
-+	INTEL_SIP_SMC_FAST_CALL_VAL(INTEL_SIP_SMC_FUNCID_RSU_UPDATE)
- #endif
-diff --git a/include/linux/firmware/intel/stratix10-svc-client.h b/include/linux/firmware/intel/stratix10-svc-client.h
-index f2fda7e..e521f17 100644
---- a/include/linux/firmware/intel/stratix10-svc-client.h
-+++ b/include/linux/firmware/intel/stratix10-svc-client.h
-@@ -10,8 +10,10 @@
-  * Service layer driver supports client names
-  *
-  * fpga: for FPGA configuration
-+ * rsu: for remote status update
-  */
- #define SVC_CLIENT_FPGA			"fpga"
-+#define SVC_CLIENT_RSU			"rsu"
- 
- /**
-  * Status of the sent command, in bit number
-@@ -36,6 +38,9 @@
-  *
-  * SVC_COMMAND_STATUS_RECONFIG_ERROR:
-  * Error encountered during FPGA configuration.
-+ *
-+ * SVC_STATUS_RSU_OK:
-+ * Secure firmware accepts the request of remote status update (RSU).
-  */
- #define SVC_STATUS_RECONFIG_REQUEST_OK		0
- #define SVC_STATUS_RECONFIG_BUFFER_SUBMITTED	1
-@@ -43,7 +48,8 @@
- #define SVC_STATUS_RECONFIG_COMPLETED		3
- #define SVC_STATUS_RECONFIG_BUSY		4
- #define SVC_STATUS_RECONFIG_ERROR		5
--
-+#define SVC_STATUS_RSU_OK			6
-+#define SVC_STATUS_RSU_ERROR			7
- /**
-  * Flag bit for COMMAND_RECONFIG
-  *
-@@ -56,9 +62,11 @@
- /**
-  * Timeout settings for service clients:
-  * timeout value used in Stratix10 FPGA manager driver.
-+ * timeout value used in RSU driver
-  */
- #define SVC_RECONFIG_REQUEST_TIMEOUT_MS         100
- #define SVC_RECONFIG_BUFFER_TIMEOUT_MS          240
-+#define SVC_RSU_REQUEST_TIMEOUT_MS              300
- 
- struct stratix10_svc_chan;
- 
-@@ -81,13 +89,21 @@ struct stratix10_svc_chan;
-  * @COMMAND_RECONFIG_STATUS: check the status of the configuration, return
-  * status is SVC_STATUS_RECONFIG_COMPLETED, or  SVC_STATUS_RECONFIG_BUSY, or
-  * SVC_STATUS_RECONFIG_ERROR
-+ *
-+ * @COMMAND_RSU_STATUS: request remote system update boot log, return status
-+ * is log data or SVC_STATUS_RSU_ERROR
-+ *
-+ * @COMMAND_RSU_UPDATE: set the offset of the bitstream to boot after reboot,
-+ * return status is SVC_STATUS_RSU_OK or SVC_STATUS_RSU_ERROR
-  */
- enum stratix10_svc_command_code {
- 	COMMAND_NOOP = 0,
- 	COMMAND_RECONFIG,
- 	COMMAND_RECONFIG_DATA_SUBMIT,
- 	COMMAND_RECONFIG_DATA_CLAIM,
--	COMMAND_RECONFIG_STATUS
-+	COMMAND_RECONFIG_STATUS,
-+	COMMAND_RSU_STATUS,
-+	COMMAND_RSU_UPDATE
- };
- 
- /**
--- 
-2.7.4
+When the mounter's MAC and DAC credentials were added (later), security 
+was greatly improved by not counting on the elevated DAC, but it broke 
+the expected 4.4 user space API. So in 4.9 and higher Android will 
+require this patch to restore the behaviour that supports 
+non-overlapping MAC credentials. But we chose _not_ to re-add the 
+(inadvisable) hard coded elevated credentials for these specific 
+accesses thus requiring the caller to _have_ the DAC credentials to 
+perform them.
+
+- For those using the 4.4 way of doing things, these noted operations work.
+- For those using the 4.9 way of doing things, the non-overlapping 
+creator and caller MAC credentials broke.
+- For latest, this patch brought back the support for non-overlapping 
+MAC credentials, without the security issues of the 4.4 implementation, 
+but alas breaks the 4.4 way of doing things as noted in this warning 
+message.
+
+-- Mark
+
 
