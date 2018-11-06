@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-13.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D0D087D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 17:32:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EAF807D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 17:32:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389815AbeKGC5U (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 21:57:20 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:55370 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389759AbeKGC5S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 21:57:18 -0500
-Received: by mail-wm1-f67.google.com with SMTP id s10-v6so11869339wmc.5
-        for <linux-doc@vger.kernel.org>; Tue, 06 Nov 2018 09:31:02 -0800 (PST)
+        id S2389776AbeKGC5T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 21:57:19 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:41546 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389778AbeKGC5T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 21:57:19 -0500
+Received: by mail-wr1-f67.google.com with SMTP id x12-v6so14472289wrw.8
+        for <linux-doc@vger.kernel.org>; Tue, 06 Nov 2018 09:31:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=gQItUgY2gYwGKzTfMCUdpYoluo1ZEefUN3xekUmwX5I=;
-        b=NCUfaakydyP1mEvjAcq8JqZWWvdcWMF4TaNfXTuOsryR1QLHPetRjJptGyLqia1LZ+
-         Ez1ekzw0lIFJ5zjJ3XMv0NGNc/pM04k26s037zRcMLaiQu2rwvOojgssKOv9bj3TUkKH
-         j4LlZXbpr2MmixQik019u26VRZ068PYuvDqTRX00emE+RaLbDhlG9S3rqgy+rfR84VN8
-         vHzyWrq2sL6WmXv0GqN3HiTlTzotv9mWtuiirsp2rfxQyxAocP1ytm9By7vHNEzCp7pn
-         UCA1eM2qOccn1KI00dbkHUrGtgR+uj1A6jGQc30kzEZb/2SowEoFdUPv7lcsBaxlqWRD
-         26Uw==
+        bh=sOnyIwb2g3YxDULpafZlyhPhyp1dzLGOVnhzsxDldCc=;
+        b=ieZmaKlhZlcp0nmdwsRMlwjHIcMezXernL9yhKeVBPEgaZe62JZ+moMlMYHN6OWt/y
+         rf3+57+dn6ZDMstn+SzB67CvHJUI6P1QFkf4QdNTBVtEydktJ54bZbtWTGYOUNkhq/Ck
+         uCam1MXgX6T3RjfXcTQv1WaOPZOyzeBgZVRItFC8NeBOdIrskJv/VP7FwaJ/31al//4P
+         p85j+2gjRtMwM4y0Ln2ytkDjR4ZA85EkPv/Bprts1gXeW33iSn8U1iW44Mj3hUgIorF7
+         vVFMmVbUbb99FfgXclwNO7mI/BTGpp1mHauUX+/h0ACe7g1L6GxcEbPe98hwyCWx6KGV
+         m9Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gQItUgY2gYwGKzTfMCUdpYoluo1ZEefUN3xekUmwX5I=;
-        b=dbWC67aSqK3Rb+/cTjHbbmbaKUSn8qa82zkyIHEFqw4vy8JOmGXLWCW5q/Dd0rPDdb
-         UlyEX8UoPOgpAhh9hZz4bGGpoD+k5t5f/8cPbpS/zzZJJRZulkmR5jWblO0xmPoV38T/
-         HiSzi9UbzRRTGUXYBfkdo0nk7NQkoYYMRagLgPsJZM+SoG0Xp/AyJoXsOzxpSOlTFusj
-         lQ/5A87gsPP2iRwZIB9VvtsRW7ByOgbGqtILwwKiQJFrUitZEbXf4iDGdzI/ZDOjdLTO
-         zqcce6i0vzGhKYX2FwH/uKSAF+1Oq2bJyhQdo/uQU9yImjLBU1qxl1nCmdCCi5g2KeRS
-         /uRg==
-X-Gm-Message-State: AGRZ1gJzaVYNak7VQas/a61nEqDUBRQbYZJE7RgR0dJrEwqzxRq0mcJl
-        QWEhVAQnOFUaXoh+syAMeM/O5A==
-X-Google-Smtp-Source: AJdET5ewibFtIOBChjomp4ASbXPo7qin6bueX7L2jOoKAZ7ADOmOLeDKrR8tezhA6WYSL8tTi7qH3A==
-X-Received: by 2002:a1c:b8d:: with SMTP id 135-v6mr2659929wml.128.1541525461350;
-        Tue, 06 Nov 2018 09:31:01 -0800 (PST)
+        bh=sOnyIwb2g3YxDULpafZlyhPhyp1dzLGOVnhzsxDldCc=;
+        b=bqWI1HQjXj9JUylvNfxhQGbH90XwbRhyXEUIkC+Wuz+gv2AixxeY8ZZL3+NnBg2UsO
+         6lfvgkBy2ylSrDxa00TgsteRjh8TDVQHS74s1TeM9ZIfJeS7ZprHugzcK245JWbAg3TA
+         bSNVEKUJuBQJqwmEEzZjwxxMrU6UxlubYjboPsGLOAET+0W5M4mHDbE6a+sxFV08x7Sk
+         J8IaQKz0i26fMbuJQrl8CajVw5nzZgNzV4pYt8SFTWIlsu8c7h/3sVR2izvy2A1DCy5x
+         Okh9Gv4guS5nQmC5AVVQocX7/7oD4DoJu29zMHrRINuVZq7Mq9oywBFuOeVCu6vZQPnT
+         OX/Q==
+X-Gm-Message-State: AGRZ1gIGpYQl8xet957NytzydOmLo/ntuotNBeH+4mswRKSpE4dwjxwz
+        WBkVyX9gvZYCN664MZcvAaVVIA==
+X-Google-Smtp-Source: AJdET5e46JoBZfK+Mq6DCn35SKPr5NomvZUUHR+HaT+Vry+XqsfzQeNViUT2xlwDScnnnVPOhrepFw==
+X-Received: by 2002:adf:9589:: with SMTP id p9-v6mr24794980wrp.270.1541525462952;
+        Tue, 06 Nov 2018 09:31:02 -0800 (PST)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id z17-v6sm16328416wrm.65.2018.11.06.09.31.00
+        by smtp.gmail.com with ESMTPSA id z17-v6sm16328416wrm.65.2018.11.06.09.31.01
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 06 Nov 2018 09:31:00 -0800 (PST)
+        Tue, 06 Nov 2018 09:31:02 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -85,9 +85,9 @@ Cc:     Kostya Serebryany <kcc@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Vishwath Mohan <vishwath@google.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v10 12/22] kasan, arm64: fix up fault handling logic
-Date:   Tue,  6 Nov 2018 18:30:27 +0100
-Message-Id: <4891a504adf61c0daf1e83642b6f7519328dfd5f.1541525354.git.andreyknvl@google.com>
+Subject: [PATCH v10 13/22] kasan, arm64: enable top byte ignore for the kernel
+Date:   Tue,  6 Nov 2018 18:30:28 +0100
+Message-Id: <f73a69ce70e9c30efe1832773b30dd067c4b107e.1541525354.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.19.1.930.g4563a0d9d0-goog
 In-Reply-To: <cover.1541525354.git.andreyknvl@google.com>
 References: <cover.1541525354.git.andreyknvl@google.com>
@@ -98,40 +98,57 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-show_pte in arm64 fault handling relies on the fact that the top byte of
-a kernel pointer is 0xff, which isn't always the case with tag-based
-KASAN.
-
-This patch resets the top byte in show_pte.
+Tag-based KASAN uses the Top Byte Ignore feature of arm64 CPUs to store a
+pointer tag in the top byte of each pointer. This commit enables the
+TCR_TBI1 bit, which enables Top Byte Ignore for the kernel, when tag-based
+KASAN is used.
 
 Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
 Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- arch/arm64/mm/fault.c | 3 +++
- 1 file changed, 3 insertions(+)
+ arch/arm64/include/asm/pgtable-hwdef.h | 1 +
+ arch/arm64/mm/proc.S                   | 8 +++++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-index 7d9571f4ae3d..d9a84d6f3343 100644
---- a/arch/arm64/mm/fault.c
-+++ b/arch/arm64/mm/fault.c
-@@ -32,6 +32,7 @@
- #include <linux/perf_event.h>
- #include <linux/preempt.h>
- #include <linux/hugetlb.h>
-+#include <linux/kasan.h>
+diff --git a/arch/arm64/include/asm/pgtable-hwdef.h b/arch/arm64/include/asm/pgtable-hwdef.h
+index 1d7d8da2ef9b..d43b870c39b3 100644
+--- a/arch/arm64/include/asm/pgtable-hwdef.h
++++ b/arch/arm64/include/asm/pgtable-hwdef.h
+@@ -291,6 +291,7 @@
+ #define TCR_A1			(UL(1) << 22)
+ #define TCR_ASID16		(UL(1) << 36)
+ #define TCR_TBI0		(UL(1) << 37)
++#define TCR_TBI1		(UL(1) << 38)
+ #define TCR_HA			(UL(1) << 39)
+ #define TCR_HD			(UL(1) << 40)
+ #define TCR_NFD1		(UL(1) << 54)
+diff --git a/arch/arm64/mm/proc.S b/arch/arm64/mm/proc.S
+index 2c75b0b903ae..d861f208eeb1 100644
+--- a/arch/arm64/mm/proc.S
++++ b/arch/arm64/mm/proc.S
+@@ -47,6 +47,12 @@
+ /* PTWs cacheable, inner/outer WBWA */
+ #define TCR_CACHE_FLAGS	TCR_IRGN_WBWA | TCR_ORGN_WBWA
  
- #include <asm/bug.h>
- #include <asm/cmpxchg.h>
-@@ -141,6 +142,8 @@ void show_pte(unsigned long addr)
- 	pgd_t *pgdp;
- 	pgd_t pgd;
- 
-+	addr = (unsigned long)kasan_reset_tag((void *)addr);
++#ifdef CONFIG_KASAN_SW_TAGS
++#define TCR_KASAN_FLAGS TCR_TBI1
++#else
++#define TCR_KASAN_FLAGS 0
++#endif
 +
- 	if (addr < TASK_SIZE) {
- 		/* TTBR0 */
- 		mm = current->active_mm;
+ #define MAIR(attr, mt)	((attr) << ((mt) * 8))
+ 
+ /*
+@@ -445,7 +451,7 @@ ENTRY(__cpu_setup)
+ 	 */
+ 	ldr	x10, =TCR_TxSZ(VA_BITS) | TCR_CACHE_FLAGS | TCR_SMP_FLAGS | \
+ 			TCR_TG_FLAGS | TCR_KASLR_FLAGS | TCR_ASID16 | \
+-			TCR_TBI0 | TCR_A1
++			TCR_TBI0 | TCR_A1 | TCR_KASAN_FLAGS
+ 	tcr_set_idmap_t0sz	x10, x9
+ 
+ 	/*
 -- 
 2.19.1.930.g4563a0d9d0-goog
 
