@@ -5,145 +5,126 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 441F27D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 06:35:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 976257D08E
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  6 Nov 2018 06:47:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387397AbeKFP7B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 6 Nov 2018 10:59:01 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45926 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2387393AbeKFP7B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Nov 2018 10:59:01 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wA66XhJh024092
-        for <linux-doc@vger.kernel.org>; Tue, 6 Nov 2018 01:35:20 -0500
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2nk0kk26u7-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 06 Nov 2018 01:35:20 -0500
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Tue, 6 Nov 2018 06:35:18 -0000
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Tue, 6 Nov 2018 06:35:16 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wA66ZFsg9306534
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 6 Nov 2018 06:35:15 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0C1A952052;
-        Tue,  6 Nov 2018 06:35:15 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.207.135])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 6DA0A52057;
-        Tue,  6 Nov 2018 06:35:14 +0000 (GMT)
-Date:   Tue, 6 Nov 2018 08:35:12 +0200
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] docs/admin-guide/mm/concepts.rst: grammar fixups
-References: <1541447895-14996-1-git-send-email-rppt@linux.ibm.com>
- <20181105211240.GA3074@bombadil.infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181105211240.GA3074@bombadil.infradead.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18110606-0020-0000-0000-000002E06C32
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18110606-0021-0000-0000-0000212FDF12
-Message-Id: <20181106063511.GC4499@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-06_02:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1811060057
+        id S2387421AbeKFQKz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 6 Nov 2018 11:10:55 -0500
+Received: from mxhk.zte.com.cn ([63.217.80.70]:19862 "EHLO mxhk.zte.com.cn"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387397AbeKFQKz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Nov 2018 11:10:55 -0500
+Received: from mse01.zte.com.cn (unknown [10.30.3.20])
+        by Forcepoint Email with ESMTPS id E9AC0EA3C18115977977;
+        Tue,  6 Nov 2018 14:47:09 +0800 (CST)
+Received: from notes_smtp.zte.com.cn ([10.30.1.239])
+        by mse01.zte.com.cn with ESMTP id wA66l3wZ044568;
+        Tue, 6 Nov 2018 14:47:03 +0800 (GMT-8)
+        (envelope-from peng.hao2@zte.com.cn)
+Received: from localhost.localdomain.localdomain ([10.74.120.59])
+          by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
+          with ESMTP id 2018110614471652-8886577 ;
+          Tue, 6 Nov 2018 14:47:16 +0800 
+From:   Peng Hao <peng.hao2@zte.com.cn>
+To:     robh+dt@kernel.org, mark.rutland@arm.com, arnd@arndb.de,
+        gregkh@linuxfoundation.org, andy@infradead.org,
+        dvhart@infradead.org
+Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        hutao@cn.fujitsu.com, linux-doc@vger.kernel.org,
+        Peng Hao <peng.hao2@zte.com.cn>
+Subject: [PATCH V8 01/11]  pvpanic: move pvpanic to misc as common driver
+Date:   Tue, 6 Nov 2018 22:57:12 +0800
+Message-Id: <1541516242-98568-1-git-send-email-peng.hao2@zte.com.cn>
+X-Mailer: git-send-email 1.8.3.1
+X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release 8.5.3FP6|November
+ 21, 2013) at 2018-11-06 14:47:16,
+        Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
+ 2018-11-06 14:46:59,
+        Serialize complete at 2018-11-06 14:46:59
+X-MAIL: mse01.zte.com.cn wA66l3wZ044568
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 05, 2018 at 01:12:40PM -0800, Matthew Wilcox wrote:
-> On Mon, Nov 05, 2018 at 09:58:15PM +0200, Mike Rapoport wrote:
-> > @@ -21,10 +21,10 @@ Virtual Memory Primer
-> >  The physical memory in a computer system is a limited resource and
-> >  even for systems that support memory hotplug there is a hard limit on
-> >  the amount of memory that can be installed. The physical memory is not
-> > -necessary contiguous, it might be accessible as a set of distinct
-> > +necessary contiguous; it might be accessible as a set of distinct
-> 
-> necessarily
-> 
-> >  address ranges. Besides, different CPU architectures, and even
-> > -different implementations of the same architecture have different view
-> > -how these address ranges defined.
-> > +different implementations of the same architecture have different views
-> > +of how these address ranges defined.
-> 
-> "are defined"?
-> 
-> >  Each physical memory page can be mapped as one or more virtual
-> >  pages. These mappings are described by page tables that allow
-> > -translation from virtual address used by programs to real address in
-> > -the physical memory. The page tables organized hierarchically.
-> > +translation from a virtual address used by programs to the real
-> > +address in the physical memory. The page tables are organized
-> > +hierarchically.
-> 
-> I don't like the term "real address".  Can we say "physical address in memory" here, or "address of physical memory" or something?
+Move pvpanic.c from drivers/platform/x86 to drivers/misc.
+Following patches will use pvpanic device in arm64.
+
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Acked-by: Mark Rutland <mark.rutland@arm.com>
+Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
+---
+ drivers/misc/Kconfig                     | 8 ++++++++
+ drivers/misc/Makefile                    | 1 +
+ drivers/{platform/x86 => misc}/pvpanic.c | 0
+ drivers/platform/x86/Kconfig             | 8 --------
+ drivers/platform/x86/Makefile            | 1 -
+ 5 files changed, 9 insertions(+), 9 deletions(-)
+ rename drivers/{platform/x86 => misc}/pvpanic.c (100%)
+
+diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+index 3726eac..64c898a 100644
+--- a/drivers/misc/Kconfig
++++ b/drivers/misc/Kconfig
+@@ -513,6 +513,14 @@ config MISC_RTSX
+ 	tristate
+ 	default MISC_RTSX_PCI || MISC_RTSX_USB
  
-I didn't really like it as well, but I couldn't think of any better
-adjective to emphasize that address in the physical memory is "the real
-thing".
-
-Maybe the best would be to drop "real" and make it 
-
-"translation from a virtual address used by programs to the 
-address in the physical memory"
-
-
-> > -page filled with zeroes. When the program performs a write, regular
-> > +page filled with zeroes. When the program performs a write, a regular
-> >  physical page will be allocated to hold the written data. The page
-> >  will be marked dirty and if the kernel will decide to repurpose it,
-> >  the dirty page will be swapped out.
-> 
-> "if the kernel will decide to repurpose it" is awkward.  How about
-> 
-> if the kernel decides to repurpose it"?
-> 
-> >  OOM killer
-> >  ==========
-> >  
-> > -It may happen, that on a loaded machine memory will be exhausted. When
-> > +It may happen that on a loaded machine memory will be exhausted. When
-> >  the kernel detects that the system runs out of memory (OOM) it invokes
-> >  `OOM killer`.
-> > Its mission is simple: all it has to do is to select a
-> >  task to sacrifice for the sake of the overall system health. The
-> 
-> It is possible for the kernel to be unable to reclaim enough memory to
-> continue to operate.  In order to save the rest of the system, it invokes
-> the `OOM killer` to sacrifice one task.
-
-How about:
-
-It is possible that on a loaded machine memory will be exhausted and the
-kernel will be unable to reclaim enough memory to continue to operate. In
-order to save the rest of the system, it invokes the `OOM killer`.
-
-The `OOM killer` selects a task to sacrifice for the sake of the overall
-system health. The selected task is killed in a hope that after it exits
-enough memory will be freed to continue normal operation.
-
-
++config PVPANIC
++	tristate "pvpanic device support"
++	depends on ACPI
++	help
++	  This driver provides support for the pvpanic device.  pvpanic is
++	  a paravirtualized device provided by QEMU; it lets a virtual machine
++	  (guest) communicate panic events to the host.
++
+ source "drivers/misc/c2port/Kconfig"
+ source "drivers/misc/eeprom/Kconfig"
+ source "drivers/misc/cb710/Kconfig"
+diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
+index af22bbc..b76d611 100644
+--- a/drivers/misc/Makefile
++++ b/drivers/misc/Makefile
+@@ -58,3 +58,4 @@ obj-$(CONFIG_ASPEED_LPC_SNOOP)	+= aspeed-lpc-snoop.o
+ obj-$(CONFIG_PCI_ENDPOINT_TEST)	+= pci_endpoint_test.o
+ obj-$(CONFIG_OCXL)		+= ocxl/
+ obj-$(CONFIG_MISC_RTSX)		+= cardreader/
++obj-$(CONFIG_PVPANIC)   	+= pvpanic.o
+diff --git a/drivers/platform/x86/pvpanic.c b/drivers/misc/pvpanic.c
+similarity index 100%
+rename from drivers/platform/x86/pvpanic.c
+rename to drivers/misc/pvpanic.c
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index 0c1aa6c..4ac276c 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -1121,14 +1121,6 @@ config INTEL_SMARTCONNECT
+ 	  This driver checks to determine whether the device has Intel Smart
+ 	  Connect enabled, and if so disables it.
+ 
+-config PVPANIC
+-	tristate "pvpanic device support"
+-	depends on ACPI
+-	---help---
+-	  This driver provides support for the pvpanic device.  pvpanic is
+-	  a paravirtualized device provided by QEMU; it lets a virtual machine
+-	  (guest) communicate panic events to the host.
+-
+ config INTEL_PMC_IPC
+ 	tristate "Intel PMC IPC Driver"
+ 	depends on ACPI
+diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+index e6d1bec..e88f44e 100644
+--- a/drivers/platform/x86/Makefile
++++ b/drivers/platform/x86/Makefile
+@@ -75,7 +75,6 @@ obj-$(CONFIG_APPLE_GMUX)	+= apple-gmux.o
+ obj-$(CONFIG_INTEL_RST)		+= intel-rst.o
+ obj-$(CONFIG_INTEL_SMARTCONNECT)	+= intel-smartconnect.o
+ 
+-obj-$(CONFIG_PVPANIC)           += pvpanic.o
+ obj-$(CONFIG_ALIENWARE_WMI)	+= alienware-wmi.o
+ obj-$(CONFIG_INTEL_PMC_IPC)	+= intel_pmc_ipc.o
+ obj-$(CONFIG_TOUCHSCREEN_DMI)	+= touchscreen_dmi.o
 -- 
-Sincerely yours, Mike.
+1.8.3.1
 
