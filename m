@@ -1,90 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D46667D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 17:37:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7DF7F7D099
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 18:11:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731553AbeKHDJH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Nov 2018 22:09:07 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:46608 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728121AbeKHDJH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Nov 2018 22:09:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=r87jmaN8ctFgUY9lX7Zf/fake4MJC90U+GCI1S//zqA=; b=MRBkBt8iQLXGeugt/6sOvA3A7
-        RGeyjEqZZeIlXJCbn3o71u6XFBi6bkUM4WTf9Yfwz/+nYEk0JAjs4QCw3aIBrxZJAGd0HizCmP4o4
-        id/YhiqyFPxiJSfSx/lrdeQ/xgHEAVYsWqqHiT6gvLKngVzO1hU/yM9Eg8uWKHt9HghW249j6ZfEU
-        QlHWIcuMfCbbK1gMfHyEzyLpAqiuDpchkMOYPUH4qzDA+g5nYtNw7FlT9SCm0xGegRDbSF8npSkwW
-        FdGsQ4X2G6S0KD/c8B6icDSNmMJCvPGMFnPXSPeUAiCZkk5gvSeuDRKOB8wBCzeygZ81TUggHZckN
-        TjF5wkrTQ==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gKRlt-0000Cu-5x; Wed, 07 Nov 2018 17:37:41 +0000
-Date:   Wed, 7 Nov 2018 09:37:41 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     vitor <vitor.soares@synopsys.com>
-Cc:     boris.brezillon@bootlin.com, wsa@the-dreams.de,
-        linux-i2c@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        arnd@arndb.de, psroka@cadence.com, agolec@cadence.com,
-        adouglas@cadence.com, bfolta@cadence.com, dkos@cadence.com,
-        alicja@cadence.com, cwronka@cadence.com, sureshp@cadence.com,
-        rafalc@cadence.com, thomas.petazzoni@bootlin.com, nm@ti.com,
-        robh+dt@kernel.org, pawel.moll@arm.com, mark.rutland@arm.com,
-        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        geert@linux-m68k.org, linus.walleij@linaro.org,
-        Xiang.Lin@synaptics.com, linux-gpio@vger.kernel.org,
-        nsekhar@ti.com, pgaj@cadence.com, peda@axentia.se,
-        mshettel@codeaurora.org, swboyd@chromium.org,
-        joao.pinto@synopsys.com, luis.oliveira@synopsys.com,
-        manuel.abreu@synopsys.com, gustavo.pimentel@synopsys.com
-Subject: Re: [PATCH 1/3] i3c: master: Add driver for Synopsys DesignWare IP
-Message-ID: <20181107173741.GL3074@bombadil.infradead.org>
-References: <1540807618-13246-1-git-send-email-soares@synopsys.com>
- <1540807618-13246-2-git-send-email-soares@synopsys.com>
- <20181107170553.GJ3074@bombadil.infradead.org>
- <d2540ea9-edbd-3b36-0647-54919a9dfa2d@synopsys.com>
+        id S1727789AbeKHDmf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Nov 2018 22:42:35 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:56246 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726897AbeKHDmf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Nov 2018 22:42:35 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 19911A78;
+        Wed,  7 Nov 2018 10:11:03 -0800 (PST)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.197.53])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 426ED3F5C0;
+        Wed,  7 Nov 2018 10:10:57 -0800 (PST)
+Date:   Wed, 7 Nov 2018 18:10:54 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org, Vishwath Mohan <vishwath@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>
+Subject: Re: [PATCH v10 08/22] kasan, arm64: untag address in __kimg_to_phys
+ and _virt_addr_is_linear
+Message-ID: <20181107181054.GC255021@arrakis.emea.arm.com>
+References: <cover.1541525354.git.andreyknvl@google.com>
+ <b2aa056b65b8f1a410379bf2f6ef439d5d99e8eb.1541525354.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d2540ea9-edbd-3b36-0647-54919a9dfa2d@synopsys.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <b2aa056b65b8f1a410379bf2f6ef439d5d99e8eb.1541525354.git.andreyknvl@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 07, 2018 at 05:30:22PM +0000, vitor wrote:
-> Hi Matthew,
-> 
-> 
-> On 07/11/18 17:05, Matthew Wilcox wrote:
-> > On Mon, Oct 29, 2018 at 10:06:56AM +0000, Vitor soares wrote:
-> > > Add driver for Synopsys DesignWare I3C master IP
-> > The so-called "data sheet" (actually just an advertising brochure)
-> 
-> The datasheet is there to download.
+On Tue, Nov 06, 2018 at 06:30:23PM +0100, Andrey Konovalov wrote:
+> --- a/arch/arm64/include/asm/memory.h
+> +++ b/arch/arm64/include/asm/memory.h
+> @@ -92,6 +92,15 @@
+>  #define KASAN_THREAD_SHIFT	0
+>  #endif
+>  
+> +#ifdef CONFIG_KASAN_SW_TAGS
+> +#define KASAN_TAG_SHIFTED(tag)		((unsigned long)(tag) << 56)
+> +#define KASAN_SET_TAG(addr, tag)	(((addr) & ~KASAN_TAG_SHIFTED(0xff)) | \
+> +						KASAN_TAG_SHIFTED(tag))
+> +#define KASAN_RESET_TAG(addr)		KASAN_SET_TAG(addr, 0xff)
+> +#else
+> +#define KASAN_RESET_TAG(addr)		addr
+> +#endif
 
-Really?  I went to the link in your message, filled out the stupid
-information box that your company has now decided to start spamming
-me with, and I got a 2-page brochure telling me how wonderful it was.
-It's *called* a datasheet.  Even right there in its name: dwc_mipi_i3c_ds.pdf
-It's not a data sheet.
+I think we should reuse the untagged_addr() macro we have in uaccess.h
+(make it more general and move to another header file).
 
-> Right now the driver does not support DMA interface which will be added
-> later as the other missed I3C features.
-> 
-> What do you suggest to avoid this misunderstanding?
-
-A big missing feature like that is probably worth mentioning in a comment.
-eg: TODO: DMA support.
-
+-- 
+Catalin
