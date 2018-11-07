@@ -2,111 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5085F7D8E7
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 15:34:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 46D867D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 15:35:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731141AbeKHBFR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Nov 2018 20:05:17 -0500
-Received: from mail-vs1-f67.google.com ([209.85.217.67]:34337 "EHLO
-        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727387AbeKHBFR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Nov 2018 20:05:17 -0500
-Received: by mail-vs1-f67.google.com with SMTP id y27so7831288vsi.1;
-        Wed, 07 Nov 2018 07:34:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xFDoyXBbWPXoq4jdpmuCCfC9Z24EPUBl5vTbfphQXlY=;
-        b=jIR/FE9lI9hgO+lsCrgFDv0u5/PhsuW60zN1Ml0C6ey+2lQ83g0RNrhpGrZlsmyQER
-         RJxcQabmpVgFbcfVzMRfUtcxwuNOh5svVJIPKo81wASPsVRis/UY4RADKI7grp6lfm4y
-         y9zaYtXYJ2/bB+3khjjnf1nKj10duWR1S3yY6dlx5JQiEMkEzGCNPQUiFZzccMItqVBf
-         p/aKVEBO37xIe/XD3eCqa5fPrUfdGUHCAM931Cdl4Nzjjzo1/+fUvIhG0d+VGHtyh2nv
-         ZxeiAbLK30UxAFw9xBS9frubX3GarPnJCuTHZFjnWBDyIu8sw7jxCOMOmFf9m94UjR4w
-         tEqg==
-X-Gm-Message-State: AGRZ1gK1vU1nF+e2NCp5J9g2FT8A+RrJP6gUH8ixsYI7H/ciwCb16iak
-        E7y9JIRXv5j39EiU47N9eDtDu66qbyDyyzgGM3eB6mAl
-X-Google-Smtp-Source: AJdET5fsEWPKyt19SONIzJGJnXqaIrSv1h5kj38Qg66H567KVkGhfXpyAdkxeAmCz5hIqoCrVsKL6ER/UBZhUqJ+eNE=
-X-Received: by 2002:a67:d119:: with SMTP id u25mr255775vsi.63.1541604864655;
- Wed, 07 Nov 2018 07:34:24 -0800 (PST)
-MIME-Version: 1.0
-References: <1540807618-13246-1-git-send-email-soares@synopsys.com>
- <1540807618-13246-2-git-send-email-soares@synopsys.com> <20181029134100.GD28520@bombadil.infradead.org>
- <8a71cb94-ccf5-8ec0-446a-37a29405f585@synopsys.com>
-In-Reply-To: <8a71cb94-ccf5-8ec0-446a-37a29405f585@synopsys.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 7 Nov 2018 16:34:12 +0100
-Message-ID: <CAMuHMdUO5_-TsGiu3otuLqNtLNgdnw=1QdKjTzPmSxHp9QotxQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] i3c: master: Add driver for Synopsys DesignWare IP
-To:     Vitor Soares <vitor.soares@synopsys.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
+        id S1727564AbeKHBFx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Nov 2018 20:05:53 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:53216 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727387AbeKHBFx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Nov 2018 20:05:53 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E55880D;
+        Wed,  7 Nov 2018 07:35:01 -0800 (PST)
+Received: from brain-police (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D5FD63F5BD;
+        Wed,  7 Nov 2018 07:34:59 -0800 (PST)
+Date:   Wed, 7 Nov 2018 15:34:57 +0000
+From:   Will Deacon <will.deacon@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
         Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Sekhar Nori <nsekhar@ti.com>, pgaj@cadence.com,
-        Peter Rosin <peda@axentia.se>, mshettel@codeaurora.org,
-        swboyd@chromium.org, joao.pinto@synopsys.com,
-        luis.oliveira@synopsys.com, manuel.abreu@synopsys.com,
-        gustavo.pimentel@synopsys.com
-Content-Type: text/plain; charset="UTF-8"
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH v10 00/22] kasan: add software tag-based mode for arm64
+Message-ID: <20181107153456.GE2623@brain-police>
+References: <cover.1541525354.git.andreyknvl@google.com>
+ <CAAeHK+yOsP7V0gPu7EpqCbJZqbGQMZbAp6q1+=0dNGC24reyWg@mail.gmail.com>
+ <20181107145922.GD2623@brain-police>
+ <CAAeHK+zNgv9WxRpf7N3gmsLYGL6oUALAnyerMzeYZUz1LhoUuA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAeHK+zNgv9WxRpf7N3gmsLYGL6oUALAnyerMzeYZUz1LhoUuA@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Vitor,
+On Wed, Nov 07, 2018 at 04:11:35PM +0100, Andrey Konovalov wrote:
+> On Wed, Nov 7, 2018 at 3:59 PM, Will Deacon <will.deacon@arm.com> wrote:
+> > On Wed, Nov 07, 2018 at 03:56:03PM +0100, Andrey Konovalov wrote:
+> >> On Tue, Nov 6, 2018 at 6:30 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
+> >> > This patchset adds a new software tag-based mode to KASAN [1].
+> >> > (Initially this mode was called KHWASAN, but it got renamed,
+> >> >  see the naming rationale at the end of this section).
+> >>
+> >> [...]
+> >>
+> >> > Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+> >> > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> >> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> >>
+> >> Hi Andrew,
+> >>
+> >> This patchset has now been reviewed-by KASAN maintainers. Could you
+> >> take a look and consider taking this into the -mm tree?
+> >
+> > I would much prefer to take the arm64 parts (which still need to be reviewed
+> > by Catalin afaict) via the arm64 tree, so please can you split those out
+> > separately?
+> 
+> Which parts do you mean exactly, which patches? I don't think it makes
+> sense to split this patchset, as one part won't function without the
+> other.
 
-On Wed, Nov 7, 2018 at 4:15 PM vitor <vitor.soares@synopsys.com> wrote:
-> On 29/10/18 13:41, Matthew Wilcox wrote:
-> > On Mon, Oct 29, 2018 at 10:06:56AM +0000, Vitor soares wrote:
-> >> +config DW_I3C_MASTER
-> >> +    tristate "Synospsys DesignWare I3C master driver"
-> >> +    depends on I3C
-> >> +    depends on !(ALPHA || PARISC)
-> > why?
->
-> Please check this email thread: https://lkml.org/lkml/2018/10/8/393
+I would like the patches that touch code under arch/arm64/ to be reviewed by
+somebody from the arm64 community. Since the core parts have already been
+reviewed, I was suggesting that you could split them out so that they are
+not blocked by the architecture code. Is it not possible to preserve the
+existing KASAN behaviour for arm64 with the core parts merged? I figured it
+must be, since you're not touching any other architectures here and they
+assumedly continue to function correctly.
 
-Hence this deserves a comment, so we know when/what to do to drop the
-dependency:
+However, if you'd rather keep everything together, please can we give it a
+couple of weeks so we can at least get the architecture bits reviewed? Most
+people are out at LPC next week (and I'm at another conference this week).
 
-    depends on  !(ALPHA || PARISC) # needs {read,write}sl()
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Will
