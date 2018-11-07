@@ -3,56 +3,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 47B877D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 15:54:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4EC7B7D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 15:56:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727604AbeKHBZD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Nov 2018 20:25:03 -0500
-Received: from mail-io1-f66.google.com ([209.85.166.66]:43391 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727818AbeKHBZD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Nov 2018 20:25:03 -0500
-Received: by mail-io1-f66.google.com with SMTP id t81-v6so12226312iod.10
-        for <linux-doc@vger.kernel.org>; Wed, 07 Nov 2018 07:54:07 -0800 (PST)
+        id S1731254AbeKHB1S (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Nov 2018 20:27:18 -0500
+Received: from mail-io1-f65.google.com ([209.85.166.65]:41706 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730583AbeKHB1S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Nov 2018 20:27:18 -0500
+Received: by mail-io1-f65.google.com with SMTP id a5-v6so12242841ioq.8
+        for <linux-doc@vger.kernel.org>; Wed, 07 Nov 2018 07:56:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=r0hsUc/Y3dg24sUOd7ZU4XXfNPD3yxr0cD2ixuSzCTk=;
-        b=bim5TCzioM6nFCP6fgSo1w9HlhHshXAy/IVqr91YnmvXKhGLLiqwa2lf2V9qiMsFxl
-         sRsVyp8NYKPvXAfHbCTuNYa+Od1eRQEO0PQccmJa6GayE91A4wTaL1cFCab+vRljbmQS
-         onOKhXJmTW6Rhti4bbKDwODeH5N45z6tyImb1346ZA05eDy6ha0pwuVaRrFxpFd0Krx9
-         stoPbTmiaTvmx7L+2wkGAxatNSl9qBquiy4NS+isOE5NbqXXIaXPNfg1gmiQfQcPaztf
-         fzPWahXT+zHpF5HBk0+oBreyz8zlhyKh57qvoymVLXJbZYKgnEUnnMzPCH/G0GpcI5+o
-         gZWA==
+        bh=UA3nks6dFaGQKahoiLGstMR6jL9rjzjXSjUXCWIc7yo=;
+        b=k1C5ofuI1ZiKeq9zgy7x6KrBJvutRffx2OvofpS3rMnZtR//wP+F6r1epcmqQeJjCo
+         4875jAeUIIcedUjAz4YIAMBeKY2Rsgqjpw8pNMQu8/ZnGL7E/dRHHMU4qCqGJ2rILXTb
+         PkxHAZHUwKSKaYYlmPSeqJlNO8CtZah/72Fr/sdYNg4g172Jogv2lsOVo+l/IATS9nW+
+         JWTb/7vo0sK72aUWzcFXK8KIuW2enl+P0oUfzEBXFLABa03n1vsoTverXEUoffS2J6Xs
+         cZ2WqL9FfFHzymMoh21S2ZKjS+x1ZyRwMc1rxIPECKoYhoTDf3kHOhmsxGE1ux/skTwO
+         ltrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=r0hsUc/Y3dg24sUOd7ZU4XXfNPD3yxr0cD2ixuSzCTk=;
-        b=oSnbybTqbKfG+95pQlxGxu7arxynRsefdS/JHujUYHTqNSlaNOWoym82gZcZkl3ShI
-         8GFaRlqoCGM7GUnYtj1eiTdiiI7gDmmnjVuFJ1rF94CtxvQySrPdpFoA/8X1LFkQQsQb
-         9QDaQx4xWJ73MG9zkk8rB0xCbk097iF2dB6IOHEHZHCm2XPV9n1BhzpSo7STyroBMYqS
-         HKdkjjwcYIW9PHaTL0mbA2QBLcAozZc0/BE6ADTzGB2+Dz5PUclWk6FN4wXGN0mc7XlR
-         U/RxH2fKvvrf7ocn3+uL6GTk3OC6nTxAm1vzSQOqhMZpE5D365mooYCXF6G+3LnOd0+g
-         7K5Q==
-X-Gm-Message-State: AGRZ1gKIRyq8TnxnlazEfKP45EUDO8PulX+CtSN90EbkQCcF/QDMUs8Z
-        9tr4RCuV5oWhTJZXFEX3e4M31fwTvFDcxqBC/9ZoDA==
-X-Google-Smtp-Source: AJdET5froMxZ4TaaLQ5afnq6CVknCjJ+UbwtBGo0zabMdOg7g+8s5Q63Bz3taexy+gjAZepqZFkd73P2HcUDmNLi9wA=
-X-Received: by 2002:a6b:c60e:: with SMTP id w14-v6mr628492iof.192.1541606046522;
- Wed, 07 Nov 2018 07:54:06 -0800 (PST)
+        bh=UA3nks6dFaGQKahoiLGstMR6jL9rjzjXSjUXCWIc7yo=;
+        b=Y/z8eVygHjgg3EcN21E1HSVEHQj0QP8O0Hl0jsSdO8rk7Q6uVwQA/lWo0VhacIIz8u
+         65BRhM48BuE3sEUQIWC2NKphD9ulfm//9xhYu9uvjtO3Ec3QCRsaZd/WhD79RcAan4Y5
+         sQZ442l0TRi0LkuMnHzPrHsgOvni7i2ubt5T3PwJTI3Bck6o0O3spDxwco1lap4m9bFC
+         hQ2W+1uL8/v/DLyQKAB75u6SuxVFrQycE7m1acd1YwX5PBZUv9wvWsdpCG8MXY7oCJOp
+         gbfJvGq4QL8JM69GQiNAP9xr1788cxdvCZqpmSjME+YCDMLIf60nmdiAJXy8XlemF7ti
+         kVdw==
+X-Gm-Message-State: AGRZ1gJWAYgNyFMe956rLVWYcg64iqUVt+TYWRRxjN23EkY954jT71pc
+        0dtTJUYvRIV9IEpVCTJLEn82G/aDGY3Picn4n25mKQ==
+X-Google-Smtp-Source: AJdET5fSwRELK0Y832KhrCakKuPRyGR5cRxcR591d3OlKTe5/oSl9qKkD66332Q8sqG6VcNd80BLwuVWwxyWrm3t24w=
+X-Received: by 2002:a6b:6904:: with SMTP id e4-v6mr636228ioc.119.1541606181670;
+ Wed, 07 Nov 2018 07:56:21 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a02:1846:0:0:0:0:0 with HTTP; Wed, 7 Nov 2018 07:54:05 -0800 (PST)
+Received: by 2002:a02:1846:0:0:0:0:0 with HTTP; Wed, 7 Nov 2018 07:56:21 -0800 (PST)
 In-Reply-To: <20181107153456.GE2623@brain-police>
 References: <cover.1541525354.git.andreyknvl@google.com> <CAAeHK+yOsP7V0gPu7EpqCbJZqbGQMZbAp6q1+=0dNGC24reyWg@mail.gmail.com>
  <20181107145922.GD2623@brain-police> <CAAeHK+zNgv9WxRpf7N3gmsLYGL6oUALAnyerMzeYZUz1LhoUuA@mail.gmail.com>
  <20181107153456.GE2623@brain-police>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Wed, 7 Nov 2018 16:54:05 +0100
-Message-ID: <CAAeHK+zupkT2s8o3p7GmxLn2N7idJihBG=asuEBF6v6TheGo_A@mail.gmail.com>
+Date:   Wed, 7 Nov 2018 16:56:21 +0100
+Message-ID: <CAAeHK+yRAVo5S1Fb__uzK=drpXRBuB8-KvL8yQL8sfUG-Tr1Mw@mail.gmail.com>
 Subject: Re: [PATCH v10 00/22] kasan: add software tag-based mode for arm64
 To:     Will Deacon <will.deacon@arm.com>,
         Catalin Marinas <catalin.marinas@arm.com>
@@ -99,32 +99,6 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On Wed, Nov 7, 2018 at 4:34 PM, Will Deacon <will.deacon@arm.com> wrote:
-> On Wed, Nov 07, 2018 at 04:11:35PM +0100, Andrey Konovalov wrote:
->> On Wed, Nov 7, 2018 at 3:59 PM, Will Deacon <will.deacon@arm.com> wrote:
->> > On Wed, Nov 07, 2018 at 03:56:03PM +0100, Andrey Konovalov wrote:
->> >> On Tue, Nov 6, 2018 at 6:30 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
->> >> > This patchset adds a new software tag-based mode to KASAN [1].
->> >> > (Initially this mode was called KHWASAN, but it got renamed,
->> >> >  see the naming rationale at the end of this section).
->> >>
->> >> [...]
->> >>
->> >> > Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
->> >> > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
->> >> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
->> >>
->> >> Hi Andrew,
->> >>
->> >> This patchset has now been reviewed-by KASAN maintainers. Could you
->> >> take a look and consider taking this into the -mm tree?
->> >
->> > I would much prefer to take the arm64 parts (which still need to be reviewed
->> > by Catalin afaict) via the arm64 tree, so please can you split those out
->> > separately?
->>
->> Which parts do you mean exactly, which patches? I don't think it makes
->> sense to split this patchset, as one part won't function without the
->> other.
 >
 > I would like the patches that touch code under arch/arm64/ to be reviewed by
 > somebody from the arm64 community. Since the core parts have already been
@@ -133,9 +107,14 @@ On Wed, Nov 7, 2018 at 4:34 PM, Will Deacon <will.deacon@arm.com> wrote:
 > existing KASAN behaviour for arm64 with the core parts merged? I figured it
 > must be, since you're not touching any other architectures here and they
 > assumedly continue to function correctly.
->
+
+It's possible to split out the core mm part, but it doesn't make much
+sense to merge it separately from the arm64 changes.
+
 > However, if you'd rather keep everything together, please can we give it a
 > couple of weeks so we can at least get the architecture bits reviewed? Most
 > people are out at LPC next week (and I'm at another conference this week).
->
-> Will
+
+OK, sounds good!
+
+Catalin, could you take a look at the arm64 specific changes?
