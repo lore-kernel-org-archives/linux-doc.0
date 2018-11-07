@@ -1,70 +1,141 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 290117D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 17:06:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0D3207DBEB
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 17:09:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727874AbeKHChK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Nov 2018 21:37:10 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:53364 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727757AbeKHChK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Nov 2018 21:37:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=qh8Qhy2w4pgR2qGVXcDQImmaucvrFE5+2bUXf3C9+GY=; b=oOYa5ScpZaThsr3IkQ4R4TEF/
-        mAeZMegZpH718Zh8UnoE01KS2zpJ3BxLV1YIkvnf6g7nrERqEI1TRd7aGe3i6Q60H4ckBB9YvgbjI
-        mUkQ5+OE75QlmedHoOEKPnsOQJL5NOBDqSM9lrevuCQTDJstkBdIhS3q3OcKXzr1CKsaAw8pcOJ60
-        kPQtjYCgHqinpMo39HmIwQYqRvROVqF01cDSBB/rGU0omY1rFADd4p2IJyE3wK76p234myYR9te9q
-        XBu/iddTIqJfIhHZ3tceM+NqrXZVOPW5NXM93UZb66hdNRRcEMJOcan/pfMCErI2s82BYNlm3oMyB
-        sknqPV4kQ==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gKRH7-0000fg-FI; Wed, 07 Nov 2018 17:05:53 +0000
-Date:   Wed, 7 Nov 2018 09:05:53 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Vitor soares <vitor.soares@synopsys.com>
-Cc:     boris.brezillon@bootlin.com, wsa@the-dreams.de,
-        linux-i2c@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        arnd@arndb.de, psroka@cadence.com, agolec@cadence.com,
-        adouglas@cadence.com, bfolta@cadence.com, dkos@cadence.com,
-        alicja@cadence.com, cwronka@cadence.com, sureshp@cadence.com,
-        rafalc@cadence.com, thomas.petazzoni@bootlin.com, nm@ti.com,
-        robh+dt@kernel.org, pawel.moll@arm.com, mark.rutland@arm.com,
-        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        geert@linux-m68k.org, linus.walleij@linaro.org,
-        Xiang.Lin@synaptics.com, linux-gpio@vger.kernel.org,
-        nsekhar@ti.com, pgaj@cadence.com, peda@axentia.se,
-        mshettel@codeaurora.org, swboyd@chromium.org,
-        joao.pinto@synopsys.com, luis.oliveira@synopsys.com,
-        manuel.abreu@synopsys.com, gustavo.pimentel@synopsys.com
-Subject: Re: [PATCH 1/3] i3c: master: Add driver for Synopsys DesignWare IP
-Message-ID: <20181107170553.GJ3074@bombadil.infradead.org>
-References: <1540807618-13246-1-git-send-email-soares@synopsys.com>
- <1540807618-13246-2-git-send-email-soares@synopsys.com>
+        id S1727989AbeKHCkU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Nov 2018 21:40:20 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:54790 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727757AbeKHCkT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Nov 2018 21:40:19 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A7643A78;
+        Wed,  7 Nov 2018 09:09:03 -0800 (PST)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D03843F5BD;
+        Wed,  7 Nov 2018 09:08:57 -0800 (PST)
+Date:   Wed, 7 Nov 2018 17:08:55 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org, Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
+Subject: Re: [PATCH v10 07/22] kasan: initialize shadow to 0xff for tag-based
+ mode
+Message-ID: <20181107170855.n4ertf5qv7ff5btl@lakrids.cambridge.arm.com>
+References: <cover.1541525354.git.andreyknvl@google.com>
+ <9405f32797b52616cd0746bcea37df94e8e4256a.1541525354.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1540807618-13246-2-git-send-email-soares@synopsys.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <9405f32797b52616cd0746bcea37df94e8e4256a.1541525354.git.andreyknvl@google.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 29, 2018 at 10:06:56AM +0000, Vitor soares wrote:
-> Add driver for Synopsys DesignWare I3C master IP
+On Tue, Nov 06, 2018 at 06:30:22PM +0100, Andrey Konovalov wrote:
+> A tag-based KASAN shadow memory cell contains a memory tag, that
+> corresponds to the tag in the top byte of the pointer, that points to that
+> memory. The native top byte value of kernel pointers is 0xff, so with
+> tag-based KASAN we need to initialize shadow memory to 0xff.
+> 
+> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> ---
+>  arch/arm64/mm/kasan_init.c | 16 ++++++++++++++--
+>  include/linux/kasan.h      |  8 ++++++++
+>  mm/kasan/common.c          |  3 ++-
+>  3 files changed, 24 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
+> index 63527e585aac..18ebc8994a7b 100644
+> --- a/arch/arm64/mm/kasan_init.c
+> +++ b/arch/arm64/mm/kasan_init.c
+> @@ -43,6 +43,15 @@ static phys_addr_t __init kasan_alloc_zeroed_page(int node)
+>  	return __pa(p);
+>  }
+>  
+> +static phys_addr_t __init kasan_alloc_raw_page(int node)
+> +{
+> +	void *p = memblock_alloc_try_nid_raw(PAGE_SIZE, PAGE_SIZE,
+> +						__pa(MAX_DMA_ADDRESS),
+> +						MEMBLOCK_ALLOC_ACCESSIBLE,
+> +						node);
+> +	return __pa(p);
+> +}
+> +
+>  static pte_t *__init kasan_pte_offset(pmd_t *pmdp, unsigned long addr, int node,
+>  				      bool early)
+>  {
+> @@ -88,7 +97,9 @@ static void __init kasan_pte_populate(pmd_t *pmdp, unsigned long addr,
+>  
+>  	do {
+>  		phys_addr_t page_phys = early ? __pa_symbol(kasan_zero_page)
+> -					      : kasan_alloc_zeroed_page(node);
+> +					      : kasan_alloc_raw_page(node);
+> +		if (!early)
+> +			memset(__va(page_phys), KASAN_SHADOW_INIT, PAGE_SIZE);
+>  		next = addr + PAGE_SIZE;
+>  		set_pte(ptep, pfn_pte(__phys_to_pfn(page_phys), PAGE_KERNEL));
+>  	} while (ptep++, addr = next, addr != end && pte_none(READ_ONCE(*ptep)));
+> @@ -138,6 +149,7 @@ asmlinkage void __init kasan_early_init(void)
+>  		KASAN_SHADOW_END - (1UL << (64 - KASAN_SHADOW_SCALE_SHIFT)));
+>  	BUILD_BUG_ON(!IS_ALIGNED(KASAN_SHADOW_START, PGDIR_SIZE));
+>  	BUILD_BUG_ON(!IS_ALIGNED(KASAN_SHADOW_END, PGDIR_SIZE));
+> +
+>  	kasan_pgd_populate(KASAN_SHADOW_START, KASAN_SHADOW_END, NUMA_NO_NODE,
+>  			   true);
+>  }
+> @@ -234,7 +246,7 @@ void __init kasan_init(void)
+>  		set_pte(&kasan_zero_pte[i],
+>  			pfn_pte(sym_to_pfn(kasan_zero_page), PAGE_KERNEL_RO));
+>  
+> -	memset(kasan_zero_page, 0, PAGE_SIZE);
+> +	memset(kasan_zero_page, KASAN_SHADOW_INIT, PAGE_SIZE);
 
-The so-called "data sheet" (actually just an advertising brochure)
-on your website claims DMA support.  I don't see that support
-anywhere in this driver.
+If this isn't going to contain zero, can we please have a preparatory
+patch renaming this to something which isn't misleading?
 
+Perhaps kasan_common_shadow_page?
+
+Thanks,
+Mark.
