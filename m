@@ -2,92 +2,156 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9D9767D8E7
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 16:48:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 455777D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 16:52:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730846AbeKHCSk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Nov 2018 21:18:40 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36876 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728091AbeKHCSi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Nov 2018 21:18:38 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wA7Ge2qA107975
-        for <linux-doc@vger.kernel.org>; Wed, 7 Nov 2018 11:47:29 -0500
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2nm0uwrxbh-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 07 Nov 2018 11:47:28 -0500
-Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Wed, 7 Nov 2018 16:47:26 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 7 Nov 2018 16:47:25 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wA7GlOPh56754246
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 7 Nov 2018 16:47:24 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9093F52051;
-        Wed,  7 Nov 2018 16:47:24 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.8.58])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 3AD915204E;
-        Wed,  7 Nov 2018 16:47:23 +0000 (GMT)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 07 Nov 2018 18:47:22 +0200
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mike Rapoport <rppt@linux.ibm.com>
-Subject: [PATCH v2 2/2] kernel-doc: extend $type_param to match members referenced by pointer
-Date:   Wed,  7 Nov 2018 18:47:13 +0200
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1541609233-14182-1-git-send-email-rppt@linux.ibm.com>
-References: <1541609233-14182-1-git-send-email-rppt@linux.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 18110716-4275-0000-0000-000002DCC702
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18110716-4276-0000-0000-000037E9E97F
-Message-Id: <1541609233-14182-3-git-send-email-rppt@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-07_14:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1811070149
+        id S1727978AbeKHCXX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Nov 2018 21:23:23 -0500
+Received: from foss.arm.com ([217.140.101.70]:54368 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727676AbeKHCXX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Nov 2018 21:23:23 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D5C81A78;
+        Wed,  7 Nov 2018 08:52:12 -0800 (PST)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 09F2F3F5BD;
+        Wed,  7 Nov 2018 08:52:06 -0800 (PST)
+Date:   Wed, 7 Nov 2018 16:52:00 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org, Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
+Subject: Re: [PATCH v10 08/22] kasan, arm64: untag address in __kimg_to_phys
+ and _virt_addr_is_linear
+Message-ID: <20181107165200.oaou6cx2lmjzmjyl@lakrids.cambridge.arm.com>
+References: <cover.1541525354.git.andreyknvl@google.com>
+ <b2aa056b65b8f1a410379bf2f6ef439d5d99e8eb.1541525354.git.andreyknvl@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b2aa056b65b8f1a410379bf2f6ef439d5d99e8eb.1541525354.git.andreyknvl@google.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, function parameter description can match '@type.member'
-expressions but fails to match '@type->member'.
-Extend the $type_param regex to allow matching both
+Hi Andrey,
 
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
----
- scripts/kernel-doc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Nov 06, 2018 at 06:30:23PM +0100, Andrey Konovalov wrote:
+> __kimg_to_phys (which is used by virt_to_phys) and _virt_addr_is_linear
+> (which is used by virt_addr_valid) assume that the top byte of the address
+> is 0xff, which isn't always the case with tag-based KASAN.
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 24d3550..f9f1431 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -212,7 +212,7 @@ my $anon_struct_union = 0;
- my $type_constant = '\b``([^\`]+)``\b';
- my $type_constant2 = '\%([-_\w]+)';
- my $type_func = '(\w+)\(\)';
--my $type_param = '\@(\w*(\.\w+)*(\.\.\.)?)';
-+my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
- my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
- my $type_env = '(\$\w+)';
- my $type_enum = '\&(enum\s*([_\w]+))';
--- 
-2.7.4
+I'm confused by this. Why/when do kimg address have a non-default tag?
 
+Any kimg address is part of the static kernel image, so it's not obvious
+to me how a kimg address would gain a tag. Could you please explain how
+this happens in the commit message?
+
+> This patch resets the tag in those macros.
+> 
+> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> ---
+>  arch/arm64/include/asm/memory.h | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
+> index 0f1e024a951f..3226a0218b0b 100644
+> --- a/arch/arm64/include/asm/memory.h
+> +++ b/arch/arm64/include/asm/memory.h
+> @@ -92,6 +92,15 @@
+>  #define KASAN_THREAD_SHIFT	0
+>  #endif
+>  
+> +#ifdef CONFIG_KASAN_SW_TAGS
+> +#define KASAN_TAG_SHIFTED(tag)		((unsigned long)(tag) << 56)
+> +#define KASAN_SET_TAG(addr, tag)	(((addr) & ~KASAN_TAG_SHIFTED(0xff)) | \
+> +						KASAN_TAG_SHIFTED(tag))
+> +#define KASAN_RESET_TAG(addr)		KASAN_SET_TAG(addr, 0xff)
+> +#else
+> +#define KASAN_RESET_TAG(addr)		addr
+> +#endif
+
+Nit: the rest of the helper macros in this file are lower-case, with
+specialised helpers prefixed with several underscores. Could we please
+stick with that convention?
+
+e.g. have __tag_set() and __tag_reset() helpers.
+
+> +
+>  #define MIN_THREAD_SHIFT	(14 + KASAN_THREAD_SHIFT)
+>  
+>  /*
+> @@ -232,7 +241,7 @@ static inline unsigned long kaslr_offset(void)
+>  #define __is_lm_address(addr)	(!!((addr) & BIT(VA_BITS - 1)))
+>  
+>  #define __lm_to_phys(addr)	(((addr) & ~PAGE_OFFSET) + PHYS_OFFSET)
+> -#define __kimg_to_phys(addr)	((addr) - kimage_voffset)
+> +#define __kimg_to_phys(addr)	(KASAN_RESET_TAG(addr) - kimage_voffset)
+
+IIUC You need to adjust __lm_to_phys() too, since that could be passed
+an address from SLAB.
+
+Maybe that's done in a later patch, but if so it's confusing to split it
+out that way. It would be nicer to fix all the *_to_*() helpers in one
+go.
+
+>  
+>  #define __virt_to_phys_nodebug(x) ({					\
+>  	phys_addr_t __x = (phys_addr_t)(x);				\
+> @@ -308,7 +317,8 @@ static inline void *phys_to_virt(phys_addr_t x)
+>  #endif
+>  #endif
+>  
+> -#define _virt_addr_is_linear(kaddr)	(((u64)(kaddr)) >= PAGE_OFFSET)
+> +#define _virt_addr_is_linear(kaddr)	(KASAN_RESET_TAG((u64)(kaddr)) >= \
+> +						PAGE_OFFSET)
+
+This is painful to read. Could you please split this like:
+
+#define _virt_addr_is_linear(kaddr) \
+	(__tag_reset((u64)(kaddr)) >= PAGE_OFFSET)
+
+... and we could reformat virt_addr_valid() in the same way while we're
+at it.
+
+Thanks,
+Mark.
