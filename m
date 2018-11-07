@@ -3,101 +3,139 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 05AB37D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 15:48:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 47B877D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 15:54:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730794AbeKHBTR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Nov 2018 20:19:17 -0500
-Received: from mail-ua1-f67.google.com ([209.85.222.67]:43191 "EHLO
-        mail-ua1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726858AbeKHBTR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Nov 2018 20:19:17 -0500
-Received: by mail-ua1-f67.google.com with SMTP id z11so4099665uaa.10
-        for <linux-doc@vger.kernel.org>; Wed, 07 Nov 2018 07:48:22 -0800 (PST)
+        id S1727604AbeKHBZD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Nov 2018 20:25:03 -0500
+Received: from mail-io1-f66.google.com ([209.85.166.66]:43391 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727818AbeKHBZD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Nov 2018 20:25:03 -0500
+Received: by mail-io1-f66.google.com with SMTP id t81-v6so12226312iod.10
+        for <linux-doc@vger.kernel.org>; Wed, 07 Nov 2018 07:54:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=TrlHarah+TLUgkrwLxYsQP6SLsnTl0xdV5j4cE+KW/k=;
-        b=NhWAiKzmoKWOSuFAM1ham4fkT1TKE1d4kHiJRT5sdGNeytzeiQSDKcvfvqSmpOiPc7
-         Fidu1K6nGb+SwBQ0xqoMIxVRdMG8/knOSN9/faQ8KpgimWcfaCuRjcGzFvJ/nVy/mF2l
-         28yBUjo4qeK+bSV5Mt8z9leZLDRKS3fylfm+eTCSDmtJJWpdMKXSy5n7a0P1w6zNaotR
-         +XwLcBnkislH72h1p9YOnJ45cojb1kbLD4XniwaZ/gzb9/1cxoXmrmm8VMA/L39Gkunk
-         nBGVc/cgovvndyy9hO6RKUzArySi8Pdo4cSHr70KmBRuvWfUyJOCtq/TkWf5F+CDJq7X
-         X3CQ==
+        bh=r0hsUc/Y3dg24sUOd7ZU4XXfNPD3yxr0cD2ixuSzCTk=;
+        b=bim5TCzioM6nFCP6fgSo1w9HlhHshXAy/IVqr91YnmvXKhGLLiqwa2lf2V9qiMsFxl
+         sRsVyp8NYKPvXAfHbCTuNYa+Od1eRQEO0PQccmJa6GayE91A4wTaL1cFCab+vRljbmQS
+         onOKhXJmTW6Rhti4bbKDwODeH5N45z6tyImb1346ZA05eDy6ha0pwuVaRrFxpFd0Krx9
+         stoPbTmiaTvmx7L+2wkGAxatNSl9qBquiy4NS+isOE5NbqXXIaXPNfg1gmiQfQcPaztf
+         fzPWahXT+zHpF5HBk0+oBreyz8zlhyKh57qvoymVLXJbZYKgnEUnnMzPCH/G0GpcI5+o
+         gZWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=TrlHarah+TLUgkrwLxYsQP6SLsnTl0xdV5j4cE+KW/k=;
-        b=QFCqhpmdX8YSFzdsIL1v4gGIGe0pGxqjgtl+DoBP7F+2eTUn5iy4YmXeUtqR0bJZal
-         EmYIm8e0JhBUwsFj3QoZJT9p8fa48PpvP1J7/LGvtKHERMXfjGhuf9gF+yAlypEpLJPG
-         Vmsc3vl1MX/6IsxxLCbj6wp25cMQg/8L1AvPzcBhCUxGDDGVIyTcDuCvCi7NwKrB17Qi
-         MiwWr29qC2K26iRCvPtB5RJfxJM27vR6earzFO9FOCmRLYf/ojpKmlA+pBkD0qvM9Lob
-         knALE7Gcs0Pwy+PBJu80T1CaBiRioJYKYOAaNI4Z2QXGCCdNDPIFiQ/DpdOwzL4JbX0y
-         Ibog==
-X-Gm-Message-State: AGRZ1gJ+OrRq1BNMsMScEQtUlwO5XSpK0m+e3IgJk6xZBt7bEwkBehgf
-        3ZS9FJ6YORBVdSHS40KyDMVarF+jG86ETJERd4rITw==
-X-Google-Smtp-Source: AJdET5cAI9a01SxzPIFrVNsQU75ndS3M2mbuIbr5yY7LrqbNSY2UQ6aPeP2My9HfyKVtrejCKhFmhX23vZtintxHoYE=
-X-Received: by 2002:ab0:45e2:: with SMTP id u89mr318243uau.13.1541605701622;
- Wed, 07 Nov 2018 07:48:21 -0800 (PST)
+        bh=r0hsUc/Y3dg24sUOd7ZU4XXfNPD3yxr0cD2ixuSzCTk=;
+        b=oSnbybTqbKfG+95pQlxGxu7arxynRsefdS/JHujUYHTqNSlaNOWoym82gZcZkl3ShI
+         8GFaRlqoCGM7GUnYtj1eiTdiiI7gDmmnjVuFJ1rF94CtxvQySrPdpFoA/8X1LFkQQsQb
+         9QDaQx4xWJ73MG9zkk8rB0xCbk097iF2dB6IOHEHZHCm2XPV9n1BhzpSo7STyroBMYqS
+         HKdkjjwcYIW9PHaTL0mbA2QBLcAozZc0/BE6ADTzGB2+Dz5PUclWk6FN4wXGN0mc7XlR
+         U/RxH2fKvvrf7ocn3+uL6GTk3OC6nTxAm1vzSQOqhMZpE5D365mooYCXF6G+3LnOd0+g
+         7K5Q==
+X-Gm-Message-State: AGRZ1gKIRyq8TnxnlazEfKP45EUDO8PulX+CtSN90EbkQCcF/QDMUs8Z
+        9tr4RCuV5oWhTJZXFEX3e4M31fwTvFDcxqBC/9ZoDA==
+X-Google-Smtp-Source: AJdET5froMxZ4TaaLQ5afnq6CVknCjJ+UbwtBGo0zabMdOg7g+8s5Q63Bz3taexy+gjAZepqZFkd73P2HcUDmNLi9wA=
+X-Received: by 2002:a6b:c60e:: with SMTP id w14-v6mr628492iof.192.1541606046522;
+ Wed, 07 Nov 2018 07:54:06 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a67:f48d:0:0:0:0:0 with HTTP; Wed, 7 Nov 2018 07:48:20 -0800 (PST)
-In-Reply-To: <20181106130524.GC2453@dhcp22.suse.cz>
-References: <20181031150625.147369-1-dancol@google.com> <20181105132205.138695-1-dancol@google.com>
- <20181106130524.GC2453@dhcp22.suse.cz>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Wed, 7 Nov 2018 15:48:20 +0000
-Message-ID: <CAKOZueu5aDtHDBzp6qKECTHEejjb=dyegQkuHh8NfwgNktzFow@mail.gmail.com>
-Subject: Re: [PATCH v2] Document /proc/pid PID reuse behavior
-To:     Michal Hocko <mhocko@kernel.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>, rppt@linux.ibm.com,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>,
+Received: by 2002:a02:1846:0:0:0:0:0 with HTTP; Wed, 7 Nov 2018 07:54:05 -0800 (PST)
+In-Reply-To: <20181107153456.GE2623@brain-police>
+References: <cover.1541525354.git.andreyknvl@google.com> <CAAeHK+yOsP7V0gPu7EpqCbJZqbGQMZbAp6q1+=0dNGC24reyWg@mail.gmail.com>
+ <20181107145922.GD2623@brain-police> <CAAeHK+zNgv9WxRpf7N3gmsLYGL6oUALAnyerMzeYZUz1LhoUuA@mail.gmail.com>
+ <20181107153456.GE2623@brain-police>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Wed, 7 Nov 2018 16:54:05 +0100
+Message-ID: <CAAeHK+zupkT2s8o3p7GmxLn2N7idJihBG=asuEBF6v6TheGo_A@mail.gmail.com>
+Subject: Re: [PATCH v10 00/22] kasan: add software tag-based mode for arm64
+To:     Will Deacon <will.deacon@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Christoph Lameter <cl@linux.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
-        Prashant Dhamdhere <pdhamdhe@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+        kasan-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 6, 2018 at 1:05 PM, Michal Hocko <mhocko@kernel.org> wrote:
-> On Mon 05-11-18 13:22:05, Daniel Colascione wrote:
->> State explicitly that holding a /proc/pid file descriptor open does
->> not reserve the PID. Also note that in the event of PID reuse, these
->> open file descriptors refer to the old, now-dead process, and not the
->> new one that happens to be named the same numeric PID.
+On Wed, Nov 7, 2018 at 4:34 PM, Will Deacon <will.deacon@arm.com> wrote:
+> On Wed, Nov 07, 2018 at 04:11:35PM +0100, Andrey Konovalov wrote:
+>> On Wed, Nov 7, 2018 at 3:59 PM, Will Deacon <will.deacon@arm.com> wrote:
+>> > On Wed, Nov 07, 2018 at 03:56:03PM +0100, Andrey Konovalov wrote:
+>> >> On Tue, Nov 6, 2018 at 6:30 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
+>> >> > This patchset adds a new software tag-based mode to KASAN [1].
+>> >> > (Initially this mode was called KHWASAN, but it got renamed,
+>> >> >  see the naming rationale at the end of this section).
+>> >>
+>> >> [...]
+>> >>
+>> >> > Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+>> >> > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+>> >> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+>> >>
+>> >> Hi Andrew,
+>> >>
+>> >> This patchset has now been reviewed-by KASAN maintainers. Could you
+>> >> take a look and consider taking this into the -mm tree?
+>> >
+>> > I would much prefer to take the arm64 parts (which still need to be reviewed
+>> > by Catalin afaict) via the arm64 tree, so please can you split those out
+>> > separately?
+>>
+>> Which parts do you mean exactly, which patches? I don't think it makes
+>> sense to split this patchset, as one part won't function without the
+>> other.
 >
-> This sounds quite obvious
-
-Many people *on* *LKML* were wrong about this behavior. If it's not
-obvious to experienced kernel developers, it's certainly not obvious
-to the public.
-
-> otherwise anybody could simply DoS the system
-> by consuming all available pids.
-
-People can do that today using the instrument of terror widely known
-as fork(2). The only thing standing between fork(2) and a full process
-table is RLIMIT_NPROC. In a world where we really did reserve a
-numeric PID through the lifetime of any struct pid to which it refers
-(i.e., where "cd /proc/$PID" held $PID), we could charge these struct
-pid reservations against RLIMIT_NPROC and achieve behavior as safe as
-what we have today. The details would be subtle (you'd have to take
-pains to avoid double-counting, for example), but it could be made to
-work. Other people, on the various lkml threads about my process API
-improvement proposals, have proposed fixing the longstanding PID race
-problem by making struct pid behave the way people mistakenly believe
-it behaves today. It's a serious idea worth actual consideration.
+> I would like the patches that touch code under arch/arm64/ to be reviewed by
+> somebody from the arm64 community. Since the core parts have already been
+> reviewed, I was suggesting that you could split them out so that they are
+> not blocked by the architecture code. Is it not possible to preserve the
+> existing KASAN behaviour for arm64 with the core parts merged? I figured it
+> must be, since you're not touching any other architectures here and they
+> assumedly continue to function correctly.
+>
+> However, if you'd rather keep everything together, please can we give it a
+> couple of weeks so we can at least get the architecture bits reviewed? Most
+> people are out at LPC next week (and I'm at another conference this week).
+>
+> Will
