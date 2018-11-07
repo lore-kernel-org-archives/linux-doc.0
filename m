@@ -2,97 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2E7B27D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 14:59:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F137C7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 15:00:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727693AbeKHAaJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Nov 2018 19:30:09 -0500
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:52376 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727417AbeKHAaJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Nov 2018 19:30:09 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D84A80D;
-        Wed,  7 Nov 2018 06:59:26 -0800 (PST)
-Received: from brain-police (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E7FB53F5BD;
-        Wed,  7 Nov 2018 06:59:24 -0800 (PST)
-Date:   Wed, 7 Nov 2018 14:59:23 +0000
-From:   Will Deacon <will.deacon@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH v10 00/22] kasan: add software tag-based mode for arm64
-Message-ID: <20181107145922.GD2623@brain-police>
-References: <cover.1541525354.git.andreyknvl@google.com>
- <CAAeHK+yOsP7V0gPu7EpqCbJZqbGQMZbAp6q1+=0dNGC24reyWg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+yOsP7V0gPu7EpqCbJZqbGQMZbAp6q1+=0dNGC24reyWg@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        id S1727417AbeKHAbE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Nov 2018 19:31:04 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:52638 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727990AbeKHAbB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Nov 2018 19:31:01 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wA7ExqWU142930
+        for <linux-doc@vger.kernel.org>; Wed, 7 Nov 2018 10:00:18 -0500
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2nm1pghuc5-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 07 Nov 2018 10:00:17 -0500
+Received: from localhost
+        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Wed, 7 Nov 2018 15:00:15 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 7 Nov 2018 15:00:12 -0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wA7F0BmA48890002
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 7 Nov 2018 15:00:11 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 89B665205A;
+        Wed,  7 Nov 2018 15:00:11 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.8.58])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 3DCF15204F;
+        Wed,  7 Nov 2018 15:00:10 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 07 Nov 2018 17:00:09 +0200
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mike Rapoport <rppt@linux.ibm.com>
+Subject: [PATCH] kernel-doc: extend $type_param to match members referenced by pointer
+Date:   Wed,  7 Nov 2018 17:00:08 +0200
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+x-cbid: 18110715-0020-0000-0000-000002E32AFC
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18110715-0021-0000-0000-00002132A8AA
+Message-Id: <1541602808-26233-1-git-send-email-rppt@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-07_12:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1811070135
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 07, 2018 at 03:56:03PM +0100, Andrey Konovalov wrote:
-> On Tue, Nov 6, 2018 at 6:30 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
-> > This patchset adds a new software tag-based mode to KASAN [1].
-> > (Initially this mode was called KHWASAN, but it got renamed,
-> >  see the naming rationale at the end of this section).
-> 
-> [...]
-> 
-> > Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
-> > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> 
-> Hi Andrew,
-> 
-> This patchset has now been reviewed-by KASAN maintainers. Could you
-> take a look and consider taking this into the -mm tree?
+Currently, function parameter description can match '@type.member'
+expressions but fails to match '@type->member'.
+Extend the $type_param regex to allow matching both
 
-I would much prefer to take the arm64 parts (which still need to be reviewed
-by Catalin afaict) via the arm64 tree, so please can you split those out
-separately?
+Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+---
+ scripts/kernel-doc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Will
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index ffbe901..3ce8800 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -212,7 +212,7 @@ my $anon_struct_union = 0;
+ my $type_constant = '\b``([^\`]+)``\b';
+ my $type_constant2 = '\%([-_\w]+)';
+ my $type_func = '(\w+)\(\)';
+-my $type_param = '\@(\w*(\.\w+)*(\.\.\.)?)';
++my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
+ my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
+ my $type_env = '(\$\w+)';
+ my $type_enum = '\&(enum\s*([_\w]+))';
+@@ -361,7 +361,7 @@ my $doc_com = '\s*\*\s*';
+ my $doc_com_body = '\s*\* ?';
+ my $doc_decl = $doc_com . '(\w+)';
+ # @params and a strictly limited set of supported section names
+-my $doc_sect = $doc_com . 
++my $doc_sect = $doc_com .
+     '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)\s*:(.*)';
+ my $doc_content = $doc_com_body . '(.*)';
+ my $doc_block = $doc_com . 'DOC:\s*(.*)?';
+@@ -751,7 +751,7 @@ sub output_blockhead_rst(%) {
+ 
+ #
+ # Apply the RST highlights to a sub-block of text.
+-#   
++#  
+ sub highlight_block($) {
+     # The dohighlight kludge requires the text be called $contents
+     my $contents = shift;
+-- 
+2.7.4
+
