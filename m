@@ -2,152 +2,72 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 143E27D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 16:55:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9DBF27D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 17:05:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727676AbeKHCZ6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Nov 2018 21:25:58 -0500
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:54442 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727546AbeKHCZ6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Nov 2018 21:25:58 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 38F9FA78;
-        Wed,  7 Nov 2018 08:54:47 -0800 (PST)
-Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 636373F5BD;
-        Wed,  7 Nov 2018 08:54:41 -0800 (PST)
-Date:   Wed, 7 Nov 2018 16:54:38 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
+        id S1731521AbeKHCgS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Nov 2018 21:36:18 -0500
+Received: from mondschein.lichtvoll.de ([194.150.191.11]:52857 "EHLO
+        mail.lichtvoll.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727757AbeKHCgR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Nov 2018 21:36:17 -0500
+Authentication-Results: auth=pass smtp.auth=martin smtp.mailfrom=martin@lichtvoll.de
+Received: from 127.0.0.1 (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.lichtvoll.de (Postfix) with ESMTPSA id 5F61B3E8880;
+        Wed,  7 Nov 2018 18:05:00 +0100 (CET)
+From:   Martin Steigerwald <martin@lichtvoll.de>
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     Daniel Colascione <dancol@google.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>, rppt@linux.ibm.com,
+        Tim Murray <timmurray@google.com>,
+        Joel Fernandes <joelaf@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
+        Roman Gushchin <guro@fb.com>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
-        linux-kbuild@vger.kernel.org, Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
-Subject: Re: [PATCH v10 06/22] kasan, arm64: adjust shadow size for tag-based
- mode
-Message-ID: <20181107165438.34kb5ufoe5ve2f6i@lakrids.cambridge.arm.com>
-References: <cover.1541525354.git.andreyknvl@google.com>
- <86d1b17c755d8bfd6e44e6869a16f4a409e7bd06.1541525354.git.andreyknvl@google.com>
+        Vlastimil Babka <vbabka@suse.cz>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
+        Prashant Dhamdhere <pdhamdhe@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2] Document /proc/pid PID reuse behavior
+Date:   Wed, 07 Nov 2018 18:04:59 +0100
+Message-ID: <4536090.43ZsV6LvYe@merkaba>
+In-Reply-To: <20181107160015.GI27423@dhcp22.suse.cz>
+References: <20181031150625.147369-1-dancol@google.com> <CAKOZueu5aDtHDBzp6qKECTHEejjb=dyegQkuHh8NfwgNktzFow@mail.gmail.com> <20181107160015.GI27423@dhcp22.suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <86d1b17c755d8bfd6e44e6869a16f4a409e7bd06.1541525354.git.andreyknvl@google.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Andrey,
-
-On Tue, Nov 06, 2018 at 06:30:21PM +0100, Andrey Konovalov wrote:
-> Tag-based KASAN uses 1 shadow byte for 16 bytes of kernel memory, so it
-> requires 1/16th of the kernel virtual address space for the shadow memory.
+Michal Hocko - 07.11.18, 17:00:
+> > > otherwise anybody could simply DoS the system
+> > > by consuming all available pids.
+> > 
+> > People can do that today using the instrument of terror widely known
+> > as fork(2). The only thing standing between fork(2) and a full
+> > process table is RLIMIT_NPROC.
 > 
-> This commit sets KASAN_SHADOW_SCALE_SHIFT to 4 when the tag-based KASAN
-> mode is enabled.
-> 
-> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
-> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> ---
->  arch/arm64/Makefile             |  2 +-
->  arch/arm64/include/asm/memory.h | 13 +++++++++----
->  2 files changed, 10 insertions(+), 5 deletions(-)
-> 
-> diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-> index 6cb9fc7e9382..9887492381d9 100644
-> --- a/arch/arm64/Makefile
-> +++ b/arch/arm64/Makefile
-> @@ -94,7 +94,7 @@ endif
->  # KASAN_SHADOW_OFFSET = VA_START + (1 << (VA_BITS - KASAN_SHADOW_SCALE_SHIFT))
->  #				 - (1 << (64 - KASAN_SHADOW_SCALE_SHIFT))
->  # in 32-bit arithmetic
-> -KASAN_SHADOW_SCALE_SHIFT := 3
-> +KASAN_SHADOW_SCALE_SHIFT := $(if $(CONFIG_KASAN_SW_TAGS), 4, 3)
+> not really. If you really do care about pid space depletion then you
+> should use pid cgroup controller.
+
+Its not quite on-topic, but I am curious now: AFAIK PID limit is 16 
+bits. Right? Could it be raised to 32 bits? I bet it would be a major 
+change throughout different parts of the kernel.
+
+16 bits sound a bit low these days, not only for PIDs, but also for 
+connections / ports.
+
+-- 
+Martin
 
 
-We could make this something like:
-
-ifeq ($(CONFIG_KASAN_SW_TAGS), y)
-KASAN_SHADOW_SCALE_SHIFT := 4
-else
-KASAN_SHADOW_SCALE_SHIFT := 3
-endif
-
-KBUILD_CFLAGS += -DKASAN_SHADOW_SCALE_SHIFT=$(KASAN_SHADOW_SCALE_SHIFT)
-
->  KASAN_SHADOW_OFFSET := $(shell printf "0x%08x00000000\n" $$(( \
->  	(0xffffffff & (-1 << ($(CONFIG_ARM64_VA_BITS) - 32))) \
->  	+ (1 << ($(CONFIG_ARM64_VA_BITS) - 32 - $(KASAN_SHADOW_SCALE_SHIFT))) \
-> diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
-> index b96442960aea..0f1e024a951f 100644
-> --- a/arch/arm64/include/asm/memory.h
-> +++ b/arch/arm64/include/asm/memory.h
-> @@ -74,12 +74,17 @@
->  #define KERNEL_END        _end
->  
->  /*
-> - * KASAN requires 1/8th of the kernel virtual address space for the shadow
-> - * region. KASAN can bloat the stack significantly, so double the (minimum)
-> - * stack size when KASAN is in use.
-> + * Generic and tag-based KASAN require 1/8th and 1/16th of the kernel virtual
-> + * address space for the shadow region respectively. They can bloat the stack
-> + * significantly, so double the (minimum) stack size when they are in use.
->   */
-> -#ifdef CONFIG_KASAN
-> +#ifdef CONFIG_KASAN_GENERIC
->  #define KASAN_SHADOW_SCALE_SHIFT 3
-> +#endif
-> +#ifdef CONFIG_KASAN_SW_TAGS
-> +#define KASAN_SHADOW_SCALE_SHIFT 4
-> +#endif
-> +#ifdef CONFIG_KASAN
-
-... and remove the constant entirely here, avoiding duplication.
-
-Maybe factor that into a Makefile.kasan if things are going to get much
-more complicated.
-
-Thanks,
-Mark.
-
->  #define KASAN_SHADOW_SIZE	(UL(1) << (VA_BITS - KASAN_SHADOW_SCALE_SHIFT))
->  #define KASAN_THREAD_SHIFT	1
->  #else
-> -- 
-> 2.19.1.930.g4563a0d9d0-goog
-> 
