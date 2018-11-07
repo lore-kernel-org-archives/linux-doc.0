@@ -1,108 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1B1E27D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 18:22:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DAB9F7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 18:26:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726363AbeKHDxh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Nov 2018 22:53:37 -0500
-Received: from mail-ua1-f67.google.com ([209.85.222.67]:37488 "EHLO
-        mail-ua1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726356AbeKHDxg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Nov 2018 22:53:36 -0500
-Received: by mail-ua1-f67.google.com with SMTP id u19so5159957uae.4
-        for <linux-doc@vger.kernel.org>; Wed, 07 Nov 2018 10:22:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=QYUaHOK8vceZkSPfI0EfEH6FkTI2Ic5ANXg6IXsWYmc=;
-        b=YC0wMXgD/6JkC3eFtRpoY8AcYg/O2fQU6GGWOAJcEVASz0v8EhaDijJ6+tNso/ndaS
-         UhG7ghlec0rccuB/9cE59afXjOFEdgzJds3q2a8S2IkQp1eZWqvinQXoP7XmJTVrfrPa
-         tqANjZ9HyIJVBsi2+8v7bsxVXUbV28aIFgPJmyENX1ExU+YEhkW9N7FwbJgLawr4htz3
-         mN0TSDaCAXmHvCWmg7EMkJGzXZNIOEMNcY2EwIDJ/e+LF7sUsuAlT9BLk9T6yAlIsmNm
-         uIXVob+16SlkjLoysy1drf5UbF/11n2aZXRDeO13wfDI4dbIVPYuj6/lrQKWqm+3XbwH
-         m5uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=QYUaHOK8vceZkSPfI0EfEH6FkTI2Ic5ANXg6IXsWYmc=;
-        b=p54/BLU2XDFYtTkznLIzbBhksMKr8D7kP9ZHN9jQCY9L/jVIkpeKU2XRlxzJcR1kZr
-         SYvhBzc21cJIQuXRoiq7jcTSv708RnHYGa6E9uLu3nUT1x4+r0IhBauvuSQYQZvcvoI6
-         13jxwbryYcBxBkRQulj4m8ByxV3/PRpMOsZykJK0mv7nHLPq4nhpmsneAxIGQj5/N7/m
-         8QMHw+F4AqSCUmu/qlIsPKjd8HRlTTT2gqVIabrSK+cHrBhg+JA/0Ge68H5hiJIUoZ/K
-         YUMwMjF0LyTNrVPO441p/VGWQhnYRAWO4H7mFbDiiBP0hJTZy4gfSf1urG6Jf+d3Cj+l
-         fUfw==
-X-Gm-Message-State: AGRZ1gLXSGIBg6EGRDkAu3K7Vtha5mqPU06xsbjZBRwkmgJZAHKa+RlN
-        XI3ypbORpiU/nGqkHoH+3AWAZ14omh07C4PSq2MIZQ==
-X-Google-Smtp-Source: AJdET5cJ3YyoBa9PASXQjwTe9vA/PVGyjKkPxV2fXk1V9ONYIl+QZ2/FeF688dljQcEzH+tE+fEi0Cb6XOcowQeryks=
-X-Received: by 2002:ab0:72a:: with SMTP id h39mr600663uah.11.1541614920550;
- Wed, 07 Nov 2018 10:22:00 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a67:f48d:0:0:0:0:0 with HTTP; Wed, 7 Nov 2018 10:21:59 -0800 (PST)
-In-Reply-To: <20181107171644.GK3074@bombadil.infradead.org>
-References: <20181031150625.147369-1-dancol@google.com> <20181105132205.138695-1-dancol@google.com>
- <20181106060113.GA4499@rapoport-lnx> <20181107171644.GK3074@bombadil.infradead.org>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Wed, 7 Nov 2018 10:21:59 -0800
-Message-ID: <CAKOZuet9KGHc9dAyC=-cMZNt39s2m9=YEu3R1-7ExWzaNzLzjA@mail.gmail.com>
-Subject: Re: [PATCH v2] Document /proc/pid PID reuse behavior
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Mike Rapoport <rppt@linux.ibm.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1728135AbeKHD6L (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Nov 2018 22:58:11 -0500
+Received: from foss.arm.com ([217.140.101.70]:56604 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726356AbeKHD6K (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Nov 2018 22:58:10 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A54C3A78;
+        Wed,  7 Nov 2018 10:26:35 -0800 (PST)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.197.53])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CF5703F5C0;
+        Wed,  7 Nov 2018 10:26:29 -0800 (PST)
+Date:   Wed, 7 Nov 2018 18:26:27 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Vlastimil Babka <vbabka@suse.cz>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
-        Prashant Dhamdhere <pdhamdhe@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org, Vishwath Mohan <vishwath@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>
+Subject: Re: [PATCH v10 12/22] kasan, arm64: fix up fault handling logic
+Message-ID: <20181107182626.GD255021@arrakis.emea.arm.com>
+References: <cover.1541525354.git.andreyknvl@google.com>
+ <4891a504adf61c0daf1e83642b6f7519328dfd5f.1541525354.git.andreyknvl@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4891a504adf61c0daf1e83642b6f7519328dfd5f.1541525354.git.andreyknvl@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 7, 2018 at 9:16 AM, Matthew Wilcox <willy@infradead.org> wrote:
-> On Tue, Nov 06, 2018 at 08:01:13AM +0200, Mike Rapoport wrote:
->> > diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
->> > index 12a5e6e693b6..0b14460f721d 100644
->> > --- a/Documentation/filesystems/proc.txt
->> > +++ b/Documentation/filesystems/proc.txt
->> > @@ -125,6 +125,13 @@ process running on the system, which is named after the process ID (PID).
->> >  The link  self  points  to  the  process reading the file system. Each process
->> >  subdirectory has the entries listed in Table 1-1.
->> >
->> > +Note that an open a file descriptor to /proc/<pid> or to any of its
->
-> "open file descriptor" (the "a" is unnecessary)
+On Tue, Nov 06, 2018 at 06:30:27PM +0100, Andrey Konovalov wrote:
+> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+> index 7d9571f4ae3d..d9a84d6f3343 100644
+> --- a/arch/arm64/mm/fault.c
+> +++ b/arch/arm64/mm/fault.c
+> @@ -32,6 +32,7 @@
+>  #include <linux/perf_event.h>
+>  #include <linux/preempt.h>
+>  #include <linux/hugetlb.h>
+> +#include <linux/kasan.h>
+>  
+>  #include <asm/bug.h>
+>  #include <asm/cmpxchg.h>
+> @@ -141,6 +142,8 @@ void show_pte(unsigned long addr)
+>  	pgd_t *pgdp;
+>  	pgd_t pgd;
+>  
+> +	addr = (unsigned long)kasan_reset_tag((void *)addr);
+> +
+>  	if (addr < TASK_SIZE) {
+>  		/* TTBR0 */
+>  		mm = current->active_mm;
 
-Thanks for spotting that. I had to re-read that sentence three times
-or so before even seeing that extra "a".
+I think we should clear the tag earlier on in the fault handling code,
+before reaching show_pte().
 
->> > +contained files or subdirectories does not prevent <pid> being reused
->> > +for some other process in the event that <pid> exits. Operations on
->> > +open /proc/<pid> file descriptors corresponding to dead processes
->> > +never act on any new process that the kernel may, through chance, have
->> > +also assigned the process ID <pid>. Instead, operations on these FDs
->> > +usually fail with ESRCH.
->
-> The paragraph is a bit wordy.  More pithy:
->
-> An open file descriptor for /proc/<pid> (or any of the files or
-> subdirectories in it) does not prevent <pid> from being reused after
-> the process exits.  Operations on a file descriptor referring to a dead
-> process usually return ESRCH.  They do not act on any new process which
-> has been assigned the same <pid>.
-
-I'll send a new patch version --- unless we can just tweak the patch
-when we merge it into the tree?
+-- 
+Catalin
