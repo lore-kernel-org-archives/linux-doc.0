@@ -1,110 +1,124 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-13.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BE1C37D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 15:08:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D2C377D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 15:11:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727265AbeKHAjc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Nov 2018 19:39:32 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40554 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726830AbeKHAjc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Nov 2018 19:39:32 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wA7F00nc015900
-        for <linux-doc@vger.kernel.org>; Wed, 7 Nov 2018 10:08:46 -0500
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2nm2820nxm-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 07 Nov 2018 10:08:45 -0500
-Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Wed, 7 Nov 2018 15:08:43 -0000
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 7 Nov 2018 15:08:41 -0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wA7F8e4V9568514
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 7 Nov 2018 15:08:40 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 1EDCCA4059;
-        Wed,  7 Nov 2018 15:08:40 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BC1C7A4054;
-        Wed,  7 Nov 2018 15:08:38 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.8.58])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed,  7 Nov 2018 15:08:38 +0000 (GMT)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Wed, 07 Nov 2018 17:08:38 +0200
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        Mike Rapoport <rppt@linux.ibm.com>
-Subject: [PATCH] mm/gup: fix follow_page_mask kernel-doc comment
-Date:   Wed,  7 Nov 2018 17:08:36 +0200
-X-Mailer: git-send-email 2.7.4
-X-TM-AS-GCONF: 00
-x-cbid: 18110715-0008-0000-0000-0000028EA63E
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18110715-0009-0000-0000-000021F8E645
-Message-Id: <1541603316-27832-1-git-send-email-rppt@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-07_12:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=929 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1811070135
+        id S1727203AbeKHAmX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Nov 2018 19:42:23 -0500
+Received: from mail-it1-f194.google.com ([209.85.166.194]:55418 "EHLO
+        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726886AbeKHAmW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Nov 2018 19:42:22 -0500
+Received: by mail-it1-f194.google.com with SMTP id b7-v6so23273740itd.5
+        for <linux-doc@vger.kernel.org>; Wed, 07 Nov 2018 07:11:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=gSaho8qIaLLkIJAcf1Eztz8xA4nVJAZfCUbb2rWlRZg=;
+        b=GecJQaPByED/rwO2pbLIzqWjDjp9TZYHw5ZtpvYkqu4vN9B0NSOZSPRFPRF59AnTjP
+         OI54EddeN1XnPFKKNNNe2neZtGTjQLrXkj9z3/KsjuPp52N5Z+qumgCXbFR7c7FWxyoN
+         cy4rL/b1BnyMmKOkDch6yRCpLCl/HIv3j4w7PWHaCI+144o1Cznoe8AalGzFs+WtoYer
+         bxWb4j8KIWe2ZUxOGJwjcCmfyi3/75E8eBm9TDyBhxZhdYtBz76qNcvfO4fmWSF5elWC
+         IlxJYanmyv2rJP3TTv114ZNAwTBaE2mO81NLkAnmGTqGTYnW15qgs1ZHJrO8Ftq7raP+
+         4zDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=gSaho8qIaLLkIJAcf1Eztz8xA4nVJAZfCUbb2rWlRZg=;
+        b=JmfotHp62q0+rh0bgTX2ehPUdkZ2vangLcw6nUB+DLuXXkY0rZ41eidTptvFutwMRE
+         xzAUMr45eQFF44HWhNcELKoTLMpegYNGTHozYvRbn8cXspb+hGki3anx587EYd5uo21e
+         3AER0TynWuE7ArbHYG1bt3w65gSr3pTKInGmQ7AGEExyKkyNP3IrbSNEshQgeWPKxCtW
+         Blo0FCiuMMRVQHjDWHtF5b9HHA1RpV2/PvJkY96n7k552RzAUHK25ptXF2MgTDmj44Di
+         vbIJigAy43dZCxaGLqzmanG1Vj4vA089F68UuXPI122sajNx9R79be9t2elrCzyQsYv0
+         jzHA==
+X-Gm-Message-State: AGRZ1gIrB0noWB6otRLO9eMnprXkPSgl9ifpeswadl4jMPF0rQS3ClFy
+        pJKLhcuRdQ8jALNK2E3G4iBsN07DH0nk+mis7CMysg==
+X-Google-Smtp-Source: AJdET5cc9hEkTiDH0SiNzeHJYMfVQRFSBHTdyQiNuOemZl3ds2+2P/SoAYGAEU7ghh/nN8XSVI89mNHwRxgW7RZ+Y2Y=
+X-Received: by 2002:a24:dac7:: with SMTP id z190-v6mr471675itg.87.1541603496061;
+ Wed, 07 Nov 2018 07:11:36 -0800 (PST)
+MIME-Version: 1.0
+Received: by 2002:a02:1846:0:0:0:0:0 with HTTP; Wed, 7 Nov 2018 07:11:35 -0800 (PST)
+In-Reply-To: <20181107145922.GD2623@brain-police>
+References: <cover.1541525354.git.andreyknvl@google.com> <CAAeHK+yOsP7V0gPu7EpqCbJZqbGQMZbAp6q1+=0dNGC24reyWg@mail.gmail.com>
+ <20181107145922.GD2623@brain-police>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Wed, 7 Nov 2018 16:11:35 +0100
+Message-ID: <CAAeHK+zNgv9WxRpf7N3gmsLYGL6oUALAnyerMzeYZUz1LhoUuA@mail.gmail.com>
+Subject: Re: [PATCH v10 00/22] kasan: add software tag-based mode for arm64
+To:     Will Deacon <will.deacon@arm.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit df06b37ffe5a ("mm/gup: cache dev_pagemap while pinning pages")
-modified the signature of follow_page_mask() function but left the
-parameter description behind.
+On Wed, Nov 7, 2018 at 3:59 PM, Will Deacon <will.deacon@arm.com> wrote:
+> On Wed, Nov 07, 2018 at 03:56:03PM +0100, Andrey Konovalov wrote:
+>> On Tue, Nov 6, 2018 at 6:30 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
+>> > This patchset adds a new software tag-based mode to KASAN [1].
+>> > (Initially this mode was called KHWASAN, but it got renamed,
+>> >  see the naming rationale at the end of this section).
+>>
+>> [...]
+>>
+>> > Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+>> > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+>> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+>>
+>> Hi Andrew,
+>>
+>> This patchset has now been reviewed-by KASAN maintainers. Could you
+>> take a look and consider taking this into the -mm tree?
+>
+> I would much prefer to take the arm64 parts (which still need to be reviewed
+> by Catalin afaict) via the arm64 tree, so please can you split those out
+> separately?
 
-Update the description to make the code and comments agree again.
-
-While on it, update formatting of the return value description to match
-Documentation/doc-guide/kernel-doc.rst guidelines.
-
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
----
- mm/gup.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/mm/gup.c b/mm/gup.c
-index f76e77a..aa43620 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -385,11 +385,17 @@ static struct page *follow_p4d_mask(struct vm_area_struct *vma,
-  * @vma: vm_area_struct mapping @address
-  * @address: virtual address to look up
-  * @flags: flags modifying lookup behaviour
-- * @page_mask: on output, *page_mask is set according to the size of the page
-+ * @ctx: contains dev_pagemap for %ZONE_DEVICE memory pinning and a
-+ *       pointer to output page_mask
-  *
-  * @flags can have FOLL_ flags set, defined in <linux/mm.h>
-  *
-- * Returns the mapped (struct page *), %NULL if no mapping exists, or
-+ * When getting pages from ZONE_DEVICE memory, the @ctx->pgmap caches
-+ * the device's dev_pagemap metadata to avoid repeating expensive lookups.
-+ *
-+ * On output, the @ctx->page_mask is set according to the size of the page.
-+ *
-+ * Return: the mapped (struct page *), %NULL if no mapping exists, or
-  * an error pointer if there is a mapping to something not represented
-  * by a page descriptor (see also vm_normal_page()).
-  */
--- 
-2.7.4
-
+Which parts do you mean exactly, which patches? I don't think it makes
+sense to split this patchset, as one part won't function without the
+other.
