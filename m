@@ -1,190 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F38C17D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 17:23:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A2A137D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 17:30:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727996AbeKHCyg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Nov 2018 21:54:36 -0500
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:55366 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727757AbeKHCyg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Nov 2018 21:54:36 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6068EA78;
-        Wed,  7 Nov 2018 09:23:16 -0800 (PST)
-Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8835B3F5CF;
-        Wed,  7 Nov 2018 09:23:10 -0800 (PST)
-Date:   Wed, 7 Nov 2018 17:23:08 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
-        linux-kbuild@vger.kernel.org, Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
-Subject: Re: [PATCH v10 09/22] kasan: add tag related helper functions
-Message-ID: <20181107172306.3w2pjecaggsvl5z2@lakrids.cambridge.arm.com>
-References: <cover.1541525354.git.andreyknvl@google.com>
- <b8c56d36b79eecf0c331a0a7a2df12632aefccc9.1541525354.git.andreyknvl@google.com>
+        id S1731403AbeKHDCG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Nov 2018 22:02:06 -0500
+Received: from smtprelay2.synopsys.com ([198.182.60.111]:41760 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727859AbeKHDCF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Nov 2018 22:02:05 -0500
+Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id B470710C07D2;
+        Wed,  7 Nov 2018 09:30:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1541611843; bh=xdJNds76opZdu7+EfNJboBfzvYozz5e2lRkCFOVGR90=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
+        b=Bt/dqyEZkJMH5TQw6njJutjKpZjRv/fRBWTl/jsoh45uG2Yf9aNmQrSs97iPhvr9A
+         r3CarCfBikYdt/ox3C8yFr+YMEIVBSEP818NUL5SAj0hYbjK4pFmZW0k2j6sKkEWkP
+         4tsVaZLtFnsVujaCsqEMYilf8Z1D4u7MpmVg5y6O1Or/M+c9y2eQsVjYXVLrtguLh8
+         V7wEtr5qMuDpKL3GG72NmTcl05O7pdZrUUTBh8zu61xExM7RxA/j4t+//gdT8a5atc
+         nf+C2ZePl3jXgRt49YwtVx3tG13o1zCsUxhJU7VDo2caN8AkPHOEhhfP3+qpPeVy+m
+         MrnczsIxp4loA==
+Received: from US01WXQAHTC1.internal.synopsys.com (us01wxqahtc1.internal.synopsys.com [10.12.238.230])
+        by mailhost.synopsys.com (Postfix) with ESMTP id DA25032E9;
+        Wed,  7 Nov 2018 09:30:40 -0800 (PST)
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ US01WXQAHTC1.internal.synopsys.com (10.12.238.230) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Wed, 7 Nov 2018 09:30:40 -0800
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+ DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Wed, 7 Nov 2018 18:30:38 +0100
+Received: from [10.0.2.15] (10.107.19.141) by DE02WEHTCB.internal.synopsys.com
+ (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.408.0; Wed, 7 Nov
+ 2018 18:30:38 +0100
+Subject: Re: [PATCH 1/3] i3c: master: Add driver for Synopsys DesignWare IP
+To:     Matthew Wilcox <willy@infradead.org>,
+        Vitor soares <vitor.soares@synopsys.com>
+CC:     <boris.brezillon@bootlin.com>, <wsa@the-dreams.de>,
+        <linux-i2c@vger.kernel.org>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <gregkh@linuxfoundation.org>,
+        <arnd@arndb.de>, <psroka@cadence.com>, <agolec@cadence.com>,
+        <adouglas@cadence.com>, <bfolta@cadence.com>, <dkos@cadence.com>,
+        <alicja@cadence.com>, <cwronka@cadence.com>, <sureshp@cadence.com>,
+        <rafalc@cadence.com>, <thomas.petazzoni@bootlin.com>, <nm@ti.com>,
+        <robh+dt@kernel.org>, <pawel.moll@arm.com>, <mark.rutland@arm.com>,
+        <ijc+devicetree@hellion.org.uk>, <galak@codeaurora.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <geert@linux-m68k.org>, <linus.walleij@linaro.org>,
+        <Xiang.Lin@synaptics.com>, <linux-gpio@vger.kernel.org>,
+        <nsekhar@ti.com>, <pgaj@cadence.com>, <peda@axentia.se>,
+        <mshettel@codeaurora.org>, <swboyd@chromium.org>,
+        <joao.pinto@synopsys.com>, <luis.oliveira@synopsys.com>,
+        <manuel.abreu@synopsys.com>, <gustavo.pimentel@synopsys.com>
+References: <1540807618-13246-1-git-send-email-soares@synopsys.com>
+ <1540807618-13246-2-git-send-email-soares@synopsys.com>
+ <20181107170553.GJ3074@bombadil.infradead.org>
+From:   vitor <vitor.soares@synopsys.com>
+Message-ID: <d2540ea9-edbd-3b36-0647-54919a9dfa2d@synopsys.com>
+Date:   Wed, 7 Nov 2018 17:30:22 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b8c56d36b79eecf0c331a0a7a2df12632aefccc9.1541525354.git.andreyknvl@google.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20181107170553.GJ3074@bombadil.infradead.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.107.19.141]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 06, 2018 at 06:30:24PM +0100, Andrey Konovalov wrote:
-> This commit adds a few helper functions, that are meant to be used to
-> work with tags embedded in the top byte of kernel pointers: to set, to
-> get or to reset (set to 0xff) the top byte.
-> 
-> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
-> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> ---
->  arch/arm64/mm/kasan_init.c |  2 ++
->  include/linux/kasan.h      | 13 +++++++++
->  mm/kasan/kasan.h           | 55 ++++++++++++++++++++++++++++++++++++++
->  mm/kasan/tags.c            | 37 +++++++++++++++++++++++++
->  4 files changed, 107 insertions(+)
-> 
-> diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
-> index 18ebc8994a7b..370b19d0e2fb 100644
-> --- a/arch/arm64/mm/kasan_init.c
-> +++ b/arch/arm64/mm/kasan_init.c
-> @@ -249,6 +249,8 @@ void __init kasan_init(void)
->  	memset(kasan_zero_page, KASAN_SHADOW_INIT, PAGE_SIZE);
->  	cpu_replace_ttbr1(lm_alias(swapper_pg_dir));
->  
-> +	kasan_init_tags();
-> +
->  	/* At this point kasan is fully initialized. Enable error messages */
->  	init_task.kasan_depth = 0;
->  	pr_info("KernelAddressSanitizer initialized\n");
-> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> index 7f6574c35c62..4c9d6f9029f2 100644
-> --- a/include/linux/kasan.h
-> +++ b/include/linux/kasan.h
-> @@ -169,6 +169,19 @@ static inline void kasan_cache_shutdown(struct kmem_cache *cache) {}
->  
->  #define KASAN_SHADOW_INIT 0xFF
->  
-> +void kasan_init_tags(void);
-> +
-> +void *kasan_reset_tag(const void *addr);
-> +
-> +#else /* CONFIG_KASAN_SW_TAGS */
-> +
-> +static inline void kasan_init_tags(void) { }
-> +
-> +static inline void *kasan_reset_tag(const void *addr)
-> +{
-> +	return (void *)addr;
-> +}
-> +
+Hi Matthew,
 
-> +#ifdef CONFIG_KASAN_SW_TAGS
-> +
-> +#define KASAN_PTR_TAG_SHIFT 56
-> +#define KASAN_PTR_TAG_MASK (0xFFUL << KASAN_PTR_TAG_SHIFT)
-> +
-> +u8 random_tag(void);
-> +
-> +static inline void *set_tag(const void *addr, u8 tag)
-> +{
-> +	u64 a = (u64)addr;
-> +
-> +	a &= ~KASAN_PTR_TAG_MASK;
-> +	a |= ((u64)tag << KASAN_PTR_TAG_SHIFT);
-> +
-> +	return (void *)a;
-> +}
-> +
-> +static inline u8 get_tag(const void *addr)
-> +{
-> +	return (u8)((u64)addr >> KASAN_PTR_TAG_SHIFT);
-> +}
-> +
-> +static inline void *reset_tag(const void *addr)
-> +{
-> +	return set_tag(addr, KASAN_TAG_KERNEL);
-> +}
 
-We seem to be duplicating this functionality in several places.
+On 07/11/18 17:05, Matthew Wilcox wrote:
+> On Mon, Oct 29, 2018 at 10:06:56AM +0000, Vitor soares wrote:
+>> Add driver for Synopsys DesignWare I3C master IP
+> The so-called "data sheet" (actually just an advertising brochure)
 
-Could we please make it so that the arch code defines macros:
 
-arch_kasan_set_tag(addr, tag)
-arch_kasan_get_tag(addr)
-arch_kasan_reset_tag(addr)
+The datasheet is there to download.
 
-... and use thoses consistently rather than open-coding them?
 
-> +
-> +#else /* CONFIG_KASAN_SW_TAGS */
-> +
-> +static inline u8 random_tag(void)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline void *set_tag(const void *addr, u8 tag)
-> +{
-> +	return (void *)addr;
-> +}
-> +
-> +static inline u8 get_tag(const void *addr)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline void *reset_tag(const void *addr)
-> +{
-> +	return (void *)addr;
-> +}
+> on your website claims DMA support.  I don't see that support
+> anywhere in this driver.
+>
 
-... these can be defined in linux/kasan.h as:
+Right now the driver does not support DMA interface which will be added 
+later as the other missed I3C features.
 
-#define arch_kasan_set_tag(addr, tag)	(addr)
-#define arch_kasan_get_tag(addr)	0
-#define arch_kasan_reset_tag(addr)	(addr)
+What do you suggest to avoid this misunderstanding?
 
-Thanks,
-Mark.
+
+Best regards,
+
+Vitor Soares
+
+
