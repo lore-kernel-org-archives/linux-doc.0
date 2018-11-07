@@ -1,114 +1,112 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5BA147D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 15:16:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5085F7D8E7
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 15:34:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727265AbeKHAqb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Nov 2018 19:46:31 -0500
-Received: from smtprelay.synopsys.com ([198.182.47.9]:44734 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726670AbeKHAqa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Nov 2018 19:46:30 -0500
-Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 46A1224E140B;
-        Wed,  7 Nov 2018 07:15:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1541603743; bh=sARyqm8mFbJsXoUIRJKZUkkhpVFyUXiE4oe8QDgg4zs=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
-        b=Z6NnUd765KzIFMTF6aZ9O22BePy+fW5NdBJwaMACEjBOLH36wVr9WMCH7wEp95ilr
-         Z81DgDGYtyU2BkeBkF7lAEMClQnV7tQX74OGt9stN08OaF7ElPFllIdx7Ejh0AhbO4
-         5TjPYbfv/8swLKl9qSw88flLa9LGyyVOWcX4RXRroIeXGTHR8z2ns1aVw9tLtvt9eC
-         znlHUK9v6hB53TQJiKouwnAKcaeR/4V7istaa+Bfn76SiWTUMc1DJraBoeVJrvOJZy
-         8ZAw3q3gWlE959kOMJxdszYfqeyoqF65cPlFY7t5GV5cvbRHmBRCUViU+3Ab9qHGkr
-         8/lOsfBRP62og==
-Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 52ECE393A;
-        Wed,  7 Nov 2018 07:15:39 -0800 (PST)
-Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Wed, 7 Nov 2018 07:15:39 -0800
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
- DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Wed, 7 Nov 2018 16:15:37 +0100
-Received: from [10.0.2.15] (10.107.19.141) by DE02WEHTCB.internal.synopsys.com
- (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.408.0; Wed, 7 Nov
- 2018 16:15:36 +0100
-Subject: Re: [PATCH 1/3] i3c: master: Add driver for Synopsys DesignWare IP
-To:     Matthew Wilcox <willy@infradead.org>,
-        Vitor soares <vitor.soares@synopsys.com>
-CC:     <boris.brezillon@bootlin.com>, <wsa@the-dreams.de>,
-        <linux-i2c@vger.kernel.org>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <gregkh@linuxfoundation.org>,
-        <arnd@arndb.de>, <psroka@cadence.com>, <agolec@cadence.com>,
-        <adouglas@cadence.com>, <bfolta@cadence.com>, <dkos@cadence.com>,
-        <alicja@cadence.com>, <cwronka@cadence.com>, <sureshp@cadence.com>,
-        <rafalc@cadence.com>, <thomas.petazzoni@bootlin.com>, <nm@ti.com>,
-        <robh+dt@kernel.org>, <pawel.moll@arm.com>, <mark.rutland@arm.com>,
-        <ijc+devicetree@hellion.org.uk>, <galak@codeaurora.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <geert@linux-m68k.org>, <linus.walleij@linaro.org>,
-        <Xiang.Lin@synaptics.com>, <linux-gpio@vger.kernel.org>,
-        <nsekhar@ti.com>, <pgaj@cadence.com>, <peda@axentia.se>,
-        <mshettel@codeaurora.org>, <swboyd@chromium.org>,
-        <joao.pinto@synopsys.com>, <luis.oliveira@synopsys.com>,
-        <manuel.abreu@synopsys.com>, <gustavo.pimentel@synopsys.com>
-References: <1540807618-13246-1-git-send-email-soares@synopsys.com>
- <1540807618-13246-2-git-send-email-soares@synopsys.com>
- <20181029134100.GD28520@bombadil.infradead.org>
-From:   vitor <vitor.soares@synopsys.com>
-Message-ID: <8a71cb94-ccf5-8ec0-446a-37a29405f585@synopsys.com>
-Date:   Wed, 7 Nov 2018 15:15:17 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        id S1731141AbeKHBFR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Nov 2018 20:05:17 -0500
+Received: from mail-vs1-f67.google.com ([209.85.217.67]:34337 "EHLO
+        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727387AbeKHBFR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Nov 2018 20:05:17 -0500
+Received: by mail-vs1-f67.google.com with SMTP id y27so7831288vsi.1;
+        Wed, 07 Nov 2018 07:34:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xFDoyXBbWPXoq4jdpmuCCfC9Z24EPUBl5vTbfphQXlY=;
+        b=jIR/FE9lI9hgO+lsCrgFDv0u5/PhsuW60zN1Ml0C6ey+2lQ83g0RNrhpGrZlsmyQER
+         RJxcQabmpVgFbcfVzMRfUtcxwuNOh5svVJIPKo81wASPsVRis/UY4RADKI7grp6lfm4y
+         y9zaYtXYJ2/bB+3khjjnf1nKj10duWR1S3yY6dlx5JQiEMkEzGCNPQUiFZzccMItqVBf
+         p/aKVEBO37xIe/XD3eCqa5fPrUfdGUHCAM931Cdl4Nzjjzo1/+fUvIhG0d+VGHtyh2nv
+         ZxeiAbLK30UxAFw9xBS9frubX3GarPnJCuTHZFjnWBDyIu8sw7jxCOMOmFf9m94UjR4w
+         tEqg==
+X-Gm-Message-State: AGRZ1gK1vU1nF+e2NCp5J9g2FT8A+RrJP6gUH8ixsYI7H/ciwCb16iak
+        E7y9JIRXv5j39EiU47N9eDtDu66qbyDyyzgGM3eB6mAl
+X-Google-Smtp-Source: AJdET5fsEWPKyt19SONIzJGJnXqaIrSv1h5kj38Qg66H567KVkGhfXpyAdkxeAmCz5hIqoCrVsKL6ER/UBZhUqJ+eNE=
+X-Received: by 2002:a67:d119:: with SMTP id u25mr255775vsi.63.1541604864655;
+ Wed, 07 Nov 2018 07:34:24 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20181029134100.GD28520@bombadil.infradead.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.107.19.141]
+References: <1540807618-13246-1-git-send-email-soares@synopsys.com>
+ <1540807618-13246-2-git-send-email-soares@synopsys.com> <20181029134100.GD28520@bombadil.infradead.org>
+ <8a71cb94-ccf5-8ec0-446a-37a29405f585@synopsys.com>
+In-Reply-To: <8a71cb94-ccf5-8ec0-446a-37a29405f585@synopsys.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 7 Nov 2018 16:34:12 +0100
+Message-ID: <CAMuHMdUO5_-TsGiu3otuLqNtLNgdnw=1QdKjTzPmSxHp9QotxQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] i3c: master: Add driver for Synopsys DesignWare IP
+To:     Vitor Soares <vitor.soares@synopsys.com>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        Cyprian Wronka <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        Rafal Ciepiela <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        Kumar Gala <galak@codeaurora.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Sekhar Nori <nsekhar@ti.com>, pgaj@cadence.com,
+        Peter Rosin <peda@axentia.se>, mshettel@codeaurora.org,
+        swboyd@chromium.org, joao.pinto@synopsys.com,
+        luis.oliveira@synopsys.com, manuel.abreu@synopsys.com,
+        gustavo.pimentel@synopsys.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Matthew,
+Hi Vitor,
 
-Thank for your feedback.
-
-On 29/10/18 13:41, Matthew Wilcox wrote:
-> On Mon, Oct 29, 2018 at 10:06:56AM +0000, Vitor soares wrote:
->> +config DW_I3C_MASTER
->> +	tristate "Synospsys DesignWare I3C master driver"
->> +	depends on I3C
->> +	depends on !(ALPHA || PARISC)
-> why?
-
-Please check this email thread: https://lkml.org/lkml/2018/10/8/393
-
+On Wed, Nov 7, 2018 at 4:15 PM vitor <vitor.soares@synopsys.com> wrote:
+> On 29/10/18 13:41, Matthew Wilcox wrote:
+> > On Mon, Oct 29, 2018 at 10:06:56AM +0000, Vitor soares wrote:
+> >> +config DW_I3C_MASTER
+> >> +    tristate "Synospsys DesignWare I3C master driver"
+> >> +    depends on I3C
+> >> +    depends on !(ALPHA || PARISC)
+> > why?
 >
->> +	help
->> +	  Support·for·Synopsys·DesignWare·MIPI·I3C·Controller.
-> These strange characters (displayed as a centred dot on my terminal)
-> should probably be spaces.
+> Please check this email thread: https://lkml.org/lkml/2018/10/8/393
 
-Something went wrong here. I need to check it.
+Hence this deserves a comment, so we know when/what to do to drop the
+dependency:
 
->
->> +static struct dw_i3c_xfer *
->> +dw_i3c_master_alloc_xfer(struct dw_i3c_master *master, unsigned int ncmds)
->> +{
->> +	struct dw_i3c_xfer *xfer;
->> +
->> +	xfer = kzalloc(sizeof(*xfer) + (ncmds * sizeof(*xfer->cmds)),
->> +		       GFP_KERNEL);
-> You should be using struct_size() here.
+    depends on  !(ALPHA || PARISC) # needs {read,write}sl()
 
-This seem to be recent. I will use it next version :D
+Gr{oetje,eeting}s,
 
-Best regards,
-Vitor Soares
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
