@@ -1,72 +1,114 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D284F7D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 16:19:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 91D4C7D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 16:30:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727576AbeKHBuL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Nov 2018 20:50:11 -0500
-Received: from mx2.suse.de ([195.135.220.15]:34556 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727312AbeKHBuL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Nov 2018 20:50:11 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 34BC1AE10;
-        Wed,  7 Nov 2018 16:19:07 +0000 (UTC)
-Date:   Wed, 7 Nov 2018 17:19:05 +0100
-From:   Michal Hocko <mhocko@kernel.org>
-To:     Daniel Colascione <dancol@google.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>, rppt@linux.ibm.com,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
+        id S1727417AbeKHCBg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 7 Nov 2018 21:01:36 -0500
+Received: from mga14.intel.com ([192.55.52.115]:51994 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727312AbeKHCBf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Nov 2018 21:01:35 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Nov 2018 08:30:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,476,1534834800"; 
+   d="scan'208";a="84702378"
+Received: from kaczmarx-mobl.ger.corp.intel.com (HELO localhost) ([10.249.254.132])
+  by fmsmga008.fm.intel.com with ESMTP; 07 Nov 2018 08:30:22 -0800
+Date:   Wed, 7 Nov 2018 18:30:19 +0200
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-sgx@vger.kernel.org, sean.j.christopherson@intel.com,
+        nhorman@redhat.com, npmccallum@redhat.com, serge.ayoun@intel.com,
+        shay.katz-zamir@intel.com, haitao.huang@intel.com,
+        mark.shanahan@intel.com, andriy.shevchenko@linux.intel.com,
         Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
-        Prashant Dhamdhere <pdhamdhe@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2] Document /proc/pid PID reuse behavior
-Message-ID: <20181107161905.GJ27423@dhcp22.suse.cz>
-References: <20181031150625.147369-1-dancol@google.com>
- <20181105132205.138695-1-dancol@google.com>
- <20181106130524.GC2453@dhcp22.suse.cz>
- <CAKOZueu5aDtHDBzp6qKECTHEejjb=dyegQkuHh8NfwgNktzFow@mail.gmail.com>
- <20181107160015.GI27423@dhcp22.suse.cz>
- <CAKOZuevb-MED0QiL5RWJ0py=yt48=N7bPSq5bFqiwWcqN9L=Xg@mail.gmail.com>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v15 23/23] x86/sgx: Driver documentation
+Message-ID: <20181107163019.GA11509@linux.intel.com>
+References: <20181102231320.29164-1-jarkko.sakkinen@linux.intel.com>
+ <20181102231320.29164-24-jarkko.sakkinen@linux.intel.com>
+ <154ded23-fd1d-f324-4e0a-9de8eddcda6d@intel.com>
+ <20181106054911.GA15575@linux.intel.com>
+ <e7b4c432-7005-308c-4da0-a80e0d294244@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAKOZuevb-MED0QiL5RWJ0py=yt48=N7bPSq5bFqiwWcqN9L=Xg@mail.gmail.com>
+In-Reply-To: <e7b4c432-7005-308c-4da0-a80e0d294244@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 07-11-18 16:10:01, Daniel Colascione wrote:
-> On Wed, Nov 7, 2018 at 4:00 PM, Michal Hocko <mhocko@kernel.org> wrote:
-[...]
-> > If you really do care about pid space depletion then you
-> > should use pid cgroup controller.
+On Tue, Nov 06, 2018 at 08:45:37AM -0800, Dave Hansen wrote:
+> On 11/5/18 9:49 PM, Jarkko Sakkinen wrote:
+> > On Mon, Nov 05, 2018 at 12:27:11PM -0800, Dave Hansen wrote:
+> >> The ABI seems entirely undocumented and rather lightly designed, which
+> >> seems like something we should fix before this is merged.
+> > 
+> > ABI is documented in arch/x86/include/uapi/asm/sgx.h that from which the
+> > documentation is included to intel_sgx.rst. I'm not saying that there is
+> > no space refine it but it is neither undocumented.
 > 
-> Or that, sure. But since cgroups are optional, the problem with the
-> core model remains. In general, if there's a problem X with the core
-> system API, and you can mitigate X by using a cgroup, X is still a
-> problem.
+> I specifically mean the instruction flow around asynchronous exits or
+> explicit enclave exit calls via EEXIT.  Signals are part of the ABI but
+> go unmentioned in the documentation.
 
-I am not questioning that. All that I am saying is that there is a way to
-mitigate the issue. This is not the only resource where the standard
-rlimit is not sufficient and there is no other way than cgroups.
-Actually cgroups were introduced to address rlimit limits IIRC.
+Ok, thanks for clarification. We will document it.
+> 
+> It's also worth noting that EENTER *can* act (from the kernel's
+> perspective) like an instruction that both jumps and sets a bunch of
+> registers (including %rsp).  It's certainly abnormal in that regard.
 
--- 
-Michal Hocko
-SUSE Labs
+Agreed.
+
+> In fact, in the docs:
+> 
+> > +Enclave can only execute code inside the ELRANGE. Instructions that may cause
+> > +VMEXIT, IO instructions and instructions that require a privilege change are
+> > +prohibited inside the enclave. Interrupts and exceptions always cause enclave
+> > +to exit and jump to an address outside the enclave given when the enclave is
+> > +entered by using the leaf instruction ENCLS(EENTER).
+> 
+> it's probably a really good idea to explain that the address outside of
+> the enclave is enclave-provided, and is not, for instance, just the next
+> instruction after EENTER.
+> 
+> >> Also, for a feature as massive and complicated as this one, it seems
+> >> irresponsible to not have a selftest.  Is that not feasible for some reason?
+> > 
+> > I do have the in-kernel launch enclave stuff backed up here:
+> > 
+> > https://github.com/jsakkine-intel/sgx-le-host
+> > https://github.com/jsakkine-intel/sgx-le
+> > 
+> > This is about as simple as it gets without any type of run-time.
+> 
+> Does this code run when I type "make kselftest"?  If not, I think we
+> should rectify that.
+
+No, it doesn't. It is just my backup for the non-SDK user space code
+that I've made that I will use to fork my user space SGX projects in
+the future.
+
+I can work-out a selftest (and provide a new patch in the series) but
+I'm still wondering what the enclave should do. I would suggest that
+we start with an enclave that does just EEXIT and nothing else.
+
+/Jarkko
