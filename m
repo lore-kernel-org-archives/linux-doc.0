@@ -5,96 +5,73 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DAB9F7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 18:26:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6430F7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 19:38:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728135AbeKHD6L (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 7 Nov 2018 22:58:11 -0500
-Received: from foss.arm.com ([217.140.101.70]:56604 "EHLO foss.arm.com"
+        id S1726432AbeKHFJt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Nov 2018 00:09:49 -0500
+Received: from smtp1-3.goneo.de ([85.220.129.32]:35929 "EHLO smtp1-3.goneo.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726356AbeKHD6K (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Nov 2018 22:58:10 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A54C3A78;
-        Wed,  7 Nov 2018 10:26:35 -0800 (PST)
-Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.197.53])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CF5703F5C0;
-        Wed,  7 Nov 2018 10:26:29 -0800 (PST)
-Date:   Wed, 7 Nov 2018 18:26:27 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
-        linux-kbuild@vger.kernel.org, Vishwath Mohan <vishwath@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>
-Subject: Re: [PATCH v10 12/22] kasan, arm64: fix up fault handling logic
-Message-ID: <20181107182626.GD255021@arrakis.emea.arm.com>
-References: <cover.1541525354.git.andreyknvl@google.com>
- <4891a504adf61c0daf1e83642b6f7519328dfd5f.1541525354.git.andreyknvl@google.com>
+        id S1725953AbeKHFJs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Nov 2018 00:09:48 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by smtp1.goneo.de (Postfix) with ESMTP id AC1A2241024;
+        Wed,  7 Nov 2018 20:37:59 +0100 (CET)
+X-Virus-Scanned: by goneo
+Received: from smtp1.goneo.de ([127.0.0.1])
+        by localhost (smtp1.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id a2I8XAhCMkzi; Wed,  7 Nov 2018 20:37:58 +0100 (CET)
+Received: from [192.168.1.127] (dyndsl-037-138-077-056.ewe-ip-backbone.de [37.138.77.56])
+        by smtp1.goneo.de (Postfix) with ESMTPSA id 594FC23F106;
+        Wed,  7 Nov 2018 20:37:58 +0100 (CET)
+Subject: Re: [PATCH v2 2/2] kernel-doc: extend $type_param to match members
+ referenced by pointer
+To:     Mike Rapoport <rppt@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1541609233-14182-1-git-send-email-rppt@linux.ibm.com>
+ <1541609233-14182-3-git-send-email-rppt@linux.ibm.com>
+From:   Markus Heiser <markus.heiser@darmarit.de>
+Message-ID: <67c21f80-754f-1aa6-6722-bb90da5e5370@darmarit.de>
+Date:   Wed, 7 Nov 2018 20:37:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4891a504adf61c0daf1e83642b6f7519328dfd5f.1541525354.git.andreyknvl@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1541609233-14182-3-git-send-email-rppt@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: de-DE
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 06, 2018 at 06:30:27PM +0100, Andrey Konovalov wrote:
-> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-> index 7d9571f4ae3d..d9a84d6f3343 100644
-> --- a/arch/arm64/mm/fault.c
-> +++ b/arch/arm64/mm/fault.c
-> @@ -32,6 +32,7 @@
->  #include <linux/perf_event.h>
->  #include <linux/preempt.h>
->  #include <linux/hugetlb.h>
-> +#include <linux/kasan.h>
->  
->  #include <asm/bug.h>
->  #include <asm/cmpxchg.h>
-> @@ -141,6 +142,8 @@ void show_pte(unsigned long addr)
->  	pgd_t *pgdp;
->  	pgd_t pgd;
->  
-> +	addr = (unsigned long)kasan_reset_tag((void *)addr);
-> +
->  	if (addr < TASK_SIZE) {
->  		/* TTBR0 */
->  		mm = current->active_mm;
+Am 07.11.18 um 17:47 schrieb Mike Rapoport:
+> Currently, function parameter description can match '@type.member'
+> expressions but fails to match '@type->member'.
+> Extend the $type_param regex to allow matching both
+> 
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> ---
+>   scripts/kernel-doc | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index 24d3550..f9f1431 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -212,7 +212,7 @@ my $anon_struct_union = 0;
+>   my $type_constant = '\b``([^\`]+)``\b';
+>   my $type_constant2 = '\%([-_\w]+)';
+>   my $type_func = '(\w+)\(\)';
+> -my $type_param = '\@(\w*(\.\w+)*(\.\.\.)?)';
+> +my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
 
-I think we should clear the tag earlier on in the fault handling code,
-before reaching show_pte().
+Thanks, works! FWIW: added [1] this to the linuxdoc project (a kernel-doc
+spinoff).  There we have a small frmaework for testing kernel-doc patches [2].
+Which found a few hundert usages of '->' pointers in the whole kernel sources.
 
--- 
-Catalin
+[1] https://github.com/return42/linuxdoc/commit/cce336ce0
+[2] https://github.com/return42/linuxdoc/blob/master/Makefile#L95
+
+-- Markus --
