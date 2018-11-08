@@ -1,90 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CFA4A7D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 20:54:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9A8337D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 21:05:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726813AbeKIGb2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Nov 2018 01:31:28 -0500
-Received: from mail-io1-f67.google.com ([209.85.166.67]:35176 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725723AbeKIGb2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Nov 2018 01:31:28 -0500
-Received: by mail-io1-f67.google.com with SMTP id 79-v6so15704781iou.2;
-        Thu, 08 Nov 2018 12:54:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PQdS+FHmR8qURlp+S44E114Dtf5AHtGCvkRmM+6aZp0=;
-        b=glXkCfejZTP2G7pzZI7SfSd9G0l4SlyIueLj8kKTpHMp0neogHpEtTbwczorZA+/fT
-         KpE1epQdZQDOIsii9Q3MqXQmv7kikvSk2pHGRjVAzcPG3s4xqPvJyMLQ099wI99uBKJT
-         HEbR2k16WzogJhXEi2QbbcHiyl7JJXV+AQgqFqiB4BIrv4MAJG0a9WuMdG7CLu2VyJAG
-         qteSPI84fYxUpjNfhGn1Bb1KBaPHLe76nbS/0u7rsAu1w3fjf0gWrRArAPw4kP0Mqudu
-         OvqrD1nq5i5Pfbclifbr5beFogbdqH4JnzNC6b7pTnc69pGQH2j5BbDH3uiidm/s3w8J
-         dMkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PQdS+FHmR8qURlp+S44E114Dtf5AHtGCvkRmM+6aZp0=;
-        b=awPsI5UPnN9k6UdDEtIexkBlutusOVkU3ax5fx4rXl0qSWCwSbeO1JGg0yk1Y4VKcI
-         R1wQRWdCm/XaVMJtcyU1a75h6UblqSqczNTGM2H3CN+VvUx0S4D/mG6ePY2Su2xPRHa0
-         JiILZw3/A6UnaxLvwP1nfe3c+okDgf51N63Wu4Axm+4wHGaF/cPUTZm3o/4KYHMmYP7h
-         vShggi0/qxMEE+gclRqpT55cW1YOS8D9r3yYSS1Hbbdm9vvsySTMK9FotyJGjmpxHwSd
-         KNYnMx3OKboxrF/KZZECPz52RCAPCOkFA+dfueTU14lUuVztOjpt/37DkfTbta8w75CI
-         29Xg==
-X-Gm-Message-State: AGRZ1gL11Q+X1clAL0xWxYIWSa3n1whvC0l2/eKxzmpK0ZEw7mmJ4mhF
-        0KwGc2FRVgAG58+X38Nb6lj8LMsjuqa3Zp7zGhs=
-X-Google-Smtp-Source: AJdET5dyqzhj6hBHrJShZhI3EL/MoTuStP/v7rmujm4nuXI7DbnCtONKL2bmT28k2c9qynvYiX+KOaSLXVsfITP/d3c=
-X-Received: by 2002:a6b:ca03:: with SMTP id a3-v6mr5052194iog.208.1541710453179;
- Thu, 08 Nov 2018 12:54:13 -0800 (PST)
-MIME-Version: 1.0
-References: <20181104171124.5717-1-ahmedsoliman0x666@gmail.com> <24f900ba-6459-c6aa-4e97-92f0ec744896@redhat.com>
-In-Reply-To: <24f900ba-6459-c6aa-4e97-92f0ec744896@redhat.com>
-From:   Ahmed Soliman <ahmedsoliman0x666@gmail.com>
-Date:   Thu, 8 Nov 2018 22:54:00 +0200
-Message-ID: <CAAGnT3Y8SwD-jm2x2k7y2EZMsHdfua4-tnfu8o_ajyV+n4imcA@mail.gmail.com>
-Subject: Re: [PATCH V6 0/8] KVM: X86: Introducing ROE Protection Kernel Hardening
-To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        nathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?B?6rmA7J246rK4?= <ovich00@gmail.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        nigel.edwards@hpe.com, Boris Lukashev <blukashev@sempervictus.com>,
-        Hossam Hassan <7ossam9063@gmail.com>,
-        Ahmed Lotfy <A7med.lotfey@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726875AbeKIGmy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Nov 2018 01:42:54 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46318 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726915AbeKIGmy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Nov 2018 01:42:54 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wA8L0BPT144970
+        for <linux-doc@vger.kernel.org>; Thu, 8 Nov 2018 16:05:37 -0500
+Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2nmtwtvvuh-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Thu, 08 Nov 2018 16:05:37 -0500
+Received: from localhost
+        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <eajames@linux.ibm.com>;
+        Thu, 8 Nov 2018 21:05:37 -0000
+Received: from b01cxnp22034.gho.pok.ibm.com (9.57.198.24)
+        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Thu, 8 Nov 2018 21:05:33 -0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com [9.57.199.106])
+        by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wA8L5WxB2162946
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 8 Nov 2018 21:05:32 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 954E62805A;
+        Thu,  8 Nov 2018 21:05:32 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8D86428058;
+        Thu,  8 Nov 2018 21:05:31 +0000 (GMT)
+Received: from talon7.ibm.com (unknown [9.41.179.222])
+        by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+        Thu,  8 Nov 2018 21:05:31 +0000 (GMT)
+From:   Eddie James <eajames@linux.ibm.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        jdelvare@suse.com, linux-doc@vger.kernel.org,
+        gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        mark.rutland@arm.com, linux@roeck-us.net, rdunlap@infradead.org,
+        benh@kernel.crashing.org, Eddie James <eajames@linux.vnet.ibm.com>,
+        Eddie James <eajames@linux.ibm.com>
+Subject: [PATCH v6 01/10] dt-bindings: fsi: Add P9 OCC device documentation
+Date:   Thu,  8 Nov 2018 15:05:20 -0600
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1541711129-26631-1-git-send-email-eajames@linux.ibm.com>
+References: <1541711129-26631-1-git-send-email-eajames@linux.ibm.com>
+X-TM-AS-GCONF: 00
+x-cbid: 18110821-2213-0000-0000-00000313CB0F
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00010009; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000269; SDB=6.01114610; UDB=6.00577887; IPR=6.00894709;
+ MB=3.00024077; MTD=3.00000008; XFM=3.00000015; UTC=2018-11-08 21:05:36
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18110821-2214-0000-0000-00005C2FEADD
+Message-Id: <1541711129-26631-2-git-send-email-eajames@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-08_12:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=934 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1811080178
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+From: Eddie James <eajames@linux.vnet.ibm.com>
 
-> Do you have patches that enable usage of ROE in the kernel?
-> Alternatively you can write testcases in tools/testing/selftests/kvm to
-> test how guests should use it.
+Document the bindings for the FSI-attached POWER9 On-Chip Controller.
 
-As for now ROE isn't integrated yet into the kernel, I did have some
-tests I will
-have them in  selftests/kvm in the next patch set
+Signed-off-by: Eddie James <eajames@linux.ibm.com>
+---
+ Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
 
-> I would remove CONFIG_KVM_ROE altogether.  You can enable it
-> unconditionally.
+diff --git a/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt b/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+new file mode 100644
+index 0000000..99ca986
+--- /dev/null
++++ b/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+@@ -0,0 +1,16 @@
++Device-tree bindings for FSI-attached POWER9 On-Chip Controller (OCC)
++---------------------------------------------------------------------
++
++This is the binding for the P9 On-Chip Controller accessed over FSI from a
++service processor. See fsi.txt for details on bindings for FSI slave and CFAM
++nodes. The OCC is not an FSI slave device itself, rather it is accessed
++through the SBE fifo.
++
++Required properties:
++ - compatible = "ibm,p9-occ"
++
++Examples:
++
++    occ {
++        compatible = "ibm,p9-occ";
++    };
+-- 
+1.8.3.1
 
-Noted, I will have it enabled unconditionally in the next patch set.
-
-> I will continue reviewing the patches soon.
->
-> Paolo
