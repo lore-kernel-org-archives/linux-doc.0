@@ -5,76 +5,105 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E170C7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 14:39:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C2A037D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 14:44:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726571AbeKIAPl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Nov 2018 19:15:41 -0500
-Received: from mga05.intel.com ([192.55.52.43]:26962 "EHLO mga05.intel.com"
+        id S1726710AbeKIAUb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Nov 2018 19:20:31 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:47298 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726421AbeKIAPl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Nov 2018 19:15:41 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Nov 2018 06:39:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,480,1534834800"; 
-   d="scan'208";a="89586000"
-Received: from ibanaga-mobl1.ger.corp.intel.com (HELO localhost) ([10.249.254.75])
-  by orsmga006.jf.intel.com with ESMTP; 08 Nov 2018 06:39:44 -0800
-Date:   Thu, 8 Nov 2018 16:39:42 +0200
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-sgx@vger.kernel.org, sean.j.christopherson@intel.com,
-        nhorman@redhat.com, npmccallum@redhat.com, serge.ayoun@intel.com,
-        shay.katz-zamir@intel.com, haitao.huang@intel.com,
-        mark.shanahan@intel.com, andriy.shevchenko@linux.intel.com,
+        id S1726359AbeKIAUb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Nov 2018 19:20:31 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 93B063078AB9;
+        Thu,  8 Nov 2018 14:44:41 +0000 (UTC)
+Received: from treble (ovpn-124-61.rdu2.redhat.com [10.10.124.61])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D1B56871F;
+        Thu,  8 Nov 2018 14:44:38 +0000 (UTC)
+Date:   Thu, 8 Nov 2018 08:44:37 -0600
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Aleksa Sarai <cyphar@cyphar.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v15 23/23] x86/sgx: Driver documentation
-Message-ID: <20181108143942.GA13792@linux.intel.com>
-References: <20181102231320.29164-1-jarkko.sakkinen@linux.intel.com>
- <20181102231320.29164-24-jarkko.sakkinen@linux.intel.com>
- <154ded23-fd1d-f324-4e0a-9de8eddcda6d@intel.com>
- <20181106054911.GA15575@linux.intel.com>
- <e7b4c432-7005-308c-4da0-a80e0d294244@intel.com>
- <20181107163019.GA11509@linux.intel.com>
- <914dd171-b48a-12d9-eb77-3c40c8b210cb@intel.com>
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Christian Brauner <christian@brauner.io>,
+        Aleksa Sarai <asarai@suse.de>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] kretprobe: produce sane stack traces
+Message-ID: <20181108144437.l3proaovfqm5osnr@treble>
+References: <20181101083551.3805-2-cyphar@cyphar.com>
+ <20181101204720.6ed3fe37@vmware.local.home>
+ <20181102050509.tw3dhvj5urudvtjl@yavin>
+ <20181102065932.bdt4pubbrkvql4mp@yavin>
+ <20181102091658.1bc979a4@gandalf.local.home>
+ <20181103070253.ajrqzs5xu2vf5stu@yavin>
+ <20181104115913.74l4yzecisvtt2j5@yavin>
+ <20181106171501.59ccabbc@gandalf.local.home>
+ <20181108074612.ldy6rozdpsdps6bf@yavin>
+ <20181108080448.rggfn4zawi3por23@yavin>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <914dd171-b48a-12d9-eb77-3c40c8b210cb@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20181108080448.rggfn4zawi3por23@yavin>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Thu, 08 Nov 2018 14:44:42 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 07, 2018 at 09:09:37AM -0800, Dave Hansen wrote:
-> On 11/7/18 8:30 AM, Jarkko Sakkinen wrote:
-> >> Does this code run when I type "make kselftest"?  If not, I think we
-> >> should rectify that.
-> > No, it doesn't. It is just my backup for the non-SDK user space code
-> > that I've made that I will use to fork my user space SGX projects in
-> > the future.
-> > 
-> > I can work-out a selftest (and provide a new patch in the series) but
-> > I'm still wondering what the enclave should do. I would suggest that
-> > we start with an enclave that does just EEXIT and nothing else.
+On Thu, Nov 08, 2018 at 07:04:48PM +1100, Aleksa Sarai wrote:
+> On 2018-11-08, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> > I will attach what I have at the moment to hopefully explain what the
+> > issue I've found is (re-using the kretprobe architecture but with the
+> > shadow-stack idea).
 > 
-> Yeah, that's a start.  But, a good selftest would include things like
-> faults and error conditions.
+> Here is the patch I have at the moment (it works, except for the
+> question I have about how to handle the top-level pt_regs -- I've marked
+> that code with XXX).
+> 
+> -- 
+> Aleksa Sarai
+> Senior Software Engineer (Containers)
+> SUSE Linux GmbH
+> <https://www.cyphar.com/>
+> 
+> --8<---------------------------------------------------------------------
+> 
+> Since the return address is modified by kretprobe, the various unwinders
+> can produce invalid and confusing stack traces. ftrace mostly solved
+> this problem by teaching each unwinder how to find the original return
+> address for stack trace purposes. This same technique can be applied to
+> kretprobes by simply adding a pointer to where the return address was
+> replaced in the stack, and then looking up the relevant
+> kretprobe_instance when a stack trace is requested.
+> 
+> [WIP: This is currently broken because the *first entry* will not be
+>       overwritten since it looks like the stack pointer is different
+>       when we are provided pt_regs. All other addresses are correctly
+>       handled.]
 
-Great. We can add more entry points to the enclave for different tests
-but I'll start with a bare minimum. And yeah but ever goes into next
-version I'll document the fault handling.
+When you see this problem, what does regs->ip point to?  If it's
+pointing to generated code, then we don't _currently_ have a way of
+dealing with that.  If it's pointing to a real function, we can fix that
+with unwind hints.
 
-/Jarkko
+-- 
+Josh
