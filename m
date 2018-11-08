@@ -1,452 +1,75 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9B4237D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 08:05:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0A3337D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 09:41:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726421AbeKHRj2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Nov 2018 12:39:28 -0500
-Received: from mx2.mailbox.org ([80.241.60.215]:31744 "EHLO mx2.mailbox.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726252AbeKHRj2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Nov 2018 12:39:28 -0500
-Received: from smtp1.mailbox.org (unknown [IPv6:2001:67c:2050:105:465:1:1:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-        (No client certificate requested)
-        by mx2.mailbox.org (Postfix) with ESMTPS id 2F61BA1366;
-        Thu,  8 Nov 2018 09:05:07 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter01.heinlein-hosting.de (spamfilter01.heinlein-hosting.de [80.241.56.115]) (amavisd-new, port 10030)
-        with ESMTP id Kvl1KGWPqzja; Thu,  8 Nov 2018 09:05:04 +0100 (CET)
-Date:   Thu, 8 Nov 2018 19:04:48 +1100
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Christian Brauner <christian@brauner.io>,
-        Aleksa Sarai <asarai@suse.de>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Aleksa Sarai <cyphar@cyphar.com>
-Subject: Re: [PATCH v3 1/2] kretprobe: produce sane stack traces
-Message-ID: <20181108080448.rggfn4zawi3por23@yavin>
-References: <20181101083551.3805-1-cyphar@cyphar.com>
- <20181101083551.3805-2-cyphar@cyphar.com>
- <20181101204720.6ed3fe37@vmware.local.home>
- <20181102050509.tw3dhvj5urudvtjl@yavin>
- <20181102065932.bdt4pubbrkvql4mp@yavin>
- <20181102091658.1bc979a4@gandalf.local.home>
- <20181103070253.ajrqzs5xu2vf5stu@yavin>
- <20181104115913.74l4yzecisvtt2j5@yavin>
- <20181106171501.59ccabbc@gandalf.local.home>
- <20181108074612.ldy6rozdpsdps6bf@yavin>
+        id S1726630AbeKHTQg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Nov 2018 14:16:36 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:57360 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726595AbeKHTQg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Nov 2018 14:16:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=ZezUjLDr/j2WA2NJdtNAakJBWQx0nHV5kn7qTWMNssQ=; b=S2AGTRH5xZWc6DN7qLP2ah6Pg
+        TpgqWa80wl6fcmQlXGFwqEUv+/TJOmh+VB9pRqtQRy746zoYTunXQO5MfoRc/5n0Hm84q+aRw33Bv
+        UDy6Qiwz5n6aVsaQ92/I/uhW1p5UHEwd7E5pwpkZ4GKW++Tf+w+uSwf6hRRhdzFOjXTSsTV7/0pyJ
+        QWelvfvbIjamADbggOWGlfBxbyrW7fa3Avlj1wPnVueNUs4gIf3qD/ZPYp7p+IRNJuHLYLQxOnkiN
+        QA/wgb21gIghxeb8kEBu722dqQIls8nS49o3mwiBUFbGH5yVNc8xDsi3zzzxvFiQ2a/+WiCpidphK
+        2HeotcqEA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gKgoh-00080T-6w; Thu, 08 Nov 2018 09:41:35 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id A8C5120284F98; Thu,  8 Nov 2018 10:41:33 +0100 (CET)
+Date:   Thu, 8 Nov 2018 10:41:33 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Waiman Long <longman@redhat.com>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>,
+        Tom Hromatka <tom.hromatka@oracle.com>
+Subject: Re: [PATCH v14 00/12] Enable cpuset controller in default hierarchy
+Message-ID: <20181108094133.GN9761@hirez.programming.kicks-ass.net>
+References: <1539635377-22335-1-git-send-email-longman@redhat.com>
+ <20181105163656.GK4182586@devbig004.ftw2.facebook.com>
+ <20181106115335.GQ22431@hirez.programming.kicks-ass.net>
+ <20181106115558.GB22485@hirez.programming.kicks-ass.net>
+ <8c386375-b801-8adb-602e-40c73a7efedc@redhat.com>
+ <20181107213229.GB2509588@devbig004.ftw2.facebook.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ldmjptfwpt2e5bta"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181108074612.ldy6rozdpsdps6bf@yavin>
+In-Reply-To: <20181107213229.GB2509588@devbig004.ftw2.facebook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Nov 07, 2018 at 01:32:29PM -0800, Tejun Heo wrote:
 
---ldmjptfwpt2e5bta
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> How about the following?
+> 
+> Interface file is named "cpuset.cpus.partition" as it's a partition of
+> cpus.  The writeable keys are "root" and "member" - a partition root
+> and a partition member.  When "root" is requested but can't be
+> satisfied it shows "root invalid".  This seems pretty consistent with
+> cgroup.type and other cpuset files.
 
-On 2018-11-08, Aleksa Sarai <cyphar@cyphar.com> wrote:
-> I will attach what I have at the moment to hopefully explain what the
-> issue I've found is (re-using the kretprobe architecture but with the
-> shadow-stack idea).
-
-Here is the patch I have at the moment (it works, except for the
-question I have about how to handle the top-level pt_regs -- I've marked
-that code with XXX).
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---8<---------------------------------------------------------------------
-
-Since the return address is modified by kretprobe, the various unwinders
-can produce invalid and confusing stack traces. ftrace mostly solved
-this problem by teaching each unwinder how to find the original return
-address for stack trace purposes. This same technique can be applied to
-kretprobes by simply adding a pointer to where the return address was
-replaced in the stack, and then looking up the relevant
-kretprobe_instance when a stack trace is requested.
-
-[WIP: This is currently broken because the *first entry* will not be
-      overwritten since it looks like the stack pointer is different
-      when we are provided pt_regs. All other addresses are correctly
-      handled.]
-
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
----
- arch/x86/events/core.c         |  6 +++-
- arch/x86/include/asm/ptrace.h  |  1 +
- arch/x86/kernel/kprobes/core.c |  5 ++--
- arch/x86/kernel/stacktrace.c   | 10 +++++--
- arch/x86/kernel/unwind_frame.c |  2 ++
- arch/x86/kernel/unwind_guess.c |  5 +++-
- arch/x86/kernel/unwind_orc.c   |  2 ++
- include/linux/kprobes.h        | 15 +++++++++-
- kernel/kprobes.c               | 55 ++++++++++++++++++++++++++++++++++
- 9 files changed, 93 insertions(+), 8 deletions(-)
-
-diff --git a/arch/x86/events/core.c b/arch/x86/events/core.c
-index de32741d041a..d71062702179 100644
---- a/arch/x86/events/core.c
-+++ b/arch/x86/events/core.c
-@@ -2371,7 +2371,11 @@ perf_callchain_kernel(struct perf_callchain_entry_ct=
-x *entry, struct pt_regs *re
- 		return;
- 	}
-=20
--	if (perf_callchain_store(entry, regs->ip))
-+	/* XXX: Currently broken -- stack_addr(regs) doesn't match entry. */
-+	addr =3D regs->ip;
-+	//addr =3D ftrace_graph_ret_addr(current, &state.graph_idx, addr, stack_a=
-ddr(regs));
-+	addr =3D kretprobe_ret_addr(current, addr, stack_addr(regs));
-+	if (perf_callchain_store(entry, addr))
- 		return;
-=20
- 	for (unwind_start(&state, current, regs, NULL); !unwind_done(&state);
-diff --git a/arch/x86/include/asm/ptrace.h b/arch/x86/include/asm/ptrace.h
-index ee696efec99f..c4dfafd43e11 100644
---- a/arch/x86/include/asm/ptrace.h
-+++ b/arch/x86/include/asm/ptrace.h
-@@ -172,6 +172,7 @@ static inline unsigned long kernel_stack_pointer(struct=
- pt_regs *regs)
- 	return regs->sp;
- }
- #endif
-+#define stack_addr(regs) ((unsigned long *) kernel_stack_pointer(regs))
-=20
- #define GET_IP(regs) ((regs)->ip)
- #define GET_FP(regs) ((regs)->bp)
-diff --git a/arch/x86/kernel/kprobes/core.c b/arch/x86/kernel/kprobes/core.c
-index b0d1e81c96bb..eb4da885020c 100644
---- a/arch/x86/kernel/kprobes/core.c
-+++ b/arch/x86/kernel/kprobes/core.c
-@@ -69,8 +69,6 @@
- DEFINE_PER_CPU(struct kprobe *, current_kprobe) =3D NULL;
- DEFINE_PER_CPU(struct kprobe_ctlblk, kprobe_ctlblk);
-=20
--#define stack_addr(regs) ((unsigned long *)kernel_stack_pointer(regs))
--
- #define W(row, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, ba, bb, bc, bd, be,=
- bf)\
- 	(((b0##UL << 0x0)|(b1##UL << 0x1)|(b2##UL << 0x2)|(b3##UL << 0x3) |   \
- 	  (b4##UL << 0x4)|(b5##UL << 0x5)|(b6##UL << 0x6)|(b7##UL << 0x7) |   \
-@@ -568,7 +566,8 @@ void arch_prepare_kretprobe(struct kretprobe_instance *=
-ri, struct pt_regs *regs)
- {
- 	unsigned long *sara =3D stack_addr(regs);
-=20
--	ri->ret_addr =3D (kprobe_opcode_t *) *sara;
-+	ri->ret_addrp =3D (kprobe_opcode_t **) sara;
-+	ri->ret_addr =3D *ri->ret_addrp;
-=20
- 	/* Replace the return addr with trampoline addr */
- 	*sara =3D (unsigned long) &kretprobe_trampoline;
-diff --git a/arch/x86/kernel/stacktrace.c b/arch/x86/kernel/stacktrace.c
-index 7627455047c2..8a4fb3109d6b 100644
---- a/arch/x86/kernel/stacktrace.c
-+++ b/arch/x86/kernel/stacktrace.c
-@@ -8,6 +8,7 @@
- #include <linux/sched/task_stack.h>
- #include <linux/stacktrace.h>
- #include <linux/export.h>
-+#include <linux/kprobes.h>
- #include <linux/uaccess.h>
- #include <asm/stacktrace.h>
- #include <asm/unwind.h>
-@@ -37,8 +38,13 @@ static void noinline __save_stack_trace(struct stack_tra=
-ce *trace,
- 	struct unwind_state state;
- 	unsigned long addr;
-=20
--	if (regs)
--		save_stack_address(trace, regs->ip, nosched);
-+	if (regs) {
-+		/* XXX: Currently broken -- stack_addr(regs) doesn't match entry. */
-+		addr =3D regs->ip;
-+		//addr =3D ftrace_graph_ret_addr(current, &state.graph_idx, addr, stack_=
-addr(regs));
-+		addr =3D kretprobe_ret_addr(current, addr, stack_addr(regs));
-+		save_stack_address(trace, addr, nosched);
-+	}
-=20
- 	for (unwind_start(&state, task, regs, NULL); !unwind_done(&state);
- 	     unwind_next_frame(&state)) {
-diff --git a/arch/x86/kernel/unwind_frame.c b/arch/x86/kernel/unwind_frame.c
-index 3dc26f95d46e..47062427e9a3 100644
---- a/arch/x86/kernel/unwind_frame.c
-+++ b/arch/x86/kernel/unwind_frame.c
-@@ -1,4 +1,5 @@
- #include <linux/sched.h>
-+#include <linux/kprobes.h>
- #include <linux/sched/task.h>
- #include <linux/sched/task_stack.h>
- #include <linux/interrupt.h>
-@@ -270,6 +271,7 @@ static bool update_stack_state(struct unwind_state *sta=
-te,
- 		addr =3D READ_ONCE_TASK_STACK(state->task, *addr_p);
- 		state->ip =3D ftrace_graph_ret_addr(state->task, &state->graph_idx,
- 						  addr, addr_p);
-+		state->ip =3D kretprobe_ret_addr(state->task, state->ip, addr_p);
- 	}
-=20
- 	/* Save the original stack pointer for unwind_dump(): */
-diff --git a/arch/x86/kernel/unwind_guess.c b/arch/x86/kernel/unwind_guess.c
-index 4f0e17b90463..554fd7c5c331 100644
---- a/arch/x86/kernel/unwind_guess.c
-+++ b/arch/x86/kernel/unwind_guess.c
-@@ -1,5 +1,6 @@
- #include <linux/sched.h>
- #include <linux/ftrace.h>
-+#include <linux/kprobes.h>
- #include <asm/ptrace.h>
- #include <asm/bitops.h>
- #include <asm/stacktrace.h>
-@@ -14,8 +15,10 @@ unsigned long unwind_get_return_address(struct unwind_st=
-ate *state)
-=20
- 	addr =3D READ_ONCE_NOCHECK(*state->sp);
-=20
--	return ftrace_graph_ret_addr(state->task, &state->graph_idx,
-+	addr =3D ftrace_graph_ret_addr(state->task, &state->graph_idx,
- 				     addr, state->sp);
-+	addr =3D kretprobe_ret_addr(state->task, addr, state->sp);
-+	return addr;
- }
- EXPORT_SYMBOL_GPL(unwind_get_return_address);
-=20
-diff --git a/arch/x86/kernel/unwind_orc.c b/arch/x86/kernel/unwind_orc.c
-index 26038eacf74a..b6393500d505 100644
---- a/arch/x86/kernel/unwind_orc.c
-+++ b/arch/x86/kernel/unwind_orc.c
-@@ -1,5 +1,6 @@
- #include <linux/module.h>
- #include <linux/sort.h>
-+#include <linux/kprobes.h>
- #include <asm/ptrace.h>
- #include <asm/stacktrace.h>
- #include <asm/unwind.h>
-@@ -462,6 +463,7 @@ bool unwind_next_frame(struct unwind_state *state)
-=20
- 		state->ip =3D ftrace_graph_ret_addr(state->task, &state->graph_idx,
- 						  state->ip, (void *)ip_p);
-+		state->ip =3D kretprobe_ret_addr(state->task, state->ip, (void *)ip_p);
-=20
- 		state->sp =3D sp;
- 		state->regs =3D NULL;
-diff --git a/include/linux/kprobes.h b/include/linux/kprobes.h
-index e909413e4e38..3a01f9998064 100644
---- a/include/linux/kprobes.h
-+++ b/include/linux/kprobes.h
-@@ -172,6 +172,7 @@ struct kretprobe_instance {
- 	struct hlist_node hlist;
- 	struct kretprobe *rp;
- 	kprobe_opcode_t *ret_addr;
-+	kprobe_opcode_t **ret_addrp;
- 	struct task_struct *task;
- 	char data[0];
- };
-@@ -203,6 +204,7 @@ static inline int kprobes_built_in(void)
- extern void arch_prepare_kretprobe(struct kretprobe_instance *ri,
- 				   struct pt_regs *regs);
- extern int arch_trampoline_kprobe(struct kprobe *p);
-+extern void kretprobe_trampoline(void);
- #else /* CONFIG_KRETPROBES */
- static inline void arch_prepare_kretprobe(struct kretprobe *rp,
- 					struct pt_regs *regs)
-@@ -212,6 +214,9 @@ static inline int arch_trampoline_kprobe(struct kprobe =
-*p)
- {
- 	return 0;
- }
-+static inline void kretprobe_trampoline(void)
-+{
-+}
- #endif /* CONFIG_KRETPROBES */
-=20
- extern struct kretprobe_blackpoint kretprobe_blacklist[];
-@@ -341,7 +346,7 @@ struct kprobe *get_kprobe(void *addr);
- void kretprobe_hash_lock(struct task_struct *tsk,
- 			 struct hlist_head **head, unsigned long *flags);
- void kretprobe_hash_unlock(struct task_struct *tsk, unsigned long *flags);
--struct hlist_head * kretprobe_inst_table_head(struct task_struct *tsk);
-+struct hlist_head *kretprobe_inst_table_head(struct task_struct *tsk);
-=20
- /* kprobe_running() will just return the current_kprobe on this CPU */
- static inline struct kprobe *kprobe_running(void)
-@@ -371,6 +376,9 @@ void unregister_kretprobe(struct kretprobe *rp);
- int register_kretprobes(struct kretprobe **rps, int num);
- void unregister_kretprobes(struct kretprobe **rps, int num);
-=20
-+unsigned long kretprobe_ret_addr(struct task_struct *tsk, unsigned long re=
-t,
-+				 unsigned long *retp);
-+
- void kprobe_flush_task(struct task_struct *tk);
- void recycle_rp_inst(struct kretprobe_instance *ri, struct hlist_head *hea=
-d);
-=20
-@@ -425,6 +433,11 @@ static inline void unregister_kretprobe(struct kretpro=
-be *rp)
- static inline void unregister_kretprobes(struct kretprobe **rps, int num)
- {
- }
-+unsigned long kretprobe_ret_addr(struct task_struct *task, unsigned long r=
-et,
-+				 unsigned long *retp)
-+{
-+	return ret;
-+}
- static inline void kprobe_flush_task(struct task_struct *tk)
- {
- }
-diff --git a/kernel/kprobes.c b/kernel/kprobes.c
-index 90e98e233647..ed78141664ec 100644
---- a/kernel/kprobes.c
-+++ b/kernel/kprobes.c
-@@ -83,6 +83,11 @@ static raw_spinlock_t *kretprobe_table_lock_ptr(unsigned=
- long hash)
- 	return &(kretprobe_table_locks[hash].lock);
- }
-=20
-+struct hlist_head *kretprobe_inst_table_head(struct task_struct *tsk)
-+{
-+	return &kretprobe_inst_table[hash_ptr(tsk, KPROBE_HASH_BITS)];
-+}
-+
- /* Blacklist -- list of struct kprobe_blacklist_entry */
- static LIST_HEAD(kprobe_blacklist);
-=20
-@@ -1206,6 +1211,15 @@ __releases(hlist_lock)
- }
- NOKPROBE_SYMBOL(kretprobe_table_unlock);
-=20
-+static bool kretprobe_hash_is_locked(struct task_struct *tsk)
-+{
-+	unsigned long hash =3D hash_ptr(tsk, KPROBE_HASH_BITS);
-+	raw_spinlock_t *hlist_lock =3D kretprobe_table_lock_ptr(hash);
-+
-+	return raw_spin_is_locked(hlist_lock);
-+}
-+NOKPROBE_SYMBOL(kretprobe_hash_is_locked);
-+
- /*
-  * This function is called from finish_task_switch when task tk becomes de=
-ad,
-  * so that we can recycle any function-return probe instances associated
-@@ -1856,6 +1870,41 @@ static int pre_handler_kretprobe(struct kprobe *p, s=
-truct pt_regs *regs)
- }
- NOKPROBE_SYMBOL(pre_handler_kretprobe);
-=20
-+unsigned long kretprobe_ret_addr(struct task_struct *tsk, unsigned long re=
-t,
-+				 unsigned long *retp)
-+{
-+	struct kretprobe_instance *ri;
-+	unsigned long flags =3D 0;
-+	struct hlist_head *head;
-+	bool need_lock;
-+
-+	if (likely(ret !=3D (unsigned long) &kretprobe_trampoline))
-+		return ret;
-+
-+	need_lock =3D !kretprobe_hash_is_locked(tsk);
-+	if (WARN_ON(need_lock))
-+		kretprobe_hash_lock(tsk, &head, &flags);
-+	else
-+		head =3D kretprobe_inst_table_head(tsk);
-+
-+	hlist_for_each_entry(ri, head, hlist) {
-+		if (ri->task !=3D current)
-+			continue;
-+		if (ri->ret_addr =3D=3D (kprobe_opcode_t *) &kretprobe_trampoline)
-+			continue;
-+		if (ri->ret_addrp =3D=3D (kprobe_opcode_t **) retp) {
-+			ret =3D (unsigned long) ri->ret_addr;
-+			goto out;
-+		}
-+	}
-+
-+out:
-+	if (need_lock)
-+		kretprobe_hash_unlock(tsk, &flags);
-+	return ret;
-+}
-+NOKPROBE_SYMBOL(kretprobe_ret_addr);
-+
- bool __weak arch_kprobe_on_func_entry(unsigned long offset)
- {
- 	return !offset;
-@@ -2005,6 +2054,12 @@ static int pre_handler_kretprobe(struct kprobe *p, s=
-truct pt_regs *regs)
- }
- NOKPROBE_SYMBOL(pre_handler_kretprobe);
-=20
-+unsigned long kretprobe_ret_addr(struct task_struct *tsk, unsigned long re=
-t,
-+				 unsigned long *retp)
-+{
-+	return ret;
-+}
-+NOKPROBE_SYMBOL(kretprobe_ret_addr);
- #endif /* CONFIG_KRETPROBES */
-=20
- /* Set the kprobe gone and remove its instruction buffer. */
---=20
-2.19.1
-
---ldmjptfwpt2e5bta
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEb6Gz4/mhjNy+aiz1Snvnv3Dem58FAlvj7iAACgkQSnvnv3De
-m5+qFw//b4RzBGK6rMMeSQ85mttp7KvxRMiOIjY7TB/mRDaRjr2C8Bh+QyviJ8l1
-iodXMm2DWkm4g9QCL8/YKKCnyGSgIr4iHuQtMgpeeY+QlH93nEjNVV3DbLBwVqnb
-Kt+wVx5nMiVwxqPgOCpG9pNxvTZIYojUo9v6SYgioqizDd+6oXrBS4IdcICB0whL
-sg8lxwLHSwGEP4mIe8AAZ4gi09OlKVX1ytMtdV36gCF152dnGAUvLKTjJsNTMmEk
-ifbraKQnTiP/U2zIzI15kLTScjh9edXAD8T+sydjN6w9iHBTQLqVyUVT6EBqnIKl
-D3Z691ovCdWZPHML/0H2+gwDgTQb6LDaTSxDV0hG8NI1sSm0XD3uuYgRroP56+tQ
-gcTez72dmzgRbplH06gQOW6o80jqtJzdmVQR1jI/OvLW0yDEUiuCPe+Mo6ZRjvSf
-zCYCrIUVg4dBc6oF0PbOC/wYso+L8KLuomngKs3vvFjvNl6w3iGGGW0ycuhVP2d2
-t3Fslqvk4h/QS4XLKkuifAag7Zbts9yX39n6zGuCz2nQDoNtvFpiNROyD+r8wJpA
-faD+3WEg0tFoicSPeOVI+QDyTzFOzddqux3RDp4qteYhztHcbvPXe67KcY3o48QL
-jAsTKx2Mlayx2+moZw9WCM9GFxZf9seD/4fBxq/9DvupbokgEiY=
-=5X/l
------END PGP SIGNATURE-----
-
---ldmjptfwpt2e5bta--
+I can live with that, thanks!
