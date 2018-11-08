@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DDBFB7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 15:09:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4730F7DC5B
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 15:09:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726862AbeKIApV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Nov 2018 19:45:21 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:58622 "EHLO mx1.redhat.com"
+        id S1727556AbeKIAph (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Nov 2018 19:45:37 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:58760 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726672AbeKIApV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Nov 2018 19:45:21 -0500
+        id S1727473AbeKIApZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Nov 2018 19:45:25 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 22D9730820D4;
-        Thu,  8 Nov 2018 15:09:25 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id F2E5A80F79;
+        Thu,  8 Nov 2018 15:09:28 +0000 (UTC)
 Received: from llong.com (dhcp-17-55.bos.redhat.com [10.18.17.55])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 76E0E648B4;
-        Thu,  8 Nov 2018 15:09:23 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 30F62648B4;
+        Thu,  8 Nov 2018 15:09:27 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -35,74 +35,110 @@ Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
         Patrick Bellasi <patrick.bellasi@arm.com>,
         Tom Hromatka <tom.hromatka@oracle.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v15 09/12] cpuset: Expose cpus.effective and mems.effective on cgroup v2 root
-Date:   Thu,  8 Nov 2018 10:08:43 -0500
-Message-Id: <1541689726-20088-10-git-send-email-longman@redhat.com>
+Subject: [PATCH v15 11/12] cpuset: Add documentation about the new "cpuset.sched.partition" flag
+Date:   Thu,  8 Nov 2018 10:08:45 -0500
+Message-Id: <1541689726-20088-12-git-send-email-longman@redhat.com>
 In-Reply-To: <1541689726-20088-1-git-send-email-longman@redhat.com>
 References: <1541689726-20088-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Thu, 08 Nov 2018 15:09:25 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Thu, 08 Nov 2018 15:09:29 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Because of the fact that setting the "cpuset.sched.partition" in
-a direct child of root can remove CPUs from the root's effective CPU
-list, it makes sense to know what CPUs are left in the root cgroup for
-scheduling purpose. So the "cpuset.cpus.effective" control file is now
-exposed in the v2 cgroup root.
-
-For consistency, the "cpuset.mems.effective" control file is exposed
-as well.
+The cgroup-v2.rst file is updated to document the purpose of the new
+"cpuset.sched.partition" flag and how its usage.
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- Documentation/admin-guide/cgroup-v2.rst | 4 ++--
- kernel/cgroup/cpuset.c                  | 2 --
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ Documentation/admin-guide/cgroup-v2.rst | 73 +++++++++++++++++++++++++++++++++
+ 1 file changed, 73 insertions(+)
 
 diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 01b70f6..595b075 100644
+index 595b075..f83a523 100644
 --- a/Documentation/admin-guide/cgroup-v2.rst
 +++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1653,7 +1653,7 @@ Cpuset Interface Files
- 	and won't be affected by any CPU hotplug events.
+@@ -1708,6 +1708,79 @@ Cpuset Interface Files
  
-   cpuset.cpus.effective
--	A read-only multiple values file which exists on non-root
-+	A read-only multiple values file which exists on all
- 	cpuset-enabled cgroups.
+ 	Its value will be affected by memory nodes hotplug events.
  
- 	It lists the onlined CPUs that are actually granted to this
-@@ -1693,7 +1693,7 @@ Cpuset Interface Files
- 	and won't be affected by any memory nodes hotplug events.
++  cpuset.sched.partition
++	A read-write single value file which exists on non-root
++	cpuset-enabled cgroups.  This flag is owned by the parent cgroup
++	and is not delegatable.
++
++        It accepts only the following input values when written to.
++
++        "root" or "1"   - a paritition root
++        "member" or "0" - a non-root member of a partition
++
++	When set to be a partition root, the current cgroup is the
++	root of a new partition or scheduling domain that comprises
++	itself and all its descendants except those that are separate
++	partition roots themselves and their descendants.  The root
++	cgroup is always a partition root.
++
++	There are constraints on where a partition root can be set.
++	It can only be set in a cgroup if all the following conditions
++	are true.
++
++	1) The "cpuset.cpus" is not empty and the list of CPUs are
++	   exclusive, i.e. they are not shared by any of its siblings.
++	2) The parent cgroup is a partition root.
++	3) The "cpuset.cpus" is also a proper subset of the parent's
++	   "cpuset.cpus.effective".
++	4) There is no child cgroups with cpuset enabled.  This is for
++	   eliminating corner cases that have to be handled if such a
++	   condition is allowed.
++
++	Setting it to partition root will take the CPUs away from the
++	effective CPUs of the parent cgroup.  Once it is set, this
++	file cannot be reverted back to "member" if there are any child
++	cgroups with cpuset enabled.
++
++	A parent partition cannot distribute all its CPUs to its
++	child partitions.  There must be at least one cpu left in the
++	parent partition.
++
++	Once becoming a partition root, changes to "cpuset.cpus" is
++	generally allowed as long as the first condition above is true,
++	the change will not take away all the CPUs from the parent
++	partition and the new "cpuset.cpus" value is a superset of its
++	children's "cpuset.cpus" values.
++
++	Sometimes, external factors like changes to ancestors'
++	"cpuset.cpus" or cpu hotplug can cause the state of the partition
++	root to change.  On read, the "cpuset.sched.partition" file
++	can show the following values.
++
++	"member"       Non-root member of a partition
++	"root"         Partition root
++	"root invalid" Invalid partition root
++
++	It is a partition root if the first 2 partition root conditions
++	above are true and at least one CPU from "cpuset.cpus" is
++	granted by the parent cgroup.
++
++	A partition root can become invalid if none of CPUs requested
++	in "cpuset.cpus" can be granted by the parent cgroup or the
++	parent cgroup is no longer a partition root itself.  In this
++	case, it is not a real partition even though the restriction
++	of the first partition root condition above will still apply.
++	The cpu affinity of all the tasks in the cgroup will then be
++	associated with CPUs in the nearest ancestor partition.
++
++	An invalid partition root can be transitioned back to a
++	real partition root if at least one of the requested CPUs
++	can now be granted by its parent.  In this case, the cpu
++	affinity of all the tasks in the formerly invalid partition
++	will be associated to the CPUs of the newly formed partition.
++	Changing the partition state of an invalid partition root to
++	"member" is always allowed even if child cpusets are present.
++
  
-   cpuset.mems.effective
--	A read-only multiple values file which exists on non-root
-+	A read-only multiple values file which exists on all
- 	cpuset-enabled cgroups.
- 
- 	It lists the onlined memory nodes that are actually granted to
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 3960de7..fc1a809 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -2574,14 +2574,12 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
- 		.name = "cpus.effective",
- 		.seq_show = cpuset_common_seq_show,
- 		.private = FILE_EFFECTIVE_CPULIST,
--		.flags = CFTYPE_NOT_ON_ROOT,
- 	},
- 
- 	{
- 		.name = "mems.effective",
- 		.seq_show = cpuset_common_seq_show,
- 		.private = FILE_EFFECTIVE_MEMLIST,
--		.flags = CFTYPE_NOT_ON_ROOT,
- 	},
- 
- 	{
+ Device controller
+ -----------------
 -- 
 1.8.3.1
 
