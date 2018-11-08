@@ -5,89 +5,63 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 305E57D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 22:49:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DE7697D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 23:24:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727729AbeKII1O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Nov 2018 03:27:14 -0500
-Received: from mx.kolabnow.com ([95.128.36.42]:58138 "EHLO mx.kolabnow.com"
+        id S1726140AbeKIJCu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Nov 2018 04:02:50 -0500
+Received: from mx.kolabnow.com ([95.128.36.42]:34722 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726875AbeKII1O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Nov 2018 03:27:14 -0500
+        id S1725922AbeKIJCu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Nov 2018 04:02:50 -0500
 Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id A651BB6B;
-        Thu,  8 Nov 2018 23:49:28 +0100 (CET)
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id AD5CB40498;
+        Fri,  9 Nov 2018 00:24:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1541717367; x=1543531768; bh=6PZMS76KLpnj53Siy7GY2/9msC3LEeyMASz
-        xAQy/Ugg=; b=e7Zsp1Iiyv6wonsiPvLeqmHMVOmQJVJ4yo1DFmWZecPAwbN0tDm
-        kq2Mbc8+ac0stqb1hgbmyiguRUDEmP0UCsxN+WF6Kcm7yrGL3TCVHrlTxZ3UJJ9y
-        qKm268FqLekmyATOeHzyyIyFVMoslDgXg2emyTmoxZsHYbfyiz05/DpUuup+GbpW
-        IFQXFdNrXB2sTiZPmbABU1VYAyzMBulwmUHt7xafNHm8fUya6N0yz/tK1r/Emf35
-        E7hp/xLjjrUVUG8tPSB3D+FCMlGg0FV7LDfc6CsZUJ01dpiOZ3PC6OsjQpqgJfFp
-        5zZvBE8kgRSO1pWEFG7951iAtQ7m7Fm/58zGtM/U2bbw65hUYkVCx792v3R7EuzM
-        PtCAr4+n4LtdhkyezaNYa7wsw9dpgKB2njtsSwrxFm1T91Qh9IObnbrXdV2oRikG
-        WOj2PIVaJk04PXyjVOrWOl8uqoxXF+X0lgWrdBHYP8k0tD3UNfxvES1mmcUFHN1t
-        KhYDv+qLRSa6vAa+ROGUUH3ifvG1BOqL4YDcQZ5OnD/m23CZjHYT34jajk/VgM0b
-        66Pjd59ZhWG5aQSMmXy6GalXaE36JDN611ZTfmCCPri/hXFzATBz1sPYrjDWhTzr
-        1pMxvfsUSAiNZZ0UUBsPwm/kCvIma1z04cD8f7N9ZoJONIqYagIiseK8=
+        content-transfer-encoding:mime-version:message-id:date:date
+        :subject:subject:from:from:received:received:received; s=
+        dkim20160331; t=1541719497; x=1543533898; bh=JKkCVhP7G5SnnYAZaTW
+        LYBJA9X3W4g6nr/IEn9ZLnVs=; b=Vyuwh5t9JJrYKFxsveTe88O2mjOGnSDeIvs
+        A+1IMPp51M0CrYhpZTu2BOO1Do3UDUE3uvwU/xTfCZGP4ZU0kBL6T042XfYGGsZH
+        FikSPxe6ceBIMPYyq53a1Y51BvC1H+PTphGPaEQV4ULeD1zhT4nIMEGJF9Mbrr98
+        1R3v/Yv1e/vWl93bnWZOPRQZZPoI1c6YosReVoi+G/ezWYVuk4Gzij37+dASNnaz
+        N1RC+NP87HSyWqThb/xmqobAqbVV1N2zxr5aGI/0PVWBJL2zePvxbKfFhu/0v8J9
+        uNPC0L56XINrIg4UE7Ek1eUUMHMtrT3zXptWIGHt5LzDmlSF6ZbptNXkLFqenOHd
+        aHR6UVAgJx1W9dcvGu0z83IxxqbDeirJjweIr0cZT7VtT42oJeJ0HNps0hdJBin/
+        sKcfPjGWwneLMHBy6hDQtxWUAl1Wl8d7kRJ/hKurBnvDtklFnXVppWQRvcA+EXwP
+        wmg265FOCG/zL681QhwWZbIPlJKKKmWfCsXZ1rmhvUQYEvgDbw1d3zKHz5kSJJ1G
+        x2gaW/F7yaVeO5/BUeAnOgWFVY8h9pd+I+YDPnnDb87616GfuSia6rtT4HYbOaWY
+        tNUoDyuvQhF7W99BzFSena+pjOSKNvX83dicYNDMRyiDXpSASGzfd1OJSaY9DJqp
+        YNTcIvas=
 X-Virus-Scanned: amavisd-new at mykolab.com
 Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id a1ubzPj_Btjw; Thu,  8 Nov 2018 23:49:27 +0100 (CET)
-Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id A634D813;
-        Thu,  8 Nov 2018 23:49:27 +0100 (CET)
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Wv6hbXO2d7vV; Fri,  9 Nov 2018 00:24:57 +0100 (CET)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 2A55A403A1;
+        Fri,  9 Nov 2018 00:24:57 +0100 (CET)
 Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
-        by int-mx002.mykolab.com (Postfix) with ESMTPS id 245AC2517;
-        Thu,  8 Nov 2018 23:49:27 +0100 (CET)
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id 9F762A87;
+        Fri,  9 Nov 2018 00:24:56 +0100 (CET)
 From:   Federico Vaga <federico.vaga@vaga.pv.it>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Alessia Mantegazza <amantegazza@vaga.pv.it>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2] doc:it_IT: add some process/* translations
-Date:   Thu, 08 Nov 2018 23:49:25 +0100
-Message-ID: <8336640.hExbF9JPVd@harkonnen>
-In-Reply-To: <20181107152258.48267a2a@lwn.net>
-References: <20181005185157.27819-1-federico.vaga@vaga.pv.it> <20181107152258.48267a2a@lwn.net>
+Subject: [PATCH 0/3] doc:it_IT: update italian documentation
+Date:   Fri,  9 Nov 2018 00:24:14 +0100
+Message-Id: <20181108232417.14982-1-federico.vaga@vaga.pv.it>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wednesday, November 7, 2018 11:22:58 PM CET Jonathan Corbet wrote:
-> On Fri,  5 Oct 2018 20:51:57 +0200
-> 
-> Federico Vaga <federico.vaga@vaga.pv.it> wrote:
-> > This patch does not translate entirely the subfolder "process/"
-> > but only part of it (to begin with).
-> > 
-> > In order to avoid broken links, I included empty documents
-> > for those which are not yet translated.
-> > 
-> > In order to be able to refer to all documents in "process/",
-> > I added a sphinx label to those which had not one.
-> > 
-> > Translated documents:
-> > - howto
-> > - 1.Intro
-> > - clang-format
-> > - coding-style
-> > - kernel-driver-statement
-> > - magic-number
-> > - volatile-considered-harmful
-> > - development-process
-> 
-> So I'm (finally) ready to apply this, but it has conflicts against current
-> docs-next.  Could I ask you, please, to send me a respin?
-
-Ok, I'm going to prepare it. I will send also a couple of minor fixes that I 
-ported to the Italian translation from the main documents.
-
+In this small patch set there is the V3 of
+"doc:it_IT: add some process/* translations" in which I fixed
+the recent conflicts in docs-next.
+I took the occasion to add other two simple patches that fix:
+- a missing translation in locking.rst
+- apply a patch from the official documentation to the italian one
 
 
