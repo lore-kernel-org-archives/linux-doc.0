@@ -1,41 +1,27 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1DC8C7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 12:27:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B4EAF7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 13:25:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726417AbeKHWDM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Nov 2018 17:03:12 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:34490 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726405AbeKHWDM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Nov 2018 17:03:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=7j5d88Q/iIP3Vh0jE+BHQjAFVnGes3gX6JwGr4dy4Vo=; b=gPLqYPghJwIQMH3ovYWGP+v22
-        XIqlMfpWb0LSguiXXvgdc0KmTNWVYZDlLx7Sc6VLvTnDp4RveEffe8c/HJthaGTM8NED9zkhWvWSr
-        o23oIiCi4yCUXMBNjFxGLZ1FCreDZ8bbVbGulTMJ8I/lkgwdGT9PgXbGJbVYsAqUBpUZj6iAp0cWV
-        oloYl2Vj8jXivd9/YBh1a8TMQx/qa1f9MKBjAkjeiGEywZTU8pd1zKvhu4s29ZiGm0OXzIbcnKc5i
-        JVi3AFofC0tApI13ntGhdUWy/7Zy5FX3LRS11+rReKov5Gry8pSTFiHvRoaKjNUVALjqs0D2g3wKj
-        T2JhgPVTg==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gKjPX-0007dc-W7; Thu, 08 Nov 2018 12:27:48 +0000
-Date:   Thu, 8 Nov 2018 04:27:47 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     David Laight <David.Laight@ACULAB.COM>
-Cc:     'Martin Steigerwald' <martin@lichtvoll.de>,
-        Michal Hocko <mhocko@kernel.org>,
-        Daniel Colascione <dancol@google.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "rppt@linux.ibm.com" <rppt@linux.ibm.com>,
+        id S1726690AbeKHXAo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Nov 2018 18:00:44 -0500
+Received: from mx2.suse.de ([195.135.220.15]:38162 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726571AbeKHXAo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Nov 2018 18:00:44 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 2DFB0AC9C;
+        Thu,  8 Nov 2018 13:25:14 +0000 (UTC)
+Date:   Thu, 8 Nov 2018 14:25:12 +0100
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Martin Steigerwald <martin@lichtvoll.de>
+Cc:     Daniel Colascione <dancol@google.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>, rppt@linux.ibm.com,
         Tim Murray <timmurray@google.com>,
         Joel Fernandes <joelaf@google.com>,
         Suren Baghdasaryan <surenb@google.com>,
@@ -49,59 +35,43 @@ Cc:     'Martin Steigerwald' <martin@lichtvoll.de>,
         Prashant Dhamdhere <pdhamdhe@redhat.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Subject: Re: [PATCH v2] Document /proc/pid PID reuse behavior
-Message-ID: <20181108122747.GM3074@bombadil.infradead.org>
+Message-ID: <20181108132512.GZ27423@dhcp22.suse.cz>
 References: <20181031150625.147369-1-dancol@google.com>
  <CAKOZueu5aDtHDBzp6qKECTHEejjb=dyegQkuHh8NfwgNktzFow@mail.gmail.com>
  <20181107160015.GI27423@dhcp22.suse.cz>
  <4536090.43ZsV6LvYe@merkaba>
- <0c5610f128fa49fb9d8f7859e6f61b90@AcuMS.aculab.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0c5610f128fa49fb9d8f7859e6f61b90@AcuMS.aculab.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <4536090.43ZsV6LvYe@merkaba>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 08, 2018 at 12:02:49PM +0000, David Laight wrote:
-> From: Martin Steigerwald
-> > Sent: 07 November 2018 17:05
-> ...
-> > Its not quite on-topic, but I am curious now: AFAIK PID limit is 16
-> > bits. Right? Could it be raised to 32 bits? I bet it would be a major
-> > change throughout different parts of the kernel.
+On Wed 07-11-18 18:04:59, Martin Steigerwald wrote:
+> Michal Hocko - 07.11.18, 17:00:
+> > > > otherwise anybody could simply DoS the system
+> > > > by consuming all available pids.
+> > > 
+> > > People can do that today using the instrument of terror widely known
+> > > as fork(2). The only thing standing between fork(2) and a full
+> > > process table is RLIMIT_NPROC.
+> > 
+> > not really. If you really do care about pid space depletion then you
+> > should use pid cgroup controller.
 > 
-> It is probably 15 bits (since -ve pid numbers are used for process groups).
+> Its not quite on-topic, but I am curious now: AFAIK PID limit is 16 
+> bits. Right? Could it be raised to 32 bits? I bet it would be a major 
+> change throughout different parts of the kernel.
 > 
-> My guess is that userspace and the system call interface will handle 32bit
-> (signed) pid numbers.
-> (I don't remember 'linux emulation' being one of the emulations that
-> would truncate 32bit pids when one of the BDSs went to 32bit pids.)
-> The main problem will be that big numbers will mess up the alignment
-> of printouts from ps and top (etc).
-> This can be mitigated by only allocating 'big' numbers on systems
-> that have a lot of pids.
-> You also really want an O(1) allocator.
+> 16 bits sound a bit low these days, not only for PIDs, but also for 
+> connections / ports.
 
-The allocator is O(log n) -- it's the IDR allocator, used in cyclic mode.
-n in this case is the highest ID which is still in use.  The tree is
-log_64(n) levels high.  It walks to the bottom of the tree and puts a
-pointer into the tree.  If the cursor has wrapped to the beginning of
-the tree, it may encounter a PID which is still in use; if it does,
-it does a bitmap scan of that node, and will then walk up the tree,
-doing a bitmap scan forward at each level until it finds a free PID.
-
-So it's not exactly O(log(n)), but it's close enough for all practical
-purposes.  And more importantly, it doesn't touch a lot of cachelines.
-Two or three at each level of the tree that it accesses.  If we went
-all the way to a 32-bit PID, the tree would grow to 6 levels deep,
-and worst-case would touch 6 + 5 + 4 levels of the tree (starting with
-trying to allocate PID 0xffffffff, failing, trying to allocate PID 300,
-then having to walk all the way forward to find PID 0xe0000000), so
-that's only 45 cachelines.
-
-People care a little too much about O(1)/O(n) behaviour.  Cacheline
-behaviour, and good average-case performance without falling off a cliff
-in the worst case is much more important.
+Do you have any specific example of the pid space exhaustion? Well
+except for a fork bomb attacks that could be mitigated by the pid cgroup
+controller.
+-- 
+Michal Hocko
+SUSE Labs
