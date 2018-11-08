@@ -1,166 +1,148 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BB8747D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 21:23:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 72FB97D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 21:29:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726140AbeKIHA1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Nov 2018 02:00:27 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:35225 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725882AbeKIHA1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Nov 2018 02:00:27 -0500
-Received: by mail-wm1-f68.google.com with SMTP id t15-v6so130608wmt.0
-        for <linux-doc@vger.kernel.org>; Thu, 08 Nov 2018 13:23:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7Fm+Swwz5U6PYgdF4xz3yvF0Ae+TVaAPPC+XBP1RMAY=;
-        b=E706BHL0Td3myb4413EwEA1PhNfwbex5uMj+f31Sv1vypjDGhg3Ry8ZMpr6jUhq7JI
-         Pm1oqp/XMJ7g2jwJUZXRiOH0BhwPq7WEUFskMxiV4QUb8BTVzOItGsNAwDpzbcF9LiAi
-         nM/JyQif/POUtX3zV9LqpeMzmZ1MDjVF8edn/5HIez3tnVH1TSEH1JpeyqCWV1pdrkjH
-         zw77zTBffvybM4PLLRgxhLjKeCNkGDhwNPamR7rFmaYJ0yL7vyQsYPWyIB9zGE/25PrV
-         5DFkRkEr6rEVkBk16gvVZv6wfT84lVTypKJugSbE14Ue5T3WLoK8Yz2g60amCTLl/O/q
-         +MOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7Fm+Swwz5U6PYgdF4xz3yvF0Ae+TVaAPPC+XBP1RMAY=;
-        b=Ed0DhSzDBGAXyDYeO+6k5ypgnQr5QDUflqu2+if4/uJTQQvzVJ+6IuL7bH0WvcLKyS
-         Z8DFEAwSL6j1zZ3znyQpc8F0iE8QAt+72iPzGclCPLXnAfJZ5ZXxovwOl4E0hQMUNp8m
-         Kfv59TSJsZoYsVAYFg+ahm8XH0RldtBAZTmfm+Va3rQAQLIERNlrbpgEijG86pYvtiXE
-         D6Pi00az+wbmibzStA5/1EVFSVMIw7w2JySZHzYsT64XZScBlde8gZUF8QhCF6ILlSDV
-         vkYg1JnFUTGofsVSaw/Wxv8He97fgCR8GOHM5buvoOHmoBMf1o3/lgH7YnBednJSsbic
-         9Y+A==
-X-Gm-Message-State: AGRZ1gLLkUmyh9YenbafhQbSWT7yp2MPiXWcBHSueWDmpcDAu3xdz6Yy
-        oKxq6TyFWgIoZrmoxUKn9JreMfIaayh+89Fu06GHrg==
-X-Google-Smtp-Source: AJdET5f3qm2+Se9JRO2uShWB+aZYI4xGcIp8Ei4ckDSNwMSVm4Vs9gfxgnH/ClkF1tgiBk+VpHdLJQOv253gUKyjBW4=
-X-Received: by 2002:a1c:4b1a:: with SMTP id y26-v6mr2593259wma.82.1541712184530;
- Thu, 08 Nov 2018 13:23:04 -0800 (PST)
-MIME-Version: 1.0
-References: <20181011151523.27101-1-yu-cheng.yu@intel.com> <20181011151523.27101-5-yu-cheng.yu@intel.com>
- <CALCETrVAe8R=crVHoD5QmbN-gAW+V-Rwkwe4kQP7V7zQm9TM=Q@mail.gmail.com> <4295b8f786c10c469870a6d9725749ce75dcdaa2.camel@intel.com>
-In-Reply-To: <4295b8f786c10c469870a6d9725749ce75dcdaa2.camel@intel.com>
-From:   Andy Lutomirski <luto@amacapital.net>
-Date:   Thu, 8 Nov 2018 13:22:54 -0800
-Message-ID: <CALCETrUKzXYzRrWRdi8Z7AdAF0uZW5Gs7J4s=55dszoyzc29rw@mail.gmail.com>
-Subject: Re: [PATCH v5 04/27] x86/fpu/xstate: Add XSAVES system states for
- shadow stack
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1727076AbeKIHHH convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Nov 2018 02:07:07 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:45654 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725882AbeKIHHG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Nov 2018 02:07:06 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id EA24F307D857;
+        Thu,  8 Nov 2018 21:29:43 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-55.bos.redhat.com [10.18.17.55])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 39262600D4;
+        Thu,  8 Nov 2018 21:29:42 +0000 (UTC)
+Subject: Re: [PATCH v10 1/4] ipc: Allow boot time extension of IPCMNI from 32k
+ to 8M
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>,
+        Manfred Spraul <manfred@colorfullife.com>
+References: <1541432626-27780-1-git-send-email-longman@redhat.com>
+ <1541432626-27780-2-git-send-email-longman@redhat.com>
+ <20181106132059.GD3074@bombadil.infradead.org>
+From:   Waiman Long <longman@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ weim8xU=
+Organization: Red Hat
+Message-ID: <f1267a9d-fb6c-72f6-8909-4e32b5bf6d6d@redhat.com>
+Date:   Thu, 8 Nov 2018 16:29:41 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20181106132059.GD3074@bombadil.infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Thu, 08 Nov 2018 21:29:44 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 8, 2018 at 1:06 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->
-> On Thu, 2018-11-08 at 12:46 -0800, Andy Lutomirski wrote:
-> > On Thu, Oct 11, 2018 at 8:20 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> > >
-> > > Intel Control-flow Enforcement Technology (CET) introduces the
-> > > following MSRs into the XSAVES system states.
-> > >
-> > >     IA32_U_CET (user-mode CET settings),
-> > >     IA32_PL3_SSP (user-mode shadow stack),
-> > >     IA32_PL0_SSP (kernel-mode shadow stack),
-> > >     IA32_PL1_SSP (ring-1 shadow stack),
-> > >     IA32_PL2_SSP (ring-2 shadow stack).
-> > >
-> > > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > > ---
-> > >  arch/x86/include/asm/fpu/types.h            | 22 +++++++++++++++++++++
-> > >  arch/x86/include/asm/fpu/xstate.h           |  4 +++-
-> > >  arch/x86/include/uapi/asm/processor-flags.h |  2 ++
-> > >  arch/x86/kernel/fpu/xstate.c                | 10 ++++++++++
-> > >  4 files changed, 37 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/arch/x86/include/asm/fpu/types.h
-> > > b/arch/x86/include/asm/fpu/types.h
-> > > index 202c53918ecf..e55d51d172f1 100644
-> > > --- a/arch/x86/include/asm/fpu/types.h
-> > > +++ b/arch/x86/include/asm/fpu/types.h
-> > > @@ -114,6 +114,9 @@ enum xfeature {
-> > >         XFEATURE_Hi16_ZMM,
-> > >         XFEATURE_PT_UNIMPLEMENTED_SO_FAR,
-> > >         XFEATURE_PKRU,
-> > > +       XFEATURE_RESERVED,
-> > > +       XFEATURE_SHSTK_USER,
-> > > +       XFEATURE_SHSTK_KERNEL,
-> > >
-> > >         XFEATURE_MAX,
-> > >  };
-> > > @@ -128,6 +131,8 @@ enum xfeature {
-> > >  #define XFEATURE_MASK_Hi16_ZMM         (1 << XFEATURE_Hi16_ZMM)
-> > >  #define XFEATURE_MASK_PT               (1 <<
-> > > XFEATURE_PT_UNIMPLEMENTED_SO_FAR)
-> > >  #define XFEATURE_MASK_PKRU             (1 << XFEATURE_PKRU)
-> > > +#define XFEATURE_MASK_SHSTK_USER       (1 << XFEATURE_SHSTK_USER)
-> > > +#define XFEATURE_MASK_SHSTK_KERNEL     (1 << XFEATURE_SHSTK_KERNEL)
-> > >
-> > >  #define XFEATURE_MASK_FPSSE            (XFEATURE_MASK_FP |
-> > > XFEATURE_MASK_SSE)
-> > >  #define XFEATURE_MASK_AVX512           (XFEATURE_MASK_OPMASK \
-> > > @@ -229,6 +234,23 @@ struct pkru_state {
-> > >         u32                             pad;
-> > >  } __packed;
-> > >
-> > > +/*
-> > > + * State component 11 is Control flow Enforcement user states
-> > > + */
-> > > +struct cet_user_state {
-> > > +       u64 u_cet;      /* user control flow settings */
-> > > +       u64 user_ssp;   /* user shadow stack pointer */
-> > > +} __packed;
-> > > +
-> > > +/*
-> > > + * State component 12 is Control flow Enforcement kernel states
-> > > + */
-> > > +struct cet_kernel_state {
-> > > +       u64 kernel_ssp; /* kernel shadow stack */
-> > > +       u64 pl1_ssp;    /* ring-1 shadow stack */
-> > > +       u64 pl2_ssp;    /* ring-2 shadow stack */
-> > > +} __packed;
-> > > +
-> >
-> > Why are these __packed?  It seems like it'll generate bad code for no
-> > obvious purpose.
->
-> That prevents any possibility that the compiler will insert padding, although in
-> 64-bit kernel this should not happen to either struct.  Also all xstate
-> components here are packed.
->
+On 11/06/2018 08:20 AM, Matthew Wilcox wrote:
+> On Mon, Nov 05, 2018 at 10:43:43AM -0500, Waiman Long wrote:
+>> The maximum number of unique System V IPC identifiers was limited to
+>> 32k.  That limit should be big enough for most use cases.
+>>
+>> However, there are some users out there requesting for more, especially
+>> those that are migrating from Solaris which uses 24 bits for unique
+>> identifiers. To satisfy the need of those users, a new boot time kernel
+>> option "ipcmni_extend" is added to extend the IPCMNI value to 8M. This
+>> is a 256X increase which hopefully is big enough for them.
+> Why go to 23 bits when people are coming from systems with 24 bits?
+> Let's just go to 24 bits.  This happens to fit well with the underlying
+> data structure which uses 6 bits per layer of the tree.
 
-They both seem like bugs, perhaps.  As I understand it, __packed
-removes padding, but it also forces the compiler to expect the fields
-to be unaligned even if they are actually aligned.
+Sure. I can move it up to 24 bits leave 7 bits for the sequence number.
+
+>
+>> The use of this new option will change the pattern of the IPC identifiers
+>> returned by functions like shmget(2). An application that depends on
+>> such pattern may not work properly.  So it should only be used if the
+>> users really need more than 32k of unique IPC numbers.
+> Are there applications out there that rely on the internal structure of
+> the IPC identifiers?!
+
+That is a question that may not have a clear answer. Most applications
+won't do that, but there are always some outliners that do crazy thing.
+So you never know for sure.
+
+>
+> How about scrapping all this and just doing the following:
+>
+> Allocate 24 bits of the ID cyclically.  Increment the top 7 bits of the
+> ID every time the cursor wraps.  That's not going to give us a perfect
+> progression from 0-2 billion, because it'll skip the ones in use.
+> But it'll ensure the ID isn't reused particularly quickly unless the
+> application is really using millions of IDs.
+
+Eric Biederman had sent out a patch somewhat like that before. Again,
+there is a slight chance that it may break existing applications. So the
+question is whether we are willing to take the risk. I won't mind if
+upstream decide to go this route.
+
+Cheers,
+Longman
+
+
