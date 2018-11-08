@@ -1,418 +1,166 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3B8A87D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 21:06:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BB8747D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 21:23:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727527AbeKIGn4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Nov 2018 01:43:56 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47262 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727544AbeKIGm6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Nov 2018 01:42:58 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wA8L0NmG112051
-        for <linux-doc@vger.kernel.org>; Thu, 8 Nov 2018 16:05:42 -0500
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2nmuw0j4rp-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 08 Nov 2018 16:05:42 -0500
-Received: from localhost
-        by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <eajames@linux.ibm.com>;
-        Thu, 8 Nov 2018 21:05:42 -0000
-Received: from b01cxnp22034.gho.pok.ibm.com (9.57.198.24)
-        by e15.ny.us.ibm.com (146.89.104.202) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 8 Nov 2018 21:05:38 -0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com [9.57.199.106])
-        by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wA8L5b6I1769776
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 8 Nov 2018 21:05:37 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 90C0128059;
-        Thu,  8 Nov 2018 21:05:37 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 890AB2805E;
-        Thu,  8 Nov 2018 21:05:36 +0000 (GMT)
-Received: from talon7.ibm.com (unknown [9.41.179.222])
-        by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
-        Thu,  8 Nov 2018 21:05:36 +0000 (GMT)
-From:   Eddie James <eajames@linux.ibm.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        jdelvare@suse.com, linux-doc@vger.kernel.org,
-        gregkh@linuxfoundation.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, linux@roeck-us.net, rdunlap@infradead.org,
-        benh@kernel.crashing.org, Eddie James <eajames@linux.vnet.ibm.com>,
-        Eddie James <eajames@linux.ibm.com>
-Subject: [PATCH v6 05/10] hwmon: Add On-Chip Controller (OCC) hwmon driver
-Date:   Thu,  8 Nov 2018 15:05:24 -0600
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1541711129-26631-1-git-send-email-eajames@linux.ibm.com>
-References: <1541711129-26631-1-git-send-email-eajames@linux.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 18110821-0068-0000-0000-0000035CFBD7
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00010009; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000269; SDB=6.01114610; UDB=6.00577887; IPR=6.00894709;
- MB=3.00024077; MTD=3.00000008; XFM=3.00000015; UTC=2018-11-08 21:05:41
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18110821-0069-0000-0000-0000465CAF4B
-Message-Id: <1541711129-26631-6-git-send-email-eajames@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-08_12:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1811080178
+        id S1726140AbeKIHA1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Nov 2018 02:00:27 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:35225 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725882AbeKIHA1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Nov 2018 02:00:27 -0500
+Received: by mail-wm1-f68.google.com with SMTP id t15-v6so130608wmt.0
+        for <linux-doc@vger.kernel.org>; Thu, 08 Nov 2018 13:23:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7Fm+Swwz5U6PYgdF4xz3yvF0Ae+TVaAPPC+XBP1RMAY=;
+        b=E706BHL0Td3myb4413EwEA1PhNfwbex5uMj+f31Sv1vypjDGhg3Ry8ZMpr6jUhq7JI
+         Pm1oqp/XMJ7g2jwJUZXRiOH0BhwPq7WEUFskMxiV4QUb8BTVzOItGsNAwDpzbcF9LiAi
+         nM/JyQif/POUtX3zV9LqpeMzmZ1MDjVF8edn/5HIez3tnVH1TSEH1JpeyqCWV1pdrkjH
+         zw77zTBffvybM4PLLRgxhLjKeCNkGDhwNPamR7rFmaYJ0yL7vyQsYPWyIB9zGE/25PrV
+         5DFkRkEr6rEVkBk16gvVZv6wfT84lVTypKJugSbE14Ue5T3WLoK8Yz2g60amCTLl/O/q
+         +MOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7Fm+Swwz5U6PYgdF4xz3yvF0Ae+TVaAPPC+XBP1RMAY=;
+        b=Ed0DhSzDBGAXyDYeO+6k5ypgnQr5QDUflqu2+if4/uJTQQvzVJ+6IuL7bH0WvcLKyS
+         Z8DFEAwSL6j1zZ3znyQpc8F0iE8QAt+72iPzGclCPLXnAfJZ5ZXxovwOl4E0hQMUNp8m
+         Kfv59TSJsZoYsVAYFg+ahm8XH0RldtBAZTmfm+Va3rQAQLIERNlrbpgEijG86pYvtiXE
+         D6Pi00az+wbmibzStA5/1EVFSVMIw7w2JySZHzYsT64XZScBlde8gZUF8QhCF6ILlSDV
+         vkYg1JnFUTGofsVSaw/Wxv8He97fgCR8GOHM5buvoOHmoBMf1o3/lgH7YnBednJSsbic
+         9Y+A==
+X-Gm-Message-State: AGRZ1gLLkUmyh9YenbafhQbSWT7yp2MPiXWcBHSueWDmpcDAu3xdz6Yy
+        oKxq6TyFWgIoZrmoxUKn9JreMfIaayh+89Fu06GHrg==
+X-Google-Smtp-Source: AJdET5f3qm2+Se9JRO2uShWB+aZYI4xGcIp8Ei4ckDSNwMSVm4Vs9gfxgnH/ClkF1tgiBk+VpHdLJQOv253gUKyjBW4=
+X-Received: by 2002:a1c:4b1a:: with SMTP id y26-v6mr2593259wma.82.1541712184530;
+ Thu, 08 Nov 2018 13:23:04 -0800 (PST)
+MIME-Version: 1.0
+References: <20181011151523.27101-1-yu-cheng.yu@intel.com> <20181011151523.27101-5-yu-cheng.yu@intel.com>
+ <CALCETrVAe8R=crVHoD5QmbN-gAW+V-Rwkwe4kQP7V7zQm9TM=Q@mail.gmail.com> <4295b8f786c10c469870a6d9725749ce75dcdaa2.camel@intel.com>
+In-Reply-To: <4295b8f786c10c469870a6d9725749ce75dcdaa2.camel@intel.com>
+From:   Andy Lutomirski <luto@amacapital.net>
+Date:   Thu, 8 Nov 2018 13:22:54 -0800
+Message-ID: <CALCETrUKzXYzRrWRdi8Z7AdAF0uZW5Gs7J4s=55dszoyzc29rw@mail.gmail.com>
+Subject: Re: [PATCH v5 04/27] x86/fpu/xstate: Add XSAVES system states for
+ shadow stack
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H. J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Eddie James <eajames@linux.vnet.ibm.com>
+On Thu, Nov 8, 2018 at 1:06 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>
+> On Thu, 2018-11-08 at 12:46 -0800, Andy Lutomirski wrote:
+> > On Thu, Oct 11, 2018 at 8:20 AM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+> > >
+> > > Intel Control-flow Enforcement Technology (CET) introduces the
+> > > following MSRs into the XSAVES system states.
+> > >
+> > >     IA32_U_CET (user-mode CET settings),
+> > >     IA32_PL3_SSP (user-mode shadow stack),
+> > >     IA32_PL0_SSP (kernel-mode shadow stack),
+> > >     IA32_PL1_SSP (ring-1 shadow stack),
+> > >     IA32_PL2_SSP (ring-2 shadow stack).
+> > >
+> > > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > > ---
+> > >  arch/x86/include/asm/fpu/types.h            | 22 +++++++++++++++++++++
+> > >  arch/x86/include/asm/fpu/xstate.h           |  4 +++-
+> > >  arch/x86/include/uapi/asm/processor-flags.h |  2 ++
+> > >  arch/x86/kernel/fpu/xstate.c                | 10 ++++++++++
+> > >  4 files changed, 37 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/arch/x86/include/asm/fpu/types.h
+> > > b/arch/x86/include/asm/fpu/types.h
+> > > index 202c53918ecf..e55d51d172f1 100644
+> > > --- a/arch/x86/include/asm/fpu/types.h
+> > > +++ b/arch/x86/include/asm/fpu/types.h
+> > > @@ -114,6 +114,9 @@ enum xfeature {
+> > >         XFEATURE_Hi16_ZMM,
+> > >         XFEATURE_PT_UNIMPLEMENTED_SO_FAR,
+> > >         XFEATURE_PKRU,
+> > > +       XFEATURE_RESERVED,
+> > > +       XFEATURE_SHSTK_USER,
+> > > +       XFEATURE_SHSTK_KERNEL,
+> > >
+> > >         XFEATURE_MAX,
+> > >  };
+> > > @@ -128,6 +131,8 @@ enum xfeature {
+> > >  #define XFEATURE_MASK_Hi16_ZMM         (1 << XFEATURE_Hi16_ZMM)
+> > >  #define XFEATURE_MASK_PT               (1 <<
+> > > XFEATURE_PT_UNIMPLEMENTED_SO_FAR)
+> > >  #define XFEATURE_MASK_PKRU             (1 << XFEATURE_PKRU)
+> > > +#define XFEATURE_MASK_SHSTK_USER       (1 << XFEATURE_SHSTK_USER)
+> > > +#define XFEATURE_MASK_SHSTK_KERNEL     (1 << XFEATURE_SHSTK_KERNEL)
+> > >
+> > >  #define XFEATURE_MASK_FPSSE            (XFEATURE_MASK_FP |
+> > > XFEATURE_MASK_SSE)
+> > >  #define XFEATURE_MASK_AVX512           (XFEATURE_MASK_OPMASK \
+> > > @@ -229,6 +234,23 @@ struct pkru_state {
+> > >         u32                             pad;
+> > >  } __packed;
+> > >
+> > > +/*
+> > > + * State component 11 is Control flow Enforcement user states
+> > > + */
+> > > +struct cet_user_state {
+> > > +       u64 u_cet;      /* user control flow settings */
+> > > +       u64 user_ssp;   /* user shadow stack pointer */
+> > > +} __packed;
+> > > +
+> > > +/*
+> > > + * State component 12 is Control flow Enforcement kernel states
+> > > + */
+> > > +struct cet_kernel_state {
+> > > +       u64 kernel_ssp; /* kernel shadow stack */
+> > > +       u64 pl1_ssp;    /* ring-1 shadow stack */
+> > > +       u64 pl2_ssp;    /* ring-2 shadow stack */
+> > > +} __packed;
+> > > +
+> >
+> > Why are these __packed?  It seems like it'll generate bad code for no
+> > obvious purpose.
+>
+> That prevents any possibility that the compiler will insert padding, although in
+> 64-bit kernel this should not happen to either struct.  Also all xstate
+> components here are packed.
+>
 
-The OCC is a device embedded on a POWER processor that collects and
-aggregates sensor data from the processor and system. The OCC can
-provide the raw sensor data as well as perform thermal and power
-management on the system.
-
-This driver provides a hwmon interface to the OCC from a service
-processor (e.g. a BMC). The driver supports both POWER8 and POWER9 OCCs.
-Communications with the POWER8 OCC are established over standard I2C
-bus. The driver communicates with the POWER9 OCC through the FSI-based
-OCC driver, which handles the lower-level communication details.
-
-This patch lays out the structure of the OCC hwmon driver. There are two
-platform drivers, one each for P8 and P9 OCCs. These are probed through
-the I2C tree and the FSI-based OCC driver, respectively. The patch also
-defines the first common structures and methods between the two OCC
-versions.
-
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
----
- drivers/hwmon/Kconfig      |  2 ++
- drivers/hwmon/Makefile     |  1 +
- drivers/hwmon/occ/Kconfig  | 31 +++++++++++++++++++++
- drivers/hwmon/occ/Makefile |  5 ++++
- drivers/hwmon/occ/common.c | 40 +++++++++++++++++++++++++++
- drivers/hwmon/occ/common.h | 34 +++++++++++++++++++++++
- drivers/hwmon/occ/p8_i2c.c | 61 +++++++++++++++++++++++++++++++++++++++++
- drivers/hwmon/occ/p9_sbe.c | 68 ++++++++++++++++++++++++++++++++++++++++++++++
- 8 files changed, 242 insertions(+)
- create mode 100644 drivers/hwmon/occ/Kconfig
- create mode 100644 drivers/hwmon/occ/Makefile
- create mode 100644 drivers/hwmon/occ/common.c
- create mode 100644 drivers/hwmon/occ/common.h
- create mode 100644 drivers/hwmon/occ/p8_i2c.c
- create mode 100644 drivers/hwmon/occ/p9_sbe.c
-
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 81da17a..532a053 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -1293,6 +1293,8 @@ config SENSORS_NSA320
- 	  This driver can also be built as a module. If so, the module
- 	  will be called nsa320-hwmon.
- 
-+source drivers/hwmon/occ/Kconfig
-+
- config SENSORS_PCF8591
- 	tristate "Philips PCF8591 ADC/DAC"
- 	depends on I2C
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index 93f7f41..f5c7b44 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -178,6 +178,7 @@ obj-$(CONFIG_SENSORS_WM831X)	+= wm831x-hwmon.o
- obj-$(CONFIG_SENSORS_WM8350)	+= wm8350-hwmon.o
- obj-$(CONFIG_SENSORS_XGENE)	+= xgene-hwmon.o
- 
-+obj-$(CONFIG_SENSORS_OCC)	+= occ/
- obj-$(CONFIG_PMBUS)		+= pmbus/
- 
- ccflags-$(CONFIG_HWMON_DEBUG_CHIP) := -DDEBUG
-diff --git a/drivers/hwmon/occ/Kconfig b/drivers/hwmon/occ/Kconfig
-new file mode 100644
-index 0000000..6668662
---- /dev/null
-+++ b/drivers/hwmon/occ/Kconfig
-@@ -0,0 +1,31 @@
-+#
-+# On-Chip Controller configuration
-+#
-+
-+config SENSORS_OCC_P8_I2C
-+	tristate "POWER8 OCC through I2C"
-+	depends on I2C
-+	select SENSORS_OCC
-+	help
-+	 This option enables support for monitoring sensors provided by the
-+	 On-Chip Controller (OCC) on a POWER8 processor. Communications with
-+	 the OCC are established through I2C bus.
-+
-+	 This driver can also be built as a module. If so, the module will be
-+	 called occ-p8-hwmon.
-+
-+config SENSORS_OCC_P9_SBE
-+	tristate "POWER9 OCC through SBE"
-+	depends on FSI_OCC
-+	select SENSORS_OCC
-+	help
-+	 This option enables support for monitoring sensors provided by the
-+	 On-Chip Controller (OCC) on a POWER9 processor. Communications with
-+	 the OCC are established through SBE fifo on an FSI bus.
-+
-+	 This driver can also be built as a module. If so, the module will be
-+	 called occ-p9-hwmon.
-+
-+config SENSORS_OCC
-+	bool "POWER On-Chip Controller"
-+	depends on SENSORS_OCC_P8_I2C || SENSORS_OCC_P9_SBE
-diff --git a/drivers/hwmon/occ/Makefile b/drivers/hwmon/occ/Makefile
-new file mode 100644
-index 0000000..57c0e91
---- /dev/null
-+++ b/drivers/hwmon/occ/Makefile
-@@ -0,0 +1,5 @@
-+occ-p8-hwmon-objs := common.o p8_i2c.o
-+occ-p9-hwmon-objs := common.o p9_sbe.o
-+
-+obj-$(CONFIG_SENSORS_OCC_P8_I2C) += occ-p8-hwmon.o
-+obj-$(CONFIG_SENSORS_OCC_P9_SBE) += occ-p9-hwmon.o
-diff --git a/drivers/hwmon/occ/common.c b/drivers/hwmon/occ/common.c
-new file mode 100644
-index 0000000..81acd4b
---- /dev/null
-+++ b/drivers/hwmon/occ/common.c
-@@ -0,0 +1,40 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/device.h>
-+
-+#include "common.h"
-+
-+static int occ_poll(struct occ *occ)
-+{
-+	u16 checksum = occ->poll_cmd_data + 1;
-+	u8 cmd[8];
-+
-+	/* big endian */
-+	cmd[0] = 0;			/* sequence number */
-+	cmd[1] = 0;			/* cmd type */
-+	cmd[2] = 0;			/* data length msb */
-+	cmd[3] = 1;			/* data length lsb */
-+	cmd[4] = occ->poll_cmd_data;	/* data */
-+	cmd[5] = checksum >> 8;		/* checksum msb */
-+	cmd[6] = checksum & 0xFF;	/* checksum lsb */
-+	cmd[7] = 0;
-+
-+	return occ->send_cmd(occ, cmd);
-+}
-+
-+int occ_setup(struct occ *occ, const char *name)
-+{
-+	int rc;
-+
-+	rc = occ_poll(occ);
-+	if (rc == -ESHUTDOWN) {
-+		dev_info(occ->bus_dev, "host is not ready\n");
-+		return rc;
-+	} else if (rc < 0) {
-+		dev_err(occ->bus_dev, "failed to get OCC poll response: %d\n",
-+			rc);
-+		return rc;
-+	}
-+
-+	return 0;
-+}
-diff --git a/drivers/hwmon/occ/common.h b/drivers/hwmon/occ/common.h
-new file mode 100644
-index 0000000..b44fee2
---- /dev/null
-+++ b/drivers/hwmon/occ/common.h
-@@ -0,0 +1,34 @@
-+// SPDX-License-Identifier: GPL-2.
-+
-+#ifndef OCC_COMMON_H
-+#define OCC_COMMON_H
-+
-+struct device;
-+
-+#define OCC_RESP_DATA_BYTES		4089
-+
-+/*
-+ * Same response format for all OCC versions.
-+ * Allocate the largest possible response.
-+ */
-+struct occ_response {
-+	u8 seq_no;
-+	u8 cmd_type;
-+	u8 return_status;
-+	__be16 data_length;
-+	u8 data[OCC_RESP_DATA_BYTES];
-+	__be16 checksum;
-+} __packed;
-+
-+struct occ {
-+	struct device *bus_dev;
-+
-+	struct occ_response resp;
-+
-+	u8 poll_cmd_data;		/* to perform OCC poll command */
-+	int (*send_cmd)(struct occ *occ, u8 *cmd);
-+};
-+
-+int occ_setup(struct occ *occ, const char *name);
-+
-+#endif /* OCC_COMMON_H */
-diff --git a/drivers/hwmon/occ/p8_i2c.c b/drivers/hwmon/occ/p8_i2c.c
-new file mode 100644
-index 0000000..4f3937d
---- /dev/null
-+++ b/drivers/hwmon/occ/p8_i2c.c
-@@ -0,0 +1,61 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/device.h>
-+#include <linux/errno.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+
-+#include "common.h"
-+
-+struct p8_i2c_occ {
-+	struct occ occ;
-+	struct i2c_client *client;
-+};
-+
-+#define to_p8_i2c_occ(x)	container_of((x), struct p8_i2c_occ, occ)
-+
-+static int p8_i2c_occ_send_cmd(struct occ *occ, u8 *cmd)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static int p8_i2c_occ_probe(struct i2c_client *client,
-+			    const struct i2c_device_id *id)
-+{
-+	struct occ *occ;
-+	struct p8_i2c_occ *ctx = devm_kzalloc(&client->dev, sizeof(*ctx),
-+					      GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	ctx->client = client;
-+	occ = &ctx->occ;
-+	occ->bus_dev = &client->dev;
-+	dev_set_drvdata(&client->dev, occ);
-+
-+	occ->poll_cmd_data = 0x10;		/* P8 OCC poll data */
-+	occ->send_cmd = p8_i2c_occ_send_cmd;
-+
-+	return occ_setup(occ, "p8_occ");
-+}
-+
-+static const struct of_device_id p8_i2c_occ_of_match[] = {
-+	{ .compatible = "ibm,p8-occ-hwmon" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, p8_i2c_occ_of_match);
-+
-+static struct i2c_driver p8_i2c_occ_driver = {
-+	.class = I2C_CLASS_HWMON,
-+	.driver = {
-+		.name = "occ-hwmon",
-+		.of_match_table = p8_i2c_occ_of_match,
-+	},
-+	.probe = p8_i2c_occ_probe,
-+};
-+
-+module_i2c_driver(p8_i2c_occ_driver);
-+
-+MODULE_AUTHOR("Eddie James <eajames@linux.ibm.com>");
-+MODULE_DESCRIPTION("BMC P8 OCC hwmon driver");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/hwmon/occ/p9_sbe.c b/drivers/hwmon/occ/p9_sbe.c
-new file mode 100644
-index 0000000..c2fa34e
---- /dev/null
-+++ b/drivers/hwmon/occ/p9_sbe.c
-@@ -0,0 +1,68 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/device.h>
-+#include <linux/errno.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+
-+#include "common.h"
-+
-+struct p9_sbe_occ {
-+	struct occ occ;
-+	struct device *sbe;
-+};
-+
-+#define to_p9_sbe_occ(x)	container_of((x), struct p9_sbe_occ, occ)
-+
-+static int p9_sbe_occ_send_cmd(struct occ *occ, u8 *cmd)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static int p9_sbe_occ_probe(struct platform_device *pdev)
-+{
-+	int rc;
-+	struct occ *occ;
-+	struct p9_sbe_occ *ctx = devm_kzalloc(&pdev->dev, sizeof(*ctx),
-+					      GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	ctx->sbe = pdev->dev.parent;
-+	occ = &ctx->occ;
-+	occ->bus_dev = &pdev->dev;
-+	platform_set_drvdata(pdev, occ);
-+
-+	occ->poll_cmd_data = 0x20;		/* P9 OCC poll data */
-+	occ->send_cmd = p9_sbe_occ_send_cmd;
-+
-+	rc = occ_setup(occ, "p9_occ");
-+	if (rc == -ESHUTDOWN)
-+		rc = -ENODEV;	/* Host is shutdown, don't spew errors */
-+
-+	return rc;
-+}
-+
-+static int p9_sbe_occ_remove(struct platform_device *pdev)
-+{
-+	struct occ *occ = platform_get_drvdata(pdev);
-+	struct p9_sbe_occ *ctx = to_p9_sbe_occ(occ);
-+
-+	ctx->sbe = NULL;
-+
-+	return 0;
-+}
-+
-+static struct platform_driver p9_sbe_occ_driver = {
-+	.driver = {
-+		.name = "occ-hwmon",
-+	},
-+	.probe	= p9_sbe_occ_probe,
-+	.remove = p9_sbe_occ_remove,
-+};
-+
-+module_platform_driver(p9_sbe_occ_driver);
-+
-+MODULE_AUTHOR("Eddie James <eajames@linux.ibm.com>");
-+MODULE_DESCRIPTION("BMC P9 OCC hwmon driver");
-+MODULE_LICENSE("GPL");
--- 
-1.8.3.1
-
+They both seem like bugs, perhaps.  As I understand it, __packed
+removes padding, but it also forces the compiler to expect the fields
+to be unaligned even if they are actually aligned.
