@@ -2,110 +2,127 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EF1967D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 20:31:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6752D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 20:45:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727527AbeKIGIp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Nov 2018 01:08:45 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:59560 "EHLO mx1.redhat.com"
+        id S1726933AbeKIGWa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Nov 2018 01:22:30 -0500
+Received: from mga07.intel.com ([134.134.136.100]:14746 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725882AbeKIGIp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Nov 2018 01:08:45 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 000DB3002E24;
-        Thu,  8 Nov 2018 20:31:35 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-55.bos.redhat.com [10.18.17.55])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 66B58600CD;
-        Thu,  8 Nov 2018 20:31:28 +0000 (UTC)
-Subject: Re: [PATCH v15 00/12] Enable cpuset controller in default hierarchy
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        id S1726140AbeKIGW3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Nov 2018 01:22:29 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Nov 2018 12:45:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,480,1534834800"; 
+   d="scan'208";a="89671600"
+Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
+  by orsmga006.jf.intel.com with ESMTP; 08 Nov 2018 12:45:16 -0800
+Message-ID: <bb049aa9578bae7cfc6bd7c05b540f033f6685cc.camel@intel.com>
+Subject: Re: [PATCH v5 04/27] x86/fpu/xstate: Add XSAVES system states for
+ shadow stack
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>,
-        Tom Hromatka <tom.hromatka@oracle.com>
-References: <1541689726-20088-1-git-send-email-longman@redhat.com>
- <20181108202844.GD2509588@devbig004.ftw2.facebook.com>
-From:   Waiman Long <longman@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
- xsFNBFgsZGsBEAC3l/RVYISY3M0SznCZOv8aWc/bsAgif1H8h0WPDrHnwt1jfFTB26EzhRea
- XQKAJiZbjnTotxXq1JVaWxJcNJL7crruYeFdv7WUJqJzFgHnNM/upZuGsDIJHyqBHWK5X9ZO
- jRyfqV/i3Ll7VIZobcRLbTfEJgyLTAHn2Ipcpt8mRg2cck2sC9+RMi45Epweu7pKjfrF8JUY
- r71uif2ThpN8vGpn+FKbERFt4hW2dV/3awVckxxHXNrQYIB3I/G6mUdEZ9yrVrAfLw5M3fVU
- CRnC6fbroC6/ztD40lyTQWbCqGERVEwHFYYoxrcGa8AzMXN9CN7bleHmKZrGxDFWbg4877zX
- 0YaLRypme4K0ULbnNVRQcSZ9UalTvAzjpyWnlnXCLnFjzhV7qsjozloLTkZjyHimSc3yllH7
- VvP/lGHnqUk7xDymgRHNNn0wWPuOpR97J/r7V1mSMZlni/FVTQTRu87aQRYu3nKhcNJ47TGY
- evz/U0ltaZEU41t7WGBnC7RlxYtdXziEn5fC8b1JfqiP0OJVQfdIMVIbEw1turVouTovUA39
- Qqa6Pd1oYTw+Bdm1tkx7di73qB3x4pJoC8ZRfEmPqSpmu42sijWSBUgYJwsziTW2SBi4hRjU
- h/Tm0NuU1/R1bgv/EzoXjgOM4ZlSu6Pv7ICpELdWSrvkXJIuIwARAQABzR9Mb25nbWFuIExv
- bmcgPGxsb25nQHJlZGhhdC5jb20+wsF/BBMBAgApBQJYLGRrAhsjBQkJZgGABwsJCAcDAgEG
- FQgCCQoLBBYCAwECHgECF4AACgkQbjBXZE7vHeYwBA//ZYxi4I/4KVrqc6oodVfwPnOVxvyY
- oKZGPXZXAa3swtPGmRFc8kGyIMZpVTqGJYGD9ZDezxpWIkVQDnKM9zw/qGarUVKzElGHcuFN
- ddtwX64yxDhA+3Og8MTy8+8ZucM4oNsbM9Dx171bFnHjWSka8o6qhK5siBAf9WXcPNogUk4S
- fMNYKxexcUayv750GK5E8RouG0DrjtIMYVJwu+p3X1bRHHDoieVfE1i380YydPd7mXa7FrRl
- 7unTlrxUyJSiBc83HgKCdFC8+ggmRVisbs+1clMsK++ehz08dmGlbQD8Fv2VK5KR2+QXYLU0
- rRQjXk/gJ8wcMasuUcywnj8dqqO3kIS1EfshrfR/xCNSREcv2fwHvfJjprpoE9tiL1qP7Jrq
- 4tUYazErOEQJcE8Qm3fioh40w8YrGGYEGNA4do/jaHXm1iB9rShXE2jnmy3ttdAh3M8W2OMK
- 4B/Rlr+Awr2NlVdvEF7iL70kO+aZeOu20Lq6mx4Kvq/WyjZg8g+vYGCExZ7sd8xpncBSl7b3
- 99AIyT55HaJjrs5F3Rl8dAklaDyzXviwcxs+gSYvRCr6AMzevmfWbAILN9i1ZkfbnqVdpaag
- QmWlmPuKzqKhJP+OMYSgYnpd/vu5FBbc+eXpuhydKqtUVOWjtp5hAERNnSpD87i1TilshFQm
- TFxHDzbOwU0EWCxkawEQALAcdzzKsZbcdSi1kgjfce9AMjyxkkZxcGc6Rhwvt78d66qIFK9D
- Y9wfcZBpuFY/AcKEqjTo4FZ5LCa7/dXNwOXOdB1Jfp54OFUqiYUJFymFKInHQYlmoES9EJEU
- yy+2ipzy5yGbLh3ZqAXyZCTmUKBU7oz/waN7ynEP0S0DqdWgJnpEiFjFN4/ovf9uveUnjzB6
- lzd0BDckLU4dL7aqe2ROIHyG3zaBMuPo66pN3njEr7IcyAL6aK/IyRrwLXoxLMQW7YQmFPSw
- drATP3WO0x8UGaXlGMVcaeUBMJlqTyN4Swr2BbqBcEGAMPjFCm6MjAPv68h5hEoB9zvIg+fq
- M1/Gs4D8H8kUjOEOYtmVQ5RZQschPJle95BzNwE3Y48ZH5zewgU7ByVJKSgJ9HDhwX8Ryuia
- 79r86qZeFjXOUXZjjWdFDKl5vaiRbNWCpuSG1R1Tm8o/rd2NZ6l8LgcK9UcpWorrPknbE/pm
- MUeZ2d3ss5G5Vbb0bYVFRtYQiCCfHAQHO6uNtA9IztkuMpMRQDUiDoApHwYUY5Dqasu4ZDJk
- bZ8lC6qc2NXauOWMDw43z9He7k6LnYm/evcD+0+YebxNsorEiWDgIW8Q/E+h6RMS9kW3Rv1N
- qd2nFfiC8+p9I/KLcbV33tMhF1+dOgyiL4bcYeR351pnyXBPA66ldNWvABEBAAHCwWUEGAEC
- AA8FAlgsZGsCGwwFCQlmAYAACgkQbjBXZE7vHeYxSQ/+PnnPrOkKHDHQew8Pq9w2RAOO8gMg
- 9Ty4L54CsTf21Mqc6GXj6LN3WbQta7CVA0bKeq0+WnmsZ9jkTNh8lJp0/RnZkSUsDT9Tza9r
- GB0svZnBJMFJgSMfmwa3cBttCh+vqDV3ZIVSG54nPmGfUQMFPlDHccjWIvTvyY3a9SLeamaR
- jOGye8MQAlAD40fTWK2no6L1b8abGtziTkNh68zfu3wjQkXk4kA4zHroE61PpS3oMD4AyI9L
- 7A4Zv0Cvs2MhYQ4Qbbmafr+NOhzuunm5CoaRi+762+c508TqgRqH8W1htZCzab0pXHRfywtv
- 0P+BMT7vN2uMBdhr8c0b/hoGqBTenOmFt71tAyyGcPgI3f7DUxy+cv3GzenWjrvf3uFpxYx4
- yFQkUcu06wa61nCdxXU/BWFItryAGGdh2fFXnIYP8NZfdA+zmpymJXDQeMsAEHS0BLTVQ3+M
- 7W5Ak8p9V+bFMtteBgoM23bskH6mgOAw6Cj/USW4cAJ8b++9zE0/4Bv4iaY5bcsL+h7TqQBH
- Lk1eByJeVooUa/mqa2UdVJalc8B9NrAnLiyRsg72Nurwzvknv7anSgIkL+doXDaG21DgCYTD
- wGA5uquIgb8p3/ENgYpDPrsZ72CxVC2NEJjJwwnRBStjJOGQX4lV1uhN1XsZjBbRHdKF2W9g
- weim8xU=
-Organization: Red Hat
-Message-ID: <5249d679-0d57-305d-ea9f-8aba22b8d5d5@redhat.com>
-Date:   Thu, 8 Nov 2018 15:31:27 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20181108202844.GD2509588@devbig004.ftw2.facebook.com>
-Content-Type: text/plain; charset=utf-8
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Date:   Thu, 08 Nov 2018 12:40:02 -0800
+In-Reply-To: <20181108184038.GJ7543@zn.tnic>
+References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
+         <20181011151523.27101-5-yu-cheng.yu@intel.com>
+         <20181108184038.GJ7543@zn.tnic>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Thu, 08 Nov 2018 20:31:37 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/08/2018 03:28 PM, Tejun Heo wrote:
-> Applied to cgroup/for-4.21.
->
-> Thanks a lot, Waiman!
->
-Thanks for applying it. It is a long way to get to this point.
+On Thu, 2018-11-08 at 19:40 +0100, Borislav Petkov wrote:
+> On Thu, Oct 11, 2018 at 08:15:00AM -0700, Yu-cheng Yu wrote:
+> > [...] 
+> > +/*
+> > + * State component 11 is Control flow Enforcement user states
+> 
+> Why the Camel-cased naming?
+> 
+> "Control" then "flow" then capitalized again "Enforcement".
+> 
+> Fix all occurrences pls, especially the user-visible strings.
 
-Cheers,
-Longman
+I will change it to "Control-flow Enforcement" everywhere.
 
+> > + */
+> > +struct cet_user_state {
+> > +	u64 u_cet;	/* user control flow settings */
+> > +	u64 user_ssp;	/* user shadow stack pointer */
+> 
+> Prefix both with "usr_" instead.
+
+Ok.
+
+> [...]
+> 
+> Just write "privilege level" everywhere - not "ring".
+> 
+> Btw, do you see how the type and the name of all those other fields in
+> that file are tabulated? Except yours...
+
+I will fix it.
+
+[...] 
+> > 
+> > diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
+> > index 605ec6decf3e..ad36ea28bfd1 100644
+> > --- a/arch/x86/kernel/fpu/xstate.c
+> > +++ b/arch/x86/kernel/fpu/xstate.c
+> > @@ -35,6 +35,9 @@ static const char *xfeature_names[] =
+> >  	"Processor Trace (unused)"	,
+> >  	"Protection Keys User registers",
+> >  	"unknown xstate feature"	,
+> > +	"Control flow User registers"	,
+> > +	"Control flow Kernel registers"	,
+> > +	"unknown xstate feature"	,
+> 
+> So there are two "unknown xstate feature" array elems now...
+> 
+> >  static short xsave_cpuid_features[] __initdata = {
+> > @@ -48,6 +51,9 @@ static short xsave_cpuid_features[] __initdata = {
+> >  	X86_FEATURE_AVX512F,
+> >  	X86_FEATURE_INTEL_PT,
+> >  	X86_FEATURE_PKU,
+> > +	0,		   /* Unused */
+> 
+> What's that for?
+
+In fpu_init_system_xstate(), we test and clear features that are not enabled.
+There we depend on the order of these elements.  This is the tenth "unknown
+xstate feature".
+
+Yu-cheng
