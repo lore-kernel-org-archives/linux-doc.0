@@ -5,206 +5,118 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0EA967D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 18:40:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B6A4D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 19:00:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727005AbeKIERf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Nov 2018 23:17:35 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:45030 "EHLO mail.skyhub.de"
+        id S1727295AbeKIEgu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Nov 2018 23:36:50 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:35274 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726860AbeKIERe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Nov 2018 23:17:34 -0500
-X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
-Received: from mail.skyhub.de ([127.0.0.1])
-        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id k7qA7i0n08wW; Thu,  8 Nov 2018 19:40:46 +0100 (CET)
-Received: from zn.tnic (p200300EC2BD03D00329C23FFFEA6A903.dip0.t-ipconnect.de [IPv6:2003:ec:2bd0:3d00:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726751AbeKIEgt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Nov 2018 23:36:49 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BC9881EC0779;
-        Thu,  8 Nov 2018 19:40:45 +0100 (CET)
-Date:   Thu, 8 Nov 2018 19:40:38 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [PATCH v5 04/27] x86/fpu/xstate: Add XSAVES system states for
- shadow stack
-Message-ID: <20181108184038.GJ7543@zn.tnic>
-References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
- <20181011151523.27101-5-yu-cheng.yu@intel.com>
+        by mx1.redhat.com (Postfix) with ESMTPS id CC22D3082B4D;
+        Thu,  8 Nov 2018 18:59:59 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-55.bos.redhat.com [10.18.17.55])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B164F19487;
+        Thu,  8 Nov 2018 18:59:43 +0000 (UTC)
+Subject: Re: [PATCH v15 12/12] cpuset: Expose cpuset.cpus.subpartitions with
+ cgroup_debug
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
+        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
+        Roman Gushchin <guro@fb.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Patrick Bellasi <patrick.bellasi@arm.com>,
+        Tom Hromatka <tom.hromatka@oracle.com>
+References: <1541689726-20088-1-git-send-email-longman@redhat.com>
+ <1541689726-20088-13-git-send-email-longman@redhat.com>
+ <20181108154617.GX9761@hirez.programming.kicks-ass.net>
+From:   Waiman Long <longman@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ weim8xU=
+Organization: Red Hat
+Message-ID: <5e3df063-251b-b6e0-fbc5-25e7a8b6efb5@redhat.com>
+Date:   Thu, 8 Nov 2018 13:59:43 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
+In-Reply-To: <20181108154617.GX9761@hirez.programming.kicks-ass.net>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20181011151523.27101-5-yu-cheng.yu@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.45]); Thu, 08 Nov 2018 19:00:00 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 11, 2018 at 08:15:00AM -0700, Yu-cheng Yu wrote:
-> Intel Control-flow Enforcement Technology (CET) introduces the
-> following MSRs into the XSAVES system states.
-> 
->     IA32_U_CET (user-mode CET settings),
->     IA32_PL3_SSP (user-mode shadow stack),
->     IA32_PL0_SSP (kernel-mode shadow stack),
->     IA32_PL1_SSP (ring-1 shadow stack),
->     IA32_PL2_SSP (ring-2 shadow stack).
+On 11/08/2018 10:46 AM, Peter Zijlstra wrote:
+> On Thu, Nov 08, 2018 at 10:08:46AM -0500, Waiman Long wrote:
+>> For debugging purpose, it will be useful to expose the content of the
+>> subparts_cpus as a read-only file to see if the code work correctly.
+>> However, subparts_cpus will not be used at all in most use cases. So
+>> adding a new cpuset file that clutters the cgroup directory may not be
+>> desirable.  This is now being done by using the hidden "cgroup_debug"
+>> kernel command line option to expose a new "cpuset.cpus.subpartitions"
+>> file.
+> One thought I had; would it make sense to make these debug files hidden
+> ("." prefix) ?
 
-And?
 
-That commit message got chopped off here, it seems.
+These debug files will only appear when the cgroup_debug command line
+option is used. So I don't think we really need to add an extra "."
+prefix as it will break the naming convention.
 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  arch/x86/include/asm/fpu/types.h            | 22 +++++++++++++++++++++
->  arch/x86/include/asm/fpu/xstate.h           |  4 +++-
->  arch/x86/include/uapi/asm/processor-flags.h |  2 ++
->  arch/x86/kernel/fpu/xstate.c                | 10 ++++++++++
->  4 files changed, 37 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/x86/include/asm/fpu/types.h b/arch/x86/include/asm/fpu/types.h
-> index 202c53918ecf..e55d51d172f1 100644
-> --- a/arch/x86/include/asm/fpu/types.h
-> +++ b/arch/x86/include/asm/fpu/types.h
-> @@ -114,6 +114,9 @@ enum xfeature {
->  	XFEATURE_Hi16_ZMM,
->  	XFEATURE_PT_UNIMPLEMENTED_SO_FAR,
->  	XFEATURE_PKRU,
-> +	XFEATURE_RESERVED,
-> +	XFEATURE_SHSTK_USER,
-> +	XFEATURE_SHSTK_KERNEL,
->  
->  	XFEATURE_MAX,
->  };
-> @@ -128,6 +131,8 @@ enum xfeature {
->  #define XFEATURE_MASK_Hi16_ZMM		(1 << XFEATURE_Hi16_ZMM)
->  #define XFEATURE_MASK_PT		(1 << XFEATURE_PT_UNIMPLEMENTED_SO_FAR)
->  #define XFEATURE_MASK_PKRU		(1 << XFEATURE_PKRU)
-> +#define XFEATURE_MASK_SHSTK_USER	(1 << XFEATURE_SHSTK_USER)
-> +#define XFEATURE_MASK_SHSTK_KERNEL	(1 << XFEATURE_SHSTK_KERNEL)
->  
->  #define XFEATURE_MASK_FPSSE		(XFEATURE_MASK_FP | XFEATURE_MASK_SSE)
->  #define XFEATURE_MASK_AVX512		(XFEATURE_MASK_OPMASK \
-> @@ -229,6 +234,23 @@ struct pkru_state {
->  	u32				pad;
->  } __packed;
->  
-> +/*
-> + * State component 11 is Control flow Enforcement user states
+Cheers,
+Longman
 
-Why the Camel-cased naming?
-
-"Control" then "flow" then capitalized again "Enforcement".
-
-Fix all occurrences pls, especially the user-visible strings.
-
-> + */
-> +struct cet_user_state {
-> +	u64 u_cet;	/* user control flow settings */
-> +	u64 user_ssp;	/* user shadow stack pointer */
-
-Prefix both with "usr_" instead.
-
-> +} __packed;
-> +
-> +/*
-> + * State component 12 is Control flow Enforcement kernel states
-> + */
-> +struct cet_kernel_state {
-> +	u64 kernel_ssp;	/* kernel shadow stack */
-> +	u64 pl1_ssp;	/* ring-1 shadow stack */
-> +	u64 pl2_ssp;	/* ring-2 shadow stack */
-
-Just write "privilege level" everywhere - not "ring".
-
-Btw, do you see how the type and the name of all those other fields in
-that file are tabulated? Except yours...
-
-> +} __packed;
-> +
->  struct xstate_header {
->  	u64				xfeatures;
->  	u64				xcomp_bv;
-> diff --git a/arch/x86/include/asm/fpu/xstate.h b/arch/x86/include/asm/fpu/xstate.h
-> index d8e2ec99f635..18b60748a34d 100644
-> --- a/arch/x86/include/asm/fpu/xstate.h
-> +++ b/arch/x86/include/asm/fpu/xstate.h
-> @@ -28,7 +28,9 @@
->  				  XFEATURE_MASK_Hi16_ZMM | \
->  				  XFEATURE_MASK_PKRU | \
->  				  XFEATURE_MASK_BNDREGS | \
-> -				  XFEATURE_MASK_BNDCSR)
-> +				  XFEATURE_MASK_BNDCSR | \
-> +				  XFEATURE_MASK_SHSTK_USER | \
-> +				  XFEATURE_MASK_SHSTK_KERNEL)
->  
->  #ifdef CONFIG_X86_64
->  #define REX_PREFIX	"0x48, "
-> diff --git a/arch/x86/include/uapi/asm/processor-flags.h b/arch/x86/include/uapi/asm/processor-flags.h
-> index bcba3c643e63..25311ec4b731 100644
-> --- a/arch/x86/include/uapi/asm/processor-flags.h
-> +++ b/arch/x86/include/uapi/asm/processor-flags.h
-> @@ -130,6 +130,8 @@
->  #define X86_CR4_SMAP		_BITUL(X86_CR4_SMAP_BIT)
->  #define X86_CR4_PKE_BIT		22 /* enable Protection Keys support */
->  #define X86_CR4_PKE		_BITUL(X86_CR4_PKE_BIT)
-> +#define X86_CR4_CET_BIT		23 /* enable Control flow Enforcement */
-> +#define X86_CR4_CET		_BITUL(X86_CR4_CET_BIT)
->  
->  /*
->   * x86-64 Task Priority Register, CR8
-> diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
-> index 605ec6decf3e..ad36ea28bfd1 100644
-> --- a/arch/x86/kernel/fpu/xstate.c
-> +++ b/arch/x86/kernel/fpu/xstate.c
-> @@ -35,6 +35,9 @@ static const char *xfeature_names[] =
->  	"Processor Trace (unused)"	,
->  	"Protection Keys User registers",
->  	"unknown xstate feature"	,
-> +	"Control flow User registers"	,
-> +	"Control flow Kernel registers"	,
-> +	"unknown xstate feature"	,
-
-So there are two "unknown xstate feature" array elems now...
-
->  static short xsave_cpuid_features[] __initdata = {
-> @@ -48,6 +51,9 @@ static short xsave_cpuid_features[] __initdata = {
->  	X86_FEATURE_AVX512F,
->  	X86_FEATURE_INTEL_PT,
->  	X86_FEATURE_PKU,
-> +	0,		   /* Unused */
-
-What's that for?
-
-> +	X86_FEATURE_SHSTK, /* XFEATURE_SHSTK_USER */
-> +	X86_FEATURE_SHSTK, /* XFEATURE_SHSTK_KERNEL */
->  };
-
--- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
