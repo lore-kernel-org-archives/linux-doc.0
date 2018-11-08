@@ -1,91 +1,210 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E057E7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 17:15:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0EA967D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 18:40:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727377AbeKICwD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Nov 2018 21:52:03 -0500
-Received: from smtprelay.synopsys.com ([198.182.47.9]:39164 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727253AbeKICwD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Nov 2018 21:52:03 -0500
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 184A124E0B36;
-        Thu,  8 Nov 2018 09:15:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1541697336; bh=YMV2EFBoLYhOoKnOkwbzZ1n4tuSmXuF/10Wz9MAagG0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aCYQCjm/6bYsV6EwP5uqYY0zdkGzSUS0js26+8TIRyybfjWUTy/q3JG+sjGfcESbL
-         Ugdu9mAbxRs8jEcomku9fx55ulBsQOUKXi5slZ18J11dX1liRQ4jtCgdJDyph3195e
-         U2b47FjCVecUgkZN8HPz+MCwxqJjAb3V5pZZHNe91+x9EI0YAckkfEX2X+CKYdKqVp
-         skCdogRCais9jS88wAqOhZPPqt+2dhaWe72R7LcMvfA93L/UVqj/6GcgSkSAVpE4Sb
-         6dZRiuNc6y3pEH4pvORebhKsIGPQ97O/Qtd+dp2EHLSFTVsv21Ek0rjtck4MT7A96m
-         yQvIV68RWwNVw==
-Received: from vitor-VirtualBox.internal.synopsys.com (soares-e7470.internal.synopsys.com [10.107.19.145])
-        by mailhost.synopsys.com (Postfix) with ESMTP id CCD9657F7;
-        Thu,  8 Nov 2018 09:15:28 -0800 (PST)
-From:   Vitor soares <vitor.soares@synopsys.com>
-To:     boris.brezillon@bootlin.com, wsa@the-dreams.de,
-        linux-i2c@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        arnd@arndb.de
-Cc:     psroka@cadence.com, agolec@cadence.com, adouglas@cadence.com,
-        bfolta@cadence.com, dkos@cadence.com, alicja@cadence.com,
-        cwronka@cadence.com, sureshp@cadence.com, rafalc@cadence.com,
-        thomas.petazzoni@bootlin.com, nm@ti.com, robh+dt@kernel.org,
-        pawel.moll@arm.com, mark.rutland@arm.com,
-        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        vitor.soares@synopsys.com, geert@linux-m68k.org,
-        linus.walleij@linaro.org, Xiang.Lin@synaptics.com,
-        linux-gpio@vger.kernel.org, nsekhar@ti.com, pgaj@cadence.com,
-        peda@axentia.se, mshettel@codeaurora.org, swboyd@chromium.org,
-        joao.pinto@synopsys.com
-Subject: [PATCH v3 3/3] MAINTAINERS: Add myself as the dw-i3c-master module maintainer
-Date:   Thu,  8 Nov 2018 17:14:11 +0000
-Message-Id: <1541697251-20392-4-git-send-email-soares@synopsys.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1541697251-20392-1-git-send-email-soares@synopsys.com>
-References: <1541697251-20392-1-git-send-email-soares@synopsys.com>
+        id S1727005AbeKIERf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Nov 2018 23:17:35 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:45030 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726860AbeKIERe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Nov 2018 23:17:34 -0500
+X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
+Received: from mail.skyhub.de ([127.0.0.1])
+        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id k7qA7i0n08wW; Thu,  8 Nov 2018 19:40:46 +0100 (CET)
+Received: from zn.tnic (p200300EC2BD03D00329C23FFFEA6A903.dip0.t-ipconnect.de [IPv6:2003:ec:2bd0:3d00:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BC9881EC0779;
+        Thu,  8 Nov 2018 19:40:45 +0100 (CET)
+Date:   Thu, 8 Nov 2018 19:40:38 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [PATCH v5 04/27] x86/fpu/xstate: Add XSAVES system states for
+ shadow stack
+Message-ID: <20181108184038.GJ7543@zn.tnic>
+References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
+ <20181011151523.27101-5-yu-cheng.yu@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20181011151523.27101-5-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Vitor soares <soares@synopsys.com>
----
-Change in v3:
-- Remove dummy characters
+On Thu, Oct 11, 2018 at 08:15:00AM -0700, Yu-cheng Yu wrote:
+> Intel Control-flow Enforcement Technology (CET) introduces the
+> following MSRs into the XSAVES system states.
+> 
+>     IA32_U_CET (user-mode CET settings),
+>     IA32_PL3_SSP (user-mode shadow stack),
+>     IA32_PL0_SSP (kernel-mode shadow stack),
+>     IA32_PL1_SSP (ring-1 shadow stack),
+>     IA32_PL2_SSP (ring-2 shadow stack).
 
-Change in v2:
-- None
+And?
 
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+That commit message got chopped off here, it seems.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 293c863..39910b3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6930,6 +6930,12 @@ F:	drivers/i3c/
- F:	include/linux/i3c/
- F:	include/dt-bindings/i3c/
- 
-+I3C DRIVER FOR SYNOPSYS DESIGNWARE
-+M:	Vitor Soares <soares@synopsys.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
-+F:	drivers/i3c/master/dw*
-+
- IA64 (Itanium) PLATFORM
- M:	Tony Luck <tony.luck@intel.com>
- M:	Fenghua Yu <fenghua.yu@intel.com>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/include/asm/fpu/types.h            | 22 +++++++++++++++++++++
+>  arch/x86/include/asm/fpu/xstate.h           |  4 +++-
+>  arch/x86/include/uapi/asm/processor-flags.h |  2 ++
+>  arch/x86/kernel/fpu/xstate.c                | 10 ++++++++++
+>  4 files changed, 37 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/x86/include/asm/fpu/types.h b/arch/x86/include/asm/fpu/types.h
+> index 202c53918ecf..e55d51d172f1 100644
+> --- a/arch/x86/include/asm/fpu/types.h
+> +++ b/arch/x86/include/asm/fpu/types.h
+> @@ -114,6 +114,9 @@ enum xfeature {
+>  	XFEATURE_Hi16_ZMM,
+>  	XFEATURE_PT_UNIMPLEMENTED_SO_FAR,
+>  	XFEATURE_PKRU,
+> +	XFEATURE_RESERVED,
+> +	XFEATURE_SHSTK_USER,
+> +	XFEATURE_SHSTK_KERNEL,
+>  
+>  	XFEATURE_MAX,
+>  };
+> @@ -128,6 +131,8 @@ enum xfeature {
+>  #define XFEATURE_MASK_Hi16_ZMM		(1 << XFEATURE_Hi16_ZMM)
+>  #define XFEATURE_MASK_PT		(1 << XFEATURE_PT_UNIMPLEMENTED_SO_FAR)
+>  #define XFEATURE_MASK_PKRU		(1 << XFEATURE_PKRU)
+> +#define XFEATURE_MASK_SHSTK_USER	(1 << XFEATURE_SHSTK_USER)
+> +#define XFEATURE_MASK_SHSTK_KERNEL	(1 << XFEATURE_SHSTK_KERNEL)
+>  
+>  #define XFEATURE_MASK_FPSSE		(XFEATURE_MASK_FP | XFEATURE_MASK_SSE)
+>  #define XFEATURE_MASK_AVX512		(XFEATURE_MASK_OPMASK \
+> @@ -229,6 +234,23 @@ struct pkru_state {
+>  	u32				pad;
+>  } __packed;
+>  
+> +/*
+> + * State component 11 is Control flow Enforcement user states
+
+Why the Camel-cased naming?
+
+"Control" then "flow" then capitalized again "Enforcement".
+
+Fix all occurrences pls, especially the user-visible strings.
+
+> + */
+> +struct cet_user_state {
+> +	u64 u_cet;	/* user control flow settings */
+> +	u64 user_ssp;	/* user shadow stack pointer */
+
+Prefix both with "usr_" instead.
+
+> +} __packed;
+> +
+> +/*
+> + * State component 12 is Control flow Enforcement kernel states
+> + */
+> +struct cet_kernel_state {
+> +	u64 kernel_ssp;	/* kernel shadow stack */
+> +	u64 pl1_ssp;	/* ring-1 shadow stack */
+> +	u64 pl2_ssp;	/* ring-2 shadow stack */
+
+Just write "privilege level" everywhere - not "ring".
+
+Btw, do you see how the type and the name of all those other fields in
+that file are tabulated? Except yours...
+
+> +} __packed;
+> +
+>  struct xstate_header {
+>  	u64				xfeatures;
+>  	u64				xcomp_bv;
+> diff --git a/arch/x86/include/asm/fpu/xstate.h b/arch/x86/include/asm/fpu/xstate.h
+> index d8e2ec99f635..18b60748a34d 100644
+> --- a/arch/x86/include/asm/fpu/xstate.h
+> +++ b/arch/x86/include/asm/fpu/xstate.h
+> @@ -28,7 +28,9 @@
+>  				  XFEATURE_MASK_Hi16_ZMM | \
+>  				  XFEATURE_MASK_PKRU | \
+>  				  XFEATURE_MASK_BNDREGS | \
+> -				  XFEATURE_MASK_BNDCSR)
+> +				  XFEATURE_MASK_BNDCSR | \
+> +				  XFEATURE_MASK_SHSTK_USER | \
+> +				  XFEATURE_MASK_SHSTK_KERNEL)
+>  
+>  #ifdef CONFIG_X86_64
+>  #define REX_PREFIX	"0x48, "
+> diff --git a/arch/x86/include/uapi/asm/processor-flags.h b/arch/x86/include/uapi/asm/processor-flags.h
+> index bcba3c643e63..25311ec4b731 100644
+> --- a/arch/x86/include/uapi/asm/processor-flags.h
+> +++ b/arch/x86/include/uapi/asm/processor-flags.h
+> @@ -130,6 +130,8 @@
+>  #define X86_CR4_SMAP		_BITUL(X86_CR4_SMAP_BIT)
+>  #define X86_CR4_PKE_BIT		22 /* enable Protection Keys support */
+>  #define X86_CR4_PKE		_BITUL(X86_CR4_PKE_BIT)
+> +#define X86_CR4_CET_BIT		23 /* enable Control flow Enforcement */
+> +#define X86_CR4_CET		_BITUL(X86_CR4_CET_BIT)
+>  
+>  /*
+>   * x86-64 Task Priority Register, CR8
+> diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
+> index 605ec6decf3e..ad36ea28bfd1 100644
+> --- a/arch/x86/kernel/fpu/xstate.c
+> +++ b/arch/x86/kernel/fpu/xstate.c
+> @@ -35,6 +35,9 @@ static const char *xfeature_names[] =
+>  	"Processor Trace (unused)"	,
+>  	"Protection Keys User registers",
+>  	"unknown xstate feature"	,
+> +	"Control flow User registers"	,
+> +	"Control flow Kernel registers"	,
+> +	"unknown xstate feature"	,
+
+So there are two "unknown xstate feature" array elems now...
+
+>  static short xsave_cpuid_features[] __initdata = {
+> @@ -48,6 +51,9 @@ static short xsave_cpuid_features[] __initdata = {
+>  	X86_FEATURE_AVX512F,
+>  	X86_FEATURE_INTEL_PT,
+>  	X86_FEATURE_PKU,
+> +	0,		   /* Unused */
+
+What's that for?
+
+> +	X86_FEATURE_SHSTK, /* XFEATURE_SHSTK_USER */
+> +	X86_FEATURE_SHSTK, /* XFEATURE_SHSTK_KERNEL */
+>  };
+
 -- 
-2.7.4
+Regards/Gruss,
+    Boris.
 
-
+Good mailing practices for 400: avoid top-posting and trim the reply.
