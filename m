@@ -1,143 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6F1727D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 12:22:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1DC8C7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 12:27:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726421AbeKHV5v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Nov 2018 16:57:51 -0500
-Received: from foss.arm.com ([217.140.101.70]:39740 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726359AbeKHV5v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Nov 2018 16:57:51 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4B189EBD;
-        Thu,  8 Nov 2018 04:22:37 -0800 (PST)
-Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 73AEE3F5BD;
-        Thu,  8 Nov 2018 04:22:31 -0800 (PST)
-Date:   Thu, 8 Nov 2018 12:22:29 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
+        id S1726417AbeKHWDM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Nov 2018 17:03:12 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:34490 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726405AbeKHWDM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Nov 2018 17:03:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=7j5d88Q/iIP3Vh0jE+BHQjAFVnGes3gX6JwGr4dy4Vo=; b=gPLqYPghJwIQMH3ovYWGP+v22
+        XIqlMfpWb0LSguiXXvgdc0KmTNWVYZDlLx7Sc6VLvTnDp4RveEffe8c/HJthaGTM8NED9zkhWvWSr
+        o23oIiCi4yCUXMBNjFxGLZ1FCreDZ8bbVbGulTMJ8I/lkgwdGT9PgXbGJbVYsAqUBpUZj6iAp0cWV
+        oloYl2Vj8jXivd9/YBh1a8TMQx/qa1f9MKBjAkjeiGEywZTU8pd1zKvhu4s29ZiGm0OXzIbcnKc5i
+        JVi3AFofC0tApI13ntGhdUWy/7Zy5FX3LRS11+rReKov5Gry8pSTFiHvRoaKjNUVALjqs0D2g3wKj
+        T2JhgPVTg==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gKjPX-0007dc-W7; Thu, 08 Nov 2018 12:27:48 +0000
+Date:   Thu, 8 Nov 2018 04:27:47 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     David Laight <David.Laight@ACULAB.COM>
+Cc:     'Martin Steigerwald' <martin@lichtvoll.de>,
+        Michal Hocko <mhocko@kernel.org>,
+        Daniel Colascione <dancol@google.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "rppt@linux.ibm.com" <rppt@linux.ibm.com>,
+        Tim Murray <timmurray@google.com>,
+        Joel Fernandes <joelaf@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
+        Roman Gushchin <guro@fb.com>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
-        linux-kbuild@vger.kernel.org, Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
-Subject: Re: [PATCH v10 12/22] kasan, arm64: fix up fault handling logic
-Message-ID: <20181108122228.xqwhpkjritrvqneq@lakrids.cambridge.arm.com>
-References: <cover.1541525354.git.andreyknvl@google.com>
- <4891a504adf61c0daf1e83642b6f7519328dfd5f.1541525354.git.andreyknvl@google.com>
+        Vlastimil Babka <vbabka@suse.cz>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
+        Prashant Dhamdhere <pdhamdhe@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2] Document /proc/pid PID reuse behavior
+Message-ID: <20181108122747.GM3074@bombadil.infradead.org>
+References: <20181031150625.147369-1-dancol@google.com>
+ <CAKOZueu5aDtHDBzp6qKECTHEejjb=dyegQkuHh8NfwgNktzFow@mail.gmail.com>
+ <20181107160015.GI27423@dhcp22.suse.cz>
+ <4536090.43ZsV6LvYe@merkaba>
+ <0c5610f128fa49fb9d8f7859e6f61b90@AcuMS.aculab.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4891a504adf61c0daf1e83642b6f7519328dfd5f.1541525354.git.andreyknvl@google.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <0c5610f128fa49fb9d8f7859e6f61b90@AcuMS.aculab.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 06, 2018 at 06:30:27PM +0100, Andrey Konovalov wrote:
-> show_pte in arm64 fault handling relies on the fact that the top byte of
-> a kernel pointer is 0xff, which isn't always the case with tag-based
-> KASAN.
-
-That's for the TTBR1 check, right?
-
-i.e. for the following to work:
-
-	if (addr >= VA_START)
-
-... we need the tag bits to be an extension of bit 55...
-
+On Thu, Nov 08, 2018 at 12:02:49PM +0000, David Laight wrote:
+> From: Martin Steigerwald
+> > Sent: 07 November 2018 17:05
+> ...
+> > Its not quite on-topic, but I am curious now: AFAIK PID limit is 16
+> > bits. Right? Could it be raised to 32 bits? I bet it would be a major
+> > change throughout different parts of the kernel.
 > 
-> This patch resets the top byte in show_pte.
+> It is probably 15 bits (since -ve pid numbers are used for process groups).
 > 
-> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
-> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> ---
->  arch/arm64/mm/fault.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-> index 7d9571f4ae3d..d9a84d6f3343 100644
-> --- a/arch/arm64/mm/fault.c
-> +++ b/arch/arm64/mm/fault.c
-> @@ -32,6 +32,7 @@
->  #include <linux/perf_event.h>
->  #include <linux/preempt.h>
->  #include <linux/hugetlb.h>
-> +#include <linux/kasan.h>
->  
->  #include <asm/bug.h>
->  #include <asm/cmpxchg.h>
-> @@ -141,6 +142,8 @@ void show_pte(unsigned long addr)
->  	pgd_t *pgdp;
->  	pgd_t pgd;
->  
-> +	addr = (unsigned long)kasan_reset_tag((void *)addr);
+> My guess is that userspace and the system call interface will handle 32bit
+> (signed) pid numbers.
+> (I don't remember 'linux emulation' being one of the emulations that
+> would truncate 32bit pids when one of the BDSs went to 32bit pids.)
+> The main problem will be that big numbers will mess up the alignment
+> of printouts from ps and top (etc).
+> This can be mitigated by only allocating 'big' numbers on systems
+> that have a lot of pids.
+> You also really want an O(1) allocator.
 
-... but this ORs in (0xffUL << 56), which is not correct for addresses
-which aren't TTBR1 addresses to begin with, where bit 55 is clear, and
-throws away useful information.
+The allocator is O(log n) -- it's the IDR allocator, used in cyclic mode.
+n in this case is the highest ID which is still in use.  The tree is
+log_64(n) levels high.  It walks to the bottom of the tree and puts a
+pointer into the tree.  If the cursor has wrapped to the beginning of
+the tree, it may encounter a PID which is still in use; if it does,
+it does a bitmap scan of that node, and will then walk up the tree,
+doing a bitmap scan forward at each level until it finds a free PID.
 
-We could use untagged_addr() here, but that wouldn't be right for
-kernels which don't use TBI1, and we'd erroneously report addresses
-under the TTBR1 range as being in the TTBR1 range.
+So it's not exactly O(log(n)), but it's close enough for all practical
+purposes.  And more importantly, it doesn't touch a lot of cachelines.
+Two or three at each level of the tree that it accesses.  If we went
+all the way to a 32-bit PID, the tree would grow to 6 levels deep,
+and worst-case would touch 6 + 5 + 4 levels of the tree (starting with
+trying to allocate PID 0xffffffff, failing, trying to allocate PID 300,
+then having to walk all the way forward to find PID 0xe0000000), so
+that's only 45 cachelines.
 
-I also see that the entry assembly for el{1,0}_{da,ia} clears the tag
-for EL0 addresses.
-
-So we could have:
-
-static inline bool is_ttbr0_addr(unsigned long addr)
-{
-	/* entry assembly clears tags for TTBR0 addrs */
-	return addr < TASK_SIZE_64;
-}
-
-static inline bool is_ttbr1_addr(unsigned long addr)
-{
-	/* TTBR1 addresses may have a tag if HWKASAN is in use */
-	return arch_kasan_reset_tag(addr) >= VA_START;
-}
-
-... and use those in the conditionals, leaving the addr as-is for
-reporting purposes.
-
-Thanks,
-Mark.
+People care a little too much about O(1)/O(n) behaviour.  Cacheline
+behaviour, and good average-case performance without falling off a cliff
+in the worst case is much more important.
