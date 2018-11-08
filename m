@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 990077D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 15:09:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DDBFB7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 15:09:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727522AbeKIAp2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Nov 2018 19:45:28 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:43832 "EHLO mx1.redhat.com"
+        id S1726862AbeKIApV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Nov 2018 19:45:21 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:58622 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726672AbeKIAp0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Nov 2018 19:45:26 -0500
+        id S1726672AbeKIApV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Nov 2018 19:45:21 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id BD4503AA1E;
-        Thu,  8 Nov 2018 15:09:30 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 22D9730820D4;
+        Thu,  8 Nov 2018 15:09:25 +0000 (UTC)
 Received: from llong.com (dhcp-17-55.bos.redhat.com [10.18.17.55])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 10269648C8;
-        Thu,  8 Nov 2018 15:09:28 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 76E0E648B4;
+        Thu,  8 Nov 2018 15:09:23 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
@@ -35,158 +35,74 @@ Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
         Patrick Bellasi <patrick.bellasi@arm.com>,
         Tom Hromatka <tom.hromatka@oracle.com>,
         Waiman Long <longman@redhat.com>
-Subject: [PATCH v15 12/12] cpuset: Expose cpuset.cpus.subpartitions with cgroup_debug
-Date:   Thu,  8 Nov 2018 10:08:46 -0500
-Message-Id: <1541689726-20088-13-git-send-email-longman@redhat.com>
+Subject: [PATCH v15 09/12] cpuset: Expose cpus.effective and mems.effective on cgroup v2 root
+Date:   Thu,  8 Nov 2018 10:08:43 -0500
+Message-Id: <1541689726-20088-10-git-send-email-longman@redhat.com>
 In-Reply-To: <1541689726-20088-1-git-send-email-longman@redhat.com>
 References: <1541689726-20088-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Thu, 08 Nov 2018 15:09:31 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Thu, 08 Nov 2018 15:09:25 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For debugging purpose, it will be useful to expose the content of the
-subparts_cpus as a read-only file to see if the code work correctly.
-However, subparts_cpus will not be used at all in most use cases. So
-adding a new cpuset file that clutters the cgroup directory may not be
-desirable.  This is now being done by using the hidden "cgroup_debug"
-kernel command line option to expose a new "cpuset.cpus.subpartitions"
-file.
+Because of the fact that setting the "cpuset.sched.partition" in
+a direct child of root can remove CPUs from the root's effective CPU
+list, it makes sense to know what CPUs are left in the root cgroup for
+scheduling purpose. So the "cpuset.cpus.effective" control file is now
+exposed in the v2 cgroup root.
 
-That option was originally used by the debug controller to expose
-itself when configured into the kernel. This is now extended to set an
-internal flag used by cgroup_addrm_files(). A new CFTYPE_DEBUG flag
-can now be used to specify that a cgroup file should only be created
-when the "cgroup_debug" option is specified.
+For consistency, the "cpuset.mems.effective" control file is exposed
+as well.
 
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- include/linux/cgroup-defs.h     |  1 +
- kernel/cgroup/cgroup-internal.h |  2 ++
- kernel/cgroup/cgroup.c          | 14 +++++++++++++-
- kernel/cgroup/cpuset.c          | 11 +++++++++++
- kernel/cgroup/debug.c           |  4 +---
- 5 files changed, 28 insertions(+), 4 deletions(-)
+ Documentation/admin-guide/cgroup-v2.rst | 4 ++--
+ kernel/cgroup/cpuset.c                  | 2 --
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
-index 5e1694f..8fcbae1 100644
---- a/include/linux/cgroup-defs.h
-+++ b/include/linux/cgroup-defs.h
-@@ -92,6 +92,7 @@ enum {
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 01b70f6..595b075 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1653,7 +1653,7 @@ Cpuset Interface Files
+ 	and won't be affected by any CPU hotplug events.
  
- 	CFTYPE_NO_PREFIX	= (1 << 3),	/* (DON'T USE FOR NEW FILES) no subsys prefix */
- 	CFTYPE_WORLD_WRITABLE	= (1 << 4),	/* (DON'T USE FOR NEW FILES) S_IWUGO */
-+	CFTYPE_DEBUG		= (1 << 5),	/* create when cgroup_debug */
+   cpuset.cpus.effective
+-	A read-only multiple values file which exists on non-root
++	A read-only multiple values file which exists on all
+ 	cpuset-enabled cgroups.
  
- 	/* internal flags, do not use outside cgroup core proper */
- 	__CFTYPE_ONLY_ON_DFL	= (1 << 16),	/* only on default hierarchy */
-diff --git a/kernel/cgroup/cgroup-internal.h b/kernel/cgroup/cgroup-internal.h
-index 75568fc..c950864 100644
---- a/kernel/cgroup/cgroup-internal.h
-+++ b/kernel/cgroup/cgroup-internal.h
-@@ -11,6 +11,8 @@
- #define TRACE_CGROUP_PATH_LEN 1024
- extern spinlock_t trace_cgroup_path_lock;
- extern char trace_cgroup_path[TRACE_CGROUP_PATH_LEN];
-+extern bool cgroup_debug;
-+extern void __init enable_debug_cgroup(void);
+ 	It lists the onlined CPUs that are actually granted to this
+@@ -1693,7 +1693,7 @@ Cpuset Interface Files
+ 	and won't be affected by any memory nodes hotplug events.
  
- /*
-  * cgroup_path() takes a spin lock. It is good practice not to take
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index 6aaf5dd..f0a8c68 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -86,6 +86,7 @@
+   cpuset.mems.effective
+-	A read-only multiple values file which exists on non-root
++	A read-only multiple values file which exists on all
+ 	cpuset-enabled cgroups.
  
- DEFINE_SPINLOCK(trace_cgroup_path_lock);
- char trace_cgroup_path[TRACE_CGROUP_PATH_LEN];
-+bool cgroup_debug __read_mostly;
- 
- /*
-  * Protects cgroup_idr and css_idr so that IDs can be released without
-@@ -3639,7 +3640,8 @@ static int cgroup_addrm_files(struct cgroup_subsys_state *css,
- 			continue;
- 		if ((cft->flags & CFTYPE_ONLY_ON_ROOT) && cgroup_parent(cgrp))
- 			continue;
--
-+		if ((cft->flags & CFTYPE_DEBUG) && !cgroup_debug)
-+			continue;
- 		if (is_add) {
- 			ret = cgroup_add_file(css, cgrp, cft);
- 			if (ret) {
-@@ -5743,6 +5745,16 @@ static int __init cgroup_disable(char *str)
- }
- __setup("cgroup_disable=", cgroup_disable);
- 
-+void __init __weak enable_debug_cgroup(void) { }
-+
-+static int __init enable_cgroup_debug(char *str)
-+{
-+	cgroup_debug = true;
-+	enable_debug_cgroup();
-+	return 1;
-+}
-+__setup("cgroup_debug", enable_cgroup_debug);
-+
- /**
-  * css_tryget_online_from_dir - get corresponding css from a cgroup dentry
-  * @dentry: directory dentry of interest
+ 	It lists the onlined memory nodes that are actually granted to
 diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index c739fda..b897314 100644
+index 3960de7..fc1a809 100644
 --- a/kernel/cgroup/cpuset.c
 +++ b/kernel/cgroup/cpuset.c
-@@ -2204,6 +2204,7 @@ static void cpuset_attach(struct cgroup_taskset *tset)
- 	FILE_MEMLIST,
- 	FILE_EFFECTIVE_CPULIST,
- 	FILE_EFFECTIVE_MEMLIST,
-+	FILE_SUBPARTS_CPULIST,
- 	FILE_CPU_EXCLUSIVE,
- 	FILE_MEM_EXCLUSIVE,
- 	FILE_MEM_HARDWALL,
-@@ -2382,6 +2383,9 @@ static int cpuset_common_seq_show(struct seq_file *sf, void *v)
- 	case FILE_EFFECTIVE_MEMLIST:
- 		seq_printf(sf, "%*pbl\n", nodemask_pr_args(&cs->effective_mems));
- 		break;
-+	case FILE_SUBPARTS_CPULIST:
-+		seq_printf(sf, "%*pbl\n", cpumask_pr_args(cs->subparts_cpus));
-+		break;
- 	default:
- 		ret = -EINVAL;
- 	}
-@@ -2634,6 +2638,13 @@ static ssize_t sched_partition_write(struct kernfs_open_file *of, char *buf,
- 		.flags = CFTYPE_NOT_ON_ROOT,
+@@ -2574,14 +2574,12 @@ static s64 cpuset_read_s64(struct cgroup_subsys_state *css, struct cftype *cft)
+ 		.name = "cpus.effective",
+ 		.seq_show = cpuset_common_seq_show,
+ 		.private = FILE_EFFECTIVE_CPULIST,
+-		.flags = CFTYPE_NOT_ON_ROOT,
  	},
  
-+	{
-+		.name = "cpus.subpartitions",
-+		.seq_show = cpuset_common_seq_show,
-+		.private = FILE_SUBPARTS_CPULIST,
-+		.flags = CFTYPE_DEBUG,
-+	},
-+
- 	{ }	/* terminate */
- };
+ 	{
+ 		.name = "mems.effective",
+ 		.seq_show = cpuset_common_seq_show,
+ 		.private = FILE_EFFECTIVE_MEMLIST,
+-		.flags = CFTYPE_NOT_ON_ROOT,
+ 	},
  
-diff --git a/kernel/cgroup/debug.c b/kernel/cgroup/debug.c
-index 9caeda6..5f1b873 100644
---- a/kernel/cgroup/debug.c
-+++ b/kernel/cgroup/debug.c
-@@ -373,11 +373,9 @@ struct cgroup_subsys debug_cgrp_subsys = {
-  * On v2, debug is an implicit controller enabled by "cgroup_debug" boot
-  * parameter.
-  */
--static int __init enable_cgroup_debug(char *str)
-+void __init enable_debug_cgroup(void)
- {
- 	debug_cgrp_subsys.dfl_cftypes = debug_files;
- 	debug_cgrp_subsys.implicit_on_dfl = true;
- 	debug_cgrp_subsys.threaded = true;
--	return 1;
- }
--__setup("cgroup_debug", enable_cgroup_debug);
+ 	{
 -- 
 1.8.3.1
 
