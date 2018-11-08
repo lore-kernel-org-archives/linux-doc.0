@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-13.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 93BA07D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 14:36:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7A5437D08E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 14:37:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726862AbeKIAMQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Nov 2018 19:12:16 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:34549 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726571AbeKIAMP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Nov 2018 19:12:15 -0500
-Received: by mail-wm1-f65.google.com with SMTP id f1-v6so1690320wmg.1
-        for <linux-doc@vger.kernel.org>; Thu, 08 Nov 2018 06:36:28 -0800 (PST)
+        id S1727020AbeKIAMy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Nov 2018 19:12:54 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:52667 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726585AbeKIAMK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Nov 2018 19:12:10 -0500
+Received: by mail-wm1-f67.google.com with SMTP id r11-v6so1494905wmb.2
+        for <linux-doc@vger.kernel.org>; Thu, 08 Nov 2018 06:36:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pCI3XzgNVAltAQe0ygEc6WjcTSNZu+vDSueRg2rkboA=;
-        b=UP+XhJbt7rG/bdEpw8fc31VRF5aLTB6BTp86/sKBPDdvzf+3rKxrZx+R4xkXmuYNk4
-         Z2kSoGRZtY2xgb0cZLZ8nqWLECPTlNaPdP21J5ZftO9/AJWV27UNRA3MqMVTh/5VBt86
-         OR25TGd6GfMgbPUcVLtTp1LdrRAy+ildKK5CGWBA4J0gfpCpY2qo+ocTQb4EWphPlU6Q
-         auFXwXntmIyQWzfLokABGdc0KwvDYW58Q+kRcY3/53A5RFB2TyvvkOfcZPB/L/44UZEC
-         8kDE/Ckdr3nMddglr5ecwDqcjOXtIhIheYGjYA9pJ/KdMyecy+Hsgg9Tkw2BDFQ1m7aq
-         kRKA==
+        bh=/pjzuvui9d85lC6ebp/JjM8l8T1XFTIxfHxdlRMSnSU=;
+        b=g1wof77b/ahW159tl/OaMLW0P96a0/zVeZFYRh5g6v6wbToBXd28iFvOASCK8yKV5Y
+         xHNqterZqD2KmkFcVcFGm+gkEQeG54Jf/H+takvz8wjdH3wdoMPjV1aR/aoFl8xbW+mR
+         3CDZOO7tD7iSEUdTMb+jOu+oyFpmUCbQR6pdxco9Vh1tL70iQ5jUycXJ0G3WmOgyULXv
+         HP7R7bmaLmZ4EHXVI9J9sCIzpUalSy8bFlzRzUf2kwtLgyxlzPRWUrnL1K4XN9LUvolW
+         Y96dsy0e/tD1Mz+ow6abkTbXTuAvzZ6CsMX4iIrftNJRgkfaRW/cIVRWqwbUc26iosdQ
+         6XAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pCI3XzgNVAltAQe0ygEc6WjcTSNZu+vDSueRg2rkboA=;
-        b=EBMguTuT5/52lL5ZALarEnQ85IpfQurJsd5Y1xmHD/QbeLjMtO7+5RURwDHqh9T+GL
-         SkATSN/KgBGqVXh8ateJhA8Yj7taE9TBCVatreZiOFFcCenfJ8eZsRzQiNeV6jVIV/cS
-         Euk0GahlWs1/D8UD9Nmo5tdnsGAJCS/5DP4lTWTX3lR4tv5a1Rt7UHNx92cbn3Ss5Z10
-         3objRP4+IYCTBxXN2lewDK8VljQCw7SnOKBKTfeOG7IxdMH2nNQl6zcHOsvbcWo4OX8i
-         uDGF/98s2yeMZMiflhB8MW9O70D6Fj2ckjz0v+LGhTTmvemEtTmKVugdDjNdzlDqC1Jt
-         WMdA==
-X-Gm-Message-State: AGRZ1gJL6YUdjzV+YvR9eGv/rwH0Ys2P8iS307ZXwjhXHrcNOoOXwTh8
-        O02XOe1ZESDKeOZnPfL6b/fzMg==
-X-Google-Smtp-Source: AJdET5c+OpdgjUiZO9kVFnzi+iLq8I4Ia27Tsi9lTwsCI5F43MyC9kiQR9b4hA1qM6mueQyUfoxirQ==
-X-Received: by 2002:a1c:154a:: with SMTP id 71-v6mr1368940wmv.83.1541687787548;
-        Thu, 08 Nov 2018 06:36:27 -0800 (PST)
+        bh=/pjzuvui9d85lC6ebp/JjM8l8T1XFTIxfHxdlRMSnSU=;
+        b=brxgWgRZuJEEpP7ABTf0vkpoYwOym2M9XyQspRktnSMGGyahxKrot4svaMZA4ljMwG
+         gYsVtcmHlnNryFb8t9MikkaYcHV87OEviHNursUs8N3oghin/Ep3zSfe5tVNrvsDWTte
+         TLF39ig0ctbWuEHD08u4dL8gm/DOa5lyBEnK3DxgT5kAuoIKEg4kFT6l0lG0gwRCnVOQ
+         6NT66SZ9jJFyz3HEarPkGy9UjeTzYHOKfIH12dSVb53n2vnG93allWMhM7F51kb8ZDD2
+         3vFut/tBI8aq0spwXmbAz2JxfdzwGPo2pd+/7wgjdMoqB4al4u8izbl4NQYZoyRFWPjO
+         1TYg==
+X-Gm-Message-State: AGRZ1gIOJdOqsQrpgROvDJMx2gUDaAMhwvUTzsjK23h0s8zVZNUuw93V
+        9joxkJ8vX672tXNR/ZxeTJxxXw==
+X-Google-Smtp-Source: AJdET5fJjnrcqJrwZDIF+kL6S1eyNF+VEauTvj/4nlfwZhoIa13mwXNXonwu4vWqr6lN/+fSYDs+KQ==
+X-Received: by 2002:a1c:13d2:: with SMTP id 201-v6mr1411054wmt.58.1541687782962;
+        Thu, 08 Nov 2018 06:36:22 -0800 (PST)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:84be:a42a:826d:c530])
-        by smtp.gmail.com with ESMTPSA id k5-v6sm5421068wre.82.2018.11.08.06.36.26
+        by smtp.gmail.com with ESMTPSA id k5-v6sm5421068wre.82.2018.11.08.06.36.21
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 08 Nov 2018 06:36:26 -0800 (PST)
+        Thu, 08 Nov 2018 06:36:22 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -73,9 +73,9 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v8 5/8] lib, arm64: untag addrs passed to strncpy_from_user and strnlen_user
-Date:   Thu,  8 Nov 2018 15:36:12 +0100
-Message-Id: <4969eac81732e555ca1ec102c12eb1e29c82ed29.1541687720.git.andreyknvl@google.com>
+Subject: [PATCH v8 2/8] uaccess: add untagged_addr definition for other arches
+Date:   Thu,  8 Nov 2018 15:36:09 +0100
+Message-Id: <c9028422854fb5bfb79d798397b30d4701207062.1541687720.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.19.1.930.g4563a0d9d0-goog
 In-Reply-To: <cover.1541687720.git.andreyknvl@google.com>
 References: <cover.1541687720.git.andreyknvl@google.com>
@@ -86,44 +86,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-strncpy_from_user and strnlen_user accept user addresses as arguments, and
-do not go through the same path as copy_from_user and others, so here we
-need to handle the case of tagged user addresses separately.
+To allow arm64 syscalls accept tagged pointers from userspace, we must
+untag them when they are passed to the kernel. Since untagging is done in
+generic parts of the kernel, the untagged_addr macro needs to be defined
+for all architectures.
 
-Untag user pointers passed to these functions.
+Define it as a noop for other architectures besides arm64.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- lib/strncpy_from_user.c | 2 ++
- lib/strnlen_user.c      | 2 ++
- 2 files changed, 4 insertions(+)
+ include/linux/uaccess.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/lib/strncpy_from_user.c b/lib/strncpy_from_user.c
-index b53e1b5d80f4..97467cd2bc59 100644
---- a/lib/strncpy_from_user.c
-+++ b/lib/strncpy_from_user.c
-@@ -106,6 +106,8 @@ long strncpy_from_user(char *dst, const char __user *src, long count)
- 	if (unlikely(count <= 0))
- 		return 0;
+diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
+index efe79c1cdd47..c045b4eff95e 100644
+--- a/include/linux/uaccess.h
++++ b/include/linux/uaccess.h
+@@ -13,6 +13,10 @@
  
-+	src = untagged_addr(src);
-+
- 	max_addr = user_addr_max();
- 	src_addr = (unsigned long)src;
- 	if (likely(src_addr < max_addr)) {
-diff --git a/lib/strnlen_user.c b/lib/strnlen_user.c
-index 60d0bbda8f5e..8b5f56466e00 100644
---- a/lib/strnlen_user.c
-+++ b/lib/strnlen_user.c
-@@ -108,6 +108,8 @@ long strnlen_user(const char __user *str, long count)
- 	if (unlikely(count <= 0))
- 		return 0;
+ #include <asm/uaccess.h>
  
-+	str = untagged_addr(str);
++#ifndef untagged_addr
++#define untagged_addr(addr) addr
++#endif
 +
- 	max_addr = user_addr_max();
- 	src_addr = (unsigned long)str;
- 	if (likely(src_addr < max_addr)) {
+ /*
+  * Architectures should provide two primitives (raw_copy_{to,from}_user())
+  * and get rid of their private instances of copy_{to,from}_user() and
 -- 
 2.19.1.930.g4563a0d9d0-goog
 
