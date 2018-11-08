@@ -1,115 +1,83 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2A8AE7D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  7 Nov 2018 23:13:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D231F7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 00:38:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727308AbeKHIqH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Nov 2018 03:46:07 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:53692 "EHLO mx1.redhat.com"
+        id S1727878AbeKHKLP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Nov 2018 05:11:15 -0500
+Received: from ozlabs.org ([203.11.71.1]:60385 "EHLO ozlabs.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727295AbeKHIqH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Nov 2018 03:46:07 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1727816AbeKHKLP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Nov 2018 05:11:15 -0500
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id D43C889AC7;
-        Wed,  7 Nov 2018 23:13:30 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-55.bos.redhat.com [10.18.17.55])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8B9AA1057051;
-        Wed,  7 Nov 2018 23:13:26 +0000 (UTC)
-Subject: Re: [PATCH v14 05/12] cpuset: Add an error state to
- cpuset.sched.partition
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@fb.com, pjt@google.com, luto@amacapital.net,
-        Mike Galbraith <efault@gmx.de>, torvalds@linux-foundation.org,
-        Roman Gushchin <guro@fb.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>,
-        Tom Hromatka <tom.hromatka@oracle.com>
-References: <1539635377-22335-1-git-send-email-longman@redhat.com>
- <1539635377-22335-6-git-send-email-longman@redhat.com>
- <20181106114017.GM22431@hirez.programming.kicks-ass.net>
-From:   Waiman Long <longman@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- weim8xU=
-Organization: Red Hat
-Message-ID: <3542ae87-5e58-93cb-8f95-04b6101f1a33@redhat.com>
-Date:   Wed, 7 Nov 2018 18:13:26 -0500
+        by ozlabs.org (Postfix) with ESMTPSA id 42r4Bx3kTxz9s8F;
+        Thu,  8 Nov 2018 11:38:17 +1100 (AEDT)
+Authentication-Results: ozlabs.org; dmarc=none (p=none dis=none) header.from=ozlabs.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ozlabs.org; s=201707;
+        t=1541637501; bh=6AOs0MPrpbhYm3CVi0be+MvcPV9W1lEqIQGPbZZcjhg=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=jKLOt57/b2Sdo77Kf53XZAk+5FN7nV1amNHW7ZZCTNS00SUU5pwByVmp0QrQYHB0O
+         MqlbMonNh2Vhz0X9wtXc98MU9R6DqDUhL0sIEefd3X0ECkoMx5srYy43QFNJkGGJIQ
+         XktI4RNXUFkGmA3zIkkXqRSnXDleNMnfaxLe1hV46HMqcJF+5CpvAo091hi7o6WTVx
+         iBOcOsTNSVj6336qUcyHP4ZicTfclsKnwilTNR7YlFRaM/NeAw9NND59HVjDd6aAnQ
+         vX10lzWH0ld/CHjjN5zxfCRGHQtxWflS88JmrQ7PA9e9rbM5Ii/GjtLoe72kbpY2Ft
+         538go9HG8C/JQ==
+Subject: Re: [PATCH] Documentation: fix spelling mistake, EACCESS -> EACCES
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Colin King <colin.king@canonical.com>
+Cc:     David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, linuxppc-dev@lists.ozlabs.org,
+        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Michael Ellerman <michael@ellerman.id.au>,
+        linuxppc-dev@lists.ozlabs.org
+References: <20181026172549.3628-1-colin.king@canonical.com>
+ <20181107153104.71eddf4d@lwn.net>
+From:   Jeremy Kerr <jk@ozlabs.org>
+Message-ID: <d1048515-239a-2686-e897-fb2a2b8d180f@ozlabs.org>
+Date:   Thu, 8 Nov 2018 08:38:15 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20181106114017.GM22431@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20181107153104.71eddf4d@lwn.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Wed, 07 Nov 2018 23:13:31 +0000 (UTC)
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/06/2018 06:40 AM, Peter Zijlstra wrote:
-> On Mon, Oct 15, 2018 at 04:29:30PM -0400, Waiman Long wrote:
->> +				spin_lock_irq(&callback_lock);
->> +				clear_bit(CS_CPU_EXCLUSIVE, &cp->flags);
->> +				spin_unlock_irq(&callback_lock);
-> A single atomic bitop wrapped in a spinlock..  maybe it is correct, but
-> it looks suspicous.
+Hi Jon,
 
-Yes, you are right. The spin_lock() should not be needed in this case.
+>> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+>> ---
+>>   Documentation/filesystems/spufs.txt | 2 +-
+>>   Documentation/gpu/drm-uapi.rst      | 4 ++--
+>>   2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> Applied, thanks.
+> 
+> This is the first patch to spufs.txt since 2006...I wonder if that stuff
+> is being used by anybody...
 
-Thanks,
-Longman
+Anyone who is using the vector processors on the Cell BE processors will
+be using it. However, that hardware is becoming pretty rare now.
 
+We'll want to remove the spufs bits if/when we drop support for the cell
+platforms (IBM QSxx, PS3, celleb). mpe: any ides on that? Do you have a 
+policy for dropping platform support?
+
+Cheers,
+
+
+Jeremy
