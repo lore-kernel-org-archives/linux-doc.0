@@ -5,33 +5,33 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 50E0F7D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 15:46:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6EC037D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 15:47:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727037AbeKIBWn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 8 Nov 2018 20:22:43 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:38742 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726595AbeKIBWn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Nov 2018 20:22:43 -0500
+        id S1727259AbeKIBXP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 8 Nov 2018 20:23:15 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:58032 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726595AbeKIBXP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Nov 2018 20:23:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=zRIBLWsw80zYbxzgs3jgsZeBfHdU+bZkwp0KRbzrlWU=; b=vuIC7TsB1/mdZF2zuBxuSbC60
-        kLh7CERmaQnIb9yqgVlwa5V7CypLACpvgBQDgRxRVeSUhIrXjL8ToG9CkR9RBPUi9prQag4gJ0Dkw
-        M8KeUG/xNBGsb+vZ5Q98UGB+aJ7QtaNDVobHS2EnKLSMEUngDSwrlg5zFJUcmOqtVqeS7SfwP8sRG
-        WK0GR3DwoDq5ZPxxurG8kNpRQH/JsBwecQ8Z0meZtpriC6MSRkFwIoCsuHvJLa6OS/hrMa8vdq9VF
-        49LvCBIvbWf99fA8EBDXi8sEsG7pov1JF0PmKbAYveJdtbY735u/OyQ/8hL/vkN9A1928mT5r+LNk
-        JeN6tUoRg==;
+         bh=/MZukFSpCuBEoizT4c3YKDQ8IZGjR9aSJBXouowbvFw=; b=K11mL6AJsm3afKC8+M6MIP5WZ
+        ba5Qf1PXbPmZrNC5EpDox1ovrSTfkwD6lWLFdmLDJ1JCjIvHZ1Bxk0Vj4Vsl9FKG1YhVXLmiX7+t6
+        YaCvEDwG6IMkghBmld8l/NdJWAAeZpee9yJrht+CE/HqBl9fbzsdiMJksB+ibIhS25P8LHeA14Fy5
+        DfvS22Sdn6Qtazpt9/KP4VWjUDzFVa2jYlKqQTrtOfLYpPtYnjF0GgWyq5DzICJM3aTwfpechuHb+
+        x6bUFy214XKuINqMhS+DKeQxZBPnOVTV+Gm/nBkoCqcI42fUAqK6Vk5xySegDekYCWFp7mIGTWVJg
+        Z3c6MnAHg==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gKmVe-000317-T8; Thu, 08 Nov 2018 15:46:19 +0000
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gKmWL-0003xk-8S; Thu, 08 Nov 2018 15:47:01 +0000
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 0D05520284F98; Thu,  8 Nov 2018 16:46:17 +0100 (CET)
-Date:   Thu, 8 Nov 2018 16:46:17 +0100
+        id 94BA920284F98; Thu,  8 Nov 2018 16:46:58 +0100 (CET)
+Date:   Thu, 8 Nov 2018 16:46:58 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     Waiman Long <longman@redhat.com>
 Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
@@ -44,29 +44,43 @@ Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Juri Lelli <juri.lelli@redhat.com>,
         Patrick Bellasi <patrick.bellasi@arm.com>,
         Tom Hromatka <tom.hromatka@oracle.com>
-Subject: Re: [PATCH v15 12/12] cpuset: Expose cpuset.cpus.subpartitions with
- cgroup_debug
-Message-ID: <20181108154617.GX9761@hirez.programming.kicks-ass.net>
+Subject: Re: [PATCH v15 00/12] Enable cpuset controller in default hierarchy
+Message-ID: <20181108154658.GY9761@hirez.programming.kicks-ass.net>
 References: <1541689726-20088-1-git-send-email-longman@redhat.com>
- <1541689726-20088-13-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1541689726-20088-13-git-send-email-longman@redhat.com>
+In-Reply-To: <1541689726-20088-1-git-send-email-longman@redhat.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 08, 2018 at 10:08:46AM -0500, Waiman Long wrote:
-> For debugging purpose, it will be useful to expose the content of the
-> subparts_cpus as a read-only file to see if the code work correctly.
-> However, subparts_cpus will not be used at all in most use cases. So
-> adding a new cpuset file that clutters the cgroup directory may not be
-> desirable.  This is now being done by using the hidden "cgroup_debug"
-> kernel command line option to expose a new "cpuset.cpus.subpartitions"
-> file.
+On Thu, Nov 08, 2018 at 10:08:34AM -0500, Waiman Long wrote:
+> Waiman Long (12):
+>   cpuset: Enable cpuset controller in default hierarchy
+>   cpuset: Define data structures to support scheduling partition
+>   cpuset: Simply allocation and freeing of cpumasks
+>   cpuset: Add new v2 cpuset.sched.partition flag
+>   cpuset: Add an error state to cpuset.sched.partition
+>   cpuset: Track cpusets that use parent's effective_cpus
+>   cpuset: Make CPU hotplug work with partition
+>   cpuset: Make generate_sched_domains() work with partition
+>   cpuset: Expose cpus.effective and mems.effective on cgroup v2 root
+>   cpuset: Use descriptive text when reading/writing
+>     cpuset.sched.partition
+>   cpuset: Add documentation about the new "cpuset.sched.partition" flag
+>   cpuset: Expose cpuset.cpus.subpartitions with cgroup_debug
+> 
+>  Documentation/admin-guide/cgroup-v2.rst | 182 +++++-
+>  include/linux/cgroup-defs.h             |   1 +
+>  kernel/cgroup/cgroup-internal.h         |   2 +
+>  kernel/cgroup/cgroup.c                  |  14 +-
+>  kernel/cgroup/cpuset.c                  | 942 +++++++++++++++++++++++++++++---
+>  kernel/cgroup/debug.c                   |   4 +-
+>  6 files changed, 1070 insertions(+), 75 deletions(-)
 
-One thought I had; would it make sense to make these debug files hidden
-("." prefix) ?
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+
+Thanks Waiman!
