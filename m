@@ -5,62 +5,65 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7321A7D8D5
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 21:05:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 45EBC7D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 21:05:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727288AbeKIGmz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Nov 2018 01:42:55 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41454 "EHLO
+        id S1727718AbeKIGnD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Nov 2018 01:43:03 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51590 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727468AbeKIGmy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Nov 2018 01:42:54 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wA8L14bI059859
-        for <linux-doc@vger.kernel.org>; Thu, 8 Nov 2018 16:05:38 -0500
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2nmsxmf9fj-1
+        by vger.kernel.org with ESMTP id S1727561AbeKIGnC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Nov 2018 01:43:02 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wA8L0OtD048612
+        for <linux-doc@vger.kernel.org>; Thu, 8 Nov 2018 16:05:45 -0500
+Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2nmvgerpaq-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 08 Nov 2018 16:05:38 -0500
+        for <linux-doc@vger.kernel.org>; Thu, 08 Nov 2018 16:05:45 -0500
 Received: from localhost
-        by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <eajames@linux.ibm.com>;
-        Thu, 8 Nov 2018 21:05:37 -0000
-Received: from b01cxnp23033.gho.pok.ibm.com (9.57.198.28)
-        by e15.ny.us.ibm.com (146.89.104.202) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Thu, 8 Nov 2018 21:05:45 -0000
+Received: from b01cxnp22034.gho.pok.ibm.com (9.57.198.24)
+        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 8 Nov 2018 21:05:32 -0000
+        Thu, 8 Nov 2018 21:05:40 -0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com [9.57.199.106])
-        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wA8L5Vjj20775126
+        by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wA8L5elH5177726
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 8 Nov 2018 21:05:31 GMT
+        Thu, 8 Nov 2018 21:05:40 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6122F2805C;
-        Thu,  8 Nov 2018 21:05:31 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id E35A728060;
+        Thu,  8 Nov 2018 21:05:39 +0000 (GMT)
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7372E28059;
-        Thu,  8 Nov 2018 21:05:30 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id DE3B42805E;
+        Thu,  8 Nov 2018 21:05:38 +0000 (GMT)
 Received: from talon7.ibm.com (unknown [9.41.179.222])
         by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
-        Thu,  8 Nov 2018 21:05:30 +0000 (GMT)
+        Thu,  8 Nov 2018 21:05:38 +0000 (GMT)
 From:   Eddie James <eajames@linux.ibm.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
         jdelvare@suse.com, linux-doc@vger.kernel.org,
         gregkh@linuxfoundation.org, robh+dt@kernel.org,
         mark.rutland@arm.com, linux@roeck-us.net, rdunlap@infradead.org,
-        benh@kernel.crashing.org, Eddie James <eajames@linux.vnet.ibm.com>
-Subject: [PATCH v6 00/10] hwmon and fsi: Add On-Chip Controller Driver
-Date:   Thu,  8 Nov 2018 15:05:19 -0600
+        benh@kernel.crashing.org, Eddie James <eajames@linux.vnet.ibm.com>,
+        Eddie James <eajames@linux.ibm.com>
+Subject: [PATCH v6 07/10] hwmon (occ): Parse OCC poll response
+Date:   Thu,  8 Nov 2018 15:05:26 -0600
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1541711129-26631-1-git-send-email-eajames@linux.ibm.com>
+References: <1541711129-26631-1-git-send-email-eajames@linux.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18110821-0068-0000-0000-0000035CFBD5
+x-cbid: 18110821-2213-0000-0000-00000313CB12
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00010009; HX=3.00000242; KW=3.00000007;
  PH=3.00000004; SC=3.00000269; SDB=6.01114610; UDB=6.00577887; IPR=6.00894709;
- MB=3.00024077; MTD=3.00000008; XFM=3.00000015; UTC=2018-11-08 21:05:35
+ MB=3.00024077; MTD=3.00000008; XFM=3.00000015; UTC=2018-11-08 21:05:44
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18110821-0069-0000-0000-0000465CAF2F
-Message-Id: <1541711129-26631-1-git-send-email-eajames@linux.ibm.com>
+x-cbparentid: 18110821-2214-0000-0000-00005C2FEAFE
+Message-Id: <1541711129-26631-8-git-send-email-eajames@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-08_12:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -75,102 +78,174 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Eddie James <eajames@linux.vnet.ibm.com>
 
-This series adds a hwmon driver to support the OCC on POWER8 and POWER9
-processors. The OCC is an embedded processor that provides realtime power and
-thermal monitoring and management.
+Add method to parse the response from the OCC poll command. This only
+needs to be done during probe(), since the OCC shouldn't change the
+number or format of sensors while it's running. The parsed response
+allows quick access to sensor data, as well as information on the
+number and version of sensors, which we need to instantiate hwmon
+attributes.
 
-The series also adds a "bus" driver to handle atomic communication between the
-service processor and the OCC on a POWER9 chip. This communication takes place
-over FSI bus to the SBE (Self-Boot engine) FIFO, which in turn communicates
-with the OCC. The driver for the SBEFIFO is already available as an FSI client
-driver.
+Signed-off-by: Eddie James <eajames@linux.ibm.com>
+---
+ drivers/hwmon/occ/common.c | 61 ++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/hwmon/occ/common.h | 55 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 116 insertions(+)
 
-For POWER8 OCCs, communication between the service processor and the OCC is
-achieved over I2C bus.
-
-Changes since v5:
- * Makefile fix when compiling both P8 and P9 versions
- * Spelling fix in hwmon doc
- * Added an additional sentence for P9 binding doc to explain that OCC isn't
-   an FSI slave device.
-
-Changes since v4:
- * Make the hwmon attributes conform almost completely to standard names and
-   values. The only exception is powerX_cap_user and powerX_cap_user_source.
- * Improve hwmon documentation.
- * Add ibm,p9-occ dt documentation.
-
-Changes since v3:
- * Add the FSI OCC driver.
- * Pull the sysfs attribute code into it's own file for cleanliness.
- * Various fixes for attribute creation and integer overflow.
-
-Changes since v2:
- * Add sysfs_notify for the error and throttling attributes when change is
-   detected.
- * Removed occs_present counting of devices bound.
- * Improved remove() of P9 driver to avoid bad behavior with relation to OCC
-   driver when unbound.
- * Added default cases (return EINVAL) for all sensor show functions.
- * Added temperature fault sensor.
- * Added back dt binding documentation for P9 to address checkpatch warning.
- * Added occs_present attribute from the poll response.
-
-Changes since v1:
- * Remove wait loop in P9 code, as that is now handled by FSI OCC driver.
- * Removed dt binding documentation for P9, FSI OCC driver will probe OCC hwmon
-   driver automatically.
- * Moved OCC response code definitions to the OCC include file.
- * Fixed includes.
- * Changed some structure fields to __beXX as that is what they are.
- * Changed some errnos.
- * Removed some dev_err().
- * Refactored P8 code a bit to use #defined addresses and magic values, and
-   changed "goto retry" to a loop.
- * Refactored error handling a bit.
-
-Eddie James (10):
-  dt-bindings: fsi: Add P9 OCC device documentation
-  fsi: Add On-Chip Controller (OCC) driver
-  Documentation: hwmon: Add OCC documentation
-  dt-bindings: i2c: Add P8 OCC hwmon device documentation
-  hwmon: Add On-Chip Controller (OCC) hwmon driver
-  hwmon (occ): Add command transport method for P8 and P9
-  hwmon (occ): Parse OCC poll response
-  hwmon (occ): Add sensor types and versions
-  hwmon (occ): Add sensor attributes and register hwmon device
-  hwmon (occ): Add sysfs attributes for additional OCC data
-
- .../devicetree/bindings/fsi/ibm,p9-occ.txt         |   16 +
- .../devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt   |   25 +
- Documentation/hwmon/occ                            |  112 ++
- drivers/fsi/Kconfig                                |   10 +
- drivers/fsi/Makefile                               |    1 +
- drivers/fsi/fsi-occ.c                              |  599 +++++++++++
- drivers/hwmon/Kconfig                              |    2 +
- drivers/hwmon/Makefile                             |    1 +
- drivers/hwmon/occ/Kconfig                          |   31 +
- drivers/hwmon/occ/Makefile                         |    5 +
- drivers/hwmon/occ/common.c                         | 1098 ++++++++++++++++++++
- drivers/hwmon/occ/common.h                         |  128 +++
- drivers/hwmon/occ/p8_i2c.c                         |  255 +++++
- drivers/hwmon/occ/p9_sbe.c                         |  106 ++
- drivers/hwmon/occ/sysfs.c                          |  188 ++++
- include/linux/fsi-occ.h                            |   25 +
- 16 files changed, 2602 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
- create mode 100644 Documentation/devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt
- create mode 100644 Documentation/hwmon/occ
- create mode 100644 drivers/fsi/fsi-occ.c
- create mode 100644 drivers/hwmon/occ/Kconfig
- create mode 100644 drivers/hwmon/occ/Makefile
- create mode 100644 drivers/hwmon/occ/common.c
- create mode 100644 drivers/hwmon/occ/common.h
- create mode 100644 drivers/hwmon/occ/p8_i2c.c
- create mode 100644 drivers/hwmon/occ/p9_sbe.c
- create mode 100644 drivers/hwmon/occ/sysfs.c
- create mode 100644 include/linux/fsi-occ.h
-
+diff --git a/drivers/hwmon/occ/common.c b/drivers/hwmon/occ/common.c
+index 81acd4b..a066509 100644
+--- a/drivers/hwmon/occ/common.c
++++ b/drivers/hwmon/occ/common.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ 
+ #include <linux/device.h>
++#include <linux/kernel.h>
+ 
+ #include "common.h"
+ 
+@@ -22,6 +23,64 @@ static int occ_poll(struct occ *occ)
+ 	return occ->send_cmd(occ, cmd);
+ }
+ 
++/* only need to do this once at startup, as OCC won't change sensors on us */
++static void occ_parse_poll_response(struct occ *occ)
++{
++	unsigned int i, old_offset, offset = 0, size = 0;
++	struct occ_sensor *sensor;
++	struct occ_sensors *sensors = &occ->sensors;
++	struct occ_response *resp = &occ->resp;
++	struct occ_poll_response *poll =
++		(struct occ_poll_response *)&resp->data[0];
++	struct occ_poll_response_header *header = &poll->header;
++	struct occ_sensor_data_block *block = &poll->block;
++
++	dev_info(occ->bus_dev, "OCC found, code level: %.16s\n",
++		 header->occ_code_level);
++
++	for (i = 0; i < header->num_sensor_data_blocks; ++i) {
++		block = (struct occ_sensor_data_block *)((u8 *)block + offset);
++		old_offset = offset;
++		offset = (block->header.num_sensors *
++			  block->header.sensor_length) + sizeof(block->header);
++		size += offset;
++
++		/* validate all the length/size fields */
++		if ((size + sizeof(*header)) >= OCC_RESP_DATA_BYTES) {
++			dev_warn(occ->bus_dev, "exceeded response buffer\n");
++			return;
++		}
++
++		dev_dbg(occ->bus_dev, " %04x..%04x: %.4s (%d sensors)\n",
++			old_offset, offset - 1, block->header.eye_catcher,
++			block->header.num_sensors);
++
++		/* match sensor block type */
++		if (strncmp(block->header.eye_catcher, "TEMP", 4) == 0)
++			sensor = &sensors->temp;
++		else if (strncmp(block->header.eye_catcher, "FREQ", 4) == 0)
++			sensor = &sensors->freq;
++		else if (strncmp(block->header.eye_catcher, "POWR", 4) == 0)
++			sensor = &sensors->power;
++		else if (strncmp(block->header.eye_catcher, "CAPS", 4) == 0)
++			sensor = &sensors->caps;
++		else if (strncmp(block->header.eye_catcher, "EXTN", 4) == 0)
++			sensor = &sensors->extended;
++		else {
++			dev_warn(occ->bus_dev, "sensor not supported %.4s\n",
++				 block->header.eye_catcher);
++			continue;
++		}
++
++		sensor->num_sensors = block->header.num_sensors;
++		sensor->version = block->header.sensor_format;
++		sensor->data = &block->data;
++	}
++
++	dev_dbg(occ->bus_dev, "Max resp size: %u+%zd=%zd\n", size,
++		sizeof(*header), size + sizeof(*header));
++}
++
+ int occ_setup(struct occ *occ, const char *name)
+ {
+ 	int rc;
+@@ -36,5 +95,7 @@ int occ_setup(struct occ *occ, const char *name)
+ 		return rc;
+ 	}
+ 
++	occ_parse_poll_response(occ);
++
+ 	return 0;
+ }
+diff --git a/drivers/hwmon/occ/common.h b/drivers/hwmon/occ/common.h
+index b44fee2..0a7a107 100644
+--- a/drivers/hwmon/occ/common.h
++++ b/drivers/hwmon/occ/common.h
+@@ -20,10 +20,65 @@ struct occ_response {
+ 	__be16 checksum;
+ } __packed;
+ 
++struct occ_sensor_data_block_header {
++	u8 eye_catcher[4];
++	u8 reserved;
++	u8 sensor_format;
++	u8 sensor_length;
++	u8 num_sensors;
++} __packed;
++
++struct occ_sensor_data_block {
++	struct occ_sensor_data_block_header header;
++	u32 data;
++} __packed;
++
++struct occ_poll_response_header {
++	u8 status;
++	u8 ext_status;
++	u8 occs_present;
++	u8 config_data;
++	u8 occ_state;
++	u8 mode;
++	u8 ips_status;
++	u8 error_log_id;
++	__be32 error_log_start_address;
++	__be16 error_log_length;
++	u16 reserved;
++	u8 occ_code_level[16];
++	u8 eye_catcher[6];
++	u8 num_sensor_data_blocks;
++	u8 sensor_data_block_header_version;
++} __packed;
++
++struct occ_poll_response {
++	struct occ_poll_response_header header;
++	struct occ_sensor_data_block block;
++} __packed;
++
++struct occ_sensor {
++	u8 num_sensors;
++	u8 version;
++	void *data;	/* pointer to sensor data start within response */
++};
++
++/*
++ * OCC only provides one sensor data block of each type, but any number of
++ * sensors within that block.
++ */
++struct occ_sensors {
++	struct occ_sensor temp;
++	struct occ_sensor freq;
++	struct occ_sensor power;
++	struct occ_sensor caps;
++	struct occ_sensor extended;
++};
++
+ struct occ {
+ 	struct device *bus_dev;
+ 
+ 	struct occ_response resp;
++	struct occ_sensors sensors;
+ 
+ 	u8 poll_cmd_data;		/* to perform OCC poll command */
+ 	int (*send_cmd)(struct occ *occ, u8 *cmd);
 -- 
 1.8.3.1
 
