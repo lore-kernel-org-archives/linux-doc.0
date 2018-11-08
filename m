@@ -1,113 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3FA577D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 21:31:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A3DCE7D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  8 Nov 2018 21:38:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726847AbeKIHIw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Nov 2018 02:08:52 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:39304 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726182AbeKIHIw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Nov 2018 02:08:52 -0500
-Received: by mail-lj1-f194.google.com with SMTP id t9-v6so16166337ljh.6;
-        Thu, 08 Nov 2018 13:31:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=C3pszWJZIvtEEQQnKu7V/MM4CVUt13HqVhxs6osWXLo=;
-        b=DJ88Q6PbNjIst8NPGoPzV7IHSPXhCY0q6Zpi+fXMK16oJVp8RF4zq+2PjWybBZx8Kb
-         9M3eVr8lfxinKtpBWutaA89N0kircSOm90m+dlQv0hzboCSF/eq9ZeUd9/SUyEdziVjH
-         z2oylMhL0s3GUVes8FI1BSKeC3m4XSM8+ljakiTmCld2Dng75k7LqAPE4QezOAZbh8V8
-         q+tGG+/9rJ+C7TSUszwtNuLQeO1ncen90T8Gd90lnr+zpU4SY3t5yElz+fdS/oUKojmd
-         yuMqQB6Guw0IMCG7T6jelMG8HyMerM5qmpgnvMb0Dob7nw6+XEqww4GNXhrssbs67nnf
-         1cUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=C3pszWJZIvtEEQQnKu7V/MM4CVUt13HqVhxs6osWXLo=;
-        b=RYYuUD62ghdNCKxR5ILBlJnUCNDJC58EHIKJJ+YKTw62E+Z/3OYmrf0tjlivxIBeoK
-         v17nlqpwNMZlMW3ibT77bufggt/yrbGStgMTPMR4L0ruWnmFxd74kSHMlWHX+ucevYiY
-         rxcQZnX2Q+oeejc9ixKsmNZat4XyQKrKN+3fZA/yzQS3eLdK07O4ET+oAwtS5GUDnHKd
-         iH6Ngg7oTjrHmyWNhfFkbcf8nzvybb62EbHus6FSEH6XCbCbzNvK4BcO7mpvnlh0OUgp
-         t+amiRspHWsGKBpi8M3d86BljfnEL+0B4vE/sWusRb6m1XvGT1J2vtN/eHytatro4bnN
-         jXEQ==
-X-Gm-Message-State: AGRZ1gJO+GJeKhbQqGg3be/gdc+zNe6r1TI074eKcf77D2rhKeA67bBE
-        BldVNiGPCga9aFovrAplaoU=
-X-Google-Smtp-Source: AJdET5dbEG3eYFre48+1i197sdZiWB6EdEFXocIy9/rtVJ7XK2KQafC3QLUyETv9+TzimN5bvy++hQ==
-X-Received: by 2002:a2e:92ca:: with SMTP id k10-v6mr3806897ljh.103.1541712687899;
-        Thu, 08 Nov 2018 13:31:27 -0800 (PST)
-Received: from uranus.localdomain ([5.18.102.224])
-        by smtp.gmail.com with ESMTPSA id u12-v6sm871897ljk.79.2018.11.08.13.31.26
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 08 Nov 2018 13:31:26 -0800 (PST)
-Received: by uranus.localdomain (Postfix, from userid 1000)
-        id 4471D4607EF; Fri,  9 Nov 2018 00:31:26 +0300 (MSK)
-Date:   Fri, 9 Nov 2018 00:31:26 +0300
-From:   Cyrill Gorcunov <gorcunov@gmail.com>
-To:     Andy Lutomirski <luto@amacapital.net>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, X86 ML <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1726915AbeKIHPi convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Nov 2018 02:15:38 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:37940 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726599AbeKIHPi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Nov 2018 02:15:38 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 4E90030A81A8;
+        Thu,  8 Nov 2018 21:38:14 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-55.bos.redhat.com [10.18.17.55])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id F02CB68B13;
+        Thu,  8 Nov 2018 21:38:12 +0000 (UTC)
+Subject: Re: [PATCH v10 4/4] ipc: Add a cyclic mode for id generation
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
-Subject: Re: [PATCH v5 04/27] x86/fpu/xstate: Add XSAVES system states for
- shadow stack
-Message-ID: <20181108213126.GD13195@uranus.lan>
-References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
- <20181011151523.27101-5-yu-cheng.yu@intel.com>
- <CALCETrVAe8R=crVHoD5QmbN-gAW+V-Rwkwe4kQP7V7zQm9TM=Q@mail.gmail.com>
- <4295b8f786c10c469870a6d9725749ce75dcdaa2.camel@intel.com>
- <CALCETrUKzXYzRrWRdi8Z7AdAF0uZW5Gs7J4s=55dszoyzc29rw@mail.gmail.com>
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>,
+        Manfred Spraul <manfred@colorfullife.com>
+References: <1541432626-27780-1-git-send-email-longman@redhat.com>
+ <1541432626-27780-5-git-send-email-longman@redhat.com>
+ <20181106130252.GC3074@bombadil.infradead.org>
+From:   Waiman Long <longman@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ weim8xU=
+Organization: Red Hat
+Message-ID: <655c9c3f-fd53-f932-64fd-cd9fa4d1168c@redhat.com>
+Date:   Thu, 8 Nov 2018 16:38:12 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALCETrUKzXYzRrWRdi8Z7AdAF0uZW5Gs7J4s=55dszoyzc29rw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20181106130252.GC3074@bombadil.infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Thu, 08 Nov 2018 21:38:14 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 08, 2018 at 01:22:54PM -0800, Andy Lutomirski wrote:
-> > >
-> > > Why are these __packed?  It seems like it'll generate bad code for no
-> > > obvious purpose.
-> >
-> > That prevents any possibility that the compiler will insert padding, although in
-> > 64-bit kernel this should not happen to either struct.  Also all xstate
-> > components here are packed.
-> >
-> 
-> They both seem like bugs, perhaps.  As I understand it, __packed
-> removes padding, but it also forces the compiler to expect the fields
-> to be unaligned even if they are actually aligned.
+On 11/06/2018 08:02 AM, Matthew Wilcox wrote:
+> On Mon, Nov 05, 2018 at 10:43:46AM -0500, Waiman Long wrote:
+>> The idea of using the cyclic mode to reduce id reuse came from Manfred
+>> Spraul <manfred@colorfullife.com>. There may be a little bit of
+>> additional memory/performance overhead in doing cyclic id allocation,
+>> but it is a slow path anyway and a bit of overhead shouldn't be an issue.
+>>
+>> This patch differs from his as the cyclic mode is not the default and
+>> has to be explicitly opted in for users who want that.
+> I really don't like the "make the sysadmin choose" approach.  It's
+> shifting blame to someone who has no idea what the tradeoffs are.
+> We should try to get it right rather than force more people to learn
+> why we're incapable of making the right decision for them.
+>
+My patch is conservative as there will be no behavior change by default.
+I won't mind changing the default to cyclic if we all agree.
 
-How is that? Andy, mind to point where you get that this
-attribute forces compiler to make such assumption?
+Cheers,
+Longman
+
+
