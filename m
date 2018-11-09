@@ -6,56 +6,53 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1C7C27D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 10:21:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 426987D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 10:22:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727560AbeKIUBX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Nov 2018 15:01:23 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:34670 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727552AbeKIUBX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Nov 2018 15:01:23 -0500
-Received: by mail-oi1-f195.google.com with SMTP id i138-v6so1063388oib.1;
-        Fri, 09 Nov 2018 02:21:27 -0800 (PST)
+        id S1727803AbeKIUCl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Nov 2018 15:02:41 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:42722 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727532AbeKIUCl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Nov 2018 15:02:41 -0500
+Received: by mail-oi1-f196.google.com with SMTP id x63-v6so1031287oix.9;
+        Fri, 09 Nov 2018 02:22:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=WpRANswVNHpyNPwFfYNwt/nNsTidoxb+fl9md3xzbG8=;
-        b=MY4j2kNt3b/R3QVHSKikT/NlPb/xbLA/5ZfCI474xzsinGv84GkGzuH9WLxTz3oYFD
-         ykNtLck0e5nrKzDYwTtRNiDxOiL+iXBh0tXf96AyalFbGTlG2YxMhryZeTa6w/94V8C4
-         ElWNR1MflYKb3SCke349ehTCIgy5L0B0N0WeUNKmn9lgetUxVC3MKDa4PFns4C2VdEEW
-         z29u85iU5xUrtPt52pRkZoqnvCUIQiJY4uxNRuPwyuOJbgU/TpT5aeaHoJ0mMGMRlIsa
-         xJPFccET2u8/+6DNfOgaGFk3pGTJogVhg6edj6tlfuWYS9nWl7/1nQQ1TO+Ucam/unpi
-         nz8w==
+        bh=lWACwKLAWw8MM/g0ZZfBRYEqltpqlUefrzfC7mPiHQc=;
+        b=LlFm1D+MLOEFX2auIpJkkVYuzp4sVP4XVNJ9ZxFxbW5lbTH0W6ozR0rRLMl5mU+HCX
+         Pt3xylBzMvCj9inPf51kMtz+qpiw0G3q+kiKS7cU9b3uot0mcoSg+DdIztliNTMJL7tP
+         DC7GG9YxL149aw7BUipD9Ej1eIYt2oejNiBNF7JGbbM414hAQvjh3mV11Ceq/4ozjbXB
+         P3fbM56vjn2LWT4zqiiSpeOQXO60iXAoaOfXX6pqrS00Bv3xfh1glvArhBjjSLhN2GLy
+         ribAAl4BbGvT/QYth/Ymj1pLk064/kJlUF069ybmdDAs5YLdBg/pk3Rz0jI5IQxOq10P
+         DMVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=WpRANswVNHpyNPwFfYNwt/nNsTidoxb+fl9md3xzbG8=;
-        b=V4mx1rbO4PwZSkwy9qD/3K2REfoEnAxNB1cIiS8h6xmto4xOKkqxQ8fEbAaL6QY8sq
-         05w10RBimd7DLy1BTMxvUP6UHXSkprnoJ+t8+5MniATDI+uql1tsWLC1jxPnmgu+xwBc
-         oVCA4L6F8r2SoYlIPMAQyWm95v+jogsJywsgpftnIO+Md6FAihGEqowObj1xlUvhFhLU
-         DxwWLBTNFqPwoxImI5/6eXaSe5xvgHyj5hek+ePHB+vAie5kByG19K2viwAxsJOXM+kJ
-         ZAiYmywakcwfpvvDQ/OGvycpBzR+Kyo4sVJIK8rhf91Zo+3BbIcnwUGl+oglVlmBgfN+
-         ya+Q==
-X-Gm-Message-State: AGRZ1gLw4aZyT3P5A05glMtz2iwlBdJOFbxut6AmXwcM1qpk4vxgeH3v
-        WepVjxkoFVgiG8RudFPVNEf76P8pyfp507jljmQ=
-X-Google-Smtp-Source: AJdET5c5oUNNY+5cPy4b7IT3Z53iiO3l3OwbCYuCBmdlY2VgupESARsAx92JXDlcsxniz7Jbr9QtVrDtbQkJE/ecGnU=
-X-Received: by 2002:aca:59c4:: with SMTP id n187-v6mr4363540oib.279.1541758886894;
- Fri, 09 Nov 2018 02:21:26 -0800 (PST)
+        bh=lWACwKLAWw8MM/g0ZZfBRYEqltpqlUefrzfC7mPiHQc=;
+        b=KqdQ7vtMzRoR5SFohsOM0Vz2tI3aHC0bs+Jxoa1JgaFEVyEjZt2mPu++klvWbb3JRS
+         MjrGG8/5SUJa9mWxYzr2i5UhArb2GKTpxsKzFczSEqeWg0tS/0r9P1+z3IER3vCPaaRN
+         mDlbTBXC2n/4e8mFT2FVKhiYo8o2lqWltga7NrqTpnsCG4P9WDAmhDaUrzuCWlQF/P+L
+         G9d4FeUOrc/byGkzRPUnjh9jlaa1RC3ynkUtYSMk0s0+Ebp2QlAq/U16cGu68J6sf5a2
+         liXWVUv8NEa8rJszKhDWAp5EbuLW2ZRhDRzPVRpbZHA7gIerT7AuXE80qsNF2+11FoW1
+         S6HQ==
+X-Gm-Message-State: AGRZ1gIF5Geb7Z10DFbAKAqqoxUVRfvUY1qeT7oI5XU6Z5NdjY4GnSk5
+        WwX+pAyX655zaPlkmISCnWmKddPXN4FJFwuupjE=
+X-Google-Smtp-Source: AJdET5e9BBW9saJ8tbNbl//hnCNF4aj4jryaj75adji0CC3UT4+eTESU/lPPKIyWm5KDX/eGth49f8InjmWnMCsfM8E=
+X-Received: by 2002:aca:503:: with SMTP id 3-v6mr4451784oif.302.1541758963891;
+ Fri, 09 Nov 2018 02:22:43 -0800 (PST)
 MIME-Version: 1.0
 References: <20181025055833.28471-1-ganapatrao.kulkarni@cavium.com>
- <20181025055833.28471-3-ganapatrao.kulkarni@cavium.com> <84978a48-bd25-eede-519a-a4e9991c5c3d@infradead.org>
-In-Reply-To: <84978a48-bd25-eede-519a-a4e9991c5c3d@infradead.org>
+In-Reply-To: <20181025055833.28471-1-ganapatrao.kulkarni@cavium.com>
 From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
-Date:   Fri, 9 Nov 2018 15:51:15 +0530
-Message-ID: <CAKTKpr5mtSuRLfaGe+nQOsEYSP7MghsxhjtVgKmR=jAnrAn1Kg@mail.gmail.com>
-Subject: Re: [PATCH v7 2/2] ThunderX2, perf : Add Cavium ThunderX2 SoC UNCORE
- PMU driver
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Ganapatrao Kulkarni <Ganapatrao.Kulkarni@cavium.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+Date:   Fri, 9 Nov 2018 15:52:32 +0530
+Message-ID: <CAKTKpr5eJJPX4Wpn=OvcZmzZYQpVgKBYYD1UEjEQZ0rH=DPTHg@mail.gmail.com>
+Subject: Re: [PATCH v7 0/2] Add ThunderX2 SoC Performance Monitoring Unit driver
+To:     Ganapatrao Kulkarni <Ganapatrao.Kulkarni@cavium.com>
+Cc:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         linux-arm-kernel@lists.infradead.org,
         Will Deacon <Will.Deacon@arm.com>,
         Mark Rutland <mark.rutland@arm.com>, suzuki.poulose@arm.com,
@@ -68,39 +65,68 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 25, 2018 at 9:42 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> On 10/24/18 10:59 PM, Kulkarni, Ganapatrao wrote:
-> > diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
-> > index 08ebaf7cca8b..c1956b1af2bb 100644
-> > --- a/drivers/perf/Kconfig
-> > +++ b/drivers/perf/Kconfig
-> > @@ -87,6 +87,15 @@ config QCOM_L3_PMU
-> >          Adds the L3 cache PMU into the perf events subsystem for
-> >          monitoring L3 cache events.
-> >
-> > +config THUNDERX2_PMU
-> > +        tristate "Cavium ThunderX2 SoC PMU UNCORE"
-> > +     depends on ARCH_THUNDER2 && ARM64 && ACPI && NUMA
-> > +        default m
-> > +     help
-> > +       Provides support for ThunderX2 UNCORE events.
-> > +       The SoC has PMU support in its L3 cache controller (L3C) and
-> > +       in the DDR4 Memory Controller (DMC).
-> > +
-> >  config XGENE_PMU
-> >          depends on ARCH_XGENE
-> >          bool "APM X-Gene SoC PMU"
->
-> Please fix the Kconfig indentation.  Use one tab (not spaces) for each of
-> tristate, depends, default, and help.  (yes, some of them are tabs and some
-> are spaces.)
+Hi Mark,
 
-thanks, i will update.
+can you please review this series?
+
+On Thu, Oct 25, 2018 at 11:29 AM Kulkarni, Ganapatrao
+<Ganapatrao.Kulkarni@cavium.com> wrote:
 >
+> This patchset adds PMU driver for Cavium's ThunderX2 SoC UNCORE devices.
+> The SoC has PMU support in L3 cache controller (L3C) and in the
+> DDR4 Memory Controller (DMC).
+>
+> v7:
+>         Incorporated review comments [3].
+>         Modified driver as loadable module.
+>         Updated Documentation with Event description.
+>         Removed per-channel(no SMC calls) sampling implementation(
+>         Since DMC and L3C channels are interleave, we have decided to
+>         sample channel zero and prorate it to account for a Device).
+>
+> [3] https://patchwork.kernel.org/patch/10479203/
+>
+> v6:
+>         Rebased to 4.18-rc1
+>         Updated with comments from John Garry[3]
+>
+> [3] https://lkml.org/lkml/2018/5/17/408
+>
+> v5:
+>         Incorporated review comments from Mark Rutland[2]
+> v4:
+>         Incorporated review comments from Mark Rutland[1]
+>
+> [1] https://www.spinics.net/lists/arm-kernel/msg588563.html
+> [2] https://lkml.org/lkml/2018/4/26/376
+>
+> v3:
+>         Fixed warning reported by kbuild robot
+>
+> v2:
+>         Rebased to 4.12-rc1
+>         Removed Arch VULCAN dependency.
+>         Update SMC call parameters as per latest firmware.
+>
+> v1:
+>         Initial patch
+>
+> Ganapatrao Kulkarni (2):
+>   perf, uncore: Adding documentation for ThunderX2 pmu uncore driver
+>   ThunderX2, perf : Add Cavium ThunderX2 SoC UNCORE PMU driver
+>
+>  Documentation/perf/thunderx2-pmu.txt | 106 ++++
+>  drivers/perf/Kconfig                 |   9 +
+>  drivers/perf/Makefile                |   1 +
+>  drivers/perf/thunderx2_pmu.c         | 867 +++++++++++++++++++++++++++
+>  include/linux/cpuhotplug.h           |   1 +
+>  5 files changed, 984 insertions(+)
+>  create mode 100644 Documentation/perf/thunderx2-pmu.txt
+>  create mode 100644 drivers/perf/thunderx2_pmu.c
 >
 > --
-> ~Randy
+> 2.18.0
+>
 
 thanks
 Ganapat
