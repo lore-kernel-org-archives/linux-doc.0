@@ -5,23 +5,24 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4B2677D927
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 15:05:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C4AE37D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 15:08:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728280AbeKJApv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Nov 2018 19:45:51 -0500
-Received: from mx2.suse.de ([195.135.220.15]:58982 "EHLO mx1.suse.de"
+        id S1727978AbeKJAtl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Nov 2018 19:49:41 -0500
+Received: from mx2.suse.de ([195.135.220.15]:59712 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728190AbeKJApv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Nov 2018 19:45:51 -0500
+        id S1727735AbeKJAtl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Nov 2018 19:49:41 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay1.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 088A4AC11;
-        Fri,  9 Nov 2018 15:04:50 +0000 (UTC)
-Date:   Sat, 10 Nov 2018 02:06:29 +1100
+        by mx1.suse.de (Postfix) with ESMTP id ED769ADC3;
+        Fri,  9 Nov 2018 15:08:40 +0000 (UTC)
+Date:   Sat, 10 Nov 2018 02:10:22 +1100
 From:   Aleksa Sarai <asarai@suse.de>
 To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+Cc:     Josh Poimboeuf <jpoimboe@redhat.com>,
+        Aleksa Sarai <cyphar@cyphar.com>,
         Steven Rostedt <rostedt@goodmis.org>,
         "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
         Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
@@ -39,12 +40,10 @@ Cc:     Aleksa Sarai <cyphar@cyphar.com>,
         Brendan Gregg <bgregg@netflix.com>,
         Christian Brauner <christian@brauner.io>,
         netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Josh Poimboeuf <jpoimboe@redhat.com>
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
 Subject: Re: [PATCH v3 1/2] kretprobe: produce sane stack traces
-Message-ID: <20181109150629.wpedwxsgbftkl3ab@mikami>
-References: <20181101204720.6ed3fe37@vmware.local.home>
- <20181102050509.tw3dhvj5urudvtjl@yavin>
+Message-ID: <20181109151022.xs7u3rvuy6uodilf@mikami>
+References: <20181102050509.tw3dhvj5urudvtjl@yavin>
  <20181102065932.bdt4pubbrkvql4mp@yavin>
  <20181102091658.1bc979a4@gandalf.local.home>
  <20181103070253.ajrqzs5xu2vf5stu@yavin>
@@ -52,12 +51,13 @@ References: <20181101204720.6ed3fe37@vmware.local.home>
  <20181106171501.59ccabbc@gandalf.local.home>
  <20181108074612.ldy6rozdpsdps6bf@yavin>
  <20181108080448.rggfn4zawi3por23@yavin>
- <20181109161551.6b96bd7d932c71432ac65e83@kernel.org>
+ <20181108144437.l3proaovfqm5osnr@treble>
+ <20181109162632.9a3694eea8ac8056302a8262@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="dlusgdlwys367xnp"
+        protocol="application/pgp-signature"; boundary="6alkr35q2cz3bqlc"
 Content-Disposition: inline
-In-Reply-To: <20181109161551.6b96bd7d932c71432ac65e83@kernel.org>
+In-Reply-To: <20181109162632.9a3694eea8ac8056302a8262@kernel.org>
 User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -65,141 +65,73 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---dlusgdlwys367xnp
+--6alkr35q2cz3bqlc
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 On 2018-11-09, Masami Hiramatsu <mhiramat@kernel.org> wrote:
-> > diff --git a/arch/x86/include/asm/ptrace.h b/arch/x86/include/asm/ptrac=
-e.h
-> > index ee696efec99f..c4dfafd43e11 100644
-> > --- a/arch/x86/include/asm/ptrace.h
-> > +++ b/arch/x86/include/asm/ptrace.h
-> > @@ -172,6 +172,7 @@ static inline unsigned long kernel_stack_pointer(st=
-ruct pt_regs *regs)
-> >  	return regs->sp;
-> >  }
-> >  #endif
-> > +#define stack_addr(regs) ((unsigned long *) kernel_stack_pointer(regs))
+> On Thu, 8 Nov 2018 08:44:37 -0600
+> Josh Poimboeuf <jpoimboe@redhat.com> wrote:
 >=20
-> No, you should use kernel_stack_pointer(regs) itself instead of stack_add=
-r().
->=20
+> > On Thu, Nov 08, 2018 at 07:04:48PM +1100, Aleksa Sarai wrote:
+> > > On 2018-11-08, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> > > > I will attach what I have at the moment to hopefully explain what t=
+he
+> > > > issue I've found is (re-using the kretprobe architecture but with t=
+he
+> > > > shadow-stack idea).
+> > >=20
+> > > Here is the patch I have at the moment (it works, except for the
+> > > question I have about how to handle the top-level pt_regs -- I've mar=
+ked
+> > > that code with XXX).
+> > >=20
+> > > --=20
+> > > Aleksa Sarai
+> > > Senior Software Engineer (Containers)
+> > > SUSE Linux GmbH
+> > > <https://www.cyphar.com/>
+> > >=20
+> > > --8<-----------------------------------------------------------------=
+----
+> > >=20
+> > > Since the return address is modified by kretprobe, the various unwind=
+ers
+> > > can produce invalid and confusing stack traces. ftrace mostly solved
+> > > this problem by teaching each unwinder how to find the original return
+> > > address for stack trace purposes. This same technique can be applied =
+to
+> > > kretprobes by simply adding a pointer to where the return address was
+> > > replaced in the stack, and then looking up the relevant
+> > > kretprobe_instance when a stack trace is requested.
+> > >=20
+> > > [WIP: This is currently broken because the *first entry* will not be
+> > >       overwritten since it looks like the stack pointer is different
+> > >       when we are provided pt_regs. All other addresses are correctly
+> > >       handled.]
 > >=20
-> >  #define GET_IP(regs) ((regs)->ip)
-> >  #define GET_FP(regs) ((regs)->bp)
-> > diff --git a/arch/x86/kernel/kprobes/core.c b/arch/x86/kernel/kprobes/c=
-ore.c
-> > index b0d1e81c96bb..eb4da885020c 100644
-> > --- a/arch/x86/kernel/kprobes/core.c
-> > +++ b/arch/x86/kernel/kprobes/core.c
-> > @@ -69,8 +69,6 @@
-> >  DEFINE_PER_CPU(struct kprobe *, current_kprobe) =3D NULL;
-> >  DEFINE_PER_CPU(struct kprobe_ctlblk, kprobe_ctlblk);
-> > =20
-> > -#define stack_addr(regs) ((unsigned long *)kernel_stack_pointer(regs))
+> > When you see this problem, what does regs->ip point to?  If it's
+> > pointing to generated code, then we don't _currently_ have a way of
+> > dealing with that.  If it's pointing to a real function, we can fix that
+> > with unwind hints.
 >=20
-> I don't like keeping this meaningless macro... this should be replaced wi=
-th generic
-> kernel_stack_pointer() macro.
-
-Sure. This patch was just an example -- I can remove stack_addr() all
-over.
-
-> > -	if (regs)
-> > -		save_stack_address(trace, regs->ip, nosched);
-> > +	if (regs) {
-> > +		/* XXX: Currently broken -- stack_addr(regs) doesn't match entry. */
-> > +		addr =3D regs->ip;
+> As I replied, If the stackdump is called from kretprobe event, regs->ip
+> always points trampoline function. Otherwise (maybe from kprobe event,
+> or panic, BUG etc.) it always be the address which the event occurs.
 >=20
-> Since this part is for storing regs->ip as a top of call-stack, this
-> seems correct code. Stack unwind will be done next block.
+> So fixing regs->ip is correct.
 
-This comment was referring to the usage of stack_addr(). stack_addr()
-doesn't give you the right result (it isn't the address of the return
-address -- it's slightly wrong). This is the main issue I was having --
-am I doing something wrong here?
+The problem is that the pointer to the *return address* is wrong
+(kernel_stack_pointer() gives you a different result than the function
+entry), it's not that regs->ip is wrong. And I'm sure that it's "wrong"
+because it's not possible for "regs->ip =3D=3D kretprobe_trampoline" unless
+you are in a stack frame that has been modified by the kretprobe core.
 
-> > +		//addr =3D ftrace_graph_ret_addr(current, &state.graph_idx, addr, st=
-ack_addr(regs));
->=20
-> so func graph return trampoline address will be shown only when unwinding=
- stack entries.
-> I mean func-graph tracer is not used as an event, so it never kicks stack=
-dump.
-
-Just to make sure I understand what you're saying -- func-graph trace
-will never actually call __ftrace_stack_trace? Because if it does, then
-this code will be necessary (and then I'm a bit confused why the
-unwinder has func-graph trace code -- if stack traces are never taken
-under func-graph then the code in the unwinder is not necessary)
-
-My reason for commenting this out is because at this point "state" isn't
-initialised and thus .graph_idx would not be correctly handled during
-unwind (and it's the same reason I commented it out later).
-
-> > +		addr =3D kretprobe_ret_addr(current, addr, stack_addr(regs));
->=20
-> But since kretprobe will be an event, which can kick the stackdump.
-> BTW, from kretprobe, regs->ip should always be the trampoline handler,=20
-> see arch/x86/kernel/kprobes/core.c:772 :-)
-> So it must be fixed always.
-
-Right, but kretprobe_ret_addr() is returning the *original* return
-address (and we need to do an (addr =3D=3D kretprobe_trampoline)). The
-real problem is that stack_addr(regs) isn't the same as it is during
-kretprobe setup (but kretprobe_ret_addr() works everywhere else).
-
-> > @@ -1856,6 +1870,41 @@ static int pre_handler_kretprobe(struct kprobe *=
-p, struct pt_regs *regs)
-> >  }
-> >  NOKPROBE_SYMBOL(pre_handler_kretprobe);
-> > =20
-> > +unsigned long kretprobe_ret_addr(struct task_struct *tsk, unsigned lon=
-g ret,
-> > +				 unsigned long *retp)
-> > +{
-> > +	struct kretprobe_instance *ri;
-> > +	unsigned long flags =3D 0;
-> > +	struct hlist_head *head;
-> > +	bool need_lock;
-> > +
-> > +	if (likely(ret !=3D (unsigned long) &kretprobe_trampoline))
-> > +		return ret;
-> > +
-> > +	need_lock =3D !kretprobe_hash_is_locked(tsk);
-> > +	if (WARN_ON(need_lock))
-> > +		kretprobe_hash_lock(tsk, &head, &flags);
-> > +	else
-> > +		head =3D kretprobe_inst_table_head(tsk);
->=20
-> This may not work unless this is called from the kretprobe handler contex=
-t,
-> since if we are out of kretprobe handler context, another CPU can lock the
-> hash table and it can be detected by kretprobe_hash_is_locked();.
-
-Yeah, I noticed this as well when writing it (but needed a quick impl
-that I could test). I will fix this, thanks!
-
-By is_kretprobe_handler_context() I imagine you are referring to
-checking is_kretprobe(current_kprobe())?
-
-> So, we should check we are in the kretprobe handler context if tsk =3D=3D=
- current,
-> if not, we definately can lock the hash lock without any warning. This can
-> be something like;
->=20
-> if (is_kretprobe_handler_context()) {
->   // kretprobe_hash_lock(current =3D=3D tsk) has been locked by caller =
-=20
->   if (tsk !=3D current && kretprobe_hash(tsk) !=3D kretprobe_hash(current=
-))
->     // the hash of tsk and current can be same.
->     need_lock =3D true;
-> } else
->   // we should take a lock for tsk.
->   need_lock =3D true;
+I will take a closer look at this over the weekend -- I posted the patch
+to try to help explain what the underlying issue I was trying to solve
+with this patch series is (and why I don't think the ftrace changes
+proposed in the thread will completely fix them).
 
 --=20
 Aleksa Sarai
@@ -207,24 +139,24 @@ Senior Software Engineer (Containers)
 SUSE Linux GmbH
 <https://www.cyphar.com/>
 
---dlusgdlwys367xnp
+--6alkr35q2cz3bqlc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEXzbGxhtUYBJKdfWmnhiqJn3bjbQFAlvlonIACgkQnhiqJn3b
-jbSbFQ//SnJ9X96iLygU7suh6KaaaKt6o/NfaDYXPcWMVlPxkktF7hRIVeWllsf3
-hfq9/jqfsd84rFUM4hYQPkWfMS5J3kkjjDMpTe+q1Qn7blVxRNg2BqxcfU7dvIxH
-QRzMjhxNkqHuvbKRS9+j6JxmH0cvW7rrkA8hzLNGDKGMzE4SHBqJaDc7IO7Y4qyF
-Jg53Hm4wIIcZ52bl46eHCsp9enHT3Tb8BOR7bVu/isO2xkYBfh8AHE6lKU2fDSm1
-X9NbUcY7Gl9Vfc/317iAZsu6EyDtkj38YxKk/+8b7VFr3m5DiV/1DuXws/WvWhdG
-uP8KjrGHaaqaunJuRVcltoBVyc3b/A5aZaXHNV+9BbOmCud9hMEzPrhKkoxx9pa/
-qteMUntR5huO6LDnmdhdJMHPqCp1+hVpITKhsxS1bDbNb1XFrdqKLvJxds3pUMjo
-dlpCTpfixkUTSghqMsHIpGm5KZvDDHbbpgCIGQtjvnxMz5IapODidznY9++otN2K
-ybxkGDeq8e7JU0BSEvWhnP3ty0Cv/q6dJO5KmVXLGFXC3Tcvo6rQajeW9zRk/qYu
-ANvpQbc5C/a1XYXmRfyERKEgMMwysLR48oyoxPY2kSzXo/khBLgR0uR84hKblRNh
-g0h9MGH0mE94AMPA3Z7RqMBxmYwmlfKOYRBqTyP9TnGlCQ4ubeo=
-=JgGw
+iQIzBAABCAAdFiEEXzbGxhtUYBJKdfWmnhiqJn3bjbQFAlvlo14ACgkQnhiqJn3b
+jbTFohAAmqHaX+MgJNK0L3U6VD3uhNMq/UR4ve2vQkqN10MrYbtE91AaJ4zNgoyK
+3j5RcclN1gZKLDiMsmqEJBSnfqEhy9/X/vT8FUdAejrGWoYDKuON4J0RozV23zxh
+qJIg2YVmLNPQK/LK8ksJDo2get97KmBbkFUArLysQLXI2ZUAVTsfYS3iKbvvK2eu
+gICCO5G6t4LRAfh6bCydYVKUksJhqWms5Jb3XeydK+UHWQid5ZFKmbUB6kwD2+mq
+3HjJqzYLuQOUwdsnJL5kBbGu4J9SKGF8I6FqoF8ud5Fk9YAv/3PzWpD6LrvGxGkf
+Gp5yCqS9hg1eqnfFAE1wotOTIP/DHofHOutFx68ZMmjYjXXvesYJ4wSrHlOBLywS
+8+jjh2dHymO1wcbt0rVf/ZHSoqAM0bxVSJv0FlnZkbKuoV/NtsUBp6a8VzxZ/N56
+jAqpId07Et1bH6COZvyv/7b4bwhOrGGURYDMB/BOnZ7pnpIDr1OCltGJbMv3PWuT
+FWPQ1AP1WRCDHdY15Q8l9mRfeFFFa65X3MwzZXYF6L3Z6MwkIgfSQS1G9yqDNg3+
+7XKWGzmeGwgSRPDjLKUzph6dwIQzBpCJ1IgjgfCq/fL1cHy9DG6+icsnQDj3yhMz
+KUKKMya6RDXtOfPhT9lsR7+1TWqSazk3+yVdYv4+W1rnWEZmVqc=
+=o/gm
 -----END PGP SIGNATURE-----
 
---dlusgdlwys367xnp--
+--6alkr35q2cz3bqlc--
