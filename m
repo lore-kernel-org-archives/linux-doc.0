@@ -1,125 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D84027D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 07:26:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1C7C27D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 10:21:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727972AbeKIRF6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Nov 2018 12:05:58 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41140 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727869AbeKIRF6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Nov 2018 12:05:58 -0500
-Received: from devnote (p19194-mobac01.tokyo.ocn.ne.jp [153.233.10.194])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 42FD620855;
-        Fri,  9 Nov 2018 07:26:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1541748399;
-        bh=M6T4E9xx/y9bpDP/2rpIU3wM9auGO38j8453Y/n0AA8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=zgdzlJMB6EuPrfKyIoKfdMq58CeRYB7WQRZKRwmv0oaOFcCpJd0KwUC3CsUeHlgXT
-         cnxQIzbnuFefgvIH0Bve/gfvSwkXmQ6Js7sqTbATBs5AeyEQ+4ShU4TuFVBLTsZJfK
-         nvL4PVBarcoRc83jX2y2TkRcwMKuWTCU2RVF4fpQ=
-Date:   Fri, 9 Nov 2018 16:26:32 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Christian Brauner <christian@brauner.io>,
-        Aleksa Sarai <asarai@suse.de>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] kretprobe: produce sane stack traces
-Message-Id: <20181109162632.9a3694eea8ac8056302a8262@kernel.org>
-In-Reply-To: <20181108144437.l3proaovfqm5osnr@treble>
-References: <20181101083551.3805-2-cyphar@cyphar.com>
-        <20181101204720.6ed3fe37@vmware.local.home>
-        <20181102050509.tw3dhvj5urudvtjl@yavin>
-        <20181102065932.bdt4pubbrkvql4mp@yavin>
-        <20181102091658.1bc979a4@gandalf.local.home>
-        <20181103070253.ajrqzs5xu2vf5stu@yavin>
-        <20181104115913.74l4yzecisvtt2j5@yavin>
-        <20181106171501.59ccabbc@gandalf.local.home>
-        <20181108074612.ldy6rozdpsdps6bf@yavin>
-        <20181108080448.rggfn4zawi3por23@yavin>
-        <20181108144437.l3proaovfqm5osnr@treble>
-X-Mailer: Sylpheed 3.5.0 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1727560AbeKIUBX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Nov 2018 15:01:23 -0500
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:34670 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727552AbeKIUBX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Nov 2018 15:01:23 -0500
+Received: by mail-oi1-f195.google.com with SMTP id i138-v6so1063388oib.1;
+        Fri, 09 Nov 2018 02:21:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WpRANswVNHpyNPwFfYNwt/nNsTidoxb+fl9md3xzbG8=;
+        b=MY4j2kNt3b/R3QVHSKikT/NlPb/xbLA/5ZfCI474xzsinGv84GkGzuH9WLxTz3oYFD
+         ykNtLck0e5nrKzDYwTtRNiDxOiL+iXBh0tXf96AyalFbGTlG2YxMhryZeTa6w/94V8C4
+         ElWNR1MflYKb3SCke349ehTCIgy5L0B0N0WeUNKmn9lgetUxVC3MKDa4PFns4C2VdEEW
+         z29u85iU5xUrtPt52pRkZoqnvCUIQiJY4uxNRuPwyuOJbgU/TpT5aeaHoJ0mMGMRlIsa
+         xJPFccET2u8/+6DNfOgaGFk3pGTJogVhg6edj6tlfuWYS9nWl7/1nQQ1TO+Ucam/unpi
+         nz8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WpRANswVNHpyNPwFfYNwt/nNsTidoxb+fl9md3xzbG8=;
+        b=V4mx1rbO4PwZSkwy9qD/3K2REfoEnAxNB1cIiS8h6xmto4xOKkqxQ8fEbAaL6QY8sq
+         05w10RBimd7DLy1BTMxvUP6UHXSkprnoJ+t8+5MniATDI+uql1tsWLC1jxPnmgu+xwBc
+         oVCA4L6F8r2SoYlIPMAQyWm95v+jogsJywsgpftnIO+Md6FAihGEqowObj1xlUvhFhLU
+         DxwWLBTNFqPwoxImI5/6eXaSe5xvgHyj5hek+ePHB+vAie5kByG19K2viwAxsJOXM+kJ
+         ZAiYmywakcwfpvvDQ/OGvycpBzR+Kyo4sVJIK8rhf91Zo+3BbIcnwUGl+oglVlmBgfN+
+         ya+Q==
+X-Gm-Message-State: AGRZ1gLw4aZyT3P5A05glMtz2iwlBdJOFbxut6AmXwcM1qpk4vxgeH3v
+        WepVjxkoFVgiG8RudFPVNEf76P8pyfp507jljmQ=
+X-Google-Smtp-Source: AJdET5c5oUNNY+5cPy4b7IT3Z53iiO3l3OwbCYuCBmdlY2VgupESARsAx92JXDlcsxniz7Jbr9QtVrDtbQkJE/ecGnU=
+X-Received: by 2002:aca:59c4:: with SMTP id n187-v6mr4363540oib.279.1541758886894;
+ Fri, 09 Nov 2018 02:21:26 -0800 (PST)
+MIME-Version: 1.0
+References: <20181025055833.28471-1-ganapatrao.kulkarni@cavium.com>
+ <20181025055833.28471-3-ganapatrao.kulkarni@cavium.com> <84978a48-bd25-eede-519a-a4e9991c5c3d@infradead.org>
+In-Reply-To: <84978a48-bd25-eede-519a-a4e9991c5c3d@infradead.org>
+From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
+Date:   Fri, 9 Nov 2018 15:51:15 +0530
+Message-ID: <CAKTKpr5mtSuRLfaGe+nQOsEYSP7MghsxhjtVgKmR=jAnrAn1Kg@mail.gmail.com>
+Subject: Re: [PATCH v7 2/2] ThunderX2, perf : Add Cavium ThunderX2 SoC UNCORE
+ PMU driver
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Ganapatrao Kulkarni <Ganapatrao.Kulkarni@cavium.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Will Deacon <Will.Deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>, suzuki.poulose@arm.com,
+        "Nair, Jayachandran" <Jayachandran.Nair@cavium.com>,
+        Robert Richter <Robert.Richter@cavium.com>,
+        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 8 Nov 2018 08:44:37 -0600
-Josh Poimboeuf <jpoimboe@redhat.com> wrote:
+On Thu, Oct 25, 2018 at 9:42 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> On 10/24/18 10:59 PM, Kulkarni, Ganapatrao wrote:
+> > diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
+> > index 08ebaf7cca8b..c1956b1af2bb 100644
+> > --- a/drivers/perf/Kconfig
+> > +++ b/drivers/perf/Kconfig
+> > @@ -87,6 +87,15 @@ config QCOM_L3_PMU
+> >          Adds the L3 cache PMU into the perf events subsystem for
+> >          monitoring L3 cache events.
+> >
+> > +config THUNDERX2_PMU
+> > +        tristate "Cavium ThunderX2 SoC PMU UNCORE"
+> > +     depends on ARCH_THUNDER2 && ARM64 && ACPI && NUMA
+> > +        default m
+> > +     help
+> > +       Provides support for ThunderX2 UNCORE events.
+> > +       The SoC has PMU support in its L3 cache controller (L3C) and
+> > +       in the DDR4 Memory Controller (DMC).
+> > +
+> >  config XGENE_PMU
+> >          depends on ARCH_XGENE
+> >          bool "APM X-Gene SoC PMU"
+>
+> Please fix the Kconfig indentation.  Use one tab (not spaces) for each of
+> tristate, depends, default, and help.  (yes, some of them are tabs and some
+> are spaces.)
 
-> On Thu, Nov 08, 2018 at 07:04:48PM +1100, Aleksa Sarai wrote:
-> > On 2018-11-08, Aleksa Sarai <cyphar@cyphar.com> wrote:
-> > > I will attach what I have at the moment to hopefully explain what the
-> > > issue I've found is (re-using the kretprobe architecture but with the
-> > > shadow-stack idea).
-> > 
-> > Here is the patch I have at the moment (it works, except for the
-> > question I have about how to handle the top-level pt_regs -- I've marked
-> > that code with XXX).
-> > 
-> > -- 
-> > Aleksa Sarai
-> > Senior Software Engineer (Containers)
-> > SUSE Linux GmbH
-> > <https://www.cyphar.com/>
-> > 
-> > --8<---------------------------------------------------------------------
-> > 
-> > Since the return address is modified by kretprobe, the various unwinders
-> > can produce invalid and confusing stack traces. ftrace mostly solved
-> > this problem by teaching each unwinder how to find the original return
-> > address for stack trace purposes. This same technique can be applied to
-> > kretprobes by simply adding a pointer to where the return address was
-> > replaced in the stack, and then looking up the relevant
-> > kretprobe_instance when a stack trace is requested.
-> > 
-> > [WIP: This is currently broken because the *first entry* will not be
-> >       overwritten since it looks like the stack pointer is different
-> >       when we are provided pt_regs. All other addresses are correctly
-> >       handled.]
-> 
-> When you see this problem, what does regs->ip point to?  If it's
-> pointing to generated code, then we don't _currently_ have a way of
-> dealing with that.  If it's pointing to a real function, we can fix that
-> with unwind hints.
+thanks, i will update.
+>
+>
+> --
+> ~Randy
 
-As I replied, If the stackdump is called from kretprobe event, regs->ip
-always points trampoline function. Otherwise (maybe from kprobe event,
-or panic, BUG etc.) it always be the address which the event occurs.
-
-So fixing regs->ip is correct.
-
-Thank you,
-
-
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
+thanks
+Ganapat
