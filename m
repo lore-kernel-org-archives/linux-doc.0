@@ -1,129 +1,158 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7E1C47D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 20:12:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 769517D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 20:46:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728267AbeKJFyA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 10 Nov 2018 00:54:00 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:34428 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725872AbeKJFx7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 10 Nov 2018 00:53:59 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id F35D65D698;
-        Fri,  9 Nov 2018 20:11:51 +0000 (UTC)
-Received: from llong.com (dhcp-17-55.bos.redhat.com [10.18.17.55])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8C43D6B8C8;
-        Fri,  9 Nov 2018 20:11:50 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        id S1726286AbeKJG2r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 10 Nov 2018 01:28:47 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:39122 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726110AbeKJG2r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Nov 2018 01:28:47 -0500
+Received: by mail-pl1-f194.google.com with SMTP id b5-v6so1446707pla.6
+        for <linux-doc@vger.kernel.org>; Fri, 09 Nov 2018 12:46:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=z3cT5Pw2wUEAlev8kV/vpVeePw6wc3P0Gr59IdrASFA=;
+        b=KhVvCXqjNpgs5mO1CwaMzbw53NBMRompT5U1Pj6I5zbHgTBUqgLM8sscgGaszQWWRZ
+         dvPrsWvTOeILL+13+f9XYkvLq2aKx8XtEO4hQvK20p/0RDhjOt4a1fdS26W9odSwENqu
+         Fj7v6KgVTEABfsfhC5Mzrw/xv9McrSqpv1FzW9GwDE9RZyVQPRu15M/ZMVfUvACCqdX8
+         GsIsT4BjfKqxnsmxlayMZDfPxMfzFCJMkddsGhmqn33c1gvltXIjlHOALJ7eKfkoGdzF
+         KN5ODQVDHL+aI3P7h0nwVHkgj3YLZ++N3rCWyoKQ7gGiQgDkSSag+anJYPb2q0Hn7h+A
+         1GxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=z3cT5Pw2wUEAlev8kV/vpVeePw6wc3P0Gr59IdrASFA=;
+        b=Mi1r2mt8Q5j48N3mxsHS39rl3e7wXYdWit83V419FwT5gj5+bFp3jdsAYWGiGojVa2
+         fdyZOjph+H89pYl2b6iDY0zyrGTAN7cnMaFqo+u6hzahluXP9rLriatHnth8fcph4eKk
+         E+qRSmn6XST0WFD86qYZ5xzbcPoBhwervlykUi7STlL390fqLUVvjFiJcXTTBxmeywsF
+         v85JgpQEGwJMRUyuDXnACOpjGcgOzAHZOLQfNLkqiLHIG59RpRDdq13MKwsPidzNCZd1
+         sPCO7W5XN75VRDWJSlVxMtDXBwV5zH5Bv2rujLmE/d/Ox4R0FyruKteee9VTt/ewWb0H
+         7/lQ==
+X-Gm-Message-State: AGRZ1gIhoMSATN/uWG57SN+dCgRbgd5oQPbNSor0jMNE2GOZptCyNinq
+        vFV/eXnpk88p68EgwafFyoE1nQ==
+X-Google-Smtp-Source: AJdET5c93wXMOz30GcguG9OwCKrFU3Bk6Pr8dOLM53sGJJPc1lMOPeYRUFdhWDkTiq3hrigwebh1fw==
+X-Received: by 2002:a17:902:6b87:: with SMTP id p7-v6mr10570515plk.282.1541796391592;
+        Fri, 09 Nov 2018 12:46:31 -0800 (PST)
+Received: from ?IPv6:2600:1010:b002:666:dc7a:5a83:1f2b:9078? ([2600:1010:b002:666:dc7a:5a83:1f2b:9078])
+        by smtp.gmail.com with ESMTPSA id k129sm11737599pgk.29.2018.11.09.12.46.30
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 09 Nov 2018 12:46:30 -0800 (PST)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (1.0)
+Subject: Re: afaef01c00 ("x86/entry: Add STACKLEAK erasing the kernel stack .."): double fault: 0000 [#1]
+From:   Andy Lutomirski <luto@amacapital.net>
+X-Mailer: iPhone Mail (16A404)
+In-Reply-To: <CAG48ez2xSLFGjMYSYJTLwEnZoZJuXUfdoCp6_vGrywBU4SQNkQ@mail.gmail.com>
+Date:   Fri, 9 Nov 2018 12:46:29 -0800
+Cc:     alex.popov@linux.com, Andy Lutomirski <luto@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>,
-        Manfred Spraul <manfred@colorfullife.com>,
-        Waiman Long <longman@redhat.com>
-Subject: [PATCH v11 2/3] ipc: Conserve sequence numbers in ipcmni_extend mode
-Date:   Fri,  9 Nov 2018 15:11:31 -0500
-Message-Id: <1541794292-19425-3-git-send-email-longman@redhat.com>
-In-Reply-To: <1541794292-19425-1-git-send-email-longman@redhat.com>
-References: <1541794292-19425-1-git-send-email-longman@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Fri, 09 Nov 2018 20:11:52 +0000 (UTC)
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, lkp@01.org,
+        lkp@intel.com,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-doc@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <2B681F10-752C-4327-9960-3987CE17A619@amacapital.net>
+References: <5be58a6e.w0IbLdKsiRknTygq%lkp@intel.com> <CAG48ez2xSLFGjMYSYJTLwEnZoZJuXUfdoCp6_vGrywBU4SQNkQ@mail.gmail.com>
+To:     Jann Horn <jannh@google.com>, Joerg Roedel <joro@8bytes.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The mixing in of a sequence number into the IPC IDs is probably to
-avoid ID reuse in userspace as much as possible. With ipcmni_extend
-mode, the number of usable sequence numbers is greatly reduced leading
-to higher chance of ID reuse.
 
-To address this issue, we need to conserve the sequence number space
-as much as possible. Right now, the sequence number is incremented
-for every new ID created. In reality, we only need to increment the
-sequence number when one or more IDs have been removed previously to
-make sure that those IDs will not be reused when a new one is built.
-This is being done irrespective of the ipcmni mode.
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- include/linux/ipc_namespace.h |  1 +
- ipc/util.c                    | 16 +++++++++++++---
- 2 files changed, 14 insertions(+), 3 deletions(-)
+> On Nov 9, 2018, at 12:06 PM, Jann Horn <jannh@google.com> wrote:
+>=20
+> +Andy, Thomas, Ingo
+>=20
+>> On Fri, Nov 9, 2018 at 2:24 PM kernel test robot <lkp@intel.com> wrote:
+>> 0day kernel testing robot got the below dmesg and the first bad commit is=
 
-diff --git a/include/linux/ipc_namespace.h b/include/linux/ipc_namespace.h
-index 6ab8c1b..7d5f553 100644
---- a/include/linux/ipc_namespace.h
-+++ b/include/linux/ipc_namespace.h
-@@ -16,6 +16,7 @@
- struct ipc_ids {
- 	int in_use;
- 	unsigned short seq;
-+	unsigned short deleted;
- 	struct rw_semaphore rwsem;
- 	struct idr ipcs_idr;
- 	int max_idx;
-diff --git a/ipc/util.c b/ipc/util.c
-index 07ae117..00000a1 100644
---- a/ipc/util.c
-+++ b/ipc/util.c
-@@ -115,6 +115,7 @@ static int __init ipc_init(void)
- void ipc_init_ids(struct ipc_ids *ids)
- {
- 	ids->in_use = 0;
-+	ids->deleted = false;
- 	ids->seq = 0;
- 	init_rwsem(&ids->rwsem);
- 	rhashtable_init(&ids->key_ht, &ipc_kht_params);
-@@ -193,6 +194,10 @@ static struct kern_ipc_perm *ipc_findkey(struct ipc_ids *ids, key_t key)
-  *
-  * The caller must own kern_ipc_perm.lock.of the new object.
-  * On error, the function returns a (negative) error code.
-+ *
-+ * To conserve sequence number space, especially with extended ipc_mni,
-+ * the sequence number is incremented only when one or more IDs have been
-+ * removed previously.
-  */
- static inline int ipc_idr_alloc(struct ipc_ids *ids, struct kern_ipc_perm *new)
- {
-@@ -216,9 +221,13 @@ static inline int ipc_idr_alloc(struct ipc_ids *ids, struct kern_ipc_perm *new)
- 	 */
- 
- 	if (next_id < 0) { /* !CHECKPOINT_RESTORE or next_id is unset */
--		new->seq = ids->seq++;
--		if (ids->seq > IPCID_SEQ_MAX)
--			ids->seq = 0;
-+		if (ids->deleted) {
-+			ids->seq++;
-+			if (ids->seq > IPCID_SEQ_MAX)
-+				ids->seq = 0;
-+			ids->deleted = false;
-+		}
-+		new->seq = ids->seq;
- 		idx = idr_alloc(&ids->ipcs_idr, new, 0, 0, GFP_NOWAIT);
- 	} else {
- 		new->seq = ipcid_to_seqx(next_id);
-@@ -436,6 +445,7 @@ void ipc_rmid(struct ipc_ids *ids, struct kern_ipc_perm *ipcp)
- 	idr_remove(&ids->ipcs_idr, idx);
- 	ipc_kht_remove(ids, ipcp);
- 	ids->in_use--;
-+	ids->deleted = true;
- 	ipcp->deleted = true;
- 
- 	if (unlikely(idx == ids->max_idx)) {
--- 
-1.8.3.1
+>>=20
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master=
 
+>>=20
+>> commit afaef01c001537fa97a25092d7f54d764dc7d8c1
+>> Author:     Alexander Popov <alex.popov@linux.com>
+>> AuthorDate: Fri Aug 17 01:16:58 2018 +0300
+>> Commit:     Kees Cook <keescook@chromium.org>
+>> CommitDate: Tue Sep 4 10:35:47 2018 -0700
+>>=20
+>>    x86/entry: Add STACKLEAK erasing the kernel stack at the end of syscal=
+ls
+> [...]
+>> [  127.808225] double fault: 0000 [#1]
+>> [  127.808695] CPU: 0 PID: 414 Comm: trinity-main Tainted: G             =
+   T 4.19.0-rc2-00001-gafaef01 #1
+>> [  127.809799] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIO=
+S 1.10.2-1 04/01/2014
+>> [  127.810760] RIP: 0010:ftrace_ops_test+0x27/0xa0
+>> [  127.811289] Code: eb 9a 90 41 54 55 49 89 f4 53 48 89 d3 48 89 fd 48 8=
+1 ec b0 00 00 00 65 48 8b 04 25 28 00 00 00 48 89 84 24 a8 00 00 00 31 c0 <e=
+8> 54 df ff ff 48 85 db 74 57 e8 4a df ff ff 48 8b 85 d0 00 00 00
+>> [  127.813385] RSP: 0018:fffffe0000001fb8 EFLAGS: 00010046
+> [...]
+>> [  127.819762] CR2: fffffe0000001fa8 CR3: 000000001579a000 CR4: 000000000=
+00006b0
+> [...]
+>> [  127.822234] Call Trace:
+>> [  127.822530]  <ENTRY_TRAMPOLINE>
+>> [  127.822914]  ? __ia32_sys_rseq+0x2f0/0x2f0
+>> [  127.823395]  ftrace_ops_list_func+0xa5/0x1b0
+>> [  127.823922]  ftrace_call+0x5/0x34
+>> [  127.824318]  ? stackleak_erase+0x5/0xf0
+>> [  127.824789]  ? stackleak_erase+0x43/0xf0
+>> [  127.825260]  stackleak_erase+0x5/0xf0
+>> [  127.825699]  syscall_return_via_sysret+0x61/0x81
+>> [  127.826238] WARNING: stack recursion on stack type 4
+>> [  127.826243] WARNING: can't dereference registers at (____ptrval____) f=
+or ip syscall_return_via_sysret+0x61/0x81
+>> [  127.826246]  </ENTRY_TRAMPOLINE>
+>> [  127.828342] ---[ end trace e9f96d3f45575499 ]---
+>> [  127.828911] RIP: 0010:ftrace_ops_test+0x27/0xa0
+>=20
+> CR2: fffffe0000001fa8, RSP: 0018:fffffe0000001fb8; this is a pagefault
+> on the stack. fffffe0000000000 is CPU_ENTRY_AREA_RO_IDT;
+> fffffe0000001000 is CPU_ENTRY_AREA_PER_CPU; so fffffe0000002000 is the
+> page with the entry stack for cpu 0, and you overflowed from that into
+> the readonly gdt at fffffe0000001000, which doubles as a guard page
+> for the entry stack:
+>=20
+> struct cpu_entry_area {
+>        char gdt[PAGE_SIZE];
+>=20
+>        /*
+>         * The GDT is just below entry_stack and thus serves (on x86_64) as=
+
+>         * a a read-only guard page.
+>         */
+>        struct entry_stack_page entry_stack_page;
+> [...]
+> };
+>=20
+> In other words: You're calling C code on the entry trampoline stack;
+> this C code can call into ftrace; and the entry trampoline stack isn't
+> big enough for ftrace shenanigans. I think you probably shouldn't be
+> calling C code on the entry stack, but maybe one of the X86 folks has
+> a different opinion?
+
+My opinion was that, on x86_32, the entry stack ought to be fairly large so t=
+hat NMIs could execute on the entry stack.  I don=E2=80=99t remember what th=
+e code actually does, though.
+
+But stackleak_erase should probably not run on the entry stack. That seems l=
+ike it=E2=80=99s just asking for trouble.=
