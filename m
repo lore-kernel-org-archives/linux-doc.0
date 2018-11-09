@@ -1,180 +1,237 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 86AD47D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 23:04:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 195AA7D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 23:09:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728283AbeKJIqj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 10 Nov 2018 03:46:39 -0500
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:41666 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728057AbeKJIqj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Nov 2018 03:46:39 -0500
-Received: by mail-pl1-f195.google.com with SMTP id p16-v6so1572118plr.8;
-        Fri, 09 Nov 2018 15:03:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=1KHa9FEM+C0nJ9FiDRagU71AKdQSw1kawizngfVg6SQ=;
-        b=U9cw0aDFS8L7by7nDYSuG1whUunjyJSZcxtiYo7xl2jYCftilr5IRneGE0If3RCfLy
-         GhSZ3UBsM4LOu15SmEq2HATx8SXAwCigl0YpBpL1QQspuBWg59Vi8IJKtpYg5vH2DLNZ
-         OSCmcY5tkfHstAKPvMvLIjgBpDtZxQtCI44VXImOgtCGMppbkDIMnW/Aw31s1Yo6uEOR
-         H3BnzD8E36yC52PNsDcAVPltop6H6qMkAQdwWCjjTpS+XUMZkk4PloPSqcJomRWyGalr
-         nM14VOdIl2VcYXOiWkURPyDzZFzIJyGwba0MkE1wHOBt8ortemskH2rA9F8juUrBDcOr
-         aOkQ==
+        id S1727961AbeKJIv6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 10 Nov 2018 03:51:58 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:39532 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727746AbeKJIv6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Nov 2018 03:51:58 -0500
+Received: by mail-lf1-f67.google.com with SMTP id n18so2489042lfh.6;
+        Fri, 09 Nov 2018 15:09:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=1KHa9FEM+C0nJ9FiDRagU71AKdQSw1kawizngfVg6SQ=;
-        b=QSsZ4N9g932+vnCmIwrW7ENRlrsH4Cn1Psz5ey1cN8p6of4u31Sq/mjOlvifJnXDqx
-         c0WflbduxImUw08bDqGsGGyEusgpxHntgsm7BbJ/DRFUa+BESUXCc/i+IM8MK+zqjM6B
-         zzqX3wpO95+k2sRfIL96yZ++HSh1GJag0ylOK/MK+Ctb3GP2pxndmAfp8s2mLYoPl3/z
-         OXeHflje4Yu49ggT4BsFP89vrdQBwHWwvvjGwo0YZUGEsh7C98HN8000+4u0Kp9zYasj
-         X00wXcLjUw2tvcptuvZ2fRD7w8OZMGvZcosA61yQRkzDHVZgVo+EGp/ay94gqNZcKjYY
-         68EQ==
-X-Gm-Message-State: AGRZ1gKyUPDupSf+hrz77ChP8Z2Gid6K9auj+YOUYECeseSPwwrq2agS
-        gDgD2ftbwPTaRN2i3PLsexlHR+qw
-X-Google-Smtp-Source: AJdET5csB80xm0MDuX4s8pVmNxA4e/OJTZWbXu+wnoRatOeo9bV7hxxaMNRLzohFadf+e2+O9oq3vw==
-X-Received: by 2002:a17:902:7882:: with SMTP id q2-v6mr10923835pll.188.1541804635789;
-        Fri, 09 Nov 2018 15:03:55 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 18sm6976022pgl.50.2018.11.09.15.03.54
+        h=x-gm-message-state:reply-to:subject:to:cc:references:from:openpgp
+         :autocrypt:message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=d6IVxQ6zhaRol4IcgLK1Bixtn7ex5sBMJpQQ6yaWyFY=;
+        b=Vlxzwp+VaGsWIUOY/n9gkDmDQsDwK4UO+jH9W9fu2YQUmDENyLhhavIhq7DdK7eJeo
+         HV0KUdQIapey2Burqd9/zG6ES8LVgJJ1fAjA51wPsDHrWa16yXUu/MnKkL2aYndcMvEx
+         iEP9Yc2EK1a//jReOnCF6BVosYbaCs0/U5p2jHCg6hw4rHVShbKDz2QeUvGWLAip9B+z
+         4iN+k3TPIgwOcmZrFb45Nhy+6JGrSWQzLZJyM7OVyCUDr0X7zIGCJfaH5YPlDT46FbqJ
+         GhyzHuAmZcWnc077/K6aqpS86UCEhxdsXVQGeP0sDTGxGIhtNo3Ovq6bs6qcD7bb+l66
+         g75w==
+X-Gm-Message-State: AGRZ1gIjQAJiss5WtxofOyHL4EGHTtyvW6YlS3FxRiYNT+u359++WxaE
+        0kTbwU7+oGWOpcEGByJ4vpo=
+X-Google-Smtp-Source: AJdET5fNyyzZEFEPnKUvifbkrM8vfmM9morYkIprwOcepN8htrC+3XiuzJ3SFH0Tx7Ko57dUbO4+PA==
+X-Received: by 2002:a19:41c4:: with SMTP id o187mr6692953lfa.32.1541804951509;
+        Fri, 09 Nov 2018 15:09:11 -0800 (PST)
+Received: from [192.168.1.183] (128-68-186-150.broadband.corbina.ru. [128.68.186.150])
+        by smtp.gmail.com with ESMTPSA id p91sm856297lfg.4.2018.11.09.15.09.09
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 09 Nov 2018 15:03:55 -0800 (PST)
-Date:   Fri, 9 Nov 2018 15:03:54 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Eddie James <eajames@linux.ibm.com>
-Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, jdelvare@suse.com,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        robh+dt@kernel.org, mark.rutland@arm.com, rdunlap@infradead.org,
-        benh@kernel.crashing.org, Eddie James <eajames@linux.vnet.ibm.com>
-Subject: Re: [PATCH v6 00/10] hwmon and fsi: Add On-Chip Controller Driver
-Message-ID: <20181109230354.GA31326@roeck-us.net>
-References: <1541711129-26631-1-git-send-email-eajames@linux.ibm.com>
+        Fri, 09 Nov 2018 15:09:10 -0800 (PST)
+Reply-To: alex.popov@linux.com
+Subject: Re: afaef01c00 ("x86/entry: Add STACKLEAK erasing the kernel stack
+ .."): double fault: 0000 [#1]
+To:     Andy Lutomirski <luto@amacapital.net>,
+        Jann Horn <jannh@google.com>, Joerg Roedel <joro@8bytes.org>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, lkp@01.org,
+        lkp@intel.com,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-doc@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+References: <5be58a6e.w0IbLdKsiRknTygq%lkp@intel.com>
+ <CAG48ez2xSLFGjMYSYJTLwEnZoZJuXUfdoCp6_vGrywBU4SQNkQ@mail.gmail.com>
+ <2B681F10-752C-4327-9960-3987CE17A619@amacapital.net>
+From:   Alexander Popov <alex.popov@linux.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=alex.popov@linux.com; prefer-encrypt=mutual; keydata=
+ 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
+ jXz/74kjFsyRgZA+d6a1pGtOwITEBxtxxg==
+Message-ID: <e902f017-43f3-2532-69ad-3cdfca6d75c8@linux.com>
+Date:   Sat, 10 Nov 2018 02:09:09 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1541711129-26631-1-git-send-email-eajames@linux.ibm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <2B681F10-752C-4327-9960-3987CE17A619@amacapital.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 08, 2018 at 03:05:19PM -0600, Eddie James wrote:
-> From: Eddie James <eajames@linux.vnet.ibm.com>
-> 
-> This series adds a hwmon driver to support the OCC on POWER8 and POWER9
-> processors. The OCC is an embedded processor that provides realtime power and
-> thermal monitoring and management.
-> 
-> The series also adds a "bus" driver to handle atomic communication between the
-> service processor and the OCC on a POWER9 chip. This communication takes place
-> over FSI bus to the SBE (Self-Boot engine) FIFO, which in turn communicates
-> with the OCC. The driver for the SBEFIFO is already available as an FSI client
-> driver.
-> 
-> For POWER8 OCCs, communication between the service processor and the OCC is
-> achieved over I2C bus.
-> 
-I am not entirely happy with the series - there are still lots of proprietary
-attributes, and I would have preferred the use of the _info API at this point -
-but this has taken long enough. Series applied to hwmon-next. Please send any
-fixes as follow-up patches.
 
-Thanks,
-Guenter
+On 09.11.2018 23:46, Andy Lutomirski wrote:
+>> On Nov 9, 2018, at 12:06 PM, Jann Horn <jannh@google.com> wrote:
+>>
+>> +Andy, Thomas, Ingo
+>>
+>>> On Fri, Nov 9, 2018 at 2:24 PM kernel test robot <lkp@intel.com> wrote:
+>>> 0day kernel testing robot got the below dmesg and the first bad commit is
+>>>
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>>>
+>>> commit afaef01c001537fa97a25092d7f54d764dc7d8c1
+>>> Author:     Alexander Popov <alex.popov@linux.com>
+>>> AuthorDate: Fri Aug 17 01:16:58 2018 +0300
+>>> Commit:     Kees Cook <keescook@chromium.org>
+>>> CommitDate: Tue Sep 4 10:35:47 2018 -0700
+>>>
+>>>    x86/entry: Add STACKLEAK erasing the kernel stack at the end of syscalls
+>> [...]
+>>> [  127.808225] double fault: 0000 [#1]
+>>> [  127.808695] CPU: 0 PID: 414 Comm: trinity-main Tainted: G                T 4.19.0-rc2-00001-gafaef01 #1
+>>> [  127.809799] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1 04/01/2014
+>>> [  127.810760] RIP: 0010:ftrace_ops_test+0x27/0xa0
+>>> [  127.811289] Code: eb 9a 90 41 54 55 49 89 f4 53 48 89 d3 48 89 fd 48 81 ec b0 00 00 00 65 48 8b 04 25 28 00 00 00 48 89 84 24 a8 00 00 00 31 c0 <e8> 54 df ff ff 48 85 db 74 57 e8 4a df ff ff 48 8b 85 d0 00 00 00
+>>> [  127.813385] RSP: 0018:fffffe0000001fb8 EFLAGS: 00010046
+>> [...]
+>>> [  127.819762] CR2: fffffe0000001fa8 CR3: 000000001579a000 CR4: 00000000000006b0
+>> [...]
+>>> [  127.822234] Call Trace:
+>>> [  127.822530]  <ENTRY_TRAMPOLINE>
+>>> [  127.822914]  ? __ia32_sys_rseq+0x2f0/0x2f0
+>>> [  127.823395]  ftrace_ops_list_func+0xa5/0x1b0
+>>> [  127.823922]  ftrace_call+0x5/0x34
+>>> [  127.824318]  ? stackleak_erase+0x5/0xf0
+>>> [  127.824789]  ? stackleak_erase+0x43/0xf0
+>>> [  127.825260]  stackleak_erase+0x5/0xf0
+>>> [  127.825699]  syscall_return_via_sysret+0x61/0x81
+>>> [  127.826238] WARNING: stack recursion on stack type 4
+>>> [  127.826243] WARNING: can't dereference registers at (____ptrval____) for ip syscall_return_via_sysret+0x61/0x81
+>>> [  127.826246]  </ENTRY_TRAMPOLINE>
+>>> [  127.828342] ---[ end trace e9f96d3f45575499 ]---
+>>> [  127.828911] RIP: 0010:ftrace_ops_test+0x27/0xa0
+>>
+>> CR2: fffffe0000001fa8, RSP: 0018:fffffe0000001fb8; this is a pagefault
+>> on the stack. fffffe0000000000 is CPU_ENTRY_AREA_RO_IDT;
+>> fffffe0000001000 is CPU_ENTRY_AREA_PER_CPU; so fffffe0000002000 is the
+>> page with the entry stack for cpu 0, and you overflowed from that into
+>> the readonly gdt at fffffe0000001000, which doubles as a guard page
+>> for the entry stack:
+>>
+>> struct cpu_entry_area {
+>>        char gdt[PAGE_SIZE];
+>>
+>>        /*
+>>         * The GDT is just below entry_stack and thus serves (on x86_64) as
+>>         * a a read-only guard page.
+>>         */
+>>        struct entry_stack_page entry_stack_page;
+>> [...]
+>> };
+>>
+>> In other words: You're calling C code on the entry trampoline stack;
+>> this C code can call into ftrace; and the entry trampoline stack isn't
+>> big enough for ftrace shenanigans. I think you probably shouldn't be
+>> calling C code on the entry stack, but maybe one of the X86 folks has
+>> a different opinion?
+>
+> My opinion was that, on x86_32, the entry stack ought to be fairly large so
+> that NMIs could execute on the entry stack.  I don’t remember what the code
+> actually does, though.
+> 
+> But stackleak_erase should probably not run on the entry stack. That seems
+> like it’s just asking for trouble.
 
-> Changes since v5:
->  * Makefile fix when compiling both P8 and P9 versions
->  * Spelling fix in hwmon doc
->  * Added an additional sentence for P9 binding doc to explain that OCC isn't
->    an FSI slave device.
-> 
-> Changes since v4:
->  * Make the hwmon attributes conform almost completely to standard names and
->    values. The only exception is powerX_cap_user and powerX_cap_user_source.
->  * Improve hwmon documentation.
->  * Add ibm,p9-occ dt documentation.
-> 
-> Changes since v3:
->  * Add the FSI OCC driver.
->  * Pull the sysfs attribute code into it's own file for cleanliness.
->  * Various fixes for attribute creation and integer overflow.
-> 
-> Changes since v2:
->  * Add sysfs_notify for the error and throttling attributes when change is
->    detected.
->  * Removed occs_present counting of devices bound.
->  * Improved remove() of P9 driver to avoid bad behavior with relation to OCC
->    driver when unbound.
->  * Added default cases (return EINVAL) for all sensor show functions.
->  * Added temperature fault sensor.
->  * Added back dt binding documentation for P9 to address checkpatch warning.
->  * Added occs_present attribute from the poll response.
-> 
-> Changes since v1:
->  * Remove wait loop in P9 code, as that is now handled by FSI OCC driver.
->  * Removed dt binding documentation for P9, FSI OCC driver will probe OCC hwmon
->    driver automatically.
->  * Moved OCC response code definitions to the OCC include file.
->  * Fixed includes.
->  * Changed some structure fields to __beXX as that is what they are.
->  * Changed some errnos.
->  * Removed some dev_err().
->  * Refactored P8 code a bit to use #defined addresses and magic values, and
->    changed "goto retry" to a loop.
->  * Refactored error handling a bit.
-> 
-> Eddie James (10):
->   dt-bindings: fsi: Add P9 OCC device documentation
->   fsi: Add On-Chip Controller (OCC) driver
->   Documentation: hwmon: Add OCC documentation
->   dt-bindings: i2c: Add P8 OCC hwmon device documentation
->   hwmon: Add On-Chip Controller (OCC) hwmon driver
->   hwmon (occ): Add command transport method for P8 and P9
->   hwmon (occ): Parse OCC poll response
->   hwmon (occ): Add sensor types and versions
->   hwmon (occ): Add sensor attributes and register hwmon device
->   hwmon (occ): Add sysfs attributes for additional OCC data
-> 
->  .../devicetree/bindings/fsi/ibm,p9-occ.txt         |   16 +
->  .../devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt   |   25 +
->  Documentation/hwmon/occ                            |  112 ++
->  drivers/fsi/Kconfig                                |   10 +
->  drivers/fsi/Makefile                               |    1 +
->  drivers/fsi/fsi-occ.c                              |  599 +++++++++++
->  drivers/hwmon/Kconfig                              |    2 +
->  drivers/hwmon/Makefile                             |    1 +
->  drivers/hwmon/occ/Kconfig                          |   31 +
->  drivers/hwmon/occ/Makefile                         |    5 +
->  drivers/hwmon/occ/common.c                         | 1098 ++++++++++++++++++++
->  drivers/hwmon/occ/common.h                         |  128 +++
->  drivers/hwmon/occ/p8_i2c.c                         |  255 +++++
->  drivers/hwmon/occ/p9_sbe.c                         |  106 ++
->  drivers/hwmon/occ/sysfs.c                          |  188 ++++
->  include/linux/fsi-occ.h                            |   25 +
->  16 files changed, 2602 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
->  create mode 100644 Documentation/devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt
->  create mode 100644 Documentation/hwmon/occ
->  create mode 100644 drivers/fsi/fsi-occ.c
->  create mode 100644 drivers/hwmon/occ/Kconfig
->  create mode 100644 drivers/hwmon/occ/Makefile
->  create mode 100644 drivers/hwmon/occ/common.c
->  create mode 100644 drivers/hwmon/occ/common.h
->  create mode 100644 drivers/hwmon/occ/p8_i2c.c
->  create mode 100644 drivers/hwmon/occ/p9_sbe.c
->  create mode 100644 drivers/hwmon/occ/sysfs.c
->  create mode 100644 include/linux/fsi-occ.h
-> 
-> -- 
-> 1.8.3.1
-> 
+Hello Jann and Andy,
+
+
+The stackleak_erase() function is called on the trampoline stack at the end of
+syscall, it erases the used part of the kernel thread stack after the syscall is
+handled.
+
+
+I've reproduced such a double fault with function tracing for stackleak_erase():
+
+  # mount -t tracefs nodev /sys/kernel/tracing
+  # echo 'p:myprobe stackleak_erase' > /sys/kernel/debug/tracing/kprobe_events
+  # echo 1 > /sys/kernel/debug/tracing/events/kprobes/myprobe/enable
+
+
+I think we should simply not allow function tracing for stackleak_*() functions:
+
+diff --git a/kernel/Makefile b/kernel/Makefile
+index 7343b3a..0906f6d 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -18,6 +18,7 @@ obj-$(CONFIG_MULTIUSER) += groups.o
+ ifdef CONFIG_FUNCTION_TRACER
+ # Do not trace internal ftrace files
+ CFLAGS_REMOVE_irq_work.o = $(CC_FLAGS_FTRACE)
++CFLAGS_REMOVE_stackleak.o = $(CC_FLAGS_FTRACE)
+ endif
+
+
+With this patch setting kprobe event for stackleak_erase() is not allowed. This
+is the corresponding dmesg output:
+  [   75.660478] trace_kprobe: Could not probe notrace function stackleak_erase
+
+
+If you agree, I'll prepare the patch for LKML.
+
+Best regards,
+Alexander
