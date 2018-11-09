@@ -2,29 +2,30 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D22A87D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 17:20:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 415F87D8E7
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 17:28:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728475AbeKJDCV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Nov 2018 22:02:21 -0500
-Received: from mga14.intel.com ([192.55.52.115]:65502 "EHLO mga14.intel.com"
+        id S1728422AbeKJDKN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Nov 2018 22:10:13 -0500
+Received: from mga12.intel.com ([192.55.52.136]:10577 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728108AbeKJDCV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Nov 2018 22:02:21 -0500
+        id S1727995AbeKJDKN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Nov 2018 22:10:13 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Nov 2018 09:20:51 -0800
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Nov 2018 09:28:40 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.54,483,1534834800"; 
-   d="scan'208";a="106912362"
+   d="scan'208";a="106914566"
 Received: from ray.jf.intel.com (HELO [10.7.201.15]) ([10.7.201.15])
-  by orsmga001.jf.intel.com with ESMTP; 09 Nov 2018 09:20:50 -0800
+  by orsmga001.jf.intel.com with ESMTP; 09 Nov 2018 09:28:40 -0800
 Subject: Re: [PATCH v5 04/27] x86/fpu/xstate: Add XSAVES system states for
  shadow stack
+From:   Dave Hansen <dave.hansen@intel.com>
 To:     Matthew Wilcox <willy@infradead.org>
 Cc:     Andy Lutomirski <luto@amacapital.net>,
         Yu-cheng Yu <yu-cheng.yu@intel.com>, X86 ML <x86@kernel.org>,
@@ -63,7 +64,7 @@ References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
  <20181109003225.GQ3074@bombadil.infradead.org>
  <6cd2ae51-2d2a-9c68-df7c-45b49e0a813f@intel.com>
  <20181109171740.GT3074@bombadil.infradead.org>
-From:   Dave Hansen <dave.hansen@intel.com>
+ <ded6f43a-11d1-89bf-e00c-66c281786cff@intel.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=dave.hansen@intel.com; keydata=
  xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
@@ -108,29 +109,28 @@ Autocrypt: addr=dave.hansen@intel.com; keydata=
  OPsw5tV/LmQ5GXH0JQ/TZXWygyRFyyI2FqNTx4WHqUn3yFj8rwTAU1tluRUYyeLy0ayUlKBH
  ybj0N71vWO936MqP6haFERzuPAIpxj2ezwu0xb1GjTk4ynna6h5GjnKgdfOWoRtoWndMZxbA
  z5cecg==
-Message-ID: <ded6f43a-11d1-89bf-e00c-66c281786cff@intel.com>
-Date:   Fri, 9 Nov 2018 09:20:50 -0800
+Message-ID: <1851ca3a-6470-7a9c-1aeb-930527458e16@intel.com>
+Date:   Fri, 9 Nov 2018 09:28:40 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <20181109171740.GT3074@bombadil.infradead.org>
+In-Reply-To: <ded6f43a-11d1-89bf-e00c-66c281786cff@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/9/18 9:17 AM, Matthew Wilcox wrote:
->> But, later versions of the hardware have instructions that don't have
->> static offsets for the state components (when the XSAVES/XSAVEC
->> instructions are used).  So, for those, the structure embedding isn't
->> used at *all* since some state might not be present.
-> But *when present*, this structure is always aligned on an 8-byte
-> boundary, right?
+On 11/9/18 9:20 AM, Dave Hansen wrote:
+> On 11/9/18 9:17 AM, Matthew Wilcox wrote:
+>>> But, later versions of the hardware have instructions that don't have
+>>> static offsets for the state components (when the XSAVES/XSAVEC
+>>> instructions are used).  So, for those, the structure embedding isn't
+>>> used at *all* since some state might not be present.
+>> But *when present*, this structure is always aligned on an 8-byte
+>> boundary, right?
 
-There's no guarantee of that.
-
-There is an "aligned" attribute for each XSAVE state component, but I do
-not believe it is set for anything yet.
+Practically, though, I think it ends up always being aligned on an
+8-byte boundary.
