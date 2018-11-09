@@ -1,138 +1,180 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6CFCC7D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 22:23:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 86AD47D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 23:04:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727012AbeKJIGR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 10 Nov 2018 03:06:17 -0500
-Received: from terminus.zytor.com ([198.137.202.136]:33163 "EHLO
-        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726572AbeKJIGR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 10 Nov 2018 03:06:17 -0500
-Received: from hanvin-mobl2.amr.corp.intel.com (fmdmzpr03-ext.fm.intel.com [192.55.54.38])
-        (authenticated bits=0)
-        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id wA9MN5O92543672
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-        Fri, 9 Nov 2018 14:23:12 -0800
-Subject: PLEASE REVERT URGENTLY: Re: [PATCH v5 2/3] x86/boot: add acpi rsdp
- address to setup_header
-To:     Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
-        xen-devel@lists.xenproject.org, x86@kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, corbet@lwn.net,
-        boris.ostrovsky@oracle.com
-References: <20181010061456.22238-1-jgross@suse.com>
- <20181010061456.22238-3-jgross@suse.com>
-From:   "H. Peter Anvin" <hpa@zytor.com>
-Message-ID: <f7c78ee7-b548-7f04-24da-7321b6c64c97@zytor.com>
-Date:   Fri, 9 Nov 2018 14:23:04 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1728283AbeKJIqj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 10 Nov 2018 03:46:39 -0500
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:41666 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728057AbeKJIqj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Nov 2018 03:46:39 -0500
+Received: by mail-pl1-f195.google.com with SMTP id p16-v6so1572118plr.8;
+        Fri, 09 Nov 2018 15:03:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=1KHa9FEM+C0nJ9FiDRagU71AKdQSw1kawizngfVg6SQ=;
+        b=U9cw0aDFS8L7by7nDYSuG1whUunjyJSZcxtiYo7xl2jYCftilr5IRneGE0If3RCfLy
+         GhSZ3UBsM4LOu15SmEq2HATx8SXAwCigl0YpBpL1QQspuBWg59Vi8IJKtpYg5vH2DLNZ
+         OSCmcY5tkfHstAKPvMvLIjgBpDtZxQtCI44VXImOgtCGMppbkDIMnW/Aw31s1Yo6uEOR
+         H3BnzD8E36yC52PNsDcAVPltop6H6qMkAQdwWCjjTpS+XUMZkk4PloPSqcJomRWyGalr
+         nM14VOdIl2VcYXOiWkURPyDzZFzIJyGwba0MkE1wHOBt8ortemskH2rA9F8juUrBDcOr
+         aOkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=1KHa9FEM+C0nJ9FiDRagU71AKdQSw1kawizngfVg6SQ=;
+        b=QSsZ4N9g932+vnCmIwrW7ENRlrsH4Cn1Psz5ey1cN8p6of4u31Sq/mjOlvifJnXDqx
+         c0WflbduxImUw08bDqGsGGyEusgpxHntgsm7BbJ/DRFUa+BESUXCc/i+IM8MK+zqjM6B
+         zzqX3wpO95+k2sRfIL96yZ++HSh1GJag0ylOK/MK+Ctb3GP2pxndmAfp8s2mLYoPl3/z
+         OXeHflje4Yu49ggT4BsFP89vrdQBwHWwvvjGwo0YZUGEsh7C98HN8000+4u0Kp9zYasj
+         X00wXcLjUw2tvcptuvZ2fRD7w8OZMGvZcosA61yQRkzDHVZgVo+EGp/ay94gqNZcKjYY
+         68EQ==
+X-Gm-Message-State: AGRZ1gKyUPDupSf+hrz77ChP8Z2Gid6K9auj+YOUYECeseSPwwrq2agS
+        gDgD2ftbwPTaRN2i3PLsexlHR+qw
+X-Google-Smtp-Source: AJdET5csB80xm0MDuX4s8pVmNxA4e/OJTZWbXu+wnoRatOeo9bV7hxxaMNRLzohFadf+e2+O9oq3vw==
+X-Received: by 2002:a17:902:7882:: with SMTP id q2-v6mr10923835pll.188.1541804635789;
+        Fri, 09 Nov 2018 15:03:55 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 18sm6976022pgl.50.2018.11.09.15.03.54
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 09 Nov 2018 15:03:55 -0800 (PST)
+Date:   Fri, 9 Nov 2018 15:03:54 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Eddie James <eajames@linux.ibm.com>
+Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, jdelvare@suse.com,
+        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
+        robh+dt@kernel.org, mark.rutland@arm.com, rdunlap@infradead.org,
+        benh@kernel.crashing.org, Eddie James <eajames@linux.vnet.ibm.com>
+Subject: Re: [PATCH v6 00/10] hwmon and fsi: Add On-Chip Controller Driver
+Message-ID: <20181109230354.GA31326@roeck-us.net>
+References: <1541711129-26631-1-git-send-email-eajames@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20181010061456.22238-3-jgross@suse.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1541711129-26631-1-git-send-email-eajames@linux.ibm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I just noticed this patch -- I missed it because the cover message
-seemed far more harmless so I didn't notice this change.
+On Thu, Nov 08, 2018 at 03:05:19PM -0600, Eddie James wrote:
+> From: Eddie James <eajames@linux.vnet.ibm.com>
+> 
+> This series adds a hwmon driver to support the OCC on POWER8 and POWER9
+> processors. The OCC is an embedded processor that provides realtime power and
+> thermal monitoring and management.
+> 
+> The series also adds a "bus" driver to handle atomic communication between the
+> service processor and the OCC on a POWER9 chip. This communication takes place
+> over FSI bus to the SBE (Self-Boot engine) FIFO, which in turn communicates
+> with the OCC. The driver for the SBEFIFO is already available as an FSI client
+> driver.
+> 
+> For POWER8 OCCs, communication between the service processor and the OCC is
+> achieved over I2C bus.
+> 
+I am not entirely happy with the series - there are still lots of proprietary
+attributes, and I would have preferred the use of the _info API at this point -
+but this has taken long enough. Series applied to hwmon-next. Please send any
+fixes as follow-up patches.
 
-THIS PATCH IS FATALLY WRONG AND NEEDS TO BE IMMEDIATELY REVERTED BEFORE
-ANYONE STARTS RELYING ON IT; IT HAS THE POTENTIAL OF BREAKING THE
-BOOTLOADER PROTOCOL FOR ALL FUTURE.
+Thanks,
+Guenter
 
-It seems to be based on fundamental misconceptions about the various
-data structures in the protocol, and does so in a way that completely
-breaks the way the protocol is designed to work.
-
-The protocol is specifically designed such that fields are not version
-dependencies. The version number is strictly to inform the boot loader
-about which capabilities the kernel has, so that the boot loader can
-know if a certain data field is meaningful and/or honored.
-
-> +Protocol 2.14:	(Kernel 4.20) Added acpi_rsdp_addr holding the physical
-> +		address of the ACPI RSDP table.
-> +		The bootloader updates version with:
-> +		0x8000 | min(kernel-version, bootloader-version)
-> +		kernel-version being the protocol version supported by
-> +		the kernel and bootloader-version the protocol version
-> +		supported by the bootloader.
-
-[...]
-
->  **** MEMORY LAYOUT
->
->  The traditional memory map for the kernel loader, used for Image or
-> @@ -197,6 +209,7 @@ Offset	Proto	Name		Meaning
->  0258/8	2.10+	pref_address	Preferred loading address
->  0260/4	2.10+	init_size	Linear memory required during initialization
->  0264/4	2.11+	handover_offset	Offset of handover entry point
-> +0268/8	2.14+	acpi_rsdp_addr	Physical address of RSDP table
-
-NO.
-
-That is not how struct setup_header works, nor does this belong here.
-
-struct setup_header contains *initialized data*, and has a length byte
-at offset 0x201.  The bootloader is responsible for copying the full
-structure into the appropriate offset (0x1f1) in struct boot_params.
-
-The length byte isn't actually a requirement, since the maximum possible
-size of this structure is 144 bytes, and the kernel will (obviously) not
-look at the older fields anyway, but it is good practice. The kernel or
-any other entity is free to zero out the bytes past this length pointer.
-
-There are only 24 bytes left in this structure, and this would occupy 8
-of them for no valid reason.  The *only* valid reason to put a
-zero-initialized field in struct setup_header is if it used by the
-16-bit legacy BIOS boot, which is obviously not the case here.
-
-This field thus belongs in struct boot_params, not struct setup_header.
-
->  
-> @@ -317,6 +330,12 @@ Protocol:	2.00+
->    e.g. 0x0204 for version 2.04, and 0x0a11 for a hypothetical version
->    10.17.
->  
-> +  Up to protocol version 2.13 this information is only read by the
-> +  bootloader. From protocol version 2.14 onwards the bootloader will
-> +  write the used protocol version ored with 0x8000 to the field. The
-> +  used protocol version will be the minimum of the supported protocol
-> +  versions of the bootloader and the kernel.
-> +
-
-Again, this is completely wrong. The version number is communication to
-the bootloader, which may end up going through multiple stages.
-Modifying this field breaks this invariant in a not-very-subtle way.
-
-Fields in struct setup_header are to be initialized from the image
-provided in the kernel header.
-
-Fields in struct boot_params are to be initialized to zero.
-
-There is a field called "sentinel" which attempts to detect broken
-bootloaders which do not do this correctly; however, when enabling new
-bootloaders the Right Thing to do is to make sure they adhere to the
-protocol as defined, rather than pushing a new hack onto the kernel.
-
-Thus:
-
-1. Please revert this patch immediately, and destroy any boot loaders
-   which tries to implement this.
-2. Add the acpi_rsdp_addr to struct boot_params.
-3. DO NOT modify the boot protocol version header field. Instead
-   make sure that the bootloader follows the protocol and zeroes
-   all unknown fields in struct boot_params.
-4. Possibly make the kernel panic if it notices that the boot version
-   header has been mucked with, in case some of these boot loaders
-   have already escaped into the field.
-
+> Changes since v5:
+>  * Makefile fix when compiling both P8 and P9 versions
+>  * Spelling fix in hwmon doc
+>  * Added an additional sentence for P9 binding doc to explain that OCC isn't
+>    an FSI slave device.
+> 
+> Changes since v4:
+>  * Make the hwmon attributes conform almost completely to standard names and
+>    values. The only exception is powerX_cap_user and powerX_cap_user_source.
+>  * Improve hwmon documentation.
+>  * Add ibm,p9-occ dt documentation.
+> 
+> Changes since v3:
+>  * Add the FSI OCC driver.
+>  * Pull the sysfs attribute code into it's own file for cleanliness.
+>  * Various fixes for attribute creation and integer overflow.
+> 
+> Changes since v2:
+>  * Add sysfs_notify for the error and throttling attributes when change is
+>    detected.
+>  * Removed occs_present counting of devices bound.
+>  * Improved remove() of P9 driver to avoid bad behavior with relation to OCC
+>    driver when unbound.
+>  * Added default cases (return EINVAL) for all sensor show functions.
+>  * Added temperature fault sensor.
+>  * Added back dt binding documentation for P9 to address checkpatch warning.
+>  * Added occs_present attribute from the poll response.
+> 
+> Changes since v1:
+>  * Remove wait loop in P9 code, as that is now handled by FSI OCC driver.
+>  * Removed dt binding documentation for P9, FSI OCC driver will probe OCC hwmon
+>    driver automatically.
+>  * Moved OCC response code definitions to the OCC include file.
+>  * Fixed includes.
+>  * Changed some structure fields to __beXX as that is what they are.
+>  * Changed some errnos.
+>  * Removed some dev_err().
+>  * Refactored P8 code a bit to use #defined addresses and magic values, and
+>    changed "goto retry" to a loop.
+>  * Refactored error handling a bit.
+> 
+> Eddie James (10):
+>   dt-bindings: fsi: Add P9 OCC device documentation
+>   fsi: Add On-Chip Controller (OCC) driver
+>   Documentation: hwmon: Add OCC documentation
+>   dt-bindings: i2c: Add P8 OCC hwmon device documentation
+>   hwmon: Add On-Chip Controller (OCC) hwmon driver
+>   hwmon (occ): Add command transport method for P8 and P9
+>   hwmon (occ): Parse OCC poll response
+>   hwmon (occ): Add sensor types and versions
+>   hwmon (occ): Add sensor attributes and register hwmon device
+>   hwmon (occ): Add sysfs attributes for additional OCC data
+> 
+>  .../devicetree/bindings/fsi/ibm,p9-occ.txt         |   16 +
+>  .../devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt   |   25 +
+>  Documentation/hwmon/occ                            |  112 ++
+>  drivers/fsi/Kconfig                                |   10 +
+>  drivers/fsi/Makefile                               |    1 +
+>  drivers/fsi/fsi-occ.c                              |  599 +++++++++++
+>  drivers/hwmon/Kconfig                              |    2 +
+>  drivers/hwmon/Makefile                             |    1 +
+>  drivers/hwmon/occ/Kconfig                          |   31 +
+>  drivers/hwmon/occ/Makefile                         |    5 +
+>  drivers/hwmon/occ/common.c                         | 1098 ++++++++++++++++++++
+>  drivers/hwmon/occ/common.h                         |  128 +++
+>  drivers/hwmon/occ/p8_i2c.c                         |  255 +++++
+>  drivers/hwmon/occ/p9_sbe.c                         |  106 ++
+>  drivers/hwmon/occ/sysfs.c                          |  188 ++++
+>  include/linux/fsi-occ.h                            |   25 +
+>  16 files changed, 2602 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+>  create mode 100644 Documentation/devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt
+>  create mode 100644 Documentation/hwmon/occ
+>  create mode 100644 drivers/fsi/fsi-occ.c
+>  create mode 100644 drivers/hwmon/occ/Kconfig
+>  create mode 100644 drivers/hwmon/occ/Makefile
+>  create mode 100644 drivers/hwmon/occ/common.c
+>  create mode 100644 drivers/hwmon/occ/common.h
+>  create mode 100644 drivers/hwmon/occ/p8_i2c.c
+>  create mode 100644 drivers/hwmon/occ/p9_sbe.c
+>  create mode 100644 drivers/hwmon/occ/sysfs.c
+>  create mode 100644 include/linux/fsi-occ.h
+> 
+> -- 
+> 1.8.3.1
+> 
