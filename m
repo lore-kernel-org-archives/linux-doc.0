@@ -1,248 +1,131 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-13.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 948737D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 17:32:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C7F697D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 20:06:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728237AbeKJDNr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Nov 2018 22:13:47 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:39781 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727961AbeKJDNq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Nov 2018 22:13:46 -0500
-Received: by mail-pl1-f196.google.com with SMTP id b5-v6so1235351pla.6
-        for <linux-doc@vger.kernel.org>; Fri, 09 Nov 2018 09:32:13 -0800 (PST)
+        id S1725872AbeKJFtB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 10 Nov 2018 00:49:01 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:35600 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725752AbeKJFtB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Nov 2018 00:49:01 -0500
+Received: by mail-ot1-f67.google.com with SMTP id 81so2764208otj.2
+        for <linux-doc@vger.kernel.org>; Fri, 09 Nov 2018 12:06:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=android.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=YSVOvcKc4Ekb8Ybcill7AdR5D689HT93hFxScubrg7k=;
-        b=vy0ifGYkELHU0pMxERWWn8fc/tZjrIl4oGaS1u05ad00qIs+npM+GRi69GMnnsRdM5
-         VUgNQxJL71vJAgD03CL0I94TopJbdhGfo1CSTeY9koyZ61vZ44bKJOPG6BJ9HgKPwegr
-         jA/JvWCZSD18s06kzOSEChthCT00wWlRN2GGkej0qG3TPAsnELwu6jej7bNrKRJ7ZjyV
-         KuTGYe1vwL5UFhYNmeQ5GV39NEcL3z7lfWnplKNS49/3qzbE0Xkc0Wst3tSGx2ZCX6nF
-         BhMdvaTKmoKWCZpmcgqjhaUteUqK6VFkYMy0SmRKWUwa+8If8N1JLq7BOuBeRowjFKRX
-         4zKQ==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xUFwZLkG3322nZXRMsXrrVbQjUnjyTIpP7ff0qsSub8=;
+        b=GTNTcHksHHTi8ChoQnEk787Gxg5f3rdjV0lM9oXCRRb0rfVz+qNlUbWRYvEIMh3xEE
+         uATjNn3RlQ/XC5WcxLHS6B8WKTbk91pWdkWd1XKBq2Xhg1TqH+Ax2VK9Ez8G+Y+vdKcf
+         eneJ7pWbt+Gt7R6rU1WzX4VmlbVISw7a1htrwzxRiGiRH7o3lAhUhBuP10AzBQsz6jS9
+         9UHg+TLVnRv12bttP2FIQhdYfDw3Qz9SWyesREXejsWqczM0wVK/f37qF82amtubknRw
+         P0cTbT6frnRjiLkottKRnsezXmCDNpKJVwx3oirzBLYyb5Yyi50VDe8iHfCK2/rB3NGR
+         VFYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=YSVOvcKc4Ekb8Ybcill7AdR5D689HT93hFxScubrg7k=;
-        b=IHdsTEtTue9dXHQSAd33Nk2HiI/579FyLfB9ng5RJwo2lb46xXAIjKTu/eg8gXHhYj
-         7SUbrcGHLP8RzQMsZ8joKMntbj3NPIBrcSanDDo2OEWLts/rrL2eYkzHceuS/vn7usJg
-         9SkNk9ILHpsnglexZIZGrRdt0KFviYwBGqQzdM9iKiYCOQR4B7VSzm3RYo3RNTgrRT0F
-         C2tp7BRWpgUhz2pOpkBABfoXTuiIVSGwC4PZriKlzNVQAlDnstgIr8S2b7yEfPe64AvV
-         3yaLnxrqtBHdy3VjYnHCYHsdNFWnPwWFpPfBrJ/jADZrkR67O7YoOJQ1Nh6OQ49rAr0Q
-         sxZA==
-X-Gm-Message-State: AGRZ1gJjT6Rz7DUjh2agNIkp5TnNawqdiiWE10IdmkJLrjIs8MEkfVKF
-        2kvg9fz6NqbuS1QswT3NQewOuw==
-X-Google-Smtp-Source: AJdET5ccNBeGfRr1ig8sAbcNq7ZrhybfbT9qbgUmVtzy91V6xw9kVz1i5Zj9/9KslGqYYlk1Ipaf8Q==
-X-Received: by 2002:a17:902:bf0c:: with SMTP id bi12-v6mr10074721plb.330.1541784733202;
-        Fri, 09 Nov 2018 09:32:13 -0800 (PST)
-Received: from nebulus.mtv.corp.google.com ([2620:0:1000:1612:b4fb:6752:f21f:3502])
-        by smtp.googlemail.com with ESMTPSA id e204-v6sm8397440pfh.68.2018.11.09.09.32.07
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 09 Nov 2018 09:32:08 -0800 (PST)
-Subject: Re: [PATCH v8 2/2] overlayfs: override_creds=off option bypass
- creator_cred
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Vivek Goyal <vgoyal@redhat.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        overlayfs <linux-unionfs@vger.kernel.org>,
-        linux-doc@vger.kernel.org, kernel-team@android.com
-References: <20181106230117.127616-1-salyzyn@android.com>
- <20181106230117.127616-2-salyzyn@android.com>
- <20181108200106.GB3663@redhat.com>
- <b057da99-adc6-b355-fb57-b314a29f298f@android.com>
- <CAOQ4uxjVPKSaJ2oscvM7jtsDVabnq_qMPg7k4KQEyOLAVPojcg@mail.gmail.com>
-From:   Mark Salyzyn <salyzyn@android.com>
-Message-ID: <c6518e90-9429-85a1-fe19-83e058154e2a@android.com>
-Date:   Fri, 9 Nov 2018 09:32:07 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xUFwZLkG3322nZXRMsXrrVbQjUnjyTIpP7ff0qsSub8=;
+        b=c06E9vpEui6PqlogqOQsqT4FSlfpcPyuU0FSP7RnDKlr2xiHHqrjK3XmbNAH5vyNL7
+         +LV8L5F7tEgSxNOwYpXyDWzcWyx+iTaS87SH3CmaQhp3gQz3PXlB0XKuMhtXx9IltWXz
+         0KzYOSD0UD4UAi+nrtJP7zmPm8Bt0XUH9faoJVTN1aA1IjJCaBoVROI+B6tgHgzHKjX/
+         L5pTOoohYh+avbQNgnGORM1zjO0OBbz7wR7OTsFHTPjwqWzdZtVE0hlyyD5gt8mMTMVs
+         PKqUytXj6M3ba/1sTmBSkoFhMWD171Pm2UgyLug62w+QFHKPftOeD9gXG4FRCQzdJbTU
+         7EAQ==
+X-Gm-Message-State: AGRZ1gJCGsVRmxGLUlQwgrJkZqFpIe0WvBYAfCij2tntBnpTnLOlOUGr
+        y6XcjSpE/UNlyOYNH5u9JhLGPTBZjoVe6H8LzGLvjw==
+X-Google-Smtp-Source: AJdET5cXjXs2PLvXxsWygz6kywbzJDwHn04YUfcy0v93QqKZU9IwZvla3ETGhspDM0gSH4nZFdv8qzJc99CvBLJMFcA=
+X-Received: by 2002:a9d:460e:: with SMTP id y14mr6444829ote.198.1541794013885;
+ Fri, 09 Nov 2018 12:06:53 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAOQ4uxjVPKSaJ2oscvM7jtsDVabnq_qMPg7k4KQEyOLAVPojcg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
+References: <5be58a6e.w0IbLdKsiRknTygq%lkp@intel.com>
+In-Reply-To: <5be58a6e.w0IbLdKsiRknTygq%lkp@intel.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Fri, 9 Nov 2018 21:06:27 +0100
+Message-ID: <CAG48ez2xSLFGjMYSYJTLwEnZoZJuXUfdoCp6_vGrywBU4SQNkQ@mail.gmail.com>
+Subject: Re: afaef01c00 ("x86/entry: Add STACKLEAK erasing the kernel stack
+ .."): double fault: 0000 [#1]
+To:     alex.popov@linux.com, Andy Lutomirski <luto@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     lkp@01.org, lkp@intel.com,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-doc@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/08/2018 07:05 PM, Amir Goldstein wrote:
-> On Thu, Nov 8, 2018 at 11:28 PM Mark Salyzyn <salyzyn@android.com> wrote:
->> On 11/08/2018 12:01 PM, Vivek Goyal wrote:
->>
->> On Tue, Nov 06, 2018 at 03:01:15PM -0800, Mark Salyzyn wrote:
->>
->> By default, all access to the upper, lower and work directories is the
->> recorded mounter's MAC and DAC credentials.  The incoming accesses are
->> checked against the caller's credentials.
->>
->> Ok, I am trying to think of scenarios where override_creds=off can
->> provide any privilege escalation. How about following.
->>
->> $ mkdir lower lower/foo upper upper/foo work merged
->> $ touch lower/foo/bar.txt
->> $ chmod 700 lower/foo/
->>
->> # Mount overlay with override_creds=off
->>
->> $ mount -t overlay -o
->> lowerdir=lower,upperdir=upper,workdir=work,override_creds=off none merged
->>
->> # Try to read lower/foo as unpriviliged user. Say "test"
->> # su test
->> # ls merged/foo/
->> ls: cannot access 'merged/foo/': Operation not permitted
->>
->> # Now first try to do same operation as root and retry as test user.
->> $ exit
->> $ ls merged/foo
->> bar.txt
->> $ su test
->> $ ls merged/foo
->> bar.txt
->>
->> lower/foo/ is not readable by user "test". So it fails in first try. Later
->> "root" accesses it and it populates cache in overlayfs. When test retries,
->> it gets these entries from cache.
->>
->> With override_creds=on this is not a problem because overlay provides
->> this as functionality as long as mounter as access to lower/foo/.
->>
->> But with override_creds=off, mounter is not providing any such
->> functionality and we are exposing an issue where cache will make
->> something available which is not normally available.
->>
->> I think it probably is a good idea to do something about it?
->>
->> Thanks
->> Vivek
->>
->> Good stuff.
->>
->> That sounds like a bug in cache (!) to not recheck caller's credentials. Currently unsure how/where to force bypass of the cache (performance hit) as it is wired in throughout the code without a clear off switch, or rechecking of the credentials at access. This does need to be addressed to make this 'feature' more useful/trusted for non-MAC controlled, use cases.
->>
->> This is not a problem in the Android usage case since DAC is simple and all can be read, execute bits might be controlled, the owners and perms are otherwise unremarkable in the affected arenas that are utilizing overlayfs. Not using it for a generic r/w backing except in rooted debug scenarios by developers, otherwise everything is r/o, MAC on the other hand is complex and heavily inspected. We do, however, want multi level security in that both DAC and MAC can be trusted and can protect each other from holes.
->>
->> Sounds like the caveats in the documentation need to be expanded if _no_ solution for this kind of access pattern becomes apparent.
->>
-> I think maybe you could append the "behavior of the overlay is undefined" clause
-> to the caveats to cover issues like the one raised by Vivek.
++Andy, Thomas, Ingo
 
-Will respin with adjustment to documentation and head towards v9.
-
-I would prefer to have a complete solution to the non-overlapping 
-security model,
-and maybe in time it will come, but admittedly only if motivated to use 
-overlayfs on
-Android's userdata (see below) where all these issues would need to be 
-solved.
-
-Consider this (far simpler) patch a shot across the bow that an 
-overlayfs use case was
-removed in 4.6, and for completeness at least we would like to see it 
-back. Would the ideal
-be that the creator's credentials are only used to facilitate some 
-workdir or r/w upperdir
-operations, and user credentials are rechecked in more places in cache. From
-my perspective feels like whack a mole for a few iterations. In that 
-case, this option is
-the start of those iterations "if you build it they will come"?
-
-The first one would be an investigation on how to solve Vivek's scenario 
-in the face of this change? (not volunteering today to do that, 
-admitting to a shortcoming, and a need for a deeper understanding of the 
-code for the moment)
+On Fri, Nov 9, 2018 at 2:24 PM kernel test robot <lkp@intel.com> wrote:
+> 0day kernel testing robot got the below dmesg and the first bad commit is
 >
-> Mark,
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 >
-> I have some Android internals background, so I have a general
-> understanding of the
-> use case, but I can understand why people have a hard time connecting to the
-> motivation, thinking "their security model must be flawed".
+> commit afaef01c001537fa97a25092d7f54d764dc7d8c1
+> Author:     Alexander Popov <alex.popov@linux.com>
+> AuthorDate: Fri Aug 17 01:16:58 2018 +0300
+> Commit:     Kees Cook <keescook@chromium.org>
+> CommitDate: Tue Sep 4 10:35:47 2018 -0700
 >
-> I am not sure if you are avoiding laying out the details of the model
-> because you
-> are not allowed to expose details or because you feel details may confuse us.
+>     x86/entry: Add STACKLEAK erasing the kernel stack at the end of syscalls
+[...]
+> [  127.808225] double fault: 0000 [#1]
+> [  127.808695] CPU: 0 PID: 414 Comm: trinity-main Tainted: G                T 4.19.0-rc2-00001-gafaef01 #1
+> [  127.809799] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1 04/01/2014
+> [  127.810760] RIP: 0010:ftrace_ops_test+0x27/0xa0
+> [  127.811289] Code: eb 9a 90 41 54 55 49 89 f4 53 48 89 d3 48 89 fd 48 81 ec b0 00 00 00 65 48 8b 04 25 28 00 00 00 48 89 84 24 a8 00 00 00 31 c0 <e8> 54 df ff ff 48 85 db 74 57 e8 4a df ff ff 48 8b 85 d0 00 00 00
+> [  127.813385] RSP: 0018:fffffe0000001fb8 EFLAGS: 00010046
+[...]
+> [  127.819762] CR2: fffffe0000001fa8 CR3: 000000001579a000 CR4: 00000000000006b0
+[...]
+> [  127.822234] Call Trace:
+> [  127.822530]  <ENTRY_TRAMPOLINE>
+> [  127.822914]  ? __ia32_sys_rseq+0x2f0/0x2f0
+> [  127.823395]  ftrace_ops_list_func+0xa5/0x1b0
+> [  127.823922]  ftrace_call+0x5/0x34
+> [  127.824318]  ? stackleak_erase+0x5/0xf0
+> [  127.824789]  ? stackleak_erase+0x43/0xf0
+> [  127.825260]  stackleak_erase+0x5/0xf0
+> [  127.825699]  syscall_return_via_sysret+0x61/0x81
+> [  127.826238] WARNING: stack recursion on stack type 4
+> [  127.826243] WARNING: can't dereference registers at (____ptrval____) for ip syscall_return_via_sysret+0x61/0x81
+> [  127.826246]  </ENTRY_TRAMPOLINE>
+> [  127.828342] ---[ end trace e9f96d3f45575499 ]---
+> [  127.828911] RIP: 0010:ftrace_ops_test+0x27/0xa0
 
-I am not a "great communicator"(tm), probably only 50K vocabulary,
-propensity towards quantum leaps, so yes, I was worried about confusion.
-non-overlapping security model is the key takeaway I feel.
+CR2: fffffe0000001fa8, RSP: 0018:fffffe0000001fb8; this is a pagefault
+on the stack. fffffe0000000000 is CPU_ENTRY_AREA_RO_IDT;
+fffffe0000001000 is CPU_ENTRY_AREA_PER_CPU; so fffffe0000002000 is the
+page with the entry stack for cpu 0, and you overflowed from that into
+the readonly gdt at fffffe0000001000, which doubles as a guard page
+for the entry stack:
 
-[TL;DR]
+struct cpu_entry_area {
+        char gdt[PAGE_SIZE];
 
-In Android there are two use cases this covers:
+        /*
+         * The GDT is just below entry_stack and thus serves (on x86_64) as
+         * a a read-only guard page.
+         */
+        struct entry_stack_page entry_stack_page;
+[...]
+};
 
-1) On userdebug (rooted development) builds, adb remount feature
-    for readonly filesystems which include squashfs, ext4 dedupe,
-    and any right-sized (zero space left over) filesystems.  In these cases
-    the system will resort to utilizing overlayfs, and allow for
-    updated content to a scratch backing storage.
-2) On operating system updates where new Hardware Abstraction
-    layers have been added and the vendor/oem supplied components
-    supplied to an older release.  In this corner case the operating
-    system update may carefully select overrides that are merged into
-    the vendor partition content directories as hosted by the
-    operating system partition.
-
-The sepolicy model can be browsed at 
-https://android.googlesource.com/platform/system/sepolicy/.
-
-In the first use case above the possible insecurity is tempered by the 
-debug nature
-of the system and the lurking big elephant in the room privilege 
-escalation possibility
-(/system/bin/su existing), in the other a r/o and precise MAC. sepolicy 
-and credentials
-will rule over transitions from one security domain to another for 
-execution, vendor components are managed by a separate vendor_init and 
-the actual xattr content is constant.
-
-Being able to block reading a file or directory is not a big concern in 
-the associated trees, because all of the originals are backed by a r/o 
-filesystem image, the content
-is generally visible by all, and if not they are locally restricted 
-views into a public filesystem image, that themselves can be mounted on 
-a desktop. There are no privilege escalation or privacy issues.
-
-An Android use case this does not cover securely is when overlayfs is 
-used as a
-snapshot of the users data during the update process to permit easy 
-rollback of user data due to an
-update failure (very unlikely 0.01%, but alas there are tachyons with 
-our names on them).
-For those use cases we have opted to add snapshot-ting to
-f2fs and ext4 (using dm-bow in another patch set under discussion for 
-the time being)
-and abandoned overlayfs as insufficient in a dynamic non-overlapping DAC 
-and MAC security model.
-Built in filesystem snapshot-ting is always preferred for performance,
-efficiency and access to the free block pools they maintain so that was an
-easy choice.
-
-> If the latter, then I think that actually listing the details of the
-> overlays used in Android
-> and some concrete examples of access policies to those overlays could
-> benefit the
-> discussion on the feature.
-> To clarify, this only a suggestion. I have no objection to the patch.
->
-> Thanks,
-> Amir.
-
--- Mark
-
-
+In other words: You're calling C code on the entry trampoline stack;
+this C code can call into ftrace; and the entry trampoline stack isn't
+big enough for ftrace shenanigans. I think you probably shouldn't be
+calling C code on the entry stack, but maybe one of the X86 folks has
+a different opinion?
