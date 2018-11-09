@@ -5,154 +5,251 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 769517D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 20:46:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5B2007D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 20:52:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726286AbeKJG2r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 10 Nov 2018 01:28:47 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:39122 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726110AbeKJG2r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Nov 2018 01:28:47 -0500
-Received: by mail-pl1-f194.google.com with SMTP id b5-v6so1446707pla.6
-        for <linux-doc@vger.kernel.org>; Fri, 09 Nov 2018 12:46:32 -0800 (PST)
+        id S1726572AbeKJGes (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 10 Nov 2018 01:34:48 -0500
+Received: from mail-eopbgr740074.outbound.protection.outlook.com ([40.107.74.74]:39808
+        "EHLO NAM01-BN3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725799AbeKJGer (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 10 Nov 2018 01:34:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=z3cT5Pw2wUEAlev8kV/vpVeePw6wc3P0Gr59IdrASFA=;
-        b=KhVvCXqjNpgs5mO1CwaMzbw53NBMRompT5U1Pj6I5zbHgTBUqgLM8sscgGaszQWWRZ
-         dvPrsWvTOeILL+13+f9XYkvLq2aKx8XtEO4hQvK20p/0RDhjOt4a1fdS26W9odSwENqu
-         Fj7v6KgVTEABfsfhC5Mzrw/xv9McrSqpv1FzW9GwDE9RZyVQPRu15M/ZMVfUvACCqdX8
-         GsIsT4BjfKqxnsmxlayMZDfPxMfzFCJMkddsGhmqn33c1gvltXIjlHOALJ7eKfkoGdzF
-         KN5ODQVDHL+aI3P7h0nwVHkgj3YLZ++N3rCWyoKQ7gGiQgDkSSag+anJYPb2q0Hn7h+A
-         1GxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=z3cT5Pw2wUEAlev8kV/vpVeePw6wc3P0Gr59IdrASFA=;
-        b=Mi1r2mt8Q5j48N3mxsHS39rl3e7wXYdWit83V419FwT5gj5+bFp3jdsAYWGiGojVa2
-         fdyZOjph+H89pYl2b6iDY0zyrGTAN7cnMaFqo+u6hzahluXP9rLriatHnth8fcph4eKk
-         E+qRSmn6XST0WFD86qYZ5xzbcPoBhwervlykUi7STlL390fqLUVvjFiJcXTTBxmeywsF
-         v85JgpQEGwJMRUyuDXnACOpjGcgOzAHZOLQfNLkqiLHIG59RpRDdq13MKwsPidzNCZd1
-         sPCO7W5XN75VRDWJSlVxMtDXBwV5zH5Bv2rujLmE/d/Ox4R0FyruKteee9VTt/ewWb0H
-         7/lQ==
-X-Gm-Message-State: AGRZ1gIhoMSATN/uWG57SN+dCgRbgd5oQPbNSor0jMNE2GOZptCyNinq
-        vFV/eXnpk88p68EgwafFyoE1nQ==
-X-Google-Smtp-Source: AJdET5c93wXMOz30GcguG9OwCKrFU3Bk6Pr8dOLM53sGJJPc1lMOPeYRUFdhWDkTiq3hrigwebh1fw==
-X-Received: by 2002:a17:902:6b87:: with SMTP id p7-v6mr10570515plk.282.1541796391592;
-        Fri, 09 Nov 2018 12:46:31 -0800 (PST)
-Received: from ?IPv6:2600:1010:b002:666:dc7a:5a83:1f2b:9078? ([2600:1010:b002:666:dc7a:5a83:1f2b:9078])
-        by smtp.gmail.com with ESMTPSA id k129sm11737599pgk.29.2018.11.09.12.46.30
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 09 Nov 2018 12:46:30 -0800 (PST)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (1.0)
-Subject: Re: afaef01c00 ("x86/entry: Add STACKLEAK erasing the kernel stack .."): double fault: 0000 [#1]
-From:   Andy Lutomirski <luto@amacapital.net>
-X-Mailer: iPhone Mail (16A404)
-In-Reply-To: <CAG48ez2xSLFGjMYSYJTLwEnZoZJuXUfdoCp6_vGrywBU4SQNkQ@mail.gmail.com>
-Date:   Fri, 9 Nov 2018 12:46:29 -0800
-Cc:     alex.popov@linux.com, Andy Lutomirski <luto@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, lkp@01.org,
-        lkp@intel.com,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-doc@vger.kernel.org,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>
+ d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xzAp/ADE92F3gjLzN6vNcarGdx39efxzPJY5hcj46Ko=;
+ b=1zBSYafEvCl0uVDro5OPbOkxIuM7pOyVV5Dr01l52P/eF1ayTg5qZuyvNVzP9+GyU9HOCT9wsSnbqA+peqAMZq5X3LHTiDz5ffhVdkHxMYaM8DKnDxvyka1MCdkc69wHVd9GQIPhRdekK0dzfrs05jz/zPXVPQjoE+2DEHvQdiM=
+Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
+ DM5PR12MB1675.namprd12.prod.outlook.com (10.172.40.144) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1294.23; Fri, 9 Nov 2018 20:52:23 +0000
+Received: from DM5PR12MB2471.namprd12.prod.outlook.com
+ ([fe80::4c23:f551:bc6a:554e]) by DM5PR12MB2471.namprd12.prod.outlook.com
+ ([fe80::4c23:f551:bc6a:554e%4]) with mapi id 15.20.1294.034; Fri, 9 Nov 2018
+ 20:52:23 +0000
+From:   "Moger, Babu" <Babu.Moger@amd.com>
+To:     "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>,
+        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+CC:     "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
+        "pombredanne@nexb.com" <pombredanne@nexb.com>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
+        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Singh, Brijesh" <brijesh.singh@amd.com>,
+        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
+        "dwmw2@infradead.org" <dwmw2@infradead.org>,
+        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "rian@alum.mit.edu" <rian@alum.mit.edu>,
+        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
+        "Moger, Babu" <Babu.Moger@amd.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: [PATCH v7 00/13] arch/x86: AMD QoS support
+Thread-Topic: [PATCH v7 00/13] arch/x86: AMD QoS support
+Thread-Index: AQHUeG4dJz0szErVIk6LNqmmQKnpfw==
+Date:   Fri, 9 Nov 2018 20:52:23 +0000
+Message-ID: <20181109205153.14811-1-babu.moger@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: SN4PR0701CA0005.namprd07.prod.outlook.com
+ (2603:10b6:803:28::15) To DM5PR12MB2471.namprd12.prod.outlook.com
+ (2603:10b6:4:b5::10)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Babu.Moger@amd.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [165.204.78.1]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;DM5PR12MB1675;20:HXvxSPyJHPLSe2ZHDMvu0KrhAcWVejhr97wRCHgQvFoRGignpFn0Xm0KipMKIsyXjxJgaXCFZxLzZEnqiVWBh9BsesuOKKW6C9vweWCfUGfcQykqEzbfCt83bmFbf1BzNzN8boTVshlp15oBFizuldtaEbFj/+ohCj2hmEpq24Uu8nlV9KYIzXBlsRuWv3+GRlGWbWeflugIuExQMjyWM+5vzAMTatlZ4xDB14JSyJ6RzCCepTY/p2+oWsrRWGmK
+x-ms-office365-filtering-correlation-id: a70d732e-4a1a-4917-6dd7-08d646853f5e
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(4618075)(2017052603328)(7153060)(7193020);SRVR:DM5PR12MB1675;
+x-ms-traffictypediagnostic: DM5PR12MB1675:
+x-microsoft-antispam-prvs: <DM5PR12MB167563FB82BA635CCB6087E795C60@DM5PR12MB1675.namprd12.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(72170088055959)(269456686620040)(767451399110)(84791874153150);
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(823302103)(93006095)(93001095)(10201501046)(3002001)(3231382)(944501410)(52105095)(6055026)(148016)(149066)(150057)(6041310)(20161123564045)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123560045)(201708071742011)(7699051)(76991095);SRVR:DM5PR12MB1675;BCL:0;PCL:0;RULEID:;SRVR:DM5PR12MB1675;
+x-forefront-prvs: 08512C5403
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(376002)(396003)(346002)(136003)(366004)(199004)(189003)(305945005)(4326008)(14454004)(6116002)(66066001)(72206003)(36756003)(105586002)(6486002)(3846002)(6436002)(102836004)(386003)(6506007)(6512007)(478600001)(99286004)(2906002)(5660300001)(25786009)(6306002)(86362001)(2900100001)(68736007)(2501003)(2201001)(26005)(7406005)(81156014)(81166006)(486006)(476003)(2616005)(186003)(1076002)(52116002)(53936002)(8936002)(7736002)(106356001)(14444005)(256004)(110136005)(71200400001)(966005)(71190400001)(8676002)(54906003)(316002)(7416002)(97736004)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1675;H:DM5PR12MB2471.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: tp8W3oNkamJsBefa6e3hjC+elYgbk7tlBaRi9izJDiYYr48mPkhIruyhiqlbnsSJTR3VYo6/A7eQ6Pcw1+GfUuxYnt01xGYlRjaiF7J1ln+uPdCs42+c96EE5te3+NhqyG+sRX+dnadsuNNqUUFAeL5qh2HAo2nMWxmvzlJG22wdUah1gSjC1q+/sQDmEDFlga5bQyK/xzdXj4i/fZogj0CcTO7SBG9yhwkE35Zl/VBsHnLOCL8cYPtlt/YPxODsokjH9hN+NlEhspYwSXYl3NXaZQi3jXloAH8V0w+OWVOkU9T4HXCaEYOsaMLgxJTnVK3tLMVNM/1j1e8Y4+WYBssm5IIPEVdibhO6IPy0SUw=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <2B681F10-752C-4327-9960-3987CE17A619@amacapital.net>
-References: <5be58a6e.w0IbLdKsiRknTygq%lkp@intel.com> <CAG48ez2xSLFGjMYSYJTLwEnZoZJuXUfdoCp6_vGrywBU4SQNkQ@mail.gmail.com>
-To:     Jann Horn <jannh@google.com>, Joerg Roedel <joro@8bytes.org>
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a70d732e-4a1a-4917-6dd7-08d646853f5e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Nov 2018 20:52:23.0624
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1675
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This series adds support for AMD64 architectural extensions for Platform
+Quality of Service. These extensions are intended to provide for the
+monitoring of the usage of certain system resources by one or more
+processors and for the separate allocation and enforcement of limits on
+the use of certain system resources by one or more processors.
 
+The monitoring and enforcement are not necessarily applied across the
+entire system, but in general apply to a QOS domain which corresponds to
+some shared system resource.  The set of resources which are monitored and
+the set for which the enforcement of limits is provided are implementation
+dependent. Platform QOS features are implemented on a logical processor bas=
+is.
+Therefore, multiple hardware threads of a single physical CPU core may have
+independent resource monitoring and enforcement configurations.
 
-> On Nov 9, 2018, at 12:06 PM, Jann Horn <jannh@google.com> wrote:
->=20
-> +Andy, Thomas, Ingo
->=20
->> On Fri, Nov 9, 2018 at 2:24 PM kernel test robot <lkp@intel.com> wrote:
->> 0day kernel testing robot got the below dmesg and the first bad commit is=
+AMD's next generation of processors support following QoS sub-features.
+- L3 Cache allocation enforcement
+- L3 Cache occupancy monitoring
+- L3 Code-Data Prioritization support
+- Memory Bandwidth Enforcement(Allocation)
 
->>=20
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master=
+The public specification for this feature is available at
+https://developer.amd.com/wp-content/resources/56375.pdf
 
->>=20
->> commit afaef01c001537fa97a25092d7f54d764dc7d8c1
->> Author:     Alexander Popov <alex.popov@linux.com>
->> AuthorDate: Fri Aug 17 01:16:58 2018 +0300
->> Commit:     Kees Cook <keescook@chromium.org>
->> CommitDate: Tue Sep 4 10:35:47 2018 -0700
->>=20
->>    x86/entry: Add STACKLEAK erasing the kernel stack at the end of syscal=
-ls
-> [...]
->> [  127.808225] double fault: 0000 [#1]
->> [  127.808695] CPU: 0 PID: 414 Comm: trinity-main Tainted: G             =
-   T 4.19.0-rc2-00001-gafaef01 #1
->> [  127.809799] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIO=
-S 1.10.2-1 04/01/2014
->> [  127.810760] RIP: 0010:ftrace_ops_test+0x27/0xa0
->> [  127.811289] Code: eb 9a 90 41 54 55 49 89 f4 53 48 89 d3 48 89 fd 48 8=
-1 ec b0 00 00 00 65 48 8b 04 25 28 00 00 00 48 89 84 24 a8 00 00 00 31 c0 <e=
-8> 54 df ff ff 48 85 db 74 57 e8 4a df ff ff 48 8b 85 d0 00 00 00
->> [  127.813385] RSP: 0018:fffffe0000001fb8 EFLAGS: 00010046
-> [...]
->> [  127.819762] CR2: fffffe0000001fa8 CR3: 000000001579a000 CR4: 000000000=
-00006b0
-> [...]
->> [  127.822234] Call Trace:
->> [  127.822530]  <ENTRY_TRAMPOLINE>
->> [  127.822914]  ? __ia32_sys_rseq+0x2f0/0x2f0
->> [  127.823395]  ftrace_ops_list_func+0xa5/0x1b0
->> [  127.823922]  ftrace_call+0x5/0x34
->> [  127.824318]  ? stackleak_erase+0x5/0xf0
->> [  127.824789]  ? stackleak_erase+0x43/0xf0
->> [  127.825260]  stackleak_erase+0x5/0xf0
->> [  127.825699]  syscall_return_via_sysret+0x61/0x81
->> [  127.826238] WARNING: stack recursion on stack type 4
->> [  127.826243] WARNING: can't dereference registers at (____ptrval____) f=
-or ip syscall_return_via_sysret+0x61/0x81
->> [  127.826246]  </ENTRY_TRAMPOLINE>
->> [  127.828342] ---[ end trace e9f96d3f45575499 ]---
->> [  127.828911] RIP: 0010:ftrace_ops_test+0x27/0xa0
->=20
-> CR2: fffffe0000001fa8, RSP: 0018:fffffe0000001fb8; this is a pagefault
-> on the stack. fffffe0000000000 is CPU_ENTRY_AREA_RO_IDT;
-> fffffe0000001000 is CPU_ENTRY_AREA_PER_CPU; so fffffe0000002000 is the
-> page with the entry stack for cpu 0, and you overflowed from that into
-> the readonly gdt at fffffe0000001000, which doubles as a guard page
-> for the entry stack:
->=20
-> struct cpu_entry_area {
->        char gdt[PAGE_SIZE];
->=20
->        /*
->         * The GDT is just below entry_stack and thus serves (on x86_64) as=
+Obviously, there are multiple ways we can go about these changes. We felt
+it is appropriate to rename and re-organize the code little bit before
+making the functional changes. The first few patches(1-10) renames and
+re-organizes the sources in preparation. Rest of the patches(7-11) adds
+support for AMD QoS features.
 
->         * a a read-only guard page.
->         */
->        struct entry_stack_page entry_stack_page;
-> [...]
-> };
->=20
-> In other words: You're calling C code on the entry trampoline stack;
-> this C code can call into ftrace; and the entry trampoline stack isn't
-> big enough for ftrace shenanigans. I think you probably shouldn't be
-> calling C code on the entry stack, but maybe one of the X86 folks has
-> a different opinion?
+Please review.
 
-My opinion was that, on x86_32, the entry stack ought to be fairly large so t=
-hat NMIs could execute on the entry stack.  I don=E2=80=99t remember what th=
-e code actually does, though.
+Changes from v6 -> v7:
+ a. Mainly addressed the comments from Mattew Wilcox. Removed both=20
+    CONFIG_INTEL_RDT and CONFIG_AMD_QOS config parameter. We dont need
+    to use two separate config parameter to enable this feature. The
+    final code will be same in both the cases. So, used the new vendor
+    neutral parameter CONFIG_RESCTRL to enable resource control feature
+    for both Intel and AMD=20
 
-But stackleak_erase should probably not run on the entry stack. That seems l=
-ike it=E2=80=99s just asking for trouble.=
+Changes from v5 -> v6:
+https://lore.kernel.org/lkml/20181106154034.15386-1-babu.moger@amd.com/
+ a. Addressed comments from Fenghua Yu. Added vendor check while
+    detecting MBA software controller support.
+ a. Rebased again on top of
+    git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/cache
+
+Changes from v4 -> v5:
+https://lore.kernel.org/lkml/20181018225124.23043-1-babu.moger@amd.com/
+ a. Addressed comments from Fenghua Yu.
+ b. The functions update_mba_bw and set_mba_sc is not required for AMD.
+    Removed all the changes related to these functions.
+
+Changes from v3 -> v4:
+https://lore.kernel.org/lkml/20181015205514.25387-1-babu.moger@amd.com/
+ a. Addressed comments from Reinette Chatre and Borislav Petkov.
+ b. Removed X86 dependency for CONFIG_AMD_QOS. Implicitly is it already
+    dependent on X86.
+ c. Updated the MAINTAINER file for name changes.
+ d. Addressed most of "checkpatch.pl --strict" issues.
+ d. Updated Documentation/x86/resctrl_ui.txt(previously
+    intel_rdt_ui.txt) file with AMD specific details. Changed few names
+    to resctrl from intel_rdt.
+
+Changes from v2 -> v3:
+ https://lore.kernel.org/lkml/20181011203223.18157-1-babu.moger@amd.com/
+ a. Rebased the patches on top of below branch as suggested by Thomas Gleix=
+ner.
+    git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/cache
+ b. Addressed comments from Reinette Chatre, Fenghua Yu and Borislav Petkov=
+.
+ c. Main changes are related to renaming the files and functions.
+    Renamed from intel_rdt to more generic resctrl(patches 1 to 3).
+ d. Config parameter changed from PLATFORM_QOS to more generic RESCTRL.
+ e. Fixed minor indentation issues.
+
+Changes from v1 -> v2:
+ https://lore.kernel.org/lkml/20181005205512.29545-1-babu.moger@amd.com/
+ a. Removed RFC from subject header. Based on the discussion so far,=20
+    plan is to go ahead with these patches and eventually re-structure
+    the code to make arch and non-arch separate.
+ b. Addressed comments from Reinette Chatre and Fenghua Yu.
+ c. Separated quirks and MBA from rdt init code. Kept the rest of the
+    code as is.
+ d. Added _intel suffixes all the Intel only code just like AMD code.
+ e. Added one more patch to bring the macros into header file.
+ f. Few minor text changes.
+
+v1:
+ https://lore.kernel.org/lkml/20180924191841.29111-1-babu.moger@amd.com/
+
+Babu Moger (12):
+  arch/x86: Start renaming the rdt files to more generic names
+  arch/x86: Rename the RDT functions and definitions
+  arch/x86: Re-arrange RDT init code
+  arch/x86: Bring all the macros to resctrl.h
+  arch/x86: Rename config parameter INTEL_RDT to RESCTRL
+  arch/x86: Initialize the resource functions that are different
+  arch/x86: Bring cbm_validate function into the resource structure
+  arch/x86: Add vendor check for MBA software controller
+  arch/x86: Update the RESCTRL config parameter
+  arch/x86: Introduce QOS feature for AMD
+  Documentation/x86: Rename and update intel_rdt_ui.txt
+  MAINTAINERS: Update the file and documentation names in arch/x86
+
+Sherry Hurwitz (1):
+  arch/x86: Add AMD feature bit X86_FEATURE_MBA in cpuid bits array
+
+ .../x86/{intel_rdt_ui.txt =3D> resctrl_ui.txt}  |   9 +-
+ MAINTAINERS                                   |   6 +-
+ arch/x86/Kconfig                              |  23 ++-
+ .../{intel_rdt_sched.h =3D> resctrl_sched.h}    |  28 +--
+ arch/x86/kernel/cpu/Makefile                  |   6 +-
+ .../x86/kernel/cpu/{intel_rdt.c =3D> resctrl.c} | 168 +++++++++++++++---
+ .../x86/kernel/cpu/{intel_rdt.h =3D> resctrl.h} |  37 ++--
+ ...dt_ctrlmondata.c =3D> resctrl_ctrlmondata.c} |  80 ++++++++-
+ ...{intel_rdt_monitor.c =3D> resctrl_monitor.c} |  20 +--
+ ...dt_pseudo_lock.c =3D> resctrl_pseudo_lock.c} |   6 +-
+ ...ck_event.h =3D> resctrl_pseudo_lock_event.h} |   2 +-
+ ...ntel_rdt_rdtgroup.c =3D> resctrl_rdtgroup.c} |  19 +-
+ arch/x86/kernel/cpu/scattered.c               |   7 +-
+ arch/x86/kernel/process_32.c                  |   4 +-
+ arch/x86/kernel/process_64.c                  |   4 +-
+ include/linux/sched.h                         |   2 +-
+ 16 files changed, 318 insertions(+), 103 deletions(-)
+ rename Documentation/x86/{intel_rdt_ui.txt =3D> resctrl_ui.txt} (99%)
+ rename arch/x86/include/asm/{intel_rdt_sched.h =3D> resctrl_sched.h} (77%)
+ rename arch/x86/kernel/cpu/{intel_rdt.c =3D> resctrl.c} (85%)
+ rename arch/x86/kernel/cpu/{intel_rdt.h =3D> resctrl.h} (94%)
+ rename arch/x86/kernel/cpu/{intel_rdt_ctrlmondata.c =3D> resctrl_ctrlmonda=
+ta.c} (86%)
+ rename arch/x86/kernel/cpu/{intel_rdt_monitor.c =3D> resctrl_monitor.c} (9=
+7%)
+ rename arch/x86/kernel/cpu/{intel_rdt_pseudo_lock.c =3D> resctrl_pseudo_lo=
+ck.c} (99%)
+ rename arch/x86/kernel/cpu/{intel_rdt_pseudo_lock_event.h =3D> resctrl_pse=
+udo_lock_event.h} (95%)
+ rename arch/x86/kernel/cpu/{intel_rdt_rdtgroup.c =3D> resctrl_rdtgroup.c} =
+(99%)
+
+--=20
+2.17.1
+
