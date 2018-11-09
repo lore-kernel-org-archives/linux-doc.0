@@ -2,121 +2,148 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 44C117D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 15:20:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B32E37D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  9 Nov 2018 17:13:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728260AbeKJBBn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 9 Nov 2018 20:01:43 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:50642 "EHLO mx1.redhat.com"
+        id S1728198AbeKJCzC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 9 Nov 2018 21:55:02 -0500
+Received: from mga18.intel.com ([134.134.136.126]:48232 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727800AbeKJBBn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Nov 2018 20:01:43 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id D22C585A07;
-        Fri,  9 Nov 2018 15:20:41 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.18.25.234])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8C1575D738;
-        Fri,  9 Nov 2018 15:20:41 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
-        id 1AEA02239AE; Fri,  9 Nov 2018 10:20:41 -0500 (EST)
-Date:   Fri, 9 Nov 2018 10:20:41 -0500
-From:   Vivek Goyal <vgoyal@redhat.com>
-To:     Mark Salyzyn <salyzyn@android.com>
-Cc:     linux-kernel@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+        id S1727961AbeKJCzC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Nov 2018 21:55:02 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Nov 2018 09:13:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,483,1534834800"; 
+   d="scan'208";a="106910315"
+Received: from ray.jf.intel.com (HELO [10.7.201.15]) ([10.7.201.15])
+  by orsmga001.jf.intel.com with ESMTP; 09 Nov 2018 09:13:33 -0800
+Subject: Re: [PATCH v5 04/27] x86/fpu/xstate: Add XSAVES system states for
+ shadow stack
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Andy Lutomirski <luto@amacapital.net>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>, X86 ML <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H. J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Amir Goldstein <amir73il@gmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v8 2/2] overlayfs: override_creds=off option bypass
- creator_cred
-Message-ID: <20181109152041.GC28565@redhat.com>
-References: <20181106230117.127616-1-salyzyn@android.com>
- <20181106230117.127616-2-salyzyn@android.com>
- <20181108200106.GB3663@redhat.com>
- <b057da99-adc6-b355-fb57-b314a29f298f@android.com>
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
+References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
+ <20181011151523.27101-5-yu-cheng.yu@intel.com>
+ <CALCETrVAe8R=crVHoD5QmbN-gAW+V-Rwkwe4kQP7V7zQm9TM=Q@mail.gmail.com>
+ <4295b8f786c10c469870a6d9725749ce75dcdaa2.camel@intel.com>
+ <CALCETrUKzXYzRrWRdi8Z7AdAF0uZW5Gs7J4s=55dszoyzc29rw@mail.gmail.com>
+ <043a17ef-dc9f-56d2-5fba-1a58b7b0fd4d@intel.com>
+ <20181108220054.GP3074@bombadil.infradead.org>
+ <ead230ab-a904-50d6-c4cf-46d5804f6151@intel.com>
+ <20181109003225.GQ3074@bombadil.infradead.org>
+From:   Dave Hansen <dave.hansen@intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <6cd2ae51-2d2a-9c68-df7c-45b49e0a813f@intel.com>
+Date:   Fri, 9 Nov 2018 09:13:32 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b057da99-adc6-b355-fb57-b314a29f298f@android.com>
-User-Agent: Mutt/1.9.1 (2017-09-22)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Fri, 09 Nov 2018 15:20:42 +0000 (UTC)
+In-Reply-To: <20181109003225.GQ3074@bombadil.infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 08, 2018 at 01:28:32PM -0800, Mark Salyzyn wrote:
-> On 11/08/2018 12:01 PM, Vivek Goyal wrote:
-> > On Tue, Nov 06, 2018 at 03:01:15PM -0800, Mark Salyzyn wrote:
-> > > By default, all access to the upper, lower and work directories is the
-> > > recorded mounter's MAC and DAC credentials.  The incoming accesses are
-> > > checked against the caller's credentials.
-> > Ok, I am trying to think of scenarios where override_creds=off can
-> > provide any privilege escalation. How about following.
-> > 
-> > $ mkdir lower lower/foo upper upper/foo work merged
-> > $ touch lower/foo/bar.txt
-> > $ chmod 700 lower/foo/
-> > 
-> > # Mount overlay with override_creds=off
-> > 
-> > $ mount -t overlay -o
-> > lowerdir=lower,upperdir=upper,workdir=work,override_creds=off none merged
-> > 
-> > # Try to read lower/foo as unpriviliged user. Say "test"
-> > # su test
-> > # ls merged/foo/
-> > ls: cannot access 'merged/foo/': Operation not permitted
-> > 
-> > # Now first try to do same operation as root and retry as test user.
-> > $ exit
-> > $ ls merged/foo
-> > bar.txt
-> > $ su test
-> > $ ls merged/foo
-> > bar.txt
-> > 
-> > lower/foo/ is not readable by user "test". So it fails in first try. Later
-> > "root" accesses it and it populates cache in overlayfs. When test retries,
-> > it gets these entries from cache.
-> > 
-> > With override_creds=on this is not a problem because overlay provides
-> > this as functionality as long as mounter as access to lower/foo/.
-> > 
-> > But with override_creds=off, mounter is not providing any such
-> > functionality and we are exposing an issue where cache will make
-> > something available which is not normally available.
-> > 
-> > I think it probably is a good idea to do something about it?
-> > 
-> > Thanks
-> > Vivek
-> > 
-> Good stuff.
-> 
-> That sounds like a bug in cache (!) to not recheck caller's credentials.
-> Currently unsure how/where to force bypass of the cache (performance hit) as
-> it is wired in throughout the code without a clear off switch, or rechecking
-> of the credentials at access. This does need to be addressed to make this
-> 'feature' more useful/trusted for non-MAC controlled, use cases.
+On 11/8/18 4:32 PM, Matthew Wilcox wrote:
+>> Now, looking at Yu-cheng's specific example, it doesn't matter.  We've
+>> got 64-bit types and natural 64-bit alignment.  Without __packed, we
+>> need to look out for natural alignment screwing us up.  With __packed,
+>> it just does what it *looks* like it does.
+> The question is whether Yu-cheng's struct is ever embedded in another
+> struct.  And if so, what does the hardware do?
 
-DAC is just an example. There is no reason same issue will not happen
-with MAC? Proacess A with correct MAC priviliges will fill overlay
-cache and process B without correct MAC priviliges will still be able
-to get information about dentry.
+It's not really.
 
-As Amir suggested, for now documenting this probably is fine. I can't
-think of any other good options either. May be Miklos has some ideas here.
++struct cet_user_state {
++	u64 u_cet;	/* user control flow settings */
++	u64 user_ssp;	/* user shadow stack pointer */
++} __packed;
 
-Thanks
-Vivek
+This ends up embedded in 'struct fpu'.  The hardware tells us what the
+sum of all the sizes of all the state components are, and also tells us
+the offsets inside the larger buffer.
+
+We double-check that the structure sizes exactly match the sizes that
+the hardware tells us that the buffer pieces are via XCHECK_SZ().
+
+But, later versions of the hardware have instructions that don't have
+static offsets for the state components (when the XSAVES/XSAVEC
+instructions are used).  So, for those, the structure embedding isn't
+used at *all* since some state might not be present.
 
