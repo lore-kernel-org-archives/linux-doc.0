@@ -1,137 +1,231 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-7.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AFAAA7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 10 Nov 2018 15:22:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4BEF67D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 10 Nov 2018 15:31:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726422AbeKKBHz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 10 Nov 2018 20:07:55 -0500
-Received: from mx2.suse.de ([195.135.220.15]:40584 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726068AbeKKBHy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 10 Nov 2018 20:07:54 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay1.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id A05EDADD8;
-        Sat, 10 Nov 2018 15:22:31 +0000 (UTC)
-Subject: Re: PLEASE REVERT URGENTLY: Re: [PATCH v5 2/3] x86/boot: add acpi
- rsdp address to setup_header
-To:     "H. Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
-        xen-devel@lists.xenproject.org, x86@kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, corbet@lwn.net,
-        boris.ostrovsky@oracle.com
-References: <20181010061456.22238-1-jgross@suse.com>
- <20181010061456.22238-3-jgross@suse.com>
- <f7c78ee7-b548-7f04-24da-7321b6c64c97@zytor.com>
-From:   Juergen Gross <jgross@suse.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jgross@suse.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <685b425b-c816-4f65-3393-b48e59d170d8@suse.com>
-Date:   Sat, 10 Nov 2018 16:22:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-MIME-Version: 1.0
-In-Reply-To: <f7c78ee7-b548-7f04-24da-7321b6c64c97@zytor.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: de-DE
+        id S1726270AbeKKBRG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 10 Nov 2018 20:17:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33630 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726068AbeKKBRG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 10 Nov 2018 20:17:06 -0500
+Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0B27A20818;
+        Sat, 10 Nov 2018 15:31:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1541863902;
+        bh=0vsm6gonEsw/OJilFDSuH1TJDtMdH/vsOpss6vbTnts=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=EfBJ/XH1MDsmbdLmvmmuowocZqtKJ8Y+nLfl7v0Kp8E8HcVIRNV6XhBa7UhvDIZGs
+         YRpc7Q10JZaVZhf4oDrtkEXsbtuX8hA2NrcSmD8phtKgrRr7BZ1y/HcTMfR7u3GQSx
+         0BbDnffvQSdHMzNtnuqGmqD9C0qId9FzYzn10Gz0=
+Date:   Sun, 11 Nov 2018 00:31:37 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Aleksa Sarai <asarai@suse.de>
+Cc:     Aleksa Sarai <cyphar@cyphar.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Christian Brauner <christian@brauner.io>,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Josh Poimboeuf <jpoimboe@redhat.com>
+Subject: Re: [PATCH v3 1/2] kretprobe: produce sane stack traces
+Message-Id: <20181111003137.c9df7a077d983cde57c06ee8@kernel.org>
+In-Reply-To: <20181109150629.wpedwxsgbftkl3ab@mikami>
+References: <20181101204720.6ed3fe37@vmware.local.home>
+        <20181102050509.tw3dhvj5urudvtjl@yavin>
+        <20181102065932.bdt4pubbrkvql4mp@yavin>
+        <20181102091658.1bc979a4@gandalf.local.home>
+        <20181103070253.ajrqzs5xu2vf5stu@yavin>
+        <20181104115913.74l4yzecisvtt2j5@yavin>
+        <20181106171501.59ccabbc@gandalf.local.home>
+        <20181108074612.ldy6rozdpsdps6bf@yavin>
+        <20181108080448.rggfn4zawi3por23@yavin>
+        <20181109161551.6b96bd7d932c71432ac65e83@kernel.org>
+        <20181109150629.wpedwxsgbftkl3ab@mikami>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/11/2018 23:23, H. Peter Anvin wrote:
-> I just noticed this patch -- I missed it because the cover message
-> seemed far more harmless so I didn't notice this change.
-> 
-> THIS PATCH IS FATALLY WRONG AND NEEDS TO BE IMMEDIATELY REVERTED BEFORE
-> ANYONE STARTS RELYING ON IT; IT HAS THE POTENTIAL OF BREAKING THE
-> BOOTLOADER PROTOCOL FOR ALL FUTURE.
-> 
-> It seems to be based on fundamental misconceptions about the various
-> data structures in the protocol, and does so in a way that completely
-> breaks the way the protocol is designed to work.
-> 
-> The protocol is specifically designed such that fields are not version
-> dependencies. The version number is strictly to inform the boot loader
-> about which capabilities the kernel has, so that the boot loader can
-> know if a certain data field is meaningful and/or honored.
-> 
->> +Protocol 2.14:	(Kernel 4.20) Added acpi_rsdp_addr holding the physical
->> +		address of the ACPI RSDP table.
->> +		The bootloader updates version with:
->> +		0x8000 | min(kernel-version, bootloader-version)
->> +		kernel-version being the protocol version supported by
->> +		the kernel and bootloader-version the protocol version
->> +		supported by the bootloader.
-> 
-> [...]
-> 
->>  **** MEMORY LAYOUT
->>
->>  The traditional memory map for the kernel loader, used for Image or
->> @@ -197,6 +209,7 @@ Offset	Proto	Name		Meaning
->>  0258/8	2.10+	pref_address	Preferred loading address
->>  0260/4	2.10+	init_size	Linear memory required during initialization
->>  0264/4	2.11+	handover_offset	Offset of handover entry point
->> +0268/8	2.14+	acpi_rsdp_addr	Physical address of RSDP table
-> 
-> NO.
-> 
-> That is not how struct setup_header works, nor does this belong here.
-> 
-> struct setup_header contains *initialized data*, and has a length byte
-> at offset 0x201.  The bootloader is responsible for copying the full
-> structure into the appropriate offset (0x1f1) in struct boot_params.
-> 
-> The length byte isn't actually a requirement, since the maximum possible
-> size of this structure is 144 bytes, and the kernel will (obviously) not
-> look at the older fields anyway, but it is good practice. The kernel or
-> any other entity is free to zero out the bytes past this length pointer.
-> 
-> There are only 24 bytes left in this structure, and this would occupy 8
-> of them for no valid reason.  The *only* valid reason to put a
-> zero-initialized field in struct setup_header is if it used by the
-> 16-bit legacy BIOS boot, which is obviously not the case here.
-> 
-> This field thus belongs in struct boot_params, not struct setup_header.
+On Sat, 10 Nov 2018 02:06:29 +1100
+Aleksa Sarai <asarai@suse.de> wrote:
 
-Would you be okay with putting acpi_rsdp_addr at offset 0x0cc (_pad4)?
+> On 2018-11-09, Masami Hiramatsu <mhiramat@kernel.org> wrote:
+> > > diff --git a/arch/x86/include/asm/ptrace.h b/arch/x86/include/asm/ptrace.h
+> > > index ee696efec99f..c4dfafd43e11 100644
+> > > --- a/arch/x86/include/asm/ptrace.h
+> > > +++ b/arch/x86/include/asm/ptrace.h
+> > > @@ -172,6 +172,7 @@ static inline unsigned long kernel_stack_pointer(struct pt_regs *regs)
+> > >  	return regs->sp;
+> > >  }
+> > >  #endif
+> > > +#define stack_addr(regs) ((unsigned long *) kernel_stack_pointer(regs))
+> > 
+> > No, you should use kernel_stack_pointer(regs) itself instead of stack_addr().
+> > 
+> > > 
+> > >  #define GET_IP(regs) ((regs)->ip)
+> > >  #define GET_FP(regs) ((regs)->bp)
+> > > diff --git a/arch/x86/kernel/kprobes/core.c b/arch/x86/kernel/kprobes/core.c
+> > > index b0d1e81c96bb..eb4da885020c 100644
+> > > --- a/arch/x86/kernel/kprobes/core.c
+> > > +++ b/arch/x86/kernel/kprobes/core.c
+> > > @@ -69,8 +69,6 @@
+> > >  DEFINE_PER_CPU(struct kprobe *, current_kprobe) = NULL;
+> > >  DEFINE_PER_CPU(struct kprobe_ctlblk, kprobe_ctlblk);
+> > >  
+> > > -#define stack_addr(regs) ((unsigned long *)kernel_stack_pointer(regs))
+> > 
+> > I don't like keeping this meaningless macro... this should be replaced with generic
+> > kernel_stack_pointer() macro.
+> 
+> Sure. This patch was just an example -- I can remove stack_addr() all
+> over.
+> 
+> > > -	if (regs)
+> > > -		save_stack_address(trace, regs->ip, nosched);
+> > > +	if (regs) {
+> > > +		/* XXX: Currently broken -- stack_addr(regs) doesn't match entry. */
+> > > +		addr = regs->ip;
+> > 
+> > Since this part is for storing regs->ip as a top of call-stack, this
+> > seems correct code. Stack unwind will be done next block.
+> 
+> This comment was referring to the usage of stack_addr(). stack_addr()
+> doesn't give you the right result (it isn't the address of the return
+> address -- it's slightly wrong). This is the main issue I was having --
+> am I doing something wrong here?
+
+Of course stack_addr() actually just returns where the stack is. It should
+not return address, but maybe a return address from this event happens.
+Note that the "regs != NULL" means you will be in the interrupt handler
+and it will be returned to the regs->ip.
 
 
-Juergen
+> > > +		//addr = ftrace_graph_ret_addr(current, &state.graph_idx, addr, stack_addr(regs));
+> > 
+> > so func graph return trampoline address will be shown only when unwinding stack entries.
+> > I mean func-graph tracer is not used as an event, so it never kicks stackdump.
+> 
+> Just to make sure I understand what you're saying -- func-graph trace
+> will never actually call __ftrace_stack_trace? Because if it does, then
+> this code will be necessary (and then I'm a bit confused why the
+> unwinder has func-graph trace code -- if stack traces are never taken
+> under func-graph then the code in the unwinder is not necessary)
+
+You seems misunderstanding. Even if this is not called from func-graph
+tracer, the stack entries are already replaced with func-graph trampoline.
+However, regs->ip (IRQ return address) is never replaced by the func-graph
+trampoline.
+
+> My reason for commenting this out is because at this point "state" isn't
+> initialised and thus .graph_idx would not be correctly handled during
+> unwind (and it's the same reason I commented it out later).
+
+OK, but anyway, I think we don't need it.
+
+> > > +		addr = kretprobe_ret_addr(current, addr, stack_addr(regs));
+> > 
+> > But since kretprobe will be an event, which can kick the stackdump.
+> > BTW, from kretprobe, regs->ip should always be the trampoline handler, 
+> > see arch/x86/kernel/kprobes/core.c:772 :-)
+> > So it must be fixed always.
+> 
+> Right, but kretprobe_ret_addr() is returning the *original* return
+> address (and we need to do an (addr == kretprobe_trampoline)). The
+> real problem is that stack_addr(regs) isn't the same as it is during
+> kretprobe setup (but kretprobe_ret_addr() works everywhere else).
+
+I think stack_addr(regs) should be same when this is called from kretprobe
+handler context. Otherwise, yes, it is not same, but in that case, regs->ip
+is not kretprobe_trampoline too.
+
+If you find kretprobe_trampoline on the "stack", of course it's address should be
+same as it is during kretprobe setup, but if you find kretprobe_trampoline on the
+regs->ip, that should always happen on kretprobe handler context. Otherwise,
+some critical violation happens on kretprobe_trampoline. In that case, we should
+dump the kretprobe_trampoline address itself, should not recover it.
+
+> > > @@ -1856,6 +1870,41 @@ static int pre_handler_kretprobe(struct kprobe *p, struct pt_regs *regs)
+> > >  }
+> > >  NOKPROBE_SYMBOL(pre_handler_kretprobe);
+> > >  
+> > > +unsigned long kretprobe_ret_addr(struct task_struct *tsk, unsigned long ret,
+> > > +				 unsigned long *retp)
+> > > +{
+> > > +	struct kretprobe_instance *ri;
+> > > +	unsigned long flags = 0;
+> > > +	struct hlist_head *head;
+> > > +	bool need_lock;
+> > > +
+> > > +	if (likely(ret != (unsigned long) &kretprobe_trampoline))
+> > > +		return ret;
+> > > +
+> > > +	need_lock = !kretprobe_hash_is_locked(tsk);
+> > > +	if (WARN_ON(need_lock))
+> > > +		kretprobe_hash_lock(tsk, &head, &flags);
+> > > +	else
+> > > +		head = kretprobe_inst_table_head(tsk);
+> > 
+> > This may not work unless this is called from the kretprobe handler context,
+> > since if we are out of kretprobe handler context, another CPU can lock the
+> > hash table and it can be detected by kretprobe_hash_is_locked();.
+> 
+> Yeah, I noticed this as well when writing it (but needed a quick impl
+> that I could test). I will fix this, thanks!
+> 
+> By is_kretprobe_handler_context() I imagine you are referring to
+> checking is_kretprobe(current_kprobe())?
+
+yes, that's correct :)
+
+Thank you,
+
+> 
+> > So, we should check we are in the kretprobe handler context if tsk == current,
+> > if not, we definately can lock the hash lock without any warning. This can
+> > be something like;
+> > 
+> > if (is_kretprobe_handler_context()) {
+> >   // kretprobe_hash_lock(current == tsk) has been locked by caller  
+> >   if (tsk != current && kretprobe_hash(tsk) != kretprobe_hash(current))
+> >     // the hash of tsk and current can be same.
+> >     need_lock = true;
+> > } else
+> >   // we should take a lock for tsk.
+> >   need_lock = true;
+> 
+> -- 
+> Aleksa Sarai
+> Senior Software Engineer (Containers)
+> SUSE Linux GmbH
+> <https://www.cyphar.com/>
+
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
