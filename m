@@ -1,77 +1,72 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2D0D37D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 10 Nov 2018 07:16:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 140827D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 10 Nov 2018 07:41:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728766AbeKJRAW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 10 Nov 2018 12:00:22 -0500
-Received: from terminus.zytor.com ([198.137.202.136]:39115 "EHLO
-        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728682AbeKJRAW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 10 Nov 2018 12:00:22 -0500
-Received: from carbon-x1.hos.anvin.org (c-24-5-245-234.hsd1.ca.comcast.net [24.5.245.234] (may be forged))
-        (authenticated bits=0)
-        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id wAA7G78d2694758
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-        Fri, 9 Nov 2018 23:16:08 -0800
-Subject: Re: PLEASE REVERT URGENTLY: Re: [PATCH v5 2/3] x86/boot: add acpi
- rsdp address to setup_header
-To:     Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
-        xen-devel@lists.xenproject.org, x86@kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, corbet@lwn.net,
-        boris.ostrovsky@oracle.com
-References: <20181010061456.22238-1-jgross@suse.com>
- <20181010061456.22238-3-jgross@suse.com>
- <f7c78ee7-b548-7f04-24da-7321b6c64c97@zytor.com>
- <bd2d17cd-072c-cad6-94ad-52373700a1c9@suse.com>
- <2934552c-d150-0afb-6fa9-9398cb94d86a@zytor.com>
- <5a2f5cb8-7332-f490-eabf-cfcbdcd1abc4@suse.com>
-From:   "H. Peter Anvin" <hpa@zytor.com>
-Message-ID: <59ca1053-9176-f1db-6e6c-96b47aaaa09d@zytor.com>
-Date:   Fri, 9 Nov 2018 23:16:02 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1728791AbeKJRZc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 10 Nov 2018 12:25:32 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:41434 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728766AbeKJRZc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Nov 2018 12:25:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=4t4fadnUuCptBN3q9MzFSAV2OikdFBZAaVlCPOzhBes=; b=Cb7ayRu7v6bWdML9g4uCTbkaZ
+        Xbh3+7JOtB9KvqM1H+bKuC6wP74Ny+oNMSO6nq9py91BuGivMR0VDqSht8L4CYxd9fKRs8IMTxRV1
+        ARUgs4LhWCsOLJI94dWGPy838nh3p383hhpEWoCXdR8NLzEObEbk88PMJF/yqpTsc9U/uuk+fEPGm
+        L6U+9/1mpngs/KaHKMkt43njGHEOOUje/Y7o4SiK5DHYo1THU7HDPjGvgp3DxTObQO/z53Ym5crUp
+        kyzezI5Ray0ehwSKV94sH0VxR8MOn+2m6idXUnuPAIA23A1svkYOg1Mi0ahn+rUlPfrP7skbn3LFF
+        QSwQ/D/Jg==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gLNtW-0000gH-20; Sat, 10 Nov 2018 07:41:26 +0000
+Date:   Fri, 9 Nov 2018 23:41:25 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>,
+        Manfred Spraul <manfred@colorfullife.com>
+Subject: Re: [PATCH v11 2/3] ipc: Conserve sequence numbers in ipcmni_extend
+ mode
+Message-ID: <20181110074125.GB21824@bombadil.infradead.org>
+References: <1541794292-19425-1-git-send-email-longman@redhat.com>
+ <1541794292-19425-3-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <5a2f5cb8-7332-f490-eabf-cfcbdcd1abc4@suse.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1541794292-19425-3-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/9/18 11:02 PM, Juergen Gross wrote:
->>
->> Yes. We know that and it is resolved by:
->>
->> a) the length field in setup_header;
->> b) the "sentinel" field which catches legacy non-compliant bootloaders.
+On Fri, Nov 09, 2018 at 03:11:31PM -0500, Waiman Long wrote:
+> The mixing in of a sequence number into the IPC IDs is probably to
+> avoid ID reuse in userspace as much as possible. With ipcmni_extend
+> mode, the number of usable sequence numbers is greatly reduced leading
+> to higher chance of ID reuse.
 > 
-> Doesn't help for boot loaders reading struct setup_header from the
-> kernel image and then writing e.g. 512 bytes back to the setup_header
-> location. The sentinel is cleared and the length field just isn't
-> taken into account. And this is what happened.
-> 
+> To address this issue, we need to conserve the sequence number space
+> as much as possible. Right now, the sequence number is incremented
+> for every new ID created. In reality, we only need to increment the
+> sequence number when one or more IDs have been removed previously to
+> make sure that those IDs will not be reused when a new one is built.
+> This is being done irrespective of the ipcmni mode.
 
-This is insane?! How do they manage to do this... it's not like  this isn't
-written out in plain English to follow. I am, once again, utterly and
-genuinely baffled about how many ways Grub can do things wrong.
-
-So we should probably add a terminal sentinel field at offset 0x281, which is
-one byte past the longest possible setup_header structure; in fact, we may
-just want to explicitly pad setup_header with zeroes to its final size, if
-nothing else to make it explicit how little space is actually left in there.
-
-It would be enormously helpful if you could find out any more details about
-exactly what they are doing to break things.
-
-Many thanks,
-
-	-hpa
+That's not what I said.  Increment the sequence ID when the cursor wraps,
+not when there's been a deletion.
