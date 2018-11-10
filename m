@@ -2,25 +2,26 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3BC0F7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 10 Nov 2018 07:02:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2D0D37D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 10 Nov 2018 07:16:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728659AbeKJQqq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 10 Nov 2018 11:46:46 -0500
-Received: from mx2.suse.de ([195.135.220.15]:34136 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728644AbeKJQqq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 10 Nov 2018 11:46:46 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 54139AF67;
-        Sat, 10 Nov 2018 07:02:47 +0000 (UTC)
+        id S1728766AbeKJRAW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 10 Nov 2018 12:00:22 -0500
+Received: from terminus.zytor.com ([198.137.202.136]:39115 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728682AbeKJRAW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 10 Nov 2018 12:00:22 -0500
+Received: from carbon-x1.hos.anvin.org (c-24-5-245-234.hsd1.ca.comcast.net [24.5.245.234] (may be forged))
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id wAA7G78d2694758
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+        Fri, 9 Nov 2018 23:16:08 -0800
 Subject: Re: PLEASE REVERT URGENTLY: Re: [PATCH v5 2/3] x86/boot: add acpi
  rsdp address to setup_header
-To:     "H. Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+To:     Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
         xen-devel@lists.xenproject.org, x86@kernel.org,
         linux-doc@vger.kernel.org
 Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, corbet@lwn.net,
@@ -30,45 +31,14 @@ References: <20181010061456.22238-1-jgross@suse.com>
  <f7c78ee7-b548-7f04-24da-7321b6c64c97@zytor.com>
  <bd2d17cd-072c-cad6-94ad-52373700a1c9@suse.com>
  <2934552c-d150-0afb-6fa9-9398cb94d86a@zytor.com>
-From:   Juergen Gross <jgross@suse.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jgross@suse.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <5a2f5cb8-7332-f490-eabf-cfcbdcd1abc4@suse.com>
-Date:   Sat, 10 Nov 2018 08:02:45 +0100
+ <5a2f5cb8-7332-f490-eabf-cfcbdcd1abc4@suse.com>
+From:   "H. Peter Anvin" <hpa@zytor.com>
+Message-ID: <59ca1053-9176-f1db-6e6c-96b47aaaa09d@zytor.com>
+Date:   Fri, 9 Nov 2018 23:16:02 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+ Thunderbird/60.3.0
 MIME-Version: 1.0
-In-Reply-To: <2934552c-d150-0afb-6fa9-9398cb94d86a@zytor.com>
+In-Reply-To: <5a2f5cb8-7332-f490-eabf-cfcbdcd1abc4@suse.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -77,35 +47,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/11/2018 07:32, H. Peter Anvin wrote:
+On 11/9/18 11:02 PM, Juergen Gross wrote:
 >>
->> Unfortunately there are many major distros shipping boot loaders which
->> write crap data past the end of setup_header.
+>> Yes. We know that and it is resolved by:
 >>
+>> a) the length field in setup_header;
+>> b) the "sentinel" field which catches legacy non-compliant bootloaders.
 > 
-> Yes. We know that and it is resolved by:
+> Doesn't help for boot loaders reading struct setup_header from the
+> kernel image and then writing e.g. 512 bytes back to the setup_header
+> location. The sentinel is cleared and the length field just isn't
+> taken into account. And this is what happened.
 > 
-> a) the length field in setup_header;
-> b) the "sentinel" field which catches legacy non-compliant bootloaders.
 
-Doesn't help for boot loaders reading struct setup_header from the
-kernel image and then writing e.g. 512 bytes back to the setup_header
-location. The sentinel is cleared and the length field just isn't
-taken into account. And this is what happened.
+This is insane?! How do they manage to do this... it's not like  this isn't
+written out in plain English to follow. I am, once again, utterly and
+genuinely baffled about how many ways Grub can do things wrong.
 
-> 
->>>
->>> This field thus belongs in struct boot_params, not struct setup_header.
->>
->> Okay, I can change that. Hoping that all boot loaders really write
->> zeroes to that field in case they don't know it.
->>
-> 
-> This is what we added the sentinel field for: bootloaders which don't zero
-> unknown fields (read: Grub) will trigger the sentinel, and we wipe most of
-> this structure.
+So we should probably add a terminal sentinel field at offset 0x281, which is
+one byte past the longest possible setup_header structure; in fact, we may
+just want to explicitly pad setup_header with zeroes to its final size, if
+nothing else to make it explicit how little space is actually left in there.
 
-Unfortunately the sentinel seems to be cleared by said broken grub.
+It would be enormously helpful if you could find out any more details about
+exactly what they are doing to break things.
 
+Many thanks,
 
-Juergen
+	-hpa
