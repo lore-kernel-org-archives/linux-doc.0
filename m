@@ -5,24 +5,22 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 544527D089
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 10 Nov 2018 00:38:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1884A7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 10 Nov 2018 06:26:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728188AbeKJKVo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 10 Nov 2018 05:21:44 -0500
-Received: from terminus.zytor.com ([198.137.202.136]:52767 "EHLO
-        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728082AbeKJKVo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 10 Nov 2018 05:21:44 -0500
-Received: from hanvin-mobl2.amr.corp.intel.com ([192.55.54.40])
-        (authenticated bits=0)
-        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id wAA0cJnf2580330
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-        Fri, 9 Nov 2018 16:38:21 -0800
+        id S1728808AbeKJQJ4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 10 Nov 2018 11:09:56 -0500
+Received: from mx2.suse.de ([195.135.220.15]:59194 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728807AbeKJQJ4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 10 Nov 2018 11:09:56 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 2736CAE5C;
+        Sat, 10 Nov 2018 06:26:03 +0000 (UTC)
 Subject: Re: PLEASE REVERT URGENTLY: Re: [PATCH v5 2/3] x86/boot: add acpi
  rsdp address to setup_header
-From:   "H. Peter Anvin" <hpa@zytor.com>
-To:     Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
+To:     "H. Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
         xen-devel@lists.xenproject.org, x86@kernel.org,
         linux-doc@vger.kernel.org
 Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, corbet@lwn.net,
@@ -30,27 +28,167 @@ Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, corbet@lwn.net,
 References: <20181010061456.22238-1-jgross@suse.com>
  <20181010061456.22238-3-jgross@suse.com>
  <f7c78ee7-b548-7f04-24da-7321b6c64c97@zytor.com>
-Message-ID: <7cede814-a441-05b6-10aa-5713da8ad843@zytor.com>
-Date:   Fri, 9 Nov 2018 16:38:15 -0800
+From:   Juergen Gross <jgross@suse.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jgross@suse.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <bd2d17cd-072c-cad6-94ad-52373700a1c9@suse.com>
+Date:   Sat, 10 Nov 2018 07:26:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+ Thunderbird/60.2.1
 MIME-Version: 1.0
 In-Reply-To: <f7c78ee7-b548-7f04-24da-7321b6c64c97@zytor.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: de-DE
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-One more aspect on this patchset: when CONFIG_ACPI_TABLE_UPGRADE was
-inroduced, it was seen as a security problem and disabled by default
-(unlike for device tree, where feeding entries from the boot loader is
-standard operating procedure.)
+On 09/11/2018 23:23, H. Peter Anvin wrote:
+> I just noticed this patch -- I missed it because the cover message
+> seemed far more harmless so I didn't notice this change.
+> 
+> THIS PATCH IS FATALLY WRONG AND NEEDS TO BE IMMEDIATELY REVERTED BEFORE
+> ANYONE STARTS RELYING ON IT; IT HAS THE POTENTIAL OF BREAKING THE
+> BOOTLOADER PROTOCOL FOR ALL FUTURE.
 
-Thus functionally makes that possible to bypass that prohibition. Are we
-giving up that battle, or should this also be conditionalized and
-default to off (presumably with Xen requiring it)?
+It is already broken and this patch tries to repair it.
 
-	-hpa
+> It seems to be based on fundamental misconceptions about the various
+> data structures in the protocol, and does so in a way that completely
+> breaks the way the protocol is designed to work.
+> 
+> The protocol is specifically designed such that fields are not version
+> dependencies. The version number is strictly to inform the boot loader
+> about which capabilities the kernel has, so that the boot loader can
+> know if a certain data field is meaningful and/or honored.
+
+Right. That was where I started in early 2018.
+
+Unfortunately there are many major distros shipping boot loaders which
+write crap data past the end of setup_header.
+
+> 
+>> +Protocol 2.14:	(Kernel 4.20) Added acpi_rsdp_addr holding the physical
+>> +		address of the ACPI RSDP table.
+>> +		The bootloader updates version with:
+>> +		0x8000 | min(kernel-version, bootloader-version)
+>> +		kernel-version being the protocol version supported by
+>> +		the kernel and bootloader-version the protocol version
+>> +		supported by the bootloader.
+> 
+> [...]
+> 
+>>  **** MEMORY LAYOUT
+>>
+>>  The traditional memory map for the kernel loader, used for Image or
+>> @@ -197,6 +209,7 @@ Offset	Proto	Name		Meaning
+>>  0258/8	2.10+	pref_address	Preferred loading address
+>>  0260/4	2.10+	init_size	Linear memory required during initialization
+>>  0264/4	2.11+	handover_offset	Offset of handover entry point
+>> +0268/8	2.14+	acpi_rsdp_addr	Physical address of RSDP table
+> 
+> NO.
+> 
+> That is not how struct setup_header works, nor does this belong here.
+> 
+> struct setup_header contains *initialized data*, and has a length byte
+> at offset 0x201.  The bootloader is responsible for copying the full
+> structure into the appropriate offset (0x1f1) in struct boot_params.
+
+Yes, but some boot loaders copy more than that clobbering initialized
+kernel data (like in my case acpi_rsdp_addr).
+
+> The length byte isn't actually a requirement, since the maximum possible
+> size of this structure is 144 bytes, and the kernel will (obviously) not
+> look at the older fields anyway, but it is good practice. The kernel or
+> any other entity is free to zero out the bytes past this length pointer.
+> 
+> There are only 24 bytes left in this structure, and this would occupy 8
+> of them for no valid reason.  The *only* valid reason to put a
+> zero-initialized field in struct setup_header is if it used by the
+> 16-bit legacy BIOS boot, which is obviously not the case here.
+> 
+> This field thus belongs in struct boot_params, not struct setup_header.
+
+Okay, I can change that. Hoping that all boot loaders really write
+zeroes to that field in case they don't know it.
+
+>> @@ -317,6 +330,12 @@ Protocol:	2.00+
+>>    e.g. 0x0204 for version 2.04, and 0x0a11 for a hypothetical version
+>>    10.17.
+>>  
+>> +  Up to protocol version 2.13 this information is only read by the
+>> +  bootloader. From protocol version 2.14 onwards the bootloader will
+>> +  write the used protocol version ored with 0x8000 to the field. The
+>> +  used protocol version will be the minimum of the supported protocol
+>> +  versions of the bootloader and the kernel.
+>> +
+> 
+> Again, this is completely wrong. The version number is communication to
+> the bootloader, which may end up going through multiple stages.
+> Modifying this field breaks this invariant in a not-very-subtle way.
+> 
+> Fields in struct setup_header are to be initialized from the image
+> provided in the kernel header.
+> 
+> Fields in struct boot_params are to be initialized to zero.
+
+See above. grub2 in Debian, RHEL, ... doesn't do that reliably.
+
+> There is a field called "sentinel" which attempts to detect broken
+> bootloaders which do not do this correctly; however, when enabling new
+> bootloaders the Right Thing to do is to make sure they adhere to the
+> protocol as defined, rather than pushing a new hack onto the kernel.
+> 
+> Thus:
+> 
+> 1. Please revert this patch immediately, and destroy any boot loaders
+>    which tries to implement this.> 2. Add the acpi_rsdp_addr to struct boot_params.
+> 3. DO NOT modify the boot protocol version header field. Instead
+>    make sure that the bootloader follows the protocol and zeroes
+>    all unknown fields in struct boot_params.
+
+How can I do this for boot loaders shipped since several years?
+
+> 4. Possibly make the kernel panic if it notices that the boot version
+>    header has been mucked with, in case some of these boot loaders
+>    have already escaped into the field.
+
+So don't let a new kernel boot from a disk with above grub2?
+
+I don't think so.
+
+
+Juergen
