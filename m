@@ -3,95 +3,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5D1577D089
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 11 Nov 2018 17:39:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1EAEC7D089
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 11 Nov 2018 17:40:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729308AbeKLD25 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 11 Nov 2018 22:28:57 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47286 "EHLO mail.kernel.org"
+        id S1729251AbeKLD3t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 11 Nov 2018 22:29:49 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47560 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729222AbeKLD25 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 11 Nov 2018 22:28:57 -0500
+        id S1729222AbeKLD3t (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 11 Nov 2018 22:29:49 -0500
 Received: from localhost (unknown [206.108.79.134])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 76A0721104;
-        Sun, 11 Nov 2018 17:39:40 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AC37621104;
+        Sun, 11 Nov 2018 17:40:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1541957988;
-        bh=SbCxWrWtDSsFxUUFiK54Rnkt0Qi9alaKYz+Mq6GrGgc=;
+        s=default; t=1541958039;
+        bh=qoPu7fXr+cXHKPPB78QSHdYp7YjnHa3+9mXFj/3IvaM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DKKduUpNZKW5/EnXVQBsljuc7+PZ70JRpSr8MYEsKxWK+7+KkRtRQJz7GRhCCgJtt
-         4AR2HJaH+jMFPGbcoCWQ3GeJL5DjZEzq8M7cKbgVzcXz4y4mxSk+I0uwka0U8MWLm1
-         jhpLRVJD19ur67/Qn42luQoGSOMGbU38hJFZavrc=
-Date:   Sun, 11 Nov 2018 09:39:32 -0800
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>,
-        Mike Shettel <mshettel@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH v10 0/9] Add the I3C subsystem
-Message-ID: <20181111173932.GA12254@kroah.com>
-References: <20181026144333.12276-1-boris.brezillon@bootlin.com>
+        b=kQkoAn5Wae293QaOnTNybY8q/XzHLgwG2VoOPoiJkU2vaYiIpUiGCg0QkO5VtAXsD
+         xuPQ39iwbatmJdnL6CFrjc+sHXabRyCYlXnzJP1E52pjt2xcJLWNY1KptYrn1w0J9f
+         2hkc40aHN+687nhw8rgnnAm+GolnFeSu2eC61FAY=
+Date:   Sun, 11 Nov 2018 09:40:14 -0800
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Vitor soares <vitor.soares@synopsys.com>
+Cc:     boris.brezillon@bootlin.com, wsa@the-dreams.de,
+        linux-i2c@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, arnd@arndb.de, psroka@cadence.com,
+        agolec@cadence.com, adouglas@cadence.com, bfolta@cadence.com,
+        dkos@cadence.com, alicja@cadence.com, cwronka@cadence.com,
+        sureshp@cadence.com, rafalc@cadence.com,
+        thomas.petazzoni@bootlin.com, nm@ti.com, robh+dt@kernel.org,
+        pawel.moll@arm.com, mark.rutland@arm.com,
+        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        geert@linux-m68k.org, linus.walleij@linaro.org,
+        Xiang.Lin@synaptics.com, linux-gpio@vger.kernel.org,
+        nsekhar@ti.com, pgaj@cadence.com, peda@axentia.se,
+        mshettel@codeaurora.org, swboyd@chromium.org,
+        joao.pinto@synopsys.com
+Subject: Re: [PATCH v3 0/3] Add driver for Synopsys DesignWare I3C master IP
+Message-ID: <20181111174014.GA16216@kroah.com>
+References: <1541697251-20392-1-git-send-email-soares@synopsys.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181026144333.12276-1-boris.brezillon@bootlin.com>
+In-Reply-To: <1541697251-20392-1-git-send-email-soares@synopsys.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 26, 2018 at 04:43:24PM +0200, Boris Brezillon wrote:
-> Hi Greg,
-> 
-> I think we've reached a point where we can eventually consider the I3C
-> framework for inclusion in 4.20 (5.0?). A few more issues were reported
-> on v9 and fixed in v10. I can't guarantee that the implementation is
-> free of bugs but I still think it's worth merging it in v4.20: it's a
-> new subsystem, so we don't risk regressions, and the only way we can
-> detect other issues is by having other people experiment with this
-> implementation.
-> 
-> The only remaining concern raised by Arnd is the fact that both hosts
-> and slaves share the same bus type and are differentiated thanks to
-> their device_type, which IMHO is fine since this is what other
-> subsystems do (plus I don't see other solutions to have both I3C
-> devices and I3C buses represented under /sys/bus/i3c/).
+On Thu, Nov 08, 2018 at 05:14:08PM +0000, Vitor soares wrote:
+> This patch series is a proposal for the I3C master driver for Synopsys IP.
+> This patch is to be applied on top of I3C subsystem RFC V10 submitted by
+> Boris Brezillon.
 
-Yeah, it's not the nicest, but it will work, we did it also for USB and
-greybus and it solves the issue.
+I'd like to get Boris's reviewed/signed-off on these before I take them.
 
-This all looks good to me, so I've queued it up.  Let's see if
-linux-next has any problems with it.  Thanks for sticking with it, nice
-work!
+thanks,
 
 greg k-h
