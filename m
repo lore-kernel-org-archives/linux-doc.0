@@ -2,118 +2,120 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C25167D089
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 11 Nov 2018 18:10:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 951377D089
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 11 Nov 2018 18:50:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729278AbeKLD7e (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 11 Nov 2018 22:59:34 -0500
-Received: from mail.bootlin.com ([62.4.15.54]:50438 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726283AbeKLD7e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 11 Nov 2018 22:59:34 -0500
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id A63F9207B8; Sun, 11 Nov 2018 19:10:18 +0100 (CET)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id D1635206A7;
-        Sun, 11 Nov 2018 19:10:17 +0100 (CET)
-Date:   Sun, 11 Nov 2018 19:10:17 +0100
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>,
-        Mike Shettel <mshettel@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH v10 0/9] Add the I3C subsystem
-Message-ID: <20181111191017.7b2efdf1@bbrezillon>
-In-Reply-To: <20181111173932.GA12254@kroah.com>
-References: <20181026144333.12276-1-boris.brezillon@bootlin.com>
-        <20181111173932.GA12254@kroah.com>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1729421AbeKLEjf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 11 Nov 2018 23:39:35 -0500
+Received: from terminus.zytor.com ([198.137.202.136]:40747 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729413AbeKLEjf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 11 Nov 2018 23:39:35 -0500
+Received: from carbon-x1.hos.anvin.org (c-24-5-245-234.hsd1.ca.comcast.net [24.5.245.234] (may be forged))
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id wABIniOV3349172
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+        Sun, 11 Nov 2018 10:49:45 -0800
+Subject: Re: PLEASE REVERT URGENTLY: Re: [PATCH v5 2/3] x86/boot: add acpi
+ rsdp address to setup_header
+To:     Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
+        xen-devel@lists.xenproject.org, x86@kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, corbet@lwn.net,
+        boris.ostrovsky@oracle.com
+References: <20181010061456.22238-1-jgross@suse.com>
+ <20181010061456.22238-3-jgross@suse.com>
+ <f7c78ee7-b548-7f04-24da-7321b6c64c97@zytor.com>
+ <bd2d17cd-072c-cad6-94ad-52373700a1c9@suse.com>
+ <2934552c-d150-0afb-6fa9-9398cb94d86a@zytor.com>
+ <5a2f5cb8-7332-f490-eabf-cfcbdcd1abc4@suse.com>
+ <59ca1053-9176-f1db-6e6c-96b47aaaa09d@zytor.com>
+ <f16c53a4-7a5c-de01-c3cc-095226f6ca40@suse.com>
+From:   "H. Peter Anvin" <hpa@zytor.com>
+Message-ID: <3e773a2d-3f69-5ccd-7d8b-9878fba30d00@zytor.com>
+Date:   Sun, 11 Nov 2018 10:49:39 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <f16c53a4-7a5c-de01-c3cc-095226f6ca40@suse.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Greg,
-
-On Sun, 11 Nov 2018 09:39:32 -0800
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-
-> On Fri, Oct 26, 2018 at 04:43:24PM +0200, Boris Brezillon wrote:
-> > Hi Greg,
-> > 
-> > I think we've reached a point where we can eventually consider the I3C
-> > framework for inclusion in 4.20 (5.0?). A few more issues were reported
-> > on v9 and fixed in v10. I can't guarantee that the implementation is
-> > free of bugs but I still think it's worth merging it in v4.20: it's a
-> > new subsystem, so we don't risk regressions, and the only way we can
-> > detect other issues is by having other people experiment with this
-> > implementation.
-> > 
-> > The only remaining concern raised by Arnd is the fact that both hosts
-> > and slaves share the same bus type and are differentiated thanks to
-> > their device_type, which IMHO is fine since this is what other
-> > subsystems do (plus I don't see other solutions to have both I3C
-> > devices and I3C buses represented under /sys/bus/i3c/).  
+On 11/10/18 1:03 AM, Juergen Gross wrote:
 > 
-> Yeah, it's not the nicest, but it will work, we did it also for USB and
-> greybus and it solves the issue.
+> How would that help? The garabge data written could have the correct
+> terminal sentinel value by chance.
 > 
-> This all looks good to me, so I've queued it up.  Let's see if
-> linux-next has any problems with it.
+> That's why I re-used an existing field in setup_header (the version) to
+> let grub tell the kernel which part of setup_header was written by grub.
+> 
+> That's the only way I could find to let the kernel distinguish between
+> garbage and actual data.
 
-I recently asked Stephen to add the linux-i3c tree to linux-next, so
-I'm expecting conflicts :-/. Sorry, I didn't know you were planning to
-take these patches through your tree.
+There is plenty of space *before* the setup_header part of struct boot_params
+too -- look a the various __pad fields, especially (in your case), __pad3[16]
+and __pad4[116] would suit the bill just fine.
 
-BTW, I also fixed a couple of things when rebasing on top of 4.20-rc1:
+>> It would be enormously helpful if you could find out any more details about
+>> exactly what they are doing to break things.
+> 
+> That's easy:
+> 
+> The memory layout is:
+> 
+> 0x1f1 bytes of data, including the sentinel, the setup_header, and then
+> more data.
+> 
+> grub did read the kernel's setup_header in the correct size into its
+> buffer (which contains random garbage before that), intializes the first
+> 0x1f1 including the sentinel byte, and then writes back the buffer, but
+> using a too large length for that.
 
-- KernelVersion in the sysfs ABI doc has been updated to 5.0
-- Fixed i3c_master_getmxds_locked() (bug reported/fixed by Colin here
-  https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1799850.html)
-- Removed a blank line at the end of master-driver-api.rst
+Are you kidding me... it really overwrites it with completely random data, and
+not simply overspilling contents of the file?
 
-For the record, the i3c/next branch pulled by Stephen is available here
-[1].
+In that case it might not be possible (or desirable) to use those N bytes
+following the setup_heaader, or we need to a bigger sentinel than one byte
+(probability being what it is, 256^n gets to be a pretty big number for any n,
+very quickly drowning in the noise compared to other potential sources of boot
+failures, and most likely less fatal than most.)
 
-> Thanks for sticking with it, nice work!
+How big is this garbage dump?  I'm going to brave a guess it is 512 bytes.  In
+that case this is hardly a big deal: the E820 map begins at 0x290, and the
+setup_header maximum goes to 0x280, so it is only 15 bytes lost.  If it is
+worse than that, we would risk losing __pad8[48] and __pad9[276], and
+especially the latter would be painful. In those case perhaps we should use
+0x281..0x290 as a 15-byte sentinel; that is going to be virtually foolproof.
 
-Thanks for reviewing it! Greg, Stephen, let me know if you want me to
-reset i3c/next to v4.20-rc1 to avoid conflicts in linux-next.
+I'm also thinking that it might be desirable to add a flags field (__pad2
+would be ideal) to struct boot_params; it would let us recycle some of the
+obsolete fields (hd0_info, hd1_info, sys_desc_table, olpc_ofw_header, ...) and
+perhaps be able to add some more robustness against these sort of things. This
+would be the right way to do what your version feedback mechanism would do.
 
-Regards,
+The reason why the feedback mechanism is fundamentally broken is that it only
+gives the boot loader a way to assert that it supports a certain version of
+the protocol, but it doesn't say *which* bootloader does such an assert -- and
+therefore it is still wide open to implementation error.
 
-Boris
+We do, in fact, already have a feedback mechanism: the bootloader ID and
+bootloader version. One way we could deal with this problem is to bump the
+bootloader version reported by Grub, and add a quirk to the kernel that if the
+bootloader ID is Grub (7) and the version is less than a certain number, zero
+those fields. In fact, the more I think about it, this is what we should do.
 
-[1]https://git.kernel.org/pub/scm/linux/kernel/git/i3c/linux.git/log/?h=i3c/next
+That being said, Grub really needs to be kept honest.  They keep making both
+severe design (like refusing to use the BIOS and UEFI entry points provided by
+the kernel by default) and implementation errors, apparently without
+meaningful oversight. I really ask that the people more closely involved with
+Grub try to keep a closer eye on their code as it applies to Linux.
+
+	-hpa
