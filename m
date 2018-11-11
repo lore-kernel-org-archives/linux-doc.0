@@ -5,117 +5,125 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 951377D089
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 11 Nov 2018 18:50:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4780C7D089
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 11 Nov 2018 19:02:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729421AbeKLEjf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 11 Nov 2018 23:39:35 -0500
-Received: from terminus.zytor.com ([198.137.202.136]:40747 "EHLO
-        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729413AbeKLEjf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 11 Nov 2018 23:39:35 -0500
-Received: from carbon-x1.hos.anvin.org (c-24-5-245-234.hsd1.ca.comcast.net [24.5.245.234] (may be forged))
-        (authenticated bits=0)
-        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id wABIniOV3349172
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-        Sun, 11 Nov 2018 10:49:45 -0800
-Subject: Re: PLEASE REVERT URGENTLY: Re: [PATCH v5 2/3] x86/boot: add acpi
- rsdp address to setup_header
-To:     Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
-        xen-devel@lists.xenproject.org, x86@kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, corbet@lwn.net,
-        boris.ostrovsky@oracle.com
-References: <20181010061456.22238-1-jgross@suse.com>
- <20181010061456.22238-3-jgross@suse.com>
- <f7c78ee7-b548-7f04-24da-7321b6c64c97@zytor.com>
- <bd2d17cd-072c-cad6-94ad-52373700a1c9@suse.com>
- <2934552c-d150-0afb-6fa9-9398cb94d86a@zytor.com>
- <5a2f5cb8-7332-f490-eabf-cfcbdcd1abc4@suse.com>
- <59ca1053-9176-f1db-6e6c-96b47aaaa09d@zytor.com>
- <f16c53a4-7a5c-de01-c3cc-095226f6ca40@suse.com>
-From:   "H. Peter Anvin" <hpa@zytor.com>
-Message-ID: <3e773a2d-3f69-5ccd-7d8b-9878fba30d00@zytor.com>
-Date:   Sun, 11 Nov 2018 10:49:39 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1729447AbeKLEvy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 11 Nov 2018 23:51:54 -0500
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:52644 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729405AbeKLEvy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Nov 2018 23:51:54 -0500
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 1B173806D6; Sun, 11 Nov 2018 20:02:29 +0100 (CET)
+Date:   Sun, 11 Nov 2018 20:02:30 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Andy Lutomirski <luto@amacapital.net>
+Cc:     Borislav Petkov <bp@alien8.de>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [PATCH v5 04/27] x86/fpu/xstate: Add XSAVES system states for
+ shadow stack
+Message-ID: <20181111190230.GA2681@amd>
+References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
+ <20181011151523.27101-5-yu-cheng.yu@intel.com>
+ <20181108184038.GJ7543@zn.tnic>
+ <20181111113103.GG27666@amd>
+ <4E917DA9-5192-48E2-8857-08C3ABE08AFE@amacapital.net>
 MIME-Version: 1.0
-In-Reply-To: <f16c53a4-7a5c-de01-c3cc-095226f6ca40@suse.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="azLHFNyN32YCQGCU"
+Content-Disposition: inline
+In-Reply-To: <4E917DA9-5192-48E2-8857-08C3ABE08AFE@amacapital.net>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/10/18 1:03 AM, Juergen Gross wrote:
-> 
-> How would that help? The garabge data written could have the correct
-> terminal sentinel value by chance.
-> 
-> That's why I re-used an existing field in setup_header (the version) to
-> let grub tell the kernel which part of setup_header was written by grub.
-> 
-> That's the only way I could find to let the kernel distinguish between
-> garbage and actual data.
 
-There is plenty of space *before* the setup_header part of struct boot_params
-too -- look a the various __pad fields, especially (in your case), __pad3[16]
-and __pad4[116] would suit the bill just fine.
+--azLHFNyN32YCQGCU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> It would be enormously helpful if you could find out any more details about
->> exactly what they are doing to break things.
-> 
-> That's easy:
-> 
-> The memory layout is:
-> 
-> 0x1f1 bytes of data, including the sentinel, the setup_header, and then
-> more data.
-> 
-> grub did read the kernel's setup_header in the correct size into its
-> buffer (which contains random garbage before that), intializes the first
-> 0x1f1 including the sentinel byte, and then writes back the buffer, but
-> using a too large length for that.
+On Sun 2018-11-11 06:59:24, Andy Lutomirski wrote:
+>=20
+>=20
+> > On Nov 11, 2018, at 3:31 AM, Pavel Machek <pavel@ucw.cz> wrote:
+> >=20
+> > Hi!
+> >=20
+> >>> +/*
+> >>> + * State component 12 is Control flow Enforcement kernel states
+> >>> + */
+> >>> +struct cet_kernel_state {
+> >>> +    u64 kernel_ssp;    /* kernel shadow stack */
+> >>> +    u64 pl1_ssp;    /* ring-1 shadow stack */
+> >>> +    u64 pl2_ssp;    /* ring-2 shadow stack */
+> >>=20
+> >> Just write "privilege level" everywhere - not "ring".
+> >=20
+> > Please just use word "ring". It is well estabilished terminology.
+> >=20
+> > Which ring is priviledge level 1, given that we have SMM and
+> > virtualization support?
+>=20
+> To the contrary: CPL, DPL, and RPL are very well defined terms in the arc=
+hitecture manuals. =E2=80=9CPL=E2=80=9D is privilege level. PL 1 is very we=
+ll defined.
+>=20
 
-Are you kidding me... it really overwrites it with completely random data, and
-not simply overspilling contents of the file?
+"Priviledge level" is generic term. "CPL" I may recognize as
+Intel-specific. "priviledge level" I would not. So I'd really use
+"ring" there. "CPL 1 shadow stack" would be okay, too I guess.
 
-In that case it might not be possible (or desirable) to use those N bytes
-following the setup_heaader, or we need to a bigger sentinel than one byte
-(probability being what it is, 256^n gets to be a pretty big number for any n,
-very quickly drowning in the noise compared to other potential sources of boot
-failures, and most likely less fatal than most.)
+> SMM is SMM, full stop (unless dual mode or whatever it=E2=80=99s called i=
+s on, but AFAIK no one uses it).  VMX non-root CPL 1 is *still* privilege l=
+evel 1.
+>=20
+> In contrast, the security community likes to call SMM =E2=80=9Cring -1=E2=
+=80=9D, which is cute, but wrong from a systems programmer view. For exampl=
+e, SMM=E2=80=99s CPL can still range from 0-3.
+>=20
 
-How big is this garbage dump?  I'm going to brave a guess it is 512 bytes.  In
-that case this is hardly a big deal: the E820 map begins at 0x290, and the
-setup_header maximum goes to 0x280, so it is only 15 bytes lost.  If it is
-worse than that, we would risk losing __pad8[48] and __pad9[276], and
-especially the latter would be painful. In those case perhaps we should use
-0x281..0x290 as a 15-byte sentinel; that is going to be virtually foolproof.
+Regards,
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
-I'm also thinking that it might be desirable to add a flags field (__pad2
-would be ideal) to struct boot_params; it would let us recycle some of the
-obsolete fields (hd0_info, hd1_info, sys_desc_table, olpc_ofw_header, ...) and
-perhaps be able to add some more robustness against these sort of things. This
-would be the right way to do what your version feedback mechanism would do.
+--azLHFNyN32YCQGCU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-The reason why the feedback mechanism is fundamentally broken is that it only
-gives the boot loader a way to assert that it supports a certain version of
-the protocol, but it doesn't say *which* bootloader does such an assert -- and
-therefore it is still wide open to implementation error.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-We do, in fact, already have a feedback mechanism: the bootloader ID and
-bootloader version. One way we could deal with this problem is to bump the
-bootloader version reported by Grub, and add a quirk to the kernel that if the
-bootloader ID is Grub (7) and the version is less than a certain number, zero
-those fields. In fact, the more I think about it, this is what we should do.
+iEYEARECAAYFAlvofMYACgkQMOfwapXb+vI9WgCfSA5mLeg0dMNk4A/6IbLq/9Ih
+RVoAnA4XuVV1d1EoMJO4lhfDC+rwf0qd
+=xaDH
+-----END PGP SIGNATURE-----
 
-That being said, Grub really needs to be kept honest.  They keep making both
-severe design (like refusing to use the BIOS and UEFI entry points provided by
-the kernel by default) and implementation errors, apparently without
-meaningful oversight. I really ask that the people more closely involved with
-Grub try to keep a closer eye on their code as it applies to Linux.
-
-	-hpa
+--azLHFNyN32YCQGCU--
