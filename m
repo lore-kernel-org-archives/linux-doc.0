@@ -1,180 +1,312 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.5 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,RCVD_IN_SORBS_WEB autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 40C0F7DD31
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 11 Nov 2018 21:00:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 91F787D089
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 11 Nov 2018 21:27:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727030AbeKLGsm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Nov 2018 01:48:42 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36158 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726497AbeKLGsm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Nov 2018 01:48:42 -0500
-Received: from localhost (unknown [206.108.79.134])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9CA7B20881;
-        Sun, 11 Nov 2018 20:59:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1541969942;
-        bh=WVUxGJ0XIUMFMkXSxU/E0QcjwQ1T4sAi/VDUtkX4Zb0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=E7HaPuC/Z9vhNkQU4k0NrdtNd4pYx8uVHdxKHgXwZcxsatv58nPG6W41B8wlDaU5H
-         /spPsUSn0CqyHxQoCNCMjOXGOIvfD6UxnE7Oe36BcjrgILyw8OLfR13E1lbwJ4cMCM
-         HmcyteKl4hlkJ+nWwYv+oilBhPOIhYBq6l03UE90=
-Date:   Sun, 11 Nov 2018 12:59:02 -0800
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Boris Brezillon <boris.brezillon@bootlin.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, linux-i2c@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        Kumar Gala <galak@codeaurora.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        linux-gpio@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>,
-        Mike Shettel <mshettel@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH v10 0/9] Add the I3C subsystem
-Message-ID: <20181111205902.GA21546@kroah.com>
-References: <20181026144333.12276-1-boris.brezillon@bootlin.com>
- <20181111173932.GA12254@kroah.com>
- <20181111191017.7b2efdf1@bbrezillon>
- <20181111191020.GA21003@kroah.com>
- <20181111210818.08af6731@bbrezillon>
- <20181111205718.GA16288@kroah.com>
+        id S1726901AbeKLHRG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Nov 2018 02:17:06 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:46447 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726678AbeKLHRG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Nov 2018 02:17:06 -0500
+Received: by mail-lj1-f194.google.com with SMTP id v15-v6so5841841ljh.13;
+        Sun, 11 Nov 2018 13:27:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Fu+D4CAD9piKj/DNPVzR9+0sRl+ZMtTo3qdmHS6fCrw=;
+        b=D+htY6wrRFgHZ76811VyCHSYlLZYhGY8JBv9oQgBph0ziyqa35PDr20m27oJMtxBxS
+         SiO+4Gs8WpjC1C+BRFIf0h/y01rvww1dJceG5wgPWOy3nofuZCdB7k4ZKgbzZxRM93OI
+         LmtJZdRnpGljOisOfEr0rhvFIj8IbbjeStqoxwjs4uOxkXXBUpHMQ2HybAOLGGqaGmdZ
+         qjJtX0bC1NVdeCBOHRCD6/kp8jQd4QPZAP3/dluwALzPntMsJiyRMygqBnqspEuymJ+V
+         tFdivagtI6kw+lhUwvMyf3sAbF/zaP8ycDze4m3PyJvenmx5+Iw2vVoUuDZZYuut33yP
+         vDYw==
+X-Gm-Message-State: AGRZ1gJMfdONDWwJQwXNasuAxSN39fHTxcxYjNbnXyfiCkJW1J+iz24m
+        KRR5uPWwo+L0/DJ8C+FJ81QrEZdX
+X-Google-Smtp-Source: AJdET5dN6BHaSo3YWH9lJ6IMaAqLBQd4dc/N2BDlncHJJuorPA0MpmMI4Jie8qn2PvzNh1A4Loeq5g==
+X-Received: by 2002:a2e:2281:: with SMTP id i123-v6mr8998786lji.154.1541971638468;
+        Sun, 11 Nov 2018 13:27:18 -0800 (PST)
+Received: from localhost.localdomain ([178.121.238.12])
+        by smtp.gmail.com with ESMTPSA id s14-v6sm2727176lfk.59.2018.11.11.13.27.16
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 11 Nov 2018 13:27:17 -0800 (PST)
+From:   Timofey Titovets <timofey.titovets@synesis.ru>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        Timofey Titovets <nefelim4ag@gmail.com>
+Subject: [PATCH v2] ksm: allow dedup all tasks memory
+Date:   Mon, 12 Nov 2018 00:26:10 +0300
+Message-Id: <20181111212610.25213-1-timofey.titovets@synesis.ru>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181111205718.GA16288@kroah.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Nov 11, 2018 at 12:57:18PM -0800, Greg Kroah-Hartman wrote:
-> On Sun, Nov 11, 2018 at 09:08:18PM +0100, Boris Brezillon wrote:
-> > On Sun, 11 Nov 2018 11:10:20 -0800
-> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> > 
-> > > On Sun, Nov 11, 2018 at 07:10:17PM +0100, Boris Brezillon wrote:
-> > > > Hi Greg,
-> > > > 
-> > > > On Sun, 11 Nov 2018 09:39:32 -0800
-> > > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> > > >   
-> > > > > On Fri, Oct 26, 2018 at 04:43:24PM +0200, Boris Brezillon wrote:  
-> > > > > > Hi Greg,
-> > > > > > 
-> > > > > > I think we've reached a point where we can eventually consider the I3C
-> > > > > > framework for inclusion in 4.20 (5.0?). A few more issues were reported
-> > > > > > on v9 and fixed in v10. I can't guarantee that the implementation is
-> > > > > > free of bugs but I still think it's worth merging it in v4.20: it's a
-> > > > > > new subsystem, so we don't risk regressions, and the only way we can
-> > > > > > detect other issues is by having other people experiment with this
-> > > > > > implementation.
-> > > > > > 
-> > > > > > The only remaining concern raised by Arnd is the fact that both hosts
-> > > > > > and slaves share the same bus type and are differentiated thanks to
-> > > > > > their device_type, which IMHO is fine since this is what other
-> > > > > > subsystems do (plus I don't see other solutions to have both I3C
-> > > > > > devices and I3C buses represented under /sys/bus/i3c/).    
-> > > > > 
-> > > > > Yeah, it's not the nicest, but it will work, we did it also for USB and
-> > > > > greybus and it solves the issue.
-> > > > > 
-> > > > > This all looks good to me, so I've queued it up.  Let's see if
-> > > > > linux-next has any problems with it.  
-> > > > 
-> > > > I recently asked Stephen to add the linux-i3c tree to linux-next, so
-> > > > I'm expecting conflicts :-/. Sorry, I didn't know you were planning to
-> > > > take these patches through your tree.
-> > > > 
-> > > > BTW, I also fixed a couple of things when rebasing on top of 4.20-rc1:
-> > > > 
-> > > > - KernelVersion in the sysfs ABI doc has been updated to 5.0  
-> > > 
-> > > There is no 5.0 yet :)
-> > 
-> > Actually I had a hard time choosing between 4.21 and 5.0, and then I
-> > saw Linus' email announcing 4.20-rc1 ;-). But I can change it back to
-> > 4.21 if you prefer.
-> > 
-> > > 
-> > > > - Fixed i3c_master_getmxds_locked() (bug reported/fixed by Colin here
-> > > >   https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1799850.html)
-> > > > - Removed a blank line at the end of master-driver-api.rst
-> > 
-> > One extra thing I didn't mention (and didn't fix yet) is the I3C
-> > mailing list. I asked Dave Miller if he'd be okay to create the
-> > linux-i3c ML on vger.kernel.org, and he suggested that we use the
-> > linux-i2c ML instead which I know Wolfram is not fond of. I might
-> > decide to just put linux-kernel@vger.kernel.org as the ML to Cc for
-> > I3C patches until we settle on something. 
-> > 
-> > > > 
-> > > > For the record, the i3c/next branch pulled by Stephen is available here
-> > > > [1].
-> > > >   
-> > > > > Thanks for sticking with it, nice work!  
-> > > > 
-> > > > Thanks for reviewing it! Greg, Stephen, let me know if you want me to
-> > > > reset i3c/next to v4.20-rc1 to avoid conflicts in linux-next.  
-> > > 
-> > > So do you want me to just drop these patches from my tree?  If so, I
-> > > can, but i have no problem sending these to Linus for the next -rc1
-> > > merge window through my tree if that is easier.
-> > > 
-> > > It's up to you.
-> > 
-> > I think that's easier for me and for you if I take them in the i3c tree
-> > and then send a PR to Linus myself. This way I won't bother you if
-> > fixes are needed or if I decide to apply patches adding support for
-> > other I3C controllers (I see you commented on the Synopsys driver
-> > already, and I might indeed decide to queue this patchset for this
-> > release).
-> > 
-> > Doing that also allows me to get everything in place since I'll anyway
-> > have to send PRs to Linus at some point.
-> > 
-> > Regards,
-> > 
-> > Boris
-> > 
-> > PS: If you're fine with me taking the I3C patches, I'll need your
-> > Acked-by.
-> 
-> Sure, feel free to do it all yourself, I do not object to that!  :)
-> 
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Timofey Titovets <nefelim4ag@gmail.com>
 
-And I've now dropped all of these patches from my tree, so no need to
-worry about any conflicts.
+ksm by default working only on memory that added by
+madvice().
 
-thanks,
+And only way get that work on other applications:
+ - Use LD_PRELOAD and libraries
+ - Patch kernel
 
-greg k-h
+Lets use kernel task list in ksm_scan_thread and add logic to allow ksm
+import VMA from tasks.
+That behaviour controlled by new attribute: mode
+I try mimic hugepages attribute, so mode have two states:
+ - normal       - old default behaviour
+ - always [new] - allow ksm to get tasks vma and try working on that.
+
+To reduce CPU load & tasklist locking time,
+ksm try import VMAs from one task per loop.
+
+So add new attribute "mode"
+Two passible values:
+ - normal [default] - ksm use only madvice
+ - always [new]     - ksm will search vma over all processes memory and
+                      add it to the dedup list
+
+v1 -> v2:
+  - Rebase on v4.19.1
+
+Signed-off-by: Timofey Titovets <nefelim4ag@gmail.com>
+---
+ Documentation/admin-guide/mm/ksm.rst |   7 ++
+ mm/ksm.c                             | 149 ++++++++++++++++++++++-----
+ 2 files changed, 128 insertions(+), 28 deletions(-)
+
+diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
+index 9303786632d1..253f94a09be8 100644
+--- a/Documentation/admin-guide/mm/ksm.rst
++++ b/Documentation/admin-guide/mm/ksm.rst
+@@ -116,6 +116,13 @@ run
+         Default: 0 (must be changed to 1 to activate KSM, except if
+         CONFIG_SYSFS is disabled)
+ 
++mode
++        * set always to allow ksm deduplicate memory of every process
++        * set normal to use only madviced memory
++
++        Default: normal (dedupulicate only madviced memory as in
++        earlier releases)
++
+ use_zero_pages
+         specifies whether empty pages (i.e. allocated pages that only
+         contain zeroes) should be treated specially.  When set to 1,
+diff --git a/mm/ksm.c b/mm/ksm.c
+index 1a088306ef81..5097d710c466 100644
+--- a/mm/ksm.c
++++ b/mm/ksm.c
+@@ -295,6 +295,10 @@ static int ksm_nr_node_ids = 1;
+ static unsigned long ksm_run = KSM_RUN_STOP;
+ static void wait_while_offlining(void);
+ 
++#define KSM_MODE_NORMAL 0
++#define KSM_MODE_ALWAYS	1
++static unsigned long ksm_mode = KSM_MODE_NORMAL;
++
+ static DECLARE_WAIT_QUEUE_HEAD(ksm_thread_wait);
+ static DEFINE_MUTEX(ksm_thread_mutex);
+ static DEFINE_SPINLOCK(ksm_mmlist_lock);
+@@ -303,6 +307,11 @@ static DEFINE_SPINLOCK(ksm_mmlist_lock);
+ 		sizeof(struct __struct), __alignof__(struct __struct),\
+ 		(__flags), NULL)
+ 
++static inline int ksm_mode_always(void)
++{
++	return (ksm_mode == KSM_MODE_ALWAYS);
++}
++
+ static int __init ksm_slab_init(void)
+ {
+ 	rmap_item_cache = KSM_KMEM_CACHE(rmap_item, 0);
+@@ -2386,17 +2395,94 @@ static void ksm_do_scan(unsigned int scan_npages)
+ 
+ static int ksmd_should_run(void)
+ {
+-	return (ksm_run & KSM_RUN_MERGE) && !list_empty(&ksm_mm_head.mm_list);
++	return (ksm_run & KSM_RUN_MERGE) &&
++		(!list_empty(&ksm_mm_head.mm_list) || ksm_mode_always());
++}
++
++
++static int ksm_enter(struct mm_struct *mm, unsigned long *vm_flags)
++{
++	int err;
++
++	if (*vm_flags & (VM_MERGEABLE | VM_SHARED  | VM_MAYSHARE   |
++			 VM_PFNMAP    | VM_IO      | VM_DONTEXPAND |
++			 VM_HUGETLB | VM_MIXEDMAP))
++		return 0;
++
++#ifdef VM_SAO
++	if (*vm_flags & VM_SAO)
++		return 0;
++#endif
++#ifdef VM_SPARC_ADI
++	if (*vm_flags & VM_SPARC_ADI)
++		return 0;
++#endif
++	if (!test_bit(MMF_VM_MERGEABLE, &mm->flags)) {
++		err = __ksm_enter(mm);
++		if (err)
++			return err;
++	}
++
++	*vm_flags |= VM_MERGEABLE;
++
++	return 0;
++}
++
++/*
++ * Register all vmas for all processes in the system with KSM.
++ * Note that every call to ksm_madvise, for a given vma, after the first
++ * does nothing but set flags.
++ */
++void ksm_import_task_vma(struct task_struct *task)
++{
++	struct vm_area_struct *vma;
++	struct mm_struct *mm;
++	int error;
++
++	mm = get_task_mm(task);
++	if (!mm)
++		return;
++	down_write(&mm->mmap_sem);
++	vma = mm->mmap;
++	while (vma) {
++		error = ksm_enter(vma->vm_mm, &vma->vm_flags);
++		vma = vma->vm_next;
++	}
++	up_write(&mm->mmap_sem);
++	mmput(mm);
++	return;
+ }
+ 
+ static int ksm_scan_thread(void *nothing)
+ {
++	pid_t last_pid = 1;
++	pid_t curr_pid;
++	struct task_struct *task;
++
+ 	set_freezable();
+ 	set_user_nice(current, 5);
+ 
+ 	while (!kthread_should_stop()) {
+ 		mutex_lock(&ksm_thread_mutex);
+ 		wait_while_offlining();
++		if (ksm_mode_always()) {
++			/*
++			 * import one task's vma per run
++			 */
++			read_lock(&tasklist_lock);
++
++			for_each_process(task) {
++				curr_pid = task_pid_nr(task);
++				if (curr_pid == last_pid)
++					break;
++			}
++
++			task = next_task(task);
++			last_pid = task_pid_nr(task);
++
++			ksm_import_task_vma(task);
++			read_unlock(&tasklist_lock);
++		}
+ 		if (ksmd_should_run())
+ 			ksm_do_scan(ksm_thread_pages_to_scan);
+ 		mutex_unlock(&ksm_thread_mutex);
+@@ -2422,33 +2508,9 @@ int ksm_madvise(struct vm_area_struct *vma, unsigned long start,
+ 
+ 	switch (advice) {
+ 	case MADV_MERGEABLE:
+-		/*
+-		 * Be somewhat over-protective for now!
+-		 */
+-		if (*vm_flags & (VM_MERGEABLE | VM_SHARED  | VM_MAYSHARE   |
+-				 VM_PFNMAP    | VM_IO      | VM_DONTEXPAND |
+-				 VM_HUGETLB | VM_MIXEDMAP))
+-			return 0;		/* just ignore the advice */
+-
+-		if (vma_is_dax(vma))
+-			return 0;
+-
+-#ifdef VM_SAO
+-		if (*vm_flags & VM_SAO)
+-			return 0;
+-#endif
+-#ifdef VM_SPARC_ADI
+-		if (*vm_flags & VM_SPARC_ADI)
+-			return 0;
+-#endif
+-
+-		if (!test_bit(MMF_VM_MERGEABLE, &mm->flags)) {
+-			err = __ksm_enter(mm);
+-			if (err)
+-				return err;
+-		}
+-
+-		*vm_flags |= VM_MERGEABLE;
++		err = ksm_enter(mm, vm_flags);
++		if (err)
++			return err;
+ 		break;
+ 
+ 	case MADV_UNMERGEABLE:
+@@ -2852,6 +2914,36 @@ static ssize_t pages_to_scan_store(struct kobject *kobj,
+ }
+ KSM_ATTR(pages_to_scan);
+ 
++static ssize_t mode_show(struct kobject *kobj, struct kobj_attribute *attr,
++			char *buf)
++{
++	switch (ksm_mode) {
++		case KSM_MODE_NORMAL:
++			return sprintf(buf, "always [normal]\n");
++			break;
++		case KSM_MODE_ALWAYS:
++			return sprintf(buf, "[always] normal\n");
++			break;
++	}
++
++	return sprintf(buf, "always [normal]\n");
++}
++
++static ssize_t mode_store(struct kobject *kobj, struct kobj_attribute *attr,
++			 const char *buf, size_t count)
++{
++	if (!memcmp("always", buf, min(sizeof("always")-1, count))) {
++		ksm_mode = KSM_MODE_ALWAYS;
++		wake_up_interruptible(&ksm_thread_wait);
++	} else if (!memcmp("normal", buf, min(sizeof("normal")-1, count))) {
++		ksm_mode = KSM_MODE_NORMAL;
++	} else
++		return -EINVAL;
++
++	return count;
++}
++KSM_ATTR(mode);
++
+ static ssize_t run_show(struct kobject *kobj, struct kobj_attribute *attr,
+ 			char *buf)
+ {
+@@ -3109,6 +3201,7 @@ KSM_ATTR_RO(full_scans);
+ static struct attribute *ksm_attrs[] = {
+ 	&sleep_millisecs_attr.attr,
+ 	&pages_to_scan_attr.attr,
++	&mode_attr.attr,
+ 	&run_attr.attr,
+ 	&pages_shared_attr.attr,
+ 	&pages_sharing_attr.attr,
+-- 
+2.19.1
