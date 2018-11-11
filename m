@@ -1,100 +1,121 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A34977D08E
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 11 Nov 2018 23:09:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 899BD7D089
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 11 Nov 2018 23:59:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389303AbeKLI7y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Nov 2018 03:59:54 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50044 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390204AbeKLIWB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Nov 2018 03:22:01 -0500
-Received: from localhost (unknown [206.108.79.134])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 60EC421582;
-        Sun, 11 Nov 2018 22:32:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1541975524;
-        bh=wHu3QUMFPhCr7Zd7P/4p7jWOwhcvkMOjXCZ+sngCSI4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=r7sMZuMUlZZ/hsNQMYoTVF1gKl+mS3BwEH905e8SUzYYuf7KSBbcixTV+mryclVZ/
-         29V0Cx6gH58EL0KEWUi+DXz8vZmD8AbnU1g4pJ++siw77MvYkLMbwpzUGL+2h4AKgV
-         Q3TTIjAtZoMvg7tInykzG7/dJe2wecsO9sTTg0iI=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Juergen Gross <jgross@suse.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        boris.ostrovsky@oracle.com, bp@alien8.de, corbet@lwn.net,
-        linux-doc@vger.kernel.org, xen-devel@lists.xenproject.org,
-        Ingo Molnar <mingo@kernel.org>
-Subject: [PATCH 4.14 020/222] x86/xen: Fix boot loader version reported for PVH guests
-Date:   Sun, 11 Nov 2018 14:21:57 -0800
-Message-Id: <20181111221649.947741388@linuxfoundation.org>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20181111221647.665769131@linuxfoundation.org>
-References: <20181111221647.665769131@linuxfoundation.org>
-User-Agent: quilt/0.65
-X-stable: review
+        id S1732614AbeKLJtK convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Nov 2018 04:49:10 -0500
+Received: from terminus.zytor.com ([198.137.202.136]:54481 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732407AbeKLJtJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Nov 2018 04:49:09 -0500
+Received: from wld62.hos.anvin.org (c-24-5-245-234.hsd1.ca.comcast.net [24.5.245.234] (may be forged))
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id wABNwNnL3444911
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+        Sun, 11 Nov 2018 15:58:24 -0800
+Date:   Sun, 11 Nov 2018 15:58:16 -0800
+User-Agent: K-9 Mail for Android
+In-Reply-To: <685b425b-c816-4f65-3393-b48e59d170d8@suse.com>
+References: <20181010061456.22238-1-jgross@suse.com> <20181010061456.22238-3-jgross@suse.com> <f7c78ee7-b548-7f04-24da-7321b6c64c97@zytor.com> <685b425b-c816-4f65-3393-b48e59d170d8@suse.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Subject: Re: PLEASE REVERT URGENTLY: Re: [PATCH v5 2/3] x86/boot: add acpi rsdp address to setup_header
+To:     Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
+        xen-devel@lists.xenproject.org, x86@kernel.org,
+        linux-doc@vger.kernel.org
+CC:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, corbet@lwn.net,
+        boris.ostrovsky@oracle.com
+From:   hpa@zytor.com
+Message-ID: <9A44B94A-AEDC-4638-A8FF-DEE76FE34056@zytor.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-4.14-stable review patch.  If anyone has any objections, please let me know.
+On November 10, 2018 7:22:29 AM PST, Juergen Gross <jgross@suse.com> wrote:
+>On 09/11/2018 23:23, H. Peter Anvin wrote:
+>> I just noticed this patch -- I missed it because the cover message
+>> seemed far more harmless so I didn't notice this change.
+>> 
+>> THIS PATCH IS FATALLY WRONG AND NEEDS TO BE IMMEDIATELY REVERTED
+>BEFORE
+>> ANYONE STARTS RELYING ON IT; IT HAS THE POTENTIAL OF BREAKING THE
+>> BOOTLOADER PROTOCOL FOR ALL FUTURE.
+>> 
+>> It seems to be based on fundamental misconceptions about the various
+>> data structures in the protocol, and does so in a way that completely
+>> breaks the way the protocol is designed to work.
+>> 
+>> The protocol is specifically designed such that fields are not
+>version
+>> dependencies. The version number is strictly to inform the boot
+>loader
+>> about which capabilities the kernel has, so that the boot loader can
+>> know if a certain data field is meaningful and/or honored.
+>> 
+>>> +Protocol 2.14:	(Kernel 4.20) Added acpi_rsdp_addr holding the
+>physical
+>>> +		address of the ACPI RSDP table.
+>>> +		The bootloader updates version with:
+>>> +		0x8000 | min(kernel-version, bootloader-version)
+>>> +		kernel-version being the protocol version supported by
+>>> +		the kernel and bootloader-version the protocol version
+>>> +		supported by the bootloader.
+>> 
+>> [...]
+>> 
+>>>  **** MEMORY LAYOUT
+>>>
+>>>  The traditional memory map for the kernel loader, used for Image or
+>>> @@ -197,6 +209,7 @@ Offset	Proto	Name		Meaning
+>>>  0258/8	2.10+	pref_address	Preferred loading address
+>>>  0260/4	2.10+	init_size	Linear memory required during initialization
+>>>  0264/4	2.11+	handover_offset	Offset of handover entry point
+>>> +0268/8	2.14+	acpi_rsdp_addr	Physical address of RSDP table
+>> 
+>> NO.
+>> 
+>> That is not how struct setup_header works, nor does this belong here.
+>> 
+>> struct setup_header contains *initialized data*, and has a length
+>byte
+>> at offset 0x201.  The bootloader is responsible for copying the full
+>> structure into the appropriate offset (0x1f1) in struct boot_params.
+>> 
+>> The length byte isn't actually a requirement, since the maximum
+>possible
+>> size of this structure is 144 bytes, and the kernel will (obviously)
+>not
+>> look at the older fields anyway, but it is good practice. The kernel
+>or
+>> any other entity is free to zero out the bytes past this length
+>pointer.
+>> 
+>> There are only 24 bytes left in this structure, and this would occupy
+>8
+>> of them for no valid reason.  The *only* valid reason to put a
+>> zero-initialized field in struct setup_header is if it used by the
+>> 16-bit legacy BIOS boot, which is obviously not the case here.
+>> 
+>> This field thus belongs in struct boot_params, not struct
+>setup_header.
+>
+>Would you be okay with putting acpi_rsdp_addr at offset 0x0cc (_pad4)?
+>
+>
+>Juergen
 
-------------------
+I'd prefer if you used __pad3 offset 0x70 to keep the large block, and that way your field is also aligned.
 
-From: Juergen Gross <jgross@suse.com>
-
-commit 357d291ce035d1b757568058f3c9898c60d125b1 upstream.
-
-The boot loader version reported via sysfs is wrong in case of the
-kernel being booted via the Xen PVH boot entry. it should be 2.12
-(0x020c), but it is reported to be 2.18 (0x0212).
-
-As the current way to set the version is error prone use the more
-readable variant (2 << 8) | 12.
-
-Signed-off-by: Juergen Gross <jgross@suse.com>
-Cc: <stable@vger.kernel.org> # 4.12
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: boris.ostrovsky@oracle.com
-Cc: bp@alien8.de
-Cc: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org
-Cc: xen-devel@lists.xenproject.org
-Link: http://lkml.kernel.org/r/20181010061456.22238-2-jgross@suse.com
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
----
- arch/x86/xen/enlighten_pvh.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/arch/x86/xen/enlighten_pvh.c
-+++ b/arch/x86/xen/enlighten_pvh.c
-@@ -76,7 +76,7 @@ static void __init init_pvh_bootparams(v
- 	 * Version 2.12 supports Xen entry point but we will use default x86/PC
- 	 * environment (i.e. hardware_subarch 0).
- 	 */
--	pvh_bootparams.hdr.version = 0x212;
-+	pvh_bootparams.hdr.version = (2 << 8) | 12;
- 	pvh_bootparams.hdr.type_of_loader = (9 << 4) | 0; /* Xen loader */
- }
- 
-
-
+However, if you have some specific reason to prefer __pad4 it's no big deal, although I'm curious what it would be.
+-- 
+Sent from my Android device with K-9 Mail. Please excuse my brevity.
