@@ -1,40 +1,74 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F20B47D089
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 11 Nov 2018 11:31:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A08527D089
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 11 Nov 2018 14:59:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727814AbeKKVTr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 11 Nov 2018 16:19:47 -0500
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:44281 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727556AbeKKVTr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Nov 2018 16:19:47 -0500
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 45C34806D3; Sun, 11 Nov 2018 12:31:24 +0100 (CET)
-Date:   Sun, 11 Nov 2018 12:31:25 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Andy Lutomirski <luto@amacapital.net>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, X86 ML <x86@kernel.org>,
+        id S1728505AbeKLAsP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 11 Nov 2018 19:48:15 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:38432 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728331AbeKLAsP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Nov 2018 19:48:15 -0500
+Received: by mail-pg1-f193.google.com with SMTP id f8-v6so2885564pgq.5
+        for <linux-doc@vger.kernel.org>; Sun, 11 Nov 2018 06:59:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=cHMilXDw5bUH21G67l5k/4SMtxENZT+u2nIi09szgtg=;
+        b=VUEtPQcSNtpd4xatCW/9XAdxj9mvvPthKzgeKrLJMJ6X8vXylFtUjvwieZTRu1zTeo
+         Nn//7iQGmhIlUyv33f7Lsj2PGv8j3aYcyrkkCXsmTEdB9C9vJbTvyNTbMKIww7JigqyG
+         UtDrKElDXWc6TdXy4HQaEpqIzNxm6dUWU6otSQLvD+jc1iN6i2UqW67sVwO6/+qXxcLB
+         cyEP4MHcm+0+ZkpNHhwSfJOTsaGhZIotyr5WrKVuF705Zfla715+piRR/RXJIbco7kZ4
+         7cOJRv0rpsdGE33VX3kj3A9clE2QankaVSdDjVUrBUTn522XuiKOH8CpKaiFu/a+BOmT
+         ktIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=cHMilXDw5bUH21G67l5k/4SMtxENZT+u2nIi09szgtg=;
+        b=Hik390drAwh9Wl70fcOmEBSIQDN4k17N1+eSq8BY3HSH1Zf73OzmRUnHio9ZsqX85G
+         EFkGU25YdmC0qeA5Vnu7JilPfApD8x0g1YfhSgMOOR43hXhLue13PSQGE4Ly0P1mKH4w
+         kvH4izsEoy4QUoCuMlDSJN3rQ/7moA3M768owcg0TUxZuiSJugQT2AtglLAVifuZW0So
+         qRbO70mUy1AS/nI3b+ss7PveCR6aEeqB7BH0f/DNOcru0mL5L1imSEH1pYbfLskomUYe
+         ttcTnQAxaxYeP1NeBEnTGYPYWUWTWlqQRhQPKaCLGx0IAwj0LivzlX385a4JH4fn8BUo
+         tQbw==
+X-Gm-Message-State: AGRZ1gJoubJOsfLAo7HYBdFG9dgeptYDdTFOX2k2DeQYXXq+WR7UuMor
+        hRW7nKEZsBzrThHmORZU6SeCow==
+X-Google-Smtp-Source: AJdET5dNEybi+r790bTJYFynd4NbV2xibsj/RUUGotHEJhvyeitpfc5tshSP/O6YHMM7l/qKtf0vBg==
+X-Received: by 2002:a63:e54:: with SMTP id 20-v6mr13210060pgo.369.1541948367818;
+        Sun, 11 Nov 2018 06:59:27 -0800 (PST)
+Received: from ?IPv6:2600:1010:b064:bb40:4943:9d87:c587:e641? ([2600:1010:b064:bb40:4943:9d87:c587:e641])
+        by smtp.gmail.com with ESMTPSA id v20-v6sm27195306pfj.107.2018.11.11.06.59.25
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 11 Nov 2018 06:59:26 -0800 (PST)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v5 04/27] x86/fpu/xstate: Add XSAVES system states for shadow stack
+From:   Andy Lutomirski <luto@amacapital.net>
+X-Mailer: iPhone Mail (16A404)
+In-Reply-To: <20181111113103.GG27666@amd>
+Date:   Sun, 11 Nov 2018 06:59:24 -0800
+Cc:     Borislav Petkov <bp@alien8.de>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
         Balbir Singh <bsingharora@gmail.com>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Eugene Syromiatnikov <esyr@redhat.com>,
         Florian Weimer <fweimer@redhat.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
@@ -43,76 +77,52 @@ Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, X86 ML <x86@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
-Subject: Re: [PATCH v5 04/27] x86/fpu/xstate: Add XSAVES system states for
- shadow stack
-Message-ID: <20181111113125.GI27666@amd>
-References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
- <20181011151523.27101-5-yu-cheng.yu@intel.com>
- <CALCETrVAe8R=crVHoD5QmbN-gAW+V-Rwkwe4kQP7V7zQm9TM=Q@mail.gmail.com>
- <4295b8f786c10c469870a6d9725749ce75dcdaa2.camel@intel.com>
- <CALCETrUKzXYzRrWRdi8Z7AdAF0uZW5Gs7J4s=55dszoyzc29rw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="TA4f0niHM6tHt3xR"
-Content-Disposition: inline
-In-Reply-To: <CALCETrUKzXYzRrWRdi8Z7AdAF0uZW5Gs7J4s=55dszoyzc29rw@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <4E917DA9-5192-48E2-8857-08C3ABE08AFE@amacapital.net>
+References: <20181011151523.27101-1-yu-cheng.yu@intel.com> <20181011151523.27101-5-yu-cheng.yu@intel.com> <20181108184038.GJ7543@zn.tnic> <20181111113103.GG27666@amd>
+To:     Pavel Machek <pavel@ucw.cz>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---TA4f0niHM6tHt3xR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-> > > > +/*
-> > > > + * State component 12 is Control flow Enforcement kernel states
-> > > > + */
-> > > > +struct cet_kernel_state {
-> > > > +       u64 kernel_ssp; /* kernel shadow stack */
-> > > > +       u64 pl1_ssp;    /* ring-1 shadow stack */
-> > > > +       u64 pl2_ssp;    /* ring-2 shadow stack */
-> > > > +} __packed;
-> > > > +
-> > >
-> > > Why are these __packed?  It seems like it'll generate bad code for no
-> > > obvious purpose.
-> >
-> > That prevents any possibility that the compiler will insert padding, al=
-though in
-> > 64-bit kernel this should not happen to either struct.  Also all xstate
-> > components here are packed.
-> >
+> On Nov 11, 2018, at 3:31 AM, Pavel Machek <pavel@ucw.cz> wrote:
 >=20
-> They both seem like bugs, perhaps.  As I understand it, __packed
-> removes padding, but it also forces the compiler to expect the fields
-> to be unaligned even if they are actually aligned.
+> Hi!
+>=20
+>>> +/*
+>>> + * State component 12 is Control flow Enforcement kernel states
+>>> + */
+>>> +struct cet_kernel_state {
+>>> +    u64 kernel_ssp;    /* kernel shadow stack */
+>>> +    u64 pl1_ssp;    /* ring-1 shadow stack */
+>>> +    u64 pl2_ssp;    /* ring-2 shadow stack */
+>>=20
+>> Just write "privilege level" everywhere - not "ring".
+>=20
+> Please just use word "ring". It is well estabilished terminology.
+>=20
+> Which ring is priviledge level 1, given that we have SMM and
+> virtualization support?
 
-This structure is shared with hardware, right? __packed seems like
-right thing to do semantically.
+To the contrary: CPL, DPL, and RPL are very well defined terms in the archit=
+ecture manuals. =E2=80=9CPL=E2=80=9D is privilege level. PL 1 is very well d=
+efined.
 
-As x86 handles unaligned accesses automatically, there should not be
-much difference either way.
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+SMM is SMM, full stop (unless dual mode or whatever it=E2=80=99s called is o=
+n, but AFAIK no one uses it).  VMX non-root CPL 1 is *still* privilege level=
+ 1.
 
---TA4f0niHM6tHt3xR
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+In contrast, the security community likes to call SMM =E2=80=9Cring -1=E2=80=
+=9D, which is cute, but wrong from a systems programmer view. For example, S=
+MM=E2=80=99s CPL can still range from 0-3.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlvoEw0ACgkQMOfwapXb+vLY1gCglZ9VACt9vxNg/QC9O9on/sJW
-mGoAnA825hlJ7l0ichrQ9oFwIh31PPDp
-=dUic
------END PGP SIGNATURE-----
-
---TA4f0niHM6tHt3xR--
+>=20
+>                                    Pavel
+> --=20
+> (english) http://www.livejournal.com/~pavelmachek
+> (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/bl=
+og.html
