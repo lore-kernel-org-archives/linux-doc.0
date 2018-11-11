@@ -1,231 +1,206 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4BEF67D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 10 Nov 2018 15:31:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C3A027D089
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 11 Nov 2018 09:24:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726270AbeKKBRG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 10 Nov 2018 20:17:06 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33630 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726068AbeKKBRG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 10 Nov 2018 20:17:06 -0500
-Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0B27A20818;
-        Sat, 10 Nov 2018 15:31:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1541863902;
-        bh=0vsm6gonEsw/OJilFDSuH1TJDtMdH/vsOpss6vbTnts=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=EfBJ/XH1MDsmbdLmvmmuowocZqtKJ8Y+nLfl7v0Kp8E8HcVIRNV6XhBa7UhvDIZGs
-         YRpc7Q10JZaVZhf4oDrtkEXsbtuX8hA2NrcSmD8phtKgrRr7BZ1y/HcTMfR7u3GQSx
-         0BbDnffvQSdHMzNtnuqGmqD9C0qId9FzYzn10Gz0=
-Date:   Sun, 11 Nov 2018 00:31:37 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Aleksa Sarai <asarai@suse.de>
-Cc:     Aleksa Sarai <cyphar@cyphar.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Christian Brauner <christian@brauner.io>,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Josh Poimboeuf <jpoimboe@redhat.com>
-Subject: Re: [PATCH v3 1/2] kretprobe: produce sane stack traces
-Message-Id: <20181111003137.c9df7a077d983cde57c06ee8@kernel.org>
-In-Reply-To: <20181109150629.wpedwxsgbftkl3ab@mikami>
-References: <20181101204720.6ed3fe37@vmware.local.home>
-        <20181102050509.tw3dhvj5urudvtjl@yavin>
-        <20181102065932.bdt4pubbrkvql4mp@yavin>
-        <20181102091658.1bc979a4@gandalf.local.home>
-        <20181103070253.ajrqzs5xu2vf5stu@yavin>
-        <20181104115913.74l4yzecisvtt2j5@yavin>
-        <20181106171501.59ccabbc@gandalf.local.home>
-        <20181108074612.ldy6rozdpsdps6bf@yavin>
-        <20181108080448.rggfn4zawi3por23@yavin>
-        <20181109161551.6b96bd7d932c71432ac65e83@kernel.org>
-        <20181109150629.wpedwxsgbftkl3ab@mikami>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1727376AbeKKTMf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 11 Nov 2018 14:12:35 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51572 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727334AbeKKTMf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Nov 2018 14:12:35 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wAB9Ie7L046045
+        for <linux-doc@vger.kernel.org>; Sun, 11 Nov 2018 04:24:32 -0500
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2npd3u98jq-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Sun, 11 Nov 2018 04:24:32 -0500
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Sun, 11 Nov 2018 09:24:30 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Sun, 11 Nov 2018 09:24:27 -0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wAB9OQ4E8061328
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sun, 11 Nov 2018 09:24:26 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B926BA405B;
+        Sun, 11 Nov 2018 09:24:26 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3B0BEA4054;
+        Sun, 11 Nov 2018 09:24:25 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.206.230])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Sun, 11 Nov 2018 09:24:25 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Sun, 11 Nov 2018 11:24:24 +0200
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-doc@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
+Subject: [PATCH v2] docs/admin-guide/mm/concepts.rst: grammar and style fixups
+Date:   Sun, 11 Nov 2018 11:24:23 +0200
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+x-cbid: 18111109-0028-0000-0000-000003181894
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18111109-0029-0000-0000-000023D4751A
+Message-Id: <1541928263-5117-1-git-send-email-rppt@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-11_06:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1811110091
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 10 Nov 2018 02:06:29 +1100
-Aleksa Sarai <asarai@suse.de> wrote:
+Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+---
 
-> On 2018-11-09, Masami Hiramatsu <mhiramat@kernel.org> wrote:
-> > > diff --git a/arch/x86/include/asm/ptrace.h b/arch/x86/include/asm/ptrace.h
-> > > index ee696efec99f..c4dfafd43e11 100644
-> > > --- a/arch/x86/include/asm/ptrace.h
-> > > +++ b/arch/x86/include/asm/ptrace.h
-> > > @@ -172,6 +172,7 @@ static inline unsigned long kernel_stack_pointer(struct pt_regs *regs)
-> > >  	return regs->sp;
-> > >  }
-> > >  #endif
-> > > +#define stack_addr(regs) ((unsigned long *) kernel_stack_pointer(regs))
-> > 
-> > No, you should use kernel_stack_pointer(regs) itself instead of stack_addr().
-> > 
-> > > 
-> > >  #define GET_IP(regs) ((regs)->ip)
-> > >  #define GET_FP(regs) ((regs)->bp)
-> > > diff --git a/arch/x86/kernel/kprobes/core.c b/arch/x86/kernel/kprobes/core.c
-> > > index b0d1e81c96bb..eb4da885020c 100644
-> > > --- a/arch/x86/kernel/kprobes/core.c
-> > > +++ b/arch/x86/kernel/kprobes/core.c
-> > > @@ -69,8 +69,6 @@
-> > >  DEFINE_PER_CPU(struct kprobe *, current_kprobe) = NULL;
-> > >  DEFINE_PER_CPU(struct kprobe_ctlblk, kprobe_ctlblk);
-> > >  
-> > > -#define stack_addr(regs) ((unsigned long *)kernel_stack_pointer(regs))
-> > 
-> > I don't like keeping this meaningless macro... this should be replaced with generic
-> > kernel_stack_pointer() macro.
-> 
-> Sure. This patch was just an example -- I can remove stack_addr() all
-> over.
-> 
-> > > -	if (regs)
-> > > -		save_stack_address(trace, regs->ip, nosched);
-> > > +	if (regs) {
-> > > +		/* XXX: Currently broken -- stack_addr(regs) doesn't match entry. */
-> > > +		addr = regs->ip;
-> > 
-> > Since this part is for storing regs->ip as a top of call-stack, this
-> > seems correct code. Stack unwind will be done next block.
-> 
-> This comment was referring to the usage of stack_addr(). stack_addr()
-> doesn't give you the right result (it isn't the address of the return
-> address -- it's slightly wrong). This is the main issue I was having --
-> am I doing something wrong here?
+v2: address Matthew's feedback
 
-Of course stack_addr() actually just returns where the stack is. It should
-not return address, but maybe a return address from this event happens.
-Note that the "regs != NULL" means you will be in the interrupt handler
-and it will be returned to the regs->ip.
+ Documentation/admin-guide/mm/concepts.rst | 51 ++++++++++++++++---------------
+ 1 file changed, 26 insertions(+), 25 deletions(-)
 
-
-> > > +		//addr = ftrace_graph_ret_addr(current, &state.graph_idx, addr, stack_addr(regs));
-> > 
-> > so func graph return trampoline address will be shown only when unwinding stack entries.
-> > I mean func-graph tracer is not used as an event, so it never kicks stackdump.
-> 
-> Just to make sure I understand what you're saying -- func-graph trace
-> will never actually call __ftrace_stack_trace? Because if it does, then
-> this code will be necessary (and then I'm a bit confused why the
-> unwinder has func-graph trace code -- if stack traces are never taken
-> under func-graph then the code in the unwinder is not necessary)
-
-You seems misunderstanding. Even if this is not called from func-graph
-tracer, the stack entries are already replaced with func-graph trampoline.
-However, regs->ip (IRQ return address) is never replaced by the func-graph
-trampoline.
-
-> My reason for commenting this out is because at this point "state" isn't
-> initialised and thus .graph_idx would not be correctly handled during
-> unwind (and it's the same reason I commented it out later).
-
-OK, but anyway, I think we don't need it.
-
-> > > +		addr = kretprobe_ret_addr(current, addr, stack_addr(regs));
-> > 
-> > But since kretprobe will be an event, which can kick the stackdump.
-> > BTW, from kretprobe, regs->ip should always be the trampoline handler, 
-> > see arch/x86/kernel/kprobes/core.c:772 :-)
-> > So it must be fixed always.
-> 
-> Right, but kretprobe_ret_addr() is returning the *original* return
-> address (and we need to do an (addr == kretprobe_trampoline)). The
-> real problem is that stack_addr(regs) isn't the same as it is during
-> kretprobe setup (but kretprobe_ret_addr() works everywhere else).
-
-I think stack_addr(regs) should be same when this is called from kretprobe
-handler context. Otherwise, yes, it is not same, but in that case, regs->ip
-is not kretprobe_trampoline too.
-
-If you find kretprobe_trampoline on the "stack", of course it's address should be
-same as it is during kretprobe setup, but if you find kretprobe_trampoline on the
-regs->ip, that should always happen on kretprobe handler context. Otherwise,
-some critical violation happens on kretprobe_trampoline. In that case, we should
-dump the kretprobe_trampoline address itself, should not recover it.
-
-> > > @@ -1856,6 +1870,41 @@ static int pre_handler_kretprobe(struct kprobe *p, struct pt_regs *regs)
-> > >  }
-> > >  NOKPROBE_SYMBOL(pre_handler_kretprobe);
-> > >  
-> > > +unsigned long kretprobe_ret_addr(struct task_struct *tsk, unsigned long ret,
-> > > +				 unsigned long *retp)
-> > > +{
-> > > +	struct kretprobe_instance *ri;
-> > > +	unsigned long flags = 0;
-> > > +	struct hlist_head *head;
-> > > +	bool need_lock;
-> > > +
-> > > +	if (likely(ret != (unsigned long) &kretprobe_trampoline))
-> > > +		return ret;
-> > > +
-> > > +	need_lock = !kretprobe_hash_is_locked(tsk);
-> > > +	if (WARN_ON(need_lock))
-> > > +		kretprobe_hash_lock(tsk, &head, &flags);
-> > > +	else
-> > > +		head = kretprobe_inst_table_head(tsk);
-> > 
-> > This may not work unless this is called from the kretprobe handler context,
-> > since if we are out of kretprobe handler context, another CPU can lock the
-> > hash table and it can be detected by kretprobe_hash_is_locked();.
-> 
-> Yeah, I noticed this as well when writing it (but needed a quick impl
-> that I could test). I will fix this, thanks!
-> 
-> By is_kretprobe_handler_context() I imagine you are referring to
-> checking is_kretprobe(current_kprobe())?
-
-yes, that's correct :)
-
-Thank you,
-
-> 
-> > So, we should check we are in the kretprobe handler context if tsk == current,
-> > if not, we definately can lock the hash lock without any warning. This can
-> > be something like;
-> > 
-> > if (is_kretprobe_handler_context()) {
-> >   // kretprobe_hash_lock(current == tsk) has been locked by caller  
-> >   if (tsk != current && kretprobe_hash(tsk) != kretprobe_hash(current))
-> >     // the hash of tsk and current can be same.
-> >     need_lock = true;
-> > } else
-> >   // we should take a lock for tsk.
-> >   need_lock = true;
-> 
-> -- 
-> Aleksa Sarai
-> Senior Software Engineer (Containers)
-> SUSE Linux GmbH
-> <https://www.cyphar.com/>
-
-
+diff --git a/Documentation/admin-guide/mm/concepts.rst b/Documentation/admin-guide/mm/concepts.rst
+index 291699c..c2531b1 100644
+--- a/Documentation/admin-guide/mm/concepts.rst
++++ b/Documentation/admin-guide/mm/concepts.rst
+@@ -4,13 +4,13 @@
+ Concepts overview
+ =================
+ 
+-The memory management in Linux is complex system that evolved over the
+-years and included more and more functionality to support variety of
++The memory management in Linux is a complex system that evolved over the
++years and included more and more functionality to support a variety of
+ systems from MMU-less microcontrollers to supercomputers. The memory
+-management for systems without MMU is called ``nommu`` and it
++management for systems without an MMU is called ``nommu`` and it
+ definitely deserves a dedicated document, which hopefully will be
+ eventually written. Yet, although some of the concepts are the same,
+-here we assume that MMU is available and CPU can translate a virtual
++here we assume that an MMU is available and a CPU can translate a virtual
+ address to a physical address.
+ 
+ .. contents:: :local:
+@@ -21,10 +21,10 @@ Virtual Memory Primer
+ The physical memory in a computer system is a limited resource and
+ even for systems that support memory hotplug there is a hard limit on
+ the amount of memory that can be installed. The physical memory is not
+-necessary contiguous, it might be accessible as a set of distinct
++necessarily contiguous; it might be accessible as a set of distinct
+ address ranges. Besides, different CPU architectures, and even
+-different implementations of the same architecture have different view
+-how these address ranges defined.
++different implementations of the same architecture have different views
++of how these address ranges are defined.
+ 
+ All this makes dealing directly with physical memory quite complex and
+ to avoid this complexity a concept of virtual memory was developed.
+@@ -48,8 +48,8 @@ appropriate kernel configuration option.
+ 
+ Each physical memory page can be mapped as one or more virtual
+ pages. These mappings are described by page tables that allow
+-translation from virtual address used by programs to real address in
+-the physical memory. The page tables organized hierarchically.
++translation from a virtual address used by programs to the physical
++memory address. The page tables are organized hierarchically.
+ 
+ The tables at the lowest level of the hierarchy contain physical
+ addresses of actual pages used by the software. The tables at higher
+@@ -121,8 +121,8 @@ Nodes
+ Many multi-processor machines are NUMA - Non-Uniform Memory Access -
+ systems. In such systems the memory is arranged into banks that have
+ different access latency depending on the "distance" from the
+-processor. Each bank is referred as `node` and for each node Linux
+-constructs an independent memory management subsystem. A node has it's
++processor. Each bank is referred to as a `node` and for each node Linux
++constructs an independent memory management subsystem. A node has its
+ own set of zones, lists of free and used pages and various statistics
+ counters. You can find more details about NUMA in
+ :ref:`Documentation/vm/numa.rst <numa>` and in
+@@ -149,9 +149,9 @@ for program's stack and heap or by explicit calls to mmap(2) system
+ call. Usually, the anonymous mappings only define virtual memory areas
+ that the program is allowed to access. The read accesses will result
+ in creation of a page table entry that references a special physical
+-page filled with zeroes. When the program performs a write, regular
++page filled with zeroes. When the program performs a write, a regular
+ physical page will be allocated to hold the written data. The page
+-will be marked dirty and if the kernel will decide to repurpose it,
++will be marked dirty and if the kernel decides to repurpose it,
+ the dirty page will be swapped out.
+ 
+ Reclaim
+@@ -181,8 +181,8 @@ pressure.
+ The process of freeing the reclaimable physical memory pages and
+ repurposing them is called (surprise!) `reclaim`. Linux can reclaim
+ pages either asynchronously or synchronously, depending on the state
+-of the system. When system is not loaded, most of the memory is free
+-and allocation request will be satisfied immediately from the free
++of the system. When the system is not loaded, most of the memory is free
++and allocation requests will be satisfied immediately from the free
+ pages supply. As the load increases, the amount of the free pages goes
+ down and when it reaches a certain threshold (high watermark), an
+ allocation request will awaken the ``kswapd`` daemon. It will
+@@ -190,7 +190,7 @@ asynchronously scan memory pages and either just free them if the data
+ they contain is available elsewhere, or evict to the backing storage
+ device (remember those dirty pages?). As memory usage increases even
+ more and reaches another threshold - min watermark - an allocation
+-will trigger the `direct reclaim`. In this case allocation is stalled
++will trigger `direct reclaim`. In this case allocation is stalled
+ until enough memory pages are reclaimed to satisfy the request.
+ 
+ Compaction
+@@ -200,7 +200,7 @@ As the system runs, tasks allocate and free the memory and it becomes
+ fragmented. Although with virtual memory it is possible to present
+ scattered physical pages as virtually contiguous range, sometimes it is
+ necessary to allocate large physically contiguous memory areas. Such
+-need may arise, for instance, when a device driver requires large
++need may arise, for instance, when a device driver requires a large
+ buffer for DMA, or when THP allocates a huge page. Memory `compaction`
+ addresses the fragmentation issue. This mechanism moves occupied pages
+ from the lower part of a memory zone to free pages in the upper part
+@@ -208,15 +208,16 @@ of the zone. When a compaction scan is finished free pages are grouped
+ together at the beginning of the zone and allocations of large
+ physically contiguous areas become possible.
+ 
+-Like reclaim, the compaction may happen asynchronously in ``kcompactd``
+-daemon or synchronously as a result of memory allocation request.
++Like reclaim, the compaction may happen asynchronously in the ``kcompactd``
++daemon or synchronously as a result of a memory allocation request.
+ 
+ OOM killer
+ ==========
+ 
+-It may happen, that on a loaded machine memory will be exhausted. When
+-the kernel detects that the system runs out of memory (OOM) it invokes
+-`OOM killer`. Its mission is simple: all it has to do is to select a
+-task to sacrifice for the sake of the overall system health. The
+-selected task is killed in a hope that after it exits enough memory
+-will be freed to continue normal operation.
++It is possible that on a loaded machine memory will be exhausted and the
++kernel will be unable to reclaim enough memory to continue to operate. In
++order to save the rest of the system, it invokes the `OOM killer`.
++
++The `OOM killer` selects a task to sacrifice for the sake of the overall
++system health. The selected task is killed in a hope that after it exits
++enough memory will be freed to continue normal operation.
 -- 
-Masami Hiramatsu <mhiramat@kernel.org>
+2.7.4
+
