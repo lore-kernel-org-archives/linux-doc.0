@@ -1,36 +1,32 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E4CAE7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 19:25:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 02C1B7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 19:46:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726101AbeKMFTl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 00:19:41 -0500
-Received: from mail-eopbgr770058.outbound.protection.outlook.com ([40.107.77.58]:18653
-        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725749AbeKMFTl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Nov 2018 00:19:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7Atv5UxUbn4vkFo27QWN4sZFLv2ZlabqzudmB0JN1Ic=;
- b=pdSXh3ouQA05nwCanskOoXg1TpDUJHdE7NLwAfwJrnM4UhWmT//Nn2kkhw/H3kN3RMB8uQmgEt4s+rmqiCKNkVjlTZDFAQdVaKER6HX/7ARaoVxdYUd/Z7hP9E6zYK/tdVHTBRQrojwaHeifBEaeQWH3EwRXg4nL+gjGc1xHah8=
-Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
- DM5PR12MB1450.namprd12.prod.outlook.com (10.172.38.139) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1294.20; Mon, 12 Nov 2018 19:25:02 +0000
-Received: from DM5PR12MB2471.namprd12.prod.outlook.com
- ([fe80::4c23:f551:bc6a:554e]) by DM5PR12MB2471.namprd12.prod.outlook.com
- ([fe80::4c23:f551:bc6a:554e%4]) with mapi id 15.20.1294.045; Mon, 12 Nov 2018
- 19:25:02 +0000
-From:   "Moger, Babu" <Babu.Moger@amd.com>
-To:     Borislav Petkov <bp@alien8.de>
-CC:     "tglx@linutronix.de" <tglx@linutronix.de>,
+        id S1729553AbeKMFkt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 00:40:49 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:56688 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725749AbeKMFkt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Nov 2018 00:40:49 -0500
+X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
+Received: from mail.skyhub.de ([127.0.0.1])
+        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id Xnd2I_qq2v-Z; Mon, 12 Nov 2018 20:46:07 +0100 (CET)
+Received: from zn.tnic (p200300EC2BE56F00329C23FFFEA6A903.dip0.t-ipconnect.de [IPv6:2003:ec:2be5:6f00:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 218CF1EC03EA;
+        Mon, 12 Nov 2018 20:46:07 +0100 (CET)
+Date:   Mon, 12 Nov 2018 20:46:00 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Moger, Babu" <Babu.Moger@amd.com>
+Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
         "mingo@redhat.com" <mingo@redhat.com>,
         "corbet@lwn.net" <corbet@lwn.net>,
         "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
@@ -64,81 +60,58 @@ CC:     "tglx@linutronix.de" <tglx@linutronix.de>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
 Subject: Re: [PATCH v7 02/13] arch/x86: Rename the RDT functions and
  definitions
-Thread-Topic: [PATCH v7 02/13] arch/x86: Rename the RDT functions and
- definitions
-Thread-Index: AQHUeG4fqjo7t998rUWNtgkgxfyZ6KVMcSAAgAAY0YA=
-Date:   Mon, 12 Nov 2018 19:25:02 +0000
-Message-ID: <539bf8ea-b13f-186a-f1c7-71b1eaa63aa7@amd.com>
+Message-ID: <20181112194600.GJ8167@zn.tnic>
 References: <20181109205153.14811-1-babu.moger@amd.com>
- <20181109205153.14811-3-babu.moger@amd.com> <20181112175610.GI8167@zn.tnic>
-In-Reply-To: <20181112175610.GI8167@zn.tnic>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: SN2PR01CA0083.prod.exchangelabs.com (2603:10b6:800::51) To
- DM5PR12MB2471.namprd12.prod.outlook.com (2603:10b6:4:b5::10)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Babu.Moger@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [165.204.78.1]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;DM5PR12MB1450;20:556V5LvWSX9V574Iri/u7j2ev+jXnocZvZWAhmI2V8mfe62I2L3TAWYmSA5Y7h4jYJrHmh4Riy+9l03giy7vPKi+NrJhjT+xXSta54CZsiVqRIl5tMm4jSKPG08oUsjO4k6YrtmQ6ydgI2r6CZmXmxexOPIexVfpj0zs9bv9gvlW4+SibPNlKJwSymL5gtp8iKEMjeA3HWSMCt7KpuqoMKFp8hwbkkBYcl+QS2N/NIqf2Qkchms6zp5R3j/R6v3p
-x-ms-office365-filtering-correlation-id: 838513c4-70e8-468a-3577-08d648d48adc
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390040)(7020095)(4652040)(8989299)(5600074)(711020)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:DM5PR12MB1450;
-x-ms-traffictypediagnostic: DM5PR12MB1450:
-x-microsoft-antispam-prvs: <DM5PR12MB1450027E6C0ACC6FAB470CEE95C10@DM5PR12MB1450.namprd12.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(788757137089)(767451399110);
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3231382)(944501410)(52105112)(3002001)(10201501046)(93006095)(93001095)(6055026)(148016)(149066)(150057)(6041310)(20161123558120)(20161123562045)(20161123564045)(20161123560045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(201708071742011)(7699051)(76991095);SRVR:DM5PR12MB1450;BCL:0;PCL:0;RULEID:;SRVR:DM5PR12MB1450;
-x-forefront-prvs: 0854128AF0
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(396003)(376002)(366004)(39860400002)(136003)(189003)(199004)(2616005)(52116002)(486006)(76176011)(71200400001)(186003)(71190400001)(102836004)(26005)(446003)(11346002)(6436002)(53936002)(6512007)(476003)(66066001)(2906002)(31696002)(53546011)(6506007)(386003)(6486002)(86362001)(7406005)(106356001)(36756003)(6116002)(3846002)(31686004)(54906003)(7416002)(7736002)(99286004)(305945005)(6916009)(5660300001)(105586002)(316002)(68736007)(229853002)(97736004)(25786009)(256004)(8936002)(2900100001)(4326008)(8676002)(72206003)(81156014)(81166006)(14454004)(6246003)(478600001);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1450;H:DM5PR12MB2471.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-microsoft-antispam-message-info: RYyekLQMqswiW1k7B/R8+3cplzG7ppN4fvTRm1RoSizLrPY8BTXt2HcnRgnb0Ys8pZm8RB536WipRkYNOr4Tk7fIfplPcJ5gF0WAvSNXAeN9tPb9t2wSxf0KO07tIubJOqm7QEXWuoN5AWgnYpj5LzZJDviiu//SXU4ynoRpwduhYCB1jQh1KWfmhIjZQxEVFy8IGiJLBSHsbYODAgUzBSW9VEze3+//W53/GxNCcgbBzevYJJ/sCQluKOUtHPPRPbQcUq0fLRIOC0V+DU6bp0IrlIpCrAgbwfmFE3ZWGoZqAe7gOvPbX54pfnaygFW5nnXiRXEb1y+XEZ4uXjsO29tA6oRbSAqFAnvwbkGzzSY=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <2ED800B33C63E241A2F449395391AE15@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ <20181109205153.14811-3-babu.moger@amd.com>
+ <20181112175610.GI8167@zn.tnic>
+ <539bf8ea-b13f-186a-f1c7-71b1eaa63aa7@amd.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 838513c4-70e8-468a-3577-08d648d48adc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2018 19:25:02.3450
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1450
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <539bf8ea-b13f-186a-f1c7-71b1eaa63aa7@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Qm9yaXMsDQoNCk9uIDExLzEyLzE4IDExOjU2IEFNLCBCb3Jpc2xhdiBQZXRrb3Ygd3JvdGU6DQo+
-IE9uIEZyaSwgTm92IDA5LCAyMDE4IGF0IDA4OjUyOjI3UE0gKzAwMDAsIE1vZ2VyLCBCYWJ1IHdy
-b3RlOg0KPj4gQXMgQU1EIGlzIHN0YXJ0aW5nIHRvIHN1cHBvcnQgUkRUKG9yIFFPUykgZmVhdHVy
-ZXMsIHJlbmFtZQ0KPj4gdGhlIFJEVCBmdW5jdGlvbnMgYW5kIGRlZmluaXRpb25zIHRvIG1vcmUg
-Z2VuZXJpYyBuYW1lcy4NCj4+DQo+PiBSZXBsYWNlIGludGVsX3JkdCB0byByZXNjdHJsIHdoZXJl
-IGFwcGxpY2FibGUuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogQmFidSBNb2dlciA8YmFidS5tb2dl
-ckBhbWQuY29tPg0KPj4gLS0tDQo+PiAgYXJjaC94ODYvaW5jbHVkZS9hc20vcmVzY3RybF9zY2hl
-ZC5oICAgfCAyNCArKysrKysrKysrKystLS0tLS0tLS0tLS0NCj4+ICBhcmNoL3g4Ni9rZXJuZWwv
-Y3B1L3Jlc2N0cmwuYyAgICAgICAgICB8IDI2ICsrKysrKysrKysrKystLS0tLS0tLS0tLS0tDQo+
-PiAgYXJjaC94ODYva2VybmVsL2NwdS9yZXNjdHJsLmggICAgICAgICAgfCAgMiArLQ0KPj4gIGFy
-Y2gveDg2L2tlcm5lbC9jcHUvcmVzY3RybF9tb25pdG9yLmMgIHwgMTEgKysrKysrLS0tLS0NCj4+
-ICBhcmNoL3g4Ni9rZXJuZWwvY3B1L3Jlc2N0cmxfcmR0Z3JvdXAuYyB8IDEwICsrKysrLS0tLS0N
-Cj4+ICBhcmNoL3g4Ni9rZXJuZWwvcHJvY2Vzc18zMi5jICAgICAgICAgICB8ICAyICstDQo+PiAg
-YXJjaC94ODYva2VybmVsL3Byb2Nlc3NfNjQuYyAgICAgICAgICAgfCAgMiArLQ0KPj4gIDcgZmls
-ZXMgY2hhbmdlZCwgMzkgaW5zZXJ0aW9ucygrKSwgMzggZGVsZXRpb25zKC0pDQo+IA0KPiBBcyB3
-aXRoIHBhdGNoIDEsIHBscyBmaXggc3ViamVjdCBwcmVmaXguDQo+IA0KT2suIFN1cmUuDQoNCj4+
-IEBAIC02MzcsMTAgKzYzNywxMSBAQCBpbnQgcmR0X2dldF9tb25fbDNfY29uZmlnKHN0cnVjdCBy
-ZHRfcmVzb3VyY2UgKnIpDQo+PiAgCSAqDQo+PiAgCSAqIEZvciBhIDM1TUIgTExDIGFuZCA1NiBS
-TUlEcywgdGhpcyBpcyB+MS44JSBvZiB0aGUgTExDLg0KPj4gIAkgKi8NCj4+IC0JaW50ZWxfY3Ft
-X3RocmVzaG9sZCA9IGJvb3RfY3B1X2RhdGEueDg2X2NhY2hlX3NpemUgKiAxMDI0IC8gci0+bnVt
-X3JtaWQ7DQo+PiArCXJlc2N0cmxfY3FtX3RocmVzaG9sZCA9IGJvb3RfY3B1X2RhdGEueDg2X2Nh
-Y2hlX3NpemUgKiAxMDI0IC8NCj4+ICsJCQkJci0+bnVtX3JtaWQ7DQo+IA0KPiBObyBuZWVkIHRv
-IGJyZWFrIHRoYXQgbGluZSBoZXJlLg0KDQpXaXRob3V0IHRoZSBsaW5lIGJyZWFrLCBjaGVja3Bh
-dGNoIGNvbXBsYWlucyBmb3IgImxpbmUgb3ZlciA4MA0KY2hhcmFjdGVycyIuICBEbyB5b3UgdGhp
-bmsgd2UgY2FuIGlnbm9yZSB0aG9zZT8NCj4gDQo+IFdpdGggdGhhdCBhZGRyZXNzZWQgYW5kIEZX
-SVc6DQo+IA0KPiBSZXZpZXdlZC1ieTogQm9yaXNsYXYgUGV0a292IDxicEBzdXNlLmRlPg0KPiAN
-Cg==
+On Mon, Nov 12, 2018 at 07:25:02PM +0000, Moger, Babu wrote:
+> >> @@ -637,10 +637,11 @@ int rdt_get_mon_l3_config(struct rdt_resource *r)
+> >>  	 *
+> >>  	 * For a 35MB LLC and 56 RMIDs, this is ~1.8% of the LLC.
+> >>  	 */
+> >> -	intel_cqm_threshold = boot_cpu_data.x86_cache_size * 1024 / r->num_rmid;
+> >> +	resctrl_cqm_threshold = boot_cpu_data.x86_cache_size * 1024 /
+> >> +				r->num_rmid;
+> > 
+> > No need to break that line here.
+> 
+> Without the line break, checkpatch complains for "line over 80
+> characters".  Do you think we can ignore those?
+
+To quote from the tip handbook which is in preparation right now:
+
+"+The 80 character rule is not a strict rule, so please use common sense when
+ +breaking lines."
+
+In this particular case, it is more readable IMO to leave the line unbroken:
+
+	resctrl_cqm_threshold = boot_cpu_data.x86_cache_size * 1024 / r->num_rmid;
+
+What is even more readable though is:
+
+	unsigned int cl_size = boot_cpu_data.x86_cache_size;
+
+	...
+
+	resctrl_cqm_threshold = cl_size * 1024 / r->num_rmid;
+
+and now you have a win-win situation. :)
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
