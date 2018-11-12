@@ -5,43 +5,44 @@ X-Spam-Status: No, score=-6.7 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
 	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5E7B57D08E
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 08:51:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8E3AC7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 09:00:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728613AbeKLSnf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Nov 2018 13:43:35 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43036 "EHLO mail.kernel.org"
+        id S1728529AbeKLSxB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Nov 2018 13:53:01 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45680 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726207AbeKLSnf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Nov 2018 13:43:35 -0500
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+        id S1728400AbeKLSxB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Nov 2018 13:53:01 -0500
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7FBEF223CB;
-        Mon, 12 Nov 2018 08:51:22 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 636B4223CB;
+        Mon, 12 Nov 2018 09:00:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1542012682;
-        bh=32atDAVK8kDmfqg/3myjR3Mw8iFlsaExz9wi01JAhDg=;
+        s=default; t=1542013246;
+        bh=CXFRI9xpMkAIufqjmbpESzkJVagAVVh0/xAPM2ArlXw=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=YVTEBggglmcwoNX/uNTpa3SINbJBtqiMbqhp0daOoqxHlfYWavvQUnJwWqaLEgErE
-         /Y5LtFGIboK1g6VPEAdsB41FMKQirBlxaRPLzdF6s4jkCZicL3bvcXUGIJR8gH3GOL
-         kdmJDYr6D1Mp4Zmp68KgL+5ZdTyrmXFy+5/Zi6hI=
-Received: by mail-lf1-f44.google.com with SMTP id h192so5576775lfg.3;
-        Mon, 12 Nov 2018 00:51:22 -0800 (PST)
-X-Gm-Message-State: AGRZ1gJakXhdZ6obqIgiulU+e1sw4ghbfOWuT8IoSa8X7bahSN7DtLzb
-        gCqP7iEA4ouGXvjywEoMuQKITxLlPYYlnOvlu4c=
-X-Google-Smtp-Source: AJdET5cZ1BdL4oocgMfTHvKU/Q5dStgdchTi98zo3a46akFDHjtFqumTo0yqgiW4jrHlNdOU2SRKtGZ33PBCj0Y6UyA=
-X-Received: by 2002:a19:a502:: with SMTP id o2mr68514lfe.92.1542012680474;
- Mon, 12 Nov 2018 00:51:20 -0800 (PST)
+        b=M1J759hzVv9ljiCjcSCe5UehLFG4z19roNouS8lGRZVk5moY2hr5eOKBfB0Xj79qY
+         v2u+AqXlvI4/6R5e0SEUgYarNgQnk00LNSpd+wO6WuZPIfKE25Lu+aOtS4citpqF2r
+         FWGI/Cl0yzm+Is0B39VnUDb5h0G6dzPRrORyfXKg=
+Received: by mail-lj1-f176.google.com with SMTP id e5-v6so6882623lja.4;
+        Mon, 12 Nov 2018 01:00:46 -0800 (PST)
+X-Gm-Message-State: AGRZ1gLJHuU6NGs0QLZbaxWktzV1mHsjy5ImaLSXMWc9DCIS8cWl2/ld
+        N6t5ft0kqHrqKX2TMRm8lAjkrYZajU/uz/M74EU=
+X-Google-Smtp-Source: AJdET5fqUn5egnyujNHuiwlzZogSjmHoLrt/X9DZwmzoQJFmeHooyJy4T9qNKl1pUMVrgV/go4qWjfxrk1fP1Ed6CAo=
+X-Received: by 2002:a2e:85d3:: with SMTP id h19-v6mr100345ljj.82.1542013244507;
+ Mon, 12 Nov 2018 01:00:44 -0800 (PST)
 MIME-Version: 1.0
-References: <CGME20181107171039eucas1p2227bd4bc573fd0d2a3a97986004be16b@eucas1p2.samsung.com>
- <1541610593-28542-1-git-send-email-l.luba@partner.samsung.com> <1541610593-28542-6-git-send-email-l.luba@partner.samsung.com>
-In-Reply-To: <1541610593-28542-6-git-send-email-l.luba@partner.samsung.com>
+References: <CGME20181107171041eucas1p1a3cf91435b9071fd6e6f84101ebbcd9f@eucas1p1.samsung.com>
+ <1541610593-28542-1-git-send-email-l.luba@partner.samsung.com> <1541610593-28542-7-git-send-email-l.luba@partner.samsung.com>
+In-Reply-To: <1541610593-28542-7-git-send-email-l.luba@partner.samsung.com>
 From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Mon, 12 Nov 2018 09:51:09 +0100
-X-Gmail-Original-Message-ID: <CAJKOXPedw6OD1fWWVkYozgR03AWKz5t_-vWw0MV1jVGVR_UGTA@mail.gmail.com>
-Message-ID: <CAJKOXPedw6OD1fWWVkYozgR03AWKz5t_-vWw0MV1jVGVR_UGTA@mail.gmail.com>
-Subject: Re: [PATCH v2 05/11] Doc: DT: thermal: new irq-mode for trip point
+Date:   Mon, 12 Nov 2018 10:00:33 +0100
+X-Gmail-Original-Message-ID: <CAJKOXPcGOiVwVuaT+2RHGs0VxA2XRjOd6efsDQaGrWWCJS7vNg@mail.gmail.com>
+Message-ID: <CAJKOXPcGOiVwVuaT+2RHGs0VxA2XRjOd6efsDQaGrWWCJS7vNg@mail.gmail.com>
+Subject: Re: [PATCH v2 06/11] arm64: dts: exynos5433: add support for thermal
+ trip irq-mode
 To:     l.luba@partner.samsung.com
 Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -49,85 +50,75 @@ Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         daniel.lezcano@linaro.org, robh+dt@kernel.org,
         mark.rutland@arm.com, corbet@lwn.net,
         =?UTF-8?B?QmFydMWCb21pZWogxbtvxYJuaWVya2lld2ljeg==?= 
-        <b.zolnierkie@samsung.com>
+        <b.zolnierkie@samsung.com>, kgene@kernel.org,
+        "linux-samsung-soc@vger.kernel.org" 
+        <linux-samsung-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Thanks Lukasz for patches. I like your work!
+
+I have few more comments which will probably apply for all the DTS commits.
+
 On Wed, 7 Nov 2018 at 18:10, Lukasz Luba <l.luba@partner.samsung.com> wrote:
 >
+> This patch adds support for new flag which indicates
 
-Subject prefix:
-dt-bindings: thermal:
+This patch does not add support. Support for flag was added in your
+first drivers/thermal patches in this set. This patch adds new flag.
+(and does something more, so read on)
 
-> Thermal trip point gets new flag in DT: irq-mode.
-> Trip point may have a new explicit flag which indicate
-> IRQ support when the temperature is met (so the thermal framework
-> deos not need to set polling for it).
-> It is useful for 'passive' cooling trip point,
-> which now will not register for polling the temperature.
+> that trip point triggers IRQ when temperature is met.
+> Exynos5433 supports 8 trip point which will trigger IRQ.
 
-You wrap lines in weird way making it more difficult to read.
-I already asked about this while reviewing v1. Please fix it.
-https://elixir.bootlin.com/linux/latest/source/Documentation/process/submitting-patches.rst#L633
+/8 trip point/8 trip points/
+
+> Above that number other trip points should be registered
+> without 'irq-mode' flag.
+
+Please fix the line-wrap.
 
 >
-> Update documentation about irq-mode for trip points.
->
-> Cc: Zhang Rui <rui.zhang@intel.com>
-> Cc: Eduardo Valentin <edubezval@gmail.com>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Kukjin Kim <kgene@kernel.org>
+> Cc: Krzysztof Kozlowski <krzk@kernel.org>
 > Cc: devicetree@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-samsung-soc@vger.kernel.org
 > Signed-off-by: Lukasz Luba <l.luba@partner.samsung.com>
 > ---
->  Documentation/devicetree/bindings/thermal/thermal.txt | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi | 105 ++++++++++++++++---------
+>  1 file changed, 70 insertions(+), 35 deletions(-)
 >
-> diff --git a/Documentation/devicetree/bindings/thermal/thermal.txt b/Documentation/devicetree/bindings/thermal/thermal.txt
-> index ca14ba9..bee21e3 100644
-> --- a/Documentation/devicetree/bindings/thermal/thermal.txt
-> +++ b/Documentation/devicetree/bindings/thermal/thermal.txt
-> @@ -90,6 +90,10 @@ Required properties:
->         "critical":     Hardware not reliable.
->    Type: string
->
-> +- irq-mode:            A flag indicating that trip rises irq, so there is no
+> diff --git a/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi b/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi
+> index fe3a0b1..c4330f6 100644
+> --- a/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi
+> +++ b/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi
+> @@ -17,37 +17,44 @@ thermal-zones {
+>                         atlas0_alert_0: atlas0-alert-0 {
+>                                 temperature = <65000>;  /* millicelsius */
+>                                 hysteresis = <1000>;    /* millicelsius */
+> -                               type = "active";
+> +                               type = "passive";
 
-"rises IRQ" (it is an abbreviation).
+This change is not explained in commit msg.
+
+Basically you are doing here two things (related to each other). You
+clearly define which trip points are IRQ-type and you correct the type
+of trip point. Active is incorrect. This second thing is missing in
+your commit msg and I believe it is main reason behind this patch. You
+should focus then on this reason - start from it. Subject could be
+like "Use proper passive type for thermal trip points".
+
+Without this explanation I don't see the strong reason behind that
+patch. IOW, everything was working fine before... so why adding this
+new flag? Or maybe something was not fine... and then it is real
+reason why you are sending the patch. Usually commit message should
+answer to the most important question "WHY". Now, it explains
+"WHAT"... but I can see it from the source code. However from the code
+it is not easy to guess WHY.
 
 Best regards,
 Krzysztof
-
-> +  Type: bool           need of polling in thermal framework.
-> +  Size: one cell
-> +
->  * Cooling device maps
->
->  The cooling device maps node is a node to describe how cooling devices
-> @@ -256,16 +260,19 @@ thermal-zones {
->                                 temperature = <90000>; /* millicelsius */
->                                 hysteresis = <2000>; /* millicelsius */
->                                 type = "active";
-> +                               irq-mode;
->                         };
->                         cpu_alert1: cpu-alert1 {
->                                 temperature = <100000>; /* millicelsius */
->                                 hysteresis = <2000>; /* millicelsius */
->                                 type = "passive";
-> +                               irq-mode;
->                         };
->                         cpu_crit: cpu-crit {
->                                 temperature = <125000>; /* millicelsius */
->                                 hysteresis = <2000>; /* millicelsius */
->                                 type = "critical";
-> +                               irq-mode;
->                         };
->                 };
->
-> --
-> 2.7.4
->
