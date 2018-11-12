@@ -5,44 +5,44 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 99AAF7D982
+	by archive.lwn.net (Postfix) with ESMTP id C3E2C7DC5B
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 09:57:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729426AbeKLTuB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Nov 2018 14:50:01 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:50839 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729343AbeKLTuA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Nov 2018 14:50:00 -0500
-Received: by mail-wm1-f66.google.com with SMTP id 124-v6so7858303wmw.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Nov 2018 01:57:31 -0800 (PST)
+        id S1729447AbeKLTuD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Nov 2018 14:50:03 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:38622 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729427AbeKLTuC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Nov 2018 14:50:02 -0500
+Received: by mail-wm1-f68.google.com with SMTP id f2-v6so7461815wme.3
+        for <linux-doc@vger.kernel.org>; Mon, 12 Nov 2018 01:57:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=95cHSgXhObq6AUCu/Rr/+wEQTPHLVt9I8/orFJ2tnV8=;
-        b=ZntydDL3A95QZ0Q9bqPS7efY9/AnOcRfFMoWhJjuF9Gk55eXToWWO0MFVufb41xZUb
-         nHLiTbmFBZG9+1cdt8aSYqRhhgzNW6mvo/J47vdQ+DPObGyWLAiX1dVnw6VnyGsWrHIX
-         7rTjNGD9VyfMoQr33985it7yVDU+01tI7ZnNQ=
+        bh=MpOWBJhYX62m+dv0e4xXNBLs0Dhr3TZXbDUpfWqj7Ic=;
+        b=VFGD5aONmJPgDKVWuSsADhnuupo20davPrcXxMNwaQMZewp7EC2pNfPmhVeF7QXgpS
+         akGJu9VK0L9wXDLo3UCtHJXHfph1HyHmjiXaGZ/dtlh85gW/caRxP0MJp6ZsuOqy8afm
+         oR3leMzaETYNT3djwxxEJi91rWG0izRRGxgJ0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=95cHSgXhObq6AUCu/Rr/+wEQTPHLVt9I8/orFJ2tnV8=;
-        b=OMSh9r5Esmu+qkJb+p6cmYLgbCotre94+UYmWzTEwVS+Of8clpxzVFTwn6+oLDWhwj
-         Lfe+aO+uiY5v26NoUo+kSnLNSJkjGYEAwrtKZXpDP41G3zDrdcVdPnz8SGzo+2yfWrje
-         rASSz69LbnuVBxJFoX+equ4K+Wi1SGAuNqRshFXVjajMNncb7iAR34GIkzIJS+WNtP0/
-         9hhnCpyJXmyEocL2wrjEJLVvg4jd/e5GQsd98xE7IuxmfJVdZR8iQMO0Q69eWKlDYsRi
-         xUC8neZ1SBs/6eRrF957HHGzeHJQIYeogEIjykeYzYtHqWc4it1KQJ1apT2wcgtXRsQe
-         k8ZQ==
-X-Gm-Message-State: AGRZ1gIdFKjLeYNNTroSlpc3hB9WANqfF7j954gVX29WuHrW4wMrqlMD
-        R9bRxGHeOAkvFbauCOBNm6wbuw==
-X-Google-Smtp-Source: AJdET5eIJV6u6HegcE4uV2vFatX404HGAoD92vBcn00/LSxYXW6IXRwdLIzD2IsbIvSV20KQIm8j7w==
-X-Received: by 2002:a1c:3b06:: with SMTP id i6-v6mr6807918wma.18.1542016650265;
-        Mon, 12 Nov 2018 01:57:30 -0800 (PST)
+        bh=MpOWBJhYX62m+dv0e4xXNBLs0Dhr3TZXbDUpfWqj7Ic=;
+        b=tWzKZDBDMn62guaFPjIxPoIOoPUKkKDO498jqRRhIk3rTzu72Ndb5hA3Sy3mC7CTmR
+         94bnRdSD2QybQ2pUIy9yWFJyfAbP8K0Mw5twNsCHqSXnZXfePGToQUVkNH5Tql/Di2rx
+         440SQIb6LTneMqTQFVaw8cYS+NuzkTatdJH/aiC5LGudG3iiL7DAiAZRB9Bc3kDcXD5J
+         EFBmgS52PnNeRDblp2SSrFBVLphupe4dVCF/KDxMKcN9oJ32kOquOQ/cZqtjR6b0J26R
+         ah5Rc0SmPJKnH6VuBTeb4WCZMlaclCp8/eDw2jpmdbD441KJykF+NDEiTI5o2Yc0XcEB
+         aE5w==
+X-Gm-Message-State: AGRZ1gKyJAV2xs7o0eGAHI/Gf3QWcCsP/JqINHdUicOJVoqHgMo06HEZ
+        Y5PVY4DsPmDjmFBP5oAtsmVOEQ==
+X-Google-Smtp-Source: AJdET5fFs+lCHzRwboWRo84U8qMS4Iw1ZzFVDfw3E3P+yyuWPwOR1BS7Eetdc7j7kFYPiTHMWupTEg==
+X-Received: by 2002:a1c:111:: with SMTP id 17-v6mr1356272wmb.55.1542016652729;
+        Mon, 12 Nov 2018 01:57:32 -0800 (PST)
 Received: from localhost.localdomain ([93.68.220.21])
-        by smtp.gmail.com with ESMTPSA id r14-v6sm21273089wro.8.2018.11.12.01.57.28
+        by smtp.gmail.com with ESMTPSA id r14-v6sm21273089wro.8.2018.11.12.01.57.30
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 12 Nov 2018 01:57:29 -0800 (PST)
+        Mon, 12 Nov 2018 01:57:32 -0800 (PST)
 From:   Paolo Valente <paolo.valente@linaro.org>
 To:     Jens Axboe <axboe@kernel.dk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -59,9 +59,9 @@ Cc:     linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
         oleksandr@natalenko.name, cgroups@vger.kernel.org,
         linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Paolo Valente <paolo.valente@linaro.org>
-Subject: [PATCH 11/12] doc, bfq-iosched: fix a few clerical errors
-Date:   Mon, 12 Nov 2018 10:56:31 +0100
-Message-Id: <20181112095632.69114-12-paolo.valente@linaro.org>
+Subject: [PATCH 12/12] doc, bfq-iosched: make it consistent with the new cgroup interface
+Date:   Mon, 12 Nov 2018 10:56:32 +0100
+Message-Id: <20181112095632.69114-13-paolo.valente@linaro.org>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20181112095632.69114-1-paolo.valente@linaro.org>
 References: <20181112095632.69114-1-paolo.valente@linaro.org>
@@ -70,45 +70,66 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit fixes a few clerical errors in
-Documentation/block/bfq-iosched.txt.
+BFQ now shares interface files with CFQ, for the proportional-share
+policy. Make documentation consistent with that.
 
 Signed-off-by: Paolo Valente <paolo.valente@linaro.org>
 ---
- Documentation/block/bfq-iosched.txt | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/block/bfq-iosched.txt | 25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
 
 diff --git a/Documentation/block/bfq-iosched.txt b/Documentation/block/bfq-iosched.txt
-index 8d8d8f06cab2..6d7dd5ab8554 100644
+index 6d7dd5ab8554..b1faf091266e 100644
 --- a/Documentation/block/bfq-iosched.txt
 +++ b/Documentation/block/bfq-iosched.txt
-@@ -42,7 +42,7 @@ sustainable throughputs, on the same systems as above:
+@@ -508,12 +508,11 @@ process.
+ To get proportional sharing of bandwidth with BFQ for a given device,
+ BFQ must of course be the active scheduler for that device.
  
- BFQ works for multi-queue devices too.
+-Within each group directory, the names of the files associated with
+-BFQ-specific cgroup parameters and stats begin with the "bfq."
+-prefix. So, with cgroups-v1 or cgroups-v2, the full prefix for
+-BFQ-specific files is "blkio.bfq." or "io.bfq." For example, the group
+-parameter to set the weight of a group with BFQ is blkio.bfq.weight
+-or io.bfq.weight.
++BFQ shares interface files with CFQ. So, if one reads/writes a file
++provided by the proportional share policy for a group, then the
++associated operation is performed by/on BFQ for each device where BFQ
++is the active scheduler, and by/on CFQ for each device where CFQ is
++the active scheduler.
  
--The table of contents follow. Impatients can just jump to Section 3.
-+The table of contents follows. Impatients can just jump to Section 3.
+ As for cgroups-v1 (blkio controller), the exact set of stat files
+ created, and kept up-to-date by bfq, depends on whether
+@@ -521,13 +520,13 @@ CONFIG_DEBUG_BLK_CGROUP is set. If it is set, then bfq creates all
+ the stat files documented in
+ Documentation/cgroup-v1/blkio-controller.txt. If, instead,
+ CONFIG_DEBUG_BLK_CGROUP is not set, then bfq creates only the files
+-blkio.bfq.io_service_bytes
+-blkio.bfq.io_service_bytes_recursive
+-blkio.bfq.io_serviced
+-blkio.bfq.io_serviced_recursive
++blkio.io_service_bytes
++blkio.io_service_bytes_recursive
++blkio.io_serviced
++blkio.io_serviced_recursive
  
- CONTENTS
+ The value of CONFIG_DEBUG_BLK_CGROUP greatly influences the maximum
+-throughput sustainable with bfq, because updating the blkio.bfq.*
++throughput sustainable with BFQ, because updating the blkio.*
+ stats is rather costly, especially for some of the stats enabled by
+ CONFIG_DEBUG_BLK_CGROUP.
  
-@@ -51,7 +51,7 @@ CONTENTS
-  1-2 Server systems
- 2. How does BFQ work?
- 3. What are BFQ's tunables and how to properly configure BFQ?
--4. BFQ group scheduling
-+4. Group scheduling with BFQ
-  4-1 Service guarantees provided
-  4-2 Interface
+@@ -536,8 +535,8 @@ Parameters to set
  
-@@ -294,7 +294,7 @@ too.
- per-process ioprio and weight
- -----------------------------
+ For each group, there is only the following parameter to set.
  
--Unless the cgroups interface is used (see "4. BFQ group scheduling"),
-+Unless the cgroups interface is used (see "4. Group scheduling with BFQ"),
- weights can be assigned to processes only indirectly, through I/O
- priorities, and according to the relation:
- weight = (IOPRIO_BE_NR - ioprio) * 10.
+-weight (namely blkio.bfq.weight or io.bfq-weight): the weight of the
+-group inside its parent. Available values: 1..10000 (default 100). The
++weight (namely blkio.weight or io.weight): the weight of the group
++inside its parent. Available values: 1..10000 (default 100). The
+ linear mapping between ioprio and weights, described at the beginning
+ of the tunable section, is still valid, but all weights higher than
+ IOPRIO_BE_NR*10 are mapped to ioprio 0.
 -- 
 2.16.1
 
