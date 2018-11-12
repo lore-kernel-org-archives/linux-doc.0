@@ -4,49 +4,49 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 59F327D08E
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 07:59:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 837887D8D4
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 08:00:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728205AbeKLRvq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Nov 2018 12:51:46 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:33516 "EHLO
+        id S1728273AbeKLRwQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Nov 2018 12:52:16 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:34788 "EHLO
         mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727953AbeKLRvq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Nov 2018 12:51:46 -0500
-Received: by mail-pf1-f193.google.com with SMTP id v68-v6so3937394pfk.0;
-        Sun, 11 Nov 2018 23:59:41 -0800 (PST)
+        with ESMTP id S1728237AbeKLRwQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Nov 2018 12:52:16 -0500
+Received: by mail-pf1-f193.google.com with SMTP id y18-v6so3933903pfn.1;
+        Mon, 12 Nov 2018 00:00:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=gpowqL+w2Ne75bt4kYQFfOXzMbNA3R0so6K5H0M7Kmc=;
-        b=knCpNufk8zi7ftSMpyrg26xBSBTAWw7OEOnKdAyslGSdfwiXjYb6pjRiPZPLgpr9tF
-         Ss8Q+KIJGDsS5Pz12vugmVTBnKpFpRtpEq/n0IkVUNTWT5V4CqRdWBxBWX1MP43iM5EH
-         lRu4FBlrOtSWxHeqBBa8ekEW83CxeLB3FxUsebRZpSiZsnoTmVk6c57x65xAQatPBneC
-         sU9ExNPqo15aSdlFr5UBrxk6qcgBJgOWVYUxiVYJrFeJuh/23NYlz3VxD6fQwzIwXaU8
-         5zC5RBUvHbqM6PTFgQDUKVy/lJ8v/dP2MRQHmR4iRCWt2RGaqorx0T2oKMSGgJ853+M/
-         PxKQ==
+        bh=CY3vB0FeuERzEd1T3PSQ+FurLD9j89gsR0xONZvoPyI=;
+        b=txqw74Bh7+oGNsYzqhrc6FRfyWpptCq1yZx48UdwlOQ4a846j/MccSbfGNPF9LN6WL
+         MyKqkuFXPn1HxDjBKsunfSjeaJN+iNkZlq31AYooDca9RyvRKvGMTeLDe/r9zCNryIMo
+         YrbR7U7r9aBKmP8T9aBDh4y4Zx0dmNGh4YBaCc8GMrsdofqsuKKrNgRid5+D7dt8XmVI
+         hRTaid7OXlesI36EFTx7klswmsBfpyxvdfkXAT2N2oaxBLIthjJUteEtDFBy8XWNoeT5
+         noSt7iDEi9Xqzezu9LNYb02IHKP9qLsJpB4l+9JLZlyvH0uA07rBfkXhqZ/Bf/mQbEId
+         Xmsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=gpowqL+w2Ne75bt4kYQFfOXzMbNA3R0so6K5H0M7Kmc=;
-        b=G4wqtAIQVRjpQsaIG3lvNQjmB6SqsxzgQkN2TptTfCBr5mr/5sakgg79bW738uAHzz
-         PZhVFa+Q7c+i98BhoaJaBxJ4MPIIzr0vK4tDFV4Dlum+1aJhCxZTVgGh2K3WwxUtFDtg
-         OHME86CokEmYWBlSe2gW1CHCG7Yb1BhuMIbdXQ7kQ6u69bQzmQqxxOmTaNN3xXpZUB55
-         xGD+upZG9AmYL2wL+wdTw30QO35a6CWT3a/8jnWt43dkR97K2+aesFvxl4iBb4QXSMIS
-         NxPOGweazKThMUMvqZalagsESTNaEDRqL4gngGo/792+la45x8xJnglG/VWAQ51kwv5F
-         bVIw==
-X-Gm-Message-State: AGRZ1gIItFgAkp146bE9A8uS+MkIuT1oT1pPdqLveTGI+lvUOVgJcVr8
-        UNEDSgr2/gnCqtJT6uAhbPU=
-X-Google-Smtp-Source: AJdET5fxA1qHeCp40S4rXzRa5LbBoGOZcl3Dno5E29PscSNcBmIN7GdtR5aBqfXaiieXLqUElBfLPw==
-X-Received: by 2002:a62:4e49:: with SMTP id c70mr2031232pfb.167.1542009580850;
-        Sun, 11 Nov 2018 23:59:40 -0800 (PST)
+        bh=CY3vB0FeuERzEd1T3PSQ+FurLD9j89gsR0xONZvoPyI=;
+        b=ZvQE4EwXzBNhMJ1W1iqNgpJlOZ8CjDJNuhAYNIPtO9Ogp4N9GDF8JR+I4Usg7XrXnO
+         UlYpjW0cSYS5+og6JbjlgJnWdqchdqFNXkgzrRVSKY/WWz8cu/IQ6kNmdBk/01rv481k
+         ycLkWuxJC38dsa9Ly+xw9RTW/kF0k3nckXCpsWQf3D1Lqyn23wdMAA/LwjwmrY7VOrTY
+         HMMR06rZRKKMjTrTKkVlG/AIYd4q1iflGXXeuKnNkQacr3CAadBjUervu5h1o7E/hL5R
+         OlJwL1Ipe5SqQpargqEycBCzDQhsWCm5QQuzhlTu3mhJ6aFh2Btx2lShir67XzYnop4b
+         AyNg==
+X-Gm-Message-State: AGRZ1gJHn80V1lx/LytO/YjihOIJEFFPbSPR29HXoCIgAHB8GOl8C3l3
+        IyVlWAiTvKH1al6kD+6gO8c=
+X-Google-Smtp-Source: AJdET5c0LpttBGmFWO2mLfi8mfuhamTgnFAd8HvfdJCHgQATAX61xmU4GKlwuKu9sLrtQDTnJd2/MQ==
+X-Received: by 2002:a62:f5da:: with SMTP id b87mr2270462pfm.253.1542009611858;
+        Mon, 12 Nov 2018 00:00:11 -0800 (PST)
 Received: from localhost.localdomain ([45.41.180.77])
-        by smtp.gmail.com with ESMTPSA id u2-v6sm17050816pfn.50.2018.11.11.23.59.09
+        by smtp.gmail.com with ESMTPSA id u2-v6sm17050816pfn.50.2018.11.11.23.59.41
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 11 Nov 2018 23:59:40 -0800 (PST)
+        Mon, 12 Nov 2018 00:00:11 -0800 (PST)
 From:   Kenneth Lee <nek.in.cn@gmail.com>
 To:     Alexander Shishkin <alexander.shishkin@linux.intel.com>,
         Tim Sell <timothy.sell@unisys.com>,
@@ -70,9 +70,9 @@ To:     Alexander Shishkin <alexander.shishkin@linux.intel.com>,
 Cc:     linuxarm@huawei.com, guodong.xu@linaro.org,
         zhangfei.gao@foxmail.com, haojian.zhuang@linaro.org,
         Kenneth Lee <liguozhu@hisilicon.com>
-Subject: [RFCv3 PATCH 2/6] uacce: add uacce module
-Date:   Mon, 12 Nov 2018 15:58:03 +0800
-Message-Id: <20181112075807.9291-3-nek.in.cn@gmail.com>
+Subject: [RFCv3 PATCH 3/6] crypto/hisilicon: add hisilicon Queue Manager driver
+Date:   Mon, 12 Nov 2018 15:58:04 +0800
+Message-Id: <20181112075807.9291-4-nek.in.cn@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181112075807.9291-1-nek.in.cn@gmail.com>
 References: <20181112075807.9291-1-nek.in.cn@gmail.com>
@@ -83,1154 +83,1074 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Kenneth Lee <liguozhu@hisilicon.com>
 
-Uacce is the kernel component to support WarpDrive accelerator
-framework. It provides register/unregister interface for device drivers
-to expose their hardware resource to the user space. The resource is
-taken as "queue" in WarpDrive.
+Hisilicon QM is a general IP used by some Hisilicon accelerators. It
+provides a general PCIE device interface for the CPU and the accelerator
+to share a group of queues.
 
-Uacce create a chrdev for every registration, the queue is allocated to
-the process when the chrdev is opened. Then the process can access the
-hardware resource by interact with the queue file. By mmap the queue
-file space to user space, the process can directly put requests to the
-hardware without syscall to the kernel space.
+QM is implemented as an End Point of the virtual PCI-E bus in Hisilicon
+SoC. It is actually a interface wrapper of ARM SMMU and GIC standard.
 
-Uacce also manages unify addresses between the hardware and user space
-of the process. So they can share the same virtual address in the
-communication.
+A QM provides 1024 channels, namely queue pairs, to the CPU. It also
+support SR-IOV with maximum 64 VFs. The queue pairs can be distributed
+to the PF or VFs according to configuration to the PF. The hardware
+configuration and notification is done in the VF/PF BAR space, while the
+queue elements are stored in memory.  Software application sends
+requests as messages to the accelerator via the queue protocol, which is
+FIFO ring buffer protocol based on share memory.
 
-Please see Documentation/warpdrive/warpdrive.rst for detail.
+The accelerator integrating a QM, has its own vendor, device ID, and
+message format. The QM just forwards the message accordingly. Every QM
+has its own SMMU (Unit) for address translation. It does not support
+ATS/PRI, but it support SMMU stall mode. So it can do page fault from
+the devices side.
+
+This patch includes a library used by the accelerator driver to access
+the QM hardware.
 
 Signed-off-by: Kenneth Lee <liguozhu@hisilicon.com>
-Signed-off-by: Zaibo Xu <xuzaibo@huawei.com>
 Signed-off-by: Zhou Wang <wangzhou1@hisilicon.com>
+Signed-off-by: Hao Fang <fanghao11@huawei.com>
 ---
- drivers/Kconfig            |   2 +
- drivers/Makefile           |   1 +
- drivers/uacce/Kconfig      |  11 +
- drivers/uacce/Makefile     |   2 +
- drivers/uacce/uacce.c      | 902 +++++++++++++++++++++++++++++++++++++
- include/linux/uacce.h      | 117 +++++
- include/uapi/linux/uacce.h |  33 ++
- 7 files changed, 1068 insertions(+)
- create mode 100644 drivers/uacce/Kconfig
- create mode 100644 drivers/uacce/Makefile
- create mode 100644 drivers/uacce/uacce.c
- create mode 100644 include/linux/uacce.h
- create mode 100644 include/uapi/linux/uacce.h
+ drivers/crypto/hisilicon/Kconfig     |   5 +-
+ drivers/crypto/hisilicon/Makefile    |   1 +
+ drivers/crypto/hisilicon/qm.c        | 743 +++++++++++++++++++++++++++
+ drivers/crypto/hisilicon/qm.h        | 213 ++++++++
+ drivers/crypto/hisilicon/qm_usr_if.h |  32 ++
+ 5 files changed, 993 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/crypto/hisilicon/qm.c
+ create mode 100644 drivers/crypto/hisilicon/qm.h
+ create mode 100644 drivers/crypto/hisilicon/qm_usr_if.h
 
-diff --git a/drivers/Kconfig b/drivers/Kconfig
-index ab4d43923c4d..b8782be0e7e5 100644
---- a/drivers/Kconfig
-+++ b/drivers/Kconfig
-@@ -219,4 +219,6 @@ source "drivers/siox/Kconfig"
+diff --git a/drivers/crypto/hisilicon/Kconfig b/drivers/crypto/hisilicon/Kconfig
+index 8ca9c503bcb0..0e40f4a6666b 100644
+--- a/drivers/crypto/hisilicon/Kconfig
++++ b/drivers/crypto/hisilicon/Kconfig
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+-
+ config CRYPTO_DEV_HISI_SEC
+ 	tristate "Support for Hisilicon SEC crypto block cipher accelerator"
+ 	select CRYPTO_BLKCIPHER
+@@ -12,3 +11,7 @@ config CRYPTO_DEV_HISI_SEC
  
- source "drivers/slimbus/Kconfig"
- 
-+source "drivers/uacce/Kconfig"
+ 	  To compile this as a module, choose M here: the module
+ 	  will be called hisi_sec.
 +
- endmenu
-diff --git a/drivers/Makefile b/drivers/Makefile
-index 578f469f72fb..9416c49b7501 100644
---- a/drivers/Makefile
-+++ b/drivers/Makefile
-@@ -186,3 +186,4 @@ obj-$(CONFIG_MULTIPLEXER)	+= mux/
- obj-$(CONFIG_UNISYS_VISORBUS)	+= visorbus/
- obj-$(CONFIG_SIOX)		+= siox/
- obj-$(CONFIG_GNSS)		+= gnss/
-+obj-y				+= uacce/
-diff --git a/drivers/uacce/Kconfig b/drivers/uacce/Kconfig
++config CRYPTO_DEV_HISI_QM
++	tristate
++	depends on ARM64 && PCI
+diff --git a/drivers/crypto/hisilicon/Makefile b/drivers/crypto/hisilicon/Makefile
+index 463f46ace182..05e9052e0f52 100644
+--- a/drivers/crypto/hisilicon/Makefile
++++ b/drivers/crypto/hisilicon/Makefile
+@@ -1,2 +1,3 @@
+ # SPDX-License-Identifier: GPL-2.0
+ obj-$(CONFIG_CRYPTO_DEV_HISI_SEC) += sec/
++obj-$(CONFIG_CRYPTO_DEV_HISI_QM) += qm.o
+diff --git a/drivers/crypto/hisilicon/qm.c b/drivers/crypto/hisilicon/qm.c
 new file mode 100644
-index 000000000000..e0e6462f6a42
+index 000000000000..5b810a6f4dd5
 --- /dev/null
-+++ b/drivers/uacce/Kconfig
-@@ -0,0 +1,11 @@
-+menuconfig UACCE
-+	tristate "Accelerator Framework for User Land"
-+	depends on IOMMU_API
-+	select ANON_INODES
-+	help
-+	  UACCE provides interface for the user process to access the hardware
-+	  without interaction with the kernel space in data path.
++++ b/drivers/crypto/hisilicon/qm.c
+@@ -0,0 +1,743 @@
++// SPDX-License-Identifier: GPL-2.0+
++#include <asm/page.h>
++#include <linux/bitmap.h>
++#include <linux/dma-mapping.h>
++#include <linux/io.h>
++#include <linux/irqreturn.h>
++#include <linux/log2.h>
++#include "qm.h"
 +
-+	  See Documentation/warpdrive/warpdrive.rst for more details.
++#define QM_DEF_Q_NUM			128
 +
-+	  If you don't know what to do here, say N.
-diff --git a/drivers/uacce/Makefile b/drivers/uacce/Makefile
-new file mode 100644
-index 000000000000..5b4374e8b5f2
---- /dev/null
-+++ b/drivers/uacce/Makefile
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+obj-$(CONFIG_UACCE) += uacce.o
-diff --git a/drivers/uacce/uacce.c b/drivers/uacce/uacce.c
-new file mode 100644
-index 000000000000..07e3b9887f28
---- /dev/null
-+++ b/drivers/uacce/uacce.c
-@@ -0,0 +1,902 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+#include <linux/compat.h>
-+#include <linux/file.h>
-+#include <linux/idr.h>
-+#include <linux/list.h>
-+#include <linux/module.h>
-+#include <linux/poll.h>
-+#include <linux/sched/signal.h>
-+#include <linux/slab.h>
-+#include <linux/uacce.h>
-+#include <linux/wait.h>
++/* eq/aeq irq enable */
++#define QM_VF_AEQ_INT_SOURCE		0x0
++#define QM_VF_AEQ_INT_MASK		0x4
++#define QM_VF_EQ_INT_SOURCE		0x8
++#define QM_VF_EQ_INT_MASK		0xc
 +
-+static struct class *uacce_class;
-+static DEFINE_IDR(uacce_idr);
-+static dev_t uacce_devt;
-+static DEFINE_MUTEX(uacce_mutex); /* mutex to protect uacce */
-+static DEFINE_RWLOCK(uacce_lock); /* lock to protect all queues management */
++/* mailbox */
++#define MAILBOX_CMD_SQC			0x0
++#define MAILBOX_CMD_CQC			0x1
++#define MAILBOX_CMD_EQC			0x2
++#define MAILBOX_CMD_AEQC		0x3
++#define MAILBOX_CMD_SQC_BT		0x4
++#define MAILBOX_CMD_CQC_BT		0x5
 +
-+static const struct file_operations uacce_fops;
++#define MAILBOX_CMD_SEND_BASE		0x300
++#define MAILBOX_EVENT_SHIFT		8
++#define MAILBOX_STATUS_SHIFT		9
++#define MAILBOX_BUSY_SHIFT		13
++#define MAILBOX_OP_SHIFT		14
++#define MAILBOX_QUEUE_SHIFT		16
 +
-+static const char *const qfrt_str[] = {
-+	"dko",
-+	"dus",
-+	"ss",
-+	"mmio",
-+	"invalid"
++/* sqc shift */
++#define SQ_HEAD_SHIFT			0
++#define SQ_TAIL_SHIFT			16
++#define SQ_HOP_NUM_SHIFT		0
++#define SQ_PAGE_SIZE_SHIFT		4
++#define SQ_BUF_SIZE_SHIFT		8
++#define SQ_SQE_SIZE_SHIFT		12
++#define SQ_HEAD_IDX_SIG_SHIFT		0
++#define SQ_TAIL_IDX_SIG_SHIFT		0
++#define SQ_CQN_SHIFT			0
++#define SQ_PRIORITY_SHIFT		0
++#define SQ_ORDERS_SHIFT			4
++#define SQ_TYPE_SHIFT			8
++
++#define SQ_TYPE_MASK			0xf
++
++/* cqc shift */
++#define CQ_HEAD_SHIFT			0
++#define CQ_TAIL_SHIFT			16
++#define CQ_HOP_NUM_SHIFT		0
++#define CQ_PAGE_SIZE_SHIFT		4
++#define CQ_BUF_SIZE_SHIFT		8
++#define CQ_SQE_SIZE_SHIFT		12
++#define CQ_PASID			0
++#define CQ_HEAD_IDX_SIG_SHIFT		0
++#define CQ_TAIL_IDX_SIG_SHIFT		0
++#define CQ_CQN_SHIFT			0
++#define CQ_PRIORITY_SHIFT		16
++#define CQ_ORDERS_SHIFT			0
++#define CQ_TYPE_SHIFT			0
++#define CQ_PHASE_SHIFT			0
++#define CQ_FLAG_SHIFT			1
++
++#define CQC_HEAD_INDEX(cqc)		((cqc)->cq_head)
++#define CQC_PHASE(cqc)			(((cqc)->dw6) & 0x1)
++#define CQC_CQ_ADDRESS(cqc)		(((u64)((cqc)->cq_base_h) << 32) | \
++					 ((cqc)->cq_base_l))
++#define CQC_PHASE_BIT			0x1
++
++/* eqc shift */
++#define MB_EQC_EQE_SHIFT		12
++#define MB_EQC_PHASE_SHIFT		16
++
++#define EQC_HEAD_INDEX(eqc)		((eqc)->eq_head)
++#define EQC_TAIL_INDEX(eqc)		((eqc)->eq_tail)
++#define EQC_PHASE(eqc)			((((eqc)->dw6) >> 16) & 0x1)
++
++#define EQC_PHASE_BIT			0x00010000
++
++/* aeqc shift */
++#define MB_AEQC_AEQE_SHIFT		12
++#define MB_AEQC_PHASE_SHIFT		16
++
++/* cqe shift */
++#define CQE_PHASE(cqe)			((cqe)->w7 & 0x1)
++
++/* eqe shift */
++#define EQE_PHASE(eqe)			(((eqe)->dw0 >> 16) & 0x1)
++#define EQE_CQN(eqe)			(((eqe)->dw0) & 0xffff)
++
++#define QM_EQE_CQN_MASK			0xffff
++
++/* doorbell */
++#define DOORBELL_CMD_SQ			0
++#define DOORBELL_CMD_CQ			1
++#define DOORBELL_CMD_EQ			2
++#define DOORBELL_CMD_AEQ		3
++
++#define DOORBELL_CMD_SEND_BASE		0x340
++
++#define QM_MEM_START_INIT		0x100040
++#define QM_MEM_INIT_DONE		0x100044
++#define QM_VFT_CFG_RDY			0x10006c
++#define QM_VFT_CFG_OP_WR		0x100058
++#define QM_VFT_CFG_TYPE			0x10005c
++#define QM_SQC_VFT			0x0
++#define QM_CQC_VFT			0x1
++#define QM_VFT_CFG_ADDRESS		0x100060
++#define QM_VFT_CFG_OP_ENABLE		0x100054
++
++#define QM_VFT_CFG_DATA_L		0x100064
++#define QM_VFT_CFG_DATA_H		0x100068
++#define QM_SQC_VFT_BUF_SIZE		(7ULL << 8)
++#define QM_SQC_VFT_SQC_SIZE		(5ULL << 12)
++#define QM_SQC_VFT_INDEX_NUMBER		(1ULL << 16)
++#define QM_SQC_VFT_BT_INDEX_SHIFT	22
++#define QM_SQC_VFT_START_SQN_SHIFT	28
++#define QM_SQC_VFT_VALID		(1ULL << 44)
++#define QM_CQC_VFT_BUF_SIZE		(7ULL << 8)
++#define QM_CQC_VFT_SQC_SIZE		(5ULL << 12)
++#define QM_CQC_VFT_INDEX_NUMBER		(1ULL << 16)
++#define QM_CQC_VFT_BT_INDEX_SHIFT	22
++#define QM_CQC_VFT_VALID		(1ULL << 28)
++
++
++#define QM_MK_SQC_DW3(hop_num, page_sz, buf_sz, sqe_sz) \
++	((hop_num << SQ_HOP_NUM_SHIFT) | \
++	 (page_sz << SQ_PAGE_SIZE_SHIFT) | \
++	 (buf_sz << SQ_BUF_SIZE_SHIFT) | \
++	 (sqe_sz << SQ_SQE_SIZE_SHIFT))
++#define QM_MK_SQC_W13(priority, orders, type) \
++	((priority << SQ_PRIORITY_SHIFT) | \
++	 (orders << SQ_ORDERS_SHIFT) | \
++	 ((type & SQ_TYPE_MASK) << SQ_TYPE_SHIFT))
++#define QM_MK_CQC_DW3(hop_num, page_sz, buf_sz, sqe_sz) \
++	((hop_num << CQ_HOP_NUM_SHIFT) | \
++	 (page_sz << CQ_PAGE_SIZE_SHIFT) | \
++	 (buf_sz << CQ_BUF_SIZE_SHIFT) | \
++	 (sqe_sz << CQ_SQE_SIZE_SHIFT))
++#define QM_MK_CQC_DW6(phase, flag) \
++	((phase << CQ_PHASE_SHIFT) | (flag << CQ_FLAG_SHIFT))
++
++static inline void qm_writel(struct qm_info *qm, u32 val, u32 offset)
++{
++	writel(val, qm->io_base + offset);
++}
++
++struct qm_info;
++
++struct hisi_acc_qm_hw_ops {
++	int (*vft_config)(struct qm_info *qm, u16 base, u32 number);
 +};
 +
-+const char *uacce_qfrt_str(struct uacce_qfile_region *qfr)
++static inline int hacc_qm_mb_is_busy(struct qm_info *qm)
 +{
-+	enum uacce_qfrt type = qfr->type;
++	u32 val;
 +
-+	if (type >= UACCE_QFRT_INVALID)
-+		type = UACCE_QFRT_INVALID;
-+
-+	return qfrt_str[type];
-+}
-+EXPORT_SYMBOL_GPL(uacce_qfrt_str);
-+
-+/**
-+ * uacce_wake_up - Wake up the process who is waiting this queue
-+ * @q the accelerator queue to wake up
-+ */
-+void uacce_wake_up(struct uacce_queue *q)
-+{
-+	dev_dbg(q->uacce->dev, "wake up\n");
-+	wake_up_interruptible(&q->wait);
-+}
-+EXPORT_SYMBOL_GPL(uacce_wake_up);
-+
-+static void uacce_cls_release(struct device *dev) { }
-+
-+static inline int uacce_iommu_map_qfr(struct uacce_queue *q,
-+				      struct uacce_qfile_region *qfr)
-+{
-+	struct device *dev = q->uacce->dev;
-+	struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
-+	int i, j, ret;
-+
-+	if (!domain)
-+		return -ENODEV;
-+
-+	for (i = 0; i < qfr->nr_pages; i++) {
-+		get_page(qfr->pages[i]);
-+		ret = iommu_map(domain, qfr->iova + i * PAGE_SIZE,
-+				page_to_phys(qfr->pages[i]),
-+				PAGE_SIZE, qfr->prot | q->uacce->prot);
-+		if (ret) {
-+			dev_err(dev, "iommu_map page %i fail %d\n", i, ret);
-+			goto err_with_map_pages;
-+		}
-+	}
-+
-+	return 0;
-+
-+err_with_map_pages:
-+	for (j = i-1; j >= 0; j--) {
-+		iommu_unmap(domain, qfr->iova + j * PAGE_SIZE, PAGE_SIZE);
-+		put_page(qfr->pages[j]);
-+	}
-+	return ret;
++	return readl_relaxed_poll_timeout(QM_ADDR(qm, MAILBOX_CMD_SEND_BASE),
++		val, !((val >> MAILBOX_BUSY_SHIFT) & 0x1), 10, 1000);
 +}
 +
-+static inline void uacce_iommu_unmap_qfr(struct uacce_queue *q,
-+					       struct uacce_qfile_region *qfr)
++static inline void qm_mb_write(struct qm_info *qm, void *src)
 +{
-+	struct device *dev = q->uacce->dev;
-+	struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
-+	int i;
++	void __iomem *fun_base = QM_ADDR(qm, MAILBOX_CMD_SEND_BASE);
++	unsigned long tmp0 = 0, tmp1 = 0;
 +
-+	if (!domain || !qfr)
-+		return;
-+
-+	for (i = qfr->nr_pages-1; i >= 0; i--) {
-+		iommu_unmap(domain, qfr->iova + i * PAGE_SIZE, PAGE_SIZE);
-+		put_page(qfr->pages[i]);
-+	}
++	asm volatile("ldp %0, %1, %3\n"
++		     "stp %0, %1, %2\n"
++		     "dsb sy\n"
++		     : "=&r" (tmp0),
++		       "=&r" (tmp1),
++		       "+Q" (*((char *)fun_base))
++		     : "Q" (*((char *)src))
++		     : "memory");
 +}
 +
-+static int uacce_queue_map_qfr(struct uacce_queue *q,
-+			       struct uacce_qfile_region *qfr)
++static int qm_mb(struct qm_info *qm, u8 cmd, phys_addr_t phys_addr, u16 queue,
++		   bool op, bool event)
 +{
-+	if (!(qfr->flags & UACCE_QFRF_MAP))
-+		return 0;
-+
-+	dev_dbg(q->uacce->dev, "queue map %s qfr(npage=%d, iova=%lx)\n",
-+		uacce_qfrt_str(qfr), qfr->nr_pages, qfr->iova);
-+
-+	if (q->uacce->ops->flags & UACCE_DEV_NOIOMMU)
-+		return q->uacce->ops->map(q, qfr);
-+
-+	return uacce_iommu_map_qfr(q, qfr);
-+}
-+
-+static void uacce_queue_unmap_qfr(struct uacce_queue *q,
-+				  struct uacce_qfile_region *qfr)
-+{
-+	if (!(qfr->flags & UACCE_QFRF_MAP))
-+		return;
-+
-+	if (q->uacce->ops->flags & UACCE_DEV_NOIOMMU)
-+		q->uacce->ops->unmap(q, qfr);
-+	else
-+		uacce_iommu_unmap_qfr(q, qfr);
-+}
-+
-+static vm_fault_t uacce_shm_vm_fault(struct vm_fault *vmf)
-+{
-+	struct vm_area_struct *vma = vmf->vma;
-+	struct uacce_qfile_region *qfr;
-+	pgoff_t page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
++	struct mailbox mailbox;
 +	int ret;
 +
-+	read_lock_irq(&uacce_lock);
++	dev_dbg(&qm->pdev->dev, "QM HW request to q-%u: %d-%llx\n", queue, cmd,
++		phys_addr);
 +
-+	qfr = vma->vm_private_data;
-+	if (!qfr) {
-+		pr_info("this page is not valid to user space\n");
-+		ret = VM_FAULT_SIGBUS;
-+		goto out;
-+	}
++	mailbox.w0 = cmd |
++		     (event ? 0x1 << MAILBOX_EVENT_SHIFT : 0) |
++		     (op ? 0x1 << MAILBOX_OP_SHIFT : 0) |
++		     (0x1 << MAILBOX_BUSY_SHIFT);
++	mailbox.queue_num = queue;
++	mailbox.base_l = lower_32_bits(phys_addr);
++	mailbox.base_h = upper_32_bits(phys_addr);
++	mailbox.rsvd = 0;
 +
-+	pr_debug("uacce: fault on %s qfr page %ld/%d\n", uacce_qfrt_str(qfr),
-+		 page_offset, qfr->nr_pages);
++	mutex_lock(&qm->mailbox_lock);
 +
-+	if (page_offset >= qfr->nr_pages) {
-+		ret = VM_FAULT_SIGBUS;
-+		goto out;
-+	}
++	ret = hacc_qm_mb_is_busy(qm);
++	if (unlikely(ret))
++		goto out_with_lock;
 +
-+	get_page(qfr->pages[page_offset]);
-+	vmf->page = qfr->pages[page_offset];
-+	ret = 0;
++	qm_mb_write(qm, &mailbox);
++	ret = hacc_qm_mb_is_busy(qm);
++	if (unlikely(ret))
++		goto out_with_lock;
 +
-+out:
-+	read_unlock_irq(&uacce_lock);
++out_with_lock:
++	mutex_unlock(&qm->mailbox_lock);
 +	return ret;
 +}
 +
-+static const struct vm_operations_struct uacce_shm_vm_ops = {
-+	.fault = uacce_shm_vm_fault,
++static void qm_db(struct qm_info *qm, u16 qn, u8 cmd, u16 index, u8 priority)
++{
++	u64 doorbell = 0;
++
++	dev_dbg(&qm->pdev->dev, "doorbell(qn=%d, cmd=%d, index=%d, pri=%d)\n",
++		qn, cmd, index, priority);
++
++	doorbell = qn | (cmd << 16) | ((u64)((index | (priority << 16)))) << 32;
++	writeq(doorbell, QM_ADDR(qm, DOORBELL_CMD_SEND_BASE));
++}
++
++/* @return 0 - cq/eq event, 1 - async event, 2 - abnormal error */
++static u32 qm_get_irq_source(struct qm_info *qm)
++{
++	return readl(QM_ADDR(qm, QM_VF_EQ_INT_SOURCE));
++}
++
++static inline struct hisi_qp *to_hisi_qp(struct qm_info *qm, struct eqe *eqe)
++{
++	u16 cqn = eqe->dw0 & QM_EQE_CQN_MASK;
++	struct hisi_qp *qp;
++
++	read_lock(&qm->qps_lock);
++	qp = qm->qp_array[cqn];
++	read_unlock(&qm->qps_lock);
++
++	return qp;
++}
++
++static inline void qm_cq_head_update(struct hisi_qp *qp)
++{
++	if (qp->qp_status.cq_head == QM_Q_DEPTH - 1) {
++		qp->cqc->dw6 = qp->cqc->dw6 ^ CQC_PHASE_BIT;
++		qp->qp_status.cq_head = 0;
++	} else {
++		qp->qp_status.cq_head++;
++	}
++}
++
++static inline void qm_poll_qp(struct hisi_qp *qp, struct qm_info *qm)
++{
++	struct cqe *cqe;
++
++	cqe = qp->cqe + qp->qp_status.cq_head;
++
++	if (qp->req_cb) {
++		while (CQE_PHASE(cqe) == CQC_PHASE(qp->cqc)) {
++			dma_rmb();
++			qp->req_cb(qp, (unsigned long)(qp->sqe +
++				   qm->sqe_size * cqe->sq_head));
++			qm_cq_head_update(qp);
++			cqe = qp->cqe + qp->qp_status.cq_head;
++		}
++	} else if (qp->event_cb) {
++		qp->event_cb(qp);
++		qm_cq_head_update(qp);
++		cqe = qp->cqe + qp->qp_status.cq_head;
++	}
++
++	qm_db(qm, qp->queue_id, DOORBELL_CMD_CQ, qp->qp_status.cq_head, 0);
++	qm_db(qm, qp->queue_id, DOORBELL_CMD_CQ, qp->qp_status.cq_head, 1);
++}
++
++static irqreturn_t qm_irq_thread(int irq, void *data)
++{
++	struct qm_info *qm = data;
++	struct eqe *eqe = qm->eqe + qm->eq_head;
++	struct eqc *eqc = qm->eqc;
++	struct hisi_qp *qp;
++
++	while (EQE_PHASE(eqe) == EQC_PHASE(eqc)) {
++		qp = to_hisi_qp(qm, eqe);
++		if (qp)
++			qm_poll_qp(qp, qm);
++
++		if (qm->eq_head == QM_Q_DEPTH - 1) {
++			eqc->dw6 = eqc->dw6 ^ EQC_PHASE_BIT;
++			eqe = qm->eqe;
++			qm->eq_head = 0;
++		} else {
++			eqe++;
++			qm->eq_head++;
++		}
++	}
++
++	qm_db(qm, 0, DOORBELL_CMD_EQ, qm->eq_head, 0);
++
++	return IRQ_HANDLED;
++}
++
++static void qm_init_qp_status(struct hisi_qp *qp)
++{
++	struct hisi_acc_qp_status *qp_status = &qp->qp_status;
++
++	qp_status->sq_tail = 0;
++	qp_status->sq_head = 0;
++	qp_status->cq_head = 0;
++	qp_status->sqn = 0;
++	qp_status->cqc_phase = 1;
++	qp_status->is_sq_full = 0;
++}
++
++/* check if bit in regs is 1 */
++static inline int qm_reg_wait_bit(struct qm_info *qm, u32 offset, u32 bit)
++{
++	int val;
++
++	return readl_relaxed_poll_timeout(QM_ADDR(qm, offset), val,
++					  val & BIT(bit), 10, 1000);
++}
++
++/* the config should be conducted after hisi_acc_init_qm_mem() */
++static int qm_vft_common_config(struct qm_info *qm, u16 base, u32 number)
++{
++	u64 tmp;
++	int ret;
++
++	ret = qm_reg_wait_bit(qm, QM_VFT_CFG_RDY, 0);
++	if (ret)
++		return ret;
++	qm_writel(qm, 0x0, QM_VFT_CFG_OP_WR);
++	qm_writel(qm, QM_SQC_VFT, QM_VFT_CFG_TYPE);
++	qm_writel(qm, qm->pdev->devfn, QM_VFT_CFG_ADDRESS);
++
++	tmp = QM_SQC_VFT_BUF_SIZE			|
++	      QM_SQC_VFT_SQC_SIZE			|
++	      QM_SQC_VFT_INDEX_NUMBER			|
++	      QM_SQC_VFT_VALID				|
++	      (u64)base << QM_SQC_VFT_START_SQN_SHIFT;
++
++	qm_writel(qm, tmp & 0xffffffff, QM_VFT_CFG_DATA_L);
++	qm_writel(qm, tmp >> 32, QM_VFT_CFG_DATA_H);
++
++	qm_writel(qm, 0x0, QM_VFT_CFG_RDY);
++	qm_writel(qm, 0x1, QM_VFT_CFG_OP_ENABLE);
++	ret = qm_reg_wait_bit(qm, QM_VFT_CFG_RDY, 0);
++	if (ret)
++		return ret;
++	tmp = 0;
++
++	qm_writel(qm, 0x0, QM_VFT_CFG_OP_WR);
++	qm_writel(qm, QM_CQC_VFT, QM_VFT_CFG_TYPE);
++	qm_writel(qm, qm->pdev->devfn, QM_VFT_CFG_ADDRESS);
++
++	tmp = QM_CQC_VFT_BUF_SIZE			|
++	      QM_CQC_VFT_SQC_SIZE			|
++	      QM_CQC_VFT_INDEX_NUMBER			|
++	      QM_CQC_VFT_VALID;
++
++	qm_writel(qm, tmp & 0xffffffff, QM_VFT_CFG_DATA_L);
++	qm_writel(qm, tmp >> 32, QM_VFT_CFG_DATA_H);
++
++	qm_writel(qm, 0x0, QM_VFT_CFG_RDY);
++	qm_writel(qm, 0x1, QM_VFT_CFG_OP_ENABLE);
++	ret = qm_reg_wait_bit(qm, QM_VFT_CFG_RDY, 0);
++	if (ret)
++		return ret;
++	return 0;
++}
++
++/*
++ * v1: For Hi1620ES
++ * v2: For Hi1620CS (Not implemented yet)
++ */
++static struct hisi_acc_qm_hw_ops qm_hw_ops_v1 = {
++	.vft_config = qm_vft_common_config,
 +};
 +
-+static struct uacce_qfile_region *uacce_create_region(struct uacce_queue *q,
-+	struct vm_area_struct *vma, enum uacce_qfrt type, int flags)
++struct hisi_qp *hisi_qm_create_qp(struct qm_info *qm, u8 alg_type)
 +{
-+	struct uacce_qfile_region *qfr;
-+	int i, j, ret = -ENOMEM;
++	struct hisi_qp *qp;
++	int qp_index;
++	int ret;
 +
-+	qfr = kzalloc(sizeof(*qfr), GFP_KERNEL | GFP_ATOMIC);
-+	if (!qfr)
-+		return ERR_PTR(-ENOMEM);
-+
-+	qfr->type = type;
-+	qfr->flags = flags;
-+	qfr->iova = vma->vm_start;
-+	qfr->nr_pages = vma_pages(vma);
-+
-+	if (vma->vm_flags & VM_READ)
-+		qfr->prot |= IOMMU_READ;
-+
-+	if (vma->vm_flags & VM_WRITE)
-+		qfr->prot |= IOMMU_WRITE;
-+
-+	qfr->pages = kcalloc(qfr->nr_pages, sizeof(*qfr->pages),
-+			       GFP_KERNEL | GFP_ATOMIC);
-+	if (!qfr->pages)
-+		goto err_with_qfr;
-+
-+	for (i = 0; i < qfr->nr_pages; i++) {
-+		qfr->pages[i] = alloc_page(GFP_KERNEL | GFP_ATOMIC |
-+					   __GFP_ZERO);
-+		if (!qfr->pages[i])
-+			goto err_with_pages;
++	write_lock(&qm->qps_lock);
++	qp_index = find_first_zero_bit(qm->qp_bitmap, qm->qp_num);
++	if (qp_index >= qm->qp_num) {
++		write_unlock(&qm->qps_lock);
++		return ERR_PTR(-EBUSY);
 +	}
 +
-+	ret = uacce_queue_map_qfr(q, qfr);
-+	if (ret)
-+		goto err_with_pages;
-+
-+	if (flags & UACCE_QFRF_KMAP) {
-+		qfr->kaddr = vmap(qfr->pages, qfr->nr_pages, VM_MAP,
-+				  PAGE_KERNEL);
-+		if (!qfr->kaddr) {
-+			ret = -ENOMEM;
-+			goto err_with_q_map;
-+		}
-+
-+		dev_dbg(q->uacce->dev, "kmap %s qfr to %p\n",
-+			uacce_qfrt_str(qfr), qfr->kaddr);
++	qp = kzalloc(sizeof(*qp), GFP_KERNEL);
++	if (!qp) {
++		ret = -ENOMEM;
++		write_unlock(&qm->qps_lock);
++		goto err_with_bitset;
 +	}
 +
-+	if (flags & UACCE_QFRF_MMAP) {
-+		vma->vm_private_data = qfr;
-+		vma->vm_ops = &uacce_shm_vm_ops;
-+	}
++	qp->queue_id = qp_index;
++	qp->qm = qm;
++	qp->alg_type = alg_type;
++	qm_init_qp_status(qp);
++	set_bit(qp_index, qm->qp_bitmap);
 +
-+	return qfr;
++	write_unlock(&qm->qps_lock);
++	return qp;
 +
-+err_with_q_map:
-+	uacce_queue_unmap_qfr(q, qfr);
-+err_with_pages:
-+	for (j = i-1; j >= 0; j--)
-+		put_page(qfr->pages[j]);
-+
-+	kfree(qfr->pages);
-+err_with_qfr:
-+	kfree(qfr);
-+
++err_with_bitset:
++	write_unlock(&qm->qps_lock);
 +	return ERR_PTR(ret);
 +}
++EXPORT_SYMBOL_GPL(hisi_qm_create_qp);
 +
-+static void uacce_destroy_region(struct uacce_qfile_region *qfr)
++int hisi_qm_start_qp(struct hisi_qp *qp, unsigned long arg)
 +{
-+	int i;
-+
-+	if (qfr->pages) {
-+		for (i = 0; i < qfr->nr_pages; i++)
-+			put_page(qfr->pages[i]);
-+
-+		if (qfr->flags & UACCE_QFRF_KMAP)
-+			vunmap(qfr->kaddr);
-+
-+		kfree(qfr->pages);
-+	}
-+	kfree(qfr);
-+}
-+
-+static long uacce_cmd_share_qfr(struct uacce_queue *tgt, int fd)
-+{
-+	struct file *filep = fget(fd);
-+	struct uacce_queue *src;
++	struct qm_info *qm = qp->qm;
++	struct device *dev = &qm->pdev->dev;
 +	int ret;
++	struct sqc *sqc;
++	struct cqc *cqc;
++	int qp_index = qp->queue_id;
++	int pasid = arg;
++	size_t off = 0;
 +
-+	if (!filep || filep->f_op != &uacce_fops)
-+		return -EINVAL;
++#define QP_INIT_BUF(qp, type, size) do { \
++	(qp)->type = (struct type *)((void *)(qp)->qdma.va + (off)); \
++	(qp)->type##_dma = (qp)->qdma.dma + (off); \
++	off += size; \
++} while (0)
 +
-+	src = (struct uacce_queue *)filep->private_data;
-+	if (!src)
-+		return -EINVAL;
++	sqc = qp->sqc = qm->sqc + qp_index;
++	cqc = qp->cqc = qm->cqc + qp_index;
++	qp->sqc_dma = qm->sqc_dma + qp_index * sizeof(struct sqc);
++	qp->cqc_dma = qm->cqc_dma + qp_index * sizeof(struct cqc);
 +
-+	/* no ssva is needed if the dev can do fault-from-dev */
-+	if (tgt->uacce->ops->flags | UACCE_DEV_FAULT_FROM_DEV)
-+		return -EINVAL;
++	qp->qdma.size = qm->sqe_size * QM_Q_DEPTH +
++			sizeof(struct cqe) * QM_Q_DEPTH,
++	qp->qdma.va = dma_alloc_coherent(dev, qp->qdma.size,
++					 &qp->qdma.dma,
++					 GFP_KERNEL | __GFP_ZERO);
++	dev_dbg(dev, "allocate qp dma buf(va=%p, dma=%pad, size=%lx)\n",
++		qp->qdma.va, &qp->qdma.dma, qp->qdma.size);
 +
-+	write_lock(&uacce_lock);
-+	if (!src->qfrs[UACCE_QFRT_SS] || tgt->qfrs[UACCE_QFRT_SS]) {
-+		ret = -EINVAL;
-+		goto out_with_lock;
++	if (!qp->qdma.va) {
++		dev_err(dev, "cannot get qm dma buffer\n");
++		return -ENOMEM;
 +	}
 +
-+	ret = uacce_queue_map_qfr(tgt, src->qfrs[UACCE_QFRT_SS]);
-+	if (ret)
-+		goto out_with_lock;
++	QP_INIT_BUF(qp, sqe, qm->sqe_size * QM_Q_DEPTH);
++	QP_INIT_BUF(qp, cqe, sizeof(struct cqe) * QM_Q_DEPTH);
 +
-+	tgt->qfrs[UACCE_QFRT_SS] = src->qfrs[UACCE_QFRT_SS];
-+	list_add(&tgt->list, &src->qfrs[UACCE_QFRT_SS]->qs);
++	INIT_QC(sqc, qp->sqe_dma);
++	sqc->pasid = pasid;
++	sqc->dw3 = QM_MK_SQC_DW3(0, 0, 0, ilog2(qm->sqe_size));
++	sqc->cq_num = qp_index;
++	sqc->w13 = QM_MK_SQC_W13(0, 1, qp->alg_type);
 +
-+out_with_lock:
-+	write_unlock(&uacce_lock);
-+	return ret;
-+}
-+
-+static long uacce_fops_unl_ioctl(struct file *filep,
-+				unsigned int cmd, unsigned long arg)
-+{
-+	struct uacce_queue *q = (struct uacce_queue *)filep->private_data;
-+	struct uacce *uacce = q->uacce;
-+
-+	switch (cmd) {
-+	case UACCE_CMD_SHARE_SVAS:
-+		return uacce_cmd_share_qfr(q, arg);
-+
-+	default:
-+		if (uacce->ops->ioctl)
-+			return uacce->ops->ioctl(q, cmd, arg);
-+
-+		dev_err(uacce->dev, "ioctl cmd (%d) is not supported!\n", cmd);
-+		return -EINVAL;
-+	}
-+}
-+
-+#ifdef CONFIG_COMPAT
-+static long uacce_fops_compat_ioctl(struct file *filep,
-+				   unsigned int cmd, unsigned long arg)
-+{
-+	arg = (unsigned long)compat_ptr(arg);
-+	return uacce_fops_unl_ioctl(filep, cmd, arg);
-+}
-+#endif
-+
-+static int uacce_dev_check(struct uacce *uacce)
-+{
-+	if (uacce->ops->flags & UACCE_DEV_NOIOMMU)
-+		return 0;
-+
-+	/*
-+	 * The device can be opened once if it dose not support multiple page
-+	 * table. The better way to check this is count it per iommu_domain,
-+	 * this is just a temporary solution
-+	 */
-+	if (!(uacce->ops->flags & UACCE_DEV_PASID))
-+		if (atomic_cmpxchg(&uacce->state,
-+				   UACCE_ST_INIT, UACCE_ST_OPENNED))
-+			return -EBUSY;
-+
-+	return 0;
-+}
-+
-+static int uacce_start_queue(struct uacce_queue *q)
-+{
-+	int ret;
-+
-+	ret = q->uacce->ops->start_queue(q);
++	ret = qm_mb(qm, MAILBOX_CMD_SQC, qp->sqc_dma, qp_index, 0, 0);
 +	if (ret)
 +		return ret;
 +
-+	dev_dbg(q->uacce->dev, "queue started\n");
-+	atomic_set(&q->uacce->state, UACCE_ST_STARTED);
-+	return 0;
-+}
-+
-+static int uacce_fops_open(struct inode *inode, struct file *filep)
-+{
-+	struct uacce_queue *q;
-+	struct uacce *uacce;
-+	int ret;
-+	int pasid = 0;
-+
-+	uacce = idr_find(&uacce_idr, iminor(inode));
-+	if (!uacce)
-+		return -ENODEV;
-+
-+	if (!uacce->ops->get_queue)
-+		return -EINVAL;
-+
-+	ret = uacce_dev_check(uacce);
-+
-+#ifdef CONFIG_IOMMU_SVA
-+	if (uacce->ops->flags & UACCE_DEV_PASID)
-+		ret = __iommu_sva_bind_device(uacce->dev, current->mm, &pasid,
-+					      IOMMU_SVA_FEAT_IOPF, NULL);
-+#endif
-+
++	INIT_QC(cqc, qp->cqe_dma);
++	cqc->dw3 = QM_MK_CQC_DW3(0, 0, 0, 4);
++	cqc->dw6 = QM_MK_CQC_DW6(1, 1);
++	ret = qm_mb(qm, MAILBOX_CMD_CQC, (u64)qp->cqc_dma, qp_index, 0, 0);
 +	if (ret)
 +		return ret;
 +
-+	ret = uacce->ops->get_queue(uacce, pasid, &q);
-+	if (ret < 0)
-+		return ret;
++	write_lock(&qm->qps_lock);
++	qm->qp_array[qp_index] = qp;
++	init_completion(&qp->completion);
++	write_unlock(&qm->qps_lock);
 +
-+	q->uacce = uacce;
-+	q->mm = current->mm;
-+	init_waitqueue_head(&q->wait);
-+	filep->private_data = q;
-+
-+	/* if DKO or DSU is set, the q is started when they are ready */
-+	if (uacce->ops->qf_pg_start[UACCE_QFRT_DKO] == UACCE_QFR_NA &&
-+	    uacce->ops->qf_pg_start[UACCE_QFRT_DUS] == UACCE_QFR_NA) {
-+		ret = uacce_start_queue(q);
-+		if (ret)
-+			goto err_with_queue;
-+	}
-+
-+	__module_get(uacce->ops->owner);
-+
-+	return 0;
-+
-+err_with_queue:
-+	if (uacce->ops->put_queue)
-+		uacce->ops->put_queue(q);
-+	atomic_set(&uacce->state, UACCE_ST_INIT);
-+	return ret;
-+}
-+
-+static int uacce_fops_release(struct inode *inode, struct file *filep)
-+{
-+	struct uacce_queue *q = (struct uacce_queue *)filep->private_data;
-+	struct uacce *uacce;
-+	int i;
-+	bool is_to_free_region;
-+	int free_pages = 0;
-+
-+	uacce = q->uacce;
-+
-+	if (atomic_read(&uacce->state) == UACCE_ST_STARTED &&
-+	    uacce->ops->stop_queue)
-+		uacce->ops->stop_queue(q);
-+
-+	write_lock_irq(&uacce_lock);
-+
-+	for (i = 0; i < UACCE_QFRT_MAX; i++) {
-+		is_to_free_region = false;
-+		if (q->qfrs[i]) {
-+			uacce_queue_unmap_qfr(q, q->qfrs[i]);
-+			if (i == UACCE_QFRT_SS) {
-+				list_del(&q->list);
-+				if (list_empty(&q->qfrs[i]->qs))
-+					is_to_free_region = true;
-+			} else
-+				is_to_free_region = true;
-+		}
-+
-+		if (is_to_free_region) {
-+			free_pages += q->qfrs[i]->nr_pages;
-+			uacce_destroy_region(q->qfrs[i]);
-+		}
-+
-+		q->qfrs[i] = NULL;
-+	}
-+
-+	write_unlock_irq(&uacce_lock);
-+
-+	down_write(&q->mm->mmap_sem);
-+	q->mm->data_vm -= free_pages;
-+	up_write(&q->mm->mmap_sem);
-+
-+#ifdef CONFIG_IOMMU_SVA
-+	if (uacce->ops->flags & UACCE_DEV_SVA)
-+		iommu_sva_unbind_device(uacce->dev, q->pasid);
-+#endif
-+
-+	if (uacce->ops->put_queue)
-+		uacce->ops->put_queue(q);
-+
-+	module_put(uacce->ops->owner);
-+	atomic_set(&uacce->state, UACCE_ST_INIT);
++	dev_dbg(&qm->pdev->dev, "qp %d started\n", qp_index);
 +
 +	return 0;
 +}
++EXPORT_SYMBOL_GPL(hisi_qm_start_qp);
 +
-+static enum uacce_qfrt uacce_get_region_type(struct uacce *uacce,
-+					     struct vm_area_struct *vma)
++void hisi_qm_release_qp(struct hisi_qp *qp)
 +{
-+	enum uacce_qfrt type = UACCE_QFRT_MAX;
-+	int i;
-+	size_t next_size = UACCE_QFR_NA;
++	struct qm_info *qm = qp->qm;
++	struct qm_dma *qdma = &qp->qdma;
++	struct device *dev = &qm->pdev->dev;
++	int qid = qp->queue_id;
 +
-+	for (i = UACCE_QFRT_MAX - 1; i >= 0; i--) {
-+		if (vma->vm_pgoff >= uacce->ops->qf_pg_start[i]) {
-+			type = i;
-+			break;
-+		}
-+	}
++	write_lock(&qm->qps_lock);
++	qm->qp_array[qp->queue_id] = NULL;
++	bitmap_clear(qm->qp_bitmap, qid, 1);
++	write_unlock(&qm->qps_lock);
 +
-+	switch (type) {
-+	case UACCE_QFRT_MMIO:
-+		if (!uacce->ops->mmap) {
-+			dev_err(uacce->dev, "no driver mmap!\n");
-+			return UACCE_QFRT_INVALID;
-+		}
-+		break;
++	dma_free_coherent(dev, qdma->size, qdma->va, qdma->dma);
 +
-+	case UACCE_QFRT_DKO:
-+		if (uacce->ops->flags & UACCE_DEV_PASID)
-+			return UACCE_QFRT_INVALID;
-+		break;
++	kfree(qp);
++}
++EXPORT_SYMBOL_GPL(hisi_qm_release_qp);
 +
-+	case UACCE_QFRT_DUS:
-+		if (uacce->ops->flags & UACCE_DEV_FAULT_FROM_DEV)
-+			return UACCE_QFRT_INVALID;
-+		break;
++static void *qm_get_avail_sqe(struct hisi_qp *qp)
++{
++	struct hisi_acc_qp_status *qp_status = &qp->qp_status;
++	u16 sq_tail = qp_status->sq_tail;
 +
-+	case UACCE_QFRT_SS:
-+		if (uacce->ops->flags & UACCE_DEV_FAULT_FROM_DEV)
-+			return UACCE_QFRT_INVALID;
-+		break;
++	if (qp_status->is_sq_full == 1)
++		return NULL;
 +
-+	default:
-+		dev_err(uacce->dev, "uacce bug (%d)!\n", type);
-+		break;
-+	}
-+
-+	if (type < UACCE_QFRT_SS) {
-+		for (i = type + 1; i < UACCE_QFRT_MAX; i++)
-+			if (uacce->ops->qf_pg_start[i] != UACCE_QFR_NA) {
-+				next_size = uacce->ops->qf_pg_start[i];
-+				break;
-+			}
-+
-+		if (next_size == UACCE_QFR_NA) {
-+			dev_err(uacce->dev, "uacce config error. \
-+				make sure setting SS offset properly\n");
-+			return UACCE_QFRT_INVALID;
-+		}
-+
-+		if (vma_pages(vma) !=
-+		    next_size - uacce->ops->qf_pg_start[type]) {
-+			dev_err(uacce->dev,
-+				"invalid mmap size (%ld page) for region %s.\n",
-+				vma_pages(vma), qfrt_str[type]);
-+			return UACCE_QFRT_INVALID;
-+		}
-+	}
-+
-+	return type;
++	return qp->sqe + sq_tail * qp->qm->sqe_size;
 +}
 +
-+static int uacce_fops_mmap(struct file *filep, struct vm_area_struct *vma)
++int hisi_qp_send(struct hisi_qp *qp, void *msg)
 +{
-+	struct uacce_queue *q = (struct uacce_queue *)filep->private_data;
-+	struct uacce *uacce = q->uacce;
-+	enum uacce_qfrt type = uacce_get_region_type(uacce, vma);
-+	struct uacce_qfile_region *qfr;
-+	int flags, ret;
-+	bool to_start = false;
++	struct hisi_acc_qp_status *qp_status = &qp->qp_status;
++	u16 sq_tail = qp_status->sq_tail;
++	u16 sq_tail_next = (sq_tail + 1) % QM_Q_DEPTH;
++	unsigned long timeout = 100;
++	void *sqe = qm_get_avail_sqe(qp);
 +
-+	dev_dbg(uacce->dev, "mmap q file(t=%s, off=%lx, start=%lx, end=%lx)\n",
-+		 qfrt_str[type], vma->vm_pgoff, vma->vm_start, vma->vm_end);
-+
-+	if (type == UACCE_QFRT_INVALID)
-+		return -EINVAL;
-+
-+	vma->vm_flags |= VM_DONTCOPY | VM_DONTEXPAND;
-+
-+	write_lock_irq(&uacce_lock);
-+
-+	if (q->mm->data_vm + vma_pages(vma) >
-+	    rlimit(RLIMIT_DATA) >> PAGE_SHIFT) {
-+		ret = -ENOMEM;
-+		goto out_with_lock;
-+	}
-+
-+	if (type == UACCE_QFRT_MMIO) {
-+		ret = uacce->ops->mmap(q, vma);
-+		goto out_with_lock;
-+	}
-+
-+	if (q->qfrs[type]) {
-+		ret = -EBUSY;
-+		goto out_with_lock;
-+	}
-+
-+	switch (type) {
-+	case UACCE_QFRT_SS:
-+		if ((q->uacce->ops->flags & UACCE_DEV_FAULT_FROM_DEV) ||
-+		    (atomic_read(&uacce->state) != UACCE_ST_STARTED)) {
-+			ret = -EINVAL;
-+			goto out_with_lock;
-+		}
-+
-+		flags = UACCE_QFRF_MAP | UACCE_QFRF_MMAP;
-+		break;
-+
-+	case UACCE_QFRT_DKO:
-+		flags = UACCE_QFRF_MAP | UACCE_QFRF_KMAP;
-+		break;
-+
-+	case UACCE_QFRT_DUS:
-+		flags = UACCE_QFRF_MAP | UACCE_QFRF_MMAP;
-+		if (q->uacce->ops->flags & UACCE_DEV_KMAP_DUS)
-+			flags |= UACCE_QFRF_KMAP;
-+		break;
-+
-+	default:
-+		dev_err(uacce->dev, "bug\n");
-+		break;
-+	}
-+
-+	qfr = q->qfrs[type] = uacce_create_region(q, vma, type, flags);
-+	if (IS_ERR(qfr)) {
-+		ret = PTR_ERR(qfr);
-+		goto out_with_lock;
-+	}
-+
-+	switch (type) {
-+	case UACCE_QFRT_SS:
-+		INIT_LIST_HEAD(&qfr->qs);
-+		list_add(&q->list, &q->qfrs[type]->qs);
-+		break;
-+
-+	case UACCE_QFRT_DKO:
-+	case UACCE_QFRT_DUS:
-+		if (q->uacce->ops->qf_pg_start[UACCE_QFRT_DUS] == UACCE_QFR_NA
-+		    &&
-+		    q->uacce->ops->qf_pg_start[UACCE_QFRT_DKO] == UACCE_QFR_NA)
-+			break;
-+
-+		if ((q->uacce->ops->qf_pg_start[UACCE_QFRT_DUS] == UACCE_QFR_NA
-+			|| q->qfrs[UACCE_QFRT_DUS]) &&
-+		    (q->uacce->ops->qf_pg_start[UACCE_QFRT_DKO] == UACCE_QFR_NA
-+			|| q->qfrs[UACCE_QFRT_DKO]))
-+			to_start = true;
-+
-+		break;
-+
-+	default:
-+		break;
-+	}
-+
-+	write_unlock_irq(&uacce_lock);
-+
-+	if (to_start) {
-+		ret = uacce_start_queue(q);
-+		if (ret) {
-+			write_lock_irq(&uacce_lock);
-+			goto err_with_region;
-+		}
-+	}
-+
-+	q->mm->data_vm += qfr->nr_pages;
-+	return 0;
-+
-+err_with_region:
-+	uacce_destroy_region(q->qfrs[type]);
-+	q->qfrs[type] = NULL;
-+out_with_lock:
-+	write_unlock_irq(&uacce_lock);
-+	return ret;
-+}
-+
-+static __poll_t uacce_fops_poll(struct file *file, poll_table *wait)
-+{
-+	struct uacce_queue *q = (struct uacce_queue *)file->private_data;
-+	struct uacce *uacce = q->uacce;
-+
-+	poll_wait(file, &q->wait, wait);
-+	if (uacce->ops->is_q_updated && uacce->ops->is_q_updated(q))
-+		return EPOLLIN | EPOLLRDNORM;
-+	else
-+		return 0;
-+}
-+
-+static const struct file_operations uacce_fops = {
-+	.owner		= THIS_MODULE,
-+	.open		= uacce_fops_open,
-+	.release	= uacce_fops_release,
-+	.unlocked_ioctl	= uacce_fops_unl_ioctl,
-+#ifdef CONFIG_COMPAT
-+	.compat_ioctl	= uacce_fops_compat_ioctl,
-+#endif
-+	.mmap		= uacce_fops_mmap,
-+	.poll		= uacce_fops_poll,
-+};
-+
-+static int uacce_create_chrdev(struct uacce *uacce)
-+{
-+	int ret;
-+
-+	ret = idr_alloc(&uacce_idr, uacce, 0, 0, GFP_KERNEL);
-+	if (ret < 0)
-+		return ret;
-+
-+	uacce->dev_id = ret;
-+	uacce->cdev = cdev_alloc();
-+	if (!uacce->cdev) {
-+		ret = -ENOMEM;
-+		goto err_with_idr;
-+	}
-+
-+	uacce->cdev->ops = &uacce_fops;
-+	uacce->cdev->owner = uacce->ops->owner;
-+	ret = cdev_add(uacce->cdev, MKDEV(MAJOR(uacce_devt), uacce->dev_id), 1);
-+	if (ret)
-+		goto err_with_cdev;
-+
-+	dev_dbg(uacce->dev, "create uacce minior=%d\n", uacce->dev_id);
-+	return 0;
-+
-+err_with_cdev:
-+	cdev_del(uacce->cdev);
-+err_with_idr:
-+	idr_remove(&uacce_idr, uacce->dev_id);
-+	return ret;
-+}
-+
-+static void uacce_destroy_chrdev(struct uacce *uacce)
-+{
-+	cdev_del(uacce->cdev);
-+	idr_remove(&uacce_idr, uacce->dev_id);
-+}
-+
-+static int uacce_default_map(struct uacce_queue *q,
-+			     struct uacce_qfile_region *qfr)
-+{
-+	dev_dbg(q->uacce->dev, "fake map %s qfr(npage=%d, iova=%lx)\n",
-+		uacce_qfrt_str(qfr), qfr->nr_pages, qfr->iova);
-+	return -ENODEV;
-+}
-+
-+static int uacce_default_start_queue(struct uacce_queue *q)
-+{
-+	dev_dbg(q->uacce->dev, "fake start queue");
-+	return 0;
-+}
-+
-+static void uacce_default_unmap(struct uacce_queue *q,
-+				struct uacce_qfile_region *qfr)
-+{
-+	dev_dbg(q->uacce->dev, "fake unmap %s qfr(npage=%d, iova=%lx)\n",
-+		uacce_qfrt_str(qfr), qfr->nr_pages, qfr->iova);
-+}
-+
-+static int uacce_dev_match(struct device *dev, void *data)
-+{
-+	if (dev->parent == data)
++	if (!sqe)
 +		return -EBUSY;
 +
++	memcpy(sqe, msg, qp->qm->sqe_size);
++
++	qm_db(qp->qm, qp->queue_id, DOORBELL_CMD_SQ, sq_tail_next, 0);
++
++	/* wait until job finished */
++	wait_for_completion_timeout(&qp->completion, timeout);
++
++	qp_status->sq_tail = sq_tail_next;
++
++	if (qp_status->sq_tail == qp_status->sq_head)
++		qp_status->is_sq_full = 1;
++
 +	return 0;
 +}
++EXPORT_SYMBOL_GPL(hisi_qp_send);
 +
-+static int uacce_set_iommu_domain(struct uacce *uacce)
++static irqreturn_t qm_irq(int irq, void *data)
 +{
-+	struct iommu_domain *domain;
++	struct qm_info *qm = data;
++	u32 int_source;
++
++	int_source = qm_get_irq_source(qm);
++	if (int_source)
++		return IRQ_WAKE_THREAD;
++
++	dev_err(&qm->pdev->dev, "invalid int source %d\n", int_source);
++
++	return IRQ_HANDLED;
++}
++
++/* put qm into init state, so the acce config become available */
++static int hisi_qm_mem_start(struct qm_info *qm)
++{
++	u32 val;
++
++	qm_writel(qm, 0x1, QM_MEM_START_INIT);
++	return readl_relaxed_poll_timeout(QM_ADDR(qm, QM_MEM_INIT_DONE), val,
++					  val & BIT(0), 10, 1000);
++}
++
++/* todo: The VF case is not considerred carefullly */
++int hisi_qm_init(struct qm_info *qm)
++{
 +	int ret;
++	u16 ecam_val16;
++	struct pci_dev *pdev = qm->pdev;
++	struct device *dev = &pdev->dev;
 +
-+	if (uacce->ops->flags & UACCE_DEV_NOIOMMU)
-+		return 0;
++	pci_set_power_state(pdev, PCI_D0);
++	ecam_val16 = PCI_COMMAND_MASTER | PCI_COMMAND_MEMORY;
++	pci_write_config_word(pdev, PCI_COMMAND, ecam_val16);
 +
-+	/*
-+	 * We don't support multiple register for the same dev in RFC version ,
-+	 * will add it in formal version
-+	 */
-+	ret = class_for_each_device(uacce_class, NULL, uacce->dev,
-+				    uacce_dev_match);
-+	if (ret)
++	ret = pci_enable_device_mem(pdev);
++	if (ret < 0) {
++		dev_err(dev, "Can't enable device mem!\n");
 +		return ret;
-+
-+	/* allocate and attach a unmanged domain */
-+	domain = iommu_domain_alloc(uacce->dev->bus);
-+	if (!domain)
-+		return -ENODEV;
-+
-+	ret = iommu_attach_device(domain, uacce->dev);
-+	if (ret)
-+		goto err_with_domain;
-+
-+	if (iommu_capable(uacce->dev->bus, IOMMU_CAP_CACHE_COHERENCY)) {
-+		uacce->prot |= IOMMU_CACHE;
-+		dev_dbg(uacce->dev, "Enable uacce with c-coherent capa\n");
-+	} else {
-+		dev_dbg(uacce->dev, "Enable uacce without c-coherent cap\n");
 +	}
 +
-+	return 0;
++	ret = pci_request_mem_regions(pdev, dev_name(dev));
++	if (ret < 0) {
++		dev_err(dev, "Can't request mem regions!\n");
++		goto err_with_pcidev;
++	}
 +
-+err_with_domain:
-+	iommu_domain_free(domain);
-+	return ret;
-+}
++	qm->phys_base = pci_resource_start(pdev, 2);
++	qm->size = pci_resource_len(qm->pdev, 2);
++	qm->io_base = devm_ioremap(dev, qm->phys_base, qm->size);
++	if (!qm->io_base) {
++		dev_err(dev, "Map IO space fail!\n");
++		ret = -EIO;
++		goto err_with_mem_regions;
++	}
 +
-+void uacce_unset_iommu_domain(struct uacce *uacce)
-+{
-+	struct iommu_domain *domain;
++	dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
++	pci_set_master(pdev);
 +
-+	domain = iommu_get_domain_for_dev(uacce->dev);
-+	if (domain) {
-+		iommu_detach_device(domain, uacce->dev);
-+		iommu_domain_free(domain);
-+	} else
-+		dev_err(uacce->dev, "bug: no domain attached to device\n");
-+}
++	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSI);
++	if (ret < 0) {
++		dev_err(dev, "Enable MSI vectors fail!\n");
++		goto err_with_mem_regions;
++	}
 +
-+/**
-+ *	uacce_register - register an accelerator
-+ *	@uacce: the accelerator structure
-+ */
-+int uacce_register(struct uacce *uacce)
-+{
-+	int ret;
++	qm->eq_head = 0;
++	mutex_init(&qm->mailbox_lock);
++	rwlock_init(&qm->qps_lock);
 +
-+	if (!uacce->dev)
-+		return -ENODEV;
-+
-+	/* if dev support fault-from-dev, it should support pasid */
-+	if ((uacce->ops->flags & UACCE_DEV_FAULT_FROM_DEV) &&
-+	    !(uacce->ops->flags & UACCE_DEV_PASID)) {
-+		dev_warn(uacce->dev, "SVM/SAV device should support PASID\n");
++	if (qm->ver == 1)
++		qm->ops = &qm_hw_ops_v1;
++	else {
++		dev_err(dev, "qm version not support %d\n", qm->ver);
 +		return -EINVAL;
 +	}
 +
-+	if (!uacce->ops->map)
-+		uacce->ops->map = uacce_default_map;
++	ret = devm_request_threaded_irq(dev, pci_irq_vector(pdev, 0),
++					qm_irq, qm_irq_thread, IRQF_SHARED,
++					dev_name(dev), qm);
++	if (ret)
++		goto err_with_irq_vec;
 +
-+	if (!uacce->ops->unmap)
-+		uacce->ops->unmap = uacce_default_unmap;
++	qm->qp_bitmap = devm_kcalloc(dev, BITS_TO_LONGS(qm->qp_num),
++				     sizeof(long), GFP_KERNEL);
++	qm->qp_array = devm_kcalloc(dev, qm->qp_num,
++				    sizeof(struct hisi_qp *), GFP_KERNEL);
++	if (!qm->qp_bitmap || !qm->qp_array) {
++		ret = -ENOMEM;
++		goto err_with_irq;
++	}
 +
-+	if (!uacce->ops->start_queue)
-+		uacce->ops->start_queue = uacce_default_start_queue;
++	if (pdev->is_physfn) {
++		ret = hisi_qm_mem_start(qm);
++		if (ret) {
++			dev_err(dev, "mem start fail\n");
++			goto err_with_irq;
++		}
++	}
 +
-+	ret = uacce_set_iommu_domain(uacce);
++	qm->qdma.size = max_t(size_t, sizeof(struct eqc),
++			      sizeof(struct aeqc)) +
++			sizeof(struct eqe) * QM_Q_DEPTH +
++			sizeof(struct sqc) * qm->qp_num +
++			sizeof(struct cqc) * qm->qp_num;
++	qm->qdma.va = dma_alloc_coherent(dev, qm->qdma.size,
++					 &qm->qdma.dma,
++					 GFP_KERNEL | __GFP_ZERO);
++	dev_dbg(dev, "allocate qm dma buf(va=%p, dma=%pad, size=%lx)\n",
++		qm->qdma.va, &qm->qdma.dma, qm->qdma.size);
++	ret = qm->qdma.va ? 0 : -ENOMEM;
++
++	if (ret)
++		goto err_with_irq;
++
++	return 0;
++
++err_with_irq:
++	/* even for devm, it should be removed for the irq vec to be freed */
++	devm_free_irq(dev, pci_irq_vector(pdev, 0), qm);
++err_with_irq_vec:
++	pci_free_irq_vectors(pdev);
++err_with_mem_regions:
++	pci_release_mem_regions(pdev);
++err_with_pcidev:
++	pci_disable_device(pdev);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(hisi_qm_init);
++
++void hisi_qm_uninit(struct qm_info *qm)
++{
++	struct pci_dev *pdev = qm->pdev;
++
++	dma_free_coherent(&pdev->dev, qm->qdma.size, qm->qdma.va, qm->qdma.dma);
++
++	devm_free_irq(&pdev->dev, pci_irq_vector(pdev, 0), qm);
++	pci_free_irq_vectors(pdev);
++	pci_release_mem_regions(pdev);
++	pci_disable_device(pdev);
++}
++EXPORT_SYMBOL_GPL(hisi_qm_uninit);
++
++int hisi_qm_start(struct qm_info *qm)
++{
++	size_t off = 0;
++	int ret;
++
++#define QM_INIT_BUF(qm, type, size) do { \
++	(qm)->type = (struct type *)((void *)(qm)->qdma.va + (off)); \
++	(qm)->type##_dma = (qm)->qdma.dma + (off); \
++	off += size; \
++} while (0)
++
++	if (!qm->qdma.va)
++		return -EINVAL;
++
++	if (qm->pdev->is_physfn)
++		qm->ops->vft_config(qm, qm->qp_base, qm->qp_num);
++
++	/*
++	 * notes: the order is important because the buffer should be stay in
++	 * alignment boundary
++	 */
++	QM_INIT_BUF(qm, eqe, sizeof(struct eqe) * QM_Q_DEPTH);
++	QM_INIT_BUF(qm, sqc, sizeof(struct sqc) * qm->qp_num);
++	QM_INIT_BUF(qm, cqc, sizeof(struct cqc) * qm->qp_num);
++	QM_INIT_BUF(qm, eqc,
++		    max_t(size_t, sizeof(struct eqc), sizeof(struct aeqc)));
++
++	qm->eqc->base_l = lower_32_bits(qm->eqe_dma);
++	qm->eqc->base_h = upper_32_bits(qm->eqe_dma);
++	qm->eqc->dw3 = 2 << MB_EQC_EQE_SHIFT;
++	qm->eqc->dw6 = (QM_Q_DEPTH - 1) | (1 << MB_EQC_PHASE_SHIFT);
++	ret = qm_mb(qm, MAILBOX_CMD_EQC, qm->eqc_dma, 0, 0, 0);
 +	if (ret)
 +		return ret;
 +
-+	mutex_lock(&uacce_mutex);
-+
-+	ret = uacce_create_chrdev(uacce);
++	ret = qm_mb(qm, MAILBOX_CMD_SQC_BT, qm->sqc_dma, 0, 0, 0);
 +	if (ret)
-+		goto err_with_lock;
++		return ret;
 +
-+	uacce->cls_dev.parent = uacce->dev;
-+	uacce->cls_dev.class = uacce_class;
-+	uacce->cls_dev.release = uacce_cls_release;
-+	dev_set_name(&uacce->cls_dev, "%s", dev_name(uacce->dev));
-+	ret = device_register(&uacce->cls_dev);
++	ret = qm_mb(qm, MAILBOX_CMD_CQC_BT, qm->cqc_dma, 0, 0, 0);
 +	if (ret)
-+		goto err_with_chrdev;
++		return ret;
 +
-+#ifdef CONFIG_IOMMU_SVA
-+	ret = iommu_sva_init_device(uacce->dev, IOMMU_SVA_FEAT_IOPF, 0, 0,
-+				    NULL);
-+	if (ret) {
-+		device_unregister(&uacce->cls_dev);
-+		goto err_with_chrdev;
-+	}
-+#else
-+	if (uacce->ops->flags & UACCE_DEV_PASID)
-+		uacce->ops->flags &=
-+			~(UACCE_DEV_FAULT_FROM_DEV | UACCE_DEV_PASID);
-+#endif
++	writel(0x0, QM_ADDR(qm, QM_VF_EQ_INT_MASK));
 +
-+	atomic_set(&uacce->state, UACCE_ST_INIT);
-+	mutex_unlock(&uacce_mutex);
-+	return 0;
-+
-+err_with_chrdev:
-+	uacce_destroy_chrdev(uacce);
-+err_with_lock:
-+	mutex_unlock(&uacce_mutex);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(uacce_register);
-+
-+/**
-+ * uacce_unregister - unregisters a uacce
-+ * @uacce: the accelerator to unregister
-+ *
-+ * Unregister an accelerator that wat previously successully registered with
-+ * uacce_register().
-+ */
-+void uacce_unregister(struct uacce *uacce)
-+{
-+	mutex_lock(&uacce_mutex);
-+
-+#ifdef CONFIG_IOMMU_SVA
-+	iommu_sva_shutdown_device(uacce->dev);
-+#endif
-+	device_unregister(&uacce->cls_dev);
-+	uacce_destroy_chrdev(uacce);
-+	uacce_unset_iommu_domain(uacce);
-+
-+	mutex_unlock(&uacce_mutex);
-+}
-+EXPORT_SYMBOL_GPL(uacce_unregister);
-+
-+static int __init uacce_init(void)
-+{
-+	int ret;
-+
-+	uacce_class = class_create(THIS_MODULE, UACCE_CLASS_NAME);
-+	if (IS_ERR(uacce_class)) {
-+		ret = PTR_ERR(uacce_class);
-+		goto err;
-+	}
-+
-+	ret = alloc_chrdev_region(&uacce_devt, 0, MINORMASK, "uacce");
-+	if (ret)
-+		goto err_with_class;
-+
-+	pr_info("uacce init with major number:%d\n", MAJOR(uacce_devt));
++	dev_dbg(&qm->pdev->dev, "qm started\n");
 +
 +	return 0;
-+
-+err_with_class:
-+	class_destroy(uacce_class);
-+err:
-+	return ret;
 +}
++EXPORT_SYMBOL_GPL(hisi_qm_start);
 +
-+static __exit void uacce_exit(void)
++
++void hisi_qm_stop(struct qm_info *qm)
 +{
-+	unregister_chrdev_region(uacce_devt, MINORMASK);
-+	class_destroy(uacce_class);
-+	idr_destroy(&uacce_idr);
++	/* todo: recheck if this is the right way to disable the hw irq */
++	writel(0x1, QM_ADDR(qm, QM_VF_EQ_INT_MASK));
++
 +}
++EXPORT_SYMBOL_GPL(hisi_qm_stop);
 +
-+subsys_initcall(uacce_init);
-+module_exit(uacce_exit);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Hisilicon Tech. Co., Ltd.");
-+MODULE_DESCRIPTION("Accelerator interface for Userland applications");
-diff --git a/include/linux/uacce.h b/include/linux/uacce.h
++MODULE_LICENSE("GPL v2");
++MODULE_AUTHOR("Zhou Wang <wangzhou1@hisilicon.com>");
++MODULE_DESCRIPTION("HiSilicon Accelerator queue manager driver");
+diff --git a/drivers/crypto/hisilicon/qm.h b/drivers/crypto/hisilicon/qm.h
 new file mode 100644
-index 000000000000..7b7bc5821811
+index 000000000000..6d124d948738
 --- /dev/null
-+++ b/include/linux/uacce.h
-@@ -0,0 +1,117 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+#ifndef __UACCE_H
-+#define __UACCE_H
++++ b/drivers/crypto/hisilicon/qm.h
+@@ -0,0 +1,213 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++#ifndef HISI_ACC_QM_H
++#define HISI_ACC_QM_H
 +
-+#include <linux/cdev.h>
-+#include <linux/device.h>
-+#include <linux/list.h>
-+#include <linux/iommu.h>
-+#include <uapi/linux/uacce.h>
++#include <linux/dmapool.h>
++#include <linux/iopoll.h>
++#include <linux/module.h>
++#include <linux/pci.h>
++#include <linux/slab.h>
++#include "qm_usr_if.h"
 +
-+struct uacce_queue;
-+struct uacce;
++/* qm user domain */
++#define QM_ARUSER_M_CFG_1		0x100088
++#define QM_ARUSER_M_CFG_ENABLE		0x100090
++#define QM_AWUSER_M_CFG_1		0x100098
++#define QM_AWUSER_M_CFG_ENABLE		0x1000a0
++#define QM_WUSER_M_CFG_ENABLE		0x1000a8
 +
-+#define UACCE_QFRF_MAP	(1<<0)	/* map to current queue */
-+#define UACCE_QFRF_MMAP	(1<<1)	/* map to user space */
-+#define UACCE_QFRF_KMAP (1<<2)	/* map to kernel space */
++/* qm cache */
++#define QM_CACHE_CTL			0x100050
++#define QM_AXI_M_CFG			0x1000ac
++#define QM_AXI_M_CFG_ENABLE		0x1000b0
++#define QM_PEH_AXUSER_CFG		0x1000cc
++#define QM_PEH_AXUSER_CFG_ENABLE	0x1000d0
 +
-+#define UACCE_QFR_NA ((unsigned long)-1)
-+enum uacce_qfrt {
-+	UACCE_QFRT_DKO = 0,	/* device kernel-only */
-+	UACCE_QFRT_DUS,		/* device user share */
-+	UACCE_QFRT_SS,		/* static share memory */
-+	UACCE_QFRT_MAX,		/* used also for IO region */
-+	UACCE_QFRT_INVALID
-+};
-+#define UACCE_QFRT_MMIO (UACCE_QFRT_MAX)
-+
-+struct uacce_qfile_region {
-+	enum uacce_qfrt type;
-+	unsigned long iova;
-+	struct page **pages;
-+	int nr_pages;
-+	unsigned long prot;
-+	int flags;
-+	union {
-+		struct list_head qs; /* qs sharing the same region, for ss */
-+		void *kaddr; /* kernel addr, for dko */
-+	};
++struct eqe {
++	__le32 dw0;
 +};
 +
-+/**
-+ * struct uacce_ops - WD device operations
-+ * @get_queue: get a queue from the device according to algorithm
-+ * @put_queue: free a queue to the device
-+ * @start_queue: make the queue start work after get_queue
-+ * @stop_queue: make the queue stop work before put_queue
-+ * @is_q_updated: check whether the task is finished
-+ * @mask_notify: mask the task irq of queue
-+ * @mmap: mmap addresses of queue to user space
-+ * @map: map queue to device (for NOIOMMU device)
-+ * @unmap: unmap queue to device (for NOIOMMU device)
-+ * @reset: reset the WD device
-+ * @reset_queue: reset the queue
-+ * @ioctl:   ioctl for user space users of the queue
-+ */
-+struct uacce_ops {
-+	struct module *owner;
-+	const char *api_ver;
-+	int flags;
-+	unsigned long qf_pg_start[UACCE_QFRT_MAX];
-+
-+	int (*get_queue)(struct uacce *uacce, unsigned long arg,
-+		struct uacce_queue **q);
-+	void (*put_queue)(struct uacce_queue *q);
-+	int (*start_queue)(struct uacce_queue *q);
-+	void (*stop_queue)(struct uacce_queue *q);
-+	int (*is_q_updated)(struct uacce_queue *q);
-+	void (*mask_notify)(struct uacce_queue *q, int event_mask);
-+	int (*mmap)(struct uacce_queue *q, struct vm_area_struct *vma);
-+	int (*map)(struct uacce_queue *q, struct uacce_qfile_region *qfr);
-+	void (*unmap)(struct uacce_queue *q, struct uacce_qfile_region *qfr);
-+	int (*reset)(struct uacce *uacce);
-+	int (*reset_queue)(struct uacce_queue *q);
-+	long (*ioctl)(struct uacce_queue *q, unsigned int cmd,
-+			unsigned long arg);
++struct aeqe {
++	__le32 dw0;
 +};
 +
-+struct uacce_queue {
-+	struct uacce *uacce;
-+	__u32 flags;
-+	void *priv;
-+	wait_queue_head_t wait;
++struct sqc {
++	__le16 head;
++	__le16 tail;
++	__le32 base_l;
++	__le32 base_h;
++	__le32 dw3;
++	__le16 qes;
++	__le16 rsvd0;
++	__le16 pasid;
++	__le16 w11;
++	__le16 cq_num;
++	__le16 w13;
++	__le32 rsvd1;
++};
 +
-+#ifdef CONFIG_IOMMU_SVA
++struct cqc {
++	__le16 head;
++	__le16 tail;
++	__le32 base_l;
++	__le32 base_h;
++	__le32 dw3;
++	__le16 qes;
++	__le16 rsvd0;
++	__le16 pasid;
++	__le16 w11;
++	__le32 dw6;
++	__le32 rsvd1;
++};
++
++#define INIT_QC(qc, base) do { \
++	(qc)->head = 0; \
++	(qc)->tail = 0; \
++	(qc)->base_l = lower_32_bits((unsigned long)base); \
++	(qc)->base_h = upper_32_bits((unsigned long)base); \
++	(qc)->pasid = 0; \
++	(qc)->w11 = 0; \
++	(qc)->rsvd1 = 0; \
++	(qc)->qes = QM_Q_DEPTH - 1; \
++} while (0)
++
++struct eqc {
++	__le16 head;
++	__le16 tail;
++	__le32 base_l;
++	__le32 base_h;
++	__le32 dw3;
++	__le32 rsvd[2];
++	__le32 dw6;
++};
++
++struct aeqc {
++	__le16 head;
++	__le16 tail;
++	__le32 base_l;
++	__le32 base_h;
++	__le32 rsvd[3];
++	__le32 dw6;
++};
++
++struct mailbox {
++	__le16 w0;
++	__le16 queue_num;
++	__le32 base_l;
++	__le32 base_h;
++	__le32 rsvd;
++};
++
++struct doorbell {
++	__le16 queue_num;
++	__le16 cmd;
++	__le16 index;
++	__le16 priority;
++};
++
++struct qm_dma {
++	void *va;
++	dma_addr_t dma;
++	size_t size;
++};
++
++struct qm_info {
++	int ver;
++	struct pci_dev *pdev;
++
++	resource_size_t phys_base;
++	resource_size_t size;
++	void __iomem *io_base;
++
++	u32 sqe_size;
++	u32 qp_base;
++	u32 qp_num;
++
++	struct qm_dma qdma;
++	struct sqc *sqc;
++	struct cqc *cqc;
++	struct eqc *eqc;
++	struct eqe *eqe;
++	struct aeqc *aeqc;
++	struct aeqe *aeqe;
++	unsigned long sqc_dma,
++		      cqc_dma,
++		      eqc_dma,
++		      eqe_dma,
++		      aeqc_dma,
++		      aeqe_dma;
++
++	u32 eq_head;
++
++	rwlock_t qps_lock;
++	unsigned long *qp_bitmap;
++	struct hisi_qp **qp_array;
++
++	struct mutex mailbox_lock;
++
++	struct hisi_acc_qm_hw_ops *ops;
++};
++#define QM_ADDR(qm, off) ((qm)->io_base + off)
++
++struct hisi_acc_qp_status {
++	u16 sq_tail;
++	u16 sq_head;
++	u16 cq_head;
++	u16 sqn;
++	bool cqc_phase;
++	int is_sq_full;
++};
++
++struct hisi_qp;
++
++struct hisi_qp_ops {
++	int (*fill_sqe)(void *sqe, void *q_parm, void *d_parm);
++};
++
++struct hisi_qp {
++	/* sq number in this function */
++	u32 queue_id;
++	u8 alg_type;
++	u8 req_type;
 +	int pasid;
-+#endif
-+	struct list_head list; /* as list for as->qs */
 +
-+	struct mm_struct *mm;
++	struct qm_dma qdma;
++	struct sqc *sqc;
++	struct cqc *cqc;
++	void *sqe;
++	struct cqe *cqe;
 +
-+	struct uacce_qfile_region *qfrs[UACCE_QFRT_MAX];
++	unsigned long sqc_dma,
++		      cqc_dma,
++		      sqe_dma,
++		      cqe_dma;
++
++	struct hisi_acc_qp_status qp_status;
++
++	struct qm_info *qm;
++
++	/* for crypto sync API */
++	struct completion completion;
++
++	struct hisi_qp_ops *hw_ops;
++	void *qp_ctx;
++	void (*event_cb)(struct hisi_qp *qp);
++	void (*req_cb)(struct hisi_qp *qp, unsigned long data);
 +};
 +
-+#define	UACCE_ST_INIT 0
-+#define UACCE_ST_OPENNED 1
-+#define UACCE_ST_STARTED 2
-+
-+struct uacce {
-+	const char *name;
-+	int status;
-+	struct uacce_ops *ops;
-+	struct device *dev;
-+	struct device cls_dev;
-+	bool is_vf;
-+	u32 dev_id;
-+	struct cdev *cdev;
-+	void *priv;
-+	atomic_t state;
-+	int prot;
-+};
-+
-+int uacce_register(struct uacce *uacce);
-+void uacce_unregister(struct uacce *uacce);
-+void uacce_wake_up(struct uacce_queue *q);
-+const char *uacce_qfrt_str(struct uacce_qfile_region *qfr);
-+
-+#endif
-diff --git a/include/uapi/linux/uacce.h b/include/uapi/linux/uacce.h
-new file mode 100644
-index 000000000000..b30fd92dc07e
---- /dev/null
-+++ b/include/uapi/linux/uacce.h
-@@ -0,0 +1,33 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+#ifndef _UAPIUUACCE_H
-+#define _UAPIUUACCE_H
-+
-+#include <linux/types.h>
-+#include <linux/ioctl.h>
-+
-+#define UACCE_CLASS_NAME		"uacce"
-+
-+#define UACCE_CMD_SHARE_SVAS   _IO('W', 0)
-+
-+/**
-+ * UACCE Device Attributes:
-+ *
-+ * NOIOMMU: the device has no IOMMU support
-+ *	can do ssva, but no map to the dev
-+ * PASID: the device has IOMMU which support PASID setting
-+ *	can do ssva, mapped to dev per process
-+ * FAULT_FROM_DEV: the device has IOMMU which can do page fault request
-+ *	no need for ssva, should be used with PASID
-+ * KMAP_DUS: map the Device user-shared space to kernel
-+ * SVA: full function device
-+ * SHARE_DOMAIN: no PASID, can do ssva only for one process and the kernel
++/* QM external interface for accelerator driver.
++ * To use qm:
++ * 1. Set qm with pdev, and sqe_size set accordingly
++ * 2. hisi_qm_init()
++ * 3. config the accelerator hardware
++ * 4. hisi_qm_start()
 + */
-+#define UACCE_DEV_NOIOMMU		(1<<0)
-+#define UACCE_DEV_PASID			(1<<1)
-+#define UACCE_DEV_FAULT_FROM_DEV	(1<<2)
-+#define UACCE_DEV_KMAP_DUS		(1<<3)
++extern int hisi_qm_init(struct qm_info *qm);
++extern void hisi_qm_uninit(struct qm_info *qm);
++extern int hisi_qm_start(struct qm_info *qm);
++extern void hisi_qm_stop(struct qm_info *qm);
++extern struct hisi_qp *hisi_qm_create_qp(struct qm_info *qm, u8 alg_type);
++extern int hisi_qm_start_qp(struct hisi_qp *qp, unsigned long arg);
++extern void hisi_qm_release_qp(struct hisi_qp *qp);
++extern int hisi_qp_send(struct hisi_qp *qp, void *msg);
++#endif
+diff --git a/drivers/crypto/hisilicon/qm_usr_if.h b/drivers/crypto/hisilicon/qm_usr_if.h
+new file mode 100644
+index 000000000000..13aab94adb05
+--- /dev/null
++++ b/drivers/crypto/hisilicon/qm_usr_if.h
+@@ -0,0 +1,32 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++#ifndef HISI_QM_USR_IF_H
++#define HISI_QM_USR_IF_H
 +
-+#define UACCE_DEV_SVA		(UACCE_DEV_PASID | UACCE_DEV_FAULT_FROM_DEV)
-+#define UACCE_DEV_SHARE_DOMAIN	(0)
++#define QM_CQE_SIZE			16
++
++/* default queue depth for sq/cq/eq */
++#define QM_Q_DEPTH			1024
++
++/* page number for queue file region */
++#define QM_DOORBELL_PAGE_NR	1
++#define QM_DKO_PAGE_NR		3
++#define QM_DUS_PAGE_NR		36
++
++#define QM_DOORBELL_PG_START 0
++#define QM_DKO_PAGE_START (QM_DOORBELL_PG_START + QM_DOORBELL_PAGE_NR)
++#define QM_DUS_PAGE_START (QM_DKO_PAGE_START + QM_DKO_PAGE_NR)
++#define QM_SS_PAGE_START (QM_DUS_PAGE_START + QM_DUS_PAGE_NR)
++
++#define QM_DOORBELL_OFFSET      0x340
++
++struct cqe {
++	__le32 rsvd0;
++	__le16 cmd_id;
++	__le16 rsvd1;
++	__le16 sq_head;
++	__le16 sq_num;
++	__le16 rsvd2;
++	__le16 w7;
++};
 +
 +#endif
 -- 
