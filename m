@@ -5,199 +5,115 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C3E1B7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 16:25:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 791BC7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 17:17:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728199AbeKMCT0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Nov 2018 21:19:26 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40740 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727976AbeKMCTZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Nov 2018 21:19:25 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wACGJXjs081311
-        for <linux-doc@vger.kernel.org>; Mon, 12 Nov 2018 11:25:28 -0500
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2nqc6g2uqu-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 12 Nov 2018 11:25:27 -0500
-Received: from localhost
-        by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <eajames@linux.vnet.ibm.com>;
-        Mon, 12 Nov 2018 16:25:26 -0000
-Received: from b01cxnp23032.gho.pok.ibm.com (9.57.198.27)
-        by e15.ny.us.ibm.com (146.89.104.202) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 12 Nov 2018 16:25:22 -0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com [9.57.199.109])
-        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wACGPLSZ23658746
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 12 Nov 2018 16:25:21 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BFD6E11206F;
-        Mon, 12 Nov 2018 16:25:20 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 90005112066;
-        Mon, 12 Nov 2018 16:25:19 +0000 (GMT)
-Received: from [9.41.179.222] (unknown [9.41.179.222])
-        by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
-        Mon, 12 Nov 2018 16:25:19 +0000 (GMT)
-Subject: Re: [PATCH v6 00/10] hwmon and fsi: Add On-Chip Controller Driver
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Eddie James <eajames@linux.ibm.com>
-Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, jdelvare@suse.com,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        robh+dt@kernel.org, mark.rutland@arm.com, rdunlap@infradead.org,
-        benh@kernel.crashing.org
-References: <1541711129-26631-1-git-send-email-eajames@linux.ibm.com>
- <20181109230354.GA31326@roeck-us.net>
-From:   Eddie James <eajames@linux.vnet.ibm.com>
-Date:   Mon, 12 Nov 2018 10:25:19 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1727530AbeKMDLI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Nov 2018 22:11:08 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:51234 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727185AbeKMDLI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Nov 2018 22:11:08 -0500
+X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
+Received: from mail.skyhub.de ([127.0.0.1])
+        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id jgcWnNCMph3J; Mon, 12 Nov 2018 18:16:57 +0100 (CET)
+Received: from zn.tnic (p200300EC2BE56F00329C23FFFEA6A903.dip0.t-ipconnect.de [IPv6:2003:ec:2be5:6f00:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 534641EC02D1;
+        Mon, 12 Nov 2018 18:16:57 +0100 (CET)
+Date:   Mon, 12 Nov 2018 18:16:38 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Moger, Babu" <Babu.Moger@amd.com>
+Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
+        "pombredanne@nexb.com" <pombredanne@nexb.com>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
+        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Singh, Brijesh" <brijesh.singh@amd.com>,
+        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
+        "dwmw2@infradead.org" <dwmw2@infradead.org>,
+        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "rian@alum.mit.edu" <rian@alum.mit.edu>,
+        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v7 01/13] arch/x86: Start renaming the rdt files to more
+ generic names
+Message-ID: <20181112171638.GH8167@zn.tnic>
+References: <20181109205153.14811-1-babu.moger@amd.com>
+ <20181109205153.14811-2-babu.moger@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20181109230354.GA31326@roeck-us.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-x-cbid: 18111216-0068-0000-0000-0000035ECFFE
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00010035; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000270; SDB=6.01116425; UDB=6.00578981; IPR=6.00896533;
- MB=3.00024128; MTD=3.00000008; XFM=3.00000015; UTC=2018-11-12 16:25:26
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18111216-0069-0000-0000-00004666A3D9
-Message-Id: <65651d7d-7c29-4cc5-7ebf-b9d33fed7500@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-12_11:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1807170000 definitions=main-1811120142
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20181109205153.14811-2-babu.moger@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+ Subject: [PATCH v7 01/13] arch/x86: Start renaming the rdt files to more generic names
 
-On 11/09/2018 05:03 PM, Guenter Roeck wrote:
-> On Thu, Nov 08, 2018 at 03:05:19PM -0600, Eddie James wrote:
->> From: Eddie James <eajames@linux.vnet.ibm.com>
->>
->> This series adds a hwmon driver to support the OCC on POWER8 and POWER9
->> processors. The OCC is an embedded processor that provides realtime power and
->> thermal monitoring and management.
->>
->> The series also adds a "bus" driver to handle atomic communication between the
->> service processor and the OCC on a POWER9 chip. This communication takes place
->> over FSI bus to the SBE (Self-Boot engine) FIFO, which in turn communicates
->> with the OCC. The driver for the SBEFIFO is already available as an FSI client
->> driver.
->>
->> For POWER8 OCCs, communication between the service processor and the OCC is
->> achieved over I2C bus.
->>
-> I am not entirely happy with the series - there are still lots of proprietary
-> attributes, and I would have preferred the use of the _info API at this point -
-> but this has taken long enough. Series applied to hwmon-next. Please send any
-> fixes as follow-up patches.
+I guess the subject prefix for all those should be "arch/resctrl:" or so now.
 
-Thanks a lot Guenter, appreciate your help getting here.
+On Fri, Nov 09, 2018 at 08:52:25PM +0000, Moger, Babu wrote:
+> New generation of AMD processors start supporting RDT(or QOS) features.
+> With more than one vendors supporting these features, it seems more
+> appropriate to rename these files.
+> 
+> Changed intel_rdt to resctrl where applicable.
+> 
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
+>  arch/x86/include/asm/{intel_rdt_sched.h => resctrl_sched.h} | 0
+>  arch/x86/kernel/cpu/Makefile                                | 6 +++---
+>  arch/x86/kernel/cpu/{intel_rdt.c => resctrl.c}              | 4 ++--
+>  arch/x86/kernel/cpu/{intel_rdt.h => resctrl.h}              | 6 +++---
+>  .../cpu/{intel_rdt_ctrlmondata.c => resctrl_ctrlmondata.c}  | 2 +-
+>  .../kernel/cpu/{intel_rdt_monitor.c => resctrl_monitor.c}   | 2 +-
+>  .../cpu/{intel_rdt_pseudo_lock.c => resctrl_pseudo_lock.c}  | 6 +++---
+>  ..._rdt_pseudo_lock_event.h => resctrl_pseudo_lock_event.h} | 2 +-
+>  .../kernel/cpu/{intel_rdt_rdtgroup.c => resctrl_rdtgroup.c} | 4 ++--
+>  arch/x86/kernel/process_32.c                                | 2 +-
+>  arch/x86/kernel/process_64.c                                | 2 +-
+>  11 files changed, 18 insertions(+), 18 deletions(-)
+>  rename arch/x86/include/asm/{intel_rdt_sched.h => resctrl_sched.h} (100%)
+>  rename arch/x86/kernel/cpu/{intel_rdt.c => resctrl.c} (99%)
+>  rename arch/x86/kernel/cpu/{intel_rdt.h => resctrl.h} (99%)
+>  rename arch/x86/kernel/cpu/{intel_rdt_ctrlmondata.c => resctrl_ctrlmondata.c} (99%)
+>  rename arch/x86/kernel/cpu/{intel_rdt_monitor.c => resctrl_monitor.c} (99%)
+>  rename arch/x86/kernel/cpu/{intel_rdt_pseudo_lock.c => resctrl_pseudo_lock.c} (99%)
+>  rename arch/x86/kernel/cpu/{intel_rdt_pseudo_lock_event.h => resctrl_pseudo_lock_event.h} (95%)
+>  rename arch/x86/kernel/cpu/{intel_rdt_rdtgroup.c => resctrl_rdtgroup.c} (99%)
 
-Eddie
+Other than that and FWIW:
 
->
-> Thanks,
-> Guenter
->
->> Changes since v5:
->>   * Makefile fix when compiling both P8 and P9 versions
->>   * Spelling fix in hwmon doc
->>   * Added an additional sentence for P9 binding doc to explain that OCC isn't
->>     an FSI slave device.
->>
->> Changes since v4:
->>   * Make the hwmon attributes conform almost completely to standard names and
->>     values. The only exception is powerX_cap_user and powerX_cap_user_source.
->>   * Improve hwmon documentation.
->>   * Add ibm,p9-occ dt documentation.
->>
->> Changes since v3:
->>   * Add the FSI OCC driver.
->>   * Pull the sysfs attribute code into it's own file for cleanliness.
->>   * Various fixes for attribute creation and integer overflow.
->>
->> Changes since v2:
->>   * Add sysfs_notify for the error and throttling attributes when change is
->>     detected.
->>   * Removed occs_present counting of devices bound.
->>   * Improved remove() of P9 driver to avoid bad behavior with relation to OCC
->>     driver when unbound.
->>   * Added default cases (return EINVAL) for all sensor show functions.
->>   * Added temperature fault sensor.
->>   * Added back dt binding documentation for P9 to address checkpatch warning.
->>   * Added occs_present attribute from the poll response.
->>
->> Changes since v1:
->>   * Remove wait loop in P9 code, as that is now handled by FSI OCC driver.
->>   * Removed dt binding documentation for P9, FSI OCC driver will probe OCC hwmon
->>     driver automatically.
->>   * Moved OCC response code definitions to the OCC include file.
->>   * Fixed includes.
->>   * Changed some structure fields to __beXX as that is what they are.
->>   * Changed some errnos.
->>   * Removed some dev_err().
->>   * Refactored P8 code a bit to use #defined addresses and magic values, and
->>     changed "goto retry" to a loop.
->>   * Refactored error handling a bit.
->>
->> Eddie James (10):
->>    dt-bindings: fsi: Add P9 OCC device documentation
->>    fsi: Add On-Chip Controller (OCC) driver
->>    Documentation: hwmon: Add OCC documentation
->>    dt-bindings: i2c: Add P8 OCC hwmon device documentation
->>    hwmon: Add On-Chip Controller (OCC) hwmon driver
->>    hwmon (occ): Add command transport method for P8 and P9
->>    hwmon (occ): Parse OCC poll response
->>    hwmon (occ): Add sensor types and versions
->>    hwmon (occ): Add sensor attributes and register hwmon device
->>    hwmon (occ): Add sysfs attributes for additional OCC data
->>
->>   .../devicetree/bindings/fsi/ibm,p9-occ.txt         |   16 +
->>   .../devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt   |   25 +
->>   Documentation/hwmon/occ                            |  112 ++
->>   drivers/fsi/Kconfig                                |   10 +
->>   drivers/fsi/Makefile                               |    1 +
->>   drivers/fsi/fsi-occ.c                              |  599 +++++++++++
->>   drivers/hwmon/Kconfig                              |    2 +
->>   drivers/hwmon/Makefile                             |    1 +
->>   drivers/hwmon/occ/Kconfig                          |   31 +
->>   drivers/hwmon/occ/Makefile                         |    5 +
->>   drivers/hwmon/occ/common.c                         | 1098 ++++++++++++++++++++
->>   drivers/hwmon/occ/common.h                         |  128 +++
->>   drivers/hwmon/occ/p8_i2c.c                         |  255 +++++
->>   drivers/hwmon/occ/p9_sbe.c                         |  106 ++
->>   drivers/hwmon/occ/sysfs.c                          |  188 ++++
->>   include/linux/fsi-occ.h                            |   25 +
->>   16 files changed, 2602 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
->>   create mode 100644 Documentation/devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt
->>   create mode 100644 Documentation/hwmon/occ
->>   create mode 100644 drivers/fsi/fsi-occ.c
->>   create mode 100644 drivers/hwmon/occ/Kconfig
->>   create mode 100644 drivers/hwmon/occ/Makefile
->>   create mode 100644 drivers/hwmon/occ/common.c
->>   create mode 100644 drivers/hwmon/occ/common.h
->>   create mode 100644 drivers/hwmon/occ/p8_i2c.c
->>   create mode 100644 drivers/hwmon/occ/p9_sbe.c
->>   create mode 100644 drivers/hwmon/occ/sysfs.c
->>   create mode 100644 include/linux/fsi-occ.h
->>
->> -- 
->> 1.8.3.1
->>
+Reviewed-by: Borislav Petkov <bp@suse.de>
 
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
