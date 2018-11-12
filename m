@@ -1,124 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8E3AC7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 09:00:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BFDB17D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 09:13:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728529AbeKLSxB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Nov 2018 13:53:01 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45680 "EHLO mail.kernel.org"
+        id S1728401AbeKLTFX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Nov 2018 14:05:23 -0500
+Received: from mail.bootlin.com ([62.4.15.54]:41161 "EHLO mail.bootlin.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728400AbeKLSxB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Nov 2018 13:53:01 -0500
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 636B4223CB;
-        Mon, 12 Nov 2018 09:00:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1542013246;
-        bh=CXFRI9xpMkAIufqjmbpESzkJVagAVVh0/xAPM2ArlXw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=M1J759hzVv9ljiCjcSCe5UehLFG4z19roNouS8lGRZVk5moY2hr5eOKBfB0Xj79qY
-         v2u+AqXlvI4/6R5e0SEUgYarNgQnk00LNSpd+wO6WuZPIfKE25Lu+aOtS4citpqF2r
-         FWGI/Cl0yzm+Is0B39VnUDb5h0G6dzPRrORyfXKg=
-Received: by mail-lj1-f176.google.com with SMTP id e5-v6so6882623lja.4;
-        Mon, 12 Nov 2018 01:00:46 -0800 (PST)
-X-Gm-Message-State: AGRZ1gLJHuU6NGs0QLZbaxWktzV1mHsjy5ImaLSXMWc9DCIS8cWl2/ld
-        N6t5ft0kqHrqKX2TMRm8lAjkrYZajU/uz/M74EU=
-X-Google-Smtp-Source: AJdET5fqUn5egnyujNHuiwlzZogSjmHoLrt/X9DZwmzoQJFmeHooyJy4T9qNKl1pUMVrgV/go4qWjfxrk1fP1Ed6CAo=
-X-Received: by 2002:a2e:85d3:: with SMTP id h19-v6mr100345ljj.82.1542013244507;
- Mon, 12 Nov 2018 01:00:44 -0800 (PST)
+        id S1727036AbeKLTFX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Nov 2018 14:05:23 -0500
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 62B6420798; Mon, 12 Nov 2018 10:13:03 +0100 (CET)
+Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 83DBD20711;
+        Mon, 12 Nov 2018 10:12:52 +0100 (CET)
+Date:   Mon, 12 Nov 2018 10:12:52 +0100
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     Vitor soares <vitor.soares@synopsys.com>
+Cc:     wsa@the-dreams.de, linux-i2c@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
+        arnd@arndb.de, psroka@cadence.com, agolec@cadence.com,
+        adouglas@cadence.com, bfolta@cadence.com, dkos@cadence.com,
+        alicja@cadence.com, cwronka@cadence.com, sureshp@cadence.com,
+        rafalc@cadence.com, thomas.petazzoni@bootlin.com, nm@ti.com,
+        robh+dt@kernel.org, pawel.moll@arm.com, mark.rutland@arm.com,
+        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        geert@linux-m68k.org, linus.walleij@linaro.org,
+        Xiang.Lin@synaptics.com, linux-gpio@vger.kernel.org,
+        nsekhar@ti.com, pgaj@cadence.com, peda@axentia.se,
+        mshettel@codeaurora.org, swboyd@chromium.org,
+        joao.pinto@synopsys.com
+Subject: Re: [PATCH v3 0/3] Add driver for Synopsys DesignWare I3C master IP
+Message-ID: <20181112101252.51435335@bbrezillon>
+In-Reply-To: <1541697251-20392-1-git-send-email-soares@synopsys.com>
+References: <1541697251-20392-1-git-send-email-soares@synopsys.com>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <CGME20181107171041eucas1p1a3cf91435b9071fd6e6f84101ebbcd9f@eucas1p1.samsung.com>
- <1541610593-28542-1-git-send-email-l.luba@partner.samsung.com> <1541610593-28542-7-git-send-email-l.luba@partner.samsung.com>
-In-Reply-To: <1541610593-28542-7-git-send-email-l.luba@partner.samsung.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Mon, 12 Nov 2018 10:00:33 +0100
-X-Gmail-Original-Message-ID: <CAJKOXPcGOiVwVuaT+2RHGs0VxA2XRjOd6efsDQaGrWWCJS7vNg@mail.gmail.com>
-Message-ID: <CAJKOXPcGOiVwVuaT+2RHGs0VxA2XRjOd6efsDQaGrWWCJS7vNg@mail.gmail.com>
-Subject: Re: [PATCH v2 06/11] arm64: dts: exynos5433: add support for thermal
- trip irq-mode
-To:     l.luba@partner.samsung.com
-Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, rui.zhang@intel.com, edubezval@gmail.com,
-        daniel.lezcano@linaro.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, corbet@lwn.net,
-        =?UTF-8?B?QmFydMWCb21pZWogxbtvxYJuaWVya2lld2ljeg==?= 
-        <b.zolnierkie@samsung.com>, kgene@kernel.org,
-        "linux-samsung-soc@vger.kernel.org" 
-        <linux-samsung-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks Lukasz for patches. I like your work!
+On Thu,  8 Nov 2018 17:14:08 +0000
+Vitor soares <vitor.soares@synopsys.com> wrote:
 
-I have few more comments which will probably apply for all the DTS commits.
+> This patch series is a proposal for the I3C master driver for Synopsys IP.
+> This patch is to be applied on top of I3C subsystem RFC V10 submitted by
+> Boris Brezillon.
 
-On Wed, 7 Nov 2018 at 18:10, Lukasz Luba <l.luba@partner.samsung.com> wrote:
->
-> This patch adds support for new flag which indicates
+The patch series looks to me. I'm just waiting an ack from Rob on the
+bindings to queue it to the i3c/next branch.
 
-This patch does not add support. Support for flag was added in your
-first drivers/thermal patches in this set. This patch adds new flag.
-(and does something more, so read on)
+Thanks,
 
-> that trip point triggers IRQ when temperature is met.
-> Exynos5433 supports 8 trip point which will trigger IRQ.
+Boris
 
-/8 trip point/8 trip points/
+> 
+> Supported features:
+>   Regular CCC commands.
+>   I3C private transfers.
+>   I2C transfers.
+> 
+> Missing functionalities:
+>   Support DMA interface.
+>   Support for I3C_BUS_MODE_MIXED_SLOW.
+>   Hot-join.
+>   IBI.
+> 
+> Main change between v2 and v3:
+> - Minor fixes. They are described in each patch
+> 
+> Main change between v1 and v2:
+> - Add controller version on dt-binding
+> - The driver now calls writesl/readsl() instead readl/writel
+> - Rename some variables in the driver
+> 
+> Vitor soares (3):
+>   i3c: master: Add driver for Synopsys DesignWare IP
+>   dt-bindings: i3c: Document Synopsys DesignWare I3C master bindings
+>   MAINTAINERS: Add myself as the dw-i3c-master module maintainer
+> 
+>  .../devicetree/bindings/i3c/snps,dw-i3c-master.txt |   42 +
+>  MAINTAINERS                                        |    6 +
+>  drivers/i3c/master/Kconfig                         |   15 +
+>  drivers/i3c/master/Makefile                        |    1 +
+>  drivers/i3c/master/dw-i3c-master.c                 | 1216 ++++++++++++++++++++
+>  5 files changed, 1280 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
+>  create mode 100644 drivers/i3c/master/dw-i3c-master.c
+> 
 
-> Above that number other trip points should be registered
-> without 'irq-mode' flag.
-
-Please fix the line-wrap.
-
->
-> Cc: Kukjin Kim <kgene@kernel.org>
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-samsung-soc@vger.kernel.org
-> Signed-off-by: Lukasz Luba <l.luba@partner.samsung.com>
-> ---
->  arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi | 105 ++++++++++++++++---------
->  1 file changed, 70 insertions(+), 35 deletions(-)
->
-> diff --git a/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi b/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi
-> index fe3a0b1..c4330f6 100644
-> --- a/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi
-> +++ b/arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi
-> @@ -17,37 +17,44 @@ thermal-zones {
->                         atlas0_alert_0: atlas0-alert-0 {
->                                 temperature = <65000>;  /* millicelsius */
->                                 hysteresis = <1000>;    /* millicelsius */
-> -                               type = "active";
-> +                               type = "passive";
-
-This change is not explained in commit msg.
-
-Basically you are doing here two things (related to each other). You
-clearly define which trip points are IRQ-type and you correct the type
-of trip point. Active is incorrect. This second thing is missing in
-your commit msg and I believe it is main reason behind this patch. You
-should focus then on this reason - start from it. Subject could be
-like "Use proper passive type for thermal trip points".
-
-Without this explanation I don't see the strong reason behind that
-patch. IOW, everything was working fine before... so why adding this
-new flag? Or maybe something was not fine... and then it is real
-reason why you are sending the patch. Usually commit message should
-answer to the most important question "WHY". Now, it explains
-"WHAT"... but I can see it from the source code. However from the code
-it is not easy to guess WHY.
-
-Best regards,
-Krzysztof
