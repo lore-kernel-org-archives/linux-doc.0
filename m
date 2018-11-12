@@ -1,117 +1,78 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 02C1B7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 19:46:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3BA6B7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 20:15:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729553AbeKMFkt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 00:40:49 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:56688 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725749AbeKMFkt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Nov 2018 00:40:49 -0500
-X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
-Received: from mail.skyhub.de ([127.0.0.1])
-        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id Xnd2I_qq2v-Z; Mon, 12 Nov 2018 20:46:07 +0100 (CET)
-Received: from zn.tnic (p200300EC2BE56F00329C23FFFEA6A903.dip0.t-ipconnect.de [IPv6:2003:ec:2be5:6f00:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 218CF1EC03EA;
-        Mon, 12 Nov 2018 20:46:07 +0100 (CET)
-Date:   Mon, 12 Nov 2018 20:46:00 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Moger, Babu" <Babu.Moger@amd.com>
-Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
-        "pombredanne@nexb.com" <pombredanne@nexb.com>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
-        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Singh, Brijesh" <brijesh.singh@amd.com>,
-        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
-        "dwmw2@infradead.org" <dwmw2@infradead.org>,
-        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "jannh@google.com" <jannh@google.com>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "rian@alum.mit.edu" <rian@alum.mit.edu>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v7 02/13] arch/x86: Rename the RDT functions and
- definitions
-Message-ID: <20181112194600.GJ8167@zn.tnic>
-References: <20181109205153.14811-1-babu.moger@amd.com>
- <20181109205153.14811-3-babu.moger@amd.com>
- <20181112175610.GI8167@zn.tnic>
- <539bf8ea-b13f-186a-f1c7-71b1eaa63aa7@amd.com>
+        id S1726179AbeKMGKX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 01:10:23 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:48928 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725861AbeKMGKW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 01:10:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=hpMwYXKPi2k2kndV9SPZvFH4cZLQ4AgmoRzDv/06R40=; b=B6zkJWtlujzMC4VKfcezPAfF1X
+        lSgU3RQPEU0Qyr74WXcoT8bpOI5lHdms/0Ro44VWmz+jsaXJDKfKecoxVzyF68cVAHaWRkTcSenlc
+        tbZPpsbB8lSQUwxtOpvE8yeFUaId/q8xYNAKmMyllhH0lzqKFmAHDstER+uM4wkSH5w1obBRKWhK+
+        iQU039wPXGGe8V7CGKALrQ2ReFDKBawUfWiiEiHMJe5e/EcqP5Gdng3YCJ3TTVlj0Ln7CBbGuMrN5
+        WSi7kNPg4LxqHkq/fDBlKZNQ/UJrMAOp704/dLbRKLZR88Sq1nev13yPQ0HcSi2JjJuyfianhToUR
+        x+90nPzw==;
+Received: from 50-233-148-155-static.hfc.comcastbusiness.net ([50.233.148.155] helo=[10.18.6.178])
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gMIcM-0003y7-SG; Mon, 12 Nov 2018 20:15:31 +0000
+Subject: Re: [PATCH] Documentation: fix spelling mistake, EACCESS -> EACCES
+To:     Michael Ellerman <mpe@ellerman.id.au>, Jeremy Kerr <jk@ozlabs.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Colin King <colin.king@canonical.com>
+Cc:     David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, linuxppc-dev@lists.ozlabs.org,
+        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20181026172549.3628-1-colin.king@canonical.com>
+ <20181107153104.71eddf4d@lwn.net>
+ <d1048515-239a-2686-e897-fb2a2b8d180f@ozlabs.org>
+ <87bm6ua1xp.fsf@concordia.ellerman.id.au>
+From:   Geoff Levand <geoff@infradead.org>
+Message-ID: <84e64a8b-765b-e89d-7427-5fd3a660575f@infradead.org>
+Date:   Mon, 12 Nov 2018 12:15:27 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
+In-Reply-To: <87bm6ua1xp.fsf@concordia.ellerman.id.au>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <539bf8ea-b13f-186a-f1c7-71b1eaa63aa7@amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 12, 2018 at 07:25:02PM +0000, Moger, Babu wrote:
-> >> @@ -637,10 +637,11 @@ int rdt_get_mon_l3_config(struct rdt_resource *r)
-> >>  	 *
-> >>  	 * For a 35MB LLC and 56 RMIDs, this is ~1.8% of the LLC.
-> >>  	 */
-> >> -	intel_cqm_threshold = boot_cpu_data.x86_cache_size * 1024 / r->num_rmid;
-> >> +	resctrl_cqm_threshold = boot_cpu_data.x86_cache_size * 1024 /
-> >> +				r->num_rmid;
-> > 
-> > No need to break that line here.
-> 
-> Without the line break, checkpatch complains for "line over 80
-> characters".  Do you think we can ignore those?
+Hi Everyone,
 
-To quote from the tip handbook which is in preparation right now:
+On 11/12/2018 04:57 AM, Michael Ellerman wrote:
+> But maybe Geoff has a better feel for how many people (other than him)
+> are still running upstream on PS3s.
 
-"+The 80 character rule is not a strict rule, so please use common sense when
- +breaking lines."
+There are still PS3 users out there.  They are hobbyists who
+generally don't post to Linux kernel mailing lists.  I usually
+get one or two mail or IRC inquiries every month, many asking
+how to get a recent kernel running.
 
-In this particular case, it is more readable IMO to leave the line unbroken:
+I try keep my dev repo at k.org up to the latest -rc release
+and tested on the retail PS3.  For more info see:
 
-	resctrl_cqm_threshold = boot_cpu_data.x86_cache_size * 1024 / r->num_rmid;
+  https://git.kernel.org/pub/scm/linux/kernel/git/geoff/ps3-linux.git
+  https://www.kernel.org/pub/linux/kernel/people/geoff/cell/README
 
-What is even more readable though is:
-
-	unsigned int cl_size = boot_cpu_data.x86_cache_size;
-
-	...
-
-	resctrl_cqm_threshold = cl_size * 1024 / r->num_rmid;
-
-and now you have a win-win situation. :)
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
+-Geoff
