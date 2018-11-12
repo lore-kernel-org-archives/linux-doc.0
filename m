@@ -1,143 +1,236 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7E6687D08E
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 07:46:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8889D7D08E
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 07:58:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728138AbeKLRiA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Nov 2018 12:38:00 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:35684 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727319AbeKLRiA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Nov 2018 12:38:00 -0500
-Received: by mail-lf1-f66.google.com with SMTP id e26so3661325lfc.2;
-        Sun, 11 Nov 2018 23:45:58 -0800 (PST)
+        id S1728196AbeKLRuc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Nov 2018 12:50:32 -0500
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:42144 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727357AbeKLRuc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Nov 2018 12:50:32 -0500
+Received: by mail-pg1-f195.google.com with SMTP id d72so250793pga.9;
+        Sun, 11 Nov 2018 23:58:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=uvusb/Bv/pkIFB9xelCNhqJh6PsfA7bLbgBEcVCgKFk=;
+        b=t7U0zM3V/CF4YhLMkrEV4zQ+A+B64shVTXiNRF7FqfnxOvrstZzlD60KOEA6ZSLA4s
+         mhDVDE6cx24+BW1lQbDasfe1CTLNeIi1Bd6isag3izAi+NAlHFw9Wjso49AfPVpiWdjE
+         dFHnX/f4EhCWfRC/VMTyqv9uzF4WTkrj5JrkcvgTqSWvnMydZU5nzGSACDS+FYKt3JWH
+         CFLoEu4i2Y/A/dVVKzoxGy3hzxKxKvRtRQZreGteNwQIBld08mSfRr1EsgUncyNnrwBe
+         aPTpVR1nz+wZ93FEMmyrEcaVE/VpdMl4+qEOzbzDViXIAnT0JaB9wxEX96ur3Am076l3
+         yDhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=O4DEwIynUc77dZg/ag93qK776/mMU+0Tp2u/PyN0MDg=;
-        b=PKVzyw9CBGxc3i0Vq0mknRJTds1L4OHce2qsJESgEd6u1u+ztw9h3XS4EhFCyhCnk8
-         In4I9OHG2H3ZGnU9lgydkr+C7BER9MbFLkjC5RCsdHlVMkxVURkPUXlsV3A3TOu8YZ8Y
-         HVzrH+iSeJTSb+VWP3x1n6G8d/v0lR5g3xL4g8H9r+4HSGQ2GpM+wd4mKY5qbKpOSqgX
-         zIcpte4ZsxDn5Ut5U2Cr3MWA6feWPOEsaMX/1WUzce7xu+w30QxRJfEPe8zcGLZhHvZf
-         8bC5jxE69TBMhrp1c9XrqEta92oidzDD+TiBccydhZR6h3b3Jafo4BMWrFZE73itRRL2
-         Okfw==
-X-Gm-Message-State: AGRZ1gKc4cCV9tiCDUdZkgz8PQ7rS+OBbDh6PGq1unwPgoAzlpOTHK++
-        YiwLS3eEhRA786bsX7gd0hs=
-X-Google-Smtp-Source: AJdET5ekhvrfI5wjvCWJqH83ildkN78kpN4k2vKCg6ST1dTxykWYZCKPg2b/qAD4GyvEGkpisTYOLg==
-X-Received: by 2002:a19:c18d:: with SMTP id r135mr9894718lff.59.1542008757105;
-        Sun, 11 Nov 2018 23:45:57 -0800 (PST)
-Received: from localhost.localdomain ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id b25sm2849673lfa.96.2018.11.11.23.45.55
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 11 Nov 2018 23:45:55 -0800 (PST)
-Date:   Mon, 12 Nov 2018 09:45:53 +0200
-From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     corbet@lwn.net, mturquette@baylibre.com, linux@armlinux.org.uk,
-        andrew.smirnov@gmail.com, robh@kernel.org, sre@kernel.org,
-        linux@roeck-us.net, sjhuang@iluvatar.ai, mazziesaccount@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        heikki.haikola@fi.rohmeurope.com, mikko.mutanen@fi.rohmeurope.com,
-        Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH 2/2] clk: bd718x7: Initial support for ROHM
- bd71837/bd71847 PMIC clock
-Message-ID: <20181112074553.GB31573@localhost.localdomain>
-References: <0e6f19f99a4321d37472635c9210f6c13ac53147.1535630942.git.matti.vaittinen@fi.rohmeurope.com>
- <201808310820.GfPfChXp%fengguang.wu@intel.com>
- <20180831102123.GA2472@localhost.localdomain>
- <153582920636.19113.4389105687778850598@swboyd.mtv.corp.google.com>
- <20180903063843.GD2472@localhost.localdomain>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20180903063843.GD2472@localhost.localdomain>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=uvusb/Bv/pkIFB9xelCNhqJh6PsfA7bLbgBEcVCgKFk=;
+        b=DoLNPIu2maExnO+3tsbGz0rZeLaTbLzvQy77p1CGd9I2ZevicKQEiW0Cek1Hks9rJq
+         CPtp+cKXH9XOPZCuTxIdaIEePIzzqRh4lEggvcYc1FAjpYTbKualimDRuUM3sWHpNkB8
+         +PDSNuFfj8nGD3hpJIbUsfVCgsC+i1KSBBSX8UHiG2CvHWs7FuHjJwKR1On6BC8axp2t
+         1+KkuZXaQ5GeJaJGCv3GQTGo7Jbhf+snkgfdAaD0Jim9lSRd33XSND+Hsvqer2Y0AtmX
+         z3ZoMo7Rs2wIqRfIRF1m1Awu/KSM+Qxnbh2vFTMVktdX5hVGoqEkpKzIZQQzNhqEDyqb
+         7VdQ==
+X-Gm-Message-State: AGRZ1gJAbUIRC/8vjhWYMAw16JrTM4XMadlTdLOsB+cZS+UzOGxZzgvB
+        qkrZXY6/6GCqVVsz/g+7EZI=
+X-Google-Smtp-Source: AJdET5fhfRvQwVOsPdqp9Bo6WClQN0jputvZuWsHJBjC+4wmtr9xvmSAWbAZornSrvVHEFoh0jw9HA==
+X-Received: by 2002:a63:ee0e:: with SMTP id e14mr16127022pgi.8.1542009508751;
+        Sun, 11 Nov 2018 23:58:28 -0800 (PST)
+Received: from localhost.localdomain ([45.41.180.77])
+        by smtp.gmail.com with ESMTPSA id u2-v6sm17050816pfn.50.2018.11.11.23.58.16
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 11 Nov 2018 23:58:27 -0800 (PST)
+From:   Kenneth Lee <nek.in.cn@gmail.com>
+To:     Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Tim Sell <timothy.sell@unisys.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Vinod Koul <vkoul@kernel.org>,
+        David Kershner <david.kershner@unisys.com>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Gavin Schenk <g.schenk@eckelmann.de>,
+        Jens Axboe <axboe@kernel.dk>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Cyrille Pitchen <cyrille.pitchen@free-electrons.com>,
+        Johan Hovold <johan@kernel.org>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Zaibo Xu <xuzaibo@huawei.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-accelerators@lists.ozlabs.org
+Cc:     linuxarm@huawei.com, guodong.xu@linaro.org,
+        zhangfei.gao@foxmail.com, haojian.zhuang@linaro.org,
+        Kenneth Lee <liguozhu@hisilicon.com>
+Subject: [RFCv3 PATCH 0/6] A General Accelerator Framework, WarpDrive
+Date:   Mon, 12 Nov 2018 15:58:01 +0800
+Message-Id: <20181112075807.9291-1-nek.in.cn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Stephen & All,
+From: Kenneth Lee <liguozhu@hisilicon.com>
 
-On Mon, Sep 03, 2018 at 09:38:43AM +0300, Matti Vaittinen wrote:
-> 
-> On Sat, Sep 01, 2018 at 12:13:26PM -0700, Stephen Boyd wrote:
-> > Quoting Matti Vaittinen (2018-08-31 03:21:23)
-> > > Hello All,
-> > > 
-> > > Just wanted to point out for the reviewers that this patch depends on
-> > > not yet accepted MFD/regulator patch. (struct/defines in
-> > > include/linux/mfd/rohm-bd718x7.h were changed)
-> > > https://lore.kernel.org/lkml/cover.1535545377.git.matti.vaittinen@fi.rohmeurope.com/
-> > 
-> > Does anything besides the clk driver need the defines that are in the
-> > header which are used in this file?
-> 
-> The register address for clk enable and bit mask are not used by any
-> other driver. But I'd like to keep all the register addresses in one
-> enum. That eases checking changes when new chips come.
-> 
-> The private data for MFD (which contains for example the regmap and chip
-> type) are required by other drivers too.
-> 
-> > If not, then it's better to put
-> > those defines in the C file for the clk driver so we don't have to hop
-> > between files and have merge dependencies. Also, the regmap could
-> > possibly by grabbed from the dev->parent pointer instead of passing it
-> > down through an mfd structure, allowing this driver to be more generic
-> > assuming it is always a child of some mfd device that has a regmap.
-> 
-> Currently clk only uses regmap directly from the struct bd718xx. But I
-> would like to have the access to chip_type as well. And even if we forget
-> the chip_type. Well, I only see two bad ways of omitting the struct
-> bd718xx:
-> 
-> 1. Always keep the regmap as first member in parent device's driver_data.
-> Then we can just get the driver data and do cast to regmap. I am not fan
-> of this as it breaks as fast as someone changes the struct bd718xx - and
-> as this is part of MFD - well, there is no guarantees the clk people are
-> even reviewing such change. Also if we need the chip type we are back
-> using the struct.
-> 
-> 2. Use some regmnap wrapper functions which would only take the parent
-> dev pointer and dig out the regmap details. This would be doable but
-> then we still have dependency to these wrappers (so dependency is not
-> solved). Additionally these wrappers are something we decided to get rid
-> of few patch versions ago.
-> 
-> I don't expect much renamings to take place after the latest patch set
-> to MFD/regulator tree has been applied. So maybe the clk patch set can
-> just wait untill MFD/regulator stuff gets integrated. I would be
-> gratefull if we could review the clk patch set already now though so I
-> could do improvements/changes to clk side while waiting for
-> MFD/regulator to get applied. Also, the devm_ functions (patch 1) are
-> not depending on MFD - so maybe we can get them reviewed/applied? If I
-> have the spare time I can look if I can clean up some of those not freed
-> clkdev lookups.
-> 
-The MFD renaming patch has now been merged to clk-next. So dependencies
-to MFD should now be in-tree. I will rebase this to clk-next and do
-resend. This patch still requires the devm variants for clkdev lookups
-an devm variant of "parent of provider"-registration. I did submit those
-as part of the cleanup series:
-https://lore.kernel.org/linux-clk/cover.1541161503.git.matti.vaittinen@fi.rohmeurope.com/
+*WarpDrive* is a general accelerator framework for the user application to
+access the hardware without going through the kernel in data path.
 
-My question is if you prefer me to add this driver in that series and
-resend the series as v4? Or do you want me to send this in own
-individual patch with just a note about the dependency?
+WarpDrive is the name for the whole framework. The component in kernel
+is called uacce, meaning "Unified/User-space-access-intended Accelerator
+Framework". It makes use of the capability of IOMMU to maintain a
+unified virtual address space between the hardware and the process.
+
+The first patch in this patchset contains document of the framework.
+Please refer to it for more information.
+
+WarpDrive is intended to be used with Jean Philippe Brucker's SVA
+patchset[1], which enables IO side page fault and PASID support. But
+this patchset itself is simply the first step to support the no-PASID
+version.
+
+The patch 1 is document of the framework. The patch 2 add uacce support.
+The patch 3 and 4 are drivers for Hisilicon's ZIP Accelerator. It is
+registered to crypto subsystem. The patch 5 adds uacce support to the
+accelerator driver. It then can work in either crypto or uacce mode. It
+can support both mode at the same time when PASID mode is added in the
+future.
+
+The patch 6 is is a user space sample demonstrating how WarpDrive is
+used.
+
+The intension of this RFC is to know if the idea is acceptable.
+So the focus is the uacce itself. The patch 3 and 4 will be sent to mainline
+by another topic. We assume they will be accepted first and we can
+upstream uacce. And if SVA is upstreamed, the new feature will be added
+accordingly.
+
+Change History:
+V3 changed from V2:
+	1. Build uacce from original IOMMU interface. V2 is built on VFIO.
+	   But the VFIO way locking the user memory in place will not
+	   work properly if the process fork a child. Because the
+	   copy-on-write strategy will make the parent process lost its
+	   page. This is not acceptable to accelerator user.
+	2. The kernel component is renamed to uacce from sdmdev
+	   accordingly
+	3. Document is updated for the new design. The Static Shared
+	   Virtual Memory concept is introduced to replace the User
+	   Memory Sharing concept.
+	4. Rebase to the lastest kernel (4.20.0-rc1)
+	5. As an RFC, this version is tested only with "test-to-pass"
+	   test case and not tested with Jean's SVA patch.
+
+V2 changed from V1:
+	1. Change kernel framework name from SPIMDEV (Share Parent IOMMU
+	   Mdev) to SDMDEV (Share Domain Mdev).
+	2. Allocate Hardware Resource when a new mdev is created (While
+	   it is allocated when the mdev is openned)
+	3. Unmap pages from the shared domain when the sdmdev iommu group is
+	   detached. (This procedure is necessary, but missed in V1)
+	4. Update document accordingly.
+	5. Rebase to the latest kernel (4.19.0-rc1)
+
+
+Refernces:
+[1] https://www.spinics.net/lists/kernel/msg2651481.html
+[2] https://github.com/Kenneth-Lee/linux-kernel-warpdrive/tree/warpdrive-sva-v0.5
+[3] https://lkml.org/lkml/2018/7/22/34
 
 Best Regards
-	Matti Vaittinen
+Kenneth Lee
+
+Kenneth Lee (6):
+  uacce: Add documents for WarpDrive/uacce
+  uacce: add uacce module
+  crypto/hisilicon: add hisilicon Queue Manager driver
+  crypto/hisilicon: add Hisilicon zip driver
+  crypto: add uacce support to Hisilicon qm
+  uacce: add user sample for uacce/warpdrive
+
+ Documentation/warpdrive/warpdrive.rst       | 260 ++++++
+ Documentation/warpdrive/wd-arch.svg         | 764 ++++++++++++++++
+ Documentation/warpdrive/wd.svg              | 526 +++++++++++
+ Documentation/warpdrive/wd_q_addr_space.svg | 359 ++++++++
+ drivers/Kconfig                             |   2 +
+ drivers/Makefile                            |   1 +
+ drivers/crypto/hisilicon/Kconfig            |  19 +-
+ drivers/crypto/hisilicon/Makefile           |   2 +
+ drivers/crypto/hisilicon/qm.c               | 926 ++++++++++++++++++++
+ drivers/crypto/hisilicon/qm.h               | 227 +++++
+ drivers/crypto/hisilicon/qm_usr_if.h        |  32 +
+ drivers/crypto/hisilicon/zip/Makefile       |   2 +
+ drivers/crypto/hisilicon/zip/zip.h          |  57 ++
+ drivers/crypto/hisilicon/zip/zip_crypto.c   | 362 ++++++++
+ drivers/crypto/hisilicon/zip/zip_crypto.h   |  18 +
+ drivers/crypto/hisilicon/zip/zip_main.c     | 191 ++++
+ drivers/uacce/Kconfig                       |  11 +
+ drivers/uacce/Makefile                      |   2 +
+ drivers/uacce/uacce.c                       | 902 +++++++++++++++++++
+ include/linux/uacce.h                       | 117 +++
+ include/uapi/linux/uacce.h                  |  33 +
+ samples/warpdrive/AUTHORS                   |   3 +
+ samples/warpdrive/ChangeLog                 |   1 +
+ samples/warpdrive/Makefile.am               |   9 +
+ samples/warpdrive/NEWS                      |   1 +
+ samples/warpdrive/README                    |  32 +
+ samples/warpdrive/autogen.sh                |   3 +
+ samples/warpdrive/cleanup.sh                |  13 +
+ samples/warpdrive/conf.sh                   |   4 +
+ samples/warpdrive/configure.ac              |  52 ++
+ samples/warpdrive/drv/hisi_qm_udrv.c        | 228 +++++
+ samples/warpdrive/drv/hisi_qm_udrv.h        |  57 ++
+ samples/warpdrive/drv/wd_drv.h              |  19 +
+ samples/warpdrive/test/Makefile.am          |   7 +
+ samples/warpdrive/test/test_hisi_zip.c      | 150 ++++
+ samples/warpdrive/wd.c                      |  96 ++
+ samples/warpdrive/wd.h                      |  97 ++
+ samples/warpdrive/wd_adapter.c              |  71 ++
+ samples/warpdrive/wd_adapter.h              |  36 +
+ 39 files changed, 5691 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/warpdrive/warpdrive.rst
+ create mode 100644 Documentation/warpdrive/wd-arch.svg
+ create mode 100644 Documentation/warpdrive/wd.svg
+ create mode 100644 Documentation/warpdrive/wd_q_addr_space.svg
+ create mode 100644 drivers/crypto/hisilicon/qm.c
+ create mode 100644 drivers/crypto/hisilicon/qm.h
+ create mode 100644 drivers/crypto/hisilicon/qm_usr_if.h
+ create mode 100644 drivers/crypto/hisilicon/zip/Makefile
+ create mode 100644 drivers/crypto/hisilicon/zip/zip.h
+ create mode 100644 drivers/crypto/hisilicon/zip/zip_crypto.c
+ create mode 100644 drivers/crypto/hisilicon/zip/zip_crypto.h
+ create mode 100644 drivers/crypto/hisilicon/zip/zip_main.c
+ create mode 100644 drivers/uacce/Kconfig
+ create mode 100644 drivers/uacce/Makefile
+ create mode 100644 drivers/uacce/uacce.c
+ create mode 100644 include/linux/uacce.h
+ create mode 100644 include/uapi/linux/uacce.h
+ create mode 100644 samples/warpdrive/AUTHORS
+ create mode 100644 samples/warpdrive/ChangeLog
+ create mode 100644 samples/warpdrive/Makefile.am
+ create mode 100644 samples/warpdrive/NEWS
+ create mode 100644 samples/warpdrive/README
+ create mode 100755 samples/warpdrive/autogen.sh
+ create mode 100755 samples/warpdrive/cleanup.sh
+ create mode 100755 samples/warpdrive/conf.sh
+ create mode 100644 samples/warpdrive/configure.ac
+ create mode 100644 samples/warpdrive/drv/hisi_qm_udrv.c
+ create mode 100644 samples/warpdrive/drv/hisi_qm_udrv.h
+ create mode 100644 samples/warpdrive/drv/wd_drv.h
+ create mode 100644 samples/warpdrive/test/Makefile.am
+ create mode 100644 samples/warpdrive/test/test_hisi_zip.c
+ create mode 100644 samples/warpdrive/wd.c
+ create mode 100644 samples/warpdrive/wd.h
+ create mode 100644 samples/warpdrive/wd_adapter.c
+ create mode 100644 samples/warpdrive/wd_adapter.h
 
 -- 
-Matti Vaittinen
-ROHM Semiconductors
+2.17.1
 
-~~~ "I don't think so," said Rene Descartes.  Just then, he vanished ~~~
