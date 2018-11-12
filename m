@@ -1,138 +1,203 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 87FF57D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 16:16:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C3E1B7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 16:25:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729460AbeKMCKr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Nov 2018 21:10:47 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:35811 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727808AbeKMCKq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Nov 2018 21:10:46 -0500
-Received: by mail-oi1-f196.google.com with SMTP id v198-v6so7631332oif.2
-        for <linux-doc@vger.kernel.org>; Mon, 12 Nov 2018 08:16:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=synesis-ru.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=LcPRtZZv6rKs/BOykeACgr9FCLAs5Zf0D5AlPGCzhpE=;
-        b=Tr9F/gdOLgQnRDoLU449pU9saMCf4gG2m4a6FIjkz7AK4MxwXE+n/iCBFtcAmtgR6V
-         Qd8lGQXfivw6xX8KODxJWLFB5T5rxEiEQQfacKpK1zq+xhU73/nR7ZV9/dCBWZfk7nMb
-         b4gopyhIqGB15frdDTHofn2yjoGfIQOxwmDKLu27VOUV2w2nxaBWs7OqGcreLt5Jn3+Y
-         E7sjOy49E6eIHhNRLPUcPfrlrNiwd5h5eeFMPjacjqZHT7Dyu1nlwaz5yySiclXK4WMo
-         3Kyuij/HattpJY2UwBrfhhWnV71uYkh0XosRHWUtnZoU7uEUFe0rdtXpcYWcQ6W0PSN7
-         SVqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=LcPRtZZv6rKs/BOykeACgr9FCLAs5Zf0D5AlPGCzhpE=;
-        b=lLVeWK0EVY21SRi2ErHY/1JAEeihXzHx0G7qwwua9sAOffK+qj5wbqGxVEXgLvKP9O
-         YUTShF470sFVnMr+84H5yI/oYB0PW0f0Dyqo+3uD1J+jPPkCTrTRXkzrfpqTCxXnUALX
-         RJUw8o/Jv4sHYgeo87UakTIywjXsMVnDv0Wg0Bwp6rT+b+rwqpUw5PWg+4Fn3dYx+AhK
-         JBt7vajMXvUNtDNqHxIEtPl6Txi1AyXy9ZpI3H0S+AE9H07DhbaQJhnHtIplqSZmj95E
-         Om0p9ruEoDDLIpV/5+4Aca3KiIhL78wzUS+3F10rlWSJCzD0OFcHnCLP1zeFK0W2hD66
-         m+Dw==
-X-Gm-Message-State: AGRZ1gJWosxLj87/xCKFISRvN9ciU20rxQW6hhalskgJtxuKFaCYeKog
-        a8uhmxYBBmK+/jRINm2CnVQogQiq7UGq7g==
-X-Google-Smtp-Source: AJdET5fPm6Xdi9Nz8jIo/+aFvNszpTPJrQmJTAThuGvH008jcTTsTp2eA/PmprXeg44FvbihQtn2/A==
-X-Received: by 2002:aca:6910:: with SMTP id e16-v6mr914656oic.117.1542039410325;
-        Mon, 12 Nov 2018 08:16:50 -0800 (PST)
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com. [209.85.167.179])
-        by smtp.gmail.com with ESMTPSA id e75-v6sm11831797oih.41.2018.11.12.08.16.48
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 12 Nov 2018 08:16:48 -0800 (PST)
-Received: by mail-oi1-f179.google.com with SMTP id c206so2054582oib.0;
-        Mon, 12 Nov 2018 08:16:48 -0800 (PST)
-X-Received: by 2002:aca:f40d:: with SMTP id s13-v6mr929111oih.102.1542039407789;
- Mon, 12 Nov 2018 08:16:47 -0800 (PST)
+        id S1728199AbeKMCT0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Nov 2018 21:19:26 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40740 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727976AbeKMCTZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Nov 2018 21:19:25 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wACGJXjs081311
+        for <linux-doc@vger.kernel.org>; Mon, 12 Nov 2018 11:25:28 -0500
+Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2nqc6g2uqu-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 12 Nov 2018 11:25:27 -0500
+Received: from localhost
+        by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <eajames@linux.vnet.ibm.com>;
+        Mon, 12 Nov 2018 16:25:26 -0000
+Received: from b01cxnp23032.gho.pok.ibm.com (9.57.198.27)
+        by e15.ny.us.ibm.com (146.89.104.202) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 12 Nov 2018 16:25:22 -0000
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com [9.57.199.109])
+        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wACGPLSZ23658746
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 12 Nov 2018 16:25:21 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BFD6E11206F;
+        Mon, 12 Nov 2018 16:25:20 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 90005112066;
+        Mon, 12 Nov 2018 16:25:19 +0000 (GMT)
+Received: from [9.41.179.222] (unknown [9.41.179.222])
+        by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+        Mon, 12 Nov 2018 16:25:19 +0000 (GMT)
+Subject: Re: [PATCH v6 00/10] hwmon and fsi: Add On-Chip Controller Driver
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Eddie James <eajames@linux.ibm.com>
+Cc:     linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, jdelvare@suse.com,
+        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
+        robh+dt@kernel.org, mark.rutland@arm.com, rdunlap@infradead.org,
+        benh@kernel.crashing.org
+References: <1541711129-26631-1-git-send-email-eajames@linux.ibm.com>
+ <20181109230354.GA31326@roeck-us.net>
+From:   Eddie James <eajames@linux.vnet.ibm.com>
+Date:   Mon, 12 Nov 2018 10:25:19 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20181111212610.25213-1-timofey.titovets@synesis.ru> <20181112035838.GF21824@bombadil.infradead.org>
-In-Reply-To: <20181112035838.GF21824@bombadil.infradead.org>
-From:   Timofey Titovets <timofey.titovets@synesis.ru>
-Date:   Mon, 12 Nov 2018 19:16:11 +0300
-X-Gmail-Original-Message-ID: <CAGqmi7610QBdEp=xUOgPEbMhfB11ZF6cFCBS-T3BoCb2Sbj1ug@mail.gmail.com>
-Message-ID: <CAGqmi7610QBdEp=xUOgPEbMhfB11ZF6cFCBS-T3BoCb2Sbj1ug@mail.gmail.com>
-Subject: Re: [PATCH v2] ksm: allow dedup all tasks memory
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Linux Kernel <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20181109230354.GA31326@roeck-us.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+x-cbid: 18111216-0068-0000-0000-0000035ECFFE
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00010035; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000270; SDB=6.01116425; UDB=6.00578981; IPR=6.00896533;
+ MB=3.00024128; MTD=3.00000008; XFM=3.00000015; UTC=2018-11-12 16:25:26
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18111216-0069-0000-0000-00004666A3D9
+Message-Id: <65651d7d-7c29-4cc5-7ebf-b9d33fed7500@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-12_11:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1807170000 definitions=main-1811120142
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-=D0=BF=D0=BD, 12 =D0=BD=D0=BE=D1=8F=D0=B1. 2018 =D0=B3. =D0=B2 6:58, Matthe=
-w Wilcox <willy@infradead.org>:
+
+
+On 11/09/2018 05:03 PM, Guenter Roeck wrote:
+> On Thu, Nov 08, 2018 at 03:05:19PM -0600, Eddie James wrote:
+>> From: Eddie James <eajames@linux.vnet.ibm.com>
+>>
+>> This series adds a hwmon driver to support the OCC on POWER8 and POWER9
+>> processors. The OCC is an embedded processor that provides realtime power and
+>> thermal monitoring and management.
+>>
+>> The series also adds a "bus" driver to handle atomic communication between the
+>> service processor and the OCC on a POWER9 chip. This communication takes place
+>> over FSI bus to the SBE (Self-Boot engine) FIFO, which in turn communicates
+>> with the OCC. The driver for the SBEFIFO is already available as an FSI client
+>> driver.
+>>
+>> For POWER8 OCCs, communication between the service processor and the OCC is
+>> achieved over I2C bus.
+>>
+> I am not entirely happy with the series - there are still lots of proprietary
+> attributes, and I would have preferred the use of the _info API at this point -
+> but this has taken long enough. Series applied to hwmon-next. Please send any
+> fixes as follow-up patches.
+
+Thanks a lot Guenter, appreciate your help getting here.
+
+Eddie
+
 >
-> On Mon, Nov 12, 2018 at 12:26:10AM +0300, Timofey Titovets wrote:
-> > ksm by default working only on memory that added by
-> > madvice().
-> >
-> > And only way get that work on other applications:
-> >  - Use LD_PRELOAD and libraries
-> >  - Patch kernel
-> >
-> > Lets use kernel task list in ksm_scan_thread and add logic to allow ksm
-> > import VMA from tasks.
-> > That behaviour controlled by new attribute: mode
-> > I try mimic hugepages attribute, so mode have two states:
-> >  - normal       - old default behaviour
-> >  - always [new] - allow ksm to get tasks vma and try working on that.
-> >
-> > To reduce CPU load & tasklist locking time,
-> > ksm try import VMAs from one task per loop.
-> >
-> > So add new attribute "mode"
-> > Two passible values:
-> >  - normal [default] - ksm use only madvice
-> >  - always [new]     - ksm will search vma over all processes memory and
-> >                       add it to the dedup list
+> Thanks,
+> Guenter
 >
-> Do you have any numbers for how much difference this change makes with
-> various different workloads?
+>> Changes since v5:
+>>   * Makefile fix when compiling both P8 and P9 versions
+>>   * Spelling fix in hwmon doc
+>>   * Added an additional sentence for P9 binding doc to explain that OCC isn't
+>>     an FSI slave device.
+>>
+>> Changes since v4:
+>>   * Make the hwmon attributes conform almost completely to standard names and
+>>     values. The only exception is powerX_cap_user and powerX_cap_user_source.
+>>   * Improve hwmon documentation.
+>>   * Add ibm,p9-occ dt documentation.
+>>
+>> Changes since v3:
+>>   * Add the FSI OCC driver.
+>>   * Pull the sysfs attribute code into it's own file for cleanliness.
+>>   * Various fixes for attribute creation and integer overflow.
+>>
+>> Changes since v2:
+>>   * Add sysfs_notify for the error and throttling attributes when change is
+>>     detected.
+>>   * Removed occs_present counting of devices bound.
+>>   * Improved remove() of P9 driver to avoid bad behavior with relation to OCC
+>>     driver when unbound.
+>>   * Added default cases (return EINVAL) for all sensor show functions.
+>>   * Added temperature fault sensor.
+>>   * Added back dt binding documentation for P9 to address checkpatch warning.
+>>   * Added occs_present attribute from the poll response.
+>>
+>> Changes since v1:
+>>   * Remove wait loop in P9 code, as that is now handled by FSI OCC driver.
+>>   * Removed dt binding documentation for P9, FSI OCC driver will probe OCC hwmon
+>>     driver automatically.
+>>   * Moved OCC response code definitions to the OCC include file.
+>>   * Fixed includes.
+>>   * Changed some structure fields to __beXX as that is what they are.
+>>   * Changed some errnos.
+>>   * Removed some dev_err().
+>>   * Refactored P8 code a bit to use #defined addresses and magic values, and
+>>     changed "goto retry" to a loop.
+>>   * Refactored error handling a bit.
+>>
+>> Eddie James (10):
+>>    dt-bindings: fsi: Add P9 OCC device documentation
+>>    fsi: Add On-Chip Controller (OCC) driver
+>>    Documentation: hwmon: Add OCC documentation
+>>    dt-bindings: i2c: Add P8 OCC hwmon device documentation
+>>    hwmon: Add On-Chip Controller (OCC) hwmon driver
+>>    hwmon (occ): Add command transport method for P8 and P9
+>>    hwmon (occ): Parse OCC poll response
+>>    hwmon (occ): Add sensor types and versions
+>>    hwmon (occ): Add sensor attributes and register hwmon device
+>>    hwmon (occ): Add sysfs attributes for additional OCC data
+>>
+>>   .../devicetree/bindings/fsi/ibm,p9-occ.txt         |   16 +
+>>   .../devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt   |   25 +
+>>   Documentation/hwmon/occ                            |  112 ++
+>>   drivers/fsi/Kconfig                                |   10 +
+>>   drivers/fsi/Makefile                               |    1 +
+>>   drivers/fsi/fsi-occ.c                              |  599 +++++++++++
+>>   drivers/hwmon/Kconfig                              |    2 +
+>>   drivers/hwmon/Makefile                             |    1 +
+>>   drivers/hwmon/occ/Kconfig                          |   31 +
+>>   drivers/hwmon/occ/Makefile                         |    5 +
+>>   drivers/hwmon/occ/common.c                         | 1098 ++++++++++++++++++++
+>>   drivers/hwmon/occ/common.h                         |  128 +++
+>>   drivers/hwmon/occ/p8_i2c.c                         |  255 +++++
+>>   drivers/hwmon/occ/p9_sbe.c                         |  106 ++
+>>   drivers/hwmon/occ/sysfs.c                          |  188 ++++
+>>   include/linux/fsi-occ.h                            |   25 +
+>>   16 files changed, 2602 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+>>   create mode 100644 Documentation/devicetree/bindings/i2c/ibm,p8-occ-hwmon.txt
+>>   create mode 100644 Documentation/hwmon/occ
+>>   create mode 100644 drivers/fsi/fsi-occ.c
+>>   create mode 100644 drivers/hwmon/occ/Kconfig
+>>   create mode 100644 drivers/hwmon/occ/Makefile
+>>   create mode 100644 drivers/hwmon/occ/common.c
+>>   create mode 100644 drivers/hwmon/occ/common.h
+>>   create mode 100644 drivers/hwmon/occ/p8_i2c.c
+>>   create mode 100644 drivers/hwmon/occ/p9_sbe.c
+>>   create mode 100644 drivers/hwmon/occ/sysfs.c
+>>   create mode 100644 include/linux/fsi-occ.h
+>>
+>> -- 
+>> 1.8.3.1
+>>
 
-Yep, i got some non KVM numbers,
-Formulas:
- Percentage - (pages_sharing - pages_shared)/pages_unshared
- Memory saved - (pages_sharing - pages_shared)*4/1024 MiB
-
-- My working laptop: 5% - ~100 MiB saved ~2GiB used
-  Many different chrome based apps + KDE
-
-- K8s test VM:  40% - ~160 MiB saved ~920MiB used
-  With some small running docker images
-
-- Ceph test VM: 20% - ~60MiB saved ~600MiB used
-  With ceph mon, osd.
-
-Develop cluster servers:
-- K8s server backend: 72%, ~5800 MiB saved ~35.7 GiB used
-  (With backend apps: C, java, go & etc server apps)
-
-- K8s server processing: 55%, ~2600 MiB saved ~28 GiB used
-  (90% of load many instance of one CPU intensive application)
-
-- Ceph node: 2%, ~190 MiB saved ~11.7 GiB used
-  (OSD only)
-
-
-So numbers, as always depends on the load.
-
-Thanks!
-- - -
-P.S.
-On recent kernels (4.19) i see BUG_ON message, that ksmd scheduled
-while in critical section/atomic context,
-not sure how to properly fix that.
-(If i understood correctly, i can use preempt_disable(); but that
-looks more like hack, not a fix).
-
-Any feedback are welcome.
