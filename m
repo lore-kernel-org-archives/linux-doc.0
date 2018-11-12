@@ -3,47 +3,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D4B047D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 09:58:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3CD837DD32
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 09:58:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729156AbeKLTtq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Nov 2018 14:49:46 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:46993 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728847AbeKLTtn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Nov 2018 14:49:43 -0500
-Received: by mail-wr1-f68.google.com with SMTP id 74-v6so8553193wrb.13
-        for <linux-doc@vger.kernel.org>; Mon, 12 Nov 2018 01:57:14 -0800 (PST)
+        id S1726221AbeKLTvD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Nov 2018 14:51:03 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:52968 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727167AbeKLTvD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Nov 2018 14:51:03 -0500
+Received: by mail-wm1-f68.google.com with SMTP id r11-v6so7791842wmb.2
+        for <linux-doc@vger.kernel.org>; Mon, 12 Nov 2018 01:58:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=symMBI0AEZzZj3jXIeKSzDkA196PYWRtmcxOC8y15f0=;
-        b=PLZQsYk8zx5Q6H+H+XLenq9zy5WTTXzbjsINOjU45dyhex93N5hCav2aGJsu5FmV2p
-         TwXAeQNkschEKoKPJaFtk3IKly/y954thUgWArusiHRfCOorjEt67znBLPbkOXdFz+uH
-         jkwbbS5vgHj6TxcDWHCYS9W4Y1QoGNib19Qyw=
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=9fSKAzP9ruRBEA1MT9Z13pRnkDRt7j8j4EnmxP10Ums=;
+        b=PCZFuQEnWqBGooqnIOMnX/hRrLxg2cS/5rByMG9iV8msjbZWdJqOweg452LQc/NV+n
+         IDjltLKRCB3UVBn8nvUqb5TsYJ+U2sGuvj1BPAYLWwg1H/iZLkatkttOs5E+ukee07H4
+         QMcdsTA6dgj2iuYNuC16+mA852flmhuC3Kf1c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=symMBI0AEZzZj3jXIeKSzDkA196PYWRtmcxOC8y15f0=;
-        b=qPOdc2hIbwIoXt+Jvt9ZTlVtoDQr5/Ap5O4y/jN6kwb0agma0pfUNEWDw8EShdyjPF
-         BN2M413KLuG1vTCbg2lKRlDFHPTG8m6RXJ8JSMpBe2CNxnYeGOB7j8YefLpAXagZvfhg
-         +JVXXtn3saLV+3lSvJSJgGhzC/JuigWcwCLS+Oa5/JfWjdZLZoHBw8yMGXkuDjkjtckg
-         Y0een+nUyCbx9vUX6MFqKkpckzkvWI89fw94syuCMhuBm/GTsCQgK7ffxFKgXzsdYTb0
-         Yqj22RVMQaR/f7w5w0V7MmRCGGi3LZmmFL60C6/hNj4pZ1KmD3vptueJdVIvdT5mQ+FR
-         MrUQ==
-X-Gm-Message-State: AGRZ1gIcQRldiBojRT4Cr9jslL2Lc72+AtJhy7zA35eLD5S43aK+t2aW
-        HH6/80FzUpvcLv8Mo+R8Gua44Q==
-X-Google-Smtp-Source: AJdET5c7zXbGapx4ROwQiCCoDFHoiCdXuVcP9QnHz9lDONpVPiq7dXyqARUVk/+ujQMIQmFTTgTqJw==
-X-Received: by 2002:adf:f8d0:: with SMTP id f16-v6mr292162wrq.265.1542016633209;
-        Mon, 12 Nov 2018 01:57:13 -0800 (PST)
-Received: from localhost.localdomain ([93.68.220.21])
-        by smtp.gmail.com with ESMTPSA id r14-v6sm21273089wro.8.2018.11.12.01.57.10
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=9fSKAzP9ruRBEA1MT9Z13pRnkDRt7j8j4EnmxP10Ums=;
+        b=J4VaLBHUvetJ1IaIBqIqj8LNAT2Xv4cL0QWMQAxHASeFL/bGHdxmN/cXXOVIuegdhN
+         rsravyphoAhVsJKToNQIGQVll28PL/bwJcnq98NKWo9TOVWiGDrCUdFA441uMHknkbFR
+         6tEd5nMuuZEyd4/uu547uU0JFcSfUQMYr9XhECM1DqUx0rzfhhdae2wXvFaPI34frrcG
+         ZKiHTSRalgS7U2ZQ3Zlx7X4AZzRDDCB9t8XWhOHfRz53fpFAENDpq14dYsz9Xr/2kYwz
+         W104bB31GC+DGXJFD+VprqFNAiXP26MlfU4cQogbTQ136aZ1Ddw2VSu+XlpuVl6yXWPa
+         JkTQ==
+X-Gm-Message-State: AGRZ1gIkOLc3MJ4ilWF4R/RYe0Qfqay07YRMjINyWeBVAWKBt9i/AXT3
+        lXubYoFO317fIAovb0XGzA0RFw==
+X-Google-Smtp-Source: AJdET5exIBdE8SylbVFXphKgfG329L/77XgrdfvXEV2V0gIdVy6hd3Xa4vIe69L+DVcvrpZvpbkOyg==
+X-Received: by 2002:a1c:c10b:: with SMTP id r11mr940555wmf.84.1542016712631;
+        Mon, 12 Nov 2018 01:58:32 -0800 (PST)
+Received: from [192.168.43.112] ([93.68.220.21])
+        by smtp.gmail.com with ESMTPSA id t129-v6sm12292695wmd.14.2018.11.12.01.58.30
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 12 Nov 2018 01:57:12 -0800 (PST)
+        Mon, 12 Nov 2018 01:58:32 -0800 (PST)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.0 \(3445.100.39\))
+Subject: Re: [PATCH 00/12] unify the interface of the proportional-share
+ policy in blkio/io
 From:   Paolo Valente <paolo.valente@linaro.org>
+In-Reply-To: <20181112095632.69114-1-paolo.valente@linaro.org>
+Date:   Mon, 12 Nov 2018 10:58:29 +0100
+Cc:     linux-block <linux-block@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        'Paolo Valente' via bfq-iosched 
+        <bfq-iosched@googlegroups.com>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, lennart@poettering.net
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <A25880F5-BA4E-4BF3-8AD2-1AB528551FC0@linaro.org>
+References: <20181112095632.69114-1-paolo.valente@linaro.org>
 To:     Jens Axboe <axboe@kernel.dk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
@@ -53,221 +74,97 @@ To:     Jens Axboe <axboe@kernel.dk>,
         Liu Bo <bo.liu@linux.alibaba.com>,
         Bart Van Assche <bvanassche@acm.org>,
         Johannes Weiner <hannes@cmpxchg.org>
-Cc:     linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ulf.hansson@linaro.org, linus.walleij@linaro.org,
-        broonie@kernel.org, bfq-iosched@googlegroups.com,
-        oleksandr@natalenko.name, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Paolo Valente <paolo.valente@linaro.org>
-Subject: [PATCH 04/12] cgroup: link cftypes of the same subsystem with the same name
-Date:   Mon, 12 Nov 2018 10:56:24 +0100
-Message-Id: <20181112095632.69114-5-paolo.valente@linaro.org>
-X-Mailer: git-send-email 2.16.1
-In-Reply-To: <20181112095632.69114-1-paolo.valente@linaro.org>
-References: <20181112095632.69114-1-paolo.valente@linaro.org>
+X-Mailer: Apple Mail (2.3445.100.39)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Angelo Ruocco <angeloruocco90@gmail.com>
+Forgot to CC Lennart, sorry.
 
-When a cgroup policy is activated, it creates its files in its
-subsystem directory. Two policies are not able to create a file with
-the same name: if a policy tries to create a file that has the same
-name as a file created by another policy, the cgroup core stops it,
-warns the user about the error, and then proceeds to delete all the
-files created by the last policy.
-
-However, in some specific situations, it may be useful for two or more
-policies to use a common file, e.g., the I/O schedulers bfq and cfq
-have the same "weight" attribute, that changes the behavior of the two
-schedulers in a similar way.
-
-This commit prepares the interface that allows two policies of the same
-subsystem to share files. It adds a flag CFTYPE_SHARE_FILE for cftypes,
-flag that allows cftypes to be linked together if they are part of the
-same subsystem and have the same name.
-
-There is a limitation for a cftype that wants to share a file: it can't
-have the hooks seq_start/next/stop. The reason is that there is no
-consistent way to show portions of a file once multiple cftypes are
-attached to it, and thus more than one seq_show() is invoked: there are
-neither an univocal start point, nor univocal "next" and "stop"
-operations.
-
-Signed-off-by: Angelo Ruocco <angeloruocco90@gmail.com>
-Signed-off-by: Paolo Valente <paolo.valente@linaro.org>
----
- include/linux/cgroup-defs.h |  9 ++++++
- kernel/cgroup/cgroup.c      | 78 +++++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 85 insertions(+), 2 deletions(-)
-
-diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
-index 7841db6e7fb3..d659763c7221 100644
---- a/include/linux/cgroup-defs.h
-+++ b/include/linux/cgroup-defs.h
-@@ -93,6 +93,8 @@ enum {
- 	CFTYPE_NO_PREFIX	= (1 << 3),	/* (DON'T USE FOR NEW FILES) no subsys prefix */
- 	CFTYPE_WORLD_WRITABLE	= (1 << 4),	/* (DON'T USE FOR NEW FILES) S_IWUGO */
- 
-+	CFTYPE_SHARES_FILE	= (1 << 5),	/* shares file w/ other cfts */
-+
- 	/* internal flags, do not use outside cgroup core proper */
- 	__CFTYPE_ONLY_ON_DFL	= (1 << 16),	/* only on default hierarchy */
- 	__CFTYPE_NOT_ON_DFL	= (1 << 17),	/* not on default hierarchy */
-@@ -528,6 +530,13 @@ struct cftype {
- 	 */
- 	struct cgroup_subsys *ss;	/* NULL for cgroup core files */
- 	struct list_head node;		/* anchored at ss->cfts */
-+
-+	/*
-+	 * List of cftypes that are sharing the same file. It allows the hook
-+	 * functions of the cftypes in the list to be called together.
-+	 */
-+	struct list_head share_node;
-+
- 	struct kernfs_ops *kf_ops;
- 
- 	int (*open)(struct kernfs_open_file *of);
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index 74012b61fe19..e3cc437669a8 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -1579,9 +1579,12 @@ struct cgroup *cgroup_kn_lock_live(struct kernfs_node *kn, bool drain_offline)
- 	return NULL;
- }
- 
--static void cgroup_rm_file(struct cgroup *cgrp, const struct cftype *cft)
-+static void cgroup_rm_file(struct cgroup *cgrp, struct cftype *cft)
- {
- 	char name[CGROUP_FILE_NAME_MAX];
-+	struct kernfs_node *kn = kernfs_find(cgrp->kn,
-+			cgroup_file_name(cgrp, cft, name));
-+	struct cftype *cfts = kn->priv;
- 
- 	lockdep_assert_held(&cgroup_mutex);
- 
-@@ -1596,7 +1599,19 @@ static void cgroup_rm_file(struct cgroup *cgrp, const struct cftype *cft)
- 		del_timer_sync(&cfile->notify_timer);
- 	}
- 
--	kernfs_remove_by_name(cgrp->kn, cgroup_file_name(cgrp, cft, name));
-+	/* Delete the file only if it's used by one cftype */
-+	if (list_empty(&cft->share_node) || atomic_read(&kn->count) == 1) {
-+		kernfs_remove(kn);
-+	} else {
-+		/*
-+		 * Update the "priv" pointer of the kernfs_node if the cftype
-+		 * that first created the file is removed.
-+		 */
-+		if (cft == cfts)
-+			kn->priv = list_next_entry(cft, share_node);
-+
-+		kernfs_put(kn);
-+	}
- }
- 
- /**
-@@ -3467,6 +3482,7 @@ static int cgroup_file_open(struct kernfs_open_file *of)
- {
- 	struct cftype *cft = of->kn->priv;
- 
-+
- 	if (cft->open)
- 		return cft->open(of);
- 	return 0;
-@@ -3615,6 +3631,23 @@ static int cgroup_add_file(struct cgroup_subsys_state *css, struct cgroup *cgrp,
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
- 	key = &cft->lockdep_key;
- #endif
-+
-+	if (cft->flags & CFTYPE_SHARES_FILE) {
-+		kn = kernfs_find(cgrp->kn, cgroup_file_name(cgrp, cft, name));
-+		if (kn) {
-+			struct cftype *cfts = kn->priv;
-+
-+			if (cfts->flags & CFTYPE_SHARES_FILE) {
-+				/*
-+				 * kn->count keeps track of how many cftypes
-+				 * share kn
-+				 */
-+				kernfs_get(kn);
-+				goto out_set_cfile;
-+			}
-+		}
-+	}
-+
- 	kn = __kernfs_create_file(cgrp->kn, cgroup_file_name(cgrp, cft, name),
- 				  cgroup_file_mode(cft),
- 				  GLOBAL_ROOT_UID, GLOBAL_ROOT_GID,
-@@ -3629,6 +3662,7 @@ static int cgroup_add_file(struct cgroup_subsys_state *css, struct cgroup *cgrp,
- 		return ret;
- 	}
- 
-+out_set_cfile:
- 	if (cft->file_offset) {
- 		struct cgroup_file *cfile = (void *)css + cft->file_offset;
- 
-@@ -3726,11 +3760,46 @@ static void cgroup_exit_cftypes(struct cftype *cfts)
- 		cft->kf_ops = NULL;
- 		cft->ss = NULL;
- 
-+		list_del(&cft->share_node);
-+
- 		/* revert flags set by cgroup core while adding @cfts */
- 		cft->flags &= ~(__CFTYPE_ONLY_ON_DFL | __CFTYPE_NOT_ON_DFL);
- 	}
- }
- 
-+/*
-+ * Link a cftype that wants to share a file to the list of cftypes that are
-+ * using it.
-+ *
-+ * The conditions for a cftype to be put in an existing list of cftypes and
-+ * thus start to share a file are:
-+ *	- to have the flag CFTYPE_SHARES_FILE set;
-+ *	- to have all flags coincide with the flags of the other cftypes in the
-+ *	  list;
-+ *	- to not have a seq_start hook: there is no consistent way to show
-+ *	  portions of a file once multiple cftypes are attached to it, and thus
-+ *	  more than one seq_show() is invoked.
-+ *
-+ * Once two or more cftypes are linked together, the file only points
-+ * to the first of them.
-+ */
-+static void cgroup_link_cftype(struct cgroup_subsys *ss, struct cftype *cft)
-+{
-+	struct cftype *cfts;
-+
-+	list_for_each_entry(cfts, &ss->cfts, node) {
-+		struct cftype *c;
-+
-+		for (c = cfts; c->name[0] != '\0'; c++)
-+			if (c != cft && !(c->flags ^ cft->flags) &&
-+			    !(c->seq_start || cft->seq_start) &&
-+			    !strcmp(c->name, cft->name)) {
-+				list_add(&cft->share_node, &c->share_node);
-+				return;
-+			}
-+	}
-+}
-+
- static int cgroup_init_cftypes(struct cgroup_subsys *ss, struct cftype *cfts)
- {
- 	struct cftype *cft;
-@@ -3760,6 +3829,11 @@ static int cgroup_init_cftypes(struct cgroup_subsys *ss, struct cftype *cfts)
- 
- 		cft->kf_ops = kf_ops;
- 		cft->ss = ss;
-+
-+		INIT_LIST_HEAD(&cft->share_node);
-+
-+		if (cft->flags & CFTYPE_SHARES_FILE)
-+			cgroup_link_cftype(ss, cft);
- 	}
- 
- 	return 0;
--- 
-2.16.1
+> Il giorno 12 nov 2018, alle ore 10:56, Paolo Valente =
+<paolo.valente@linaro.org> ha scritto:
+>=20
+> Hi Jens, Tejun, all,
+> about nine months ago, we agreed on a solution for unifying the
+> interface of the proportional-share policy in blkio/io [1].  Angelo
+> and I finally completed it.  Let me briefly recall the problem and the
+> solution.
+>=20
+> The current implementation of cgroups doesn't allow two or more
+> entities, e.g., I/O schedulers, to share the same files.  So, if CFQ
+> creates its files for the proportional-share policy, such as, e.g,
+> weight files for blkio/io groups, BFQ cannot attach somehow to them.
+> Thus, to enable people to set group weights with BFQ, I resorted to
+> making BFQ create its own version of these common files, by prepending
+> a bfq prefix.
+>=20
+> Actually, no legacy code uses these different names, or is likely to
+> do so.  Having these two sets of names is simply a source of
+> confusion, as pointed out also, e.g., by Lennart Poettering (CCed
+> here), and acknowledged by Tejun [2].
+>=20
+> In [1] we agreed on a solution that solves this problem, by actually
+> making it possible to share cgroups files.  Both writing to and
+> reading from a shared file trigger the appropriate operation for each
+> of the entities that share the file.  In particular, in case of
+> reading,
+> - if all entities produce the same output, the this common output is
+>  shown only once;
+> - if the outputs differ, then every per-entity output is shown,
+>  preceded by the name of the entity that produced that output.
+>=20
+> With this solution, legacy code that, e.g., sets group weights, just
+> works, regardless of the I/O scheduler actually implementing
+> proportional share.
+>=20
+> But note that this extension is not restricted to only blkio/io.  The
+> general group interface now enables files to be shared among multiple
+> entities of any kind.
+>=20
+> (I have also added a patch to fix some clerical errors in bfq doc,
+> which I found while making the latter consistent with the new
+> interface.)
+>=20
+> Thanks,
+> Paolo
+>=20
+> [1] https://lkml.org/lkml/2018/1/4/667
+> [2] https://github.com/systemd/systemd/issues/7057
+>=20
+> Angelo Ruocco (7):
+>  kernfs: add function to find kernfs_node without increasing ref
+>    counter
+>  cgroup: link cftypes of the same subsystem with the same name
+>  cgroup: add owner name to cftypes
+>  block, bfq: align min and default weights with cfq
+>  cgroup: make all functions of all cftypes be invoked
+>  block, cfq: allow cgroup files to be shared
+>  block, throttle: allow sharing cgroup statistic files
+>=20
+> Paolo Valente (5):
+>  cgroup: add hook seq_show_cft with also the owning cftype as =
+parameter
+>  block, cgroup: pass cftype to functions that need to use it
+>  block, bfq: use standard file names for the proportional-share policy
+>  doc, bfq-iosched: fix a few clerical errors
+>  doc, bfq-iosched: make it consistent with the new cgroup interface
+>=20
+> Documentation/block/bfq-iosched.txt |  31 +++--
+> block/bfq-cgroup.c                  | 148 +++++++++++++-------
+> block/bfq-iosched.h                 |   4 +-
+> block/blk-cgroup.c                  |  22 +--
+> block/blk-throttle.c                |  24 ++--
+> block/cfq-iosched.c                 | 105 +++++++++++----
+> fs/kernfs/dir.c                     |  13 ++
+> include/linux/blk-cgroup.h          |  10 +-
+> include/linux/cgroup-defs.h         |  14 +-
+> include/linux/cgroup.h              |  13 ++
+> include/linux/kernfs.h              |   7 +
+> kernel/cgroup/cgroup.c              | 262 =
++++++++++++++++++++++++++++++-------
+> 12 files changed, 483 insertions(+), 170 deletions(-)
+>=20
+> --
+> 2.16.1
 
