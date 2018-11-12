@@ -3,46 +3,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 184C27DD2A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 09:57:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 99AAF7D982
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 09:57:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728054AbeKLTtz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 12 Nov 2018 14:49:55 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:52860 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729278AbeKLTty (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Nov 2018 14:49:54 -0500
-Received: by mail-wm1-f67.google.com with SMTP id r11-v6so7788523wmb.2
-        for <linux-doc@vger.kernel.org>; Mon, 12 Nov 2018 01:57:26 -0800 (PST)
+        id S1729426AbeKLTuB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 12 Nov 2018 14:50:01 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:50839 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729343AbeKLTuA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Nov 2018 14:50:00 -0500
+Received: by mail-wm1-f66.google.com with SMTP id 124-v6so7858303wmw.0
+        for <linux-doc@vger.kernel.org>; Mon, 12 Nov 2018 01:57:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=0oaKQg1Db4rRhO3WCbNaQdRbhtsjokz1BpBDDqQDnH0=;
-        b=Rg5OfuRnIxfiEqH0WAirw+p5zFFM2A3eP+/qNVgYtz/p1XWMtJQwYM05UW/C4+j5gX
-         IaZnE3XI6wvJCXcd4FQ1Hx5aghznqX87ea65MY8LBS1tfU6fXt06wlGlTPcLKrs9JP1t
-         5iM+S+o9ye6yz2LV6kWJfSIofPFST2APQ3GVM=
+        bh=95cHSgXhObq6AUCu/Rr/+wEQTPHLVt9I8/orFJ2tnV8=;
+        b=ZntydDL3A95QZ0Q9bqPS7efY9/AnOcRfFMoWhJjuF9Gk55eXToWWO0MFVufb41xZUb
+         nHLiTbmFBZG9+1cdt8aSYqRhhgzNW6mvo/J47vdQ+DPObGyWLAiX1dVnw6VnyGsWrHIX
+         7rTjNGD9VyfMoQr33985it7yVDU+01tI7ZnNQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=0oaKQg1Db4rRhO3WCbNaQdRbhtsjokz1BpBDDqQDnH0=;
-        b=sDRsIvFMb+LIUy+MdOGopVWAezLyaUuM7c7fADpLt+dKyh1GMJX7qRJ+qAWpwmQwyz
-         92pCoPQ8cvv73/NTHYHv0THPMSIFJdj1FZv8gbNvrM6Bt8kA4A6HohLu98RLuAw+U1e6
-         uZ7clnmwZXTEavqaVrBDlVQ/e9Gr91nJObc6FasS39skrRnTpYyfVRrhnRz2b9x4SjGf
-         O1E7Z0aurEveU9+qET+7Lf0l+U1JPsxkEYA5uqtq9YpA95O/LKghtu1KpjS2vawblQ+b
-         1DfEKP09RIyhEwAYGvdrfv3wlb4lL4+O+2sDOHilAZnygK+r62kW52bFiy5GnrCLlmXs
-         3HdA==
-X-Gm-Message-State: AGRZ1gJzjudpA5+N378nai//mxHXy52/+4XEo+VscYHD8bCJH9xC9aie
-        Hv8N5GbogPM9vAJC/65LLPNH4A==
-X-Google-Smtp-Source: AJdET5dc+MYjthZUBqOb8v1Uac6VYFwMsLxCFBwUwclICSmMMWw45pmt4ZJKD8ArEZEhDeAuhckI4w==
-X-Received: by 2002:a7b:c84f:: with SMTP id c15-v6mr6284511wml.79.1542016645423;
-        Mon, 12 Nov 2018 01:57:25 -0800 (PST)
+        bh=95cHSgXhObq6AUCu/Rr/+wEQTPHLVt9I8/orFJ2tnV8=;
+        b=OMSh9r5Esmu+qkJb+p6cmYLgbCotre94+UYmWzTEwVS+Of8clpxzVFTwn6+oLDWhwj
+         Lfe+aO+uiY5v26NoUo+kSnLNSJkjGYEAwrtKZXpDP41G3zDrdcVdPnz8SGzo+2yfWrje
+         rASSz69LbnuVBxJFoX+equ4K+Wi1SGAuNqRshFXVjajMNncb7iAR34GIkzIJS+WNtP0/
+         9hhnCpyJXmyEocL2wrjEJLVvg4jd/e5GQsd98xE7IuxmfJVdZR8iQMO0Q69eWKlDYsRi
+         xUC8neZ1SBs/6eRrF957HHGzeHJQIYeogEIjykeYzYtHqWc4it1KQJ1apT2wcgtXRsQe
+         k8ZQ==
+X-Gm-Message-State: AGRZ1gIdFKjLeYNNTroSlpc3hB9WANqfF7j954gVX29WuHrW4wMrqlMD
+        R9bRxGHeOAkvFbauCOBNm6wbuw==
+X-Google-Smtp-Source: AJdET5eIJV6u6HegcE4uV2vFatX404HGAoD92vBcn00/LSxYXW6IXRwdLIzD2IsbIvSV20KQIm8j7w==
+X-Received: by 2002:a1c:3b06:: with SMTP id i6-v6mr6807918wma.18.1542016650265;
+        Mon, 12 Nov 2018 01:57:30 -0800 (PST)
 Received: from localhost.localdomain ([93.68.220.21])
-        by smtp.gmail.com with ESMTPSA id r14-v6sm21273089wro.8.2018.11.12.01.57.22
+        by smtp.gmail.com with ESMTPSA id r14-v6sm21273089wro.8.2018.11.12.01.57.28
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 12 Nov 2018 01:57:24 -0800 (PST)
+        Mon, 12 Nov 2018 01:57:29 -0800 (PST)
 From:   Paolo Valente <paolo.valente@linaro.org>
 To:     Jens Axboe <axboe@kernel.dk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -59,9 +59,9 @@ Cc:     linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
         oleksandr@natalenko.name, cgroups@vger.kernel.org,
         linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Paolo Valente <paolo.valente@linaro.org>
-Subject: [PATCH 09/12] block, bfq: use standard file names for the proportional-share policy
-Date:   Mon, 12 Nov 2018 10:56:29 +0100
-Message-Id: <20181112095632.69114-10-paolo.valente@linaro.org>
+Subject: [PATCH 11/12] doc, bfq-iosched: fix a few clerical errors
+Date:   Mon, 12 Nov 2018 10:56:31 +0100
+Message-Id: <20181112095632.69114-12-paolo.valente@linaro.org>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20181112095632.69114-1-paolo.valente@linaro.org>
 References: <20181112095632.69114-1-paolo.valente@linaro.org>
@@ -70,223 +70,45 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some of the files exposed in a cgroup by bfq, for the proportional
-share policy, have the same meaning as the files owned by cfq.
+This commit fixes a few clerical errors in
+Documentation/block/bfq-iosched.txt.
 
-The old implementation of the cgroup interface didn't allow different
-entities to create cgroup files with the same name (in the same
-subsystem). So, for bfq, we had to add the prefix "bfq" to the names
-of its cgroup files.
-
-This commit renames the cgroup files of the bfq scheduler as those
-exposed by cfq, and makes bfq share these files with any other policy.
-
-Signed-off-by: Angelo Ruocco <angeloruocco90@gmail.com>
 Signed-off-by: Paolo Valente <paolo.valente@linaro.org>
 ---
- block/bfq-cgroup.c | 94 +++++++++++++++++++++++++++++++++++++++---------------
- 1 file changed, 69 insertions(+), 25 deletions(-)
+ Documentation/block/bfq-iosched.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/block/bfq-cgroup.c b/block/bfq-cgroup.c
-index 50b2d7ba6b9d..9148fc38c737 100644
---- a/block/bfq-cgroup.c
-+++ b/block/bfq-cgroup.c
-@@ -1055,50 +1055,67 @@ struct blkcg_policy blkcg_policy_bfq = {
+diff --git a/Documentation/block/bfq-iosched.txt b/Documentation/block/bfq-iosched.txt
+index 8d8d8f06cab2..6d7dd5ab8554 100644
+--- a/Documentation/block/bfq-iosched.txt
++++ b/Documentation/block/bfq-iosched.txt
+@@ -42,7 +42,7 @@ sustainable throughputs, on the same systems as above:
  
- struct cftype bfq_blkcg_legacy_files[] = {
- 	{
--		.name = "bfq.weight",
--		.flags = CFTYPE_NOT_ON_ROOT,
-+		.name = "weight",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_NOT_ON_ROOT | CFTYPE_SHARES_FILE,
- 		.seq_show = bfq_io_show_weight,
- 		.write_u64 = bfq_io_set_weight_legacy,
- 	},
+ BFQ works for multi-queue devices too.
  
- 	/* statistics, covers only the tasks in the bfqg */
- 	{
--		.name = "bfq.io_service_bytes",
-+		.name = "io_service_bytes",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = (unsigned long)&blkcg_policy_bfq,
- 		.seq_show_cft = blkg_print_stat_bytes,
- 	},
- 	{
--		.name = "bfq.io_serviced",
-+		.name = "io_serviced",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = (unsigned long)&blkcg_policy_bfq,
- 		.seq_show_cft = blkg_print_stat_ios,
- 	},
- #ifdef CONFIG_DEBUG_BLK_CGROUP
- 	{
--		.name = "bfq.time",
-+		.name = "time",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = offsetof(struct bfq_group, stats.time),
- 		.seq_show_cft = bfqg_print_stat,
- 	},
- 	{
--		.name = "bfq.sectors",
-+		.name = "sectors",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.seq_show = bfqg_print_stat_sectors,
- 	},
- 	{
--		.name = "bfq.io_service_time",
-+		.name = "io_service_time",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = offsetof(struct bfq_group, stats.service_time),
- 		.seq_show_cft = bfqg_print_rwstat,
- 	},
- 	{
--		.name = "bfq.io_wait_time",
-+		.name = "io_wait_time",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = offsetof(struct bfq_group, stats.wait_time),
- 		.seq_show_cft = bfqg_print_rwstat,
- 	},
- 	{
--		.name = "bfq.io_merged",
-+		.name = "io_merged",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = offsetof(struct bfq_group, stats.merged),
- 		.seq_show_cft = bfqg_print_rwstat,
- 	},
- 	{
--		.name = "bfq.io_queued",
-+		.name = "io_queued",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = offsetof(struct bfq_group, stats.queued),
- 		.seq_show_cft = bfqg_print_rwstat,
- 	},
-@@ -1106,66 +1123,92 @@ struct cftype bfq_blkcg_legacy_files[] = {
+-The table of contents follow. Impatients can just jump to Section 3.
++The table of contents follows. Impatients can just jump to Section 3.
  
- 	/* the same statictics which cover the bfqg and its descendants */
- 	{
--		.name = "bfq.io_service_bytes_recursive",
-+		.name = "io_service_bytes_recursive",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = (unsigned long)&blkcg_policy_bfq,
- 		.seq_show_cft = blkg_print_stat_bytes_recursive,
- 	},
- 	{
--		.name = "bfq.io_serviced_recursive",
-+		.name = "io_serviced_recursive",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = (unsigned long)&blkcg_policy_bfq,
- 		.seq_show_cft = blkg_print_stat_ios_recursive,
- 	},
- #ifdef CONFIG_DEBUG_BLK_CGROUP
- 	{
--		.name = "bfq.time_recursive",
-+		.name = "time_recursive",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = offsetof(struct bfq_group, stats.time),
- 		.seq_show_cft = bfqg_print_stat_recursive,
- 	},
- 	{
--		.name = "bfq.sectors_recursive",
-+		.name = "sectors_recursive",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.seq_show = bfqg_print_stat_sectors_recursive,
- 	},
- 	{
--		.name = "bfq.io_service_time_recursive",
-+		.name = "io_service_time_recursive",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = offsetof(struct bfq_group, stats.service_time),
- 		.seq_show_cft = bfqg_print_rwstat_recursive,
- 	},
- 	{
--		.name = "bfq.io_wait_time_recursive",
-+		.name = "io_wait_time_recursive",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = offsetof(struct bfq_group, stats.wait_time),
- 		.seq_show_cft = bfqg_print_rwstat_recursive,
- 	},
- 	{
--		.name = "bfq.io_merged_recursive",
-+		.name = "io_merged_recursive",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = offsetof(struct bfq_group, stats.merged),
- 		.seq_show_cft = bfqg_print_rwstat_recursive,
- 	},
- 	{
--		.name = "bfq.io_queued_recursive",
-+		.name = "io_queued_recursive",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = offsetof(struct bfq_group, stats.queued),
- 		.seq_show_cft = bfqg_print_rwstat_recursive,
- 	},
- 	{
--		.name = "bfq.avg_queue_size",
-+		.name = "avg_queue_size",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.seq_show = bfqg_print_avg_queue_size,
- 	},
- 	{
--		.name = "bfq.group_wait_time",
-+		.name = "group_wait_time",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = offsetof(struct bfq_group, stats.group_wait_time),
- 		.seq_show_cft = bfqg_print_stat,
- 	},
- 	{
--		.name = "bfq.idle_time",
-+		.name = "idle_time",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = offsetof(struct bfq_group, stats.idle_time),
- 		.seq_show_cft = bfqg_print_stat,
- 	},
- 	{
--		.name = "bfq.empty_time",
-+		.name = "empty_time",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = offsetof(struct bfq_group, stats.empty_time),
- 		.seq_show_cft = bfqg_print_stat,
- 	},
- 	{
--		.name = "bfq.dequeue",
-+		.name = "dequeue",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = offsetof(struct bfq_group, stats.dequeue),
- 		.seq_show_cft = bfqg_print_stat,
- 	},
-@@ -1175,8 +1218,9 @@ struct cftype bfq_blkcg_legacy_files[] = {
+ CONTENTS
  
- struct cftype bfq_blkg_files[] = {
- 	{
--		.name = "bfq.weight",
--		.flags = CFTYPE_NOT_ON_ROOT,
-+		.name = "weight",
-+		.owner_name = "bfq",
-+		.flags = CFTYPE_NOT_ON_ROOT | CFTYPE_SHARES_FILE,
- 		.seq_show = bfq_io_show_weight,
- 		.write = bfq_io_set_weight,
- 	},
+@@ -51,7 +51,7 @@ CONTENTS
+  1-2 Server systems
+ 2. How does BFQ work?
+ 3. What are BFQ's tunables and how to properly configure BFQ?
+-4. BFQ group scheduling
++4. Group scheduling with BFQ
+  4-1 Service guarantees provided
+  4-2 Interface
+ 
+@@ -294,7 +294,7 @@ too.
+ per-process ioprio and weight
+ -----------------------------
+ 
+-Unless the cgroups interface is used (see "4. BFQ group scheduling"),
++Unless the cgroups interface is used (see "4. Group scheduling with BFQ"),
+ weights can be assigned to processes only indirectly, through I/O
+ priorities, and according to the relation:
+ weight = (IOPRIO_BE_NR - ioprio) * 10.
 -- 
 2.16.1
 
