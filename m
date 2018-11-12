@@ -1,142 +1,467 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.5 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,RCVD_IN_SORBS_WEB autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7E1437D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 20:51:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 367DC7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 12 Nov 2018 23:14:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726159AbeKMGqp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 01:46:45 -0500
-Received: from mail-eopbgr690071.outbound.protection.outlook.com ([40.107.69.71]:9002
-        "EHLO NAM04-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725861AbeKMGqo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Nov 2018 01:46:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DthPW8SXIR/DvDXVNS1LKFpoECboW1BLgvoPSMTYSxg=;
- b=DXspFMcfZ1UGrwHt4YKo4+hGd6CD07dr7PjWcExg6QlX1182ifCKpbE71QuAIWlmpGUV8Xf7Kro6DFziV0fK/EU37bzjg8OAMMUT8pO/hKOYqZli0HS1PVvHZrc6kSQ02porEoYchulBRfEBF7dlD+ddMf5+dpgTPxGZwLEpI8M=
-Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
- DM5PR12MB1612.namprd12.prod.outlook.com (10.172.40.18) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1294.26; Mon, 12 Nov 2018 20:51:45 +0000
-Received: from DM5PR12MB2471.namprd12.prod.outlook.com
- ([fe80::4c23:f551:bc6a:554e]) by DM5PR12MB2471.namprd12.prod.outlook.com
- ([fe80::4c23:f551:bc6a:554e%4]) with mapi id 15.20.1294.045; Mon, 12 Nov 2018
- 20:51:45 +0000
-From:   "Moger, Babu" <Babu.Moger@amd.com>
-To:     Borislav Petkov <bp@alien8.de>
-CC:     "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
-        "pombredanne@nexb.com" <pombredanne@nexb.com>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
-        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Singh, Brijesh" <brijesh.singh@amd.com>,
-        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
-        "dwmw2@infradead.org" <dwmw2@infradead.org>,
-        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "jannh@google.com" <jannh@google.com>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "rian@alum.mit.edu" <rian@alum.mit.edu>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v7 02/13] arch/x86: Rename the RDT functions and
- definitions
-Thread-Topic: [PATCH v7 02/13] arch/x86: Rename the RDT functions and
- definitions
-Thread-Index: AQHUeG4fqjo7t998rUWNtgkgxfyZ6KVMcSAA//+0O4CAAGp1AIAAElsA
-Date:   Mon, 12 Nov 2018 20:51:45 +0000
-Message-ID: <8085e1cc-484a-ff75-38ef-7f4da9fb847d@amd.com>
-References: <20181109205153.14811-1-babu.moger@amd.com>
- <20181109205153.14811-3-babu.moger@amd.com> <20181112175610.GI8167@zn.tnic>
- <539bf8ea-b13f-186a-f1c7-71b1eaa63aa7@amd.com>
- <20181112194600.GJ8167@zn.tnic>
-In-Reply-To: <20181112194600.GJ8167@zn.tnic>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: SN4PR0501CA0034.namprd05.prod.outlook.com
- (2603:10b6:803:40::47) To DM5PR12MB2471.namprd12.prod.outlook.com
- (2603:10b6:4:b5::10)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Babu.Moger@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [165.204.78.1]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;DM5PR12MB1612;20:a6XvyX/13bRSsbkpkKC1giYsEokozADJRTKbe7jR5kaA7usX43kfG8ITI8pfLuJ5Rrz5hTjIQvfAwojauW4ExwN1vErycdHTMxDNUyCV5jXxONRSRXENvZTZKGnIjfTzkXgC+PBsgf9U65mSUkW2l3NlcMJBlDc2M5CBIOc0auQ7ykvMdlOjghkZBJnSgtLpLgo71Hpr9FHkpzl2jzy7pqpoS5a0S97Atl0NuPJ33mMSVT3/quO3kFAiLNmgU7Sf
-x-ms-office365-filtering-correlation-id: 85bcb831-8979-4393-7725-08d648e0a834
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390040)(7020095)(4652040)(8989299)(5600074)(711020)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:DM5PR12MB1612;
-x-ms-traffictypediagnostic: DM5PR12MB1612:
-x-microsoft-antispam-prvs: <DM5PR12MB16123C154D1ACF608DAE94B595C10@DM5PR12MB1612.namprd12.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(10201501046)(3002001)(3231382)(944501410)(52105112)(6055026)(148016)(149066)(150057)(6041310)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123564045)(20161123562045)(201708071742011)(7699051)(76991095);SRVR:DM5PR12MB1612;BCL:0;PCL:0;RULEID:;SRVR:DM5PR12MB1612;
-x-forefront-prvs: 0854128AF0
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(346002)(136003)(376002)(396003)(366004)(199004)(189003)(68736007)(99286004)(36756003)(72206003)(5660300001)(76176011)(97736004)(52116002)(31686004)(2616005)(476003)(486006)(86362001)(25786009)(7736002)(305945005)(11346002)(93886005)(256004)(8936002)(105586002)(7416002)(7406005)(31696002)(66066001)(446003)(186003)(106356001)(8676002)(316002)(71200400001)(26005)(71190400001)(4326008)(2906002)(229853002)(3846002)(6916009)(54906003)(53936002)(6436002)(6512007)(6506007)(53546011)(102836004)(386003)(478600001)(2900100001)(6486002)(6116002)(6246003)(14454004)(81166006)(81156014);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1612;H:DM5PR12MB2471.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-microsoft-antispam-message-info: dlUZ6xv9fYZ9WWn85QiA/aV3p/N0pjSyyvrJhMD8/t6AmL4vz1Jms4AGlWdkLmSP5kL++9cmpf1zy/DOyx01WlU95I3bTQltqWUBQ/7qJxQwynnABXSWYf+4yaznGIt1UkcxJ5pfC3SFeLzSaZ5JiofjpLF4hmkJ9mFQmAVNceWDTvHX7/UanKX4IkZccWYYZSSmtWSHpJyUzclqn8AW3LC2GgUZRNEqHOv7Osbr7aCD94MbHvqYXedL4tg83jJGAg3uQ4uEnvs0GCxOggSPm+tumgunJXSEWuknhH8aIaCsOOdWZC7+IfzAhCLYYtki7mHtnUoblGBIa0r6HX1L4lqv+edExR9mXYX1Cbuheao=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <92E7B0DD40253648896E286986E0B574@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1726078AbeKMJJ2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 04:09:28 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:36300 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726014AbeKMJJ2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 04:09:28 -0500
+Received: by mail-lf1-f67.google.com with SMTP id h192so7438301lfg.3;
+        Mon, 12 Nov 2018 15:14:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WrLqROMLIuGmJ6mprdbQRFbDKj0DjU6n7THn44CWC1s=;
+        b=KznBVmIWH6AFdiQ2jy/ZikPsfq8q4+w8BsEdLPpCYOwLzKhO9qdXkof97jemLcnV2Q
+         CPIJS/HpNeQ2HkKNHR4DFd8ZbnEdFOgX7ziRijXwdMiaEyBqS8ypT2FmnwCIi2EV3anX
+         KMNHHVwfxlJE88HS+paBhrye+/M1RWUh+j/5NRFhEx0VyJAaNLdOSYsndhhdNAYj63dk
+         iVKTDcPokIml0uOhdTs6e9d/jjt2ObY9m/2xa0aFI72FUB9mvu2Q9LMCypr7J5ApXA7m
+         9Teeh6BZplG4SAVC/kwFRqDLkHnY9RvAcrpa+RbM0Vgdg39f6NHZnpiaHLj9RepXjNpB
+         G6Ig==
+X-Gm-Message-State: AGRZ1gIFR68kRTNfDq4A3IF1ETD2EZooVAWBsaCt4z/mjig6oIazTKEX
+        ikjTi7ErfGIYJpqDUWY51bjaapgm
+X-Google-Smtp-Source: AJdET5db+SueAPSwIr3CyyehAPiJ9BYmtzq7rRzWamyYv2IsxnqMuR92DtzRIBy1vL74b9buzzIhvA==
+X-Received: by 2002:a19:690d:: with SMTP id e13mr1669962lfc.84.1542064445807;
+        Mon, 12 Nov 2018 15:14:05 -0800 (PST)
+Received: from localhost.localdomain ([178.121.238.12])
+        by smtp.gmail.com with ESMTPSA id 6sm3537368lfa.27.2018.11.12.15.14.04
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 12 Nov 2018 15:14:05 -0800 (PST)
+From:   Timofey Titovets <timofey.titovets@synesis.ru>
+To:     linux-kernel@vger.kernel.org
+Cc:     Timofey Titovets <nefelim4ag@gmail.com>,
+        Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH V3] KSM: allow dedup all tasks memory
+Date:   Tue, 13 Nov 2018 02:13:44 +0300
+Message-Id: <20181112231344.7161-1-timofey.titovets@synesis.ru>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85bcb831-8979-4393-7725-08d648e0a834
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2018 20:51:45.5301
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1612
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DQoNCk9uIDExLzEyLzE4IDE6NDYgUE0sIEJvcmlzbGF2IFBldGtvdiB3cm90ZToNCj4gT24gTW9u
-LCBOb3YgMTIsIDIwMTggYXQgMDc6MjU6MDJQTSArMDAwMCwgTW9nZXIsIEJhYnUgd3JvdGU6DQo+
-Pj4+IEBAIC02MzcsMTAgKzYzNywxMSBAQCBpbnQgcmR0X2dldF9tb25fbDNfY29uZmlnKHN0cnVj
-dCByZHRfcmVzb3VyY2UgKnIpDQo+Pj4+ICAJICoNCj4+Pj4gIAkgKiBGb3IgYSAzNU1CIExMQyBh
-bmQgNTYgUk1JRHMsIHRoaXMgaXMgfjEuOCUgb2YgdGhlIExMQy4NCj4+Pj4gIAkgKi8NCj4+Pj4g
-LQlpbnRlbF9jcW1fdGhyZXNob2xkID0gYm9vdF9jcHVfZGF0YS54ODZfY2FjaGVfc2l6ZSAqIDEw
-MjQgLyByLT5udW1fcm1pZDsNCj4+Pj4gKwlyZXNjdHJsX2NxbV90aHJlc2hvbGQgPSBib290X2Nw
-dV9kYXRhLng4Nl9jYWNoZV9zaXplICogMTAyNCAvDQo+Pj4+ICsJCQkJci0+bnVtX3JtaWQ7DQo+
-Pj4NCj4+PiBObyBuZWVkIHRvIGJyZWFrIHRoYXQgbGluZSBoZXJlLg0KPj4NCj4+IFdpdGhvdXQg
-dGhlIGxpbmUgYnJlYWssIGNoZWNrcGF0Y2ggY29tcGxhaW5zIGZvciAibGluZSBvdmVyIDgwDQo+
-PiBjaGFyYWN0ZXJzIi4gIERvIHlvdSB0aGluayB3ZSBjYW4gaWdub3JlIHRob3NlPw0KPiANCj4g
-VG8gcXVvdGUgZnJvbSB0aGUgdGlwIGhhbmRib29rIHdoaWNoIGlzIGluIHByZXBhcmF0aW9uIHJp
-Z2h0IG5vdzoNCj4gDQo+ICIrVGhlIDgwIGNoYXJhY3RlciBydWxlIGlzIG5vdCBhIHN0cmljdCBy
-dWxlLCBzbyBwbGVhc2UgdXNlIGNvbW1vbiBzZW5zZSB3aGVuDQo+ICArYnJlYWtpbmcgbGluZXMu
-Ig0KPiANCj4gSW4gdGhpcyBwYXJ0aWN1bGFyIGNhc2UsIGl0IGlzIG1vcmUgcmVhZGFibGUgSU1P
-IHRvIGxlYXZlIHRoZSBsaW5lIHVuYnJva2VuOg0KPiANCj4gCXJlc2N0cmxfY3FtX3RocmVzaG9s
-ZCA9IGJvb3RfY3B1X2RhdGEueDg2X2NhY2hlX3NpemUgKiAxMDI0IC8gci0+bnVtX3JtaWQ7DQo+
-IA0KPiBXaGF0IGlzIGV2ZW4gbW9yZSByZWFkYWJsZSB0aG91Z2ggaXM6DQo+IA0KPiAJdW5zaWdu
-ZWQgaW50IGNsX3NpemUgPSBib290X2NwdV9kYXRhLng4Nl9jYWNoZV9zaXplOw0KPiANCj4gCS4u
-Lg0KPiANCj4gCXJlc2N0cmxfY3FtX3RocmVzaG9sZCA9IGNsX3NpemUgKiAxMDI0IC8gci0+bnVt
-X3JtaWQ7DQo+IA0KPiBhbmQgbm93IHlvdSBoYXZlIGEgd2luLXdpbiBzaXR1YXRpb24uIDopDQoN
-Clllcy4gTWFrZXMgc2Vuc2UuIFRoYW5rcw0KDQo+IA0KPiBUaHguDQo+IA0K
+From: Timofey Titovets <nefelim4ag@gmail.com>
+
+ksm by default working only on memory that added by
+madvise().
+
+And only way get that work on other applications:
+  * Use LD_PRELOAD and libraries
+  * Patch kernel
+
+Lets use kernel task list and add logic to import VMAs from tasks.
+
+That behaviour controlled by new attributes:
+  * mode:
+    I try mimic hugepages attribute, so mode have two states:
+      * madvise      - old default behaviour
+      * always [new] - allow ksm to get tasks vma and
+                       try working on that.
+  * seeker_sleep_millisecs:
+    Add pauses between imports tasks VMA
+
+For rate limiting proporses and tasklist locking time,
+ksm seeker thread only import VMAs from one task per loop.
+
+Some numbers from different not madvised workloads.
+Formulas:
+  Percentage ratio = (pages_sharing - pages_shared)/pages_unshared
+  Memory saved = (pages_sharing - pages_shared)*4/1024 MiB
+  Memory used = free -h
+
+  * Name: My working laptop
+    Description: Many different chrome/electron apps + KDE
+    Ratio: 5%
+    Saved: ~100  MiB
+    Used:  ~2000 MiB
+
+  * Name: K8s test VM
+    Description: Some small random running docker images
+    Ratio: 40%
+    Saved: ~160 MiB
+    Used:  ~920 MiB
+
+  * Name: Ceph test VM
+    Description: Ceph Mon/OSD, some containers
+    Ratio: 20%
+    Saved: ~60 MiB
+    Used:  ~600 MiB
+
+  * Name: BareMetal K8s backend server
+    Description: Different server apps in containers C, Java, GO & etc
+    Ratio: 72%
+    Saved: ~5800 MiB
+    Used:  ~35.7 GiB
+
+  * Name: BareMetal K8s processing server
+    Description: Many instance of one CPU intensive application
+    Ratio: 55%
+    Saved: ~2600 MiB
+    Used:  ~28.0 GiB
+
+  * Name: BareMetal Ceph node
+    Description: Only OSD storage daemons running
+    Raio: 2%
+    Saved: ~190 MiB
+    Used:  ~11.7 GiB
+
+Changes:
+  v1 -> v2:
+    * Rebase on v4.19.1 (must also apply on 4.20-rc2+)
+  v2 -> v3:
+    * Reformat patch description
+    * Rename mode normal to madvise
+    * Add some memory numbers
+    * Fix checkpatch.pl warnings
+    * Separate ksm vma seeker to another kthread
+    * Fix: "BUG: scheduling while atomic: ksmd"
+      by move seeker to another thread
+
+Signed-off-by: Timofey Titovets <nefelim4ag@gmail.com>
+CC: Matthew Wilcox <willy@infradead.org>
+CC: linux-mm@kvack.org
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/admin-guide/mm/ksm.rst |  15 ++
+ mm/ksm.c                             | 215 +++++++++++++++++++++++----
+ 2 files changed, 198 insertions(+), 32 deletions(-)
+
+diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
+index 9303786632d1..7cffd47f9b38 100644
+--- a/Documentation/admin-guide/mm/ksm.rst
++++ b/Documentation/admin-guide/mm/ksm.rst
+@@ -116,6 +116,21 @@ run
+         Default: 0 (must be changed to 1 to activate KSM, except if
+         CONFIG_SYSFS is disabled)
+ 
++mode
++        * set always to allow ksm deduplicate memory of every process
++        * set madvise to use only madvised memory
++
++        Default: madvise (dedupulicate only madvised memory as in
++        earlier releases)
++
++seeker_sleep_millisecs
++        how many milliseconds ksmd task seeker should sleep try another
++        task.
++        e.g. ``echo 1000 > /sys/kernel/mm/ksm/seeker_sleep_millisecs``
++
++        Default: 1000 (chosen for rate limit purposes)
++
++
+ use_zero_pages
+         specifies whether empty pages (i.e. allocated pages that only
+         contain zeroes) should be treated specially.  When set to 1,
+diff --git a/mm/ksm.c b/mm/ksm.c
+index 5b0894b45ee5..1a03b28b6288 100644
+--- a/mm/ksm.c
++++ b/mm/ksm.c
+@@ -273,6 +273,9 @@ static unsigned int ksm_thread_pages_to_scan = 100;
+ /* Milliseconds ksmd should sleep between batches */
+ static unsigned int ksm_thread_sleep_millisecs = 20;
+ 
++/* Milliseconds ksmd seeker should sleep between runs */
++static unsigned int ksm_thread_seeker_sleep_millisecs = 1000;
++
+ /* Checksum of an empty (zeroed) page */
+ static unsigned int zero_checksum __read_mostly;
+ 
+@@ -295,7 +298,12 @@ static int ksm_nr_node_ids = 1;
+ static unsigned long ksm_run = KSM_RUN_STOP;
+ static void wait_while_offlining(void);
+ 
++#define KSM_MODE_MADVISE 0
++#define KSM_MODE_ALWAYS	1
++static unsigned long ksm_mode = KSM_MODE_MADVISE;
++
+ static DECLARE_WAIT_QUEUE_HEAD(ksm_thread_wait);
++static DECLARE_WAIT_QUEUE_HEAD(ksm_seeker_thread_wait);
+ static DEFINE_MUTEX(ksm_thread_mutex);
+ static DEFINE_SPINLOCK(ksm_mmlist_lock);
+ 
+@@ -303,6 +311,11 @@ static DEFINE_SPINLOCK(ksm_mmlist_lock);
+ 		sizeof(struct __struct), __alignof__(struct __struct),\
+ 		(__flags), NULL)
+ 
++static inline int ksm_mode_always(void)
++{
++	return (ksm_mode == KSM_MODE_ALWAYS);
++}
++
+ static int __init ksm_slab_init(void)
+ {
+ 	rmap_item_cache = KSM_KMEM_CACHE(rmap_item, 0);
+@@ -2389,6 +2402,106 @@ static int ksmd_should_run(void)
+ 	return (ksm_run & KSM_RUN_MERGE) && !list_empty(&ksm_mm_head.mm_list);
+ }
+ 
++
++static int ksm_enter(struct mm_struct *mm, unsigned long *vm_flags)
++{
++	int err;
++
++	if (*vm_flags & (VM_MERGEABLE | VM_SHARED  | VM_MAYSHARE   |
++			 VM_PFNMAP    | VM_IO      | VM_DONTEXPAND |
++			 VM_HUGETLB | VM_MIXEDMAP))
++		return 0;
++
++#ifdef VM_SAO
++	if (*vm_flags & VM_SAO)
++		return 0;
++#endif
++#ifdef VM_SPARC_ADI
++	if (*vm_flags & VM_SPARC_ADI)
++		return 0;
++#endif
++	if (!test_bit(MMF_VM_MERGEABLE, &mm->flags)) {
++		err = __ksm_enter(mm);
++		if (err)
++			return err;
++	}
++
++	*vm_flags |= VM_MERGEABLE;
++
++	return 0;
++}
++
++/*
++ * Register all vmas for all processes in the system with KSM.
++ * Note that every call to ksm_, for a given vma, after the first
++ * does nothing but set flags.
++ */
++void ksm_import_task_vma(struct task_struct *task)
++{
++	struct vm_area_struct *vma;
++	struct mm_struct *mm;
++	int error;
++
++	mm = get_task_mm(task);
++	if (!mm)
++		return;
++	down_write(&mm->mmap_sem);
++	vma = mm->mmap;
++	while (vma) {
++		error = ksm_enter(vma->vm_mm, &vma->vm_flags);
++		vma = vma->vm_next;
++	}
++	up_write(&mm->mmap_sem);
++	mmput(mm);
++}
++
++static int ksm_seeker_thread(void *nothing)
++{
++	pid_t last_pid = 1;
++	pid_t curr_pid;
++	struct task_struct *task;
++
++	set_freezable();
++	set_user_nice(current, 5);
++
++	while (!kthread_should_stop()) {
++		wait_while_offlining();
++
++		try_to_freeze();
++
++		if (!ksm_mode_always()) {
++			wait_event_freezable(ksm_seeker_thread_wait,
++				ksm_mode_always() || kthread_should_stop());
++			continue;
++		}
++
++		/*
++		 * import one task's vma per run
++		 */
++		read_lock(&tasklist_lock);
++
++		/* Try always get next task */
++		for_each_process(task) {
++			curr_pid = task_pid_nr(task);
++			if (curr_pid == last_pid) {
++				task = next_task(task);
++				break;
++			}
++
++			if (curr_pid > last_pid)
++				break;
++		}
++
++		last_pid = task_pid_nr(task);
++		ksm_import_task_vma(task);
++		read_unlock(&tasklist_lock);
++
++		schedule_timeout_interruptible(
++			msecs_to_jiffies(ksm_thread_seeker_sleep_millisecs));
++	}
++	return 0;
++}
++
+ static int ksm_scan_thread(void *nothing)
+ {
+ 	set_freezable();
+@@ -2422,33 +2535,9 @@ int ksm_madvise(struct vm_area_struct *vma, unsigned long start,
+ 
+ 	switch (advice) {
+ 	case MADV_MERGEABLE:
+-		/*
+-		 * Be somewhat over-protective for now!
+-		 */
+-		if (*vm_flags & (VM_MERGEABLE | VM_SHARED  | VM_MAYSHARE   |
+-				 VM_PFNMAP    | VM_IO      | VM_DONTEXPAND |
+-				 VM_HUGETLB | VM_MIXEDMAP))
+-			return 0;		/* just ignore the advice */
+-
+-		if (vma_is_dax(vma))
+-			return 0;
+-
+-#ifdef VM_SAO
+-		if (*vm_flags & VM_SAO)
+-			return 0;
+-#endif
+-#ifdef VM_SPARC_ADI
+-		if (*vm_flags & VM_SPARC_ADI)
+-			return 0;
+-#endif
+-
+-		if (!test_bit(MMF_VM_MERGEABLE, &mm->flags)) {
+-			err = __ksm_enter(mm);
+-			if (err)
+-				return err;
+-		}
+-
+-		*vm_flags |= VM_MERGEABLE;
++		err = ksm_enter(mm, vm_flags);
++		if (err)
++			return err;
+ 		break;
+ 
+ 	case MADV_UNMERGEABLE:
+@@ -2829,6 +2918,29 @@ static ssize_t sleep_millisecs_store(struct kobject *kobj,
+ }
+ KSM_ATTR(sleep_millisecs);
+ 
++static ssize_t seeker_sleep_millisecs_show(struct kobject *kobj,
++				    struct kobj_attribute *attr, char *buf)
++{
++	return sprintf(buf, "%u\n", ksm_thread_seeker_sleep_millisecs);
++}
++
++static ssize_t seeker_sleep_millisecs_store(struct kobject *kobj,
++				     struct kobj_attribute *attr,
++				     const char *buf, size_t count)
++{
++	unsigned long msecs;
++	int err;
++
++	err = kstrtoul(buf, 10, &msecs);
++	if (err || msecs > UINT_MAX)
++		return -EINVAL;
++
++	ksm_thread_seeker_sleep_millisecs = msecs;
++
++	return count;
++}
++KSM_ATTR(seeker_sleep_millisecs);
++
+ static ssize_t pages_to_scan_show(struct kobject *kobj,
+ 				  struct kobj_attribute *attr, char *buf)
+ {
+@@ -2852,6 +2964,34 @@ static ssize_t pages_to_scan_store(struct kobject *kobj,
+ }
+ KSM_ATTR(pages_to_scan);
+ 
++static ssize_t mode_show(struct kobject *kobj, struct kobj_attribute *attr,
++			char *buf)
++{
++	switch (ksm_mode) {
++	case KSM_MODE_ALWAYS:
++		return sprintf(buf, "[always] madvise\n");
++	case KSM_MODE_MADVISE:
++		return sprintf(buf, "always [madvise]\n");
++	}
++
++	return sprintf(buf, "always [madvise]\n");
++}
++
++static ssize_t mode_store(struct kobject *kobj, struct kobj_attribute *attr,
++			 const char *buf, size_t count)
++{
++	if (!memcmp("always", buf, min(sizeof("always")-1, count))) {
++		ksm_mode = KSM_MODE_ALWAYS;
++		wake_up_interruptible(&ksm_seeker_thread_wait);
++	} else if (!memcmp("madvise", buf, min(sizeof("madvise")-1, count))) {
++		ksm_mode = KSM_MODE_MADVISE;
++	} else
++		return -EINVAL;
++
++	return count;
++}
++KSM_ATTR(mode);
++
+ static ssize_t run_show(struct kobject *kobj, struct kobj_attribute *attr,
+ 			char *buf)
+ {
+@@ -3108,7 +3248,9 @@ KSM_ATTR_RO(full_scans);
+ 
+ static struct attribute *ksm_attrs[] = {
+ 	&sleep_millisecs_attr.attr,
++	&seeker_sleep_millisecs_attr.attr,
+ 	&pages_to_scan_attr.attr,
++	&mode_attr.attr,
+ 	&run_attr.attr,
+ 	&pages_shared_attr.attr,
+ 	&pages_sharing_attr.attr,
+@@ -3134,7 +3276,7 @@ static const struct attribute_group ksm_attr_group = {
+ 
+ static int __init ksm_init(void)
+ {
+-	struct task_struct *ksm_thread;
++	struct task_struct *ksm_thread[2];
+ 	int err;
+ 
+ 	/* The correct value depends on page size and endianness */
+@@ -3146,10 +3288,18 @@ static int __init ksm_init(void)
+ 	if (err)
+ 		goto out;
+ 
+-	ksm_thread = kthread_run(ksm_scan_thread, NULL, "ksmd");
+-	if (IS_ERR(ksm_thread)) {
++	ksm_thread[0] = kthread_run(ksm_scan_thread, NULL, "ksmd");
++	if (IS_ERR(ksm_thread[0])) {
+ 		pr_err("ksm: creating kthread failed\n");
+-		err = PTR_ERR(ksm_thread);
++		err = PTR_ERR(ksm_thread[0]);
++		goto out_free;
++	}
++
++	ksm_thread[1] = kthread_run(ksm_seeker_thread, NULL, "ksmd_seeker");
++	if (IS_ERR(ksm_thread[1])) {
++		pr_err("ksm: creating seeker kthread failed\n");
++		err = PTR_ERR(ksm_thread[1]);
++		kthread_stop(ksm_thread[0]);
+ 		goto out_free;
+ 	}
+ 
+@@ -3157,7 +3307,8 @@ static int __init ksm_init(void)
+ 	err = sysfs_create_group(mm_kobj, &ksm_attr_group);
+ 	if (err) {
+ 		pr_err("ksm: register sysfs failed\n");
+-		kthread_stop(ksm_thread);
++		kthread_stop(ksm_thread[0]);
++		kthread_stop(ksm_thread[1]);
+ 		goto out_free;
+ 	}
+ #else
+-- 
+2.19.1
