@@ -1,122 +1,209 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5568E7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 20:27:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5DC437D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 21:07:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727005AbeKNG1G (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Nov 2018 01:27:06 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:34470 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726193AbeKNG1G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Nov 2018 01:27:06 -0500
-Received: by mail-ot1-f67.google.com with SMTP id t5so12658654otk.1
-        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 12:27:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=o76oz03Md1bcJeOgRVzYE6RWZcKj4CcMg4wxPculGAk=;
-        b=pJTk7Q+mY0QnOtfW0xY/F4nQciQ977RUvVPc2FLlrLF+ILPMhEAM6QBohW/Af+kD/L
-         kOCbKLTQssQzif0dWZMQj9rIsOgIrk6CYdJZI5r2cJ92AJgCfNxvU65owYaKzJMWrRd2
-         oi8vPm6+y75dYvvbUKPns8Aqg3tOMB/VBQ8BuL70ZvyUWjYV7PqLJf7xtgQjLSzavfwO
-         oSUKt2MIz0jIyCaBvhis6Qx1CFLGGms1+FxIg0f+L2XLzdUNiyBPaSRHKPJKGEU1hunm
-         BRo2KocFGsSZ5dSO15yF02GAZtSiXmOrJiHNNgv/AVJkfqjrO2Jds0hhgcsWl36aS1dJ
-         OESQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=o76oz03Md1bcJeOgRVzYE6RWZcKj4CcMg4wxPculGAk=;
-        b=BwL4NlN3v43XEZRyH+gl7Uo2TSw/YyhuIb+0IZGwZEWhCCiN2ODEk+12wY0aTYRVRS
-         OdLzVkgr0eji3FpBuo2FJVdtJPH8gtZ59qNMpr7rgThgYlQS7pheFDuNu4uRRqhGGnBd
-         Ua5E1WN63OWh6jwc0xM9cd6FEnreiLolQbmaxXKG0ks2RY/A7dZzljyhtf907RMClK5g
-         9GN5j+pJLL6mk2sYZyX1hzHFAskuSOq7fMtmKwUhAJOteUoT7t4VjJYohkcdr7nAZYk6
-         685jqy+xjdP4+WEr4ckcMHDe1WXKkOCPKbpZeaBCyEuYpmCRsIBk/jbs0XcvFiAqgexx
-         XQpA==
-X-Gm-Message-State: AGRZ1gIPjGVY119HcSXZG1KyMQ4tgDHZoEJcJLZMZ+xAy77285YrWuZs
-        3pe02ZBUa2y/Nwn7FGfPspPG55I7CEDnbaz3Xq1NfQ==
-X-Google-Smtp-Source: AJdET5cs9b0zkSg+dvQx2h14t0+2Fpx/xYuseDkbMS55gScJV9z7HjGA5LRzZLqMl7Z9UzKpLndAaYAWMSWXtbj+sl0=
-X-Received: by 2002:a9d:7059:: with SMTP id x25mr4278532otj.35.1542140838418;
- Tue, 13 Nov 2018 12:27:18 -0800 (PST)
-MIME-Version: 1.0
-References: <CAG48ez0ZprqUYGZFxcrY6U3Dnwt77q1NJXzzpsn1XNkRuXVppw@mail.gmail.com>
- <d43da6ad1a3c164aa03e0f22f065591a@natalenko.name> <20181113175930.3g65rlhbaimstq7g@soleen.tm1wkky2jk1uhgkn0ivaxijq1c.bx.internal.cloudapp.net>
-In-Reply-To: <20181113175930.3g65rlhbaimstq7g@soleen.tm1wkky2jk1uhgkn0ivaxijq1c.bx.internal.cloudapp.net>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 13 Nov 2018 21:26:51 +0100
-Message-ID: <CAG48ez29kArZTU=MgsVxWbuTZZ+sCrxeQ3FkDKpmQnj_MZ5hTg@mail.gmail.com>
-Subject: Re: [PATCH V3] KSM: allow dedup all tasks memory
-To:     pasha.tatashin@soleen.com
-Cc:     oleksandr@natalenko.name, linux-doc@vger.kernel.org,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>, timofey.titovets@synesis.ru,
-        Matthew Wilcox <willy@infradead.org>,
-        Daniel Gruss <daniel@gruss.cc>
+        id S1727065AbeKNHHp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Nov 2018 02:07:45 -0500
+Received: from mga07.intel.com ([134.134.136.100]:45059 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725748AbeKNHHp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Nov 2018 02:07:45 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Nov 2018 13:07:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,229,1539673200"; 
+   d="scan'208";a="96045377"
+Received: from yyu32-desk1.sc.intel.com ([143.183.136.51])
+  by FMSMGA003.fm.intel.com with ESMTP; 13 Nov 2018 13:07:47 -0800
+Message-ID: <43979cffef0a4b5ea90b3fc41b6f9edd2a4324db.camel@intel.com>
+Subject: Re: [PATCH v5 05/27] Documentation/x86: Add CET description
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Date:   Tue, 13 Nov 2018 13:02:24 -0800
+In-Reply-To: <20181113184337.GM10502@zn.tnic>
+References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
+         <20181011151523.27101-6-yu-cheng.yu@intel.com>
+         <20181113184337.GM10502@zn.tnic>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-+cc Daniel Gruss
+On Tue, 2018-11-13 at 19:43 +0100, Borislav Petkov wrote:
+> On Thu, Oct 11, 2018 at 08:15:01AM -0700, Yu-cheng Yu wrote:
+> > Explain how CET works and the no_cet_shstk/no_cet_ibt kernel
+> > parameters.
+> > 
+> > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > ---
+> >  .../admin-guide/kernel-parameters.txt         |   6 +
+> >  Documentation/index.rst                       |   1 +
+> >  Documentation/x86/index.rst                   |  11 +
+> >  Documentation/x86/intel_cet.rst               | 266 ++++++++++++++++++
+> >  4 files changed, 284 insertions(+)
+> >  create mode 100644 Documentation/x86/index.rst
+> >  create mode 100644 Documentation/x86/intel_cet.rst
+> 
+> So this patch should probably come first in the series so that a reader
+> can know what to expect...
+> 
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt
+> > b/Documentation/admin-guide/kernel-parameters.txt
+> > index 92eb1f42240d..3854423f7c86 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -2764,6 +2764,12 @@
+> >  			noexec=on: enable non-executable mappings (default)
+> >  			noexec=off: disable non-executable mappings
+> >  
+> > +	no_cet_ibt	[X86-64] Disable indirect branch tracking for
+> > user-mode
+> > +			applications
+> > +
+> > +	no_cet_shstk	[X86-64] Disable shadow stack support for user-
+> > mode
+> > +			applications
+> > +
+> >  	nosmap		[X86]
+> >  			Disable SMAP (Supervisor Mode Access Prevention)
+> >  			even if it is supported by processor.
+> > diff --git a/Documentation/index.rst b/Documentation/index.rst
+> > index 5db7e87c7cb1..1cdc139adb40 100644
+> > --- a/Documentation/index.rst
+> > +++ b/Documentation/index.rst
+> 
+> Please integrate scripts/checkpatch.pl into your patch creation
+> workflow. Some of the warnings/errors *actually* make sense:
+> 
+> WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
+> #76: FILE: Documentation/x86/index.rst:1:
+> +=======================
+> 
+> WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
+> #93: FILE: Documentation/x86/intel_cet.rst:1:
+> +=========================================
+> 
+> > @@ -104,6 +104,7 @@ implementation.
+> >     :maxdepth: 2
+> >  
+> >     sh/index
+> > +   x86/index
+> >  
+> >  Filesystem Documentation
+> >  ------------------------
+> > diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
+> > new file mode 100644
+> > index 000000000000..9c34d8cbc8f0
+> > --- /dev/null
+> > +++ b/Documentation/x86/index.rst
+> > @@ -0,0 +1,11 @@
+> > +=======================
+> > +X86 Documentation
+> > +=======================
+> > +
+> > +Control Flow Enforcement
+> > +========================
+> > +
+> > +.. toctree::
+> > +   :maxdepth: 1
+> > +
+> > +   intel_cet
+> > diff --git a/Documentation/x86/intel_cet.rst
+> > b/Documentation/x86/intel_cet.rst
+> > new file mode 100644
+> > index 000000000000..946f4802a51f
+> > --- /dev/null
+> > +++ b/Documentation/x86/intel_cet.rst
+> > @@ -0,0 +1,266 @@
+> > +=========================================
+> > +Control Flow Enforcement Technology (CET)
+> > +=========================================
+> > +
+> > +[1] Overview
+> > +============
+> > +
+> > +Control Flow Enforcement Technology (CET) provides protection against
+> > +return/jump-oriented programming (ROP) attacks.  It can be implemented
+> > +to protect both the kernel and applications.  In the first phase,
+> > +only the user-mode protection is implemented on the 64-bit kernel.
+> 
+> s/the//			         is implemented in 64-bit mode.
+> 
+> > +However, 32-bit applications are supported under the compatibility
+> > +mode.
+> 
+> Drop "However":
+> 
+> "32-bit applications are, of course, supported in compatibility mode."
+> 
+> > +
+> > +CET includes shadow stack (SHSTK) and indirect branch tracking (IBT).
+> 
+> "CET introduces two a shadow stack and an indirect branch tracking mechanism."
+> 
+> > +The SHSTK is a secondary stack allocated from memory.  The processor
+> 
+> s/The//
+> 
+> > +automatically pushes/pops a secure copy to the SHSTK every return
+> > +address and,
+> 
+> that reads funny - pls reorganize. Also, what is a "secure copy"?
+> 
+> You mean a copy of every return address which software cannot access?
+> 
+> > by comparing the secure copy to the program stack copy,
+> > +verifies function returns are as intended. 
+> 
+> 			 ... have not been corrupted/modified."
+> 
+> > The IBT verifies all
+> > +indirect CALL/JMP targets are intended and marked by the compiler with
+> > +'ENDBR' op codes.
+> 
+> "opcode" - one word. And before you use "ENDBR" you need to explain it
+> above what it is.
+> 
+> /me reads further... encounters ENDBR's definition...
+> 
+> ah, ok, so you should say something like
+> 
+> "... and marked by the compiler with the ENDBR opcode (see below)."
 
-On Tue, Nov 13, 2018 at 6:59 PM Pavel Tatashin
-<pasha.tatashin@soleen.com> wrote:
-> On 18-11-13 15:23:50, Oleksandr Natalenko wrote:
-> > Hi.
-> >
-> > > Yep. However, so far, it requires an application to explicitly opt in
-> > > to this behavior, so it's not all that bad. Your patch would remove
-> > > the requirement for application opt-in, which, in my opinion, makes
-> > > this way worse and reduces the number of applications for which this
-> > > is acceptable.
-> >
-> > The default is to maintain the old behaviour, so unless the explicit
-> > decision is made by the administrator, no extra risk is imposed.
->
-> The new interface would be more tolerable if it honored MADV_UNMERGEABLE:
->
-> KSM default on: merge everything except when MADV_UNMERGEABLE is
-> excplicitly set.
->
-> KSM default off: merge only when MADV_MERGEABLE is set.
->
-> The proposed change won't honor MADV_UNMERGEABLE, meaning that
-> application programmers won't have a way to prevent sensitive data to be
-> every merged. So, I think, we should keep allow an explicit opt-out
-> option for applications.
->
-> >
-> > > As far as I know, basically nobody is using KSM at this point. There
-> > > are blog posts from several cloud providers about these security risks
-> > > that explicitly state that they're not using memory deduplication.
-> >
-> > I tend to disagree here. Based on both what my company does and what UKSM
-> > users do, memory dedup is a desired option (note "option" word here, not the
-> > default choice).
->
-> Lightweight containers is a use case for KSM: when many VMs share the
-> same small kernel. KSM is used in production by large cloud vendors.
+I will work on it.  Thanks!
 
-Wait, what? Can you name specific ones? Nowadays, enabling KSM for
-untrusted VMs seems like a terrible idea to me, security-wise.
-
-Google says at <https://cloud.google.com/blog/products/gcp/7-ways-we-harden-our-kvm-hypervisor-at-google-cloud-security-in-plaintext>:
-"Compute Engine and Container Engine are not vulnerable to this kind
-of attack, since they do not use KSM."
-
-An AWS employee says at
-<https://forums.aws.amazon.com/thread.jspa?threadID=238519&tstart=0&messageID=739485#739485>:
-"memory de-duplication is not enabled by Amazon EC2's hypervisor"
-
-In my opinion, KSM is fundamentally insecure for systems hosting
-multiple VMs that don't trust each other. I don't think anyone writes
-cryptographic software under the assumption that an attacker will be
-given the ability to query whether a given page of data exists
-anywhere else on the system.
+Yu-cheng
