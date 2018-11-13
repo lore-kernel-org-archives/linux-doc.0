@@ -1,174 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 937007D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 15:01:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8DC7E7D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 15:13:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731040AbeKNBAB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 20:00:01 -0500
-Received: from mail-it1-f193.google.com ([209.85.166.193]:38994 "EHLO
-        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727847AbeKNBAB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 20:00:01 -0500
-Received: by mail-it1-f193.google.com with SMTP id m15so18815423itl.4
-        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 07:01:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=PPSJrmodoa7QV4l6U8MnmFeoVgFhWGsbzLEFcuk4hQk=;
-        b=bKn8PID6S/qWJrBi5KxahwpVWArLmzzCrZF85aWoqPGXi6RKiQ/uvc+x/vBbGFIxdi
-         g7D4t28P8AEhlrVBUFGrN6w8MdQkrAw/LikH64rSNvZKSuLZco04dEty8gcDLQfvFLrb
-         ZbZwzVKJ3PsXgM7h75LChPuLMXEYCF7ZXjL3nlK1PNhmdnMDPgTaSXbkvWW2c9S1uAUy
-         k7yFAJjdLbCu+GGbmIEHg/W6UoTU7XvX7+kjK03sOAGCKqWBPkuI7SfntSqt6CelOq4s
-         5sNzxxt4ve0rlYXnwdLZplQw7pvmk7W4EdfI41+gY4tHElsHLHip1BaAXmpB88p0a4/O
-         e5+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=PPSJrmodoa7QV4l6U8MnmFeoVgFhWGsbzLEFcuk4hQk=;
-        b=ubeAHIRnF4mZe1M/tUi9XK3IT9ztd1pkH49qI4sb160GKxYzYW7P1dUJDBRXPGC9oO
-         ZfO0eMtYeuoyyFNakZAgXD9PaCZ6Q94XVNgNBE5GYNWDEnMb4HjZGuIhsf60exkd7pib
-         RD/+cJK5mHZN170XGPynsAKXp+hseB3oOVN9jd0ZSvkN5pWpLRj27CcSQ3beWGIYQSLr
-         YAaS5E+zznA3zwxAwyppa/KPG6jZSKBYX8GkBkect2DMpQ7vsJnfEZR8Z5fj5vO0UWLC
-         n5/u+Ohl4OtqsMrqyR4TbCQRlzYqx73Csy/FARgOcYNh9mnVb7gHfahUHJ4iCAYFeSZ3
-         XBAw==
-X-Gm-Message-State: AGRZ1gKoTdXW9oduJbWrTEQ+97UVi5Iwffhyk5BCcYxg2DLgWVHv21rK
-        1ZAfPnJJpJYQU7wzEI7sg110Nn1aXimL74vkriOlsg==
-X-Google-Smtp-Source: AJdET5fUC+/pIZADWTfzdfyy8I5RQcOi5Ucxk+fCB2Zm2I3eiEuX4YXYzXVvUme6iHaQpP8Uydpo2Eo2WSlNoaQiP+0=
-X-Received: by 2002:a24:1642:: with SMTP id a63mr3516503ita.40.1542121288206;
- Tue, 13 Nov 2018 07:01:28 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a02:7050:0:0:0:0:0 with HTTP; Tue, 13 Nov 2018 07:01:27
- -0800 (PST)
-In-Reply-To: <20181108122228.xqwhpkjritrvqneq@lakrids.cambridge.arm.com>
-References: <cover.1541525354.git.andreyknvl@google.com> <4891a504adf61c0daf1e83642b6f7519328dfd5f.1541525354.git.andreyknvl@google.com>
- <20181108122228.xqwhpkjritrvqneq@lakrids.cambridge.arm.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 13 Nov 2018 16:01:27 +0100
-Message-ID: <CAAeHK+xPkbg_9P9oCkS-iB8S81vTxD3p5SbyWHy-vrp2ybkKmg@mail.gmail.com>
-Subject: Re: [PATCH v10 12/22] kasan, arm64: fix up fault handling logic
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev@googlegroups.com,
+        id S1732167AbeKNBMB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 20:12:01 -0500
+Received: from mga18.intel.com ([134.134.136.126]:53210 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731287AbeKNBMA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Nov 2018 20:12:00 -0500
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Nov 2018 07:13:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.54,499,1534834800"; 
+   d="scan'208";a="280732220"
+Received: from ibanaga-mobl1.ger.corp.intel.com (HELO localhost) ([10.249.254.77])
+  by fmsmga006.fm.intel.com with ESMTP; 13 Nov 2018 07:13:18 -0800
+Date:   Tue, 13 Nov 2018 17:13:16 +0200
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-sgx@vger.kernel.org, sean.j.christopherson@intel.com,
+        nhorman@redhat.com, npmccallum@redhat.com, serge.ayoun@intel.com,
+        shay.katz-zamir@intel.com, haitao.huang@intel.com,
+        mark.shanahan@intel.com, andriy.shevchenko@linux.intel.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v15 23/23] x86/sgx: Driver documentation
+Message-ID: <20181113151316.GA3796@linux.intel.com>
+References: <20181102231320.29164-1-jarkko.sakkinen@linux.intel.com>
+ <20181102231320.29164-24-jarkko.sakkinen@linux.intel.com>
+ <154ded23-fd1d-f324-4e0a-9de8eddcda6d@intel.com>
+ <20181106054911.GA15575@linux.intel.com>
+ <e7b4c432-7005-308c-4da0-a80e0d294244@intel.com>
+ <20181107163019.GA11509@linux.intel.com>
+ <914dd171-b48a-12d9-eb77-3c40c8b210cb@intel.com>
+ <20181108143942.GA13792@linux.intel.com>
+ <20181108192040.GA21685@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181108192040.GA21685@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 8, 2018 at 1:22 PM, Mark Rutland <mark.rutland@arm.com> wrote:
-> On Tue, Nov 06, 2018 at 06:30:27PM +0100, Andrey Konovalov wrote:
->> show_pte in arm64 fault handling relies on the fact that the top byte of
->> a kernel pointer is 0xff, which isn't always the case with tag-based
->> KASAN.
->
-> That's for the TTBR1 check, right?
->
-> i.e. for the following to work:
->
->         if (addr >= VA_START)
->
-> ... we need the tag bits to be an extension of bit 55...
->
->>
->> This patch resets the top byte in show_pte.
->>
->> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
->> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
->> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
->> ---
->>  arch/arm64/mm/fault.c | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
->> index 7d9571f4ae3d..d9a84d6f3343 100644
->> --- a/arch/arm64/mm/fault.c
->> +++ b/arch/arm64/mm/fault.c
->> @@ -32,6 +32,7 @@
->>  #include <linux/perf_event.h>
->>  #include <linux/preempt.h>
->>  #include <linux/hugetlb.h>
->> +#include <linux/kasan.h>
->>
->>  #include <asm/bug.h>
->>  #include <asm/cmpxchg.h>
->> @@ -141,6 +142,8 @@ void show_pte(unsigned long addr)
->>       pgd_t *pgdp;
->>       pgd_t pgd;
->>
->> +     addr = (unsigned long)kasan_reset_tag((void *)addr);
->
-> ... but this ORs in (0xffUL << 56), which is not correct for addresses
-> which aren't TTBR1 addresses to begin with, where bit 55 is clear, and
-> throws away useful information.
->
-> We could use untagged_addr() here, but that wouldn't be right for
-> kernels which don't use TBI1, and we'd erroneously report addresses
-> under the TTBR1 range as being in the TTBR1 range.
->
-> I also see that the entry assembly for el{1,0}_{da,ia} clears the tag
-> for EL0 addresses.
->
-> So we could have:
->
-> static inline bool is_ttbr0_addr(unsigned long addr)
-> {
->         /* entry assembly clears tags for TTBR0 addrs */
->         return addr < TASK_SIZE_64;
-> }
->
-> static inline bool is_ttbr1_addr(unsigned long addr)
-> {
->         /* TTBR1 addresses may have a tag if HWKASAN is in use */
->         return arch_kasan_reset_tag(addr) >= VA_START;
-> }
->
-> ... and use those in the conditionals, leaving the addr as-is for
-> reporting purposes.
+On Thu, Nov 08, 2018 at 09:20:40PM +0200, Jarkko Sakkinen wrote:
+> On Thu, Nov 08, 2018 at 04:39:42PM +0200, Jarkko Sakkinen wrote:
+> > On Wed, Nov 07, 2018 at 09:09:37AM -0800, Dave Hansen wrote:
+> > > On 11/7/18 8:30 AM, Jarkko Sakkinen wrote:
+> > > >> Does this code run when I type "make kselftest"?  If not, I think we
+> > > >> should rectify that.
+> > > > No, it doesn't. It is just my backup for the non-SDK user space code
+> > > > that I've made that I will use to fork my user space SGX projects in
+> > > > the future.
+> > > > 
+> > > > I can work-out a selftest (and provide a new patch in the series) but
+> > > > I'm still wondering what the enclave should do. I would suggest that
+> > > > we start with an enclave that does just EEXIT and nothing else.
+> > > 
+> > > Yeah, that's a start.  But, a good selftest would include things like
+> > > faults and error conditions.
+> > 
+> > Great. We can add more entry points to the enclave for different tests
+> > but I'll start with a bare minimum. And yeah but ever goes into next
+> > version I'll document the fault handling.
+> 
+> For the v17 I'll add exactly two test cases:
+> 
+> 1. EENTER/EEXIT
+> 2. EENTER/exception
+> 
+> So that it will easier to evaluate and demonstrate exception handling.
+> 
+> /Jarkko
 
-Actually it looks like 276e9327 ("arm64: entry: improve data abort
-handling of tagged pointers") already takes care of both user and
-kernel fault addresses and correctly removes tags from them. So I
-think we need to drop this patch.
+Here is my test program now:
+
+https://github.com/jsakkine-intel/sgx-selftest
+
+It is ~1100 lines ATM. Next I'll deploy it to the kernel tree. It has
+only (1) now but I'll add (2) too when I convert this to a kernel patch
+(probably by doing sgx_call() with a NULL pointer).
+
+/Jarkko
