@@ -1,126 +1,143 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_ADSP_ALL,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 20C117D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 15:29:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 98CFD7D8D4
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 16:33:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387831AbeKNB1s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 20:27:48 -0500
-Received: from mx2.suse.de ([195.135.220.15]:55148 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731422AbeKNB1s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Nov 2018 20:27:48 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 9CAB9B0F4;
-        Tue, 13 Nov 2018 15:29:10 +0000 (UTC)
-From:   Alexander Graf <agraf@suse.de>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Richard Brown <rbrown@suse.de>,
-        Matthias Brugger <mbrugger@suse.com>
-Subject: [PATCH v2] arm64: Make kpti command line options x86 compatible
-Date:   Tue, 13 Nov 2018 16:29:06 +0100
-Message-Id: <20181113152906.55802-1-agraf@suse.de>
-X-Mailer: git-send-email 2.12.3
+        id S1730943AbeKNCcl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 21:32:41 -0500
+Received: from vulcan.natalenko.name ([104.207.131.136]:14356 "EHLO
+        vulcan.natalenko.name" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727428AbeKNCcl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 21:32:41 -0500
+Received: from mail.natalenko.name (vulcan.natalenko.name [IPv6:fe80::5400:ff:fe0c:dfa0])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vulcan.natalenko.name (Postfix) with ESMTPSA id 4D51846A934;
+        Tue, 13 Nov 2018 17:33:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+        s=dkim-20170712; t=1542126829;
+        h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references;
+        bh=mpOrte2CQPkKT6ryItVw/jcNlCUyZj+iSXrIF+TGVP0=;
+        b=Bp5kEgTflHiQsYgfkm0Y4yCo4B7l4FXa4lZk6+oMmz2nYAd/nVnTLAnB7irR1ENaLEUwi9
+        CDpUw5ZIbAhOxIraGKWj7M0OpwtUxsQN/alHzUO0U0mEJf2vUA3lvxqwNN+78630l3eZHo
+        UyHFDAFbP+EshTEFnCKwZcMTJLDfu98=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Tue, 13 Nov 2018 17:33:49 +0100
+From:   Oleksandr Natalenko <oleksandr@natalenko.name>
+To:     timofey.titovets@synesis.ru
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, nefelim4ag@gmail.com, willy@infradead.org
+Subject: Re: [PATCH V3] KSM: allow dedup all tasks memory
+In-Reply-To:  <<20181112231344.7161-1-timofey.titovets@synesis.ru>>
+Message-ID: <d45addefdf05b84af96fb494d52b4ec4@natalenko.name>
+X-Sender: oleksandr@natalenko.name
+User-Agent: Roundcube Webmail/1.3.8
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+        s=arc-20170712; t=1542126829;
+        h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references;
+        bh=mpOrte2CQPkKT6ryItVw/jcNlCUyZj+iSXrIF+TGVP0=;
+        b=0rcgSRFeNFgl513vH3xlIqH2QYx6iQyEkYnE2TDDAtsYInSotFNtUCOXB7GA3mN7AUlvPk
+        kuvgA88SAl/yK5lPVeWbIj5+B0DKu7w3XNd0bwKVkl3pPRaDzuiie39whYmIDljpJm6344
+        3DEr4lB1ZR7M+FKysFHWVb4wN3mbSF0=
+ARC-Seal: i=1; s=arc-20170712; d=natalenko.name; t=1542126829; a=rsa-sha256;
+        cv=none;
+        b=Eqkx9SVfZV/EMbeNUYBbz6WHUH7wIT4f6mpgkjwAkeCyZKB2pMjSTCmSeqoXbyqh1qcT8OV/JV6ADQyB6EU5MhzST6OKJZRQGXeLBnoa/SIJNL8flMWxA+MT8F5H5FN+Py9aVHuo4TMbmWmDM7pH2V3YU/kHzh+xhHUYcEvgXuU=
+ARC-Authentication-Results: i=1;
+        vulcan.natalenko.name;
+        auth=pass smtp.auth=oleksandr@natalenko.name smtp.mailfrom=oleksandr@natalenko.name
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I've already stumbled over 2 cases where people got confused about how to
-disable kpti on AArch64. In both cases, they used existing x86_64 options
-and just applied that to an AArch64 system, expecting it to work.
+So,
 
-I think it makes a lot of sense to have compatible kernel command line
-parameters whenever we can have them be compatible.
+> …snip…
+> +static int ksm_seeker_thread(void *nothing)
+> +{
+> +	pid_t last_pid = 1;
+> +	pid_t curr_pid;
+> +	struct task_struct *task;
+> +
+> +	set_freezable();
+> +	set_user_nice(current, 5);
+> +
+> +	while (!kthread_should_stop()) {
+> +		wait_while_offlining();
+> +
+> +		try_to_freeze();
+> +
+> +		if (!ksm_mode_always()) {
+> +			wait_event_freezable(ksm_seeker_thread_wait,
+> +				ksm_mode_always() || kthread_should_stop());
+> +			continue;
+> +		}
+> +
+> +		/*
+> +		 * import one task's vma per run
+> +		 */
+> +		read_lock(&tasklist_lock);
+> +
+> +		/* Try always get next task */
+> +		for_each_process(task) {
+> +			curr_pid = task_pid_nr(task);
+> +			if (curr_pid == last_pid) {
+> +				task = next_task(task);
+> +				break;
+> +			}
+> +
+> +			if (curr_pid > last_pid)
+> +				break;
+> +		}
+> +
+> +		last_pid = task_pid_nr(task);
+> +		ksm_import_task_vma(task);
 
-So this patch adds the pti= and no_pti kernel command line options, mapping
-them into the existing kpti= command line framework. It preserves the old
-syntax to maintain compatibility with older command lines.
+This seems to be a bad idea. ksm_import_task_vma() may sleep with 
+tasklist_lock being held. Thus, IIUC, you'll get this:
 
-While at it, the patch also marks the respective options as dual-arch.
+[ 1754.410322] BUG: scheduling while atomic: ksmd_seeker/50/0x00000002
+…
+[ 1754.410444] Call Trace:
+[ 1754.410455]  dump_stack+0x5c/0x80
+[ 1754.410460]  __schedule_bug.cold.19+0x38/0x51
+[ 1754.410464]  __schedule+0x11dc/0x2080
+[ 1754.410483]  schedule+0x32/0xb0
+[ 1754.410487]  rwsem_down_write_failed+0x15d/0x240
+[ 1754.410496]  call_rwsem_down_write_failed+0x13/0x20
+[ 1754.410499]  down_write+0x20/0x30
+[ 1754.410502]  ksm_import_task_vma+0x22/0x70
+[ 1754.410505]  ksm_seeker_thread+0x134/0x1c0
+[ 1754.410512]  kthread+0x113/0x130
+[ 1754.410518]  ret_from_fork+0x35/0x40
 
-Reported-by: Richard Brown <rbrown@suse.de>
-Signed-off-by: Alexander Graf <agraf@suse.de>
+I think you may want to get a reference to task_struct before releasing 
+tasklist_lock, and then put it after ksm_import_task_vma() does its job.
 
----
+> +		read_unlock(&tasklist_lock);
+> +
+> +		schedule_timeout_interruptible(
+> +			msecs_to_jiffies(ksm_thread_seeker_sleep_millisecs));
+> +	}
+> +	return 0;
+> +}
+> …snip…
 
-v1 -> v2:
-
-  - Actually make it compile. Sorry for the sloppy v1.
----
- Documentation/admin-guide/kernel-parameters.txt |  6 +++---
- arch/arm64/kernel/cpufeature.c                  | 20 +++++++++++++++++++-
- 2 files changed, 22 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 81d1d5a74728..4a1c6bcfcdb5 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3522,8 +3522,8 @@
- 	pt.		[PARIDE]
- 			See Documentation/blockdev/paride.txt.
- 
--	pti=		[X86_64] Control Page Table Isolation of user and
--			kernel address spaces.  Disabling this feature
-+	pti=		[X86_64,ARM64] Control Page Table Isolation of user
-+			and kernel address spaces.  Disabling this feature
- 			removes hardening, but improves performance of
- 			system calls and interrupts.
- 
-@@ -3534,7 +3534,7 @@
- 
- 			Not specifying this option is equivalent to pti=auto.
- 
--	nopti		[X86_64]
-+	nopti		[X86_64,ARM64]
- 			Equivalent to pti=off
- 
- 	pty.legacy_count=
-diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-index af50064dea51..a67b4b563a7c 100644
---- a/arch/arm64/kernel/cpufeature.c
-+++ b/arch/arm64/kernel/cpufeature.c
-@@ -978,13 +978,31 @@ static int __init parse_kpti(char *str)
- 	bool enabled;
- 	int ret = strtobool(str, &enabled);
- 
--	if (ret)
-+	if (ret) {
-+		if (!strncmp(str, "auto", 4)) {
-+			__kpti_forced = 0;
-+			return 0;
-+		}
- 		return ret;
-+	}
- 
- 	__kpti_forced = enabled ? 1 : -1;
- 	return 0;
- }
- early_param("kpti", parse_kpti);
-+
-+static int __init parse_pti(char *str)
-+{
-+	return parse_kpti(str);
-+}
-+early_param("pti", parse_pti);
-+
-+static int __init parse_no_pti(char *p)
-+{
-+	__kpti_forced = -1;
-+	return 0;
-+}
-+early_param("nopti", parse_no_pti);
- #endif	/* CONFIG_UNMAP_KERNEL_AT_EL0 */
- 
- #ifdef CONFIG_ARM64_HW_AFDBM
 -- 
-2.12.3
-
+   Oleksandr Natalenko (post-factum)
