@@ -2,36 +2,32 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4B65A7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 21:35:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D76617D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 21:40:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726610AbeKNHfp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Nov 2018 02:35:45 -0500
-Received: from mga14.intel.com ([192.55.52.115]:34582 "EHLO mga14.intel.com"
+        id S1726408AbeKNHkj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Nov 2018 02:40:39 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:59372 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725783AbeKNHfp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Nov 2018 02:35:45 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Nov 2018 13:35:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,229,1539673200"; 
-   d="scan'208";a="89049931"
-Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
-  by orsmga007.jf.intel.com with ESMTP; 13 Nov 2018 13:35:41 -0800
-Received: from orsmsx113.amr.corp.intel.com (10.22.240.9) by
- ORSMSX107.amr.corp.intel.com (10.22.240.5) with Microsoft SMTP Server (TLS)
- id 14.3.408.0; Tue, 13 Nov 2018 13:35:41 -0800
-Received: from orsmsx105.amr.corp.intel.com ([169.254.2.237]) by
- ORSMSX113.amr.corp.intel.com ([169.254.9.125]) with mapi id 14.03.0415.000;
- Tue, 13 Nov 2018 13:35:41 -0800
-From:   "Yu, Fenghua" <fenghua.yu@intel.com>
-To:     Borislav Petkov <bp@alien8.de>, "Moger, Babu" <Babu.Moger@amd.com>
-CC:     "tglx@linutronix.de" <tglx@linutronix.de>,
+        id S1725783AbeKNHkj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Nov 2018 02:40:39 -0500
+X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
+Received: from mail.skyhub.de ([127.0.0.1])
+        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id rPFLuKfgd6-i; Tue, 13 Nov 2018 22:40:34 +0100 (CET)
+Received: from zn.tnic (p200300EC2BE56F00D5714500C00E26FD.dip0.t-ipconnect.de [IPv6:2003:ec:2be5:6f00:d571:4500:c00e:26fd])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D3A5C1EC021C;
+        Tue, 13 Nov 2018 22:40:33 +0100 (CET)
+Date:   Tue, 13 Nov 2018 22:40:29 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Yu, Fenghua" <fenghua.yu@intel.com>
+Cc:     "Moger, Babu" <Babu.Moger@amd.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
         "mingo@redhat.com" <mingo@redhat.com>,
         "corbet@lwn.net" <corbet@lwn.net>,
         "Chatre, Reinette" <reinette.chatre@intel.com>,
@@ -62,37 +58,32 @@ CC:     "tglx@linutronix.de" <tglx@linutronix.de>,
         "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH v7 01/13] arch/x86: Start renaming the rdt files to more
+Subject: Re: [PATCH v7 01/13] arch/x86: Start renaming the rdt files to more
  generic names
-Thread-Topic: [PATCH v7 01/13] arch/x86: Start renaming the rdt files to
- more generic names
-Thread-Index: AQHUeG4jLHZyQ+Dwi0aJlEIkm8Brh6VM7DAAgAFUIeA=
-Date:   Tue, 13 Nov 2018 21:35:40 +0000
-Message-ID: <3E5A0FA7E9CA944F9D5414FEC6C71220985A6632@ORSMSX105.amr.corp.intel.com>
+Message-ID: <20181113214029.GO10502@zn.tnic>
 References: <20181109205153.14811-1-babu.moger@amd.com>
- <20181109205153.14811-2-babu.moger@amd.com> <20181112171638.GH8167@zn.tnic>
-In-Reply-To: <20181112171638.GH8167@zn.tnic>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYzBkNTRmYzEtOTgzMy00MDY4LTliMmYtYjNmYjlkNzlkYWFhIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiclwvR0h1bXdyYkVKcktPbDB4MnRrM1N2MU5mUmxQdk5GRGhsNEN1UWllclJmNFVIK1dqTTJhUGZzamdEcWhjY1EifQ==
-x-ctpclassification: CTP_NT
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [10.22.254.138]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <20181109205153.14811-2-babu.moger@amd.com>
+ <20181112171638.GH8167@zn.tnic>
+ <3E5A0FA7E9CA944F9D5414FEC6C71220985A6632@ORSMSX105.amr.corp.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <3E5A0FA7E9CA944F9D5414FEC6C71220985A6632@ORSMSX105.amr.corp.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiBGcm9tOiBCb3Jpc2xhdiBQZXRrb3YgW21haWx0bzpicEBhbGllbjguZGVdDQo+ICBTdWJqZWN0
-OiBbUEFUQ0ggdjcgMDEvMTNdIGFyY2gveDg2OiBTdGFydCByZW5hbWluZyB0aGUgcmR0IGZpbGVz
-IHRvIG1vcmUNCj4gZ2VuZXJpYyBuYW1lcw0KPiANCj4gSSBndWVzcyB0aGUgc3ViamVjdCBwcmVm
-aXggZm9yIGFsbCB0aG9zZSBzaG91bGQgYmUgImFyY2gvcmVzY3RybDoiIG9yIHNvIG5vdy4NCg0K
-SXMgIng4Ni9yZXNjdHJsIiBhIGJldHRlciBzdWJqZWN0IHByZWZpeD8NCg0KVGhhbmtzLg0KDQot
-RmVuZ2h1YQ0K
+On Tue, Nov 13, 2018 at 09:35:40PM +0000, Yu, Fenghua wrote:
+> Is "x86/resctrl" a better subject prefix?
+
+Doh, of course. Diffstat is all arch/x86/.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
