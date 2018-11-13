@@ -2,99 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8DC7E7D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 15:13:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0B1197D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 15:20:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732167AbeKNBMB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 20:12:01 -0500
-Received: from mga18.intel.com ([134.134.136.126]:53210 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731287AbeKNBMA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Nov 2018 20:12:00 -0500
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Nov 2018 07:13:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.54,499,1534834800"; 
-   d="scan'208";a="280732220"
-Received: from ibanaga-mobl1.ger.corp.intel.com (HELO localhost) ([10.249.254.77])
-  by fmsmga006.fm.intel.com with ESMTP; 13 Nov 2018 07:13:18 -0800
-Date:   Tue, 13 Nov 2018 17:13:16 +0200
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-sgx@vger.kernel.org, sean.j.christopherson@intel.com,
-        nhorman@redhat.com, npmccallum@redhat.com, serge.ayoun@intel.com,
-        shay.katz-zamir@intel.com, haitao.huang@intel.com,
-        mark.shanahan@intel.com, andriy.shevchenko@linux.intel.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v15 23/23] x86/sgx: Driver documentation
-Message-ID: <20181113151316.GA3796@linux.intel.com>
-References: <20181102231320.29164-1-jarkko.sakkinen@linux.intel.com>
- <20181102231320.29164-24-jarkko.sakkinen@linux.intel.com>
- <154ded23-fd1d-f324-4e0a-9de8eddcda6d@intel.com>
- <20181106054911.GA15575@linux.intel.com>
- <e7b4c432-7005-308c-4da0-a80e0d294244@intel.com>
- <20181107163019.GA11509@linux.intel.com>
- <914dd171-b48a-12d9-eb77-3c40c8b210cb@intel.com>
- <20181108143942.GA13792@linux.intel.com>
- <20181108192040.GA21685@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181108192040.GA21685@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1732043AbeKNBT0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 20:19:26 -0500
+Received: from mx2.suse.de ([195.135.220.15]:53006 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1732000AbeKNBT0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Nov 2018 20:19:26 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay1.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 9DDE1B141;
+        Tue, 13 Nov 2018 15:20:49 +0000 (UTC)
+From:   Alexander Graf <agraf@suse.de>
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Richard Brown <rbrown@suse.de>,
+        Matthias Brugger <mbrugger@suse.com>
+Subject: [PATCH] arm64: Make kpti command line options x86 compatible
+Date:   Tue, 13 Nov 2018 16:20:46 +0100
+Message-Id: <20181113152046.22389-1-agraf@suse.de>
+X-Mailer: git-send-email 2.12.3
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 08, 2018 at 09:20:40PM +0200, Jarkko Sakkinen wrote:
-> On Thu, Nov 08, 2018 at 04:39:42PM +0200, Jarkko Sakkinen wrote:
-> > On Wed, Nov 07, 2018 at 09:09:37AM -0800, Dave Hansen wrote:
-> > > On 11/7/18 8:30 AM, Jarkko Sakkinen wrote:
-> > > >> Does this code run when I type "make kselftest"?  If not, I think we
-> > > >> should rectify that.
-> > > > No, it doesn't. It is just my backup for the non-SDK user space code
-> > > > that I've made that I will use to fork my user space SGX projects in
-> > > > the future.
-> > > > 
-> > > > I can work-out a selftest (and provide a new patch in the series) but
-> > > > I'm still wondering what the enclave should do. I would suggest that
-> > > > we start with an enclave that does just EEXIT and nothing else.
-> > > 
-> > > Yeah, that's a start.  But, a good selftest would include things like
-> > > faults and error conditions.
-> > 
-> > Great. We can add more entry points to the enclave for different tests
-> > but I'll start with a bare minimum. And yeah but ever goes into next
-> > version I'll document the fault handling.
-> 
-> For the v17 I'll add exactly two test cases:
-> 
-> 1. EENTER/EEXIT
-> 2. EENTER/exception
-> 
-> So that it will easier to evaluate and demonstrate exception handling.
-> 
-> /Jarkko
+I've already stumbled over 2 cases where people got confused about how to
+disable kpti on AArch64. In both cases, they used existing x86_64 options
+and just applied that to an AArch64 system, expecting it to work.
 
-Here is my test program now:
+I think it makes a lot of sense to have compatible kernel command line
+parameters whenever we can have them be compatible.
 
-https://github.com/jsakkine-intel/sgx-selftest
+So this patch adds the pti= and no_pti kernel command line options, mapping
+them into the existing kpti= command line framework. It preserves the old
+syntax to maintain compatibility with older command lines.
 
-It is ~1100 lines ATM. Next I'll deploy it to the kernel tree. It has
-only (1) now but I'll add (2) too when I convert this to a kernel patch
-(probably by doing sgx_call() with a NULL pointer).
+While at it, the patch also marks the respective options as dual-arch.
 
-/Jarkko
+Reported-by: Richard Brown <rbrown@suse.de>
+Signed-off-by: Alexander Graf <agraf@suse.de>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  6 +++---
+ arch/arm64/kernel/cpufeature.c                  | 15 ++++++++++++++-
+ 2 files changed, 17 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 81d1d5a74728..4a1c6bcfcdb5 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3522,8 +3522,8 @@
+ 	pt.		[PARIDE]
+ 			See Documentation/blockdev/paride.txt.
+ 
+-	pti=		[X86_64] Control Page Table Isolation of user and
+-			kernel address spaces.  Disabling this feature
++	pti=		[X86_64,ARM64] Control Page Table Isolation of user
++			and kernel address spaces.  Disabling this feature
+ 			removes hardening, but improves performance of
+ 			system calls and interrupts.
+ 
+@@ -3534,7 +3534,7 @@
+ 
+ 			Not specifying this option is equivalent to pti=auto.
+ 
+-	nopti		[X86_64]
++	nopti		[X86_64,ARM64]
+ 			Equivalent to pti=off
+ 
+ 	pty.legacy_count=
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index af50064dea51..12bb3b0470dd 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -978,13 +978,26 @@ static int __init parse_kpti(char *str)
+ 	bool enabled;
+ 	int ret = strtobool(str, &enabled);
+ 
+-	if (ret)
++	if (ret) {
++		if (!strncmp(str, "auto", 4)) {
++			__kpti_forced = 0;
++			return 0;
++		}
+ 		return ret;
++	}
+ 
+ 	__kpti_forced = enabled ? 1 : -1;
+ 	return 0;
+ }
+ early_param("kpti", parse_kpti);
++early_param("pti", parse_kpti);
++
++static int __init handle_no_pti(char *p)
++{
++	__kpti_forced = -1;
++	return 0;
++}
++early_param("nopti", parse_no_pti);
+ #endif	/* CONFIG_UNMAP_KERNEL_AT_EL0 */
+ 
+ #ifdef CONFIG_ARM64_HW_AFDBM
+-- 
+2.12.3
+
