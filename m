@@ -5,62 +5,63 @@ X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 457E47D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 11:26:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D9B207D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 11:41:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732485AbeKMVYF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 16:24:05 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:45397 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732402AbeKMVYF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 16:24:05 -0500
-Received: by mail-ot1-f67.google.com with SMTP id 32so10415027ota.12
-        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 03:26:24 -0800 (PST)
+        id S1732747AbeKMViz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 16:38:55 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:45631 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732592AbeKMViz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 16:38:55 -0500
+Received: by mail-ot1-f66.google.com with SMTP id 32so10447843ota.12
+        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 03:41:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=synesis-ru.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=0JxXJBJ9eXeHdGZaFc5eR7bYT9jH1RMTyWBV9Ay5KnI=;
-        b=kWA3D28SaUG/oXBPA/sBa0KMukm5sqWBGrd+KW3QriPAysXmScUmgocap5nRUa701f
-         8G+A1GHtBTXXbPe10Hx03g8aGk8j1G4o53VIFwiQCatYD1trSTPb5Bt26k/bXL42XSZg
-         rUbwf+PRA6M9g+1xFSpeMY0ZVVm+nGsmhYX5HYvoGhS0qa0CEDlsDn4wc8t0xGoryAo1
-         fIUIx0BsCEtBXSnhRgP98cbCQCeYLMgU1Lh/A+XBcY64DHbfab83r1OFturnYtxAtjG3
-         h/RQjsc9P9V8mUW4lrHubSz+Nt/hlkyJeO0AgKvDfgGuq4kjRs4c9Huu6G87iqBqLANz
-         tYNQ==
+        bh=EvmegWeMGN3KLd49d+KfRSjjnyXopGgu3o0DkzqVaR8=;
+        b=dK4nT05Doih52AmAxzNadY/dsk0/21ERSWdf2Y5PkkSVCeSAIbG3gYH91opZn5Q4Zb
+         b77pEZRcDxW4asZ9AGhxTpaiv6/WuTyQfD0LxRV1BEfgvhOutEUpOQpOiZ0X8tJ3/iV4
+         TYE46b9tsjpsNwNyDnYZkKTzJ4HpR/0UKZ7XZTsNgA8KMeLoPD+XZy8xQNIHxrjc2Ths
+         mYGuYLtcFoWjki27kHlsnjxjPwzt+IkHRQHpg1fNh+DERtCB3iqEhZl+XQmnxYS8T8kv
+         E0+WdoRONx9NeQMoE4pDYiV5ZdPtKsrENG+wrENZ/VSzw/JwzZpZe9hQAGSHEpv0RXiW
+         5jqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=0JxXJBJ9eXeHdGZaFc5eR7bYT9jH1RMTyWBV9Ay5KnI=;
-        b=g5oLJmnN6aTQF6I+lZOdB2+55Ytvo8xPi0qsFLYVL0SU6CDIejQqh8KBVN8rte/xtJ
-         g3shTZThaVj/hyE+8D2fJ1Gn1+GHN2GXSIcYTYSQdhmy7QSR/aOoTpl7LYQHPn6Gsyho
-         VjwpXlc7dOcP9uOvsvLdLYZTfi51c9WDxc6gM1aYHbs/2ZrDN+v9QD2wgNkzwFTYBoX7
-         1x7h6TWe5r1F2U8AN4DXM/H/WlwhJz8nU23VvxQsalMDJ5pdHWU4qPD07V9qIsCnuYlg
-         ERhg9VBVxED8dy789gPsHWtguWTPEx9jSpKyfi+ebQSaNqIZ9zO5/Ck1A1YNEB4Qlcba
-         IlEQ==
-X-Gm-Message-State: AGRZ1gKu5weqXXtbmlyhpWLEHA7wYKj8+LU0GRgHqBJFcJQF9yRd/N7P
-        16A4aD4aSnvfzekrTP7cTLdnd1R66YlXazwA
-X-Google-Smtp-Source: AJdET5fKfml5xKY2juUeqHbg6Yrlt5qtwx6kBDpk8ti4ijOxhY7GzbxXN8doTp+X5B2B84AuCSJhqA==
-X-Received: by 2002:a9d:42e1:: with SMTP id c30mr2660564otj.38.1542108383502;
-        Tue, 13 Nov 2018 03:26:23 -0800 (PST)
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com. [209.85.210.51])
-        by smtp.gmail.com with ESMTPSA id r10-v6sm9871591oif.57.2018.11.13.03.26.22
+        bh=EvmegWeMGN3KLd49d+KfRSjjnyXopGgu3o0DkzqVaR8=;
+        b=AyyeRD4mzU/ouSWzoe2ex+OynJIjE3eM9pF3tVU4H4wzXtPu/RsFwHIhG2QZqIcPpg
+         wrQpwJSbvq9uzTeMkdiJ+YWNdnyKHzP26PxeLAPGLadk4WsV5/+Uy4ryHhF2VIUfgZre
+         RVxYdxJxFWX/mUOLA9ZU9a9eoSZWVLvx4gcQfDSJbemaMGZ/3LFHdDSzDbkDyeNBQVBr
+         M/89qcMkZ1sXs4vhnWc9Nr0wmrH7igv50MFSSBkjAzZb9VQnRqFvkxbQ9bsIYqmUJKOe
+         4+o4/qeP7E3Ia2H8m84WCWS6UhIBoa8cseef7fXjerDpnsS9C3AUGIdaok/JIz7xkU/E
+         wzYA==
+X-Gm-Message-State: AGRZ1gKHzPMcFwMj6X4qhi8gq90mwebm1w28GSq1i7rNJNidDdfERRsz
+        Suo3p/LRn4MTqiS4nO0doPMfXQ==
+X-Google-Smtp-Source: AJdET5dgABfcO/ytQKUcSNWKjCfh3ikTvjJAO5NnAx64OKSW2b3U31Uhi5/fXqdtlLjKDHm6lGjuww==
+X-Received: by 2002:a9d:2b37:: with SMTP id o52mr3002354otb.326.1542109269875;
+        Tue, 13 Nov 2018 03:41:09 -0800 (PST)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com. [209.85.167.178])
+        by smtp.gmail.com with ESMTPSA id l108sm381792otc.23.2018.11.13.03.41.07
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 13 Nov 2018 03:26:22 -0800 (PST)
-Received: by mail-ot1-f51.google.com with SMTP id a11so7307791otr.10;
-        Tue, 13 Nov 2018 03:26:22 -0800 (PST)
-X-Received: by 2002:a9d:3fcc:: with SMTP id i12mr3021824ote.82.1542108381598;
- Tue, 13 Nov 2018 03:26:21 -0800 (PST)
+        Tue, 13 Nov 2018 03:41:08 -0800 (PST)
+Received: by mail-oi1-f178.google.com with SMTP id p82-v6so9970575oih.11;
+        Tue, 13 Nov 2018 03:41:07 -0800 (PST)
+X-Received: by 2002:aca:4dd4:: with SMTP id a203-v6mr2856344oib.168.1542109267260;
+ Tue, 13 Nov 2018 03:41:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20181112231344.7161-1-timofey.titovets@synesis.ru> <20181113014928.GH21824@bombadil.infradead.org>
-In-Reply-To: <20181113014928.GH21824@bombadil.infradead.org>
+References: <20181112231344.7161-1-timofey.titovets@synesis.ru> <20181113022516.45u6b536vtdjgvrf@soleen.tm1wkky2jk1uhgkn0ivaxijq1c.bx.internal.cloudapp.net>
+In-Reply-To: <20181113022516.45u6b536vtdjgvrf@soleen.tm1wkky2jk1uhgkn0ivaxijq1c.bx.internal.cloudapp.net>
 From:   Timofey Titovets <timofey.titovets@synesis.ru>
-Date:   Tue, 13 Nov 2018 14:25:45 +0300
-X-Gmail-Original-Message-ID: <CAGqmi76_ftDGtyowNRz7CCxRoJ6U3L747M=dWbRjh357w3=ZKA@mail.gmail.com>
-Message-ID: <CAGqmi76_ftDGtyowNRz7CCxRoJ6U3L747M=dWbRjh357w3=ZKA@mail.gmail.com>
+Date:   Tue, 13 Nov 2018 14:40:31 +0300
+X-Gmail-Original-Message-ID: <CAGqmi744_8NA30V0aWCpFi_=WSaA+18h3njOTQG0SFUVdXi8bg@mail.gmail.com>
+Message-ID: <CAGqmi744_8NA30V0aWCpFi_=WSaA+18h3njOTQG0SFUVdXi8bg@mail.gmail.com>
 Subject: Re: [PATCH V3] KSM: allow dedup all tasks memory
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Linux Kernel <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+To:     pasha.tatashin@soleen.com
+Cc:     Linux Kernel <linux-kernel@vger.kernel.org>,
+        Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
         linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -69,10 +70,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-=D0=B2=D1=82, 13 =D0=BD=D0=BE=D1=8F=D0=B1. 2018 =D0=B3. =D0=B2 04:49, Matth=
-ew Wilcox <willy@infradead.org>:
+=D0=B2=D1=82, 13 =D0=BD=D0=BE=D1=8F=D0=B1. 2018 =D0=B3. =D0=B2 05:25, Pavel=
+ Tatashin <pasha.tatashin@soleen.com>:
 >
-> On Tue, Nov 13, 2018 at 02:13:44AM +0300, Timofey Titovets wrote:
+> On 18-11-13 02:13:44, Timofey Titovets wrote:
+> > From: Timofey Titovets <nefelim4ag@gmail.com>
+> >
+> > ksm by default working only on memory that added by
+> > madvise().
+> >
+> > And only way get that work on other applications:
+> >   * Use LD_PRELOAD and libraries
+> >   * Patch kernel
+> >
+> > Lets use kernel task list and add logic to import VMAs from tasks.
+> >
+> > That behaviour controlled by new attributes:
+> >   * mode:
+> >     I try mimic hugepages attribute, so mode have two states:
+> >       * madvise      - old default behaviour
+> >       * always [new] - allow ksm to get tasks vma and
+> >                        try working on that.
+> >   * seeker_sleep_millisecs:
+> >     Add pauses between imports tasks VMA
+> >
+> > For rate limiting proporses and tasklist locking time,
+> > ksm seeker thread only import VMAs from one task per loop.
+> >
 > > Some numbers from different not madvised workloads.
 > > Formulas:
 > >   Percentage ratio =3D (pages_sharing - pages_shared)/pages_unshared
@@ -84,25 +108,220 @@ ew Wilcox <willy@infradead.org>:
 > >     Ratio: 5%
 > >     Saved: ~100  MiB
 > >     Used:  ~2000 MiB
+> >
+> >   * Name: K8s test VM
+> >     Description: Some small random running docker images
+> >     Ratio: 40%
+> >     Saved: ~160 MiB
+> >     Used:  ~920 MiB
+> >
+> >   * Name: Ceph test VM
+> >     Description: Ceph Mon/OSD, some containers
+> >     Ratio: 20%
+> >     Saved: ~60 MiB
+> >     Used:  ~600 MiB
+> >
+> >   * Name: BareMetal K8s backend server
+> >     Description: Different server apps in containers C, Java, GO & etc
+> >     Ratio: 72%
+> >     Saved: ~5800 MiB
+> >     Used:  ~35.7 GiB
+> >
+> >   * Name: BareMetal K8s processing server
+> >     Description: Many instance of one CPU intensive application
+> >     Ratio: 55%
+> >     Saved: ~2600 MiB
+> >     Used:  ~28.0 GiB
+> >
+> >   * Name: BareMetal Ceph node
+> >     Description: Only OSD storage daemons running
+> >     Raio: 2%
+> >     Saved: ~190 MiB
+> >     Used:  ~11.7 GiB
+> >
+> > Changes:
+> >   v1 -> v2:
+> >     * Rebase on v4.19.1 (must also apply on 4.20-rc2+)
+> >   v2 -> v3:
+> >     * Reformat patch description
+> >     * Rename mode normal to madvise
+> >     * Add some memory numbers
+> >     * Fix checkpatch.pl warnings
+> >     * Separate ksm vma seeker to another kthread
+> >     * Fix: "BUG: scheduling while atomic: ksmd"
+> >       by move seeker to another thread
+> >
+> > Signed-off-by: Timofey Titovets <nefelim4ag@gmail.com>
+> > CC: Matthew Wilcox <willy@infradead.org>
+> > CC: linux-mm@kvack.org
+> > CC: linux-doc@vger.kernel.org
+> > ---
+> >  Documentation/admin-guide/mm/ksm.rst |  15 ++
+> >  mm/ksm.c                             | 215 +++++++++++++++++++++++----
+> >  2 files changed, 198 insertions(+), 32 deletions(-)
+> >
+> > diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin=
+-guide/mm/ksm.rst
+> > index 9303786632d1..7cffd47f9b38 100644
+> > --- a/Documentation/admin-guide/mm/ksm.rst
+> > +++ b/Documentation/admin-guide/mm/ksm.rst
+> > @@ -116,6 +116,21 @@ run
+> >          Default: 0 (must be changed to 1 to activate KSM, except if
+> >          CONFIG_SYSFS is disabled)
+> >
+> > +mode
+> > +        * set always to allow ksm deduplicate memory of every process
+> > +        * set madvise to use only madvised memory
+> > +
+> > +        Default: madvise (dedupulicate only madvised memory as in
+> > +        earlier releases)
+> > +
+> > +seeker_sleep_millisecs
+> > +        how many milliseconds ksmd task seeker should sleep try anothe=
+r
+> > +        task.
+> > +        e.g. ``echo 1000 > /sys/kernel/mm/ksm/seeker_sleep_millisecs``
+> > +
+> > +        Default: 1000 (chosen for rate limit purposes)
+> > +
+> > +
+> >  use_zero_pages
+> >          specifies whether empty pages (i.e. allocated pages that only
+> >          contain zeroes) should be treated specially.  When set to 1,
+> > diff --git a/mm/ksm.c b/mm/ksm.c
+> > index 5b0894b45ee5..1a03b28b6288 100644
+> > --- a/mm/ksm.c
+> > +++ b/mm/ksm.c
+> > @@ -273,6 +273,9 @@ static unsigned int ksm_thread_pages_to_scan =3D 10=
+0;
+> >  /* Milliseconds ksmd should sleep between batches */
+> >  static unsigned int ksm_thread_sleep_millisecs =3D 20;
+> >
+> > +/* Milliseconds ksmd seeker should sleep between runs */
+> > +static unsigned int ksm_thread_seeker_sleep_millisecs =3D 1000;
+> > +
+> >  /* Checksum of an empty (zeroed) page */
+> >  static unsigned int zero_checksum __read_mostly;
+> >
+> > @@ -295,7 +298,12 @@ static int ksm_nr_node_ids =3D 1;
+> >  static unsigned long ksm_run =3D KSM_RUN_STOP;
+> >  static void wait_while_offlining(void);
+> >
+> > +#define KSM_MODE_MADVISE 0
+> > +#define KSM_MODE_ALWAYS      1
+> > +static unsigned long ksm_mode =3D KSM_MODE_MADVISE;
+> > +
+> >  static DECLARE_WAIT_QUEUE_HEAD(ksm_thread_wait);
+> > +static DECLARE_WAIT_QUEUE_HEAD(ksm_seeker_thread_wait);
+> >  static DEFINE_MUTEX(ksm_thread_mutex);
+> >  static DEFINE_SPINLOCK(ksm_mmlist_lock);
+> >
+> > @@ -303,6 +311,11 @@ static DEFINE_SPINLOCK(ksm_mmlist_lock);
+> >               sizeof(struct __struct), __alignof__(struct __struct),\
+> >               (__flags), NULL)
+> >
+> > +static inline int ksm_mode_always(void)
+> > +{
+> > +     return (ksm_mode =3D=3D KSM_MODE_ALWAYS);
+> > +}
+> > +
+> >  static int __init ksm_slab_init(void)
+> >  {
+> >       rmap_item_cache =3D KSM_KMEM_CACHE(rmap_item, 0);
+> > @@ -2389,6 +2402,106 @@ static int ksmd_should_run(void)
+> >       return (ksm_run & KSM_RUN_MERGE) && !list_empty(&ksm_mm_head.mm_l=
+ist);
+> >  }
+> >
+> > +
+> > +static int ksm_enter(struct mm_struct *mm, unsigned long *vm_flags)
+> > +{
+> > +     int err;
+> > +
+> > +     if (*vm_flags & (VM_MERGEABLE | VM_SHARED  | VM_MAYSHARE   |
+> > +                      VM_PFNMAP    | VM_IO      | VM_DONTEXPAND |
+> > +                      VM_HUGETLB | VM_MIXEDMAP))
+> > +             return 0;
+> > +
+> > +#ifdef VM_SAO
+> > +     if (*vm_flags & VM_SAO)
+> > +             return 0;
+> > +#endif
+> > +#ifdef VM_SPARC_ADI
+> > +     if (*vm_flags & VM_SPARC_ADI)
+> > +             return 0;
+> > +#endif
+> > +     if (!test_bit(MMF_VM_MERGEABLE, &mm->flags)) {
+> > +             err =3D __ksm_enter(mm);
+> > +             if (err)
+> > +                     return err;
+> > +     }
+> > +
+> > +     *vm_flags |=3D VM_MERGEABLE;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +/*
+> > + * Register all vmas for all processes in the system with KSM.
+> > + * Note that every call to ksm_, for a given vma, after the first
+> > + * does nothing but set flags.
+> > + */
+> > +void ksm_import_task_vma(struct task_struct *task)
+> > +{
+> > +     struct vm_area_struct *vma;
+> > +     struct mm_struct *mm;
+> > +     int error;
+> > +
+> > +     mm =3D get_task_mm(task);
+> > +     if (!mm)
+> > +             return;
+> > +     down_write(&mm->mmap_sem);
+> > +     vma =3D mm->mmap;
+> > +     while (vma) {
+> > +             error =3D ksm_enter(vma->vm_mm, &vma->vm_flags);
+> > +             vma =3D vma->vm_next;
+> > +     }
+> > +     up_write(&mm->mmap_sem);
+> > +     mmput(mm);
+> > +}
+> > +
+> > +static int ksm_seeker_thread(void *nothing)
 >
-> Your _laptop_ saves 100MB of RAM?  That's extraordinary.  Essentially
-> that's like getting an extra 100MB of page cache for free.  Is there
-> any observable slowdown?  I could even see there being a speedup (due
-> to your working set being allowed to be 5% larger)
+> Is it really necessary to have an extra thread in ksm just to add vma's
+> for scanning? Can we do it right from the scanner thread? Also, may be
+> it is better to add vma's at their creation time when KSM_MODE_ALWAYS is
+> enabled?
 >
-> I am now a big fan of this patch and shall try to give it the review
-> that it deserves.
+> Thank you,
+> Pasha
 
-I'm not sure if this is sarcasm,
-anyway i try do my best to get that working.
+Oh, thats a long story, and my english to bad for describe all things,
+even that hard to find linux-mm conversation several years ago about that.
 
-On any x86 desktop with mixed load (browser, docs, games & etc)
-You will always see something like 40-200 MiB of deduped pages,
-based on type of load of course.
+Anyway, so:
+In V2 - i use scanner thread to add VMA, but i think scanner do that
+with too high rate.
+i.e. walk on task list, and get new task every 20ms, to wait write semaphor=
+e,
+to get VMA...
+To high rate for task list scanner, i think it's overkill.
 
-I'm just don't try use that numbers as reason to get general KSM
-deduplication in kernel.
-Because in current generation with several gigabytes of memory,
-several saved MiB not looks serious for most of people.
+About add VMA from creation time,
+UKSM add ksm_enter() hooks to mm subsystem, i port that to KSM.
+But some mm people say what they not like add KSM hooks to other subsystems=
+.
+And want ksm do that internally by some way.
+
+Frankly speaking i didn't have enough knowledge and skills to do that
+another way in past time.
+They also suggest me look to THP for that logic, but i can't find how
+THP do that without hooks, and
+where THP truly scan memory.
+
+So, after all of that i implemented this in that way.
+In first iteration as part of ksm scan thread, and in second, by
+separate thread.
+Because that allow to add VMA in fully independent way.
 
 Thanks!
