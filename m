@@ -5,19 +5,19 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0B1197D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 15:20:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 20C117D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 15:29:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732043AbeKNBT0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 20:19:26 -0500
-Received: from mx2.suse.de ([195.135.220.15]:53006 "EHLO mx1.suse.de"
+        id S2387831AbeKNB1s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 20:27:48 -0500
+Received: from mx2.suse.de ([195.135.220.15]:55148 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1732000AbeKNBT0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Nov 2018 20:19:26 -0500
+        id S1731422AbeKNB1s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Nov 2018 20:27:48 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay1.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 9DDE1B141;
-        Tue, 13 Nov 2018 15:20:49 +0000 (UTC)
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 9CAB9B0F4;
+        Tue, 13 Nov 2018 15:29:10 +0000 (UTC)
 From:   Alexander Graf <agraf@suse.de>
 To:     linux-arm-kernel@lists.infradead.org
 Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -25,9 +25,9 @@ Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Will Deacon <will.deacon@arm.com>,
         Richard Brown <rbrown@suse.de>,
         Matthias Brugger <mbrugger@suse.com>
-Subject: [PATCH] arm64: Make kpti command line options x86 compatible
-Date:   Tue, 13 Nov 2018 16:20:46 +0100
-Message-Id: <20181113152046.22389-1-agraf@suse.de>
+Subject: [PATCH v2] arm64: Make kpti command line options x86 compatible
+Date:   Tue, 13 Nov 2018 16:29:06 +0100
+Message-Id: <20181113152906.55802-1-agraf@suse.de>
 X-Mailer: git-send-email 2.12.3
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -49,10 +49,16 @@ While at it, the patch also marks the respective options as dual-arch.
 
 Reported-by: Richard Brown <rbrown@suse.de>
 Signed-off-by: Alexander Graf <agraf@suse.de>
+
+---
+
+v1 -> v2:
+
+  - Actually make it compile. Sorry for the sloppy v1.
 ---
  Documentation/admin-guide/kernel-parameters.txt |  6 +++---
- arch/arm64/kernel/cpufeature.c                  | 15 ++++++++++++++-
- 2 files changed, 17 insertions(+), 4 deletions(-)
+ arch/arm64/kernel/cpufeature.c                  | 20 +++++++++++++++++++-
+ 2 files changed, 22 insertions(+), 4 deletions(-)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
 index 81d1d5a74728..4a1c6bcfcdb5 100644
@@ -79,10 +85,10 @@ index 81d1d5a74728..4a1c6bcfcdb5 100644
  
  	pty.legacy_count=
 diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-index af50064dea51..12bb3b0470dd 100644
+index af50064dea51..a67b4b563a7c 100644
 --- a/arch/arm64/kernel/cpufeature.c
 +++ b/arch/arm64/kernel/cpufeature.c
-@@ -978,13 +978,26 @@ static int __init parse_kpti(char *str)
+@@ -978,13 +978,31 @@ static int __init parse_kpti(char *str)
  	bool enabled;
  	int ret = strtobool(str, &enabled);
  
@@ -99,9 +105,14 @@ index af50064dea51..12bb3b0470dd 100644
  	return 0;
  }
  early_param("kpti", parse_kpti);
-+early_param("pti", parse_kpti);
 +
-+static int __init handle_no_pti(char *p)
++static int __init parse_pti(char *str)
++{
++	return parse_kpti(str);
++}
++early_param("pti", parse_pti);
++
++static int __init parse_no_pti(char *p)
 +{
 +	__kpti_forced = -1;
 +	return 0;
