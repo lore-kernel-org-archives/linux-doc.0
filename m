@@ -1,195 +1,112 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A497E7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 19:35:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 137627D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 19:35:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726418AbeKNFet (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Nov 2018 00:34:49 -0500
-Received: from lhrrgout.huawei.com ([185.176.76.210]:32763 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725748AbeKNFet (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Nov 2018 00:34:49 -0500
-Received: from LHREML713-CAH.china.huawei.com (unknown [172.18.7.106])
-        by Forcepoint Email with ESMTP id 66C53B53EFEEA;
-        Tue, 13 Nov 2018 19:35:12 +0000 (GMT)
-Received: from [10.202.210.149] (10.202.210.149) by smtpsuk.huawei.com
- (10.201.108.36) with Microsoft SMTP Server (TLS) id 14.3.408.0; Tue, 13 Nov
- 2018 19:35:12 +0000
-Subject: Re: [PATCH 10/17] prmem: documentation
-To:     Andy Lutomirski <luto@kernel.org>
-CC:     Nadav Amit <nadav.amit@gmail.com>,
-        Igor Stoppa <igor.stoppa@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        James Morris <jmorris@namei.org>,
-        "Michal Hocko" <mhocko@kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laura Abbott <labbott@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Thomas Gleixner" <tglx@linutronix.de>
-References: <20181023213504.28905-1-igor.stoppa@huawei.com>
- <20181023213504.28905-11-igor.stoppa@huawei.com>
- <20181026092609.GB3159@worktop.c.hoisthospitality.com>
- <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
- <20181028183126.GB744@hirez.programming.kicks-ass.net>
- <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
- <20181030152641.GE8177@hirez.programming.kicks-ass.net>
- <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
- <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net>
- <6f60afc9-0fed-7f95-a11a-9a2eef33094c@gmail.com>
- <CALCETrXNckT9W288VXx-6inO5qYn-6dUPocKGcBT0GCO3xi3ZQ@mail.gmail.com>
- <386C0CB1-C4B1-43E2-A754-DA8DBE4FB3CB@gmail.com>
- <CALCETrWWcfLK4W3mn0bavzejmMBVKMX29aAUA3+VPQ8m9vmfhw@mail.gmail.com>
- <9373ccf0-f51b-4bfa-2b16-e03ebf3c670d@huawei.com>
- <CALCETrXfBePNs_bs1OroLn9Kdi91FktZ0==N7JK7e=CX=uUisg@mail.gmail.com>
-From:   Igor Stoppa <igor.stoppa@huawei.com>
-Message-ID: <e7de7c38-1312-0bea-26a2-055f335aa0ad@huawei.com>
-Date:   Tue, 13 Nov 2018 21:35:11 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
+        id S1728751AbeKNFfN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Nov 2018 00:35:13 -0500
+Received: from mail.kernel.org ([198.145.29.99]:32954 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726291AbeKNFfM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Nov 2018 00:35:12 -0500
+Received: from localhost (unknown [64.114.255.97])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BAB7921582;
+        Tue, 13 Nov 2018 19:35:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1542137738;
+        bh=IdQcfyuvdm+re6Cg0ueAy5cNXPj5ZQVuW0IBiT0DzBc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HTWv29RID+GfRKNj/L/QDgwP4Af7T59ZxO2+iJZTCbsp8+PVNYmnlEmpKsQ+VxntY
+         8WtRdw7JzUB6mH4FOvAfSPay/tZeggDYYQEBYxmbIwnGCaqquT5oC+sQx127rpywA1
+         NyWHM46k5n3NXz1B1LAn1OTfiulTA3OeK2QAHWjo=
+Date:   Tue, 13 Nov 2018 11:35:38 -0800
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Paolo Valente <paolo.valente@linaro.org>
+Cc:     Jens Axboe <axboe@kernel.dk>, Tejun Heo <tj@kernel.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Angelo Ruocco <angeloruocco90@gmail.com>,
+        Dennis Zhou <dennis@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        Liu Bo <bo.liu@linux.alibaba.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Brown <broonie@kernel.org>, bfq-iosched@googlegroups.com,
+        oleksandr@natalenko.name, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 01/12] kernfs: add function to find kernfs_node without
+ increasing ref counter
+Message-ID: <20181113193538.GA5096@kroah.com>
+References: <20181112095632.69114-1-paolo.valente@linaro.org>
+ <20181112095632.69114-2-paolo.valente@linaro.org>
+ <20181112122840.GA1429@kroah.com>
+ <07A5F685-9D7D-42A7-9A10-73C658F47435@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CALCETrXfBePNs_bs1OroLn9Kdi91FktZ0==N7JK7e=CX=uUisg@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.210.149]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <07A5F685-9D7D-42A7-9A10-73C658F47435@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 13/11/2018 20:48, Andy Lutomirski wrote:
-> On Tue, Nov 13, 2018 at 10:31 AM Igor Stoppa <igor.stoppa@huawei.com> wrote:
->>
->> On 13/11/2018 19:47, Andy Lutomirski wrote:
->>
->>> For general rare-writish stuff, I don't think we want IRQs running
->>> with them mapped anywhere for write.  For AVC and IMA, I'm less sure.
->>
->> Why would these be less sensitive?
+On Tue, Nov 13, 2018 at 06:53:59PM +0100, Paolo Valente wrote:
 > 
-> I'm not really saying they're less sensitive so much as that the
-> considerations are different.  I think the original rare-write code is
-> based on ideas from grsecurity, and it was intended to protect static
-> data like structs full of function pointers.   Those targets have some
-> different properties:
 > 
->  - Static targets are at addresses that are much more guessable, so
-> they're easier targets for most attacks.  (Not spraying attacks like
-> the ones you're interested in, though.)
+> > Il giorno 12 nov 2018, alle ore 13:28, Greg Kroah-Hartman <gregkh@linuxfoundation.org> ha scritto:
+> > 
+> > On Mon, Nov 12, 2018 at 10:56:21AM +0100, Paolo Valente wrote:
+> >> From: Angelo Ruocco <angeloruocco90@gmail.com>
+> >> 
+> >> The kernfs pseudo file system doesn't export any function to only find
+> >> a node by name, without also getting a reference on it.
+> >> But in some cases it is useful to just locate a kernfs node, while
+> >> using it or not depends on some other condition.
+> >> 
+> >> This commit adds a function to just look for a node, without getting
+> >> a reference on it.
+> > 
+> > Eeek, that sounds really bad.  So you save off a pointer to something,
+> > and have no idea if that pointer now really is valid or not?  It can
+> > instantly disappear right afterwards.
+> > 
 > 
->  - Static targets are higher value.  No offense to IMA or AVC, but
-> outright execution of shellcode, hijacking of control flow, or compete
-> disablement of core security features is higher impact than bypassing
-> SELinux or IMA.  Why would you bother corrupting the AVC if you could
-> instead just set enforcing=0?  (I suppose that corrupting the AVC is
-> less likely to be noticed by monitoring tools.)
-> 
->  - Static targets are small.  This means that the interrupt latency
-> would be negligible, especially in comparison to the latency of
-> replacing the entire SELinux policy object.
+> Hi Greg,
+> that function is invoked only in functions executed with cgroup_mutex
+> held.  This guarantees that nothing disappears or becomes
+> inconsistent.  That's why we decided to go for this optimization,
+> instead of doing useless gets&puts pairs.  Still, I'm not expert
+> enough to state whether it is impossible that, once we have defined
+> that function, it may then get used in some unsafe way.
 
-Your analysis is correct.
-In my case, having already taken care of those, I was going *also* after
-the next target in line.
-Admittedly, flipping a bit located at a fixed offset is way easier than
-spraying dynamically allocated data structured.
+I can guarantee once you define that function, it will be used in an
+unsafe way :(
 
-However, once the bit is not easily writable, the only options are to
-either find another way to flip it (unprotect it or subvert something
-that can write it) or to identify another target that is still writable.
+So just don't create it, use the put calls, it's fast and should never
+be a performance issue.
 
-AVC and policyDB fit the latter description.
+> So, I seem to see two options:
+> 1) Add a comment on the function, saying that cgroup_mutex must be
+>    held while invoking it (I guess you won't like this one).
 
-> Anyway, I'm not all that familiar with SELinux under the hood, but I'm
-> wondering if a different approach to thinks like the policy database
-> might be appropriate.  When the policy is changed, rather than
-> allocating rare-write memory and writing to it, what if we instead
-> allocated normal memory, wrote to it, write-protected it, and then
-> used the rare-write infrastructure to do a much smaller write to
-> replace the pointer?
+Nope, do not create it.
 
-Actually, that's exactly what I did.
+> 2) Do not define such a new function, and, in the other patches, use
+>    the already-available find_and_get.
 
-I did not want to overload this discussion, but since you brought it up,
-I'm not sure write rare is enough.
+Yes, please do that.
 
-* write_rare is for stuff that sometimes changes all the time, ex: AVC
+thanks,
 
-* dynamic read only is for stuff that at some point should not be
-modified anymore, but could still be destroyed. Ex: policyDB
-
-I think it would be good to differentiate, at runtime, between the two,
-to minimize the chance that a write_rare function is used against some
-read_only data.
-
-Releasing dynamically allocated protected memory is also a big topic.
-In some cases it's allocated and released continuously, like in the AVC.
-Maybe it can be optimized, or maybe it can be turned into an object
-cache of protected object.
-
-But for releasing, it would be good, I think, to have a mechanism for
-freeing all the memory in one loop, like having a pool containing all
-the memory that was allocated for a specific use (ex: policyDB)
-
-> Admittedly, this creates a window where another core could corrupt the
-> data as it's being written.  That may not matter so much if an
-> attacker can't force a policy update.  Alternatively, the update code
-> could re-verify the policy after write-protecting it, or there could
-> be a fancy API to allocate some temporarily-writable memory (by
-> creating a whole new mm_struct, mapping the memory writable just in
-> that mm_struct, and activating it) so that only the actual policy
-> loader could touch the memory.  But I'm mostly speculating here, since
-> I'm not familiar with the code in question.
-
-They are all corner cases ... possible but unlikely.
-Another, maybe more critical, one is that the policyDB is not available
-at boot.
-There is a window of opportunity, before it's loaded. But it could be
-mitigated by loading a barebone set of rules, either from initrd or even
-as "firmware".
-
-> Anyway, I tend to think that the right way to approach mainlining all
-> this is to first get the basic rare write support for static data into
-> place and then to build on that.  I think it's great that you're
-> pushing this effort, but doing this for SELinux and IMA is a bigger
-> project than doing it for static data, and it might make sense to do
-> it in bite-sized pieces.
-> 
-> Does any of this make sense?
-
-Yes, sure.
-
-I *have* to do SELinux, but I do not necessarily have to wait for the
-final version to be merged upstream. And anyways Android is on a
-different kernel.
-
-However, I think both SELinux and IMA have a value in being sufficiently
-complex cases to be used for validating the design as it evolves.
-
-Each of them has static data that could be the first target for
-protection, in a smaller patch.
-
-Lists of write rare data are probably the next big thing, in terms of
-defining the API.
-
-But I could start with introducing __wr_after_init.
-
---
-igor
+greg k-h
