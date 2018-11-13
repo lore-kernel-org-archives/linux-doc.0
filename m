@@ -1,94 +1,172 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7F0857D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 14:11:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A86897D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 14:13:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730632AbeKNAJQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 19:09:16 -0500
-Received: from smtprelay.synopsys.com ([198.182.60.111]:33762 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728943AbeKNAJP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 19:09:15 -0500
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 14F3010C1286;
-        Tue, 13 Nov 2018 06:10:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1542118256; bh=LCHkETJE3vj858FPiWOiH/595yHOiogSkEubbLew4F4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bwCoP7V+LBcFlRWFgSTSpzE7pb3VRRi8nRY0BtiK/PMAJydeGzVVw08BSjbTHAo6X
-         UK7IYptNUqTrH1/dcfoyYKNj3rOwK5Hgrpq25p7D2ubUn+k5MEKqugCHgFRbv863FX
-         V/cEPHzNKw/Wgu54CggzIu1yA8Kqgn+SUUriDlrdcl4suxStYPqLU9JTtr1kMO7ThM
-         JpXI+tWTfEj/MC0jJQP5HOxEjjt34njLalz5jBG5/wzjAIZjShhC4oNjPlJbvtuvA2
-         QT5p07Y7/SwhilSRZIXtbJGIsYhmv6nx9DqHfWGPvAYrJ+3ORMdPC4fsc3SimGS5XJ
-         sg8Ejes4GrVcw==
-Received: from vitor-VirtualBox.internal.synopsys.com (soares-e7470.internal.synopsys.com [10.107.19.128])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 5B6CE56FE;
-        Tue, 13 Nov 2018 06:10:49 -0800 (PST)
-From:   Vitor Soares <vitor.soares@synopsys.com>
-To:     boris.brezillon@bootlin.com, wsa@the-dreams.de,
-        linux-i2c@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        arnd@arndb.de
-Cc:     psroka@cadence.com, agolec@cadence.com, adouglas@cadence.com,
-        bfolta@cadence.com, dkos@cadence.com, alicja@cadence.com,
-        cwronka@cadence.com, sureshp@cadence.com, rafalc@cadence.com,
-        thomas.petazzoni@bootlin.com, nm@ti.com, robh+dt@kernel.org,
-        pawel.moll@arm.com, mark.rutland@arm.com,
-        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        vitor.soares@synopsys.com, geert@linux-m68k.org,
-        linus.walleij@linaro.org, Xiang.Lin@synaptics.com,
-        linux-gpio@vger.kernel.org, nsekhar@ti.com, pgaj@cadence.com,
-        peda@axentia.se, mshettel@codeaurora.org, swboyd@chromium.org,
-        joao.pinto@synopsys.com
-Subject: [PATCH v4 3/3] MAINTAINERS: Add myself as the dw-i3c-master module maintainer
-Date:   Tue, 13 Nov 2018 14:09:53 +0000
-Message-Id: <1542118193-24925-4-git-send-email-vitor.soares@synopsys.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1542118193-24925-1-git-send-email-vitor.soares@synopsys.com>
-References: <1542118193-24925-1-git-send-email-vitor.soares@synopsys.com>
+        id S1732380AbeKNALo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 19:11:44 -0500
+Received: from mail-it1-f195.google.com ([209.85.166.195]:52857 "EHLO
+        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732401AbeKNALo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 19:11:44 -0500
+Received: by mail-it1-f195.google.com with SMTP id t190-v6so18338795itb.2
+        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 06:13:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=QPsfCm8O0Mz2LyiUqKExaZZeAo+P0C/QYVDqe04KS0I=;
+        b=UvxQKAACUFKKj3OA7IpCbUmOg9Ed1n0veUvs1szBkdCwDoF8aXtb7MMjyMD0eAdZSq
+         fLoCVRvxmlvcvgJXx9dyD3BCzvTarK/w3xT/W31AGG9Vtxs63bIwjCql3SStxtlbpmrK
+         2FSCWPprE/c1tEAewgggeJsWRrDidLWPDEpxPqUk3tmgJIA63Gmsbdqr7O+u7EFr7a2j
+         /ox6XjSdQ4LK7aLugeW5DXB5rznhigtzInLnKE2CLTPkM7TJMn403JYRF8JueQiSMDuV
+         qGwq/wTZBj2ZjuQw4cR/noQBiU7jsMAKEshHXWhAIDxwE5//uB6TzzHeWmzsLpdXubk9
+         EMlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=QPsfCm8O0Mz2LyiUqKExaZZeAo+P0C/QYVDqe04KS0I=;
+        b=K68iVOzXoI5Su9D9YCJyGvOZ0eH56uCnQAD31MUvUhPhvsUR3oZJnd+Wzw3IT02rOq
+         t9NcIef0D2MaCiwBi7xNmwBc58U0HbAQL2TfFz9pntbMYFUxJy8yEdsNlKSwFHCFzknT
+         uBFwDYGrJHVdM00U+e0uU/krR65I2ucIPqRb+5kEtcwIGv+sBjffjYIhoJb2UgT6MImH
+         IJUns0Ch8R1rkAs+OgsZDbgClgQMabUmoN7ewREMD7dTq5/ytI+S0eL4og5uwEFsFv+c
+         WjWPXPd0ks5p2ISC4v81tkATdhRz3guw/B3RzO3ccLIFEFDHTnDTWiHVjELB0IFWcdRf
+         UcJw==
+X-Gm-Message-State: AGRZ1gJ67vVJxnOXjEtc2SnQP2Jb99epJ+HU5xYZDPe04CVZNZwW8iXs
+        zoZ9kC3e8VqLRI5g1iHQbGLo/crxtc6MEnKF2v95NQ==
+X-Google-Smtp-Source: AJdET5eYV/VDo8klSdXx7p4GkU4CgRUR679j5nsawVDqHx2VPBVhdwQxNEgVSz9NGE6ZMha2fM8nfXdG9YY51nYpCps=
+X-Received: by 2002:a02:5f18:: with SMTP id r24-v6mr4919439jab.10.1542118403260;
+ Tue, 13 Nov 2018 06:13:23 -0800 (PST)
+MIME-Version: 1.0
+Received: by 2002:a02:7050:0:0:0:0:0 with HTTP; Tue, 13 Nov 2018 06:13:22
+ -0800 (PST)
+In-Reply-To: <20181107170855.n4ertf5qv7ff5btl@lakrids.cambridge.arm.com>
+References: <cover.1541525354.git.andreyknvl@google.com> <9405f32797b52616cd0746bcea37df94e8e4256a.1541525354.git.andreyknvl@google.com>
+ <20181107170855.n4ertf5qv7ff5btl@lakrids.cambridge.arm.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Tue, 13 Nov 2018 15:13:22 +0100
+Message-ID: <CAAeHK+wDTDiwT_vcu8tTZyNkqHDdgAtSWF4pp=2mngMaJt44bA@mail.gmail.com>
+Subject: Re: [PATCH v10 07/22] kasan: initialize shadow to 0xff for tag-based mode
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Vitor Soares <vitor.soares@synopsys.com>
----
-Change in v4:
-- Change email soares@synopsys.com to vitor.soares@synopsys.com
+On Wed, Nov 7, 2018 at 6:08 PM, Mark Rutland <mark.rutland@arm.com> wrote:
+> On Tue, Nov 06, 2018 at 06:30:22PM +0100, Andrey Konovalov wrote:
+>> A tag-based KASAN shadow memory cell contains a memory tag, that
+>> corresponds to the tag in the top byte of the pointer, that points to that
+>> memory. The native top byte value of kernel pointers is 0xff, so with
+>> tag-based KASAN we need to initialize shadow memory to 0xff.
+>>
+>> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+>> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+>> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+>> ---
+>>  arch/arm64/mm/kasan_init.c | 16 ++++++++++++++--
+>>  include/linux/kasan.h      |  8 ++++++++
+>>  mm/kasan/common.c          |  3 ++-
+>>  3 files changed, 24 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
+>> index 63527e585aac..18ebc8994a7b 100644
+>> --- a/arch/arm64/mm/kasan_init.c
+>> +++ b/arch/arm64/mm/kasan_init.c
+>> @@ -43,6 +43,15 @@ static phys_addr_t __init kasan_alloc_zeroed_page(int node)
+>>       return __pa(p);
+>>  }
+>>
+>> +static phys_addr_t __init kasan_alloc_raw_page(int node)
+>> +{
+>> +     void *p = memblock_alloc_try_nid_raw(PAGE_SIZE, PAGE_SIZE,
+>> +                                             __pa(MAX_DMA_ADDRESS),
+>> +                                             MEMBLOCK_ALLOC_ACCESSIBLE,
+>> +                                             node);
+>> +     return __pa(p);
+>> +}
+>> +
+>>  static pte_t *__init kasan_pte_offset(pmd_t *pmdp, unsigned long addr, int node,
+>>                                     bool early)
+>>  {
+>> @@ -88,7 +97,9 @@ static void __init kasan_pte_populate(pmd_t *pmdp, unsigned long addr,
+>>
+>>       do {
+>>               phys_addr_t page_phys = early ? __pa_symbol(kasan_zero_page)
+>> -                                           : kasan_alloc_zeroed_page(node);
+>> +                                           : kasan_alloc_raw_page(node);
+>> +             if (!early)
+>> +                     memset(__va(page_phys), KASAN_SHADOW_INIT, PAGE_SIZE);
+>>               next = addr + PAGE_SIZE;
+>>               set_pte(ptep, pfn_pte(__phys_to_pfn(page_phys), PAGE_KERNEL));
+>>       } while (ptep++, addr = next, addr != end && pte_none(READ_ONCE(*ptep)));
+>> @@ -138,6 +149,7 @@ asmlinkage void __init kasan_early_init(void)
+>>               KASAN_SHADOW_END - (1UL << (64 - KASAN_SHADOW_SCALE_SHIFT)));
+>>       BUILD_BUG_ON(!IS_ALIGNED(KASAN_SHADOW_START, PGDIR_SIZE));
+>>       BUILD_BUG_ON(!IS_ALIGNED(KASAN_SHADOW_END, PGDIR_SIZE));
+>> +
+>>       kasan_pgd_populate(KASAN_SHADOW_START, KASAN_SHADOW_END, NUMA_NO_NODE,
+>>                          true);
+>>  }
+>> @@ -234,7 +246,7 @@ void __init kasan_init(void)
+>>               set_pte(&kasan_zero_pte[i],
+>>                       pfn_pte(sym_to_pfn(kasan_zero_page), PAGE_KERNEL_RO));
+>>
+>> -     memset(kasan_zero_page, 0, PAGE_SIZE);
+>> +     memset(kasan_zero_page, KASAN_SHADOW_INIT, PAGE_SIZE);
+>
+> If this isn't going to contain zero, can we please have a preparatory
+> patch renaming this to something which isn't misleading?
+>
+> Perhaps kasan_common_shadow_page?
 
-Change in v3:
-- Remove dummy characters
+Will rename to kasan_early_shadow_page in v11, thanks!
 
-Change in v2:
-- None
-
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 293c863..39910b3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6930,6 +6930,12 @@ F:	drivers/i3c/
- F:	include/linux/i3c/
- F:	include/dt-bindings/i3c/
- 
-+I3C DRIVER FOR SYNOPSYS DESIGNWARE
-+M:	Vitor Soares <vitor.soares@synopsys.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
-+F:	drivers/i3c/master/dw*
-+
- IA64 (Itanium) PLATFORM
- M:	Tony Luck <tony.luck@intel.com>
- M:	Fenghua Yu <fenghua.yu@intel.com>
--- 
-2.7.4
-
-
+>
+> Thanks,
+> Mark.
