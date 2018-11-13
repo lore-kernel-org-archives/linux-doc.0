@@ -1,161 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D42727D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 22:07:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5B0F87D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 22:35:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726950AbeKNIHv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Nov 2018 03:07:51 -0500
-Received: from foss.arm.com ([217.140.101.70]:35274 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726022AbeKNIHv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Nov 2018 03:07:51 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3541880D;
-        Tue, 13 Nov 2018 14:07:40 -0800 (PST)
-Received: from blommer (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC6873F718;
-        Tue, 13 Nov 2018 14:07:38 -0800 (PST)
-Date:   Tue, 13 Nov 2018 22:07:29 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
-Subject: Re: [PATCH v10 12/22] kasan, arm64: fix up fault handling logic
-Message-ID: <20181113220728.2h3kz67b2bz36wty@blommer>
-References: <cover.1541525354.git.andreyknvl@google.com>
- <4891a504adf61c0daf1e83642b6f7519328dfd5f.1541525354.git.andreyknvl@google.com>
- <20181108122228.xqwhpkjritrvqneq@lakrids.cambridge.arm.com>
- <CAAeHK+xPkbg_9P9oCkS-iB8S81vTxD3p5SbyWHy-vrp2ybkKmg@mail.gmail.com>
+        id S1726890AbeKNIfv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Nov 2018 03:35:51 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:44686 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726408AbeKNIfv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Nov 2018 03:35:51 -0500
+Received: by mail-ed1-f66.google.com with SMTP id n19-v6so11932668edq.11
+        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 14:35:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=eiuGy56YjSeBl2R6VQNnLDXN3B+e/UKb3wQeFWnwDjU=;
+        b=SznPCrXcAg3Bb1h6++IdhwALQoBUqLwMkH7QhZH1y74L3K0uQDuewa7+xoKiDFbJjJ
+         lKK5xg0gZ2UVwiBjOw+/cED5CZ0GY+pvx6AA1JGbmXQn/jMXFhNP0CUDjJpxLYs3J6u2
+         AKEDGtlLex6+SAIaSVANuXYXvvRwpHBv0O0qwCuTx7Dh/3oCxVF06iscWNOYHEJqQHVN
+         HNbV7pvEdrT+qPcvPRZR6d23SjnDYVjxs+ZbqTQoKqBP+MMoNsyAvk9JwilA9VczPTx+
+         /62SxtWdLs5MMbs21uwLLsbUT3biUfTYLMgs5fcreqmz+cktyWoTsTRKz598NmCSCDf6
+         laSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eiuGy56YjSeBl2R6VQNnLDXN3B+e/UKb3wQeFWnwDjU=;
+        b=rcozl+GIu/upM2UD3ffDwHHhca9qvKSUwbQxFiiVo24Q1T+d+e2EGvQHUXCdt3lqsD
+         QapcP+916gKaJZi9QJDCrYEj29mV1pVP40+STjeJX9TOOBwwKTvcWCvgVh/WUF5SDMRp
+         vEDB2IL+DACgR5eO3JTdFclidanMAsn6uPQcO2ovtSpKPOG0iVHMEw8Kh4iQ4SBWzeko
+         qOVDzH78Gf58kAVXGcA1PYmQad+2bK0fwzB3jsqvkirz4kcrSNUyo/ykP+J6JDbOUuA/
+         8ZNRD3XvCxRjaHM03QKHQ8aW6fp3zM8e8FovCa4guat9HK039kKTsLHc+ai4uTqRWlTB
+         2Cng==
+X-Gm-Message-State: AGRZ1gLkl6NEaxj4l1iFRRYUcpIqspwtNGxh0WgtKHAu4FYEIsp3bUOx
+        KNSxdyzmwDDQIlCFTTdYhl2ED/TguH8eowDV3p4drQ==
+X-Google-Smtp-Source: AJdET5fGmuhJaIK75HRtmn7YJcD7vesp0Jn0Zr1jp1HsGP3O2/0HtH5Cq2bcHtOi6LgY3iOkqygAxfBhbPq4ZJf1Bjs=
+X-Received: by 2002:a50:983a:: with SMTP id g55mr7055080edb.143.1542148532994;
+ Tue, 13 Nov 2018 14:35:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+xPkbg_9P9oCkS-iB8S81vTxD3p5SbyWHy-vrp2ybkKmg@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+References: <CAG48ez0ZprqUYGZFxcrY6U3Dnwt77q1NJXzzpsn1XNkRuXVppw@mail.gmail.com>
+ <d43da6ad1a3c164aa03e0f22f065591a@natalenko.name> <20181113175930.3g65rlhbaimstq7g@soleen.tm1wkky2jk1uhgkn0ivaxijq1c.bx.internal.cloudapp.net>
+ <CAG48ez29kArZTU=MgsVxWbuTZZ+sCrxeQ3FkDKpmQnj_MZ5hTg@mail.gmail.com>
+In-Reply-To: <CAG48ez29kArZTU=MgsVxWbuTZZ+sCrxeQ3FkDKpmQnj_MZ5hTg@mail.gmail.com>
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+Date:   Tue, 13 Nov 2018 14:35:21 -0800
+Message-ID: <CA+CK2bDPeEsFwGAQf7f=YQ+s6aUTm-ApgFd2RR5JQQr-pi-aqg@mail.gmail.com>
+Subject: Re: [PATCH V3] KSM: allow dedup all tasks memory
+To:     Jann Horn <jannh@google.com>
+Cc:     Oleksandr Natalenko <oleksandr@natalenko.name>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        Timofey Titovets <timofey.titovets@synesis.ru>,
+        Matthew Wilcox <willy@infradead.org>, daniel@gruss.cc
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 13, 2018 at 04:01:27PM +0100, Andrey Konovalov wrote:
-> On Thu, Nov 8, 2018 at 1:22 PM, Mark Rutland <mark.rutland@arm.com> wrote:
-> > On Tue, Nov 06, 2018 at 06:30:27PM +0100, Andrey Konovalov wrote:
-> >> show_pte in arm64 fault handling relies on the fact that the top byte of
-> >> a kernel pointer is 0xff, which isn't always the case with tag-based
-> >> KASAN.
-> >
-> > That's for the TTBR1 check, right?
-> >
-> > i.e. for the following to work:
-> >
-> >         if (addr >= VA_START)
-> >
-> > ... we need the tag bits to be an extension of bit 55...
-> >
-> >>
-> >> This patch resets the top byte in show_pte.
-> >>
-> >> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
-> >> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> >> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> >> ---
-> >>  arch/arm64/mm/fault.c | 3 +++
-> >>  1 file changed, 3 insertions(+)
-> >>
-> >> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-> >> index 7d9571f4ae3d..d9a84d6f3343 100644
-> >> --- a/arch/arm64/mm/fault.c
-> >> +++ b/arch/arm64/mm/fault.c
-> >> @@ -32,6 +32,7 @@
-> >>  #include <linux/perf_event.h>
-> >>  #include <linux/preempt.h>
-> >>  #include <linux/hugetlb.h>
-> >> +#include <linux/kasan.h>
-> >>
-> >>  #include <asm/bug.h>
-> >>  #include <asm/cmpxchg.h>
-> >> @@ -141,6 +142,8 @@ void show_pte(unsigned long addr)
-> >>       pgd_t *pgdp;
-> >>       pgd_t pgd;
-> >>
-> >> +     addr = (unsigned long)kasan_reset_tag((void *)addr);
-> >
-> > ... but this ORs in (0xffUL << 56), which is not correct for addresses
-> > which aren't TTBR1 addresses to begin with, where bit 55 is clear, and
-> > throws away useful information.
-> >
-> > We could use untagged_addr() here, but that wouldn't be right for
-> > kernels which don't use TBI1, and we'd erroneously report addresses
-> > under the TTBR1 range as being in the TTBR1 range.
-> >
-> > I also see that the entry assembly for el{1,0}_{da,ia} clears the tag
-> > for EL0 addresses.
-> >
-> > So we could have:
-> >
-> > static inline bool is_ttbr0_addr(unsigned long addr)
-> > {
-> >         /* entry assembly clears tags for TTBR0 addrs */
-> >         return addr < TASK_SIZE_64;
-> > }
-> >
-> > static inline bool is_ttbr1_addr(unsigned long addr)
-> > {
-> >         /* TTBR1 addresses may have a tag if HWKASAN is in use */
-> >         return arch_kasan_reset_tag(addr) >= VA_START;
-> > }
-> >
-> > ... and use those in the conditionals, leaving the addr as-is for
-> > reporting purposes.
-> 
-> Actually it looks like 276e9327 ("arm64: entry: improve data abort
-> handling of tagged pointers") already takes care of both user and
-> kernel fault addresses and correctly removes tags from them. So I
-> think we need to drop this patch.
+> Wait, what? Can you name specific ones? Nowadays, enabling KSM for
+> untrusted VMs seems like a terrible idea to me, security-wise.
 
-The clear_address_tag macro added in that commit only removes tags from TTBR0
-addresses, so that's not sufficient if the kernel is used tagged addresses
-(which will be in the TTBR1 range).
+Of course it is not used to share data among different
+customers/tenants, as far as I know it is used by Oracle Cloud to
+merge the same pages in clear containers.
 
-Thanks,
-Mark.
-That commit only removes tags from TTBR0 addresses, 
+https://medium.com/cri-o/intel-clear-containers-and-cri-o-70824fb51811
+One performance enhancing feature is the use of KSM, a recent KVM
+optimized for memory sharing and boot speed. Another is the use of an
+optimized Clear Containers mini-OS.
+
+Pasha
