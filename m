@@ -1,279 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 78C4F7D982
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 18:07:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EE8167D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 18:18:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732257AbeKNEGS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 23:06:18 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:33176 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732227AbeKNEGR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 23:06:17 -0500
-Received: by mail-pf1-f196.google.com with SMTP id v68-v6so6461998pfk.0;
-        Tue, 13 Nov 2018 10:07:04 -0800 (PST)
+        id S1730748AbeKNERh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 23:17:37 -0500
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:39932 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730729AbeKNERh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 23:17:37 -0500
+Received: by mail-oi1-f195.google.com with SMTP id 192-v6so11194299oii.6
+        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 10:18:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=hMmS1nZS3LXt+WsRx1ONzsmAETiXZKuLi7jcwbuIYLI=;
-        b=eBML4S+ekMrRsPHuYROhWihBN3yGCz/36qKQZdjajR/6TPTfX28Yzt6rP+1JJWvZQY
-         7mVC1xH7cR/J8A0bLuO37qVCID2q5xQA4Iw48k+FdA+ezUFZCBqmQ1uBHmI5n3KXpRNJ
-         2PD2UO6gfVb61N8DF244wtTEui7iXzepYZiYs7+8dfN+wNROhHfLTr1At3s44za94YMM
-         TjTI9oDqUpclxhSVwaeXjTlbTs0pGNgjEwDL0/F4pCa4Agt06KWHPyxLlQTaw7KVtHK5
-         IuYAXRNjsMI7qFjLaeWIQBhMtqi9XCpEhgp0sKTwEKHHcv8/GrmAoM6dbollq6OOaicK
-         mFWg==
+        d=synesis-ru.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=5IfNSoiM7rcywtksB3ASPv0sLv4kO68L9YLZ+gQ6DJM=;
+        b=ttpyN6FJE5rxVf4tFN+vHfXmBMBmLTIVrZVsBm9HfvTscdyoLoiME6yAh1G/C42c7W
+         XfS+Ofg8hQyGAHxVWjVUAs5XhbXbdwnj4o73ei1UBsISr9dLs9uEhzLHf4vTG9A/xd+w
+         AHuR9TUzwqyJw/GNePO7kyF1owMsLIdheWKP1AtaElgLrHyqbAyqwIy1X7Thk3X/gSxa
+         1ilFBBD0r/DHaYb3nfYIZ4OVv9J1qWeeZqIG9oRCtOgI6sVsndZ0NcVqR5fquIyxZazC
+         k3aqaYj4RmsdKkTILJCGXlkxDO7YVVaiZ8O9QZyX/D2GUBgKihrUjK0+NMb3iGPIB7dc
+         hPUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=hMmS1nZS3LXt+WsRx1ONzsmAETiXZKuLi7jcwbuIYLI=;
-        b=YaQIq7w20nabQNp1MrHi9VHjI/XkyvqIuFUp5bq6adtAQSU5SDFba8bZLajjX0O5EM
-         d1HSRNfXq0NZJtQf/cQfB6LLTT4U31/M7dairxXzgfOw2lLqpsc/e6JLlJwJVD3P9T9q
-         aSLR6z+hZd1Lgsx/FqygHCWcb3klsriB42Jia9sirpcP6RnWbg1lyMVIan0gVIqTaQrT
-         xeKx7UeknKhXO//Gt4U1NgT2cboymBttkyRXQZ/yz9ObfcW47nbgZ64N8biMiL/BHcWy
-         QAzatjyMj97thVJTzsWgne+TKkiv8FLs129Sm3hHKru0a6LZlpy83klszuRbe/8Yi+gc
-         txrw==
-X-Gm-Message-State: AGRZ1gIDp6BSw2BX0PoDCTK+GryXKRObMNVwE1KCPwiimtsGIgRd/dxE
-        VqSipAk74aktRAQgE9uSINk=
-X-Google-Smtp-Source: AJdET5fY7NRN4RwW1nd1TJuAAdgWkqoAX2b0SMFS9R7TkjUsYJq12qavsVjq9znH3P/h2bRYI4a4gg==
-X-Received: by 2002:a62:65c3:: with SMTP id z186-v6mr6281147pfb.206.1542132424077;
-        Tue, 13 Nov 2018 10:07:04 -0800 (PST)
-Received: from [10.2.51.78] ([208.91.2.1])
-        by smtp.gmail.com with ESMTPSA id p9-v6sm15337649pfa.22.2018.11.13.10.07.01
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=5IfNSoiM7rcywtksB3ASPv0sLv4kO68L9YLZ+gQ6DJM=;
+        b=q6K3WKl2rb6eVAdGdf6L9Va3v5JZ6GWZKWl6S5gssQV8wFYgcodbTN8GghjMSM0PZN
+         biymupCWPnfX9UqyY3UD88HiVJh3Fzb4Ak2jPbNRFxPChTxOhZqIch47zaW3xlRSMznW
+         QmSeHhv6da6zy1CgbrBAg8vEOOVeAI+egZ1ctJ3zjgYXnu+KlQMAUxLSvMIlW3eHri9S
+         b3kXnjY4yQJmGOEjf9m3/Z67BBwaOVlKDujN9xYlGkU/8FdOXaFyROpmGBIs7CzP5vxC
+         CKdyoWF/6WfS3WXqXfFZN504BkQDTbXeHUg6iYxNKbegh8Ba51JkM4JORO0aBZq2yNsK
+         7qmw==
+X-Gm-Message-State: AGRZ1gKyRf8CKBqeSe40pw32W4q52ziV1NHKZGlHccoOCNSXh00Cx2gz
+        h+K2Luf0w1OfPT9y3qcj+JNq0uqfrrN0WQSs
+X-Google-Smtp-Source: AJdET5dj3JthqS22OBmrNmZ8kSO/uE8Qvi9AxZGrfV+66EmzJYjQZfR5gITy80ikG8LTt2jIu0XSxA==
+X-Received: by 2002:aca:5a41:: with SMTP id o62-v6mr3460238oib.323.1542133101730;
+        Tue, 13 Nov 2018 10:18:21 -0800 (PST)
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com. [209.85.167.173])
+        by smtp.gmail.com with ESMTPSA id p189-v6sm1297901oif.19.2018.11.13.10.18.19
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 13 Nov 2018 10:07:03 -0800 (PST)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
-Subject: Re: [PATCH 10/17] prmem: documentation
-From:   Nadav Amit <nadav.amit@gmail.com>
-In-Reply-To: <CALCETrWWcfLK4W3mn0bavzejmMBVKMX29aAUA3+VPQ8m9vmfhw@mail.gmail.com>
-Date:   Tue, 13 Nov 2018 10:06:59 -0800
-Cc:     Igor Stoppa <igor.stoppa@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        James Morris <jmorris@namei.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Igor Stoppa <igor.stoppa@huawei.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laura Abbott <labbott@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
+        Tue, 13 Nov 2018 10:18:20 -0800 (PST)
+Received: by mail-oi1-f173.google.com with SMTP id 192-v6so11194148oii.6;
+        Tue, 13 Nov 2018 10:18:19 -0800 (PST)
+X-Received: by 2002:aca:4dd4:: with SMTP id a203-v6mr3769165oib.168.1542133099027;
+ Tue, 13 Nov 2018 10:18:19 -0800 (PST)
+MIME-Version: 1.0
+References: <CAG48ez0ZprqUYGZFxcrY6U3Dnwt77q1NJXzzpsn1XNkRuXVppw@mail.gmail.com>
+ <d43da6ad1a3c164aa03e0f22f065591a@natalenko.name> <20181113175930.3g65rlhbaimstq7g@soleen.tm1wkky2jk1uhgkn0ivaxijq1c.bx.internal.cloudapp.net>
+In-Reply-To: <20181113175930.3g65rlhbaimstq7g@soleen.tm1wkky2jk1uhgkn0ivaxijq1c.bx.internal.cloudapp.net>
+From:   Timofey Titovets <timofey.titovets@synesis.ru>
+Date:   Tue, 13 Nov 2018 21:17:42 +0300
+X-Gmail-Original-Message-ID: <CAGqmi74gpvJv8=B-3pVSMrDssu-aYMxW9xM7mt1WNQjGLjMZqA@mail.gmail.com>
+Message-ID: <CAGqmi74gpvJv8=B-3pVSMrDssu-aYMxW9xM7mt1WNQjGLjMZqA@mail.gmail.com>
+Subject: Re: [PATCH V3] KSM: allow dedup all tasks memory
+To:     pasha.tatashin@soleen.com
+Cc:     oleksandr@natalenko.name, Jann Horn <jannh@google.com>,
+        linux-doc@vger.kernel.org,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <E01BD14F-734B-4142-B2E6-50E7A974AEF6@gmail.com>
-References: <20181023213504.28905-1-igor.stoppa@huawei.com>
- <20181023213504.28905-11-igor.stoppa@huawei.com>
- <20181026092609.GB3159@worktop.c.hoisthospitality.com>
- <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
- <20181028183126.GB744@hirez.programming.kicks-ass.net>
- <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
- <20181030152641.GE8177@hirez.programming.kicks-ass.net>
- <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
- <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net>
- <6f60afc9-0fed-7f95-a11a-9a2eef33094c@gmail.com>
- <CALCETrXNckT9W288VXx-6inO5qYn-6dUPocKGcBT0GCO3xi3ZQ@mail.gmail.com>
- <386C0CB1-C4B1-43E2-A754-DA8DBE4FB3CB@gmail.com>
- <CALCETrWWcfLK4W3mn0bavzejmMBVKMX29aAUA3+VPQ8m9vmfhw@mail.gmail.com>
-To:     Andy Lutomirski <luto@amacapital.net>
-X-Mailer: Apple Mail (2.3445.9.1)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Andy Lutomirski
-Sent: November 13, 2018 at 5:47:16 PM GMT
-> To: Nadav Amit <nadav.amit@gmail.com>
-> Cc: Igor Stoppa <igor.stoppa@gmail.com>, Kees Cook =
-<keescook@chromium.org>, Peter Zijlstra <peterz@infradead.org>, Mimi =
-Zohar <zohar@linux.vnet.ibm.com>, Matthew Wilcox <willy@infradead.org>, =
-Dave Chinner <david@fromorbit.com>, James Morris <jmorris@namei.org>, =
-Michal Hocko <mhocko@kernel.org>, Kernel Hardening =
-<kernel-hardening@lists.openwall.com>, linux-integrity =
-<linux-integrity@vger.kernel.org>, LSM List =
-<linux-security-module@vger.kernel.org>, Igor Stoppa =
-<igor.stoppa@huawei.com>, Dave Hansen <dave.hansen@linux.intel.com>, =
-Jonathan Corbet <corbet@lwn.net>, Laura Abbott <labbott@redhat.com>, =
-Randy Dunlap <rdunlap@infradead.org>, Mike Rapoport =
-<rppt@linux.vnet.ibm.com>, open list:DOCUMENTATION =
-<linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, Thomas =
-Gleixner <tglx@linutronix.de>
-> Subject: Re: [PATCH 10/17] prmem: documentation
->=20
->=20
-> On Tue, Nov 13, 2018 at 9:43 AM Nadav Amit <nadav.amit@gmail.com> =
-wrote:
->> From: Andy Lutomirski
->> Sent: November 13, 2018 at 5:16:09 PM GMT
->>> To: Igor Stoppa <igor.stoppa@gmail.com>
->>> Cc: Kees Cook <keescook@chromium.org>, Peter Zijlstra =
-<peterz@infradead.org>, Nadav Amit <nadav.amit@gmail.com>, Mimi Zohar =
-<zohar@linux.vnet.ibm.com>, Matthew Wilcox <willy@infradead.org>, Dave =
-Chinner <david@fromorbit.com>, James Morris <jmorris@namei.org>, Michal =
-Hocko <mhocko@kernel.org>, Kernel Hardening =
-<kernel-hardening@lists.openwall.com>, linux-integrity =
-<linux-integrity@vger.kernel.org>, LSM List =
-<linux-security-module@vger.kernel.org>, Igor Stoppa =
-<igor.stoppa@huawei.com>, Dave Hansen <dave.hansen@linux.intel.com>, =
-Jonathan Corbet <corbet@lwn.net>, Laura Abbott <labbott@redhat.com>, =
-Randy Dunlap <rdunlap@infradead.org>, Mike Rapoport =
-<rppt@linux.vnet.ibm.com>, open list:DOCUMENTATION =
-<linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, Thomas =
-Gleixner <tglx@linutronix.de>
->>> Subject: Re: [PATCH 10/17] prmem: documentation
->>>=20
->>>=20
->>> On Tue, Nov 13, 2018 at 6:25 AM Igor Stoppa <igor.stoppa@gmail.com> =
-wrote:
->>>> Hello,
->>>> I've been studying v4 of the patch-set [1] that Nadav has been =
-working on.
->>>> Incidentally, I think it would be useful to cc also the
->>>> security/hardening ml.
->>>> The patch-set seems to be close to final, so I am resuming this =
-discussion.
->>>>=20
->>>> On 30/10/2018 19:06, Andy Lutomirski wrote:
->>>>=20
->>>>> I support the addition of a rare-write mechanism to the upstream =
-kernel.  And I think that there is only one sane way to implement it: =
-using an mm_struct. That mm_struct, just like any sane mm_struct, should =
-only differ from init_mm in that it has extra mappings in the *user* =
-region.
->>>>=20
->>>> After reading the code, I see what you meant.
->>>> I think I can work with it.
->>>>=20
->>>> But I have a couple of questions wrt the use of this mechanism, in =
-the
->>>> context of write rare.
->>>>=20
->>>>=20
->>>> 1) mm_struct.
->>>>=20
->>>> Iiuc, the purpose of the patchset is mostly (only?) to patch kernel =
-code
->>>> (live patch?), which seems to happen sequentially and in a =
-relatively
->>>> standardized way, like replacing the NOPs specifically placed in =
-the
->>>> functions that need patching.
->>>>=20
->>>> This is a bit different from the more generic write-rare case, =
-applied
->>>> to data.
->>>>=20
->>>> As example, I have in mind a system where both IMA and SELinux are =
-in use.
->>>>=20
->>>> In this system, a file is accessed for the first time.
->>>>=20
->>>> That would trigger 2 things:
->>>> - evaluation of the SELinux rules and probably update of the AVC =
-cache
->>>> - IMA measurement and update of the measurements
->>>>=20
->>>> Both of them could be write protected, meaning that they would both =
-have
->>>> to be modified through the write rare mechanism.
->>>>=20
->>>> While the events, for 1 specific file, would be sequential, it's =
-not
->>>> difficult to imagine that multiple files could be accessed at the =
-same time.
->>>>=20
->>>> If the update of the data structures in both IMA and SELinux must =
-use
->>>> the same mm_struct, that would have to be somehow regulated and it =
-would
->>>> introduce an unnecessary (imho) dependency.
->>>>=20
->>>> How about having one mm_struct for each writer (core or thread)?
->>>=20
->>> I don't think that helps anything.  I think the mm_struct used for
->>> prmem (or rare_write or whatever you want to call it) should be
->>> entirely abstracted away by an appropriate API, so neither SELinux =
-nor
->>> IMA need to be aware that there's an mm_struct involved.  It's also
->>> entirely possible that some architectures won't even use an =
-mm_struct
->>> behind the scenes -- x86, for example, could have avoided it if =
-there
->>> were a kernel equivalent of PKRU.  Sadly, there isn't.
->>>=20
->>>> 2) Iiuc, the purpose of the 2 pages being remapped is that the =
-target of
->>>> the patch might spill across the page boundary, however if I deal =
-with
->>>> the modification of generic data, I shouldn't (shouldn't I?) assume =
-that
->>>> the data will not span across multiple pages.
->>>=20
->>> The reason for the particular architecture of text_poke() is to =
-avoid
->>> memory allocation to get it working.  i think that prmem/rare_write
->>> should have each rare-writable kernel address map to a unique user
->>> address, possibly just by offsetting everything by a constant.  For
->>> rare_write, you don't actually need it to work as such until fairly
->>> late in boot, since the rare_writable data will just be writable =
-early
->>> on.
->>>=20
->>>> If the data spans across multiple pages, in unknown amount, I =
-suppose
->>>> that I should not keep interrupts disabled for an unknown time, as =
-it
->>>> would hurt preemption.
->>>>=20
->>>> What I thought, in my initial patch-set, was to iterate over each =
-page
->>>> that must be written to, in a loop, re-enabling interrupts =
-in-between
->>>> iterations, to give pending interrupts a chance to be served.
->>>>=20
->>>> This would mean that the data being written to would not be =
-consistent,
->>>> but it's a problem that would have to be addressed anyways, since =
-it can
->>>> be still read by other cores, while the write is ongoing.
->>>=20
->>> This probably makes sense, except that enabling and disabling
->>> interrupts means you also need to restore the original mm_struct =
-(most
->>> likely), which is slow.  I don't think there's a generic way to =
-check
->>> whether in interrupt is pending without turning interrupts on.
->>=20
->> I guess that enabling IRQs might break some hidden assumptions in the =
-code,
->> but is there a fundamental reason that IRQs need to be disabled? =
-use_mm()
->> got them enabled, although it is only suitable for kernel threads.
->=20
-> For general rare-writish stuff, I don't think we want IRQs running
-> with them mapped anywhere for write.  For AVC and IMA, I'm less sure.
+=D0=B2=D1=82, 13 =D0=BD=D0=BE=D1=8F=D0=B1. 2018 =D0=B3. =D0=B2 20:59, Pavel=
+ Tatashin <pasha.tatashin@soleen.com>:
+>
+> On 18-11-13 15:23:50, Oleksandr Natalenko wrote:
+> > Hi.
+> >
+> > > Yep. However, so far, it requires an application to explicitly opt in
+> > > to this behavior, so it's not all that bad. Your patch would remove
+> > > the requirement for application opt-in, which, in my opinion, makes
+> > > this way worse and reduces the number of applications for which this
+> > > is acceptable.
+> >
+> > The default is to maintain the old behaviour, so unless the explicit
+> > decision is made by the administrator, no extra risk is imposed.
+>
+> The new interface would be more tolerable if it honored MADV_UNMERGEABLE:
+>
+> KSM default on: merge everything except when MADV_UNMERGEABLE is
+> excplicitly set.
+>
+> KSM default off: merge only when MADV_MERGEABLE is set.
+>
+> The proposed change won't honor MADV_UNMERGEABLE, meaning that
+> application programmers won't have a way to prevent sensitive data to be
+> every merged. So, I think, we should keep allow an explicit opt-out
+> option for applications.
+>
 
-Oh.. Of course. It is sort of a measure to prevent a single =
-malicious/faulty
-write from corrupting the sensitive memory. Doing so limits the code =
-that
-can compromise the security by a write to the protected data-structures
-(rephrasing for myself).
+We just did not have VM/Madvise flag for that currently.
+Same as THP.
+Because all logic written with assumption, what we have exactly 2 states.
+Allow/Disallow (More like not allow).
 
-I think I should add it as a comment in your patch.=
+And if we try to add, that must be something like:
+MADV_FORBID_* to disallow something completely.
+
+And same for THP
+(because currently apps just refuse to start if THP enabled, because of no =
+way
+to forbid thp).
+
+Thanks.
+
+> >
+> > > As far as I know, basically nobody is using KSM at this point. There
+> > > are blog posts from several cloud providers about these security risk=
+s
+> > > that explicitly state that they're not using memory deduplication.
+> >
+> > I tend to disagree here. Based on both what my company does and what UK=
+SM
+> > users do, memory dedup is a desired option (note "option" word here, no=
+t the
+> > default choice).
+>
+> Lightweight containers is a use case for KSM: when many VMs share the
+> same small kernel. KSM is used in production by large cloud vendors.
+>
+> Thank you,
+> Pasha
+>
