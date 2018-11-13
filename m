@@ -1,147 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 39B437D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 13:26:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BBFAB7D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 14:10:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733270AbeKMXYN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 18:24:13 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:41927 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733158AbeKMXYN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 18:24:13 -0500
-Received: by mail-oi1-f194.google.com with SMTP id g188-v6so10239390oif.8
-        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 05:26:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=hSIuAY46XEKEeOgrKoYRGkRlvY23N/Sz5TToB8r/bOE=;
-        b=PVDtcw+e2i+5/xT3riAMB9BLYZ9t7sVb0LgAyEjREu9rsVrMoMsT0yuioyB7j/Fw1p
-         yblIzMM+YK2Xt8dmaVC4cjBKa9Wtc5O6QbG3XNbLRECjERILt8p/zZ8SPPFpNnC7p1XU
-         p4mNr32RzNO2Z0Y8ZEelqo/RV0CwpPbHLZi2Pp64Q5/Hd5N6/thYgGmLxVLgilFETbey
-         9Dw1gxD5puPCtXBIFVr/Jasu9+L9/iixPkg7/7sdTAQyCIyW2WTCU5xpathFRa45mcRB
-         bef1KD1GKJ+S5hloVhqcaJSxZXkFT6rZaO3QFvRtU97bvWFArHmMaDBLgXMdVWNO+koD
-         Q88Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=hSIuAY46XEKEeOgrKoYRGkRlvY23N/Sz5TToB8r/bOE=;
-        b=nx3PJjZSohbtLnihXFCKNbMxIV94Wp42kaFVVPDpAWHY/0hK7Zr/wZGymD7anFBkST
-         hFd7M/IpNvIbrE3THNymn9VLLLSEFm10uGGLfZ+pmDB1rYbZOuNbzWFlCWrdbgGHkTWB
-         fPLVy2v2fx/FomdWBxrmTrkugDCFMtXJAMa+4kwP8hBEk97idTh53skYT2nMKvOuvTXg
-         fJYNn3t1n/IvPdmDEdVuVElMXgJTPgFKpq69ZHehFN7hX9aQRHI8EJXCl2dMTqKTG1PZ
-         URHXel5hLiQF08WfSUMmx3J2YhNALh+N8h4Dh1jHAbqA4vXsqYBkMd3YToYITRDH8Tx5
-         lAAg==
-X-Gm-Message-State: AGRZ1gLhPn3rgvn3Q5xt3CgSpWh43goD2k1aIiKsbjoRxQb5wTKzxvWa
-        uPsbCiSLcxsqL9HWGTNjZeLc8rxKdNFMXXhL4MQKfg==
-X-Google-Smtp-Source: AJdET5eEThror9lA2DT5F3WG3NhWCDRvL45JQNR46C6sMhCyYyyvSCRuB3pX6dN6Ngi61KePzLWM6qzT6/GL8Hm5Czs=
-X-Received: by 2002:a54:4607:: with SMTP id p7-v6mr2845907oip.126.1542115565358;
- Tue, 13 Nov 2018 05:26:05 -0800 (PST)
-MIME-Version: 1.0
-References: <20181112231344.7161-1-timofey.titovets@synesis.ru>
- <CAG48ez0VRmRQckOjQhOeaf6bLYkfi45ksdnzuCKPwBYTM+As1g@mail.gmail.com> <CAGqmi75MShkwHTiSLPiOoQuYORmYTBJVqMKXm7pKhoNg9PT3yw@mail.gmail.com>
-In-Reply-To: <CAGqmi75MShkwHTiSLPiOoQuYORmYTBJVqMKXm7pKhoNg9PT3yw@mail.gmail.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 13 Nov 2018 14:25:38 +0100
-Message-ID: <CAG48ez0ZprqUYGZFxcrY6U3Dnwt77q1NJXzzpsn1XNkRuXVppw@mail.gmail.com>
-Subject: Re: [PATCH V3] KSM: allow dedup all tasks memory
-To:     timofey.titovets@synesis.ru
-Cc:     kernel list <linux-kernel@vger.kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Linux-MM <linux-mm@kvack.org>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        id S1731260AbeKNAI4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 19:08:56 -0500
+Received: from us01smtprelay-2.synopsys.com ([198.182.60.111]:33646 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730991AbeKNAI4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 19:08:56 -0500
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id DCF7C10C0F18;
+        Tue, 13 Nov 2018 06:10:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1542118236; bh=q+hAuxtRGzrVfESAaZZPZxRKVXFV5tjaLNkQ22AsmrA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=hGG9f1iXbK09NvRfb9/E2Hfs+IKe95U1ffE3QOsLchCvpyI+fg4YCBcfyscSvcm+4
+         WCz4otrTONivF1zqYjzAHo4Ow5vDqNAGlQUw3/GB8l206oPqRD2SOiEWobwpbQj3Q0
+         miVOzh5wehtfvICQz4TJ451llvuUqgveAWIyLEgnWnaYn97npO3Twym7A8xMOnZ9zb
+         i1+hVwgq+cJQYGHk09fOKUVJrq8ZE66neg+LjP/+F1Ub+YqXwJxiCNbhhlcgj99DBC
+         KEcqz1QVl5imMpPYMoBk7JISAZp0dJ4DkwvgruFiODRHk22y3R/C0jOyCeEW2fCOMC
+         4wsXZ7AKRNINw==
+Received: from vitor-VirtualBox.internal.synopsys.com (soares-e7470.internal.synopsys.com [10.107.19.128])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 302805662;
+        Tue, 13 Nov 2018 06:10:28 -0800 (PST)
+From:   Vitor Soares <vitor.soares@synopsys.com>
+To:     boris.brezillon@bootlin.com, wsa@the-dreams.de,
+        linux-i2c@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
+        arnd@arndb.de
+Cc:     psroka@cadence.com, agolec@cadence.com, adouglas@cadence.com,
+        bfolta@cadence.com, dkos@cadence.com, alicja@cadence.com,
+        cwronka@cadence.com, sureshp@cadence.com, rafalc@cadence.com,
+        thomas.petazzoni@bootlin.com, nm@ti.com, robh+dt@kernel.org,
+        pawel.moll@arm.com, mark.rutland@arm.com,
+        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        vitor.soares@synopsys.com, geert@linux-m68k.org,
+        linus.walleij@linaro.org, Xiang.Lin@synaptics.com,
+        linux-gpio@vger.kernel.org, nsekhar@ti.com, pgaj@cadence.com,
+        peda@axentia.se, mshettel@codeaurora.org, swboyd@chromium.org,
+        joao.pinto@synopsys.com
+Subject: [PATCH v4 0/3] Add driver for Synopsys DesignWare I3C master IP
+Date:   Tue, 13 Nov 2018 14:09:50 +0000
+Message-Id: <1542118193-24925-1-git-send-email-vitor.soares@synopsys.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 13, 2018 at 1:59 PM Timofey Titovets
-<timofey.titovets@synesis.ru> wrote:
->
-> =D0=B2=D1=82, 13 =D0=BD=D0=BE=D1=8F=D0=B1. 2018 =D0=B3. =D0=B2 14:57, Jan=
-n Horn <jannh@google.com>:
-> >
-> > On Tue, Nov 13, 2018 at 12:40 PM Timofey Titovets
-> > <timofey.titovets@synesis.ru> wrote:
-> > > ksm by default working only on memory that added by
-> > > madvise().
-> > >
-> > > And only way get that work on other applications:
-> > >   * Use LD_PRELOAD and libraries
-> > >   * Patch kernel
-> > >
-> > > Lets use kernel task list and add logic to import VMAs from tasks.
-> > >
-> > > That behaviour controlled by new attributes:
-> > >   * mode:
-> > >     I try mimic hugepages attribute, so mode have two states:
-> > >       * madvise      - old default behaviour
-> > >       * always [new] - allow ksm to get tasks vma and
-> > >                        try working on that.
-> >
-> > Please don't. And if you really have to for some reason, put some big
-> > warnings on this, advising people that it's a security risk.
-> >
-> > KSM is one of the favorite punching bags of side-channel and hardware
-> > security researchers:
-> >
-> > As a gigantic, problematic side channel:
-> > http://staff.aist.go.jp/k.suzaki/EuroSec2011-suzaki.pdf
-> > https://www.usenix.org/system/files/conference/woot15/woot15-paper-barr=
-esi.pdf
-> > https://access.redhat.com/blogs/766093/posts/1976303
-> > https://gruss.cc/files/dedup.pdf
-> >
-> > In particular https://gruss.cc/files/dedup.pdf ("Practical Memory
-> > Deduplication Attacks in Sandboxed JavaScript") shows that KSM makes
-> > it possible to use malicious JavaScript to determine whether a given
-> > page of memory exists elsewhere on your system.
-> >
-> > And also as a way to target rowhammer-based faults:
-> > https://www.usenix.org/system/files/conference/usenixsecurity16/sec16_p=
-aper_razavi.pdf
-> > https://thisissecurity.stormshield.com/2017/10/19/attacking-co-hosted-v=
-m-hacker-hammer-two-memory-modules/
->
-> I'm very sorry, i'm not a security specialist.
-> But if i understood correctly, ksm have that security issues _without_
-> my patch set.
+This patch series is a proposal for the I3C master driver for Synopsys IP.
+This patch is to be applied on top of I3C subsystem RFC V10 submitted by
+Boris Brezillon.
 
-Yep. However, so far, it requires an application to explicitly opt in
-to this behavior, so it's not all that bad. Your patch would remove
-the requirement for application opt-in, which, in my opinion, makes
-this way worse and reduces the number of applications for which this
-is acceptable.
+Supported features:
+  Regular CCC commands.
+  I3C private transfers.
+  I2C transfers.
 
-> Even more, not only KSM have that type of issue, any memory
-> deduplication have that problems.
+Missing functionalities:
+  Support DMA interface.
+  Support for I3C_BUS_MODE_MIXED_SLOW.
+  Hot-join.
+  IBI.
 
-Yup.
+Main change between v3 and v4:
+- Minor fixes. They are described in each patch
 
-> Any guy who care about security must decide on it self. Which things
-> him use and how he will
-> defend from others.
+Main change between v2 and v3:
+- Minor fixes. They are described in each patch
 
-> Even more on it self he must learn tools, what he use and make some
-> decision right?
->
-> So, if you really care about that problem in general, or only on KSM side=
-,
-> that your initiative and your duty to warn people about that.
->
-> KSM already exists for 10+ years. You know about security implication
-> of use memory deduplication.
-> That your duty to send a patches to documentation, and add appropriate wa=
-rnings.
+Main change between v1 and v2:
+- Add controller version on dt-binding
+- The driver now calls writesl/readsl() instead readl/writel
+- Rename some variables in the driver
 
-As far as I know, basically nobody is using KSM at this point. There
-are blog posts from several cloud providers about these security risks
-that explicitly state that they're not using memory deduplication.
+Vitor Soares (3):
+  i3c: master: Add driver for Synopsys DesignWare IP
+  dt-binding: i3c: Document Synopsys DesignWare I3C
+  MAINTAINERS: Add myself as the dw-i3c-master module maintainer
+
+ .../devicetree/bindings/i3c/snps,dw-i3c-master.txt |   41 +
+ MAINTAINERS                                        |    6 +
+ drivers/i3c/master/Kconfig                         |   14 +
+ drivers/i3c/master/Makefile                        |    1 +
+ drivers/i3c/master/dw-i3c-master.c                 | 1216 ++++++++++++++++++++
+ 5 files changed, 1278 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
+ create mode 100644 drivers/i3c/master/dw-i3c-master.c
+
+-- 
+2.7.4
+
+
