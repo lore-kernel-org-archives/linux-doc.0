@@ -1,172 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_ADSP_ALL,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A86897D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 14:13:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C8A827D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 14:23:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732380AbeKNALo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 19:11:44 -0500
-Received: from mail-it1-f195.google.com ([209.85.166.195]:52857 "EHLO
-        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732401AbeKNALo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 19:11:44 -0500
-Received: by mail-it1-f195.google.com with SMTP id t190-v6so18338795itb.2
-        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 06:13:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=QPsfCm8O0Mz2LyiUqKExaZZeAo+P0C/QYVDqe04KS0I=;
-        b=UvxQKAACUFKKj3OA7IpCbUmOg9Ed1n0veUvs1szBkdCwDoF8aXtb7MMjyMD0eAdZSq
-         fLoCVRvxmlvcvgJXx9dyD3BCzvTarK/w3xT/W31AGG9Vtxs63bIwjCql3SStxtlbpmrK
-         2FSCWPprE/c1tEAewgggeJsWRrDidLWPDEpxPqUk3tmgJIA63Gmsbdqr7O+u7EFr7a2j
-         /ox6XjSdQ4LK7aLugeW5DXB5rznhigtzInLnKE2CLTPkM7TJMn403JYRF8JueQiSMDuV
-         qGwq/wTZBj2ZjuQw4cR/noQBiU7jsMAKEshHXWhAIDxwE5//uB6TzzHeWmzsLpdXubk9
-         EMlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=QPsfCm8O0Mz2LyiUqKExaZZeAo+P0C/QYVDqe04KS0I=;
-        b=K68iVOzXoI5Su9D9YCJyGvOZ0eH56uCnQAD31MUvUhPhvsUR3oZJnd+Wzw3IT02rOq
-         t9NcIef0D2MaCiwBi7xNmwBc58U0HbAQL2TfFz9pntbMYFUxJy8yEdsNlKSwFHCFzknT
-         uBFwDYGrJHVdM00U+e0uU/krR65I2ucIPqRb+5kEtcwIGv+sBjffjYIhoJb2UgT6MImH
-         IJUns0Ch8R1rkAs+OgsZDbgClgQMabUmoN7ewREMD7dTq5/ytI+S0eL4og5uwEFsFv+c
-         WjWPXPd0ks5p2ISC4v81tkATdhRz3guw/B3RzO3ccLIFEFDHTnDTWiHVjELB0IFWcdRf
-         UcJw==
-X-Gm-Message-State: AGRZ1gJ67vVJxnOXjEtc2SnQP2Jb99epJ+HU5xYZDPe04CVZNZwW8iXs
-        zoZ9kC3e8VqLRI5g1iHQbGLo/crxtc6MEnKF2v95NQ==
-X-Google-Smtp-Source: AJdET5eYV/VDo8klSdXx7p4GkU4CgRUR679j5nsawVDqHx2VPBVhdwQxNEgVSz9NGE6ZMha2fM8nfXdG9YY51nYpCps=
-X-Received: by 2002:a02:5f18:: with SMTP id r24-v6mr4919439jab.10.1542118403260;
- Tue, 13 Nov 2018 06:13:23 -0800 (PST)
+        id S1730998AbeKNAWP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 19:22:15 -0500
+Received: from vulcan.natalenko.name ([104.207.131.136]:57040 "EHLO
+        vulcan.natalenko.name" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726846AbeKNAWP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 19:22:15 -0500
+Received: from mail.natalenko.name (vulcan.natalenko.name [IPv6:fe80::5400:ff:fe0c:dfa0])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vulcan.natalenko.name (Postfix) with ESMTPSA id 8928E46A727;
+        Tue, 13 Nov 2018 15:23:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+        s=dkim-20170712; t=1542119030;
+        h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references;
+        bh=wgm6gey+f3ws2zmlqkX9o3gU/iYvoQHfgHIV4E13ko0=;
+        b=ox0hDIYkv1p2Fjq/Hm9CqCagXiXractkZLTORRvRYjcqtA1Amcptu5Q0VdH4EdMegWcvfT
+        +LZ0xndurYypujVSk0cQpymoKrOcDRNksPu6nT6YN9vph/E82wh/jINPxYnhHB7iWKX79e
+        l36QWE8k7+pohYri6ktYaDiHnDqGr0I=
 MIME-Version: 1.0
-Received: by 2002:a02:7050:0:0:0:0:0 with HTTP; Tue, 13 Nov 2018 06:13:22
- -0800 (PST)
-In-Reply-To: <20181107170855.n4ertf5qv7ff5btl@lakrids.cambridge.arm.com>
-References: <cover.1541525354.git.andreyknvl@google.com> <9405f32797b52616cd0746bcea37df94e8e4256a.1541525354.git.andreyknvl@google.com>
- <20181107170855.n4ertf5qv7ff5btl@lakrids.cambridge.arm.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 13 Nov 2018 15:13:22 +0100
-Message-ID: <CAAeHK+wDTDiwT_vcu8tTZyNkqHDdgAtSWF4pp=2mngMaJt44bA@mail.gmail.com>
-Subject: Re: [PATCH v10 07/22] kasan: initialize shadow to 0xff for tag-based mode
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Tue, 13 Nov 2018 15:23:50 +0100
+From:   Oleksandr Natalenko <oleksandr@natalenko.name>
+To:     jannh@google.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, timofey.titovets@synesis.ru,
+        willy@infradead.org
+Subject: Re: [PATCH V3] KSM: allow dedup all tasks memory
+In-Reply-To: <<CAG48ez0ZprqUYGZFxcrY6U3Dnwt77q1NJXzzpsn1XNkRuXVppw@mail.gmail.com>>
+Message-ID: <d43da6ad1a3c164aa03e0f22f065591a@natalenko.name>
+X-Sender: oleksandr@natalenko.name
+User-Agent: Roundcube Webmail/1.3.8
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+        s=arc-20170712; t=1542119030;
+        h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references;
+        bh=wgm6gey+f3ws2zmlqkX9o3gU/iYvoQHfgHIV4E13ko0=;
+        b=EfMsPh0t52POejsE3ot0hiCoUH/comDhm2b/LZ3pqbKvBM6iBCRggPHR16pF4xh/Sfz8zA
+        IoWpAGGYmG/eISPiGzogiP6resYwclssTA+YUnjkYRapXe+P09woRG5tQsNNjtRz3+j+TC
+        5V43EVczPDZ6TMjsd7vKfaI32530EDE=
+ARC-Seal: i=1; s=arc-20170712; d=natalenko.name; t=1542119030; a=rsa-sha256;
+        cv=none;
+        b=Sj/SZEixUX1evZEiMY5cVPmGNs0HJkekyzpaftizq64/M97myapUcxz6gdpSN5XJ/idX/HPIi7G2CTrR1G4UeyDmLoKA6r3bX7A3l8wHfx9UMALynzlrK0G3FdoKWAB/8GUSfR8IbuRAmgu5+lB61Ur6ROnfIooaVhCbitCq3UA=
+ARC-Authentication-Results: i=1;
+        vulcan.natalenko.name;
+        auth=pass smtp.auth=oleksandr@natalenko.name smtp.mailfrom=oleksandr@natalenko.name
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 7, 2018 at 6:08 PM, Mark Rutland <mark.rutland@arm.com> wrote:
-> On Tue, Nov 06, 2018 at 06:30:22PM +0100, Andrey Konovalov wrote:
->> A tag-based KASAN shadow memory cell contains a memory tag, that
->> corresponds to the tag in the top byte of the pointer, that points to that
->> memory. The native top byte value of kernel pointers is 0xff, so with
->> tag-based KASAN we need to initialize shadow memory to 0xff.
->>
->> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
->> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
->> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
->> ---
->>  arch/arm64/mm/kasan_init.c | 16 ++++++++++++++--
->>  include/linux/kasan.h      |  8 ++++++++
->>  mm/kasan/common.c          |  3 ++-
->>  3 files changed, 24 insertions(+), 3 deletions(-)
->>
->> diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
->> index 63527e585aac..18ebc8994a7b 100644
->> --- a/arch/arm64/mm/kasan_init.c
->> +++ b/arch/arm64/mm/kasan_init.c
->> @@ -43,6 +43,15 @@ static phys_addr_t __init kasan_alloc_zeroed_page(int node)
->>       return __pa(p);
->>  }
->>
->> +static phys_addr_t __init kasan_alloc_raw_page(int node)
->> +{
->> +     void *p = memblock_alloc_try_nid_raw(PAGE_SIZE, PAGE_SIZE,
->> +                                             __pa(MAX_DMA_ADDRESS),
->> +                                             MEMBLOCK_ALLOC_ACCESSIBLE,
->> +                                             node);
->> +     return __pa(p);
->> +}
->> +
->>  static pte_t *__init kasan_pte_offset(pmd_t *pmdp, unsigned long addr, int node,
->>                                     bool early)
->>  {
->> @@ -88,7 +97,9 @@ static void __init kasan_pte_populate(pmd_t *pmdp, unsigned long addr,
->>
->>       do {
->>               phys_addr_t page_phys = early ? __pa_symbol(kasan_zero_page)
->> -                                           : kasan_alloc_zeroed_page(node);
->> +                                           : kasan_alloc_raw_page(node);
->> +             if (!early)
->> +                     memset(__va(page_phys), KASAN_SHADOW_INIT, PAGE_SIZE);
->>               next = addr + PAGE_SIZE;
->>               set_pte(ptep, pfn_pte(__phys_to_pfn(page_phys), PAGE_KERNEL));
->>       } while (ptep++, addr = next, addr != end && pte_none(READ_ONCE(*ptep)));
->> @@ -138,6 +149,7 @@ asmlinkage void __init kasan_early_init(void)
->>               KASAN_SHADOW_END - (1UL << (64 - KASAN_SHADOW_SCALE_SHIFT)));
->>       BUILD_BUG_ON(!IS_ALIGNED(KASAN_SHADOW_START, PGDIR_SIZE));
->>       BUILD_BUG_ON(!IS_ALIGNED(KASAN_SHADOW_END, PGDIR_SIZE));
->> +
->>       kasan_pgd_populate(KASAN_SHADOW_START, KASAN_SHADOW_END, NUMA_NO_NODE,
->>                          true);
->>  }
->> @@ -234,7 +246,7 @@ void __init kasan_init(void)
->>               set_pte(&kasan_zero_pte[i],
->>                       pfn_pte(sym_to_pfn(kasan_zero_page), PAGE_KERNEL_RO));
->>
->> -     memset(kasan_zero_page, 0, PAGE_SIZE);
->> +     memset(kasan_zero_page, KASAN_SHADOW_INIT, PAGE_SIZE);
->
-> If this isn't going to contain zero, can we please have a preparatory
-> patch renaming this to something which isn't misleading?
->
-> Perhaps kasan_common_shadow_page?
+Hi.
 
-Will rename to kasan_early_shadow_page in v11, thanks!
+> Yep. However, so far, it requires an application to explicitly opt in
+> to this behavior, so it's not all that bad. Your patch would remove
+> the requirement for application opt-in, which, in my opinion, makes
+> this way worse and reduces the number of applications for which this
+> is acceptable.
 
->
-> Thanks,
-> Mark.
+The default is to maintain the old behaviour, so unless the explicit 
+decision is made by the administrator, no extra risk is imposed.
+
+> As far as I know, basically nobody is using KSM at this point. There
+> are blog posts from several cloud providers about these security risks
+> that explicitly state that they're not using memory deduplication.
+
+I tend to disagree here. Based on both what my company does and what 
+UKSM users do, memory dedup is a desired option (note "option" word 
+here, not the default choice).
+
+Thanks.
+
+-- 
+   Oleksandr Natalenko (post-factum)
