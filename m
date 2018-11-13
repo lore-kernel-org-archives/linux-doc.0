@@ -1,264 +1,143 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4DE497D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 12:04:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0913C7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 12:59:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732801AbeKMWCA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 17:02:00 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:44651 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726934AbeKMWCA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 17:02:00 -0500
-Received: by mail-lj1-f196.google.com with SMTP id k19-v6so10552558lji.11;
-        Tue, 13 Nov 2018 04:04:08 -0800 (PST)
+        id S1732895AbeKMW5C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 17:57:02 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:38737 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732896AbeKMW5B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 17:57:01 -0500
+Received: by mail-oi1-f194.google.com with SMTP id a77so4247099oii.5
+        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 04:58:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=synesis-ru.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=B40sURHNTLb8+tSXCx26itaj23HZO710UGG5DEoOj08=;
+        b=bLVPwgiO53EG+aleK7QFI/5sTZp9lz0ORpJ9ny7Icn0z0mEIiYmH44vUAMJlaxwSla
+         wobNtOeOHMfSE4h5YUhapo6OKKPuFJYWJuXQD6+i4/qKchDe4ShfvECy2DwfkB5h3jKM
+         A29zhdXrnHhPkqXM171n4LkNngrVqKKFAwMSE260gUhvQTW/vepuAJ4K7GJWN8VaAIJA
+         w1XedZCHqSL+yoWnKMnAcv9KA0VO6UdlWzMGvF0tWZX3JJilSSofkF+HgFOvXbWNmyX/
+         vr0yplXwBfuYIVyjfmKAOF5Fs2bWV9JDk0echJ+irjRZojdBGpCwtP9vuOdqcH8ceQPt
+         1BDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=RImRPMxGiDv5vU62yzigGgRR9BAH/S5Qm/3HbD/fkag=;
-        b=Bg7k0RRj7WFbKJQuheUMNbmUBlQx8NLUcyLR6ZQS+XUGuY0niM19qC6Px+E7LWs0QZ
-         AbBekf1PSScLyskUrzDhiIJm2vn28hb0iKUTPHxU8drru7zcEzMTH/znAo6Q/bfA++bJ
-         EyJpn6va1aeTOJT0d/Aqz/roIhQ6eV/bsQthdfIU2d8fsDBlt0Q2iR8nq8RAZr357Cwn
-         YSoB47zCZ0bQJpZmLCDlt432c3unu3H1AFpKlas++hgcd47g2EYZA7tp0CZ2dSpRvfVO
-         pQRjefuTtUkosHt6DzfOsXxHjO839nO7ta3ruEebpmhFyDI0uQpPge4r59jWoz6w6O4F
-         28FA==
-X-Gm-Message-State: AGRZ1gLalk9iDJIsf3+P2wi89lP/AhpOvbMJHgLbsMPVR0s8EFJ+TmJD
-        obasa+oqkomoL/33C1pP3ok=
-X-Google-Smtp-Source: AJdET5cC4i998KEUcHfE5HnUebd1JCTKHlAAnG4fmkJTYn2CM265UAt9GiNuJpMeB5durbm4RvfLUg==
-X-Received: by 2002:a2e:2c02:: with SMTP id s2-v6mr3029104ljs.118.1542110647607;
-        Tue, 13 Nov 2018 04:04:07 -0800 (PST)
-Received: from localhost.localdomain ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id h3sm1737611lfj.25.2018.11.13.04.04.04
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 13 Nov 2018 04:04:05 -0800 (PST)
-Date:   Tue, 13 Nov 2018 14:03:51 +0200
-From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-To:     mazziesaccount@gmail.com
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>,
-        Andrey Smirnov <andrew.smirnov@gmail.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Huang Shijie <sjhuang@iluvatar.ai>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        Daniel Kurtz <djkurtz@chromium.org>,
-        Akshu Agrawal <akshu.agrawal@amd.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org
-Subject: [PATCH v4 8/8] clk: bd718x7: Initial support for ROHM
- bd71837/bd71847 PMIC clock
-Message-ID: <0b9b9c9555706c512f21e6105e3e2b67e0a0172f.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
-References: <cover.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=B40sURHNTLb8+tSXCx26itaj23HZO710UGG5DEoOj08=;
+        b=JKKkl6LXlUFMOVGvEW6tw/ULEz/oYgp/H/BtHhP8Ec4ulPcF7G3nQ01CY2hoXVc6CC
+         x0BQU2yn25ZJzm+T3ev0triLXuckidtaldF2T9zhhm2aXv3nt72fJ6TVUJ6uCVKwalIw
+         6xsnQOiY6UMW2ZNI2tfVTivf2xsxhRFmnOdVwoYTXD0pNshnsnmWIWit56Fb+6/RY6kn
+         G7oQ7NneUbWopmLtleuOo+Z1PrJuJRK3y8fhhLxMZoC+xIKw+pmiwoha8re2E+lh3364
+         ZwbSzebVKoJfsPJwibq+LaC+vpyjFgvJWeMEO6Yqh9gk0RLottqJyRyWk/5AyuUoVQ/t
+         IEIw==
+X-Gm-Message-State: AGRZ1gL/M9Or+V1ATwI9zVKOmMVuSGpnMZIk2zPtlditfLUz8EGIAkAL
+        PKf9thJnHEyo35n0IRivJwn8/2KhXDruB/4h
+X-Google-Smtp-Source: AJdET5cthyQJ/pA78A64r+z77wT218oEQ+pAWxIsFnn/g+oL7ih8TOWivZtVUAqqBaXgFCbdSLwBNQ==
+X-Received: by 2002:aca:d694:: with SMTP id n142-v6mr2760097oig.32.1542113939152;
+        Tue, 13 Nov 2018 04:58:59 -0800 (PST)
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com. [209.85.167.173])
+        by smtp.gmail.com with ESMTPSA id e42sm22037270oth.36.2018.11.13.04.58.57
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 13 Nov 2018 04:58:57 -0800 (PST)
+Received: by mail-oi1-f173.google.com with SMTP id c206so4628053oib.0;
+        Tue, 13 Nov 2018 04:58:57 -0800 (PST)
+X-Received: by 2002:aca:f40d:: with SMTP id s13-v6mr3069528oih.102.1542113937120;
+ Tue, 13 Nov 2018 04:58:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+References: <20181112231344.7161-1-timofey.titovets@synesis.ru> <CAG48ez0VRmRQckOjQhOeaf6bLYkfi45ksdnzuCKPwBYTM+As1g@mail.gmail.com>
+In-Reply-To: <CAG48ez0VRmRQckOjQhOeaf6bLYkfi45ksdnzuCKPwBYTM+As1g@mail.gmail.com>
+From:   Timofey Titovets <timofey.titovets@synesis.ru>
+Date:   Tue, 13 Nov 2018 15:58:20 +0300
+X-Gmail-Original-Message-ID: <CAGqmi75MShkwHTiSLPiOoQuYORmYTBJVqMKXm7pKhoNg9PT3yw@mail.gmail.com>
+Message-ID: <CAGqmi75MShkwHTiSLPiOoQuYORmYTBJVqMKXm7pKhoNg9PT3yw@mail.gmail.com>
+Subject: Re: [PATCH V3] KSM: allow dedup all tasks memory
+To:     jannh@google.com
+Cc:     Linux Kernel <linux-kernel@vger.kernel.org>,
+        Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ROHM bd71837 and bd71847 contain 32768Hz clock gate. Support the clock
-using generic clock framework.
+=D0=B2=D1=82, 13 =D0=BD=D0=BE=D1=8F=D0=B1. 2018 =D0=B3. =D0=B2 14:57, Jann =
+Horn <jannh@google.com>:
+>
+> On Tue, Nov 13, 2018 at 12:40 PM Timofey Titovets
+> <timofey.titovets@synesis.ru> wrote:
+> > ksm by default working only on memory that added by
+> > madvise().
+> >
+> > And only way get that work on other applications:
+> >   * Use LD_PRELOAD and libraries
+> >   * Patch kernel
+> >
+> > Lets use kernel task list and add logic to import VMAs from tasks.
+> >
+> > That behaviour controlled by new attributes:
+> >   * mode:
+> >     I try mimic hugepages attribute, so mode have two states:
+> >       * madvise      - old default behaviour
+> >       * always [new] - allow ksm to get tasks vma and
+> >                        try working on that.
+>
+> Please don't. And if you really have to for some reason, put some big
+> warnings on this, advising people that it's a security risk.
+>
+> KSM is one of the favorite punching bags of side-channel and hardware
+> security researchers:
+>
+> As a gigantic, problematic side channel:
+> http://staff.aist.go.jp/k.suzaki/EuroSec2011-suzaki.pdf
+> https://www.usenix.org/system/files/conference/woot15/woot15-paper-barres=
+i.pdf
+> https://access.redhat.com/blogs/766093/posts/1976303
+> https://gruss.cc/files/dedup.pdf
+>
+> In particular https://gruss.cc/files/dedup.pdf ("Practical Memory
+> Deduplication Attacks in Sandboxed JavaScript") shows that KSM makes
+> it possible to use malicious JavaScript to determine whether a given
+> page of memory exists elsewhere on your system.
+>
+> And also as a way to target rowhammer-based faults:
+> https://www.usenix.org/system/files/conference/usenixsecurity16/sec16_pap=
+er_razavi.pdf
+> https://thisissecurity.stormshield.com/2017/10/19/attacking-co-hosted-vm-=
+hacker-hammer-two-memory-modules/
 
-Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
----
- drivers/clk/Kconfig       |   7 +++
- drivers/clk/Makefile      |   1 +
- drivers/clk/clk-bd718x7.c | 131 ++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 139 insertions(+)
- create mode 100644 drivers/clk/clk-bd718x7.c
+I'm very sorry, i'm not a security specialist.
+But if i understood correctly, ksm have that security issues _without_
+my patch set.
+Even more, not only KSM have that type of issue, any memory
+deduplication have that problems.
+Any guy who care about security must decide on it self. Which things
+him use and how he will
+defend from others.
+Even more on it self he must learn tools, what he use and make some
+decision right?
 
-diff --git a/drivers/clk/Kconfig b/drivers/clk/Kconfig
-index 81cdb4eaca07..2dc12bf75b1b 100644
---- a/drivers/clk/Kconfig
-+++ b/drivers/clk/Kconfig
-@@ -283,6 +283,13 @@ config COMMON_CLK_STM32H7
- 	---help---
- 	  Support for stm32h7 SoC family clocks
- 
-+config COMMON_CLK_BD718XX
-+	tristate "Clock driver for ROHM BD718x7 PMIC"
-+	depends on MFD_ROHM_BD718XX
-+	help
-+	  This driver supports ROHM BD71837 and ROHM BD71847
-+	  PMICs clock gates.
-+
- source "drivers/clk/actions/Kconfig"
- source "drivers/clk/bcm/Kconfig"
- source "drivers/clk/hisilicon/Kconfig"
-diff --git a/drivers/clk/Makefile b/drivers/clk/Makefile
-index 72be7a38cff1..a47430b387db 100644
---- a/drivers/clk/Makefile
-+++ b/drivers/clk/Makefile
-@@ -21,6 +21,7 @@ endif
- obj-$(CONFIG_MACH_ASM9260)		+= clk-asm9260.o
- obj-$(CONFIG_COMMON_CLK_AXI_CLKGEN)	+= clk-axi-clkgen.o
- obj-$(CONFIG_ARCH_AXXIA)		+= clk-axm5516.o
-+obj-$(CONFIG_COMMON_CLK_BD718XX)	+= clk-bd718x7.o
- obj-$(CONFIG_COMMON_CLK_CDCE706)	+= clk-cdce706.o
- obj-$(CONFIG_COMMON_CLK_CDCE925)	+= clk-cdce925.o
- obj-$(CONFIG_ARCH_CLPS711X)		+= clk-clps711x.o
-diff --git a/drivers/clk/clk-bd718x7.c b/drivers/clk/clk-bd718x7.c
-new file mode 100644
-index 000000000000..df5f1068ce8e
---- /dev/null
-+++ b/drivers/clk/clk-bd718x7.c
-@@ -0,0 +1,131 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Copyright (C) 2018 ROHM Semiconductors
-+// bd71837.c  -- ROHM BD71837MWV clock driver
-+
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/init.h>
-+#include <linux/err.h>
-+#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+#include <linux/mfd/rohm-bd718x7.h>
-+#include <linux/clk-provider.h>
-+#include <linux/clkdev.h>
-+#include <linux/regmap.h>
-+
-+struct bd718xx_clk {
-+	struct clk_hw hw;
-+	u8 reg;
-+	u8 mask;
-+	struct platform_device *pdev;
-+	struct bd718xx *mfd;
-+};
-+
-+static int bd71837_clk_set(struct clk_hw *hw, int status)
-+{
-+	struct bd718xx_clk *c = container_of(hw, struct bd718xx_clk, hw);
-+
-+	return regmap_update_bits(c->mfd->regmap, c->reg, c->mask, status);
-+}
-+
-+static void bd71837_clk_disable(struct clk_hw *hw)
-+{
-+	int rv;
-+	struct bd718xx_clk *c = container_of(hw, struct bd718xx_clk, hw);
-+
-+	rv = bd71837_clk_set(hw, 0);
-+	if (rv)
-+		dev_dbg(&c->pdev->dev, "Failed to disable 32K clk (%d)\n", rv);
-+}
-+
-+static int bd71837_clk_enable(struct clk_hw *hw)
-+{
-+	return bd71837_clk_set(hw, 1);
-+}
-+
-+static int bd71837_clk_is_enabled(struct clk_hw *hw)
-+{
-+	int enabled;
-+	int rval;
-+	struct bd718xx_clk *c = container_of(hw, struct bd718xx_clk, hw);
-+
-+	rval = regmap_read(c->mfd->regmap, c->reg, &enabled);
-+
-+	if (rval)
-+		return rval;
-+
-+	return enabled & c->mask;
-+}
-+
-+static const struct clk_ops bd71837_clk_ops = {
-+	.prepare = &bd71837_clk_enable,
-+	.unprepare = &bd71837_clk_disable,
-+	.is_prepared = &bd71837_clk_is_enabled,
-+};
-+
-+static int bd71837_clk_probe(struct platform_device *pdev)
-+{
-+	struct bd718xx_clk *c;
-+	int rval = -ENOMEM;
-+	const char *parent_clk;
-+	struct device *parent = pdev->dev.parent;
-+	struct bd718xx *mfd = dev_get_drvdata(parent);
-+	struct clk_init_data init = {
-+		.name = "bd718xx-32k-out",
-+		.ops = &bd71837_clk_ops,
-+	};
-+
-+	c = devm_kzalloc(&pdev->dev, sizeof(*c), GFP_KERNEL);
-+	if (!c)
-+		return -ENOMEM;
-+
-+	init.num_parents = 1;
-+	parent_clk = of_clk_get_parent_name(parent->of_node, 0);
-+
-+	init.parent_names = &parent_clk;
-+	if (!parent_clk) {
-+		dev_err(&pdev->dev, "No parent clk found\n");
-+		return -EINVAL;
-+	}
-+
-+	c->reg = BD718XX_REG_OUT32K;
-+	c->mask = BD718XX_OUT32K_EN;
-+	c->mfd = mfd;
-+	c->pdev = pdev;
-+	c->hw.init = &init;
-+
-+	of_property_read_string_index(parent->of_node,
-+				      "clock-output-names", 0, &init.name);
-+
-+	rval = devm_clk_hw_register(&pdev->dev, &c->hw);
-+	if (!rval) {
-+		rval = devm_clk_hw_register_clkdev(&pdev->dev,
-+						   &c->hw, init.name, NULL);
-+		if (rval)
-+			dev_warn(&pdev->dev, "Failed to register clkdev\n");
-+		if (parent->of_node) {
-+			rval = devm_of_clk_add_parent_hw_provider(&pdev->dev,
-+					     of_clk_hw_simple_get, &c->hw);
-+			if (rval)
-+				dev_err(&pdev->dev,
-+					"adding clk provider failed\n");
-+		}
-+	} else {
-+		dev_err(&pdev->dev, "failed to register 32K clk");
-+	}
-+
-+	return rval;
-+}
-+
-+static struct platform_driver bd71837_clk = {
-+	.driver = {
-+		.name = "bd718xx-clk",
-+	},
-+	.probe = bd71837_clk_probe,
-+};
-+
-+module_platform_driver(bd71837_clk);
-+
-+MODULE_AUTHOR("Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>");
-+MODULE_DESCRIPTION("BD71837 chip clk driver");
-+MODULE_LICENSE("GPL");
--- 
-2.14.3
+So, if you really care about that problem in general, or only on KSM side,
+that your initiative and your duty to warn people about that.
 
+KSM already exists for 10+ years. You know about security implication
+of use memory deduplication.
+That your duty to send a patches to documentation, and add appropriate warn=
+ings.
 
--- 
-Matti Vaittinen
-ROHM Semiconductors
+Sorry for my passive aggressive,
+i don't try hurt someone, or humiliate.
 
-~~~ "I don't think so," said Rene Descartes.  Just then, he vanished ~~~
+That's just my IMHO and i'm just to restricted in my english knowledge,
+to write that more gentle.
+
+Thanks!
