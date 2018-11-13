@@ -3,52 +3,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B9F9A7D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 02:03:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D2BAD7D8E7
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 02:03:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726159AbeKML72 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 06:59:28 -0500
-Received: from mail-pg1-f172.google.com ([209.85.215.172]:40987 "EHLO
-        mail-pg1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725991AbeKML72 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 06:59:28 -0500
-Received: by mail-pg1-f172.google.com with SMTP id 70so4905136pgh.8
-        for <linux-doc@vger.kernel.org>; Mon, 12 Nov 2018 18:03:37 -0800 (PST)
+        id S1730411AbeKML7c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 06:59:32 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:34379 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730379AbeKML7c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 06:59:32 -0500
+Received: by mail-pg1-f193.google.com with SMTP id 17so4655251pgg.1
+        for <linux-doc@vger.kernel.org>; Mon, 12 Nov 2018 18:03:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sifive.com; s=google;
-        h=subject:date:message-id:cc:from:to;
-        bh=1fAHEY+0fxnM7FTjRqYpC/P9+fOazoZhOKZ35CFExHQ=;
-        b=dSw61gOj7P1Wa9xWm7CdQW/kMV/8+6cd7yVtQKMHw+ryp/cgVC5BrBmihFAdYa6toB
-         7cJwSWFPdRkOKJ+rkqmQp27h1uZ0D0fIRsoWfVByN9C60wXKONwjucgfZqkPB9LTRTwq
-         TK7sNdTa8R72VWPYl9yocjOGyflct4iauOR6iil+SOKIlJB7BHCHMsS/EO9yztE3YrrX
-         aUPTRH+9p5IeK062AheFedAkI8nHmv9Q1l//YMXIv/+R6ic12kIuetgqOvpHtoelbDcI
-         e3xTDsO3nvWoHSEHwL8N+WKnI9Em/J2vPwlEQ5xwGmNyIjtHJH9LjNPg2xedHe5nQRdA
-         JUIw==
+        h=subject:date:message-id:in-reply-to:references:cc:from:to;
+        bh=zug94Vzv51FeDoXqv/Owc4YFJyg6F5D2pwdA3MiL4SU=;
+        b=YAdEmi+5kk/cgx1xctWG+qmxX36D1PvrhrrbDX/PK/LF9hFo5ONINPCYv5v9XPgn30
+         YzRs3lROa44aY3/3TmYxAJoc1N8Irl5484PizJ54uLQ5a3mgIDqQmSpdyDqIWN90Icoh
+         7pu6JlhbtgxB/f3auysNbhR3cepIPuUGq7NTU9df+TMfkBWM0yugz50wV/qhxTWM5Qm1
+         AK+ntg014r08knSk/3bXbFrdRBrW+C8/u1bZLE2SXuwgRL6NkHdewLS5DZOM3njQiC+H
+         S3zdr7NEQMIs2ppp0nyGf10AagKDVPdEA2sVjePUlI5eGik23rNgdn+RJg0gGB72MtRH
+         NDlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:date:message-id:cc:from:to;
-        bh=1fAHEY+0fxnM7FTjRqYpC/P9+fOazoZhOKZ35CFExHQ=;
-        b=XD6WXdi3SEX6q9CgIhvaF3D4hyA99rmhg9e6dCfhEYgs7YuPZHgIFhAbgbnhEfufDB
-         r1f14xbf393m78dXVq4PW+dzc0Jx/bf08DiojR1QU27FqrACFIbRVty/7q7q5wloJ3s4
-         Ahpq9RTbWnc0b4rOyGFE+5iLji3e9Mbe/opYSw9p2CSGpNvu7ixRVQD5SPsXH8+itN9G
-         nyCfJiaDrbJmb61GhbxEVUF5Bo5hddLjPGVoBh59wg5vhEN3mkflvHKXKZX42krOkke1
-         Oc3ojLSSoYap+41d+ezTgL1SuHMIx/j05vsXYPkF5Io4ugrbBgpPKLitVTe3xK3/CF8j
-         FsTg==
-X-Gm-Message-State: AGRZ1gLVrL+RlsnjIa7zJ2o1QAbMh03ZypExwRrcidILN1u+9fL9fVw0
-        nS6gSR/+JP+eLq0S4TemOCfo3w==
-X-Google-Smtp-Source: AJdET5eYXjkt4E9EC7AQl8EyZIP90RUidSQ0lhYRPfz4K2bSw/XWIdRu4scBgiU3lkBNkNfOmEXCcA==
-X-Received: by 2002:a62:6547:: with SMTP id z68-v6mr3134744pfb.169.1542074616542;
-        Mon, 12 Nov 2018 18:03:36 -0800 (PST)
-Received: from localhost ([216.9.110.11])
-        by smtp.gmail.com with ESMTPSA id t4-v6sm18744623pfh.21.2018.11.12.18.03.35
+        h=x-gm-message-state:subject:date:message-id:in-reply-to:references
+         :cc:from:to;
+        bh=zug94Vzv51FeDoXqv/Owc4YFJyg6F5D2pwdA3MiL4SU=;
+        b=bziuoZzNNQ9Y1lcJtL45SMyOegx9qNt4N9LLuRgkoXqfz7fg3xi+Hqe9bLoMCfCqVY
+         tiIpDCst2WCnX3H5+MJ6lUwM1rdATICdYU3SBkOTrYYbGbFpTwudq3rZcM7TquyfiSkj
+         euKUO5FUx2RtlqaPy3OEeWNJIcq7XKeaRd4zFEQ8C9E3NdWNNIBV6Cgr+nrh4DyK40Os
+         I3WDykUa0iZsNtEvZtwoMeVQaibye+viTx9oTfl/BP4wbN51LVCPlBuA5Z2jAPisHJ+E
+         GVh83i9XcrOPaUQSi2YaAxQ4V8Hb/ksDb/+t5EZSaB++YpmGrVfY4jpI+ZY2hZua86xp
+         eHVQ==
+X-Gm-Message-State: AGRZ1gLqDytwoPOu4112gaJXil8U6qb189KTeaNOnWuKO3Lz9MrPNl/L
+        f6rTeoyLoFRUaiJ+Mkz3Quqy1w==
+X-Google-Smtp-Source: AJdET5ck296g0AwMBEnRSJkYocK/d4MMQtsfrbskiCGncSc1RNOgf6o5kh4lgLi3cJYsOOORJPy9xQ==
+X-Received: by 2002:a62:f24f:: with SMTP id y15-v6mr3213994pfl.25.1542074620349;
+        Mon, 12 Nov 2018 18:03:40 -0800 (PST)
+Received: from localhost ([216.9.110.1])
+        by smtp.gmail.com with ESMTPSA id l63-v6sm15869850pfb.75.2018.11.12.18.03.39
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 12 Nov 2018 18:03:35 -0800 (PST)
-Subject: Re-run features-refresh.sh
-Date:   Mon, 12 Nov 2018 18:01:06 -0800
-Message-Id: <20181113020113.29640-1-palmer@sifive.com>
+        Mon, 12 Nov 2018 18:03:39 -0800 (PST)
+Subject: [PATCH 2/7] doc: Indicate that s390 supports KASAN
+Date:   Mon, 12 Nov 2018 18:01:08 -0800
+Message-Id: <20181113020113.29640-3-palmer@sifive.com>
 X-Mailer: git-send-email 2.18.1
+In-Reply-To: <20181113020113.29640-1-palmer@sifive.com>
+References: <20181113020113.29640-1-palmer@sifive.com>
 Cc:     corbet@lwn.net, Palmer Dabbelt <palmer@sifive.com>,
         aou@eecs.berkeley.edu, ren_guo@c-sky.com,
         andrea.parri@amarulasolutions.com, Arnd Bergmann <arnd@arndb.de>,
@@ -66,21 +69,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I didn't even know this existed until David submitted a patch set that
-included updates to the documentation as a result of some features he
-added to RISC-V.  It looks like there may be a handful of other people
-who don't know this exists either, so I figured I'd just mail out a
-patch set containing all the updates split out as well as I can.
+This was suggested by features-refresh.sh
 
-This smells like something that sholud be automatic, so if I'm jumping
-the gun here then feel free to drop this.  If nobody says anything then
-I guess I'll submit this as a separate PR to Linus from my personal
-tree, as it's not really a RISC-V thing but it seems like it's worth
-having docs that match the code where it's trivial -- I assume that's
-what this does, I didn't actually read anything but the diff because I
-never trust documentation to be up to date...
+Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+---
+ Documentation/features/debug/KASAN/arch-support.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I feel compelled to say something like "maybe this should be part of
-checkpatch?", but I'm definately not looking to learn perl :)
-
+diff --git a/Documentation/features/debug/KASAN/arch-support.txt b/Documentation/features/debug/KASAN/arch-support.txt
+index 304dcd461795..c68adfc1db0e 100644
+--- a/Documentation/features/debug/KASAN/arch-support.txt
++++ b/Documentation/features/debug/KASAN/arch-support.txt
+@@ -24,7 +24,7 @@
+     |      parisc: | TODO |
+     |     powerpc: | TODO |
+     |       riscv: | TODO |
+-    |        s390: | TODO |
++    |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+     |          um: | TODO |
+-- 
+2.18.1
 
