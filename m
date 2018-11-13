@@ -1,141 +1,157 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_ADSP_ALL,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 47B5C7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 11:06:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C4FDD7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 11:11:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732353AbeKMVDm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 16:03:42 -0500
-Received: from vulcan.natalenko.name ([104.207.131.136]:49370 "EHLO
-        vulcan.natalenko.name" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726581AbeKMVDm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 16:03:42 -0500
-Received: from mail.natalenko.name (vulcan.natalenko.name [IPv6:fe80::5400:ff:fe0c:dfa0])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vulcan.natalenko.name (Postfix) with ESMTPSA id B057446A454;
-        Tue, 13 Nov 2018 12:06:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
-        s=dkim-20170712; t=1542107163;
-        h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references;
-        bh=iBHL/qhWdCuZIXtT1w0sPoTmlSHAkAQGXv4okyewsdM=;
-        b=KO4quevhNJW6iUeDcgcHgVraDXjghtd6gCUBsdNg5tIGbAAQWqt2+W843vj5dOP8soGVbx
-        YrWd4J4/BUI8KTbSp7+3JGHrhT9TnTWWKr6EO60kaJd/fb5n1iOKkl4RCSkmHKLIhvFwYE
-        1Yh1XO3OxTcjJ+kC4wxKJ50WS7+SGRM=
+        id S1732349AbeKMVJb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 16:09:31 -0500
+Received: from smtprelay.synopsys.com ([198.182.47.9]:60962 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726581AbeKMVJa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 16:09:30 -0500
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 7DAEF24E0752;
+        Tue, 13 Nov 2018 03:11:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1542107513; bh=jwNjebw3qIYugPTS0DAXFGhhk4Ii29GbNu5jHGEADGs=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
+        b=ckM6nP7A3YP3wFnfRSjgph8LVdOeZehmoZLk5DLCUq46TpYcK6w/Z5B1L9b6VRJ+Q
+         jjonlXvwJsZfttSHHKa7mYag7/3NvQM1pSpivrSTOXZlD7QpV9bRCKiZjT0ZlTaB7c
+         Voo7Bw5S45C8620gBYjbx7xRNdAdKJmNU1YEIz0pDUq/hPAGnEgdANmF+3ssxnz0J/
+         XU8xkuys+Wya8obH5DYvSpbTy6DyhajCGFchxso4xQPU9wuRaGxLnrMr7yE7w1XKdX
+         tOpl/8eWZFAowvjpcRcTtLYNqG3DT0TKvF8mBaqC6FIrzftpdR/WEY9DQ+OwUHvvf/
+         TaQet2UEJG0eQ==
+Received: from US01WEHTC2.internal.synopsys.com (us01wehtc2-vip.internal.synopsys.com [10.12.239.238])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 7C6185470;
+        Tue, 13 Nov 2018 03:11:48 -0800 (PST)
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Tue, 13 Nov 2018 03:11:48 -0800
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+ DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Tue, 13 Nov 2018 12:11:46 +0100
+Received: from [10.0.2.15] (10.107.19.128) by DE02WEHTCB.internal.synopsys.com
+ (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.408.0; Tue, 13 Nov
+ 2018 12:11:45 +0100
+Subject: Re: [PATCH v3 2/3] dt-bindings: i3c: Document Synopsys DesignWare I3C
+ master bindings
+To:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        Vitor soares <vitor.soares@synopsys.com>
+CC:     <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <gregkh@linuxfoundation.org>,
+        <arnd@arndb.de>, <psroka@cadence.com>, <agolec@cadence.com>,
+        <adouglas@cadence.com>, <bfolta@cadence.com>, <dkos@cadence.com>,
+        <alicja@cadence.com>, <cwronka@cadence.com>, <sureshp@cadence.com>,
+        <rafalc@cadence.com>, <thomas.petazzoni@bootlin.com>, <nm@ti.com>,
+        <robh+dt@kernel.org>, <pawel.moll@arm.com>, <mark.rutland@arm.com>,
+        <ijc+devicetree@hellion.org.uk>, <galak@codeaurora.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <geert@linux-m68k.org>, <linus.walleij@linaro.org>,
+        <Xiang.Lin@synaptics.com>, <linux-gpio@vger.kernel.org>,
+        <nsekhar@ti.com>, <pgaj@cadence.com>, <peda@axentia.se>,
+        <mshettel@codeaurora.org>, <swboyd@chromium.org>,
+        <joao.pinto@synopsys.com>
+References: <1541697251-20392-1-git-send-email-soares@synopsys.com>
+ <1541697251-20392-3-git-send-email-soares@synopsys.com>
+ <20181112101703.024ba1f3@bbrezillon>
+From:   vitor <vitor.soares@synopsys.com>
+Message-ID: <db819b2d-7426-4d40-fe8a-caf62cd2912f@synopsys.com>
+Date:   Tue, 13 Nov 2018 11:11:26 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+In-Reply-To: <20181112101703.024ba1f3@bbrezillon>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Date:   Tue, 13 Nov 2018 12:06:03 +0100
-From:   Oleksandr Natalenko <oleksandr@natalenko.name>
-To:     timofey.titovets@synesis.ru
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, nefelim4ag@gmail.com, willy@infradead.org
-Subject: Re: [PATCH V3] KSM: allow dedup all tasks memory
-In-Reply-To:  <<20181112231344.7161-1-timofey.titovets@synesis.ru>>
-Message-ID: <b4c41073d763dc5798562233de8eaa6d@natalenko.name>
-X-Sender: oleksandr@natalenko.name
-User-Agent: Roundcube Webmail/1.3.8
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
-        s=arc-20170712; t=1542107163;
-        h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references;
-        bh=iBHL/qhWdCuZIXtT1w0sPoTmlSHAkAQGXv4okyewsdM=;
-        b=PzxCQJmOqQIhxkAZ2JrIQxtV/YfioBFMsRvG5SPVsaHlnCAPO4aMGUTyKlyD8CvmU/zQ/o
-        ODqbSo5hN2TBqUz5XfbZ+faCUScQ4027Gd+fgoed8Vge0cUU4n0Tdeb+X5yShHPF9CueZ0
-        PSbEMDs9Gilopy3RkTUEnWbOa8NAGVw=
-ARC-Seal: i=1; s=arc-20170712; d=natalenko.name; t=1542107163; a=rsa-sha256;
-        cv=none;
-        b=rORGO7lzrCjOQhVFrjFoZ/ke7TXFS3WnyK0M0/PELJuJDVIdLeFbCW6b5z1V9Ah+rGCHjK4Q+tdOXO4OpEuwMc+TnaytC9ED4U19AkXh2myFTgh6PHZEkqwqlcrgPJo06S7fWJ82Q08knSY+HkW4R09uBxWH4df7x5D8zJJ4ehE=
-ARC-Authentication-Results: i=1;
-        vulcan.natalenko.name;
-        auth=pass smtp.auth=oleksandr@natalenko.name smtp.mailfrom=oleksandr@natalenko.name
+Content-Language: en-US
+X-Originating-IP: [10.107.19.128]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi.
+Hi Boris,
 
-> ksm by default working only on memory that added by
-> madvise().
-> 
-> And only way get that work on other applications:
->   * Use LD_PRELOAD and libraries
->   * Patch kernel
-> 
-> Lets use kernel task list and add logic to import VMAs from tasks.
-> 
-> That behaviour controlled by new attributes:
->   * mode:
->     I try mimic hugepages attribute, so mode have two states:
->       * madvise      - old default behaviour
->       * always [new] - allow ksm to get tasks vma and
->                        try working on that.
->   * seeker_sleep_millisecs:
->     Add pauses between imports tasks VMA
-> 
-> For rate limiting proporses and tasklist locking time,
-> ksm seeker thread only import VMAs from one task per loop.
-> 
-> Some numbers from different not madvised workloads.
-> Formulas:
->   Percentage ratio = (pages_sharing - pages_shared)/pages_unshared
->   Memory saved = (pages_sharing - pages_shared)*4/1024 MiB
->   Memory used = free -h
-> 
->   * Name: My working laptop
->     Description: Many different chrome/electron apps + KDE
->     Ratio: 5%
->     Saved: ~100  MiB
->     Used:  ~2000 MiB
-> 
->   * Name: K8s test VM
->     Description: Some small random running docker images
->     Ratio: 40%
->     Saved: ~160 MiB
->     Used:  ~920 MiB
-> 
->   * Name: Ceph test VM
->     Description: Ceph Mon/OSD, some containers
->     Ratio: 20%
->     Saved: ~60 MiB
->     Used:  ~600 MiB
-> 
->   * Name: BareMetal K8s backend server
->     Description: Different server apps in containers C, Java, GO & etc
->     Ratio: 72%
->     Saved: ~5800 MiB
->     Used:  ~35.7 GiB
-> 
->   * Name: BareMetal K8s processing server
->     Description: Many instance of one CPU intensive application
->     Ratio: 55%
->     Saved: ~2600 MiB
->     Used:  ~28.0 GiB
-> 
->   * Name: BareMetal Ceph node
->     Description: Only OSD storage daemons running
->     Raio: 2%
->     Saved: ~190 MiB
->     Used:  ~11.7 GiB
+On 12/11/18 09:17, Boris Brezillon wrote:
+> On Thu,  8 Nov 2018 17:14:10 +0000
+> Vitor soares <vitor.soares@synopsys.com> wrote:
+>
+>> Document Synopsys DesignWare I3C master module
+>>
+>> Signed-off-by: Vitor soares <soares@synopsys.com>
+>> ---
+>> Changes in v3:
+>> - Remove dummy characters
+>>
+>> Changes in v2:
+>> - Address the changes in Documentation/devicetree/bindings/i3c/i3c.txt
+>> - Add controller version on compatible string
+>>
+>>   .../devicetree/bindings/i3c/snps,dw-i3c-master.txt | 42 ++++++++++++++++++++++
+>>   1 file changed, 42 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
+>>
+>> diff --git a/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt b/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
+>> new file mode 100644
+>> index 0000000..b930c09
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
+>> @@ -0,0 +1,42 @@
+>> +Bindings for Synopsys DesignWare I3C master block
+>> +=================================================
+>> +
+>> +Required properties:
+>> +--------------------
+>> +- compatible: shall be "snps,dw-i3c-master-1.00a"
+>> +- clocks: shall reference the core_clk
+> Are you sure this IP only requires only one clock? If you're unsure,
+> you'd better have a clock-names prop.
+Yes, the controller only has this clock dependency to configure the SCL.
+>
+>> +- interrupts: the interrupt line connected to this I3C master
+>> +- reg: Offset and length of I3C master registers
+>> +
+>> +Mandatory properties defined by the generic binding (see
+>> +Documentation/devicetree/bindings/i3c/i3c.txt for more details):
+>> +
+>> +- #address-cells: shall be set to 3
+>> +- #size-cells: shall be set to 0
+>> +
+>> +Optional properties defined by the generic binding (see
+>> +Documentation/devicetree/bindings/i3c/i3c.txt for more details):
+>> +
+>> +- i2c-scl-hz
+>> +- i3c-scl-hz
+>> +
+>> +I3C device connected on the bus follow the generic description (see
+>> +Documentation/devicetree/bindings/i3c/i3c.txt for more details).
+>> +
+>> +Example:
+>> +
+>> +	i3c-master@2000 {
+>> +		compatible = "snps,dw-i3c-master-1.00a";
+>> +		#address-cells = <3>;
+>> +		#size-cells = <0>;
+>> +		reg = <0x02000 0x1000>;
+>> +		interrupts = <0>;
+>> +		clocks = <&i3cclk>;
+>> +
+>> +		eeprom@57{
+>> +			compatible = "atmel,24c01";
+>> +			reg = < 0x57 0x0 0x10>;
+> 			       ^ remove this white space.
+>
+>> +			pagesize = <0x8>;
+>> +		};
+>> +	};
+>> +
 
-Out of curiosity, have you compared these results with UKSM [1]?
+Best regards,
 
-Thanks.
+Vitor Soares
 
--- 
-   Oleksandr Natalenko (post-factum)
-
-[1] https://github.com/dolohow/uksm
