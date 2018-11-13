@@ -5,64 +5,77 @@ X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 508907D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 17:11:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 158477D8D4
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 17:16:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726963AbeKNDK0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 22:10:26 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:34330 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730848AbeKNDKZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 22:10:25 -0500
-Received: by mail-ot1-f68.google.com with SMTP id t5so12051943otk.1
-        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 09:11:26 -0800 (PST)
+        id S1731584AbeKNDPY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 22:15:24 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:33653 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731645AbeKNDPX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 22:15:23 -0500
+Received: by mail-wm1-f68.google.com with SMTP id f19-v6so11672873wmb.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 09:16:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=synesis-ru.20150623.gappssmtp.com; s=20150623;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=sONZB0oIFUK5PlOoydpDm/JsssT9XxKAV6Zt/3fKM44=;
-        b=PioLzb2MX1KI/x5KZkRLtrhZZ38Dc+MbNqq0yObAVIwK/g4dZsktDK8BdiIstRLhn9
-         l91asblLoqzsTm4EeQ7ZCCszATbFvpqlAyEaJaRVAro8EG0quxD8Kqrnedlflk95RGIp
-         OWykGnRGFebXD9hcev8JPf66izjha4wM3ve1CPjR2CnEyQvxpg21DzMFvVD0JrxQ9apb
-         bi6SYQpjoxWOnQCuL/lH3Z8yO5W854Ty+sw0n7kYj8uzXw/5uMZks8PO4N3qjrnjS1UY
-         kuzZtmpjVn3S2NqcJVluJRw5qCswwhyfl0Q6oZ1KCS85c4FvayfmoQCw5JsxF24ka643
-         KsJQ==
+        bh=oyAuWWcjSu0uytm90hhiKb/uLBTJ/lDlQh1huZKpzGU=;
+        b=YcqUVk6yncC5WgpJXNOkfzf6KWHr4QK6lHdKNcPuSSzISlnoKYIyXf0IGcyuEgGmur
+         ERMeceOw04hxMV9aY3w2nzWDax6PufNov4IkO5QvzaXmhbSZZJpsN1c2A7rZtwH+qfOC
+         XfV0EYWXhjwAA9Aor6FcriZopLMcjj5upyv8rg7U9I0Go3i5TaQbL5Kgy8iw4VgBZy3s
+         5s7uxVhJlQWdoaQ7GtSa4DzsvmOAqe+Xv8RY+rECBkufmFBcLIJRx/Qp9uzBy/NkauKn
+         U2FO6rtG9XJY08EcBbBmkIjFcDFoD5VPfYauZ7lpUYy7FjpPK8XzaLyQIhZkFr3tJamU
+         nJ0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=sONZB0oIFUK5PlOoydpDm/JsssT9XxKAV6Zt/3fKM44=;
-        b=KC++QSG0qz9B2O2JQdQj1bhb5/Y+sl4l0/VX1G7fzeXObQMyY8v9DkWdhcuu58The4
-         TC4sikW+SH1HSlI0oWrsKRbOdE5kVOuDJwk49VMvwpdGdKXlQbh1cjnIc6pC1Jf0q9Hz
-         jY8nDw3dY/CZoh+/59IOJAN9umQ+Vgs6Zx/Jb87pvnbiGwvceXu446CFEBsL9bD4a4e0
-         5vgoDiiwTqVVdAg0+JKhe+AJQ+dSLuRtdSo8nDaGeuVZB0iMuuksVsydYjyBMT/TJTiG
-         4hHcuqDLJYbbMc+T4t/EKtaMQoWOwSVQue/ZpAj0YwEeLBJwYk62rwlWq44lhA4za6bk
-         lqDQ==
-X-Gm-Message-State: AGRZ1gKjQ66U+Qgb1aJETgsrS9T04SynU1e3wKpvGuIY0AXw6gockvef
-        Plrakzy9ZBrSVKMdXg6oO2rLHBbomVaiiDrB
-X-Google-Smtp-Source: AJdET5dXioI5+J89FlfTDGPr3L1XwxdQ0QDV22K/Rs++TYhBDcDhOnL8VRkMN4nnAIgI3dCt8oWXfg==
-X-Received: by 2002:a9d:118a:: with SMTP id v10mr3336728otf.281.1542129086016;
-        Tue, 13 Nov 2018 09:11:26 -0800 (PST)
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com. [209.85.210.44])
-        by smtp.gmail.com with ESMTPSA id u8sm10567479ota.81.2018.11.13.09.11.00
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 13 Nov 2018 09:11:16 -0800 (PST)
-Received: by mail-ot1-f44.google.com with SMTP id t5so12050054otk.1;
-        Tue, 13 Nov 2018 09:11:00 -0800 (PST)
-X-Received: by 2002:a9d:7597:: with SMTP id s23mr3326905otk.370.1542129052936;
- Tue, 13 Nov 2018 09:10:52 -0800 (PST)
+        bh=oyAuWWcjSu0uytm90hhiKb/uLBTJ/lDlQh1huZKpzGU=;
+        b=alyxEOxv5X4ZpCR0NBw0zls29yWc02HyNyTBQTWvB7Z/LEjHmL6yLJJbcdD2CUHoAZ
+         YJmLM4EZimxU2wHA0FH4lD050oWYyHmvZDzfZBygYflninXR1mmC2nIiITHPAWnMl8q3
+         K+Ns1A3omnoV+Ns4Wiw8RWXl6R//Pgx7R55BPKLavVnpjfPNh2+a3Al65Nt6+GBoAiHr
+         lSk7xHPxI0pbtXvaCgA6tyge4VGdUA75+M1FRug8wEil6m1Bo0mFvDvKEZoYDENZNq1X
+         LnFuKLyhs3xEqn+P4+/svDZZHKedpsEQOIT0Sl6JQbwLC5kimlctNQ9RDIaHrb+oYuSd
+         8JjA==
+X-Gm-Message-State: AGRZ1gKExJ/INcZBfboObVxdJJT10ywNCNKGGMZ/4vH2zed5Fx1SPFqX
+        pM8WABkyy3UNcZccefQdGFQRe1LLmhUxHk6siBsXig==
+X-Google-Smtp-Source: AJdET5empAVYVL6Xksq88M8WOMGr7U7+6Q/6nRvDISEbSjHY8iCBVRd+PWXPeX7Ejr29gdckFoY1F4xmLtURAm2/uXE=
+X-Received: by 2002:a1c:4b1a:: with SMTP id y26-v6mr4117866wma.82.1542129381388;
+ Tue, 13 Nov 2018 09:16:21 -0800 (PST)
 MIME-Version: 1.0
-References: <d45addefdf05b84af96fb494d52b4ec4@natalenko.name>
-In-Reply-To: <d45addefdf05b84af96fb494d52b4ec4@natalenko.name>
-From:   Timofey Titovets <timofey.titovets@synesis.ru>
-Date:   Tue, 13 Nov 2018 20:10:16 +0300
-X-Gmail-Original-Message-ID: <CAGqmi77Ok0usUt5gfyPMYx22FdgqntSrwiap7=DT81HZuvNm_Q@mail.gmail.com>
-Message-ID: <CAGqmi77Ok0usUt5gfyPMYx22FdgqntSrwiap7=DT81HZuvNm_Q@mail.gmail.com>
-Subject: Re: [PATCH V3] KSM: allow dedup all tasks memory
-To:     oleksandr@natalenko.name
-Cc:     linux-doc@vger.kernel.org,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
+References: <20181023213504.28905-1-igor.stoppa@huawei.com>
+ <20181023213504.28905-11-igor.stoppa@huawei.com> <20181026092609.GB3159@worktop.c.hoisthospitality.com>
+ <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
+ <20181028183126.GB744@hirez.programming.kicks-ass.net> <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
+ <20181030152641.GE8177@hirez.programming.kicks-ass.net> <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
+ <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net> <6f60afc9-0fed-7f95-a11a-9a2eef33094c@gmail.com>
+In-Reply-To: <6f60afc9-0fed-7f95-a11a-9a2eef33094c@gmail.com>
+From:   Andy Lutomirski <luto@amacapital.net>
+Date:   Tue, 13 Nov 2018 09:16:09 -0800
+Message-ID: <CALCETrXNckT9W288VXx-6inO5qYn-6dUPocKGcBT0GCO3xi3ZQ@mail.gmail.com>
+Subject: Re: [PATCH 10/17] prmem: documentation
+To:     Igor Stoppa <igor.stoppa@gmail.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        James Morris <jmorris@namei.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Igor Stoppa <igor.stoppa@huawei.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laura Abbott <labbott@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
@@ -70,105 +83,100 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-=D0=B2=D1=82, 13 =D0=BD=D0=BE=D1=8F=D0=B1. 2018 =D0=B3. =D0=B2 19:33, Oleks=
-andr Natalenko <oleksandr@natalenko.name>:
+On Tue, Nov 13, 2018 at 6:25 AM Igor Stoppa <igor.stoppa@gmail.com> wrote:
 >
-> So,
+> Hello,
+> I've been studying v4 of the patch-set [1] that Nadav has been working on=
+.
+> Incidentally, I think it would be useful to cc also the
+> security/hardening ml.
+> The patch-set seems to be close to final, so I am resuming this discussio=
+n.
 >
-> > =E2=80=A6snip=E2=80=A6
-> > +static int ksm_seeker_thread(void *nothing)
-> > +{
-> > +     pid_t last_pid =3D 1;
-> > +     pid_t curr_pid;
-> > +     struct task_struct *task;
-> > +
-> > +     set_freezable();
-> > +     set_user_nice(current, 5);
-> > +
-> > +     while (!kthread_should_stop()) {
-> > +             wait_while_offlining();
-> > +
-> > +             try_to_freeze();
-> > +
-> > +             if (!ksm_mode_always()) {
-> > +                     wait_event_freezable(ksm_seeker_thread_wait,
-> > +                             ksm_mode_always() || kthread_should_stop(=
-));
-> > +                     continue;
-> > +             }
-> > +
-> > +             /*
-> > +              * import one task's vma per run
-> > +              */
-> > +             read_lock(&tasklist_lock);
-> > +
-> > +             /* Try always get next task */
-> > +             for_each_process(task) {
-> > +                     curr_pid =3D task_pid_nr(task);
-> > +                     if (curr_pid =3D=3D last_pid) {
-> > +                             task =3D next_task(task);
-> > +                             break;
-> > +                     }
-> > +
-> > +                     if (curr_pid > last_pid)
-> > +                             break;
-> > +             }
-> > +
-> > +             last_pid =3D task_pid_nr(task);
-> > +             ksm_import_task_vma(task);
+> On 30/10/2018 19:06, Andy Lutomirski wrote:
 >
-> This seems to be a bad idea. ksm_import_task_vma() may sleep with
-> tasklist_lock being held. Thus, IIUC, you'll get this:
-
-Yep, that one of the reason why i move code from ksmd thread, i'm not
-fully understood how to properly fix that.
-But i misunderstood problem symptoms.
-
-> [ 1754.410322] BUG: scheduling while atomic: ksmd_seeker/50/0x00000002
-> =E2=80=A6
-> [ 1754.410444] Call Trace:
-> [ 1754.410455]  dump_stack+0x5c/0x80
-> [ 1754.410460]  __schedule_bug.cold.19+0x38/0x51
-> [ 1754.410464]  __schedule+0x11dc/0x2080
-> [ 1754.410483]  schedule+0x32/0xb0
-> [ 1754.410487]  rwsem_down_write_failed+0x15d/0x240
-> [ 1754.410496]  call_rwsem_down_write_failed+0x13/0x20
-> [ 1754.410499]  down_write+0x20/0x30
-> [ 1754.410502]  ksm_import_task_vma+0x22/0x70
-> [ 1754.410505]  ksm_seeker_thread+0x134/0x1c0
-> [ 1754.410512]  kthread+0x113/0x130
-> [ 1754.410518]  ret_from_fork+0x35/0x40
+> > I support the addition of a rare-write mechanism to the upstream kernel=
+.  And I think that there is only one sane way to implement it: using an mm=
+_struct. That mm_struct, just like any sane mm_struct, should only differ f=
+rom init_mm in that it has extra mappings in the *user* region.
 >
-> I think you may want to get a reference to task_struct before releasing
-> tasklist_lock, and then put it after ksm_import_task_vma() does its job.
-
-Maybe i misunderstood something, but currently i do exactly that.
-
-> > +             read_unlock(&tasklist_lock);
-> > +
-> > +             schedule_timeout_interruptible(
-> > +                     msecs_to_jiffies(ksm_thread_seeker_sleep_millisec=
-s));
-> > +     }
-> > +     return 0;
-> > +}
-> > =E2=80=A6snip=E2=80=A6
+> After reading the code, I see what you meant.
+> I think I can work with it.
 >
-> --
->    Oleksandr Natalenko (post-factum)
+> But I have a couple of questions wrt the use of this mechanism, in the
+> context of write rare.
+>
+>
+> 1) mm_struct.
+>
+> Iiuc, the purpose of the patchset is mostly (only?) to patch kernel code
+> (live patch?), which seems to happen sequentially and in a relatively
+> standardized way, like replacing the NOPs specifically placed in the
+> functions that need patching.
+>
+> This is a bit different from the more generic write-rare case, applied
+> to data.
+>
+> As example, I have in mind a system where both IMA and SELinux are in use=
+.
+>
+> In this system, a file is accessed for the first time.
+>
+> That would trigger 2 things:
+> - evaluation of the SELinux rules and probably update of the AVC cache
+> - IMA measurement and update of the measurements
+>
+> Both of them could be write protected, meaning that they would both have
+> to be modified through the write rare mechanism.
+>
+> While the events, for 1 specific file, would be sequential, it's not
+> difficult to imagine that multiple files could be accessed at the same ti=
+me.
+>
+> If the update of the data structures in both IMA and SELinux must use
+> the same mm_struct, that would have to be somehow regulated and it would
+> introduce an unnecessary (imho) dependency.
+>
+> How about having one mm_struct for each writer (core or thread)?
+>
 
+I don't think that helps anything.  I think the mm_struct used for
+prmem (or rare_write or whatever you want to call it) should be
+entirely abstracted away by an appropriate API, so neither SELinux nor
+IMA need to be aware that there's an mm_struct involved.  It's also
+entirely possible that some architectures won't even use an mm_struct
+behind the scenes -- x86, for example, could have avoided it if there
+were a kernel equivalent of PKRU.  Sadly, there isn't.
 
-That's good that you got that in any way (because i can't reproduce current=
-ly).
+>
+>
+> 2) Iiuc, the purpose of the 2 pages being remapped is that the target of
+> the patch might spill across the page boundary, however if I deal with
+> the modification of generic data, I shouldn't (shouldn't I?) assume that
+> the data will not span across multiple pages.
 
-You mean try do something, like that right?
+The reason for the particular architecture of text_poke() is to avoid
+memory allocation to get it working.  i think that prmem/rare_write
+should have each rare-writable kernel address map to a unique user
+address, possibly just by offsetting everything by a constant.  For
+rare_write, you don't actually need it to work as such until fairly
+late in boot, since the rare_writable data will just be writable early
+on.
 
-read_lock(&tasklist_lock);
-  <get reference to task>
-  task_lock(task);
-read_unlock(&tasklist_lock);
-    last_pid =3D task_pid_nr(task);
-    ksm_import_task_vma(task);
-  task_unlock(task);
+>
+> If the data spans across multiple pages, in unknown amount, I suppose
+> that I should not keep interrupts disabled for an unknown time, as it
+> would hurt preemption.
+>
+> What I thought, in my initial patch-set, was to iterate over each page
+> that must be written to, in a loop, re-enabling interrupts in-between
+> iterations, to give pending interrupts a chance to be served.
+>
+> This would mean that the data being written to would not be consistent,
+> but it's a problem that would have to be addressed anyways, since it can
+> be still read by other cores, while the write is ongoing.
 
-Thanks!
+This probably makes sense, except that enabling and disabling
+interrupts means you also need to restore the original mm_struct (most
+likely), which is slow.  I don't think there's a generic way to check
+whether in interrupt is pending without turning interrupts on.
