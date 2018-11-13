@@ -1,216 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C60AA7D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 17:47:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 36FC87D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 17:54:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731904AbeKNDqi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 22:46:38 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:44739 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731822AbeKNDqi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 22:46:38 -0500
-Received: by mail-wr1-f65.google.com with SMTP id j17-v6so14291373wrq.11
-        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 09:47:29 -0800 (PST)
+        id S1732121AbeKNDxP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 22:53:15 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:43643 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731625AbeKNDxP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 22:53:15 -0500
+Received: by mail-wr1-f66.google.com with SMTP id y3-v6so14309529wrh.10
+        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 09:54:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=f7n/XQvhSDnEsGaJKW58jdkk2D4ym9hJknP2qcsIFCE=;
-        b=WNZPZ7noieoN3d0Wj73z1nQxycNboSxy+hdQGYFyESEX7p4GHseoecy5EPqHedLZ10
-         f/cTFcmQSPB8WoHUTUQRxtKCyO5QgVUb6ME1d29PaoHwjd8Bwvt9g0XXQ/Ol0eN2IVz7
-         bpKDPa4uaWoAWxq/qKiALKrzBloS2uZfIh0ymHWEKJMIybjy8q58kxd4Rd+UhpKJMXGO
-         O5enADVsodN6UPRnvyRz0S6paG9fK0k+RK1cjFVnZQQnbybgwtjUsRMInqDxf98v5G5F
-         qAnkucn/N49UTVtv20dMwOf4yfKrVyhXvP/+zAFKm+qrw6o7MjvOb1iJ4lWpR0cxY3wG
-         f6nA==
+        d=linaro.org; s=google;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=/UQjNl9KMYOO2L/Btjnus7YePUZ4dnRxDDZ4QOFJ+4Q=;
+        b=RwoGukJJ7K/gZSt1+7JVUvI3S4b7QqodpFcNlk4KWLoTAHsfD+7zFrfMXBRT2KUp59
+         gmmc8Mwn2I91WRjCnL5QxXqgapAXgG9n+I5bljScvf4yFYSXXn7GxZIf4pJWI4rj60Gu
+         CikS/N9nWD+xRVUir63QNA8LGtTC6vAjqY2M0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=f7n/XQvhSDnEsGaJKW58jdkk2D4ym9hJknP2qcsIFCE=;
-        b=cJK43BZxhIrFh53Qww9wTIR7ll/9GmAAWXPqqNOf5PC1bu7b+67uVs/LIZdmTbbwHQ
-         elvDR/MtQ9DXSA1clXwJkE/2nLXRp5ykOZfBWlmMTPM5h4Cp2QmKRwDMQU/IFopqIiMk
-         2nuIotXYTR3Ph9huiGkwr4s9qEGA/NGlJrJCeTCbfZR7xGn4WV3L67p2vHQqyRGe5wac
-         LNcVebCK0Ova5z4z34eeADGxJ7K3xcRzBAnijZCYOinhEvCIrQWPaqtHMcZWK+1T0DWn
-         b8rolv5eeAFE4lCsLCy6sue0mJUQhAcgVWfSaqU0/zwbrxkXzbuEzLRUFgnAj0OSeKw1
-         UjeA==
-X-Gm-Message-State: AGRZ1gJQWHsLn0pqemDekTlOWJVAj7YXL1Ox9+MyUlclzJfSJEhUXK0j
-        NIHpHcAplNnPflkIHRnW2sWttTZgNCoB8GQxaZ+MIg==
-X-Google-Smtp-Source: AJdET5f2oviiGlTMB+pnJfTo6zLPWF47S9VstHJBKEdQbczFq0MtyiRtfLrtc8w4xfPlzYDKUaYI5nRTdGwxfiR2id0=
-X-Received: by 2002:adf:9d4a:: with SMTP id o10-v6mr6056301wre.94.1542131248499;
- Tue, 13 Nov 2018 09:47:28 -0800 (PST)
-MIME-Version: 1.0
-References: <20181023213504.28905-1-igor.stoppa@huawei.com>
- <20181023213504.28905-11-igor.stoppa@huawei.com> <20181026092609.GB3159@worktop.c.hoisthospitality.com>
- <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
- <20181028183126.GB744@hirez.programming.kicks-ass.net> <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
- <20181030152641.GE8177@hirez.programming.kicks-ass.net> <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
- <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net> <6f60afc9-0fed-7f95-a11a-9a2eef33094c@gmail.com>
- <CALCETrXNckT9W288VXx-6inO5qYn-6dUPocKGcBT0GCO3xi3ZQ@mail.gmail.com> <386C0CB1-C4B1-43E2-A754-DA8DBE4FB3CB@gmail.com>
-In-Reply-To: <386C0CB1-C4B1-43E2-A754-DA8DBE4FB3CB@gmail.com>
-From:   Andy Lutomirski <luto@amacapital.net>
-Date:   Tue, 13 Nov 2018 09:47:16 -0800
-Message-ID: <CALCETrWWcfLK4W3mn0bavzejmMBVKMX29aAUA3+VPQ8m9vmfhw@mail.gmail.com>
-Subject: Re: [PATCH 10/17] prmem: documentation
-To:     Nadav Amit <nadav.amit@gmail.com>
-Cc:     Igor Stoppa <igor.stoppa@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        James Morris <jmorris@namei.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Igor Stoppa <igor.stoppa@huawei.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laura Abbott <labbott@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=/UQjNl9KMYOO2L/Btjnus7YePUZ4dnRxDDZ4QOFJ+4Q=;
+        b=FI0G3CMFA5cLggIakUg5ZDDKVRw7JGCVWqEmDbAB+onsH9dimDYa33vEca1D0novnz
+         5KhQqU4LWlsQf91r/Byc68W3UjjvbOoAOccRjTQ2KSLo5qGBq3ngJQHrRwjE4cI2K2LW
+         WQ86QWULp5SNapWfr5/da0K7inF1KGjte02qIdnjYBj6JBI401rhLjvGoIFRWqlZxX1F
+         dMHM5ZC+vN5hIwFVpL0vhki0gvuefXnOPhaHSyITIyQqvh5d5hfFz0n3Td8gFWy+lbnZ
+         Mcg5pMMGfBTrj45/Es2wY0B+Q4fcbanuDKJuzDWr7xihRDCp3joMZynQEv9vcE0wnVXo
+         ZYfg==
+X-Gm-Message-State: AGRZ1gJR8Sb69SvlUMD2eyn6hQCj2G11lIfVfol1hfSU+OOJcq42rVlh
+        kL9tKZ/T+9CBNfuyvJJZ9TXRHg==
+X-Google-Smtp-Source: AJdET5fGd69cAnQiv9zPmoRQwPq2c1CklzuciKUSYyExsZzkPQJ40RmSlVwE+qust4ExGWpLvpez/Q==
+X-Received: by 2002:a5d:410e:: with SMTP id l14mr4220381wrp.61.1542131644683;
+        Tue, 13 Nov 2018 09:54:04 -0800 (PST)
+Received: from [192.168.43.112] ([37.180.154.12])
+        by smtp.gmail.com with ESMTPSA id 125-v6sm15077606wmm.25.2018.11.13.09.54.01
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 13 Nov 2018 09:54:04 -0800 (PST)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.0 \(3445.100.39\))
+Subject: Re: [PATCH 01/12] kernfs: add function to find kernfs_node without
+ increasing ref counter
+From:   Paolo Valente <paolo.valente@linaro.org>
+In-Reply-To: <20181112122840.GA1429@kroah.com>
+Date:   Tue, 13 Nov 2018 18:53:59 +0100
+Cc:     Jens Axboe <axboe@kernel.dk>, Tejun Heo <tj@kernel.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Angelo Ruocco <angeloruocco90@gmail.com>,
+        Dennis Zhou <dennis@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        Liu Bo <bo.liu@linux.alibaba.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Brown <broonie@kernel.org>, bfq-iosched@googlegroups.com,
+        oleksandr@natalenko.name, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <07A5F685-9D7D-42A7-9A10-73C658F47435@linaro.org>
+References: <20181112095632.69114-1-paolo.valente@linaro.org>
+ <20181112095632.69114-2-paolo.valente@linaro.org>
+ <20181112122840.GA1429@kroah.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+X-Mailer: Apple Mail (2.3445.100.39)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 13, 2018 at 9:43 AM Nadav Amit <nadav.amit@gmail.com> wrote:
->
-> From: Andy Lutomirski
-> Sent: November 13, 2018 at 5:16:09 PM GMT
-> > To: Igor Stoppa <igor.stoppa@gmail.com>
-> > Cc: Kees Cook <keescook@chromium.org>, Peter Zijlstra <peterz@infradead=
-.org>, Nadav Amit <nadav.amit@gmail.com>, Mimi Zohar <zohar@linux.vnet.ibm.=
-com>, Matthew Wilcox <willy@infradead.org>, Dave Chinner <david@fromorbit.c=
-om>, James Morris <jmorris@namei.org>, Michal Hocko <mhocko@kernel.org>, Ke=
-rnel Hardening <kernel-hardening@lists.openwall.com>, linux-integrity <linu=
-x-integrity@vger.kernel.org>, LSM List <linux-security-module@vger.kernel.o=
-rg>, Igor Stoppa <igor.stoppa@huawei.com>, Dave Hansen <dave.hansen@linux.i=
-ntel.com>, Jonathan Corbet <corbet@lwn.net>, Laura Abbott <labbott@redhat.c=
-om>, Randy Dunlap <rdunlap@infradead.org>, Mike Rapoport <rppt@linux.vnet.i=
-bm.com>, open list:DOCUMENTATION <linux-doc@vger.kernel.org>, LKML <linux-k=
-ernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>
-> > Subject: Re: [PATCH 10/17] prmem: documentation
-> >
-> >
-> > On Tue, Nov 13, 2018 at 6:25 AM Igor Stoppa <igor.stoppa@gmail.com> wro=
-te:
-> >> Hello,
-> >> I've been studying v4 of the patch-set [1] that Nadav has been working=
- on.
-> >> Incidentally, I think it would be useful to cc also the
-> >> security/hardening ml.
-> >> The patch-set seems to be close to final, so I am resuming this discus=
-sion.
-> >>
-> >> On 30/10/2018 19:06, Andy Lutomirski wrote:
-> >>
-> >>> I support the addition of a rare-write mechanism to the upstream kern=
-el.  And I think that there is only one sane way to implement it: using an =
-mm_struct. That mm_struct, just like any sane mm_struct, should only differ=
- from init_mm in that it has extra mappings in the *user* region.
-> >>
-> >> After reading the code, I see what you meant.
-> >> I think I can work with it.
-> >>
-> >> But I have a couple of questions wrt the use of this mechanism, in the
-> >> context of write rare.
-> >>
-> >>
-> >> 1) mm_struct.
-> >>
-> >> Iiuc, the purpose of the patchset is mostly (only?) to patch kernel co=
-de
-> >> (live patch?), which seems to happen sequentially and in a relatively
-> >> standardized way, like replacing the NOPs specifically placed in the
-> >> functions that need patching.
-> >>
-> >> This is a bit different from the more generic write-rare case, applied
-> >> to data.
-> >>
-> >> As example, I have in mind a system where both IMA and SELinux are in =
-use.
-> >>
-> >> In this system, a file is accessed for the first time.
-> >>
-> >> That would trigger 2 things:
-> >> - evaluation of the SELinux rules and probably update of the AVC cache
-> >> - IMA measurement and update of the measurements
-> >>
-> >> Both of them could be write protected, meaning that they would both ha=
-ve
-> >> to be modified through the write rare mechanism.
-> >>
-> >> While the events, for 1 specific file, would be sequential, it's not
-> >> difficult to imagine that multiple files could be accessed at the same=
- time.
-> >>
-> >> If the update of the data structures in both IMA and SELinux must use
-> >> the same mm_struct, that would have to be somehow regulated and it wou=
-ld
-> >> introduce an unnecessary (imho) dependency.
-> >>
-> >> How about having one mm_struct for each writer (core or thread)?
-> >
-> > I don't think that helps anything.  I think the mm_struct used for
-> > prmem (or rare_write or whatever you want to call it) should be
-> > entirely abstracted away by an appropriate API, so neither SELinux nor
-> > IMA need to be aware that there's an mm_struct involved.  It's also
-> > entirely possible that some architectures won't even use an mm_struct
-> > behind the scenes -- x86, for example, could have avoided it if there
-> > were a kernel equivalent of PKRU.  Sadly, there isn't.
-> >
-> >> 2) Iiuc, the purpose of the 2 pages being remapped is that the target =
-of
-> >> the patch might spill across the page boundary, however if I deal with
-> >> the modification of generic data, I shouldn't (shouldn't I?) assume th=
-at
-> >> the data will not span across multiple pages.
-> >
-> > The reason for the particular architecture of text_poke() is to avoid
-> > memory allocation to get it working.  i think that prmem/rare_write
-> > should have each rare-writable kernel address map to a unique user
-> > address, possibly just by offsetting everything by a constant.  For
-> > rare_write, you don't actually need it to work as such until fairly
-> > late in boot, since the rare_writable data will just be writable early
-> > on.
-> >
-> >> If the data spans across multiple pages, in unknown amount, I suppose
-> >> that I should not keep interrupts disabled for an unknown time, as it
-> >> would hurt preemption.
-> >>
-> >> What I thought, in my initial patch-set, was to iterate over each page
-> >> that must be written to, in a loop, re-enabling interrupts in-between
-> >> iterations, to give pending interrupts a chance to be served.
-> >>
-> >> This would mean that the data being written to would not be consistent=
-,
-> >> but it's a problem that would have to be addressed anyways, since it c=
-an
-> >> be still read by other cores, while the write is ongoing.
-> >
-> > This probably makes sense, except that enabling and disabling
-> > interrupts means you also need to restore the original mm_struct (most
-> > likely), which is slow.  I don't think there's a generic way to check
-> > whether in interrupt is pending without turning interrupts on.
->
-> I guess that enabling IRQs might break some hidden assumptions in the cod=
-e,
-> but is there a fundamental reason that IRQs need to be disabled? use_mm()
-> got them enabled, although it is only suitable for kernel threads.
->
 
-For general rare-writish stuff, I don't think we want IRQs running
-with them mapped anywhere for write.  For AVC and IMA, I'm less sure.
 
---Andy
+> Il giorno 12 nov 2018, alle ore 13:28, Greg Kroah-Hartman =
+<gregkh@linuxfoundation.org> ha scritto:
+>=20
+> On Mon, Nov 12, 2018 at 10:56:21AM +0100, Paolo Valente wrote:
+>> From: Angelo Ruocco <angeloruocco90@gmail.com>
+>>=20
+>> The kernfs pseudo file system doesn't export any function to only =
+find
+>> a node by name, without also getting a reference on it.
+>> But in some cases it is useful to just locate a kernfs node, while
+>> using it or not depends on some other condition.
+>>=20
+>> This commit adds a function to just look for a node, without getting
+>> a reference on it.
+>=20
+> Eeek, that sounds really bad.  So you save off a pointer to something,
+> and have no idea if that pointer now really is valid or not?  It can
+> instantly disappear right afterwards.
+>=20
+
+Hi Greg,
+that function is invoked only in functions executed with cgroup_mutex
+held.  This guarantees that nothing disappears or becomes
+inconsistent.  That's why we decided to go for this optimization,
+instead of doing useless gets&puts pairs.  Still, I'm not expert
+enough to state whether it is impossible that, once we have defined
+that function, it may then get used in some unsafe way.
+
+So, I seem to see two options:
+1) Add a comment on the function, saying that cgroup_mutex must be
+   held while invoking it (I guess you won't like this one).
+2) Do not define such a new function, and, in the other patches, use
+   the already-available find_and_get.
+
+Looking forward to your feedback (or of other knowledgeable people on
+this issue) before proceeding to a rebased V2,
+Paolo
+
+
+> This feels wrong, what is the problem of having a properly reference
+> counted object passed back to you that you have to create a dangerous
+> function like this?
+>=20
+> greg k-h
+
