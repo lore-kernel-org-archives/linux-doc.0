@@ -5,37 +5,39 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D76617D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 21:40:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5CB9F7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 21:49:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726408AbeKNHkj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Nov 2018 02:40:39 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:59372 "EHLO mail.skyhub.de"
+        id S1726022AbeKNHts convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Nov 2018 02:49:48 -0500
+Received: from mga18.intel.com ([134.134.136.126]:25377 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725783AbeKNHkj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Nov 2018 02:40:39 -0500
-X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
-Received: from mail.skyhub.de ([127.0.0.1])
-        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id rPFLuKfgd6-i; Tue, 13 Nov 2018 22:40:34 +0100 (CET)
-Received: from zn.tnic (p200300EC2BE56F00D5714500C00E26FD.dip0.t-ipconnect.de [IPv6:2003:ec:2be5:6f00:d571:4500:c00e:26fd])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D3A5C1EC021C;
-        Tue, 13 Nov 2018 22:40:33 +0100 (CET)
-Date:   Tue, 13 Nov 2018 22:40:29 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Yu, Fenghua" <fenghua.yu@intel.com>
-Cc:     "Moger, Babu" <Babu.Moger@amd.com>,
+        id S1725783AbeKNHts (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Nov 2018 02:49:48 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Nov 2018 13:49:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,229,1539673200"; 
+   d="scan'208";a="280836002"
+Received: from orsmsx103.amr.corp.intel.com ([10.22.225.130])
+  by fmsmga006.fm.intel.com with ESMTP; 13 Nov 2018 13:49:41 -0800
+Received: from orsmsx105.amr.corp.intel.com ([169.254.2.237]) by
+ ORSMSX103.amr.corp.intel.com ([169.254.5.166]) with mapi id 14.03.0415.000;
+ Tue, 13 Nov 2018 13:49:40 -0800
+From:   "Yu, Fenghua" <fenghua.yu@intel.com>
+To:     "Moger, Babu" <Babu.Moger@amd.com>,
         "tglx@linutronix.de" <tglx@linutronix.de>,
         "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
+        "bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>,
         "Chatre, Reinette" <reinette.chatre@intel.com>,
         "peterz@infradead.org" <peterz@infradead.org>,
         "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
         "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+CC:     "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
         "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
         "arnd@arndb.de" <arnd@arndb.de>,
         "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
@@ -57,33 +59,49 @@ Cc:     "Moger, Babu" <Babu.Moger@amd.com>,
         "rian@alum.mit.edu" <rian@alum.mit.edu>,
         "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v7 01/13] arch/x86: Start renaming the rdt files to more
- generic names
-Message-ID: <20181113214029.GO10502@zn.tnic>
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Yu, Fenghua" <fenghua.yu@intel.com>
+Subject: RE: [PATCH v7 11/13] arch/x86: Introduce QOS feature for AMD
+Thread-Topic: [PATCH v7 11/13] arch/x86: Introduce QOS feature for AMD
+Thread-Index: AQHUeG4uwPRu5I4I10iY3UihB8yywKVOQg0A
+Date:   Tue, 13 Nov 2018 21:49:40 +0000
+Message-ID: <3E5A0FA7E9CA944F9D5414FEC6C71220985A6664@ORSMSX105.amr.corp.intel.com>
 References: <20181109205153.14811-1-babu.moger@amd.com>
- <20181109205153.14811-2-babu.moger@amd.com>
- <20181112171638.GH8167@zn.tnic>
- <3E5A0FA7E9CA944F9D5414FEC6C71220985A6632@ORSMSX105.amr.corp.intel.com>
+ <20181109205153.14811-12-babu.moger@amd.com>
+In-Reply-To: <20181109205153.14811-12-babu.moger@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZjZjYjg2OTItNjZlOC00MjZiLTk2Y2MtZWZhMWU2MThlOGZmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiUUgwM1BHS1ZNY3FEdm1ZTzkwNndQeTZJVXZQWHgwcUI3M1NPajV1enVydUlob3ZGOFBBUlwvZE54clhnK0ZcL2NnIn0=
+x-ctpclassification: CTP_NT
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [10.22.254.138]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3E5A0FA7E9CA944F9D5414FEC6C71220985A6632@ORSMSX105.amr.corp.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 13, 2018 at 09:35:40PM +0000, Yu, Fenghua wrote:
-> Is "x86/resctrl" a better subject prefix?
+> From: Moger, Babu [mailto:Babu.Moger@amd.com]
+> Subject: [PATCH v7 11/13] arch/x86: Introduce QOS feature for AMD
+> The specification for this feature is available at
+> https://developer.amd.com/wp-content/resources/56375.pdf
 
-Doh, of course. Diffstat is all arch/x86/.
+> +bool cbm_validate_amd(char *buf, u32 *data, struct rdt_resource *r) {
+> +	if (val > r->default_ctrl) {
+> +		rdt_last_cmd_puts("mask out of range\n");
+> +		return false;
+> +	}
 
-Thx.
+If val is zero, then this closid cannot allocate any cache line.
 
--- 
-Regards/Gruss,
-    Boris.
+I'm wondering: does that mean the tasks running with this closid directly access memory without cache? Is there any usage for this situation?
 
-Good mailing practices for 400: avoid top-posting and trim the reply.
+Thanks.
+
+-Fenghua
