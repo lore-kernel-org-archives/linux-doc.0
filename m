@@ -1,327 +1,167 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D9B207D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 11:41:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5DA6C7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 11:55:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732747AbeKMViz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 16:38:55 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:45631 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732592AbeKMViz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 16:38:55 -0500
-Received: by mail-ot1-f66.google.com with SMTP id 32so10447843ota.12
-        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 03:41:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=synesis-ru.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=EvmegWeMGN3KLd49d+KfRSjjnyXopGgu3o0DkzqVaR8=;
-        b=dK4nT05Doih52AmAxzNadY/dsk0/21ERSWdf2Y5PkkSVCeSAIbG3gYH91opZn5Q4Zb
-         b77pEZRcDxW4asZ9AGhxTpaiv6/WuTyQfD0LxRV1BEfgvhOutEUpOQpOiZ0X8tJ3/iV4
-         TYE46b9tsjpsNwNyDnYZkKTzJ4HpR/0UKZ7XZTsNgA8KMeLoPD+XZy8xQNIHxrjc2Ths
-         mYGuYLtcFoWjki27kHlsnjxjPwzt+IkHRQHpg1fNh+DERtCB3iqEhZl+XQmnxYS8T8kv
-         E0+WdoRONx9NeQMoE4pDYiV5ZdPtKsrENG+wrENZ/VSzw/JwzZpZe9hQAGSHEpv0RXiW
-         5jqQ==
+        id S1726938AbeKMVwt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 16:52:49 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:33391 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726659AbeKMVws (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 16:52:48 -0500
+Received: by mail-lf1-f67.google.com with SMTP id i26so8604897lfc.0;
+        Tue, 13 Nov 2018 03:54:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=EvmegWeMGN3KLd49d+KfRSjjnyXopGgu3o0DkzqVaR8=;
-        b=AyyeRD4mzU/ouSWzoe2ex+OynJIjE3eM9pF3tVU4H4wzXtPu/RsFwHIhG2QZqIcPpg
-         wrQpwJSbvq9uzTeMkdiJ+YWNdnyKHzP26PxeLAPGLadk4WsV5/+Uy4ryHhF2VIUfgZre
-         RVxYdxJxFWX/mUOLA9ZU9a9eoSZWVLvx4gcQfDSJbemaMGZ/3LFHdDSzDbkDyeNBQVBr
-         M/89qcMkZ1sXs4vhnWc9Nr0wmrH7igv50MFSSBkjAzZb9VQnRqFvkxbQ9bsIYqmUJKOe
-         4+o4/qeP7E3Ia2H8m84WCWS6UhIBoa8cseef7fXjerDpnsS9C3AUGIdaok/JIz7xkU/E
-         wzYA==
-X-Gm-Message-State: AGRZ1gKHzPMcFwMj6X4qhi8gq90mwebm1w28GSq1i7rNJNidDdfERRsz
-        Suo3p/LRn4MTqiS4nO0doPMfXQ==
-X-Google-Smtp-Source: AJdET5dgABfcO/ytQKUcSNWKjCfh3ikTvjJAO5NnAx64OKSW2b3U31Uhi5/fXqdtlLjKDHm6lGjuww==
-X-Received: by 2002:a9d:2b37:: with SMTP id o52mr3002354otb.326.1542109269875;
-        Tue, 13 Nov 2018 03:41:09 -0800 (PST)
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com. [209.85.167.178])
-        by smtp.gmail.com with ESMTPSA id l108sm381792otc.23.2018.11.13.03.41.07
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 13 Nov 2018 03:41:08 -0800 (PST)
-Received: by mail-oi1-f178.google.com with SMTP id p82-v6so9970575oih.11;
-        Tue, 13 Nov 2018 03:41:07 -0800 (PST)
-X-Received: by 2002:aca:4dd4:: with SMTP id a203-v6mr2856344oib.168.1542109267260;
- Tue, 13 Nov 2018 03:41:07 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=bOFHv/3c0GNoHkJbBBBaRUpNSxnB5JpuxdTZIm5ceDA=;
+        b=Y79gH0fi8KN9aTt3TDurnX3/lHiztX451eBRlwpQepDO+a2/H/6eUyGFBB//3Hyp8W
+         6qplxuNHtoGQM2S/G36acs2btAXDV7AzuZAxIugbzw4OBfN98q+wYqjmpoL+Blmg8tVx
+         9yuDd3z5AaHiivIYhRJEisKK5fjkUxrhMNcNx4M5AQJhu4HKSNSYwpL9fc1Td2aE2e73
+         hoPQLFZdoScKlf1QroHHpyM8gZ/PLN/HKQ21zON5SlFvjohONAhuKDh0innvZXVv/CMe
+         6wiNsWkpZ2Xo0PtK3wuP/msSaxO/021cSF9TzpaJj7R88bwjcppndAf1iSzSNECXqt55
+         y3xg==
+X-Gm-Message-State: AGRZ1gKUYsSdg8VPONByVwOagnvsma9k9N2LRLFfbBsj5+C4nNCtWLDW
+        aRvyhAYhQ+TbopSPbtWREvI=
+X-Google-Smtp-Source: AJdET5dYHSCeSosjptwTLJYJUE1VV1G3T4MwBaisndIsMJoRSWnO0igwRIYZzp0QFkMO+bEI5zJHOg==
+X-Received: by 2002:a19:2b54:: with SMTP id r81mr2928543lfr.34.1542110098569;
+        Tue, 13 Nov 2018 03:54:58 -0800 (PST)
+Received: from localhost.localdomain ([213.255.186.46])
+        by smtp.gmail.com with ESMTPSA id q8-v6sm1943292lji.69.2018.11.13.03.54.56
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 13 Nov 2018 03:54:57 -0800 (PST)
+Date:   Tue, 13 Nov 2018 13:54:48 +0200
+From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+To:     mazziesaccount@gmail.com
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andy Gross <andy.gross@linaro.org>,
+        David Brown <david.brown@linaro.org>,
+        Andrey Smirnov <andrew.smirnov@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Huang Shijie <sjhuang@iluvatar.ai>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Daniel Kurtz <djkurtz@chromium.org>,
+        Akshu Agrawal <akshu.agrawal@amd.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org
+Subject: [PATCH v4 0/8] clk: clkdev: managed clk lookup and provider
+ registrations
+Message-ID: <cover.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
-References: <20181112231344.7161-1-timofey.titovets@synesis.ru> <20181113022516.45u6b536vtdjgvrf@soleen.tm1wkky2jk1uhgkn0ivaxijq1c.bx.internal.cloudapp.net>
-In-Reply-To: <20181113022516.45u6b536vtdjgvrf@soleen.tm1wkky2jk1uhgkn0ivaxijq1c.bx.internal.cloudapp.net>
-From:   Timofey Titovets <timofey.titovets@synesis.ru>
-Date:   Tue, 13 Nov 2018 14:40:31 +0300
-X-Gmail-Original-Message-ID: <CAGqmi744_8NA30V0aWCpFi_=WSaA+18h3njOTQG0SFUVdXi8bg@mail.gmail.com>
-Message-ID: <CAGqmi744_8NA30V0aWCpFi_=WSaA+18h3njOTQG0SFUVdXi8bg@mail.gmail.com>
-Subject: Re: [PATCH V3] KSM: allow dedup all tasks memory
-To:     pasha.tatashin@soleen.com
-Cc:     Linux Kernel <linux-kernel@vger.kernel.org>,
-        Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-=D0=B2=D1=82, 13 =D0=BD=D0=BE=D1=8F=D0=B1. 2018 =D0=B3. =D0=B2 05:25, Pavel=
- Tatashin <pasha.tatashin@soleen.com>:
->
-> On 18-11-13 02:13:44, Timofey Titovets wrote:
-> > From: Timofey Titovets <nefelim4ag@gmail.com>
-> >
-> > ksm by default working only on memory that added by
-> > madvise().
-> >
-> > And only way get that work on other applications:
-> >   * Use LD_PRELOAD and libraries
-> >   * Patch kernel
-> >
-> > Lets use kernel task list and add logic to import VMAs from tasks.
-> >
-> > That behaviour controlled by new attributes:
-> >   * mode:
-> >     I try mimic hugepages attribute, so mode have two states:
-> >       * madvise      - old default behaviour
-> >       * always [new] - allow ksm to get tasks vma and
-> >                        try working on that.
-> >   * seeker_sleep_millisecs:
-> >     Add pauses between imports tasks VMA
-> >
-> > For rate limiting proporses and tasklist locking time,
-> > ksm seeker thread only import VMAs from one task per loop.
-> >
-> > Some numbers from different not madvised workloads.
-> > Formulas:
-> >   Percentage ratio =3D (pages_sharing - pages_shared)/pages_unshared
-> >   Memory saved =3D (pages_sharing - pages_shared)*4/1024 MiB
-> >   Memory used =3D free -h
-> >
-> >   * Name: My working laptop
-> >     Description: Many different chrome/electron apps + KDE
-> >     Ratio: 5%
-> >     Saved: ~100  MiB
-> >     Used:  ~2000 MiB
-> >
-> >   * Name: K8s test VM
-> >     Description: Some small random running docker images
-> >     Ratio: 40%
-> >     Saved: ~160 MiB
-> >     Used:  ~920 MiB
-> >
-> >   * Name: Ceph test VM
-> >     Description: Ceph Mon/OSD, some containers
-> >     Ratio: 20%
-> >     Saved: ~60 MiB
-> >     Used:  ~600 MiB
-> >
-> >   * Name: BareMetal K8s backend server
-> >     Description: Different server apps in containers C, Java, GO & etc
-> >     Ratio: 72%
-> >     Saved: ~5800 MiB
-> >     Used:  ~35.7 GiB
-> >
-> >   * Name: BareMetal K8s processing server
-> >     Description: Many instance of one CPU intensive application
-> >     Ratio: 55%
-> >     Saved: ~2600 MiB
-> >     Used:  ~28.0 GiB
-> >
-> >   * Name: BareMetal Ceph node
-> >     Description: Only OSD storage daemons running
-> >     Raio: 2%
-> >     Saved: ~190 MiB
-> >     Used:  ~11.7 GiB
-> >
-> > Changes:
-> >   v1 -> v2:
-> >     * Rebase on v4.19.1 (must also apply on 4.20-rc2+)
-> >   v2 -> v3:
-> >     * Reformat patch description
-> >     * Rename mode normal to madvise
-> >     * Add some memory numbers
-> >     * Fix checkpatch.pl warnings
-> >     * Separate ksm vma seeker to another kthread
-> >     * Fix: "BUG: scheduling while atomic: ksmd"
-> >       by move seeker to another thread
-> >
-> > Signed-off-by: Timofey Titovets <nefelim4ag@gmail.com>
-> > CC: Matthew Wilcox <willy@infradead.org>
-> > CC: linux-mm@kvack.org
-> > CC: linux-doc@vger.kernel.org
-> > ---
-> >  Documentation/admin-guide/mm/ksm.rst |  15 ++
-> >  mm/ksm.c                             | 215 +++++++++++++++++++++++----
-> >  2 files changed, 198 insertions(+), 32 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin=
--guide/mm/ksm.rst
-> > index 9303786632d1..7cffd47f9b38 100644
-> > --- a/Documentation/admin-guide/mm/ksm.rst
-> > +++ b/Documentation/admin-guide/mm/ksm.rst
-> > @@ -116,6 +116,21 @@ run
-> >          Default: 0 (must be changed to 1 to activate KSM, except if
-> >          CONFIG_SYSFS is disabled)
-> >
-> > +mode
-> > +        * set always to allow ksm deduplicate memory of every process
-> > +        * set madvise to use only madvised memory
-> > +
-> > +        Default: madvise (dedupulicate only madvised memory as in
-> > +        earlier releases)
-> > +
-> > +seeker_sleep_millisecs
-> > +        how many milliseconds ksmd task seeker should sleep try anothe=
-r
-> > +        task.
-> > +        e.g. ``echo 1000 > /sys/kernel/mm/ksm/seeker_sleep_millisecs``
-> > +
-> > +        Default: 1000 (chosen for rate limit purposes)
-> > +
-> > +
-> >  use_zero_pages
-> >          specifies whether empty pages (i.e. allocated pages that only
-> >          contain zeroes) should be treated specially.  When set to 1,
-> > diff --git a/mm/ksm.c b/mm/ksm.c
-> > index 5b0894b45ee5..1a03b28b6288 100644
-> > --- a/mm/ksm.c
-> > +++ b/mm/ksm.c
-> > @@ -273,6 +273,9 @@ static unsigned int ksm_thread_pages_to_scan =3D 10=
-0;
-> >  /* Milliseconds ksmd should sleep between batches */
-> >  static unsigned int ksm_thread_sleep_millisecs =3D 20;
-> >
-> > +/* Milliseconds ksmd seeker should sleep between runs */
-> > +static unsigned int ksm_thread_seeker_sleep_millisecs =3D 1000;
-> > +
-> >  /* Checksum of an empty (zeroed) page */
-> >  static unsigned int zero_checksum __read_mostly;
-> >
-> > @@ -295,7 +298,12 @@ static int ksm_nr_node_ids =3D 1;
-> >  static unsigned long ksm_run =3D KSM_RUN_STOP;
-> >  static void wait_while_offlining(void);
-> >
-> > +#define KSM_MODE_MADVISE 0
-> > +#define KSM_MODE_ALWAYS      1
-> > +static unsigned long ksm_mode =3D KSM_MODE_MADVISE;
-> > +
-> >  static DECLARE_WAIT_QUEUE_HEAD(ksm_thread_wait);
-> > +static DECLARE_WAIT_QUEUE_HEAD(ksm_seeker_thread_wait);
-> >  static DEFINE_MUTEX(ksm_thread_mutex);
-> >  static DEFINE_SPINLOCK(ksm_mmlist_lock);
-> >
-> > @@ -303,6 +311,11 @@ static DEFINE_SPINLOCK(ksm_mmlist_lock);
-> >               sizeof(struct __struct), __alignof__(struct __struct),\
-> >               (__flags), NULL)
-> >
-> > +static inline int ksm_mode_always(void)
-> > +{
-> > +     return (ksm_mode =3D=3D KSM_MODE_ALWAYS);
-> > +}
-> > +
-> >  static int __init ksm_slab_init(void)
-> >  {
-> >       rmap_item_cache =3D KSM_KMEM_CACHE(rmap_item, 0);
-> > @@ -2389,6 +2402,106 @@ static int ksmd_should_run(void)
-> >       return (ksm_run & KSM_RUN_MERGE) && !list_empty(&ksm_mm_head.mm_l=
-ist);
-> >  }
-> >
-> > +
-> > +static int ksm_enter(struct mm_struct *mm, unsigned long *vm_flags)
-> > +{
-> > +     int err;
-> > +
-> > +     if (*vm_flags & (VM_MERGEABLE | VM_SHARED  | VM_MAYSHARE   |
-> > +                      VM_PFNMAP    | VM_IO      | VM_DONTEXPAND |
-> > +                      VM_HUGETLB | VM_MIXEDMAP))
-> > +             return 0;
-> > +
-> > +#ifdef VM_SAO
-> > +     if (*vm_flags & VM_SAO)
-> > +             return 0;
-> > +#endif
-> > +#ifdef VM_SPARC_ADI
-> > +     if (*vm_flags & VM_SPARC_ADI)
-> > +             return 0;
-> > +#endif
-> > +     if (!test_bit(MMF_VM_MERGEABLE, &mm->flags)) {
-> > +             err =3D __ksm_enter(mm);
-> > +             if (err)
-> > +                     return err;
-> > +     }
-> > +
-> > +     *vm_flags |=3D VM_MERGEABLE;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +/*
-> > + * Register all vmas for all processes in the system with KSM.
-> > + * Note that every call to ksm_, for a given vma, after the first
-> > + * does nothing but set flags.
-> > + */
-> > +void ksm_import_task_vma(struct task_struct *task)
-> > +{
-> > +     struct vm_area_struct *vma;
-> > +     struct mm_struct *mm;
-> > +     int error;
-> > +
-> > +     mm =3D get_task_mm(task);
-> > +     if (!mm)
-> > +             return;
-> > +     down_write(&mm->mmap_sem);
-> > +     vma =3D mm->mmap;
-> > +     while (vma) {
-> > +             error =3D ksm_enter(vma->vm_mm, &vma->vm_flags);
-> > +             vma =3D vma->vm_next;
-> > +     }
-> > +     up_write(&mm->mmap_sem);
-> > +     mmput(mm);
-> > +}
-> > +
-> > +static int ksm_seeker_thread(void *nothing)
->
-> Is it really necessary to have an extra thread in ksm just to add vma's
-> for scanning? Can we do it right from the scanner thread? Also, may be
-> it is better to add vma's at their creation time when KSM_MODE_ALWAYS is
-> enabled?
->
-> Thank you,
-> Pasha
+Series add bd71837/bd71837 PMIC clock support + managed interfaces
 
-Oh, thats a long story, and my english to bad for describe all things,
-even that hard to find linux-mm conversation several years ago about that.
+Few clk drivers appear to be leaking clkdev lookup registrations at
+driver remove. The patch series adds devm versions of lookup
+registrations and cleans up few drivers. Driver clean-up patches have
+not been tested as I lack the HW. All testing and comments if
+driver/device removal is even possible for changed drivers is highly
+appreciated. If removal is not possible I will gladly drop the patches
+from series - although leaking lookups may serve as bad example for new
+developers =)
 
-Anyway, so:
-In V2 - i use scanner thread to add VMA, but i think scanner do that
-with too high rate.
-i.e. walk on task list, and get new task every 20ms, to wait write semaphor=
-e,
-to get VMA...
-To high rate for task list scanner, i think it's overkill.
+Patch 8 adds support for clock gate in ROHM bd71837 and bd71847 PMICs.
+This change is included in the series because it depends on new managed
+interfaces introduced in this series.
 
-About add VMA from creation time,
-UKSM add ksm_enter() hooks to mm subsystem, i port that to KSM.
-But some mm people say what they not like add KSM hooks to other subsystems=
-.
-And want ksm do that internally by some way.
+bd718x7 driver and devm interfaces are tested on BeagleBoneBlack and 
+bd71837 break-out board. Clk area register interface of bd71847 is
+identical to bd71837.
 
-Frankly speaking i didn't have enough knowledge and skills to do that
-another way in past time.
-They also suggest me look to THP for that logic, but i can't find how
-THP do that without hooks, and
-where THP truly scan memory.
+Changed drivers are:
+clk-max77686, clk-st, clk-hi655x, rk808, clk-twl6040
+and apcs-msm8916. New driver is clk-bd718x7
 
-So, after all of that i implemented this in that way.
-In first iteration as part of ksm scan thread, and in second, by
-separate thread.
-Because that allow to add VMA in fully independent way.
+This series has been discussed for a while now. For those who want to
+see whole discussion:
 
-Thanks!
+The bd71837 driver was originally proposed here
+https://lore.kernel.org/lkml/d99c8762b0fbbcb18ec4f4d104191364c0ea798c.1528117485.git.matti.vaittinen@fi.rohmeurope.com/
+
+clk portion was separated from that series and devm variants were
+proposed here
+https://lore.kernel.org/linux-clk/cover.1535630942.git.matti.vaittinen@fi.rohmeurope.com/
+
+Cleanup to other drivers was initiated in this series while waiting for
+MFD portions of bd718x7 to be applied. And now when MFD dependencies are in-tree
+his version (4) combines bd718x7 driver back to this series.
+
+Changelog (for this series) v4
+- Add support for ROHM bd718x7 PMIC clock gate. Included in this patch
+  series because it depends on managed interfaces added in patch 1.
+
+Changelog (for this series) v3
+Address issues spotted by Krzysztof Kozlowski
+- Drop patch 3 for clk-s3c2410-dclk as this device can never be removed
+- Fix indentiation for clk-max77686
+- Rest  of the patches are unchanged.
+
+Changelog (for this series) v2
+Issue spotted by 0-Day test suite
+- Add a stub function 'devm_of_clk_add_parent_hw_provider' for no OF config.
+- patches 2-8 are unchanged.
+
+This patch series is based on clk-next
+
+---
+
+Matti Vaittinen (8):
+  clk: clkdev/of_clk - add managed lookup and provider registrations
+  clk: clk-max77686: Clean clkdev lookup leak and use devm
+  clk: clk-st: avoid clkdev lookup leak at remove
+  clk: clk-hi655x: Free of_provider at remove
+  clk: rk808: use managed version of of_provider registration
+  clk: clk-twl6040: Free of_provider at remove
+  clk: apcs-msm8916: simplify probe cleanup by using devm
+  clk: bd718x7: Initial support for ROHM bd71837/bd71847 PMIC clock
+
+ Documentation/driver-model/devres.txt |   3 +
+ drivers/clk/Kconfig                   |   7 ++
+ drivers/clk/Makefile                  |   1 +
+ drivers/clk/clk-bd718x7.c             | 131 ++++++++++++++++++++++++++++++++++
+ drivers/clk/clk-hi655x.c              |   4 +-
+ drivers/clk/clk-max77686.c            |  29 ++------
+ drivers/clk/clk-rk808.c               |  15 +---
+ drivers/clk/clk-twl6040.c             |   5 +-
+ drivers/clk/clk.c                     |  28 ++++++--
+ drivers/clk/clkdev.c                  | 122 ++++++++++++++++++++++++-------
+ drivers/clk/qcom/apcs-msm8916.c       |   5 +-
+ drivers/clk/x86/clk-st.c              |   3 +-
+ include/linux/clk-provider.h          |  11 +++
+ include/linux/clkdev.h                |   4 ++
+ 14 files changed, 292 insertions(+), 76 deletions(-)
+ create mode 100644 drivers/clk/clk-bd718x7.c
+
+-- 
+2.14.3
+
+
+-- 
+Matti Vaittinen
+ROHM Semiconductors
+
+~~~ "I don't think so," said Rene Descartes.  Just then, he vanished ~~~
