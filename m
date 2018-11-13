@@ -1,267 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1AB917D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 04:32:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4F27B7D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 04:58:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726111AbeKMO3I (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 09:29:08 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:38121 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726103AbeKMO3H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 09:29:07 -0500
-Received: by mail-pg1-f193.google.com with SMTP id f8-v6so5072623pgq.5;
-        Mon, 12 Nov 2018 20:32:50 -0800 (PST)
+        id S1726612AbeKMOyx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 09:54:53 -0500
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:40546 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726111AbeKMOyx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 09:54:53 -0500
+Received: by mail-pl1-f195.google.com with SMTP id q19-v6so5378623pll.7;
+        Mon, 12 Nov 2018 20:58:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+        h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=Pvo+gboLEaeHkXi07NrmDlRl5xKGxwIwhzunymMLtCU=;
-        b=IJm9K5Qt182yHYs2WOB+uHtBxzeZ949YFu8NKZQssCFW50m/SOmxSDP+JwTGJull+q
-         TtPMjvkg+ibKCp2wIxf7ptz8S+J/KUEsBn7SUBS8N0t0k93QbUVi84BCl1fzIi8Fmvho
-         JonsotkA+gfOUeEc5caGZeXy8RDQclefn7rZU6VnApxTTt6kwp1hVMyC10nfNB3LT5Lg
-         6GfKM/utg4njK2fv1+PFO0rwTf4RaWcyjLHgYnNwD009Igc2MitlFWK+Xyipfq8sd25Y
-         7kksJK9tB6TRmCHDCKOaLsRzPK0ZD8zP/hdgz7foRV0HfMDoNiLBBoOY2ZWVKwinFms+
-         eFzg==
+        bh=Am7+qzdg5/vZ5GLfUE82Rv78i7926txhIMRKGYCFq5k=;
+        b=aJ182oO540zPdYKjeM1IGiw5IRCbM+mg6k2ejNw7ymoFgH21O/WUIGLhiXveEf0eAv
+         b9XE7yeQPZlfEj0wAly+iUaDqfTKGlpTiUZquoii18QJH9olAFN4J6RG7V6LJQ4RUmuI
+         XMrpzF1NvKqwUdAzIUAWoNB6GfvW9uNXS/i8aDxk1vQ6LGkUFLMemvF2iDH+wurz3TmD
+         XWqBn3XD6ipsnfJgiTLmgP3ue38AYZFiMXsPr1kDzgDy2MPACO/y1i6hP5GSie0uuA2I
+         ddgCT3BqnCQkHwaDL47CKfFFeeGc4S22gak5bukIHNfeNLTD6TITqeByxU/dfFa1C9eB
+         n28w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Pvo+gboLEaeHkXi07NrmDlRl5xKGxwIwhzunymMLtCU=;
-        b=Cgf2iSOQlNWzyp5BCTKNoAD9gFJfjoPxeTkYGWZ+s2GIx1wf5u+SGjRMEbCqvK2SZn
-         OtOdIJxP5kyrI+w7pYIEzmOZwZcZbiDMm2uT1UqItjoBBfxJCIq1/ifnTdbIlQ9YAga2
-         yITZMkynkcJD5uX+CCFwSZHIULpvsI6NufqCj3SyMNdqgtnsSUyq2Ka85uVDk2mQYPUC
-         dO0RXPGnfQvOERk/U5IhDt5wXSfweW8cbPUm1h/j3ZqaZvOQlNlwRcF2N+zu8ep+RqUG
-         AhIjqOHbw4AO++M5bVaEGTua89nupwpURi10G+aL4ZwYwXEx0iK4DIdOvsG/NATnsCAK
-         t09Q==
-X-Gm-Message-State: AGRZ1gIMqEjKIALvgigoLqTSJROPnsVYfLxJSgMk7H5DODKHVM/qJFAc
-        Fv3Z1/9szX2WWLfs+NnRbuQgeavSAe8=
-X-Google-Smtp-Source: AJdET5ebJOVCpNAC0CsWB9vAZ6ZAwbdu6lnViVU2mHgMygDnCBGKIBD8EdAHJB0jHkmyqEVNwn5V2Q==
-X-Received: by 2002:a63:be4d:: with SMTP id g13mr3404659pgo.378.1542083570344;
-        Mon, 12 Nov 2018 20:32:50 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id x12sm17092333pgr.55.2018.11.12.20.32.49
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 12 Nov 2018 20:32:49 -0800 (PST)
-Date:   Mon, 12 Nov 2018 20:32:48 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Am7+qzdg5/vZ5GLfUE82Rv78i7926txhIMRKGYCFq5k=;
+        b=bNBBl9ZM7k9VLE+6yIw3X6nq1/cTg0xkA9l1oSIJsiqhkOFW2MnCIFO+dzkcR/HP1q
+         6AO0s27O8R/hsJPrLM/7c9RUQdZx+YGoi3QisndevdP6fbBsEC60rhAi4ab7Su2U6hkH
+         rQ44nogSKKGCmuiECc7DzBbiYygy7rLCE0Xi/CETN+RRo7vSCdmV75oPHNUmha7wwVEZ
+         /pt/Wp6iWB7rqXutjTsiWC79gYuYwUwMf2/7zl9EJs0uNrl50isQiX9sOWO7UEdLKkvq
+         yWV7B/rz4OsVnYdNv2dATwE0V1auJwWrpY9fE/vkIzJtSLF43H4xcuzj37n7fghItmVc
+         Lctw==
+X-Gm-Message-State: AGRZ1gJzNR9/zW2ZKtR40avHh/jpNAlXl2dxsTtFor6oN7gaeDhyW4Rj
+        v40dgwgcDR5nq+MuIO6C//s=
+X-Google-Smtp-Source: AJdET5dwOcDZ937GopzYOS7hOQjNnvl3pPw4HZVrNrn80NzuVNwCk3pxT49jP1Q7AT4Snc6OokwUSQ==
+X-Received: by 2002:a17:902:d806:: with SMTP id a6mr1790214plz.172.1542085112210;
+        Mon, 12 Nov 2018 20:58:32 -0800 (PST)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id k70-v6sm21327499pfc.76.2018.11.12.20.58.29
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 12 Nov 2018 20:58:31 -0800 (PST)
+Date:   Mon, 12 Nov 2018 20:58:24 -0800
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
 Cc:     jdelvare@suse.com, linux-hwmon@vger.kernel.org,
         linux-kernel@vger.kernel.org, corbet@lwn.net,
         linux-doc@vger.kernel.org
 Subject: Re: [PATCH] hwmon (ina3221) Add single-shot mode support
-Message-ID: <20181113043248.GB11205@roeck-us.net>
+Message-ID: <20181113045823.GB26327@Asurada-Nvidia.nvidia.com>
 References: <20181113042353.1507-1-nicoleotsuka@gmail.com>
+ <20181113043248.GB11205@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181113042353.1507-1-nicoleotsuka@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20181113043248.GB11205@roeck-us.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 12, 2018 at 08:23:53PM -0800, Nicolin Chen wrote:
-> INA3221 supports both continuous and single-shot modes. When
-> running in the continuous mode, it keeps measuring the inputs
-> and converting them to the data register even if there are no
-> users reading the data out. In this use case, this could be a
-> power waste.
-> 
-> So this patch adds a single-shot mode support so that ina3221
-> could do measurement and conversion only if users trigger it,
-> depending on the use case where it only needs to poll data in
-> a lower frequency.
-> 
-> The change also exposes "mode" and "available_modes" nodes to
-> allow users to switch between two operating modes.
-> 
-Lots and lots of complexity for little gain. Sorry, I don't see
-the point of this change.
+Hi Guenter,
 
-Guenter
+On Mon, Nov 12, 2018 at 08:32:48PM -0800, Guenter Roeck wrote:
+> On Mon, Nov 12, 2018 at 08:23:53PM -0800, Nicolin Chen wrote:
+> > INA3221 supports both continuous and single-shot modes. When
+> > running in the continuous mode, it keeps measuring the inputs
+> > and converting them to the data register even if there are no
+> > users reading the data out. In this use case, this could be a
+> > power waste.
+> > 
+> > So this patch adds a single-shot mode support so that ina3221
+> > could do measurement and conversion only if users trigger it,
+> > depending on the use case where it only needs to poll data in
+> > a lower frequency.
+> > 
+> > The change also exposes "mode" and "available_modes" nodes to
+> > allow users to switch between two operating modes.
+> > 
+> Lots and lots of complexity for little gain. Sorry, I don't see
+> the point of this change.
 
-> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
-> ---
->  Documentation/hwmon/ina3221 |   3 +
->  drivers/hwmon/ina3221.c     | 109 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 112 insertions(+)
-> 
-> diff --git a/Documentation/hwmon/ina3221 b/Documentation/hwmon/ina3221
-> index 4b82cbfb551c..b03f4ad901ee 100644
-> --- a/Documentation/hwmon/ina3221
-> +++ b/Documentation/hwmon/ina3221
-> @@ -35,3 +35,6 @@ curr[123]_max           Warning alert current(mA) setting, activates the
->                            average is above this value.
->  curr[123]_max_alarm     Warning alert current limit exceeded
->  in[456]_input           Shunt voltage(uV) for channels 1, 2, and 3 respectively
-> +available_modes         Available operating modes of the chip:
-> +                          continuous mode; single-shot mode
-> +mode                    Current operating mode of the chip
-> diff --git a/drivers/hwmon/ina3221.c b/drivers/hwmon/ina3221.c
-> index 17a57dbc0424..8f7da3f75d53 100644
-> --- a/drivers/hwmon/ina3221.c
-> +++ b/drivers/hwmon/ina3221.c
-> @@ -91,6 +91,17 @@ enum ina3221_channels {
->  	INA3221_NUM_CHANNELS
->  };
->  
-> +enum ina3221_modes {
-> +	INA3221_MODE_SINGLE_SHOT,
-> +	INA3221_MODE_CONTINUOUS,
-> +	INA3221_NUM_MODES,
-> +};
-> +
-> +static const char * const ina3221_mode_names[] = {
-> +	[INA3221_MODE_SINGLE_SHOT] = "single-shot",
-> +	[INA3221_MODE_CONTINUOUS] = "continuous",
-> +};
-> +
->  /**
->   * struct ina3221_input - channel input source specific information
->   * @label: label of channel input source
-> @@ -127,6 +138,11 @@ static inline bool ina3221_is_enabled(struct ina3221_data *ina, int channel)
->  	       (ina->reg_config & INA3221_CONFIG_CHx_EN(channel));
->  }
->  
-> +static inline bool ina3221_is_singleshot_mode(struct ina3221_data *ina)
-> +{
-> +	return !(ina->reg_config & INA3221_CONFIG_MODE_CONTINUOUS);
-> +}
-> +
->  /* Lookup table for Bus and Shunt conversion times in usec */
->  static const u16 ina3221_conv_time[] = {
->  	140, 204, 332, 588, 1100, 2116, 4156, 8244,
-> @@ -188,6 +204,11 @@ static int ina3221_read_in(struct device *dev, u32 attr, int channel, long *val)
->  		if (!ina3221_is_enabled(ina, channel))
->  			return -ENODATA;
->  
-> +		/* Write CONFIG register to trigger a single-shot measurement */
-> +		if (ina3221_is_singleshot_mode(ina))
-> +			regmap_write(ina->regmap, INA3221_CONFIG,
-> +				     ina->reg_config);
-> +
->  		ret = ina3221_wait_for_data(ina);
->  		if (ret)
->  			return ret;
-> @@ -232,6 +253,11 @@ static int ina3221_read_curr(struct device *dev, u32 attr,
->  		if (!ina3221_is_enabled(ina, channel))
->  			return -ENODATA;
->  
-> +		/* Write CONFIG register to trigger a single-shot measurement */
-> +		if (ina3221_is_singleshot_mode(ina))
-> +			regmap_write(ina->regmap, INA3221_CONFIG,
-> +				     ina->reg_config);
-> +
->  		ret = ina3221_wait_for_data(ina);
->  		if (ret)
->  			return ret;
-> @@ -532,6 +558,82 @@ static ssize_t ina3221_set_shunt(struct device *dev,
->  	return count;
->  }
->  
-> +static ssize_t available_modes_show(struct device *dev,
-> +				    struct device_attribute *attr, char *buf)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(ina3221_mode_names); i++)
-> +		snprintf(buf, PAGE_SIZE, "%s%s ", buf, ina3221_mode_names[i]);
-> +
-> +	return snprintf(buf, PAGE_SIZE, "%s\n", buf);
-> +}
-> +
-> +static ssize_t mode_show(struct device *dev,
-> +			 struct device_attribute *attr, char *buf)
-> +{
-> +	struct ina3221_data *ina = dev_get_drvdata(dev);
-> +	int mode;
-> +
-> +	if (ina->reg_config & INA3221_CONFIG_MODE_CONTINUOUS)
-> +		mode = INA3221_MODE_CONTINUOUS;
-> +	else
-> +		mode = INA3221_MODE_SINGLE_SHOT;
-> +
-> +	return snprintf(buf, PAGE_SIZE, "%s\n", ina3221_mode_names[mode]);
-> +}
-> +
-> +static ssize_t mode_store(struct device *dev,
-> +			  struct device_attribute *attr,
-> +			  const char *buf, size_t count)
-> +{
-> +	struct ina3221_data *ina = dev_get_drvdata(dev);
-> +	u16 mask = INA3221_CONFIG_MODE_CONTINUOUS;
-> +	u16 continuous;
-> +	int mode, ret;
-> +	char name[32];
-> +
-> +	mutex_lock(&ina->lock);
-> +
-> +	snprintf(name, sizeof(name), "%s", buf);
-> +	strim(name);
-> +
-> +	for (mode = 0; mode < INA3221_NUM_MODES; mode++) {
-> +		if (!strcmp(name, ina3221_mode_names[mode]))
-> +			break;
-> +	}
-> +
-> +	switch (mode) {
-> +	case INA3221_MODE_SINGLE_SHOT:
-> +		continuous = 0;
-> +		break;
-> +	case INA3221_MODE_CONTINUOUS:
-> +		continuous = INA3221_CONFIG_MODE_CONTINUOUS;
-> +		break;
-> +	default:
-> +		mutex_unlock(&ina->lock);
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* Set register to configure single-shot or continuous mode */
-> +	ret = regmap_update_bits(ina->regmap, INA3221_CONFIG, mask, continuous);
-> +	if (ret) {
-> +		mutex_unlock(&ina->lock);
-> +		return ret;
-> +	}
-> +
-> +	/* Cache the latest config register value */
-> +	ret = regmap_read(ina->regmap, INA3221_CONFIG, &ina->reg_config);
-> +	if (ret) {
-> +		mutex_unlock(&ina->lock);
-> +		return ret;
-> +	}
-> +
-> +	mutex_unlock(&ina->lock);
-> +
-> +	return count;
-> +}
-> +
->  /* shunt resistance */
->  static SENSOR_DEVICE_ATTR(shunt1_resistor, S_IRUGO | S_IWUSR,
->  		ina3221_show_shunt, ina3221_set_shunt, INA3221_CHANNEL1);
-> @@ -540,10 +642,17 @@ static SENSOR_DEVICE_ATTR(shunt2_resistor, S_IRUGO | S_IWUSR,
->  static SENSOR_DEVICE_ATTR(shunt3_resistor, S_IRUGO | S_IWUSR,
->  		ina3221_show_shunt, ina3221_set_shunt, INA3221_CHANNEL3);
->  
-> +/* operating mode */
-> +static DEVICE_ATTR_RW(mode);
-> +static DEVICE_ATTR_RO(available_modes);
-> +
->  static struct attribute *ina3221_attrs[] = {
->  	&sensor_dev_attr_shunt1_resistor.dev_attr.attr,
->  	&sensor_dev_attr_shunt2_resistor.dev_attr.attr,
->  	&sensor_dev_attr_shunt3_resistor.dev_attr.attr,
-> +	/* common attributes */
-> +	&dev_attr_mode.attr,
-> +	&dev_attr_available_modes.attr,
->  	NULL,
->  };
->  ATTRIBUTE_GROUPS(ina3221);
-> -- 
-> 2.17.1
-> 
+The chip is causing considerable power waste on battery-powered
+devices so we typically use it running in the single-shot mode.
+
+Although the chip now can be powered down, but we still need to
+occasionally poll it for power measurement and critical alerts,
+so single-shot mode is the best choice for us, considering that
+the power-down-and-up routine would be way heavier.
+
+I could understand that you don't really like it, but it's some
+feature that we truly need. Do you have any suggestion to write
+the code that can make it more convincing to you?
+
+Thanks
+Nicolin
