@@ -1,143 +1,174 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_ADSP_ALL,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 98CFD7D8D4
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 16:33:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 508907D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 17:11:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730943AbeKNCcl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 21:32:41 -0500
-Received: from vulcan.natalenko.name ([104.207.131.136]:14356 "EHLO
-        vulcan.natalenko.name" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727428AbeKNCcl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 21:32:41 -0500
-Received: from mail.natalenko.name (vulcan.natalenko.name [IPv6:fe80::5400:ff:fe0c:dfa0])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vulcan.natalenko.name (Postfix) with ESMTPSA id 4D51846A934;
-        Tue, 13 Nov 2018 17:33:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
-        s=dkim-20170712; t=1542126829;
-        h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references;
-        bh=mpOrte2CQPkKT6ryItVw/jcNlCUyZj+iSXrIF+TGVP0=;
-        b=Bp5kEgTflHiQsYgfkm0Y4yCo4B7l4FXa4lZk6+oMmz2nYAd/nVnTLAnB7irR1ENaLEUwi9
-        CDpUw5ZIbAhOxIraGKWj7M0OpwtUxsQN/alHzUO0U0mEJf2vUA3lvxqwNN+78630l3eZHo
-        UyHFDAFbP+EshTEFnCKwZcMTJLDfu98=
+        id S1726963AbeKNDK0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 22:10:26 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:34330 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730848AbeKNDKZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 22:10:25 -0500
+Received: by mail-ot1-f68.google.com with SMTP id t5so12051943otk.1
+        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 09:11:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=synesis-ru.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=sONZB0oIFUK5PlOoydpDm/JsssT9XxKAV6Zt/3fKM44=;
+        b=PioLzb2MX1KI/x5KZkRLtrhZZ38Dc+MbNqq0yObAVIwK/g4dZsktDK8BdiIstRLhn9
+         l91asblLoqzsTm4EeQ7ZCCszATbFvpqlAyEaJaRVAro8EG0quxD8Kqrnedlflk95RGIp
+         OWykGnRGFebXD9hcev8JPf66izjha4wM3ve1CPjR2CnEyQvxpg21DzMFvVD0JrxQ9apb
+         bi6SYQpjoxWOnQCuL/lH3Z8yO5W854Ty+sw0n7kYj8uzXw/5uMZks8PO4N3qjrnjS1UY
+         kuzZtmpjVn3S2NqcJVluJRw5qCswwhyfl0Q6oZ1KCS85c4FvayfmoQCw5JsxF24ka643
+         KsJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=sONZB0oIFUK5PlOoydpDm/JsssT9XxKAV6Zt/3fKM44=;
+        b=KC++QSG0qz9B2O2JQdQj1bhb5/Y+sl4l0/VX1G7fzeXObQMyY8v9DkWdhcuu58The4
+         TC4sikW+SH1HSlI0oWrsKRbOdE5kVOuDJwk49VMvwpdGdKXlQbh1cjnIc6pC1Jf0q9Hz
+         jY8nDw3dY/CZoh+/59IOJAN9umQ+Vgs6Zx/Jb87pvnbiGwvceXu446CFEBsL9bD4a4e0
+         5vgoDiiwTqVVdAg0+JKhe+AJQ+dSLuRtdSo8nDaGeuVZB0iMuuksVsydYjyBMT/TJTiG
+         4hHcuqDLJYbbMc+T4t/EKtaMQoWOwSVQue/ZpAj0YwEeLBJwYk62rwlWq44lhA4za6bk
+         lqDQ==
+X-Gm-Message-State: AGRZ1gKjQ66U+Qgb1aJETgsrS9T04SynU1e3wKpvGuIY0AXw6gockvef
+        Plrakzy9ZBrSVKMdXg6oO2rLHBbomVaiiDrB
+X-Google-Smtp-Source: AJdET5dXioI5+J89FlfTDGPr3L1XwxdQ0QDV22K/Rs++TYhBDcDhOnL8VRkMN4nnAIgI3dCt8oWXfg==
+X-Received: by 2002:a9d:118a:: with SMTP id v10mr3336728otf.281.1542129086016;
+        Tue, 13 Nov 2018 09:11:26 -0800 (PST)
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com. [209.85.210.44])
+        by smtp.gmail.com with ESMTPSA id u8sm10567479ota.81.2018.11.13.09.11.00
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 13 Nov 2018 09:11:16 -0800 (PST)
+Received: by mail-ot1-f44.google.com with SMTP id t5so12050054otk.1;
+        Tue, 13 Nov 2018 09:11:00 -0800 (PST)
+X-Received: by 2002:a9d:7597:: with SMTP id s23mr3326905otk.370.1542129052936;
+ Tue, 13 Nov 2018 09:10:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Tue, 13 Nov 2018 17:33:49 +0100
-From:   Oleksandr Natalenko <oleksandr@natalenko.name>
-To:     timofey.titovets@synesis.ru
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, nefelim4ag@gmail.com, willy@infradead.org
+References: <d45addefdf05b84af96fb494d52b4ec4@natalenko.name>
+In-Reply-To: <d45addefdf05b84af96fb494d52b4ec4@natalenko.name>
+From:   Timofey Titovets <timofey.titovets@synesis.ru>
+Date:   Tue, 13 Nov 2018 20:10:16 +0300
+X-Gmail-Original-Message-ID: <CAGqmi77Ok0usUt5gfyPMYx22FdgqntSrwiap7=DT81HZuvNm_Q@mail.gmail.com>
+Message-ID: <CAGqmi77Ok0usUt5gfyPMYx22FdgqntSrwiap7=DT81HZuvNm_Q@mail.gmail.com>
 Subject: Re: [PATCH V3] KSM: allow dedup all tasks memory
-In-Reply-To:  <<20181112231344.7161-1-timofey.titovets@synesis.ru>>
-Message-ID: <d45addefdf05b84af96fb494d52b4ec4@natalenko.name>
-X-Sender: oleksandr@natalenko.name
-User-Agent: Roundcube Webmail/1.3.8
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
-        s=arc-20170712; t=1542126829;
-        h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references;
-        bh=mpOrte2CQPkKT6ryItVw/jcNlCUyZj+iSXrIF+TGVP0=;
-        b=0rcgSRFeNFgl513vH3xlIqH2QYx6iQyEkYnE2TDDAtsYInSotFNtUCOXB7GA3mN7AUlvPk
-        kuvgA88SAl/yK5lPVeWbIj5+B0DKu7w3XNd0bwKVkl3pPRaDzuiie39whYmIDljpJm6344
-        3DEr4lB1ZR7M+FKysFHWVb4wN3mbSF0=
-ARC-Seal: i=1; s=arc-20170712; d=natalenko.name; t=1542126829; a=rsa-sha256;
-        cv=none;
-        b=Eqkx9SVfZV/EMbeNUYBbz6WHUH7wIT4f6mpgkjwAkeCyZKB2pMjSTCmSeqoXbyqh1qcT8OV/JV6ADQyB6EU5MhzST6OKJZRQGXeLBnoa/SIJNL8flMWxA+MT8F5H5FN+Py9aVHuo4TMbmWmDM7pH2V3YU/kHzh+xhHUYcEvgXuU=
-ARC-Authentication-Results: i=1;
-        vulcan.natalenko.name;
-        auth=pass smtp.auth=oleksandr@natalenko.name smtp.mailfrom=oleksandr@natalenko.name
+To:     oleksandr@natalenko.name
+Cc:     linux-doc@vger.kernel.org,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-So,
+=D0=B2=D1=82, 13 =D0=BD=D0=BE=D1=8F=D0=B1. 2018 =D0=B3. =D0=B2 19:33, Oleks=
+andr Natalenko <oleksandr@natalenko.name>:
+>
+> So,
+>
+> > =E2=80=A6snip=E2=80=A6
+> > +static int ksm_seeker_thread(void *nothing)
+> > +{
+> > +     pid_t last_pid =3D 1;
+> > +     pid_t curr_pid;
+> > +     struct task_struct *task;
+> > +
+> > +     set_freezable();
+> > +     set_user_nice(current, 5);
+> > +
+> > +     while (!kthread_should_stop()) {
+> > +             wait_while_offlining();
+> > +
+> > +             try_to_freeze();
+> > +
+> > +             if (!ksm_mode_always()) {
+> > +                     wait_event_freezable(ksm_seeker_thread_wait,
+> > +                             ksm_mode_always() || kthread_should_stop(=
+));
+> > +                     continue;
+> > +             }
+> > +
+> > +             /*
+> > +              * import one task's vma per run
+> > +              */
+> > +             read_lock(&tasklist_lock);
+> > +
+> > +             /* Try always get next task */
+> > +             for_each_process(task) {
+> > +                     curr_pid =3D task_pid_nr(task);
+> > +                     if (curr_pid =3D=3D last_pid) {
+> > +                             task =3D next_task(task);
+> > +                             break;
+> > +                     }
+> > +
+> > +                     if (curr_pid > last_pid)
+> > +                             break;
+> > +             }
+> > +
+> > +             last_pid =3D task_pid_nr(task);
+> > +             ksm_import_task_vma(task);
+>
+> This seems to be a bad idea. ksm_import_task_vma() may sleep with
+> tasklist_lock being held. Thus, IIUC, you'll get this:
 
-> …snip…
-> +static int ksm_seeker_thread(void *nothing)
-> +{
-> +	pid_t last_pid = 1;
-> +	pid_t curr_pid;
-> +	struct task_struct *task;
-> +
-> +	set_freezable();
-> +	set_user_nice(current, 5);
-> +
-> +	while (!kthread_should_stop()) {
-> +		wait_while_offlining();
-> +
-> +		try_to_freeze();
-> +
-> +		if (!ksm_mode_always()) {
-> +			wait_event_freezable(ksm_seeker_thread_wait,
-> +				ksm_mode_always() || kthread_should_stop());
-> +			continue;
-> +		}
-> +
-> +		/*
-> +		 * import one task's vma per run
-> +		 */
-> +		read_lock(&tasklist_lock);
-> +
-> +		/* Try always get next task */
-> +		for_each_process(task) {
-> +			curr_pid = task_pid_nr(task);
-> +			if (curr_pid == last_pid) {
-> +				task = next_task(task);
-> +				break;
-> +			}
-> +
-> +			if (curr_pid > last_pid)
-> +				break;
-> +		}
-> +
-> +		last_pid = task_pid_nr(task);
-> +		ksm_import_task_vma(task);
+Yep, that one of the reason why i move code from ksmd thread, i'm not
+fully understood how to properly fix that.
+But i misunderstood problem symptoms.
 
-This seems to be a bad idea. ksm_import_task_vma() may sleep with 
-tasklist_lock being held. Thus, IIUC, you'll get this:
+> [ 1754.410322] BUG: scheduling while atomic: ksmd_seeker/50/0x00000002
+> =E2=80=A6
+> [ 1754.410444] Call Trace:
+> [ 1754.410455]  dump_stack+0x5c/0x80
+> [ 1754.410460]  __schedule_bug.cold.19+0x38/0x51
+> [ 1754.410464]  __schedule+0x11dc/0x2080
+> [ 1754.410483]  schedule+0x32/0xb0
+> [ 1754.410487]  rwsem_down_write_failed+0x15d/0x240
+> [ 1754.410496]  call_rwsem_down_write_failed+0x13/0x20
+> [ 1754.410499]  down_write+0x20/0x30
+> [ 1754.410502]  ksm_import_task_vma+0x22/0x70
+> [ 1754.410505]  ksm_seeker_thread+0x134/0x1c0
+> [ 1754.410512]  kthread+0x113/0x130
+> [ 1754.410518]  ret_from_fork+0x35/0x40
+>
+> I think you may want to get a reference to task_struct before releasing
+> tasklist_lock, and then put it after ksm_import_task_vma() does its job.
 
-[ 1754.410322] BUG: scheduling while atomic: ksmd_seeker/50/0x00000002
-…
-[ 1754.410444] Call Trace:
-[ 1754.410455]  dump_stack+0x5c/0x80
-[ 1754.410460]  __schedule_bug.cold.19+0x38/0x51
-[ 1754.410464]  __schedule+0x11dc/0x2080
-[ 1754.410483]  schedule+0x32/0xb0
-[ 1754.410487]  rwsem_down_write_failed+0x15d/0x240
-[ 1754.410496]  call_rwsem_down_write_failed+0x13/0x20
-[ 1754.410499]  down_write+0x20/0x30
-[ 1754.410502]  ksm_import_task_vma+0x22/0x70
-[ 1754.410505]  ksm_seeker_thread+0x134/0x1c0
-[ 1754.410512]  kthread+0x113/0x130
-[ 1754.410518]  ret_from_fork+0x35/0x40
+Maybe i misunderstood something, but currently i do exactly that.
 
-I think you may want to get a reference to task_struct before releasing 
-tasklist_lock, and then put it after ksm_import_task_vma() does its job.
+> > +             read_unlock(&tasklist_lock);
+> > +
+> > +             schedule_timeout_interruptible(
+> > +                     msecs_to_jiffies(ksm_thread_seeker_sleep_millisec=
+s));
+> > +     }
+> > +     return 0;
+> > +}
+> > =E2=80=A6snip=E2=80=A6
+>
+> --
+>    Oleksandr Natalenko (post-factum)
 
-> +		read_unlock(&tasklist_lock);
-> +
-> +		schedule_timeout_interruptible(
-> +			msecs_to_jiffies(ksm_thread_seeker_sleep_millisecs));
-> +	}
-> +	return 0;
-> +}
-> …snip…
 
--- 
-   Oleksandr Natalenko (post-factum)
+That's good that you got that in any way (because i can't reproduce current=
+ly).
+
+You mean try do something, like that right?
+
+read_lock(&tasklist_lock);
+  <get reference to task>
+  task_lock(task);
+read_unlock(&tasklist_lock);
+    last_pid =3D task_pid_nr(task);
+    ksm_import_task_vma(task);
+  task_unlock(task);
+
+Thanks!
