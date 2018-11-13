@@ -1,222 +1,134 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.7 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 128A67D08E
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 18:43:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 02CAE7D099
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 18:49:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727071AbeKNEnM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 23:43:12 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:53556 "EHLO mail.skyhub.de"
+        id S1726517AbeKNEse (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 23:48:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46936 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726517AbeKNEnL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Nov 2018 23:43:11 -0500
-X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
-Received: from mail.skyhub.de ([127.0.0.1])
-        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 1IpCPw9TDn4i; Tue, 13 Nov 2018 19:43:48 +0100 (CET)
-Received: from zn.tnic (p200300EC2BE56F00D5714500C00E26FD.dip0.t-ipconnect.de [IPv6:2003:ec:2be5:6f00:d571:4500:c00e:26fd])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726612AbeKNEse (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Nov 2018 23:48:34 -0500
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 15BD31EC00EB;
-        Tue, 13 Nov 2018 19:43:48 +0100 (CET)
-Date:   Tue, 13 Nov 2018 19:43:37 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [PATCH v5 05/27] Documentation/x86: Add CET description
-Message-ID: <20181113184337.GM10502@zn.tnic>
-References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
- <20181011151523.27101-6-yu-cheng.yu@intel.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 66D5A21780
+        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 18:49:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1542134950;
+        bh=F7UuPtB4S0UIRSwu0uSGyCet6p0lDlDetyKisoUnNHk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=fLfOaNKgccbybbI6a05/gufph+vTwgbV+i8+4VFx29ggZJHCApin6+0yrlXR1Hpa9
+         w+lby7nF9Jd/zd7aqe9BAmbdbKLeH8lyH6N5B7MmR1sA/nY/IxsR/sHRmhJLamcOvc
+         V+r2T++LdMFrI7LWhWubC2AWVsrDwwyk0jDNEHT0=
+Received: by mail-wr1-f48.google.com with SMTP id p4so5331683wrt.7
+        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 10:49:10 -0800 (PST)
+X-Gm-Message-State: AGRZ1gLwR7MqbSxFSqj8LK9odTJDt2jc17hzEUhVGQjRDKMxmvKSzUBJ
+        atkCNhZ20m3SNG35RmqHIPrFYzGjRCdYhaoTz+okMg==
+X-Google-Smtp-Source: AJdET5fbZnAdPaZ+l9MY5KJPW20pyIA5nFeZMgM3viUQtPwckVoQQF9x48lNEx+WxwT9AUN9cVq3WT+SK7+FpoiiCXs=
+X-Received: by 2002:adf:b181:: with SMTP id q1-v6mr5319302wra.95.1542134948894;
+ Tue, 13 Nov 2018 10:49:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20181011151523.27101-6-yu-cheng.yu@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20181023213504.28905-1-igor.stoppa@huawei.com>
+ <20181023213504.28905-11-igor.stoppa@huawei.com> <20181026092609.GB3159@worktop.c.hoisthospitality.com>
+ <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
+ <20181028183126.GB744@hirez.programming.kicks-ass.net> <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
+ <20181030152641.GE8177@hirez.programming.kicks-ass.net> <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
+ <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net> <6f60afc9-0fed-7f95-a11a-9a2eef33094c@gmail.com>
+ <CALCETrXNckT9W288VXx-6inO5qYn-6dUPocKGcBT0GCO3xi3ZQ@mail.gmail.com>
+ <386C0CB1-C4B1-43E2-A754-DA8DBE4FB3CB@gmail.com> <CALCETrWWcfLK4W3mn0bavzejmMBVKMX29aAUA3+VPQ8m9vmfhw@mail.gmail.com>
+ <9373ccf0-f51b-4bfa-2b16-e03ebf3c670d@huawei.com>
+In-Reply-To: <9373ccf0-f51b-4bfa-2b16-e03ebf3c670d@huawei.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Tue, 13 Nov 2018 10:48:57 -0800
+X-Gmail-Original-Message-ID: <CALCETrXfBePNs_bs1OroLn9Kdi91FktZ0==N7JK7e=CX=uUisg@mail.gmail.com>
+Message-ID: <CALCETrXfBePNs_bs1OroLn9Kdi91FktZ0==N7JK7e=CX=uUisg@mail.gmail.com>
+Subject: Re: [PATCH 10/17] prmem: documentation
+To:     Igor Stoppa <igor.stoppa@huawei.com>
+Cc:     Nadav Amit <nadav.amit@gmail.com>,
+        Igor Stoppa <igor.stoppa@gmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        James Morris <jmorris@namei.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laura Abbott <labbott@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 11, 2018 at 08:15:01AM -0700, Yu-cheng Yu wrote:
-> Explain how CET works and the no_cet_shstk/no_cet_ibt kernel
-> parameters.
-> 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  .../admin-guide/kernel-parameters.txt         |   6 +
->  Documentation/index.rst                       |   1 +
->  Documentation/x86/index.rst                   |  11 +
->  Documentation/x86/intel_cet.rst               | 266 ++++++++++++++++++
->  4 files changed, 284 insertions(+)
->  create mode 100644 Documentation/x86/index.rst
->  create mode 100644 Documentation/x86/intel_cet.rst
+On Tue, Nov 13, 2018 at 10:31 AM Igor Stoppa <igor.stoppa@huawei.com> wrote:
+>
+> On 13/11/2018 19:47, Andy Lutomirski wrote:
+>
+> > For general rare-writish stuff, I don't think we want IRQs running
+> > with them mapped anywhere for write.  For AVC and IMA, I'm less sure.
+>
+> Why would these be less sensitive?
 
-So this patch should probably come first in the series so that a reader
-can know what to expect...
+I'm not really saying they're less sensitive so much as that the
+considerations are different.  I think the original rare-write code is
+based on ideas from grsecurity, and it was intended to protect static
+data like structs full of function pointers.   Those targets have some
+different properties:
 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 92eb1f42240d..3854423f7c86 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2764,6 +2764,12 @@
->  			noexec=on: enable non-executable mappings (default)
->  			noexec=off: disable non-executable mappings
->  
-> +	no_cet_ibt	[X86-64] Disable indirect branch tracking for user-mode
-> +			applications
-> +
-> +	no_cet_shstk	[X86-64] Disable shadow stack support for user-mode
-> +			applications
-> +
->  	nosmap		[X86]
->  			Disable SMAP (Supervisor Mode Access Prevention)
->  			even if it is supported by processor.
-> diff --git a/Documentation/index.rst b/Documentation/index.rst
-> index 5db7e87c7cb1..1cdc139adb40 100644
-> --- a/Documentation/index.rst
-> +++ b/Documentation/index.rst
+ - Static targets are at addresses that are much more guessable, so
+they're easier targets for most attacks.  (Not spraying attacks like
+the ones you're interested in, though.)
 
-Please integrate scripts/checkpatch.pl into your patch creation
-workflow. Some of the warnings/errors *actually* make sense:
+ - Static targets are higher value.  No offense to IMA or AVC, but
+outright execution of shellcode, hijacking of control flow, or compete
+disablement of core security features is higher impact than bypassing
+SELinux or IMA.  Why would you bother corrupting the AVC if you could
+instead just set enforcing=0?  (I suppose that corrupting the AVC is
+less likely to be noticed by monitoring tools.)
 
-WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
-#76: FILE: Documentation/x86/index.rst:1:
-+=======================
+ - Static targets are small.  This means that the interrupt latency
+would be negligible, especially in comparison to the latency of
+replacing the entire SELinux policy object.
 
-WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
-#93: FILE: Documentation/x86/intel_cet.rst:1:
-+=========================================
+Anyway, I'm not all that familiar with SELinux under the hood, but I'm
+wondering if a different approach to thinks like the policy database
+might be appropriate.  When the policy is changed, rather than
+allocating rare-write memory and writing to it, what if we instead
+allocated normal memory, wrote to it, write-protected it, and then
+used the rare-write infrastructure to do a much smaller write to
+replace the pointer?
 
-> @@ -104,6 +104,7 @@ implementation.
->     :maxdepth: 2
->  
->     sh/index
-> +   x86/index
->  
->  Filesystem Documentation
->  ------------------------
-> diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-> new file mode 100644
-> index 000000000000..9c34d8cbc8f0
-> --- /dev/null
-> +++ b/Documentation/x86/index.rst
-> @@ -0,0 +1,11 @@
-> +=======================
-> +X86 Documentation
-> +=======================
-> +
-> +Control Flow Enforcement
-> +========================
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   intel_cet
-> diff --git a/Documentation/x86/intel_cet.rst b/Documentation/x86/intel_cet.rst
-> new file mode 100644
-> index 000000000000..946f4802a51f
-> --- /dev/null
-> +++ b/Documentation/x86/intel_cet.rst
-> @@ -0,0 +1,266 @@
-> +=========================================
-> +Control Flow Enforcement Technology (CET)
-> +=========================================
-> +
-> +[1] Overview
-> +============
-> +
-> +Control Flow Enforcement Technology (CET) provides protection against
-> +return/jump-oriented programming (ROP) attacks.  It can be implemented
-> +to protect both the kernel and applications.  In the first phase,
-> +only the user-mode protection is implemented on the 64-bit kernel.
+Admittedly, this creates a window where another core could corrupt the
+data as it's being written.  That may not matter so much if an
+attacker can't force a policy update.  Alternatively, the update code
+could re-verify the policy after write-protecting it, or there could
+be a fancy API to allocate some temporarily-writable memory (by
+creating a whole new mm_struct, mapping the memory writable just in
+that mm_struct, and activating it) so that only the actual policy
+loader could touch the memory.  But I'm mostly speculating here, since
+I'm not familiar with the code in question.
 
-s/the//			         is implemented in 64-bit mode.
+Anyway, I tend to think that the right way to approach mainlining all
+this is to first get the basic rare write support for static data into
+place and then to build on that.  I think it's great that you're
+pushing this effort, but doing this for SELinux and IMA is a bigger
+project than doing it for static data, and it might make sense to do
+it in bite-sized pieces.
 
-> +However, 32-bit applications are supported under the compatibility
-> +mode.
-
-Drop "However":
-
-"32-bit applications are, of course, supported in compatibility mode."
-
-> +
-> +CET includes shadow stack (SHSTK) and indirect branch tracking (IBT).
-
-"CET introduces two a shadow stack and an indirect branch tracking mechanism."
-
-> +The SHSTK is a secondary stack allocated from memory.  The processor
-
-s/The//
-
-> +automatically pushes/pops a secure copy to the SHSTK every return
-> +address and,
-
-that reads funny - pls reorganize. Also, what is a "secure copy"?
-
-You mean a copy of every return address which software cannot access?
-
-> by comparing the secure copy to the program stack copy,
-> +verifies function returns are as intended. 
-
-			 ... have not been corrupted/modified."
-
-> The IBT verifies all
-> +indirect CALL/JMP targets are intended and marked by the compiler with
-> +'ENDBR' op codes.
-
-"opcode" - one word. And before you use "ENDBR" you need to explain it
-above what it is.
-
-/me reads further... encounters ENDBR's definition...
-
-ah, ok, so you should say something like
-
-"... and marked by the compiler with the ENDBR opcode (see below)."
-
-> +
-> +There are two kernel configuration options:
-> +
-> +    INTEL_X86_SHADOW_STACK_USER, and
-> +    INTEL_X86_BRANCH_TRACKING_USER.
-> +
-> +To build a CET-enabled kernel, Binutils v2.31 and GCC v8.1 or later
-> +are required.  To build a CET-enabled application, GLIBC v2.28 or
-> +later is also required.
-> +
-> +There are two command-line options for disabling CET features:
-> +
-> +    no_cet_shstk - disables SHSTK, and
-> +    no_cet_ibt - disables IBT.
-> +
-> +At run time, /proc/cpuinfo shows the availability of SHSTK and IBT.
-
--- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
+Does any of this make sense?
