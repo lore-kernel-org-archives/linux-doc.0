@@ -1,92 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FROM_LOCAL_NOVOWEL,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 520A97D8BB
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 02:10:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 096D07D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 02:14:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727475AbeKMMFw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 07:05:52 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:46242 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726341AbeKMMFw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 07:05:52 -0500
-Received: by mail-pg1-f196.google.com with SMTP id w7so4903479pgp.13;
-        Mon, 12 Nov 2018 18:09:59 -0800 (PST)
+        id S1726198AbeKMMJy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 07:09:54 -0500
+Received: from mail-yw1-f65.google.com ([209.85.161.65]:38296 "EHLO
+        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726159AbeKMMJy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 07:09:54 -0500
+Received: by mail-yw1-f65.google.com with SMTP id h123-v6so336342ywc.5;
+        Mon, 12 Nov 2018 18:13:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=woqON29sDppaFa7PHsMdLKhOo9G+cuc/+i8sqgC63/4=;
+        b=aTUdkwgSmSjE9qcgRTjRfpDzQBhQ8uesbOQjNfzpjY+xLxH+2lo/lzdU0U4MAbFmkI
+         5/aI2z3Ehf4Yz4L42xS2cyxI71kC1qxPFut3vrcWTKkALuxlEvqOY+GAW0s8j6YohK7V
+         BJqU0MH6fqYt3IgL1N6yNbKC6MPIT2Phw/WqZsBoIVvP9yvkKBqft1dKs2bGx1RGKhru
+         i4+gcOX4nR5s4itFYfjfbD5mF+iIthWHl3UTUbOLP9X1xC/9t4U06kGvGHVl5sxVGZ8p
+         x2TQE5xggqf3UBeqyAiNvzP5zIYKrBsi/5DdY8GHmHL3S2Af7JuCJBkeW8vyRpEMJjXh
+         7GRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=hcxcKf8u2ED2HanzmrIBYTF6D782+dAj9cWNYAb+79s=;
-        b=PCpQRQq+hViI0iJhzzggSJqMtH1kC82CbyWdx8mXDDIesrBJ2O5xSSbvXFnsVyhniw
-         fuSd9GFFs3YIGqVmjUiamVJYzxqMRi2x9fKZ5/cHvxWkBSd7ut2FMGNTYaziY68mLM31
-         34bS/0j3uQHb6qY8opXDv/H0L+HasNAZiWaRON082VhvjWUbUXpETKDlJwAiCA4hq9fW
-         6C1meH5ybJ1bjsryk6pxLr8VRotSFExcP8xQ/cE1mQHvgHJ78nWs3dTWErrzLajmPJOy
-         WepU1SYu6PbVtfNoTexUEhNzmmupvq/IcuplG2R40j7xjTNQcQvjXsk//CIL/oLWd9IL
-         pIuQ==
-X-Gm-Message-State: AGRZ1gI77FZNTph8VGpGfouTdZMnoegNYxhh4txWJnJjd5LjYRKun6M8
-        0pIE1ZCbokck57Que7cctPGBacvx5sN1
-X-Google-Smtp-Source: AJdET5f4TUjrVfDTwSPx8uN8XLH6AfYdazsQs4OHdvEW5huhk9H8U4xmMv2SI0S2Ai5gpV//1BG6Sg==
-X-Received: by 2002:a63:ee0e:: with SMTP id e14mr2965301pgi.8.1542074998859;
-        Mon, 12 Nov 2018 18:09:58 -0800 (PST)
-Received: from localhost ([64.114.255.114])
-        by smtp.gmail.com with ESMTPSA id l3sm17613689pga.92.2018.11.12.18.09.57
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 12 Nov 2018 18:09:58 -0800 (PST)
-Date:   Mon, 12 Nov 2018 20:09:57 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Vitor soares <vitor.soares@synopsys.com>
-Cc:     boris.brezillon@bootlin.com, wsa@the-dreams.de,
-        linux-i2c@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        arnd@arndb.de, psroka@cadence.com, agolec@cadence.com,
-        adouglas@cadence.com, bfolta@cadence.com, dkos@cadence.com,
-        alicja@cadence.com, cwronka@cadence.com, sureshp@cadence.com,
-        rafalc@cadence.com, thomas.petazzoni@bootlin.com, nm@ti.com,
-        pawel.moll@arm.com, mark.rutland@arm.com,
-        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        geert@linux-m68k.org, linus.walleij@linaro.org,
-        Xiang.Lin@synaptics.com, linux-gpio@vger.kernel.org,
-        nsekhar@ti.com, pgaj@cadence.com, peda@axentia.se,
-        mshettel@codeaurora.org, swboyd@chromium.org,
-        joao.pinto@synopsys.com
-Subject: Re: [PATCH v3 2/3] dt-bindings: i3c: Document Synopsys DesignWare
- I3C master bindings
-Message-ID: <20181113020957.GA31668@bogus>
-References: <1541697251-20392-1-git-send-email-soares@synopsys.com>
- <1541697251-20392-3-git-send-email-soares@synopsys.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=woqON29sDppaFa7PHsMdLKhOo9G+cuc/+i8sqgC63/4=;
+        b=KfRy2MFBnwulWoazc3aK14TRL2rfbWNHDaIst6efecNyTfknucIvwu2K08VfWnPCWf
+         /Q+edeifBX+dIv3FXYnnVNT+jxh1avxeUqvCX+aYeGpgfKTQohuf5x5tEvTUrfPSU1ai
+         sGoP1gyGhrQt9og05VcDIOIZcMeuRfZfpJ7IAVUVE10etjxgt5p6/APMDu4vaO5LL1lE
+         TduIeZe5UF62qgHUVxb1jCdbt6q+0luZdx1FolX4uVStslX65c4pDaup/ToxXSM4yGP0
+         urbY3VXv6eN8a3+Gls2ColBC0Vzzg/ILjzWRLFw/IjexZHJ+W1HstiP4FTvNVG0dVA+U
+         4Bag==
+X-Gm-Message-State: AGRZ1gK3ENzjN7Ya0bql1ynZQ8EtvMhcS1olduhH/V/fwSlaUapRyoqD
+        X+q9MBYPhjnl8eOQfojlkzrFYEsdu5ZCS52IlnI=
+X-Google-Smtp-Source: AJdET5fbNyLcvl1IZ8mMyx6KwQQOM8BjI7VXaqEkiQAppQy/dk+vzes/LPNrI/CXuYj+w8nDHyVOeJQh08HRniHOExY=
+X-Received: by 2002:a0d:f103:: with SMTP id a3-v6mr3352562ywf.468.1542075239590;
+ Mon, 12 Nov 2018 18:13:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1541697251-20392-3-git-send-email-soares@synopsys.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20181113020113.29640-1-palmer@sifive.com> <20181113020113.29640-5-palmer@sifive.com>
+In-Reply-To: <20181113020113.29640-5-palmer@sifive.com>
+From:   Max Filippov <jcmvbkbc@gmail.com>
+Date:   Mon, 12 Nov 2018 18:13:48 -0800
+Message-ID: <CAMo8BfJWaO6vyikaTRurX3wsMneBr0wWuq+eCgutOAG-Uv8EDw@mail.gmail.com>
+Subject: Re: [PATCH 4/7] doc: Indicate that xtensa supports sg-chain
+To:     palmer@sifive.com
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, aou@eecs.berkeley.edu,
+        ren_guo <ren_guo@c-sky.com>, andrea.parri@amarulasolutions.com,
+        Arnd Bergmann <arnd@arndb.de>, James Hogan <jhogan@kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Ingo Molnar <mingo@kernel.org>, rmk+kernel@armlinux.org.uk,
+        Will Deacon <will.deacon@arm.com>, jglisse@redhat.com,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        david.abdurachmanov@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 08, 2018 at 05:14:10PM +0000, Vitor soares wrote:
-> Document Synopsys DesignWare I3C master module
-> 
-> Signed-off-by: Vitor soares <soares@synopsys.com>
-
-Please make your author and S-o-b emails match.
-
+On Mon, Nov 12, 2018 at 6:03 PM Palmer Dabbelt <palmer@sifive.com> wrote:
+>
+> This was suggested by features-refresh.sh
+>
+> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 > ---
-> Changes in v3:
-> - Remove dummy characters
-> 
-> Changes in v2:
-> - Address the changes in Documentation/devicetree/bindings/i3c/i3c.txt
-> - Add controller version on compatible string
-> 
->  .../devicetree/bindings/i3c/snps,dw-i3c-master.txt | 42 ++++++++++++++++++++++
->  1 file changed, 42 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
+>  Documentation/features/io/sg-chain/arch-support.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Otherwise,
+Acked-by: Max Filippov <jcmvbkbc@gmail.com>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+-- 
+Thanks.
+-- Max
