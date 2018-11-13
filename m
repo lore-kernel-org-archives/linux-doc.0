@@ -1,158 +1,141 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_ADSP_ALL,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0A7B27D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 10:13:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 47B5C7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 11:06:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731956AbeKMULA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 13 Nov 2018 15:11:00 -0500
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:45696 "EHLO
-        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731911AbeKMULA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 15:11:00 -0500
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20181113101335euoutp027d9fe73ed6cc5f53028e8d96bf18b865~mp250LEEl0257102571euoutp02k
-        for <linux-doc@vger.kernel.org>; Tue, 13 Nov 2018 10:13:35 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20181113101335euoutp027d9fe73ed6cc5f53028e8d96bf18b865~mp250LEEl0257102571euoutp02k
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1542104015;
-        bh=dSDIG4wQseCLfEwdDAI/5VHKFelM0FiyxEo1TShPxFw=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=S7ImW5TXnvTz3XlmRqCOjhfR3eUUibLE//o2g9egxxaHWJgngtxW1KWTty8tMX/2p
-         QdYfvVSkzqrkH8muoOZmOV+8kZZfdjnnfcPwTvYV343BzXPdKE9bpy3a6+G39FCvww
-         +GUdmb0LP+0ZmQOdj7BoCHx2F84jf/72QXo8jXYc=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20181113101334eucas1p1d3fa17e82b20991d93164de5561bc398~mp243qwHA2918429184eucas1p18;
-        Tue, 13 Nov 2018 10:13:34 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges1new.samsung.com (EUCPMTA) with SMTP id B1.55.04441.DC3AAEB5; Tue, 13
-        Nov 2018 10:13:33 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20181113101333eucas1p1a692b4910a12253bceae0f2d007b3c0d~mp24JFXh62886628866eucas1p1v;
-        Tue, 13 Nov 2018 10:13:33 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20181113101333eusmtrp2564d82b1c5301445aa468c47f9a6be37~mp236WWvz2899828998eusmtrp2s;
-        Tue, 13 Nov 2018 10:13:33 +0000 (GMT)
-X-AuditID: cbfec7f2-5c9ff70000001159-b6-5beaa3cd7493
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id B3.B5.04284.DC3AAEB5; Tue, 13
-        Nov 2018 10:13:33 +0000 (GMT)
-Received: from [106.120.51.20] (unknown [106.120.51.20]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20181113101332eusmtip2f4c3af09f99c0f45221ac08d4ff11dcc~mp23XJzxM0908509085eusmtip2U;
-        Tue, 13 Nov 2018 10:13:32 +0000 (GMT)
-Subject: Re: [PATCH v2 05/11] Doc: DT: thermal: new irq-mode for trip point
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, rui.zhang@intel.com, edubezval@gmail.com,
-        daniel.lezcano@linaro.org, mark.rutland@arm.com, corbet@lwn.net,
-        b.zolnierkie@samsung.com, krzk@kernel.org
-From:   Lukasz Luba <l.luba@partner.samsung.com>
-Message-ID: <64aaa2aa-00ad-643f-3b44-f505a31f2ee8@partner.samsung.com>
-Date:   Tue, 13 Nov 2018 11:13:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-        Thunderbird/60.2.1
+        id S1732353AbeKMVDm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 13 Nov 2018 16:03:42 -0500
+Received: from vulcan.natalenko.name ([104.207.131.136]:49370 "EHLO
+        vulcan.natalenko.name" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726581AbeKMVDm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Nov 2018 16:03:42 -0500
+Received: from mail.natalenko.name (vulcan.natalenko.name [IPv6:fe80::5400:ff:fe0c:dfa0])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vulcan.natalenko.name (Postfix) with ESMTPSA id B057446A454;
+        Tue, 13 Nov 2018 12:06:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+        s=dkim-20170712; t=1542107163;
+        h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references;
+        bh=iBHL/qhWdCuZIXtT1w0sPoTmlSHAkAQGXv4okyewsdM=;
+        b=KO4quevhNJW6iUeDcgcHgVraDXjghtd6gCUBsdNg5tIGbAAQWqt2+W843vj5dOP8soGVbx
+        YrWd4J4/BUI8KTbSp7+3JGHrhT9TnTWWKr6EO60kaJd/fb5n1iOKkl4RCSkmHKLIhvFwYE
+        1Yh1XO3OxTcjJ+kC4wxKJ50WS7+SGRM=
 MIME-Version: 1.0
-In-Reply-To: <5bea0ecd.1c69fb81.d5613.1c9e@mx.google.com>
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0hTYRjHe7eds7PZ4m1ae7AsWoVmtRIkjhVRYHXAPgj1oRKqlQcvuc12
-        MlsXMgldUsOKvMzwkpWxvDVXzTJQ09ZaZV4ytcSi+UFhH3JdMK3ldhb57f8+z+/h///DSwnl
-        g0Q4laY9zuq16gwlKRU9fD75Zu3r6vGk9UP1G+n7JQ0E7W7NR3S5N4Ku6HhD0BV9/QTd1dUo
-        pq1fZlRV3i0R3fv4Bkl7L3cg+vb7bgHta7GLafdnE7lVxtSW1yKm2TwsZqpbxgSM1XKRZD72
-        t5BM061zTLXpGsGYbBbEeK1LEiX7pZuT2Yy0E6x+3ZZD0tSafpMos1928sq4k8xBZSEFSEIB
-        joWJCz6yAEkpOb6L4E69V+RfyPE3BE03Q/iFF4GlJ1f878LlKQhe1CBofddG8A8Pgl91btJP
-        heIEaDv/m/DrMLwMpvKKApAQPxBAo3FwxoOiSKwCu+WYn5HhHeB4WxOwFuGVMHz9O/LrBXgv
-        GEfukTwzH5yl7gAjwXFQ39oZYIRYAUPuCgGvl8Ijzw2h3wvwpBhqW7sRHzse8kefErwOhXGH
-        LVhnMfia+WPAHLw2Wkhen4F8pz3IbIJnjm7Cn1mIV0HD43X8eBs4H0wHxoDnwYBnPh9hHlx9
-        WCzkxzIw5sl5Ogpsl94GjRZCTW2RuBApzbOKmWeVMc8qY/7vW4lEFqRgszhNCsvFaNlsFafW
-        cFnaFNURncaKZj6c649jwo6+9xxuR5hCyrmyF8VjSXJCfYIzaNoRUEJlmKw5djxJLktWG06x
-        et1BfVYGy7WjRZRIqZCdnvMpSY5T1MfZoyybyer/bQWUJDwH7Qxd8bOw90fUq6orsXUdnyq3
-        HjDs3PduekRnH4seaOxcrvng6DncWxZR3sHGpLvb0vumDCWFXUP7pOnZc+I8BVEKiHNP7ir9
-        HOJeyBh8roki3YHkYtdI5F3f7puO8DW20RzidsLwE2n810jXy3upqrOm+sQNttXkk8rMpxv2
-        bM9VirhUdUy0UM+p/wJUHjSEbAMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrHIsWRmVeSWpSXmKPExsVy+t/xe7pnF7+KNui5y2GxccZ6VosnB9oZ
-        LeZ9lrWYf+Qcq8X8K9dYLc6f38BusekxkLWwbQmLxeVdc9gsPvceYbRYev0ik8X/PTvYLZ48
-        7GNz4PVYM28No8fOWXfZPRbvecnksWlVJ5vHnWt72Dw2L6n3WNw3mdWjb8sqRo/Pm+QCOKP0
-        bIryS0tSFTLyi0tslaINLYz0DC0t9IxMLPUMjc1jrYxMlfTtbFJSczLLUov07RL0MpZf62Mp
-        uMZbMfHVSbYGxtncXYycHBICJhKn33axdTFycQgJLGWUWHDkACtEQkxi0r7t7BC2sMSfazBF
-        rxklvrb9AisSFvCWONj4F8wWEVCU+N02jRWkiFlgK5PE1ls3mSA6+pgk9v2cB5Th4GAT0JPY
-        saoQpIFXwE3i+IXlLCA2i4CqxN2pXxlBbFGBCImzL9cxQtQISpyc+QSshlPAUmLdgaNgcWYB
-        M4l5mx8yQ9jiEreezGeCsOUltr+dwzyBUWgWkvZZSFpmIWmZhaRlASPLKkaR1NLi3PTcYkO9
-        4sTc4tK8dL3k/NxNjMC43nbs5+YdjJc2Bh9iFOBgVOLhPTH9ZbQQa2JZcWXuIUYJDmYlEd6d
-        Jq+ihXhTEiurUovy44tKc1KLDzGaAj03kVlKNDkfmHLySuINTQ3NLSwNzY3Njc0slMR5zxtU
-        RgkJpCeWpGanphakFsH0MXFwSjUwVu3ZmyofI/uwjXX/5av7+Uw2t33VCTV4ZVVhe/bMtbwK
-        7Zv1PvtZ/nLLm6ucft90cnNd8+RfWy5VcOQcTF4Wpc6Tcv3X1+CqcjnfWxXF+t4iT2OMNapy
-        luatEl9+/V9788HLsY8OXL+2Ucj6Y77OPpUGtcz/PltzunfEMdQrPWK7a2PYsl1KiaU4I9FQ
-        i7moOBEABaWDugEDAAA=
-X-CMS-MailID: 20181113101333eucas1p1a692b4910a12253bceae0f2d007b3c0d
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20181107171039eucas1p2227bd4bc573fd0d2a3a97986004be16b
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20181107171039eucas1p2227bd4bc573fd0d2a3a97986004be16b
-References: <1541610593-28542-1-git-send-email-l.luba@partner.samsung.com>
-        <CGME20181107171039eucas1p2227bd4bc573fd0d2a3a97986004be16b@eucas1p2.samsung.com>
-        <1541610593-28542-6-git-send-email-l.luba@partner.samsung.com>
-        <5bea0ecd.1c69fb81.d5613.1c9e@mx.google.com>
+Date:   Tue, 13 Nov 2018 12:06:03 +0100
+From:   Oleksandr Natalenko <oleksandr@natalenko.name>
+To:     timofey.titovets@synesis.ru
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, nefelim4ag@gmail.com, willy@infradead.org
+Subject: Re: [PATCH V3] KSM: allow dedup all tasks memory
+In-Reply-To:  <<20181112231344.7161-1-timofey.titovets@synesis.ru>>
+Message-ID: <b4c41073d763dc5798562233de8eaa6d@natalenko.name>
+X-Sender: oleksandr@natalenko.name
+User-Agent: Roundcube Webmail/1.3.8
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+        s=arc-20170712; t=1542107163;
+        h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references;
+        bh=iBHL/qhWdCuZIXtT1w0sPoTmlSHAkAQGXv4okyewsdM=;
+        b=PzxCQJmOqQIhxkAZ2JrIQxtV/YfioBFMsRvG5SPVsaHlnCAPO4aMGUTyKlyD8CvmU/zQ/o
+        ODqbSo5hN2TBqUz5XfbZ+faCUScQ4027Gd+fgoed8Vge0cUU4n0Tdeb+X5yShHPF9CueZ0
+        PSbEMDs9Gilopy3RkTUEnWbOa8NAGVw=
+ARC-Seal: i=1; s=arc-20170712; d=natalenko.name; t=1542107163; a=rsa-sha256;
+        cv=none;
+        b=rORGO7lzrCjOQhVFrjFoZ/ke7TXFS3WnyK0M0/PELJuJDVIdLeFbCW6b5z1V9Ah+rGCHjK4Q+tdOXO4OpEuwMc+TnaytC9ED4U19AkXh2myFTgh6PHZEkqwqlcrgPJo06S7fWJ82Q08knSY+HkW4R09uBxWH4df7x5D8zJJ4ehE=
+ARC-Authentication-Results: i=1;
+        vulcan.natalenko.name;
+        auth=pass smtp.auth=oleksandr@natalenko.name smtp.mailfrom=oleksandr@natalenko.name
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
+Hi.
 
-On 11/12/18 8:09 PM, Rob Herring wrote:
-> On Wed, Nov 07, 2018 at 06:09:47PM +0100, Lukasz Luba wrote:
->> Thermal trip point gets new flag in DT: irq-mode.
->> Trip point may have a new explicit flag which indicate
->> IRQ support when the temperature is met (so the thermal framework
->> deos not need to set polling for it).
->> It is useful for 'passive' cooling trip point,
->> which now will not register for polling the temperature.
->>
->> Update documentation about irq-mode for trip points.
+> ksm by default working only on memory that added by
+> madvise().
 > 
-> This patch should come before you use it.
-OK, I will re-order the patch set in v3.
+> And only way get that work on other applications:
+>   * Use LD_PRELOAD and libraries
+>   * Patch kernel
 > 
->>
->> Cc: Zhang Rui <rui.zhang@intel.com>
->> Cc: Eduardo Valentin <edubezval@gmail.com>
->> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
->> Cc: Rob Herring <robh+dt@kernel.org>
->> Cc: Mark Rutland <mark.rutland@arm.com>
->> Cc: devicetree@vger.kernel.org
->> Signed-off-by: Lukasz Luba <l.luba@partner.samsung.com>
->> ---
->>   Documentation/devicetree/bindings/thermal/thermal.txt | 7 +++++++
->>   1 file changed, 7 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/thermal/thermal.txt b/Documentation/devicetree/bindings/thermal/thermal.txt
->> index ca14ba9..bee21e3 100644
->> --- a/Documentation/devicetree/bindings/thermal/thermal.txt
->> +++ b/Documentation/devicetree/bindings/thermal/thermal.txt
->> @@ -90,6 +90,10 @@ Required properties:
->>   	"critical":	Hardware not reliable.
->>     Type: string
->>   
->> +- irq-mode:		A flag indicating that trip rises irq, so there is no
->> +  Type: bool		need of polling in thermal framework.
->> +  Size: one cell
+> Lets use kernel task list and add logic to import VMAs from tasks.
 > 
-> Should be optional, right?
-Yes, it is optional. I will mention about it in change v3.
+> That behaviour controlled by new attributes:
+>   * mode:
+>     I try mimic hugepages attribute, so mode have two states:
+>       * madvise      - old default behaviour
+>       * always [new] - allow ksm to get tasks vma and
+>                        try working on that.
+>   * seeker_sleep_millisecs:
+>     Add pauses between imports tasks VMA
+> 
+> For rate limiting proporses and tasklist locking time,
+> ksm seeker thread only import VMAs from one task per loop.
+> 
+> Some numbers from different not madvised workloads.
+> Formulas:
+>   Percentage ratio = (pages_sharing - pages_shared)/pages_unshared
+>   Memory saved = (pages_sharing - pages_shared)*4/1024 MiB
+>   Memory used = free -h
+> 
+>   * Name: My working laptop
+>     Description: Many different chrome/electron apps + KDE
+>     Ratio: 5%
+>     Saved: ~100  MiB
+>     Used:  ~2000 MiB
+> 
+>   * Name: K8s test VM
+>     Description: Some small random running docker images
+>     Ratio: 40%
+>     Saved: ~160 MiB
+>     Used:  ~920 MiB
+> 
+>   * Name: Ceph test VM
+>     Description: Ceph Mon/OSD, some containers
+>     Ratio: 20%
+>     Saved: ~60 MiB
+>     Used:  ~600 MiB
+> 
+>   * Name: BareMetal K8s backend server
+>     Description: Different server apps in containers C, Java, GO & etc
+>     Ratio: 72%
+>     Saved: ~5800 MiB
+>     Used:  ~35.7 GiB
+> 
+>   * Name: BareMetal K8s processing server
+>     Description: Many instance of one CPU intensive application
+>     Ratio: 55%
+>     Saved: ~2600 MiB
+>     Used:  ~28.0 GiB
+> 
+>   * Name: BareMetal Ceph node
+>     Description: Only OSD storage daemons running
+>     Raio: 2%
+>     Saved: ~190 MiB
+>     Used:  ~11.7 GiB
 
-Thank you for the review.
+Out of curiosity, have you compared these results with UKSM [1]?
 
-Regards,
-Lukasz
+Thanks.
+
+-- 
+   Oleksandr Natalenko (post-factum)
+
+[1] https://github.com/dolohow/uksm
