@@ -5,103 +5,157 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5CB9F7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 21:49:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D42727D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 13 Nov 2018 22:07:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726022AbeKNHts convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Nov 2018 02:49:48 -0500
-Received: from mga18.intel.com ([134.134.136.126]:25377 "EHLO mga18.intel.com"
+        id S1726950AbeKNIHv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Nov 2018 03:07:51 -0500
+Received: from foss.arm.com ([217.140.101.70]:35274 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725783AbeKNHts (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Nov 2018 02:49:48 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Nov 2018 13:49:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,229,1539673200"; 
-   d="scan'208";a="280836002"
-Received: from orsmsx103.amr.corp.intel.com ([10.22.225.130])
-  by fmsmga006.fm.intel.com with ESMTP; 13 Nov 2018 13:49:41 -0800
-Received: from orsmsx105.amr.corp.intel.com ([169.254.2.237]) by
- ORSMSX103.amr.corp.intel.com ([169.254.5.166]) with mapi id 14.03.0415.000;
- Tue, 13 Nov 2018 13:49:40 -0800
-From:   "Yu, Fenghua" <fenghua.yu@intel.com>
-To:     "Moger, Babu" <Babu.Moger@amd.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>,
-        "Chatre, Reinette" <reinette.chatre@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-CC:     "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
-        "pombredanne@nexb.com" <pombredanne@nexb.com>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Luck, Tony" <tony.luck@intel.com>,
-        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
-        "Shen, Xiaochen" <xiaochen.shen@intel.com>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Singh, Brijesh" <brijesh.singh@amd.com>,
-        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
-        "dwmw2@infradead.org" <dwmw2@infradead.org>,
-        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "jannh@google.com" <jannh@google.com>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "rian@alum.mit.edu" <rian@alum.mit.edu>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Yu, Fenghua" <fenghua.yu@intel.com>
-Subject: RE: [PATCH v7 11/13] arch/x86: Introduce QOS feature for AMD
-Thread-Topic: [PATCH v7 11/13] arch/x86: Introduce QOS feature for AMD
-Thread-Index: AQHUeG4uwPRu5I4I10iY3UihB8yywKVOQg0A
-Date:   Tue, 13 Nov 2018 21:49:40 +0000
-Message-ID: <3E5A0FA7E9CA944F9D5414FEC6C71220985A6664@ORSMSX105.amr.corp.intel.com>
-References: <20181109205153.14811-1-babu.moger@amd.com>
- <20181109205153.14811-12-babu.moger@amd.com>
-In-Reply-To: <20181109205153.14811-12-babu.moger@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZjZjYjg2OTItNjZlOC00MjZiLTk2Y2MtZWZhMWU2MThlOGZmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiUUgwM1BHS1ZNY3FEdm1ZTzkwNndQeTZJVXZQWHgwcUI3M1NPajV1enVydUlob3ZGOFBBUlwvZE54clhnK0ZcL2NnIn0=
-x-ctpclassification: CTP_NT
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [10.22.254.138]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S1726022AbeKNIHv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Nov 2018 03:07:51 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3541880D;
+        Tue, 13 Nov 2018 14:07:40 -0800 (PST)
+Received: from blommer (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC6873F718;
+        Tue, 13 Nov 2018 14:07:38 -0800 (PST)
+Date:   Tue, 13 Nov 2018 22:07:29 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
+Subject: Re: [PATCH v10 12/22] kasan, arm64: fix up fault handling logic
+Message-ID: <20181113220728.2h3kz67b2bz36wty@blommer>
+References: <cover.1541525354.git.andreyknvl@google.com>
+ <4891a504adf61c0daf1e83642b6f7519328dfd5f.1541525354.git.andreyknvl@google.com>
+ <20181108122228.xqwhpkjritrvqneq@lakrids.cambridge.arm.com>
+ <CAAeHK+xPkbg_9P9oCkS-iB8S81vTxD3p5SbyWHy-vrp2ybkKmg@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAeHK+xPkbg_9P9oCkS-iB8S81vTxD3p5SbyWHy-vrp2ybkKmg@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Moger, Babu [mailto:Babu.Moger@amd.com]
-> Subject: [PATCH v7 11/13] arch/x86: Introduce QOS feature for AMD
-> The specification for this feature is available at
-> https://developer.amd.com/wp-content/resources/56375.pdf
+On Tue, Nov 13, 2018 at 04:01:27PM +0100, Andrey Konovalov wrote:
+> On Thu, Nov 8, 2018 at 1:22 PM, Mark Rutland <mark.rutland@arm.com> wrote:
+> > On Tue, Nov 06, 2018 at 06:30:27PM +0100, Andrey Konovalov wrote:
+> >> show_pte in arm64 fault handling relies on the fact that the top byte of
+> >> a kernel pointer is 0xff, which isn't always the case with tag-based
+> >> KASAN.
+> >
+> > That's for the TTBR1 check, right?
+> >
+> > i.e. for the following to work:
+> >
+> >         if (addr >= VA_START)
+> >
+> > ... we need the tag bits to be an extension of bit 55...
+> >
+> >>
+> >> This patch resets the top byte in show_pte.
+> >>
+> >> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+> >> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> >> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> >> ---
+> >>  arch/arm64/mm/fault.c | 3 +++
+> >>  1 file changed, 3 insertions(+)
+> >>
+> >> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+> >> index 7d9571f4ae3d..d9a84d6f3343 100644
+> >> --- a/arch/arm64/mm/fault.c
+> >> +++ b/arch/arm64/mm/fault.c
+> >> @@ -32,6 +32,7 @@
+> >>  #include <linux/perf_event.h>
+> >>  #include <linux/preempt.h>
+> >>  #include <linux/hugetlb.h>
+> >> +#include <linux/kasan.h>
+> >>
+> >>  #include <asm/bug.h>
+> >>  #include <asm/cmpxchg.h>
+> >> @@ -141,6 +142,8 @@ void show_pte(unsigned long addr)
+> >>       pgd_t *pgdp;
+> >>       pgd_t pgd;
+> >>
+> >> +     addr = (unsigned long)kasan_reset_tag((void *)addr);
+> >
+> > ... but this ORs in (0xffUL << 56), which is not correct for addresses
+> > which aren't TTBR1 addresses to begin with, where bit 55 is clear, and
+> > throws away useful information.
+> >
+> > We could use untagged_addr() here, but that wouldn't be right for
+> > kernels which don't use TBI1, and we'd erroneously report addresses
+> > under the TTBR1 range as being in the TTBR1 range.
+> >
+> > I also see that the entry assembly for el{1,0}_{da,ia} clears the tag
+> > for EL0 addresses.
+> >
+> > So we could have:
+> >
+> > static inline bool is_ttbr0_addr(unsigned long addr)
+> > {
+> >         /* entry assembly clears tags for TTBR0 addrs */
+> >         return addr < TASK_SIZE_64;
+> > }
+> >
+> > static inline bool is_ttbr1_addr(unsigned long addr)
+> > {
+> >         /* TTBR1 addresses may have a tag if HWKASAN is in use */
+> >         return arch_kasan_reset_tag(addr) >= VA_START;
+> > }
+> >
+> > ... and use those in the conditionals, leaving the addr as-is for
+> > reporting purposes.
+> 
+> Actually it looks like 276e9327 ("arm64: entry: improve data abort
+> handling of tagged pointers") already takes care of both user and
+> kernel fault addresses and correctly removes tags from them. So I
+> think we need to drop this patch.
 
-> +bool cbm_validate_amd(char *buf, u32 *data, struct rdt_resource *r) {
-> +	if (val > r->default_ctrl) {
-> +		rdt_last_cmd_puts("mask out of range\n");
-> +		return false;
-> +	}
+The clear_address_tag macro added in that commit only removes tags from TTBR0
+addresses, so that's not sufficient if the kernel is used tagged addresses
+(which will be in the TTBR1 range).
 
-If val is zero, then this closid cannot allocate any cache line.
-
-I'm wondering: does that mean the tasks running with this closid directly access memory without cache? Is there any usage for this situation?
-
-Thanks.
-
--Fenghua
+Thanks,
+Mark.
+That commit only removes tags from TTBR0 addresses, 
