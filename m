@@ -1,93 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E444D7D099
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Nov 2018 08:23:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 77E877D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Nov 2018 10:48:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732249AbeKNSZM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Nov 2018 13:25:12 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:43568 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730764AbeKNSZM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Nov 2018 13:25:12 -0500
-Received: by mail-pg1-f196.google.com with SMTP id n10-v6so7013880pgv.10;
-        Wed, 14 Nov 2018 00:23:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=SwesKq7poU3m2w5kED5bCS/WxtggZRtfZFpLrKKme4E=;
-        b=b0gSJF/oMiTzNdVKeEg10156vbpq9DTGLPF76kRVff50kCqWqWm8kWTtzy/P98WCYC
-         uM05c6HBkv7QqijnfJxuhYf3SwU/cQGWOIEpgPa+zy0JrovTJSJOmdTK7lsM1I9e9Dtv
-         30AmzhGxxJFLEaoOE7+uXZ+Z64CDIZD/43S9tH4srVqJVGh291JyVN/58dYO8XVyDvQ4
-         iSIpjL///NmiDKeJoE4gZv4yv9P4/px3v5ck92a6ItcSueV1qMstCiwLG630x2zk5F6P
-         GqqTZDZ029omHnHmvEJyy0139pusCmK3lpMYlXBogkN0FFzyn5UzHaFD5yq3KA3cUQ7d
-         ZE7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=SwesKq7poU3m2w5kED5bCS/WxtggZRtfZFpLrKKme4E=;
-        b=tFT5yF9HfA2kKCRWnoIT1OURr9r++BFmXp0OZGYorwQ2CNi2209SCeujz7/JmTFY7/
-         ALrINbo0LMSon1Ras8AK9w+Fs5LcC+pDrNNnvz9WpsbEhKxQdrotdfU3tFPvDJkRK8Jr
-         K03obPUePSSyqL9X/dLWnAfRl1nSmN+r2811ZfI6yxL+0ZXPeuu9ESAx3cucw2+Gtl1o
-         WPu9h5r87QUKLHG90pXxwuoQvQnNmEtEVcb4Rnq4iK6izNLMp0xPY7tzoWyZOz++9o7+
-         mmfLu5BWx527E6Jw6oaKOO308LLoqVevqjwDPx/CHvCW83aZn8ta4SDhP2GnGsESKro4
-         /dkg==
-X-Gm-Message-State: AGRZ1gK90HVdyFvNa7BH3+/gTQHY4c8loI6I5z6liTMukguS8OJsAWYz
-        G71dQyELw/sGHGaowZMVKww=
-X-Google-Smtp-Source: AJdET5dtsDgp2p6jp9XcAcPwnJ5LT4Qzogx33U6xBSljT6/Rdx72kJ4QYcIem+piHHzzIvvpd0HuOg==
-X-Received: by 2002:a63:2bc9:: with SMTP id r192mr916634pgr.172.1542183780480;
-        Wed, 14 Nov 2018 00:23:00 -0800 (PST)
-Received: from arx-s1 ([114.95.230.67])
-        by smtp.gmail.com with ESMTPSA id v12sm22423218pgg.41.2018.11.14.00.22.56
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 14 Nov 2018 00:22:59 -0800 (PST)
-Date:   Wed, 14 Nov 2018 16:22:53 +0800
-From:   hao_zhang <hao5781286@gmail.com>
-To:     robh+dt@kernel.org, maxime.ripard@free-electrons.com,
-        wens@csie.org, linus.walleij@linaro.org
-Cc:     linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-sunxi@googlegroups.com, icenowy@aosc.io
-Subject: [PATCH v0 2/2] Documentation: ARM: sunxi: Add Allwinner SoC T3.
-Message-ID: <20181114082253.GA21081@arx-s1>
+        id S1727883AbeKNUvT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Nov 2018 15:51:19 -0500
+Received: from mga06.intel.com ([134.134.136.31]:28558 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727704AbeKNUvT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Nov 2018 15:51:19 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Nov 2018 02:48:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,232,1539673200"; 
+   d="scan'208";a="107967306"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.72.61])
+  by fmsmga001.fm.intel.com with ESMTP; 14 Nov 2018 02:48:34 -0800
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Ben Hutchings <ben.hutchings@codethink.co.uk>,
+        dri-devel@lists.freedesktop.org
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Dave Airlie <airlied@redhat.com>, C.Emde@osadl.org
+Subject: Re: [PATCH 0/5] Fixes and additions to EDID generation
+In-Reply-To: <20181113171053.is24iz65egl22aw7@xylophone.i.decadent.org.uk>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20181113171053.is24iz65egl22aw7@xylophone.i.decadent.org.uk>
+Date:   Wed, 14 Nov 2018 12:49:11 +0200
+Message-ID: <8736s4j5nc.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add Allwinner SoC T3 document and fix format.
+On Tue, 13 Nov 2018, Ben Hutchings <ben.hutchings@codethink.co.uk> wrote:
+> This series adds two more EDIDs that I needed for a project some time ago,
+> and fixes some problems that I found along the way.
 
-Signed-off-by: hao_zhang <hao5781286@gmail.com>
----
- Documentation/devicetree/bindings/arm/sunxi.txt | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+See also [1]. The patches there have been applied via the linux-doc
+tree.
 
-diff --git a/Documentation/devicetree/bindings/arm/sunxi.txt b/Documentation/devicetree/bindings/arm/sunxi.txt
-index e4beec3..94b9c12 100644
---- a/Documentation/devicetree/bindings/arm/sunxi.txt
-+++ b/Documentation/devicetree/bindings/arm/sunxi.txt
-@@ -14,7 +14,8 @@ using one of the following compatible strings:
-   allwinner,sun8i-a83t
-   allwinner,sun8i-h2-plus
-   allwinner,sun8i-h3
--  allwinner-sun8i-r40
-+  allwinner,sun8i-r40
-+  allwinner,sun8i-t3
-   allwinner,sun8i-v3s
-   allwinner,sun9i-a80
-   allwinner,sun50i-a64
+> There isn't a listed maintainer for Documentation/EDID but it looks
+> like it falls under the DRM umbrella.  Please let me know if this the
+> wrong place.
+
+Cc: linux-doc, Jon and Dave.
+
+The Documentation/EDID directory was merged by Dave along with the EDID
+firmware loader mechanism in da0df92b5731 ("drm: allow loading an EDID
+as firmware to override broken monitor").
+
+I think it would be reasonable to handle the EDID stuff via dri-devel
+and the drm trees, and modify MAINTAINERS to reflect that. Thoughts?
+
+(And in the long run we should use or write a tool to generate EDIDs
+instead of using assembly with macros. And like Jon already mentioned in
+the other thread, even the assembly probably shouldn't be under
+Documentation. But I digress.)
+
+
+BR,
+Jani.
+
+[1] http://mid.mail-archive.com/1541407715-5417-1-git-send-email-cniedermaier@dh-electronics.de
+
+>
+> Ben.
+>
+> Ben Hutchings (5):
+>   drm: EDID: Remove a mess involving the number 63
+>   drm: EDID: Fix bit masking of {X,Y}{OFFSET,PULSE}
+>   drm: EDID: Don't force make to be silent
+>   drm: EDID: Add a 1280x720 (720p) EDID
+>   drm: EDID: Add a 1280x768 ("WXGA") EDID
+>
+>  Documentation/EDID/1024x768.S  |  4 ++--
+>  Documentation/EDID/1280x1024.S |  4 ++--
+>  Documentation/EDID/1280x720.S  | 45 ++++++++++++++++++++++++++++++++++++++++++
+>  Documentation/EDID/1280x768.S  | 45 ++++++++++++++++++++++++++++++++++++++++++
+>  Documentation/EDID/1600x1200.S |  4 ++--
+>  Documentation/EDID/1680x1050.S |  4 ++--
+>  Documentation/EDID/1920x1080.S |  4 ++--
+>  Documentation/EDID/800x600.S   |  4 ++--
+>  Documentation/EDID/HOWTO.txt   |  4 ++--
+>  Documentation/EDID/Makefile    | 12 +++++------
+>  Documentation/EDID/edid.S      | 10 ++++------
+>  11 files changed, 114 insertions(+), 26 deletions(-)
+>  create mode 100644 Documentation/EDID/1280x720.S
+>  create mode 100644 Documentation/EDID/1280x768.S
+
 -- 
-2.7.4
-
+Jani Nikula, Intel Open Source Graphics Center
