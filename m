@@ -1,719 +1,178 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D03E97D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Nov 2018 17:53:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9E0177D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Nov 2018 18:17:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731231AbeKOD5u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Nov 2018 22:57:50 -0500
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:39627 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727773AbeKOD5u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Nov 2018 22:57:50 -0500
-Received: by mail-pl1-f195.google.com with SMTP id b5-v6so8133470pla.6
-        for <linux-doc@vger.kernel.org>; Wed, 14 Nov 2018 09:53:39 -0800 (PST)
+        id S1727576AbeKOEVq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Nov 2018 23:21:46 -0500
+Received: from mail-eopbgr720073.outbound.protection.outlook.com ([40.107.72.73]:28928
+        "EHLO NAM05-CO1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727761AbeKOEVp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Nov 2018 23:21:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dteW8bxQfEJqrpEosvTBzHpQTsd0xkuxcAyNNvwqN9A=;
-        b=VJ7Dm0WBXSUIqArh4bFM5A7h6n+1S5AmP77BmD1NYMcUwCW+BM2KOP8NRQ7OZVWpEN
-         cDOCsGsu88sCFhzWq/bV8pe9Dq3+lUhuYuHviXaEPFY72bDZZZ4i/X4nXKss4yQhXuu9
-         I2pqV1/9tKH4ARuaUV8faQO2Wh1Xij62nraaQLKQALLjb15o6hFjHv9kWenf8oaf67Ml
-         hVfW9PVeL4Wt7UWh8ppa+wl/5MSEmZLROd2O5WUr/JR9JXhNu0cjQ3SdNznETZJ+kbcC
-         ElmSYjj2hKkBjZCtyX3nhSsXUlJHbY7TPiQP4qh04ysMWXAvq39h5TT2nF9auOcM4Rr4
-         YYpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=dteW8bxQfEJqrpEosvTBzHpQTsd0xkuxcAyNNvwqN9A=;
-        b=uMNM7TGrUhc6+HCYOX8LnqsAaviFT30AayLM74iIL9899tZ0l9byOH1kRdjoQT3qFL
-         8MtkNpWmyjdONBSwqeAln7AVFAmrvpnlJItAKCPp4sMkaOviv7WA69nxWNHzQlwqku5m
-         XS88n7lfbcb/AxokaLCT3MHQi1y7hZMEBwPJpw3MmvPR0r54viJjVz4IeSvMGHQdpA2u
-         WvZ7HSuOHt7bY1T99wdcBSofN7hyV10kVmPel5EBoqfeiIbRtC+FfLSo+7qI5QOj7IzT
-         CanA93UV1uOuJwxtt89z3Ac2H4mluVxyO1HXvy+ak8nBgJ5tRyAsO3w6z9e2iZMamQ7z
-         dXgA==
-X-Gm-Message-State: AGRZ1gII/UPnsusGBWNto61kkwhWSbcwpCS+BSBzI6h36ZtXw+MQo3TW
-        ToSlsIRMZgrby/h43NlwK52WCQ==
-X-Google-Smtp-Source: AJdET5celzUP12/pL5GAD3EmRBGIAH3aK8LY+4Jqavw5aBEifoOJ78ONxwPFIOtERpwlmZ3AyYIGqg==
-X-Received: by 2002:a17:902:64:: with SMTP id 91-v6mr2877078pla.161.1542218018661;
-        Wed, 14 Nov 2018 09:53:38 -0800 (PST)
-Received: from localhost ([64.114.255.114])
-        by smtp.gmail.com with ESMTPSA id e126-v6sm14694702pfe.67.2018.11.14.09.53.37
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 14 Nov 2018 09:53:37 -0800 (PST)
-Date:   Wed, 14 Nov 2018 09:53:37 -0800 (PST)
-X-Google-Original-Date: Wed, 14 Nov 2018 08:39:22 PST (-0800)
-Subject:     Re: [PATCH] Documentation/features: Refresh the features list to v4.20-rc2
-In-Reply-To: <20181113112507.GA14028@gmail.com>
-CC:     corbet@lwn.net, linux-kernel@vger.kernel.org, corbet@lwn.net,
-        aou@eecs.berkeley.edu, ren_guo@c-sky.com,
-        andrea.parri@amarulasolutions.com, Arnd Bergmann <arnd@arndb.de>,
-        jhogan@kernel.org, dhowells@redhat.com, jcmvbkbc@gmail.com,
-        keescook@chromium.org, yamada.masahiro@socionext.com,
-        mathieu.desnoyers@efficios.com, rmk+kernel@armlinux.org.uk,
-        Will Deacon <will.deacon@arm.com>, jglisse@redhat.com,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        david.abdurachmanov@gmail.com
-From:   Palmer Dabbelt <palmer@sifive.com>
-To:     mingo@kernel.org
-Message-ID: <mhng-0a49153a-3f84-4939-98ac-4d68b7cec647@palmer-si-x1c4>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1fm8smFw14YT7PjMgpwTidNOwWINK5rVEO1tlfXy1mE=;
+ b=PKYVsYVKzGZK0s5h01dWgg4U0KSaEYa91LPmqRP8riQOQ8UcfxuN3VbmCilhQcNXeyO9tj1d5zizLuTneZlbQeDwCNuW9cVYlPSAdaVhsuX8XuMZI4kqdb3DGcHRJ/vDVZMWJVfHFjB993eKyRbsMbM7mSYYfIGIGGHNNTzpTfo=
+Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
+ DM5PR12MB1866.namprd12.prod.outlook.com (10.175.88.23) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1294.26; Wed, 14 Nov 2018 18:17:25 +0000
+Received: from DM5PR12MB2471.namprd12.prod.outlook.com
+ ([fe80::4c23:f551:bc6a:554e]) by DM5PR12MB2471.namprd12.prod.outlook.com
+ ([fe80::4c23:f551:bc6a:554e%4]) with mapi id 15.20.1294.045; Wed, 14 Nov 2018
+ 18:17:25 +0000
+From:   "Moger, Babu" <Babu.Moger@amd.com>
+To:     "Yu, Fenghua" <fenghua.yu@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+CC:     "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
+        "pombredanne@nexb.com" <pombredanne@nexb.com>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
+        "Shen, Xiaochen" <xiaochen.shen@intel.com>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Singh, Brijesh" <brijesh.singh@amd.com>,
+        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
+        "dwmw2@infradead.org" <dwmw2@infradead.org>,
+        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "rian@alum.mit.edu" <rian@alum.mit.edu>,
+        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Hunt, Douglas" <Douglas.Hunt@amd.com>
+Subject: Re: [PATCH v7 11/13] arch/x86: Introduce QOS feature for AMD
+Thread-Topic: [PATCH v7 11/13] arch/x86: Introduce QOS feature for AMD
+Thread-Index: AQHUeG4qy036y75SdUqlKSLDpRVWZKVORLIAgAE4oVCAAB5jAA==
+Date:   Wed, 14 Nov 2018 18:17:25 +0000
+Message-ID: <204f5ddb-21f3-5275-273b-02335a5a03c8@amd.com>
+References: <20181109205153.14811-1-babu.moger@amd.com>
+ <20181109205153.14811-12-babu.moger@amd.com>
+ <3E5A0FA7E9CA944F9D5414FEC6C71220985A6664@ORSMSX105.amr.corp.intel.com>
+ <DM5PR12MB2471AB9EFDE9E8D7C65C58A295C30@DM5PR12MB2471.namprd12.prod.outlook.com>
+In-Reply-To: <DM5PR12MB2471AB9EFDE9E8D7C65C58A295C30@DM5PR12MB2471.namprd12.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: SN4PR0501CA0141.namprd05.prod.outlook.com
+ (2603:10b6:803:2c::19) To DM5PR12MB2471.namprd12.prod.outlook.com
+ (2603:10b6:4:b5::10)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Babu.Moger@amd.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [165.204.78.1]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;DM5PR12MB1866;20:y6l0DlSt+di7ooRN+Cyi3bjsQ2OAYYvFM683rYBkOvHUGigoIY8XR/yRsKPtmsO2yrRl/UVTmolpt2uQTQ4J8m52cLWFd9XDTuFZY1iM26f0aJhif4/hvTZkPyKAxXzfUH9Ifw/bhnWTNHa655kwtEZXP+XktUW53VoG0JIlb8wrQVUb9jXujzlIISpZGunyFi8PrlRnv6XZTaJZC+kaxFRkfnHsnIU+g3MLBzb+Ca9wr5AFeqJHr7Iovr9HZzG+
+x-ms-office365-filtering-correlation-id: 33108866-cdcb-487c-e717-08d64a5d6dd4
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390098)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(4618075)(2017052603328)(7153060)(7193020);SRVR:DM5PR12MB1866;
+x-ms-traffictypediagnostic: DM5PR12MB1866:
+x-microsoft-antispam-prvs: <DM5PR12MB186659B1AE3C7B9A49D4EC3C95C30@DM5PR12MB1866.namprd12.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(9452136761055)(228905959029699)(211936372134217)(240460790083961)(767451399110);
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(3231415)(944501410)(52105112)(3002001)(10201501046)(6055026)(148016)(149066)(150057)(6041310)(20161123562045)(20161123558120)(20161123560045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(201708071742011)(7699051)(76991095);SRVR:DM5PR12MB1866;BCL:0;PCL:0;RULEID:;SRVR:DM5PR12MB1866;
+x-forefront-prvs: 085634EFF4
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(136003)(396003)(366004)(39860400002)(376002)(199004)(189003)(13464003)(229853002)(2501003)(26005)(3846002)(476003)(5660300001)(36756003)(68736007)(72206003)(256004)(966005)(14444005)(25786009)(102836004)(6506007)(53936002)(386003)(53546011)(6246003)(6306002)(6512007)(6486002)(186003)(6116002)(97736004)(11346002)(305945005)(7736002)(2616005)(6436002)(4326008)(86362001)(486006)(14454004)(93886005)(8936002)(8676002)(52116002)(2201001)(7406005)(2906002)(81166006)(66066001)(105586002)(81156014)(106356001)(99286004)(316002)(446003)(71190400001)(71200400001)(110136005)(2900100001)(54906003)(76176011)(478600001)(31696002)(7416002)(31686004)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1866;H:DM5PR12MB2471.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: S5osHZJ76y3T9zg6Il1N8VRZXwpJBPpwmogDvfsObmWN2SN/kCHy8kHu5tdkCDiAya92AfTQEKFspbSwfzd+oJDcgEtyW1KjeA8KciEENaWSl3ABHYNLIAKhNe4Qgli6Ksb/EQ5wbelcLindWEN25DX/mGFuMufSwwl7K156hmx4ID2adrSDgZDOhkjbyMBqCkwYWvyen/rTD5gI4iy6tWf/wO68vas34HM+hD0OQD8TD2a3r+JPVAP/ryABOKjObF4ukqsFbEr9ysg4d4gH/MK7NH/O2F72cD5XBED1zB8WpNLjJvbywKly+XiXeoB7pp1BckloSoJYjIE6R7LdvXvKE2l4FCfKkziiHrpTGhM=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A7B185184D18164B9EAE17F22F9038A6@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33108866-cdcb-487c-e717-08d64a5d6dd4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Nov 2018 18:17:25.8199
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1866
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 13 Nov 2018 03:25:07 PST (-0800), mingo@kernel.org wrote:
->
-> * Palmer Dabbelt <palmer@sifive.com> wrote:
->
->> I didn't even know this existed until David submitted a patch set that
->> included updates to the documentation as a result of some features he
->> added to RISC-V.  It looks like there may be a handful of other people
->> who don't know this exists either, so I figured I'd just mail out a
->> patch set containing all the updates split out as well as I can.
->>
->> This smells like something that sholud be automatic, so if I'm jumping
->> the gun here then feel free to drop this.  If nobody says anything then
->> I guess I'll submit this as a separate PR to Linus from my personal
->> tree, as it's not really a RISC-V thing but it seems like it's worth
->> having docs that match the code where it's trivial -- I assume that's
->> what this does, I didn't actually read anything but the diff because I
->> never trust documentation to be up to date...
->>
->> I feel compelled to say something like "maybe this should be part of
->> checkpatch?", but I'm definately not looking to learn perl :)
->
-> I don't think it should be automated or part of checkpatch, but I
-> (obviously) agree with the changes, except that I think it should be a
-> single patch (combined patch attached below).
-
-I'm happy with a single patch.  Does this mean you own it, or do you want me to 
-PR it?
-
-> Thanks,
->
-> 	Ingo
->
-> Subject: Documentation/features: Refresh the features list to v4.20-rc2
-> From: Palmer Dabbelt <palmer@sifive.com>
->
-> Run Documentation/features/scripts/feature-refresh.sh to refresh the
-> kernel features support matrix list:
->
->  - The new 'csky' architecture was added
->  - s390    now supports KASAN
->  - powerpc now supports stackprotector
->  - xtensa  now supports sg-chain
->  - arm64   now supports queued-spinlocks
->  - parisc  now supports kprobes-events
->  - RISC-V  now supports pte_special
->
-> [ mingo: combined the patches and the changelogs. ]
->
-> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
-> Signed-off-by: Ingo Molnar <mingo@kernel.org>
-> ---
->
->  Documentation/features/core/cBPF-JIT/arch-support.txt              | 1 +
->  Documentation/features/core/eBPF-JIT/arch-support.txt              | 1 +
->  Documentation/features/core/generic-idle-thread/arch-support.txt   | 1 +
->  Documentation/features/core/jump-labels/arch-support.txt           | 1 +
->  Documentation/features/core/tracehook/arch-support.txt             | 1 +
->  Documentation/features/debug/KASAN/arch-support.txt                | 3 ++-
->  Documentation/features/debug/gcov-profile-all/arch-support.txt     | 1 +
->  Documentation/features/debug/kgdb/arch-support.txt                 | 1 +
->  Documentation/features/debug/kprobes-on-ftrace/arch-support.txt    | 1 +
->  Documentation/features/debug/kprobes/arch-support.txt              | 1 +
->  Documentation/features/debug/kretprobes/arch-support.txt           | 1 +
->  Documentation/features/debug/optprobes/arch-support.txt            | 1 +
->  Documentation/features/debug/stackprotector/arch-support.txt       | 3 ++-
->  Documentation/features/debug/uprobes/arch-support.txt              | 1 +
->  Documentation/features/debug/user-ret-profiler/arch-support.txt    | 1 +
->  Documentation/features/io/dma-contiguous/arch-support.txt          | 1 +
->  Documentation/features/io/sg-chain/arch-support.txt                | 3 ++-
->  Documentation/features/locking/cmpxchg-local/arch-support.txt      | 1 +
->  Documentation/features/locking/lockdep/arch-support.txt            | 1 +
->  Documentation/features/locking/queued-rwlocks/arch-support.txt     | 1 +
->  Documentation/features/locking/queued-spinlocks/arch-support.txt   | 3 ++-
->  Documentation/features/locking/rwsem-optimized/arch-support.txt    | 1 +
->  Documentation/features/perf/kprobes-event/arch-support.txt         | 3 ++-
->  Documentation/features/perf/perf-regs/arch-support.txt             | 1 +
->  Documentation/features/perf/perf-stackdump/arch-support.txt        | 1 +
->  Documentation/features/sched/membarrier-sync-core/arch-support.txt | 1 +
->  Documentation/features/sched/numa-balancing/arch-support.txt       | 1 +
->  Documentation/features/seccomp/seccomp-filter/arch-support.txt     | 1 +
->  Documentation/features/time/arch-tick-broadcast/arch-support.txt   | 1 +
->  Documentation/features/time/clockevents/arch-support.txt           | 1 +
->  Documentation/features/time/context-tracking/arch-support.txt      | 1 +
->  Documentation/features/time/irq-time-acct/arch-support.txt         | 1 +
->  Documentation/features/time/modern-timekeeping/arch-support.txt    | 1 +
->  Documentation/features/time/virt-cpuacct/arch-support.txt          | 1 +
->  Documentation/features/vm/ELF-ASLR/arch-support.txt                | 1 +
->  Documentation/features/vm/PG_uncached/arch-support.txt             | 1 +
->  Documentation/features/vm/THP/arch-support.txt                     | 1 +
->  Documentation/features/vm/TLB/arch-support.txt                     | 1 +
->  Documentation/features/vm/huge-vmap/arch-support.txt               | 1 +
->  Documentation/features/vm/ioremap_prot/arch-support.txt            | 1 +
->  Documentation/features/vm/numa-memblock/arch-support.txt           | 1 +
->  Documentation/features/vm/pte_special/arch-support.txt             | 3 ++-
->  42 files changed, 48 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/features/core/cBPF-JIT/arch-support.txt b/Documentation/features/core/cBPF-JIT/arch-support.txt
-> index 90459cdde314..8620c38d4db0 100644
-> --- a/Documentation/features/core/cBPF-JIT/arch-support.txt
-> +++ b/Documentation/features/core/cBPF-JIT/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: | TODO |
->      |       arm64: | TODO |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/core/eBPF-JIT/arch-support.txt b/Documentation/features/core/eBPF-JIT/arch-support.txt
-> index c90a0382fe66..9ae6e8d0d10d 100644
-> --- a/Documentation/features/core/eBPF-JIT/arch-support.txt
-> +++ b/Documentation/features/core/eBPF-JIT/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/core/generic-idle-thread/arch-support.txt b/Documentation/features/core/generic-idle-thread/arch-support.txt
-> index 0ef6acdb991c..365df2c2ff0b 100644
-> --- a/Documentation/features/core/generic-idle-thread/arch-support.txt
-> +++ b/Documentation/features/core/generic-idle-thread/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: |  ok  |
->      |       h8300: | TODO |
->      |     hexagon: |  ok  |
->      |        ia64: |  ok  |
-> diff --git a/Documentation/features/core/jump-labels/arch-support.txt b/Documentation/features/core/jump-labels/arch-support.txt
-> index 27cbd63abfd2..c29146c5741e 100644
-> --- a/Documentation/features/core/jump-labels/arch-support.txt
-> +++ b/Documentation/features/core/jump-labels/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/core/tracehook/arch-support.txt b/Documentation/features/core/tracehook/arch-support.txt
-> index f44c274e40ed..d344b99aae1e 100644
-> --- a/Documentation/features/core/tracehook/arch-support.txt
-> +++ b/Documentation/features/core/tracehook/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: |  ok  |
-> +    |        csky: |  ok  |
->      |       h8300: | TODO |
->      |     hexagon: |  ok  |
->      |        ia64: |  ok  |
-> diff --git a/Documentation/features/debug/KASAN/arch-support.txt b/Documentation/features/debug/KASAN/arch-support.txt
-> index 282ecc8ea1da..c68adfc1db0e 100644
-> --- a/Documentation/features/debug/KASAN/arch-support.txt
-> +++ b/Documentation/features/debug/KASAN/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: | TODO |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> @@ -23,7 +24,7 @@
->      |      parisc: | TODO |
->      |     powerpc: | TODO |
->      |       riscv: | TODO |
-> -    |        s390: | TODO |
-> +    |        s390: |  ok  |
->      |          sh: | TODO |
->      |       sparc: | TODO |
->      |          um: | TODO |
-> diff --git a/Documentation/features/debug/gcov-profile-all/arch-support.txt b/Documentation/features/debug/gcov-profile-all/arch-support.txt
-> index 01b2b3004e0a..059d58a549c7 100644
-> --- a/Documentation/features/debug/gcov-profile-all/arch-support.txt
-> +++ b/Documentation/features/debug/gcov-profile-all/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/debug/kgdb/arch-support.txt b/Documentation/features/debug/kgdb/arch-support.txt
-> index 3b4dff22329f..3e6b8f07d5d0 100644
-> --- a/Documentation/features/debug/kgdb/arch-support.txt
-> +++ b/Documentation/features/debug/kgdb/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: |  ok  |
->      |     hexagon: |  ok  |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-> index 7e963d0ae646..68f266944d5f 100644
-> --- a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-> +++ b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: | TODO |
->      |       arm64: | TODO |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/debug/kprobes/arch-support.txt b/Documentation/features/debug/kprobes/arch-support.txt
-> index 4ada027faf16..f4e45bd58fea 100644
-> --- a/Documentation/features/debug/kprobes/arch-support.txt
-> +++ b/Documentation/features/debug/kprobes/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: |  ok  |
-> diff --git a/Documentation/features/debug/kretprobes/arch-support.txt b/Documentation/features/debug/kretprobes/arch-support.txt
-> index 044e13fcca5d..1d5651ef11f8 100644
-> --- a/Documentation/features/debug/kretprobes/arch-support.txt
-> +++ b/Documentation/features/debug/kretprobes/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: |  ok  |
-> diff --git a/Documentation/features/debug/optprobes/arch-support.txt b/Documentation/features/debug/optprobes/arch-support.txt
-> index dce7669c918f..fb297a88f62c 100644
-> --- a/Documentation/features/debug/optprobes/arch-support.txt
-> +++ b/Documentation/features/debug/optprobes/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: | TODO |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/debug/stackprotector/arch-support.txt b/Documentation/features/debug/stackprotector/arch-support.txt
-> index 954ac1c95553..32bbdfc64c32 100644
-> --- a/Documentation/features/debug/stackprotector/arch-support.txt
-> +++ b/Documentation/features/debug/stackprotector/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> @@ -21,7 +22,7 @@
->      |       nios2: | TODO |
->      |    openrisc: | TODO |
->      |      parisc: | TODO |
-> -    |     powerpc: | TODO |
-> +    |     powerpc: |  ok  |
->      |       riscv: | TODO |
->      |        s390: | TODO |
->      |          sh: |  ok  |
-> diff --git a/Documentation/features/debug/uprobes/arch-support.txt b/Documentation/features/debug/uprobes/arch-support.txt
-> index 1a3f9d3229bf..1c577d0cfc7f 100644
-> --- a/Documentation/features/debug/uprobes/arch-support.txt
-> +++ b/Documentation/features/debug/uprobes/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/debug/user-ret-profiler/arch-support.txt b/Documentation/features/debug/user-ret-profiler/arch-support.txt
-> index 1d78d1069a5f..6bfa36b0e017 100644
-> --- a/Documentation/features/debug/user-ret-profiler/arch-support.txt
-> +++ b/Documentation/features/debug/user-ret-profiler/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: | TODO |
->      |       arm64: | TODO |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/io/dma-contiguous/arch-support.txt b/Documentation/features/io/dma-contiguous/arch-support.txt
-> index 30c072d2b67c..eb28b5c97ca6 100644
-> --- a/Documentation/features/io/dma-contiguous/arch-support.txt
-> +++ b/Documentation/features/io/dma-contiguous/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: |  ok  |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/io/sg-chain/arch-support.txt b/Documentation/features/io/sg-chain/arch-support.txt
-> index 6554f0372c3f..3c85efb8bc8d 100644
-> --- a/Documentation/features/io/sg-chain/arch-support.txt
-> +++ b/Documentation/features/io/sg-chain/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: |  ok  |
-> @@ -29,5 +30,5 @@
->      |          um: | TODO |
->      |   unicore32: | TODO |
->      |         x86: |  ok  |
-> -    |      xtensa: | TODO |
-> +    |      xtensa: |  ok  |
->      -----------------------
-> diff --git a/Documentation/features/locking/cmpxchg-local/arch-support.txt b/Documentation/features/locking/cmpxchg-local/arch-support.txt
-> index 51704a2dc8d1..242ff5a6586e 100644
-> --- a/Documentation/features/locking/cmpxchg-local/arch-support.txt
-> +++ b/Documentation/features/locking/cmpxchg-local/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: | TODO |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/locking/lockdep/arch-support.txt b/Documentation/features/locking/lockdep/arch-support.txt
-> index bd39c5edd460..941fd5b1094d 100644
-> --- a/Documentation/features/locking/lockdep/arch-support.txt
-> +++ b/Documentation/features/locking/lockdep/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: |  ok  |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/locking/queued-rwlocks/arch-support.txt b/Documentation/features/locking/queued-rwlocks/arch-support.txt
-> index da7aff3bee0b..c683da198f31 100644
-> --- a/Documentation/features/locking/queued-rwlocks/arch-support.txt
-> +++ b/Documentation/features/locking/queued-rwlocks/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: | TODO |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: |  ok  |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/locking/queued-spinlocks/arch-support.txt b/Documentation/features/locking/queued-spinlocks/arch-support.txt
-> index 478e9101322c..743aa6691715 100644
-> --- a/Documentation/features/locking/queued-spinlocks/arch-support.txt
-> +++ b/Documentation/features/locking/queued-spinlocks/arch-support.txt
-> @@ -9,8 +9,9 @@
->      |       alpha: | TODO |
->      |         arc: | TODO |
->      |         arm: | TODO |
-> -    |       arm64: | TODO |
-> +    |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/locking/rwsem-optimized/arch-support.txt b/Documentation/features/locking/rwsem-optimized/arch-support.txt
-> index e54b1f1a8091..7521d7500fbe 100644
-> --- a/Documentation/features/locking/rwsem-optimized/arch-support.txt
-> +++ b/Documentation/features/locking/rwsem-optimized/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: |  ok  |
-> diff --git a/Documentation/features/perf/kprobes-event/arch-support.txt b/Documentation/features/perf/kprobes-event/arch-support.txt
-> index 7331402d1887..86ae33c70475 100644
-> --- a/Documentation/features/perf/kprobes-event/arch-support.txt
-> +++ b/Documentation/features/perf/kprobes-event/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: |  ok  |
->      |        ia64: | TODO |
-> @@ -20,7 +21,7 @@
->      |       nds32: |  ok  |
->      |       nios2: | TODO |
->      |    openrisc: | TODO |
-> -    |      parisc: | TODO |
-> +    |      parisc: |  ok  |
->      |     powerpc: |  ok  |
->      |       riscv: | TODO |
->      |        s390: |  ok  |
-> diff --git a/Documentation/features/perf/perf-regs/arch-support.txt b/Documentation/features/perf/perf-regs/arch-support.txt
-> index 53feeee6cdad..687d049d9cee 100644
-> --- a/Documentation/features/perf/perf-regs/arch-support.txt
-> +++ b/Documentation/features/perf/perf-regs/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/perf/perf-stackdump/arch-support.txt b/Documentation/features/perf/perf-stackdump/arch-support.txt
-> index 16164348e0ea..90996e3d18a8 100644
-> --- a/Documentation/features/perf/perf-stackdump/arch-support.txt
-> +++ b/Documentation/features/perf/perf-stackdump/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/sched/membarrier-sync-core/arch-support.txt b/Documentation/features/sched/membarrier-sync-core/arch-support.txt
-> index c7858dd1ea8f..8a521a622966 100644
-> --- a/Documentation/features/sched/membarrier-sync-core/arch-support.txt
-> +++ b/Documentation/features/sched/membarrier-sync-core/arch-support.txt
-> @@ -34,6 +34,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/sched/numa-balancing/arch-support.txt b/Documentation/features/sched/numa-balancing/arch-support.txt
-> index c68bb2c2cb62..305601da4c05 100644
-> --- a/Documentation/features/sched/numa-balancing/arch-support.txt
-> +++ b/Documentation/features/sched/numa-balancing/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ..  |
->      |       arm64: |  ok  |
->      |         c6x: |  ..  |
-> +    |        csky: | TODO |
->      |       h8300: |  ..  |
->      |     hexagon: |  ..  |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/seccomp/seccomp-filter/arch-support.txt b/Documentation/features/seccomp/seccomp-filter/arch-support.txt
-> index d4271b493b41..4fe6c3c3be5c 100644
-> --- a/Documentation/features/seccomp/seccomp-filter/arch-support.txt
-> +++ b/Documentation/features/seccomp/seccomp-filter/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/time/arch-tick-broadcast/arch-support.txt b/Documentation/features/time/arch-tick-broadcast/arch-support.txt
-> index 83d9e68462bb..593536f7925b 100644
-> --- a/Documentation/features/time/arch-tick-broadcast/arch-support.txt
-> +++ b/Documentation/features/time/arch-tick-broadcast/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/time/clockevents/arch-support.txt b/Documentation/features/time/clockevents/arch-support.txt
-> index 3d4908fce6da..7a27157da408 100644
-> --- a/Documentation/features/time/clockevents/arch-support.txt
-> +++ b/Documentation/features/time/clockevents/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: |  ok  |
-> +    |        csky: |  ok  |
->      |       h8300: |  ok  |
->      |     hexagon: |  ok  |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/time/context-tracking/arch-support.txt b/Documentation/features/time/context-tracking/arch-support.txt
-> index c29974afffaa..048bfb6d3872 100644
-> --- a/Documentation/features/time/context-tracking/arch-support.txt
-> +++ b/Documentation/features/time/context-tracking/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/time/irq-time-acct/arch-support.txt b/Documentation/features/time/irq-time-acct/arch-support.txt
-> index 8d73c463ec27..a14bbad8e948 100644
-> --- a/Documentation/features/time/irq-time-acct/arch-support.txt
-> +++ b/Documentation/features/time/irq-time-acct/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: |  ..  |
-> diff --git a/Documentation/features/time/modern-timekeeping/arch-support.txt b/Documentation/features/time/modern-timekeeping/arch-support.txt
-> index e7c6ea6b8fb3..2855dfe2464d 100644
-> --- a/Documentation/features/time/modern-timekeeping/arch-support.txt
-> +++ b/Documentation/features/time/modern-timekeeping/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: | TODO |
->      |       arm64: |  ok  |
->      |         c6x: |  ok  |
-> +    |        csky: |  ok  |
->      |       h8300: |  ok  |
->      |     hexagon: |  ok  |
->      |        ia64: |  ok  |
-> diff --git a/Documentation/features/time/virt-cpuacct/arch-support.txt b/Documentation/features/time/virt-cpuacct/arch-support.txt
-> index 4646457461cf..fb0d0cab9cab 100644
-> --- a/Documentation/features/time/virt-cpuacct/arch-support.txt
-> +++ b/Documentation/features/time/virt-cpuacct/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: |  ok  |
-> diff --git a/Documentation/features/vm/ELF-ASLR/arch-support.txt b/Documentation/features/vm/ELF-ASLR/arch-support.txt
-> index 1f71d090ff2c..adc25878d217 100644
-> --- a/Documentation/features/vm/ELF-ASLR/arch-support.txt
-> +++ b/Documentation/features/vm/ELF-ASLR/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/vm/PG_uncached/arch-support.txt b/Documentation/features/vm/PG_uncached/arch-support.txt
-> index fbd5aa463b0a..f05588f9e4b4 100644
-> --- a/Documentation/features/vm/PG_uncached/arch-support.txt
-> +++ b/Documentation/features/vm/PG_uncached/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: | TODO |
->      |       arm64: | TODO |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: |  ok  |
-> diff --git a/Documentation/features/vm/THP/arch-support.txt b/Documentation/features/vm/THP/arch-support.txt
-> index 5d7ecc378f29..cf0393711cbe 100644
-> --- a/Documentation/features/vm/THP/arch-support.txt
-> +++ b/Documentation/features/vm/THP/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: |  ..  |
-> +    |        csky: | TODO |
->      |       h8300: |  ..  |
->      |     hexagon: |  ..  |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/vm/TLB/arch-support.txt b/Documentation/features/vm/TLB/arch-support.txt
-> index f7af9678eb66..2bdd3b6cee3c 100644
-> --- a/Documentation/features/vm/TLB/arch-support.txt
-> +++ b/Documentation/features/vm/TLB/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: | TODO |
->      |       arm64: | TODO |
->      |         c6x: |  ..  |
-> +    |        csky: | TODO |
->      |       h8300: |  ..  |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/vm/huge-vmap/arch-support.txt b/Documentation/features/vm/huge-vmap/arch-support.txt
-> index d0713ccc7117..019131c5acce 100644
-> --- a/Documentation/features/vm/huge-vmap/arch-support.txt
-> +++ b/Documentation/features/vm/huge-vmap/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: | TODO |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/vm/ioremap_prot/arch-support.txt b/Documentation/features/vm/ioremap_prot/arch-support.txt
-> index 8527601a3739..c6f3e4d68152 100644
-> --- a/Documentation/features/vm/ioremap_prot/arch-support.txt
-> +++ b/Documentation/features/vm/ioremap_prot/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: | TODO |
->      |       arm64: | TODO |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/Documentation/features/vm/numa-memblock/arch-support.txt b/Documentation/features/vm/numa-memblock/arch-support.txt
-> index 1a988052cd24..e51cb9f7d166 100644
-> --- a/Documentation/features/vm/numa-memblock/arch-support.txt
-> +++ b/Documentation/features/vm/numa-memblock/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ..  |
->      |       arm64: |  ok  |
->      |         c6x: |  ..  |
-> +    |        csky: | TODO |
->      |       h8300: |  ..  |
->      |     hexagon: |  ..  |
->      |        ia64: |  ok  |
-> diff --git a/Documentation/features/vm/pte_special/arch-support.txt b/Documentation/features/vm/pte_special/arch-support.txt
-> index a8378424bc98..3d492a34c8ee 100644
-> --- a/Documentation/features/vm/pte_special/arch-support.txt
-> +++ b/Documentation/features/vm/pte_special/arch-support.txt
-> @@ -11,6 +11,7 @@
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
->      |         c6x: | TODO |
-> +    |        csky: | TODO |
->      |       h8300: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> @@ -22,7 +23,7 @@
->      |    openrisc: | TODO |
->      |      parisc: | TODO |
->      |     powerpc: |  ok  |
-> -    |       riscv: | TODO |
-> +    |       riscv: |  ok  |
->      |        s390: |  ok  |
->      |          sh: |  ok  |
->      |       sparc: |  ok  |
+DQoNCk9uIDExLzE0LzE4IDEwOjM4IEFNLCBNb2dlciwgQmFidSB3cm90ZToNCj4gRmVuZ2h1YSwN
+Cj4gDQo+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPj4gRnJvbTogbGludXgta2VybmVs
+LW93bmVyQHZnZXIua2VybmVsLm9yZyA8bGludXgta2VybmVsLQ0KPj4gb3duZXJAdmdlci5rZXJu
+ZWwub3JnPiBPbiBCZWhhbGYgT2YgWXUsIEZlbmdodWENCj4+IFNlbnQ6IFR1ZXNkYXksIE5vdmVt
+YmVyIDEzLCAyMDE4IDM6NTAgUE0NCj4+IFRvOiBNb2dlciwgQmFidSA8QmFidS5Nb2dlckBhbWQu
+Y29tPjsgdGdseEBsaW51dHJvbml4LmRlOw0KPj4gbWluZ29AcmVkaGF0LmNvbTsgYnBAYWxpZW44
+LmRlOyBjb3JiZXRAbHduLm5ldDsgQ2hhdHJlLCBSZWluZXR0ZQ0KPj4gPHJlaW5ldHRlLmNoYXRy
+ZUBpbnRlbC5jb20+OyBwZXRlcnpAaW5mcmFkZWFkLm9yZzsNCj4+IGdyZWdraEBsaW51eGZvdW5k
+YXRpb24ub3JnOyBkYXZlbUBkYXZlbWxvZnQubmV0OyBha3BtQGxpbnV4LQ0KPj4gZm91bmRhdGlv
+bi5vcmcNCj4+IENjOiBocGFAenl0b3IuY29tOyB4ODZAa2VybmVsLm9yZzsgbWNoZWhhYitzYW1z
+dW5nQGtlcm5lbC5vcmc7DQo+PiBhcm5kQGFybmRiLmRlOyBrc3Rld2FydEBsaW51eGZvdW5kYXRp
+b24ub3JnOyBwb21icmVkYW5uZUBuZXhiLmNvbTsNCj4+IHJhZmFlbEBrZXJuZWwub3JnOyBraXJp
+bGwuc2h1dGVtb3ZAbGludXguaW50ZWwuY29tOyBMdWNrLCBUb255DQo+PiA8dG9ueS5sdWNrQGlu
+dGVsLmNvbT47IHFpYW55dWUuempAYWxpYmFiYS1pbmMuY29tOyBTaGVuLCBYaWFvY2hlbg0KPj4g
+PHhpYW9jaGVuLnNoZW5AaW50ZWwuY29tPjsgcGJvbnppbmlAcmVkaGF0LmNvbTsgU2luZ2gsIEJy
+aWplc2gNCj4+IDxicmlqZXNoLnNpbmdoQGFtZC5jb20+OyBIdXJ3aXR6LCBTaGVycnkgPHNoZXJy
+eS5odXJ3aXR6QGFtZC5jb20+Ow0KPj4gZHdtdzJAaW5mcmFkZWFkLm9yZzsgTGVuZGFja3ksIFRo
+b21hcyA8VGhvbWFzLkxlbmRhY2t5QGFtZC5jb20+Ow0KPj4gbHV0b0BrZXJuZWwub3JnOyBqb3Jv
+QDhieXRlcy5vcmc7IGphbm5oQGdvb2dsZS5jb207DQo+PiB2a3V6bmV0c0ByZWRoYXQuY29tOyBy
+aWFuQGFsdW0ubWl0LmVkdTsganBvaW1ib2VAcmVkaGF0LmNvbTsgbGludXgtDQo+PiBrZXJuZWxA
+dmdlci5rZXJuZWwub3JnOyBsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnOyBZdSwgRmVuZ2h1YQ0K
+Pj4gPGZlbmdodWEueXVAaW50ZWwuY29tPg0KPj4gU3ViamVjdDogUkU6IFtQQVRDSCB2NyAxMS8x
+M10gYXJjaC94ODY6IEludHJvZHVjZSBRT1MgZmVhdHVyZSBmb3IgQU1EDQo+Pg0KPj4+IEZyb206
+IE1vZ2VyLCBCYWJ1IFttYWlsdG86QmFidS5Nb2dlckBhbWQuY29tXQ0KPj4+IFN1YmplY3Q6IFtQ
+QVRDSCB2NyAxMS8xM10gYXJjaC94ODY6IEludHJvZHVjZSBRT1MgZmVhdHVyZSBmb3IgQU1EDQo+
+Pj4gVGhlIHNwZWNpZmljYXRpb24gZm9yIHRoaXMgZmVhdHVyZSBpcyBhdmFpbGFibGUgYXQNCj4+
+PiBodHRwczovL2RldmVsb3Blci5hbWQuY29tL3dwLWNvbnRlbnQvcmVzb3VyY2VzLzU2Mzc1LnBk
+Zg0KPj4NCj4+PiArYm9vbCBjYm1fdmFsaWRhdGVfYW1kKGNoYXIgKmJ1ZiwgdTMyICpkYXRhLCBz
+dHJ1Y3QgcmR0X3Jlc291cmNlICpyKSB7DQo+Pj4gKwlpZiAodmFsID4gci0+ZGVmYXVsdF9jdHJs
+KSB7DQo+Pj4gKwkJcmR0X2xhc3RfY21kX3B1dHMoIm1hc2sgb3V0IG9mIHJhbmdlXG4iKTsNCj4+
+PiArCQlyZXR1cm4gZmFsc2U7DQo+Pj4gKwl9DQo+Pg0KPj4gSWYgdmFsIGlzIHplcm8sIHRoZW4g
+dGhpcyBjbG9zaWQgY2Fubm90IGFsbG9jYXRlIGFueSBjYWNoZSBsaW5lLg0KPj4NCj4+IEknbSB3
+b25kZXJpbmc6IGRvZXMgdGhhdCBtZWFuIHRoZSB0YXNrcyBydW5uaW5nIHdpdGggdGhpcyBjbG9z
+aWQgZGlyZWN0bHkNCj4+IGFjY2VzcyBtZW1vcnkgd2l0aG91dCBjYWNoZT8gSXMgdGhlcmUgYW55
+IHVzYWdlIGZvciB0aGlzIHNpdHVhdGlvbj8NCg0KSGVyZSBpcyB0aGUgZGV0YWlsZWQgYW5zd2Vy
+IHRvIHlvdXIgcXVlc3Rpb24gZnJvbSBEb3VnKGluIENDKS4NCg0KQSBjbG9zaWQgd2l0aCBMM19N
+QVNLIG9mIGFsbCAwJ3Mgd2lsbCBub3QgdXNlIGFueSBvZiB0aGUgTDMgY2FjaGUsIGJ1dA0Kd2ls
+bCBzdGlsbCBiZSBhYmxlIHRvIHVzZSBMMiBjYWNoZS4gIFNvLCBubywgdGhlIHByb2Nlc3NlcyBp
+biB0aGF0IGNsb3NpZA0Kd2lsbCBub3QgImRpcmVjdGx5IGFjY2VzcyBtZW1vcnkiIGluIHRoZSBz
+ZW5zZSB0aGF0IHRoZXkgd2lsbCB1c2UgdGhlIEwxDQphbmQgTDIgY2FjaGVzIGFzIG5vcm1hbC4g
+IEJ1dCBpZiB0aGV5IG1pc3MgdGhlIEwyIHRoZW4sIHllcywgdGhlIGFjY2Vzcw0Kd2lsbCBnbyBk
+aXJlY3RseSB0byBtZW1vcnkuICBUbyBiZSBwcmVjaXNlLCBub25lIG9mIHRoZSBsaW5lcyB3aGlj
+aCBhcmUNCmZldGNoZWQgYnkgYSBwcm9jZXNzIHJ1bm5pbmcgd2l0aCBzdWNoIGEgY29uZmlndXJh
+dGlvbiB3aWxsIGJlIGluc3RhbGxlZA0KaW4gdGhlIEwzIGNhY2hlLCBzbyBzdWJzZXF1ZW50IGFj
+Y2Vzc2VzIHdoaWNoIG1pc3MgdGhlIEwyIGNhY2hlIHdpbGwgbm90DQpmaW5kIHRoZSByZXF1ZXN0
+ZWQgZGF0YSBpbiB0aGUgTDMgY2FjaGUgYW5kIHdpbGwgdGhlbiBnbyBvbiB0byBhY2Nlc3MgbWVt
+b3J5Lg0KDQotIERvdWcNCg0KPiANCj4gSSB3b3VsZCB0aGluayBhbnkgbWVtb3J5IGFjY2VzcyBo
+YXMgdG8gaGFwcGVuIHZpYSBjYWNoZSBvbmx5LiAgQnV0DQo+IEkgYW0gbm90IHN1cmUgYWJvdXQg
+dGhlIHVzYWdlIG9mIHRoaXMgc2l0dWF0aW9uLiBXaWxsIGNoZWNrIG9uIHRoYXQuDQo+IFdpbGwg
+cG9zdCBpZiBJIGdldCBhbnkgbW9yZSBpbmZvcm1hdGlvbi4gQnV0IEkgY2FuIHNheSB0aGF0IGl0
+IGlzDQo+IGFsbG93ZWQgdG8gaGF2ZSBtYXNrIGFzIHplcm8uIExvb2tpbmcgYXQgdGhlIHNwZWNz
+DQo+IGh0dHBzOi8vZGV2ZWxvcGVyLmFtZC5jb20vd3AtY29udGVudC9yZXNvdXJjZXMvNTYzNzUu
+cGRmDQo+IA0KPiBUaGUgYml0cyB3aGljaCBhcmUgc2V0IGluIHRoZSB2YXJpb3VzIEwzX01BU0tf
+biByZWdpc3RlcnMgZG8gbm90IGhhdmUgdG8gYmUNCj4gY29udGlndW91cyBhbmQgbWF5IG92ZXJs
+YXAgaW4gYW55IGRlc2lyZWQgY29tYmluYXRpb24uIElmIGFuIEwzX01BU0tfbg0KPiByZWdpc3Rl
+ciBpcyBwcm9ncmFtbWVkIHdpdGggYWxsIDAncywgdGhhdCBDT1Mgd2lsbCBiZSBwcmV2ZW50ZWQg
+ZnJvbSBhbGxvY2F0aW5nDQo+IGFueSBsaW5lcyBpbiB0aGUgTDMgY2FjaGUuIEF0IHJlc2V0LCBh
+bGwgTDNfTUFTS19uIHJlZ2lzdGVycyBhcmUgaW5pdGlhbGl6ZWQgdG8gYWxsDQo+IDEncywgYWxs
+b3dpbmcgYWxsIHByb2Nlc3NvcnMgdG8gdXNlIHRoZSBlbnRpcmUgTDMgY2FjaGUgYWNjZXNzaWJs
+ZSB0byB0aGVtLg0KPiANCj4+DQo+PiBUaGFua3MuDQo+Pg0KPj4gLUZlbmdodWENCg==
