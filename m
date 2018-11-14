@@ -1,178 +1,167 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9E0177D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Nov 2018 18:17:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1C5877D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Nov 2018 18:44:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727576AbeKOEVq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 14 Nov 2018 23:21:46 -0500
-Received: from mail-eopbgr720073.outbound.protection.outlook.com ([40.107.72.73]:28928
-        "EHLO NAM05-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727761AbeKOEVp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Nov 2018 23:21:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1fm8smFw14YT7PjMgpwTidNOwWINK5rVEO1tlfXy1mE=;
- b=PKYVsYVKzGZK0s5h01dWgg4U0KSaEYa91LPmqRP8riQOQ8UcfxuN3VbmCilhQcNXeyO9tj1d5zizLuTneZlbQeDwCNuW9cVYlPSAdaVhsuX8XuMZI4kqdb3DGcHRJ/vDVZMWJVfHFjB993eKyRbsMbM7mSYYfIGIGGHNNTzpTfo=
-Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
- DM5PR12MB1866.namprd12.prod.outlook.com (10.175.88.23) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1294.26; Wed, 14 Nov 2018 18:17:25 +0000
-Received: from DM5PR12MB2471.namprd12.prod.outlook.com
- ([fe80::4c23:f551:bc6a:554e]) by DM5PR12MB2471.namprd12.prod.outlook.com
- ([fe80::4c23:f551:bc6a:554e%4]) with mapi id 15.20.1294.045; Wed, 14 Nov 2018
- 18:17:25 +0000
-From:   "Moger, Babu" <Babu.Moger@amd.com>
-To:     "Yu, Fenghua" <fenghua.yu@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>,
-        "Chatre, Reinette" <reinette.chatre@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-CC:     "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
-        "pombredanne@nexb.com" <pombredanne@nexb.com>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Luck, Tony" <tony.luck@intel.com>,
-        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
-        "Shen, Xiaochen" <xiaochen.shen@intel.com>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Singh, Brijesh" <brijesh.singh@amd.com>,
-        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
-        "dwmw2@infradead.org" <dwmw2@infradead.org>,
-        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "jannh@google.com" <jannh@google.com>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "rian@alum.mit.edu" <rian@alum.mit.edu>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Hunt, Douglas" <Douglas.Hunt@amd.com>
-Subject: Re: [PATCH v7 11/13] arch/x86: Introduce QOS feature for AMD
-Thread-Topic: [PATCH v7 11/13] arch/x86: Introduce QOS feature for AMD
-Thread-Index: AQHUeG4qy036y75SdUqlKSLDpRVWZKVORLIAgAE4oVCAAB5jAA==
-Date:   Wed, 14 Nov 2018 18:17:25 +0000
-Message-ID: <204f5ddb-21f3-5275-273b-02335a5a03c8@amd.com>
-References: <20181109205153.14811-1-babu.moger@amd.com>
- <20181109205153.14811-12-babu.moger@amd.com>
- <3E5A0FA7E9CA944F9D5414FEC6C71220985A6664@ORSMSX105.amr.corp.intel.com>
- <DM5PR12MB2471AB9EFDE9E8D7C65C58A295C30@DM5PR12MB2471.namprd12.prod.outlook.com>
-In-Reply-To: <DM5PR12MB2471AB9EFDE9E8D7C65C58A295C30@DM5PR12MB2471.namprd12.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: SN4PR0501CA0141.namprd05.prod.outlook.com
- (2603:10b6:803:2c::19) To DM5PR12MB2471.namprd12.prod.outlook.com
- (2603:10b6:4:b5::10)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Babu.Moger@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [165.204.78.1]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;DM5PR12MB1866;20:y6l0DlSt+di7ooRN+Cyi3bjsQ2OAYYvFM683rYBkOvHUGigoIY8XR/yRsKPtmsO2yrRl/UVTmolpt2uQTQ4J8m52cLWFd9XDTuFZY1iM26f0aJhif4/hvTZkPyKAxXzfUH9Ifw/bhnWTNHa655kwtEZXP+XktUW53VoG0JIlb8wrQVUb9jXujzlIISpZGunyFi8PrlRnv6XZTaJZC+kaxFRkfnHsnIU+g3MLBzb+Ca9wr5AFeqJHr7Iovr9HZzG+
-x-ms-office365-filtering-correlation-id: 33108866-cdcb-487c-e717-08d64a5d6dd4
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390098)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(4618075)(2017052603328)(7153060)(7193020);SRVR:DM5PR12MB1866;
-x-ms-traffictypediagnostic: DM5PR12MB1866:
-x-microsoft-antispam-prvs: <DM5PR12MB186659B1AE3C7B9A49D4EC3C95C30@DM5PR12MB1866.namprd12.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(9452136761055)(228905959029699)(211936372134217)(240460790083961)(767451399110);
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(3231415)(944501410)(52105112)(3002001)(10201501046)(6055026)(148016)(149066)(150057)(6041310)(20161123562045)(20161123558120)(20161123560045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(201708071742011)(7699051)(76991095);SRVR:DM5PR12MB1866;BCL:0;PCL:0;RULEID:;SRVR:DM5PR12MB1866;
-x-forefront-prvs: 085634EFF4
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(136003)(396003)(366004)(39860400002)(376002)(199004)(189003)(13464003)(229853002)(2501003)(26005)(3846002)(476003)(5660300001)(36756003)(68736007)(72206003)(256004)(966005)(14444005)(25786009)(102836004)(6506007)(53936002)(386003)(53546011)(6246003)(6306002)(6512007)(6486002)(186003)(6116002)(97736004)(11346002)(305945005)(7736002)(2616005)(6436002)(4326008)(86362001)(486006)(14454004)(93886005)(8936002)(8676002)(52116002)(2201001)(7406005)(2906002)(81166006)(66066001)(105586002)(81156014)(106356001)(99286004)(316002)(446003)(71190400001)(71200400001)(110136005)(2900100001)(54906003)(76176011)(478600001)(31696002)(7416002)(31686004)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1866;H:DM5PR12MB2471.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-microsoft-antispam-message-info: S5osHZJ76y3T9zg6Il1N8VRZXwpJBPpwmogDvfsObmWN2SN/kCHy8kHu5tdkCDiAya92AfTQEKFspbSwfzd+oJDcgEtyW1KjeA8KciEENaWSl3ABHYNLIAKhNe4Qgli6Ksb/EQ5wbelcLindWEN25DX/mGFuMufSwwl7K156hmx4ID2adrSDgZDOhkjbyMBqCkwYWvyen/rTD5gI4iy6tWf/wO68vas34HM+hD0OQD8TD2a3r+JPVAP/ryABOKjObF4ukqsFbEr9ysg4d4gH/MK7NH/O2F72cD5XBED1zB8WpNLjJvbywKly+XiXeoB7pp1BckloSoJYjIE6R7LdvXvKE2l4FCfKkziiHrpTGhM=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A7B185184D18164B9EAE17F22F9038A6@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1727251AbeKOEtD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 14 Nov 2018 23:49:03 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:44134 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726823AbeKOEtD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Nov 2018 23:49:03 -0500
+X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
+Received: from mail.skyhub.de ([127.0.0.1])
+        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id SUeoZ2faX-f6; Wed, 14 Nov 2018 19:44:40 +0100 (CET)
+Received: from zn.tnic (p200300EC2BD0D200D5714500C00E26FD.dip0.t-ipconnect.de [IPv6:2003:ec:2bd0:d200:d571:4500:c00e:26fd])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 033B81EC03C8;
+        Wed, 14 Nov 2018 19:44:40 +0100 (CET)
+Date:   Wed, 14 Nov 2018 19:44:36 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [PATCH v5 06/27] x86/cet: Control protection exception handler
+Message-ID: <20181114184436.GK13926@zn.tnic>
+References: <20181011151523.27101-1-yu-cheng.yu@intel.com>
+ <20181011151523.27101-7-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33108866-cdcb-487c-e717-08d64a5d6dd4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Nov 2018 18:17:25.8199
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1866
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20181011151523.27101-7-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DQoNCk9uIDExLzE0LzE4IDEwOjM4IEFNLCBNb2dlciwgQmFidSB3cm90ZToNCj4gRmVuZ2h1YSwN
-Cj4gDQo+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPj4gRnJvbTogbGludXgta2VybmVs
-LW93bmVyQHZnZXIua2VybmVsLm9yZyA8bGludXgta2VybmVsLQ0KPj4gb3duZXJAdmdlci5rZXJu
-ZWwub3JnPiBPbiBCZWhhbGYgT2YgWXUsIEZlbmdodWENCj4+IFNlbnQ6IFR1ZXNkYXksIE5vdmVt
-YmVyIDEzLCAyMDE4IDM6NTAgUE0NCj4+IFRvOiBNb2dlciwgQmFidSA8QmFidS5Nb2dlckBhbWQu
-Y29tPjsgdGdseEBsaW51dHJvbml4LmRlOw0KPj4gbWluZ29AcmVkaGF0LmNvbTsgYnBAYWxpZW44
-LmRlOyBjb3JiZXRAbHduLm5ldDsgQ2hhdHJlLCBSZWluZXR0ZQ0KPj4gPHJlaW5ldHRlLmNoYXRy
-ZUBpbnRlbC5jb20+OyBwZXRlcnpAaW5mcmFkZWFkLm9yZzsNCj4+IGdyZWdraEBsaW51eGZvdW5k
-YXRpb24ub3JnOyBkYXZlbUBkYXZlbWxvZnQubmV0OyBha3BtQGxpbnV4LQ0KPj4gZm91bmRhdGlv
-bi5vcmcNCj4+IENjOiBocGFAenl0b3IuY29tOyB4ODZAa2VybmVsLm9yZzsgbWNoZWhhYitzYW1z
-dW5nQGtlcm5lbC5vcmc7DQo+PiBhcm5kQGFybmRiLmRlOyBrc3Rld2FydEBsaW51eGZvdW5kYXRp
-b24ub3JnOyBwb21icmVkYW5uZUBuZXhiLmNvbTsNCj4+IHJhZmFlbEBrZXJuZWwub3JnOyBraXJp
-bGwuc2h1dGVtb3ZAbGludXguaW50ZWwuY29tOyBMdWNrLCBUb255DQo+PiA8dG9ueS5sdWNrQGlu
-dGVsLmNvbT47IHFpYW55dWUuempAYWxpYmFiYS1pbmMuY29tOyBTaGVuLCBYaWFvY2hlbg0KPj4g
-PHhpYW9jaGVuLnNoZW5AaW50ZWwuY29tPjsgcGJvbnppbmlAcmVkaGF0LmNvbTsgU2luZ2gsIEJy
-aWplc2gNCj4+IDxicmlqZXNoLnNpbmdoQGFtZC5jb20+OyBIdXJ3aXR6LCBTaGVycnkgPHNoZXJy
-eS5odXJ3aXR6QGFtZC5jb20+Ow0KPj4gZHdtdzJAaW5mcmFkZWFkLm9yZzsgTGVuZGFja3ksIFRo
-b21hcyA8VGhvbWFzLkxlbmRhY2t5QGFtZC5jb20+Ow0KPj4gbHV0b0BrZXJuZWwub3JnOyBqb3Jv
-QDhieXRlcy5vcmc7IGphbm5oQGdvb2dsZS5jb207DQo+PiB2a3V6bmV0c0ByZWRoYXQuY29tOyBy
-aWFuQGFsdW0ubWl0LmVkdTsganBvaW1ib2VAcmVkaGF0LmNvbTsgbGludXgtDQo+PiBrZXJuZWxA
-dmdlci5rZXJuZWwub3JnOyBsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnOyBZdSwgRmVuZ2h1YQ0K
-Pj4gPGZlbmdodWEueXVAaW50ZWwuY29tPg0KPj4gU3ViamVjdDogUkU6IFtQQVRDSCB2NyAxMS8x
-M10gYXJjaC94ODY6IEludHJvZHVjZSBRT1MgZmVhdHVyZSBmb3IgQU1EDQo+Pg0KPj4+IEZyb206
-IE1vZ2VyLCBCYWJ1IFttYWlsdG86QmFidS5Nb2dlckBhbWQuY29tXQ0KPj4+IFN1YmplY3Q6IFtQ
-QVRDSCB2NyAxMS8xM10gYXJjaC94ODY6IEludHJvZHVjZSBRT1MgZmVhdHVyZSBmb3IgQU1EDQo+
-Pj4gVGhlIHNwZWNpZmljYXRpb24gZm9yIHRoaXMgZmVhdHVyZSBpcyBhdmFpbGFibGUgYXQNCj4+
-PiBodHRwczovL2RldmVsb3Blci5hbWQuY29tL3dwLWNvbnRlbnQvcmVzb3VyY2VzLzU2Mzc1LnBk
-Zg0KPj4NCj4+PiArYm9vbCBjYm1fdmFsaWRhdGVfYW1kKGNoYXIgKmJ1ZiwgdTMyICpkYXRhLCBz
-dHJ1Y3QgcmR0X3Jlc291cmNlICpyKSB7DQo+Pj4gKwlpZiAodmFsID4gci0+ZGVmYXVsdF9jdHJs
-KSB7DQo+Pj4gKwkJcmR0X2xhc3RfY21kX3B1dHMoIm1hc2sgb3V0IG9mIHJhbmdlXG4iKTsNCj4+
-PiArCQlyZXR1cm4gZmFsc2U7DQo+Pj4gKwl9DQo+Pg0KPj4gSWYgdmFsIGlzIHplcm8sIHRoZW4g
-dGhpcyBjbG9zaWQgY2Fubm90IGFsbG9jYXRlIGFueSBjYWNoZSBsaW5lLg0KPj4NCj4+IEknbSB3
-b25kZXJpbmc6IGRvZXMgdGhhdCBtZWFuIHRoZSB0YXNrcyBydW5uaW5nIHdpdGggdGhpcyBjbG9z
-aWQgZGlyZWN0bHkNCj4+IGFjY2VzcyBtZW1vcnkgd2l0aG91dCBjYWNoZT8gSXMgdGhlcmUgYW55
-IHVzYWdlIGZvciB0aGlzIHNpdHVhdGlvbj8NCg0KSGVyZSBpcyB0aGUgZGV0YWlsZWQgYW5zd2Vy
-IHRvIHlvdXIgcXVlc3Rpb24gZnJvbSBEb3VnKGluIENDKS4NCg0KQSBjbG9zaWQgd2l0aCBMM19N
-QVNLIG9mIGFsbCAwJ3Mgd2lsbCBub3QgdXNlIGFueSBvZiB0aGUgTDMgY2FjaGUsIGJ1dA0Kd2ls
-bCBzdGlsbCBiZSBhYmxlIHRvIHVzZSBMMiBjYWNoZS4gIFNvLCBubywgdGhlIHByb2Nlc3NlcyBp
-biB0aGF0IGNsb3NpZA0Kd2lsbCBub3QgImRpcmVjdGx5IGFjY2VzcyBtZW1vcnkiIGluIHRoZSBz
-ZW5zZSB0aGF0IHRoZXkgd2lsbCB1c2UgdGhlIEwxDQphbmQgTDIgY2FjaGVzIGFzIG5vcm1hbC4g
-IEJ1dCBpZiB0aGV5IG1pc3MgdGhlIEwyIHRoZW4sIHllcywgdGhlIGFjY2Vzcw0Kd2lsbCBnbyBk
-aXJlY3RseSB0byBtZW1vcnkuICBUbyBiZSBwcmVjaXNlLCBub25lIG9mIHRoZSBsaW5lcyB3aGlj
-aCBhcmUNCmZldGNoZWQgYnkgYSBwcm9jZXNzIHJ1bm5pbmcgd2l0aCBzdWNoIGEgY29uZmlndXJh
-dGlvbiB3aWxsIGJlIGluc3RhbGxlZA0KaW4gdGhlIEwzIGNhY2hlLCBzbyBzdWJzZXF1ZW50IGFj
-Y2Vzc2VzIHdoaWNoIG1pc3MgdGhlIEwyIGNhY2hlIHdpbGwgbm90DQpmaW5kIHRoZSByZXF1ZXN0
-ZWQgZGF0YSBpbiB0aGUgTDMgY2FjaGUgYW5kIHdpbGwgdGhlbiBnbyBvbiB0byBhY2Nlc3MgbWVt
-b3J5Lg0KDQotIERvdWcNCg0KPiANCj4gSSB3b3VsZCB0aGluayBhbnkgbWVtb3J5IGFjY2VzcyBo
-YXMgdG8gaGFwcGVuIHZpYSBjYWNoZSBvbmx5LiAgQnV0DQo+IEkgYW0gbm90IHN1cmUgYWJvdXQg
-dGhlIHVzYWdlIG9mIHRoaXMgc2l0dWF0aW9uLiBXaWxsIGNoZWNrIG9uIHRoYXQuDQo+IFdpbGwg
-cG9zdCBpZiBJIGdldCBhbnkgbW9yZSBpbmZvcm1hdGlvbi4gQnV0IEkgY2FuIHNheSB0aGF0IGl0
-IGlzDQo+IGFsbG93ZWQgdG8gaGF2ZSBtYXNrIGFzIHplcm8uIExvb2tpbmcgYXQgdGhlIHNwZWNz
-DQo+IGh0dHBzOi8vZGV2ZWxvcGVyLmFtZC5jb20vd3AtY29udGVudC9yZXNvdXJjZXMvNTYzNzUu
-cGRmDQo+IA0KPiBUaGUgYml0cyB3aGljaCBhcmUgc2V0IGluIHRoZSB2YXJpb3VzIEwzX01BU0tf
-biByZWdpc3RlcnMgZG8gbm90IGhhdmUgdG8gYmUNCj4gY29udGlndW91cyBhbmQgbWF5IG92ZXJs
-YXAgaW4gYW55IGRlc2lyZWQgY29tYmluYXRpb24uIElmIGFuIEwzX01BU0tfbg0KPiByZWdpc3Rl
-ciBpcyBwcm9ncmFtbWVkIHdpdGggYWxsIDAncywgdGhhdCBDT1Mgd2lsbCBiZSBwcmV2ZW50ZWQg
-ZnJvbSBhbGxvY2F0aW5nDQo+IGFueSBsaW5lcyBpbiB0aGUgTDMgY2FjaGUuIEF0IHJlc2V0LCBh
-bGwgTDNfTUFTS19uIHJlZ2lzdGVycyBhcmUgaW5pdGlhbGl6ZWQgdG8gYWxsDQo+IDEncywgYWxs
-b3dpbmcgYWxsIHByb2Nlc3NvcnMgdG8gdXNlIHRoZSBlbnRpcmUgTDMgY2FjaGUgYWNjZXNzaWJs
-ZSB0byB0aGVtLg0KPiANCj4+DQo+PiBUaGFua3MuDQo+Pg0KPj4gLUZlbmdodWENCg==
+That subject needs a verb:
+
+Subject: [PATCH v5 06/27] x86/cet: Add control protection exception handler
+
+On Thu, Oct 11, 2018 at 08:15:02AM -0700, Yu-cheng Yu wrote:
+> A control protection exception is triggered when a control flow transfer
+> attempt violated shadow stack or indirect branch tracking constraints.
+> For example, the return address for a RET instruction differs from the
+> safe copy on the shadow stack; or a JMP instruction arrives at a non-
+> ENDBR instruction.
+> 
+> The control protection exception handler works in a similar way as the
+> general protection fault handler.
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/entry/entry_64.S          |  2 +-
+>  arch/x86/include/asm/traps.h       |  3 ++
+>  arch/x86/kernel/idt.c              |  4 ++
+>  arch/x86/kernel/signal_compat.c    |  2 +-
+>  arch/x86/kernel/traps.c            | 64 ++++++++++++++++++++++++++++++
+>  include/uapi/asm-generic/siginfo.h |  3 +-
+>  6 files changed, 75 insertions(+), 3 deletions(-)
+
+A *lot* of style problems here. Please use checkpatch and then common
+sense to check your patches before sending. All those below are valid,
+AFAICT:
+
+WARNING: function definition argument 'struct pt_regs *' should also have an identifier name
+#76: FILE: arch/x86/include/asm/traps.h:81:
++dotraplinkage void do_control_protection(struct pt_regs *, long);
+
+WARNING: function definition argument 'long' should also have an identifier name
+#76: FILE: arch/x86/include/asm/traps.h:81:
++dotraplinkage void do_control_protection(struct pt_regs *, long);
+
+WARNING: static const char * array should probably be static const char * const
+#124: FILE: arch/x86/kernel/traps.c:581:
++static const char *control_protection_err[] =
+
+ERROR: that open brace { should be on the previous line
+#125: FILE: arch/x86/kernel/traps.c:582:
++static const char *control_protection_err[] =
++{
+
+WARNING: quoted string split across lines
+#158: FILE: arch/x86/kernel/traps.c:615:
++		WARN_ONCE(1, "CET is disabled but got control "
++			  "protection fault\n");
+
+WARNING: Prefer printk_ratelimited or pr_<level>_ratelimited to printk_ratelimit
+#165: FILE: arch/x86/kernel/traps.c:622:
++	    printk_ratelimit()) {
+
+WARNING: Avoid logging continuation uses where feasible
+#176: FILE: arch/x86/kernel/traps.c:633:
++		pr_cont("\n");
+
+ERROR: "(foo*)" should be "(foo *)"
+#183: FILE: arch/x86/kernel/traps.c:640:
++	info.si_addr	= (void __user*)uprobe_get_trap_addr(regs);
+
+
+And now that patch doesn't even build anymore because of the siginfo
+changes which came in during the merge window. I guess I'll wait for
+your v6 patchset.
+
+---
+arch/x86/kernel/traps.c: In function ‘do_control_protection’:
+arch/x86/kernel/traps.c:627:16: error: passing argument 1 of ‘clear_siginfo’ from incompatible pointer type [-Werror=incompatible-pointer-types]
+  clear_siginfo(&info);
+                ^~~~~
+In file included from ./include/linux/sched/signal.h:6,
+                 from ./include/linux/ptrace.h:7,
+                 from ./include/linux/ftrace.h:14,
+                 from ./include/linux/kprobes.h:42,
+                 from arch/x86/kernel/traps.c:19:
+./include/linux/signal.h:20:52: note: expected ‘kernel_siginfo_t *’ {aka ‘struct kernel_siginfo *’} but argument is of type ‘siginfo_t *’ {aka ‘struct siginfo *’}
+ static inline void clear_siginfo(kernel_siginfo_t *info)
+                                  ~~~~~~~~~~~~~~~~~~^~~~
+arch/x86/kernel/traps.c:632:26: error: passing argument 2 of ‘force_sig_info’ from incompatible pointer type [-Werror=incompatible-pointer-types]
+  force_sig_info(SIGSEGV, &info, tsk);
+                          ^~~~~
+In file included from ./include/linux/ptrace.h:7,
+                 from ./include/linux/ftrace.h:14,
+                 from ./include/linux/kprobes.h:42,
+                 from arch/x86/kernel/traps.c:19:
+./include/linux/sched/signal.h:327:32: note: expected ‘struct kernel_siginfo *’ but argument is of type ‘siginfo_t *’ {aka ‘struct siginfo *’}
+ extern int force_sig_info(int, struct kernel_siginfo *, struct task_struct *);
+                                ^~~~~~~~~~~~~~~~~~~~~~~
+cc1: some warnings being treated as errors
+make[2]: *** [scripts/Makefile.build:291: arch/x86/kernel/traps.o] Error 1
+make[1]: *** [scripts/Makefile.build:516: arch/x86/kernel] Error 2
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1060: arch/x86] Error 2
+make: *** Waiting for unfinished jobs....
+
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
