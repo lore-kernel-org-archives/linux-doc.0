@@ -6,54 +6,55 @@ X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9848A7D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Nov 2018 19:20:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9EBC57D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Nov 2018 19:23:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725766AbeKOFY2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Nov 2018 00:24:28 -0500
-Received: from mail-it1-f196.google.com ([209.85.166.196]:50306 "EHLO
-        mail-it1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725757AbeKOFY2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Nov 2018 00:24:28 -0500
-Received: by mail-it1-f196.google.com with SMTP id k206-v6so25676508ite.0
-        for <linux-doc@vger.kernel.org>; Wed, 14 Nov 2018 11:19:59 -0800 (PST)
+        id S1726823AbeKOF2W (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Nov 2018 00:28:22 -0500
+Received: from mail-io1-f67.google.com ([209.85.166.67]:33111 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725827AbeKOF2V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Nov 2018 00:28:21 -0500
+Received: by mail-io1-f67.google.com with SMTP id f12-v6so12605556iog.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Nov 2018 11:23:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=lGu1tR1VCKROUdcLGGzQv5vwMmSpNf5ctsKcBTGiIV4=;
-        b=FQxo6PoE68FpouxYE1uVX8s5rfc1oaEmz1ii8ufW2hxZAgn6uSzU1J/bmckdl6pou1
-         eXweocMm2FiaxIgG5lW079Qezab2/S+Hs3xJtwGm/Ukpxl+0YcundsgYF8xkVuztbv6U
-         yWgT5cabtVHyosVMckft08rXc3gQmL/lmYsyCB2Av0xK+vlb1mzrC7REO8mP9vGksGcl
-         k5QaDSGLlh1nE9uLKbu8Dc4HdvP/lCiFsWPqp8tBAUdk764vfa+1UVry23fL5TVwU5do
-         +IhcNDBFgzLq/HdtFyzHSSCzmpobxttzFGOeZd8CvIHgSDv5Q1GMIETbefZhRH8WKaGZ
-         mv/Q==
+        bh=UIypac4ruDkdL3VYH/D4DbUQPZdrBjhLGF9jWBRcd+E=;
+        b=UhfwkhJ0MLEDXZfrgYDYr0qYlDs34flhmy6j/n8egOKueqFTnjm8LTvXy5zmbNuzZW
+         595JYsms5DC9MoiadOQcG+t4Re+oCHGmT0jUGRY1APD1qO/IVtSQvkpoXd+hsfeCvPXO
+         sSqE2KvTpwsHUSJ8m/TCY3c5xgCA3fzSa0lXZz7mNI7amLmwa+H9d3AFgf+a0nwDqnCH
+         Hk77Hd0S3CPzKl8wqUfzFWUXDP41Z73mpeY6lw/dRDq1dpNlu+NZxtUzo1iHJ46iWhvX
+         P0kjFtOc0L7STP8JjTEVP+Fflk4CubNn55vc5Hl5dkSb5OMLFKWlqTsUb560LxkoL7op
+         Fjmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=lGu1tR1VCKROUdcLGGzQv5vwMmSpNf5ctsKcBTGiIV4=;
-        b=k11G5YkLmnak/3YG3kNrMzPTVuX7XA/vvFRR9XaT3uwy5tlak8i/T2QAiTQ5dUmx5J
-         o4E79ZaTgmTg9mRgBrGiXD5zvEx1z932ym720asLeeMc4Ht1eWXW6TYsG2pJhhBQTjd0
-         bLEe2r8Rxy4ibfhqxhNTLSnaueqxaV5lopjsvAFbGs4+DpzQ4OtWqCsuWUe81A93lRi6
-         i3cBVqe/VEwQUq18DBSHzkgSJfUhQ5SNLM8ymurlHL5pts9Ay9gY7trvWue3C0YzTdO1
-         CRoAaM3VMJwzB9eXIBd7vQZgivcTReG2xY48Q0+o7XOeoWvAs0n3ET3PX25BOKVUFbay
-         E6Ag==
-X-Gm-Message-State: AGRZ1gLr0jK32/NtJSSjJctk6ASY1Jadv729t9QFPjl/eK+HguUl7ouH
-        8N55ctCR5f4rAqvfUXRf0yduSWBcjnt51tCKZgLcxg==
-X-Google-Smtp-Source: AJdET5cj+5SJMoCyaFodXdK01bd+zQNQ8azYaGmIRmDd3VTrLAAF1qLFGtgHTpxsowKrKdVreneyGfF0LvWeQJ+dK7g=
-X-Received: by 2002:a24:dac7:: with SMTP id z190-v6mr2798977itg.87.1542223198716;
- Wed, 14 Nov 2018 11:19:58 -0800 (PST)
+        bh=UIypac4ruDkdL3VYH/D4DbUQPZdrBjhLGF9jWBRcd+E=;
+        b=EdhHO8lOOo07zkozCOLjBUOu68InWas9z3ChGhcnjBfPJI7VRJjp2EXPKyV0wvDAaO
+         nJ3zS2kbckfRq+kuDarXuRYJr09o0vNWDYLg/K1ds9OcE+oZw05qVBJ7UC2VulUUNLMx
+         zBL6tvHTJuYiei6D9GY05HnFdCC0MV5Ja6K9zDPAKex5UlTfrrozoITV1vGPZbCAS0Aw
+         JZxGAFRjnrGCemncZGAFa9duKcYqEuQ0BZeBDs86/1kkk1METXqrGfrJ6SBuhJyeHFS2
+         /UVhKI0BoUfPp3lmjEeR9HM8vnQZZ/DHYxBzgbd8X1Y297hvM6zaoTDgM8gIDQbMHiRF
+         xAWw==
+X-Gm-Message-State: AA+aEWabXduQ7y+/ALjBF++HmLWYCL70vHKdU709VhJSyUFTfkeCwEiE
+        8tc3iDBhQuJNO+fv1UswrUdhrNlFXr7sI+PKYy2Eyw==
+X-Google-Smtp-Source: AFSGD/XZMONoeGiABjx40NHOI1Wyk1KqyUGd5QioHZNkjeYYrG3oQJMONgNZF1m6qv5Kk55V7tIoktJIKbYzLT75Tjk=
+X-Received: by 2002:a6b:c0c6:: with SMTP id q189-v6mr2726537iof.31.1542223431211;
+ Wed, 14 Nov 2018 11:23:51 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a02:7050:0:0:0:0:0 with HTTP; Wed, 14 Nov 2018 11:19:57
+Received: by 2002:a02:7050:0:0:0:0:0 with HTTP; Wed, 14 Nov 2018 11:23:50
  -0800 (PST)
-In-Reply-To: <20181107172306.3w2pjecaggsvl5z2@lakrids.cambridge.arm.com>
-References: <cover.1541525354.git.andreyknvl@google.com> <b8c56d36b79eecf0c331a0a7a2df12632aefccc9.1541525354.git.andreyknvl@google.com>
- <20181107172306.3w2pjecaggsvl5z2@lakrids.cambridge.arm.com>
+In-Reply-To: <20181107165200.oaou6cx2lmjzmjyl@lakrids.cambridge.arm.com>
+References: <cover.1541525354.git.andreyknvl@google.com> <b2aa056b65b8f1a410379bf2f6ef439d5d99e8eb.1541525354.git.andreyknvl@google.com>
+ <20181107165200.oaou6cx2lmjzmjyl@lakrids.cambridge.arm.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Wed, 14 Nov 2018 20:19:57 +0100
-Message-ID: <CAAeHK+wDCtL4PGmE4-XJj=wqpSHsuemKABYwpuU-=DpULtJvzA@mail.gmail.com>
-Subject: Re: [PATCH v10 09/22] kasan: add tag related helper functions
+Date:   Wed, 14 Nov 2018 20:23:50 +0100
+Message-ID: <CAAeHK+yAve4fBg_UZQsNdVJ5W-7v8tQnRa=amQMyBeE_yHcq5g@mail.gmail.com>
+Subject: Re: [PATCH v10 08/22] kasan, arm64: untag address in __kimg_to_phys
+ and _virt_addr_is_linear
 To:     Mark Rutland <mark.rutland@arm.com>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -98,121 +99,100 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 7, 2018 at 6:23 PM, Mark Rutland <mark.rutland@arm.com> wrote:
-> On Tue, Nov 06, 2018 at 06:30:24PM +0100, Andrey Konovalov wrote:
->> This commit adds a few helper functions, that are meant to be used to
->> work with tags embedded in the top byte of kernel pointers: to set, to
->> get or to reset (set to 0xff) the top byte.
+On Wed, Nov 7, 2018 at 5:52 PM, Mark Rutland <mark.rutland@arm.com> wrote:
+> Hi Andrey,
+>
+> On Tue, Nov 06, 2018 at 06:30:23PM +0100, Andrey Konovalov wrote:
+>> __kimg_to_phys (which is used by virt_to_phys) and _virt_addr_is_linear
+>> (which is used by virt_addr_valid) assume that the top byte of the address
+>> is 0xff, which isn't always the case with tag-based KASAN.
+>
+> I'm confused by this. Why/when do kimg address have a non-default tag?
+>
+> Any kimg address is part of the static kernel image, so it's not obvious
+> to me how a kimg address would gain a tag. Could you please explain how
+> this happens in the commit message?
+
+If kimg address always points into the kernel image, then it shouldn't
+be tagged, and this can be removed.
+
+>
+>> This patch resets the tag in those macros.
 >>
 >> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
 >> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 >> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 >> ---
->>  arch/arm64/mm/kasan_init.c |  2 ++
->>  include/linux/kasan.h      | 13 +++++++++
->>  mm/kasan/kasan.h           | 55 ++++++++++++++++++++++++++++++++++++++
->>  mm/kasan/tags.c            | 37 +++++++++++++++++++++++++
->>  4 files changed, 107 insertions(+)
+>>  arch/arm64/include/asm/memory.h | 14 ++++++++++++--
+>>  1 file changed, 12 insertions(+), 2 deletions(-)
 >>
->> diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
->> index 18ebc8994a7b..370b19d0e2fb 100644
->> --- a/arch/arm64/mm/kasan_init.c
->> +++ b/arch/arm64/mm/kasan_init.c
->> @@ -249,6 +249,8 @@ void __init kasan_init(void)
->>       memset(kasan_zero_page, KASAN_SHADOW_INIT, PAGE_SIZE);
->>       cpu_replace_ttbr1(lm_alias(swapper_pg_dir));
+>> diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
+>> index 0f1e024a951f..3226a0218b0b 100644
+>> --- a/arch/arm64/include/asm/memory.h
+>> +++ b/arch/arm64/include/asm/memory.h
+>> @@ -92,6 +92,15 @@
+>>  #define KASAN_THREAD_SHIFT   0
+>>  #endif
 >>
->> +     kasan_init_tags();
->> +
->>       /* At this point kasan is fully initialized. Enable error messages */
->>       init_task.kasan_depth = 0;
->>       pr_info("KernelAddressSanitizer initialized\n");
->> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
->> index 7f6574c35c62..4c9d6f9029f2 100644
->> --- a/include/linux/kasan.h
->> +++ b/include/linux/kasan.h
->> @@ -169,6 +169,19 @@ static inline void kasan_cache_shutdown(struct kmem_cache *cache) {}
->>
->>  #define KASAN_SHADOW_INIT 0xFF
->>
->> +void kasan_init_tags(void);
->> +
->> +void *kasan_reset_tag(const void *addr);
->> +
->> +#else /* CONFIG_KASAN_SW_TAGS */
->> +
->> +static inline void kasan_init_tags(void) { }
->> +
->> +static inline void *kasan_reset_tag(const void *addr)
->> +{
->> +     return (void *)addr;
->> +}
->> +
->
 >> +#ifdef CONFIG_KASAN_SW_TAGS
->> +
->> +#define KASAN_PTR_TAG_SHIFT 56
->> +#define KASAN_PTR_TAG_MASK (0xFFUL << KASAN_PTR_TAG_SHIFT)
->> +
->> +u8 random_tag(void);
->> +
->> +static inline void *set_tag(const void *addr, u8 tag)
->> +{
->> +     u64 a = (u64)addr;
->> +
->> +     a &= ~KASAN_PTR_TAG_MASK;
->> +     a |= ((u64)tag << KASAN_PTR_TAG_SHIFT);
->> +
->> +     return (void *)a;
->> +}
->> +
->> +static inline u8 get_tag(const void *addr)
->> +{
->> +     return (u8)((u64)addr >> KASAN_PTR_TAG_SHIFT);
->> +}
->> +
->> +static inline void *reset_tag(const void *addr)
->> +{
->> +     return set_tag(addr, KASAN_TAG_KERNEL);
->> +}
+>> +#define KASAN_TAG_SHIFTED(tag)               ((unsigned long)(tag) << 56)
+>> +#define KASAN_SET_TAG(addr, tag)     (((addr) & ~KASAN_TAG_SHIFTED(0xff)) | \
+>> +                                             KASAN_TAG_SHIFTED(tag))
+>> +#define KASAN_RESET_TAG(addr)                KASAN_SET_TAG(addr, 0xff)
+>> +#else
+>> +#define KASAN_RESET_TAG(addr)                addr
+>> +#endif
 >
-> We seem to be duplicating this functionality in several places.
+> Nit: the rest of the helper macros in this file are lower-case, with
+> specialised helpers prefixed with several underscores. Could we please
+> stick with that convention?
 >
-> Could we please make it so that the arch code defines macros:
->
-> arch_kasan_set_tag(addr, tag)
-> arch_kasan_get_tag(addr)
-> arch_kasan_reset_tag(addr)
->
-> ... and use thoses consistently rather than open-coding them?
->
->> +
->> +#else /* CONFIG_KASAN_SW_TAGS */
->> +
->> +static inline u8 random_tag(void)
->> +{
->> +     return 0;
->> +}
->> +
->> +static inline void *set_tag(const void *addr, u8 tag)
->> +{
->> +     return (void *)addr;
->> +}
->> +
->> +static inline u8 get_tag(const void *addr)
->> +{
->> +     return 0;
->> +}
->> +
->> +static inline void *reset_tag(const void *addr)
->> +{
->> +     return (void *)addr;
->> +}
->
-> ... these can be defined in linux/kasan.h as:
->
-> #define arch_kasan_set_tag(addr, tag)   (addr)
-> #define arch_kasan_get_tag(addr)        0
-> #define arch_kasan_reset_tag(addr)      (addr)
+> e.g. have __tag_set() and __tag_reset() helpers.
 
-Will do in v11, thanks!
+Will do in v11.
+
+>
+>> +
+>>  #define MIN_THREAD_SHIFT     (14 + KASAN_THREAD_SHIFT)
+>>
+>>  /*
+>> @@ -232,7 +241,7 @@ static inline unsigned long kaslr_offset(void)
+>>  #define __is_lm_address(addr)        (!!((addr) & BIT(VA_BITS - 1)))
+>>
+>>  #define __lm_to_phys(addr)   (((addr) & ~PAGE_OFFSET) + PHYS_OFFSET)
+>> -#define __kimg_to_phys(addr) ((addr) - kimage_voffset)
+>> +#define __kimg_to_phys(addr) (KASAN_RESET_TAG(addr) - kimage_voffset)
+>
+> IIUC You need to adjust __lm_to_phys() too, since that could be passed
+> an address from SLAB.
+>
+> Maybe that's done in a later patch, but if so it's confusing to split it
+> out that way. It would be nicer to fix all the *_to_*() helpers in one
+> go.
+
+__lm_to_phys() does & ~PAGE_OFFSET, so it resets the tag by itself. I
+can add an explicit __tag_reset() if you think it makes sense.
+
+>
+>>
+>>  #define __virt_to_phys_nodebug(x) ({                                 \
+>>       phys_addr_t __x = (phys_addr_t)(x);                             \
+>> @@ -308,7 +317,8 @@ static inline void *phys_to_virt(phys_addr_t x)
+>>  #endif
+>>  #endif
+>>
+>> -#define _virt_addr_is_linear(kaddr)  (((u64)(kaddr)) >= PAGE_OFFSET)
+>> +#define _virt_addr_is_linear(kaddr)  (KASAN_RESET_TAG((u64)(kaddr)) >= \
+>> +                                             PAGE_OFFSET)
+>
+> This is painful to read. Could you please split this like:
+>
+> #define _virt_addr_is_linear(kaddr) \
+>         (__tag_reset((u64)(kaddr)) >= PAGE_OFFSET)
+>
+> ... and we could reformat virt_addr_valid() in the same way while we're
+> at it.
+
+Will do in v11.
+
+Thanks!
