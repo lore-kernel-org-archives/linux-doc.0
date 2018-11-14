@@ -1,113 +1,195 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 164A67D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Nov 2018 20:16:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 413347D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 14 Nov 2018 20:17:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727415AbeKOGU6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Nov 2018 01:20:58 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:45672 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725756AbeKOGU6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Nov 2018 01:20:58 -0500
-Received: by mail-ot1-f65.google.com with SMTP id 32so15397890ota.12;
-        Wed, 14 Nov 2018 12:16:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=v4v56mZTf9/e7dYvXZZ+3+Q2k86oVKItDYfDMGSVIUM=;
-        b=f3hWCky8fy7hbbW4jEvtrZc9ABKNTerMer3ek+S1dlBDJmk4AcH8GLzoehYC8+/M2s
-         6hnykhgue64sJGjsZwy7V9QyXQ+Nnox7dsmMalk+wYZkMJwCxj6z+6vpWwCt+X6Z0XlU
-         EW+uk4RnzHBGsN2whHRCLH3ooyuGL/ZYsdexFsB817sYweFveoYDeq0Qnq6ReTakj8PW
-         kpGeNTgmIj4dSe+rSnCg87Hi3LgdJEQXOTgu+THrmXpRiA2Rx/tq9MTbkfZox/tXtkA6
-         ppCAr24vZhBqySfxBJl+Jp0Wrz1YEn16353Nvt1tyUUfhoVfAQvwF4OQFOWj3UONEutI
-         XIpA==
-X-Gm-Message-State: AGRZ1gIBlLcsEtkWv2CjOujx3QxIWIQfUNxVlncOBq+1k1pHTg379WYq
-        Rf9jjWunQ9eNAgCrPrX4nLy36oYMRtEs/XIkhCacsTXk
-X-Google-Smtp-Source: AJdET5eIeV0h3oYnIsQiPHyJLLoim94jeRgiIsaDZdvKvLGScspMWGalY1MV2lTMS++/SezbWSNWit9vI0iOsYKw+ms=
-X-Received: by 2002:a9d:588c:: with SMTP id x12mr2061778otg.139.1542226577467;
- Wed, 14 Nov 2018 12:16:17 -0800 (PST)
+        id S1728358AbeKOGWX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Nov 2018 01:22:23 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:50526 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725756AbeKOGWW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Nov 2018 01:22:22 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 252D080D;
+        Wed, 14 Nov 2018 12:17:42 -0800 (PST)
+Received: from blommer (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E35AF3F718;
+        Wed, 14 Nov 2018 12:17:40 -0800 (PST)
+Date:   Wed, 14 Nov 2018 20:17:39 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
+Subject: Re: [PATCH v10 12/22] kasan, arm64: fix up fault handling logic
+Message-ID: <20181114201738.sb2lla7umljsx3qx@blommer>
+References: <cover.1541525354.git.andreyknvl@google.com>
+ <4891a504adf61c0daf1e83642b6f7519328dfd5f.1541525354.git.andreyknvl@google.com>
+ <20181108122228.xqwhpkjritrvqneq@lakrids.cambridge.arm.com>
+ <CAAeHK+xPkbg_9P9oCkS-iB8S81vTxD3p5SbyWHy-vrp2ybkKmg@mail.gmail.com>
+ <20181113220728.2h3kz67b2bz36wty@blommer>
+ <CAAeHK+xe5LqbyWnYSDv2+QrLR=GK0JMzniAZBfL8kjXRwJravA@mail.gmail.com>
 MIME-Version: 1.0
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 14 Nov 2018 21:16:14 +0100
-Message-ID: <CAJZ5v0jv7Bbkc4bsnu8xwjQWneRJedbdd3dNp98wEDdCYOpg9Q@mail.gmail.com>
-Subject: [GIT PULL] Power management updates for v4.20-rc3
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux PM <linux-pm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAeHK+xe5LqbyWnYSDv2+QrLR=GK0JMzniAZBfL8kjXRwJravA@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Linus,
+On Wed, Nov 14, 2018 at 09:06:23PM +0100, Andrey Konovalov wrote:
+> On Tue, Nov 13, 2018 at 11:07 PM, Mark Rutland <mark.rutland@arm.com> wrote:
+> > On Tue, Nov 13, 2018 at 04:01:27PM +0100, Andrey Konovalov wrote:
+> >> On Thu, Nov 8, 2018 at 1:22 PM, Mark Rutland <mark.rutland@arm.com> wrote:
+> >> > On Tue, Nov 06, 2018 at 06:30:27PM +0100, Andrey Konovalov wrote:
+> >> >> show_pte in arm64 fault handling relies on the fact that the top byte of
+> >> >> a kernel pointer is 0xff, which isn't always the case with tag-based
+> >> >> KASAN.
+> >> >
+> >> > That's for the TTBR1 check, right?
+> >> >
+> >> > i.e. for the following to work:
+> >> >
+> >> >         if (addr >= VA_START)
+> >> >
+> >> > ... we need the tag bits to be an extension of bit 55...
+> >> >
+> >> >>
+> >> >> This patch resets the top byte in show_pte.
+> >> >>
+> >> >> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+> >> >> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> >> >> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> >> >> ---
+> >> >>  arch/arm64/mm/fault.c | 3 +++
+> >> >>  1 file changed, 3 insertions(+)
+> >> >>
+> >> >> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+> >> >> index 7d9571f4ae3d..d9a84d6f3343 100644
+> >> >> --- a/arch/arm64/mm/fault.c
+> >> >> +++ b/arch/arm64/mm/fault.c
+> >> >> @@ -32,6 +32,7 @@
+> >> >>  #include <linux/perf_event.h>
+> >> >>  #include <linux/preempt.h>
+> >> >>  #include <linux/hugetlb.h>
+> >> >> +#include <linux/kasan.h>
+> >> >>
+> >> >>  #include <asm/bug.h>
+> >> >>  #include <asm/cmpxchg.h>
+> >> >> @@ -141,6 +142,8 @@ void show_pte(unsigned long addr)
+> >> >>       pgd_t *pgdp;
+> >> >>       pgd_t pgd;
+> >> >>
+> >> >> +     addr = (unsigned long)kasan_reset_tag((void *)addr);
+> >> >
+> >> > ... but this ORs in (0xffUL << 56), which is not correct for addresses
+> >> > which aren't TTBR1 addresses to begin with, where bit 55 is clear, and
+> >> > throws away useful information.
+> >> >
+> >> > We could use untagged_addr() here, but that wouldn't be right for
+> >> > kernels which don't use TBI1, and we'd erroneously report addresses
+> >> > under the TTBR1 range as being in the TTBR1 range.
+> >> >
+> >> > I also see that the entry assembly for el{1,0}_{da,ia} clears the tag
+> >> > for EL0 addresses.
+> >> >
+> >> > So we could have:
+> >> >
+> >> > static inline bool is_ttbr0_addr(unsigned long addr)
+> >> > {
+> >> >         /* entry assembly clears tags for TTBR0 addrs */
+> >> >         return addr < TASK_SIZE_64;
+> >> > }
+> >> >
+> >> > static inline bool is_ttbr1_addr(unsigned long addr)
+> >> > {
+> >> >         /* TTBR1 addresses may have a tag if HWKASAN is in use */
+> >> >         return arch_kasan_reset_tag(addr) >= VA_START;
+> >> > }
+> >> >
+> >> > ... and use those in the conditionals, leaving the addr as-is for
+> >> > reporting purposes.
+> >>
+> >> Actually it looks like 276e9327 ("arm64: entry: improve data abort
+> >> handling of tagged pointers") already takes care of both user and
+> >> kernel fault addresses and correctly removes tags from them. So I
+> >> think we need to drop this patch.
+> >
+> > The clear_address_tag macro added in that commit only removes tags from TTBR0
+> > addresses, so that's not sufficient if the kernel is used tagged addresses
+> > (which will be in the TTBR1 range).
+> 
+> Do I understand correctly that TTBR0 means user space addresses and
+> TTBR1 means kernel addresses? 
 
-Please pull from the tag
+Effectively, yes. The address space is split into two halves (with a gap in the
+middle). The high half (where we map the kernel) is covered by TTBR1, and the
+low half (where we map userspace) is covered by TTBR0.
 
- git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
- pm-4.20-rc3
+The TTBRs are the Translation Table Base Registers -- the two halves have
+separate page tables.
 
-with top-most commit 97dc6c03c1b0a9af7aa26da7b0b266a762451f5f
+> In that commit I see that the clear_address_tag() macro is used in el0_da and
+> in el1_da, which means that it untags both user and kernel addresses (on data
+> aborts). Do I misunderstand something?
 
- Merge branch 'pm-cpuidle'
+It's called for faults taken from EL0 and EL1, but it only removes the tags
+from addresses covered by TTBR0. The logic is:
 
-on top of commit 651022382c7f8da46cb4872a545ee1da6d097d2a
+	.macro  clear_address_tag, dst, addr
+	tst     \addr, #(1 << 55)
+	bic     \dst, \addr, #(0xff << 56)
+	csel    \dst, \dst, \addr, eq
+	.endm
 
- Linux 4.20-rc1
+... which in C would be:
 
-to receive power management updates for 4.20-rc3.
+	if (!(addr & (1UL << 55))) {
+		addr &= ~(0xffUL << 56);
+	}
 
-These remove a stale DT entry left behind after recent removal of
-a cpufreq driver without users, fix up error handling in the imx6q
-cpufreq driver, fix two issues in the cpufreq documentation, and
-update the ARM cpufreq driver.
+... and therefore does not affect TTBR1 addresses.
 
-Specifics:
-
- - Drop stale DT binding for the arm_big_little_dt driver removed
-   recently (Sudeep Holla).
-
- - Fix up error handling in the imx6q cpufreq driver to make it
-   report voltage scaling failures (Anson Huang).
-
- - Fix two issues in the cpufreq documentation (Viresh Kumar,
-   Zhao Wei Liew).
-
- - Fix ARM cpuidle driver initialization regression from the 4.19
-   time frame and rework the driver registration part of it to
-   simplify code (Ulf Hansson).
-
-Thanks!
-
-
----------------
-
-Anson Huang (1):
-      cpufreq: imx6q: add return value check for voltage scale
-
-Sudeep Holla (1):
-      dt-bindings: cpufreq: remove stale arm_big_little_dt entry
-
-Ulf Hansson (2):
-      ARM: cpuidle: Don't register the driver when back-end init returns -ENXIO
-      ARM: cpuidle: Convert to use cpuidle_register|unregister()
-
-Viresh Kumar (1):
-      Documentation: cpu-freq: Frequencies aren't always sorted
-
-Zhao Wei Liew (1):
-      Documentation: cpufreq: Correct a typo
-
----------------
-
- Documentation/admin-guide/pm/cpufreq.rst           |  2 +-
- Documentation/cpu-freq/cpufreq-stats.txt           |  8 ++-
- .../bindings/cpufreq/arm_big_little_dt.txt         | 65 ----------------------
- drivers/cpufreq/imx6q-cpufreq.c                    |  7 ++-
- drivers/cpuidle/cpuidle-arm.c                      | 40 +++----------
- 5 files changed, 19 insertions(+), 103 deletions(-)
+Thanks,
+Mark.
