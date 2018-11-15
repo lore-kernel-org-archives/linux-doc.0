@@ -5,255 +5,87 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3E91D7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 23:00:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1BBCA7D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 23:15:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725948AbeKPJKh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Nov 2018 04:10:37 -0500
-Received: from mail.bootlin.com ([62.4.15.54]:59465 "EHLO mail.bootlin.com"
+        id S1725916AbeKPJZe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Nov 2018 04:25:34 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:34922 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725916AbeKPJKh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Nov 2018 04:10:37 -0500
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 0DE62207BD; Fri, 16 Nov 2018 00:00:45 +0100 (CET)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 5EF9E2072C;
-        Fri, 16 Nov 2018 00:00:44 +0100 (CET)
-Date:   Fri, 16 Nov 2018 00:00:43 +0100
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Fernando Ramos <greenfoo@gluegarage.com>
-Cc:     dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Archit Taneja <architt@codeaurora.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Russell King <linux+etnaviv@armlinux.org.uk>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Julia Lawall <Julia.Lawall@lip6.fr>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        virtualization@lists.linux-foundation.org,
-        etnaviv@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        cocci@systeme.lip6.fr
-Subject: Re: [PATCH 3/9] drm: replace "drm_dev_unref" function with
- "drm_dev_put"
-Message-ID: <20181116000043.3b0f6f27@bbrezillon>
-In-Reply-To: <20181115221634.22715-4-greenfoo@gluegarage.com>
-References: <20181115221634.22715-1-greenfoo@gluegarage.com>
-        <20181115221634.22715-4-greenfoo@gluegarage.com>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1725860AbeKPJZe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 16 Nov 2018 04:25:34 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 17F9630832CF;
+        Thu, 15 Nov 2018 23:15:42 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B052611BF;
+        Thu, 15 Nov 2018 23:15:35 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
+        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id wAFNFYxa027298;
+        Thu, 15 Nov 2018 18:15:34 -0500
+Received: from localhost (mpatocka@localhost)
+        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP id wAFNFY4e027294;
+        Thu, 15 Nov 2018 18:15:34 -0500
+X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka owned process doing -bs
+Date:   Thu, 15 Nov 2018 18:15:34 -0500 (EST)
+From:   Mikulas Patocka <mpatocka@redhat.com>
+X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
+To:     Paul Lawrence <paullawrence@google.com>
+cc:     Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@redhat.com>, linux-doc@vger.kernel.org,
+        kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org, dm-devel@redhat.com,
+        Shaohua Li <shli@kernel.org>
+Subject: Re: [dm-devel] [RFC] dm-bow working prototype
+In-Reply-To: <fba91b2e-4b2e-8daf-ff64-a12c9139cada@google.com>
+Message-ID: <alpine.LRH.2.02.1811151809380.25860@file01.intranet.prod.int.rdu2.redhat.com>
+References: <20181023212358.60292-1-paullawrence@google.com> <20181023221819.GB17552@agk-dp.fab.redhat.com> <296148c2-f2d9-5818-ea76-d71a0d6f5cd4@google.com> <alpine.LRH.2.02.1810241514310.4080@file01.intranet.prod.int.rdu2.redhat.com>
+ <4a934593-1bd1-be5f-35c0-945c42762627@google.com> <alpine.LRH.2.02.1810261558460.28906@file01.intranet.prod.int.rdu2.redhat.com> <fba91b2e-4b2e-8daf-ff64-a12c9139cada@google.com>
+User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Thu, 15 Nov 2018 23:15:42 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 15 Nov 2018 23:16:23 +0100
-Fernando Ramos <greenfoo@gluegarage.com> wrote:
 
-> This patch unifies the naming of DRM functions for reference counting as
-> requested on Documentation/gpu/todo.rst
+
+On Mon, 29 Oct 2018, Paul Lawrence wrote:
+
 > 
-> Signed-off-by: Fernando Ramos <greenfoo@gluegarage.com>
-> ---
->  drivers/gpu/drm/arc/arcpgu_drv.c             | 4 ++--
->  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 4 ++--
-
-For the Atmel HLCDC driver
-
-Acked-by: Boris Brezillon <boris.brezillon@bootlin.com>
-
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c        | 4 ++--
->  drivers/gpu/drm/mxsfb/mxsfb_drv.c            | 4 ++--
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c        | 2 +-
->  drivers/gpu/drm/shmobile/shmob_drm_drv.c     | 4 ++--
->  drivers/gpu/drm/tve200/tve200_drv.c          | 4 ++--
->  drivers/gpu/drm/zte/zx_drm_drv.c             | 4 ++--
->  8 files changed, 15 insertions(+), 15 deletions(-)
+> > The snapshot target could be hacked so that it remembers space trimmed
+> > with REQ_OP_DISCARD and won't reallocate these blocks.
+> > 
+> > But I suspect that running discard over the whole device would degrade
+> > performance more than copying some unneeded data.
+> > 
+> > How much data do you intend to backup with this solution?
+> > 
+> > 
+> We are space-constrained - we will have to free up space for the backup before
+> we apply the update, so we have to predict the size and keeping usage as low
+> as possible is thus very important.
 > 
-> diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
-> index f067de4e1e82..dcb06d4e9135 100644
-> --- a/drivers/gpu/drm/arc/arcpgu_drv.c
-> +++ b/drivers/gpu/drm/arc/arcpgu_drv.c
-> @@ -216,7 +216,7 @@ static int arcpgu_probe(struct platform_device *pdev)
->  	arcpgu_unload(drm);
->  
->  err_unref:
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  
->  	return ret;
->  }
-> @@ -227,7 +227,7 @@ static int arcpgu_remove(struct platform_device *pdev)
->  
->  	drm_dev_unregister(drm);
->  	arcpgu_unload(drm);
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> index 843cac222e60..f8da51a63e2f 100644
-> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> @@ -775,7 +775,7 @@ static int atmel_hlcdc_dc_drm_probe(struct platform_device *pdev)
->  	atmel_hlcdc_dc_unload(ddev);
->  
->  err_unref:
-> -	drm_dev_unref(ddev);
-> +	drm_dev_put(ddev);
->  
->  	return ret;
->  }
-> @@ -786,7 +786,7 @@ static int atmel_hlcdc_dc_drm_remove(struct platform_device *pdev)
->  
->  	drm_dev_unregister(ddev);
->  	atmel_hlcdc_dc_unload(ddev);
-> -	drm_dev_unref(ddev);
-> +	drm_dev_put(ddev);
->  
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> index 83c1f46670bf..52802e6049e0 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -550,7 +550,7 @@ static int etnaviv_bind(struct device *dev)
->  out_bind:
->  	kfree(priv);
->  out_unref:
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  
->  	return ret;
->  }
-> @@ -567,7 +567,7 @@ static void etnaviv_unbind(struct device *dev)
->  	drm->dev_private = NULL;
->  	kfree(priv);
->  
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  }
->  
->  static const struct component_master_ops etnaviv_master_ops = {
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> index 2393e6d16ffd..88ba003979e6 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> @@ -417,7 +417,7 @@ static int mxsfb_probe(struct platform_device *pdev)
->  err_unload:
->  	mxsfb_unload(drm);
->  err_free:
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  
->  	return ret;
->  }
-> @@ -428,7 +428,7 @@ static int mxsfb_remove(struct platform_device *pdev)
->  
->  	drm_dev_unregister(drm);
->  	mxsfb_unload(drm);
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index 084f58df4a8c..c7fe2433ab9e 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -454,7 +454,7 @@ static int rcar_du_remove(struct platform_device *pdev)
->  	drm_kms_helper_poll_fini(ddev);
->  	drm_mode_config_cleanup(ddev);
->  
-> -	drm_dev_unref(ddev);
-> +	drm_dev_put(ddev);
->  
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> index 6ececad6f845..8554102a6ead 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> @@ -194,7 +194,7 @@ static int shmob_drm_remove(struct platform_device *pdev)
->  	drm_kms_helper_poll_fini(ddev);
->  	drm_mode_config_cleanup(ddev);
->  	drm_irq_uninstall(ddev);
-> -	drm_dev_unref(ddev);
-> +	drm_dev_put(ddev);
->  
->  	return 0;
->  }
-> @@ -290,7 +290,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
->  	drm_kms_helper_poll_fini(ddev);
->  	drm_mode_config_cleanup(ddev);
->  err_free_drm_dev:
-> -	drm_dev_unref(ddev);
-> +	drm_dev_put(ddev);
->  
->  	return ret;
->  }
-> diff --git a/drivers/gpu/drm/tve200/tve200_drv.c b/drivers/gpu/drm/tve200/tve200_drv.c
-> index 72efcecb44f7..28e2d03c0ccf 100644
-> --- a/drivers/gpu/drm/tve200/tve200_drv.c
-> +++ b/drivers/gpu/drm/tve200/tve200_drv.c
-> @@ -249,7 +249,7 @@ static int tve200_probe(struct platform_device *pdev)
->  clk_disable:
->  	clk_disable_unprepare(priv->pclk);
->  dev_unref:
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  	return ret;
->  }
->  
-> @@ -263,7 +263,7 @@ static int tve200_remove(struct platform_device *pdev)
->  		drm_panel_bridge_remove(priv->bridge);
->  	drm_mode_config_cleanup(drm);
->  	clk_disable_unprepare(priv->pclk);
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/zte/zx_drm_drv.c b/drivers/gpu/drm/zte/zx_drm_drv.c
-> index 11ef17c2d1c1..5b6f1eda52e0 100644
-> --- a/drivers/gpu/drm/zte/zx_drm_drv.c
-> +++ b/drivers/gpu/drm/zte/zx_drm_drv.c
-> @@ -114,7 +114,7 @@ static int zx_drm_bind(struct device *dev)
->  	component_unbind_all(dev, drm);
->  out_unregister:
->  	dev_set_drvdata(dev, NULL);
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  	return ret;
->  }
->  
-> @@ -127,7 +127,7 @@ static void zx_drm_unbind(struct device *dev)
->  	drm_mode_config_cleanup(drm);
->  	component_unbind_all(dev, drm);
->  	dev_set_drvdata(dev, NULL);
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  }
->  
->  static const struct component_master_ops zx_drm_master_ops = {
+> Also, we've discussed the resizing requirement of the dm-snap solution and
+> that part is not attractive at all - it seems it would be impossible to
+> guarantee that the resizing happens in a timely fashion during the (very busy)
+> update cycle.
+> 
+> Thanks everyone for the insights, especially into how dm-snap works, which I
+> hadn't fully appreciated. At the moment, and for the above reasons, we intend
+> to continue with the dm-bow solution, but do want to keep this discussion
+> open. If anyone is going to be at Linux Plumbers, I'll be presenting this work
+> and would love to chat about it more.
 
+dm-snapshot took 9 years to fix the last data corruption bug (2004-2013 - 
+the commit e9c6a182649f4259db704ae15a91ac820e63b0ca).
+
+And with the new target duplicating the snapshot functionality, it may be 
+the same.
+
+Mikulas
