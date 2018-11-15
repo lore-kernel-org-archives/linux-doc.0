@@ -1,116 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_ADSP_ALL,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 291577D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 15:42:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 496847D08E
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 15:47:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388621AbeKPBu2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Nov 2018 20:50:28 -0500
-Received: from vulcan.natalenko.name ([104.207.131.136]:31490 "EHLO
-        vulcan.natalenko.name" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388317AbeKPBu2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Nov 2018 20:50:28 -0500
-Received: from mail.natalenko.name (vulcan.natalenko.name [IPv6:fe80::5400:ff:fe0c:dfa0])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vulcan.natalenko.name (Postfix) with ESMTPSA id CCDAB46F50B;
-        Thu, 15 Nov 2018 16:42:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
-        s=dkim-20170712; t=1542296524;
-        h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZUQbZVTpYqrz/LfYbA0NgZXCAeJR1wLkt7HtSNw1xHs=;
-        b=tEAQMwLjfCex8QhzvYs8mjI3SrfMoaiXX6UCESjg6ut6j94q6hR8//aZnnMz1XcsLGSXLi
-        MuJqY6JlR4UxxMIEClTaW04CuEIvW+OU0dJ7cNl1GUOgUoZbJAXjNF2cpqty9rKwj73S6e
-        43QvSrX6CMkA3dg3g12sxZGbOIsyqAM=
+        id S2388571AbeKPB4D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Nov 2018 20:56:03 -0500
+Received: from foss.arm.com ([217.140.101.70]:36810 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388525AbeKPB4C (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Nov 2018 20:56:02 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 274B280D;
+        Thu, 15 Nov 2018 07:47:41 -0800 (PST)
+Received: from brain-police (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CD60E3F5BD;
+        Thu, 15 Nov 2018 07:47:40 -0800 (PST)
+Date:   Thu, 15 Nov 2018 15:47:39 +0000
+From:   Will Deacon <will.deacon@arm.com>
+To:     Alexander Graf <agraf@suse.de>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Richard Brown <rbrown@suse.de>,
+        Matthias Brugger <mbrugger@suse.com>
+Subject: Re: [PATCH v2] arm64: Make kpti command line options x86 compatible
+Message-ID: <20181115154738.GB2062@brain-police>
+References: <20181113152906.55802-1-agraf@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Thu, 15 Nov 2018 16:42:04 +0100
-From:   Oleksandr Natalenko <oleksandr@natalenko.name>
-To:     Angelo Ruocco <angelo.ruocco.90@gmail.com>
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        Paolo Valente <paolo.valente@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Dennis Zhou <dennis@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        Liu Bo <bo.liu@linux.alibaba.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        linux-block <linux-block@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        'Paolo Valente' via bfq-iosched 
-        <bfq-iosched@googlegroups.com>, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Lennart Poettering <lennart@poettering.net>
-Subject: Re: [PATCH 00/12] unify the interface of the proportional-share
- policy in blkio/io
-In-Reply-To: <CADiTV-3tSpEMG7EHz3XGvfekNdtN8k_KQiDMtyykgOb81cvO0g@mail.gmail.com>
-References: <20181112095632.69114-1-paolo.valente@linaro.org>
- <9e8adb3271680165d85994a225713391@natalenko.name>
- <E8A20452-A73C-4A31-B5EC-48EFB9937832@linaro.org>
- <e85cfae0-7743-8c51-c2c9-0855c26f868e@kernel.dk>
- <CADiTV-37tqWsbxmeZJsqq+pqSqxN-_L9+T9R+PmBBJhfO-G09g@mail.gmail.com>
- <CADiTV-3tSpEMG7EHz3XGvfekNdtN8k_KQiDMtyykgOb81cvO0g@mail.gmail.com>
-Message-ID: <03b320ba47a0b2567f9135d17d5d93bd@natalenko.name>
-X-Sender: oleksandr@natalenko.name
-User-Agent: Roundcube Webmail/1.3.8
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
-        s=arc-20170712; t=1542296524;
-        h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZUQbZVTpYqrz/LfYbA0NgZXCAeJR1wLkt7HtSNw1xHs=;
-        b=z7FG0t785mVxooeUpTCjTXJMqRktcXImo4RS6k5a0CeSX3NnbooYg3rZkXlvTXLdXYOyli
-        6bSa8Gp78U7vUdm7eBLfTkk1EFJugw3tHgTSuMfeokVdW2omUsaatU9zBirEC++lzbmA7d
-        JbPIT5pBmPt3JcoQ7hTs+SKPBv7w+Ak=
-ARC-Seal: i=1; s=arc-20170712; d=natalenko.name; t=1542296524; a=rsa-sha256;
-        cv=none;
-        b=rET39wO5hdEq6IokL7PaFispuiKDyQrCDmJIDnsk7Ovjd2OkjFCvsphqR9Z+KzHxK51J3AKs65MWgP0eD/NjJCXTwxwcD8hAmCXUZUyRhTI17nXtWy1dZmfgnwRLMv+KIX1tFcJcqbAueVcRBxLC5lN8APaHa7kyHgxYVeIazk8=
-ARC-Authentication-Results: i=1;
-        vulcan.natalenko.name;
-        auth=pass smtp.auth=oleksandr@natalenko.name smtp.mailfrom=oleksandr@natalenko.name
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181113152906.55802-1-agraf@suse.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi.
-
-On 15.11.2018 16:33, Angelo Ruocco wrote:
-> I have realized that I didn't clearly explain my actions. I did do a
-> rebase, but that is not the cause of the problem I reported. I mean,
-> this is enough to trigger the issue:
+On Tue, Nov 13, 2018 at 04:29:06PM +0100, Alexander Graf wrote:
+> I've already stumbled over 2 cases where people got confused about how to
+> disable kpti on AArch64. In both cases, they used existing x86_64 options
+> and just applied that to an AArch64 system, expecting it to work.
 > 
-> git add remote block [1]
-> git fetch block
-> git checkout for-4.21/block
+> I think it makes a lot of sense to have compatible kernel command line
+> parameters whenever we can have them be compatible.
 > 
-> make
+> So this patch adds the pti= and no_pti kernel command line options, mapping
+> them into the existing kpti= command line framework. It preserves the old
+> syntax to maintain compatibility with older command lines.
 > 
-> [1] git://git.kernel.dk/linux-block [1]
+> While at it, the patch also marks the respective options as dual-arch.
+> 
+> Reported-by: Richard Brown <rbrown@suse.de>
+> Signed-off-by: Alexander Graf <agraf@suse.de>
+> 
+> ---
+> 
+> v1 -> v2:
+> 
+>   - Actually make it compile. Sorry for the sloppy v1.
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |  6 +++---
+>  arch/arm64/kernel/cpufeature.c                  | 20 +++++++++++++++++++-
+>  2 files changed, 22 insertions(+), 4 deletions(-)
 
-Checking this:
+This patch doesn't help though, right, because kpti= has already been
+included with backports etc so the ship has sailed? Yeah, it's not ideal,
+but we went over this before:
 
-http://git.kernel.dk/cgit/linux-block/tree/include/net/xfrm.h?h=for-4.21/block#n1465
+http://lists.infradead.org/pipermail/linux-arm-kernel/2018-August/598395.html
 
-and `git blame`, I don't see any `spruct` there.
+The thing we really need is the sysfs interface hooking up so you can easily
+check the state of the mitigation. Still waiting for a follow-up on that ;)
 
-Is your storage OK? Or, maybe, that was some accidental edit?
+http://lists.infradead.org/pipermail/linux-arm-kernel/2018-September/603412.html
 
--- 
-   Oleksandr Natalenko (post-factum)
+Will
