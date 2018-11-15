@@ -1,133 +1,71 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D5CD57D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 09:23:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 10FA07D08E
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 09:41:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731710AbeKOTa0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Nov 2018 14:30:26 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:53484 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728719AbeKOTa0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Nov 2018 14:30:26 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id AAFD3F823;
-        Thu, 15 Nov 2018 09:23:26 +0000 (UTC)
-Received: from [10.36.117.224] (ovpn-117-224.ams2.redhat.com [10.36.117.224])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3AA575DD7D;
-        Thu, 15 Nov 2018 09:23:14 +0000 (UTC)
-Subject: Re: [PATCH RFC 3/6] kexec: export PG_offline to VMCOREINFO
-To:     Dave Young <dyoung@redhat.com>
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, devel@linuxdriverproject.org,
-        linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org,
-        xen-devel@lists.xenproject.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Baoquan He <bhe@redhat.com>, Omar Sandoval <osandov@fb.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Lianbo Jiang <lijiang@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        "Michael S. Tsirkin" <mst@redhat.com>
-References: <20181114211704.6381-1-david@redhat.com>
- <20181114211704.6381-4-david@redhat.com>
- <20181115061923.GA3971@dhcp-128-65.nay.redhat.com>
-From:   David Hildenbrand <david@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <685892a9-3a56-8e8c-dbe7-8b1159067a6b@redhat.com>
-Date:   Thu, 15 Nov 2018 10:23:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1728609AbeKOTsV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Nov 2018 14:48:21 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:48322 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727265AbeKOTsV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Nov 2018 14:48:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
+        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=0YIP6kms/+57IvcKRu5puAui3qvcW2fPwyVGn1GwsXU=; b=hwKSwPMNMFe+Q9FfrbofwviLz2
+        P09ZoDsAXq83UP5IYoo27fVrMHcUdsXOCxDKwMyc6s3albWw2eGrKhglseX2lI80CGsI5EjKZH8ba
+        QkV+Pj1ViCGt/V07VkhHnTsyTTBuv2o9p1NrkpzogR5hLuCErWZRiCpToaN8t8IDsBGugphSq6Ufu
+        f9oWHLWOhR671KmZ4wJQZzXhxVC3wBJU0VmF3dYeqLxfMOXcHGngYxeXDd4vQi4WhmH9FYcyXxnbt
+        QoY6ihAZHDOi9xPV6+NWq7FafDFaqsJQCteaV9z5lZQkwYSp2guq0J8K/Z5JoDtFwo96C58DLsMib
+        J0UdPNjw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gNE9E-00070e-Ld; Thu, 15 Nov 2018 09:41:16 +0000
+Date:   Thu, 15 Nov 2018 01:41:16 -0800
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Alexander Graf <agraf@suse.de>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Richard Brown <rbrown@suse.de>,
+        Matthias Brugger <mbrugger@suse.com>
+Subject: Re: [PATCH] arm64: Make kpti command line options x86 compatible
+Message-ID: <20181115094116.GA18154@infradead.org>
+References: <20181113152046.22389-1-agraf@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20181115061923.GA3971@dhcp-128-65.nay.redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Thu, 15 Nov 2018 09:23:27 +0000 (UTC)
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20181113152046.22389-1-agraf@suse.de>
+User-Agent: Mutt/1.9.2 (2017-12-15)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 15.11.18 07:19, Dave Young wrote:
-> Hi David,
+On Tue, Nov 13, 2018 at 04:20:46PM +0100, Alexander Graf wrote:
+> I've already stumbled over 2 cases where people got confused about how to
+> disable kpti on AArch64. In both cases, they used existing x86_64 options
+> and just applied that to an AArch64 system, expecting it to work.
 > 
-> On 11/14/18 at 10:17pm, David Hildenbrand wrote:
->> Let's export PG_offline via PAGE_OFFLINE_MAPCOUNT_VALUE, so
->> makedumpfile can directly skip pages that are logically offline and the
->> content therefore stale.
+> I think it makes a lot of sense to have compatible kernel command line
+> parameters whenever we can have them be compatible.
 > 
-> It would be good to copy some background info from cover letter to the
-> patch description so that we can get better understanding why this is
-> needed now.
-
-Yes, will add more detail!
-
+> So this patch adds the pti= and no_pti kernel command line options, mapping
+> them into the existing kpti= command line framework. It preserves the old
+> syntax to maintain compatibility with older command lines.
 > 
-> BTW, Lianbo is working on a documentation of the vmcoreinfo exported
-> fields. Ccing him so that he is aware of this.
-> 
-> Also cc Boris,  although I do not want the doc changes blocks this
-> he might have different opinion :)
+> While at it, the patch also marks the respective options as dual-arch.
 
-I'll be happy to help updating documentation (or updating it myself if
-the doc updates go in first).
-
--- 
-
-Thanks,
-
-David / dhildenb
+Thanks.  Which also brings up my old complainﬆ that arm64 and x86 should
+use the same config option.  Bonus points for moving the parsing code
+to a common file..
