@@ -5,55 +5,54 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B3DF67D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 22:18:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7D93D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 22:39:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726052AbeKPI17 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Nov 2018 03:27:59 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:37569 "EHLO
-        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725888AbeKPI16 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Nov 2018 03:27:58 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id CBF1E22F25;
-        Thu, 15 Nov 2018 17:18:16 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Thu, 15 Nov 2018 17:18:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gluegarage.com;
-         h=from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=mesmtp; bh=ONICivwTMT
-        ENz178nXjnq+JH0phQ4XP7eTBS8xMMsgo=; b=j0XXfzZteFoXlAzrIAQVQPWZ+p
-        /P1msFrgPInflhKXWGL00BJBgq/90SJ3o44YakRE1FsoVersFzbvDN8L6eScBmdH
-        c4GjXRgi5X7ieJ644a0qXgqCVmlg5N/Rb5KhTqeC6LAtCejtz2n+YrKmNtbVuh4i
-        TaWCpx77IQ1k9Uj8I=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :in-reply-to:message-id:mime-version:references:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; bh=ONICivwTMTENz178nXjnq+JH0phQ4XP7eTBS8xMMsgo=; b=f9c0pr9O
-        jZPW7HdVJiFadeyNHbAYXBWTu4a3Jb4x/YcqoOBNnemnfGjn3J7/RiFpUlBOjhyM
-        c4X83SPbMm1VcZnyuo9xhygHLx22t0Rpg+ZRyfOW54sKTvpz73bS8ZHPaY/ER3vv
-        8ko01m2zrV02uNgha2ih+xtub44f505sLmJHVqNwLb4BRUCA87xZmtpvoC8eDUDi
-        4hNS81IjDfGCFamKPEDa2Df1xiKlMVXU4aZgRt64Fy+/m4qJF68Leo2kpiZs/RNS
-        ylJlv0iG641MUMCXMwWnxWjcYziIFB0ZxGf6vFPNgmDqDXl2+9NQyJAuEcjL2jpc
-        W7nh8bjfmMFogA==
-X-ME-Sender: <xms:qPDtW5JFldXh20GL88EcR4HdSkPWzZl2YPGPBzjrvPWn-GrKuOr4kQ>
-X-ME-Proxy: <xmx:qPDtW63VboRASe8qLjnbsfFULsaPyYhu5rAnv8vkObqPTvJE3fzMow>
-    <xmx:qPDtW0NvQybNtmMg6toUd4yW6EQB9nLvKh3cYAv6ijdd6HFzdd-6Tw>
-    <xmx:qPDtW1NoCFCrdLdZJZu6DrM5biKOAVkBD7vSgEkuy19PhOkPB3iO2A>
-    <xmx:qPDtW0mgFGEEZNkQHwyK-QV7_UveCwjsoVQwgFK8Pbj3Lzl4VK2yWw>
-    <xmx:qPDtWwDDEN5yKsjgUhSSqjVc_0UFN2MNj3qU27g9Mw_YWg9S_diP5w>
-    <xmx:qPDtW-RQn5FsI15JAcoll9w0QGPgyiY8aBpY4FZGZssPJrUmBLY_TQ>
-Received: from zaca_x230.localdomain (unknown [109.205.143.80])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 24315E4307;
-        Thu, 15 Nov 2018 17:18:12 -0500 (EST)
-From:   Fernando Ramos <greenfoo@gluegarage.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     David Airlie <airlied@linux.ie>,
+        id S1727647AbeKPIse (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Nov 2018 03:48:34 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:38566 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727374AbeKPIse (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Nov 2018 03:48:34 -0500
+Received: by mail-lj1-f196.google.com with SMTP id c19-v6so5860034lja.5
+        for <linux-doc@vger.kernel.org>; Thu, 15 Nov 2018 14:38:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SXqCNsRnQbG4WjKdL9YGXyFWRA6BFn3DdUb1fgQJwjo=;
+        b=GDW0BNOiljUFmdnNq/ha2hXUSbIGKgBh7FNi/ONlT2Hf8nnlG89WsxR7JCQRsQuyw4
+         Zca0DdFpy8au6Or48w988hwqvp56S0nWl4Udslb/hLjpnOeRyJbRRd3UkTvsBtRJrVuO
+         E6H0GCBybFc+Iti7VcRKr5/mbWO68itWLOrpo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SXqCNsRnQbG4WjKdL9YGXyFWRA6BFn3DdUb1fgQJwjo=;
+        b=N4JQ0WDK2ou0pGMUWgCW985XTh/tsisI/TpkEInZdwMcHRCj4fHeTf4SUbf8dx9j+d
+         oHT7wGHCdzD8IH2feJRw5LnAkqx6bffeitTDPFFC2IUMpMQKbxD7ZG/w5Wx6sAOzMw9d
+         jiyqrMMdJE8quALHDrb0ZIi5Z4VX/1qsxDNkgdeMNQ3Ik1MmjYyJF1UfXSQZW2kKSM+j
+         l0nBw7TbXPtj2h2TCUEy31JRVKVB/m1X7uZW7CbdqahguRCmmuSG57N1Lobai7uz+nci
+         N9wLCcugCS1wuIqjPpl9wq2OrRFXCaxyGibRRGUDSbgCzB2gW6v8pfgi5NR/xfesj5L6
+         4QsQ==
+X-Gm-Message-State: AGRZ1gIandnKC0gTuW8XxkisjunQgfYql6xWapRqV75DFcl4syaPxmVz
+        gIZxRJfP3cdT4eOkJgKb3Asa4w66/x1K8kEbC0je6Q==
+X-Google-Smtp-Source: AJdET5fH0oQIDoa2/vLV5ZynXR7Yp7rKSkY/M9aVwgiOTxCI1h96LEZQmd2whxVHe+veTtkmej8toGDJXpGpbg4H1wo=
+X-Received: by 2002:a2e:9107:: with SMTP id m7-v6mr4605034ljg.23.1542321528348;
+ Thu, 15 Nov 2018 14:38:48 -0800 (PST)
+MIME-Version: 1.0
+References: <20181115221634.22715-1-greenfoo@gluegarage.com>
+In-Reply-To: <20181115221634.22715-1-greenfoo@gluegarage.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 15 Nov 2018 23:38:35 +0100
+Message-ID: <CACRpkdZmTSo02yQeU=qe9WyJMXEq76CNmc2kkFEHuwdo=HKPJw@mail.gmail.com>
+Subject: Re: [PATCH 0/9] drm: remove deprecated functions
+To:     greenfoo@gluegarage.com
+Cc:     "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>, sean@poorly.run,
+        Dave Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>, abrodkin@synopsys.com,
         Boris Brezillon <boris.brezillon@bootlin.com>,
         Nicolas Ferre <nicolas.ferre@microchip.com>,
         Alexandre Belloni <alexandre.belloni@bootlin.com>,
@@ -63,74 +62,35 @@ Cc:     David Airlie <airlied@linux.ie>,
         Andrzej Hajda <a.hajda@samsung.com>,
         Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
         Lucas Stach <l.stach@pengutronix.de>,
-        Russell King <linux+etnaviv@armlinux.org.uk>,
+        linux+etnaviv@armlinux.org.uk,
         Christian Gmeiner <christian.gmeiner@gmail.com>,
         Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
+        kieran.bingham+renesas@ideasonboard.com,
         Shawn Guo <shawnguo@kernel.org>,
         Julia Lawall <Julia.Lawall@lip6.fr>,
         Gilles Muller <Gilles.Muller@lip6.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
+        Nicolas Palix <nicolas.palix@imag.fr>, michal.lkml@markovi.net,
+        hamohammed.sa@gmail.com, linux-doc@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
         virtualization@lists.linux-foundation.org,
-        etnaviv@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        etnaviv@lists.freedesktop.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         cocci@systeme.lip6.fr
-Subject: [PATCH 9/9] docs: drm: remove no longer relevant TODO entry
-Date:   Thu, 15 Nov 2018 23:16:29 +0100
-Message-Id: <20181115221634.22715-10-greenfoo@gluegarage.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20181115221634.22715-1-greenfoo@gluegarage.com>
-References: <20181115221634.22715-1-greenfoo@gluegarage.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This entry asked to rename all drm core "*_reference/_unrefence"
-functions to "*_get/_put".
+On Thu, Nov 15, 2018 at 11:17 PM Fernando Ramos <greenfoo@gluegarage.com> wrote:
 
-Now that this task is complete, we can remove this entry from the TODO
-list.
+> One of the things in the DRM TODO list ("Documentation/gpu/todo.rst") was to
+> "switch from reference/unreference to get/put". That's what this patch series is
+> about.
 
-Signed-off-by: Fernando Ramos <greenfoo@gluegarage.com>
----
- Documentation/gpu/todo.rst | 17 -----------------
- 1 file changed, 17 deletions(-)
+The series:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 77c2b3c25565..85433af65442 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -28,23 +28,6 @@ them, but also all the virtual ones used by KVM, so everyone qualifies).
- 
- Contact: Daniel Vetter, Thierry Reding, respective driver maintainers
- 
--Switch from reference/unreference to get/put
----------------------------------------------
--
--For some reason DRM core uses ``reference``/``unreference`` suffixes for
--refcounting functions, but kernel uses ``get``/``put`` (e.g.
--``kref_get``/``put()``). It would be good to switch over for consistency, and
--it's shorter. Needs to be done in 3 steps for each pair of functions:
--
--* Create new ``get``/``put`` functions, define the old names as compatibility
--  wrappers
--* Switch over each file/driver using a cocci-generated spatch.
--* Once all users of the old names are gone, remove them.
--
--This way drivers/patches in the progress of getting merged won't break.
--
--Contact: Daniel Vetter
--
- Convert existing KMS drivers to atomic modesetting
- --------------------------------------------------
- 
--- 
-2.19.1
-
+Yours,
+Linus Walleij
