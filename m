@@ -5,95 +5,137 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2006A7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 16:49:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CF3957D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 17:59:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387833AbeKPC6J convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Nov 2018 21:58:09 -0500
-Received: from mx2.suse.de ([195.135.220.15]:37450 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726534AbeKPC6J (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Nov 2018 21:58:09 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id AC246AFB4;
-        Thu, 15 Nov 2018 16:49:33 +0000 (UTC)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v2] arm64: Make kpti command line options x86 compatible
-From:   Alexander Graf <agraf@suse.de>
-X-Mailer: iPhone Mail (16A404)
-In-Reply-To: <20181115154738.GB2062@brain-police>
-Date:   Thu, 15 Nov 2018 17:49:31 +0100
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Richard Brown <rbrown@suse.de>,
-        Matthias Brugger <mbrugger@suse.com>, yousaf.kaukab@suse.com
-Content-Transfer-Encoding: 8BIT
-Message-Id: <215607E6-DF71-436C-92FA-AC4716777CA9@suse.de>
-References: <20181113152906.55802-1-agraf@suse.de> <20181115154738.GB2062@brain-police>
-To:     Will Deacon <will.deacon@arm.com>
+        id S2388585AbeKPEHy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Nov 2018 23:07:54 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:36838 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726453AbeKPEHy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Nov 2018 23:07:54 -0500
+X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
+Received: from mail.skyhub.de ([127.0.0.1])
+        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id r2joN7Gniaeq; Thu, 15 Nov 2018 18:59:03 +0100 (CET)
+Received: from zn.tnic (p200300EC2BD00900D5714500C00E26FD.dip0.t-ipconnect.de [IPv6:2003:ec:2bd0:900:d571:4500:c00e:26fd])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4521B1EC03C8;
+        Thu, 15 Nov 2018 18:59:03 +0100 (CET)
+Date:   Thu, 15 Nov 2018 18:58:58 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Dave Young <dyoung@redhat.com>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        devel@linuxdriverproject.org, linux-fsdevel@vger.kernel.org,
+        linux-pm@vger.kernel.org, xen-devel@lists.xenproject.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Baoquan He <bhe@redhat.com>, Omar Sandoval <osandov@fb.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Lianbo Jiang <lijiang@redhat.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH RFC 3/6] kexec: export PG_offline to VMCOREINFO
+Message-ID: <20181115175858.GC25056@zn.tnic>
+References: <20181114211704.6381-1-david@redhat.com>
+ <20181114211704.6381-4-david@redhat.com>
+ <20181115061923.GA3971@dhcp-128-65.nay.redhat.com>
+ <20181115111023.GC26448@zn.tnic>
+ <4aa5d39d-a923-87de-d646-70b9cbfe62f0@redhat.com>
+ <20181115115213.GE26448@zn.tnic>
+ <9d19a844-9ae0-9520-c32a-0a4491f8de43@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <9d19a844-9ae0-9520-c32a-0a4491f8de43@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Nov 15, 2018 at 01:01:17PM +0100, David Hildenbrand wrote:
+> Just saying that "I'm not the first to do it, don't hit me with a stick" :)
 
+:-)
 
-> Am 15.11.2018 um 16:47 schrieb Will Deacon <will.deacon@arm.com>:
+> Indeed. And we still have without makedumpfile. I think you are aware of
+> this, but I'll explain it just for consistency: PG_hwpoison
+
+No, I appreciate an explanation very much! So thanks for that. :)
+
+> At some point we detect a HW error and mask a page as PG_hwpoison.
 > 
->> On Tue, Nov 13, 2018 at 04:29:06PM +0100, Alexander Graf wrote:
->> I've already stumbled over 2 cases where people got confused about how to
->> disable kpti on AArch64. In both cases, they used existing x86_64 options
->> and just applied that to an AArch64 system, expecting it to work.
->> 
->> I think it makes a lot of sense to have compatible kernel command line
->> parameters whenever we can have them be compatible.
->> 
->> So this patch adds the pti= and no_pti kernel command line options, mapping
->> them into the existing kpti= command line framework. It preserves the old
->> syntax to maintain compatibility with older command lines.
->> 
->> While at it, the patch also marks the respective options as dual-arch.
->> 
->> Reported-by: Richard Brown <rbrown@suse.de>
->> Signed-off-by: Alexander Graf <agraf@suse.de>
->> 
->> ---
->> 
->> v1 -> v2:
->> 
->>  - Actually make it compile. Sorry for the sloppy v1.
->> ---
->> Documentation/admin-guide/kernel-parameters.txt |  6 +++---
->> arch/arm64/kernel/cpufeature.c                  | 20 +++++++++++++++++++-
->> 2 files changed, 22 insertions(+), 4 deletions(-)
+> makedumpfile knows how to treat that flag and can exclude it from the
+> dump (== not access it). No crash.
 > 
-> This patch doesn't help though, right, because kpti= has already been
-> included with backports etc so the ship has sailed?
-
-Not necessarily. We can always mark this as stable and have distros pull it in. Consistency is definitely useful for everyone.
-
-> Yeah, it's not ideal,
-> but we went over this before:
+> kdump itself has no clue about old "struct pages". Especially:
+> a) Where they are located in memory (e.g. SPARSE)
+> b) What their format is ("where are the flags")
+> c) What the meaning of flags is ("what does bit X mean")
 > 
-> http://lists.infradead.org/pipermail/linux-arm-kernel/2018-August/598395.html
-
-Ah, I mist havd missed that. But if you already have 2 people sending very similar patches, there is probably something to it :).
-
+> In order to know such information, we would have to do parsing of quite
+> some information inside the kernel in kdump. Basically what makedumpfile
+> does just now. Is this feasible? I don't think so.
 > 
-> The thing we really need is the sysfs interface hooking up so you can easily
-> check the state of the mitigation. Still waiting for a follow-up on that ;)
+> So we would need another approach to communicate such information as you
+> said. I can't think of any, but if anybody reading this has an idea,
+> please speak up. I am interested.
+
+Yeah but that ship has sailed. And even if we had a great idea, we'd
+have to support kdump before and after the idea. And that would be a
+serious mess.
+
+And if you have a huge box with gazillion piles of memory and an alpha
+particle passes through a bunch of them on its way down to the earth's
+core, and while doing so, flips a bunch of bits, you need to go and
+collect all those regions and update some list which you then need to
+shove into the second kernel.
+
+And you probably need to do all that through perhaps a piece of memory
+which is used for communication between first and second kernel and that
+list better fit in there, or you need to realloc. And that piece of
+memory's layout needs to be properly defined so that the second kernel
+can parse it correctly.
+
+And so on...
+
+> The *only* way right now we would have to handle such scenarios:
 > 
-> http://lists.infradead.org/pipermail/linux-arm-kernel/2018-September/603412.html
+> 1. While dumping memory and we get a machine check, fake reading a zero
+> page instead of crashing.
+> 2. While dumping memory and we get a fault, fake reading a zero page
+> instead of crashing.
 
-That one is very much needed as well, yes.
+Yap.
 
-Alex
+> Indeed, and the basic design is to export these flags. (let's say
+> "unfortunately", being able to handle such stuff in kdump directly would
+> be the dream).
 
-> 
-> Will
+Well, AFAICT, the minimum work you need to always do before starting the
+dumping is somehow generate that list of pages or ranges to not dump.
+And that work needs to be done by the first or the second kernel, I'd
+say.
 
+If the first kernel would do it, then you'd have to probably have
+callbacks to certain operations which go and add ranges or pages to
+exclude, to a list which is then readily accessible to the second
+kernel. Which means, when you reserve memory for the second kernel,
+you'd have to reserve memory also for such a list.
+
+But then what do you do when that memory gets filled up...?
+
+So I guess exporting those things in vmcoreinfo is probably the only
+thing we *can* do in the end.
+
+Oh well, enough rambling... :)
+
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
