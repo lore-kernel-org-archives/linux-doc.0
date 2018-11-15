@@ -2,312 +2,462 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 19A027D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 08:38:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A72827D08E
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 08:49:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728922AbeKOSpE convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Nov 2018 13:45:04 -0500
-Received: from mga14.intel.com ([192.55.52.115]:1883 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728388AbeKOSpD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Nov 2018 13:45:03 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Nov 2018 00:38:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,235,1539673200"; 
-   d="scan'208";a="108257245"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.72.61])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Nov 2018 00:38:08 -0800
-From:   Jani Nikula <jani.nikula@intel.com>
-To:     Dan Williams <dan.j.williams@intel.com>,
-        linux-kernel@vger.kernel.org
-Cc:     vishal.l.verma@intel.com,
-        ksummit-discuss@lists.linuxfoundation.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-nvdimm@lists.01.org, Dmitry Vyukov <dvyukov@google.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Steve French <stfrench@microsoft.com>,
-        "Tobin C. Harding" <me@tobin.cc>, linux-doc@vger.kernel.org
-Subject: Re: [Ksummit-discuss] [RFC PATCH 2/3] MAINTAINERS, Handbook: Subsystem Profile
-In-Reply-To: <154225760492.2499188.14152986544451112930.stgit@dwillia2-desk3.amr.corp.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <154225759358.2499188.15268218778137905050.stgit@dwillia2-desk3.amr.corp.intel.com> <154225760492.2499188.14152986544451112930.stgit@dwillia2-desk3.amr.corp.intel.com>
-Date:   Thu, 15 Nov 2018 10:38:44 +0200
-Message-ID: <87pnv6ivl7.fsf@intel.com>
+        id S1728719AbeKOS4d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Nov 2018 13:56:33 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:37401 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728519AbeKOS4d (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Nov 2018 13:56:33 -0500
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id C26C385C2632D;
+        Thu, 15 Nov 2018 16:49:27 +0800 (CST)
+Received: from localhost (10.67.212.75) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server (TLS) id 14.3.408.0; Thu, 15 Nov
+ 2018 16:49:21 +0800
+Date:   Thu, 15 Nov 2018 16:51:09 +0800
+From:   Kenneth Lee <liguozhu@hisilicon.com>
+To:     Leon Romanovsky <leon@kernel.org>
+CC:     Kenneth Lee <nek.in.cn@gmail.com>,
+        Tim Sell <timothy.sell@unisys.com>,
+        <linux-doc@vger.kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Zaibo Xu <xuzaibo@huawei.com>, <zhangfei.gao@foxmail.com>,
+        <linuxarm@huawei.com>, <haojian.zhuang@linaro.org>,
+        Christoph Lameter <cl@linux.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        Gavin Schenk <g.schenk@eckelmann.de>,
+        "RDMA mailing list" <linux-rdma@vger.kernel.org>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        "Jason Gunthorpe" <jgg@ziepe.ca>,
+        Doug Ledford <dledford@redhat.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        "David Kershner" <david.kershner@unisys.com>,
+        Johan Hovold <johan@kernel.org>,
+        Cyrille Pitchen <cyrille.pitchen@free-electrons.com>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Jens Axboe <axboe@kernel.dk>, <guodong.xu@linaro.org>,
+        linux-netdev <netdev@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        <linux-kernel@vger.kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        <linux-crypto@vger.kernel.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        <linux-accelerators@lists.ozlabs.org>
+Subject: Re: [RFCv3 PATCH 1/6] uacce: Add documents for WarpDrive/uacce
+Message-ID: <20181115085109.GD157308@Turing-Arch-b>
+References: <20181112075807.9291-1-nek.in.cn@gmail.com>
+ <20181112075807.9291-2-nek.in.cn@gmail.com>
+ <20181113002354.GO3695@mtr-leonro.mtl.com>
+ <95310df4-b32c-42f0-c750-3ad5eb89b3dd@gmail.com>
+ <20181114160017.GI3759@mtr-leonro.mtl.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20181114160017.GI3759@mtr-leonro.mtl.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Originating-IP: [10.67.212.75]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Nov 14, 2018 at 06:00:17PM +0200, Leon Romanovsky wrote:
+> Date: Wed, 14 Nov 2018 18:00:17 +0200
+> From: Leon Romanovsky <leon@kernel.org>
+> To: Kenneth Lee <nek.in.cn@gmail.com>
+> CC: Tim Sell <timothy.sell@unisys.com>, linux-doc@vger.kernel.org,
+>  Alexander Shishkin <alexander.shishkin@linux.intel.com>, Zaibo Xu
+>  <xuzaibo@huawei.com>, zhangfei.gao@foxmail.com, linuxarm@huawei.com,
+>  haojian.zhuang@linaro.org, Christoph Lameter <cl@linux.com>, Hao Fang
+>  <fanghao11@huawei.com>, Gavin Schenk <g.schenk@eckelmann.de>, RDMA mailing
+>  list <linux-rdma@vger.kernel.org>, Zhou Wang <wangzhou1@hisilicon.com>,
+>  Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>, Uwe
+>  Kleine-König <u.kleine-koenig@pengutronix.de>, David Kershner
+>  <david.kershner@unisys.com>, Johan Hovold <johan@kernel.org>, Cyrille
+>  Pitchen <cyrille.pitchen@free-electrons.com>, Sagar Dharia
+>  <sdharia@codeaurora.org>, Jens Axboe <axboe@kernel.dk>,
+>  guodong.xu@linaro.org, linux-netdev <netdev@vger.kernel.org>, Randy Dunlap
+>  <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, Vinod Koul
+>  <vkoul@kernel.org>, linux-crypto@vger.kernel.org, Philippe Ombredanne
+>  <pombredanne@nexb.com>, Sanyog Kale <sanyog.r.kale@intel.com>, Kenneth Lee
+>  <liguozhu@hisilicon.com>, "David S. Miller" <davem@davemloft.net>,
+>  linux-accelerators@lists.ozlabs.org
+> Subject: Re: [RFCv3 PATCH 1/6] uacce: Add documents for WarpDrive/uacce
+> User-Agent: Mutt/1.10.1 (2018-07-13)
+> Message-ID: <20181114160017.GI3759@mtr-leonro.mtl.com>
+> 
+> On Wed, Nov 14, 2018 at 10:58:09AM +0800, Kenneth Lee wrote:
+> >
+> > 在 2018/11/13 上午8:23, Leon Romanovsky 写道:
+> > > On Mon, Nov 12, 2018 at 03:58:02PM +0800, Kenneth Lee wrote:
+> > > > From: Kenneth Lee <liguozhu@hisilicon.com>
+> > > >
+> > > > WarpDrive is a general accelerator framework for the user application to
+> > > > access the hardware without going through the kernel in data path.
+> > > >
+> > > > The kernel component to provide kernel facility to driver for expose the
+> > > > user interface is called uacce. It a short name for
+> > > > "Unified/User-space-access-intended Accelerator Framework".
+> > > >
+> > > > This patch add document to explain how it works.
+> > > + RDMA and netdev folks
+> > >
+> > > Sorry, to be late in the game, I don't see other patches, but from
+> > > the description below it seems like you are reinventing RDMA verbs
+> > > model. I have hard time to see the differences in the proposed
+> > > framework to already implemented in drivers/infiniband/* for the kernel
+> > > space and for the https://github.com/linux-rdma/rdma-core/ for the user
+> > > space parts.
+> >
+> > Thanks Leon,
+> >
+> > Yes, we tried to solve similar problem in RDMA. We also learned a lot from
+> > the exist code of RDMA. But we we have to make a new one because we cannot
+> > register accelerators such as AI operation, encryption or compression to the
+> > RDMA framework:)
+> 
+> Assuming that you did everything right and still failed to use RDMA
+> framework, you was supposed to fix it and not to reinvent new exactly
+> same one. It is how we develop kernel, by reusing existing code.
 
-Cc: linux-doc
+Yes, but we don't force other system such as NIC or GPU into RDMA, do we?
 
-On Wed, 14 Nov 2018, Dan Williams <dan.j.williams@intel.com> wrote:
-> As presented at the 2018 Linux Plumbers conference [1], the Subsystem
-> Profile is proposed as a way to reduce friction between committers and
-> maintainers and perhaps encourage conversations amongst maintainers
-> about best practice policies.
->
-> The profile contains short answers to some of the common policy
-> questions a contributor might have, or that a maintainer might consider
-> formalizing. The current list of maintenance policies is:
->
-> Overview: General introduction to maintaining the subsystem
-> Core: List of source files considered core
-> Leaf: List of source files that consume core functionality
-> Patches or Pull requests: Simple statement of expected submission format
-> Last -rc for new feature submissions: Expected lead time for submissions
-> Last -rc to merge features: Deadline for merge decisions
-> Non-author Ack / Review Tags Required: Patch review economics
-> Test Suite: Pass this suite before requesting inclusion
-> Resubmit Cadence: When to ping the maintainer
-> Trusted Reviewers: Help for triaging patches
-> Time Zone / Office Hours: When might a maintainer be available
-> Checkpatch / Style Cleanups: Policy on pure cleanup patches
-> Off-list review: Request for review gates
-> TODO: Potential development tasks up for grabs, or active focus areas
->
-> The goal of the Subsystem Profile is to set expectations for
-> contributors and interim or replacement maintainers for a subsystem.
+I assume you would not agree to register a zip accelerator to infiniband? :)
 
-First of all, I welcome documentation efforts like this.
+Further, I don't think it is wise to break an exist system (RDMA) to fulfill a
+totally new scenario. The better choice is to let them run in parallel for some
+time and try to merge them accordingly.
 
-The cover letter mainly focuses on the maintainer aspect, and the
-documentation is added to the maintainer handbook. However, here you set
-the goal as setting expectations for contributors. The example nvdimm
-profile in patch 3/3 addresses the reader as a new maintainer, yet goes
-on to set expectations also for contributors, not just the maintainer.
+> 
+> >
+> > Another problem we tried to address is the way to pin the memory for dma
+> > operation. The RDMA way to pin the memory cannot avoid the page lost due to
+> > copy-on-write operation during the memory is used by the device. This may
+> > not be important to RDMA library. But it is important to accelerator.
+> 
+> Such support exists in drivers/infiniband/ from late 2014 and
+> it is called ODP (on demand paging).
 
-I do think the documentation for contributors and maintainers/committers
-should be kept separate. Most contributors will never care about the
-documentation for the latter. We have Documentation/process for
-contributors, and I think the audience of Documentation/maintainer
-should be strictly maintainers.
+I reviewed ODP and I think it is a solution bound to infiniband. It is part of
+MR semantics and required a infiniband specific hook
+(ucontext->invalidate_range()). And the hook requires the device to be able to
+stop using the page for a while for the copying. It is ok for infiniband
+(actually, only mlx5 uses it). I don't think most accelerators can support
+this mode. But WarpDrive works fully on top of IOMMU interface, it has no this
+limitation.
 
-In summary, I do think we need all of the documentation you propose, and
-I appreciate you taking this on, but I think this should be split by
-audience.
+> 
+> >
+> > Hope this can help the understanding.
+> 
+> Yes, it helped me a lot.
+> Now, I'm more than before convinced that this whole patchset shouldn't
+> exist in the first place.
 
-BR,
-Jani.
+Then maybe you can tell me how I can register my accelerator to the user space?
 
-
->
-> See Documentation/maintainer/subsystem-profile.rst for more details, and
-> a follow-on example profile for the libnvdimm subsystem.
->
-> [1]: https://linuxplumbersconf.org/event/2/contributions/59/
->
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Steve French <stfrench@microsoft.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Tobin C. Harding <me@tobin.cc>
-> Cc: Olof Johansson <olof@lixom.net>
-> Cc: Martin K. Petersen <martin.petersen@oracle.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Joe Perches <joe@perches.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Signed-off-by: Dan Williams <dan.j.williams@intel.com>
-> ---
->  Documentation/maintainer/index.rst             |    1 
->  Documentation/maintainer/subsystem-profile.rst |  145 ++++++++++++++++++++++++
->  MAINTAINERS                                    |    4 +
->  3 files changed, 150 insertions(+)
->  create mode 100644 Documentation/maintainer/subsystem-profile.rst
->
-> diff --git a/Documentation/maintainer/index.rst b/Documentation/maintainer/index.rst
-> index 2a14916930cb..1e6b1aaa6024 100644
-> --- a/Documentation/maintainer/index.rst
-> +++ b/Documentation/maintainer/index.rst
-> @@ -11,4 +11,5 @@ additions to this manual.
->  
->     configure-git
->     pull-requests
-> +   subsystem-profile
->  
-> diff --git a/Documentation/maintainer/subsystem-profile.rst b/Documentation/maintainer/subsystem-profile.rst
-> new file mode 100644
-> index 000000000000..a74b624e0972
-> --- /dev/null
-> +++ b/Documentation/maintainer/subsystem-profile.rst
-> @@ -0,0 +1,145 @@
-> +.. _subsystemprofile:
-> +
-> +Subsystem Profile
-> +=================
-> +
-> +The Subsystem Profile is a collection of policy positions that a
-> +maintainer or maintainer team establishes for the their subsystem. While
-> +there is a wide range of technical nuance on maintaining disparate
-> +sections of the kernel, the Subsystem Profile documents a known set of
-> +major process policies that vary between subsystems.  What follows is a
-> +list of policy questions a maintainer can answer and include a document
-> +in the kernel, or on an external website. It advertises to other
-> +maintainers and contributors the local policy of the subsystem. Some
-> +sections are optional like "Overview", "Off-list review", and "TODO".
-> +The others are recommended for all subsystems to address, but no section
-> +is mandatory. In addition there are no wrong answers, just document how
-> +a subsystem typically operates. Note that the profile follows the
-> +subsystem not the maintainer, i.e. there is no expectation that a
-> +maintainer of multiple subsystems deploys the same policy across those
-> +subsystems.
-> +
-> +
-> +Overview
-> +--------
-> +In this optional section of the profile provide a free form overview of
-> +the subsystem written as a hand-off document. In other words write a
-> +note to someone that would receive the “keys to the castle” in the event
-> +of extended or unexpected absence. “So, you have recently become the
-> +maintainer of the XYZ subsystem, condolences, it is a thankless job,
-> +here is the lay of the land.” Details to consider are the extended
-> +details that are not included in MAINTAINERS, and not addressed by the
-> +other profile questions below. For example details like, who has access
-> +to the git tree, branches that are pulled into -next, relevant
-> +specifications, issue trackers, and sensitive code areas. If available
-> +the Overview should link to other subsystem documentation that may
-> +clarify, re-iterate, emphasize / de-emphasize portions of the global
-> +process documentation for contributors (CodingStyle, SubmittingPatches,
-> +etc...).
-> +
-> +
-> +Core
-> +----
-> +A list of F: tags (as described by MAINTAINERS) listing what the
-> +maintainer considers to be core files. The review and lead time
-> +constraints for 'core' code may be stricter given the increased
-> +sensitivity and risk of change.
-> +
-> +
-> +Patches or Pull requests
-> +------------------------
-> +Some subsystems allow contributors to send pull requests, most require
-> +mailed patches. State “Patches only”, or “Pull requests accepted”.
-> +
-> +
-> +Last -rc for new feature submissions
-> +------------------------------------
-> +New feature submissions targeting the next merge window should have
-> +their first posting for consideration before this point. Patches that
-> +are submitted after this point should be clear that they are targeting
-> +the NEXT+1 merge window, or should come with sufficient justification
-> +why they should be considered on an expedited schedule. A general
-> +guideline is to set expectation with contributors that new feature
-> +submissions should appear before -rc5. The answer may be different for
-> +'Core:' files, include a second entry prefixed with 'Core:' if so.
-> +
-> +
-> +Last -rc to merge features
-> +--------------------------
-> +Indicate to contributors the point at which an as yet un-applied patch
-> +set will need to wait for the NEXT+1 merge window. Of course there is no
-> +obligation to ever except any given patchset, but if the review has not
-> +concluded by this point the expectation the contributor should wait and
-> +resubmit for the following merge window. The answer may be different for
-> +'Core:' files, include a second entry prefixed with 'Core:' if so.
-> +
-> +
-> +Non-author Ack / Review Tags Required
-> +-------------------------------------
-> +Let contributors and other maintainers know whether they can expect to
-> +see the maintainer self-commit patches without 3rd-party review. Some
-> +subsystem developer communities are so small as to make this requirement
-> +impractical. Others may have been bootstrapped by a submission of
-> +self-reviewed code at the outset, but have since moved to a
-> +non-author review-required stance. This section sets expectations on the
-> +code-review economics in the subsystem. For example, can a contributor
-> +trade review of a maintainer's, or other contributor's patches in
-> +exchange for consideration of their own.
-> +
-> +
-> +Test Suite
-> +----------
-> +Indicate the test suite all patches are expected to pass before being
-> +submitted for inclusion consideration.
-> +
-> +
-> +Resubmit Cadence
-> +----------------
-> +Define a rate at which a contributor should wait to resubmit a patchset
-> +that has not yet received comments. A general guideline is to try to
-> +meet a deadline of 1 - 2 weeks to acknowledge starting consideration for
-> +a patch set.
-> +
-> +
-> +Trusted Reviewers
-> +-----------------
-> +While a maintainer / maintainer-team is expected to be reviewer of last
-> +resort the review load is less onerous when distributed amongst
-> +contributors and or a trusted set of individuals.  This section is
-> +distinct from the R: tag (Designated Reviewer). Whereas R: identifies
-> +reviewers that should always be copied on a patch submission, the
-> +trusted reviewers here are individuals contributors can reach out to if
-> +a few 'Resubmit Cadence' intervals have gone by without maintainer
-> +action, or to otherwise consult for advice.
-> +
-> +
-> +Time Zone / Office Hours
-> +------------------------
-> +Let contributors know the time of day when one or more maintainers are
-> +usually actively monitoring the mailing list.
-> +
-> +
-> +Checkpatch / Style Cleanups
-> +---------------------------
-> +For subsystems with long standing code bases it is reasonable to decline
-> +to accept pure coding-style fixup patches. This is where you can let
-> +contributors know “Standalone style-cleanups are welcome”,
-> +“Style-cleanups to existing code only welcome with other feature
-> +changes”, or “Standalone style-cleanups to existing code are not
-> +welcome”.
-> +
-> +
-> +Off-list review
-> +---------------
-> +A maintainer may optionally require that contributors seek prior review
-> +of patches before initial submission for upstream. For example,
-> +“Developers from organization X, please seek internal review before
-> +requesting upstream review”. This policy identifies occasions where a
-> +maintainer wants to reflect some of the review load back to an
-> +organization.
-> +
-> +
-> +TODO
-> +----
-> +In this optional section include a list of work items that might be
-> +suitable for onboarding a new developer to the subsystem.
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 83b7b3943a12..bb4a83a7684d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -99,6 +99,10 @@ Descriptions of section entries:
->  	   Obsolete:	Old code. Something tagged obsolete generally means
->  			it has been replaced by a better system and you
->  			should be using that.
-> +	P: Subsystem Profile document for the maintainer entry.  This
-> +	   is either an in-tree file or a URI to a document.  The
-> +	   contents of a Subsystem Profile are described in
-> +	   Documentation/maintainer/subsystem-profile.rst.
->  	F: Files and directories with wildcard patterns.
->  	   A trailing slash includes all files and subdirectory files.
->  	   F:	drivers/net/	all files in and below drivers/net
->
-> _______________________________________________
-> Ksummit-discuss mailing list
-> Ksummit-discuss@lists.linuxfoundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/ksummit-discuss
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+> 
+> To be clear, NAK.
+> 
+> Thanks
+> 
+> >
+> > Cheers
+> >
+> > >
+> > > Hard NAK from RDMA side.
+> > >
+> > > Thanks
+> > >
+> > > > Signed-off-by: Kenneth Lee <liguozhu@hisilicon.com>
+> > > > ---
+> > > >   Documentation/warpdrive/warpdrive.rst       | 260 +++++++
+> > > >   Documentation/warpdrive/wd-arch.svg         | 764 ++++++++++++++++++++
+> > > >   Documentation/warpdrive/wd.svg              | 526 ++++++++++++++
+> > > >   Documentation/warpdrive/wd_q_addr_space.svg | 359 +++++++++
+> > > >   4 files changed, 1909 insertions(+)
+> > > >   create mode 100644 Documentation/warpdrive/warpdrive.rst
+> > > >   create mode 100644 Documentation/warpdrive/wd-arch.svg
+> > > >   create mode 100644 Documentation/warpdrive/wd.svg
+> > > >   create mode 100644 Documentation/warpdrive/wd_q_addr_space.svg
+> > > >
+> > > > diff --git a/Documentation/warpdrive/warpdrive.rst b/Documentation/warpdrive/warpdrive.rst
+> > > > new file mode 100644
+> > > > index 000000000000..ef84d3a2d462
+> > > > --- /dev/null
+> > > > +++ b/Documentation/warpdrive/warpdrive.rst
+> > > > @@ -0,0 +1,260 @@
+> > > > +Introduction of WarpDrive
+> > > > +=========================
+> > > > +
+> > > > +*WarpDrive* is a general accelerator framework for the user application to
+> > > > +access the hardware without going through the kernel in data path.
+> > > > +
+> > > > +It can be used as the quick channel for accelerators, network adaptors or
+> > > > +other hardware for application in user space.
+> > > > +
+> > > > +This may make some implementation simpler.  E.g.  you can reuse most of the
+> > > > +*netdev* driver in kernel and just share some ring buffer to the user space
+> > > > +driver for *DPDK* [4] or *ODP* [5]. Or you can combine the RSA accelerator with
+> > > > +the *netdev* in the user space as a https reversed proxy, etc.
+> > > > +
+> > > > +*WarpDrive* takes the hardware accelerator as a heterogeneous processor which
+> > > > +can share particular load from the CPU:
+> > > > +
+> > > > +.. image:: wd.svg
+> > > > +        :alt: WarpDrive Concept
+> > > > +
+> > > > +The virtual concept, queue, is used to manage the requests sent to the
+> > > > +accelerator. The application send requests to the queue by writing to some
+> > > > +particular address, while the hardware takes the requests directly from the
+> > > > +address and send feedback accordingly.
+> > > > +
+> > > > +The format of the queue may differ from hardware to hardware. But the
+> > > > +application need not to make any system call for the communication.
+> > > > +
+> > > > +*WarpDrive* tries to create a shared virtual address space for all involved
+> > > > +accelerators. Within this space, the requests sent to queue can refer to any
+> > > > +virtual address, which will be valid to the application and all involved
+> > > > +accelerators.
+> > > > +
+> > > > +The name *WarpDrive* is simply a cool and general name meaning the framework
+> > > > +makes the application faster. It includes general user library, kernel
+> > > > +management module and drivers for the hardware. In kernel, the management
+> > > > +module is called *uacce*, meaning "Unified/User-space-access-intended
+> > > > +Accelerator Framework".
+> > > > +
+> > > > +
+> > > > +How does it work
+> > > > +================
+> > > > +
+> > > > +*WarpDrive* uses *mmap* and *IOMMU* to play the trick.
+> > > > +
+> > > > +*Uacce* creates a chrdev for the device registered to it. A "queue" will be
+> > > > +created when the chrdev is opened. The application access the queue by mmap
+> > > > +different address region of the queue file.
+> > > > +
+> > > > +The following figure demonstrated the queue file address space:
+> > > > +
+> > > > +.. image:: wd_q_addr_space.svg
+> > > > +        :alt: WarpDrive Queue Address Space
+> > > > +
+> > > > +The first region of the space, device region, is used for the application to
+> > > > +write request or read answer to or from the hardware.
+> > > > +
+> > > > +Normally, there can be three types of device regions mmio and memory regions.
+> > > > +It is recommended to use common memory for request/answer descriptors and use
+> > > > +the mmio space for device notification, such as doorbell. But of course, this
+> > > > +is all up to the interface designer.
+> > > > +
+> > > > +There can be two types of device memory regions, kernel-only and user-shared.
+> > > > +This will be explained in the "kernel APIs" section.
+> > > > +
+> > > > +The Static Share Virtual Memory region is necessary only when the device IOMMU
+> > > > +does not support "Share Virtual Memory". This will be explained after the
+> > > > +*IOMMU* idea.
+> > > > +
+> > > > +
+> > > > +Architecture
+> > > > +------------
+> > > > +
+> > > > +The full *WarpDrive* architecture is represented in the following class
+> > > > +diagram:
+> > > > +
+> > > > +.. image:: wd-arch.svg
+> > > > +        :alt: WarpDrive Architecture
+> > > > +
+> > > > +
+> > > > +The user API
+> > > > +------------
+> > > > +
+> > > > +We adopt a polling style interface in the user space: ::
+> > > > +
+> > > > +        int wd_request_queue(struct wd_queue *q);
+> > > > +        void wd_release_queue(struct wd_queue *q);
+> > > > +
+> > > > +        int wd_send(struct wd_queue *q, void *req);
+> > > > +        int wd_recv(struct wd_queue *q, void **req);
+> > > > +        int wd_recv_sync(struct wd_queue *q, void **req);
+> > > > +        void wd_flush(struct wd_queue *q);
+> > > > +
+> > > > +wd_recv_sync() is a wrapper to its non-sync version. It will trapped into
+> > > > +kernel and waits until the queue become available.
+> > > > +
+> > > > +If the queue do not support SVA/SVM. The following helper function
+> > > > +can be used to create Static Virtual Share Memory: ::
+> > > > +
+> > > > +        void *wd_preserve_share_memory(struct wd_queue *q, size_t size);
+> > > > +
+> > > > +The user API is not mandatory. It is simply a suggestion and hint what the
+> > > > +kernel interface is supposed to support.
+> > > > +
+> > > > +
+> > > > +The user driver
+> > > > +---------------
+> > > > +
+> > > > +The queue file mmap space will need a user driver to wrap the communication
+> > > > +protocol. *UACCE* provides some attributes in sysfs for the user driver to
+> > > > +match the right accelerator accordingly.
+> > > > +
+> > > > +The *UACCE* device attribute is under the following directory:
+> > > > +
+> > > > +/sys/class/uacce/<dev-name>/params
+> > > > +
+> > > > +The following attributes is supported:
+> > > > +
+> > > > +nr_queue_remained (ro)
+> > > > +        number of queue remained
+> > > > +
+> > > > +api_version (ro)
+> > > > +        a string to identify the queue mmap space format and its version
+> > > > +
+> > > > +device_attr (ro)
+> > > > +        attributes of the device, see UACCE_DEV_xxx flag defined in uacce.h
+> > > > +
+> > > > +numa_node (ro)
+> > > > +        id of numa node
+> > > > +
+> > > > +priority (rw)
+> > > > +        Priority or the device, bigger is higher
+> > > > +
+> > > > +(This is not yet implemented in RFC version)
+> > > > +
+> > > > +
+> > > > +The kernel API
+> > > > +--------------
+> > > > +
+> > > > +The *uacce* kernel API is defined in uacce.h. If the hardware support SVM/SVA,
+> > > > +The driver need only the following API functions: ::
+> > > > +
+> > > > +        int uacce_register(uacce);
+> > > > +        void uacce_unregister(uacce);
+> > > > +        void uacce_wake_up(q);
+> > > > +
+> > > > +*uacce_wake_up* is used to notify the process who epoll() on the queue file.
+> > > > +
+> > > > +According to the IOMMU capability, *uacce* categories the devices as follow:
+> > > > +
+> > > > +UACCE_DEV_NOIOMMU
+> > > > +        The device has no IOMMU. The user process cannot use VA on the hardware
+> > > > +        This mode is not recommended.
+> > > > +
+> > > > +UACCE_DEV_SVA (UACCE_DEV_PASID | UACCE_DEV_FAULT_FROM_DEV)
+> > > > +        The device has IOMMU which can share the same page table with user
+> > > > +        process
+> > > > +
+> > > > +UACCE_DEV_SHARE_DOMAIN
+> > > > +        The device has IOMMU which has no multiple page table and device page
+> > > > +        fault support
+> > > > +
+> > > > +If the device works in mode other than UACCE_DEV_NOIOMMU, *uacce* will set its
+> > > > +IOMMU to IOMMU_DOMAIN_UNMANAGED. So the driver must not use any kernel
+> > > > +DMA API but the following ones from *uacce* instead: ::
+> > > > +
+> > > > +        uacce_dma_map(q, va, size, prot);
+> > > > +        uacce_dma_unmap(q, va, size, prot);
+> > > > +
+> > > > +*uacce_dma_map/unmap* is valid only for UACCE_DEV_SVA device. It creates a
+> > > > +particular PASID and page table for the kernel in the IOMMU (Not yet
+> > > > +implemented in the RFC)
+> > > > +
+> > > > +For the UACCE_DEV_SHARE_DOMAIN device, uacce_dma_map/unmap is not valid.
+> > > > +*Uacce* call back start_queue only when the DUS and DKO region is mmapped. The
+> > > > +accelerator driver must use those dma buffer, via uacce_queue->qfrs[], on
+> > > > +start_queue call back. The size of the queue file region is defined by
+> > > > +uacce->ops->qf_pg_start[].
+> > > > +
+> > > > +We have to do it this way because most of current IOMMU cannot support the
+> > > > +kernel and user virtual address at the same time. So we have to let them both
+> > > > +share the same user virtual address space.
+> > > > +
+> > > > +If the device have to support kernel and user at the same time, both kernel
+> > > > +and the user should use these DMA API. This is not convenient. A better
+> > > > +solution is to change the future DMA/IOMMU design to let them separate the
+> > > > +address space between the user and kernel space. But it is not going to be in
+> > > > +a short time.
+> > > > +
+> > > > +
+> > > > +Multiple processes support
+> > > > +==========================
+> > > > +
+> > > > +In the latest mainline kernel (4.19) when this document is written, the IOMMU
+> > > > +subsystem do not support multiple process page tables yet.
+> > > > +
+> > > > +Most IOMMU hardware implementation support multi-process with the concept
+> > > > +of PASID. But they may use different name, e.g. it is call sub-stream-id in
+> > > > +SMMU of ARM. With PASID or similar design, multi page table can be added to
+> > > > +the IOMMU and referred by its PASID.
+> > > > +
+> > > > +*JPB* has a patchset to enable this[1]_. We have tested it with our hardware
+> > > > +(which is known as *D06*). It works well. *WarpDrive* rely on them to support
+> > > > +UACCE_DEV_SVA. If it is not enabled, *WarpDrive* can still work. But it
+> > > > +support only one process, the device will be set to UACCE_DEV_SHARE_DOMAIN
+> > > > +even it is set to UACCE_DEV_SVA initially.
+> > > > +
+> > > > +Static Share Virtual Memory is mainly used by UACCE_DEV_SHARE_DOMAIN device.
+> > > > +
+> > > > +
+> > > > +Legacy Mode Support
+> > > > +===================
+> > > > +For the hardware without IOMMU, WarpDrive can still work, the only problem is
+> > > > +VA cannot be used in the device. The driver should adopt another strategy for
+> > > > +the shared memory. It is only for testing, and not recommended.
+> > > > +
+> > > > +
+> > > > +The Folk Scenario
+> > > > +=================
+> > > > +For a process with allocated queues and shared memory, what happen if it forks
+> > > > +a child?
+> > > > +
+> > > > +The fd of the queue will be duplicated on folk, so the child can send request
+> > > > +to the same queue as its parent. But the requests which is sent from processes
+> > > > +except for the one who open the queue will be blocked.
+> > > > +
+> > > > +It is recommended to add O_CLOEXEC to the queue file.
+> > > > +
+> > > > +The queue mmap space has a VM_DONTCOPY in its VMA. So the child will lost all
+> > > > +those VMAs.
+> > > > +
+> > > > +This is why *WarpDrive* does not adopt the mode used in *VFIO* and *InfiniBand*.
+> > > > +Both solutions can set any user pointer for hardware sharing. But they cannot
+> > > > +support fork when the dma is in process. Or the "Copy-On-Write" procedure will
+> > > > +make the parent process lost its physical pages.
+> > > > +
+> > > > +
+> > > > +The Sample Code
+> > > > +===============
+> > > > +There is a sample user land implementation with a simple driver for Hisilicon
+> > > > +Hi1620 ZIP Accelerator.
+> > > > +
+> > > > +To test, do the following in samples/warpdrive (for the case of PC host): ::
+> > > > +        ./autogen.sh
+> > > > +        ./conf.sh       # or simply ./configure if you build on target system
+> > > > +        make
+> > > > +
+> > > > +Then you can get test_hisi_zip in the test subdirectory. Copy it to the target
+> > > > +system and make sure the hisi_zip driver is enabled (the major and minor of
+> > > > +the uacce chrdev can be gotten from the dmesg or sysfs), and run: ::
+> > > > +        mknod /dev/ua1 c <major> <minior>
+> > > > +        test/test_hisi_zip -z < data > data.zip
+> > > > +        test/test_hisi_zip -g < data > data.gzip
+> > > > +
+> > > > +
+> > > > +References
+> > > > +==========
+> > > > +.. [1] https://patchwork.kernel.org/patch/10394851/
+> > > > +
+> > > > +.. vim: tw=78
+[...]
+> > > > --
+> > > > 2.17.1
+> > > >
