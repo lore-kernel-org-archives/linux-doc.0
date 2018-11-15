@@ -5,100 +5,82 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B9F7F7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 07:48:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 120F07D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 08:37:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728634AbeKORy4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Nov 2018 12:54:56 -0500
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:48522 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728527AbeKORy4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Nov 2018 12:54:56 -0500
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 8D2B180691; Thu, 15 Nov 2018 08:48:08 +0100 (CET)
-Date:   Thu, 15 Nov 2018 08:48:10 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, devel@linuxdriverproject.org,
-        linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org,
-        xen-devel@lists.xenproject.org,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <len.brown@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH RFC 6/6] PM / Hibernate: exclude all PageOffline() pages
-Message-ID: <20181115074810.GA9055@amd>
-References: <20181114211704.6381-1-david@redhat.com>
- <20181114211704.6381-7-david@redhat.com>
+        id S1728519AbeKOSoh convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Nov 2018 13:44:37 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:45805 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728388AbeKOSoh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Nov 2018 13:44:37 -0500
+Received: from sun05.dh.corp ([188.193.90.127]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.167]) with ESMTPA (Nemesis) id
+ 1N8oKc-1fRctY2wPG-015rlD; Thu, 15 Nov 2018 09:37:38 +0100
+Received: from sun1049.dh.corp (unknown [10.64.9.49])
+        by sun05.dh.corp (Postfix) with ESMTP id 21A821FA3D;
+        Thu, 15 Nov 2018 09:37:37 +0100 (CET)
+Received: from SUN1049.dh.corp ([::1]) by sun1049.dh.corp ([::1]) with mapi id
+ 14.03.0415.000; Thu, 15 Nov 2018 09:37:47 +0100
+From:   Christoph Niedermaier <cniedermaier@dh-electronics.de>
+To:     Jonathan Corbet <corbet@lwn.net>
+CC:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "C.Emde@osadl.org" <C.Emde@osadl.org>
+Subject: Re: [PATCH 0/2] Docs/EDID: Fixed and improved EDID documentation
+Thread-Topic: [PATCH 0/2] Docs/EDID: Fixed and improved EDID documentation
+Thread-Index: AQHUdd372aKemkOCNEebpzMkutC1AKVQjpNA
+Date:   Thu, 15 Nov 2018 08:37:47 +0000
+Message-ID: <82DABEC7F9941D458E51BA62B2739EF437ADDC68@sun1049.dh.corp>
+References: <1541407715-5417-1-git-send-email-cniedermaier@dh-electronics.de>
+ <20181106073536.58b14759@lwn.net>
+In-Reply-To: <20181106073536.58b14759@lwn.net>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.64.31.6]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="jRHKVT23PllUwdXP"
-Content-Disposition: inline
-In-Reply-To: <20181114211704.6381-7-david@redhat.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Provags-ID: V03:K1:3gpRwVg0DfddqMMxRlhVAe8nZmznJkXzKBabZi3DPjMv/AiWVmy
+ KoZ5CONs+PWe3A0aq1GsRvtf/krRW5UdmbfarLrv4bQPGl52nHUXzLn2PLKGbhVkP4ut/o4
+ 71UU9EplAq9WR85c7R0LFWPIZjJjLg1Z1yoz0JddMBy/G82RfQsZQBa5krEpJsYtqaDk2VK
+ JQkutXXnBStDDs8TNOHyA==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:z0y9+5KjkIA=:nYeAGj9Mz0at97cKPkC7Ja
+ h4nB2mwbDOD5HuDKhvZBHL1GMWKl9cL1DIvHo2Z6l2SiwDDm8g9UDRAmPS3kPftvYp0Ymnj84
+ x9nVVjPlEnp4S4Dcag5MoNXLQq51Fg1TtDYkOn2p6BHcUySXtPonbEhDtBgc51yNXWV8+82Fi
+ 4GA0VnXtTP2LNb+FidXEo3hkFHJ/MhB9zZL5XE71ElshAfqRVyQaJkc4O8gXyIVBxl7+wrgj5
+ GJ+r9WECfFcPRTAHpBGlxLQ+bZv7Gw8C4zwHRI6N3QwSoute48+M0Q4KkLrm7+JlN4ZeE1k6d
+ qRcyXYVdDsoxJdo2XTc22hsq9muDalkPlnFA3phHF4xDDdnrIm1/XCFsrS0dbJRwBfkNZQDJX
+ H4+HV4cmPigL2MLdepFy64Icuk7pp2u9VxXpLMr86KcdT6FSv4pL9WBtXRbgRbDlw4gp2htpi
+ qtJtv6oT+Z/2VfqfrX9NUkKm3rccxVUeshzZaaT8CXF7LrNBLoAlZ6a2xJ6tW+rVjiX19gfLY
+ RefX7cQt+o0tnrpFapRy4YbEXCimYQSWIDezyrDsvob1IUL5iY/JI8vksdg+QOV+jB4FO3qtH
+ RT/VGw4z4MA+dnyPwuHNTIpAOXO7PALa1gf5cGK+GER9o7/TrMn04KgeIuZ0zdHAhhhi/vbaF
+ a2CxBTigtmCRac9UiUvvlp0V7iJPzF6mxyAlA0+ahT+2rFcMXGLOabEDGbGaCUKenp3w5ynXV
+ FykCPbB0eFIPyr014GaEtzm+ohrC6J8HcdNJ0RpVGEmrDDU09HMxcp35tIqoKFtyPYTN641z1
+ +dbxVKF36XpjE0ob6l3QEUENAX/Hk5+8BPuYdqaXJBgr4cw1CM=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Jon,
 
---jRHKVT23PllUwdXP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Nov 6, 2018, Jonathan Corbet wrote:
+> This seems reasonable, I guess; I've applied both.  It seems to me, though,
+> that this stuff is in the wrong place.  Perhaps we should go one step
+> further and move it to tools/ ?
 
-On Wed 2018-11-14 22:17:04, David Hildenbrand wrote:
-> The content of pages that are marked PG_offline is not of interest
-> (e.g. inflated by a balloon driver), let's skip these pages.
->=20
-> Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+I spoke to Carsten and his intention apparently was to merely document
+how the somewhat cryptic data structures in drivers/gpu/drm/drm_edid_load.c
+were derived. The code needed to be run only once to generate the data and
+never again. So it not really is a tool that someone may want to run from time
+to time for a particular purpose. So we would propose to leave the EDID directory
+where it currently is. However, should you feel that it would better be placed
+in the tools directory then you certainly may do that.
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
-
-> diff --git a/kernel/power/snapshot.c b/kernel/power/snapshot.c
-> index b0308a2c6000..01db1d13481a 100644
-> --- a/kernel/power/snapshot.c
-> +++ b/kernel/power/snapshot.c
-> @@ -1222,7 +1222,7 @@ static struct page *saveable_highmem_page(struct zo=
-ne *zone, unsigned long pfn)
->  	BUG_ON(!PageHighMem(page));
-> =20
->  	if (swsusp_page_is_forbidden(page) ||  swsusp_page_is_free(page) ||
-> -	    PageReserved(page))
-> +	    PageReserved(page) || PageOffline(page))
->  		return NULL;
-> =20
->  	if (page_is_guard(page))
-> @@ -1286,6 +1286,9 @@ static struct page *saveable_page(struct zone *zone=
-, unsigned long pfn)
->  	if (swsusp_page_is_forbidden(page) || swsusp_page_is_free(page))
->  		return NULL;
-> =20
-> +	if (PageOffline(page))
-> +		return NULL;
-> +
->  	if (PageReserved(page)
->  	    && (!kernel_page_present(page) || pfn_is_nosave(pfn)))
->  		return NULL;
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---jRHKVT23PllUwdXP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlvtJLoACgkQMOfwapXb+vIKwQCgqMCGJ4BEWmMsp5gihD0MR/cx
-lFwAnAqKSOIHgjFwhl+uKuaItXeOXj2x
-=TTZ/
------END PGP SIGNATURE-----
-
---jRHKVT23PllUwdXP--
+Best regards,
+Christoph
