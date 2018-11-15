@@ -5,157 +5,103 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E35397D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 02:07:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3513F7D8D4
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 06:19:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727266AbeKOMNh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Nov 2018 07:13:37 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:47998 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726958AbeKOMNh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Nov 2018 07:13:37 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wAF1wfqO101928
-        for <linux-doc@vger.kernel.org>; Wed, 14 Nov 2018 21:07:47 -0500
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2nrx1fujbx-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 14 Nov 2018 21:07:47 -0500
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Thu, 15 Nov 2018 02:07:44 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 15 Nov 2018 02:07:38 -0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wAF27bul52035662
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 15 Nov 2018 02:07:37 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0A1DA11C050;
-        Thu, 15 Nov 2018 02:07:37 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0720A11C04C;
-        Thu, 15 Nov 2018 02:07:30 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.204.206])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Thu, 15 Nov 2018 02:07:29 +0000 (GMT)
-Date:   Wed, 14 Nov 2018 18:07:26 -0800
-From:   Mike Rapoport <rppt@linux.ibm.com>
+        id S1727067AbeKOQ0H (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Nov 2018 11:26:07 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:58420 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726574AbeKOQ0H (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Nov 2018 11:26:07 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 8433C58E31;
+        Thu, 15 Nov 2018 06:19:38 +0000 (UTC)
+Received: from dhcp-128-65.nay.redhat.com (ovpn-12-146.pek2.redhat.com [10.72.12.146])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D5D15D759;
+        Thu, 15 Nov 2018 06:19:26 +0000 (UTC)
+Date:   Thu, 15 Nov 2018 14:19:23 +0800
+From:   Dave Young <dyoung@redhat.com>
 To:     David Hildenbrand <david@redhat.com>
-Cc:     Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        devel@linuxdriverproject.org, linux-fsdevel@vger.kernel.org,
-        linux-pm@vger.kernel.org, xen-devel@lists.xenproject.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, devel@linuxdriverproject.org,
+        linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org,
+        xen-devel@lists.xenproject.org,
         Andrew Morton <akpm@linux-foundation.org>,
-        Christian Hansen <chansen3@cisco.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
         "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Omar Sandoval <osandov@fb.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Matthew Wilcox <willy@infradead.org>,
         Michal Hocko <mhocko@suse.com>,
-        Pavel Tatashin <pasha.tatashin@oracle.com>,
-        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
-        Miles Chen <miles.chen@mediatek.com>,
-        David Rientjes <rientjes@google.com>
-Subject: Re: [PATCH RFC 2/6] mm: convert PG_balloon to PG_offline
+        Lianbo Jiang <lijiang@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH RFC 3/6] kexec: export PG_offline to VMCOREINFO
+Message-ID: <20181115061923.GA3971@dhcp-128-65.nay.redhat.com>
 References: <20181114211704.6381-1-david@redhat.com>
- <20181114211704.6381-3-david@redhat.com>
- <20181114222321.GB1784@bombadil.infradead.org>
- <b4668081-5aa3-d7f5-6880-d01c75cfc6ae@redhat.com>
+ <20181114211704.6381-4-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b4668081-5aa3-d7f5-6880-d01c75cfc6ae@redhat.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18111502-0020-0000-0000-000002E832C3
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18111502-0021-0000-0000-000021374AA3
-Message-Id: <20181115020725.GC2353@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-14_20:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1811150016
+In-Reply-To: <20181114211704.6381-4-david@redhat.com>
+User-Agent: Mutt/1.9.5 (2018-04-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Thu, 15 Nov 2018 06:19:38 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 14, 2018 at 11:49:15PM +0100, David Hildenbrand wrote:
-> On 14.11.18 23:23, Matthew Wilcox wrote:
-> > On Wed, Nov 14, 2018 at 10:17:00PM +0100, David Hildenbrand wrote:
-> >> Rename PG_balloon to PG_offline. This is an indicator that the page is
-> >> logically offline, the content stale and that it should not be touched
-> >> (e.g. a hypervisor would have to allocate backing storage in order for the
-> >> guest to dump an unused page).  We can then e.g. exclude such pages from
-> >> dumps.
-> >>
-> >> In following patches, we will make use of this bit also in other balloon
-> >> drivers.  While at it, document PGTABLE.
-> > 
-> > Thank you for documenting PGTABLE.  I didn't realise I also had this
-> > document to update when I added PGTABLE.
-> 
-> Thank you for looking into this :)
-> 
-> > 
-> >> +++ b/Documentation/admin-guide/mm/pagemap.rst
-> >> @@ -78,6 +78,8 @@ number of times a page is mapped.
-> >>      23. BALLOON
-> >>      24. ZERO_PAGE
-> >>      25. IDLE
-> >> +    26. PGTABLE
-> >> +    27. OFFLINE
-> > 
-> > So the offline *user* bit is new ... even though the *kernel* bit
-> > just renames the balloon bit.  I'm not sure how I feel about this.
-> > I'm going to think about it some more.  Could you share your decision
-> > process with us?
-> 
-> BALLOON was/is documented as
-> 
-> "23 - BALLOON
->     balloon compaction page
-> "
-> 
-> and only includes all virtio-ballon pages after the non-lru migration
-> feature has been implemented for ballooned pages. Since then, this flag
-> does basically no longer stands for what it actually was supposed to do.
+Hi David,
 
-Perhaps I missing something, but how the user should interpret "23" when he
-reads /proc/kpageflags?
+On 11/14/18 at 10:17pm, David Hildenbrand wrote:
+> Let's export PG_offline via PAGE_OFFLINE_MAPCOUNT_VALUE, so
+> makedumpfile can directly skip pages that are logically offline and the
+> content therefore stale.
 
-> To not break uapi I decided to not rename it but instead to add a new flag.
+It would be good to copy some background info from cover letter to the
+patch description so that we can get better understanding why this is
+needed now.
 
-I've got a feeling that uapi was anyway changed for the BALLON flag
-meaning.
- 
-> > 
-> > I have no objection to renaming the balloon bit inside the kernel; I
-> > think that's a wise idea.  I'm just not sure whether we should rename
-> > the user balloon bit rather than adding a new bit.
-> > 
+BTW, Lianbo is working on a documentation of the vmcoreinfo exported
+fields. Ccing him so that he is aware of this.
+
+Also cc Boris,  although I do not want the doc changes blocks this
+he might have different opinion :)
+
 > 
-> Can we rename without breaking uapi?
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Dave Young <dyoung@redhat.com>
+> Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> Cc: Baoquan He <bhe@redhat.com>
+> Cc: Omar Sandoval <osandov@fb.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  kernel/crash_core.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
+> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+> index 933cb3e45b98..093c9f917ed0 100644
+> --- a/kernel/crash_core.c
+> +++ b/kernel/crash_core.c
+> @@ -464,6 +464,8 @@ static int __init crash_save_vmcoreinfo_init(void)
+>  	VMCOREINFO_NUMBER(PAGE_BUDDY_MAPCOUNT_VALUE);
+>  #ifdef CONFIG_HUGETLB_PAGE
+>  	VMCOREINFO_NUMBER(HUGETLB_PAGE_DTOR);
+> +#define PAGE_OFFLINE_MAPCOUNT_VALUE	(~PG_offline)
+> +	VMCOREINFO_NUMBER(PAGE_OFFLINE_MAPCOUNT_VALUE);
+>  #endif
+>  
+>  	arch_crash_save_vmcoreinfo();
 > -- 
-> 
-> Thanks,
-> 
-> David / dhildenb
+> 2.17.2
 > 
 
--- 
-Sincerely yours,
-Mike.
-
+Thanks
+Dave
