@@ -1,83 +1,157 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D6EEE7D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 15:18:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3BCD47D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 15:18:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388084AbeKPB0a (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Nov 2018 20:26:30 -0500
-Received: from mail.bootlin.com ([62.4.15.54]:46082 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726432AbeKPB0a (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Nov 2018 20:26:30 -0500
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 5AE5920893; Thu, 15 Nov 2018 16:18:13 +0100 (CET)
-Received: from localhost (aaubervilliers-681-1-13-146.w90-88.abo.wanadoo.fr [90.88.134.146])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 2E83620379;
-        Thu, 15 Nov 2018 16:18:13 +0100 (CET)
-Date:   Thu, 15 Nov 2018 16:18:13 +0100
-From:   Maxime Ripard <maxime.ripard@bootlin.com>
-To:     hao_zhang <hao5781286@gmail.com>
-Cc:     robh+dt@kernel.org, wens@csie.org, icenowy@aosc.io,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-sunxi@googlegroups.com
-Subject: Re: [PATCH v0 0/2] Initial Allwinner T3 support.
-Message-ID: <20181115151813.a27uov3zmgzjcerf@flea>
-References: <20181114082033.GA20712@arx-s1>
+        id S2388571AbeKPB1A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Nov 2018 20:27:00 -0500
+Received: from smtprelay.synopsys.com ([198.182.60.111]:40012 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388084AbeKPB1A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Nov 2018 20:27:00 -0500
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id B25D710C1089;
+        Thu, 15 Nov 2018 07:18:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1542295124; bh=nEHNsJMyS7jCDki6CAHrjqmUA5xGEE3ZJA3dV32O4Bs=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
+        b=iMiWWTfHW7tZN1uPXyNnPVyxKudIB6qo3CBXAo9Sp6CjnSAfcllHZFmDgupXYFq7c
+         9RTSSaFhT8MRwTSk79fj8zcr7wFT2cI3tU8tUq3fBJuUM0xtqBDeZhbCuFo/+p9GNh
+         D5fKLalEKQ2QH7+QVpJmoQKyH9pCc2JU1OAi5bQ1iC/qbe8H8FTelQWcNp7P5dH2Wf
+         MYXcSO7DCr5OYWpTLf6R8TALAq/gwq/g/HqnVM1V8dGYbiSQFHTR2SIvARi/Z2j3cN
+         jqFocbR1D7ig43wqRB6Wa7ybj1lIcgzyfr9voGevfmmNkA3UkK3q1sWQgM6oNHUTKY
+         IgBFdCKfPJLOQ==
+Received: from us01wehtc1.internal.synopsys.com (us01wehtc1-vip.internal.synopsys.com [10.12.239.236])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 477B65B6A;
+        Thu, 15 Nov 2018 07:18:42 -0800 (PST)
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ us01wehtc1.internal.synopsys.com (10.12.239.235) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Thu, 15 Nov 2018 07:18:42 -0800
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+ DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Thu, 15 Nov 2018 16:18:40 +0100
+Received: from [10.0.2.15] (10.107.19.116) by DE02WEHTCB.internal.synopsys.com
+ (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.408.0; Thu, 15 Nov
+ 2018 16:18:40 +0100
+Subject: Re: [PATCH v10 0/9] Add the I3C subsystem
+To:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        vitor <vitor.soares@synopsys.com>
+CC:     Wolfram Sang <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        "Cyprian Wronka" <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        "Rafal Ciepiela" <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        "Kumar Gala" <galak@codeaurora.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        <linux-gpio@vger.kernel.org>, Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>,
+        Peter Rosin <peda@axentia.se>,
+        Mike Shettel <mshettel@codeaurora.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Mark Brown <broonie@kernel.org>
+References: <20181026144333.12276-1-boris.brezillon@bootlin.com>
+ <76b1d15d-232c-d8ba-5eba-8394e71be725@synopsys.com>
+ <20181115135731.25f60990@bbrezillon>
+From:   vitor <vitor.soares@synopsys.com>
+Message-ID: <7f21765a-87b3-9137-fb92-6c59483776de@synopsys.com>
+Date:   Thu, 15 Nov 2018 15:18:21 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="mvncl5mqd6ujkb6d"
-Content-Disposition: inline
-In-Reply-To: <20181114082033.GA20712@arx-s1>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20181115135731.25f60990@bbrezillon>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.107.19.116]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
 
---mvncl5mqd6ujkb6d
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 15/11/18 12:57, Boris Brezillon wrote:
+> +Mark Brown for the question about /dev/spidev
+>
+> Hi Vitor,
+>
+> On Thu, 15 Nov 2018 12:14:37 +0000
+> vitor <vitor.soares@synopsys.com> wrote:
+>
+>> Hi Boris,
+>>
+>> Given the current state of the subsystem I think it might worth start to
+>> think how to expose the devices under /dev.
+> Thanks for starting this discussion. I'm not against the idea in
+> general, we just need to be careful when doing that.
+>
+>> My initial thoughts are to do the same think as for i2c, expose the
+>> buses or the i3c_devices and use ioctl for private transfers.
+> Exposing the bus is dangerous IMO, because an I3C bus is not like an
+> I2C bus:
+>
+>     * I3C device needs to be discovered through DAA
+>     * I2C devices need to be declared ahead of time, and LVR is used to
+>       determine the limitations on the bus at runtime
+>
+> So you'd anyway be able to interact only with devices that have
+> previously been discovered.
+>
+> Note that the virtual I2C bus is already exposed, but any command
+> targeting an address that is not attached to a registered I2C dev will
+> get a -ENOENT error.
+I initially thought to do the same thing for the i3c devices adding a 
+routine get_i3c_dev_by_addr()...
+>
+> What we could do though, is expose I3C devices that do not have a
+> driver in kernel space, like spidev does.
 
-Hi!
+...but I like more this approach.
 
-On Wed, Nov 14, 2018 at 04:20:33PM +0800, hao_zhang wrote:
-> Initial Allwinner T3 support.
->=20
-> Allwinner T3 (sun8i) SoC features a Quad-Core Cortex-A7 ARM CPU, and a
-> Mali400 MP2 GPU from ARM. It is a not-pin-compatible quad core sucessor
-> of the A20). It's also known as the Allwinner R40 for In-Car
-> Entertainment usage.
+>> Some
+>> direct CCC commands can be sent through the /sys as you plan for SETNEWDA .
+> Yes, CCC commands that need to be exposed to userspace should be
+> exposed through sysfs, or, if we decide to create a /dev/i3cX device
+> per bus, through ioctls.
 
-That series looks good, thanks!  The only thing that would need to be
-reworked is your Signed-off-by name, which (I guess?) should be
-written the same way than in your Copyright info.
+There already some attributes exposed, just need to add the possibility 
+to write to them and off course add some that are missing like GETSTATUS.
 
-Thanks!
-Maxime
+>
+>> What do you think about this?
+> I think this request is perfectly valid, we just need to decide how it
+> should be done, and before we take this decision, I'd like to get
+> inputs from other maintainers.
+>
+> Mark, Wolfram, Arnd, Greg, any opinion?
+>
+> Regards,
+>
+> Boris
 
---=20
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
---mvncl5mqd6ujkb6d
-Content-Type: application/pgp-signature; name="signature.asc"
+Best regards,
 
------BEGIN PGP SIGNATURE-----
+Vitor Soares
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCW+2ONAAKCRDj7w1vZxhR
-xQdUAQCoTnk08hPOnNMruKvlcsB2v+Ne12xovty1crHmW1lKtAEAv3DNySkDqyXG
-UgiSFeMoSZUkSvOM/q0adyh/uaMs1gU=
-=/VB7
------END PGP SIGNATURE-----
-
---mvncl5mqd6ujkb6d--
