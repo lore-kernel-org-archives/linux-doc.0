@@ -1,129 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F28BD7D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 13:43:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2C5747D8BB
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 14:13:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729024AbeKOXu7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Nov 2018 18:50:59 -0500
-Received: from mail-it1-f194.google.com ([209.85.166.194]:35252 "EHLO
-        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388084AbeKOXu6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Nov 2018 18:50:58 -0500
-Received: by mail-it1-f194.google.com with SMTP id v11so29284708itj.0
-        for <linux-doc@vger.kernel.org>; Thu, 15 Nov 2018 05:43:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=cI0/70tj+Fz0dv9vc6u4Hbc50xDUnJCH9C9jIgbl64k=;
-        b=ndppcDYSVsa+Pr7xBlpTUk8LpvMGYSHw6puUpr1OWID/NJ0JLXC0bEPkS0/zWfmmUZ
-         XuX19ujj39HLMpGl075hQPRwtjby3tRhL/cQTTP5ccAAQju92Gbl5vVCq7+jeuu/LBh5
-         OI/FuT7F/+ZK0oa4nlj3A1rO4DIrQVhILzOv/Evjr1zqLRl1RZUY7Jq6q68UDy4sFcTd
-         JjnFss7BPtItYkQWLebt5XnPhDaw8x+XcW+bRnV+02TKd8ukEv+i+BH+D8rEYfyYE+A9
-         YyeYVrO/SWseKdnTjjsTSs91LmrjExR9MP8/DN23LILJWaq4XbH9vOS2an2HWMzhOIWL
-         U1tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=cI0/70tj+Fz0dv9vc6u4Hbc50xDUnJCH9C9jIgbl64k=;
-        b=fwcd1Y0vd4w3ZoJdGCL/SzQ8f6H0YnBhiYlkXmWsMiI0Lq4UNv22s+E81H82yabJDk
-         6fLZF3UUKaPyVpSqB8bhUD6tck9cPoFMbllIKsNLUnL4II4tlKw9KQgGEt3B7d92bej7
-         XDIqNRSqbS/ufNrEZsx27T8KS3ZakJvuLcZxJgipnqGqxu0t9/m1Bt6JCqUHG0sHjufs
-         +7Io7N3MMYmTVLA5AKvPwyufeYNwMnYB2MpubmjR3t10cMnunBlAACLvyZQuONVyidM7
-         YlBCDdgxPF9asZ5sD8FfqvSP+XR1jM3vt/fR7eS+/CVW3MKk3onzWq907v3FQqRmWVsy
-         GiGw==
-X-Gm-Message-State: AA+aEWZcpq/ExPHemB9cqI8e0w/mU1nEBY3rh5vlOyvf5pHoUMkn0zBG
-        AnPRup7271ZXz7F9ru2tWHCAUF6QtaX42v92bJJSNQ==
-X-Google-Smtp-Source: AJdET5fg0UanWtZiQgn05adpP6gDOLgjnwzdxZ2BuWiWW2zOOmgcF6Gqrxm4fuD3oydoJYenXBcamKa2KV/o1kHPg1o=
-X-Received: by 2002:a24:1642:: with SMTP id a63mr5351372ita.40.1542289383258;
- Thu, 15 Nov 2018 05:43:03 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a02:7050:0:0:0:0:0 with HTTP; Thu, 15 Nov 2018 05:43:02
- -0800 (PST)
-In-Reply-To: <CAAeHK+yAve4fBg_UZQsNdVJ5W-7v8tQnRa=amQMyBeE_yHcq5g@mail.gmail.com>
-References: <cover.1541525354.git.andreyknvl@google.com> <b2aa056b65b8f1a410379bf2f6ef439d5d99e8eb.1541525354.git.andreyknvl@google.com>
- <20181107165200.oaou6cx2lmjzmjyl@lakrids.cambridge.arm.com> <CAAeHK+yAve4fBg_UZQsNdVJ5W-7v8tQnRa=amQMyBeE_yHcq5g@mail.gmail.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Thu, 15 Nov 2018 14:43:02 +0100
-Message-ID: <CAAeHK+yaYc4gOxWdvJALwUffAFDVwQe7+4Rwx=Ux936c_LtBFw@mail.gmail.com>
-Subject: Re: [PATCH v10 08/22] kasan, arm64: untag address in __kimg_to_phys
- and _virt_addr_is_linear
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
+        id S1732953AbeKPAVI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Nov 2018 19:21:08 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:56794 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729010AbeKPAVI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Nov 2018 19:21:08 -0500
+X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
+Received: from mail.skyhub.de ([127.0.0.1])
+        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id QPo6znDV46Cx; Thu, 15 Nov 2018 15:13:06 +0100 (CET)
+Received: from zn.tnic (p200300EC2BD00900D5714500C00E26FD.dip0.t-ipconnect.de [IPv6:2003:ec:2bd0:900:d571:4500:c00e:26fd])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 900891EC00CD;
+        Thu, 15 Nov 2018 15:13:06 +0100 (CET)
+Date:   Thu, 15 Nov 2018 15:13:07 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Michal Hocko <mhocko@kernel.org>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Dave Young <dyoung@redhat.com>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        devel@linuxdriverproject.org, linux-fsdevel@vger.kernel.org,
+        linux-pm@vger.kernel.org, xen-devel@lists.xenproject.org,
         Andrew Morton <akpm@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Baoquan He <bhe@redhat.com>, Omar Sandoval <osandov@fb.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Matthew Wilcox <willy@infradead.org>,
+        Lianbo Jiang <lijiang@redhat.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH RFC 3/6] kexec: export PG_offline to VMCOREINFO
+Message-ID: <20181115141307.GH26448@zn.tnic>
+References: <20181114211704.6381-1-david@redhat.com>
+ <20181114211704.6381-4-david@redhat.com>
+ <20181115061923.GA3971@dhcp-128-65.nay.redhat.com>
+ <20181115111023.GC26448@zn.tnic>
+ <4aa5d39d-a923-87de-d646-70b9cbfe62f0@redhat.com>
+ <20181115115213.GE26448@zn.tnic>
+ <20181115121102.GP23831@dhcp22.suse.cz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20181115121102.GP23831@dhcp22.suse.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 14, 2018 at 8:23 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
-> On Wed, Nov 7, 2018 at 5:52 PM, Mark Rutland <mark.rutland@arm.com> wrote:
->>>  /*
->>> @@ -232,7 +241,7 @@ static inline unsigned long kaslr_offset(void)
->>>  #define __is_lm_address(addr)        (!!((addr) & BIT(VA_BITS - 1)))
->>>
->>>  #define __lm_to_phys(addr)   (((addr) & ~PAGE_OFFSET) + PHYS_OFFSET)
->>> -#define __kimg_to_phys(addr) ((addr) - kimage_voffset)
->>> +#define __kimg_to_phys(addr) (KASAN_RESET_TAG(addr) - kimage_voffset)
->>
->> IIUC You need to adjust __lm_to_phys() too, since that could be passed
->> an address from SLAB.
->>
->> Maybe that's done in a later patch, but if so it's confusing to split it
->> out that way. It would be nicer to fix all the *_to_*() helpers in one
->> go.
->
-> __lm_to_phys() does & ~PAGE_OFFSET, so it resets the tag by itself. I
-> can add an explicit __tag_reset() if you think it makes sense.
+On Thu, Nov 15, 2018 at 01:11:02PM +0100, Michal Hocko wrote:
+> I am not familiar with kexec to judge this particular patch but we
+> cannot simply define any range for these pages (same as for hwpoison
+> ones) because they can be almost anywhere in the available memory range.
+> Then there can be countless of them. There is no other way to rule them
+> out but to check the page state.
 
-Hi Mark,
+I guess, especially if it is a monster box with a lot of memory in it.
 
-I think I've addressed all of your comments except for this one. Do
-you think it makes sense to add explicit __tag_reset() calls to
-__lm_to_phys() and a few other macros, that already set the tag to 0
-by doing & ~PAGE_OFFSET?
+> I am not really sure what is the concern here exactly. Kdump is so
+> closly tight to the specific kernel version that the api exported
+> specifically for its purpose cannot be seriously considered an ABI.
+> Kdump has to adopt all the time.
 
-Thanks!
+Right...
+
+Except, when people start ogling vmcoreinfo for other things and start
+exporting all kinds of kernel internals in there, my alarm bells start
+ringing.
+
+But ok, kdump *is* special and I guess that's fine.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
