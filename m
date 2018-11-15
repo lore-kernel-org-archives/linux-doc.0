@@ -1,140 +1,161 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 48A5A7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 01:42:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E35397D08E
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 02:07:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726480AbeKOLsX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Nov 2018 06:48:23 -0500
-Received: from mail-eopbgr800077.outbound.protection.outlook.com ([40.107.80.77]:4352
-        "EHLO NAM03-DM3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725895AbeKOLsX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Nov 2018 06:48:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O3/hID9+mCQePqwGDyx1La86b5F6mDM2gCTFv2rbSAg=;
- b=GBRZylie0rBHz6D9j3aqSuZsFP8CFtXgGkojD3gN38D7bB3twtZbOMvW0xn5zii40/fGq47NF5cb4XXJENDOuEPdjSn2sMfMN2g6bWz9jx5gWnWtIqfR7rB7Npio0l1cr6XEx2kkrevxWZudRtHAOc+7k4pqZcfCxCSArFwKKi8=
-Received: from BYAPR05MB5143.namprd05.prod.outlook.com (20.177.231.25) by
- BYAPR05MB5382.namprd05.prod.outlook.com (20.177.184.27) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1339.12; Thu, 15 Nov 2018 01:42:30 +0000
-Received: from BYAPR05MB5143.namprd05.prod.outlook.com
- ([fe80::55cc:e4e8:ed5f:27b2]) by BYAPR05MB5143.namprd05.prod.outlook.com
- ([fe80::55cc:e4e8:ed5f:27b2%5]) with mapi id 15.20.1339.021; Thu, 15 Nov 2018
- 01:42:30 +0000
-From:   Julien Freche <jfreche@vmware.com>
-To:     Nadav Amit <namit@vmware.com>,
-        David Hildenbrand <david@redhat.com>,
-        linux-mm <linux-mm@kvack.org>
-CC:     LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "devel@linuxdriverproject.org" <devel@linuxdriverproject.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        xen-devel <xen-devel@lists.xenproject.org>,
-        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Baoquan He <bhe@redhat.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Christian Hansen <chansen3@cisco.com>,
-        Dave Young <dyoung@redhat.com>,
-        David Rientjes <rientjes@google.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
+        id S1727266AbeKOMNh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Nov 2018 07:13:37 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:47998 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726958AbeKOMNh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Nov 2018 07:13:37 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wAF1wfqO101928
+        for <linux-doc@vger.kernel.org>; Wed, 14 Nov 2018 21:07:47 -0500
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2nrx1fujbx-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 14 Nov 2018 21:07:47 -0500
+Received: from localhost
+        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Thu, 15 Nov 2018 02:07:44 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Thu, 15 Nov 2018 02:07:38 -0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wAF27bul52035662
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 15 Nov 2018 02:07:37 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0A1DA11C050;
+        Thu, 15 Nov 2018 02:07:37 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0720A11C04C;
+        Thu, 15 Nov 2018 02:07:30 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.204.206])
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Thu, 15 Nov 2018 02:07:29 +0000 (GMT)
+Date:   Wed, 14 Nov 2018 18:07:26 -0800
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        devel@linuxdriverproject.org, linux-fsdevel@vger.kernel.org,
+        linux-pm@vger.kernel.org, xen-devel@lists.xenproject.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Juergen Gross <jgross@suse.com>,
-        Kairui Song <kasong@redhat.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christian Hansen <chansen3@cisco.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
         "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Len Brown <len.brown@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
         "Michael S. Tsirkin" <mst@redhat.com>,
         Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Miles Chen <miles.chen@mediatek.com>,
-        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
-        Omar Sandoval <osandov@fb.com>, Pavel Machek <pavel@ucw.cz>,
         Pavel Tatashin <pasha.tatashin@oracle.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Vlastimil Babka <vbabka@suse.cz>
-Subject: Re: [PATCH RFC 0/6] mm/kdump: allow to exclude pages that are
- logically offline
-Thread-Topic: [PATCH RFC 0/6] mm/kdump: allow to exclude pages that are
- logically offline
-Thread-Index: AQHUfG14AtUUXm8lq0WDadIpB+L9naVP5EIAgAAJ9AD//5vDAA==
-Date:   Thu, 15 Nov 2018 01:42:30 +0000
-Message-ID: <B6456717-0A6F-4957-A7F2-11599701226A@vmware.com>
+        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
+        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
+        Miles Chen <miles.chen@mediatek.com>,
+        David Rientjes <rientjes@google.com>
+Subject: Re: [PATCH RFC 2/6] mm: convert PG_balloon to PG_offline
 References: <20181114211704.6381-1-david@redhat.com>
- <8932E1F4-A5A9-4462-9800-CAC1EF85AC5D@vmware.com>
- <63c5f4b6-828a-764e-f64d-e603dc4b104e@redhat.com>
- <63214D36-14FD-4080-8E35-CF2A392D6507@vmware.com>
-In-Reply-To: <63214D36-14FD-4080-8E35-CF2A392D6507@vmware.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/10.13.0.181109
-x-originating-ip: [66.170.99.1]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;BYAPR05MB5382;20:LnkdiDmlaylnZy/yYqTAmTlZb/iV7uD7tcN6klkpX9f5TLFHfNMZ+tc7VBK10e3ciHGwMsIBdNfGjTemokhKSqxeSWhRdeATNNHeJKo058oM2SuUlTBwc429bChpf65XxBuDQTuS3G469XVbb6Ha3SiIBlVM2H0n9slYnjqwVKY=
-x-ms-office365-filtering-correlation-id: 4ee1f84e-eabf-4afc-d8d9-08d64a9b9b6f
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390098)(7020095)(4652040)(8989299)(5600074)(711020)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:BYAPR05MB5382;
-x-ms-traffictypediagnostic: BYAPR05MB5382:
-x-microsoft-antispam-prvs: <BYAPR05MB538251FEB215061C40EABCEBDADC0@BYAPR05MB5382.namprd05.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(3231415)(944501410)(52105112)(10201501046)(3002001)(93006095)(93001095)(148016)(149066)(150057)(6041310)(20161123564045)(20161123560045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(20161123558120)(201708071742011)(7699051)(76991095);SRVR:BYAPR05MB5382;BCL:0;PCL:0;RULEID:;SRVR:BYAPR05MB5382;
-x-forefront-prvs: 08572BD77F
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(396003)(136003)(366004)(39860400002)(346002)(199004)(189003)(33656002)(39060400002)(316002)(58126008)(186003)(36756003)(54906003)(110136005)(82746002)(229853002)(6116002)(93886005)(3846002)(478600001)(97736004)(106356001)(217873002)(105586002)(66066001)(2900100001)(256004)(71200400001)(83716004)(71190400001)(53936002)(6436002)(6512007)(14454004)(6246003)(2616005)(476003)(446003)(486006)(11346002)(81156014)(8676002)(6486002)(8936002)(25786009)(86362001)(68736007)(26005)(5660300001)(7736002)(305945005)(99286004)(4326008)(2906002)(81166006)(7406005)(6506007)(102836004)(76176011)(6346003)(7416002);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR05MB5382;H:BYAPR05MB5143.namprd05.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: vmware.com does not designate
- permitted sender hosts)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=jfreche@vmware.com; 
-x-microsoft-antispam-message-info: DJEhXk8muJFAKBx7fZAgdTNB+0fn3oBYc96awvg96aOMGsp0zgl8ITwDuNmEnq9LymIo5jriZDfWXIUUz3GJRCousX1vYRBhXVfGh1Qk7P2e7paBVQtEjN8SIbkkGoO5oaB+gFwz0uyD14nHqKkjg/JDVdLyITbVi9uQAUXRDl8o3skBuNzl6vaHQtTM8498UBv/AF1IYvYUIYHyWOaNJrSbNffhpBCfQf1b+3U7Ui7F9i+lvp+k+wlYTQh+ylStvRZ/AQ0nwwzv5QUxUa9mUd4iqrXYBxkStjcVaSP1hjH/btnr8a7wOuijrq+UQVnmlQ62avmwnHj3exb4JhAu3YWmmQcXrIyNr52PED0rLx8=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E20FFFB53594D84E87A1E97CF4FFF55A@namprd05.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ <20181114211704.6381-3-david@redhat.com>
+ <20181114222321.GB1784@bombadil.infradead.org>
+ <b4668081-5aa3-d7f5-6880-d01c75cfc6ae@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ee1f84e-eabf-4afc-d8d9-08d64a9b9b6f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2018 01:42:30.4166
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR05MB5382
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b4668081-5aa3-d7f5-6880-d01c75cfc6ae@redhat.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 18111502-0020-0000-0000-000002E832C3
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18111502-0021-0000-0000-000021374AA3
+Message-Id: <20181115020725.GC2353@rapoport-lnx>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-14_20:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1811150016
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Pk9uIDExLzE0LzE4LCAzOjQxIFBNLCAiTmFkYXYgQW1pdCIgPG5hbWl0QHZtd2FyZS5jb20+IHdy
-b3RlOg0KPj5Gcm9tOiBEYXZpZCBIaWxkZW5icmFuZA0KPj5TZW50OiBOb3ZlbWJlciAxNCwgMjAx
-OCBhdCAxMTowNTozOCBQTSBHTVQNCj4+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggUkZDIDAvNl0gbW0v
-a2R1bXA6IGFsbG93IHRvIGV4Y2x1ZGUgcGFnZXMgdGhhdCBhcmUgbG9naWNhbGx5IG9mZmxpbmUN
-Cj4+IA0KPj4gDQo+PiBDYW4geW91IHNoYXJlIGlmIHNvbWV0aGluZyBsaWtlIHRoaXMgaXMgYWxz
-byBkZXNpcmVkIGZvciB2bXdhcmUncw0KPj4gaW1wbGVtZW50YXRpb24/IChJIHRhZ2dlZCB0aGlz
-IGFzIFJGQyB0byBnZXQgc29tZSBtb3JlIGZlZWRiYWNrKQ0KPj4gDQo+PiBJdCBzaG91bGQgaW4g
-dGhlb3J5IGJlIGFzIHNpbXBsZSBhcyBhZGRpbmcgYSBoYW5kZnVsIG9mDQo+PiBfU2V0UGFnZU9m
-ZmxpbmUoKS9fQ2xlYXJQYWdlT2ZmbGluZSgpIGF0IHRoZSByaWdodCBzcG90cy4NCj4gICAgDQo+
-IFRoYW5rcywgSSB3YXMganVzdCBzdXNwZWN0aW5nIGl0IGlzIHBlcnNvbmFsIDstKQ0KPg0KPiBJ
-IHdvdWxkIG9idmlvdXNseSBwcmVmZXIgdGhhdCB5b3VyIGNoYW5nZXMgd291bGQgYmUgZG9uZSBv
-biB0b3Agb2YgdGhvc2UNCj4gdGhhdCB3ZXJlIHNraXBwZWQuIFRoaXMgcGF0Y2gtc2V0IHNvdW5k
-cyB2ZXJ5IHJlYXNvbmFibGUgdG8gbWUsIGJ1dCBJIHByZWZlcg0KPiB0aGF0IEp1bGllbiAoY2Pi
-gJlkKSB3b3VsZCBhbHNvIGdpdmUgaGlzIG9waW5pb24uDQogICAgDQpJIHRoaW5rIHRoaXMgaXMg
-ZGVzaXJhYmxlIGZvciBWTXdhcmUncyBpbXBsZW1lbnRhdGlvbiBhbHNvLiBZb3UgYXJlIHJpZ2h0
-LA0KZHVtcGluZyBkYXRhIHRoYXQgaXMgbm90IHJlbGV2YW50IGlzIGEgd2FzdGUgOi0pIA0KSSBo
-YXZlbid0IGhlYXJkIG9mIGFueSBwYW5pYy9pc3N1ZSBkdWUgdG8gdGhpcyBidXQgdGhhdCdzIHN0
-aWxsIGEgZ29vZCBvcHRpbWl6YXRpb24uDQoNCk5hZGF2IG9yIEkgY291bGQgaGVscCB0byB0ZXN0
-IHRoYXQgb24gRVNYIGlmIHJlcXVpcmVkLg0KDQpSZWdhcmRzLA0KDQotLSANCkp1bGllbiBGcmVj
-aGUNCg0K
+On Wed, Nov 14, 2018 at 11:49:15PM +0100, David Hildenbrand wrote:
+> On 14.11.18 23:23, Matthew Wilcox wrote:
+> > On Wed, Nov 14, 2018 at 10:17:00PM +0100, David Hildenbrand wrote:
+> >> Rename PG_balloon to PG_offline. This is an indicator that the page is
+> >> logically offline, the content stale and that it should not be touched
+> >> (e.g. a hypervisor would have to allocate backing storage in order for the
+> >> guest to dump an unused page).  We can then e.g. exclude such pages from
+> >> dumps.
+> >>
+> >> In following patches, we will make use of this bit also in other balloon
+> >> drivers.  While at it, document PGTABLE.
+> > 
+> > Thank you for documenting PGTABLE.  I didn't realise I also had this
+> > document to update when I added PGTABLE.
+> 
+> Thank you for looking into this :)
+> 
+> > 
+> >> +++ b/Documentation/admin-guide/mm/pagemap.rst
+> >> @@ -78,6 +78,8 @@ number of times a page is mapped.
+> >>      23. BALLOON
+> >>      24. ZERO_PAGE
+> >>      25. IDLE
+> >> +    26. PGTABLE
+> >> +    27. OFFLINE
+> > 
+> > So the offline *user* bit is new ... even though the *kernel* bit
+> > just renames the balloon bit.  I'm not sure how I feel about this.
+> > I'm going to think about it some more.  Could you share your decision
+> > process with us?
+> 
+> BALLOON was/is documented as
+> 
+> "23 - BALLOON
+>     balloon compaction page
+> "
+> 
+> and only includes all virtio-ballon pages after the non-lru migration
+> feature has been implemented for ballooned pages. Since then, this flag
+> does basically no longer stands for what it actually was supposed to do.
+
+Perhaps I missing something, but how the user should interpret "23" when he
+reads /proc/kpageflags?
+
+> To not break uapi I decided to not rename it but instead to add a new flag.
+
+I've got a feeling that uapi was anyway changed for the BALLON flag
+meaning.
+ 
+> > 
+> > I have no objection to renaming the balloon bit inside the kernel; I
+> > think that's a wise idea.  I'm just not sure whether we should rename
+> > the user balloon bit rather than adding a new bit.
+> > 
+> 
+> Can we rename without breaking uapi?
+> 
+> -- 
+> 
+> Thanks,
+> 
+> David / dhildenb
+> 
+
+-- 
+Sincerely yours,
+Mike.
+
