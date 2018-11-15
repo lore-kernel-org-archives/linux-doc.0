@@ -3,60 +3,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 667357D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 13:33:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F28BD7D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 13:43:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388466AbeKOXk4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Nov 2018 18:40:56 -0500
-Received: from mail-io1-f67.google.com ([209.85.166.67]:39533 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388293AbeKOXk4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Nov 2018 18:40:56 -0500
-Received: by mail-io1-f67.google.com with SMTP id j18-v6so2340296iog.6
-        for <linux-doc@vger.kernel.org>; Thu, 15 Nov 2018 05:33:03 -0800 (PST)
+        id S1729024AbeKOXu7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Nov 2018 18:50:59 -0500
+Received: from mail-it1-f194.google.com ([209.85.166.194]:35252 "EHLO
+        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388084AbeKOXu6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Nov 2018 18:50:58 -0500
+Received: by mail-it1-f194.google.com with SMTP id v11so29284708itj.0
+        for <linux-doc@vger.kernel.org>; Thu, 15 Nov 2018 05:43:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=PN5GmVrLpfWdsF3zaWwiiGhdRplA2T5ANDxt9t9i21A=;
-        b=iXnhObX7l2OKgdTf5CjZM295AYy1uoZCTE91Tp/1dKQLg9JefdrrpmPXHHH3UdObKt
-         pN62nO4KPi4bGH2xmBio2meUireyPkKmy+PCerF4ftx2WcLLPeYr4rpH0VrGYQtQpy1D
-         yEu9aGIS6ypqN2kvnmbxiN7/vmyNZbxNb5Q+oP7yffuUVi7EvNwotbRKiHFil8NS/5CY
-         VDX8zFzmf4NG4yDld38kquxVerCuyLSgmd06HD97igOXYLHA3xiY9jiWEHfaspfgLVPW
-         r8WM+Ex/ccxkarnklVgJzcc/pwRkFxX0gzun+u11bJUnwKZ4xeVJNMseifYXyiUHHeEY
-         N6Tw==
+        bh=cI0/70tj+Fz0dv9vc6u4Hbc50xDUnJCH9C9jIgbl64k=;
+        b=ndppcDYSVsa+Pr7xBlpTUk8LpvMGYSHw6puUpr1OWID/NJ0JLXC0bEPkS0/zWfmmUZ
+         XuX19ujj39HLMpGl075hQPRwtjby3tRhL/cQTTP5ccAAQju92Gbl5vVCq7+jeuu/LBh5
+         OI/FuT7F/+ZK0oa4nlj3A1rO4DIrQVhILzOv/Evjr1zqLRl1RZUY7Jq6q68UDy4sFcTd
+         JjnFss7BPtItYkQWLebt5XnPhDaw8x+XcW+bRnV+02TKd8ukEv+i+BH+D8rEYfyYE+A9
+         YyeYVrO/SWseKdnTjjsTSs91LmrjExR9MP8/DN23LILJWaq4XbH9vOS2an2HWMzhOIWL
+         U1tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=PN5GmVrLpfWdsF3zaWwiiGhdRplA2T5ANDxt9t9i21A=;
-        b=okFWW3CB+x6GJrliPUnE7yFbjqaa2S7x25xEjnGCc8AHRFc4MER3YfBGc8LdXPI7iT
-         el7LNuBKkJpqpJpSoWaeYmvxjyNJyDeIvNR72i6HWu7G5v6M6c6Ba8wYmXMXxoyukm3D
-         vE27j9rVrhUhEf7TGzbHoxC77keeFZ1mML7vaTVvvF1PZAwoWrHtyZQJjJqa0Nc6epwm
-         /xEO+5ZNokihWrmKo4VUztaS0NogVmy2fVu4b04WHqdXzBNQvwRZ8RzOJyGzDVazPo67
-         gD92rVzIBpWqGfYpvxdZiC4wPnc1FF5yJSoz4H7CLsZHmQ7k3n2MGHuaf36HrwfTWHIU
-         J5jQ==
-X-Gm-Message-State: AA+aEWbNKv1Ukig3OZW8SdA1qjiONCpQ4vKjJeBzeGl23y89i5iCKID3
-        QxjtgEvimCn3g62WOTSQEFVhQn2roMHDH/DHqYENRw==
-X-Google-Smtp-Source: AJdET5cY7wYv0YbRe9C4nO5GZeiRHPUOrgpKhRPRoYyz9Ep5mftC7Sh55tN1TTxWck7QyzO9jm4//GVCVFddKAaGbcQ=
-X-Received: by 2002:a6b:c892:: with SMTP id y140mr4681023iof.192.1542288783330;
- Thu, 15 Nov 2018 05:33:03 -0800 (PST)
+        bh=cI0/70tj+Fz0dv9vc6u4Hbc50xDUnJCH9C9jIgbl64k=;
+        b=fwcd1Y0vd4w3ZoJdGCL/SzQ8f6H0YnBhiYlkXmWsMiI0Lq4UNv22s+E81H82yabJDk
+         6fLZF3UUKaPyVpSqB8bhUD6tck9cPoFMbllIKsNLUnL4II4tlKw9KQgGEt3B7d92bej7
+         XDIqNRSqbS/ufNrEZsx27T8KS3ZakJvuLcZxJgipnqGqxu0t9/m1Bt6JCqUHG0sHjufs
+         +7Io7N3MMYmTVLA5AKvPwyufeYNwMnYB2MpubmjR3t10cMnunBlAACLvyZQuONVyidM7
+         YlBCDdgxPF9asZ5sD8FfqvSP+XR1jM3vt/fR7eS+/CVW3MKk3onzWq907v3FQqRmWVsy
+         GiGw==
+X-Gm-Message-State: AA+aEWZcpq/ExPHemB9cqI8e0w/mU1nEBY3rh5vlOyvf5pHoUMkn0zBG
+        AnPRup7271ZXz7F9ru2tWHCAUF6QtaX42v92bJJSNQ==
+X-Google-Smtp-Source: AJdET5fg0UanWtZiQgn05adpP6gDOLgjnwzdxZ2BuWiWW2zOOmgcF6Gqrxm4fuD3oydoJYenXBcamKa2KV/o1kHPg1o=
+X-Received: by 2002:a24:1642:: with SMTP id a63mr5351372ita.40.1542289383258;
+ Thu, 15 Nov 2018 05:43:03 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a02:7050:0:0:0:0:0 with HTTP; Thu, 15 Nov 2018 05:33:02
+Received: by 2002:a02:7050:0:0:0:0:0 with HTTP; Thu, 15 Nov 2018 05:43:02
  -0800 (PST)
-In-Reply-To: <20181114201738.sb2lla7umljsx3qx@blommer>
-References: <cover.1541525354.git.andreyknvl@google.com> <4891a504adf61c0daf1e83642b6f7519328dfd5f.1541525354.git.andreyknvl@google.com>
- <20181108122228.xqwhpkjritrvqneq@lakrids.cambridge.arm.com>
- <CAAeHK+xPkbg_9P9oCkS-iB8S81vTxD3p5SbyWHy-vrp2ybkKmg@mail.gmail.com>
- <20181113220728.2h3kz67b2bz36wty@blommer> <CAAeHK+xe5LqbyWnYSDv2+QrLR=GK0JMzniAZBfL8kjXRwJravA@mail.gmail.com>
- <20181114201738.sb2lla7umljsx3qx@blommer>
+In-Reply-To: <CAAeHK+yAve4fBg_UZQsNdVJ5W-7v8tQnRa=amQMyBeE_yHcq5g@mail.gmail.com>
+References: <cover.1541525354.git.andreyknvl@google.com> <b2aa056b65b8f1a410379bf2f6ef439d5d99e8eb.1541525354.git.andreyknvl@google.com>
+ <20181107165200.oaou6cx2lmjzmjyl@lakrids.cambridge.arm.com> <CAAeHK+yAve4fBg_UZQsNdVJ5W-7v8tQnRa=amQMyBeE_yHcq5g@mail.gmail.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Thu, 15 Nov 2018 14:33:02 +0100
-Message-ID: <CAAeHK+zqkyb7rknhNT7ZUt0SBJb2s775UFnhpOjc0_yWHFgrvA@mail.gmail.com>
-Subject: Re: [PATCH v10 12/22] kasan, arm64: fix up fault handling logic
+Date:   Thu, 15 Nov 2018 14:43:02 +0100
+Message-ID: <CAAeHK+yaYc4gOxWdvJALwUffAFDVwQe7+4Rwx=Ux936c_LtBFw@mail.gmail.com>
+Subject: Re: [PATCH v10 08/22] kasan, arm64: untag address in __kimg_to_phys
+ and _virt_addr_is_linear
 To:     Mark Rutland <mark.rutland@arm.com>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -101,118 +99,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 14, 2018 at 9:17 PM, Mark Rutland <mark.rutland@arm.com> wrote:
-> On Wed, Nov 14, 2018 at 09:06:23PM +0100, Andrey Konovalov wrote:
->> On Tue, Nov 13, 2018 at 11:07 PM, Mark Rutland <mark.rutland@arm.com> wrote:
->> > On Tue, Nov 13, 2018 at 04:01:27PM +0100, Andrey Konovalov wrote:
->> >> On Thu, Nov 8, 2018 at 1:22 PM, Mark Rutland <mark.rutland@arm.com> wrote:
->> >> > On Tue, Nov 06, 2018 at 06:30:27PM +0100, Andrey Konovalov wrote:
->> >> >> show_pte in arm64 fault handling relies on the fact that the top byte of
->> >> >> a kernel pointer is 0xff, which isn't always the case with tag-based
->> >> >> KASAN.
->> >> >
->> >> > That's for the TTBR1 check, right?
->> >> >
->> >> > i.e. for the following to work:
->> >> >
->> >> >         if (addr >= VA_START)
->> >> >
->> >> > ... we need the tag bits to be an extension of bit 55...
->> >> >
->> >> >>
->> >> >> This patch resets the top byte in show_pte.
->> >> >>
->> >> >> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
->> >> >> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
->> >> >> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
->> >> >> ---
->> >> >>  arch/arm64/mm/fault.c | 3 +++
->> >> >>  1 file changed, 3 insertions(+)
->> >> >>
->> >> >> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
->> >> >> index 7d9571f4ae3d..d9a84d6f3343 100644
->> >> >> --- a/arch/arm64/mm/fault.c
->> >> >> +++ b/arch/arm64/mm/fault.c
->> >> >> @@ -32,6 +32,7 @@
->> >> >>  #include <linux/perf_event.h>
->> >> >>  #include <linux/preempt.h>
->> >> >>  #include <linux/hugetlb.h>
->> >> >> +#include <linux/kasan.h>
->> >> >>
->> >> >>  #include <asm/bug.h>
->> >> >>  #include <asm/cmpxchg.h>
->> >> >> @@ -141,6 +142,8 @@ void show_pte(unsigned long addr)
->> >> >>       pgd_t *pgdp;
->> >> >>       pgd_t pgd;
->> >> >>
->> >> >> +     addr = (unsigned long)kasan_reset_tag((void *)addr);
->> >> >
->> >> > ... but this ORs in (0xffUL << 56), which is not correct for addresses
->> >> > which aren't TTBR1 addresses to begin with, where bit 55 is clear, and
->> >> > throws away useful information.
->> >> >
->> >> > We could use untagged_addr() here, but that wouldn't be right for
->> >> > kernels which don't use TBI1, and we'd erroneously report addresses
->> >> > under the TTBR1 range as being in the TTBR1 range.
->> >> >
->> >> > I also see that the entry assembly for el{1,0}_{da,ia} clears the tag
->> >> > for EL0 addresses.
->> >> >
->> >> > So we could have:
->> >> >
->> >> > static inline bool is_ttbr0_addr(unsigned long addr)
->> >> > {
->> >> >         /* entry assembly clears tags for TTBR0 addrs */
->> >> >         return addr < TASK_SIZE_64;
->> >> > }
->> >> >
->> >> > static inline bool is_ttbr1_addr(unsigned long addr)
->> >> > {
->> >> >         /* TTBR1 addresses may have a tag if HWKASAN is in use */
->> >> >         return arch_kasan_reset_tag(addr) >= VA_START;
->> >> > }
->> >> >
->> >> > ... and use those in the conditionals, leaving the addr as-is for
->> >> > reporting purposes.
->> >>
->> >> Actually it looks like 276e9327 ("arm64: entry: improve data abort
->> >> handling of tagged pointers") already takes care of both user and
->> >> kernel fault addresses and correctly removes tags from them. So I
->> >> think we need to drop this patch.
->> >
->> > The clear_address_tag macro added in that commit only removes tags from TTBR0
->> > addresses, so that's not sufficient if the kernel is used tagged addresses
->> > (which will be in the TTBR1 range).
+On Wed, Nov 14, 2018 at 8:23 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
+> On Wed, Nov 7, 2018 at 5:52 PM, Mark Rutland <mark.rutland@arm.com> wrote:
+>>>  /*
+>>> @@ -232,7 +241,7 @@ static inline unsigned long kaslr_offset(void)
+>>>  #define __is_lm_address(addr)        (!!((addr) & BIT(VA_BITS - 1)))
+>>>
+>>>  #define __lm_to_phys(addr)   (((addr) & ~PAGE_OFFSET) + PHYS_OFFSET)
+>>> -#define __kimg_to_phys(addr) ((addr) - kimage_voffset)
+>>> +#define __kimg_to_phys(addr) (KASAN_RESET_TAG(addr) - kimage_voffset)
 >>
->> Do I understand correctly that TTBR0 means user space addresses and
->> TTBR1 means kernel addresses?
+>> IIUC You need to adjust __lm_to_phys() too, since that could be passed
+>> an address from SLAB.
+>>
+>> Maybe that's done in a later patch, but if so it's confusing to split it
+>> out that way. It would be nicer to fix all the *_to_*() helpers in one
+>> go.
 >
-> Effectively, yes. The address space is split into two halves (with a gap in the
-> middle). The high half (where we map the kernel) is covered by TTBR1, and the
-> low half (where we map userspace) is covered by TTBR0.
->
-> The TTBRs are the Translation Table Base Registers -- the two halves have
-> separate page tables.
->
->> In that commit I see that the clear_address_tag() macro is used in el0_da and
->> in el1_da, which means that it untags both user and kernel addresses (on data
->> aborts). Do I misunderstand something?
->
-> It's called for faults taken from EL0 and EL1, but it only removes the tags
-> from addresses covered by TTBR0. The logic is:
->
->         .macro  clear_address_tag, dst, addr
->         tst     \addr, #(1 << 55)
->         bic     \dst, \addr, #(0xff << 56)
->         csel    \dst, \dst, \addr, eq
->         .endm
->
-> ... which in C would be:
->
->         if (!(addr & (1UL << 55))) {
->                 addr &= ~(0xffUL << 56);
->         }
->
-> ... and therefore does not affect TTBR1 addresses.
+> __lm_to_phys() does & ~PAGE_OFFSET, so it resets the tag by itself. I
+> can add an explicit __tag_reset() if you think it makes sense.
 
-Got it, will fix in v11, thanks!
+Hi Mark,
+
+I think I've addressed all of your comments except for this one. Do
+you think it makes sense to add explicit __tag_reset() calls to
+__lm_to_phys() and a few other macros, that already set the tag to 0
+by doing & ~PAGE_OFFSET?
+
+Thanks!
