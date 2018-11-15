@@ -1,102 +1,146 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2C29B7D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 12:15:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CC5307D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 12:20:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733254AbeKOWWh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Nov 2018 17:22:37 -0500
-Received: from smtprelay2.synopsys.com ([198.182.60.111]:34294 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729115AbeKOWWh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Nov 2018 17:22:37 -0500
-Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id F12FF10C0EC0;
-        Thu, 15 Nov 2018 04:14:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1542284100; bh=+f6CaX9sdBvxhaZjl87yutS7vpcH14fol/SpDoSU0iI=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
-        b=hxoiO6jqvAbaxsZf2+wg06DQN3x1pIz6lQumkZzmHArEINLRR0H5qGlIYpuEesJHB
-         3eeXmX29JNrnLHLX2xd7/AeusNlAkZob+6i6MCy/VtueKrL4YqCifImT/SColv5fce
-         JT27R/aR62mTkUERiTxCBM9kpskR9hLMgpXoZ4OGBm3DekAYZifP7NEB1WravqCOem
-         lRtrq0kNFekbWwKd5IMSMwbl0LrNySQwLy/FGTMmmXY/we567/0z4H6+euOLtsT8w8
-         mL5J7L9h5ud6jbH9UWwgEWJA1VLOxRxQrtDHCpPfGAc8zs01HCp6K34+VYFiva+1TM
-         L69SXqdulxiqA==
-Received: from US01WEHTC2.internal.synopsys.com (us01wehtc2-vip.internal.synopsys.com [10.12.239.238])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 5EEE756DF;
-        Thu, 15 Nov 2018 04:14:57 -0800 (PST)
-Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
- US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Thu, 15 Nov 2018 04:14:57 -0800
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
- DE02WEHTCA.internal.synopsys.com (10.225.19.92) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Thu, 15 Nov 2018 13:14:55 +0100
-Received: from [10.0.2.15] (10.107.19.116) by DE02WEHTCB.internal.synopsys.com
- (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.408.0; Thu, 15 Nov
- 2018 13:14:55 +0100
-Subject: Re: [PATCH v10 0/9] Add the I3C subsystem
-To:     Boris Brezillon <boris.brezillon@bootlin.com>,
-        Wolfram Sang <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>
-CC:     Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        Cyprian Wronka <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        Rafal Ciepiela <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        "Kumar Gala" <galak@codeaurora.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Vitor Soares <Vitor.Soares@synopsys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        <linux-gpio@vger.kernel.org>, Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>,
-        Mike Shettel <mshettel@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>
-References: <20181026144333.12276-1-boris.brezillon@bootlin.com>
-From:   vitor <vitor.soares@synopsys.com>
-Message-ID: <76b1d15d-232c-d8ba-5eba-8394e71be725@synopsys.com>
-Date:   Thu, 15 Nov 2018 12:14:37 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        id S1731710AbeKOW1i (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Nov 2018 17:27:38 -0500
+Received: from mx2.suse.de ([195.135.220.15]:52632 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729008AbeKOW1i (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Nov 2018 17:27:38 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id D3A3AB023;
+        Thu, 15 Nov 2018 12:19:57 +0000 (UTC)
+Date:   Thu, 15 Nov 2018 13:19:50 +0100
+From:   Michal Hocko <mhocko@kernel.org>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Mike Rapoport <rppt@linux.ibm.com>,
+        Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        devel@linuxdriverproject.org, linux-fsdevel@vger.kernel.org,
+        linux-pm@vger.kernel.org, xen-devel@lists.xenproject.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christian Hansen <chansen3@cisco.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Pavel Tatashin <pasha.tatashin@oracle.com>,
+        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
+        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
+        Miles Chen <miles.chen@mediatek.com>,
+        David Rientjes <rientjes@google.com>,
+        Konstantin Khlebnikov <koct9i@gmail.com>
+Subject: Re: [PATCH RFC 2/6] mm: convert PG_balloon to PG_offline
+Message-ID: <20181115121950.GQ23831@dhcp22.suse.cz>
+References: <20181114211704.6381-1-david@redhat.com>
+ <20181114211704.6381-3-david@redhat.com>
+ <20181114222321.GB1784@bombadil.infradead.org>
+ <b4668081-5aa3-d7f5-6880-d01c75cfc6ae@redhat.com>
+ <20181115020725.GC2353@rapoport-lnx>
+ <5730ee16-9b18-ad3d-0fb3-e9edb55e2298@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20181026144333.12276-1-boris.brezillon@bootlin.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.107.19.116]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5730ee16-9b18-ad3d-0fb3-e9edb55e2298@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Boris,
+[Cc Konstantin - the patch is http://lkml.kernel.org/r/20181114211704.6381-3-david@redhat.com]
 
-Given the current state of the subsystem I think it might worth start to 
-think how to expose the devices under /dev.
-My initial thoughts are to do the same think as for i2c, expose the 
-buses or the i3c_devices and use ioctl for private transfers. Some 
-direct CCC commands can be sent through the /sys as you plan for SETNEWDA .
+On Thu 15-11-18 10:21:13, David Hildenbrand wrote:
+> On 15.11.18 03:07, Mike Rapoport wrote:
+> > On Wed, Nov 14, 2018 at 11:49:15PM +0100, David Hildenbrand wrote:
+> >> On 14.11.18 23:23, Matthew Wilcox wrote:
+> >>> On Wed, Nov 14, 2018 at 10:17:00PM +0100, David Hildenbrand wrote:
+> >>>> Rename PG_balloon to PG_offline. This is an indicator that the page is
+> >>>> logically offline, the content stale and that it should not be touched
+> >>>> (e.g. a hypervisor would have to allocate backing storage in order for the
+> >>>> guest to dump an unused page).  We can then e.g. exclude such pages from
+> >>>> dumps.
+> >>>>
+> >>>> In following patches, we will make use of this bit also in other balloon
+> >>>> drivers.  While at it, document PGTABLE.
+> >>>
+> >>> Thank you for documenting PGTABLE.  I didn't realise I also had this
+> >>> document to update when I added PGTABLE.
+> >>
+> >> Thank you for looking into this :)
+> >>
+> >>>
+> >>>> +++ b/Documentation/admin-guide/mm/pagemap.rst
+> >>>> @@ -78,6 +78,8 @@ number of times a page is mapped.
+> >>>>      23. BALLOON
+> >>>>      24. ZERO_PAGE
+> >>>>      25. IDLE
+> >>>> +    26. PGTABLE
+> >>>> +    27. OFFLINE
+> >>>
+> >>> So the offline *user* bit is new ... even though the *kernel* bit
+> >>> just renames the balloon bit.  I'm not sure how I feel about this.
+> >>> I'm going to think about it some more.  Could you share your decision
+> >>> process with us?
+> >>
+> >> BALLOON was/is documented as
+> >>
+> >> "23 - BALLOON
+> >>     balloon compaction page
+> >> "
+> >>
+> >> and only includes all virtio-ballon pages after the non-lru migration
+> >> feature has been implemented for ballooned pages. Since then, this flag
+> >> does basically no longer stands for what it actually was supposed to do.
+> > 
+> > Perhaps I missing something, but how the user should interpret "23" when he
+> > reads /proc/kpageflags?
+> 
+> Looking at the history in more detail:
+> 
+> commit 09316c09dde33aae14f34489d9e3d243ec0d5938
+> Author: Konstantin Khlebnikov <k.khlebnikov@samsung.com>
+> Date:   Thu Oct 9 15:29:32 2014 -0700
+> 
+>     mm/balloon_compaction: add vmstat counters and kpageflags bit
+> 
+>     Always mark pages with PageBalloon even if balloon compaction is
+> disabled
+>     and expose this mark in /proc/kpageflags as KPF_BALLOON.
+> 
+> 
+> So KPF_BALLOON was exposed when virtio-balloon pages were always marked
+> with PG_balloon. So the documentation is actually wrong ("balloon page"
+> vs. "balloon compaction page").
+> 
+> I have no idea who actually used that information. I suspect this was
+> just some debugging aid.
+> 
+> > 
+> >> To not break uapi I decided to not rename it but instead to add a new flag.
+> > 
+> > I've got a feeling that uapi was anyway changed for the BALLON flag
+> > meaning.
+> 
+> Yes. If we *replace* KPF_BALLOON by KPF_OFFLINE
+> 
+> a) Some applications might no longer compile (I guess that's ok)
+> b) Some old applications will treat KPF_OFFLINE like KPF_BALLOON (which
+> should at least for virtio-balloon usage until now be fine - it is just
+> more generic)
 
-What do you think about this?
-
-Best regards,
-Vitor Soares
-
-
+I do not think any compilation could break. If the semantic of the flag
+is preserved then everything should work as expected.
+-- 
+Michal Hocko
+SUSE Labs
