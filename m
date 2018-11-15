@@ -2,52 +2,44 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1A3427D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 09:21:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D5CD57D08E
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 15 Nov 2018 09:23:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728719AbeKOT21 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 15 Nov 2018 14:28:27 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:55163 "EHLO mx1.redhat.com"
+        id S1731710AbeKOTa0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 15 Nov 2018 14:30:26 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:53484 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728634AbeKOT21 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Nov 2018 14:28:27 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        id S1728719AbeKOTa0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Nov 2018 14:30:26 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id C7BD92CD7E2;
-        Thu, 15 Nov 2018 09:21:26 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id AAFD3F823;
+        Thu, 15 Nov 2018 09:23:26 +0000 (UTC)
 Received: from [10.36.117.224] (ovpn-117-224.ams2.redhat.com [10.36.117.224])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 245EA1062249;
-        Thu, 15 Nov 2018 09:21:13 +0000 (UTC)
-Subject: Re: [PATCH RFC 2/6] mm: convert PG_balloon to PG_offline
-To:     Mike Rapoport <rppt@linux.ibm.com>
-Cc:     Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        devel@linuxdriverproject.org, linux-fsdevel@vger.kernel.org,
-        linux-pm@vger.kernel.org, xen-devel@lists.xenproject.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3AA575DD7D;
+        Thu, 15 Nov 2018 09:23:14 +0000 (UTC)
+Subject: Re: [PATCH RFC 3/6] kexec: export PG_offline to VMCOREINFO
+To:     Dave Young <dyoung@redhat.com>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, devel@linuxdriverproject.org,
+        linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org,
+        xen-devel@lists.xenproject.org,
         Andrew Morton <akpm@linux-foundation.org>,
-        Christian Hansen <chansen3@cisco.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
         "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Omar Sandoval <osandov@fb.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Matthew Wilcox <willy@infradead.org>,
         Michal Hocko <mhocko@suse.com>,
-        Pavel Tatashin <pasha.tatashin@oracle.com>,
-        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
-        Miles Chen <miles.chen@mediatek.com>,
-        David Rientjes <rientjes@google.com>
+        Lianbo Jiang <lijiang@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        "Michael S. Tsirkin" <mst@redhat.com>
 References: <20181114211704.6381-1-david@redhat.com>
- <20181114211704.6381-3-david@redhat.com>
- <20181114222321.GB1784@bombadil.infradead.org>
- <b4668081-5aa3-d7f5-6880-d01c75cfc6ae@redhat.com>
- <20181115020725.GC2353@rapoport-lnx>
+ <20181114211704.6381-4-david@redhat.com>
+ <20181115061923.GA3971@dhcp-128-65.nay.redhat.com>
 From:   David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -94,101 +86,45 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
  SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <5730ee16-9b18-ad3d-0fb3-e9edb55e2298@redhat.com>
-Date:   Thu, 15 Nov 2018 10:21:13 +0100
+Message-ID: <685892a9-3a56-8e8c-dbe7-8b1159067a6b@redhat.com>
+Date:   Thu, 15 Nov 2018 10:23:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.3.0
 MIME-Version: 1.0
-In-Reply-To: <20181115020725.GC2353@rapoport-lnx>
+In-Reply-To: <20181115061923.GA3971@dhcp-128-65.nay.redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]); Thu, 15 Nov 2018 09:21:27 +0000 (UTC)
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Thu, 15 Nov 2018 09:23:27 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 15.11.18 03:07, Mike Rapoport wrote:
-> On Wed, Nov 14, 2018 at 11:49:15PM +0100, David Hildenbrand wrote:
->> On 14.11.18 23:23, Matthew Wilcox wrote:
->>> On Wed, Nov 14, 2018 at 10:17:00PM +0100, David Hildenbrand wrote:
->>>> Rename PG_balloon to PG_offline. This is an indicator that the page is
->>>> logically offline, the content stale and that it should not be touched
->>>> (e.g. a hypervisor would have to allocate backing storage in order for the
->>>> guest to dump an unused page).  We can then e.g. exclude such pages from
->>>> dumps.
->>>>
->>>> In following patches, we will make use of this bit also in other balloon
->>>> drivers.  While at it, document PGTABLE.
->>>
->>> Thank you for documenting PGTABLE.  I didn't realise I also had this
->>> document to update when I added PGTABLE.
->>
->> Thank you for looking into this :)
->>
->>>
->>>> +++ b/Documentation/admin-guide/mm/pagemap.rst
->>>> @@ -78,6 +78,8 @@ number of times a page is mapped.
->>>>      23. BALLOON
->>>>      24. ZERO_PAGE
->>>>      25. IDLE
->>>> +    26. PGTABLE
->>>> +    27. OFFLINE
->>>
->>> So the offline *user* bit is new ... even though the *kernel* bit
->>> just renames the balloon bit.  I'm not sure how I feel about this.
->>> I'm going to think about it some more.  Could you share your decision
->>> process with us?
->>
->> BALLOON was/is documented as
->>
->> "23 - BALLOON
->>     balloon compaction page
->> "
->>
->> and only includes all virtio-ballon pages after the non-lru migration
->> feature has been implemented for ballooned pages. Since then, this flag
->> does basically no longer stands for what it actually was supposed to do.
+On 15.11.18 07:19, Dave Young wrote:
+> Hi David,
 > 
-> Perhaps I missing something, but how the user should interpret "23" when he
-> reads /proc/kpageflags?
+> On 11/14/18 at 10:17pm, David Hildenbrand wrote:
+>> Let's export PG_offline via PAGE_OFFLINE_MAPCOUNT_VALUE, so
+>> makedumpfile can directly skip pages that are logically offline and the
+>> content therefore stale.
+> 
+> It would be good to copy some background info from cover letter to the
+> patch description so that we can get better understanding why this is
+> needed now.
 
-Looking at the history in more detail:
-
-commit 09316c09dde33aae14f34489d9e3d243ec0d5938
-Author: Konstantin Khlebnikov <k.khlebnikov@samsung.com>
-Date:   Thu Oct 9 15:29:32 2014 -0700
-
-    mm/balloon_compaction: add vmstat counters and kpageflags bit
-
-    Always mark pages with PageBalloon even if balloon compaction is
-disabled
-    and expose this mark in /proc/kpageflags as KPF_BALLOON.
-
-
-So KPF_BALLOON was exposed when virtio-balloon pages were always marked
-with PG_balloon. So the documentation is actually wrong ("balloon page"
-vs. "balloon compaction page").
-
-I have no idea who actually used that information. I suspect this was
-just some debugging aid.
+Yes, will add more detail!
 
 > 
->> To not break uapi I decided to not rename it but instead to add a new flag.
+> BTW, Lianbo is working on a documentation of the vmcoreinfo exported
+> fields. Ccing him so that he is aware of this.
 > 
-> I've got a feeling that uapi was anyway changed for the BALLON flag
-> meaning.
+> Also cc Boris,  although I do not want the doc changes blocks this
+> he might have different opinion :)
 
-Yes. If we *replace* KPF_BALLOON by KPF_OFFLINE
-
-a) Some applications might no longer compile (I guess that's ok)
-b) Some old applications will treat KPF_OFFLINE like KPF_BALLOON (which
-should at least for virtio-balloon usage until now be fine - it is just
-more generic)
-
-So I guess it's up to Maintainers/Matthew to decide :)
+I'll be happy to help updating documentation (or updating it myself if
+the doc updates go in first).
 
 -- 
 
