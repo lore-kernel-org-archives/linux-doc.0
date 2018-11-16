@@ -1,170 +1,120 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CAC497D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Nov 2018 13:17:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 298EB7D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Nov 2018 17:11:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728234AbeKPX3X (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Nov 2018 18:29:23 -0500
-Received: from mail.bootlin.com ([62.4.15.54]:48093 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727727AbeKPX3X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Nov 2018 18:29:23 -0500
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id B7B8D20742; Fri, 16 Nov 2018 14:16:59 +0100 (CET)
-Received: from bbrezillon (aaubervilliers-681-1-13-146.w90-88.abo.wanadoo.fr [90.88.134.146])
-        by mail.bootlin.com (Postfix) with ESMTPSA id B78B120D72;
-        Fri, 16 Nov 2018 14:16:39 +0100 (CET)
-Date:   Fri, 16 Nov 2018 14:16:39 +0100
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     vitor <vitor.soares@synopsys.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Przemyslaw Sroka <psroka@cadence.com>,
-        Arkadiusz Golec <agolec@cadence.com>,
-        Alan Douglas <adouglas@cadence.com>,
-        Bartosz Folta <bfolta@cadence.com>,
-        Damian Kos <dkos@cadence.com>,
-        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
-        "Cyprian Wronka" <cwronka@cadence.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        "Rafal Ciepiela" <rafalc@cadence.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
-        Pawel Moll <pawel.moll@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ian Campbell <ijc+devicetree@hellion.org.uk>,
-        "Kumar Gala" <galak@codeaurora.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Xiang Lin <Xiang.Lin@synaptics.com>,
-        <linux-gpio@vger.kernel.org>, Sekhar Nori <nsekhar@ti.com>,
-        Przemyslaw Gaj <pgaj@cadence.com>,
-        Peter Rosin <peda@axentia.se>,
-        Mike Shettel <mshettel@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v10 0/9] Add the I3C subsystem
-Message-ID: <20181116141639.31074113@bbrezillon>
-In-Reply-To: <5f946406-a205-3802-aefd-ebd8b5a72b0b@synopsys.com>
-References: <20181026144333.12276-1-boris.brezillon@bootlin.com>
-        <76b1d15d-232c-d8ba-5eba-8394e71be725@synopsys.com>
-        <20181115135731.25f60990@bbrezillon>
-        <20181115150137.GB4169@kunai>
-        <20181115162826.42b54776@bbrezillon>
-        <1d64f21a-ad24-94e0-2c17-25729ef59a31@synopsys.com>
-        <20181115200058.1869afdb@bbrezillon>
-        <5f946406-a205-3802-aefd-ebd8b5a72b0b@synopsys.com>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1728684AbeKQDZK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Nov 2018 22:25:10 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:35853 "EHLO
+        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728195AbeKQDZK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Nov 2018 22:25:10 -0500
+X-Greylist: delayed 429 seconds by postgrey-1.27 at vger.kernel.org; Fri, 16 Nov 2018 22:25:09 EST
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id 1BAED21F39;
+        Fri, 16 Nov 2018 12:04:49 -0500 (EST)
+Received: from web6 ([10.202.2.216])
+  by compute1.internal (MEProxy); Fri, 16 Nov 2018 12:04:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gluegarage.com;
+         h=message-id:from:to:cc:mime-version:content-transfer-encoding
+        :content-type:in-reply-to:references:subject:date; s=mesmtp; bh=
+        iEGdTKyN0HEwE030k1fx6PVMxlh7yAiD+wyouNJIlik=; b=cyUwKVp4MdK08Lna
+        xA0UnRWQ4ny7nhvCNYO4ryjuJLbeRvlSnGqpScytgY4Jk6L4p6plJ3+owtNhYbAO
+        8IMaADYqoeA0EqjugizbwV1rCougjvSQnd57LjQFwrLfyTsdZza/akb3SqUFTdH/
+        cqyWc7ZaViHFA6ZnsUeY3dnoA5M=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; bh=iEGdTKyN0HEwE030k1fx6PVMxlh7yAiD+wyouNJIl
+        ik=; b=TvMqoVHm4ale8vgWSzOWXPcYQJPgTzekqaXPgUJ1GtU8T7dZ2nUtvz34H
+        wdVxDRHT57D3WiB2vuTAumn9elnRIzriDcQ7GdvLElvBfaQMFjGH1Pj9QdCWftEv
+        KtrJ4aZJjTa14B5nxUVckNObFRqRvBTeU3Kb8u4IsJlKqwHyd53Rs7Gglu9j1uyM
+        B3LvvjZNMpKK6ounVGWBNznessBLu1mV2Oc99wkuh1r9gkdgXuEONCrWvcjIWFJp
+        IDqPGXJVyy3Q1FpnARyKUdIYWeo84StNPzJDs6VK4WdH83IoEq8rqFn+DrppT5e5
+        HyQERmyO6AOWNj5f25W2LfpBV3Eaw==
+X-ME-Sender: <xms:rPjuWyQKLu7kLjet_Mk-LZZa4FeSDlNkqEDJgPtWMLB7raZVyiCgQg>
+X-ME-Proxy: <xmx:rPjuWys2BTVZJwiJG5F7cAT0WhQJzBST-QCDp7kNk5_zs8gM-YJgFg>
+    <xmx:rPjuW2KvtpWljgJ0_x7LzwbgauD77BOfF09jkqcLs7s4_E7NL32k7Q>
+    <xmx:rPjuWwvOuNlxU4dw1JKDoE3uYCFXs70JhrF5ZEIk6MZoZYI4zU0zKg>
+    <xmx:rPjuW91jUIP__UoxYwXTqQlU4wPHJPuTFghOjIGYK3N2UzSfukfy9g>
+    <xmx:rPjuWzrZn9e0lI5goqmCq76OA1CdF2j6dUQ4zEy7hGwTkFgnSw6G0A>
+    <xmx:sfjuW8yLi_On1OdMh2WH7aLaCrUGrC0ZaBhhWcSNcKls3YAe0ilFvw>
+Received: by mailuser.nyi.internal (Postfix, from userid 99)
+        id 51F4741E7; Fri, 16 Nov 2018 12:04:44 -0500 (EST)
+Message-Id: <1542387884.1134874.1579436592.07F916C5@webmail.messagingengine.com>
+From:   Fernando <greenfoo@gluegarage.com>
+To:     Lucas Stach <l.stach@pengutronix.de>,
+        dri-devel@lists.freedesktop.org
+Cc:     Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Gilles Muller <Gilles.Muller@lip6.fr>,
+        David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+        Gerd Hoffmann <kraxel@redhat.com>, cocci@systeme.lip6.fr,
+        Marek Vasut <marex@denx.de>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Alexey Brodkin <abrodkin@synopsys.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Nicolas Palix <nicolas.palix@imag.fr>,
+        etnaviv@lists.freedesktop.org, Julia Lawall <Julia.Lawall@lip6.fr>,
+        virtualization@lists.linux-foundation.org,
+        Sean Paul <sean@poorly.run>,
+        linux-arm-kernel@lists.infradead.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: MessagingEngine.com Webmail Interface - ajax-2d882eb6
+In-Reply-To: <1542363310.23489.22.camel@pengutronix.de>
+References: <20181115221634.22715-1-greenfoo@gluegarage.com>
+ <20181115221634.22715-4-greenfoo@gluegarage.com>
+ <1542363310.23489.22.camel@pengutronix.de>
+Subject: Re: [PATCH 3/9] drm: replace "drm_dev_unref" function with "drm_dev_put"
+Date:   Fri, 16 Nov 2018 18:04:44 +0100
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 16 Nov 2018 12:31:42 +0000
-vitor <vitor.soares@synopsys.com> wrote:
+On Fri, Nov 16, 2018, at 11:15 AM, Lucas Stach wrote:
+> Am Donnerstag, den 15.11.2018, 23:16 +0100 schrieb Fernando Ramos:
+> > This patch unifies the naming of DRM functions for reference counting as
+> > requested on Documentation/gpu/todo.rst
+> >=20
+> > > Signed-off-by: Fernando Ramos <greenfoo@gluegarage.com>
+> > ---
+> > =C2=A0drivers/gpu/drm/arc/arcpgu_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| 4 ++--
+> > =C2=A0drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 4 ++--
+> > =C2=A0drivers/gpu/drm/etnaviv/etnaviv_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0| 4 ++--
+>=20
+> At least the etnaviv part of the patch is already fixed in linux-next.
+>=20
+> Regards,
+> Lucas
+=20
 
-> Hi Boris,
-> 
-> 
-> On 15/11/18 19:00, Boris Brezillon wrote:
-> > On Thu, 15 Nov 2018 18:03:47 +0000
-> > vitor <vitor.soares@synopsys.com> wrote:
-> >  
-> >> Hi Boris,
-> >>
-> >>
-> >> On 15/11/18 15:28, Boris Brezillon wrote:  
-> >>> On Thu, 15 Nov 2018 16:01:37 +0100
-> >>> Wolfram Sang <wsa@the-dreams.de> wrote:
-> >>>     
-> >>>> Hi Boris,
-> >>>>     
-> >>>>> What we could do though, is expose I3C devices that do not have a
-> >>>>> driver in kernel space, like spidev does.  
-> >>>> ...
-> >>>>     
-> >>>>> Mark, Wolfram, Arnd, Greg, any opinion?  
-> >>>> Is there a benefit for having drivers in userspace? My gut feeling is to
-> >>>> encourage people to write kernel drivers. If this is, for some reason,
-> >>>> not possible for some driver, then we have a use case at hand to test
-> >>>> the then-to-be-developed userspace interface against. Until then, I
-> >>>> personally wouldn't waste effort on designing it without a user in
-> >>>> sight.  
-> >>> I kind of agree with that. Vitor, do you have a use case in mind for
-> >>> such userspace drivers? I don't think it's worth designing an API for
-> >>> something we don't need (yet).  
-> >> My use case is a tool for tests, lets say like the i2c tools.  
-> > What would you like to test exactly?
-> >  
-> >> There is
-> >> other subsystems, some of them mentioned on this thread, that have and
-> >> ioctl system call or other method to change parameters or send data.  
-> > I don't think they added the /dev interface before having a real use
-> > case for it.
-> >  
-> >>
-> >> I rise this topic because I really think it worth to define now how this
-> >> should be design (and for me how to do the things right) to avoid future
-> >> issues.  
-> > Actually it should be done the other way around: you should have a real
-> > need and the /dev interface should be designed to fulfill this need.
-> > Based on this real use case we can discuss other potential usage that
-> > might appear in the future and try to design something more
-> > future-proof, but clearly, this userspace interface should be driven by
-> > a real/well-defined use case.
-> >
-> > Also, exposing things to userspace is way more risky than adding a new
-> > in-kernel subsystem/framework, because it then becomes part of the
-> > stable ABI.
-> >
-> > To make things clearer, I'm not against the idea of exposing I3C
-> > devices (or I3C buses) to userspace, but I'd like to understand what you
-> > plan to do with that. If this is about testing, what kind of tests
-> > you'd like to run. If this is about developing drivers in userspace,
-> > why can't these be done in kernel space (license issues?), and what
-> > would those drivers be allowed to do?  
-> 
-> 
-> Basically I need a tool that help me during the development and to avoid 
-> me to write a dummy driver for each device that I test.
+Thanks for the notice.
 
-But we want I3C device drivers to be upstreamed, so why not developing a
-real driver everytime you test a new device and submitting it upstream?
+I'm new on this, how should I proceed? Should I create a new (V2) patch ser=
+ies with these changes reverted? Or will the maintainer automatically take =
+care of this when merging?
 
-> 
-> For instances do some read/write,
+And, related to this, what is the "good" branch to start developing new drm=
+ patches? Is is "drm-next" or "linux-next"? Or does it change depending on =
+how much time until the merge window closes?
 
-Doing SDR/DDR transfers is probably acceptable, but I still think we
-should push hard to have kernel drivers when that's possible.
-
-> get/set ccc commands,
-
-Exposing CCC commands is definitely not a good idea, since they're not
-even exposed to kernel drivers.
-
-> if something 
-> goes wrong during the bus initialization have a to debug etc...
-
-Can't we add such a debug infrastructure in the kernel. Maybe we can
-expose debugfs files too if that helps, though if those debugfs files
-are actually used by userspace libs/tools, it's not any better than
-ioctls or sysfs files, since they will anyway become a stable ABI.
-
-> 
-> 
-> For me this is a valid use case and I imagine when people start to 
-> develop in i3c this interface will help everyone.
-
-How about you propose an i3cdev driver that allow users to do SDR
-transfers throuh an ioctl?
+Thanks!
