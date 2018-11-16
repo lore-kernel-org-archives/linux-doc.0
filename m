@@ -2,335 +2,260 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E91117D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Nov 2018 01:09:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 32A0E7D099
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Nov 2018 10:15:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727114AbeKPLT4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Nov 2018 06:19:56 -0500
-Received: from mga05.intel.com ([192.55.52.43]:62780 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726518AbeKPLT4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Nov 2018 06:19:56 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Nov 2018 17:09:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,238,1539673200"; 
-   d="scan'208";a="280386529"
-Received: from sfhansen-mobl2.ger.corp.intel.com (HELO localhost) ([10.249.254.82])
-  by fmsmga005.fm.intel.com with ESMTP; 15 Nov 2018 17:09:26 -0800
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-sgx@vger.kernel.org
-Cc:     dave.hansen@intel.com, sean.j.christopherson@intel.com,
-        nhorman@redhat.com, npmccallum@redhat.com, serge.ayoun@intel.com,
-        shay.katz-zamir@intel.com, haitao.huang@linux.intel.com,
-        andriy.shevchenko@linux.intel.com, tglx@linutronix.de,
-        kai.svahn@intel.com, mark.shanahan@intel.com, luto@amacapital.net,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v17 22/23] x86/sgx: SGX documentation
-Date:   Fri, 16 Nov 2018 03:01:29 +0200
-Message-Id: <20181116010412.23967-23-jarkko.sakkinen@linux.intel.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20181116010412.23967-1-jarkko.sakkinen@linux.intel.com>
-References: <20181116010412.23967-1-jarkko.sakkinen@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=a
+        id S2389485AbeKPU1Z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Nov 2018 15:27:25 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:51415 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727393AbeKPU1Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Nov 2018 15:27:25 -0500
+Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
+        by metis.ext.pengutronix.de with esmtp (Exim 4.89)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1gNb9i-0005tf-G5; Fri, 16 Nov 2018 11:15:18 +0100
+Message-ID: <1542363310.23489.22.camel@pengutronix.de>
+Subject: Re: [PATCH 3/9] drm: replace "drm_dev_unref" function with
+ "drm_dev_put"
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Fernando Ramos <greenfoo@gluegarage.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Archit Taneja <architt@codeaurora.org>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Julia Lawall <Julia.Lawall@lip6.fr>,
+        Gilles Muller <Gilles.Muller@lip6.fr>,
+        Nicolas Palix <nicolas.palix@imag.fr>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        virtualization@lists.linux-foundation.org,
+        etnaviv@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        cocci@systeme.lip6.fr
+Date:   Fri, 16 Nov 2018 11:15:10 +0100
+In-Reply-To: <20181115221634.22715-4-greenfoo@gluegarage.com>
+References: <20181115221634.22715-1-greenfoo@gluegarage.com>
+         <20181115221634.22715-4-greenfoo@gluegarage.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Documentation of the features of the Software Guard eXtensions used
-by the Linux kernel and basic design choices for the core and driver
-and functionality.
+Am Donnerstag, den 15.11.2018, 23:16 +0100 schrieb Fernando Ramos:
+> This patch unifies the naming of DRM functions for reference counting as
+> requested on Documentation/gpu/todo.rst
+> 
+> > Signed-off-by: Fernando Ramos <greenfoo@gluegarage.com>
+> ---
+>  drivers/gpu/drm/arc/arcpgu_drv.c             | 4 ++--
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 4 ++--
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c        | 4 ++--
 
-Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Co-developed-by: Sean Christopherson <sean.j.christopherson@intel.com>
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
----
- Documentation/index.rst         |   1 +
- Documentation/x86/index.rst     |   8 ++
- Documentation/x86/intel_sgx.rst | 233 ++++++++++++++++++++++++++++++++
- 3 files changed, 242 insertions(+)
- create mode 100644 Documentation/x86/index.rst
- create mode 100644 Documentation/x86/intel_sgx.rst
+At least the etnaviv part of the patch is already fixed in linux-next.
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index c858c2e66e36..63864826dcd6 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -101,6 +101,7 @@ implementation.
-    :maxdepth: 2
- 
-    sh/index
-+   x86/index
- 
- Filesystem Documentation
- ------------------------
-diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-new file mode 100644
-index 000000000000..11d5b18d9537
---- /dev/null
-+++ b/Documentation/x86/index.rst
-@@ -0,0 +1,8 @@
-+======================
-+x86 Architecture Guide
-+======================
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   intel_sgx
-diff --git a/Documentation/x86/intel_sgx.rst b/Documentation/x86/intel_sgx.rst
-new file mode 100644
-index 000000000000..f51b43f9e125
---- /dev/null
-+++ b/Documentation/x86/intel_sgx.rst
-@@ -0,0 +1,233 @@
-+===================
-+Intel(R) SGX driver
-+===================
-+
-+Introduction
-+============
-+
-+Intel(R) SGX is a set of CPU instructions that can be used by applications to
-+set aside private regions of code and data. The code outside the enclave is
-+disallowed to access the memory inside the enclave by the CPU access control.
-+In a way you can think that SGX provides inverted sandbox. It protects the
-+application from a malicious host.
-+
-+You can tell if your CPU supports SGX by looking into ``/proc/cpuinfo``:
-+
-+	``cat /proc/cpuinfo  | grep sgx``
-+
-+Overview of SGX
-+===============
-+
-+SGX has a set of data structures to maintain information about the enclaves and
-+their security properties. BIOS reserves a fixed size region of physical memory
-+for these structures by setting Processor Reserved Memory Range Registers
-+(PRMRR).
-+
-+This memory range is protected from outside access by the CPU and all the data
-+coming in and out of the CPU package is encrypted by a key that is generated for
-+each boot cycle.
-+
-+Enclaves execute in ring-3 in a special enclave submode using pages from the
-+reserved memory range. A fixed logical address range for the enclave is reserved
-+by ENCLS(ECREATE), a leaf instruction used to create enclaves. It is referred in
-+the documentation commonly as the ELRANGE.
-+
-+Every memory access to the ELRANGE is asserted by the CPU. If the CPU is not
-+executing in the enclave mode inside the enclave, #GP is raised. On the other
-+hand, enclave code can make memory accesses both inside and outside of the
-+ELRANGE.
-+
-+Enclave can only execute code inside the ELRANGE. Instructions that may cause
-+VMEXIT, IO instructions and instructions that require a privilege change are
-+prohibited inside the enclave. Interrupts and exceptions always cause enclave
-+to exit and jump to an address outside the enclave given when the enclave is
-+entered by using the leaf instruction ENCLS(EENTER).
-+
-+Protected memory
-+----------------
-+
-+Enclave Page Cache (EPC)
-+    Physical pages used with enclaves that are protected by the CPU from
-+    unauthorized access.
-+
-+Enclave Page Cache Map (EPCM)
-+    A database that describes the properties and state of the pages e.g. their
-+    permissions or to which enclave they belong to.
-+
-+Memory Encryption Engine (MEE) integrity tree
-+    Autonomously updated integrity tree. The root of the tree located in on-die
-+    SRAM.
-+
-+EPC data types
-+--------------
-+
-+SGX Enclave Control Structure (SECS)
-+    Describes the global properties of an enclave. Will not be mapped to the
-+    ELRANGE.
-+
-+Regular (REG)
-+    These pages contain code and data.
-+
-+Thread Control Structure (TCS)
-+    The pages that define the entry points inside an enclave. An enclave can
-+    only be entered through these entry points and each can host a single
-+    hardware thread at a time.
-+
-+Version Array (VA)
-+   The pages contain 64-bit version numbers for pages that have been swapped
-+   outside the enclave. Each page has the capacity of 512 version numbers.
-+
-+Launch control
-+--------------
-+
-+To launch an enclave, two structures must be provided for ENCLS(EINIT):
-+
-+1. **SIGSTRUCT:** signed measurement of the enclave binary.
-+2. **EINITTOKEN:** a cryptographic token CMAC-signed with a AES256-key called
-+   *launch key*, which is re-generated for each boot cycle.
-+
-+The CPU holds a SHA256 hash of a 3072-bit RSA public key inside
-+IA32_SGXLEPUBKEYHASHn MSRs. Enclaves with a SIGSTRUCT that is signed with this
-+key do not require a valid EINITTOKEN and can be authorized with special
-+privileges. One of those privileges is ability to acquire the launch key with
-+ENCLS(EGETKEY).
-+
-+**IA32_FEATURE_CONTROL[17]** is used by the BIOS configure whether
-+IA32_SGXLEPUBKEYHASH MSRs are read-only or read-write before locking the
-+feature control register and handing over control to the operating system.
-+
-+Enclave construction
-+--------------------
-+
-+The construction is started by filling out the SECS that contains enclave
-+address range, privileged attributes and measurement of TCS and REG pages (pages
-+that will be mapped to the address range) among the other things. This structure
-+is passed out to the ENCLS(ECREATE) together with a physical address of a page
-+in EPC that will hold the SECS.
-+
-+The pages are added with ENCLS(EADD) and measured with ENCLS(EEXTEND) i.e.
-+SHA256 hash MRENCLAVE residing in the SECS is extended with the page data.
-+
-+After all of the pages have been added, the enclave is initialized with
-+ENCLS(EINIT). It will check that the SIGSTRUCT is signed with the contained
-+public key. If the given EINITTOKEN has the valid bit set, the CPU checks that
-+the token is valid (CMAC'd with the launch key). If the token is not valid,
-+the CPU will check whether the enclave is signed with a key matching to the
-+IA32_SGXLEPUBKEYHASHn MSRs.
-+
-+Swapping pages
-+--------------
-+
-+Enclave pages can be swapped out with ENCLS(EWB) to the unprotected memory. In
-+addition to the EPC page, ENCLS(EWB) takes in a VA page and address for PCMD
-+structure (Page Crypto MetaData) as input. The VA page will seal a version
-+number for the page. PCMD is 128 byte structure that contains tracking
-+information for the page, most importantly its MAC. With these structures the
-+enclave is sealed and rollback protected while it resides in the unprotected
-+memory.
-+
-+Before the page can be swapped out it must not have any active TLB references.
-+ENCLS(EBLOCK) instruction moves a page to the *blocked* state, which means
-+that no new TLB entries can be created to it by the hardware threads.
-+
-+After this a shootdown sequence is started with ENCLS(ETRACK), which sets an
-+increased counter value to the entering hardware threads. ENCLS(EWB) will
-+return SGX_NOT_TRACKED error while there are still threads with the earlier
-+couner value because that means that there might be hardware thread inside
-+the enclave with TLB entries to pages that are to be swapped.
-+
-+Kernel internals
-+================
-+
-+Requirements
-+------------
-+
-+Because SGX has an ever evolving and expanding feature set, it's possible for
-+a BIOS or VMM to configure a system in such a way that not all CPUs are equal,
-+e.g. where Launch Control is only enabled on a subset of CPUs.  Linux does
-+*not* support such a heterogeneous system configuration, nor does it even
-+attempt to play nice in the face of a misconfigured system.  With the exception
-+of Launch Control's hash MSRs, which can vary per CPU, Linux assumes that all
-+CPUs have a configuration that is identical to the boot CPU.
-+
-+
-+Roles and responsibilities
-+--------------------------
-+
-+SGX introduces system resources, e.g. EPC memory, that must be accessible to
-+multiple entities, e.g. the native kernel driver (to expose SGX to userspace)
-+and KVM (to expose SGX to VMs), ideally without introducing any dependencies
-+between each SGX entity.  To that end, the kernel owns and manages the shared
-+system resources, i.e. the EPC and Launch Control MSRs, and defines functions
-+that provide appropriate access to the shared resources.  SGX support for
-+user space and VMs is left to the SGX platform driver and KVM respectively.
-+
-+Launching enclaves
-+------------------
-+
-+The current kernel implementation supports only unlocked MSRs i.e.
-+FEATURE_CONTROL_SGX_LE_WR must be set. The launch is performed by setting the
-+MSRs to the hash of the public key modulus of the enclave signer, which is one
-+of the fields in the SIGSTRUCT.
-+
-+EPC management
-+--------------
-+
-+Due to the unique requirements for swapping EPC pages, and because EPC pages
-+(currently) do not have associated page structures, management of the EPC is
-+not handled by the standard Linux swapper.  SGX directly handles swapping
-+of EPC pages, including a kthread to initiate reclaim and a rudimentary LRU
-+mechanism. The consumers of EPC pages, e.g. the SGX driver, are required to
-+implement function callbacks that can be invoked by the kernel to age,
-+swap, and/or forcefully reclaim a target EPC page.  In effect, the kernel
-+controls what happens and when, while the consumers (driver, KVM, etc..) do
-+the actual work.
-+
-+Exception handling
-+------------------
-+
-+The PF_SGX bit is set if and only if the #PF is detected by the SGX Enclave Page
-+Cache Map (EPCM). The EPCM is a hardware-managed table that enforces accesses to
-+an enclave's EPC pages in addition to the software-managed kernel page tables,
-+i.e. the effective permissions for an EPC page are a logical AND of the kernel's
-+page tables and the corresponding EPCM entry.
-+
-+The EPCM is consulted only after an access walks the kernel's page tables, i.e.:
-+
-+1. the access was allowed by the kernel
-+2. the kernel's tables have become less restrictive than the EPCM
-+3. the kernel cannot fixup the cause of the fault
-+
-+Noteably, (2) implies that either the kernel has botched the EPC mappings or the
-+EPCM has been invalidated (see below).  Regardless of why the fault occurred,
-+userspace needs to be alerted so that it can take appropriate action, e.g.
-+restart the enclave. This is reinforced by (3) as the kernel doesn't really
-+have any other reasonable option, i.e. signalling SIGSEGV is actually the least
-+severe action possible.
-+
-+Although the primary purpose of the EPCM is to prevent a malicious or
-+compromised kernel from attacking an enclave, e.g. by modifying the enclave's
-+page tables, do not WARN on a #PF w/ PF_SGX set.  The SGX architecture
-+effectively allows the CPU to invalidate all EPCM entries at will and requires
-+that software be prepared to handle an EPCM fault at any time.  The architecture
-+defines this behavior because the EPCM is encrypted with an ephemeral key that
-+isn't exposed to software.  As such, the EPCM entries cannot be preserved across
-+transitions that result in a new key being used, e.g. CPU power down as part of
-+an S3 transition or when a VM is live migrated to a new physical system.
-+
-+SGX uapi
-+========
-+
-+.. kernel-doc:: drivers/platform/x86/intel_sgx/sgx_ioctl.c
-+   :functions: sgx_ioc_enclave_create
-+               sgx_ioc_enclave_add_page
-+               sgx_ioc_enclave_init
-+
-+.. kernel-doc:: arch/x86/include/uapi/asm/sgx.h
-+
-+References
-+==========
-+
-+* A Memory Encryption Engine Suitable for General Purpose Processors
-+  <https://eprint.iacr.org/2016/204.pdf>
-+* System Programming Manual: 39.1.4 Intel® SGX Launch Control Configuration
--- 
-2.19.1
+Regards,
+Lucas
 
+>  drivers/gpu/drm/mxsfb/mxsfb_drv.c            | 4 ++--
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c        | 2 +-
+>  drivers/gpu/drm/shmobile/shmob_drm_drv.c     | 4 ++--
+>  drivers/gpu/drm/tve200/tve200_drv.c          | 4 ++--
+>  drivers/gpu/drm/zte/zx_drm_drv.c             | 4 ++--
+>  8 files changed, 15 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
+> index f067de4e1e82..dcb06d4e9135 100644
+> --- a/drivers/gpu/drm/arc/arcpgu_drv.c
+> +++ b/drivers/gpu/drm/arc/arcpgu_drv.c
+> @@ -216,7 +216,7 @@ static int arcpgu_probe(struct platform_device *pdev)
+> >  	arcpgu_unload(drm);
+>  
+>  err_unref:
+> > -	drm_dev_unref(drm);
+> > +	drm_dev_put(drm);
+>  
+> >  	return ret;
+>  }
+> @@ -227,7 +227,7 @@ static int arcpgu_remove(struct platform_device *pdev)
+>  
+> >  	drm_dev_unregister(drm);
+> >  	arcpgu_unload(drm);
+> > -	drm_dev_unref(drm);
+> > +	drm_dev_put(drm);
+>  
+> >  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> index 843cac222e60..f8da51a63e2f 100644
+> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> @@ -775,7 +775,7 @@ static int atmel_hlcdc_dc_drm_probe(struct platform_device *pdev)
+> >  	atmel_hlcdc_dc_unload(ddev);
+>  
+>  err_unref:
+> > -	drm_dev_unref(ddev);
+> > +	drm_dev_put(ddev);
+>  
+> >  	return ret;
+>  }
+> @@ -786,7 +786,7 @@ static int atmel_hlcdc_dc_drm_remove(struct platform_device *pdev)
+>  
+> >  	drm_dev_unregister(ddev);
+> >  	atmel_hlcdc_dc_unload(ddev);
+> > -	drm_dev_unref(ddev);
+> > +	drm_dev_put(ddev);
+>  
+> >  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index 83c1f46670bf..52802e6049e0 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -550,7 +550,7 @@ static int etnaviv_bind(struct device *dev)
+>  out_bind:
+> >  	kfree(priv);
+>  out_unref:
+> > -	drm_dev_unref(drm);
+> > +	drm_dev_put(drm);
+>  
+> >  	return ret;
+>  }
+> @@ -567,7 +567,7 @@ static void etnaviv_unbind(struct device *dev)
+> >  	drm->dev_private = NULL;
+> >  	kfree(priv);
+>  
+> > -	drm_dev_unref(drm);
+> > +	drm_dev_put(drm);
+>  }
+>  
+>  static const struct component_master_ops etnaviv_master_ops = {
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> index 2393e6d16ffd..88ba003979e6 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> @@ -417,7 +417,7 @@ static int mxsfb_probe(struct platform_device *pdev)
+>  err_unload:
+> >  	mxsfb_unload(drm);
+>  err_free:
+> > -	drm_dev_unref(drm);
+> > +	drm_dev_put(drm);
+>  
+> >  	return ret;
+>  }
+> @@ -428,7 +428,7 @@ static int mxsfb_remove(struct platform_device *pdev)
+>  
+> >  	drm_dev_unregister(drm);
+> >  	mxsfb_unload(drm);
+> > -	drm_dev_unref(drm);
+> > +	drm_dev_put(drm);
+>  
+> >  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> index 084f58df4a8c..c7fe2433ab9e 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> @@ -454,7 +454,7 @@ static int rcar_du_remove(struct platform_device *pdev)
+> >  	drm_kms_helper_poll_fini(ddev);
+> >  	drm_mode_config_cleanup(ddev);
+>  
+> > -	drm_dev_unref(ddev);
+> > +	drm_dev_put(ddev);
+>  
+> >  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> index 6ececad6f845..8554102a6ead 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> @@ -194,7 +194,7 @@ static int shmob_drm_remove(struct platform_device *pdev)
+> >  	drm_kms_helper_poll_fini(ddev);
+> >  	drm_mode_config_cleanup(ddev);
+> >  	drm_irq_uninstall(ddev);
+> > -	drm_dev_unref(ddev);
+> > +	drm_dev_put(ddev);
+>  
+> >  	return 0;
+>  }
+> @@ -290,7 +290,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
+> >  	drm_kms_helper_poll_fini(ddev);
+> >  	drm_mode_config_cleanup(ddev);
+>  err_free_drm_dev:
+> > -	drm_dev_unref(ddev);
+> > +	drm_dev_put(ddev);
+>  
+> >  	return ret;
+>  }
+> diff --git a/drivers/gpu/drm/tve200/tve200_drv.c b/drivers/gpu/drm/tve200/tve200_drv.c
+> index 72efcecb44f7..28e2d03c0ccf 100644
+> --- a/drivers/gpu/drm/tve200/tve200_drv.c
+> +++ b/drivers/gpu/drm/tve200/tve200_drv.c
+> @@ -249,7 +249,7 @@ static int tve200_probe(struct platform_device *pdev)
+>  clk_disable:
+> >  	clk_disable_unprepare(priv->pclk);
+>  dev_unref:
+> > -	drm_dev_unref(drm);
+> > +	drm_dev_put(drm);
+> >  	return ret;
+>  }
+>  
+> @@ -263,7 +263,7 @@ static int tve200_remove(struct platform_device *pdev)
+> >  		drm_panel_bridge_remove(priv->bridge);
+> >  	drm_mode_config_cleanup(drm);
+> >  	clk_disable_unprepare(priv->pclk);
+> > -	drm_dev_unref(drm);
+> > +	drm_dev_put(drm);
+>  
+> >  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/zte/zx_drm_drv.c b/drivers/gpu/drm/zte/zx_drm_drv.c
+> index 11ef17c2d1c1..5b6f1eda52e0 100644
+> --- a/drivers/gpu/drm/zte/zx_drm_drv.c
+> +++ b/drivers/gpu/drm/zte/zx_drm_drv.c
+> @@ -114,7 +114,7 @@ static int zx_drm_bind(struct device *dev)
+> >  	component_unbind_all(dev, drm);
+>  out_unregister:
+> >  	dev_set_drvdata(dev, NULL);
+> > -	drm_dev_unref(drm);
+> > +	drm_dev_put(drm);
+> >  	return ret;
+>  }
+>  
+> @@ -127,7 +127,7 @@ static void zx_drm_unbind(struct device *dev)
+> >  	drm_mode_config_cleanup(drm);
+> >  	component_unbind_all(dev, drm);
+> >  	dev_set_drvdata(dev, NULL);
+> > -	drm_dev_unref(drm);
+> > +	drm_dev_put(drm);
+>  }
+>  
+>  static const struct component_master_ops zx_drm_master_ops = {
