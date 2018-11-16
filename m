@@ -3,31 +3,31 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B16B87D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Nov 2018 20:55:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 824287D08E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Nov 2018 20:55:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729791AbeKQHIn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 17 Nov 2018 02:08:43 -0500
-Received: from mail-eopbgr820074.outbound.protection.outlook.com ([40.107.82.74]:39637
-        "EHLO NAM01-SN1-obe.outbound.protection.outlook.com"
+        id S1727798AbeKQHIz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 17 Nov 2018 02:08:55 -0500
+Received: from mail-eopbgr680040.outbound.protection.outlook.com ([40.107.68.40]:47437
+        "EHLO NAM04-BN3-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729502AbeKQHIm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 17 Nov 2018 02:08:42 -0500
+        id S1730163AbeKQHIy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 17 Nov 2018 02:08:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bcXlxSwEE3Bqw3Ny7A9vM7OAEzRQ4vjNzfH8gIZDcMc=;
- b=IxK1jdNWcr2fKL+tnTIfa42C0dVRlALphyawI4cb+gktlwc8ZcGw2H+phw34ldXL3ZsZxGcpJJMSykJlGMttmSeKYa+iryPvWoc6t25KlPKZcoRUWpCiraoBjUw63IodyICvOTIH8QLWFPmVAWatcFhtdhs97KSpxPStSuh83Oo=
+ bh=CNAdVvS0eseoxudrkXA/+m8NeNUn8fPkQoEZZk0dCEY=;
+ b=nqztWYisHM4wNfP8gzUAw7wXDrtVo1y7TVSqtaNukbBVDBm8vovBqGE8C4E4xAykfg0hna/51vMT6k2mNLSAHfq1N8zsvr+dqZY2Fi/8a2WvLs27gJ7Hjc4ANP6G/vFKdi+c9kM7coaiokuwtqsjXSCPTf6uyxT5yMP5o7dBTrw=
 Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
- DM5PR12MB1577.namprd12.prod.outlook.com (10.172.39.150) with Microsoft SMTP
+ DM5PR12MB1788.namprd12.prod.outlook.com (10.175.91.141) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1294.27; Fri, 16 Nov 2018 20:54:37 +0000
+ 15.20.1294.30; Fri, 16 Nov 2018 20:54:39 +0000
 Received: from DM5PR12MB2471.namprd12.prod.outlook.com
  ([fe80::4c23:f551:bc6a:554e]) by DM5PR12MB2471.namprd12.prod.outlook.com
  ([fe80::4c23:f551:bc6a:554e%4]) with mapi id 15.20.1294.045; Fri, 16 Nov 2018
- 20:54:37 +0000
+ 20:54:39 +0000
 From:   "Moger, Babu" <Babu.Moger@amd.com>
 To:     "tglx@linutronix.de" <tglx@linutronix.de>,
         "mingo@redhat.com" <mingo@redhat.com>,
@@ -62,13 +62,12 @@ CC:     "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
         "Moger, Babu" <Babu.Moger@amd.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: [PATCH v8 08/13] arch/resctrl: Add vendor check for MBA software
- controller
-Thread-Topic: [PATCH v8 08/13] arch/resctrl: Add vendor check for MBA software
- controller
-Thread-Index: AQHUfe6W4fraBQ3PHkCFJBY4rIaeVg==
-Date:   Fri, 16 Nov 2018 20:54:37 +0000
-Message-ID: <20181116205407.10457-9-babu.moger@amd.com>
+Subject: [PATCH v8 09/13] arch/resctrl: Update the RESCTRL config parameter
+Thread-Topic: [PATCH v8 09/13] arch/resctrl: Update the RESCTRL config
+ parameter
+Thread-Index: AQHUfe6XZhXn+cShck2xKML8ztcZUw==
+Date:   Fri, 16 Nov 2018 20:54:39 +0000
+Message-ID: <20181116205407.10457-10-babu.moger@amd.com>
 References: <20181116205407.10457-1-babu.moger@amd.com>
 In-Reply-To: <20181116205407.10457-1-babu.moger@amd.com>
 Accept-Language: en-US
@@ -83,62 +82,77 @@ authentication-results: spf=none (sender IP is )
 x-ms-exchange-messagesentrepresentingtype: 1
 x-originating-ip: [165.204.78.1]
 x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;DM5PR12MB1577;20:shVCa6MYBoyBNWljZYsVl3EKIdu86QD7qlyaRruHtOsI5ixIfzhWky38AVto3Nd4GRVEaI09UeHCUF78uzzCZpJiIo7DwQntt0gqRomdn98rXL99HusTLnV8NXwTc465lvpotvRoKgndAW8FkTA3osXBEU/FWIYxBtlv126yLv+xzvzyoSKv/VaUWMliHAlBC6fN88bPoE8jfT3uObBGLGFzKy14ns6xulGtvQqoQYcYfJM+bF+QCwZF9VqDd6jv
-x-ms-office365-filtering-correlation-id: a98a9b9b-66d1-4e79-4c5a-08d64c05b863
+x-microsoft-exchange-diagnostics: 1;DM5PR12MB1788;20:l51bXz2w/hxgaCPWnLr5MduV0RuW6TiPMkLNrLIjEoYC4kl5QP2OePcdAzfHpAxzBv0ELfvRLnEtpbh6Hm5kXL1jEiGJRu5Qt1/MmeOHmiV4frYmYsHuZyKvrQzJmpqW4xq2lJyx5BVQc6kYtKtu4B0u17iCMyyLZavabByvNRbm1DaKuDYBs2p/S3SmsgrUm5jpRYfFoLPrKLZa7Bq5D6GpHWOENYB9lHqd4YPG1WDEdlOxJE0hyG5KJbrNKp+E
+x-ms-office365-filtering-correlation-id: d0e4c4a4-150a-42e8-7bcf-08d64c05b9a5
 x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390098)(7020095)(4652040)(8989299)(5600074)(711020)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:DM5PR12MB1577;
-x-ms-traffictypediagnostic: DM5PR12MB1577:
-x-microsoft-antispam-prvs: <DM5PR12MB15771731BACA95F310B139C095DD0@DM5PR12MB1577.namprd12.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(228905959029699)(767451399110);
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390098)(7020095)(4652040)(8989299)(5600074)(711020)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:DM5PR12MB1788;
+x-ms-traffictypediagnostic: DM5PR12MB1788:
+x-microsoft-antispam-prvs: <DM5PR12MB17884980A32B59E5B257CDEB95DD0@DM5PR12MB1788.namprd12.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(72170088055959)(767451399110);
 x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(823302103)(3231415)(944501410)(52105112)(10201501046)(3002001)(93006095)(93001095)(6055026)(148016)(149066)(150057)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123562045)(20161123560045)(20161123564045)(201708071742011)(7699051)(76991095);SRVR:DM5PR12MB1577;BCL:0;PCL:0;RULEID:;SRVR:DM5PR12MB1577;
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(823302103)(3231415)(944501410)(52105112)(93006095)(93001095)(3002001)(10201501046)(6055026)(148016)(149066)(150057)(6041310)(20161123560045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(20161123558120)(201708071742011)(7699051)(76991095);SRVR:DM5PR12MB1788;BCL:0;PCL:0;RULEID:;SRVR:DM5PR12MB1788;
 x-forefront-prvs: 0858FF8026
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(39860400002)(136003)(376002)(366004)(346002)(189003)(199004)(36756003)(316002)(66066001)(81156014)(6506007)(68736007)(2906002)(26005)(7736002)(102836004)(110136005)(72206003)(8676002)(8936002)(305945005)(478600001)(6486002)(386003)(2900100001)(97736004)(2501003)(54906003)(5660300001)(81166006)(52116002)(99286004)(1076002)(3846002)(6116002)(186003)(76176011)(486006)(7416002)(7406005)(6436002)(476003)(2201001)(2616005)(11346002)(4326008)(25786009)(446003)(106356001)(71190400001)(71200400001)(14444005)(256004)(105586002)(14454004)(6512007)(53936002)(86362001)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1577;H:DM5PR12MB2471.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(1496009)(396003)(136003)(346002)(39860400002)(366004)(376002)(199004)(189003)(6486002)(7406005)(478600001)(316002)(7416002)(7736002)(53936002)(25786009)(3846002)(97736004)(6116002)(68736007)(6512007)(54906003)(14454004)(110136005)(71190400001)(6436002)(2201001)(106356001)(14444005)(1076002)(4326008)(72206003)(105586002)(71200400001)(66066001)(36756003)(305945005)(256004)(5660300001)(86362001)(81156014)(6506007)(52116002)(2906002)(11346002)(476003)(2616005)(486006)(76176011)(102836004)(26005)(386003)(99286004)(8676002)(186003)(2501003)(2900100001)(446003)(8936002)(81166006)(15650500001)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1788;H:DM5PR12MB2471.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
-x-microsoft-antispam-message-info: 93riyn5AME6L6wPe1TvKNaLRBhuy0po90wD0vEaHAda8SkFAArfEGlrPDS9toySAPh0r7om31JBhWzkTdHW5xsC9duCZG8ixn3cpYBsygQ7Hab9NCT2JWrqhQ2qkWKz6vhecabAwJ2Le8taZMfafGm1bX8OFPOAs5igvO77usc3FEgVFjeBzevKSBMn312HecoxCOi1Jt/2RfrXRUi6hIBYN33tNjIr0xQZyRVgoG2diOv28nMSkYSiR5uKJ7ajmBESRddDKyRTTrxYVdqD/tUNLUg7JArjv4vnIcznUkyHNsAegPAE8WGm8oQXabpfJxwZRZ4omRJFiy+M6+W7gy3tu93ogC/3n6WhE2cn2Afw=
+x-microsoft-antispam-message-info: 3RS8lZ6tBT0z/m3GpR4Cy7MU2wGAe86UUzcr/NHZdu17KDvAw0Km/B/suDquL8CjBh3ffXPNGbsANQxFgCQhVYpaLiyXJPbJLk3rAo77K7Iy7mEKD+T+uWFSiDJh2KC0BJdz1wYApm9NujFsjoWPdhtd1LwrbfqVHibGSVUPGIbDzQ9AlyOueTAkY1bA9M4hfFGghrxN2pCHxp/ryKkKr/ocRMsmJckLObQqFPwFhhdSDW4VqenAgbIpHzz1moukewqMbEIQlptarm3K5N7QFLbvoy1hAFiis+4uA5rCu1WryAg9/ZHQWznUnab7299RdigMU9wLioQyZfpdjXArGf7+XmYykoo0NcHJBxtdqTA=
 spamdiagnosticoutput: 1:99
 spamdiagnosticmetadata: NSPM
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a98a9b9b-66d1-4e79-4c5a-08d64c05b863
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2018 20:54:37.4308
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0e4c4a4-150a-42e8-7bcf-08d64c05b9a5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2018 20:54:39.5323
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1577
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1788
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-MBA software controller support is available only on Intel.
+CONFIG_RESCTRL will be used for both Intel and AMD to enable
+Resource Control feature. Update the details and condition accordingly.
 
-Suggested-by: Fenghua Yu <fenghua.yu@intel.com>
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 ---
- arch/x86/kernel/cpu/resctrl_rdtgroup.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ arch/x86/Kconfig | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/arch/x86/kernel/cpu/resctrl_rdtgroup.c b/arch/x86/kernel/cpu/r=
-esctrl_rdtgroup.c
-index 8b6b4a8bb7ca..022a56096024 100644
---- a/arch/x86/kernel/cpu/resctrl_rdtgroup.c
-+++ b/arch/x86/kernel/cpu/resctrl_rdtgroup.c
-@@ -1878,7 +1878,10 @@ static int parse_rdtgroupfs_options(char *data)
- 			if (ret)
- 				goto out;
- 		} else if (!strcmp(token, "mba_MBps")) {
--			ret =3D set_mba_sc(true);
-+			if (boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_INTEL)
-+				ret =3D set_mba_sc(true);
-+			else
-+				ret =3D -EINVAL;
- 			if (ret)
- 				goto out;
- 		} else {
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 4aae7aba4d61..c5ef3afa89a6 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -448,13 +448,22 @@ config RETPOLINE
+ config RESCTRL
+ 	bool "Resource Control feature support"
+ 	default n
+-	depends on X86 && CPU_SUP_INTEL
++	depends on X86 && (CPU_SUP_INTEL || CPU_SUP_AMD)
+ 	select KERNFS
+ 	help
+-	  Select to enable resource allocation and monitoring which are
+-	  sub-features of Intel Resource Director Technology(RDT). More
+-	  information about RDT can be found in the Intel x86
+-	  Architecture Software Developer Manual.
++	  Select to enable Resource Control feature support.
++
++	  These features are intended to provide the support for the allocation
++	  and monitoring the usage of certain system resources by one or more
++	  processors.
++
++	  Intel refers this feature as Intel Resource Director Technology
++	  (Intel(R) RDT). More information about RDT can be found in the
++	  Intel x86 Architecture Software Developer Manual.
++
++	  AMD refers this feature as AMD Platform Quality of Service(AMD QoS).
++	  More information about AMD QoS can be found in AMD64 Technology
++	  Platform Quality of Service Extensions manual.
+=20
+ 	  Say N if unsure.
+=20
 --=20
 2.17.1
 
