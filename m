@@ -1,447 +1,171 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 111117D8E7
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Nov 2018 11:17:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0C15F7D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Nov 2018 12:32:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389650AbeKPV3k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Nov 2018 16:29:40 -0500
-Received: from mga06.intel.com ([134.134.136.31]:34031 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727454AbeKPV3j (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Nov 2018 16:29:39 -0500
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Nov 2018 03:17:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,240,1539673200"; 
-   d="scan'208";a="96808773"
-Received: from unknown (HELO localhost) ([10.249.254.90])
-  by FMSMGA003.fm.intel.com with ESMTP; 16 Nov 2018 03:17:29 -0800
-Date:   Fri, 16 Nov 2018 13:17:29 +0200
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-sgx@vger.kernel.org
-Cc:     dave.hansen@intel.com, sean.j.christopherson@intel.com,
-        nhorman@redhat.com, npmccallum@redhat.com, serge.ayoun@intel.com,
-        shay.katz-zamir@intel.com, haitao.huang@linux.intel.com,
-        andriy.shevchenko@linux.intel.com, tglx@linutronix.de,
-        kai.svahn@intel.com, mark.shanahan@intel.com, luto@amacapital.net,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Borislav Petkov <bp@suse.de>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        David Wang <davidwang@zhaoxin.com>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Dmitry Safonov <dima@arista.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
+        id S1727977AbeKPWoN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 16 Nov 2018 17:44:13 -0500
+Received: from smtprelay.synopsys.com ([198.182.60.111]:53474 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727868AbeKPWoN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Nov 2018 17:44:13 -0500
+Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 2414F10C1161;
+        Fri, 16 Nov 2018 04:32:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1542371521; bh=lgN+W5FsFOfywQMYqQOvqKg4x6bdlWn7Y/mFzGvN75g=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
+        b=BtQx1FvoFSwEgqWEGBHzBEa+q7lxK2jPLLaR5a/h1uNJD1Dr7RspIUaKyUnbFMVF+
+         5y5HwRwgPD+dECnJveu/1Md09S6ShsP2Mxv7GbVa07yXEHiNF3HBkIz3W5aVJiXY9Z
+         jp1+tSexy6llQKJrvDsAhGbKoCBgBg5/HYlGCfbgW5jq9G7xXgCv0FfVvRyp49JkWb
+         PXykeK81O7hthZlxqo67YqPcXndnQ09FFsZ4XNSpeSvAZuilWwZYky73rrd9wdV2MC
+         uojZciJVhmXTLt3DVthfKtT9HD0YSOVXx68l8AcqGL1KxdnptQB9K4MJncVH4E02+o
+         tBkFjZOA/oVXg==
+Received: from US01WXQAHTC1.internal.synopsys.com (us01wxqahtc1.internal.synopsys.com [10.12.238.230])
+        by mailhost.synopsys.com (Postfix) with ESMTP id B00A238D9;
+        Fri, 16 Nov 2018 04:31:58 -0800 (PST)
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+ US01WXQAHTC1.internal.synopsys.com (10.12.238.230) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Fri, 16 Nov 2018 04:31:58 -0800
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ DE02WEHTCB.internal.synopsys.com (10.225.19.94) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Fri, 16 Nov 2018 13:31:56 +0100
+Received: from [10.0.2.15] (10.107.19.125) by DE02WEHTCA.internal.synopsys.com
+ (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.408.0; Fri, 16 Nov
+ 2018 13:31:56 +0100
+Subject: Re: [PATCH v10 0/9] Add the I3C subsystem
+To:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        vitor <vitor.soares@synopsys.com>
+CC:     Wolfram Sang <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
-        Janakarajan Natarajan <Janakarajan.Natarajan@amd.com>,
-        Jia Zhang <qianyue.zj@alibaba-inc.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        "Levin, Alexander (Sasha Levin)" <alexander.levin@verizon.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Paolo Bonzini <pbonzini@redhat.com>, Pu Wen <puwen@hygon.cn>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        "Shuah Khan (Samsung OSG)" <shuah@kernel.org>,
-        Suresh Siddha <suresh.b.siddha@intel.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>
-Subject: Re: [PATCH v17 00/23] Intel SGX1 support
-Message-ID: <20181116111729.GA5480@linux.intel.com>
-References: <20181116010412.23967-1-jarkko.sakkinen@linux.intel.com>
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        "Cyprian Wronka" <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        "Rafal Ciepiela" <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        "Kumar Gala" <galak@codeaurora.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        <linux-gpio@vger.kernel.org>, Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>,
+        Peter Rosin <peda@axentia.se>,
+        Mike Shettel <mshettel@codeaurora.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Mark Brown <broonie@kernel.org>
+References: <20181026144333.12276-1-boris.brezillon@bootlin.com>
+ <76b1d15d-232c-d8ba-5eba-8394e71be725@synopsys.com>
+ <20181115135731.25f60990@bbrezillon> <20181115150137.GB4169@kunai>
+ <20181115162826.42b54776@bbrezillon>
+ <1d64f21a-ad24-94e0-2c17-25729ef59a31@synopsys.com>
+ <20181115200058.1869afdb@bbrezillon>
+From:   vitor <vitor.soares@synopsys.com>
+Message-ID: <5f946406-a205-3802-aefd-ebd8b5a72b0b@synopsys.com>
+Date:   Fri, 16 Nov 2018 12:31:42 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20181116010412.23967-1-jarkko.sakkinen@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20181115200058.1869afdb@bbrezillon>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.107.19.125]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For unknown reason this never reached any MLs (used the same command
-line for git send-email as usual).
+Hi Boris,
 
-/Jarkko
 
-On Fri, Nov 16, 2018 at 03:38:08AM +0200, Jarkko Sakkinen wrote:
-> Intel(R) SGX is a set of CPU instructions that can be used by applications
-> to set aside private regions of code and data. The code outside the enclave
-> is disallowed to access the memory inside the enclave by the CPU access
-> control.  In a way you can think that SGX provides inverted sandbox. It
-> protects the application from a malicious host.
-> 
-> There is a new hardware unit in the processor called Memory Encryption
-> Engine (MEE) starting from the Skylake microacrhitecture. BIOS can define
-> one or many MEE regions that can hold enclave data by configuring them with
-> PRMRR registers.
-> 
-> The MEE automatically encrypts the data leaving the processor package to
-> the MEE regions. The data is encrypted using a random key whose life-time
-> is exactly one power cycle.
-> 
-> The current implementation requires that the firmware sets
-> IA32_SGXLEPUBKEYHASH* MSRs as writable so that ultimately the kernel can
-> decide what enclaves it wants run. The implementation does not create
-> any bottlenecks to support read-only MSRs later on.
-> 
-> You can tell if your CPU supports SGX by looking into /proc/cpuinfo:
-> 
-> 	cat /proc/cpuinfo  | grep sgx
-> 
-> v17:
-> * Add a simple selftest.
-> * Fix a null pointer dereference to section->pages when its
->   allocation fails.
-> * Add Sean's description of the exception handling to the documentation.
-> 
-> v16:
-> * Fixed SOB's in the commits that were a bit corrupted in v15.
-> * Implemented exceptio handling properly to detect_sgx().
-> * Use GENMASK() to define SGX_CPUID_SUB_LEAF_TYPE_MASK.
-> * Updated the documentation to use rst definition lists.
-> * Added the missing Documentation/x86/index.rst, which has a link to
->   intel_sgx.rst. Now the SGX and uapi documentation is properly generated
->   with 'make htmldocs'.
-> * While enumerating EPC sections, if an undefined section is found, fail
->   the driver initialization instead of continuing the initialization.
-> * Issue a warning if there are more than %SGX_MAX_EPC_SECTIONS.
-> * Remove copyright notice from arch/x86/include/asm/sgx.h.
-> * Migrated from ioremap_cache() to memremap().
-> 
-> v15:
-> * Split into more digestable size patches.
-> * Lots of small fixes and clean ups.
-> * Signal a "plain" SIGSEGV on an EPCM violation.
-> 
-> v14:
-> * Change the comment about X86_FEATURE_SGX_LC from “SGX launch
->   configuration” to “SGX launch control”.
-> * Move the SGX-related CPU feature flags as part of the Linux defined
->   virtual leaf 8.
-> * Add SGX_ prefix to the constants defining the ENCLS leaf functions.
-> * Use GENMASK*() and BIT*() in sgx_arch.h instead of raw hex numbers.
-> * Refine the long description for CONFIG_INTEL_SGX_CORE.
-> * Do not use pr_*_ratelimited()  in the driver. The use of the rate limited
->   versions is legacy cruft from the prototyping phase.
-> * Detect sleep with SGX_INVALID_EINIT_TOKEN instead of counting power
->   cycles.
-> * Manually prefix with “sgx:” in the core SGX code instead of redefining
->   pr_fmt.
-> * Report if IA32_SGXLEPUBKEYHASHx MSRs are not writable in the driver
->   instead of core because it is a driver requirement.
-> * Change prompt to bool in the entry for CONFIG_INTEL_SGX_CORE because the
->   default is ‘n’.
-> * Rename struct sgx_epc_bank as struct sgx_epc_section in order to match
->   the SDM.
-> * Allocate struct sgx_epc_page instances one at a time.
-> * Use “__iomem void *” pointers for the mapped EPC memory consistently.
-> * Retry once on SGX_INVALID_TOKEN in sgx_einit() instead of counting power
->   cycles.
-> * Call enclave swapping operations directly from the driver instead of
->   calling them .indirectly through struct sgx_epc_page_ops because indirect
->   calls are not required yet as the patch set does not contain the KVM
->   support.
-> * Added special signal SEGV_SGXERR to notify about SGX EPCM violation
->   errors.
-> 
-> v13:
-> * Always use SGX_CPUID constant instead of a hardcoded value.
-> * Simplified and documented the macros and functions for ENCLS leaves.
-> * Enable sgx_free_page() to free active enclave pages on demand
->   in order to allow sgx_invalidate() to delete enclave pages.
->   It no longer performs EREMOVE if a page is in the process of
->   being reclaimed.
-> * Use PM notifier per enclave so that we don't have to traverse
->   the global list of active EPC pages to find enclaves.
-> * Removed unused SGX_LE_ROLLBACK constant from uapi/asm/sgx.h
-> * Always use ioremap() to map EPC banks as we only support 64-bit kernel.
-> * Invalidate IA32_SGXLEPUBKEYHASH cache used by sgx_einit() when going
->   to sleep.
-> 
-> v12:
-> * Split to more narrow scoped commits in order to ease the review process and
->   use co-developed-by tag for co-authors of commits instead of listing them in
->   the source files.
-> * Removed cruft EXPORT_SYMBOL() declarations and converted to static variables.
-> * Removed in-kernel LE i.e. this version of the SGX software stack only
->   supports unlocked IA32_SGXLEPUBKEYHASHx MSRs.
-> * Refined documentation on launching enclaves, swapping and enclave
->   construction.
-> * Refined sgx_arch.h to include alignment information for every struct that
->   requires it and removed structs that are not needed without an LE.
-> * Got rid of SGX_CPUID.
-> * SGX detection now prints log messages about firmware configuration issues.
-> 
-> v11:
-> * Polished ENCLS wrappers with refined exception handling.
-> * ksgxswapd was not stopped (regression in v5) in
->   sgx_page_cache_teardown(), which causes a leaked kthread after driver
->   deinitialization.
-> * Shutdown sgx_le_proxy when going to suspend because its EPC pages will be
->   invalidated when resuming, which will cause it not function properly
->   anymore.
-> * Set EINITTOKEN.VALID to zero for a token that is passed when
->   SGXLEPUBKEYHASH matches MRSIGNER as alloc_page() does not give a zero
->   page.
-> * Fixed the check in sgx_edbgrd() for a TCS page. Allowed to read offsets
->   around the flags field, which causes a #GP. Only flags read is readable.
-> * On read access memcpy() call inside sgx_vma_access() had src and dest
->   parameters in wrong order.
-> * The build issue with CONFIG_KASAN is now fixed. Added undefined symbols
->   to LE even if “KASAN_SANITIZE := false” was set in the makefile. 
-> * Fixed a regression in the #PF handler. If a page has
->   SGX_ENCL_PAGE_RESERVED flag the #PF handler should unconditionally fail.
->   It did not, which caused weird races when trying to change other parts of
->   swapping code.
-> * EPC management has been refactored to a flat LRU cache and moved to
->   arch/x86. The swapper thread reads a cluster of EPC pages and swaps all
->   of them. It can now swap from multiple enclaves in the same round.
-> * For the sake of consistency with SGX_IOC_ENCLAVE_ADD_PAGE, return -EINVAL
->   when an enclave is already initialized or dead instead of zero.
-> 
-> v10:
-> * Cleaned up anon inode based IPC between the ring-0 and ring-3 parts
->   of the driver.
-> * Unset the reserved flag from an enclave page if EDBGRD/WR fails
->   (regression in v6).
-> * Close the anon inode when LE is stopped (regression in v9).
-> * Update the documentation with a more detailed description of SGX.
-> 
-> v9:
-> * Replaced kernel-LE IPC based on pipes with an anonymous inode.
->   The driver does not require anymore new exports.
-> 
-> v8:
-> * Check that public key MSRs match the LE public key hash in the
->   driver initialization when the MSRs are read-only.
-> * Fix the race in VA slot allocation by checking the fullness
->   immediately after succeesful allocation.
-> * Fix the race in hash mrsigner calculation between the launch
->   enclave and user enclaves by having a separate lock for hash
->   calculation.
-> 
-> v7:
-> * Fixed offset calculation in sgx_edbgr/wr(). Address was masked with PAGE_MASK
->   when it should have been masked with ~PAGE_MASK.
-> * Fixed a memory leak in sgx_ioc_enclave_create().
-> * Simplified swapping code by using a pointer array for a cluster
->   instead of a linked list.
-> * Squeezed struct sgx_encl_page to 32 bytes.
-> * Fixed deferencing of an RSA key on OpenSSL 1.1.0.
-> * Modified TC's CMAC to use kernel AES-NI. Restructured the code
->   a bit in order to better align with kernel conventions.
-> 
-> v6:
-> * Fixed semaphore underrun when accessing /dev/sgx from the launch enclave.
-> * In sgx_encl_create() s/IS_ERR(secs)/IS_ERR(encl)/.
-> * Removed virtualization chapter from the documentation.
-> * Changed the default filename for the signing key as signing_key.pem.
-> * Reworked EPC management in a way that instead of a linked list of
->   struct sgx_epc_page instances there is an array of integers that
->   encodes address and bank of an EPC page (the same data as 'pa' field
->   earlier). The locking has been moved to the EPC bank level instead
->   of a global lock.
-> * Relaxed locking requirements for EPC management. EPC pages can be
->   released back to the EPC bank concurrently.
-> * Cleaned up ptrace() code.
-> * Refined commit messages for new architectural constants.
-> * Sorted includes in every source file.
-> * Sorted local variable declarations according to the line length in
->   every function.
-> * Style fixes based on Darren's comments to sgx_le.c.
-> 
-> v5:
-> * Described IPC between the Launch Enclave and kernel in the commit messages.
-> * Fixed all relevant checkpatch.pl issues that I have forgot fix in earlier
->   versions except those that exist in the imported TinyCrypt code.
-> * Fixed spelling mistakes in the documentation.
-> * Forgot to check the return value of sgx_drv_subsys_init().
-> * Encapsulated properly page cache init and teardown.
-> * Collect epc pages to a temp list in sgx_add_epc_bank
-> * Removed SGX_ENCLAVE_INIT_ARCH constant.
-> 
-> v4:
-> * Tied life-cycle of the sgx_le_proxy process to /dev/sgx.
-> * Removed __exit annotation from sgx_drv_subsys_exit().
-> * Fixed a leak of a backing page in sgx_process_add_page_req() in the
->   case when vm_insert_pfn() fails.
-> * Removed unused symbol exports for sgx_page_cache.c.
-> * Updated sgx_alloc_page() to require encl parameter and documented the
->   behavior (Sean Christopherson).
-> * Refactored a more lean API for sgx_encl_find() and documented the behavior.
-> * Moved #PF handler to sgx_fault.c.
-> * Replaced subsys_system_register() with plain bus_register().
-> * Retry EINIT 2nd time only if MSRs are not locked.
-> 
-> v3:
-> * Check that FEATURE_CONTROL_LOCKED and FEATURE_CONTROL_SGX_ENABLE are set.
-> * Return -ERESTARTSYS in __sgx_encl_add_page() when sgx_alloc_page() fails.
-> * Use unused bits in epc_page->pa to store the bank number.
-> * Removed #ifdef for WQ_NONREENTRANT.
-> * If mmu_notifier_register() fails with -EINTR, return -ERESTARTSYS.
-> * Added --remove-section=.got.plt to objcopy flags in order to prevent a
->   dummy .got.plt, which will cause an inconsistent size for the LE.
-> * Documented sgx_encl_* functions.
-> * Added remark about AES implementation used inside the LE.
-> * Removed redundant sgx_sys_exit() from le/main.c.
-> * Fixed struct sgx_secinfo alignment from 128 to 64 bytes.
-> * Validate miscselect in sgx_encl_create().
-> * Fixed SSA frame size calculation to take the misc region into account.
-> * Implemented consistent exception handling to __encls() and __encls_ret().
-> * Implemented a proper device model in order to allow sysfs attributes
->   and in-kernel API.
-> * Cleaned up various "find enclave" implementations to the unified
->   sgx_encl_find().
-> * Validate that vm_pgoff is zero.
-> * Discard backing pages with shmem_truncate_range() after EADD.
-> * Added missing EEXTEND operations to LE signing and launch.
-> * Fixed SSA size for GPRS region from 168 to 184 bytes.
-> * Fixed the checks for TCS flags. Now DBGOPTIN is allowed.
-> * Check that TCS addresses are in ELRANGE and not just page aligned.
-> * Require kernel to be compiled with X64_64 and CPU_SUP_INTEL.
-> * Fixed an incorrect value for SGX_ATTR_DEBUG from 0x01 to 0x02.
-> 
-> v2:
-> * get_rand_uint32() changed the value of the pointer instead of value
->   where it is pointing at.
-> * Launch enclave incorrectly used sigstruct attributes-field instead of
->   enclave attributes-field.
-> * Removed unused struct sgx_add_page_req from sgx_ioctl.c
-> * Removed unused sgx_has_sgx2.
-> * Updated arch/x86/include/asm/sgx.h so that it provides stub
->   implementations when sgx in not enabled.
-> * Removed cruft rdmsr-calls from sgx_set_pubkeyhash_msrs().
-> * return -ENOMEM in sgx_alloc_page() when VA pages consume too much space
-> * removed unused global sgx_nr_pids
-> * moved sgx_encl_release to sgx_encl.c
-> * return -ERESTARTSYS instead of -EINTR in sgx_encl_init()
-> 
-> 
-> Jarkko Sakkinen (13):
->   x86/sgx: Update MAINTAINERS
->   x86/sgx: Define SGX1 and SGX2 ENCLS leafs
->   x86/sgx: Add ENCLS architectural error codes
->   x86/sgx: Add SGX1 and SGX2 architectural data structures
->   x86/sgx: Add definitions for SGX's CPUID leaf and variable sub-leafs
->   x86/sgx: Add wrappers for ENCLS leaf functions
->   x86/sgx: Add functions to allocate and free EPC pages
->   platform/x86: Intel SGX driver
->   platform/x86: sgx: Add swapping functionality to the Intel SGX driver
->   x86/sgx: Add a simple swapper for the EPC memory manager
->   platform/x86: ptrace() support for the SGX driver
->   x86/sgx: SGX documentation
->   selftests/x86: Add a selftest for SGX
-> 
-> Kai Huang (2):
->   x86/cpufeatures: Add Intel-defined SGX feature bit
->   x86/cpufeatures: Add Intel-defined SGX_LC feature bit
-> 
-> Sean Christopherson (8):
->   x86/cpufeatures: Add SGX sub-features (as Linux-defined bits)
->   x86/msr: Add IA32_FEATURE_CONTROL.SGX_ENABLE definition
->   x86/cpu/intel: Detect SGX support and update caps appropriately
->   x86/mm: x86/sgx: Add new 'PF_SGX' page fault error code bit
->   x86/mm: x86/sgx: Signal SIGSEGV for userspace #PFs w/ PF_SGX
->   x86/msr: Add SGX Launch Control MSR definitions
->   x86/sgx: Enumerate and track EPC sections
->   x86/sgx: Add sgx_einit() for initializing enclaves
-> 
->  Documentation/index.rst                       |   1 +
->  Documentation/x86/index.rst                   |   8 +
->  Documentation/x86/intel_sgx.rst               | 233 +++++
->  MAINTAINERS                                   |   7 +
->  arch/x86/Kconfig                              |  18 +
->  arch/x86/include/asm/cpufeatures.h            |  23 +-
->  arch/x86/include/asm/msr-index.h              |   8 +
->  arch/x86/include/asm/sgx.h                    | 324 ++++++
->  arch/x86/include/asm/sgx_arch.h               | 400 +++++++
->  arch/x86/include/asm/traps.h                  |   1 +
->  arch/x86/include/uapi/asm/sgx.h               |  59 ++
->  arch/x86/include/uapi/asm/sgx_errno.h         |  91 ++
->  arch/x86/kernel/cpu/Makefile                  |   1 +
->  arch/x86/kernel/cpu/intel.c                   |  37 +
->  arch/x86/kernel/cpu/intel_sgx.c               | 488 +++++++++
->  arch/x86/kernel/cpu/scattered.c               |   2 +
->  arch/x86/mm/fault.c                           |  13 +
->  drivers/platform/x86/Kconfig                  |   2 +
->  drivers/platform/x86/Makefile                 |   1 +
->  drivers/platform/x86/intel_sgx/Kconfig        |  20 +
->  drivers/platform/x86/intel_sgx/Makefile       |  14 +
->  drivers/platform/x86/intel_sgx/sgx.h          | 212 ++++
->  drivers/platform/x86/intel_sgx/sgx_encl.c     | 977 ++++++++++++++++++
->  .../platform/x86/intel_sgx/sgx_encl_page.c    | 178 ++++
->  drivers/platform/x86/intel_sgx/sgx_fault.c    | 109 ++
->  drivers/platform/x86/intel_sgx/sgx_ioctl.c    | 234 +++++
->  drivers/platform/x86/intel_sgx/sgx_main.c     | 267 +++++
->  drivers/platform/x86/intel_sgx/sgx_util.c     | 156 +++
->  drivers/platform/x86/intel_sgx/sgx_vma.c      | 167 +++
->  tools/arch/x86/include/asm/cpufeatures.h      |  21 +-
->  tools/testing/selftests/x86/Makefile          |  10 +
->  tools/testing/selftests/x86/sgx/Makefile      |  47 +
->  tools/testing/selftests/x86/sgx/encl.c        |  20 +
->  tools/testing/selftests/x86/sgx/encl.lds      |  33 +
->  .../selftests/x86/sgx/encl_bootstrap.S        |  94 ++
->  tools/testing/selftests/x86/sgx/encl_piggy.S  |  16 +
->  tools/testing/selftests/x86/sgx/encl_piggy.h  |  13 +
->  .../testing/selftests/x86/sgx/sgx-selftest.c  | 149 +++
->  tools/testing/selftests/x86/sgx/sgx_arch.h    | 109 ++
->  tools/testing/selftests/x86/sgx/sgx_call.S    |  20 +
->  tools/testing/selftests/x86/sgx/sgx_uapi.h    | 100 ++
->  tools/testing/selftests/x86/sgx/sgxsign.c     | 503 +++++++++
->  .../testing/selftests/x86/sgx/signing_key.pem |  39 +
->  43 files changed, 5213 insertions(+), 12 deletions(-)
->  create mode 100644 Documentation/x86/index.rst
->  create mode 100644 Documentation/x86/intel_sgx.rst
->  create mode 100644 arch/x86/include/asm/sgx.h
->  create mode 100644 arch/x86/include/asm/sgx_arch.h
->  create mode 100644 arch/x86/include/uapi/asm/sgx.h
->  create mode 100644 arch/x86/include/uapi/asm/sgx_errno.h
->  create mode 100644 arch/x86/kernel/cpu/intel_sgx.c
->  create mode 100644 drivers/platform/x86/intel_sgx/Kconfig
->  create mode 100644 drivers/platform/x86/intel_sgx/Makefile
->  create mode 100644 drivers/platform/x86/intel_sgx/sgx.h
->  create mode 100644 drivers/platform/x86/intel_sgx/sgx_encl.c
->  create mode 100644 drivers/platform/x86/intel_sgx/sgx_encl_page.c
->  create mode 100644 drivers/platform/x86/intel_sgx/sgx_fault.c
->  create mode 100644 drivers/platform/x86/intel_sgx/sgx_ioctl.c
->  create mode 100644 drivers/platform/x86/intel_sgx/sgx_main.c
->  create mode 100644 drivers/platform/x86/intel_sgx/sgx_util.c
->  create mode 100644 drivers/platform/x86/intel_sgx/sgx_vma.c
->  create mode 100644 tools/testing/selftests/x86/sgx/Makefile
->  create mode 100644 tools/testing/selftests/x86/sgx/encl.c
->  create mode 100644 tools/testing/selftests/x86/sgx/encl.lds
->  create mode 100644 tools/testing/selftests/x86/sgx/encl_bootstrap.S
->  create mode 100644 tools/testing/selftests/x86/sgx/encl_piggy.S
->  create mode 100644 tools/testing/selftests/x86/sgx/encl_piggy.h
->  create mode 100644 tools/testing/selftests/x86/sgx/sgx-selftest.c
->  create mode 100644 tools/testing/selftests/x86/sgx/sgx_arch.h
->  create mode 100644 tools/testing/selftests/x86/sgx/sgx_call.S
->  create mode 100644 tools/testing/selftests/x86/sgx/sgx_uapi.h
->  create mode 100644 tools/testing/selftests/x86/sgx/sgxsign.c
->  create mode 100644 tools/testing/selftests/x86/sgx/signing_key.pem
-> 
-> -- 
-> 2.19.1
-> 
-> 
+On 15/11/18 19:00, Boris Brezillon wrote:
+> On Thu, 15 Nov 2018 18:03:47 +0000
+> vitor <vitor.soares@synopsys.com> wrote:
+>
+>> Hi Boris,
+>>
+>>
+>> On 15/11/18 15:28, Boris Brezillon wrote:
+>>> On Thu, 15 Nov 2018 16:01:37 +0100
+>>> Wolfram Sang <wsa@the-dreams.de> wrote:
+>>>   
+>>>> Hi Boris,
+>>>>   
+>>>>> What we could do though, is expose I3C devices that do not have a
+>>>>> driver in kernel space, like spidev does.
+>>>> ...
+>>>>   
+>>>>> Mark, Wolfram, Arnd, Greg, any opinion?
+>>>> Is there a benefit for having drivers in userspace? My gut feeling is to
+>>>> encourage people to write kernel drivers. If this is, for some reason,
+>>>> not possible for some driver, then we have a use case at hand to test
+>>>> the then-to-be-developed userspace interface against. Until then, I
+>>>> personally wouldn't waste effort on designing it without a user in
+>>>> sight.
+>>> I kind of agree with that. Vitor, do you have a use case in mind for
+>>> such userspace drivers? I don't think it's worth designing an API for
+>>> something we don't need (yet).
+>> My use case is a tool for tests, lets say like the i2c tools.
+> What would you like to test exactly?
+>
+>> There is
+>> other subsystems, some of them mentioned on this thread, that have and
+>> ioctl system call or other method to change parameters or send data.
+> I don't think they added the /dev interface before having a real use
+> case for it.
+>
+>>
+>> I rise this topic because I really think it worth to define now how this
+>> should be design (and for me how to do the things right) to avoid future
+>> issues.
+> Actually it should be done the other way around: you should have a real
+> need and the /dev interface should be designed to fulfill this need.
+> Based on this real use case we can discuss other potential usage that
+> might appear in the future and try to design something more
+> future-proof, but clearly, this userspace interface should be driven by
+> a real/well-defined use case.
+>
+> Also, exposing things to userspace is way more risky than adding a new
+> in-kernel subsystem/framework, because it then becomes part of the
+> stable ABI.
+>
+> To make things clearer, I'm not against the idea of exposing I3C
+> devices (or I3C buses) to userspace, but I'd like to understand what you
+> plan to do with that. If this is about testing, what kind of tests
+> you'd like to run. If this is about developing drivers in userspace,
+> why can't these be done in kernel space (license issues?), and what
+> would those drivers be allowed to do?
+
+
+Basically I need a tool that help me during the development and to avoid 
+me to write a dummy driver for each device that I test.
+
+For instances do some read/write, get/set ccc commands, if something 
+goes wrong during the bus initialization have a to debug etc...
+
+
+For me this is a valid use case and I imagine when people start to 
+develop in i3c this interface will help everyone.
+
+
+Best regards,
+
+Vitor Soares
+
