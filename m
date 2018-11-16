@@ -5,217 +5,347 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 85A6F7D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Nov 2018 18:23:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4553E7D8BB
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 16 Nov 2018 20:08:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727624AbeKQEhD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 16 Nov 2018 23:37:03 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:40288 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727462AbeKQEhD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Nov 2018 23:37:03 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 81798155DD;
-        Fri, 16 Nov 2018 18:23:34 +0000 (UTC)
-Received: from [10.36.117.136] (ovpn-117-136.ams2.redhat.com [10.36.117.136])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 23D165C6A6;
-        Fri, 16 Nov 2018 18:23:20 +0000 (UTC)
-Subject: Re: [PATCH RFC 0/6] mm/kdump: allow to exclude pages that are
- logically offline
-To:     linux-mm@kvack.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        devel@linuxdriverproject.org, linux-fsdevel@vger.kernel.org,
-        linux-pm@vger.kernel.org, xen-devel@lists.xenproject.org,
-        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Baoquan He <bhe@redhat.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Christian Hansen <chansen3@cisco.com>,
-        Dave Young <dyoung@redhat.com>,
-        David Rientjes <rientjes@google.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
+        id S1725977AbeKQGWG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 17 Nov 2018 01:22:06 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60396 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725763AbeKQGWG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Nov 2018 01:22:06 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wAGK6c8Z035735
+        for <linux-doc@vger.kernel.org>; Fri, 16 Nov 2018 15:08:16 -0500
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2nt20jeaf0-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 16 Nov 2018 15:08:16 -0500
+Received: from localhost
+        by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <bauerman@linux.ibm.com>;
+        Fri, 16 Nov 2018 20:08:15 -0000
+Received: from b01cxnp23033.gho.pok.ibm.com (9.57.198.28)
+        by e14.ny.us.ibm.com (146.89.104.201) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 16 Nov 2018 20:08:09 -0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
+        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wAGK88vX26149026
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 16 Nov 2018 20:08:08 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 60A79AC065;
+        Fri, 16 Nov 2018 20:08:08 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D1E38AC062;
+        Fri, 16 Nov 2018 20:08:03 +0000 (GMT)
+Received: from morokweng.localdomain.com (unknown [9.80.224.199])
+        by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+        Fri, 16 Nov 2018 20:08:03 +0000 (GMT)
+From:   Thiago Jung Bauermann <bauerman@linux.ibm.com>
+To:     linux-integrity@vger.kernel.org
+Cc:     linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        David Howells <dhowells@redhat.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Juergen Gross <jgross@suse.com>,
-        Kairui Song <kasong@redhat.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Len Brown <len.brown@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Miles Chen <miles.chen@mediatek.com>,
-        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
-        Omar Sandoval <osandov@fb.com>, Pavel Machek <pavel@ucw.cz>,
-        Pavel Tatashin <pasha.tatashin@oracle.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Vlastimil Babka <vbabka@suse.cz>
-References: <20181114211704.6381-1-david@redhat.com>
-From:   David Hildenbrand <david@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <a0b995a2-d78e-8413-f232-9a82b4d4f5b5@redhat.com>
-Date:   Fri, 16 Nov 2018 19:23:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
-MIME-Version: 1.0
-In-Reply-To: <20181114211704.6381-1-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]); Fri, 16 Nov 2018 18:23:35 +0000 (UTC)
+        "AKASHI, Takahiro" <takahiro.akashi@linaro.org>,
+        Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Subject: [PATCH v8 00/14] Appended signatures support for IMA appraisal
+Date:   Fri, 16 Nov 2018 18:06:58 -0200
+X-Mailer: git-send-email 2.17.2
+X-TM-AS-GCONF: 00
+x-cbid: 18111620-0052-0000-0000-000003576A17
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00010063; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000270; SDB=6.01118417; UDB=6.00580177; IPR=6.00898525;
+ MB=3.00024196; MTD=3.00000008; XFM=3.00000015; UTC=2018-11-16 20:08:14
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18111620-0053-0000-0000-00005EC9742D
+Message-Id: <20181116200712.14154-1-bauerman@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-16_11:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1811160178
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14.11.18 22:16, David Hildenbrand wrote:
-> Right now, pages inflated as part of a balloon driver will be dumped
-> by dump tools like makedumpfile. While XEN is able to check in the
-> crash kernel whether a certain pfn is actuall backed by memory in the
-> hypervisor (see xen_oldmem_pfn_is_ram) and optimize this case, dumps of
-> virtio-balloon and hv-balloon inflated memory will essentially result in
-> zero pages getting allocated by the hypervisor and the dump getting
-> filled with this data.
-> 
-> The allocation and reading of zero pages can directly be avoided if a
-> dumping tool could know which pages only contain stale information not to
-> be dumped.
-> 
-> Also for XEN, calling into the kernel and asking the hypervisor if a
-> pfn is backed can be avoided if the duming tool would skip such pages
-> right from the beginning.
-> 
-> Dumping tools have no idea whether a given page is part of a balloon driver
-> and shall not be dumped. Esp. PG_reserved cannot be used for that purpose
-> as all memory allocated during early boot is also PG_reserved, see
-> discussion at [1]. So some other way of indication is required and a new
-> page flag is frowned upon.
-> 
-> We have PG_balloon (MAPCOUNT value), which is essentially unused now. I
-> suggest renaming it to something more generic (PG_offline) to mark pages as
-> logically offline. This flag can than e.g. also be used by virtio-mem in
-> the future to mark subsections as offline. Or by other code that wants to
-> put pages logically offline (e.g. later maybe poisoned pages that shall
-> no longer be used).
-> 
-> This series converts PG_balloon to PG_offline, allows dumping tools to
-> query the value to detect such pages and marks pages in the hv-balloon
-> and XEN balloon properly as PG_offline. Note that virtio-balloon already
-> set pages to PG_balloon (and now PG_offline).
-> 
-> Please note that this is also helpful for a problem we were seeing under
-> Hyper-V: Dumping logically offline memory (pages kept fake offline while
-> onlining a section via online_page_callback) would under some condicions
-> result in a kernel panic when dumping them.
-> 
-> As I don't have access to neither XEN nor Hyper-V installation, this was
-> not tested yet (and a makedumpfile change will be required to skip
-> dumping these pages).
-> 
-> [1] https://lkml.org/lkml/2018/7/20/566
-> 
-> David Hildenbrand (6):
->   mm: balloon: update comment about isolation/migration/compaction
->   mm: convert PG_balloon to PG_offline
->   kexec: export PG_offline to VMCOREINFO
->   xen/balloon: mark inflated pages PG_offline
->   hv_balloon: mark inflated pages PG_offline
->   PM / Hibernate: exclude all PageOffline() pages
-> 
->  Documentation/admin-guide/mm/pagemap.rst |  6 +++++
->  drivers/hv/hv_balloon.c                  | 14 ++++++++--
->  drivers/xen/balloon.c                    |  3 +++
->  fs/proc/page.c                           |  4 +--
->  include/linux/balloon_compaction.h       | 34 +++++++++---------------
->  include/linux/page-flags.h               | 11 +++++---
->  include/uapi/linux/kernel-page-flags.h   |  1 +
->  kernel/crash_core.c                      |  2 ++
->  kernel/power/snapshot.c                  |  5 +++-
->  tools/vm/page-types.c                    |  1 +
->  10 files changed, 51 insertions(+), 30 deletions(-)
-> 
+Hello,
 
-I just did a test with virtio-balloon (and a very simple makedumpfile
-patch which I can supply on demand).
+v8 is just a rebase on top of today's linux-integrity/next-integrity.
+There aren't any noteworthy changes since v7, which is why I'm keeping its
+description below:
 
-1. Guest with 8GB. Inflate balloon to 4GB via
- sudo virsh setmem f29 --size 4096M --live
+The main difference in v7 is the addition of the last patch, which ensures
+that there will always be a measurement entry containing the appended
+modsig if one was used to appraise the file. The patch description and
+comments in the code should explain in which circumstances the patch proved
+necessary.
 
-2. Trigger a kernel panic in the guest
-    echo 1 > /proc/sys/kernel/sysrq
-    echo c > /proc/sysrq-trigger
+Apart from that, there was some small cleaning up of the code, and merging
+and splitting of patches. The changelog below has the details.
 
-Original pages  : 0x00000000001e1da8
-  Excluded pages   : 0x00000000001c9221
-    Pages filled with zero  : 0x00000000000050b0
-    Non-private cache pages : 0x0000000000046547
-    Private cache pages     : 0x0000000000002165
-    User process data pages : 0x00000000000048cf
-    Free pages              : 0x00000000000771f6
-    Hwpoison pages          : 0x0000000000000000
-    Offline pages           : 0x0000000000100000
-  Remaining pages  : 0x0000000000018b87
-  (The number of pages is reduced to 5%.)
-Memory Hole     : 0x000000000009e258
---------------------------------------------------
-Total pages     : 0x0000000000280000
+Original cover letter:
 
-(Offline patches matches the 4GB)
+On the OpenPOWER platform, secure boot and trusted boot are being
+implemented using IMA for taking measurements and verifying signatures.
+Since the kernel image on Power servers is an ELF binary, kernels are
+signed using the scripts/sign-file tool and thus use the same signature
+format as signed kernel modules.
 
--- 
+This patch series adds support in IMA for verifying those signatures.
+It adds flexibility to OpenPOWER secure boot, because it allows it to boot
+kernels with the signature appended to them as well as kernels where the
+signature is stored in the IMA extended attribute.
 
-Thanks,
+Changes since v7:
+- Patch "MODSIGN: Export module signature definitions"
+  - Added module name parameter to validate_module_sig() so that it can be
+    shown in error messages.
 
-David / dhildenb
+- Patch "integrity: Introduce struct evm_xattr"
+  - Dropped use of struct evm_xattr in evm_update_evmxattr() and
+    evm_verify_hmac(). It's not needed there anymore because of changes
+    to support portable EVM signatures.
+
+Changes since v6:
+
+- Patch "PKCS#7: Introduce pkcs7_get_message_sig() and verify_pkcs7_message_sig()"
+  - Retitled to "PKCS#7: Refactor verify_pkcs7_signature() and
+    add pkcs7_get_message_sig()"
+  - Reworded description to clarify why the refactoring is needed.
+    The code is unchanged. (Suggested by Mimi Zohar)
+  - Added Mimi Zohar's Reviewed-by.
+
+- Patch "PKCS#7: Introduce pkcs7_get_digest()"
+  - Added Mimi Zohar's Reviewed-by.
+
+- Patch "integrity: Introduce integrity_keyring_from_id"
+  - Added Mimi Zohar's Signed-off-by.
+
+- Patch "integrity: Introduce asymmetric_sig_has_known_key()"
+  - Added Mimi Zohar's Signed-off-by.
+
+- Patch "integrity: Select CONFIG_KEYS instead of depending on it"
+  - Added Mimi Zohar's Signed-off-by.
+
+- Patch "ima: Introduce is_ima_sig()"
+  - Renamed function to is_signed() (suggested by Mimi Zohar).
+
+- Patch "ima: Add functions to read and verify a modsig signature"
+  - Changed stubs for the !CONFIG_IMA_APPRAISE_MODSIG to return -EOPNOTSUPP
+    instead of -ENOTSUPP, since the latter isn't defined in uapi headers.
+  - Moved functions to the patches which use them and dropped this patch
+    (suggested by Mimi Zohar).
+
+- Patch "ima: Implement support for module-style appended signatures"
+  - Prevent reading and writing of IMA_MODSIG xattr in ima_read_xattr()
+    and ima_inode_setxattr().
+  - Simplify code in process_measurement() which decides whether to try
+    reading a modsig (suggested by Mimi Zohar).
+  - Moved some functions from patch "ima: Add functions to read and verify
+    a modsig signature" into this patch.
+
+- Patch "ima: Add new "d-sig" template field"
+  - New patch containing code from patch "ima: Write modsig to the measurement list"
+    (Suggested by Mimi Zohar).
+
+- Patch "ima: Write modsig to the measurement list"
+  - Moved some functions from patch "ima: Add functions to read and verify
+    a modsig signature" into this patch.
+  - Moved code related to d-sig support to new patch.
+
+- Patch "ima: Store the measurement again when appraising a modsig"
+  - New patch.
+
+Changes since v5:
+- Patch "ima: Remove some superfluous parentheses"
+  - Dropped.
+
+- Patch "evm, ima: Remove superfluous parentheses"
+  - Dropped.
+
+- Patch "evm, ima: Remove more superfluous parentheses"
+  - Dropped.
+
+- Patch "ima: Don't pass xattr value to EVM xattr verification."
+  - Dropped.
+
+- Patch "ima: Store measurement after appraisal"
+  - Dropped.
+
+- Patch "MODSIGN: Export module signature definitions"
+  - Reduced changes to the code that was moved into validate_module_sig()
+    to the minimum necessary (suggested by Mimi Zohar).
+  - Added SPDX license identifier.
+
+- Patch "PKCS#7: Introduce pkcs7_get_message_sig() and verify_pkcs7_message_sig()"
+  - In the hypothetical case that there's more than one sinfo, changed
+    pkcs7_get_message_sig() to return NULL instead of the first sinfo's sig.
+  - Dropped Mimi's Reviewed-by because of the code change above.
+
+- Patch "PKCS#7: Introduce pkcs7_get_digest()"
+  - New patch.
+
+- Patch "integrity: Introduce integrity_keyring_from_id"
+  - Add stub in case CONFIG_INTEGRITY_SIGNATURE isn't set.
+
+- Patch "integrity: Introduce asymmetric_sig_has_known_key()"
+  - New patch.
+
+- Patch "ima: Introduce is_ima_sig"
+  - New patch, with code from "ima: Improvements in ima_appraise_measurement"
+
+- Patch "ima: Add modsig appraise_type option for module-style appended signatures"
+  - Changed appraise_type to accept "imasig|modsig" instead of
+    "modsig|imasig" to reflect the fact that now IMA only looks for
+    the modsig after failing to find a suitable imasig stored in the xattr.
+  - Added SPDX license identifier.
+
+- Patch "ima: Add functions to read and verify a modsig signature"
+  - Changed ima_read_modsig() to abort loading the modsig if it uses a key
+    which isn't known to IMA.
+  - Changed ima_get_modsig_hash() to use pkcs7_get_digest().
+
+- Patch "ima: Implement support for module-style appended signatures"
+  - Added ima_xattr_sig_known_key() auxiliary function.
+  - Call ima_read_modsig() directly from process_measurement() instead of
+    from ima_appraise_measurement(), and only if there's no xattr signature
+    or if the xattr signature uses a key which isn't known to IMA.
+  - hash_algo in process_measurement() is always obtained from the xattr
+    signature, never from the modsig.
+  - Changes to ima_appraise_measurement() are a lot simpler now, and don't
+    involve going back to the main switch statement a second time.
+  - Pass xattr_value to evm_verifyxattr() unless xattr_value is a modsig.
+
+- Patch "ima: Write modsig to the measurement list"
+  - Since now we determine whether we'll use an xattr sig or a modsig
+    at the time they are read, there's no need to store a measurement
+    again in the modsig case. Thus, this patch doesn't need to change
+    ima_store_measurement() nor process_measurement() anymore.
+  - Define new "d-sig" template field which holds the digest that is
+    expected to match the one contained in the modsig.
+  - Moved addition of ima_modsig_serialize_data() to patch "ima: Add
+    functions to read and verify a modsig signature".
+  - Increase MAX_TEMPLATE_NAME_LEN to 24.
+
+Changes since v4:
+- Patch "ima: Remove redundant conditional operator"
+  - New patch.
+
+- Patch "ima: Remove some superfluous parentheses"
+  - New patch.
+
+- Patch "evm, ima: Remove superfluous parentheses"
+  - New patch.
+
+- Patch "evm, ima: Remove more superfluous parentheses"
+  - New patch.
+
+- Patch "ima: Simplify ima_eventsig_init"
+  - New patch.
+
+- Patch "ima: Improvements in ima_appraise_measurement"
+  - New patch.
+
+- Patch "ima: Don't pass xattr value to EVM xattr verification."
+  - New patch.
+
+- Patch "ima: Export func_tokens"
+  - Split from patch "ima: Support module-style appended signatures for
+    appraisal".
+
+- Patch "ima: Add modsig appraise_type option for module-style appended
+         signatures"
+  - Split from patch "ima: Support module-style appended signatures for
+    appraisal".
+  - Mention modsig option in Documentation/ABI/testing/ima_policy
+    (suggested by Mimi Zohar).
+
+- Patch "ima: Add functions to read and verify a modsig signature"
+  - Split from patch "ima: Support module-style appended signatures for
+    appraisal".
+
+- Patch "ima: Implement support for module-style appended signatures"
+  - Split from patch "ima: Support module-style appended signatures for
+    appraisal".
+  - In ima_appraise_measurement, change the logic of dealing with xattr
+    errors in case the modsig verification fails. With this,
+    process_xattr_error isn't needed anymore.
+
+- Patch "ima: Write modsig to the measurement list"
+  - Split from patch "ima: Support module-style appended signatures for
+    appraisal".
+  - Added ima_current_template_has_sig function.
+  - Removed hdr parameter from ima_modsig_serialize_data.
+  - In ima_store_measurement, continue processing even if the given PCR
+    is already measured if it's for a modsig.
+  - In process_measurement, add exception to store measurement even if
+    IMA_MEASURE is not set when appraising a modsig (suggested by
+    Mimi Zohar).
+  - Call is_ima_sig in ima_eventsig_init.
+
+Thiago Jung Bauermann (14):
+  MODSIGN: Export module signature definitions
+  PKCS#7: Refactor verify_pkcs7_signature() and add
+    pkcs7_get_message_sig()
+  PKCS#7: Introduce pkcs7_get_digest()
+  integrity: Introduce struct evm_xattr
+  integrity: Introduce integrity_keyring_from_id()
+  integrity: Introduce asymmetric_sig_has_known_key()
+  integrity: Select CONFIG_KEYS instead of depending on it
+  ima: Introduce is_signed()
+  ima: Export func_tokens
+  ima: Add modsig appraise_type option for module-style appended
+    signatures
+  ima: Implement support for module-style appended signatures
+  ima: Add new "d-sig" template field
+  ima: Write modsig to the measurement list
+  ima: Store the measurement again when appraising a modsig
+
+ Documentation/ABI/testing/ima_policy      |   6 +-
+ Documentation/security/IMA-templates.rst  |   5 +
+ certs/system_keyring.c                    |  61 +++++--
+ crypto/asymmetric_keys/pkcs7_parser.c     |  16 ++
+ crypto/asymmetric_keys/pkcs7_verify.c     |  25 +++
+ include/crypto/pkcs7.h                    |   5 +
+ include/linux/module.h                    |   3 -
+ include/linux/module_signature.h          |  47 +++++
+ include/linux/verification.h              |  10 +
+ init/Kconfig                              |   6 +-
+ kernel/Makefile                           |   2 +-
+ kernel/module.c                           |   1 +
+ kernel/module_signing.c                   |  82 ++++-----
+ security/integrity/Kconfig                |   2 +-
+ security/integrity/digsig.c               |  28 ++-
+ security/integrity/digsig_asymmetric.c    |  44 +++--
+ security/integrity/evm/evm_main.c         |   8 +-
+ security/integrity/ima/Kconfig            |  13 ++
+ security/integrity/ima/Makefile           |   1 +
+ security/integrity/ima/ima.h              |  67 +++++++
+ security/integrity/ima/ima_api.c          |   8 +-
+ security/integrity/ima/ima_appraise.c     |  79 ++++++--
+ security/integrity/ima/ima_main.c         |  33 +++-
+ security/integrity/ima/ima_modsig.c       | 212 ++++++++++++++++++++++
+ security/integrity/ima/ima_policy.c       |  81 +++++++--
+ security/integrity/ima/ima_template.c     |  31 +++-
+ security/integrity/ima/ima_template_lib.c |  49 ++++-
+ security/integrity/ima/ima_template_lib.h |   2 +
+ security/integrity/integrity.h            |  30 ++-
+ 29 files changed, 829 insertions(+), 128 deletions(-)
+ create mode 100644 include/linux/module_signature.h
+ create mode 100644 security/integrity/ima/ima_modsig.c
+
