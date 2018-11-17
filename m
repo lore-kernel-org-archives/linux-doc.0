@@ -1,129 +1,168 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 803687D08E
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 17 Nov 2018 01:51:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0546F7D08E
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 17 Nov 2018 08:02:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729714AbeKQMGa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 17 Nov 2018 07:06:30 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:40079 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727116AbeKQMG3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Nov 2018 07:06:29 -0500
-Received: by mail-pl1-f196.google.com with SMTP id b22-v6so6492994pls.7;
-        Fri, 16 Nov 2018 17:51:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=kFrk3ZvTxnuIJmqdWeNtTuoVcmDrFGU5o+QORm1j6zU=;
-        b=oU1E8Yp2hbJ2rrUDA6X3YC6xPk69kVrvM23B8FiIzJnvKcPc7KJhkXLv9S1gpiPUGC
-         pkdglfwv09SxgdiNjJ5Lj9/vrds4iWKcNCPFYQW+F+Y0qqLXOXWjWxKQTuZiyZ62EEKm
-         EBR8iOORxYm0gsl9jNeA3TiKN98ZXYuV1ZL+N9QPb1r8jA+qpdpQSx363xyHWXDHuHw2
-         WLK3vcsJ7ABBp/XG6f28DvJB5SQ+wjjtOKOJYvP5/+fEJNhiv2FgzL9fGQ+B5588XA8Z
-         2Fv8yDWTag8SuruXLHYDocc2f07BFcYWaiP6syjQdinQnypX+Y3Tua7m3rIPulT1OOhH
-         82vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kFrk3ZvTxnuIJmqdWeNtTuoVcmDrFGU5o+QORm1j6zU=;
-        b=DJ66zrxxEuhuEJTor8X6vRxh0l6OBq+eVJbZXsl4BqUhRZhHGJy0Q1FtgGv2bsqZ/b
-         f//ylDWLxZGWsIvj1cNx0kUAibjwZFVOEtyWKXhFAopykM4HaVUFLZIALFRN4xhie1PV
-         WntTQrxKv6JSxXkO2nzgslyD1sabnciQfohgZDEF/Oy+JmZAn2ksWKTJ4iekjNrgePvN
-         gsmlTU+21F05O5MuOo7W3RUZzRXsn7DkZ8IpsA8RWmEAqNFCOuiBvpIEsZIkmlQlRcFQ
-         wGilUjmrkPbq/gQkXxY/JADlJ8DJO3LJwYrTp/j0nNZwdPbIafLQ5DWLzuuUeUXiFl4u
-         TnJA==
-X-Gm-Message-State: AGRZ1gJjD5gwx1zzC3LIO/dcEHY5giDBil7ZDUGjmVOIRuwC9WnXgbo/
-        zxHJJDKWBVWPTZYLdH9AerU=
-X-Google-Smtp-Source: AJdET5cyb5XPVOCc+yUpqDI3a0kgKTfWEhaH5W0oFafa3He4vRUEpGIsx+7Y39nJDSzxwl6Egc6/JQ==
-X-Received: by 2002:a17:902:e085:: with SMTP id cb5mr8786227plb.24.1542419499719;
-        Fri, 16 Nov 2018 17:51:39 -0800 (PST)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id c23-v6sm34674488pfn.95.2018.11.16.17.51.38
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 16 Nov 2018 17:51:38 -0800 (PST)
-Date:   Fri, 16 Nov 2018 17:51:34 -0800
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     jdelvare@suse.com, linux-hwmon@vger.kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        id S1725980AbeKQSSe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 17 Nov 2018 13:18:34 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46890 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725853AbeKQSSe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Nov 2018 13:18:34 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wAH7x6AZ008157
+        for <linux-doc@vger.kernel.org>; Sat, 17 Nov 2018 03:02:41 -0500
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2ntctncbbd-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Sat, 17 Nov 2018 03:02:41 -0500
+Received: from localhost
+        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Sat, 17 Nov 2018 08:02:39 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Sat, 17 Nov 2018 08:02:36 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wAH82ZXi61538402
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sat, 17 Nov 2018 08:02:35 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 80693A4057;
+        Sat, 17 Nov 2018 08:02:35 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 549A5A404D;
+        Sat, 17 Nov 2018 08:02:32 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.204.243])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Sat, 17 Nov 2018 08:02:31 +0000 (GMT)
+Date:   Sat, 17 Nov 2018 00:02:28 -0800
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Roman Gushchin <guroan@gmail.com>
+Cc:     Tejun Heo <tj@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+        cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-team@fb.com, Roman Gushchin <guro@fb.com>,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH] hwmon (ina3221) Add single-shot mode support
-Message-ID: <20181117015131.GA10407@Asurada-Nvidia.nvidia.com>
-References: <20181113042353.1507-1-nicoleotsuka@gmail.com>
- <20181113043248.GB11205@roeck-us.net>
- <20181113045823.GB26327@Asurada-Nvidia.nvidia.com>
- <20181113172102.GA21714@roeck-us.net>
- <20181114001141.GA14925@Asurada-Nvidia.nvidia.com>
- <20181114172330.GA25592@roeck-us.net>
+Subject: Re: [PATCH v3 7/7] cgroup: document cgroup v2 freezer interface
+References: <20181117003830.15344-1-guro@fb.com>
+ <20181117003830.15344-8-guro@fb.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181114172330.GA25592@roeck-us.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20181117003830.15344-8-guro@fb.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 18111708-0012-0000-0000-000002CBD7DA
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18111708-0013-0000-0000-00002100F5F2
+Message-Id: <20181117080227.GA22672@rapoport-lnx>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-16_12:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1811170077
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Guenter,
+Hi,
 
-On Wed, Nov 14, 2018 at 09:23:30AM -0800, Guenter Roeck wrote:
-> > An alternative way (without the sysfs node), after looking at
-> > other hwmon code, could be to have a timed polling thread and
-> > read data using an update_interval value from ABI. This might
-> > turn out to be more complicated as it'll also involve settings
-> > of hardware averaging and conversion time. Above all, I cannot
-> > figure out a good threshold of update_interval to switch modes.
-> > 
-> update_interval should only be used if it can be configured
-> into hardware, not to trigger a polling thread. It should only
-> be used in the driver to determine caching intervals.
+On Fri, Nov 16, 2018 at 04:38:30PM -0800, Roman Gushchin wrote:
+> Describe cgroup v2 freezer interface in the cgroup v2 admin guide.
+> 
+> Signed-off-by: Roman Gushchin <guro@fb.com>
+> Cc: Tejun Heo <tj@kernel.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: kernel-team@fb.com
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst | 26 +++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 184193bcb262..a065c0bed88c 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -862,6 +862,8 @@ All cgroup core files are prefixed with "cgroup."
+>  	  populated
+>  		1 if the cgroup or its descendants contains any live
+>  		processes; otherwise, 0.
+> +	  frozen
+> +		1 if the cgroup is frozen; otherwise, 0.
+> 
+>    cgroup.max.descendants
+>  	A read-write single value files.  The default is "max".
+> @@ -895,6 +897,30 @@ All cgroup core files are prefixed with "cgroup."
+>  		A dying cgroup can consume system resources not exceeding
+>  		limits, which were active at the moment of cgroup deletion.
+> 
+> +  cgroup.freeze
+> +	A read-write single value file which exists on non-root cgroups.
+> +	Allowed values are "0" and "1". The default is "0".
+> +
+> +	Writing "1" to the file causes freezing of the cgroup and all
+> +	descendant cgroups. This means that all belonging processes will
+> +	be stopped and will not run until the cgroup will be explicitly
+> +	unfrozen. Freezing of the cgroup may take some time; when the process
 
-I see..so it's more like the conversion time settings instead.
+"when the process is complete" sounds somewhat ambiguous, it's unclear
+whether freezing is complete or the process that's being frozen is
+complete.
 
-> > If you can give some advice of a better implementation, that'd
-> > be great.
-> > 
-> From your description, the only real feasible solution would be a
-> generic one, with a well defined interface either to userspace or
-> to the kernel. The best I can think of would be an in-kernel API
-> setting the power operational mode via callbacks. Alternative would
-> be a generic ability to set power operational mode from userspace,
-> using an ABI which applies to all drivers, not just one.
+Maybe "when this action is completed"?
 
-Hmm. That would make the situation really complicated, I could
-understand your concern though.
+> +	is complete, the "frozen" value in the cgroup.events control file
+> +	will be updated and the corresponding notification will be issued.
 
-I searched a little and found that, while the initial ina3221
-hwmon driver was under review, Laxman submitted an IIO version
-where Jonathan had a similar comments against its "mode" node:
-https://www.spinics.net/lists/linux-hwmon/msg00219.html
+Can you please clarify how exactly cgroup.events would be updated?
 
-Quote from his comments {
- * There is a lot of ABI in here concerned with oneshot vs continuous.
- This seems to me to be more than it should be. We wouldn't expect to
- see stuff changing as a result of switching between these modes other
- than wrt to when the data shows up.  So I'd expect to not see this
- directly exposed at all - but rather sit in oneshot unless either:
- 1) Buffered mode is running (not currently supported)
- 2) Alerts are on - which I think requires it to be in continuous mode.
-}
+> +	Cgroup can be frozen either by its own settings, either by settings
 
-Since hwmon driver doesn't support buffered mode, what do you
-think about having the chip run in single-shot mode by default
-but changing it if alerts are on? Though the driver also needs
-to support to enable warning/critical alert pins.
+      ^ A cgroup ... and maybe there are more "a" and "the" that should be
+fixed, it's hard for me to tell.
 
-In short, other than exposing it via a generic ABI to the user
-space, how about defining some policy to maintaining it within
-the driver?
+Also, I believe "either ..., or ..." sounds better than "either ...,
+either ..."
 
-Thanks
-Nicolin
+> +	of any ancestor cgroups. If any of ancestor cgroups is frozen, the
+> +	cgroup will remain frozen.
+> +
+> +	Processes in the frozen cgroup can be killed by a fatal signal.
+> +	They also can enter and leave a frozen cgroup: either by an explicit
+> +	move by a user, either if freezing of the cgroup races with fork().
+
+ditto
+
+> +	If a cgroup is moved to a frozen cgroup, it stops. If a process is
+
+            ^ process?
+
+> +	moving out of a frozen cgroup, it becomes running.
+
+       ^ moved
+
+> +	Frozen status of a cgroup doesn't affect any cgroup tree operations:
+> +	it's possible to delete a frozen (and empty) cgroup, as well as
+> +	create new sub-cgroups.
+
+Maybe it's also worth adding that freezing a process has no effect on its
+memory consumption, at least directly.
+
+>  Controllers
+>  ===========
+> -- 
+> 2.17.2
+> 
+
+-- 
+Sincerely yours,
+Mike.
+
