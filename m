@@ -1,123 +1,129 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 937D27D099
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 17 Nov 2018 00:38:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 803687D08E
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 17 Nov 2018 01:51:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731039AbeKQKxT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 17 Nov 2018 05:53:19 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:41930 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730534AbeKQKxS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Nov 2018 05:53:18 -0500
-Received: by mail-pg1-f193.google.com with SMTP id 70so11290457pgh.8;
-        Fri, 16 Nov 2018 16:38:42 -0800 (PST)
+        id S1729714AbeKQMGa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 17 Nov 2018 07:06:30 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:40079 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727116AbeKQMG3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Nov 2018 07:06:29 -0500
+Received: by mail-pl1-f196.google.com with SMTP id b22-v6so6492994pls.7;
+        Fri, 16 Nov 2018 17:51:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=37Hf1x10NLuEt+wNwFB65vwUj5lPVMCSL7uBe89akZ4=;
-        b=GEbzETZBCS/sOrvlWPM6Nhp9oQNy1y0bCkc1luh6bqDnYXjnaj8b118TW3aPXUNeJG
-         ZsW1NtPfg2zP6VTm5m5uC0QoS6I9O4H53mzKOTFCfPqJZ9q5+FEbtZrlwTGl5c1jHy98
-         mHQLxa5dl6Ag6j8kN0WsWmgNieYXFIzo7l9L3Xkkd0vc6bjj+YO5wMQGJ/ezU1FB1jBy
-         Db9vvWfG4usAL/toFiuYFDe05h2fved91XnUuFJ6lpXbQZzPKl97JRdHHrMu6G/R2dRe
-         j4EPl90x48QzEBlYfHwwMQZ7UxOUHOJBWlT/WLZoVTbPOMtkEVvIK2/+mYacf/akZ1BK
-         es0Q==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=kFrk3ZvTxnuIJmqdWeNtTuoVcmDrFGU5o+QORm1j6zU=;
+        b=oU1E8Yp2hbJ2rrUDA6X3YC6xPk69kVrvM23B8FiIzJnvKcPc7KJhkXLv9S1gpiPUGC
+         pkdglfwv09SxgdiNjJ5Lj9/vrds4iWKcNCPFYQW+F+Y0qqLXOXWjWxKQTuZiyZ62EEKm
+         EBR8iOORxYm0gsl9jNeA3TiKN98ZXYuV1ZL+N9QPb1r8jA+qpdpQSx363xyHWXDHuHw2
+         WLK3vcsJ7ABBp/XG6f28DvJB5SQ+wjjtOKOJYvP5/+fEJNhiv2FgzL9fGQ+B5588XA8Z
+         2Fv8yDWTag8SuruXLHYDocc2f07BFcYWaiP6syjQdinQnypX+Y3Tua7m3rIPulT1OOhH
+         82vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=37Hf1x10NLuEt+wNwFB65vwUj5lPVMCSL7uBe89akZ4=;
-        b=c37DRp4cuaQwkXN62fgwYftezv/FoBNa5j3sdwmbCe/Vx2/6T+9WArKcRrjCkMmGdX
-         HW1YlmzNcNzNjCZtZJoaeUDtQtMkKCPTLq6MNEn+L3Xr9z3SQABRPfXKhH5bPmKC2y8A
-         psxg0WViZv8I19wSCzmLGe1tSUbOP7vB4lfJvA1D95ZB1qtRe84+i126dn0AZfBz4KVJ
-         anHfSyZcvS/3AR9GEt2p89MQ19UHjoX8T65E74ntoyIKufZf5bgb4H9Jr1WaC8dkVT85
-         cgiyWuKWIcwq9wnVpGup0rrolthoAJ9TBAyVFzgMffYpZwQpXxn53VQ7NVp1+5W62qZD
-         HSrw==
-X-Gm-Message-State: AGRZ1gIEszckJAAwBrJ3Ph4XFiLWftdRJxW09QVS970O5FMBQtjyu+Jm
-        uUw0H8pY39dD8KSXIWm0k7c=
-X-Google-Smtp-Source: AJdET5foZ1EdCnJVKnTJ+21mnUmc4KBL5JwTsB9iGqaKplhLcqSfxVR86td4eL0idX0hy+iesrgeAw==
-X-Received: by 2002:a62:ea10:: with SMTP id t16-v6mr13992921pfh.228.1542415122415;
-        Fri, 16 Nov 2018 16:38:42 -0800 (PST)
-Received: from tower.thefacebook.com ([2620:10d:c090:200::4:2b73])
-        by smtp.gmail.com with ESMTPSA id f6sm1981177pfg.188.2018.11.16.16.38.41
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=kFrk3ZvTxnuIJmqdWeNtTuoVcmDrFGU5o+QORm1j6zU=;
+        b=DJ66zrxxEuhuEJTor8X6vRxh0l6OBq+eVJbZXsl4BqUhRZhHGJy0Q1FtgGv2bsqZ/b
+         f//ylDWLxZGWsIvj1cNx0kUAibjwZFVOEtyWKXhFAopykM4HaVUFLZIALFRN4xhie1PV
+         WntTQrxKv6JSxXkO2nzgslyD1sabnciQfohgZDEF/Oy+JmZAn2ksWKTJ4iekjNrgePvN
+         gsmlTU+21F05O5MuOo7W3RUZzRXsn7DkZ8IpsA8RWmEAqNFCOuiBvpIEsZIkmlQlRcFQ
+         wGilUjmrkPbq/gQkXxY/JADlJ8DJO3LJwYrTp/j0nNZwdPbIafLQ5DWLzuuUeUXiFl4u
+         TnJA==
+X-Gm-Message-State: AGRZ1gJjD5gwx1zzC3LIO/dcEHY5giDBil7ZDUGjmVOIRuwC9WnXgbo/
+        zxHJJDKWBVWPTZYLdH9AerU=
+X-Google-Smtp-Source: AJdET5cyb5XPVOCc+yUpqDI3a0kgKTfWEhaH5W0oFafa3He4vRUEpGIsx+7Y39nJDSzxwl6Egc6/JQ==
+X-Received: by 2002:a17:902:e085:: with SMTP id cb5mr8786227plb.24.1542419499719;
+        Fri, 16 Nov 2018 17:51:39 -0800 (PST)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id c23-v6sm34674488pfn.95.2018.11.16.17.51.38
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 16 Nov 2018 16:38:41 -0800 (PST)
-From:   Roman Gushchin <guroan@gmail.com>
-X-Google-Original-From: Roman Gushchin <guro@fb.com>
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Oleg Nesterov <oleg@redhat.com>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-team@fb.com,
-        Roman Gushchin <guro@fb.com>, linux-doc@vger.kernel.org
-Subject: [PATCH v3 7/7] cgroup: document cgroup v2 freezer interface
-Date:   Fri, 16 Nov 2018 16:38:30 -0800
-Message-Id: <20181117003830.15344-8-guro@fb.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20181117003830.15344-1-guro@fb.com>
-References: <20181117003830.15344-1-guro@fb.com>
+        Fri, 16 Nov 2018 17:51:38 -0800 (PST)
+Date:   Fri, 16 Nov 2018 17:51:34 -0800
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     jdelvare@suse.com, linux-hwmon@vger.kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] hwmon (ina3221) Add single-shot mode support
+Message-ID: <20181117015131.GA10407@Asurada-Nvidia.nvidia.com>
+References: <20181113042353.1507-1-nicoleotsuka@gmail.com>
+ <20181113043248.GB11205@roeck-us.net>
+ <20181113045823.GB26327@Asurada-Nvidia.nvidia.com>
+ <20181113172102.GA21714@roeck-us.net>
+ <20181114001141.GA14925@Asurada-Nvidia.nvidia.com>
+ <20181114172330.GA25592@roeck-us.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181114172330.GA25592@roeck-us.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Describe cgroup v2 freezer interface in the cgroup v2 admin guide.
+Hello Guenter,
 
-Signed-off-by: Roman Gushchin <guro@fb.com>
-Cc: Tejun Heo <tj@kernel.org>
-Cc: linux-doc@vger.kernel.org
-Cc: kernel-team@fb.com
----
- Documentation/admin-guide/cgroup-v2.rst | 26 +++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+On Wed, Nov 14, 2018 at 09:23:30AM -0800, Guenter Roeck wrote:
+> > An alternative way (without the sysfs node), after looking at
+> > other hwmon code, could be to have a timed polling thread and
+> > read data using an update_interval value from ABI. This might
+> > turn out to be more complicated as it'll also involve settings
+> > of hardware averaging and conversion time. Above all, I cannot
+> > figure out a good threshold of update_interval to switch modes.
+> > 
+> update_interval should only be used if it can be configured
+> into hardware, not to trigger a polling thread. It should only
+> be used in the driver to determine caching intervals.
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 184193bcb262..a065c0bed88c 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -862,6 +862,8 @@ All cgroup core files are prefixed with "cgroup."
- 	  populated
- 		1 if the cgroup or its descendants contains any live
- 		processes; otherwise, 0.
-+	  frozen
-+		1 if the cgroup is frozen; otherwise, 0.
- 
-   cgroup.max.descendants
- 	A read-write single value files.  The default is "max".
-@@ -895,6 +897,30 @@ All cgroup core files are prefixed with "cgroup."
- 		A dying cgroup can consume system resources not exceeding
- 		limits, which were active at the moment of cgroup deletion.
- 
-+  cgroup.freeze
-+	A read-write single value file which exists on non-root cgroups.
-+	Allowed values are "0" and "1". The default is "0".
-+
-+	Writing "1" to the file causes freezing of the cgroup and all
-+	descendant cgroups. This means that all belonging processes will
-+	be stopped and will not run until the cgroup will be explicitly
-+	unfrozen. Freezing of the cgroup may take some time; when the process
-+	is complete, the "frozen" value in the cgroup.events control file
-+	will be updated and the corresponding notification will be issued.
-+
-+	Cgroup can be frozen either by its own settings, either by settings
-+	of any ancestor cgroups. If any of ancestor cgroups is frozen, the
-+	cgroup will remain frozen.
-+
-+	Processes in the frozen cgroup can be killed by a fatal signal.
-+	They also can enter and leave a frozen cgroup: either by an explicit
-+	move by a user, either if freezing of the cgroup races with fork().
-+	If a cgroup is moved to a frozen cgroup, it stops. If a process is
-+	moving out of a frozen cgroup, it becomes running.
-+
-+	Frozen status of a cgroup doesn't affect any cgroup tree operations:
-+	it's possible to delete a frozen (and empty) cgroup, as well as
-+	create new sub-cgroups.
- 
- Controllers
- ===========
--- 
-2.17.2
+I see..so it's more like the conversion time settings instead.
 
+> > If you can give some advice of a better implementation, that'd
+> > be great.
+> > 
+> From your description, the only real feasible solution would be a
+> generic one, with a well defined interface either to userspace or
+> to the kernel. The best I can think of would be an in-kernel API
+> setting the power operational mode via callbacks. Alternative would
+> be a generic ability to set power operational mode from userspace,
+> using an ABI which applies to all drivers, not just one.
+
+Hmm. That would make the situation really complicated, I could
+understand your concern though.
+
+I searched a little and found that, while the initial ina3221
+hwmon driver was under review, Laxman submitted an IIO version
+where Jonathan had a similar comments against its "mode" node:
+https://www.spinics.net/lists/linux-hwmon/msg00219.html
+
+Quote from his comments {
+ * There is a lot of ABI in here concerned with oneshot vs continuous.
+ This seems to me to be more than it should be. We wouldn't expect to
+ see stuff changing as a result of switching between these modes other
+ than wrt to when the data shows up.  So I'd expect to not see this
+ directly exposed at all - but rather sit in oneshot unless either:
+ 1) Buffered mode is running (not currently supported)
+ 2) Alerts are on - which I think requires it to be in continuous mode.
+}
+
+Since hwmon driver doesn't support buffered mode, what do you
+think about having the chip run in single-shot mode by default
+but changing it if alerts are on? Though the driver also needs
+to support to enable warning/critical alert pins.
+
+In short, other than exposing it via a generic ABI to the user
+space, how about defining some policy to maintaining it within
+the driver?
+
+Thanks
+Nicolin
