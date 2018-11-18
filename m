@@ -1,172 +1,149 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B62737D089
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 18 Nov 2018 11:04:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 033B67D089
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 18 Nov 2018 14:07:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726746AbeKRVYU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 18 Nov 2018 16:24:20 -0500
-Received: from mail2-relais-roc.national.inria.fr ([192.134.164.83]:38576 "EHLO
-        mail2-relais-roc.national.inria.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726077AbeKRVYU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Nov 2018 16:24:20 -0500
-X-IronPort-AV: E=Sophos;i="5.56,248,1539640800"; 
-   d="scan'208";a="356152582"
-Received: from abo-186-120-68.mrs.modulonet.fr (HELO hadrien) ([85.68.120.186])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Nov 2018 12:04:04 +0100
-Date:   Sun, 18 Nov 2018 12:04:04 +0100 (CET)
-From:   Julia Lawall <julia.lawall@lip6.fr>
-X-X-Sender: jll@hadrien
-To:     Fernando Ramos <greenfoo@gluegarage.com>
-cc:     dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Archit Taneja <architt@codeaurora.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Russell King <linux+etnaviv@armlinux.org.uk>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Julia Lawall <Julia.Lawall@lip6.fr>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        virtualization@lists.linux-foundation.org,
-        etnaviv@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        cocci@systeme.lip6.fr
-Subject: Re: [PATCH 8/9] drm: remove no longer needed drm-get-put coccinelle
- script
-In-Reply-To: <20181115221634.22715-9-greenfoo@gluegarage.com>
-Message-ID: <alpine.DEB.2.21.1811181203410.3530@hadrien>
-References: <20181115221634.22715-1-greenfoo@gluegarage.com> <20181115221634.22715-9-greenfoo@gluegarage.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1726643AbeKSA2I (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 18 Nov 2018 19:28:08 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:46136 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726596AbeKSA2H (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 18 Nov 2018 19:28:07 -0500
+X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1542550061;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=FCblXy1zfGJ9TMDbST/OhBpEJBWfMNzg0mu49obGrk4=;
+        b=C4EgATerKrET+s1qknL0Mdub0tZOk3iHdPLnfmQEBv+b8PGOk7GUlIoiZ1XAFECmCuCZ8O
+        oK15I5ZL7+Bj2reIsVcx4p0vMLAnJNKEeHXToff0ro6y5WuIAs3ahlXWy2p7Tp5b6MlmCA
+        pijAvPHrQvoNxE86H3B+lIxdogldxH4=
+Received: from mail.skyhub.de ([127.0.0.1])
+        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id s-IcNytAh2i0; Sun, 18 Nov 2018 15:07:41 +0100 (CET)
+Received: from zn.tnic (p200300EC2BE2B7004D130AD2F34E6DE4.dip0.t-ipconnect.de [IPv6:2003:ec:2be2:b700:4d13:ad2:f34e:6de4])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 564BC1EC00E8;
+        Sun, 18 Nov 2018 15:07:41 +0100 (CET)
+Date:   Sun, 18 Nov 2018 15:07:35 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Moger, Babu" <Babu.Moger@amd.com>
+Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
+        "pombredanne@nexb.com" <pombredanne@nexb.com>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
+        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Singh, Brijesh" <brijesh.singh@amd.com>,
+        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
+        "dwmw2@infradead.org" <dwmw2@infradead.org>,
+        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "rian@alum.mit.edu" <rian@alum.mit.edu>,
+        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v8 01/13] arch/resctrl: Start renaming the rdt files to
+ more generic names
+Message-ID: <20181118140735.GC19380@zn.tnic>
+References: <20181116205407.10457-1-babu.moger@amd.com>
+ <20181116205407.10457-2-babu.moger@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20181116205407.10457-2-babu.moger@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Just to state it here on the thread: prefix should be "x86/resctrl" as
+we said earlier. But that will be addressed in the next iteration, as we
+agreed offlist.
 
-
-On Thu, 15 Nov 2018, Fernando Ramos wrote:
-
-> The coccinelle script was used to rename some (deprecated) functions
-> which no longer exist now.
->
-> Signed-off-by: Fernando Ramos <greenfoo@gluegarage.com>
-
-Acked-by: Julia Lawall <julia.lawall@lip6.fr>
-
-
+On Fri, Nov 16, 2018 at 08:54:22PM +0000, Moger, Babu wrote:
+> New generation of AMD processors start supporting RDT(or QOS) features.
+> With more than one vendors supporting these features, it seems more
+> appropriate to rename these files.
+> 
+> Changed intel_rdt to resctrl where applicable.
+> 
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> Reviewed-by: Borislav Petkov <bp@suse.de>
 > ---
->  scripts/coccinelle/api/drm-get-put.cocci | 78 ------------------------
->  1 file changed, 78 deletions(-)
->  delete mode 100644 scripts/coccinelle/api/drm-get-put.cocci
->
-> diff --git a/scripts/coccinelle/api/drm-get-put.cocci b/scripts/coccinelle/api/drm-get-put.cocci
-> deleted file mode 100644
-> index 3a09c97ad87d..000000000000
-> --- a/scripts/coccinelle/api/drm-get-put.cocci
-> +++ /dev/null
-> @@ -1,78 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0
-> -///
-> -/// Use drm_*_get() and drm_*_put() helpers instead of drm_*_reference() and
-> -/// drm_*_unreference() helpers.
-> -///
-> -// Confidence: High
-> -// Copyright: (C) 2017 NVIDIA Corporation
-> -// Options: --no-includes --include-headers
-> -//
-> -
-> -virtual patch
-> -virtual report
-> -
-> -@depends on patch@
-> -expression object;
-> -@@
-> -
-> -(
-> -- drm_connector_reference(object)
-> -+ drm_connector_get(object)
-> -|
-> -- drm_connector_unreference(object)
-> -+ drm_connector_put(object)
-> -|
-> -- drm_framebuffer_reference(object)
-> -+ drm_framebuffer_get(object)
-> -|
-> -- drm_framebuffer_unreference(object)
-> -+ drm_framebuffer_put(object)
-> -|
-> -- drm_gem_object_reference(object)
-> -+ drm_gem_object_get(object)
-> -|
-> -- drm_gem_object_unreference(object)
-> -+ drm_gem_object_put(object)
-> -|
-> -- __drm_gem_object_unreference(object)
-> -+ __drm_gem_object_put(object)
-> -|
-> -- drm_gem_object_unreference_unlocked(object)
-> -+ drm_gem_object_put_unlocked(object)
-> -|
-> -- drm_dev_unref(object)
-> -+ drm_dev_put(object)
-> -)
-> -
-> -@r depends on report@
-> -expression object;
-> -position p;
-> -@@
-> -
-> -(
-> -drm_connector_unreference@p(object)
-> -|
-> -drm_connector_reference@p(object)
-> -|
-> -drm_framebuffer_unreference@p(object)
-> -|
-> -drm_framebuffer_reference@p(object)
-> -|
-> -drm_gem_object_unreference@p(object)
-> -|
-> -drm_gem_object_reference@p(object)
-> -|
-> -__drm_gem_object_unreference(object)
-> -|
-> -drm_gem_object_unreference_unlocked(object)
-> -|
-> -drm_dev_unref@p(object)
-> -)
-> -
-> -@script:python depends on report@
-> -object << r.object;
-> -p << r.p;
-> -@@
-> -
-> -msg="WARNING: use get/put helpers to reference and dereference %s" % (object)
-> -coccilib.report.print_report(p[0], msg)
-> --
-> 2.19.1
->
->
+>  arch/x86/include/asm/{intel_rdt_sched.h => resctrl_sched.h} | 0
+>  arch/x86/kernel/cpu/Makefile                                | 6 +++---
+>  arch/x86/kernel/cpu/{intel_rdt.c => resctrl.c}              | 4 ++--
+>  arch/x86/kernel/cpu/{intel_rdt.h => resctrl.h}              | 6 +++---
+>  .../cpu/{intel_rdt_ctrlmondata.c => resctrl_ctrlmondata.c}  | 2 +-
+>  .../kernel/cpu/{intel_rdt_monitor.c => resctrl_monitor.c}   | 2 +-
+>  .../cpu/{intel_rdt_pseudo_lock.c => resctrl_pseudo_lock.c}  | 6 +++---
+>  ..._rdt_pseudo_lock_event.h => resctrl_pseudo_lock_event.h} | 2 +-
+>  .../kernel/cpu/{intel_rdt_rdtgroup.c => resctrl_rdtgroup.c} | 4 ++--
+>  arch/x86/kernel/process_32.c                                | 2 +-
+>  arch/x86/kernel/process_64.c                                | 2 +-
+>  11 files changed, 18 insertions(+), 18 deletions(-)
+>  rename arch/x86/include/asm/{intel_rdt_sched.h => resctrl_sched.h} (100%)
+>  rename arch/x86/kernel/cpu/{intel_rdt.c => resctrl.c} (99%)
+>  rename arch/x86/kernel/cpu/{intel_rdt.h => resctrl.h} (99%)
+>  rename arch/x86/kernel/cpu/{intel_rdt_ctrlmondata.c => resctrl_ctrlmondata.c} (99%)
+>  rename arch/x86/kernel/cpu/{intel_rdt_monitor.c => resctrl_monitor.c} (99%)
+>  rename arch/x86/kernel/cpu/{intel_rdt_pseudo_lock.c => resctrl_pseudo_lock.c} (99%)
+>  rename arch/x86/kernel/cpu/{intel_rdt_pseudo_lock_event.h => resctrl_pseudo_lock_event.h} (95%)
+>  rename arch/x86/kernel/cpu/{intel_rdt_rdtgroup.c => resctrl_rdtgroup.c} (99%)
+
+Ok, looking at this more, it looks like this:
+
+ls -l arch/x86/kernel/cpu/resctrl*
+ arch/x86/kernel/cpu/resctrl.c
+ arch/x86/kernel/cpu/resctrl_ctrlmondata.c
+ arch/x86/kernel/cpu/resctrl.h
+ arch/x86/kernel/cpu/resctrl_monitor.c
+ arch/x86/kernel/cpu/resctrl_pseudo_lock.c
+ arch/x86/kernel/cpu/resctrl_pseudo_lock_event.h
+ arch/x86/kernel/cpu/resctrl_rdtgroup.c
+
+Now, it looks to me like the whole resctrl thing begs for its own dir:
+
+ arch/x86/kernel/cpu/resctrl/core.c
+ arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+ arch/x86/kernel/cpu/resctrl/internal.h
+ arch/x86/kernel/cpu/resctrl/monitor.c
+ arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+ arch/x86/kernel/cpu/resctrl/pseudo_lock_event.h
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c
+
+This way, the whole RDT machinery will be confined to its own directory.
+
+Hmm.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
