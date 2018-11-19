@@ -3,51 +3,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B7A147E95C
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 18:31:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 18C857E95F
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 18:31:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404247AbeKTDvn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 22:51:43 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:45967 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404516AbeKTDvn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 22:51:43 -0500
-Received: by mail-wr1-f66.google.com with SMTP id v6so11089619wrr.12
-        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 09:27:18 -0800 (PST)
+        id S2404170AbeKTDvw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 22:51:52 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:51737 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404804AbeKTDvv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 22:51:51 -0500
+Received: by mail-wm1-f68.google.com with SMTP id w7-v6so6149016wmc.1
+        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 09:27:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=h+5rV8i8oHAlZCp9BrjdSXzDHw5vrl+aIvlpSNxpC04=;
-        b=sv45BNyFXG98rVEUXSuOI+lgHZgjUg5xwoOUc83v5acd0OsW6+U+9c6hkGjllywz+Z
-         +mYa8Pp6dMD6Dj3z132SayAzcPiFUezDhHFiQ6b9GZ1+HbO+gPvk7eJdLli6M6Pm7aDp
-         yvTkTWg4GyPVv5+cToj21xhgO7l/fld8I0Po+a35SVrHXei9pZ/00mwpxSiNVxot6cr4
-         FbpSvNbS+Z8JySxL4rI2xopNeM8Kdax53vP1n8fNMR9QF+k5d/onDhRA6WKqOK7/U9+n
-         FjPjGg+UKfsu7LexwgYtUDMbONwR2COyPbx03Ej7NiqCb4FbRj7Zs9j1nefbnhf2ePV2
-         qQ6g==
+        bh=EyBpjtdRieSeOMALerP208swINOjBw8fKlaLIeFHrqw=;
+        b=XIyQ7LkUD5KAD5LNVibegZo2YQL6sjY4shf+8EvtMS6lfNAIXlipRsrY9SlZEP7tD8
+         B5CRBSh/M3mEjQrRCV/ecd+9q4uglviLpKl/jQ0nz3N45zcqgiXrJG/PA/uAFzg8cPxN
+         ZYrVcJ48b3UetIZqZ8rVQIQLIKBJk6ESdkoMs4NEBLtfVOB56wxkbDJBaySqw3JL8XNK
+         xHsv7FoerSQTBV277w91lFXqeBB6vczxEDIlx2tGUMbQRzpBiq3hwY2CNya3WFAfzqeC
+         HBL9OedMuAPzzcdHA2a0nv4EsScPU6M6n7KIYif+hal1VdNgGMers+rOlJaJDx7od8bA
+         IMcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=h+5rV8i8oHAlZCp9BrjdSXzDHw5vrl+aIvlpSNxpC04=;
-        b=bxbv4aMdSXhtCgQANOn3SBL+afSsiswFttyJLPN0eEBRsp2/5EGMk+s3BD/myKdD3U
-         oTJkhZIupz3Qq8QBae5R8jETyU5+MXomxzeu165jRvnfGFs3bzkWegc1cZwNUpPVLA3o
-         s+rKuTLBcFMAYY/+bpS/KP/WRWLBSJSNObJSbtrIDbhWnERlBdRl9myYrC3fCplDE+av
-         cABTybIsZ13SSKjaJ95cr+qK7nYBj6GgbsQ8f8qwkJUhYu1t6Bhb1kYk3UjhHxC5DXd+
-         g+GoUm3g3GZLaxRRwITNDPaoRAdNn6BNn8QSRz5lftUdlTfZ4qTkpmkeQVEYSnlzkj3z
-         8Sbw==
-X-Gm-Message-State: AA+aEWaS/Qfv0DyvQFL//mezuGFxfnvJwMLkjxq0ebExbh0KKhBv9AQk
-        qlxL15xkEpVdXo5Cyz0DUpCykA==
-X-Google-Smtp-Source: AFSGD/UOnJKpBQZNcwhfKdJD/c2SfY50D4CePkI6Yh7W+ALQWMH0I5DjVzv2hGxFtShtidsjDNfgcg==
-X-Received: by 2002:adf:891a:: with SMTP id s26mr944808wrs.44.1542648437776;
-        Mon, 19 Nov 2018 09:27:17 -0800 (PST)
+        bh=EyBpjtdRieSeOMALerP208swINOjBw8fKlaLIeFHrqw=;
+        b=JELAimzym73u+suXl4pwU0KLvKiypZOjYFYDgbXetgnvmOghET6K9wpRWoWwS1yW9y
+         MSzm+YqxZg+DlP/dWosHkPBEA6OQllmFmg7NPLWC/XUxVtgHvVMjn79e4Yeolai7rzVZ
+         iJX6o6hlN8b8Y2YzdLv7H3bwQ7UDI3uc79VkSgMrQdCv8T3AhAT4uYyTo6ai+7OfzmVq
+         BMTkMfjlhS+Aem2+UvNcjb+LLtcRx+aUBQPY9Kw7dZq1m6j4Z1BC1wCZCA9Pmcxbi5vx
+         H66P+ataEnLuwCqRIpfrCg8INv2nLpYO3U/2jT8YmdHeP88jeGZ3h4v/rzRERFe7Lp9c
+         v/Uw==
+X-Gm-Message-State: AGRZ1gKGeZvSDCd1DQG0kNq/JtRtDHj8xnP0+gKhb+ig8HtcAtB70nAv
+        EobodizrytGtXHwLILW7NDhCxw==
+X-Google-Smtp-Source: AJdET5em08xCL54dcPzAIIByw4HLT4EUANvkk0hgkMmdTHmVtMZ3YohRtB8Wp4xwH3qn/bCiwV77Tw==
+X-Received: by 2002:a1c:4a:: with SMTP id 71-v6mr7564782wma.140.1542648444928;
+        Mon, 19 Nov 2018 09:27:24 -0800 (PST)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:3180:41f8:3010:ff61])
-        by smtp.gmail.com with ESMTPSA id l143-v6sm23685190wmb.23.2018.11.19.09.27.16
+        by smtp.gmail.com with ESMTPSA id l143-v6sm23685190wmb.23.2018.11.19.09.27.23
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 19 Nov 2018 09:27:16 -0800 (PST)
+        Mon, 19 Nov 2018 09:27:24 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -85,9 +85,9 @@ Cc:     Kostya Serebryany <kcc@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Vishwath Mohan <vishwath@google.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v11 14/24] kasan, arm64: enable top byte ignore for the kernel
-Date:   Mon, 19 Nov 2018 18:26:30 +0100
-Message-Id: <7194a50384cb755e389ccecda66942e15b7b76ad.1542648335.git.andreyknvl@google.com>
+Subject: [PATCH v11 18/24] mm: move obj_to_index to include/linux/slab_def.h
+Date:   Mon, 19 Nov 2018 18:26:34 +0100
+Message-Id: <10ca1e57fe2d5dc835e88fb9dc9ab6855ae618dc.1542648335.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.19.1.1215.g8438c0b245-goog
 In-Reply-To: <cover.1542648335.git.andreyknvl@google.com>
 References: <cover.1542648335.git.andreyknvl@google.com>
@@ -98,57 +98,76 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tag-based KASAN uses the Top Byte Ignore feature of arm64 CPUs to store a
-pointer tag in the top byte of each pointer. This commit enables the
-TCR_TBI1 bit, which enables Top Byte Ignore for the kernel, when tag-based
-KASAN is used.
+While with SLUB we can actually preassign tags for caches with contructors
+and store them in pointers in the freelist, SLAB doesn't allow that since
+the freelist is stored as an array of indexes, so there are no pointers to
+store the tags.
 
+Instead we compute the tag twice, once when a slab is created before
+calling the constructor and then again each time when an object is
+allocated with kmalloc. Tag is computed simply by taking the lowest byte of
+the index that corresponds to the object. However in kasan_kmalloc we only
+have access to the objects pointer, so we need a way to find out which
+index this object corresponds to.
+
+This patch moves obj_to_index from slab.c to include/linux/slab_def.h to
+be reused by KASAN.
+
+Acked-by: Christoph Lameter <cl@linux.com>
 Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
 Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- arch/arm64/include/asm/pgtable-hwdef.h | 1 +
- arch/arm64/mm/proc.S                   | 8 +++++++-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ include/linux/slab_def.h | 13 +++++++++++++
+ mm/slab.c                | 13 -------------
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/arch/arm64/include/asm/pgtable-hwdef.h b/arch/arm64/include/asm/pgtable-hwdef.h
-index 1d7d8da2ef9b..d43b870c39b3 100644
---- a/arch/arm64/include/asm/pgtable-hwdef.h
-+++ b/arch/arm64/include/asm/pgtable-hwdef.h
-@@ -291,6 +291,7 @@
- #define TCR_A1			(UL(1) << 22)
- #define TCR_ASID16		(UL(1) << 36)
- #define TCR_TBI0		(UL(1) << 37)
-+#define TCR_TBI1		(UL(1) << 38)
- #define TCR_HA			(UL(1) << 39)
- #define TCR_HD			(UL(1) << 40)
- #define TCR_NFD1		(UL(1) << 54)
-diff --git a/arch/arm64/mm/proc.S b/arch/arm64/mm/proc.S
-index 2c75b0b903ae..d861f208eeb1 100644
---- a/arch/arm64/mm/proc.S
-+++ b/arch/arm64/mm/proc.S
-@@ -47,6 +47,12 @@
- /* PTWs cacheable, inner/outer WBWA */
- #define TCR_CACHE_FLAGS	TCR_IRGN_WBWA | TCR_ORGN_WBWA
+diff --git a/include/linux/slab_def.h b/include/linux/slab_def.h
+index 3485c58cfd1c..9a5eafb7145b 100644
+--- a/include/linux/slab_def.h
++++ b/include/linux/slab_def.h
+@@ -104,4 +104,17 @@ static inline void *nearest_obj(struct kmem_cache *cache, struct page *page,
+ 		return object;
+ }
  
-+#ifdef CONFIG_KASAN_SW_TAGS
-+#define TCR_KASAN_FLAGS TCR_TBI1
-+#else
-+#define TCR_KASAN_FLAGS 0
-+#endif
++/*
++ * We want to avoid an expensive divide : (offset / cache->size)
++ *   Using the fact that size is a constant for a particular cache,
++ *   we can replace (offset / cache->size) by
++ *   reciprocal_divide(offset, cache->reciprocal_buffer_size)
++ */
++static inline unsigned int obj_to_index(const struct kmem_cache *cache,
++					const struct page *page, void *obj)
++{
++	u32 offset = (obj - page->s_mem);
++	return reciprocal_divide(offset, cache->reciprocal_buffer_size);
++}
 +
- #define MAIR(attr, mt)	((attr) << ((mt) * 8))
+ #endif	/* _LINUX_SLAB_DEF_H */
+diff --git a/mm/slab.c b/mm/slab.c
+index 27859fb39889..d2f827316dfc 100644
+--- a/mm/slab.c
++++ b/mm/slab.c
+@@ -406,19 +406,6 @@ static inline void *index_to_obj(struct kmem_cache *cache, struct page *page,
+ 	return page->s_mem + cache->size * idx;
+ }
  
- /*
-@@ -445,7 +451,7 @@ ENTRY(__cpu_setup)
- 	 */
- 	ldr	x10, =TCR_TxSZ(VA_BITS) | TCR_CACHE_FLAGS | TCR_SMP_FLAGS | \
- 			TCR_TG_FLAGS | TCR_KASLR_FLAGS | TCR_ASID16 | \
--			TCR_TBI0 | TCR_A1
-+			TCR_TBI0 | TCR_A1 | TCR_KASAN_FLAGS
- 	tcr_set_idmap_t0sz	x10, x9
- 
- 	/*
+-/*
+- * We want to avoid an expensive divide : (offset / cache->size)
+- *   Using the fact that size is a constant for a particular cache,
+- *   we can replace (offset / cache->size) by
+- *   reciprocal_divide(offset, cache->reciprocal_buffer_size)
+- */
+-static inline unsigned int obj_to_index(const struct kmem_cache *cache,
+-					const struct page *page, void *obj)
+-{
+-	u32 offset = (obj - page->s_mem);
+-	return reciprocal_divide(offset, cache->reciprocal_buffer_size);
+-}
+-
+ #define BOOT_CPUCACHE_ENTRIES	1
+ /* internal cache of cache description objs */
+ static struct kmem_cache kmem_cache_boot = {
 -- 
 2.19.1.1215.g8438c0b245-goog
 
