@@ -1,37 +1,36 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 024D67D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 20:22:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1FCC87D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 20:26:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730751AbeKTGrc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 01:47:32 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:38132 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728938AbeKTGrc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 01:47:32 -0500
-Received: from zn.tnic (p200300EC2BE2B700F95221CD056129B8.dip0.t-ipconnect.de [IPv6:2003:ec:2be2:b700:f952:21cd:561:29b8])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 390591EC084D;
-        Mon, 19 Nov 2018 21:22:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1542658934;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=4MqzI3FI4U69SGOzwTifB1i6/4kbnVwHK5DkvrCba4o=;
-        b=I1oVR1gngnzX4hZ+hXjAMg57a2p5lbN99jjDQxJlyaBDaiEqhe6ZW6rg8v5ZgCme8yooNi
-        m3d+ZEJnZTFDE3bolevXftEUNHOqBLvT0HEhi+1NhQn/oY3+0k6mEVDIdG7o0Wjbi89Gfo
-        P8D2h2jsyS+/+twj/P4iMBwdKziphUc=
-Date:   Mon, 19 Nov 2018 21:22:07 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Moger, Babu" <Babu.Moger@amd.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        id S1730740AbeKTGv3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 01:51:29 -0500
+Received: from mail-eopbgr810051.outbound.protection.outlook.com ([40.107.81.51]:64761
+        "EHLO NAM01-BY2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728938AbeKTGv3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Nov 2018 01:51:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pn2N8Vtzm9lYvAF/6PWh7AoXNMTIyeo9B4PgbMynxuM=;
+ b=BDja72tkxT8asUWgg3QHn+s5vgtWe0kDrQkzGUU0qsItfin+G8n8fPx/1f2fsIQeLplqZsYxWErlFzVUJd4Da15ty8DFWGZcR5sg8EbezHhyv5lalB2aIIu6HQ3myPu/FIEDHaLsy4VVkop94strzT/c5mimOC3r1I/X1hK848Y=
+Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
+ DM5PR12MB1147.namprd12.prod.outlook.com (10.168.236.142) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1339.26; Mon, 19 Nov 2018 20:26:07 +0000
+Received: from DM5PR12MB2471.namprd12.prod.outlook.com
+ ([fe80::7def:eb99:298c:2952]) by DM5PR12MB2471.namprd12.prod.outlook.com
+ ([fe80::7def:eb99:298c:2952%2]) with mapi id 15.20.1339.027; Mon, 19 Nov 2018
+ 20:26:07 +0000
+From:   "Moger, Babu" <Babu.Moger@amd.com>
+To:     Borislav Petkov <bp@alien8.de>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
         "mingo@redhat.com" <mingo@redhat.com>,
         "corbet@lwn.net" <corbet@lwn.net>,
         "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
@@ -65,40 +64,70 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
 Subject: Re: [PATCH v8 01/13] arch/resctrl: Start renaming the rdt files to
  more generic names
-Message-ID: <20181119202207.GK14688@zn.tnic>
+Thread-Topic: [PATCH v8 01/13] arch/resctrl: Start renaming the rdt files to
+ more generic names
+Thread-Index: AQHUfe6NWz4xLUMToUORxfHJiImFOaVVlD6AgAHnz4D//6uigIAAZ4mAgAABGgA=
+Date:   Mon, 19 Nov 2018 20:26:07 +0000
+Message-ID: <ab30c05b-aa6f-1528-42da-bdcab7e068c5@amd.com>
 References: <20181116205407.10457-1-babu.moger@amd.com>
- <20181116205407.10457-2-babu.moger@amd.com>
- <20181118140735.GC19380@zn.tnic>
+ <20181116205407.10457-2-babu.moger@amd.com> <20181118140735.GC19380@zn.tnic>
  <alpine.DEB.2.21.1811192012460.1669@nanos.tec.linutronix.de>
  <61f6e553-a72f-bfae-0887-44f066006118@amd.com>
+ <20181119202207.GK14688@zn.tnic>
+In-Reply-To: <20181119202207.GK14688@zn.tnic>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: SN1PR12CA0077.namprd12.prod.outlook.com
+ (2603:10b6:802:20::48) To DM5PR12MB2471.namprd12.prod.outlook.com
+ (2603:10b6:4:b5::10)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Babu.Moger@amd.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [165.204.78.1]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;DM5PR12MB1147;20:ZgFGuEedvD0b+oqBdLTGrLpm1xqoU2bvuJEACN6pc+TliKMWMjrH3spU+LlRL64AbQJI/8nT5wWJmR10HeDPB6SxOouuCNhDYAxdXtxcNOckmW4oKMZf41LpvW7x25GBF7liTan647CX/DunhGhiT+wyn88Iz9t6HyaPe9XJbwjrxKHdO3BXzME2D33jLm4rtiTJkCzwo1uh82qYhc0x69kfYw0AlbzbVQhcLS5B6QeWcN3w7E+j9YzV9H5vMSAr
+x-ms-office365-filtering-correlation-id: f602da07-0ce4-488b-7d7f-08d64e5d3c40
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390098)(7020095)(4652040)(8989299)(5600074)(711020)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:DM5PR12MB1147;
+x-ms-traffictypediagnostic: DM5PR12MB1147:
+x-microsoft-antispam-prvs: <DM5PR12MB1147EF6D0173A28307E3B0DD95D80@DM5PR12MB1147.namprd12.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(93006095)(93001095)(3002001)(10201501046)(3231436)(944501410)(52105112)(6055026)(148016)(149066)(150057)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(20161123558120)(20161123564045)(20161123560045)(201708071742011)(7699051)(76991095);SRVR:DM5PR12MB1147;BCL:0;PCL:0;RULEID:;SRVR:DM5PR12MB1147;
+x-forefront-prvs: 08617F610C
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(136003)(346002)(396003)(366004)(39860400002)(199004)(189003)(51444003)(4326008)(81156014)(53546011)(36756003)(25786009)(6506007)(386003)(97736004)(102836004)(5660300001)(93886005)(68736007)(6246003)(71200400001)(6512007)(256004)(2900100001)(26005)(186003)(71190400001)(8936002)(8676002)(76176011)(99286004)(81166006)(14454004)(53936002)(52116002)(31696002)(105586002)(86362001)(2616005)(486006)(476003)(106356001)(2906002)(11346002)(54906003)(316002)(229853002)(3846002)(6436002)(6116002)(7416002)(7406005)(72206003)(478600001)(305945005)(6486002)(7736002)(31686004)(66066001)(6916009)(446003)(41533002);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1147;H:DM5PR12MB2471.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: LGeCDe3xaHhuXCxxwn/sLEBchMPM/2UfxMFEle0dw+YVYVOewh53vvSxNfo5n9H+roYCA+zJfWSW+9+76jLDAezgmNYIzKpO97soygstlxA6/fQOVGRfiKuF/2brjyVj+VJsxbtAVWZqvT2de7CYBusylHdeC3jJTPjDeC7Qhj3Mc8drz8yCZ3ux22uRK3kSfNuhC+npOLb2sKYI9HgLxGO94DP4Tlfo6I/LpBh1NSm3V9nFQQA09L+KpJ5zuyKDXsAEoRXAScPAYylOZXhKyW2ijQZeKa4kwxY4EbrPsCj4pxTsbOhih3W9sz1UzIvy7HVnqbf2fA26koRoXPMjrmYEAMI2E4IcQN6qZog/b6s=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C038DE95C064AD47AF28E77951921B21@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <61f6e553-a72f-bfae-0887-44f066006118@amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f602da07-0ce4-488b-7d7f-08d64e5d3c40
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Nov 2018 20:26:07.2725
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1147
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 19, 2018 at 08:11:36PM +0000, Moger, Babu wrote:
-> Changed core.c and internel.h to res.c and res.h respectively. Both of
-> these files are about resource definitions and initialization.
-
-I guess but the core.c thing we do a lot in the kernel:
-
-$ git ls-files | grep -E "/core\.c" | wc -l
-100
-
-which denotes where the core functionality is located. res.c
-doesn't tell me that. res.h doesn't tell me either that it is an
-resctrl-internal header...
-
-IOW, calling it core.c and internal.h gives you an additional
-information what those files contain. And I think that's useful.
-
--- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
+DQoNCk9uIDExLzE5LzE4IDI6MjIgUE0sIEJvcmlzbGF2IFBldGtvdiB3cm90ZToNCj4gT24gTW9u
+LCBOb3YgMTksIDIwMTggYXQgMDg6MTE6MzZQTSArMDAwMCwgTW9nZXIsIEJhYnUgd3JvdGU6DQo+
+PiBDaGFuZ2VkIGNvcmUuYyBhbmQgaW50ZXJuZWwuaCB0byByZXMuYyBhbmQgcmVzLmggcmVzcGVj
+dGl2ZWx5LiBCb3RoIG9mDQo+PiB0aGVzZSBmaWxlcyBhcmUgYWJvdXQgcmVzb3VyY2UgZGVmaW5p
+dGlvbnMgYW5kIGluaXRpYWxpemF0aW9uLg0KPiANCj4gSSBndWVzcyBidXQgdGhlIGNvcmUuYyB0
+aGluZyB3ZSBkbyBhIGxvdCBpbiB0aGUga2VybmVsOg0KPiANCj4gJCBnaXQgbHMtZmlsZXMgfCBn
+cmVwIC1FICIvY29yZVwuYyIgfCB3YyAtbA0KPiAxMDANCj4gDQo+IHdoaWNoIGRlbm90ZXMgd2hl
+cmUgdGhlIGNvcmUgZnVuY3Rpb25hbGl0eSBpcyBsb2NhdGVkLiByZXMuYw0KPiBkb2Vzbid0IHRl
+bGwgbWUgdGhhdC4gcmVzLmggZG9lc24ndCB0ZWxsIG1lIGVpdGhlciB0aGF0IGl0IGlzIGFuDQo+
+IHJlc2N0cmwtaW50ZXJuYWwgaGVhZGVyLi4uDQo+IA0KPiBJT1csIGNhbGxpbmcgaXQgY29yZS5j
+IGFuZCBpbnRlcm5hbC5oIGdpdmVzIHlvdSBhbiBhZGRpdGlvbmFsDQo+IGluZm9ybWF0aW9uIHdo
+YXQgdGhvc2UgZmlsZXMgY29udGFpbi4gQW5kIEkgdGhpbmsgdGhhdCdzIHVzZWZ1bC4NCg0KT2su
+IEZpbmUuIFdpbGwga2VlcCBpdCBhcyBjb3JlLmMgYW5kIGludGVybmVsLmguDQo=
