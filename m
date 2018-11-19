@@ -1,144 +1,114 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B2FDA7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 16:06:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CA4A97D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 16:24:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729902AbeKTCac (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 21:30:32 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:45586 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729796AbeKTCac (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Nov 2018 21:30:32 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 3713E308FC4E;
-        Mon, 19 Nov 2018 16:06:30 +0000 (UTC)
-Received: from [10.36.118.127] (unknown [10.36.118.127])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B6E916047F;
-        Mon, 19 Nov 2018 16:06:13 +0000 (UTC)
-Subject: Re: [PATCH v1 2/8] mm: convert PG_balloon to PG_offline
-To:     linux-mm@kvack.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        devel@linuxdriverproject.org, linux-fsdevel@vger.kernel.org,
-        linux-pm@vger.kernel.org, xen-devel@lists.xenproject.org,
-        kexec-ml <kexec@lists.infradead.org>, pv-drivers@vmware.com,
+        id S1729937AbeKTCsM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 21:48:12 -0500
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:38854 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729922AbeKTCsJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 21:48:09 -0500
+Received: by mail-vs1-f65.google.com with SMTP id x64so18104928vsa.5
+        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 08:24:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+         :cc;
+        bh=b/dNaTvz6Bhl24QHJ1GX7PHoKH/Ynzj09/enaeXKn6k=;
+        b=L6mQaLBx1jcDiwBhZpdROTnuyCRBdcapfT7uRtrNPM99BCVmZlEH+5YGsDBrT079HI
+         bA15jwju7thTg33v0zQusbxauwrGKIlbqfvAZ/Pgujx2RhN65agYakrPWUl33eX5w7E7
+         CypPXjaEtWtUTJ4I8QQGi50rvp+EOoBuUquBhcg51U0C+c8Yr4+ls0FgV7H3PbtFU0l7
+         cWSSHrhn9h5ZIYVwskRfET1FeFKF3EbqCLTJ3YYDT+bvdyOvHMRXUx7TfcSeBZJqR8M6
+         9s67GrBsr0FUz9aA7Kr6/NFZcCVAYnUrHrG+sypCZoTXQF9e8l+LUfVvW8wVK9cv1glG
+         RPeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc;
+        bh=b/dNaTvz6Bhl24QHJ1GX7PHoKH/Ynzj09/enaeXKn6k=;
+        b=CDubdkrDwipomgq9X0H2wvMNDozq7BOi/wYEocnwFl9vSgPl2LgOb1kUWL6wbkoWKA
+         aXSjKtn1Y8ZCQNXPgU0+js79auQ+jN5vjciGy+UXC/GXFU85KhSF7M8JFaB+wmvbSzjM
+         yNLu6JjNwWHzc5S0W7eETHMjCjSfc54bbKXqXsn8HWko/wkcXK1Y+AsGX2nfmYZHc2dj
+         +s1aPVNvrjWqFrHpH6KhOaKVFPiqlFNBcgR4dGnbq5eyCeIHOfzWfdpgfAwtYmwpZ96J
+         xv6XVEuM3BbHAYewUc0pdA/VtFgQNDvgx0hIy/S+9bah0wvT5laptm2DFIMe+ZxzRizh
+         KxJw==
+X-Gm-Message-State: AGRZ1gKmEYErl1Ms/jrz6990YmjUHxYmSBRB6gMNxkZWUiVfaFC83lGs
+        Ds0aZG9FwRgVJ6Qr065ymQGs490JAvEgrKGYHg+TIg==
+X-Google-Smtp-Source: AJdET5fuwC9FemPQeEUsmu4GvOG/IMwUzq8xLVs/+keTmXetuxjRRdTqKDFUiH4dn895owhJUx2eL5CF4E5+kC98GnA=
+X-Received: by 2002:a67:6346:: with SMTP id x67mr9209047vsb.114.1542644643395;
+ Mon, 19 Nov 2018 08:24:03 -0800 (PST)
+MIME-Version: 1.0
+Received: by 2002:a67:f48d:0:0:0:0:0 with HTTP; Mon, 19 Nov 2018 08:24:02
+ -0800 (PST)
+In-Reply-To: <20181119105426.GD28607@amd>
+References: <20181031150625.147369-1-dancol@google.com> <20181105132205.138695-1-dancol@google.com>
+ <20181119105426.GD28607@amd>
+From:   Daniel Colascione <dancol@google.com>
+Date:   Mon, 19 Nov 2018 08:24:02 -0800
+Message-ID: <CAKOZueu3RQF4hOSg-0LCNVzJsJ=D_yfXg_uun2tqXW8aSkKykw@mail.gmail.com>
+Subject: Re: [PATCH v2] Document /proc/pid PID reuse behavior
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Tim Murray <timmurray@google.com>,
+        Joel Fernandes <joelaf@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Christian Hansen <chansen3@cisco.com>,
+        Roman Gushchin <guro@fb.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
         Vlastimil Babka <vbabka@suse.cz>,
         "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Pavel Tatashin <pasha.tatashin@oracle.com>,
-        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
-        Miles Chen <miles.chen@mediatek.com>,
-        David Rientjes <rientjes@google.com>,
-        Konstantin Khlebnikov <koct9i@gmail.com>,
-        Kazuhito Hagio <k-hagio@ab.jp.nec.com>
-References: <20181119101616.8901-1-david@redhat.com>
- <20181119101616.8901-3-david@redhat.com>
-From:   David Hildenbrand <david@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwX4EEwECACgFAljj9eoCGwMFCQlmAYAGCwkI
- BwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEE3eEPcA/4Na5IIP/3T/FIQMxIfNzZshIq687qgG
- 8UbspuE/YSUDdv7r5szYTK6KPTlqN8NAcSfheywbuYD9A4ZeSBWD3/NAVUdrCaRP2IvFyELj
- xoMvfJccbq45BxzgEspg/bVahNbyuBpLBVjVWwRtFCUEXkyazksSv8pdTMAs9IucChvFmmq3
- jJ2vlaz9lYt/lxN246fIVceckPMiUveimngvXZw21VOAhfQ+/sofXF8JCFv2mFcBDoa7eYob
- s0FLpmqFaeNRHAlzMWgSsP80qx5nWWEvRLdKWi533N2vC/EyunN3HcBwVrXH4hxRBMco3jvM
- m8VKLKao9wKj82qSivUnkPIwsAGNPdFoPbgghCQiBjBe6A75Z2xHFrzo7t1jg7nQfIyNC7ez
- MZBJ59sqA9EDMEJPlLNIeJmqslXPjmMFnE7Mby/+335WJYDulsRybN+W5rLT5aMvhC6x6POK
- z55fMNKrMASCzBJum2Fwjf/VnuGRYkhKCqqZ8gJ3OvmR50tInDV2jZ1DQgc3i550T5JDpToh
- dPBxZocIhzg+MBSRDXcJmHOx/7nQm3iQ6iLuwmXsRC6f5FbFefk9EjuTKcLMvBsEx+2DEx0E
- UnmJ4hVg7u1PQ+2Oy+Lh/opK/BDiqlQ8Pz2jiXv5xkECvr/3Sv59hlOCZMOaiLTTjtOIU7Tq
- 7ut6OL64oAq+zsFNBFXLn5EBEADn1959INH2cwYJv0tsxf5MUCghCj/CA/lc/LMthqQ773ga
- uB9mN+F1rE9cyyXb6jyOGn+GUjMbnq1o121Vm0+neKHUCBtHyseBfDXHA6m4B3mUTWo13nid
- 0e4AM71r0DS8+KYh6zvweLX/LL5kQS9GQeT+QNroXcC1NzWbitts6TZ+IrPOwT1hfB4WNC+X
- 2n4AzDqp3+ILiVST2DT4VBc11Gz6jijpC/KI5Al8ZDhRwG47LUiuQmt3yqrmN63V9wzaPhC+
- xbwIsNZlLUvuRnmBPkTJwwrFRZvwu5GPHNndBjVpAfaSTOfppyKBTccu2AXJXWAE1Xjh6GOC
- 8mlFjZwLxWFqdPHR1n2aPVgoiTLk34LR/bXO+e0GpzFXT7enwyvFFFyAS0Nk1q/7EChPcbRb
- hJqEBpRNZemxmg55zC3GLvgLKd5A09MOM2BrMea+l0FUR+PuTenh2YmnmLRTro6eZ/qYwWkC
- u8FFIw4pT0OUDMyLgi+GI1aMpVogTZJ70FgV0pUAlpmrzk/bLbRkF3TwgucpyPtcpmQtTkWS
- gDS50QG9DR/1As3LLLcNkwJBZzBG6PWbvcOyrwMQUF1nl4SSPV0LLH63+BrrHasfJzxKXzqg
- rW28CTAE2x8qi7e/6M/+XXhrsMYG+uaViM7n2je3qKe7ofum3s4vq7oFCPsOgwARAQABwsFl
- BBgBAgAPBQJVy5+RAhsMBQkJZgGAAAoJEE3eEPcA/4NagOsP/jPoIBb/iXVbM+fmSHOjEshl
- KMwEl/m5iLj3iHnHPVLBUWrXPdS7iQijJA/VLxjnFknhaS60hkUNWexDMxVVP/6lbOrs4bDZ
- NEWDMktAeqJaFtxackPszlcpRVkAs6Msn9tu8hlvB517pyUgvuD7ZS9gGOMmYwFQDyytpepo
- YApVV00P0u3AaE0Cj/o71STqGJKZxcVhPaZ+LR+UCBZOyKfEyq+ZN311VpOJZ1IvTExf+S/5
- lqnciDtbO3I4Wq0ArLX1gs1q1XlXLaVaA3yVqeC8E7kOchDNinD3hJS4OX0e1gdsx/e6COvy
- qNg5aL5n0Kl4fcVqM0LdIhsubVs4eiNCa5XMSYpXmVi3HAuFyg9dN+x8thSwI836FoMASwOl
- C7tHsTjnSGufB+D7F7ZBT61BffNBBIm1KdMxcxqLUVXpBQHHlGkbwI+3Ye+nE6HmZH7IwLwV
- W+Ajl7oYF+jeKaH4DZFtgLYGLtZ1LDwKPjX7VAsa4Yx7S5+EBAaZGxK510MjIx6SGrZWBrrV
- TEvdV00F2MnQoeXKzD7O4WFbL55hhyGgfWTHwZ457iN9SgYi1JLPqWkZB0JRXIEtjd4JEQcx
- +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
- SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <94387ebe-9fb3-9471-9fb3-b66abf899a3f@redhat.com>
-Date:   Mon, 19 Nov 2018 17:06:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
-MIME-Version: 1.0
-In-Reply-To: <20181119101616.8901-3-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Mon, 19 Nov 2018 16:06:30 +0000 (UTC)
+        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
+        Prashant Dhamdhere <pdhamdhe@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->  
-> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> index 50ce1bddaf56..f91da3d0a67e 100644
-> --- a/include/linux/page-flags.h
-> +++ b/include/linux/page-flags.h
-> @@ -670,7 +670,7 @@ PAGEFLAG_FALSE(DoubleMap)
->  #define PAGE_TYPE_BASE	0xf0000000
->  /* Reserve		0x0000007f to catch underflows of page_mapcount */
->  #define PG_buddy	0x00000080
-> -#define PG_balloon	0x00000100
-> +#define PG_offline	0x00000100
->  #define PG_kmemcg	0x00000200
->  #define PG_table	0x00000400
->  
-> @@ -700,10 +700,13 @@ static __always_inline void __ClearPage##uname(struct page *page)	\
->  PAGE_TYPE_OPS(Buddy, buddy)
->  
->  /*
-> - * PageBalloon() is true for pages that are on the balloon page list
-> - * (see mm/balloon_compaction.c).
-> + * PageOffline() indicates that the pages is logically offline although the
+On Mon, Nov 19, 2018 at 2:54 AM, Pavel Machek <pavel@ucw.cz> wrote:
+> On Mon 2018-11-05 13:22:05, Daniel Colascione wrote:
+>> State explicitly that holding a /proc/pid file descriptor open does
+>> not reserve the PID. Also note that in the event of PID reuse, these
+>> open file descriptors refer to the old, now-dead process, and not the
+>> new one that happens to be named the same numeric PID.
+>>
+>> Signed-off-by: Daniel Colascione <dancol@google.com>
+>> ---
+>>  Documentation/filesystems/proc.txt | 7 +++++++
+>>  1 file changed, 7 insertions(+)
+>>
+>> Moved paragraphed to start of /proc/pid section; added signed-off-by.
+>>
+>> diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
+>> index 12a5e6e693b6..0b14460f721d 100644
+>> --- a/Documentation/filesystems/proc.txt
+>> +++ b/Documentation/filesystems/proc.txt
+>> @@ -125,6 +125,13 @@ process running on the system, which is named after the process ID (PID).
+>>  The link  self  points  to  the  process reading the file system. Each process
+>>  subdirectory has the entries listed in Table 1-1.
+>>
+>> +Note that an open a file descriptor to /proc/<pid> or to any of its
+>> +contained files or subdirectories does not prevent <pid> being reused
+>> +for some other process in the event that <pid> exits. Operations on
+>
+> "does not" -> "may not"?
+>
+> We want to leave this unspecified, so that we can change it in future.
 
-s/pages/page/
-
-:)
-
-
--- 
-
-Thanks,
-
-David / dhildenb
+No. "Does not". I'm sick and tired of procfs behavior being vague and
+unspecified to the point where even kernel developers have an
+incorrect mental model of how it all works. With Christian Brauner's
+good work in place and hopefully my own work to follow, we're moving
+firmly in the direction of procfs handles being struct pid references.
+Instead of waffling further, let's just buy into this model and do the
+best job we can of making it work well.
