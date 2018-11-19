@@ -1,69 +1,95 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CDD187D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 01:19:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C478D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 05:37:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726881AbeKSLlC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 06:41:02 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:43962 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726235AbeKSLlC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 06:41:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=7LUWbQKNC9ero45eNqmcVOEcr31ejDs4Sku6065JQqg=; b=H9CQWRwJr57gdh8Cn5tMdDRMt
-        +3bCj+5z7MsQV9BsH173LzaHNM4cHq+UAqEGBwU56ZtHGiNtXvdASh1GGGYGZQrmSxMYC/5m7qcyg
-        hl497L3otZVRQsp7mP3OzgQxFrLlPORfkqS5dlgVzF/+zy9jVBX0MXKnE81IR82m5SLWEd6ln917F
-        D0ks4Y4AZYMnQiZ9tIS+lmzkryJ5VzyXuHErn8FG1pIbDTHqLCETEXAW7QhSzZN2okVLZCkL9Uz8E
-        nBAHLU7mOliGG9ryVKbgZ2wVnX6Q3MXSM2u1riFhVFufRPDgDH0lAaEeVHtnt9NN4FJoUlASNWXHa
-        WjE6Y47kA==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gOYDR-00017k-5S; Mon, 19 Nov 2018 01:19:05 +0000
-Date:   Sun, 18 Nov 2018 17:19:04 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     kernel test robot <rong.a.chen@intel.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, intel-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org,
-        LKP <lkp@01.org>
-Subject: Re: [LKP] dad4f140ed [ 7.709376] WARNING:suspicious_RCU_usage
-Message-ID: <20181119011904.GE7861@bombadil.infradead.org>
-References: <20181119010820.GM18977@shao2-debian>
+        id S1725912AbeKSQAT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 11:00:19 -0500
+Received: from mga05.intel.com ([192.55.52.43]:50437 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725908AbeKSQAT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Nov 2018 11:00:19 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Nov 2018 21:37:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,251,1539673200"; 
+   d="scan'208";a="109409068"
+Received: from linux.intel.com ([10.54.29.200])
+  by orsmga001.jf.intel.com with ESMTP; 18 Nov 2018 21:37:47 -0800
+Received: from [10.252.19.222] (abudanko-mobl.ccr.corp.intel.com [10.252.19.222])
+        by linux.intel.com (Postfix) with ESMTP id 8F5C5580378;
+        Sun, 18 Nov 2018 21:37:43 -0800 (PST)
+From:   Alexey Budankov <alexey.budankov@linux.intel.com>
+Subject: [PATCH v1 0/2]: Documentation/admin-guide: introduce
+ perf-security.rst file and extend perf_event_paranoid documentation
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Jonatan Corbet <corbet@lwn.net>
+Cc:     Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Tvrtko Ursulin <tursulin@ursulin.net>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        kernel-hardening@lists.openwall.com, linux-doc@vger.kernel.org
+Organization: Intel Corp.
+Message-ID: <0ac97cd0-4773-fff6-7d4e-74c4a1f076c4@linux.intel.com>
+Date:   Mon, 19 Nov 2018 08:37:41 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181119010820.GM18977@shao2-debian>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 19, 2018 at 09:08:20AM +0800, kernel test robot wrote:
-> Greetings,
-> 
-> 0day kernel testing robot got the below dmesg and the first bad commit is
 
-Umm.  I don't see a 'suspicious RCU usage' message in here.  I see a
-lot of vmalloc warnings ... ?
+To facilitate informed decision making by system administrators [1]
+to permit and manage access to PCL/Perf [2],[3] performance monitoring 
+for multiple users perf-security.rst document suggested by Thomas Gleixner 
+is introduced [4] that:
 
-> [    7.699777] swapper: vmalloc: allocation failure: 18446744073709551615 bytes, mode:0x6000c0(GFP_KERNEL), nodemask=(null)
-> [    7.724561] swapper: vmalloc: allocation failure: 18446744073709551615 bytes, mode:0x6000c0(GFP_KERNEL), nodemask=(null)
-> [    7.737925] swapper: vmalloc: allocation failure: 18446744073709551615 bytes, mode:0x6080c0(GFP_KERNEL|__GFP_ZERO), nodemask=(null)
-> [    7.750283] swapper: vmalloc: allocation failure: 18446744073709551615 bytes, mode:0x6080c0(GFP_KERNEL|__GFP_ZERO), nodemask=(null)
-> [    7.777903] swapper: vmalloc: allocation failure: 18446744073709551615 bytes, mode:0x6000c0(GFP_KERNEL), nodemask=(null)
-> [    7.787175] swapper: vmalloc: allocation failure: 18446744073709551615 bytes, mode:0x6000c0(GFP_KERNEL), nodemask=(null)
-> [    7.796181] swapper: vmalloc: allocation failure: 18446744073709551615 bytes, mode:0x6080c0(GFP_KERNEL|__GFP_ZERO), nodemask=(null)
-> [    7.804841] swapper: vmalloc: allocation failure: 18446744073709551615 bytes, mode:0x6080c0(GFP_KERNEL|__GFP_ZERO), nodemask=(null)
+a) states PCL/Perf access security concerns for multi user environment
+b) refers to base Linux access control and management principles
+c) extends documentation of possible perf_event_paranoid knob settings 
+
+The file serves as single knowledge source for PCL/Perf security and 
+access control related matter according to decisions, discussion and  
+PoC prototype previously made here [5],[6].
+
+The file can later be extended with information describing:
+
+a) PCL/Perf usage models and its security implications
+b) PCL/Perf user interface, its changes and related security implications
+c) security related implications of monitoring by a specific PCL PMU [2]
+
+---
+ Alexey Budankov (2):
+	Documentation/admin-guide: update admin-guide index.rst
+	Documentation/admin-guide: introduce perf-security.rst file
+
+ Documentation/admin-guide/index.rst         |  1 +
+ Documentation/admin-guide/perf-security.rst | 83 +++++++++++++++++++++++++++++
+ 2 files changed, 84 insertions(+)
+
+---
+[1] https://marc.info/?l=linux-kernel&m=153815883923913&w=2
+[2] http://man7.org/linux/man-pages/man2/perf_event_open.2.html
+[3] https://perf.wiki.kernel.org/index.php/Main_Page
+[4] https://marc.info/?l=linux-kernel&m=153837512226838&w=2
+[5] https://marc.info/?l=linux-kernel&m=153736008310781&w=2
+[6] https://lkml.org/lkml/2018/5/21/156
