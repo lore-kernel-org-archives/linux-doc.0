@@ -1,118 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0F3507D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 22:18:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 785647D8AA
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 22:23:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725935AbeKTIof (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 03:44:35 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:38572 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725722AbeKTIof (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 03:44:35 -0500
-Received: by mail-pl1-f193.google.com with SMTP id e5so5204286plb.5;
-        Mon, 19 Nov 2018 14:18:48 -0800 (PST)
+        id S1730273AbeKTIst (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 03:48:49 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:52317 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725722AbeKTIst (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 03:48:49 -0500
+Received: by mail-wm1-f66.google.com with SMTP id r11-v6so278656wmb.2
+        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 14:23:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=rLLX9URkTWMKOpnP07dPOtlBBjEGkANC8hu782U5cTI=;
-        b=Ik7Cs9A/YQbz2xSiqs4oQ/gF/joEIwQmsLJ1SG05IqGuZDQai43K2ThSwwybErYcId
-         1vtSWaLtSrsHgZihiECRHTwhcJM808Pl1PlanVkZBZVb1ElhzT6kRXk90DeMgn0T2rJx
-         ExgSbueZ+Oyy8yew+b9msLgwjfy2H9TXlD71JgAvu0Dfgw3wufB/mvv2Fbc3I4i2D3lg
-         YqZx4TYRmmoIp490zf8grmrnZFZYQP1JQODyO7tQfl08lsZq3LYRTXx/i9M73d2hza53
-         R4x4Ldejnan7Kt4ScqcB/FRsAkj9j+xX3jfPILBj7bBxqt/RtobJ+fFcDAjZJGKuzXB/
-         KA3g==
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nwrloT6VSEy5ZMu8xnb8cKu3aahHSo2C8BbYfnfkQCk=;
+        b=KYooxec6lesfDzTj07cQUI+70Y6ji5Z10EjC7+3vv3FoR/Q1AEew2QzLki1BzdIAkH
+         VyYZ+WrxTW4udK5Lu9qP5+tI2ScBEH8v0pNWCbb0cCkT/LRnrdSBuQvrT4o9VkYpqo9y
+         IgI9OoPfo2t9R8gcbU5QJs+uRcgD6sFQrelPC+HH58AvQ1gcVucnRpqlF1FQfJ4QcK3E
+         ec0rWu2Knb8RVlJ/kqKdYwolZSHmAuqcUmvx3pFSiCtPV6MefPlUx4vXNqfNxv5xLeiz
+         Tun1uwYC5zhrzc9SOj6Oc3E0rJUJhxOvOAF5EJdVLfgusKq2V9bNA1qIsnWGvFeIlrqA
+         uv0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=rLLX9URkTWMKOpnP07dPOtlBBjEGkANC8hu782U5cTI=;
-        b=IfsJnL5rqdLyxuBt8SvW7daKIYpyIao7UqGmnAcGN4a8koloGyrO2wW7qGv2U2UiZi
-         kzZKI9zcNTAVexd8U5RNmTwf+xuKdZbOQnABfvsgkzPrRYXDmXQYR46fwFXaL3JAoMfE
-         WBsXtFY74yvq3F5E2E1IkUjT6YO/dnm8xbjy1DMkVfWYr3G84P1bblGaeyeEUFpwBF6z
-         djvUHcamlAMEni7XiRNyVarouTpf1Bk3sjjROO5H+qFj/+1tRbfOy0KbTHKsZdVyEtaq
-         VeBAlBDL0GosjQE9cJpICFFqVupiLkwiax4rBNCXbhsrTtv8m8T9ExS51AojsV9moJuG
-         P1Eg==
-X-Gm-Message-State: AGRZ1gLCKO4FvLy26KG0mcZPAYG/lonBTyWysibM5SH9NP3lppc6l8qk
-        ibCw6qswKqr7tBe7aOJv/hc=
-X-Google-Smtp-Source: AJdET5dKEpsRoMLUCSHCzLS2DEC32nXFkGrQUh64jbBdFZBcZjoYJDpXiDOXNmzmDQ0TJ5JbrXOJRg==
-X-Received: by 2002:a17:902:50e3:: with SMTP id c32-v6mr24003490plj.39.1542665928282;
-        Mon, 19 Nov 2018 14:18:48 -0800 (PST)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id f64sm82953944pfh.0.2018.11.19.14.18.47
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 19 Nov 2018 14:18:47 -0800 (PST)
-Date:   Mon, 19 Nov 2018 14:18:43 -0800
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     jdelvare@suse.com, linux-hwmon@vger.kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] hwmon (ina3221) Add single-shot mode support
-Message-ID: <20181119221842.GA26382@Asurada-Nvidia.nvidia.com>
-References: <20181113042353.1507-1-nicoleotsuka@gmail.com>
- <20181113043248.GB11205@roeck-us.net>
- <20181113045823.GB26327@Asurada-Nvidia.nvidia.com>
- <20181113172102.GA21714@roeck-us.net>
- <20181114001141.GA14925@Asurada-Nvidia.nvidia.com>
- <20181114172330.GA25592@roeck-us.net>
- <20181117015131.GA10407@Asurada-Nvidia.nvidia.com>
- <20181119174559.GC27435@roeck-us.net>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nwrloT6VSEy5ZMu8xnb8cKu3aahHSo2C8BbYfnfkQCk=;
+        b=CmIbLb6LtMyrXBPQ2SV24b0L6Z1oeHuCyeOxNO9ctvn7iHOH/OZEp5NjxaNNLt7CUc
+         GQaRzaJBAoxg0Gbcc+rmq0uAke/0KqpQ11QmQvpzimw7sX8D8hP3/C9jZ2Sz+966zFtG
+         bX6pXdfyjDD+k5f1dXTtXTu+EgfheAOknaHspTUvnwlmSKgfz30mFF96/PwlZdEoES3v
+         5IoJShmbN5mhkcWHib+YqIMuCwql6Ojb85oBzc+yig+B3lscJNhPhgUNbTw9QiREkR8W
+         M4Md9YZVgGVp6qg3+QDViigLYuFIGLXLVJ7JfTY+/dE6/oIbA9vs5a5TkNCMUgFb77f/
+         2nqQ==
+X-Gm-Message-State: AA+aEWaZG4eoaYmhVwWdAGZf5uUl/s3McnwuwG6xfVKcpW4SDxjQLSx1
+        A48oSE/nEayK8VQ719h+RdMWJXsz+T6q7WO4gB2Glg==
+X-Google-Smtp-Source: AJdET5dbpspBFP+kyzMnOXlcymzEJJOjXE4vNI1NTk474aqFiiPjwiCr/dJE2bmZgTI873RFk7u+oOAcHNyZFLWabzM=
+X-Received: by 2002:a1c:110b:: with SMTP id 11mr5855759wmr.83.1542666181214;
+ Mon, 19 Nov 2018 14:23:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181119174559.GC27435@roeck-us.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20181119214934.6174-1-yu-cheng.yu@intel.com> <20181119214934.6174-11-yu-cheng.yu@intel.com>
+In-Reply-To: <20181119214934.6174-11-yu-cheng.yu@intel.com>
+From:   Andy Lutomirski <luto@amacapital.net>
+Date:   Mon, 19 Nov 2018 14:22:50 -0800
+Message-ID: <CALCETrWP20o62m_5mp_yCBFNMQ4YYV-kPKiytHObhvJs_bjFVQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v6 10/11] x86/vsyscall/64: Add ENDBR64 to vsyscall
+ entry points
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H. J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 19, 2018 at 09:45:59AM -0800, Guenter Roeck wrote:
-> > In short, other than exposing it via a generic ABI to the user
-> > space, how about defining some policy to maintaining it within
-> > the driver?
+On Mon, Nov 19, 2018 at 1:55 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>
+> From: "H.J. Lu" <hjl.tools@gmail.com>
+>
+> Add ENDBR64 to vsyscall entry points.
+>
+> Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 
-> I think that would be a bad idea. It changes timing for everyone
-> curently using the driver. It also effectively disables monitoring,
-> which is the main purpose for using this chip (and other hardware
-> monitoring chips). This is indeed a key difference between iio
-> and hwmon - the main purpose of chips in the iio subsystem is to
-> be able report data efficiently to user space, not hardware monitoring.
-> I do not think it is appropriate to use iio requirements as argument
-> to change hwmon driver behavior (and vice versa).
+Acked-by: Andy Lutomirski <luto@kernel.org>
 
-OK...what about setting a default mode via DT? I didn't expect it
-to be possible until I found this existing solution. Though it is
-still in an iio driver, I don't think this should be iio specific.
+although the scenarios where this matters will be extremely rare,
+given that this code is mapped NX :)  Tools like 'pin' may care.
 
-  commit 023e30fb0d3a3b9d6b8dc9e47590aa544d58a22f
-  Author: Adriana Reus <adriana.reus@intel.com>
-  Date:   Tue Nov 24 12:59:49 2015 +0200
-
-    Documentation: devicetree: Add property for controlling power saving
-                   mode for the us5182 als sensor
-
-    Add a property to allow changing the default power-saving mode.
-    By default, at read raw the chip will activate and provide
-    one measurent, then it will shut itself down. However, the
-    chip can also work in "continuous" mode which may be more reliable
-    but is also more power consuming.
-
-    Signed-off-by: Adriana Reus <adriana.reus@intel.com>
-    Acked-by: Rob Herring <robh@kernel.org>
-    Signed-off-by: Jonathan Cameron <jic23@kernel.org>
-
-Would it be possible for me to apply a similar one? Since hwmon
-driver uses continuous mode by default, I will add a "one-shot"
-property instead of "continuous" -- all existing users won't be
-effected unless they place one-shot properties in DT bindings.
-
-Thanks
-Nicolin
+--Andy
