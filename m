@@ -1,58 +1,30 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E83007D927
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 19:28:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8F6307D08E
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 19:46:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726339AbeKTFwH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 00:52:07 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:43336 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727639AbeKTFwH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 00:52:07 -0500
-Received: by mail-pl1-f193.google.com with SMTP id gn14so273991plb.10
-        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 11:27:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=2ffcji7ue/Hp1t56ByEEtf4/Un+Z9yLMJa/K23r0V5M=;
-        b=LvzdXXuvmL5fUmhM6yyZTTPALf1vCGtJyXmdhJbPk97i+ZlbeVUy4iOYXXDO9SwHy9
-         Gw9yV8Ami4AygT5rxImw7SGSBhVb1kmXEkZE75WtQvP8v45zqhFLk6Dmv/DHZ7VVSNId
-         TMjoxv2yPIluRAHcA8O+Kws0RqNUUWxwFTvf8Ktqo0xGA2VrqeuBUxab3u3OY0037KZ2
-         cKOG6Lne6BRXkd/b2pz6XjeHW+yKdfOIeD7yPYGdf/mKmfj6/JTlAKwqKIoKL80YWIg7
-         liIhF9q5yAI9s8gP0hWHOBGFu7h2F9+KWkaDg7/i6agn0Gsk8lvChlcpoxRCDO9YJty/
-         Y10w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=2ffcji7ue/Hp1t56ByEEtf4/Un+Z9yLMJa/K23r0V5M=;
-        b=CYB4uau8+UqjBxS+0hUvGzxzNyhKQzmV5X+EpmsT1MJgps/tjbzPulDkH3W2s15bu6
-         Fk/PKwySOOBmJpExROePWyor+UZapM/a/IZzwq25oceD6/KEc/B1rgcV6d9qb9hqsCvC
-         6k5bxx1nOYDVvieEjDQsWEYxJRGTfypo4v9myAThZZHozN3DZZoxUHModT2otJ46F+6D
-         W1SRUg5fdR/H+Vc7H/0VhsoPMUKnfleD0dpFuMEm/HTXOHfHRzsH6YvIbhbaqxQP3y/v
-         HuRiD/LyEiZOhYS5u66w6J2ANcFWEeld0wA770eG7xdDh7tdF87OhjxcayFFxAFW9Tc7
-         FZ8w==
-X-Gm-Message-State: AGRZ1gLqo12vGZ6pK2j+eKJHQVXYqHfENZLYoj9+4nT/MgGzruADKv0Y
-        2MnfMSmKKzDznAjyZi2UmTOH2A==
-X-Google-Smtp-Source: AJdET5c0wjw3sPz8jZzUPLW05tqalhB+6eLU29AwDwGwpTyAb6ax81a2k5dus3poWvEbdFey23xV9Q==
-X-Received: by 2002:a17:902:a70b:: with SMTP id w11mr19521515plq.84.1542655624079;
-        Mon, 19 Nov 2018 11:27:04 -0800 (PST)
-Received: from ziepe.ca (S010614cc2056d97f.ed.shawcable.net. [174.3.196.123])
-        by smtp.gmail.com with ESMTPSA id w5sm9126864pfn.89.2018.11.19.11.27.02
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 19 Nov 2018 11:27:03 -0800 (PST)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1gOpCI-0005Wy-63; Mon, 19 Nov 2018 12:27:02 -0700
-Date:   Mon, 19 Nov 2018 12:27:02 -0700
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Jerome Glisse <jglisse@redhat.com>
+        id S1730330AbeKTGLr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 01:11:47 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:51576 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729611AbeKTGLr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Nov 2018 01:11:47 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 90065D2EF9;
+        Mon, 19 Nov 2018 19:46:38 +0000 (UTC)
+Received: from redhat.com (ovpn-124-1.rdu2.redhat.com [10.10.124.1])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 1BA655D9C6;
+        Mon, 19 Nov 2018 19:46:34 +0000 (UTC)
+Date:   Mon, 19 Nov 2018 14:46:32 -0500
+From:   Jerome Glisse <jglisse@redhat.com>
+To:     Jason Gunthorpe <jgg@ziepe.ca>
 Cc:     Leon Romanovsky <leon@kernel.org>,
         Kenneth Lee <liguozhu@hisilicon.com>,
         Tim Sell <timothy.sell@unisys.com>, linux-doc@vger.kernel.org,
@@ -65,7 +37,7 @@ Cc:     Leon Romanovsky <leon@kernel.org>,
         RDMA mailing list <linux-rdma@vger.kernel.org>,
         Zhou Wang <wangzhou1@hisilicon.com>,
         Doug Ledford <dledford@redhat.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
         <u.kleine-koenig@pengutronix.de>,
         David Kershner <david.kershner@unisys.com>,
         Kenneth Lee <nek.in.cn@gmail.com>,
@@ -82,9 +54,8 @@ Cc:     Leon Romanovsky <leon@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
         linux-accelerators@lists.ozlabs.org
 Subject: Re: [RFCv3 PATCH 1/6] uacce: Add documents for WarpDrive/uacce
-Message-ID: <20181119192702.GD4890@ziepe.ca>
-References: <20181115085109.GD157308@Turing-Arch-b>
- <20181115145455.GN3759@mtr-leonro.mtl.com>
+Message-ID: <20181119194631.GE4593@redhat.com>
+References: <20181115145455.GN3759@mtr-leonro.mtl.com>
  <20181119091405.GE157308@Turing-Arch-b>
  <20181119091910.GF157308@Turing-Arch-b>
  <20181119104801.GF8268@mtr-leonro.mtl.com>
@@ -93,135 +64,186 @@ References: <20181115085109.GD157308@Turing-Arch-b>
  <20181119184215.GB4593@redhat.com>
  <20181119185333.GC4890@ziepe.ca>
  <20181119191721.GC4593@redhat.com>
+ <20181119192702.GD4890@ziepe.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20181119191721.GC4593@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20181119192702.GD4890@ziepe.ca>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Mon, 19 Nov 2018 19:46:39 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 19, 2018 at 02:17:21PM -0500, Jerome Glisse wrote:
-> On Mon, Nov 19, 2018 at 11:53:33AM -0700, Jason Gunthorpe wrote:
-> > On Mon, Nov 19, 2018 at 01:42:16PM -0500, Jerome Glisse wrote:
-> > > On Mon, Nov 19, 2018 at 11:27:52AM -0700, Jason Gunthorpe wrote:
-> > > > On Mon, Nov 19, 2018 at 11:48:54AM -0500, Jerome Glisse wrote:
+On Mon, Nov 19, 2018 at 12:27:02PM -0700, Jason Gunthorpe wrote:
+> On Mon, Nov 19, 2018 at 02:17:21PM -0500, Jerome Glisse wrote:
+> > On Mon, Nov 19, 2018 at 11:53:33AM -0700, Jason Gunthorpe wrote:
+> > > On Mon, Nov 19, 2018 at 01:42:16PM -0500, Jerome Glisse wrote:
+> > > > On Mon, Nov 19, 2018 at 11:27:52AM -0700, Jason Gunthorpe wrote:
+> > > > > On Mon, Nov 19, 2018 at 11:48:54AM -0500, Jerome Glisse wrote:
+> > > > > 
+> > > > > > Just to comment on this, any infiniband driver which use umem and do
+> > > > > > not have ODP (here ODP for me means listening to mmu notifier so all
+> > > > > > infiniband driver except mlx5) will be affected by same issue AFAICT.
+> > > > > > 
+> > > > > > AFAICT there is no special thing happening after fork() inside any of
+> > > > > > those driver. So if parent create a umem mr before fork() and program
+> > > > > > hardware with it then after fork() the parent might start using new
+> > > > > > page for the umem range while the old memory is use by the child. The
+> > > > > > reverse is also true (parent using old memory and child new memory)
+> > > > > > bottom line you can not predict which memory the child or the parent
+> > > > > > will use for the range after fork().
+> > > > > > 
+> > > > > > So no matter what you consider the child or the parent, what the hw
+> > > > > > will use for the mr is unlikely to match what the CPU use for the
+> > > > > > same virtual address. In other word:
+> > > > > > 
+> > > > > > Before fork:
+> > > > > >     CPU parent: virtual addr ptr1 -> physical address = 0xCAFE
+> > > > > >     HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
+> > > > > > 
+> > > > > > Case 1:
+> > > > > >     CPU parent: virtual addr ptr1 -> physical address = 0xCAFE
+> > > > > >     CPU child:  virtual addr ptr1 -> physical address = 0xDEAD
+> > > > > >     HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
+> > > > > > 
+> > > > > > Case 2:
+> > > > > >     CPU parent: virtual addr ptr1 -> physical address = 0xBEEF
+> > > > > >     CPU child:  virtual addr ptr1 -> physical address = 0xCAFE
+> > > > > >     HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
+> > > > > 
+> > > > > IIRC this is solved in IB by automatically calling
+> > > > > madvise(MADV_DONTFORK) before creating the MR.
+> > > > > 
+> > > > > MADV_DONTFORK
+> > > > >   .. This is useful to prevent copy-on-write semantics from changing the
+> > > > >   physical location of a page if the parent writes to it after a
+> > > > >   fork(2) ..
 > > > > 
-> > > > > Just to comment on this, any infiniband driver which use umem and do
-> > > > > not have ODP (here ODP for me means listening to mmu notifier so all
-> > > > > infiniband driver except mlx5) will be affected by same issue AFAICT.
-> > > > > 
-> > > > > AFAICT there is no special thing happening after fork() inside any of
-> > > > > those driver. So if parent create a umem mr before fork() and program
-> > > > > hardware with it then after fork() the parent might start using new
-> > > > > page for the umem range while the old memory is use by the child. The
-> > > > > reverse is also true (parent using old memory and child new memory)
-> > > > > bottom line you can not predict which memory the child or the parent
-> > > > > will use for the range after fork().
-> > > > > 
-> > > > > So no matter what you consider the child or the parent, what the hw
-> > > > > will use for the mr is unlikely to match what the CPU use for the
-> > > > > same virtual address. In other word:
-> > > > > 
-> > > > > Before fork:
-> > > > >     CPU parent: virtual addr ptr1 -> physical address = 0xCAFE
-> > > > >     HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
-> > > > > 
-> > > > > Case 1:
-> > > > >     CPU parent: virtual addr ptr1 -> physical address = 0xCAFE
-> > > > >     CPU child:  virtual addr ptr1 -> physical address = 0xDEAD
-> > > > >     HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
-> > > > > 
-> > > > > Case 2:
-> > > > >     CPU parent: virtual addr ptr1 -> physical address = 0xBEEF
-> > > > >     CPU child:  virtual addr ptr1 -> physical address = 0xCAFE
-> > > > >     HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
-> > > > 
-> > > > IIRC this is solved in IB by automatically calling
-> > > > madvise(MADV_DONTFORK) before creating the MR.
-> > > > 
-> > > > MADV_DONTFORK
-> > > >   .. This is useful to prevent copy-on-write semantics from changing the
-> > > >   physical location of a page if the parent writes to it after a
-> > > >   fork(2) ..
+> > > > This would work around the issue but this is not transparent ie
+> > > > range marked with DONTFORK no longer behave as expected from the
+> > > > application point of view.
 > > > 
-> > > This would work around the issue but this is not transparent ie
-> > > range marked with DONTFORK no longer behave as expected from the
-> > > application point of view.
+> > > Do you know what the difference is? The man page really gives no
+> > > hint..
+> > > 
+> > > Does it sometimes unmap the pages during fork?
 > > 
-> > Do you know what the difference is? The man page really gives no
-> > hint..
+> > It is handled in kernel/fork.c look for DONTCOPY, basicaly it just
+> > leave empty page table in the child process so child will have to
+> > fault in new page. This also means that child will get 0 as initial
+> > value for all memory address under DONTCOPY/DONTFORK which breaks
+> > application expectation of what fork() do.
+> 
+> Hum, I wonder why this API was selected then..
+
+Because there is nothing else ? :)
+
+> 
+> > > I actually wonder if the kernel is a bit broken here, we have the same
+> > > problem with O_DIRECT and other stuff, right?
 > > 
-> > Does it sometimes unmap the pages during fork?
-> 
-> It is handled in kernel/fork.c look for DONTCOPY, basicaly it just
-> leave empty page table in the child process so child will have to
-> fault in new page. This also means that child will get 0 as initial
-> value for all memory address under DONTCOPY/DONTFORK which breaks
-> application expectation of what fork() do.
-
-Hum, I wonder why this API was selected then..
-
-> > I actually wonder if the kernel is a bit broken here, we have the same
-> > problem with O_DIRECT and other stuff, right?
-> 
-> No it is not, O_DIRECT is fine. The only corner case i can think
-> of with O_DIRECT is one thread launching an O_DIRECT that write
-> to private anonymous memory (other O_DIRECT case do not matter)
-> while another thread call fork() then what the child get can be
-> undefined ie either it get the data before the O_DIRECT finish
-> or it gets the result of the O_DIRECT. But this is realy what
-> you should expect when doing such thing without synchronization.
-> 
-> So O_DIRECT is fine.
-
-?? How can O_DIRECT be fine but RDMA not? They use exactly the same
-get_user_pages flow, right? Can we do what O_DIRECT does in RDMA and
-be fine too?
-
-AFAIK the only difference is the length of the race window. You'd have
-to fork and fault during the shorter time O_DIRECT has get_user_pages
-open.
-
-> > Really, if I have a get_user_pages FOLL_WRITE on a page and we fork,
-> > then shouldn't the COW immediately be broken during the fork?
+> > No it is not, O_DIRECT is fine. The only corner case i can think
+> > of with O_DIRECT is one thread launching an O_DIRECT that write
+> > to private anonymous memory (other O_DIRECT case do not matter)
+> > while another thread call fork() then what the child get can be
+> > undefined ie either it get the data before the O_DIRECT finish
+> > or it gets the result of the O_DIRECT. But this is realy what
+> > you should expect when doing such thing without synchronization.
 > > 
-> > The kernel can't guarentee that an ongoing DMA will not write to those
-> > pages, and it breaks the fork semantic to write to both processes.
+> > So O_DIRECT is fine.
 > 
-> Fixing that would incur a high cost: need to grow struct page, need
-> to copy potentialy gigabyte of memory during fork() ... this would be
-> a serious performance regression for many folks just to work around an
-> abuse of device driver. So i don't think anything on that front would
-> be welcome.
+> ?? How can O_DIRECT be fine but RDMA not? They use exactly the same
+> get_user_pages flow, right? Can we do what O_DIRECT does in RDMA and
+> be fine too?
+> 
+> AFAIK the only difference is the length of the race window. You'd have
+> to fork and fault during the shorter time O_DIRECT has get_user_pages
+> open.
 
-Why? Keep track in each mm if there are any active get_user_pages
-FOLL_WRITE pages in the mm, if yes then sweep the VMAs and fix the
-issue for the FOLL_WRITE pages.
+Well in O_DIRECT case there is only one page table, the CPU
+page table and it gets updated during fork() so there is an
+ordering there and the race window is small.
 
-John is already working on being able to detect pages under GUP, so it
-seems like a small step..
+More over programmer knows that can get in trouble if they
+do thing like fork() and don't synchronize their threads
+with each other. So while some weird thing can happen with
+O_DIRECT, it is unlikely (very small race window) and if
+it happens its well within the expected behavior.
 
-Since nearly all cases of fork don't have a GUP FOLL_WRITE active
-there would be no performance hit.
+For hardware the race window is the same as the process
+lifetime so it can be days, months, years ... Once the
+hardware has programmed its page table they will never
+see any update (again mlx5 ODP is the exception here).
 
-> umem without proper ODP and VFIO are the only bad user i know of (for
-> VFIO you can argue that it is part of the API contract and thus that
-> it is not an abuse but it is not spell out loud in documentation). I
-> have been trying to push back on any people trying to push thing that
-> would make the same mistake or at least making sure they understand
-> what is happening.
+This is where "issues" weird behavior can arise. Because
+you use DONTFORK than you never see weird thing happening.
+If you were to comment out DONTFORK then RDMA in the parent
+might change data in the child (or the other way around ie
+RDMA in the child might change data in the parent).
 
-It is something we have to live with and support for the foreseeable
-future.
 
-> What really need to happen is people fixing their hardware and do the
-> right thing (good software engineer versus evil hardware engineer ;))
+> > > Really, if I have a get_user_pages FOLL_WRITE on a page and we fork,
+> > > then shouldn't the COW immediately be broken during the fork?
+> > > 
+> > > The kernel can't guarentee that an ongoing DMA will not write to those
+> > > pages, and it breaks the fork semantic to write to both processes.
+> > 
+> > Fixing that would incur a high cost: need to grow struct page, need
+> > to copy potentialy gigabyte of memory during fork() ... this would be
+> > a serious performance regression for many folks just to work around an
+> > abuse of device driver. So i don't think anything on that front would
+> > be welcome.
+> 
+> Why? Keep track in each mm if there are any active get_user_pages
+> FOLL_WRITE pages in the mm, if yes then sweep the VMAs and fix the
+> issue for the FOLL_WRITE pages.
 
-Even ODP is no pancea, there are performance problems. What we really
-need is CAPI like stuff, so you will tell Intel to redesign the CPU??
-:)
+This has a cost and you don't want to do it for O_DIRECT. I am pretty
+sure that any such patch to modify fork() code path would be rejected.
+At least i would not like it and vote against.
 
-Jason
+> 
+> John is already working on being able to detect pages under GUP, so it
+> seems like a small step..
+
+John is trying to fix serious bugs which can result in filesystem
+corruption. It has a performance cost and thus i don't see that as
+something we should pursue as a default solution. I posted patches
+to remove get_user_page() from GPU driver and i intend to remove
+as many GUP as i can (for hardware that can do the right thing).
+
+To me it sounds better to reward good hardware rather than punish
+everyone :)
+
+> 
+> Since nearly all cases of fork don't have a GUP FOLL_WRITE active
+> there would be no performance hit.
+> 
+> > umem without proper ODP and VFIO are the only bad user i know of (for
+> > VFIO you can argue that it is part of the API contract and thus that
+> > it is not an abuse but it is not spell out loud in documentation). I
+> > have been trying to push back on any people trying to push thing that
+> > would make the same mistake or at least making sure they understand
+> > what is happening.
+> 
+> It is something we have to live with and support for the foreseeable
+> future.
+
+Yes for RDMA and VFIO, but i want to avoid any more new users hence
+why i push back on any solution that have the same issues.
+
+> 
+> > What really need to happen is people fixing their hardware and do the
+> > right thing (good software engineer versus evil hardware engineer ;))
+> 
+> Even ODP is no pancea, there are performance problems. What we really
+> need is CAPI like stuff, so you will tell Intel to redesign the CPU??
+> :)
+
+I agree
+
+Jérôme
