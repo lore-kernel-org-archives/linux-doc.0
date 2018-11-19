@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E57B37E970
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 18:31:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4E3847E973
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 18:31:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390882AbeKTDxQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 22:53:16 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:46972 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404757AbeKTDvo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 22:51:44 -0500
-Received: by mail-wr1-f65.google.com with SMTP id l9so20064689wrt.13
-        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 09:27:20 -0800 (PST)
+        id S2404154AbeKTDxl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 22:53:41 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:33179 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404209AbeKTDvl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 22:51:41 -0500
+Received: by mail-wm1-f66.google.com with SMTP id 79so3211401wmo.0
+        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 09:27:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=f7KSm+jFXQkCQXEc5rnrCA4r7eJPDm1tJhN4hvjkMsI=;
-        b=pxIEoLBVS/155thk/jlirYN+v21XOcVr2GW9d9IBt1OVBarBjRyqIHbmLLhe8psyyq
-         5Ug5UTJ5X7VrMdCeKBD9K2dkVd+nc0AzF32lJLmucUFRU/GgpdqaUcMhykaBbosPF6dk
-         KIu1FcKLwylt2oS/TycDYqUiERABjULH2Gwy1yv1Mw7ZhgGAthWgeAmCkVzYSlPWpzD8
-         5Aa+fhgB4AEe7eG4R0/QPBHYc+/htnw7UG7ePdKyWf6uffMpCJytw1h3Wnkeg1RRvRGs
-         9OTHbUPdKOxvcS/eCi6mPSgOtTdigpIKY3SU9AHkvrAMtJbrq82+to13FudtfZ995L4C
-         EmVw==
+        bh=4UxJd/TD5dhnni0EdJsiBbVNK+EVuSfLspufPfY8Op0=;
+        b=ezP0ESTGIDPD6PIZXaeQ1HQvAtE12YKEKXk2IQhb30r0JyeclvTIkALJudtga1L/Q3
+         sfSqapZGnhPLM3BAb3PXOYLm/bZTb1MZ54ZRnv6h5/3IlejoIUHx/AaGd5qfhPuKxnpn
+         GsnYAXIpMb9ohJGYhY0zD2xvR+T/Aku8msHLcEukSHopb9SGDZXGijaVWkpc9CKGUaiu
+         VLTlA6dJNpc7t3wdP5GQdvZ/cbM0ca5EE+ZdL+ZEBNJjVa09dOGeUYw8b0oESjRUAScJ
+         k2aoTr6qOxO96slc3aQpZ9kDtYvc9TSHsfhmZQgS17UlDgmj7Ll18teQgR09yy1V1Gpr
+         QcAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=f7KSm+jFXQkCQXEc5rnrCA4r7eJPDm1tJhN4hvjkMsI=;
-        b=JJeAPjlUz0HJIXCg8Llk3S9fWMlQ8y9NYzW5v8S3qylMx+FV7Bv/+6Cao4npBEit78
-         cD21ra60182WzWCL5o86aKslMMashe3KEx2WJ4qdcSnwTvmYsRd2vR0+MbTVj4rDwvsq
-         74CAr+tAjE41bcDxggQp7r3lZoYmtJTcHb7BVCaozXx9UX1jbtU28vxVHecM17ycchsA
-         qkakyc26hnOCSWdbwnZsNq0aldmuSSDKNPGkPw0yEtW/6XnOrmv/eFuY43S6BaN41k5K
-         xFAz++3rHjMLAwL/ChJ08EBoxD2Hw0ljNHNrygiT5Bi9O5HwsENqmK3UOkPBKMM9oYdR
-         gRSg==
-X-Gm-Message-State: AA+aEWZjGReLUkZW0erC9/mBdp7945awzFlz9yTZG8XyauSw6DHW87Bn
-        EtLTTe+xpYaxGl7xNS+/DnAiFQ==
-X-Google-Smtp-Source: AFSGD/XZpgLAg7rezu/mjkHy6lW0RJIb0uV/wXKhtOG3pV2Pb/tXon7urXALPBJFf4VkMPoh4EQ6nA==
-X-Received: by 2002:a5d:63c3:: with SMTP id c3mr2727742wrw.215.1542648439441;
-        Mon, 19 Nov 2018 09:27:19 -0800 (PST)
+        bh=4UxJd/TD5dhnni0EdJsiBbVNK+EVuSfLspufPfY8Op0=;
+        b=jQYMBcjGcLfufnDTVN8Nx3CCZy3XaXYZEgZVbnnNXOFCnjNcLDD+RGBqkGQJ+gy4Zj
+         kEodpVDxM3lHG+woen09Qfk5I28UdxOxHY+f1+IgPQd6xj3IaECNY0mBsFYf6JPe2rDv
+         /SryFg/uQ9AGusmkjQtGnFWotIZaECrLb3jE0LKhrksub3TkYzlmIbB3Lsq/0m5LJkYM
+         YD8n0Ok4z1rtGAMYeDAqVGLweMg5IJeNlTysI87XJEFTLfazGwfn6+W8Awe++em8gnMQ
+         4HfnaHNo0hFdn3KAJ62Qceem6dnutaa+FelDVtpJwVqJahUVP8CU6aVRHECHzQ2lbMH9
+         +aYQ==
+X-Gm-Message-State: AGRZ1gJknihxhq8JsKTT5R7wIrw4h0cIpZR4MvXEWpArMMbBetn1FTgb
+        b7O4QDpypTFHcO4qsyR01Ax9bw==
+X-Google-Smtp-Source: AJdET5f/CWAArcyhbvqSSe7+ZirG+qS0xHVggXGTUB5W8Aw5Wyx6utJIbL2GhHlD46DxV8W80eGl3Q==
+X-Received: by 2002:a1c:f514:: with SMTP id t20-v6mr7673551wmh.129.1542648436015;
+        Mon, 19 Nov 2018 09:27:16 -0800 (PST)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:3180:41f8:3010:ff61])
-        by smtp.gmail.com with ESMTPSA id l143-v6sm23685190wmb.23.2018.11.19.09.27.17
+        by smtp.gmail.com with ESMTPSA id l143-v6sm23685190wmb.23.2018.11.19.09.27.14
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 19 Nov 2018 09:27:18 -0800 (PST)
+        Mon, 19 Nov 2018 09:27:15 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -85,9 +85,9 @@ Cc:     Kostya Serebryany <kcc@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Vishwath Mohan <vishwath@google.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v11 15/24] kasan, mm: perform untagged pointers comparison in krealloc
-Date:   Mon, 19 Nov 2018 18:26:31 +0100
-Message-Id: <bd2e180afd1cc5ebc0aebc0cbbfe5cca16ba35c3.1542648335.git.andreyknvl@google.com>
+Subject: [PATCH v11 13/24] kasan, arm64: fix up fault handling logic
+Date:   Mon, 19 Nov 2018 18:26:29 +0100
+Message-Id: <99c747edfba8ea4b93d9c70aac47ea86ef258b86.1542648335.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.19.1.1215.g8438c0b245-goog
 In-Reply-To: <cover.1542648335.git.andreyknvl@google.com>
 References: <cover.1542648335.git.andreyknvl@google.com>
@@ -98,33 +98,133 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The krealloc function checks where the same buffer was reused or a new one
-allocated by comparing kernel pointers. Tag-based KASAN changes memory tag
-on the krealloc'ed chunk of memory and therefore also changes the pointer
-tag of the returned pointer. Therefore we need to perform comparison on
-untagged (with tags reset) pointers to check whether it's the same memory
-region or not.
+Right now arm64 fault handling code removes pointer tags from addresses
+covered by TTBR0 in faults taken from both EL0 and EL1, but doesn't do
+that for pointers covered by TTBR1.
 
-Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
-Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+This patch adds two helper functions is_ttbr0_addr() and is_ttbr1_addr(),
+where the latter one accounts for the fact that TTBR1 pointers might be
+tagged when tag-based KASAN is in use, and uses these helper functions to
+perform pointer checks in arch/arm64/mm/fault.c.
+
+Suggested-by: Mark Rutland <mark.rutland@arm.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- mm/slab_common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/mm/fault.c | 31 ++++++++++++++++++++++---------
+ 1 file changed, 22 insertions(+), 9 deletions(-)
 
-diff --git a/mm/slab_common.c b/mm/slab_common.c
-index 5f3504e26d4c..5aabcbd32d82 100644
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -1534,7 +1534,7 @@ void *krealloc(const void *p, size_t new_size, gfp_t flags)
+diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+index 7d9571f4ae3d..6023d4752701 100644
+--- a/arch/arm64/mm/fault.c
++++ b/arch/arm64/mm/fault.c
+@@ -40,6 +40,7 @@
+ #include <asm/daifflags.h>
+ #include <asm/debug-monitors.h>
+ #include <asm/esr.h>
++#include <asm/kasan.h>
+ #include <asm/sysreg.h>
+ #include <asm/system_misc.h>
+ #include <asm/pgtable.h>
+@@ -132,6 +133,18 @@ static void mem_abort_decode(unsigned int esr)
+ 		data_abort_decode(esr);
+ }
+ 
++static inline bool is_ttbr0_addr(unsigned long addr)
++{
++        /* entry assembly clears tags for TTBR0 addrs */
++        return addr < TASK_SIZE;
++}
++
++static inline bool is_ttbr1_addr(unsigned long addr)
++{
++        /* TTBR1 addresses may have a tag if KASAN_SW_TAGS is in use */
++        return arch_kasan_reset_tag(addr) >= VA_START;
++}
++
+ /*
+  * Dump out the page tables associated with 'addr' in the currently active mm.
+  */
+@@ -141,7 +154,7 @@ void show_pte(unsigned long addr)
+ 	pgd_t *pgdp;
+ 	pgd_t pgd;
+ 
+-	if (addr < TASK_SIZE) {
++	if (is_ttbr0_addr(addr)) {
+ 		/* TTBR0 */
+ 		mm = current->active_mm;
+ 		if (mm == &init_mm) {
+@@ -149,7 +162,7 @@ void show_pte(unsigned long addr)
+ 				 addr);
+ 			return;
+ 		}
+-	} else if (addr >= VA_START) {
++	} else if (is_ttbr1_addr(addr)) {
+ 		/* TTBR1 */
+ 		mm = &init_mm;
+ 	} else {
+@@ -254,7 +267,7 @@ static inline bool is_el1_permission_fault(unsigned long addr, unsigned int esr,
+ 	if (fsc_type == ESR_ELx_FSC_PERM)
+ 		return true;
+ 
+-	if (addr < TASK_SIZE && system_uses_ttbr0_pan())
++	if (is_ttbr0_addr(addr) && system_uses_ttbr0_pan())
+ 		return fsc_type == ESR_ELx_FSC_FAULT &&
+ 			(regs->pstate & PSR_PAN_BIT);
+ 
+@@ -319,7 +332,7 @@ static void set_thread_esr(unsigned long address, unsigned int esr)
+ 	 * type", so we ignore this wrinkle and just return the translation
+ 	 * fault.)
+ 	 */
+-	if (current->thread.fault_address >= TASK_SIZE) {
++	if (!is_ttbr0_addr(current->thread.fault_address)) {
+ 		switch (ESR_ELx_EC(esr)) {
+ 		case ESR_ELx_EC_DABT_LOW:
+ 			/*
+@@ -455,7 +468,7 @@ static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
+ 		mm_flags |= FAULT_FLAG_WRITE;
  	}
  
- 	ret = __do_krealloc(p, new_size, flags);
--	if (ret && p != ret)
-+	if (ret && kasan_reset_tag(p) != kasan_reset_tag(ret))
- 		kfree(p);
+-	if (addr < TASK_SIZE && is_el1_permission_fault(addr, esr, regs)) {
++	if (is_ttbr0_addr(addr) && is_el1_permission_fault(addr, esr, regs)) {
+ 		/* regs->orig_addr_limit may be 0 if we entered from EL0 */
+ 		if (regs->orig_addr_limit == KERNEL_DS)
+ 			die_kernel_fault("access to user memory with fs=KERNEL_DS",
+@@ -603,7 +616,7 @@ static int __kprobes do_translation_fault(unsigned long addr,
+ 					  unsigned int esr,
+ 					  struct pt_regs *regs)
+ {
+-	if (addr < TASK_SIZE)
++	if (is_ttbr0_addr(addr))
+ 		return do_page_fault(addr, esr, regs);
  
- 	return ret;
+ 	do_bad_area(addr, esr, regs);
+@@ -758,7 +771,7 @@ asmlinkage void __exception do_el0_ia_bp_hardening(unsigned long addr,
+ 	 * re-enabled IRQs. If the address is a kernel address, apply
+ 	 * BP hardening prior to enabling IRQs and pre-emption.
+ 	 */
+-	if (addr > TASK_SIZE)
++	if (!is_ttbr0_addr(addr))
+ 		arm64_apply_bp_hardening();
+ 
+ 	local_daif_restore(DAIF_PROCCTX);
+@@ -771,7 +784,7 @@ asmlinkage void __exception do_sp_pc_abort(unsigned long addr,
+ 					   struct pt_regs *regs)
+ {
+ 	if (user_mode(regs)) {
+-		if (instruction_pointer(regs) > TASK_SIZE)
++		if (!is_ttbr0_addr(instruction_pointer(regs)))
+ 			arm64_apply_bp_hardening();
+ 		local_daif_restore(DAIF_PROCCTX);
+ 	}
+@@ -825,7 +838,7 @@ asmlinkage int __exception do_debug_exception(unsigned long addr,
+ 	if (interrupts_enabled(regs))
+ 		trace_hardirqs_off();
+ 
+-	if (user_mode(regs) && instruction_pointer(regs) > TASK_SIZE)
++	if (user_mode(regs) && !is_ttbr0_addr(instruction_pointer(regs)))
+ 		arm64_apply_bp_hardening();
+ 
+ 	if (!inf->fn(addr, esr, regs)) {
 -- 
 2.19.1.1215.g8438c0b245-goog
 
