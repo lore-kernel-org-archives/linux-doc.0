@@ -2,95 +2,186 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2CEF87D8A3
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 10:17:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C96277D8A3
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 10:18:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727593AbeKSUkH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 15:40:07 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:55920 "EHLO mx1.redhat.com"
+        id S1727585AbeKSUlt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 15:41:49 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:48786 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726287AbeKSUkG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Nov 2018 15:40:06 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        id S1726287AbeKSUlt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Nov 2018 15:41:49 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id B088E3084243;
-        Mon, 19 Nov 2018 10:16:56 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id DC2CD5D608;
+        Mon, 19 Nov 2018 10:18:38 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-77.ams2.redhat.com [10.36.117.77])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 81DA3105706D;
-        Mon, 19 Nov 2018 10:16:53 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AF1185D9CD;
+        Mon, 19 Nov 2018 10:18:36 +0000 (UTC)
 From:   David Hildenbrand <david@redhat.com>
 To:     linux-mm@kvack.org
 Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         devel@linuxdriverproject.org, linux-fsdevel@vger.kernel.org,
         linux-pm@vger.kernel.org, xen-devel@lists.xenproject.org,
         kexec-ml <kexec@lists.infradead.org>, pv-drivers@vmware.com,
-        David Hildenbrand <david@redhat.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH v1 4/8] xen/balloon: mark inflated pages PG_offline
-Date:   Mon, 19 Nov 2018 11:16:12 +0100
-Message-Id: <20181119101616.8901-5-david@redhat.com>
+        Kazuhito Hagio <k-hagio@ab.jp.nec.com>,
+        David Hildenbrand <david@redhat.com>
+Subject: [PATCH v1] makedumpfile: exclude pages that are logically offline
+Date:   Mon, 19 Nov 2018 11:18:35 +0100
+Message-Id: <20181119101835.9140-1-david@redhat.com>
 In-Reply-To: <20181119101616.8901-1-david@redhat.com>
 References: <20181119101616.8901-1-david@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.40]); Mon, 19 Nov 2018 10:16:57 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Mon, 19 Nov 2018 10:18:39 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mark inflated and never onlined pages PG_offline, to tell the world that
-the content is stale and should not be dumped.
+Linux marks pages that are logically offline via a page flag (map count).
+Such pages e.g. include pages infated as part of a balloon driver or
+pages that were not actually onlined when onlining the whole section.
 
-Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-Cc: Juergen Gross <jgross@suse.com>
-Cc: Stefano Stabellini <sstabellini@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
+While the hypervisor usually allows to read such inflated memory, we
+basically read and dump data that is completely irrelevant. Also, this
+might result in quite some overhead in the hypervisor. In addition,
+we saw some problems under Hyper-V, whereby we can crash the kernel by
+dumping, when reading memory of a partially onlined memory segment
+(for memory added by the Hyper-V balloon driver).
+
+Therefore, don't read and dump pages that are marked as being logically
+offline.
+
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- drivers/xen/balloon.c | 3 +++
- 1 file changed, 3 insertions(+)
+ makedumpfile.c | 34 ++++++++++++++++++++++++++++++----
+ makedumpfile.h |  1 +
+ 2 files changed, 31 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/xen/balloon.c b/drivers/xen/balloon.c
-index 12148289debd..14dd6b814db3 100644
---- a/drivers/xen/balloon.c
-+++ b/drivers/xen/balloon.c
-@@ -425,6 +425,7 @@ static int xen_bring_pgs_online(struct page *pg, unsigned int order)
- 	for (i = 0; i < size; i++) {
- 		p = pfn_to_page(start_pfn + i);
- 		__online_page_set_limits(p);
-+		__SetPageOffline(p);
- 		__balloon_append(p);
- 	}
- 	mutex_unlock(&balloon_mutex);
-@@ -493,6 +494,7 @@ static enum bp_state increase_reservation(unsigned long nr_pages)
- 		xenmem_reservation_va_mapping_update(1, &page, &frame_list[i]);
+diff --git a/makedumpfile.c b/makedumpfile.c
+index 8923538..b8bfd4c 100644
+--- a/makedumpfile.c
++++ b/makedumpfile.c
+@@ -88,6 +88,7 @@ mdf_pfn_t pfn_cache_private;
+ mdf_pfn_t pfn_user;
+ mdf_pfn_t pfn_free;
+ mdf_pfn_t pfn_hwpoison;
++mdf_pfn_t pfn_offline;
  
- 		/* Relinquish the page back to the allocator. */
-+		__ClearPageOffline(page);
- 		free_reserved_page(page);
- 	}
+ mdf_pfn_t num_dumped;
  
-@@ -519,6 +521,7 @@ static enum bp_state decrease_reservation(unsigned long nr_pages, gfp_t gfp)
- 			state = BP_EAGAIN;
- 			break;
+@@ -249,6 +250,21 @@ isHugetlb(unsigned long dtor)
+                     && (SYMBOL(free_huge_page) == dtor));
+ }
+ 
++static int
++isOffline(unsigned long flags, unsigned int _mapcount)
++{
++	if (NUMBER(PAGE_BUDDY_MAPCOUNT_VALUE) == NOT_FOUND_NUMBER)
++		return FALSE;
++
++	if (flags & (1UL << NUMBER(PG_slab)))
++		return FALSE;
++
++	if (_mapcount == (int)NUMBER(PAGE_OFFLINE_MAPCOUNT_VALUE))
++		return TRUE;
++
++	return FALSE;
++}
++
+ static int
+ is_cache_page(unsigned long flags)
+ {
+@@ -2287,6 +2303,8 @@ write_vmcoreinfo_data(void)
+ 	WRITE_NUMBER("PG_hwpoison", PG_hwpoison);
+ 
+ 	WRITE_NUMBER("PAGE_BUDDY_MAPCOUNT_VALUE", PAGE_BUDDY_MAPCOUNT_VALUE);
++	WRITE_NUMBER("PAGE_OFFLINE_MAPCOUNT_VALUE",
++		     PAGE_OFFLINE_MAPCOUNT_VALUE);
+ 	WRITE_NUMBER("phys_base", phys_base);
+ 
+ 	WRITE_NUMBER("HUGETLB_PAGE_DTOR", HUGETLB_PAGE_DTOR);
+@@ -2687,6 +2705,7 @@ read_vmcoreinfo(void)
+ 	READ_SRCFILE("pud_t", pud_t);
+ 
+ 	READ_NUMBER("PAGE_BUDDY_MAPCOUNT_VALUE", PAGE_BUDDY_MAPCOUNT_VALUE);
++	READ_NUMBER("PAGE_OFFLINE_MAPCOUNT_VALUE", PAGE_OFFLINE_MAPCOUNT_VALUE);
+ 	READ_NUMBER("phys_base", phys_base);
+ #ifdef __aarch64__
+ 	READ_NUMBER("VA_BITS", VA_BITS);
+@@ -6041,6 +6060,12 @@ __exclude_unnecessary_pages(unsigned long mem_map,
+ 		else if (isHWPOISON(flags)) {
+ 			pfn_counter = &pfn_hwpoison;
  		}
-+		__SetPageOffline(page);
- 		adjust_managed_page_count(page, -1);
- 		xenmem_reservation_scrub_page(page);
- 		list_add(&page->lru, &pages);
++		/*
++		 * Exclude pages that are logically offline.
++		 */
++		else if (isOffline(flags, _mapcount)) {
++			pfn_counter = &pfn_offline;
++		}
+ 		/*
+ 		 * Unexcludable page
+ 		 */
+@@ -7522,7 +7547,7 @@ write_elf_pages_cyclic(struct cache_data *cd_header, struct cache_data *cd_page)
+ 	 */
+ 	if (info->flag_cyclic) {
+ 		pfn_zero = pfn_cache = pfn_cache_private = 0;
+-		pfn_user = pfn_free = pfn_hwpoison = 0;
++		pfn_user = pfn_free = pfn_hwpoison = pfn_offline = 0;
+ 		pfn_memhole = info->max_mapnr;
+ 	}
+ 
+@@ -8804,7 +8829,7 @@ write_kdump_pages_and_bitmap_cyclic(struct cache_data *cd_header, struct cache_d
+ 		 * Reset counter for debug message.
+ 		 */
+ 		pfn_zero = pfn_cache = pfn_cache_private = 0;
+-		pfn_user = pfn_free = pfn_hwpoison = 0;
++		pfn_user = pfn_free = pfn_hwpoison = pfn_offline = 0;
+ 		pfn_memhole = info->max_mapnr;
+ 
+ 		/*
+@@ -9749,7 +9774,7 @@ print_report(void)
+ 	pfn_original = info->max_mapnr - pfn_memhole;
+ 
+ 	pfn_excluded = pfn_zero + pfn_cache + pfn_cache_private
+-	    + pfn_user + pfn_free + pfn_hwpoison;
++	    + pfn_user + pfn_free + pfn_hwpoison + pfn_offline;
+ 	shrinking = (pfn_original - pfn_excluded) * 100;
+ 	shrinking = shrinking / pfn_original;
+ 
+@@ -9763,6 +9788,7 @@ print_report(void)
+ 	REPORT_MSG("    User process data pages : 0x%016llx\n", pfn_user);
+ 	REPORT_MSG("    Free pages              : 0x%016llx\n", pfn_free);
+ 	REPORT_MSG("    Hwpoison pages          : 0x%016llx\n", pfn_hwpoison);
++	REPORT_MSG("    Offline pages           : 0x%016llx\n", pfn_offline);
+ 	REPORT_MSG("  Remaining pages  : 0x%016llx\n",
+ 	    pfn_original - pfn_excluded);
+ 	REPORT_MSG("  (The number of pages is reduced to %lld%%.)\n",
+@@ -9790,7 +9816,7 @@ print_mem_usage(void)
+ 	pfn_original = info->max_mapnr - pfn_memhole;
+ 
+ 	pfn_excluded = pfn_zero + pfn_cache + pfn_cache_private
+-	    + pfn_user + pfn_free + pfn_hwpoison;
++	    + pfn_user + pfn_free + pfn_hwpoison + pfn_offline;
+ 	shrinking = (pfn_original - pfn_excluded) * 100;
+ 	shrinking = shrinking / pfn_original;
+ 	total_size = info->page_size * pfn_original;
+diff --git a/makedumpfile.h b/makedumpfile.h
+index f02f86d..e3a2b29 100644
+--- a/makedumpfile.h
++++ b/makedumpfile.h
+@@ -1927,6 +1927,7 @@ struct number_table {
+ 	long    PG_hwpoison;
+ 
+ 	long	PAGE_BUDDY_MAPCOUNT_VALUE;
++	long	PAGE_OFFLINE_MAPCOUNT_VALUE;
+ 	long	SECTION_SIZE_BITS;
+ 	long	MAX_PHYSMEM_BITS;
+ 	long    HUGETLB_PAGE_DTOR;
 -- 
 2.17.2
 
