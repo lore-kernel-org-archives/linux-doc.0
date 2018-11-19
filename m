@@ -5,87 +5,173 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B50477D08E
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 19:21:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3B3B57D8D4
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 19:21:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727620AbeKTFj0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 00:39:26 -0500
-Received: from Galois.linutronix.de ([146.0.238.70]:39562 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725843AbeKTFj0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 00:39:26 -0500
-Received: from p4fea46ac.dip0.t-ipconnect.de ([79.234.70.172] helo=nanos)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1gOozE-0001cO-KT; Mon, 19 Nov 2018 20:13:32 +0100
-Date:   Mon, 19 Nov 2018 20:13:31 +0100 (CET)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Borislav Petkov <bp@alien8.de>
-cc:     "Moger, Babu" <Babu.Moger@amd.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
-        "pombredanne@nexb.com" <pombredanne@nexb.com>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
-        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Singh, Brijesh" <brijesh.singh@amd.com>,
-        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
-        "dwmw2@infradead.org" <dwmw2@infradead.org>,
-        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "jannh@google.com" <jannh@google.com>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "rian@alum.mit.edu" <rian@alum.mit.edu>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v8 01/13] arch/resctrl: Start renaming the rdt files to
- more generic names
-In-Reply-To: <20181118140735.GC19380@zn.tnic>
-Message-ID: <alpine.DEB.2.21.1811192012460.1669@nanos.tec.linutronix.de>
-References: <20181116205407.10457-1-babu.moger@amd.com> <20181116205407.10457-2-babu.moger@amd.com> <20181118140735.GC19380@zn.tnic>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1727346AbeKTFm2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 00:42:28 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:36108 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726347AbeKTFm2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Nov 2018 00:42:28 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 8FAEC309EFF4;
+        Mon, 19 Nov 2018 19:17:27 +0000 (UTC)
+Received: from redhat.com (ovpn-124-1.rdu2.redhat.com [10.10.124.1])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7136BBAAC;
+        Mon, 19 Nov 2018 19:17:23 +0000 (UTC)
+Date:   Mon, 19 Nov 2018 14:17:21 -0500
+From:   Jerome Glisse <jglisse@redhat.com>
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Leon Romanovsky <leon@kernel.org>,
+        Kenneth Lee <liguozhu@hisilicon.com>,
+        Tim Sell <timothy.sell@unisys.com>, linux-doc@vger.kernel.org,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Zaibo Xu <xuzaibo@huawei.com>, zhangfei.gao@foxmail.com,
+        linuxarm@huawei.com, haojian.zhuang@linaro.org,
+        Christoph Lameter <cl@linux.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        Gavin Schenk <g.schenk@eckelmann.de>,
+        RDMA mailing list <linux-rdma@vger.kernel.org>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Doug Ledford <dledford@redhat.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        David Kershner <david.kershner@unisys.com>,
+        Kenneth Lee <nek.in.cn@gmail.com>,
+        Johan Hovold <johan@kernel.org>,
+        Cyrille Pitchen <cyrille.pitchen@free-electrons.com>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Jens Axboe <axboe@kernel.dk>, guodong.xu@linaro.org,
+        linux-netdev <netdev@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+        linux-crypto@vger.kernel.org,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-accelerators@lists.ozlabs.org
+Subject: Re: [RFCv3 PATCH 1/6] uacce: Add documents for WarpDrive/uacce
+Message-ID: <20181119191721.GC4593@redhat.com>
+References: <20181114160017.GI3759@mtr-leonro.mtl.com>
+ <20181115085109.GD157308@Turing-Arch-b>
+ <20181115145455.GN3759@mtr-leonro.mtl.com>
+ <20181119091405.GE157308@Turing-Arch-b>
+ <20181119091910.GF157308@Turing-Arch-b>
+ <20181119104801.GF8268@mtr-leonro.mtl.com>
+ <20181119164853.GA4593@redhat.com>
+ <20181119182752.GA4890@ziepe.ca>
+ <20181119184215.GB4593@redhat.com>
+ <20181119185333.GC4890@ziepe.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20181119185333.GC4890@ziepe.ca>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Mon, 19 Nov 2018 19:17:28 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 18 Nov 2018, Borislav Petkov wrote:
+On Mon, Nov 19, 2018 at 11:53:33AM -0700, Jason Gunthorpe wrote:
+> On Mon, Nov 19, 2018 at 01:42:16PM -0500, Jerome Glisse wrote:
+> > On Mon, Nov 19, 2018 at 11:27:52AM -0700, Jason Gunthorpe wrote:
+> > > On Mon, Nov 19, 2018 at 11:48:54AM -0500, Jerome Glisse wrote:
+> > > 
+> > > > Just to comment on this, any infiniband driver which use umem and do
+> > > > not have ODP (here ODP for me means listening to mmu notifier so all
+> > > > infiniband driver except mlx5) will be affected by same issue AFAICT.
+> > > > 
+> > > > AFAICT there is no special thing happening after fork() inside any of
+> > > > those driver. So if parent create a umem mr before fork() and program
+> > > > hardware with it then after fork() the parent might start using new
+> > > > page for the umem range while the old memory is use by the child. The
+> > > > reverse is also true (parent using old memory and child new memory)
+> > > > bottom line you can not predict which memory the child or the parent
+> > > > will use for the range after fork().
+> > > > 
+> > > > So no matter what you consider the child or the parent, what the hw
+> > > > will use for the mr is unlikely to match what the CPU use for the
+> > > > same virtual address. In other word:
+> > > > 
+> > > > Before fork:
+> > > >     CPU parent: virtual addr ptr1 -> physical address = 0xCAFE
+> > > >     HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
+> > > > 
+> > > > Case 1:
+> > > >     CPU parent: virtual addr ptr1 -> physical address = 0xCAFE
+> > > >     CPU child:  virtual addr ptr1 -> physical address = 0xDEAD
+> > > >     HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
+> > > > 
+> > > > Case 2:
+> > > >     CPU parent: virtual addr ptr1 -> physical address = 0xBEEF
+> > > >     CPU child:  virtual addr ptr1 -> physical address = 0xCAFE
+> > > >     HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
+> > > 
+> > > IIRC this is solved in IB by automatically calling
+> > > madvise(MADV_DONTFORK) before creating the MR.
+> > > 
+> > > MADV_DONTFORK
+> > >   .. This is useful to prevent copy-on-write semantics from changing the
+> > >   physical location of a page if the parent writes to it after a
+> > >   fork(2) ..
+> > 
+> > This would work around the issue but this is not transparent ie
+> > range marked with DONTFORK no longer behave as expected from the
+> > application point of view.
 > 
-> Now, it looks to me like the whole resctrl thing begs for its own dir:
+> Do you know what the difference is? The man page really gives no
+> hint..
 > 
->  arch/x86/kernel/cpu/resctrl/core.c
->  arch/x86/kernel/cpu/resctrl/ctrlmondata.c
->  arch/x86/kernel/cpu/resctrl/internal.h
->  arch/x86/kernel/cpu/resctrl/monitor.c
->  arch/x86/kernel/cpu/resctrl/pseudo_lock.c
->  arch/x86/kernel/cpu/resctrl/pseudo_lock_event.h
->  arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> Does it sometimes unmap the pages during fork?
+
+It is handled in kernel/fork.c look for DONTCOPY, basicaly it just
+leave empty page table in the child process so child will have to
+fault in new page. This also means that child will get 0 as initial
+value for all memory address under DONTCOPY/DONTFORK which breaks
+application expectation of what fork() do.
+
 > 
-> This way, the whole RDT machinery will be confined to its own directory.
+> I actually wonder if the kernel is a bit broken here, we have the same
+> problem with O_DIRECT and other stuff, right?
 
-Fine with that.
+No it is not, O_DIRECT is fine. The only corner case i can think
+of with O_DIRECT is one thread launching an O_DIRECT that write
+to private anonymous memory (other O_DIRECT case do not matter)
+while another thread call fork() then what the child get can be
+undefined ie either it get the data before the O_DIRECT finish
+or it gets the result of the O_DIRECT. But this is realy what
+you should expect when doing such thing without synchronization.
 
-Thanks,
+So O_DIRECT is fine.
 
-	tglx
+> 
+> Really, if I have a get_user_pages FOLL_WRITE on a page and we fork,
+> then shouldn't the COW immediately be broken during the fork?
+> 
+> The kernel can't guarentee that an ongoing DMA will not write to those
+> pages, and it breaks the fork semantic to write to both processes.
+
+Fixing that would incur a high cost: need to grow struct page, need
+to copy potentialy gigabyte of memory during fork() ... this would be
+a serious performance regression for many folks just to work around an
+abuse of device driver. So i don't think anything on that front would
+be welcome.
+
+umem without proper ODP and VFIO are the only bad user i know of (for
+VFIO you can argue that it is part of the API contract and thus that
+it is not an abuse but it is not spell out loud in documentation). I
+have been trying to push back on any people trying to push thing that
+would make the same mistake or at least making sure they understand
+what is happening.
+
+What really need to happen is people fixing their hardware and do the
+right thing (good software engineer versus evil hardware engineer ;))
+
+Cheers,
+Jérôme
