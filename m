@@ -3,51 +3,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6D58A7E393
+	by archive.lwn.net (Postfix) with ESMTP id C23E37E953
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 18:31:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404421AbeKTDvW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 22:51:22 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:43553 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404468AbeKTDvW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 22:51:22 -0500
-Received: by mail-wr1-f65.google.com with SMTP id r10so15413496wrs.10
-        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 09:26:57 -0800 (PST)
+        id S2404620AbeKTDv2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 22:51:28 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:36986 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404520AbeKTDv1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 22:51:27 -0500
+Received: by mail-wm1-f67.google.com with SMTP id p2-v6so6043775wmc.2
+        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 09:27:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=MOxiGtbnzhqpDBspVzWEzY99H8AFgGg0mLPeJFn5o/U=;
-        b=URLmOXZKwOvDj+SSbXLXhbvfDTH5VmJxVPJ5zUuwGtDuhF/01XSIZ7lprwchOG+Z5y
-         98y5fkI5hwCXwPSPOA+uJ707d7eQjlwq/jf3dez9mnFfDgJoYKmND/whcJC2DGnKV+RE
-         raTHNIG9TznaSyAkHxebdbUg7KNiKJoCMrC58JqtVQsQ9lKhbRoKM4miUZQA8DIQA3/4
-         75le7lOrBXtx4KGu6GBSHjzSpm0XMpaCk8qP0cwQnuhgj1SPCCkQLirUSYrEFKCwSZuG
-         ZduFHeRdT7g25y9PVclAGkstBd9FD9Oh2hhgP2ca/Wwjg8sizSdCqQv6wA8kq0gnm50v
-         hxLA==
+        bh=dR8lcfOg/asfdxo/WfCVQzFad9LYpScILBiq6D3Qbc8=;
+        b=b3lKnIQw33I69347c6fVByjZWZr7rDfZ6pO/Th+7IH/z4NfXLoPk6gkZ6U+EuX8ViZ
+         YvJr7csFPYS3irKKPwFBlIUVwi664iOL1+0Zl2X2madbWgValetXf8gjws1+oU9Tu1ye
+         OEwGw5UlVlxIv/bPEHYGYnySoUH32sHcN6B14z0CVpKxTCSstFOwYILAL0z/aC1+bVaI
+         7qjaP5iEylpKToNC3dh4SGcPFIAaCiniXcIq9QFyoplJCiGTFhrdjEKkYbqYwX2beBSj
+         Q+4Eaq6aFNUnLw4H9+FNi6Msuzomb85hS5dxEpUktBeo4ZKCl8DjGrDQOJc1a87JAIXi
+         16vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=MOxiGtbnzhqpDBspVzWEzY99H8AFgGg0mLPeJFn5o/U=;
-        b=gU6BpfxxJpYJJo//C9qzw1AKW+p6h+yxpOCQy4FozVwIkG04R6x5ZkSPMW+xsaBqW7
-         SlZ1YCkfOh74iKdH6aO2/WecoUE3Dhu8VWRXtzMOOZz9t9gPRot9JMFjnMWAgtsaoI6T
-         YEUaKjPhhzvdZGiCIuEPjx5QjYTpsdxXgqAsQRhclDVvigAyO4mM3lvDSty//7XIovdN
-         gDNKq4I/DNrLb+O8q5tZ7jlNU6ZJdwTolQ559OKk7DOpX5Zr4Mo4SFvDdkPSwbRK8FvV
-         B2zn6bBZXbU7bnCrU9jbkoB4HRKRCgACVBrF/y2am7RtLTjQjPi+TfrLoCdjIiPfJJQR
-         OojA==
-X-Gm-Message-State: AA+aEWYusC/jyGVT1tqdqL9St0oZMmCtIH9mgKBHVaaC0PJb/n/6nAK2
-        +KhMfpkSosOf4NYc5nNNs/RHsg==
-X-Google-Smtp-Source: AFSGD/U8sgq6gI0uk28IKx47rH6VRYWmJDqB5I8lWxiIoUIosbabdvsEgnEhuL/jWxx1BbIZHGP1pw==
-X-Received: by 2002:a5d:63c3:: with SMTP id c3mr2726578wrw.215.1542648416246;
-        Mon, 19 Nov 2018 09:26:56 -0800 (PST)
+        bh=dR8lcfOg/asfdxo/WfCVQzFad9LYpScILBiq6D3Qbc8=;
+        b=kPhLvh55CRtyw+2YejXDoioDPHe6c4oj/izsQbb9TG98LCOY9rdWsQFH+s0zUiVqqD
+         Tu1mPFphIQvpBQRaWsPp3uKOSacgocddaS6fUWM/SY4iCYZCiP2V10+ZCMdUmXiBuFGQ
+         0rJBnLGcJKmaZLGEemhtsi8nDlhhBCKoiUfuPX583ztUM924BUL2oGKwA5GyGhE0rNFq
+         jAVH31CPQpxcR8b6u6lRshCjd/b/5a/rLNE7gEuSEkdM9Rl7kUEvseTafak685JkH5nL
+         9L11ej2mvacud2UgvL7IiM5srEkkgP9zw2oLOdF0EsFLqpvHLBbgzNwJh+qfVe7VlwCj
+         XjCA==
+X-Gm-Message-State: AGRZ1gLnFAhlekuCZUcDTufb08TmjIklYuLbPeuOa07rmuper4BHySU0
+        5dXzT4IvWIj2s9OhjSzEjZDzXA==
+X-Google-Smtp-Source: AFSGD/WNR8o/WnEF0/GAJSPJLxjNxD3wmkq6whPNnsgmqmNKBmrpQx9bRReY6c/V+wChGBijG3HyMw==
+X-Received: by 2002:a1c:f916:: with SMTP id x22mr5632080wmh.87.1542648421670;
+        Mon, 19 Nov 2018 09:27:01 -0800 (PST)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:3180:41f8:3010:ff61])
-        by smtp.gmail.com with ESMTPSA id l143-v6sm23685190wmb.23.2018.11.19.09.26.54
+        by smtp.gmail.com with ESMTPSA id l143-v6sm23685190wmb.23.2018.11.19.09.26.59
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 19 Nov 2018 09:26:55 -0800 (PST)
+        Mon, 19 Nov 2018 09:27:00 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -85,9 +85,9 @@ Cc:     Kostya Serebryany <kcc@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Vishwath Mohan <vishwath@google.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v11 04/24] kasan: rename source files to reflect the new naming scheme
-Date:   Mon, 19 Nov 2018 18:26:20 +0100
-Message-Id: <9cd2f3cc890932e8d3ae5eb2ac24458d39d87960.1542648335.git.andreyknvl@google.com>
+Subject: [PATCH v11 06/24] kasan, arm64: adjust shadow size for tag-based mode
+Date:   Mon, 19 Nov 2018 18:26:22 +0100
+Message-Id: <8122d5bedc46bb3655d576c922db3d722a231bf0.1542648335.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.19.1.1215.g8438c0b245-goog
 In-Reply-To: <cover.1542648335.git.andreyknvl@google.com>
 References: <cover.1542648335.git.andreyknvl@google.com>
@@ -98,52 +98,65 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We now have two KASAN modes: generic KASAN and tag-based KASAN. Rename
-kasan.c to generic.c to reflect that. Also rename kasan_init.c to init.c
-as it contains initialization code for both KASAN modes.
+Tag-based KASAN uses 1 shadow byte for 16 bytes of kernel memory, so it
+requires 1/16th of the kernel virtual address space for the shadow memory.
+
+This commit sets KASAN_SHADOW_SCALE_SHIFT to 4 when the tag-based KASAN
+mode is enabled.
 
 Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
 Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- mm/kasan/Makefile                 | 8 ++++----
- mm/kasan/{kasan.c => generic.c}   | 0
- mm/kasan/{kasan_init.c => init.c} | 0
- 3 files changed, 4 insertions(+), 4 deletions(-)
- rename mm/kasan/{kasan.c => generic.c} (100%)
- rename mm/kasan/{kasan_init.c => init.c} (100%)
+ arch/arm64/Makefile             | 11 ++++++++++-
+ arch/arm64/include/asm/memory.h |  7 +++----
+ 2 files changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/mm/kasan/Makefile b/mm/kasan/Makefile
-index a6df14bffb6b..d643530b24aa 100644
---- a/mm/kasan/Makefile
-+++ b/mm/kasan/Makefile
-@@ -1,14 +1,14 @@
- # SPDX-License-Identifier: GPL-2.0
- KASAN_SANITIZE := n
- UBSAN_SANITIZE_common.o := n
--UBSAN_SANITIZE_kasan.o := n
-+UBSAN_SANITIZE_generic.o := n
- KCOV_INSTRUMENT := n
+diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
+index 6cb9fc7e9382..99e7d08c6083 100644
+--- a/arch/arm64/Makefile
++++ b/arch/arm64/Makefile
+@@ -91,10 +91,19 @@ else
+ TEXT_OFFSET := 0x00080000
+ endif
  
--CFLAGS_REMOVE_kasan.o = -pg
-+CFLAGS_REMOVE_generic.o = -pg
- # Function splitter causes unnecessary splits in __asan_load1/__asan_store1
- # see: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63533
++ifeq ($(CONFIG_KASAN_SW_TAGS), y)
++KASAN_SHADOW_SCALE_SHIFT := 4
++else
++KASAN_SHADOW_SCALE_SHIFT := 3
++endif
++
++KBUILD_CFLAGS += -DKASAN_SHADOW_SCALE_SHIFT=$(KASAN_SHADOW_SCALE_SHIFT)
++KBUILD_CPPFLAGS += -DKASAN_SHADOW_SCALE_SHIFT=$(KASAN_SHADOW_SCALE_SHIFT)
++KBUILD_AFLAGS += -DKASAN_SHADOW_SCALE_SHIFT=$(KASAN_SHADOW_SCALE_SHIFT)
++
+ # KASAN_SHADOW_OFFSET = VA_START + (1 << (VA_BITS - KASAN_SHADOW_SCALE_SHIFT))
+ #				 - (1 << (64 - KASAN_SHADOW_SCALE_SHIFT))
+ # in 32-bit arithmetic
+-KASAN_SHADOW_SCALE_SHIFT := 3
+ KASAN_SHADOW_OFFSET := $(shell printf "0x%08x00000000\n" $$(( \
+ 	(0xffffffff & (-1 << ($(CONFIG_ARM64_VA_BITS) - 32))) \
+ 	+ (1 << ($(CONFIG_ARM64_VA_BITS) - 32 - $(KASAN_SHADOW_SCALE_SHIFT))) \
+diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
+index b96442960aea..05fbc7ffcd31 100644
+--- a/arch/arm64/include/asm/memory.h
++++ b/arch/arm64/include/asm/memory.h
+@@ -74,12 +74,11 @@
+ #define KERNEL_END        _end
  
- CFLAGS_common.o := $(call cc-option, -fno-conserve-stack -fno-stack-protector)
--CFLAGS_kasan.o := $(call cc-option, -fno-conserve-stack -fno-stack-protector)
-+CFLAGS_generic.o := $(call cc-option, -fno-conserve-stack -fno-stack-protector)
- 
--obj-y := common.o kasan.o report.o kasan_init.o quarantine.o
-+obj-y := common.o generic.o report.o init.o quarantine.o
-diff --git a/mm/kasan/kasan.c b/mm/kasan/generic.c
-similarity index 100%
-rename from mm/kasan/kasan.c
-rename to mm/kasan/generic.c
-diff --git a/mm/kasan/kasan_init.c b/mm/kasan/init.c
-similarity index 100%
-rename from mm/kasan/kasan_init.c
-rename to mm/kasan/init.c
+ /*
+- * KASAN requires 1/8th of the kernel virtual address space for the shadow
+- * region. KASAN can bloat the stack significantly, so double the (minimum)
+- * stack size when KASAN is in use.
++ * Generic and tag-based KASAN require 1/8th and 1/16th of the kernel virtual
++ * address space for the shadow region respectively. They can bloat the stack
++ * significantly, so double the (minimum) stack size when they are in use.
+  */
+ #ifdef CONFIG_KASAN
+-#define KASAN_SHADOW_SCALE_SHIFT 3
+ #define KASAN_SHADOW_SIZE	(UL(1) << (VA_BITS - KASAN_SHADOW_SCALE_SHIFT))
+ #define KASAN_THREAD_SHIFT	1
+ #else
 -- 
 2.19.1.1215.g8438c0b245-goog
 
