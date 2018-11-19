@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1F2F37E294
+	by archive.lwn.net (Postfix) with ESMTP id 5E2AC7E2A1
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 21:56:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731302AbeKTIUi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 03:20:38 -0500
+        id S1731757AbeKTIUj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 03:20:39 -0500
 Received: from mga09.intel.com ([134.134.136.24]:32114 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731707AbeKTIUi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 03:20:38 -0500
+        id S1731707AbeKTIUj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Nov 2018 03:20:39 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Nov 2018 13:54:57 -0800
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Nov 2018 13:54:59 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.56,254,1539673200"; 
-   d="scan'208";a="92423896"
+   d="scan'208";a="92423899"
 Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
-  by orsmga006.jf.intel.com with ESMTP; 19 Nov 2018 13:54:56 -0800
+  by orsmga006.jf.intel.com with ESMTP; 19 Nov 2018 13:54:57 -0800
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -47,9 +47,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [RFC PATCH v6 04/11] mm/mmap: Add IBT bitmap size to address space limit check
-Date:   Mon, 19 Nov 2018 13:49:27 -0800
-Message-Id: <20181119214934.6174-5-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v6 05/11] x86/cet/ibt: ELF header parsing for IBT
+Date:   Mon, 19 Nov 2018 13:49:28 -0800
+Message-Id: <20181119214934.6174-6-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181119214934.6174-1-yu-cheng.yu@intel.com>
 References: <20181119214934.6174-1-yu-cheng.yu@intel.com>
@@ -58,72 +58,43 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The indirect branch tracking legacy bitmap takes a large address
-space.  This causes may_expand_vm() failure on the address limit
-check.  For a IBT-enabled task, add the bitmap size to the
-address limit.
+Look in .note.gnu.property of an ELF file and check if Indirect
+Branch Tracking needs to be enabled for the task.
 
+Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/include/asm/mmu_context.h | 10 ++++++++++
- mm/mmap.c                          | 19 ++++++++++++++++++-
- 2 files changed, 28 insertions(+), 1 deletion(-)
+ arch/x86/include/uapi/asm/elf_property.h | 1 +
+ arch/x86/kernel/elf.c                    | 5 +++++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/arch/x86/include/asm/mmu_context.h b/arch/x86/include/asm/mmu_context.h
-index 57c1f6c42bef..97a101267dd5 100644
---- a/arch/x86/include/asm/mmu_context.h
-+++ b/arch/x86/include/asm/mmu_context.h
-@@ -341,4 +341,14 @@ static inline unsigned long __get_current_cr3_fast(void)
- 	return cr3;
- }
- 
-+#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-+static inline unsigned long arch_as_limit(void)
-+{
-+	if (current->thread.cet.ibt_enabled)
-+		return current->thread.cet.ibt_bitmap_size;
-+	else
-+		return 0;
-+}
-+#endif
-+
- #endif /* _ASM_X86_MMU_CONTEXT_H */
-diff --git a/mm/mmap.c b/mm/mmap.c
-index 9560d69fa08c..3de023f3e565 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -3283,13 +3283,30 @@ struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
- 	return NULL;
- }
- 
-+#ifndef CONFIG_ARCH_HAS_AS_LIMIT
-+static inline unsigned long arch_as_limit(void)
-+{
-+	return 0;
-+}
-+#endif
-+
- /*
-  * Return true if the calling process may expand its vm space by the passed
-  * number of pages
+diff --git a/arch/x86/include/uapi/asm/elf_property.h b/arch/x86/include/uapi/asm/elf_property.h
+index af361207718c..343a871b8fc1 100644
+--- a/arch/x86/include/uapi/asm/elf_property.h
++++ b/arch/x86/include/uapi/asm/elf_property.h
+@@ -11,5 +11,6 @@
+  * Bits for GNU_PROPERTY_X86_FEATURE_1_AND
   */
- bool may_expand_vm(struct mm_struct *mm, vm_flags_t flags, unsigned long npages)
- {
--	if (mm->total_vm + npages > rlimit(RLIMIT_AS) >> PAGE_SHIFT)
-+	unsigned long as_limit = rlimit(RLIMIT_AS);
-+	unsigned long as_limit_plus = as_limit + arch_as_limit();
-+
-+	/* as_limit_plus overflowed */
-+	if (as_limit_plus < as_limit)
-+		as_limit_plus = RLIM_INFINITY;
-+
-+	if (as_limit_plus > as_limit)
-+		as_limit = as_limit_plus;
-+
-+	if (mm->total_vm + npages > as_limit >> PAGE_SHIFT)
- 		return false;
+ #define GNU_PROPERTY_X86_FEATURE_1_SHSTK	(0x00000002)
++#define GNU_PROPERTY_X86_FEATURE_1_IBT		(0x00000001)
  
- 	if (is_data_mapping(flags) &&
+ #endif /* _UAPI_ASM_X86_ELF_PROPERTY_H */
+diff --git a/arch/x86/kernel/elf.c b/arch/x86/kernel/elf.c
+index 60e396e2abe9..7727b9332097 100644
+--- a/arch/x86/kernel/elf.c
++++ b/arch/x86/kernel/elf.c
+@@ -353,6 +353,11 @@ int arch_setup_features(void *ehdr_p, void *phdr_p,
+ 		}
+ 	}
+ 
++	if (cpu_feature_enabled(X86_FEATURE_IBT)) {
++		if (feature & GNU_PROPERTY_X86_FEATURE_1_IBT)
++			err = cet_setup_ibt();
++	}
++
+ out:
+ 	return err;
+ }
 -- 
 2.17.1
 
