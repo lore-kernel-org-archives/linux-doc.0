@@ -1,111 +1,83 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 11AC77D8A5
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 09:46:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2FEA77D8A3
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 10:03:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727504AbeKSUJb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 15:09:31 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:40027 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727084AbeKSUJb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 15:09:31 -0500
-Received: by mail-ot1-f68.google.com with SMTP id s5so27046725oth.7;
-        Mon, 19 Nov 2018 01:46:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=/5KBi0cm0UZGRmOnPPYVeGoLrG4FVrLsOwakUAWUfVg=;
-        b=T0iPU07/Em0+Vs+RlaPd7CSr9UZiOuq9GoKrTOodZ5EA2fkmqJn/rP00kc979aPRwF
-         fds1qPJJNmwMaFAd/6u/tobMkVJlaOApkSHCLMoGLqA7ZvULavCcUSmERSjB5BI3tp9F
-         j21OL1KixuYPCJPQyZ8mHb1OetiaEinRNDnG2b1VFGz7tfKc9OEgr+Ldxm6vkac0JUCi
-         NhhMtPErIfFeuA17gSbGOPF4T+25jVXHhdLSbwMqOD90XWh+D0d07ASbJXgezpL4lAqz
-         XtWJMkrVxTPSeTS4UQF5Ka1YDdYD2SKswKDh7qIjS+Tkl9UI/nWspHqfMLx8wSmXU5bY
-         regQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=/5KBi0cm0UZGRmOnPPYVeGoLrG4FVrLsOwakUAWUfVg=;
-        b=PqMsCPcYSMl6f2cBWi8BPrFZbHF+ZL3fUQoIXni2IoDjiXh3hqmEBpOsrmUSVU8bb/
-         3NsHpAlHQN53YFFI1bBWj1bBD0AMdZxSAGN2S4mnuMo/aBCz0UCXCjljMBVoeVexx/sJ
-         qWxwGoPbHHuGutoqxjxpskk8IYAUlDtcnwcUozDlKObw5T6D/K7xqkSc5BqTpe6ol8PZ
-         HdHDkOgr+Em8zvYydqLp7r9wPDkh2XBNFIWE2kU5tlnh5MSBO14BCKjbcUnaaBtkTOr6
-         U4RRFh4gEf7N1K2Oz5zJeH+FhODqRW/cK/JjLrFYrg5Lo9DdBSFEaBRBKPM+RDL3XfGG
-         Zb5g==
-X-Gm-Message-State: AGRZ1gJ8L3D6XhTUCR39K0Aun/mA8mzAKiACUtR4m5Sr3x/hR+86qI0/
-        QASIwiV9Lz43ByopEl7I0PNg0XFOptqe5VRWKNc=
-X-Google-Smtp-Source: AJdET5djjmS6uPotJ5Kk5PEcr/1ZqYugmBAaZJ9sscnM+UTyuE89yNjcsIImZFqQq2tMTZOzIVjwyrjEYB2cNgozqqI=
-X-Received: by 2002:a9d:3d61:: with SMTP id a88mr13467168otc.103.1542620784857;
- Mon, 19 Nov 2018 01:46:24 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a4a:2819:0:0:0:0:0 with HTTP; Mon, 19 Nov 2018 01:46:24
- -0800 (PST)
-In-Reply-To: <79a2da26-669a-359c-3832-354ec2b47231@kernel.dk>
-References: <20181112095632.69114-1-paolo.valente@linaro.org>
- <9e8adb3271680165d85994a225713391@natalenko.name> <E8A20452-A73C-4A31-B5EC-48EFB9937832@linaro.org>
- <e85cfae0-7743-8c51-c2c9-0855c26f868e@kernel.dk> <CADiTV-37tqWsbxmeZJsqq+pqSqxN-_L9+T9R+PmBBJhfO-G09g@mail.gmail.com>
- <79a2da26-669a-359c-3832-354ec2b47231@kernel.dk>
-From:   Angelo Ruocco <angelo.ruocco.90@gmail.com>
-Date:   Mon, 19 Nov 2018 10:46:24 +0100
-Message-ID: <CADiTV-0Yxo=WagKPGcJebk+XQvPNxFjpyvVZmOKE2PPjFzv7pQ@mail.gmail.com>
-Subject: Re: [PATCH 00/12] unify the interface of the proportional-share
- policy in blkio/io
-To:     Jens Axboe <axboe@kernel.dk>
-Cc:     Paolo Valente <paolo.valente@linaro.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Angelo Ruocco <angeloruocco90@gmail.com>,
-        Dennis Zhou <dennis@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        Liu Bo <bo.liu@linux.alibaba.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        linux-block <linux-block@vger.kernel.org>,
+        id S1727624AbeKSU0c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 15:26:32 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34956 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727584AbeKSU0c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Nov 2018 15:26:32 -0500
+Received: from localhost (5356596B.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A4D3F20831;
+        Mon, 19 Nov 2018 10:03:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1542621804;
+        bh=8qx3xu2GbeEOZmep+WWp/pi5JLhqKDlE7QQPZXDAZok=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=1kSptsLEjDY9zGjMHfUEH+vcFPCyg8IDDwmoKQF5Q1N/SdesbtLeBbOyf98UH9U/e
+         GXqz0U7U9tkstgoXYlx+xlfjozQLnh7PG0guSjpEeOgC8bG8U70Hv8Fc0Y8KeGiMix
+         ar8nRxvBFrFfZpxPodTakzVDr9radjbBVOxFXJCk=
+Date:   Mon, 19 Nov 2018 11:03:22 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Alexey Budankov <alexey.budankov@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Jonatan Corbet <corbet@lwn.net>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Tvrtko Ursulin <tursulin@ursulin.net>,
         linux-kernel <linux-kernel@vger.kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        "'Paolo Valente' via bfq-iosched" <bfq-iosched@googlegroups.com>,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, lennart@poettering.net
-Content-Type: text/plain; charset="UTF-8"
+        kernel-hardening@lists.openwall.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 1/2]: Documentation/admin-guide: update admin-guide
+ index.rst
+Message-ID: <20181119100322.GA19910@kroah.com>
+References: <0ac97cd0-4773-fff6-7d4e-74c4a1f076c4@linux.intel.com>
+ <810bb4aa-777f-77ed-19f0-882354bdf9c7@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <810bb4aa-777f-77ed-19f0-882354bdf9c7@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-11-15 17:30 GMT+01:00, Jens Axboe <axboe@kernel.dk>:
-> On 11/15/18 4:54 AM, Angelo Ruocco wrote:
->> Hi Jens,
->>
->> I have rebased the patchset against the for-4.21/block branch, but I
->> can't test them properly because the compiling process has an error on
->> a different file. In particular:
->>
->> include/net/xfrm.h:1465:3 error: unknown type 'spruct'
->> include/net/xfrm.h:1465:30 error: expected ':', ',', ';', '}' or
->> '__attribute__' before 'auth'
->>
->> To be clear, and so that you can check I haven't made some trivial
->> mistakes: I have added/fetched the remote [1] and then simply rebased
->> against the for-4.21/block branch.
->
-> I think you have memory issues, a 'p' is just one bit away from a 't'.
+On Mon, Nov 19, 2018 at 08:41:31AM +0300, Alexey Budankov wrote:
+> 
+> Extend index.rst index file at admin-guide root directory with 
+> the reference to perf-security.rst file being introduced.
+> 
+> Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
+> ---
+>  Documentation/admin-guide/index.rst | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+> index 0873685bab0f..885cc0de9114 100644
+> --- a/Documentation/admin-guide/index.rst
+> +++ b/Documentation/admin-guide/index.rst
+> @@ -75,6 +75,7 @@ configure specific aspects of kernel behavior to your liking.
+>     thunderbolt
+>     LSM/index
+>     mm/index
+> +   perf-security
 
-That was indeed the problem.
+You just broke the build with this patch.  They need to be ordered the
+other way around :(
 
-Thank you,
-Angelo
-
->
-> --
-> Jens Axboe
->
