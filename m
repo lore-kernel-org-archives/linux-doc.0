@@ -1,104 +1,76 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 11AF07D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 15:19:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7F3547D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 16:01:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729645AbeKTBnD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 20:43:03 -0500
-Received: from mga14.intel.com ([192.55.52.115]:62708 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729589AbeKTBnD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Nov 2018 20:43:03 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Nov 2018 07:19:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,252,1539673200"; 
-   d="scan'208";a="109370299"
-Received: from linux.intel.com ([10.54.29.200])
-  by fmsmga001.fm.intel.com with ESMTP; 19 Nov 2018 07:19:08 -0800
-Received: from [10.252.27.191] (abudanko-mobl.ccr.corp.intel.com [10.252.27.191])
-        by linux.intel.com (Postfix) with ESMTP id 5740D580032;
-        Mon, 19 Nov 2018 07:19:04 -0800 (PST)
-Subject: Re: [PATCH v1 2/2]: Documentation/admin-guide: introduce
- perf-security.rst file
-To:     Jordan Glover <Golden_Miller83@protonmail.ch>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Jonatan Corbet <corbet@lwn.net>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Tvrtko Ursulin <tursulin@ursulin.net>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "kernel-hardening@lists.openwall.com" 
-        <kernel-hardening@lists.openwall.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <0ac97cd0-4773-fff6-7d4e-74c4a1f076c4@linux.intel.com>
- <a44df303-d962-c1a4-4fe0-6bad887ebcdc@linux.intel.com>
- <aDN4nC6p93nK7ILVP3EH-Y4RcKK4KH0ppQKFkIgxTVxkfbOHWjAYJXdTeuq39nbPkySKItZ_8VHN2PfQS_T08GBzeooD5cvc2Xd8oZxSp9s=@protonmail.ch>
- <20181119104646.GB9761@hirez.programming.kicks-ass.net>
- <n06wPuXrWqZEywcNe2BID7GP8dShJlE4L4oLpxO9__duA3noKJO_maOemZwZGC7EHCW7Ur14war-RqLo5pco9uruYaGJMCPOyRVzPJrZyz4=@protonmail.ch>
-From:   Alexey Budankov <alexey.budankov@linux.intel.com>
-Organization: Intel Corp.
-Message-ID: <fa11032d-5260-651a-0d39-a1353ae898ad@linux.intel.com>
-Date:   Mon, 19 Nov 2018 18:19:03 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1729926AbeKTCYv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 21:24:51 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:42214 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729825AbeKTCYv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 21:24:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Type:MIME-Version:Message-ID:
+        Subject:To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=j9pE34T2S8u9GqwpKSukNLCLgpxlt2AX/wjlQmIfvmA=; b=sqaRttMTLL8ImJo4fV+zvRgZ5G
+        B3g9S/Aby2lB0NYMv8UrDgCQA/0+izmPREWj5+khpIrm85yHU/ImiD+wjGSd53dhz9MqsuBicAWPB
+        Gmj7SXnsx7Wgjd2t/Tm2AIEKlDtNE3BRU2hwnEE0GDHrXv9ve6oHsnxxEECRNxRUn5QKP6a/Puv6R
+        Giirj9gFpg9wZu6ZtlTGgGr5FEydDS8KlbVBXc+/7iEXHm8EDDwawIP5I7nD73edQZTvLHeRo0oKr
+        c87fYwrpW8RAGnlcpW9KNv2fss75DOdWOIHp+M4ItILmNfXc0b2xMJN7VTBFXjkX2kr/DyYQnv65R
+        Q8foeE/A==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gOlyj-0002iQ-Pr; Mon, 19 Nov 2018 16:00:49 +0000
+Date:   Mon, 19 Nov 2018 08:00:49 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org
+Subject: [PATCH] Link the memory allocation guide from the MM docs
+Message-ID: <20181119160049.GC394@bombadil.infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <n06wPuXrWqZEywcNe2BID7GP8dShJlE4L4oLpxO9__duA3noKJO_maOemZwZGC7EHCW7Ur14war-RqLo5pco9uruYaGJMCPOyRVzPJrZyz4=@protonmail.ch>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+I just went looking for the memory allocation guide in the MM docs instead
+of in the core API.  For the benefit of the next person who makes that
+mistake, link to it from the MM docs.
 
-On 19.11.2018 13:49, Jordan Glover wrote:
-> On Monday, November 19, 2018 11:46 AM, Peter Zijlstra <peterz@infradead.org> wrote:
-> 
->> On Mon, Nov 19, 2018 at 10:35:59AM +0000, Jordan Glover wrote:
->>
->>> On Monday, November 19, 2018 6:42 AM, Alexey Budankov alexey.budankov@linux.intel.com wrote:
->>>
->>>> +>=3:
->>>>
->>>> -         Restrict *access* to PCL performance monitoring for unprivileged processes.
->>>>
->>>>
->>>> -         This is the default on Debian and Android [7]_ , [8]_ .
->>>>
->>>>
->>>
->>> AFAIK there is no support for '+>=3' in mainline kernel[1].
->>> Debian and Android use out-of-tree patch for that[2].
->>> Maybe someone should upstream it?
->>
->> NAK still stands on that. Alternative's have been proposed but so far
->> nobody that cared seems to care enough to implement those.
-> 
-> So, I guess we can't document NAKed patches :)
+Signed-off-by: Matthew Wilcox <willy@infradead.org>
 
-Please stay tuned for v2.
-
-Thanks,
-Alexey
-
-> 
-> Jordan
-> 
-> 
+diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
+index f8bb9aa120c4..8954a88ff5b7 100644
+--- a/Documentation/core-api/memory-allocation.rst
++++ b/Documentation/core-api/memory-allocation.rst
+@@ -1,3 +1,5 @@
++.. _memory-allocation:
++
+ =======================
+ Memory Allocation Guide
+ =======================
+diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
+index c4ded22197ca..2b3ab3a1ccf3 100644
+--- a/Documentation/vm/index.rst
++++ b/Documentation/vm/index.rst
+@@ -2,7 +2,9 @@
+ Linux Memory Management Documentation
+ =====================================
+ 
+-This is a collection of documents about Linux memory management (mm) subsystem.
++This is a collection of documents about the Linux memory management (mm)
++subsystem.  If you are looking for advice on simply allocating memory,
++see the :ref:`memory-allocation`.
+ 
+ User guides for MM features
+ ===========================
