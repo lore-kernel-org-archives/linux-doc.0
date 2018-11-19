@@ -1,31 +1,31 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BF6F97D927
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 19:21:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3DD9B7D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 19:28:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726107AbeKTFoF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 00:44:05 -0500
-Received: from a9-99.smtp-out.amazonses.com ([54.240.9.99]:47942 "EHLO
-        a9-99.smtp-out.amazonses.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725987AbeKTFoF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 00:44:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=ug7nbtf4gccmlpwj322ax3p6ow6yfsug; d=amazonses.com; t=1542655144;
-        h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:MIME-Version:Content-Type:Feedback-ID;
-        bh=qRQrNnesmmbz4mj5W8/w3iEhMIgEJfVN23yLPbGC3zE=;
-        b=cYDpWsvI69YoDSGXKAboo3pyiuwaZYfIeAc4HkodWYp9TcnP/Y3rbQfWeAJvqe39
-        7degP7/ARUn3xks8+OaAKXPDHwfk2KNQSSUrWdm6dgIIqs/24jDmRVM8kb7LgvRBmlk
-        RlkhfoamoQQUK6kaRH/5cgmoO3g/FS664p8V070c=
-Date:   Mon, 19 Nov 2018 19:19:04 +0000
-From:   Christopher Lameter <cl@linux.com>
-X-X-Sender: cl@nuc-kabylake
-To:     Jerome Glisse <jglisse@redhat.com>
-cc:     Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+        id S1730184AbeKTFuX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 00:50:23 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:34010 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725987AbeKTFuX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Nov 2018 00:50:23 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 92D1C305C3B8;
+        Mon, 19 Nov 2018 19:25:20 +0000 (UTC)
+Received: from redhat.com (ovpn-124-1.rdu2.redhat.com [10.10.124.1])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 1008D84F9;
+        Mon, 19 Nov 2018 19:25:14 +0000 (UTC)
+Date:   Mon, 19 Nov 2018 14:25:13 -0500
+From:   Jerome Glisse <jglisse@redhat.com>
+To:     Christopher Lameter <cl@linux.com>
+Cc:     Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
         Kenneth Lee <liguozhu@hisilicon.com>,
         Tim Sell <timothy.sell@unisys.com>, linux-doc@vger.kernel.org,
         Alexander Shishkin <alexander.shishkin@linux.intel.com>,
@@ -36,7 +36,7 @@ cc:     Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
         RDMA mailing list <linux-rdma@vger.kernel.org>,
         Zhou Wang <wangzhou1@hisilicon.com>,
         Doug Ledford <dledford@redhat.com>,
-        =?ISO-8859-15?Q?Uwe_Kleine-K=F6nig?= 
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
         <u.kleine-koenig@pengutronix.de>,
         David Kershner <david.kershner@unisys.com>,
         Kenneth Lee <nek.in.cn@gmail.com>,
@@ -53,43 +53,66 @@ cc:     Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
         linux-accelerators@lists.ozlabs.org
 Subject: Re: [RFCv3 PATCH 1/6] uacce: Add documents for WarpDrive/uacce
-In-Reply-To: <20181119184215.GB4593@redhat.com>
-Message-ID: <010001672d69716a-743e5098-eb2f-41ca-bf98-6e17eaaba00f-000000@email.amazonses.com>
-References: <20181113002354.GO3695@mtr-leonro.mtl.com> <95310df4-b32c-42f0-c750-3ad5eb89b3dd@gmail.com> <20181114160017.GI3759@mtr-leonro.mtl.com> <20181115085109.GD157308@Turing-Arch-b> <20181115145455.GN3759@mtr-leonro.mtl.com> <20181119091405.GE157308@Turing-Arch-b>
- <20181119091910.GF157308@Turing-Arch-b> <20181119104801.GF8268@mtr-leonro.mtl.com> <20181119164853.GA4593@redhat.com> <20181119182752.GA4890@ziepe.ca> <20181119184215.GB4593@redhat.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+Message-ID: <20181119192512.GD4593@redhat.com>
+References: <20181114160017.GI3759@mtr-leonro.mtl.com>
+ <20181115085109.GD157308@Turing-Arch-b>
+ <20181115145455.GN3759@mtr-leonro.mtl.com>
+ <20181119091405.GE157308@Turing-Arch-b>
+ <20181119091910.GF157308@Turing-Arch-b>
+ <20181119104801.GF8268@mtr-leonro.mtl.com>
+ <20181119164853.GA4593@redhat.com>
+ <20181119182752.GA4890@ziepe.ca>
+ <20181119184215.GB4593@redhat.com>
+ <010001672d69716a-743e5098-eb2f-41ca-bf98-6e17eaaba00f-000000@email.amazonses.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-SES-Outgoing: 2018.11.19-54.240.9.99
-Feedback-ID: 1.us-east-1.fQZZZ0Xtj2+TD7V5apTT/NrT6QKuPgzCT/IC7XYgDKI=:AmazonSES
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <010001672d69716a-743e5098-eb2f-41ca-bf98-6e17eaaba00f-000000@email.amazonses.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.45]); Mon, 19 Nov 2018 19:25:21 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 19 Nov 2018, Jerome Glisse wrote:
-
-> > IIRC this is solved in IB by automatically calling
-> > madvise(MADV_DONTFORK) before creating the MR.
+On Mon, Nov 19, 2018 at 07:19:04PM +0000, Christopher Lameter wrote:
+> On Mon, 19 Nov 2018, Jerome Glisse wrote:
+> 
+> > > IIRC this is solved in IB by automatically calling
+> > > madvise(MADV_DONTFORK) before creating the MR.
+> > >
+> > > MADV_DONTFORK
+> > >   .. This is useful to prevent copy-on-write semantics from changing the
+> > >   physical location of a page if the parent writes to it after a
+> > >   fork(2) ..
 > >
-> > MADV_DONTFORK
-> >   .. This is useful to prevent copy-on-write semantics from changing the
-> >   physical location of a page if the parent writes to it after a
-> >   fork(2) ..
->
-> This would work around the issue but this is not transparent ie
-> range marked with DONTFORK no longer behave as expected from the
-> application point of view.
+> > This would work around the issue but this is not transparent ie
+> > range marked with DONTFORK no longer behave as expected from the
+> > application point of view.
+> 
+> Why would anyone expect a range registered via MR behave as normal? Device
+> I/O is going on into that range. Memory is already special.
+> 
+> 
+> > Also it relies on userspace doing the right thing (which is not
+> > something i usualy trust :)).
+> 
+> This has been established practice for 15 or so years in a couple of use
+> cases. Again user space already has to be doing special things in order to
+> handle RDMA is that area.
 
-Why would anyone expect a range registered via MR behave as normal? Device
-I/O is going on into that range. Memory is already special.
+Yes RDMA as an existing historical track record and thus people
+should now be aware of its limitation. What i am fighting against
+is new addition to kernel that pretend to do SVA (share virtual
+address) while their hardware is not realy doing SVA. SVA with
+IOMMU and ATS/PASID is fine, SVA in software with device driver
+that abide to mmu notifier is fine. Anything else is not.
 
+So i am just worrying about new user and making sure they under-
+stand what is happening and not sell to their user something
+false.
 
-> Also it relies on userspace doing the right thing (which is not
-> something i usualy trust :)).
-
-This has been established practice for 15 or so years in a couple of use
-cases. Again user space already has to be doing special things in order to
-handle RDMA is that area.
-
-
+Cheers,
+Jérôme
