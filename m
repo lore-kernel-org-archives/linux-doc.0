@@ -5,44 +5,44 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6BF867D8A3
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 10:35:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2C3C17D927
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 10:35:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728096AbeKSU5x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 15:57:53 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:46174 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727813AbeKSU5w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 15:57:52 -0500
-Received: by mail-wr1-f66.google.com with SMTP id l9so18545882wrt.13
-        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 02:34:38 -0800 (PST)
+        id S1728129AbeKSU57 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 15:57:59 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:36347 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728128AbeKSU56 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 15:57:58 -0500
+Received: by mail-wr1-f65.google.com with SMTP id t3so1230663wrr.3
+        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 02:34:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=LmkQD0tbtsZAukIf+hDcnldAyNR4PdixWTebwHtfE1o=;
-        b=AaxJv2p3JFx65im37SGV+IZMjQz1PPfDkb8OcXtv8JDpUPSwtJZtW84/AKZepCQe+C
-         N6ByZWMq30fbYPq9WLjLvcq+3L+10BQzWw1OW1Pt/d9MWCFPc6NjMm4cKoRYnUAPMnD9
-         s0GJUK1te5M31nWFXEdF1uRlg/3TqiSkMp1y0=
+        bh=x0Itf0ZxI+Oxy7a9zO1EZJNmqUfunAWUlaUx3OwJfXE=;
+        b=ZY9L6xbrDMh2HjcNz0YOjsrYk0Kmtklvb60AEmHSjiJI/Pk+YMBYPF0O31vnW8uYNA
+         c9mhYofxWkWb+nOOBKPvdgFBpZSiuq0Z0Cb090oHVsvuIymAZOAd3UGEwStIpuBuMv3h
+         6BZEXTJWgLYIrrgwNuGx/H/HnMh1Ym7GLwhns=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=LmkQD0tbtsZAukIf+hDcnldAyNR4PdixWTebwHtfE1o=;
-        b=F1a8+cJAiWC+WMpR0no/DZNGC0Ijr387BVH2VsEDZJXPA+cM+p0HDRj9xsUWCRFFCI
-         LhoH7Q6SLJUv094862r/PwmA7alpe6IWxugZzRFBo0t3hyko9eKd4XUTf9CUivYsJdTZ
-         GMMnQBsnG5TBg7xdfXY5N+3CbfouxbaYSOiir8JVA8JmaC8aiLMvKuc5981dAirbbb3F
-         wzq74vNJ33PmTb//OFc+7/ChGmztvIMq6EgD58g6g187JaeqN3mHEap9gfyO9piwWvrJ
-         mc1w+3ZNwm6tGaD1S7xiNDFmeaDjGeawf0e7ynBoD/pCQsopI4hbTxA6tClVzR6HXttH
-         4kBA==
-X-Gm-Message-State: AA+aEWbHfTlevrZUMZAVmxoRcnTG/Aas4DaZQmhUMgv9+JPiklBtBSLz
-        qwEUYH1ESWFAA/xctISWBDQM7A==
-X-Google-Smtp-Source: AFSGD/VCCSlfW7s2cTUeUYGwoWoJPMb3TpI+ymkX4bkzm+sqlXypUQzp38a5WThphA2RbFy/Gh6k5g==
-X-Received: by 2002:adf:a743:: with SMTP id e3mr4979481wrd.56.1542623677866;
-        Mon, 19 Nov 2018 02:34:37 -0800 (PST)
+        bh=x0Itf0ZxI+Oxy7a9zO1EZJNmqUfunAWUlaUx3OwJfXE=;
+        b=UjP2+TLHYFDz3NIUGUxl71+9aDICR4G44jYD+GYk4AKKVpSGcVoLvt48xwfN8q+fiT
+         wWDbGMqiWsKt58hDhRm54lZ3siqaBWoBPoXb478320+5vFfEO9zJ/6f6eodSOOjU78d1
+         IyfjJbuoNlRSexdFwLP1sLhAm3ltR+4+Qv+ul4mIh18K6znTPetv8sh9xFfc0Ctysv/8
+         uBBJEO/pOFHEKctZ21Mr0i6j9YjnSdX+FQe0lR7KsQpk9eVNcr8RFaR9e8lqnRq+7fGF
+         +wnlmXgJU/XL5Qe5SzjwJgftbnPeQUiKacGyiYBT0QPhgU0aLgGVpxKG4RCM95rI1ObS
+         /Row==
+X-Gm-Message-State: AGRZ1gIfSzhcJ6PMNdl7uNnWOXiV4v/DwcIP/19rzxg3Gz/Xl5Vf/C27
+        0/d6GzJOjQYezwhbCbfbA0dHpA==
+X-Google-Smtp-Source: AJdET5fXw0qKxltdCvOTqRUWYOz39k9i/6Dbg6sQgUh6yuV+I1LQ+XJzInDrAA/rwPSZrkrvF0SJ6g==
+X-Received: by 2002:a5d:4acb:: with SMTP id y11mr17334824wrs.281.1542623683215;
+        Mon, 19 Nov 2018 02:34:43 -0800 (PST)
 Received: from localhost.localdomain ([37.162.18.180])
-        by smtp.gmail.com with ESMTPSA id e9sm14973298wro.16.2018.11.19.02.34.35
+        by smtp.gmail.com with ESMTPSA id e9sm14973298wro.16.2018.11.19.02.34.40
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 19 Nov 2018 02:34:37 -0800 (PST)
+        Mon, 19 Nov 2018 02:34:42 -0800 (PST)
 From:   Paolo Valente <paolo.valente@linaro.org>
 To:     Jens Axboe <axboe@kernel.dk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -59,9 +59,9 @@ Cc:     linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
         oleksandr@natalenko.name, cgroups@vger.kernel.org,
         linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Paolo Valente <paolo.valente@linaro.org>
-Subject: [PATCH V2 01/10] cgroup: add hook seq_show_cft with also the owning cftype as parameter
-Date:   Mon, 19 Nov 2018 11:34:15 +0100
-Message-Id: <20181119103424.3853-2-paolo.valente@linaro.org>
+Subject: [PATCH V2 03/10] cgroup: link cftypes of the same subsystem with the same name
+Date:   Mon, 19 Nov 2018 11:34:17 +0100
+Message-Id: <20181119103424.3853-4-paolo.valente@linaro.org>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20181119103424.3853-1-paolo.valente@linaro.org>
 References: <20181119103424.3853-1-paolo.valente@linaro.org>
@@ -70,82 +70,205 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current implementation of the seq_show hook in the cftype struct
-has only, as parameters, the seq_file to write to and the arguments
-passed by the command line. Thus, the only way to retrieve the cftype
-that owns an instance of such hook function is by using the accessor
-in the seq_file itself.
+From: Angelo Ruocco <angeloruocco90@gmail.com>
 
-But in a future scenario where the same file may be shared by multiple
-cftypes, this accessor will point only to the first of the cftypes
-linked to the seq_file. It will then be impossible to access the
-cftype owning the seq_show function within the seq_show itself, unless
-such cftype is the first one.
+Two entities, of any kind, are not able to create a cgroup file with
+the same name in the same folder: if an entity tries to create a file
+that has the same name as a file created by another entity, the cgroup
+core stops it, warns the user about the error, and then proceeds to
+delete all the files created by the last entity.
 
-This commit adds an additional seq_show_cft hook that has as a formal
-parameter also the cftype that owns the function.
+However, in some specific situations, it may be useful for two or more
+entities to use a common file, e.g., the I/O schedulers bfq and cfq
+had the same "weight" attribute, that changed the behavior of the two
+schedulers in a similar way.
+
+This commit prepares the interface that allows two entities to share
+files. It adds a flag CFTYPE_SHARE_FILE for cftypes, flag that allows
+cftypes to be linked together if they are part of the same subsystem
+and have the same name.
+
+There is a limitation for a cftype that wants to share a file: it can't
+have the hooks seq_start/next/stop. The reason is that there is no
+consistent way to show portions of a file once multiple cftypes are
+attached to it, and thus more than one seq_show() is invoked: there are
+neither an univocal start point, nor univocal "next" and "stop"
+operations.
 
 Signed-off-by: Angelo Ruocco <angeloruocco90@gmail.com>
 Signed-off-by: Paolo Valente <paolo.valente@linaro.org>
 ---
- include/linux/cgroup-defs.h |  3 ++-
- kernel/cgroup/cgroup.c      | 15 +++++++++------
- 2 files changed, 11 insertions(+), 7 deletions(-)
+ include/linux/cgroup-defs.h |  9 ++++++
+ kernel/cgroup/cgroup.c      | 78 +++++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 85 insertions(+), 2 deletions(-)
 
 diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
-index 5e1694fe035b..7841db6e7fb3 100644
+index 7841db6e7fb3..d659763c7221 100644
 --- a/include/linux/cgroup-defs.h
 +++ b/include/linux/cgroup-defs.h
-@@ -543,8 +543,9 @@ struct cftype {
+@@ -93,6 +93,8 @@ enum {
+ 	CFTYPE_NO_PREFIX	= (1 << 3),	/* (DON'T USE FOR NEW FILES) no subsys prefix */
+ 	CFTYPE_WORLD_WRITABLE	= (1 << 4),	/* (DON'T USE FOR NEW FILES) S_IWUGO */
+ 
++	CFTYPE_SHARES_FILE	= (1 << 5),	/* shares file w/ other cfts */
++
+ 	/* internal flags, do not use outside cgroup core proper */
+ 	__CFTYPE_ONLY_ON_DFL	= (1 << 16),	/* only on default hierarchy */
+ 	__CFTYPE_NOT_ON_DFL	= (1 << 17),	/* not on default hierarchy */
+@@ -528,6 +530,13 @@ struct cftype {
  	 */
- 	s64 (*read_s64)(struct cgroup_subsys_state *css, struct cftype *cft);
+ 	struct cgroup_subsys *ss;	/* NULL for cgroup core files */
+ 	struct list_head node;		/* anchored at ss->cfts */
++
++	/*
++	 * List of cftypes that are sharing the same file. It allows the hook
++	 * functions of the cftypes in the list to be called together.
++	 */
++	struct list_head share_node;
++
+ 	struct kernfs_ops *kf_ops;
  
--	/* generic seq_file read interface */
-+	/* generic seq_file read interfaces*/
- 	int (*seq_show)(struct seq_file *sf, void *v);
-+	int (*seq_show_cft)(struct seq_file *sf, struct cftype *cft, void *v);
- 
- 	/* optional ops, implement all or none */
- 	void *(*seq_start)(struct seq_file *sf, loff_t *ppos);
+ 	int (*open)(struct kernfs_open_file *of);
 diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index 6aaf5dd5383b..9d0993dd68fe 100644
+index 9d0993dd68fe..61eafd69e2fd 100644
 --- a/kernel/cgroup/cgroup.c
 +++ b/kernel/cgroup/cgroup.c
-@@ -1418,7 +1418,8 @@ static umode_t cgroup_file_mode(const struct cftype *cft)
- {
- 	umode_t mode = 0;
- 
--	if (cft->read_u64 || cft->read_s64 || cft->seq_show)
-+	if (cft->read_u64 || cft->read_s64 || cft->seq_show ||
-+	    cft->seq_show_cft)
- 		mode |= S_IRUGO;
- 
- 	if (cft->write_u64 || cft->write_s64 || cft->write) {
-@@ -3519,17 +3520,19 @@ static int cgroup_seqfile_show(struct seq_file *m, void *arg)
- {
- 	struct cftype *cft = seq_cft(m);
- 	struct cgroup_subsys_state *css = seq_css(m);
-+	int ret = 0;
- 
- 	if (cft->seq_show)
--		return cft->seq_show(m, arg);
--
--	if (cft->read_u64)
-+		ret = cft->seq_show(m, arg);
-+	else if (cft->seq_show_cft)
-+		ret = cft->seq_show_cft(m, cft, arg);
-+	else if (cft->read_u64)
- 		seq_printf(m, "%llu\n", cft->read_u64(css, cft));
- 	else if (cft->read_s64)
- 		seq_printf(m, "%lld\n", cft->read_s64(css, cft));
- 	else
--		return -EINVAL;
--	return 0;
-+		ret = -EINVAL;
-+	return ret;
+@@ -1549,11 +1549,15 @@ struct cgroup *cgroup_kn_lock_live(struct kernfs_node *kn, bool drain_offline)
+ 	return NULL;
  }
  
- static struct kernfs_ops cgroup_kf_single_ops = {
+-static void cgroup_rm_file(struct cgroup *cgrp, const struct cftype *cft)
++static void cgroup_rm_file(struct cgroup *cgrp, struct cftype *cft)
+ {
+ 	char name[CGROUP_FILE_NAME_MAX];
++	struct kernfs_node *kn = kernfs_find_and_get(cgrp->kn,
++			cgroup_file_name(cgrp, cft, name));
++	struct cftype *cfts = kn->priv;
+ 
+ 	lockdep_assert_held(&cgroup_mutex);
++	kernfs_put(kn);
+ 
+ 	if (cft->file_offset) {
+ 		struct cgroup_subsys_state *css = cgroup_css(cgrp, cft->ss);
+@@ -1566,7 +1570,19 @@ static void cgroup_rm_file(struct cgroup *cgrp, const struct cftype *cft)
+ 		del_timer_sync(&cfile->notify_timer);
+ 	}
+ 
+-	kernfs_remove_by_name(cgrp->kn, cgroup_file_name(cgrp, cft, name));
++	/* Delete the file only if it's used by one cftype */
++	if (list_empty(&cft->share_node) || atomic_read(&kn->count) == 1) {
++		kernfs_remove(kn);
++	} else {
++		/*
++		 * Update the "priv" pointer of the kernfs_node if the cftype
++		 * that first created the file is removed.
++		 */
++		if (cft == cfts)
++			kn->priv = list_next_entry(cft, share_node);
++
++		kernfs_put(kn);
++	}
+ }
+ 
+ /**
+@@ -3437,6 +3453,7 @@ static int cgroup_file_open(struct kernfs_open_file *of)
+ {
+ 	struct cftype *cft = of->kn->priv;
+ 
++
+ 	if (cft->open)
+ 		return cft->open(of);
+ 	return 0;
+@@ -3585,6 +3602,22 @@ static int cgroup_add_file(struct cgroup_subsys_state *css, struct cgroup *cgrp,
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ 	key = &cft->lockdep_key;
+ #endif
++
++	if (cft->flags & CFTYPE_SHARES_FILE) {
++		/* kn->count keeps track of how many cftypes share kn */
++		kn = kernfs_find_and_get(cgrp->kn,
++					 cgroup_file_name(cgrp, cft, name));
++		if (kn) {
++			struct cftype *cfts = kn->priv;
++
++			if (cfts->flags & CFTYPE_SHARES_FILE)
++				goto out_set_cfile;
++			else
++				kernfs_put(kn);
++
++		}
++	}
++
+ 	kn = __kernfs_create_file(cgrp->kn, cgroup_file_name(cgrp, cft, name),
+ 				  cgroup_file_mode(cft),
+ 				  GLOBAL_ROOT_UID, GLOBAL_ROOT_GID,
+@@ -3599,6 +3632,7 @@ static int cgroup_add_file(struct cgroup_subsys_state *css, struct cgroup *cgrp,
+ 		return ret;
+ 	}
+ 
++out_set_cfile:
+ 	if (cft->file_offset) {
+ 		struct cgroup_file *cfile = (void *)css + cft->file_offset;
+ 
+@@ -3696,11 +3730,46 @@ static void cgroup_exit_cftypes(struct cftype *cfts)
+ 		cft->kf_ops = NULL;
+ 		cft->ss = NULL;
+ 
++		list_del(&cft->share_node);
++
+ 		/* revert flags set by cgroup core while adding @cfts */
+ 		cft->flags &= ~(__CFTYPE_ONLY_ON_DFL | __CFTYPE_NOT_ON_DFL);
+ 	}
+ }
+ 
++/*
++ * Link a cftype that wants to share a file to the list of cftypes that are
++ * using it.
++ *
++ * The conditions for a cftype to be put in an existing list of cftypes and
++ * thus start to share a file are:
++ *	- to have the flag CFTYPE_SHARES_FILE set;
++ *	- to have all flags coincide with the flags of the other cftypes in the
++ *	  list;
++ *	- to not have a seq_start hook: there is no consistent way to show
++ *	  portions of a file once multiple cftypes are attached to it, and thus
++ *	  more than one seq_show() is invoked.
++ *
++ * Once two or more cftypes are linked together, the file only points
++ * to the first of them.
++ */
++static void cgroup_link_cftype(struct cgroup_subsys *ss, struct cftype *cft)
++{
++	struct cftype *cfts;
++
++	list_for_each_entry(cfts, &ss->cfts, node) {
++		struct cftype *c;
++
++		for (c = cfts; c->name[0] != '\0'; c++)
++			if (c != cft && !(c->flags ^ cft->flags) &&
++			    !(c->seq_start || cft->seq_start) &&
++			    !strcmp(c->name, cft->name)) {
++				list_add(&cft->share_node, &c->share_node);
++				return;
++			}
++	}
++}
++
+ static int cgroup_init_cftypes(struct cgroup_subsys *ss, struct cftype *cfts)
+ {
+ 	struct cftype *cft;
+@@ -3730,6 +3799,11 @@ static int cgroup_init_cftypes(struct cgroup_subsys *ss, struct cftype *cfts)
+ 
+ 		cft->kf_ops = kf_ops;
+ 		cft->ss = ss;
++
++		INIT_LIST_HEAD(&cft->share_node);
++
++		if (cft->flags & CFTYPE_SHARES_FILE)
++			cgroup_link_cftype(ss, cft);
+ 	}
+ 
+ 	return 0;
 -- 
 2.16.1
 
