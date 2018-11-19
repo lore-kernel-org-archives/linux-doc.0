@@ -5,44 +5,44 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C8F5E7DD50
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 10:35:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 285B37DE6A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 10:35:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728392AbeKSU6N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 15:58:13 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:34393 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728342AbeKSU6N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 15:58:13 -0500
-Received: by mail-wr1-f65.google.com with SMTP id j2so3066908wrw.1
-        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 02:34:59 -0800 (PST)
+        id S1728384AbeKSU6R (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 15:58:17 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:39997 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727844AbeKSU6Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 15:58:16 -0500
+Received: by mail-wr1-f66.google.com with SMTP id p4so22274959wrt.7
+        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 02:35:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=oBc3JwPq73FtDGvqk3t8T7Oot3rzsOXj87W1YQabmq0=;
-        b=U+uluio6KwtbMMoH3Jp0DEoAQtuhcEmvMYrNiM5KHAwwCapWC33wQhLaMnZr9S/I/0
-         Z6sK2Z1/uUcwEavzu8hwJhNC29Gt2B+bLxPWg0ogiXB9yWoJOlUzzK8ssUxgRpXHV3EU
-         XnLEDqKsSc9kSrVv/zIWFoLbWLaZfx4laO4js=
+        bh=95cHSgXhObq6AUCu/Rr/+wEQTPHLVt9I8/orFJ2tnV8=;
+        b=N8iZHEZvKWz0J/nual7jk0fkuGeRXXZ7k/3ibe4bHVxzhla7D7v8KTcgOO8yVpWvFT
+         B3vEIw+EBmC/yavIAvjOIiUz2wiAPEAIzT1RHvDAgZUu4MTPxiKzIwxtEJH+JHWk3fW/
+         YZJUNoJLJnP75HF8BVdkglOlyHl+oOYs6W9pY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=oBc3JwPq73FtDGvqk3t8T7Oot3rzsOXj87W1YQabmq0=;
-        b=EkPH6JX/CWIfObjc8pE1MweE9cbr+GH9EiO5fhHxi/VxJUqYPfFXUbRNpkwN8a7HT+
-         xyZxx18/zrtwindfX4c6zfz3LNH5OhoJAqRTZR5xCtc3AQrebU0F8XewnSdT0LwHr2SI
-         kt6uSCp2Rg3XU9ADuVsEEcvQ/wTcOf2mA/bmAFSfPZqQKX8o0nniotHws9+S4/nKdJGC
-         G2jxNOBcX9iPQEIwiXtkE6qboX14l5fXdk0dtuANuDICG4b4vAy/i+FztV3xoBvSxnJh
-         gdyv1LVH2n5rRt6n15unwxKQnVLbgOS9OdsaihvCP8ez4CKNI/CLO50y2U0NGI6SXqXQ
-         f/0w==
-X-Gm-Message-State: AGRZ1gJRUDSrJvQg/Ku+0b3L7gaw7g6kT7erPO98cvG6soL16KSpUGbO
-        2S77aK1AWsoCKoY5eC7NNEDzHA==
-X-Google-Smtp-Source: AJdET5etp8BezkBcu9ThAO0d/Z0yFM4/7bg5m+zKB/fG+37fSeJxpTsIAFoYhNzjTlWgIzYfHEJTRQ==
-X-Received: by 2002:a5d:4708:: with SMTP id y8-v6mr17551672wrq.16.1542623698837;
-        Mon, 19 Nov 2018 02:34:58 -0800 (PST)
+        bh=95cHSgXhObq6AUCu/Rr/+wEQTPHLVt9I8/orFJ2tnV8=;
+        b=uZEU7JwEND6LEbbVfsNSLPL+8TTN+5X7RwmE1pUjB9MW9gRTXAG14ltoAfOmasXY5C
+         P8dGGw9baZ8KT8S2VwNftCedHBBnlEl4yaco453M11Tb/aFY0r83XE6cm7k58bqpqN6j
+         YeZ0aIJrDutCmAx/eI5Er+henIrEoOTRoT7CYyJ8XIjlcVkZpOJz3h/kC8R/xiAHRN/m
+         oEdololaBRGGJLNoCOvoQlZtGwOh5OcLpFalJos+YQyDsV19cbYPqJztbgnQMkIYN4Ce
+         EItzHvxZvi0+2i8PgGraHdIPQvfBreEiDiSAV+uIiV3utdOuLodEoPEIdrRG7fhvlEEt
+         Syrw==
+X-Gm-Message-State: AGRZ1gLBbmow+C7idq0VdiCgk9lFKh8TQ16p5fdI+BGd1lk0yyNC7SwT
+        kg34QCLV9SV+lSjOTYx7Oc++qQ==
+X-Google-Smtp-Source: AJdET5dv/kwKsiWQBLYn+3+c+70Y68/WWV68w94tCu7QaX1LfXLzsVsfON/+RAR1/k+eJjYW/4XsJg==
+X-Received: by 2002:adf:e247:: with SMTP id n7mr16869741wri.205.1542623702316;
+        Mon, 19 Nov 2018 02:35:02 -0800 (PST)
 Received: from localhost.localdomain ([37.162.18.180])
-        by smtp.gmail.com with ESMTPSA id e9sm14973298wro.16.2018.11.19.02.34.55
+        by smtp.gmail.com with ESMTPSA id e9sm14973298wro.16.2018.11.19.02.34.59
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 19 Nov 2018 02:34:58 -0800 (PST)
+        Mon, 19 Nov 2018 02:35:01 -0800 (PST)
 From:   Paolo Valente <paolo.valente@linaro.org>
 To:     Jens Axboe <axboe@kernel.dk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -59,9 +59,9 @@ Cc:     linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
         oleksandr@natalenko.name, cgroups@vger.kernel.org,
         linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Paolo Valente <paolo.valente@linaro.org>
-Subject: [PATCH V2 08/10] block, throttle: allow sharing cgroup statistic files
-Date:   Mon, 19 Nov 2018 11:34:22 +0100
-Message-Id: <20181119103424.3853-9-paolo.valente@linaro.org>
+Subject: [PATCH V2 09/10] doc, bfq-iosched: fix a few clerical errors
+Date:   Mon, 19 Nov 2018 11:34:23 +0100
+Message-Id: <20181119103424.3853-10-paolo.valente@linaro.org>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20181119103424.3853-1-paolo.valente@linaro.org>
 References: <20181119103424.3853-1-paolo.valente@linaro.org>
@@ -70,59 +70,45 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Angelo Ruocco <angeloruocco90@gmail.com>
+This commit fixes a few clerical errors in
+Documentation/block/bfq-iosched.txt.
 
-Some of the cgroup files defined in the throttle policy have the same
-meaning as those defined in the proportional share policy.
-
-This commit uses the new file sharing interface in cgroup to share
-these files.
-
-Signed-off-by: Angelo Ruocco <angeloruocco90@gmail.com>
 Signed-off-by: Paolo Valente <paolo.valente@linaro.org>
 ---
- block/blk-throttle.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ Documentation/block/bfq-iosched.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/block/blk-throttle.c b/block/blk-throttle.c
-index 6bfdaac53b6f..95825448c031 100644
---- a/block/blk-throttle.c
-+++ b/block/blk-throttle.c
-@@ -1491,22 +1491,30 @@ static struct cftype throtl_legacy_files[] = {
- 		.write = tg_set_conf_uint,
- 	},
- 	{
--		.name = "throttle.io_service_bytes",
-+		.name = "io_service_bytes",
-+		.owner_name = "throttle",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = (unsigned long)&blkcg_policy_throtl,
- 		.seq_show_cft = blkg_print_stat_bytes,
- 	},
- 	{
--		.name = "throttle.io_service_bytes_recursive",
-+		.name = "io_service_bytes_recursive",
-+		.owner_name = "throttle",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = (unsigned long)&blkcg_policy_throtl,
- 		.seq_show_cft = blkg_print_stat_bytes_recursive,
- 	},
- 	{
--		.name = "throttle.io_serviced",
-+		.name = "io_serviced",
-+		.owner_name = "throttle",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = (unsigned long)&blkcg_policy_throtl,
- 		.seq_show_cft = blkg_print_stat_ios,
- 	},
- 	{
--		.name = "throttle.io_serviced_recursive",
-+		.name = "io_serviced_recursive",
-+		.owner_name = "throttle",
-+		.flags = CFTYPE_SHARES_FILE,
- 		.private = (unsigned long)&blkcg_policy_throtl,
- 		.seq_show_cft = blkg_print_stat_ios_recursive,
- 	},
+diff --git a/Documentation/block/bfq-iosched.txt b/Documentation/block/bfq-iosched.txt
+index 8d8d8f06cab2..6d7dd5ab8554 100644
+--- a/Documentation/block/bfq-iosched.txt
++++ b/Documentation/block/bfq-iosched.txt
+@@ -42,7 +42,7 @@ sustainable throughputs, on the same systems as above:
+ 
+ BFQ works for multi-queue devices too.
+ 
+-The table of contents follow. Impatients can just jump to Section 3.
++The table of contents follows. Impatients can just jump to Section 3.
+ 
+ CONTENTS
+ 
+@@ -51,7 +51,7 @@ CONTENTS
+  1-2 Server systems
+ 2. How does BFQ work?
+ 3. What are BFQ's tunables and how to properly configure BFQ?
+-4. BFQ group scheduling
++4. Group scheduling with BFQ
+  4-1 Service guarantees provided
+  4-2 Interface
+ 
+@@ -294,7 +294,7 @@ too.
+ per-process ioprio and weight
+ -----------------------------
+ 
+-Unless the cgroups interface is used (see "4. BFQ group scheduling"),
++Unless the cgroups interface is used (see "4. Group scheduling with BFQ"),
+ weights can be assigned to processes only indirectly, through I/O
+ priorities, and according to the relation:
+ weight = (IOPRIO_BE_NR - ioprio) * 10.
 -- 
 2.16.1
 
