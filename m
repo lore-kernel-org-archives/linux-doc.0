@@ -1,277 +1,289 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4D8CB7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 11:39:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1D75A7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 11:56:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728553AbeKSWDB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 17:03:01 -0500
-Received: from mail.kmu-office.ch ([178.209.48.109]:57164 "EHLO
-        mail.kmu-office.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728573AbeKSWDB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 17:03:01 -0500
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-        by mail.kmu-office.ch (Postfix) with ESMTPSA id 90B1E5C25E1;
-        Mon, 19 Nov 2018 12:39:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-        t=1542627576;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=VWtmOpqxnuAWB7Wwid9QdGIgDWW8a+NHksUwyWNcAWQ=;
-        b=BHYc5dXj0rr7ph3gLHoQjTkxNaXVOwh//n+nHuAERYS4ywhpr9VxenV+oqGVxrKqqJEs97
-        AmhfeVhOnwcKBbuZQNxLdgCsmsSy1vmifTIqiS5jzXysPBfVovPBD6aol9Xq+HUCC0u3K3
-        kZtTjmdrAtTfXm6v/9dTBKD+VETB8TU=
+        id S1728576AbeKSWTo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 17:19:44 -0500
+Received: from mail-it1-f193.google.com ([209.85.166.193]:34663 "EHLO
+        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728554AbeKSWTo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 17:19:44 -0500
+Received: by mail-it1-f193.google.com with SMTP id x124so7193519itd.1;
+        Mon, 19 Nov 2018 03:56:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ya+qz6ydXkNgMZKhYTQwRiwTRirHJxidJLua0Qn10Ug=;
+        b=UHK6NlL12MH9s/Dn7SeW7Jefk2NMdmGFVenYN/Au0fmchigg//3erhona0ru6I8mGj
+         8IVtezm9f9Z5RAVsqVK0wnhYIS4testOnFxCteA2SgI/CuCNtPcxX19VQnmzL9wBLqgR
+         rkvipX9jxHXgQIfIYQj3q+AQfjC9LJaW2PGcRmnvZyV887pbn/cRf6fXyh70IY+q81j0
+         rVNBnvXVD5xdnNHsJrdqIrMvW5Dsw7qAlskRoyfQ4cHm6RChUwhI0HDCR+VXP4xyjxjM
+         CcCYuhj9sqiMvasWcQYaZpTQcBmQ0ioMoxC7FryRje9UQYeqACClx1ugsGvVQplHfDzR
+         nxog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ya+qz6ydXkNgMZKhYTQwRiwTRirHJxidJLua0Qn10Ug=;
+        b=pCH55n0vpY4+YEGi2Po3nZewc3Da3upb1WULm1WNLIHK0508QlmWopBXIUoyNluDdA
+         MXUIcOszfG2CfwKgCU/SPcESy6AfqjInX+IqH1wR2zYHxkErI9LdEqZ9PDGQB3W4Wu/w
+         Zsc2Dbn4DqYTyY+7D77X+vqVJ6+onVaC3odgcXwx2tCx2i+6wy1ueXDZesaLtY4CvHsR
+         5LmhcWao/Xjto88mM3729zVrytecXxYOZ2An9+W+YhbSmawdhee3NUIf6JC+wCybleC/
+         Gx+K8V1VotY8UJD3B9nPyNeKClamjy2fk8kcozQfPvPEmxMcsY41V5J44G1SqeR0N6o7
+         DSnQ==
+X-Gm-Message-State: AA+aEWbtJKkJRhDs1UBmWHTJA9/sYRxCgRh2i/EqhX338s2yRfjcsfxh
+        eqBDWnBNUkpcrcqvzpFMN9ANkZBDYUr2gvjxZAg=
+X-Google-Smtp-Source: AFSGD/V5Eo6p6HklqxqVJbGhJBjF+uLxC9yPa2/R5YL03bKTrijKWORCFS6fjN8qI3O/xSD6zKGRzjiYYf5q3siFbYU=
+X-Received: by 2002:a24:6192:: with SMTP id s140mr3585933itc.97.1542628578908;
+ Mon, 19 Nov 2018 03:56:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Date:   Mon, 19 Nov 2018 12:39:36 +0100
-From:   Stefan Agner <stefan@agner.ch>
-To:     Fernando Ramos <greenfoo@gluegarage.com>
-Cc:     dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Archit Taneja <architt@codeaurora.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Russell King <linux+etnaviv@armlinux.org.uk>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Marek Vasut <marex@denx.de>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Julia Lawall <Julia.Lawall@lip6.fr>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        virtualization@lists.linux-foundation.org,
-        etnaviv@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        cocci@systeme.lip6.fr
-Subject: Re: [PATCH 3/9] drm: replace "drm_dev_unref" function with
- "drm_dev_put"
-In-Reply-To: <20181115221634.22715-4-greenfoo@gluegarage.com>
-References: <20181115221634.22715-1-greenfoo@gluegarage.com>
- <20181115221634.22715-4-greenfoo@gluegarage.com>
-Message-ID: <767d6ca7f54331876cbbbe0cca4b14bd@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.3.7
+References: <20181119101616.8901-1-david@redhat.com> <20181119101616.8901-3-david@redhat.com>
+In-Reply-To: <20181119101616.8901-3-david@redhat.com>
+From:   Konstantin Khlebnikov <koct9i@gmail.com>
+Date:   Mon, 19 Nov 2018 14:56:07 +0300
+Message-ID: <CALYGNiM+Fr+RbNFWrxkT9u+nOORTG2dTXo=VYz4yt2k7is=eLQ@mail.gmail.com>
+Subject: Re: [PATCH v1 2/8] mm: convert PG_balloon to PG_offline
+To:     david@redhat.com
+Cc:     linux-mm@kvack.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, devel@linuxdriverproject.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-pm@vger.kernel.org, xen-devel@lists.xenproject.org,
+        kexec@lists.infradead.org, pv-drivers@vmware.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexey Dobriyan <adobriyan@gmail.com>, rppt@linux.vnet.ibm.com,
+        Andrew Morton <akpm@linux-foundation.org>, chansen3@cisco.com,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Michal Hocko <mhocko@suse.com>, pasha.tatashin@oracle.com,
+        alexander.h.duyck@linux.intel.com,
+        Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
+        miles.chen@mediatek.com, David Rientjes <rientjes@google.com>,
+        k-hagio@ab.jp.nec.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 15.11.2018 23:16, Fernando Ramos wrote:
-> This patch unifies the naming of DRM functions for reference counting as
-> requested on Documentation/gpu/todo.rst
-> 
-> Signed-off-by: Fernando Ramos <greenfoo@gluegarage.com>
+On Mon, Nov 19, 2018 at 1:16 PM David Hildenbrand <david@redhat.com> wrote:
+>
+> PG_balloon was introduced to implement page migration/compaction for pages
+> inflated in virtio-balloon. Nowadays, it is only a marker that a page is
+> part of virtio-balloon and therefore logically offline.
+>
+> We also want to make use of this flag in other balloon drivers - for
+> inflated pages or when onlining a section but keeping some pages offline
+> (e.g. used right now by XEN and Hyper-V via set_online_page_callback()).
+>
+> We are going to expose this flag to dump tools like makedumpfile. But
+> instead of exposing PG_balloon, let's generalize the concept of marking
+> pages as logically offline, so it can be reused for other purposes
+> later on.
+>
+> Rename PG_balloon to PG_offline. This is an indicator that the page is
+> logically offline, the content stale and that it should not be touched
+> (e.g. a hypervisor would have to allocate backing storage in order for the
+> guest to dump an unused page).  We can then e.g. exclude such pages from
+> dumps.
+>
+> We replace and reuse KPF_BALLOON (23), as this shouldn't really harm
+> (and for now the semantics stay the same).  In following patches, we will
+> make use of this bit also in other balloon drivers. While at it, document
+> PGTABLE.
+
+Ok, makes sense.
+
+Acked-by: Konstantin Khlebnikov <koct9i@gmail.com>
+
+>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Alexey Dobriyan <adobriyan@gmail.com>
+> Cc: Mike Rapoport <rppt@linux.vnet.ibm.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Christian Hansen <chansen3@cisco.com>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Pavel Tatashin <pasha.tatashin@oracle.com>
+> Cc: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+> Cc: Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>
+> Cc: Miles Chen <miles.chen@mediatek.com>
+> Cc: David Rientjes <rientjes@google.com>
+> Cc: Konstantin Khlebnikov <koct9i@gmail.com>
+> Cc: Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  drivers/gpu/drm/arc/arcpgu_drv.c             | 4 ++--
->  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 4 ++--
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c        | 4 ++--
->  drivers/gpu/drm/mxsfb/mxsfb_drv.c            | 4 ++--
+>  Documentation/admin-guide/mm/pagemap.rst |  9 ++++++---
+>  fs/proc/page.c                           |  4 ++--
+>  include/linux/balloon_compaction.h       |  8 ++++----
+>  include/linux/page-flags.h               | 11 +++++++----
+>  include/uapi/linux/kernel-page-flags.h   |  2 +-
+>  tools/vm/page-types.c                    |  2 +-
+>  6 files changed, 21 insertions(+), 15 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/mm/pagemap.rst b/Documentation/admin-guide/mm/pagemap.rst
+> index 3f7bade2c231..340a5aee9b80 100644
+> --- a/Documentation/admin-guide/mm/pagemap.rst
+> +++ b/Documentation/admin-guide/mm/pagemap.rst
+> @@ -75,9 +75,10 @@ number of times a page is mapped.
+>      20. NOPAGE
+>      21. KSM
+>      22. THP
+> -    23. BALLOON
+> +    23. OFFLINE
+>      24. ZERO_PAGE
+>      25. IDLE
+> +    26. PGTABLE
+>
+>   * ``/proc/kpagecgroup``.  This file contains a 64-bit inode number of the
+>     memory cgroup each page is charged to, indexed by PFN. Only available when
+> @@ -118,8 +119,8 @@ Short descriptions to the page flags
+>      identical memory pages dynamically shared between one or more processes
+>  22 - THP
+>      contiguous pages which construct transparent hugepages
+> -23 - BALLOON
+> -    balloon compaction page
+> +23 - OFFLINE
+> +    page is logically offline
+>  24 - ZERO_PAGE
+>      zero page for pfn_zero or huge_zero page
+>  25 - IDLE
+> @@ -128,6 +129,8 @@ Short descriptions to the page flags
+>      Note that this flag may be stale in case the page was accessed via
+>      a PTE. To make sure the flag is up-to-date one has to read
+>      ``/sys/kernel/mm/page_idle/bitmap`` first.
+> +26 - PGTABLE
+> +    page is in use as a page table
+>
+>  IO related page flags
+>  ---------------------
+> diff --git a/fs/proc/page.c b/fs/proc/page.c
+> index 6c517b11acf8..378401af4d9d 100644
+> --- a/fs/proc/page.c
+> +++ b/fs/proc/page.c
+> @@ -152,8 +152,8 @@ u64 stable_page_flags(struct page *page)
+>         else if (page_count(page) == 0 && is_free_buddy_page(page))
+>                 u |= 1 << KPF_BUDDY;
+>
+> -       if (PageBalloon(page))
+> -               u |= 1 << KPF_BALLOON;
+> +       if (PageOffline(page))
+> +               u |= 1 << KPF_OFFLINE;
+>         if (PageTable(page))
+>                 u |= 1 << KPF_PGTABLE;
+>
+> diff --git a/include/linux/balloon_compaction.h b/include/linux/balloon_compaction.h
+> index cbe50da5a59d..f111c780ef1d 100644
+> --- a/include/linux/balloon_compaction.h
+> +++ b/include/linux/balloon_compaction.h
+> @@ -95,7 +95,7 @@ extern int balloon_page_migrate(struct address_space *mapping,
+>  static inline void balloon_page_insert(struct balloon_dev_info *balloon,
+>                                        struct page *page)
+>  {
+> -       __SetPageBalloon(page);
+> +       __SetPageOffline(page);
+>         __SetPageMovable(page, balloon->inode->i_mapping);
+>         set_page_private(page, (unsigned long)balloon);
+>         list_add(&page->lru, &balloon->pages);
+> @@ -111,7 +111,7 @@ static inline void balloon_page_insert(struct balloon_dev_info *balloon,
+>   */
+>  static inline void balloon_page_delete(struct page *page)
+>  {
+> -       __ClearPageBalloon(page);
+> +       __ClearPageOffline(page);
+>         __ClearPageMovable(page);
+>         set_page_private(page, 0);
+>         /*
+> @@ -141,13 +141,13 @@ static inline gfp_t balloon_mapping_gfp_mask(void)
+>  static inline void balloon_page_insert(struct balloon_dev_info *balloon,
+>                                        struct page *page)
+>  {
+> -       __SetPageBalloon(page);
+> +       __SetPageOffline(page);
+>         list_add(&page->lru, &balloon->pages);
+>  }
+>
+>  static inline void balloon_page_delete(struct page *page)
+>  {
+> -       __ClearPageBalloon(page);
+> +       __ClearPageOffline(page);
+>         list_del(&page->lru);
+>  }
+>
+> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> index 50ce1bddaf56..f91da3d0a67e 100644
+> --- a/include/linux/page-flags.h
+> +++ b/include/linux/page-flags.h
+> @@ -670,7 +670,7 @@ PAGEFLAG_FALSE(DoubleMap)
+>  #define PAGE_TYPE_BASE 0xf0000000
+>  /* Reserve             0x0000007f to catch underflows of page_mapcount */
+>  #define PG_buddy       0x00000080
+> -#define PG_balloon     0x00000100
+> +#define PG_offline     0x00000100
+>  #define PG_kmemcg      0x00000200
+>  #define PG_table       0x00000400
+>
+> @@ -700,10 +700,13 @@ static __always_inline void __ClearPage##uname(struct page *page) \
+>  PAGE_TYPE_OPS(Buddy, buddy)
+>
+>  /*
+> - * PageBalloon() is true for pages that are on the balloon page list
+> - * (see mm/balloon_compaction.c).
+> + * PageOffline() indicates that the pages is logically offline although the
+> + * containing section is online. (e.g. inflated in a balloon driver or
+> + * not onlined when onlining the section).
+> + * The content of these pages is effectively stale. Such pages should not
+> + * be touched (read/write/dump/save) except by their owner.
+>   */
+> -PAGE_TYPE_OPS(Balloon, balloon)
+> +PAGE_TYPE_OPS(Offline, offline)
+>
+>  /*
+>   * If kmemcg is enabled, the buddy allocator will set PageKmemcg() on
+> diff --git a/include/uapi/linux/kernel-page-flags.h b/include/uapi/linux/kernel-page-flags.h
+> index 21b9113c69da..6f2f2720f3ac 100644
+> --- a/include/uapi/linux/kernel-page-flags.h
+> +++ b/include/uapi/linux/kernel-page-flags.h
+> @@ -32,7 +32,7 @@
+>
+>  #define KPF_KSM                        21
+>  #define KPF_THP                        22
+> -#define KPF_BALLOON            23
+> +#define KPF_OFFLINE            23
+>  #define KPF_ZERO_PAGE          24
+>  #define KPF_IDLE               25
+>  #define KPF_PGTABLE            26
+> diff --git a/tools/vm/page-types.c b/tools/vm/page-types.c
+> index 37908a83ddc2..6c38d3b862e4 100644
+> --- a/tools/vm/page-types.c
+> +++ b/tools/vm/page-types.c
+> @@ -133,7 +133,7 @@ static const char * const page_flag_names[] = {
+>         [KPF_NOPAGE]            = "n:nopage",
+>         [KPF_KSM]               = "x:ksm",
+>         [KPF_THP]               = "t:thp",
+> -       [KPF_BALLOON]           = "o:balloon",
+> +       [KPF_OFFLINE]           = "o:offline",
 
-For mxsfb:
+Even 'o' keyword is better suits for Offline than for ballOon =)
 
-Acked-by: Stefan Agner <stefan@agner.ch>
-
---
-Stefan
-
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c        | 2 +-
->  drivers/gpu/drm/shmobile/shmob_drm_drv.c     | 4 ++--
->  drivers/gpu/drm/tve200/tve200_drv.c          | 4 ++--
->  drivers/gpu/drm/zte/zx_drm_drv.c             | 4 ++--
->  8 files changed, 15 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
-> index f067de4e1e82..dcb06d4e9135 100644
-> --- a/drivers/gpu/drm/arc/arcpgu_drv.c
-> +++ b/drivers/gpu/drm/arc/arcpgu_drv.c
-> @@ -216,7 +216,7 @@ static int arcpgu_probe(struct platform_device *pdev)
->  	arcpgu_unload(drm);
->  
->  err_unref:
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  
->  	return ret;
->  }
-> @@ -227,7 +227,7 @@ static int arcpgu_remove(struct platform_device *pdev)
->  
->  	drm_dev_unregister(drm);
->  	arcpgu_unload(drm);
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> index 843cac222e60..f8da51a63e2f 100644
-> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> @@ -775,7 +775,7 @@ static int atmel_hlcdc_dc_drm_probe(struct
-> platform_device *pdev)
->  	atmel_hlcdc_dc_unload(ddev);
->  
->  err_unref:
-> -	drm_dev_unref(ddev);
-> +	drm_dev_put(ddev);
->  
->  	return ret;
->  }
-> @@ -786,7 +786,7 @@ static int atmel_hlcdc_dc_drm_remove(struct
-> platform_device *pdev)
->  
->  	drm_dev_unregister(ddev);
->  	atmel_hlcdc_dc_unload(ddev);
-> -	drm_dev_unref(ddev);
-> +	drm_dev_put(ddev);
->  
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> index 83c1f46670bf..52802e6049e0 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -550,7 +550,7 @@ static int etnaviv_bind(struct device *dev)
->  out_bind:
->  	kfree(priv);
->  out_unref:
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  
->  	return ret;
->  }
-> @@ -567,7 +567,7 @@ static void etnaviv_unbind(struct device *dev)
->  	drm->dev_private = NULL;
->  	kfree(priv);
->  
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  }
->  
->  static const struct component_master_ops etnaviv_master_ops = {
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> index 2393e6d16ffd..88ba003979e6 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> @@ -417,7 +417,7 @@ static int mxsfb_probe(struct platform_device *pdev)
->  err_unload:
->  	mxsfb_unload(drm);
->  err_free:
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  
->  	return ret;
->  }
-> @@ -428,7 +428,7 @@ static int mxsfb_remove(struct platform_device *pdev)
->  
->  	drm_dev_unregister(drm);
->  	mxsfb_unload(drm);
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index 084f58df4a8c..c7fe2433ab9e 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -454,7 +454,7 @@ static int rcar_du_remove(struct platform_device *pdev)
->  	drm_kms_helper_poll_fini(ddev);
->  	drm_mode_config_cleanup(ddev);
->  
-> -	drm_dev_unref(ddev);
-> +	drm_dev_put(ddev);
->  
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> index 6ececad6f845..8554102a6ead 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> @@ -194,7 +194,7 @@ static int shmob_drm_remove(struct platform_device *pdev)
->  	drm_kms_helper_poll_fini(ddev);
->  	drm_mode_config_cleanup(ddev);
->  	drm_irq_uninstall(ddev);
-> -	drm_dev_unref(ddev);
-> +	drm_dev_put(ddev);
->  
->  	return 0;
->  }
-> @@ -290,7 +290,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
->  	drm_kms_helper_poll_fini(ddev);
->  	drm_mode_config_cleanup(ddev);
->  err_free_drm_dev:
-> -	drm_dev_unref(ddev);
-> +	drm_dev_put(ddev);
->  
->  	return ret;
->  }
-> diff --git a/drivers/gpu/drm/tve200/tve200_drv.c
-> b/drivers/gpu/drm/tve200/tve200_drv.c
-> index 72efcecb44f7..28e2d03c0ccf 100644
-> --- a/drivers/gpu/drm/tve200/tve200_drv.c
-> +++ b/drivers/gpu/drm/tve200/tve200_drv.c
-> @@ -249,7 +249,7 @@ static int tve200_probe(struct platform_device *pdev)
->  clk_disable:
->  	clk_disable_unprepare(priv->pclk);
->  dev_unref:
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  	return ret;
->  }
->  
-> @@ -263,7 +263,7 @@ static int tve200_remove(struct platform_device *pdev)
->  		drm_panel_bridge_remove(priv->bridge);
->  	drm_mode_config_cleanup(drm);
->  	clk_disable_unprepare(priv->pclk);
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/zte/zx_drm_drv.c b/drivers/gpu/drm/zte/zx_drm_drv.c
-> index 11ef17c2d1c1..5b6f1eda52e0 100644
-> --- a/drivers/gpu/drm/zte/zx_drm_drv.c
-> +++ b/drivers/gpu/drm/zte/zx_drm_drv.c
-> @@ -114,7 +114,7 @@ static int zx_drm_bind(struct device *dev)
->  	component_unbind_all(dev, drm);
->  out_unregister:
->  	dev_set_drvdata(dev, NULL);
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  	return ret;
->  }
->  
-> @@ -127,7 +127,7 @@ static void zx_drm_unbind(struct device *dev)
->  	drm_mode_config_cleanup(drm);
->  	component_unbind_all(dev, drm);
->  	dev_set_drvdata(dev, NULL);
-> -	drm_dev_unref(drm);
-> +	drm_dev_put(drm);
->  }
->  
->  static const struct component_master_ops zx_drm_master_ops = {
+>         [KPF_PGTABLE]           = "g:pgtable",
+>         [KPF_ZERO_PAGE]         = "z:zero_page",
+>         [KPF_IDLE]              = "i:idle_page",
+> --
+> 2.17.2
+>
