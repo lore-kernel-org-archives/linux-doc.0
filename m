@@ -1,79 +1,68 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0D0B97D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 13:17:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 928207D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 14:39:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729258AbeKSXkc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 18:40:32 -0500
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:45940 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729208AbeKSXkb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 18:40:31 -0500
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 09D44808CE; Mon, 19 Nov 2018 14:16:50 +0100 (CET)
-Date:   Mon, 19 Nov 2018 14:16:53 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, devel@linuxdriverproject.org,
-        linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org,
-        xen-devel@lists.xenproject.org,
-        kexec-ml <kexec@lists.infradead.org>, pv-drivers@vmware.com,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <len.brown@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v1 7/8] PM / Hibernate: use pfn_to_online_page()
-Message-ID: <20181119131653.GA27556@amd>
-References: <20181119101616.8901-1-david@redhat.com>
- <20181119101616.8901-8-david@redhat.com>
+        id S1729480AbeKTBDI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 20:03:08 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:40658 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729469AbeKTBDH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 20:03:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=At/LRceUgeM+WuLHzROM+zGY0dThO8RIcOf7iK4BX1I=; b=Hw0a9Vi2kbX6Ru3XNV08/BDrG
+        fSh2Lx5iB/IQgGm3/76mwJYLT8CEblxHWahgxnaBE0v7B+l8FQtk3g7uaRqSGobJSHjnpGk0nEPCL
+        Wsynmcs/QWbfDv0Mj2vCNI98hTQZjGXbxpBD1mthi+nL5i+gYs2+DKLPUUjN3oIrc4uuGPaYQFjQD
+        U/t27bbCHCQu/iVLKOFf6Nj2UXvfGJjhOhUlrqkW8EUt1p7ZchE7Ijyoliwmk8bbD/BnDEKBhVPSQ
+        CfBLqF9P9oIGg15pzL4cH4NwFH20WS1hinAzAO6W/B8DQcuw+zt16yHz0ckxPqoKTg4mPzymAlV9F
+        jJ7DuzCGw==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gOkhq-0007Qe-9T; Mon, 19 Nov 2018 14:39:18 +0000
+Date:   Mon, 19 Nov 2018 06:39:18 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     kernel test robot <rong.a.chen@intel.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, intel-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org,
+        LKP <lkp@01.org>
+Subject: Re: [LKP] dad4f140ed [ 7.709376] WARNING:suspicious_RCU_usage
+Message-ID: <20181119143918.GB394@bombadil.infradead.org>
+References: <20181119010820.GM18977@shao2-debian>
+ <20181119011904.GE7861@bombadil.infradead.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="PNTmBPCT7hxwcZjr"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181119101616.8901-8-david@redhat.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20181119011904.GE7861@bombadil.infradead.org>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sun, Nov 18, 2018 at 05:19:04PM -0800, Matthew Wilcox wrote:
+> On Mon, Nov 19, 2018 at 09:08:20AM +0800, kernel test robot wrote:
+> > Greetings,
+> > 
+> > 0day kernel testing robot got the below dmesg and the first bad commit is
+> 
+> Umm.  I don't see a 'suspicious RCU usage' message in here.  I see a
+> lot of vmalloc warnings ... ?
 
---PNTmBPCT7hxwcZjr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Never mind, the RCU warnings were in one of the attached dmesg files.
+I found the problem; it's in the test-suite and not something that could
+lead to any real problems today.
 
-On Mon 2018-11-19 11:16:15, David Hildenbrand wrote:
-> Let's use pfn_to_online_page() instead of pfn_to_page() when checking
-> for saveable pages to not save/restore offline memory sections.
->=20
-> Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-
-Acked-by: Pavel Machek <pavel@ucw.cz>
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---PNTmBPCT7hxwcZjr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlvyt8UACgkQMOfwapXb+vKC6ACeIzp6Bg+hmUwQWwjh+ih57//k
-JAoAoJFh/JwjaBISFtEww2yg/SP3hHMv
-=Xcas
------END PGP SIGNATURE-----
-
---PNTmBPCT7hxwcZjr--
+Thanks for the report!
