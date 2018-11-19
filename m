@@ -1,138 +1,146 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E36507E99E
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 18:31:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3821E7E9E0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 18:31:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730196AbeKTEKc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 23:10:32 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:35376 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730035AbeKTEKb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 23:10:31 -0500
-Received: by mail-pf1-f196.google.com with SMTP id z9so707413pfi.2;
-        Mon, 19 Nov 2018 09:46:02 -0800 (PST)
+        id S1730395AbeKTEwk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 23:52:40 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:39864 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730346AbeKTEwi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 23:52:38 -0500
+Received: by mail-pl1-f193.google.com with SMTP id b5-v6so14980536pla.6
+        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 10:27:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=1Nz6K6tTbIPx/0PA10RXN50R62b6Obx3JqecWf0Avrk=;
-        b=LvatuUG9GtDT0Ppeyo6XQfglFfwGxIt0tgOHIB5EAVsgm9bp/dP17FXcIaYV5rDzDy
-         gF5Yq/F4iE9RRxwYIF4UIOw/I4eXq0mlYQ7Z5wCi+y5LcUnDl1C4Cb1iy5hCjx4hwDqy
-         6dt6onHu/hccjunBEVAFZBvzn+9GOuaueub/rQk67V0vO/DdT2lrPKUllUaF/VPpZjVf
-         XJ/wdHlpb+XJUS/wm6mrGUgBOIG6flPbD4wilO1SaffSOVZk+RqaRXKnmu17cCILdr3S
-         Sl31LWASghOQL9xWAmYPH2DQcpScDG+PuPw1HV3j7Zx7w6sQ1Ey+eErQemWVQgXdlQtZ
-         hxJg==
+        bh=w0viHMBWjRvrA/E8RRIxUD6DuZAiEKYp6PVzl4DQ7WE=;
+        b=Ot+Q29MDsNF0eymJcR/R9FLjhxGlfyLuhZj6T0kk3FF1v04tC0un8TFxi0XUOhKeOD
+         JRaa265WifQtlup4bxZO8r40/8hSU4DAHhMYqu+Zj9rWp7/+SNOkQmEt/N1bdBvE66Fl
+         ij+wBsJ19XShlZlTiUPi8mrhoxInE11WGfC2Ago2KdclnpxcZq5YsmaD233+PhiogPb4
+         bIaNtIrhT6qXzaxkC5hLCv5hSFDKc4CkaKz+E9UQqCsGN8oJ7z+ACnTEGl52kp1TN3II
+         F/91qcJsPBPHZmPcNedMzWxHlfg1NL73rI2pM/7tVjbZFbsUD/iUFMbjZ6l1uBBl5RlG
+         QuuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=1Nz6K6tTbIPx/0PA10RXN50R62b6Obx3JqecWf0Avrk=;
-        b=qu9BZ/LHnIYDjVw2qAFOlad42dqJ2UkIxs/d3aIE3zIKdQRPdoywsXrBcjMVMNhVYQ
-         X23PMVOEP8p13SvYE3aaqvYfOq5JP8OhOhcoQoECuO0zB9R1Gsd4iN9hCema1GhHFrfG
-         3YFSdrtH+FdqMVM15O9uwNmsQ+hnbzUwLqqqQZLLOWKMnlBHhRwx07kWkrqzSemlFcAR
-         QB2wIxepiMKKLf3YdiEu9SUT5Qe5veS7Z6IP+1OsXB+c4XQor0/Zu+fVhJignndSBkEC
-         Gmn4OYIbEbojEeEGOr3FRSxbYagMBYR8WmdcqFGUw/Z2ZYp6Bvw+9OiPIivHx8ftbmDL
-         M5yw==
-X-Gm-Message-State: AGRZ1gISxC1v2BjT8bfE4x+PEeODYxyQbbCn4EuOCCew2ZsruqWy3Pqr
-        sy0bfJ+arGx8ktWVAQPhVposic7P
-X-Google-Smtp-Source: AJdET5eH+fpZoZsIF3LQKKvvRPLNDxq6ZKYSjKk3jrwDNCkytIh/9cDigp19VJ9l55V23SkpMa1jxA==
-X-Received: by 2002:a63:f844:: with SMTP id v4mr20738175pgj.82.1542649561983;
-        Mon, 19 Nov 2018 09:46:01 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id v14sm58984206pgf.3.2018.11.19.09.46.00
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 19 Nov 2018 09:46:00 -0800 (PST)
-Date:   Mon, 19 Nov 2018 09:45:59 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
-Cc:     jdelvare@suse.com, linux-hwmon@vger.kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] hwmon (ina3221) Add single-shot mode support
-Message-ID: <20181119174559.GC27435@roeck-us.net>
-References: <20181113042353.1507-1-nicoleotsuka@gmail.com>
- <20181113043248.GB11205@roeck-us.net>
- <20181113045823.GB26327@Asurada-Nvidia.nvidia.com>
- <20181113172102.GA21714@roeck-us.net>
- <20181114001141.GA14925@Asurada-Nvidia.nvidia.com>
- <20181114172330.GA25592@roeck-us.net>
- <20181117015131.GA10407@Asurada-Nvidia.nvidia.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=w0viHMBWjRvrA/E8RRIxUD6DuZAiEKYp6PVzl4DQ7WE=;
+        b=Q+Qul/2HgpMkhcvbeUD315hbja385MS0DzuEc24PQwgg4PJs/J0jnxBxMi2nzKDeil
+         +/I4uXeV4kXXcM1WkoV4SCkFO7hen1obUKbhtETwKNKVgSd+e0yr6ffok4fldbtR3HIF
+         Dy2ufYmGkdp50QQH/+qoS5nwi8R1vVkni21+KY0MKLSSukLjd7GigtQGwpTgWJ1aarCk
+         ovpRdIv8Dod6nY0/sHEcHUuaABpfz8MSVgSQaWV6zZqLIgEMK6X9oErCRjeA55dyWBL3
+         WxMo/WvP3z9AQnYUar6RsBV9nP7mHBTOamHdRlWgz8oU98J+EkT6xdPZSq762CzISCof
+         zgLg==
+X-Gm-Message-State: AA+aEWY5996xy9nCUqTX9DzZs05ZITzVnfeBVHYIGo7U2vgTRgLvG7Wh
+        hTYi36eu+CIE+8gIe5IWTk7bZw==
+X-Google-Smtp-Source: AFSGD/Vwm7n9ehPjJSmzDASPDyS3wkhKNRf+1RESELqUXVpAn58aAmvtvzP5Mjmob2nFERssmFS/LQ==
+X-Received: by 2002:a17:902:4d46:: with SMTP id o6mr2703162plh.302.1542652074601;
+        Mon, 19 Nov 2018 10:27:54 -0800 (PST)
+Received: from ziepe.ca (S010614cc2056d97f.ed.shawcable.net. [174.3.196.123])
+        by smtp.gmail.com with ESMTPSA id b81-v6sm50285206pfj.183.2018.11.19.10.27.53
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 19 Nov 2018 10:27:53 -0800 (PST)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1gOoH2-0004qA-Nt; Mon, 19 Nov 2018 11:27:52 -0700
+Date:   Mon, 19 Nov 2018 11:27:52 -0700
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Jerome Glisse <jglisse@redhat.com>
+Cc:     Leon Romanovsky <leon@kernel.org>,
+        Kenneth Lee <liguozhu@hisilicon.com>,
+        Tim Sell <timothy.sell@unisys.com>, linux-doc@vger.kernel.org,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Zaibo Xu <xuzaibo@huawei.com>, zhangfei.gao@foxmail.com,
+        linuxarm@huawei.com, haojian.zhuang@linaro.org,
+        Christoph Lameter <cl@linux.com>,
+        Hao Fang <fanghao11@huawei.com>,
+        Gavin Schenk <g.schenk@eckelmann.de>,
+        RDMA mailing list <linux-rdma@vger.kernel.org>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Doug Ledford <dledford@redhat.com>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        David Kershner <david.kershner@unisys.com>,
+        Kenneth Lee <nek.in.cn@gmail.com>,
+        Johan Hovold <johan@kernel.org>,
+        Cyrille Pitchen <cyrille.pitchen@free-electrons.com>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Jens Axboe <axboe@kernel.dk>, guodong.xu@linaro.org,
+        linux-netdev <netdev@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+        linux-crypto@vger.kernel.org,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-accelerators@lists.ozlabs.org
+Subject: Re: [RFCv3 PATCH 1/6] uacce: Add documents for WarpDrive/uacce
+Message-ID: <20181119182752.GA4890@ziepe.ca>
+References: <20181112075807.9291-2-nek.in.cn@gmail.com>
+ <20181113002354.GO3695@mtr-leonro.mtl.com>
+ <95310df4-b32c-42f0-c750-3ad5eb89b3dd@gmail.com>
+ <20181114160017.GI3759@mtr-leonro.mtl.com>
+ <20181115085109.GD157308@Turing-Arch-b>
+ <20181115145455.GN3759@mtr-leonro.mtl.com>
+ <20181119091405.GE157308@Turing-Arch-b>
+ <20181119091910.GF157308@Turing-Arch-b>
+ <20181119104801.GF8268@mtr-leonro.mtl.com>
+ <20181119164853.GA4593@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181117015131.GA10407@Asurada-Nvidia.nvidia.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20181119164853.GA4593@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 16, 2018 at 05:51:34PM -0800, Nicolin Chen wrote:
-> Hello Guenter,
-> 
-> On Wed, Nov 14, 2018 at 09:23:30AM -0800, Guenter Roeck wrote:
-> > > An alternative way (without the sysfs node), after looking at
-> > > other hwmon code, could be to have a timed polling thread and
-> > > read data using an update_interval value from ABI. This might
-> > > turn out to be more complicated as it'll also involve settings
-> > > of hardware averaging and conversion time. Above all, I cannot
-> > > figure out a good threshold of update_interval to switch modes.
-> > > 
-> > update_interval should only be used if it can be configured
-> > into hardware, not to trigger a polling thread. It should only
-> > be used in the driver to determine caching intervals.
-> 
-> I see..so it's more like the conversion time settings instead.
-> 
-> > > If you can give some advice of a better implementation, that'd
-> > > be great.
-> > > 
-> > From your description, the only real feasible solution would be a
-> > generic one, with a well defined interface either to userspace or
-> > to the kernel. The best I can think of would be an in-kernel API
-> > setting the power operational mode via callbacks. Alternative would
-> > be a generic ability to set power operational mode from userspace,
-> > using an ABI which applies to all drivers, not just one.
-> 
-> Hmm. That would make the situation really complicated, I could
-> understand your concern though.
-> 
-> I searched a little and found that, while the initial ina3221
-> hwmon driver was under review, Laxman submitted an IIO version
-> where Jonathan had a similar comments against its "mode" node:
-> https://www.spinics.net/lists/linux-hwmon/msg00219.html
-> 
-> Quote from his comments {
->  * There is a lot of ABI in here concerned with oneshot vs continuous.
->  This seems to me to be more than it should be. We wouldn't expect to
->  see stuff changing as a result of switching between these modes other
->  than wrt to when the data shows up.  So I'd expect to not see this
->  directly exposed at all - but rather sit in oneshot unless either:
->  1) Buffered mode is running (not currently supported)
->  2) Alerts are on - which I think requires it to be in continuous mode.
-> }
-> 
-> Since hwmon driver doesn't support buffered mode, what do you
-> think about having the chip run in single-shot mode by default
-> but changing it if alerts are on? Though the driver also needs
-> to support to enable warning/critical alert pins.
-> 
-> In short, other than exposing it via a generic ABI to the user
-> space, how about defining some policy to maintaining it within
-> the driver?
-> 
-I think that would be a bad idea. It changes timing for everyone
-curently using the driver. It also effectively disables monitoring,
-which is the main purpose for using this chip (and other hardware
-monitoring chips). This is indeed a key difference between iio
-and hwmon - the main purpose of chips in the iio subsystem is to
-be able report data efficiently to user space, not hardware monitoring.
-I do not think it is appropriate to use iio requirements as argument
-to change hwmon driver behavior (and vice versa).
+On Mon, Nov 19, 2018 at 11:48:54AM -0500, Jerome Glisse wrote:
 
-Guenter
+> Just to comment on this, any infiniband driver which use umem and do
+> not have ODP (here ODP for me means listening to mmu notifier so all
+> infiniband driver except mlx5) will be affected by same issue AFAICT.
+> 
+> AFAICT there is no special thing happening after fork() inside any of
+> those driver. So if parent create a umem mr before fork() and program
+> hardware with it then after fork() the parent might start using new
+> page for the umem range while the old memory is use by the child. The
+> reverse is also true (parent using old memory and child new memory)
+> bottom line you can not predict which memory the child or the parent
+> will use for the range after fork().
+> 
+> So no matter what you consider the child or the parent, what the hw
+> will use for the mr is unlikely to match what the CPU use for the
+> same virtual address. In other word:
+> 
+> Before fork:
+>     CPU parent: virtual addr ptr1 -> physical address = 0xCAFE
+>     HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
+> 
+> Case 1:
+>     CPU parent: virtual addr ptr1 -> physical address = 0xCAFE
+>     CPU child:  virtual addr ptr1 -> physical address = 0xDEAD
+>     HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
+> 
+> Case 2:
+>     CPU parent: virtual addr ptr1 -> physical address = 0xBEEF
+>     CPU child:  virtual addr ptr1 -> physical address = 0xCAFE
+>     HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
+
+IIRC this is solved in IB by automatically calling
+madvise(MADV_DONTFORK) before creating the MR.
+
+MADV_DONTFORK
+  .. This is useful to prevent copy-on-write semantics from changing the
+  physical location of a page if the parent writes to it after a
+  fork(2) ..
+
+Jason
