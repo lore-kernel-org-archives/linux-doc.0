@@ -2,30 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B5D307D8A9
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 22:45:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 212E57D8A9
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 22:49:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731313AbeKTJLK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 04:11:10 -0500
-Received: from mga06.intel.com ([134.134.136.31]:49661 "EHLO mga06.intel.com"
+        id S1731585AbeKTJOn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 04:14:43 -0500
+Received: from mga01.intel.com ([192.55.52.88]:31026 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730462AbeKTJLK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 04:11:10 -0500
+        id S1730419AbeKTJOn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Nov 2018 04:14:43 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Nov 2018 14:45:17 -0800
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Nov 2018 14:48:49 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.56,254,1539673200"; 
-   d="scan'208";a="90584132"
+   d="scan'208";a="93332282"
 Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
-  by orsmga007.jf.intel.com with ESMTP; 19 Nov 2018 14:45:16 -0800
-Message-ID: <6bb299d4a59540727cd27bf015b2b2ff5014aab4.camel@intel.com>
-Subject: Re: [RFC PATCH v6 09/11] x86/vsyscall/32: Add ENDBR32 to vsyscall
- entry point
+  by orsmga008.jf.intel.com with ESMTP; 19 Nov 2018 14:48:48 -0800
+Message-ID: <a40c2a60e42b5fdff46275ca42f3e7276bf11258.camel@intel.com>
+Subject: Re: [RFC PATCH v6 08/11] x86: Insert endbr32/endbr64 to vDSO
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     Andy Lutomirski <luto@amacapital.net>
 Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
@@ -52,11 +51,11 @@ Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
-Date:   Mon, 19 Nov 2018 14:40:00 -0800
-In-Reply-To: <CALCETrUkXMHcwX8u+mGDD9Vj+iQE7CRMHL7jQnfAT6WXV8SBEQ@mail.gmail.com>
+Date:   Mon, 19 Nov 2018 14:43:31 -0800
+In-Reply-To: <CALCETrW9ABDotyM020V147+kuizpTRJUAANn-6kUt6-h0Qn0og@mail.gmail.com>
 References: <20181119214934.6174-1-yu-cheng.yu@intel.com>
-         <20181119214934.6174-10-yu-cheng.yu@intel.com>
-         <CALCETrUkXMHcwX8u+mGDD9Vj+iQE7CRMHL7jQnfAT6WXV8SBEQ@mail.gmail.com>
+         <20181119214934.6174-9-yu-cheng.yu@intel.com>
+         <CALCETrW9ABDotyM020V147+kuizpTRJUAANn-6kUt6-h0Qn0og@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.1-2 
 Mime-Version: 1.0
@@ -66,16 +65,41 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2018-11-19 at 14:23 -0800, Andy Lutomirski wrote:
+On Mon, 2018-11-19 at 14:17 -0800, Andy Lutomirski wrote:
 > On Mon, Nov 19, 2018 at 1:55 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 > > 
 > > From: "H.J. Lu" <hjl.tools@gmail.com>
 > > 
-> > Add ENDBR32 to vsyscall entry point.
+> > When Intel indirect branch tracking is enabled, functions in vDSO which
+> > may be called indirectly must have endbr32 or endbr64 as the first
+> > instruction.  Compiler must support -fcf-protection=branch so that it
+> > can be used to compile vDSO.
+> > 
+> > Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
+> > ---
+> >  arch/x86/entry/vdso/.gitignore        |  4 ++++
+> >  arch/x86/entry/vdso/Makefile          | 12 +++++++++++-
+> >  arch/x86/entry/vdso/vdso-layout.lds.S |  1 +
+> >  3 files changed, 16 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/arch/x86/entry/vdso/.gitignore b/arch/x86/entry/vdso/.gitignore
+> > index aae8ffdd5880..552941fdfae0 100644
+> > --- a/arch/x86/entry/vdso/.gitignore
+> > +++ b/arch/x86/entry/vdso/.gitignore
+> > @@ -5,3 +5,7 @@ vdso32-sysenter-syms.lds
+> >  vdso32-int80-syms.lds
+> >  vdso-image-*.c
+> >  vdso2c
+> > +vclock_gettime.S
+> > +vgetcpu.S
+> > +vclock_gettime.asm
+> > +vgetcpu.asm
 > 
-> $SUBJECT should be "x86/vdso/32: Add ENDBR32 to __kernel_vsyscall entry
-> point".
+> 
+> What's this hunk about?
 
-I will fix it.
+We used to allow using non-CET capable BINUTILS and the Makefile would create
+these.  I will remove them from the patch.
 
 Yu-cheng
+
