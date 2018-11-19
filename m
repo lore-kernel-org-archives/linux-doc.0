@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 577AE7E2AF
+	by archive.lwn.net (Postfix) with ESMTP id C1BA17D982
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 21:56:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731818AbeKTIUn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 03:20:43 -0500
+        id S1731835AbeKTIUp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 03:20:45 -0500
 Received: from mga09.intel.com ([134.134.136.24]:32114 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731793AbeKTIUn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 03:20:43 -0500
+        id S1731793AbeKTIUp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Nov 2018 03:20:45 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Nov 2018 13:55:02 -0800
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Nov 2018 13:55:05 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.56,254,1539673200"; 
-   d="scan'208";a="92423920"
+   d="scan'208";a="92423933"
 Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
-  by orsmga006.jf.intel.com with ESMTP; 19 Nov 2018 13:55:01 -0800
+  by orsmga006.jf.intel.com with ESMTP; 19 Nov 2018 13:55:03 -0800
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -46,9 +46,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: [RFC PATCH v6 08/11] x86: Insert endbr32/endbr64 to vDSO
-Date:   Mon, 19 Nov 2018 13:49:31 -0800
-Message-Id: <20181119214934.6174-9-yu-cheng.yu@intel.com>
+Subject: [RFC PATCH v6 10/11] x86/vsyscall/64: Add ENDBR64 to vsyscall entry points
+Date:   Mon, 19 Nov 2018 13:49:33 -0800
+Message-Id: <20181119214934.6174-11-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20181119214934.6174-1-yu-cheng.yu@intel.com>
 References: <20181119214934.6174-1-yu-cheng.yu@intel.com>
@@ -59,78 +59,43 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: "H.J. Lu" <hjl.tools@gmail.com>
 
-When Intel indirect branch tracking is enabled, functions in vDSO which
-may be called indirectly must have endbr32 or endbr64 as the first
-instruction.  Compiler must support -fcf-protection=branch so that it
-can be used to compile vDSO.
+Add ENDBR64 to vsyscall entry points.
 
 Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 ---
- arch/x86/entry/vdso/.gitignore        |  4 ++++
- arch/x86/entry/vdso/Makefile          | 12 +++++++++++-
- arch/x86/entry/vdso/vdso-layout.lds.S |  1 +
- 3 files changed, 16 insertions(+), 1 deletion(-)
+ arch/x86/entry/vsyscall/vsyscall_emu_64.S | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/arch/x86/entry/vdso/.gitignore b/arch/x86/entry/vdso/.gitignore
-index aae8ffdd5880..552941fdfae0 100644
---- a/arch/x86/entry/vdso/.gitignore
-+++ b/arch/x86/entry/vdso/.gitignore
-@@ -5,3 +5,7 @@ vdso32-sysenter-syms.lds
- vdso32-int80-syms.lds
- vdso-image-*.c
- vdso2c
-+vclock_gettime.S
-+vgetcpu.S
-+vclock_gettime.asm
-+vgetcpu.asm
-diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
-index 141d415a8c80..0b1b464e7ae7 100644
---- a/arch/x86/entry/vdso/Makefile
-+++ b/arch/x86/entry/vdso/Makefile
-@@ -108,13 +108,17 @@ vobjx32s := $(foreach F,$(vobjx32s-y),$(obj)/$F)
+diff --git a/arch/x86/entry/vsyscall/vsyscall_emu_64.S b/arch/x86/entry/vsyscall/vsyscall_emu_64.S
+index c9596a9af159..08554445bef1 100644
+--- a/arch/x86/entry/vsyscall/vsyscall_emu_64.S
++++ b/arch/x86/entry/vsyscall/vsyscall_emu_64.S
+@@ -18,16 +18,25 @@ __PAGE_ALIGNED_DATA
+ 	.type __vsyscall_page, @object
+ __vsyscall_page:
  
- # Convert 64bit object file to x32 for x32 vDSO.
- quiet_cmd_x32 = X32     $@
--      cmd_x32 = $(OBJCOPY) -O elf32-x86-64 $< $@
-+      cmd_x32 = $(OBJCOPY) -R .note.gnu.property -O elf32-x86-64 $< $@
++#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
++	endbr64
++#endif
+ 	mov $__NR_gettimeofday, %rax
+ 	syscall
+ 	ret
  
- $(obj)/%-x32.o: $(obj)/%.o FORCE
- 	$(call if_changed,x32)
+ 	.balign 1024, 0xcc
++#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
++	endbr64
++#endif
+ 	mov $__NR_time, %rax
+ 	syscall
+ 	ret
  
- targets += vdsox32.lds $(vobjx32s-y)
- 
-+ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-+    $(obj)/vclock_gettime.o $(obj)/vgetcpu.o $(obj)/vdso32/vclock_gettime.o: KBUILD_CFLAGS += -fcf-protection=branch
-+endif
-+
- $(obj)/%.so: OBJCOPYFLAGS := -S
- $(obj)/%.so: $(obj)/%.so.dbg
- 	$(call if_changed,objcopy)
-@@ -172,6 +176,12 @@ quiet_cmd_vdso = VDSO    $@
- 
- VDSO_LDFLAGS = -shared $(call ld-option, --hash-style=both) \
- 	$(call ld-option, --build-id) -Bsymbolic
-+ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-+  VDSO_LDFLAGS += $(call ldoption, -z$(comma)ibt)
-+endif
-+ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
-+  VDSO_LDFLAGS += $(call ldoption, -z$(comma)shstk)
-+endif
- GCOV_PROFILE := n
- 
- #
-diff --git a/arch/x86/entry/vdso/vdso-layout.lds.S b/arch/x86/entry/vdso/vdso-layout.lds.S
-index acfd5ba7d943..cabaeedfed78 100644
---- a/arch/x86/entry/vdso/vdso-layout.lds.S
-+++ b/arch/x86/entry/vdso/vdso-layout.lds.S
-@@ -74,6 +74,7 @@ SECTIONS
- 	.fake_shstrtab	: { *(.fake_shstrtab) }		:text
- 
- 
-+	.note.gnu.property : { *(.note.gnu.property) }	:text	:note
- 	.note		: { *(.note.*) }		:text	:note
- 
- 	.eh_frame_hdr	: { *(.eh_frame_hdr) }		:text	:eh_frame_hdr
+ 	.balign 1024, 0xcc
++#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
++	endbr64
++#endif
+ 	mov $__NR_getcpu, %rax
+ 	syscall
+ 	ret
 -- 
 2.17.1
 
