@@ -1,168 +1,173 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 20BC47D982
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 21:27:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8B76B7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 21:29:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731180AbeKTHwO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 02:52:14 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:46330 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730892AbeKTHwN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 02:52:13 -0500
-Received: by mail-pf1-f193.google.com with SMTP id c73so753883pfe.13
-        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 13:26:41 -0800 (PST)
+        id S1730976AbeKTHym (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 02:54:42 -0500
+Received: from mail-eopbgr690086.outbound.protection.outlook.com ([40.107.69.86]:21728
+        "EHLO NAM04-CO1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725898AbeKTHym (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Nov 2018 02:54:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=FDJZfcAoRFuPs73eEKk1KIT7jJTr1E9628DZngqfpiY=;
-        b=E6UIRx9/Fdo7EDDGjXZ3hVkbkKiyuntD1JTFFmRUgkrYg3lVTY/3oSvCwAIRuce5b3
-         +lsZPvPvyC9Niw1XR4txYwg8BT0CSXybwJ1lbe5yjS0n03dy/DFIwAtRBn0uFQ4jGkcR
-         ur2z46LIvkTENr+SHmcL9aWDUdzwEdLR7GTfcgaGzWqEHFzvfhT2lpZVY+FyvDMXG+TM
-         0ZLLwj8ySDtgvQru4rSvO5slaungMJdxdsJ+i43ymSSb3HPmrp7elGNcvGB0FIEiJ7PC
-         y7gUlj3xn7k238FtsmA7drdoMISpIMInHbI6tUuAShgNspsvT+GzybLEffKHJnDXftuP
-         tj2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=FDJZfcAoRFuPs73eEKk1KIT7jJTr1E9628DZngqfpiY=;
-        b=caCtW27DJAEkC2VooeL+XLGi6Rp9jvWnXcdKIlK4B6n08zXW9y//kt0C+3xAZPs37R
-         qDyqi5QarwQC4DMMxo6bef3YdzQI1CvWDFV9D8JiYz8ES2gXePgleoge10548utlPeBO
-         aGIudpxdUz6t8MNPy8LMhKHBZpeovKlIumc7XrNze6yJXUv2lOoUzG1DPl96OA+5+DwW
-         eyiiCdxzlWZytssyLXLdk+u5wYeFs2FbaBZGDrWjYHtXdXjr4aWr+rAd+AwYDpzgR/lK
-         LUE3GLxe5qQhKYKQ8qUtbr5MHjnSOzFWJDILbQ8JufYjeiX5cb/5sESmhvNDL8w50HM2
-         tc0Q==
-X-Gm-Message-State: AGRZ1gI2YCvGCAl7jgxUcjmd1mkjTrbLxlI3NJnMitoQqy0hNxGOAx8F
-        hZPtGuLRyRwJdUwNQm+/xbNGYw==
-X-Google-Smtp-Source: AJdET5cYZDMWU1NZbt10IaMISKdWNzL6CGBHnLcRSeMr2baVKsQX6VXlowQnw9vu06EMYlJupYpXhQ==
-X-Received: by 2002:a63:da45:: with SMTP id l5mr21813504pgj.111.1542662800726;
-        Mon, 19 Nov 2018 13:26:40 -0800 (PST)
-Received: from ziepe.ca (S010614cc2056d97f.ed.shawcable.net. [174.3.196.123])
-        by smtp.gmail.com with ESMTPSA id v62sm3653979pfd.163.2018.11.19.13.26.39
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 19 Nov 2018 13:26:39 -0800 (PST)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1gOr42-0006YR-Si; Mon, 19 Nov 2018 14:26:38 -0700
-Date:   Mon, 19 Nov 2018 14:26:38 -0700
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Jerome Glisse <jglisse@redhat.com>
-Cc:     Tim Sell <timothy.sell@unisys.com>, linux-doc@vger.kernel.org,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Zaibo Xu <xuzaibo@huawei.com>, zhangfei.gao@foxmail.com,
-        linuxarm@huawei.com, haojian.zhuang@linaro.org,
-        Christoph Lameter <cl@linux.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        Gavin Schenk <g.schenk@eckelmann.de>,
-        Leon Romanovsky <leon@kernel.org>,
-        RDMA mailing list <linux-rdma@vger.kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        David Kershner <david.kershner@unisys.com>,
-        Kenneth Lee <nek.in.cn@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Cyrille Pitchen <cyrille.pitchen@free-electrons.com>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Jens Axboe <axboe@kernel.dk>, guodong.xu@linaro.org,
-        linux-netdev <netdev@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, Zhou Wang <wangzhou1@hisilicon.com>,
-        linux-crypto@vger.kernel.org,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        Kenneth Lee <liguozhu@hisilicon.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-accelerators@lists.ozlabs.org
-Subject: Re: [RFCv3 PATCH 1/6] uacce: Add documents for WarpDrive/uacce
-Message-ID: <20181119212638.GI4890@ziepe.ca>
-References: <20181119104801.GF8268@mtr-leonro.mtl.com>
- <20181119164853.GA4593@redhat.com>
- <20181119182752.GA4890@ziepe.ca>
- <20181119184215.GB4593@redhat.com>
- <20181119185333.GC4890@ziepe.ca>
- <20181119191721.GC4593@redhat.com>
- <20181119192702.GD4890@ziepe.ca>
- <20181119194631.GE4593@redhat.com>
- <20181119201156.GG4890@ziepe.ca>
- <20181119202614.GF4593@redhat.com>
+ d=CAVIUMNETWORKS.onmicrosoft.com; s=selector1-cavium-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=We/UZnoEdNrbMnxHzF7mhcVr7PbIlHuhygAezvTmSUo=;
+ b=DmMqDKJ8n6FDy44VycO+/mT8UB5SxKGMHHkuT8LhORvShkfPJem4xyXsbpfIvBcgzuYWiJAFfs6PHYpbWlb00PUWtZVJ4NpRJhtMU1FL5bOq3D2vUrCs4ZQOD4AMl8YLCRXTerZ1nNn0p3zRr2UNs2dRurH4O6nKU5vA8HwxUtI=
+Received: from BYAPR07MB4373.namprd07.prod.outlook.com (52.135.224.16) by
+ BYAPR07MB5271.namprd07.prod.outlook.com (20.177.124.212) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1339.23; Mon, 19 Nov 2018 21:29:01 +0000
+Received: from BYAPR07MB4373.namprd07.prod.outlook.com
+ ([fe80::98fe:75f8:e8ca:f46d]) by BYAPR07MB4373.namprd07.prod.outlook.com
+ ([fe80::98fe:75f8:e8ca:f46d%2]) with mapi id 15.20.1294.048; Mon, 19 Nov 2018
+ 21:29:01 +0000
+From:   Yury Norov <ynorov@caviumnetworks.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>
+CC:     Adam Borowski <kilobyte@angband.pl>,
+        Alexander Graf <agraf@suse.de>,
+        Alexey Klimov <klimov.linux@gmail.com>,
+        Andreas Schwab <schwab@suse.de>,
+        Andrew Pinski <pinskia@gmail.com>,
+        Bamvor Zhangjian <bamv2005@gmail.com>,
+        Chris Metcalf <cmetcalf@mellanox.com>,
+        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Florian Weimer <fweimer@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        James Hogan <james.hogan@imgtec.com>,
+        James Morse <james.morse@arm.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        Lin Yongting <linyongting@huawei.com>,
+        Manuel Montezelo <manuel.montezelo@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+        Nathan_Lynch <Nathan_Lynch@mentor.com>,
+        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
+        "Kapoor, Prasun" <Prasun.Kapoor@cavium.com>,
+        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
+        "Ellcey, Steve" <Steve.Ellcey@cavium.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>
+Subject: Re: [PATCH v9 00/24] ILP32 for ARM64
+Thread-Topic: [PATCH v9 00/24] ILP32 for ARM64
+Thread-Index: AQHT7O6apmdUMTjqyEuLxJG41cI5NKVYw94A
+Date:   Mon, 19 Nov 2018 21:29:01 +0000
+Message-ID: <20181119212852.GA16961@yury-thinkpad>
+References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
+In-Reply-To: <20180516081910.10067-1-ynorov@caviumnetworks.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR02CA0110.eurprd02.prod.outlook.com
+ (2603:10a6:7:29::39) To BYAPR07MB4373.namprd07.prod.outlook.com
+ (2603:10b6:a02:c0::16)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Yuri.Norov@cavium.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [212.58.114.41]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;BYAPR07MB5271;6:LfLUi5Zcz8FnI7wXZMrho6xOXhdjCEn+8kM+RJhJY82y11sewoDsg0/ghgzoUlJMwFP1tRaDsI0Y6iPjikgyxyho002c00xC+URChULm13cyDrU01+tYNi4OyfquQlskl7uNnbJH7aBrD0YrBNJ6ijNSU6eyLqyg0VY8QSnJH9QvDiJhw7f0GbKBB5INdLJxABPrYrFK5/67i+tWU0hGA80GGualZd6lfzHW5z6ZX1yWWYxNOAnPxfCQPgDgpNBtbxgzKjVoxedHe5YJGPcOPZdao4BEAaA8ZxdN0lj79CE6rIKMTOPqwFZ8le7y+UCuwbCo7KhEmHe85qsQR9+WuRRhkjxqcUUtO/S9iHPYBR2RT6Aithj4z0hng/gAcatLPY+1NRcROEAkGdCaYBV+RM2zDodY3rVwtfB08PYi6tHhMVnhkfgf6G7tN0QyWF3AZJRponU62V3AQ97GiiNCEg==;5:2TGrGa9Oi9jIScR+ih+T59PcHnTDognBnblmQAImx+kP7GfYblL0HY0MR/HG7D0DtNmwn1ehTZnOZgPmDJh1WxixPtrEw51ZKXDwTuuGI71ibQGgSx7oVVej9rpMKBpFc+rYwUbc1E/Kt5aE7PtSzJxxLPdQzZoNkkLruDbxPRY=;7:DtQ/pOVuqyRiY1wDk6fmfLe8dURBEbI/QYisWAqkzlQdusSRGIDWqP6pbxBerq6Uqnw7SQJipJMfo1sdA3zxBonP/JttOfQp8T6lmrNIk0uW7zznWjVQJJSJD0m/OBcwDWoFzlgqoXaP51sKsUy/rw==
+x-ms-office365-filtering-correlation-id: 5fabf606-618d-4a34-0393-08d64e6605aa
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390098)(7020095)(4652040)(8989299)(5600074)(711020)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:BYAPR07MB5271;
+x-ms-traffictypediagnostic: BYAPR07MB5271:
+x-microsoft-antispam-prvs: <BYAPR07MB5271AE81520F4B67CC274CEEE3D80@BYAPR07MB5271.namprd07.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(10201501046)(3002001)(93006095)(3231439)(944501410)(4982022)(52105112)(148016)(149066)(150057)(6041310)(20161123560045)(20161123558120)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(201708071742011)(7699051)(76991095);SRVR:BYAPR07MB5271;BCL:0;PCL:0;RULEID:;SRVR:BYAPR07MB5271;
+x-forefront-prvs: 08617F610C
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(979002)(7916004)(396003)(346002)(376002)(136003)(366004)(39860400002)(53754006)(199004)(189003)(11346002)(446003)(33716001)(6116002)(3846002)(33896004)(386003)(42882007)(6506007)(6306002)(9686003)(106356001)(6512007)(5660300001)(33656002)(486006)(186003)(76176011)(1076002)(2900100001)(26005)(52116002)(14454004)(6246003)(99286004)(6436002)(476003)(102836004)(2906002)(2501003)(8936002)(81156014)(105586002)(478600001)(305945005)(966005)(7736002)(8676002)(256004)(14444005)(81166006)(2201001)(97736004)(53936002)(229853002)(316002)(39060400002)(71200400001)(25786009)(6486002)(7406005)(7416002)(71190400001)(66066001)(72206003)(68736007)(54906003)(110136005)(4326008)(969003)(989001)(999001)(1009001)(1019001);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR07MB5271;H:BYAPR07MB4373.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: cavium.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: hLqx4jO5vZg5ltqHKHCUy03p0HIHcvkNqU2A1eKBNmLLT/bUAHY3MEWUXli+MDzRusdJ5lp93ECW4HQWVeQRVNnxpUyMB54+vDY3wXyIzU6xN9rq6nncozETWKWJ+sCiQFj49t4bM+DeWXVW2ErbRuc6RnQLybPm0j/nOttmVX2he/s5v2SN2k12BdeyL+gecx7o6UudlnhrXGSLEI1l24t/OzAIKx7D7Gv87TyWrzQV9+8NVNzsejgUi7UZdlwzmJ8BlNoVDnXb+chEemJQnNq5naUTU8C9ECXpfKpFaVuWmm48eDVENabGGQlo0EWnGnwA0r98tvAmjDEDrCGgNi2mlR2CcJ7X4DdD8Cy4x54=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <EDA80B37E563BB4FBA8648C4DC453712@namprd07.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181119202614.GF4593@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-OriginatorOrg: caviumnetworks.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5fabf606-618d-4a34-0393-08d64e6605aa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Nov 2018 21:29:01.5663
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 711e4ccf-2e9b-4bcf-a551-4094005b6194
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR07MB5271
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 19, 2018 at 03:26:15PM -0500, Jerome Glisse wrote:
-> On Mon, Nov 19, 2018 at 01:11:56PM -0700, Jason Gunthorpe wrote:
-> > On Mon, Nov 19, 2018 at 02:46:32PM -0500, Jerome Glisse wrote:
-> > 
-> > > > ?? How can O_DIRECT be fine but RDMA not? They use exactly the same
-> > > > get_user_pages flow, right? Can we do what O_DIRECT does in RDMA and
-> > > > be fine too?
-> > > > 
-> > > > AFAIK the only difference is the length of the race window. You'd have
-> > > > to fork and fault during the shorter time O_DIRECT has get_user_pages
-> > > > open.
-> > > 
-> > > Well in O_DIRECT case there is only one page table, the CPU
-> > > page table and it gets updated during fork() so there is an
-> > > ordering there and the race window is small.
-> > 
-> > Not really, in O_DIRECT case there is another 'page table', we just
-> > call it a DMA scatter/gather list and it is sent directly to the block
-> > device's DMA HW. The sgl plays exactly the same role as the various HW
-> > page list data structures that underly RDMA MRs.
-> > 
-> > It is not a page table that matters here, it is if the DMA address of
-> > the page is active for DMA on HW.
-> > 
-> > Like you say, the only difference is that the race is hopefully small
-> > with O_DIRECT (though that is not really small, NVMeof for instance
-> > has windows as large as connection timeouts, if you try hard enough)
-> > 
-> > So we probably can trigger this trouble with O_DIRECT and fork(), and
-> > I would call it a bug :(
-> 
-> I can not think of any scenario that would be a bug with O_DIRECT.
-> Do you have one in mind ? When you fork() and do other syscall that
-> affect the memory of your process in another thread you should
-> expect non consistant results. Kernel is not here to provide a fully
-> safe environement to user, user can shoot itself in the foot and
-> that's fine as long as it only affect the process itself and no one
-> else. We should not be in the business of making everything baby
-> proof :)
+Hi all,
 
-Sure, I setup AIO with O_DIRECT and launch a read.
+On Wed, May 16, 2018 at 11:18:45AM +0300, Yury Norov wrote:
+> This series enables AARCH64 with ILP32 mode.
+>=20
+> As supporting work, it introduces ARCH_32BIT_OFF_T configuration
+> option that is enabled for existing 32-bit architectures but disabled
+> for new arches (so 64-bit off_t userspace type is used by new userspace).
+> Also it deprecates getrlimit and setrlimit syscalls prior to prlimit64.
+>=20
+> Based on kernel v4.16. Tested with LTP, glibc testsuite, trinity, lmbench=
+,
+> CPUSpec.
+>=20
+> This series on github:=20
+> https://github.com/norov/linux/tree/ilp32-4.16
+> Linaro toolchain:
+> http://snapshots.linaro.org/components/toolchain/binaries/7.3-2018.04-rc1=
+/aarch64-linux-gnu_ilp32/
+> Debian repo:
+> http://people.linaro.org/~wookey/ilp32/
+> OpenSUSE repo:
+> https://build.opensuse.org/project/show/devel:ARM:Factory:Contrib:ILP32
+>=20
+> Changes:
+> v3: https://lkml.org/lkml/2014/9/3/704
+> v4: https://lkml.org/lkml/2015/4/13/691
+> v5: https://lkml.org/lkml/2015/9/29/911
+> v6: https://lkml.org/lkml/2016/5/23/661
+> v7: https://lkml.org/lkml/2017/1/9/213
+> v8: https://lkml.org/lkml/2017/6/19/624
+> v9: - rebased on top of v4.16;
+>     - signal subsystem reworked to avoid code duplication, as requested
+>       by Dave Martin (patches 18 and 20);
+>     - new files introduced in series use SPDX notation for license;
+>     - linux-api and linux-arch CCed as the series changes kernel ABI;
+>     - checkpatch and other minor fixes.
+>     - Zhou Chengming's reported-by for patch 2 and signed-off-by for
+>       patch 21 removed because his email became invalid. Zhou, please
+>       share your new email.
 
-Then I fork and dirty the READ target memory using the CPU in the
-child.
+This is the 4.19-based update:
+https://github.com/norov/linux/tree/ilp32-4.19
 
-As you described in this case the fork will retain the physical page
-that is undergoing O_DIRECT DMA, and the parent gets a new copy'd page.
+Syscall machinery is rewritten in C in mainline kernel, ILP32 is aligned
+with it. The following patches are mostly affected:
 
-The DMA completes, and the child gets the DMA'd to page. The parent
-gets an unchanged copy'd page.
+arm64: ilp32: introduce ilp32-specific sigframe and ucontext
+arm64: signal32: move ilp32 and aarch32 common code to separated file
+arm64: signal: share lp64 signal structures and routines to ilp32
+arm64: ilp32: introduce syscall table for ILP32
+arm64: ilp32: share aarch32 syscall handlers
 
-The parent gets the AIO completion, but can't see the data.
+4.18 branch from Catalin is here:
+https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=3Dst=
+aging/ilp32-4.18
 
-I'd call that a bug with O_DIRECT. The only correct outcome is that
-the parent will always see the O_DIRECT data. Fork should not cause
-the *parent* to malfunction. I agree the child cannot make any
-prediction what memory it will see.
-
-I assume the same flow is possible using threads and read()..
-
-It is really no different than the RDMA bug with fork.
-
-Jason
+Yury
