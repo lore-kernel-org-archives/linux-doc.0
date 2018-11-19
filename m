@@ -1,159 +1,157 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.7 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ECE607E744
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 18:30:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CFE5C7E74C
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 18:30:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389626AbeKTDNR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 22:13:17 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:48672 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389110AbeKTDNQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Nov 2018 22:13:16 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id F18AFC0C18B0;
-        Mon, 19 Nov 2018 16:49:02 +0000 (UTC)
-Received: from redhat.com (ovpn-124-1.rdu2.redhat.com [10.10.124.1])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 13FF365F56;
-        Mon, 19 Nov 2018 16:48:55 +0000 (UTC)
-Date:   Mon, 19 Nov 2018 11:48:54 -0500
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     Leon Romanovsky <leon@kernel.org>
-Cc:     Kenneth Lee <liguozhu@hisilicon.com>,
-        Tim Sell <timothy.sell@unisys.com>, linux-doc@vger.kernel.org,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Zaibo Xu <xuzaibo@huawei.com>, zhangfei.gao@foxmail.com,
-        linuxarm@huawei.com, haojian.zhuang@linaro.org,
-        Christoph Lameter <cl@linux.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        Gavin Schenk <g.schenk@eckelmann.de>,
-        RDMA mailing list <linux-rdma@vger.kernel.org>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Doug Ledford <dledford@redhat.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        David Kershner <david.kershner@unisys.com>,
-        Kenneth Lee <nek.in.cn@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Cyrille Pitchen <cyrille.pitchen@free-electrons.com>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Jens Axboe <axboe@kernel.dk>, guodong.xu@linaro.org,
-        linux-netdev <netdev@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
-        linux-crypto@vger.kernel.org,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-accelerators@lists.ozlabs.org
-Subject: Re: [RFCv3 PATCH 1/6] uacce: Add documents for WarpDrive/uacce
-Message-ID: <20181119164853.GA4593@redhat.com>
-References: <20181112075807.9291-1-nek.in.cn@gmail.com>
- <20181112075807.9291-2-nek.in.cn@gmail.com>
- <20181113002354.GO3695@mtr-leonro.mtl.com>
- <95310df4-b32c-42f0-c750-3ad5eb89b3dd@gmail.com>
- <20181114160017.GI3759@mtr-leonro.mtl.com>
- <20181115085109.GD157308@Turing-Arch-b>
- <20181115145455.GN3759@mtr-leonro.mtl.com>
- <20181119091405.GE157308@Turing-Arch-b>
- <20181119091910.GF157308@Turing-Arch-b>
- <20181119104801.GF8268@mtr-leonro.mtl.com>
+        id S2389708AbeKTDNa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 22:13:30 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:57986 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389682AbeKTDN3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 22:13:29 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.22/8.16.0.22) with SMTP id wAJGmg4P186227;
+        Mon, 19 Nov 2018 16:48:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2018-07-02;
+ bh=kjroibY1+r/vOeYYUGybAFBOv3bl3r62rGnV4IhWd60=;
+ b=pbMtruNBKCqfx8Q48yrcuP649iui/IgFJfu/jvn27PaDO5QLZILjsUSyxxJRtF+01ZlU
+ KmV9oBomkjMYa6YsyNaNFvxxYtnXTVaiuLgzDLZwwWHJEJDZkqdmmTFDNUD3hzS3Ibun
+ c+2KofleQ7BYY+zLJV+NlL09RXKb2zx+3snCdSinNcr2ECRZgFiwqMX6rpCOcoCq0X3E
+ hpimhteli22dWMAX84mwZQlQZGYwL12TpLwygX+lPliUkk9SuODcWI6u+JbyMWzX6clz
+ 8SOjzO/CRNt2a4Hx9NR+Y9u2pcou8QCHFWuY8tDD499h7vqyEfzGDgcqx+Z1GlkOAu/0 Dw== 
+Received: from aserv0022.oracle.com (aserv0022.oracle.com [141.146.126.234])
+        by userp2130.oracle.com with ESMTP id 2ntadtq809-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 19 Nov 2018 16:48:42 +0000
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by aserv0022.oracle.com (8.14.4/8.14.4) with ESMTP id wAJGmd71023590
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 19 Nov 2018 16:48:39 GMT
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id wAJGmbSo015675;
+        Mon, 19 Nov 2018 16:48:37 GMT
+Received: from char.us.oracle.com (/10.152.32.25)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 19 Nov 2018 08:48:37 -0800
+Received: by char.us.oracle.com (Postfix, from userid 1000)
+        id BC8CC6A00EB; Mon, 19 Nov 2018 11:48:35 -0500 (EST)
+Date:   Mon, 19 Nov 2018 11:48:35 -0500
+From:   Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+To:     "H. Peter Anvin" <hpa@zytor.com>, grub-devel@gnu.org,
+        Daniel Kiper <daniel.kiper@oracle.com>
+Cc:     Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
+        xen-devel@lists.xenproject.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, corbet@lwn.net, boris.ostrovsky@oracle.com
+Subject: Re: PLEASE REVERT URGENTLY: Re: [PATCH v5 2/3] x86/boot: add acpi
+ rsdp address to setup_header
+Message-ID: <20181119164835.GF31468@char.us.oracle.com>
+References: <20181010061456.22238-1-jgross@suse.com>
+ <20181010061456.22238-3-jgross@suse.com>
+ <f7c78ee7-b548-7f04-24da-7321b6c64c97@zytor.com>
+ <bd2d17cd-072c-cad6-94ad-52373700a1c9@suse.com>
+ <2934552c-d150-0afb-6fa9-9398cb94d86a@zytor.com>
+ <5a2f5cb8-7332-f490-eabf-cfcbdcd1abc4@suse.com>
+ <59ca1053-9176-f1db-6e6c-96b47aaaa09d@zytor.com>
+ <f16c53a4-7a5c-de01-c3cc-095226f6ca40@suse.com>
+ <3e773a2d-3f69-5ccd-7d8b-9878fba30d00@zytor.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20181119104801.GF8268@mtr-leonro.mtl.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.32]); Mon, 19 Nov 2018 16:49:04 +0000 (UTC)
+In-Reply-To: <3e773a2d-3f69-5ccd-7d8b-9878fba30d00@zytor.com>
+User-Agent: Mutt/1.8.3 (2017-05-23)
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9082 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1811190154
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 19, 2018 at 12:48:01PM +0200, Leon Romanovsky wrote:
-> On Mon, Nov 19, 2018 at 05:19:10PM +0800, Kenneth Lee wrote:
-> > On Mon, Nov 19, 2018 at 05:14:05PM +0800, Kenneth Lee wrote:
-> > > On Thu, Nov 15, 2018 at 04:54:55PM +0200, Leon Romanovsky wrote:
-> > > > On Thu, Nov 15, 2018 at 04:51:09PM +0800, Kenneth Lee wrote:
-> > > > > On Wed, Nov 14, 2018 at 06:00:17PM +0200, Leon Romanovsky wrote:
-> > > > > > On Wed, Nov 14, 2018 at 10:58:09AM +0800, Kenneth Lee wrote:
-> > > > > > > > On Mon, Nov 12, 2018 at 03:58:02PM +0800, Kenneth Lee wrote:
-
-[...]
-
-> > > > memory exposed to user is properly protected from security point of view.
-> > > > 3. "stop using the page for a while for the copying" - I'm not fully
-> > > > understand this claim, maybe this article will help you to better
-> > > > describe : https://lwn.net/Articles/753027/
-> > >
-> > > This topic was being discussed in RFCv2. The key problem here is that:
-> > >
-> > > The device need to hold the memory for its own calculation, but the CPU/software
-> > > want to stop it for a while for synchronizing with disk or COW.
-> > >
-> > > If the hardware support SVM/SVA (Shared Virtual Memory/Address), it is easy, the
-> > > device share page table with CPU, the device will raise a page fault when the
-> > > CPU downgrade the PTE to read-only.
-> > >
-> > > If the hardware cannot share page table with the CPU, we then need to have
-> > > some way to change the device page table. This is what happen in ODP. It
-> > > invalidates the page table in device upon mmu_notifier call back. But this cannot
-> > > solve the COW problem: if the user process A share a page P with device, and A
-> > > forks a new process B, and it continue to write to the page. By COW, the
-> > > process B will keep the page P, while A will get a new page P'. But you have
-> > > no way to let the device know it should use P' rather than P.
+On Sun, Nov 11, 2018 at 10:49:39AM -0800, H. Peter Anvin wrote:
+> On 11/10/18 1:03 AM, Juergen Gross wrote:
+> > 
+> > How would that help? The garabge data written could have the correct
+> > terminal sentinel value by chance.
+> > 
+> > That's why I re-used an existing field in setup_header (the version) to
+> > let grub tell the kernel which part of setup_header was written by grub.
+> > 
+> > That's the only way I could find to let the kernel distinguish between
+> > garbage and actual data.
 > 
-> I didn't hear about such issue and we supported fork for a long time.
+> There is plenty of space *before* the setup_header part of struct boot_params
+> too -- look a the various __pad fields, especially (in your case), __pad3[16]
+> and __pad4[116] would suit the bill just fine.
 > 
+> >> It would be enormously helpful if you could find out any more details about
+> >> exactly what they are doing to break things.
+> > 
+> > That's easy:
+> > 
+> > The memory layout is:
+> > 
+> > 0x1f1 bytes of data, including the sentinel, the setup_header, and then
+> > more data.
+> > 
+> > grub did read the kernel's setup_header in the correct size into its
+> > buffer (which contains random garbage before that), intializes the first
+> > 0x1f1 including the sentinel byte, and then writes back the buffer, but
+> > using a too large length for that.
+> 
+> Are you kidding me... it really overwrites it with completely random data, and
+> not simply overspilling contents of the file?
+> 
+> In that case it might not be possible (or desirable) to use those N bytes
+> following the setup_heaader, or we need to a bigger sentinel than one byte
+> (probability being what it is, 256^n gets to be a pretty big number for any n,
+> very quickly drowning in the noise compared to other potential sources of boot
+> failures, and most likely less fatal than most.)
+> 
+> How big is this garbage dump?  I'm going to brave a guess it is 512 bytes.  In
+> that case this is hardly a big deal: the E820 map begins at 0x290, and the
+> setup_header maximum goes to 0x280, so it is only 15 bytes lost.  If it is
+> worse than that, we would risk losing __pad8[48] and __pad9[276], and
+> especially the latter would be painful. In those case perhaps we should use
+> 0x281..0x290 as a 15-byte sentinel; that is going to be virtually foolproof.
+> 
+> I'm also thinking that it might be desirable to add a flags field (__pad2
+> would be ideal) to struct boot_params; it would let us recycle some of the
+> obsolete fields (hd0_info, hd1_info, sys_desc_table, olpc_ofw_header, ...) and
+> perhaps be able to add some more robustness against these sort of things. This
+> would be the right way to do what your version feedback mechanism would do.
+> 
+> The reason why the feedback mechanism is fundamentally broken is that it only
+> gives the boot loader a way to assert that it supports a certain version of
+> the protocol, but it doesn't say *which* bootloader does such an assert -- and
+> therefore it is still wide open to implementation error.
+> 
+> We do, in fact, already have a feedback mechanism: the bootloader ID and
+> bootloader version. One way we could deal with this problem is to bump the
+> bootloader version reported by Grub, and add a quirk to the kernel that if the
+> bootloader ID is Grub (7) and the version is less than a certain number, zero
+> those fields. In fact, the more I think about it, this is what we should do.
+> 
+> That being said, Grub really needs to be kept honest.  They keep making both
+> severe design (like refusing to use the BIOS and UEFI entry points provided by
+> the kernel by default) and implementation errors, apparently without
+> meaningful oversight. I really ask that the people more closely involved with
+> Grub try to keep a closer eye on their code as it applies to Linux.
 
-Just to comment on this, any infiniband driver which use umem and do
-not have ODP (here ODP for me means listening to mmu notifier so all
-infiniband driver except mlx5) will be affected by same issue AFAICT.
+Cc-ing GRUB and Daniel Kiper (maintainer of GRUB).
 
-AFAICT there is no special thing happening after fork() inside any of
-those driver. So if parent create a umem mr before fork() and program
-hardware with it then after fork() the parent might start using new
-page for the umem range while the old memory is use by the child. The
-reverse is also true (parent using old memory and child new memory)
-bottom line you can not predict which memory the child or the parent
-will use for the range after fork().
+Could folks please please CC Daniel Kiper on any of these patches in the future?
 
-So no matter what you consider the child or the parent, what the hw
-will use for the mr is unlikely to match what the CPU use for the
-same virtual address. In other word:
-
-Before fork:
-    CPU parent: virtual addr ptr1 -> physical address = 0xCAFE
-    HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
-
-Case 1:
-    CPU parent: virtual addr ptr1 -> physical address = 0xCAFE
-    CPU child:  virtual addr ptr1 -> physical address = 0xDEAD
-    HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
-
-Case 2:
-    CPU parent: virtual addr ptr1 -> physical address = 0xBEEF
-    CPU child:  virtual addr ptr1 -> physical address = 0xCAFE
-    HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
-
-
-This apply for every single page and is not predictable. This only
-apply to private memory (mmap() with MAP_PRIVATE)
-
-I am not familiar enough with RDMA user space API contract to know
-if this is an issue or not.
-
-Note that this can not be fix, no one should have done umem without
-ODP like mlx5. For this to work properly you need sane hardware like
-mlx5.
-
-Cheers,
-Jérôme
+Thanks.
+> 
+> 	-hpa
