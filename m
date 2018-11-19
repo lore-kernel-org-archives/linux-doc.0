@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 268217D8A5
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 10:16:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 916F37D8BA
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 10:17:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727871AbeKSUkE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 15:40:04 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:35568 "EHLO mx1.redhat.com"
+        id S1728058AbeKSUkT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 15:40:19 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:32858 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726287AbeKSUkE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Nov 2018 15:40:04 -0500
+        id S1726287AbeKSUkS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Nov 2018 15:40:18 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 3A486C05E773;
-        Mon, 19 Nov 2018 10:16:53 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 4FA03306B58A;
+        Mon, 19 Nov 2018 10:17:08 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-77.ams2.redhat.com [10.36.117.77])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 44F9710640FE;
-        Mon, 19 Nov 2018 10:16:45 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 57166105706D;
+        Mon, 19 Nov 2018 10:17:03 +0000 (UTC)
 From:   David Hildenbrand <david@redhat.com>
 To:     linux-mm@kvack.org
 Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -29,83 +29,100 @@ Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-pm@vger.kernel.org, xen-devel@lists.xenproject.org,
         kexec-ml <kexec@lists.infradead.org>, pv-drivers@vmware.com,
         David Hildenbrand <david@redhat.com>,
+        Xavier Deguillard <xdeguillard@vmware.com>,
+        Nadav Amit <namit@vmware.com>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Julien Freche <jfreche@vmware.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Dave Young <dyoung@redhat.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Baoquan He <bhe@redhat.com>, Omar Sandoval <osandov@fb.com>,
-        Arnd Bergmann <arnd@arndb.de>,
         Matthew Wilcox <willy@infradead.org>,
         Michal Hocko <mhocko@suse.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Lianbo Jiang <lijiang@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Kazuhito Hagio <k-hagio@ab.jp.nec.com>
-Subject: [PATCH v1 3/8] kexec: export PG_offline to VMCOREINFO
-Date:   Mon, 19 Nov 2018 11:16:11 +0100
-Message-Id: <20181119101616.8901-4-david@redhat.com>
+        "Michael S. Tsirkin" <mst@redhat.com>
+Subject: [PATCH v1 6/8] vmw_balloon: mark inflated pages PG_offline
+Date:   Mon, 19 Nov 2018 11:16:14 +0100
+Message-Id: <20181119101616.8901-7-david@redhat.com>
 In-Reply-To: <20181119101616.8901-1-david@redhat.com>
 References: <20181119101616.8901-1-david@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Mon, 19 Nov 2018 10:16:53 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Mon, 19 Nov 2018 10:17:08 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Right now, pages inflated as part of a balloon driver will be dumped
-by dump tools like makedumpfile. While XEN is able to check in the
-crash kernel whether a certain pfn is actuall backed by memory in the
-hypervisor (see xen_oldmem_pfn_is_ram) and optimize this case, dumps of
-other balloon inflated memory will essentially result in zero pages getting
-allocated by the hypervisor and the dump getting filled with this data.
+Mark inflated and never onlined pages PG_offline, to tell the world that
+the content is stale and should not be dumped.
 
-The allocation and reading of zero pages can directly be avoided if a
-dumping tool could know which pages only contain stale information not to
-be dumped.
-
-We now have PG_offline which can be (and already is by virtio-balloon)
-used for marking pages as logically offline. Follow up patches will
-make use of this flag also in other balloon implementations.
-
-Let's export PG_offline via PAGE_OFFLINE_MAPCOUNT_VALUE, so
-makedumpfile can directly skip pages that are logically offline and the
-content therefore stale.
-
-Please note that this is also helpful for a problem we were seeing under
-Hyper-V: Dumping logically offline memory (pages kept fake offline while
-onlining a section via online_page_callback) would under some condicions
-result in a kernel panic when dumping them.
-
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Dave Young <dyoung@redhat.com>
-Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: Baoquan He <bhe@redhat.com>
-Cc: Omar Sandoval <osandov@fb.com>
+Cc: Xavier Deguillard <xdeguillard@vmware.com>
+Cc: Nadav Amit <namit@vmware.com>
 Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Julien Freche <jfreche@vmware.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
 Cc: Matthew Wilcox <willy@infradead.org>
 Cc: Michal Hocko <mhocko@suse.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Lianbo Jiang <lijiang@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Kazuhito Hagio <k-hagio@ab.jp.nec.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- kernel/crash_core.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/misc/vmw_balloon.c | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-index 933cb3e45b98..093c9f917ed0 100644
---- a/kernel/crash_core.c
-+++ b/kernel/crash_core.c
-@@ -464,6 +464,8 @@ static int __init crash_save_vmcoreinfo_init(void)
- 	VMCOREINFO_NUMBER(PAGE_BUDDY_MAPCOUNT_VALUE);
- #ifdef CONFIG_HUGETLB_PAGE
- 	VMCOREINFO_NUMBER(HUGETLB_PAGE_DTOR);
-+#define PAGE_OFFLINE_MAPCOUNT_VALUE	(~PG_offline)
-+	VMCOREINFO_NUMBER(PAGE_OFFLINE_MAPCOUNT_VALUE);
- #endif
+diff --git a/drivers/misc/vmw_balloon.c b/drivers/misc/vmw_balloon.c
+index e6126a4b95d3..8cc8bd9a4e32 100644
+--- a/drivers/misc/vmw_balloon.c
++++ b/drivers/misc/vmw_balloon.c
+@@ -544,6 +544,36 @@ unsigned int vmballoon_page_order(enum vmballoon_page_size_type page_size)
+ 	return page_size == VMW_BALLOON_2M_PAGE ? VMW_BALLOON_2M_ORDER : 0;
+ }
  
- 	arch_crash_save_vmcoreinfo();
++/**
++ * vmballoon_mark_page_offline() - mark a page as offline
++ * @page: pointer for the page
++ * @page_size: the size of the page.
++ */
++static void
++vmballoon_mark_page_offline(struct page *page,
++			    enum vmballoon_page_size_type page_size)
++{
++	int i;
++
++	for (i = 0; i < 1ULL << vmballoon_page_order(page_size); i++)
++		__SetPageOffline(page + i);
++}
++
++/**
++ * vmballoon_mark_page_online() - mark a page as online
++ * @page: pointer for the page
++ * @page_size: the size of the page.
++ */
++static void
++vmballoon_mark_page_online(struct page *page,
++			   enum vmballoon_page_size_type page_size)
++{
++	int i;
++
++	for (i = 0; i < 1ULL << vmballoon_page_order(page_size); i++)
++		__ClearPageOffline(page + i);
++}
++
+ /**
+  * vmballoon_page_in_frames() - returns the number of frames in a page.
+  * @page_size: the size of the page.
+@@ -612,6 +642,7 @@ static int vmballoon_alloc_page_list(struct vmballoon *b,
+ 					 ctl->page_size);
+ 
+ 		if (page) {
++			vmballoon_mark_page_offline(page, ctl->page_size);
+ 			/* Success. Add the page to the list and continue. */
+ 			list_add(&page->lru, &ctl->pages);
+ 			continue;
+@@ -850,6 +881,7 @@ static void vmballoon_release_page_list(struct list_head *page_list,
+ 
+ 	list_for_each_entry_safe(page, tmp, page_list, lru) {
+ 		list_del(&page->lru);
++		vmballoon_mark_page_online(page, page_size);
+ 		__free_pages(page, vmballoon_page_order(page_size));
+ 	}
+ 
 -- 
 2.17.2
 
