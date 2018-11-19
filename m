@@ -1,249 +1,176 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8F6307D08E
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 19:46:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5D4627D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 20:11:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730330AbeKTGLr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 01:11:47 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:51576 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729611AbeKTGLr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 01:11:47 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 90065D2EF9;
-        Mon, 19 Nov 2018 19:46:38 +0000 (UTC)
-Received: from redhat.com (ovpn-124-1.rdu2.redhat.com [10.10.124.1])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 1BA655D9C6;
-        Mon, 19 Nov 2018 19:46:34 +0000 (UTC)
-Date:   Mon, 19 Nov 2018 14:46:32 -0500
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Leon Romanovsky <leon@kernel.org>,
-        Kenneth Lee <liguozhu@hisilicon.com>,
-        Tim Sell <timothy.sell@unisys.com>, linux-doc@vger.kernel.org,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Zaibo Xu <xuzaibo@huawei.com>, zhangfei.gao@foxmail.com,
-        linuxarm@huawei.com, haojian.zhuang@linaro.org,
-        Christoph Lameter <cl@linux.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        Gavin Schenk <g.schenk@eckelmann.de>,
-        RDMA mailing list <linux-rdma@vger.kernel.org>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Doug Ledford <dledford@redhat.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        David Kershner <david.kershner@unisys.com>,
-        Kenneth Lee <nek.in.cn@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Cyrille Pitchen <cyrille.pitchen@free-electrons.com>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Jens Axboe <axboe@kernel.dk>, guodong.xu@linaro.org,
-        linux-netdev <netdev@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
-        linux-crypto@vger.kernel.org,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-accelerators@lists.ozlabs.org
-Subject: Re: [RFCv3 PATCH 1/6] uacce: Add documents for WarpDrive/uacce
-Message-ID: <20181119194631.GE4593@redhat.com>
-References: <20181115145455.GN3759@mtr-leonro.mtl.com>
- <20181119091405.GE157308@Turing-Arch-b>
- <20181119091910.GF157308@Turing-Arch-b>
- <20181119104801.GF8268@mtr-leonro.mtl.com>
- <20181119164853.GA4593@redhat.com>
- <20181119182752.GA4890@ziepe.ca>
- <20181119184215.GB4593@redhat.com>
- <20181119185333.GC4890@ziepe.ca>
- <20181119191721.GC4593@redhat.com>
- <20181119192702.GD4890@ziepe.ca>
+        id S1728674AbeKTGg4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 01:36:56 -0500
+Received: from mail-eopbgr770054.outbound.protection.outlook.com ([40.107.77.54]:26350
+        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728600AbeKTGg4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Nov 2018 01:36:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/D80EUmGZ8IuUfVMCEYHsGj0cxxGuj5p2c1wJIPPVKE=;
+ b=yJc96Y50pls/yaAYhrVamV7ZPeWdSzKOsmplGvg8qicG3PYsgwnKz7BCfWRz9RC6ATHfzRGwMvOf89nPemNDSIEXSZ2NnsM/dff5xHQ/o9cs0W7sLRMjYnMNaVQ7fhM1yAwBI8omkC+lFvDQXwhW5xI9XRB3fGhiLbtJr46W+NA=
+Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
+ DM5PR12MB1884.namprd12.prod.outlook.com (10.175.88.140) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1339.26; Mon, 19 Nov 2018 20:11:37 +0000
+Received: from DM5PR12MB2471.namprd12.prod.outlook.com
+ ([fe80::7def:eb99:298c:2952]) by DM5PR12MB2471.namprd12.prod.outlook.com
+ ([fe80::7def:eb99:298c:2952%2]) with mapi id 15.20.1339.027; Mon, 19 Nov 2018
+ 20:11:37 +0000
+From:   "Moger, Babu" <Babu.Moger@amd.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>
+CC:     "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
+        "pombredanne@nexb.com" <pombredanne@nexb.com>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
+        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Singh, Brijesh" <brijesh.singh@amd.com>,
+        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
+        "dwmw2@infradead.org" <dwmw2@infradead.org>,
+        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "rian@alum.mit.edu" <rian@alum.mit.edu>,
+        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: RE: [PATCH v8 01/13] arch/resctrl: Start renaming the rdt files to
+ more generic names
+Thread-Topic: [PATCH v8 01/13] arch/resctrl: Start renaming the rdt files to
+ more generic names
+Thread-Index: AQHUfe6NWz4xLUMToUORxfHJiImFOaVVlD6AgAHnz4CAABA3gA==
+Date:   Mon, 19 Nov 2018 20:11:36 +0000
+Message-ID: <61f6e553-a72f-bfae-0887-44f066006118@amd.com>
+References: <20181116205407.10457-1-babu.moger@amd.com>
+ <20181116205407.10457-2-babu.moger@amd.com> <20181118140735.GC19380@zn.tnic>
+ <alpine.DEB.2.21.1811192012460.1669@nanos.tec.linutronix.de>
+In-Reply-To: <alpine.DEB.2.21.1811192012460.1669@nanos.tec.linutronix.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: SN4PR0701CA0002.namprd07.prod.outlook.com
+ (2603:10b6:803:28::12) To DM5PR12MB2471.namprd12.prod.outlook.com
+ (2603:10b6:4:b5::10)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Babu.Moger@amd.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [165.204.78.1]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;DM5PR12MB1884;20:0cq4hU52Dd7ogxVI1uqhwyry9z80ICTqezcwobknBD1x02+0s56Pao4jTcfnQsLX5Is/XLAAyaVV8KXj9boku4b8+YfW1UyqLfOu3MDBPUAisFQxpQTlI3+O1Cciab+b+JOwF8HbK47egZqIForbsxxVpbIz1LbD/b6fZMwA68Gc+G8VsonWahj3QHERYUzC0trN1o8eQIzmnCRrn3zQBmvG87BWt3fFlqBHx72WqfQQVkTgQ2ZkpJQovJTftKAD
+x-ms-office365-filtering-correlation-id: 91876d20-b668-43d0-787f-08d64e5b357b
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390098)(7020095)(4652040)(8989299)(5600074)(711020)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:DM5PR12MB1884;
+x-ms-traffictypediagnostic: DM5PR12MB1884:
+x-microsoft-antispam-prvs: <DM5PR12MB18849208443D1C2E376EACC295D80@DM5PR12MB1884.namprd12.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(93006095)(93001095)(10201501046)(3002001)(3231415)(944501410)(52105112)(6055026)(148016)(149066)(150057)(6041310)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123562045)(20161123558120)(201708071742011)(7699051)(76991095);SRVR:DM5PR12MB1884;BCL:0;PCL:0;RULEID:;SRVR:DM5PR12MB1884;
+x-forefront-prvs: 08617F610C
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(396003)(376002)(39860400002)(366004)(346002)(13464003)(189003)(199004)(66066001)(71200400001)(97736004)(99286004)(71190400001)(3846002)(6116002)(81166006)(81156014)(6512007)(76176011)(53546011)(6506007)(14444005)(53936002)(52116002)(102836004)(256004)(386003)(316002)(54906003)(14454004)(25786009)(8936002)(186003)(26005)(6246003)(110136005)(2906002)(8676002)(4326008)(478600001)(93886005)(31686004)(106356001)(105586002)(36756003)(5660300001)(72206003)(229853002)(7416002)(7406005)(11346002)(2616005)(7736002)(446003)(305945005)(6486002)(31696002)(86362001)(486006)(68736007)(2900100001)(476003)(6436002)(41533002);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1884;H:DM5PR12MB2471.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: tiTwI4U78eH+ZElwHxG0dCsk2RyV/s80QsYmXG9+ojYlRV5dhzlCb37b8Rm+plURrGozEltqrZKfQR5Sf04RnGHrPSgO7b2NEnsGc3eMV01C6MG+MQh9kLLL/CtFpoiEPCx0P8Go0NuEXmBKFhgeCg6cqLeymKlW3njeQQ9+pLVXbYpJ/uUPTk7k/4zCWLyNForaDBymzlmg1lkF4V3fFHNdo28W9jSo9EI5WSLqaafR6AF37aXkVMRJu0Ayp48WKBT4H8eQcIsam+DXguWZlsE72HRYpkocvz9MQ2VcJWDJmKbGDF9iUvHam90xPnZv9WvOJ7AB3ldIQQnG/ZHUIooSH1Ew8mP4clL61Ipaq0I=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <6DB41E456A8E9349A3EA42A11DAA84A9@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20181119192702.GD4890@ziepe.ca>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Mon, 19 Nov 2018 19:46:39 +0000 (UTC)
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91876d20-b668-43d0-787f-08d64e5b357b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Nov 2018 20:11:36.9372
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1884
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 19, 2018 at 12:27:02PM -0700, Jason Gunthorpe wrote:
-> On Mon, Nov 19, 2018 at 02:17:21PM -0500, Jerome Glisse wrote:
-> > On Mon, Nov 19, 2018 at 11:53:33AM -0700, Jason Gunthorpe wrote:
-> > > On Mon, Nov 19, 2018 at 01:42:16PM -0500, Jerome Glisse wrote:
-> > > > On Mon, Nov 19, 2018 at 11:27:52AM -0700, Jason Gunthorpe wrote:
-> > > > > On Mon, Nov 19, 2018 at 11:48:54AM -0500, Jerome Glisse wrote:
-> > > > > 
-> > > > > > Just to comment on this, any infiniband driver which use umem and do
-> > > > > > not have ODP (here ODP for me means listening to mmu notifier so all
-> > > > > > infiniband driver except mlx5) will be affected by same issue AFAICT.
-> > > > > > 
-> > > > > > AFAICT there is no special thing happening after fork() inside any of
-> > > > > > those driver. So if parent create a umem mr before fork() and program
-> > > > > > hardware with it then after fork() the parent might start using new
-> > > > > > page for the umem range while the old memory is use by the child. The
-> > > > > > reverse is also true (parent using old memory and child new memory)
-> > > > > > bottom line you can not predict which memory the child or the parent
-> > > > > > will use for the range after fork().
-> > > > > > 
-> > > > > > So no matter what you consider the child or the parent, what the hw
-> > > > > > will use for the mr is unlikely to match what the CPU use for the
-> > > > > > same virtual address. In other word:
-> > > > > > 
-> > > > > > Before fork:
-> > > > > >     CPU parent: virtual addr ptr1 -> physical address = 0xCAFE
-> > > > > >     HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
-> > > > > > 
-> > > > > > Case 1:
-> > > > > >     CPU parent: virtual addr ptr1 -> physical address = 0xCAFE
-> > > > > >     CPU child:  virtual addr ptr1 -> physical address = 0xDEAD
-> > > > > >     HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
-> > > > > > 
-> > > > > > Case 2:
-> > > > > >     CPU parent: virtual addr ptr1 -> physical address = 0xBEEF
-> > > > > >     CPU child:  virtual addr ptr1 -> physical address = 0xCAFE
-> > > > > >     HARDWARE:   virtual addr ptr1 -> physical address = 0xCAFE
-> > > > > 
-> > > > > IIRC this is solved in IB by automatically calling
-> > > > > madvise(MADV_DONTFORK) before creating the MR.
-> > > > > 
-> > > > > MADV_DONTFORK
-> > > > >   .. This is useful to prevent copy-on-write semantics from changing the
-> > > > >   physical location of a page if the parent writes to it after a
-> > > > >   fork(2) ..
-> > > > 
-> > > > This would work around the issue but this is not transparent ie
-> > > > range marked with DONTFORK no longer behave as expected from the
-> > > > application point of view.
-> > > 
-> > > Do you know what the difference is? The man page really gives no
-> > > hint..
-> > > 
-> > > Does it sometimes unmap the pages during fork?
-> > 
-> > It is handled in kernel/fork.c look for DONTCOPY, basicaly it just
-> > leave empty page table in the child process so child will have to
-> > fault in new page. This also means that child will get 0 as initial
-> > value for all memory address under DONTCOPY/DONTFORK which breaks
-> > application expectation of what fork() do.
-> 
-> Hum, I wonder why this API was selected then..
+Boris/Thomas,
 
-Because there is nothing else ? :)
+> -----Original Message-----
+> From: Thomas Gleixner <tglx@linutronix.de>
+> Sent: Monday, November 19, 2018 1:14 PM
+> To: Borislav Petkov <bp@alien8.de>
+> Cc: Moger, Babu <Babu.Moger@amd.com>; mingo@redhat.com;
+> corbet@lwn.net; fenghua.yu@intel.com; reinette.chatre@intel.com;
+> peterz@infradead.org; gregkh@linuxfoundation.org;
+> davem@davemloft.net; akpm@linux-foundation.org; hpa@zytor.com;
+> x86@kernel.org; mchehab+samsung@kernel.org; arnd@arndb.de;
+> kstewart@linuxfoundation.org; pombredanne@nexb.com;
+> rafael@kernel.org; kirill.shutemov@linux.intel.com; tony.luck@intel.com;
+> qianyue.zj@alibaba-inc.com; xiaochen.shen@intel.com;
+> pbonzini@redhat.com; Singh, Brijesh <brijesh.singh@amd.com>; Hurwitz,
+> Sherry <sherry.hurwitz@amd.com>; dwmw2@infradead.org; Lendacky,
+> Thomas <Thomas.Lendacky@amd.com>; luto@kernel.org; joro@8bytes.org;
+> jannh@google.com; vkuznets@redhat.com; rian@alum.mit.edu;
+> jpoimboe@redhat.com; linux-kernel@vger.kernel.org; linux-
+> doc@vger.kernel.org
+> Subject: Re: [PATCH v8 01/13] arch/resctrl: Start renaming the rdt files =
+to
+> more generic names
+>=20
+> On Sun, 18 Nov 2018, Borislav Petkov wrote:
+> >
+> > Now, it looks to me like the whole resctrl thing begs for its own dir:
+> >
+> >  arch/x86/kernel/cpu/resctrl/core.c
+> >  arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+> >  arch/x86/kernel/cpu/resctrl/internal.h
+> >  arch/x86/kernel/cpu/resctrl/monitor.c
+> >  arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+> >  arch/x86/kernel/cpu/resctrl/pseudo_lock_event.h
+> >  arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> >
+> > This way, the whole RDT machinery will be confined to its own directory=
+.
+>=20
+> Fine with that.
 
-> 
-> > > I actually wonder if the kernel is a bit broken here, we have the same
-> > > problem with O_DIRECT and other stuff, right?
-> > 
-> > No it is not, O_DIRECT is fine. The only corner case i can think
-> > of with O_DIRECT is one thread launching an O_DIRECT that write
-> > to private anonymous memory (other O_DIRECT case do not matter)
-> > while another thread call fork() then what the child get can be
-> > undefined ie either it get the data before the O_DIRECT finish
-> > or it gets the result of the O_DIRECT. But this is realy what
-> > you should expect when doing such thing without synchronization.
-> > 
-> > So O_DIRECT is fine.
-> 
-> ?? How can O_DIRECT be fine but RDMA not? They use exactly the same
-> get_user_pages flow, right? Can we do what O_DIRECT does in RDMA and
-> be fine too?
-> 
-> AFAIK the only difference is the length of the race window. You'd have
-> to fork and fault during the shorter time O_DIRECT has get_user_pages
-> open.
+Ok. Sure.  Will change it. How does this look like?
 
-Well in O_DIRECT case there is only one page table, the CPU
-page table and it gets updated during fork() so there is an
-ordering there and the race window is small.
+arch/x86/kernel/cpu/resctrl/res.c
+arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+arch/x86/kernel/cpu/resctrl/res.h
+arch/x86/kernel/cpu/resctrl/monitor.c
+arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+arch/x86/kernel/cpu/resctrl/pseudo_lock_event.h
+arch/x86/kernel/cpu/resctrl/rdtgroup.c
 
-More over programmer knows that can get in trouble if they
-do thing like fork() and don't synchronize their threads
-with each other. So while some weird thing can happen with
-O_DIRECT, it is unlikely (very small race window) and if
-it happens its well within the expected behavior.
+Changed core.c and internel.h to res.c and res.h respectively. Both of
+these files are about resource definitions and initialization.
 
-For hardware the race window is the same as the process
-lifetime so it can be days, months, years ... Once the
-hardware has programmed its page table they will never
-see any update (again mlx5 ODP is the exception here).
-
-This is where "issues" weird behavior can arise. Because
-you use DONTFORK than you never see weird thing happening.
-If you were to comment out DONTFORK then RDMA in the parent
-might change data in the child (or the other way around ie
-RDMA in the child might change data in the parent).
-
-
-> > > Really, if I have a get_user_pages FOLL_WRITE on a page and we fork,
-> > > then shouldn't the COW immediately be broken during the fork?
-> > > 
-> > > The kernel can't guarentee that an ongoing DMA will not write to those
-> > > pages, and it breaks the fork semantic to write to both processes.
-> > 
-> > Fixing that would incur a high cost: need to grow struct page, need
-> > to copy potentialy gigabyte of memory during fork() ... this would be
-> > a serious performance regression for many folks just to work around an
-> > abuse of device driver. So i don't think anything on that front would
-> > be welcome.
-> 
-> Why? Keep track in each mm if there are any active get_user_pages
-> FOLL_WRITE pages in the mm, if yes then sweep the VMAs and fix the
-> issue for the FOLL_WRITE pages.
-
-This has a cost and you don't want to do it for O_DIRECT. I am pretty
-sure that any such patch to modify fork() code path would be rejected.
-At least i would not like it and vote against.
-
-> 
-> John is already working on being able to detect pages under GUP, so it
-> seems like a small step..
-
-John is trying to fix serious bugs which can result in filesystem
-corruption. It has a performance cost and thus i don't see that as
-something we should pursue as a default solution. I posted patches
-to remove get_user_page() from GPU driver and i intend to remove
-as many GUP as i can (for hardware that can do the right thing).
-
-To me it sounds better to reward good hardware rather than punish
-everyone :)
-
-> 
-> Since nearly all cases of fork don't have a GUP FOLL_WRITE active
-> there would be no performance hit.
-> 
-> > umem without proper ODP and VFIO are the only bad user i know of (for
-> > VFIO you can argue that it is part of the API contract and thus that
-> > it is not an abuse but it is not spell out loud in documentation). I
-> > have been trying to push back on any people trying to push thing that
-> > would make the same mistake or at least making sure they understand
-> > what is happening.
-> 
-> It is something we have to live with and support for the foreseeable
-> future.
-
-Yes for RDMA and VFIO, but i want to avoid any more new users hence
-why i push back on any solution that have the same issues.
-
-> 
-> > What really need to happen is people fixing their hardware and do the
-> > right thing (good software engineer versus evil hardware engineer ;))
-> 
-> Even ODP is no pancea, there are performance problems. What we really
-> need is CAPI like stuff, so you will tell Intel to redesign the CPU??
-> :)
-
-I agree
-
-Jérôme
+>=20
+> Thanks,
+>=20
+> 	tglx
