@@ -1,114 +1,206 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E12717D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 12:22:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AE72F7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 12:36:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728559AbeKSWp4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 17:45:56 -0500
-Received: from mx2.suse.de ([195.135.220.15]:34718 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728530AbeKSWpz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Nov 2018 17:45:55 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay1.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id BA336AB6D;
-        Mon, 19 Nov 2018 12:22:25 +0000 (UTC)
-Subject: Re: [PATCH v1 4/8] xen/balloon: mark inflated pages PG_offline
-To:     David Hildenbrand <david@redhat.com>, linux-mm@kvack.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        devel@linuxdriverproject.org, linux-fsdevel@vger.kernel.org,
-        linux-pm@vger.kernel.org, xen-devel@lists.xenproject.org,
-        kexec-ml <kexec@lists.infradead.org>, pv-drivers@vmware.com,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>
-References: <20181119101616.8901-1-david@redhat.com>
- <20181119101616.8901-5-david@redhat.com>
-From:   Juergen Gross <jgross@suse.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jgross@suse.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <fc69e0cf-c005-472a-b3f6-09d0c963cf52@suse.com>
-Date:   Mon, 19 Nov 2018 13:22:22 +0100
+        id S1728786AbeKSW7h (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 17:59:37 -0500
+Received: from smtprelay4.synopsys.com ([198.182.47.9]:35776 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728724AbeKSW7h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 17:59:37 -0500
+Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id E682724E0C74;
+        Mon, 19 Nov 2018 04:36:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1542630966; bh=FLB4Eq3tYdIau5jOx45En6/r+rsKTWF76zHlbhJVonI=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
+        b=aHUFLTyhsuzimrTl2uj0NBQjnLGKQadewiEHoY0NO+5eLycEq9IzsxU7vuwZ30O2k
+         KhppQG9c8t4GtFAajTSLpfqxxOBiDT9+Eh4X/d21WoqxOBUz8/vV9QOo3/+qmbw9vL
+         b5OqhcKRuREDDmMH7VOrt0JC7LrVdawPppi544nGGmZ+QwiTC1cAlAet/+JM821swe
+         GNIBaehdAHzJxdyyCqDDXby0ZHG8KMQg/kQuuopt2ipKqivBodeH3bxhLiiiXWep56
+         JYQVS9/DsJs8Aa+IV/UQmBbL6eJjGnVON3nsQqmEFwED+sq+SAk5q+Ae3ygg0yd4Td
+         2IItXQynH2Ddg==
+Received: from US01WEHTC2.internal.synopsys.com (us01wehtc2.internal.synopsys.com [10.12.239.237])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 765AA3A15;
+        Mon, 19 Nov 2018 04:36:03 -0800 (PST)
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+ US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Mon, 19 Nov 2018 04:36:03 -0800
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ DE02WEHTCB.internal.synopsys.com (10.225.19.94) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Mon, 19 Nov 2018 13:36:01 +0100
+Received: from [10.0.2.15] (10.107.19.165) by DE02WEHTCA.internal.synopsys.com
+ (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.408.0; Mon, 19 Nov
+ 2018 13:36:00 +0100
+Subject: Re: [PATCH v10 0/9] Add the I3C subsystem
+To:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        vitor <vitor.soares@synopsys.com>
+CC:     Wolfram Sang <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Przemyslaw Sroka <psroka@cadence.com>,
+        Arkadiusz Golec <agolec@cadence.com>,
+        Alan Douglas <adouglas@cadence.com>,
+        Bartosz Folta <bfolta@cadence.com>,
+        Damian Kos <dkos@cadence.com>,
+        Alicja Jurasik-Urbaniak <alicja@cadence.com>,
+        "Cyprian Wronka" <cwronka@cadence.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        "Rafal Ciepiela" <rafalc@cadence.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Nishanth Menon <nm@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Pawel Moll <pawel.moll@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ian Campbell <ijc+devicetree@hellion.org.uk>,
+        "Kumar Gala" <galak@codeaurora.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Xiang Lin <Xiang.Lin@synaptics.com>,
+        <linux-gpio@vger.kernel.org>, Sekhar Nori <nsekhar@ti.com>,
+        Przemyslaw Gaj <pgaj@cadence.com>,
+        Peter Rosin <peda@axentia.se>,
+        Mike Shettel <mshettel@codeaurora.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Mark Brown <broonie@kernel.org>
+References: <20181026144333.12276-1-boris.brezillon@bootlin.com>
+ <76b1d15d-232c-d8ba-5eba-8394e71be725@synopsys.com>
+ <20181115135731.25f60990@bbrezillon> <20181115150137.GB4169@kunai>
+ <20181115162826.42b54776@bbrezillon>
+ <1d64f21a-ad24-94e0-2c17-25729ef59a31@synopsys.com>
+ <20181115200058.1869afdb@bbrezillon>
+ <5f946406-a205-3802-aefd-ebd8b5a72b0b@synopsys.com>
+ <20181116141639.31074113@bbrezillon>
+From:   vitor <vitor.soares@synopsys.com>
+Message-ID: <ffcc3c3d-0bfd-23e2-5fbb-00cfbcd6b7af@synopsys.com>
+Date:   Mon, 19 Nov 2018 12:35:42 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <20181119101616.8901-5-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: de-DE
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20181116141639.31074113@bbrezillon>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.107.19.165]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19/11/2018 11:16, David Hildenbrand wrote:
-> Mark inflated and never onlined pages PG_offline, to tell the world that
-> the content is stale and should not be dumped.
-> 
-> Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-> Cc: Juergen Gross <jgross@suse.com>
-> Cc: Stefano Stabellini <sstabellini@kernel.org>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Matthew Wilcox <willy@infradead.org>
-> Cc: Michal Hocko <mhocko@suse.com>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  drivers/xen/balloon.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/xen/balloon.c b/drivers/xen/balloon.c
-> index 12148289debd..14dd6b814db3 100644
-> --- a/drivers/xen/balloon.c
-> +++ b/drivers/xen/balloon.c
-> @@ -425,6 +425,7 @@ static int xen_bring_pgs_online(struct page *pg, unsigned int order)
->  	for (i = 0; i < size; i++) {
->  		p = pfn_to_page(start_pfn + i);
->  		__online_page_set_limits(p);
-> +		__SetPageOffline(p);
->  		__balloon_append(p);
->  	}
+Hi Boris,
 
-This seems not to be based on current master. Could you please tell
-against which tree this should be reviewed?
+On 16/11/18 13:16, Boris Brezillon wrote:
+> On Fri, 16 Nov 2018 12:31:42 +0000
+> vitor <vitor.soares@synopsys.com> wrote:
+>
+>> Hi Boris,
+>>
+>>
+>> On 15/11/18 19:00, Boris Brezillon wrote:
+>>> On Thu, 15 Nov 2018 18:03:47 +0000
+>>> vitor <vitor.soares@synopsys.com> wrote:
+>>>   
+>>>> Hi Boris,
+>>>>
+>>>>
+>>>> On 15/11/18 15:28, Boris Brezillon wrote:
+>>>>> On Thu, 15 Nov 2018 16:01:37 +0100
+>>>>> Wolfram Sang <wsa@the-dreams.de> wrote:
+>>>>>      
+>>>>>> Hi Boris,
+>>>>>>      
+>>>>>>> What we could do though, is expose I3C devices that do not have a
+>>>>>>> driver in kernel space, like spidev does.
+>>>>>> ...
+>>>>>>      
+>>>>>>> Mark, Wolfram, Arnd, Greg, any opinion?
+>>>>>> Is there a benefit for having drivers in userspace? My gut feeling is to
+>>>>>> encourage people to write kernel drivers. If this is, for some reason,
+>>>>>> not possible for some driver, then we have a use case at hand to test
+>>>>>> the then-to-be-developed userspace interface against. Until then, I
+>>>>>> personally wouldn't waste effort on designing it without a user in
+>>>>>> sight.
+>>>>> I kind of agree with that. Vitor, do you have a use case in mind for
+>>>>> such userspace drivers? I don't think it's worth designing an API for
+>>>>> something we don't need (yet).
+>>>> My use case is a tool for tests, lets say like the i2c tools.
+>>> What would you like to test exactly?
+>>>   
+>>>> There is
+>>>> other subsystems, some of them mentioned on this thread, that have and
+>>>> ioctl system call or other method to change parameters or send data.
+>>> I don't think they added the /dev interface before having a real use
+>>> case for it.
+>>>   
+>>>> I rise this topic because I really think it worth to define now how this
+>>>> should be design (and for me how to do the things right) to avoid future
+>>>> issues.
+>>> Actually it should be done the other way around: you should have a real
+>>> need and the /dev interface should be designed to fulfill this need.
+>>> Based on this real use case we can discuss other potential usage that
+>>> might appear in the future and try to design something more
+>>> future-proof, but clearly, this userspace interface should be driven by
+>>> a real/well-defined use case.
+>>>
+>>> Also, exposing things to userspace is way more risky than adding a new
+>>> in-kernel subsystem/framework, because it then becomes part of the
+>>> stable ABI.
+>>>
+>>> To make things clearer, I'm not against the idea of exposing I3C
+>>> devices (or I3C buses) to userspace, but I'd like to understand what you
+>>> plan to do with that. If this is about testing, what kind of tests
+>>> you'd like to run. If this is about developing drivers in userspace,
+>>> why can't these be done in kernel space (license issues?), and what
+>>> would those drivers be allowed to do?
+>>
+>> Basically I need a tool that help me during the development and to avoid
+>> me to write a dummy driver for each device that I test.
+> But we want I3C device drivers to be upstreamed, so why not developing a
+> real driver everytime you test a new device and submitting it upstream?
 
 
-Juergen
+Usually the devices that I test aren't the final product so it isn't 
+easy to do the upstream.
+
+But when possible I plan to do that.
+
+
+>
+>> For instances do some read/write,
+> Doing SDR/DDR transfers is probably acceptable, but I still think we
+> should push hard to have kernel drivers when that's possible.
+>
+>> get/set ccc commands,
+> Exposing CCC commands is definitely not a good idea, since they're not
+> even exposed to kernel drivers.
+>
+>> if something
+>> goes wrong during the bus initialization have a to debug etc...
+> Can't we add such a debug infrastructure in the kernel. Maybe we can
+> expose debugfs files too if that helps, though if those debugfs files
+> are actually used by userspace libs/tools, it's not any better than
+> ioctls or sysfs files, since they will anyway become a stable ABI.
+>
+>>
+>> For me this is a valid use case and I imagine when people start to
+>> develop in i3c this interface will help everyone.
+> How about you propose an i3cdev driver that allow users to do SDR
+> transfers throuh an ioctl?
+
+I think that was for v6 I started to something to expose the bus like in 
+i2c-dev, but I liked the idea of expose only the device doesn't have a 
+driver. Do you know if  there is already something in the kernel doing 
+the same?
+
+
+Best regards,
+
+Vitor Soares
+
