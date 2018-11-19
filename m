@@ -1,166 +1,91 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 59FA57E369
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 19:13:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B50477D08E
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 19:21:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726666AbeKTF1c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 00:27:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35836 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725969AbeKTF1b (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 00:27:31 -0500
-Received: from localhost (unknown [77.138.135.184])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3113020851;
-        Mon, 19 Nov 2018 19:02:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1542654155;
-        bh=zWgFKLjronZiVWnLDTeZ27i548bHz3nIsobsoM0p3rY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jYzMlTgg/b4LFGR8t6hTyF1MQYhowTNjqzYnwmrovRBu+gf3dWHbNKHqtX0PL5GOu
-         oKkSStZJCRJx65leTp9WJE9e+qOm2lh9rpi84nqGAYvMBqsSudBElMGD2owZr8AXZc
-         Lf3J7FAE658veK4Ilr9hBXWR40dXR4Z3rNVqYnTk=
-Date:   Mon, 19 Nov 2018 21:02:29 +0200
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Jerome Glisse <jglisse@redhat.com>
-Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Kenneth Lee <liguozhu@hisilicon.com>,
-        Tim Sell <timothy.sell@unisys.com>, linux-doc@vger.kernel.org,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Zaibo Xu <xuzaibo@huawei.com>, zhangfei.gao@foxmail.com,
-        linuxarm@huawei.com, haojian.zhuang@linaro.org,
-        Christoph Lameter <cl@linux.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        Gavin Schenk <g.schenk@eckelmann.de>,
-        RDMA mailing list <linux-rdma@vger.kernel.org>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Doug Ledford <dledford@redhat.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        David Kershner <david.kershner@unisys.com>,
-        Kenneth Lee <nek.in.cn@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Cyrille Pitchen <cyrille.pitchen@free-electrons.com>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Jens Axboe <axboe@kernel.dk>, guodong.xu@linaro.org,
-        linux-netdev <netdev@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
-        linux-crypto@vger.kernel.org,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-accelerators@lists.ozlabs.org
-Subject: Re: [RFCv3 PATCH 1/6] uacce: Add documents for WarpDrive/uacce
-Message-ID: <20181119190229.GB21715@mtr-leonro.mtl.com>
-References: <95310df4-b32c-42f0-c750-3ad5eb89b3dd@gmail.com>
- <20181114160017.GI3759@mtr-leonro.mtl.com>
- <20181115085109.GD157308@Turing-Arch-b>
- <20181115145455.GN3759@mtr-leonro.mtl.com>
- <20181119091405.GE157308@Turing-Arch-b>
- <20181119091910.GF157308@Turing-Arch-b>
- <20181119104801.GF8268@mtr-leonro.mtl.com>
- <20181119164853.GA4593@redhat.com>
- <20181119182752.GA4890@ziepe.ca>
- <20181119184215.GB4593@redhat.com>
+        id S1727620AbeKTFj0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 00:39:26 -0500
+Received: from Galois.linutronix.de ([146.0.238.70]:39562 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725843AbeKTFj0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 00:39:26 -0500
+Received: from p4fea46ac.dip0.t-ipconnect.de ([79.234.70.172] helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1gOozE-0001cO-KT; Mon, 19 Nov 2018 20:13:32 +0100
+Date:   Mon, 19 Nov 2018 20:13:31 +0100 (CET)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Borislav Petkov <bp@alien8.de>
+cc:     "Moger, Babu" <Babu.Moger@amd.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
+        "pombredanne@nexb.com" <pombredanne@nexb.com>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
+        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Singh, Brijesh" <brijesh.singh@amd.com>,
+        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
+        "dwmw2@infradead.org" <dwmw2@infradead.org>,
+        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "rian@alum.mit.edu" <rian@alum.mit.edu>,
+        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v8 01/13] arch/resctrl: Start renaming the rdt files to
+ more generic names
+In-Reply-To: <20181118140735.GC19380@zn.tnic>
+Message-ID: <alpine.DEB.2.21.1811192012460.1669@nanos.tec.linutronix.de>
+References: <20181116205407.10457-1-babu.moger@amd.com> <20181116205407.10457-2-babu.moger@amd.com> <20181118140735.GC19380@zn.tnic>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="ZGiS0Q5IWpPtfppv"
-Content-Disposition: inline
-In-Reply-To: <20181119184215.GB4593@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sun, 18 Nov 2018, Borislav Petkov wrote:
+> 
+> Now, it looks to me like the whole resctrl thing begs for its own dir:
+> 
+>  arch/x86/kernel/cpu/resctrl/core.c
+>  arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+>  arch/x86/kernel/cpu/resctrl/internal.h
+>  arch/x86/kernel/cpu/resctrl/monitor.c
+>  arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+>  arch/x86/kernel/cpu/resctrl/pseudo_lock_event.h
+>  arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> 
+> This way, the whole RDT machinery will be confined to its own directory.
 
---ZGiS0Q5IWpPtfppv
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fine with that.
 
-On Mon, Nov 19, 2018 at 01:42:16PM -0500, Jerome Glisse wrote:
-> On Mon, Nov 19, 2018 at 11:27:52AM -0700, Jason Gunthorpe wrote:
-> > On Mon, Nov 19, 2018 at 11:48:54AM -0500, Jerome Glisse wrote:
-> >
-> > > Just to comment on this, any infiniband driver which use umem and do
-> > > not have ODP (here ODP for me means listening to mmu notifier so all
-> > > infiniband driver except mlx5) will be affected by same issue AFAICT.
-> > >
-> > > AFAICT there is no special thing happening after fork() inside any of
-> > > those driver. So if parent create a umem mr before fork() and program
-> > > hardware with it then after fork() the parent might start using new
-> > > page for the umem range while the old memory is use by the child. The
-> > > reverse is also true (parent using old memory and child new memory)
-> > > bottom line you can not predict which memory the child or the parent
-> > > will use for the range after fork().
-> > >
-> > > So no matter what you consider the child or the parent, what the hw
-> > > will use for the mr is unlikely to match what the CPU use for the
-> > > same virtual address. In other word:
-> > >
-> > > Before fork:
-> > >     CPU parent: virtual addr ptr1 -> physical address =3D 0xCAFE
-> > >     HARDWARE:   virtual addr ptr1 -> physical address =3D 0xCAFE
-> > >
-> > > Case 1:
-> > >     CPU parent: virtual addr ptr1 -> physical address =3D 0xCAFE
-> > >     CPU child:  virtual addr ptr1 -> physical address =3D 0xDEAD
-> > >     HARDWARE:   virtual addr ptr1 -> physical address =3D 0xCAFE
-> > >
-> > > Case 2:
-> > >     CPU parent: virtual addr ptr1 -> physical address =3D 0xBEEF
-> > >     CPU child:  virtual addr ptr1 -> physical address =3D 0xCAFE
-> > >     HARDWARE:   virtual addr ptr1 -> physical address =3D 0xCAFE
-> >
-> > IIRC this is solved in IB by automatically calling
-> > madvise(MADV_DONTFORK) before creating the MR.
-> >
-> > MADV_DONTFORK
-> >   .. This is useful to prevent copy-on-write semantics from changing the
-> >   physical location of a page if the parent writes to it after a
-> >   fork(2) ..
->
-> This would work around the issue but this is not transparent ie
-> range marked with DONTFORK no longer behave as expected from the
-> application point of view.
->
-> Also it relies on userspace doing the right thing (which is not
-> something i usualy trust :)).
+Thanks,
 
-The good thing that we didn't see anyone who succeeded to run
-IB stack without our user space, which does right thing under
-the hood :).
-
->
-> Cheers,
-> J=E9r=F4me
-
---ZGiS0Q5IWpPtfppv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIcBAEBAgAGBQJb8wjFAAoJEORje4g2clinsgMP/06W7PP/epn/WsbihGFnNzR7
-eSCxWl6pe1bRlT0k3QIUENSn61M04nryTJTErkpGC/Qgk+hDxQMMGk4Rr1sE7PUA
-Ht9AYxBf9+aijIZM8ttCcandwz+RZ8TjtUH+ejXd1XDc1kbkJFgL+9H8TNbfJu+o
-521rbhMoebH+dJnTtGfts82ZrY+/rfyALkXLnRwArh8Hkz7AqTNQEKI/sqaM8jhc
-dPqtU+xlIbwAejMNKhFKQswXRJfzO7MBSXocRf4wSX5L/U8A+p+s2QmknJTokiiG
-061EB/clVZ1u09wuhEBT4IbMQmle2CkRg3m3NtTrTJg3Or1wP6G9lt8NSA73nS6/
-o6OAdsPiool8Hnv0h9wGSgaRLuXTc/TUG2xVbBQWPyRJFXqy7aeXNOW1fS5SFIAy
-kj9PSxrMmpp+gYyEx9DBbpX6oPtJmsv4dvbKmpUQWsqbCIxdtwtKW00gAPTvYbHP
-jz7mEfGCHDRRIPcEcXxmeASta6BIzJRZR94xviAeCPOst5PuS4QUr098hv46Syn9
-gXRYzkcaIIhCjsPhWfsy/mrs+5k+NFPIy7jH4Zb5JE020Qu+Mir8PoY4ml25PiJy
-0SAiHLu0vnYtgbxgpHPXPqMqPxTqZAh8kGE+utcGVZeS6VrxBSysKe5fxSlehifS
-iH8hKkPnI7Z6xPkex8QN
-=EMEz
------END PGP SIGNATURE-----
-
---ZGiS0Q5IWpPtfppv--
+	tglx
