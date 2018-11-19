@@ -1,148 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 39D3E7D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 20:26:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CEB527D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 20:31:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730499AbeKTGvj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 01:51:39 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:42506 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728938AbeKTGvj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 01:51:39 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id ADBD67F6BB;
-        Mon, 19 Nov 2018 20:26:20 +0000 (UTC)
-Received: from redhat.com (ovpn-124-1.rdu2.redhat.com [10.10.124.1])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 13CA3600D7;
-        Mon, 19 Nov 2018 20:26:16 +0000 (UTC)
-Date:   Mon, 19 Nov 2018 15:26:15 -0500
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Tim Sell <timothy.sell@unisys.com>, linux-doc@vger.kernel.org,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Zaibo Xu <xuzaibo@huawei.com>, zhangfei.gao@foxmail.com,
-        linuxarm@huawei.com, haojian.zhuang@linaro.org,
-        Christoph Lameter <cl@linux.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        Gavin Schenk <g.schenk@eckelmann.de>,
-        Leon Romanovsky <leon@kernel.org>,
-        RDMA mailing list <linux-rdma@vger.kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        David Kershner <david.kershner@unisys.com>,
-        Kenneth Lee <nek.in.cn@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Cyrille Pitchen <cyrille.pitchen@free-electrons.com>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Jens Axboe <axboe@kernel.dk>, guodong.xu@linaro.org,
-        linux-netdev <netdev@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, Zhou Wang <wangzhou1@hisilicon.com>,
-        linux-crypto@vger.kernel.org,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        Kenneth Lee <liguozhu@hisilicon.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-accelerators@lists.ozlabs.org
-Subject: Re: [RFCv3 PATCH 1/6] uacce: Add documents for WarpDrive/uacce
-Message-ID: <20181119202614.GF4593@redhat.com>
-References: <20181119091910.GF157308@Turing-Arch-b>
- <20181119104801.GF8268@mtr-leonro.mtl.com>
- <20181119164853.GA4593@redhat.com>
- <20181119182752.GA4890@ziepe.ca>
- <20181119184215.GB4593@redhat.com>
- <20181119185333.GC4890@ziepe.ca>
- <20181119191721.GC4593@redhat.com>
- <20181119192702.GD4890@ziepe.ca>
- <20181119194631.GE4593@redhat.com>
- <20181119201156.GG4890@ziepe.ca>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20181119201156.GG4890@ziepe.ca>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Mon, 19 Nov 2018 20:26:21 +0000 (UTC)
+        id S1730705AbeKTG4o (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 01:56:44 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:37512 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728938AbeKTG4o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 01:56:44 -0500
+Received: by mail-pf1-f193.google.com with SMTP id u3-v6so12716191pfm.4;
+        Mon, 19 Nov 2018 12:31:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=qsErZEFmxBc/B63p3QJR+myJ+mmlcz/hg4isze/y40c=;
+        b=GnR4IUMJ1nGnUEzQEXhbdvx4BQN4T0qKAvZGoiuGT30Zo8Y/INvlIERaUr6TTOr8UH
+         cGidAx5bDq75LW9BDJ9PdzCwVeSAS6mTX0P+A+Q1/UpP3bl+E914xAbYtTWthkk1RwmU
+         QXVlpBgRfrD7XbFDqT5VZFPHEbkeRUg7d9krxy41VockWd+PjwW21/9JFaDneRzNnAQB
+         GkddmYdgX6agD+nIr0uk2dQLCxlyZ/Wvxtfx2PKJUf+cFptIcGf3D2Ah+SkLVBABSfWq
+         Qna91x/k5MJlbJ51iA6OEBRamKbW8LAKoPtEs0+LNfx79hNl6Aqpw7pXb64APqgxlyih
+         1Dkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=qsErZEFmxBc/B63p3QJR+myJ+mmlcz/hg4isze/y40c=;
+        b=YsdZxYATM/eAXUzq7MR/6jWHgu2/fC1t1WXqX/MJeFSb/1/hlu8bdqzdvhjVe67dod
+         RA4tVHKsEP0bnuOD5++y0cxxXXK/05jxWgth/zLZgpbLWIpXD6wpcs6DeFbbLgOI0M6H
+         p2msDf0vmuZR7mZ7RsaNeMguja/rxEVImbi76MdTw6smuS95EdaOdhWg6DzG2mO0kep7
+         jYcF8rPX7FCx0J9uCsuEpe7Piru3O/f2+0tG0hpw0NEOJMrvMB3Q+gbDPLrhGV1mnv16
+         BfEaZkBXSjqi+5ycgq/X29JeKLCtdLA4SzHcoBtnnvknwof+CRY+3tWFd4zvgtauoEZL
+         ANIg==
+X-Gm-Message-State: AGRZ1gJwhHwRVnt8Yi1goxJq4RVEHoX/mz1Ot8Edtob8YasgWCsKW4hH
+        wYuI/R7/wl72cFkK+tpCDQSGzupB
+X-Google-Smtp-Source: AJdET5eHkzNHiv9dlZX32EDSCnC4tIRWJYFkbByje5oCJ7v1JsPjVwWb75sShi9rvJZc6r+p61gJ5g==
+X-Received: by 2002:a63:5153:: with SMTP id r19mr21331516pgl.281.1542659484740;
+        Mon, 19 Nov 2018 12:31:24 -0800 (PST)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id i63-v6sm6251920pfi.66.2018.11.19.12.31.23
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 19 Nov 2018 12:31:24 -0800 (PST)
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     jdelvare@suse.com, linux@roeck-us.net
+Cc:     linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation: hwmon: Add descriptions for ina2xx sysfs entries
+Date:   Mon, 19 Nov 2018 12:31:16 -0800
+Message-Id: <20181119203116.25589-1-nicoleotsuka@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 19, 2018 at 01:11:56PM -0700, Jason Gunthorpe wrote:
-> On Mon, Nov 19, 2018 at 02:46:32PM -0500, Jerome Glisse wrote:
-> 
-> > > ?? How can O_DIRECT be fine but RDMA not? They use exactly the same
-> > > get_user_pages flow, right? Can we do what O_DIRECT does in RDMA and
-> > > be fine too?
-> > > 
-> > > AFAIK the only difference is the length of the race window. You'd have
-> > > to fork and fault during the shorter time O_DIRECT has get_user_pages
-> > > open.
-> > 
-> > Well in O_DIRECT case there is only one page table, the CPU
-> > page table and it gets updated during fork() so there is an
-> > ordering there and the race window is small.
-> 
-> Not really, in O_DIRECT case there is another 'page table', we just
-> call it a DMA scatter/gather list and it is sent directly to the block
-> device's DMA HW. The sgl plays exactly the same role as the various HW
-> page list data structures that underly RDMA MRs.
-> 
-> It is not a page table that matters here, it is if the DMA address of
-> the page is active for DMA on HW.
-> 
-> Like you say, the only difference is that the race is hopefully small
-> with O_DIRECT (though that is not really small, NVMeof for instance
-> has windows as large as connection timeouts, if you try hard enough)
-> 
-> So we probably can trigger this trouble with O_DIRECT and fork(), and
-> I would call it a bug :(
+There are a few sysfs entries being exposed to user space by the
+ina2xx hwmon driver while not getting explicitly documented. So
+this patch just adds a description section for them.
 
-I can not think of any scenario that would be a bug with O_DIRECT.
-Do you have one in mind ? When you fork() and do other syscall that
-affect the memory of your process in another thread you should
-expect non consistant results. Kernel is not here to provide a fully
-safe environement to user, user can shoot itself in the foot and
-that's fine as long as it only affect the process itself and no one
-else. We should not be in the business of making everything baby
-proof :)
+Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
+---
+ Documentation/hwmon/ina2xx | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-> 
-> > > Why? Keep track in each mm if there are any active get_user_pages
-> > > FOLL_WRITE pages in the mm, if yes then sweep the VMAs and fix the
-> > > issue for the FOLL_WRITE pages.
-> > 
-> > This has a cost and you don't want to do it for O_DIRECT. I am pretty
-> > sure that any such patch to modify fork() code path would be rejected.
-> > At least i would not like it and vote against.
-> 
-> I was thinking the incremental cost on top of what John is already
-> doing would be very small in the common case and only be triggered in
-> cases that matter (which apps should avoid anyhow).
+diff --git a/Documentation/hwmon/ina2xx b/Documentation/hwmon/ina2xx
+index b8df81f6d6bc..0f36c021192d 100644
+--- a/Documentation/hwmon/ina2xx
++++ b/Documentation/hwmon/ina2xx
+@@ -62,3 +62,18 @@ bus and shunt voltage conversion times multiplied by the averaging rate. We
+ don't touch the conversion times and only modify the number of averages. The
+ lower limit of the update_interval is 2 ms, the upper limit is 2253 ms.
+ The actual programmed interval may vary from the desired value.
++
++General sysfs entries
++-------------
++
++in0_input		Shunt voltage(mV) channel
++in1_input		Bus voltage(mV) channel
++curr1_input		Current(mA) measurement channel
++power1_input		Power(uW) measurement channel
++shunt_resistor		Shunt resistance(uOhm) channel
++
++Sysfs entries for ina226, ina230 and ina231 only
++-------------
++
++update_interval		data conversion time; affects number of samples used
++			to average results for shunt and bus voltages.
+-- 
+2.17.1
 
-What John is addressing has nothing to do with fork() it has to do with
-GUP and filesystem page. More specificaly that after page_mkclean() all
-filesystem expect that the page content is stable (ie no one write to
-the page) with GUP and hardware (DIRECT_IO too) this is not necessarily
-the case.
-
-So John is trying to fix that. Not trying to make fork() baby proof
-AFAICT :)
-
-I rather keep saying that you should expect weird thing with RDMA and
-VFIO when doing fork() than trying to work around this in the kernel.
-
-Better behavior through hardware is what we should aim for (CAPI, ODP,
-...).
-
-Jérôme
