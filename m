@@ -1,143 +1,243 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 83D1B7D8A5
+	by archive.lwn.net (Postfix) with ESMTP id AE2E87D8BA
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 10:36:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727698AbeKSU7O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 15:59:14 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:44813 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727643AbeKSU5u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 15:57:50 -0500
-Received: by mail-wr1-f65.google.com with SMTP id j17-v6so31409778wrq.11
-        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 02:34:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=iL05uSSIvpNAEkXjPa4LLsPBFMnCpnvcdfAc7Vp2A5U=;
-        b=J2hxaN5CgQwX3XH/86Da0A57BLs8NYJ8juPTSrnowTgszBdtNhDye09DYxM78q2BE+
-         +ZHxy5iCAg9M4JKk1wT00JAcjorZhunK9l42+pYRJuPsgH6GZFCS5IXb0Hy8SVdgc/Mk
-         SD9HgD6PUDRerWtSHLriKPYP1sBOyjQxUVX0o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=iL05uSSIvpNAEkXjPa4LLsPBFMnCpnvcdfAc7Vp2A5U=;
-        b=kkac8+/dZc+OFXE5FaXkfut8imutJKWo/A2H/VTXUoVpE3g+vMdZtIro3VzvdwcH/T
-         vaZrqT7q4YtlNvKVlpnklvGVc87MwV7n0NeamYs2N0WeP+gXlGmH1sCu9gjFFLG0wVMr
-         jWoGWS6y/5CnKMIOBrIO676jFfYObxEWUU1khZBRcuU8vD22H+dA30+aCq0KAH9feE3P
-         zI7D0A74+/WCTT6vH1gbBFfmG9fNo+ulpeLrsHe/lh0ItBygSvB/CofbgwsYA75hwmS2
-         jEgASzh5o5MVczjEqfqEy5q2H93id6UurKQ+bD4LTvLQvkKDSUKA84WxhMYBQluDL5WP
-         ow0w==
-X-Gm-Message-State: AGRZ1gKxjsccEKc1TOeli9AfGN8UEmu91sDc3w/E/SsrpgB5BDp69JeA
-        Trba0HtsovI6Whl8J1jsHMAf6w==
-X-Google-Smtp-Source: AJdET5fGybOqVpQ/4Qigr+E46Add4Df19BCn58+A5mX7Y2M3uFblQbDmYkRrettjKRivqQMP6EARfw==
-X-Received: by 2002:a5d:4708:: with SMTP id y8-v6mr17550396wrq.16.1542623675257;
-        Mon, 19 Nov 2018 02:34:35 -0800 (PST)
-Received: from localhost.localdomain ([37.162.18.180])
-        by smtp.gmail.com with ESMTPSA id e9sm14973298wro.16.2018.11.19.02.34.32
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 19 Nov 2018 02:34:34 -0800 (PST)
-From:   Paolo Valente <paolo.valente@linaro.org>
-To:     Jens Axboe <axboe@kernel.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Angelo Ruocco <angeloruocco90@gmail.com>,
-        Dennis Zhou <dennis@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        Liu Bo <bo.liu@linux.alibaba.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Johannes Weiner <hannes@cmpxchg.org>
-Cc:     linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ulf.hansson@linaro.org, linus.walleij@linaro.org,
-        broonie@kernel.org, bfq-iosched@googlegroups.com,
-        oleksandr@natalenko.name, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Paolo Valente <paolo.valente@linaro.org>
-Subject: [PATCH V2 00/10] unify the interface of the proportional-share policy in blkio/io
-Date:   Mon, 19 Nov 2018 11:34:14 +0100
-Message-Id: <20181119103424.3853-1-paolo.valente@linaro.org>
-X-Mailer: git-send-email 2.16.1
+        id S1727807AbeKSU7Z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 15:59:25 -0500
+Received: from mail-40135.protonmail.ch ([185.70.40.135]:48667 "EHLO
+        mail-40135.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727733AbeKSU7Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 15:59:25 -0500
+Date:   Mon, 19 Nov 2018 10:35:59 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.ch;
+        s=default; t=1542623763;
+        bh=qAWwY7HzNS9LzsgTOIdkeVPcyo6UYU4FRQaA6J5QH68=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:
+         Feedback-ID:From;
+        b=sLd4Hzz57knAAGkS5w0d9mJdLPWeXy5IbHCZpbmRR4KRNkGrpk+WgnvlsfXMCE7sk
+         aQGMEIwOioDuwdwaHlK1XUq7vNOiaugRifN99fgCWJWyScP/KeGx1nR7RdFjcEbz4l
+         pqzEztIsWGhxO7qxXsNyy/gqNadSouA4fpz/5v4g=
+To:     Alexey Budankov <alexey.budankov@linux.intel.com>
+From:   Jordan Glover <Golden_Miller83@protonmail.ch>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Jonatan Corbet <corbet@lwn.net>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Tvrtko Ursulin <tursulin@ursulin.net>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "kernel-hardening@lists.openwall.com" 
+        <kernel-hardening@lists.openwall.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Reply-To: Jordan Glover <Golden_Miller83@protonmail.ch>
+Subject: Re: [PATCH v1 2/2]: Documentation/admin-guide: introduce perf-security.rst file
+Message-ID: <aDN4nC6p93nK7ILVP3EH-Y4RcKK4KH0ppQKFkIgxTVxkfbOHWjAYJXdTeuq39nbPkySKItZ_8VHN2PfQS_T08GBzeooD5cvc2Xd8oZxSp9s=@protonmail.ch>
+In-Reply-To: <a44df303-d962-c1a4-4fe0-6bad887ebcdc@linux.intel.com>
+References: <0ac97cd0-4773-fff6-7d4e-74c4a1f076c4@linux.intel.com>
+ <a44df303-d962-c1a4-4fe0-6bad887ebcdc@linux.intel.com>
+Feedback-ID: QEdvdaLhFJaqnofhWA-dldGwsuoeDdDw7vz0UPs8r8sanA3bIt8zJdf4aDqYKSy4gJuZ0WvFYJtvq21y6ge_uQ==:Ext:ProtonMail
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-here is the V2 of this patch series. Let me rephrase the description
-of the series, in view of the fact that CFQ will be gone with legacy
-block.
+On Monday, November 19, 2018 6:42 AM, Alexey Budankov <alexey.budankov@linu=
+x.intel.com> wrote:
 
-The current implementation of cgroups doesn't allow two or more
-entities, e.g., I/O schedulers, to share the same files.  Thus, to
-enable people to set group weights with BFQ, I resorted to making BFQ
-create its own version of the same interface files used by CFQ (before
-going away with legacy block), by prepending a bfq prefix.
+> Implement initial version of perf-security.rst documentation file
+> initially covering security concerns related to PCL/Perf performance
+> monitoring in multiuser environments.
+>
+> Suggested-by: Thomas Gleixner tglx@linutronix.de
+> Signed-off-by: Alexey Budankov alexey.budankov@linux.intel.com
+>
+> Documentation/admin-guide/perf-security.rst | 83 ++++++++++++++++++++++++=
++++++
+> 1 file changed, 83 insertions(+)
+>
+> diff --git a/Documentation/admin-guide/perf-security.rst b/Documentation/=
+admin-guide/perf-security.rst
+> new file mode 100644
+> index 000000000000..b9564066e686
+> --- /dev/null
+> +++ b/Documentation/admin-guide/perf-security.rst
+> @@ -0,0 +1,83 @@
+> +.. perf_security:
+> +
+> +PCL/Perf security
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Overview
+> +--------
+> +
+> +Usage of Performance Counters for Linux (PCL) [1] , [2]_ , [3]_ can impo=
+se a+considerable risk of leaking sensitive data accessed by monitored proc=
+esses.
+> +The data leakage is possible both in scenarios of direct usage of PCL sy=
+stem
+> +call API [2]_ and over data files generated by Perf tool user mode utili=
+ty
+> +(Perf) [3]_ , [4]_ . The risk depends on the nature of data that PCL per=
+formance
+> +monitoring units (PMU) [2]_ collect and expose for performance analysis.
+> +Having that said PCL/Perf performance monitoring is the subject for secu=
+rity
+> +access control management [5]_ .
+> +
+> +PCL/Perf access control
+> +-----------------------
+> +
+> +For the purpose of performing security checks Linux implementation split=
+s
+> +processes into two categories [6]_ : a) privileged processes (whose effe=
+ctive
+> +user ID is 0, referred to as superuser or root), and b) unprivileged pro=
+cesses
+> +(whose effective UID is nonzero). Privileged processes bypass all kernel
+> +security permission checks so PCL performance monitoring is fully availa=
+ble to
+> +privileged processes without access, scope and resource restrictions.
+> +Unprivileged processes are subject to full security permission check bas=
+ed
+> +on the process's credentials [5]_ (usually: effective UID, effective GID=
+,
+> +and supplementary group list).
+> +
+> +PCL/Perf unprivileged users
+> +---------------------------
+> +
+> +PCL/Perf scope and access control for unprivileged processes is governed=
+ by
+> +perf_event_paranoid [2]_ setting:
+> +
+> +-1:
+>
+> -       Impose no *scope* and *access* restrictions on using PCL performa=
+nce
+>
+>
+> -       monitoring. Per-user per-cpu perf_event_mlock_kb [2]_ locking lim=
+it is
+>
+>
+> -       ignored when allocating memory buffers for storing performance da=
+ta.
+>
+>
+> -       This is the least secure mode since allowed monitored *scope* is
+>
+>
+> -       maximized and no PCL specific limits are imposed on *resources*
+>
+>
+> -       allocated for performance monitoring.
+>
+>
+> -
+>
+> +>=3D0:
+>
+> -       *scope* includes per-process and system wide performance monitori=
+ng
+>
+>
+> -       but excludes raw tracepoints and ftrace function tracepoints moni=
+toring.
+>
+>
+> -       CPU and system events happened when executing either in user or
+>
+>
+> -       in kernel space can be monitored and captured for later analysis.
+>
+>
+> -       Per-user per-cpu perf_event_mlock_kb locking limit is imposed but
+>
+>
+> -       ignored for unprivileged processes with CAP_IPC_LOCK [6]_ capabil=
+ity.
+>
+>
+> -
+>
+> +>=3D1:
+>
+> -       *scope* includes per-process performance monitoring only and excl=
+udes
+>
+>
+> -       system wide performance monitoring. CPU and system events happene=
+d when
+>
+>
+> -       executing either in user or in kernel space can be monitored and
+>
+>
+> -       captured for later analysis. Per-user per-cpu perf_event_mlock_kb
+>
+>
+> -       locking limit is imposed but ignored for unprivileged processes w=
+ith
+>
+>
+> -       CAP_IPC_LOCK capability.
+>
+>
+> -
+>
+> +>=3D2:
+>
+> -       *scope* includes per-process performance monitoring only. CPU and=
+ system
+>
+>
+> -       events happened when executing in user space only can be monitore=
+d and
+>
+>
+> -       captured for later analysis. Per-user per-cpu perf_event_mlock_kb
+>
+>
+> -       locking limit is imposed but ignored for unprivileged processes w=
+ith
+>
+>
+> -       CAP_IPC_LOCK capability.
+>
+>
+> -
+>
+> +>=3D3:
+>
+> -       Restrict *access* to PCL performance monitoring for unprivileged =
+processes.
+>
+>
+> -       This is the default on Debian and Android [7]_ , [8]_ .
 
-Actually, no legacy code uses these different names, or is likely to
-do so.  Having these two sets of names is simply a source of
-confusion, as pointed out also, e.g., by Lennart Poettering (CCed
-here), and acknowledged by Tejun [2].
+AFAIK there is no support for '+>=3D3' in mainline kernel[1].
+Debian and Android use out-of-tree patch for that[2].
+Maybe someone should upstream it?
 
-In [1] we agreed on a solution that solves this problem, by actually
-making it possible to share cgroups files.  Both writing to and
-reading from a shared file trigger the appropriate operation for each
-of the entities that share the file.  In particular, in case of
-reading,
-- if all entities produce the same output, the this common output is
- shown only once;
-- if the outputs differ, then every per-entity output is shown,
- followed by the name of the entity that produced that output.
+Jordan
 
-With this solution, legacy code that, e.g., sets group weights, just
-works, regardless of the I/O scheduler actually implementing
-proportional share.
-
-But note that this extension is not restricted to only blkio/io.  The
-general group interface now enables files to be shared among multiple
-entities of any kind.
-
-(I have also added a patch to fix some clerical errors in bfq doc,
-which I found while making the latter consistent with the new
-interface.)
-
-CHANGES FROM V1:
-- Removed patch that introduced a function to only find kernfs nodes,
-  without increasing ref counters
-- Changed commit messages and BFQ documentation, to comply with the
-  fact that there won't be CFQ any longer
-
-Thanks,
-Paolo
-
-Angelo Ruocco (5):
-  cgroup: link cftypes of the same subsystem with the same name
-  cgroup: add owner name to cftypes
-  block, bfq: align min and default weights with the old cfq default
-  cgroup: make all functions of all cftypes be invoked
-  block, throttle: allow sharing cgroup statistic files
-
-Paolo Valente (5):
-  cgroup: add hook seq_show_cft with also the owning cftype as parameter
-  block, cgroup: pass cftype to functions that need to use it
-  block, bfq: use standard file names for the proportional-share policy
-  doc, bfq-iosched: fix a few clerical errors
-  doc, bfq-iosched: make it consistent with the new cgroup interface
-
- Documentation/block/bfq-iosched.txt |  34 ++---
- block/bfq-cgroup.c                  | 148 +++++++++++++-------
- block/bfq-iosched.h                 |   4 +-
- block/blk-cgroup.c                  |  22 +--
- block/blk-throttle.c                |  24 ++--
- include/linux/blk-cgroup.h          |  10 +-
- include/linux/cgroup-defs.h         |  14 +-
- include/linux/cgroup.h              |  13 ++
- kernel/cgroup/cgroup.c              | 262 +++++++++++++++++++++++++++++-------
- 9 files changed, 390 insertions(+), 141 deletions(-)
-
---
-2.16.1
+[1] https://github.com/torvalds/linux/blob/master/kernel/events/core.c#L395
+[2] https://salsa.debian.org/kernel-team/linux/blob/master/debian/patches/f=
+eatures/all/security-perf-allow-further-restriction-of-perf_event_open.patc=
+h
