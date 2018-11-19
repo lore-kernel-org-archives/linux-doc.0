@@ -2,104 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 212E57D8A9
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 22:49:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A88227D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 23:58:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731585AbeKTJOn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 04:14:43 -0500
-Received: from mga01.intel.com ([192.55.52.88]:31026 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730419AbeKTJOn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 04:14:43 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Nov 2018 14:48:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,254,1539673200"; 
-   d="scan'208";a="93332282"
-Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
-  by orsmga008.jf.intel.com with ESMTP; 19 Nov 2018 14:48:48 -0800
-Message-ID: <a40c2a60e42b5fdff46275ca42f3e7276bf11258.camel@intel.com>
-Subject: Re: [RFC PATCH v6 08/11] x86: Insert endbr32/endbr64 to vDSO
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Andy Lutomirski <luto@amacapital.net>
-Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
-Date:   Mon, 19 Nov 2018 14:43:31 -0800
-In-Reply-To: <CALCETrW9ABDotyM020V147+kuizpTRJUAANn-6kUt6-h0Qn0og@mail.gmail.com>
-References: <20181119214934.6174-1-yu-cheng.yu@intel.com>
-         <20181119214934.6174-9-yu-cheng.yu@intel.com>
-         <CALCETrW9ABDotyM020V147+kuizpTRJUAANn-6kUt6-h0Qn0og@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1727583AbeKTKY3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 05:24:29 -0500
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:35448 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726431AbeKTKY3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 05:24:29 -0500
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id E993F80913; Tue, 20 Nov 2018 00:58:14 +0100 (CET)
+Date:   Tue, 20 Nov 2018 00:58:17 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     "Moger, Babu" <Babu.Moger@amd.com>
+Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>,
+        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
+        "pombredanne@nexb.com" <pombredanne@nexb.com>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
+        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Singh, Brijesh" <brijesh.singh@amd.com>,
+        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
+        "dwmw2@infradead.org" <dwmw2@infradead.org>,
+        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "rian@alum.mit.edu" <rian@alum.mit.edu>,
+        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v7 00/13] arch/x86: AMD QoS support
+Message-ID: <20181119235817.GA4763@amd>
+References: <20181109205153.14811-1-babu.moger@amd.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="PEIAKu/WMn1b1Hv9"
+Content-Disposition: inline
+In-Reply-To: <20181109205153.14811-1-babu.moger@amd.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2018-11-19 at 14:17 -0800, Andy Lutomirski wrote:
-> On Mon, Nov 19, 2018 at 1:55 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> > 
-> > From: "H.J. Lu" <hjl.tools@gmail.com>
-> > 
-> > When Intel indirect branch tracking is enabled, functions in vDSO which
-> > may be called indirectly must have endbr32 or endbr64 as the first
-> > instruction.  Compiler must support -fcf-protection=branch so that it
-> > can be used to compile vDSO.
-> > 
-> > Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
-> > ---
-> >  arch/x86/entry/vdso/.gitignore        |  4 ++++
-> >  arch/x86/entry/vdso/Makefile          | 12 +++++++++++-
-> >  arch/x86/entry/vdso/vdso-layout.lds.S |  1 +
-> >  3 files changed, 16 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/arch/x86/entry/vdso/.gitignore b/arch/x86/entry/vdso/.gitignore
-> > index aae8ffdd5880..552941fdfae0 100644
-> > --- a/arch/x86/entry/vdso/.gitignore
-> > +++ b/arch/x86/entry/vdso/.gitignore
-> > @@ -5,3 +5,7 @@ vdso32-sysenter-syms.lds
-> >  vdso32-int80-syms.lds
-> >  vdso-image-*.c
-> >  vdso2c
-> > +vclock_gettime.S
-> > +vgetcpu.S
-> > +vclock_gettime.asm
-> > +vgetcpu.asm
-> 
-> 
-> What's this hunk about?
 
-We used to allow using non-CET capable BINUTILS and the Makefile would create
-these.  I will remove them from the patch.
+--PEIAKu/WMn1b1Hv9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yu-cheng
+Hi!
 
+>  rename Documentation/x86/{intel_rdt_ui.txt =3D> resctrl_ui.txt} (99%)
+
+Rest of files in that directory use - as a separator; and maybe
+qos.txt would be a better name then this?
+
+Thanks,
+
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--PEIAKu/WMn1b1Hv9
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlvzThkACgkQMOfwapXb+vJ7FwCglvf1P7vbPXIynaiN34+duf7m
+YYEAnRGLAGcm7gUWdOFshiiGaOXnfV23
+=mx/k
+-----END PGP SIGNATURE-----
+
+--PEIAKu/WMn1b1Hv9--
