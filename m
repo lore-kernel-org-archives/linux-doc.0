@@ -5,731 +5,113 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C38357D8A3
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 11:02:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 786BA7D8BA
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 11:16:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727728AbeKSVZy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 16:25:54 -0500
-Received: from foss.arm.com ([217.140.101.70]:54418 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728029AbeKSVZy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Nov 2018 16:25:54 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3295F80D;
-        Mon, 19 Nov 2018 03:02:37 -0800 (PST)
-Received: from edgewater-inn.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C94A03F5A0;
-        Mon, 19 Nov 2018 03:02:36 -0800 (PST)
-Received: by edgewater-inn.cambridge.arm.com (Postfix, from userid 1000)
-        id B20491AE1062; Mon, 19 Nov 2018 11:02:51 +0000 (GMT)
-From:   Will Deacon <will.deacon@arm.com>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
-        David Howells <dhowells@redhat.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Michael Halcrow <mhalcrow@google.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] Documentation: Use "while" instead of "whilst"
-Date:   Mon, 19 Nov 2018 11:02:45 +0000
-Message-Id: <1542625365-21886-1-git-send-email-will.deacon@arm.com>
-X-Mailer: git-send-email 2.1.4
+        id S1728632AbeKSVjm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 16:39:42 -0500
+Received: from mx2.suse.de ([195.135.220.15]:49824 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727857AbeKSVjl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Nov 2018 16:39:41 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay1.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id D320CAE1D;
+        Mon, 19 Nov 2018 11:16:20 +0000 (UTC)
+Date:   Mon, 19 Nov 2018 22:16:09 +1100
+From:   Aleksa Sarai <asarai@suse.de>
+To:     Daniel Colascione <dancol@google.com>
+Cc:     Michal Hocko <mhocko@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>, rppt@linux.ibm.com,
+        Tim Murray <timmurray@google.com>,
+        Joel Fernandes <joelaf@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
+        Prashant Dhamdhere <pdhamdhe@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2] Document /proc/pid PID reuse behavior
+Message-ID: <20181119111609.v4j2j53zpd6hvk2c@mikami>
+References: <20181031150625.147369-1-dancol@google.com>
+ <20181105132205.138695-1-dancol@google.com>
+ <20181106130524.GC2453@dhcp22.suse.cz>
+ <CAKOZueu5aDtHDBzp6qKECTHEejjb=dyegQkuHh8NfwgNktzFow@mail.gmail.com>
+ <20181107160015.GI27423@dhcp22.suse.cz>
+ <CAKOZuevb-MED0QiL5RWJ0py=yt48=N7bPSq5bFqiwWcqN9L=Xg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="3ds7txroqa3vkjpz"
+Content-Disposition: inline
+In-Reply-To: <CAKOZuevb-MED0QiL5RWJ0py=yt48=N7bPSq5bFqiwWcqN9L=Xg@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Whilst making an unrelated change to some Documentation, Linus sayeth:
 
-  | Afaik, even in Britain, "whilst" is unusual and considered more
-  | formal, and "while" is the common word.
-  |
-  | [...]
-  |
-  | Can we just admit that we work with computers, and we don't need to
-  | use þe eald Englisc spelling of words that most of the world never
-  | uses?
+--3ds7txroqa3vkjpz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-dictionary.com refers to the word as "Chiefly British", which is
-probably an undesirable attribute for technical documentation.
+On 2018-11-07, Daniel Colascione <dancol@google.com> wrote:
+> On Wed, Nov 7, 2018 at 4:00 PM, Michal Hocko <mhocko@kernel.org> wrote:
+> > On Wed 07-11-18 15:48:20, Daniel Colascione wrote:
+> >> On Tue, Nov 6, 2018 at 1:05 PM, Michal Hocko <mhocko@kernel.org> wrote:
+> >> > otherwise anybody could simply DoS the system
+> >> > by consuming all available pids.
+> >>
+> >> People can do that today using the instrument of terror widely known
+> >> as fork(2). The only thing standing between fork(2) and a full process
+> >> table is RLIMIT_NPROC.
+> >
+> > not really.
+>=20
+> What else, besides memory consumption and (as you mention below)
+> cgroups? In practice, nobody uses RLIMIT_NPROC, so outside of various
+> container-y namespaced setups, avoidance of
+> system-DoS-through-PID-exhaustion isn't a pressing problem.
 
-Replace all occurrences under Documentation/ with "while".
+systemd has had a default pid cgroup controller policy (for both user
+and system slices) for a quite long time. I believe that the most recent
+version of most enterprise and community distributions support it by
+default (and probably even some older versions -- commit 49b786ea146f
+was merged in 2015 and I think systemd grew support for it in 2016).
 
-Cc: David Howells <dhowells@redhat.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Michael Halcrow <mhalcrow@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Will Deacon <will.deacon@arm.com>
----
- Documentation/admin-guide/kernel-parameters.txt    |  2 +-
- Documentation/admin-guide/security-bugs.rst        |  2 +-
- Documentation/arm/Booting                          |  2 +-
- Documentation/arm/Samsung-S3C24XX/GPIO.txt         |  2 +-
- Documentation/arm/Samsung-S3C24XX/Overview.txt     |  2 +-
- Documentation/arm/Samsung-S3C24XX/Suspend.txt      |  2 +-
- Documentation/core-api/assoc_array.rst             |  6 +++---
- Documentation/device-mapper/dm-raid.txt            |  2 +-
- .../devicetree/bindings/arm/idle-states.txt        |  2 +-
- .../devicetree/bindings/pci/host-generic-pci.txt   |  2 +-
- Documentation/devicetree/bindings/serial/rs485.txt |  2 +-
- Documentation/filesystems/caching/backend-api.txt  |  2 +-
- Documentation/filesystems/caching/cachefiles.txt   |  4 ++--
- Documentation/filesystems/caching/netfs-api.txt    |  2 +-
- Documentation/filesystems/caching/operations.txt   |  2 +-
- Documentation/filesystems/qnx6.txt                 |  4 ++--
- Documentation/filesystems/vfs.txt                  |  2 +-
- .../filesystems/xfs-self-describing-metadata.txt   |  2 +-
- Documentation/filesystems/xfs.txt                  |  2 +-
- Documentation/leds/leds-class.txt                  |  2 +-
- Documentation/media/uapi/v4l/extended-controls.rst |  2 +-
- Documentation/memory-barriers.txt                  | 22 +++++++++++-----------
- Documentation/networking/de4x5.txt                 |  2 +-
- Documentation/networking/rxrpc.txt                 | 10 +++++-----
- Documentation/power/regulator/overview.txt         |  2 +-
- Documentation/s390/3270.ChangeLog                  |  2 +-
- Documentation/security/credentials.rst             |  8 ++++----
- Documentation/security/keys/request-key.rst        |  2 +-
- Documentation/serial/serial-rs485.txt              |  2 +-
- Documentation/sound/soc/dai.rst                    |  6 +++---
- Documentation/sound/soc/dpcm.rst                   |  2 +-
- Documentation/static-keys.txt                      |  2 +-
- Documentation/thermal/power_allocator.txt          |  2 +-
- 33 files changed, 56 insertions(+), 56 deletions(-)
+I agree with your overall point, but it should be noted that the vast
+majority of Linux systems these days have protections against this (by
+default) that use the pids cgroup controller.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 81d1d5a74728..91a2b41137a7 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -331,7 +331,7 @@
- 			APC and your system crashes randomly.
- 
- 	apic=		[APIC,X86] Advanced Programmable Interrupt Controller
--			Change the output verbosity whilst booting
-+			Change the output verbosity while booting
- 			Format: { quiet (default) | verbose | debug }
- 			Change the amount of debugging information output
- 			when initialising the APIC and IO-APIC components.
-diff --git a/Documentation/admin-guide/security-bugs.rst b/Documentation/admin-guide/security-bugs.rst
-index 164bf71149fd..410602752dc4 100644
---- a/Documentation/admin-guide/security-bugs.rst
-+++ b/Documentation/admin-guide/security-bugs.rst
-@@ -43,7 +43,7 @@ embargo has lifted; whichever comes first.  The only exception to that
- rule is if the bug is publicly known, in which case the preference is to
- release the fix as soon as it's available.
- 
--Whilst embargoed information may be shared with trusted individuals in
-+While embargoed information may be shared with trusted individuals in
- order to develop a fix, such information will not be published alongside
- the fix or on any other disclosure channel without the permission of the
- reporter.  This includes but is not limited to the original bug report
-diff --git a/Documentation/arm/Booting b/Documentation/arm/Booting
-index 259f00af3ab3..f1f965ce93d6 100644
---- a/Documentation/arm/Booting
-+++ b/Documentation/arm/Booting
-@@ -126,7 +126,7 @@ tagged list.
- The boot loader must pass at a minimum the size and location of the
- system memory, and the root filesystem location.  The dtb must be
- placed in a region of memory where the kernel decompressor will not
--overwrite it, whilst remaining within the region which will be covered
-+overwrite it, while remaining within the region which will be covered
- by the kernel's low-memory mapping.
- 
- A safe location is just above the 128MiB boundary from start of RAM.
-diff --git a/Documentation/arm/Samsung-S3C24XX/GPIO.txt b/Documentation/arm/Samsung-S3C24XX/GPIO.txt
-index 0ebd7e2244d0..e8f918b96123 100644
---- a/Documentation/arm/Samsung-S3C24XX/GPIO.txt
-+++ b/Documentation/arm/Samsung-S3C24XX/GPIO.txt
-@@ -55,7 +55,7 @@ out s3c2410 API, then here are some notes on the process.
-    as they have the same arguments, and can either take the pin specific
-    values, or the more generic special-function-number arguments.
- 
--3) s3c2410_gpio_pullup() changes have the problem that whilst the
-+3) s3c2410_gpio_pullup() changes have the problem that while the
-    s3c2410_gpio_pullup(x, 1) can be easily translated to the
-    s3c_gpio_setpull(x, S3C_GPIO_PULL_NONE), the s3c2410_gpio_pullup(x, 0)
-    are not so easy.
-diff --git a/Documentation/arm/Samsung-S3C24XX/Overview.txt b/Documentation/arm/Samsung-S3C24XX/Overview.txt
-index 359587b2367b..00d3c3141e21 100644
---- a/Documentation/arm/Samsung-S3C24XX/Overview.txt
-+++ b/Documentation/arm/Samsung-S3C24XX/Overview.txt
-@@ -17,7 +17,7 @@ Introduction
-   versions.
- 
-   The S3C2416 and S3C2450 devices are very similar and S3C2450 support is
--  included under the arch/arm/mach-s3c2416 directory. Note, whilst core
-+  included under the arch/arm/mach-s3c2416 directory. Note, while core
-   support for these SoCs is in, work on some of the extra peripherals
-   and extra interrupts is still ongoing.
- 
-diff --git a/Documentation/arm/Samsung-S3C24XX/Suspend.txt b/Documentation/arm/Samsung-S3C24XX/Suspend.txt
-index 1ca63b3e5635..cb4f0c0cdf9d 100644
---- a/Documentation/arm/Samsung-S3C24XX/Suspend.txt
-+++ b/Documentation/arm/Samsung-S3C24XX/Suspend.txt
-@@ -87,7 +87,7 @@ Debugging
-      suspending, which means that use of printascii() or similar direct
-      access to the UARTs will cause the debug to stop.
- 
--  2) Whilst the pm code itself will attempt to re-enable the UART clocks,
-+  2) While the pm code itself will attempt to re-enable the UART clocks,
-      care should be taken that any external clock sources that the UARTs
-      rely on are still enabled at that point.
- 
-diff --git a/Documentation/core-api/assoc_array.rst b/Documentation/core-api/assoc_array.rst
-index 8231b915c939..792bbf9939e1 100644
---- a/Documentation/core-api/assoc_array.rst
-+++ b/Documentation/core-api/assoc_array.rst
-@@ -34,7 +34,7 @@ properties:
- 8. The array can iterated over.  The objects will not necessarily come out in
-    key order.
- 
--9. The array can be iterated over whilst it is being modified, provided the
-+9. The array can be iterated over while it is being modified, provided the
-    RCU readlock is being held by the iterator.  Note, however, under these
-    circumstances, some objects may be seen more than once.  If this is a
-    problem, the iterator should lock against modification.  Objects will not
-@@ -42,7 +42,7 @@ properties:
- 
- 10. Objects in the array can be looked up by means of their index key.
- 
--11. Objects can be looked up whilst the array is being modified, provided the
-+11. Objects can be looked up while the array is being modified, provided the
-     RCU readlock is being held by the thread doing the look up.
- 
- The implementation uses a tree of 16-pointer nodes internally that are indexed
-@@ -273,7 +273,7 @@ The function will return ``0`` if successful and ``-ENOMEM`` if there wasn't
- enough memory.
- 
- It is possible for other threads to iterate over or search the array under
--the RCU read lock whilst this function is in progress.  The caller should
-+the RCU read lock while this function is in progress.  The caller should
- lock exclusively against other modifiers of the array.
- 
- 
-diff --git a/Documentation/device-mapper/dm-raid.txt b/Documentation/device-mapper/dm-raid.txt
-index 52a719b49afd..2355bef14653 100644
---- a/Documentation/device-mapper/dm-raid.txt
-+++ b/Documentation/device-mapper/dm-raid.txt
-@@ -146,7 +146,7 @@ The target is named "raid" and it accepts the following parameters:
-         [data_offset <sectors>]
- 		This option value defines the offset into each data device
- 		where the data starts. This is used to provide out-of-place
--		reshaping space to avoid writing over data whilst
-+		reshaping space to avoid writing over data while
- 		changing the layout of stripes, hence an interruption/crash
- 		may happen at any time without the risk of losing data.
- 		E.g. when adding devices to an existing raid set during
-diff --git a/Documentation/devicetree/bindings/arm/idle-states.txt b/Documentation/devicetree/bindings/arm/idle-states.txt
-index 2c73847499ab..8f0937db55c5 100644
---- a/Documentation/devicetree/bindings/arm/idle-states.txt
-+++ b/Documentation/devicetree/bindings/arm/idle-states.txt
-@@ -142,7 +142,7 @@ characterised by the following graph:
- 
- The graph is split in two parts delimited by time 1ms on the X-axis.
- The graph curve with X-axis values = { x | 0 < x < 1ms } has a steep slope
--and denotes the energy costs incurred whilst entering and leaving the idle
-+and denotes the energy costs incurred while entering and leaving the idle
- state.
- The graph curve in the area delimited by X-axis values = {x | x > 1ms } has
- shallower slope and essentially represents the energy consumption of the idle
-diff --git a/Documentation/devicetree/bindings/pci/host-generic-pci.txt b/Documentation/devicetree/bindings/pci/host-generic-pci.txt
-index 3f1d3fca62bb..614b594f4e72 100644
---- a/Documentation/devicetree/bindings/pci/host-generic-pci.txt
-+++ b/Documentation/devicetree/bindings/pci/host-generic-pci.txt
-@@ -56,7 +56,7 @@ For CAM, this 24-bit offset is:
-         cfg_offset(bus, device, function, register) =
-                    bus << 16 | device << 11 | function << 8 | register
- 
--Whilst ECAM extends this by 4 bits to accommodate 4k of function space:
-+While ECAM extends this by 4 bits to accommodate 4k of function space:
- 
-         cfg_offset(bus, device, function, register) =
-                    bus << 20 | device << 15 | function << 12 | register
-diff --git a/Documentation/devicetree/bindings/serial/rs485.txt b/Documentation/devicetree/bindings/serial/rs485.txt
-index b7c29f74ebb2..b92592dff6dd 100644
---- a/Documentation/devicetree/bindings/serial/rs485.txt
-+++ b/Documentation/devicetree/bindings/serial/rs485.txt
-@@ -16,7 +16,7 @@ Optional properties:
- - linux,rs485-enabled-at-boot-time: empty property telling to enable the rs485
-   feature at boot time. It can be disabled later with proper ioctl.
- - rs485-rx-during-tx: empty property that enables the receiving of data even
--  whilst sending data.
-+  while sending data.
- 
- RS485 example for Atmel USART:
- 	usart0: serial@fff8c000 {
-diff --git a/Documentation/filesystems/caching/backend-api.txt b/Documentation/filesystems/caching/backend-api.txt
-index c0bd5677271b..c418280c915f 100644
---- a/Documentation/filesystems/caching/backend-api.txt
-+++ b/Documentation/filesystems/caching/backend-api.txt
-@@ -704,7 +704,7 @@ FS-Cache provides some utilities that a cache backend may make use of:
- 	void fscache_get_retrieval(struct fscache_retrieval *op);
- 	void fscache_put_retrieval(struct fscache_retrieval *op);
- 
--     These two functions are used to retain a retrieval record whilst doing
-+     These two functions are used to retain a retrieval record while doing
-      asynchronous data retrieval and block allocation.
- 
- 
-diff --git a/Documentation/filesystems/caching/cachefiles.txt b/Documentation/filesystems/caching/cachefiles.txt
-index 748a1ae49e12..28aefcbb1442 100644
---- a/Documentation/filesystems/caching/cachefiles.txt
-+++ b/Documentation/filesystems/caching/cachefiles.txt
-@@ -45,7 +45,7 @@ filesystems are very specific in nature.
- 
- CacheFiles creates a misc character device - "/dev/cachefiles" - that is used
- to communication with the daemon.  Only one thing may have this open at once,
--and whilst it is open, a cache is at least partially in existence.  The daemon
-+and while it is open, a cache is at least partially in existence.  The daemon
- opens this and sends commands down it to control the cache.
- 
- CacheFiles is currently limited to a single cache.
-@@ -163,7 +163,7 @@ Do not mount other things within the cache as this will cause problems.  The
- kernel module contains its own very cut-down path walking facility that ignores
- mountpoints, but the daemon can't avoid them.
- 
--Do not create, rename or unlink files and directories in the cache whilst the
-+Do not create, rename or unlink files and directories in the cache while the
- cache is active, as this may cause the state to become uncertain.
- 
- Renaming files in the cache might make objects appear to be other objects (the
-diff --git a/Documentation/filesystems/caching/netfs-api.txt b/Documentation/filesystems/caching/netfs-api.txt
-index 2a6f7399c1f3..ba968e8f5704 100644
---- a/Documentation/filesystems/caching/netfs-api.txt
-+++ b/Documentation/filesystems/caching/netfs-api.txt
-@@ -382,7 +382,7 @@ MISCELLANEOUS OBJECT REGISTRATION
- An optional step is to request an object of miscellaneous type be created in
- the cache.  This is almost identical to index cookie acquisition.  The only
- difference is that the type in the object definition should be something other
--than index type.  Whilst the parent object could be an index, it's more likely
-+than index type.  While the parent object could be an index, it's more likely
- it would be some other type of object such as a data file.
- 
- 	xattr->cache =
-diff --git a/Documentation/filesystems/caching/operations.txt b/Documentation/filesystems/caching/operations.txt
-index a1c052cbba35..d8976c434718 100644
---- a/Documentation/filesystems/caching/operations.txt
-+++ b/Documentation/filesystems/caching/operations.txt
-@@ -171,7 +171,7 @@ Operations are used through the following procedure:
-  (3) If the submitting thread wants to do the work itself, and has marked the
-      operation with FSCACHE_OP_MYTHREAD, then it should monitor
-      FSCACHE_OP_WAITING as described above and check the state of the object if
--     necessary (the object might have died whilst the thread was waiting).
-+     necessary (the object might have died while the thread was waiting).
- 
-      When it has finished doing its processing, it should call
-      fscache_op_complete() and fscache_put_operation() on it.
-diff --git a/Documentation/filesystems/qnx6.txt b/Documentation/filesystems/qnx6.txt
-index 4f3d6a882bdc..48ea68f15845 100644
---- a/Documentation/filesystems/qnx6.txt
-+++ b/Documentation/filesystems/qnx6.txt
-@@ -87,7 +87,7 @@ addressed with 16 direct blocks.
- For more than 16 blocks an indirect addressing in form of another tree is
- used. (scheme is the same as the one used for the superblock root nodes)
- 
--The filesize is stored 64bit. Inode counting starts with 1. (whilst long
-+The filesize is stored 64bit. Inode counting starts with 1. (while long
- filename inodes start with 0)
- 
- Directories
-@@ -155,7 +155,7 @@ Then userspace.
- The requirement for a static, fixed preallocated system area comes from how
- qnx6fs deals with writes.
- Each superblock got it's own half of the system area. So superblock #1
--always uses blocks from the lower half whilst superblock #2 just writes to
-+always uses blocks from the lower half while superblock #2 just writes to
- blocks represented by the upper half bitmap system area bits.
- 
- Bitmap blocks, Inode blocks and indirect addressing blocks for those two
-diff --git a/Documentation/filesystems/vfs.txt b/Documentation/filesystems/vfs.txt
-index 5f71a252e2e0..8dc8e9c2913f 100644
---- a/Documentation/filesystems/vfs.txt
-+++ b/Documentation/filesystems/vfs.txt
-@@ -1131,7 +1131,7 @@ struct dentry_operations {
- 
-   d_manage: called to allow the filesystem to manage the transition from a
- 	dentry (optional).  This allows autofs, for example, to hold up clients
--	waiting to explore behind a 'mountpoint' whilst letting the daemon go
-+	waiting to explore behind a 'mountpoint' while letting the daemon go
- 	past and construct the subtree there.  0 should be returned to let the
- 	calling process continue.  -EISDIR can be returned to tell pathwalk to
- 	use this directory as an ordinary directory and to ignore anything
-diff --git a/Documentation/filesystems/xfs-self-describing-metadata.txt b/Documentation/filesystems/xfs-self-describing-metadata.txt
-index 05aa455163e3..68604e67a495 100644
---- a/Documentation/filesystems/xfs-self-describing-metadata.txt
-+++ b/Documentation/filesystems/xfs-self-describing-metadata.txt
-@@ -110,7 +110,7 @@ owner field in the metadata object, we can immediately do top down validation to
- determine the scope of the problem.
- 
- Different types of metadata have different owner identifiers. For example,
--directory, attribute and extent tree blocks are all owned by an inode, whilst
-+directory, attribute and extent tree blocks are all owned by an inode, while
- freespace btree blocks are owned by an allocation group. Hence the size and
- contents of the owner field are determined by the type of metadata object we are
- looking at.  The owner information can also identify misplaced writes (e.g.
-diff --git a/Documentation/filesystems/xfs.txt b/Documentation/filesystems/xfs.txt
-index a9ae82fb9d13..9ccfd1bc6201 100644
---- a/Documentation/filesystems/xfs.txt
-+++ b/Documentation/filesystems/xfs.txt
-@@ -417,7 +417,7 @@ level directory:
- 	filesystem from ever unmounting fully in the case of "retry forever"
- 	handler configurations.
- 
--	Note: there is no guarantee that fail_at_unmount can be set whilst an
-+	Note: there is no guarantee that fail_at_unmount can be set while an
- 	unmount is in progress. It is possible that the sysfs entries are
- 	removed by the unmounting filesystem before a "retry forever" error
- 	handler configuration causes unmount to hang, and hence the filesystem
-diff --git a/Documentation/leds/leds-class.txt b/Documentation/leds/leds-class.txt
-index 836cb16d6f09..8b39cc6b03ee 100644
---- a/Documentation/leds/leds-class.txt
-+++ b/Documentation/leds/leds-class.txt
-@@ -15,7 +15,7 @@ existing subsystems with minimal additional code. Examples are the disk-activity
- nand-disk and sharpsl-charge triggers. With led triggers disabled, the code
- optimises away.
- 
--Complex triggers whilst available to all LEDs have LED specific
-+Complex triggers while available to all LEDs have LED specific
- parameters and work on a per LED basis. The timer trigger is an example.
- The timer trigger will periodically change the LED brightness between
- LED_OFF and the current brightness setting. The "on" and "off" time can
-diff --git a/Documentation/media/uapi/v4l/extended-controls.rst b/Documentation/media/uapi/v4l/extended-controls.rst
-index 65a1d873196b..e60d4ed51d79 100644
---- a/Documentation/media/uapi/v4l/extended-controls.rst
-+++ b/Documentation/media/uapi/v4l/extended-controls.rst
-@@ -3980,7 +3980,7 @@ demodulator. It receives radio frequency (RF) from the antenna and
- converts that received signal to lower intermediate frequency (IF) or
- baseband frequency (BB). Tuners that could do baseband output are often
- called Zero-IF tuners. Older tuners were typically simple PLL tuners
--inside a metal box, whilst newer ones are highly integrated chips
-+inside a metal box, while newer ones are highly integrated chips
- without a metal box "silicon tuners". These controls are mostly
- applicable for new feature rich silicon tuners, just because older
- tuners does not have much adjustable features.
-diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-index c1d913944ad8..1c22b21ae922 100644
---- a/Documentation/memory-barriers.txt
-+++ b/Documentation/memory-barriers.txt
-@@ -587,7 +587,7 @@ leading to the following situation:
- 
- 	(Q == &B) and (D == 2) ????
- 
--Whilst this may seem like a failure of coherency or causality maintenance, it
-+While this may seem like a failure of coherency or causality maintenance, it
- isn't, and this behaviour can be observed on certain real CPUs (such as the DEC
- Alpha).
- 
-@@ -2008,7 +2008,7 @@ for each construct.  These operations all imply certain barriers:
- 
-      Certain locking variants of the ACQUIRE operation may fail, either due to
-      being unable to get the lock immediately, or due to receiving an unblocked
--     signal whilst asleep waiting for the lock to become available.  Failed
-+     signal while asleep waiting for the lock to become available.  Failed
-      locks do not imply any sort of barrier.
- 
- [!] Note: one of the consequences of lock ACQUIREs and RELEASEs being only
-@@ -2508,7 +2508,7 @@ CPU, that CPU's dependency ordering logic will take care of everything else.
- ATOMIC OPERATIONS
- -----------------
- 
--Whilst they are technically interprocessor interaction considerations, atomic
-+While they are technically interprocessor interaction considerations, atomic
- operations are noted specially as some of them imply full memory barriers and
- some don't, but they're very heavily relied on as a group throughout the
- kernel.
-@@ -2531,7 +2531,7 @@ the device to malfunction.
- 
- Inside of the Linux kernel, I/O should be done through the appropriate accessor
- routines - such as inb() or writel() - which know how to make such accesses
--appropriately sequential.  Whilst this, for the most part, renders the explicit
-+appropriately sequential.  While this, for the most part, renders the explicit
- use of memory barriers unnecessary, there are a couple of situations where they
- might be needed:
- 
-@@ -2555,7 +2555,7 @@ access the device.
- 
- This may be alleviated - at least in part - by disabling local interrupts (a
- form of locking), such that the critical operations are all contained within
--the interrupt-disabled section in the driver.  Whilst the driver's interrupt
-+the interrupt-disabled section in the driver.  While the driver's interrupt
- routine is executing, the driver's core may not run on the same CPU, and its
- interrupt is not permitted to happen again until the current interrupt has been
- handled, thus the interrupt handler does not need to lock against that.
-@@ -2763,7 +2763,7 @@ CACHE COHERENCY
- 
- Life isn't quite as simple as it may appear above, however: for while the
- caches are expected to be coherent, there's no guarantee that that coherency
--will be ordered.  This means that whilst changes made on one CPU will
-+will be ordered.  This means that while changes made on one CPU will
- eventually become visible on all CPUs, there's no guarantee that they will
- become apparent in the same order on those other CPUs.
- 
-@@ -2799,7 +2799,7 @@ Imagine the system has the following properties:
-  (*) an even-numbered cache line may be in cache B, cache D or it may still be
-      resident in memory;
- 
-- (*) whilst the CPU core is interrogating one cache, the other cache may be
-+ (*) while the CPU core is interrogating one cache, the other cache may be
-      making use of the bus to access the rest of the system - perhaps to
-      displace a dirty cacheline or to do a speculative load;
- 
-@@ -2835,7 +2835,7 @@ now imagine that the second CPU wants to read those values:
- 			x = *q;
- 
- The above pair of reads may then fail to happen in the expected order, as the
--cacheline holding p may get updated in one of the second CPU's caches whilst
-+cacheline holding p may get updated in one of the second CPU's caches while
- the update to the cacheline holding v is delayed in the other of the second
- CPU's caches by some other cache event:
- 
-@@ -2855,7 +2855,7 @@ CPU's caches by some other cache event:
- 			<C:unbusy>
- 			<C:commit v=2>
- 
--Basically, whilst both cachelines will be updated on CPU 2 eventually, there's
-+Basically, while both cachelines will be updated on CPU 2 eventually, there's
- no guarantee that, without intervention, the order of update will be the same
- as that committed on CPU 1.
- 
-@@ -2885,7 +2885,7 @@ coherency queue before processing any further requests:
- 
- This sort of problem can be encountered on DEC Alpha processors as they have a
- split cache that improves performance by making better use of the data bus.
--Whilst most CPUs do imply a data dependency barrier on the read when a memory
-+While most CPUs do imply a data dependency barrier on the read when a memory
- access depends on a read, not all do, so it may not be relied on.
- 
- Other CPUs may also have split caches, but must coordinate between the various
-@@ -2974,7 +2974,7 @@ assumption doesn't hold because:
-      thus cutting down on transaction setup costs (memory and PCI devices may
-      both be able to do this); and
- 
-- (*) the CPU's data cache may affect the ordering, and whilst cache-coherency
-+ (*) the CPU's data cache may affect the ordering, and while cache-coherency
-      mechanisms may alleviate this - once the store has actually hit the cache
-      - there's no guarantee that the coherency management will be propagated in
-      order to other CPUs.
-diff --git a/Documentation/networking/de4x5.txt b/Documentation/networking/de4x5.txt
-index c8e4ca9b2c3e..452aac58341d 100644
---- a/Documentation/networking/de4x5.txt
-+++ b/Documentation/networking/de4x5.txt
-@@ -84,7 +84,7 @@
- 
-     Automedia detection is included so that in  principle you can disconnect
-     from, e.g.  TP, reconnect  to BNC  and  things will still work  (after a
--    pause whilst the   driver figures out   where its media went).  My tests
-+    pause while the   driver figures out   where its media went).  My tests
-     using ping showed that it appears to work....
- 
-     By  default,  the driver will  now   autodetect any  DECchip based card.
-diff --git a/Documentation/networking/rxrpc.txt b/Documentation/networking/rxrpc.txt
-index 605e00cdd6be..aab3c393c10d 100644
---- a/Documentation/networking/rxrpc.txt
-+++ b/Documentation/networking/rxrpc.txt
-@@ -661,7 +661,7 @@ A server would be set up to accept operations in the following manner:
- 	setsockopt(server, SOL_RXRPC, RXRPC_SECURITY_KEYRING, "AFSkeys", 7);
- 
-      The keyring can be manipulated after it has been given to the socket. This
--     permits the server to add more keys, replace keys, etc. whilst it is live.
-+     permits the server to add more keys, replace keys, etc. while it is live.
- 
-  (3) A local address must then be bound:
- 
-@@ -1032,7 +1032,7 @@ The kernel interface functions are as follows:
- 				    struct sockaddr_rxrpc *srx,
- 				    struct key *key);
- 
--     This attempts to partially reinitialise a call and submit it again whilst
-+     This attempts to partially reinitialise a call and submit it again while
-      reusing the original call's Tx queue to avoid the need to repackage and
-      re-encrypt the data to be sent.  call indicates the call to retry, srx the
-      new address to send it to and key the encryption key to use for signing or
-@@ -1064,7 +1064,7 @@ The kernel interface functions are as follows:
-      waiting for a suitable interval.
- 
-      This allows the caller to work out if the server is still contactable and
--     if the call is still alive on the server whilst waiting for the server to
-+     if the call is still alive on the server while waiting for the server to
-      process a client operation.
- 
-      This function may transmit a PING ACK.
-@@ -1144,14 +1144,14 @@ adjusted through sysctls in /proc/net/rxrpc/:
-  (*) connection_expiry
- 
-      The amount of time in seconds after a connection was last used before we
--     remove it from the connection list.  Whilst a connection is in existence,
-+     remove it from the connection list.  While a connection is in existence,
-      it serves as a placeholder for negotiated security; when it is deleted,
-      the security must be renegotiated.
- 
-  (*) transport_expiry
- 
-      The amount of time in seconds after a transport was last used before we
--     remove it from the transport list.  Whilst a transport is in existence, it
-+     remove it from the transport list.  While a transport is in existence, it
-      serves to anchor the peer data and keeps the connection ID counter.
- 
-  (*) rxrpc_rx_window_size
-diff --git a/Documentation/power/regulator/overview.txt b/Documentation/power/regulator/overview.txt
-index 40ca2d6e2742..721b4739ec32 100644
---- a/Documentation/power/regulator/overview.txt
-+++ b/Documentation/power/regulator/overview.txt
-@@ -22,7 +22,7 @@ Nomenclature
- Some terms used in this document:-
- 
-   o Regulator    - Electronic device that supplies power to other devices.
--                   Most regulators can enable and disable their output whilst
-+                   Most regulators can enable and disable their output while
-                    some can control their output voltage and or current.
- 
-                    Input Voltage -> Regulator -> Output Voltage
-diff --git a/Documentation/s390/3270.ChangeLog b/Documentation/s390/3270.ChangeLog
-index 031c36081946..ecaf60b6c381 100644
---- a/Documentation/s390/3270.ChangeLog
-+++ b/Documentation/s390/3270.ChangeLog
-@@ -16,7 +16,7 @@ Sep 2002:	Dynamically get 3270 input buffer
- 
- Sep 2002:	Fix tubfs kmalloc()s
- 	* Do read and write lengths correctly in fs3270_read()
--	  and fs3270_write(), whilst never asking kmalloc()
-+	  and fs3270_write(), while never asking kmalloc()
- 	  for more than 0x800 bytes.  Affects tubfs.c and tubio.h.
- 
- Sep 2002:	Recognize 3270 control unit type 3174
-diff --git a/Documentation/security/credentials.rst b/Documentation/security/credentials.rst
-index 5bb7125faeee..282e79feee6a 100644
---- a/Documentation/security/credentials.rst
-+++ b/Documentation/security/credentials.rst
-@@ -291,7 +291,7 @@ for example), it must be considered immutable, barring two exceptions:
- 
-  1. The reference count may be altered.
- 
-- 2. Whilst the keyring subscriptions of a set of credentials may not be
-+ 2. While the keyring subscriptions of a set of credentials may not be
-     changed, the keyrings subscribed to may have their contents altered.
- 
- To catch accidental credential alteration at compile time, struct task_struct
-@@ -358,7 +358,7 @@ Once a reference has been obtained, it must be released with ``put_cred()``,
- Accessing Another Task's Credentials
- ------------------------------------
- 
--Whilst a task may access its own credentials without the need for locking, the
-+While a task may access its own credentials without the need for locking, the
- same is not true of a task wanting to access another task's credentials.  It
- must use the RCU read lock and ``rcu_dereference()``.
- 
-@@ -382,7 +382,7 @@ This should be used inside the RCU read lock, as in the following example::
- 	}
- 
- Should it be necessary to hold another task's credentials for a long period of
--time, and possibly to sleep whilst doing so, then the caller should get a
-+time, and possibly to sleep while doing so, then the caller should get a
- reference on them using::
- 
- 	const struct cred *get_task_cred(struct task_struct *task);
-@@ -442,7 +442,7 @@ duplicate of the current process's credentials, returning with the mutex still
- held if successful.  It returns NULL if not successful (out of memory).
- 
- The mutex prevents ``ptrace()`` from altering the ptrace state of a process
--whilst security checks on credentials construction and changing is taking place
-+while security checks on credentials construction and changing is taking place
- as the ptrace state may alter the outcome, particularly in the case of
- ``execve()``.
- 
-diff --git a/Documentation/security/keys/request-key.rst b/Documentation/security/keys/request-key.rst
-index 21e27238cec6..600ad67d1707 100644
---- a/Documentation/security/keys/request-key.rst
-+++ b/Documentation/security/keys/request-key.rst
-@@ -132,7 +132,7 @@ Negative Instantiation And Rejection
- Rather than instantiating a key, it is possible for the possessor of an
- authorisation key to negatively instantiate a key that's under construction.
- This is a short duration placeholder that causes any attempt at re-requesting
--the key whilst it exists to fail with error ENOKEY if negated or the specified
-+the key while it exists to fail with error ENOKEY if negated or the specified
- error if rejected.
- 
- This is provided to prevent excessive repeated spawning of /sbin/request-key
-diff --git a/Documentation/serial/serial-rs485.txt b/Documentation/serial/serial-rs485.txt
-index 389fcd4759e9..ce0c1a9b8aab 100644
---- a/Documentation/serial/serial-rs485.txt
-+++ b/Documentation/serial/serial-rs485.txt
-@@ -75,7 +75,7 @@
- 	/* Set rts delay after send, if needed: */
- 	rs485conf.delay_rts_after_send = ...;
- 
--	/* Set this flag if you want to receive data even whilst sending data */
-+	/* Set this flag if you want to receive data even while sending data */
- 	rs485conf.flags |= SER_RS485_RX_DURING_TX;
- 
- 	if (ioctl (fd, TIOCSRS485, &rs485conf) < 0) {
-diff --git a/Documentation/sound/soc/dai.rst b/Documentation/sound/soc/dai.rst
-index 55820e51708f..2e99183a7a47 100644
---- a/Documentation/sound/soc/dai.rst
-+++ b/Documentation/sound/soc/dai.rst
-@@ -24,7 +24,7 @@ I2S
- ===
- 
- I2S is a common 4 wire DAI used in HiFi, STB and portable devices. The Tx and
--Rx lines are used for audio transmission, whilst the bit clock (BCLK) and
-+Rx lines are used for audio transmission, while the bit clock (BCLK) and
- left/right clock (LRC) synchronise the link. I2S is flexible in that either the
- controller or CODEC can drive (master) the BCLK and LRC clock lines. Bit clock
- usually varies depending on the sample rate and the master system clock
-@@ -49,9 +49,9 @@ PCM
- 
- PCM is another 4 wire interface, very similar to I2S, which can support a more
- flexible protocol. It has bit clock (BCLK) and sync (SYNC) lines that are used
--to synchronise the link whilst the Tx and Rx lines are used to transmit and
-+to synchronise the link while the Tx and Rx lines are used to transmit and
- receive the audio data. Bit clock usually varies depending on sample rate
--whilst sync runs at the sample rate. PCM also supports Time Division
-+while sync runs at the sample rate. PCM also supports Time Division
- Multiplexing (TDM) in that several devices can use the bus simultaneously (this
- is sometimes referred to as network mode).
- 
-diff --git a/Documentation/sound/soc/dpcm.rst b/Documentation/sound/soc/dpcm.rst
-index fe61e02277f8..f6845b2278ea 100644
---- a/Documentation/sound/soc/dpcm.rst
-+++ b/Documentation/sound/soc/dpcm.rst
-@@ -218,7 +218,7 @@ like a BT phone call :-
-                       *           * <----DAI5-----> FM
-                       *************
- 
--This allows the host CPU to sleep whilst the DSP, MODEM DAI and the BT DAI are
-+This allows the host CPU to sleep while the DSP, MODEM DAI and the BT DAI are
- still in operation.
- 
- A BE DAI link can also set the codec to a dummy device if the code is a device
-diff --git a/Documentation/static-keys.txt b/Documentation/static-keys.txt
-index ab16efe0c79d..d68135560895 100644
---- a/Documentation/static-keys.txt
-+++ b/Documentation/static-keys.txt
-@@ -156,7 +156,7 @@ or increment/decrement function.
- 
- Note that switching branches results in some locks being taken,
- particularly the CPU hotplug lock (in order to avoid races against
--CPUs being brought in the kernel whilst the kernel is getting
-+CPUs being brought in the kernel while the kernel is getting
- patched). Calling the static key API from within a hotplug notifier is
- thus a sure deadlock recipe. In order to still allow use of the
- functionnality, the following functions are provided:
-diff --git a/Documentation/thermal/power_allocator.txt b/Documentation/thermal/power_allocator.txt
-index a1ce2235f121..9fb0ff06dca9 100644
---- a/Documentation/thermal/power_allocator.txt
-+++ b/Documentation/thermal/power_allocator.txt
-@@ -110,7 +110,7 @@ the permitted thermal "ramp" of the system.  For instance, a lower
- `k_pu` value will provide a slower ramp, at the cost of capping
- available capacity at a low temperature.  On the other hand, a high
- value of `k_pu` will result in the governor granting very high power
--whilst temperature is low, and may lead to temperature overshooting.
-+while temperature is low, and may lead to temperature overshooting.
- 
- The default value for `k_pu` is:
- 
--- 
-2.1.4
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
 
+--3ds7txroqa3vkjpz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEXzbGxhtUYBJKdfWmnhiqJn3bjbQFAlvym3YACgkQnhiqJn3b
+jbQ0aw/8DVfcFOcsOSHtls6XOQp7nAUApvojwiqJZMGknbiSNUFN+E3XDyCN9KNk
+ncMKEBpzWttE11bEs9htNVlGyrOyFhZa1bwOECN+supF3Npw2P7xiL9ldgorIaek
+u97ksYsJ4BvtPf3uFZIzs56LdK+/KfS4qF/IuloOa1icgvVPGnZGIHDEvmQhwQIE
+K0YbhwYruNpH3/gLCtwEPOLqLZ4mW6s1ghPkAM7Oh/N0jGHGrMttiZzQSwYHO1Gm
+CysiXLjHxVPsS9Da7OV8kpS2ED8p3L2Xsy9SSvvvUcUKlgmu7svq5zTafBz5UPvj
+gQmpO8zXr9hhldZiLu/9ppWClSILoh5ND2FVaglsVgmB08NvAUoJnaAtWGLjOmMS
+2jHOnOnuwCTNi+LTVl+PfNbGC+mJYnhac/IdZTOg8EYAzDGwp7kX6NCWZFJwMlNf
+ht4HeIOzM45N0L41NGqeSU356U269xWDZA1NsyJ6RCB64zEKTB9TXaeuHGs6M6Iu
+iiECtJLSMo+dWhlv2HYUjCJict43owREvH0WhOLM7gDw6CJ06HwQ2xKiPhVY1OAw
+UV5qVJGVAY02mIzVTlwGIlsHqkJgxzcuDY3kF7VRTjFNCvUH6dnCYxWJ9GW5k7R8
+5Rb6117P+uwrjXpfjb48SHZ7nfN66lr07TekInLq5/Wc8RhmJQU=
+=kgBp
+-----END PGP SIGNATURE-----
+
+--3ds7txroqa3vkjpz--
