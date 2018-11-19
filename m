@@ -1,149 +1,262 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 033B67D089
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 18 Nov 2018 14:07:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A780D7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 00:55:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726643AbeKSA2I (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 18 Nov 2018 19:28:08 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:46136 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726596AbeKSA2H (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 18 Nov 2018 19:28:07 -0500
-X-Virus-Scanned: Nedap ESD1 at mail.skyhub.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1542550061;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=FCblXy1zfGJ9TMDbST/OhBpEJBWfMNzg0mu49obGrk4=;
-        b=C4EgATerKrET+s1qknL0Mdub0tZOk3iHdPLnfmQEBv+b8PGOk7GUlIoiZ1XAFECmCuCZ8O
-        oK15I5ZL7+Bj2reIsVcx4p0vMLAnJNKEeHXToff0ro6y5WuIAs3ahlXWy2p7Tp5b6MlmCA
-        pijAvPHrQvoNxE86H3B+lIxdogldxH4=
-Received: from mail.skyhub.de ([127.0.0.1])
-        by localhost (blast.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id s-IcNytAh2i0; Sun, 18 Nov 2018 15:07:41 +0100 (CET)
-Received: from zn.tnic (p200300EC2BE2B7004D130AD2F34E6DE4.dip0.t-ipconnect.de [IPv6:2003:ec:2be2:b700:4d13:ad2:f34e:6de4])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 564BC1EC00E8;
-        Sun, 18 Nov 2018 15:07:41 +0100 (CET)
-Date:   Sun, 18 Nov 2018 15:07:35 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Moger, Babu" <Babu.Moger@amd.com>
-Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
-        "pombredanne@nexb.com" <pombredanne@nexb.com>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
-        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Singh, Brijesh" <brijesh.singh@amd.com>,
-        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
-        "dwmw2@infradead.org" <dwmw2@infradead.org>,
-        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "jannh@google.com" <jannh@google.com>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "rian@alum.mit.edu" <rian@alum.mit.edu>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v8 01/13] arch/resctrl: Start renaming the rdt files to
- more generic names
-Message-ID: <20181118140735.GC19380@zn.tnic>
-References: <20181116205407.10457-1-babu.moger@amd.com>
- <20181116205407.10457-2-babu.moger@amd.com>
+        id S1725954AbeKSLRv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 06:17:51 -0500
+Received: from mx2.suse.de ([195.135.220.15]:37204 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725919AbeKSLRv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 19 Nov 2018 06:17:51 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 5FC84AC43;
+        Mon, 19 Nov 2018 00:55:55 +0000 (UTC)
+From:   NeilBrown <neilb@suse.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+Date:   Mon, 19 Nov 2018 11:55:46 +1100
+Cc:     linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH] Documentation: update path-lookup.md for parallel lookups
+Message-ID: <87k1l9dgx9.fsf@notabene.neil.brown.name>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20181116205407.10457-2-babu.moger@amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Just to state it here on the thread: prefix should be "x86/resctrl" as
-we said earlier. But that will be addressed in the next iteration, as we
-agreed offlist.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 16, 2018 at 08:54:22PM +0000, Moger, Babu wrote:
-> New generation of AMD processors start supporting RDT(or QOS) features.
-> With more than one vendors supporting these features, it seems more
-> appropriate to rename these files.
-> 
-> Changed intel_rdt to resctrl where applicable.
-> 
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> Reviewed-by: Borislav Petkov <bp@suse.de>
-> ---
->  arch/x86/include/asm/{intel_rdt_sched.h => resctrl_sched.h} | 0
->  arch/x86/kernel/cpu/Makefile                                | 6 +++---
->  arch/x86/kernel/cpu/{intel_rdt.c => resctrl.c}              | 4 ++--
->  arch/x86/kernel/cpu/{intel_rdt.h => resctrl.h}              | 6 +++---
->  .../cpu/{intel_rdt_ctrlmondata.c => resctrl_ctrlmondata.c}  | 2 +-
->  .../kernel/cpu/{intel_rdt_monitor.c => resctrl_monitor.c}   | 2 +-
->  .../cpu/{intel_rdt_pseudo_lock.c => resctrl_pseudo_lock.c}  | 6 +++---
->  ..._rdt_pseudo_lock_event.h => resctrl_pseudo_lock_event.h} | 2 +-
->  .../kernel/cpu/{intel_rdt_rdtgroup.c => resctrl_rdtgroup.c} | 4 ++--
->  arch/x86/kernel/process_32.c                                | 2 +-
->  arch/x86/kernel/process_64.c                                | 2 +-
->  11 files changed, 18 insertions(+), 18 deletions(-)
->  rename arch/x86/include/asm/{intel_rdt_sched.h => resctrl_sched.h} (100%)
->  rename arch/x86/kernel/cpu/{intel_rdt.c => resctrl.c} (99%)
->  rename arch/x86/kernel/cpu/{intel_rdt.h => resctrl.h} (99%)
->  rename arch/x86/kernel/cpu/{intel_rdt_ctrlmondata.c => resctrl_ctrlmondata.c} (99%)
->  rename arch/x86/kernel/cpu/{intel_rdt_monitor.c => resctrl_monitor.c} (99%)
->  rename arch/x86/kernel/cpu/{intel_rdt_pseudo_lock.c => resctrl_pseudo_lock.c} (99%)
->  rename arch/x86/kernel/cpu/{intel_rdt_pseudo_lock_event.h => resctrl_pseudo_lock_event.h} (95%)
->  rename arch/x86/kernel/cpu/{intel_rdt_rdtgroup.c => resctrl_rdtgroup.c} (99%)
 
-Ok, looking at this more, it looks like this:
+Since this document was written, i_mutex has been replace with
+i_rwsem, and shared locks are utilized to allow lookups in the one
+directory to happen in parallel.
 
-ls -l arch/x86/kernel/cpu/resctrl*
- arch/x86/kernel/cpu/resctrl.c
- arch/x86/kernel/cpu/resctrl_ctrlmondata.c
- arch/x86/kernel/cpu/resctrl.h
- arch/x86/kernel/cpu/resctrl_monitor.c
- arch/x86/kernel/cpu/resctrl_pseudo_lock.c
- arch/x86/kernel/cpu/resctrl_pseudo_lock_event.h
- arch/x86/kernel/cpu/resctrl_rdtgroup.c
+So replace i_mutex with i_rwsem, and explain how this is used for
+parallel lookups.
 
-Now, it looks to me like the whole resctrl thing begs for its own dir:
+Signed-off-by: NeilBrown <neilb@suse.com>
+=2D--
 
- arch/x86/kernel/cpu/resctrl/core.c
- arch/x86/kernel/cpu/resctrl/ctrlmondata.c
- arch/x86/kernel/cpu/resctrl/internal.h
- arch/x86/kernel/cpu/resctrl/monitor.c
- arch/x86/kernel/cpu/resctrl/pseudo_lock.c
- arch/x86/kernel/cpu/resctrl/pseudo_lock_event.h
- arch/x86/kernel/cpu/resctrl/rdtgroup.c
+Just FYI
 
-This way, the whole RDT machinery will be confined to its own directory.
+$ git grep -w i_mutex | wc -l
+262
 
-Hmm.
+it was 276 before this patch... so a small improvement.
 
--- 
-Regards/Gruss,
-    Boris.
+NeilBrown
 
-Good mailing practices for 400: avoid top-posting and trim the reply.
+
+ Documentation/filesystems/path-lookup.md | 85 ++++++++++++++++++------
+ 1 file changed, 66 insertions(+), 19 deletions(-)
+
+diff --git a/Documentation/filesystems/path-lookup.md b/Documentation/files=
+ystems/path-lookup.md
+index e2edd45c4bc0..06151b178f80 100644
+=2D-- a/Documentation/filesystems/path-lookup.md
++++ b/Documentation/filesystems/path-lookup.md
+@@ -12,6 +12,10 @@ This write-up is based on three articles published at lw=
+n.net:
+ - <https://lwn.net/Articles/650786/> A walk among the symlinks
+=20
+ Written by Neil Brown with help from Al Viro and Jon Corbet.
++It has subsequently been updated to reflect changes in the kernel
++including:
++
++- per-directory parallel name lookup.
+=20
+ Introduction
+ ------------
+@@ -231,37 +235,80 @@ renamed.  If `d_lookup` finds that a rename happened =
+while it
+ unsuccessfully scanned a chain in the hash table, it simply tries
+ again.
+=20
+=2D### inode->i_mutex ###
++### inode->i_rwsem ###
+=20
+=2D`i_mutex` is a mutex that serializes all changes to a particular
++`i_rwsem` is a read/write semaphore that serializes all changes to a parti=
+cular
+ directory.  This ensures that, for example, an `unlink()` and a `rename()`
+ cannot both happen at the same time.  It also keeps the directory
+ stable while the filesystem is asked to look up a name that is not
+=2Dcurrently in the dcache.
++currently in the dcache or, optionally, when the list of entries in a
++directory is being retrieved with `readdir()`.
+=20
+=2DThis has a complementary role to that of `d_lock`: `i_mutex` on a
++This has a complementary role to that of `d_lock`: `i_rwsem` on a
+ directory protects all of the names in that directory, while `d_lock`
+ on a name protects just one name in a directory.  Most changes to the
+=2Ddcache hold `i_mutex` on the relevant directory inode and briefly take
++dcache hold `i_rwsem` on the relevant directory inode and briefly take
+ `d_lock` on one or more the dentries while the change happens.  One
+ exception is when idle dentries are removed from the dcache due to
+=2Dmemory pressure.  This uses `d_lock`, but `i_mutex` plays no role.
++memory pressure.  This uses `d_lock`, but `i_rwsem` plays no role.
+=20
+=2DThe mutex affects pathname lookup in two distinct ways.  Firstly it
+=2Dserializes lookup of a name in a directory.  `walk_component()` uses
++The semaphore affects pathname lookup in two distinct ways.  Firstly it
++prevents changes during lookup of a name in a directory.  `walk_component(=
+)` uses
+ `lookup_fast()` first which, in turn, checks to see if the name is in the =
+cache,
+ using only `d_lock` locking.  If the name isn't found, then `walk_componen=
+t()`
+=2Dfalls back to `lookup_slow()` which takes `i_mutex`, checks again that
++falls back to `lookup_slow()` which takes a shared lock on `i_rwsem`, chec=
+ks again that
+ the name isn't in the cache, and then calls in to the filesystem to get a
+ definitive answer.  A new dentry will be added to the cache regardless of
+ the result.
+=20
+ Secondly, when pathname lookup reaches the final component, it will
+=2Dsometimes need to take `i_mutex` before performing the last lookup so
++sometimes need to take an exclusive lock on `i_rwsem` before performing th=
+e last lookup so
+ that the required exclusion can be achieved.  How path lookup chooses
+=2Dto take, or not take, `i_mutex` is one of the
++to take, or not take, `i_rwsem` is one of the
+ issues addressed in a subsequent section.
+=20
++If two threads attempt to look up the same name at the same time - a
++name that is not yet in the dcache - the shared lock on `i_rwsem` will
++not prevent them both adding new dentries with the same name.  As this
++would result in confusion an extra level of interlocking is used,
++based around a secondary hash table (`in_lookup_hashtable`) and a
++per-dentry flag bit (`DCACHE_PAR_LOOKUP`).
++
++To add a new dentry to the cache while only holding a shared lock on
++`i_rwsem`, a thread must call `d_alloc_parallel()`.  This allocates a
++dentry, stores the required name and parent in it, checks if there
++is already a matching dentry in the primary or secondary hash
++tables, and if not, stores the newly allocated dentry in the secondary
++hash table, with `DCACHE_PAR_LOOKUP` set.
++
++If a matching dentry was found in the primary hash table then that is
++returned and the caller can know that it lost a race with some other
++thread adding the entry.  If no matching dentry is found in either
++cache, the newly allocated dentry is returned and the caller can
++detect this from the presence of `DCACHE_PAR_LOOKUP`.  In this case it
++knows that it has won any race and now is responsible for asking the
++filesystem to perform the lookup and find the matching inode.  When
++the lookup is complete, it must call `d_lookup_done()` which clears
++the flag and does some other house keeping, including removing the
++dentry from the secondary hash table - it will normally have been
++added to the primary hash table already.  Note that a `struct
++waitqueue_head` is passed to `d_alloc_parallel()`, and
++`d_lookup_done()` must be called while this `waitqueue_head` is still
++in scope.
++
++If a matching dentry is found in the secondary hash table,
++`d_alloc_parallel()` has a little more work to do. It first waits for
++`DCACHE_PAR_LOOKUP` to be cleared, using a wait_queue that was passed
++to the instance of `d_alloc_parallel()` that won the race and that
++will be woken by the call to `d_lookup_done()`.  It then checks to see
++if the dentry has now been added to the primary hash table.  If it
++has, the dentry is returned and the caller just sees that it lost any
++race.  If it hasn't been added to the primary hash table, the most
++likely explanation is that some other dentry was added instead using
++`d_splice_alias()`.  In any case, `d_alloc_parallel()` repeats all the
++look ups from the start and will normally return something from the
++primary hash table.
++
+ ### mnt->mnt_count ###
+=20
+ `mnt_count` is a per-CPU reference counter on "`mount`" structures.
+@@ -376,7 +423,7 @@ described.  If it finds a `LAST_NORM` component it firs=
+t calls
+ "`lookup_fast()`" which only looks in the dcache, but will ask the
+ filesystem to revalidate the result if it is that sort of filesystem.
+ If that doesn't get a good result, it calls "`lookup_slow()`" which
+=2Dtakes the `i_mutex`, rechecks the cache, and then asks the filesystem
++takes `i_rwsem`, rechecks the cache, and then asks the filesystem
+ to find a definitive answer.  Each of these will call
+ `follow_managed()` (as described below) to handle any mount points.
+=20
+@@ -408,7 +455,7 @@ of housekeeping around `link_path_walk()` and returns t=
+he parent
+ directory and final component to the caller.  The caller will be either
+ aiming to create a name (via `filename_create()`) or remove or rename
+ a name (in which case `user_path_parent()` is used).  They will use
+=2D`i_mutex` to exclude other changes while they validate and then
++`i_rwsem` to exclude other changes while they validate and then
+ perform their operation.
+=20
+ `path_lookupat()` is nearly as simple - it is used when an existing
+@@ -429,7 +476,7 @@ complexity needed to handle the different subtleties of=
+ O_CREAT (with
+ or without O_EXCL), final "`/`" characters, and trailing symbolic
+ links.  We will revisit this in the final part of this series, which
+ focuses on those symbolic links.  "`do_last()`" will sometimes, but
+=2Dnot always, take `i_mutex`, depending on what it finds.
++not always, take `i_rwsem`, depending on what it finds.
+=20
+ Each of these, or the functions which call them, need to be alert to
+ the possibility that the final component is not `LAST_NORM`.  If the
+@@ -728,12 +775,12 @@ checking the `seq` number of the old exactly mirrors =
+the process of
+ getting a counted reference to the new dentry before dropping that for
+ the old dentry which we saw in REF-walk.
+=20
+=2D### No `inode->i_mutex` or even `rename_lock` ###
++### No `inode->i_rwsem` or even `rename_lock` ###
+=20
+=2DA mutex is a fairly heavyweight lock that can only be taken when it is
++A semaphore is a fairly heavyweight lock that can only be taken when it is
+ permissible to sleep.  As `rcu_read_lock()` forbids sleeping,
+=2D`inode->i_mutex` plays no role in RCU-walk.  If some other thread does
+=2Dtake `i_mutex` and modifies the directory in a way that RCU-walk needs
++`inode->i_rwsem` plays no role in RCU-walk.  If some other thread does
++take `i_rwsem` and modifies the directory in a way that RCU-walk needs
+ to notice, the result will be either that RCU-walk fails to find the
+ dentry that it is looking for, or it will find a dentry which
+ `read_seqretry()` won't validate.  In either case it will drop down to
+@@ -1134,7 +1181,7 @@ and `do_last()`, each of which use the same conventio=
+n as
+ to be followed.
+=20
+ Of these, `do_last()` is the most interesting as it is used for
+=2Dopening a file.  Part of `do_last()` runs with `i_mutex` held and this
++opening a file.  Part of `do_last()` runs with `i_rwsem` held and this
+ part is in a separate function: `lookup_open()`.
+=20
+ Explaining `do_last()` completely is beyond the scope of this article,
+=2D-=20
+2.19.0.216.g2d3b1c576c85
+
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAlvyChIACgkQOeye3VZi
+gbmGfg//aYBm2AF+su3UhJ0yYZhxEtp0aNYRrBikuuTeMxmQQEgaGFfv5/DoTJn7
+2iP1LVpikP77T+nzYq5eEdNnACtgIs3A3a28PUfQeOLMUgw3fTeOh+pkwBfL9Qpd
+kH82iiCot2TKCxS1m9L3pTwT/SS4KvGWgujCIzRFfKwCaY9aUT1xsmUqKACXwWUn
+5goYGlFHDJPE1p4eB+21XOwxLLMKzG9f2ad13YDo1IiKdhqg7cd3Yaqd2bD6OXk4
+jTXR7hgLTB7eP2N1Vj5W99hKdVweqvUueF2ZHHO8ThJRU2H36qZTiBVO0hShAC8o
+L2OwZN1dEKGb63R/Vs+xjpVknMQHbFb0rJDMFbtM/4amkX/EtMAiPnQWi05NvoYS
+O0UR6w+2V9ttSqxj8fDSQbuWzTcTk7LCpdQtoxSM7lzc01Bal/2rPcd1PKiDd0jP
+su3uAZGMdMUmnfGCJm0ullPKkKdagZa748dAvdCvG6JSvskdzj3aJSbOOhFXaNfd
+v0msqM+r8vAIWeFkG/1EQIe2+QdN4oRmIjpWN6PwvgdcBjsnmJoEtGFMqvBdvmXu
+6AnRqXofi5kltobLYHUX2mpbAf66tMikC+ijRoaUAzP0xCiyE2fR6y0VwCo1K361
+DLt9D0mtCgynDHpGiYwgrnIh5dLMC7jjbO7HTbPUr98WM7NBZm4=
+=KBLx
+-----END PGP SIGNATURE-----
+--=-=-=--
