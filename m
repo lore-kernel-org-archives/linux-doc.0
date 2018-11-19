@@ -5,44 +5,44 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9060A7DE6F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 10:35:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 05D8C7D8D4
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 10:35:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727664AbeKSU6g (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 15:58:36 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:45269 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728280AbeKSU6H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 15:58:07 -0500
-Received: by mail-wr1-f68.google.com with SMTP id v6so9566646wrr.12
-        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 02:34:53 -0800 (PST)
+        id S1727665AbeKSU7G (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 15:59:06 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:53199 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728106AbeKSU54 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 15:57:56 -0500
+Received: by mail-wm1-f67.google.com with SMTP id r11-v6so4742260wmb.2
+        for <linux-doc@vger.kernel.org>; Mon, 19 Nov 2018 02:34:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=U4mx1fsW9hQVbmr4//R68r7KKVwetfXIYfE3uWdN0BA=;
-        b=WmfejyvwiqglaM7h5Ev4Z0FCeNcqTiYIIExPQ4Tm4odYSIRRi7BQKPz60lpr5NxKUn
-         Ql1cG2nTKWLNdExnpTToG1ROtic9FG/wQtE4SiV+z7fwdjnpxuYSE5pHUn2+EKlQHGQg
-         sT2nPkqTp2x2oDyuhu8iBxzs0ALZZ7E508z78=
+        bh=xE31UGISHMijh6BWsEpclRZoNNImo7FAKtEIn5NIV0A=;
+        b=SU4gX9UrHxz7m4v1tXtIXnFVKBC85SmHhU3WWiQYYH5YJWdQrx77/09MmnpPILr2Gv
+         PCbKmtQgB2koGowWyZFjNRJlKJFv9udeNRVF/Tx2HHxFCDZQhXGe45I/uov9rCuAnB50
+         t7iYiiNqnQaObo/r0EtTj0WBdzrK0QxzCGtFc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=U4mx1fsW9hQVbmr4//R68r7KKVwetfXIYfE3uWdN0BA=;
-        b=sNMTLwB4lE3H0MEnIUfSSrPMlV3FI9aHqZwkbDbeWVD99AvILzuIK5q3T6jt0BMRG8
-         W1UxpmAovInR6UN3g6xBlERXdbM5kgJg8l0HR+wW3zOpLxBNVbTowl0hLW9q5zeH8sTa
-         mybw6nFyJxqrDc54pEV+mml6yKeQGkA5OW5L0aE98pIrUApMUaIeRb5xRbQMcq1o1T9I
-         m6MPNM67C043VYTkPjCA3hH84y5kqMUu1nRLelPb7eC0vdv091zhb1wD7KyP+inDtENp
-         3Sg+V/VGjCg4TlNfFzq9CByRUa0LXBZdVcNdgmrt/2ERSpO8WTg3VmhihutIVNi0tIfT
-         6ZaQ==
-X-Gm-Message-State: AA+aEWbqbo86xkdEaoF2zU5Op6YQLKXL4FhqbzB90DcQsGBmU98ayzWm
-        hVYQqYzN0QVWpSgO+rOAM7IPOQ==
-X-Google-Smtp-Source: AFSGD/W2mi6KsjsMrtNGYj62KHvXQ8q32ubp7k6R4iPvkIGZteTn9oJGijRQQtIMchc92nXrQQ0Ntg==
-X-Received: by 2002:a5d:410e:: with SMTP id l14mr9321492wrp.61.1542623692598;
-        Mon, 19 Nov 2018 02:34:52 -0800 (PST)
+        bh=xE31UGISHMijh6BWsEpclRZoNNImo7FAKtEIn5NIV0A=;
+        b=jG2GuPfeZQnaDfIfzeha2x0lsJPgxBNtYZueXSmiSFq4mo5Ja/+qFlWimY6cnqUKzW
+         U1XeCOQuHhp2/8sL1yODPR5lePTCsUOt1AzYkmPdygYy2d+kLZr1SMCHLg4i163sH6eA
+         8ssWdaE2JpokhHyFzC1/436L/Gp+8qoMUzOUicLKGNDjY9MRrOnhYoU3gC3fYtngcNwH
+         c6wHAsw9HG2WegLsTO1zB1L2n+U0t5RQw/+n//Q8nV3VkO8v3HZAA4eUHyKDOvtBQYY9
+         sIg4uqpDET8U81OkOqzWN1ekm+dX6HzhyFZxL7vY/awJ8JWWMoorjRWsQKzbMnclUoMb
+         qIGg==
+X-Gm-Message-State: AA+aEWZsaYTz0s9X9q2kqpfPGs+kqhEmJVisdVHh8/1b8pyOsKkDvISs
+        0DqQK2nGu6hZC6/m1jaERAPk0Q==
+X-Google-Smtp-Source: AJdET5ePbdKRB70yuXm+nYTaN5hJuUM29xs9xF7/e6SHKoDCwG1a+m1b34Np/Qb+SAwhNgZdAROnFg==
+X-Received: by 2002:a1c:ce0e:: with SMTP id e14mr4785626wmg.53.1542623680540;
+        Mon, 19 Nov 2018 02:34:40 -0800 (PST)
 Received: from localhost.localdomain ([37.162.18.180])
-        by smtp.gmail.com with ESMTPSA id e9sm14973298wro.16.2018.11.19.02.34.49
+        by smtp.gmail.com with ESMTPSA id e9sm14973298wro.16.2018.11.19.02.34.38
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 19 Nov 2018 02:34:52 -0800 (PST)
+        Mon, 19 Nov 2018 02:34:40 -0800 (PST)
 From:   Paolo Valente <paolo.valente@linaro.org>
 To:     Jens Axboe <axboe@kernel.dk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -59,9 +59,9 @@ Cc:     linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
         oleksandr@natalenko.name, cgroups@vger.kernel.org,
         linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Paolo Valente <paolo.valente@linaro.org>
-Subject: [PATCH V2 06/10] cgroup: make all functions of all cftypes be invoked
-Date:   Mon, 19 Nov 2018 11:34:20 +0100
-Message-Id: <20181119103424.3853-7-paolo.valente@linaro.org>
+Subject: [PATCH V2 02/10] block, cgroup: pass cftype to functions that need to use it
+Date:   Mon, 19 Nov 2018 11:34:16 +0100
+Message-Id: <20181119103424.3853-3-paolo.valente@linaro.org>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20181119103424.3853-1-paolo.valente@linaro.org>
 References: <20181119103424.3853-1-paolo.valente@linaro.org>
@@ -70,249 +70,334 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Angelo Ruocco <angeloruocco90@gmail.com>
+Some seq_show functions need to access the cftype they belong to, for
+retrieving the data to show. These functions get their cftype by using
+the seq_cft accessor for the seq_file. This solution is no longer
+viable in case a seq_file is shared among more than one cftype,
+because the accessor always returns (only) the first of the cftypes
+sharing the seq_file.
 
-When two or more entities (of any kind) share a file, their respective
-cftypes are linked together. The allowed operations on those files
-are: open, release, write and show, mapped to the functions defined in
-the cftypes.
-
-This commit makes the cgroup core invoke, whenever one of those
-operations is requested, the respective function of all the cftypes
-linked together.
+This commit enables these seq_show functions to be passed their
+cftype, by replacing their prototype with that of the newly defined
+seq_show_cft hook, and by invoking these functions through this new
+hook.
 
 Signed-off-by: Angelo Ruocco <angeloruocco90@gmail.com>
 Signed-off-by: Paolo Valente <paolo.valente@linaro.org>
 ---
- kernel/cgroup/cgroup.c | 181 ++++++++++++++++++++++++++++++++++++-------------
- 1 file changed, 132 insertions(+), 49 deletions(-)
+ block/bfq-cgroup.c         | 54 ++++++++++++++++++++++++----------------------
+ block/blk-cgroup.c         | 22 ++++++++++++-------
+ block/blk-throttle.c       |  8 +++----
+ include/linux/blk-cgroup.h | 10 +++++----
+ 4 files changed, 52 insertions(+), 42 deletions(-)
 
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index 61eafd69e2fd..9bf6b0b5a0ca 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -3452,66 +3452,107 @@ static int cgroup_cpu_pressure_show(struct seq_file *seq, void *v)
- static int cgroup_file_open(struct kernfs_open_file *of)
- {
- 	struct cftype *cft = of->kn->priv;
-+	struct cftype *n;
-+	int ret = 0;
- 
-+	list_for_each_cft(cft, n) {
-+		if (cft->open)
-+			ret = cft->open(of);
-+		/*
-+		 * If there has been an error with the open function of one of
-+		 * the cft associated with the file, we call the release
-+		 * function of all the cftype associated to cft whose open
-+		 * function succeded.
-+		 */
-+		if (ret) {
-+			struct cftype *c = of->kn->priv;
-+			struct cftype *n;
-+
-+			list_for_each_cft(c, n) {
-+				if (cft == c)
-+					break;
-+				if (c->release)
-+					c->release(of);
-+			}
-+			break;
-+		}
-+	}
- 
--	if (cft->open)
--		return cft->open(of);
--	return 0;
-+	return ret;
+diff --git a/block/bfq-cgroup.c b/block/bfq-cgroup.c
+index a7a1712632b0..038e418fa64f 100644
+--- a/block/bfq-cgroup.c
++++ b/block/bfq-cgroup.c
+@@ -918,17 +918,17 @@ static ssize_t bfq_io_set_weight(struct kernfs_open_file *of,
  }
  
- static void cgroup_file_release(struct kernfs_open_file *of)
+ #ifdef CONFIG_DEBUG_BLK_CGROUP
+-static int bfqg_print_stat(struct seq_file *sf, void *v)
++static int bfqg_print_stat(struct seq_file *sf, struct cftype *cft, void *v)
  {
- 	struct cftype *cft = of->kn->priv;
-+	struct cftype *n;
- 
--	if (cft->release)
--		cft->release(of);
-+	list_for_each_cft(cft, n)
-+		if (cft->release)
-+			cft->release(of);
+ 	blkcg_print_blkgs(sf, css_to_blkcg(seq_css(sf)), blkg_prfill_stat,
+-			  &blkcg_policy_bfq, seq_cft(sf)->private, false);
++			  &blkcg_policy_bfq, cft->private, false);
+ 	return 0;
  }
  
-+/*
-+ * Call all the write functions of the cftypes associated with the file.
-+ *
-+ * When a write fails, don't keep trying to write into the file via the write
-+ * functions of the other cftypes associated with it.
-+ */
- static ssize_t cgroup_file_write(struct kernfs_open_file *of, char *buf,
- 				 size_t nbytes, loff_t off)
+-static int bfqg_print_rwstat(struct seq_file *sf, void *v)
++static int bfqg_print_rwstat(struct seq_file *sf, struct cftype *cft, void *v)
  {
- 	struct cgroup_namespace *ns = current->nsproxy->cgroup_ns;
- 	struct cgroup *cgrp = of->kn->parent->priv;
- 	struct cftype *cft = of->kn->priv;
-+	struct cftype *n;
- 	struct cgroup_subsys_state *css;
--	int ret;
-+	int ret = 0;
- 
--	/*
--	 * If namespaces are delegation boundaries, disallow writes to
--	 * files in an non-init namespace root from inside the namespace
--	 * except for the files explicitly marked delegatable -
--	 * cgroup.procs and cgroup.subtree_control.
--	 */
--	if ((cgrp->root->flags & CGRP_ROOT_NS_DELEGATE) &&
--	    !(cft->flags & CFTYPE_NS_DELEGATABLE) &&
--	    ns != &init_cgroup_ns && ns->root_cset->dfl_cgrp == cgrp)
--		return -EPERM;
-+	list_for_each_cft(cft, n) {
-+		/*
-+		 * If namespaces are delegation boundaries, disallow writes to
-+		 * files in an non-init namespace root from inside the
-+		 * namespace except for the files explicitly marked
-+		 * delegatable - cgroup.procs and cgroup.subtree_control.
-+		 */
-+		if ((cgrp->root->flags & CGRP_ROOT_NS_DELEGATE) &&
-+		    !(cft->flags & CFTYPE_NS_DELEGATABLE) &&
-+		    ns != &init_cgroup_ns && ns->root_cset->dfl_cgrp == cgrp)
-+			return -EPERM;
- 
--	if (cft->write)
--		return cft->write(of, buf, nbytes, off);
-+		if (cft->write) {
-+			ret = cft->write(of, buf, nbytes, off);
- 
--	/*
--	 * kernfs guarantees that a file isn't deleted with operations in
--	 * flight, which means that the matching css is and stays alive and
--	 * doesn't need to be pinned.  The RCU locking is not necessary
--	 * either.  It's just for the convenience of using cgroup_css().
--	 */
--	rcu_read_lock();
--	css = cgroup_css(cgrp, cft->ss);
--	rcu_read_unlock();
-+			if (ret)
-+				break;
-+			continue;
-+		}
- 
--	if (cft->write_u64) {
--		unsigned long long v;
--		ret = kstrtoull(buf, 0, &v);
--		if (!ret)
--			ret = cft->write_u64(css, cft, v);
--	} else if (cft->write_s64) {
--		long long v;
--		ret = kstrtoll(buf, 0, &v);
--		if (!ret)
--			ret = cft->write_s64(css, cft, v);
--	} else {
--		ret = -EINVAL;
-+		/*
-+		 * kernfs guarantees that a file isn't deleted with operations
-+		 * in flight, which means that the matching css is and stays
-+		 * alive and doesn't need to be pinned.  The RCU locking is not
-+		 * necessary either.  It's just for the convenience of using
-+		 * cgroup_css().
-+		 */
-+		rcu_read_lock();
-+		css = cgroup_css(cgrp, cft->ss);
-+		rcu_read_unlock();
-+
-+		if (cft->write_u64) {
-+			unsigned long long v;
-+
-+			ret = kstrtoull(buf, 0, &v);
-+			if (!ret)
-+				ret = cft->write_u64(css, cft, v);
-+		} else if (cft->write_s64) {
-+			long long v;
-+
-+			ret = kstrtoll(buf, 0, &v);
-+			if (!ret)
-+				ret = cft->write_s64(css, cft, v);
-+		} else {
-+			return -EINVAL;
-+		}
- 	}
- 
- 	return ret ?: nbytes;
-@@ -3533,22 +3574,64 @@ static void cgroup_seqfile_stop(struct seq_file *seq, void *v)
- 		seq_cft(seq)->seq_stop(seq, v);
+ 	blkcg_print_blkgs(sf, css_to_blkcg(seq_css(sf)), blkg_prfill_rwstat,
+-			  &blkcg_policy_bfq, seq_cft(sf)->private, true);
++			  &blkcg_policy_bfq, cft->private, true);
+ 	return 0;
  }
  
-+/*
-+ * A file shared by more cftypes may be showing different values. In that case
-+ * call all the show functions and print the name of the owner that defined
-+ * them.
-+ */
- static int cgroup_seqfile_show(struct seq_file *m, void *arg)
- {
- 	struct cftype *cft = seq_cft(m);
-+	struct cftype *n;
- 	struct cgroup_subsys_state *css = seq_css(m);
-+	char *first_seqshow_str = NULL;
-+	size_t first_str_size = 0;
-+	size_t current_str_size = 0;
- 	int ret = 0;
- 
--	if (cft->seq_show)
--		ret = cft->seq_show(m, arg);
--	else if (cft->seq_show_cft)
--		ret = cft->seq_show_cft(m, cft, arg);
--	else if (cft->read_u64)
--		seq_printf(m, "%llu\n", cft->read_u64(css, cft));
--	else if (cft->read_s64)
--		seq_printf(m, "%lld\n", cft->read_s64(css, cft));
--	else
--		ret = -EINVAL;
-+	list_for_each_cft(cft, n) {
-+		if (cft->seq_show) {
-+			ret = cft->seq_show(m, arg);
-+			if (ret)
-+				break;
-+		} else if (cft->seq_show_cft) {
-+			ret = cft->seq_show_cft(m, cft, arg);
-+			if (ret)
-+				break;
-+		} else if (cft->read_u64) {
-+			seq_printf(m, "%llu\n", cft->read_u64(css, cft));
-+		} else if (cft->read_s64) {
-+			seq_printf(m, "%lld\n", cft->read_s64(css, cft));
-+		} else {
-+			ret = -EINVAL;
-+			break;
-+		}
-+		current_str_size = m->count - current_str_size;
-+
-+		if (first_seqshow_str == NULL) {
-+			first_seqshow_str = kmalloc(m->size, GFP_KERNEL);
-+			first_str_size = m->count;
-+			strcpy(first_seqshow_str, m->buf);
-+			first_str_size = m->count;
-+		} else if (strcmp(first_seqshow_str,
-+				  m->buf + m->count - current_str_size)) {
-+			first_str_size = -1;
-+		}
-+
-+		if (current_str_size) {
-+			seq_printf(m, " - %s\n", cft->owner_name);
-+			current_str_size = m->count;
-+		}
-+	}
-+
-+	/*
-+	 * If all the cft->seqfile_show/read are equal, truncate the
-+	 * output of the seqfile to the length of the first string.
-+	 */
-+	if (first_str_size != -1)
-+		m->count = first_str_size;
-+
-+	kfree(first_seqshow_str);
- 	return ret;
+@@ -949,19 +949,21 @@ static u64 bfqg_prfill_rwstat_recursive(struct seq_file *sf,
+ 	return __blkg_prfill_rwstat(sf, pd, &sum);
  }
  
+-static int bfqg_print_stat_recursive(struct seq_file *sf, void *v)
++static int bfqg_print_stat_recursive(struct seq_file *sf, struct cftype *cft,
++				     void *v)
+ {
+ 	blkcg_print_blkgs(sf, css_to_blkcg(seq_css(sf)),
+ 			  bfqg_prfill_stat_recursive, &blkcg_policy_bfq,
+-			  seq_cft(sf)->private, false);
++			  cft->private, false);
+ 	return 0;
+ }
+ 
+-static int bfqg_print_rwstat_recursive(struct seq_file *sf, void *v)
++static int bfqg_print_rwstat_recursive(struct seq_file *sf, struct cftype *cft,
++				       void *v)
+ {
+ 	blkcg_print_blkgs(sf, css_to_blkcg(seq_css(sf)),
+ 			  bfqg_prfill_rwstat_recursive, &blkcg_policy_bfq,
+-			  seq_cft(sf)->private, true);
++			  cft->private, true);
+ 	return 0;
+ }
+ 
+@@ -1063,18 +1065,18 @@ struct cftype bfq_blkcg_legacy_files[] = {
+ 	{
+ 		.name = "bfq.io_service_bytes",
+ 		.private = (unsigned long)&blkcg_policy_bfq,
+-		.seq_show = blkg_print_stat_bytes,
++		.seq_show_cft = blkg_print_stat_bytes,
+ 	},
+ 	{
+ 		.name = "bfq.io_serviced",
+ 		.private = (unsigned long)&blkcg_policy_bfq,
+-		.seq_show = blkg_print_stat_ios,
++		.seq_show_cft = blkg_print_stat_ios,
+ 	},
+ #ifdef CONFIG_DEBUG_BLK_CGROUP
+ 	{
+ 		.name = "bfq.time",
+ 		.private = offsetof(struct bfq_group, stats.time),
+-		.seq_show = bfqg_print_stat,
++		.seq_show_cft = bfqg_print_stat,
+ 	},
+ 	{
+ 		.name = "bfq.sectors",
+@@ -1083,22 +1085,22 @@ struct cftype bfq_blkcg_legacy_files[] = {
+ 	{
+ 		.name = "bfq.io_service_time",
+ 		.private = offsetof(struct bfq_group, stats.service_time),
+-		.seq_show = bfqg_print_rwstat,
++		.seq_show_cft = bfqg_print_rwstat,
+ 	},
+ 	{
+ 		.name = "bfq.io_wait_time",
+ 		.private = offsetof(struct bfq_group, stats.wait_time),
+-		.seq_show = bfqg_print_rwstat,
++		.seq_show_cft = bfqg_print_rwstat,
+ 	},
+ 	{
+ 		.name = "bfq.io_merged",
+ 		.private = offsetof(struct bfq_group, stats.merged),
+-		.seq_show = bfqg_print_rwstat,
++		.seq_show_cft = bfqg_print_rwstat,
+ 	},
+ 	{
+ 		.name = "bfq.io_queued",
+ 		.private = offsetof(struct bfq_group, stats.queued),
+-		.seq_show = bfqg_print_rwstat,
++		.seq_show_cft = bfqg_print_rwstat,
+ 	},
+ #endif /* CONFIG_DEBUG_BLK_CGROUP */
+ 
+@@ -1106,18 +1108,18 @@ struct cftype bfq_blkcg_legacy_files[] = {
+ 	{
+ 		.name = "bfq.io_service_bytes_recursive",
+ 		.private = (unsigned long)&blkcg_policy_bfq,
+-		.seq_show = blkg_print_stat_bytes_recursive,
++		.seq_show_cft = blkg_print_stat_bytes_recursive,
+ 	},
+ 	{
+ 		.name = "bfq.io_serviced_recursive",
+ 		.private = (unsigned long)&blkcg_policy_bfq,
+-		.seq_show = blkg_print_stat_ios_recursive,
++		.seq_show_cft = blkg_print_stat_ios_recursive,
+ 	},
+ #ifdef CONFIG_DEBUG_BLK_CGROUP
+ 	{
+ 		.name = "bfq.time_recursive",
+ 		.private = offsetof(struct bfq_group, stats.time),
+-		.seq_show = bfqg_print_stat_recursive,
++		.seq_show_cft = bfqg_print_stat_recursive,
+ 	},
+ 	{
+ 		.name = "bfq.sectors_recursive",
+@@ -1126,22 +1128,22 @@ struct cftype bfq_blkcg_legacy_files[] = {
+ 	{
+ 		.name = "bfq.io_service_time_recursive",
+ 		.private = offsetof(struct bfq_group, stats.service_time),
+-		.seq_show = bfqg_print_rwstat_recursive,
++		.seq_show_cft = bfqg_print_rwstat_recursive,
+ 	},
+ 	{
+ 		.name = "bfq.io_wait_time_recursive",
+ 		.private = offsetof(struct bfq_group, stats.wait_time),
+-		.seq_show = bfqg_print_rwstat_recursive,
++		.seq_show_cft = bfqg_print_rwstat_recursive,
+ 	},
+ 	{
+ 		.name = "bfq.io_merged_recursive",
+ 		.private = offsetof(struct bfq_group, stats.merged),
+-		.seq_show = bfqg_print_rwstat_recursive,
++		.seq_show_cft = bfqg_print_rwstat_recursive,
+ 	},
+ 	{
+ 		.name = "bfq.io_queued_recursive",
+ 		.private = offsetof(struct bfq_group, stats.queued),
+-		.seq_show = bfqg_print_rwstat_recursive,
++		.seq_show_cft = bfqg_print_rwstat_recursive,
+ 	},
+ 	{
+ 		.name = "bfq.avg_queue_size",
+@@ -1150,22 +1152,22 @@ struct cftype bfq_blkcg_legacy_files[] = {
+ 	{
+ 		.name = "bfq.group_wait_time",
+ 		.private = offsetof(struct bfq_group, stats.group_wait_time),
+-		.seq_show = bfqg_print_stat,
++		.seq_show_cft = bfqg_print_stat,
+ 	},
+ 	{
+ 		.name = "bfq.idle_time",
+ 		.private = offsetof(struct bfq_group, stats.idle_time),
+-		.seq_show = bfqg_print_stat,
++		.seq_show_cft = bfqg_print_stat,
+ 	},
+ 	{
+ 		.name = "bfq.empty_time",
+ 		.private = offsetof(struct bfq_group, stats.empty_time),
+-		.seq_show = bfqg_print_stat,
++		.seq_show_cft = bfqg_print_stat,
+ 	},
+ 	{
+ 		.name = "bfq.dequeue",
+ 		.private = offsetof(struct bfq_group, stats.dequeue),
+-		.seq_show = bfqg_print_stat,
++		.seq_show_cft = bfqg_print_stat,
+ 	},
+ #endif	/* CONFIG_DEBUG_BLK_CGROUP */
+ 	{ }	/* terminate */
+diff --git a/block/blk-cgroup.c b/block/blk-cgroup.c
+index 63d226a084cd..772d32bbecae 100644
+--- a/block/blk-cgroup.c
++++ b/block/blk-cgroup.c
+@@ -565,15 +565,16 @@ static u64 blkg_prfill_rwstat_field(struct seq_file *sf,
+ /**
+  * blkg_print_stat_bytes - seq_show callback for blkg->stat_bytes
+  * @sf: seq_file to print to
++ * @cft: cftype holding the data
+  * @v: unused
+  *
+  * To be used as cftype->seq_show to print blkg->stat_bytes.
+  * cftype->private must be set to the blkcg_policy.
+  */
+-int blkg_print_stat_bytes(struct seq_file *sf, void *v)
++int blkg_print_stat_bytes(struct seq_file *sf, struct cftype *cft, void *v)
+ {
+ 	blkcg_print_blkgs(sf, css_to_blkcg(seq_css(sf)),
+-			  blkg_prfill_rwstat_field, (void *)seq_cft(sf)->private,
++			  blkg_prfill_rwstat_field, (void *)cft->private,
+ 			  offsetof(struct blkcg_gq, stat_bytes), true);
+ 	return 0;
+ }
+@@ -582,15 +583,16 @@ EXPORT_SYMBOL_GPL(blkg_print_stat_bytes);
+ /**
+  * blkg_print_stat_bytes - seq_show callback for blkg->stat_ios
+  * @sf: seq_file to print to
++ * @cft: cftype holding the data
+  * @v: unused
+  *
+  * To be used as cftype->seq_show to print blkg->stat_ios.  cftype->private
+  * must be set to the blkcg_policy.
+  */
+-int blkg_print_stat_ios(struct seq_file *sf, void *v)
++int blkg_print_stat_ios(struct seq_file *sf, struct cftype *cft, void *v)
+ {
+ 	blkcg_print_blkgs(sf, css_to_blkcg(seq_css(sf)),
+-			  blkg_prfill_rwstat_field, (void *)seq_cft(sf)->private,
++			  blkg_prfill_rwstat_field, (void *)cft->private,
+ 			  offsetof(struct blkcg_gq, stat_ios), true);
+ 	return 0;
+ }
+@@ -608,13 +610,15 @@ static u64 blkg_prfill_rwstat_field_recursive(struct seq_file *sf,
+ /**
+  * blkg_print_stat_bytes_recursive - recursive version of blkg_print_stat_bytes
+  * @sf: seq_file to print to
++ * @cft: cftype holding the data
+  * @v: unused
+  */
+-int blkg_print_stat_bytes_recursive(struct seq_file *sf, void *v)
++int blkg_print_stat_bytes_recursive(struct seq_file *sf, struct cftype *cft,
++				    void *v)
+ {
+ 	blkcg_print_blkgs(sf, css_to_blkcg(seq_css(sf)),
+ 			  blkg_prfill_rwstat_field_recursive,
+-			  (void *)seq_cft(sf)->private,
++			  (void *)cft->private,
+ 			  offsetof(struct blkcg_gq, stat_bytes), true);
+ 	return 0;
+ }
+@@ -623,13 +627,15 @@ EXPORT_SYMBOL_GPL(blkg_print_stat_bytes_recursive);
+ /**
+  * blkg_print_stat_ios_recursive - recursive version of blkg_print_stat_ios
+  * @sf: seq_file to print to
++ * @cft: cftype holding the data
+  * @v: unused
+  */
+-int blkg_print_stat_ios_recursive(struct seq_file *sf, void *v)
++int blkg_print_stat_ios_recursive(struct seq_file *sf, struct cftype *cft,
++				  void *v)
+ {
+ 	blkcg_print_blkgs(sf, css_to_blkcg(seq_css(sf)),
+ 			  blkg_prfill_rwstat_field_recursive,
+-			  (void *)seq_cft(sf)->private,
++			  (void *)cft->private,
+ 			  offsetof(struct blkcg_gq, stat_ios), true);
+ 	return 0;
+ }
+diff --git a/block/blk-throttle.c b/block/blk-throttle.c
+index 8f0a104770ee..6bfdaac53b6f 100644
+--- a/block/blk-throttle.c
++++ b/block/blk-throttle.c
+@@ -1493,22 +1493,22 @@ static struct cftype throtl_legacy_files[] = {
+ 	{
+ 		.name = "throttle.io_service_bytes",
+ 		.private = (unsigned long)&blkcg_policy_throtl,
+-		.seq_show = blkg_print_stat_bytes,
++		.seq_show_cft = blkg_print_stat_bytes,
+ 	},
+ 	{
+ 		.name = "throttle.io_service_bytes_recursive",
+ 		.private = (unsigned long)&blkcg_policy_throtl,
+-		.seq_show = blkg_print_stat_bytes_recursive,
++		.seq_show_cft = blkg_print_stat_bytes_recursive,
+ 	},
+ 	{
+ 		.name = "throttle.io_serviced",
+ 		.private = (unsigned long)&blkcg_policy_throtl,
+-		.seq_show = blkg_print_stat_ios,
++		.seq_show_cft = blkg_print_stat_ios,
+ 	},
+ 	{
+ 		.name = "throttle.io_serviced_recursive",
+ 		.private = (unsigned long)&blkcg_policy_throtl,
+-		.seq_show = blkg_print_stat_ios_recursive,
++		.seq_show_cft = blkg_print_stat_ios_recursive,
+ 	},
+ 	{ }	/* terminate */
+ };
+diff --git a/include/linux/blk-cgroup.h b/include/linux/blk-cgroup.h
+index a9e2e2037129..770b59e0d35f 100644
+--- a/include/linux/blk-cgroup.h
++++ b/include/linux/blk-cgroup.h
+@@ -207,10 +207,12 @@ u64 __blkg_prfill_rwstat(struct seq_file *sf, struct blkg_policy_data *pd,
+ u64 blkg_prfill_stat(struct seq_file *sf, struct blkg_policy_data *pd, int off);
+ u64 blkg_prfill_rwstat(struct seq_file *sf, struct blkg_policy_data *pd,
+ 		       int off);
+-int blkg_print_stat_bytes(struct seq_file *sf, void *v);
+-int blkg_print_stat_ios(struct seq_file *sf, void *v);
+-int blkg_print_stat_bytes_recursive(struct seq_file *sf, void *v);
+-int blkg_print_stat_ios_recursive(struct seq_file *sf, void *v);
++int blkg_print_stat_bytes(struct seq_file *sf, struct cftype *cft, void *v);
++int blkg_print_stat_ios(struct seq_file *sf, struct cftype *cft, void *v);
++int blkg_print_stat_bytes_recursive(struct seq_file *sf, struct cftype *cft,
++				    void *v);
++int blkg_print_stat_ios_recursive(struct seq_file *sf, struct cftype *cft,
++				  void *v);
+ 
+ u64 blkg_stat_recursive_sum(struct blkcg_gq *blkg,
+ 			    struct blkcg_policy *pol, int off);
 -- 
 2.16.1
 
