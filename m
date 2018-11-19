@@ -1,117 +1,277 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 786BA7D8BA
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 11:16:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4D8CB7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 11:39:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728632AbeKSVjm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 19 Nov 2018 16:39:42 -0500
-Received: from mx2.suse.de ([195.135.220.15]:49824 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727857AbeKSVjl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Nov 2018 16:39:41 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay1.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id D320CAE1D;
-        Mon, 19 Nov 2018 11:16:20 +0000 (UTC)
-Date:   Mon, 19 Nov 2018 22:16:09 +1100
-From:   Aleksa Sarai <asarai@suse.de>
-To:     Daniel Colascione <dancol@google.com>
-Cc:     Michal Hocko <mhocko@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>, rppt@linux.ibm.com,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
-        Prashant Dhamdhere <pdhamdhe@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2] Document /proc/pid PID reuse behavior
-Message-ID: <20181119111609.v4j2j53zpd6hvk2c@mikami>
-References: <20181031150625.147369-1-dancol@google.com>
- <20181105132205.138695-1-dancol@google.com>
- <20181106130524.GC2453@dhcp22.suse.cz>
- <CAKOZueu5aDtHDBzp6qKECTHEejjb=dyegQkuHh8NfwgNktzFow@mail.gmail.com>
- <20181107160015.GI27423@dhcp22.suse.cz>
- <CAKOZuevb-MED0QiL5RWJ0py=yt48=N7bPSq5bFqiwWcqN9L=Xg@mail.gmail.com>
+        id S1728553AbeKSWDB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 19 Nov 2018 17:03:01 -0500
+Received: from mail.kmu-office.ch ([178.209.48.109]:57164 "EHLO
+        mail.kmu-office.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728573AbeKSWDB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Nov 2018 17:03:01 -0500
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+        by mail.kmu-office.ch (Postfix) with ESMTPSA id 90B1E5C25E1;
+        Mon, 19 Nov 2018 12:39:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+        t=1542627576;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=VWtmOpqxnuAWB7Wwid9QdGIgDWW8a+NHksUwyWNcAWQ=;
+        b=BHYc5dXj0rr7ph3gLHoQjTkxNaXVOwh//n+nHuAERYS4ywhpr9VxenV+oqGVxrKqqJEs97
+        AmhfeVhOnwcKBbuZQNxLdgCsmsSy1vmifTIqiS5jzXysPBfVovPBD6aol9Xq+HUCC0u3K3
+        kZtTjmdrAtTfXm6v/9dTBKD+VETB8TU=
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="3ds7txroqa3vkjpz"
-Content-Disposition: inline
-In-Reply-To: <CAKOZuevb-MED0QiL5RWJ0py=yt48=N7bPSq5bFqiwWcqN9L=Xg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Date:   Mon, 19 Nov 2018 12:39:36 +0100
+From:   Stefan Agner <stefan@agner.ch>
+To:     Fernando Ramos <greenfoo@gluegarage.com>
+Cc:     dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Archit Taneja <architt@codeaurora.org>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Marek Vasut <marex@denx.de>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Julia Lawall <Julia.Lawall@lip6.fr>,
+        Gilles Muller <Gilles.Muller@lip6.fr>,
+        Nicolas Palix <nicolas.palix@imag.fr>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        virtualization@lists.linux-foundation.org,
+        etnaviv@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        cocci@systeme.lip6.fr
+Subject: Re: [PATCH 3/9] drm: replace "drm_dev_unref" function with
+ "drm_dev_put"
+In-Reply-To: <20181115221634.22715-4-greenfoo@gluegarage.com>
+References: <20181115221634.22715-1-greenfoo@gluegarage.com>
+ <20181115221634.22715-4-greenfoo@gluegarage.com>
+Message-ID: <767d6ca7f54331876cbbbe0cca4b14bd@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.7
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 15.11.2018 23:16, Fernando Ramos wrote:
+> This patch unifies the naming of DRM functions for reference counting as
+> requested on Documentation/gpu/todo.rst
+> 
+> Signed-off-by: Fernando Ramos <greenfoo@gluegarage.com>
+> ---
+>  drivers/gpu/drm/arc/arcpgu_drv.c             | 4 ++--
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 4 ++--
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c        | 4 ++--
+>  drivers/gpu/drm/mxsfb/mxsfb_drv.c            | 4 ++--
 
---3ds7txroqa3vkjpz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+For mxsfb:
 
-On 2018-11-07, Daniel Colascione <dancol@google.com> wrote:
-> On Wed, Nov 7, 2018 at 4:00 PM, Michal Hocko <mhocko@kernel.org> wrote:
-> > On Wed 07-11-18 15:48:20, Daniel Colascione wrote:
-> >> On Tue, Nov 6, 2018 at 1:05 PM, Michal Hocko <mhocko@kernel.org> wrote:
-> >> > otherwise anybody could simply DoS the system
-> >> > by consuming all available pids.
-> >>
-> >> People can do that today using the instrument of terror widely known
-> >> as fork(2). The only thing standing between fork(2) and a full process
-> >> table is RLIMIT_NPROC.
-> >
-> > not really.
->=20
-> What else, besides memory consumption and (as you mention below)
-> cgroups? In practice, nobody uses RLIMIT_NPROC, so outside of various
-> container-y namespaced setups, avoidance of
-> system-DoS-through-PID-exhaustion isn't a pressing problem.
+Acked-by: Stefan Agner <stefan@agner.ch>
 
-systemd has had a default pid cgroup controller policy (for both user
-and system slices) for a quite long time. I believe that the most recent
-version of most enterprise and community distributions support it by
-default (and probably even some older versions -- commit 49b786ea146f
-was merged in 2015 and I think systemd grew support for it in 2016).
+--
+Stefan
 
-I agree with your overall point, but it should be noted that the vast
-majority of Linux systems these days have protections against this (by
-default) that use the pids cgroup controller.
-
---=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
-
---3ds7txroqa3vkjpz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEXzbGxhtUYBJKdfWmnhiqJn3bjbQFAlvym3YACgkQnhiqJn3b
-jbQ0aw/8DVfcFOcsOSHtls6XOQp7nAUApvojwiqJZMGknbiSNUFN+E3XDyCN9KNk
-ncMKEBpzWttE11bEs9htNVlGyrOyFhZa1bwOECN+supF3Npw2P7xiL9ldgorIaek
-u97ksYsJ4BvtPf3uFZIzs56LdK+/KfS4qF/IuloOa1icgvVPGnZGIHDEvmQhwQIE
-K0YbhwYruNpH3/gLCtwEPOLqLZ4mW6s1ghPkAM7Oh/N0jGHGrMttiZzQSwYHO1Gm
-CysiXLjHxVPsS9Da7OV8kpS2ED8p3L2Xsy9SSvvvUcUKlgmu7svq5zTafBz5UPvj
-gQmpO8zXr9hhldZiLu/9ppWClSILoh5ND2FVaglsVgmB08NvAUoJnaAtWGLjOmMS
-2jHOnOnuwCTNi+LTVl+PfNbGC+mJYnhac/IdZTOg8EYAzDGwp7kX6NCWZFJwMlNf
-ht4HeIOzM45N0L41NGqeSU356U269xWDZA1NsyJ6RCB64zEKTB9TXaeuHGs6M6Iu
-iiECtJLSMo+dWhlv2HYUjCJict43owREvH0WhOLM7gDw6CJ06HwQ2xKiPhVY1OAw
-UV5qVJGVAY02mIzVTlwGIlsHqkJgxzcuDY3kF7VRTjFNCvUH6dnCYxWJ9GW5k7R8
-5Rb6117P+uwrjXpfjb48SHZ7nfN66lr07TekInLq5/Wc8RhmJQU=
-=kgBp
------END PGP SIGNATURE-----
-
---3ds7txroqa3vkjpz--
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c        | 2 +-
+>  drivers/gpu/drm/shmobile/shmob_drm_drv.c     | 4 ++--
+>  drivers/gpu/drm/tve200/tve200_drv.c          | 4 ++--
+>  drivers/gpu/drm/zte/zx_drm_drv.c             | 4 ++--
+>  8 files changed, 15 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
+> index f067de4e1e82..dcb06d4e9135 100644
+> --- a/drivers/gpu/drm/arc/arcpgu_drv.c
+> +++ b/drivers/gpu/drm/arc/arcpgu_drv.c
+> @@ -216,7 +216,7 @@ static int arcpgu_probe(struct platform_device *pdev)
+>  	arcpgu_unload(drm);
+>  
+>  err_unref:
+> -	drm_dev_unref(drm);
+> +	drm_dev_put(drm);
+>  
+>  	return ret;
+>  }
+> @@ -227,7 +227,7 @@ static int arcpgu_remove(struct platform_device *pdev)
+>  
+>  	drm_dev_unregister(drm);
+>  	arcpgu_unload(drm);
+> -	drm_dev_unref(drm);
+> +	drm_dev_put(drm);
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> index 843cac222e60..f8da51a63e2f 100644
+> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> @@ -775,7 +775,7 @@ static int atmel_hlcdc_dc_drm_probe(struct
+> platform_device *pdev)
+>  	atmel_hlcdc_dc_unload(ddev);
+>  
+>  err_unref:
+> -	drm_dev_unref(ddev);
+> +	drm_dev_put(ddev);
+>  
+>  	return ret;
+>  }
+> @@ -786,7 +786,7 @@ static int atmel_hlcdc_dc_drm_remove(struct
+> platform_device *pdev)
+>  
+>  	drm_dev_unregister(ddev);
+>  	atmel_hlcdc_dc_unload(ddev);
+> -	drm_dev_unref(ddev);
+> +	drm_dev_put(ddev);
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index 83c1f46670bf..52802e6049e0 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -550,7 +550,7 @@ static int etnaviv_bind(struct device *dev)
+>  out_bind:
+>  	kfree(priv);
+>  out_unref:
+> -	drm_dev_unref(drm);
+> +	drm_dev_put(drm);
+>  
+>  	return ret;
+>  }
+> @@ -567,7 +567,7 @@ static void etnaviv_unbind(struct device *dev)
+>  	drm->dev_private = NULL;
+>  	kfree(priv);
+>  
+> -	drm_dev_unref(drm);
+> +	drm_dev_put(drm);
+>  }
+>  
+>  static const struct component_master_ops etnaviv_master_ops = {
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> index 2393e6d16ffd..88ba003979e6 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+> @@ -417,7 +417,7 @@ static int mxsfb_probe(struct platform_device *pdev)
+>  err_unload:
+>  	mxsfb_unload(drm);
+>  err_free:
+> -	drm_dev_unref(drm);
+> +	drm_dev_put(drm);
+>  
+>  	return ret;
+>  }
+> @@ -428,7 +428,7 @@ static int mxsfb_remove(struct platform_device *pdev)
+>  
+>  	drm_dev_unregister(drm);
+>  	mxsfb_unload(drm);
+> -	drm_dev_unref(drm);
+> +	drm_dev_put(drm);
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> index 084f58df4a8c..c7fe2433ab9e 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> @@ -454,7 +454,7 @@ static int rcar_du_remove(struct platform_device *pdev)
+>  	drm_kms_helper_poll_fini(ddev);
+>  	drm_mode_config_cleanup(ddev);
+>  
+> -	drm_dev_unref(ddev);
+> +	drm_dev_put(ddev);
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> index 6ececad6f845..8554102a6ead 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> @@ -194,7 +194,7 @@ static int shmob_drm_remove(struct platform_device *pdev)
+>  	drm_kms_helper_poll_fini(ddev);
+>  	drm_mode_config_cleanup(ddev);
+>  	drm_irq_uninstall(ddev);
+> -	drm_dev_unref(ddev);
+> +	drm_dev_put(ddev);
+>  
+>  	return 0;
+>  }
+> @@ -290,7 +290,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
+>  	drm_kms_helper_poll_fini(ddev);
+>  	drm_mode_config_cleanup(ddev);
+>  err_free_drm_dev:
+> -	drm_dev_unref(ddev);
+> +	drm_dev_put(ddev);
+>  
+>  	return ret;
+>  }
+> diff --git a/drivers/gpu/drm/tve200/tve200_drv.c
+> b/drivers/gpu/drm/tve200/tve200_drv.c
+> index 72efcecb44f7..28e2d03c0ccf 100644
+> --- a/drivers/gpu/drm/tve200/tve200_drv.c
+> +++ b/drivers/gpu/drm/tve200/tve200_drv.c
+> @@ -249,7 +249,7 @@ static int tve200_probe(struct platform_device *pdev)
+>  clk_disable:
+>  	clk_disable_unprepare(priv->pclk);
+>  dev_unref:
+> -	drm_dev_unref(drm);
+> +	drm_dev_put(drm);
+>  	return ret;
+>  }
+>  
+> @@ -263,7 +263,7 @@ static int tve200_remove(struct platform_device *pdev)
+>  		drm_panel_bridge_remove(priv->bridge);
+>  	drm_mode_config_cleanup(drm);
+>  	clk_disable_unprepare(priv->pclk);
+> -	drm_dev_unref(drm);
+> +	drm_dev_put(drm);
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/zte/zx_drm_drv.c b/drivers/gpu/drm/zte/zx_drm_drv.c
+> index 11ef17c2d1c1..5b6f1eda52e0 100644
+> --- a/drivers/gpu/drm/zte/zx_drm_drv.c
+> +++ b/drivers/gpu/drm/zte/zx_drm_drv.c
+> @@ -114,7 +114,7 @@ static int zx_drm_bind(struct device *dev)
+>  	component_unbind_all(dev, drm);
+>  out_unregister:
+>  	dev_set_drvdata(dev, NULL);
+> -	drm_dev_unref(drm);
+> +	drm_dev_put(drm);
+>  	return ret;
+>  }
+>  
+> @@ -127,7 +127,7 @@ static void zx_drm_unbind(struct device *dev)
+>  	drm_mode_config_cleanup(drm);
+>  	component_unbind_all(dev, drm);
+>  	dev_set_drvdata(dev, NULL);
+> -	drm_dev_unref(drm);
+> +	drm_dev_put(drm);
+>  }
+>  
+>  static const struct component_master_ops zx_drm_master_ops = {
