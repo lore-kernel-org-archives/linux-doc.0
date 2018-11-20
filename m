@@ -1,117 +1,154 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-1.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B03147D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 09:42:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9B4487D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 09:53:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727660AbeKTUKU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 15:10:20 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:38708 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725846AbeKTUKU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 15:10:20 -0500
-Received: from zn.tnic (p200300EC2BCDE000F95221CD056129B8.dip0.t-ipconnect.de [IPv6:2003:ec:2bcd:e000:f952:21cd:561:29b8])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B2AEB1EC084D;
-        Tue, 20 Nov 2018 10:42:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1542706926;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=JyDJOTN9RvCe5O7V2T/jnWOi433l/ew4HijVKdIUXv4=;
-        b=rAX2uTyNZTju5/+Cp/Ds0TcE4f2oOKKzfcZ3WIAR5KdWUVsSo8eJ0AP+k76yQtikHrDkfg
-        3L/Xnh13IvMDRIrV+PbZrDt+/wOmTsWEXVg4GPz7zQrrd6nLzTD2OiAPVAxSnzTBOlCMdL
-        3QpdbGA6AL8QFSUXOEQt+Ui34AisZBM=
-Date:   Tue, 20 Nov 2018 10:42:05 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Moger, Babu" <Babu.Moger@amd.com>
-Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
-        "pombredanne@nexb.com" <pombredanne@nexb.com>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
-        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Singh, Brijesh" <brijesh.singh@amd.com>,
-        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
-        "dwmw2@infradead.org" <dwmw2@infradead.org>,
-        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "jannh@google.com" <jannh@google.com>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "rian@alum.mit.edu" <rian@alum.mit.edu>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v8 05/13] arch/resctrl: Rename config parameter INTEL_RDT
- to RESCTRL
-Message-ID: <20181120094205.GC2527@zn.tnic>
-References: <20181116205407.10457-1-babu.moger@amd.com>
- <20181116205407.10457-6-babu.moger@amd.com>
+        id S1726977AbeKTUVO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 15:21:14 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:35638 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726943AbeKTUVO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 15:21:14 -0500
+Received: by mail-wm1-f67.google.com with SMTP id c126so1508025wmh.0;
+        Tue, 20 Nov 2018 01:52:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=r1Gaqae/pJv/yHYiqxnaEvj6zIGb7jvtUr4qFjNV/Ac=;
+        b=ClDBJbGSJpT6DbZyegpyU1qht4WD0TwwhjG6cb2NLS8gFQNoGR4qMCCCB1czNGMKWb
+         Ntxrls6vf79WlHlMJbges2NXlt3Sl1H5bHT1U1MXmDDyeeIuxGbgp9c3AToBNlNn4lNj
+         NaM3g2KiWalthOqIQflD9P50RZXZ1caIZE7PKq4pBEszNuveJOihU6OtTlHjGLwBnW6I
+         /PswOuZemuJJckM3RjTDq+P6KQNh6mdlgzoWQuWh5ZAgcMD0ik8uIKHscaLophalsOgG
+         jnswGJgXHNP1x7Q4M7gpEHilVQnjxoM+mW+EskI3Y7Fi+493YM5dUwP4Qu1DjV2wAI33
+         z1Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=r1Gaqae/pJv/yHYiqxnaEvj6zIGb7jvtUr4qFjNV/Ac=;
+        b=Wk3DYZNo1Q/MTTWulZ8LxiB6FtTvpByI9DOD2QC0UhTJ0zZVmboWi5CeGxLk+LtUp1
+         6PyE1emS8QlsSqMVQpXgSsLLuovYZNSQw8GCbbKEinEB5MIe1vm3g0Aox3S4Ov10P9y2
+         Rd5SQ57qK/yFxfa5MhF7JoPyuOxx5chDXxzBOA8v7Nq6Go5cvAA8GcOG45xbrnmXj6g2
+         0WiCMBoD+dr8jJk9IVipmWKRN+TeSZnv7hIPaaltWVUJX0YHg0RNuK9ueAC+YCFTicK/
+         a3GrVmkI/gsxh5k163E5PTYE1WPyGzKPDm8gvvg2SMEXa8UIYE9RfsFHW4JetTOcXWhV
+         reXA==
+X-Gm-Message-State: AA+aEWYmeZ2xa0pvVPEYj+N947VKZPujNYwqexy4+tvDtCEo8QVmNCky
+        giyeUqv4j87+aW0jUA/XEbM=
+X-Google-Smtp-Source: AJdET5dSjSij58XZUpdJld5dyMB1FlhS3lj1eWNL7qgCa5AoG1owvTs51Ns7Xzb+wQXV+pWNfbrnHg==
+X-Received: by 2002:a1c:c44c:: with SMTP id u73mr1571159wmf.45.1542707577016;
+        Tue, 20 Nov 2018 01:52:57 -0800 (PST)
+Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
+        by smtp.gmail.com with ESMTPSA id a11sm1877783wmh.26.2018.11.20.01.52.55
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 20 Nov 2018 01:52:56 -0800 (PST)
+Date:   Tue, 20 Nov 2018 10:52:53 +0100
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [RFC PATCH v6 01/26] Documentation/x86: Add CET description
+Message-ID: <20181120095253.GA119911@gmail.com>
+References: <20181119214809.6086-1-yu-cheng.yu@intel.com>
+ <20181119214809.6086-2-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181116205407.10457-6-babu.moger@amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20181119214809.6086-2-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 16, 2018 at 08:54:30PM +0000, Moger, Babu wrote:
-> Now Resource control feature is supported by both Intel and AMD.
-> Rename the INTEL_RDT to vendor neutral RESCTRL.
-> 
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> ---
->  arch/x86/Kconfig                     | 4 ++--
->  arch/x86/include/asm/resctrl_sched.h | 4 ++--
->  arch/x86/kernel/cpu/Makefile         | 4 ++--
->  include/linux/sched.h                | 2 +-
->  4 files changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index 1a0be022f91d..4aae7aba4d61 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -445,8 +445,8 @@ config RETPOLINE
->  	  code are eliminated. Since this includes the syscall entry path,
->  	  it is not entirely pointless.
->  
-> -config INTEL_RDT
-> -	bool "Intel Resource Director Technology support"
-> +config RESCTRL
-> +	bool "Resource Control feature support"
 
-s/feature // - they're all features. :)
+* Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 
->  	default n
->  	depends on X86 && CPU_SUP_INTEL
+> +X86 Documentation
+> +=======================
+> +
+> +Control-flow Enforcement
+> +========================
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   intel_cet
+> diff --git a/Documentation/x86/intel_cet.rst b/Documentation/x86/intel_cet.rst
+> new file mode 100644
+> index 000000000000..dac83bbf8a24
+> --- /dev/null
+> +++ b/Documentation/x86/intel_cet.rst
+> @@ -0,0 +1,268 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=========================================
+> +Control-flow Enforcement Technology (CET)
+> +=========================================
+> +
+> +[1] Overview
+> +============
+> +
+> +Control-flow Enforcement Technology (CET) provides protection against
+> +return/jump-oriented programming (ROP) attacks.  It can be setup to
+> +protect both the kernel and applications.  In the first phase,
+> +only the user-mode protection is implemented in 64-bit mode; 32-bit
+> +applications are supported in compatibility mode.
+> +
+> +CET introduces shadow stack (SHSTK) and indirect branch tracking
+> +(IBT).  SHSTK is a secondary stack allocated from memory and cannot
+> +be directly modified by applications.  When executing a CALL, the
+> +processor pushes a copy of the return address to SHSTK.  Upon
+> +function return, the processor pops the SHSTK copy and compares it
+> +to the one from the program stack.  If the two copies differ, the
+> +processor raises a control-protection exception.  IBT verifies all
+> +indirect CALL/JMP targets are intended as marked by the compiler
+> +with 'ENDBR' opcodes (see CET instructions below).
+> +
+> +There are two kernel configuration options:
+> +
+> +    INTEL_X86_SHADOW_STACK_USER, and
+> +    INTEL_X86_BRANCH_TRACKING_USER.
+> +
+> +To build a CET-enabled kernel, Binutils v2.31 and GCC v8.1 or later
+> +are required.  To build a CET-enabled application, GLIBC v2.28 or
+> +later is also required.
+> +
+> +There are two command-line options for disabling CET features:
+> +
+> +    no_cet_shstk - disables SHSTK, and
+> +    no_cet_ibt - disables IBT.
+> +
+> +At run time, /proc/cpuinfo shows the availability of SHSTK and IBT.
 
-Patch 9/13 is begging to be merged with this one.
+What is the rough expected performance impact of CET on average function 
+call frequency user applications and the kernel itself?
 
--- 
-Regards/Gruss,
-    Boris.
+Thanks,
 
-Good mailing practices for 400: avoid top-posting and trim the reply.
+	Ingo
