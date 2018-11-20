@@ -5,25 +5,37 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A88227D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 19 Nov 2018 23:58:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1B1F57D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 02:20:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727583AbeKTKY3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 05:24:29 -0500
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:35448 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726431AbeKTKY3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 05:24:29 -0500
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id E993F80913; Tue, 20 Nov 2018 00:58:14 +0100 (CET)
-Date:   Tue, 20 Nov 2018 00:58:17 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     "Moger, Babu" <Babu.Moger@amd.com>
-Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
+        id S1731204AbeKTMrd convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 07:47:33 -0500
+Received: from mga07.intel.com ([134.134.136.100]:31636 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726559AbeKTMrd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Nov 2018 07:47:33 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Nov 2018 18:20:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,255,1539673200"; 
+   d="scan'208";a="101615967"
+Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
+  by orsmga003.jf.intel.com with ESMTP; 19 Nov 2018 18:20:50 -0800
+Received: from orsmsx115.amr.corp.intel.com (10.22.240.11) by
+ ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server (TLS)
+ id 14.3.408.0; Mon, 19 Nov 2018 18:20:50 -0800
+Received: from orsmsx105.amr.corp.intel.com ([169.254.2.237]) by
+ ORSMSX115.amr.corp.intel.com ([169.254.4.106]) with mapi id 14.03.0415.000;
+ Mon, 19 Nov 2018 18:20:50 -0800
+From:   "Yu, Fenghua" <fenghua.yu@intel.com>
+To:     Pavel Machek <pavel@ucw.cz>, "Moger, Babu" <Babu.Moger@amd.com>
+CC:     "tglx@linutronix.de" <tglx@linutronix.de>,
         "mingo@redhat.com" <mingo@redhat.com>,
         "bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>,
-        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
         "peterz@infradead.org" <peterz@infradead.org>,
         "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
         "davem@davemloft.net" <davem@davemloft.net>,
@@ -35,9 +47,9 @@ Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
         "pombredanne@nexb.com" <pombredanne@nexb.com>,
         "rafael@kernel.org" <rafael@kernel.org>,
         "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "Luck, Tony" <tony.luck@intel.com>,
         "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
-        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
+        "Shen, Xiaochen" <xiaochen.shen@intel.com>,
         "pbonzini@redhat.com" <pbonzini@redhat.com>,
         "Singh, Brijesh" <brijesh.singh@amd.com>,
         "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
@@ -51,51 +63,40 @@ Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
         "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v7 00/13] arch/x86: AMD QoS support
-Message-ID: <20181119235817.GA4763@amd>
+Subject: RE: [PATCH v7 00/13] arch/x86: AMD QoS support
+Thread-Topic: [PATCH v7 00/13] arch/x86: AMD QoS support
+Thread-Index: AQHUeG4dJz0szErVIk6LNqmmQKnpf6VYXLuA//+g3bA=
+Date:   Tue, 20 Nov 2018 02:20:49 +0000
+Message-ID: <3E5A0FA7E9CA944F9D5414FEC6C71220985A75CE@ORSMSX105.amr.corp.intel.com>
 References: <20181109205153.14811-1-babu.moger@amd.com>
+ <20181119235817.GA4763@amd>
+In-Reply-To: <20181119235817.GA4763@amd>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYWZjMDFlNGQtYTE0OS00YjkwLWFiNWYtNmZlNDdiODFiYzA3IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoibnhURlwvWjBkZitCaWlmYjY5TlZIVzlEVW83SExmUnF6Z0lNaGhwVmNabVZpeU9naVQ3a1RJVEhwXC93ZWlEV3Y1In0=
+x-ctpclassification: CTP_NT
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [10.22.254.139]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="PEIAKu/WMn1b1Hv9"
-Content-Disposition: inline
-In-Reply-To: <20181109205153.14811-1-babu.moger@amd.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+> From: Pavel Machek [mailto:pavel@ucw.cz]
+> >  rename Documentation/x86/{intel_rdt_ui.txt => resctrl_ui.txt} (99%)
+> 
+> Rest of files in that directory use - as a separator; and maybe qos.txt would
+> be a better name then this?
 
---PEIAKu/WMn1b1Hv9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Actually a few other files in the directory use "_" as a separator (e.g. intel_mpx.txt etc). "qos.txt" is not a good name because we want to use a generic file name. So "resctrl_ui.txt" should a good name AFAIK.
 
-Hi!
+Thanks.
 
->  rename Documentation/x86/{intel_rdt_ui.txt =3D> resctrl_ui.txt} (99%)
-
-Rest of files in that directory use - as a separator; and maybe
-qos.txt would be a better name then this?
-
-Thanks,
-
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---PEIAKu/WMn1b1Hv9
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlvzThkACgkQMOfwapXb+vJ7FwCglvf1P7vbPXIynaiN34+duf7m
-YYEAnRGLAGcm7gUWdOFshiiGaOXnfV23
-=mx/k
------END PGP SIGNATURE-----
-
---PEIAKu/WMn1b1Hv9--
+-Fenghua
