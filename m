@@ -1,124 +1,117 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CEE377D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 09:37:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B03147D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 09:42:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726074AbeKTUF2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 15:05:28 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:48156 "EHLO mx1.redhat.com"
+        id S1727660AbeKTUKU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 15:10:20 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:38708 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725876AbeKTUF2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 15:05:28 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1725846AbeKTUKU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Nov 2018 15:10:20 -0500
+Received: from zn.tnic (p200300EC2BCDE000F95221CD056129B8.dip0.t-ipconnect.de [IPv6:2003:ec:2bcd:e000:f952:21cd:561:29b8])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 0ED87A7ED;
-        Tue, 20 Nov 2018 09:37:17 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E0FD74523;
-        Tue, 20 Nov 2018 09:37:16 +0000 (UTC)
-Received: from zmail21.collab.prod.int.phx2.redhat.com (zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
-        by colo-mx.corp.redhat.com (Postfix) with ESMTP id A38E11800533;
-        Tue, 20 Nov 2018 09:37:16 +0000 (UTC)
-Date:   Tue, 20 Nov 2018 04:37:16 -0500 (EST)
-From:   Pankaj Gupta <pagupta@redhat.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, devel@linuxdriverproject.org,
-        linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org,
-        xen-devel@lists.xenproject.org,
-        kexec-ml <kexec@lists.infradead.org>, pv-drivers@vmware.com,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Kairui Song <kasong@redhat.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>
-Message-ID: <1380154502.35259416.1542706636322.JavaMail.zimbra@redhat.com>
-In-Reply-To: <6258a58b-28c7-c055-0752-e8bd085b835f@redhat.com>
-References: <20181119101616.8901-1-david@redhat.com> <20181119101616.8901-6-david@redhat.com> <1747228.35250472.1542703532881.JavaMail.zimbra@redhat.com> <6258a58b-28c7-c055-0752-e8bd085b835f@redhat.com>
-Subject: Re: [PATCH v1 5/8] hv_balloon: mark inflated pages PG_offline
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B2AEB1EC084D;
+        Tue, 20 Nov 2018 10:42:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1542706926;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=JyDJOTN9RvCe5O7V2T/jnWOi433l/ew4HijVKdIUXv4=;
+        b=rAX2uTyNZTju5/+Cp/Ds0TcE4f2oOKKzfcZ3WIAR5KdWUVsSo8eJ0AP+k76yQtikHrDkfg
+        3L/Xnh13IvMDRIrV+PbZrDt+/wOmTsWEXVg4GPz7zQrrd6nLzTD2OiAPVAxSnzTBOlCMdL
+        3QpdbGA6AL8QFSUXOEQt+Ui34AisZBM=
+Date:   Tue, 20 Nov 2018 10:42:05 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Moger, Babu" <Babu.Moger@amd.com>
+Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
+        "pombredanne@nexb.com" <pombredanne@nexb.com>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
+        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Singh, Brijesh" <brijesh.singh@amd.com>,
+        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
+        "dwmw2@infradead.org" <dwmw2@infradead.org>,
+        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "rian@alum.mit.edu" <rian@alum.mit.edu>,
+        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v8 05/13] arch/resctrl: Rename config parameter INTEL_RDT
+ to RESCTRL
+Message-ID: <20181120094205.GC2527@zn.tnic>
+References: <20181116205407.10457-1-babu.moger@amd.com>
+ <20181116205407.10457-6-babu.moger@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.116.119, 10.4.195.6]
-Thread-Topic: hv_balloon: mark inflated pages PG_offline
-Thread-Index: vwj8vPwTZelkM2IMC2vxi7m7cNxk+Q==
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]); Tue, 20 Nov 2018 09:37:17 +0000 (UTC)
+Content-Disposition: inline
+In-Reply-To: <20181116205407.10457-6-babu.moger@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Nov 16, 2018 at 08:54:30PM +0000, Moger, Babu wrote:
+> Now Resource control feature is supported by both Intel and AMD.
+> Rename the INTEL_RDT to vendor neutral RESCTRL.
+> 
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
+>  arch/x86/Kconfig                     | 4 ++--
+>  arch/x86/include/asm/resctrl_sched.h | 4 ++--
+>  arch/x86/kernel/cpu/Makefile         | 4 ++--
+>  include/linux/sched.h                | 2 +-
+>  4 files changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index 1a0be022f91d..4aae7aba4d61 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -445,8 +445,8 @@ config RETPOLINE
+>  	  code are eliminated. Since this includes the syscall entry path,
+>  	  it is not entirely pointless.
+>  
+> -config INTEL_RDT
+> -	bool "Intel Resource Director Technology support"
+> +config RESCTRL
+> +	bool "Resource Control feature support"
 
-> >> ---
-> >>  drivers/hv/hv_balloon.c | 14 ++++++++++++--
-> >>  1 file changed, 12 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
-> >> index 211f3fe3a038..47719862e57f 100644
-> >> --- a/drivers/hv/hv_balloon.c
-> >> +++ b/drivers/hv/hv_balloon.c
-> >> @@ -681,8 +681,13 @@ static struct notifier_block hv_memory_nb = {
-> >>  /* Check if the particular page is backed and can be onlined and online
-> >>  it.
-> >>  */
-> >>  static void hv_page_online_one(struct hv_hotadd_state *has, struct page
-> >>  *pg)
-> >>  {
-> >> -	if (!has_pfn_is_backed(has, page_to_pfn(pg)))
-> >> +	if (!has_pfn_is_backed(has, page_to_pfn(pg))) {
-> >> +		if (!PageOffline(pg))
-> >> +			__SetPageOffline(pg);
-> >>  		return;
-> >> +	}
-> >> +	if (PageOffline(pg))
-> >> +		__ClearPageOffline(pg);
-> >>  
-> >>  	/* This frame is currently backed; online the page. */
-> >>  	__online_page_set_limits(pg);
-> >> @@ -1201,6 +1206,7 @@ static void free_balloon_pages(struct
-> >> hv_dynmem_device
-> >> *dm,
-> >>  
-> >>  	for (i = 0; i < num_pages; i++) {
-> >>  		pg = pfn_to_page(i + start_frame);
-> >> +		__ClearPageOffline(pg);
-> > 
-> > Just thinking, do we need to care for clearing PageOffline flag before
-> > freeing
-> > a balloon'd page?
-> 
-> Yes we have to otherwise the code will crash when trying to set PageBuddy.
-> 
-> (only one page type at a time may be set right now, and it makes sense.
-> A page that is offline cannot e.g. be a buddy page)
+s/feature // - they're all features. :)
 
-o.k
-> 
-> So PageOffline is completely managed by the page owner.
+>  	default n
+>  	depends on X86 && CPU_SUP_INTEL
 
-Makes sense. Thanks for explaining.
+Patch 9/13 is begging to be merged with this one.
 
-Pankaj
-> 
-> > 
-> > Thanks,
-> > Pankaj
-> 
-> 
-> --
-> 
-> Thanks,
-> 
-> David / dhildenb
-> 
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
