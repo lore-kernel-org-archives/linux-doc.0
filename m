@@ -1,104 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D13B47D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 19:45:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AB5907D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 20:41:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726862AbeKUGQK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Nov 2018 01:16:10 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:35992 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726289AbeKUGQK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Nov 2018 01:16:10 -0500
-Received: by mail-wr1-f65.google.com with SMTP id t3so3251156wrr.3
-        for <linux-doc@vger.kernel.org>; Tue, 20 Nov 2018 11:45:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=colorfullife-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=vVprXwRXv5LDaHl3diFepqVNNJ8b7iqUd3Gf8qAT4W8=;
-        b=jhNnycJkhfalgae2wROZkxnBUAtuN0QQVUbhBt0ANAzZB0M9xblOiSAKhxRLplEYjP
-         U3o9w5GvaOBmj7zseOsdlyNzYyIHXCZ5/VNQkQtiSxntMHC9Eq4dVYkNLpcflfcK1A01
-         LrlPBMZ4a2wIILSlXY9APjGfwBaMz92gmFSRd1pR/RBduS2svSQkSagOqlif9dUllvfw
-         zdwHW78DfOIQg2RwLOJEiYEl/c7S1FQ9E7U0Ucw99zYT47A1q289DLCUxliP0lcGXJl2
-         k2o44CaruegpFDLBtp9vTqAAzcHsvJcf9xAEz+S8vXNzjYGnUfdfrv9pI6/jMvrJeaik
-         rKWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=vVprXwRXv5LDaHl3diFepqVNNJ8b7iqUd3Gf8qAT4W8=;
-        b=C8K3Odcsk/vNjav1bWpnd2f+tOvrBl9e6pEcmi1GqFMhJqBa552cnQSIFMfgMzBtKw
-         i2W7RjKL8oliPRW3oY2+48H09QZBCpUFt/GCapyy3VAcwZ+IrtzwOkyqO/oZiMVhfOs/
-         aSSgWnK0TI/0iiRCxzYrPjoa/4wAK+uxynAz+jYFR89Vi2BFH8T6wwmgEnaD0yoYGrEg
-         UA8fpdczk+MUAN/JzlpHAExDD/RcNmBEuMH/hWA/0kikluo7oChfmXU2YGzW5DU18LYW
-         rYAsh3W/aGROAGs5peOWuem4O29jAgGb6I7oKhefaWYRqLhyXVbiX892RNY3pWTwxnWh
-         WK0A==
-X-Gm-Message-State: AA+aEWbLCqwutKS2Xz/SRAZYMblZleRh9g5xqb0zSW9CIrXStjYqdwap
-        wVxXv8GKiSxk1x7eDx+zw03m/g==
-X-Google-Smtp-Source: AFSGD/XyV6laC+AnagfYPDqsgTH2o2XAWERtiMf0vJ0YsEBfgLj9lSsPsair/b0Suf4D4/Z9DDWZVQ==
-X-Received: by 2002:adf:9421:: with SMTP id 30mr3436183wrq.54.1542743120324;
-        Tue, 20 Nov 2018 11:45:20 -0800 (PST)
-Received: from linux.fritz.box (p200300D993C74C00FC5A0EA9BDDF9934.dip0.t-ipconnect.de. [2003:d9:93c7:4c00:fc5a:ea9:bddf:9934])
-        by smtp.googlemail.com with ESMTPSA id j124-v6sm1520352wmb.1.2018.11.20.11.45.19
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 20 Nov 2018 11:45:19 -0800 (PST)
-Subject: Re: [PATCH v11 1/3] ipc: Allow boot time extension of IPCMNI from 32k
- to 16M
-To:     Waiman Long <longman@redhat.com>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        id S1725983AbeKUHM6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Nov 2018 02:12:58 -0500
+Received: from mga02.intel.com ([134.134.136.20]:50020 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725968AbeKUHM6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Nov 2018 02:12:58 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Nov 2018 12:41:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,258,1539673200"; 
+   d="scan'208";a="87439706"
+Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
+  by fmsmga007.fm.intel.com with ESMTP; 20 Nov 2018 12:41:56 -0800
+Message-ID: <16a0261fbe4b31e2f42b552d6a991a1116d398c2.camel@intel.com>
+Subject: Re: [RFC PATCH v6 01/26] Documentation/x86: Add CET description
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Ingo Molnar <mingo@kernel.org>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>
-References: <1541794292-19425-1-git-send-email-longman@redhat.com>
- <1541794292-19425-2-git-send-email-longman@redhat.com>
-From:   Manfred Spraul <manfred@colorfullife.com>
-Message-ID: <f9e476ce-9381-3738-159d-2c555580961a@colorfullife.com>
-Date:   Tue, 20 Nov 2018 20:45:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
-MIME-Version: 1.0
-In-Reply-To: <1541794292-19425-2-git-send-email-longman@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Date:   Tue, 20 Nov 2018 12:36:38 -0800
+In-Reply-To: <20181120095253.GA119911@gmail.com>
+References: <20181119214809.6086-1-yu-cheng.yu@intel.com>
+         <20181119214809.6086-2-yu-cheng.yu@intel.com>
+         <20181120095253.GA119911@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/9/18 9:11 PM, Waiman Long wrote:
-> The maximum number of unique System V IPC identifiers was limited to
-> 32k.  That limit should be big enough for most use cases.
->
-> However, there are some users out there requesting for more, especially
-> those that are migrating from Solaris which uses 24 bits for unique
-> identifiers. To satisfy the need of those users, a new boot time kernel
-> option "ipcmni_extend" is added to extend the IPCMNI value to 16M. This
-> is a 512X increase which should be big enough for users out there that
-> need a large number of unique IPC identifier.
->
-> The use of this new option will change the pattern of the IPC identifiers
-> returned by functions like shmget(2). An application that depends on
-> such pattern may not work properly.  So it should only be used if the
-> users really need more than 32k of unique IPC numbers.
->
-> This new option does have the side effect of reducing the maximum number
-> of unique sequence numbers from 64k down to 128. So it is a trade-off.
->
-> The computation of a new IPC id is not done in the performance critical
-> path.  So a little bit of additional overhead shouldn't have any real
-> performance impact.
->
-> Signed-off-by: Waiman Long <longman@redhat.com>
-Acked-by: Manfred Spraul <manfred@colorfullife.com>
+On Tue, 2018-11-20 at 10:52 +0100, Ingo Molnar wrote:
+> * Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+> 
+> > +X86 Documentation
+> > [...]
+> > +
+> > +At run time, /proc/cpuinfo shows the availability of SHSTK and IBT.
+> 
+> What is the rough expected performance impact of CET on average function 
+> call frequency user applications and the kernel itself?
+
+I don't have any conclusive numbers yet; but since currently only user-mode
+protection is implemented, I suspect any impact would be most likely to the
+application.  The kernel would spend some small amount of time on the setup of
+CET.
+
+Yu-cheng
