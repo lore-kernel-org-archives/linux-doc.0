@@ -2,34 +2,33 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B81497D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 09:21:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E93227D8BA
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 09:28:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726716AbeKTTto (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 14:49:44 -0500
-Received: from mga17.intel.com ([192.55.52.151]:39640 "EHLO mga17.intel.com"
+        id S1727772AbeKTT4M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 14:56:12 -0500
+Received: from mga02.intel.com ([134.134.136.20]:57096 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726477AbeKTTto (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 14:49:44 -0500
+        id S1727728AbeKTT4L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Nov 2018 14:56:11 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Nov 2018 01:21:37 -0800
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Nov 2018 01:28:02 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.56,256,1539673200"; 
-   d="scan'208";a="109763734"
+   d="scan'208";a="282624536"
 Received: from linux.intel.com ([10.54.29.200])
-  by orsmga001.jf.intel.com with ESMTP; 20 Nov 2018 01:21:37 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 20 Nov 2018 01:28:01 -0800
 Received: from [10.125.252.159] (abudanko-mobl.ccr.corp.intel.com [10.125.252.159])
-        by linux.intel.com (Postfix) with ESMTP id 9B519580432;
-        Tue, 20 Nov 2018 01:21:33 -0800 (PST)
+        by linux.intel.com (Postfix) with ESMTP id 0DED4580145;
+        Tue, 20 Nov 2018 01:27:56 -0800 (PST)
+Subject: [PATCH v2 1/2] Documentation/admin-guide: introduce perf-security.rst
+ file
 From:   Alexey Budankov <alexey.budankov@linux.intel.com>
-Subject: [PATCH v2 0/2]: Documentation/admin-guide: introduce
- perf-security.rst file and extend perf_event_paranoid documentation
-Organization: Intel Corp.
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Kees Cook <keescook@chromium.org>,
         Jann Horn <jannh@google.com>, Ingo Molnar <mingo@redhat.com>,
@@ -46,11 +45,14 @@ Cc:     Alexander Shishkin <alexander.shishkin@linux.intel.com>,
         "kernel-hardening@lists.openwall.com" 
         <kernel-hardening@lists.openwall.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Message-ID: <86cf8ad4-7728-8d07-5b03-effd32071f32@linux.intel.com>
-Date:   Tue, 20 Nov 2018 12:21:31 +0300
+References: <86cf8ad4-7728-8d07-5b03-effd32071f32@linux.intel.com>
+Organization: Intel Corp.
+Message-ID: <5070d3ee-1397-195e-f958-152d77f09566@linux.intel.com>
+Date:   Tue, 20 Nov 2018 12:27:55 +0300
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.1
 MIME-Version: 1.0
+In-Reply-To: <86cf8ad4-7728-8d07-5b03-effd32071f32@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -60,45 +62,100 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-To facilitate informed decision making by system administrators [1]
-to permit and manage access to Perf Events (PE) / Perf tool (Perf) [2],[3] 
-performance monitoring for multiple users perf-security.rst document 
-suggested by Thomas Gleixner is introduced [4] that:
+Implement initial version of perf-security.rst documentation file
+initially covering security concerns related to PE/Perf performance
+monitoring in multiuser environments.
 
-a) states PE/Perf access security concerns for multi user environment
-b) refers to base Linux access control and management principles
-c) extends documentation of possible perf_event_paranoid knob settings 
-
-The file serves as single knowledge source for PE/Perf security and 
-access control related matter according to decisions, discussion and  
-PoC prototype previously made here [5],[6].
-
-The file can later be extended with information describing:
-
-a) PE/Perf usage models and its security implications
-b) PE/Perf user interface, its changes and related security implications
-c) security related implications of monitoring by a specific PE PMU [2]
-
----
-Alexey Budankov (2):
-  Documentation/admin-guide: introduce perf-security.rst file
-  Documentation/admin-guide: update admin-guide index.rst
-
- Documentation/admin-guide/index.rst         |  1 +
- Documentation/admin-guide/perf-security.rst | 76 +++++++++++++++++++++
- 2 files changed, 77 insertions(+)
- create mode 100644 Documentation/admin-guide/perf-security.rst
-
+Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
 ---
 Changes in v2:
-- reverted patches order in the set to avoid CI issue
 - replaced old PCL referencing by PE (Perf Events)
 - skipped >=3 setting documentation at the moment
-
 ---
-[1] https://marc.info/?l=linux-kernel&m=153815883923913&w=2
-[2] http://man7.org/linux/man-pages/man2/perf_event_open.2.html
-[3] https://perf.wiki.kernel.org/index.php/Main_Page
-[4] https://marc.info/?l=linux-kernel&m=153837512226838&w=2
-[5] https://marc.info/?l=linux-kernel&m=153736008310781&w=2
-[6] https://lkml.org/lkml/2018/5/21/156
+ Documentation/admin-guide/perf-security.rst | 76 +++++++++++++++++++++
+ 1 file changed, 76 insertions(+)
+ create mode 100644 Documentation/admin-guide/perf-security.rst
+
+diff --git a/Documentation/admin-guide/perf-security.rst b/Documentation/admin-guide/perf-security.rst
+new file mode 100644
+index 000000000000..d9dcea61ed87
+--- /dev/null
++++ b/Documentation/admin-guide/perf-security.rst
+@@ -0,0 +1,76 @@
++.. _perf_security:
++
++Perf Events and tool security
++=============================
++
++Overview
++--------
++
++Usage of Perf Events (PE) [1]_ , [2]_ , [3]_ can impose a considerable risk of
++leaking sensitive data accessed by monitored processes. The data leakage is
++possible both in scenarios of direct usage of PE system call API [2]_ and over
++data files generated by Perf tool user mode utility (Perf) [3]_ , [4]_ . The risk
++depends on the nature of data that PE performance monitoring units (PMU) [2]_
++collect and expose for performance analysis. Having that said PE/Perf performance
++monitoring is the subject for security access control management [5]_ .
++
++PE/Perf access control
++----------------------
++
++For the purpose of performing security checks Linux implementation splits
++processes into two categories [6]_ : a) privileged processes (whose effective
++user ID is 0, referred to as superuser or root), and b) unprivileged processes
++(whose effective UID is nonzero). Privileged processes bypass all kernel
++security permission checks so PE performance monitoring is fully available to
++privileged processes without *access*, *scope* and *resource* restrictions.
++Unprivileged processes are subject to full security permission check based
++on the process's credentials [5]_ (usually: effective UID, effective GID,
++and supplementary group list).
++
++PE/Perf unprivileged users
++--------------------------
++
++PE/Perf *scope* and *access* control for unprivileged processes is governed by
++perf_event_paranoid [2]_ setting:
++
++-1:
++     Impose no *scope* and *access* restrictions on using PE performance
++     monitoring. Per-user per-cpu perf_event_mlock_kb [2]_ locking limit is
++     ignored when allocating memory buffers for storing performance data.
++     This is the least secure mode since allowed monitored *scope* is
++     maximized and no PE specific limits are imposed on *resources*
++     allocated for performance monitoring.
++
++>=0:
++     *scope* includes per-process and system wide performance monitoring
++     but excludes raw tracepoints and ftrace function tracepoints monitoring.
++     CPU and system events happened when executing either in user or
++     in kernel space can be monitored and captured for later analysis.
++     Per-user per-cpu perf_event_mlock_kb locking limit is imposed but
++     ignored for unprivileged processes with CAP_IPC_LOCK [6]_ capability.
++
++>=1:
++     *scope* includes per-process performance monitoring only and excludes
++     system wide performance monitoring. CPU and system events happened when
++     executing either in user or in kernel space can be monitored and
++     captured for later analysis. Per-user per-cpu perf_event_mlock_kb
++     locking limit is imposed but ignored for unprivileged processes with
++     CAP_IPC_LOCK capability.
++
++>=2:
++     *scope* includes per-process performance monitoring only. CPU and system
++     events happened when executing in user space only can be monitored and
++     captured for later analysis. Per-user per-cpu perf_event_mlock_kb
++     locking limit is imposed but ignored for unprivileged processes with
++     CAP_IPC_LOCK capability.
++
++Bibliography
++------------
++
++.. [1] `<https://lwn.net/Articles/337493/>`_
++.. [2] `<http://man7.org/linux/man-pages/man2/perf_event_open.2.html>`_
++.. [3] `<http://web.eece.maine.edu/~vweaver/projects/perf_events/>`_
++.. [4] `<https://perf.wiki.kernel.org/index.php/Main_Page>`_
++.. [5] `<https://www.kernel.org/doc/html/latest/security/credentials.html>`_
++.. [6] `<http://man7.org/linux/man-pages/man7/capabilities.7.html>`_
++
