@@ -1,188 +1,83 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 91BA47D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 09:28:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E29247D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 09:29:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728111AbeKTT4A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 14:56:00 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:36566 "EHLO mail.skyhub.de"
+        id S1727029AbeKTT5J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 14:57:09 -0500
+Received: from mga07.intel.com ([134.134.136.100]:60039 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727453AbeKTTz7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 14:55:59 -0500
-Received: from zn.tnic (p200300EC2BCDE000F95221CD056129B8.dip0.t-ipconnect.de [IPv6:2003:ec:2bcd:e000:f952:21cd:561:29b8])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 419691EC06A7;
-        Tue, 20 Nov 2018 10:27:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1542706069;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=bqG5rKU8OP/7UNSw79MXWSB+keieO1Y3ECah6bo5zM8=;
-        b=oAW/EUTLel/81CeqZ5CSIhaSSnDGvPNAXHRo0St+Y1vBdxeBANgg8+YUpi0apETKpys8F3
-        H7eub+nEJ1ufHxWa/3E/DzAFhYFmtfWnAWO0XORst7aPsb3FAxlxf8Y/ym1IFR097o3aa4
-        UNwCGg/zpJDN/oxZkbOxWk1IzoC2Qu4=
-Date:   Tue, 20 Nov 2018 10:27:40 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Moger, Babu" <Babu.Moger@amd.com>
-Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
-        "pombredanne@nexb.com" <pombredanne@nexb.com>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
-        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Singh, Brijesh" <brijesh.singh@amd.com>,
-        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
-        "dwmw2@infradead.org" <dwmw2@infradead.org>,
-        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "jannh@google.com" <jannh@google.com>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "rian@alum.mit.edu" <rian@alum.mit.edu>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        id S1727159AbeKTT5J (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Nov 2018 14:57:09 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Nov 2018 01:28:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,256,1539673200"; 
+   d="scan'208";a="101692033"
+Received: from linux.intel.com ([10.54.29.200])
+  by orsmga003.jf.intel.com with ESMTP; 20 Nov 2018 01:28:59 -0800
+Received: from [10.125.252.159] (abudanko-mobl.ccr.corp.intel.com [10.125.252.159])
+        by linux.intel.com (Postfix) with ESMTP id C85B5580432;
+        Tue, 20 Nov 2018 01:28:55 -0800 (PST)
+Subject: [PATCH v2 2/2] Documentation/admin-guide: update admin-guide
+ index.rst
+From:   Alexey Budankov <alexey.budankov@linux.intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Jonatan Corbet <corbet@lwn.net>
+Cc:     Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Tvrtko Ursulin <tursulin@ursulin.net>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "kernel-hardening@lists.openwall.com" 
+        <kernel-hardening@lists.openwall.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v8 03/13] arch/resctrl: Re-arrange RDT init code
-Message-ID: <20181120092740.GA2527@zn.tnic>
-References: <20181116205407.10457-1-babu.moger@amd.com>
- <20181116205407.10457-4-babu.moger@amd.com>
+References: <86cf8ad4-7728-8d07-5b03-effd32071f32@linux.intel.com>
+Organization: Intel Corp.
+Message-ID: <4ad6ee40-c0ee-d809-a1b1-c1df064fd460@linux.intel.com>
+Date:   Tue, 20 Nov 2018 12:28:54 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
+In-Reply-To: <86cf8ad4-7728-8d07-5b03-effd32071f32@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20181116205407.10457-4-babu.moger@amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 16, 2018 at 08:54:26PM +0000, Moger, Babu wrote:
-> Separate the call sequence for rdt_quirks and MBA feature.
-> This is in preparation to handle vendor differences in these
-> call sequences.
-> 
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> ---
->  arch/x86/kernel/cpu/resctrl.c | 27 +++++++++++++++++++++------
->  1 file changed, 21 insertions(+), 6 deletions(-)
-> 
-> diff --git a/arch/x86/kernel/cpu/resctrl.c b/arch/x86/kernel/cpu/resctrl.c
-> index 5d526dc45751..4cea275c7c57 100644
-> --- a/arch/x86/kernel/cpu/resctrl.c
-> +++ b/arch/x86/kernel/cpu/resctrl.c
-> @@ -794,6 +794,14 @@ static bool __init rdt_cpu_has(int flag)
->  	return ret;
->  }
 
-Just nitpicks:
+Extend index.rst index file at admin-guide root directory with
+the reference to perf-security.rst file being introduced.
 
-> +static __init bool rdt_mba_config(void)
+Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
+---
+ Documentation/admin-guide/index.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-That function doesn't have a verb in its name but it needs to have one
-stating what it does. You could do
-
-mv rdt_get_mem_config() -> __rdt_get_mem_config()
-mv rdt_mba_config() -> rdt_get_mem_config()
-
-to have the hierarchy of what calls what. And then the AMD variant will
-be called __rdt_get_mem_config_amd().
-
-Also, those are all static functions so you can just as well drop the
-"rdt" prefix, I'd say.
-
-> +{
-> +	if (rdt_cpu_has(X86_FEATURE_MBA))
-> +		return rdt_get_mem_config(&rdt_resources_all[RDT_RESOURCE_MBA]);
-> +
-> +	return false;
-> +}
-> +
->  static __init bool get_rdt_alloc_resources(void)
->  {
->  	bool ret = false;
-> @@ -818,10 +826,9 @@ static __init bool get_rdt_alloc_resources(void)
->  		ret = true;
->  	}
->  
-> -	if (rdt_cpu_has(X86_FEATURE_MBA)) {
-> -		if (rdt_get_mem_config(&rdt_resources_all[RDT_RESOURCE_MBA]))
-> -			ret = true;
-> -	}
-> +	if (rdt_mba_config())
-> +		ret = true;
-> +
->  	return ret;
->  }
->  
-> @@ -840,7 +847,7 @@ static __init bool get_rdt_mon_resources(void)
->  	return !rdt_get_mon_l3_config(&rdt_resources_all[RDT_RESOURCE_L3]);
->  }
->  
-> -static __init void rdt_quirks(void)
-> +static __init void rdt_quirks_intel(void)
->  {
->  	switch (boot_cpu_data.x86_model) {
->  	case INTEL_FAM6_HASWELL_X:
-> @@ -855,9 +862,14 @@ static __init void rdt_quirks(void)
->  	}
->  }
->  
-> +static __init void rdt_quirks(void)
-
-Those functions also need to have a verb in the name stating what they
-do.
-
-> +{
-> +	if (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL)
-> +		rdt_quirks_intel();
-> +}
-> +
->  static __init bool get_rdt_resources(void)
->  {
-> -	rdt_quirks();
->  	rdt_alloc_capable = get_rdt_alloc_resources();
->  	rdt_mon_capable = get_rdt_mon_resources();
->  
-> @@ -871,6 +883,9 @@ static int __init resctrl_late_init(void)
->  	struct rdt_resource *r;
->  	int state, ret;
->  
-> +	/* Run quirks first */
-> +	rdt_quirks();
-
-If the comment wasn't there, seeing "rdt_quirks();" doesn't say much and
-makes me go look at what that function does.
-
-> +
->  	if (!get_rdt_resources())
-
-Unlike here, where it is clear that this gets the rdt resources.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index 965745d5fb9a..0a491676685e 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -76,6 +76,7 @@ configure specific aspects of kernel behavior to your liking.
+    thunderbolt
+    LSM/index
+    mm/index
++   perf-security
+ 
+ .. only::  subproject and html
