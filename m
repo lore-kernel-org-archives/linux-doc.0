@@ -1,55 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 074237D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 16:26:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 435C77D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 16:29:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727205AbeKUC4X (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 21:56:23 -0500
-Received: from ms.lwn.net ([45.79.88.28]:55726 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726499AbeKUC4W (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 21:56:22 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 131A335A;
-        Tue, 20 Nov 2018 16:26:25 +0000 (UTC)
-Date:   Tue, 20 Nov 2018 09:26:24 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mike Rapoport <rppt@linux.ibm.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs/admin-guide/mm/concepts.rst: grammar and style
- fixups
-Message-ID: <20181120092624.3c2f945b@lwn.net>
-In-Reply-To: <1541928263-5117-1-git-send-email-rppt@linux.ibm.com>
-References: <1541928263-5117-1-git-send-email-rppt@linux.ibm.com>
-Organization: LWN.net
+        id S1729715AbeKUC6S (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 21:58:18 -0500
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:33428 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728601AbeKUC6R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 21:58:17 -0500
+Received: by mail-qk1-f195.google.com with SMTP id o89so3241674qko.0;
+        Tue, 20 Nov 2018 08:28:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=6pLLM1p+5cDN52i8L+l5I/RKjfgAuOq/8xc6t5eHQeA=;
+        b=Q1dmlJaqef4PhMUe8KijF7vIIIQS/5OPUDZ76zqN9VTRe3/eXoy3K4ifcH/33T68vy
+         ydDsdzCnml+hVBgexIcWmYgG5c19ZDDCoW+8WPcss4AhjWlpuO4AZDw5CDgrQ9vinafm
+         QYyzS2Ddi8K9t4Uqk4ZMZmMBRhaxeGJQDBiZtlo+9xDem/jc5cFPoyRQKMUlHGGvQmeW
+         0is3bdkuDj/ZhDl/9jTEOdjhwbfCrZ9LG5iZjounIfuwVo3XqGWSf6w9KG5BSOJfUxFo
+         04pPI4WxX0FmPvvEcltUAJtrmcvXDpJAlWx9juT3oINlVeRaIbVnoF6PGQm4cAdiQbQB
+         tbcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=6pLLM1p+5cDN52i8L+l5I/RKjfgAuOq/8xc6t5eHQeA=;
+        b=KEU0/uk02N5liAR1gz9NW7EHEFFUbq8uv4f4oZSOHTLlpROg0VsTD8rtmzuOuDWMEz
+         CD72qL+h4hkZsX6GRcHi+l9s55CPeMp2yFrnrNrSMqf+VUiA36/a4Oi6TMcUTp9O+IiW
+         bQvv6Rlw9Vu0gBoxs+ibalFUX3vHkVarkVa7z7XJhhXeBWb2cO8xONimFS+xPHTTvxIu
+         nUKSbXGrxZROBl48IGDowmGl1olpUHjMCnrOkRTIuh8tpLOnAsAuzSPANFOZVIIv1B5F
+         TbQ18Yz5MPIdS0S4x/QjoxXDB/wU5PojewnS6S6rq40gWkyABuPFP/9dgB6lISi/pd7I
+         UZRw==
+X-Gm-Message-State: AA+aEWYcuif5mKnQH7oExXGJe6cLZmRvX2q46UGQ7vEtKuj/xWPZejO+
+        EEoltxHSBILWhDXx4RienZE=
+X-Google-Smtp-Source: AFSGD/W6OC/zC6WUidHtw2jYLzMq/iMNXmGM/O8tXzXhxNVWg5GECEtRq5t+S/KUiJW/TPmY5/sP4w==
+X-Received: by 2002:ae9:e102:: with SMTP id g2mr2195104qkm.343.1542731298599;
+        Tue, 20 Nov 2018 08:28:18 -0800 (PST)
+Received: from localhost ([2620:10d:c091:200::7:4b6a])
+        by smtp.gmail.com with ESMTPSA id n8sm24250696qtk.91.2018.11.20.08.28.17
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 20 Nov 2018 08:28:17 -0800 (PST)
+Date:   Tue, 20 Nov 2018 08:28:16 -0800
+From:   Tejun Heo <tj@kernel.org>
+To:     Paolo Valente <paolo.valente@linaro.org>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Angelo Ruocco <angeloruocco90@gmail.com>,
+        Dennis Zhou <dennis@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        Liu Bo <bo.liu@linux.alibaba.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ulf.hansson@linaro.org, linus.walleij@linaro.org,
+        broonie@kernel.org, bfq-iosched@googlegroups.com,
+        oleksandr@natalenko.name, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH V2 00/10] unify the interface of the proportional-share
+ policy in blkio/io
+Message-ID: <20181120162816.GV2509588@devbig004.ftw2.facebook.com>
+References: <20181119103424.3853-1-paolo.valente@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181119103424.3853-1-paolo.valente@linaro.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 11 Nov 2018 11:24:23 +0200
-Mike Rapoport <rppt@linux.ibm.com> wrote:
+Hello, Paolo.
 
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> 
-> v2: address Matthew's feedback
-> 
->  Documentation/admin-guide/mm/concepts.rst | 51 ++++++++++++++++---------------
->  1 file changed, 26 insertions(+), 25 deletions(-)
+On Mon, Nov 19, 2018 at 11:34:14AM +0100, Paolo Valente wrote:
+> - if all entities produce the same output, the this common output is
+>  shown only once;
+> - if the outputs differ, then every per-entity output is shown,
+>  followed by the name of the entity that produced that output.
 
-Applied, thanks.
+So, this doesn't make sense to me.  One set of numbers is meaningful,
+the other not and the user doesn't have a way to tell which one is.
+It makes no sense to present both numbers.
 
-jon
+Thanks.
+
+-- 
+tejun
