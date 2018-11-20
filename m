@@ -5,214 +5,116 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2DE347D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 09:17:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 02AB37D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 09:18:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727155AbeKTTp2 convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 14:45:28 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:58870 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726479AbeKTTp2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 14:45:28 -0500
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 6AC8BD0E67533;
-        Tue, 20 Nov 2018 17:17:18 +0800 (CST)
-Received: from localhost (10.202.226.46) by DGGEMS410-HUB.china.huawei.com
- (10.3.19.210) with Microsoft SMTP Server id 14.3.408.0; Tue, 20 Nov 2018
- 17:17:09 +0800
-Date:   Tue, 20 Nov 2018 09:16:50 +0000
-From:   Jonathan Cameron <jonathan.cameron@huawei.com>
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-CC:     Kenneth Lee <liguozhu@hisilicon.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Kenneth Lee <nek.in.cn@gmail.com>,
-        Tim Sell <timothy.sell@unisys.com>,
-        <linux-doc@vger.kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Zaibo Xu <xuzaibo@huawei.com>, <zhangfei.gao@foxmail.com>,
-        <linuxarm@huawei.com>, <haojian.zhuang@linaro.org>,
-        Christoph Lameter <cl@linux.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        Gavin Schenk <g.schenk@eckelmann.de>,
-        "RDMA mailing list" <linux-rdma@vger.kernel.org>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        "Doug Ledford" <dledford@redhat.com>,
-        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        David Kershner <david.kershner@unisys.com>,
-        Johan Hovold <johan@kernel.org>,
-        Cyrille Pitchen <cyrille.pitchen@free-electrons.com>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Jens Axboe <axboe@kernel.dk>, <guodong.xu@linaro.org>,
-        linux-netdev <netdev@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        <linux-kernel@vger.kernel.org>, Vinod Koul <vkoul@kernel.org>,
-        <linux-crypto@vger.kernel.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        <linux-accelerators@lists.ozlabs.org>,
-        "Jean-Philippe Brucker" <jean-philippe.brucker@arm.com>,
-        <iommu@lists.linux-foundation.org>
-Subject: Re: [RFCv3 PATCH 1/6] uacce: Add documents for WarpDrive/uacce
-Message-ID: <20181120091650.0000419a@huawei.com>
-In-Reply-To: <20181120032939.GR4890@ziepe.ca>
-References: <20181112075807.9291-1-nek.in.cn@gmail.com>
-        <20181112075807.9291-2-nek.in.cn@gmail.com>
-        <20181113002354.GO3695@mtr-leonro.mtl.com>
-        <95310df4-b32c-42f0-c750-3ad5eb89b3dd@gmail.com>
-        <20181114160017.GI3759@mtr-leonro.mtl.com>
-        <20181115085109.GD157308@Turing-Arch-b>
-        <20181115145455.GN3759@mtr-leonro.mtl.com>
-        <20181119091405.GE157308@Turing-Arch-b>
-        <20181119184954.GB4890@ziepe.ca>
-        <20181120030702.GH157308@Turing-Arch-b>
-        <20181120032939.GR4890@ziepe.ca>
-Organization: Huawei
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; i686-w64-mingw32)
+        id S1727258AbeKTTqi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 14:46:38 -0500
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:48821 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726479AbeKTTqh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 14:46:37 -0500
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 3735D8094E; Tue, 20 Nov 2018 10:18:27 +0100 (CET)
+Date:   Tue, 20 Nov 2018 10:18:29 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Daniel Colascione <dancol@google.com>,
+        linux-kernel@vger.kernel.org, rppt@linux.ibm.com,
+        timmurray@google.com, joelaf@google.com, surenb@google.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
+        Prashant Dhamdhere <pdhamdhe@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2] Document /proc/pid PID reuse behavior
+Message-ID: <20181120091829.GD16916@amd>
+References: <20181031150625.147369-1-dancol@google.com>
+ <20181105132205.138695-1-dancol@google.com>
+ <20181119105426.GD28607@amd>
+ <1c5caa66-3c61-cb57-754a-f099200c73b2@suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [10.202.226.46]
-X-CFilter-Loop: Reflected
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="EY/WZ/HvNxOox07X"
+Content-Disposition: inline
+In-Reply-To: <1c5caa66-3c61-cb57-754a-f099200c73b2@suse.cz>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-+CC Jean-Phillipe and iommu list.
 
+--EY/WZ/HvNxOox07X
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 19 Nov 2018 20:29:39 -0700
-Jason Gunthorpe <jgg@ziepe.ca> wrote:
+On Tue 2018-11-20 10:05:21, Vlastimil Babka wrote:
+> On 11/19/18 11:54 AM, Pavel Machek wrote:
+> > On Mon 2018-11-05 13:22:05, Daniel Colascione wrote:
+> >> State explicitly that holding a /proc/pid file descriptor open does
+> >> not reserve the PID. Also note that in the event of PID reuse, these
+> >> open file descriptors refer to the old, now-dead process, and not the
+> >> new one that happens to be named the same numeric PID.
+> >>
+> >> Signed-off-by: Daniel Colascione <dancol@google.com>
+> >> ---
+> >>  Documentation/filesystems/proc.txt | 7 +++++++
+> >>  1 file changed, 7 insertions(+)
+> >>
+> >> Moved paragraphed to start of /proc/pid section; added signed-off-by.
+> >>
+> >> diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesy=
+stems/proc.txt
+> >> index 12a5e6e693b6..0b14460f721d 100644
+> >> --- a/Documentation/filesystems/proc.txt
+> >> +++ b/Documentation/filesystems/proc.txt
+> >> @@ -125,6 +125,13 @@ process running on the system, which is named aft=
+er the process ID (PID).
+> >>  The link  self  points  to  the  process reading the file system. Eac=
+h process
+> >>  subdirectory has the entries listed in Table 1-1.
+> >> =20
+> >> +Note that an open a file descriptor to /proc/<pid> or to any of its
+> >> +contained files or subdirectories does not prevent <pid> being reused
+> >> +for some other process in the event that <pid> exits. Operations on
+> >=20
+> > "does not" -> "may not"?
+> >=20
+> > We want to leave this unspecified, so that we can change it in future.
+>=20
+> Why can't the documentation describe the current implementation, and
+> change in the future if the implementation changes? I doubt somebody
 
-> On Tue, Nov 20, 2018 at 11:07:02AM +0800, Kenneth Lee wrote:
-> > On Mon, Nov 19, 2018 at 11:49:54AM -0700, Jason Gunthorpe wrote:  
-> > > Date: Mon, 19 Nov 2018 11:49:54 -0700
-> > > From: Jason Gunthorpe <jgg@ziepe.ca>
-> > > To: Kenneth Lee <liguozhu@hisilicon.com>
-> > > CC: Leon Romanovsky <leon@kernel.org>, Kenneth Lee <nek.in.cn@gmail.com>,
-> > >  Tim Sell <timothy.sell@unisys.com>, linux-doc@vger.kernel.org, Alexander
-> > >  Shishkin <alexander.shishkin@linux.intel.com>, Zaibo Xu
-> > >  <xuzaibo@huawei.com>, zhangfei.gao@foxmail.com, linuxarm@huawei.com,
-> > >  haojian.zhuang@linaro.org, Christoph Lameter <cl@linux.com>, Hao Fang
-> > >  <fanghao11@huawei.com>, Gavin Schenk <g.schenk@eckelmann.de>, RDMA mailing
-> > >  list <linux-rdma@vger.kernel.org>, Zhou Wang <wangzhou1@hisilicon.com>,
-> > >  Doug Ledford <dledford@redhat.com>, Uwe Kleine-König
-> > >  <u.kleine-koenig@pengutronix.de>, David Kershner
-> > >  <david.kershner@unisys.com>, Johan Hovold <johan@kernel.org>, Cyrille
-> > >  Pitchen <cyrille.pitchen@free-electrons.com>, Sagar Dharia
-> > >  <sdharia@codeaurora.org>, Jens Axboe <axboe@kernel.dk>,
-> > >  guodong.xu@linaro.org, linux-netdev <netdev@vger.kernel.org>, Randy Dunlap
-> > >  <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, Vinod Koul
-> > >  <vkoul@kernel.org>, linux-crypto@vger.kernel.org, Philippe Ombredanne
-> > >  <pombredanne@nexb.com>, Sanyog Kale <sanyog.r.kale@intel.com>, "David S.
-> > >  Miller" <davem@davemloft.net>, linux-accelerators@lists.ozlabs.org
-> > > Subject: Re: [RFCv3 PATCH 1/6] uacce: Add documents for WarpDrive/uacce
-> > > User-Agent: Mutt/1.9.4 (2018-02-28)
-> > > Message-ID: <20181119184954.GB4890@ziepe.ca>
-> > > 
-> > > On Mon, Nov 19, 2018 at 05:14:05PM +0800, Kenneth Lee wrote:
-> > >    
-> > > > If the hardware cannot share page table with the CPU, we then need to have
-> > > > some way to change the device page table. This is what happen in ODP. It
-> > > > invalidates the page table in device upon mmu_notifier call back. But this cannot
-> > > > solve the COW problem: if the user process A share a page P with device, and A 
-> > > > forks a new process B, and it continue to write to the page. By COW, the
-> > > > process B will keep the page P, while A will get a new page P'. But you have
-> > > > no way to let the device know it should use P' rather than P.  
-> > > 
-> > > Is this true? I thought mmu_notifiers covered all these cases.
-> > > 
-> > > The mm_notifier for A should fire if B causes the physical address of
-> > > A's pages to change via COW. 
-> > > 
-> > > And this causes the device page tables to re-synchronize.  
-> > 
-> > I don't see such code. The current do_cow_fault() implemenation has nothing to
-> > do with mm_notifer.  
-> 
-> Well, that sure sounds like it would be a bug in mmu_notifiers..
-> 
-> But considering Jean's SVA stuff seems based on mmu notifiers, I have
-> a hard time believing that it has any different behavior from RDMA's
-> ODP, and if it does have different behavior, then it is probably just
-> a bug in the ODP implementation.
-> 
-> > > > In WarpDrive/uacce, we make this simple. If you support IOMMU and it support
-> > > > SVM/SVA. Everything will be fine just like ODP implicit mode. And you don't need
-> > > > to write any code for that. Because it has been done by IOMMU framework. If it  
-> > > 
-> > > Looks like the IOMMU code uses mmu_notifier, so it is identical to
-> > > IB's ODP. The only difference is that IB tends to have the IOMMU page
-> > > table in the device, not in the CPU.
-> > > 
-> > > The only case I know if that is different is the new-fangled CAPI
-> > > stuff where the IOMMU can directly use the CPU's page table and the
-> > > IOMMU page table (in device or CPU) is eliminated.  
-> >
-> > Yes. We are not focusing on the current implementation. As mentioned in the
-> > cover letter. We are expecting Jean Philips' SVA patch:
-> > git://linux-arm.org/linux-jpb.  
-> 
-> This SVA stuff does not look comparable to CAPI as it still requires
-> maintaining seperate IOMMU page tables.
-> 
-> Also, those patches from Jean have a lot of references to
-> mmu_notifiers (ie look at iommu_mmu_notifier).
-> 
-> Are you really sure it is actually any different at all?
-> 
-> > > Anyhow, I don't think a single instance of hardware should justify an
-> > > entire new subsystem. Subsystems are hard to make and without multiple
-> > > hardware examples there is no way to expect that it would cover any
-> > > future use cases.  
-> > 
-> > Yes. That's our first expectation. We can keep it with our driver. But because
-> > there is no user driver support for any accelerator in mainline kernel. Even the
-> > well known QuickAssit has to be maintained out of tree. So we try to see if
-> > people is interested in working together to solve the problem.  
-> 
-> Well, you should come with patches ack'ed by these other groups.
-> 
-> > > If all your driver needs is to mmap some PCI bar space, route
-> > > interrupts and do DMA mapping then mediated VFIO is probably a good
-> > > choice.   
-> > 
-> > Yes. That is what is done in our RFCv1/v2. But we accepted Jerome's opinion and
-> > try not to add complexity to the mm subsystem.  
-> 
-> Why would a mediated VFIO driver touch the mm subsystem? Sounds like
-> you don't have a VFIO driver if it needs to do stuff like that...
-> 
-> > > If it needs to do a bunch of other stuff, not related to PCI bar
-> > > space, interrupts and DMA mapping (ie special code for compression,
-> > > crypto, AI, whatever) then you should probably do what Jerome said and
-> > > make a drivers/char/hisillicon_foo_bar.c that exposes just what your
-> > > hardware does.  
-> > 
-> > Yes. If no other accelerator driver writer is interested. That is the
-> > expectation:)  
-> 
-> I don't think it matters what other drivers do. 
-> 
-> If your driver does not need any other kernel code then VFIO is
-> sensible. In this kind of world you will probably have a RDMA-like
-> userspace driver that can bring this to a common user space API, even
-> if one driver use VFIO and a different driver uses something else.
-> 
-> > You create some connections (queues) to NIC, RSA, and AI engine. Then you got
-> > data direct from the NIC and pass the pointer to RSA engine for decryption. The
-> > CPU then finish some data taking or operation and then pass through to the AI
-> > engine for CNN calculation....This will need a place to maintain the same
-> > address space by some means.  
-> 
-> How is this any different from what we have today? 
-> 
-> SVA is not something even remotely new, IB has been doing various
-> versions of it for 20 years.
-> 
-> Jason
+Documentation should describe "contract" between kernel and userspace.
 
+> would ever rely on the pid being reused while having the descriptor
+> open. How would that make sense?
 
+I agree this is corner space, but users might be surprised that
+keeping FDs of /proc/pid/X would lead to PID space exhaustion, for
+example.
+
+								Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--EY/WZ/HvNxOox07X
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlvz0WUACgkQMOfwapXb+vJ1PACgmy/iCA1dXVCGclBaPHG6U4Kw
+1zMAnjmMZqfNMLsTsMqdWy4mmy/bpC5r
+=fvhL
+-----END PGP SIGNATURE-----
+
+--EY/WZ/HvNxOox07X--
