@@ -1,66 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 696AE7D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 16:50:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D39267D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 16:50:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727698AbeKUDT4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 22:19:56 -0500
-Received: from ms.lwn.net ([45.79.88.28]:55940 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725925AbeKUDT4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 22:19:56 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 6971535A;
-        Tue, 20 Nov 2018 16:49:51 +0000 (UTC)
-Date:   Tue, 20 Nov 2018 09:49:50 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Pavel Machek <pavel@ucw.cz>, Daniel Colascione <dancol@google.com>,
-        linux-kernel@vger.kernel.org, rppt@linux.ibm.com,
-        timmurray@google.com, joelaf@google.com, surenb@google.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
-        Prashant Dhamdhere <pdhamdhe@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2] Document /proc/pid PID reuse behavior
-Message-ID: <20181120094950.11978b68@lwn.net>
-In-Reply-To: <1c5caa66-3c61-cb57-754a-f099200c73b2@suse.cz>
-References: <20181031150625.147369-1-dancol@google.com>
-        <20181105132205.138695-1-dancol@google.com>
-        <20181119105426.GD28607@amd>
-        <1c5caa66-3c61-cb57-754a-f099200c73b2@suse.cz>
-Organization: LWN.net
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+        id S1729953AbeKUDUZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 22:20:25 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:51490 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725925AbeKUDUZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 22:20:25 -0500
+Received: by mail-wm1-f65.google.com with SMTP id w7-v6so2795209wmc.1
+        for <linux-doc@vger.kernel.org>; Tue, 20 Nov 2018 08:50:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=+Wf6CDJUPs+eWjtmr8Hr9KG3FFVm+nlkqZS2f8RgM/w=;
+        b=bR53PuEkjfKVO5TfuQ57wxNpCGss5PElS42NlnIjUGGw8biMobE8VfD8A7yOhyg7TC
+         evXEdHcDLEQS1PR8hyjN3k1q1TpLWTTPVIMHma0fR4A9eq/FXWqA9rrXZQ6+52BApAWS
+         dXn5fVB13ahQLsouU+4AlZzMipjOTQmhOgXT0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=+Wf6CDJUPs+eWjtmr8Hr9KG3FFVm+nlkqZS2f8RgM/w=;
+        b=rUnNd+T4j0v/Il0mB43AX/p7jH8C4Bk0WQItg/fcPnMMpRQJ7uYgJm/3cXR0RqNzBw
+         nqXqzIDnXjSFPmw6YXkguDgk+4HPYCp65rDRP2EeuSXcV2t8KomIWKKCWBXG7BTYTek5
+         NDMe5RGUmy7bOCd4Q+BvC4i4pSg19t8uUxq6gz1uFFTGE6+vt8cjb5YDzLdKMu5ntrJf
+         lzoVuAtcLaRC78l9K6qT86SXKSTD/AYYlBiCakZxgC0B5vrhoCzOpuA4nZJtFO5O/p8v
+         cPVfh6vIWzdH3h/Tq8Cv7Rb0QPHa+jqdl71jy8DbDRDnokax5bKzqycubBEv3MkFNcot
+         Q9Xg==
+X-Gm-Message-State: AGRZ1gIsHgj8i+ulofiERLHKCTz+jTmRQHfR8iaAzc8M5p/T1TgVyUki
+        mtzR5VKugcPk9Yy3+c4xe5oD8Q==
+X-Google-Smtp-Source: AJdET5dkziSdP8kN9ecWfAoJJIrNuDvoLya7OiySpONwRyyCGhF1GloXfIzKPQNpK90RAvs1zJhLRA==
+X-Received: by 2002:a1c:bc82:: with SMTP id m124-v6mr2719620wmf.47.1542732619004;
+        Tue, 20 Nov 2018 08:50:19 -0800 (PST)
+Received: from [192.168.43.112] ([37.162.66.240])
+        by smtp.gmail.com with ESMTPSA id x6-v6sm13626648wrs.50.2018.11.20.08.50.16
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 20 Nov 2018 08:50:18 -0800 (PST)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.0 \(3445.100.39\))
+Subject: Re: [PATCH V2 00/10] unify the interface of the proportional-share
+ policy in blkio/io
+From:   Paolo Valente <paolo.valente@linaro.org>
+In-Reply-To: <20181120162816.GV2509588@devbig004.ftw2.facebook.com>
+Date:   Tue, 20 Nov 2018 17:50:14 +0100
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Angelo Ruocco <angeloruocco90@gmail.com>,
+        Dennis Zhou <dennis@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        Liu Bo <bo.liu@linux.alibaba.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ulf.hansson@linaro.org, linus.walleij@linaro.org,
+        broonie@kernel.org, bfq-iosched@googlegroups.com,
+        oleksandr@natalenko.name, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <25296DAE-73EC-46CC-9A98-A8B7E9017BB7@linaro.org>
+References: <20181119103424.3853-1-paolo.valente@linaro.org>
+ <20181120162816.GV2509588@devbig004.ftw2.facebook.com>
+To:     Tejun Heo <tj@kernel.org>
+X-Mailer: Apple Mail (2.3445.100.39)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 20 Nov 2018 10:05:21 +0100
-Vlastimil Babka <vbabka@suse.cz> wrote:
 
-> Why can't the documentation describe the current implementation, and
-> change in the future if the implementation changes? I doubt somebody
-> would ever rely on the pid being reused while having the descriptor
-> open. How would that make sense?
 
-In the hopes of ending this discussion, I'm going to go ahead and apply
-this.  Documenting current behavior is good, especially in situations
-where that behavior can surprise people; if the implementation changes,
-the docs can change with it.
+> Il giorno 20 nov 2018, alle ore 17:28, Tejun Heo <tj@kernel.org> ha =
+scritto:
+>=20
+> Hello, Paolo.
+>=20
+> On Mon, Nov 19, 2018 at 11:34:14AM +0100, Paolo Valente wrote:
+>> - if all entities produce the same output, the this common output is
+>> shown only once;
+>> - if the outputs differ, then every per-entity output is shown,
+>> followed by the name of the entity that produced that output.
+>=20
+> So, this doesn't make sense to me.  One set of numbers is meaningful,
+> the other not and the user doesn't have a way to tell which one is.
+> It makes no sense to present both numbers.
+>=20
+
+I do agree that these numbers may confuse.  Before discussing how to
+do this better, let me tell you why we are showing them.
+
+In the first place, the need for a diversified output showed up in the
+following case.  Given a group using the blkio/io controller, and two
+drives
+- one with legacy block and cfq
+- one with blk-mq and bfq
+there will be different statistics for each scheduler, for the same
+interface files.
+
+Then we understood that exactly the same happens with throttling, in
+case the latter is activated on different devices w.r.t. bfq.
+
+In addition, the same may happen, in the near future, with the
+bandwidth controller Josef is working on.  If the controller can be
+configured per device, as with throttling, then statistics may differ,
+for the same interface files, between bfq, throttling and that
+controller.
+
+More general examples could be made considering that this extension is
+for the generic cgroup interface.
+
+Of course, suggestions for a clearer way to show these numbers are
+more than welcome!  Maybe involved device identifiers can be somehow
+gathered by the entities providing these numbers, and then shown?  In
+this respect, consider that, even without this extension, one still
+has the fundamental problem of not knowing to which devices numbers
+apply (unless I'm missing something else).
 
 Thanks,
+Paolo
 
-jon
+> Thanks.
+>=20
+> --=20
+> tejun
+
