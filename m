@@ -5,31 +5,40 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0232F7D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 16:38:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 696AE7D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 16:50:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727205AbeKUDI2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 22:08:28 -0500
-Received: from ms.lwn.net ([45.79.88.28]:55830 "EHLO ms.lwn.net"
+        id S1727698AbeKUDT4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 22:19:56 -0500
+Received: from ms.lwn.net ([45.79.88.28]:55940 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726557AbeKUDI2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 22:08:28 -0500
+        id S1725925AbeKUDT4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Nov 2018 22:19:56 -0500
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id DD20D35A;
-        Tue, 20 Nov 2018 16:38:26 +0000 (UTC)
-Date:   Tue, 20 Nov 2018 09:38:25 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id 6971535A;
+        Tue, 20 Nov 2018 16:49:51 +0000 (UTC)
+Date:   Tue, 20 Nov 2018 09:49:50 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     NeilBrown <neilb@suse.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Documentation: update path-lookup.md for parallel
- lookups
-Message-ID: <20181120093825.7e009b1e@lwn.net>
-In-Reply-To: <87k1l9dgx9.fsf@notabene.neil.brown.name>
-References: <87k1l9dgx9.fsf@notabene.neil.brown.name>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Pavel Machek <pavel@ucw.cz>, Daniel Colascione <dancol@google.com>,
+        linux-kernel@vger.kernel.org, rppt@linux.ibm.com,
+        timmurray@google.com, joelaf@google.com, surenb@google.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
+        Prashant Dhamdhere <pdhamdhe@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2] Document /proc/pid PID reuse behavior
+Message-ID: <20181120094950.11978b68@lwn.net>
+In-Reply-To: <1c5caa66-3c61-cb57-754a-f099200c73b2@suse.cz>
+References: <20181031150625.147369-1-dancol@google.com>
+        <20181105132205.138695-1-dancol@google.com>
+        <20181119105426.GD28607@amd>
+        <1c5caa66-3c61-cb57-754a-f099200c73b2@suse.cz>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -39,55 +48,18 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 19 Nov 2018 11:55:46 +1100
-NeilBrown <neilb@suse.com> wrote:
+On Tue, 20 Nov 2018 10:05:21 +0100
+Vlastimil Babka <vbabka@suse.cz> wrote:
 
-> Since this document was written, i_mutex has been replace with
-> i_rwsem, and shared locks are utilized to allow lookups in the one
-> directory to happen in parallel.
-> 
-> So replace i_mutex with i_rwsem, and explain how this is used for
-> parallel lookups.
-> 
-> Signed-off-by: NeilBrown <neilb@suse.com>
+> Why can't the documentation describe the current implementation, and
+> change in the future if the implementation changes? I doubt somebody
+> would ever rely on the pid being reused while having the descriptor
+> open. How would that make sense?
 
-I've applied this, thanks.  I do have a couple of small comments, though...
-
-#1: what are the chances of getting this document converted to RST and
-tied into our documentation tree?
-
-#2: ...
-
-> Just FYI
-> 
-> $ git grep -w i_mutex | wc -l
-> 262
-> 
-> it was 276 before this patch... so a small improvement.
-> 
-> NeilBrown
-> 
-> 
->  Documentation/filesystems/path-lookup.md | 85 ++++++++++++++++++------
->  1 file changed, 66 insertions(+), 19 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/path-lookup.md b/Documentation/filesystems/path-lookup.md
-> index e2edd45c4bc0..06151b178f80 100644
-> --- a/Documentation/filesystems/path-lookup.md
-> +++ b/Documentation/filesystems/path-lookup.md
-> @@ -12,6 +12,10 @@ This write-up is based on three articles published at lwn.net:
->  - <https://lwn.net/Articles/650786/> A walk among the symlinks
->  
->  Written by Neil Brown with help from Al Viro and Jon Corbet.
-> +It has subsequently been updated to reflect changes in the kernel
-> +including:
-> +
-> +- per-directory parallel name lookup.
-
-I'm unconvinced about the value of putting changelogs into the docs
-themselves; that's what we keep git around for.  (I *do* think there's
-some value of having something in a document giving a hint of how current
-it is, though).
+In the hopes of ending this discussion, I'm going to go ahead and apply
+this.  Documenting current behavior is good, especially in situations
+where that behavior can surprise people; if the implementation changes,
+the docs can change with it.
 
 Thanks,
 
