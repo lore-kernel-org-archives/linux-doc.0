@@ -2,135 +2,189 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 190817D08E
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 12:19:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 66F037D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 14:06:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729447AbeKTWsY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 17:48:24 -0500
-Received: from foss.arm.com ([217.140.101.70]:47956 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728041AbeKTWsY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 17:48:24 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 06B5615AB;
-        Tue, 20 Nov 2018 04:19:32 -0800 (PST)
-Received: from [10.1.196.78] (ostrya.cambridge.arm.com [10.1.196.78])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 66E0C3F5B7;
-        Tue, 20 Nov 2018 04:19:26 -0800 (PST)
-Subject: Re: [RFCv3 PATCH 1/6] uacce: Add documents for WarpDrive/uacce
-To:     Jonathan Cameron <jonathan.cameron@huawei.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     "liguozhu@hisilicon.com" <liguozhu@hisilicon.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Kenneth Lee <nek.in.cn@gmail.com>,
-        Tim Sell <timothy.sell@unisys.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Zaibo Xu <xuzaibo@huawei.com>,
-        "zhangfei.gao@foxmail.com" <zhangfei.gao@foxmail.com>,
-        "linuxarm@huawei.com" <linuxarm@huawei.com>,
-        "haojian.zhuang@linaro.org" <haojian.zhuang@linaro.org>,
-        Christoph Lameter <cl@linux.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        Gavin Schenk <g.schenk@eckelmann.de>,
-        RDMA mailing list <linux-rdma@vger.kernel.org>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Doug Ledford <dledford@redhat.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        David Kershner <david.kershner@unisys.com>,
-        Johan Hovold <johan@kernel.org>,
-        Cyrille Pitchen <cyrille.pitchen@free-electrons.com>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Jens Axboe <axboe@kernel.dk>,
-        "guodong.xu@linaro.org" <guodong.xu@linaro.org>,
-        linux-netdev <netdev@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
+        id S1729150AbeKUAfy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 19:35:54 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35572 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725846AbeKUAfy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 19:35:54 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wAKDrkOm048747
+        for <linux-doc@vger.kernel.org>; Tue, 20 Nov 2018 09:06:34 -0500
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2nvjbxc7ev-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 20 Nov 2018 09:06:34 -0500
+Received: from localhost
+        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Tue, 20 Nov 2018 14:06:30 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 20 Nov 2018 14:06:27 -0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wAKE6QDK57344198
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 20 Nov 2018 14:06:26 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A135CAE04D;
+        Tue, 20 Nov 2018 14:06:26 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A51D7AE055;
+        Tue, 20 Nov 2018 14:06:24 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.207.151])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Tue, 20 Nov 2018 14:06:24 +0000 (GMT)
+Date:   Tue, 20 Nov 2018 15:06:21 +0100
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Roman Gushchin <guro@fb.com>
+Cc:     Roman Gushchin <guroan@gmail.com>, Tejun Heo <tj@kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        "linux-accelerators@lists.ozlabs.org" 
-        <linux-accelerators@lists.ozlabs.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
-References: <20181112075807.9291-1-nek.in.cn@gmail.com>
- <20181112075807.9291-2-nek.in.cn@gmail.com>
- <20181113002354.GO3695@mtr-leonro.mtl.com>
- <95310df4-b32c-42f0-c750-3ad5eb89b3dd@gmail.com>
- <20181114160017.GI3759@mtr-leonro.mtl.com>
- <20181115085109.GD157308@Turing-Arch-b>
- <20181115145455.GN3759@mtr-leonro.mtl.com>
- <20181119091405.GE157308@Turing-Arch-b> <20181119184954.GB4890@ziepe.ca>
- <20181120030702.GH157308@Turing-Arch-b> <20181120032939.GR4890@ziepe.ca>
- <20181120091650.0000419a@huawei.com>
-From:   Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
-Message-ID: <8872e7d1-2cfd-36a8-d0a7-131cd8516ba3@arm.com>
-Date:   Tue, 20 Nov 2018 12:19:07 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.0
+        Kernel Team <Kernel-team@fb.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 7/7] cgroup: document cgroup v2 freezer interface
+References: <20181117003830.15344-1-guro@fb.com>
+ <20181117003830.15344-8-guro@fb.com>
+ <20181117080227.GA22672@rapoport-lnx>
+ <20181119174241.GA7273@tower.DHCP.thefacebook.com>
 MIME-Version: 1.0
-In-Reply-To: <20181120091650.0000419a@huawei.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181119174241.GA7273@tower.DHCP.thefacebook.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 18112014-0012-0000-0000-000002CD65AD
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18112014-0013-0000-0000-000021028EAE
+Message-Id: <20181120140621.GC24627@rapoport-lnx>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-20_05:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1811200126
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 20/11/2018 09:16, Jonathan Cameron wrote:
-> +CC Jean-Phillipe and iommu list.
+On Mon, Nov 19, 2018 at 05:42:48PM +0000, Roman Gushchin wrote:
+> On Sat, Nov 17, 2018 at 12:02:28AM -0800, Mike Rapoport wrote:
+> > Hi,
+> > 
+> > On Fri, Nov 16, 2018 at 04:38:30PM -0800, Roman Gushchin wrote:
+> > > Describe cgroup v2 freezer interface in the cgroup v2 admin guide.
+> > > 
+> > > Signed-off-by: Roman Gushchin <guro@fb.com>
+> > > Cc: Tejun Heo <tj@kernel.org>
+> > > Cc: linux-doc@vger.kernel.org
+> > > Cc: kernel-team@fb.com
+> > > ---
+> > >  Documentation/admin-guide/cgroup-v2.rst | 26 +++++++++++++++++++++++++
+> > >  1 file changed, 26 insertions(+)
+> > > 
+> > > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> > > index 184193bcb262..a065c0bed88c 100644
+> > > --- a/Documentation/admin-guide/cgroup-v2.rst
+> > > +++ b/Documentation/admin-guide/cgroup-v2.rst
+> > > @@ -862,6 +862,8 @@ All cgroup core files are prefixed with "cgroup."
+> > >  	  populated
+> > >  		1 if the cgroup or its descendants contains any live
+> > >  		processes; otherwise, 0.
+> > > +	  frozen
+> > > +		1 if the cgroup is frozen; otherwise, 0.
+> > > 
+> > >    cgroup.max.descendants
+> > >  	A read-write single value files.  The default is "max".
+> > > @@ -895,6 +897,30 @@ All cgroup core files are prefixed with "cgroup."
+> > >  		A dying cgroup can consume system resources not exceeding
+> > >  		limits, which were active at the moment of cgroup deletion.
+> > > 
+> > > +  cgroup.freeze
+> > > +	A read-write single value file which exists on non-root cgroups.
+> > > +	Allowed values are "0" and "1". The default is "0".
+> > > +
+> > > +	Writing "1" to the file causes freezing of the cgroup and all
+> > > +	descendant cgroups. This means that all belonging processes will
+> > > +	be stopped and will not run until the cgroup will be explicitly
+> > > +	unfrozen. Freezing of the cgroup may take some time; when the process
+> > 
+> > "when the process is complete" sounds somewhat ambiguous, it's unclear
+> > whether freezing is complete or the process that's being frozen is
+> > complete.
+> > 
+> > Maybe "when this action is completed"?
+> > 
+> > > +	is complete, the "frozen" value in the cgroup.events control file
+> > > +	will be updated and the corresponding notification will be issued.
+> > 
+> > Can you please clarify how exactly cgroup.events would be updated?
+> > 
+> > > +	Cgroup can be frozen either by its own settings, either by settings
+> > 
+> >       ^ A cgroup ... and maybe there are more "a" and "the" that should be
+> > fixed, it's hard for me to tell.
+> > 
+> > Also, I believe "either ..., or ..." sounds better than "either ...,
+> > either ..."
+> > 
+> > > +	of any ancestor cgroups. If any of ancestor cgroups is frozen, the
+> > > +	cgroup will remain frozen.
+> > > +
+> > > +	Processes in the frozen cgroup can be killed by a fatal signal.
+> > > +	They also can enter and leave a frozen cgroup: either by an explicit
+> > > +	move by a user, either if freezing of the cgroup races with fork().
+> > 
+> > ditto
+> > 
+> > > +	If a cgroup is moved to a frozen cgroup, it stops. If a process is
+> > 
+> >             ^ process?
+> > 
+> > > +	moving out of a frozen cgroup, it becomes running.
+> > 
+> >        ^ moved
+> 
+> Hello, Mike!
+> 
+> Thanks for the review! I agree with all comments above; fixes queued for v4.
+> 
+> > 
+> > > +	Frozen status of a cgroup doesn't affect any cgroup tree operations:
+> > > +	it's possible to delete a frozen (and empty) cgroup, as well as
+> > > +	create new sub-cgroups.
+> > 
+> > Maybe it's also worth adding that freezing a process has no effect on its
+> > memory consumption, at least directly.
+> 
+> Hm, isn't it the expected behavior?
 
-Thanks for the Cc, sorry I don't have enough bandwidth to follow this
-thread at the moment.
+You'd be surprised ;-)
+Just recently I had a couple of questions about the memory consumption of
+the frozen processes.
+ 
+> In any case, I assume that cgroup.freeze knob description is not the best place
+> for a such explanations. Maybe it's better to add a standalone paragraph with
+> the description of the frozen process state, what's expected to work, what's
+> not, etc. I'd return to this question a bit later, when we'll agree on the user
+> interface and the implementation.
 
->>>>> In WarpDrive/uacce, we make this simple. If you support IOMMU and it support
->>>>> SVM/SVA. Everything will be fine just like ODP implicit mode. And you don't need
->>>>> to write any code for that. Because it has been done by IOMMU framework. If it  
->>>>
->>>> Looks like the IOMMU code uses mmu_notifier, so it is identical to
->>>> IB's ODP. The only difference is that IB tends to have the IOMMU page
->>>> table in the device, not in the CPU.
->>>>
->>>> The only case I know if that is different is the new-fangled CAPI
->>>> stuff where the IOMMU can directly use the CPU's page table and the
->>>> IOMMU page table (in device or CPU) is eliminated.  
->>>
->>> Yes. We are not focusing on the current implementation. As mentioned in the
->>> cover letter. We are expecting Jean Philips' SVA patch:
->>> git://linux-arm.org/linux-jpb.  
->>
->> This SVA stuff does not look comparable to CAPI as it still requires
->> maintaining seperate IOMMU page tables.
+Sure.
+ 
+> Thanks!
+> 
 
-With SVA, we use the same page tables in the IOMMU and CPU. It's the
-same pgd pointer, there is no mirroring of mappings. We bind the process
-page tables with the device using a PASID (Process Address Space ID).
+-- 
+Sincerely yours,
+Mike.
 
-After fork(), the child's mm is different from the parent's one, and is
-not automatically bound to the device. The device driver will have to
-issue a new bind() request, and the child mm will be bound with a
-different PASID.
-
-There could be a problem if the child inherits the parent's device
-handle. Then depending on the device, the child could be able to program
-DMA and possibly access the parent's address space. The parent needs to
-be aware of that when using the bind() API, and close the device fd in
-the child after fork().
-
-We use MMU notifiers for some address space changes:
-
-* The IOTLB needs to be invalidated after any unmap() to the process
-address space. On Arm systems the SMMU IOTLBs can be invalidated by the
-CPU TLBI instructions, but we still need to invalidate TLBs private to
-devices that are arch-agnostic (Address Translation Cache in PCI ATS).
-
-* When the process mm exits, we need to remove the associated PASID
-configuration in the IOMMU and invalidate the TLBs.
-
-Thanks,
-Jean
