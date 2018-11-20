@@ -1,74 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 299E37D8BB
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 17:54:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E26157D08E
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 17:59:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729784AbeKUEWi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 23:22:38 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:46064 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729719AbeKUEWh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 20 Nov 2018 23:22:37 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 910FB88313;
-        Tue, 20 Nov 2018 17:52:15 +0000 (UTC)
-Received: from llong.com (ovpn-120-174.rdu2.redhat.com [10.10.120.174])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6A08F648A8;
-        Tue, 20 Nov 2018 17:52:13 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Roman Gushchin <guro@fb.com>,
-        Jens Axboe <axboe@kernel.dk>,
+        id S1726979AbeKUEaQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 23:30:16 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:35710 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726179AbeKUEaQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 23:30:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=EXc0euKzVaK7g1CJFWlQ4ErwfgJEkzlK5fcJ1+AWcKQ=; b=ecbPsISb3Z8gjR9yhemc34NdU
+        /o2cR2nLN/pBugW6elCV0e3qwfDMuCASI4nl6Y2NJaUqa5vAR9hW81fn+3PXbjRcDuy8Ek+GpPbaw
+        klhmhoj0Zv0TuMEIk9MzlYK4ucE7arWk94Dqu+DGWU5X8lSfR97yBAP9VljJlW96QSqYzuvkB1Txz
+        khKjOgcUmYRRqRKp1/kQEZq5HFm+JU5kzk/WlDrCglZRUOYrp0qeaCbsIG2fyxiNM+IkJN1eLlCxf
+        +qw04rfCdvXCqJNYaRZSkmhF33B50AxJa5KYNGkfgYLm4sox9aHCoUCEInADHkOqxIYxyPpGCGFhl
+        82evOV+8Q==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gPAJP-0001lF-Et; Tue, 20 Nov 2018 17:59:47 +0000
+Date:   Tue, 20 Nov 2018 09:59:47 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Daniel Colascione <dancol@google.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, Vlastimil Babka <vbabka@suse.cz>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Tim Murray <timmurray@google.com>,
+        Joel Fernandes <joelaf@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Dennis Zhou <dennis@kernel.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Waiman Long <longman@redhat.com>
-Subject: [PATCH v4 3/5] cgroup: Make debug controller report new controller masks
-Date:   Tue, 20 Nov 2018 12:51:27 -0500
-Message-Id: <1542736289-31338-4-git-send-email-longman@redhat.com>
-In-Reply-To: <1542736289-31338-1-git-send-email-longman@redhat.com>
-References: <1542736289-31338-1-git-send-email-longman@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Tue, 20 Nov 2018 17:52:15 +0000 (UTC)
+        Roman Gushchin <guro@fb.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
+        Prashant Dhamdhere <pdhamdhe@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2] Document /proc/pid PID reuse behavior
+Message-ID: <20181120175947.GE3065@bombadil.infradead.org>
+References: <20181031150625.147369-1-dancol@google.com>
+ <20181105132205.138695-1-dancol@google.com>
+ <20181119105426.GD28607@amd>
+ <1c5caa66-3c61-cb57-754a-f099200c73b2@suse.cz>
+ <20181120091829.GD16916@amd>
+ <20181120173912.GD3065@bombadil.infradead.org>
+ <CAKOZuevidVnZ+9vB1CxsetPVH=2P7eoORA1F445HOp-jS5rwOA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKOZuevidVnZ+9vB1CxsetPVH=2P7eoORA1F445HOp-jS5rwOA@mail.gmail.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The newly added cgroup controller masks (subtree_bypass and
-enable_ss_mask) are now being reported in the debug.masks controller
-file.
+On Tue, Nov 20, 2018 at 09:48:27AM -0800, Daniel Colascione wrote:
+> On Tue, Nov 20, 2018 at 9:39 AM Matthew Wilcox <willy@infradead.org> wrote:
+> > We have a limit on the number of FDs a process can have open for a reason.
+> > Well, for many reasons.
+> 
+> And the typical limit is too low. (I've seen people clamp it to 1024
+> for some reason.)
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- kernel/cgroup/debug.c | 2 ++
- 1 file changed, 2 insertions(+)
+1024 is the soft limit.  4096 is the default hard limit.  You can always
+ask root to set your hard limit higher if that's what you need.
 
-diff --git a/kernel/cgroup/debug.c b/kernel/cgroup/debug.c
-index 5f1b873..176bb9e 100644
---- a/kernel/cgroup/debug.c
-+++ b/kernel/cgroup/debug.c
-@@ -263,6 +263,8 @@ static int cgroup_masks_read(struct seq_file *seq, void *v)
- 
- 	cgroup_masks_read_one(seq, "subtree_control", cgrp->subtree_control);
- 	cgroup_masks_read_one(seq, "subtree_ss_mask", cgrp->subtree_ss_mask);
-+	cgroup_masks_read_one(seq, "subtree_bypass",  cgrp->subtree_bypass);
-+	cgroup_masks_read_one(seq, "enable_ss_mask",  cgrp->enable_ss_mask);
- 
- 	cgroup_kn_unlock(of->kn);
- 	return 0;
--- 
-1.8.3.1
+> A file descriptor is just a handle to a kernel
+> resource. All kernel resources held on behalf of applications need
+> *some* kind of management interface. File descriptors provide a
+> consistent and uniform instance of such a management interface. Unless
+> there's a very good reason, nobody should be using non-FD handles for
+> kernel resource management. A low default FD table size limit is not
+> an example of one of these good reasons, not when we can raise FD
+> table size limit. In general, the software projects should not have to
+> put up with ugly workarounds for limitations they impose on
+> themselves.
 
+I'm not really sure why you decided to go off on this rant.  My point to
+Pavel was that there's no way a single process can tie up all of the PIDs.
+Unless root decided to let them shoot everybody else in the system in
+the foot.
