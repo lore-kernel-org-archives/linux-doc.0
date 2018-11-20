@@ -1,100 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 966B87D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 17:48:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 536667D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 17:52:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726314AbeKUETC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 23:19:02 -0500
-Received: from mail-vs1-f67.google.com ([209.85.217.67]:45771 "EHLO
-        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727111AbeKUETC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 23:19:02 -0500
-Received: by mail-vs1-f67.google.com with SMTP id v10so1585499vsv.12
-        for <linux-doc@vger.kernel.org>; Tue, 20 Nov 2018 09:48:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dN5F5JjkX8qXx7CGqsA8pOnFZ6513BsOrkwubwTzl6Y=;
-        b=jOOpq+fraVncoarOWAFx7rMbxvglr0X2TN6+XPIecpWtseOivq4bhl37mS3+xWv5ly
-         ZNkbsAR5kshlnNE9NSiHy1bH1cBqpNQUiVo1rixFectKn9dyHQoMVJoNJG397AEDj94j
-         R4phZwjjJm9+u7s08ZtUKj/gpxNk8kCww5609VfLpSTGaL2FEtg5tNF3HybFRh4i7RGH
-         Cl1AmXMT0SE3OwNPy5meSuwYf3oaeC70T9NFj1cfhmvSV7hpgEDxX+zOAjKFbBa+eOM2
-         8lmcKz2pONp0+gymZnM0h1gER/alu22Km85bq8k/5wfR7m9hTw/WOd0Hvx9aSkKk2d4C
-         TJww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dN5F5JjkX8qXx7CGqsA8pOnFZ6513BsOrkwubwTzl6Y=;
-        b=i9A67/K+a41UEBtTYDVvqfj3hi46Zxn1cbNF9ajVfVPBXopy6e25E0rmwSLgplOZnU
-         Rr3Of6MPxhe72g0bbTrHY9wVGjnVFt+ciMUyC6BDEoJmxxy8ttoEEdaUMXz/jCO1uOk+
-         n69TrXLpQXs9rFbJktIJ9cO48of72lzW6N0gGOkd/1K5rL8zlkDyIb4yd6EpJjSuR0ou
-         /F7X4Yx/kXdKp//HojxdBNxdnSfkTekIJdOgl6ksx86S5t8OV2mMg4guRtWknyKqfDs8
-         jlRIaMQMQPR1yfU6MeQUbqBsXRL1XCrWx+FozTKaXIIxo8cjytJV/Y8ZFPDdW4Nz3vqc
-         gV9g==
-X-Gm-Message-State: AGRZ1gKIyAmXTHyHTq0M8r7xmFfDsUQhfpLiB0e4Q1fRXa9VsMooZvND
-        Bjr/LOUfMqiW20WYwCjmW4bncHM36l66fFCn4MxU/Q==
-X-Google-Smtp-Source: AJdET5fzyAyh8Scry+3EDV54//ltBPMntEiwOTwDIzRN82jcDHZQ2nUKBhK9rR+lfp9UjCs4AGwoSQzT74Yy2fBuS/s=
-X-Received: by 2002:a67:b44:: with SMTP id 65mr1272308vsl.77.1542736119374;
- Tue, 20 Nov 2018 09:48:39 -0800 (PST)
-MIME-Version: 1.0
-References: <20181031150625.147369-1-dancol@google.com> <20181105132205.138695-1-dancol@google.com>
- <20181119105426.GD28607@amd> <1c5caa66-3c61-cb57-754a-f099200c73b2@suse.cz>
- <20181120091829.GD16916@amd> <20181120173912.GD3065@bombadil.infradead.org>
-In-Reply-To: <20181120173912.GD3065@bombadil.infradead.org>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Tue, 20 Nov 2018 09:48:27 -0800
-Message-ID: <CAKOZuevidVnZ+9vB1CxsetPVH=2P7eoORA1F445HOp-jS5rwOA@mail.gmail.com>
-Subject: Re: [PATCH v2] Document /proc/pid PID reuse behavior
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, Vlastimil Babka <vbabka@suse.cz>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Tim Murray <timmurray@google.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1729432AbeKUEWb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 23:22:31 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:34910 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725995AbeKUEWa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 20 Nov 2018 23:22:30 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 4D2CBC0495A8;
+        Tue, 20 Nov 2018 17:52:09 +0000 (UTC)
+Received: from llong.com (ovpn-120-174.rdu2.redhat.com [10.10.120.174])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 35AF818FA5;
+        Tue, 20 Nov 2018 17:52:07 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Roman Gushchin <guro@fb.com>,
+        Jens Axboe <axboe@kernel.dk>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
-        Prashant Dhamdhere <pdhamdhe@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Dennis Zhou <dennis@kernel.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v4 0/5] cgroup: Introducing bypass mode
+Date:   Tue, 20 Nov 2018 12:51:24 -0500
+Message-Id: <1542736289-31338-1-git-send-email-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Tue, 20 Nov 2018 17:52:09 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 20, 2018 at 9:39 AM Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Tue, Nov 20, 2018 at 10:18:29AM +0100, Pavel Machek wrote:
-> > > would ever rely on the pid being reused while having the descriptor
-> > > open. How would that make sense?
-> >
-> > I agree this is corner space, but users might be surprised that
-> > keeping FDs of /proc/pid/X would lead to PID space exhaustion, for
-> > example.
->
-> We have a limit on the number of FDs a process can have open for a reason.
-> Well, for many reasons.
+ v4:
+  - Rebased to the latest for-4.21 branch of cgroup tree.
+  - Make each controller explicitly opt in to become bypassable by
+    setting the bypassable cgroup_subsys flag. Currently, only cpu
+    controller is made bypassable.
+  - Break out the cgroup_v2.rst documentation update as separate patch.
 
-And the typical limit is too low. (I've seen people clamp it to 1024
-for some reason.) A file descriptor is just a handle to a kernel
-resource. All kernel resources held on behalf of applications need
-*some* kind of management interface. File descriptors provide a
-consistent and uniform instance of such a management interface. Unless
-there's a very good reason, nobody should be using non-FD handles for
-kernel resource management. A low default FD table size limit is not
-an example of one of these good reasons, not when we can raise FD
-table size limit. In general, the software projects should not have to
-put up with ugly workarounds for limitations they impose on
-themselves.
+ v3:
+  - Remove invalid cgroup subdirectory creation patch.
+  - Add use cases for the bypass mode and removing statements about
+    control files ownership in cgroup-v2.txt.
+  - Restrict bypass mode to non-domain (threaded) controllers only.
+
+ v3 patch - https://lkml.org/lkml/2017/8/9/604
+
+This patchset introduces a new bypass mode to the cgroup v2 core to
+give more freedom and flexibility to controllers which choose to become
+bypassable the freedom to shape their own unique views of the virtual
+cgroup hierarchies that can best suit thier own use cases.
+
+Because of the inherent performance overhead in enabling cpu controller,
+it is made bypassable so that the controller only needs to be enabled
+at those cgroups that really need it instead of in every cgroups at a
+given layer if at least one of them needs it.
+
+The cpu controller performance problem is one of the major issues
+in migrating from cgroup v1 to v2.
+
+For example,
+
+  R - A(+) - B(#) - C(+)
+                  \ D(#)
+
+where "+" means the controller is enabled and "#" means the controller
+is bypassed. For this controller's perspective, the cgroups are
+equivalent to:
+
+  R - A|B|D - C
+
+Underneath the root R, cgoups A, B and D are controlled by one set of
+knobs and cgroup C is controlled by another set of knobs as a child of
+cgroups A|B|C.
+
+This patchset is layered on top of the "for-4.21" branch of Tejun's
+cgroup git tree.
+
+Patch 1 introduces a new bypass mode that allows a bypassable
+controller to be disabled in a cgroup, but to be re-enabled again in its
+children. This is enabled by writing the controller name prefixed with
+'#' to the "cgroup.subtree_control" file. Then all its children will
+have this controller in bypass mode.
+
+Patch 2 extends the bypass mode mechanism to allow those child cgroups
+that are put into the bypass mode for a particular bypassable controller
+by their parent to be re-enabled again by writing the controller name
+with the '+' prefix to the "cgroup.controllers" file.
+
+Patch 3 extends the debug controller to expose additional controller
+masks introduced by this patchset.
+
+Patch 4 makes the cpu controller bypassable.
+
+Patch 5 documents the new bypass mode in cgroup-v2.rst file.
+
+Waiman Long (5):
+  cgroup: subtree_control bypass mode for bypassable controllers
+  cgroup: Allow reenabling of controller in bypass mode
+  cgroup: Make debug controller report new controller masks
+  sched/core: Make cpu cgroup controller bypassable
+  cgroup: Document bypass mode
+
+ Documentation/admin-guide/cgroup-v2.rst |  66 +++++---
+ include/linux/cgroup-defs.h             |  26 +++-
+ kernel/cgroup/cgroup.c                  | 256 +++++++++++++++++++++++++-------
+ kernel/cgroup/debug.c                   |   2 +
+ kernel/sched/core.c                     |   1 +
+ 5 files changed, 276 insertions(+), 75 deletions(-)
+
+-- 
+1.8.3.1
+
