@@ -1,190 +1,156 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 66F037D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 14:06:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D4F097D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 20 Nov 2018 15:07:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729150AbeKUAfy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 20 Nov 2018 19:35:54 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35572 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725846AbeKUAfy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 19:35:54 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wAKDrkOm048747
-        for <linux-doc@vger.kernel.org>; Tue, 20 Nov 2018 09:06:34 -0500
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2nvjbxc7ev-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 20 Nov 2018 09:06:34 -0500
-Received: from localhost
-        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Tue, 20 Nov 2018 14:06:30 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Tue, 20 Nov 2018 14:06:27 -0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wAKE6QDK57344198
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 20 Nov 2018 14:06:26 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A135CAE04D;
-        Tue, 20 Nov 2018 14:06:26 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A51D7AE055;
-        Tue, 20 Nov 2018 14:06:24 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.207.151])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Tue, 20 Nov 2018 14:06:24 +0000 (GMT)
-Date:   Tue, 20 Nov 2018 15:06:21 +0100
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Roman Gushchin <guro@fb.com>
-Cc:     Roman Gushchin <guroan@gmail.com>, Tejun Heo <tj@kernel.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Kernel Team <Kernel-team@fb.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v3 7/7] cgroup: document cgroup v2 freezer interface
-References: <20181117003830.15344-1-guro@fb.com>
- <20181117003830.15344-8-guro@fb.com>
- <20181117080227.GA22672@rapoport-lnx>
- <20181119174241.GA7273@tower.DHCP.thefacebook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181119174241.GA7273@tower.DHCP.thefacebook.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18112014-0012-0000-0000-000002CD65AD
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18112014-0013-0000-0000-000021028EAE
-Message-Id: <20181120140621.GC24627@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-20_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1811200126
+        id S1726959AbeKUBgn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 20 Nov 2018 20:36:43 -0500
+Received: from conuserg-10.nifty.com ([210.131.2.77]:24496 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725851AbeKUBgn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Nov 2018 20:36:43 -0500
+Received: from grover.tkatk1.zaq.ne.jp (zaqdadce369.zaq.ne.jp [218.220.227.105]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id wAKF4dmo007142;
+        Wed, 21 Nov 2018 00:04:39 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com wAKF4dmo007142
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1542726280;
+        bh=FEX7CPJ1IdIlEA+PQX4kbY3pAwX/D3w2IYYnEjF/3Xc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=uAQ+B47veuLgovvtzP6eCcX3Htqj4ymm/elBhODUyKzCfmD2xoWIwQAQ2KQK1c2au
+         m+U1HDGDczrjvn4PxoTNmzXnbtG2tRQRH4aikxJ/ueiT+vQwYJPB8QB9+LgtXQGcQt
+         EzH0z/thPUHMTfsTWVrT2D9fX8hX1fzNVveSCKcxAW4ioywL5kw03Y1l1WS+fi0Uwc
+         37ijQ/74jJzSSwZjxeKydyNUdcuNYIf4iM3FIQgGQvzvojXXKig5wZIC+JE2zNxlzh
+         Sc9eAw/Q5S5BV1mnktlGrFivm5Mi1XiZ9Ys9g8nKJDjYnQG0HHzctZWEh9lk8YyG7C
+         Dy+q0lxFidbNQ==
+X-Nifty-SrcIP: [218.220.227.105]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Sam Ravnborg <sam@ravnborg.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        linux-watchdog@vger.kernel.org,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        linux-doc@vger.kernel.org, Jim Cromie <jim.cromie@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Brian Norris <computersforpeace@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        linux-mtd@lists.infradead.org,
+        David Woodhouse <dwmw2@infradead.org>,
+        Boris Brezillon <boris.brezillon@bootlin.com>
+Subject: [PATCH] kbuild: announce removal of SUBDIRS if used
+Date:   Wed, 21 Nov 2018 00:04:18 +0900
+Message-Id: <1542726258-8418-1-git-send-email-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 19, 2018 at 05:42:48PM +0000, Roman Gushchin wrote:
-> On Sat, Nov 17, 2018 at 12:02:28AM -0800, Mike Rapoport wrote:
-> > Hi,
-> > 
-> > On Fri, Nov 16, 2018 at 04:38:30PM -0800, Roman Gushchin wrote:
-> > > Describe cgroup v2 freezer interface in the cgroup v2 admin guide.
-> > > 
-> > > Signed-off-by: Roman Gushchin <guro@fb.com>
-> > > Cc: Tejun Heo <tj@kernel.org>
-> > > Cc: linux-doc@vger.kernel.org
-> > > Cc: kernel-team@fb.com
-> > > ---
-> > >  Documentation/admin-guide/cgroup-v2.rst | 26 +++++++++++++++++++++++++
-> > >  1 file changed, 26 insertions(+)
-> > > 
-> > > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> > > index 184193bcb262..a065c0bed88c 100644
-> > > --- a/Documentation/admin-guide/cgroup-v2.rst
-> > > +++ b/Documentation/admin-guide/cgroup-v2.rst
-> > > @@ -862,6 +862,8 @@ All cgroup core files are prefixed with "cgroup."
-> > >  	  populated
-> > >  		1 if the cgroup or its descendants contains any live
-> > >  		processes; otherwise, 0.
-> > > +	  frozen
-> > > +		1 if the cgroup is frozen; otherwise, 0.
-> > > 
-> > >    cgroup.max.descendants
-> > >  	A read-write single value files.  The default is "max".
-> > > @@ -895,6 +897,30 @@ All cgroup core files are prefixed with "cgroup."
-> > >  		A dying cgroup can consume system resources not exceeding
-> > >  		limits, which were active at the moment of cgroup deletion.
-> > > 
-> > > +  cgroup.freeze
-> > > +	A read-write single value file which exists on non-root cgroups.
-> > > +	Allowed values are "0" and "1". The default is "0".
-> > > +
-> > > +	Writing "1" to the file causes freezing of the cgroup and all
-> > > +	descendant cgroups. This means that all belonging processes will
-> > > +	be stopped and will not run until the cgroup will be explicitly
-> > > +	unfrozen. Freezing of the cgroup may take some time; when the process
-> > 
-> > "when the process is complete" sounds somewhat ambiguous, it's unclear
-> > whether freezing is complete or the process that's being frozen is
-> > complete.
-> > 
-> > Maybe "when this action is completed"?
-> > 
-> > > +	is complete, the "frozen" value in the cgroup.events control file
-> > > +	will be updated and the corresponding notification will be issued.
-> > 
-> > Can you please clarify how exactly cgroup.events would be updated?
-> > 
-> > > +	Cgroup can be frozen either by its own settings, either by settings
-> > 
-> >       ^ A cgroup ... and maybe there are more "a" and "the" that should be
-> > fixed, it's hard for me to tell.
-> > 
-> > Also, I believe "either ..., or ..." sounds better than "either ...,
-> > either ..."
-> > 
-> > > +	of any ancestor cgroups. If any of ancestor cgroups is frozen, the
-> > > +	cgroup will remain frozen.
-> > > +
-> > > +	Processes in the frozen cgroup can be killed by a fatal signal.
-> > > +	They also can enter and leave a frozen cgroup: either by an explicit
-> > > +	move by a user, either if freezing of the cgroup races with fork().
-> > 
-> > ditto
-> > 
-> > > +	If a cgroup is moved to a frozen cgroup, it stops. If a process is
-> > 
-> >             ^ process?
-> > 
-> > > +	moving out of a frozen cgroup, it becomes running.
-> > 
-> >        ^ moved
-> 
-> Hello, Mike!
-> 
-> Thanks for the review! I agree with all comments above; fixes queued for v4.
-> 
-> > 
-> > > +	Frozen status of a cgroup doesn't affect any cgroup tree operations:
-> > > +	it's possible to delete a frozen (and empty) cgroup, as well as
-> > > +	create new sub-cgroups.
-> > 
-> > Maybe it's also worth adding that freezing a process has no effect on its
-> > memory consumption, at least directly.
-> 
-> Hm, isn't it the expected behavior?
+SUBDIRS has been kept as a backward compatibility since
+commit ("[PATCH] kbuild: external module support") in 2002.
 
-You'd be surprised ;-)
-Just recently I had a couple of questions about the memory consumption of
-the frozen processes.
+We do not need multiple ways to do the same thing, so I will remove
+SUBDIRS after the Linux 5.3 release. I cleaned up in-tree code, and
+updated the document so that nobody would try to use it.
+
+Meanwhile, display the following warning if SUBDIRS is used.
+
+Makefile:189: ================= WARNING ================
+Makefile:190: 'SUBDIRS' will be removed after Linux 5.3
+Makefile:191: Please use 'M=' or 'KBUILD_EXTMOD' instead
+Makefile:192: ==========================================
+
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
+
+ Documentation/kbuild/kbuild.txt    | 7 +------
+ Makefile                           | 4 ++++
+ drivers/mtd/maps/scx200_docflash.c | 7 -------
+ drivers/watchdog/scx200_wdt.c      | 7 -------
+ samples/connector/Makefile         | 2 +-
+ 5 files changed, 6 insertions(+), 21 deletions(-)
+
+diff --git a/Documentation/kbuild/kbuild.txt b/Documentation/kbuild/kbuild.txt
+index 8390c36..c9e3d93 100644
+--- a/Documentation/kbuild/kbuild.txt
++++ b/Documentation/kbuild/kbuild.txt
+@@ -81,12 +81,7 @@ KBUILD_EXTMOD
+ --------------------------------------------------
+ Set the directory to look for the kernel source when building external
+ modules.
+-The directory can be specified in several ways:
+-1) Use "M=..." on the command line
+-2) Environment variable KBUILD_EXTMOD
+-3) Environment variable SUBDIRS
+-The possibilities are listed in the order they take precedence.
+-Using "M=..." will always override the others.
++Setting "M=..." takes precedence over KBUILD_EXTMOD.
  
-> In any case, I assume that cgroup.freeze knob description is not the best place
-> for a such explanations. Maybe it's better to add a standalone paragraph with
-> the description of the frozen process state, what's expected to work, what's
-> not, etc. I'd return to this question a bit later, when we'll agree on the user
-> interface and the implementation.
-
-Sure.
+ KBUILD_OUTPUT
+ --------------------------------------------------
+diff --git a/Makefile b/Makefile
+index 370d13b..57be5fb 100644
+--- a/Makefile
++++ b/Makefile
+@@ -186,6 +186,10 @@ endif
+ # Old syntax make ... SUBDIRS=$PWD is still supported
+ # Setting the environment variable KBUILD_EXTMOD take precedence
+ ifdef SUBDIRS
++  $(warning ================= WARNING ================)
++  $(warning 'SUBDIRS' will be removed after Linux 5.3)
++  $(warning Please use 'M=' or 'KBUILD_EXTMOD' instead)
++  $(warning ==========================================)
+   KBUILD_EXTMOD ?= $(SUBDIRS)
+ endif
  
-> Thanks!
-> 
-
+diff --git a/drivers/mtd/maps/scx200_docflash.c b/drivers/mtd/maps/scx200_docflash.c
+index f1c1f73..7f1a0e6 100644
+--- a/drivers/mtd/maps/scx200_docflash.c
++++ b/drivers/mtd/maps/scx200_docflash.c
+@@ -216,10 +216,3 @@ static void __exit cleanup_scx200_docflash(void)
+ 
+ module_init(init_scx200_docflash);
+ module_exit(cleanup_scx200_docflash);
+-
+-/*
+-    Local variables:
+-        compile-command: "make -k -C ../../.. SUBDIRS=drivers/mtd/maps modules"
+-        c-basic-offset: 8
+-    End:
+-*/
+diff --git a/drivers/watchdog/scx200_wdt.c b/drivers/watchdog/scx200_wdt.c
+index 836377c..ec4063e 100644
+--- a/drivers/watchdog/scx200_wdt.c
++++ b/drivers/watchdog/scx200_wdt.c
+@@ -262,10 +262,3 @@ static void __exit scx200_wdt_cleanup(void)
+ 
+ module_init(scx200_wdt_init);
+ module_exit(scx200_wdt_cleanup);
+-
+-/*
+-    Local variables:
+-	compile-command: "make -k -C ../.. SUBDIRS=drivers/char modules"
+-	c-basic-offset: 8
+-    End:
+-*/
+diff --git a/samples/connector/Makefile b/samples/connector/Makefile
+index fe3c854..6ad7162 100644
+--- a/samples/connector/Makefile
++++ b/samples/connector/Makefile
+@@ -14,4 +14,4 @@ HOSTCFLAGS_ucon.o += -I$(objtree)/usr/include
+ all: modules
+ 
+ modules clean:
+-	$(MAKE) -C ../.. SUBDIRS=$(CURDIR) $@
++	$(MAKE) -C ../.. M=$(CURDIR) $@
 -- 
-Sincerely yours,
-Mike.
+2.7.4
 
