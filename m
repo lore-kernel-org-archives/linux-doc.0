@@ -1,127 +1,171 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CC3337D08E
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 16:22:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3E2A57D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 16:34:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731516AbeKVC56 convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Nov 2018 21:57:58 -0500
-Received: from mail-out-3.itc.rwth-aachen.de ([134.130.5.48]:61561 "EHLO
-        mail-out-3.itc.rwth-aachen.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730072AbeKVC56 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Nov 2018 21:57:58 -0500
-X-Greylist: delayed 591 seconds by postgrey-1.27 at vger.kernel.org; Wed, 21 Nov 2018 21:57:57 EST
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2AFDQB5g/Vb/5oagoZiHgEGBwaBZQKBL?=
- =?us-ascii?q?1OBaDGYBoINmTIMASyBS4J1AoQKIjgSAQMBAQIBAQJtKEIBEAEEAYRjAQEBAQI?=
- =?us-ascii?q?BJ0UKAwULAgEIDgoJJQ8BIiUCBA6FIAgBA6xqM4oljAWBWD6EI4RiEQuFWwKLE?=
- =?us-ascii?q?IRJj09VBwKBEZAziVuHK4dTkDECAgICCQIUgV0hgVVNJIM8kFlBgVmEQ4RCgl4?=
- =?us-ascii?q?BgR4BAQ?=
-X-IPAS-Result: =?us-ascii?q?A2AFDQB5g/Vb/5oagoZiHgEGBwaBZQKBL1OBaDGYBoINmTI?=
- =?us-ascii?q?MASyBS4J1AoQKIjgSAQMBAQIBAQJtKEIBEAEEAYRjAQEBAQIBJ0UKAwULAgEID?=
- =?us-ascii?q?goJJQ8BIiUCBA6FIAgBA6xqM4oljAWBWD6EI4RiEQuFWwKLEIRJj09VBwKBEZA?=
- =?us-ascii?q?ziVuHK4dTkDECAgICCQIUgV0hgVVNJIM8kFlBgVmEQ4RCgl4BgR4BAQ?=
-X-IronPort-AV: E=Sophos;i="5.56,261,1539640800"; 
-   d="scan'208";a="24956557"
-Received: from rwthex-s2-a.rwth-ad.de ([134.130.26.154])
-  by mail-in-3.itc.rwth-aachen.de with ESMTP; 21 Nov 2018 17:13:01 +0100
-Received: from rwthex-w2-a.rwth-ad.de (2a00:8a60:1:e500::26:158) by
- rwthex-s2-a.rwth-ad.de (2a00:8a60:1:e500::26:154) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1531.3; Wed, 21 Nov 2018 17:13:01 +0100
-Received: from rwthex-w2-a.rwth-ad.de ([fe80::18f3:313d:3e:42ff]) by
- rwthex-w2-a.rwth-ad.de ([fe80::18f3:313d:3e:42ff%21]) with mapi id
- 15.01.1531.007; Wed, 21 Nov 2018 17:13:01 +0100
-From:   =?iso-8859-1?Q?Br=FCns=2C_Stefan?= <Stefan.Bruens@rwth-aachen.de>
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
-CC:     "jdelvare@suse.com" <jdelvare@suse.com>,
-        "linux@roeck-us.net" <linux@roeck-us.net>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "m.purski@samsung.com" <m.purski@samsung.com>
-Subject: Re: [RFC][PATCH] hwmon: (ina2xx) Improve current and power reading
- precision
-Thread-Topic: [RFC][PATCH] hwmon: (ina2xx) Improve current and power reading
- precision
-Thread-Index: AQHUgTlMOgH+/TcWJ0m0L3+ib8kVa6VaVu4A
-Date:   Wed, 21 Nov 2018 16:13:01 +0000
-Message-ID: <2863036.QIPGp1Eqjm@sbruens-linux.lcs.intern>
-References: <20181121012629.5432-1-nicoleotsuka@gmail.com>
-In-Reply-To: <20181121012629.5432-1-nicoleotsuka@gmail.com>
-Accept-Language: en-US, de-DE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [62.153.130.132]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <BCA2704DE6A397439FA7D327DA2C9E4F@rwth-ad.de>
-Content-Transfer-Encoding: 8BIT
+        id S1731807AbeKVDJ6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Nov 2018 22:09:58 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:47077 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727874AbeKVDJ5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Nov 2018 22:09:57 -0500
+Received: by mail-lf1-f68.google.com with SMTP id f23so4425519lfc.13;
+        Wed, 21 Nov 2018 08:34:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=W47rqKvf2a7T9NXZrvi97XrIaJMvSnnFpWA4cl5Ou2o=;
+        b=DEg17h/E+7MmFUmt8lK0cg8he2VK3t249zzC1DUDHqmwrH37UkOmGic+v6DvpUkZ/b
+         IBZCNRDU5IDqxAEAgIB0b0hkBBMnYFDkJFihfXX2rRTdmfVPF3pC5fkiTBNcAI/b1Xv0
+         bwFphaoG+Z96SKHnDsqF6YAzfs3MqKsczzRyTmK05zsE5XrInzTEZQkEM4Satr4uj1k7
+         rUDvfgnDTEa0YJ5kE3OFNQqonaaBHrzbs++7JGtJM/iBlivSadWzBztT6bheHpPzmSzC
+         tPtHgBuBgjMh1PeILuxb4uqWHJMkrr+lg+Bz4oEUbH9uEKp7UZmWX3StnLTlCXnShnaE
+         mwWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=W47rqKvf2a7T9NXZrvi97XrIaJMvSnnFpWA4cl5Ou2o=;
+        b=oY1TS5hcvck47/491dLQidi//4eKbrsHeF4t1/lTRTSA78ZLWfQU8F+llTJqanF6Ok
+         G7k5moUWz8W75YYlHEIZrd5eI7sYIxk5IRDTmWTtoFophmQO6Z4HPSCeaV+0MR5NrRtA
+         r7aPUIohYO7e8DRIAvOd7l0wV4+uRWslNZ9EqybPBiuOYQyZyVXsYGCqd5tKmQxY0XK5
+         6744j4uL56eOqelZHMd1kWLc89ei8lBlIZsv0Ag21nilu5SPjdWlgvvmu9Q2xG5LRm/S
+         8bM0Chf9ySpkJiyTMzZ1jqPk/6vo7W8MohuJJSgrejPxTblvss8z/08mKq8ui7HbpzZn
+         4lcg==
+X-Gm-Message-State: AGRZ1gJS+hl9IXew/v1hYWlZEnw003feOX3vras3bq9UqlcxLy/JyBze
+        SO2eoziuaKCNcXuHTL16PlE=
+X-Google-Smtp-Source: AJdET5eQGf+Pvj9MxTPIewttBPD0Og2SxPHsZhpTY3+FH/S001ZF/zNGk5SpZlJuXuvvVgSRe7n2+Q==
+X-Received: by 2002:a19:8f45:: with SMTP id r66mr4605729lfd.9.1542818085369;
+        Wed, 21 Nov 2018 08:34:45 -0800 (PST)
+Received: from ?IPv6:2001:14bb:40:1c40:9d63:5352:fe43:f29c? (dkyrfbjndmqls8t-wxt-4.rev.dnainternet.fi. [2001:14bb:40:1c40:9d63:5352:fe43:f29c])
+        by smtp.gmail.com with ESMTPSA id c2-v6sm5952139ljj.41.2018.11.21.08.34.43
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 21 Nov 2018 08:34:44 -0800 (PST)
+Subject: Re: [PATCH 10/17] prmem: documentation
+To:     Andy Lutomirski <luto@kernel.org>,
+        Igor Stoppa <igor.stoppa@huawei.com>
+Cc:     Nadav Amit <nadav.amit@gmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        James Morris <jmorris@namei.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laura Abbott <labbott@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+References: <20181023213504.28905-1-igor.stoppa@huawei.com>
+ <20181023213504.28905-11-igor.stoppa@huawei.com>
+ <20181026092609.GB3159@worktop.c.hoisthospitality.com>
+ <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
+ <20181028183126.GB744@hirez.programming.kicks-ass.net>
+ <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
+ <20181030152641.GE8177@hirez.programming.kicks-ass.net>
+ <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
+ <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net>
+ <6f60afc9-0fed-7f95-a11a-9a2eef33094c@gmail.com>
+ <CALCETrXNckT9W288VXx-6inO5qYn-6dUPocKGcBT0GCO3xi3ZQ@mail.gmail.com>
+ <386C0CB1-C4B1-43E2-A754-DA8DBE4FB3CB@gmail.com>
+ <CALCETrWWcfLK4W3mn0bavzejmMBVKMX29aAUA3+VPQ8m9vmfhw@mail.gmail.com>
+ <9373ccf0-f51b-4bfa-2b16-e03ebf3c670d@huawei.com>
+ <2e52e103-15d0-0c26-275f-894dfd07e8ec@huawei.com>
+ <CALCETrV0sPgf4ZgG1joF_5hM-ycPsWM9DWGO=diQ_LQKin4VuA@mail.gmail.com>
+From:   Igor Stoppa <igor.stoppa@gmail.com>
+Message-ID: <1166e55c-0c06-195c-a501-383b4055ea46@gmail.com>
+Date:   Wed, 21 Nov 2018 18:34:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
+In-Reply-To: <CALCETrV0sPgf4ZgG1joF_5hM-ycPsWM9DWGO=diQ_LQKin4VuA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mittwoch, 21. November 2018 02:26:29 CET Nicolin Chen wrote:
-> === Background ===
-[...]
+Hi,
+
+On 13/11/2018 20:36, Andy Lutomirski wrote:
+> On Tue, Nov 13, 2018 at 10:33 AM Igor Stoppa <igor.stoppa@huawei.com> wrote:
+>>
+>> I forgot one sentence :-(
+>>
+>> On 13/11/2018 20:31, Igor Stoppa wrote:
+>>> On 13/11/2018 19:47, Andy Lutomirski wrote:
+>>>
+>>>> For general rare-writish stuff, I don't think we want IRQs running
+>>>> with them mapped anywhere for write.  For AVC and IMA, I'm less sure.
+>>>
+>>> Why would these be less sensitive?
+>>>
+>>> But I see a big difference between my initial implementation and this one.
+>>>
+>>> In my case, by using a shared mapping, visible to all cores, freezing
+>>> the core that is performing the write would have exposed the writable
+>>> mapping to a potential attack run from another core.
+>>>
+>>> If the mapping is private to the core performing the write, even if it
+>>> is frozen, it's much harder to figure out what it had mapped and where,
+>>> from another core.
+>>>
+>>> To access that mapping, the attack should be performed from the ISR, I
+>>> think.
+>>
+>> Unless the secondary mapping is also available to other cores, through
+>> the shared mm_struct ?
+>>
 > 
-> === Problem ===
-> Both methods simplify software routine by fixing one factor, which
-> sacrifices the precision of the hardware measurement results.
-> 
-> Using ina226 for example, with method A, the current scale was 1mA
-> and the power scale was 25mA.
-> 
-> With method B, calibration value is fixed at 2048 so the precision
-> is decided by shunt resistor value. It sounds reasonable since the
-> hardware engineers can use a larger shunt resistor when they need
-> higher resolution. However, they often concern power burning across
-> the resistor as well, so the resistor usually won't be so large: a
-> typical value 1000 micro-ohms, which results in a current scale at
-> 2.5 mA and a power sacle at 62.5 mW.
-
-Power loss surely is a concern, but figures should be kept reasonable.
-
-1. You mention 1.8V bus voltage, and currents in the 30mA range. Using the 
-1mOhm current shunt:
-
-U_S = R_S * I_S 1e-3 Ohm * 30e-3 A = 30e-6 V  (30uV)
-P_S = U_S * I_S = 30e-6V * 30e-3 A = 900e-9W = 0.9 uW
-
-INA219 Power Supply (Datasheet)
-Min operating Voltage: 3V
-Quiescent Current: 0.7mA
--> Min power: 2.1mW
-
-So the INA219 alone uses 2.1mW, 1000 times more than the shunt.
-
-Another concern may be voltage drop over the shunt, but for this case you have 
-a nominal voltage of 1.8V, so 30uV are 0.001%.
- 
-> When measuring a 1.8v voltage running a small current (e.g. 33 mA),
-> the power value (that's supposed to be 59.4 mW) becomes inaccurate
-> due to the larger scale (25mA for method A; 62.5 mA for method B).
-
-Another look into the datasheet reveals, even at full gain (PGA=1), the LSB is
-40mV / 2^12 = 40mV / 4096 ~ 10uV. So when the current ADC reads out as 3*LSB, 
-this anything between 25mA and 35mA. This is the best case figure.
-
-On top of quantisation error, you have the ADC offset voltage (V_OS), which is 
-given as (for PGA=1, best case): (+-) 10uV typical, (+-) 100uV max.
+> I don't think this matters much.  The other cores will only be able to
+> use that mapping when they're doing a rare write.
 
 
-So, if you want to have meaningful readouts adjust your shunt to a reasonable 
-value. Even 100 times the current value will have no measurable effect on you 
-system (power loss: 90uW, voltage drop: 3mV).
+I'm still mulling over this.
+There might be other reasons for replicating the mm_struct.
 
-Kind regards,
+If I understand correctly how the text patching works, it happens 
+sequentially, because of the text_mutex used by arch_jump_label_transform
 
-Stefan
+Which might be fine for this specific case, but I think I shouldn't 
+introduce a global mutex, when it comes to data.
+Most likely, if two or more cores want to perform a write rare 
+operation, there is no correlation between them, they could proceed in 
+parallel. And if there really is, then the user of the API should 
+introduce own locking, for that specific case.
+
+A bit unrelated question, related to text patching: I see that each 
+patching operation is validated, but wouldn't it be more robust to first 
+validate  all of then, and only after they are all found to be 
+compliant, to proceed with the actual modifications?
+
+And about the actual implementation of the write rare for the statically 
+allocated variables, is it expected that I use Nadav's function?
+Or that I refactor the code?
+
+The name, referring to text would definitely not be ok for data.
+And I would have to also generalize it, to deal with larger amounts of data.
+
+I would find it easier, as first cut, to replicate its behavior and 
+refactor only later, once it has stabilized and possibly Nadav's patches 
+have been acked.
+
+--
+igor
