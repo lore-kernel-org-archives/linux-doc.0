@@ -1,110 +1,168 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A10607D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 22:53:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E2C4D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 22:58:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387758AbeKVJ3Z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Nov 2018 04:29:25 -0500
-Received: from mail-ua1-f65.google.com ([209.85.222.65]:45747 "EHLO
-        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387707AbeKVJ3U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Nov 2018 04:29:20 -0500
-Received: by mail-ua1-f65.google.com with SMTP id e16so2489481uam.12
-        for <linux-doc@vger.kernel.org>; Wed, 21 Nov 2018 14:52:53 -0800 (PST)
+        id S2387674AbeKVJe3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Nov 2018 04:34:29 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:33266 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387670AbeKVJe3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Nov 2018 04:34:29 -0500
+Received: by mail-pl1-f194.google.com with SMTP id z23so7516195plo.0;
+        Wed, 21 Nov 2018 14:58:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=o23S7xtxzBQk8WzRwVhA8U0qrvy0Ap95NL75oi/N7gA=;
-        b=b+ndBDgrx9paBwOIKFj0/SUQ8n24/m5kOtIWtJWSxT4X+VRvsGB0UJPvVggbva/G7b
-         ScGvBU/IqHYd3cQOAXhctTmYRVsAlQ+kIj7iPRLN7Ga9Vx5b4XbGQ/hf23AsZrpYtOJY
-         V6vWXkRgYIIzYVvZ73BndsY+9ajEIrKMteGoO0sBaBS4gjWIV96Rb5/bs55C5XiDhHjS
-         yUSXPQB0aWVQ4a1Wm6zN5aOEQnPMTAN1cIEC17bCEg3j1EAh9GsV1ULHvqWxhTAe7MhT
-         yejNwFno+TBqKpYmKKjFncNn62smbg4K6+mA9R4YLYOi0lcRPr1ravRAhET/hEPAAK4H
-         nqTw==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=EylomEtdWUd082R3jxytnlAYpt4BAW0GmgTIx2O+agI=;
+        b=bcjpE7Ilr5Kx4GXH6xbVfThQu8ldFDH0a8W4YIkFdP83VFSuiRG7zQPu9GNCpC+kgs
+         W0gKlIgQB65sAg1eOquWogyHzNiyWM6GHLBIxgpsPumjr5WDxkgr8vsZVb5cPfcrPSJ9
+         CZZxtXk7/Rw8wCCw0lAyszxRjx7q/jucY2Tqz1c1bu/KhRqa5N39br+gfJJw4DQddFGj
+         W3zTxWrniXBx4wliZLrzElW2GVfAVjydxx6k6kcAJI/Tlz4Iio+DYAmPCG4kFEPK+Jb8
+         pNG4l1mQPXFt4broKXMgmlNpE4yKWahlIY4MXHufD1TqGajLfbfDl9VktwKQKg59CSex
+         D99w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=o23S7xtxzBQk8WzRwVhA8U0qrvy0Ap95NL75oi/N7gA=;
-        b=Ra/vQ0RlAg06PumqvHzybQE8/Dhp55hYHskBEiJtkC34kSYnb1w9yUrS8JWvGIAO/K
-         98zFAXTf6uq3Ig6uHPodS+yy2qVwAm/8G+9Wum/mOg9rVVxiqwg6YGeSbq9T5hNw4Jty
-         w03MV3NpvFF7ey+MQOEcwvkPuWeT1twny++PDQJRkI+I4gfjsaPkw5RQaSE0ioW6t0DC
-         9HdYLG8TWQrP1bnPRBDWlVnI67E3i9LLagxNUamZ7P0uX9qk1MPrMBfOFjxs7zPHJYp0
-         pDSjoJnNuTEsi4+bdYM6TxA62X6KFXQdfsYxcRuyN1cjdkpfFQQ0eyu1basKKbCSWeqG
-         ZPfA==
-X-Gm-Message-State: AA+aEWYelK+ZmLeaz6YAqiZcIdcvOS3HtWf26r0aYCOzF7zYOrZIO9DK
-        ocp/szUm3gAKlKznepHQHekYtJxTZ1fRM5Ivc1YTjg==
-X-Google-Smtp-Source: AFSGD/WzWFnjSwXWceg79kGxHFKQ/8X+b4warsKuUvSFfNLYzMPkzS26yEvYGFaEVys5rXKLKdhlPiiz5yCdaKmhEwU=
-X-Received: by 2002:ab0:225a:: with SMTP id z26mr230497uan.100.1542840772383;
- Wed, 21 Nov 2018 14:52:52 -0800 (PST)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent;
+        bh=EylomEtdWUd082R3jxytnlAYpt4BAW0GmgTIx2O+agI=;
+        b=idrMZ8u7wZhbpx0fphRD+2nkLZF/NiUHF6glCjv8XmDzVaZ9rqidCFhKfGgeO68l4J
+         bv0w4bB6Vu5uw0IkNfTsKJiWlF22tu4w7JUS52FW7k9mDsiC6tPkQ7PZmBArGKC6ciM2
+         wXriGNth1D5XmALgNI6pF4FixFkmGZ2XjmEBTG30YtBcUoNht5Dp3MBYlJSSLzYhMp2V
+         npPv7nnrwZi44UMF8ZzedSsbSzMahz7NDuAd8JRGUmKVtME8coZ1+bYVhY5eM4MUbGZv
+         7I06m2hBF+bS8noxPCcDdyjh2GaEa+qSnrn3PUii12izIcBQBzIPDKNO1s4fJW4oR3vK
+         TbEw==
+X-Gm-Message-State: AGRZ1gIornM9fzFp3t0xo2X05A4YSy0vV9resNwfAdrQKFHH5/9mX+Wb
+        1R6dhGWSRmjZcU5Y6ks8tkE=
+X-Google-Smtp-Source: AFSGD/U6BaP6ExXH4AyoO1FxzRIlukmL1SaLyVQ9IEXqrSu1BTcEyFNZ0TltirmOsbsGBHapUWRjLw==
+X-Received: by 2002:a63:fd53:: with SMTP id m19mr7844622pgj.340.1542841081100;
+        Wed, 21 Nov 2018 14:58:01 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 64sm21346794pff.101.2018.11.21.14.57.59
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 21 Nov 2018 14:58:00 -0800 (PST)
+Date:   Wed, 21 Nov 2018 14:57:58 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     =?iso-8859-1?B?QnL8bnMs?= Stefan <Stefan.Bruens@rwth-aachen.de>
+Cc:     Nicolin Chen <nicoleotsuka@gmail.com>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [RFC][PATCH] hwmon: (ina2xx) Improve current and power reading
+ precision
+Message-ID: <20181121225758.GA1421@roeck-us.net>
+References: <20181121012629.5432-1-nicoleotsuka@gmail.com>
+ <2863036.QIPGp1Eqjm@sbruens-linux.lcs.intern>
+ <20181121194051.GA8902@Asurada-Nvidia.nvidia.com>
+ <1717545.GXSegKtrMu@sbruens-linux.lcs.intern>
 MIME-Version: 1.0
-References: <20181121201452.77173-1-dancol@google.com> <20181121205428.165205-1-dancol@google.com>
- <20181121141220.0e533c1dcb4792480efbf3ff@linux-foundation.org>
- <CAKOZuetW6WMNFdL5_2=UbrEf8mjxYTdz1+4BiRLSgdoKh8FsqQ@mail.gmail.com> <CAG48ez3kgFC74jTmxqL5aPgmqcN-W4E9bR7Fz3V=Vt4qkpx2Pg@mail.gmail.com>
-In-Reply-To: <CAG48ez3kgFC74jTmxqL5aPgmqcN-W4E9bR7Fz3V=Vt4qkpx2Pg@mail.gmail.com>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Wed, 21 Nov 2018 14:52:40 -0800
-Message-ID: <CAKOZuetQPAKKxsZw2ExAsUdiRfSm-rVonqLD86vs1bnwyW1+pg@mail.gmail.com>
-Subject: Re: [PATCH v2] Add /proc/pid_gen
-To:     Jann Horn <jannh@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Tim Murray <timmurray@google.com>,
-        Primiano Tucci <primiano@google.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Roman Gushchin <guro@fb.com>,
-        Prashant Dhamdhere <pdhamdhe@redhat.com>,
-        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>, rostedt@goodmis.org,
-        tglx@linutronix.de, mingo@kernel.org, linux@dominikbrodowski.net,
-        jpoimboe@redhat.com, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Michal Hocko <mhocko@suse.com>, sfr@canb.auug.org.au,
-        ktsanaktsidis@zendesk.com, David Howells <dhowells@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1717545.GXSegKtrMu@sbruens-linux.lcs.intern>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 21, 2018 at 2:49 PM Jann Horn <jannh@google.com> wrote:
->
-> On Wed, Nov 21, 2018 at 11:40 PM Daniel Colascione <dancol@google.com> wrote:
-> > On Wed, Nov 21, 2018 at 2:12 PM Andrew Morton <akpm@linux-foundation.org> wrote:
-> > > On Wed, 21 Nov 2018 12:54:20 -0800 Daniel Colascione <dancol@google.com> wrote:
-> > > > +u64 read_pid_generation(struct pid_namespace *ns)
-> > > > +{
-> > > > +     u64 generation;
-> > > > +
-> > > > +
-> > > > +     spin_lock_irq(&pidmap_lock);
-> > > > +     generation = ns->generation;
-> > > > +     spin_unlock_irq(&pidmap_lock);
-> > > > +     return generation;
-> > > > +}
-> > >
-> > > What is the spinlocking in here for?  afaict the only purpose it serves
-> > > is to make the 64-bit read atomic, so it isn't needed on 32-bit?
-> >
-> > ITYM the spinlock is necessary *only* on 32-bit, since 64-bit
-> > architectures have atomic 64-bit reads, and 64-bit reads on 32-bit
-> > architectures can tear. This function isn't a particularly hot path,
-> > so I thought consistency across architectures would be more valuable
-> > than avoiding the lock on some systems.
->
-> Linux has atomic64_t/atomic64_read()/atomic64_inc() for this, which
-> should automatically do the right thing - processor-supported atomic
-> ops when possible, spinlock otherwise.
+On Wed, Nov 21, 2018 at 10:16:09PM +0000, Brüns, Stefan wrote:
+> On Mittwoch, 21. November 2018 20:40:52 CET Nicolin Chen wrote:
+> > (Removing "m.purski@samsung.com" since it's not reachable any more)
+> > 
+> > Hi Stefan,
+> > 
+> > Thank you for the comments.
+> > 
+> > On Wed, Nov 21, 2018 at 04:13:01PM +0000, Brüns, Stefan wrote:
+> > > > === Problem ===
+> > > > Both methods simplify software routine by fixing one factor, which
+> > > > sacrifices the precision of the hardware measurement results.
+> > > > 
+> > > > Using ina226 for example, with method A, the current scale was 1mA
+> > > > and the power scale was 25mA.
+> > > > 
+> > > > With method B, calibration value is fixed at 2048 so the precision
+> > > > is decided by shunt resistor value. It sounds reasonable since the
+> > > > hardware engineers can use a larger shunt resistor when they need
+> > > > higher resolution. However, they often concern power burning across
+> > > > the resistor as well, so the resistor usually won't be so large: a
+> > > > typical value 1000 micro-ohms, which results in a current scale at
+> > > > 2.5 mA and a power sacle at 62.5 mW.
+> > > 
+> > > Power loss surely is a concern, but figures should be kept reasonable.
+> > > 
+> > > 1. You mention 1.8V bus voltage, and currents in the 30mA range. Using the
+> > > 1mOhm current shunt:
+> > > 
+> > > U_S = R_S * I_S 1e-3 Ohm * 30e-3 A = 30e-6 V  (30uV)
+> > > P_S = U_S * I_S = 30e-6V * 30e-3 A = 900e-9W = 0.9 uW
+> > > 
+> > > INA219 Power Supply (Datasheet)
+> > > Min operating Voltage: 3V
+> > > Quiescent Current: 0.7mA
+> > > -> Min power: 2.1mW
+> > > 
+> > > So the INA219 alone uses 2.1mW, 1000 times more than the shunt.
+> > 
+> > Chip can enter power-down or one-shot mode. Though this upstream
+> > driver doesn't have these two mode supports yet, I am working on
+> > it so they'll be added.
+> 
+> The power-down current is 6uA, so even if you never leave power-down mode, you 
+> are down to 18uW. But on top of that, you need power for the conversion, and 
+> you need power for communication.
+> 
+> > > Another concern may be voltage drop over the shunt, but for this case you
+> > > have a nominal voltage of 1.8V, so 30uV are 0.001%.
+> > > 
+> > > > When measuring a 1.8v voltage running a small current (e.g. 33 mA),
+> > > > the power value (that's supposed to be 59.4 mW) becomes inaccurate
+> > > > due to the larger scale (25mA for method A; 62.5 mA for method B).
+> > 
+> > Just found out that I have typos here: 25mW and 62.5mW.
+> > 
+> > > Another look into the datasheet reveals, even at full gain (PGA=1), the
+> > > LSB is 40mV / 2^12 = 40mV / 4096 ~ 10uV. So when the current ADC reads
+> > > out as 3*LSB, this anything between 25mA and 35mA. This is the best case
+> > > figure.
+> > Current read doesn't get affected a lot actually, since hwmon ABI
+> > also reports current value in unit mA. However, the power read is
+> > the matter here. With a 62.5mW power_lsb, power results are kinda
+> > useless on my system.
+> 
+> The reported current does not matter here, actually. Internally, the ADC value 
+> will have an uncertainty of 10mA (at PGA=1). At 1.8V, your uncertainty is 
+> 18mW. And thats *only* the quantization noise. It wont get better than that.
+> 
+> Also note, you are apparently using the ina2xx hwmon driver - I strongly 
+> advise against it, you should either use the ina2xx driver from the IIO 
+> subsystem directly, or use the IIO driver via iio-hwmon.
+> 
+> 1. INA219 is not properly supported by the hwmon driver, see the changes in 
+> the IIO driver.
+> 2. The IIO driver has many more features:
+>   - setting the PGA (INA219)
+>   - setting the bus voltage range (INA219)
+>   - selecting the conversion time (INA219/226)
+> 
 
-I wanted to take advantage of the existing spinlock to synchronize
-instead of adding more atomic operations to the rollover path.
+I agree. Not because of the functionality per se ("not properly supported, see
+changes in IIO driver" is a bit vague given the number of changes there),
+but you don't really use both ina3221 and ina219 as hwmon device. Afer all,
+one-shot mode effectively turns off limit tracking.
+
+Ultimately it would be nice if iio would support limits and alarms, and iio-hwmon
+could read and report those. This would enable us to drop the iio-hwmon driver.
+
+Guenter
