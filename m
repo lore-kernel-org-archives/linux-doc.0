@@ -6,221 +6,101 @@ X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5636C7D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 22:40:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7C7C67D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 22:49:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390228AbeKVJRG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Nov 2018 04:17:06 -0500
-Received: from mail-vk1-f196.google.com ([209.85.221.196]:46869 "EHLO
-        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731883AbeKVJRF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Nov 2018 04:17:05 -0500
-Received: by mail-vk1-f196.google.com with SMTP id j23so1587279vke.13
-        for <linux-doc@vger.kernel.org>; Wed, 21 Nov 2018 14:40:41 -0800 (PST)
+        id S2390289AbeKVJZi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Nov 2018 04:25:38 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:46397 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390287AbeKVJZi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Nov 2018 04:25:38 -0500
+Received: by mail-oi1-f193.google.com with SMTP id x202so5901409oif.13
+        for <linux-doc@vger.kernel.org>; Wed, 21 Nov 2018 14:49:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=M9tjA2lexfD1mUkUX1Fi8axcHOA8khiAorvZefsr+Tc=;
-        b=uqsfKe5rzzL+6gPwo7cGlTd5Xx09B/Myn22adVg6PEaMepPKfFOCFWojESzUMBW3SU
-         /932QBoqHLtPy+kDFg1kwKrLLtysnqw8BG5Xk5BR+AsEk2hgU95C/GjLadLOjR7b/N/o
-         aConQjXLLUfKug2PXGlqbh4pp8ebE7hBEwWO4ou+vZmq2r6yEDEpYrN6PpkK0jGbCoJb
-         snx2U9Kcfn4YwUBKWVqWjFZtb7UApu0BX99Ao0wpX6lW2QoUhYpfrcp1ds5k+pxsn/LU
-         hBxp46Je3Q8g6x6iWAYmwDtWMGg3UDWnJzH36XYgXX6FuxfaifY0GH/Com+IjzKz539a
-         jsDg==
+        bh=P3FMEDsZInXhnswagiHhBthQ6heysrNaLGS/9ZfO7uw=;
+        b=VzS47Rt66GFvNWfCDJ1DW/b0qFkwE7ib46Do+PS92hb5mTKPxFPj0KwoGl2+V/1nuP
+         GojHCWtpSuW0JtcEnCk15qGvA/XiDmlNL6xQ9OD82Lc69vdfWTXsmvpUqWWU1fwGcQn0
+         7iG6mmLB8nSSC8bpaxQMHMaYuROj9hML44D1ixk5fDbjXUNInYbnkm6fvKHqpkoUdnor
+         PqywlqMs3oyKhdJSVL1CyfbBBwTqOLTpU3FZFOimqQxD6kvALu04ekmXu9pHpwHdQw3K
+         gSMfDQqX+WhdmqjpvtsmFK/MWFvkvvj2N6U8uL9WHTDDEXSYEPcb1h2ucumFBHIBHXuc
+         SHNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=M9tjA2lexfD1mUkUX1Fi8axcHOA8khiAorvZefsr+Tc=;
-        b=RNgBT4J/rVTCnf8++kz7POQSBNMVVEZLAeFyiMzipxfbsp/4q5RMIdVzYxnE5sJIf7
-         e0EDIbIKGcXk9BcXyyO+CxisCTqtcfyo0EfW8zqq91Hb4HVHGSUf+f3ts9mzjT1Smlxu
-         wxMY91Mjp1tUO2rhw/lBobik4C1mCvEa5eJfj5jhnyoplGd0xhjmtnsW7zDliPUDB70R
-         QqFOGqpkhsDk/unfDPb4A4njEAnrpSs2KSAOZO4qiOICSw5ogYFvj77yburfdKCIMH1t
-         QBEWHIDC4B+gI5zmFkzyFSV5E23ku/dwm5+/LrjAetYLAOX8ZBd76wvixf0wsQzH1Kii
-         BWMA==
-X-Gm-Message-State: AA+aEWZp3RZZPcgGXZ5DwBtVb2IFHgtephlBJCXzSFhFUNmTgHTGxW2T
-        qoxV1EK96tTDsTkgFekGgYSinwt2DodeAk1806OYQA==
-X-Google-Smtp-Source: AFSGD/XH5l7580bYLiOc11AS6/k9kpzLgMYMGaVKygtKnxG1pw58HUw0AsNmAaWOumbp/c22tmBfe8yHVM+738jKxEA=
-X-Received: by 2002:a1f:7cca:: with SMTP id x193mr3620786vkc.89.1542840040673;
- Wed, 21 Nov 2018 14:40:40 -0800 (PST)
+        bh=P3FMEDsZInXhnswagiHhBthQ6heysrNaLGS/9ZfO7uw=;
+        b=ex65GxIsZWWPUBPlzeciQAib+LwgnHpENFM4X3Z92izw+Ig9pZXUH4s5f2ouHFsSka
+         yTsgmQ+1Pf2sY5y2Zj/LVO/UpYB06PKvbqbjTHycOHrWbxNMHBEfA7/mJ7oVLGxwrjj8
+         /Lg1DtrBt72MNqBYLEyc5azptBDQRn53Nmicb16HosOuTUkEhwxlktWDiae94RYBhFrN
+         0G9tc8tKun6+EYjuGEHftAIwEcgaiyB5Nvl6DUc66NgFEhRT28olA9Fv8s3ozAkd7LtM
+         XxMzU3Y6C3O1i4wYZvNsN1+f4q1GzeCDQy4HZnu21rGJjkQN+b1HG1RQpp+9+M8usOfe
+         lH8w==
+X-Gm-Message-State: AGRZ1gL0Z2XxYGcNqDP+AjjQSO88D7PV29dcmup5vusSNGkHHUmQw1K9
+        R47UvHo2FfBVl/W+2+VShpStOyqqIP7cAvwTP3EB4g==
+X-Google-Smtp-Source: AJdET5dIuffKwcytEzOvewd47/n+DDj/gOQUkVaZ+6JH8NgrWwulKw66ocQJH2jBtvXYdgf4nlIMfBhpRMknD75ulwU=
+X-Received: by 2002:aca:c413:: with SMTP id u19mr4484546oif.209.1542840551558;
+ Wed, 21 Nov 2018 14:49:11 -0800 (PST)
 MIME-Version: 1.0
 References: <20181121201452.77173-1-dancol@google.com> <20181121205428.165205-1-dancol@google.com>
- <20181121141220.0e533c1dcb4792480efbf3ff@linux-foundation.org>
-In-Reply-To: <20181121141220.0e533c1dcb4792480efbf3ff@linux-foundation.org>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Wed, 21 Nov 2018 14:40:28 -0800
-Message-ID: <CAKOZuetW6WMNFdL5_2=UbrEf8mjxYTdz1+4BiRLSgdoKh8FsqQ@mail.gmail.com>
+ <20181121141220.0e533c1dcb4792480efbf3ff@linux-foundation.org> <CAKOZuetW6WMNFdL5_2=UbrEf8mjxYTdz1+4BiRLSgdoKh8FsqQ@mail.gmail.com>
+In-Reply-To: <CAKOZuetW6WMNFdL5_2=UbrEf8mjxYTdz1+4BiRLSgdoKh8FsqQ@mail.gmail.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Wed, 21 Nov 2018 23:48:45 +0100
+Message-ID: <CAG48ez3kgFC74jTmxqL5aPgmqcN-W4E9bR7Fz3V=Vt4qkpx2Pg@mail.gmail.com>
 Subject: Re: [PATCH v2] Add /proc/pid_gen
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+To:     Daniel Colascione <dancol@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
-        Tim Murray <timmurray@google.com>,
-        Primiano Tucci <primiano@google.com>,
+        Tim Murray <timmurray@google.com>, primiano@google.com,
         Joel Fernandes <joelaf@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Roman Gushchin <guro@fb.com>,
-        Prashant Dhamdhere <pdhamdhe@redhat.com>,
-        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>, rostedt@goodmis.org,
-        tglx@linutronix.de, mingo@kernel.org, linux@dominikbrodowski.net,
-        jpoimboe@redhat.com, ard.biesheuvel@linaro.org,
-        Michal Hocko <mhocko@suse.com>, sfr@canb.auug.org.au,
+        Vlastimil Babka <vbabka@suse.cz>, guro@fb.com,
+        pdhamdhe@redhat.com, dennisszhou@gmail.com,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>, linux@dominikbrodowski.net,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
         ktsanaktsidis@zendesk.com, David Howells <dhowells@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+        linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 21, 2018 at 2:12 PM Andrew Morton <akpm@linux-foundation.org> wrote:
->
-> On Wed, 21 Nov 2018 12:54:20 -0800 Daniel Colascione <dancol@google.com> wrote:
->
-> > Trace analysis code needs a coherent picture of the set of processes
-> > and threads running on a system. While it's possible to enumerate all
-> > tasks via /proc, this enumeration is not atomic. If PID numbering
-> > rolls over during snapshot collection, the resulting snapshot of the
-> > process and thread state of the system may be incoherent, confusing
-> > trace analysis tools. The fundamental problem is that if a PID is
-> > reused during a userspace scan of /proc, it's impossible to tell, in
-> > post-processing, whether a fact that the userspace /proc scanner
-> > reports regarding a given PID refers to the old or new task named by
-> > that PID, as the scan of that PID may or may not have occurred before
-> > the PID reuse, and there's no way to "stamp" a fact read from the
-> > kernel with a trace timestamp.
+On Wed, Nov 21, 2018 at 11:40 PM Daniel Colascione <dancol@google.com> wrote:
+> On Wed, Nov 21, 2018 at 2:12 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+> > On Wed, 21 Nov 2018 12:54:20 -0800 Daniel Colascione <dancol@google.com> wrote:
+> > > +u64 read_pid_generation(struct pid_namespace *ns)
+> > > +{
+> > > +     u64 generation;
+> > > +
+> > > +
+> > > +     spin_lock_irq(&pidmap_lock);
+> > > +     generation = ns->generation;
+> > > +     spin_unlock_irq(&pidmap_lock);
+> > > +     return generation;
+> > > +}
 > >
-> > This change adds a per-pid-namespace 64-bit generation number,
-> > incremented on PID rollover, and exposes it via a new proc file
-> > /proc/pid_gen. By examining this file before and after /proc
-> > enumeration, user code can detect the potential reuse of a PID and
-> > restart the task enumeration process, repeating until it gets a
-> > coherent snapshot.
-> >
-> > PID rollover ought to be rare, so in practice, scan repetitions will
-> > be rare.
+> > What is the spinlocking in here for?  afaict the only purpose it serves
+> > is to make the 64-bit read atomic, so it isn't needed on 32-bit?
 >
-> In general, tracing is a rather specialized thing.  Why is this very
-> occasional confusion a sufficiently serious problem to warrant addition
-> of this code?
+> ITYM the spinlock is necessary *only* on 32-bit, since 64-bit
+> architectures have atomic 64-bit reads, and 64-bit reads on 32-bit
+> architectures can tear. This function isn't a particularly hot path,
+> so I thought consistency across architectures would be more valuable
+> than avoiding the lock on some systems.
 
-I wouldn't call tracing a specialized thing: it's important enough to
-justify its own summit and a whole ecosystem of trace collection and
-analysis tools. We use it in every day in Android. It's tremendously
-helpful for understanding system behavior, especially in cases where
-multiple components interact in ways that we can't readily predict or
-replicate. Reliability and precision in this area are essential:
-retrospective analysis of difficult-to-reproduce problems involves
-puzzling over trace files and testing hypothesis, and when the trace
-system itself is occasionally unreliable, the set of hypothesis to
-consider grows. I've tried to keep the amount of kernel infrastructure
-needed to support this precision and reliability to a minimum, pushing
-most of the complexity to userspace. But we do need, from the kernel,
-reliable process disambiguation.
-
-Besides: things like checkpoint and restart are also non-core
-features, but the kernel has plenty of infrastructure to support them.
-We're talking about a very lightweight feature in this thread.
-
-> Which userspace tools will be using pid_gen?  Are the developers of
-> those tools signed up to use pid_gen?
-
-I'll be changing Android tracing tools to capture process snapshots
-using pid_gen, using the algorithm in the commit message.
-
-> > --- a/include/linux/pid.h
-> > +++ b/include/linux/pid.h
-> > @@ -112,6 +112,7 @@ extern struct pid *find_ge_pid(int nr, struct pid_namespace *);
-> >  int next_pidmap(struct pid_namespace *pid_ns, unsigned int last);
-> >
-> >  extern struct pid *alloc_pid(struct pid_namespace *ns);
-> > +extern u64 read_pid_generation(struct pid_namespace *ns);
->
-> pig_generation_read() would be a better (and more idiomatic) name.
-
-Thanks. I'll change it.
-
->
-> >  extern void free_pid(struct pid *pid);
-> >  extern void disable_pid_allocation(struct pid_namespace *ns);
-> >
-> > ...
-> >
-> > +u64 read_pid_generation(struct pid_namespace *ns)
-> > +{
-> > +     u64 generation;
-> > +
-> > +
-> > +     spin_lock_irq(&pidmap_lock);
-> > +     generation = ns->generation;
-> > +     spin_unlock_irq(&pidmap_lock);
-> > +     return generation;
-> > +}
->
-> What is the spinlocking in here for?  afaict the only purpose it serves
-> is to make the 64-bit read atomic, so it isn't needed on 32-bit?
-
-ITYM the spinlock is necessary *only* on 32-bit, since 64-bit
-architectures have atomic 64-bit reads, and 64-bit reads on 32-bit
-architectures can tear. This function isn't a particularly hot path,
-so I thought consistency across architectures would be more valuable
-than avoiding the lock on some systems.
-
-> >  void disable_pid_allocation(struct pid_namespace *ns)
-> >  {
-> >       spin_lock_irq(&pidmap_lock);
-> > @@ -449,6 +463,17 @@ struct pid *find_ge_pid(int nr, struct pid_namespace *ns)
-> >       return idr_get_next(&ns->idr, &nr);
-> >  }
-> >
-> > +#ifdef CONFIG_PROC_FS
-> > +static int pid_generation_show(struct seq_file *m, void *v)
-> > +{
-> > +     u64 generation =
-> > +             read_pid_generation(proc_pid_ns(file_inode(m->file)));
->
->         u64 generation;
->
->         generation = read_pid_generation(proc_pid_ns(file_inode(m->file)));
->
-> is a nicer way of avoiding column wrap.
-
-Sure.
-
-> > +     seq_printf(m, "%llu\n", generation);
-> > +     return 0;
-> > +
-> > +};
-> > +#endif
-> > +
-> >  void __init pid_idr_init(void)
-> >  {
-> >       /* Verify no one has done anything silly: */
-> > @@ -465,4 +490,13 @@ void __init pid_idr_init(void)
-> >
-> >       init_pid_ns.pid_cachep = KMEM_CACHE(pid,
-> >                       SLAB_HWCACHE_ALIGN | SLAB_PANIC | SLAB_ACCOUNT);
-> > +
-> > +}
-> > +
-> > +void __init pid_proc_init(void)
-> > +{
-> > +     /* pid_idr_init is too early, so get a separate init function. */
->
-> s/get a/use a/
-
-Will change.
-
-> > +#ifdef CONFIG_PROC_FS
-> > +     WARN_ON(!proc_create_single("pid_gen", 0, NULL, pid_generation_show));
-> > +#endif
-> >  }
->
-> This whole function could vanish if !CONFIG_PROC_FS.  Doesn't matter
-> much with __init code though.
-
-I wanted to keep the ifdefed region as small as possible. I wonder
-whether LTO is good enough to make the function and its call site
-disappear entirely in configurations where it has an empty body.
+Linux has atomic64_t/atomic64_read()/atomic64_inc() for this, which
+should automatically do the right thing - processor-supported atomic
+ops when possible, spinlock otherwise.
