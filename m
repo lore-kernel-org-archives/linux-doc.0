@@ -1,93 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 045A67D08E
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 15:45:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1C6897D08E
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 15:53:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731543AbeKVCT4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Nov 2018 21:19:56 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:40417 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728289AbeKVCT4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Nov 2018 21:19:56 -0500
-Received: by mail-pl1-f194.google.com with SMTP id b22-v6so6059272pls.7;
-        Wed, 21 Nov 2018 07:44:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=FRTLG/U3oR9gL/KxBILMdBAq7JTFVnu0dqr9HvDbVNg=;
-        b=NUJODMbrViBLWVwsTYcqSV1ig2IIjA6aqr3Cv254mr4xQdtExDo2JUNgWid9XhIuY9
-         jHZ+vdq1JoTm1q1PCDOUAvqeDsgxgEesAcTv++iewjq7VtFeTQTLMWmf+DaeII4DtxGN
-         n8XZbwulog3uWLd1HqrZWgNOUsn57Nmwf+R3N50HJkJhj/9xWMYbYa5OoDmSlw2PCqQH
-         BJmuW2ZL4T1oeyj1frZGVIjFzYMr7YTJ/yp7yaCJY96vdHa+7FovKOIg+eFFxfj6hbb4
-         M0p3ykWaOpcaPWRC+HrAqiak+NaDNBEobwuNZXvVJVVRcp3sWz3jbJatxl2LI7fYkXvk
-         YgHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=FRTLG/U3oR9gL/KxBILMdBAq7JTFVnu0dqr9HvDbVNg=;
-        b=j9i4/K9Vr/PSEsIBBV+KPwmFIhWX3tQP/n7EweeGKTQtFgB04QpqWXm46/COk3f1Q1
-         xJC8yPIgEhOXHMN9ppyVtPfaQNuIq4VKCrm6fxDD1p5pF+IvGqcVMa+uAoxf9H4rReFu
-         u7p+52vnX9m3XOofHzjvSD5WnspXU12APz8k/xKKnJ+lgJzGq91ohmFzgOHKfyNoVB/C
-         x72DGxYb8Xe1hYiV/mE45ihJHn5isQCtdcsHtMlvM2ea7oWI12UJ/Ljq9z7swIfiCp2D
-         2JjqjM3ep00RLpU3k9vhlGYz+K0ItW1AQBun88QDMWsyxf5UuBsGcFjAp1bkSo1pxpm9
-         T0Ig==
-X-Gm-Message-State: AA+aEWYSfqo6xFGlp0IlaZ9rM7JYi7cB+t2ujnf2pyso6nW/kQX7rXzp
-        Z3VhbCuggv+4OoZ7hXriWD8=
-X-Google-Smtp-Source: AFSGD/V9WFGAVGC1jl7EWP6cFR9DH38qTBAgwaFL8G7HnBjUENlwNW8FqALT0om+yzvCDcVEbndXXQ==
-X-Received: by 2002:a63:8e43:: with SMTP id k64mr6438945pge.346.1542815098848;
-        Wed, 21 Nov 2018 07:44:58 -0800 (PST)
-Received: from arx-s1 ([116.238.148.251])
-        by smtp.gmail.com with ESMTPSA id u19-v6sm54668918pfh.153.2018.11.21.07.44.51
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 21 Nov 2018 07:44:57 -0800 (PST)
-Date:   Wed, 21 Nov 2018 23:44:47 +0800
-From:   Hao Zhang <hao5781286@gmail.com>
-To:     robh+dt@kernel.org, maxime.ripard@free-electrons.com,
-        wens@csie.org, icenowy@aosc.io
-Cc:     linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-sunxi@googlegroups.com, hao5781286@gmail.com
-Subject: [PATCH v1 2/2] Documentation: ARM: sunxi: Add Allwinner SoC T3.
-Message-ID: <20181121154447.GA4384@arx-s1>
+        id S1731594AbeKVC2p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Nov 2018 21:28:45 -0500
+Received: from mx.kolabnow.com ([95.128.36.42]:13722 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731131AbeKVC2p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Nov 2018 21:28:45 -0500
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 29F27A64;
+        Wed, 21 Nov 2018 16:53:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1542815622; x=1544630023; bh=YdsMC3JWrhMd658gz1ABveCbMekDsMRD/iU
+        EtUYf4s8=; b=cif+df//MKyHjZxDkgmwiCY7WT2kGIJqoIYiK/xyKxbX7J9kotJ
+        oTXNDCNEUhtUa/EM01vXDCcwH8CupT48fFXjC3RMcE16kt6aVVvN5O28X6Bj0Oaa
+        Ecl/ewCkCvR3o1x6M3qT8+L2n2A5Gq8W8owO1/aach2MM9MLcmJef+1xSLEaZfoq
+        r0vRE54D7eQfGCB/Tqg76J1uszumqIjTvRNV2SK286Uq68CeJS86i7FahAwEMMqe
+        kiypnAzjyMMXpe2H30aEW6kfUEeyxHnSNRpvKZ7bS/iON1Y6t7U5w22NFXjhjzpj
+        AvlKCRsZHYFN/hOkpgSw5NeMMTjmyc+KFD0z/kk7LXX1u8lkkNA34yC/mObpk3WA
+        zvPFJM/EklPG/cyx6r8b727j/2nf8/ag784c/chn3lgYiA13VXL1xFdVvJTfKala
+        fQejiRObf5vH2SPDHMYF0JKdGr+N9i9IZnJeX3BGAiXZSi4SuXf5c3bbM69bFbsj
+        +gfTcerhOr4neOzbeFt4GoHZYehyfDLH9SNyMA2aMPvR6lDSi4cd7VkAnAX6X75e
+        qapyOAFLtcvYUT8qr99i4rB0TZugwFywAYsn/EkgRmuBK2go9jar6LajfkOWVpQE
+        s13SJQG+J1sabmIY+UkgsPV74cryFEHwZsntW+PJEBo6c17dQcxsnPrk=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 5cIcBsz10Gza; Wed, 21 Nov 2018 16:53:42 +0100 (CET)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id A7825811;
+        Wed, 21 Nov 2018 16:53:42 +0100 (CET)
+Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id 4B997B51;
+        Wed, 21 Nov 2018 16:53:42 +0100 (CET)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] doc:process: add links where missing
+Date:   Wed, 21 Nov 2018 16:53:41 +0100
+Message-ID: <2954499.FhAtZrsb9b@pcbe13614>
+In-Reply-To: <20181121132346.GG3065@bombadil.infradead.org>
+References: <20181121003519.12559-1-federico.vaga@vaga.pv.it> <20181121132346.GG3065@bombadil.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add Allwinner SoC T3 document and fix format.
+On Wednesday, November 21, 2018 2:23:46 PM CET Matthew Wilcox wrote:
+> On Wed, Nov 21, 2018 at 01:35:19AM +0100, Federico Vaga wrote:
+> > Some documents are refering to others without links. With this
+> > patch I add those missing links.
+> 
+> I am a neophyte to ReST, but ...
+> 
+> > +++ b/Documentation/dev-tools/coccinelle.rst
+> > @@ -4,6 +4,8 @@
+> > 
+> >  .. highlight:: none
+> > 
+> > +.. _devtools_coccinelle:
+> > +
+> > 
+> >  Coccinelle
+> >  ==========
+> > 
+> > +++ b/Documentation/process/4.Coding.rst
+> > @@ -315,7 +315,8 @@ variety of potential coding problems; it can also
+> > propose fixes for those> 
+> >  problems.  Quite a few "semantic patches" for the kernel have been
+> >  packaged
+> >  under the scripts/coccinelle directory; running "make coccicheck" will
+> >  run
+> >  through those semantic patches and report on any problems found.  See
+> > 
+> > -Documentation/dev-tools/coccinelle.rst for more information.
+> > +:ref:`Documentation/dev-tools/coccinelle.rst <devtools_coccinelle>`
+> > +for more information.
+> 
+> when I tried to do something like this yesterday, I discovered that
+> doing:
+> 
+> +.. _memory_allocation:
+> 
+> didn't work, and I had to do:
+> 
+> +.. _memory-allocation:
 
-Signed-off-by: Hao Zhang <hao5781286@gmail.com>
----
- Documentation/devicetree/bindings/arm/sunxi.txt | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I would say that in principle it should not make a difference. Both '-' and 
+'_' characters are explicitly allowed:
 
-diff --git a/Documentation/devicetree/bindings/arm/sunxi.txt b/Documentation/devicetree/bindings/arm/sunxi.txt
-index e4beec3..94b9c12 100644
---- a/Documentation/devicetree/bindings/arm/sunxi.txt
-+++ b/Documentation/devicetree/bindings/arm/sunxi.txt
-@@ -14,7 +14,8 @@ using one of the following compatible strings:
-   allwinner,sun8i-a83t
-   allwinner,sun8i-h2-plus
-   allwinner,sun8i-h3
--  allwinner-sun8i-r40
-+  allwinner,sun8i-r40
-+  allwinner,sun8i-t3
-   allwinner,sun8i-v3s
-   allwinner,sun9i-a80
-   allwinner,sun50i-a64
+http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#reference-names
+
+> instead.  Also, when doing 'ref', do we want this style of ref, or do we
+> 
+> prefer the plain:
+> :ref:`devtools-coccinelle`
+> 
+> which is what I did yesterday.  
+
+The style depends on the situation. In this patch (mine) the objective is to 
+show that there is a file that talk about the topic, it's there (the path is 
+visible), and by the way if you click on it you are able to open it.
+
+> Maybe that's why yours works with the underscores and mine didn't?
+
+This, honestly, I do not know. Perhaps it depends on the Sphinx version in use 
+or some other python package? As explained here:
+
+https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html
+
+Sphinx environment can be fragile.
+
 -- 
-2.7.4
+Federico Vaga
+http://www.federicovaga.it/
+
 
