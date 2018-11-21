@@ -1,132 +1,127 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1C6897D08E
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 15:53:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CC3337D08E
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 16:22:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731594AbeKVC2p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Nov 2018 21:28:45 -0500
-Received: from mx.kolabnow.com ([95.128.36.42]:13722 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731131AbeKVC2p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Nov 2018 21:28:45 -0500
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 29F27A64;
-        Wed, 21 Nov 2018 16:53:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1542815622; x=1544630023; bh=YdsMC3JWrhMd658gz1ABveCbMekDsMRD/iU
-        EtUYf4s8=; b=cif+df//MKyHjZxDkgmwiCY7WT2kGIJqoIYiK/xyKxbX7J9kotJ
-        oTXNDCNEUhtUa/EM01vXDCcwH8CupT48fFXjC3RMcE16kt6aVVvN5O28X6Bj0Oaa
-        Ecl/ewCkCvR3o1x6M3qT8+L2n2A5Gq8W8owO1/aach2MM9MLcmJef+1xSLEaZfoq
-        r0vRE54D7eQfGCB/Tqg76J1uszumqIjTvRNV2SK286Uq68CeJS86i7FahAwEMMqe
-        kiypnAzjyMMXpe2H30aEW6kfUEeyxHnSNRpvKZ7bS/iON1Y6t7U5w22NFXjhjzpj
-        AvlKCRsZHYFN/hOkpgSw5NeMMTjmyc+KFD0z/kk7LXX1u8lkkNA34yC/mObpk3WA
-        zvPFJM/EklPG/cyx6r8b727j/2nf8/ag784c/chn3lgYiA13VXL1xFdVvJTfKala
-        fQejiRObf5vH2SPDHMYF0JKdGr+N9i9IZnJeX3BGAiXZSi4SuXf5c3bbM69bFbsj
-        +gfTcerhOr4neOzbeFt4GoHZYehyfDLH9SNyMA2aMPvR6lDSi4cd7VkAnAX6X75e
-        qapyOAFLtcvYUT8qr99i4rB0TZugwFywAYsn/EkgRmuBK2go9jar6LajfkOWVpQE
-        s13SJQG+J1sabmIY+UkgsPV74cryFEHwZsntW+PJEBo6c17dQcxsnPrk=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 5cIcBsz10Gza; Wed, 21 Nov 2018 16:53:42 +0100 (CET)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id A7825811;
-        Wed, 21 Nov 2018 16:53:42 +0100 (CET)
-Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id 4B997B51;
-        Wed, 21 Nov 2018 16:53:42 +0100 (CET)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] doc:process: add links where missing
-Date:   Wed, 21 Nov 2018 16:53:41 +0100
-Message-ID: <2954499.FhAtZrsb9b@pcbe13614>
-In-Reply-To: <20181121132346.GG3065@bombadil.infradead.org>
-References: <20181121003519.12559-1-federico.vaga@vaga.pv.it> <20181121132346.GG3065@bombadil.infradead.org>
+        id S1731516AbeKVC56 convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Nov 2018 21:57:58 -0500
+Received: from mail-out-3.itc.rwth-aachen.de ([134.130.5.48]:61561 "EHLO
+        mail-out-3.itc.rwth-aachen.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730072AbeKVC56 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Nov 2018 21:57:58 -0500
+X-Greylist: delayed 591 seconds by postgrey-1.27 at vger.kernel.org; Wed, 21 Nov 2018 21:57:57 EST
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2AFDQB5g/Vb/5oagoZiHgEGBwaBZQKBL?=
+ =?us-ascii?q?1OBaDGYBoINmTIMASyBS4J1AoQKIjgSAQMBAQIBAQJtKEIBEAEEAYRjAQEBAQI?=
+ =?us-ascii?q?BJ0UKAwULAgEIDgoJJQ8BIiUCBA6FIAgBA6xqM4oljAWBWD6EI4RiEQuFWwKLE?=
+ =?us-ascii?q?IRJj09VBwKBEZAziVuHK4dTkDECAgICCQIUgV0hgVVNJIM8kFlBgVmEQ4RCgl4?=
+ =?us-ascii?q?BgR4BAQ?=
+X-IPAS-Result: =?us-ascii?q?A2AFDQB5g/Vb/5oagoZiHgEGBwaBZQKBL1OBaDGYBoINmTI?=
+ =?us-ascii?q?MASyBS4J1AoQKIjgSAQMBAQIBAQJtKEIBEAEEAYRjAQEBAQIBJ0UKAwULAgEID?=
+ =?us-ascii?q?goJJQ8BIiUCBA6FIAgBA6xqM4oljAWBWD6EI4RiEQuFWwKLEIRJj09VBwKBEZA?=
+ =?us-ascii?q?ziVuHK4dTkDECAgICCQIUgV0hgVVNJIM8kFlBgVmEQ4RCgl4BgR4BAQ?=
+X-IronPort-AV: E=Sophos;i="5.56,261,1539640800"; 
+   d="scan'208";a="24956557"
+Received: from rwthex-s2-a.rwth-ad.de ([134.130.26.154])
+  by mail-in-3.itc.rwth-aachen.de with ESMTP; 21 Nov 2018 17:13:01 +0100
+Received: from rwthex-w2-a.rwth-ad.de (2a00:8a60:1:e500::26:158) by
+ rwthex-s2-a.rwth-ad.de (2a00:8a60:1:e500::26:154) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1531.3; Wed, 21 Nov 2018 17:13:01 +0100
+Received: from rwthex-w2-a.rwth-ad.de ([fe80::18f3:313d:3e:42ff]) by
+ rwthex-w2-a.rwth-ad.de ([fe80::18f3:313d:3e:42ff%21]) with mapi id
+ 15.01.1531.007; Wed, 21 Nov 2018 17:13:01 +0100
+From:   =?iso-8859-1?Q?Br=FCns=2C_Stefan?= <Stefan.Bruens@rwth-aachen.de>
+To:     Nicolin Chen <nicoleotsuka@gmail.com>
+CC:     "jdelvare@suse.com" <jdelvare@suse.com>,
+        "linux@roeck-us.net" <linux@roeck-us.net>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "m.purski@samsung.com" <m.purski@samsung.com>
+Subject: Re: [RFC][PATCH] hwmon: (ina2xx) Improve current and power reading
+ precision
+Thread-Topic: [RFC][PATCH] hwmon: (ina2xx) Improve current and power reading
+ precision
+Thread-Index: AQHUgTlMOgH+/TcWJ0m0L3+ib8kVa6VaVu4A
+Date:   Wed, 21 Nov 2018 16:13:01 +0000
+Message-ID: <2863036.QIPGp1Eqjm@sbruens-linux.lcs.intern>
+References: <20181121012629.5432-1-nicoleotsuka@gmail.com>
+In-Reply-To: <20181121012629.5432-1-nicoleotsuka@gmail.com>
+Accept-Language: en-US, de-DE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [62.153.130.132]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <BCA2704DE6A397439FA7D327DA2C9E4F@rwth-ad.de>
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wednesday, November 21, 2018 2:23:46 PM CET Matthew Wilcox wrote:
-> On Wed, Nov 21, 2018 at 01:35:19AM +0100, Federico Vaga wrote:
-> > Some documents are refering to others without links. With this
-> > patch I add those missing links.
+On Mittwoch, 21. November 2018 02:26:29 CET Nicolin Chen wrote:
+> === Background ===
+[...]
 > 
-> I am a neophyte to ReST, but ...
+> === Problem ===
+> Both methods simplify software routine by fixing one factor, which
+> sacrifices the precision of the hardware measurement results.
 > 
-> > +++ b/Documentation/dev-tools/coccinelle.rst
-> > @@ -4,6 +4,8 @@
-> > 
-> >  .. highlight:: none
-> > 
-> > +.. _devtools_coccinelle:
-> > +
-> > 
-> >  Coccinelle
-> >  ==========
-> > 
-> > +++ b/Documentation/process/4.Coding.rst
-> > @@ -315,7 +315,8 @@ variety of potential coding problems; it can also
-> > propose fixes for those> 
-> >  problems.  Quite a few "semantic patches" for the kernel have been
-> >  packaged
-> >  under the scripts/coccinelle directory; running "make coccicheck" will
-> >  run
-> >  through those semantic patches and report on any problems found.  See
-> > 
-> > -Documentation/dev-tools/coccinelle.rst for more information.
-> > +:ref:`Documentation/dev-tools/coccinelle.rst <devtools_coccinelle>`
-> > +for more information.
+> Using ina226 for example, with method A, the current scale was 1mA
+> and the power scale was 25mA.
 > 
-> when I tried to do something like this yesterday, I discovered that
-> doing:
-> 
-> +.. _memory_allocation:
-> 
-> didn't work, and I had to do:
-> 
-> +.. _memory-allocation:
+> With method B, calibration value is fixed at 2048 so the precision
+> is decided by shunt resistor value. It sounds reasonable since the
+> hardware engineers can use a larger shunt resistor when they need
+> higher resolution. However, they often concern power burning across
+> the resistor as well, so the resistor usually won't be so large: a
+> typical value 1000 micro-ohms, which results in a current scale at
+> 2.5 mA and a power sacle at 62.5 mW.
 
-I would say that in principle it should not make a difference. Both '-' and 
-'_' characters are explicitly allowed:
+Power loss surely is a concern, but figures should be kept reasonable.
 
-http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#reference-names
+1. You mention 1.8V bus voltage, and currents in the 30mA range. Using the 
+1mOhm current shunt:
 
-> instead.  Also, when doing 'ref', do we want this style of ref, or do we
-> 
-> prefer the plain:
-> :ref:`devtools-coccinelle`
-> 
-> which is what I did yesterday.  
+U_S = R_S * I_S 1e-3 Ohm * 30e-3 A = 30e-6 V  (30uV)
+P_S = U_S * I_S = 30e-6V * 30e-3 A = 900e-9W = 0.9 uW
 
-The style depends on the situation. In this patch (mine) the objective is to 
-show that there is a file that talk about the topic, it's there (the path is 
-visible), and by the way if you click on it you are able to open it.
+INA219 Power Supply (Datasheet)
+Min operating Voltage: 3V
+Quiescent Current: 0.7mA
+-> Min power: 2.1mW
 
-> Maybe that's why yours works with the underscores and mine didn't?
+So the INA219 alone uses 2.1mW, 1000 times more than the shunt.
 
-This, honestly, I do not know. Perhaps it depends on the Sphinx version in use 
-or some other python package? As explained here:
+Another concern may be voltage drop over the shunt, but for this case you have 
+a nominal voltage of 1.8V, so 30uV are 0.001%.
+ 
+> When measuring a 1.8v voltage running a small current (e.g. 33 mA),
+> the power value (that's supposed to be 59.4 mW) becomes inaccurate
+> due to the larger scale (25mA for method A; 62.5 mA for method B).
 
-https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html
+Another look into the datasheet reveals, even at full gain (PGA=1), the LSB is
+40mV / 2^12 = 40mV / 4096 ~ 10uV. So when the current ADC reads out as 3*LSB, 
+this anything between 25mA and 35mA. This is the best case figure.
 
-Sphinx environment can be fragile.
-
--- 
-Federico Vaga
-http://www.federicovaga.it/
+On top of quantisation error, you have the ADC offset voltage (V_OS), which is 
+given as (for PGA=1, best case): (+-) 10uV typical, (+-) 100uV max.
 
 
+So, if you want to have meaningful readouts adjust your shunt to a reasonable 
+value. Even 100 times the current value will have no measurable effect on you 
+system (power loss: 90uW, voltage drop: 3mV).
+
+Kind regards,
+
+Stefan
