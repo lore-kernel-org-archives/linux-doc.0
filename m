@@ -1,114 +1,151 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7AEC37D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 07:24:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 07E987D099
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 08:50:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726090AbeKUR6A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Nov 2018 12:58:00 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:44036 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726001AbeKUR57 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Nov 2018 12:57:59 -0500
-Received: by mail-wr1-f67.google.com with SMTP id z5so193869wrt.11;
-        Tue, 20 Nov 2018 23:24:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=HL9Ofpo+fXfQMYMg8SkT8OKAVFuPSOM2FApHtnL7joA=;
-        b=HQtEe05+JNqnFWcP7fVfvwRmTooqFIUz1QZ64fxNee/GNZgkHW6U2zEGNDTlcY8wrx
-         R5ldfP3XQO8I18veGbHr6lym5r+TPCAY2edV3uwW6zX1qjXIC62En958ZFq6QXjVdjuw
-         7b5gbVugHZH9hAn+Yhtbzt3VC+B7nSeXHhmRdT9bs6l0ujy3qTovBj3FuXcg1pUC0ahp
-         2eehGmW17fUT9PEU89bIXUqquLOPzZcLAyIdjbZL35OcujvqlIe3x3dKTk+Qg7qTmj14
-         lvfY4j2+1nZMOID8xpExGOLtahejl1/emCS/siA8DBuh2W9XgHKNAv7wre+OHShc7uWf
-         9KSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HL9Ofpo+fXfQMYMg8SkT8OKAVFuPSOM2FApHtnL7joA=;
-        b=PDkPqa+toECafEKKKqp/wjARf838cjKjacUlRhx4DUNHCU6h5zca6XtlYSHPIO4JOt
-         2EVbYDbl72+K4jv65oEWZIJozQ0KOyr7Hy0SX/v7mfDSYWXUK8uR5sfCHyS/N0CKWefM
-         7TTxMkqjUsPFaB05gY1v1pRJeBgzbmTJi5DbazzQ7IRmI8EuXfvVQZHNiZaNxz+29tT2
-         ehA/y98iq63OAIvD5hQdP7/49AAP0U15uc9NYNHPwwFj41DPalpbNBcotLdu0rlFLUy+
-         /qKAAEH75MhJ1pQMEFmdn77lQLv17we4d3JuJ/8X5dnVHDXVqplpoXtGvqU6q9RL523Q
-         xtvQ==
-X-Gm-Message-State: AA+aEWbxtSWq/qHSrw+VjdjET59GKYd9auB8dOWW7sftEwC52U+PxrJN
-        GHCwv5rCLVBKsFUJnsscwps=
-X-Google-Smtp-Source: AFSGD/XN54iEj+GQABK7q+4u5AwT5JgdjtepjO6EJpYdU+3cvVEzWrHBU0npT+mhud40gOD7tG79Vw==
-X-Received: by 2002:adf:a109:: with SMTP id o9-v6mr4497277wro.169.1542785077292;
-        Tue, 20 Nov 2018 23:24:37 -0800 (PST)
-Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
-        by smtp.gmail.com with ESMTPSA id t5sm70496wmg.43.2018.11.20.23.24.35
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 20 Nov 2018 23:24:36 -0800 (PST)
-Date:   Wed, 21 Nov 2018 08:24:33 +0100
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [RFC PATCH v6 01/26] Documentation/x86: Add CET description
-Message-ID: <20181121072433.GA56599@gmail.com>
-References: <20181119214809.6086-1-yu-cheng.yu@intel.com>
- <20181119214809.6086-2-yu-cheng.yu@intel.com>
- <20181120095253.GA119911@gmail.com>
- <16a0261fbe4b31e2f42b552d6a991a1116d398c2.camel@intel.com>
+        id S1728633AbeKUTYZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Nov 2018 14:24:25 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:58724 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726423AbeKUTYZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Nov 2018 14:24:25 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 63F3C308212B;
+        Wed, 21 Nov 2018 08:50:47 +0000 (UTC)
+Received: from [10.36.117.231] (ovpn-117-231.ams2.redhat.com [10.36.117.231])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7A9055D772;
+        Wed, 21 Nov 2018 08:50:18 +0000 (UTC)
+Subject: Re: [PATCH v1 3/8] kexec: export PG_offline to VMCOREINFO
+To:     Baoquan He <bhe@redhat.com>
+Cc:     linux-mm@kvack.org, Michal Hocko <mhocko@suse.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-pm@vger.kernel.org,
+        pv-drivers@vmware.com, Borislav Petkov <bp@alien8.de>,
+        linux-doc@vger.kernel.org, kexec-ml <kexec@lists.infradead.org>,
+        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+        Omar Sandoval <osandov@fb.com>,
+        Kazuhito Hagio <k-hagio@ab.jp.nec.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        xen-devel@lists.xenproject.org, linux-fsdevel@vger.kernel.org,
+        devel@linuxdriverproject.org, Dave Young <dyoung@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Lianbo Jiang <lijiang@redhat.com>
+References: <20181119101616.8901-1-david@redhat.com>
+ <20181119101616.8901-4-david@redhat.com>
+ <20181121060458.GC7386@MiWiFi-R3L-srv>
+From:   David Hildenbrand <david@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwX4EEwECACgFAljj9eoCGwMFCQlmAYAGCwkI
+ BwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEE3eEPcA/4Na5IIP/3T/FIQMxIfNzZshIq687qgG
+ 8UbspuE/YSUDdv7r5szYTK6KPTlqN8NAcSfheywbuYD9A4ZeSBWD3/NAVUdrCaRP2IvFyELj
+ xoMvfJccbq45BxzgEspg/bVahNbyuBpLBVjVWwRtFCUEXkyazksSv8pdTMAs9IucChvFmmq3
+ jJ2vlaz9lYt/lxN246fIVceckPMiUveimngvXZw21VOAhfQ+/sofXF8JCFv2mFcBDoa7eYob
+ s0FLpmqFaeNRHAlzMWgSsP80qx5nWWEvRLdKWi533N2vC/EyunN3HcBwVrXH4hxRBMco3jvM
+ m8VKLKao9wKj82qSivUnkPIwsAGNPdFoPbgghCQiBjBe6A75Z2xHFrzo7t1jg7nQfIyNC7ez
+ MZBJ59sqA9EDMEJPlLNIeJmqslXPjmMFnE7Mby/+335WJYDulsRybN+W5rLT5aMvhC6x6POK
+ z55fMNKrMASCzBJum2Fwjf/VnuGRYkhKCqqZ8gJ3OvmR50tInDV2jZ1DQgc3i550T5JDpToh
+ dPBxZocIhzg+MBSRDXcJmHOx/7nQm3iQ6iLuwmXsRC6f5FbFefk9EjuTKcLMvBsEx+2DEx0E
+ UnmJ4hVg7u1PQ+2Oy+Lh/opK/BDiqlQ8Pz2jiXv5xkECvr/3Sv59hlOCZMOaiLTTjtOIU7Tq
+ 7ut6OL64oAq+zsFNBFXLn5EBEADn1959INH2cwYJv0tsxf5MUCghCj/CA/lc/LMthqQ773ga
+ uB9mN+F1rE9cyyXb6jyOGn+GUjMbnq1o121Vm0+neKHUCBtHyseBfDXHA6m4B3mUTWo13nid
+ 0e4AM71r0DS8+KYh6zvweLX/LL5kQS9GQeT+QNroXcC1NzWbitts6TZ+IrPOwT1hfB4WNC+X
+ 2n4AzDqp3+ILiVST2DT4VBc11Gz6jijpC/KI5Al8ZDhRwG47LUiuQmt3yqrmN63V9wzaPhC+
+ xbwIsNZlLUvuRnmBPkTJwwrFRZvwu5GPHNndBjVpAfaSTOfppyKBTccu2AXJXWAE1Xjh6GOC
+ 8mlFjZwLxWFqdPHR1n2aPVgoiTLk34LR/bXO+e0GpzFXT7enwyvFFFyAS0Nk1q/7EChPcbRb
+ hJqEBpRNZemxmg55zC3GLvgLKd5A09MOM2BrMea+l0FUR+PuTenh2YmnmLRTro6eZ/qYwWkC
+ u8FFIw4pT0OUDMyLgi+GI1aMpVogTZJ70FgV0pUAlpmrzk/bLbRkF3TwgucpyPtcpmQtTkWS
+ gDS50QG9DR/1As3LLLcNkwJBZzBG6PWbvcOyrwMQUF1nl4SSPV0LLH63+BrrHasfJzxKXzqg
+ rW28CTAE2x8qi7e/6M/+XXhrsMYG+uaViM7n2je3qKe7ofum3s4vq7oFCPsOgwARAQABwsFl
+ BBgBAgAPBQJVy5+RAhsMBQkJZgGAAAoJEE3eEPcA/4NagOsP/jPoIBb/iXVbM+fmSHOjEshl
+ KMwEl/m5iLj3iHnHPVLBUWrXPdS7iQijJA/VLxjnFknhaS60hkUNWexDMxVVP/6lbOrs4bDZ
+ NEWDMktAeqJaFtxackPszlcpRVkAs6Msn9tu8hlvB517pyUgvuD7ZS9gGOMmYwFQDyytpepo
+ YApVV00P0u3AaE0Cj/o71STqGJKZxcVhPaZ+LR+UCBZOyKfEyq+ZN311VpOJZ1IvTExf+S/5
+ lqnciDtbO3I4Wq0ArLX1gs1q1XlXLaVaA3yVqeC8E7kOchDNinD3hJS4OX0e1gdsx/e6COvy
+ qNg5aL5n0Kl4fcVqM0LdIhsubVs4eiNCa5XMSYpXmVi3HAuFyg9dN+x8thSwI836FoMASwOl
+ C7tHsTjnSGufB+D7F7ZBT61BffNBBIm1KdMxcxqLUVXpBQHHlGkbwI+3Ye+nE6HmZH7IwLwV
+ W+Ajl7oYF+jeKaH4DZFtgLYGLtZ1LDwKPjX7VAsa4Yx7S5+EBAaZGxK510MjIx6SGrZWBrrV
+ TEvdV00F2MnQoeXKzD7O4WFbL55hhyGgfWTHwZ457iN9SgYi1JLPqWkZB0JRXIEtjd4JEQcx
+ +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
+ SE+xAvmumFBY
+Organization: Red Hat GmbH
+Message-ID: <ddd5a6f4-59d0-474b-45d5-3589a21ebcd4@redhat.com>
+Date:   Wed, 21 Nov 2018 09:50:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <16a0261fbe4b31e2f42b552d6a991a1116d398c2.camel@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20181121060458.GC7386@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.42]); Wed, 21 Nov 2018 08:50:47 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-* Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-
-> On Tue, 2018-11-20 at 10:52 +0100, Ingo Molnar wrote:
-> > * Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
-> > 
-> > > +X86 Documentation
-> > > [...]
-> > > +
-> > > +At run time, /proc/cpuinfo shows the availability of SHSTK and IBT.
-> > 
-> > What is the rough expected performance impact of CET on average function 
-> > call frequency user applications and the kernel itself?
+On 21.11.18 07:04, Baoquan He wrote:
+> On 11/19/18 at 11:16am, David Hildenbrand wrote:
+>> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+>> index 933cb3e45b98..093c9f917ed0 100644
+>> --- a/kernel/crash_core.c
+>> +++ b/kernel/crash_core.c
+>> @@ -464,6 +464,8 @@ static int __init crash_save_vmcoreinfo_init(void)
+>>  	VMCOREINFO_NUMBER(PAGE_BUDDY_MAPCOUNT_VALUE);
+>>  #ifdef CONFIG_HUGETLB_PAGE
+>>  	VMCOREINFO_NUMBER(HUGETLB_PAGE_DTOR);
+>> +#define PAGE_OFFLINE_MAPCOUNT_VALUE	(~PG_offline)
+>> +	VMCOREINFO_NUMBER(PAGE_OFFLINE_MAPCOUNT_VALUE);
+>>  #endif
 > 
-> I don't have any conclusive numbers yet; but since currently only user-mode
-> protection is implemented, I suspect any impact would be most likely to the
-> application.  The kernel would spend some small amount of time on the setup of
-> CET.
+> This solution looks good to me. One small concern is why we don't
+> export PG_offline to vmcoreinfo directly, then define
+> PAGE_OFFLINE_MAPCOUNT_VALUE in makedumpfile. We have been exporting
+> kernel data/MACRO directly, why this one is exceptional.
+> 
 
-This is horribly vague.
+1. We are much more similar to PG_buddy (in contrast to actual page
+flags), and for PG_buddy it is historically handled like this (and I
+think it makes sense to expose these as actual MAPCOUNT_VALUEs).
+
+2. Right now only one page type per page is supported. Therefore only
+exactly one value in mapcount indicates e.g. PageBuddy()/PageOffline().
+
+Now, if we ever decide to change this (e.g. treat them like real flags),
+it is much easier to switch to PG_offline/PG_buddy then. We can directly
+see in makedumpfile that .*_MAPCOUNT_VALUE is no longer available but
+instead e.g. PG_offline and PG_buddy. Instead we would no see a change
+in makedumpfile and would have to rely on other properties.
+
+If there are no strong opinions I will leave it like this.
+
+Thanks!
+
+> Thanks
+> Baoquan
+> 
+
+
+-- 
 
 Thanks,
 
-	Ingo
+David / dhildenb
