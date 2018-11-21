@@ -1,332 +1,115 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 639A87D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 00:35:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DC2E67D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 01:04:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725949AbeKULHg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Nov 2018 06:07:36 -0500
-Received: from mx.kolabnow.com ([95.128.36.42]:2412 "EHLO mx.kolabnow.com"
+        id S1725949AbeKULg4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Nov 2018 06:36:56 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:47510 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725926AbeKULHf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Nov 2018 06:07:35 -0500
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 1131A358;
-        Wed, 21 Nov 2018 01:35:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-transfer-encoding:mime-version:message-id:date:date
-        :subject:subject:from:from:received:received:received; s=
-        dkim20160331; t=1542760534; x=1544574935; bh=fwUboIHHcAuX6HREmJ+
-        Gki5mn5Hr+LI/YEBqcJMFJt0=; b=INkcAAEdqX8MdcOV72ZNbq4GUL0AX4c3/Md
-        sQT049zCsoe76H7UtfnKmxd5YNjskMqy4bJ99ezSFHowkR4huLtBXJ0jmbfD5tFj
-        Sxf9SeLZZZYy2dCCJP1LTGt2EBRLEzCNWLb5dI/Jp2yb59uliR6VoulamDIWugbZ
-        g6oKDnRlUuVPNGDfYYGN8qv5meJrbvMk0nGhxLEPtoQoXijPSPle2/e5YJ4tWDJy
-        oQwu9ihKnjgyotqit8ASTnc4qT1kqOofykowsmQI+jH7SHfp6jrnEBBXNI8cMGKo
-        r6/e3PkQsuvuxh9BpaR59OSHV0CdDwLCaJR7DaO+ZjBuoW4GbbDyKuz4dawt5SSR
-        RhrO4uJFeq6GWoeqAE06SKUuOoo4AngdRRhPvvHuyV1J/teHdg+BOCKbuoNeXEeG
-        tWRFivFfsunKmUYI16+OGxqhINzs+WCnA89I7DZWF53OolbNK91OQ7IBxHrVs2nF
-        iL8OJBurpZ29pVgu0AaynmsWcEtpyR+DO4ct4vhDKz9qC0f7/CBGt9LQvU7mvfO9
-        vaW7aSdGAlTp6dGZ3U+7ru/9FqZO7QlqvZdi4NueGiCDQPZjgcy6qp84ogMr5I4B
-        0sGKwibPzvG+P6Ct4RqJXcEX/XfJ8Vngp/r45igS6/6ru/+/7tML96SYRX7QwPqr
-        qNGR4cEA=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id C7nP4oxmnTRh; Wed, 21 Nov 2018 01:35:34 +0100 (CET)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 10B9D1AD;
-        Wed, 21 Nov 2018 01:35:34 +0100 (CET)
-Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id AE2E52B0;
-        Wed, 21 Nov 2018 01:35:33 +0100 (CET)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: [PATCH v2] doc:process: add links where missing
-Date:   Wed, 21 Nov 2018 01:35:19 +0100
-Message-Id: <20181121003519.12559-1-federico.vaga@vaga.pv.it>
+        id S1725939AbeKULgz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Nov 2018 06:36:55 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id CC2F94E91A;
+        Wed, 21 Nov 2018 01:04:52 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id A628E5D75D;
+        Wed, 21 Nov 2018 01:04:52 +0000 (UTC)
+Received: from zmail21.collab.prod.int.phx2.redhat.com (zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
+        by colo-mx.corp.redhat.com (Postfix) with ESMTP id 65F5B181B9E3;
+        Wed, 21 Nov 2018 01:04:52 +0000 (UTC)
+Date:   Tue, 20 Nov 2018 20:04:51 -0500 (EST)
+From:   Pankaj Gupta <pagupta@redhat.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, devel@linuxdriverproject.org,
+        linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org,
+        xen-devel@lists.xenproject.org,
+        kexec-ml <kexec@lists.infradead.org>, pv-drivers@vmware.com,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Kairui Song <kasong@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>
+Message-ID: <1155749039.35435813.1542762291980.JavaMail.zimbra@redhat.com>
+In-Reply-To: <1380154502.35259416.1542706636322.JavaMail.zimbra@redhat.com>
+References: <20181119101616.8901-1-david@redhat.com> <20181119101616.8901-6-david@redhat.com> <1747228.35250472.1542703532881.JavaMail.zimbra@redhat.com> <6258a58b-28c7-c055-0752-e8bd085b835f@redhat.com> <1380154502.35259416.1542706636322.JavaMail.zimbra@redhat.com>
+Subject: Re: [PATCH v1 5/8] hv_balloon: mark inflated pages PG_offline
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.116.39, 10.4.195.13]
+Thread-Topic: hv_balloon: mark inflated pages PG_offline
+Thread-Index: vwj8vPwTZelkM2IMC2vxi7m7cNxk+fJk6PaG
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Wed, 21 Nov 2018 01:04:53 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some documents are refering to others without links. With this
-patch I add those missing links.
 
-This patch affects only documents under process/ and labels where
-necessary.
+> > >> ---
+> > >>  drivers/hv/hv_balloon.c | 14 ++++++++++++--
+> > >>  1 file changed, 12 insertions(+), 2 deletions(-)
+> > >>
+> > >> diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
+> > >> index 211f3fe3a038..47719862e57f 100644
+> > >> --- a/drivers/hv/hv_balloon.c
+> > >> +++ b/drivers/hv/hv_balloon.c
+> > >> @@ -681,8 +681,13 @@ static struct notifier_block hv_memory_nb = {
+> > >>  /* Check if the particular page is backed and can be onlined and online
+> > >>  it.
+> > >>  */
+> > >>  static void hv_page_online_one(struct hv_hotadd_state *has, struct page
+> > >>  *pg)
+> > >>  {
+> > >> -	if (!has_pfn_is_backed(has, page_to_pfn(pg)))
+> > >> +	if (!has_pfn_is_backed(has, page_to_pfn(pg))) {
+> > >> +		if (!PageOffline(pg))
+> > >> +			__SetPageOffline(pg);
+> > >>  		return;
+> > >> +	}
+> > >> +	if (PageOffline(pg))
+> > >> +		__ClearPageOffline(pg);
+> > >>  
+> > >>  	/* This frame is currently backed; online the page. */
+> > >>  	__online_page_set_limits(pg);
+> > >> @@ -1201,6 +1206,7 @@ static void free_balloon_pages(struct
+> > >> hv_dynmem_device
+> > >> *dm,
+> > >>  
+> > >>  	for (i = 0; i < num_pages; i++) {
+> > >>  		pg = pfn_to_page(i + start_frame);
+> > >> +		__ClearPageOffline(pg);
+> > > 
+> > > Just thinking, do we need to care for clearing PageOffline flag before
+> > > freeing
+> > > a balloon'd page?
+> > 
+> > Yes we have to otherwise the code will crash when trying to set PageBuddy.
+> > 
+> > (only one page type at a time may be set right now, and it makes sense.
+> > A page that is offline cannot e.g. be a buddy page)
+> 
+> o.k
+> > 
+> > So PageOffline is completely managed by the page owner.
+> 
+> Makes sense. Thanks for explaining.
 
-Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
----
- Documentation/admin-guide/devices.rst        |  1 +
- Documentation/dev-tools/coccinelle.rst       |  2 ++
- Documentation/doc-guide/sphinx.rst           |  2 ++
- Documentation/driver-api/pm/devices.rst      |  2 ++
- Documentation/process/4.Coding.rst           |  3 ++-
- Documentation/process/5.Posting.rst          | 23 +++++++++++---------
- Documentation/process/8.Conclusion.rst       |  7 +++---
- Documentation/process/changes.rst            |  2 +-
- Documentation/process/coding-style.rst       |  2 +-
- Documentation/process/howto.rst              | 11 +++++-----
- Documentation/process/management-style.rst   |  5 +++--
- Documentation/process/submitting-drivers.rst |  8 ++++---
- 12 files changed, 42 insertions(+), 26 deletions(-)
+Looks good to me.
 
-diff --git a/Documentation/admin-guide/devices.rst b/Documentation/admin-guide/devices.rst
-index 7fadc05330dd..d41671aeaef0 100644
---- a/Documentation/admin-guide/devices.rst
-+++ b/Documentation/admin-guide/devices.rst
-@@ -1,3 +1,4 @@
-+.. _admin_devices:
- 
- Linux allocated devices (4.x+ version)
- ======================================
-diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
-index aa14f05cabb1..00a3409b0c28 100644
---- a/Documentation/dev-tools/coccinelle.rst
-+++ b/Documentation/dev-tools/coccinelle.rst
-@@ -4,6 +4,8 @@
- 
- .. highlight:: none
- 
-+.. _devtools_coccinelle:
-+
- Coccinelle
- ==========
- 
-diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-index f0796daa95b4..02605ee1d876 100644
---- a/Documentation/doc-guide/sphinx.rst
-+++ b/Documentation/doc-guide/sphinx.rst
-@@ -1,3 +1,5 @@
-+.. _sphinxdoc:
-+
- Introduction
- ============
- 
-diff --git a/Documentation/driver-api/pm/devices.rst b/Documentation/driver-api/pm/devices.rst
-index 1128705a5731..090c151aa86b 100644
---- a/Documentation/driver-api/pm/devices.rst
-+++ b/Documentation/driver-api/pm/devices.rst
-@@ -6,6 +6,8 @@
- .. |struct wakeup_source| replace:: :c:type:`struct wakeup_source <wakeup_source>`
- .. |struct device| replace:: :c:type:`struct device <device>`
- 
-+.. _driverapi_pm_devices:
-+
- ==============================
- Device Power Management Basics
- ==============================
-diff --git a/Documentation/process/4.Coding.rst b/Documentation/process/4.Coding.rst
-index eb4b185d168c..cfe264889447 100644
---- a/Documentation/process/4.Coding.rst
-+++ b/Documentation/process/4.Coding.rst
-@@ -315,7 +315,8 @@ variety of potential coding problems; it can also propose fixes for those
- problems.  Quite a few "semantic patches" for the kernel have been packaged
- under the scripts/coccinelle directory; running "make coccicheck" will run
- through those semantic patches and report on any problems found.  See
--Documentation/dev-tools/coccinelle.rst for more information.
-+:ref:`Documentation/dev-tools/coccinelle.rst <devtools_coccinelle>`
-+for more information.
- 
- Other kinds of portability errors are best found by compiling your code for
- other architectures.  If you do not happen to have an S/390 system or a
-diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
-index c418c5d6cae4..4213e580f273 100644
---- a/Documentation/process/5.Posting.rst
-+++ b/Documentation/process/5.Posting.rst
-@@ -9,9 +9,10 @@ kernel.  Unsurprisingly, the kernel development community has evolved a set
- of conventions and procedures which are used in the posting of patches;
- following them will make life much easier for everybody involved.  This
- document will attempt to cover these expectations in reasonable detail;
--more information can also be found in the files process/submitting-patches.rst,
--process/submitting-drivers.rst, and process/submit-checklist.rst in the kernel
--documentation directory.
-+more information can also be found in the files
-+:ref:`Documentation/process/submitting-patches.rst <submittingpatches>`,
-+:ref:`Documentation/process/submitting-drivers.rst  <submittingdrivers>`
-+and :ref:`Documentation/process/submit-checklist.rst <submitchecklist>`.
- 
- 
- When to post
-@@ -198,8 +199,10 @@ pass it to diff with the "-X" option.
- 
- The tags mentioned above are used to describe how various developers have
- been associated with the development of this patch.  They are described in
--detail in the process/submitting-patches.rst document; what follows here is a
--brief summary.  Each of these lines has the format:
-+detail in
-+the :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
-+document; what follows here is a brief summary.  Each of these lines has
-+the format:
- 
- ::
- 
-@@ -210,8 +213,8 @@ The tags in common use are:
-  - Signed-off-by: this is a developer's certification that he or she has
-    the right to submit the patch for inclusion into the kernel.  It is an
-    agreement to the Developer's Certificate of Origin, the full text of
--   which can be found in Documentation/process/submitting-patches.rst.  Code
--   without a proper signoff cannot be merged into the mainline.
-+   which can be found in :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
-+   Code without a proper signoff cannot be merged into the mainline.
- 
-  - Co-developed-by: states that the patch was also created by another developer
-    along with the original author.  This is useful at times when multiple
-@@ -226,7 +229,7 @@ The tags in common use are:
-    it to work.
- 
-  - Reviewed-by: the named developer has reviewed the patch for correctness;
--   see the reviewer's statement in Documentation/process/submitting-patches.rst
-+   see the reviewer's statement in :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
-    for more detail.
- 
-  - Reported-by: names a user who reported a problem which is fixed by this
-@@ -253,8 +256,8 @@ take care of:
-    be examined in any detail.  If there is any doubt at all, mail the patch
-    to yourself and convince yourself that it shows up intact.
- 
--   Documentation/process/email-clients.rst has some helpful hints on making
--   specific mail clients work for sending patches.
-+   :ref:`Documentation/process/email-clients.rst <email_clients>` has some
-+   helpful hints on making specific mail clients work for sending patches.
- 
-  - Are you sure your patch is free of silly mistakes?  You should always
-    run patches through scripts/checkpatch.pl and address the complaints it
-diff --git a/Documentation/process/8.Conclusion.rst b/Documentation/process/8.Conclusion.rst
-index 1c7f54cd0261..8395aa2c1f3a 100644
---- a/Documentation/process/8.Conclusion.rst
-+++ b/Documentation/process/8.Conclusion.rst
-@@ -5,9 +5,10 @@ For more information
- 
- There are numerous sources of information on Linux kernel development and
- related topics.  First among those will always be the Documentation
--directory found in the kernel source distribution.  The top-level process/howto.rst
--file is an important starting point; process/submitting-patches.rst and
--process/submitting-drivers.rst are also something which all kernel developers should
-+directory found in the kernel source distribution.  The top-level :ref:`process/howto.rst <process_howto>`
-+file is an important starting point; :ref:`process/submitting-patches.rst <submittingpatches>`
-+and :ref:`process/submitting-drivers.rst  <submittingdrivers>`
-+are also something which all kernel developers should
- read.  Many internal kernel APIs are documented using the kerneldoc
- mechanism; "make htmldocs" or "make pdfdocs" can be used to generate those
- documents in HTML or PDF format (though the version of TeX shipped by some
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index d1bf143b446f..18735dc460a0 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -326,7 +326,7 @@ Kernel documentation
- Sphinx
- ------
- 
--Please see :ref:`sphinx_install` in ``Documentation/doc-guide/sphinx.rst``
-+Please see :ref:`sphinx_install` in :ref:`Documentation/doc-guide/sphinx.rst <sphinxdoc>`
- for details about Sphinx requirements.
- 
- Getting updated software
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index 4e7c0a1c427a..277c113376a6 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -1075,5 +1075,5 @@ gcc internals and indent, all available from http://www.gnu.org/manual/
- WG14 is the international standardization working group for the programming
- language C, URL: http://www.open-std.org/JTC1/SC22/WG14/
- 
--Kernel process/coding-style.rst, by greg@kroah.com at OLS 2002:
-+Kernel :ref:`process/coding-style.rst <codingstyle>`, by greg@kroah.com at OLS 2002:
- http://www.kroah.com/linux/talks/ols_2002_kernel_codingstyle_talk/html/
-diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
-index a4a9f9eb0dd8..58b2f46c4f98 100644
---- a/Documentation/process/howto.rst
-+++ b/Documentation/process/howto.rst
-@@ -298,9 +298,9 @@ two weeks, but it can be longer if there are no pressing problems.  A
- security-related problem, instead, can cause a release to happen almost
- instantly.
- 
--The file Documentation/process/stable-kernel-rules.rst in the kernel tree
--documents what kinds of changes are acceptable for the -stable tree, and
--how the release process works.
-+The file :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
-+in the kernel tree documents what kinds of changes are acceptable for
-+the -stable tree, and how the release process works.
- 
- 4.x -git patches
- ~~~~~~~~~~~~~~~~
-@@ -360,7 +360,8 @@ tool.  For details on how to use the kernel bugzilla, please see:
- 
- 	https://bugzilla.kernel.org/page.cgi?id=faq.html
- 
--The file admin-guide/reporting-bugs.rst in the main kernel source directory has a good
-+The file :ref:`admin-guide/reporting-bugs.rst <reportingbugs>`
-+in the main kernel source directory has a good
- template for how to report a possible kernel bug, and details what kind
- of information is needed by the kernel developers to help track down the
- problem.
-@@ -426,7 +427,7 @@ add your statements between the individual quoted sections instead of
- writing at the top of the mail.
- 
- If you add patches to your mail, make sure they are plain readable text
--as stated in Documentation/process/submitting-patches.rst.
-+as stated in :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`.
- Kernel developers don't want to deal with
- attachments or compressed patches; they may want to comment on
- individual lines of your patch, which works only that way. Make sure you
-diff --git a/Documentation/process/management-style.rst b/Documentation/process/management-style.rst
-index 85ef8ca8f639..186753ff3d2d 100644
---- a/Documentation/process/management-style.rst
-+++ b/Documentation/process/management-style.rst
-@@ -5,8 +5,9 @@ Linux kernel management style
- 
- This is a short document describing the preferred (or made up, depending
- on who you ask) management style for the linux kernel.  It's meant to
--mirror the process/coding-style.rst document to some degree, and mainly written to
--avoid answering [#f1]_  the same (or similar) questions over and over again.
-+mirror the :ref:`process/coding-style.rst <codingstyle>` document to some
-+degree, and mainly written to avoid answering [#f1]_  the same (or similar)
-+questions over and over again.
- 
- Management style is very personal and much harder to quantify than
- simple coding style rules, so this document may or may not have anything
-diff --git a/Documentation/process/submitting-drivers.rst b/Documentation/process/submitting-drivers.rst
-index b38bf2054ce3..58bc047e7b95 100644
---- a/Documentation/process/submitting-drivers.rst
-+++ b/Documentation/process/submitting-drivers.rst
-@@ -16,7 +16,8 @@ you should probably talk to XFree86 (http://www.xfree86.org/) and/or X.Org
- 
-    Oh, and we don't really recommend submitting changes to XFree86 :)
- 
--Also read the Documentation/process/submitting-patches.rst document.
-+Also read the :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
-+document.
- 
- 
- Allocating Device Numbers
-@@ -27,7 +28,8 @@ by the Linux assigned name and number authority (currently this is
- Torben Mathiasen). The site is http://www.lanana.org/. This
- also deals with allocating numbers for devices that are not going to
- be submitted to the mainstream kernel.
--See Documentation/admin-guide/devices.rst for more information on this.
-+See :ref:`Documentation/admin-guide/devices.rst <admin_devices>`
-+for more information on this.
- 
- If you don't use assigned numbers then when your device is submitted it will
- be given an assigned number even if that is different from values you may
-@@ -117,7 +119,7 @@ PM support:
- 		anything.  For the driver testing instructions see
- 		Documentation/power/drivers-testing.txt and for a relatively
- 		complete overview of the power management issues related to
--		drivers see Documentation/driver-api/pm/devices.rst.
-+		drivers see :ref:`Documentation/driver-api/pm/devices.rst <driverapi_pm_devices>`.
- 
- Control:
- 		In general if there is active maintenance of a driver by
--- 
-2.19.1
+Acked-by: Pankaj gupta <pagupta@redhat.com>
 
