@@ -1,101 +1,165 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DD34E7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 20:38:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C890D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 22:12:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730044AbeKVHO1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Nov 2018 02:14:27 -0500
-Received: from mail-vs1-f66.google.com ([209.85.217.66]:40291 "EHLO
-        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731116AbeKVHO1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Nov 2018 02:14:27 -0500
-Received: by mail-vs1-f66.google.com with SMTP id z3so4072363vsf.7
-        for <linux-doc@vger.kernel.org>; Wed, 21 Nov 2018 12:38:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bm0cmdW8xHtpvw83SANYUh6MFHRfj/MqEyWJqmXjk1w=;
-        b=MvzMR9dDj7CZG/+mAlO7e9BG7xnEPolUnFhZu5OvKAqWr17r0buX+UZI16KXbm2PWk
-         A9UMWcctar1IJgq1+Xz5SJ7QBFUgVZm3lIU5CpBSlaWNEhCphP2zbnzKFbWdRE+E+zbR
-         u7eaW5Uq2tYvToY2OwypWA5BERtcPAJmhYDEykA2FIEdKOiS21WBbBIYCI2uqKGQZlkj
-         R/HP7D+LNfPlCPVGlNhn9sUkD9iFY0+Y2PPAWjo8DzI5ARu8Oa9JiZquTcvFpyOh5Urf
-         xdW7XUynKpn4HE64/hWr2vbvoi3ojIfsFV5ucxH51AAmO9aiWeCB/ov0GW6jtc269XNE
-         mDXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bm0cmdW8xHtpvw83SANYUh6MFHRfj/MqEyWJqmXjk1w=;
-        b=qCMclhVEIi5GB3vweB3i0HCt0rwV/dFdP5yLkoPvIJBwu0BjQFBsbOoKYE9TuxDEkN
-         N0m2AwYSlSMgCP9mGAEf63GyYc1Qwkbf8mttG0/+hzNVHH4lamoUowj3g6tjXcQm3dQn
-         N3uliJguM7FZ7FLtBwmRR8oGNbfXlpZbnMfS0X3kcd2rUjVhJYPVAYA/QftPRAJdKwds
-         694pJp5Mo3zfhPdBiOW9ydzbEKKxSqK+LYx4atFXkMqtK42jksObnHUktvhVSZF8p2Ok
-         rB66woChn8e14U66TrtZFKdvy6pG6en6ywSPtGj6PWJKvFamOKrokwsDJPIJT4+36r7X
-         098Q==
-X-Gm-Message-State: AGRZ1gLX2m5WfJo3i3ZrEePo5e0eIq8PbBHMit7RfLJykTqyCA3GxqQM
-        ON5nXPax1Jgg2XHz7mQlJF1t3Zk12gjD5IrpQugZaQ==
-X-Google-Smtp-Source: AJdET5dRtd2lSrxJi2t49sQUZqBKQepu8B5K395JPeQdkDeEmtDX5hhSXCo3xzLWknDmEVPoPC6Muf8ZJHy8szHRJko=
-X-Received: by 2002:a67:6346:: with SMTP id x67mr3386449vsb.114.1542832712373;
- Wed, 21 Nov 2018 12:38:32 -0800 (PST)
-MIME-Version: 1.0
-References: <20181121201452.77173-1-dancol@google.com> <20181121203150.GK3065@bombadil.infradead.org>
-In-Reply-To: <20181121203150.GK3065@bombadil.infradead.org>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Wed, 21 Nov 2018 12:38:20 -0800
-Message-ID: <CAKOZueuCYOsaHZzoz5nNPr8Jb-fEiHTR4MektaJx8vuUXcrKCQ@mail.gmail.com>
-Subject: Re: [PATCH] Add /proc/pid_generation
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Tim Murray <timmurray@google.com>,
-        Primiano Tucci <primiano@google.com>,
-        Joel Fernandes <joelaf@google.com>,
+        id S2390013AbeKVIsh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Nov 2018 03:48:37 -0500
+Received: from mail.linuxfoundation.org ([140.211.169.12]:35170 "EHLO
+        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387621AbeKVIsh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Nov 2018 03:48:37 -0500
+Received: from localhost.localdomain (c-24-6-170-16.hsd1.ca.comcast.net [24.6.170.16])
+        by mail.linuxfoundation.org (Postfix) with ESMTPSA id 2264C7AA;
+        Wed, 21 Nov 2018 22:12:22 +0000 (UTC)
+Date:   Wed, 21 Nov 2018 14:12:20 -0800
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Daniel Colascione <dancol@google.com>
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        timmurray@google.com, primiano@google.com, joelaf@google.com,
         Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Roman Gushchin <guro@fb.com>, Vlastimil Babka <vbabka@suse.cz>,
-        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Roman Gushchin <guro@fb.com>,
         Prashant Dhamdhere <pdhamdhe@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>, rostedt@goodmis.org,
-        tglx@linutronix.de, mingo@kernel.org, linux@dominikbrodowski.net,
-        pasha.tatashin@oracle.com, jpoimboe@redhat.com,
-        ard.biesheuvel@linaro.org, Michal Hocko <mhocko@suse.com>,
-        David Howells <dhowells@redhat.com>, ktsanaktsidis@zendesk.com,
+        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        KJ Tsanaktsidis <ktsanaktsidis@zendesk.com>,
+        David Howells <dhowells@redhat.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2] Add /proc/pid_gen
+Message-Id: <20181121141220.0e533c1dcb4792480efbf3ff@linux-foundation.org>
+In-Reply-To: <20181121205428.165205-1-dancol@google.com>
+References: <20181121201452.77173-1-dancol@google.com>
+        <20181121205428.165205-1-dancol@google.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 21, 2018 at 12:31 PM Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Wed, Nov 21, 2018 at 12:14:44PM -0800, Daniel Colascione wrote:
-> > This change adds a per-pid-namespace 64-bit generation number,
-> > incremented on PID rollover, and exposes it via a new proc file
-> > /proc/pid_generation. By examining this file before and after /proc
-> > enumeration, user code can detect the potential reuse of a PID and
-> > restart the task enumeration process, repeating until it gets a
-> > coherent snapshot.
-> >
-> > PID rollover ought to be rare, so in practice, scan repetitions will
-> > be rare.
->
-> Then why does it need to be 64-bit?
+On Wed, 21 Nov 2018 12:54:20 -0800 Daniel Colascione <dancol@google.com> wrote:
 
-[Resending because of accidental HTML. I really need to switch to a
-better email client.]
+> Trace analysis code needs a coherent picture of the set of processes
+> and threads running on a system. While it's possible to enumerate all
+> tasks via /proc, this enumeration is not atomic. If PID numbering
+> rolls over during snapshot collection, the resulting snapshot of the
+> process and thread state of the system may be incoherent, confusing
+> trace analysis tools. The fundamental problem is that if a PID is
+> reused during a userspace scan of /proc, it's impossible to tell, in
+> post-processing, whether a fact that the userspace /proc scanner
+> reports regarding a given PID refers to the old or new task named by
+> that PID, as the scan of that PID may or may not have occurred before
+> the PID reuse, and there's no way to "stamp" a fact read from the
+> kernel with a trace timestamp.
+> 
+> This change adds a per-pid-namespace 64-bit generation number,
+> incremented on PID rollover, and exposes it via a new proc file
+> /proc/pid_gen. By examining this file before and after /proc
+> enumeration, user code can detect the potential reuse of a PID and
+> restart the task enumeration process, repeating until it gets a
+> coherent snapshot.
+> 
+> PID rollover ought to be rare, so in practice, scan repetitions will
+> be rare.
 
-Because 64 bits is enough for anyone. :-) A u64 is big enough that
-we'll never observe an overflow on a running system, and PID
-namespaces are rare enough that we won't miss the four extra bytes we
-use by upgrading from a u32.  And after reading about some security
-problems caused by too-clever handling of 32-bit rollover, I'd rather
-the code be obviously correct than save a trivial amount of space.
+In general, tracing is a rather specialized thing.  Why is this very
+occasional confusion a sufficiently serious problem to warrant addition
+of this code?
+
+Which userspace tools will be using pid_gen?  Are the developers of
+those tools signed up to use pid_gen?
+
+> --- a/include/linux/pid.h
+> +++ b/include/linux/pid.h
+> @@ -112,6 +112,7 @@ extern struct pid *find_ge_pid(int nr, struct pid_namespace *);
+>  int next_pidmap(struct pid_namespace *pid_ns, unsigned int last);
+>  
+>  extern struct pid *alloc_pid(struct pid_namespace *ns);
+> +extern u64 read_pid_generation(struct pid_namespace *ns);
+
+pig_generation_read() would be a better (and more idiomatic) name.
+
+>  extern void free_pid(struct pid *pid);
+>  extern void disable_pid_allocation(struct pid_namespace *ns);
+>
+> ...
+>
+> +u64 read_pid_generation(struct pid_namespace *ns)
+> +{
+> +	u64 generation;
+> +
+> +
+> +	spin_lock_irq(&pidmap_lock);
+> +	generation = ns->generation;
+> +	spin_unlock_irq(&pidmap_lock);
+> +	return generation;
+> +}
+
+What is the spinlocking in here for?  afaict the only purpose it serves
+is to make the 64-bit read atomic, so it isn't needed on 32-bit?
+
+>  void disable_pid_allocation(struct pid_namespace *ns)
+>  {
+>  	spin_lock_irq(&pidmap_lock);
+> @@ -449,6 +463,17 @@ struct pid *find_ge_pid(int nr, struct pid_namespace *ns)
+>  	return idr_get_next(&ns->idr, &nr);
+>  }
+>  
+> +#ifdef CONFIG_PROC_FS
+> +static int pid_generation_show(struct seq_file *m, void *v)
+> +{
+> +	u64 generation =
+> +		read_pid_generation(proc_pid_ns(file_inode(m->file)));
+
+	u64 generation;
+
+	generation = read_pid_generation(proc_pid_ns(file_inode(m->file)));
+
+is a nicer way of avoiding column wrap.
+
+> +	seq_printf(m, "%llu\n", generation);
+> +	return 0;
+> +
+> +};
+> +#endif
+> +
+>  void __init pid_idr_init(void)
+>  {
+>  	/* Verify no one has done anything silly: */
+> @@ -465,4 +490,13 @@ void __init pid_idr_init(void)
+>  
+>  	init_pid_ns.pid_cachep = KMEM_CACHE(pid,
+>  			SLAB_HWCACHE_ALIGN | SLAB_PANIC | SLAB_ACCOUNT);
+> +
+> +}
+> +
+> +void __init pid_proc_init(void)
+> +{
+> +	/* pid_idr_init is too early, so get a separate init function. */
+
+s/get a/use a/
+
+> +#ifdef CONFIG_PROC_FS
+> +	WARN_ON(!proc_create_single("pid_gen", 0, NULL, pid_generation_show));
+> +#endif
+>  }
+
+This whole function could vanish if !CONFIG_PROC_FS.  Doesn't matter
+much with __init code though.
+
