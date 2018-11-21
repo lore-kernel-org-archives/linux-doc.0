@@ -1,177 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1A4B17D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 18:16:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 898C37D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 18:56:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732947AbeKVEvZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Nov 2018 23:51:25 -0500
-Received: from mail-io1-f68.google.com ([209.85.166.68]:46360 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729634AbeKVEvZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Nov 2018 23:51:25 -0500
-Received: by mail-io1-f68.google.com with SMTP id m1-v6so4719957ioc.13
-        for <linux-doc@vger.kernel.org>; Wed, 21 Nov 2018 10:15:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=GmIGIP5BMNNQIU9SWNX7PqO+dvzqp1ZHFbw42p5PecE=;
-        b=tBSaAqqX2CJoq08gjXFyy0rSOkk4HVt+BHen25kTBbaaGlg/G51ZwPFnv8JVwQ9Do0
-         a50+Ld9jEYgBHtFTP0AdfyKEfxeHLeGhadsxMbxzR+VcbGTHAodsjqY6HTHK8dH/ncGf
-         K839hVu/p/U88Lvp9EPY4avocC5zIoxNzV/UznyuNoJsRt5YhQiK9zRgI1fOw19RgB94
-         1YJK/Hr2HAZkqra5C0Cb0DUTqOsDEccY9RnWgj1dgkhXgQk2/nm0mSq2U1r6NYsIoUNI
-         46VYZHvz64DZHutqpwB23WHPcWCJOWhRvRO8gEHXzUit80167MkupGu2mGK63KgY+cAm
-         LqFA==
+        id S1731548AbeKVFcA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Nov 2018 00:32:00 -0500
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:39845 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731555AbeKVFcA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Nov 2018 00:32:00 -0500
+Received: by mail-qt1-f196.google.com with SMTP id n21so4977893qtl.6
+        for <linux-doc@vger.kernel.org>; Wed, 21 Nov 2018 10:56:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=GmIGIP5BMNNQIU9SWNX7PqO+dvzqp1ZHFbw42p5PecE=;
-        b=s2xqT7Bs5LtyAemvpTLepsSMCSv27TXZEPXhnfgOHmE6Pa5XbW/wduS1Zyx0m2gRnS
-         4hC5OWi+WvGwC2oPChbsYkshUoh0pSNDswBiFg2kahqa/QAQ3iINMEq4TVLEGfiJ7lHE
-         GILpWuGQsT92GPGwER28b524DptfWTfRtuu8mHJpjSS00NvvQVExAwt4fu5eet3ULufF
-         sWeH9WRiIVsF64whVJjFSvrkmhM1Llk/Pj/5I2dpRqC/RmBXNI3Q/Y63OP29zgaH9/W6
-         W1PF6AthCNCwo2JGwAAd3ge4GPsct4qfsYMkWvR0lTWceaKfy6w9rcA7nRd7lz+zlFJT
-         X0EQ==
-X-Gm-Message-State: AA+aEWZY122UDf+SywAXN401bO7oDk5VfMEpVpjn1lqNVvho9XxlEF3l
-        VGt/oKzKXHzPepr+qeXKdLNokA==
-X-Google-Smtp-Source: AFSGD/UPRYnitpcH6b5hqb9s1xNfYVbQJgUW7ZyCZpur77D9ucZuaVh/On2qHQtvdjbvqMW7M07Duw==
-X-Received: by 2002:a6b:c402:: with SMTP id y2mr6080745ioa.77.1542824159250;
-        Wed, 21 Nov 2018 10:15:59 -0800 (PST)
-Received: from ?IPv6:2600:100e:b040:b126:ec78:48dd:44e2:e165? ([2600:100e:b040:b126:ec78:48dd:44e2:e165])
-        by smtp.gmail.com with ESMTPSA id c187-v6sm608844itc.2.2018.11.21.10.15.57
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 21 Nov 2018 10:15:57 -0800 (PST)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH 10/17] prmem: documentation
-From:   Andy Lutomirski <luto@amacapital.net>
-X-Mailer: iPhone Mail (16A404)
-In-Reply-To: <1166e55c-0c06-195c-a501-383b4055ea46@gmail.com>
-Date:   Wed, 21 Nov 2018 11:15:56 -0700
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Igor Stoppa <igor.stoppa@huawei.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Dave Chinner <david@fromorbit.com>,
-        James Morris <jmorris@namei.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laura Abbott <labbott@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <3BB9DE07-E0AE-43E2-99F1-E4AA774CD462@amacapital.net>
-References: <20181023213504.28905-1-igor.stoppa@huawei.com> <20181023213504.28905-11-igor.stoppa@huawei.com> <20181026092609.GB3159@worktop.c.hoisthospitality.com> <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com> <20181028183126.GB744@hirez.programming.kicks-ass.net> <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com> <20181030152641.GE8177@hirez.programming.kicks-ass.net> <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com> <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net> <6f60afc9-0fed-7f95-a11a-9a2eef33094c@gmail.com> <CALCETrXNckT9W288VXx-6inO5qYn-6dUPocKGcBT0GCO3xi3ZQ@mail.gmail.com> <386C0CB1-C4B1-43E2-A754-DA8DBE4FB3CB@gmail.com> <CALCETrWWcfLK4W3mn0bavzejmMBVKMX29aAUA3+VPQ8m9vmfhw@mail.gmail.com> <9373ccf0-f51b-4bfa-2b16-e03ebf3c670d@huawei.com> <2e52e103-15d0-0c26-275f-894dfd07e8ec@huawei.com> <CALCETrV0sPgf4ZgG1joF_5hM-ycPsWM9DWGO=diQ_LQKin4VuA@mail.gmail.com> <1166e55c-0c06-195c-a501-383b4055ea46@gmail.com>
-To:     Igor Stoppa <igor.stoppa@gmail.com>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:organization:user-agent:mime-version
+         :content-transfer-encoding;
+        bh=rGO7rgJtbLIXb2SiL6JdRjv3nm9lxoiSmDGCFdiXhM8=;
+        b=k1w2WKz+KOjTambiYzK8pyILjcRfl+H+bk6uMlM2NS4sf5l0XAxQ765j5Ne6fgZJ/b
+         w5HhNaqFqcjf7F59NSuzRIH6zfUauE4c5fTq4fVLqHYzzQPVLsMNDXNbM2lDfYsaaN7z
+         0s0SXl9ssKT7dbM6abgV0eM+QPOv8OeR7RKNjWLgFV1rkMNKlld6AuUZ4r0mcpVp7TP8
+         wXs4bCGEKYqBWTdB0/kZggE/0SEsSD1+NCgc+WaKVjicXVSKWHQiCNLAkh6EY92RD9Dk
+         p9XTN0dWxI5G3eZqNIYGQaw1hWvaj7foGkrQAO0TnnqWLjCd4Hh6Grrn2BES8lzRg9vi
+         GDQw==
+X-Gm-Message-State: AGRZ1gIxJ/S4Z4toMCwHs24K4opf4m4zrGsU4i2XTgDri4QFCjxIcfkP
+        dQWxzCMhpf24bebBISVxSUlkvg==
+X-Google-Smtp-Source: AJdET5e1zmGQAHZaKIaIoyXNl9r4eUa/jceyPmGodrlkZQDQykvnxzbHZw6sPfysRocT4ccE81e6Lg==
+X-Received: by 2002:aed:2f82:: with SMTP id m2mr7300202qtd.4.1542826587054;
+        Wed, 21 Nov 2018 10:56:27 -0800 (PST)
+Received: from dhcp-10-20-1-11.bss.redhat.com ([144.121.20.162])
+        by smtp.gmail.com with ESMTPSA id z8sm17916795qto.45.2018.11.21.10.56.25
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 21 Nov 2018 10:56:26 -0800 (PST)
+Message-ID: <db5924d66229bd8b50e44395ace64ae2293fa78d.camel@redhat.com>
+Subject: Re: [PATCH 6/9] drm: remove deprecated
+ "drm_connector_[un]reference" functions
+From:   Lyude Paul <lyude@redhat.com>
+To:     Fernando Ramos <greenfoo@gluegarage.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Gilles Muller <Gilles.Muller@lip6.fr>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        linux-kernel@vger.kernel.org, Gerd Hoffmann <kraxel@redhat.com>,
+        cocci@systeme.lip6.fr, Marek Vasut <marex@denx.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        David Airlie <airlied@linux.ie>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Nicolas Palix <nicolas.palix@imag.fr>,
+        etnaviv@lists.freedesktop.org,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        virtualization@lists.linux-foundation.org,
+        Sean Paul <sean@poorly.run>,
+        linux-arm-kernel@lists.infradead.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Julia Lawall <Julia.Lawall@lip6.fr>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Shawn Guo <shawnguo@kernel.org>
+Date:   Wed, 21 Nov 2018 13:56:24 -0500
+In-Reply-To: <20181115221634.22715-7-greenfoo@gluegarage.com>
+References: <20181115221634.22715-1-greenfoo@gluegarage.com>
+         <20181115221634.22715-7-greenfoo@gluegarage.com>
+Organization: Red Hat
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.2 (3.30.2-2.fc29) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
+On Thu, 2018-11-15 at 23:16 +0100, Fernando Ramos wrote:
+> There are no more places where this (deprecated) function is being
+> used from, thus it can now be removed.
+> 
+> Signed-off-by: Fernando Ramos <greenfoo@gluegarage.com>
+> ---
+>  include/drm/drm_connector.h | 24 ------------------------
+>  1 file changed, 24 deletions(-)
+> 
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 9ccad6b062f2..b91b206f1665 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1191,30 +1191,6 @@ static inline void drm_connector_put(struct
+> drm_connector *connector)
+>  	drm_mode_object_put(&connector->base);
+>  }
+>  
+> -/**
+> - * drm_connector_reference - acquire a connector reference
+> - * @connector: DRM connector
+> - *
+> - * This is a compatibility alias for drm_connector_get() and should not be
+> - * used by new code.
+> - */
+> -static inline void drm_connector_reference(struct drm_connector *connector)
+> -{
+> -	drm_connector_get(connector);
+> -}
+> -
+> -/**
+> - * drm_connector_unreference - release a connector reference
+> - * @connector: DRM connector
+> - *
+> - * This is a compatibility alias for drm_connector_put() and should not be
+> - * used by new code.
+> - */
+> -static inline void drm_connector_unreference(struct drm_connector
+> *connector)
+> -{
+> -	drm_connector_put(connector);
+> -}
+> -
+>  /**
+>   * drm_connector_is_unregistered - has the connector been unregistered from
+>   * userspace?
+-- 
+Cheers,
+	Lyude Paul
 
-> On Nov 21, 2018, at 9:34 AM, Igor Stoppa <igor.stoppa@gmail.com> wrote:
->=20
-> Hi,
->=20
->>> On 13/11/2018 20:36, Andy Lutomirski wrote:
->>> On Tue, Nov 13, 2018 at 10:33 AM Igor Stoppa <igor.stoppa@huawei.com> wr=
-ote:
->>>=20
->>> I forgot one sentence :-(
->>>=20
->>>>> On 13/11/2018 20:31, Igor Stoppa wrote:
->>>>> On 13/11/2018 19:47, Andy Lutomirski wrote:
->>>>>=20
->>>>> For general rare-writish stuff, I don't think we want IRQs running
->>>>> with them mapped anywhere for write.  For AVC and IMA, I'm less sure.
->>>>=20
->>>> Why would these be less sensitive?
->>>>=20
->>>> But I see a big difference between my initial implementation and this o=
-ne.
->>>>=20
->>>> In my case, by using a shared mapping, visible to all cores, freezing
->>>> the core that is performing the write would have exposed the writable
->>>> mapping to a potential attack run from another core.
->>>>=20
->>>> If the mapping is private to the core performing the write, even if it
->>>> is frozen, it's much harder to figure out what it had mapped and where,=
-
->>>> from another core.
->>>>=20
->>>> To access that mapping, the attack should be performed from the ISR, I
->>>> think.
->>>=20
->>> Unless the secondary mapping is also available to other cores, through
->>> the shared mm_struct ?
->> I don't think this matters much.  The other cores will only be able to
->> use that mapping when they're doing a rare write.
->=20
->=20
-> I'm still mulling over this.
-> There might be other reasons for replicating the mm_struct.
->=20
-> If I understand correctly how the text patching works, it happens sequenti=
-ally, because of the text_mutex used by arch_jump_label_transform
->=20
-> Which might be fine for this specific case, but I think I shouldn't introd=
-uce a global mutex, when it comes to data.
-> Most likely, if two or more cores want to perform a write rare operation, t=
-here is no correlation between them, they could proceed in parallel. And if t=
-here really is, then the user of the API should introduce own locking, for t=
-hat specific case.
-
-Text patching uses the same VA for different physical addresses, so it need a=
- mutex to avoid conflicts. I think that, for rare writes, you should just ma=
-p each rare-writable address at a *different* VA.  You=E2=80=99ll still need=
- a mutex (mmap_sem) to synchronize allocation and freeing of rare-writable r=
-anges, but that shouldn=E2=80=99t have much contention.
-
->=20
-> A bit unrelated question, related to text patching: I see that each patchi=
-ng operation is validated, but wouldn't it be more robust to first validate =
- all of then, and only after they are all found to be compliant, to proceed w=
-ith the actual modifications?
->=20
-> And about the actual implementation of the write rare for the statically a=
-llocated variables, is it expected that I use Nadav's function?
-> Or that I refactor the code?
-
-I would either refactor it or create a new function to handle the write. The=
- main thing that Nadav is adding that I think you=E2=80=99ll want to use is t=
-he infrastructure for temporarily switching mms from a non-kernel-thread con=
-text.
-
->=20
-> The name, referring to text would definitely not be ok for data.
-> And I would have to also generalize it, to deal with larger amounts of dat=
-a.
->=20
-> I would find it easier, as first cut, to replicate its behavior and refact=
-or only later, once it has stabilized and possibly Nadav's patches have been=
- acked.
->=20
-
-Sounds reasonable. You=E2=80=99ll still want Nadav=E2=80=99s code for settin=
-g up the mm in the first place, though.
-
-> --
-> igor
