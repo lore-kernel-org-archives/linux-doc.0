@@ -1,176 +1,222 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E059E7D8A3
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 14:27:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 47B877D08E
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 14:59:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730216AbeKVBCI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Nov 2018 20:02:08 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:45369 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726849AbeKVBCH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Nov 2018 20:02:07 -0500
-Received: by mail-ed1-f68.google.com with SMTP id d39so5011005edb.12;
-        Wed, 21 Nov 2018 06:27:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=34QTK7OeG1TZywdi1Tg4zHkVOpYjEGspENTdEZheEyM=;
-        b=M2tigcFW240lX227EHTuCKKAMFHhLYO5UMQJdpXtOAzHhQaoFmPCLAP6iPS+WN7v06
-         DRDs7ioEZ7eEXawBnrA84ST7Kqizu4xNb8KRWx1z1U0rya83pYyuh0i0ppHr1oa78x2I
-         BJS3B0Wjdq+Qlf3zm54nM8e53WYx9hCtdL3apm7TGsourckflNDUFjVUrj84+hE5Gwn9
-         ObWvIXIUxwAh4sxd2ijkoIAvjmSn1RFxlSn5jkdfKXJUxtiB2+wwUxUUxegUXBo5IFVn
-         UUl1t4Q4KNCotMW8HmZdb0AXPQ4ky+Agbi045pNgvIe0ZtxlHhN+5CzO/14Rtij+l8MT
-         UGrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=34QTK7OeG1TZywdi1Tg4zHkVOpYjEGspENTdEZheEyM=;
-        b=XgFFr1D/7phWPWsKmnZC7vita+I9fZPnzzIL1yQjSkR8uvz+6Gm62j2MyItt6JuKcT
-         TrtNlE44NHBTwzFJmOz1OlHxb58Mtl5yyfV5lr9Fqd/xgQLkTORQyPiHEy9LNmQbXGWL
-         eVodIPZlWa95sNlwDoLZx1TXQCYMF2BsUb3FgiB8Z4+JH+mGlgoNjkDjLkidXP2WxaEO
-         Rgv4/6oHYFR0/36BAAsCM28Be0LeOSnK7OSSobgu3dN29afsDscuhQXDGQAYqZeCxEp8
-         HWVrdbTpLATF2nS3jeMu1W4bGziXQoGIS0rboyTWr/Bi2F3QKit3hLWESvOyqVGBT61x
-         7pfA==
-X-Gm-Message-State: AA+aEWZj1jtDmUnReCHa1Tx7u3wTAonmn56l4eqI9E+/xbg5x5/qc8O1
-        oYFpn0qsZoGb1dus6aWxnsMRYL3leAJwiXWbKvo=
-X-Google-Smtp-Source: AJdET5fQ4SDn98F98bDRE2AB5ymTwxhilkbMOzYjS2JVU1/VsNJZzdK+g67K3CLFgstQMk8iAQrsn/VqHv2nRAb3Vfc=
-X-Received: by 2002:a17:906:d054:: with SMTP id bo20-v6mr5246163ejb.239.1542810447094;
- Wed, 21 Nov 2018 06:27:27 -0800 (PST)
+        id S1729379AbeKVBem convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Nov 2018 20:34:42 -0500
+Received: from tyo161.gate.nec.co.jp ([114.179.232.161]:38337 "EHLO
+        tyo161.gate.nec.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728499AbeKVBel (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Nov 2018 20:34:41 -0500
+Received: from mailgate02.nec.co.jp ([114.179.233.122])
+        by tyo161.gate.nec.co.jp (8.15.1/8.15.1) with ESMTPS id wALExEHD018583
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Wed, 21 Nov 2018 23:59:14 +0900
+Received: from mailsv02.nec.co.jp (mailgate-v.nec.co.jp [10.204.236.94])
+        by mailgate02.nec.co.jp (8.15.1/8.15.1) with ESMTP id wALExEhB020070;
+        Wed, 21 Nov 2018 23:59:14 +0900
+Received: from mail02.kamome.nec.co.jp (mail02.kamome.nec.co.jp [10.25.43.5])
+        by mailsv02.nec.co.jp (8.15.1/8.15.1) with ESMTP id wALExEb8015724;
+        Wed, 21 Nov 2018 23:59:14 +0900
+Received: from bpxc99gp.gisp.nec.co.jp ([10.38.151.138] [10.38.151.138]) by mail01b.kamome.nec.co.jp with ESMTP id BT-MMP-5746986; Wed, 21 Nov 2018 23:58:23 +0900
+Received: from BPXM09GP.gisp.nec.co.jp ([10.38.151.201]) by
+ BPXC10GP.gisp.nec.co.jp ([10.38.151.138]) with mapi id 14.03.0319.002; Wed,
+ 21 Nov 2018 23:58:22 +0900
+From:   Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+To:     David Hildenbrand <david@redhat.com>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "devel@linuxdriverproject.org" <devel@linuxdriverproject.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+        kexec-ml <kexec@lists.infradead.org>,
+        "pv-drivers@vmware.com" <pv-drivers@vmware.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>
+Subject: RE: [PATCH v1] makedumpfile: exclude pages that are logically
+ offline
+Thread-Topic: [PATCH v1] makedumpfile: exclude pages that are logically
+ offline
+Thread-Index: AQHUf/E+kWItx7ZrGU+02oZZ/VtfP6VZMgzw
+Date:   Wed, 21 Nov 2018 14:58:22 +0000
+Message-ID: <4AE2DC15AC0B8543882A74EA0D43DBEC03561222@BPXM09GP.gisp.nec.co.jp>
+References: <20181119101616.8901-1-david@redhat.com>
+ <20181119101835.9140-1-david@redhat.com>
+In-Reply-To: <20181119101835.9140-1-david@redhat.com>
+Accept-Language: ja-JP, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [143.101.134.124]
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-References: <1542736289-31338-1-git-send-email-longman@redhat.com>
-In-Reply-To: <1542736289-31338-1-git-send-email-longman@redhat.com>
-From:   Michael Kerrisk <mtk.manpages@gmail.com>
-Date:   Wed, 21 Nov 2018 15:27:15 +0100
-Message-ID: <CAHO5Pa1axpoweQuO7A9K2yv+HvSkVXCkXS5f6Ag3fA1_SjPcuA@mail.gmail.com>
-Subject: Re: [PATCH v4 0/5] cgroup: Introducing bypass mode
-To:     longman@redhat.com
-Cc:     Tejun Heo <tj@kernel.org>, lizefan@huawei.com,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>, guro@fb.com,
-        axboe@kernel.dk, Andrew Morton <akpm@linux-foundation.org>,
-        dennis@kernel.org, shakeelb@google.com,
-        Linux API <linux-api@vger.kernel.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-TM-AS-MML: disable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[CC += linux-api@vger.kernel.org]
+Hi David,
 
-Hi Waiman,
+> Linux marks pages that are logically offline via a page flag (map count).
+> Such pages e.g. include pages infated as part of a balloon driver or
+> pages that were not actually onlined when onlining the whole section.
+> 
+> While the hypervisor usually allows to read such inflated memory, we
+> basically read and dump data that is completely irrelevant. Also, this
+> might result in quite some overhead in the hypervisor. In addition,
+> we saw some problems under Hyper-V, whereby we can crash the kernel by
+> dumping, when reading memory of a partially onlined memory segment
+> (for memory added by the Hyper-V balloon driver).
+> 
+> Therefore, don't read and dump pages that are marked as being logically
+> offline.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  makedumpfile.c | 34 ++++++++++++++++++++++++++++++----
+>  makedumpfile.h |  1 +
+>  2 files changed, 31 insertions(+), 4 deletions(-)
+> 
+> diff --git a/makedumpfile.c b/makedumpfile.c
+> index 8923538..b8bfd4c 100644
+> --- a/makedumpfile.c
+> +++ b/makedumpfile.c
+> @@ -88,6 +88,7 @@ mdf_pfn_t pfn_cache_private;
+>  mdf_pfn_t pfn_user;
+>  mdf_pfn_t pfn_free;
+>  mdf_pfn_t pfn_hwpoison;
+> +mdf_pfn_t pfn_offline;
+> 
+>  mdf_pfn_t num_dumped;
+> 
+> @@ -249,6 +250,21 @@ isHugetlb(unsigned long dtor)
+>                      && (SYMBOL(free_huge_page) == dtor));
+>  }
+> 
+> +static int
+> +isOffline(unsigned long flags, unsigned int _mapcount)
+> +{
+> +	if (NUMBER(PAGE_BUDDY_MAPCOUNT_VALUE) == NOT_FOUND_NUMBER)
+> +		return FALSE;
 
-Since this is a kernel-user-space API change, for all future
-iterations of this patch, please CC linux-api@.
+This is NUMBER(PAGE_OFFLINE_MAPCOUNT_VALUE), isn't it?
+If so, I will correct it when merging.
 
-The kernel source file Documentation/SubmitChecklist notes that all
-Linux kernel patches that change userspace interfaces should be CCed
-to linux-api@vger.kernel.org, so that the various parties who are
-interested in API changes are informed. For further information, see
-https://www.kernel.org/doc/man-pages/linux-api-ml.html
+Otherwise, looks good to me.
 
-Thanks,
+Thanks!
+Kazu
 
-Michael
-On Tue, Nov 20, 2018 at 8:45 PM Waiman Long <longman@redhat.com> wrote:
->
->  v4:
->   - Rebased to the latest for-4.21 branch of cgroup tree.
->   - Make each controller explicitly opt in to become bypassable by
->     setting the bypassable cgroup_subsys flag. Currently, only cpu
->     controller is made bypassable.
->   - Break out the cgroup_v2.rst documentation update as separate patch.
->
->  v3:
->   - Remove invalid cgroup subdirectory creation patch.
->   - Add use cases for the bypass mode and removing statements about
->     control files ownership in cgroup-v2.txt.
->   - Restrict bypass mode to non-domain (threaded) controllers only.
->
->  v3 patch - https://lkml.org/lkml/2017/8/9/604
->
-> This patchset introduces a new bypass mode to the cgroup v2 core to
-> give more freedom and flexibility to controllers which choose to become
-> bypassable the freedom to shape their own unique views of the virtual
-> cgroup hierarchies that can best suit thier own use cases.
->
-> Because of the inherent performance overhead in enabling cpu controller,
-> it is made bypassable so that the controller only needs to be enabled
-> at those cgroups that really need it instead of in every cgroups at a
-> given layer if at least one of them needs it.
->
-> The cpu controller performance problem is one of the major issues
-> in migrating from cgroup v1 to v2.
->
-> For example,
->
->   R - A(+) - B(#) - C(+)
->                   \ D(#)
->
-> where "+" means the controller is enabled and "#" means the controller
-> is bypassed. For this controller's perspective, the cgroups are
-> equivalent to:
->
->   R - A|B|D - C
->
-> Underneath the root R, cgoups A, B and D are controlled by one set of
-> knobs and cgroup C is controlled by another set of knobs as a child of
-> cgroups A|B|C.
->
-> This patchset is layered on top of the "for-4.21" branch of Tejun's
-> cgroup git tree.
->
-> Patch 1 introduces a new bypass mode that allows a bypassable
-> controller to be disabled in a cgroup, but to be re-enabled again in its
-> children. This is enabled by writing the controller name prefixed with
-> '#' to the "cgroup.subtree_control" file. Then all its children will
-> have this controller in bypass mode.
->
-> Patch 2 extends the bypass mode mechanism to allow those child cgroups
-> that are put into the bypass mode for a particular bypassable controller
-> by their parent to be re-enabled again by writing the controller name
-> with the '+' prefix to the "cgroup.controllers" file.
->
-> Patch 3 extends the debug controller to expose additional controller
-> masks introduced by this patchset.
->
-> Patch 4 makes the cpu controller bypassable.
->
-> Patch 5 documents the new bypass mode in cgroup-v2.rst file.
->
-> Waiman Long (5):
->   cgroup: subtree_control bypass mode for bypassable controllers
->   cgroup: Allow reenabling of controller in bypass mode
->   cgroup: Make debug controller report new controller masks
->   sched/core: Make cpu cgroup controller bypassable
->   cgroup: Document bypass mode
->
->  Documentation/admin-guide/cgroup-v2.rst |  66 +++++---
->  include/linux/cgroup-defs.h             |  26 +++-
->  kernel/cgroup/cgroup.c                  | 256 +++++++++++++++++++++++++-------
->  kernel/cgroup/debug.c                   |   2 +
->  kernel/sched/core.c                     |   1 +
->  5 files changed, 276 insertions(+), 75 deletions(-)
->
+> +
+> +	if (flags & (1UL << NUMBER(PG_slab)))
+> +		return FALSE;
+> +
+> +	if (_mapcount == (int)NUMBER(PAGE_OFFLINE_MAPCOUNT_VALUE))
+> +		return TRUE;
+> +
+> +	return FALSE;
+> +}
+> +
+>  static int
+>  is_cache_page(unsigned long flags)
+>  {
+> @@ -2287,6 +2303,8 @@ write_vmcoreinfo_data(void)
+>  	WRITE_NUMBER("PG_hwpoison", PG_hwpoison);
+> 
+>  	WRITE_NUMBER("PAGE_BUDDY_MAPCOUNT_VALUE", PAGE_BUDDY_MAPCOUNT_VALUE);
+> +	WRITE_NUMBER("PAGE_OFFLINE_MAPCOUNT_VALUE",
+> +		     PAGE_OFFLINE_MAPCOUNT_VALUE);
+>  	WRITE_NUMBER("phys_base", phys_base);
+> 
+>  	WRITE_NUMBER("HUGETLB_PAGE_DTOR", HUGETLB_PAGE_DTOR);
+> @@ -2687,6 +2705,7 @@ read_vmcoreinfo(void)
+>  	READ_SRCFILE("pud_t", pud_t);
+> 
+>  	READ_NUMBER("PAGE_BUDDY_MAPCOUNT_VALUE", PAGE_BUDDY_MAPCOUNT_VALUE);
+> +	READ_NUMBER("PAGE_OFFLINE_MAPCOUNT_VALUE", PAGE_OFFLINE_MAPCOUNT_VALUE);
+>  	READ_NUMBER("phys_base", phys_base);
+>  #ifdef __aarch64__
+>  	READ_NUMBER("VA_BITS", VA_BITS);
+> @@ -6041,6 +6060,12 @@ __exclude_unnecessary_pages(unsigned long mem_map,
+>  		else if (isHWPOISON(flags)) {
+>  			pfn_counter = &pfn_hwpoison;
+>  		}
+> +		/*
+> +		 * Exclude pages that are logically offline.
+> +		 */
+> +		else if (isOffline(flags, _mapcount)) {
+> +			pfn_counter = &pfn_offline;
+> +		}
+>  		/*
+>  		 * Unexcludable page
+>  		 */
+> @@ -7522,7 +7547,7 @@ write_elf_pages_cyclic(struct cache_data *cd_header, struct cache_data *cd_page)
+>  	 */
+>  	if (info->flag_cyclic) {
+>  		pfn_zero = pfn_cache = pfn_cache_private = 0;
+> -		pfn_user = pfn_free = pfn_hwpoison = 0;
+> +		pfn_user = pfn_free = pfn_hwpoison = pfn_offline = 0;
+>  		pfn_memhole = info->max_mapnr;
+>  	}
+> 
+> @@ -8804,7 +8829,7 @@ write_kdump_pages_and_bitmap_cyclic(struct cache_data *cd_header, struct cache_d
+>  		 * Reset counter for debug message.
+>  		 */
+>  		pfn_zero = pfn_cache = pfn_cache_private = 0;
+> -		pfn_user = pfn_free = pfn_hwpoison = 0;
+> +		pfn_user = pfn_free = pfn_hwpoison = pfn_offline = 0;
+>  		pfn_memhole = info->max_mapnr;
+> 
+>  		/*
+> @@ -9749,7 +9774,7 @@ print_report(void)
+>  	pfn_original = info->max_mapnr - pfn_memhole;
+> 
+>  	pfn_excluded = pfn_zero + pfn_cache + pfn_cache_private
+> -	    + pfn_user + pfn_free + pfn_hwpoison;
+> +	    + pfn_user + pfn_free + pfn_hwpoison + pfn_offline;
+>  	shrinking = (pfn_original - pfn_excluded) * 100;
+>  	shrinking = shrinking / pfn_original;
+> 
+> @@ -9763,6 +9788,7 @@ print_report(void)
+>  	REPORT_MSG("    User process data pages : 0x%016llx\n", pfn_user);
+>  	REPORT_MSG("    Free pages              : 0x%016llx\n", pfn_free);
+>  	REPORT_MSG("    Hwpoison pages          : 0x%016llx\n", pfn_hwpoison);
+> +	REPORT_MSG("    Offline pages           : 0x%016llx\n", pfn_offline);
+>  	REPORT_MSG("  Remaining pages  : 0x%016llx\n",
+>  	    pfn_original - pfn_excluded);
+>  	REPORT_MSG("  (The number of pages is reduced to %lld%%.)\n",
+> @@ -9790,7 +9816,7 @@ print_mem_usage(void)
+>  	pfn_original = info->max_mapnr - pfn_memhole;
+> 
+>  	pfn_excluded = pfn_zero + pfn_cache + pfn_cache_private
+> -	    + pfn_user + pfn_free + pfn_hwpoison;
+> +	    + pfn_user + pfn_free + pfn_hwpoison + pfn_offline;
+>  	shrinking = (pfn_original - pfn_excluded) * 100;
+>  	shrinking = shrinking / pfn_original;
+>  	total_size = info->page_size * pfn_original;
+> diff --git a/makedumpfile.h b/makedumpfile.h
+> index f02f86d..e3a2b29 100644
+> --- a/makedumpfile.h
+> +++ b/makedumpfile.h
+> @@ -1927,6 +1927,7 @@ struct number_table {
+>  	long    PG_hwpoison;
+> 
+>  	long	PAGE_BUDDY_MAPCOUNT_VALUE;
+> +	long	PAGE_OFFLINE_MAPCOUNT_VALUE;
+>  	long	SECTION_SIZE_BITS;
+>  	long	MAX_PHYSMEM_BITS;
+>  	long    HUGETLB_PAGE_DTOR;
 > --
-> 1.8.3.1
->
+> 2.17.2
+> 
 
 
--- 
-Michael Kerrisk Linux man-pages maintainer;
-http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface", http://blog.man7.org/
