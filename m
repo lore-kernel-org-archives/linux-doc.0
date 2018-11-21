@@ -1,157 +1,226 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DD0BC7D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 22:16:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5636C7D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 22:40:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731956AbeKVIw1 convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Nov 2018 03:52:27 -0500
-Received: from mail-out-1.itc.rwth-aachen.de ([134.130.5.46]:47433 "EHLO
-        mail-out-1.itc.rwth-aachen.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731864AbeKVIw1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Nov 2018 03:52:27 -0500
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2AEDQAN2PVb/5wagoZiHgEGBwaBZQKBL?=
- =?us-ascii?q?1OBaCcKmhKXTIFmDAEsgUuCdQKECiI4EgEDAQECAQECbShCARABBAGEYwEBAQM?=
- =?us-ascii?q?BJ0UKAxACAQgOCgklDwEiJQIEDgWFGwgBA6xOM4omjAWBWD6DJX6EQiARC4VbA?=
- =?us-ascii?q?odVgzuESY9PVQcCgRGQM4FZiAIrhwCHU5AxAgICAgkCFIFdIYFVTSSDO5BaQTG?=
- =?us-ascii?q?BKIRahFiCXAGBHgEB?=
-X-IPAS-Result: =?us-ascii?q?A2AEDQAN2PVb/5wagoZiHgEGBwaBZQKBL1OBaCcKmhKXTIF?=
- =?us-ascii?q?mDAEsgUuCdQKECiI4EgEDAQECAQECbShCARABBAGEYwEBAQMBJ0UKAxACAQgOC?=
- =?us-ascii?q?gklDwEiJQIEDgWFGwgBA6xOM4omjAWBWD6DJX6EQiARC4VbAodVgzuESY9PVQc?=
- =?us-ascii?q?CgRGQM4FZiAIrhwCHU5AxAgICAgkCFIFdIYFVTSSDO5BaQTGBKIRahFiCXAGBH?=
- =?us-ascii?q?gEB?=
-X-IronPort-AV: E=Sophos;i="5.56,262,1539640800"; 
-   d="scan'208";a="61875155"
-Received: from rwthex-w1-a.rwth-ad.de ([134.130.26.156])
-  by mail-in-1.itc.rwth-aachen.de with ESMTP; 21 Nov 2018 23:16:10 +0100
-Received: from rwthex-w2-a.rwth-ad.de (2a00:8a60:1:e500::26:158) by
- rwthex-w1-a.rwth-ad.de (2a00:8a60:1:e500::26:156) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1531.3; Wed, 21 Nov 2018 23:16:09 +0100
-Received: from rwthex-w2-a.rwth-ad.de ([fe80::18f3:313d:3e:42ff]) by
- rwthex-w2-a.rwth-ad.de ([fe80::18f3:313d:3e:42ff%21]) with mapi id
- 15.01.1531.007; Wed, 21 Nov 2018 23:16:09 +0100
-From:   =?iso-8859-1?Q?Br=FCns=2C_Stefan?= <Stefan.Bruens@rwth-aachen.de>
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
-CC:     "jdelvare@suse.com" <jdelvare@suse.com>,
-        "linux@roeck-us.net" <linux@roeck-us.net>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [RFC][PATCH] hwmon: (ina2xx) Improve current and power reading
- precision
-Thread-Topic: [RFC][PATCH] hwmon: (ina2xx) Improve current and power reading
- precision
-Thread-Index: AQHUgTlMOgH+/TcWJ0m0L3+ib8kVa6VaVu4AgAA6FACAACtjgA==
-Date:   Wed, 21 Nov 2018 22:16:09 +0000
-Message-ID: <1717545.GXSegKtrMu@sbruens-linux.lcs.intern>
-References: <20181121012629.5432-1-nicoleotsuka@gmail.com>
- <2863036.QIPGp1Eqjm@sbruens-linux.lcs.intern>
- <20181121194051.GA8902@Asurada-Nvidia.nvidia.com>
-In-Reply-To: <20181121194051.GA8902@Asurada-Nvidia.nvidia.com>
-Accept-Language: en-US, de-DE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [62.153.130.132]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <CA6EB60E46892E4F93344B5E046B6A91@rwth-ad.de>
-Content-Transfer-Encoding: 8BIT
+        id S2390228AbeKVJRG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Nov 2018 04:17:06 -0500
+Received: from mail-vk1-f196.google.com ([209.85.221.196]:46869 "EHLO
+        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731883AbeKVJRF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Nov 2018 04:17:05 -0500
+Received: by mail-vk1-f196.google.com with SMTP id j23so1587279vke.13
+        for <linux-doc@vger.kernel.org>; Wed, 21 Nov 2018 14:40:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=M9tjA2lexfD1mUkUX1Fi8axcHOA8khiAorvZefsr+Tc=;
+        b=uqsfKe5rzzL+6gPwo7cGlTd5Xx09B/Myn22adVg6PEaMepPKfFOCFWojESzUMBW3SU
+         /932QBoqHLtPy+kDFg1kwKrLLtysnqw8BG5Xk5BR+AsEk2hgU95C/GjLadLOjR7b/N/o
+         aConQjXLLUfKug2PXGlqbh4pp8ebE7hBEwWO4ou+vZmq2r6yEDEpYrN6PpkK0jGbCoJb
+         snx2U9Kcfn4YwUBKWVqWjFZtb7UApu0BX99Ao0wpX6lW2QoUhYpfrcp1ds5k+pxsn/LU
+         hBxp46Je3Q8g6x6iWAYmwDtWMGg3UDWnJzH36XYgXX6FuxfaifY0GH/Com+IjzKz539a
+         jsDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=M9tjA2lexfD1mUkUX1Fi8axcHOA8khiAorvZefsr+Tc=;
+        b=RNgBT4J/rVTCnf8++kz7POQSBNMVVEZLAeFyiMzipxfbsp/4q5RMIdVzYxnE5sJIf7
+         e0EDIbIKGcXk9BcXyyO+CxisCTqtcfyo0EfW8zqq91Hb4HVHGSUf+f3ts9mzjT1Smlxu
+         wxMY91Mjp1tUO2rhw/lBobik4C1mCvEa5eJfj5jhnyoplGd0xhjmtnsW7zDliPUDB70R
+         QqFOGqpkhsDk/unfDPb4A4njEAnrpSs2KSAOZO4qiOICSw5ogYFvj77yburfdKCIMH1t
+         QBEWHIDC4B+gI5zmFkzyFSV5E23ku/dwm5+/LrjAetYLAOX8ZBd76wvixf0wsQzH1Kii
+         BWMA==
+X-Gm-Message-State: AA+aEWZp3RZZPcgGXZ5DwBtVb2IFHgtephlBJCXzSFhFUNmTgHTGxW2T
+        qoxV1EK96tTDsTkgFekGgYSinwt2DodeAk1806OYQA==
+X-Google-Smtp-Source: AFSGD/XH5l7580bYLiOc11AS6/k9kpzLgMYMGaVKygtKnxG1pw58HUw0AsNmAaWOumbp/c22tmBfe8yHVM+738jKxEA=
+X-Received: by 2002:a1f:7cca:: with SMTP id x193mr3620786vkc.89.1542840040673;
+ Wed, 21 Nov 2018 14:40:40 -0800 (PST)
 MIME-Version: 1.0
+References: <20181121201452.77173-1-dancol@google.com> <20181121205428.165205-1-dancol@google.com>
+ <20181121141220.0e533c1dcb4792480efbf3ff@linux-foundation.org>
+In-Reply-To: <20181121141220.0e533c1dcb4792480efbf3ff@linux-foundation.org>
+From:   Daniel Colascione <dancol@google.com>
+Date:   Wed, 21 Nov 2018 14:40:28 -0800
+Message-ID: <CAKOZuetW6WMNFdL5_2=UbrEf8mjxYTdz1+4BiRLSgdoKh8FsqQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Add /proc/pid_gen
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Tim Murray <timmurray@google.com>,
+        Primiano Tucci <primiano@google.com>,
+        Joel Fernandes <joelaf@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Roman Gushchin <guro@fb.com>,
+        Prashant Dhamdhere <pdhamdhe@redhat.com>,
+        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>, rostedt@goodmis.org,
+        tglx@linutronix.de, mingo@kernel.org, linux@dominikbrodowski.net,
+        jpoimboe@redhat.com, ard.biesheuvel@linaro.org,
+        Michal Hocko <mhocko@suse.com>, sfr@canb.auug.org.au,
+        ktsanaktsidis@zendesk.com, David Howells <dhowells@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mittwoch, 21. November 2018 20:40:52 CET Nicolin Chen wrote:
-> (Removing "m.purski@samsung.com" since it's not reachable any more)
-> 
-> Hi Stefan,
-> 
-> Thank you for the comments.
-> 
-> On Wed, Nov 21, 2018 at 04:13:01PM +0000, Brüns, Stefan wrote:
-> > > === Problem ===
-> > > Both methods simplify software routine by fixing one factor, which
-> > > sacrifices the precision of the hardware measurement results.
-> > > 
-> > > Using ina226 for example, with method A, the current scale was 1mA
-> > > and the power scale was 25mA.
-> > > 
-> > > With method B, calibration value is fixed at 2048 so the precision
-> > > is decided by shunt resistor value. It sounds reasonable since the
-> > > hardware engineers can use a larger shunt resistor when they need
-> > > higher resolution. However, they often concern power burning across
-> > > the resistor as well, so the resistor usually won't be so large: a
-> > > typical value 1000 micro-ohms, which results in a current scale at
-> > > 2.5 mA and a power sacle at 62.5 mW.
-> > 
-> > Power loss surely is a concern, but figures should be kept reasonable.
-> > 
-> > 1. You mention 1.8V bus voltage, and currents in the 30mA range. Using the
-> > 1mOhm current shunt:
-> > 
-> > U_S = R_S * I_S 1e-3 Ohm * 30e-3 A = 30e-6 V  (30uV)
-> > P_S = U_S * I_S = 30e-6V * 30e-3 A = 900e-9W = 0.9 uW
-> > 
-> > INA219 Power Supply (Datasheet)
-> > Min operating Voltage: 3V
-> > Quiescent Current: 0.7mA
-> > -> Min power: 2.1mW
-> > 
-> > So the INA219 alone uses 2.1mW, 1000 times more than the shunt.
-> 
-> Chip can enter power-down or one-shot mode. Though this upstream
-> driver doesn't have these two mode supports yet, I am working on
-> it so they'll be added.
+On Wed, Nov 21, 2018 at 2:12 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Wed, 21 Nov 2018 12:54:20 -0800 Daniel Colascione <dancol@google.com> wrote:
+>
+> > Trace analysis code needs a coherent picture of the set of processes
+> > and threads running on a system. While it's possible to enumerate all
+> > tasks via /proc, this enumeration is not atomic. If PID numbering
+> > rolls over during snapshot collection, the resulting snapshot of the
+> > process and thread state of the system may be incoherent, confusing
+> > trace analysis tools. The fundamental problem is that if a PID is
+> > reused during a userspace scan of /proc, it's impossible to tell, in
+> > post-processing, whether a fact that the userspace /proc scanner
+> > reports regarding a given PID refers to the old or new task named by
+> > that PID, as the scan of that PID may or may not have occurred before
+> > the PID reuse, and there's no way to "stamp" a fact read from the
+> > kernel with a trace timestamp.
+> >
+> > This change adds a per-pid-namespace 64-bit generation number,
+> > incremented on PID rollover, and exposes it via a new proc file
+> > /proc/pid_gen. By examining this file before and after /proc
+> > enumeration, user code can detect the potential reuse of a PID and
+> > restart the task enumeration process, repeating until it gets a
+> > coherent snapshot.
+> >
+> > PID rollover ought to be rare, so in practice, scan repetitions will
+> > be rare.
+>
+> In general, tracing is a rather specialized thing.  Why is this very
+> occasional confusion a sufficiently serious problem to warrant addition
+> of this code?
 
-The power-down current is 6uA, so even if you never leave power-down mode, you 
-are down to 18uW. But on top of that, you need power for the conversion, and 
-you need power for communication.
+I wouldn't call tracing a specialized thing: it's important enough to
+justify its own summit and a whole ecosystem of trace collection and
+analysis tools. We use it in every day in Android. It's tremendously
+helpful for understanding system behavior, especially in cases where
+multiple components interact in ways that we can't readily predict or
+replicate. Reliability and precision in this area are essential:
+retrospective analysis of difficult-to-reproduce problems involves
+puzzling over trace files and testing hypothesis, and when the trace
+system itself is occasionally unreliable, the set of hypothesis to
+consider grows. I've tried to keep the amount of kernel infrastructure
+needed to support this precision and reliability to a minimum, pushing
+most of the complexity to userspace. But we do need, from the kernel,
+reliable process disambiguation.
 
-> > Another concern may be voltage drop over the shunt, but for this case you
-> > have a nominal voltage of 1.8V, so 30uV are 0.001%.
-> > 
-> > > When measuring a 1.8v voltage running a small current (e.g. 33 mA),
-> > > the power value (that's supposed to be 59.4 mW) becomes inaccurate
-> > > due to the larger scale (25mA for method A; 62.5 mA for method B).
-> 
-> Just found out that I have typos here: 25mW and 62.5mW.
-> 
-> > Another look into the datasheet reveals, even at full gain (PGA=1), the
-> > LSB is 40mV / 2^12 = 40mV / 4096 ~ 10uV. So when the current ADC reads
-> > out as 3*LSB, this anything between 25mA and 35mA. This is the best case
-> > figure.
-> Current read doesn't get affected a lot actually, since hwmon ABI
-> also reports current value in unit mA. However, the power read is
-> the matter here. With a 62.5mW power_lsb, power results are kinda
-> useless on my system.
+Besides: things like checkpoint and restart are also non-core
+features, but the kernel has plenty of infrastructure to support them.
+We're talking about a very lightweight feature in this thread.
 
-The reported current does not matter here, actually. Internally, the ADC value 
-will have an uncertainty of 10mA (at PGA=1). At 1.8V, your uncertainty is 
-18mW. And thats *only* the quantization noise. It wont get better than that.
+> Which userspace tools will be using pid_gen?  Are the developers of
+> those tools signed up to use pid_gen?
 
-Also note, you are apparently using the ina2xx hwmon driver - I strongly 
-advise against it, you should either use the ina2xx driver from the IIO 
-subsystem directly, or use the IIO driver via iio-hwmon.
+I'll be changing Android tracing tools to capture process snapshots
+using pid_gen, using the algorithm in the commit message.
 
-1. INA219 is not properly supported by the hwmon driver, see the changes in 
-the IIO driver.
-2. The IIO driver has many more features:
-  - setting the PGA (INA219)
-  - setting the bus voltage range (INA219)
-  - selecting the conversion time (INA219/226)
+> > --- a/include/linux/pid.h
+> > +++ b/include/linux/pid.h
+> > @@ -112,6 +112,7 @@ extern struct pid *find_ge_pid(int nr, struct pid_namespace *);
+> >  int next_pidmap(struct pid_namespace *pid_ns, unsigned int last);
+> >
+> >  extern struct pid *alloc_pid(struct pid_namespace *ns);
+> > +extern u64 read_pid_generation(struct pid_namespace *ns);
+>
+> pig_generation_read() would be a better (and more idiomatic) name.
 
-There is also always the possibility to read the bus and shunt voltage 
-registers and calculate the power manually.
+Thanks. I'll change it.
 
-Regards,
+>
+> >  extern void free_pid(struct pid *pid);
+> >  extern void disable_pid_allocation(struct pid_namespace *ns);
+> >
+> > ...
+> >
+> > +u64 read_pid_generation(struct pid_namespace *ns)
+> > +{
+> > +     u64 generation;
+> > +
+> > +
+> > +     spin_lock_irq(&pidmap_lock);
+> > +     generation = ns->generation;
+> > +     spin_unlock_irq(&pidmap_lock);
+> > +     return generation;
+> > +}
+>
+> What is the spinlocking in here for?  afaict the only purpose it serves
+> is to make the 64-bit read atomic, so it isn't needed on 32-bit?
 
-Stefan
+ITYM the spinlock is necessary *only* on 32-bit, since 64-bit
+architectures have atomic 64-bit reads, and 64-bit reads on 32-bit
+architectures can tear. This function isn't a particularly hot path,
+so I thought consistency across architectures would be more valuable
+than avoiding the lock on some systems.
+
+> >  void disable_pid_allocation(struct pid_namespace *ns)
+> >  {
+> >       spin_lock_irq(&pidmap_lock);
+> > @@ -449,6 +463,17 @@ struct pid *find_ge_pid(int nr, struct pid_namespace *ns)
+> >       return idr_get_next(&ns->idr, &nr);
+> >  }
+> >
+> > +#ifdef CONFIG_PROC_FS
+> > +static int pid_generation_show(struct seq_file *m, void *v)
+> > +{
+> > +     u64 generation =
+> > +             read_pid_generation(proc_pid_ns(file_inode(m->file)));
+>
+>         u64 generation;
+>
+>         generation = read_pid_generation(proc_pid_ns(file_inode(m->file)));
+>
+> is a nicer way of avoiding column wrap.
+
+Sure.
+
+> > +     seq_printf(m, "%llu\n", generation);
+> > +     return 0;
+> > +
+> > +};
+> > +#endif
+> > +
+> >  void __init pid_idr_init(void)
+> >  {
+> >       /* Verify no one has done anything silly: */
+> > @@ -465,4 +490,13 @@ void __init pid_idr_init(void)
+> >
+> >       init_pid_ns.pid_cachep = KMEM_CACHE(pid,
+> >                       SLAB_HWCACHE_ALIGN | SLAB_PANIC | SLAB_ACCOUNT);
+> > +
+> > +}
+> > +
+> > +void __init pid_proc_init(void)
+> > +{
+> > +     /* pid_idr_init is too early, so get a separate init function. */
+>
+> s/get a/use a/
+
+Will change.
+
+> > +#ifdef CONFIG_PROC_FS
+> > +     WARN_ON(!proc_create_single("pid_gen", 0, NULL, pid_generation_show));
+> > +#endif
+> >  }
+>
+> This whole function could vanish if !CONFIG_PROC_FS.  Doesn't matter
+> much with __init code though.
+
+I wanted to keep the ifdefed region as small as possible. I wonder
+whether LTO is good enough to make the function and its call site
+disappear entirely in configurations where it has an empty body.
