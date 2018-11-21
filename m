@@ -5,41 +5,45 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 07E987D099
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 08:50:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EA5137D08E
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 21 Nov 2018 08:54:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728633AbeKUTYZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 21 Nov 2018 14:24:25 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:58724 "EHLO mx1.redhat.com"
+        id S1728389AbeKUT22 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 21 Nov 2018 14:28:28 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:47600 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726423AbeKUTYZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 21 Nov 2018 14:24:25 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        id S1726165AbeKUT22 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 21 Nov 2018 14:28:28 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 63F3C308212B;
-        Wed, 21 Nov 2018 08:50:47 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 768337AE9A;
+        Wed, 21 Nov 2018 08:54:49 +0000 (UTC)
 Received: from [10.36.117.231] (ovpn-117-231.ams2.redhat.com [10.36.117.231])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7A9055D772;
-        Wed, 21 Nov 2018 08:50:18 +0000 (UTC)
-Subject: Re: [PATCH v1 3/8] kexec: export PG_offline to VMCOREINFO
-To:     Baoquan He <bhe@redhat.com>
-Cc:     linux-mm@kvack.org, Michal Hocko <mhocko@suse.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-pm@vger.kernel.org,
-        pv-drivers@vmware.com, Borislav Petkov <bp@alien8.de>,
-        linux-doc@vger.kernel.org, kexec-ml <kexec@lists.infradead.org>,
-        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-        Omar Sandoval <osandov@fb.com>,
-        Kazuhito Hagio <k-hagio@ab.jp.nec.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        xen-devel@lists.xenproject.org, linux-fsdevel@vger.kernel.org,
-        devel@linuxdriverproject.org, Dave Young <dyoung@redhat.com>,
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 48B615C22C;
+        Wed, 21 Nov 2018 08:54:32 +0000 (UTC)
+Subject: Re: [PATCH v1 6/8] vmw_balloon: mark inflated pages PG_offline
+To:     Nadav Amit <namit@vmware.com>
+Cc:     linux-mm <linux-mm@kvack.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "devel@linuxdriverproject.org" <devel@linuxdriverproject.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        xen-devel <xen-devel@lists.xenproject.org>,
+        kexec-ml <kexec@lists.infradead.org>,
+        pv-drivers <pv-drivers@vmware.com>,
+        Xavier Deguillard <xdeguillard@vmware.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Julien Freche <jfreche@vmware.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Lianbo Jiang <lijiang@redhat.com>
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>
 References: <20181119101616.8901-1-david@redhat.com>
- <20181119101616.8901-4-david@redhat.com>
- <20181121060458.GC7386@MiWiFi-R3L-srv>
+ <20181119101616.8901-7-david@redhat.com>
+ <9F78496F-EBAE-4248-80F0-0CB55CEFA238@vmware.com>
 From:   David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -86,61 +90,93 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
  SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <ddd5a6f4-59d0-474b-45d5-3589a21ebcd4@redhat.com>
-Date:   Wed, 21 Nov 2018 09:50:17 +0100
+Message-ID: <b62e3d4b-f8ff-8e6c-c1b4-b36d5d32179d@redhat.com>
+Date:   Wed, 21 Nov 2018 09:54:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.3.0
 MIME-Version: 1.0
-In-Reply-To: <20181121060458.GC7386@MiWiFi-R3L-srv>
+In-Reply-To: <9F78496F-EBAE-4248-80F0-0CB55CEFA238@vmware.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.42]); Wed, 21 Nov 2018 08:50:47 +0000 (UTC)
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Wed, 21 Nov 2018 08:54:49 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 21.11.18 07:04, Baoquan He wrote:
-> On 11/19/18 at 11:16am, David Hildenbrand wrote:
->> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
->> index 933cb3e45b98..093c9f917ed0 100644
->> --- a/kernel/crash_core.c
->> +++ b/kernel/crash_core.c
->> @@ -464,6 +464,8 @@ static int __init crash_save_vmcoreinfo_init(void)
->>  	VMCOREINFO_NUMBER(PAGE_BUDDY_MAPCOUNT_VALUE);
->>  #ifdef CONFIG_HUGETLB_PAGE
->>  	VMCOREINFO_NUMBER(HUGETLB_PAGE_DTOR);
->> +#define PAGE_OFFLINE_MAPCOUNT_VALUE	(~PG_offline)
->> +	VMCOREINFO_NUMBER(PAGE_OFFLINE_MAPCOUNT_VALUE);
->>  #endif
+On 21.11.18 04:22, Nadav Amit wrote:
+> Thanks for this patch!
 > 
-> This solution looks good to me. One small concern is why we don't
-> export PG_offline to vmcoreinfo directly, then define
-> PAGE_OFFLINE_MAPCOUNT_VALUE in makedumpfile. We have been exporting
-> kernel data/MACRO directly, why this one is exceptional.
+>> On Nov 19, 2018, at 2:16 AM, David Hildenbrand <david@redhat.com> wrote:
+>>
+>> Mark inflated and never onlined pages PG_offline, to tell the world that
+>> the content is stale and should not be dumped.
+>>
+>> Cc: Xavier Deguillard <xdeguillard@vmware.com>
+>> Cc: Nadav Amit <namit@vmware.com>
+>> Cc: Arnd Bergmann <arnd@arndb.de>
+>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Cc: Julien Freche <jfreche@vmware.com>
+>> Cc: Andrew Morton <akpm@linux-foundation.org>
+>> Cc: Matthew Wilcox <willy@infradead.org>
+>> Cc: Michal Hocko <mhocko@suse.com>
+>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>> drivers/misc/vmw_balloon.c | 32 ++++++++++++++++++++++++++++++++
+>> 1 file changed, 32 insertions(+)
+>>
+>> diff --git a/drivers/misc/vmw_balloon.c b/drivers/misc/vmw_balloon.c
+>> index e6126a4b95d3..8cc8bd9a4e32 100644
+>> --- a/drivers/misc/vmw_balloon.c
+>> +++ b/drivers/misc/vmw_balloon.c
+>> @@ -544,6 +544,36 @@ unsigned int vmballoon_page_order(enum vmballoon_page_size_type page_size)
+>> 	return page_size == VMW_BALLOON_2M_PAGE ? VMW_BALLOON_2M_ORDER : 0;
+>> }
+>>
+>> +/**
+>> + * vmballoon_mark_page_offline() - mark a page as offline
+>> + * @page: pointer for the page
+> 
+> If possible, please add a period at the end of the sentence (yes, I know I
+> got it wrong in some places too).
+
+Sure :)
+
+> 
+>> + * @page_size: the size of the page.
+>> + */
+>> +static void
+>> +vmballoon_mark_page_offline(struct page *page,
+>> +			    enum vmballoon_page_size_type page_size)
+>> +{
+>> +	int i;
+>> +
+>> +	for (i = 0; i < 1ULL << vmballoon_page_order(page_size); i++)
+> 
+> Can you please do instead:
+> 
+> 	unsigned int;
+> 
+> 	for (i = 0; i < vmballoon_page_in_frames(page_size); i++)
 > 
 
-1. We are much more similar to PG_buddy (in contrast to actual page
-flags), and for PG_buddy it is historically handled like this (and I
-think it makes sense to expose these as actual MAPCOUNT_VALUEs).
+Will do, will have to move both functions a little bit down in the file
+(exactly one function).
 
-2. Right now only one page type per page is supported. Therefore only
-exactly one value in mapcount indicates e.g. PageBuddy()/PageOffline().
 
-Now, if we ever decide to change this (e.g. treat them like real flags),
-it is much easier to switch to PG_offline/PG_buddy then. We can directly
-see in makedumpfile that .*_MAPCOUNT_VALUE is no longer available but
-instead e.g. PG_offline and PG_buddy. Instead we would no see a change
-in makedumpfile and would have to rely on other properties.
-
-If there are no strong opinions I will leave it like this.
+> We would like to test it in the next few days, but in the meanwhile, after
+> you address these minor issues:
+> 
+> Acked-by: Nadav Amit <namit@vmware.com>
 
 Thanks!
 
-> Thanks
-> Baoquan
+> 
+> Thanks again,
+> Nadav 
 > 
 
 
