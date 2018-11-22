@@ -1,105 +1,90 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.8 required=5.0 tests=DATE_IN_PAST_03_06,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	T_TVD_FUZZY_SECTOR autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E313C7D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 20:04:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CB8207D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 20:35:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728260AbeKWGpV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Nov 2018 01:45:21 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:50338 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726280AbeKWGpU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Nov 2018 01:45:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=3iMUh2dkWeYr3Wxskhu4eNYKLzoeaX8kLN4jP9KbV3Y=; b=diYQAdNo0/Z1OVDUdcJUj5cyr
-        kFIDSxC0oD+zPTGgG2cpefx6eEjJueDDF8bO7wAL31DT08IZKtnQSXTeBQiE0S26khoHh8+iLeUU0
-        tnhLlAdFPNmETrYCM7lM0c5OOdYuv+NqNC4Wp8cj2oNY0b4R+gUZyxL+zgytlZbX13RKtQs0u5R2O
-        tx6TRpwrOeoaT/hJ5gguBahHSBlwQryWsQtuOdOgeW4njwKYevV4rKDrju0cESv4JTKHDMw8OvUF8
-        6ONLalQU7wN46hsiNcn+98H1iKB+zSYY9sKiM1ySrQXZ2lTOKdOB+w48QC7WnabPA9ITd+Rzk+7WJ
-        e2mXwOvkw==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gPvCy-0007Hx-D4; Thu, 22 Nov 2018 20:04:16 +0000
-Date:   Thu, 22 Nov 2018 12:04:16 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Igor Stoppa <igor.stoppa@gmail.com>
-Cc:     Andy Lutomirski <luto@amacapital.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        Igor Stoppa <igor.stoppa@huawei.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        Dave Chinner <david@fromorbit.com>,
-        James Morris <jmorris@namei.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laura Abbott <labbott@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH 10/17] prmem: documentation
-Message-ID: <20181122200416.GS3065@bombadil.infradead.org>
-References: <6f60afc9-0fed-7f95-a11a-9a2eef33094c@gmail.com>
- <CALCETrXNckT9W288VXx-6inO5qYn-6dUPocKGcBT0GCO3xi3ZQ@mail.gmail.com>
- <386C0CB1-C4B1-43E2-A754-DA8DBE4FB3CB@gmail.com>
- <CALCETrWWcfLK4W3mn0bavzejmMBVKMX29aAUA3+VPQ8m9vmfhw@mail.gmail.com>
- <9373ccf0-f51b-4bfa-2b16-e03ebf3c670d@huawei.com>
- <2e52e103-15d0-0c26-275f-894dfd07e8ec@huawei.com>
- <CALCETrV0sPgf4ZgG1joF_5hM-ycPsWM9DWGO=diQ_LQKin4VuA@mail.gmail.com>
- <1166e55c-0c06-195c-a501-383b4055ea46@gmail.com>
- <3BB9DE07-E0AE-43E2-99F1-E4AA774CD462@amacapital.net>
- <5e10c8e4-aa71-1eea-b1ce-50d7d0a60e8c@gmail.com>
+        id S2392854AbeKWHQc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Nov 2018 02:16:32 -0500
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:38720 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730632AbeKWHQb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Nov 2018 02:16:31 -0500
+Received: by mail-qk1-f193.google.com with SMTP id d19so7465259qkg.5;
+        Thu, 22 Nov 2018 12:35:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=E8txJ2Mr/1Nx5BwIcNhMC7arKTkTIfGbDpJ7btoKNbE=;
+        b=DkdjVSh4taAkdlxDHU9wK7qjhClGiuoCKCXZuu9HrdzVYuztbadWnhgYXziCo5hS6B
+         1XiaB/29ROoE4tOh4vZBL7fFUM6tR/rDHD6WGVabhQ2cNZ17dAXV7NvSqa+D0NBi0Xt/
+         kqq+ywUfJ/1ClNFZfQMQeFv+w4b4ku6E4DwkM/DGdREUCoB2dTE2y0WmuJYWUjY8ALbd
+         ihx7UjU7etvqdcRSZGx2NeUjwjF0tYuGKbgCKcDL+wee5zLZSk3mGTFDfVr1AdSIktJM
+         s7BzXaBUyWF+I7PcUe46+GmZFgeGb+f85dC0j38V9iVtIxYwOSdNHF81LmlvLhtvRzcF
+         99NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=E8txJ2Mr/1Nx5BwIcNhMC7arKTkTIfGbDpJ7btoKNbE=;
+        b=JLfcajXX2L+Gt+dFqE/6aLqHPEFwOf20i36srVFCLT0oHpitONr14qfNKLr9zkRE2r
+         bikympPS6sq4H4TiJFsQo0lPsAmrMX+QF/fbuGQjVqZamqL166n6uzoDEeO8t4YkoKvd
+         57EhXL1zZfJPNKbAbV40GSyuWmHd3Lct0xG+RI6jN+hyTbCxCqnd3UWHor21UF/NT7XB
+         8e0ecXIFwl1HlG5jxAcG53XIhyRZKcXHOzT7EBmifSBdJZl64x+xiAfwckaFGgL740cq
+         /mK9qERd1oJa5x7rs00Vr8s/jNm11G+89gjrsmvRO6sizBAZMpKv94EviNqIZENipHrE
+         vqJg==
+X-Gm-Message-State: AA+aEWYR50+DREOWY1WnyXyafHfLh4CavdRVySs48f8XlJgwKOv+W6Ve
+        wtlvklG9zt8gHwhUW4OAdl8=
+X-Google-Smtp-Source: AFSGD/XrJHxZU0wJZZ5gct9iSktRBeDdxnllf4kqLhokDxDrejcrIIk6Jt0W2D/uoQB8zPWGhmr6iA==
+X-Received: by 2002:a37:6a84:: with SMTP id f126mr11206687qkc.342.1542918930251;
+        Thu, 22 Nov 2018 12:35:30 -0800 (PST)
+Received: from infosect0r.umd.edu (129-2-181-223.wireless.umd.edu. [129.2.181.223])
+        by smtp.gmail.com with ESMTPSA id v53sm27629674qtb.6.2018.11.22.12.35.29
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 22 Nov 2018 12:35:29 -0800 (PST)
+From:   Shreyans Devendra Doshi <0xinfosect0r@gmail.com>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Shreyans Devendra Doshi <0xinfosect0r@gmail.com>
+Subject: [PATCH] Documentation: dev-tools: Fix typos in index.rst
+Date:   Thu, 22 Nov 2018 10:34:56 -0500
+Message-Id: <20181122153456.24413-1-0xinfosect0r@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5e10c8e4-aa71-1eea-b1ce-50d7d0a60e8c@gmail.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 22, 2018 at 09:27:02PM +0200, Igor Stoppa wrote:
-> I have studied the code involved with Nadav's patchset.
-> I am perplexed about these sentences you wrote.
-> 
-> More to the point (to the best of my understanding):
-> 
-> poking_init()
-> -------------
->   1. it gets one random poking address and ensures to have at least 2
->      consecutive PTEs from the same PMD
->   2. it then proceeds to map/unmap an address from the first of the 2
->      consecutive PTEs, so that, later on, there will be no need to
->      allocate pages, which might fail, if poking from atomic context.
->   3. at this point, the page tables are populated, for the address that
->      was obtained at point 1, and this is ok, because the address is fixed
-> 
-> write_rare
-> ----------
->   4. it can happen on any available core / thread at any time, therefore
->      each of them needs a different address
+Fixes a spelling error and removes an extra whitespace character.
 
-No?  Each CPU has its own CR3 (eg each CPU might be running a different
-user task).  If you have _one_ address for each allocation, it may or
-may not be mapped on other CPUs at the same time -- you simply don't care.
+Signed-off-by: Shreyans Devendra Doshi <0xinfosect0r@gmail.com>
+---
+ Documentation/dev-tools/index.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The writable address can even be a simple formula to calculate from
-the read-only address, you don't have to allocate an address in the
-writable mapping space.
+diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
+index e313925fb0fa..b0522a4dd107 100644
+--- a/Documentation/dev-tools/index.rst
++++ b/Documentation/dev-tools/index.rst
+@@ -3,8 +3,8 @@ Development tools for the kernel
+ ================================
+ 
+ This document is a collection of documents about development tools that can
+-be used to work on the kernel.  For now, the documents have been pulled
+-together without any significant effot to integrate them into a coherent
++be used to work on the kernel. For now, the documents have been pulled
++together without any significant effort to integrate them into a coherent
+ whole; patches welcome!
+ 
+ .. class:: toc-title
+-- 
+2.19.1
 
