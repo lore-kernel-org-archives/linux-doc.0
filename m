@@ -1,154 +1,228 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	RCVD_IN_SORBS_WEB autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3A2987D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 02:58:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2D8B27D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 03:04:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391802AbeKVNgA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Nov 2018 08:36:00 -0500
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:37174 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391793AbeKVNf7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Nov 2018 08:35:59 -0500
-Received: by mail-pl1-f195.google.com with SMTP id b5so8253847plr.4
-        for <linux-doc@vger.kernel.org>; Wed, 21 Nov 2018 18:58:42 -0800 (PST)
+        id S2404106AbeKVNlw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Nov 2018 08:41:52 -0500
+Received: from mail-eopbgr710071.outbound.protection.outlook.com ([40.107.71.71]:25600
+        "EHLO NAM05-BY2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729872AbeKVNlv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Nov 2018 08:41:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=yX13UxWnJ8nh0jv4F6ynYHuuA4s7Rp3X3QUy9L7fHFw=;
-        b=P9HkdoG4oK1CdS3DzYbSsjJwEaU7DfX/Y+bkc/J53wNkP5ihuaU7aL489CVegDaIKK
-         unAzRS1KPoEQV0egzLV/XwR/T6/DCp6RLjYEGIyLKvgNiVJtWjd1Kts3cQjoUkX8G1RY
-         BLgH+PrfA5KW7pPz/PrBGKu44NJVBQjKwn6PR2ZSJOtSu23+sRcWYC1OHeAP9anIo7V6
-         LtnYBpideb9FFZEoVMC05/VTl1Q6FPxy397wGYiQeVW882k+KWCcA5BM5Xsb2af3TXUU
-         aw2fKLRTiXg1MJaSjfTGcIbqUo2kWIG33WJ5FvKCORzzlxCDqZILptTdlusXoYFINY2d
-         TpEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=yX13UxWnJ8nh0jv4F6ynYHuuA4s7Rp3X3QUy9L7fHFw=;
-        b=q69/xp444Ra2kMK7nfLzMZNeCknWd5flH7+x3Nnvql+Bmx+s+lBpX+YBBbW2Lm+GJq
-         M4+WBmP4FnPuVpyJ/ZCP9enoy3yDaVhklSg5x/0BTqI9H4cgngQlqv+gsFkCpBFd1dlo
-         y3NYCp4V6WANl+FTmrvhDdOBWX6xiCqEtt9SY0OlCnvzP5NKOs0AJTwfxEycBtcB0bnz
-         usx0N88VhwA+3IQx6HJftVmeIMQTMz0WWl2zLT/TQ7+OVX0iScsIY5MZMT7yYDbm3Lgg
-         f5Pikef5Ri+WfUUhGCpQA8IPEw8B2FUo8YM6yVSASRYIHPumh5DGnbayng7b5FZFUjon
-         OSUg==
-X-Gm-Message-State: AA+aEWa83dLZogpeeVQD2kVTI9GhwgNRjBjI9KrYcF42sqpdY1His+a3
-        YS4tODxlsNMQrBY8PEeoFUQXgg==
-X-Google-Smtp-Source: AFSGD/UCSPM+MStRNIb8eRVdPspBQwD/yxjoNfRGHYsEPQ48OejEDHXEbobuidxfo3VNHNuK9HMsEQ==
-X-Received: by 2002:a17:902:24a2:: with SMTP id w31mr1963035pla.216.1542855522506;
-        Wed, 21 Nov 2018 18:58:42 -0800 (PST)
-Received: from ziepe.ca (S010614cc2056d97f.ed.shawcable.net. [174.3.196.123])
-        by smtp.gmail.com with ESMTPSA id t12sm45679384pfi.45.2018.11.21.18.58.41
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 21 Nov 2018 18:58:41 -0800 (PST)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1gPfCS-0007Yc-JX; Wed, 21 Nov 2018 19:58:40 -0700
-Date:   Wed, 21 Nov 2018 19:58:40 -0700
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Kenneth Lee <liguozhu@hisilicon.com>
-Cc:     Leon Romanovsky <leon@kernel.org>,
-        Kenneth Lee <nek.in.cn@gmail.com>,
-        Tim Sell <timothy.sell@unisys.com>, linux-doc@vger.kernel.org,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Zaibo Xu <xuzaibo@huawei.com>, zhangfei.gao@foxmail.com,
-        linuxarm@huawei.com, haojian.zhuang@linaro.org,
-        Christoph Lameter <cl@linux.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        Gavin Schenk <g.schenk@eckelmann.de>,
-        RDMA mailing list <linux-rdma@vger.kernel.org>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Doug Ledford <dledford@redhat.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        David Kershner <david.kershner@unisys.com>,
-        Johan Hovold <johan@kernel.org>,
-        Cyrille Pitchen <cyrille.pitchen@free-electrons.com>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Jens Axboe <axboe@kernel.dk>, guodong.xu@linaro.org,
-        linux-netdev <netdev@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
-        linux-crypto@vger.kernel.org,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-accelerators@lists.ozlabs.org
-Subject: Re: [RFCv3 PATCH 1/6] uacce: Add documents for WarpDrive/uacce
-Message-ID: <20181122025840.GB19938@ziepe.ca>
-References: <20181113002354.GO3695@mtr-leonro.mtl.com>
- <95310df4-b32c-42f0-c750-3ad5eb89b3dd@gmail.com>
- <20181114160017.GI3759@mtr-leonro.mtl.com>
- <20181115085109.GD157308@Turing-Arch-b>
- <20181115145455.GN3759@mtr-leonro.mtl.com>
- <20181119091405.GE157308@Turing-Arch-b>
- <20181119184954.GB4890@ziepe.ca>
- <20181120030702.GH157308@Turing-Arch-b>
- <20181120032939.GR4890@ziepe.ca>
- <20181121060805.GJ157308@Turing-Arch-b>
+ d=CAVIUMNETWORKS.onmicrosoft.com; s=selector1-cavium-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2/CjG67SgJSPyyptxjFCtmApA74zCoo9EQ6aL6g6QDc=;
+ b=H4Lns+xfdlb7KTqc/mlVrdG6DyCXCj7KjtG6jQEPloSWsFjIT4nf33wtmPsH8DqT82VU3Pk+t3TVyAcDalaGp6IhUIBj84pipzJsvIk9S/5dU1sRSVnGXH0wBjlqP3IxtNLXOoCbCODKf/Ki4oYDUxdMUJlDnYCT0UIPA2bDF5A=
+Received: from BN7PR07MB5298.namprd07.prod.outlook.com (20.176.177.92) by
+ BN7PR07MB4260.namprd07.prod.outlook.com (52.135.243.14) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1361.15; Thu, 22 Nov 2018 03:04:31 +0000
+Received: from BN7PR07MB5298.namprd07.prod.outlook.com
+ ([fe80::2c4f:febb:78f0:8747]) by BN7PR07MB5298.namprd07.prod.outlook.com
+ ([fe80::2c4f:febb:78f0:8747%3]) with mapi id 15.20.1339.026; Thu, 22 Nov 2018
+ 03:04:31 +0000
+From:   "Kulkarni, Ganapatrao" <Ganapatrao.Kulkarni@cavium.com>
+To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+CC:     "Will.Deacon@arm.com" <Will.Deacon@arm.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "Nair, Jayachandran" <Jayachandran.Nair@cavium.com>,
+        "Richter, Robert" <Robert.Richter@cavium.com>,
+        "Lomovtsev, Vadim" <Vadim.Lomovtsev@cavium.com>,
+        Jan Glauber <Jan.Glauber@cavium.com>,
+        "gklkml16@gmail.com" <gklkml16@gmail.com>
+Subject: [PATCH v8 1/2] perf, uncore: Adding documentation for ThunderX2 pmu
+ uncore driver
+Thread-Topic: [PATCH v8 1/2] perf, uncore: Adding documentation for ThunderX2
+ pmu uncore driver
+Thread-Index: AQHUghAWwn7XCdSt8EalQ62X8aq3SA==
+Date:   Thu, 22 Nov 2018 03:04:31 +0000
+Message-ID: <20181122030354.13570-2-ganapatrao.kulkarni@cavium.com>
+References: <20181122030354.13570-1-ganapatrao.kulkarni@cavium.com>
+In-Reply-To: <20181122030354.13570-1-ganapatrao.kulkarni@cavium.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: BM1PR01CA0103.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00::19)
+ To BN7PR07MB5298.namprd07.prod.outlook.com (2603:10b6:408:2d::28)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Ganapatrao.Kulkarni@cavium.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [111.93.218.67]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;BN7PR07MB4260;6:9vFlJnPItuGaJIkAV596kjcq4CQYpc/b6egB7pDhKgjw6opoNGb6dx478GpShCtZTvrnBmaTEY3XVEue7claF6WtFdQsCP/la6v/HmFAUT+CeDtgrlkVZgtJsgTQJUY5zn0e35EVs3wxse5a3wQ0J87vkqIwPMmZY8lJXpH2GOQ4XGc3EszfJK+jiOCbiQcrG5OE/8xzI+y33fE+O/MqY3vhO63wa8H8N0J/ygUQAnVZl0Y5BHT3gePHwOoPjy6tJg56YwZ7Gh2ZMSbew7TGLo8KASrh8X2TrcOjS/JBqzsjI7gdiGLkbtKBvLtRyAWtqvJiCzUfvcQcpBMYkLWvp2v53EV6x6etWUPPPkdZdtVTlv8Y/SEQYXEQDk2r3UlynQYUwR2i7Hy6aPiHtWI4mbKdQmD+gkfrEjTkJuCledVNgLyNWAZ+j3FMgRlhcKk1/Hhd34XKCT3QfkUZj5CaUw==;5:u9Jt3WsgtMX24jchnv5GV5/yUojC93J2PqTSMIERUvZki4ek24UBbVtrb2rc/zL8jlWVCc99k36Jy4O+sHe0yMMwpaZASHxdIKqpZ1D+GxvyOnJWud8IBzYT7GyJrdc8htKNCVIM25RFiFsdBm0kqnGEleQkbXR/38J4O7j5lhw=;7:RNZg16IZYM4Ag90ZKA/YXhoRV+Y5vCiJl+0325ebtNZVbiBE1RWw9b6xFwM/JfpDGN26FPfKh7ayjt83BA0/+RxiuhF4gZE0OHTYI3hF3YTUWU0qKBLm5BjIGQaMHk1AW2zrxb1rSEqmi+B4ggY9rw==
+x-ms-office365-filtering-correlation-id: 8cdf40f0-08e8-4f8d-4d25-08d6502738de
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390098)(7020095)(4652040)(8989299)(5600074)(711020)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:BN7PR07MB4260;
+x-ms-traffictypediagnostic: BN7PR07MB4260:
+x-microsoft-antispam-prvs: <BN7PR07MB42608C5E8F011CF3CDEDAFB683DB0@BN7PR07MB4260.namprd07.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(10201501046)(3231442)(944501410)(52105112)(3002001)(148016)(149066)(150057)(6041310)(20161123560045)(20161123562045)(20161123558120)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(201708071742011)(7699051)(76991095);SRVR:BN7PR07MB4260;BCL:0;PCL:0;RULEID:;SRVR:BN7PR07MB4260;
+x-forefront-prvs: 0864A36BBF
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(979002)(136003)(366004)(376002)(346002)(39860400002)(396003)(189003)(199004)(106356001)(6512007)(386003)(2906002)(102836004)(6506007)(105586002)(316002)(76176011)(7736002)(36756003)(186003)(486006)(4326008)(2201001)(39060400002)(305945005)(86362001)(26005)(78486014)(25786009)(81156014)(81166006)(52116002)(99286004)(1076002)(8936002)(53936002)(446003)(11346002)(478600001)(66066001)(256004)(14444005)(6486002)(97736004)(68736007)(72206003)(476003)(2900100001)(2616005)(5660300001)(2501003)(14454004)(6436002)(3846002)(6116002)(110136005)(54906003)(71200400001)(8676002)(71190400001)(969003)(989001)(999001)(1009001)(1019001);DIR:OUT;SFP:1101;SCL:1;SRVR:BN7PR07MB4260;H:BN7PR07MB5298.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: cavium.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: UqgYCG6edxL0cYEpoKWEUuJaYLNhFGsm8URiFgxubvDSBzAwQYWP6+dvldECJSCAMFnKIkIXDXexzUFViNbGk3Ti592x4SHbIwQWcSOPhAHZ8lr6E2ai9OlY+OSh6J/4ZjQ1QLQko/a5KmjkhoJajSLDouzVT0qUSMQUHyKW/wrKWwOL3/Mo+9x7aGIOxQGdMnOxC7/MJXZnFsZXPC0DLsuEM5TIQBulRe9+uSFQUi72ZH9yKoUMVge2pbnaBxVWVF+S3iazF3XvsHRbHy0fEveSgAYRG8hQve2Jaif4FQoBIFdirnaSS4f98OxppAcF5/bGoqVcLHTW0jwsciPjs5jDjZ04UhUY4bY30yzl/1s=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181121060805.GJ157308@Turing-Arch-b>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-OriginatorOrg: cavium.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8cdf40f0-08e8-4f8d-4d25-08d6502738de
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Nov 2018 03:04:31.2387
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 711e4ccf-2e9b-4bcf-a551-4094005b6194
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR07MB4260
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 21, 2018 at 02:08:05PM +0800, Kenneth Lee wrote:
+The SoC has PMU support in its L3 cache controller (L3C) and in the
+DDR4 Memory Controller (DMC).
 
-> > But considering Jean's SVA stuff seems based on mmu notifiers, I have
-> > a hard time believing that it has any different behavior from RDMA's
-> > ODP, and if it does have different behavior, then it is probably just
-> > a bug in the ODP implementation.
-> 
-> As Jean has explained, his solution is based on page table sharing. I think ODP
-> should also consider this new feature.
+Signed-off-by: Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
+---
+ Documentation/perf/thunderx2-pmu.txt | 106 +++++++++++++++++++++++++++
+ 1 file changed, 106 insertions(+)
+ create mode 100644 Documentation/perf/thunderx2-pmu.txt
 
-Shared page tables would require the HW to walk the page table format
-of the CPU directly, not sure how that would be possible for ODP?
+diff --git a/Documentation/perf/thunderx2-pmu.txt b/Documentation/perf/thun=
+derx2-pmu.txt
+new file mode 100644
+index 000000000000..9f5dd7459e68
+--- /dev/null
++++ b/Documentation/perf/thunderx2-pmu.txt
+@@ -0,0 +1,106 @@
++
++Cavium ThunderX2 SoC Performance Monitoring Unit (PMU UNCORE)
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++ThunderX2 SoC PMU consists of independent system wide per Socket PMUs such
++as Level 3 Cache(L3C) and DDR4 Memory Controller(DMC).
++
++DMC has 8 interleave channels and L3C has 16 interleave tiles. Events are
++sampled for default channel(i.e channel 0) and prorated to total number of
++channels/tiles.
++
++DMC and L3C, Each PMU supports up to 4 counters. Counters are independentl=
+y
++programmable and can be started and stopped individually. Each counter can
++be set to sample specific perf events. Counters are 32 bit and do not supp=
+ort
++overflow interrupt; they are sampled at every 2 seconds.
++
++PMU UNCORE (perf) driver:
++
++The thunderx2-pmu driver registers several perf PMUs for DMC and L3C devic=
+es.
++Each of the PMUs provides description of its available events
++and configuration options in sysfs.
++	see /sys/devices/uncore_<l3c_S/dmc_S/>
++
++S is socket id.
++Each PMU can be used to sample up to 4 events simultaneously.
++
++The "format" directory describes format of the config (event ID).
++The "events" directory provides configuration templates for all
++supported event types that can be used with perf tool.
++
++For example, "uncore_dmc_0/cnt_cycles/" is an
++equivalent of "uncore_dmc_0/config=3D0x1/".
++
++Each perf driver also provides a "cpumask" sysfs attribute, which contains=
+ a
++single CPU ID of the processor which is likely to be used to handle all th=
+e
++PMU events. It will be the first online CPU from the NUMA node of the PMU =
+device.
++
++Example for perf tool use:
++
++perf stat -a -e uncore_dmc_0/cnt_cycles/ sleep 1
++
++perf stat -a -e \
++uncore_dmc_0/cnt_cycles/,\
++uncore_dmc_0/data_transfers/,\
++uncore_dmc_0/read_txns/,\
++uncore_dmc_0/write_txns/ sleep 1
++
++perf stat -a -e \
++uncore_l3c_0/read_request/,\
++uncore_l3c_0/read_hit/,\
++uncore_l3c_0/inv_request/,\
++uncore_l3c_0/inv_hit/ sleep 1
++
++The driver does not support sampling, therefore "perf record" will
++not work. Per-task (without "-a") perf sessions are not supported.
++
++L3C events:
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++read_request:
++	Number of Read requests received by the L3 Cache.
++	This include Read as well as Read Exclusives.
++
++read_hit:
++	Number of Read requests received by the L3 cache that were hit
++	in the L3 (Data provided form the L3)
++
++writeback_request:
++	Number of Write Backs received by the L3 Cache. These are basically
++	the L2 Evicts and writes from the PCIe Write Cache.
++
++inv_nwrite_request:
++	This is the Number of Invalidate and Write received by the L3 Cache.
++	Also Writes from IO that did not go through the PCIe Write Cache.
++
++inv_nwrite_hit
++	This is the Number of Invalidate and Write received by the L3 Cache
++	That were a hit in the L3 Cache.
++
++inv_request:
++	Number of Invalidate request received by the L3 Cache.
++
++inv_hit:
++	Number of Invalidate request received by the L3 Cache that were a
++	hit in L3.
++
++evict_request:
++	Number of Evicts that the L3 generated.
++
++NOTE:
++1. Granularity of all these events counter value is cache line length(64 B=
+ytes).
++2. L3C cache Hit Ratio =3D (read_hit + inv_nwrite_hit + inv_hit) / (read_r=
+equest + inv_nwrite_request + inv_request)
++
++DMC events:
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++cnt_cycles:
++	Count cycles (Clocks at the DMC clock rate)
++
++write_txns:
++	Number of 64 Bytes write transactions received by the DMC(s)
++
++read_txns:
++	Number of 64 Bytes Read transactions received by the DMC(s)
++
++data_transfers:
++	Number of 64 Bytes data transferred to or from DRAM.
+--=20
+2.18.0
 
-Presumably the implementation for ARM relies on the IOMMU hardware
-doing this?
-
-> > > > If all your driver needs is to mmap some PCI bar space, route
-> > > > interrupts and do DMA mapping then mediated VFIO is probably a good
-> > > > choice. 
-> > > 
-> > > Yes. That is what is done in our RFCv1/v2. But we accepted Jerome's opinion and
-> > > try not to add complexity to the mm subsystem.
-> > 
-> > Why would a mediated VFIO driver touch the mm subsystem? Sounds like
-> > you don't have a VFIO driver if it needs to do stuff like that...
-> 
-> VFIO has no ODP-like solution, and if we want to solve the fork problem, we have
-> to make some change to iommu and the fork procedure. Further, VFIO takes every
-> queue as a independent device. This create a lot of trouble on resource
-> management. For example, you will need a manager process to withdraw the unused
-> device and you need to let the user process know about PASID of the queue, and
-> so on.
-
-Well, I would think you'd add SVA support to the VFIO driver as a
-generic capability - it seems pretty useful for any VFIO user as it
-avoids all the kernel upcalls to do memory pinning and DMA address
-translation.
-
-Once the VFIO driver knows about this as a generic capability then the
-device it exposes to userspace would use CPU addresses instead of DMA
-addresses.
-
-The question is if your driver needs much more than the device
-agnostic generic services VFIO provides.
-
-I'm not sure what you have in mind with resource management.. It is
-hard to revoke resources from userspace, unless you are doing
-kernel syscalls, but then why do all this?
-
-Jason
