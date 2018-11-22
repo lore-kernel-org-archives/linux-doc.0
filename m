@@ -5,64 +5,64 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DC0977D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 21:49:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E34C07D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 21:49:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389728AbeKWIac (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Nov 2018 03:30:32 -0500
-Received: from terminus.zytor.com ([198.137.202.136]:60021 "EHLO
+        id S2404983AbeKWIbH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Nov 2018 03:31:07 -0500
+Received: from terminus.zytor.com ([198.137.202.136]:47731 "EHLO
         terminus.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731179AbeKWIac (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Nov 2018 03:30:32 -0500
+        with ESMTP id S1731179AbeKWIbH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Nov 2018 03:31:07 -0500
 Received: from terminus.zytor.com (localhost [127.0.0.1])
-        by terminus.zytor.com (8.15.2/8.15.2) with ESMTPS id wAMLmGpW3947421
+        by terminus.zytor.com (8.15.2/8.15.2) with ESMTPS id wAMLmoAw3947532
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Thu, 22 Nov 2018 13:48:16 -0800
+        Thu, 22 Nov 2018 13:48:50 -0800
 Received: (from tipbot@localhost)
-        by terminus.zytor.com (8.15.2/8.15.2/Submit) id wAMLmGmX3947417;
-        Thu, 22 Nov 2018 13:48:16 -0800
-Date:   Thu, 22 Nov 2018 13:48:16 -0800
+        by terminus.zytor.com (8.15.2/8.15.2/Submit) id wAMLmoR63947528;
+        Thu, 22 Nov 2018 13:48:50 -0800
+Date:   Thu, 22 Nov 2018 13:48:50 -0800
 X-Authentication-Warning: terminus.zytor.com: tipbot set sender to tipbot@zytor.com using -f
 From:   tip-bot for Babu Moger <tipbot@zytor.com>
-Message-ID: <tip-1ad4fa41d99f606098fd7b90c1f5deb2b3dfae5d@git.kernel.org>
-Cc:     mingo@kernel.org, bp@suse.de, qianyue.zj@alibaba-inc.com,
-        mingo@redhat.com, brijesh.singh@amd.com, Babu.Moger@amd.com,
-        chang.seok.bae@intel.com, linux-kernel@vger.kernel.org,
-        hpa@zytor.com, tony.luck@intel.com, reinette.chatre@intel.com,
-        arnd@arndb.de, tglx@linutronix.de, babu.moger@amd.com,
-        dima@arista.com, rian@alum.mit.edu, dwmw2@infradead.org,
-        akpm@linux-foundation.org, sherry.hurwitz@amd.com,
-        jpoimboe@redhat.com, pbonzini@redhat.com, peterz@infradead.org,
-        suravee.suthikulpanit@amd.com, vkuznets@redhat.com,
-        gregkh@linuxfoundation.org, jannh@google.com, rafael@kernel.org,
-        kirill.shutemov@linux.intel.com, corbet@lwn.net, jroedel@suse.de,
-        fenghua.yu@intel.com, xiaochen.shen@intel.com, puwen@hygon.cn,
-        linux-doc@vger.kernel.org, mchehab+samsung@kernel.org,
-        luto@kernel.org, pombredanne@nexb.com, davem@davemloft.net,
-        kstewart@linuxfoundation.org, Thomas.Lendacky@amd.com
-Reply-To: gregkh@linuxfoundation.org, vkuznets@redhat.com,
-          jannh@google.com, rafael@kernel.org,
-          kirill.shutemov@linux.intel.com, fenghua.yu@intel.com,
-          xiaochen.shen@intel.com, jroedel@suse.de, corbet@lwn.net,
-          puwen@hygon.cn, linux-doc@vger.kernel.org,
-          mchehab+samsung@kernel.org, kstewart@linuxfoundation.org,
-          davem@davemloft.net, luto@kernel.org, pombredanne@nexb.com,
-          Thomas.Lendacky@amd.com, qianyue.zj@alibaba-inc.com,
-          mingo@kernel.org, bp@suse.de, Babu.Moger@amd.com,
-          mingo@redhat.com, brijesh.singh@amd.com,
-          chang.seok.bae@intel.com, linux-kernel@vger.kernel.org,
-          hpa@zytor.com, tony.luck@intel.com, reinette.chatre@intel.com,
-          arnd@arndb.de, tglx@linutronix.de, dima@arista.com,
-          babu.moger@amd.com, akpm@linux-foundation.org,
-          sherry.hurwitz@amd.com, rian@alum.mit.edu, dwmw2@infradead.org,
-          pbonzini@redhat.com, suravee.suthikulpanit@amd.com,
-          peterz@infradead.org, jpoimboe@redhat.com
-In-Reply-To: <20181121202811.4492-6-babu.moger@amd.com>
-References: <20181121202811.4492-6-babu.moger@amd.com>
+Message-ID: <tip-a36c5ff560fb32d17c020fa3e7f4c70f753d8834@git.kernel.org>
+Cc:     Thomas.Lendacky@amd.com, rafael@kernel.org, hpa@zytor.com,
+        corbet@lwn.net, dima@arista.com, qianyue.zj@alibaba-inc.com,
+        kstewart@linuxfoundation.org, bp@suse.de, mingo@kernel.org,
+        sherry.hurwitz@amd.com, tony.luck@intel.com, rian@alum.mit.edu,
+        dwmw2@infradead.org, kirill.shutemov@linux.intel.com,
+        linux-kernel@vger.kernel.org, puwen@hygon.cn,
+        reinette.chatre@intel.com, linux-doc@vger.kernel.org,
+        jpoimboe@redhat.com, davem@davemloft.net, arnd@arndb.de,
+        vkuznets@redhat.com, xiaochen.shen@intel.com, pombredanne@nexb.com,
+        babu.moger@amd.com, mchehab+samsung@kernel.org,
+        pbonzini@redhat.com, akpm@linux-foundation.org,
+        chang.seok.bae@intel.com, brijesh.singh@amd.com, jannh@google.com,
+        Babu.Moger@amd.com, tglx@linutronix.de, mingo@redhat.com,
+        fenghua.yu@intel.com, luto@kernel.org, gregkh@linuxfoundation.org,
+        suravee.suthikulpanit@amd.com, jroedel@suse.de,
+        peterz@infradead.org
+Reply-To: rian@alum.mit.edu, tony.luck@intel.com, sherry.hurwitz@amd.com,
+          kirill.shutemov@linux.intel.com, dwmw2@infradead.org,
+          reinette.chatre@intel.com, puwen@hygon.cn,
+          linux-kernel@vger.kernel.org, corbet@lwn.net, rafael@kernel.org,
+          hpa@zytor.com, dima@arista.com, Thomas.Lendacky@amd.com,
+          kstewart@linuxfoundation.org, qianyue.zj@alibaba-inc.com,
+          bp@suse.de, mingo@kernel.org, chang.seok.bae@intel.com,
+          brijesh.singh@amd.com, jannh@google.com, Babu.Moger@amd.com,
+          fenghua.yu@intel.com, luto@kernel.org, tglx@linutronix.de,
+          mingo@redhat.com, peterz@infradead.org,
+          suravee.suthikulpanit@amd.com, gregkh@linuxfoundation.org,
+          jroedel@suse.de, davem@davemloft.net, jpoimboe@redhat.com,
+          linux-doc@vger.kernel.org, xiaochen.shen@intel.com,
+          arnd@arndb.de, vkuznets@redhat.com, babu.moger@amd.com,
+          pombredanne@nexb.com, mchehab+samsung@kernel.org,
+          akpm@linux-foundation.org, pbonzini@redhat.com
+In-Reply-To: <20181121202811.4492-7-babu.moger@amd.com>
+References: <20181121202811.4492-7-babu.moger@amd.com>
 To:     linux-tip-commits@vger.kernel.org
-Subject: [tip:x86/cache] x86/resctrl: Initialize the vendor-specific
- resource functions
-Git-Commit-ID: 1ad4fa41d99f606098fd7b90c1f5deb2b3dfae5d
+Subject: [tip:x86/cache] x86/resctrl: Bring cbm_validate() into the resource
+ structure
+Git-Commit-ID: a36c5ff560fb32d17c020fa3e7f4c70f753d8834
 X-Mailer: tip-git-log-daemon
 Robot-ID: <tip-bot.git.kernel.org>
 Robot-Unsubscribe: Contact <mailto:hpa@kernel.org> to get blacklisted from
@@ -76,22 +76,25 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit-ID:  1ad4fa41d99f606098fd7b90c1f5deb2b3dfae5d
-Gitweb:     https://git.kernel.org/tip/1ad4fa41d99f606098fd7b90c1f5deb2b3dfae5d
+Commit-ID:  a36c5ff560fb32d17c020fa3e7f4c70f753d8834
+Gitweb:     https://git.kernel.org/tip/a36c5ff560fb32d17c020fa3e7f4c70f753d8834
 Author:     Babu Moger <Babu.Moger@amd.com>
-AuthorDate: Wed, 21 Nov 2018 20:28:33 +0000
+AuthorDate: Wed, 21 Nov 2018 20:28:35 +0000
 Committer:  Borislav Petkov <bp@suse.de>
 CommitDate: Thu, 22 Nov 2018 20:16:19 +0100
 
-x86/resctrl: Initialize the vendor-specific resource functions
+x86/resctrl: Bring cbm_validate() into the resource structure
 
-Initialize the resource functions that are different between the
-vendors. Some features are initialized differently between the vendors.
-Add _intel suffix to Intel-specific functions.
+Bring all the functions that are different between the vendors into the
+resource structure and initialize them dynamically. Add _intel suffix to
+the Intel-specific functions.
 
-For example, the MBA feature varies significantly between Intel and AMD.
-Separate the initialization of these resource functions. That way we can
-easily add AMD's functions later.
+cbm_validate() which does cache bitmask validation, differs between the
+vendors as AMD allows non-contiguous masks. So, use separate functions
+for Intel and AMD.
+
+ [ bp: Massage commit message and fixup rdt_resource members' vertical
+   alignment. ]
 
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 Signed-off-by: Borislav Petkov <bp@suse.de>
@@ -130,125 +133,99 @@ Cc: Thomas Lendacky <Thomas.Lendacky@amd.com>
 Cc: Tony Luck <tony.luck@intel.com>
 Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
 Cc: <xiaochen.shen@intel.com>
-Link: https://lkml.kernel.org/r/20181121202811.4492-6-babu.moger@amd.com
+Link: https://lkml.kernel.org/r/20181121202811.4492-7-babu.moger@amd.com
 ---
- arch/x86/kernel/cpu/resctrl/core.c        | 34 ++++++++++++++++++++++++++-----
+ arch/x86/kernel/cpu/resctrl/core.c        |  9 ++++++++-
  arch/x86/kernel/cpu/resctrl/ctrlmondata.c |  4 ++--
- arch/x86/kernel/cpu/resctrl/internal.h    |  8 ++++++--
- 3 files changed, 37 insertions(+), 9 deletions(-)
+ arch/x86/kernel/cpu/resctrl/internal.h    | 15 +++++++++------
+ 3 files changed, 19 insertions(+), 9 deletions(-)
 
 diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
-index cf6491eeadc6..3bd245b057c4 100644
+index 3bd245b057c4..ba5a5b8c4681 100644
 --- a/arch/x86/kernel/cpu/resctrl/core.c
 +++ b/arch/x86/kernel/cpu/resctrl/core.c
-@@ -57,7 +57,8 @@ int max_name_width, max_data_width;
- bool rdt_alloc_capable;
- 
- static void
--mba_wrmsr(struct rdt_domain *d, struct msr_param *m, struct rdt_resource *r);
-+mba_wrmsr_intel(struct rdt_domain *d, struct msr_param *m,
-+		struct rdt_resource *r);
- static void
- cat_wrmsr(struct rdt_domain *d, struct msr_param *m, struct rdt_resource *r);
- 
-@@ -171,10 +172,7 @@ struct rdt_resource rdt_resources_all[] = {
- 		.rid			= RDT_RESOURCE_MBA,
- 		.name			= "MB",
- 		.domains		= domain_init(RDT_RESOURCE_MBA),
--		.msr_base		= MSR_IA32_MBA_THRTL_BASE,
--		.msr_update		= mba_wrmsr,
- 		.cache_level		= 3,
--		.parse_ctrlval		= parse_bw,
- 		.format_str		= "%d=%*u",
- 		.fflags			= RFTYPE_RES_MB,
- 	},
-@@ -357,7 +355,8 @@ u32 delay_bw_map(unsigned long bw, struct rdt_resource *r)
- }
- 
- static void
--mba_wrmsr(struct rdt_domain *d, struct msr_param *m, struct rdt_resource *r)
-+mba_wrmsr_intel(struct rdt_domain *d, struct msr_param *m,
-+		struct rdt_resource *r)
- {
- 	unsigned int i;
- 
-@@ -874,6 +873,25 @@ static __init bool get_rdt_resources(void)
- 	return (rdt_mon_capable || rdt_alloc_capable);
- }
- 
-+static __init void rdt_init_res_defs_intel(void)
-+{
-+	struct rdt_resource *r;
-+
-+	for_each_rdt_resource(r) {
-+		if (r->rid == RDT_RESOURCE_MBA) {
-+			r->msr_base = MSR_IA32_MBA_THRTL_BASE;
-+			r->msr_update = mba_wrmsr_intel;
-+			r->parse_ctrlval = parse_bw_intel;
-+		}
-+	}
-+}
-+
-+static __init void rdt_init_res_defs(void)
-+{
-+	if (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL)
-+		rdt_init_res_defs_intel();
-+}
-+
- static enum cpuhp_state rdt_online;
- 
- static int __init resctrl_late_init(void)
-@@ -881,6 +899,12 @@ static int __init resctrl_late_init(void)
+@@ -878,7 +878,14 @@ static __init void rdt_init_res_defs_intel(void)
  	struct rdt_resource *r;
- 	int state, ret;
  
-+	/*
-+	 * Initialize functions(or definitions) that are different
-+	 * between vendors here.
-+	 */
-+	rdt_init_res_defs();
-+
- 	check_quirks();
- 
- 	if (!get_rdt_resources())
+ 	for_each_rdt_resource(r) {
+-		if (r->rid == RDT_RESOURCE_MBA) {
++		if (r->rid == RDT_RESOURCE_L3 ||
++		    r->rid == RDT_RESOURCE_L3DATA ||
++		    r->rid == RDT_RESOURCE_L3CODE ||
++		    r->rid == RDT_RESOURCE_L2 ||
++		    r->rid == RDT_RESOURCE_L2DATA ||
++		    r->rid == RDT_RESOURCE_L2CODE)
++			r->cbm_validate = cbm_validate_intel;
++		else if (r->rid == RDT_RESOURCE_MBA) {
+ 			r->msr_base = MSR_IA32_MBA_THRTL_BASE;
+ 			r->msr_update = mba_wrmsr_intel;
+ 			r->parse_ctrlval = parse_bw_intel;
 diff --git a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-index 407d2179bfcb..a8ae87e756e9 100644
+index a8ae87e756e9..d2e0b99d453f 100644
 --- a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
 +++ b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-@@ -64,8 +64,8 @@ static bool bw_validate(char *buf, unsigned long *data, struct rdt_resource *r)
- 	return true;
- }
- 
--int parse_bw(struct rdt_parse_data *data, struct rdt_resource *r,
--	     struct rdt_domain *d)
-+int parse_bw_intel(struct rdt_parse_data *data, struct rdt_resource *r,
-+		   struct rdt_domain *d)
+@@ -88,7 +88,7 @@ int parse_bw_intel(struct rdt_parse_data *data, struct rdt_resource *r,
+  *	are allowed (e.g. FFFFH, 0FF0H, 003CH, etc.).
+  * Additionally Haswell requires at least two bits set.
+  */
+-static bool cbm_validate(char *buf, u32 *data, struct rdt_resource *r)
++bool cbm_validate_intel(char *buf, u32 *data, struct rdt_resource *r)
  {
- 	unsigned long bw_val;
+ 	unsigned long first_bit, zero_bit, val;
+ 	unsigned int cbm_len = r->cache.cbm_len;
+@@ -148,7 +148,7 @@ int parse_cbm(struct rdt_parse_data *data, struct rdt_resource *r,
+ 		return -EINVAL;
+ 	}
  
+-	if (!cbm_validate(data->buf, &cbm_val, r))
++	if (r->cbm_validate && !r->cbm_validate(data->buf, &cbm_val, r))
+ 		return -EINVAL;
+ 
+ 	if ((rdtgrp->mode == RDT_MODE_EXCLUSIVE ||
 diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-index fb26d347ae6c..9a643f444723 100644
+index 9a643f444723..599cad34a6a8 100644
 --- a/arch/x86/kernel/cpu/resctrl/internal.h
 +++ b/arch/x86/kernel/cpu/resctrl/internal.h
-@@ -444,8 +444,8 @@ struct rdt_resource {
+@@ -396,9 +396,9 @@ struct rdt_parse_data {
+  * struct rdt_resource - attributes of an RDT resource
+  * @rid:		The index of the resource
+  * @alloc_enabled:	Is allocation enabled on this machine
+- * @mon_enabled:		Is monitoring enabled for this feature
++ * @mon_enabled:	Is monitoring enabled for this feature
+  * @alloc_capable:	Is allocation available on this machine
+- * @mon_capable:		Is monitor feature available on this machine
++ * @mon_capable:	Is monitor feature available on this machine
+  * @name:		Name to use in "schemata" file
+  * @num_closid:		Number of CLOSIDs available
+  * @cache_level:	Which cache level defines scope of this resource
+@@ -410,10 +410,11 @@ struct rdt_parse_data {
+  * @cache:		Cache allocation related data
+  * @format_str:		Per resource format string to show domain value
+  * @parse_ctrlval:	Per resource function pointer to parse control values
+- * @evt_list:			List of monitoring events
+- * @num_rmid:			Number of RMIDs available
+- * @mon_scale:			cqm counter * mon_scale = occupancy in bytes
+- * @fflags:			flags to choose base and info files
++ * @cbm_validate	Cache bitmask validate function
++ * @evt_list:		List of monitoring events
++ * @num_rmid:		Number of RMIDs available
++ * @mon_scale:		cqm counter * mon_scale = occupancy in bytes
++ * @fflags:		flags to choose base and info files
+  */
+ struct rdt_resource {
+ 	int			rid;
+@@ -436,6 +437,7 @@ struct rdt_resource {
+ 	int (*parse_ctrlval)(struct rdt_parse_data *data,
+ 			     struct rdt_resource *r,
+ 			     struct rdt_domain *d);
++	bool (*cbm_validate)(char *buf, u32 *data, struct rdt_resource *r);
+ 	struct list_head	evt_list;
+ 	int			num_rmid;
+ 	unsigned int		mon_scale;
+@@ -576,5 +578,6 @@ void cqm_setup_limbo_handler(struct rdt_domain *dom, unsigned long delay_ms);
+ void cqm_handle_limbo(struct work_struct *work);
+ bool has_busy_rmid(struct rdt_resource *r, struct rdt_domain *d);
+ void __check_limbo(struct rdt_domain *d, bool force_free);
++bool cbm_validate_intel(char *buf, u32 *data, struct rdt_resource *r);
  
- int parse_cbm(struct rdt_parse_data *data, struct rdt_resource *r,
- 	      struct rdt_domain *d);
--int parse_bw(struct rdt_parse_data *data, struct rdt_resource *r,
--	     struct rdt_domain *d);
-+int parse_bw_intel(struct rdt_parse_data *data, struct rdt_resource *r,
-+		   struct rdt_domain *d);
- 
- extern struct mutex rdtgroup_mutex;
- 
-@@ -468,6 +468,10 @@ enum {
- 	RDT_NUM_RESOURCES,
- };
- 
-+#define for_each_rdt_resource(r)					      \
-+	for (r = rdt_resources_all; r < rdt_resources_all + RDT_NUM_RESOURCES;\
-+	     r++)
-+
- #define for_each_capable_rdt_resource(r)				      \
- 	for (r = rdt_resources_all; r < rdt_resources_all + RDT_NUM_RESOURCES;\
- 	     r++)							      \
+ #endif /* _ASM_X86_RESCTRL_INTERNAL_H */
