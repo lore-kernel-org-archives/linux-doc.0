@@ -1,151 +1,245 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	RCVD_IN_SORBS_WEB autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E87837D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 03:04:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 67F817D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 05:30:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404160AbeKVNmO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Nov 2018 08:42:14 -0500
-Received: from mail-eopbgr710079.outbound.protection.outlook.com ([40.107.71.79]:60732
-        "EHLO NAM05-BY2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2404090AbeKVNls (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 22 Nov 2018 08:41:48 -0500
+        id S2389392AbeKVQIU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Nov 2018 11:08:20 -0500
+Received: from mail-vk1-f193.google.com ([209.85.221.193]:34462 "EHLO
+        mail-vk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728036AbeKVQIU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Nov 2018 11:08:20 -0500
+Received: by mail-vk1-f193.google.com with SMTP id y14so1761188vkd.1
+        for <linux-doc@vger.kernel.org>; Wed, 21 Nov 2018 21:30:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=CAVIUMNETWORKS.onmicrosoft.com; s=selector1-cavium-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+M/B+x9j5azJ4WYGs7FYfu5TgAC0tC8cmwSKzlVtjOM=;
- b=eaDYgebLDbQBxU18LhGzLgNYCWI7ImLuvX2/pJProWXN51AH8tac2INdSsc+s4DHv42pWdN+16lUiTO+qK8V+3Y0JyXuXfLEN5GGUDTqS1BAMDreH1i9AgtinFesOdvIgusjpkp6ihX9N8ShMBDDH755WAjMAb2TVHOgv1f0AfE=
-Received: from BN7PR07MB5298.namprd07.prod.outlook.com (20.176.177.92) by
- BN7PR07MB4260.namprd07.prod.outlook.com (52.135.243.14) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1361.15; Thu, 22 Nov 2018 03:04:27 +0000
-Received: from BN7PR07MB5298.namprd07.prod.outlook.com
- ([fe80::2c4f:febb:78f0:8747]) by BN7PR07MB5298.namprd07.prod.outlook.com
- ([fe80::2c4f:febb:78f0:8747%3]) with mapi id 15.20.1339.026; Thu, 22 Nov 2018
- 03:04:27 +0000
-From:   "Kulkarni, Ganapatrao" <Ganapatrao.Kulkarni@cavium.com>
-To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-CC:     "Will.Deacon@arm.com" <Will.Deacon@arm.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "Nair, Jayachandran" <Jayachandran.Nair@cavium.com>,
-        "Richter, Robert" <Robert.Richter@cavium.com>,
-        "Lomovtsev, Vadim" <Vadim.Lomovtsev@cavium.com>,
-        Jan Glauber <Jan.Glauber@cavium.com>,
-        "gklkml16@gmail.com" <gklkml16@gmail.com>
-Subject: [PATCH v8 0/2] Add ThunderX2 SoC Performance Monitoring Unit driver
-Thread-Topic: [PATCH v8 0/2] Add ThunderX2 SoC Performance Monitoring Unit
- driver
-Thread-Index: AQHUghAU6wLhTw1iZ0G4pTMYoN/YFQ==
-Date:   Thu, 22 Nov 2018 03:04:27 +0000
-Message-ID: <20181122030354.13570-1-ganapatrao.kulkarni@cavium.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: BM1PR01CA0103.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00::19)
- To BN7PR07MB5298.namprd07.prod.outlook.com (2603:10b6:408:2d::28)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Ganapatrao.Kulkarni@cavium.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [111.93.218.67]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;BN7PR07MB4260;6:kAAZUuR4Glz6GEzOhFkFPBmid2X7lDjYN7FUY6f4pIbkAz+R8bdsouIDaGt0Rf3FQNgvn3ooSNMiewJmnl6e9FdsBQMEbAOwB5bklomNJRsnbtXGmPJqcuyepDRfu9S1gT3+r8fmY59i7iY0V61Jr6JvOS5fMpAee59GlBgLmeSxmkcwm9/1eQcV6/GL5HkoTPKEmk3Y1RK5FXPlqFMyu7lQl4AtGzcDVq4Oj746PXpGEPCzj7U64IPpymryiifWFKMp9n/GhFsOt0P6Lk2ryIf7Cp8206B9HDwN83BqoEe/kjEekmoI+phTwwABoeUNkdWgZvtbLWnythIT3SpZSg37kzOEGmbnlC9WZSxlHjlFSj2yzN9s0GEw3B52sVeHJ07CmqiuNhyIjqiQyv3e+fbWjSbD3zcfZ0pGZ9PTtGCv7yKlU0WJ7VEz+dd1jQu18oRvQPCokNDCx04bHXGUcA==;5:39gXhlgJFfGz79R6wftXxwUDqYTI+VTPypexwxHLTXLm8HqCQ7ChB0hqkypQ1KHMIP95fhoO9oTs+8UxyTMKSgYJql+8DFj0EIg2zArG5pCxQX23NagyxWeceUWjB03Enl5s8tKR5hND+V4J3gtIQ7r1t8QdcfsimsJ7NiToImk=;7:lsXAj6qVCoM9NquvaMEE2/pUZyYm7BR5kK2CEZEJDPtwOjaWMSLQAv2Q71gU7JqLv4tqHYuLsPXadNZiXK54L4UThXvrEUdXg2eS51dkhpSdDwy+4QwWfPUYMAgP5/DdmRWsCP+3GB+Ws1HFrmDQ8Q==
-x-ms-office365-filtering-correlation-id: adbb56c6-7af8-4df7-a3bb-08d65027366d
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390098)(7020095)(4652040)(8989299)(5600074)(711020)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:BN7PR07MB4260;
-x-ms-traffictypediagnostic: BN7PR07MB4260:
-x-microsoft-antispam-prvs: <BN7PR07MB42601FBDDA1CBD8A39E0F98983DB0@BN7PR07MB4260.namprd07.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(10201501046)(3231442)(944501410)(52105112)(3002001)(148016)(149066)(150057)(6041310)(20161123560045)(20161123562045)(20161123558120)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(201708071742011)(7699051)(76991095);SRVR:BN7PR07MB4260;BCL:0;PCL:0;RULEID:;SRVR:BN7PR07MB4260;
-x-forefront-prvs: 0864A36BBF
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(366004)(376002)(346002)(39860400002)(396003)(189003)(199004)(106356001)(6512007)(386003)(2906002)(102836004)(6506007)(105586002)(316002)(7736002)(36756003)(186003)(486006)(4326008)(2201001)(39060400002)(305945005)(86362001)(26005)(78486014)(25786009)(81156014)(81166006)(52116002)(99286004)(1076002)(6306002)(8936002)(53936002)(966005)(478600001)(66066001)(256004)(14444005)(6486002)(97736004)(68736007)(72206003)(476003)(2900100001)(2616005)(5660300001)(2501003)(14454004)(6436002)(3846002)(6116002)(110136005)(54906003)(71200400001)(8676002)(71190400001);DIR:OUT;SFP:1101;SCL:1;SRVR:BN7PR07MB4260;H:BN7PR07MB5298.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: cavium.com does not designate
- permitted sender hosts)
-x-microsoft-antispam-message-info: VIIFmuLGbeMVkMMuxxzsTdZl5FvsXVQWZdgqxOEStxYacgIfWL3zKJZzplPvdSNP+Q48JF7Ci+oO2jN8ijjkVlXL2WG9H9Q62SmyJVZ2J5LhFM7RZ6n/uAn/xjYyMnQbQXMByJrbRYHnqce8BWI8c81iaur6klPjz5jafDiCBx20GWXeyTzJDEBBXw9VSjAJLR/oPMwGSh/dmuQPVUzCb4oA/0eBbUv+LkyT10aNm9/CW6661X/b/jFNWutgwC0T8BaThMXjGuN7vT/W/xocYzOZqTKreb1mUBt1yuPxhMtjayYLgjwxFiwW8OpR6L5oAN/ZpOBNObvfr8EMbLDkASQVDgDdRUggvibKmfL5xvY=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=flGNHi2fwXRrjYvR+3lhbrIYMgZ7DZh9nBj93zWpqzA=;
+        b=KfsDWlf4LLq6WkPpAU9/C/STpdoFZVcEWkM4zxCyjK9a5bU0w7u/sczMqgShoS7HyU
+         8+qKUmJIpopo7IfueYz1lv8ozHSkHvFEOyNCPbIG5XFy8ExmbCKC6Au27bGkSLJ5RYwQ
+         gi5SGV/lMyjUpow4xvj39lDteK6ioKu1Gsm7jTdsWNt3A9mUHlkhXRJFPen8yhb0N9pq
+         oXMDac+zDRprIZQ2LOYOx6j+NNs6vJFMiE7JuYvDfK2Pml0gg3HiQMbNl6zkBkXyDdLH
+         4np1sEwwqenBKBwMgwXkTc2s6NJIQZ/HYxd4X9niSTFDZj20kfwfvDVKRPUbnUXj+iFv
+         Adiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=flGNHi2fwXRrjYvR+3lhbrIYMgZ7DZh9nBj93zWpqzA=;
+        b=QtSevzf64MQy/1krBDW5vK8IAlhvIpv8rD+c9ISqaBR5+a7t+X9N+kgyYwjl95LGo+
+         c4R40z7slJTR8sXRhN+0KC4jV0LrYL0QTEXAMAh+Ftg27P2uvoZN4iWN0Xafb0lzE/kN
+         OtlOIknq8IwXR/Nonx0A8kyPJGPkfWUAJERSOsOwQC0lnpt2/2UYuicLuvDslCnIu2dy
+         xDbM1g8NbFpx15BrgpuuCOg/2mQOG6UbMsFW0T46omR2g++XxslaFJs0bgW6ijRR2cH7
+         MTfLWpt3cqtKaZDkowT4rxbQCXxMHH9hxhvjJ9L/Kjrb3HeskTqpFb0wUxThsuEbo3LR
+         XGCA==
+X-Gm-Message-State: AA+aEWaEQESON/p4+hmx4P4nRhj4hRWTFjKeMRajMlyiMRyP+vcOudrh
+        KJbnnxIkFCmjaWrrsXxMXBVPM8VgxcoUUoYc9fKa1g==
+X-Google-Smtp-Source: AFSGD/VVIG98KNQCaLR+Iz/N3qAmEiA+/hSLCDqkZ+TfFlwCX7UDNjRTIDoovuZfwnjT6soCoWtEfT3V5x910hvkJTw=
+X-Received: by 2002:a1f:c4d:: with SMTP id 74mr3879678vkm.50.1542864632740;
+ Wed, 21 Nov 2018 21:30:32 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: cavium.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: adbb56c6-7af8-4df7-a3bb-08d65027366d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Nov 2018 03:04:27.3949
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 711e4ccf-2e9b-4bcf-a551-4094005b6194
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR07MB4260
+References: <20181121201452.77173-1-dancol@google.com> <20181121205428.165205-1-dancol@google.com>
+ <20181121141220.0e533c1dcb4792480efbf3ff@linux-foundation.org>
+ <CAKOZuetW6WMNFdL5_2=UbrEf8mjxYTdz1+4BiRLSgdoKh8FsqQ@mail.gmail.com>
+ <20181121145043.fa029f4f91afddc2a10bb81e@linux-foundation.org>
+ <CAKOZuesF5zi9mpEE6No7oq0hDnM8KFhQFU=NM7qUF635s0r3-A@mail.gmail.com>
+ <20181121162247.467fcab6c0aca0819a822286@linux-foundation.org>
+ <CAKOZuet7ipw8zoXCDQUB5PKs3kdSye-zesBbEv7jVDSByhXgkw@mail.gmail.com>
+ <20181121165741.ef089df784482632c4a66370@linux-foundation.org>
+ <CAKOZuessQgmPuiReEO0caNqkss=r44o-XXnem12TOXSn=y6xkw@mail.gmail.com>
+ <20181121172919.1b6585e17770d0be7dd8c4d9@linux-foundation.org> <CAEe=SxmNVHR_1ge6hM5636CNi4BZhLvyxoKW_28L9-XDV7x6aQ@mail.gmail.com>
+In-Reply-To: <CAEe=SxmNVHR_1ge6hM5636CNi4BZhLvyxoKW_28L9-XDV7x6aQ@mail.gmail.com>
+From:   Daniel Colascione <dancol@google.com>
+Date:   Wed, 21 Nov 2018 21:30:20 -0800
+Message-ID: <CAKOZues6ZwrJ3Y-iLGC5HVgg6snLsMeHuPjDsK9=pooUmQswhQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Add /proc/pid_gen
+To:     Tim Murray <timmurray@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Primiano Tucci <primiano@google.com>,
+        Joel Fernandes <joelaf@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Roman Gushchin <guro@fb.com>,
+        Prashant Dhamdhere <pdhamdhe@redhat.com>,
+        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>, rostedt@goodmis.org,
+        tglx@linutronix.de, mingo@kernel.org, linux@dominikbrodowski.net,
+        jpoimboe@redhat.com, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        ktsanaktsidis@zendesk.com, David Howells <dhowells@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patchset adds PMU driver for Cavium's ThunderX2 SoC UNCORE devices.
-The SoC has PMU support in L3 cache controller (L3C) and in the
-DDR4 Memory Controller (DMC).
+On Wed, Nov 21, 2018 at 6:36 PM Tim Murray <timmurray@google.com> wrote:
+>
+> On Wed, Nov 21, 2018 at 5:29 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+> >
+> > On Wed, 21 Nov 2018 17:08:08 -0800 Daniel Colascione <dancol@google.com> wrote:
+> >
+> > > Have you done much
+> > > retrospective long trace analysis?
+> >
+> > No.  Have you?
+> >
+> > Of course you have, which is why I and others are dependent upon you to
+> > explain why this change is worth adding to Linux.  If this thing solves
+> > a problem which we expect will not occur for anyone between now and the
+> > heat death of the universe then this impacts our decisions.
+>
+> I use ftrace the most on Android, so let me take a shot.
+>
+> In addition to the normal "debug a slow thing" use cases for ftrace,
+> Android has started exploring two other ways of using ftrace:
+>
+> 1. "Flight recorder" mode: trigger ftrace for some amount of time when
+> a particular anomaly is detected to make debugging those cases easier.
+>
+> 2. Long traces: let a trace stream to disk for hours or days, then
+> postprocess it to get some deeper insights about system behavior.
+> We've used this very successfully to debug and optimize power
+> consumption.
+>
+> Knowing the initial state of the system is a pain for both of these
+> cases. For example, one of the things I'd like to know in some of my
+> current use cases for long traces is the current oom_score_adj of
+> every process in the system, but similar to PID reuse, that can change
+> very quickly due to userspace behavior. There's also a race between
+> reading that value in userspace and writing it to trace_marker:
+>
+> 1. Userspace daemon X reads oom_score_adj for a process Y.
+> 2. Process Y gets a new oom_score_adj value, triggering the
+> oom/oom_score_adj_update tracepoint.
+> 3. Daemon X writes the old oom_score_adj value to trace_marker.
+>
+> As I was writing this, though, I realized that the race doesn't matter
+> so long as our tools follow the same basic practice (for PID reuse,
+> oom_score_adj, or anything else we need):
+>
+> 1. Daemon enables all requested tracepoints and resets the trace clock.
+> 2. Daemon enables tracing
+> 3. Daemon dumps initial state for any tracepoint we care about.
+> 4. When postprocessing, a tool must consider the initial state of a
+> value (eg, oom_score_adj of pid X) to be either the initial state as
+> reported by the daemon or the first ftrace event reporting that value.
+> If there is an ftrace event in the trace before the report from the
+> daemon, the report from the daemon should be ignored.
 
-v8:
-	Updated with Comments [4]
+I was imagining periodic scans being the moral equivalent of I-frames
+in an MPEG stream: known-good synchronization points that bound the
+propagation of errors. To prevent loss of events in the *middle* of
+one of these samples affecting the validity of the sample, I wanted
+each one to be atomic and self-contained. I was initially imagining a
+single proc file containing a mapping from thread ID list and a TGID
+mapping for each one (as well as assorted other information),
+generated atomically under task_list_lock and stamped with the trace
+timestamp. The /proc/pid_gen thing was an effort to do most of that in
+userspace. But maybe that's not really that important.
 
-[4] https://lkml.org/lkml/2018/10/25/215
+Another thing to consider: there are some properties which we can
+enumerate *only* through /proc and that we can't yet receive in a
+streaming, event-driven fashion. We read those by periodic sampling,
+but the sampling isn't atomic. And as Tim notes, even properties that
+we ordinarily receive in streaming form via trace event must be
+sampled at trace start. But trace start isn't the only case where it
+matters.
 
-v7:
-	Incorporated review comments [3].
-	Modified driver as loadable module.
-	Updated Documentation with Event description.
-	Removed per-channel(no SMC calls) sampling implementation(
-	Since DMC and L3C channels are interleave, we have decided to
-	sample channel zero and prorate it to account for a Device).
+Suppose at T+50 we have a TID 601 (which we'll call TID 601_1) with
+steady-state resource-consumption $COUNTER 100MB. Now suppose we start
+sampling at T+50. At T+55, TID 601_1 dies. At T+60, due to unlikely be
+possible TID reuse, we see a new task with TID 601, which we'll call
+TID 601_2. At T+65, the sample reads TID 601_2's $COUNTER as 1GB. At
+T+70, we finish the sample. From the perspective of trace analysis,
+all the sample tells us is "at some point between T+50 and T+70, TID
+601's $COUNTER was 1GB". We also know when TID 601_1 died and when TID
+601_2 started. We don't know whether the sample's "TID 601" refers to
+TID 601_1 or TID 601_2. So what do we do?
 
-[3] https://patchwork.kernel.org/patch/10479203/
+1) We could attribute the 1GB value of $COUNTER to TID 601_1, which is
+what would happen by default if we deemed the sample to be a virtual
+event with timestamp T+50, the time we started the sampling process.
+But that would be incorrect here. In analysis, we'd see this
+attribution as a mysterious spike in TID 601_1's resource consumption
+immediately before its death. (The spike would be to a level
+suspiciously similar to TID 601_2's next sample.) Imagine spending
+hours trying to track down a mystery death-rattle resource spike
+(something that could plausibly happen in the real world) that ended
+up being a tracing artifact.
 
-v6:
-	Rebased to 4.18-rc1
-	Updated with comments from John Garry[3]
+2) We could attribute the 1GB read of $COUNTER to TID 601_2. In the
+timeline I gave above, this attribution would be correct. But what if
+TID 601_1's $COUNTER really _had_ spiked to 1GB immediately before its
+death? (What if its death had been caused by that spike?) Then, under
+the "tag last" approach, we'd falsely tag TID 601_2 with TID 601_1's
+excessive resource use, and this false attribution would last until
+the next sample of TID 601_2, which might be quite far in the future.
+And we might find ourselves wondering why TID 601_1 died, since (if we
+blame 601_2 for the new $COUNTER value) TID 601_1 would have done
+nothing wrong. And in the meantime, we'd see 1GB of $COUNTER
+consumption that would appear to come out of nowhere.
 
-[3] https://lkml.org/lkml/2018/5/17/408
+3) We could discard the ambiguous sample. But in this case, we'd leave
+TID 601_2's $COUNTER value completely unknown until the next sample,
+which could be quite far in the future. And, if TID 601_2's $COUNTER
+value really were 1GB, we might leave significant resource consumption
+unaccounted-for until that next sample.
 
-v5:
-	Incorporated review comments from Mark Rutland[2]
-v4:
-	Incorporated review comments from Mark Rutland[1]
+With my pid_gen patch, we could have used strategy #3 without having
+to wait for the system to get around to sampling TID 601_2 again on
+its own, because we'd have been able to detect the ambiguity and
+collect a new, hopefully-unambiguous sample on the spot. Yes, we do
+wait a sampling period between samples anyway, and it's possible for a
+process to start, run, and die without having ever been sampled with
+or without pid_gen, but at least we wouldn't have missed a perfectly
+good sampling opportunity due to PID ambiguity.
 
-[1] https://www.spinics.net/lists/arm-kernel/msg588563.html
-[2] https://lkml.org/lkml/2018/4/26/376
+You might say, "dancol@, you sound excessively fussy here. That's
+never going to really matter under any realistic workload." And maybe
+that'd be right. But like I said above, I think it's important to be
+able to have deterministic bounds on uncertainty even in the case of
+pathological behavior, and I'd rather guarantee correctness
+structurally than wonder whether unlikely events are one-in-a-trace
+unlikely or heat-death-of-the-universe unlikely.
 
-v3:
-	Fixed warning reported by kbuild robot
+To improve on the sampling model, we could have the kernel stamp
+$COUNTER reads with the current trace timestamp. Then, the sample
+would tell us, instead of "TID 601's $COUNTER was 1GB between T+50 and
+T+70", it'd tell us "TID 601's $COUNTER was 1GB at exactly T+65". (The
+sampling program itself might get around to logging this bit of
+information at T+70 or T+700, but the embedded timestamp would be
+accurate.) We could then look up the inferred process table at T+65
+and attribute that 1GB to TID 601_2.
 
-v2:
-	Rebased to 4.12-rc1
-	Removed Arch VULCAN dependency.
-	Update SMC call parameters as per latest firmware.
+Ideally, we wouldn't bother with this sort of sampling at all, instead
+relying on streaming $COUNTER updates as events. But we're not quite
+there yet. I have a larger proposal in the works for that one. Under
+that proposal, we wouldn't log every change to $COUNTER, but we would
+log $COUNTER at process death (as well as at other times ---
+basically, after large changes and after a maximum time after any
+change), so trace analysis would still be able to correctly determine
+TID 601_1's time-of-death resource use.
 
-v1:
-	Initial patch
+In another approach, the trace system *itself* would generate the
+"I-frames" by automatically generating synthetic trace events at trace
+startup in order to reflect pre-trace system state. (For example, if
+you enabled sched_switch and started tracing, the ftrace ring buffer
+would begin life with one synthetic sched_switch per CPU describing
+each CPU's running task at the instant of trace startup, maybe
+collected with on_all_cpus.)
 
-
-Ganapatrao Kulkarni (2):
-  perf, uncore: Adding documentation for ThunderX2 pmu uncore driver
-  ThunderX2, perf : Add Cavium ThunderX2 SoC UNCORE PMU driver
-
- Documentation/perf/thunderx2-pmu.txt | 106 ++++
- drivers/perf/Kconfig                 |   9 +
- drivers/perf/Makefile                |   1 +
- drivers/perf/thunderx2_pmu.c         | 869 +++++++++++++++++++++++++++
- include/linux/cpuhotplug.h           |   1 +
- 5 files changed, 986 insertions(+)
- create mode 100644 Documentation/perf/thunderx2-pmu.txt
- create mode 100644 drivers/perf/thunderx2_pmu.c
-
---=20
-2.18.0
-
+But anyway, I didn't expect the pid_gen change to be controversial.
+Given that we can eventually do something different altogether and
+that it probably *is* excessively fussy, consider the patch withdrawn.
