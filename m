@@ -3,57 +3,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5029E7D8A3
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 00:29:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 47D577D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 00:30:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732112AbeKVLFx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Nov 2018 06:05:53 -0500
-Received: from mail-vs1-f67.google.com ([209.85.217.67]:35283 "EHLO
-        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732079AbeKVLFx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Nov 2018 06:05:53 -0500
-Received: by mail-vs1-f67.google.com with SMTP id e7so4378924vsc.2
-        for <linux-doc@vger.kernel.org>; Wed, 21 Nov 2018 16:29:08 -0800 (PST)
+        id S2388604AbeKVLHk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Nov 2018 06:07:40 -0500
+Received: from mail-ua1-f65.google.com ([209.85.222.65]:41423 "EHLO
+        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388196AbeKVLHk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Nov 2018 06:07:40 -0500
+Received: by mail-ua1-f65.google.com with SMTP id z24so2559392ual.8
+        for <linux-doc@vger.kernel.org>; Wed, 21 Nov 2018 16:30:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=xy2Gwtr+xMhN1Vnc7itdWgAUvkL2cxyloK0TeCw0FCU=;
-        b=FhHxGVrET7GYjU8rAJhTVHCd5Qn+J6jkOFuOzzY+sMc2WS+EWcQzUh5obpxA26dsI1
-         sXRooCxTYhyqGyjN0omhUAMSoYxEHRodLgHj+i8acOFkrfHKondhOHo4m8rVVv/hkNYJ
-         bTfjzSmhUcBLfrEZ4lQFZeCh6qhQ/T6eMCugP7pcHC8PD3YflV1negwmwdwPQyASVaCo
-         RQp7eQnSfZlqfjIclokpowge66kyrFXb9xeedLrogUcXYW4rZ4wJU6WyNEEh1I8jxLk6
-         yRyZpfNF9BNFS1UHmGxbL1bOWnW2X4mH85J5k/wak8D3Dzw6jsuWq3BH7ZyJdtIlqWf+
-         OaPA==
+        bh=vT5QLQLBvF9tb71lEfzgsLD/mZfphxrvGxwn3SOscDE=;
+        b=RFsLpiVhFTA9C3N3WxgW0gr562MUdo5coo7V1VsgLP3muD7cIxAC1VdnLmMYiowHD/
+         BHQsd3xEvJJDYwj29BFjKXiiszTI0ZijJ6F1c6PqLC6HMpYkOUVCdlvsK/uPLC7fdX4m
+         +tu8KS0Y7Lrk+RYzGcf8aHAW29l92Cvv13shkVEC4cuPawFUGNmMB/rQEQxrMdMgu6+M
+         JZyLOwzwH6a3RrHbiDMzE43eeLYwY+k9TyM7H+Q1c/dzDj3vOyxbGiSgpjvL8/BiidUX
+         IcTerfFAmNXPVCwN5/UhsDFRrj10gQ2Y7oWpRnI5tsDEE1g9zhUjYXujbzSz+IrPzwBy
+         II/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=xy2Gwtr+xMhN1Vnc7itdWgAUvkL2cxyloK0TeCw0FCU=;
-        b=rImqAtzgagC8yLU9DDttRkJ6ezddVBAi0xhX2n2hdNOghRwY6GmFYoS8DaeznIal5l
-         fzvbGemACDX6xOnQ8CG/tvHnMmCJjTZKJqpcmpxLa6KOF574vUbxHxG63C7yMm4GleLq
-         8vd7zbNSm1y7vZDiEFZrwiPYlPlrhSfVV0D5RltPMa8N2dHdoGb0W1HZioNhRTzzh/73
-         f42t9t797oXhw0pBl4IHxdiI1vaIkRTgnEJFhEvgrm2+tEn79Wl4J+6k/V/2FIksRYKb
-         XkwZyOWSooksi3viIM6ei8dsD0inNCwsuJhWESpN/60V3XulHj/sTX890VSkotO1AjB4
-         L0Fg==
-X-Gm-Message-State: AGRZ1gIChw8gCLf8eaWBu6HG5DC+flee2DHjOTX6NfROeFb7o98gvFSV
-        v8Celu0k+0TqqD/T1z6qejml2XEAV2A8p0AkFPPTtw==
-X-Google-Smtp-Source: AJdET5cDS8K5BZwMhtVvu12CvsqDkNHmmGkj954vlWsGZQ6WBxUWud1nsTY1tslxek5WeYqsxjY40fb5oXUTOIS1jxM=
-X-Received: by 2002:a67:6e87:: with SMTP id j129mr3832399vsc.171.1542846547829;
- Wed, 21 Nov 2018 16:29:07 -0800 (PST)
+        bh=vT5QLQLBvF9tb71lEfzgsLD/mZfphxrvGxwn3SOscDE=;
+        b=dU6XD/Bqjd9enu5O9RQACCj7zjRA53fnXZgTrY3t5e9JIBdYj6KxPmPpzFBD6dFBD2
+         hb2YDxHy8Nt8+B2YAb+VURuLxbjXdMePFg0Guos+kI+4xvzP9tOcOiOpE/WwQKKhN3+M
+         LzHz8/AzXZV8hoaqGsIfn+rZUE++NsujGDEsJZVE5KN69plQbsbZ7PUP3ilkk6p2ynGK
+         izPqCv8jqILN1IdDhvZDGmx6BQ2ye+w5LEwATUUzAlu1LwoxW1X+gHXKm0gPyY+D66F0
+         uhWgjG4fbTEiH7rHnn5+xR85SQfRcw1OiG/p7VMuzwsPJmf2Q7VKCzaWXt/jwFon9Tw4
+         TEQg==
+X-Gm-Message-State: AA+aEWYZCR+k7z2KWaYtb08h80Ts4N9RSbQxFXMC3NE6fEPNZwB4vKYB
+        x8P1EMszm2BGoK7FR5UFe7qgdJ5RH6ciLLxuXFzQUg==
+X-Google-Smtp-Source: AFSGD/UdfCXRb/SkRpbsEyR87T/swtoCu+4IxX4rlp49zhlyOWbbvlOa0nHEnaTV6JmJCXIjtVZPigaj7qGLp8stwPw=
+X-Received: by 2002:ab0:45e2:: with SMTP id u89mr3799107uau.13.1542846653783;
+ Wed, 21 Nov 2018 16:30:53 -0800 (PST)
 MIME-Version: 1.0
 References: <20181121201452.77173-1-dancol@google.com> <20181121205428.165205-1-dancol@google.com>
  <20181121141220.0e533c1dcb4792480efbf3ff@linux-foundation.org>
  <CAKOZuetW6WMNFdL5_2=UbrEf8mjxYTdz1+4BiRLSgdoKh8FsqQ@mail.gmail.com>
  <20181121145043.fa029f4f91afddc2a10bb81e@linux-foundation.org>
- <CAKOZuesF5zi9mpEE6No7oq0hDnM8KFhQFU=NM7qUF635s0r3-A@mail.gmail.com> <20181121162247.467fcab6c0aca0819a822286@linux-foundation.org>
-In-Reply-To: <20181121162247.467fcab6c0aca0819a822286@linux-foundation.org>
+ <CAKOZuesF5zi9mpEE6No7oq0hDnM8KFhQFU=NM7qUF635s0r3-A@mail.gmail.com>
+ <20181121162247.467fcab6c0aca0819a822286@linux-foundation.org> <CAKOZuet7ipw8zoXCDQUB5PKs3kdSye-zesBbEv7jVDSByhXgkw@mail.gmail.com>
+In-Reply-To: <CAKOZuet7ipw8zoXCDQUB5PKs3kdSye-zesBbEv7jVDSByhXgkw@mail.gmail.com>
 From:   Daniel Colascione <dancol@google.com>
-Date:   Wed, 21 Nov 2018 16:28:56 -0800
-Message-ID: <CAKOZuet7ipw8zoXCDQUB5PKs3kdSye-zesBbEv7jVDSByhXgkw@mail.gmail.com>
+Date:   Wed, 21 Nov 2018 16:30:42 -0800
+Message-ID: <CAKOZueuV=X4eqc+-8Jh3Z-2iQO+4fp2otEOs03yQoaa88C9zUA@mail.gmail.com>
 Subject: Re: [PATCH v2] Add /proc/pid_gen
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
@@ -72,75 +73,78 @@ Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
         Michal Hocko <mhocko@suse.com>,
         Stephen Rothwell <sfr@canb.auug.org.au>,
         ktsanaktsidis@zendesk.com, David Howells <dhowells@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 21, 2018 at 4:22 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+On Wed, Nov 21, 2018 at 4:28 PM Daniel Colascione <dancol@google.com> wrote:
 >
-> On Wed, 21 Nov 2018 15:21:40 -0800 Daniel Colascione <dancol@google.com> wrote:
->
-> > On Wed, Nov 21, 2018 at 2:50 PM Andrew Morton <akpm@linux-foundation.org> wrote:
-> > >
-> > > On Wed, 21 Nov 2018 14:40:28 -0800 Daniel Colascione <dancol@google.com> wrote:
-> > >
-> > > > On Wed, Nov 21, 2018 at 2:12 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+> On Wed, Nov 21, 2018 at 4:22 PM Andrew Morton <akpm@linux-foundation.org> wrote:
 > >
-> > ...
+> > On Wed, 21 Nov 2018 15:21:40 -0800 Daniel Colascione <dancol@google.com> wrote:
 > >
-> > > > I wouldn't call tracing a specialized thing: it's important enough to
-> > > > justify its own summit and a whole ecosystem of trace collection and
-> > > > analysis tools. We use it in every day in Android. It's tremendously
-> > > > helpful for understanding system behavior, especially in cases where
-> > > > multiple components interact in ways that we can't readily predict or
-> > > > replicate. Reliability and precision in this area are essential:
-> > > > retrospective analysis of difficult-to-reproduce problems involves
-> > > > puzzling over trace files and testing hypothesis, and when the trace
-> > > > system itself is occasionally unreliable, the set of hypothesis to
-> > > > consider grows. I've tried to keep the amount of kernel infrastructure
-> > > > needed to support this precision and reliability to a minimum, pushing
-> > > > most of the complexity to userspace. But we do need, from the kernel,
-> > > > reliable process disambiguation.
+> > > On Wed, Nov 21, 2018 at 2:50 PM Andrew Morton <akpm@linux-foundation.org> wrote:
 > > > >
-> > > > Besides: things like checkpoint and restart are also non-core
-> > > > features, but the kernel has plenty of infrastructure to support them.
-> > > > We're talking about a very lightweight feature in this thread.
+> > > > On Wed, 21 Nov 2018 14:40:28 -0800 Daniel Colascione <dancol@google.com> wrote:
+> > > >
+> > > > > On Wed, Nov 21, 2018 at 2:12 PM Andrew Morton <akpm@linux-foundation.org> wrote:
 > > >
-> > > I'm still not understanding the seriousness of the problem.  Presumably
-> > > you've hit problems in real-life which were serious and frequent enough
-> > > to justify getting down and writing the code.  Please share some sob stories
-> > > with us!
+> > > ...
+> > >
+> > > > > I wouldn't call tracing a specialized thing: it's important enough to
+> > > > > justify its own summit and a whole ecosystem of trace collection and
+> > > > > analysis tools. We use it in every day in Android. It's tremendously
+> > > > > helpful for understanding system behavior, especially in cases where
+> > > > > multiple components interact in ways that we can't readily predict or
+> > > > > replicate. Reliability and precision in this area are essential:
+> > > > > retrospective analysis of difficult-to-reproduce problems involves
+> > > > > puzzling over trace files and testing hypothesis, and when the trace
+> > > > > system itself is occasionally unreliable, the set of hypothesis to
+> > > > > consider grows. I've tried to keep the amount of kernel infrastructure
+> > > > > needed to support this precision and reliability to a minimum, pushing
+> > > > > most of the complexity to userspace. But we do need, from the kernel,
+> > > > > reliable process disambiguation.
+> > > > >
+> > > > > Besides: things like checkpoint and restart are also non-core
+> > > > > features, but the kernel has plenty of infrastructure to support them.
+> > > > > We're talking about a very lightweight feature in this thread.
+> > > >
+> > > > I'm still not understanding the seriousness of the problem.  Presumably
+> > > > you've hit problems in real-life which were serious and frequent enough
+> > > > to justify getting down and writing the code.  Please share some sob stories
+> > > > with us!
+> > >
+> > > The problem here is the possibility of confusion, even if it's rare.
+> > > Does the naive approach of just walking /proc and ignoring the
+> > > possibility of PID reuse races work most of the time? Sure. But "most
+> > > of the time" isn't good enough. It's not that there are tons of sob
+> > > stories: it's that without completely robust reporting, we can't rule
+> > > out of the possibility that weirdness we observe in a given trace is
+> > > actually just an artifact from a kinda-sort-working best-effort trace
+> > > collection system instead of a real anomaly in behavior. Tracing,
+> > > essentially, gives us deltas for system state, and without an accurate
+> > > baseline, collected via some kind of scan on trace startup, it's
+> > > impossible to use these deltas to robustly reconstruct total system
+> > > state at a given time. And this matters, because errors in
+> > > reconstruction (e.g., assigning a thread to the wrong process because
+> > > the IDs happen to be reused) can affect processing of the whole trace.
+> > > If it's 3am and I'm analyzing the lone trace from a dogfooder
+> > > demonstrating a particularly nasty problem, I don't want to find out
+> > > that the trace I'm analyzing ended up being useless because the
+> > > kernel's trace system is merely best effort. It's very cheap to be
+> > > 100% reliable here, so let's be reliable and rule out sources of
+> > > error.
 > >
-> > The problem here is the possibility of confusion, even if it's rare.
-> > Does the naive approach of just walking /proc and ignoring the
-> > possibility of PID reuse races work most of the time? Sure. But "most
-> > of the time" isn't good enough. It's not that there are tons of sob
-> > stories: it's that without completely robust reporting, we can't rule
-> > out of the possibility that weirdness we observe in a given trace is
-> > actually just an artifact from a kinda-sort-working best-effort trace
-> > collection system instead of a real anomaly in behavior. Tracing,
-> > essentially, gives us deltas for system state, and without an accurate
-> > baseline, collected via some kind of scan on trace startup, it's
-> > impossible to use these deltas to robustly reconstruct total system
-> > state at a given time. And this matters, because errors in
-> > reconstruction (e.g., assigning a thread to the wrong process because
-> > the IDs happen to be reused) can affect processing of the whole trace.
-> > If it's 3am and I'm analyzing the lone trace from a dogfooder
-> > demonstrating a particularly nasty problem, I don't want to find out
-> > that the trace I'm analyzing ended up being useless because the
-> > kernel's trace system is merely best effort. It's very cheap to be
-> > 100% reliable here, so let's be reliable and rule out sources of
-> > error.
+> > So we're solving a problem which isn't known to occur, but solving it
+> > provides some peace-of-mind?  Sounds thin!
 >
-> So we're solving a problem which isn't known to occur, but solving it
-> provides some peace-of-mind?  Sounds thin!
-
-So you want to reject a cheap fix for a problem that you know occurs
-at some non-zero frequency? There's a big difference between "may or
-may not occur" and "will occur eventually, given enough time, and so
-must be taken into account in analysis". Would you fix a refcount race
-that you knew was possible, but didn't observe? What, exactly, is your
-threshold for accepting a fix that makes tracing more reliable?
+> So you want to reject a cheap fix for a problem that you know occurs
+> at some non-zero frequency? There's a big difference between "may or
+> may not occur" and "will occur eventually, given enough time, and so
+> must be taken into account in analysis". Would you fix a refcount race
+> that you knew was possible, but didn't observe? What, exactly, is your
+> threshold for accepting a fix that makes tracing more reliable?
