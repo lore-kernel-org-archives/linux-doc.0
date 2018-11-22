@@ -1,122 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 837D77D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 20:02:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E313C7D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 20:04:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729727AbeKWGnA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Nov 2018 01:43:00 -0500
-Received: from mail.bootlin.com ([62.4.15.54]:38096 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728260AbeKWGnA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Nov 2018 01:43:00 -0500
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 41388207AD; Thu, 22 Nov 2018 21:02:04 +0100 (CET)
-Received: from bbrezillon (unknown [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 901C620714;
-        Thu, 22 Nov 2018 21:02:03 +0100 (CET)
-Date:   Thu, 22 Nov 2018 21:02:02 +0100
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     Vitor Soares <vitor.soares@synopsys.com>
-Cc:     wsa@the-dreams.de, linux-i2c@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        arnd@arndb.de, psroka@cadence.com, agolec@cadence.com,
-        adouglas@cadence.com, bfolta@cadence.com, dkos@cadence.com,
-        alicja@cadence.com, cwronka@cadence.com, sureshp@cadence.com,
-        rafalc@cadence.com, thomas.petazzoni@bootlin.com, nm@ti.com,
-        robh+dt@kernel.org, pawel.moll@arm.com, mark.rutland@arm.com,
-        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        geert@linux-m68k.org, linus.walleij@linaro.org,
-        Xiang.Lin@synaptics.com, linux-gpio@vger.kernel.org,
-        nsekhar@ti.com, pgaj@cadence.com, peda@axentia.se,
-        mshettel@codeaurora.org, swboyd@chromium.org,
-        joao.pinto@synopsys.com
-Subject: Re: [PATCH] i3c: master: dw: split dw-i3c-master.c into master and
- bus specific parts
-Message-ID: <20181122210202.6af50fcc@bbrezillon>
-In-Reply-To: <ade2c1a8d1eb48681b01ccdc9bed22caf5e96c4b.1542904564.git.soares@synopsys.com>
-References: <ade2c1a8d1eb48681b01ccdc9bed22caf5e96c4b.1542904564.git.soares@synopsys.com>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1728260AbeKWGpV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Nov 2018 01:45:21 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:50338 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726280AbeKWGpU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Nov 2018 01:45:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=3iMUh2dkWeYr3Wxskhu4eNYKLzoeaX8kLN4jP9KbV3Y=; b=diYQAdNo0/Z1OVDUdcJUj5cyr
+        kFIDSxC0oD+zPTGgG2cpefx6eEjJueDDF8bO7wAL31DT08IZKtnQSXTeBQiE0S26khoHh8+iLeUU0
+        tnhLlAdFPNmETrYCM7lM0c5OOdYuv+NqNC4Wp8cj2oNY0b4R+gUZyxL+zgytlZbX13RKtQs0u5R2O
+        tx6TRpwrOeoaT/hJ5gguBahHSBlwQryWsQtuOdOgeW4njwKYevV4rKDrju0cESv4JTKHDMw8OvUF8
+        6ONLalQU7wN46hsiNcn+98H1iKB+zSYY9sKiM1ySrQXZ2lTOKdOB+w48QC7WnabPA9ITd+Rzk+7WJ
+        e2mXwOvkw==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gPvCy-0007Hx-D4; Thu, 22 Nov 2018 20:04:16 +0000
+Date:   Thu, 22 Nov 2018 12:04:16 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Igor Stoppa <igor.stoppa@gmail.com>
+Cc:     Andy Lutomirski <luto@amacapital.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Igor Stoppa <igor.stoppa@huawei.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Dave Chinner <david@fromorbit.com>,
+        James Morris <jmorris@namei.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laura Abbott <labbott@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH 10/17] prmem: documentation
+Message-ID: <20181122200416.GS3065@bombadil.infradead.org>
+References: <6f60afc9-0fed-7f95-a11a-9a2eef33094c@gmail.com>
+ <CALCETrXNckT9W288VXx-6inO5qYn-6dUPocKGcBT0GCO3xi3ZQ@mail.gmail.com>
+ <386C0CB1-C4B1-43E2-A754-DA8DBE4FB3CB@gmail.com>
+ <CALCETrWWcfLK4W3mn0bavzejmMBVKMX29aAUA3+VPQ8m9vmfhw@mail.gmail.com>
+ <9373ccf0-f51b-4bfa-2b16-e03ebf3c670d@huawei.com>
+ <2e52e103-15d0-0c26-275f-894dfd07e8ec@huawei.com>
+ <CALCETrV0sPgf4ZgG1joF_5hM-ycPsWM9DWGO=diQ_LQKin4VuA@mail.gmail.com>
+ <1166e55c-0c06-195c-a501-383b4055ea46@gmail.com>
+ <3BB9DE07-E0AE-43E2-99F1-E4AA774CD462@amacapital.net>
+ <5e10c8e4-aa71-1eea-b1ce-50d7d0a60e8c@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5e10c8e4-aa71-1eea-b1ce-50d7d0a60e8c@gmail.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 22 Nov 2018 17:54:54 +0000
-Vitor Soares <vitor.soares@synopsys.com> wrote:
-
-> From: Vitor Soares <soares@synopsys.com>
+On Thu, Nov 22, 2018 at 09:27:02PM +0200, Igor Stoppa wrote:
+> I have studied the code involved with Nadav's patchset.
+> I am perplexed about these sentences you wrote.
 > 
-> This patch slipts dw-i3c-master.c into three pieces:
-> 	dw-i3c-master.c - contains the code that interacts directly with the
-> 	core in master mode.
+> More to the point (to the best of my understanding):
 > 
-> 	dw-i3c-platdrv.c - contains the code specific to the platform driver.
+> poking_init()
+> -------------
+>   1. it gets one random poking address and ensures to have at least 2
+>      consecutive PTEs from the same PMD
+>   2. it then proceeds to map/unmap an address from the first of the 2
+>      consecutive PTEs, so that, later on, there will be no need to
+>      allocate pages, which might fail, if poking from atomic context.
+>   3. at this point, the page tables are populated, for the address that
+>      was obtained at point 1, and this is ok, because the address is fixed
 > 
-> 	dw-i3c-core.h - contains the definitions and declarations shared by
-> 	dw-i3c-master and dw-i3c-platdrv
-> 
-> This patch will allow SOC integrators to add their code specific to
-> DesignWare I3C IP.
+> write_rare
+> ----------
+>   4. it can happen on any available core / thread at any time, therefore
+>      each of them needs a different address
 
-Isn't it too early to do this change? Can't we wait until we have a SoC
-that actually embeds this IP?
+No?  Each CPU has its own CR3 (eg each CPU might be running a different
+user task).  If you have _one_ address for each allocation, it may or
+may not be mapped on other CPUs at the same time -- you simply don't care.
 
-> 
-> Signed-off-by: Vitor Soares <soares@synopsys.com>
-> ---
->  drivers/i3c/master/Kconfig          |   9 +-
->  drivers/i3c/master/Makefile         |   5 +-
->  drivers/i3c/master/dw-i3c-core.h    | 214 ++++++++++++++++++++++++++
->  drivers/i3c/master/dw-i3c-master.c  | 299 ++----------------------------------
->  drivers/i3c/master/dw-i3c-platdrv.c | 112 ++++++++++++++
+The writable address can even be a simple formula to calculate from
+the read-only address, you don't have to allocate an address in the
+writable mapping space.
 
-I'd prefer to have a dw/ subdir where you'd place all dw files.
-
->  5 files changed, 349 insertions(+), 290 deletions(-)
->  create mode 100644 drivers/i3c/master/dw-i3c-core.h
->  create mode 100644 drivers/i3c/master/dw-i3c-platdrv.c
-> 
-> diff --git a/drivers/i3c/master/Kconfig b/drivers/i3c/master/Kconfig
-> index 8ee1ce6..fdc6e46 100644
-> --- a/drivers/i3c/master/Kconfig
-> +++ b/drivers/i3c/master/Kconfig
-> @@ -5,9 +5,14 @@ config CDNS_I3C_MASTER
->  	help
->  	  Enable this driver if you want to support Cadence I3C master block.
->  
-> -config DW_I3C_MASTER
-> -	tristate "Synospsys DesignWare I3C master driver"
-> +config DW_I3C_CORE
-> +	tristate
-> +
-> +config DW_I3C_PLATFORM
-> +	tristate "Synospsys DesignWare I3C Platform driver"
-> +	select DW_I3C_CORE
->  	depends on I3C
-> +	depends on HAS_IOMEM
->  	depends on !(ALPHA || PARISC)
->  	# ALPHA and PARISC needs {read,write}sl()
->  	help
-> diff --git a/drivers/i3c/master/Makefile b/drivers/i3c/master/Makefile
-> index fc53939..004ad1c 100644
-> --- a/drivers/i3c/master/Makefile
-> +++ b/drivers/i3c/master/Makefile
-> @@ -1,2 +1,5 @@
->  obj-$(CONFIG_CDNS_I3C_MASTER)		+= i3c-master-cdns.o
-> -obj-$(CONFIG_DW_I3C_MASTER)		+= dw-i3c-master.o
-> +obj-$(CONFIG_DW_I3C_CORE)		+= dw-i3c-core.o
-> +dw-i3c-core-objs			:= dw-i3c-master.o
-> +obj-$(CONFIG_DW_I3C_PLATFORM)		+= dw-i3c-platform.o
-> +dw-i3c-platform-objs			:= dw-i3c-platdrv.o
-
-Do we really have to create one module for the core and one per SoC?
-Can't we have everything in the same .ko?
