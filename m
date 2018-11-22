@@ -3,32 +3,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 85B527D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 18:06:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6FCC47D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 18:46:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732278AbeKWEr0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Nov 2018 23:47:26 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:53674 "EHLO mail.skyhub.de"
+        id S2387426AbeKWF13 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Nov 2018 00:27:29 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:59684 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730604AbeKWEr0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 22 Nov 2018 23:47:26 -0500
+        id S1729748AbeKWF13 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Nov 2018 00:27:29 -0500
 Received: from zn.tnic (p200300EC2BDC9100898E5A1DF8FAB135.dip0.t-ipconnect.de [IPv6:2003:ec:2bdc:9100:898e:5a1d:f8fa:b135])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1D3FA1EC05C4;
-        Thu, 22 Nov 2018 19:06:56 +0100 (CET)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BF6A91EC06CA;
+        Thu, 22 Nov 2018 19:46:50 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1542910016;
+        t=1542912410;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=WPDPSidfy3HJrgxx0pmT0Xu4ftr55rIjGfw+LDbQt64=;
-        b=nCmTqTyq/8vqpX8aa1F325VvReGcNU21Tap8IgFK2Ag+TCSJaMcmkLlgqN8VpymJ/qLG9d
-        YZUIEZ3O/BsuWABBIJ+aC6ACbp9AgVzY/FBGvXkVN+V/EUgN/NFtm5XuouOFgKXA9mpdSk
-        4T6oms5eF6UJ9JoYs16sUYCsDY4iIxM=
-Date:   Thu, 22 Nov 2018 19:06:50 +0100
+        bh=mAkOzn0kYsUOQ71qgrcvEiL38sVGUGg/ymftslkkTQY=;
+        b=LKR+57LMDux2pFVP5r21RKgfXnVIqeb7lSXz3TTkklUS4Sc7Xm+uQF5s0+C0/+i1/PTZ8S
+        Bu+6RRaJHYKMPyOtz6ffhyje0/NqG8DuyiPRtKeTyrupktKi4a11A40MOfks0q3LotjrW+
+        yVZGm7TXaYsKlPbnhrLrzsuOOdeSql8=
+Date:   Thu, 22 Nov 2018 19:46:44 +0100
 From:   Borislav Petkov <bp@alien8.de>
 To:     "Moger, Babu" <Babu.Moger@amd.com>
 Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
@@ -63,50 +63,89 @@ Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
         "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v9 01/13] x86/resctrl: Rename and move rdt files to new
- directory
-Message-ID: <20181122180650.GE10365@zn.tnic>
+Subject: Re: [PATCH v9 08/13] x86/resctrl: Rename config parameter INTEL_RDT
+ to RESCTRL
+Message-ID: <20181122184644.GF10365@zn.tnic>
 References: <20181121202811.4492-1-babu.moger@amd.com>
- <20181121202811.4492-2-babu.moger@amd.com>
+ <20181121202811.4492-9-babu.moger@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20181121202811.4492-2-babu.moger@amd.com>
+In-Reply-To: <20181121202811.4492-9-babu.moger@amd.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 21, 2018 at 08:28:25PM +0000, Moger, Babu wrote:
-> New generation of AMD processors start supporting RDT(or QOS)
-> features. Together these features will be called as RESCTRL.
-> With more than one vendors supporting these features, it seems
-> more appropriate to rename these files.
+On Wed, Nov 21, 2018 at 08:28:39PM +0000, Moger, Babu wrote:
+> Resource control feature is supported by both Intel and AMD.
+> So, rename the INTEL_RDT to vendor neutral RESCTRL.
 > 
-> Create a new directory with the name 'resctrl' and move all the
-> intel_rdt files to the new directory. This way all the resctrl
-> related code resides inside one directory.
+> Now CONFIG_RESCTRL will be used for both Intel and AMD to enable
+> Resource Control support. Update the texts in config and condition
+> accordingly.
 > 
-> Suggested-by: Borislav Petkov <bp@suse.de>
 > Signed-off-by: Babu Moger <babu.moger@amd.com>
 > ---
+>  arch/x86/Kconfig                     | 23 ++++++++++++++++-------
+>  arch/x86/include/asm/resctrl_sched.h |  4 ++--
+>  arch/x86/kernel/cpu/Makefile         |  2 +-
+>  arch/x86/kernel/cpu/resctrl/Makefile |  4 ++--
+>  include/linux/sched.h                |  2 +-
+>  5 files changed, 22 insertions(+), 13 deletions(-)
+> 
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index 1a0be022f91d..36aad997caf8 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -445,16 +445,25 @@ config RETPOLINE
+>  	  code are eliminated. Since this includes the syscall entry path,
+>  	  it is not entirely pointless.
+>  
+> -config INTEL_RDT
+> -	bool "Intel Resource Director Technology support"
+> +config RESCTRL
+> +	bool "Resource Control support"
+>  	default n
+> -	depends on X86 && CPU_SUP_INTEL
+> +	depends on X86 && (CPU_SUP_INTEL || CPU_SUP_AMD)
+>  	select KERNFS
+>  	help
+> -	  Select to enable resource allocation and monitoring which are
+> -	  sub-features of Intel Resource Director Technology(RDT). More
+> -	  information about RDT can be found in the Intel x86
+> -	  Architecture Software Developer Manual.
+> +	  Select to enable Resource Control feature support.
+> +
+> +	  These features are intended to provide the support for the allocation
+> +	  and monitoring of the usage of certain system resources by one or more
+> +	  processors.
+> +
+> +	  Intel refers to this feature as Intel Resource Director Technology
+> +	  (Intel(R) RDT). More information about RDT can be found in the
+> +	  Intel x86 Architecture Software Developer Manual.
+> +
+> +	  AMD refers to this feature as AMD Platform Quality of Service(AMD QoS).
+> +	  More information about AMD QoS can be found in AMD64 Technology
+> +	  Platform Quality of Service Extensions manual.
 
-...
+I've simplified this to:
 
-> diff --git a/arch/x86/kernel/cpu/resctrl/Makefile b/arch/x86/kernel/cpu/resctrl/Makefile
-> new file mode 100644
-> index 000000000000..04c9fd67fb3e
-> --- /dev/null
-> +++ b/arch/x86/kernel/cpu/resctrl/Makefile
-> @@ -0,0 +1,7 @@
-> +#
-> +# Makefile for resource control feature code
-> +#
+          Enable Resource Control support.
 
-I've replaced that comment with
+          Provide support for the allocation and monitoring of system resources 
+          usage by the CPU.
 
-# SPDX-License-Identifier: GPL-2.0
+          Intel calls this Intel Resource Director Technology
+          (Intel(R) RDT). More information about RDT can be found in the
+          Intel x86 Architecture Software Developer Manual.
+
+          AMD calls this AMD Platform Quality of Service (AMD QoS).
+          More information about AMD QoS can be found in the AMD64 Technology
+          Platform Quality of Service Extensions manual.
+
+          Say N if unsure.
 
 -- 
 Regards/Gruss,
