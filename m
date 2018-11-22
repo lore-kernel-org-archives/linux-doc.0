@@ -1,120 +1,819 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B84D27D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 16:53:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A10837D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 17:55:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729534AbeKWDdj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Nov 2018 22:33:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40194 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730284AbeKWDde (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 22 Nov 2018 22:33:34 -0500
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5772320866
-        for <linux-doc@vger.kernel.org>; Thu, 22 Nov 2018 16:53:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1542905601;
-        bh=CuRmImU4WOPbcRYBzpG4qMGkJYyk5ngkcvLIWa0dWNU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=DJtj7sApMntrhuGEqe7UAgvfztFCUC6h8G9p5C4tabqRKaMZXzdbJW0ovKYD21ssW
-         9RCR/5UzhRO5pLDuAaL94aKHyA9is/W8mx/hRwPDh8Qmbe/p+VSB1fvx9aTTbFbbkq
-         g7gBcvNh8F7FM4ifAcYkg6CezESmmCN0zwHF3/TM=
-Received: by mail-wm1-f45.google.com with SMTP id q26so9706935wmf.5
-        for <linux-doc@vger.kernel.org>; Thu, 22 Nov 2018 08:53:21 -0800 (PST)
-X-Gm-Message-State: AGRZ1gKG1XlpzjeRbJlXETGQUXFBfdIUMYweDMoaGLLaknwCa3ZOJs5W
-        o2okomYv18DlK+RncvtzGQu8nATqHv856mzRvawi8w==
-X-Google-Smtp-Source: AJdET5f5Dlgse9j7JrPNXckCrOj30u5+XDNnQs/OgyGTSIwc5f4bgTZMvyiRTn90C9GYlwtWNtvn74CW2THyCMy3Jzg=
-X-Received: by 2002:a1c:f112:: with SMTP id p18mr9970251wmh.83.1542905599799;
- Thu, 22 Nov 2018 08:53:19 -0800 (PST)
-MIME-Version: 1.0
-References: <20181119214809.6086-1-yu-cheng.yu@intel.com>
-In-Reply-To: <20181119214809.6086-1-yu-cheng.yu@intel.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 22 Nov 2018 08:53:08 -0800
-X-Gmail-Original-Message-ID: <CALCETrWLtpfkecfUAXJ64Z5xDeHPJxTQSci+T4RCem7vCqorTw@mail.gmail.com>
-Message-ID: <CALCETrWLtpfkecfUAXJ64Z5xDeHPJxTQSci+T4RCem7vCqorTw@mail.gmail.com>
-Subject: Re: [RFC PATCH v6 00/26] Control-flow Enforcement: Shadow Stack
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "Carlos O'Donell" <carlos@redhat.com>,
-        Rich Felker <dalias@libc.org>
-Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H. J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S2388360AbeKWEfq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Nov 2018 23:35:46 -0500
+Received: from smtprelay.synopsys.com ([198.182.60.111]:43702 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730594AbeKWEfq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Nov 2018 23:35:46 -0500
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id D713910C1438;
+        Thu, 22 Nov 2018 09:55:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1542909319; bh=4Sb2R07Uve39ALsa+LBmKCziW4G5ALeTZ9Do6P2r86M=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Q86W4clvQWCTaYj6eWvMEVrygCpeQfoS34h3/EKDIe8Ry9x6Pbj58Vz5WyJM+P9+/
+         dMfaA+o8TyP9A9YuaSu8seEQkJcxrQFpUbWFqVW+g8aMz9wUrej3FeFwCRqU2KV7qJ
+         MG2LuDXwRVySXVJ6HvyIsmTzJjMQZ6bl+4UP7a+mGaqJMJBQjKryYgbTUpaPcTq+EJ
+         LZe7GAV7GMMkpQI8hiXatRkUeSs5vviUR+PecGRJ3ptqRoaj9zEJFwz8MTyef+dziK
+         oVrKw9VY5plmP9LkO0u8yMecW2CxjS0oYD2nOTZ+ZXc4qm1N0ib1QqKks/NHRFlhCe
+         etnTLvePAf6ng==
+Received: from vitor-VirtualBox.internal.synopsys.com (pcorreia-820g4.internal.synopsys.com [10.107.19.122])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 82DBD5D36;
+        Thu, 22 Nov 2018 09:55:10 -0800 (PST)
+From:   Vitor Soares <vitor.soares@synopsys.com>
+To:     boris.brezillon@bootlin.com, wsa@the-dreams.de,
+        linux-i2c@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
+        arnd@arndb.de
+Cc:     psroka@cadence.com, agolec@cadence.com, adouglas@cadence.com,
+        bfolta@cadence.com, dkos@cadence.com, alicja@cadence.com,
+        cwronka@cadence.com, sureshp@cadence.com, rafalc@cadence.com,
+        thomas.petazzoni@bootlin.com, nm@ti.com, robh+dt@kernel.org,
+        pawel.moll@arm.com, mark.rutland@arm.com,
+        ijc+devicetree@hellion.org.uk, galak@codeaurora.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        vitor.soares@synopsys.com, geert@linux-m68k.org,
+        linus.walleij@linaro.org, Xiang.Lin@synaptics.com,
+        linux-gpio@vger.kernel.org, nsekhar@ti.com, pgaj@cadence.com,
+        peda@axentia.se, mshettel@codeaurora.org, swboyd@chromium.org,
+        joao.pinto@synopsys.com, Vitor Soares <vitor.soares@synopsys.com>
+Subject: [PATCH] i3c: master: dw: split dw-i3c-master.c into master and bus specific parts
+Date:   Thu, 22 Nov 2018 17:54:54 +0000
+Message-Id: <ade2c1a8d1eb48681b01ccdc9bed22caf5e96c4b.1542904564.git.soares@synopsys.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[cc some more libc folks]
+From: Vitor Soares <soares@synopsys.com>
 
-I have a general question about this patch set:
+This patch slipts dw-i3c-master.c into three pieces:
+	dw-i3c-master.c - contains the code that interacts directly with the
+	core in master mode.
 
-If I'm writing a user program, and I write a signal handler, there are
-two things I want to make sure I can still do:
+	dw-i3c-platdrv.c - contains the code specific to the platform driver.
 
-1. I want to be able to unwind directly from the signal handler
-without involving sigreturn() -- that is, I want to make sure that
-siglongjmp() works.  How does this work?  Is INCSSP involved?  How
-exactly does the user program know how much to increment SSP by?  (And
-why on Earth does INCSSP only consider the low 8 bits of its argument?
- That sounds like a mistake.  Can Intel still fix that?  On the other
-hand, what happens if you INCSSP off the end of the shadow stack
-entirely?  I assume the next access will fault as long as there's an
-appropriate guard page.)
+	dw-i3c-core.h - contains the definitions and declarations shared by
+	dw-i3c-master and dw-i3c-platdrv
 
-2. I want to be able to modify the signal context from a signal
-handler such that, when the signal handler returns, it will return to
-a frame higher up on the call stack than where the signal started and
-to a different RIP value.  How can I do this?  I guess I can modify
-the shadow stack with WRSS if WR_SHSTK_EN=1, but how do I tell the
-kernel to kindly skip the frames I want to skip when I do sigreturn()?
+This patch will allow SOC integrators to add their code specific to
+DesignWare I3C IP.
 
-The reason I'm asking #2 is that I think it's time to resurrect my old
-vDSO syscall cancellation helper series here:
+Signed-off-by: Vitor Soares <soares@synopsys.com>
+---
+ drivers/i3c/master/Kconfig          |   9 +-
+ drivers/i3c/master/Makefile         |   5 +-
+ drivers/i3c/master/dw-i3c-core.h    | 214 ++++++++++++++++++++++++++
+ drivers/i3c/master/dw-i3c-master.c  | 299 ++----------------------------------
+ drivers/i3c/master/dw-i3c-platdrv.c | 112 ++++++++++++++
+ 5 files changed, 349 insertions(+), 290 deletions(-)
+ create mode 100644 drivers/i3c/master/dw-i3c-core.h
+ create mode 100644 drivers/i3c/master/dw-i3c-platdrv.c
 
-https://lwn.net/Articles/679434/
+diff --git a/drivers/i3c/master/Kconfig b/drivers/i3c/master/Kconfig
+index 8ee1ce6..fdc6e46 100644
+--- a/drivers/i3c/master/Kconfig
++++ b/drivers/i3c/master/Kconfig
+@@ -5,9 +5,14 @@ config CDNS_I3C_MASTER
+ 	help
+ 	  Enable this driver if you want to support Cadence I3C master block.
+ 
+-config DW_I3C_MASTER
+-	tristate "Synospsys DesignWare I3C master driver"
++config DW_I3C_CORE
++	tristate
++
++config DW_I3C_PLATFORM
++	tristate "Synospsys DesignWare I3C Platform driver"
++	select DW_I3C_CORE
+ 	depends on I3C
++	depends on HAS_IOMEM
+ 	depends on !(ALPHA || PARISC)
+ 	# ALPHA and PARISC needs {read,write}sl()
+ 	help
+diff --git a/drivers/i3c/master/Makefile b/drivers/i3c/master/Makefile
+index fc53939..004ad1c 100644
+--- a/drivers/i3c/master/Makefile
++++ b/drivers/i3c/master/Makefile
+@@ -1,2 +1,5 @@
+ obj-$(CONFIG_CDNS_I3C_MASTER)		+= i3c-master-cdns.o
+-obj-$(CONFIG_DW_I3C_MASTER)		+= dw-i3c-master.o
++obj-$(CONFIG_DW_I3C_CORE)		+= dw-i3c-core.o
++dw-i3c-core-objs			:= dw-i3c-master.o
++obj-$(CONFIG_DW_I3C_PLATFORM)		+= dw-i3c-platform.o
++dw-i3c-platform-objs			:= dw-i3c-platdrv.o
+\ No newline at end of file
+diff --git a/drivers/i3c/master/dw-i3c-core.h b/drivers/i3c/master/dw-i3c-core.h
+new file mode 100644
+index 0000000..277f63d
+--- /dev/null
++++ b/drivers/i3c/master/dw-i3c-core.h
+@@ -0,0 +1,214 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2018 Synopsys, Inc. and/or its affiliates.
++ *
++ * Author: Vitor Soares <vitor.soares@synopsys.com>
++ */
++
++#include <linux/i3c/master.h>
++#include <linux/list.h>
++#include <linux/clk.h>
++#include <linux/completion.h>
++#include <linux/reset.h>
++
++#define DEVICE_CTRL			0x0
++#define DEV_CTRL_ENABLE			BIT(31)
++#define DEV_CTRL_RESUME			BIT(30)
++#define DEV_CTRL_HOT_JOIN_NACK		BIT(8)
++#define DEV_CTRL_I2C_SLAVE_PRESENT	BIT(7)
++
++#define DEVICE_ADDR			0x4
++#define DEV_ADDR_DYNAMIC_ADDR_VALID	BIT(31)
++#define DEV_ADDR_DYNAMIC(x)		(((x) << 16) & GENMASK(22, 16))
++
++#define HW_CAPABILITY			0x8
++#define COMMAND_QUEUE_PORT		0xc
++#define COMMAND_PORT_TOC		BIT(30)
++#define COMMAND_PORT_READ_TRANSFER	BIT(28)
++#define COMMAND_PORT_SDAP		BIT(27)
++#define COMMAND_PORT_ROC		BIT(26)
++#define COMMAND_PORT_SPEED(x)		(((x) << 21) & GENMASK(23, 21))
++#define COMMAND_PORT_DEV_INDEX(x)	(((x) << 16) & GENMASK(20, 16))
++#define COMMAND_PORT_CP			BIT(15)
++#define COMMAND_PORT_CMD(x)		(((x) << 7) & GENMASK(14, 7))
++#define COMMAND_PORT_TID(x)		(((x) << 3) & GENMASK(6, 3))
++
++#define COMMAND_PORT_ARG_DATA_LEN(x)	(((x) << 16) & GENMASK(31, 16))
++#define COMMAND_PORT_ARG_DATA_LEN_MAX	65536
++#define COMMAND_PORT_TRANSFER_ARG	0x01
++
++#define COMMAND_PORT_SDA_DATA_BYTE_3(x)	(((x) << 24) & GENMASK(31, 24))
++#define COMMAND_PORT_SDA_DATA_BYTE_2(x)	(((x) << 16) & GENMASK(23, 16))
++#define COMMAND_PORT_SDA_DATA_BYTE_1(x)	(((x) << 8) & GENMASK(15, 8))
++#define COMMAND_PORT_SDA_BYTE_STRB_3	BIT(5)
++#define COMMAND_PORT_SDA_BYTE_STRB_2	BIT(4)
++#define COMMAND_PORT_SDA_BYTE_STRB_1	BIT(3)
++#define COMMAND_PORT_SHORT_DATA_ARG	0x02
++
++#define COMMAND_PORT_DEV_COUNT(x)	(((x) << 21) & GENMASK(25, 21))
++#define COMMAND_PORT_ADDR_ASSGN_CMD	0x03
++
++#define RESPONSE_QUEUE_PORT		0x10
++#define RESPONSE_PORT_ERR_STATUS(x)	(((x) & GENMASK(31, 28)) >> 28)
++#define RESPONSE_NO_ERROR		0
++#define RESPONSE_ERROR_CRC		1
++#define RESPONSE_ERROR_PARITY		2
++#define RESPONSE_ERROR_FRAME		3
++#define RESPONSE_ERROR_IBA_NACK		4
++#define RESPONSE_ERROR_ADDRESS_NACK	5
++#define RESPONSE_ERROR_OVER_UNDER_FLOW	6
++#define RESPONSE_ERROR_TRANSF_ABORT	8
++#define RESPONSE_ERROR_I2C_W_NACK_ERR	9
++#define RESPONSE_PORT_TID(x)		(((x) & GENMASK(27, 24)) >> 24)
++#define RESPONSE_PORT_DATA_LEN(x)	((x) & GENMASK(15, 0))
++
++#define RX_TX_DATA_PORT			0x14
++#define IBI_QUEUE_STATUS		0x18
++#define QUEUE_THLD_CTRL			0x1c
++#define QUEUE_THLD_CTRL_RESP_BUF_MASK	GENMASK(15, 8)
++#define QUEUE_THLD_CTRL_RESP_BUF(x)	(((x) - 1) << 8)
++
++#define DATA_BUFFER_THLD_CTRL		0x20
++#define DATA_BUFFER_THLD_CTRL_RX_BUF	GENMASK(11, 8)
++
++#define IBI_QUEUE_CTRL			0x24
++#define IBI_MR_REQ_REJECT		0x2C
++#define IBI_SIR_REQ_REJECT		0x30
++#define IBI_REQ_REJECT_ALL		GENMASK(31, 0)
++
++#define RESET_CTRL			0x34
++#define RESET_CTRL_IBI_QUEUE		BIT(5)
++#define RESET_CTRL_RX_FIFO		BIT(4)
++#define RESET_CTRL_TX_FIFO		BIT(3)
++#define RESET_CTRL_RESP_QUEUE		BIT(2)
++#define RESET_CTRL_CMD_QUEUE		BIT(1)
++#define RESET_CTRL_SOFT			BIT(0)
++
++#define SLV_EVENT_CTRL			0x38
++#define INTR_STATUS			0x3c
++#define INTR_STATUS_EN			0x40
++#define INTR_SIGNAL_EN			0x44
++#define INTR_FORCE			0x48
++#define INTR_BUSOWNER_UPDATE_STAT	BIT(13)
++#define INTR_IBI_UPDATED_STAT		BIT(12)
++#define INTR_READ_REQ_RECV_STAT		BIT(11)
++#define INTR_DEFSLV_STAT		BIT(10)
++#define INTR_TRANSFER_ERR_STAT		BIT(9)
++#define INTR_DYN_ADDR_ASSGN_STAT	BIT(8)
++#define INTR_CCC_UPDATED_STAT		BIT(6)
++#define INTR_TRANSFER_ABORT_STAT	BIT(5)
++#define INTR_RESP_READY_STAT		BIT(4)
++#define INTR_CMD_QUEUE_READY_STAT	BIT(3)
++#define INTR_IBI_THLD_STAT		BIT(2)
++#define INTR_RX_THLD_STAT		BIT(1)
++#define INTR_TX_THLD_STAT		BIT(0)
++#define INTR_ALL			(INTR_BUSOWNER_UPDATE_STAT |	\
++					INTR_IBI_UPDATED_STAT |		\
++					INTR_READ_REQ_RECV_STAT |	\
++					INTR_DEFSLV_STAT |		\
++					INTR_TRANSFER_ERR_STAT |	\
++					INTR_DYN_ADDR_ASSGN_STAT |	\
++					INTR_CCC_UPDATED_STAT |		\
++					INTR_TRANSFER_ABORT_STAT |	\
++					INTR_RESP_READY_STAT |		\
++					INTR_CMD_QUEUE_READY_STAT |	\
++					INTR_IBI_THLD_STAT |		\
++					INTR_TX_THLD_STAT |		\
++					INTR_RX_THLD_STAT)
++
++#define INTR_MASTER_MASK		(INTR_TRANSFER_ERR_STAT |	\
++					 INTR_RESP_READY_STAT)
++
++#define QUEUE_STATUS_LEVEL		0x4c
++#define QUEUE_STATUS_IBI_STATUS_CNT(x)	(((x) & GENMASK(28, 24)) >> 24)
++#define QUEUE_STATUS_IBI_BUF_BLR(x)	(((x) & GENMASK(23, 16)) >> 16)
++#define QUEUE_STATUS_LEVEL_RESP(x)	(((x) & GENMASK(15, 8)) >> 8)
++#define QUEUE_STATUS_LEVEL_CMD(x)	((x) & GENMASK(7, 0))
++
++#define DATA_BUFFER_STATUS_LEVEL	0x50
++#define DATA_BUFFER_STATUS_LEVEL_TX(x)	((x) & GENMASK(7, 0))
++
++#define PRESENT_STATE			0x54
++#define CCC_DEVICE_STATUS		0x58
++#define DEVICE_ADDR_TABLE_POINTER	0x5c
++#define DEVICE_ADDR_TABLE_DEPTH(x)	(((x) & GENMASK(31, 16)) >> 16)
++#define DEVICE_ADDR_TABLE_ADDR(x)	((x) & GENMASK(7, 0))
++
++#define DEV_CHAR_TABLE_POINTER		0x60
++#define VENDOR_SPECIFIC_REG_POINTER	0x6c
++#define SLV_PID_VALUE			0x74
++#define SLV_CHAR_CTRL			0x78
++#define SLV_MAX_LEN			0x7c
++#define MAX_READ_TURNAROUND		0x80
++#define MAX_DATA_SPEED			0x84
++#define SLV_DEBUG_STATUS		0x88
++#define SLV_INTR_REQ			0x8c
++#define DEVICE_CTRL_EXTENDED		0xb0
++#define SCL_I3C_OD_TIMING		0xb4
++#define SCL_I3C_PP_TIMING		0xb8
++#define SCL_I3C_TIMING_HCNT(x)		(((x) << 16) & GENMASK(23, 16))
++#define SCL_I3C_TIMING_LCNT(x)		((x) & GENMASK(7, 0))
++#define SCL_I3C_TIMING_CNT_MIN		5
++
++#define SCL_I2C_FM_TIMING		0xbc
++#define SCL_I2C_FM_TIMING_HCNT(x)	(((x) << 16) & GENMASK(31, 16))
++#define SCL_I2C_FM_TIMING_LCNT(x)	((x) & GENMASK(15, 0))
++
++#define SCL_I2C_FMP_TIMING		0xc0
++#define SCL_I2C_FMP_TIMING_HCNT(x)	(((x) << 16) & GENMASK(23, 16))
++#define SCL_I2C_FMP_TIMING_LCNT(x)	((x) & GENMASK(15, 0))
++
++#define SCL_EXT_LCNT_TIMING		0xc8
++#define SCL_EXT_LCNT_4(x)		(((x) << 24) & GENMASK(31, 24))
++#define SCL_EXT_LCNT_3(x)		(((x) << 16) & GENMASK(23, 16))
++#define SCL_EXT_LCNT_2(x)		(((x) << 8) & GENMASK(15, 8))
++#define SCL_EXT_LCNT_1(x)		((x) & GENMASK(7, 0))
++
++#define SCL_EXT_TERMN_LCNT_TIMING	0xcc
++#define BUS_FREE_TIMING			0xd4
++#define BUS_I3C_MST_FREE(x)		((x) & GENMASK(15, 0))
++
++#define BUS_IDLE_TIMING			0xd8
++#define I3C_VER_ID			0xe0
++#define I3C_VER_TYPE			0xe4
++#define EXTENDED_CAPABILITY		0xe8
++#define SLAVE_CONFIG			0xec
++
++#define DEV_ADDR_TABLE_LEGACY_I2C_DEV	BIT(31)
++#define DEV_ADDR_TABLE_DYNAMIC_ADDR(x)	(((x) << 16) & GENMASK(23, 16))
++#define DEV_ADDR_TABLE_STATIC_ADDR(x)	((x) & GENMASK(6, 0))
++#define DEV_ADDR_TABLE_LOC(start, idx)	((start) + ((idx) << 2))
++
++#define MAX_DEVS 32
++
++struct dw_i3c_master_caps {
++	u8 cmdfifodepth;
++	u8 datafifodepth;
++};
++
++struct dw_i3c_master {
++	struct i3c_master_controller base;
++	u16 maxdevs;
++	u16 datstartaddr;
++	u32 free_pos;
++	struct {
++		struct list_head list;
++		struct dw_i3c_xfer *cur;
++		spinlock_t lock;
++	} xferqueue;
++	struct dw_i3c_master_caps caps;
++	void __iomem *regs;
++	struct reset_control *core_rst;
++	struct clk *core_clk;
++	char version[5];
++	char type[5];
++	u8 addrs[MAX_DEVS];
++};
++
++struct dw_i3c_i2c_dev_data {
++	u8 index;
++};
++
++irqreturn_t dw_i3c_master_irq_handler(int irq, void *dev_id);
++int dw_i3c_master_probe(struct dw_i3c_master *master, struct device *dev);
++int dw_i3c_master_remove(struct dw_i3c_master *master);
+diff --git a/drivers/i3c/master/dw-i3c-master.c b/drivers/i3c/master/dw-i3c-master.c
+index b532e2c..d66410d 100644
+--- a/drivers/i3c/master/dw-i3c-master.c
++++ b/drivers/i3c/master/dw-i3c-master.c
+@@ -12,184 +12,12 @@
+ #include <linux/errno.h>
+ #include <linux/i3c/master.h>
+ #include <linux/interrupt.h>
+-#include <linux/ioport.h>
+ #include <linux/iopoll.h>
+ #include <linux/list.h>
+ #include <linux/module.h>
+-#include <linux/of.h>
+-#include <linux/platform_device.h>
+-#include <linux/reset.h>
+ #include <linux/slab.h>
+ 
+-#define DEVICE_CTRL			0x0
+-#define DEV_CTRL_ENABLE			BIT(31)
+-#define DEV_CTRL_RESUME			BIT(30)
+-#define DEV_CTRL_HOT_JOIN_NACK		BIT(8)
+-#define DEV_CTRL_I2C_SLAVE_PRESENT	BIT(7)
+-
+-#define DEVICE_ADDR			0x4
+-#define DEV_ADDR_DYNAMIC_ADDR_VALID	BIT(31)
+-#define DEV_ADDR_DYNAMIC(x)		(((x) << 16) & GENMASK(22, 16))
+-
+-#define HW_CAPABILITY			0x8
+-#define COMMAND_QUEUE_PORT		0xc
+-#define COMMAND_PORT_TOC		BIT(30)
+-#define COMMAND_PORT_READ_TRANSFER	BIT(28)
+-#define COMMAND_PORT_SDAP		BIT(27)
+-#define COMMAND_PORT_ROC		BIT(26)
+-#define COMMAND_PORT_SPEED(x)		(((x) << 21) & GENMASK(23, 21))
+-#define COMMAND_PORT_DEV_INDEX(x)	(((x) << 16) & GENMASK(20, 16))
+-#define COMMAND_PORT_CP			BIT(15)
+-#define COMMAND_PORT_CMD(x)		(((x) << 7) & GENMASK(14, 7))
+-#define COMMAND_PORT_TID(x)		(((x) << 3) & GENMASK(6, 3))
+-
+-#define COMMAND_PORT_ARG_DATA_LEN(x)	(((x) << 16) & GENMASK(31, 16))
+-#define COMMAND_PORT_ARG_DATA_LEN_MAX	65536
+-#define COMMAND_PORT_TRANSFER_ARG	0x01
+-
+-#define COMMAND_PORT_SDA_DATA_BYTE_3(x)	(((x) << 24) & GENMASK(31, 24))
+-#define COMMAND_PORT_SDA_DATA_BYTE_2(x)	(((x) << 16) & GENMASK(23, 16))
+-#define COMMAND_PORT_SDA_DATA_BYTE_1(x)	(((x) << 8) & GENMASK(15, 8))
+-#define COMMAND_PORT_SDA_BYTE_STRB_3	BIT(5)
+-#define COMMAND_PORT_SDA_BYTE_STRB_2	BIT(4)
+-#define COMMAND_PORT_SDA_BYTE_STRB_1	BIT(3)
+-#define COMMAND_PORT_SHORT_DATA_ARG	0x02
+-
+-#define COMMAND_PORT_DEV_COUNT(x)	(((x) << 21) & GENMASK(25, 21))
+-#define COMMAND_PORT_ADDR_ASSGN_CMD	0x03
+-
+-#define RESPONSE_QUEUE_PORT		0x10
+-#define RESPONSE_PORT_ERR_STATUS(x)	(((x) & GENMASK(31, 28)) >> 28)
+-#define RESPONSE_NO_ERROR		0
+-#define RESPONSE_ERROR_CRC		1
+-#define RESPONSE_ERROR_PARITY		2
+-#define RESPONSE_ERROR_FRAME		3
+-#define RESPONSE_ERROR_IBA_NACK		4
+-#define RESPONSE_ERROR_ADDRESS_NACK	5
+-#define RESPONSE_ERROR_OVER_UNDER_FLOW	6
+-#define RESPONSE_ERROR_TRANSF_ABORT	8
+-#define RESPONSE_ERROR_I2C_W_NACK_ERR	9
+-#define RESPONSE_PORT_TID(x)		(((x) & GENMASK(27, 24)) >> 24)
+-#define RESPONSE_PORT_DATA_LEN(x)	((x) & GENMASK(15, 0))
+-
+-#define RX_TX_DATA_PORT			0x14
+-#define IBI_QUEUE_STATUS		0x18
+-#define QUEUE_THLD_CTRL			0x1c
+-#define QUEUE_THLD_CTRL_RESP_BUF_MASK	GENMASK(15, 8)
+-#define QUEUE_THLD_CTRL_RESP_BUF(x)	(((x) - 1) << 8)
+-
+-#define DATA_BUFFER_THLD_CTRL		0x20
+-#define DATA_BUFFER_THLD_CTRL_RX_BUF	GENMASK(11, 8)
+-
+-#define IBI_QUEUE_CTRL			0x24
+-#define IBI_MR_REQ_REJECT		0x2C
+-#define IBI_SIR_REQ_REJECT		0x30
+-#define IBI_REQ_REJECT_ALL		GENMASK(31, 0)
+-
+-#define RESET_CTRL			0x34
+-#define RESET_CTRL_IBI_QUEUE		BIT(5)
+-#define RESET_CTRL_RX_FIFO		BIT(4)
+-#define RESET_CTRL_TX_FIFO		BIT(3)
+-#define RESET_CTRL_RESP_QUEUE		BIT(2)
+-#define RESET_CTRL_CMD_QUEUE		BIT(1)
+-#define RESET_CTRL_SOFT			BIT(0)
+-
+-#define SLV_EVENT_CTRL			0x38
+-#define INTR_STATUS			0x3c
+-#define INTR_STATUS_EN			0x40
+-#define INTR_SIGNAL_EN			0x44
+-#define INTR_FORCE			0x48
+-#define INTR_BUSOWNER_UPDATE_STAT	BIT(13)
+-#define INTR_IBI_UPDATED_STAT		BIT(12)
+-#define INTR_READ_REQ_RECV_STAT		BIT(11)
+-#define INTR_DEFSLV_STAT		BIT(10)
+-#define INTR_TRANSFER_ERR_STAT		BIT(9)
+-#define INTR_DYN_ADDR_ASSGN_STAT	BIT(8)
+-#define INTR_CCC_UPDATED_STAT		BIT(6)
+-#define INTR_TRANSFER_ABORT_STAT	BIT(5)
+-#define INTR_RESP_READY_STAT		BIT(4)
+-#define INTR_CMD_QUEUE_READY_STAT	BIT(3)
+-#define INTR_IBI_THLD_STAT		BIT(2)
+-#define INTR_RX_THLD_STAT		BIT(1)
+-#define INTR_TX_THLD_STAT		BIT(0)
+-#define INTR_ALL			(INTR_BUSOWNER_UPDATE_STAT |	\
+-					INTR_IBI_UPDATED_STAT |		\
+-					INTR_READ_REQ_RECV_STAT |	\
+-					INTR_DEFSLV_STAT |		\
+-					INTR_TRANSFER_ERR_STAT |	\
+-					INTR_DYN_ADDR_ASSGN_STAT |	\
+-					INTR_CCC_UPDATED_STAT |		\
+-					INTR_TRANSFER_ABORT_STAT |	\
+-					INTR_RESP_READY_STAT |		\
+-					INTR_CMD_QUEUE_READY_STAT |	\
+-					INTR_IBI_THLD_STAT |		\
+-					INTR_TX_THLD_STAT |		\
+-					INTR_RX_THLD_STAT)
+-
+-#define INTR_MASTER_MASK		(INTR_TRANSFER_ERR_STAT |	\
+-					 INTR_RESP_READY_STAT)
+-
+-#define QUEUE_STATUS_LEVEL		0x4c
+-#define QUEUE_STATUS_IBI_STATUS_CNT(x)	(((x) & GENMASK(28, 24)) >> 24)
+-#define QUEUE_STATUS_IBI_BUF_BLR(x)	(((x) & GENMASK(23, 16)) >> 16)
+-#define QUEUE_STATUS_LEVEL_RESP(x)	(((x) & GENMASK(15, 8)) >> 8)
+-#define QUEUE_STATUS_LEVEL_CMD(x)	((x) & GENMASK(7, 0))
+-
+-#define DATA_BUFFER_STATUS_LEVEL	0x50
+-#define DATA_BUFFER_STATUS_LEVEL_TX(x)	((x) & GENMASK(7, 0))
+-
+-#define PRESENT_STATE			0x54
+-#define CCC_DEVICE_STATUS		0x58
+-#define DEVICE_ADDR_TABLE_POINTER	0x5c
+-#define DEVICE_ADDR_TABLE_DEPTH(x)	(((x) & GENMASK(31, 16)) >> 16)
+-#define DEVICE_ADDR_TABLE_ADDR(x)	((x) & GENMASK(7, 0))
+-
+-#define DEV_CHAR_TABLE_POINTER		0x60
+-#define VENDOR_SPECIFIC_REG_POINTER	0x6c
+-#define SLV_PID_VALUE			0x74
+-#define SLV_CHAR_CTRL			0x78
+-#define SLV_MAX_LEN			0x7c
+-#define MAX_READ_TURNAROUND		0x80
+-#define MAX_DATA_SPEED			0x84
+-#define SLV_DEBUG_STATUS		0x88
+-#define SLV_INTR_REQ			0x8c
+-#define DEVICE_CTRL_EXTENDED		0xb0
+-#define SCL_I3C_OD_TIMING		0xb4
+-#define SCL_I3C_PP_TIMING		0xb8
+-#define SCL_I3C_TIMING_HCNT(x)		(((x) << 16) & GENMASK(23, 16))
+-#define SCL_I3C_TIMING_LCNT(x)		((x) & GENMASK(7, 0))
+-#define SCL_I3C_TIMING_CNT_MIN		5
+-
+-#define SCL_I2C_FM_TIMING		0xbc
+-#define SCL_I2C_FM_TIMING_HCNT(x)	(((x) << 16) & GENMASK(31, 16))
+-#define SCL_I2C_FM_TIMING_LCNT(x)	((x) & GENMASK(15, 0))
+-
+-#define SCL_I2C_FMP_TIMING		0xc0
+-#define SCL_I2C_FMP_TIMING_HCNT(x)	(((x) << 16) & GENMASK(23, 16))
+-#define SCL_I2C_FMP_TIMING_LCNT(x)	((x) & GENMASK(15, 0))
+-
+-#define SCL_EXT_LCNT_TIMING		0xc8
+-#define SCL_EXT_LCNT_4(x)		(((x) << 24) & GENMASK(31, 24))
+-#define SCL_EXT_LCNT_3(x)		(((x) << 16) & GENMASK(23, 16))
+-#define SCL_EXT_LCNT_2(x)		(((x) << 8) & GENMASK(15, 8))
+-#define SCL_EXT_LCNT_1(x)		((x) & GENMASK(7, 0))
+-
+-#define SCL_EXT_TERMN_LCNT_TIMING	0xcc
+-#define BUS_FREE_TIMING			0xd4
+-#define BUS_I3C_MST_FREE(x)		((x) & GENMASK(15, 0))
+-
+-#define BUS_IDLE_TIMING			0xd8
+-#define I3C_VER_ID			0xe0
+-#define I3C_VER_TYPE			0xe4
+-#define EXTENDED_CAPABILITY		0xe8
+-#define SLAVE_CONFIG			0xec
+-
+-#define DEV_ADDR_TABLE_LEGACY_I2C_DEV	BIT(31)
+-#define DEV_ADDR_TABLE_DYNAMIC_ADDR(x)	(((x) << 16) & GENMASK(23, 16))
+-#define DEV_ADDR_TABLE_STATIC_ADDR(x)	((x) & GENMASK(6, 0))
+-#define DEV_ADDR_TABLE_LOC(start, idx)	((start) + ((idx) << 2))
+-
+-#define MAX_DEVS 32
++#include "dw-i3c-core.h"
+ 
+ #define I3C_BUS_SDR1_SCL_RATE		8000000
+ #define I3C_BUS_SDR2_SCL_RATE		6000000
+@@ -201,11 +29,6 @@
+ 
+ #define XFER_TIMEOUT (msecs_to_jiffies(1000))
+ 
+-struct dw_i3c_master_caps {
+-	u8 cmdfifodepth;
+-	u8 datafifodepth;
+-};
+-
+ struct dw_i3c_cmd {
+ 	u32 cmd_lo;
+ 	u32 cmd_hi;
+@@ -224,29 +47,6 @@ struct dw_i3c_xfer {
+ 	struct dw_i3c_cmd cmds[0];
+ };
+ 
+-struct dw_i3c_master {
+-	struct i3c_master_controller base;
+-	u16 maxdevs;
+-	u16 datstartaddr;
+-	u32 free_pos;
+-	struct {
+-		struct list_head list;
+-		struct dw_i3c_xfer *cur;
+-		spinlock_t lock;
+-	} xferqueue;
+-	struct dw_i3c_master_caps caps;
+-	void __iomem *regs;
+-	struct reset_control *core_rst;
+-	struct clk *core_clk;
+-	char version[5];
+-	char type[5];
+-	u8 addrs[MAX_DEVS];
+-};
+-
+-struct dw_i3c_i2c_dev_data {
+-	u8 index;
+-};
+-
+ static u8 even_parity(u8 p)
+ {
+ 	p ^= p >> 4;
+@@ -1071,7 +871,7 @@ static u32 dw_i3c_master_i2c_funcs(struct i3c_master_controller *m)
+ 	return I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL;
+ }
+ 
+-static irqreturn_t dw_i3c_master_irq_handler(int irq, void *dev_id)
++irqreturn_t dw_i3c_master_irq_handler(int irq, void *dev_id)
+ {
+ 	struct dw_i3c_master *master = dev_id;
+ 	u32 status;
+@@ -1091,6 +891,7 @@ static irqreturn_t dw_i3c_master_irq_handler(int irq, void *dev_id)
+ 
+ 	return IRQ_HANDLED;
+ }
++EXPORT_SYMBOL_GPL(dw_i3c_master_irq_handler);
+ 
+ static const struct i3c_master_controller_ops dw_mipi_i3c_ops = {
+ 	.bus_init = dw_i3c_master_bus_init,
+@@ -1108,48 +909,9 @@ static const struct i3c_master_controller_ops dw_mipi_i3c_ops = {
+ 	.i2c_funcs = dw_i3c_master_i2c_funcs,
+ };
+ 
+-static int dw_i3c_probe(struct platform_device *pdev)
++int dw_i3c_master_probe(struct dw_i3c_master *master, struct device *dev)
+ {
+-	struct dw_i3c_master *master;
+-	struct resource *res;
+-	int ret, irq;
+-
+-	master = devm_kzalloc(&pdev->dev, sizeof(*master), GFP_KERNEL);
+-	if (!master)
+-		return -ENOMEM;
+-
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	master->regs = devm_ioremap_resource(&pdev->dev, res);
+-	if (IS_ERR(master->regs))
+-		return PTR_ERR(master->regs);
+-
+-	master->core_clk = devm_clk_get(&pdev->dev, NULL);
+-	if (IS_ERR(master->core_clk))
+-		return PTR_ERR(master->core_clk);
+-
+-	master->core_rst = devm_reset_control_get_optional_exclusive(&pdev->dev,
+-								    "core_rst");
+-	if (IS_ERR(master->core_rst))
+-		return PTR_ERR(master->core_rst);
+-
+-	ret = clk_prepare_enable(master->core_clk);
+-	if (ret)
+-		goto err_disable_core_clk;
+-
+-	reset_control_deassert(master->core_rst);
+-
+-	spin_lock_init(&master->xferqueue.lock);
+-	INIT_LIST_HEAD(&master->xferqueue.list);
+-
+-	writel(INTR_ALL, master->regs + INTR_STATUS);
+-	irq = platform_get_irq(pdev, 0);
+-	ret = devm_request_irq(&pdev->dev, irq,
+-			       dw_i3c_master_irq_handler, 0,
+-			       dev_name(&pdev->dev), master);
+-	if (ret)
+-		goto err_assert_rst;
+-
+-	platform_set_drvdata(pdev, master);
++	int ret;
+ 
+ 	/* Information regarding the FIFOs/QUEUEs depth */
+ 	ret = readl(master->regs + QUEUE_STATUS_LEVEL);
+@@ -1163,54 +925,17 @@ static int dw_i3c_probe(struct platform_device *pdev)
+ 	master->maxdevs = ret >> 16;
+ 	master->free_pos = GENMASK(master->maxdevs - 1, 0);
+ 
+-	ret = i3c_master_register(&master->base, &pdev->dev,
+-				  &dw_mipi_i3c_ops, false);
+-	if (ret)
+-		goto err_assert_rst;
+-
+-	return 0;
+-
+-err_assert_rst:
+-	reset_control_assert(master->core_rst);
+-
+-err_disable_core_clk:
+-	clk_disable_unprepare(master->core_clk);
+-
+-	return ret;
++	return i3c_master_register(&master->base, dev,
++				   &dw_mipi_i3c_ops, false);
+ }
++EXPORT_SYMBOL_GPL(dw_i3c_master_probe);
+ 
+-static int dw_i3c_remove(struct platform_device *pdev)
++int dw_i3c_master_remove(struct dw_i3c_master *master)
+ {
+-	struct dw_i3c_master *master = platform_get_drvdata(pdev);
+-	int ret;
+-
+-	ret = i3c_master_unregister(&master->base);
+-	if (ret)
+-		return ret;
+-
+-	reset_control_assert(master->core_rst);
+-
+-	clk_disable_unprepare(master->core_clk);
+-
+-	return 0;
++	return i3c_master_unregister(&master->base);
+ }
+-
+-static const struct of_device_id dw_i3c_master_of_match[] = {
+-	{ .compatible = "snps,dw-i3c-master-1.00a", },
+-	{},
+-};
+-MODULE_DEVICE_TABLE(of, dw_i3c_master_of_match);
+-
+-static struct platform_driver dw_i3c_driver = {
+-	.probe = dw_i3c_probe,
+-	.remove = dw_i3c_remove,
+-	.driver = {
+-		.name = "dw-i3c-master",
+-		.of_match_table = of_match_ptr(dw_i3c_master_of_match),
+-	},
+-};
+-module_platform_driver(dw_i3c_driver);
++EXPORT_SYMBOL_GPL(dw_i3c_master_remove);
+ 
+ MODULE_AUTHOR("Vitor Soares <vitor.soares@synopsys.com>");
+-MODULE_DESCRIPTION("DesignWare MIPI I3C driver");
++MODULE_DESCRIPTION("DesignWare MIPI I3C Master");
+ MODULE_LICENSE("GPL v2");
+diff --git a/drivers/i3c/master/dw-i3c-platdrv.c b/drivers/i3c/master/dw-i3c-platdrv.c
+new file mode 100644
+index 0000000..f4fb5a8
+--- /dev/null
++++ b/drivers/i3c/master/dw-i3c-platdrv.c
+@@ -0,0 +1,112 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (c) 2018 Synopsys, Inc. and/or its affiliates.
++ *
++ * Author: Vitor Soares <vitor.soares@synopsys.com>
++ */
++
++#include <linux/clk.h>
++#include <linux/err.h>
++#include <linux/i3c/master.h>
++#include <linux/interrupt.h>
++#include <linux/list.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/reset.h>
++#include <linux/slab.h>
++
++#include "dw-i3c-core.h"
++
++static int dw_i3c_probe(struct platform_device *pdev)
++{
++	struct dw_i3c_master *master;
++	struct resource *res;
++	int ret, irq;
++
++	master = devm_kzalloc(&pdev->dev, sizeof(*master), GFP_KERNEL);
++	if (!master)
++		return -ENOMEM;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	master->regs = devm_ioremap_resource(&pdev->dev, res);
++	if (IS_ERR(master->regs))
++		return PTR_ERR(master->regs);
++
++	master->core_clk = devm_clk_get(&pdev->dev, NULL);
++	if (IS_ERR(master->core_clk))
++		return PTR_ERR(master->core_clk);
++
++	master->core_rst = devm_reset_control_get_optional_exclusive(&pdev->dev,
++								    "core_rst");
++	if (IS_ERR(master->core_rst))
++		return PTR_ERR(master->core_rst);
++
++	ret = clk_prepare_enable(master->core_clk);
++	if (ret)
++		goto err_disable_core_clk;
++
++	reset_control_deassert(master->core_rst);
++
++	spin_lock_init(&master->xferqueue.lock);
++	INIT_LIST_HEAD(&master->xferqueue.list);
++
++	irq = platform_get_irq(pdev, 0);
++	ret = devm_request_irq(&pdev->dev, irq,
++			       dw_i3c_master_irq_handler, 0,
++			       dev_name(&pdev->dev), master);
++	if (ret)
++		goto err_assert_rst;
++
++	platform_set_drvdata(pdev, master);
++
++	ret = dw_i3c_master_probe(master, &pdev->dev);
++	if (ret)
++		goto err_assert_rst;
++
++	return 0;
++
++err_assert_rst:
++	reset_control_assert(master->core_rst);
++
++err_disable_core_clk:
++	clk_disable_unprepare(master->core_clk);
++
++	return ret;
++}
++
++static int dw_i3c_remove(struct platform_device *pdev)
++{
++	struct dw_i3c_master *master = platform_get_drvdata(pdev);
++	int ret;
++
++	ret = dw_i3c_master_remove(master);
++	if (ret)
++		return ret;
++
++	reset_control_assert(master->core_rst);
++
++	clk_disable_unprepare(master->core_clk);
++
++	return 0;
++}
++
++static const struct of_device_id dw_i3c_master_of_match[] = {
++	{ .compatible = "snps,dw-i3c-master-1.00a", },
++	{},
++};
++MODULE_DEVICE_TABLE(of, dw_i3c_master_of_match);
++
++static struct platform_driver dw_i3c_driver = {
++	.probe = dw_i3c_probe,
++	.remove = dw_i3c_remove,
++	.driver = {
++		.name = "dw-i3c-master",
++		.of_match_table = of_match_ptr(dw_i3c_master_of_match),
++	},
++};
++module_platform_driver(dw_i3c_driver);
++
++MODULE_AUTHOR("Vitor Soares <vitor.soares@synopsys.com>");
++MODULE_DESCRIPTION("DesignWare MIPI I3C Bus driver");
++MODULE_LICENSE("GPL v2");
+-- 
+2.7.4
 
-and it's not at all clear to me that __vdso_abort_pending_syscall()
-can work without kernel assistance when CET is enabled.  I want to
-make sure that it can be done, or I want to come up with some other
-way to allow a signal handler to abort a syscall while CET is on.  I
-could probably change __vdso_abort_pending_syscall() to instead point
-RIP to __kernel_vsyscall's epilogue so that we con't change the depth
-of the call stack.  But I could imagine that other user programs might
-engage in similar shenanigans and want to have some way to unwind a
-signal's return context without actually jumping there a la
-siglongjmp().
 
-Also, what is the intended setting of WR_SHSTK_EN with this patch set applied?
-
-(I suppose we could just say that 32-bit processes should not use CET,
-but that seems a bit sad.)
