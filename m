@@ -1,154 +1,191 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6FCC47D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 18:46:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 03C1D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 19:27:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387426AbeKWF13 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Nov 2018 00:27:29 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:59684 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729748AbeKWF13 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Nov 2018 00:27:29 -0500
-Received: from zn.tnic (p200300EC2BDC9100898E5A1DF8FAB135.dip0.t-ipconnect.de [IPv6:2003:ec:2bdc:9100:898e:5a1d:f8fa:b135])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BF6A91EC06CA;
-        Thu, 22 Nov 2018 19:46:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1542912410;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=mAkOzn0kYsUOQ71qgrcvEiL38sVGUGg/ymftslkkTQY=;
-        b=LKR+57LMDux2pFVP5r21RKgfXnVIqeb7lSXz3TTkklUS4Sc7Xm+uQF5s0+C0/+i1/PTZ8S
-        Bu+6RRaJHYKMPyOtz6ffhyje0/NqG8DuyiPRtKeTyrupktKi4a11A40MOfks0q3LotjrW+
-        yVZGm7TXaYsKlPbnhrLrzsuOOdeSql8=
-Date:   Thu, 22 Nov 2018 19:46:44 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Moger, Babu" <Babu.Moger@amd.com>
-Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
-        "pombredanne@nexb.com" <pombredanne@nexb.com>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
-        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Singh, Brijesh" <brijesh.singh@amd.com>,
-        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
-        "dwmw2@infradead.org" <dwmw2@infradead.org>,
-        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "jannh@google.com" <jannh@google.com>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "rian@alum.mit.edu" <rian@alum.mit.edu>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v9 08/13] x86/resctrl: Rename config parameter INTEL_RDT
- to RESCTRL
-Message-ID: <20181122184644.GF10365@zn.tnic>
-References: <20181121202811.4492-1-babu.moger@amd.com>
- <20181121202811.4492-9-babu.moger@amd.com>
+        id S2406683AbeKWGH5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Nov 2018 01:07:57 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:38585 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406680AbeKWGH5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Nov 2018 01:07:57 -0500
+Received: by mail-lj1-f196.google.com with SMTP id c19-v6so8818692lja.5;
+        Thu, 22 Nov 2018 11:27:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=w3KmMNyu43QLUClDY1SB6ceykcPDYoNQxkmEBB18eVI=;
+        b=BpMd8H2ic0SozsWQSTCjZTxXA1LmS47iBq1Jak8vnsc9o7gXnkNWcrKbJ8VvU5ggvp
+         iRN+Y067w3uvonefjoL7/616KfHv5Rmi8OPXjhLHhMhX72NU96wpksujK1g2LPLa796a
+         LoDvruOerTqu+LiSH3uPn8+2FLGTyc+YgsmjnR3JJSRFonc2YKod/jiHRK0zpW7UnN6b
+         ekEH3XMidoPNY6bmx1SxgYy2R2cwtVfS2VKzGrTMBdJHdXK3KJPFir7F8mZzPkKckXWN
+         XEseXf106whQAz87r894UTDnL7wVj782w9SwWIWc1zio20m0jqbhVc0j8o/HairNA29I
+         TPng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=w3KmMNyu43QLUClDY1SB6ceykcPDYoNQxkmEBB18eVI=;
+        b=hpu8dw8p7x9BC4K2rByUH21q3UnZKX5obbhkIQCPHDEuzgq01s7/luIwXMCxWNbCcr
+         AkGanR9AjHs1OOqOwZpD6JxV7Bz1VeDMaLtUdi/1urdLyVO0XcBovVY3wUF8kPdfJ0yk
+         o2+vE/X8ALjKRXhzFJsn3PGx+ODjU5L3iHR5X1XkD9fzW9cLW2ZeZ/hkkP7K2HUwHD9R
+         NCpt6POWDhSgKSyixO66xZtUWBtvo+EGBm3/LpzzuRP+RiciaWkGTG++cspew45NuCVI
+         zX9tZMILMCh6GIuMfzmdG9UA+CXVz4vGFn0WNEn1fqHu1QnFQGtbBRl2xeEZskqpPtwp
+         5ULA==
+X-Gm-Message-State: AA+aEWZSPdI5LtGj8ATXZvbVK2w6PQZYc21ZyLUOQS6TVxzxm+wr2e1W
+        itXgemkvZ6zuG+svdN/+lRY=
+X-Google-Smtp-Source: AFSGD/XLqJISXAYei0IakP7KhrheggGDtUK7FTXg9UPfsrVgb0VjDdU02awqFKthfUNMoffgQ2JJGg==
+X-Received: by 2002:a2e:5854:: with SMTP id x20-v6mr5465613ljd.31.1542914828981;
+        Thu, 22 Nov 2018 11:27:08 -0800 (PST)
+Received: from ?IPv6:2001:14bb:40:1c40:9d63:5352:fe43:f29c? (dkyrfbjndmqls8t-wxt-4.rev.dnainternet.fi. [2001:14bb:40:1c40:9d63:5352:fe43:f29c])
+        by smtp.gmail.com with ESMTPSA id x16sm7268465lff.26.2018.11.22.11.27.06
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 22 Nov 2018 11:27:08 -0800 (PST)
+Subject: Re: [PATCH 10/17] prmem: documentation
+To:     Andy Lutomirski <luto@amacapital.net>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Igor Stoppa <igor.stoppa@huawei.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mimi Zohar <zohar@linux.vnet.ibm.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Dave Chinner <david@fromorbit.com>,
+        James Morris <jmorris@namei.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laura Abbott <labbott@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+References: <20181023213504.28905-1-igor.stoppa@huawei.com>
+ <20181026092609.GB3159@worktop.c.hoisthospitality.com>
+ <CAGXu5jKCs01jvtvpEFS7R8qCR-5iRqK11kJxLJY99NicGWc4aQ@mail.gmail.com>
+ <20181028183126.GB744@hirez.programming.kicks-ass.net>
+ <40cd77ce-f234-3213-f3cb-0c3137c5e201@gmail.com>
+ <20181030152641.GE8177@hirez.programming.kicks-ass.net>
+ <CAGXu5jJftJ+Hq+jrZGHX5CTDLWOog7kGsd_Ne=yMvrRs__skSg@mail.gmail.com>
+ <0A7AFB50-9ADE-4E12-B541-EC7839223B65@amacapital.net>
+ <6f60afc9-0fed-7f95-a11a-9a2eef33094c@gmail.com>
+ <CALCETrXNckT9W288VXx-6inO5qYn-6dUPocKGcBT0GCO3xi3ZQ@mail.gmail.com>
+ <386C0CB1-C4B1-43E2-A754-DA8DBE4FB3CB@gmail.com>
+ <CALCETrWWcfLK4W3mn0bavzejmMBVKMX29aAUA3+VPQ8m9vmfhw@mail.gmail.com>
+ <9373ccf0-f51b-4bfa-2b16-e03ebf3c670d@huawei.com>
+ <2e52e103-15d0-0c26-275f-894dfd07e8ec@huawei.com>
+ <CALCETrV0sPgf4ZgG1joF_5hM-ycPsWM9DWGO=diQ_LQKin4VuA@mail.gmail.com>
+ <1166e55c-0c06-195c-a501-383b4055ea46@gmail.com>
+ <3BB9DE07-E0AE-43E2-99F1-E4AA774CD462@amacapital.net>
+From:   Igor Stoppa <igor.stoppa@gmail.com>
+Message-ID: <5e10c8e4-aa71-1eea-b1ce-50d7d0a60e8c@gmail.com>
+Date:   Thu, 22 Nov 2018 21:27:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20181121202811.4492-9-babu.moger@amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <3BB9DE07-E0AE-43E2-99F1-E4AA774CD462@amacapital.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 21, 2018 at 08:28:39PM +0000, Moger, Babu wrote:
-> Resource control feature is supported by both Intel and AMD.
-> So, rename the INTEL_RDT to vendor neutral RESCTRL.
+On 21/11/2018 20:15, Andy Lutomirski wrote:
+
+>> On Nov 21, 2018, at 9:34 AM, Igor Stoppa <igor.stoppa@gmail.com> wrote:
+
+[...]
+
+>> There might be other reasons for replicating the mm_struct.
+>>
+>> If I understand correctly how the text patching works, it happens sequentially, because of the text_mutex used by arch_jump_label_transform
+>>
+>> Which might be fine for this specific case, but I think I shouldn't introduce a global mutex, when it comes to data.
+>> Most likely, if two or more cores want to perform a write rare operation, there is no correlation between them, they could proceed in parallel. And if there really is, then the user of the API should introduce own locking, for that specific case.
 > 
-> Now CONFIG_RESCTRL will be used for both Intel and AMD to enable
-> Resource Control support. Update the texts in config and condition
-> accordingly.
-> 
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> ---
->  arch/x86/Kconfig                     | 23 ++++++++++++++++-------
->  arch/x86/include/asm/resctrl_sched.h |  4 ++--
->  arch/x86/kernel/cpu/Makefile         |  2 +-
->  arch/x86/kernel/cpu/resctrl/Makefile |  4 ++--
->  include/linux/sched.h                |  2 +-
->  5 files changed, 22 insertions(+), 13 deletions(-)
-> 
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index 1a0be022f91d..36aad997caf8 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -445,16 +445,25 @@ config RETPOLINE
->  	  code are eliminated. Since this includes the syscall entry path,
->  	  it is not entirely pointless.
->  
-> -config INTEL_RDT
-> -	bool "Intel Resource Director Technology support"
-> +config RESCTRL
-> +	bool "Resource Control support"
->  	default n
-> -	depends on X86 && CPU_SUP_INTEL
-> +	depends on X86 && (CPU_SUP_INTEL || CPU_SUP_AMD)
->  	select KERNFS
->  	help
-> -	  Select to enable resource allocation and monitoring which are
-> -	  sub-features of Intel Resource Director Technology(RDT). More
-> -	  information about RDT can be found in the Intel x86
-> -	  Architecture Software Developer Manual.
-> +	  Select to enable Resource Control feature support.
-> +
-> +	  These features are intended to provide the support for the allocation
-> +	  and monitoring of the usage of certain system resources by one or more
-> +	  processors.
-> +
-> +	  Intel refers to this feature as Intel Resource Director Technology
-> +	  (Intel(R) RDT). More information about RDT can be found in the
-> +	  Intel x86 Architecture Software Developer Manual.
-> +
-> +	  AMD refers to this feature as AMD Platform Quality of Service(AMD QoS).
-> +	  More information about AMD QoS can be found in AMD64 Technology
-> +	  Platform Quality of Service Extensions manual.
+> Text patching uses the same VA for different physical addresses, so it need a mutex to avoid conflicts. I think that, for rare writes, you should just map each rare-writable address at a *different* VA.  You’ll still need a mutex (mmap_sem) to synchronize allocation and freeing of rare-writable ranges, but that shouldn’t have much contention.
 
-I've simplified this to:
+I have studied the code involved with Nadav's patchset.
+I am perplexed about these sentences you wrote.
 
-          Enable Resource Control support.
+More to the point (to the best of my understanding):
 
-          Provide support for the allocation and monitoring of system resources 
-          usage by the CPU.
+poking_init()
+-------------
+   1. it gets one random poking address and ensures to have at least 2
+      consecutive PTEs from the same PMD
+   2. it then proceeds to map/unmap an address from the first of the 2
+      consecutive PTEs, so that, later on, there will be no need to
+      allocate pages, which might fail, if poking from atomic context.
+   3. at this point, the page tables are populated, for the address that
+      was obtained at point 1, and this is ok, because the address is fixed
 
-          Intel calls this Intel Resource Director Technology
-          (Intel(R) RDT). More information about RDT can be found in the
-          Intel x86 Architecture Software Developer Manual.
+write_rare
+----------
+   4. it can happen on any available core / thread at any time, therefore
+      each of them needs a different address
+   5. CPUs support hotplug, but from what I have read, I might get away
+      with having up to nr_cpus different addresses (determined at init)
+      and I would follow the same technique used by Nadav, of forcing the
+      mapping of 1 or 2 (1 could be enough, I have to loop anyway, at
+      some point) pages at each address, to ensure the population of the
+      page tables
 
-          AMD calls this AMD Platform Quality of Service (AMD QoS).
-          More information about AMD QoS can be found in the AMD64 Technology
-          Platform Quality of Service Extensions manual.
+so far, so good, but ...
 
-          Say N if unsure.
+   6. the addresses used by each CPU are fixed
+   7. I do not understand the reference you make to
+      "allocation and freeing of rare-writable ranges", because if I
+      treat the range as such, then there is a risk that I need to
+      populate more entries in the page table, which would have problems
+      with the atomic context, unless write_rare from atomic is ruled
+      out. If write_rare from atomic can be avoided, then I can also have
+      one-use randomized addresses at each write-rare operation, instead
+      of fixed ones, like in point 6.
 
--- 
-Regards/Gruss,
-    Boris.
+and, apologies for being dense: the following is still not clear to me:
 
-Good mailing practices for 400: avoid top-posting and trim the reply.
+   8. you wrote:
+      > You’ll still need a mutex (mmap_sem) to synchronize allocation
+      > and freeing of rare-writable ranges, but that shouldn’t have much
+      > contention.
+      What causes the contention? It's the fact that the various cores
+      are using the same mm, if I understood correctly.
+      However, if there was one mm for each core, wouldn't that make it
+      unnecessary to have any mutex?
+      I feel there must be some obvious reason why multiple mms are not a
+      good idea, yet I cannot grasp it :-(
+
+      switch_mm_irqs_off() seems to have lots of references to
+      "this_cpu_something"; if there is any optimization from having the
+      same next across multiple cores, I'm missing it
+
+[...]
+
+> I would either refactor it or create a new function to handle the write. The main thing that Nadav is adding that I think you’ll want to use is the infrastructure for temporarily switching mms from a non-kernel-thread context.
+
+yes
+
+[...]
+
+
+> You’ll still want Nadav’s code for setting up the mm in the first place, though.
+
+yes
+
+--
+thanks, igor
