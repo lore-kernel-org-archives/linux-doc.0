@@ -1,157 +1,115 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1E9FA7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 08:55:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 433AB7D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 10:06:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393273AbeKVTe0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 22 Nov 2018 14:34:26 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:41277 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731963AbeKVTe0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Nov 2018 14:34:26 -0500
-Received: by mail-ed1-f66.google.com with SMTP id z28so7034270edi.8
-        for <linux-doc@vger.kernel.org>; Thu, 22 Nov 2018 00:55:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bXnYE1APjd1iQLoGDe6cvTAiLMQqWdlXEVV06KVqXvc=;
-        b=iZpcjNUBjqVfz6kaD3joNZ2rKJDojWZrnYrXpGEMuagkdqSqD8v45SNugOu74xNRE/
-         +ZaN+cZLIcZQv3/PDVkAxp3sG40PnleJ0yjCvDccFHJRh5WhVcZ2b2ww1BskbOxkxl2P
-         UR02Z5519nozqIHarR42SRQcNa+d25yThpAN0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=bXnYE1APjd1iQLoGDe6cvTAiLMQqWdlXEVV06KVqXvc=;
-        b=ITTjQeAZZebTGKEiXALd7NbW8gaOM1ywvgoFaqVP+P8ptabPl7ixlWiGlp6ee/9Zg+
-         ZApf0DurLooEWprDRJgKvx2F2v6VJSec+vfhRErKABJutw1RHXGd63+1eoFtErZxfWoM
-         fCSNl8xJI+GPsEzpI5yFP9sSZskx6E+yYsfbFeYhott4KrNRWSI6CNiIgLlR24N9fGsQ
-         HCO8r/d7JFYztWuIClsb5r8s7XgeUjFs3txyeXoxc82fGksdlRMXs0fnjPpNSGtMSmBY
-         6j/oQXlmsxhyj2Hda06mXotLwPnPUI6JY/bxhvp9UcxnmEpmGJNxzze9XgXHQAvpyFxq
-         gYdQ==
-X-Gm-Message-State: AA+aEWYYfv4aQlUM4/nUYDdSwCtMbXA2KKG2HmVP1ZJ4ZmlNq+L8vPbw
-        dZLX+1D9xtxaIfZ2mjYLa5peDQ==
-X-Google-Smtp-Source: AFSGD/V2TAFl8vvyJQ3YvxF+olUzPJBkXlBHYy+tIG7IeQFyOdeas0Rclfy3WwEJA6PmbWMo1LtA2A==
-X-Received: by 2002:a50:ce0f:: with SMTP id y15mr7867485edi.207.1542876953045;
-        Thu, 22 Nov 2018 00:55:53 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
-        by smtp.gmail.com with ESMTPSA id c11-v6sm6159456ejm.67.2018.11.22.00.55.50
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 22 Nov 2018 00:55:51 -0800 (PST)
-Date:   Thu, 22 Nov 2018 09:55:49 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        greenfoo@gluegarage.com,
-        "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>, sean@poorly.run,
-        Dave Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>, abrodkin@synopsys.com,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Archit Taneja <architt@codeaurora.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        linux+etnaviv@armlinux.org.uk,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
-        kieran.bingham+renesas@ideasonboard.com,
-        Shawn Guo <shawnguo@kernel.org>,
-        Julia Lawall <Julia.Lawall@lip6.fr>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>, michal.lkml@markovi.net,
-        hamohammed.sa@gmail.com, linux-doc@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        virtualization@lists.linux-foundation.org,
-        etnaviv@lists.freedesktop.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        cocci@systeme.lip6.fr
-Subject: Re: [PATCH 0/9] drm: remove deprecated functions
-Message-ID: <20181122085549.GX4266@phenom.ffwll.local>
-Mail-Followup-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linus Walleij <linus.walleij@linaro.org>, greenfoo@gluegarage.com,
-        "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>, sean@poorly.run,
-        Dave Airlie <airlied@linux.ie>, Jonathan Corbet <corbet@lwn.net>,
-        abrodkin@synopsys.com,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Archit Taneja <architt@codeaurora.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Lucas Stach <l.stach@pengutronix.de>, linux+etnaviv@armlinux.org.uk,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
-        kieran.bingham+renesas@ideasonboard.com,
-        Shawn Guo <shawnguo@kernel.org>,
-        Julia Lawall <Julia.Lawall@lip6.fr>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>, michal.lkml@markovi.net,
-        hamohammed.sa@gmail.com, linux-doc@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        virtualization@lists.linux-foundation.org,
-        etnaviv@lists.freedesktop.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        cocci@systeme.lip6.fr
-References: <20181115221634.22715-1-greenfoo@gluegarage.com>
- <CACRpkdZmTSo02yQeU=qe9WyJMXEq76CNmc2kkFEHuwdo=HKPJw@mail.gmail.com>
- <20181121094233.GN4266@phenom.ffwll.local>
- <22044302.7aKok9czXB@avalon>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <22044302.7aKok9czXB@avalon>
-X-Operating-System: Linux phenom 4.18.0-2-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S2393668AbeKVUp1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 22 Nov 2018 15:45:27 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:60930 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387821AbeKVUp0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 22 Nov 2018 15:45:26 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 3286D81F10;
+        Thu, 22 Nov 2018 10:06:41 +0000 (UTC)
+Received: from t460s.redhat.com (ovpn-116-206.ams2.redhat.com [10.36.116.206])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1A09E16BE8;
+        Thu, 22 Nov 2018 10:06:37 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
+To:     linux-mm@kvack.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        devel@linuxdriverproject.org, linux-fsdevel@vger.kernel.org,
+        linux-pm@vger.kernel.org, xen-devel@lists.xenproject.org,
+        kexec-ml <kexec@lists.infradead.org>, pv-drivers@vmware.com,
+        David Hildenbrand <david@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>
+Subject: [PATCH v2 1/8] mm: balloon: update comment about isolation/migration/compaction
+Date:   Thu, 22 Nov 2018 11:06:20 +0100
+Message-Id: <20181122100627.5189-2-david@redhat.com>
+In-Reply-To: <20181122100627.5189-1-david@redhat.com>
+References: <20181122100627.5189-1-david@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Thu, 22 Nov 2018 10:06:41 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 21, 2018 at 08:21:29PM +0200, Laurent Pinchart wrote:
-> Hi Daniel,
-> 
-> On Wednesday, 21 November 2018 11:42:33 EET Daniel Vetter wrote:
-> > On Thu, Nov 15, 2018 at 11:38:35PM +0100, Linus Walleij wrote:
-> > > On Thu, Nov 15, 2018 at 11:17 PM Fernando Ramos wrote:
-> > >> One of the things in the DRM TODO list ("Documentation/gpu/todo.rst")
-> > >> was to "switch from reference/unreference to get/put". That's what this
-> > >> patch series is about.
-> > > 
-> > > The series:
-> > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> > 
-> > Since your reviewed it all, and there's a pile of acks for the driver
-> > parts too: Want to go ahead and apply it too?
-> 
-> Please remember to give at least a week to reviewers, especially with LPC last 
-> week.
+Commit b1123ea6d3b3 ("mm: balloon: use general non-lru movable page
+feature") reworked balloon handling to make use of the general
+non-lru movable page feature. The big comment block in
+balloon_compaction.h contains quite some outdated information. Let's fix
+this.
 
-I think for this undisputed cocci series waiting for everyone is not
-needed. There's really not much the driver-specific reviewer perspective
-would help here.
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ include/linux/balloon_compaction.h | 26 +++++++++-----------------
+ 1 file changed, 9 insertions(+), 17 deletions(-)
 
-In general I do agree though, if there's something driver maintainers can
-have better insight on.
--Daniel
+diff --git a/include/linux/balloon_compaction.h b/include/linux/balloon_compaction.h
+index 53051f3d8f25..cbe50da5a59d 100644
+--- a/include/linux/balloon_compaction.h
++++ b/include/linux/balloon_compaction.h
+@@ -4,15 +4,18 @@
+  *
+  * Common interface definitions for making balloon pages movable by compaction.
+  *
+- * Despite being perfectly possible to perform ballooned pages migration, they
+- * make a special corner case to compaction scans because balloon pages are not
+- * enlisted at any LRU list like the other pages we do compact / migrate.
++ * Balloon page migration makes use of the general non-lru movable page
++ * feature.
++ *
++ * page->private is used to reference the responsible balloon device.
++ * page->mapping is used in context of non-lru page migration to reference
++ * the address space operations for page isolation/migration/compaction.
+  *
+  * As the page isolation scanning step a compaction thread does is a lockless
+  * procedure (from a page standpoint), it might bring some racy situations while
+  * performing balloon page compaction. In order to sort out these racy scenarios
+  * and safely perform balloon's page compaction and migration we must, always,
+- * ensure following these three simple rules:
++ * ensure following these simple rules:
+  *
+  *   i. when updating a balloon's page ->mapping element, strictly do it under
+  *      the following lock order, independently of the far superior
+@@ -21,19 +24,8 @@
+  *	      +--spin_lock_irq(&b_dev_info->pages_lock);
+  *	            ... page->mapping updates here ...
+  *
+- *  ii. before isolating or dequeueing a balloon page from the balloon device
+- *      pages list, the page reference counter must be raised by one and the
+- *      extra refcount must be dropped when the page is enqueued back into
+- *      the balloon device page list, thus a balloon page keeps its reference
+- *      counter raised only while it is under our special handling;
+- *
+- * iii. after the lockless scan step have selected a potential balloon page for
+- *      isolation, re-test the PageBalloon mark and the PagePrivate flag
+- *      under the proper page lock, to ensure isolating a valid balloon page
+- *      (not yet isolated, nor under release procedure)
+- *
+- *  iv. isolation or dequeueing procedure must clear PagePrivate flag under
+- *      page lock together with removing page from balloon device page list.
++ *  ii. isolation or dequeueing procedure must remove the page from balloon
++ *      device page list under b_dev_info->pages_lock.
+  *
+  * The functions provided by this interface are placed to help on coping with
+  * the aforementioned balloon page corner case, as well as to ensure the simple
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.17.2
+
