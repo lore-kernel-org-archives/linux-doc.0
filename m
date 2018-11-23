@@ -2,25 +2,25 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 474647D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Nov 2018 17:37:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3376D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Nov 2018 17:44:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437077AbeKXEXA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Nov 2018 23:23:00 -0500
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:49888 "EHLO
+        id S2388738AbeKXE3P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Nov 2018 23:29:15 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:50084 "EHLO
         foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437062AbeKXEXA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Nov 2018 23:23:00 -0500
+        id S1730951AbeKXE3P (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Nov 2018 23:29:15 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BF7273574;
-        Fri, 23 Nov 2018 09:37:47 -0800 (PST)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A51D3574;
+        Fri, 23 Nov 2018 09:44:01 -0800 (PST)
 Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E3FF23F5CF;
-        Fri, 23 Nov 2018 09:37:41 -0800 (PST)
-Date:   Fri, 23 Nov 2018 17:37:39 +0000
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4E3113F5CF;
+        Fri, 23 Nov 2018 09:43:55 -0800 (PST)
+Date:   Fri, 23 Nov 2018 17:43:52 +0000
 From:   Mark Rutland <mark.rutland@arm.com>
 To:     Andrey Konovalov <andreyknvl@google.com>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
@@ -56,88 +56,142 @@ Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Mark Brand <markbrand@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Vishwath Mohan <vishwath@google.com>
-Subject: Re: [PATCH v11 09/24] arm64: move untagged_addr macro from uaccess.h
- to memory.h
-Message-ID: <20181123173739.osgvnnhmptdgtlnl@lakrids.cambridge.arm.com>
+Subject: Re: [PATCH v11 05/24] kasan: add CONFIG_KASAN_GENERIC and
+ CONFIG_KASAN_SW_TAGS
+Message-ID: <20181123174352.ri3qo3wx2irm6hzj@lakrids.cambridge.arm.com>
 References: <cover.1542648335.git.andreyknvl@google.com>
- <0288334225edc99d98d70c896494e19c3bd9361a.1542648335.git.andreyknvl@google.com>
+ <356c34c9a2ae8348a6cbd1de53135a28187fa120.1542648335.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0288334225edc99d98d70c896494e19c3bd9361a.1542648335.git.andreyknvl@google.com>
+In-Reply-To: <356c34c9a2ae8348a6cbd1de53135a28187fa120.1542648335.git.andreyknvl@google.com>
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 19, 2018 at 06:26:25PM +0100, Andrey Konovalov wrote:
-> Move the untagged_addr() macro from arch/arm64/include/asm/uaccess.h
-> to arch/arm64/include/asm/memory.h to be later reused by KASAN.
+On Mon, Nov 19, 2018 at 06:26:21PM +0100, Andrey Konovalov wrote:
+> This commit splits the current CONFIG_KASAN config option into two:
+> 1. CONFIG_KASAN_GENERIC, that enables the generic KASAN mode (the one
+>    that exists now);
+> 2. CONFIG_KASAN_SW_TAGS, that enables the software tag-based KASAN mode.
 > 
-> Also make the untagged_addr() macro accept all kinds of address types
-> (void *, unsigned long, etc.). This allows not to specify type casts in
-> each place where the macro is used. This is done by using __typeof__.
+> The name CONFIG_KASAN_SW_TAGS is chosen as in the future we will have
+> another hardware tag-based KASAN mode, that will rely on hardware memory
+> tagging support in arm64.
 > 
+> With CONFIG_KASAN_SW_TAGS enabled, compiler options are changed to
+> instrument kernel files with -fsantize=kernel-hwaddress (except the ones
+> for which KASAN_SANITIZE := n is set).
+> 
+> Both CONFIG_KASAN_GENERIC and CONFIG_KASAN_SW_TAGS support both
+> CONFIG_KASAN_INLINE and CONFIG_KASAN_OUTLINE instrumentation modes.
+> 
+> This commit also adds empty placeholder (for now) implementation of
+> tag-based KASAN specific hooks inserted by the compiler and adjusts
+> common hooks implementation to compile correctly with each of the
+> config options.
+> 
+> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 > ---
->  arch/arm64/include/asm/memory.h  | 8 ++++++++
->  arch/arm64/include/asm/uaccess.h | 7 -------
->  2 files changed, 8 insertions(+), 7 deletions(-)
+>  arch/arm64/Kconfig                  |  1 +
+>  include/linux/compiler-clang.h      |  5 +-
+>  include/linux/compiler-gcc.h        |  6 ++
+>  include/linux/compiler_attributes.h | 13 ----
+>  include/linux/kasan.h               | 16 +++--
+>  lib/Kconfig.kasan                   | 96 +++++++++++++++++++++++------
+>  mm/kasan/Makefile                   |  6 +-
+>  mm/kasan/generic.c                  |  2 +-
+>  mm/kasan/kasan.h                    |  3 +-
+>  mm/kasan/tags.c                     | 75 ++++++++++++++++++++++
+>  mm/slub.c                           |  2 +-
+>  scripts/Makefile.kasan              | 53 +++++++++-------
+>  12 files changed, 216 insertions(+), 62 deletions(-)
+>  create mode 100644 mm/kasan/tags.c
 > 
-> diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
-> index 05fbc7ffcd31..deb95be44392 100644
-> --- a/arch/arm64/include/asm/memory.h
-> +++ b/arch/arm64/include/asm/memory.h
-> @@ -73,6 +73,14 @@
->  #define KERNEL_START      _text
->  #define KERNEL_END        _end
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 787d7850e064..8b331dcfb48e 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -111,6 +111,7 @@ config ARM64
+>  	select HAVE_ARCH_JUMP_LABEL
+>  	select HAVE_ARCH_JUMP_LABEL_RELATIVE
+>  	select HAVE_ARCH_KASAN if !(ARM64_16K_PAGES && ARM64_VA_BITS_48)
+> +	select HAVE_ARCH_KASAN_SW_TAGS if !(ARM64_16K_PAGES && ARM64_VA_BITS_48)
+
+> --- a/lib/Kconfig.kasan
+> +++ b/lib/Kconfig.kasan
+> @@ -1,35 +1,95 @@
+> +# This config refers to the generic KASAN mode.
+>  config HAVE_ARCH_KASAN
+>  	bool
 >  
-> +/*
-> + * When dealing with data aborts, watchpoints, or instruction traps we may end
-> + * up with a tagged userland pointer. Clear the tag to get a sane pointer to
-> + * pass on to access_ok(), for instance.
-> + */
-> +#define untagged_addr(addr)	\
-> +	(__typeof__(addr))sign_extend64((__u64)(addr), 55)
+> +config HAVE_ARCH_KASAN_SW_TAGS
+> +	bool
+> +
+> +config CC_HAS_KASAN_GENERIC
+> +	def_bool $(cc-option, -fsanitize=kernel-address)
+> +
+> +config CC_HAS_KASAN_SW_TAGS
+> +	def_bool $(cc-option, -fsanitize=kernel-hwaddress)
 
-Minor nits:
+> +if HAVE_ARCH_KASAN_SW_TAGS
+> +
+> +config KASAN_SW_TAGS
+> +	bool "Software tag-based mode"
+> +	depends on CC_HAS_KASAN_SW_TAGS
+> +	depends on (SLUB && SYSFS) || (SLAB && !DEBUG_SLAB)
+> +	select SLUB_DEBUG if SLUB
+> +	select CONSTRUCTORS
+> +	select STACKDEPOT
+> +	help
+> +	  Enables software tag-based KASAN mode.
+> +	  This mode requires Top Byte Ignore support by the CPU and therefore
+> +	  is only supported for arm64.
+> +	  This mode requires Clang version 7.0.0 or later.
+> +	  This mode consumes about 1/16th of available memory at kernel start
+> +	  and introduces an overhead of ~20% for the rest of the allocations.
+> +	  This mode may potentially introduce problems relating to pointer
+> +	  casting and comparison, as it embeds tags into the top byte of each
+> +	  pointer.
+> +	  For better error detection enable CONFIG_STACKTRACE.
+> +	  Currently CONFIG_KASAN_SW_TAGS doesn't work with CONFIG_DEBUG_SLAB
+> +	  (the resulting kernel does not boot).
+> +
+> +endif
 
-* s/__u64/u64/ (or s/__u64/unsigned long/), since this isn't a UAPI
-  header.
+IIUC as of this patch a user can select KASAN_SW_TAGS...
 
-* Please move this down into the #ifndef __ASSEMBLY__ block, after we
-  include <linux/bitops.h>, which is necessary for sign_extend64().
+> +ifdef CONFIG_KASAN_SW_TAGS
+> +
+> +ifdef CONFIG_KASAN_INLINE
+> +    instrumentation_flags := -mllvm -hwasan-mapping-offset=$(KASAN_SHADOW_OFFSET)
+> +else
+> +    instrumentation_flags := -mllvm -hwasan-instrument-with-calls=1
+> +endif
+> +
+> +CFLAGS_KASAN := -fsanitize=kernel-hwaddress \
+> +		-mllvm -hwasan-instrument-stack=0 \
+> +		$(instrumentation_flags)
+> +
+> +endif # CONFIG_KASAN_SW_TAGS
 
-With those fixed up, this patch looks sound to me:
+... and therefore we start using the compiler option, even though we
+haven't introduced all of the necessary infrastructure yet.
 
-Acked-by: Mark Rutland <mark.rutland@arm.com>
+That doesn't sound right to me. At the very least, that breaks
+randconfig builds.
+
+What we can do, in-order, is:
+
+1) introduce the core refactoring, dependent on HAVE_ARCH_KASAN_SW_TAGS
+2) instroduce the new infrastructure and arch code
+3) select HAVE_ARCH_KASAN_SW_TAGS
+
+... such that at (3), all KASAN configurations are known to work.
 
 Thanks,
 Mark.
-
-> +
->  /*
->   * Generic and tag-based KASAN require 1/8th and 1/16th of the kernel virtual
->   * address space for the shadow region respectively. They can bloat the stack
-> diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
-> index 07c34087bd5e..281a1e47263d 100644
-> --- a/arch/arm64/include/asm/uaccess.h
-> +++ b/arch/arm64/include/asm/uaccess.h
-> @@ -96,13 +96,6 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
->  	return ret;
->  }
->  
-> -/*
-> - * When dealing with data aborts, watchpoints, or instruction traps we may end
-> - * up with a tagged userland pointer. Clear the tag to get a sane pointer to
-> - * pass on to access_ok(), for instance.
-> - */
-> -#define untagged_addr(addr)		sign_extend64(addr, 55)
-> -
->  #define access_ok(type, addr, size)	__range_ok(addr, size)
->  #define user_addr_max			get_fs
->  
-> -- 
-> 2.19.1.1215.g8438c0b245-goog
-> 
