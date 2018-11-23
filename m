@@ -1,150 +1,184 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,URIBL_SBL,
+	URIBL_SBL_A autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D14D67D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 22 Nov 2018 21:55:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3F8177D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Nov 2018 05:04:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389806AbeKWIhJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Nov 2018 03:37:09 -0500
-Received: from terminus.zytor.com ([198.137.202.136]:37651 "EHLO
-        terminus.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730054AbeKWIhJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Nov 2018 03:37:09 -0500
-Received: from terminus.zytor.com (localhost [127.0.0.1])
-        by terminus.zytor.com (8.15.2/8.15.2) with ESMTPS id wAMLqrSf3948247
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Thu, 22 Nov 2018 13:52:53 -0800
-Received: (from tipbot@localhost)
-        by terminus.zytor.com (8.15.2/8.15.2/Submit) id wAMLqrU33948243;
-        Thu, 22 Nov 2018 13:52:53 -0800
-Date:   Thu, 22 Nov 2018 13:52:53 -0800
-X-Authentication-Warning: terminus.zytor.com: tipbot set sender to tipbot@zytor.com using -f
-From:   tip-bot for Babu Moger <tipbot@zytor.com>
-Message-ID: <tip-1f8251d3bfadf42357cf6c3eebb5cda6cd3987b5@git.kernel.org>
-Cc:     rafael@kernel.org, linux-doc@vger.kernel.org, arnd@arndb.de,
-        dima@arista.com, hpa@zytor.com, chang.seok.bae@intel.com,
-        jpoimboe@redhat.com, gregkh@linuxfoundation.org,
-        dwmw2@infradead.org, mchehab+samsung@kernel.org,
-        pombredanne@nexb.com, vkuznets@redhat.com, peterz@infradead.org,
-        sherry.hurwitz@amd.com, mingo@redhat.com, jroedel@suse.de,
-        mingo@kernel.org, reinette.chatre@intel.com,
-        suravee.suthikulpanit@amd.com, xiaochen.shen@intel.com,
-        akpm@linux-foundation.org, corbet@lwn.net, pbonzini@redhat.com,
-        kstewart@linuxfoundation.org, Thomas.Lendacky@amd.com,
-        kirill.shutemov@linux.intel.com, luto@kernel.org,
-        Babu.Moger@amd.com, babu.moger@amd.com, tglx@linutronix.de,
-        fenghua.yu@intel.com, linux-kernel@vger.kernel.org, bp@suse.de,
-        puwen@hygon.cn, jannh@google.com, qianyue.zj@alibaba-inc.com,
-        rian@alum.mit.edu, davem@davemloft.net, tony.luck@intel.com,
-        brijesh.singh@amd.com
-Reply-To: mingo@kernel.org, jroedel@suse.de, mingo@redhat.com,
-          sherry.hurwitz@amd.com, peterz@infradead.org,
-          vkuznets@redhat.com, mchehab+samsung@kernel.org,
-          pombredanne@nexb.com, gregkh@linuxfoundation.org,
-          dwmw2@infradead.org, jpoimboe@redhat.com,
-          chang.seok.bae@intel.com, hpa@zytor.com, dima@arista.com,
-          linux-doc@vger.kernel.org, arnd@arndb.de, rafael@kernel.org,
-          davem@davemloft.net, tony.luck@intel.com, brijesh.singh@amd.com,
-          qianyue.zj@alibaba-inc.com, rian@alum.mit.edu, bp@suse.de,
-          puwen@hygon.cn, jannh@google.com, tglx@linutronix.de,
-          linux-kernel@vger.kernel.org, fenghua.yu@intel.com,
-          Babu.Moger@amd.com, babu.moger@amd.com,
-          kirill.shutemov@linux.intel.com, luto@kernel.org,
-          Thomas.Lendacky@amd.com, kstewart@linuxfoundation.org,
-          corbet@lwn.net, akpm@linux-foundation.org, pbonzini@redhat.com,
-          xiaochen.shen@intel.com, suravee.suthikulpanit@amd.com,
-          reinette.chatre@intel.com
-In-Reply-To: <20181121202811.4492-14-babu.moger@amd.com>
-References: <20181121202811.4492-14-babu.moger@amd.com>
-To:     linux-tip-commits@vger.kernel.org
-Subject: [tip:x86/cache] MAINTAINERS: Update resctrl filename patterns
-Git-Commit-ID: 1f8251d3bfadf42357cf6c3eebb5cda6cd3987b5
-X-Mailer: tip-git-log-daemon
-Robot-ID: <tip-bot.git.kernel.org>
-Robot-Unsubscribe: Contact <mailto:hpa@kernel.org> to get blacklisted from
- these emails
+        id S2408173AbeKWPqt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Nov 2018 10:46:49 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:50187 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2408172AbeKWPqt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Nov 2018 10:46:49 -0500
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id wAN53lcb001007;
+        Fri, 23 Nov 2018 14:03:47 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com wAN53lcb001007
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1542949428;
+        bh=rjSEgBVNK/gpelsn4q8187smIXI2eDzmxWKFg5to3H4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=P6mlD+MdlyhLZ1OM1gxjCAOhGaVpnhLkbRQo0k7JJdxcN4j4DLfTsCSbqeuOXmpwl
+         n4OPM6pcZOtH4N42nCr81KHV+oSPMAZfo6UllwL4GPLa0cTkHyqBXO3ZwfVYN+NlkV
+         tYuIH4ucrVHhAVMWLVrkUDKLP4NOf7umRYtLr0l/2jda+pgC/X0WhUjpZz8lFjQjEZ
+         tD7bxBtqa9TgqhtMT1KFJjkNBeLb+Es/mxefHhEX+Bu3nm2KFU3LizZeBEeQakbRM3
+         i7JOMQ8sZp2QSN3YLtGufLeHMX+RVPTk8BxEPltI0Nk1XFcIliRDEnRIx5e2m02VqX
+         YhPJXpqHoJReA==
+X-Nifty-SrcIP: [209.85.221.178]
+Received: by mail-vk1-f178.google.com with SMTP id t132so1654498vkc.3;
+        Thu, 22 Nov 2018 21:03:47 -0800 (PST)
+X-Gm-Message-State: AA+aEWYYiaIEdYy6cvMiJrY6xudlurad3E+N6obApVNjllo5UujJvqtR
+        cm0R19LvMjzfXNnZVhKG1BI5RRymSeIPPK6Zrhk=
+X-Google-Smtp-Source: AFSGD/UJSYNPs+BElJXNjor+NE3elV3Y2NPKWaW4yyhMfTnHAPk0tWLtZpU6VWp+oXjPLkIff/KeebBqmaEw6R9UwqI=
+X-Received: by 2002:a1f:5e47:: with SMTP id s68mr5416332vkb.64.1542949426569;
+ Thu, 22 Nov 2018 21:03:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset=UTF-8
-Content-Disposition: inline
+References: <1542726258-8418-1-git-send-email-yamada.masahiro@socionext.com> <20181120162543.GB4765@roeck-us.net>
+In-Reply-To: <20181120162543.GB4765@roeck-us.net>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Fri, 23 Nov 2018 14:03:10 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARSR6nHxusgBUn3BGPSN2KTYu0YdVQWfX-oDKm9ucvTXg@mail.gmail.com>
+Message-ID: <CAK7LNARSR6nHxusgBUn3BGPSN2KTYu0YdVQWfX-oDKm9ucvTXg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: announce removal of SUBDIRS if used
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        =?UTF-8?B?TWFyZWsgVmHFoXV0?= <marek.vasut@gmail.com>,
+        linux-watchdog@vger.kernel.org, wim@linux-watchdog.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        jim.cromie@gmail.com, Jonathan Corbet <corbet@lwn.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Brian Norris <computersforpeace@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        linux-mtd <linux-mtd@lists.infradead.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Boris Brezillon <boris.brezillon@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit-ID:  1f8251d3bfadf42357cf6c3eebb5cda6cd3987b5
-Gitweb:     https://git.kernel.org/tip/1f8251d3bfadf42357cf6c3eebb5cda6cd3987b5
-Author:     Babu Moger <Babu.Moger@amd.com>
-AuthorDate: Wed, 21 Nov 2018 20:28:49 +0000
-Committer:  Borislav Petkov <bp@suse.de>
-CommitDate: Thu, 22 Nov 2018 20:16:20 +0100
+On Wed, Nov 21, 2018 at 1:25 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> On Wed, Nov 21, 2018 at 12:04:18AM +0900, Masahiro Yamada wrote:
+> > SUBDIRS has been kept as a backward compatibility since
+> > commit ("[PATCH] kbuild: external module support") in 2002.
+> >
+> > We do not need multiple ways to do the same thing, so I will remove
+> > SUBDIRS after the Linux 5.3 release. I cleaned up in-tree code, and
+> > updated the document so that nobody would try to use it.
+> >
+> > Meanwhile, display the following warning if SUBDIRS is used.
+> >
+> > Makefile:189: ================= WARNING ================
+> > Makefile:190: 'SUBDIRS' will be removed after Linux 5.3
+> > Makefile:191: Please use 'M=' or 'KBUILD_EXTMOD' instead
+> > Makefile:192: ==========================================
+> >
+> > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> > ---
 
-MAINTAINERS: Update resctrl filename patterns
+Applied to linux-kbuild.
 
-The file nameswith intel_rdt* have been moved to the new directory
-arch/x86/kernel/cpu/resctrl/. Update to reflect the changed files and
-documentation.
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Andy Lutomirski <luto@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Brijesh Singh <brijesh.singh@amd.com>
-Cc: "Chang S. Bae" <chang.seok.bae@intel.com>
-Cc: David Miller <davem@davemloft.net>
-Cc: David Woodhouse <dwmw2@infradead.org>
-Cc: Dmitry Safonov <dima@arista.com>
-Cc: Fenghua Yu <fenghua.yu@intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Jann Horn <jannh@google.com>
-Cc: Joerg Roedel <jroedel@suse.de>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Josh Poimboeuf <jpoimboe@redhat.com>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>
-Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Philippe Ombredanne <pombredanne@nexb.com>
-Cc: Pu Wen <puwen@hygon.cn>
-Cc: <qianyue.zj@alibaba-inc.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Rian Hunter <rian@alum.mit.edu>
-Cc: Sherry Hurwitz <sherry.hurwitz@amd.com>
-Cc: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Thomas Lendacky <Thomas.Lendacky@amd.com>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc: <xiaochen.shen@intel.com>
-Link: https://lkml.kernel.org/r/20181121202811.4492-14-babu.moger@amd.com
----
- MAINTAINERS | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b755a89fa325..b7d596e66ae6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12545,9 +12545,9 @@ M:	Fenghua Yu <fenghua.yu@intel.com>
- M:	Reinette Chatre <reinette.chatre@intel.com>
- L:	linux-kernel@vger.kernel.org
- S:	Supported
--F:	arch/x86/kernel/cpu/intel_rdt*
--F:	arch/x86/include/asm/intel_rdt_sched.h
--F:	Documentation/x86/intel_rdt*
-+F:	arch/x86/kernel/cpu/resctrl/
-+F:	arch/x86/include/asm/resctrl_sched.h
-+F:	Documentation/x86/resctrl*
- 
- READ-COPY UPDATE (RCU)
- M:	"Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+> >  Documentation/kbuild/kbuild.txt    | 7 +------
+> >  Makefile                           | 4 ++++
+> >  drivers/mtd/maps/scx200_docflash.c | 7 -------
+> >  drivers/watchdog/scx200_wdt.c      | 7 -------
+>
+> For watchdog:
+>
+> Acked-by: Guenter Roeck <linux@roeck-us.net>
+>
+> >  samples/connector/Makefile         | 2 +-
+> >  5 files changed, 6 insertions(+), 21 deletions(-)
+> >
+> > diff --git a/Documentation/kbuild/kbuild.txt b/Documentation/kbuild/kbuild.txt
+> > index 8390c36..c9e3d93 100644
+> > --- a/Documentation/kbuild/kbuild.txt
+> > +++ b/Documentation/kbuild/kbuild.txt
+> > @@ -81,12 +81,7 @@ KBUILD_EXTMOD
+> >  --------------------------------------------------
+> >  Set the directory to look for the kernel source when building external
+> >  modules.
+> > -The directory can be specified in several ways:
+> > -1) Use "M=..." on the command line
+> > -2) Environment variable KBUILD_EXTMOD
+> > -3) Environment variable SUBDIRS
+> > -The possibilities are listed in the order they take precedence.
+> > -Using "M=..." will always override the others.
+> > +Setting "M=..." takes precedence over KBUILD_EXTMOD.
+> >
+> >  KBUILD_OUTPUT
+> >  --------------------------------------------------
+> > diff --git a/Makefile b/Makefile
+> > index 370d13b..57be5fb 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -186,6 +186,10 @@ endif
+> >  # Old syntax make ... SUBDIRS=$PWD is still supported
+> >  # Setting the environment variable KBUILD_EXTMOD take precedence
+> >  ifdef SUBDIRS
+> > +  $(warning ================= WARNING ================)
+> > +  $(warning 'SUBDIRS' will be removed after Linux 5.3)
+> > +  $(warning Please use 'M=' or 'KBUILD_EXTMOD' instead)
+> > +  $(warning ==========================================)
+> >    KBUILD_EXTMOD ?= $(SUBDIRS)
+> >  endif
+> >
+> > diff --git a/drivers/mtd/maps/scx200_docflash.c b/drivers/mtd/maps/scx200_docflash.c
+> > index f1c1f73..7f1a0e6 100644
+> > --- a/drivers/mtd/maps/scx200_docflash.c
+> > +++ b/drivers/mtd/maps/scx200_docflash.c
+> > @@ -216,10 +216,3 @@ static void __exit cleanup_scx200_docflash(void)
+> >
+> >  module_init(init_scx200_docflash);
+> >  module_exit(cleanup_scx200_docflash);
+> > -
+> > -/*
+> > -    Local variables:
+> > -        compile-command: "make -k -C ../../.. SUBDIRS=drivers/mtd/maps modules"
+> > -        c-basic-offset: 8
+> > -    End:
+> > -*/
+> > diff --git a/drivers/watchdog/scx200_wdt.c b/drivers/watchdog/scx200_wdt.c
+> > index 836377c..ec4063e 100644
+> > --- a/drivers/watchdog/scx200_wdt.c
+> > +++ b/drivers/watchdog/scx200_wdt.c
+> > @@ -262,10 +262,3 @@ static void __exit scx200_wdt_cleanup(void)
+> >
+> >  module_init(scx200_wdt_init);
+> >  module_exit(scx200_wdt_cleanup);
+> > -
+> > -/*
+> > -    Local variables:
+> > -     compile-command: "make -k -C ../.. SUBDIRS=drivers/char modules"
+> > -     c-basic-offset: 8
+> > -    End:
+> > -*/
+> > diff --git a/samples/connector/Makefile b/samples/connector/Makefile
+> > index fe3c854..6ad7162 100644
+> > --- a/samples/connector/Makefile
+> > +++ b/samples/connector/Makefile
+> > @@ -14,4 +14,4 @@ HOSTCFLAGS_ucon.o += -I$(objtree)/usr/include
+> >  all: modules
+> >
+> >  modules clean:
+> > -     $(MAKE) -C ../.. SUBDIRS=$(CURDIR) $@
+> > +     $(MAKE) -C ../.. M=$(CURDIR) $@
+> > --
+> > 2.7.4
+> >
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
