@@ -1,125 +1,143 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4F63E7D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Nov 2018 16:38:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 474647D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Nov 2018 17:37:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732180AbeKXDXu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Nov 2018 22:23:50 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:45626 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730360AbeKXDXt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Nov 2018 22:23:49 -0500
-Received: by mail-pg1-f196.google.com with SMTP id y4so3266740pgc.12;
-        Fri, 23 Nov 2018 08:38:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=59K0zcHDoiq8CsenLJw3lP0RJrvRo4671nFFiCTE7NY=;
-        b=MuaqHBQJa3cNUIBvEPKhj6cRnbi0Cz6Y9fE8uM1QNRIn3BbtCLf71J9ovR1rHu7aMG
-         Bn5kfpLFcBYtt8ANPz2ZWOn5Kq7aJlNass0OkzlneuJM/H1fqLzjliKif/zObqSl/PvL
-         /vGIYc6u0//mhCkZL6d+wehj4rzgzbdP6MhLLzS6LhesOLx7nekLCHSEZui6ceR/7DaL
-         o+4l0edtdIDKbypQQjA/c7pWZNbM2B6cCPBl+Baf0x3v78iIJFkJeN+rZ15ZGkNI3Vl9
-         FrWcVRZAeti9rSw8sF6NnrdUuCMX0QaC6mBd9XHejwcBih9tINxWvMGRsyYR/MCH/Wr5
-         dYkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=59K0zcHDoiq8CsenLJw3lP0RJrvRo4671nFFiCTE7NY=;
-        b=D7i5pvdb/ue0fs1n0fBKJ/Xf0czzfRO2Y+WxHzeaaSPRSLSr+wFx8W+vTNk4bAmEmK
-         fWk99CnVeIJbV/nZs5L7BQpYHYLt1JHUmNRaSOQQ4lQtRitDoFcua0u1SF9M6xNvHqyo
-         AiJ0i5/BeJvxt8cAG1cNtUOJOA5AOoSk1Sbgvc7AgPktRoJV490nsNDD76QKSWIfe+wZ
-         iD604PoKoSP7L3u4d5EqXqfe8wwxpy43+DgmrQ3Zbv/z/66iv69wxmbEbpOD62hAKFYJ
-         zPg6llG9R9oVxiB3sW4qtlCJqk7De/rnfyxJAhC/nZmYHSqrvZBmgYM4n55ICa5wIRq0
-         LLVg==
-X-Gm-Message-State: AA+aEWbnrxlJOr4wilFkiJ19ju3VmNJdl47f9m9Be3w2F9ToIt7k97tp
-        IPFS8IQawqWOtxT6pEcTNzFXyIOP
-X-Google-Smtp-Source: AFSGD/UJqT9CIz1m5X279R07bmHAJbNX8QlJ711oqyE2izvBMtJme9UA4mrU6GEyW4Z3BfaU/h18ew==
-X-Received: by 2002:a63:7044:: with SMTP id a4mr14420439pgn.359.1542991132230;
-        Fri, 23 Nov 2018 08:38:52 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id l72-v6sm62604224pfi.149.2018.11.23.08.38.51
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 23 Nov 2018 08:38:51 -0800 (PST)
-Subject: Re: [PATCH] hwmon (ina3221) Add single-shot mode support
-To:     Nicolin Chen <nicoleotsuka@gmail.com>
-Cc:     jdelvare@suse.com, linux-hwmon@vger.kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-References: <20181113042353.1507-1-nicoleotsuka@gmail.com>
- <20181113043248.GB11205@roeck-us.net>
- <20181113045823.GB26327@Asurada-Nvidia.nvidia.com>
- <20181113172102.GA21714@roeck-us.net>
- <20181114001141.GA14925@Asurada-Nvidia.nvidia.com>
- <20181114172330.GA25592@roeck-us.net>
- <20181117015131.GA10407@Asurada-Nvidia.nvidia.com>
- <20181119174559.GC27435@roeck-us.net>
- <20181119221842.GA26382@Asurada-Nvidia.nvidia.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <b1a34c68-d5e3-9a6f-67b1-6b6d2332f1c6@roeck-us.net>
-Date:   Fri, 23 Nov 2018 08:38:50 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        id S2437077AbeKXEXA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Nov 2018 23:23:00 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:49888 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2437062AbeKXEXA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Nov 2018 23:23:00 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BF7273574;
+        Fri, 23 Nov 2018 09:37:47 -0800 (PST)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E3FF23F5CF;
+        Fri, 23 Nov 2018 09:37:41 -0800 (PST)
+Date:   Fri, 23 Nov 2018 17:37:39 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org, Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
+Subject: Re: [PATCH v11 09/24] arm64: move untagged_addr macro from uaccess.h
+ to memory.h
+Message-ID: <20181123173739.osgvnnhmptdgtlnl@lakrids.cambridge.arm.com>
+References: <cover.1542648335.git.andreyknvl@google.com>
+ <0288334225edc99d98d70c896494e19c3bd9361a.1542648335.git.andreyknvl@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20181119221842.GA26382@Asurada-Nvidia.nvidia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0288334225edc99d98d70c896494e19c3bd9361a.1542648335.git.andreyknvl@google.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/19/18 2:18 PM, Nicolin Chen wrote:
-> On Mon, Nov 19, 2018 at 09:45:59AM -0800, Guenter Roeck wrote:
->>> In short, other than exposing it via a generic ABI to the user
->>> space, how about defining some policy to maintaining it within
->>> the driver?
+On Mon, Nov 19, 2018 at 06:26:25PM +0100, Andrey Konovalov wrote:
+> Move the untagged_addr() macro from arch/arm64/include/asm/uaccess.h
+> to arch/arm64/include/asm/memory.h to be later reused by KASAN.
 > 
->> I think that would be a bad idea. It changes timing for everyone
->> curently using the driver. It also effectively disables monitoring,
->> which is the main purpose for using this chip (and other hardware
->> monitoring chips). This is indeed a key difference between iio
->> and hwmon - the main purpose of chips in the iio subsystem is to
->> be able report data efficiently to user space, not hardware monitoring.
->> I do not think it is appropriate to use iio requirements as argument
->> to change hwmon driver behavior (and vice versa).
+> Also make the untagged_addr() macro accept all kinds of address types
+> (void *, unsigned long, etc.). This allows not to specify type casts in
+> each place where the macro is used. This is done by using __typeof__.
 > 
-> OK...what about setting a default mode via DT? I didn't expect it
-> to be possible until I found this existing solution. Though it is
-> still in an iio driver, I don't think this should be iio specific.
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> ---
+>  arch/arm64/include/asm/memory.h  | 8 ++++++++
+>  arch/arm64/include/asm/uaccess.h | 7 -------
+>  2 files changed, 8 insertions(+), 7 deletions(-)
 > 
->    commit 023e30fb0d3a3b9d6b8dc9e47590aa544d58a22f
->    Author: Adriana Reus <adriana.reus@intel.com>
->    Date:   Tue Nov 24 12:59:49 2015 +0200
-> 
->      Documentation: devicetree: Add property for controlling power saving
->                     mode for the us5182 als sensor
-> 
->      Add a property to allow changing the default power-saving mode.
->      By default, at read raw the chip will activate and provide
->      one measurent, then it will shut itself down. However, the
->      chip can also work in "continuous" mode which may be more reliable
->      but is also more power consuming.
-> 
->      Signed-off-by: Adriana Reus <adriana.reus@intel.com>
->      Acked-by: Rob Herring <robh@kernel.org>
->      Signed-off-by: Jonathan Cameron <jic23@kernel.org>
-> 
-> Would it be possible for me to apply a similar one? Since hwmon
-> driver uses continuous mode by default, I will add a "one-shot"
-> property instead of "continuous" -- all existing users won't be
-> effected unless they place one-shot properties in DT bindings.
-> 
+> diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
+> index 05fbc7ffcd31..deb95be44392 100644
+> --- a/arch/arm64/include/asm/memory.h
+> +++ b/arch/arm64/include/asm/memory.h
+> @@ -73,6 +73,14 @@
+>  #define KERNEL_START      _text
+>  #define KERNEL_END        _end
+>  
+> +/*
+> + * When dealing with data aborts, watchpoints, or instruction traps we may end
+> + * up with a tagged userland pointer. Clear the tag to get a sane pointer to
+> + * pass on to access_ok(), for instance.
+> + */
+> +#define untagged_addr(addr)	\
+> +	(__typeof__(addr))sign_extend64((__u64)(addr), 55)
 
-I would accept such a patch, but it would for all practical purposes
-disable the monitoring of limits. Make sure that is well documented.
+Minor nits:
 
-Guenter
+* s/__u64/u64/ (or s/__u64/unsigned long/), since this isn't a UAPI
+  header.
+
+* Please move this down into the #ifndef __ASSEMBLY__ block, after we
+  include <linux/bitops.h>, which is necessary for sign_extend64().
+
+With those fixed up, this patch looks sound to me:
+
+Acked-by: Mark Rutland <mark.rutland@arm.com>
+
+Thanks,
+Mark.
+
+> +
+>  /*
+>   * Generic and tag-based KASAN require 1/8th and 1/16th of the kernel virtual
+>   * address space for the shadow region respectively. They can bloat the stack
+> diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
+> index 07c34087bd5e..281a1e47263d 100644
+> --- a/arch/arm64/include/asm/uaccess.h
+> +++ b/arch/arm64/include/asm/uaccess.h
+> @@ -96,13 +96,6 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
+>  	return ret;
+>  }
+>  
+> -/*
+> - * When dealing with data aborts, watchpoints, or instruction traps we may end
+> - * up with a tagged userland pointer. Clear the tag to get a sane pointer to
+> - * pass on to access_ok(), for instance.
+> - */
+> -#define untagged_addr(addr)		sign_extend64(addr, 55)
+> -
+>  #define access_ok(type, addr, size)	__range_ok(addr, size)
+>  #define user_addr_max			get_fs
+>  
+> -- 
+> 2.19.1.1215.g8438c0b245-goog
+> 
