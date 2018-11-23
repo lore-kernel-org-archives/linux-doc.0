@@ -1,170 +1,192 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BA8E17D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Nov 2018 11:41:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 876467D08E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Nov 2018 12:40:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2503842AbeKWWZD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Nov 2018 17:25:03 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:46600 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390529AbeKWWZC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Nov 2018 17:25:02 -0500
-Received: by mail-wr1-f68.google.com with SMTP id l9so12026425wrt.13;
-        Fri, 23 Nov 2018 03:41:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=AthpPSnMAj/0Mvf97hAuWLGCUd5G7KbAhX2rxPoNpu4=;
-        b=kaBVFIuHfFsSqdJcV8a70viD4Xi+MVArFPLsgmrFgio+XdVaB19LP1YwQbv6qr6GaW
-         TerJO0nqZ704G4/gy+A8J93/jPH/lnLd7LFcAq70OLjMBIAW9UAWsFYWuZAsvtn83xUF
-         gRXvXTaYoLFSbClkATEvZJ9NvEANKIQHdscxsrleWwwBn+wNV+pxaV0IM/7wIsxnCcKq
-         Qq26KNXlzXFMFd5KDT47vVUzHvfssYkIhdZVFr5qVVKs/FbTDe77YEk0vZU+NZRqlR2j
-         tcYH93MWmLEkPrzVrFt9AySLU3yFJYLxwPSVKdwWqCh0+bD5aAFqwoIcwA128QjVl5V1
-         p85A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=AthpPSnMAj/0Mvf97hAuWLGCUd5G7KbAhX2rxPoNpu4=;
-        b=Qhsl4vsCPX8nCOl1tPTZ0OMGJiTQ02G2fmCwhVQlUjbxoiatwYfhm0pICO/7TBVWno
-         qpmZRkUGZodTC9L8EutGYCatxeH2rYA31OjLKlDrxAEPuEpIhFCW4XMEWa6eZ50pgh9d
-         lenulBpQyIqwGlu7JM7OGS2FTWobIxtvQOit6g80WkYavYwTCqxyVT8ijb+S8uE9yQBu
-         asz2j3pBvHH0LRQzb4oZj60SwDSXKY4K2YjSIT3LqAjcVzRyMOaDltgOskUiTFoEE+UB
-         rcJ0+H8BKiiHKsjmBn8DfeUyoE7zma1PcKyD5LmPyM6w/pWjqwohUl07vGtN5A7ICkCB
-         mB4w==
-X-Gm-Message-State: AA+aEWa1wOFsZAimrHbTSq+ZyZCO8TMXGwzG4BXJCNh7Sht6ZHCjG+ZC
-        VZYi2omtuTag9UikBYp5f9M=
-X-Google-Smtp-Source: AFSGD/UsNKIdIfTKKyRX4yq7eF5A3urSOJYKS/frw0m2ICvpOcjM5yoM7QbrbCI/c2U5W5Yir6kjMQ==
-X-Received: by 2002:a5d:63c3:: with SMTP id c3mr13239829wrw.215.1542973266055;
-        Fri, 23 Nov 2018 03:41:06 -0800 (PST)
-Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
-        by smtp.gmail.com with ESMTPSA id n8sm19157222wrw.59.2018.11.23.03.41.03
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 23 Nov 2018 03:41:05 -0800 (PST)
-Date:   Fri, 23 Nov 2018 12:41:02 +0100
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     "Moger, Babu" <Babu.Moger@amd.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
-        "pombredanne@nexb.com" <pombredanne@nexb.com>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
-        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Singh, Brijesh" <brijesh.singh@amd.com>,
-        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
-        "dwmw2@infradead.org" <dwmw2@infradead.org>,
-        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "jannh@google.com" <jannh@google.com>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "rian@alum.mit.edu" <rian@alum.mit.edu>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v9 01/13] x86/resctrl: Rename and move rdt files to new
- directory
-Message-ID: <20181123114102.GB130228@gmail.com>
-References: <20181121202811.4492-1-babu.moger@amd.com>
- <20181121202811.4492-2-babu.moger@amd.com>
- <20181123072839.GA51597@gmail.com>
- <20181123082258.GA30697@zn.tnic>
- <20181123084117.GA130228@gmail.com>
- <20181123090011.GB30697@zn.tnic>
+        id S2409827AbeKWXYB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Nov 2018 18:24:01 -0500
+Received: from smtprelay.synopsys.com ([198.182.60.111]:37718 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405500AbeKWXYB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Nov 2018 18:24:01 -0500
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id A019010C1711;
+        Fri, 23 Nov 2018 04:39:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1542976797; bh=xP3QFyP7v2cNaTc7zxlwMAMA0uGAVbTjTOIkTNecqCE=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
+        b=aegsflHwkohHqGhNmJVAj4oczMYyLydOvs4aZiBPepBbMvkXYgitwtAZ/fm6H3DLX
+         h6xAhk6FX7XscLTH0tkbuaFmmBy5usjDEyQVZsQvxE4Tyhtkd7aPi7mWHyRul7UYvZ
+         hdT7RHJszLRYAYFi5VJ4KjRkS2opWPoncIwuTty5n06Pv16QdbB1LxNM7BNg8PlxR7
+         zKw03r7zFJss9UnZoW9g0YtIUjdfG1iuLyZHQb+0apBnQH5A8Dv9aWkBA4MnvUMgoe
+         GZEb02Zey2ikVxKQFFo9zNIO1GHG0C+8l7t0jebi3XszTfOIp+EYfYSMoXdkkpJUNz
+         6sV/LbSX92VFg==
+Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 15581553A;
+        Fri, 23 Nov 2018 04:39:55 -0800 (PST)
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Fri, 23 Nov 2018 04:39:54 -0800
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ DE02WEHTCB.internal.synopsys.com (10.225.19.94) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Fri, 23 Nov 2018 13:39:52 +0100
+Received: from [10.0.2.15] (10.107.19.142) by DE02WEHTCA.internal.synopsys.com
+ (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.408.0; Fri, 23 Nov
+ 2018 13:39:52 +0100
+Subject: Re: [PATCH] i3c: master: dw: split dw-i3c-master.c into master and
+ bus specific parts
+To:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        Vitor Soares <vitor.soares@synopsys.com>
+CC:     <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <gregkh@linuxfoundation.org>,
+        <arnd@arndb.de>, <psroka@cadence.com>, <agolec@cadence.com>,
+        <adouglas@cadence.com>, <bfolta@cadence.com>, <dkos@cadence.com>,
+        <alicja@cadence.com>, <cwronka@cadence.com>, <sureshp@cadence.com>,
+        <rafalc@cadence.com>, <thomas.petazzoni@bootlin.com>, <nm@ti.com>,
+        <robh+dt@kernel.org>, <pawel.moll@arm.com>, <mark.rutland@arm.com>,
+        <ijc+devicetree@hellion.org.uk>, <galak@codeaurora.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <geert@linux-m68k.org>, <linus.walleij@linaro.org>,
+        <Xiang.Lin@synaptics.com>, <linux-gpio@vger.kernel.org>,
+        <nsekhar@ti.com>, <pgaj@cadence.com>, <peda@axentia.se>,
+        <mshettel@codeaurora.org>, <swboyd@chromium.org>,
+        <joao.pinto@synopsys.com>
+References: <ade2c1a8d1eb48681b01ccdc9bed22caf5e96c4b.1542904564.git.soares@synopsys.com>
+ <20181122210202.6af50fcc@bbrezillon>
+From:   vitor <vitor.soares@synopsys.com>
+Message-ID: <6d513e04-3a57-1989-429c-64631101c5a2@synopsys.com>
+Date:   Fri, 23 Nov 2018 12:39:31 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181123090011.GB30697@zn.tnic>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20181122210202.6af50fcc@bbrezillon>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.107.19.142]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Boris,
 
-* Borislav Petkov <bp@alien8.de> wrote:
 
-> On Fri, Nov 23, 2018 at 09:41:17AM +0100, Ingo Molnar wrote:
-> > Then at least make the directory name resource_control/, which is only 
-> > marginally longer and a lot more readable.
-> > 
-> > We really don't have to fit directly names into the 8 character DOS limit 
-> > anymore. ;-)
-> 
-> How about
-> 
-> resource_ctl
-> 
-> ?
+On 22/11/18 20:02, Boris Brezillon wrote:
+> On Thu, 22 Nov 2018 17:54:54 +0000
+> Vitor Soares <vitor.soares@synopsys.com> wrote:
+>
+>> From: Vitor Soares <soares@synopsys.com>
+>>
+>> This patch slipts dw-i3c-master.c into three pieces:
+>> 	dw-i3c-master.c - contains the code that interacts directly with the
+>> 	core in master mode.
+>>
+>> 	dw-i3c-platdrv.c - contains the code specific to the platform driver.
+>>
+>> 	dw-i3c-core.h - contains the definitions and declarations shared by
+>> 	dw-i3c-master and dw-i3c-platdrv
+>>
+>> This patch will allow SOC integrators to add their code specific to
+>> DesignWare I3C IP.
+> Isn't it too early to do this change? Can't we wait until we have a SoC
+> that actually embeds this IP?
 
-The thing is, thinking about this as a 'CPU resource' is really a 
-misnomer on the conceptual level, which is why it's bothering me: RDT is 
-not really about 'CPU resources', because registers are CPU resources, 
-ioports and iomem are CPU resources, APICs are CPU resources and PMU 
-events are resources - none of which is part of RDT.
 
-The key difference in RDT is that they are *shared* resources - caches 
-really - where the ad-hoc cache sharing might be causing security and 
-scalability problems so there's partitioning and throttling (bandwidth 
-control) support in the hardware.
+I'm trying to turn it more flexible so the other can reuse the code.
 
-Is there any other resource handled than caches by RDT or by the AMD 
-variant?
 
-So how about "cache_control"? It's shorter and a lot closer to what the 
-code actually does.
+>
+>> Signed-off-by: Vitor Soares <soares@synopsys.com>
+>> ---
+>>   drivers/i3c/master/Kconfig          |   9 +-
+>>   drivers/i3c/master/Makefile         |   5 +-
+>>   drivers/i3c/master/dw-i3c-core.h    | 214 ++++++++++++++++++++++++++
+>>   drivers/i3c/master/dw-i3c-master.c  | 299 ++----------------------------------
+>>   drivers/i3c/master/dw-i3c-platdrv.c | 112 ++++++++++++++
+> I'd prefer to have a dw/ subdir where you'd place all dw files.
 
-> resource_control/ is kinda long-ish and the other names we have there
-> are nice and short, see below.
-> 
-> BTW, while we're talking renaming, I have a patch which renames the MCE
-> pile and am planning to slap it in around -rc6 timeframe since we don't
-> have a lot of RAS commits this time around, see also the end of this
-> mail. It makes the naming there all nicely regular. :)
 
-That's cool - these IMHO need to be done periodically to keep overall 
-namespace complexity low enough. (As long as can be done without breaking 
-any ABI that is.)
+Sure. I will change to this:
 
->  15 files changed, 14 insertions(+), 14 deletions(-)
->  rename arch/x86/kernel/cpu/{mcheck => mce}/Makefile (52%)
->  rename arch/x86/kernel/cpu/{mcheck/mce_amd.c => mce/amd.c} (99%)
->  rename arch/x86/kernel/cpu/{mcheck/mce-apei.c => mce/apei.c} (99%)
->  rename arch/x86/kernel/cpu/{mcheck/mce.c => mce/core.c} (99%)
->  rename arch/x86/kernel/cpu/{mcheck => mce}/dev-mcelog.c (99%)
->  rename arch/x86/kernel/cpu/{mcheck/mce-genpool.c => mce/genpool.c} (99%)
->  rename arch/x86/kernel/cpu/{mcheck/mce-inject.c => mce/inject.c} (99%)
->  rename arch/x86/kernel/cpu/{mcheck/mce_intel.c => mce/intel.c} (99%)
->  rename arch/x86/kernel/cpu/{mcheck/mce-internal.h => mce/internal.h} (100%)
->  rename arch/x86/kernel/cpu/{mcheck => mce}/p5.c (100%)
->  rename arch/x86/kernel/cpu/{mcheck/mce-severity.c => mce/severity.c} (99%)
->  rename arch/x86/kernel/cpu/{mcheck => mce}/therm_throt.c (100%)
->  rename arch/x86/kernel/cpu/{mcheck => mce}/threshold.c (100%)
->  rename arch/x86/kernel/cpu/{mcheck => mce}/winchip.c (100%)
+../dwc
+    |-core.h
+    |-master.c
+    |-platdrv.c
 
-Standardizing around 'MCE' sounds good to me!
 
-Thanks,
+so the user doesn't need to write dw-i3c.. several times. The folder 
+name is the same as for other subsystem (e.g. PCI).
 
-	Ingo
+What do you think?
+
+>
+>>   5 files changed, 349 insertions(+), 290 deletions(-)
+>>   create mode 100644 drivers/i3c/master/dw-i3c-core.h
+>>   create mode 100644 drivers/i3c/master/dw-i3c-platdrv.c
+>>
+>> diff --git a/drivers/i3c/master/Kconfig b/drivers/i3c/master/Kconfig
+>> index 8ee1ce6..fdc6e46 100644
+>> --- a/drivers/i3c/master/Kconfig
+>> +++ b/drivers/i3c/master/Kconfig
+>> @@ -5,9 +5,14 @@ config CDNS_I3C_MASTER
+>>   	help
+>>   	  Enable this driver if you want to support Cadence I3C master block.
+>>   
+>> -config DW_I3C_MASTER
+>> -	tristate "Synospsys DesignWare I3C master driver"
+>> +config DW_I3C_CORE
+>> +	tristate
+>> +
+>> +config DW_I3C_PLATFORM
+>> +	tristate "Synospsys DesignWare I3C Platform driver"
+>> +	select DW_I3C_CORE
+>>   	depends on I3C
+>> +	depends on HAS_IOMEM
+>>   	depends on !(ALPHA || PARISC)
+>>   	# ALPHA and PARISC needs {read,write}sl()
+>>   	help
+>> diff --git a/drivers/i3c/master/Makefile b/drivers/i3c/master/Makefile
+>> index fc53939..004ad1c 100644
+>> --- a/drivers/i3c/master/Makefile
+>> +++ b/drivers/i3c/master/Makefile
+>> @@ -1,2 +1,5 @@
+>>   obj-$(CONFIG_CDNS_I3C_MASTER)		+= i3c-master-cdns.o
+>> -obj-$(CONFIG_DW_I3C_MASTER)		+= dw-i3c-master.o
+>> +obj-$(CONFIG_DW_I3C_CORE)		+= dw-i3c-core.o
+>> +dw-i3c-core-objs			:= dw-i3c-master.o
+>> +obj-$(CONFIG_DW_I3C_PLATFORM)		+= dw-i3c-platform.o
+>> +dw-i3c-platform-objs			:= dw-i3c-platdrv.o
+> Do we really have to create one module for the core and one per SoC?
+> Can't we have everything in the same .ko?
+
+
+This will help the introduction of new modules. The design in my mind is 
+to have:
+
+-core.h
+
+-common.c
+
+-master.c
+
+-slave.c
+
+...
+
+I'm not sure if make sense to change core.h to common.h.
+
+
+
+Thaks for your feedback.
+
+
+Best regards,
+
+Vitor Soares
+
