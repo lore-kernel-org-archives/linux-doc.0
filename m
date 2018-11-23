@@ -1,184 +1,155 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,URIBL_SBL,
-	URIBL_SBL_A autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-1.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3F8177D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Nov 2018 05:04:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0036D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Nov 2018 07:28:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408173AbeKWPqt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Nov 2018 10:46:49 -0500
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:50187 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2408172AbeKWPqt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Nov 2018 10:46:49 -0500
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id wAN53lcb001007;
-        Fri, 23 Nov 2018 14:03:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com wAN53lcb001007
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1542949428;
-        bh=rjSEgBVNK/gpelsn4q8187smIXI2eDzmxWKFg5to3H4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=P6mlD+MdlyhLZ1OM1gxjCAOhGaVpnhLkbRQo0k7JJdxcN4j4DLfTsCSbqeuOXmpwl
-         n4OPM6pcZOtH4N42nCr81KHV+oSPMAZfo6UllwL4GPLa0cTkHyqBXO3ZwfVYN+NlkV
-         tYuIH4ucrVHhAVMWLVrkUDKLP4NOf7umRYtLr0l/2jda+pgC/X0WhUjpZz8lFjQjEZ
-         tD7bxBtqa9TgqhtMT1KFJjkNBeLb+Es/mxefHhEX+Bu3nm2KFU3LizZeBEeQakbRM3
-         i7JOMQ8sZp2QSN3YLtGufLeHMX+RVPTk8BxEPltI0Nk1XFcIliRDEnRIx5e2m02VqX
-         YhPJXpqHoJReA==
-X-Nifty-SrcIP: [209.85.221.178]
-Received: by mail-vk1-f178.google.com with SMTP id t132so1654498vkc.3;
-        Thu, 22 Nov 2018 21:03:47 -0800 (PST)
-X-Gm-Message-State: AA+aEWYYiaIEdYy6cvMiJrY6xudlurad3E+N6obApVNjllo5UujJvqtR
-        cm0R19LvMjzfXNnZVhKG1BI5RRymSeIPPK6Zrhk=
-X-Google-Smtp-Source: AFSGD/UJSYNPs+BElJXNjor+NE3elV3Y2NPKWaW4yyhMfTnHAPk0tWLtZpU6VWp+oXjPLkIff/KeebBqmaEw6R9UwqI=
-X-Received: by 2002:a1f:5e47:: with SMTP id s68mr5416332vkb.64.1542949426569;
- Thu, 22 Nov 2018 21:03:46 -0800 (PST)
+        id S2390035AbeKWSLq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Nov 2018 13:11:46 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:36456 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731518AbeKWSLq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Nov 2018 13:11:46 -0500
+Received: by mail-wr1-f65.google.com with SMTP id t3so11312388wrr.3;
+        Thu, 22 Nov 2018 23:28:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=wC5ZqndZQIxNUggB3kL/Xa14uyqtAP7NRLqGuJMPh/U=;
+        b=ZX/GzxTfL8jPQm1hFB+I93oi7CY4NaDOfbbv2dB11cZrLq9BmwA1HKMMLtUF0TDDSX
+         nP1Se6KDoE47B4q7WlasRa7W7vUxfUoKiKsF9ScBxsv8tinZiy0nLcIQ9PKAnRpCddws
+         WpNs0t4D4UAVqINMfcSl3rsnFYxyNnwlASxf/MSCSun04yQylv51ah+QDa9HXics1XmP
+         9cmHBWMKzpGm4SlRMzHop5cTVqmmfzn4fxajm9yY8mVXcxrQl/wmUGfpAH9LlgUQ6mkU
+         eAGDRJ9Ha8aU+V0XRseaegqn7hh5mPFRjr9mnQg6d7RdcEkQFyv8nYfaYDEPxsF0vLZI
+         HufA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=wC5ZqndZQIxNUggB3kL/Xa14uyqtAP7NRLqGuJMPh/U=;
+        b=WibSay21qhssy89Fj5Rt1iORdm+EXmFS9TYIszU+xyL1O9sIE2lyYaI2gyCgLS7PNM
+         xVLtefdQMt9LC/HkZKwiqWPdf0jl6N5wf3Idp/53PeC+Dx5iYRbnqDos+2qWbTBJMTw/
+         XihJWWryg9RB4FIGWQM79EETe2YQ+fEvquihjQ6ieyFi4/QpOLczZdI1r+8pp5FauOsg
+         fETTXvCqIn2zJiSLNmFHknCyQOw2XYgFYApOvrjhphfMzCrsPofRzWfQNxyfmL6WiB+p
+         Ntq43yjVwxJnBDLPIP5hNxsERACiYogMZTqJvBqaQSoa+BCCaPGRIygaxdDpw89uGZn+
+         oRxw==
+X-Gm-Message-State: AA+aEWZa0Bo2LOyB0H82YoYoayxNBDjrZkVTu5JEOTKu89VxqxV0vZoS
+        7Y/INnMdZFhFxo1MTr9+Npc=
+X-Google-Smtp-Source: AFSGD/VbjYRhr+uCybNwHRMQoxXusILHHTUjWyQsm+/VDfAjUySw+uSXTqbyPoW5O0Kj2P5N+giXBA==
+X-Received: by 2002:adf:e509:: with SMTP id j9mr13255140wrm.76.1542958123064;
+        Thu, 22 Nov 2018 23:28:43 -0800 (PST)
+Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
+        by smtp.gmail.com with ESMTPSA id w18sm14536391wru.54.2018.11.22.23.28.41
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 22 Nov 2018 23:28:42 -0800 (PST)
+Date:   Fri, 23 Nov 2018 08:28:39 +0100
+From:   Ingo Molnar <mingo@kernel.org>
+To:     "Moger, Babu" <Babu.Moger@amd.com>
+Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>,
+        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
+        "pombredanne@nexb.com" <pombredanne@nexb.com>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
+        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Singh, Brijesh" <brijesh.singh@amd.com>,
+        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
+        "dwmw2@infradead.org" <dwmw2@infradead.org>,
+        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "rian@alum.mit.edu" <rian@alum.mit.edu>,
+        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v9 01/13] x86/resctrl: Rename and move rdt files to new
+ directory
+Message-ID: <20181123072839.GA51597@gmail.com>
+References: <20181121202811.4492-1-babu.moger@amd.com>
+ <20181121202811.4492-2-babu.moger@amd.com>
 MIME-Version: 1.0
-References: <1542726258-8418-1-git-send-email-yamada.masahiro@socionext.com> <20181120162543.GB4765@roeck-us.net>
-In-Reply-To: <20181120162543.GB4765@roeck-us.net>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Fri, 23 Nov 2018 14:03:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARSR6nHxusgBUn3BGPSN2KTYu0YdVQWfX-oDKm9ucvTXg@mail.gmail.com>
-Message-ID: <CAK7LNARSR6nHxusgBUn3BGPSN2KTYu0YdVQWfX-oDKm9ucvTXg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: announce removal of SUBDIRS if used
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        =?UTF-8?B?TWFyZWsgVmHFoXV0?= <marek.vasut@gmail.com>,
-        linux-watchdog@vger.kernel.org, wim@linux-watchdog.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        jim.cromie@gmail.com, Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Brian Norris <computersforpeace@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        linux-mtd <linux-mtd@lists.infradead.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Boris Brezillon <boris.brezillon@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181121202811.4492-2-babu.moger@amd.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 21, 2018 at 1:25 AM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On Wed, Nov 21, 2018 at 12:04:18AM +0900, Masahiro Yamada wrote:
-> > SUBDIRS has been kept as a backward compatibility since
-> > commit ("[PATCH] kbuild: external module support") in 2002.
-> >
-> > We do not need multiple ways to do the same thing, so I will remove
-> > SUBDIRS after the Linux 5.3 release. I cleaned up in-tree code, and
-> > updated the document so that nobody would try to use it.
-> >
-> > Meanwhile, display the following warning if SUBDIRS is used.
-> >
-> > Makefile:189: ================= WARNING ================
-> > Makefile:190: 'SUBDIRS' will be removed after Linux 5.3
-> > Makefile:191: Please use 'M=' or 'KBUILD_EXTMOD' instead
-> > Makefile:192: ==========================================
-> >
-> > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> > ---
 
-Applied to linux-kbuild.
+* Moger, Babu <Babu.Moger@amd.com> wrote:
 
+> New generation of AMD processors start supporting RDT(or QOS)
+> features. Together these features will be called as RESCTRL.
+> With more than one vendors supporting these features, it seems
+> more appropriate to rename these files.
+> 
+> Create a new directory with the name 'resctrl' and move all the
+> intel_rdt files to the new directory. This way all the resctrl
+> related code resides inside one directory.
+> 
+> Suggested-by: Borislav Petkov <bp@suse.de>
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
+>  .../x86/include/asm/{intel_rdt_sched.h => resctrl_sched.h} | 0
+>  arch/x86/kernel/cpu/Makefile                               | 5 +----
+>  arch/x86/kernel/cpu/resctrl/Makefile                       | 7 +++++++
+>  arch/x86/kernel/cpu/{intel_rdt.c => resctrl/core.c}        | 4 ++--
+>  .../cpu/{intel_rdt_ctrlmondata.c => resctrl/ctrlmondata.c} | 2 +-
+>  arch/x86/kernel/cpu/{intel_rdt.h => resctrl/internal.h}    | 6 +++---
+>  .../kernel/cpu/{intel_rdt_monitor.c => resctrl/monitor.c}  | 2 +-
+>  .../cpu/{intel_rdt_pseudo_lock.c => resctrl/pseudo_lock.c} | 6 +++---
+>  .../pseudo_lock_event.h}                                   | 2 +-
+>  .../cpu/{intel_rdt_rdtgroup.c => resctrl/rdtgroup.c}       | 4 ++--
+>  arch/x86/kernel/process_32.c                               | 2 +-
+>  arch/x86/kernel/process_64.c                               | 2 +-
+>  12 files changed, 23 insertions(+), 19 deletions(-)
+>  rename arch/x86/include/asm/{intel_rdt_sched.h => resctrl_sched.h} (100%)
+>  create mode 100644 arch/x86/kernel/cpu/resctrl/Makefile
+>  rename arch/x86/kernel/cpu/{intel_rdt.c => resctrl/core.c} (99%)
+>  rename arch/x86/kernel/cpu/{intel_rdt_ctrlmondata.c => resctrl/ctrlmondata.c} (99%)
+>  rename arch/x86/kernel/cpu/{intel_rdt.h => resctrl/internal.h} (99%)
+>  rename arch/x86/kernel/cpu/{intel_rdt_monitor.c => resctrl/monitor.c} (99%)
+>  rename arch/x86/kernel/cpu/{intel_rdt_pseudo_lock.c => resctrl/pseudo_lock.c} (99%)
+>  rename arch/x86/kernel/cpu/{intel_rdt_pseudo_lock_event.h => resctrl/pseudo_lock_event.h} (95%)
+>  rename arch/x86/kernel/cpu/{intel_rdt_rdtgroup.c => resctrl/rdtgroup.c} (99%)
 
+Ugh, violent NAK on this unreadable directory naming: 'resctrl' is an 
+ugly double/triple abbreviation that nobody recognizes for what it is to 
+begin with, and even the long form 'resource control' is an overly 
+generic naming - *everything* the kernel does is in essence 'resource 
+control' ...
 
-> >  Documentation/kbuild/kbuild.txt    | 7 +------
-> >  Makefile                           | 4 ++++
-> >  drivers/mtd/maps/scx200_docflash.c | 7 -------
-> >  drivers/watchdog/scx200_wdt.c      | 7 -------
->
-> For watchdog:
->
-> Acked-by: Guenter Roeck <linux@roeck-us.net>
->
-> >  samples/connector/Makefile         | 2 +-
-> >  5 files changed, 6 insertions(+), 21 deletions(-)
-> >
-> > diff --git a/Documentation/kbuild/kbuild.txt b/Documentation/kbuild/kbuild.txt
-> > index 8390c36..c9e3d93 100644
-> > --- a/Documentation/kbuild/kbuild.txt
-> > +++ b/Documentation/kbuild/kbuild.txt
-> > @@ -81,12 +81,7 @@ KBUILD_EXTMOD
-> >  --------------------------------------------------
-> >  Set the directory to look for the kernel source when building external
-> >  modules.
-> > -The directory can be specified in several ways:
-> > -1) Use "M=..." on the command line
-> > -2) Environment variable KBUILD_EXTMOD
-> > -3) Environment variable SUBDIRS
-> > -The possibilities are listed in the order they take precedence.
-> > -Using "M=..." will always override the others.
-> > +Setting "M=..." takes precedence over KBUILD_EXTMOD.
-> >
-> >  KBUILD_OUTPUT
-> >  --------------------------------------------------
-> > diff --git a/Makefile b/Makefile
-> > index 370d13b..57be5fb 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -186,6 +186,10 @@ endif
-> >  # Old syntax make ... SUBDIRS=$PWD is still supported
-> >  # Setting the environment variable KBUILD_EXTMOD take precedence
-> >  ifdef SUBDIRS
-> > +  $(warning ================= WARNING ================)
-> > +  $(warning 'SUBDIRS' will be removed after Linux 5.3)
-> > +  $(warning Please use 'M=' or 'KBUILD_EXTMOD' instead)
-> > +  $(warning ==========================================)
-> >    KBUILD_EXTMOD ?= $(SUBDIRS)
-> >  endif
-> >
-> > diff --git a/drivers/mtd/maps/scx200_docflash.c b/drivers/mtd/maps/scx200_docflash.c
-> > index f1c1f73..7f1a0e6 100644
-> > --- a/drivers/mtd/maps/scx200_docflash.c
-> > +++ b/drivers/mtd/maps/scx200_docflash.c
-> > @@ -216,10 +216,3 @@ static void __exit cleanup_scx200_docflash(void)
-> >
-> >  module_init(init_scx200_docflash);
-> >  module_exit(cleanup_scx200_docflash);
-> > -
-> > -/*
-> > -    Local variables:
-> > -        compile-command: "make -k -C ../../.. SUBDIRS=drivers/mtd/maps modules"
-> > -        c-basic-offset: 8
-> > -    End:
-> > -*/
-> > diff --git a/drivers/watchdog/scx200_wdt.c b/drivers/watchdog/scx200_wdt.c
-> > index 836377c..ec4063e 100644
-> > --- a/drivers/watchdog/scx200_wdt.c
-> > +++ b/drivers/watchdog/scx200_wdt.c
-> > @@ -262,10 +262,3 @@ static void __exit scx200_wdt_cleanup(void)
-> >
-> >  module_init(scx200_wdt_init);
-> >  module_exit(scx200_wdt_cleanup);
-> > -
-> > -/*
-> > -    Local variables:
-> > -     compile-command: "make -k -C ../.. SUBDIRS=drivers/char modules"
-> > -     c-basic-offset: 8
-> > -    End:
-> > -*/
-> > diff --git a/samples/connector/Makefile b/samples/connector/Makefile
-> > index fe3c854..6ad7162 100644
-> > --- a/samples/connector/Makefile
-> > +++ b/samples/connector/Makefile
-> > @@ -14,4 +14,4 @@ HOSTCFLAGS_ucon.o += -I$(objtree)/usr/include
-> >  all: modules
-> >
-> >  modules clean:
-> > -     $(MAKE) -C ../.. SUBDIRS=$(CURDIR) $@
-> > +     $(MAKE) -C ../.. M=$(CURDIR) $@
-> > --
-> > 2.7.4
-> >
+So please find some better name and standardize the namespace around it. 
+A couple of suggestions:
 
+ -    'Hardware Quality of Service', i.e. HW_QOS, hw_qos
+ - or 'CPU bandwidth control',       i.e. CPU_BW, cpu_bw
+ - or 'Hardware Bandwidth Control',  i.e. HW_BW,  hw_bw
 
+etc.
 
--- 
-Best Regards
-Masahiro Yamada
+Thanks,
+
+	ngo
