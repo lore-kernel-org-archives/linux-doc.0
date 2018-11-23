@@ -1,98 +1,125 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8E6877D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Nov 2018 13:41:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4F63E7D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Nov 2018 16:38:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2410054AbeKXA0C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Nov 2018 19:26:02 -0500
-Received: from mx2.suse.de ([195.135.220.15]:44478 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2410047AbeKXA0C (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Nov 2018 19:26:02 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 0B473AD24;
-        Fri, 23 Nov 2018 13:41:45 +0000 (UTC)
-Subject: Re: [PATCH v2 4/8] xen/balloon: mark inflated pages PG_offline
-To:     David Hildenbrand <david@redhat.com>, linux-mm@kvack.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        devel@linuxdriverproject.org, linux-fsdevel@vger.kernel.org,
-        linux-pm@vger.kernel.org, xen-devel@lists.xenproject.org,
-        kexec-ml <kexec@lists.infradead.org>, pv-drivers@vmware.com,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>
-References: <20181122100627.5189-1-david@redhat.com>
- <20181122100627.5189-5-david@redhat.com>
-From:   Juergen Gross <jgross@suse.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jgross@suse.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <3d5250b7-870e-e702-a6e4-937d2362fea4@suse.com>
-Date:   Fri, 23 Nov 2018 14:41:43 +0100
+        id S1732180AbeKXDXu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Nov 2018 22:23:50 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:45626 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730360AbeKXDXt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Nov 2018 22:23:49 -0500
+Received: by mail-pg1-f196.google.com with SMTP id y4so3266740pgc.12;
+        Fri, 23 Nov 2018 08:38:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=59K0zcHDoiq8CsenLJw3lP0RJrvRo4671nFFiCTE7NY=;
+        b=MuaqHBQJa3cNUIBvEPKhj6cRnbi0Cz6Y9fE8uM1QNRIn3BbtCLf71J9ovR1rHu7aMG
+         Bn5kfpLFcBYtt8ANPz2ZWOn5Kq7aJlNass0OkzlneuJM/H1fqLzjliKif/zObqSl/PvL
+         /vGIYc6u0//mhCkZL6d+wehj4rzgzbdP6MhLLzS6LhesOLx7nekLCHSEZui6ceR/7DaL
+         o+4l0edtdIDKbypQQjA/c7pWZNbM2B6cCPBl+Baf0x3v78iIJFkJeN+rZ15ZGkNI3Vl9
+         FrWcVRZAeti9rSw8sF6NnrdUuCMX0QaC6mBd9XHejwcBih9tINxWvMGRsyYR/MCH/Wr5
+         dYkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=59K0zcHDoiq8CsenLJw3lP0RJrvRo4671nFFiCTE7NY=;
+        b=D7i5pvdb/ue0fs1n0fBKJ/Xf0czzfRO2Y+WxHzeaaSPRSLSr+wFx8W+vTNk4bAmEmK
+         fWk99CnVeIJbV/nZs5L7BQpYHYLt1JHUmNRaSOQQ4lQtRitDoFcua0u1SF9M6xNvHqyo
+         AiJ0i5/BeJvxt8cAG1cNtUOJOA5AOoSk1Sbgvc7AgPktRoJV490nsNDD76QKSWIfe+wZ
+         iD604PoKoSP7L3u4d5EqXqfe8wwxpy43+DgmrQ3Zbv/z/66iv69wxmbEbpOD62hAKFYJ
+         zPg6llG9R9oVxiB3sW4qtlCJqk7De/rnfyxJAhC/nZmYHSqrvZBmgYM4n55ICa5wIRq0
+         LLVg==
+X-Gm-Message-State: AA+aEWbnrxlJOr4wilFkiJ19ju3VmNJdl47f9m9Be3w2F9ToIt7k97tp
+        IPFS8IQawqWOtxT6pEcTNzFXyIOP
+X-Google-Smtp-Source: AFSGD/UJqT9CIz1m5X279R07bmHAJbNX8QlJ711oqyE2izvBMtJme9UA4mrU6GEyW4Z3BfaU/h18ew==
+X-Received: by 2002:a63:7044:: with SMTP id a4mr14420439pgn.359.1542991132230;
+        Fri, 23 Nov 2018 08:38:52 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id l72-v6sm62604224pfi.149.2018.11.23.08.38.51
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 23 Nov 2018 08:38:51 -0800 (PST)
+Subject: Re: [PATCH] hwmon (ina3221) Add single-shot mode support
+To:     Nicolin Chen <nicoleotsuka@gmail.com>
+Cc:     jdelvare@suse.com, linux-hwmon@vger.kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+References: <20181113042353.1507-1-nicoleotsuka@gmail.com>
+ <20181113043248.GB11205@roeck-us.net>
+ <20181113045823.GB26327@Asurada-Nvidia.nvidia.com>
+ <20181113172102.GA21714@roeck-us.net>
+ <20181114001141.GA14925@Asurada-Nvidia.nvidia.com>
+ <20181114172330.GA25592@roeck-us.net>
+ <20181117015131.GA10407@Asurada-Nvidia.nvidia.com>
+ <20181119174559.GC27435@roeck-us.net>
+ <20181119221842.GA26382@Asurada-Nvidia.nvidia.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <b1a34c68-d5e3-9a6f-67b1-6b6d2332f1c6@roeck-us.net>
+Date:   Fri, 23 Nov 2018 08:38:50 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <20181122100627.5189-5-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: de-DE
+In-Reply-To: <20181119221842.GA26382@Asurada-Nvidia.nvidia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 22/11/2018 11:06, David Hildenbrand wrote:
-> Mark inflated and never onlined pages PG_offline, to tell the world that
-> the content is stale and should not be dumped.
+On 11/19/18 2:18 PM, Nicolin Chen wrote:
+> On Mon, Nov 19, 2018 at 09:45:59AM -0800, Guenter Roeck wrote:
+>>> In short, other than exposing it via a generic ABI to the user
+>>> space, how about defining some policy to maintaining it within
+>>> the driver?
 > 
-> Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-> Cc: Juergen Gross <jgross@suse.com>
-> Cc: Stefano Stabellini <sstabellini@kernel.org>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Matthew Wilcox <willy@infradead.org>
-> Cc: Michal Hocko <mhocko@suse.com>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> I think that would be a bad idea. It changes timing for everyone
+>> curently using the driver. It also effectively disables monitoring,
+>> which is the main purpose for using this chip (and other hardware
+>> monitoring chips). This is indeed a key difference between iio
+>> and hwmon - the main purpose of chips in the iio subsystem is to
+>> be able report data efficiently to user space, not hardware monitoring.
+>> I do not think it is appropriate to use iio requirements as argument
+>> to change hwmon driver behavior (and vice versa).
+> 
+> OK...what about setting a default mode via DT? I didn't expect it
+> to be possible until I found this existing solution. Though it is
+> still in an iio driver, I don't think this should be iio specific.
+> 
+>    commit 023e30fb0d3a3b9d6b8dc9e47590aa544d58a22f
+>    Author: Adriana Reus <adriana.reus@intel.com>
+>    Date:   Tue Nov 24 12:59:49 2015 +0200
+> 
+>      Documentation: devicetree: Add property for controlling power saving
+>                     mode for the us5182 als sensor
+> 
+>      Add a property to allow changing the default power-saving mode.
+>      By default, at read raw the chip will activate and provide
+>      one measurent, then it will shut itself down. However, the
+>      chip can also work in "continuous" mode which may be more reliable
+>      but is also more power consuming.
+> 
+>      Signed-off-by: Adriana Reus <adriana.reus@intel.com>
+>      Acked-by: Rob Herring <robh@kernel.org>
+>      Signed-off-by: Jonathan Cameron <jic23@kernel.org>
+> 
+> Would it be possible for me to apply a similar one? Since hwmon
+> driver uses continuous mode by default, I will add a "one-shot"
+> property instead of "continuous" -- all existing users won't be
+> effected unless they place one-shot properties in DT bindings.
+> 
 
-Reviewed-by: Juergen Gross <jgross@suse.com>
+I would accept such a patch, but it would for all practical purposes
+disable the monitoring of limits. Make sure that is well documented.
 
-
-Juergen
+Guenter
