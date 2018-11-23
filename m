@@ -1,55 +1,36 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6259E7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Nov 2018 08:41:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7324F7D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Nov 2018 09:00:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408671AbeKWTYj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Nov 2018 14:24:39 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:37160 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393776AbeKWTYi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Nov 2018 14:24:38 -0500
-Received: by mail-wr1-f65.google.com with SMTP id j10so11484857wru.4;
-        Fri, 23 Nov 2018 00:41:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=9ZSYLab7HY9XRC3GBGk1/q+DxHiRagL9mfUqeZT0uzM=;
-        b=hcRg1IaV0Z9lOZ9xCNh6/H2i0W8qaeykFNPnOzCKqsjSm4v7ycQVNsQMuDszZaUT5y
-         XfxFy3mijO9FxtD+XfaWYH+H54x3tCgDahsHKMyIdzRlxI4gP9Wc6G4K8354T4duoOWg
-         XJHszepvlsI1Bp33MY0EofFQD3HSEIl9U+7hLqcEGTE1KmMnA/SDr5kf8sM48FjIvFRF
-         eP2j9B9a4TYZF9lbYgZ8SsEQBpfeht1OmxpV5ipShivGezDUUWsRG1eeGTXPWpt0c87U
-         szPtP2+UvTlQoQW9l4nNkmbAroADuodklG+0j3g9ar8y8xYeilG+Aliaf94IMXdbtcNt
-         AbUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=9ZSYLab7HY9XRC3GBGk1/q+DxHiRagL9mfUqeZT0uzM=;
-        b=rG/OPP0HF1ykrl2VxvIvYaKyAX+2n4ylKg+nBUIRqdUS59KDOAk5OhdBw/t5tJK+BJ
-         PRCEc0Q8w4Qx/W+kBegIhset4dTmDYM7Kr6d+VlkXBrq3mBEym1SRXeKuAUuw+mDf0Ym
-         SSah15sl7rD2NCeJKwirc6l9mUpGKMc3Mc+c+YlWb3ToTWA3ZJt5Bk60ZZUE9KMYYEIu
-         W4XJr0RZqV4+hCKCZFrClf6a6skFLS1XzFTZg+wYhd2r4Veknb0OAG7Vvxw0l/O/RKMT
-         IaIjjhrD+Iv4ZfMqvEPpf2mMsFcKiWThLydjBnJVEj4K5vwt7amBak5eostU3snlZCC9
-         zhEA==
-X-Gm-Message-State: AA+aEWapz+sz8ovccw94qJptaB9/SYwpHc9LGpMf8mP3lraKeNNp9YbH
-        yDbiiOkcpeqqAJknKO3E4JM=
-X-Google-Smtp-Source: AFSGD/WNmCB7Fv+KnIYTSI5yYP4Z8KgpPkIz5o3V8aSizK9J1ojie+ZqhQYmHNrZomqvrxaBJrqgYw==
-X-Received: by 2002:adf:bb44:: with SMTP id x4mr13407472wrg.24.1542962481093;
-        Fri, 23 Nov 2018 00:41:21 -0800 (PST)
-Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
-        by smtp.gmail.com with ESMTPSA id c13sm17717467wrb.38.2018.11.23.00.41.19
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 23 Nov 2018 00:41:20 -0800 (PST)
-Date:   Fri, 23 Nov 2018 09:41:17 +0100
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Borislav Petkov <bp@alien8.de>
+        id S2502535AbeKWTnv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Nov 2018 14:43:51 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:56566 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2393693AbeKWTnv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Nov 2018 14:43:51 -0500
+Received: from zn.tnic (p200300EC2BDC9100898E5A1DF8FAB135.dip0.t-ipconnect.de [IPv6:2003:ec:2bdc:9100:898e:5a1d:f8fa:b135])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 460591EC09A0;
+        Fri, 23 Nov 2018 10:00:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1542963628;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=OADAj/SyzpVniib7Gx8mP4T9xOnDyTjwAOFOCkFomoE=;
+        b=kDMRQO88zDy+nJNk7yRJ0R26ioH8cKf5G30/9QkodY3lgxu4RJ2j4ObZZpnGqFMALq4g/D
+        X795zkFmxgr6Yx5fSTv1WTJt24BH+KzNkHFBCbtClcT473hoH3qzFfsIvig4nQTl/flMls
+        wa4gwkT2RbRAHuzEaqQjf4Eo5NgSEm0=
+Date:   Fri, 23 Nov 2018 10:00:11 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Ingo Molnar <mingo@kernel.org>
 Cc:     "Moger, Babu" <Babu.Moger@amd.com>,
         "tglx@linutronix.de" <tglx@linutronix.de>,
         "mingo@redhat.com" <mingo@redhat.com>,
@@ -85,68 +66,378 @@ Cc:     "Moger, Babu" <Babu.Moger@amd.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
 Subject: Re: [PATCH v9 01/13] x86/resctrl: Rename and move rdt files to new
  directory
-Message-ID: <20181123084117.GA130228@gmail.com>
+Message-ID: <20181123090011.GB30697@zn.tnic>
 References: <20181121202811.4492-1-babu.moger@amd.com>
  <20181121202811.4492-2-babu.moger@amd.com>
  <20181123072839.GA51597@gmail.com>
  <20181123082258.GA30697@zn.tnic>
+ <20181123084117.GA130228@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20181123082258.GA30697@zn.tnic>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20181123084117.GA130228@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-* Borislav Petkov <bp@alien8.de> wrote:
-
-> On Fri, Nov 23, 2018 at 08:28:39AM +0100, Ingo Molnar wrote:
-> > Ugh, violent NAK on this unreadable directory naming: 'resctrl' is an 
-> > ugly double/triple abbreviation that nobody recognizes for what it is to 
-> > begin with, and even the long form 'resource control' is an overly 
-> > generic naming - *everything* the kernel does is in essence 'resource 
-> > control' ...
+On Fri, Nov 23, 2018 at 09:41:17AM +0100, Ingo Molnar wrote:
+> Then at least make the directory name resource_control/, which is only 
+> marginally longer and a lot more readable.
 > 
-> Well, the fs this thing uses is called "resctrl".
-> 
-> Documentation/x86/resctrl_ui.txt:1075:the resctrl will still mount but cannot create CTRL_MON directories.
-> Documentation/x86/resctrl_ui.txt:1082:# mount -t resctrl resctrl /sys/fs/resctrl
-> Documentation/x86/resctrl_ui.txt:1083:# cd /sys/fs/resctrl
-> 
-> Are you saying that the fs should be renamed now too?
+> We really don't have to fit directly names into the 8 character DOS limit 
+> anymore. ;-)
 
-Sigh, probably not. I only noticed this naming snafu with the renaming 
-commit. The high level name was always RDT-ish - which while an acronym 
-is at least is a familiar high level name now with no obvious generic 
-namespace collision, while 'resctrl' less so.
+How about
 
-> How are those *abbreviations* better? "hw_bw" is especially cryptic and 
-> the others are no better.
+resource_ctl
 
-Those were suggestions - but I'd be fine with 'resource_control':
+?
 
-> "resctrl" to mean "resource control" is much better IMO.
+resource_control/ is kinda long-ish and the other names we have there
+are nice and short, see below.
 
-Then at least make the directory name resource_control/, which is only 
-marginally longer and a lot more readable.
+BTW, while we're talking renaming, I have a patch which renames the MCE
+pile and am planning to slap it in around -rc6 timeframe since we don't
+have a lot of RAS commits this time around, see also the end of this
+mail. It makes the naming there all nicely regular. :)
 
-We really don't have to fit directly names into the 8 character DOS limit 
-anymore. ;-)
+> Also, the Kconfig space, when it gets extended with the AMD bits, should 
+> probably follow the same nomenclature: CONFIG_X86_CPU_RESOURCE_CONTROL=y 
+> or such.
 
-> [...] And it is different from the "other" resource controlling the 
-> kernel does because it is under arch/x86/kernel/cpu/ which tells you it 
-> is a *CPU* resource control.
+Sure, I can do that together with the directory rename once we've agreed
+on the name.
 
-Yeah, so this is not obvious from the filesystem name, nor does it excuse 
-the pointless abbreviation.
+Thx.
 
-High level names matter.
+arch/x86/kernel/cpu/
+|-- amd.c
+|-- aperfmperf.c
+|-- bugs.c
+|-- cacheinfo.c
+|-- centaur.c
+|-- common.c
+|-- cpu.h
+|-- cpuid-deps.c
+|-- cyrix.c
+|-- hygon.c
+|-- hypervisor.c
+|-- intel.c
+|-- intel_pconfig.c
+|-- Makefile
+|-- match.c
+|-- mcheck
+|   |-- dev-mcelog.c
+|   |-- Makefile
+|   |-- mce_amd.c
+|   |-- mce-apei.c
+|   |-- mce.c
+|   |-- mce-genpool.c
+|   |-- mce-inject.c
+|   |-- mce_intel.c
+|   |-- mce-internal.h
+|   |-- mce-severity.c
+|   |-- p5.c
+|   |-- therm_throt.c
+|   |-- threshold.c
+|   `-- winchip.c
+|-- microcode
+|   |-- amd.c
+|   |-- core.c
+|   |-- intel.c
+|   `-- Makefile
+|-- mkcapflags.sh
+|-- mshyperv.c
+|-- mtrr
+|   |-- amd.c
+|   |-- centaur.c
+|   |-- cleanup.c
+|   |-- cyrix.c
+|   |-- generic.c
+|   |-- if.c
+|   |-- Makefile
+|   |-- mtrr.c
+|   `-- mtrr.h
+|-- perfctr-watchdog.c
+|-- powerflags.c
+|-- proc.c
+|-- rdrand.c
+|-- resctrl
+|   |-- core.c
+|   |-- ctrlmondata.c
+|   |-- internal.h
+|   |-- Makefile
+|   |-- monitor.c
+|   |-- pseudo_lock.c
+|   |-- pseudo_lock_event.h
+|   `-- rdtgroup.c
+|-- scattered.c
+|-- topology.c
+|-- transmeta.c
+|-- umc.c
+`-- vmware.c
 
-Also, the Kconfig space, when it gets extended with the AMD bits, should 
-probably follow the same nomenclature: CONFIG_X86_CPU_RESOURCE_CONTROL=y 
-or such.
+4 directories, 61 files
 
-	Ingo
+
+---
+From: Borislav Petkov <bp@suse.de>
+Date: Sun, 18 Nov 2018 15:15:05 +0100
+Subject: [PATCH] x86/mce: Streamline MCE subsystem's naming
+
+Rename the containing folder to "mce" which is the most widespread name.
+Drop the "mce[-_]" filename prefix of some compilation units (while
+others don't have it).
+
+This unifies the file naming in the MCE subsystem:
+
+mce/
+|-- amd.c
+|-- apei.c
+|-- core.c
+|-- dev-mcelog.c
+|-- genpool.c
+|-- inject.c
+|-- intel.c
+|-- internal.h
+|-- Makefile
+|-- p5.c
+|-- severity.c
+|-- therm_throt.c
+|-- threshold.c
+`-- winchip.c
+
+No functional changes.
+
+Signed-off-by: Borislav Petkov <bp@suse.de>
+---
+ arch/x86/kernel/cpu/Makefile                           |  2 +-
+ arch/x86/kernel/cpu/{mcheck => mce}/Makefile           | 10 +++++-----
+ arch/x86/kernel/cpu/{mcheck/mce_amd.c => mce/amd.c}    |  2 +-
+ arch/x86/kernel/cpu/{mcheck/mce-apei.c => mce/apei.c}  |  2 +-
+ arch/x86/kernel/cpu/{mcheck/mce.c => mce/core.c}       |  2 +-
+ arch/x86/kernel/cpu/{mcheck => mce}/dev-mcelog.c       |  2 +-
+ .../kernel/cpu/{mcheck/mce-genpool.c => mce/genpool.c} |  2 +-
+ .../kernel/cpu/{mcheck/mce-inject.c => mce/inject.c}   |  2 +-
+ .../x86/kernel/cpu/{mcheck/mce_intel.c => mce/intel.c} |  2 +-
+ .../cpu/{mcheck/mce-internal.h => mce/internal.h}      |  0
+ arch/x86/kernel/cpu/{mcheck => mce}/p5.c               |  0
+ .../cpu/{mcheck/mce-severity.c => mce/severity.c}      |  2 +-
+ arch/x86/kernel/cpu/{mcheck => mce}/therm_throt.c      |  0
+ arch/x86/kernel/cpu/{mcheck => mce}/threshold.c        |  0
+ arch/x86/kernel/cpu/{mcheck => mce}/winchip.c          |  0
+ 15 files changed, 14 insertions(+), 14 deletions(-)
+ rename arch/x86/kernel/cpu/{mcheck => mce}/Makefile (52%)
+ rename arch/x86/kernel/cpu/{mcheck/mce_amd.c => mce/amd.c} (99%)
+ rename arch/x86/kernel/cpu/{mcheck/mce-apei.c => mce/apei.c} (99%)
+ rename arch/x86/kernel/cpu/{mcheck/mce.c => mce/core.c} (99%)
+ rename arch/x86/kernel/cpu/{mcheck => mce}/dev-mcelog.c (99%)
+ rename arch/x86/kernel/cpu/{mcheck/mce-genpool.c => mce/genpool.c} (99%)
+ rename arch/x86/kernel/cpu/{mcheck/mce-inject.c => mce/inject.c} (99%)
+ rename arch/x86/kernel/cpu/{mcheck/mce_intel.c => mce/intel.c} (99%)
+ rename arch/x86/kernel/cpu/{mcheck/mce-internal.h => mce/internal.h} (100%)
+ rename arch/x86/kernel/cpu/{mcheck => mce}/p5.c (100%)
+ rename arch/x86/kernel/cpu/{mcheck/mce-severity.c => mce/severity.c} (99%)
+ rename arch/x86/kernel/cpu/{mcheck => mce}/therm_throt.c (100%)
+ rename arch/x86/kernel/cpu/{mcheck => mce}/threshold.c (100%)
+ rename arch/x86/kernel/cpu/{mcheck => mce}/winchip.c (100%)
+
+diff --git a/arch/x86/kernel/cpu/Makefile b/arch/x86/kernel/cpu/Makefile
+index 1f5d2291c31e..43afe707c6fb 100644
+--- a/arch/x86/kernel/cpu/Makefile
++++ b/arch/x86/kernel/cpu/Makefile
+@@ -40,7 +40,7 @@ obj-$(CONFIG_INTEL_RDT)	+= intel_rdt.o intel_rdt_rdtgroup.o intel_rdt_monitor.o
+ obj-$(CONFIG_INTEL_RDT)	+= intel_rdt_ctrlmondata.o intel_rdt_pseudo_lock.o
+ CFLAGS_intel_rdt_pseudo_lock.o = -I$(src)
+ 
+-obj-$(CONFIG_X86_MCE)			+= mcheck/
++obj-$(CONFIG_X86_MCE)			+= mce/
+ obj-$(CONFIG_MTRR)			+= mtrr/
+ obj-$(CONFIG_MICROCODE)			+= microcode/
+ 
+diff --git a/arch/x86/kernel/cpu/mcheck/Makefile b/arch/x86/kernel/cpu/mce/Makefile
+similarity index 52%
+rename from arch/x86/kernel/cpu/mcheck/Makefile
+rename to arch/x86/kernel/cpu/mce/Makefile
+index bcc7c54c7041..765759765ab7 100644
+--- a/arch/x86/kernel/cpu/mcheck/Makefile
++++ b/arch/x86/kernel/cpu/mce/Makefile
+@@ -1,14 +1,14 @@
+ # SPDX-License-Identifier: GPL-2.0
+-obj-y				=  mce.o mce-severity.o mce-genpool.o
++obj-y				=  core.o severity.o genpool.o
+ 
+ obj-$(CONFIG_X86_ANCIENT_MCE)	+= winchip.o p5.o
+-obj-$(CONFIG_X86_MCE_INTEL)	+= mce_intel.o
+-obj-$(CONFIG_X86_MCE_AMD)	+= mce_amd.o
++obj-$(CONFIG_X86_MCE_INTEL)	+= intel.o
++obj-$(CONFIG_X86_MCE_AMD)	+= amd.o
+ obj-$(CONFIG_X86_MCE_THRESHOLD) += threshold.o
+-obj-$(CONFIG_X86_MCE_INJECT)	+= mce-inject.o
++obj-$(CONFIG_X86_MCE_INJECT)	+= inject.o
+ 
+ obj-$(CONFIG_X86_THERMAL_VECTOR) += therm_throt.o
+ 
+-obj-$(CONFIG_ACPI_APEI)		+= mce-apei.o
++obj-$(CONFIG_ACPI_APEI)		+= apei.o
+ 
+ obj-$(CONFIG_X86_MCELOG_LEGACY)	+= dev-mcelog.o
+diff --git a/arch/x86/kernel/cpu/mcheck/mce_amd.c b/arch/x86/kernel/cpu/mce/amd.c
+similarity index 99%
+rename from arch/x86/kernel/cpu/mcheck/mce_amd.c
+rename to arch/x86/kernel/cpu/mce/amd.c
+index dd33c357548f..782bf1d2b102 100644
+--- a/arch/x86/kernel/cpu/mcheck/mce_amd.c
++++ b/arch/x86/kernel/cpu/mce/amd.c
+@@ -28,7 +28,7 @@
+ #include <asm/msr.h>
+ #include <asm/trace/irq_vectors.h>
+ 
+-#include "mce-internal.h"
++#include "internal.h"
+ 
+ #define NR_BLOCKS         5
+ #define THRESHOLD_MAX     0xFFF
+diff --git a/arch/x86/kernel/cpu/mcheck/mce-apei.c b/arch/x86/kernel/cpu/mce/apei.c
+similarity index 99%
+rename from arch/x86/kernel/cpu/mcheck/mce-apei.c
+rename to arch/x86/kernel/cpu/mce/apei.c
+index 2eee85379689..1d9b3ce662a0 100644
+--- a/arch/x86/kernel/cpu/mcheck/mce-apei.c
++++ b/arch/x86/kernel/cpu/mce/apei.c
+@@ -36,7 +36,7 @@
+ #include <acpi/ghes.h>
+ #include <asm/mce.h>
+ 
+-#include "mce-internal.h"
++#include "internal.h"
+ 
+ void apei_mce_report_mem_error(int severity, struct cper_sec_mem_err *mem_err)
+ {
+diff --git a/arch/x86/kernel/cpu/mcheck/mce.c b/arch/x86/kernel/cpu/mce/core.c
+similarity index 99%
+rename from arch/x86/kernel/cpu/mcheck/mce.c
+rename to arch/x86/kernel/cpu/mce/core.c
+index 8c66d2fc8f81..3b2f2d399d6c 100644
+--- a/arch/x86/kernel/cpu/mcheck/mce.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -52,7 +52,7 @@
+ #include <asm/msr.h>
+ #include <asm/reboot.h>
+ 
+-#include "mce-internal.h"
++#include "internal.h"
+ 
+ static DEFINE_MUTEX(mce_log_mutex);
+ 
+diff --git a/arch/x86/kernel/cpu/mcheck/dev-mcelog.c b/arch/x86/kernel/cpu/mce/dev-mcelog.c
+similarity index 99%
+rename from arch/x86/kernel/cpu/mcheck/dev-mcelog.c
+rename to arch/x86/kernel/cpu/mce/dev-mcelog.c
+index 27f394ac983f..41d9169d27fa 100644
+--- a/arch/x86/kernel/cpu/mcheck/dev-mcelog.c
++++ b/arch/x86/kernel/cpu/mce/dev-mcelog.c
+@@ -15,7 +15,7 @@
+ #include <linux/kmod.h>
+ #include <linux/poll.h>
+ 
+-#include "mce-internal.h"
++#include "internal.h"
+ 
+ static BLOCKING_NOTIFIER_HEAD(mce_injector_chain);
+ 
+diff --git a/arch/x86/kernel/cpu/mcheck/mce-genpool.c b/arch/x86/kernel/cpu/mce/genpool.c
+similarity index 99%
+rename from arch/x86/kernel/cpu/mcheck/mce-genpool.c
+rename to arch/x86/kernel/cpu/mce/genpool.c
+index 217cd4449bc9..3395549c51d3 100644
+--- a/arch/x86/kernel/cpu/mcheck/mce-genpool.c
++++ b/arch/x86/kernel/cpu/mce/genpool.c
+@@ -10,7 +10,7 @@
+ #include <linux/mm.h>
+ #include <linux/genalloc.h>
+ #include <linux/llist.h>
+-#include "mce-internal.h"
++#include "internal.h"
+ 
+ /*
+  * printk() is not safe in MCE context. This is a lock-less memory allocator
+diff --git a/arch/x86/kernel/cpu/mcheck/mce-inject.c b/arch/x86/kernel/cpu/mce/inject.c
+similarity index 99%
+rename from arch/x86/kernel/cpu/mcheck/mce-inject.c
+rename to arch/x86/kernel/cpu/mce/inject.c
+index 1fc424c40a31..8492ef7d9015 100644
+--- a/arch/x86/kernel/cpu/mcheck/mce-inject.c
++++ b/arch/x86/kernel/cpu/mce/inject.c
+@@ -38,7 +38,7 @@
+ #include <asm/nmi.h>
+ #include <asm/smp.h>
+ 
+-#include "mce-internal.h"
++#include "internal.h"
+ 
+ /*
+  * Collect all the MCi_XXX settings
+diff --git a/arch/x86/kernel/cpu/mcheck/mce_intel.c b/arch/x86/kernel/cpu/mce/intel.c
+similarity index 99%
+rename from arch/x86/kernel/cpu/mcheck/mce_intel.c
+rename to arch/x86/kernel/cpu/mce/intel.c
+index d05be307d081..e43eb6732630 100644
+--- a/arch/x86/kernel/cpu/mcheck/mce_intel.c
++++ b/arch/x86/kernel/cpu/mce/intel.c
+@@ -18,7 +18,7 @@
+ #include <asm/msr.h>
+ #include <asm/mce.h>
+ 
+-#include "mce-internal.h"
++#include "internal.h"
+ 
+ /*
+  * Support for Intel Correct Machine Check Interrupts. This allows
+diff --git a/arch/x86/kernel/cpu/mcheck/mce-internal.h b/arch/x86/kernel/cpu/mce/internal.h
+similarity index 100%
+rename from arch/x86/kernel/cpu/mcheck/mce-internal.h
+rename to arch/x86/kernel/cpu/mce/internal.h
+diff --git a/arch/x86/kernel/cpu/mcheck/p5.c b/arch/x86/kernel/cpu/mce/p5.c
+similarity index 100%
+rename from arch/x86/kernel/cpu/mcheck/p5.c
+rename to arch/x86/kernel/cpu/mce/p5.c
+diff --git a/arch/x86/kernel/cpu/mcheck/mce-severity.c b/arch/x86/kernel/cpu/mce/severity.c
+similarity index 99%
+rename from arch/x86/kernel/cpu/mcheck/mce-severity.c
+rename to arch/x86/kernel/cpu/mce/severity.c
+index 44396d521987..dc3e26e905a3 100644
+--- a/arch/x86/kernel/cpu/mcheck/mce-severity.c
++++ b/arch/x86/kernel/cpu/mce/severity.c
+@@ -16,7 +16,7 @@
+ #include <asm/mce.h>
+ #include <linux/uaccess.h>
+ 
+-#include "mce-internal.h"
++#include "internal.h"
+ 
+ /*
+  * Grade an mce by severity. In general the most severe ones are processed
+diff --git a/arch/x86/kernel/cpu/mcheck/therm_throt.c b/arch/x86/kernel/cpu/mce/therm_throt.c
+similarity index 100%
+rename from arch/x86/kernel/cpu/mcheck/therm_throt.c
+rename to arch/x86/kernel/cpu/mce/therm_throt.c
+diff --git a/arch/x86/kernel/cpu/mcheck/threshold.c b/arch/x86/kernel/cpu/mce/threshold.c
+similarity index 100%
+rename from arch/x86/kernel/cpu/mcheck/threshold.c
+rename to arch/x86/kernel/cpu/mce/threshold.c
+diff --git a/arch/x86/kernel/cpu/mcheck/winchip.c b/arch/x86/kernel/cpu/mce/winchip.c
+similarity index 100%
+rename from arch/x86/kernel/cpu/mcheck/winchip.c
+rename to arch/x86/kernel/cpu/mce/winchip.c
+-- 
+2.19.1
+
+
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
