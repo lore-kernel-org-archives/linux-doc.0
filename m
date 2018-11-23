@@ -2,88 +2,100 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6CDAC7D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Nov 2018 12:43:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 396B07D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Nov 2018 12:50:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394549AbeKWX2B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Nov 2018 18:28:01 -0500
-Received: from Galois.linutronix.de ([146.0.238.70]:50424 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388147AbeKWX2A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Nov 2018 18:28:00 -0500
-Received: from hsi-kbw-5-158-153-52.hsi19.kabel-badenwuerttemberg.de ([5.158.153.52] helo=nanos.tec.linutronix.de)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1gQAnn-00042o-78; Fri, 23 Nov 2018 13:43:19 +0100
-Date:   Fri, 23 Nov 2018 13:43:18 +0100 (CET)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Ingo Molnar <mingo@kernel.org>
-cc:     Borislav Petkov <bp@alien8.de>, "Moger, Babu" <Babu.Moger@amd.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
-        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
-        "pombredanne@nexb.com" <pombredanne@nexb.com>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
-        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "Singh, Brijesh" <brijesh.singh@amd.com>,
-        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
-        "dwmw2@infradead.org" <dwmw2@infradead.org>,
-        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "jannh@google.com" <jannh@google.com>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "rian@alum.mit.edu" <rian@alum.mit.edu>,
-        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v9 01/13] x86/resctrl: Rename and move rdt files to new
- directory
-In-Reply-To: <20181123114102.GB130228@gmail.com>
-Message-ID: <alpine.DEB.2.21.1811231340430.2603@nanos.tec.linutronix.de>
-References: <20181121202811.4492-1-babu.moger@amd.com> <20181121202811.4492-2-babu.moger@amd.com> <20181123072839.GA51597@gmail.com> <20181123082258.GA30697@zn.tnic> <20181123084117.GA130228@gmail.com> <20181123090011.GB30697@zn.tnic>
- <20181123114102.GB130228@gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S2390787AbeKWXeM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Nov 2018 18:34:12 -0500
+Received: from mail.bootlin.com ([62.4.15.54]:59149 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388147AbeKWXeM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Nov 2018 18:34:12 -0500
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 9C8FB207BB; Fri, 23 Nov 2018 13:50:05 +0100 (CET)
+Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
+        by mail.bootlin.com (Postfix) with ESMTPSA id EA9DD207AB;
+        Fri, 23 Nov 2018 13:50:04 +0100 (CET)
+Date:   Fri, 23 Nov 2018 13:50:04 +0100
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     vitor <vitor.soares@synopsys.com>
+Cc:     <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <gregkh@linuxfoundation.org>,
+        <arnd@arndb.de>, <psroka@cadence.com>, <agolec@cadence.com>,
+        <adouglas@cadence.com>, <bfolta@cadence.com>, <dkos@cadence.com>,
+        <alicja@cadence.com>, <cwronka@cadence.com>, <sureshp@cadence.com>,
+        <rafalc@cadence.com>, <thomas.petazzoni@bootlin.com>, <nm@ti.com>,
+        <robh+dt@kernel.org>, <pawel.moll@arm.com>, <mark.rutland@arm.com>,
+        <ijc+devicetree@hellion.org.uk>, <galak@codeaurora.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <geert@linux-m68k.org>, <linus.walleij@linaro.org>,
+        <Xiang.Lin@synaptics.com>, <linux-gpio@vger.kernel.org>,
+        <nsekhar@ti.com>, <pgaj@cadence.com>, <peda@axentia.se>,
+        <mshettel@codeaurora.org>, <swboyd@chromium.org>,
+        <joao.pinto@synopsys.com>
+Subject: Re: [PATCH] i3c: master: dw: split dw-i3c-master.c into master and
+ bus specific parts
+Message-ID: <20181123135004.7fd1cd58@bbrezillon>
+In-Reply-To: <6d513e04-3a57-1989-429c-64631101c5a2@synopsys.com>
+References: <ade2c1a8d1eb48681b01ccdc9bed22caf5e96c4b.1542904564.git.soares@synopsys.com>
+        <20181122210202.6af50fcc@bbrezillon>
+        <6d513e04-3a57-1989-429c-64631101c5a2@synopsys.com>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 23 Nov 2018, Ingo Molnar wrote:
-> * Borislav Petkov <bp@alien8.de> wrote:
-> Is there any other resource handled than caches by RDT or by the AMD 
-> variant?
+On Fri, 23 Nov 2018 12:39:31 +0000
+vitor <vitor.soares@synopsys.com> wrote:
 
-Memory bandwidth.
-
-> So how about "cache_control"? It's shorter and a lot closer to what the 
-> code actually does.
+> Hi Boris,
 > 
-> > resource_control/ is kinda long-ish and the other names we have there
-> > are nice and short, see below.
+> 
+> On 22/11/18 20:02, Boris Brezillon wrote:
+> > On Thu, 22 Nov 2018 17:54:54 +0000
+> > Vitor Soares <vitor.soares@synopsys.com> wrote:
+> >  
+> >> From: Vitor Soares <soares@synopsys.com>
+> >>
+> >> This patch slipts dw-i3c-master.c into three pieces:
+> >> 	dw-i3c-master.c - contains the code that interacts directly with the
+> >> 	core in master mode.
+> >>
+> >> 	dw-i3c-platdrv.c - contains the code specific to the platform driver.
+> >>
+> >> 	dw-i3c-core.h - contains the definitions and declarations shared by
+> >> 	dw-i3c-master and dw-i3c-platdrv
+> >>
+> >> This patch will allow SOC integrators to add their code specific to
+> >> DesignWare I3C IP.  
+> > Isn't it too early to do this change? Can't we wait until we have a SoC
+> > that actually embeds this IP?  
+> 
+> 
+> I'm trying to turn it more flexible so the other can reuse the code.
 
-resctrl is short and good enough. Can we move on an care about technical
-problems rather than wasting time with bike shed painting?
+Looking at the separation you've done here, I don't see why you need
+it. All the resources you request are generic, so why not just adding a
+new compat in the of_match_table?
 
-Thanks,
+> 
+> 
+> >  
+> >> Signed-off-by: Vitor Soares <soares@synopsys.com>
+> >> ---
+> >>   drivers/i3c/master/Kconfig          |   9 +-
+> >>   drivers/i3c/master/Makefile         |   5 +-
+> >>   drivers/i3c/master/dw-i3c-core.h    | 214 ++++++++++++++++++++++++++
+> >>   drivers/i3c/master/dw-i3c-master.c  | 299 ++----------------------------------
+> >>   drivers/i3c/master/dw-i3c-platdrv.c | 112 ++++++++++++++
 
-	tglx
+Just realized the driver is named dw-i3c-master, while the cadence
+driver is named i3c-master-cdns.c. I'll send a patch to make that
+consistent and follow the initial naming scheme: i3c-master-<ipname>.c.
