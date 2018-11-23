@@ -2,100 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 396B07D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Nov 2018 12:50:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8E6877D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 23 Nov 2018 13:41:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390787AbeKWXeM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 23 Nov 2018 18:34:12 -0500
-Received: from mail.bootlin.com ([62.4.15.54]:59149 "EHLO mail.bootlin.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388147AbeKWXeM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 23 Nov 2018 18:34:12 -0500
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id 9C8FB207BB; Fri, 23 Nov 2018 13:50:05 +0100 (CET)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id EA9DD207AB;
-        Fri, 23 Nov 2018 13:50:04 +0100 (CET)
-Date:   Fri, 23 Nov 2018 13:50:04 +0100
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     vitor <vitor.soares@synopsys.com>
-Cc:     <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <gregkh@linuxfoundation.org>,
-        <arnd@arndb.de>, <psroka@cadence.com>, <agolec@cadence.com>,
-        <adouglas@cadence.com>, <bfolta@cadence.com>, <dkos@cadence.com>,
-        <alicja@cadence.com>, <cwronka@cadence.com>, <sureshp@cadence.com>,
-        <rafalc@cadence.com>, <thomas.petazzoni@bootlin.com>, <nm@ti.com>,
-        <robh+dt@kernel.org>, <pawel.moll@arm.com>, <mark.rutland@arm.com>,
-        <ijc+devicetree@hellion.org.uk>, <galak@codeaurora.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <geert@linux-m68k.org>, <linus.walleij@linaro.org>,
-        <Xiang.Lin@synaptics.com>, <linux-gpio@vger.kernel.org>,
-        <nsekhar@ti.com>, <pgaj@cadence.com>, <peda@axentia.se>,
-        <mshettel@codeaurora.org>, <swboyd@chromium.org>,
-        <joao.pinto@synopsys.com>
-Subject: Re: [PATCH] i3c: master: dw: split dw-i3c-master.c into master and
- bus specific parts
-Message-ID: <20181123135004.7fd1cd58@bbrezillon>
-In-Reply-To: <6d513e04-3a57-1989-429c-64631101c5a2@synopsys.com>
-References: <ade2c1a8d1eb48681b01ccdc9bed22caf5e96c4b.1542904564.git.soares@synopsys.com>
-        <20181122210202.6af50fcc@bbrezillon>
-        <6d513e04-3a57-1989-429c-64631101c5a2@synopsys.com>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S2410054AbeKXA0C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 23 Nov 2018 19:26:02 -0500
+Received: from mx2.suse.de ([195.135.220.15]:44478 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2410047AbeKXA0C (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 23 Nov 2018 19:26:02 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 0B473AD24;
+        Fri, 23 Nov 2018 13:41:45 +0000 (UTC)
+Subject: Re: [PATCH v2 4/8] xen/balloon: mark inflated pages PG_offline
+To:     David Hildenbrand <david@redhat.com>, linux-mm@kvack.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        devel@linuxdriverproject.org, linux-fsdevel@vger.kernel.org,
+        linux-pm@vger.kernel.org, xen-devel@lists.xenproject.org,
+        kexec-ml <kexec@lists.infradead.org>, pv-drivers@vmware.com,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>
+References: <20181122100627.5189-1-david@redhat.com>
+ <20181122100627.5189-5-david@redhat.com>
+From:   Juergen Gross <jgross@suse.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jgross@suse.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <3d5250b7-870e-e702-a6e4-937d2362fea4@suse.com>
+Date:   Fri, 23 Nov 2018 14:41:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20181122100627.5189-5-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: de-DE
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 23 Nov 2018 12:39:31 +0000
-vitor <vitor.soares@synopsys.com> wrote:
+On 22/11/2018 11:06, David Hildenbrand wrote:
+> Mark inflated and never onlined pages PG_offline, to tell the world that
+> the content is stale and should not be dumped.
+> 
+> Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+> Cc: Juergen Gross <jgross@suse.com>
+> Cc: Stefano Stabellini <sstabellini@kernel.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-> Hi Boris,
-> 
-> 
-> On 22/11/18 20:02, Boris Brezillon wrote:
-> > On Thu, 22 Nov 2018 17:54:54 +0000
-> > Vitor Soares <vitor.soares@synopsys.com> wrote:
-> >  
-> >> From: Vitor Soares <soares@synopsys.com>
-> >>
-> >> This patch slipts dw-i3c-master.c into three pieces:
-> >> 	dw-i3c-master.c - contains the code that interacts directly with the
-> >> 	core in master mode.
-> >>
-> >> 	dw-i3c-platdrv.c - contains the code specific to the platform driver.
-> >>
-> >> 	dw-i3c-core.h - contains the definitions and declarations shared by
-> >> 	dw-i3c-master and dw-i3c-platdrv
-> >>
-> >> This patch will allow SOC integrators to add their code specific to
-> >> DesignWare I3C IP.  
-> > Isn't it too early to do this change? Can't we wait until we have a SoC
-> > that actually embeds this IP?  
-> 
-> 
-> I'm trying to turn it more flexible so the other can reuse the code.
+Reviewed-by: Juergen Gross <jgross@suse.com>
 
-Looking at the separation you've done here, I don't see why you need
-it. All the resources you request are generic, so why not just adding a
-new compat in the of_match_table?
 
-> 
-> 
-> >  
-> >> Signed-off-by: Vitor Soares <soares@synopsys.com>
-> >> ---
-> >>   drivers/i3c/master/Kconfig          |   9 +-
-> >>   drivers/i3c/master/Makefile         |   5 +-
-> >>   drivers/i3c/master/dw-i3c-core.h    | 214 ++++++++++++++++++++++++++
-> >>   drivers/i3c/master/dw-i3c-master.c  | 299 ++----------------------------------
-> >>   drivers/i3c/master/dw-i3c-platdrv.c | 112 ++++++++++++++
-
-Just realized the driver is named dw-i3c-master, while the cadence
-driver is named i3c-master-cdns.c. I'll send a patch to make that
-consistent and follow the initial naming scheme: i3c-master-<ipname>.c.
+Juergen
