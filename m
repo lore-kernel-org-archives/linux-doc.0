@@ -5,48 +5,49 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 749A47D92B
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 24 Nov 2018 20:49:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 511877D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 24 Nov 2018 20:56:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726287AbeKYHjM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 25 Nov 2018 02:39:12 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:44309 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726298AbeKYHjK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Nov 2018 02:39:10 -0500
-Received: by mail-lj1-f193.google.com with SMTP id k19-v6so13254313lji.11
-        for <linux-doc@vger.kernel.org>; Sat, 24 Nov 2018 12:49:54 -0800 (PST)
+        id S1726489AbeKYHpG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 25 Nov 2018 02:45:06 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:36983 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726241AbeKYHpF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Nov 2018 02:45:05 -0500
+Received: by mail-lj1-f194.google.com with SMTP id e5-v6so13281218lja.4
+        for <linux-doc@vger.kernel.org>; Sat, 24 Nov 2018 12:55:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=3/LlKhNyX8sYjUGmXqz5PMOIR/UUsMdV+QLAfbVxSKg=;
-        b=KWVsEQPgiF9WSTjQ2Nm96im4eBnZmtgzeu7s9ea+En1ZKm2Ou29Z7K+79PPZ8P7EOk
-         opNOGYUmJNu6q0qoU0n3tHI41D69zcYKKGQ4PaPJrWX57qUfmvk4ud7ziTbiWZMX0Yo7
-         5pXshWPnu2MmRYbIu5Ar1VgB88lzJdoob9puc=
+        bh=xPfyQ+7n1YYX7CPsLFiLqlbk/g/+BhVnBee1KeCITsw=;
+        b=K+ozAtAkj+cEJPolhQSlJhhOzt1MQp2p7bscWS0hcwJjgnUQ5T70sgxOX1JWaEykUU
+         C0xTjrWgPA37PMOoDVz9yBpX747po7o0g7C5GH/8DoLVR3aiA15kgNq202gYCYeAK6S3
+         paKpv4AdjF9FyxTV3QmT6VpVpFUsHIzsW+Fa0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=3/LlKhNyX8sYjUGmXqz5PMOIR/UUsMdV+QLAfbVxSKg=;
-        b=mazavVBNhRgmhjIi3WenISxmJnE6Jyie41swW8d98VNlvDPo5qv9QT19v1eXlYJjQu
-         NpadHE9l3sNZZ1FdvS9yloehcP9hPnX9iW5WGimvGqpqEaI88mOYYCGAcsrWT0MOxP1m
-         9R+wMQQmhCjSVWpTIMYBs5BEN2dqZap3fDVVmZZd6z4KycULhwuH1ZDneD2UBnPS8g5B
-         5vo9i5z25Wnt+V96TRLD6TefhtrFxa8j/Y+yZoaH5UxQFb15kPO41XEGOrkr0rp6gQmE
-         2t1wMTc4LwlHnMcB9bKfpc1+jmTXWkRVsm9BkCpk3iskoqgo50rkFlsGn6/YK/2kxW+w
-         WkKA==
-X-Gm-Message-State: AA+aEWZ8G5ZZ6D+VQJetk5a/JikdQ7HZfTcX1RY5EtHql8nJuvL58vkd
-        Mw4pPL9XXq/jUdxxAUr4sgcwVuNq7nE5NDNkZxH7Vg==
-X-Google-Smtp-Source: AFSGD/X38EvdM0w73bY11gLRvQ6Stb/Mpuev32UF0R2mQcw4e2zg5VVqrRnbyATIVbg0qepWmRMh9aUQXTY+vu/GGE0=
-X-Received: by 2002:a2e:29d7:: with SMTP id p84-v6mr12898208ljp.12.1543092593428;
- Sat, 24 Nov 2018 12:49:53 -0800 (PST)
+        bh=xPfyQ+7n1YYX7CPsLFiLqlbk/g/+BhVnBee1KeCITsw=;
+        b=C+raSpejJ0jw6G0qJBucxi+fB+qDOqXTuRdOTys5CYQpJPonqaqMphycPVEsHhbd5s
+         079n1d2Zro+LK3N2gWyYFGg1PdLA/mJiBo6GlknD0cJovBjzGr2uiADQWAfYjkw4IVCP
+         3pmEduJIkd4sbxhJoLOMYh+OEBmVHQlOhzizM9F593Zz/3uhHmhQ9C4VBlTu+a5RSyiZ
+         XcX1SSrHQL2Ch0VSR+caE9kuvPJAHs77hVpVUrebDx0cQWW3rxAuxaYlXqIEu0s91ppw
+         Cfv9POlzAcOqIelgK1xAXXI5HyZhdePWYxJUADynefpS3eTe4mXw0Y1FTnl/PGnqU73h
+         W6ng==
+X-Gm-Message-State: AA+aEWa7aj3HXNPKYdr65foYcPqxrbCJZE37hJTnRL0vyVpFQilC8Fq1
+        0YcjYs2w2G6KA86QNBYbxEInNZHIsycfVBZHS2O4jg==
+X-Google-Smtp-Source: AFSGD/XA19TvIu5XxzdQPDRN8FU1WiyCel4XONUhvvUw0SPXcY9zAU+ZjL2a3ErzOgI77bC/Kd1UBaLst+S8dKF/BR8=
+X-Received: by 2002:a2e:710a:: with SMTP id m10-v6mr12979412ljc.66.1543092947655;
+ Sat, 24 Nov 2018 12:55:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20181115221634.22715-1-greenfoo@gluegarage.com> <20181115221634.22715-7-greenfoo@gluegarage.com>
-In-Reply-To: <20181115221634.22715-7-greenfoo@gluegarage.com>
+References: <20181115221634.22715-1-greenfoo@gluegarage.com> <20181115221634.22715-8-greenfoo@gluegarage.com>
+In-Reply-To: <20181115221634.22715-8-greenfoo@gluegarage.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sat, 24 Nov 2018 21:49:38 +0100
-Message-ID: <CACRpkdZwHTJCh4cps6+9=5CPyfeZyTQ9kbOnVGakEGAxwOdW2A@mail.gmail.com>
-Subject: Re: [PATCH 6/9] drm: remove deprecated "drm_connector_[un]reference" functions
+Date:   Sat, 24 Nov 2018 21:55:35 +0100
+Message-ID: <CACRpkdbj1q8qSR3ffJOki2pcB-rj5-sq2CDdUKUZ0UD=m0_cAQ@mail.gmail.com>
+Subject: Re: [PATCH 7/9] drm: remove deprecated "drm_framebuffer_[un]reference"
+ functions
 To:     greenfoo@gluegarage.com
 Cc:     "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -86,12 +87,12 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, Nov 15, 2018 at 11:17 PM Fernando Ramos <greenfoo@gluegarage.com> wrote:
 
-> There are no more places where this (deprecated) function is being
-> used from, thus it can now be removed.
+> There are no more places where this (deprecated) function is being used
+> from, thus it can now be removed.
 >
 > Signed-off-by: Fernando Ramos <greenfoo@gluegarage.com>
 
-Patch applied collecting Paul's review tag.
+Patch applied.
 
 Yours,
 Linus Walleij
