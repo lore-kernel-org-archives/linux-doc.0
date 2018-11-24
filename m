@@ -2,211 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2871B7D099
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 24 Nov 2018 04:12:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CDBDC7D08E
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 24 Nov 2018 08:52:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731119AbeKXO6s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 24 Nov 2018 09:58:48 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:46106 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731053AbeKXO6s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 24 Nov 2018 09:58:48 -0500
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 49C1D629875E0;
-        Sat, 24 Nov 2018 12:11:47 +0800 (CST)
-Received: from localhost (10.67.212.75) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server (TLS) id 14.3.408.0; Sat, 24 Nov
- 2018 12:11:41 +0800
-Date:   Sat, 24 Nov 2018 12:13:21 +0800
-From:   Kenneth Lee <liguozhu@hisilicon.com>
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-CC:     Leon Romanovsky <leon@kernel.org>,
-        Kenneth Lee <nek.in.cn@gmail.com>,
-        "Tim Sell" <timothy.sell@unisys.com>, <linux-doc@vger.kernel.org>,
-        "Alexander Shishkin" <alexander.shishkin@linux.intel.com>,
-        Zaibo Xu <xuzaibo@huawei.com>, <zhangfei.gao@foxmail.com>,
-        <linuxarm@huawei.com>, <haojian.zhuang@linaro.org>,
-        Christoph Lameter <cl@linux.com>,
-        Hao Fang <fanghao11@huawei.com>,
-        Gavin Schenk <g.schenk@eckelmann.de>,
-        "RDMA mailing list" <linux-rdma@vger.kernel.org>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        "Doug Ledford" <dledford@redhat.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        David Kershner <david.kershner@unisys.com>,
-        Johan Hovold <johan@kernel.org>,
-        Cyrille Pitchen <cyrille.pitchen@free-electrons.com>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Jens Axboe <axboe@kernel.dk>, <guodong.xu@linaro.org>,
-        linux-netdev <netdev@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        <linux-kernel@vger.kernel.org>, Vinod Koul <vkoul@kernel.org>,
-        <linux-crypto@vger.kernel.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        <linux-accelerators@lists.ozlabs.org>
-Subject: Re: [RFCv3 PATCH 1/6] uacce: Add documents for WarpDrive/uacce
-Message-ID: <20181124041321.GL157308@Turing-Arch-b>
-References: <20181115085109.GD157308@Turing-Arch-b>
- <20181115145455.GN3759@mtr-leonro.mtl.com>
- <20181119091405.GE157308@Turing-Arch-b>
- <20181119184954.GB4890@ziepe.ca>
- <20181120030702.GH157308@Turing-Arch-b>
- <20181120032939.GR4890@ziepe.ca>
- <20181121060805.GJ157308@Turing-Arch-b>
- <20181122025840.GB19938@ziepe.ca>
- <20181123080242.GK157308@Turing-Arch-b>
- <20181123180504.GA3395@ziepe.ca>
+        id S1725738AbeKXTjz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 24 Nov 2018 14:39:55 -0500
+Received: from mga02.intel.com ([134.134.136.20]:55352 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725733AbeKXTjz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 24 Nov 2018 14:39:55 -0500
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Nov 2018 00:52:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,273,1539673200"; 
+   d="scan'208";a="110730850"
+Received: from pl-dbox.sh.intel.com (HELO intel.com) ([10.239.159.153])
+  by fmsmga001.fm.intel.com with ESMTP; 24 Nov 2018 00:51:58 -0800
+Date:   Sat, 24 Nov 2018 17:04:44 +0800
+From:   Philip Li <philip.li@intel.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     kernel test robot <lkp@intel.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        LKP <lkp@01.org>, linux-pci@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linuxppc-dev@lists.ozlabs.org, linux-parisc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: dad4f140ed ("Merge branch 'xarray' of .."):  Mem-Info:
+Message-ID: <20181124090444.GA3141@intel.com>
+References: <5bf8a766.2eiLO6qApoh2dO55%lkp@intel.com>
+ <20181124035803.GX3065@bombadil.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20181123180504.GA3395@ziepe.ca>
+In-Reply-To: <20181124035803.GX3065@bombadil.infradead.org>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Originating-IP: [10.67.212.75]
-X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 23, 2018 at 11:05:04AM -0700, Jason Gunthorpe wrote:
-> Date: Fri, 23 Nov 2018 11:05:04 -0700
-> From: Jason Gunthorpe <jgg@ziepe.ca>
-> To: Kenneth Lee <liguozhu@hisilicon.com>
-> CC: Leon Romanovsky <leon@kernel.org>, Kenneth Lee <nek.in.cn@gmail.com>,
->  Tim Sell <timothy.sell@unisys.com>, linux-doc@vger.kernel.org, Alexander
->  Shishkin <alexander.shishkin@linux.intel.com>, Zaibo Xu
->  <xuzaibo@huawei.com>, zhangfei.gao@foxmail.com, linuxarm@huawei.com,
->  haojian.zhuang@linaro.org, Christoph Lameter <cl@linux.com>, Hao Fang
->  <fanghao11@huawei.com>, Gavin Schenk <g.schenk@eckelmann.de>, RDMA mailing
->  list <linux-rdma@vger.kernel.org>, Zhou Wang <wangzhou1@hisilicon.com>,
->  Doug Ledford <dledford@redhat.com>, Uwe Kleine-König
->  <u.kleine-koenig@pengutronix.de>, David Kershner
->  <david.kershner@unisys.com>, Johan Hovold <johan@kernel.org>, Cyrille
->  Pitchen <cyrille.pitchen@free-electrons.com>, Sagar Dharia
->  <sdharia@codeaurora.org>, Jens Axboe <axboe@kernel.dk>,
->  guodong.xu@linaro.org, linux-netdev <netdev@vger.kernel.org>, Randy Dunlap
->  <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, Vinod Koul
->  <vkoul@kernel.org>, linux-crypto@vger.kernel.org, Philippe Ombredanne
->  <pombredanne@nexb.com>, Sanyog Kale <sanyog.r.kale@intel.com>, "David S.
->  Miller" <davem@davemloft.net>, linux-accelerators@lists.ozlabs.org
-> Subject: Re: [RFCv3 PATCH 1/6] uacce: Add documents for WarpDrive/uacce
-> User-Agent: Mutt/1.9.4 (2018-02-28)
-> Message-ID: <20181123180504.GA3395@ziepe.ca>
-> 
-> On Fri, Nov 23, 2018 at 04:02:42PM +0800, Kenneth Lee wrote:
-> 
-> > It is already part of Jean's patchset. And that's why I built my solution on
-> > VFIO in the first place. But I think the concept of SVA and PASID is not
-> > compatible with the original VFIO concept space. You would not share your whole
-> > address space to a device at all in a virtual machine manager,
-> > wouldn't you?
-> 
-> Why not? That seems to fit VFIO's space just fine to me.. You might
-> need a new upcall to create a full MM registration, but that doesn't
-> seem unsuited.
-
-Because the VM manager (such as qemu) do not want to share its whole space to
-the device. It is a security problem.
-
-> 
-> Part of the point here is you should try to make sensible revisions to
-> existing subsystems before just inventing a new thing...
-> 
-> VFIO is deeply connected to the IOMMU, so enabling more general IOMMU
-> based approache seems perfectly fine to me..
-> 
-> > > Once the VFIO driver knows about this as a generic capability then the
-> > > device it exposes to userspace would use CPU addresses instead of DMA
-> > > addresses.
-> > > 
-> > > The question is if your driver needs much more than the device
-> > > agnostic generic services VFIO provides.
-> > > 
-> > > I'm not sure what you have in mind with resource management.. It is
-> > > hard to revoke resources from userspace, unless you are doing
-> > > kernel syscalls, but then why do all this?
+On Fri, Nov 23, 2018 at 07:58:03PM -0800, Matthew Wilcox wrote:
+> On Sat, Nov 24, 2018 at 09:20:38AM +0800, kernel test robot wrote:
+> > Greetings,
 > > 
-> > Say, I have 1024 queues in my accelerator. I can get one by opening the device
-> > and attach it with the fd. If the process exit by any means, the queue can be
-> > returned with the release of the fd. But if it is mdev, it will still be there
-> > and some one should tell the allocator it is available again. This is not easy
-> > to design in user space.
+> > 0day kernel testing robot got the below dmesg and the first bad commit is
+> > 
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > 
+> > commit dad4f140edaa3f6bb452b6913d41af1ffd672e45
 > 
-> ?? why wouldn't the mdev track the queues assigned using the existing
-> open/close/ioctl callbacks?
+> I think you've got the wrong bisection point, confused by other messages.
+> Here's the messages I think you intend to chase:
 > 
-> That is basic flow I would expect:
+> [  155.389297] BUG: workqueue lockup - pool cpus=0 node=0 flags=0x0 nice=0 stuck
+>  for 52s!
+> [  155.409004] BUG: workqueue lockup - pool cpus=0 flags=0x4 nice=0 stuck for 40
+> s!
+> [  155.420377] Showing busy workqueues and worker pools:
+> [  155.428445] workqueue events: flags=0x0
+> [  155.434634]   pwq 0: cpus=0 node=0 flags=0x0 nice=0 active=1/256
+> [  155.437904]     pending: cache_reap
+> [  155.449671] workqueue events_power_efficient: flags=0x82
+> [  155.458000]   pwq 2: cpus=0 flags=0x4 nice=0 active=3/256
+> [  155.461269]     pending: neigh_periodic_work, do_cache_clean, check_lifetime
 > 
->  open(/dev/vfio)
->  ioctl(unity map entire process MM to mdev with IOMMU)
 > 
->  // Create a HQ queue and link the PASID in the HW to this HW queue
->  struct hw queue[..];
->  ioctl(create HW queue)
+> but you're getting hung up on the testsuite problems.
+thanks for pointing out this. Kindly ignore this report, which is false positive.
+
 > 
->  // Get BAR doorbell memory for the queue
->  bar = mmap()
 > 
->  // Submit work to the queue using CPU addresses
->  queue[0] = ...
->  writel(bar [..], &queue);
-> 
->  // Queue, SVA, etc is cleaned up when the VFIO closes
->  close()
-
-This is not the way that you can use mdev. To use mdev, you have to:
-
-1. unbind kernel driver from the device, and rebind it to vfio driver
-2. for 0 to 1204: uuid > /sys/.../the_dev/mdev/create to create all the mdev
-3. a virtual iommu_group will be created in /dev/vfio/* from every mdev
-
-now you can do this in you application (even without considering the pasid) :
-
-	container = open(/dev/vfio);
-	ioctl(container, settting);
-	group = open(/dev/vfio/my_group_for_particular_mdev);
-	ioctl(container, attach_group, group);
-	device = ioctl(group, get_device);
-	mmap(device);
-	ioctl(container, set_dma_operation);
-
-Then you have to make a decision, how can you find a available mdev for use and
-how to return it.
-
-We have considered creating only one mdev and allocating queue when the device
-is openned. But the VFIO maintainer, Alex, did not agree and said it broke the
-VFIO origin idea.
-
--Kenneth
-> 
-> Presumably the kernel has to handle the PASID and related for security
-> reasons, so they shouldn't go to userspace?
-> 
-> If there is something missing in vfio to do this is it looks pretty
-> small to me..
-> 
-> Jason
-
--- 
-			-Kenneth(Hisilicon)
-
-================================================================================
-本邮件及其附件含有华为公司的保密信息，仅限于发送给上面地址中列出的个人或群组。禁
-止任何其他人以任何形式使用（包括但不限于全部或部分地泄露、复制、或散发）本邮件中
-的信息。如果您错收了本邮件，请您立即电话或邮件通知发件人并删除本邮件！
-This e-mail and its attachments contain confidential information from HUAWEI,
-which is intended only for the person or entity whose address is listed above.
-Any use of the 
-information contained herein in any way (including, but not limited to, total or
-partial disclosure, reproduction, or dissemination) by persons other than the
-intended 
-recipient(s) is prohibited. If you receive this e-mail in error, please notify
-the sender by phone or email immediately and delete it!
-
