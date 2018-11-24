@@ -3,55 +3,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CA4817D089
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 24 Nov 2018 20:59:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 329407D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 24 Nov 2018 21:17:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726550AbeKYHsl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 25 Nov 2018 02:48:41 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:40142 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726419AbeKYHsk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Nov 2018 02:48:40 -0500
-Received: by mail-lj1-f195.google.com with SMTP id n18-v6so13287741lji.7
-        for <linux-doc@vger.kernel.org>; Sat, 24 Nov 2018 12:59:22 -0800 (PST)
+        id S1726323AbeKYIGq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 25 Nov 2018 03:06:46 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:35715 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726251AbeKYIGq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Nov 2018 03:06:46 -0500
+Received: by mail-lj1-f193.google.com with SMTP id x85-v6so13325041ljb.2
+        for <linux-doc@vger.kernel.org>; Sat, 24 Nov 2018 13:17:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tIxw+Yv0PQVXma0Dx+fjN/DXfhPViTkH38A5jStFkdQ=;
-        b=btHfR92EH0oQ7CQWU2asTkt7th7d/Pfmtwv8/QWR2UaM8O3FqlRMUoHUd9V+zqnEkc
-         H2+6bG7f4Mjfl8BB+YT+lntA+dkMofoJ6dqFq23mHcdAB762Dx/6jWQ05wWRac9tB2J0
-         Rnrx6by+Inf7WFFH3hydd48TW/OtncE4pN9MU=
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=LFoDMHZQz8UBWaJLXzIWV8IXutyISCt0Xum8q759EGs=;
+        b=FV66h96nOuhPRcswvE33wNkp9sWMVqWLcX8T8M6Q87Zv66u+/V0tiwzmkQLMf7oQJn
+         /8opov9c44wHuR8vHnmngX+vW5d9j4tRlBVaDAO64yB+sXpoEN/GzpKoyDIC0dcK3jSf
+         c0GI0SNiuyVetgqEew7VpXJvxZu3j8GGCwh0I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tIxw+Yv0PQVXma0Dx+fjN/DXfhPViTkH38A5jStFkdQ=;
-        b=I8DxfACq2zuz717Dfg0gZKWwOr82al3zBq7gaLKURdx8832OXxNDpJuBGGui7gmGY7
-         1mqQvsAyHJzJBw5JNzbVqFi5uHsOkmT9/XPs5cWBM56XrIP8tibBEtW6Rn42N5X0D27j
-         qVOut0YvUDrTVvbx7obImuGZGKVuCxj229uwYYa6aN3LZLTjIN601hyGFGzvjGTZkzS1
-         WXbERchZtJPNI24Ew9ShaTqO1domQFyJ2Mi8b/yANq8Uf1uheSwvwNopfP7wLtcn1CbP
-         tX+eDonxjobi0wTc+lzulPRGsWpDegllLa11tMdqLeCI4sN/UP/jWl3H6JblwrGmuffe
-         MKEA==
-X-Gm-Message-State: AA+aEWaphuedlusjyFmWxu9n/6lp4BBs0je0tlai177RJHg4Y2Iyikcg
-        16XJVnlFcyNi0P3jxUDbJKPjzppOEgFsAcOX/vCMsA==
-X-Google-Smtp-Source: AFSGD/V3J7VpJHFXkNmRsM2IxwizFs79rZK+D8eZtt95ixlP6XqtpkhhYnmObkPfTywdCOlZO7rZIci8vQ7OocU/Arw=
-X-Received: by 2002:a2e:994:: with SMTP id 142-v6mr11828648ljj.120.1543093162121;
- Sat, 24 Nov 2018 12:59:22 -0800 (PST)
+         :message-id:subject:to;
+        bh=LFoDMHZQz8UBWaJLXzIWV8IXutyISCt0Xum8q759EGs=;
+        b=WotWaZ2Fw+dYpOV9Z7//V4yyt2CyP4mYpqWOmLgYdygnHzA9UdYSpK6bIHchQyDrE9
+         ETKQ8+6YiOevHd1zA8c5vzmcvdzhrr0fxZVG9tT7Baujxy/iSs47+HBwT17fSaMiXL/l
+         nhKAV1nulkZTHlQn5I30LpRJDXIAgr1P1+WNJO0iucQ8MqOOjLD++I+7O0eKINxicOz+
+         /XwJrHcFmNeSY8V5/p0SzXxAVfKDrSNffKAIu/6q6A9UTiHQra3h5UmpkgbkzBS+vpI+
+         8g+r3BL0Op9dktIZ8t+wokdtECkDlAmjhqaEfrKmwVkNmeOrPKg1qOnvVqpWXbONmwtx
+         j7BQ==
+X-Gm-Message-State: AA+aEWbs2LfVljn+iUB4578KybW/fdzObuRizkihRdQAb1J5+ase3yXj
+        K4rb2As5y7lYqw7dAPNIu+DO6bTVq+c0iQpvqdDzVg==
+X-Google-Smtp-Source: AJdET5dBN60eGZw4aZBnUaOtrwGI8Lx40LRymSPRBcxwlYWJxaFKw3ZoWCG2GtfVkWkwNbhaZle6s1TnZhJ89YN1f7o=
+X-Received: by 2002:a2e:9107:: with SMTP id m7-v6mr13103518ljg.23.1543094245529;
+ Sat, 24 Nov 2018 13:17:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20181115221634.22715-1-greenfoo@gluegarage.com> <20181115221634.22715-10-greenfoo@gluegarage.com>
-In-Reply-To: <20181115221634.22715-10-greenfoo@gluegarage.com>
+References: <20181115221634.22715-1-greenfoo@gluegarage.com>
+ <CACRpkdZmTSo02yQeU=qe9WyJMXEq76CNmc2kkFEHuwdo=HKPJw@mail.gmail.com> <20181121094233.GN4266@phenom.ffwll.local>
+In-Reply-To: <20181121094233.GN4266@phenom.ffwll.local>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sat, 24 Nov 2018 21:59:10 +0100
-Message-ID: <CACRpkdbRbXCq8DjzeJSGmH=tcb+B1f24oO209wMsLxAdHzvdkg@mail.gmail.com>
-Subject: Re: [PATCH 9/9] docs: drm: remove no longer relevant TODO entry
-To:     greenfoo@gluegarage.com
-Cc:     "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
-        Dave Airlie <airlied@linux.ie>,
+Date:   Sat, 24 Nov 2018 22:17:13 +0100
+Message-ID: <CACRpkdaXUFwSiQnMqv2WBXr2ytn7kx3CeAuamkj9ZYU1C6bpnw@mail.gmail.com>
+Subject: Re: [PATCH 0/9] drm: remove deprecated functions
+To:     greenfoo@gluegarage.com,
+        "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <maxime.ripard@bootlin.com>, sean@poorly.run,
+        Dave Airlie <airlied@linux.ie>,
         Jonathan Corbet <corbet@lwn.net>, abrodkin@synopsys.com,
         Boris Brezillon <boris.brezillon@bootlin.com>,
         Nicolas Ferre <nicolas.ferre@microchip.com>,
@@ -84,17 +84,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 15, 2018 at 11:18 PM Fernando Ramos <greenfoo@gluegarage.com> wrote:
-
-> This entry asked to rename all drm core "*_reference/_unrefence"
-> functions to "*_get/_put".
+On Wed, Nov 21, 2018 at 10:42 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Thu, Nov 15, 2018 at 11:38:35PM +0100, Linus Walleij wrote:
+> > On Thu, Nov 15, 2018 at 11:17 PM Fernando Ramos <greenfoo@gluegarage.com> wrote:
+> >
+> > > One of the things in the DRM TODO list ("Documentation/gpu/todo.rst") was to
+> > > "switch from reference/unreference to get/put". That's what this patch series is
+> > > about.
+> >
+> > The series:
+> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 >
-> Now that this task is complete, we can remove this entry from the TODO
-> list.
->
-> Signed-off-by: Fernando Ramos <greenfoo@gluegarage.com>
+> Since your reviewed it all, and there's a pile of acks for the driver
+> parts too: Want to go ahead and apply it too?
 
-Patch applied.
+OK I did... the git was quirky, patches changes around
+under my feet and dim started to complain about problems
+with commits that weren't even mine.
+
+It was especially scary.
+
+But I think I managed to apply the patches and push the
+branch now.
 
 Yours,
 Linus Walleij
