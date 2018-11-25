@@ -1,83 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=5.0 tests=DEAR_SOMETHING,DKIM_INVALID,
-	DKIM_SIGNED,FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,
-	LOTS_OF_MONEY,MAILING_LIST_MULTI,MILLION_USD,RCVD_IN_DNSWL_HI,
-	T_HK_NAME_MR_MRS,T_MONEY_PERCENT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 819CE7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 25 Nov 2018 01:45:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 035CA7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 25 Nov 2018 09:07:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727013AbeKYMfj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 25 Nov 2018 07:35:39 -0500
-Received: from servidor01.futuraweb.net.br ([107.190.131.170]:50882 "EHLO
-        servidor01.futuraweb.net.br" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726515AbeKYMfi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Nov 2018 07:35:38 -0500
-X-Greylist: delayed 47105 seconds by postgrey-1.27 at vger.kernel.org; Sun, 25 Nov 2018 07:35:37 EST
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=brsuper.com.br; s=default; h=Message-ID:Reply-To:Subject:To:From:Date:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:Sender:Cc:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=06d2Lr8nSe89jZL4gF5R2QblK/yDLnLbOmkzwbrvSBY=; b=HmGZlQMlSOJ3eQJLYJm9zbA+5E
-        q6Q2Pj6WXb3NWfDLMv+Legnvy93fNcbEdDZnMTKSUzaG8CFJL7+jVwDKpaiD/Zqbs/NnQGyGq2TNs
-        57jUiPKAFqmKwpXfTVu/uV42/KrbpcPBl6YkzY2OZoxUZnUtQOWP5ppGQrIvD9iuPyQc7hLSIWVlq
-        fgUrSlsF8m6LvT4UlGsSN7ENh3r+8IeAJsUUz46xes0/7fq13Iyv5Pb3VHEnyT27kCwoFNM+Y5Q/D
-        ZemC/Z1DsHG2xhVZAa8jlELsQ553nPsmy1qJP8EzfxsAL3mibP1REXcLxU01ur5KsRmjACx2CtU+V
-        62EAlOyA==;
-Received: from [::1] (port=46642 helo=servidor01.futuraweb.net.br)
-        by servidor01.futuraweb.net.br with esmtpa (Exim 4.91)
-        (envelope-from <vanderleicardoso@brsuper.com.br>)
-        id 1gQWiE-00ClHT-TB; Sat, 24 Nov 2018 10:07:05 -0200
+        id S1727291AbeKYT63 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 25 Nov 2018 14:58:29 -0500
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:58055 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726859AbeKYT62 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 25 Nov 2018 14:58:28 -0500
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 1154F808B9; Sun, 25 Nov 2018 10:07:45 +0100 (CET)
+Date:   Sun, 25 Nov 2018 10:07:48 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     "Moger, Babu" <Babu.Moger@amd.com>
+Cc:     "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>,
+        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
+        "pombredanne@nexb.com" <pombredanne@nexb.com>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
+        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Singh, Brijesh" <brijesh.singh@amd.com>,
+        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
+        "dwmw2@infradead.org" <dwmw2@infradead.org>,
+        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "rian@alum.mit.edu" <rian@alum.mit.edu>,
+        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v9 12/13] Documentation: Rename and update
+ intel_rdt_ui.txt to resctrl_ui.txt
+Message-ID: <20181125090748.GA22821@amd>
+References: <20181121202811.4492-1-babu.moger@amd.com>
+ <20181121202811.4492-13-babu.moger@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Sat, 24 Nov 2018 10:07:01 -0200
-From:   "Mrs.Amelia George" <vanderleicardoso@brsuper.com.br>
-To:     undisclosed-recipients:;
-Subject: Re: Mrs.Amelia George
-Organization: Mrs.Amelia George
-Reply-To: dr.amelia.george1@yandex.ru
-Mail-Reply-To: dr.amelia.george1@yandex.ru
-Message-ID: <37e5f4d709ac81b1be1cb83a90d52d66@brsuper.com.br>
-X-Sender: vanderleicardoso@brsuper.com.br
-User-Agent: Roundcube Webmail/1.3.3
-X-OutGoing-Spam-Status: No, score=3.5
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - servidor01.futuraweb.net.br
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - brsuper.com.br
-X-Get-Message-Sender-Via: servidor01.futuraweb.net.br: authenticated_id: vanderleicardoso@brsuper.com.br
-X-Authenticated-Sender: servidor01.futuraweb.net.br: vanderleicardoso@brsuper.com.br
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="M9NhX3UHpAaciwkO"
+Content-Disposition: inline
+In-Reply-To: <20181121202811.4492-13-babu.moger@amd.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--M9NhX3UHpAaciwkO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Dear Sir,
+On Wed 2018-11-21 20:28:47, Moger, Babu wrote:
+> Rename intel_rdt_ui.txt to generic resctrl_ui.txt and update the
+> documentation for AMD.
+>=20
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
+>  Documentation/x86/{intel_rdt_ui.txt =3D> resctrl_ui.txt} | 9
 
-My name is Mrs.Amelia George I am 72 years old, I am a dying woman who
-have decided to donate what I have to you/churches/ motherless
-babies/less
-privileged/widows.
+Other filenames in the directory use "-".
 
-I have been touched by God to donate from what I have inherited from my
-late husband to you for good work of God.
+Plus, this is not really about _user_interface.
 
-Please kindly let me know if you can assist me receive my funds and
-distribute to charity of your choice the sum of $25million United state
-Dollars.  I am willing to give you 20% for your time and effort.
+resctl.txt would be a better name.
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
-Your sister in Christ,
+--M9NhX3UHpAaciwkO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Mrs.Amelia George
-Email:dr.amelia.george1@yandex.ru
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlv6ZmQACgkQMOfwapXb+vLI0QCfSz8k+Y5h4PS2/FvJSY9kv7gI
+HawAoL1xmRLmES0LovcNwc6mp1SkuDya
+=o7zH
+-----END PGP SIGNATURE-----
+
+--M9NhX3UHpAaciwkO--
