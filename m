@@ -1,36 +1,31 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1A6707D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 22:28:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AB1A87DD31
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 22:44:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726516AbeK0JXj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Nov 2018 04:23:39 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:56604 "EHLO mail.skyhub.de"
+        id S1727466AbeK0Jke (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Nov 2018 04:40:34 -0500
+Received: from mga14.intel.com ([192.55.52.115]:39562 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726513AbeK0JXi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Nov 2018 04:23:38 -0500
-Received: from zn.tnic (p200300EC2BDEFE00DCA0409AA15535E1.dip0.t-ipconnect.de [IPv6:2003:ec:2bde:fe00:dca0:409a:a155:35e1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E15651EC04BC;
-        Mon, 26 Nov 2018 23:28:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1543271281;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=iVjDIULdAQcu4memzGX26FFlxh+bp76sTqwM3pVm0dk=;
-        b=DS7SzMyvQkCTV3S9C52qlYqJ3ta0bT+BL0jkoAtkoEFHISfYcGOnyaDOLwY6euqa2dpOgl
-        c0VobQL+RjoBRLmFn0OIudPMDA3NizJdMMWb0yBokc6YQdHrqd8vNLtR1cSIv73bDoQuBQ
-        +XVkvl8uVx2x7y9AWE1ZG/NHgnOJ/pA=
-Date:   Mon, 26 Nov 2018 23:28:00 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Reinette Chatre <reinette.chatre@intel.com>
+        id S1726634AbeK0Jke (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Nov 2018 04:40:34 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Nov 2018 14:44:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,284,1539673200"; 
+   d="scan'208";a="284128160"
+Received: from rchatre-mobl.amr.corp.intel.com (HELO [10.24.14.87]) ([10.24.14.87])
+  by fmsmga005.fm.intel.com with ESMTP; 26 Nov 2018 14:44:53 -0800
+Subject: Re: [PATCH v9 10/13] x86/resctrl: Fix the messages in
+ rdt_last_cmd_printf and rdt_last_cmd_puts
+To:     Borislav Petkov <bp@alien8.de>
 Cc:     "Moger, Babu" <Babu.Moger@amd.com>,
         "tglx@linutronix.de" <tglx@linutronix.de>,
         "mingo@redhat.com" <mingo@redhat.com>,
@@ -63,69 +58,75 @@ Cc:     "Moger, Babu" <Babu.Moger@amd.com>,
         "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v9 10/13] x86/resctrl: Fix the messages in
- rdt_last_cmd_printf and rdt_last_cmd_puts
-Message-ID: <20181126222800.GR4843@zn.tnic>
 References: <20181121202811.4492-1-babu.moger@amd.com>
  <20181121202811.4492-11-babu.moger@amd.com>
  <fe5c4f4b-e233-875c-1f33-f22c5986b041@intel.com>
+ <20181126222800.GR4843@zn.tnic>
+From:   Reinette Chatre <reinette.chatre@intel.com>
+Message-ID: <22dcf61a-fddf-3a7a-4e28-25d27e9482ad@intel.com>
+Date:   Mon, 26 Nov 2018 14:44:49 -0800
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
+In-Reply-To: <20181126222800.GR4843@zn.tnic>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <fe5c4f4b-e233-875c-1f33-f22c5986b041@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 26, 2018 at 02:16:24PM -0800, Reinette Chatre wrote:
-> Hi Babu and Borislav,
+Hi Borislav,
+
+On 11/26/2018 2:28 PM, Borislav Petkov wrote:
+> On Mon, Nov 26, 2018 at 02:16:24PM -0800, Reinette Chatre wrote:
+>> Hi Babu and Borislav,
+>>
+>> Two typos seemed to have slipped through into the merged commit ...
+>>
+>> On 11/21/2018 12:28 PM, Moger, Babu wrote:
+>>> @@ -163,14 +163,14 @@ int parse_cbm(struct rdt_parse_data *data, struct rdt_resource *r,
+>>>  	 * either is exclusive.
+>>>  	 */
+>>>  	if (rdtgroup_cbm_overlaps(r, d, cbm_val, rdtgrp->closid, true)) {
+>>> -		rdt_last_cmd_printf("overlaps with exclusive group\n");
+>>> +		rdt_last_cmd_printf("Overlaps with exclusive group\n");
+>>>  		return -EINVAL;
+>>>  	}
+>>>  
+>>>  	if (rdtgroup_cbm_overlaps(r, d, cbm_val, rdtgrp->closid, false)) {
+>>>  		if (rdtgrp->mode == RDT_MODE_EXCLUSIVE ||
+>>>  		    rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP) {
+>>> -			rdt_last_cmd_printf("overlaps with other group\n");
+>>> +			rdt_last_cmd_printf("0verlaps with other group\n");
+>>>  			return -EINVAL;
+>>>  		}
+>>>  	}
+>>
+>> There is a zero instead of O used in second "Overlaps".
 > 
-> Two typos seemed to have slipped through into the merged commit ...
+> LOL!
 > 
-> On 11/21/2018 12:28 PM, Moger, Babu wrote:
-> > @@ -163,14 +163,14 @@ int parse_cbm(struct rdt_parse_data *data, struct rdt_resource *r,
-> >  	 * either is exclusive.
-> >  	 */
-> >  	if (rdtgroup_cbm_overlaps(r, d, cbm_val, rdtgrp->closid, true)) {
-> > -		rdt_last_cmd_printf("overlaps with exclusive group\n");
-> > +		rdt_last_cmd_printf("Overlaps with exclusive group\n");
-> >  		return -EINVAL;
-> >  	}
-> >  
-> >  	if (rdtgroup_cbm_overlaps(r, d, cbm_val, rdtgrp->closid, false)) {
-> >  		if (rdtgrp->mode == RDT_MODE_EXCLUSIVE ||
-> >  		    rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP) {
-> > -			rdt_last_cmd_printf("overlaps with other group\n");
-> > +			rdt_last_cmd_printf("0verlaps with other group\n");
-> >  			return -EINVAL;
-> >  		}
-> >  	}
+> That's so l337 :-)
 > 
-> There is a zero instead of O used in second "Overlaps".
-
-LOL!
-
-That's so l337 :-)
-
-> > @@ -1235,7 +1235,7 @@ static ssize_t rdtgroup_mode_write(struct kernfs_open_file *of,
-> >  			goto out;
-> >  		rdtgrp->mode = RDT_MODE_PSEUDO_LOCKSETUP;
-> >  	} else {
-> > -		rdt_last_cmd_printf("unknown/unsupported mode\n");
-> > +		rdt_last_cmd_printf("Unknown orunsupported mode\n");
-> >  		ret = -EINVAL;
-> >  	}
+>>> @@ -1235,7 +1235,7 @@ static ssize_t rdtgroup_mode_write(struct kernfs_open_file *of,
+>>>  			goto out;
+>>>  		rdtgrp->mode = RDT_MODE_PSEUDO_LOCKSETUP;
+>>>  	} else {
+>>> -		rdt_last_cmd_printf("unknown/unsupported mode\n");
+>>> +		rdt_last_cmd_printf("Unknown orunsupported mode\n");
+>>>  		ret = -EINVAL;
+>>>  	}
+>>
+>> Missing a space.
 > 
-> Missing a space.
+> Whoops, nice catch. Can you send a fix pls?
 
-Whoops, nice catch. Can you send a fix pls?
+Will do. Since there is overlap here I am planning for the fix to also
+include changing rdt_last_cmd_printf() instances like the above to use
+rdt_last_cmd_puts() instead.
 
-Thx.
+Reinette
 
--- 
-Regards/Gruss,
-    Boris.
 
-Good mailing practices for 400: avoid top-posting and trim the reply.
