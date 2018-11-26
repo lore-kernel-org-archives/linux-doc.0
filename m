@@ -5,138 +5,91 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DDDE77D8A3
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 19:42:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 43AD57D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 20:07:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726140AbeK0GhU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Nov 2018 01:37:20 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38656 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726251AbeK0GhT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Nov 2018 01:37:19 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wAQJdLnD109417
-        for <linux-doc@vger.kernel.org>; Mon, 26 Nov 2018 14:42:09 -0500
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2p0n5cdjdr-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 26 Nov 2018 14:42:09 -0500
-Received: from localhost
-        by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Mon, 26 Nov 2018 19:42:07 -0000
-Received: from b01cxnp22035.gho.pok.ibm.com (9.57.198.25)
-        by e17.ny.us.ibm.com (146.89.104.204) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 26 Nov 2018 19:42:03 -0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wAQJg26s17170618
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 26 Nov 2018 19:42:02 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id AFACAB2066;
-        Mon, 26 Nov 2018 19:42:02 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 90DDCB206B;
-        Mon, 26 Nov 2018 19:42:02 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.38])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Mon, 26 Nov 2018 19:42:02 +0000 (GMT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id 3603516C342E; Mon, 26 Nov 2018 11:42:05 -0800 (PST)
-Date:   Mon, 26 Nov 2018 11:42:05 -0800
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     Will Deacon <will.deacon@arm.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Laight <David.Laight@ACULAB.COM>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH] docs/memory-barriers.txt: Enforce heavy ordering for
- port I/O accesses
-Reply-To: paulmck@linux.ibm.com
-References: <1543251134-29867-1-git-send-email-will.deacon@arm.com>
+        id S1727239AbeK0HCh convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Nov 2018 02:02:37 -0500
+Received: from mail.bootlin.com ([62.4.15.54]:41826 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727234AbeK0HCg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Nov 2018 02:02:36 -0500
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id BC1DC20D2E; Mon, 26 Nov 2018 21:07:20 +0100 (CET)
+Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
+        by mail.bootlin.com (Postfix) with ESMTPSA id D4A6C206A1;
+        Mon, 26 Nov 2018 21:06:38 +0100 (CET)
+Date:   Mon, 26 Nov 2018 21:06:38 +0100
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     vitor <vitor.soares@synopsys.com>
+Cc:     <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <gregkh@linuxfoundation.org>,
+        <arnd@arndb.de>, <psroka@cadence.com>, <agolec@cadence.com>,
+        <adouglas@cadence.com>, <bfolta@cadence.com>, <dkos@cadence.com>,
+        <alicja@cadence.com>, <cwronka@cadence.com>, <sureshp@cadence.com>,
+        <rafalc@cadence.com>, <thomas.petazzoni@bootlin.com>, <nm@ti.com>,
+        <robh+dt@kernel.org>, <pawel.moll@arm.com>, <mark.rutland@arm.com>,
+        <ijc+devicetree@hellion.org.uk>, <galak@codeaurora.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <geert@linux-m68k.org>, <linus.walleij@linaro.org>,
+        <Xiang.Lin@synaptics.com>, <linux-gpio@vger.kernel.org>,
+        <nsekhar@ti.com>, <pgaj@cadence.com>, <peda@axentia.se>,
+        <mshettel@codeaurora.org>, <swboyd@chromium.org>,
+        <joao.pinto@synopsys.com>
+Subject: Re: [PATCH] i3c: master: dw: split dw-i3c-master.c into master and
+ bus specific parts
+Message-ID: <20181126210638.0b8c4ee8@bbrezillon>
+In-Reply-To: <b7f59793-aaaa-95ff-fe7d-943e558f65b5@synopsys.com>
+References: <ade2c1a8d1eb48681b01ccdc9bed22caf5e96c4b.1542904564.git.soares@synopsys.com>
+        <20181122210202.6af50fcc@bbrezillon>
+        <6d513e04-3a57-1989-429c-64631101c5a2@synopsys.com>
+        <20181123135004.7fd1cd58@bbrezillon>
+        <83115f47-1326-cb33-a7dc-4bc8ff95befa@synopsys.com>
+        <20181126133550.51469816@bbrezillon>
+        <4e9c0461-02a3-80b2-c9b7-2e9ea9b38f8b@synopsys.com>
+        <20181126195618.352eafb1@bbrezillon>
+        <20181126200855.0caa45b0@bbrezillon>
+        <b7f59793-aaaa-95ff-fe7d-943e558f65b5@synopsys.com>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1543251134-29867-1-git-send-email-will.deacon@arm.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 18112619-0040-0000-0000-0000049892B9
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00010125; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000270; SDB=6.01123150; UDB=6.00577119; IPR=6.00903279;
- MB=3.00024340; MTD=3.00000008; XFM=3.00000015; UTC=2018-11-26 19:42:06
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18112619-0041-0000-0000-000008A1A79F
-Message-Id: <20181126194205.GL4170@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-26_15:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1811260168
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 26, 2018 at 04:52:14PM +0000, Will Deacon wrote:
-> David Laight explains:
-> 
->   | A long time ago there was a document from Intel that said that
->   | inb/outb weren't necessarily synchronised wrt memory accesses.
->   | (Might be P-pro era). However no processors actually behaved that
->   | way and more recent docs say that inb/outb are fully ordered.
-> 
-> This also reflects the situation on other architectures, the the port
-> accessor macros tend to be implemented in terms of readX/writeX.
-> 
-> Update Documentation/memory-barriers.txt to reflect reality.
-> 
-> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: David Laight <David.Laight@ACULAB.COM>
-> Cc: Alan Stern <stern@rowland.harvard.edu>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-> Signed-off-by: Will Deacon <will.deacon@arm.com>
+On Mon, 26 Nov 2018 19:28:02 +0000
+vitor <vitor.soares@synopsys.com> wrote:
 
-Queued, with the addition of Cc: of LKML, linux-arch, and linux-docs,
-thank you!
+> On 26/11/18 19:08, Boris Brezillon wrote:
+> > On Mon, 26 Nov 2018 19:56:18 +0100
+> > Boris Brezillon <boris.brezillon@bootlin.com> wrote:
+> >     
+> >>>       - for the others it will easy the SoC integration avoiding
+> >>> duplicated work and doing things from scratch.  
+> >> What would be duplicated? You want to support a new SoC, just add a new
+> >> entry in the of_match_table and you're done. When you need to add
+> >> SoC/integration specific stuff, create a struct and attach a different
+> >> instance per-compatible so that each SoC can have its own configuration
+> >> (or even init sequence if needed). That's how we do for pretty much all
+> >> IPs out there, why should designware ones be different?  
+> > To be more specific, I'd like a real example that shows why the
+> > separation is needed.  
+> 
+> Ok no problem. We can delay this for PCI and other rules support.
 
-(Otherwise, these lists can get lost when I send out the LKMM series.)
+I finally understand what this separation is all about: supporting both
+PCI and platform devices. I guess I've been distracted by this sentence:
 
-							Thanx, Paul
+"
+This patch will allow SOC integrators to add their code specific to
+DesignWare I3C IP.
+"
 
-> ---
-> 
-> Just remembered I had this patch kicking around in my tree...
-> 
->  Documentation/memory-barriers.txt | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-> index c1d913944ad8..0c34c5dac138 100644
-> --- a/Documentation/memory-barriers.txt
-> +++ b/Documentation/memory-barriers.txt
-> @@ -2619,10 +2619,8 @@ functions:
->       intermediary bridges (such as the PCI host bridge) may not fully honour
->       that.
-> 
-> -     They are guaranteed to be fully ordered with respect to each other.
-> -
-> -     They are not guaranteed to be fully ordered with respect to other types of
-> -     memory and I/O operation.
-> +     They are guaranteed to be fully ordered with respect to each other and
-> +     also with respect to other types of memory and I/O operation.
-> 
->   (*) readX(), writeX():
-> 
-> -- 
-> 2.1.4
-> 
+which for me meant each SoC would have its own platform_driver.
 
+In any case, I think this is a bit premature do this separation, unless
+you already know about one integrator planning to expose this IP over
+PCI.
