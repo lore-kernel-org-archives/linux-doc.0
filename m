@@ -5,97 +5,131 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AACA07D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 19:28:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 01DDB7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 19:33:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726511AbeK0GX2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Nov 2018 01:23:28 -0500
-Received: from us01smtprelay-2.synopsys.com ([198.182.47.9]:60576 "EHLO
-        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726251AbeK0GX2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Nov 2018 01:23:28 -0500
-Received: from mailhost.synopsys.com (mailhost2.synopsys.com [10.13.184.66])
-        by smtprelay.synopsys.com (Postfix) with ESMTP id 3304824E083B;
-        Mon, 26 Nov 2018 11:28:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1543260501; bh=wftyrKsUmroNh89usYtNK2o903693/PJTlzIUE+2TQs=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
-        b=PsTFnbc+qp/2GKyBv84W4jYozcbj7upt+o1wP+cfwrzH37v37G1K5A9G7UrPuCox7
-         d6SvPVc6eiSh9qLOg9cwf41SK6JxbTosNCd7dAHnexvhpr29YFpU+SFtnjDSvXmF1M
-         A+jBmVu62NfKTeyXBNzQJlcmvQI+5/5fa3BJz6CSTr7pmFJrIZKEdzl5vErGt1/hzs
-         TRAWkkmozL//qqVCwX7Jx36Cu8i2bXleG21YMwYTbg6TxvlKgwJ0Xb74QpuZn9tEv7
-         b0ZZYHXjg2RtvXD54sj1YPg2vIZ9ko4MzZWor3dgfasysX6oTGXUbp75xbkEx0Ic46
-         SzrqcLJvkQ2uw==
-Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 2D297392C;
-        Mon, 26 Nov 2018 11:28:19 -0800 (PST)
-Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Mon, 26 Nov 2018 11:28:18 -0800
-Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
- DE02WEHTCB.internal.synopsys.com (10.225.19.94) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Mon, 26 Nov 2018 20:28:17 +0100
-Received: from [10.0.2.15] (10.107.19.169) by DE02WEHTCA.internal.synopsys.com
- (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.408.0; Mon, 26 Nov
- 2018 20:28:16 +0100
-Subject: Re: [PATCH] i3c: master: dw: split dw-i3c-master.c into master and
- bus specific parts
-To:     Boris Brezillon <boris.brezillon@bootlin.com>,
-        vitor <vitor.soares@synopsys.com>
-CC:     <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <gregkh@linuxfoundation.org>,
-        <arnd@arndb.de>, <psroka@cadence.com>, <agolec@cadence.com>,
-        <adouglas@cadence.com>, <bfolta@cadence.com>, <dkos@cadence.com>,
-        <alicja@cadence.com>, <cwronka@cadence.com>, <sureshp@cadence.com>,
-        <rafalc@cadence.com>, <thomas.petazzoni@bootlin.com>, <nm@ti.com>,
-        <robh+dt@kernel.org>, <pawel.moll@arm.com>, <mark.rutland@arm.com>,
-        <ijc+devicetree@hellion.org.uk>, <galak@codeaurora.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <geert@linux-m68k.org>, <linus.walleij@linaro.org>,
-        <Xiang.Lin@synaptics.com>, <linux-gpio@vger.kernel.org>,
-        <nsekhar@ti.com>, <pgaj@cadence.com>, <peda@axentia.se>,
-        <mshettel@codeaurora.org>, <swboyd@chromium.org>,
-        <joao.pinto@synopsys.com>
-References: <ade2c1a8d1eb48681b01ccdc9bed22caf5e96c4b.1542904564.git.soares@synopsys.com>
- <20181122210202.6af50fcc@bbrezillon>
- <6d513e04-3a57-1989-429c-64631101c5a2@synopsys.com>
- <20181123135004.7fd1cd58@bbrezillon>
- <83115f47-1326-cb33-a7dc-4bc8ff95befa@synopsys.com>
- <20181126133550.51469816@bbrezillon>
- <4e9c0461-02a3-80b2-c9b7-2e9ea9b38f8b@synopsys.com>
- <20181126195618.352eafb1@bbrezillon> <20181126200855.0caa45b0@bbrezillon>
-From:   vitor <vitor.soares@synopsys.com>
-Message-ID: <b7f59793-aaaa-95ff-fe7d-943e558f65b5@synopsys.com>
-Date:   Mon, 26 Nov 2018 19:28:02 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        id S1726313AbeK0G3F (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Nov 2018 01:29:05 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:39407 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726140AbeK0G3E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Nov 2018 01:29:04 -0500
+Received: by mail-ed1-f66.google.com with SMTP id b14so16887692edt.6
+        for <linux-doc@vger.kernel.org>; Mon, 26 Nov 2018 11:33:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Dhq9Wa8DxbKUhiU3QROo0wkZHkmKjBUi00KD1NSMmPk=;
+        b=G25Upoqn4I+nd6KSceXUZR0X78iS6lZYv0F3w2AkkgAFyhD89slHzkaZ/ZPwbabHNB
+         b3/Kw9J+ULBjPi+0AjRUADCicJbfgYqq4sLScOZPRswXRKE8IGmf9cf7Bg/LJ/T7fqh9
+         FmWx/PYqXKAFbjO5u8x1ET4jb7gES2AWiUcto=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Dhq9Wa8DxbKUhiU3QROo0wkZHkmKjBUi00KD1NSMmPk=;
+        b=FHD8D1fomRZ9qcL1/4EaD6GAAqHO2YYLD3qcLcYgdrMAmj3OKmtspbfF82KRWJe8Wg
+         6I4DjlO3K7TRqxOHkYjSOQ7+6FipFA4kF2CkCiKG9ANyUcReKRKGnfMHdFaPFf6ZHLyf
+         slbhCresvSGr278ZAJhtsDT2Sl+ktaf8u3XuvPUyvQkUvXrPiRu0vqmwNdRujGed5UoV
+         H+KotJ3+sZrSCFb33/qGrB7EDF3Nqo5CnSSZg/Ut8ZRtmJJYMn0MmpwI822m33kOfnal
+         vidKa6sMBLOGh3rO8KA6C4+gkqoImvWURzmLH2WP+1TGuvmh9WlIwHDQ7F58MWj0TLxY
+         Kigg==
+X-Gm-Message-State: AGRZ1gIi8YwFb3sHKpR14vd4bUxxXzhrKDPlU7khwGwFuFOrLII9Naq9
+        AiVxuMAzLFRMUOyljIDpKKdZmA==
+X-Google-Smtp-Source: AJdET5e4BWNgwf3TBLNR4UD0ZZ+n4uZlMfVufKIcoINYntE/DqhpmDzpKwxMvV4YdFymNxt8ESg+NQ==
+X-Received: by 2002:a17:906:32c6:: with SMTP id k6-v6mr21360129ejk.48.1543260835516;
+        Mon, 26 Nov 2018 11:33:55 -0800 (PST)
+Received: from andrea (dynamic-2a00-1028-8386-da8a-eacb-c188-78b9-634c.ipv6.broadband.iol.cz. [2a00:1028:8386:da8a:eacb:c188:78b9:634c])
+        by smtp.gmail.com with ESMTPSA id w10sm384955eda.77.2018.11.26.11.33.54
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 26 Nov 2018 11:33:54 -0800 (PST)
+Date:   Mon, 26 Nov 2018 20:33:49 +0100
+From:   Andrea Parri <andrea.parri@amarulasolutions.com>
+To:     Will Deacon <will.deacon@arm.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Laight <David.Laight@ACULAB.COM>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Subject: Re: [PATCH] docs/memory-barriers.txt: Enforce heavy ordering for
+ port I/O accesses
+Message-ID: <20181126193349.GA3509@andrea>
+References: <1543251134-29867-1-git-send-email-will.deacon@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20181126200855.0caa45b0@bbrezillon>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.107.19.169]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1543251134-29867-1-git-send-email-will.deacon@arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Nov 26, 2018 at 04:52:14PM +0000, Will Deacon wrote:
+> David Laight explains:
+> 
+>   | A long time ago there was a document from Intel that said that
+>   | inb/outb weren't necessarily synchronised wrt memory accesses.
+>   | (Might be P-pro era). However no processors actually behaved that
+>   | way and more recent docs say that inb/outb are fully ordered.
 
-On 26/11/18 19:08, Boris Brezillon wrote:
-> On Mon, 26 Nov 2018 19:56:18 +0100
-> Boris Brezillon <boris.brezillon@bootlin.com> wrote:
->   
->>>       - for the others it will easy the SoC integration avoiding
->>> duplicated work and doing things from scratch.
->> What would be duplicated? You want to support a new SoC, just add a new
->> entry in the of_match_table and you're done. When you need to add
->> SoC/integration specific stuff, create a struct and attach a different
->> instance per-compatible so that each SoC can have its own configuration
->> (or even init sequence if needed). That's how we do for pretty much all
->> IPs out there, why should designware ones be different?
-> To be more specific, I'd like a real example that shows why the
-> separation is needed.
-
-Ok no problem. We can delay this for PCI and other rules support.
+No intention to diminish David Laight's authority of course, but I would
+have really appreciated a reference to these "recent docs" (section, pg.
+or the like, especially if a reference manual...) here...
 
 
+> 
+> This also reflects the situation on other architectures, the the port
+> accessor macros tend to be implemented in terms of readX/writeX.
+> 
+> Update Documentation/memory-barriers.txt to reflect reality.
+
+..., IOW, what do you mean by "reality"?
+
+> 
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: David Laight <David.Laight@ACULAB.COM>
+> Cc: Alan Stern <stern@rowland.harvard.edu>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+> Signed-off-by: Will Deacon <will.deacon@arm.com>
+
+Please Cc me on future patches to memory-barriers.txt (can not speak for
+my co-maintainers, but I'm inclined to say that get_maintainers.pl knows
+better...).
+
+  Andrea
+
+
+> ---
+> 
+> Just remembered I had this patch kicking around in my tree...
+> 
+>  Documentation/memory-barriers.txt | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+> index c1d913944ad8..0c34c5dac138 100644
+> --- a/Documentation/memory-barriers.txt
+> +++ b/Documentation/memory-barriers.txt
+> @@ -2619,10 +2619,8 @@ functions:
+>       intermediary bridges (such as the PCI host bridge) may not fully honour
+>       that.
+>  
+> -     They are guaranteed to be fully ordered with respect to each other.
+> -
+> -     They are not guaranteed to be fully ordered with respect to other types of
+> -     memory and I/O operation.
+> +     They are guaranteed to be fully ordered with respect to each other and
+> +     also with respect to other types of memory and I/O operation.
+>  
+>   (*) readX(), writeX():
+>  
+> -- 
+> 2.1.4
+> 
