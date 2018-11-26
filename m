@@ -1,84 +1,216 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 655CE7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 09:03:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E3BDB7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 11:12:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726287AbeKZT4l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 26 Nov 2018 14:56:41 -0500
-Received: from mga06.intel.com ([134.134.136.31]:65425 "EHLO mga06.intel.com"
+        id S1729396AbeKZV4N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 26 Nov 2018 16:56:13 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39188 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726158AbeKZT4l (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Nov 2018 14:56:41 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Nov 2018 01:03:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,281,1539673200"; 
-   d="scan'208";a="103152425"
-Received: from linux.intel.com ([10.54.29.200])
-  by orsmga003.jf.intel.com with ESMTP; 26 Nov 2018 01:03:14 -0800
-Received: from [10.125.252.8] (abudanko-mobl.ccr.corp.intel.com [10.125.252.8])
-        by linux.intel.com (Postfix) with ESMTP id C6FAE5803EB;
-        Mon, 26 Nov 2018 01:03:10 -0800 (PST)
-Subject: [PATCH v3 2/2] Documentation/admin-guide: update admin-guide
- index.rst
-From:   Alexey Budankov <alexey.budankov@linux.intel.com>
-To:     Jonatan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Ingo Molnar <mingo@redhat.com>,
+        id S1729135AbeKZV4M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Nov 2018 16:56:12 -0500
+Received: from localhost (5356596B.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9C63F21479;
+        Mon, 26 Nov 2018 11:02:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1543230147;
+        bh=pLabZEc3qzUP5IReUum+GbQN3DgS09nLClXiwJF0erA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=zQ9Xiz2EI287KT2Gw1g+P2M9bGGqhaOAkO1CdFbPLpSO1f8Vhf+ygW7Adt5k5BOaI
+         f5qgHpMpmz/EYbgGUA5mNQ2lPiJ4GLuVjrImTi08e7oIErq+KKdimmy+vwGXWzmLsb
+         3ra979D4TirYyrwCBidVr9SlLA5lGFLakfeg1Xok=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+        Feng Tang <feng.tang@intel.com>, Borislav Petkov <bp@suse.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Stuart R . Anderson" <stuart.r.anderson@intel.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        H Peter Anvin <hpa@linux.intel.com>,
+        Ingo Molnar <mingo@kernel.org>, Jiri Kosina <jkosina@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>
-Cc:     Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Tvrtko Ursulin <tursulin@ursulin.net>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "kernel-hardening@lists.openwall.com" 
-        <kernel-hardening@lists.openwall.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <6cfb235a-59bc-48f0-3425-59c5b6431b12@linux.intel.com>
-Organization: Intel Corp.
-Message-ID: <c8bc809f-ae21-f7de-e477-7d357a1ccf73@linux.intel.com>
-Date:   Mon, 26 Nov 2018 12:03:09 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thymo van Beers <thymovanbeers@gmail.com>,
+        alan@linux.intel.com, linux-doc@vger.kernel.org,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 4.19 025/118] x86/earlyprintk: Add a force option for pciserial device
+Date:   Mon, 26 Nov 2018 11:50:19 +0100
+Message-Id: <20181126105100.829963680@linuxfoundation.org>
+X-Mailer: git-send-email 2.19.2
+In-Reply-To: <20181126105059.832485122@linuxfoundation.org>
+References: <20181126105059.832485122@linuxfoundation.org>
+User-Agent: quilt/0.65
+X-stable: review
 MIME-Version: 1.0
-In-Reply-To: <6cfb235a-59bc-48f0-3425-59c5b6431b12@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+4.19-stable review patch.  If anyone has any objections, please let me know.
 
-Extend index.rst index file at admin-guide root directory with
-the reference to perf-security.rst file being introduced.
+------------------
 
-Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
+[ Upstream commit d2266bbfa9e3e32e3b642965088ca461bd24a94f ]
+
+The "pciserial" earlyprintk variant helps much on many modern x86
+platforms, but unfortunately there are still some platforms with PCI
+UART devices which have the wrong PCI class code. In that case, the
+current class code check does not allow for them to be used for logging.
+
+Add a sub-option "force" which overrides the class code check and thus
+the use of such device can be enforced.
+
+ [ bp: massage formulations. ]
+
+Suggested-by: Borislav Petkov <bp@alien8.de>
+Signed-off-by: Feng Tang <feng.tang@intel.com>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: "Stuart R . Anderson" <stuart.r.anderson@intel.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: David Rientjes <rientjes@google.com>
+Cc: Feng Tang <feng.tang@intel.com>
+Cc: Frederic Weisbecker <frederic@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: H Peter Anvin <hpa@linux.intel.com>
+Cc: Ingo Molnar <mingo@kernel.org>
+Cc: Jiri Kosina <jkosina@suse.cz>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc: Kate Stewart <kstewart@linuxfoundation.org>
+Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Philippe Ombredanne <pombredanne@nexb.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Thymo van Beers <thymovanbeers@gmail.com>
+Cc: alan@linux.intel.com
+Cc: linux-doc@vger.kernel.org
+Link: http://lkml.kernel.org/r/20181002164921.25833-1-feng.tang@intel.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/admin-guide/index.rst | 1 +
- 1 file changed, 1 insertion(+)
+ .../admin-guide/kernel-parameters.txt         |  6 +++-
+ arch/x86/kernel/early_printk.c                | 29 ++++++++++++-------
+ 2 files changed, 24 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 965745d5fb9a..0a491676685e 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -76,6 +76,7 @@ configure specific aspects of kernel behavior to your liking.
-    thunderbolt
-    LSM/index
-    mm/index
-+   perf-security
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 92eb1f42240d..34e6800dea0e 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1063,7 +1063,7 @@
+ 			earlyprintk=serial[,0x...[,baudrate]]
+ 			earlyprintk=ttySn[,baudrate]
+ 			earlyprintk=dbgp[debugController#]
+-			earlyprintk=pciserial,bus:device.function[,baudrate]
++			earlyprintk=pciserial[,force],bus:device.function[,baudrate]
+ 			earlyprintk=xdbc[xhciController#]
  
- .. only::  subproject and html
+ 			earlyprintk is useful when the kernel crashes before
+@@ -1095,6 +1095,10 @@
  
+ 			The sclp output can only be used on s390.
+ 
++			The optional "force" to "pciserial" enables use of a
++			PCI device even when its classcode is not of the
++			UART class.
++
+ 	edac_report=	[HW,EDAC] Control how to report EDAC event
+ 			Format: {"on" | "off" | "force"}
+ 			on: enable EDAC to report H/W event. May be overridden
+diff --git a/arch/x86/kernel/early_printk.c b/arch/x86/kernel/early_printk.c
+index 5e801c8c8ce7..374a52fa5296 100644
+--- a/arch/x86/kernel/early_printk.c
++++ b/arch/x86/kernel/early_printk.c
+@@ -213,8 +213,9 @@ static unsigned int mem32_serial_in(unsigned long addr, int offset)
+  * early_pci_serial_init()
+  *
+  * This function is invoked when the early_printk param starts with "pciserial"
+- * The rest of the param should be ",B:D.F,baud" where B, D & F describe the
+- * location of a PCI device that must be a UART device.
++ * The rest of the param should be "[force],B:D.F,baud", where B, D & F describe
++ * the location of a PCI device that must be a UART device. "force" is optional
++ * and overrides the use of an UART device with a wrong PCI class code.
+  */
+ static __init void early_pci_serial_init(char *s)
+ {
+@@ -224,17 +225,23 @@ static __init void early_pci_serial_init(char *s)
+ 	u32 classcode, bar0;
+ 	u16 cmdreg;
+ 	char *e;
++	int force = 0;
+ 
+-
+-	/*
+-	 * First, part the param to get the BDF values
+-	 */
+ 	if (*s == ',')
+ 		++s;
+ 
+ 	if (*s == 0)
+ 		return;
+ 
++	/* Force the use of an UART device with wrong class code */
++	if (!strncmp(s, "force,", 6)) {
++		force = 1;
++		s += 6;
++	}
++
++	/*
++	 * Part the param to get the BDF values
++	 */
+ 	bus = (u8)simple_strtoul(s, &e, 16);
+ 	s = e;
+ 	if (*s != ':')
+@@ -253,7 +260,7 @@ static __init void early_pci_serial_init(char *s)
+ 		s++;
+ 
+ 	/*
+-	 * Second, find the device from the BDF
++	 * Find the device from the BDF
+ 	 */
+ 	cmdreg = read_pci_config(bus, slot, func, PCI_COMMAND);
+ 	classcode = read_pci_config(bus, slot, func, PCI_CLASS_REVISION);
+@@ -264,8 +271,10 @@ static __init void early_pci_serial_init(char *s)
+ 	 */
+ 	if (((classcode >> 16 != PCI_CLASS_COMMUNICATION_MODEM) &&
+ 	     (classcode >> 16 != PCI_CLASS_COMMUNICATION_SERIAL)) ||
+-	   (((classcode >> 8) & 0xff) != 0x02)) /* 16550 I/F at BAR0 */
+-		return;
++	   (((classcode >> 8) & 0xff) != 0x02)) /* 16550 I/F at BAR0 */ {
++		if (!force)
++			return;
++	}
+ 
+ 	/*
+ 	 * Determine if it is IO or memory mapped
+@@ -289,7 +298,7 @@ static __init void early_pci_serial_init(char *s)
+ 	}
+ 
+ 	/*
+-	 * Lastly, initialize the hardware
++	 * Initialize the hardware
+ 	 */
+ 	if (*s) {
+ 		if (strcmp(s, "nocfg") == 0)
+-- 
+2.17.1
+
+
+
