@@ -5,113 +5,103 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B94017D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 25 Nov 2018 22:55:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5CC1B7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 08:57:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726079AbeKZJrs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 26 Nov 2018 04:47:48 -0500
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:51412 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726032AbeKZJrs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Nov 2018 04:47:48 -0500
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id C13998081B; Sun, 25 Nov 2018 23:55:30 +0100 (CET)
-Date:   Sun, 25 Nov 2018 23:55:33 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Daniel Colascione <dancol@google.com>,
+        id S1726242AbeKZTuo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 26 Nov 2018 14:50:44 -0500
+Received: from mga05.intel.com ([192.55.52.43]:51482 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726157AbeKZTuo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Nov 2018 14:50:44 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Nov 2018 00:57:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,281,1539673200"; 
+   d="scan'208";a="89218240"
+Received: from linux.intel.com ([10.54.29.200])
+  by fmsmga008.fm.intel.com with ESMTP; 26 Nov 2018 00:57:17 -0800
+Received: from [10.125.252.8] (abudanko-mobl.ccr.corp.intel.com [10.125.252.8])
+        by linux.intel.com (Postfix) with ESMTP id 062695803C2;
+        Mon, 26 Nov 2018 00:57:13 -0800 (PST)
+To:     Jonatan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>
+From:   Alexey Budankov <alexey.budankov@linux.intel.com>
+Subject: [PATCH v3 0/2] Documentation/admin-guide: introduce perf-security.rst
+ file and extend perf_event_paranoid documentation
+Organization: Intel Corp.
+Cc:     Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Tvrtko Ursulin <tursulin@ursulin.net>,
         linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Tim Murray <timmurray@google.com>,
-        Primiano Tucci <primiano@google.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Roman Gushchin <guro@fb.com>, Vlastimil Babka <vbabka@suse.cz>,
-        "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
-        Prashant Dhamdhere <pdhamdhe@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>, rostedt@goodmis.org,
-        tglx@linutronix.de, mingo@kernel.org, linux@dominikbrodowski.net,
-        pasha.tatashin@oracle.com, jpoimboe@redhat.com,
-        ard.biesheuvel@linaro.org, Michal Hocko <mhocko@suse.com>,
-        David Howells <dhowells@redhat.com>, ktsanaktsidis@zendesk.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] Add /proc/pid_generation
-Message-ID: <20181125225533.GB30242@amd>
-References: <20181121201452.77173-1-dancol@google.com>
- <20181121203150.GK3065@bombadil.infradead.org>
- <CAKOZueuCYOsaHZzoz5nNPr8Jb-fEiHTR4MektaJx8vuUXcrKCQ@mail.gmail.com>
- <20181122020633.GN3065@bombadil.infradead.org>
+        "kernel-hardening@lists.openwall.com" 
+        <kernel-hardening@lists.openwall.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Message-ID: <6cfb235a-59bc-48f0-3425-59c5b6431b12@linux.intel.com>
+Date:   Mon, 26 Nov 2018 11:57:11 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="TRYliJ5NKNqkz5bu"
-Content-Disposition: inline
-In-Reply-To: <20181122020633.GN3065@bombadil.infradead.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---TRYliJ5NKNqkz5bu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+To facilitate informed decision making by system administrators [1]
+to permit and manage access to Perf Events (perf_events) / Perf tool 
+(Perf) [2],[3] performance monitoring for multiple users perf-security.rst 
+document suggested by Thomas Gleixner is introduced [4] that:
 
-On Wed 2018-11-21 18:06:33, Matthew Wilcox wrote:
-> On Wed, Nov 21, 2018 at 12:38:20PM -0800, Daniel Colascione wrote:
-> > On Wed, Nov 21, 2018 at 12:31 PM Matthew Wilcox <willy@infradead.org> w=
-rote:
-> > >
-> > > On Wed, Nov 21, 2018 at 12:14:44PM -0800, Daniel Colascione wrote:
-> > > > This change adds a per-pid-namespace 64-bit generation number,
-> > > > incremented on PID rollover, and exposes it via a new proc file
-> > > > /proc/pid_generation. By examining this file before and after /proc
-> > > > enumeration, user code can detect the potential reuse of a PID and
-> > > > restart the task enumeration process, repeating until it gets a
-> > > > coherent snapshot.
-> > > >
-> > > > PID rollover ought to be rare, so in practice, scan repetitions will
-> > > > be rare.
-> > >
-> > > Then why does it need to be 64-bit?
-> >=20
-> > [Resending because of accidental HTML. I really need to switch to a
-> > better email client.]
-> >=20
-> > Because 64 bits is enough for anyone. :-) A u64 is big enough that
-> > we'll never observe an overflow on a running system, and PID
-> > namespaces are rare enough that we won't miss the four extra bytes we
-> > use by upgrading from a u32.  And after reading about some security
-> > problems caused by too-clever handling of 32-bit rollover, I'd rather
-> > the code be obviously correct than save a trivial amount of space.
->=20
-> I don't think you understand how big 4 billion is.  If it happens once a
-> second, it will take 136 years for a 2^32 count to roll over.  How often
-> does a PID roll over happen?
+a) states perf_events/Perf access security concerns for multi user environment
+b) refers to base Linux access control and management principles
+c) extends documentation of possible perf_event_paranoid knob settings 
 
-Well, the cost of 64-bit vs. 32-bit is really small here... I'd go
-with 64bits. If you have 1000 CPUs, rollovers may be faster..
+The file serves as single knowledge source for perf_events/Perf security and 
+access control related matter according to decisions, discussion and  
+PoC prototype previously made here [5],[6].
 
-Best regards,
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+The file can later be extended with information describing:
 
---TRYliJ5NKNqkz5bu
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+a) perf_events/Perf usage models and its security implications
+b) perf_events/Perf user interface, its changes and related security implications
+c) security related implications of monitoring by a specific perf_events PMU [2]
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+---
+Alexey Budankov (2):
+  Documentation/admin-guide: introduce perf-security.rst file
+  Documentation/admin-guide: update admin-guide index.rst
 
-iEYEARECAAYFAlv7KGUACgkQMOfwapXb+vKUpACguxRTw5+EBG5s9D4iEpat3sen
-udYAnRn+k2NI+lNteoHed7ikYIohN7P4
-=pK2+
------END PGP SIGNATURE-----
+ Documentation/admin-guide/index.rst         |  1 +
+ Documentation/admin-guide/perf-security.rst | 77 +++++++++++++++++++++
+ 2 files changed, 78 insertions(+)
+ create mode 100644 Documentation/admin-guide/perf-security.rst
 
---TRYliJ5NKNqkz5bu--
+---
+Changes in v3:
+- toning down of the markup for "scope, access and resource"
+- adding definite article for "Linux implementation"
+Changes in v2:
+- reverted patches order in the set to avoid CI issue
+- replaced old PCL referencing by PE (Perf Events)
+- skipped >=3 setting documentation at the moment
+
+---
+[1] https://marc.info/?l=linux-kernel&m=153815883923913&w=2
+[2] http://man7.org/linux/man-pages/man2/perf_event_open.2.html
+[3] https://perf.wiki.kernel.org/index.php/Main_Page
+[4] https://marc.info/?l=linux-kernel&m=153837512226838&w=2
+[5] https://marc.info/?l=linux-kernel&m=153736008310781&w=2
+[6] https://lkml.org/lkml/2018/5/21/156
