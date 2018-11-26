@@ -1,51 +1,51 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 01DDB7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 19:33:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DDDE77D8A3
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 19:42:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726313AbeK0G3F (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Nov 2018 01:29:05 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:39407 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726140AbeK0G3E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Nov 2018 01:29:04 -0500
-Received: by mail-ed1-f66.google.com with SMTP id b14so16887692edt.6
-        for <linux-doc@vger.kernel.org>; Mon, 26 Nov 2018 11:33:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Dhq9Wa8DxbKUhiU3QROo0wkZHkmKjBUi00KD1NSMmPk=;
-        b=G25Upoqn4I+nd6KSceXUZR0X78iS6lZYv0F3w2AkkgAFyhD89slHzkaZ/ZPwbabHNB
-         b3/Kw9J+ULBjPi+0AjRUADCicJbfgYqq4sLScOZPRswXRKE8IGmf9cf7Bg/LJ/T7fqh9
-         FmWx/PYqXKAFbjO5u8x1ET4jb7gES2AWiUcto=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Dhq9Wa8DxbKUhiU3QROo0wkZHkmKjBUi00KD1NSMmPk=;
-        b=FHD8D1fomRZ9qcL1/4EaD6GAAqHO2YYLD3qcLcYgdrMAmj3OKmtspbfF82KRWJe8Wg
-         6I4DjlO3K7TRqxOHkYjSOQ7+6FipFA4kF2CkCiKG9ANyUcReKRKGnfMHdFaPFf6ZHLyf
-         slbhCresvSGr278ZAJhtsDT2Sl+ktaf8u3XuvPUyvQkUvXrPiRu0vqmwNdRujGed5UoV
-         H+KotJ3+sZrSCFb33/qGrB7EDF3Nqo5CnSSZg/Ut8ZRtmJJYMn0MmpwI822m33kOfnal
-         vidKa6sMBLOGh3rO8KA6C4+gkqoImvWURzmLH2WP+1TGuvmh9WlIwHDQ7F58MWj0TLxY
-         Kigg==
-X-Gm-Message-State: AGRZ1gIi8YwFb3sHKpR14vd4bUxxXzhrKDPlU7khwGwFuFOrLII9Naq9
-        AiVxuMAzLFRMUOyljIDpKKdZmA==
-X-Google-Smtp-Source: AJdET5e4BWNgwf3TBLNR4UD0ZZ+n4uZlMfVufKIcoINYntE/DqhpmDzpKwxMvV4YdFymNxt8ESg+NQ==
-X-Received: by 2002:a17:906:32c6:: with SMTP id k6-v6mr21360129ejk.48.1543260835516;
-        Mon, 26 Nov 2018 11:33:55 -0800 (PST)
-Received: from andrea (dynamic-2a00-1028-8386-da8a-eacb-c188-78b9-634c.ipv6.broadband.iol.cz. [2a00:1028:8386:da8a:eacb:c188:78b9:634c])
-        by smtp.gmail.com with ESMTPSA id w10sm384955eda.77.2018.11.26.11.33.54
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 26 Nov 2018 11:33:54 -0800 (PST)
-Date:   Mon, 26 Nov 2018 20:33:49 +0100
-From:   Andrea Parri <andrea.parri@amarulasolutions.com>
+        id S1726140AbeK0GhU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Nov 2018 01:37:20 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38656 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726251AbeK0GhT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Nov 2018 01:37:19 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wAQJdLnD109417
+        for <linux-doc@vger.kernel.org>; Mon, 26 Nov 2018 14:42:09 -0500
+Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2p0n5cdjdr-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 26 Nov 2018 14:42:09 -0500
+Received: from localhost
+        by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Mon, 26 Nov 2018 19:42:07 -0000
+Received: from b01cxnp22035.gho.pok.ibm.com (9.57.198.25)
+        by e17.ny.us.ibm.com (146.89.104.204) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 26 Nov 2018 19:42:03 -0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wAQJg26s17170618
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 26 Nov 2018 19:42:02 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id AFACAB2066;
+        Mon, 26 Nov 2018 19:42:02 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 90DDCB206B;
+        Mon, 26 Nov 2018 19:42:02 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.38])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Mon, 26 Nov 2018 19:42:02 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 3603516C342E; Mon, 26 Nov 2018 11:42:05 -0800 (PST)
+Date:   Mon, 26 Nov 2018 11:42:05 -0800
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
 To:     Will Deacon <will.deacon@arm.com>
 Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
@@ -53,17 +53,32 @@ Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
         David Laight <David.Laight@ACULAB.COM>,
         Alan Stern <stern@rowland.harvard.edu>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+        Peter Zijlstra <peterz@infradead.org>
 Subject: Re: [PATCH] docs/memory-barriers.txt: Enforce heavy ordering for
  port I/O accesses
-Message-ID: <20181126193349.GA3509@andrea>
+Reply-To: paulmck@linux.ibm.com
 References: <1543251134-29867-1-git-send-email-will.deacon@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <1543251134-29867-1-git-send-email-will.deacon@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 18112619-0040-0000-0000-0000049892B9
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00010125; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000270; SDB=6.01123150; UDB=6.00577119; IPR=6.00903279;
+ MB=3.00024340; MTD=3.00000008; XFM=3.00000015; UTC=2018-11-26 19:42:06
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18112619-0041-0000-0000-000008A1A79F
+Message-Id: <20181126194205.GL4170@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-26_15:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1811260168
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -76,20 +91,11 @@ On Mon, Nov 26, 2018 at 04:52:14PM +0000, Will Deacon wrote:
 >   | inb/outb weren't necessarily synchronised wrt memory accesses.
 >   | (Might be P-pro era). However no processors actually behaved that
 >   | way and more recent docs say that inb/outb are fully ordered.
-
-No intention to diminish David Laight's authority of course, but I would
-have really appreciated a reference to these "recent docs" (section, pg.
-or the like, especially if a reference manual...) here...
-
-
 > 
 > This also reflects the situation on other architectures, the the port
 > accessor macros tend to be implemented in terms of readX/writeX.
 > 
 > Update Documentation/memory-barriers.txt to reflect reality.
-
-..., IOW, what do you mean by "reality"?
-
 > 
 > Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 > Cc: Arnd Bergmann <arnd@arndb.de>
@@ -99,12 +105,12 @@ or the like, especially if a reference manual...) here...
 > Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 > Signed-off-by: Will Deacon <will.deacon@arm.com>
 
-Please Cc me on future patches to memory-barriers.txt (can not speak for
-my co-maintainers, but I'm inclined to say that get_maintainers.pl knows
-better...).
+Queued, with the addition of Cc: of LKML, linux-arch, and linux-docs,
+thank you!
 
-  Andrea
+(Otherwise, these lists can get lost when I send out the LKMM series.)
 
+							Thanx, Paul
 
 > ---
 > 
@@ -120,16 +126,17 @@ better...).
 > @@ -2619,10 +2619,8 @@ functions:
 >       intermediary bridges (such as the PCI host bridge) may not fully honour
 >       that.
->  
+> 
 > -     They are guaranteed to be fully ordered with respect to each other.
 > -
 > -     They are not guaranteed to be fully ordered with respect to other types of
 > -     memory and I/O operation.
 > +     They are guaranteed to be fully ordered with respect to each other and
 > +     also with respect to other types of memory and I/O operation.
->  
+> 
 >   (*) readX(), writeX():
->  
+> 
 > -- 
 > 2.1.4
 > 
+
