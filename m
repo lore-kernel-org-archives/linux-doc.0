@@ -1,216 +1,172 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 223A47D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 11:19:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3B1457D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 12:07:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728139AbeKZVxA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 26 Nov 2018 16:53:00 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34580 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727875AbeKZVw7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Nov 2018 16:52:59 -0500
-Received: from localhost (5356596B.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D076D2147D;
-        Mon, 26 Nov 2018 10:59:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1543229954;
-        bh=hDG2PD1RQro0B2wqWyuqKd9RGG8f22wrFe5NByenM+U=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=y8SgORDFC0+ZDrW2kuP6rBkmIohBIEkSuST6ynvLafai5z8L5xZNs52ah5JsalQTt
-         /rTxw2XzcANPxMVLZkP2WcP+OosCGJoP17aieEXaKqDAhztJ2DWs728vI4DKSoht9l
-         IZ7DbCnRciOMxYbnH8WL3U/R5B8a7kWds8J7l7ps=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
-        Feng Tang <feng.tang@intel.com>, Borislav Petkov <bp@suse.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Stuart R . Anderson" <stuart.r.anderson@intel.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        H Peter Anvin <hpa@linux.intel.com>,
-        Ingo Molnar <mingo@kernel.org>, Jiri Kosina <jkosina@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thymo van Beers <thymovanbeers@gmail.com>,
-        alan@linux.intel.com, linux-doc@vger.kernel.org,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.14 17/62] x86/earlyprintk: Add a force option for pciserial device
-Date:   Mon, 26 Nov 2018 11:50:58 +0100
-Message-Id: <20181126105052.286151446@linuxfoundation.org>
-X-Mailer: git-send-email 2.19.2
-In-Reply-To: <20181126105050.592727680@linuxfoundation.org>
-References: <20181126105050.592727680@linuxfoundation.org>
-User-Agent: quilt/0.65
-X-stable: review
+        id S1726441AbeKZXBB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 26 Nov 2018 18:01:01 -0500
+Received: from smtprelay.synopsys.com ([198.182.47.9]:42460 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726287AbeKZXBB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Nov 2018 18:01:01 -0500
+Received: from mailhost.synopsys.com (mailhost1.synopsys.com [10.12.238.239])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id 8FDF924E2195;
+        Mon, 26 Nov 2018 04:07:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1543234024; bh=MiLSBMfM85v/zn/PPFnS+ysigtGo4LNP2FiZS1cBsN4=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To:From;
+        b=Mfgcrg8jfTgT+oowm/ZQiShDgbAgzZoyyPqo1B/xsq0K72K5tKWtLO8Ifu7fEjO4n
+         om7oQnPAfNqwQufrqkrGwKNB/L9shQqgrUg0tAnrCOSjIj2z+oSB+hO3t1u8AuLLF6
+         v5NjEHFRnHv/LsYokNrijz7O10Ktx3EFYviuAeyOP1WPgU912bmSr5M3M/GrCgjACN
+         bGJVo0hlrmCngpQOjQ1WXW2iHW+s6s14lskXiDnnKrNmn6Oxh3/02QVU+y1mH1sk45
+         +eukOi30axZ1ONyw4TvNBEK+KBj1V1C3yDzXVWIV2yFWduBpMaAh7fv9Qa4OiRd2uK
+         y4N9XxWNo1pWw==
+Received: from US01WEHTC2.internal.synopsys.com (us01wehtc2-vip.internal.synopsys.com [10.12.239.238])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 0710F5586;
+        Mon, 26 Nov 2018 04:07:00 -0800 (PST)
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+ US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Mon, 26 Nov 2018 04:07:00 -0800
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ DE02WEHTCB.internal.synopsys.com (10.225.19.94) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Mon, 26 Nov 2018 13:06:59 +0100
+Received: from [10.0.2.15] (10.107.19.169) by DE02WEHTCA.internal.synopsys.com
+ (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.408.0; Mon, 26 Nov
+ 2018 13:06:58 +0100
+Subject: Re: [PATCH] i3c: master: dw: split dw-i3c-master.c into master and
+ bus specific parts
+To:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        vitor <vitor.soares@synopsys.com>
+CC:     <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <gregkh@linuxfoundation.org>,
+        <arnd@arndb.de>, <psroka@cadence.com>, <agolec@cadence.com>,
+        <adouglas@cadence.com>, <bfolta@cadence.com>, <dkos@cadence.com>,
+        <alicja@cadence.com>, <cwronka@cadence.com>, <sureshp@cadence.com>,
+        <rafalc@cadence.com>, <thomas.petazzoni@bootlin.com>, <nm@ti.com>,
+        <robh+dt@kernel.org>, <pawel.moll@arm.com>, <mark.rutland@arm.com>,
+        <ijc+devicetree@hellion.org.uk>, <galak@codeaurora.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <geert@linux-m68k.org>, <linus.walleij@linaro.org>,
+        <Xiang.Lin@synaptics.com>, <linux-gpio@vger.kernel.org>,
+        <nsekhar@ti.com>, <pgaj@cadence.com>, <peda@axentia.se>,
+        <mshettel@codeaurora.org>, <swboyd@chromium.org>,
+        <joao.pinto@synopsys.com>
+References: <ade2c1a8d1eb48681b01ccdc9bed22caf5e96c4b.1542904564.git.soares@synopsys.com>
+ <20181122210202.6af50fcc@bbrezillon>
+ <6d513e04-3a57-1989-429c-64631101c5a2@synopsys.com>
+ <20181123135004.7fd1cd58@bbrezillon>
+From:   vitor <vitor.soares@synopsys.com>
+Message-ID: <83115f47-1326-cb33-a7dc-4bc8ff95befa@synopsys.com>
+Date:   Mon, 26 Nov 2018 12:06:24 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20181123135004.7fd1cd58@bbrezillon>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.107.19.169]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-4.14-stable review patch.  If anyone has any objections, please let me know.
-
-------------------
-
-[ Upstream commit d2266bbfa9e3e32e3b642965088ca461bd24a94f ]
-
-The "pciserial" earlyprintk variant helps much on many modern x86
-platforms, but unfortunately there are still some platforms with PCI
-UART devices which have the wrong PCI class code. In that case, the
-current class code check does not allow for them to be used for logging.
-
-Add a sub-option "force" which overrides the class code check and thus
-the use of such device can be enforced.
-
- [ bp: massage formulations. ]
-
-Suggested-by: Borislav Petkov <bp@alien8.de>
-Signed-off-by: Feng Tang <feng.tang@intel.com>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: "Stuart R . Anderson" <stuart.r.anderson@intel.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: David Rientjes <rientjes@google.com>
-Cc: Feng Tang <feng.tang@intel.com>
-Cc: Frederic Weisbecker <frederic@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: H Peter Anvin <hpa@linux.intel.com>
-Cc: Ingo Molnar <mingo@kernel.org>
-Cc: Jiri Kosina <jkosina@suse.cz>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>
-Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Philippe Ombredanne <pombredanne@nexb.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Thymo van Beers <thymovanbeers@gmail.com>
-Cc: alan@linux.intel.com
-Cc: linux-doc@vger.kernel.org
-Link: http://lkml.kernel.org/r/20181002164921.25833-1-feng.tang@intel.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .../admin-guide/kernel-parameters.txt         |  6 +++-
- arch/x86/kernel/early_printk.c                | 29 ++++++++++++-------
- 2 files changed, 24 insertions(+), 11 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 9841bad6f271..99a08722124d 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1011,7 +1011,7 @@
- 			earlyprintk=serial[,0x...[,baudrate]]
- 			earlyprintk=ttySn[,baudrate]
- 			earlyprintk=dbgp[debugController#]
--			earlyprintk=pciserial,bus:device.function[,baudrate]
-+			earlyprintk=pciserial[,force],bus:device.function[,baudrate]
- 			earlyprintk=xdbc[xhciController#]
- 
- 			earlyprintk is useful when the kernel crashes before
-@@ -1043,6 +1043,10 @@
- 
- 			The sclp output can only be used on s390.
- 
-+			The optional "force" to "pciserial" enables use of a
-+			PCI device even when its classcode is not of the
-+			UART class.
-+
- 	edac_report=	[HW,EDAC] Control how to report EDAC event
- 			Format: {"on" | "off" | "force"}
- 			on: enable EDAC to report H/W event. May be overridden
-diff --git a/arch/x86/kernel/early_printk.c b/arch/x86/kernel/early_printk.c
-index 5e801c8c8ce7..374a52fa5296 100644
---- a/arch/x86/kernel/early_printk.c
-+++ b/arch/x86/kernel/early_printk.c
-@@ -213,8 +213,9 @@ static unsigned int mem32_serial_in(unsigned long addr, int offset)
-  * early_pci_serial_init()
-  *
-  * This function is invoked when the early_printk param starts with "pciserial"
-- * The rest of the param should be ",B:D.F,baud" where B, D & F describe the
-- * location of a PCI device that must be a UART device.
-+ * The rest of the param should be "[force],B:D.F,baud", where B, D & F describe
-+ * the location of a PCI device that must be a UART device. "force" is optional
-+ * and overrides the use of an UART device with a wrong PCI class code.
-  */
- static __init void early_pci_serial_init(char *s)
- {
-@@ -224,17 +225,23 @@ static __init void early_pci_serial_init(char *s)
- 	u32 classcode, bar0;
- 	u16 cmdreg;
- 	char *e;
-+	int force = 0;
- 
--
--	/*
--	 * First, part the param to get the BDF values
--	 */
- 	if (*s == ',')
- 		++s;
- 
- 	if (*s == 0)
- 		return;
- 
-+	/* Force the use of an UART device with wrong class code */
-+	if (!strncmp(s, "force,", 6)) {
-+		force = 1;
-+		s += 6;
-+	}
-+
-+	/*
-+	 * Part the param to get the BDF values
-+	 */
- 	bus = (u8)simple_strtoul(s, &e, 16);
- 	s = e;
- 	if (*s != ':')
-@@ -253,7 +260,7 @@ static __init void early_pci_serial_init(char *s)
- 		s++;
- 
- 	/*
--	 * Second, find the device from the BDF
-+	 * Find the device from the BDF
- 	 */
- 	cmdreg = read_pci_config(bus, slot, func, PCI_COMMAND);
- 	classcode = read_pci_config(bus, slot, func, PCI_CLASS_REVISION);
-@@ -264,8 +271,10 @@ static __init void early_pci_serial_init(char *s)
- 	 */
- 	if (((classcode >> 16 != PCI_CLASS_COMMUNICATION_MODEM) &&
- 	     (classcode >> 16 != PCI_CLASS_COMMUNICATION_SERIAL)) ||
--	   (((classcode >> 8) & 0xff) != 0x02)) /* 16550 I/F at BAR0 */
--		return;
-+	   (((classcode >> 8) & 0xff) != 0x02)) /* 16550 I/F at BAR0 */ {
-+		if (!force)
-+			return;
-+	}
- 
- 	/*
- 	 * Determine if it is IO or memory mapped
-@@ -289,7 +298,7 @@ static __init void early_pci_serial_init(char *s)
- 	}
- 
- 	/*
--	 * Lastly, initialize the hardware
-+	 * Initialize the hardware
- 	 */
- 	if (*s) {
- 		if (strcmp(s, "nocfg") == 0)
--- 
-2.17.1
+Hi Boris,
 
 
+On 23/11/18 12:50, Boris Brezillon wrote:
+> On Fri, 23 Nov 2018 12:39:31 +0000
+> vitor <vitor.soares@synopsys.com> wrote:
+>
+>> Hi Boris,
+>>
+>>
+>> On 22/11/18 20:02, Boris Brezillon wrote:
+>>> On Thu, 22 Nov 2018 17:54:54 +0000
+>>> Vitor Soares <vitor.soares@synopsys.com> wrote:
+>>>   
+>>>> From: Vitor Soares <soares@synopsys.com>
+>>>>
+>>>> This patch slipts dw-i3c-master.c into three pieces:
+>>>> 	dw-i3c-master.c - contains the code that interacts directly with the
+>>>> 	core in master mode.
+>>>>
+>>>> 	dw-i3c-platdrv.c - contains the code specific to the platform driver.
+>>>>
+>>>> 	dw-i3c-core.h - contains the definitions and declarations shared by
+>>>> 	dw-i3c-master and dw-i3c-platdrv
+>>>>
+>>>> This patch will allow SOC integrators to add their code specific to
+>>>> DesignWare I3C IP.
+>>> Isn't it too early to do this change? Can't we wait until we have a SoC
+>>> that actually embeds this IP?
+>>
+>> I'm trying to turn it more flexible so the other can reuse the code.
+> Looking at the separation you've done here, I don't see why you need
+> it. All the resources you request are generic, so why not just adding a
+> new compat in the of_match_table?
+
+I understand your point.
+
+
+I'm just following what it's done in others Synopsys drivers and what I 
+expect is that in the future we will have the same for the I3C.
+
+Some of the current generic functions might be override according with 
+SoC requirements (e.g i2c-designware, pcie-designware).
+
+
+for now what do you prefer?
+
+>>
+>>>   
+>>>> Signed-off-by: Vitor Soares <soares@synopsys.com>
+>>>> ---
+>>>>    drivers/i3c/master/Kconfig          |   9 +-
+>>>>    drivers/i3c/master/Makefile         |   5 +-
+>>>>    drivers/i3c/master/dw-i3c-core.h    | 214 ++++++++++++++++++++++++++
+>>>>    drivers/i3c/master/dw-i3c-master.c  | 299 ++----------------------------------
+>>>>    drivers/i3c/master/dw-i3c-platdrv.c | 112 ++++++++++++++
+> Just realized the driver is named dw-i3c-master, while the cadence
+> driver is named i3c-master-cdns.c. I'll send a patch to make that
+> consistent and follow the initial naming scheme: i3c-master-<ipname>.c.
+
+As I shared with you in previous email, the structure that I have in 
+mind is this one:
+
+- core.h (or common.h, any though?)
+
+- common.c
+
+- master.c
+
+- slave.c
+
+
+so for me doesn't make sense to have for instance: i3c-master-dw-slave.c
+
+But seeing what is already in the kernel I wasn't coherent and it should 
+be named to i3c-designware-master.c
+
+
+or
+
+
+follow this https://lkml.org/lkml/2017/7/12/430
+
+
+This topic rise another one related with the master folder. I understand 
+that now the subsystem doesn't have slave support but the name is 
+limited. Isn't better to have something like controller or busses? What 
+do you have in mind for the slave?
+
+
+Best regards,
+
+Vitor Soares
 
