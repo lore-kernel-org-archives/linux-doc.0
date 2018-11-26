@@ -5,27 +5,27 @@ X-Spam-Status: No, score=-7.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E3BDB7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 11:12:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 223A47D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 11:19:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729396AbeKZV4N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 26 Nov 2018 16:56:13 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39188 "EHLO mail.kernel.org"
+        id S1728139AbeKZVxA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 26 Nov 2018 16:53:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34580 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729135AbeKZV4M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Nov 2018 16:56:12 -0500
+        id S1727875AbeKZVw7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Nov 2018 16:52:59 -0500
 Received: from localhost (5356596B.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9C63F21479;
-        Mon, 26 Nov 2018 11:02:26 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D076D2147D;
+        Mon, 26 Nov 2018 10:59:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1543230147;
-        bh=pLabZEc3qzUP5IReUum+GbQN3DgS09nLClXiwJF0erA=;
+        s=default; t=1543229954;
+        bh=hDG2PD1RQro0B2wqWyuqKd9RGG8f22wrFe5NByenM+U=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=zQ9Xiz2EI287KT2Gw1g+P2M9bGGqhaOAkO1CdFbPLpSO1f8Vhf+ygW7Adt5k5BOaI
-         f5qgHpMpmz/EYbgGUA5mNQ2lPiJ4GLuVjrImTi08e7oIErq+KKdimmy+vwGXWzmLsb
-         3ra979D4TirYyrwCBidVr9SlLA5lGFLakfeg1Xok=
+        b=y8SgORDFC0+ZDrW2kuP6rBkmIohBIEkSuST6ynvLafai5z8L5xZNs52ah5JsalQTt
+         /rTxw2XzcANPxMVLZkP2WcP+OosCGJoP17aieEXaKqDAhztJ2DWs728vI4DKSoht9l
+         IZ7DbCnRciOMxYbnH8WL3U/R5B8a7kWds8J7l7ps=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -48,12 +48,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Thymo van Beers <thymovanbeers@gmail.com>,
         alan@linux.intel.com, linux-doc@vger.kernel.org,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.19 025/118] x86/earlyprintk: Add a force option for pciserial device
-Date:   Mon, 26 Nov 2018 11:50:19 +0100
-Message-Id: <20181126105100.829963680@linuxfoundation.org>
+Subject: [PATCH 4.14 17/62] x86/earlyprintk: Add a force option for pciserial device
+Date:   Mon, 26 Nov 2018 11:50:58 +0100
+Message-Id: <20181126105052.286151446@linuxfoundation.org>
 X-Mailer: git-send-email 2.19.2
-In-Reply-To: <20181126105059.832485122@linuxfoundation.org>
-References: <20181126105059.832485122@linuxfoundation.org>
+In-Reply-To: <20181126105050.592727680@linuxfoundation.org>
+References: <20181126105050.592727680@linuxfoundation.org>
 User-Agent: quilt/0.65
 X-stable: review
 MIME-Version: 1.0
@@ -64,7 +64,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-4.19-stable review patch.  If anyone has any objections, please let me know.
+4.14-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -111,10 +111,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 24 insertions(+), 11 deletions(-)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 92eb1f42240d..34e6800dea0e 100644
+index 9841bad6f271..99a08722124d 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1063,7 +1063,7 @@
+@@ -1011,7 +1011,7 @@
  			earlyprintk=serial[,0x...[,baudrate]]
  			earlyprintk=ttySn[,baudrate]
  			earlyprintk=dbgp[debugController#]
@@ -123,7 +123,7 @@ index 92eb1f42240d..34e6800dea0e 100644
  			earlyprintk=xdbc[xhciController#]
  
  			earlyprintk is useful when the kernel crashes before
-@@ -1095,6 +1095,10 @@
+@@ -1043,6 +1043,10 @@
  
  			The sclp output can only be used on s390.
  
