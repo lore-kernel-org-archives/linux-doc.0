@@ -2,88 +2,135 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 322B97D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 16:51:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4386C7D92B
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 17:44:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726224AbeK0Dqi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 26 Nov 2018 22:46:38 -0500
-Received: from foss.arm.com ([217.140.101.70]:42520 "EHLO foss.arm.com"
+        id S1726771AbeK0EjH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 26 Nov 2018 23:39:07 -0500
+Received: from mga01.intel.com ([192.55.52.88]:10294 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726203AbeK0Dqi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 26 Nov 2018 22:46:38 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3A2C015AD;
-        Mon, 26 Nov 2018 08:51:58 -0800 (PST)
-Received: from edgewater-inn.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0A68A3F59C;
-        Mon, 26 Nov 2018 08:51:58 -0800 (PST)
-Received: by edgewater-inn.cambridge.arm.com (Postfix, from userid 1000)
-        id 83F711AE0839; Mon, 26 Nov 2018 16:52:15 +0000 (GMT)
-From:   Will Deacon <will.deacon@arm.com>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Will Deacon <will.deacon@arm.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        id S1726255AbeK0EjG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 26 Nov 2018 23:39:06 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Nov 2018 09:44:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,283,1539673200"; 
+   d="scan'208";a="283747810"
+Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
+  by fmsmga005.fm.intel.com with ESMTP; 26 Nov 2018 09:44:16 -0800
+Message-ID: <35b33f293bc392df71710102f38fa6a40d0bb996.camel@intel.com>
+Subject: Re: [RFC PATCH v6 00/26] Control-flow Enforcement: Shadow Stack
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Andy Lutomirski <luto@kernel.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Carlos O'Donell <carlos@redhat.com>,
+        Rich Felker <dalias@libc.org>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        David Laight <David.Laight@ACULAB.COM>,
-        Alan Stern <stern@rowland.harvard.edu>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H. J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: [PATCH] docs/memory-barriers.txt: Enforce heavy ordering for port I/O accesses
-Date:   Mon, 26 Nov 2018 16:52:14 +0000
-Message-Id: <1543251134-29867-1-git-send-email-will.deacon@arm.com>
-X-Mailer: git-send-email 2.1.4
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        "Shanbhogue, Vedvyas" <vedvyas.shanbhogue@intel.com>
+Date:   Mon, 26 Nov 2018 09:38:49 -0800
+In-Reply-To: <CALCETrWLtpfkecfUAXJ64Z5xDeHPJxTQSci+T4RCem7vCqorTw@mail.gmail.com>
+References: <20181119214809.6086-1-yu-cheng.yu@intel.com>
+         <CALCETrWLtpfkecfUAXJ64Z5xDeHPJxTQSci+T4RCem7vCqorTw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-David Laight explains:
+On Thu, 2018-11-22 at 08:53 -0800, Andy Lutomirski wrote:
+> [cc some more libc folks]
+> 
+> I have a general question about this patch set:
+> 
+> If I'm writing a user program, and I write a signal handler, there are
+> two things I want to make sure I can still do:
+> 
+> 1. I want to be able to unwind directly from the signal handler
+> without involving sigreturn() -- that is, I want to make sure that
+> siglongjmp() works.  How does this work?  Is INCSSP involved?  How
 
-  | A long time ago there was a document from Intel that said that
-  | inb/outb weren't necessarily synchronised wrt memory accesses.
-  | (Might be P-pro era). However no processors actually behaved that
-  | way and more recent docs say that inb/outb are fully ordered.
+Yes, siglongjmp() works by doing INCSSP.
 
-This also reflects the situation on other architectures, the the port
-accessor macros tend to be implemented in terms of readX/writeX.
+> exactly does the user program know how much to increment SSP by?  (And
+> why on Earth does INCSSP only consider the low 8 bits of its argument?
+>  That sounds like a mistake.  Can Intel still fix that?  On the other
 
-Update Documentation/memory-barriers.txt to reflect reality.
+GLIBC calculates how many frames to be unwound and breaks into 255 batches when
+necessary.
 
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: David Laight <David.Laight@ACULAB.COM>
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Signed-off-by: Will Deacon <will.deacon@arm.com>
----
+> hand, what happens if you INCSSP off the end of the shadow stack
+> entirely?  I assume the next access will fault as long as there's an
+> appropriate guard page.)
 
-Just remembered I had this patch kicking around in my tree...
+Yes, that is the case.
 
- Documentation/memory-barriers.txt | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> 2. I want to be able to modify the signal context from a signal
+> handler such that, when the signal handler returns, it will return to
+> a frame higher up on the call stack than where the signal started and
+> to a different RIP value.  How can I do this?  I guess I can modify
+> the shadow stack with WRSS if WR_SHSTK_EN=1, but how do I tell the
+> kernel to kindly skip the frames I want to skip when I do sigreturn()?
+> 
+> The reason I'm asking #2 is that I think it's time to resurrect my old
+> vDSO syscall cancellation helper series here:
+> 
+> https://lwn.net/Articles/679434/
 
-diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-index c1d913944ad8..0c34c5dac138 100644
---- a/Documentation/memory-barriers.txt
-+++ b/Documentation/memory-barriers.txt
-@@ -2619,10 +2619,8 @@ functions:
-      intermediary bridges (such as the PCI host bridge) may not fully honour
-      that.
- 
--     They are guaranteed to be fully ordered with respect to each other.
--
--     They are not guaranteed to be fully ordered with respect to other types of
--     memory and I/O operation.
-+     They are guaranteed to be fully ordered with respect to each other and
-+     also with respect to other types of memory and I/O operation.
- 
-  (*) readX(), writeX():
- 
--- 
-2.1.4
+If tools/testing/selftests/x86/unwind_vdso.c passes, can we say the kernel does
+the right thing?  Or do you have other tests that I can run?
+
+> 
+> and it's not at all clear to me that __vdso_abort_pending_syscall()
+> can work without kernel assistance when CET is enabled.  I want to
+> make sure that it can be done, or I want to come up with some other
+> way to allow a signal handler to abort a syscall while CET is on.  I
+> could probably change __vdso_abort_pending_syscall() to instead point
+> RIP to __kernel_vsyscall's epilogue so that we con't change the depth
+> of the call stack.  But I could imagine that other user programs might
+> engage in similar shenanigans and want to have some way to unwind a
+> signal's return context without actually jumping there a la
+> siglongjmp().
+> 
+> Also, what is the intended setting of WR_SHSTK_EN with this patch set applied?
+
+This bit enables WRSS instruction, which writes to kernel SHSTK.  This patch set
+uses only WRUSS and WR_SHSTK_EN is not be set.
+
+> 
+> (I suppose we could just say that 32-bit processes should not use CET,
+> but that seems a bit sad.)
+
+They work in compat mode.  Should anything break, we can fix it.
+
+Yu-cheng
 
