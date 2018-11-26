@@ -2,186 +2,112 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 074F47D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 21:34:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 98E057D8A8
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 26 Nov 2018 22:16:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726414AbeK0I3T convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Nov 2018 03:29:19 -0500
-Received: from mail.bootlin.com ([62.4.15.54]:43355 "EHLO mail.bootlin.com"
+        id S1727245AbeK0JMB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Nov 2018 04:12:01 -0500
+Received: from mga01.intel.com ([192.55.52.88]:37928 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726363AbeK0I3T (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 27 Nov 2018 03:29:19 -0500
-Received: by mail.bootlin.com (Postfix, from userid 110)
-        id C2E56207AD; Mon, 26 Nov 2018 22:33:48 +0100 (CET)
-Received: from bbrezillon (91-160-177-164.subs.proxad.net [91.160.177.164])
-        by mail.bootlin.com (Postfix) with ESMTPSA id 1D2FC20736;
-        Mon, 26 Nov 2018 22:33:38 +0100 (CET)
-Date:   Mon, 26 Nov 2018 22:33:34 +0100
-From:   Boris Brezillon <boris.brezillon@bootlin.com>
-To:     vitor <vitor.soares@synopsys.com>
-Cc:     <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <gregkh@linuxfoundation.org>,
-        <arnd@arndb.de>, <psroka@cadence.com>, <agolec@cadence.com>,
-        <adouglas@cadence.com>, <bfolta@cadence.com>, <dkos@cadence.com>,
-        <alicja@cadence.com>, <cwronka@cadence.com>, <sureshp@cadence.com>,
-        <rafalc@cadence.com>, <thomas.petazzoni@bootlin.com>, <nm@ti.com>,
-        <robh+dt@kernel.org>, <pawel.moll@arm.com>, <mark.rutland@arm.com>,
-        <ijc+devicetree@hellion.org.uk>, <galak@codeaurora.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <geert@linux-m68k.org>, <linus.walleij@linaro.org>,
-        <Xiang.Lin@synaptics.com>, <linux-gpio@vger.kernel.org>,
-        <nsekhar@ti.com>, <pgaj@cadence.com>, <peda@axentia.se>,
-        <mshettel@codeaurora.org>, <swboyd@chromium.org>,
-        <joao.pinto@synopsys.com>
-Subject: Re: [PATCH] i3c: master: dw: split dw-i3c-master.c into master and
- bus specific parts
-Message-ID: <20181126223334.08105d89@bbrezillon>
-In-Reply-To: <4c743a9a-d636-d34c-b7e3-913f18e6c754@synopsys.com>
-References: <ade2c1a8d1eb48681b01ccdc9bed22caf5e96c4b.1542904564.git.soares@synopsys.com>
-        <20181122210202.6af50fcc@bbrezillon>
-        <6d513e04-3a57-1989-429c-64631101c5a2@synopsys.com>
-        <20181123135004.7fd1cd58@bbrezillon>
-        <83115f47-1326-cb33-a7dc-4bc8ff95befa@synopsys.com>
-        <20181126133550.51469816@bbrezillon>
-        <4e9c0461-02a3-80b2-c9b7-2e9ea9b38f8b@synopsys.com>
-        <20181126195618.352eafb1@bbrezillon>
-        <4c743a9a-d636-d34c-b7e3-913f18e6c754@synopsys.com>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726634AbeK0JMB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 27 Nov 2018 04:12:01 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Nov 2018 14:16:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,284,1539673200"; 
+   d="scan'208";a="284119183"
+Received: from rchatre-mobl.amr.corp.intel.com (HELO [10.24.14.87]) ([10.24.14.87])
+  by fmsmga005.fm.intel.com with ESMTP; 26 Nov 2018 14:16:25 -0800
+Subject: Re: [PATCH v9 10/13] x86/resctrl: Fix the messages in
+ rdt_last_cmd_printf and rdt_last_cmd_puts
+To:     "Moger, Babu" <Babu.Moger@amd.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>,
+        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Cc:     "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
+        "pombredanne@nexb.com" <pombredanne@nexb.com>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "qianyue.zj@alibaba-inc.com" <qianyue.zj@alibaba-inc.com>,
+        "xiaochen.shen@intel.com" <xiaochen.shen@intel.com>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "Singh, Brijesh" <brijesh.singh@amd.com>,
+        "Hurwitz, Sherry" <sherry.hurwitz@amd.com>,
+        "dwmw2@infradead.org" <dwmw2@infradead.org>,
+        "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "joro@8bytes.org" <joro@8bytes.org>,
+        "jannh@google.com" <jannh@google.com>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "rian@alum.mit.edu" <rian@alum.mit.edu>,
+        "jpoimboe@redhat.com" <jpoimboe@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20181121202811.4492-1-babu.moger@amd.com>
+ <20181121202811.4492-11-babu.moger@amd.com>
+From:   Reinette Chatre <reinette.chatre@intel.com>
+Message-ID: <fe5c4f4b-e233-875c-1f33-f22c5986b041@intel.com>
+Date:   Mon, 26 Nov 2018 14:16:24 -0800
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <20181121202811.4492-11-babu.moger@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 26 Nov 2018 20:11:39 +0000
-vitor <vitor.soares@synopsys.com> wrote:
+Hi Babu and Borislav,
 
-> >>> I prefer that we keep the driver as is until we actually need to split
-> >>> things up.  
-> >> This is already done and will benefit everyone:
-> >>
-> >>       - for me is better do it now than the secondary master and slave
-> >> development.  
-> > Sorry, I don't get that one.  
-> 
-> 
-> I already share my plan with you. See the structure above.
+Two typos seemed to have slipped through into the merged commit ...
 
-My point is, I don't get the relationship between your patch and
-secondary-master/slave-mode support.
+On 11/21/2018 12:28 PM, Moger, Babu wrote:
+> @@ -163,14 +163,14 @@ int parse_cbm(struct rdt_parse_data *data, struct rdt_resource *r,
+>  	 * either is exclusive.
+>  	 */
+>  	if (rdtgroup_cbm_overlaps(r, d, cbm_val, rdtgrp->closid, true)) {
+> -		rdt_last_cmd_printf("overlaps with exclusive group\n");
+> +		rdt_last_cmd_printf("Overlaps with exclusive group\n");
+>  		return -EINVAL;
+>  	}
+>  
+>  	if (rdtgroup_cbm_overlaps(r, d, cbm_val, rdtgrp->closid, false)) {
+>  		if (rdtgrp->mode == RDT_MODE_EXCLUSIVE ||
+>  		    rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP) {
+> -			rdt_last_cmd_printf("overlaps with other group\n");
+> +			rdt_last_cmd_printf("0verlaps with other group\n");
+>  			return -EINVAL;
+>  		}
+>  	}
 
-> >>>> This topic rise another one related with the master folder. I understand
-> >>>> that now the subsystem doesn't have slave support but the name is
-> >>>> limited. Isn't better to have something like controller or busses? What
-> >>>> do you have in mind for the slave?  
-> >>> drivers/i3c/slave/... for slave drivers and drivers/i3c/slave.c for the
-> >>> framework, just like we have drivers/i3c/master/ for master controller
-> >>> drivers and drivers/i3c/master.c.  
-> >> I have to disagree here. I don't see any place on the kernel with
-> >> .../master/ and ../slave/ folders and it is very likely that both rules
-> >> will have some common code.  
-> > I see at least one that uses this model: the USB framework
-> > (drivers/usb/gadget/ for device controllers and drivers/usb/host/ for
-> > host controllers). Given that I3C is closer to USB than I2C I initially
-> > decided to keep this separation. Maybe I'm wrong, but I'd like to
-> > understand why you think it's not appropriate.  
-> 
-> 
-> You can say there some features from USB in I3C but cannot compare USB 
-> vs I3C since they are in different championships.
+There is a zero instead of O used in second "Overlaps".
 
-I maintain that functionally, I3C is closer to USB than I2C. That does
-not mean that it's competing with USB performance-wise, it just means
-that the SW stack is likely to resemble the USB one (probably a bit
-simpler, at least at the beginning). 
+> @@ -1235,7 +1235,7 @@ static ssize_t rdtgroup_mode_write(struct kernfs_open_file *of,
+>  			goto out;
+>  		rdtgrp->mode = RDT_MODE_PSEUDO_LOCKSETUP;
+>  	} else {
+> -		rdt_last_cmd_printf("unknown/unsupported mode\n");
+> +		rdt_last_cmd_printf("Unknown orunsupported mode\n");
+>  		ret = -EINVAL;
+>  	}
 
-> 
-> The aim of I3C is to fill the gaps discovery on I2C over the years but 
-> still keeping its simplicity not to go to the complexity of USB.
+Missing a space.
 
-Look at the bus discovery mechanism, the notion of DCR (close to the
-concept of USB class), or the fact that each dev has a unique
-manufacturer+PID pair (which resemble the product/vendor ID concept)
-that allows us to easily bind a dev to a driver without requiring a
-static description.
-
-> 
-> 
-> I'm not sure but I think that a controller cannot change between gadget 
-> to host in USB in runtime.
-
-That's called USB OTG. Okay, to be fair, it's not exactly the same, and
-the mastership handover in I3C is probably more complex than what we
-have with USB OTG (I'm not a USB expert, so I might be wrong here).
-
-> Even so, this kind of behavior is more likely 
-> to have in an I3C bus.
-
-Maybe.
-
-> 
-> 
-> >  
-> >> With this structure the user will have the code spread in /master and
-> >> /slave folders...  
-> > Not sure who you call "user" here, but yes, master controller and slave
-> > controller drivers would be placed in different dirs.
-> >  
-> >>
-> >> I would like you consider to change the folder name and the names rules
-> >> to something like in i2c.  
-> > Why? And more importantly, why is this coming up now? You've been
-> > reviewing the framework since the beginning, and never complained about
-> > the subdirs/files organization so far.  
-> 
-> 
-> Sorry for that and don't take me wrong... maybe I should rise this 
-> question early but this only came up now when I started splitting and 
-> thinking where to put what is for master for slave, what is common and 
-> the thing of putting everything of controller in a folder.
-
-So you have such a dual-role controller? I mean, Cadence IP has a dummy
-GPIO mode in its Master IP when is operating in slave mode (secondary
-master, or main master after it's released the bus), but I'm not sure
-this was designed for anything else but testing.
-
-What I call a slave controller would be something that lets you reply to
-SDR/DDR transactions or fill a generic regmap that would be exposed to
-other masters on the bus. This way we could implement generic slave
-drivers in Linux (the same way we have gadget drivers). Anything else
-is likely to be to specific to be exposed as a generic framework.
-
-> 
-> 
-> Taking the USB as exemple do you prefer a dwc folder on i3c root?
-
-Hm, not sure I like this idea either. So I see 2 options:
-
-1/ put all controller drivers (both master and slave ones) in a common
-   directory (drivers/i3c/controllers) as you suggest, and prefix them
-   correctly (i3c-master-<ip>.c, i3c-slave-<ip>.c and i3c-dual-<ip>.c)
-2/ place them in separate directories: drivers/i3c/{master,slave,dual}
-
-I'm fine either way.
-
-> 
-> 
-> >
-> > I'm okay changing it, but I want to understand why the proposed
-> > separation is not good.  
-> 
-> 
-> I already tell you my use case and as I said maybe someone can advise :)
-> 
-
-I think I understand your concerns now, but only because you started to
-mention a few things that were not clearly stated before (at least, I
-didn't understand it this way), like the fact that your controller (and
-probably others too) supports dual-role, or the fact that you plan to
-expose your IP through the PCI bus.
+Reinette
