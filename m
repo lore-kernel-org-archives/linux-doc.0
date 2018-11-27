@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E7F307DD29
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Nov 2018 16:56:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 387BA7DD32
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Nov 2018 16:56:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731418AbeK1Dy4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Nov 2018 22:54:56 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:55759 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731782AbeK1Dyy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Nov 2018 22:54:54 -0500
-Received: by mail-wm1-f68.google.com with SMTP id y139so22468249wmc.5
-        for <linux-doc@vger.kernel.org>; Tue, 27 Nov 2018 08:56:22 -0800 (PST)
+        id S1731817AbeK1DzC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Nov 2018 22:55:02 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:33789 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729826AbeK1DzB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Nov 2018 22:55:01 -0500
+Received: by mail-wm1-f65.google.com with SMTP id l3so434269wme.0
+        for <linux-doc@vger.kernel.org>; Tue, 27 Nov 2018 08:56:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=gUtzPQYfY+TlBxAchiIeeRXD6wCQXCysNds7bqypcX0=;
-        b=IMJYfJiI/vB4T61XMcgVTV8zpG/cNUZ9nUDQYlZotMywFSqsb9p6E5fGevB3WlOUPN
-         WYEvLbC1mSpKJzaGwPyy4OY2YppWyioLYLVvVb2CTW36kbdDIZZULSxTmqVX0yCtLGZr
-         h7ait1GfvypAFS10mVxKoj2RlvQLCgzvXNgOOzQ/gI4BzcJfQWOT8XhNOy4hcBvljuF3
-         m6lSda+HiC/s2RX543RqEk/6NhgRyhKa+80UGh0EpNFOe+b4oZiJW+HH4RvKtKxC/GCq
-         4CxUQoyDF4r1KcfNAGQtcjiexUSciNdRwhomD+90qhKiRoDRT0rbnTmTSXi3u6aQ4z7T
-         QA2w==
+        bh=BhY1iQFDZFZ0u+IiVAFsds0hu0VM1uAnvbg+4E10gFc=;
+        b=FKNwBJWjoGF0o0RluRjfVYjY6gb1EHWHFwlx1GtlFYi3gmsAhj3FvzadOKaUtBgCDl
+         iuUhmCEmC14IZjS3CyH+H03H1+3axzjpLP/UAqtYkoD5+/UZ6sXTjP48fF4u7TCjxQWm
+         KPQPVjZrFwzT97FFJ4wa23N6ej1AHkWdr48wJ2p4GlhIMOiFwA4ar/dziT5l5Gi1RpGz
+         5iGAAuwTJDLLORwagOFqJ58DjS7ZVLHw5GOSze3YCWO8O5KHG77oUYdUKZMEil/nAVuL
+         NAG8VyMDWbHxuvur9nja2fypLzc7l34wcoA7tRug/JwDuFnBkd91iwYdbCEGztgklcGi
+         o3cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gUtzPQYfY+TlBxAchiIeeRXD6wCQXCysNds7bqypcX0=;
-        b=LNodJu6Xhc9HL7g7cNsSldY7AWpElAa+gLyi/Zh8FOSMUi/4UXz9GL1n4ArbWpICts
-         9PDySxoywyZC8pWzWXFF0t0dwNImcPc1lq39ilPYy1cA1RzHaitb/JE63AgWxuh/fH0L
-         ZY2qPvDHzNbDc0I2LJv43zHN0hBZVG9WZbINv+qQheCtAKTnvpfUE2hzZ8qZOkRlFxol
-         NdAv4vKpBe2/qGZ9mLddCPHtBDmx7YXFtNFazlyeRx7b1/IdU8QNs5e1WbfYX95yjwf5
-         o6XX7uEHWooJu6bk8dhJlxMQ6Tg9hJS08KDbXOab9kWp34CIn/hjqWxjcewdBpz0z+el
-         7v/w==
-X-Gm-Message-State: AGRZ1gKMTH+WZihLv8hqQu1u5f28HWh9usRssNkaW5q5/VKp08dYdD3i
-        f/TC/B8U5xyEi2DSjvHs0zTlHQ==
-X-Google-Smtp-Source: AJdET5cRyGAnPAul2HIkjRAXyOS/E0C99g3NbwpaMk33p87uBm2YavwrII5dayxtmukuFuwV97cF/w==
-X-Received: by 2002:a1c:b607:: with SMTP id g7mr29334808wmf.97.1543337781882;
-        Tue, 27 Nov 2018 08:56:21 -0800 (PST)
+        bh=BhY1iQFDZFZ0u+IiVAFsds0hu0VM1uAnvbg+4E10gFc=;
+        b=RJC0kR00nhUZJTHup0crN8tnQs5uAZqd579gDXMORLz0FMbRwplZ/42SapUwNWQLZ2
+         bfPZFwcvW8PPqOuvbBLgOEZt0SBGOLcatBHu2XfI34nM+qBjKi6g1cAd0Du3S9DpUop5
+         cVxUyB7+H5mzEt5teSbWA4k4akNKAEyo1/3QlU91nlquajybjR8HHzmZ58zD54a4CtHt
+         gn0wS+h7WFitc0anjC+KkIOHB+jdtS9rILs8fQNq0O2qknJOMq5tcS5qjZEeRKCUUrA7
+         8YyC4QI+B6LzjMSE74GAwcj65UrB8/9lNbrUb7lntKO1G/6I6D/9q0HNregNp4eWfhV0
+         QwOA==
+X-Gm-Message-State: AA+aEWYVGJcBu747IXSQ8/nzN/mIjuFFPnEpiDT3GauCXhJ25pm0Sxf1
+        ReZU14JFhKvPvCODjIvVADo6jA==
+X-Google-Smtp-Source: AFSGD/WJTtcUbR+qy0BJljY84iI1qGuVqSXNIJRrm7uO0xBr+kj+JN0LMXJ5/M7JOAtEAav+sJH2RQ==
+X-Received: by 2002:a1c:8d8e:: with SMTP id p136mr2541985wmd.74.1543337787930;
+        Tue, 27 Nov 2018 08:56:27 -0800 (PST)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:3180:41f8:3010:ff61])
-        by smtp.gmail.com with ESMTPSA id k73sm6383099wmd.36.2018.11.27.08.56.20
+        by smtp.gmail.com with ESMTPSA id k73sm6383099wmd.36.2018.11.27.08.56.26
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Nov 2018 08:56:21 -0800 (PST)
+        Tue, 27 Nov 2018 08:56:27 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -85,9 +85,9 @@ Cc:     Kostya Serebryany <kcc@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Vishwath Mohan <vishwath@google.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v12 18/25] mm: move obj_to_index to include/linux/slab_def.h
-Date:   Tue, 27 Nov 2018 17:55:36 +0100
-Message-Id: <b68796c554fba66d5285274ea6356e642e18a9e5.1543337629.git.andreyknvl@google.com>
+Subject: [PATCH v12 21/25] kasan, mm, arm64: tag non slab memory allocated via pagealloc
+Date:   Tue, 27 Nov 2018 17:55:39 +0100
+Message-Id: <6c1004acf28880f6a5cc7d2f974ba08adb2853ea.1543337629.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.20.0.rc0.387.gc7a69e6b6c-goog
 In-Reply-To: <cover.1543337629.git.andreyknvl@google.com>
 References: <cover.1543337629.git.andreyknvl@google.com>
@@ -98,76 +98,238 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While with SLUB we can actually preassign tags for caches with contructors
-and store them in pointers in the freelist, SLAB doesn't allow that since
-the freelist is stored as an array of indexes, so there are no pointers to
-store the tags.
+Tag-based KASAN doesn't check memory accesses through pointers tagged with
+0xff. When page_address is used to get pointer to memory that corresponds
+to some page, the tag of the resulting pointer gets set to 0xff, even
+though the allocated memory might have been tagged differently.
 
-Instead we compute the tag twice, once when a slab is created before
-calling the constructor and then again each time when an object is
-allocated with kmalloc. Tag is computed simply by taking the lowest byte of
-the index that corresponds to the object. However in kasan_kmalloc we only
-have access to the objects pointer, so we need a way to find out which
-index this object corresponds to.
+For slab pages it's impossible to recover the correct tag to return from
+page_address, since the page might contain multiple slab objects tagged
+with different values, and we can't know in advance which one of them is
+going to get accessed. For non slab pages however, we can recover the tag
+in page_address, since the whole page was marked with the same tag.
 
-This patch moves obj_to_index from slab.c to include/linux/slab_def.h to
-be reused by KASAN.
+This patch adds tagging to non slab memory allocated with pagealloc. To
+set the tag of the pointer returned from page_address, the tag gets stored
+to page->flags when the memory gets allocated.
 
-Acked-by: Christoph Lameter <cl@linux.com>
 Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
 Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- include/linux/slab_def.h | 13 +++++++++++++
- mm/slab.c                | 13 -------------
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ arch/arm64/include/asm/memory.h   |  8 +++++++-
+ include/linux/mm.h                | 29 +++++++++++++++++++++++++++++
+ include/linux/page-flags-layout.h | 10 ++++++++++
+ mm/cma.c                          | 11 +++++++++++
+ mm/kasan/common.c                 | 15 +++++++++++++--
+ mm/page_alloc.c                   |  1 +
+ mm/slab.c                         |  2 +-
+ 7 files changed, 72 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/slab_def.h b/include/linux/slab_def.h
-index 3485c58cfd1c..9a5eafb7145b 100644
---- a/include/linux/slab_def.h
-+++ b/include/linux/slab_def.h
-@@ -104,4 +104,17 @@ static inline void *nearest_obj(struct kmem_cache *cache, struct page *page,
- 		return object;
- }
+diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
+index 5fe2353f111b..7db28404609b 100644
+--- a/arch/arm64/include/asm/memory.h
++++ b/arch/arm64/include/asm/memory.h
+@@ -314,7 +314,13 @@ static inline void *phys_to_virt(phys_addr_t x)
+ #define __virt_to_pgoff(kaddr)	(((u64)(kaddr) & ~PAGE_OFFSET) / PAGE_SIZE * sizeof(struct page))
+ #define __page_to_voff(kaddr)	(((u64)(kaddr) & ~VMEMMAP_START) * PAGE_SIZE / sizeof(struct page))
  
-+/*
-+ * We want to avoid an expensive divide : (offset / cache->size)
-+ *   Using the fact that size is a constant for a particular cache,
-+ *   we can replace (offset / cache->size) by
-+ *   reciprocal_divide(offset, cache->reciprocal_buffer_size)
-+ */
-+static inline unsigned int obj_to_index(const struct kmem_cache *cache,
-+					const struct page *page, void *obj)
+-#define page_to_virt(page)	((void *)((__page_to_voff(page)) | PAGE_OFFSET))
++#define page_to_virt(page)	({					\
++	unsigned long __addr =						\
++		((__page_to_voff(page)) | PAGE_OFFSET);			\
++	__addr = __tag_set(__addr, page_kasan_tag(page));		\
++	((void *)__addr);						\
++})
++
+ #define virt_to_page(vaddr)	((struct page *)((__virt_to_pgoff(vaddr)) | VMEMMAP_START))
+ 
+ #define _virt_addr_valid(kaddr)	pfn_valid((((u64)(kaddr) & ~PAGE_OFFSET) \
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 5411de93a363..b4d01969e700 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -804,6 +804,7 @@ vm_fault_t finish_mkwrite_fault(struct vm_fault *vmf);
+ #define NODES_PGOFF		(SECTIONS_PGOFF - NODES_WIDTH)
+ #define ZONES_PGOFF		(NODES_PGOFF - ZONES_WIDTH)
+ #define LAST_CPUPID_PGOFF	(ZONES_PGOFF - LAST_CPUPID_WIDTH)
++#define KASAN_TAG_PGOFF		(LAST_CPUPID_PGOFF - KASAN_TAG_WIDTH)
+ 
+ /*
+  * Define the bit shifts to access each section.  For non-existent
+@@ -814,6 +815,7 @@ vm_fault_t finish_mkwrite_fault(struct vm_fault *vmf);
+ #define NODES_PGSHIFT		(NODES_PGOFF * (NODES_WIDTH != 0))
+ #define ZONES_PGSHIFT		(ZONES_PGOFF * (ZONES_WIDTH != 0))
+ #define LAST_CPUPID_PGSHIFT	(LAST_CPUPID_PGOFF * (LAST_CPUPID_WIDTH != 0))
++#define KASAN_TAG_PGSHIFT	(KASAN_TAG_PGOFF * (KASAN_TAG_WIDTH != 0))
+ 
+ /* NODE:ZONE or SECTION:ZONE is used to ID a zone for the buddy allocator */
+ #ifdef NODE_NOT_IN_PAGE_FLAGS
+@@ -836,6 +838,7 @@ vm_fault_t finish_mkwrite_fault(struct vm_fault *vmf);
+ #define NODES_MASK		((1UL << NODES_WIDTH) - 1)
+ #define SECTIONS_MASK		((1UL << SECTIONS_WIDTH) - 1)
+ #define LAST_CPUPID_MASK	((1UL << LAST_CPUPID_SHIFT) - 1)
++#define KASAN_TAG_MASK		((1UL << KASAN_TAG_WIDTH) - 1)
+ #define ZONEID_MASK		((1UL << ZONEID_SHIFT) - 1)
+ 
+ static inline enum zone_type page_zonenum(const struct page *page)
+@@ -1101,6 +1104,32 @@ static inline bool cpupid_match_pid(struct task_struct *task, int cpupid)
+ }
+ #endif /* CONFIG_NUMA_BALANCING */
+ 
++#ifdef CONFIG_KASAN_SW_TAGS
++static inline u8 page_kasan_tag(const struct page *page)
 +{
-+	u32 offset = (obj - page->s_mem);
-+	return reciprocal_divide(offset, cache->reciprocal_buffer_size);
++	return (page->flags >> KASAN_TAG_PGSHIFT) & KASAN_TAG_MASK;
 +}
 +
- #endif	/* _LINUX_SLAB_DEF_H */
-diff --git a/mm/slab.c b/mm/slab.c
-index 27859fb39889..d2f827316dfc 100644
---- a/mm/slab.c
-+++ b/mm/slab.c
-@@ -406,19 +406,6 @@ static inline void *index_to_obj(struct kmem_cache *cache, struct page *page,
- 	return page->s_mem + cache->size * idx;
++static inline void page_kasan_tag_set(struct page *page, u8 tag)
++{
++	page->flags &= ~(KASAN_TAG_MASK << KASAN_TAG_PGSHIFT);
++	page->flags |= (tag & KASAN_TAG_MASK) << KASAN_TAG_PGSHIFT;
++}
++
++static inline void page_kasan_tag_reset(struct page *page)
++{
++	page_kasan_tag_set(page, 0xff);
++}
++#else
++static inline u8 page_kasan_tag(const struct page *page)
++{
++	return 0xff;
++}
++
++static inline void page_kasan_tag_set(struct page *page, u8 tag) { }
++static inline void page_kasan_tag_reset(struct page *page) { }
++#endif
++
+ static inline struct zone *page_zone(const struct page *page)
+ {
+ 	return &NODE_DATA(page_to_nid(page))->node_zones[page_zonenum(page)];
+diff --git a/include/linux/page-flags-layout.h b/include/linux/page-flags-layout.h
+index 7ec86bf31ce4..1dda31825ec4 100644
+--- a/include/linux/page-flags-layout.h
++++ b/include/linux/page-flags-layout.h
+@@ -82,6 +82,16 @@
+ #define LAST_CPUPID_WIDTH 0
+ #endif
+ 
++#ifdef CONFIG_KASAN_SW_TAGS
++#define KASAN_TAG_WIDTH 8
++#if SECTIONS_WIDTH+NODES_WIDTH+ZONES_WIDTH+LAST_CPUPID_WIDTH+KASAN_TAG_WIDTH \
++	> BITS_PER_LONG - NR_PAGEFLAGS
++#error "KASAN: not enough bits in page flags for tag"
++#endif
++#else
++#define KASAN_TAG_WIDTH 0
++#endif
++
+ /*
+  * We are going to use the flags for the page to node mapping if its in
+  * there.  This includes the case where there is no node, so it is implicit.
+diff --git a/mm/cma.c b/mm/cma.c
+index 4cb76121a3ab..c7b39dd3b4f6 100644
+--- a/mm/cma.c
++++ b/mm/cma.c
+@@ -407,6 +407,7 @@ struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
+ 	unsigned long pfn = -1;
+ 	unsigned long start = 0;
+ 	unsigned long bitmap_maxno, bitmap_no, bitmap_count;
++	size_t i;
+ 	struct page *page = NULL;
+ 	int ret = -ENOMEM;
+ 
+@@ -466,6 +467,16 @@ struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
+ 
+ 	trace_cma_alloc(pfn, page, count, align);
+ 
++	/*
++	 * CMA can allocate multiple page blocks, which results in different
++	 * blocks being marked with different tags. Reset the tags to ignore
++	 * those page blocks.
++	 */
++	if (page) {
++		for (i = 0; i < count; i++)
++			page_kasan_tag_reset(page + i);
++	}
++
+ 	if (ret && !no_warn) {
+ 		pr_err("%s: alloc failed, req-size: %zu pages, ret: %d\n",
+ 			__func__, count, ret);
+diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+index 27f0cae336c9..195ca385cf7a 100644
+--- a/mm/kasan/common.c
++++ b/mm/kasan/common.c
+@@ -220,8 +220,15 @@ void kasan_unpoison_stack_above_sp_to(const void *watermark)
+ 
+ void kasan_alloc_pages(struct page *page, unsigned int order)
+ {
++	u8 tag;
++	unsigned long i;
++
+ 	if (unlikely(PageHighMem(page)))
+ 		return;
++
++	tag = random_tag();
++	for (i = 0; i < (1 << order); i++)
++		page_kasan_tag_set(page + i, tag);
+ 	kasan_unpoison_shadow(page_address(page), PAGE_SIZE << order);
  }
  
--/*
-- * We want to avoid an expensive divide : (offset / cache->size)
-- *   Using the fact that size is a constant for a particular cache,
-- *   we can replace (offset / cache->size) by
-- *   reciprocal_divide(offset, cache->reciprocal_buffer_size)
-- */
--static inline unsigned int obj_to_index(const struct kmem_cache *cache,
--					const struct page *page, void *obj)
--{
--	u32 offset = (obj - page->s_mem);
--	return reciprocal_divide(offset, cache->reciprocal_buffer_size);
--}
--
- #define BOOT_CPUCACHE_ENTRIES	1
- /* internal cache of cache description objs */
- static struct kmem_cache kmem_cache_boot = {
+@@ -319,6 +326,10 @@ struct kasan_free_meta *get_free_info(struct kmem_cache *cache,
+ 
+ void kasan_poison_slab(struct page *page)
+ {
++	unsigned long i;
++
++	for (i = 0; i < (1 << compound_order(page)); i++)
++		page_kasan_tag_reset(page + i);
+ 	kasan_poison_shadow(page_address(page),
+ 			PAGE_SIZE << compound_order(page),
+ 			KASAN_KMALLOC_REDZONE);
+@@ -517,7 +528,7 @@ void kasan_poison_kfree(void *ptr, unsigned long ip)
+ 	page = virt_to_head_page(ptr);
+ 
+ 	if (unlikely(!PageSlab(page))) {
+-		if (reset_tag(ptr) != page_address(page)) {
++		if (ptr != page_address(page)) {
+ 			kasan_report_invalid_free(ptr, ip);
+ 			return;
+ 		}
+@@ -530,7 +541,7 @@ void kasan_poison_kfree(void *ptr, unsigned long ip)
+ 
+ void kasan_kfree_large(void *ptr, unsigned long ip)
+ {
+-	if (reset_tag(ptr) != page_address(virt_to_head_page(ptr)))
++	if (ptr != page_address(virt_to_head_page(ptr)))
+ 		kasan_report_invalid_free(ptr, ip);
+ 	/* The object will be poisoned by page_alloc. */
+ }
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 6847177dc4a1..5b2a1b6ef1be 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -1183,6 +1183,7 @@ static void __meminit __init_single_page(struct page *page, unsigned long pfn,
+ 	init_page_count(page);
+ 	page_mapcount_reset(page);
+ 	page_cpupid_reset_last(page);
++	page_kasan_tag_reset(page);
+ 
+ 	INIT_LIST_HEAD(&page->lru);
+ #ifdef WANT_PAGE_VIRTUAL
+diff --git a/mm/slab.c b/mm/slab.c
+index d2f827316dfc..d747433ecdbb 100644
+--- a/mm/slab.c
++++ b/mm/slab.c
+@@ -2357,7 +2357,7 @@ static void *alloc_slabmgmt(struct kmem_cache *cachep,
+ 	void *freelist;
+ 	void *addr = page_address(page);
+ 
+-	page->s_mem = addr + colour_off;
++	page->s_mem = kasan_reset_tag(addr) + colour_off;
+ 	page->active = 0;
+ 
+ 	if (OBJFREELIST_SLAB(cachep))
 -- 
 2.20.0.rc0.387.gc7a69e6b6c-goog
 
