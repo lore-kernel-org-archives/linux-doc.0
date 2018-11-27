@@ -1,227 +1,222 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D7C7C7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Nov 2018 16:13:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DBAE17D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Nov 2018 16:34:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730547AbeK1DLL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Nov 2018 22:11:11 -0500
-Received: from mail-it1-f194.google.com ([209.85.166.194]:36237 "EHLO
-        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729957AbeK1DLL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Nov 2018 22:11:11 -0500
-Received: by mail-it1-f194.google.com with SMTP id c9so34792401itj.1
-        for <linux-doc@vger.kernel.org>; Tue, 27 Nov 2018 08:12:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=usBQLnzCgLG9xMN/jf7TRbAC3JcbyRRiIRhWQwWAFs8=;
-        b=mcelSDhczCE74bUm3umFlxwckmZYNzxR1G7Sm1A1pubTVp4rN//jVaFSLDHWImYm2O
-         QswR3ZNytzZ8d3nydLzWli7pwy3h0d+4x+rJYDJ3WOV7FUMoi1QzPKjEglRWgF9S1bMi
-         nebIMMWXup1sPPcko0xffPqavlJqJldjLVhOsOChQ9fHufoq+LljQqkGh6hNpiE48bY3
-         F4Fwc5zElfw4tL2D3nwgXGwmCN3yz4F/rYuMsS+L7ZmVpba18Qt9oDtmpBLphp8l85R2
-         H+8IwIHQj+VTCbIrHLvh9LWIy7vKP8JC+cQz3JIBliAC7mRcfCpSgXp/PaXhvxY5ohdC
-         hSnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=usBQLnzCgLG9xMN/jf7TRbAC3JcbyRRiIRhWQwWAFs8=;
-        b=XBrIIAsF3xoTRe9sURjo1tBhb15/7jRS0+19uRXTyOfpEksYmAqJ7gHFraQuAVngLx
-         aAqHmZDh2BeJziO6wU03dHxttI2eIIsVgXPQ8dOePiqcpFl4o4HkRLOMI0tQiUrzG4Z8
-         mrWmVQDsQ4OxPftPiziLe8cs8jkb3xDo+RJFCQIniM9i3wEy0wm3JHxee41HpWAtuqd6
-         /XHRm1cOju5zmjPK956r6OizlwqmahH60yTxjd75lzdp68Gjru6zwQ90nHG/JjYf5Kir
-         N6TsFVPX6c/txhUMG9KVIWA7q5t3W2ly1eby645kE33xcQLTOAznULGc+Cm7iexeOl4A
-         Lymg==
-X-Gm-Message-State: AA+aEWYSItHxo4TJgZaEcXgWqowbUOznpsO4lxHSsVjm9klKAZhR91/y
-        F/GO/r8yUkLQJS1z5XFB3i89k4i7QCVVA2ccy+f/BA==
-X-Google-Smtp-Source: AJdET5dc0LuLvV9oJDSJTsEw0QmNUny0y+p/R9bS9GdMbIEqvmnDdnN+TCDOove2bRSmwddtj4gB1qjlW6cCg6ywuaM=
-X-Received: by 2002:a24:dac7:: with SMTP id z190-v6mr24911364itg.87.1543335166822;
- Tue, 27 Nov 2018 08:12:46 -0800 (PST)
+        id S1730749AbeK1Dcu convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Nov 2018 22:32:50 -0500
+Received: from tyo162.gate.nec.co.jp ([114.179.232.162]:57938 "EHLO
+        tyo162.gate.nec.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730650AbeK1Dcu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Nov 2018 22:32:50 -0500
+Received: from mailgate01.nec.co.jp ([114.179.233.122])
+        by tyo162.gate.nec.co.jp (8.15.1/8.15.1) with ESMTPS id wARGXpcr019721
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Wed, 28 Nov 2018 01:33:51 +0900
+Received: from mailsv02.nec.co.jp (mailgate-v.nec.co.jp [10.204.236.94])
+        by mailgate01.nec.co.jp (8.15.1/8.15.1) with ESMTP id wARGXpGm030255;
+        Wed, 28 Nov 2018 01:33:51 +0900
+Received: from mail02.kamome.nec.co.jp (mail02.kamome.nec.co.jp [10.25.43.5])
+        by mailsv02.nec.co.jp (8.15.1/8.15.1) with ESMTP id wARGXofZ003619;
+        Wed, 28 Nov 2018 01:33:51 +0900
+Received: from bpxc99gp.gisp.nec.co.jp ([10.38.151.140] [10.38.151.140]) by mail03.kamome.nec.co.jp with ESMTP id BT-MMP-94847; Wed, 28 Nov 2018 01:32:08 +0900
+Received: from BPXM09GP.gisp.nec.co.jp ([10.38.151.201]) by
+ BPXC12GP.gisp.nec.co.jp ([10.38.151.140]) with mapi id 14.03.0319.002; Wed,
+ 28 Nov 2018 01:32:07 +0900
+From:   Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+To:     David Hildenbrand <david@redhat.com>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "devel@linuxdriverproject.org" <devel@linuxdriverproject.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+        kexec-ml <kexec@lists.infradead.org>,
+        "pv-drivers@vmware.com" <pv-drivers@vmware.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>
+Subject: RE: [PATCH v2] makedumpfile: exclude pages that are logically
+ offline
+Thread-Topic: [PATCH v2] makedumpfile: exclude pages that are logically
+ offline
+Thread-Index: AQHUgkt9RCAzPwtH6E+Mr2lxoeU83qVig1dA
+Date:   Tue, 27 Nov 2018 16:32:07 +0000
+Message-ID: <4AE2DC15AC0B8543882A74EA0D43DBEC03561800@BPXM09GP.gisp.nec.co.jp>
+References: <20181122100627.5189-1-david@redhat.com>
+ <20181122100938.5567-1-david@redhat.com>
+In-Reply-To: <20181122100938.5567-1-david@redhat.com>
+Accept-Language: ja-JP, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [143.101.134.6]
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Received: by 2002:a02:7050:0:0:0:0:0 with HTTP; Tue, 27 Nov 2018 08:12:45
- -0800 (PST)
-In-Reply-To: <20181123174352.ri3qo3wx2irm6hzj@lakrids.cambridge.arm.com>
-References: <cover.1542648335.git.andreyknvl@google.com> <356c34c9a2ae8348a6cbd1de53135a28187fa120.1542648335.git.andreyknvl@google.com>
- <20181123174352.ri3qo3wx2irm6hzj@lakrids.cambridge.arm.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 27 Nov 2018 17:12:45 +0100
-Message-ID: <CAAeHK+y7Ya25+pzLTxBbin5HkirPyw3Fbz5Tb-HU1GeUnhDMjA@mail.gmail.com>
-Subject: Re: [PATCH v11 05/24] kasan: add CONFIG_KASAN_GENERIC and CONFIG_KASAN_SW_TAGS
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
-Content-Type: text/plain; charset="UTF-8"
+X-TM-AS-MML: disable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 23, 2018 at 6:43 PM, Mark Rutland <mark.rutland@arm.com> wrote:
-> On Mon, Nov 19, 2018 at 06:26:21PM +0100, Andrey Konovalov wrote:
->> This commit splits the current CONFIG_KASAN config option into two:
->> 1. CONFIG_KASAN_GENERIC, that enables the generic KASAN mode (the one
->>    that exists now);
->> 2. CONFIG_KASAN_SW_TAGS, that enables the software tag-based KASAN mode.
->>
->> The name CONFIG_KASAN_SW_TAGS is chosen as in the future we will have
->> another hardware tag-based KASAN mode, that will rely on hardware memory
->> tagging support in arm64.
->>
->> With CONFIG_KASAN_SW_TAGS enabled, compiler options are changed to
->> instrument kernel files with -fsantize=kernel-hwaddress (except the ones
->> for which KASAN_SANITIZE := n is set).
->>
->> Both CONFIG_KASAN_GENERIC and CONFIG_KASAN_SW_TAGS support both
->> CONFIG_KASAN_INLINE and CONFIG_KASAN_OUTLINE instrumentation modes.
->>
->> This commit also adds empty placeholder (for now) implementation of
->> tag-based KASAN specific hooks inserted by the compiler and adjusts
->> common hooks implementation to compile correctly with each of the
->> config options.
->>
->> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
->> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
->> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
->> ---
->>  arch/arm64/Kconfig                  |  1 +
->>  include/linux/compiler-clang.h      |  5 +-
->>  include/linux/compiler-gcc.h        |  6 ++
->>  include/linux/compiler_attributes.h | 13 ----
->>  include/linux/kasan.h               | 16 +++--
->>  lib/Kconfig.kasan                   | 96 +++++++++++++++++++++++------
->>  mm/kasan/Makefile                   |  6 +-
->>  mm/kasan/generic.c                  |  2 +-
->>  mm/kasan/kasan.h                    |  3 +-
->>  mm/kasan/tags.c                     | 75 ++++++++++++++++++++++
->>  mm/slub.c                           |  2 +-
->>  scripts/Makefile.kasan              | 53 +++++++++-------
->>  12 files changed, 216 insertions(+), 62 deletions(-)
->>  create mode 100644 mm/kasan/tags.c
->>
->> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
->> index 787d7850e064..8b331dcfb48e 100644
->> --- a/arch/arm64/Kconfig
->> +++ b/arch/arm64/Kconfig
->> @@ -111,6 +111,7 @@ config ARM64
->>       select HAVE_ARCH_JUMP_LABEL
->>       select HAVE_ARCH_JUMP_LABEL_RELATIVE
->>       select HAVE_ARCH_KASAN if !(ARM64_16K_PAGES && ARM64_VA_BITS_48)
->> +     select HAVE_ARCH_KASAN_SW_TAGS if !(ARM64_16K_PAGES && ARM64_VA_BITS_48)
->
->> --- a/lib/Kconfig.kasan
->> +++ b/lib/Kconfig.kasan
->> @@ -1,35 +1,95 @@
->> +# This config refers to the generic KASAN mode.
->>  config HAVE_ARCH_KASAN
->>       bool
->>
->> +config HAVE_ARCH_KASAN_SW_TAGS
->> +     bool
->> +
->> +config CC_HAS_KASAN_GENERIC
->> +     def_bool $(cc-option, -fsanitize=kernel-address)
->> +
->> +config CC_HAS_KASAN_SW_TAGS
->> +     def_bool $(cc-option, -fsanitize=kernel-hwaddress)
->
->> +if HAVE_ARCH_KASAN_SW_TAGS
->> +
->> +config KASAN_SW_TAGS
->> +     bool "Software tag-based mode"
->> +     depends on CC_HAS_KASAN_SW_TAGS
->> +     depends on (SLUB && SYSFS) || (SLAB && !DEBUG_SLAB)
->> +     select SLUB_DEBUG if SLUB
->> +     select CONSTRUCTORS
->> +     select STACKDEPOT
->> +     help
->> +       Enables software tag-based KASAN mode.
->> +       This mode requires Top Byte Ignore support by the CPU and therefore
->> +       is only supported for arm64.
->> +       This mode requires Clang version 7.0.0 or later.
->> +       This mode consumes about 1/16th of available memory at kernel start
->> +       and introduces an overhead of ~20% for the rest of the allocations.
->> +       This mode may potentially introduce problems relating to pointer
->> +       casting and comparison, as it embeds tags into the top byte of each
->> +       pointer.
->> +       For better error detection enable CONFIG_STACKTRACE.
->> +       Currently CONFIG_KASAN_SW_TAGS doesn't work with CONFIG_DEBUG_SLAB
->> +       (the resulting kernel does not boot).
->> +
->> +endif
->
-> IIUC as of this patch a user can select KASAN_SW_TAGS...
->
->> +ifdef CONFIG_KASAN_SW_TAGS
->> +
->> +ifdef CONFIG_KASAN_INLINE
->> +    instrumentation_flags := -mllvm -hwasan-mapping-offset=$(KASAN_SHADOW_OFFSET)
->> +else
->> +    instrumentation_flags := -mllvm -hwasan-instrument-with-calls=1
->> +endif
->> +
->> +CFLAGS_KASAN := -fsanitize=kernel-hwaddress \
->> +             -mllvm -hwasan-instrument-stack=0 \
->> +             $(instrumentation_flags)
->> +
->> +endif # CONFIG_KASAN_SW_TAGS
->
-> ... and therefore we start using the compiler option, even though we
-> haven't introduced all of the necessary infrastructure yet.
->
-> That doesn't sound right to me. At the very least, that breaks
-> randconfig builds.
->
-> What we can do, in-order, is:
->
-> 1) introduce the core refactoring, dependent on HAVE_ARCH_KASAN_SW_TAGS
-> 2) instroduce the new infrastructure and arch code
-> 3) select HAVE_ARCH_KASAN_SW_TAGS
->
-> ... such that at (3), all KASAN configurations are known to work.
->
-> Thanks,
-> Mark.
+> Linux marks pages that are logically offline via a page flag (map count).
+> Such pages e.g. include pages infated as part of a balloon driver or
+> pages that were not actually onlined when onlining the whole section.
+> 
+> While the hypervisor usually allows to read such inflated memory, we
+> basically read and dump data that is completely irrelevant. Also, this
+> might result in quite some overhead in the hypervisor. In addition,
+> we saw some problems under Hyper-V, whereby we can crash the kernel by
+> dumping, when reading memory of a partially onlined memory segment
+> (for memory added by the Hyper-V balloon driver).
+> 
+> Therefore, don't read and dump pages that are marked as being logically
+> offline.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Will do in v12, thanks!
+Thanks for the v2 update.
+I'm going to merge this patch after the kernel patches are merged
+and it tests fine with the kernel.
+
+Kazu
+
+> ---
+> 
+> v1 -> v2:
+> - Fix PAGE_BUDDY_MAPCOUNT_VALUE vs. PAGE_OFFLINE_MAPCOUNT_VALUE
+> 
+>  makedumpfile.c | 34 ++++++++++++++++++++++++++++++----
+>  makedumpfile.h |  1 +
+>  2 files changed, 31 insertions(+), 4 deletions(-)
+> 
+> diff --git a/makedumpfile.c b/makedumpfile.c
+> index 8923538..a5f2ea9 100644
+> --- a/makedumpfile.c
+> +++ b/makedumpfile.c
+> @@ -88,6 +88,7 @@ mdf_pfn_t pfn_cache_private;
+>  mdf_pfn_t pfn_user;
+>  mdf_pfn_t pfn_free;
+>  mdf_pfn_t pfn_hwpoison;
+> +mdf_pfn_t pfn_offline;
+> 
+>  mdf_pfn_t num_dumped;
+> 
+> @@ -249,6 +250,21 @@ isHugetlb(unsigned long dtor)
+>                      && (SYMBOL(free_huge_page) == dtor));
+>  }
+> 
+> +static int
+> +isOffline(unsigned long flags, unsigned int _mapcount)
+> +{
+> +	if (NUMBER(PAGE_OFFLINE_MAPCOUNT_VALUE) == NOT_FOUND_NUMBER)
+> +		return FALSE;
+> +
+> +	if (flags & (1UL << NUMBER(PG_slab)))
+> +		return FALSE;
+> +
+> +	if (_mapcount == (int)NUMBER(PAGE_OFFLINE_MAPCOUNT_VALUE))
+> +		return TRUE;
+> +
+> +	return FALSE;
+> +}
+> +
+>  static int
+>  is_cache_page(unsigned long flags)
+>  {
+> @@ -2287,6 +2303,8 @@ write_vmcoreinfo_data(void)
+>  	WRITE_NUMBER("PG_hwpoison", PG_hwpoison);
+> 
+>  	WRITE_NUMBER("PAGE_BUDDY_MAPCOUNT_VALUE", PAGE_BUDDY_MAPCOUNT_VALUE);
+> +	WRITE_NUMBER("PAGE_OFFLINE_MAPCOUNT_VALUE",
+> +		     PAGE_OFFLINE_MAPCOUNT_VALUE);
+>  	WRITE_NUMBER("phys_base", phys_base);
+> 
+>  	WRITE_NUMBER("HUGETLB_PAGE_DTOR", HUGETLB_PAGE_DTOR);
+> @@ -2687,6 +2705,7 @@ read_vmcoreinfo(void)
+>  	READ_SRCFILE("pud_t", pud_t);
+> 
+>  	READ_NUMBER("PAGE_BUDDY_MAPCOUNT_VALUE", PAGE_BUDDY_MAPCOUNT_VALUE);
+> +	READ_NUMBER("PAGE_OFFLINE_MAPCOUNT_VALUE", PAGE_OFFLINE_MAPCOUNT_VALUE);
+>  	READ_NUMBER("phys_base", phys_base);
+>  #ifdef __aarch64__
+>  	READ_NUMBER("VA_BITS", VA_BITS);
+> @@ -6041,6 +6060,12 @@ __exclude_unnecessary_pages(unsigned long mem_map,
+>  		else if (isHWPOISON(flags)) {
+>  			pfn_counter = &pfn_hwpoison;
+>  		}
+> +		/*
+> +		 * Exclude pages that are logically offline.
+> +		 */
+> +		else if (isOffline(flags, _mapcount)) {
+> +			pfn_counter = &pfn_offline;
+> +		}
+>  		/*
+>  		 * Unexcludable page
+>  		 */
+> @@ -7522,7 +7547,7 @@ write_elf_pages_cyclic(struct cache_data *cd_header, struct cache_data *cd_page)
+>  	 */
+>  	if (info->flag_cyclic) {
+>  		pfn_zero = pfn_cache = pfn_cache_private = 0;
+> -		pfn_user = pfn_free = pfn_hwpoison = 0;
+> +		pfn_user = pfn_free = pfn_hwpoison = pfn_offline = 0;
+>  		pfn_memhole = info->max_mapnr;
+>  	}
+> 
+> @@ -8804,7 +8829,7 @@ write_kdump_pages_and_bitmap_cyclic(struct cache_data *cd_header, struct cache_d
+>  		 * Reset counter for debug message.
+>  		 */
+>  		pfn_zero = pfn_cache = pfn_cache_private = 0;
+> -		pfn_user = pfn_free = pfn_hwpoison = 0;
+> +		pfn_user = pfn_free = pfn_hwpoison = pfn_offline = 0;
+>  		pfn_memhole = info->max_mapnr;
+> 
+>  		/*
+> @@ -9749,7 +9774,7 @@ print_report(void)
+>  	pfn_original = info->max_mapnr - pfn_memhole;
+> 
+>  	pfn_excluded = pfn_zero + pfn_cache + pfn_cache_private
+> -	    + pfn_user + pfn_free + pfn_hwpoison;
+> +	    + pfn_user + pfn_free + pfn_hwpoison + pfn_offline;
+>  	shrinking = (pfn_original - pfn_excluded) * 100;
+>  	shrinking = shrinking / pfn_original;
+> 
+> @@ -9763,6 +9788,7 @@ print_report(void)
+>  	REPORT_MSG("    User process data pages : 0x%016llx\n", pfn_user);
+>  	REPORT_MSG("    Free pages              : 0x%016llx\n", pfn_free);
+>  	REPORT_MSG("    Hwpoison pages          : 0x%016llx\n", pfn_hwpoison);
+> +	REPORT_MSG("    Offline pages           : 0x%016llx\n", pfn_offline);
+>  	REPORT_MSG("  Remaining pages  : 0x%016llx\n",
+>  	    pfn_original - pfn_excluded);
+>  	REPORT_MSG("  (The number of pages is reduced to %lld%%.)\n",
+> @@ -9790,7 +9816,7 @@ print_mem_usage(void)
+>  	pfn_original = info->max_mapnr - pfn_memhole;
+> 
+>  	pfn_excluded = pfn_zero + pfn_cache + pfn_cache_private
+> -	    + pfn_user + pfn_free + pfn_hwpoison;
+> +	    + pfn_user + pfn_free + pfn_hwpoison + pfn_offline;
+>  	shrinking = (pfn_original - pfn_excluded) * 100;
+>  	shrinking = shrinking / pfn_original;
+>  	total_size = info->page_size * pfn_original;
+> diff --git a/makedumpfile.h b/makedumpfile.h
+> index f02f86d..e3a2b29 100644
+> --- a/makedumpfile.h
+> +++ b/makedumpfile.h
+> @@ -1927,6 +1927,7 @@ struct number_table {
+>  	long    PG_hwpoison;
+> 
+>  	long	PAGE_BUDDY_MAPCOUNT_VALUE;
+> +	long	PAGE_OFFLINE_MAPCOUNT_VALUE;
+>  	long	SECTION_SIZE_BITS;
+>  	long	MAX_PHYSMEM_BITS;
+>  	long    HUGETLB_PAGE_DTOR;
+> --
+> 2.17.2
+> 
+
+
