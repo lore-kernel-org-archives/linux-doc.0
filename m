@@ -1,105 +1,91 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D72967D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Nov 2018 19:16:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F1CA77D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Nov 2018 19:22:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727560AbeK1GPH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Nov 2018 01:15:07 -0500
-Received: from mga03.intel.com ([134.134.136.65]:38765 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727491AbeK1GPG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 28 Nov 2018 01:15:06 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Nov 2018 11:16:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,287,1539673200"; 
-   d="scan'208";a="112741007"
-Received: from linux.intel.com ([10.54.29.200])
-  by fmsmga002.fm.intel.com with ESMTP; 27 Nov 2018 11:16:13 -0800
-Received: from [10.251.85.27] (abudanko-mobl.ccr.corp.intel.com [10.251.85.27])
-        by linux.intel.com (Postfix) with ESMTP id 864BD58041B;
-        Tue, 27 Nov 2018 11:16:08 -0800 (PST)
-Subject: Re: [PATCH v4 2/2] Documentation/admin-guide: update admin-guide
- index.rst
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Jonatan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jann Horn <jannh@google.com>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Tvrtko Ursulin <tursulin@ursulin.net>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "kernel-hardening@lists.openwall.com" 
-        <kernel-hardening@lists.openwall.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <feac7efa-df6f-cca1-e321-28d220bf0411@linux.intel.com>
- <abf0f0ec-15c5-59eb-8657-e1e0e1f396b6@linux.intel.com>
- <CAGXu5jJWTyEzXODmeKkko5A212TAe1KSWGuONRvF7Tt+RY+5Sw@mail.gmail.com>
-From:   Alexey Budankov <alexey.budankov@linux.intel.com>
-Organization: Intel Corp.
-Message-ID: <2e78e2e7-539c-041f-ae0c-feb09f595e97@linux.intel.com>
-Date:   Tue, 27 Nov 2018 22:16:07 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1726340AbeK1GVd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Nov 2018 01:21:33 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:40084 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726327AbeK1GVd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Nov 2018 01:21:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
+        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=24wB8o9yeOrlXfiLJvH4k2tbDIfY5VU2bEKRSqp25ew=; b=s9fhQcrG0zzOc5AJVBlXRFQRlq
+        Xzrh4d4AfAD07j7rCT+S+yyhF2AEAg/b1zMyIFlg8Sd8Jqsrlqgcjwv+TSV7+RlankzN5ZiUmFMIj
+        Qxxm3cgcrvUNJTu/cKYve9upcj7kayKvuV3xRsYd3ieULNSuWAuG+sbKnUzq+AKaqinuUGv0eQtSA
+        Cm9rd8ZKFo2FV7CMFDzlwsQcK/iydp7H+zub1f4hJ3qg8fc1xWwpwfAMW4yIsTcTsWDaJisAalNYV
+        7r7n83xWYTBoJAvtzCg7B91LQhcXdbYvNcy0W3G20q2bR7ZNwGtwBMfal/CnZUELF6oX/MIiK6tvG
+        V+xhMSTA==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gRiwM-000712-NA; Tue, 27 Nov 2018 19:22:34 +0000
+Date:   Tue, 27 Nov 2018 11:22:34 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc:     Andrea Parri <andrea.parri@amarulasolutions.com>,
+        Will Deacon <will.deacon@arm.com>, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Laight <David.Laight@ACULAB.COM>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH] docs/memory-barriers.txt: Enforce heavy ordering for
+ port I/O accesses
+Message-ID: <20181127192234.GF10377@bombadil.infradead.org>
+References: <1543251134-29867-1-git-send-email-will.deacon@arm.com>
+ <20181126193349.GA3509@andrea>
+ <20181127184021.GS4170@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <CAGXu5jJWTyEzXODmeKkko5A212TAe1KSWGuONRvF7Tt+RY+5Sw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20181127184021.GS4170@linux.ibm.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Kees,
+On Tue, Nov 27, 2018 at 10:40:21AM -0800, Paul E. McKenney wrote:
+> On Mon, Nov 26, 2018 at 08:33:49PM +0100, Andrea Parri wrote:
+> > On Mon, Nov 26, 2018 at 04:52:14PM +0000, Will Deacon wrote:
+> > > David Laight explains:
+> > > 
+> > >   | A long time ago there was a document from Intel that said that
+> > >   | inb/outb weren't necessarily synchronised wrt memory accesses.
+> > >   | (Might be P-pro era). However no processors actually behaved that
+> > >   | way and more recent docs say that inb/outb are fully ordered.
+> > 
+> > No intention to diminish David Laight's authority of course, but I would
+> > have really appreciated a reference to these "recent docs" (section, pg.
+> > or the like, especially if a reference manual...) here...
+> 
+> I would be inclined to cut Will a break given the research for his
+> recent talk on this topic, but it would be good to get an ack from
+> someone from Intel.  And memory-model patches require an ack or better
+> in any case.  ;-)
 
-On 27.11.2018 20:23, Kees Cook wrote:
-> On Tue, Nov 27, 2018 at 12:16 AM, Alexey Budankov
-> <alexey.budankov@linux.intel.com> wrote:
->>
->> Extend index.rst index file at admin-guide root directory with
->> the reference to perf-security.rst file being introduced.
->>
->> Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
->> ---
->>  Documentation/admin-guide/index.rst | 1 +
->>  1 file changed, 1 insertion(+)
-> 
-> Seems like this could just be folded into patch 1? I'm not sure Jon's
-> preference here, though.
+Here's a quote from Section 18.6 of volume 1 of the Software Developer
+Manual, November 2018 edition:
 
-Let's stick to Jon's preference in comments on v4 2/2.
+When the I/O address space is used instead of memory-mapped I/O, the
+situation is different in two respects:
+• The processor never buffers I/O writes. Therefore, strict ordering of
+I/O operations is enforced by the processor. (As with memory-mapped I/O,
+it is possible for a chip set to post writes in certain I/O ranges.)
+• The processor synchronizes I/O instruction execution with external
+bus activity (see Table 18-1).
 
-Thanks for review!
-
--Alexey
-
-> 
-> -Kees
-> 
->>
->> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
->> index 965745d5fb9a..0a491676685e 100644
->> --- a/Documentation/admin-guide/index.rst
->> +++ b/Documentation/admin-guide/index.rst
->> @@ -76,6 +76,7 @@ configure specific aspects of kernel behavior to your liking.
->>     thunderbolt
->>     LSM/index
->>     mm/index
->> +   perf-security
->>
->>  .. only::  subproject and html
-> 
-> 
-> 
+Table 18-1 says that in* delays execution of the current instruction until
+completion of pending stores, and out* delays execution of the _next_
+instruction until completion of both pending stores and the current store.
