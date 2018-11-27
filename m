@@ -3,58 +3,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7871A7D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Nov 2018 16:04:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D7C7C7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Nov 2018 16:13:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730021AbeK1DCs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Nov 2018 22:02:48 -0500
-Received: from mail-it1-f194.google.com ([209.85.166.194]:55296 "EHLO
+        id S1730547AbeK1DLL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Nov 2018 22:11:11 -0500
+Received: from mail-it1-f194.google.com ([209.85.166.194]:36237 "EHLO
         mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730198AbeK1DCs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Nov 2018 22:02:48 -0500
-Received: by mail-it1-f194.google.com with SMTP id o19so34931845itg.5
-        for <linux-doc@vger.kernel.org>; Tue, 27 Nov 2018 08:04:25 -0800 (PST)
+        with ESMTP id S1729957AbeK1DLL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Nov 2018 22:11:11 -0500
+Received: by mail-it1-f194.google.com with SMTP id c9so34792401itj.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 Nov 2018 08:12:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=33GOBKEvyV4rGfBRlWYpwFsQUZViulrxDDjf9gGtxiw=;
-        b=ukloI+yIJMcyVZEoRVubH18W6bwzEBUFRAzzATYrs5hHYwgXKotyACivDOUQikDqtV
-         GdSxMe6shQzd98cd0qYGTQcG60anvLjOfwdRVyULaDpryjm1nlesPC6Q/4JOeHvSPgM3
-         8qREBKXyDOVsuM9ci0XQRmQ5BvXbO8ILkq9QRVjgDFCtCDKb4ErjxTTjtU2CObZCVBxn
-         u5vXqEooPTn0Xu8yxXeyFiYoOQDNs60NHz5lV19t9ie1VNZXTamMzETd283zwsiBfweX
-         WIvValxJoABHuikAGW2eH8yf8ZLOTNMPyzuS26IdcWOGDsg+TK9df2yDXg/TBj5TSV4u
-         yK3Q==
+        bh=usBQLnzCgLG9xMN/jf7TRbAC3JcbyRRiIRhWQwWAFs8=;
+        b=mcelSDhczCE74bUm3umFlxwckmZYNzxR1G7Sm1A1pubTVp4rN//jVaFSLDHWImYm2O
+         QswR3ZNytzZ8d3nydLzWli7pwy3h0d+4x+rJYDJ3WOV7FUMoi1QzPKjEglRWgF9S1bMi
+         nebIMMWXup1sPPcko0xffPqavlJqJldjLVhOsOChQ9fHufoq+LljQqkGh6hNpiE48bY3
+         F4Fwc5zElfw4tL2D3nwgXGwmCN3yz4F/rYuMsS+L7ZmVpba18Qt9oDtmpBLphp8l85R2
+         H+8IwIHQj+VTCbIrHLvh9LWIy7vKP8JC+cQz3JIBliAC7mRcfCpSgXp/PaXhvxY5ohdC
+         hSnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=33GOBKEvyV4rGfBRlWYpwFsQUZViulrxDDjf9gGtxiw=;
-        b=ODsTh65ys648V3ZziVKdlLZGDi1gYSBzZYhEB+sUzuGviKfbXSkrkBEymEzR4DpbSq
-         woXUw4RnYeL0aBf1OTh9fd/mUNTyEqjS7EjMy4/GSQ9b9Rqov6W4pnL8VKlz5owUHsNv
-         82tiBE6ZNpqb1E8HUCTR7ubebAoXmKe3xqz9uwmQbxtPWhJ6fRXGctSAbujj/Gwc72AQ
-         Y+CgAhWHgwcSl4vrdGYUGTmmOE7qij+QJVE8Um2Co5iUSS3/JDP/Wr0n8i84NII6nbMV
-         cL8i2NpeAi4fQitdi1FC4ZJyuxwsTTuvITcYOLpoMq+6N9smxBYQ8xDMo+/41ltXB58A
-         2g3Q==
-X-Gm-Message-State: AGRZ1gKLN7SyHCb1SSTXu20Af+oVa99LXTgnE/FQXg0K/4+ZOHRd9yWI
-        AyDghkapLm0S8+xRN7nJj5iDkWzobnTy5irkX//NNw==
-X-Google-Smtp-Source: AFSGD/XS/kSgoWsACK49X5irY5p0dFNv/k9IN4hZeu0XKD0E3A0LlTEngS5zb2qpn/9R8JsVpd+5gC2kx4LiUqY2Xzc=
-X-Received: by 2002:a02:4f88:: with SMTP id r8mr29584514jad.69.1543334665077;
- Tue, 27 Nov 2018 08:04:25 -0800 (PST)
+        bh=usBQLnzCgLG9xMN/jf7TRbAC3JcbyRRiIRhWQwWAFs8=;
+        b=XBrIIAsF3xoTRe9sURjo1tBhb15/7jRS0+19uRXTyOfpEksYmAqJ7gHFraQuAVngLx
+         aAqHmZDh2BeJziO6wU03dHxttI2eIIsVgXPQ8dOePiqcpFl4o4HkRLOMI0tQiUrzG4Z8
+         mrWmVQDsQ4OxPftPiziLe8cs8jkb3xDo+RJFCQIniM9i3wEy0wm3JHxee41HpWAtuqd6
+         /XHRm1cOju5zmjPK956r6OizlwqmahH60yTxjd75lzdp68Gjru6zwQ90nHG/JjYf5Kir
+         N6TsFVPX6c/txhUMG9KVIWA7q5t3W2ly1eby645kE33xcQLTOAznULGc+Cm7iexeOl4A
+         Lymg==
+X-Gm-Message-State: AA+aEWYSItHxo4TJgZaEcXgWqowbUOznpsO4lxHSsVjm9klKAZhR91/y
+        F/GO/r8yUkLQJS1z5XFB3i89k4i7QCVVA2ccy+f/BA==
+X-Google-Smtp-Source: AJdET5dc0LuLvV9oJDSJTsEw0QmNUny0y+p/R9bS9GdMbIEqvmnDdnN+TCDOove2bRSmwddtj4gB1qjlW6cCg6ywuaM=
+X-Received: by 2002:a24:dac7:: with SMTP id z190-v6mr24911364itg.87.1543335166822;
+ Tue, 27 Nov 2018 08:12:46 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a02:7050:0:0:0:0:0 with HTTP; Tue, 27 Nov 2018 08:04:24
+Received: by 2002:a02:7050:0:0:0:0:0 with HTTP; Tue, 27 Nov 2018 08:12:45
  -0800 (PST)
-In-Reply-To: <20181123173739.osgvnnhmptdgtlnl@lakrids.cambridge.arm.com>
-References: <cover.1542648335.git.andreyknvl@google.com> <0288334225edc99d98d70c896494e19c3bd9361a.1542648335.git.andreyknvl@google.com>
- <20181123173739.osgvnnhmptdgtlnl@lakrids.cambridge.arm.com>
+In-Reply-To: <20181123174352.ri3qo3wx2irm6hzj@lakrids.cambridge.arm.com>
+References: <cover.1542648335.git.andreyknvl@google.com> <356c34c9a2ae8348a6cbd1de53135a28187fa120.1542648335.git.andreyknvl@google.com>
+ <20181123174352.ri3qo3wx2irm6hzj@lakrids.cambridge.arm.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 27 Nov 2018 17:04:24 +0100
-Message-ID: <CAAeHK+xgmM9Fs2Yw8Cv8zGhz_hg6G31uhHabudibj7wszmCVAw@mail.gmail.com>
-Subject: Re: [PATCH v11 09/24] arm64: move untagged_addr macro from uaccess.h
- to memory.h
+Date:   Tue, 27 Nov 2018 17:12:45 +0100
+Message-ID: <CAAeHK+y7Ya25+pzLTxBbin5HkirPyw3Fbz5Tb-HU1GeUnhDMjA@mail.gmail.com>
+Subject: Re: [PATCH v11 05/24] kasan: add CONFIG_KASAN_GENERIC and CONFIG_KASAN_SW_TAGS
 To:     Mark Rutland <mark.rutland@arm.com>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -99,84 +98,130 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 23, 2018 at 6:37 PM, Mark Rutland <mark.rutland@arm.com> wrote:
-> On Mon, Nov 19, 2018 at 06:26:25PM +0100, Andrey Konovalov wrote:
->> Move the untagged_addr() macro from arch/arm64/include/asm/uaccess.h
->> to arch/arm64/include/asm/memory.h to be later reused by KASAN.
+On Fri, Nov 23, 2018 at 6:43 PM, Mark Rutland <mark.rutland@arm.com> wrote:
+> On Mon, Nov 19, 2018 at 06:26:21PM +0100, Andrey Konovalov wrote:
+>> This commit splits the current CONFIG_KASAN config option into two:
+>> 1. CONFIG_KASAN_GENERIC, that enables the generic KASAN mode (the one
+>>    that exists now);
+>> 2. CONFIG_KASAN_SW_TAGS, that enables the software tag-based KASAN mode.
 >>
->> Also make the untagged_addr() macro accept all kinds of address types
->> (void *, unsigned long, etc.). This allows not to specify type casts in
->> each place where the macro is used. This is done by using __typeof__.
+>> The name CONFIG_KASAN_SW_TAGS is chosen as in the future we will have
+>> another hardware tag-based KASAN mode, that will rely on hardware memory
+>> tagging support in arm64.
 >>
+>> With CONFIG_KASAN_SW_TAGS enabled, compiler options are changed to
+>> instrument kernel files with -fsantize=kernel-hwaddress (except the ones
+>> for which KASAN_SANITIZE := n is set).
+>>
+>> Both CONFIG_KASAN_GENERIC and CONFIG_KASAN_SW_TAGS support both
+>> CONFIG_KASAN_INLINE and CONFIG_KASAN_OUTLINE instrumentation modes.
+>>
+>> This commit also adds empty placeholder (for now) implementation of
+>> tag-based KASAN specific hooks inserted by the compiler and adjusts
+>> common hooks implementation to compile correctly with each of the
+>> config options.
+>>
+>> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+>> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 >> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 >> ---
->>  arch/arm64/include/asm/memory.h  | 8 ++++++++
->>  arch/arm64/include/asm/uaccess.h | 7 -------
->>  2 files changed, 8 insertions(+), 7 deletions(-)
+>>  arch/arm64/Kconfig                  |  1 +
+>>  include/linux/compiler-clang.h      |  5 +-
+>>  include/linux/compiler-gcc.h        |  6 ++
+>>  include/linux/compiler_attributes.h | 13 ----
+>>  include/linux/kasan.h               | 16 +++--
+>>  lib/Kconfig.kasan                   | 96 +++++++++++++++++++++++------
+>>  mm/kasan/Makefile                   |  6 +-
+>>  mm/kasan/generic.c                  |  2 +-
+>>  mm/kasan/kasan.h                    |  3 +-
+>>  mm/kasan/tags.c                     | 75 ++++++++++++++++++++++
+>>  mm/slub.c                           |  2 +-
+>>  scripts/Makefile.kasan              | 53 +++++++++-------
+>>  12 files changed, 216 insertions(+), 62 deletions(-)
+>>  create mode 100644 mm/kasan/tags.c
 >>
->> diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
->> index 05fbc7ffcd31..deb95be44392 100644
->> --- a/arch/arm64/include/asm/memory.h
->> +++ b/arch/arm64/include/asm/memory.h
->> @@ -73,6 +73,14 @@
->>  #define KERNEL_START      _text
->>  #define KERNEL_END        _end
+>> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+>> index 787d7850e064..8b331dcfb48e 100644
+>> --- a/arch/arm64/Kconfig
+>> +++ b/arch/arm64/Kconfig
+>> @@ -111,6 +111,7 @@ config ARM64
+>>       select HAVE_ARCH_JUMP_LABEL
+>>       select HAVE_ARCH_JUMP_LABEL_RELATIVE
+>>       select HAVE_ARCH_KASAN if !(ARM64_16K_PAGES && ARM64_VA_BITS_48)
+>> +     select HAVE_ARCH_KASAN_SW_TAGS if !(ARM64_16K_PAGES && ARM64_VA_BITS_48)
+>
+>> --- a/lib/Kconfig.kasan
+>> +++ b/lib/Kconfig.kasan
+>> @@ -1,35 +1,95 @@
+>> +# This config refers to the generic KASAN mode.
+>>  config HAVE_ARCH_KASAN
+>>       bool
 >>
->> +/*
->> + * When dealing with data aborts, watchpoints, or instruction traps we may end
->> + * up with a tagged userland pointer. Clear the tag to get a sane pointer to
->> + * pass on to access_ok(), for instance.
->> + */
->> +#define untagged_addr(addr)  \
->> +     (__typeof__(addr))sign_extend64((__u64)(addr), 55)
+>> +config HAVE_ARCH_KASAN_SW_TAGS
+>> +     bool
+>> +
+>> +config CC_HAS_KASAN_GENERIC
+>> +     def_bool $(cc-option, -fsanitize=kernel-address)
+>> +
+>> +config CC_HAS_KASAN_SW_TAGS
+>> +     def_bool $(cc-option, -fsanitize=kernel-hwaddress)
 >
-> Minor nits:
+>> +if HAVE_ARCH_KASAN_SW_TAGS
+>> +
+>> +config KASAN_SW_TAGS
+>> +     bool "Software tag-based mode"
+>> +     depends on CC_HAS_KASAN_SW_TAGS
+>> +     depends on (SLUB && SYSFS) || (SLAB && !DEBUG_SLAB)
+>> +     select SLUB_DEBUG if SLUB
+>> +     select CONSTRUCTORS
+>> +     select STACKDEPOT
+>> +     help
+>> +       Enables software tag-based KASAN mode.
+>> +       This mode requires Top Byte Ignore support by the CPU and therefore
+>> +       is only supported for arm64.
+>> +       This mode requires Clang version 7.0.0 or later.
+>> +       This mode consumes about 1/16th of available memory at kernel start
+>> +       and introduces an overhead of ~20% for the rest of the allocations.
+>> +       This mode may potentially introduce problems relating to pointer
+>> +       casting and comparison, as it embeds tags into the top byte of each
+>> +       pointer.
+>> +       For better error detection enable CONFIG_STACKTRACE.
+>> +       Currently CONFIG_KASAN_SW_TAGS doesn't work with CONFIG_DEBUG_SLAB
+>> +       (the resulting kernel does not boot).
+>> +
+>> +endif
 >
-> * s/__u64/u64/ (or s/__u64/unsigned long/), since this isn't a UAPI
->   header.
+> IIUC as of this patch a user can select KASAN_SW_TAGS...
 >
-> * Please move this down into the #ifndef __ASSEMBLY__ block, after we
->   include <linux/bitops.h>, which is necessary for sign_extend64().
+>> +ifdef CONFIG_KASAN_SW_TAGS
+>> +
+>> +ifdef CONFIG_KASAN_INLINE
+>> +    instrumentation_flags := -mllvm -hwasan-mapping-offset=$(KASAN_SHADOW_OFFSET)
+>> +else
+>> +    instrumentation_flags := -mllvm -hwasan-instrument-with-calls=1
+>> +endif
+>> +
+>> +CFLAGS_KASAN := -fsanitize=kernel-hwaddress \
+>> +             -mllvm -hwasan-instrument-stack=0 \
+>> +             $(instrumentation_flags)
+>> +
+>> +endif # CONFIG_KASAN_SW_TAGS
 >
-> With those fixed up, this patch looks sound to me:
+> ... and therefore we start using the compiler option, even though we
+> haven't introduced all of the necessary infrastructure yet.
 >
-> Acked-by: Mark Rutland <mark.rutland@arm.com>
+> That doesn't sound right to me. At the very least, that breaks
+> randconfig builds.
+>
+> What we can do, in-order, is:
+>
+> 1) introduce the core refactoring, dependent on HAVE_ARCH_KASAN_SW_TAGS
+> 2) instroduce the new infrastructure and arch code
+> 3) select HAVE_ARCH_KASAN_SW_TAGS
+>
+> ... such that at (3), all KASAN configurations are known to work.
 >
 > Thanks,
 > Mark.
 
 Will do in v12, thanks!
-
->
->> +
->>  /*
->>   * Generic and tag-based KASAN require 1/8th and 1/16th of the kernel virtual
->>   * address space for the shadow region respectively. They can bloat the stack
->> diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
->> index 07c34087bd5e..281a1e47263d 100644
->> --- a/arch/arm64/include/asm/uaccess.h
->> +++ b/arch/arm64/include/asm/uaccess.h
->> @@ -96,13 +96,6 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
->>       return ret;
->>  }
->>
->> -/*
->> - * When dealing with data aborts, watchpoints, or instruction traps we may end
->> - * up with a tagged userland pointer. Clear the tag to get a sane pointer to
->> - * pass on to access_ok(), for instance.
->> - */
->> -#define untagged_addr(addr)          sign_extend64(addr, 55)
->> -
->>  #define access_ok(type, addr, size)  __range_ok(addr, size)
->>  #define user_addr_max                        get_fs
->>
->> --
->> 2.19.1.1215.g8438c0b245-goog
->>
->
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To post to this group, send email to kasan-dev@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20181123173739.osgvnnhmptdgtlnl%40lakrids.cambridge.arm.com.
-> For more options, visit https://groups.google.com/d/optout.
