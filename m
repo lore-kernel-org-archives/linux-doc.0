@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 08A527DD29
+	by archive.lwn.net (Postfix) with ESMTP id 1F45C7DD2A
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Nov 2018 16:58:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731647AbeK1Dyh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Nov 2018 22:54:37 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:41353 "EHLO
+        id S1731327AbeK1D4d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Nov 2018 22:56:33 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:37794 "EHLO
         mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731585AbeK1Dyg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Nov 2018 22:54:36 -0500
-Received: by mail-wr1-f67.google.com with SMTP id x10so23442992wrs.8
-        for <linux-doc@vger.kernel.org>; Tue, 27 Nov 2018 08:56:04 -0800 (PST)
+        with ESMTP id S1731644AbeK1Dyh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Nov 2018 22:54:37 -0500
+Received: by mail-wr1-f67.google.com with SMTP id j10so23448097wru.4
+        for <linux-doc@vger.kernel.org>; Tue, 27 Nov 2018 08:56:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fztBcLEiYbKA/LtOsORIwty9Qmu1JSfLSmyXKXMabPw=;
-        b=VN748MujAw+DWU1wO0qdoor5iHxQuGuy1rSmsVaXIjPu+qp7t1gkSORsGaUi+0f2Z3
-         aOXiZ5FMoUJXYwqkR1KMlJUvgIzVuATN/AkXP0OnHQ2oR7g4qW0RP0AYlMOcCN9wRapF
-         FjHdh51W3QTBDzipTDU8Het6TyNhlLctUuCuQyxPK0Jh1vMbZhjKZkHuaBUByJ/stl4J
-         YjnUrP1lc/GUlHkFl66SX1lfog0/MdcpT7+9kAdMzPPqRJpx87kcbyQZQqG7yoybRkhP
-         u9It3Zkk6LuI74HWWSL5K7a+7Sj044hjHidCjblgFJ0TaqnsWHAWWzCGCBNfmL6bKRWa
-         2Tfw==
+        bh=6e1l9Y/ECE5gJLR0cHfFtNGEhOKinaqvIQUjwSbnIxA=;
+        b=c7RLbeCBSVZ4Kt6XmRk41o0eRiADDbVObnmQOr8RuKkIYie1CCJ4fYq8kfj9AfajBv
+         OBvv316qqeqXWjU+4grgAXMDTb6uhS5R6mR7OXy5YlGkW6IH0gS0+aVi0WFb16P7E03z
+         C9Mq+XCW4ZYUNS6UaPDcu9pBuiFLIKyA94mcuUhjZjhUXihex0N5TWIkfeVY82bcQLdr
+         HnqZUKZa05tov8/OoSNckF7DsE/hTRTiN3nnqkdkfHNTjS9r2E1LQsQBFGxVT7sHi56N
+         GABTW4X86jJYnMHRjmDPORCZC1aM5Kpaj34BLZGfRVchAXfgDVsAjf47zSHA1CHobvdE
+         vn/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fztBcLEiYbKA/LtOsORIwty9Qmu1JSfLSmyXKXMabPw=;
-        b=VMJTYdmuR+yGJn2apQqmBYfyGP7r064LAj5Srqhd8PLlt0J6WmxGJldTMIgDwnFBDL
-         EDZCmerkMIB9305zLV2ujftm+JNXuw4dKa+B/BJZ2LSwNOClwdHuMm7vlkoff9iHTRjh
-         IWXrhOd8bcooBNAqaE/5YJy0bxmaHlYZO0s18HyCmBfoXbNufmCW43iN2b8w4mMGQjNv
-         ZaLiVE+J1+frwnjzBXlzkUmGomDahnA0eXy21Kxm3+UyqUwcEb0R+tOeaXepEn61eY5x
-         1TDxFxfsNKcR1tvi1/lSWQrN8zHUY8GLjhMgfotRFKYI3/G8Juw9yH2auIbeH8TvviSD
-         8ZJA==
-X-Gm-Message-State: AA+aEWb2ntQEV0pQVpKIqOzvPWg2V1cOREji0cl8sef0nsyjZDTqerI4
-        VnYc0bh7eiYzjarGOHXiRb+WhQ==
-X-Google-Smtp-Source: AFSGD/XGiJkmlg1UCiFrlHGtGTEw55szXT2tYUWA/NiNoHyYu4oBhIyXGW2YjdMJaFRQhK/jKyCjyg==
-X-Received: by 2002:adf:f703:: with SMTP id r3mr27665915wrp.93.1543337763264;
-        Tue, 27 Nov 2018 08:56:03 -0800 (PST)
+        bh=6e1l9Y/ECE5gJLR0cHfFtNGEhOKinaqvIQUjwSbnIxA=;
+        b=X0oRj5doJM38lZAUPeu3VKkBCXJ5Yd43oHxoxdES9njVX8ZRCm8WygAAnU0dp78Wyu
+         rUdmk6r8PcRv7iMyF7AZ9GSM3pCe6BAc72WQiVHdTwfbJR3eBHg5d0qdsI0cyYa49EsJ
+         2/TmKWpdMu9RPdjwc3QZVRJICxcp8gin80GzzJ3F59rYSTeI2ACdsiHGJBrEaXhFODnY
+         9rBTrCP62sjjQNA+m83tddaBNbld+zTAqmSHaxIx4OQaZXEwR3gqByzkzSIozql/xeaW
+         dE+x8TfiMVRBzvhP7nE3oy28eodwfUER9FMJpn1SYCtj6lNAcoRYjJ23QBKS0TXWx5fE
+         1fLQ==
+X-Gm-Message-State: AA+aEWZg+Ua0hwgTcbpQOJ5cq19Rn30CImg21uTd9G+fBfGBHaJlBB02
+        rhvDpZS29RxGYUKJGqFvVzMffw==
+X-Google-Smtp-Source: AFSGD/UuH/6DY8P2w9UpFgpPIClD7KG7B4718Xsjq1f+D3WUkqLpCJuTKqnCRQRqaKolqFu71jv+oA==
+X-Received: by 2002:adf:9d4c:: with SMTP id o12mr2491101wre.94.1543337765359;
+        Tue, 27 Nov 2018 08:56:05 -0800 (PST)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:3180:41f8:3010:ff61])
-        by smtp.gmail.com with ESMTPSA id k73sm6383099wmd.36.2018.11.27.08.56.01
+        by smtp.gmail.com with ESMTPSA id k73sm6383099wmd.36.2018.11.27.08.56.03
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Nov 2018 08:56:02 -0800 (PST)
+        Tue, 27 Nov 2018 08:56:04 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -85,9 +85,9 @@ Cc:     Kostya Serebryany <kcc@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Vishwath Mohan <vishwath@google.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v12 08/25] kasan: initialize shadow to 0xff for tag-based mode
-Date:   Tue, 27 Nov 2018 17:55:26 +0100
-Message-Id: <9004fd16d56d8772775cf671a8fa66e54ed138dd.1543337629.git.andreyknvl@google.com>
+Subject: [PATCH v12 09/25] arm64: move untagged_addr macro from uaccess.h to memory.h
+Date:   Tue, 27 Nov 2018 17:55:27 +0100
+Message-Id: <432ef6686a25b49244f54c4dfd86bc4b20381d8a.1543337629.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.20.0.rc0.387.gc7a69e6b6c-goog
 In-Reply-To: <cover.1543337629.git.andreyknvl@google.com>
 References: <cover.1543337629.git.andreyknvl@google.com>
@@ -98,102 +98,57 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A tag-based KASAN shadow memory cell contains a memory tag, that
-corresponds to the tag in the top byte of the pointer, that points to that
-memory. The native top byte value of kernel pointers is 0xff, so with
-tag-based KASAN we need to initialize shadow memory to 0xff.
+Move the untagged_addr() macro from arch/arm64/include/asm/uaccess.h
+to arch/arm64/include/asm/memory.h to be later reused by KASAN.
 
-Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
-Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+Also make the untagged_addr() macro accept all kinds of address types
+(void *, unsigned long, etc.). This allows not to specify type casts in
+each place where the macro is used. This is done by using __typeof__.
+
+Acked-by: Mark Rutland <mark.rutland@arm.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- arch/arm64/mm/kasan_init.c | 15 +++++++++++++--
- include/linux/kasan.h      |  8 ++++++++
- mm/kasan/common.c          |  3 ++-
- 3 files changed, 23 insertions(+), 3 deletions(-)
+ arch/arm64/include/asm/memory.h  | 8 ++++++++
+ arch/arm64/include/asm/uaccess.h | 7 -------
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/arch/arm64/mm/kasan_init.c b/arch/arm64/mm/kasan_init.c
-index 4ebc19422931..7a4a0904cac8 100644
---- a/arch/arm64/mm/kasan_init.c
-+++ b/arch/arm64/mm/kasan_init.c
-@@ -43,6 +43,15 @@ static phys_addr_t __init kasan_alloc_zeroed_page(int node)
- 	return __pa(p);
+diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
+index 05fbc7ffcd31..e2c9857157f2 100644
+--- a/arch/arm64/include/asm/memory.h
++++ b/arch/arm64/include/asm/memory.h
+@@ -211,6 +211,14 @@ static inline unsigned long kaslr_offset(void)
+  */
+ #define PHYS_PFN_OFFSET	(PHYS_OFFSET >> PAGE_SHIFT)
+ 
++/*
++ * When dealing with data aborts, watchpoints, or instruction traps we may end
++ * up with a tagged userland pointer. Clear the tag to get a sane pointer to
++ * pass on to access_ok(), for instance.
++ */
++#define untagged_addr(addr)	\
++	((__typeof__(addr))sign_extend64((u64)(addr), 55))
++
+ /*
+  * Physical vs virtual RAM address space conversion.  These are
+  * private definitions which should NOT be used outside memory.h
+diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
+index 07c34087bd5e..281a1e47263d 100644
+--- a/arch/arm64/include/asm/uaccess.h
++++ b/arch/arm64/include/asm/uaccess.h
+@@ -96,13 +96,6 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
+ 	return ret;
  }
  
-+static phys_addr_t __init kasan_alloc_raw_page(int node)
-+{
-+	void *p = memblock_alloc_try_nid_raw(PAGE_SIZE, PAGE_SIZE,
-+						__pa(MAX_DMA_ADDRESS),
-+						MEMBLOCK_ALLOC_ACCESSIBLE,
-+						node);
-+	return __pa(p);
-+}
-+
- static pte_t *__init kasan_pte_offset(pmd_t *pmdp, unsigned long addr, int node,
- 				      bool early)
- {
-@@ -92,7 +101,9 @@ static void __init kasan_pte_populate(pmd_t *pmdp, unsigned long addr,
- 	do {
- 		phys_addr_t page_phys = early ?
- 				__pa_symbol(kasan_early_shadow_page)
--					: kasan_alloc_zeroed_page(node);
-+					: kasan_alloc_raw_page(node);
-+		if (!early)
-+			memset(__va(page_phys), KASAN_SHADOW_INIT, PAGE_SIZE);
- 		next = addr + PAGE_SIZE;
- 		set_pte(ptep, pfn_pte(__phys_to_pfn(page_phys), PAGE_KERNEL));
- 	} while (ptep++, addr = next, addr != end && pte_none(READ_ONCE(*ptep)));
-@@ -239,7 +250,7 @@ void __init kasan_init(void)
- 			pfn_pte(sym_to_pfn(kasan_early_shadow_page),
- 				PAGE_KERNEL_RO));
+-/*
+- * When dealing with data aborts, watchpoints, or instruction traps we may end
+- * up with a tagged userland pointer. Clear the tag to get a sane pointer to
+- * pass on to access_ok(), for instance.
+- */
+-#define untagged_addr(addr)		sign_extend64(addr, 55)
+-
+ #define access_ok(type, addr, size)	__range_ok(addr, size)
+ #define user_addr_max			get_fs
  
--	memset(kasan_early_shadow_page, 0, PAGE_SIZE);
-+	memset(kasan_early_shadow_page, KASAN_SHADOW_INIT, PAGE_SIZE);
- 	cpu_replace_ttbr1(lm_alias(swapper_pg_dir));
- 
- 	/* At this point kasan is fully initialized. Enable error messages */
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index ec22d548d0d7..c56af24bd3e7 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -153,6 +153,8 @@ static inline size_t kasan_metadata_size(struct kmem_cache *cache) { return 0; }
- 
- #ifdef CONFIG_KASAN_GENERIC
- 
-+#define KASAN_SHADOW_INIT 0
-+
- void kasan_cache_shrink(struct kmem_cache *cache);
- void kasan_cache_shutdown(struct kmem_cache *cache);
- 
-@@ -163,4 +165,10 @@ static inline void kasan_cache_shutdown(struct kmem_cache *cache) {}
- 
- #endif /* CONFIG_KASAN_GENERIC */
- 
-+#ifdef CONFIG_KASAN_SW_TAGS
-+
-+#define KASAN_SHADOW_INIT 0xFF
-+
-+#endif /* CONFIG_KASAN_SW_TAGS */
-+
- #endif /* LINUX_KASAN_H */
-diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-index 5f68c93734ba..7134e75447ff 100644
---- a/mm/kasan/common.c
-+++ b/mm/kasan/common.c
-@@ -473,11 +473,12 @@ int kasan_module_alloc(void *addr, size_t size)
- 
- 	ret = __vmalloc_node_range(shadow_size, 1, shadow_start,
- 			shadow_start + shadow_size,
--			GFP_KERNEL | __GFP_ZERO,
-+			GFP_KERNEL,
- 			PAGE_KERNEL, VM_NO_GUARD, NUMA_NO_NODE,
- 			__builtin_return_address(0));
- 
- 	if (ret) {
-+		__memset(ret, KASAN_SHADOW_INIT, shadow_size);
- 		find_vm_area(addr)->flags |= VM_KASAN;
- 		kmemleak_ignore(ret);
- 		return 0;
 -- 
 2.20.0.rc0.387.gc7a69e6b6c-goog
 
