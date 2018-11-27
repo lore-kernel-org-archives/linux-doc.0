@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5F3527DD41
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Nov 2018 16:58:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B2C037D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Nov 2018 16:58:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731435AbeK1D4x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 27 Nov 2018 22:56:53 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35196 "EHLO
+        id S1726492AbeK1Dy0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 27 Nov 2018 22:54:26 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:34771 "EHLO
         mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731584AbeK1Dyb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Nov 2018 22:54:31 -0500
-Received: by mail-wm1-f66.google.com with SMTP id c126so22906468wmh.0
-        for <linux-doc@vger.kernel.org>; Tue, 27 Nov 2018 08:56:00 -0800 (PST)
+        with ESMTP id S1729531AbeK1DyX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Nov 2018 22:54:23 -0500
+Received: by mail-wm1-f66.google.com with SMTP id y185so2016204wmd.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 Nov 2018 08:55:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xTUWDQtoCoS0aCkqKcHlSfKscpiq6EmalPX21Pfc5fY=;
-        b=dwUU3BivFrGTU0l5vocuel01QRAE+v2OGhkebJVpy0mfJmO48WW8JjO/aQRDNIxlzp
-         7Q7mQuPIYO6ENLlB1vL2wNEuEIHZp+ISZDSJKEFWk4t6VwdTO034MsDUqOMVSpnvYHaG
-         EJcyDLbTK9jrS7IEcf09GuU+VgeRwknC0Tlm4O/P5QswfFrC1hiDKmoKuUuLwhOvaaB1
-         eOqzl7HmKc1Hk+kdVzfJIn3rAmpOXnEkoLkjR1OyF9bg+r+lmbARfTC79ZfPy4UEbmPK
-         TLasPIfGNrBaUGy9nXGM879QdxieJEgd31QTd/Q6LhFdvEscYdJa6SZolCyN4ZLBGe0E
-         +eCQ==
+        bh=6oli7mrp3g3rho/Q8+rQCYCaCVtzysg9eZI+aaASr7k=;
+        b=aKhKOY0OenSL2Quk581daGUh2I4SrPb/lcGdloHjtGv3j0n+5niFdy9ol4BcCBQ7ks
+         62cBb14ijs9os54D4xWD8JNgz79PmXwjxifzFhWrEpNSlggyZ5NU2DESqPbG4cUfrzZK
+         +7Wp5K21Hs+NeLhTYqsmNPpDvO2OCfjxPuncqcytdoDMYnVJn5y5jI8t2/rZUVjVp9ls
+         LbG/My2qhXCzylS+TNZHQ5emt4LmdEcjeI1SmnN3HnBF6cHDho2vC4Tnn4KpNxa+PKT8
+         9UfKSfQcm+YNGouv2+PZMimvKBXCp9DADxnrFIFJy7bVnUX4aWQFUZfh9p133A9kQ4MT
+         c0Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xTUWDQtoCoS0aCkqKcHlSfKscpiq6EmalPX21Pfc5fY=;
-        b=bo3d2R9noWzSaE+WqW8NWZphvXcshA0F6oIdjA4PENvrvD1YSBQ7wg7u6WvW3bCG2k
-         mfv3jsTPU3Y0dqYNa9g+DgGhvJiXnDOorZ9RNkH+/MclGz070A1imshDsWM/4mvNmcnk
-         FHGkmBPJQ00i/24dcRht6iAhcavO/nIAeJ4RjXnxWf46dNnYb2PdqjrX0tiZtbRcg/6L
-         30MtgZt0XbEz9VDiu4eP2pLinkEJ1eiB/zJEaSf/UMVO/Yzvu+qbUsED5wSWnhi3rJcb
-         Ru+OdN1yAnfVPfXpyIO6deHy/gY3J1R8RRiC9ucaqGQawbgl7yJ8GesCj/rc9Hiy9mfU
-         zIRw==
-X-Gm-Message-State: AA+aEWb4rNnBeOBFnck++BIuw+jY+IBLuim5isWj2urFgJopvwOqejC3
-        FFa7F27u5YknRLrpsWsj+lmVMQ==
-X-Google-Smtp-Source: AFSGD/WWRQkAxqiKVcqGdnvTy6zSnKmrDpYhgJDtIRt2URzdNRxagoHNN/L5SvG9mNp5eIbIhcSMqw==
-X-Received: by 2002:a1c:9692:: with SMTP id y140mr12993788wmd.67.1543337759395;
-        Tue, 27 Nov 2018 08:55:59 -0800 (PST)
+        bh=6oli7mrp3g3rho/Q8+rQCYCaCVtzysg9eZI+aaASr7k=;
+        b=HD6Ubj3UbzzYHZIBQHF0H/oYdYPRrES6G4rpAlWi0JZFPxyCgBzyRwpcfPhKz8Rh9I
+         v3vNsM9KtqIRykLarZyI6tH5ZT2NrCveR8zcJhOtS9+Mhtj96PuuLdL5V9JPoszhb95y
+         /oRZRwYsgkxdjkPmM4AkiISHJOgUbIZBfvjurF/L2EUUWVHPSQXHufFIqGphElMmY7K9
+         DwAmIU0W52dRy0JesE6MOagwacXhe5vz7ijhY0PREE2Wk+569W0KRbLW9tT+R/I2qgZQ
+         bgTIYIEz1II1kvjrv/zhaSpqV5tgW6LnSe5YzU8Q84gtM/Q5hIcILM24nCFfhYqlGmLr
+         yJMg==
+X-Gm-Message-State: AGRZ1gL2g6xjMXodcaUKjXP/Odlgr62YQ5VhcuPjayM5/Pi2IpPym1g9
+        86F7ffe9xMHOXkVKcqmI7tfPiA==
+X-Google-Smtp-Source: AJdET5fEpG3BRcVasfBfKMtW8R7+Lp6qKg2+6JWWzRf/Y3iyg9IKemH7sTOMfTXBIo1huXU/BZYsIQ==
+X-Received: by 2002:a7b:c1d6:: with SMTP id a22mr27114136wmj.48.1543337751557;
+        Tue, 27 Nov 2018 08:55:51 -0800 (PST)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:3180:41f8:3010:ff61])
-        by smtp.gmail.com with ESMTPSA id k73sm6383099wmd.36.2018.11.27.08.55.57
+        by smtp.gmail.com with ESMTPSA id k73sm6383099wmd.36.2018.11.27.08.55.49
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Nov 2018 08:55:58 -0800 (PST)
+        Tue, 27 Nov 2018 08:55:50 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -85,9 +85,9 @@ Cc:     Kostya Serebryany <kcc@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Vishwath Mohan <vishwath@google.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v12 06/25] kasan, arm64: adjust shadow size for tag-based mode
-Date:   Tue, 27 Nov 2018 17:55:24 +0100
-Message-Id: <95fa472a03a8ff268e24b8730ebd108922824e74.1543337629.git.andreyknvl@google.com>
+Subject: [PATCH v12 02/25] kasan, slub: handle pointer tags in early_kmem_cache_node_alloc
+Date:   Tue, 27 Nov 2018 17:55:20 +0100
+Message-Id: <3459b9f5d4daf96668d9579da2cf15eb5523284b.1543337629.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.20.0.rc0.387.gc7a69e6b6c-goog
 In-Reply-To: <cover.1543337629.git.andreyknvl@google.com>
 References: <cover.1543337629.git.andreyknvl@google.com>
@@ -98,65 +98,43 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tag-based KASAN uses 1 shadow byte for 16 bytes of kernel memory, so it
-requires 1/16th of the kernel virtual address space for the shadow memory.
+The previous patch updated KASAN hooks signatures and their usage in SLAB
+and SLUB code, except for the early_kmem_cache_node_alloc function. This
+patch handles that function separately, as it requires to reorder some of
+the initialization code to correctly propagate a tagged pointer in case a
+tag is assigned by kasan_kmalloc.
 
-This commit sets KASAN_SHADOW_SCALE_SHIFT to 4 when the tag-based KASAN
-mode is enabled.
-
-Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
-Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- arch/arm64/Makefile             | 11 ++++++++++-
- arch/arm64/include/asm/memory.h |  7 +++----
- 2 files changed, 13 insertions(+), 5 deletions(-)
+ mm/slub.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-index 6cb9fc7e9382..99e7d08c6083 100644
---- a/arch/arm64/Makefile
-+++ b/arch/arm64/Makefile
-@@ -91,10 +91,19 @@ else
- TEXT_OFFSET := 0x00080000
- endif
+diff --git a/mm/slub.c b/mm/slub.c
+index fdd4a86aa882..8561a32910dd 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -3364,16 +3364,16 @@ static void early_kmem_cache_node_alloc(int node)
  
-+ifeq ($(CONFIG_KASAN_SW_TAGS), y)
-+KASAN_SHADOW_SCALE_SHIFT := 4
-+else
-+KASAN_SHADOW_SCALE_SHIFT := 3
-+endif
-+
-+KBUILD_CFLAGS += -DKASAN_SHADOW_SCALE_SHIFT=$(KASAN_SHADOW_SCALE_SHIFT)
-+KBUILD_CPPFLAGS += -DKASAN_SHADOW_SCALE_SHIFT=$(KASAN_SHADOW_SCALE_SHIFT)
-+KBUILD_AFLAGS += -DKASAN_SHADOW_SCALE_SHIFT=$(KASAN_SHADOW_SCALE_SHIFT)
-+
- # KASAN_SHADOW_OFFSET = VA_START + (1 << (VA_BITS - KASAN_SHADOW_SCALE_SHIFT))
- #				 - (1 << (64 - KASAN_SHADOW_SCALE_SHIFT))
- # in 32-bit arithmetic
--KASAN_SHADOW_SCALE_SHIFT := 3
- KASAN_SHADOW_OFFSET := $(shell printf "0x%08x00000000\n" $$(( \
- 	(0xffffffff & (-1 << ($(CONFIG_ARM64_VA_BITS) - 32))) \
- 	+ (1 << ($(CONFIG_ARM64_VA_BITS) - 32 - $(KASAN_SHADOW_SCALE_SHIFT))) \
-diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
-index b96442960aea..05fbc7ffcd31 100644
---- a/arch/arm64/include/asm/memory.h
-+++ b/arch/arm64/include/asm/memory.h
-@@ -74,12 +74,11 @@
- #define KERNEL_END        _end
+ 	n = page->freelist;
+ 	BUG_ON(!n);
+-	page->freelist = get_freepointer(kmem_cache_node, n);
+-	page->inuse = 1;
+-	page->frozen = 0;
+-	kmem_cache_node->node[node] = n;
+ #ifdef CONFIG_SLUB_DEBUG
+ 	init_object(kmem_cache_node, n, SLUB_RED_ACTIVE);
+ 	init_tracking(kmem_cache_node, n);
+ #endif
+-	kasan_kmalloc(kmem_cache_node, n, sizeof(struct kmem_cache_node),
++	n = kasan_kmalloc(kmem_cache_node, n, sizeof(struct kmem_cache_node),
+ 		      GFP_KERNEL);
++	page->freelist = get_freepointer(kmem_cache_node, n);
++	page->inuse = 1;
++	page->frozen = 0;
++	kmem_cache_node->node[node] = n;
+ 	init_kmem_cache_node(n);
+ 	inc_slabs_node(kmem_cache_node, node, page->objects);
  
- /*
-- * KASAN requires 1/8th of the kernel virtual address space for the shadow
-- * region. KASAN can bloat the stack significantly, so double the (minimum)
-- * stack size when KASAN is in use.
-+ * Generic and tag-based KASAN require 1/8th and 1/16th of the kernel virtual
-+ * address space for the shadow region respectively. They can bloat the stack
-+ * significantly, so double the (minimum) stack size when they are in use.
-  */
- #ifdef CONFIG_KASAN
--#define KASAN_SHADOW_SCALE_SHIFT 3
- #define KASAN_SHADOW_SIZE	(UL(1) << (VA_BITS - KASAN_SHADOW_SCALE_SHIFT))
- #define KASAN_THREAD_SHIFT	1
- #else
 -- 
 2.20.0.rc0.387.gc7a69e6b6c-goog
 
