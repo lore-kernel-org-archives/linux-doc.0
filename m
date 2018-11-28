@@ -1,164 +1,404 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 91E6A7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 27 Nov 2018 20:14:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 363E27D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 28 Nov 2018 05:48:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726512AbeK1HMo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 28 Nov 2018 02:12:44 -0500
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:42000 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726434AbeK1HMo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Nov 2018 02:12:44 -0500
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 33682809E5; Tue, 27 Nov 2018 21:13:36 +0100 (CET)
-Date:   Tue, 27 Nov 2018 21:13:38 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     x86@kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-sgx@vger.kernel.org, dave.hansen@intel.com,
-        sean.j.christopherson@intel.com, nhorman@redhat.com,
-        npmccallum@redhat.com, serge.ayoun@intel.com,
-        shay.katz-zamir@intel.com, haitao.huang@intel.com,
-        andriy.shevchenko@linux.intel.com, tglx@linutronix.de,
-        kai.svahn@intel.com, Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v16 22/22] x86/sgx: SGX documentation
-Message-ID: <20181127201338.GB20692@amd>
-References: <20181106134758.10572-1-jarkko.sakkinen@linux.intel.com>
- <20181106134758.10572-23-jarkko.sakkinen@linux.intel.com>
+        id S1726972AbeK1QtG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 28 Nov 2018 11:49:06 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:34152 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727033AbeK1QtG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Nov 2018 11:49:06 -0500
+Received: by mail-pg1-f193.google.com with SMTP id 17so8990691pgg.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 Nov 2018 21:48:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=aXkJfQr6WxkZDwHmoA9nzkhEzTI3zZemygDMaC87OWQ=;
+        b=E8ZiwZWAUDXkgwxJbq4Tz5KfpDF2OBTRx8oLn1o6EMojf0TLeM7T0Z2uROAznrKmSV
+         on/235QYLLPE34Nwz7JfMcgYaKZ6QD6Cn95ecmptaBECsf1vi4Yr/nWa15iF5Jj5OTyU
+         dEzuUR/sGeEaZEDQthjxufn7av5uHqB/7ew8M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=aXkJfQr6WxkZDwHmoA9nzkhEzTI3zZemygDMaC87OWQ=;
+        b=gPgYMDCyNgZtPTatlaIUOFalQOWwos0yJYGYrMsPpKt5VIMe6U4/db/hPOPoLrNSNY
+         S3r9/NZWtEoc7dT75FB9LMzMM/CmcU+o9LOzMs4dMBhDDb2dVNRra3YAPwl7QknQPCsF
+         2igMb2tIwfhCB01tCa+FkmSR6qdKdCu2TkSAmjhsoEsc5bRqX9QXqmYGr6EBjJvKvUla
+         BlMLtd61/aeWwzswNIZO2R6D5feR74AQKes7U/Je0BYwh+swmNI6CtDpeGt7Qa96Ky7O
+         jiCacfef4ff2UjME5atoe5jhtF35ltWbWwrNG5zDViU8Ac05WThcU7U/i+7qFaskfGVQ
+         anJA==
+X-Gm-Message-State: AA+aEWZNNUzG5PnlN0tBiEIEUZbS+3pj95fwQoviSudMi4P9S5xpqneS
+        ssPovnY5Su61+QjGpFQAztN2uQ==
+X-Google-Smtp-Source: AFSGD/XqoNNOLhrchxfYPhD1n6mN6pGA/IVx+E9YyFYRtQmSj2XWIYkdPBuFqGq8BvenHO7s52skIg==
+X-Received: by 2002:a63:314c:: with SMTP id x73mr32422359pgx.323.1543384119457;
+        Tue, 27 Nov 2018 21:48:39 -0800 (PST)
+Received: from localhost ([122.172.88.116])
+        by smtp.gmail.com with ESMTPSA id h128sm5989799pgc.15.2018.11.27.21.48.37
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 27 Nov 2018 21:48:37 -0800 (PST)
+Date:   Wed, 28 Nov 2018 11:18:35 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Linux ACPI <linux-acpi@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Giovanni Gherdovich <ggherdovich@suse.cz>,
+        Sudeep Holla <sudeep.holla@arm.com>
+Subject: Re: [PATCH] Documentation: admin-guide: PM: Add cpuidle document
+Message-ID: <20181128054835.gnhistcfxy25rmwf@vireshk-i7>
+References: <4064391.AYvOMBeiDo@aspire.rjw.lan>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="yEPQxsgoJgBvi8ip"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181106134758.10572-23-jarkko.sakkinen@linux.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <4064391.AYvOMBeiDo@aspire.rjw.lan>
+User-Agent: NeoMutt/20180323-120-3dd1ac
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 26-11-18, 14:11, Rafael J. Wysocki wrote:
+> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> 
+> Important information is missing from user/admin cpuidle documentation
+> available today, so add a new user/admin document for cpuidle containing
+> current and comprehensive information to admin-guide and drop the old
+> .txt documents it is replacing.
+> 
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> ---
+>  Documentation/admin-guide/pm/cpuidle.rst       |  603 +++++++++++++++++++++++++
+>  Documentation/admin-guide/pm/working-state.rst |    1 
+>  Documentation/cpuidle/core.txt                 |   23 
+>  Documentation/cpuidle/sysfs.txt                |   98 ----
+>  4 files changed, 604 insertions(+), 121 deletions(-)
 
---yEPQxsgoJgBvi8ip
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Nice work Rafael. Minor nits below..
 
-Hi!
+> Index: linux-pm/Documentation/admin-guide/pm/cpuidle.rst
 
-> Documentation of the features of the Software Guard eXtensions used
-> by the Linux kernel and basic design choices for the core and driver
-> and functionality.
-
-> --- /dev/null
-> +++ b/Documentation/x86/intel_sgx.rst
-> @@ -0,0 +1,201 @@
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Intel(R) SGX driver
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +The ``menu`` Governor
+> +=====================
 > +
-> +Introduction
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +The ``menu`` governor is the default ``CPUIdle`` governor for tickless systems.
+> +It is quite complex, but the basic principle of its design is straightforward.
+> +Namely, when invoked to select an idle state for a CPU (i.e. an idle state that
+> +the CPU will ask the processor hardware to enter), it attempts to predict the
+> +idle duration and uses the predicted value for idle state selection.
 > +
-> +Intel(R) SGX is a set of CPU instructions that can be used by applicatio=
-ns to
-> +set aside private regions of code and data. The code outside the enclave=
- is
-> +disallowed to access the memory inside the enclave by the CPU access con=
-trol.
-> +In a way you can think that SGX provides inverted sandbox. It protects t=
-he
-> +application from a malicious host.
-
-Spelling out "Software Guard eXtensions" somewhere around here would
-be nice.
-
-As would be notice that due to Spectre / Meltdown / L1TF / ... this
-sandboxing functionality does not really work on any CPU that is on
-the market today.
-
-
-> +Enclave can only execute code inside the ELRANGE. Instructions that may =
-cause
-> +VMEXIT, IO instructions and instructions that require a privilege change=
- are
-> +prohibited inside the enclave. Interrupts and exceptions always cause en=
-clave
-> +to exit and jump to an address outside the enclave given when the enclav=
-e is
-> +entered by using the leaf instruction ENCLS(EENTER).
-
-
-> +Launch control
-> +--------------
+> +It first obtains the time until the closest timer event with the assumption
+> +that the scheduler tick will be stopped.  That time, referred to as the *sleep
+> +length* in what follows, is the upper bound on the time before the next CPU
+> +wakeup.  It is used to determine the sleep length range, which in turn is needed
+> +to get the sleep length correction factor.
 > +
-> +To launch an enclave, two structures must be provided for ENCLS(EINIT):
+> +The ``menu`` governor maintains two arrays of sleep length correction factors.
+> +One of them is used when tasks previously running on the given CPU are waiting
+> +for some I/O operations to complete and the other one is used when that is not
+> +the case.  Each array contains several correction factor values that correspond
+> +to different sleep length ranges organized so that each range represented in the
+> +array is approximately 10 times wider than the previous one.
 > +
-> +1. **SIGSTRUCT:** signed measurement of the enclave binary.
-> +2. **EINITTOKEN:** a cryptographic token CMAC-signed with a AES256-key c=
-alled
-> +   *launch key*, which is re-generated for each boot cycle.
+> +The correction factor for the given sleep length range (determined before
+> +selecting the idle state for the CPU) is updated after the CPU has been woken
+> +up and the closer the sleep length is to the observed idle duration, the closer
+> +to 1 the correction factor becomes (it must fall between 0 and 1 inclusive).
+> +The sleep length is multiplied by the correction factor for the range that it
+> +falls into to obtain the first approximation of the predicted idle duration.
 > +
-> +The CPU holds a SHA256 hash of a 3072-bit RSA public key inside
-> +IA32_SGXLEPUBKEYHASHn MSRs. Enclaves with a SIGSTRUCT that is signed wit=
-h this
-> +key do not require a valid EINITTOKEN and can be authorized with special
-> +privileges. One of those privileges is ability to acquire the launch key=
- with
-> +ENCLS(EGETKEY).
+> +Next, the governor uses a simple pattern recognition algorithm to refine its
+> +idle duration prediction.  Namely, it saves the last 8 observed idle duration
+> +values and, when predicting the idle duration next time, it computes the average
+> +and variance of them.  If the variance is small (smaller than 400 square
+> +milliseconds) or it is small relative to the average (the average is greater
+> +that 6 times the standard deviation), the average is regarded as the "typical
+> +interval" value.  Otherwise, the longest of the saved observed idle duration
+> +values is discarded and the computation is repeated for the remaining ones.
+> +Again, if the variance of them is small (in the above sense), the average is
+> +taken as the "typical interval" value and so on, until either the "typical
+> +interval" is determined or too many data points are disregarded, in which case
+> +the "typical interval" is assumed to equal "infinity" (the maximum unsigned
+> +integer value).  The "typical interval" computed this way is compared with the
+> +sleep length multiplied by the correction factor and the minumum of the two is
+
+                                                            minimum
+
+> +taken as the predicted idle duration.
 > +
-> +**IA32_FEATURE_CONTROL[17]** is used by the BIOS configure whether
-> +IA32_SGXLEPUBKEYHASH MSRs are read-only or read-write before locking the
-> +feature control register and handing over control to the operating syste=
-m.
+> +Then, the governor computes an extra latency limit to help "interactive"
+> +workloads.  It uses the obsevation that if the exit latency of the selected idle
 
-Would it be possible to explain what this means? Basically my BIOS
-decides what enclaves I can run? Who generates the EINITTOKENs and can
-my code get one?=20
+                           observation
 
-What other priviledges does signed SIGSTRUCT give to the enclave?
-
-> +Launching enclaves
-> +------------------
+> +state is comparable with the predicted idle duration, the total time spent in
+> +that state probably will be very short and the amount of energy to save by
+> +entering it will be relatively small, so likely it is better to avoid the
+> +overhead related to entering that state and exiting it.  Thus selecting a
+> +shallower state is likely to be a better option then.   The first approximation
+> +of the extra latency limit is the predicted idle duration itself which
+> +additionally is divided by a value depending on the number of tasks that
+> +previously ran on the given CPU and now they are waiting for I/O operations to
+> +complete.  The result of that division is compared with the latency limit coming
+> +from the power management quality of service, or `PM QoS <cpu-pm-qos_>`_,
+> +framework and the minimum of the two is taken as the limit for the idle states'
+> +exit latency.
 > +
-> +The current kernel implementation supports only unlocked MSRs i.e.
-> +FEATURE_CONTROL_SGX_LE_WR must be set. The launch is performed by settin=
-g the
-> +MSRs to the hash of the public key modulus of the enclave signer, which =
-is one
-> +of the fields in the SIGSTRUCT.
+> +Now, the governor is ready to walk the list of idle states and choose one of
+> +them.  For this purpose, it compares the target residency of each state with
+> +the predicted idle duration and the exit latecy of it with the computed latency
 
-Aha, so in current kernel implementation kernel decides what enclaves
-I can run?
+                                            latency
 
-Anyway, all this is "interesting reading" but not really suitable for
-system administrator who is not expert in Intel CPUs. Do we need some
-kind of explanation for ARM kernel hackers, system administrators and
-other interested parties?
+> +limit.  It selects the state with the target residency closest to the predicted
+> +idle duration, but still below it, and exit latency that does not exceed the
+> +limit.
+> +
+> +In the final step the governor may still need to refine the idle state selection
+> +if it has not decided to `stop the scheduler tick <idle-cpus-and-tick_>`_.  That
+> +happens if the idle duration predicted by it is less than the tick period and
+> +the tick has not been stopped already (in a previous iteration of the idle
+> +loop).  Then, the sleep length used in the previous computations may not reflect
+> +the real time until the closest timer event and if it really is geater than that
 
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+                                                                   greater
 
---yEPQxsgoJgBvi8ip
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+> +time, the governor may need to select a shallower state with a suitable target
+> +residency.
+> +
+> +
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+What about a short section for the ladder governor as well ?
 
-iEYEARECAAYFAlv9pXIACgkQMOfwapXb+vK7VQCcDuktVD3svHKCgW5RurdIi+2f
-0yEAn3aIi6SeyfMyF1hr4we7uTEG6c5J
-=XkFd
------END PGP SIGNATURE-----
+> +.. _idle-states-representation:
+> +
+> +Representation of Idle States
+> +=============================
+> +
+> +For the CPU idle time management purposes all of the physical idle states
+> +supported by the processor have to be represented as a one-dimensional array of
+> +|struct cpuidle_state| objects each allowing an individual (logical) CPU to ask
+> +the processor hardware to enter an idle state of certain properties.  If there
+> +is a hierarchy of units in the processor, one |struct cpuidle_state| object can
+> +cover a combination of idle states supported by the units at different levels of
+> +the hierarchy.  In that case, the `target residency and exit latency parameters
+> +of it <idle-loop_>`_, must reflect the properties of the idle state at the
+> +deepest level (i.e. the idle state of the unit containing all of the other
+> +units).
+> +
+> +For example, take a processor with two cores in a larger unit referred to as
+> +a "module" and suppose that asking the hardware to enter a specific idle state
+> +(say "X") at the "core" level by one core will trigger the module to try to
+> +enter a specific idle state of its own (say "MX") if the other core is in idle
+> +state "X" already.  In other words, asking for idle state "X" at the "core"
+> +level gives the hardware a license to go as deep as to idle state "MX" at the
+> +"module" level, but there is no guarantee that this is going to happen (the core
+> +asking for idle state "X" may just end up in that state by itself instead).
+> +Then, the target residency of the |struct cpuidle_state| object representing
+> +idle state "X" must reflect the minimum time to spend in idle state "MX" of
+> +the module (including the time needed to enter it), because that is the minimum
+> +time the CPU needs to be idle to save any energy in case the hardware enters
+> +that state.  Analogously, the exit latency parameter of that object must cover
+> +the exit time of idle state "MX" of the module (and usually its entry time too),
+> +because that is the maximum delay between a wakeup signal and the time the CPU
+> +will start to execute the first new instruction (assuming that both cores in the
+> +module will always be ready to execute instructions as soon as the module
+> +becomes operational as a whole).
+> +
+> +In addition to the target residency and exit latency idle state parameters
+> +discussed above, the objects representing idle states each contain a few other
+> +parameters describing the idle state and a pointer to the function to run in
+> +order to ask the hardware to enter that state.  Also, for each
+> +|struct cpuidle_state| object, there is a corresponding
+> +:c:type:`struct cpuidle_state_usage <cpuidle_state_usage>` one containig usage
 
---yEPQxsgoJgBvi8ip--
+                                                                  containing
+
+> +statistics of the given idle state.  That information is exposed by the kernel
+> +via ``sysfs``.
+> +
+> +For each CPU in the system, there is a :file:`/sys/devices/system/cpu<N>/cpuidle/`
+> +directory in ``sysfs``, where the number ``<N>`` is assigned to the given
+> +CPU at the initialization time.  That directory contains a set of subdirectories
+> +called :file:`state0`, :file:`state1` and so on, up to the number of idle state
+> +objects defined for the given CPU minus one.  Each of these directories contains
+> +a number of files (attributes) representing the properties of the idle state
+> +object corresponding to it, as follows:
+> +
+> +
+> +``desc``
+> +	Description of the idle state.
+> +
+> +``disable``
+> +	Whether or not this idle state is disabled.
+> +
+> +``latency``
+> +	Exit latency of the idle state in microseconds.
+> +
+> +``name``
+> +	Name of the idle state.
+> +
+> +``power``
+> +	Power drawn by hardware in this idle state in milliwatts (if specified,
+> +	0 otherwise).
+> +
+> +``residency``
+> +	Target residency of the idle state in microseconds.
+> +
+> +``time``
+> +	Total time spent in this idle state by the given CPU (as measured by the
+> +	kernel) in microseconds.
+> +
+> +``usage``
+> +	Total number of times the hardware has been asked by the given CPU to
+> +	enter this idle state.
+> +
+> +The :file:`desc` and :file:`name` files both contain strings.  The difference
+> +between them is that the name is expected to be more concise, while the
+> +description may be longer and it may contain white space or special characters.
+> +The other files listed above contain integer numbers.
+> +
+> +The :file:`disable` attribute is the only writeable one.  If it contains 1, the
+> +given idle state is disabled for this particular CPU, which means that the
+> +governor will never select it for this particular CPU and the ``CPUIdle``
+> +driver will never ask the hardware to enter it for that CPU as a result.
+> +However, disabling an idle state for one CPU does not prevent it from being
+> +asked for by the other CPUs, so it must be disabled for all of them in order to
+> +never be asked for by any of them.  [Note that, due to the way the ``ladder``
+> +governor is implemented, disabling an idle state prevents that governor from
+> +selecting any idle states deeper than the disabled one too.]
+> +
+> +If the :file:`disable` attribute contains 0, the given idle state is enabled for
+> +this particular CPU, but it still may be disabled for some or all of the other
+> +CPUs in the system at the same time.  Writing 1 to it causes the idle state to
+> +be disabled for this particular CPU and writing 0 to it allows the governor to
+> +take it into consideration for the given CPU and the driver to ask for it,
+> +unless that state was disabled globally in the driver (in which case it cannot
+> +be used at all).
+> +
+> +The :file:`power` attribute is not defined very well, especially for idle state
+> +objects representing combinations of idle states at different levels of the
+> +hierarchy of units in the processor, and it generally is hard to obtain idle
+> +state power numbers for complex hardware, so :file:`power` often contains 0 (not
+> +available) and if it contains a nonzero number, that number may not be very
+> +accurate and it should not be relied on for anything meaningful.
+> +
+> +The number in the :file:`time` file generally may be greater than the total time
+> +really spent by the given CPU in the given idle state, because it is measured by
+> +the kernel and it may not cover the cases in which the hardware refused to enter
+> +this idle state and entered a shallower one instead of it (or even it did not
+> +enter any idle state at all).  The kernel can only measure the time span between
+> +asking the hardware to enter an idle state and the subsequent wakeup of the CPU
+> +and it cannot say what really happened in the meantime at the hardware level.
+> +Moreover, if the idle state object in question represents a combination of idle
+> +states at different levels of the hierarchy of units in the processor,
+> +the kernel can never say how deep the hardware went down the hierarchy in any
+> +particular case.  For these reasons, the only reliable way to find out how
+> +much time has been spent by the hardware in different idle states supported by
+> +it is to use idle state residency counters in the hardware, if available.
+> +
+> +
+
+Maybe I missed, but I couldn't find any text that says what state 0, 1, ... N
+mean. Like which is the deepest idle state and which one is the shallowest.
+
+> +.. _cpu-pm-qos:
+> +
+> +Power Management Quality of Service for CPUs
+> +============================================
+> +
+> +The power management quality of service (PM QoS) framework in the Linux kernel
+> +allows kernel code and user space processes to set constraints on various
+> +energy-efficiency features of the kernel to prevent performance from dropping
+> +below a required level.  The PM QoS constraints can be set globally, in
+> +predefined categories referred to as PM QoS classes, or against individual
+> +devices.
+> +
+> +CPU idle time management can be affected by PM QoS in two ways, through the
+> +global constraint in the ``PM_QOS_CPU_DMA_LATENCY`` class and through the
+> +resume latency constraints for individual CPUs.  Kernel code (e.g. device
+> +drivers) can set both of them with the help of special internal interfaces
+> +provided by the PM QoS framework.  User space can modify the former by opeining
+
+                                                                          opening
+
+> +the :file:`cpu_dma_latency` special device file under :file:`/dev/` and writing
+> +a binary value (interpreted as a signed 32-bit integer) to it.  In turn, the
+> +resume latency constraint for a CPU can be modified by user space by writing a
+> +string (representing a signed 32-bit integer) to the
+> +:file:`power/pm_qos_resume_latency_us` file under
+> +:file:`/sys/devices/system/cpu/cpu<N>/` in ``sysfs``, where the CPU number
+> +``<N>`` is allocated at the system initialization time.  Negative values
+> +will be rejected in both cases and, also in both cases, the written integer
+> +number will be interpreted as a requested PM QoS constraint in microseconds.
+> +
+> +The requested value is not automatically applied as a new constraint, however,
+> +as it may be less restrictive (greater in this particular case) than another
+> +constraint previously requested by someone else.  For this reason, the PM QoS
+> +framework maintains a list of requests that have been made so far in each
+> +global class and for each device, aggregates them and applies the effective
+> +(minimum in this particular case) value as the new constraint.
+> +
+> +In fact, opening the :file:`cpu_dma_latency` special device file causes a new
+> +PM QoS request to be created and added to the priority list of requests in the
+> +``PM_QOS_CPU_DMA_LATENCY`` class and the file descriptor coming from the
+> +"open" operation represents that request.  If that file descriptor is then
+> +used for writing, the number written to it will be associated with the PM QoS
+> +request represented by it as a new requested constraint value.  Next, the
+> +priority list mechanism will be used to determine the new effective value of
+> +the entire list of requests and that effective value will be set as a new
+> +constraint.  Thus setting a new requested constraint value will only change the
+> +real constraint if the effective "list" value is affected by it.  In particular,
+> +for the ``PM_QOS_CPU_DMA_LATENCY`` class it only affects the real constraint if
+> +it is the minimum of the requested contraints in the list.  The process holding
+
+                                      constraints
+
+> +a file descriptor obtained by opening the :file:`cpu_dma_latency` special device
+> +file controls the PM QoS request associated with that file descriptor, but it
+> +controls this particular PM QoS request only.
+> +
+> +Closing the :file:`cpu_dma_latency` special device file or, more precisely, the
+> +file descriptor obtained while opening it, causes the PM QoS request associated
+> +with that file descriptor to be removed from the ``PM_QOS_CPU_DMA_LATENCY``
+> +class priority list and destroyed.  If that happens, the priority list mechanism
+> +will be used, again, to determine the new effective value for the whole list
+> +and that value will become the new real constraint.
+> +
+> +In turn, for each CPU there is only one resume latency PM QoS request
+> +associated with the :file:`power/pm_qos_resume_latency_us` file under
+> +:file:`/sys/devices/system/cpu/cpu<N>/` in ``sysfs`` and writing to it causes
+> +this single PM QoS request to be updated regardless of which user space
+> +process does that.  In other words, this PM QoS request is shared by the entire
+> +user space, so access to the file associated with it needs to be arbitrated
+> +to avoid confusion.  [Arguably, the only legitimate use of this mechanism in
+> +practice is to pin a process to the CPU in question and let it use the
+> +``sysfs`` interface to control the resume latency constraint for it.]  It
+> +still only is a request, however.  It is a member of a priority list used to
+> +determine the effective value to be set as the resume latency constraint for the
+> +CPU in question every time the list of requests is updated this way or another
+> +(there may be other requests coming from kernel code in that list).
+> +
+> +CPU idle time governors are expected to regard the minimum of the global
+> +effective ``PM_QOS_CPU_DMA_LATENCY`` class constraint and the effective
+> +resume latency constraint for the given CPU as the upper limit for the exit
+> +latency of the idle states they can select for that CPU.  They should never
+> +select any idle states with exit latency beyond that limit.
+> +
+
+-- 
+viresh
