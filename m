@@ -1,112 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A29F97D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Nov 2018 15:55:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 449267D8A8
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Nov 2018 15:58:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728735AbeK3DBO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Nov 2018 22:01:14 -0500
-Received: from mail-yb1-f194.google.com ([209.85.219.194]:41464 "EHLO
-        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728583AbeK3DBN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Nov 2018 22:01:13 -0500
-Received: by mail-yb1-f194.google.com with SMTP id t13-v6so924442ybb.8
-        for <linux-doc@vger.kernel.org>; Thu, 29 Nov 2018 07:55:24 -0800 (PST)
+        id S1728363AbeK3DDu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Nov 2018 22:03:50 -0500
+Received: from mail-eopbgr740078.outbound.protection.outlook.com ([40.107.74.78]:32448
+        "EHLO NAM01-BN3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728916AbeK3DDu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 29 Nov 2018 22:03:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=poorly.run; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5eEskBUuKnWtfATLRh9ZS1L6bRZasqMoL88Zom6Ut+8=;
-        b=IbRMhI/0uprNnUtQ9YrFvpIvSadZntMY0tskyWho/zzXam8vo9YOu/rtlhJj632U+2
-         zEPsCxds1u3IjbShJhWxN4xm+Ezcc2Rv/SQ4bsTdkvBMjihuuzQtlt1/2fBuEKeopKBX
-         XRnSZvSPd7U8V2KzOyFOrTQx6tXfa2iLyoZtelet1FMd6CpeepZXzUmtWrcyDjjCKAA/
-         GoZWwgPUcQXjZFGRr8MCXPlCynNqSGxzQlxdFy6sLAtt4wJiI+GKPmGUCKM1h4pT5Ywq
-         QhEmBkN8kEaoEod1Wm6T5k6ppNCA1Fuyx5RyOrL8ovDVAjTyp6nAiAWYVoxFi4zsfHuC
-         ITYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5eEskBUuKnWtfATLRh9ZS1L6bRZasqMoL88Zom6Ut+8=;
-        b=R+TTb4SGc7Jnoih3Lc8FO2g2do/uI0K0Dg1+QYKTh+qoWTVnSAW8Tvc29TTL8lems+
-         oJCwLP3Nff/RMuTZpaKmnyNj9+blfvey9PetnUfN9WeqhhTUim1JDctPeL+vXDsJO3hC
-         MXsH/fEalfzK4vOJcYMKB/yMOHJzHXuVbA/atn7WeLJFv2ULFxfZwjGRRzJ/R949WDxA
-         Rvsnpvt3k5pLMoPSJ00wKCEjsOOG1ZlP6+kFiAnZCtYPDbmJpz4vB+lRDR+66gKHYu6Q
-         w7IUcpTM4ZxQmXoxyo2sgaTpSRn6B6NNE+MJm9XnFeCWAch2qfrsi9OOuRZydyu/7YlO
-         I6UQ==
-X-Gm-Message-State: AA+aEWbNvAM8pldLN7JzlIfGsGBOb+1uQOFahsKQAbwvVqYcYph3Adxx
-        DIug0csWO7BbXOotqMKOsG5mQg==
-X-Google-Smtp-Source: AFSGD/X3A2IicWe6HKcAbGSktnctUD3GAFw4CXypVcWlbDxztut0mS0Zw393xOR551P51NFnJ3Yy1w==
-X-Received: by 2002:a25:e80c:: with SMTP id k12-v6mr1856353ybd.218.1543506923891;
-        Thu, 29 Nov 2018 07:55:23 -0800 (PST)
-Received: from rosewood.cam.corp.google.com ([2620:0:1013:11:ad55:b1db:adfe:3b9f])
-        by smtp.gmail.com with ESMTPSA id f191-v6sm996981ywh.98.2018.11.29.07.55.23
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 29 Nov 2018 07:55:23 -0800 (PST)
-From:   Sean Paul <sean@poorly.run>
-To:     dri-devel@lists.freedesktop.org
-Cc:     Sean Paul <seanpaul@chromium.org>,
+ d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pZNI+GlpckPovHtI3ZKE99T6Lh0UIGR2A078nYngjLw=;
+ b=brpf9UYaW01cEu12yZU9W3oIkSG77AbgVVdO1FhV+QFPkUFRHGQ17U+IBiToWFM4YUSDDD5rPEChdC2nu6F9iu9nAnvdf0xgbqcKMcTGYeHQLdGgkot9aHW/WWnkEK3fLttPTuJkxOUL/Sl9B+2hdudzfZ2WfKH7g9fs7LNQAkk=
+Received: from BN6PR12MB1714.namprd12.prod.outlook.com (10.175.101.11) by
+ BN6PR12MB1859.namprd12.prod.outlook.com (10.175.97.151) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1361.19; Thu, 29 Nov 2018 15:57:58 +0000
+Received: from BN6PR12MB1714.namprd12.prod.outlook.com
+ ([fe80::f8a7:157:6224:34ee]) by BN6PR12MB1714.namprd12.prod.outlook.com
+ ([fe80::f8a7:157:6224:34ee%2]) with mapi id 15.20.1361.019; Thu, 29 Nov 2018
+ 15:57:58 +0000
+From:   "Koenig, Christian" <Christian.Koenig@amd.com>
+To:     Sean Paul <sean@poorly.run>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+CC:     Sean Paul <seanpaul@chromium.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Junwei Zhang <Jerry.Zhang@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
+        "Zhang, Jerry" <Jerry.Zhang@amd.com>,
+        "Deucher, Alexander" <Alexander.Deucher@amd.com>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        Huang Rui <ray.huang@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation: drm: Remove dangling pointer from drm-mm.rst
-Date:   Thu, 29 Nov 2018 10:55:17 -0500
-Message-Id: <20181129155522.33749-1-sean@poorly.run>
-X-Mailer: git-send-email 2.20.0.rc0.387.gc7a69e6b6c-goog
+        David Airlie <airlied@linux.ie>,
+        "Huang, Ray" <Ray.Huang@amd.com>, Jonathan Corbet <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: drm: Remove dangling pointer from
+ drm-mm.rst
+Thread-Topic: [PATCH] Documentation: drm: Remove dangling pointer from
+ drm-mm.rst
+Thread-Index: AQHUh/vyHpVvFObtCUa0zx60nG8HXKVm6JiA
+Date:   Thu, 29 Nov 2018 15:57:58 +0000
+Message-ID: <1e62c728-3bee-fa29-82fd-449fcb77bab7@amd.com>
+References: <20181129155522.33749-1-sean@poorly.run>
+In-Reply-To: <20181129155522.33749-1-sean@poorly.run>
+Accept-Language: de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+x-originating-ip: [2a02:908:125b:9a00:a142:2be6:b7be:5a3a]
+x-clientproxiedby: AM6PR07CA0021.eurprd07.prod.outlook.com
+ (2603:10a6:209:2a::34) To BN6PR12MB1714.namprd12.prod.outlook.com
+ (2603:10b6:404:106::11)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Christian.Koenig@amd.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;BN6PR12MB1859;20:/5Ea52a55Z32pY1ZT/ISRqvYzYnp3Ke7uaT98ZYukaPUJYuXTV9jX6cOtDtNY3+Z84QNc8UWEZCQUjnbxH8CP10Cz+k+PDRTKEyh57NVJtGY3L4y7ykwZ8STs4KucvWrutVPNpRtnm570yLRl+tdTy1pvszc4c03KQlvu879vFXtKJ2DCjVwRwBogCnkSQ2//3a7TOK5aw58JOzLu7CQ/55NEHMrCYQvt4gVPJrhle/pQNRHTtmNj+wIytg5spmv
+x-ms-office365-filtering-correlation-id: 51da9b31-f6e4-471d-0e6e-08d656136ee1
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390098)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(4618075)(2017052603328)(7153060)(7193020);SRVR:BN6PR12MB1859;
+x-ms-traffictypediagnostic: BN6PR12MB1859:
+x-microsoft-antispam-prvs: <BN6PR12MB1859F66A0CB34900D56B700183D20@BN6PR12MB1859.namprd12.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(3231453)(999002)(944501410)(52105112)(10201501046)(3002001)(93006095)(93001095)(6055026)(148016)(149066)(150057)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(20161123558120)(20161123564045)(20161123560045)(201708071742011)(7699051)(76991095);SRVR:BN6PR12MB1859;BCL:0;PCL:0;RULEID:;SRVR:BN6PR12MB1859;
+x-forefront-prvs: 0871917CDA
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(366004)(376002)(346002)(396003)(136003)(199004)(189003)(4326008)(575784001)(14454004)(2616005)(52116002)(46003)(476003)(11346002)(446003)(31696002)(68736007)(53936002)(486006)(6246003)(71190400001)(2501003)(6486002)(186003)(25786009)(6436002)(97736004)(76176011)(71200400001)(386003)(99286004)(105586002)(6512007)(102836004)(106356001)(6506007)(256004)(31686004)(86362001)(65956001)(65806001)(6116002)(54906003)(58126008)(316002)(110136005)(8676002)(81156014)(64126003)(229853002)(81166006)(8936002)(72206003)(5660300001)(65826007)(2906002)(305945005)(7736002)(478600001)(36756003);DIR:OUT;SFP:1101;SCL:1;SRVR:BN6PR12MB1859;H:BN6PR12MB1714.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: VvXaYtpAeWCD2Bl73YKzcYppY1q7rM8OrpMZYb/YsSbs7apnAW4DzzGEMtiC40RE43d80xGjAwxnkIb5aYrPl3mktV2hfOyWWikGKjlL5cInYNAiF+N4MObCtHqcs8deKqUgkcW2Hum3PITsOTXGln+cVy6R5+uNZrweusOSFQg6Hqa/LphyaWO4B2RpUb6MuPtHybzxGkk8ZIvPv3w5PIuizQGSTWnXCDZI+5pbliBtv7wCrUOoa4r7kY3M/ItK/CppUrm0gqoXdJ8JHnsExdfpMR8dnslISxvtmiA/5Nb74BtGi4sXHbxWXQG9zi/b8FZyzNglOtsM/32m+9r9nyz5FyKebqhvTz9vzWP6ZD4=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <62D1BBB1E185274688DD545C87625A11@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51da9b31-f6e4-471d-0e6e-08d656136ee1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2018 15:57:58.6476
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1859
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Sean Paul <seanpaul@chromium.org>
-
-Fixes htmldocs build error:
-Error: Cannot open file ../drivers/gpu/drm/drm_global.c
-
-Fixes: 2bb42410b1bd ("drm: Remove drm_global.{c,h} v2")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Junwei Zhang <Jerry.Zhang@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>
-Cc: Sean Paul <sean@poorly.run>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Christian Koenig <christian.koenig@amd.com>
-Cc: Huang Rui <ray.huang@amd.com>
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Sean Paul <seanpaul@chromium.org>
----
- Documentation/gpu/drm-mm.rst | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index d0f3c6b032009..54a696d961a7c 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -79,9 +79,6 @@ count for the TTM, which will call your initialization function.
- 
- See the radeon_ttm.c file for an example of usage.
- 
--.. kernel-doc:: drivers/gpu/drm/drm_global.c
--   :export:
--
- 
- The Graphics Execution Manager (GEM)
- ====================================
--- 
-Sean Paul, Software Engineer, Google / Chromium OS
-
+QW0gMjkuMTEuMTggdW0gMTY6NTUgc2NocmllYiBTZWFuIFBhdWw6DQo+IEZyb206IFNlYW4gUGF1
+bCA8c2VhbnBhdWxAY2hyb21pdW0ub3JnPg0KPg0KPiBGaXhlcyBodG1sZG9jcyBidWlsZCBlcnJv
+cjoNCj4gRXJyb3I6IENhbm5vdCBvcGVuIGZpbGUgLi4vZHJpdmVycy9ncHUvZHJtL2RybV9nbG9i
+YWwuYw0KPg0KPiBGaXhlczogMmJiNDI0MTBiMWJkICgiZHJtOiBSZW1vdmUgZHJtX2dsb2JhbC57
+YyxofSB2MiIpDQo+IENjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4N
+Cj4gQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NCj4gQ2M6
+IEp1bndlaSBaaGFuZyA8SmVycnkuWmhhbmdAYW1kLmNvbT4NCj4gQ2M6IEFsZXggRGV1Y2hlciA8
+YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4NCj4gQ2M6IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFy
+dGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+DQo+IENjOiBNYXhpbWUgUmlwYXJkIDxtYXhp
+bWUucmlwYXJkQGJvb3RsaW4uY29tPg0KPiBDYzogU2VhbiBQYXVsIDxzZWFuQHBvb3JseS5ydW4+
+DQo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+DQo+IENjOiBDaHJpc3RpYW4g
+S29lbmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+IENjOiBIdWFuZyBSdWkgPHJheS5o
+dWFuZ0BhbWQuY29tPg0KPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPiBT
+aWduZWQtb2ZmLWJ5OiBTZWFuIFBhdWwgPHNlYW5wYXVsQGNocm9taXVtLm9yZz4NCg0KUmV2aWV3
+ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NCg0KPiAt
+LS0NCj4gICBEb2N1bWVudGF0aW9uL2dwdS9kcm0tbW0ucnN0IHwgMyAtLS0NCj4gICAxIGZpbGUg
+Y2hhbmdlZCwgMyBkZWxldGlvbnMoLSkNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24v
+Z3B1L2RybS1tbS5yc3QgYi9Eb2N1bWVudGF0aW9uL2dwdS9kcm0tbW0ucnN0DQo+IGluZGV4IGQw
+ZjNjNmIwMzIwMDkuLjU0YTY5NmQ5NjFhN2MgMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRpb24v
+Z3B1L2RybS1tbS5yc3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi9ncHUvZHJtLW1tLnJzdA0KPiBA
+QCAtNzksOSArNzksNiBAQCBjb3VudCBmb3IgdGhlIFRUTSwgd2hpY2ggd2lsbCBjYWxsIHlvdXIg
+aW5pdGlhbGl6YXRpb24gZnVuY3Rpb24uDQo+ICAgDQo+ICAgU2VlIHRoZSByYWRlb25fdHRtLmMg
+ZmlsZSBmb3IgYW4gZXhhbXBsZSBvZiB1c2FnZS4NCj4gICANCj4gLS4uIGtlcm5lbC1kb2M6OiBk
+cml2ZXJzL2dwdS9kcm0vZHJtX2dsb2JhbC5jDQo+IC0gICA6ZXhwb3J0Og0KPiAtDQo+ICAgDQo+
+ICAgVGhlIEdyYXBoaWNzIEV4ZWN1dGlvbiBNYW5hZ2VyIChHRU0pDQo+ICAgPT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09DQoNCg==
