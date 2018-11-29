@@ -2,25 +2,25 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DDB1B7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Nov 2018 18:23:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AFC007D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Nov 2018 18:24:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728085AbeK3F3r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 30 Nov 2018 00:29:47 -0500
-Received: from foss.arm.com ([217.140.101.70]:42868 "EHLO foss.arm.com"
+        id S1727262AbeK3FbN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 30 Nov 2018 00:31:13 -0500
+Received: from foss.arm.com ([217.140.101.70]:42928 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727350AbeK3F3r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Nov 2018 00:29:47 -0500
+        id S1726724AbeK3FbN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 30 Nov 2018 00:31:13 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 09C9780D;
-        Thu, 29 Nov 2018 10:23:31 -0800 (PST)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A201780D;
+        Thu, 29 Nov 2018 10:24:54 -0800 (PST)
 Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.113])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E2C933F575;
-        Thu, 29 Nov 2018 10:23:26 -0800 (PST)
-Date:   Thu, 29 Nov 2018 18:23:24 +0000
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8846C3F575;
+        Thu, 29 Nov 2018 10:24:50 -0800 (PST)
+Date:   Thu, 29 Nov 2018 18:24:48 +0000
 From:   Catalin Marinas <catalin.marinas@arm.com>
 To:     Andrey Konovalov <andreyknvl@google.com>
 Cc:     Will Deacon <will.deacon@arm.com>,
@@ -45,34 +45,30 @@ Cc:     Will Deacon <will.deacon@arm.com>,
         Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Evgeniy Stepanov <eugenis@google.com>
-Subject: Re: [PATCH v8 2/8] uaccess: add untagged_addr definition for other
- arches
-Message-ID: <20181129182323.GI22027@arrakis.emea.arm.com>
+Subject: Re: [PATCH v8 3/8] arm64: untag user addresses in access_ok and
+ __uaccess_mask_ptr
+Message-ID: <20181129182446.GJ22027@arrakis.emea.arm.com>
 References: <cover.1541687720.git.andreyknvl@google.com>
- <c9028422854fb5bfb79d798397b30d4701207062.1541687720.git.andreyknvl@google.com>
+ <b23c2374235a33328817f2586cc055c69d91a2ec.1541687720.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c9028422854fb5bfb79d798397b30d4701207062.1541687720.git.andreyknvl@google.com>
+In-Reply-To: <b23c2374235a33328817f2586cc055c69d91a2ec.1541687720.git.andreyknvl@google.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 08, 2018 at 03:36:09PM +0100, Andrey Konovalov wrote:
-> diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
-> index efe79c1cdd47..c045b4eff95e 100644
-> --- a/include/linux/uaccess.h
-> +++ b/include/linux/uaccess.h
-> @@ -13,6 +13,10 @@
->  
->  #include <asm/uaccess.h>
->  
-> +#ifndef untagged_addr
-> +#define untagged_addr(addr) addr
-> +#endif
+On Thu, Nov 08, 2018 at 03:36:10PM +0100, Andrey Konovalov wrote:
+> copy_from_user (and a few other similar functions) are used to copy data
+> from user memory into the kernel memory or vice versa. Since a user can
+> provided a tagged pointer to one of the syscalls that use copy_from_user,
+> we need to correctly handle such pointers.
+> 
+> Do this by untagging user pointers in access_ok and in __uaccess_mask_ptr,
+> before performing access validity checks.
+> 
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
-Nitpick: add braces around (addr). Otherwise:
-
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
