@@ -5,98 +5,158 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A73777D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Nov 2018 04:24:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ED7E77D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Nov 2018 08:07:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727602AbeK2P2J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 29 Nov 2018 10:28:09 -0500
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:32859 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727448AbeK2P2J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Nov 2018 10:28:09 -0500
-Received: by mail-pg1-f194.google.com with SMTP id z11so339214pgu.0
-        for <linux-doc@vger.kernel.org>; Wed, 28 Nov 2018 20:24:10 -0800 (PST)
+        id S1726810AbeK2TLd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 29 Nov 2018 14:11:33 -0500
+Received: from mail-vs1-f68.google.com ([209.85.217.68]:33710 "EHLO
+        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727197AbeK2TLc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Nov 2018 14:11:32 -0500
+Received: by mail-vs1-f68.google.com with SMTP id p74so622369vsc.0
+        for <linux-doc@vger.kernel.org>; Thu, 29 Nov 2018 00:07:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ipkrWTzK4ZIDnXQCG0F3aIAB5W4HKHW11MOiYaYFM2c=;
-        b=Y8Zs7UoYCkuzTvWLrDOyCcJtS/Zc9DOmFbwkaej7hJY0Zr0V90JU5ucwTstYwyhFKp
-         hiASbRjg2FTE4xfavBmgn1uyWX7xpDlFk6KZfoIEWnHjDYC/Y0RCQdHdv/ROZ80rKPq1
-         bV72vRusE1BqmvKjqfyKXqq0MLqBPg948IL58=
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0yEaeayPmO0YnoftslT2ejHvS42yrzrZiYJovhPn/xE=;
+        b=elq6sHTwgwZfaEvETwZQ/j2c3rOkVyxP3G7x4xy9M+EyLu6XLnzjbHP3J/9qhNyWVy
+         totM1ddPI28kikLfuqsKSY66gyZCV2wCR2tRfsMQ1nSDJZk3IJcBRVjyInBBAmU70pNz
+         qTlSboiFiBHAa1h1sFKpSdGYGnAzBd0LKbSEw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ipkrWTzK4ZIDnXQCG0F3aIAB5W4HKHW11MOiYaYFM2c=;
-        b=VHZgb4CcUgAI7WuZsAM0VLvfBduVhSFlb6z2U9KKvFbI19O/LBxzMxRKYeNrrjJN8L
-         OozRfk6vVPiI0Cxbs/QKGX93WDEtA4rkM/rCabREKlKDFTypKYsa+K6m8rJriG+6/JKq
-         nUIldJ9DwuY1JkoJ0m61wkqenJ9hX5BG0COhM8e1uv32pFEzQ+0ZIqRc8odO992roTdk
-         TBFEMyJH8CVwyvRX6IlYH6/pASnkI2pPkXm31afZapzkoFHo81oDCmugayJ3wJLirOw+
-         TuV9TPNHtbPbtQ1Cuf1TEvOmJoFO04pXeh+HYNgS4WZjVxWsv/tUMXBDFjSBQ80+fp+4
-         2Xhw==
-X-Gm-Message-State: AA+aEWYIiuuODfHvQ7OwarlPgeFbwuIWi9/yQTN8meiXH2FTgvQ/uLcq
-        QnS4sKNPbugorwJQFwjGckF9Lw==
-X-Google-Smtp-Source: AFSGD/U67JkMdW66kkaUPhTy+5KXUuohlVCOCsBtx08Lg9wgCkxPFXoJOto09RzDdiS1ZjhzD/Q4xg==
-X-Received: by 2002:a63:f34b:: with SMTP id t11mr35558530pgj.341.1543465450220;
-        Wed, 28 Nov 2018 20:24:10 -0800 (PST)
-Received: from localhost ([122.172.23.29])
-        by smtp.gmail.com with ESMTPSA id d80sm935597pfm.146.2018.11.28.20.24.08
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 28 Nov 2018 20:24:09 -0800 (PST)
-Date:   Thu, 29 Nov 2018 09:54:06 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0yEaeayPmO0YnoftslT2ejHvS42yrzrZiYJovhPn/xE=;
+        b=lVFS77nI8jWOlJtJLWULvtiekwJhSsbnZKK5yT7iHbPgfzsiCcojrwt02Chi5mulXj
+         auP1eWSatwlV43iMlc1jNRDy312TPHZqGek/9FDsnj/8WJG9QcPZOEJSPn5xD1/OT16h
+         OGqWx3h7SM1x3x8M20Nt7GmPlgZe3+XNbkcEuckMNPKS7uKPzYHckOwLITOV+ayWXRHT
+         D8zDKVCtNLRAZUBs/Tv273iKV22n0G5GSOtCzumA1uVd+vrZQX/WEp+DrKe+p+HwBkqk
+         2UzWPVJSII+bEtiUGdYiOgoNl3CXeZ5/IVV3ltP1EJl38g51klexCk389HGVpxbsYZCt
+         4bvQ==
+X-Gm-Message-State: AA+aEWYUd6JizM6W8qbVOMiUawLipQMJhkLAnAX6sPUiHlI0j7s6+3+t
+        CQz644zsEP7L8QrWA6i4DHhoeqQG91IP73TpnW/9gg==
+X-Google-Smtp-Source: AFSGD/Wl/EXXYlWEBE1Ptqa8QC1fWdpxEOqAG+M9nAXqmaGsnVIPRapGgLKoe0VNkJbp2bqNAP1e4V707nv1NCf6n+M=
+X-Received: by 2002:a67:7685:: with SMTP id r127mr208305vsc.35.1543478821119;
+ Thu, 29 Nov 2018 00:07:01 -0800 (PST)
+MIME-Version: 1.0
+References: <9986634.fXZiTbRPzQ@aspire.rjw.lan>
+In-Reply-To: <9986634.fXZiTbRPzQ@aspire.rjw.lan>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Thu, 29 Nov 2018 09:06:25 +0100
+Message-ID: <CAPDyKFp_1nCF7nn0dXYbm_kJDo+0rp8O1nGPFH+NrS3wz8RW1Q@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: admin-guide: PM: Add cpuidle document
 To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Linux PM <linux-pm@vger.kernel.org>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        jacob.jun.pan@linux.intel.com,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Len Brown <len.brown@intel.com>,
-        Linux ACPI <linux-acpi@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Sudeep Holla <sudeep.holla@arm.com>
-Subject: Re: [PATCH v2] Documentation: admin-guide: PM: Add cpuidle document
-Message-ID: <20181129042406.f2h2yt25atwnhz26@vireshk-i7>
-References: <9986634.fXZiTbRPzQ@aspire.rjw.lan>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9986634.fXZiTbRPzQ@aspire.rjw.lan>
-User-Agent: NeoMutt/20180323-120-3dd1ac
+        ggherdovich@suse.cz, Sudeep Holla <sudeep.holla@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28-11-18, 12:47, Rafael J. Wysocki wrote:
+On Wed, 28 Nov 2018 at 12:47, Rafael J. Wysocki <rjw@rjwysocki.net> wrote:
+>
 > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> 
+>
 > Important information is missing from user/admin cpuidle documentation
 > available today, so add a new user/admin document for cpuidle containing
 > current and comprehensive information to admin-guide and drop the old
 > .txt documents it is replacing.
-> 
+>
 > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 > ---
-> 
-> -> v2:
->    * Fix typos.
->    * Improve description of the state0, state1, etc directories to cover the
->      relationship between their numbers and the represented idle states depth
->      (Viresh).
-> 
-> ---
->  Documentation/admin-guide/pm/cpuidle.rst       |  604 +++++++++++++++++++++++++
->  Documentation/admin-guide/pm/working-state.rst |    1 
->  Documentation/cpuidle/core.txt                 |   23 
->  Documentation/cpuidle/sysfs.txt                |   98 ----
->  4 files changed, 605 insertions(+), 121 deletions(-)
 
-Reviewed-by: Viresh Kumar <viresh.kumar@linaro.org>
+Wow! Great work!
 
--- 
-viresh
+[...]
+
+> +.. _idle-states-representation:
+> +
+> +Representation of Idle States
+> +=============================
+> +
+> +For the CPU idle time management purposes all of the physical idle states
+> +supported by the processor have to be represented as a one-dimensional array of
+> +|struct cpuidle_state| objects each allowing an individual (logical) CPU to ask
+> +the processor hardware to enter an idle state of certain properties.  If there
+> +is a hierarchy of units in the processor, one |struct cpuidle_state| object can
+> +cover a combination of idle states supported by the units at different levels of
+> +the hierarchy.  In that case, the `target residency and exit latency parameters
+> +of it <idle-loop_>`_, must reflect the properties of the idle state at the
+> +deepest level (i.e. the idle state of the unit containing all of the other
+> +units).
+> +
+> +For example, take a processor with two cores in a larger unit referred to as
+> +a "module" and suppose that asking the hardware to enter a specific idle state
+> +(say "X") at the "core" level by one core will trigger the module to try to
+> +enter a specific idle state of its own (say "MX") if the other core is in idle
+> +state "X" already.  In other words, asking for idle state "X" at the "core"
+> +level gives the hardware a license to go as deep as to idle state "MX" at the
+> +"module" level, but there is no guarantee that this is going to happen (the core
+> +asking for idle state "X" may just end up in that state by itself instead).
+
+This is a good description of a HW like x86 and ARM64 (using PSCI in
+platform coordinated mode).
+
+However, for "legacy" ARM products, having at least two cores in a
+module, this description does in many cases *not* match how the HW
+works. I wonder about other architectures.
+
+My point is, I think it would be fair to mention that the above
+description is specific to certain HWs. In other words, for HWs that
+leaves the entire state synchronization of the last man standing
+algorithm to be managed by a FW, the cpuidle framework plays well. But
+for others it has limitations.
+
+> +Then, the target residency of the |struct cpuidle_state| object representing
+> +idle state "X" must reflect the minimum time to spend in idle state "MX" of
+> +the module (including the time needed to enter it), because that is the minimum
+> +time the CPU needs to be idle to save any energy in case the hardware enters
+> +that state.  Analogously, the exit latency parameter of that object must cover
+> +the exit time of idle state "MX" of the module (and usually its entry time too),
+> +because that is the maximum delay between a wakeup signal and the time the CPU
+> +will start to execute the first new instruction (assuming that both cores in the
+> +module will always be ready to execute instructions as soon as the module
+> +becomes operational as a whole).
+
+For the HW working as you described, this is a nice clarification, thanks!
+
+[...]
+
+> +
+> +.. _cpu-pm-qos:
+> +
+> +Power Management Quality of Service for CPUs
+> +============================================
+> +
+> +The power management quality of service (PM QoS) framework in the Linux kernel
+> +allows kernel code and user space processes to set constraints on various
+> +energy-efficiency features of the kernel to prevent performance from dropping
+> +below a required level.  The PM QoS constraints can be set globally, in
+> +predefined categories referred to as PM QoS classes, or against individual
+> +devices.
+> +
+> +CPU idle time management can be affected by PM QoS in two ways, through the
+> +global constraint in the ``PM_QOS_CPU_DMA_LATENCY`` class and through the
+
+No objections to the description, it's really nice! However, the
+naming of this QOS class, is to me, rather confusing.
+
+I realize renaming the sysfs node is not an option, but maybe we
+should make a tree wide change to rename the class to something more
+descriptive. What do you think?
+
+[...]
+
+Kind regards
+Uffe
