@@ -1,74 +1,114 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AFC007D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Nov 2018 18:24:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 647BD7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Nov 2018 19:58:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727262AbeK3FbN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 30 Nov 2018 00:31:13 -0500
-Received: from foss.arm.com ([217.140.101.70]:42928 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726724AbeK3FbN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Nov 2018 00:31:13 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A201780D;
-        Thu, 29 Nov 2018 10:24:54 -0800 (PST)
-Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.113])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8846C3F575;
-        Thu, 29 Nov 2018 10:24:50 -0800 (PST)
-Date:   Thu, 29 Nov 2018 18:24:48 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Evgeniy Stepanov <eugenis@google.com>
-Subject: Re: [PATCH v8 3/8] arm64: untag user addresses in access_ok and
- __uaccess_mask_ptr
-Message-ID: <20181129182446.GJ22027@arrakis.emea.arm.com>
-References: <cover.1541687720.git.andreyknvl@google.com>
- <b23c2374235a33328817f2586cc055c69d91a2ec.1541687720.git.andreyknvl@google.com>
+        id S1726190AbeK3HFP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 30 Nov 2018 02:05:15 -0500
+Received: from mail-yw1-f66.google.com ([209.85.161.66]:42806 "EHLO
+        mail-yw1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725788AbeK3HFO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Nov 2018 02:05:14 -0500
+Received: by mail-yw1-f66.google.com with SMTP id x2so1285284ywc.9
+        for <linux-doc@vger.kernel.org>; Thu, 29 Nov 2018 11:58:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=poorly.run; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=HkuhcmnP2XqZAgSg3H2j5Sxm30eXST7E5Z+C56MnO1E=;
+        b=U8qG0QpCVVRVVakPk8+/HLoY2YMzP8/brNA1yJ7NHFZIqT3GIEC7LC6pgekSNs8Ku3
+         E26MqWi/hvEsdZuwA9+qITiSnUpQb+nMGQbAq9Nkfo6xlD6HUSGVByVRiUVsju82CJHq
+         cDiAGD2lC6d9HFey/7w/5O4a0q15/kdHWTYq1lBAqnscDrkC0F/E18ZaXpy1AUruSp7H
+         losmS8htpJuXJsxRLXg3LIBWQnDBncV0orkd5uvknhNXH/2kGnxPAmaDl1k7GJOXowc9
+         NrIbpvNGvy6H1ALxduiSj1xbyqIOXykFfvOni1Lwe6bUBRYDkow0mfWUrRxDbf+mZDu0
+         VrmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=HkuhcmnP2XqZAgSg3H2j5Sxm30eXST7E5Z+C56MnO1E=;
+        b=JsU2RF9nHkobxHsu/FHWEj+A+KQzglBN2TsDYIBLnajuoSeRUEHc/GnQm/fpv0T2q5
+         App81YwtD58xPtlGKqZwqouYPuL2iQD4NM/FqERJjVAAvlIGYv8fxft/z2xdONrk0kIL
+         vuSVU7G7O8a6ldM1NpaQoKn5wsUV/H5h8NbXIxRjjVzeJeffxR1r4tU21KYIMtLjRfM3
+         QHLPNVVHg2Et13T5qXfQIm7OAh0J3h6Wu6dgFcyekZclsLDN0o5vGmPRanCA4WeByBxV
+         S4htwpFxhC/3SWIbCS+L1jgMZCbe/VTjIDtRM0lEktW6qPKeEa8k/B2Ui3JUcCLpKM0l
+         1V0g==
+X-Gm-Message-State: AA+aEWYm2YRfnQxTzS9Sg7182PKS2eoLYYD1HO9z/w5vD58wBIxvyAVi
+        JMA6bq9oogjfo0QXM4I4Q5mEYg==
+X-Google-Smtp-Source: AFSGD/U40GdGx7ipULkXlVLJ7vRoRcFdal+ha5V2Dy+xERopa7QQXM4Iaiik4ydyQ3BxC/k2tronoQ==
+X-Received: by 2002:a0d:dd52:: with SMTP id g79mr2881025ywe.29.1543521520117;
+        Thu, 29 Nov 2018 11:58:40 -0800 (PST)
+Received: from rosewood.cam.corp.google.com ([2620:0:1013:11:ad55:b1db:adfe:3b9f])
+        by smtp.gmail.com with ESMTPSA id l7sm913929ywk.24.2018.11.29.11.58.39
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 29 Nov 2018 11:58:39 -0800 (PST)
+From:   Sean Paul <sean@poorly.run>
+To:     dri-devel@lists.freedesktop.org
+Cc:     Sean Paul <seanpaul@chromium.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v2] drm: TODO: Add DRM_MODESET_LOCK_ALL* conversion to todo.rst
+Date:   Thu, 29 Nov 2018 14:58:33 -0500
+Message-Id: <20181129195838.222031-1-sean@poorly.run>
+X-Mailer: git-send-email 2.20.0.rc0.387.gc7a69e6b6c-goog
+In-Reply-To: <20181129164651.GM21184@phenom.ffwll.local>
+References: <20181129164651.GM21184@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b23c2374235a33328817f2586cc055c69d91a2ec.1541687720.git.andreyknvl@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 08, 2018 at 03:36:10PM +0100, Andrey Konovalov wrote:
-> copy_from_user (and a few other similar functions) are used to copy data
-> from user memory into the kernel memory or vice versa. Since a user can
-> provided a tagged pointer to one of the syscalls that use copy_from_user,
-> we need to correctly handle such pointers.
-> 
-> Do this by untagging user pointers in access_ok and in __uaccess_mask_ptr,
-> before performing access validity checks.
-> 
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+From: Sean Paul <seanpaul@chromium.org>
 
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+We should also get the drivers using the helpers. Seems like a good
+intermediate TODO item.
+
+Changes in v2:
+- Add line about replacing drm_modest_lock_all() (Daniel)
+
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Sean Paul <seanpaul@chromium.org>
+---
+ Documentation/gpu/todo.rst | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index ab347dec50796..14191b64446df 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -241,6 +241,21 @@ struct drm_gem_object_funcs
+ GEM objects can now have a function table instead of having the callbacks on the
+ DRM driver struct. This is now the preferred way and drivers can be moved over.
+ 
++Use DRM_MODESET_LOCK_ALL_* helpers instead of boilerplate
++---------------------------------------------------------
++
++For cases where drivers are attempting to grab the modeset locks with a local
++acquire context. Replace the boilerplate code surrounding
++drm_modeset_lock_all_ctx() with DRM_MODESET_LOCK_ALL_BEGIN() and
++DRM_MODESET_LOCK_ALL_END() instead.
++
++This should also be done for all places where drm_modest_lock_all() is still
++used.
++
++As a reference, take a look at the conversions already completed in drm core.
++
++Contact: Sean Paul, respective driver maintainers
++
+ Core refactorings
+ =================
+ 
+-- 
+Sean Paul, Software Engineer, Google / Chromium OS
+
