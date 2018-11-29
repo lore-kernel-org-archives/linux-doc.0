@@ -1,124 +1,212 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A564A7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Nov 2018 20:30:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 97D237D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Nov 2018 20:59:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726883AbeK3Hg7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 30 Nov 2018 02:36:59 -0500
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:39262 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726152AbeK3Hg6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Nov 2018 02:36:58 -0500
-Received: by mail-qk1-f196.google.com with SMTP id q70so1892942qkh.6
-        for <linux-doc@vger.kernel.org>; Thu, 29 Nov 2018 12:30:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=poorly.run; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=CilbPbYfXClp5Bo3N16UeN7P3TvgS5B/M+LJkq55dIY=;
-        b=H84wjf/FhioMDo7pKCx5hVP2u+5v8rdsrCrK+q9uVPNHKiKENb6x6pxVZl+xQnVTqx
-         o/Z0UJIEx9ctZ0+sgSR520LTYKoRUVD7M9PcNY42zqXpkYhufrYqPBWWyHQi4/owgt98
-         26BqoY7/54EJgrwsIpSsZV2pTvG9Tck/XPK76eow8wqkUB7V4ee+JCX/4fIpfcmAAOX6
-         jLm9kHlxUZBzfqp78j89Mr297J8e7XUOH8Bux30s6CATfESk7G4lX3EOOYUd0YKg9myn
-         K5VTBgnVesIGRB2DacTsOmXEQ8VgiDg/zCLUWqmuWvf/zBwGJOVyCaHhx5zPEd3gnuXb
-         a4bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=CilbPbYfXClp5Bo3N16UeN7P3TvgS5B/M+LJkq55dIY=;
-        b=jlmq+91jQmmU1PBCizyMM0uwJyhdUDFUAZ4/X/ViT5mpZ13GSZRUEZDJJM03r7p0QZ
-         jGY0SSqJtNSpE9KfGO1qiQ1WIfW3hor9tds32QxgAvL4BPfU5fLRGdZtOm3orBHUCDnn
-         6tkGoSaSB8hKGCGMWs/FZHwU8uwHdXCYd5piBsUjFLcv+UNuJDpuaOIOPxPOStB5qoul
-         q16t0DMnBRDLl3m4vPI91R0MWr0N1MqNDKNGzrqk3A3mHUNECp+vZ69LBaDpX7u5FwoP
-         F6AD1w+R8Unr/uK8rrVzXVGWMLX+pI+sz/ShtZGfEWU807lSd0BSQOzODJAeVgE1uHc7
-         zEZA==
-X-Gm-Message-State: AA+aEWY35JugZ0XPKxPx8fGjVw/MScw2hZ/uKFIoOOEsFYVfqRooB8Ec
-        v6oxF31A/dD9Pa1dDafznBKpLQ==
-X-Google-Smtp-Source: AFSGD/UlT/SaHK81kG7UBOS9S+nF2zSS8YjCa7QtPq6U7RUWAidHwxwSdfCrDJFSHcwmU/6QIxg2Fw==
-X-Received: by 2002:a37:112a:: with SMTP id b42mr2838503qkh.136.1543523418809;
-        Thu, 29 Nov 2018 12:30:18 -0800 (PST)
-Received: from localhost ([2620:0:1013:11:ad55:b1db:adfe:3b9f])
-        by smtp.gmail.com with ESMTPSA id s36sm1388783qth.17.2018.11.29.12.30.18
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 29 Nov 2018 12:30:18 -0800 (PST)
-Date:   Thu, 29 Nov 2018 15:30:17 -0500
-From:   Sean Paul <sean@poorly.run>
-To:     dri-devel@lists.freedesktop.org
-Cc:     Sean Paul <seanpaul@chromium.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] drm: TODO: Add DRM_MODESET_LOCK_ALL* conversion to
- todo.rst
-Message-ID: <20181129203017.GH154160@art_vandelay>
-References: <20181129164651.GM21184@phenom.ffwll.local>
- <20181129195838.222031-1-sean@poorly.run>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181129195838.222031-1-sean@poorly.run>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726192AbeK3IGT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 30 Nov 2018 03:06:19 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56354 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726831AbeK3IGT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Nov 2018 03:06:19 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wATKwnbI069198
+        for <linux-doc@vger.kernel.org>; Thu, 29 Nov 2018 15:59:35 -0500
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2p2ntgvw8w-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Thu, 29 Nov 2018 15:59:35 -0500
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
+        Thu, 29 Nov 2018 20:59:32 -0000
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Thu, 29 Nov 2018 20:59:26 -0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wATKxPsF8520020
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 29 Nov 2018 20:59:25 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D557FA405B;
+        Thu, 29 Nov 2018 20:59:25 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BA5B0A405F;
+        Thu, 29 Nov 2018 20:59:23 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.80.103.235])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Thu, 29 Nov 2018 20:59:23 +0000 (GMT)
+Subject: Re: [PATCH v8 04/14] integrity: Introduce struct evm_xattr
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+        linux-integrity@vger.kernel.org
+Cc:     linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        David Howells <dhowells@redhat.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "AKASHI, Takahiro" <takahiro.akashi@linaro.org>
+Date:   Thu, 29 Nov 2018 15:59:12 -0500
+In-Reply-To: <20181116200712.14154-5-bauerman@linux.ibm.com>
+References: <20181116200712.14154-1-bauerman@linux.ibm.com>
+         <20181116200712.14154-5-bauerman@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 18112920-0028-0000-0000-000003238C40
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18112920-0029-0000-0000-000023DF9E7F
+Message-Id: <1543525152.3902.411.camel@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-11-29_13:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1811290175
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 29, 2018 at 02:58:33PM -0500, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
+On Fri, 2018-11-16 at 18:07 -0200, Thiago Jung Bauermann wrote:
+> Even though struct evm_ima_xattr_data includes a fixed-size array to hold a
+> SHA1 digest, most of the code ignores the array and uses the struct to mean
+> "type indicator followed by data of unspecified size" and tracks the real
+> size of what the struct represents in a separate length variable.
 > 
-> We should also get the drivers using the helpers. Seems like a good
-> intermediate TODO item.
+> The only exception to that is the EVM code, which correctly uses the
+> definition of struct evm_ima_xattr_data.
 > 
-> Changes in v2:
-> - Add line about replacing drm_modest_lock_all() (Daniel)
+> So make this explicit in the code by removing the length specification from
+> the array in struct evm_ima_xattr_data. Also, change the name of the
+> element from digest to data since in most places the array doesn't hold a
+> digest.
 > 
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> A separate struct evm_xattr is introduced, with the original definition of
+> evm_ima_xattr_data to be used in the places that actually expect that
+> definition.
 
-Pushed this to -misc-next
+, specifically the EVM HMAC code.
 
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> 
+> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+
+Other than commenting the evm_xattr usage is limited to HMAC before
+the structure definition, this looks good.
+
+Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
+
 > ---
->  Documentation/gpu/todo.rst | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+>  security/integrity/evm/evm_main.c     | 8 ++++----
+>  security/integrity/ima/ima_appraise.c | 7 ++++---
+>  security/integrity/integrity.h        | 5 +++++
+>  3 files changed, 13 insertions(+), 7 deletions(-)
 > 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index ab347dec50796..14191b64446df 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -241,6 +241,21 @@ struct drm_gem_object_funcs
->  GEM objects can now have a function table instead of having the callbacks on the
->  DRM driver struct. This is now the preferred way and drivers can be moved over.
+> diff --git a/security/integrity/evm/evm_main.c b/security/integrity/evm/evm_main.c
+> index 7f3f54d89a6e..a1b42d10efc7 100644
+> --- a/security/integrity/evm/evm_main.c
+> +++ b/security/integrity/evm/evm_main.c
+> @@ -169,7 +169,7 @@ static enum integrity_status evm_verify_hmac(struct dentry *dentry,
+>  	/* check value type */
+>  	switch (xattr_data->type) {
+>  	case EVM_XATTR_HMAC:
+> -		if (xattr_len != sizeof(struct evm_ima_xattr_data)) {
+> +		if (xattr_len != sizeof(struct evm_xattr)) {
+>  			evm_status = INTEGRITY_FAIL;
+>  			goto out;
+>  		}
+> @@ -179,7 +179,7 @@ static enum integrity_status evm_verify_hmac(struct dentry *dentry,
+>  				   xattr_value_len, &digest);
+>  		if (rc)
+>  			break;
+> -		rc = crypto_memneq(xattr_data->digest, digest.digest,
+> +		rc = crypto_memneq(xattr_data->data, digest.digest,
+>  				   SHA1_DIGEST_SIZE);
+>  		if (rc)
+>  			rc = -EINVAL;
+> @@ -523,7 +523,7 @@ int evm_inode_init_security(struct inode *inode,
+>  				 const struct xattr *lsm_xattr,
+>  				 struct xattr *evm_xattr)
+>  {
+> -	struct evm_ima_xattr_data *xattr_data;
+> +	struct evm_xattr *xattr_data;
+>  	int rc;
 >  
-> +Use DRM_MODESET_LOCK_ALL_* helpers instead of boilerplate
-> +---------------------------------------------------------
-> +
-> +For cases where drivers are attempting to grab the modeset locks with a local
-> +acquire context. Replace the boilerplate code surrounding
-> +drm_modeset_lock_all_ctx() with DRM_MODESET_LOCK_ALL_BEGIN() and
-> +DRM_MODESET_LOCK_ALL_END() instead.
-> +
-> +This should also be done for all places where drm_modest_lock_all() is still
-> +used.
-> +
-> +As a reference, take a look at the conversions already completed in drm core.
-> +
-> +Contact: Sean Paul, respective driver maintainers
-> +
->  Core refactorings
->  =================
+>  	if (!evm_key_loaded() || !evm_protected_xattr(lsm_xattr->name))
+> @@ -533,7 +533,7 @@ int evm_inode_init_security(struct inode *inode,
+>  	if (!xattr_data)
+>  		return -ENOMEM;
 >  
-> -- 
-> Sean Paul, Software Engineer, Google / Chromium OS
-> 
+> -	xattr_data->type = EVM_XATTR_HMAC;
+> +	xattr_data->data.type = EVM_XATTR_HMAC;
+>  	rc = evm_init_hmac(inode, lsm_xattr, xattr_data->digest);
+>  	if (rc < 0)
+>  		goto out;
+> diff --git a/security/integrity/ima/ima_appraise.c b/security/integrity/ima/ima_appraise.c
+> index deec1804a00a..8bcef90939f8 100644
+> --- a/security/integrity/ima/ima_appraise.c
+> +++ b/security/integrity/ima/ima_appraise.c
+> @@ -167,7 +167,8 @@ enum hash_algo ima_get_hash_algo(struct evm_ima_xattr_data *xattr_value,
+>  		return sig->hash_algo;
+>  		break;
+>  	case IMA_XATTR_DIGEST_NG:
+> -		ret = xattr_value->digest[0];
+> +		/* first byte contains algorithm id */
+> +		ret = xattr_value->data[0];
+>  		if (ret < HASH_ALGO__LAST)
+>  			return ret;
+>  		break;
+> @@ -175,7 +176,7 @@ enum hash_algo ima_get_hash_algo(struct evm_ima_xattr_data *xattr_value,
+>  		/* this is for backward compatibility */
+>  		if (xattr_len == 21) {
+>  			unsigned int zero = 0;
+> -			if (!memcmp(&xattr_value->digest[16], &zero, 4))
+> +			if (!memcmp(&xattr_value->data[16], &zero, 4))
+>  				return HASH_ALGO_MD5;
+>  			else
+>  				return HASH_ALGO_SHA1;
+> @@ -274,7 +275,7 @@ int ima_appraise_measurement(enum ima_hooks func,
+>  			/* xattr length may be longer. md5 hash in previous
+>  			   version occupied 20 bytes in xattr, instead of 16
+>  			 */
+> -			rc = memcmp(&xattr_value->digest[hash_start],
+> +			rc = memcmp(&xattr_value->data[hash_start],
+>  				    iint->ima_hash->digest,
+>  				    iint->ima_hash->length);
+>  		else
+> diff --git a/security/integrity/integrity.h b/security/integrity/integrity.h
+> index e60473b13a8d..20ac02bf1b84 100644
+> --- a/security/integrity/integrity.h
+> +++ b/security/integrity/integrity.h
+> @@ -79,6 +79,11 @@ enum evm_ima_xattr_type {
+>  
+>  struct evm_ima_xattr_data {
+>  	u8 type;
+> +	u8 data[];
+> +} __packed;
+> +
 
--- 
-Sean Paul, Software Engineer, Google / Chromium OS
+Please add a comment here saying that evm_xattr is limited to HMAC.
+
+> +struct evm_xattr {
+> +	struct evm_ima_xattr_data data;
+>  	u8 digest[SHA1_DIGEST_SIZE];
+>  } __packed;
+>  
+
