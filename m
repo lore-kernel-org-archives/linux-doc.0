@@ -1,150 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 12BE27D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Nov 2018 18:53:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AB8387D08E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Nov 2018 19:29:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726028AbeLAGDY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 1 Dec 2018 01:03:24 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:35710 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725993AbeLAGDY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Dec 2018 01:03:24 -0500
-Received: by mail-wm1-f67.google.com with SMTP id c126so6697588wmh.0
-        for <linux-doc@vger.kernel.org>; Fri, 30 Nov 2018 10:53:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=iEs0bu2v/4Sbmzc6i6UNYRAir2y1g1QCSGpytJmcmF4=;
-        b=g8dX7FoZG+8Sd9IqjIs5yD0k5Nvh75AU4C2jRh+xbHynzneloHDxHX7x4y6NEIU9lo
-         rK3R56IyT7atQubRCSGtGLextL736gjUxcfoa5s2pLusGyHaozLv8rbzjs0kxtXD1LAM
-         3S0cGJHkXW9aNOCNa1MfpIculGopHk6o10gVQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=iEs0bu2v/4Sbmzc6i6UNYRAir2y1g1QCSGpytJmcmF4=;
-        b=GsQzkdyyaZgHZJV0bdDMkUf2EeqaeVYYT27G+8GWmKoYQ0n+3ZN802c5D0Pbwv4lj4
-         0sBiDR6kRRCsruRFy5j4EMcbKsdGOo0UOXyWLWCGG1cfd35/tuIw57pc1N2ytm7Mp4mo
-         x2oLGqbQgSoLHrl+ezOFaNbzfqlA83rFf82PVk54pyi+0lSjdq8ug6RHCpz4yGFoPdkS
-         bJS5kFFWkk31BlOtQ7GsTe/mJatzeIOwD8zJqrrDMjpMBP1Rfrmu6B7uTibxTUgFzI5i
-         0f0NRvbL8C+vcFLjO6arEFQlSx4wOEH2C4LjCWYEDapVKPv6l0yrRuduRrLCgg/cGwma
-         t2oA==
-X-Gm-Message-State: AA+aEWZc+ys181hlVcHx8fCojoAeWvyB8DT2rsZs0fji1frqDqG7K04o
-        asVXdKGARVoFTnBblifkvoYqSQ==
-X-Google-Smtp-Source: AFSGD/VGoBLBVBLtQfiPhxsQQOvd6iV2PLvCdQFS0fTQ0XE+hWK2uQs1UsHuwfcvLFRH3vYXJWImXg==
-X-Received: by 2002:a1c:f0e:: with SMTP id 14mr6435941wmp.37.1543603989316;
-        Fri, 30 Nov 2018 10:53:09 -0800 (PST)
-Received: from [192.168.0.101] (146-241-2-120.dyn.eolo.it. [146.241.2.120])
-        by smtp.gmail.com with ESMTPSA id e19sm12792365wrc.25.2018.11.30.10.53.07
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 30 Nov 2018 10:53:08 -0800 (PST)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 12.0 \(3445.100.39\))
-Subject: Re: [PATCH V2 00/10] unify the interface of the proportional-share
- policy in blkio/io
-From:   Paolo Valente <paolo.valente@linaro.org>
-In-Reply-To: <20181130184256.GI2509588@devbig004.ftw2.facebook.com>
-Date:   Fri, 30 Nov 2018 19:53:07 +0100
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Angelo Ruocco <angeloruocco90@gmail.com>,
-        Dennis Zhou <dennis@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        Liu Bo <bo.liu@linux.alibaba.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ulf.hansson@linaro.org, linus.walleij@linaro.org,
-        broonie@kernel.org, oleksandr@natalenko.name,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <5534B7D4-A5D9-4F44-9620-970A7F9EC140@linaro.org>
-References: <20181119103424.3853-1-paolo.valente@linaro.org>
- <20181120162816.GV2509588@devbig004.ftw2.facebook.com>
- <25296DAE-73EC-46CC-9A98-A8B7E9017BB7@linaro.org>
- <7D7FAB43-5F62-4402-A9B3-E7C2E30AE680@linaro.org>
- <20181130184256.GI2509588@devbig004.ftw2.facebook.com>
-To:     'Paolo Valente' via bfq-iosched <bfq-iosched@googlegroups.com>
-X-Mailer: Apple Mail (2.3445.100.39)
+        id S1726600AbeLAGiB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 1 Dec 2018 01:38:01 -0500
+Received: from mga12.intel.com ([192.55.52.136]:46972 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725749AbeLAGiB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 1 Dec 2018 01:38:01 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Nov 2018 11:27:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,299,1539673200"; 
+   d="scan'208";a="279426262"
+Received: from jsakkine-mobl1.jf.intel.com (HELO localhost) ([10.241.225.27])
+  by orsmga005.jf.intel.com with ESMTP; 30 Nov 2018 11:27:42 -0800
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Subject: [PATCH RFC 02/15] Documentation: replace **** with a hug
+Date:   Fri, 30 Nov 2018 11:27:11 -0800
+Message-Id: <20181130192737.15053-3-jarkko.sakkinen@linux.intel.com>
+X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20181130192737.15053-1-jarkko.sakkinen@linux.intel.com>
+References: <20181130192737.15053-1-jarkko.sakkinen@linux.intel.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+In order to comply with the CoC, replace **** with a hug.
 
+Signed-off-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+---
+ Documentation/kernel-hacking/locking.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Il giorno 30 nov 2018, alle ore 19:42, Tejun Heo <tj@kernel.org> ha =
-scritto:
->=20
-> Hello, Paolo.
->=20
-> On Fri, Nov 30, 2018 at 07:23:24PM +0100, Paolo Valente wrote:
->>> Then we understood that exactly the same happens with throttling, in
->>> case the latter is activated on different devices w.r.t. bfq.
->>>=20
->>> In addition, the same may happen, in the near future, with the
->>> bandwidth controller Josef is working on.  If the controller can be
->>> configured per device, as with throttling, then statistics may =
-differ,
->>> for the same interface files, between bfq, throttling and that
->>> controller.
->=20
-> So, regardless of how all these are implemented, what's presented to
-> user should be consistent and clear.  There's no other way around it.
-> Only what's relevant should be visible to userspace.
->=20
->> have you had time to look into this?  Any improvement to this
->> interface is ok for us. We are only interested in finally solving =
-this
->> interface issue, as, for what concerns us directly, it has been
->> preventing legacy code to use bfq for years.
->=20
-> Unfortunately, I don't have any implementation proposal, but we can't
-> show things this way to userspace.
->=20
-
-Well, this is not very helpful to move forward :)
-
-Let me try to repeat the problem, to try to help you help us unblock
-the situation.
-
-If we have multiple entities attached to the same interface output
-file, you don't find it clear that each entity shows the number it
-wants to show.  But you have no idea either of how that differentiated
-information should be shown.  Is this the situation, or is the problem
-somewhere 'above' this level?
-
-If the problem is as I described it, here are some proposal attempts:
-1) Do you want file sharing to be allowed only if all entities will
-output the same number?  (this seems excessive, but maybe it makes
-sense)
-2) Do you want only one number to be shown, equal to the sum of the
-numbers of each entity?  (in some cases, this may make sense)
-3) Do you prefer an average?
-4) Do you have any other idea, even if just germinal?
-
-Looking forward to your feedback,
-Paolo=20
-
-
-> Thanks.
->=20
-> --=20
-> tejun
->=20
-> --=20
-> You received this message because you are subscribed to the Google =
-Groups "bfq-iosched" group.
-> To unsubscribe from this group and stop receiving emails from it, send =
-an email to bfq-iosched+unsubscribe@googlegroups.com.
-> For more options, visit https://groups.google.com/d/optout.
+diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
+index 519673df0e82..e16a850261d5 100644
+--- a/Documentation/kernel-hacking/locking.rst
++++ b/Documentation/kernel-hacking/locking.rst
+@@ -958,7 +958,7 @@ grabs a read lock, searches a list, fails to find what it wants, drops
+ the read lock, grabs a write lock and inserts the object has a race
+ condition.
+ 
+-If you don't see why, please stay the fuck away from my code.
++If you don't see why, please stay the hug away from my code.
+ 
+ Racing Timers: A Kernel Pastime
+ -------------------------------
+-- 
+2.19.1
 
