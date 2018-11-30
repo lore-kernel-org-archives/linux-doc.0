@@ -1,39 +1,45 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 32D967D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Nov 2018 08:54:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 018307D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Nov 2018 10:50:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727151AbeK3UCr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 30 Nov 2018 15:02:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60656 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727115AbeK3UCr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 30 Nov 2018 15:02:47 -0500
-Received: from localhost (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 024962081C;
-        Fri, 30 Nov 2018 08:54:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1543568051;
-        bh=mu+qjgNqKeZG+Iq9sFz1YwTtk5K9QeBfjySuziAggTA=;
-        h=To:From:In-Reply-To:Cc:References:Subject:Date:From;
-        b=FSbG7sI1IWhnZygpLvQouRAat7e4sUwMQ80hU1vKlEjZpZL4OC0EyEOfcJWuTB80T
-         QSw2CDekKgkreaTpr7t/pGw3NLmqFsnoYe+/qA6BKigSnI0A3HhHWFsS4FgYdDrlxy
-         FbwB+1xs9LIf8OwBWbuGznw/GMdmFLbHRNy3aG7A=
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        mazziesaccount@gmail.com
-From:   Stephen Boyd <sboyd@kernel.org>
-In-Reply-To: <ec0d6ee7ea79f0e05041ed3e564b0aadb297ef5f.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+        id S1726558AbeK3V71 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 30 Nov 2018 16:59:27 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:42289 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726527AbeK3V71 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Nov 2018 16:59:27 -0500
+Received: by mail-lj1-f196.google.com with SMTP id l15-v6so4572926lja.9;
+        Fri, 30 Nov 2018 02:50:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=daG1XJ3xEPZRYjxjHEIMiZ2KfFhva5k8E7JnZvAC+Oo=;
+        b=t1vOHbKtA6GzLMRWcFKBWXm+ZWfE5Fuc/MjmLs9WMrlcGqH6QALguVNktXYq6AXKwM
+         vK9VHmDH8+SK2xZntDQv+42sawvOzn3x92xjXDwz0T/BkORvQ1U9EQ7IKuaMVAaq3NN0
+         2rXYzPVgx3zvA+rD6Nihz1K2qI+PsVg+LVXvKIIBbWfzpkCpYINJTXVvSdEemiYiNEYv
+         ZK3rb2ETNvvM5lrNS61q/nTW3yWdscjRkw4At6X64V6oIoHQ89mj+m3mbs6vGuI+cXI7
+         7Vch2QSI25+imi2Ko1AmFy6PxgEPdx+G+nNNF+LItfHRWtuh79q5M64tOB6qONTEvzWc
+         E2Vg==
+X-Gm-Message-State: AA+aEWYKg7ykht0n1B7NpK6hWD0Uvp0HsuNlZTflXwgY7pPBz+cM5BHZ
+        XuEtCIyxJxr+WHqVHh+r1wE=
+X-Google-Smtp-Source: AFSGD/XFPJ1MMWBlTqXBpTiP9WCmLCT4QKpGGG+olHyyiMLUAlROfdFfvehxLuxm1UY3PtnHFDGMbQ==
+X-Received: by 2002:a2e:2281:: with SMTP id i123-v6mr3117217lji.154.1543575031301;
+        Fri, 30 Nov 2018 02:50:31 -0800 (PST)
+Received: from localhost.localdomain (84-253-205-125.bb.dnainternet.fi. [84.253.205.125])
+        by smtp.gmail.com with ESMTPSA id s127sm753225lfe.8.2018.11.30.02.50.28
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 30 Nov 2018 02:50:30 -0800 (PST)
+Date:   Fri, 30 Nov 2018 12:50:22 +0200
+From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     mazziesaccount@gmail.com, Jonathan Corbet <corbet@lwn.net>,
         Michael Turquette <mturquette@baylibre.com>,
         Chanwoo Choi <cw00.choi@samsung.com>,
         Krzysztof Kozlowski <krzk@kernel.org>,
@@ -47,190 +53,179 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Sebastian Reichel <sre@kernel.org>,
         Lee Jones <lee.jones@linaro.org>,
         Huang Shijie <sjhuang@iluvatar.ai>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
         Daniel Kurtz <djkurtz@chromium.org>,
         Akshu Agrawal <akshu.agrawal@amd.com>,
         "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org
+Subject: Re: [PATCH v4 1/8] clk: clkdev/of_clk - add managed lookup and
+ provider registrations
+Message-ID: <20181130105022.GA15388@localhost.localdomain>
 References: <cover.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
  <ec0d6ee7ea79f0e05041ed3e564b0aadb297ef5f.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
-Message-ID: <154356805035.88331.16867826308376667832@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.7
-Subject: Re: [PATCH v4 1/8] clk: clkdev/of_clk - add managed lookup and provider
- registrations
-Date:   Fri, 30 Nov 2018 00:54:10 -0800
+ <154356805035.88331.16867826308376667832@swboyd.mtv.corp.google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <154356805035.88331.16867826308376667832@swboyd.mtv.corp.google.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Matti Vaittinen (2018-11-13 03:55:58)
-> With MFD devices the clk properties may be contained in MFD (parent) DT
-> node. Current devm_of_clk_add_hw_provider assumes the clk is bound to MFD
-> subdevice not to MFD device (parent). Add
-> devm_of_clk_add_hw_provider_parent to tackle this issue.
-> =
+Hello Stephen,
 
-> Also clkdev registration lacks of managed registration functions and it
-> seems few drivers do not drop clkdev lookups at exit. Add
-> devm_clk_hw_register_clkdev and devm_clk_release_clkdev to ease lookup
-> releasing at exit.
+Thanks a bunch for taking the time and reviewing this!
 
-Please split this into clkdev and non-clkdev devm functionality.
+On Fri, Nov 30, 2018 at 12:54:10AM -0800, Stephen Boyd wrote:
+> Quoting Matti Vaittinen (2018-11-13 03:55:58)
+> > With MFD devices the clk properties may be contained in MFD (parent) DT
+> > node. Current devm_of_clk_add_hw_provider assumes the clk is bound to MFD
+> > subdevice not to MFD device (parent). Add
+> > devm_of_clk_add_hw_provider_parent to tackle this issue.
+> > 
+> > Also clkdev registration lacks of managed registration functions and it
+> > seems few drivers do not drop clkdev lookups at exit. Add
+> > devm_clk_hw_register_clkdev and devm_clk_release_clkdev to ease lookup
+> > releasing at exit.
+> 
+> Please split this into clkdev and non-clkdev devm functionality.
+Allright. I'll split this to two patches.
 
-> =
+> > --- a/Documentation/driver-model/devres.txt
+> > +++ b/Documentation/driver-model/devres.txt
+> > @@ -238,6 +238,9 @@ CLOCK
+> >    devm_clk_put()
+> >    devm_clk_hw_register()
+> >    devm_of_clk_add_hw_provider()
+> > +  devm_of_clk_add_parent_hw_provider()
+> > +  devm_clk_hw_register_clkdev()
+> > +  devm_clk_release_clkdev()
+> 
+> The 'release' or non-common functions shouldn't be documented here.
+So I will drop the line mentioning devm_clk_release_clkdev()
 
-> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-> ---
->  Documentation/driver-model/devres.txt |   3 +
->  drivers/clk/clk.c                     |  28 ++++++--
->  drivers/clk/clkdev.c                  | 122 ++++++++++++++++++++++++++--=
-------
->  include/linux/clk-provider.h          |  11 +++
->  include/linux/clkdev.h                |   4 ++
->  5 files changed, 136 insertions(+), 32 deletions(-)
-> =
+> > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> > index af011974d4ec..9bb921eb90f6 100644
+> > --- a/drivers/clk/clk.c
+> > +++ b/drivers/clk/clk.c
+> > @@ -3893,12 +3893,12 @@ static void devm_of_clk_release_provider(struct device *dev, void *res)
+> >         of_clk_del_provider(*(struct device_node **)res);
+> >  }
+> >  
+> > -int devm_of_clk_add_hw_provider(struct device *dev,
+> > +static int __devm_of_clk_add_hw_provider(struct device *dev,
+> >                         struct clk_hw *(*get)(struct of_phandle_args *clkspec,
+> >                                               void *data),
+> > -                       void *data)
+> > +                       struct device_node *of_node, void *data)
+> >  {
+> > -       struct device_node **ptr, *np;
+> > +       struct device_node **ptr;
+> >         int ret;
+> >  
+> >         ptr = devres_alloc(devm_of_clk_release_provider, sizeof(*ptr),
+> > @@ -3906,10 +3906,9 @@ int devm_of_clk_add_hw_provider(struct device *dev,
+> >         if (!ptr)
+> >                 return -ENOMEM;
+> >  
+> > -       np = dev->of_node;
+> > -       ret = of_clk_add_hw_provider(np, get, data);
+> > +       *ptr = of_node;
+> > +       ret = of_clk_add_hw_provider(of_node, get, data);
+> >         if (!ret) {
+> > -               *ptr = np;
+> 
+> Why is this moved outside of the if condition?
+I completely removed the local variable np and just unconditionally set
+the allocated devres to point at the node (if allocation succeeded). We
+could of course only do this if the provider registration succeeded and
+save one assignment - but I guess I intended to remove the curly braces
+and thus decided to go for one liner after if. But apparently I didn't
+remove the braces O_o. Well, I can put the assignment inside the
+condition if you prefer that.
 
-> diff --git a/Documentation/driver-model/devres.txt b/Documentation/driver=
--model/devres.txt
-> index 43681ca0837f..fac63760b01c 100644
-> --- a/Documentation/driver-model/devres.txt
-> +++ b/Documentation/driver-model/devres.txt
-> @@ -238,6 +238,9 @@ CLOCK
->    devm_clk_put()
->    devm_clk_hw_register()
->    devm_of_clk_add_hw_provider()
-> +  devm_of_clk_add_parent_hw_provider()
-> +  devm_clk_hw_register_clkdev()
-> +  devm_clk_release_clkdev()
+> In fact, why isn't just
+> the first line in this hunk deleted and passed to this function as
+> struct device_node *np?
 
-The 'release' or non-common functions shouldn't be documented here.
+I am sorry but I don't quite follow your suggestion here. Do you mean we
+could just pass the struct device_node *np in devres_add()? I thought
+the pointer passed to devress_add() should be allocated using
+devres_alloc. Can you please elaborate what you mean?
 
->  =
+> 
+> >                 devres_add(dev, ptr);
+> >         } else {
+> >                 devres_free(ptr);
+> > @@ -3917,8 +3916,25 @@ int devm_of_clk_add_hw_provider(struct device *dev,
+> >  
+> >         return ret;
+> >  }
+> 
+> Nitpick: Add a newline here.
 
->  DMA
->    dmaenginem_async_device_register()
-> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> index af011974d4ec..9bb921eb90f6 100644
-> --- a/drivers/clk/clk.c
-> +++ b/drivers/clk/clk.c
-> @@ -3893,12 +3893,12 @@ static void devm_of_clk_release_provider(struct d=
-evice *dev, void *res)
->         of_clk_del_provider(*(struct device_node **)res);
->  }
->  =
+Will do.
 
-> -int devm_of_clk_add_hw_provider(struct device *dev,
-> +static int __devm_of_clk_add_hw_provider(struct device *dev,
->                         struct clk_hw *(*get)(struct of_phandle_args *clk=
-spec,
->                                               void *data),
-> -                       void *data)
-> +                       struct device_node *of_node, void *data)
->  {
-> -       struct device_node **ptr, *np;
-> +       struct device_node **ptr;
->         int ret;
->  =
+> 
+> > +int devm_of_clk_add_hw_provider(struct device *dev,
+> > +                       struct clk_hw *(*get)(struct of_phandle_args *clkspec,
+> > +                                             void *data),
+> > +                       void *data)
+> > +{
+> > +       return __devm_of_clk_add_hw_provider(dev, get, dev->of_node, data);
+> > +}
+> >  EXPORT_SYMBOL_GPL(devm_of_clk_add_hw_provider);
+> >  
+> > +int devm_of_clk_add_parent_hw_provider(struct device *dev,
+> > +                       struct clk_hw *(*get)(struct of_phandle_args *clkspec,
+> > +                                             void *data),
+> > +                       void *data)
+> > +{
+> > +       return __devm_of_clk_add_hw_provider(dev, get, dev->parent->of_node,
+> 
+> I'm wondering if we can somehow auto-detect this in
+> devm_of_clk_add_hw_provider() by looking for #clock-cells in the node.
+> If it isn't there, then we go to the parent node and look for a
+> #clock-cells property there in the DT node for that device. Does that
+> make sense? Then there isn't any new API and we can attach the lifetime
+> of the devm registration to the presence of the property indicating this
+> is a clk controller or not.
 
->         ptr =3D devres_alloc(devm_of_clk_release_provider, sizeof(*ptr),
-> @@ -3906,10 +3906,9 @@ int devm_of_clk_add_hw_provider(struct device *dev,
->         if (!ptr)
->                 return -ENOMEM;
->  =
+Huh. I don't know why but building this kind of logic in core is a bit
+scary to me. I guess I can try implementing something like this - but I
+am not really a fan of this. (Accidentally) omit the #clock-cells from
+node and we go to parent node - I am a novice on this area but this
+sounds like a potential hazard to me. I believe the driver should know
+if it's properties should be in own or parent node - and if they are
+not, then there should be no guessing but error. The lifetime is topic
+where I would like to get information from you who know the kernel
+better than I do =) But I guess the parent node is there at least as
+long as the child device is alive. So for me the life time of
+get-callback is more crucial - but as I said, I don't understand the
+kernel in details so you probably know it better than me. But please let
+me know your final take on this and I will follow the guidance =)
 
-> -       np =3D dev->of_node;
-> -       ret =3D of_clk_add_hw_provider(np, get, data);
-> +       *ptr =3D of_node;
-> +       ret =3D of_clk_add_hw_provider(of_node, get, data);
->         if (!ret) {
-> -               *ptr =3D np;
+> 
+> > +                                            data);
+> > +}
+> > +EXPORT_SYMBOL_GPL(devm_of_clk_add_parent_hw_provider);
+> 
+> Can we get some kernel doc on these functions?
+Sure. I will add the doc. Reason why I didn't do it is that the current
+devm_of_clk_add_hw_provider() did not have doc. But I'll add that in
+next patch.
 
-Why is this moved outside of the if condition? In fact, why isn't just
-the first line in this hunk deleted and passed to this function as
-struct device_node *np?
+> > +       rval = devres_release(dev, devm_clkdev_release,
+> > +                             &devm_clk_match_clkdev, cl);
+> 
+> Nitpick: Drop & on functions taken as pointers.
+Ok. Will do.
 
->                 devres_add(dev, ptr);
->         } else {
->                 devres_free(ptr);
-> @@ -3917,8 +3916,25 @@ int devm_of_clk_add_hw_provider(struct device *dev,
->  =
+-- 
+Matti Vaittinen
+ROHM Semiconductors
 
->         return ret;
->  }
-
-Nitpick: Add a newline here.
-
-> +int devm_of_clk_add_hw_provider(struct device *dev,
-> +                       struct clk_hw *(*get)(struct of_phandle_args *clk=
-spec,
-> +                                             void *data),
-> +                       void *data)
-> +{
-> +       return __devm_of_clk_add_hw_provider(dev, get, dev->of_node, data=
-);
-> +}
->  EXPORT_SYMBOL_GPL(devm_of_clk_add_hw_provider);
->  =
-
-> +int devm_of_clk_add_parent_hw_provider(struct device *dev,
-> +                       struct clk_hw *(*get)(struct of_phandle_args *clk=
-spec,
-> +                                             void *data),
-> +                       void *data)
-> +{
-> +       return __devm_of_clk_add_hw_provider(dev, get, dev->parent->of_no=
-de,
-
-I'm wondering if we can somehow auto-detect this in
-devm_of_clk_add_hw_provider() by looking for #clock-cells in the node.
-If it isn't there, then we go to the parent node and look for a
-#clock-cells property there in the DT node for that device. Does that
-make sense? Then there isn't any new API and we can attach the lifetime
-of the devm registration to the presence of the property indicating this
-is a clk controller or not.
-
-> +                                            data);
-> +}
-> +EXPORT_SYMBOL_GPL(devm_of_clk_add_parent_hw_provider);
-
-Can we get some kernel doc on these functions?
-
-> +
->  /**
->   * of_clk_del_provider() - Remove a previously registered clock provider
->   * @np: Device node pointer associated with clock provider
-> diff --git a/drivers/clk/clkdev.c b/drivers/clk/clkdev.c
-> index 9ab3db8b3988..f6100b6e06fd 100644
-> --- a/drivers/clk/clkdev.c
-> +++ b/drivers/clk/clkdev.c
-[...]
-> +
-> +/**
-> + * devm_clk_release_clkdev - Resource managed clkdev lookup release
-> + * @dev: device this lookup is bound
-> + * @con_id: connection ID string on device
-> + * @dev_id: format string describing device name
-> + *
-> + * Drop the clkdev lookup created with devm_clk_hw_register_clkdev.
-> + * Normally this function will not need to be called and the resource
-> + * management code will ensure that the resource is freed.
-> + */
-> +void devm_clk_release_clkdev(struct device *dev, const char *con_id,
-> +                            const char *dev_id)
-> +{
-> +       struct clk_lookup *cl;
-> +       int rval;
-> +
-> +       cl =3D clk_find(dev_id, con_id);
-> +       WARN_ON(!cl);
-> +       rval =3D devres_release(dev, devm_clkdev_release,
-> +                             &devm_clk_match_clkdev, cl);
-
-Nitpick: Drop & on functions taken as pointers.
-
-> +       WARN_ON(rval);
-> +}
-> +EXPORT_SYMBOL(devm_clk_release_clkdev);
+~~~ "I don't think so," said Rene Descartes.  Just then, he vanished ~~~
