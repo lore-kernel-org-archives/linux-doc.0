@@ -2,28 +2,28 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 009CC7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Nov 2018 20:35:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 940E27D8A3
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Nov 2018 20:42:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725847AbeLAHpj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 1 Dec 2018 02:45:39 -0500
-Received: from shards.monkeyblade.net ([23.128.96.9]:59056 "EHLO
+        id S1726712AbeLAHxC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 1 Dec 2018 02:53:02 -0500
+Received: from shards.monkeyblade.net ([23.128.96.9]:59268 "EHLO
         shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725993AbeLAHpj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Dec 2018 02:45:39 -0500
+        with ESMTP id S1726424AbeLAHxC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Dec 2018 02:53:02 -0500
 Received: from localhost (unknown [IPv6:2601:601:9f80:35cd::bf5])
         (using TLSv1 with cipher AES256-SHA (256/256 bits))
         (Client did not present a certificate)
         (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 6F04614F23384;
-        Fri, 30 Nov 2018 12:35:08 -0800 (PST)
-Date:   Fri, 30 Nov 2018 12:35:07 -0800 (PST)
-Message-Id: <20181130.123507.1940310466680455876.davem@davemloft.net>
-To:     axboe@kernel.dk
-Cc:     dave@stgolabs.net, keescook@chromium.org,
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 649D614F0ADB2;
+        Fri, 30 Nov 2018 12:42:29 -0800 (PST)
+Date:   Fri, 30 Nov 2018 12:42:28 -0800 (PST)
+Message-Id: <20181130.124228.979846577878820546.davem@davemloft.net>
+To:     abuse@2.abuse.bgcomp.co.uk
+Cc:     axboe@kernel.dk, dave@stgolabs.net, keescook@chromium.org,
         jarkko.sakkinen@linux.intel.com, linux-kernel@vger.kernel.org,
         amir73il@gmail.com, akpm@linux-foundation.org,
         andriy.shevchenko@linux.intel.com, dja@axtens.net,
@@ -45,34 +45,31 @@ Cc:     dave@stgolabs.net, keescook@chromium.org,
         yanjun.zhu@oracle.com
 Subject: Re: [PATCH RFC 00/15] Zero ****s, hugload of hugs <3
 From:   David Miller <davem@davemloft.net>
-In-Reply-To: <d7c34289-f03a-b641-cc9c-00395306511d@kernel.dk>
-References: <CAGXu5j+jBNBsD3pvUSfEh6Lc5T1YMpbM0HeG1c6BHiJe+cKVOQ@mail.gmail.com>
-        <20181130195652.7syqys76646kpaph@linux-r8p5>
-        <d7c34289-f03a-b641-cc9c-00395306511d@kernel.dk>
+In-Reply-To: <2007856.n5V9iKLVsV@eth7>
+References: <d7c34289-f03a-b641-cc9c-00395306511d@kernel.dk>
+        <20181130.123507.1940310466680455876.davem@davemloft.net>
+        <2007856.n5V9iKLVsV@eth7>
 X-Mailer: Mew version 6.8 on Emacs 26.1
 Mime-Version: 1.0
 Content-Type: Text/Plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Fri, 30 Nov 2018 12:35:09 -0800 (PST)
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Fri, 30 Nov 2018 12:42:30 -0800 (PST)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jens Axboe <axboe@kernel.dk>
-Date: Fri, 30 Nov 2018 13:12:26 -0700
+From: Abuse <abuse@2.abuse.bgcomp.co.uk>
+Date: Fri, 30 Nov 2018 20:39:01 +0000
 
-> On 11/30/18 12:56 PM, Davidlohr Bueso wrote:
->> On Fri, 30 Nov 2018, Kees Cook wrote:
->> 
->>> On Fri, Nov 30, 2018 at 11:27 AM Jarkko Sakkinen
->>> <jarkko.sakkinen@linux.intel.com> wrote:
->>>>
->>>> In order to comply with the CoC, replace **** with a hug.
->> 
->> I hope this is some kind of joke. How would anyone get offended by reading
->> technical comments? This is all beyond me...
-> 
-> Agree, this is insanity.
+> I assume I will now be barred.
 
-And even worse it is censorship.
+Perhaps, but not because you said fuck.  It would be because you're
+intentionally creating a disturbance on the list and making it more
+difficult for developers to get their work done and intentionally
+creating a distraction and a hostile environment for the discussion at
+hand.
+
+That would not be censorship.
+
+There is a big difference.
