@@ -1,39 +1,44 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 158947D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Nov 2018 11:07:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E83807D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Nov 2018 12:59:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726557AbeK3WQ0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 30 Nov 2018 17:16:26 -0500
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:53140 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726521AbeK3WQ0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Nov 2018 17:16:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2014; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Xm3GtPoyMLfyE7dcaanJdP5XZ9duT9aSerkVkuOSze0=; b=duPXXMD2w7C5f4wHR2EDHDqYF
-        7svGwFb2Qju+jY0E6YhmK0J12Zlr2gMtToJbKXjGfBrnpgh5RAg8v75ghNlHxz+bOocbS0c7t9Xdw
-        8IuaU6xLrtoHlpXhK1xcDRceWrT4XgV5AQkSDbkmFPYMxJfmsB+MhEsqRS2mU7q7xF8po=;
-Received: from n2100.armlinux.org.uk ([2001:4d48:ad52:3201:214:fdff:fe10:4f86]:41136)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1gSgdQ-0007yq-FX; Fri, 30 Nov 2018 11:07:00 +0000
-Received: from linux by n2100.armlinux.org.uk with local (Exim 4.90_1)
-        (envelope-from <linux@n2100.armlinux.org.uk>)
-        id 1gSgdM-0005Rj-7C; Fri, 30 Nov 2018 11:06:56 +0000
-Date:   Fri, 30 Nov 2018 11:06:53 +0000
-From:   Russell King - ARM Linux <linux@armlinux.org.uk>
-To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+        id S1726270AbeLAAIY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 30 Nov 2018 19:08:24 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:45395 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726127AbeLAAIY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Nov 2018 19:08:24 -0500
+Received: by mail-lf1-f66.google.com with SMTP id b20so4013126lfa.12;
+        Fri, 30 Nov 2018 04:59:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=3PBES0o25j0R3KuNWiCqbV0Pcf3QS+yZgteXEsuSXZ8=;
+        b=mpcOqmBeVdN2sQoSuf/8w69Y/WxUsj3gBa/dVdvs2cOBAzzMYd3w8vKYWZ27WnVCMp
+         +dwoy0UJvK9wTD7r+8rrTT5lRTejk5GC7vQPfIBpEfWqhqMYoG5AnIoIYL0aePN/biXY
+         pQp6FtNkeCPlcRDkFJB5+7sgWcHU96oarfJdS1D12Nxcl9fFBgwATB06RNcL/8ahC9kY
+         riLpTiINvlp5e8y0DaMsym4ODgrXifjzi0UZXYHDTI0eE5P3PbRGxDPV1mwIN0B3TERP
+         Ce/fxGkNEs77p0dXq50zFLSgSXWc3ZZFOOvGrO6qX4thq54wS/zeoX/7aGvmpoXvkiQN
+         EtRw==
+X-Gm-Message-State: AA+aEWbC96qcxigmXjp4IyKg5o+ieHqLHtJ2mWwXnmkUL/SevQahqv2k
+        MQYx/vZZplFNRdYhrBuTRSw=
+X-Google-Smtp-Source: AFSGD/XUiaAMpzZfguwDPiwPS9jtMBxEXbXIneh2pJooWUG0IcYe98IX/NgzNHlX+gA7em5dYlAcRA==
+X-Received: by 2002:a19:518d:: with SMTP id g13mr3492997lfl.143.1543582748224;
+        Fri, 30 Nov 2018 04:59:08 -0800 (PST)
+Received: from localhost.localdomain (84-253-205-125.bb.dnainternet.fi. [84.253.205.125])
+        by smtp.gmail.com with ESMTPSA id m77sm805038lfg.3.2018.11.30.04.59.06
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 30 Nov 2018 04:59:07 -0800 (PST)
+Date:   Fri, 30 Nov 2018 14:59:04 +0200
+From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+To:     Russell King - ARM Linux <linux@armlinux.org.uk>
 Cc:     Stephen Boyd <sboyd@kernel.org>, mazziesaccount@gmail.com,
         Jonathan Corbet <corbet@lwn.net>,
         Michael Turquette <mturquette@baylibre.com>,
@@ -56,47 +61,64 @@ Cc:     Stephen Boyd <sboyd@kernel.org>, mazziesaccount@gmail.com,
         linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org
 Subject: Re: [PATCH v4 1/8] clk: clkdev/of_clk - add managed lookup and
  provider registrations
-Message-ID: <20181130110653.GF30658@n2100.armlinux.org.uk>
+Message-ID: <20181130125904.GB15388@localhost.localdomain>
 References: <cover.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
  <ec0d6ee7ea79f0e05041ed3e564b0aadb297ef5f.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
  <154356805035.88331.16867826308376667832@swboyd.mtv.corp.google.com>
  <20181130105022.GA15388@localhost.localdomain>
+ <20181130110653.GF30658@n2100.armlinux.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181130105022.GA15388@localhost.localdomain>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20181130110653.GF30658@n2100.armlinux.org.uk>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 30, 2018 at 12:50:22PM +0200, Matti Vaittinen wrote:
-> Hello Stephen,
-> 
-> Thanks a bunch for taking the time and reviewing this!
-> 
-> On Fri, Nov 30, 2018 at 12:54:10AM -0800, Stephen Boyd wrote:
-> > Quoting Matti Vaittinen (2018-11-13 03:55:58)
-> > > With MFD devices the clk properties may be contained in MFD (parent) DT
-> > > node. Current devm_of_clk_add_hw_provider assumes the clk is bound to MFD
-> > > subdevice not to MFD device (parent). Add
-> > > devm_of_clk_add_hw_provider_parent to tackle this issue.
-> > > 
-> > > Also clkdev registration lacks of managed registration functions and it
-> > > seems few drivers do not drop clkdev lookups at exit. Add
-> > > devm_clk_hw_register_clkdev and devm_clk_release_clkdev to ease lookup
-> > > releasing at exit.
+On Fri, Nov 30, 2018 at 11:06:53AM +0000, Russell King - ARM Linux wrote:
+> On Fri, Nov 30, 2018 at 12:50:22PM +0200, Matti Vaittinen wrote:
+> > Hello Stephen,
 > > 
-> > Please split this into clkdev and non-clkdev devm functionality.
-> Allright. I'll split this to two patches.
+> > Thanks a bunch for taking the time and reviewing this!
+> > 
+> > On Fri, Nov 30, 2018 at 12:54:10AM -0800, Stephen Boyd wrote:
+> > > Quoting Matti Vaittinen (2018-11-13 03:55:58)
+> > > > With MFD devices the clk properties may be contained in MFD (parent) DT
+> > > > node. Current devm_of_clk_add_hw_provider assumes the clk is bound to MFD
+> > > > subdevice not to MFD device (parent). Add
+> > > > devm_of_clk_add_hw_provider_parent to tackle this issue.
+> > > > 
+> > > > Also clkdev registration lacks of managed registration functions and it
+> > > > seems few drivers do not drop clkdev lookups at exit. Add
+> > > > devm_clk_hw_register_clkdev and devm_clk_release_clkdev to ease lookup
+> > > > releasing at exit.
+> > > 
+> > > Please split this into clkdev and non-clkdev devm functionality.
+> > Allright. I'll split this to two patches.
+> 
+> Definitely, please note that clkdev is separate from the common
+> clk stuff, and is actually maintained by a different person (me)
+> although I currently defer much of the review to the common clk
+> guys.
 
-Definitely, please note that clkdev is separate from the common
-clk stuff, and is actually maintained by a different person (me)
-although I currently defer much of the review to the common clk
-guys.
+Right. This clarifies how clkdev is maintained. Thanks for letting me
+know. Is it still Ok to do these changes through linux-clk tree or is
+there some other tree where the devm portion should be submitted? If so,
+how should the dependencies be handled?
+
+Br,
+	Matti Vaittinen
+
+> 
+> -- 
+> RMK's Patch system: http://www.armlinux.org.uk/developer/patches/
+> FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
+> According to speedtest.net: 11.9Mbps down 500kbps up
 
 -- 
-RMK's Patch system: http://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-According to speedtest.net: 11.9Mbps down 500kbps up
+Matti Vaittinen
+ROHM Semiconductors
+
+~~~ "I don't think so," said Rene Descartes.  Just then, he vanished ~~~
