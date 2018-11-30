@@ -5,26 +5,26 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DD6357D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Nov 2018 22:40:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 818B67D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Nov 2018 23:28:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726564AbeLAJvK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 1 Dec 2018 04:51:10 -0500
-Received: from mga01.intel.com ([192.55.52.88]:44815 "EHLO mga01.intel.com"
+        id S1726340AbeLAKjv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 1 Dec 2018 05:39:51 -0500
+Received: from mga17.intel.com ([192.55.52.151]:34752 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726245AbeLAJvJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 1 Dec 2018 04:51:09 -0500
+        id S1725867AbeLAKjv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 1 Dec 2018 05:39:51 -0500
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Nov 2018 14:40:19 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Nov 2018 15:28:54 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.56,300,1539673200"; 
-   d="scan'208";a="255157106"
+   d="scan'208";a="255173443"
 Received: from jsakkine-mobl1.jf.intel.com (HELO localhost) ([10.241.225.27])
-  by orsmga004.jf.intel.com with ESMTP; 30 Nov 2018 14:40:19 -0800
-Date:   Fri, 30 Nov 2018 14:40:19 -0800
+  by orsmga004.jf.intel.com with ESMTP; 30 Nov 2018 15:28:54 -0800
+Date:   Fri, 30 Nov 2018 15:28:54 -0800
 From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
 To:     James Bottomley <James.Bottomley@HansenPartnership.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -64,9 +64,8 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Willem de Bruijn <willemb@google.com>,
         Yonghong Song <yhs@fb.com>, yanjun.zhu@oracle.com
 Subject: Re: [PATCH RFC 00/15] Zero ****s, hugload of hugs <3
-Message-ID: <20181130224019.GA27562@linux.intel.com>
-References: <CAGXu5j+jBNBsD3pvUSfEh6Lc5T1YMpbM0HeG1c6BHiJe+cKVOQ@mail.gmail.com>
- <20181130195652.7syqys76646kpaph@linux-r8p5>
+Message-ID: <20181130232854.GA464@linux.intel.com>
+References: <20181130195652.7syqys76646kpaph@linux-r8p5>
  <20181130205521.GA21006@linux.intel.com>
  <1543611662.3031.20.camel@HansenPartnership.com>
  <20181130214405.GG23772@linux.intel.com>
@@ -75,10 +74,11 @@ References: <CAGXu5j+jBNBsD3pvUSfEh6Lc5T1YMpbM0HeG1c6BHiJe+cKVOQ@mail.gmail.com>
  <20181130151459.3ca2f5c8@lwn.net>
  <20181130222605.GA26261@linux.intel.com>
  <1543617045.3031.41.camel@HansenPartnership.com>
+ <20181130224019.GA27562@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1543617045.3031.41.camel@HansenPartnership.com>
+In-Reply-To: <20181130224019.GA27562@linux.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
@@ -86,29 +86,13 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 30, 2018 at 02:30:45PM -0800, James Bottomley wrote:
-> On Fri, 2018-11-30 at 14:26 -0800, Jarkko Sakkinen wrote:
-> > On Fri, Nov 30, 2018 at 03:14:59PM -0700, Jonathan Corbet wrote:
-> [...]
-> > > Have you read Documentation/process/code-of-conduct-
-> > > interpretation.rst? 
-> > > As has been pointed out, it contains a clear answer to how things
-> > > should be interpreted here.
-> > 
-> > Ugh, was not aware that there two documents.
-> > 
-> > Yeah, definitely sheds light. Why the documents could not be merged
-> > to single common sense code of conduct?
-> 
-> The fact that we've arrived at essentially an original CoC
-> reinterpreted to the point where it's effectively a new CoC has been
-> the source of much debate and recrimination over the last few months
-> ... you can read it in the ksummit-discuss archives, but I really think
-> we don't want to reopen that can of worms.
+On Fri, Nov 30, 2018 at 02:40:19PM -0800, Jarkko Sakkinen wrote:
+> Got you... Well I now read the 2nd amendment now through, and yeah, kind
+> of way I work/function anyway.
 
-Got you... Well I now read the 2nd amendment now through, and yeah, kind
-of way I work/function anyway.
-
-Thank you for the patience...
+Ugh, looked up the word from dictionary for something that makes
+additions to some guidelines because did not know the english word.
+Not meant as a political reference of any kind. Just don't know
+any better English word.
 
 /Jarkko
