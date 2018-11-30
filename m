@@ -1,81 +1,236 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-7.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6CF467D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 29 Nov 2018 21:43:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 32D967D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Nov 2018 08:54:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726403AbeK3Iu2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 30 Nov 2018 03:50:28 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:40270 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726310AbeK3Iu1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Nov 2018 03:50:27 -0500
-Received: by mail-ot1-f68.google.com with SMTP id s5so3232444oth.7;
-        Thu, 29 Nov 2018 13:43:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iBbUYKlInnIiQ496CvzNakK4TWVzZ3u9XRNgWv9gGf0=;
-        b=SjFtYxmpWGB7w5D60cGSA9dOivtGIugyTHQXNdruGp79vhxt6u1k5zjKURLRO03yq+
-         EkC9Es1/56+A/n8rhwBPnRfVItmSqQVvB8NSF9zdOVdGsA9Vnxwa29nHaK8U85ySceRn
-         1rupfN/W5W2VPmss7HQJAqYZHMTWlZm1mm1iVU5cDw7RMK8ixJdvmw78YqDDHV7cG7rc
-         0O8DTmIOppJOnPKALfYidXr8J6COOz7IjFZfpkmP+ZyUR4rXEYASkr35rOSVwWgudgeM
-         a2rHyr67C/mOgEocYIxdwjgMm8ECK1c8bEHru2PCP7wcQYnvJc6b90gk4I6cQFQb0QSd
-         u6TA==
-X-Gm-Message-State: AA+aEWYt/01+gEI+3OXe9q/YVePDqkZR80ZDwz9E7HoysWGyK9eo3Pv0
-        kyjD0ntloVP1zTmhlGZu+eaY6ijUfwX7kBM8vGeKeg==
-X-Google-Smtp-Source: AFSGD/Wg3ZuvFHUP7hn/ZdZSSXPOOj8AvSSZDRU5+4PZ776RVrvkZ8LUxfloAjMeHrpOLIw2dJ4vmF+aU9N+t0EJoYw=
-X-Received: by 2002:a9d:588c:: with SMTP id x12mr2068748otg.139.1543527816623;
- Thu, 29 Nov 2018 13:43:36 -0800 (PST)
+        id S1727151AbeK3UCr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 30 Nov 2018 15:02:47 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60656 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727115AbeK3UCr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 30 Nov 2018 15:02:47 -0500
+Received: from localhost (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 024962081C;
+        Fri, 30 Nov 2018 08:54:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1543568051;
+        bh=mu+qjgNqKeZG+Iq9sFz1YwTtk5K9QeBfjySuziAggTA=;
+        h=To:From:In-Reply-To:Cc:References:Subject:Date:From;
+        b=FSbG7sI1IWhnZygpLvQouRAat7e4sUwMQ80hU1vKlEjZpZL4OC0EyEOfcJWuTB80T
+         QSw2CDekKgkreaTpr7t/pGw3NLmqFsnoYe+/qA6BKigSnI0A3HhHWFsS4FgYdDrlxy
+         FbwB+1xs9LIf8OwBWbuGznw/GMdmFLbHRNy3aG7A=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <2021920.OpoCz8F1eI@aspire.rjw.lan> <20181129144022.0908ddb2@lwn.net>
-In-Reply-To: <20181129144022.0908ddb2@lwn.net>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 29 Nov 2018 22:43:24 +0100
-Message-ID: <CAJZ5v0j4ANP30U8Vzt857aeFatJ0i453oRc2RL2mYatP4+TY6g@mail.gmail.com>
-Subject: Re: [PATCH v3] Documentation: admin-guide: PM: Add cpuidle document
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Len Brown <len.brown@intel.com>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Sudeep Holla <sudeep.holla@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        mazziesaccount@gmail.com
+From:   Stephen Boyd <sboyd@kernel.org>
+In-Reply-To: <ec0d6ee7ea79f0e05041ed3e564b0aadb297ef5f.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andy Gross <andy.gross@linaro.org>,
+        David Brown <david.brown@linaro.org>,
+        Andrey Smirnov <andrew.smirnov@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Huang Shijie <sjhuang@iluvatar.ai>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Daniel Kurtz <djkurtz@chromium.org>,
+        Akshu Agrawal <akshu.agrawal@amd.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org
+References: <cover.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
+ <ec0d6ee7ea79f0e05041ed3e564b0aadb297ef5f.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
+Message-ID: <154356805035.88331.16867826308376667832@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.7
+Subject: Re: [PATCH v4 1/8] clk: clkdev/of_clk - add managed lookup and provider
+ registrations
+Date:   Fri, 30 Nov 2018 00:54:10 -0800
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 29, 2018 at 10:40 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> On Thu, 29 Nov 2018 22:22:04 +0100
-> "Rafael J. Wysocki" <rjw@rjwysocki.net> wrote:
->
-> > Important information is missing from user/admin cpuidle documentation
-> > available today, so add a new user/admin document for cpuidle containing
-> > current and comprehensive information to admin-guide and drop the old
-> > .txt documents it is replacing.
->
-> I've not had a chance to read through it in depth, but a first scan looks
-> good.
+Quoting Matti Vaittinen (2018-11-13 03:55:58)
+> With MFD devices the clk properties may be contained in MFD (parent) DT
+> node. Current devm_of_clk_add_hw_provider assumes the clk is bound to MFD
+> subdevice not to MFD device (parent). Add
+> devm_of_clk_add_hw_provider_parent to tackle this issue.
+> =
 
-Thanks!
+> Also clkdev registration lacks of managed registration functions and it
+> seems few drivers do not drop clkdev lookups at exit. Add
+> devm_clk_hw_register_clkdev and devm_clk_release_clkdev to ease lookup
+> releasing at exit.
 
->  I assume this is going up via your tree?
+Please split this into clkdev and non-clkdev devm functionality.
 
-Yes, I would like to take it as there may be new patches on top of it.
+> =
 
-Cheers,
-Rafael
+> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> ---
+>  Documentation/driver-model/devres.txt |   3 +
+>  drivers/clk/clk.c                     |  28 ++++++--
+>  drivers/clk/clkdev.c                  | 122 ++++++++++++++++++++++++++--=
+------
+>  include/linux/clk-provider.h          |  11 +++
+>  include/linux/clkdev.h                |   4 ++
+>  5 files changed, 136 insertions(+), 32 deletions(-)
+> =
+
+> diff --git a/Documentation/driver-model/devres.txt b/Documentation/driver=
+-model/devres.txt
+> index 43681ca0837f..fac63760b01c 100644
+> --- a/Documentation/driver-model/devres.txt
+> +++ b/Documentation/driver-model/devres.txt
+> @@ -238,6 +238,9 @@ CLOCK
+>    devm_clk_put()
+>    devm_clk_hw_register()
+>    devm_of_clk_add_hw_provider()
+> +  devm_of_clk_add_parent_hw_provider()
+> +  devm_clk_hw_register_clkdev()
+> +  devm_clk_release_clkdev()
+
+The 'release' or non-common functions shouldn't be documented here.
+
+>  =
+
+>  DMA
+>    dmaenginem_async_device_register()
+> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> index af011974d4ec..9bb921eb90f6 100644
+> --- a/drivers/clk/clk.c
+> +++ b/drivers/clk/clk.c
+> @@ -3893,12 +3893,12 @@ static void devm_of_clk_release_provider(struct d=
+evice *dev, void *res)
+>         of_clk_del_provider(*(struct device_node **)res);
+>  }
+>  =
+
+> -int devm_of_clk_add_hw_provider(struct device *dev,
+> +static int __devm_of_clk_add_hw_provider(struct device *dev,
+>                         struct clk_hw *(*get)(struct of_phandle_args *clk=
+spec,
+>                                               void *data),
+> -                       void *data)
+> +                       struct device_node *of_node, void *data)
+>  {
+> -       struct device_node **ptr, *np;
+> +       struct device_node **ptr;
+>         int ret;
+>  =
+
+>         ptr =3D devres_alloc(devm_of_clk_release_provider, sizeof(*ptr),
+> @@ -3906,10 +3906,9 @@ int devm_of_clk_add_hw_provider(struct device *dev,
+>         if (!ptr)
+>                 return -ENOMEM;
+>  =
+
+> -       np =3D dev->of_node;
+> -       ret =3D of_clk_add_hw_provider(np, get, data);
+> +       *ptr =3D of_node;
+> +       ret =3D of_clk_add_hw_provider(of_node, get, data);
+>         if (!ret) {
+> -               *ptr =3D np;
+
+Why is this moved outside of the if condition? In fact, why isn't just
+the first line in this hunk deleted and passed to this function as
+struct device_node *np?
+
+>                 devres_add(dev, ptr);
+>         } else {
+>                 devres_free(ptr);
+> @@ -3917,8 +3916,25 @@ int devm_of_clk_add_hw_provider(struct device *dev,
+>  =
+
+>         return ret;
+>  }
+
+Nitpick: Add a newline here.
+
+> +int devm_of_clk_add_hw_provider(struct device *dev,
+> +                       struct clk_hw *(*get)(struct of_phandle_args *clk=
+spec,
+> +                                             void *data),
+> +                       void *data)
+> +{
+> +       return __devm_of_clk_add_hw_provider(dev, get, dev->of_node, data=
+);
+> +}
+>  EXPORT_SYMBOL_GPL(devm_of_clk_add_hw_provider);
+>  =
+
+> +int devm_of_clk_add_parent_hw_provider(struct device *dev,
+> +                       struct clk_hw *(*get)(struct of_phandle_args *clk=
+spec,
+> +                                             void *data),
+> +                       void *data)
+> +{
+> +       return __devm_of_clk_add_hw_provider(dev, get, dev->parent->of_no=
+de,
+
+I'm wondering if we can somehow auto-detect this in
+devm_of_clk_add_hw_provider() by looking for #clock-cells in the node.
+If it isn't there, then we go to the parent node and look for a
+#clock-cells property there in the DT node for that device. Does that
+make sense? Then there isn't any new API and we can attach the lifetime
+of the devm registration to the presence of the property indicating this
+is a clk controller or not.
+
+> +                                            data);
+> +}
+> +EXPORT_SYMBOL_GPL(devm_of_clk_add_parent_hw_provider);
+
+Can we get some kernel doc on these functions?
+
+> +
+>  /**
+>   * of_clk_del_provider() - Remove a previously registered clock provider
+>   * @np: Device node pointer associated with clock provider
+> diff --git a/drivers/clk/clkdev.c b/drivers/clk/clkdev.c
+> index 9ab3db8b3988..f6100b6e06fd 100644
+> --- a/drivers/clk/clkdev.c
+> +++ b/drivers/clk/clkdev.c
+[...]
+> +
+> +/**
+> + * devm_clk_release_clkdev - Resource managed clkdev lookup release
+> + * @dev: device this lookup is bound
+> + * @con_id: connection ID string on device
+> + * @dev_id: format string describing device name
+> + *
+> + * Drop the clkdev lookup created with devm_clk_hw_register_clkdev.
+> + * Normally this function will not need to be called and the resource
+> + * management code will ensure that the resource is freed.
+> + */
+> +void devm_clk_release_clkdev(struct device *dev, const char *con_id,
+> +                            const char *dev_id)
+> +{
+> +       struct clk_lookup *cl;
+> +       int rval;
+> +
+> +       cl =3D clk_find(dev_id, con_id);
+> +       WARN_ON(!cl);
+> +       rval =3D devres_release(dev, devm_clkdev_release,
+> +                             &devm_clk_match_clkdev, cl);
+
+Nitpick: Drop & on functions taken as pointers.
+
+> +       WARN_ON(rval);
+> +}
+> +EXPORT_SYMBOL(devm_clk_release_clkdev);
