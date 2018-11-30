@@ -1,98 +1,126 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 818B67D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Nov 2018 23:28:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B47F77D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 30 Nov 2018 23:48:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726340AbeLAKjv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 1 Dec 2018 05:39:51 -0500
-Received: from mga17.intel.com ([192.55.52.151]:34752 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725867AbeLAKjv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 1 Dec 2018 05:39:51 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Nov 2018 15:28:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,300,1539673200"; 
-   d="scan'208";a="255173443"
-Received: from jsakkine-mobl1.jf.intel.com (HELO localhost) ([10.241.225.27])
-  by orsmga004.jf.intel.com with ESMTP; 30 Nov 2018 15:28:54 -0800
-Date:   Fri, 30 Nov 2018 15:28:54 -0800
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     James Bottomley <James.Bottomley@HansenPartnership.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Kees Cook <keescook@chromium.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Axtens <dja@axtens.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        Eric Dumazet <edumazet@google.com>, federico.vaga@vaga.pv.it,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Helge Deller <deller@gmx.de>, Joshua Kinard <kumba@gentoo.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        linux-ide@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux MIPS Mailing List <linux-mips@linux-mips.org>,
-        Linux mtd <linux-mtd@lists.infradead.org>,
-        linux-parisc <linux-parisc@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        linux-scsi@vger.kernel.org, matthias.bgg@gmail.com,
-        Network Development <netdev@vger.kernel.org>,
-        nouveau <nouveau@lists.freedesktop.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Paul Burton <paul.burton@mips.com>,
-        Petr Mladek <pmladek@suse.com>, Rob Herring <robh@kernel.org>,
-        sean.wang@mediatek.com,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        shannon.nelson@oracle.com, Stefano Brivio <sbrivio@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        "Tobin C. Harding" <me@tobin.cc>, makita.toshiaki@lab.ntt.co.jp,
-        Willem de Bruijn <willemb@google.com>,
-        Yonghong Song <yhs@fb.com>, yanjun.zhu@oracle.com
-Subject: Re: [PATCH RFC 00/15] Zero ****s, hugload of hugs <3
-Message-ID: <20181130232854.GA464@linux.intel.com>
-References: <20181130195652.7syqys76646kpaph@linux-r8p5>
- <20181130205521.GA21006@linux.intel.com>
- <1543611662.3031.20.camel@HansenPartnership.com>
- <20181130214405.GG23772@linux.intel.com>
- <1543615069.3031.27.camel@HansenPartnership.com>
- <20181130221219.GA25537@linux.intel.com>
- <20181130151459.3ca2f5c8@lwn.net>
- <20181130222605.GA26261@linux.intel.com>
- <1543617045.3031.41.camel@HansenPartnership.com>
- <20181130224019.GA27562@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181130224019.GA27562@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726956AbeLAK7D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 1 Dec 2018 05:59:03 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:35378 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726891AbeLAK7C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Dec 2018 05:59:02 -0500
+Received: by mail-pf1-f196.google.com with SMTP id z9so3551952pfi.2;
+        Fri, 30 Nov 2018 15:48:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=DNiXMipqkuH/anRcfopn8XxqISAUbvZjEb9Ku6rCx0A=;
+        b=ZeLS648n7PDoTv4CN/31oK5h1LPX+aZPSGwD9mC96VTyLO2yq9pyNveFAVz14beil1
+         fueDRtMVCVuoSImhu35O/Muj29FSM4uHGe6ByeUwTadsPjG+xUpcc9k+iBwOwrYc0LIB
+         Ra0Z7SfUi34PS5Wqjnm7euwgQUmKefATVZ4IFg1W7Tj9GNasW6bPxue/9HhHqanhyayG
+         1j7fu5ew3wBQqJR3S/rhhYGe3kV96H1FbsjZfslZJlnyHJxgcZPVifqdED3ipFAAotEC
+         l3DD+7W/Nds21wS409N02ShTyTXDE7OZQl3LHefE6gwFF3buYc3tDRY30bQYqkDSNfDu
+         mL2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=DNiXMipqkuH/anRcfopn8XxqISAUbvZjEb9Ku6rCx0A=;
+        b=SNUbjOKygs9CBEncHaZ2x6oaB0J/SKJRjEZGhoehGOlqFntuo5B7AmmtchGnk+Lsrc
+         5BRiYoEKZgV175fsxx8U9dtYSbiWzy22adS52Ocj9mAqKKNAKzi8iXAZOBX4EPqI/WM+
+         3AsKq3j1sdeR02H1Vx8RviP9pVpqV4XBpw23I+1dxGIXaZG//EIjU2ErfRLzACQFu+bZ
+         SGvgrgwuvCFVnLWI73uXFLuYXXA7MiWNVzy0oFlZjAhRRvzYOzJTn6ar62fB6sXnjiv0
+         5IxnT6OsBo2MQ37YUF+lduDOAe7glQa6vtaJs6G4/qvp6dBhFKFlVDl0hBc6WzI6/lhG
+         iQrw==
+X-Gm-Message-State: AA+aEWa83vkfdmja4MicO1QB38wzgTvS6wWuX47Rom/qzYFttfmYdgCV
+        qqJkLE3w3d98Tq8qr69/NjQ=
+X-Google-Smtp-Source: AFSGD/Uao93VpeU2UC6j7McPDUL7Q+wgyWxSM6km6K05n04Avr47CtTur5Jwvev6ykuon13HO992cg==
+X-Received: by 2002:a63:fd0a:: with SMTP id d10mr6523559pgh.164.1543621682181;
+        Fri, 30 Nov 2018 15:48:02 -0800 (PST)
+Received: from castle.tfbnw.net ([2620:10d:c090:180::1:2b61])
+        by smtp.gmail.com with ESMTPSA id e188sm9556742pfg.130.2018.11.30.15.48.01
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 30 Nov 2018 15:48:01 -0800 (PST)
+From:   Roman Gushchin <guroan@gmail.com>
+X-Google-Original-From: Roman Gushchin <guro@fb.com>
+To:     Tejun Heo <tj@kernel.org>, Oleg Nesterov <oleg@redhat.com>
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-team@fb.com,
+        Roman Gushchin <guro@fb.com>
+Subject: [PATCH v4 7/7] cgroup: document cgroup v2 freezer interface
+Date:   Fri, 30 Nov 2018 15:47:45 -0800
+Message-Id: <20181130234745.6756-8-guro@fb.com>
+X-Mailer: git-send-email 2.17.2
+In-Reply-To: <20181130234745.6756-1-guro@fb.com>
+References: <20181130234745.6756-1-guro@fb.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 30, 2018 at 02:40:19PM -0800, Jarkko Sakkinen wrote:
-> Got you... Well I now read the 2nd amendment now through, and yeah, kind
-> of way I work/function anyway.
+Describe cgroup v2 freezer interface in the cgroup v2 admin guide.
 
-Ugh, looked up the word from dictionary for something that makes
-additions to some guidelines because did not know the english word.
-Not meant as a political reference of any kind. Just don't know
-any better English word.
+Signed-off-by: Roman Gushchin <guro@fb.com>
+Cc: Tejun Heo <tj@kernel.org>
+Cc: linux-doc@vger.kernel.org
+Cc: kernel-team@fb.com
+---
+ Documentation/admin-guide/cgroup-v2.rst | 27 +++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-/Jarkko
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 07e06136a550..f8335e26b362 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -864,6 +864,8 @@ All cgroup core files are prefixed with "cgroup."
+ 	  populated
+ 		1 if the cgroup or its descendants contains any live
+ 		processes; otherwise, 0.
++	  frozen
++		1 if the cgroup is frozen; otherwise, 0.
+ 
+   cgroup.max.descendants
+ 	A read-write single value files.  The default is "max".
+@@ -897,6 +899,31 @@ All cgroup core files are prefixed with "cgroup."
+ 		A dying cgroup can consume system resources not exceeding
+ 		limits, which were active at the moment of cgroup deletion.
+ 
++  cgroup.freeze
++	A read-write single value file which exists on non-root cgroups.
++	Allowed values are "0" and "1". The default is "0".
++
++	Writing "1" to the file causes freezing of the cgroup and all
++	descendant cgroups. This means that all belonging processes will
++	be stopped and will not run until the cgroup will be explicitly
++	unfrozen. Freezing of the cgroup may take some time; when this action
++	is completed, the "frozen" value in the cgroup.events control file
++	will be updated to "1" and the corresponding notification will be
++	issued.
++
++	A cgroup can be frozen either by its own settings, or by settings
++	of any ancestor cgroups. If any of ancestor cgroups is frozen, the
++	cgroup will remain frozen.
++
++	Processes in the frozen cgroup can be killed by a fatal signal.
++	They also can enter and leave a frozen cgroup: either by an explicit
++	move by a user, or if freezing of the cgroup races with fork().
++	If a process is moved to a frozen cgroup, it stops. If a process is
++	moved out of a frozen cgroup, it becomes running.
++
++	Frozen status of a cgroup doesn't affect any cgroup tree operations:
++	it's possible to delete a frozen (and empty) cgroup, as well as
++	create new sub-cgroups.
+ 
+ Controllers
+ ===========
+-- 
+2.17.2
+
