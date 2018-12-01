@@ -1,84 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E39457D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  1 Dec 2018 12:51:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 951157D089
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  1 Dec 2018 21:03:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726577AbeLBAEX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 1 Dec 2018 19:04:23 -0500
-Received: from www.osadl.org ([62.245.132.105]:39692 "EHLO www.osadl.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726570AbeLBAEX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 1 Dec 2018 19:04:23 -0500
-Received: from debian01.hofrr.at (178.115.242.59.static.drei.at [178.115.242.59])
-        by www.osadl.org (8.13.8/8.13.8/OSADL-2007092901) with ESMTP id wB1ClZS2008991;
-        Sat, 1 Dec 2018 13:47:35 +0100
-From:   Nicholas Mc Guire <hofrat@osadl.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Philippe Ombredanne <pombredanne@nexb.com>,
-        Andrey Smirnov <andrew.smirnov@gmail.com>,
-        Uwe Kleine-Knig <u.kleine-koenig@pengutronix.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Huang Shijie <sjhuang@iluvatar.ai>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Nicholas Mc Guire <hofrat@osadl.org>
-Subject: [PATCH] Documentation: devres: note checking needs when converting
-Date:   Sat,  1 Dec 2018 13:44:29 +0100
-Message-Id: <1543668269-27207-1-git-send-email-hofrat@osadl.org>
-X-Mailer: git-send-email 2.1.4
+        id S1725753AbeLBIRN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 2 Dec 2018 03:17:13 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:49868 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725751AbeLBIRN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Dec 2018 03:17:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=gmEKfCMY3wMeJuXACp5/uT8XvMmNlcWaDS2ny5BZemA=; b=P7PQKMbC3TL8geXE0LcByxCzMV
+        z2YaLBlRnXUXoz2luVkPpwuc7dd7cnTMOT5wDCqiodNHUWjgnYU8yDDxILVp7uZm35AaXWWBcKLyX
+        tuX8sHbf0eqHKMwcy6qIb+/9oMukSZecRlOX34/1Q+BtjP+MFwkJcf85HrVOftaWSVgl2ALKItWMR
+        RpBy0Luouy1xuOlkZB12bZlrt5YpkWJ8/zMoLqlUPg2/3wqfnnLykR57kM2HbzJmqdRTew76WEk6y
+        HRu4w6jk1HPKcTIrYUH3lTbOt8awLoPhaFPEGo6lHUNmciZ9imZozGWm1bvgrRjRTufz3zFA7Hk+8
+        bJ6mWBBg==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gTCQV-0005EQ-BT; Sat, 01 Dec 2018 21:03:47 +0000
+To:     Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Cc:     David Howells <dhowells@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH -next] vfs: fix typos etc. in
+ Documentation/filesystems/mount_api.txt
+Message-ID: <8a522bc9-5964-7fd7-9920-32920185ffd7@infradead.org>
+Date:   Sat, 1 Dec 2018 13:03:45 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are a number of cases where conversions to devm_* API have been
-done but developers forgot that this conversion may imply that return
-values need to be checked for failure of internal resource handling
-like allocation. While this should be clear, it does seem to be a
-relatively common issue with API conversions or maybe "managed" is
-being misunderstood ? So add a note to make the scope of "managed" clear.
+From: Randy Dunlap <rdunlap@infradead.org>
 
-Signed-off-by: Nicholas Mc Guire <hofrat@osadl.org>
+Fix typos, grammar, missing '_'s in mount_api.txt.
+
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: David Howells <dhowells@redhat.com>
+Cc: Al Viro <viro@zeniv.linux.org.uk>
 ---
+Also, is this meant to be "baz" or "bar"?
 
-This popped up due to some API checking coccinelle scripts for devm_* that are
-under development are triggering far to often - checking devm_kasprintf flagged
-16 of the 132, 14 of which are true-positives (11%) and for the 33 devm_kstrdup  
-cases 8 look buggy (missing check for return NULL) thats 24%. Others seem to be
-related to simple replacement of previous assignments to devm_* calls - so 
-given this high number of incorrect use the root-cause may be a misunderstanding
-of "managed", which it seems was not being clearly understood as only addressing
-freeing.
+	static const struct constant_table afs_param_keys[] = {
+		{ "baz",	Opt_bar },
+		{ "dynamic",	Opt_dyn },
+	};
 
-Not sure if the wording here is clear enough - but some clarification to this
-ends seems needed.
+ Documentation/filesystems/mount_api.txt |   12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Patch is against 4.20-rc4 (localversion-next is next-20181130)
-
- Documentation/driver-model/devres.txt | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/Documentation/driver-model/devres.txt b/Documentation/driver-model/devres.txt
-index 48aa1ef..ea2532b 100644
---- a/Documentation/driver-model/devres.txt
-+++ b/Documentation/driver-model/devres.txt
-@@ -132,6 +132,13 @@ devres.  Complexity is shifted from less maintained low level drivers
- to better maintained higher layer.  Also, as init failure path is
- shared with exit path, both can get more testing.
+--- linux-next-20181130.orig/Documentation/filesystems/mount_api.txt
++++ linux-next-20181130/Documentation/filesystems/mount_api.txt
+@@ -258,7 +258,7 @@ manage the filesystem context.  They are
+  (*) int (*validate)(struct fs_context *fc);
  
-+Note though that when converting current calls or assignments to
-+managed devm_* versions it is up to you to check if internal operations
-+like allocating memory, have failed. Managed resources pertains to the
-+freeing of these resources *only* - all other checks needed are still
-+on you. In some cases this may mean introducing checks that were not
-+necessary before moving to the managed devm_* calls.
-+
+      Called when all the options have been applied and the mount is about to
+-     take place.  It is should check for inconsistencies from mount options and
++     take place.  It should check for inconsistencies from mount options and
+      it is also allowed to do preliminary resource acquisition.  For instance,
+      the core NFS module could load the NFS protocol module here.
  
-   3. Devres group
-   ---------------
--- 
-2.1.4
+@@ -438,7 +438,7 @@ returned.
+  (*) int vfs_parse_fs_param(struct fs_context *fc,
+ 			    struct fs_parameter *param);
+ 
+-     Supply a single mount parameter to the filesystem context.  This include
++     Supply a single mount parameter to the filesystem context.  This includes
+      the specification of the source/device which is specified as the "source"
+      parameter (which may be specified multiple times if the filesystem
+      supports that).
+@@ -533,7 +533,7 @@ The members are as follows:
+      used in the values that the ->keys[] array maps to.
+ 
+      It is expected that, for example, two parameters that are related, say
+-     "acl" and "noacl" with have the same ID, but will be flagged to indicate
++     "acl" and "noacl" will have the same ID, but will be flagged to indicate
+      that one is the inverse of the other.  The value can then be picked out
+      from the parse result.
+ 
+@@ -574,9 +574,9 @@ The members are as follows:
+      For example:
+ 
+ 	static const struct fs_parameter_spec afs_param_specs[nr__afs_params] = {
+-		[Opt_autocell]	= { fs_param_is flag },
++		[Opt_autocell]	= { fs_param_is_flag },
+ 		[Opt_bar]	= { fs_param_is_enum },
+-		[Opt_dyn]	= { fs_param_is flag },
++		[Opt_dyn]	= { fs_param_is_flag },
+ 		[Opt_foo]	= { fs_param_is_bool, fs_param_neg_with_no },
+ 		[Opt_source]	= { fs_param_is_string },
+ 	};
+@@ -725,7 +725,7 @@ process the parameters it is given.
+ 
+  (*) bool fs_validate_description(const struct fs_parameter_description *desc);
+ 
+-     This is validates the parameter description.  It returns true if the
++     This validates the parameter description.  It returns true if the
+      description is good and false if it is not.
+ 
+  (*) int fs_lookup_param(struct fs_context *fc,
+
 
