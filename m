@@ -1,176 +1,144 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 821A57D089
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  2 Dec 2018 09:55:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 070117D089
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  2 Dec 2018 10:07:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725791AbeLBJzi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 2 Dec 2018 04:55:38 -0500
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:35989 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725781AbeLBJzi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Dec 2018 04:55:38 -0500
-Received: by mail-pl1-f195.google.com with SMTP id g9so4965438plo.3;
-        Sun, 02 Dec 2018 01:55:34 -0800 (PST)
+        id S1725799AbeLBKHe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 2 Dec 2018 05:07:34 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:42983 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725798AbeLBKHe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Dec 2018 05:07:34 -0500
+Received: by mail-pl1-f196.google.com with SMTP id y1so148773plp.9
+        for <linux-doc@vger.kernel.org>; Sun, 02 Dec 2018 02:07:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=sc6sz4GEUOpH6BKH0xK2Sdce9nuDLNWLjIGlw1NCtb8=;
-        b=Dnmr3HAeDPrNt+oRQxx/XtEOGR4KijFJSvgIjai49jKq7zNuO19JC2HG9CVgG/EfbZ
-         HaUjnH5pPnseVyoqry6sVosPCZfa7D/MoLliKJ/FWNSoAb0ojwNbcfKfGDwjgvvE4IM3
-         Bdv4QDnf6lnk4eYIm9qMNS0wtAa95V4hviEq3thdiLJ/T959TSqSieZokdtpBw0esXN4
-         aCRRyf9vq8G91Kw0lNaucxQLro6MScWmaMvFcn5FzLsgglW7xGXzNpTUOuZaXGTWG1qz
-         U6J/6JdRwJRPWu8+0PFVAzl40UdiH/NiSUuqNoFFfGG1GitTzUxseWLfrNAaabwFgWOh
-         Wbug==
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=q1T/bK/E+LATm54MQ4sbPWt8svmG8fqGcobSpZxNTso=;
+        b=kHLcEFH1bKAkhggwdDW593qEjJqpftOEbtEtiG5RHVemPNLOHqVGyZb2USR6peEtQT
+         xNO37Etjw3LUpr0IwfMfyEZE4gNcCclwjePKb9YUNkelWI0EgzTBTCaCVc/REltIbcxq
+         RCtwSXlBBOaQDMMhKBPmQ1St+YST26hcK2EBCmHlwf2PVJDba9ZivXLUuCTLQOYfcbuf
+         FHtBUkaX1KfiX0p3UwSqq8SBhyf2Rn6qtw2s1fLWOpR6ExgKuTaB0oS/0nzeGbNI1qY7
+         OBGV2K9ru1ckz32l4KUWZIFAljWbO7cQSnc13sBn1O+zPnJHtrxzW/nxfC3+7bn+mpcA
+         HVYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=sc6sz4GEUOpH6BKH0xK2Sdce9nuDLNWLjIGlw1NCtb8=;
-        b=E0qWqx2s9E6pDc3YQcopHO5EbnXKcXn9dYMlSDxPTuzEnTwRGVRlTZZb6AtNKfWrcm
-         3xqNj4wU5SZXFKzl+n8wVhGFPJum2AAp8icXx+PcquUXpBGDAjGTk7G07OKaMUBWGOL0
-         j2sihrt0uBpxXJq5hba84GokMN0xzLZgTbeDk06JYb1kToupcQ31cZb8OOwzo24MdTNM
-         /o5UWneXHY6crg2RJ09+Iw4RV5gtu57M4KSj2AkMsnY5G+iPFG9FFyaZlRmQqtHIkYED
-         HOBg/uQr1Vp2EthI0uLFDr2n7JqjjQOiq7aEkqqo9eQM4WWglQ3hXyjOjE1RYXmgT5Vs
-         9rTg==
-X-Gm-Message-State: AA+aEWZrc5nc7UwOuEvCyLxnPl2tJHXSaZmWqXXY8bjbDumT2ks4B5WN
-        lvbR29NxIxyzWHU/CAU3+As=
-X-Google-Smtp-Source: AFSGD/VfNqE/bFMa1xCvZ6cl3obRrp0meqL7YabBKtOIPpomWVExd+T8VSmzWChUJ3R4tTD4bFSuEw==
-X-Received: by 2002:a17:902:b903:: with SMTP id bf3mr11624240plb.289.1543744533773;
-        Sun, 02 Dec 2018 01:55:33 -0800 (PST)
-Received: from gmail.com (cpe-98-150-136-16.hawaii.res.rr.com. [98.150.136.16])
-        by smtp.gmail.com with ESMTPSA id t12sm14821961pfi.45.2018.12.02.01.55.31
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=q1T/bK/E+LATm54MQ4sbPWt8svmG8fqGcobSpZxNTso=;
+        b=fIQt8hkbk1TvjkaF5wWzSwtQZkL4rzQWdhj0cZE6WusdOkXVemHCZy5vqqipmjSuYQ
+         Ewu10IkrumF3gVuTd3xcWZX6I+r9gqlOJrdCD2nOW0INQP/BgNeBw/SgQyruwJrui35j
+         TD6MUuGSj2Rfrx2AEVp5Kbb0CQudb8I1pO3bxnxACI4Rta51Jo45fNwq5n8cINyJAwL8
+         NLain5MiPoB/XGFBahusy8Do9NsaBdgJSiVn2Ab8TsbBL8sMQwsJsFqwDPWVSBFqI+jA
+         G0nbtdCt/3Q1CZGcimpRwMJtZcXVB1L1KFsiHXMUx5YU50ltOiXKUcVSmefqVcW0G2RE
+         HF8Q==
+X-Gm-Message-State: AA+aEWYoWJcyImiqhasoP1DG7FSOCqZX+uWrWGEJrtr6gFwEfHk3kBYA
+        QVI6gDhK58Lb36KomTNaD/u92+PfCCA=
+X-Google-Smtp-Source: AFSGD/XswavVGCwxqBXW9IqFcYWcryVE7aywfCvvlVuMFde4LOws9+ui+ZfbMMQmz1y5Mn7vPGuSyA==
+X-Received: by 2002:a17:902:930b:: with SMTP id bc11mr12206688plb.17.1543745251146;
+        Sun, 02 Dec 2018 02:07:31 -0800 (PST)
+Received: from localhost (c-73-170-36-70.hsd1.ca.comcast.net. [73.170.36.70])
+        by smtp.gmail.com with ESMTPSA id b10sm19705642pfj.183.2018.12.02.02.07.29
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 02 Dec 2018 01:55:33 -0800 (PST)
-Date:   Sat, 1 Dec 2018 23:55:30 -1000
-From:   Joey Pabalinas <joeypabalinas@gmail.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Tomi Valkeinen <tomi.valkeinen@iki.fi>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Pavel Machek <pavel@ucw.cz>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Joey Pabalinas <joeypabalinas@gmail.com>
-Subject: Re: [PATCH v3] code-of-conduct: Remove explicit list of
- discrimination factors
-Message-ID: <20181202095530.562gfuawbuc4jxyn@gmail.com>
-Mail-Followup-To: Joey Pabalinas <joeypabalinas@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Tomi Valkeinen <tomi.valkeinen@iki.fi>,
-        Bart Van Assche <bvanassche@acm.org>, Pavel Machek <pavel@ucw.cz>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20181202093257.3918-1-geert@linux-m68k.org>
+        Sun, 02 Dec 2018 02:07:30 -0800 (PST)
+Date:   Sun, 2 Dec 2018 02:07:29 -0800
+From:   Sandeep Patil <sspatil@google.com>
+To:     Mikulas Patocka <mpatocka@redhat.com>
+Cc:     Paul Lawrence <paullawrence@google.com>,
+        Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@redhat.com>, linux-doc@vger.kernel.org,
+        kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org, dm-devel@redhat.com,
+        Shaohua Li <shli@kernel.org>
+Subject: Re: [dm-devel] [RFC] dm-bow working prototype
+Message-ID: <20181202100729.GT239052@google.com>
+References: <20181023212358.60292-1-paullawrence@google.com>
+ <20181023221819.GB17552@agk-dp.fab.redhat.com>
+ <296148c2-f2d9-5818-ea76-d71a0d6f5cd4@google.com>
+ <alpine.LRH.2.02.1810241514310.4080@file01.intranet.prod.int.rdu2.redhat.com>
+ <4a934593-1bd1-be5f-35c0-945c42762627@google.com>
+ <alpine.LRH.2.02.1810261558460.28906@file01.intranet.prod.int.rdu2.redhat.com>
+ <fba91b2e-4b2e-8daf-ff64-a12c9139cada@google.com>
+ <alpine.LRH.2.02.1811151809380.25860@file01.intranet.prod.int.rdu2.redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="aqoj4rchc2qbcndk"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181202093257.3918-1-geert@linux-m68k.org>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <alpine.LRH.2.02.1811151809380.25860@file01.intranet.prod.int.rdu2.redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Mikulas,
 
---aqoj4rchc2qbcndk
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Nov 15, 2018 at 06:15:34PM -0500, Mikulas Patocka wrote:
+> 
+> 
+> On Mon, 29 Oct 2018, Paul Lawrence wrote:
+> 
+> > 
+> > > The snapshot target could be hacked so that it remembers space trimmed
+> > > with REQ_OP_DISCARD and won't reallocate these blocks.
+> > > 
+> > > But I suspect that running discard over the whole device would degrade
+> > > performance more than copying some unneeded data.
+> > > 
+> > > How much data do you intend to backup with this solution?
+> > > 
+> > > 
+> > We are space-constrained - we will have to free up space for the backup before
+> > we apply the update, so we have to predict the size and keeping usage as low
+> > as possible is thus very important.
+> > 
+> > Also, we've discussed the resizing requirement of the dm-snap solution and
+> > that part is not attractive at all - it seems it would be impossible to
+> > guarantee that the resizing happens in a timely fashion during the (very busy)
+> > update cycle.
+> > 
+> > Thanks everyone for the insights, especially into how dm-snap works, which I
+> > hadn't fully appreciated. At the moment, and for the above reasons, we intend
+> > to continue with the dm-bow solution, but do want to keep this discussion
+> > open. If anyone is going to be at Linux Plumbers, I'll be presenting this work
+> > and would love to chat about it more.
+> 
+> dm-snapshot took 9 years to fix the last data corruption bug (2004-2013 - 
+> the commit e9c6a182649f4259db704ae15a91ac820e63b0ca).
+> 
+> And with the new target duplicating the snapshot functionality, it may be 
+> the same.
+> 
 
-On Sun, Dec 02, 2018 at 10:32:57AM +0100, Geert Uytterhoeven wrote:
-> Providing an explicit list of discrimination factors may give the false
-> impression that discrimination based on other unlisted factors would be
-> allowed.
->=20
-> Furthermore, this list is already overly long, polarizing,
-> politically-laden, and reinstating the concept of human races.
-> None of these is related to the goals of the Linux kernel project.
->=20
-> Avoid any ambiguity or political undertone by removing the list, to
-> ensure "a harassment-free experience for everyone", period.
+Thanks for that. We are as much sensitive to not duplicating functionality
+and of course reliability of the implementation.
 
-I think this is a very important change as well.
+So we did spend considerable amount of time trying to make dm-snapshot work
+for us (including the approach suggested here now). However, the additional
+space needed to make dm-snapshot work in this situation is unfortunate and
+won't work for Android. Especially given that we will be taking that space
+away from the user all in one go too.
 
-Acked-by: Joey Pabalinas <joeypabalinas@gmail.com>
+Anyway, I wanted to ask if there is any way we can make dm-snapshot work the
+way dm-bow does? With patches is fine, we can work on that :).
 
-> Fixes: 8a104f8b5867c682 ("Code of Conduct: Let's revamp it.")
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Acked-by: Frank Rowand <frowand.list@gmail.com>
-> Acked-by: Arnaldo Carvalho de Melo <acme@kernel.org>
-> Acked-by: Tomi Valkeinen <tomi.valkeinen@iki.fi>
-> Acked-by: Bart Van Assche <bvanassche@acm.org>
-> Acked-by: Pavel Machek <pavel@ucw.cz>
-> ---
-> v3:
->   - Add 2 Acked-bys,
->   - Add more rationale to the patch description.
->=20
-> v2:
->   - Add 3 Acked-bys.
-> ---
->  Documentation/process/code-of-conduct.rst | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->=20
-> diff --git a/Documentation/process/code-of-conduct.rst b/Documentation/pr=
-ocess/code-of-conduct.rst
-> index be50294aebd5db37..4379cce85faa804d 100644
-> --- a/Documentation/process/code-of-conduct.rst
-> +++ b/Documentation/process/code-of-conduct.rst
-> @@ -8,10 +8,7 @@ Our Pledge
-> =20
->  In the interest of fostering an open and welcoming environment, we as
->  contributors and maintainers pledge to making participation in our proje=
-ct and
-> -our community a harassment-free experience for everyone, regardless of a=
-ge, body
-> -size, disability, ethnicity, sex characteristics, gender identity and
-> -expression, level of experience, education, socio-economic status, natio=
-nality,
-> -personal appearance, race, religion, or sexual identity and orientation.
-> +our community a harassment-free experience for everyone.
-> =20
->  Our Standards
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> --=20
-> 2.17.1
->=20
+I think Paul is planning to send a v2 with more description and the block
+size fix that caused problems for others trying it out.
 
---=20
-Cheers,
-Joey Pabalinas
+FWIW, dm-bow itself suffers from a mutex for each write that stalls for
+longer when the write is to a block being modified (as opposed to a free
+block being written to). We are hoping to iterate over that problem once the
+general idea is acceptable to everyone.
 
---aqoj4rchc2qbcndk
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks for your help.
 
------BEGIN PGP SIGNATURE-----
+- ssp
 
-iQIzBAEBCgAdFiEENpTlWU2hUK/KMvHp2rGdfm9DtVIFAlwDrBEACgkQ2rGdfm9D
-tVIWTQ//bE3d8N6OOpdejxGiy7692dF2wS3VL5ShRR4V1/pBMzcrXes84Gu6iyfO
-hevDyyR7hqehT02EfMthJ5zgqzpLO9uLoT3u7oG99AHMHTZZ8CuuNqBRr/M9RgAd
-udCm3bGDWgctZOxQxaqu1hoQPlA27BYIMoYqKD9vbVw5bbqzge/fITnKvLhYEGX+
-IEREjfBf3doq3oD1gvi/8xpY/Qvg6VVgY5ywNH+apAyW3mbYsdpdoSVFGOEBdET8
-sBGyLADJCwfv3Gspc0n2Y+tKDeJx12HiQstxbcWOjTdIo2F0wgi9PGV0SJtiqa0S
-Vp/8fddYvZvbXW9SV8lHzqDODxKF9pXALuxvgRFLwn7GgOWj+uJqGxngM2kSJlMU
-VlZyFzyyw3SybHd1O37/Cn/C1rgLlXAWzxJGSsoXAY9bp59h+uGoxD+G2R5oOjFK
-ca1HkFldUdYCA2lt9rpe+8EBhCRysb1tnSv2BT9a4U9bh7O3fFP/RDpxe8dslEfx
-h1Xbvb83wuAhv3crJ9fKA/fX/q5ZU0SshuMPofyzzPFrU9WPm0fukhcUFMX9S7Hv
-Z7hIY5ZhGUXOMPMRYVKBquyxaqYpVLjiB3nxLmaYPTKh2yk3BCm3xbFPVZ0gLjDb
-cEst6k+6wiBMvXCDx4G5cYhu3e1njjz1T9X5duheNOQgHrLdj6g=
-=n9Vs
------END PGP SIGNATURE-----
 
---aqoj4rchc2qbcndk--
+> Mikulas
