@@ -5,96 +5,225 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9C0857D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 11:53:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B11BB7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 12:09:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726174AbeLCLx4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Dec 2018 06:53:56 -0500
-Received: from mail-vk1-f196.google.com ([209.85.221.196]:37374 "EHLO
-        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725883AbeLCLx4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Dec 2018 06:53:56 -0500
-Received: by mail-vk1-f196.google.com with SMTP id 197so2813977vkf.4;
-        Mon, 03 Dec 2018 03:53:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WkS5VxnVunhaJwM5ZQ2pXwz9+pzKRWg1voHxB29hCqI=;
-        b=E5am7160z01Yx6zywVNsOSf02XBKHcqExPOVnRfC9v7AcJg7qCIzvwF2Bf5nYmToaR
-         tmzSaKhsYYN5kskdzeuCBydwLVwuxsdhoGwuSsE+fyJWPDjXwfWixLCEwgugSsqBNawh
-         Sui8UICiCwNxObZccTXI5hvfwnllSCkuJaBR5ZlSCV3NMNRQU51SMKSzN6SpOqKD7rti
-         HDhkfFH+qQtrhpRJTOGNwLiab62wr6KACrc3w7yY7/Vq7mnMTk0WAj2eUyZOPE2yyx6z
-         ZzYUJ56vXfrvZ4lnjI7c0KtJzq0dPdFSZqGWyF8HlMZeK744CZ27xrWUs8v3blDhA3gh
-         zXMQ==
-X-Gm-Message-State: AA+aEWbXcsiqJR1TKuSyk7CpTO96/kK5B8WcdgQCzET9mVRUGLNva8Gk
-        u1G1ydhDSj+A2PuXDM07Lkbd1khlChS+oWnSwhc=
-X-Google-Smtp-Source: AFSGD/UwPBkhpSY6rw7kZNVO0xO1dKNM7J1ZHEuNWK3fX8xjUnpLmj25QtePqwyMcgAGn/I2vA/0b804fTv8M2V4utA=
-X-Received: by 2002:a1f:1881:: with SMTP id 123mr6688602vky.40.1543837991857;
- Mon, 03 Dec 2018 03:53:11 -0800 (PST)
+        id S1726223AbeLCMJy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Dec 2018 07:09:54 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:35728 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725975AbeLCMJy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Dec 2018 07:09:54 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 871E7165C;
+        Mon,  3 Dec 2018 04:09:07 -0800 (PST)
+Received: from edgewater-inn.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 563F73F59C;
+        Mon,  3 Dec 2018 04:09:07 -0800 (PST)
+Received: by edgewater-inn.cambridge.arm.com (Postfix, from userid 1000)
+        id 44D981AE1062; Mon,  3 Dec 2018 12:09:27 +0000 (GMT)
+Date:   Mon, 3 Dec 2018 12:09:27 +0000
+From:   Will Deacon <will.deacon@arm.com>
+To:     "Kulkarni, Ganapatrao" <Ganapatrao.Kulkarni@cavium.com>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "Nair, Jayachandran" <Jayachandran.Nair@cavium.com>,
+        "Richter, Robert" <Robert.Richter@cavium.com>,
+        "Lomovtsev, Vadim" <Vadim.Lomovtsev@cavium.com>,
+        Jan Glauber <Jan.Glauber@cavium.com>,
+        "gklkml16@gmail.com" <gklkml16@gmail.com>
+Subject: Re: [PATCH v8 1/2] perf, uncore: Adding documentation for ThunderX2
+ pmu uncore driver
+Message-ID: <20181203120926.GB24824@arm.com>
+References: <20181122030354.13570-1-ganapatrao.kulkarni@cavium.com>
+ <20181122030354.13570-2-ganapatrao.kulkarni@cavium.com>
 MIME-Version: 1.0
-References: <20181202093257.3918-1-geert@linux-m68k.org> <20181203110506.GA7485@kroah.com>
-In-Reply-To: <20181203110506.GA7485@kroah.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 3 Dec 2018 12:53:00 +0100
-Message-ID: <CAMuHMdUXwkA+Kv2MOOmT3mZK75ex=A=TBwwR=JXSxFp7Y3O0Hg@mail.gmail.com>
-Subject: Re: [PATCH v3] code-of-conduct: Remove explicit list of
- discrimination factors
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Frank Rowand <frowand.list@gmail.com>, acme@kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@iki.fi>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181122030354.13570-2-ganapatrao.kulkarni@cavium.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Greg,
+On Thu, Nov 22, 2018 at 03:04:31AM +0000, Kulkarni, Ganapatrao wrote:
+> The SoC has PMU support in its L3 cache controller (L3C) and in the
+> DDR4 Memory Controller (DMC).
+> 
+> Signed-off-by: Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
+> ---
+>  Documentation/perf/thunderx2-pmu.txt | 106 +++++++++++++++++++++++++++
+>  1 file changed, 106 insertions(+)
+>  create mode 100644 Documentation/perf/thunderx2-pmu.txt
 
-On Mon, Dec 3, 2018 at 12:05 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-> On Sun, Dec 02, 2018 at 10:32:57AM +0100, Geert Uytterhoeven wrote:
-> > Providing an explicit list of discrimination factors may give the false
-> > impression that discrimination based on other unlisted factors would be
-> > allowed.
-> >
-> > Furthermore, this list is already overly long, polarizing,
-> > politically-laden, and reinstating the concept of human races.
-> > None of these is related to the goals of the Linux kernel project.
-> >
-> > Avoid any ambiguity or political undertone by removing the list, to
-> > ensure "a harassment-free experience for everyone", period.
->
-> I understand the reason you and others are proposing this change,
-> however for now, let us stick with the text that we have.  As Linus and
-> I said just over a month ago, let's sit with the text we have until
-> something comes up that requires a change to happen.
->
-> Also, I recommend you work with the upstream developers of this text to
-> see if they agree with your changes here.  If they do, and update their
-> version, I will be glad to revisit this text at that time.
+Thanks for writing the documentation, although I think it needs a bit of
+help before we can merge it.
 
-I did, cfr. https://github.com/ContributorCovenant/contributor_covenant/issues/610
+> diff --git a/Documentation/perf/thunderx2-pmu.txt b/Documentation/perf/thunderx2-pmu.txt
+> new file mode 100644
+> index 000000000000..9f5dd7459e68
+> --- /dev/null
+> +++ b/Documentation/perf/thunderx2-pmu.txt
+> @@ -0,0 +1,106 @@
+> +
+> +Cavium ThunderX2 SoC Performance Monitoring Unit (PMU UNCORE)
+> +==========================================================================
+> +
+> +ThunderX2 SoC PMU consists of independent system wide per Socket PMUs such
+> +as Level 3 Cache(L3C) and DDR4 Memory Controller(DMC).
 
-The official response was:
+Please add some punctuation here.
 
-   "I'm not going to make this change to the Contributor Covenant itself,
-    since I believe that explicitly listing examples of protected classes is
-    important. However, any adopting project is free to modify the document
-    according to the license."
+> +
+> +DMC has 8 interleave channels and L3C has 16 interleave tiles. Events are
 
-Gr{oetje,eeting}s,
+*The* DMC and *the* L3C
 
-                        Geert
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> +sampled for default channel(i.e channel 0) and prorated to total number of
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+I'm not sure I understand this; are you saying it's not possible to sample
+channels other than channel 0?
+
+> +channels/tiles.
+> +
+> +DMC and L3C, Each PMU supports up to 4 counters. Counters are independently
+
+The start of this sentence makes no sense and you've got a capital "Each".
+
+> +programmable and can be started and stopped individually. Each counter can
+> +be set to sample specific perf events. Counters are 32 bit and do not support
+> +overflow interrupt; they are sampled at every 2 seconds.
+
+I think this is unfortunate wording, because actually you don't support what
+perf calls "sampling" at all.
+
+> +
+> +PMU UNCORE (perf) driver:
+> +
+> +The thunderx2-pmu driver registers several perf PMUs for DMC and L3C devices.
+
+I think the driver name uses an underscore instead of a hyphen.
+
+> +Each of the PMUs provides description of its available events
+> +and configuration options in sysfs.
+> +	see /sys/devices/uncore_<l3c_S/dmc_S/>
+> +
+> +S is socket id.
+
+*the* socket id
+
+> +Each PMU can be used to sample up to 4 events simultaneously.
+> +
+> +The "format" directory describes format of the config (event ID).
+> +The "events" directory provides configuration templates for all
+> +supported event types that can be used with perf tool.
+
+You can drop this bit, since it's not specific to your PMU and is actually
+describing the perf ABI via sysfs. If we want to document that someplace, it
+should be in a separate file.
+
+> +
+> +For example, "uncore_dmc_0/cnt_cycles/" is an
+> +equivalent of "uncore_dmc_0/config=0x1/".
+
+Why is this helpful?
+
+> +
+> +Each perf driver also provides a "cpumask" sysfs attribute, which contains a
+> +single CPU ID of the processor which is likely to be used to handle all the
+> +PMU events. It will be the first online CPU from the NUMA node of the PMU device.
+
+Again, I don't think this really belongs in here.
+
+> +
+> +Example for perf tool use:
+> +
+> +perf stat -a -e uncore_dmc_0/cnt_cycles/ sleep 1
+> +
+> +perf stat -a -e \
+> +uncore_dmc_0/cnt_cycles/,\
+> +uncore_dmc_0/data_transfers/,\
+> +uncore_dmc_0/read_txns/,\
+> +uncore_dmc_0/write_txns/ sleep 1
+> +
+> +perf stat -a -e \
+> +uncore_l3c_0/read_request/,\
+> +uncore_l3c_0/read_hit/,\
+> +uncore_l3c_0/inv_request/,\
+> +uncore_l3c_0/inv_hit/ sleep 1
+> +
+> +The driver does not support sampling, therefore "perf record" will
+> +not work. Per-task (without "-a") perf sessions are not supported.
+
+What do you mean by "not supported"? If I invoke perf as:
+
+# ./perf stat -e uncore_dmc_0/cnt_cycles/ -- ls
+
+then I get results back.
+
+> +
+> +L3C events:
+> +============
+> +
+> +read_request:
+> +	Number of Read requests received by the L3 Cache.
+> +	This include Read as well as Read Exclusives.
+> +
+> +read_hit:
+> +	Number of Read requests received by the L3 cache that were hit
+> +	in the L3 (Data provided form the L3)
+> +
+> +writeback_request:
+> +	Number of Write Backs received by the L3 Cache. These are basically
+> +	the L2 Evicts and writes from the PCIe Write Cache.
+> +
+> +inv_nwrite_request:
+> +	This is the Number of Invalidate and Write received by the L3 Cache.
+> +	Also Writes from IO that did not go through the PCIe Write Cache.
+> +
+> +inv_nwrite_hit
+> +	This is the Number of Invalidate and Write received by the L3 Cache
+> +	That were a hit in the L3 Cache.
+> +
+> +inv_request:
+> +	Number of Invalidate request received by the L3 Cache.
+> +
+> +inv_hit:
+> +	Number of Invalidate request received by the L3 Cache that were a
+> +	hit in L3.
+> +
+> +evict_request:
+> +	Number of Evicts that the L3 generated.
+
+Wouldn't this be better off in the perf tools sources, as part of the JSON
+events file for your PMU?
+
+> +
+> +NOTE:
+> +1. Granularity of all these events counter value is cache line length(64 Bytes).
+> +2. L3C cache Hit Ratio = (read_hit + inv_nwrite_hit + inv_hit) / (read_request + inv_nwrite_request + inv_request)
+> +
+> +DMC events:
+> +============
+> +cnt_cycles:
+> +	Count cycles (Clocks at the DMC clock rate)
+> +
+> +write_txns:
+> +	Number of 64 Bytes write transactions received by the DMC(s)
+> +
+> +read_txns:
+> +	Number of 64 Bytes Read transactions received by the DMC(s)
+> +
+> +data_transfers:
+> +	Number of 64 Bytes data transferred to or from DRAM.
+
+Same here.
+
+Will
