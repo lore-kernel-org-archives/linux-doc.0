@@ -1,258 +1,248 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-7.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 381597D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 21:36:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 820C37D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 23:35:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725971AbeLCVc3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Dec 2018 16:32:29 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:37542 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725913AbeLCVc2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Dec 2018 16:32:28 -0500
-Received: by mail-oi1-f193.google.com with SMTP id y23so12372554oia.4;
-        Mon, 03 Dec 2018 13:32:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7EpOZvqiCsR+9JpM0lO49UA9keAvCjxXYgZJ9W+uvqQ=;
-        b=nJV48p4eDrURnx6gzcQ8PZGnKwy3xKSI6VaHvvns+wWPNDcBo8O9xt4l35EaTdyTh4
-         XtXpADMvTt6LHCI2Q6/hbtazuc712Z/9tS4qmTuLJPFSPT/GKMwm5yHdjx2dTAVSV5MV
-         HlJEwTQOl+1Zn3UhaZWVDAD1/JGfZ7v2fpKzDElw4ojSTsUUqojB83yWUbS3ge8AJfPk
-         D2RL4FGfq+skXiSh5uYCnfFslM4kWO5zpPp2DCcu3Vqq3C2ov2X0BlPgcxBlrHjTcuEM
-         dPMo2EeyzTlb8HT2WUK5ktsU8s2aTZpUPMXMHPXOsMYvOoEkbLOzxdVb8vMxOo+0ddCH
-         KrpA==
-X-Gm-Message-State: AA+aEWbpCoqOYaFWadC+RDlqIPthLdNUydrsx+JhMIcNck+2dF04a8EC
-        344eDPxmh5UF5h3ml8ZlKELSDu4=
-X-Google-Smtp-Source: AFSGD/Xa3bqIgHi7emij+183Fy1u3j4lDkl11nzvHDis/8up1RGFIVphqGtJWv9uAgwQIR0YChi9JA==
-X-Received: by 2002:a05:6808:159:: with SMTP id h25mr7801309oie.285.1543872747087;
-        Mon, 03 Dec 2018 13:32:27 -0800 (PST)
-Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.googlemail.com with ESMTPSA id c78sm8545501oig.30.2018.12.03.13.32.26
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 03 Dec 2018 13:32:26 -0800 (PST)
-From:   Rob Herring <robh@kernel.org>
-To:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Sean Hudson <darknighte@darknighte.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, Grant Likely <grant.likely@arm.com>,
-        Kumar Gala <kumar.gala@linaro.org>, arm@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: [PATCH v2 01/34] kbuild: Add support for DT binding schema checks
-Date:   Mon,  3 Dec 2018 15:31:50 -0600
-Message-Id: <20181203213223.16986-2-robh@kernel.org>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20181203213223.16986-1-robh@kernel.org>
-References: <20181203213223.16986-1-robh@kernel.org>
+        id S1726037AbeLCXfN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Dec 2018 18:35:13 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44914 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726053AbeLCXfM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Dec 2018 18:35:12 -0500
+Received: from localhost (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2EE2420850;
+        Mon,  3 Dec 2018 23:35:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1543880111;
+        bh=sUraBo94mptqp8XTw/adaqoZFeEnJjizpj3C2c03q7s=;
+        h=To:From:In-Reply-To:Cc:References:Subject:Date:From;
+        b=NKl+1rjEoTgBW1k/Bl7CtJTgIxA/fofNrP1rPo69vzJ57999RuuLyvArSNc/jgHYs
+         Z2zItscIgcxZc+J34FtQfzjeNFCDML5s7u9NLf9rspVlTgDcxza1tOCoRr1MamsCo4
+         rdtxT41CgezmJ/757/oDy6qops+mkAzyLuma1qrw=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+From:   Stephen Boyd <sboyd@kernel.org>
+In-Reply-To: <20181130105022.GA15388@localhost.localdomain>
+Cc:     mazziesaccount@gmail.com, Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andy Gross <andy.gross@linaro.org>,
+        David Brown <david.brown@linaro.org>,
+        Andrey Smirnov <andrew.smirnov@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Huang Shijie <sjhuang@iluvatar.ai>,
+        Daniel Kurtz <djkurtz@chromium.org>,
+        Akshu Agrawal <akshu.agrawal@amd.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org
+References: <cover.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
+ <ec0d6ee7ea79f0e05041ed3e564b0aadb297ef5f.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
+ <154356805035.88331.16867826308376667832@swboyd.mtv.corp.google.com>
+ <20181130105022.GA15388@localhost.localdomain>
+Message-ID: <154388011043.88331.6461709079501929390@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.7
+Subject: Re: [PATCH v4 1/8] clk: clkdev/of_clk - add managed lookup and provider
+ registrations
+Date:   Mon, 03 Dec 2018 15:35:10 -0800
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This adds the build infrastructure for checking DT binding schema
-documents and validating dts files using the binding schema.
+Quoting Matti Vaittinen (2018-11-30 02:50:22)
+> Hello Stephen,
+> =
 
-Check DT binding schema documents:
-make dt_binding_check
+> Thanks a bunch for taking the time and reviewing this!
+> =
 
-Build dts files and check using DT binding schema:
-make dtbs_check
+> On Fri, Nov 30, 2018 at 12:54:10AM -0800, Stephen Boyd wrote:
+> > Quoting Matti Vaittinen (2018-11-13 03:55:58)
+> > > With MFD devices the clk properties may be contained in MFD (parent) =
+DT
+> > > node. Current devm_of_clk_add_hw_provider assumes the clk is bound to=
+ MFD
+> > > subdevice not to MFD device (parent). Add
+> > > devm_of_clk_add_hw_provider_parent to tackle this issue.
+> > > =
 
-Optionally, DT_SCHEMA_FILES can passed in with a schema file(s) to use
-for validation. This makes it easier to find and fix errors generated by
-a specific schema.
+> > > Also clkdev registration lacks of managed registration functions and =
+it
+> > > seems few drivers do not drop clkdev lookups at exit. Add
+> > > devm_clk_hw_register_clkdev and devm_clk_release_clkdev to ease lookup
+> > > releasing at exit.
+> > =
 
-Currently, the validation targets are separate from a normal build to
-avoid a hard dependency on the external DT schema project and because
-there are lots of warnings generated.
+> > Please split this into clkdev and non-clkdev devm functionality.
+> Allright. I'll split this to two patches.
+> =
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc: Michal Marek <michal.lkml@markovi.net>
-Cc: linux-doc@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kbuild@vger.kernel.org
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- .gitignore                                   |  1 +
- Documentation/Makefile                       |  2 +-
- Documentation/devicetree/bindings/.gitignore |  1 +
- Documentation/devicetree/bindings/Makefile   | 33 ++++++++++++++++++++
- Makefile                                     | 11 +++++--
- scripts/Makefile.lib                         | 24 ++++++++++++--
- 6 files changed, 67 insertions(+), 5 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/.gitignore
- create mode 100644 Documentation/devicetree/bindings/Makefile
+> > > --- a/Documentation/driver-model/devres.txt
+> > > +++ b/Documentation/driver-model/devres.txt
+> > > @@ -238,6 +238,9 @@ CLOCK
+> > >    devm_clk_put()
+> > >    devm_clk_hw_register()
+> > >    devm_of_clk_add_hw_provider()
+> > > +  devm_of_clk_add_parent_hw_provider()
+> > > +  devm_clk_hw_register_clkdev()
+> > > +  devm_clk_release_clkdev()
+> > =
 
-diff --git a/.gitignore b/.gitignore
-index 97ba6b79834c..a20ac26aa2f5 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -15,6 +15,7 @@
- *.bin
- *.bz2
- *.c.[012]*.*
-+*.dt.yaml
- *.dtb
- *.dtb.S
- *.dwo
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 2ca77ad0f238..9786957c6a35 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -2,7 +2,7 @@
- # Makefile for Sphinx documentation
- #
- 
--subdir-y :=
-+subdir-y := devicetree/bindings/
- 
- # You can set these variables from the command line.
- SPHINXBUILD   = sphinx-build
-diff --git a/Documentation/devicetree/bindings/.gitignore b/Documentation/devicetree/bindings/.gitignore
-new file mode 100644
-index 000000000000..d9194c02dd08
---- /dev/null
-+++ b/Documentation/devicetree/bindings/.gitignore
-@@ -0,0 +1 @@
-+*.example.dts
-diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
-new file mode 100644
-index 000000000000..ee0110dd8131
---- /dev/null
-+++ b/Documentation/devicetree/bindings/Makefile
-@@ -0,0 +1,33 @@
-+# SPDX-License-Identifier: GPL-2.0
-+DT_DOC_CHECKER ?= dt-doc-validate
-+DT_EXTRACT_EX ?= dt-extract-example
-+DT_MK_SCHEMA ?= dt-mk-schema
-+DT_MK_SCHEMA_FLAGS := $(if $(DT_SCHEMA_FILES), -u)
-+
-+quiet_cmd_chk_binding = CHKDT   $<
-+      cmd_chk_binding = (set -e; \
-+                         $(DT_DOC_CHECKER) $< ; \
-+                         mkdir -p $(dir $@) ; \
-+                         $(DT_EXTRACT_EX) $< > $@ )
-+
-+$(obj)/%.example.dts: $(src)/%.yaml FORCE
-+	$(call if_changed,chk_binding)
-+
-+DT_TMP_SCHEMA := .schema.yaml.tmp
-+extra-y += $(DT_TMP_SCHEMA)
-+
-+quiet_cmd_mk_schema = SCHEMA  $@
-+      cmd_mk_schema = mkdir -p $(obj); \
-+                      rm -f $@; \
-+                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $<
-+
-+DT_DOCS = $(shell cd $(srctree)/$(src) && find * -name '*.yaml')
-+DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
-+
-+extra-y += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
-+extra-y += $(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES))
-+
-+$(obj)/$(DT_TMP_SCHEMA): $(addprefix $(obj)/,$(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES)))
-+
-+$(obj)/$(DT_TMP_SCHEMA): $(addprefix $(srctree)/, $(DT_SCHEMA_FILES)) FORCE
-+	$(call if_changed,mk_schema)
-diff --git a/Makefile b/Makefile
-index 2f36db897895..ff59adf43300 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1232,10 +1232,13 @@ ifneq ($(dtstree),)
- %.dtb: prepare3 scripts_dtc
- 	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
- 
--PHONY += dtbs dtbs_install
-+PHONY += dtbs dtbs_install dt_binding_check
- dtbs: prepare3 scripts_dtc
- 	$(Q)$(MAKE) $(build)=$(dtstree)
- 
-+dtbs_check: prepare3 dt_binding_check
-+	$(Q)$(MAKE) $(build)=$(dtstree) CHECK_DTBS=1
-+
- dtbs_install:
- 	$(Q)$(MAKE) $(dtbinst)=$(dtstree)
- 
-@@ -1249,6 +1252,9 @@ PHONY += scripts_dtc
- scripts_dtc: scripts_basic
- 	$(Q)$(MAKE) $(build)=scripts/dtc
- 
-+dt_binding_check: scripts_dtc
-+	$(Q)$(MAKE) $(build)=Documentation/devicetree/bindings
-+
- # ---------------------------------------------------------------------------
- # Modules
- 
-@@ -1611,7 +1617,8 @@ clean: $(clean-dirs)
- 	$(call cmd,rmfiles)
- 	@find $(if $(KBUILD_EXTMOD), $(KBUILD_EXTMOD), .) $(RCS_FIND_IGNORE) \
- 		\( -name '*.[aios]' -o -name '*.ko' -o -name '.*.cmd' \
--		-o -name '*.ko.*' -o -name '*.dtb' -o -name '*.dtb.S' \
-+		-o -name '*.ko.*' \
-+		-o -name '*.dtb' -o -name '*.dtb.S' -o -name '*.dt.yaml' \
- 		-o -name '*.dwo' -o -name '*.lst' \
- 		-o -name '*.su'  \
- 		-o -name '.*.d' -o -name '.*.tmp' -o -name '*.mod.c' \
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 8fe4468f9bda..d1c5630ba24c 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -61,6 +61,11 @@ real-obj-m := $(foreach m, $(obj-m), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y))
- extra-y				+= $(dtb-y)
- extra-$(CONFIG_OF_ALL_DTBS)	+= $(dtb-)
- 
-+ifneq ($(CHECK_DTBS),)
-+extra-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
-+extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
-+endif
-+
- # Add subdir path
- 
- extra-y		:= $(addprefix $(obj)/,$(extra-y))
-@@ -284,13 +289,28 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
- quiet_cmd_dtc = DTC     $@
- cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
- 	$(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
--	$(DTC) -O dtb -o $@ -b 0 \
-+	$(DTC) -O $(2) -o $@ -b 0 \
- 		$(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
- 		-d $(depfile).dtc.tmp $(dtc-tmp) ; \
- 	cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
- 
- $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
--	$(call if_changed_dep,dtc)
-+	$(call if_changed_dep,dtc,dtb)
-+
-+DT_CHECKER ?= dt-validate
-+DT_BINDING_DIR := Documentation/devicetree/bindings
-+DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/.schema.yaml.tmp
-+
-+quiet_cmd_dtb_check =	CHECK  $@
-+      cmd_dtb_check =	$(DT_CHECKER) -p $(DT_TMP_SCHEMA) $@ ;
-+
-+define rule_dtc_dt_yaml
-+	$(call cmd_and_fixdep,dtc,yaml)		\
-+	$(call echo-cmd,dtb_check) $(cmd_dtb_check)
-+endef
-+
-+$(obj)/%.dt.yaml: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
-+	$(call if_changed_rule,dtc_dt_yaml)
- 
- dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
- 
--- 
-2.19.1
+> > The 'release' or non-common functions shouldn't be documented here.
+> So I will drop the line mentioning devm_clk_release_clkdev()
+> =
+
+> > > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> > > index af011974d4ec..9bb921eb90f6 100644
+> > > --- a/drivers/clk/clk.c
+> > > +++ b/drivers/clk/clk.c
+> > > @@ -3893,12 +3893,12 @@ static void devm_of_clk_release_provider(stru=
+ct device *dev, void *res)
+> > >         of_clk_del_provider(*(struct device_node **)res);
+> > >  }
+> > >  =
+
+> > > -int devm_of_clk_add_hw_provider(struct device *dev,
+> > > +static int __devm_of_clk_add_hw_provider(struct device *dev,
+> > >                         struct clk_hw *(*get)(struct of_phandle_args =
+*clkspec,
+> > >                                               void *data),
+> > > -                       void *data)
+> > > +                       struct device_node *of_node, void *data)
+> > >  {
+> > > -       struct device_node **ptr, *np;
+> > > +       struct device_node **ptr;
+> > >         int ret;
+> > >  =
+
+> > >         ptr =3D devres_alloc(devm_of_clk_release_provider, sizeof(*pt=
+r),
+> > > @@ -3906,10 +3906,9 @@ int devm_of_clk_add_hw_provider(struct device =
+*dev,
+> > >         if (!ptr)
+> > >                 return -ENOMEM;
+> > >  =
+
+> > > -       np =3D dev->of_node;
+> > > -       ret =3D of_clk_add_hw_provider(np, get, data);
+> > > +       *ptr =3D of_node;
+> > > +       ret =3D of_clk_add_hw_provider(of_node, get, data);
+> > >         if (!ret) {
+> > > -               *ptr =3D np;
+> > =
+
+> > Why is this moved outside of the if condition?
+> I completely removed the local variable np and just unconditionally set
+> the allocated devres to point at the node (if allocation succeeded). We
+> could of course only do this if the provider registration succeeded and
+> save one assignment - but I guess I intended to remove the curly braces
+> and thus decided to go for one liner after if. But apparently I didn't
+> remove the braces O_o. Well, I can put the assignment inside the
+> condition if you prefer that.
+> =
+
+> > In fact, why isn't just
+> > the first line in this hunk deleted and passed to this function as
+> > struct device_node *np?
+> =
+
+> I am sorry but I don't quite follow your suggestion here. Do you mean we
+> could just pass the struct device_node *np in devres_add()? I thought
+> the pointer passed to devress_add() should be allocated using
+> devres_alloc. Can you please elaborate what you mean?
+
+I'm just trying to reduce the diff in the patch.
+
+> =
+
+> > =
+
+> > >                 devres_add(dev, ptr);
+> > >         } else {
+> > >                 devres_free(ptr);
+[..]
+> > =
+
+> > > +int devm_of_clk_add_hw_provider(struct device *dev,
+> > > +                       struct clk_hw *(*get)(struct of_phandle_args =
+*clkspec,
+> > > +                                             void *data),
+> > > +                       void *data)
+> > > +{
+> > > +       return __devm_of_clk_add_hw_provider(dev, get, dev->of_node, =
+data);
+> > > +}
+> > >  EXPORT_SYMBOL_GPL(devm_of_clk_add_hw_provider);
+> > >  =
+
+> > > +int devm_of_clk_add_parent_hw_provider(struct device *dev,
+> > > +                       struct clk_hw *(*get)(struct of_phandle_args =
+*clkspec,
+> > > +                                             void *data),
+> > > +                       void *data)
+> > > +{
+> > > +       return __devm_of_clk_add_hw_provider(dev, get, dev->parent->o=
+f_node,
+> > =
+
+> > I'm wondering if we can somehow auto-detect this in
+> > devm_of_clk_add_hw_provider() by looking for #clock-cells in the node.
+> > If it isn't there, then we go to the parent node and look for a
+> > #clock-cells property there in the DT node for that device. Does that
+> > make sense? Then there isn't any new API and we can attach the lifetime
+> > of the devm registration to the presence of the property indicating this
+> > is a clk controller or not.
+> =
+
+> Huh. I don't know why but building this kind of logic in core is a bit
+> scary to me. I guess I can try implementing something like this - but I
+> am not really a fan of this. (Accidentally) omit the #clock-cells from
+> node and we go to parent node - I am a novice on this area but this
+> sounds like a potential hazard to me. I believe the driver should know
+> if it's properties should be in own or parent node - and if they are
+> not, then there should be no guessing but error. The lifetime is topic
+> where I would like to get information from you who know the kernel
+> better than I do =3D) But I guess the parent node is there at least as
+> long as the child device is alive. So for me the life time of
+> get-callback is more crucial - but as I said, I don't understand the
+> kernel in details so you probably know it better than me. But please let
+> me know your final take on this and I will follow the guidance =3D)
+
+Please do the magic instead of adding another API. It makes things
+simpler and will work for this case without having to change anything
+besides of_clk_add_provider().
+
+If the DT doesn't have the #clock-cells property in the node being
+registered then calling clk_get() will fail for any consumer devices
+that point to the node with a phandle and clock specifier. I don't
+expect us to get very far into development if that's the case.
+
+Of course, we don't fail in of_clk_add_provider() if there isn't a
+#clock-cells property in the node, we just happily add the node to the
+provider list and carry on. I doubt anyone is failing to specify the DT
+property, but maybe they are, in which case we could keep not failing
+and just add the node of whatever we're called with originally if
+neither the parent or the passed node have the #clock-cells property. I
+wouldn't try to go any higher than one node above the current node and
+look for a #clock-cells though.
+
+If this all still seems scary then don't worry about it, I'll implement
+it myself.
 
