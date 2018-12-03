@@ -1,95 +1,196 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 09B7A7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 14:17:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B15397D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 14:47:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725916AbeLCOS1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Dec 2018 09:18:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51616 "EHLO mail.kernel.org"
+        id S1726351AbeLCOsi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Dec 2018 09:48:38 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:55348 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725914AbeLCOS0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Dec 2018 09:18:26 -0500
-Received: from localhost (unknown [95.98.134.160])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726116AbeLCOsi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Dec 2018 09:48:38 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B59362082F;
-        Mon,  3 Dec 2018 14:17:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1543846635;
-        bh=fnTrF07Y1OKw3PyZdPmvNfDeuS93uBlVhRjKBHZw0is=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=zTuDg2Jr6V41UwpGf8XYPFUrIrwadA0KGLt0LaLo7CusruyacHNIIBretZEW2XR9J
-         YSGi+uZswTXQd83Ddoh9LtmIajofMmGy9Ph6V1BVpHg3xrO1u/YIbU+9Fr0twB6Ecu
-         Fhh8S2GQ64FHfIdtiCZCyyZUmk8FCcdFlU3EJX18=
-Date:   Mon, 3 Dec 2018 15:17:11 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Frank Rowand <frowand.list@gmail.com>, acme@kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@iki.fi>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3] code-of-conduct: Remove explicit list of
- discrimination factors
-Message-ID: <20181203141711.GA19551@kroah.com>
-References: <20181202093257.3918-1-geert@linux-m68k.org>
- <20181203110506.GA7485@kroah.com>
- <CAMuHMdUXwkA+Kv2MOOmT3mZK75ex=A=TBwwR=JXSxFp7Y3O0Hg@mail.gmail.com>
+        by mx1.redhat.com (Postfix) with ESMTPS id E7DB430020A7;
+        Mon,  3 Dec 2018 14:47:20 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.12])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 1A97B2A2CC;
+        Mon,  3 Dec 2018 14:47:18 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Mon,  3 Dec 2018 15:47:20 +0100 (CET)
+Date:   Mon, 3 Dec 2018 15:47:18 +0100
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Roman Gushchin <guroan@gmail.com>
+Cc:     Tejun Heo <tj@kernel.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-team@fb.com,
+        Roman Gushchin <guro@fb.com>
+Subject: Re: [PATCH v4 4/7] cgroup: cgroup v2 freezer
+Message-ID: <20181203144717.GD31795@redhat.com>
+References: <20181130234745.6756-1-guro@fb.com>
+ <20181130234745.6756-5-guro@fb.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdUXwkA+Kv2MOOmT3mZK75ex=A=TBwwR=JXSxFp7Y3O0Hg@mail.gmail.com>
-User-Agent: Mutt/1.11.0 (2018-11-25)
+In-Reply-To: <20181130234745.6756-5-guro@fb.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Mon, 03 Dec 2018 14:47:21 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 03, 2018 at 12:53:00PM +0100, Geert Uytterhoeven wrote:
-> Hi Greg,
-> 
-> On Mon, Dec 3, 2018 at 12:05 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> > On Sun, Dec 02, 2018 at 10:32:57AM +0100, Geert Uytterhoeven wrote:
-> > > Providing an explicit list of discrimination factors may give the false
-> > > impression that discrimination based on other unlisted factors would be
-> > > allowed.
-> > >
-> > > Furthermore, this list is already overly long, polarizing,
-> > > politically-laden, and reinstating the concept of human races.
-> > > None of these is related to the goals of the Linux kernel project.
-> > >
-> > > Avoid any ambiguity or political undertone by removing the list, to
-> > > ensure "a harassment-free experience for everyone", period.
-> >
-> > I understand the reason you and others are proposing this change,
-> > however for now, let us stick with the text that we have.  As Linus and
-> > I said just over a month ago, let's sit with the text we have until
-> > something comes up that requires a change to happen.
-> >
-> > Also, I recommend you work with the upstream developers of this text to
-> > see if they agree with your changes here.  If they do, and update their
-> > version, I will be glad to revisit this text at that time.
-> 
-> I did, cfr. https://github.com/ContributorCovenant/contributor_covenant/issues/610
-> 
-> The official response was:
-> 
->    "I'm not going to make this change to the Contributor Covenant itself,
->     since I believe that explicitly listing examples of protected classes is
->     important. However, any adopting project is free to modify the document
->     according to the license."
+To be honest, I fail to understand this patch. At least after a quick glance,
+I will try to read it again tomorrow but so far I do not even understand the
+desired semantics wrt signals/ptrace.
 
-I figured.  As I said, some people feel that the list is good to have,
-if not essential.  So let's stick with it for now.
+On 11/30, Roman Gushchin wrote:
+>
+> @@ -368,6 +369,8 @@ static inline int signal_pending_state(long state, struct task_struct *p)
+>  		return 0;
+>  	if (!signal_pending(p))
+>  		return 0;
+> +	if (unlikely(cgroup_task_frozen(p)))
+> +		return __fatal_signal_pending(p);
 
-thanks,
+Oh, this is not nice. And doesn't look right.
 
-greg k-h
+> +/*
+> + * Entry path into frozen state.
+> + * If the task was not frozen before, counters are updated and the cgroup state
+> + * is revisited. Otherwise, the task is put into the TASK_KILLABLE sleep.
+> + */
+> +void cgroup_enter_frozen(void)
+> +{
+> +	if (!current->frozen) {
+> +		struct cgroup *cgrp;
+> +
+> +		spin_lock_irq(&css_set_lock);
+> +		current->frozen = true;
+> +		cgrp = task_dfl_cgroup(current);
+> +		cgrp->freezer.nr_frozen_tasks++;
+> +		WARN_ON_ONCE(cgrp->freezer.nr_frozen_tasks >
+> +			     cgrp->freezer.nr_tasks_to_freeze);
+> +		cgroup_update_frozen(cgrp, true);
+> +		spin_unlock_irq(&css_set_lock);
+> +	}
+> +
+> +	__set_current_state(TASK_INTERRUPTIBLE);
+> +	schedule();
+
+The comment above says TASK_KILLABLE, very confusing.
+
+Probably this pairs with the change in signal_pending_state() above. So this
+schedule() should actually "work" in that it won't return if signal_pending().
+
+But this can't protect from another signal_wake_up(). Yes, iiuc in this case
+cgroup_enter_frozen() will be called again "soon" but this all looks strange.
+
+> --- a/kernel/ptrace.c
+> +++ b/kernel/ptrace.c
+> @@ -410,6 +410,13 @@ static int ptrace_attach(struct task_struct *task, long request,
+>
+>  	spin_lock(&task->sighand->siglock);
+>
+> +	/*
+> +	 * If the process is frozen, let's wake it up to give it a chance
+> +	 * to enter the ptrace trap.
+> +	 */
+> +	if (cgroup_task_frozen(task))
+> +		wake_up_process(task);
+
+And why this can't race with cgroup_enter_frozen() ?
+
+Or think of PTRACE_INTERRUPT. It can race with cgroup_enter_frozen() too, the
+tracee can miss this request because of that change in signal_pending_state().
+
+
+>  static void do_jobctl_trap(void)
+>  {
+> +	struct sighand_struct *sighand = current->sighand;
+>  	struct signal_struct *signal = current->signal;
+>  	int signr = current->jobctl & JOBCTL_STOP_SIGMASK;
+>  
+> -	if (current->ptrace & PT_SEIZED) {
+> -		if (!signal->group_stop_count &&
+> -		    !(signal->flags & SIGNAL_STOP_STOPPED))
+> -			signr = SIGTRAP;
+> -		WARN_ON_ONCE(!signr);
+> -		ptrace_do_notify(signr, signr | (PTRACE_EVENT_STOP << 8),
+> -				 CLD_STOPPED);
+> -	} else {
+> -		WARN_ON_ONCE(!signr);
+> -		ptrace_stop(signr, CLD_STOPPED, 0, NULL);
+> -		current->exit_code = 0;
+> +	if (current->jobctl & (JOBCTL_TRAP_STOP | JOBCTL_TRAP_NOTIFY)) {
+> +		if (current->ptrace & PT_SEIZED) {
+> +			if (!signal->group_stop_count &&
+> +			    !(signal->flags & SIGNAL_STOP_STOPPED))
+> +				signr = SIGTRAP;
+> +			WARN_ON_ONCE(!signr);
+> +			ptrace_do_notify(signr,
+> +					 signr | (PTRACE_EVENT_STOP << 8),
+> +					 CLD_STOPPED);
+> +		} else {
+> +			WARN_ON_ONCE(!signr);
+> +			ptrace_stop(signr, CLD_STOPPED, 0, NULL);
+> +			current->exit_code = 0;
+> +		}
+> +	} else if (current->jobctl & JOBCTL_TRAP_FREEZE) {
+> +		/*
+> +		 * Enter the frozen state, unless the task is about to exit.
+> +		 */
+> +		if (fatal_signal_pending(current)) {
+> +			current->jobctl &= ~JOBCTL_TRAP_FREEZE;
+> +		} else {
+> +			spin_unlock_irq(&sighand->siglock);
+> +			cgroup_enter_frozen();
+> +			spin_lock_irq(&sighand->siglock);
+> +		}
+>  	}
+>  }
+>  
+> @@ -2401,12 +2420,23 @@ bool get_signal(struct ksignal *ksig)
+>  		    do_signal_stop(0))
+>  			goto relock;
+>  
+> -		if (unlikely(current->jobctl & JOBCTL_TRAP_MASK)) {
+> +		if (unlikely(current->jobctl &
+> +			     (JOBCTL_TRAP_MASK | JOBCTL_TRAP_FREEZE))) {
+>  			do_jobctl_trap();
+
+Cosmetic nit, but can't you add another helper? To me something like
+
+		if (JOBCTL_TRAP_MASK)
+			do_jobctl_trap();
+		else if (JOBCTL_TRAP_FREEZE)
+			do_jobctl_freeze();
+
+will look more clean, but I won't insist.
+
+
+> +		/*
+> +		 * If the task is leaving the frozen state, let's update
+> +		 * cgroup counters and reset the frozen bit.
+> +		 */
+> +		if (unlikely(cgroup_task_frozen(current))) {
+> +			spin_unlock_irq(&sighand->siglock);
+> +			cgroup_leave_frozen();
+> +			spin_lock_irq(&sighand->siglock);
+
+looks like this needs another "goto relock", no?
+
+And perhaps this another reason for the new do_jobctl_freeze() helper which
+could absorb this leave_frozen() ?
+
+Oleg.
+
