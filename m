@@ -5,29 +5,29 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BF5AE7D08E
+	by archive.lwn.net (Postfix) with ESMTP id A3F797D089
 	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 11:33:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726384AbeLCLcp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Dec 2018 06:32:45 -0500
-Received: from mail-eopbgr20042.outbound.protection.outlook.com ([40.107.2.42]:52592
+        id S1726351AbeLCLch (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Dec 2018 06:32:37 -0500
+Received: from mail-eopbgr20052.outbound.protection.outlook.com ([40.107.2.52]:21376
         "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726273AbeLCLcp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Dec 2018 06:32:45 -0500
+        id S1726285AbeLCLcg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Dec 2018 06:32:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
  s=selector1-arm-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k9JsVZ5oiolUFI99c2zQw7ujCuKqwNxn2TN5ijSmAbk=;
- b=eUyuGtKY60yBkCTCQwN8ZI9u/zYu02jwrX9VbG3ZworiX6Fnu98kopAHDrVpgQ/JMO1wlxz+xT3NXDP6YkQVuGC0lLQuT6OFV+fkTQW1WWLWce8y3XkMeIv95R00L8iUhOSJ01KwhuH0XEhrfEroD06qBewLFZ6FOjwZcLll9WI=
+ bh=miQCNBo/k1TROTGVF7qusb7lSrk8zA+EMFUm/0Qewe0=;
+ b=GSjnmWfFKN1DVoX5inKe5yFbkLRxuMuwaqVlFBK42QvCOzQMnVfa8sjLueEYVY12VEzImZJHkCzzM2gjxXNXdO442O9xl7qxkikpOq5v4pta4Qvsm3SzmUKjvcgPnxSYzURTSgVtpv8BZSmS8sZgxJp382F1c37T1zjZRhWNJvg=
 Received: from AM0PR08MB3891.eurprd08.prod.outlook.com (20.178.82.147) by
  AM0PR08MB3491.eurprd08.prod.outlook.com (20.177.108.222) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1382.18; Mon, 3 Dec 2018 11:31:56 +0000
+ 15.20.1382.18; Mon, 3 Dec 2018 11:31:53 +0000
 Received: from AM0PR08MB3891.eurprd08.prod.outlook.com
  ([fe80::896a:710:2a8c:e2fa]) by AM0PR08MB3891.eurprd08.prod.outlook.com
  ([fe80::896a:710:2a8c:e2fa%6]) with mapi id 15.20.1382.020; Mon, 3 Dec 2018
- 11:31:56 +0000
+ 11:31:52 +0000
 From:   Ayan Halder <Ayan.Halder@arm.com>
 To:     Ayan Halder <Ayan.Halder@arm.com>,
         Liviu Dudau <Liviu.Dudau@arm.com>,
@@ -49,13 +49,13 @@ To:     Ayan Halder <Ayan.Halder@arm.com>,
         "arnd@arndb.de" <arnd@arndb.de>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
 CC:     nd <nd@arm.com>
-Subject: [RFC AFBC 02/12] drm: Added a new format DRM_FORMAT_XVYU2101010
-Thread-Topic: [RFC AFBC 02/12] drm: Added a new format DRM_FORMAT_XVYU2101010
-Thread-Index: AQHUivvMw0fkI81aLk+YLdXH7Jrm8w==
-Date:   Mon, 3 Dec 2018 11:31:56 +0000
-Message-ID: <1543836703-8491-3-git-send-email-ayan.halder@arm.com>
-References: <1543836703-8491-1-git-send-email-ayan.halder@arm.com>
-In-Reply-To: <1543836703-8491-1-git-send-email-ayan.halder@arm.com>
+Subject: [RFC AFBC v2 00/12] Add support for Arm Framebuffer Compression(AFBC)
+ in mali display driver
+Thread-Topic: [RFC AFBC v2 00/12] Add support for Arm Framebuffer
+ Compression(AFBC) in mali display driver
+Thread-Index: AQHUivvJI76rFjfqHEqVm3VkdbqEvQ==
+Date:   Mon, 3 Dec 2018 11:31:52 +0000
+Message-ID: <1543836703-8491-1-git-send-email-ayan.halder@arm.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -68,28 +68,28 @@ authentication-results: spf=none (sender IP is )
 x-ms-exchange-messagesentrepresentingtype: 1
 x-originating-ip: [217.140.106.55]
 x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;AM0PR08MB3491;6:E1XxOdVAQf7gGOzmnaZzkme9qaT2RmwazknFQCglaDO9MF0WvRa+RKJAS1sJzsUtBIdsy3AScstIex6a7vGjIruBVp9Ae+GVaoWivqqk+HpIc+yCTZQcub+tbE3ZawDNypsL5m+4Dv73i2HlWSydJ9c1DTwL/y4oWDElx3muteaH5+2E5KGTDGSvBvso2WAmBzXiVz9K39q7JdldKtkLeqWU6a4OfSxwa1bhfYtSoOXzI+ce25jHR0enxV2UFE8d5LB2e+qfVVGjBUEIoYr0uIoRKbsI3Y+hUHpJx+bRdprz4KHRrOPS6JHCw9r1v9cZeq1FJv61gLAwtB46m+WwlHwPGzo/SHPbzX4OYZQ1BXn0ctnk09B7TKo80UIBWECQZWgsCb9JLfSodO8yVr1bUvMKGzaBTRpLkLk41PwENIKMUIrXXfBCRUoQ/YKaQbP2JMXF+tBV69KxLmfFma1k+g==;5:Zu33OZ1UJ2ySMiAtSn/cMlIlSHM/GEcGdTsYuTjl/XyR1uZ/VRlh5JTTvVPOM4Eb8Mo3PKPNn8KaigcSftazSau3fr+ju4k3zK+aPg2fsTdkKnQZquln3MZP4je+BaJR9Cr89WUeRDW4qHNgxnKcodVgUfAdnG3GAFsPCqZY30g=;7:ikK2ZfXo719x/cfSTsZez40AC3jJN9F8Jq60baYNhRVf4HOxCTOaZTvMqrCdn48PWpuyGJmfVrROZZEjZjZBNjhhKEkU5WidhQQfVyODrClseuiIJtOlQk90yCQYsdLIZqG5RmbNvzBCY+l7K64XsA==
-x-ms-office365-filtering-correlation-id: 4295012c-d6ec-479c-47f6-08d65912ee64
+x-microsoft-exchange-diagnostics: 1;AM0PR08MB3491;6:dqMBHHSj2hG7OYbuxMPmX+0B7w/DF8PasS3FCy9UsjTbxUcf9i9DRY+j8tNnxKmAIJsq7r7OUPe0POd+CPR3mO+dCMDgI+nPWJ5qpxecbflTAXtDb4hDEtfxttaGuH1fXz9TwykZXKAr+zvkQAux7xPNyLjpq5fnClCpr/S3A+XgyW16l2QRg7YwyI/u5GbLoUzzefGgUA1y6v/GvIC6did+Bbsd0BmuthVMvaV9NcNJe6vjbQBiQO9QZ3rwBY3r7IffY0tiU9yTKSp83YkvqWkgmKPsz2acXkTn0/FF3AgF9mgwt5RXSiRtCNK7wFhMnSAvooo+siINl+kZURsW/1n7LHkzYCChl+0cxH8LJuhR8Kd0P14UWpKA84IShxV+XU/yx6AKLOG+i60j/iLJGuG9loZ6rd9v5iZOErr9vGEiac5BFWSI8N/evg+Ef6baJRX2XpYG41bOX7Ezpzzn4w==;5:42dfAIYeFewAew3TktL/GkHIOz8JDl86OfdawXn7dGzLWe/roxcr9V4YuX6sg1K97EKwx0U/lF9dtoLwNT5k7I6WhP4l8jTn/yOnG3/p3EIMwPd9c51hHgzjkYWdT5UM2I25rOLC8XErlm6GHifq72DVqZxALO70M9qH39/KEF4=;7:BKFAAWrmI8I/6XuB0uyFpCXGP9ND2p98DxDcJWW5OtMolgoqP665KmBTuAUVHxFaZOaJw4lPy9MwWFOqf0YlOT3lpB+5QCIYerhOJUJUyWrAl/ghZYK/XuCZJqbSVcrEukMpHYqX6jw3wz9Y7ncfdw==
+x-ms-office365-filtering-correlation-id: 0eec1234-fd12-45ed-fc34-08d65912ebfd
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390098)(7020095)(4652040)(8989299)(5600074)(711020)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:AM0PR08MB3491;
 x-ms-traffictypediagnostic: AM0PR08MB3491:
 nodisclaimer: True
-x-microsoft-antispam-prvs: <AM0PR08MB3491B8222F8879B0FEBABE8BE4AE0@AM0PR08MB3491.eurprd08.prod.outlook.com>
+x-microsoft-antispam-prvs: <AM0PR08MB3491C26073B6198343399C15E4AE0@AM0PR08MB3491.eurprd08.prod.outlook.com>
 x-ms-exchange-senderadcheck: 1
 x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(3002001)(10201501046)(3231455)(999002)(944501493)(52105112)(93006095)(93001095)(6055026)(148016)(149066)(150057)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123564045)(20161123562045)(20161123558120)(201708071742011)(7699051)(76991095);SRVR:AM0PR08MB3491;BCL:0;PCL:0;RULEID:;SRVR:AM0PR08MB3491;
 x-forefront-prvs: 08756AC3C8
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(39860400002)(376002)(136003)(346002)(366004)(199004)(189003)(99286004)(4326008)(71190400001)(97736004)(36756003)(71200400001)(106356001)(6486002)(68736007)(72206003)(256004)(14454004)(66066001)(478600001)(7416002)(5660300001)(81166006)(8936002)(7736002)(25786009)(2201001)(81156014)(305945005)(3846002)(6116002)(26005)(102836004)(316002)(186003)(6436002)(11346002)(486006)(2906002)(2501003)(8676002)(2616005)(44832011)(476003)(6512007)(105586002)(217873002)(53936002)(52116002)(446003)(386003)(6506007)(86362001)(110136005)(76176011)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:AM0PR08MB3491;H:AM0PR08MB3891.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(39860400002)(376002)(136003)(346002)(366004)(199004)(189003)(99286004)(4326008)(71190400001)(97736004)(36756003)(71200400001)(106356001)(6486002)(68736007)(72206003)(256004)(14454004)(66066001)(478600001)(7416002)(5660300001)(81166006)(8936002)(7736002)(25786009)(2201001)(81156014)(305945005)(3846002)(6116002)(26005)(102836004)(316002)(186003)(6436002)(486006)(2906002)(2501003)(8676002)(966005)(2616005)(44832011)(476003)(6512007)(6306002)(105586002)(217873002)(53936002)(52116002)(386003)(6506007)(86362001)(110136005)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:AM0PR08MB3491;H:AM0PR08MB3891.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: arm.com does not designate
  permitted sender hosts)
-x-microsoft-antispam-message-info: 5yCdjpAfE7gA2AJIraoYbN3wX1KE3Y9sEXd73iM9cobXBWsHJal00y2bdmnI4vxxyrovDkvqTnvrzi0ZPUg9bw41+U7v8RQqMvD88O1TaW6QkFR87+uW3be9HOVy9YYJN2DwvEFlmFAPk/mxV+jYK3hF+JejnSLVCKk9J1xMV54TTDu5MewU3u+wlyJuuWDaqwDec1qVOOLMNFuTPxSP5oTFhZDVZhgyoV27yEIR85EadKHcPgwGYcg/QFYZPTkqbqU9pw1MNVPq9IVOs3XIt+djalWLQN/+uUMLLLTOzmvGwfZy+h88Ksk4HfCfrPIbZJ+K/Ou/fBnLCctl8wqDU+eDekG2XA9OkeZkDKpb+Jg=
+x-microsoft-antispam-message-info: VPF33G5ivi4/M25VrGgTqaAbS9l6jHIU0CNCX26uPWg05j9eLg1ZdX5uRkKcZIyHlTDXP3B5w9CRz7lVW7idbLlGi1WrDbDDDgahZn7l4RPQirwzuB/m0hslnoRrQIyyYAUzKo40KPIANzb4UvD9pfIcVf+otoI1IeSAdgn461qh57JAd43i2WUrGOPGo3i5gVl6TR7TqVwBoRqK+qf9A+CLVknVQFYJVDgKFp4W3TSx77W4J7MyWtKWUFWar/jLZQ2YcEi+onRXIVePdHQidHRXjEApSh6nyKQeWEdvWEZhHgl5OeZgHn2RhnmzTBOGsW4gACJDhYJiQ7sNWS/5ztfWPdkSVljgRHomS3h+56Y=
 spamdiagnosticoutput: 1:99
 spamdiagnosticmetadata: NSPM
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4295012c-d6ec-479c-47f6-08d65912ee64
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2018 11:31:56.5157
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0eec1234-fd12-45ed-fc34-08d65912ebfd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2018 11:31:52.9072
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
@@ -99,55 +99,71 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We have added a new format ie DRM_FORMAT_XVYU2101010 which is supported
-by mali display driver.
+This patchset aims to add support for AFBC in mali display driver with
+the help of format modifiers. AFBC modifiers adds some constraints to
+framebuffer size, alignment, pitch, formats, etc
 
-Signed-off-by: Ayan Kumar halder <ayan.halder@arm.com>
----
- drivers/gpu/drm/drm_fourcc.c  | 1 +
- include/uapi/drm/drm_fourcc.h | 1 +
- 2 files changed, 2 insertions(+)
+In the previous patchset ie
+https://lists.freedesktop.org/archives/dri-devel/2018-June/180124.html
 
-diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
-index 6b7a62e..d31e1ae 100644
---- a/drivers/gpu/drm/drm_fourcc.c
-+++ b/drivers/gpu/drm/drm_fourcc.c
-@@ -229,6 +229,7 @@ const struct drm_format_info *__drm_format_info(u32 for=
-mat)
- 		{ .format =3D DRM_FORMAT_VUY888,          .depth =3D 0,  .num_planes =3D=
- 1, .cpp =3D { 3, 0, 0 }, .hsub =3D 1, .vsub =3D 1, .is_yuv =3D true },
- 		{ .format =3D DRM_FORMAT_Y410,            .depth =3D 0,  .num_planes =3D=
- 1, .cpp =3D { 4, 0, 0 }, .hsub =3D 1, .vsub =3D 1, .has_alpha =3D true, .i=
-s_yuv =3D true },
- 		{ .format =3D DRM_FORMAT_AYUV,		.depth =3D 0,  .num_planes =3D 1, .cpp =
-=3D { 4, 0, 0 }, .hsub =3D 1, .vsub =3D 1, .has_alpha =3D true, .is_yuv =3D=
- true },
-+		{ .format =3D DRM_FORMAT_XVYU2101010,	.depth =3D 0,  .num_planes =3D 1, =
-.cpp =3D { 4, 0, 0 }, .hsub =3D 1, .vsub =3D 1, .is_yuv =3D true },
- 		{ .format =3D DRM_FORMAT_P010,		.depth =3D 0,  .num_planes =3D 2, .cpp =
-=3D { 2, 4, 0 }, .hsub =3D 2, .vsub =3D 2, .is_yuv =3D true  },
- 		{ .format =3D DRM_FORMAT_P012,		.depth =3D 0,  .num_planes =3D 2, .cpp =
-=3D { 2, 4, 0 }, .hsub =3D 2, .vsub =3D 2, .is_yuv =3D true  },
- 		{ .format =3D DRM_FORMAT_P016,		.depth =3D 0,  .num_planes =3D 2, .cpp =
-=3D { 2, 4, 0 }, .hsub =3D 2, .vsub =3D 2, .is_yuv =3D true  },
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index 71b2bc7..75c4b5a 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -153,6 +153,7 @@ extern "C" {
-=20
- #define DRM_FORMAT_AYUV		fourcc_code('A', 'Y', 'U', 'V') /* [31:0] A:Y:Cb:=
-Cr 8:8:8:8 little endian */
- #define DRM_FORMAT_XYUV8888	fourcc_code('X', 'Y', 'U', 'V') /* [31:0] X:Y:=
-Cb:Cr 8:8:8:8 little endian */
-+#define DRM_FORMAT_XVYU2101010	fourcc_code('X', 'V', '3', '0') /* [31:0] X=
-:Cr:Y:Cb 2:10:10:10 little endian */
- #define DRM_FORMAT_VUY888	fourcc_code('V', 'U', '2', '4') /* [23:0] Cr:Cb:=
-Y 8:8:8 little endian */
- #define DRM_FORMAT_Y410		fourcc_code('Y', '4', '1', '0') /* [31:0] A:Cr:Y:=
-Cb 2:10:10:10 little endian */
- #define DRM_FORMAT_VUY101010	fourcc_code('V', 'U', '3', '0') /* Y followed=
- by U then V, 10:10:10. Non-linear modifier only */
+I had illustrated how to add support for one format (ie BGR888) with
+one valid combination of AFBC modifiers ie
+AFBC_SIZE_16X16 | AFBC_YTR | AFBC_SPARSE
+
+Changes from v1:-
+In this current patchset, I have enabled the support for all AFBC modifiers
+(which are supported on DP500, DP550 and DP650) with all the pixel formats.
+Also, we have introduced some new pixel formats which are supported with
+AFBC modifiers only as well some other pixel formats which are supported wi=
+th
+ LINEAR only.
+
+Please feel free to let me know your thoughts.
+
+Depends on :-
+https://patchwork.kernel.org/patch/10460063/
+
+
+Ayan Kumar Halder (10):
+  drm: Added a new format DRM_FORMAT_XVYU2101010
+  drm/arm/malidp: Set the AFBC register bits if the framebuffer has AFBC
+    modifier
+  drm/arm/malidp:- Define a common list of AFBC format modifiers
+    supported for DP500, DP550 and DP650
+  drm/arm/malidp:- Added support for new YUV formats for DP500, DP550
+    and DP650
+  drm/arm/malidp: Define the constraints on each supported drm_fourcc
+    format for the AFBC modifiers.
+  drm/arm/malidp: Specified the rotation memory requirements for AFBC
+    YUV formats
+  drm/arm/malidp:- Writeback framebuffer does not support any modifiers
+  drm/arm/malidp:- Use the newly introduced malidp_format_get_bpp()
+    instead of relying on cpp for calculating framebuffer size
+  drm/arm/malidp:- Disregard the pitch alignment constraint for AFBC
+    framebuffer.
+  drm/arm/malidp: Added support for AFBC modifiers for all layers except
+    DE_SMART
+
+Brian Starkey (2):
+  drm/fourcc: Add AFBC yuv fourccs for Mali
+  drm/afbc: Add AFBC modifier usage documentation
+
+ Documentation/gpu/afbc.rst          | 233 +++++++++++++++++++++++++++++++
+ Documentation/gpu/drivers.rst       |   1 +
+ MAINTAINERS                         |   1 +
+ drivers/gpu/drm/arm/malidp_drv.c    |  45 ++----
+ drivers/gpu/drm/arm/malidp_drv.h    |   6 +
+ drivers/gpu/drm/arm/malidp_hw.c     | 245 ++++++++++++++++++++++++++++----
+ drivers/gpu/drm/arm/malidp_hw.h     |  30 +++-
+ drivers/gpu/drm/arm/malidp_mw.c     |   7 +-
+ drivers/gpu/drm/arm/malidp_planes.c | 268 ++++++++++++++++++++++++++++++++=
++---
+ drivers/gpu/drm/arm/malidp_regs.h   |  20 +++
+ drivers/gpu/drm/drm_fourcc.c        |  11 ++
+ include/uapi/drm/drm_fourcc.h       |  20 ++-
+ 12 files changed, 799 insertions(+), 88 deletions(-)
+ create mode 100644 Documentation/gpu/afbc.rst
+
 --=20
 2.7.4
 
