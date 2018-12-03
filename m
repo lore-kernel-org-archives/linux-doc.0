@@ -1,84 +1,99 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5297D7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 16:17:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E93D17D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 16:50:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726789AbeLCQRS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Dec 2018 11:17:18 -0500
-Received: from mail-yw1-f47.google.com ([209.85.161.47]:38116 "EHLO
-        mail-yw1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726586AbeLCQRS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Dec 2018 11:17:18 -0500
-Received: by mail-yw1-f47.google.com with SMTP id i20so5609869ywc.5;
-        Mon, 03 Dec 2018 08:17:09 -0800 (PST)
+        id S1726622AbeLCQuB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Dec 2018 11:50:01 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:42687 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726650AbeLCQuA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Dec 2018 11:50:00 -0500
+Received: by mail-lf1-f66.google.com with SMTP id l10so9647600lfh.9
+        for <linux-doc@vger.kernel.org>; Mon, 03 Dec 2018 08:49:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Y9j3PhmycYw6Qr1C9EO/9ht1q/JW9XQqu6X+2fdt+eE=;
-        b=FK6aIGGXfd4GzHu+5VcLQc17PnjRnWyavIN+cclCpGigX1eY04H3IaHixevNcYdrIV
-         CbaUQEVfobLySM5+4jHCAJABP26EZ1mAxFk3Gb1geQlOQt38QDRK2dsMPJysPzrNQGL3
-         OylTo833d5NjdRqThEQ2H3Spg2CJXKUoJvrnFusBN5pvw5kqpWvRAw/0FhNl5/8UUFSI
-         e8rI87deBXkjFMm34nUakxXZXvpylsw6gPlJmSNOd3+9hwf3wfekA+HnOs5aiQ4xQ2I6
-         7A0O7gHBosNewqjcTCBIKF0/kP9e0rKpr3jgDS4G+MjG6KHdzj2CxHqf0O6e+NXQHK+F
-         HQVw==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ckKTYj8os6C0SnRTgb0UJBdry5aI4TuybA26h+N17BA=;
+        b=fLRVKzuEW6L6vp+CLAbARpmwGypmdwBAxrG4wCtb+1WeSgngaAPRHybWYJoyDVnqAm
+         2ek77moz6yV4TltaoUUOjxFPj5ToJw2GYRqktYRzQbIjg5PjFwwd4eh9hDqLyLCYkqaR
+         WrKmFl92Ry9GHNPAOKxCKzgr3vRERVt7V47Yk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Y9j3PhmycYw6Qr1C9EO/9ht1q/JW9XQqu6X+2fdt+eE=;
-        b=iYHb/Aaqjj57KrwBZj/wbAvuFyE27to0EVU3uKm8wTdcV6srGExBmtHj6EKje9+deB
-         XUhytdSDYzx2SoqoMVoxbA1Yv5rqpneOVdtn4oP8vVYcahrx/UyyPJXpv+Hv7k7KUgV/
-         1qLmBust+5Gy8h4i4LoAwtuVGr0NM+Lm72WulwQcLURanB/lA69+NVDvDkWzK5sScbHK
-         ovh80tBjahkVebSCkRks+LCkUDXoqM9W7ytWSXn3TY/zYGRCaelRQFrOC6NtjleDzTgc
-         g5KegPe++2S/lKm/oGNU21KpRg5C1Vf52bv4NBN1+mROTPp7ZiKuhceWjvy78olGwBbY
-         vr3g==
-X-Gm-Message-State: AA+aEWb4NySN2puskPLTnt3FDwrestVx3wtDk3ySaM/k6otYyVMC2+79
-        nCJ2Zll4vILOR+Czwz4MiAk=
-X-Google-Smtp-Source: AFSGD/XoHAA6VtIkLEuYRvOJ+rBZOyXfLPsV9EEIublSRxW81Id6MAZPO8vlZyVlErYS4V3ipg8IcA==
-X-Received: by 2002:a81:4412:: with SMTP id r18mr16279713ywa.204.1543853828897;
-        Mon, 03 Dec 2018 08:17:08 -0800 (PST)
-Received: from localhost ([2620:10d:c091:200::5:20d7])
-        by smtp.gmail.com with ESMTPSA id n16sm5936001ywn.31.2018.12.03.08.17.07
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ckKTYj8os6C0SnRTgb0UJBdry5aI4TuybA26h+N17BA=;
+        b=WeZhsJRRtmKqXDZFJyAghbPIUakuHpkK7OQ/OjCB5SxpSlSjnytbG63wibUwqzPKbp
+         tIQ5H2FbbXeDO2PKYaxG4bfHuQXCc2gMy5rsvf2kYIBrRvYjvvszqZTZ6DBBx/1ygASm
+         uGedI7vOweKtwJoUNHa0XoTuR+4MjcE6GM7zfer79UDQGO+ZbF/fAf8jHZNNU/xDO2/M
+         N0eSIgAWPS5x8n99P5nKpTsCEX8Tg7L8EadPREX5kDfYl2UKc8EBE0Oaqx81RruMEg2e
+         KzRItEOZCGSOxCs8m2BnHlv4f7drzccbTuivmh4Za0u0lZ/ta/hj0JqZiBiX9OezPhur
+         H88Q==
+X-Gm-Message-State: AA+aEWb49R5WX1MEOQf3zeBAtfd598soj8cxWjzXoA3VDu/M2hBuqzUI
+        FfXUGlE52mUNvJh+EprfAG+HPP7X2gA=
+X-Google-Smtp-Source: AFSGD/WkIKlSS6+UbvH+aTdKVZJQNtDhLBWltbN6P3wfzLVbrEiz42gnvymfHQePYl2y/6QO3tub0g==
+X-Received: by 2002:a19:5154:: with SMTP id f81mr10161072lfb.96.1543855796362;
+        Mon, 03 Dec 2018 08:49:56 -0800 (PST)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com. [209.85.208.178])
+        by smtp.gmail.com with ESMTPSA id a2-v6sm2620549lji.13.2018.12.03.08.49.55
+        for <linux-doc@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 03 Dec 2018 08:17:08 -0800 (PST)
-Date:   Mon, 3 Dec 2018 08:17:06 -0800
-From:   Tejun Heo <tj@kernel.org>
-To:     Roman Gushchin <guroan@gmail.com>
-Cc:     Oleg Nesterov <oleg@redhat.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-team@fb.com,
-        Roman Gushchin <guro@fb.com>
-Subject: Re: [PATCH v4 3/7] cgroup: protect cgroup->nr_(dying_)descendants by
- css_set_lock
-Message-ID: <20181203161706.GL2509588@devbig004.ftw2.facebook.com>
-References: <20181130234745.6756-1-guro@fb.com>
- <20181130234745.6756-4-guro@fb.com>
+        Mon, 03 Dec 2018 08:49:55 -0800 (PST)
+Received: by mail-lj1-f178.google.com with SMTP id e5-v6so12067473lja.4
+        for <linux-doc@vger.kernel.org>; Mon, 03 Dec 2018 08:49:55 -0800 (PST)
+X-Received: by 2002:a2e:994:: with SMTP id 142-v6mr9333860ljj.120.1543855794955;
+ Mon, 03 Dec 2018 08:49:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181130234745.6756-4-guro@fb.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+References: <20181202093257.3918-1-geert@linux-m68k.org> <20181203110506.GA7485@kroah.com>
+ <20181203121519.GA7478@amd>
+In-Reply-To: <20181203121519.GA7478@amd>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 3 Dec 2018 08:49:39 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wiDeCY_ENy9S-6DjPgzzF=1UucJGrKo_K98jYA-yR1jJg@mail.gmail.com>
+Message-ID: <CAHk-=wiDeCY_ENy9S-6DjPgzzF=1UucJGrKo_K98jYA-yR1jJg@mail.gmail.com>
+Subject: Re: [PATCH v3] code-of-conduct: Remove explicit list of
+ discrimination factors
+To:     pavel@ucw.cz
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Frank Rowand <frowand.list@gmail.com>, acme@kernel.org,
+        tomi.valkeinen@iki.fi, bvanassche@acm.org,
+        linux-doc@vger.kernel.org,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 30, 2018 at 03:47:41PM -0800, Roman Gushchin wrote:
-> +	 * nr_descendants and nr_dying_descendants are protected
-> +	 * by cgroup_mutex and css_set_lock.
+On Mon, Dec 3, 2018 at 4:15 AM Pavel Machek <pavel@ucw.cz> wrote:
+>
+> Linus, I don't think Greg is doing good job maintaining this. Can you
+> take the patch? (Or explain what is going on here, because I don't
+> think public has full story).
 
-Can you be a bit more specific - hold both for writes, either for
-reads.
+I think Greg is doing a fine job, and I personally will not take
+patches to the CoC without *much* stronger reasons than just some
+random opinion.
 
-Thanks.
+This is an area where everybody has opinions, and there is no inherent
+technical agreement (ie no "look, numbers: this makes code 5%
+faster"), so my policy wrt the CoC is that changes to it have to have
+very concrete reasons for them. IOW, actual problems caused by real
+issues, not "in my opinion".
 
--- 
-tejun
+Honestly, the list of discrimination factors looks fine to me, and if
+it is shown to be insufficient or problematic, there's the documented
+link to the Code of Conduct Committee. That sounds to me like the
+right way to bring up problematic behavior - and if the review then
+shows that "yes, the CoC should cover this too", then at that point we
+have a real and present example and reason to modify the CoC.
+
+             Linus
