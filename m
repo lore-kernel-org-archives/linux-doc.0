@@ -1,64 +1,84 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A5BA57D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 15:35:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5297D7D08E
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 16:17:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726609AbeLCPfr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Dec 2018 10:35:47 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:57406 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726560AbeLCPfr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Dec 2018 10:35:47 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id EC06B30832E8;
-        Mon,  3 Dec 2018 15:35:43 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.12])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 25EF460923;
-        Mon,  3 Dec 2018 15:35:41 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Mon,  3 Dec 2018 16:35:43 +0100 (CET)
-Date:   Mon, 3 Dec 2018 16:35:41 +0100
-From:   Oleg Nesterov <oleg@redhat.com>
+        id S1726789AbeLCQRS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Dec 2018 11:17:18 -0500
+Received: from mail-yw1-f47.google.com ([209.85.161.47]:38116 "EHLO
+        mail-yw1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726586AbeLCQRS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Dec 2018 11:17:18 -0500
+Received: by mail-yw1-f47.google.com with SMTP id i20so5609869ywc.5;
+        Mon, 03 Dec 2018 08:17:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Y9j3PhmycYw6Qr1C9EO/9ht1q/JW9XQqu6X+2fdt+eE=;
+        b=FK6aIGGXfd4GzHu+5VcLQc17PnjRnWyavIN+cclCpGigX1eY04H3IaHixevNcYdrIV
+         CbaUQEVfobLySM5+4jHCAJABP26EZ1mAxFk3Gb1geQlOQt38QDRK2dsMPJysPzrNQGL3
+         OylTo833d5NjdRqThEQ2H3Spg2CJXKUoJvrnFusBN5pvw5kqpWvRAw/0FhNl5/8UUFSI
+         e8rI87deBXkjFMm34nUakxXZXvpylsw6gPlJmSNOd3+9hwf3wfekA+HnOs5aiQ4xQ2I6
+         7A0O7gHBosNewqjcTCBIKF0/kP9e0rKpr3jgDS4G+MjG6KHdzj2CxHqf0O6e+NXQHK+F
+         HQVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Y9j3PhmycYw6Qr1C9EO/9ht1q/JW9XQqu6X+2fdt+eE=;
+        b=iYHb/Aaqjj57KrwBZj/wbAvuFyE27to0EVU3uKm8wTdcV6srGExBmtHj6EKje9+deB
+         XUhytdSDYzx2SoqoMVoxbA1Yv5rqpneOVdtn4oP8vVYcahrx/UyyPJXpv+Hv7k7KUgV/
+         1qLmBust+5Gy8h4i4LoAwtuVGr0NM+Lm72WulwQcLURanB/lA69+NVDvDkWzK5sScbHK
+         ovh80tBjahkVebSCkRks+LCkUDXoqM9W7ytWSXn3TY/zYGRCaelRQFrOC6NtjleDzTgc
+         g5KegPe++2S/lKm/oGNU21KpRg5C1Vf52bv4NBN1+mROTPp7ZiKuhceWjvy78olGwBbY
+         vr3g==
+X-Gm-Message-State: AA+aEWb4NySN2puskPLTnt3FDwrestVx3wtDk3ySaM/k6otYyVMC2+79
+        nCJ2Zll4vILOR+Czwz4MiAk=
+X-Google-Smtp-Source: AFSGD/XoHAA6VtIkLEuYRvOJ+rBZOyXfLPsV9EEIublSRxW81Id6MAZPO8vlZyVlErYS4V3ipg8IcA==
+X-Received: by 2002:a81:4412:: with SMTP id r18mr16279713ywa.204.1543853828897;
+        Mon, 03 Dec 2018 08:17:08 -0800 (PST)
+Received: from localhost ([2620:10d:c091:200::5:20d7])
+        by smtp.gmail.com with ESMTPSA id n16sm5936001ywn.31.2018.12.03.08.17.07
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 03 Dec 2018 08:17:08 -0800 (PST)
+Date:   Mon, 3 Dec 2018 08:17:06 -0800
+From:   Tejun Heo <tj@kernel.org>
 To:     Roman Gushchin <guroan@gmail.com>
-Cc:     Tejun Heo <tj@kernel.org>,
+Cc:     Oleg Nesterov <oleg@redhat.com>,
         Dan Carpenter <dan.carpenter@oracle.com>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>,
         cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, kernel-team@fb.com,
         Roman Gushchin <guro@fb.com>
-Subject: Re: [PATCH v4 4/7] cgroup: cgroup v2 freezer
-Message-ID: <20181203153540.GF31795@redhat.com>
+Subject: Re: [PATCH v4 3/7] cgroup: protect cgroup->nr_(dying_)descendants by
+ css_set_lock
+Message-ID: <20181203161706.GL2509588@devbig004.ftw2.facebook.com>
 References: <20181130234745.6756-1-guro@fb.com>
- <20181130234745.6756-5-guro@fb.com>
+ <20181130234745.6756-4-guro@fb.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181130234745.6756-5-guro@fb.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Mon, 03 Dec 2018 15:35:44 +0000 (UTC)
+In-Reply-To: <20181130234745.6756-4-guro@fb.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/30, Roman Gushchin wrote:
->
->  void recalc_sigpending(void)
->  {
->  	if (!recalc_sigpending_tsk(current) && !freezing(current) &&
-> -	    !klp_patch_pending(current))
-> +	    !klp_patch_pending(current) && !cgroup_task_frozen(current))
+On Fri, Nov 30, 2018 at 03:47:41PM -0800, Roman Gushchin wrote:
+> +	 * nr_descendants and nr_dying_descendants are protected
+> +	 * by cgroup_mutex and css_set_lock.
 
-I must have missed something... but shouldn't it check JOBCTL_TRAP_FREEZE
-rather than ->frozen?
+Can you be a bit more specific - hold both for writes, either for
+reads.
 
-Oleg.
+Thanks.
 
+-- 
+tejun
