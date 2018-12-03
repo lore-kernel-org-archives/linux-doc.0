@@ -5,29 +5,29 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 38F467DD29
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 11:32:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 309B37D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 11:33:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725947AbeLCLdT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Dec 2018 06:33:19 -0500
-Received: from mail-eopbgr20052.outbound.protection.outlook.com ([40.107.2.52]:21376
+        id S1726424AbeLCLcs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Dec 2018 06:32:48 -0500
+Received: from mail-eopbgr20042.outbound.protection.outlook.com ([40.107.2.42]:52592
         "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726439AbeLCLcv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Dec 2018 06:32:51 -0500
+        id S1726386AbeLCLcr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Dec 2018 06:32:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
  s=selector1-arm-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FVT2l6+vvsPZ4FRF/AnKfcGC5jNsldyhxmNg5gGYMt4=;
- b=LwHMXB75d9xH1VZJFPp1kV/DCttiFr30OGb2Xt7eQrX4HI2eTwK6JFHKXkx1tNYjOjNyHaPajNmfAhZYrp0kW1YM4nVqBmjty7FKSjFW7tFkT0jsD895xRycGVIO0Z6n4Sxl35LdczxiegsSo90rI86lqtP6z0E0iKrcljoQD9g=
+ bh=t5r1W7iov3F9c3G5jDOOBXKH3YiWag1PuAl4bxyyQp4=;
+ b=Hy5EBx9WABbmsJS+JV+jT2ScleMYl2mBkshLRl1B/sXG21UyQ2KcEoCkC0yABQEQWzom4k9WzIZqWxXQd5jaUO3AWe2elBgegpyQU2IHlLVy139iF1CX9SlR1axmFom89meFceWFpEuOcORiigqtsoYxP+aQdCNjFVdv4tFL58M=
 Received: from AM0PR08MB3891.eurprd08.prod.outlook.com (20.178.82.147) by
  AM0PR08MB3491.eurprd08.prod.outlook.com (20.177.108.222) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1382.18; Mon, 3 Dec 2018 11:32:02 +0000
+ 15.20.1382.18; Mon, 3 Dec 2018 11:31:58 +0000
 Received: from AM0PR08MB3891.eurprd08.prod.outlook.com
  ([fe80::896a:710:2a8c:e2fa]) by AM0PR08MB3891.eurprd08.prod.outlook.com
  ([fe80::896a:710:2a8c:e2fa%6]) with mapi id 15.20.1382.020; Mon, 3 Dec 2018
- 11:32:02 +0000
+ 11:31:58 +0000
 From:   Ayan Halder <Ayan.Halder@arm.com>
 To:     Ayan Halder <Ayan.Halder@arm.com>,
         Liviu Dudau <Liviu.Dudau@arm.com>,
@@ -49,13 +49,13 @@ To:     Ayan Halder <Ayan.Halder@arm.com>,
         "arnd@arndb.de" <arnd@arndb.de>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
 CC:     nd <nd@arm.com>
-Subject: [RFC AFBC 08/12] drm/arm/malidp: Specified the rotation memory
- requirements for AFBC YUV formats
-Thread-Topic: [RFC AFBC 08/12] drm/arm/malidp: Specified the rotation memory
- requirements for AFBC YUV formats
-Thread-Index: AQHUivvPzQJfI8D9iUy5lgsE4OxoLw==
-Date:   Mon, 3 Dec 2018 11:32:02 +0000
-Message-ID: <1543836703-8491-9-git-send-email-ayan.halder@arm.com>
+Subject: [RFC v3 AFBC 04/12] drm/arm/malidp: Set the AFBC register bits if the
+ framebuffer has AFBC modifier
+Thread-Topic: [RFC v3 AFBC 04/12] drm/arm/malidp: Set the AFBC register bits
+ if the framebuffer has AFBC modifier
+Thread-Index: AQHUivvNe+KfFyADaUyOk+ZKPgY96g==
+Date:   Mon, 3 Dec 2018 11:31:58 +0000
+Message-ID: <1543836703-8491-5-git-send-email-ayan.halder@arm.com>
 References: <1543836703-8491-1-git-send-email-ayan.halder@arm.com>
 In-Reply-To: <1543836703-8491-1-git-send-email-ayan.halder@arm.com>
 Accept-Language: en-US
@@ -70,28 +70,28 @@ authentication-results: spf=none (sender IP is )
 x-ms-exchange-messagesentrepresentingtype: 1
 x-originating-ip: [217.140.106.55]
 x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;AM0PR08MB3491;6:rCS6QDsbjMR1bnhypOsMzAWLrqAUZyErYekHDohIoXUhdy4zBV9Xsr/F4+9Zn04iywMMh19cJ+DWUpsQsy2EslTaHmQiiKikaLl44dQcAOCQz4osaEJeeyVvtfztqhEMk85jVMV3fCKT2083/iFmqafytkW3EEKx+0h5VOpnzdwr8k8dZkb50Guz71yLl7eJFEGukw9/wgs5u7aFMFckw1GuLQfdsPtdAIGCLslGOMdhS1gQVa5EVlbeJlJTNZizoc17HZW8MNuahjTMnnlAxmFrAFEw5FAPtkaarxaofKjxrS/qebHNOHWaUai6TwlGMlXTGVVbElURphORtthy4RXAedXB11KH3z4rHsEFGN+uHtbGVO2euuXGNcJe+bz2VJDX1yvDbHvkpDI7sEiNpcHDViW4aucmvhqe6sqAfhWcR4pQvDLdCNuXzdID9QsoXR9pzMVurbqyoLcF+rH1Lw==;5:aVwJdj8lwBbI3p5B4dGVy6TMmTsme25IouN5SpyjzDG0EWwEHzQvWa5goIS95yChByx+U/UWM+V2oXNXJ8CH8qBtQwEKnyQxJ7gE0BZM4BVnqzj1htlIYgIVtWGzdJRRyn96FwGbL/pemROhZ6RCRCkZcabE4cOSg48FUOHmocQ=;7:SK8RQ2qtAoVw3IdXg4N+4tAnf7B2jrOdnKSasSII3gOtgtWOF5tQpL+8GZ56AxZyOLz0CFtROHwacFDgvu9q5GmDJ/kG1q/Hixk2jvL0/W98rMVdAYCR3i+wO3nfpKFGktIl342agPid6TXk2hMqww==
-x-ms-office365-filtering-correlation-id: 543222fd-5086-44e7-eb0f-08d65912f1ed
+x-microsoft-exchange-diagnostics: 1;AM0PR08MB3491;6:/4iIGJ889C8iKDGTqoZbKVVe1+guMx8fT/Pe72XpGPBSbRuzVUlCthJnDiwtKyqRoNARP2mWn7rkUw1yEx6/gArHapqUcUoqv7t8bEgJ8Q1LrKFFuJk46MnK0ZOMFvZsf/okn/Z7PWAgWgJUylWQRvx6TsEBBkcKLU6eCAObTHgwtTtufpi3xo6/wYMJwK+9fEeMTrGf6LF8pGUKA9M1rn3XiWXNy6Ovh/ruZcB2dcoy+pzhP9nc0eanXRzqZVenrrfXkXjyztsZWEjTprzN4ktjzzYEfCGQzH6LPsh/sdAsCMvTtVbJbggooZeGOmgPXSzBk3XMVl87N5zaxjR29bjYU3yutufGwqXDVngn6vZY7oMTiYoU1joMsCR3UbsBXO3BQwr6FjP+KDI/PuYQ9Dd4okLl6neyZdGC4u4j/FhyBlBmVRhiHuONlVGS8O2dVjuJCE04GO6wy1GQL8jEkg==;5:LzGEhk77a0HpQpH7wbG25XhRnwXVTho2MMraHr9F59K584yDXBwWbgwsW+TOyhFpvuxPdmrQxYeJjgwGaMIr96uikIfI7OPNv3eJApNJz9EFbqeSZ6Ap8fuN8UvBeBZhuUhxlVXzNrIc10WKRbiQlCKHYBSLUo5ovwFG9LC2LzM=;7:RMwgNyNetXdgj9ZrU6gc1ERcDW77dTsISJMNh9ecmXTi5KSXXLIDO2ACHPkjIX4EVWZxIHPXxffXVzC53F5vUtCR08owlnt3yCDeAXb4QflsOCbw2UR4j1mESdJHjpL6r5LnVGd+trdzO7mTG/S7xA==
+x-ms-office365-filtering-correlation-id: 485703a2-e8d3-42bb-53e3-08d65912ef90
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390098)(7020095)(4652040)(8989299)(5600074)(711020)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:AM0PR08MB3491;
 x-ms-traffictypediagnostic: AM0PR08MB3491:
 nodisclaimer: True
-x-microsoft-antispam-prvs: <AM0PR08MB3491DFA0ADF01D56BD2900C1E4AE0@AM0PR08MB3491.eurprd08.prod.outlook.com>
+x-microsoft-antispam-prvs: <AM0PR08MB3491767C8C64B774270D10A8E4AE0@AM0PR08MB3491.eurprd08.prod.outlook.com>
 x-ms-exchange-senderadcheck: 1
 x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(3002001)(10201501046)(3231455)(999002)(944501493)(52105112)(93006095)(93001095)(6055026)(148016)(149066)(150057)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123564045)(20161123562045)(20161123558120)(201708071742011)(7699051)(76991095);SRVR:AM0PR08MB3491;BCL:0;PCL:0;RULEID:;SRVR:AM0PR08MB3491;
 x-forefront-prvs: 08756AC3C8
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(39860400002)(376002)(136003)(346002)(366004)(199004)(189003)(99286004)(4326008)(71190400001)(97736004)(36756003)(71200400001)(106356001)(6486002)(68736007)(72206003)(256004)(14454004)(66066001)(478600001)(7416002)(5660300001)(81166006)(8936002)(7736002)(25786009)(2201001)(81156014)(305945005)(3846002)(6116002)(26005)(102836004)(316002)(186003)(6436002)(11346002)(486006)(2906002)(2501003)(8676002)(575784001)(2616005)(44832011)(476003)(6512007)(105586002)(217873002)(53936002)(52116002)(446003)(386003)(6506007)(86362001)(110136005)(76176011)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:AM0PR08MB3491;H:AM0PR08MB3891.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(39860400002)(376002)(136003)(346002)(366004)(199004)(189003)(99286004)(4326008)(71190400001)(97736004)(36756003)(4744004)(71200400001)(106356001)(6486002)(68736007)(72206003)(256004)(14454004)(66066001)(478600001)(7416002)(5660300001)(45080400002)(81166006)(8936002)(7736002)(25786009)(2201001)(81156014)(305945005)(3846002)(6116002)(26005)(102836004)(316002)(186003)(6436002)(11346002)(486006)(2906002)(2501003)(8676002)(14444005)(575784001)(2616005)(44832011)(476003)(6512007)(105586002)(53936002)(52116002)(446003)(386003)(6506007)(86362001)(110136005)(76176011)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:AM0PR08MB3491;H:AM0PR08MB3891.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: arm.com does not designate
  permitted sender hosts)
-x-microsoft-antispam-message-info: Hvn5Hqr6TT7LEk7FuRwIWa716egxwjmkMfsa599T6oNb69vBhhR7BqO4bkI78JlPXb3vSvnpc9fjBu3V2ZdYHbxus7cJ93kmcblptx9BhIuhYvZOB5Pmm/kNwSekereuBLv2Eag+ifdAvEfX2Zzg/qRcQeRE3P+peczjRaceKcXTyG/Fr6bE3Z3mwxwgIBz+7scfwaT5ICMUMqV9uQKa2kSeuSFyiLB0Tk/SzKdWWmrPfjDNOmSnFMxO/9tsNuPWwMQ4zI7XQBN1Th+FZ6dAkZj7Ht4QwqCXGAp9M5Dbz4bT0qLRmLCb2LORYX3M/ySWMqN6Ibb3nIWaTbXaPkb09eG1BFmU5m5z7rtzUzROOHs=
+x-microsoft-antispam-message-info: 8uUoIMBsJEOLHbjF/QcCi7xdahh+Kb3wAeoNpKsbzK9bzDn7S3qBK0IN79DSSXDgKwVt4sFZNftXHyw3gY3cmrijfPf50sAoMTO+QucC+FsgLGXPg4HXISwwRIxeYquRg1JAM6nWepffLDvm6KqFhJWoUIZtX1306//nuYEWw9Kuwaey7yo5gyv5ZKleqAuPcgTp5g53DPTv/vwo4CZUmWqBpY9klAbcgrn2K8RlkcVsAe8PiHMkbaFwvCmGdglOfasNVHDzE7HxIJ53L/11oqiPcy+81C9dneqe2QIQcuo8Snnf6lUqRqljwyJhSrJDs6Pb0kOOiOvFSdN5whmjEWZOoSHIXAvhv9PfHnqebhY=
 spamdiagnosticoutput: 1:99
 spamdiagnosticmetadata: NSPM
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 543222fd-5086-44e7-eb0f-08d65912f1ed
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2018 11:32:02.6060
+X-MS-Exchange-CrossTenant-Network-Message-Id: 485703a2-e8d3-42bb-53e3-08d65912ef90
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2018 11:31:58.4511
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
@@ -101,238 +101,334 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The newly supported AFBC YUV formats have the following rotation memory
-constraints (in DP550/DP650).
-1. DRM_FORMAT_VUY888/DRM_FORMAT_VUY101010 :- It can rotate upto 8
-horizontal lines in the AFBC output buffer.
-2. DRM_FORMAT_YUV420_8BIT :- It can rotate upto 16 horizontal lines
-in the AFBC output buffer.
+Added the AFBC decoder registers for DP500 , DP550 and DP650.
+These registers control the processing of AFBC buffers. It controls various
+features like AFBC decoder enable, lossless transformation and block split
+as well as setting of the left, right, top and bottom cropping of AFBC buff=
+ers
+(in number of pixels).
+All the layers (except DE_SMART) support framebuffers with AFBC modifiers.
+One needs to set the pixel values of the top, left, bottom and right croppi=
+ng
+for the AFBC framebuffer.
+Cropping an AFBC framebuffer is controlled by the AFBC crop registers.
+In that case, the layer input size registers should be configured with
+framebuffer's dimensions and not with drm_plane_state source width/height
+values (which is used for non AFBC framebuffer to denote cropping).
 
-Also some of the pixel formats are specified in bits per pixel (rather
-than bytes per pixel), so the calculation needs to take note of this.
+Changes from v1:
+ - Removed the "if (fb->modifier)" check from malidp_de_plane_update()
+and added it in malidp_de_set_plane_afbc(). This will consolidate all the
+AFBC specific register configurations in a single function ie
+malidp_de_set_plane_afbc().
 
-Besides there are some difference between DP550 and DP650 and these are
-as follows:-
-1. DRM_FORMAT_X0L2 (in uncompressed format) does not support rotation in DP=
-550.
-For DP650, it can rotate upto 16 horizontal lines in the AFBC output buffer=
-,
-whereas in DP550 (with AFBC), it can rotate upto 8 horizontal lines.
-2. DRM_FORMAT_YUV420_10BIT :- It can rotate upto 8 horizontal lines in
-dp550 and 16 horizontal lines in DP650.
+Changes from v2:
+ - For AFBC framebuffer, layer input size register should be set to framebu=
+ffer's
+width and height
 
-Signed-off-by: Ayan Kumar halder <ayan.halder@arm.com>
+Signed-off-by: Ayan Kumar Halder <ayan.halder@arm.com>
 ---
- drivers/gpu/drm/arm/malidp_hw.c     | 101 ++++++++++++++++++++++++++++++++=
+ drivers/gpu/drm/arm/malidp_hw.c     |  25 +++++----
+ drivers/gpu/drm/arm/malidp_hw.h     |   2 +
+ drivers/gpu/drm/arm/malidp_planes.c | 109 +++++++++++++++++++++++++++++++-=
 ----
- drivers/gpu/drm/arm/malidp_hw.h     |   5 +-
- drivers/gpu/drm/arm/malidp_planes.c |   3 +-
- 3 files changed, 98 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/arm/malidp_regs.h   |  20 +++++++
+ 4 files changed, 130 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/gpu/drm/arm/malidp_hw.c b/drivers/gpu/drm/arm/malidp_h=
 w.c
-index 4a774be..d9866a8 100644
+index b9bed11..87b7b12 100644
 --- a/drivers/gpu/drm/arm/malidp_hw.c
 +++ b/drivers/gpu/drm/arm/malidp_hw.c
-@@ -375,14 +375,39 @@ static void malidp500_modeset(struct malidp_hw_device=
- *hwdev, struct videomode *
- 		malidp_hw_clearbits(hwdev, MALIDP_DISP_FUNC_ILACED, MALIDP_DE_DISPLAY_FU=
-NC);
- }
-=20
--static int malidp500_rotmem_required(struct malidp_hw_device *hwdev, u16 w=
-, u16 h, u32 fmt)
-+int malidp_format_get_bpp(u32 fmt)
-+{
-+	int bpp =3D drm_format_plane_cpp(fmt, 0) * 8;
-+
-+	if (bpp =3D=3D 0) {
-+		switch (fmt) {
-+		case DRM_FORMAT_VUY101010:
-+			bpp =3D 30;
-+		case DRM_FORMAT_YUV420_10BIT:
-+			bpp =3D 15;
-+			break;
-+		case DRM_FORMAT_YUV420_8BIT:
-+			bpp =3D 12;
-+			break;
-+		default:
-+			bpp =3D 0;
-+		}
-+	}
-+
-+	return bpp;
-+}
-+
-+static int malidp500_rotmem_required(struct malidp_hw_device *hwdev, u16 w=
-,
-+				     u16 h, u32 fmt, bool has_modifier)
+@@ -94,11 +94,12 @@ static const struct malidp_layer malidp500_layers[] =3D=
  {
- 	/*
- 	 * Each layer needs enough rotation memory to fit 8 lines
- 	 * worth of pixel data. Required size is then:
- 	 *    size =3D rotated_width * (bpp / 8) * 8;
+ 	 *	yuv2rgb matrix offset, mmu control register offset, rotation_features
  	 */
--	return w * drm_format_plane_cpp(fmt, 0) * 8;
-+	int bpp =3D malidp_format_get_bpp(fmt);
-+
-+	return w * bpp;
- }
+ 	{ DE_VIDEO1, MALIDP500_DE_LV_BASE, MALIDP500_DE_LV_PTR_BASE,
+-		MALIDP_DE_LV_STRIDE0, MALIDP500_LV_YUV2RGB, 0, ROTATE_ANY },
++		MALIDP_DE_LV_STRIDE0, MALIDP500_LV_YUV2RGB, 0, ROTATE_ANY,
++		MALIDP500_DE_LV_AD_CTRL },
+ 	{ DE_GRAPHICS1, MALIDP500_DE_LG1_BASE, MALIDP500_DE_LG1_PTR_BASE,
+-		MALIDP_DE_LG_STRIDE, 0, 0, ROTATE_ANY },
++		MALIDP_DE_LG_STRIDE, 0, 0, ROTATE_ANY, MALIDP500_DE_LG1_AD_CTRL },
+ 	{ DE_GRAPHICS2, MALIDP500_DE_LG2_BASE, MALIDP500_DE_LG2_PTR_BASE,
+-		MALIDP_DE_LG_STRIDE, 0, 0, ROTATE_ANY },
++		MALIDP_DE_LG_STRIDE, 0, 0, ROTATE_ANY, MALIDP500_DE_LG2_AD_CTRL },
+ };
 =20
- static void malidp500_se_write_pp_coefftab(struct malidp_hw_device *hwdev,
-@@ -660,9 +685,9 @@ static void malidp550_modeset(struct malidp_hw_device *=
-hwdev, struct videomode *
- 		malidp_hw_clearbits(hwdev, MALIDP_DISP_FUNC_ILACED, MALIDP_DE_DISPLAY_FU=
-NC);
- }
+ static const struct malidp_layer malidp550_layers[] =3D {
+@@ -106,13 +107,15 @@ static const struct malidp_layer malidp550_layers[] =
+=3D {
+ 	 *	yuv2rgb matrix offset, mmu control register offset, rotation_features
+ 	 */
+ 	{ DE_VIDEO1, MALIDP550_DE_LV1_BASE, MALIDP550_DE_LV1_PTR_BASE,
+-		MALIDP_DE_LV_STRIDE0, MALIDP550_LV_YUV2RGB, 0, ROTATE_ANY },
++		MALIDP_DE_LV_STRIDE0, MALIDP550_LV_YUV2RGB, 0, ROTATE_ANY,
++		MALIDP550_DE_LV1_AD_CTRL },
+ 	{ DE_GRAPHICS1, MALIDP550_DE_LG_BASE, MALIDP550_DE_LG_PTR_BASE,
+-		MALIDP_DE_LG_STRIDE, 0, 0, ROTATE_ANY },
++		MALIDP_DE_LG_STRIDE, 0, 0, ROTATE_ANY, MALIDP550_DE_LG_AD_CTRL },
+ 	{ DE_VIDEO2, MALIDP550_DE_LV2_BASE, MALIDP550_DE_LV2_PTR_BASE,
+-		MALIDP_DE_LV_STRIDE0, MALIDP550_LV_YUV2RGB, 0, ROTATE_ANY },
++		MALIDP_DE_LV_STRIDE0, MALIDP550_LV_YUV2RGB, 0, ROTATE_ANY,
++		MALIDP550_DE_LV2_AD_CTRL },
+ 	{ DE_SMART, MALIDP550_DE_LS_BASE, MALIDP550_DE_LS_PTR_BASE,
+-		MALIDP550_DE_LS_R1_STRIDE, 0, 0, ROTATE_NONE },
++		MALIDP550_DE_LS_R1_STRIDE, 0, 0, ROTATE_NONE, 0 },
+ };
 =20
--static int malidp550_rotmem_required(struct malidp_hw_device *hwdev, u16 w=
-, u16 h, u32 fmt)
-+static int malidpx50_get_bytes_per_column(u32 fmt)
- {
--	u32 bytes_per_col;
-+	u32 bytes_per_column;
+ static const struct malidp_layer malidp650_layers[] =3D {
+@@ -122,16 +125,16 @@ static const struct malidp_layer malidp650_layers[] =
+=3D {
+ 	 */
+ 	{ DE_VIDEO1, MALIDP550_DE_LV1_BASE, MALIDP550_DE_LV1_PTR_BASE,
+ 		MALIDP_DE_LV_STRIDE0, MALIDP550_LV_YUV2RGB,
+-		MALIDP650_DE_LV_MMU_CTRL, ROTATE_ANY },
++		MALIDP650_DE_LV_MMU_CTRL, ROTATE_ANY, MALIDP550_DE_LV1_AD_CTRL },
+ 	{ DE_GRAPHICS1, MALIDP550_DE_LG_BASE, MALIDP550_DE_LG_PTR_BASE,
+ 		MALIDP_DE_LG_STRIDE, 0, MALIDP650_DE_LG_MMU_CTRL,
+-		ROTATE_COMPRESSED },
++		ROTATE_COMPRESSED, MALIDP550_DE_LG_AD_CTRL },
+ 	{ DE_VIDEO2, MALIDP550_DE_LV2_BASE, MALIDP550_DE_LV2_PTR_BASE,
+ 		MALIDP_DE_LV_STRIDE0, MALIDP550_LV_YUV2RGB,
+-		MALIDP650_DE_LV_MMU_CTRL, ROTATE_ANY },
++		MALIDP650_DE_LV_MMU_CTRL, ROTATE_ANY, MALIDP550_DE_LV2_AD_CTRL },
+ 	{ DE_SMART, MALIDP550_DE_LS_BASE, MALIDP550_DE_LS_PTR_BASE,
+ 		MALIDP550_DE_LS_R1_STRIDE, 0, MALIDP650_DE_LS_MMU_CTRL,
+-		ROTATE_NONE },
++		ROTATE_NONE, 0 },
+ };
 =20
- 	switch (fmt) {
- 	/* 8 lines at 4 bytes per pixel */
-@@ -688,19 +713,77 @@ static int malidp550_rotmem_required(struct malidp_hw=
-_device *hwdev, u16 w, u16
- 	case DRM_FORMAT_UYVY:
- 	case DRM_FORMAT_YUYV:
- 	case DRM_FORMAT_X0L0:
--	case DRM_FORMAT_X0L2:
--		bytes_per_col =3D 32;
-+		bytes_per_column =3D 32;
- 		break;
- 	/* 16 lines at 1.5 bytes per pixel */
- 	case DRM_FORMAT_NV12:
- 	case DRM_FORMAT_YUV420:
--		bytes_per_col =3D 24;
-+	/* 8 lines at 3 bytes per pixel */
-+	case DRM_FORMAT_VUY888:
-+	/* 16 lines at 12 bits per pixel */
-+	case DRM_FORMAT_YUV420_8BIT:
-+	/* 8 lines at 3 bytes per pixel */
-+	case DRM_FORMAT_P010:
-+		bytes_per_column =3D 24;
-+		break;
-+	/* 8 lines at 30 bits per pixel */
-+	case DRM_FORMAT_VUY101010:
-+	/* 16 lines at 15 bits per pixel */
-+	case DRM_FORMAT_YUV420_10BIT:
-+		bytes_per_column =3D 30;
- 		break;
- 	default:
- 		return -EINVAL;
- 	}
-=20
--	return w * bytes_per_col;
-+	return bytes_per_column;
-+}
-+
-+static int malidp550_rotmem_required(struct malidp_hw_device *hwdev, u16 w=
-,
-+				     u16 h, u32 fmt, bool has_modifier)
-+{
-+	int bytes_per_column =3D 0;
-+
-+	switch (fmt) {
-+	/* 8 lines at 15 bits per pixel */
-+	case DRM_FORMAT_YUV420_10BIT:
-+		bytes_per_column =3D 15;
-+		break;
-+	/* Uncompressed YUV 420 10 bit single plane cannot be rotated */
-+	case DRM_FORMAT_X0L2:
-+		if (has_modifier)
-+			bytes_per_column =3D 8;
-+		else
-+			return -EINVAL;
-+		break;
-+	default:
-+		bytes_per_column =3D malidpx50_get_bytes_per_column(fmt);
-+	}
-+
-+	if (bytes_per_column =3D=3D -EINVAL)
-+		return bytes_per_column;
-+
-+	return w * bytes_per_column;
-+}
-+
-+static int malidp650_rotmem_required(struct malidp_hw_device *hwdev, u16 w=
-,
-+				     u16 h, u32 fmt, bool has_modifier)
-+{
-+	int bytes_per_column =3D 0;
-+
-+	switch (fmt) {
-+	/* 16 lines at 2 bytes per pixel */
-+	case DRM_FORMAT_X0L2:
-+		bytes_per_column =3D 32;
-+		break;
-+	default:
-+		bytes_per_column =3D malidpx50_get_bytes_per_column(fmt);
-+	}
-+
-+	if (bytes_per_column =3D=3D -EINVAL)
-+		return bytes_per_column;
-+
-+	return w * bytes_per_column;
- }
-=20
- static int malidp550_se_set_scaling_coeffs(struct malidp_hw_device *hwdev,
-@@ -979,7 +1062,7 @@ const struct malidp_hw malidp_device[MALIDP_MAX_DEVICE=
-S] =3D {
- 		.in_config_mode =3D malidp550_in_config_mode,
- 		.set_config_valid =3D malidp550_set_config_valid,
- 		.modeset =3D malidp550_modeset,
--		.rotmem_required =3D malidp550_rotmem_required,
-+		.rotmem_required =3D malidp650_rotmem_required,
- 		.se_set_scaling_coeffs =3D malidp550_se_set_scaling_coeffs,
- 		.se_calc_mclk =3D malidp550_se_calc_mclk,
- 		.enable_memwrite =3D malidp550_enable_memwrite,
+ #define SE_N_SCALING_COEFFS	96
 diff --git a/drivers/gpu/drm/arm/malidp_hw.h b/drivers/gpu/drm/arm/malidp_h=
 w.h
-index 52188f0..e89a06a 100644
+index 40155e2..651558f 100644
 --- a/drivers/gpu/drm/arm/malidp_hw.h
 +++ b/drivers/gpu/drm/arm/malidp_hw.h
-@@ -184,7 +184,8 @@ struct malidp_hw {
- 	 * Calculate the required rotation memory given the active area
- 	 * and the buffer format.
- 	 */
--	int (*rotmem_required)(struct malidp_hw_device *hwdev, u16 w, u16 h, u32 =
-fmt);
-+	int (*rotmem_required)(struct malidp_hw_device *hwdev, u16 w, u16 h,
-+			       u32 fmt, bool has_modifier);
+@@ -70,6 +70,8 @@ struct malidp_layer {
+ 	s16 yuv2rgb_offset;	/* offset to the YUV->RGB matrix entries */
+ 	u16 mmu_ctrl_offset;    /* offset to the MMU control register */
+ 	enum rotation_features rot;	/* type of rotation supported */
++	/* address offset for the AFBC decoder registers */
++	u16 afbc_decoder_offset;
+ };
 =20
- 	int (*se_set_scaling_coeffs)(struct malidp_hw_device *hwdev,
- 				     struct malidp_se_config *se_config,
-@@ -326,6 +327,8 @@ void malidp_se_irq_fini(struct malidp_hw_device *hwdev)=
-;
- u8 malidp_hw_get_format_id(const struct malidp_hw_regmap *map,
- 			   u8 layer_id, u32 format, bool has_modifier);
-=20
-+int malidp_format_get_bpp(u32 fmt);
-+
- static inline u8 malidp_hw_get_pitch_align(struct malidp_hw_device *hwdev,=
- bool rotated)
- {
- 	/*
+ enum malidp_scaling_coeff_set {
 diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/mali=
 dp_planes.c
-index 0765cee..d0a00ee 100644
+index c9a6d3e..cd60f73 100644
 --- a/drivers/gpu/drm/arm/malidp_planes.c
 +++ b/drivers/gpu/drm/arm/malidp_planes.c
-@@ -595,7 +595,8 @@ static int malidp_de_plane_check(struct drm_plane *plan=
-e,
+@@ -592,6 +592,80 @@ static void malidp_de_set_mmu_control(struct malidp_pl=
+ane *mp,
+ 			mp->layer->base + mp->layer->mmu_ctrl_offset);
+ }
 =20
- 		val =3D mp->hwdev->hw->rotmem_required(mp->hwdev, state->crtc_w,
- 						     state->crtc_h,
--						     fb->format->format);
-+						     fb->format->format,
-+						     !!(fb->modifier));
- 		if (val < 0)
- 			return val;
++static void malidp_set_plane_base_addr(struct drm_framebuffer *fb,
++				       struct malidp_plane *mp,
++				       int plane_index)
++{
++	dma_addr_t paddr;
++	u16 ptr;
++	struct drm_plane *plane =3D &mp->base;
++	bool afbc =3D fb->modifier ? true : false;
++
++	ptr =3D mp->layer->ptr + (plane_index << 4);
++
++	/*
++	 * For AFBC buffers, cropping is handled by AFBC decoder rather than
++	 * pointer manipulation.
++	 */
++	if (!afbc) {
++		paddr =3D drm_fb_cma_get_gem_addr(fb, plane->state,
++						plane_index);
++	} else {
++		struct drm_gem_cma_object *obj;
++
++		obj =3D drm_fb_cma_get_gem_obj(fb, plane_index);
++
++		if (WARN_ON(!obj))
++			return;
++		paddr =3D obj->paddr;
++	}
++
++	malidp_hw_write(mp->hwdev, lower_32_bits(paddr), ptr);
++	malidp_hw_write(mp->hwdev, upper_32_bits(paddr), ptr + 4);
++}
++
++static void malidp_de_set_plane_afbc(struct drm_plane *plane)
++{
++	struct malidp_plane *mp;
++	u32 src_w, src_h, val =3D 0, src_x, src_y;
++	struct drm_framebuffer *fb =3D plane->state->fb;
++
++	mp =3D to_malidp_plane(plane);
++
++	/* no afbc_decoder_offset means AFBC is not supported on this plane */
++	if (!mp->layer->afbc_decoder_offset)
++		return;
++
++	if (!fb->modifier) {
++		malidp_hw_write(mp->hwdev, 0, mp->layer->afbc_decoder_offset);
++		return;
++	}
++
++	/* convert src values from Q16 fixed point to integer */
++	src_w =3D plane->state->src_w >> 16;
++	src_h =3D plane->state->src_h >> 16;
++	src_x =3D plane->state->src_x >> 16;
++	src_y =3D plane->state->src_y >> 16;
++
++	val =3D ((fb->width - (src_x + src_w)) << MALIDP_AD_CROP_RIGHT_OFFSET) |
++		   src_x;
++	malidp_hw_write(mp->hwdev, val,
++			mp->layer->afbc_decoder_offset + MALIDP_AD_CROP_H);
++
++	val =3D ((fb->height - (src_y + src_h)) << MALIDP_AD_CROP_BOTTOM_OFFSET) =
+|
++		   src_y;
++	malidp_hw_write(mp->hwdev, val,
++			mp->layer->afbc_decoder_offset + MALIDP_AD_CROP_V);
++
++	val =3D MALIDP_AD_EN;
++	if (fb->modifier & AFBC_FORMAT_MOD_SPLIT)
++		val |=3D MALIDP_AD_BS;
++	if (fb->modifier & AFBC_FORMAT_MOD_YTR)
++		val |=3D MALIDP_AD_YTR;
++
++	malidp_hw_write(mp->hwdev, val, mp->layer->afbc_decoder_offset);
++}
++
+ static void malidp_de_plane_update(struct drm_plane *plane,
+ 				   struct drm_plane_state *old_state)
+ {
+@@ -600,30 +674,33 @@ static void malidp_de_plane_update(struct drm_plane *=
+plane,
+ 	struct drm_plane_state *state =3D plane->state;
+ 	u16 pixel_alpha =3D state->pixel_blend_mode;
+ 	u8 plane_alpha =3D state->alpha >> 8;
++	bool format_has_alpha =3D state->fb->format->has_alpha;
+ 	u32 src_w, src_h, dest_w, dest_h, val;
+ 	int i;
++	struct drm_framebuffer *fb =3D plane->state->fb;
 =20
+ 	mp =3D to_malidp_plane(plane);
+=20
+-	/* convert src values from Q16 fixed point to integer */
+-	src_w =3D state->src_w >> 16;
+-	src_h =3D state->src_h >> 16;
+-	dest_w =3D state->crtc_w;
+-	dest_h =3D state->crtc_h;
++	/* For AFBC framebuffer, use the framebuffer width and height for configu=
+ring
++	 * layer input size register.
++	 */
++	if (fb->modifier) {
++		src_w =3D fb->width;
++		src_h =3D fb->height;
++	} else {
++		/* convert src values from Q16 fixed point to integer */
++		src_w =3D ms->base.src_w >> 16;
++		src_h =3D ms->base.src_h >> 16;
++	}
++	dest_w =3D ms->base.crtc_w;
++	dest_h =3D ms->base.crtc_h;
+=20
+ 	val =3D malidp_hw_read(mp->hwdev, mp->layer->base);
+ 	val =3D (val & ~LAYER_FORMAT_MASK) | ms->format;
+ 	malidp_hw_write(mp->hwdev, val, mp->layer->base);
+=20
+-	for (i =3D 0; i < ms->n_planes; i++) {
+-		/* calculate the offset for the layer's plane registers */
+-		u16 ptr =3D mp->layer->ptr + (i << 4);
+-		dma_addr_t fb_addr =3D drm_fb_cma_get_gem_addr(state->fb,
+-							     state, i);
+-
+-		malidp_hw_write(mp->hwdev, lower_32_bits(fb_addr), ptr);
+-		malidp_hw_write(mp->hwdev, upper_32_bits(fb_addr), ptr + 4);
+-	}
++	for (i =3D 0; i < ms->n_planes; i++)
++		malidp_set_plane_base_addr(fb, mp, i);
+=20
+ 	malidp_de_set_mmu_control(mp, ms);
+=20
+@@ -657,6 +734,8 @@ static void malidp_de_plane_update(struct drm_plane *pl=
+ane,
+ 				mp->layer->base + MALIDP550_LS_R1_IN_SIZE);
+ 	}
+=20
++	malidp_de_set_plane_afbc(plane);
++
+ 	/* first clear the rotation bits */
+ 	val =3D malidp_hw_read(mp->hwdev, mp->layer->base + MALIDP_LAYER_CONTROL)=
+;
+ 	val &=3D ~LAYER_ROT_MASK;
+@@ -674,7 +753,7 @@ static void malidp_de_plane_update(struct drm_plane *pl=
+ane,
+=20
+ 	if (state->alpha !=3D DRM_BLEND_ALPHA_OPAQUE) {
+ 		val |=3D LAYER_COMP_PLANE;
+-	} else if (state->fb->format->has_alpha) {
++	} else if (format_has_alpha) {
+ 		/* We only care about blend mode if the format has alpha */
+ 		switch (pixel_alpha) {
+ 		case DRM_MODE_BLEND_PREMULTI:
+diff --git a/drivers/gpu/drm/arm/malidp_regs.h b/drivers/gpu/drm/arm/malidp=
+_regs.h
+index 7ce3e14..a0dd6e1 100644
+--- a/drivers/gpu/drm/arm/malidp_regs.h
++++ b/drivers/gpu/drm/arm/malidp_regs.h
+@@ -198,10 +198,13 @@
+ #define MALIDP500_LV_YUV2RGB		((s16)(-0xB8))
+ #define MALIDP500_DE_LV_BASE		0x00100
+ #define MALIDP500_DE_LV_PTR_BASE	0x00124
++#define MALIDP500_DE_LV_AD_CTRL		0x00400
+ #define MALIDP500_DE_LG1_BASE		0x00200
+ #define MALIDP500_DE_LG1_PTR_BASE	0x0021c
++#define MALIDP500_DE_LG1_AD_CTRL	0x0040c
+ #define MALIDP500_DE_LG2_BASE		0x00300
+ #define MALIDP500_DE_LG2_PTR_BASE	0x0031c
++#define MALIDP500_DE_LG2_AD_CTRL	0x00418
+ #define MALIDP500_SE_BASE		0x00c00
+ #define MALIDP500_SE_CONTROL		0x00c0c
+ #define MALIDP500_SE_MEMWRITE_OUT_SIZE	0x00c2c
+@@ -228,10 +231,13 @@
+ #define MALIDP550_LV_YUV2RGB		0x00084
+ #define MALIDP550_DE_LV1_BASE		0x00100
+ #define MALIDP550_DE_LV1_PTR_BASE	0x00124
++#define MALIDP550_DE_LV1_AD_CTRL	0x001B8
+ #define MALIDP550_DE_LV2_BASE		0x00200
+ #define MALIDP550_DE_LV2_PTR_BASE	0x00224
++#define MALIDP550_DE_LV2_AD_CTRL	0x002B8
+ #define MALIDP550_DE_LG_BASE		0x00300
+ #define MALIDP550_DE_LG_PTR_BASE	0x0031c
++#define MALIDP550_DE_LG_AD_CTRL		0x00330
+ #define MALIDP550_DE_LS_BASE		0x00400
+ #define MALIDP550_DE_LS_PTR_BASE	0x0042c
+ #define MALIDP550_DE_PERF_BASE		0x00500
+@@ -258,6 +264,20 @@
+ #define MALIDP_MMU_CTRL_PX_PS(x)	(1 << (8 + (x)))
+ #define MALIDP_MMU_CTRL_PP_NUM_REQ(x)	(((x) & 0x7f) << 12)
+=20
++/* AFBC register offsets relative to MALIDPXXX_DE_LX_AD_CTRL */
++/* The following register offsets are common for DP500, DP550 and DP650 */
++#define MALIDP_AD_CROP_H                0x4
++#define MALIDP_AD_CROP_V                0x8
++#define MALIDP_AD_END_PTR_LOW           0xc
++#define MALIDP_AD_END_PTR_HIGH          0x10
++
++/* AFBC decoder Registers */
++#define MALIDP_AD_EN                    BIT(0)
++#define MALIDP_AD_YTR                   BIT(4)
++#define MALIDP_AD_BS                    BIT(8)
++#define MALIDP_AD_CROP_RIGHT_OFFSET     16
++#define MALIDP_AD_CROP_BOTTOM_OFFSET    16
++
+ /*
+  * Starting with DP550 the register map blocks has been standardised to th=
+e
+  * following layout:
 --=20
 2.7.4
 
