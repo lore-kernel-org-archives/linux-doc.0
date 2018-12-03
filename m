@@ -1,84 +1,144 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 82E1D7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 11:05:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D08437D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 11:23:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726238AbeLCLF5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Dec 2018 06:05:57 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50082 "EHLO mail.kernel.org"
+        id S1726174AbeLCLYM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Dec 2018 06:24:12 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:22681 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725883AbeLCLF5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Dec 2018 06:05:57 -0500
-Received: from localhost (unknown [62.119.166.9])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1725947AbeLCLYM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Dec 2018 06:24:12 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9BBF420851;
-        Mon,  3 Dec 2018 11:05:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1543835123;
-        bh=9ETUFM2GTS+wchab/GI6GIOzbFg4pqYf10keKf0Pk54=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Hm9+7H1oHkraXdtjuEJqLQrA9aj0g5qnLKaaoj/QgJDyfw01nCeANEFQZJzxMALVa
-         DqjQkDGbUYAcBE0gviLYsOm1f63+g/ISXrNtp3JSOOTNEn0qiqG0+m3535KTWbpPRN
-         OACNZAqsE6KDz0b9d93Ju692d3r2Jcy5RvvRWSmI=
-Date:   Mon, 3 Dec 2018 12:05:06 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Tomi Valkeinen <tomi.valkeinen@iki.fi>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Pavel Machek <pavel@ucw.cz>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] code-of-conduct: Remove explicit list of
- discrimination factors
-Message-ID: <20181203110506.GA7485@kroah.com>
-References: <20181202093257.3918-1-geert@linux-m68k.org>
+        by mx1.redhat.com (Postfix) with ESMTPS id 7E12688313;
+        Mon,  3 Dec 2018 11:23:34 +0000 (UTC)
+Received: from [10.36.118.125] (unknown [10.36.118.125])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D99825DF29;
+        Mon,  3 Dec 2018 11:23:32 +0000 (UTC)
+Subject: Re: [PATCH 0/2] docs: memory-hotplug: add details about locking
+ internals
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Rapoport <rppt@linux.ibm.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1539233897-10207-1-git-send-email-rppt@linux.ibm.com>
+ <20181012112153.3e1801cb@lwn.net>
+From:   David Hildenbrand <david@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ SE+xAvmumFBY
+Organization: Red Hat GmbH
+Message-ID: <94daf921-b95b-8e70-1666-a9811aaccd3f@redhat.com>
+Date:   Mon, 3 Dec 2018 12:23:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181202093257.3918-1-geert@linux-m68k.org>
-User-Agent: Mutt/1.11.0 (2018-11-25)
+In-Reply-To: <20181012112153.3e1801cb@lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Mon, 03 Dec 2018 11:23:34 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Dec 02, 2018 at 10:32:57AM +0100, Geert Uytterhoeven wrote:
-> Providing an explicit list of discrimination factors may give the false
-> impression that discrimination based on other unlisted factors would be
-> allowed.
+On 12.10.18 19:21, Jonathan Corbet wrote:
+> On Thu, 11 Oct 2018 07:58:15 +0300
+> Mike Rapoport <rppt@linux.ibm.com> wrote:
 > 
-> Furthermore, this list is already overly long, polarizing,
-> politically-laden, and reinstating the concept of human races.
-> None of these is related to the goals of the Linux kernel project.
+>> As discussed at [1], the latest updates to memory hotplug documentation are
+>> causing a conflict between docs and mmotm trees.
+>> These patches resolve the conflict.
+>>
+>> [1] https://lkml.org/lkml/2018/10/8/227
+>>
+>> David Hildenbrand (1):
+>>   docs/core-api: memory-hotplug: add some details about locking internals
+>>
+>> Mike Rapoport (1):
+>>   docs/core-api: rename memory-hotplug-notifier to memory-hotplug
 > 
-> Avoid any ambiguity or political undertone by removing the list, to
-> ensure "a harassment-free experience for everyone", period.
+> I've applied the pair, thanks.
+> 
+> jon
+> 
 
-I understand the reason you and others are proposing this change,
-however for now, let us stick with the text that we have.  As Linus and
-I said just over a month ago, let's sit with the text we have until
-something comes up that requires a change to happen.
+Looking at linux-next, we now have duplicate documentation:
 
-Also, I recommend you work with the upstream developers of this text to
-see if they agree with your changes here.  If they do, and update their
-version, I will be glad to revisit this text at that time.
+$ git grep mem_hotplug_lock
+Documentation/admin-guide/mm/memory-hotplug.rst:  mem_hotplug_lock
+Documentation/admin-guide/mm/memory-hotplug.rst:- add_memory_resource()
+will first take the mem_hotplug_lock, followed by
+Documentation/admin-guide/mm/memory-hotplug.rst:heterogeneous/device
+memory, we should always hold the mem_hotplug_lock in
+Documentation/admin-guide/mm/memory-hotplug.rst:In addition,
+mem_hotplug_lock (in contrast to device_hotplug_lock) in read
 
-But everyone, please note that there are very specific reasons for
-listing things like this.  You might not agree with those reasons, but
-many other people do so each "camp" can not be happy in the end.  As we
-did have 3 years without such a list of factors, perhaps it is time to
-have 3 years with the list to provide a fair balance. :)
+Documentation/core-api/memory-hotplug.rst:  mem_hotplug_lock
+Documentation/core-api/memory-hotplug.rst:- add_memory_resource() will
+first take the mem_hotplug_lock, followed by
+Documentation/core-api/memory-hotplug.rst:heterogeneous/device memory,
+we should always hold the mem_hotplug_lock in
+Documentation/core-api/memory-hotplug.rst:In addition, mem_hotplug_lock
+(in contrast to device_hotplug_lock) in read
 
-So I'm not going to accept this patch at this point in time, sorry.
+It really only should go to Documentation/core-api/memory-hotplug.rst
 
-thanks,
+Should I send a patch or who can fix that up?
 
-greg k-h
+-- 
+
+Thanks,
+
+David / dhildenb
