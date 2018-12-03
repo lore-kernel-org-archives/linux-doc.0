@@ -1,122 +1,84 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-7.7 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 888357D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 09:42:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 82E1D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 11:05:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726027AbeLCJmc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Dec 2018 04:42:32 -0500
-Received: from mga14.intel.com ([192.55.52.115]:28827 "EHLO mga14.intel.com"
+        id S1726238AbeLCLF5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Dec 2018 06:05:57 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50082 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725928AbeLCJmc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Dec 2018 04:42:32 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Dec 2018 01:42:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,310,1539673200"; 
-   d="scan'208";a="106547353"
-Received: from linux.intel.com ([10.54.29.200])
-  by fmsmga008.fm.intel.com with ESMTP; 03 Dec 2018 01:42:14 -0800
-Received: from [10.125.252.149] (abudanko-mobl.ccr.corp.intel.com [10.125.252.149])
-        by linux.intel.com (Postfix) with ESMTP id 4AB6B580117;
-        Mon,  3 Dec 2018 01:42:11 -0800 (PST)
-Subject: Re: [PATCH v4 1/2] Documentation/admin-guide: introduce
- perf-security.rst file
-From:   Alexey Budankov <alexey.budankov@linux.intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Ingo Molnar <mingo@redhat.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
+        id S1725883AbeLCLF5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Dec 2018 06:05:57 -0500
+Received: from localhost (unknown [62.119.166.9])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9BBF420851;
+        Mon,  3 Dec 2018 11:05:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1543835123;
+        bh=9ETUFM2GTS+wchab/GI6GIOzbFg4pqYf10keKf0Pk54=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Hm9+7H1oHkraXdtjuEJqLQrA9aj0g5qnLKaaoj/QgJDyfw01nCeANEFQZJzxMALVa
+         DqjQkDGbUYAcBE0gviLYsOm1f63+g/ISXrNtp3JSOOTNEn0qiqG0+m3535KTWbpPRN
+         OACNZAqsE6KDz0b9d93Ju692d3r2Jcy5RvvRWSmI=
+Date:   Mon, 3 Dec 2018 12:05:06 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Frank Rowand <frowand.list@gmail.com>,
         Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Tvrtko Ursulin <tursulin@ursulin.net>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "kernel-hardening@lists.openwall.com" 
-        <kernel-hardening@lists.openwall.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <feac7efa-df6f-cca1-e321-28d220bf0411@linux.intel.com>
- <b1a4fa08-482d-0fcc-c798-efb9a9894a47@linux.intel.com>
- <20181127111148.75746f02@lwn.net>
- <5e1e9c08-dff5-956d-4c2b-8ee090c387c3@linux.intel.com>
-Organization: Intel Corp.
-Message-ID: <e7fd5492-f48e-7696-f894-a3ab60479ac5@linux.intel.com>
-Date:   Mon, 3 Dec 2018 12:42:09 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        Tomi Valkeinen <tomi.valkeinen@iki.fi>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Pavel Machek <pavel@ucw.cz>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] code-of-conduct: Remove explicit list of
+ discrimination factors
+Message-ID: <20181203110506.GA7485@kroah.com>
+References: <20181202093257.3918-1-geert@linux-m68k.org>
 MIME-Version: 1.0
-In-Reply-To: <5e1e9c08-dff5-956d-4c2b-8ee090c387c3@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181202093257.3918-1-geert@linux-m68k.org>
+User-Agent: Mutt/1.11.0 (2018-11-25)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Peter,
+On Sun, Dec 02, 2018 at 10:32:57AM +0100, Geert Uytterhoeven wrote:
+> Providing an explicit list of discrimination factors may give the false
+> impression that discrimination based on other unlisted factors would be
+> allowed.
+> 
+> Furthermore, this list is already overly long, polarizing,
+> politically-laden, and reinstating the concept of human races.
+> None of these is related to the goals of the Linux kernel project.
+> 
+> Avoid any ambiguity or political undertone by removing the list, to
+> ensure "a harassment-free experience for everyone", period.
 
-On 27.11.2018 22:13, Alexey Budankov wrote:
-> On 27.11.2018 21:11, Jonathan Corbet wrote:
->> On Tue, 27 Nov 2018 11:15:37 +0300
->> Alexey Budankov <alexey.budankov@linux.intel.com> wrote:
->>
->>> +To perform security checks, the Linux implementation splits processes into two
->>> +categories [6]_ : a) privileged processes (whose effective user ID is 0, referred
->>> +to as superuser or root), and b) unprivileged processes (whose effective UID is
->>> +nonzero). Privileged processes bypass all kernel security permission checks so
->>> +perf_events performance monitoring is fully available to privileged processes
->>> +without access, scope and resource restrictions.
->>> +
->>> +Unprivileged processes are subject to a full security permission check based on
->>> +the process's credentials [5]_ (usually: effective UID, effective GID, and
->>> +supplementary group list).
->>> +
->>> +Linux divides the privileges traditionally associated with superuser into
->>> +distinct units, known as capabilities [6]_ , which can be independently enabled
->>> +and disabled on per-thread basis for processes and files of unprivileged users.
->>> +
->>> +Unprivileged processes with enabled CAP_SYS_ADMIN capability are treated as
->>> +privileged processes with respect to perf_events performance monitoring and
->>> +bypass *scope* permissions checks in the kernel.
->>> +
->>> +Unprivileged processes using perf_events system call API is also subject for
->>> +PTRACE_MODE_READ_REALCREDS ptrace access mode check [7]_ , whose outcome
->>> +determines whether monitoring is permitted. So unprivileged processes provided
->>> +with CAP_SYS_PTRACE capability are effectively permitted to pass the check.
->>
->> It's good to have more information here.  I could certainly quibble
->> further with things - a process with CAP_SYS_ADMIN is not "unprivileged"!
->> - but I don't want to stand in the way of this any further.  I *would*
->> still like to see an ack from the perf world, though.
-> 
-> Thanks for meaningful comments! Looking forward to ack from perf world.
+I understand the reason you and others are proposing this change,
+however for now, let us stick with the text that we have.  As Linus and
+I said just over a month ago, let's sit with the text we have until
+something comes up that requires a change to happen.
 
-May I ask you to review v4 of the patches? 
-Your comments on v1 have been addressed in there.
+Also, I recommend you work with the upstream developers of this text to
+see if they agree with your changes here.  If they do, and update their
+version, I will be glad to revisit this text at that time.
 
-Thanks,
-Alexey
+But everyone, please note that there are very specific reasons for
+listing things like this.  You might not agree with those reasons, but
+many other people do so each "camp" can not be happy in the end.  As we
+did have 3 years without such a list of factors, perhaps it is time to
+have 3 years with the list to provide a fair balance. :)
 
-> 
->>
->> With regard to Kees's comment on merging the two patches; I would probably
->> add the new document to index.rst in the same patch, but it doesn't matter
->> that much.  Not worth redoing the patch just for that.
-> 
-> Thanks,
-> Alexey
-> 
->>
->> jon
->>
-> 
+So I'm not going to accept this patch at this point in time, sorry.
+
+thanks,
+
+greg k-h
