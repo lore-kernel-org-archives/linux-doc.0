@@ -5,71 +5,93 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C02F67D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 12:33:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D91697D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 12:36:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726223AbeLCMd4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Dec 2018 07:33:56 -0500
-Received: from cloudserver094114.home.pl ([79.96.170.134]:44077 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726163AbeLCMd4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Dec 2018 07:33:56 -0500
-Received: from 79.184.252.87.ipv4.supernova.orange.pl (79.184.252.87) (HELO aspire.rjw.lan)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.157)
- id 33005df1c76e39af; Mon, 3 Dec 2018 13:33:02 +0100
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Linux PM <linux-pm@vger.kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Doug Smythies <dsmythies@telus.net>
-Subject: [PATCH] cpuidle: poll_state: Disregard disable idle states
-Date:   Mon, 03 Dec 2018 13:32:53 +0100
-Message-ID: <4697959.rYJ3NsDDJG@aspire.rjw.lan>
+        id S1726482AbeLCMg4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Dec 2018 07:36:56 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:35006 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726238AbeLCMg4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Dec 2018 07:36:56 -0500
+Received: by mail-lj1-f196.google.com with SMTP id x85-v6so11211861ljb.2;
+        Mon, 03 Dec 2018 04:36:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=e2ZZboa0/S/88d4dippsMLvu2YeLmEySoB3OrVg1YKY=;
+        b=OZEk6QKU1yyfpc+vhOaDsy2y5zdj2ut5wTD/7xJIPep9/317+OLGgfasa4nLuA+UEo
+         i8jPNVV17hNJQ6Vqwfo72lxDeOnC3mjtvsOZXFIyasFBeYpklNQTs+KSrZoBRjPrpiUg
+         sWUDOJ4x6mWXOIP5LJpSz0+FtE7Q/aopPu90ENnVkTTHwLGjrluDCVUTRxCgJmkgikzH
+         svJrYAxLeQ15REs7eSLMClcsiBewretplO2CNAW5+GKDPj6eybzNZe3F0e4ZbqgKW7YV
+         tqo/TdS09VNaDhIcTWySkC4mXRpkw5HYkJ4AD38/F9L6fYKU4paMfFO68iJZZodpngFL
+         WWNg==
+X-Gm-Message-State: AA+aEWZzYojkShypd0zs8Tp4ob2XeDbuWvdtRJXUc0mGwYdz9NbddKHd
+        tXTYl/4MfXDu7S2OqrKzT84=
+X-Google-Smtp-Source: AFSGD/WKno3TzxpUH7ftPXIf+DzVWej+ReIKPP9GyBzEhXJ/k3E7jhAK8oueeTkplgNWzkYjFRh8jg==
+X-Received: by 2002:a2e:5dd9:: with SMTP id v86-v6mr10566492lje.86.1543840561860;
+        Mon, 03 Dec 2018 04:36:01 -0800 (PST)
+Received: from localhost.localdomain ([213.255.186.46])
+        by smtp.gmail.com with ESMTPSA id 4-v6sm2417282ljw.84.2018.12.03.04.36.00
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 03 Dec 2018 04:36:01 -0800 (PST)
+Date:   Mon, 3 Dec 2018 14:35:58 +0200
+From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     mazziesaccount@gmail.com, mturquette@baylibre.com,
+        sboyd@kernel.org, cw00.choi@samsung.com, krzk@kernel.org,
+        b.zolnierkie@samsung.com, linux@armlinux.org.uk,
+        andy.gross@linaro.org, david.brown@linaro.org, pavel@ucw.cz,
+        andrew.smirnov@gmail.com, pombredanne@nexb.com,
+        sjhuang@iluvatar.ai, akshu.agrawal@amd.com, djkurtz@chromium.org,
+        rafael.j.wysocki@intel.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v5 0/9] clk: clkdev: managed clk lookup and provider
+ registrations
+Message-ID: <20181203123558.GD15388@localhost.localdomain>
+References: <cover.1543837442.git.matti.vaittinen@fi.rohmeurope.com>
+ <20181203121951.GP26661@dell>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20181203121951.GP26661@dell>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-When computing the limit of time to spend in the loop in poll_idle(),
-use the target residency of the first enabled idle state deeper than
-state 0 instead of always using the target residency of state 1.
+Hi de Ho Lee,
 
-This helps when state 1 is disabled for diagnostics, for instance.
+On Mon, Dec 03, 2018 at 12:19:51PM +0000, Lee Jones wrote:
+> > Series add bd71837/bd71837 PMIC clock support + managed interfaces
+> 
+> You've send me a cover letter and no patches.
+I am afraid the patches may be still on their way... I added recipients
+to git format-patch via command-line so you are probably included also
+in patch mails :(
 
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
----
- drivers/cpuidle/poll_state.c |   11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> I suggest that I should not be on the addressee list at all for this.
 
-Index: linux-pm/drivers/cpuidle/poll_state.c
-===================================================================
---- linux-pm.orig/drivers/cpuidle/poll_state.c
-+++ linux-pm/drivers/cpuidle/poll_state.c
-@@ -20,8 +20,17 @@ static int __cpuidle poll_idle(struct cp
- 
- 	local_irq_enable();
- 	if (!current_set_polling_and_test()) {
--		u64 limit = (u64)drv->states[1].target_residency * NSEC_PER_USEC;
- 		unsigned int loop_count = 0;
-+		u64 limit = TICK_USEC;
-+		int i;
-+
-+		for (i = 1; i < drv->state_count; i++) {
-+			if (drv->states[i].disabled || dev->states_usage[i].disable)
-+				continue;
-+
-+			limit = (u64)drv->states[i].target_residency * NSEC_PER_USEC;
-+			break;
-+		}
- 
- 		while (!need_resched()) {
- 			cpu_relax();
+I'm terribly sorry for spamming! I must've done some mistake with the
+get_maintainer.pl as I copied the recipients from that output. I may
+have accidentally included some old patch to maintainer query.
 
+> 
+> -- 
+> Lee Jones [李琼斯]
+> Linaro Services Technical Lead
+> Linaro.org │ Open source software for ARM SoCs
+> Follow Linaro: Facebook | Twitter | Blog
+
+-- 
+Matti Vaittinen
+ROHM Semiconductors
+
+~~~ "I don't think so," said Rene Descartes.  Just then, he vanished ~~~
