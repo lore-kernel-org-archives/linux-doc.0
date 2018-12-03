@@ -1,135 +1,258 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 669D37D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 18:06:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 381597D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Dec 2018 21:36:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726679AbeLCSGw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Dec 2018 13:06:52 -0500
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:49620 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726014AbeLCSGw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Dec 2018 13:06:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2014; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=PHMwcboEr5y8iZqZKXK4xq+yzNV3AdJh02+hNPX31+I=; b=RUF6zoWBOjvmjw4uODz8dePUo
-        1RHgxJ7IzA0jEo7OlQQ8f8SdDtQcBr7nr8zYeYZYu2+sOsEARicXd4UtLjrZ8LBrpTe64+Sx/xgMW
-        PSxJ4ccVaX1Rt0wyd6gnVPC2gMFZ0NsDcfN1Wc3CogN8VTArwamxaKu460VFkD3TRRZH8=;
-Received: from n2100.armlinux.org.uk ([2002:4e20:1eda:1:214:fdff:fe10:4f86]:54393)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1gTsbp-0001Dr-8E; Mon, 03 Dec 2018 18:06:17 +0000
-Received: from linux by n2100.armlinux.org.uk with local (Exim 4.90_1)
-        (envelope-from <linux@n2100.armlinux.org.uk>)
-        id 1gTsbm-0001r9-EF; Mon, 03 Dec 2018 18:06:14 +0000
-Date:   Mon, 3 Dec 2018 18:06:12 +0000
-From:   Russell King - ARM Linux <linux@armlinux.org.uk>
-To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     mazziesaccount@gmail.com, mturquette@baylibre.com,
-        sboyd@kernel.org, cw00.choi@samsung.com, krzk@kernel.org,
-        b.zolnierkie@samsung.com, andy.gross@linaro.org,
-        david.brown@linaro.org, pavel@ucw.cz, andrew.smirnov@gmail.com,
-        lee.jones@linaro.org, pombredanne@nexb.com, sjhuang@iluvatar.ai,
-        akshu.agrawal@amd.com, djkurtz@chromium.org,
-        rafael.j.wysocki@intel.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 1/9] clkdev: add managed clkdev lookup registration
-Message-ID: <20181203180612.GM30658@n2100.armlinux.org.uk>
-References: <cover.1543837442.git.matti.vaittinen@fi.rohmeurope.com>
- <b6c5c110c482ff6a6b2378ab3518bd31c6233872.1543837442.git.matti.vaittinen@fi.rohmeurope.com>
+        id S1725971AbeLCVc3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Dec 2018 16:32:29 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:37542 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725913AbeLCVc2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Dec 2018 16:32:28 -0500
+Received: by mail-oi1-f193.google.com with SMTP id y23so12372554oia.4;
+        Mon, 03 Dec 2018 13:32:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=7EpOZvqiCsR+9JpM0lO49UA9keAvCjxXYgZJ9W+uvqQ=;
+        b=nJV48p4eDrURnx6gzcQ8PZGnKwy3xKSI6VaHvvns+wWPNDcBo8O9xt4l35EaTdyTh4
+         XtXpADMvTt6LHCI2Q6/hbtazuc712Z/9tS4qmTuLJPFSPT/GKMwm5yHdjx2dTAVSV5MV
+         HlJEwTQOl+1Zn3UhaZWVDAD1/JGfZ7v2fpKzDElw4ojSTsUUqojB83yWUbS3ge8AJfPk
+         D2RL4FGfq+skXiSh5uYCnfFslM4kWO5zpPp2DCcu3Vqq3C2ov2X0BlPgcxBlrHjTcuEM
+         dPMo2EeyzTlb8HT2WUK5ktsU8s2aTZpUPMXMHPXOsMYvOoEkbLOzxdVb8vMxOo+0ddCH
+         KrpA==
+X-Gm-Message-State: AA+aEWbpCoqOYaFWadC+RDlqIPthLdNUydrsx+JhMIcNck+2dF04a8EC
+        344eDPxmh5UF5h3ml8ZlKELSDu4=
+X-Google-Smtp-Source: AFSGD/Xa3bqIgHi7emij+183Fy1u3j4lDkl11nzvHDis/8up1RGFIVphqGtJWv9uAgwQIR0YChi9JA==
+X-Received: by 2002:a05:6808:159:: with SMTP id h25mr7801309oie.285.1543872747087;
+        Mon, 03 Dec 2018 13:32:27 -0800 (PST)
+Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.googlemail.com with ESMTPSA id c78sm8545501oig.30.2018.12.03.13.32.26
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 03 Dec 2018 13:32:26 -0800 (PST)
+From:   Rob Herring <robh@kernel.org>
+To:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Sean Hudson <darknighte@darknighte.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, Grant Likely <grant.likely@arm.com>,
+        Kumar Gala <kumar.gala@linaro.org>, arm@kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: [PATCH v2 01/34] kbuild: Add support for DT binding schema checks
+Date:   Mon,  3 Dec 2018 15:31:50 -0600
+Message-Id: <20181203213223.16986-2-robh@kernel.org>
+X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20181203213223.16986-1-robh@kernel.org>
+References: <20181203213223.16986-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b6c5c110c482ff6a6b2378ab3518bd31c6233872.1543837442.git.matti.vaittinen@fi.rohmeurope.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+This adds the build infrastructure for checking DT binding schema
+documents and validating dts files using the binding schema.
 
-On Mon, Dec 03, 2018 at 02:17:56PM +0200, Matti Vaittinen wrote:
-> diff --git a/drivers/clk/clkdev.c b/drivers/clk/clkdev.c
-> index 9ab3db8b3988..68a1e55a60d2 100644
-> --- a/drivers/clk/clkdev.c
-> +++ b/drivers/clk/clkdev.c
-> @@ -401,6 +401,25 @@ static struct clk_lookup *__clk_register_clkdev(struct clk_hw *hw,
->  	return cl;
->  }
->  
-> +static int do_clk_register_clkdev(struct clk_hw *hw,
-> +	struct clk_lookup **cl, const char *con_id, const char *dev_id)
-> +{
-> +
+Check DT binding schema documents:
+make dt_binding_check
 
-No need for this blank line.
+Build dts files and check using DT binding schema:
+make dtbs_check
 
-> +	if (IS_ERR(hw))
-> +		return PTR_ERR(hw);
-> +	/*
-> +	 * Since dev_id can be NULL, and NULL is handled specially, we must
-> +	 * pass it as either a NULL format string, or with "%s".
-> +	 */
-> +	if (dev_id)
-> +		*cl = __clk_register_clkdev(hw, con_id, "%s",
-> +					   dev_id);
+Optionally, DT_SCHEMA_FILES can passed in with a schema file(s) to use
+for validation. This makes it easier to find and fix errors generated by
+a specific schema.
 
-Please move "dev_id);" onto the line above.
+Currently, the validation targets are separate from a normal build to
+avoid a hard dependency on the external DT schema project and because
+there are lots of warnings generated.
 
-> @@ -420,20 +439,10 @@ int clk_register_clkdev(struct clk *clk, const char *con_id,
->  {
->  	struct clk_lookup *cl;
->  
-> -	if (IS_ERR(clk))
-> -		return PTR_ERR(clk);
-> -
-> -	/*
-> -	 * Since dev_id can be NULL, and NULL is handled specially, we must
-> -	 * pass it as either a NULL format string, or with "%s".
-> -	 */
-> -	if (dev_id)
-> -		cl = __clk_register_clkdev(__clk_get_hw(clk), con_id, "%s",
-> -					   dev_id);
-> -	else
-> -		cl = __clk_register_clkdev(__clk_get_hw(clk), con_id, NULL);
-> -
-> -	return cl ? 0 : -ENOMEM;
-> +	if (!IS_ERR(clk))
-> +		return do_clk_register_clkdev(__clk_get_hw(clk), &cl, con_id,
-> +					      dev_id);
-> +	return PTR_ERR(clk);
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: linux-doc@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kbuild@vger.kernel.org
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ .gitignore                                   |  1 +
+ Documentation/Makefile                       |  2 +-
+ Documentation/devicetree/bindings/.gitignore |  1 +
+ Documentation/devicetree/bindings/Makefile   | 33 ++++++++++++++++++++
+ Makefile                                     | 11 +++++--
+ scripts/Makefile.lib                         | 24 ++++++++++++--
+ 6 files changed, 67 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/.gitignore
+ create mode 100644 Documentation/devicetree/bindings/Makefile
 
-Please keep this as:
-
-	if (IS_ERR(clk))
-		return PTR_ERR(clk);
-
-	return do_clk_register_clkdev(__clk_get_hw(clk), &cl, con_id,
-				      dev_id);
-
-rather than inverting it - it makes it more consistent with code elsewhere.
-
-> +static int devm_clk_match_clkdev(struct device *dev, void *res, void *data)
-> +{
-> +	struct clk_lookup **l = res;
-> +
-> +	if (!l || !*l) {
-> +		WARN_ON(!l || !*l);
-
-How can "l" be NULL here?  How can *l be NULL?
-
+diff --git a/.gitignore b/.gitignore
+index 97ba6b79834c..a20ac26aa2f5 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -15,6 +15,7 @@
+ *.bin
+ *.bz2
+ *.c.[012]*.*
++*.dt.yaml
+ *.dtb
+ *.dtb.S
+ *.dwo
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 2ca77ad0f238..9786957c6a35 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -2,7 +2,7 @@
+ # Makefile for Sphinx documentation
+ #
+ 
+-subdir-y :=
++subdir-y := devicetree/bindings/
+ 
+ # You can set these variables from the command line.
+ SPHINXBUILD   = sphinx-build
+diff --git a/Documentation/devicetree/bindings/.gitignore b/Documentation/devicetree/bindings/.gitignore
+new file mode 100644
+index 000000000000..d9194c02dd08
+--- /dev/null
++++ b/Documentation/devicetree/bindings/.gitignore
+@@ -0,0 +1 @@
++*.example.dts
+diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
+new file mode 100644
+index 000000000000..ee0110dd8131
+--- /dev/null
++++ b/Documentation/devicetree/bindings/Makefile
+@@ -0,0 +1,33 @@
++# SPDX-License-Identifier: GPL-2.0
++DT_DOC_CHECKER ?= dt-doc-validate
++DT_EXTRACT_EX ?= dt-extract-example
++DT_MK_SCHEMA ?= dt-mk-schema
++DT_MK_SCHEMA_FLAGS := $(if $(DT_SCHEMA_FILES), -u)
++
++quiet_cmd_chk_binding = CHKDT   $<
++      cmd_chk_binding = (set -e; \
++                         $(DT_DOC_CHECKER) $< ; \
++                         mkdir -p $(dir $@) ; \
++                         $(DT_EXTRACT_EX) $< > $@ )
++
++$(obj)/%.example.dts: $(src)/%.yaml FORCE
++	$(call if_changed,chk_binding)
++
++DT_TMP_SCHEMA := .schema.yaml.tmp
++extra-y += $(DT_TMP_SCHEMA)
++
++quiet_cmd_mk_schema = SCHEMA  $@
++      cmd_mk_schema = mkdir -p $(obj); \
++                      rm -f $@; \
++                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $<
++
++DT_DOCS = $(shell cd $(srctree)/$(src) && find * -name '*.yaml')
++DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
++
++extra-y += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
++extra-y += $(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES))
++
++$(obj)/$(DT_TMP_SCHEMA): $(addprefix $(obj)/,$(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES)))
++
++$(obj)/$(DT_TMP_SCHEMA): $(addprefix $(srctree)/, $(DT_SCHEMA_FILES)) FORCE
++	$(call if_changed,mk_schema)
+diff --git a/Makefile b/Makefile
+index 2f36db897895..ff59adf43300 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1232,10 +1232,13 @@ ifneq ($(dtstree),)
+ %.dtb: prepare3 scripts_dtc
+ 	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+ 
+-PHONY += dtbs dtbs_install
++PHONY += dtbs dtbs_install dt_binding_check
+ dtbs: prepare3 scripts_dtc
+ 	$(Q)$(MAKE) $(build)=$(dtstree)
+ 
++dtbs_check: prepare3 dt_binding_check
++	$(Q)$(MAKE) $(build)=$(dtstree) CHECK_DTBS=1
++
+ dtbs_install:
+ 	$(Q)$(MAKE) $(dtbinst)=$(dtstree)
+ 
+@@ -1249,6 +1252,9 @@ PHONY += scripts_dtc
+ scripts_dtc: scripts_basic
+ 	$(Q)$(MAKE) $(build)=scripts/dtc
+ 
++dt_binding_check: scripts_dtc
++	$(Q)$(MAKE) $(build)=Documentation/devicetree/bindings
++
+ # ---------------------------------------------------------------------------
+ # Modules
+ 
+@@ -1611,7 +1617,8 @@ clean: $(clean-dirs)
+ 	$(call cmd,rmfiles)
+ 	@find $(if $(KBUILD_EXTMOD), $(KBUILD_EXTMOD), .) $(RCS_FIND_IGNORE) \
+ 		\( -name '*.[aios]' -o -name '*.ko' -o -name '.*.cmd' \
+-		-o -name '*.ko.*' -o -name '*.dtb' -o -name '*.dtb.S' \
++		-o -name '*.ko.*' \
++		-o -name '*.dtb' -o -name '*.dtb.S' -o -name '*.dt.yaml' \
+ 		-o -name '*.dwo' -o -name '*.lst' \
+ 		-o -name '*.su'  \
+ 		-o -name '.*.d' -o -name '.*.tmp' -o -name '*.mod.c' \
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 8fe4468f9bda..d1c5630ba24c 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -61,6 +61,11 @@ real-obj-m := $(foreach m, $(obj-m), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y))
+ extra-y				+= $(dtb-y)
+ extra-$(CONFIG_OF_ALL_DTBS)	+= $(dtb-)
+ 
++ifneq ($(CHECK_DTBS),)
++extra-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
++extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
++endif
++
+ # Add subdir path
+ 
+ extra-y		:= $(addprefix $(obj)/,$(extra-y))
+@@ -284,13 +289,28 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
+ quiet_cmd_dtc = DTC     $@
+ cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
+ 	$(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
+-	$(DTC) -O dtb -o $@ -b 0 \
++	$(DTC) -O $(2) -o $@ -b 0 \
+ 		$(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
+ 		-d $(depfile).dtc.tmp $(dtc-tmp) ; \
+ 	cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
+ 
+ $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
+-	$(call if_changed_dep,dtc)
++	$(call if_changed_dep,dtc,dtb)
++
++DT_CHECKER ?= dt-validate
++DT_BINDING_DIR := Documentation/devicetree/bindings
++DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/.schema.yaml.tmp
++
++quiet_cmd_dtb_check =	CHECK  $@
++      cmd_dtb_check =	$(DT_CHECKER) -p $(DT_TMP_SCHEMA) $@ ;
++
++define rule_dtc_dt_yaml
++	$(call cmd_and_fixdep,dtc,yaml)		\
++	$(call echo-cmd,dtb_check) $(cmd_dtb_check)
++endef
++
++$(obj)/%.dt.yaml: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
++	$(call if_changed_rule,dtc_dt_yaml)
+ 
+ dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
+ 
 -- 
-RMK's Patch system: http://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-According to speedtest.net: 11.9Mbps down 500kbps up
+2.19.1
+
