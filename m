@@ -1,75 +1,131 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FROM_LOCAL_NOVOWEL,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 547B27D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 22:00:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DCD667D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 22:24:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725904AbeLDWAi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Dec 2018 17:00:38 -0500
-Received: from namei.org ([65.99.196.166]:57642 "EHLO namei.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725880AbeLDWAh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 4 Dec 2018 17:00:37 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by namei.org (8.14.4/8.14.4) with ESMTP id wB4Lxkjh022787;
-        Tue, 4 Dec 2018 21:59:46 GMT
-Date:   Wed, 5 Dec 2018 08:59:45 +1100 (AEDT)
-From:   James Morris <jmorris@namei.org>
-To:     Thiago Jung Bauermann <bauerman@linux.ibm.com>
-cc:     linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "AKASHI, Takahiro" <takahiro.akashi@linaro.org>
-Subject: Re: [PATCH v8 00/14] Appended signatures support for IMA appraisal
-In-Reply-To: <20181116200712.14154-1-bauerman@linux.ibm.com>
-Message-ID: <alpine.LRH.2.21.1812050855270.22148@namei.org>
-References: <20181116200712.14154-1-bauerman@linux.ibm.com>
-User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
+        id S1725905AbeLDWYB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Dec 2018 17:24:01 -0500
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:46041 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725895AbeLDWYB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Dec 2018 17:24:01 -0500
+Received: by mail-yw1-f67.google.com with SMTP id d190so7671004ywd.12;
+        Tue, 04 Dec 2018 14:24:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=I6nCkMUwljQh49NXS/ClOKHkTPzJgolIuwBRZ+snpIQ=;
+        b=Enwcx4nYi6WhkOZPYYFpuGKYYzpK/yoSpN8nn56gZf7MZ0teeS9Kh+AsO50EYX+MbC
+         yGILzMN246CsVbcOXF01Lp8TD1shauDu559rocut2Dc8C5XY7Wh1Jga3Zh5J3i1G27V4
+         BJGKHtirxwU141ZTGyBhX6dWmjEckAdzQ7D9nieeuTaSGBNAcu6aptmZrcXiUf/xZmv0
+         uQChQeCGxi2vLclOK8zwp1IFOx9bRLx2aO43o3u0EjEBl45b4FYgguPs6a97WwgzW2BB
+         VLEEqow8Qg7ACZaORuI7QUBewirpwuCT8zDcFlOyMoRRrtR8v24o9QW6HYnx/onW+NgK
+         cO6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=I6nCkMUwljQh49NXS/ClOKHkTPzJgolIuwBRZ+snpIQ=;
+        b=to/kBQ0BeYTe1X4SNW+bbY7tFPydHf+7oGSY/yoTyvEf53Z9V1sH6ljx2DRbNy0Bhs
+         JXZJ3H3VdqTK5wjNOZ1J4WxYlrOEmjGUqO1Uuw7ct74u+BVhkJucfp2oBXLha81pqCwY
+         pexZCz9edRn8TaZyjjRENP4/jdcb8ZMR2sq7B3T8Rj9fxn3zG3S201Opbg2ZWNWurBoX
+         w9LkXn3mXtG3bqM2DIVPOkMAVzSC3oNYguiQjY12LOqU5rqFWP4fRCmAmWTcfjitgOpS
+         RK7x/uIedcBl2Zcut7TbA7J3KqxpFDRJXltkv6Q9G/g18aLFk+zXYEy4D+eG5I+nZba8
+         r87Q==
+X-Gm-Message-State: AA+aEWbridEZPSDpduksi3xNslld5cPV+yDn+TxVevjkHDXX4kdkcmXo
+        TvsHQPcY+abUB2Wfzl3iR7+mm9bHtAxmTZItklw=
+X-Google-Smtp-Source: AFSGD/VaqoiUCb2M/7uA1CaI9733KNeLBZjJZx33e5+95+MKsMRDDpUhT09IgyoJB467lNXpjnvXDRg0Daao5Y7dWJk=
+X-Received: by 2002:a81:1fd4:: with SMTP id f203mr21520235ywf.422.1543962240420;
+ Tue, 04 Dec 2018 14:24:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <cover.1543337629.git.andreyknvl@google.com> <20728567aae93b5eb88a6636c94c1af73db7cdbc.1543337629.git.andreyknvl@google.com>
+In-Reply-To: <20728567aae93b5eb88a6636c94c1af73db7cdbc.1543337629.git.andreyknvl@google.com>
+From:   Max Filippov <jcmvbkbc@gmail.com>
+Date:   Tue, 4 Dec 2018 14:23:47 -0800
+Message-ID: <CAMo8BfK5aEGae--xvboLxMXTe1orA7kmLR_uFNCqC6M-a=Om5Q@mail.gmail.com>
+Subject: Re: [PATCH v12 05/25] kasan: add CONFIG_KASAN_GENERIC and CONFIG_KASAN_SW_TAGS
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>, glider@google.com,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>, ndesaulniers@google.com,
+        marc.zyngier@arm.com, dave.martin@arm.com,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>, paullawrence@google.com,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        rppt@linux.vnet.ibm.com, kasan-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-sparse@vger.kernel.org,
+        linux-mm@kvack.org, linux-kbuild <linux-kbuild@vger.kernel.org>,
+        kcc@google.com, eugenis@google.com, Lee.Smith@arm.com,
+        Ramana.Radhakrishnan@arm.com, Jacob.Bramley@arm.com,
+        Ruben.Ayrapetyan@arm.com, jannh@google.com, markbrand@google.com,
+        cpandya@codeaurora.org, vishwath@google.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 16 Nov 2018, Thiago Jung Bauermann wrote:
+Hello,
 
-> On the OpenPOWER platform, secure boot and trusted boot are being
-> implemented using IMA for taking measurements and verifying signatures.
-> Since the kernel image on Power servers is an ELF binary, kernels are
-> signed using the scripts/sign-file tool and thus use the same signature
-> format as signed kernel modules.
-> 
-> This patch series adds support in IMA for verifying those signatures.
+On Tue, Nov 27, 2018 at 9:00 AM Andrey Konovalov <andreyknvl@google.com> wrote:
+>
+> This commit splits the current CONFIG_KASAN config option into two:
+> 1. CONFIG_KASAN_GENERIC, that enables the generic KASAN mode (the one
+>    that exists now);
+> 2. CONFIG_KASAN_SW_TAGS, that enables the software tag-based KASAN mode.
 
-Are you saying you use IMA to verify kernels during boot?  From a Linux 
-bootloader?
+[...]
 
-> It adds flexibility to OpenPOWER secure boot, because it allows it to boot
-> kernels with the signature appended to them as well as kernels where the
-> signature is stored in the IMA extended attribute.
+> --- a/lib/Kconfig.kasan
+> +++ b/lib/Kconfig.kasan
+> @@ -1,35 +1,95 @@
+> +# This config refers to the generic KASAN mode.
+>  config HAVE_ARCH_KASAN
+>         bool
+>
+> +config HAVE_ARCH_KASAN_SW_TAGS
+> +       bool
+> +
+> +config CC_HAS_KASAN_GENERIC
+> +       def_bool $(cc-option, -fsanitize=kernel-address)
+> +
+> +config CC_HAS_KASAN_SW_TAGS
+> +       def_bool $(cc-option, -fsanitize=kernel-hwaddress)
+> +
+>  if HAVE_ARCH_KASAN
+>
+>  config KASAN
+> -       bool "KASan: runtime memory debugger"
+> +       bool "KASAN: runtime memory debugger"
+> +       help
+> +         Enables KASAN (KernelAddressSANitizer) - runtime memory debugger,
+> +         designed to find out-of-bounds accesses and use-after-free bugs.
+> +         See Documentation/dev-tools/kasan.rst for details.
 
-Just to clarify, with these patches, IMA will be able to verify the 
-native form of signed kernel modules?  i.e. without xattrs at all, and 
-this will work with existing signed modules?
-
-
+Perhaps KASAN should depend on
+CC_HAS_KASAN_GENERIC || CC_HAS_KASAN_SW_TAGS,
+otherwise make all*config may enable KASAN
+for a compiler that does not have any -fsanitize=kernel-*address
+support, resulting in build failures like this:
+  http://kisskb.ellerman.id.au/kisskb/buildresult/13606170/log/
 
 -- 
-James Morris
-<jmorris@namei.org>
-
+Thanks.
+-- Max
