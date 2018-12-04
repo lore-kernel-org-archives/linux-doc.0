@@ -1,288 +1,234 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AD1307D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 06:02:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8AB747D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 07:13:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726026AbeLDGCn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Dec 2018 01:02:43 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:40083 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725996AbeLDGCn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Dec 2018 01:02:43 -0500
-Received: by mail-ot1-f67.google.com with SMTP id s5so14087577oth.7;
-        Mon, 03 Dec 2018 22:02:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qENavGeNdHRdZWiHMMywSIpwAWCHoygMUGrnlY6JJqQ=;
-        b=T+l5Frrjeu4mMsyfTSSNKmNwHAUkYr42CVL1+6caCRPDlTA2Xpp72pE0DvzHrei4Zh
-         fsLvujAQNBVTmIW9QeKQxyb8tvEcQQDEwKmpePQRgwlQb5d5RJQQ/ibBIGCF7MvbdLR9
-         Xhg6gtRK0w281S7rdXIS2hvVnV0TYjRPknw7Gzco3KbqBfdjnBOTfjlEPweg1cerbX5E
-         onv3/K/9ZgR+7HNHIjPs5HFjqNlbRYcytl3JeyJY/VWPdoHdQK+gPV+xqynM1y2jjwp4
-         GmTrgeDZi8N0d0sJFGRn71A0QBginBC1Ivnv/QQDFmXG11snNRklAzZqMuxIdEOVGovu
-         QR2g==
+        id S1726045AbeLDHN2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Dec 2018 02:13:28 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:38125 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725976AbeLDHN2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Dec 2018 02:13:28 -0500
+Received: by mail-lj1-f195.google.com with SMTP id c19-v6so13884904lja.5;
+        Mon, 03 Dec 2018 23:13:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qENavGeNdHRdZWiHMMywSIpwAWCHoygMUGrnlY6JJqQ=;
-        b=hEqm6xpw4INz+DNFoe2msseFdn9AxWp/1AFqhOkihnUGrpUAk33ZzZQe5rdWRvwuGg
-         0IyuGmmHYDOS8Dna5Fan/plXX092c6ztAeP1PjtFsUJPdUVYCLzNRTPbLlEBImeI95jx
-         3KhomZmNLeaj7FoljNEWrgonfyAfAE1ChiLkNAyt4ffVZEbS32Po1HeKqY9Xepab6CZu
-         hbwv95Ozsne8kGFaJ1bqpdwTdvN+krdkdXRbhRYZeGIO9wYbBIiRICZfY9i6yU4c83RB
-         ibJydjh9bSxq1sIsA1ncakQEnjKGB1jtDp20TzkKvVjQZuRYOHmPNyiauUBHU4PQJZ/Z
-         /3ng==
-X-Gm-Message-State: AA+aEWby9BFLevSDiFpL4Vm+X+SKPmW2nRKqQbS+XG6TVFdKjPXSy39x
-        T6aB6QhIYjApQL8pwZtId+2tTip2XIq28rKmWDs=
-X-Google-Smtp-Source: AFSGD/U4ziTgMukjj2XYbngscdJjnJXJvrsmdaxAS9qGt/DpuSe+EjsUER4jQ8k29Dr4KxswXj9GjIIugmrpX3A4bSA=
-X-Received: by 2002:a9d:8e4:: with SMTP id 91mr11553670otf.169.1543903360992;
- Mon, 03 Dec 2018 22:02:40 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=xmeezsH2L85SbH1REd44WuAJXxNc3UqWGXKyi96Uj28=;
+        b=cbK9NEUEcxan80cYocRsW02Iu8vvCW5lBtyE9qMbpFovGiDL9fsHD16NK+nT9xYqvx
+         PtNN/zQ2IImxB5AL29HXJHywRSIpPYH7geBIFbvELadz+ggtN1UMVE+bhvGi05ElovNp
+         kIV+yGsxEDaJTIPLd9RT/atcFfupqVZD3TaPO8bjy17HERzBCSVRdeNRHyOMdI49fYrn
+         E7E+D6xwXbGuI4uCgpkFN7NNQrKUa6T6wkqJkFVqesM9uZuz8wtQVZB/DgoF6kfY/R3j
+         gEnFOp7KfAXokB6W+3T8YAURnOaMCaON0omSd1Eiqbe/75LM36SJ2AYIsst/JsVMKH8E
+         sseg==
+X-Gm-Message-State: AA+aEWamlmCTuJusGkRTKROHkNxyTwd9WekKjwyMkVTMaQnomWP2pZoe
+        Bc/eheZIOYVb+WAoho0e/Pa405Tmb0g=
+X-Google-Smtp-Source: AFSGD/XYIGAw29yRvRUedjQ9g4fIn0B0FHC5J9uW9shhq4igz9NfvdIuMojadcAS7atDvAZfLd0dxQ==
+X-Received: by 2002:a2e:4299:: with SMTP id h25-v6mr11561739ljf.5.1543907605271;
+        Mon, 03 Dec 2018 23:13:25 -0800 (PST)
+Received: from localhost.localdomain ([213.255.186.46])
+        by smtp.gmail.com with ESMTPSA id x204sm2789009lfa.5.2018.12.03.23.13.23
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 03 Dec 2018 23:13:24 -0800 (PST)
+Date:   Tue, 4 Dec 2018 09:13:15 +0200
+From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     mazziesaccount@gmail.com, Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andy Gross <andy.gross@linaro.org>,
+        David Brown <david.brown@linaro.org>,
+        Andrey Smirnov <andrew.smirnov@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Huang Shijie <sjhuang@iluvatar.ai>,
+        Daniel Kurtz <djkurtz@chromium.org>,
+        Akshu Agrawal <akshu.agrawal@amd.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org
+Subject: Re: [PATCH v4 1/8] clk: clkdev/of_clk - add managed lookup and
+ provider registrations
+Message-ID: <20181204071315.GA31204@localhost.localdomain>
+References: <cover.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
+ <ec0d6ee7ea79f0e05041ed3e564b0aadb297ef5f.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
+ <154356805035.88331.16867826308376667832@swboyd.mtv.corp.google.com>
+ <20181130105022.GA15388@localhost.localdomain>
+ <154388011043.88331.6461709079501929390@swboyd.mtv.corp.google.com>
 MIME-Version: 1.0
-References: <20181122030354.13570-1-ganapatrao.kulkarni@cavium.com>
- <20181122030354.13570-3-ganapatrao.kulkarni@cavium.com> <20181203121128.GC24824@arm.com>
-In-Reply-To: <20181203121128.GC24824@arm.com>
-From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
-Date:   Tue, 4 Dec 2018 11:32:29 +0530
-Message-ID: <CAKTKpr7uSdrMrzVG5rHzmYSF6hKuP+R=ag9DqrbzSNNWQ_OyKA@mail.gmail.com>
-Subject: Re: [PATCH v8 2/2] ThunderX2, perf : Add Cavium ThunderX2 SoC UNCORE
- PMU driver
-To:     Will Deacon <will.deacon@arm.com>
-Cc:     Ganapatrao Kulkarni <Ganapatrao.Kulkarni@cavium.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>, suzuki.poulose@arm.com,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Nair, Jayachandran" <Jayachandran.Nair@cavium.com>,
-        Robert Richter <Robert.Richter@cavium.com>,
-        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <154388011043.88331.6461709079501929390@swboyd.mtv.corp.google.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 3, 2018 at 5:41 PM Will Deacon <will.deacon@arm.com> wrote:
->
-> On Thu, Nov 22, 2018 at 03:04:35AM +0000, Kulkarni, Ganapatrao wrote:
-> > This patch adds a perf driver for the PMU UNCORE devices DDR4 Memory
-> > Controller(DMC) and Level 3 Cache(L3C). Each PMU supports up to 4
-> > counters. All counters lack overflow interrupt and are
-> > sampled periodically.
-> >
-> > Signed-off-by: Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
-> > ---
-> >  drivers/perf/Kconfig         |   9 +
-> >  drivers/perf/Makefile        |   1 +
-> >  drivers/perf/thunderx2_pmu.c | 869 +++++++++++++++++++++++++++++++++++
-> >  include/linux/cpuhotplug.h   |   1 +
-> >  4 files changed, 880 insertions(+)
-> >  create mode 100644 drivers/perf/thunderx2_pmu.c
-> >
-> > diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
-> > index 08ebaf7cca8b..af9bc178495d 100644
-> > --- a/drivers/perf/Kconfig
-> > +++ b/drivers/perf/Kconfig
-> > @@ -87,6 +87,15 @@ config QCOM_L3_PMU
-> >          Adds the L3 cache PMU into the perf events subsystem for
-> >          monitoring L3 cache events.
-> >
-> > +config THUNDERX2_PMU
-> > +     tristate "Cavium ThunderX2 SoC PMU UNCORE"
-> > +     depends on ARCH_THUNDER2 && ARM64 && ACPI && NUMA
-> > +     default m
-> > +     help
-> > +        Provides support for ThunderX2 UNCORE events.
-> > +        The SoC has PMU support in its L3 cache controller (L3C) and
-> > +        in the DDR4 Memory Controller (DMC).
-> > +
-> >  config XGENE_PMU
-> >          depends on ARCH_XGENE
-> >          bool "APM X-Gene SoC PMU"
-> > diff --git a/drivers/perf/Makefile b/drivers/perf/Makefile
-> > index b3902bd37d53..909f27fd9db3 100644
-> > --- a/drivers/perf/Makefile
-> > +++ b/drivers/perf/Makefile
-> > @@ -7,5 +7,6 @@ obj-$(CONFIG_ARM_PMU_ACPI) += arm_pmu_acpi.o
-> >  obj-$(CONFIG_HISI_PMU) += hisilicon/
-> >  obj-$(CONFIG_QCOM_L2_PMU)    += qcom_l2_pmu.o
-> >  obj-$(CONFIG_QCOM_L3_PMU) += qcom_l3_pmu.o
-> > +obj-$(CONFIG_THUNDERX2_PMU) += thunderx2_pmu.o
-> >  obj-$(CONFIG_XGENE_PMU) += xgene_pmu.o
-> >  obj-$(CONFIG_ARM_SPE_PMU) += arm_spe_pmu.o
-> > diff --git a/drivers/perf/thunderx2_pmu.c b/drivers/perf/thunderx2_pmu.c
-> > new file mode 100644
-> > index 000000000000..e6509ba868ab
-> > --- /dev/null
-> > +++ b/drivers/perf/thunderx2_pmu.c
-> > @@ -0,0 +1,869 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * CAVIUM THUNDERX2 SoC PMU UNCORE
-> > + * Copyright (C) 2018 Cavium Inc.
-> > + * Author: Ganapatrao Kulkarni <gkulkarni@cavium.com>
-> > + */
-> > +
-> > +#include <linux/acpi.h>
-> > +#include <linux/cpuhotplug.h>
-> > +#include <linux/perf_event.h>
-> > +#include <linux/platform_device.h>
-> > +
-> > +/* Each ThunderX2(TX2) Socket has a L3C and DMC UNCORE PMU device.
-> > + * Each UNCORE PMU device consists of 4 independent programmable counters.
-> > + * Counters are 32 bit and do not support overflow interrupt,
-> > + * they need to be sampled before overflow(i.e, at every 2 seconds).
-> > + */
-> > +
-> > +#define TX2_PMU_MAX_COUNTERS         4
-> > +#define TX2_PMU_DMC_CHANNELS         8
-> > +#define TX2_PMU_L3_TILES             16
-> > +
-> > +#define TX2_PMU_HRTIMER_INTERVAL     (2 * NSEC_PER_SEC)
-> > +#define GET_EVENTID(ev)                      ((ev->hw.config) & 0x1ff)
->
-> I think this should be 0x1f.
+Hello Again Stephen,
 
-yes it should be, i will update it.
->
-> > +#define GET_COUNTERID(ev)            ((ev->hw.idx) & 0x3)
-> > + /* 1 byte per counter(4 counters).
-> > +  * Event id is encoded in bits [5:1] of a byte,
-> > +  */
-> > +#define DMC_EVENT_CFG(idx, val)              ((val) << (((idx) * 8) + 1))
-> > +
-> > +#define L3C_COUNTER_CTL                      0xA8
-> > +#define L3C_COUNTER_DATA             0xAC
-> > +#define DMC_COUNTER_CTL                      0x234
-> > +#define DMC_COUNTER_DATA             0x240
-> > +
-> > +/* L3C event IDs */
-> > +#define L3_EVENT_READ_REQ            0xD
-> > +#define L3_EVENT_WRITEBACK_REQ               0xE
-> > +#define L3_EVENT_INV_N_WRITE_REQ     0xF
-> > +#define L3_EVENT_INV_REQ             0x10
-> > +#define L3_EVENT_EVICT_REQ           0x13
-> > +#define L3_EVENT_INV_N_WRITE_HIT     0x14
-> > +#define L3_EVENT_INV_HIT             0x15
-> > +#define L3_EVENT_READ_HIT            0x17
-> > +#define L3_EVENT_MAX                 0x18
-> > +
-> > +/* DMC event IDs */
-> > +#define DMC_EVENT_COUNT_CYCLES               0x1
-> > +#define DMC_EVENT_WRITE_TXNS         0xB
-> > +#define DMC_EVENT_DATA_TRANSFERS     0xD
-> > +#define DMC_EVENT_READ_TXNS          0xF
-> > +#define DMC_EVENT_MAX                        0x10
-> > +
-> > +enum tx2_uncore_type {
-> > +     PMU_TYPE_L3C,
-> > +     PMU_TYPE_DMC,
-> > +     PMU_TYPE_INVALID,
-> > +};
-> > +
-> > +/*
-> > + * pmu on each socket has 2 uncore devices(dmc and l3c),
-> > + * each device has 4 counters.
-> > + */
-> > +struct tx2_uncore_pmu {
-> > +     struct hlist_node hpnode;
-> > +     struct list_head  entry;
-> > +     struct pmu pmu;
-> > +     char *name;
-> > +     int node;
-> > +     int cpu;
-> > +     u32    max_counters;
-> > +     u32    prorate_factor;
-> > +     u32    max_events;
-> > +     u64 hrtimer_interval;
-> > +     void __iomem *base;
-> > +     DECLARE_BITMAP(active_counters, TX2_PMU_MAX_COUNTERS);
-> > +     struct perf_event *events[TX2_PMU_MAX_COUNTERS];
-> > +     struct device *dev;
-> > +     struct hrtimer hrtimer;
-> > +     const struct attribute_group **attr_groups;
-> > +     enum tx2_uncore_type type;
-> > +     void    (*init_cntr_base)(struct perf_event *event,
-> > +                     struct tx2_uncore_pmu *tx2_pmu);
-> > +     void    (*stop_event)(struct perf_event *event);
-> > +     void    (*start_event)(struct perf_event *event, int flags);
-> > +};
-> > +
-> > +static LIST_HEAD(tx2_pmus);
-> > +
-> > +static inline struct tx2_uncore_pmu *pmu_to_tx2_pmu(struct pmu *pmu)
-> > +{
-> > +     return container_of(pmu, struct tx2_uncore_pmu, pmu);
-> > +}
-> > +
-> > +/*
-> > + * sysfs format attributes
-> > + */
-> > +static ssize_t tx2_pmu_format_show(struct device *dev,
-> > +                                  struct device_attribute *attr, char *buf)
-> > +{
-> > +     struct dev_ext_attribute *eattr;
-> > +
-> > +     eattr = container_of(attr, struct dev_ext_attribute, attr);
-> > +     return sprintf(buf, "%s\n", (char *) eattr->var);
-> > +}
-> > +
-> > +#define FORMAT_ATTR(_name, _config) \
-> > +     (&((struct dev_ext_attribute[]) { \
-> > +        { \
-> > +        .attr = __ATTR(_name, 0444, tx2_pmu_format_show, NULL), \
-> > +        .var = (void *) _config, \
-> > +        } \
-> > +     })[0].attr.attr)
-> > +
-> > +static struct attribute *l3c_pmu_format_attrs[] = {
-> > +     FORMAT_ATTR(event,      "config:0-4"),
-> > +     NULL,
-> > +};
-> > +
-> > +static struct attribute *dmc_pmu_format_attrs[] = {
-> > +     FORMAT_ATTR(event,      "config:0-4"),
-> > +     NULL,
-> > +};
->
-> We have PMU_FORMAT_ATTR, PMU_EVENT_ATTR etc in the core code to help here.
-> Please try to use them.
+I did already send v5 prior to your reply but I will create v6 today
+based on this discussion.
 
-ok, i will try to use it.
->
-> > +static const struct attribute_group l3c_pmu_format_attr_group = {
-> > +     .name = "format",
-> > +     .attrs = l3c_pmu_format_attrs,
-> > +};
-> > +
-> > +static const struct attribute_group dmc_pmu_format_attr_group = {
-> > +     .name = "format",
-> > +     .attrs = dmc_pmu_format_attrs,
-> > +};
-> > +
-> > +/*
-> > + * sysfs event attributes
-> > + */
-> > +static ssize_t tx2_pmu_event_show(struct device *dev,
-> > +                                 struct device_attribute *attr, char *buf)
-> > +{
-> > +     struct dev_ext_attribute *eattr;
-> > +
-> > +     eattr = container_of(attr, struct dev_ext_attribute, attr);
-> > +     return sprintf(buf, "config=0x%lx\n", (unsigned long) eattr->var);
-> > +}
->
-> Shouldn't this be "event=" instead of "config="?
+On Mon, Dec 03, 2018 at 03:35:10PM -0800, Stephen Boyd wrote:
+> Quoting Matti Vaittinen (2018-11-30 02:50:22)
+> > Hello Stephen,
+> > 
+> > Thanks a bunch for taking the time and reviewing this!
+> > 
+> > On Fri, Nov 30, 2018 at 12:54:10AM -0800, Stephen Boyd wrote:
+> > > Quoting Matti Vaittinen (2018-11-13 03:55:58)
+> > > > -int devm_of_clk_add_hw_provider(struct device *dev,
+> > > > +static int __devm_of_clk_add_hw_provider(struct device *dev,
+> > > >                         struct clk_hw *(*get)(struct of_phandle_args *clkspec,
+> > > >                                               void *data),
+> > > > -                       void *data)
+> > > > +                       struct device_node *of_node, void *data)
+> > > >  {
+> > > > -       struct device_node **ptr, *np;
+> > > > +       struct device_node **ptr;
+> > > >         int ret;
+> > > >  
+> > > >         ptr = devres_alloc(devm_of_clk_release_provider, sizeof(*ptr),
+> > > > @@ -3906,10 +3906,9 @@ int devm_of_clk_add_hw_provider(struct device *dev,
+> > > >         if (!ptr)
+> > > >                 return -ENOMEM;
+> > > >  
+> > > > -       np = dev->of_node;
+> > > > -       ret = of_clk_add_hw_provider(np, get, data);
+> > > > +       *ptr = of_node;
+> > > > +       ret = of_clk_add_hw_provider(of_node, get, data);
+> > > >         if (!ret) {
+> > > > -               *ptr = np;
+> > > 
+> > > Why is this moved outside of the if condition?
+> > I completely removed the local variable np and just unconditionally set
+> > the allocated devres to point at the node (if allocation succeeded). We
+> > could of course only do this if the provider registration succeeded and
+> > save one assignment - but I guess I intended to remove the curly braces
+> > and thus decided to go for one liner after if. But apparently I didn't
+> > remove the braces O_o. Well, I can put the assignment inside the
+> > condition if you prefer that.
+> > 
+> > > In fact, why isn't just
+> > > the first line in this hunk deleted and passed to this function as
+> > > struct device_node *np?
+> > 
+> > I am sorry but I don't quite follow your suggestion here. Do you mean we
+> > could just pass the struct device_node *np in devres_add()? I thought
+> > the pointer passed to devress_add() should be allocated using
+> > devres_alloc. Can you please elaborate what you mean?
+> 
+> I'm just trying to reduce the diff in the patch.
 
-yep, thanks
->
-> Will
+Oh, right. I will see how renaming the argument to np would impact to
+patch size. iActually, I never consider the patch size at all - I have
+only been concentrating on how the resulting file looks like. It didn't
+ever cross my mind that patch size matters. But I guess the size of
+chanes is really meaningfull when the amount of changes is large.
 
-Thanks,
-Ganapat
+> > > >                 devres_add(dev, ptr);
+> > > >         } else {
+> > > >                 devres_free(ptr);
+> [..]
+> > > 
+> > > > +int devm_of_clk_add_hw_provider(struct device *dev,
+> > > > +                       struct clk_hw *(*get)(struct of_phandle_args *clkspec,
+> > > > +                                             void *data),
+> > > > +                       void *data)
+> > > > +{
+> > > > +       return __devm_of_clk_add_hw_provider(dev, get, dev->of_node, data);
+> > > > +}
+> > > >  EXPORT_SYMBOL_GPL(devm_of_clk_add_hw_provider);
+> > > >  
+> > > > +int devm_of_clk_add_parent_hw_provider(struct device *dev,
+> > > > +                       struct clk_hw *(*get)(struct of_phandle_args *clkspec,
+> > > > +                                             void *data),
+> > > > +                       void *data)
+> > > > +{
+> > > > +       return __devm_of_clk_add_hw_provider(dev, get, dev->parent->of_node,
+> > > 
+> > > I'm wondering if we can somehow auto-detect this in
+> > > devm_of_clk_add_hw_provider() by looking for #clock-cells in the node.
+> > > If it isn't there, then we go to the parent node and look for a
+> > > #clock-cells property there in the DT node for that device. Does that
+> > > make sense? Then there isn't any new API and we can attach the lifetime
+> > > of the devm registration to the presence of the property indicating this
+> > > is a clk controller or not.
+> > 
+> > Huh. I don't know why but building this kind of logic in core is a bit
+> > scary to me. I guess I can try implementing something like this - but I
+> > am not really a fan of this. (Accidentally) omit the #clock-cells from
+> > node and we go to parent node - I am a novice on this area but this
+> > sounds like a potential hazard to me. I believe the driver should know
+> > if it's properties should be in own or parent node - and if they are
+> > not, then there should be no guessing but error. The lifetime is topic
+> > where I would like to get information from you who know the kernel
+> > better than I do =) But I guess the parent node is there at least as
+> > long as the child device is alive. So for me the life time of
+> > get-callback is more crucial - but as I said, I don't understand the
+> > kernel in details so you probably know it better than me. But please let
+> > me know your final take on this and I will follow the guidance =)
+> 
+> Please do the magic instead of adding another API. It makes things
+> simpler and will work for this case without having to change anything
+> besides of_clk_add_provider().
+
+All right. Let's go on this direction then.
+
+> If the DT doesn't have the #clock-cells property in the node being
+> registered then calling clk_get() will fail for any consumer devices
+> that point to the node with a phandle and clock specifier. I don't
+> expect us to get very far into development if that's the case.
+
+Makes sense. So only potential thing to break is if someone out there
+has broken DT/driver - where they currently see this failure. Eg. they
+use node w/o #clock-cells as provider and where they try and fail
+controlling this clock - but ignore the error (and system just "works"
+with HW defaults). After this change they may actually succeed in
+controlling - but do control wrong clock.
+
+Not likely scenario (sure happens somewhere) - and it involves already
+broken design. So I agree with you. Besides, you are the maintainer for
+clk framework and thus get the most of the rain if **** hits the fan =D
+
+> Of course, we don't fail in of_clk_add_provider() if there isn't a
+> #clock-cells property in the node, we just happily add the node to the
+> provider list and carry on. I doubt anyone is failing to specify the DT
+> property, but maybe they are, in which case we could keep not failing
+> and just add the node of whatever we're called with originally if
+> neither the parent or the passed node have the #clock-cells property. I
+> wouldn't try to go any higher than one node above the current node and
+> look for a #clock-cells though.
+
+I think we should use parent device's node, not the paren node in DT,
+right? But I agree, we should only look "one level up in the chain".
+
+> 
+> If this all still seems scary then don't worry about it, I'll implement
+> it myself.
+
+It still is somewhat "scary" - but I really would like to use the devm
+based provider registration in the bd718x7 driver so I will implement it
+in this series. The engineer version of the "living on the edge", you
+know =)
+
+Br,
+	Matti Vaittinen
+
+-- 
+Matti Vaittinen
+ROHM Semiconductors
+
+~~~ "I don't think so," said Rene Descartes.  Just then, he vanished ~~~
