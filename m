@@ -2,136 +2,180 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 333F57D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 16:57:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 96AF97D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 17:13:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727157AbeLDQ5u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Dec 2018 11:57:50 -0500
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:37110 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726152AbeLDQ5t (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 4 Dec 2018 11:57:49 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D99A5A78;
-        Tue,  4 Dec 2018 08:57:48 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7D2D93F614;
-        Tue,  4 Dec 2018 08:57:48 -0800 (PST)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
-        id DCB7E680159; Tue,  4 Dec 2018 16:57:46 +0000 (GMT)
-Date:   Tue, 4 Dec 2018 16:57:46 +0000
-From:   Liviu Dudau <Liviu.Dudau@arm.com>
-To:     Ayan Halder <Ayan.Halder@arm.com>
-Cc:     Brian Starkey <Brian.Starkey@arm.com>,
-        "malidp@foss.arm.com" <malidp@foss.arm.com>,
-        "airlied@linux.ie" <airlied@linux.ie>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
-        "sean@poorly.run" <sean@poorly.run>,
-        "maarten.lankhorst@linux.intel.com" 
-        <maarten.lankhorst@linux.intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        nd <nd@arm.com>
-Subject: Re: [RFC AFBC 06/12] drm/arm/malidp:- Added support for new YUV
- formats for DP500, DP550 and DP650
-Message-ID: <20181204165746.GN988@e110455-lin.cambridge.arm.com>
-References: <1543836703-8491-1-git-send-email-ayan.halder@arm.com>
- <1543836703-8491-7-git-send-email-ayan.halder@arm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1543836703-8491-7-git-send-email-ayan.halder@arm.com>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+        id S1727135AbeLDRNo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Dec 2018 12:13:44 -0500
+Received: from mga05.intel.com ([192.55.52.43]:34123 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726226AbeLDRNo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 4 Dec 2018 12:13:44 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Dec 2018 09:13:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,314,1539673200"; 
+   d="scan'208";a="127031778"
+Received: from unknown (HELO yyu32-desk1) ([143.183.136.51])
+  by fmsmga001.fm.intel.com with ESMTP; 04 Dec 2018 09:13:43 -0800
+Message-ID: <752c38422a6536d8df99b619214f935e4bc882ad.camel@intel.com>
+Subject: Re: [RFC PATCH v6 04/26] x86/fpu/xstate: Introduce XSAVES system
+ states
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Date:   Tue, 04 Dec 2018 09:08:11 -0800
+In-Reply-To: <20181204160144.GG11803@zn.tnic>
+References: <20181119214809.6086-1-yu-cheng.yu@intel.com>
+         <20181119214809.6086-5-yu-cheng.yu@intel.com>
+         <20181204160144.GG11803@zn.tnic>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 03, 2018 at 11:32:00AM +0000, Ayan Halder wrote:
-> We have added some new formats to be supported on DP500/DP550/DP650.
+On Tue, 2018-12-04 at 17:01 +0100, Borislav Petkov wrote:
+> On Mon, Nov 19, 2018 at 01:47:47PM -0800, Yu-cheng Yu wrote:
+> > Control-flow Enforcement (CET) MSR contents are XSAVES system states.
+> > To support CET, introduce XSAVES system states first.
+> > 
+> > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > ---
+> >  arch/x86/include/asm/fpu/internal.h |  3 +-
+> >  arch/x86/include/asm/fpu/xstate.h   |  4 +-
+> >  arch/x86/kernel/fpu/core.c          |  6 +-
+> >  arch/x86/kernel/fpu/init.c          | 10 ---
+> >  arch/x86/kernel/fpu/xstate.c        | 94 +++++++++++++++++++----------
+> >  5 files changed, 69 insertions(+), 48 deletions(-)
+> 
+> ...
+> 
+> > @@ -704,6 +710,7 @@ static int init_xstate_size(void)
+> >   */
+> >  static void fpu__init_disable_system_xstate(void)
+> >  {
+> > +	xfeatures_mask_all = 0;
+> >  	xfeatures_mask_user = 0;
+> >  	cr4_clear_bits(X86_CR4_OSXSAVE);
+> >  	fpu__xstate_clear_all_cpu_caps();
+> > @@ -717,6 +724,8 @@ void __init fpu__init_system_xstate(void)
+> >  {
+> >  	unsigned int eax, ebx, ecx, edx;
+> >  	static int on_boot_cpu __initdata = 1;
+> > +	u64 cpu_system_xfeatures_mask;
+> > +	u64 cpu_user_xfeatures_mask;
+> 
+> So what I had in mind is to not have those local vars but use
+> xfeatures_mask_user and xfeatures_mask_system here directly...
 
-Make a bit more descriptive commit message here, please!
+Ok, I will re-write it.
+
+...
+
+> >  
+> > @@ -739,10 +748,23 @@ void __init fpu__init_system_xstate(void)
+> >  		return;
+> >  	}
+> >  
+> > +	/*
+> > +	 * Find user states supported by the processor.
+> > +	 * Only these bits can be set in XCR0.
+> > +	 */
+> >  	cpuid_count(XSTATE_CPUID, 0, &eax, &ebx, &ecx, &edx);
+> > -	xfeatures_mask_user = eax + ((u64)edx << 32);
+> > +	cpu_user_xfeatures_mask = eax + ((u64)edx << 32);
+> >  
+> > -	if ((xfeatures_mask_user & XFEATURE_MASK_FPSSE) !=
+> > XFEATURE_MASK_FPSSE) {
+> > +	/*
+> > +	 * Find system states supported by the processor.
+> > +	 * Only these bits can be set in IA32_XSS MSR.
+> > +	 */
+> > +	cpuid_count(XSTATE_CPUID, 1, &eax, &ebx, &ecx, &edx);
+> > +	cpu_system_xfeatures_mask = ecx + ((u64)edx << 32);
+> > +
+> > +	xfeatures_mask_all = cpu_user_xfeatures_mask |
+> > cpu_system_xfeatures_mask;
+> 
+> ... and not introduce xfeatures_mask_all at all but everywhere you need
+> all features, to do:
+> 
+> 	(xfeatures_mask_user | xfeatures_mask_system)
+> 
+> and work with that.
+
+Then we will do this very often.  Why don't we create all three in the
+beginning: xfeatures_mask_all, xfeatures_mask_user, and xfeatures_mask_system?
+
+> ...
+> 
+> > @@ -1178,7 +1208,7 @@ int copy_kernel_to_xstate(struct xregs_state *xsave,
+> > const void *kbuf)
+> >  	 * The state that came in from userspace was user-state only.
+> >  	 * Mask all the user states out of 'xfeatures':
+> >  	 */
+> > -	xsave->header.xfeatures &= XFEATURE_MASK_SUPERVISOR;
+> > +	xsave->header.xfeatures &= (xfeatures_mask_all &
+> > ~xfeatures_mask_user);
+> 
+> ... and this would be
+> 
+> 	xsave->header.xfeatures &= xfeatures_mask_system;
+
+Yes.
 
 > 
-> Signed-off-by: Ayan Kumar Halder <ayan.halder@arm.com>
+> >  
+> >  	/*
+> >  	 * Add back in the features that came in from userspace:
+> > @@ -1234,7 +1264,7 @@ int copy_user_to_xstate(struct xregs_state *xsave,
+> > const void __user *ubuf)
+> >  	 * The state that came in from userspace was user-state only.
+> >  	 * Mask all the user states out of 'xfeatures':
+> >  	 */
+> > -	xsave->header.xfeatures &= XFEATURE_MASK_SUPERVISOR;
+> > +	xsave->header.xfeatures &= (xfeatures_mask_all &
+> > ~xfeatures_mask_user);
 > 
-> Depends on :- https://patchwork.kernel.org/patch/10460063/
-
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Best regards,
-Liviu
-
-> ---
->  drivers/gpu/drm/arm/malidp_hw.c | 22 +++++++++++++++++++++-
->  1 file changed, 21 insertions(+), 1 deletion(-)
+> Ditto here.
 > 
-> diff --git a/drivers/gpu/drm/arm/malidp_hw.c b/drivers/gpu/drm/arm/malidp_hw.c
-> index 55d379b..25ac5890 100644
-> --- a/drivers/gpu/drm/arm/malidp_hw.c
-> +++ b/drivers/gpu/drm/arm/malidp_hw.c
-> @@ -49,6 +49,12 @@ static const struct malidp_format_id malidp500_de_formats[] = {
->  	{ DRM_FORMAT_YUYV, DE_VIDEO1, 13 },
->  	{ DRM_FORMAT_NV12, DE_VIDEO1 | SE_MEMWRITE, 14 },
->  	{ DRM_FORMAT_YUV420, DE_VIDEO1, 15 },
-> +	{ DRM_FORMAT_XYUV8888, DE_VIDEO1, 16 },
-> +	/* These are supported with AFBC only */
-> +	{ DRM_FORMAT_YUV420_8BIT, DE_VIDEO1, 14 },
-> +	{ DRM_FORMAT_VUY888, DE_VIDEO1, 16 },
-> +	{ DRM_FORMAT_VUY101010, DE_VIDEO1, 17 },
-> +	{ DRM_FORMAT_YUV420_10BIT, DE_VIDEO1, 18 }
->  };
->  
->  #define MALIDP_ID(__group, __format) \
-> @@ -74,11 +80,25 @@ static const struct malidp_format_id malidp500_de_formats[] = {
->  	{ DRM_FORMAT_ABGR1555, DE_VIDEO1 | DE_GRAPHICS1 | DE_VIDEO2, MALIDP_ID(4, 1) }, \
->  	{ DRM_FORMAT_RGB565, DE_VIDEO1 | DE_GRAPHICS1 | DE_VIDEO2, MALIDP_ID(4, 2) }, \
->  	{ DRM_FORMAT_BGR565, DE_VIDEO1 | DE_GRAPHICS1 | DE_VIDEO2, MALIDP_ID(4, 3) }, \
-> +	/* This is only supported with linear modifier */	\
-> +	{ DRM_FORMAT_XYUV8888, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(5, 0) },\
-> +	/* This is only supported with AFBC modifier */		\
-> +	{ DRM_FORMAT_VUY888, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(5, 0) }, \
->  	{ DRM_FORMAT_YUYV, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(5, 2) },	\
-> +	/* This is only supported with linear modifier */ \
->  	{ DRM_FORMAT_UYVY, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(5, 3) },	\
->  	{ DRM_FORMAT_NV12, DE_VIDEO1 | DE_VIDEO2 | SE_MEMWRITE, MALIDP_ID(5, 6) },	\
-> +	/* This is only supported with AFBC modifier */ \
-> +	{ DRM_FORMAT_YUV420_8BIT, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(5, 6) }, \
->  	{ DRM_FORMAT_YUV420, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(5, 7) }, \
-> -	{ DRM_FORMAT_X0L2, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(6, 6)}
-> +	/* This is only supported with linear modifier */ \
-> +	{ DRM_FORMAT_XVYU2101010, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(6, 0)}, \
-> +	/* This is only supported with AFBC modifier */ \
-> +	{ DRM_FORMAT_VUY101010, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(6, 0)}, \
-> +	{ DRM_FORMAT_X0L2, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(6, 6)}, \
-> +	/* This is only supported with AFBC modifier */ \
-> +	{ DRM_FORMAT_YUV420_10BIT, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(6, 7)}, \
-> +	{ DRM_FORMAT_P010, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(6, 7)}
->  
->  static const struct malidp_format_id malidp550_de_formats[] = {
->  	MALIDP_COMMON_FORMATS,
-> -- 
-> 2.7.4
+> This way you have *two* mask variables and code queries them only.
 > 
+> Hmmm?
+> 
+> Or am I missing something?
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+We actually have three.
+
+Yu-cheng
+
