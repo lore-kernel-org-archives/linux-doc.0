@@ -1,171 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 952A67D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 16:01:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8CFEC7D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 16:31:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726906AbeLDQBw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Dec 2018 11:01:52 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:49648 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726421AbeLDQBw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 4 Dec 2018 11:01:52 -0500
-Received: from zn.tnic (p200300EC2BC7BF00BC61940C2B6F1886.dip0.t-ipconnect.de [IPv6:2003:ec:2bc7:bf00:bc61:940c:2b6f:1886])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5F16F1EC0229;
-        Tue,  4 Dec 2018 17:01:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1543939310;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=gp6cjwxBy7EYDhDhF+JUrl/ImlJ4usANKUTRqPLA9Nc=;
-        b=eWwVwzy6AD+eVcqhvXI9JLwF0JLq+4Q0v3RPouHe7Nojq+etUQsVea4sAmLuLgXzLJSmyX
-        XEXSWDXGwq5us0SzY0HMKLZM7og5FNXLrLRD8bw/53DE5KgBJX+So0ZsVe9zKPeTNsI7Hx
-        kqIwrj71EJF3OR1k4Put87LhOjrCgEY=
-Date:   Tue, 4 Dec 2018 17:01:45 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [RFC PATCH v6 04/26] x86/fpu/xstate: Introduce XSAVES system
- states
-Message-ID: <20181204160144.GG11803@zn.tnic>
-References: <20181119214809.6086-1-yu-cheng.yu@intel.com>
- <20181119214809.6086-5-yu-cheng.yu@intel.com>
+        id S1726568AbeLDQbh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Dec 2018 11:31:37 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:36498 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726226AbeLDQbh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 4 Dec 2018 11:31:37 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 99EE1A78;
+        Tue,  4 Dec 2018 08:31:36 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 45E293F614;
+        Tue,  4 Dec 2018 08:31:36 -0800 (PST)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+        id 9A04E6800CE; Tue,  4 Dec 2018 16:31:34 +0000 (GMT)
+Date:   Tue, 4 Dec 2018 16:31:34 +0000
+From:   Liviu Dudau <Liviu.Dudau@arm.com>
+To:     Ayan Halder <Ayan.Halder@arm.com>
+Cc:     Brian Starkey <Brian.Starkey@arm.com>,
+        "malidp@foss.arm.com" <malidp@foss.arm.com>,
+        "airlied@linux.ie" <airlied@linux.ie>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
+        "sean@poorly.run" <sean@poorly.run>,
+        "maarten.lankhorst@linux.intel.com" 
+        <maarten.lankhorst@linux.intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        nd <nd@arm.com>
+Subject: Re: [RFC AFBC 02/12] drm: Added a new format DRM_FORMAT_XVYU2101010
+Message-ID: <20181204163134.GK988@e110455-lin.cambridge.arm.com>
+References: <1543836703-8491-1-git-send-email-ayan.halder@arm.com>
+ <1543836703-8491-3-git-send-email-ayan.halder@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20181119214809.6086-5-yu-cheng.yu@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1543836703-8491-3-git-send-email-ayan.halder@arm.com>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 19, 2018 at 01:47:47PM -0800, Yu-cheng Yu wrote:
-> Control-flow Enforcement (CET) MSR contents are XSAVES system states.
-> To support CET, introduce XSAVES system states first.
+On Mon, Dec 03, 2018 at 11:31:56AM +0000, Ayan Halder wrote:
+> We have added a new format ie DRM_FORMAT_XVYU2101010 which is supported
+> by mali display driver.
 > 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Signed-off-by: Ayan Kumar halder <ayan.halder@arm.com>
+
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
+
 > ---
->  arch/x86/include/asm/fpu/internal.h |  3 +-
->  arch/x86/include/asm/fpu/xstate.h   |  4 +-
->  arch/x86/kernel/fpu/core.c          |  6 +-
->  arch/x86/kernel/fpu/init.c          | 10 ---
->  arch/x86/kernel/fpu/xstate.c        | 94 +++++++++++++++++++----------
->  5 files changed, 69 insertions(+), 48 deletions(-)
-
-...
-
-> @@ -704,6 +710,7 @@ static int init_xstate_size(void)
->   */
->  static void fpu__init_disable_system_xstate(void)
->  {
-> +	xfeatures_mask_all = 0;
->  	xfeatures_mask_user = 0;
->  	cr4_clear_bits(X86_CR4_OSXSAVE);
->  	fpu__xstate_clear_all_cpu_caps();
-> @@ -717,6 +724,8 @@ void __init fpu__init_system_xstate(void)
->  {
->  	unsigned int eax, ebx, ecx, edx;
->  	static int on_boot_cpu __initdata = 1;
-> +	u64 cpu_system_xfeatures_mask;
-> +	u64 cpu_user_xfeatures_mask;
-
-So what I had in mind is to not have those local vars but use
-xfeatures_mask_user and xfeatures_mask_system here directly...
-
->  	int err;
->  	int i;
+>  drivers/gpu/drm/drm_fourcc.c  | 1 +
+>  include/uapi/drm/drm_fourcc.h | 1 +
+>  2 files changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+> index 6b7a62e..d31e1ae 100644
+> --- a/drivers/gpu/drm/drm_fourcc.c
+> +++ b/drivers/gpu/drm/drm_fourcc.c
+> @@ -229,6 +229,7 @@ const struct drm_format_info *__drm_format_info(u32 format)
+>  		{ .format = DRM_FORMAT_VUY888,          .depth = 0,  .num_planes = 1, .cpp = { 3, 0, 0 }, .hsub = 1, .vsub = 1, .is_yuv = true },
+>  		{ .format = DRM_FORMAT_Y410,            .depth = 0,  .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true, .is_yuv = true },
+>  		{ .format = DRM_FORMAT_AYUV,		.depth = 0,  .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true, .is_yuv = true },
+> +		{ .format = DRM_FORMAT_XVYU2101010,	.depth = 0,  .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .is_yuv = true },
+>  		{ .format = DRM_FORMAT_P010,		.depth = 0,  .num_planes = 2, .cpp = { 2, 4, 0 }, .hsub = 2, .vsub = 2, .is_yuv = true  },
+>  		{ .format = DRM_FORMAT_P012,		.depth = 0,  .num_planes = 2, .cpp = { 2, 4, 0 }, .hsub = 2, .vsub = 2, .is_yuv = true  },
+>  		{ .format = DRM_FORMAT_P016,		.depth = 0,  .num_planes = 2, .cpp = { 2, 4, 0 }, .hsub = 2, .vsub = 2, .is_yuv = true  },
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index 71b2bc7..75c4b5a 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -153,6 +153,7 @@ extern "C" {
 >  
-> @@ -739,10 +748,23 @@ void __init fpu__init_system_xstate(void)
->  		return;
->  	}
->  
-> +	/*
-> +	 * Find user states supported by the processor.
-> +	 * Only these bits can be set in XCR0.
-> +	 */
->  	cpuid_count(XSTATE_CPUID, 0, &eax, &ebx, &ecx, &edx);
-> -	xfeatures_mask_user = eax + ((u64)edx << 32);
-> +	cpu_user_xfeatures_mask = eax + ((u64)edx << 32);
->  
-> -	if ((xfeatures_mask_user & XFEATURE_MASK_FPSSE) != XFEATURE_MASK_FPSSE) {
-> +	/*
-> +	 * Find system states supported by the processor.
-> +	 * Only these bits can be set in IA32_XSS MSR.
-> +	 */
-> +	cpuid_count(XSTATE_CPUID, 1, &eax, &ebx, &ecx, &edx);
-> +	cpu_system_xfeatures_mask = ecx + ((u64)edx << 32);
-> +
-> +	xfeatures_mask_all = cpu_user_xfeatures_mask | cpu_system_xfeatures_mask;
-
-... and not introduce xfeatures_mask_all at all but everywhere you need
-all features, to do:
-
-	(xfeatures_mask_user | xfeatures_mask_system)
-
-and work with that.
-
-...
-
-> @@ -1178,7 +1208,7 @@ int copy_kernel_to_xstate(struct xregs_state *xsave, const void *kbuf)
->  	 * The state that came in from userspace was user-state only.
->  	 * Mask all the user states out of 'xfeatures':
->  	 */
-> -	xsave->header.xfeatures &= XFEATURE_MASK_SUPERVISOR;
-> +	xsave->header.xfeatures &= (xfeatures_mask_all & ~xfeatures_mask_user);
-
-... and this would be
-
-	xsave->header.xfeatures &= xfeatures_mask_system;
-
->  
->  	/*
->  	 * Add back in the features that came in from userspace:
-> @@ -1234,7 +1264,7 @@ int copy_user_to_xstate(struct xregs_state *xsave, const void __user *ubuf)
->  	 * The state that came in from userspace was user-state only.
->  	 * Mask all the user states out of 'xfeatures':
->  	 */
-> -	xsave->header.xfeatures &= XFEATURE_MASK_SUPERVISOR;
-> +	xsave->header.xfeatures &= (xfeatures_mask_all & ~xfeatures_mask_user);
-
-Ditto here.
-
-This way you have *two* mask variables and code queries them only.
-
-Hmmm?
-
-Or am I missing something?
+>  #define DRM_FORMAT_AYUV		fourcc_code('A', 'Y', 'U', 'V') /* [31:0] A:Y:Cb:Cr 8:8:8:8 little endian */
+>  #define DRM_FORMAT_XYUV8888	fourcc_code('X', 'Y', 'U', 'V') /* [31:0] X:Y:Cb:Cr 8:8:8:8 little endian */
+> +#define DRM_FORMAT_XVYU2101010	fourcc_code('X', 'V', '3', '0') /* [31:0] X:Cr:Y:Cb 2:10:10:10 little endian */
+>  #define DRM_FORMAT_VUY888	fourcc_code('V', 'U', '2', '4') /* [23:0] Cr:Cb:Y 8:8:8 little endian */
+>  #define DRM_FORMAT_Y410		fourcc_code('Y', '4', '1', '0') /* [31:0] A:Cr:Y:Cb 2:10:10:10 little endian */
+>  #define DRM_FORMAT_VUY101010	fourcc_code('V', 'U', '3', '0') /* Y followed by U then V, 10:10:10. Non-linear modifier only */
+> -- 
+> 2.7.4
+> 
 
 -- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
