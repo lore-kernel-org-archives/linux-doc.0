@@ -6,53 +6,53 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4267B7D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 05:24:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD1307D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 06:02:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725992AbeLDFY2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Dec 2018 00:24:28 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:32888 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725980AbeLDFY2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Dec 2018 00:24:28 -0500
-Received: by mail-oi1-f194.google.com with SMTP id c206so13246876oib.0;
-        Mon, 03 Dec 2018 21:24:27 -0800 (PST)
+        id S1726026AbeLDGCn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Dec 2018 01:02:43 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:40083 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725996AbeLDGCn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Dec 2018 01:02:43 -0500
+Received: by mail-ot1-f67.google.com with SMTP id s5so14087577oth.7;
+        Mon, 03 Dec 2018 22:02:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=UyN8Hq1dBBXbfGjsLbMhdbfCYxowc+3U2M7TecsLOB0=;
-        b=RZTG0ts/d+emSUHmAkoeuLknVCFi1qP46TmrcZUs9KGkMclGUcUo542j8tKqh8KK/R
-         lSXj8R5d3Bux0KjcjFrH+cweMCPJNNiU6Te5oB9DDpa1kw9ZgwLAZgFd7/6seLNSUuLc
-         anq+IH59WSTLvML5ahW1mtaodOnMIvhglIuA5iTlE42+tqk+6iKSY9BEFm/oswnucha1
-         qOI0H0wEF7cGUJRisVdhSNIHFoKnSgyJqDi6Gd/YAQ2jJuq50jaHh/8nHRFeGSpY2XpH
-         M1mlq1QNdrdMRDGQXmGIw179cZZVhqtX13LvNt+2PFRPMN54gHQGjitQQcP71Ab8JEn1
-         ohiw==
+        bh=qENavGeNdHRdZWiHMMywSIpwAWCHoygMUGrnlY6JJqQ=;
+        b=T+l5Frrjeu4mMsyfTSSNKmNwHAUkYr42CVL1+6caCRPDlTA2Xpp72pE0DvzHrei4Zh
+         fsLvujAQNBVTmIW9QeKQxyb8tvEcQQDEwKmpePQRgwlQb5d5RJQQ/ibBIGCF7MvbdLR9
+         Xhg6gtRK0w281S7rdXIS2hvVnV0TYjRPknw7Gzco3KbqBfdjnBOTfjlEPweg1cerbX5E
+         onv3/K/9ZgR+7HNHIjPs5HFjqNlbRYcytl3JeyJY/VWPdoHdQK+gPV+xqynM1y2jjwp4
+         GmTrgeDZi8N0d0sJFGRn71A0QBginBC1Ivnv/QQDFmXG11snNRklAzZqMuxIdEOVGovu
+         QR2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=UyN8Hq1dBBXbfGjsLbMhdbfCYxowc+3U2M7TecsLOB0=;
-        b=Se1lhmF4xvVvwJ10Ev5uuNPzYwQMom/c3z15udQ6PgxYmYc8zU3zh46kOfkjFnTyv8
-         TCtvVl2sAzNNs2e1paviiHVZ9/t10459LoUtaJvCMeb60qChMQFPWHi1nBoWHSZJw8uC
-         mwAyclHcr8A7GSxP6FBV1zLQYSbe30I6OMqXkZwHQXzkqT3Azs4u5YVlIzVDvHA29DX7
-         evYxTm5nFmCn9LldLR0CaADAG68CjJICnEdETwazWPEqwp54gEmjc0ceegsxdgWY5+5k
-         vloFVnQys1u/nlLcV67/5k8FRjX7DcAo0NJM0vwxNDIEUMLgK9Nr532p9yew3x2PBeZ1
-         vxRA==
-X-Gm-Message-State: AA+aEWbXDxmI/KKAb0itkvKVrzgYUclbNs0mwDHicLCLzDTDBjEz1T74
-        lepc09j66oJUZpTEOLwTiLci5Ynq7H4i9ktCP88=
-X-Google-Smtp-Source: AFSGD/X8r0LRxmVMRiv7Jaj5XEq5Qxv6v5/lDwiQDoznO4kk2DydCYkFzpZqKugvDOT30IKIUyQlTbBVuCLr7CzYYrc=
-X-Received: by 2002:aca:b9d6:: with SMTP id j205mr11156855oif.294.1543901067442;
- Mon, 03 Dec 2018 21:24:27 -0800 (PST)
+        bh=qENavGeNdHRdZWiHMMywSIpwAWCHoygMUGrnlY6JJqQ=;
+        b=hEqm6xpw4INz+DNFoe2msseFdn9AxWp/1AFqhOkihnUGrpUAk33ZzZQe5rdWRvwuGg
+         0IyuGmmHYDOS8Dna5Fan/plXX092c6ztAeP1PjtFsUJPdUVYCLzNRTPbLlEBImeI95jx
+         3KhomZmNLeaj7FoljNEWrgonfyAfAE1ChiLkNAyt4ffVZEbS32Po1HeKqY9Xepab6CZu
+         hbwv95Ozsne8kGFaJ1bqpdwTdvN+krdkdXRbhRYZeGIO9wYbBIiRICZfY9i6yU4c83RB
+         ibJydjh9bSxq1sIsA1ncakQEnjKGB1jtDp20TzkKvVjQZuRYOHmPNyiauUBHU4PQJZ/Z
+         /3ng==
+X-Gm-Message-State: AA+aEWby9BFLevSDiFpL4Vm+X+SKPmW2nRKqQbS+XG6TVFdKjPXSy39x
+        T6aB6QhIYjApQL8pwZtId+2tTip2XIq28rKmWDs=
+X-Google-Smtp-Source: AFSGD/U4ziTgMukjj2XYbngscdJjnJXJvrsmdaxAS9qGt/DpuSe+EjsUER4jQ8k29Dr4KxswXj9GjIIugmrpX3A4bSA=
+X-Received: by 2002:a9d:8e4:: with SMTP id 91mr11553670otf.169.1543903360992;
+ Mon, 03 Dec 2018 22:02:40 -0800 (PST)
 MIME-Version: 1.0
 References: <20181122030354.13570-1-ganapatrao.kulkarni@cavium.com>
- <20181122030354.13570-2-ganapatrao.kulkarni@cavium.com> <20181203120926.GB24824@arm.com>
-In-Reply-To: <20181203120926.GB24824@arm.com>
+ <20181122030354.13570-3-ganapatrao.kulkarni@cavium.com> <20181203121128.GC24824@arm.com>
+In-Reply-To: <20181203121128.GC24824@arm.com>
 From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
-Date:   Tue, 4 Dec 2018 10:54:15 +0530
-Message-ID: <CAKTKpr7bzoQiBwkOduMQ0CS34i=8y=fY3s66C-sObwpZbeLppQ@mail.gmail.com>
-Subject: Re: [PATCH v8 1/2] perf, uncore: Adding documentation for ThunderX2
- pmu uncore driver
+Date:   Tue, 4 Dec 2018 11:32:29 +0530
+Message-ID: <CAKTKpr7uSdrMrzVG5rHzmYSF6hKuP+R=ag9DqrbzSNNWQ_OyKA@mail.gmail.com>
+Subject: Re: [PATCH v8 2/2] ThunderX2, perf : Add Cavium ThunderX2 SoC UNCORE
+ PMU driver
 To:     Will Deacon <will.deacon@arm.com>
 Cc:     Ganapatrao Kulkarni <Ganapatrao.Kulkarni@cavium.com>,
         linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
@@ -68,214 +68,221 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Will,
-
-On Mon, Dec 3, 2018 at 5:39 PM Will Deacon <will.deacon@arm.com> wrote:
+On Mon, Dec 3, 2018 at 5:41 PM Will Deacon <will.deacon@arm.com> wrote:
 >
-> On Thu, Nov 22, 2018 at 03:04:31AM +0000, Kulkarni, Ganapatrao wrote:
-> > The SoC has PMU support in its L3 cache controller (L3C) and in the
-> > DDR4 Memory Controller (DMC).
+> On Thu, Nov 22, 2018 at 03:04:35AM +0000, Kulkarni, Ganapatrao wrote:
+> > This patch adds a perf driver for the PMU UNCORE devices DDR4 Memory
+> > Controller(DMC) and Level 3 Cache(L3C). Each PMU supports up to 4
+> > counters. All counters lack overflow interrupt and are
+> > sampled periodically.
 > >
 > > Signed-off-by: Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
 > > ---
-> >  Documentation/perf/thunderx2-pmu.txt | 106 +++++++++++++++++++++++++++
-> >  1 file changed, 106 insertions(+)
-> >  create mode 100644 Documentation/perf/thunderx2-pmu.txt
->
-> Thanks for writing the documentation, although I think it needs a bit of
-> help before we can merge it.
-
-sure will send next version ASAP.
->
-> > diff --git a/Documentation/perf/thunderx2-pmu.txt b/Documentation/perf/thunderx2-pmu.txt
+> >  drivers/perf/Kconfig         |   9 +
+> >  drivers/perf/Makefile        |   1 +
+> >  drivers/perf/thunderx2_pmu.c | 869 +++++++++++++++++++++++++++++++++++
+> >  include/linux/cpuhotplug.h   |   1 +
+> >  4 files changed, 880 insertions(+)
+> >  create mode 100644 drivers/perf/thunderx2_pmu.c
+> >
+> > diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
+> > index 08ebaf7cca8b..af9bc178495d 100644
+> > --- a/drivers/perf/Kconfig
+> > +++ b/drivers/perf/Kconfig
+> > @@ -87,6 +87,15 @@ config QCOM_L3_PMU
+> >          Adds the L3 cache PMU into the perf events subsystem for
+> >          monitoring L3 cache events.
+> >
+> > +config THUNDERX2_PMU
+> > +     tristate "Cavium ThunderX2 SoC PMU UNCORE"
+> > +     depends on ARCH_THUNDER2 && ARM64 && ACPI && NUMA
+> > +     default m
+> > +     help
+> > +        Provides support for ThunderX2 UNCORE events.
+> > +        The SoC has PMU support in its L3 cache controller (L3C) and
+> > +        in the DDR4 Memory Controller (DMC).
+> > +
+> >  config XGENE_PMU
+> >          depends on ARCH_XGENE
+> >          bool "APM X-Gene SoC PMU"
+> > diff --git a/drivers/perf/Makefile b/drivers/perf/Makefile
+> > index b3902bd37d53..909f27fd9db3 100644
+> > --- a/drivers/perf/Makefile
+> > +++ b/drivers/perf/Makefile
+> > @@ -7,5 +7,6 @@ obj-$(CONFIG_ARM_PMU_ACPI) += arm_pmu_acpi.o
+> >  obj-$(CONFIG_HISI_PMU) += hisilicon/
+> >  obj-$(CONFIG_QCOM_L2_PMU)    += qcom_l2_pmu.o
+> >  obj-$(CONFIG_QCOM_L3_PMU) += qcom_l3_pmu.o
+> > +obj-$(CONFIG_THUNDERX2_PMU) += thunderx2_pmu.o
+> >  obj-$(CONFIG_XGENE_PMU) += xgene_pmu.o
+> >  obj-$(CONFIG_ARM_SPE_PMU) += arm_spe_pmu.o
+> > diff --git a/drivers/perf/thunderx2_pmu.c b/drivers/perf/thunderx2_pmu.c
 > > new file mode 100644
-> > index 000000000000..9f5dd7459e68
+> > index 000000000000..e6509ba868ab
 > > --- /dev/null
-> > +++ b/Documentation/perf/thunderx2-pmu.txt
-> > @@ -0,0 +1,106 @@
+> > +++ b/drivers/perf/thunderx2_pmu.c
+> > @@ -0,0 +1,869 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * CAVIUM THUNDERX2 SoC PMU UNCORE
+> > + * Copyright (C) 2018 Cavium Inc.
+> > + * Author: Ganapatrao Kulkarni <gkulkarni@cavium.com>
+> > + */
 > > +
-> > +Cavium ThunderX2 SoC Performance Monitoring Unit (PMU UNCORE)
-> > +==========================================================================
+> > +#include <linux/acpi.h>
+> > +#include <linux/cpuhotplug.h>
+> > +#include <linux/perf_event.h>
+> > +#include <linux/platform_device.h>
 > > +
-> > +ThunderX2 SoC PMU consists of independent system wide per Socket PMUs such
-> > +as Level 3 Cache(L3C) and DDR4 Memory Controller(DMC).
+> > +/* Each ThunderX2(TX2) Socket has a L3C and DMC UNCORE PMU device.
+> > + * Each UNCORE PMU device consists of 4 independent programmable counters.
+> > + * Counters are 32 bit and do not support overflow interrupt,
+> > + * they need to be sampled before overflow(i.e, at every 2 seconds).
+> > + */
+> > +
+> > +#define TX2_PMU_MAX_COUNTERS         4
+> > +#define TX2_PMU_DMC_CHANNELS         8
+> > +#define TX2_PMU_L3_TILES             16
+> > +
+> > +#define TX2_PMU_HRTIMER_INTERVAL     (2 * NSEC_PER_SEC)
+> > +#define GET_EVENTID(ev)                      ((ev->hw.config) & 0x1ff)
 >
-> Please add some punctuation here.
+> I think this should be 0x1f.
 
-Thanks will do.
+yes it should be, i will update it.
 >
+> > +#define GET_COUNTERID(ev)            ((ev->hw.idx) & 0x3)
+> > + /* 1 byte per counter(4 counters).
+> > +  * Event id is encoded in bits [5:1] of a byte,
+> > +  */
+> > +#define DMC_EVENT_CFG(idx, val)              ((val) << (((idx) * 8) + 1))
 > > +
-> > +DMC has 8 interleave channels and L3C has 16 interleave tiles. Events are
+> > +#define L3C_COUNTER_CTL                      0xA8
+> > +#define L3C_COUNTER_DATA             0xAC
+> > +#define DMC_COUNTER_CTL                      0x234
+> > +#define DMC_COUNTER_DATA             0x240
+> > +
+> > +/* L3C event IDs */
+> > +#define L3_EVENT_READ_REQ            0xD
+> > +#define L3_EVENT_WRITEBACK_REQ               0xE
+> > +#define L3_EVENT_INV_N_WRITE_REQ     0xF
+> > +#define L3_EVENT_INV_REQ             0x10
+> > +#define L3_EVENT_EVICT_REQ           0x13
+> > +#define L3_EVENT_INV_N_WRITE_HIT     0x14
+> > +#define L3_EVENT_INV_HIT             0x15
+> > +#define L3_EVENT_READ_HIT            0x17
+> > +#define L3_EVENT_MAX                 0x18
+> > +
+> > +/* DMC event IDs */
+> > +#define DMC_EVENT_COUNT_CYCLES               0x1
+> > +#define DMC_EVENT_WRITE_TXNS         0xB
+> > +#define DMC_EVENT_DATA_TRANSFERS     0xD
+> > +#define DMC_EVENT_READ_TXNS          0xF
+> > +#define DMC_EVENT_MAX                        0x10
+> > +
+> > +enum tx2_uncore_type {
+> > +     PMU_TYPE_L3C,
+> > +     PMU_TYPE_DMC,
+> > +     PMU_TYPE_INVALID,
+> > +};
+> > +
+> > +/*
+> > + * pmu on each socket has 2 uncore devices(dmc and l3c),
+> > + * each device has 4 counters.
+> > + */
+> > +struct tx2_uncore_pmu {
+> > +     struct hlist_node hpnode;
+> > +     struct list_head  entry;
+> > +     struct pmu pmu;
+> > +     char *name;
+> > +     int node;
+> > +     int cpu;
+> > +     u32    max_counters;
+> > +     u32    prorate_factor;
+> > +     u32    max_events;
+> > +     u64 hrtimer_interval;
+> > +     void __iomem *base;
+> > +     DECLARE_BITMAP(active_counters, TX2_PMU_MAX_COUNTERS);
+> > +     struct perf_event *events[TX2_PMU_MAX_COUNTERS];
+> > +     struct device *dev;
+> > +     struct hrtimer hrtimer;
+> > +     const struct attribute_group **attr_groups;
+> > +     enum tx2_uncore_type type;
+> > +     void    (*init_cntr_base)(struct perf_event *event,
+> > +                     struct tx2_uncore_pmu *tx2_pmu);
+> > +     void    (*stop_event)(struct perf_event *event);
+> > +     void    (*start_event)(struct perf_event *event, int flags);
+> > +};
+> > +
+> > +static LIST_HEAD(tx2_pmus);
+> > +
+> > +static inline struct tx2_uncore_pmu *pmu_to_tx2_pmu(struct pmu *pmu)
+> > +{
+> > +     return container_of(pmu, struct tx2_uncore_pmu, pmu);
+> > +}
+> > +
+> > +/*
+> > + * sysfs format attributes
+> > + */
+> > +static ssize_t tx2_pmu_format_show(struct device *dev,
+> > +                                  struct device_attribute *attr, char *buf)
+> > +{
+> > +     struct dev_ext_attribute *eattr;
+> > +
+> > +     eattr = container_of(attr, struct dev_ext_attribute, attr);
+> > +     return sprintf(buf, "%s\n", (char *) eattr->var);
+> > +}
+> > +
+> > +#define FORMAT_ATTR(_name, _config) \
+> > +     (&((struct dev_ext_attribute[]) { \
+> > +        { \
+> > +        .attr = __ATTR(_name, 0444, tx2_pmu_format_show, NULL), \
+> > +        .var = (void *) _config, \
+> > +        } \
+> > +     })[0].attr.attr)
+> > +
+> > +static struct attribute *l3c_pmu_format_attrs[] = {
+> > +     FORMAT_ATTR(event,      "config:0-4"),
+> > +     NULL,
+> > +};
+> > +
+> > +static struct attribute *dmc_pmu_format_attrs[] = {
+> > +     FORMAT_ATTR(event,      "config:0-4"),
+> > +     NULL,
+> > +};
 >
-> *The* DMC and *the* L3C
+> We have PMU_FORMAT_ATTR, PMU_EVENT_ATTR etc in the core code to help here.
+> Please try to use them.
 
-ok
+ok, i will try to use it.
 >
+> > +static const struct attribute_group l3c_pmu_format_attr_group = {
+> > +     .name = "format",
+> > +     .attrs = l3c_pmu_format_attrs,
+> > +};
+> > +
+> > +static const struct attribute_group dmc_pmu_format_attr_group = {
+> > +     .name = "format",
+> > +     .attrs = dmc_pmu_format_attrs,
+> > +};
+> > +
+> > +/*
+> > + * sysfs event attributes
+> > + */
+> > +static ssize_t tx2_pmu_event_show(struct device *dev,
+> > +                                 struct device_attribute *attr, char *buf)
+> > +{
+> > +     struct dev_ext_attribute *eattr;
+> > +
+> > +     eattr = container_of(attr, struct dev_ext_attribute, attr);
+> > +     return sprintf(buf, "config=0x%lx\n", (unsigned long) eattr->var);
+> > +}
 >
-> > +sampled for default channel(i.e channel 0) and prorated to total number of
->
-> I'm not sure I understand this; are you saying it's not possible to sample
-> channels other than channel 0?
+> Shouldn't this be "event=" instead of "config="?
 
-yes, sampling channel zero, since channels are interleave, multiplying
-by number of channels will give fair data.
-Removed per channel sample since it was involved SMC calls.
-
->
-> > +channels/tiles.
-> > +
-> > +DMC and L3C, Each PMU supports up to 4 counters. Counters are independently
->
-> The start of this sentence makes no sense and you've got a capital "Each".
->
-> > +programmable and can be started and stopped individually. Each counter can
-> > +be set to sample specific perf events. Counters are 32 bit and do not support
-> > +overflow interrupt; they are sampled at every 2 seconds.
->
-> I think this is unfortunate wording, because actually you don't support what
-> perf calls "sampling" at all.
-
-ok, let me rephrase it.
->
-> > +
-> > +PMU UNCORE (perf) driver:
-> > +
-> > +The thunderx2-pmu driver registers several perf PMUs for DMC and L3C devices.
->
-> I think the driver name uses an underscore instead of a hyphen.
-
-thanks.
->
-> > +Each of the PMUs provides description of its available events
-> > +and configuration options in sysfs.
-> > +     see /sys/devices/uncore_<l3c_S/dmc_S/>
-> > +
-> > +S is socket id.
->
-> *the* socket id
-
-ok
->
-> > +Each PMU can be used to sample up to 4 events simultaneously.
-> > +
-> > +The "format" directory describes format of the config (event ID).
-> > +The "events" directory provides configuration templates for all
-> > +supported event types that can be used with perf tool.
->
-> You can drop this bit, since it's not specific to your PMU and is actually
-> describing the perf ABI via sysfs. If we want to document that someplace, it
-> should be in a separate file.
-
-ok , let me drop sysfs part.
->
-> > +
-> > +For example, "uncore_dmc_0/cnt_cycles/" is an
-> > +equivalent of "uncore_dmc_0/config=0x1/".
->
-> Why is this helpful?
-
-ok let me drop second line.
->
-> > +
-> > +Each perf driver also provides a "cpumask" sysfs attribute, which contains a
-> > +single CPU ID of the processor which is likely to be used to handle all the
-> > +PMU events. It will be the first online CPU from the NUMA node of the PMU device.
->
-> Again, I don't think this really belongs in here.
-
-ok.
->
-> > +
-> > +Example for perf tool use:
-> > +
-> > +perf stat -a -e uncore_dmc_0/cnt_cycles/ sleep 1
-> > +
-> > +perf stat -a -e \
-> > +uncore_dmc_0/cnt_cycles/,\
-> > +uncore_dmc_0/data_transfers/,\
-> > +uncore_dmc_0/read_txns/,\
-> > +uncore_dmc_0/write_txns/ sleep 1
-> > +
-> > +perf stat -a -e \
-> > +uncore_l3c_0/read_request/,\
-> > +uncore_l3c_0/read_hit/,\
-> > +uncore_l3c_0/inv_request/,\
-> > +uncore_l3c_0/inv_hit/ sleep 1
-> > +
-> > +The driver does not support sampling, therefore "perf record" will
-> > +not work. Per-task (without "-a") perf sessions are not supported.
->
-> What do you mean by "not supported"? If I invoke perf as:
-
-I mean --per-core option, needs rephrasing.
-
->
-> # ./perf stat -e uncore_dmc_0/cnt_cycles/ -- ls
->
-> then I get results back.
->
-> > +
-> > +L3C events:
-> > +============
-> > +
-> > +read_request:
-> > +     Number of Read requests received by the L3 Cache.
-> > +     This include Read as well as Read Exclusives.
-> > +
-> > +read_hit:
-> > +     Number of Read requests received by the L3 cache that were hit
-> > +     in the L3 (Data provided form the L3)
-> > +
-> > +writeback_request:
-> > +     Number of Write Backs received by the L3 Cache. These are basically
-> > +     the L2 Evicts and writes from the PCIe Write Cache.
-> > +
-> > +inv_nwrite_request:
-> > +     This is the Number of Invalidate and Write received by the L3 Cache.
-> > +     Also Writes from IO that did not go through the PCIe Write Cache.
-> > +
-> > +inv_nwrite_hit
-> > +     This is the Number of Invalidate and Write received by the L3 Cache
-> > +     That were a hit in the L3 Cache.
-> > +
-> > +inv_request:
-> > +     Number of Invalidate request received by the L3 Cache.
-> > +
-> > +inv_hit:
-> > +     Number of Invalidate request received by the L3 Cache that were a
-> > +     hit in L3.
-> > +
-> > +evict_request:
-> > +     Number of Evicts that the L3 generated.
->
-> Wouldn't this be better off in the perf tools sources, as part of the JSON
-> events file for your PMU?
-
-That could be another effort to move all arm64 vendors uncore events
-to JSON framework.
->
-> > +
-> > +NOTE:
-> > +1. Granularity of all these events counter value is cache line length(64 Bytes).
-> > +2. L3C cache Hit Ratio = (read_hit + inv_nwrite_hit + inv_hit) / (read_request + inv_nwrite_request + inv_request)
-> > +
-> > +DMC events:
-> > +============
-> > +cnt_cycles:
-> > +     Count cycles (Clocks at the DMC clock rate)
-> > +
-> > +write_txns:
-> > +     Number of 64 Bytes write transactions received by the DMC(s)
-> > +
-> > +read_txns:
-> > +     Number of 64 Bytes Read transactions received by the DMC(s)
-> > +
-> > +data_transfers:
-> > +     Number of 64 Bytes data transferred to or from DRAM.
->
-> Same here.
+yep, thanks
 >
 > Will
 
-thanks
+Thanks,
 Ganapat
