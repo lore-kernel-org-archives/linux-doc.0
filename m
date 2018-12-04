@@ -5,97 +5,164 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4A3007D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 08:03:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B71437D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 09:19:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726047AbeLDIDq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Dec 2018 03:03:46 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:41915 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725983AbeLDIDq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Dec 2018 03:03:46 -0500
-Received: by mail-lj1-f196.google.com with SMTP id z80-v6so13976925ljb.8;
-        Tue, 04 Dec 2018 00:03:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=fgPj/u/cz0JV2Wgf14qUC+gVFxhWVypKSVSkLhduCpo=;
-        b=B0jWIo/Rp+QLGShIQrW/gLhQkySAyK2GYCHQLtJ3YP3M72V2COC5klR/8tr9D+jS11
-         vVzs7ic4IJqPgjsmGRSjsO6Z1K4k+jSPYbNKBAI2rjbXblcu7KrBWSKw4scgz3NH2Usg
-         Lcv/jurdnWe39/WNhcx+07FVLsTM7iHmIWd8iJJ7tg2Jh6DxtZSsXln8Ruw5WCc/zynn
-         al+PpuTURKKGK8MUyvfvdgpzvHhKZObtZHW5LVSJBTREO7P1KlKax7pMpjFBlV6DybOa
-         ztdrJLQI2BZyl7fV9DhoJaeVLeOOEbQsqj/MiMnmsgDl8u0iofPDXlYpSehPFm7jZYgh
-         YLYQ==
-X-Gm-Message-State: AA+aEWZ6WLiUODKR95WOoVY8/12t675tpGlrqhBpjvIkH+SaysPZ8ig2
-        rdhhIHxEZdDAaCw5STYON6E=
-X-Google-Smtp-Source: AFSGD/XzR8al4PJv1hjBQ6E90ofwrr0mxzqNq5Rj8cjmq74JEG21KXDsbLsLtgg7X1mpy6ks0z5cRw==
-X-Received: by 2002:a2e:9715:: with SMTP id r21-v6mr12121391lji.30.1543910621825;
-        Tue, 04 Dec 2018 00:03:41 -0800 (PST)
-Received: from localhost.localdomain ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id c22sm2808778lfd.88.2018.12.04.00.03.40
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 04 Dec 2018 00:03:41 -0800 (PST)
-Date:   Tue, 4 Dec 2018 10:03:38 +0200
-From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-To:     Russell King - ARM Linux <linux@armlinux.org.uk>
-Cc:     mazziesaccount@gmail.com, mturquette@baylibre.com,
-        sboyd@kernel.org, cw00.choi@samsung.com, krzk@kernel.org,
-        b.zolnierkie@samsung.com, andy.gross@linaro.org,
-        david.brown@linaro.org, pavel@ucw.cz, andrew.smirnov@gmail.com,
-        pombredanne@nexb.com, sjhuang@iluvatar.ai, akshu.agrawal@amd.com,
-        djkurtz@chromium.org, rafael.j.wysocki@intel.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 1/9] clkdev: add managed clkdev lookup registration
-Message-ID: <20181204080338.GB31204@localhost.localdomain>
-References: <cover.1543837442.git.matti.vaittinen@fi.rohmeurope.com>
- <b6c5c110c482ff6a6b2378ab3518bd31c6233872.1543837442.git.matti.vaittinen@fi.rohmeurope.com>
- <20181203180612.GM30658@n2100.armlinux.org.uk>
+        id S1725849AbeLDJTv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Dec 2018 04:19:51 -0500
+Received: from mail.bootlin.com ([62.4.15.54]:48707 "EHLO mail.bootlin.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725770AbeLDJTv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 4 Dec 2018 04:19:51 -0500
+Received: by mail.bootlin.com (Postfix, from userid 110)
+        id 4CDCF207A8; Tue,  4 Dec 2018 10:19:48 +0100 (CET)
+Received: from bbrezillon (aaubervilliers-681-1-63-158.w90-88.abo.wanadoo.fr [90.88.18.158])
+        by mail.bootlin.com (Postfix) with ESMTPSA id 92966207B0;
+        Tue,  4 Dec 2018 10:19:37 +0100 (CET)
+Date:   Tue, 4 Dec 2018 10:19:37 +0100
+From:   Boris Brezillon <boris.brezillon@bootlin.com>
+To:     vitor <vitor.soares@synopsys.com>, <pgaj@cadence.com>
+Cc:     <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <gregkh@linuxfoundation.org>,
+        <arnd@arndb.de>, <psroka@cadence.com>, <agolec@cadence.com>,
+        <adouglas@cadence.com>, <bfolta@cadence.com>, <dkos@cadence.com>,
+        <alicja@cadence.com>, <cwronka@cadence.com>, <sureshp@cadence.com>,
+        <rafalc@cadence.com>, <thomas.petazzoni@bootlin.com>, <nm@ti.com>,
+        <robh+dt@kernel.org>, <pawel.moll@arm.com>, <mark.rutland@arm.com>,
+        <ijc+devicetree@hellion.org.uk>, <galak@codeaurora.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <geert@linux-m68k.org>, <linus.walleij@linaro.org>,
+        <Xiang.Lin@synaptics.com>, <linux-gpio@vger.kernel.org>,
+        <nsekhar@ti.com>, <peda@axentia.se>, <mshettel@codeaurora.org>,
+        <swboyd@chromium.org>, <joao.pinto@synopsys.com>
+Subject: Re: [PATCH] i3c: master: dw: split dw-i3c-master.c into master and
+ bus specific parts
+Message-ID: <20181204101937.60a3ce07@bbrezillon>
+In-Reply-To: <623809f3-1d1f-a10c-783a-07b545c5955c@synopsys.com>
+References: <ade2c1a8d1eb48681b01ccdc9bed22caf5e96c4b.1542904564.git.soares@synopsys.com>
+        <20181122210202.6af50fcc@bbrezillon>
+        <6d513e04-3a57-1989-429c-64631101c5a2@synopsys.com>
+        <20181123135004.7fd1cd58@bbrezillon>
+        <83115f47-1326-cb33-a7dc-4bc8ff95befa@synopsys.com>
+        <20181126133550.51469816@bbrezillon>
+        <4e9c0461-02a3-80b2-c9b7-2e9ea9b38f8b@synopsys.com>
+        <20181126195618.352eafb1@bbrezillon>
+        <4c743a9a-d636-d34c-b7e3-913f18e6c754@synopsys.com>
+        <20181126223334.08105d89@bbrezillon>
+        <0912ea50-b365-d583-9d33-1dff236acbad@synopsys.com>
+        <20181127133350.0361f998@bbrezillon>
+        <623809f3-1d1f-a10c-783a-07b545c5955c@synopsys.com>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181203180612.GM30658@n2100.armlinux.org.uk>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Russell,
-
-Thanks for the review. I do appreciate this. I'll send out v6 where I'll
-have these fixed =)
-
-On Mon, Dec 03, 2018 at 06:06:12PM +0000, Russell King - ARM Linux wrote:
-> > +static int devm_clk_match_clkdev(struct device *dev, void *res, void *data)
-> > +{
-> > +	struct clk_lookup **l = res;
-> > +
-> > +	if (!l || !*l) {
-> > +		WARN_ON(!l || !*l);
+On Tue, 4 Dec 2018 00:34:20 +0000
+vitor <vitor.soares@synopsys.com> wrote:
+  
+> >>> What I call a slave controller would be something that lets you reply to
+> >>> SDR/DDR transactions or fill a generic regmap that would be exposed to
+> >>> other masters on the bus. This way we could implement generic slave
+> >>> drivers in Linux (the same way we have gadget drivers). Anything else
+> >>> is likely to be to specific to be exposed as a generic framework.  
+> >> I would bet to do something like in i2c, we don't need the same level of
+> >> complexity found in USB.  
+> > Can you detail a bit more what you have in mind? I don't think we can
+> > do like I2C, simply because we need to expose a valid DCR +
+> > manuf-ID/PID so that other masters can bind the device to the
+> > appropriate driver on their side. Plus, if we're about to expose
+> > generic profiles, we likely don't want each I3C slave controller driver
+> > to do that on its own.  
 > 
-> How can "l" be NULL here?  How can *l be NULL?
+> 
+> I think this should be discuss in another thread. Do you agree?
 
-I really don't know if there is any "sane" way to end up having the
-devres data NULLed. I admit I looked an example on how others had
-implemented the match. These checks were present in devm_clk_match
-and devm_regmap_irq_chip_match so I assumed there is a way to end up
-having NULL there. Thus I played safe. OTOH it seems that for example
-devm_hwmon_match does omit these checks and I really don't see right
-away why the dr->data would be NULL. So I'll remove the check.
-
-Br,
-	Matti Vaittinen
+If you want. Actually that's the most interesting part for me:
+discussing how we want to support I3C slave controllers or mixed
+master/slave controllers. All the driver split we're talking about
+here is just bikeshedding.
 
 > 
-> -- 
-> RMK's Patch system: http://www.armlinux.org.uk/developer/patches/
-> FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-> According to speedtest.net: 11.9Mbps down 500kbps up
+> 
+> >>>> Taking the USB as exemple do you prefer a dwc folder on i3c root?  
+> >>> Hm, not sure I like this idea either. So I see 2 options:
+> >>>
+> >>> 1/ put all controller drivers (both master and slave ones) in a common
+> >>>      directory (drivers/i3c/controllers) as you suggest, and prefix them
+> >>>      correctly (i3c-master-<ip>.c, i3c-slave-<ip>.c and i3c-dual-<ip>.c)  
+> >> I agree with the controller folder but not with prefix. Please check
+> >> what is already in the kernel.  
+> > If we mix everything in the same subdir, I'd like to have an easy way
+> > to quickly identify those that are slave controllers and those that are
+> > master controllers. For the dual-role thing, maybe we can consider them
+> > as master (ones with advances slave features).
+> >
+> > Would you be okay with drivers/i3c/controllers/{designware,dw}/..., so
+> > that you can have all designware drivers (for both slave and master
+> > blocks) in the same dir?  
+> 
+> 
+> Yes, that was what I trying to tell you. For me this might be the best 
+> option.
 
--- 
-Matti Vaittinen
-ROHM Semiconductors
+Ok.
 
-~~~ "I don't think so," said Rene Descartes.  Just then, he vanished ~~~
+> 
+> I would like to avoid having dual role i3c driver in a master folder.
+
+I don't see why. If the driver is simple enough to fit in one file,
+there's no reason to create a new subdir. You think your DW IP is so
+complex and configurable that it requires several source files, fine,
+but please don't force others to do the same.
+
+> 
+> 
+> > For those that are placed directly under drivers/i3c/controllers/...
+> > (because they only have one .c file), I'd like to keep a standard
+> > prefix.  
+> 
+> 
+> I don't disagree, and for those that have more than one file they should 
+> be in a folder, right?
+
+Yes.
+
+> 
+> What prefix do you have in mind for those files inside a folder?
+
+You mean, inside a sub-folder (drivers/i3c/controllers/{vendor}/)? It
+depends what you do with those source files. If they are to be exposed
+directly as modules, then they should be prefixed
+(i3c-<role>-<vendor>.c). On the other hand, if you create a single
+module out of several source files, source files don't need to be
+prefixed, as long as the resulting module as a proper prefix.
+
+> 
+> 
+> >> To be clear, the subsystem is nice and I working with daily. As I said
+> >> this is something that I dealing now and I'm telling what I think that
+> >> is not correct.
+> >>  
+> > Come on! All I've seen so far are complaints on tiny details, it
+> > definitely doesn't prevent you from adding new features.
+> >
+> > Regards,
+> >
+> > Boris  
+> 
+> 
+> No, it's not. But as you can see to slipt the driver in parts this 
+> subject has some relevance.
+
+I'm not saying the discussion is useless, just that it's happening way
+too early compared to the other things we should work on. If you were
+adding support for slaves, and were doing this split as part of this
+patch series explaining that part of the code between slave and master
+can be shared, then we wouldn't have this debate. But right now, you're
+telling me that we need to split the DW driver to prepare for features
+that have not even been discussed/proposed. That's what I'm complaining
+about.
