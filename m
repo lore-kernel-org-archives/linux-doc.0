@@ -5,413 +5,159 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6CDFB7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 09:58:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9CAC57D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 11:32:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726001AbeLDJ6A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Dec 2018 04:58:00 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32936 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725949AbeLDJ6A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Dec 2018 04:58:00 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wB49rtxB119462
-        for <linux-doc@vger.kernel.org>; Tue, 4 Dec 2018 04:57:58 -0500
-Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2p5pn7jbhw-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 04 Dec 2018 04:57:57 -0500
-Received: from localhost
-        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <chandan@linux.vnet.ibm.com>;
-        Tue, 4 Dec 2018 09:57:57 -0000
-Received: from b01cxnp22036.gho.pok.ibm.com (9.57.198.26)
-        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Tue, 4 Dec 2018 09:57:50 -0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
-        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wB49vm5c19660820
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 4 Dec 2018 09:57:48 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8A2F2AC060;
-        Tue,  4 Dec 2018 09:57:48 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A8049AC059;
-        Tue,  4 Dec 2018 09:57:42 +0000 (GMT)
-Received: from localhost.in.ibm.com (unknown [9.124.35.71])
-        by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
-        Tue,  4 Dec 2018 09:57:42 +0000 (GMT)
-From:   Chandan Rajendra <chandan@linux.vnet.ibm.com>
-To:     linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-doc@vger.kernel.org, linux-mips@linux-mips.org,
-        linux-s390@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org
-Cc:     Chandan Rajendra <chandan@linux.vnet.ibm.com>, tytso@mit.edu,
-        adilger.kernel@dilger.ca, ebiggers@kernel.org, jaegeuk@kernel.org,
-        yuchao0@huawei.com, corbet@lwn.net, ralf@linux-mips.org,
-        paul.burton@mips.com, jhogan@kernel.org, green.hu@gmail.com,
-        deanbo422@gmail.com, schwidefsky@de.ibm.com,
-        heiko.carstens@de.ibm.com, richard@nod.at, dedekind1@gmail.com,
-        adrian.hunter@intel.com, viro@zeniv.linux.org.uk
-Subject: [PATCH V2 7/7] fsverity: Remove filesystem specific build config option
-Date:   Tue,  4 Dec 2018 15:26:50 +0530
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20181204095650.12562-1-chandan@linux.vnet.ibm.com>
-References: <20181204095650.12562-1-chandan@linux.vnet.ibm.com>
+        id S1726400AbeLDLcC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Dec 2018 06:32:02 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:34268 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726588AbeLDLcC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Dec 2018 06:32:02 -0500
+Received: by mail-lf1-f66.google.com with SMTP id p6so11680599lfc.1;
+        Tue, 04 Dec 2018 03:31:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=kjxNwEyz1R+Ns0y3pp8C4CCcoiI7PvRqDsKN5BrbHUk=;
+        b=q8UCZLTKh/fxaeXQFC8zqd7MlhQTGEe1NhkQJFc451x2YDOAoANY6XcuvAghs/GHbb
+         qgZmmqKWa/LAotxdTD8mAQqqVtjUsYoBZU5WsxYW7OaA7pKkZhLdWM+duDG2aAzjrwaG
+         odrjTYfgxZJ6OxwmlDabLOrUS7VGVBf4VfAtM1R37SakWUDJW8PcpN3sDUn4yRT/FLCE
+         5pEUYaowhv8oDvOQtvoz6i51WmMMWC9KsLCp7Iu/lkxpEfJycsMADdu/cQpI4vvdjOVy
+         NyEN3O7DwmLChS4zddjnTR57OGijGsCPkWg4kPY01X1OwWEyM5rObQ3A4f+Mj5q3WM0X
+         bo0A==
+X-Gm-Message-State: AA+aEWYntn2lkKicHATTty22cBq5nMUa5YBzajyFwctBUXwFnnyLXii7
+        DOiPs9JmZzFeO9rdMuzo5Uw=
+X-Google-Smtp-Source: AFSGD/VmLf0/AhVGVPyJT0ZFp9HAzxv0/M59T0QSMyFi77qrPnq/ONJAUvK8xm+OI33Zg4Kw5KS8yg==
+X-Received: by 2002:a19:e01e:: with SMTP id x30mr11007203lfg.89.1543923117153;
+        Tue, 04 Dec 2018 03:31:57 -0800 (PST)
+Received: from localhost.localdomain ([213.255.186.46])
+        by smtp.gmail.com with ESMTPSA id c22-v6sm3105410lji.89.2018.12.04.03.31.55
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 04 Dec 2018 03:31:56 -0800 (PST)
+Date:   Tue, 4 Dec 2018 13:31:43 +0200
+From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+To:     mazziesaccount@gmail.com, matti.vaittinen@fi.rohmeurope.com
+Cc:     mturquette@baylibre.com, sboyd@kernel.org, cw00.choi@samsung.com,
+        krzk@kernel.org, b.zolnierkie@samsung.com, linux@armlinux.org.uk,
+        andy.gross@linaro.org, david.brown@linaro.org, pavel@ucw.cz,
+        andrew.smirnov@gmail.com, pombredanne@nexb.com,
+        sjhuang@iluvatar.ai, akshu.agrawal@amd.com, djkurtz@chromium.org,
+        rafael.j.wysocki@intel.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v6 00/10] clk: clkdev/of_clk - add managed lookup and
+ provider registrations
+Message-ID: <cover.1543922403.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 18120409-2213-0000-0000-000003242186
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00010169; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000270; SDB=6.01126788; UDB=6.00585218; IPR=6.00906923;
- MB=3.00024437; MTD=3.00000008; XFM=3.00000015; UTC=2018-12-04 09:57:56
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18120409-2214-0000-0000-00005C7B300C
-Message-Id: <20181204095650.12562-8-chandan@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-04_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1812040087
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to have a common code base for fsverity "post read" processing
-for all filesystems which support fsverity, this commit removes
-filesystem specific build config option (e.g. CONFIG_EXT4_FS_VERITY)
-and replaces it with a build option (i.e. CONFIG_FS_VERITY) whose
-value affects all the filesystems making use of fsverity.
+Series add bd71837/bd71837 PMIC clock support + managed interfaces
 
-Signed-off-by: Chandan Rajendra <chandan@linux.vnet.ibm.com>
+Few clk drivers appear to be leaking clkdev lookup registrations at
+driver remove. The patch series adds devm versions of lookup
+registrations and cleans up few drivers. Driver clean-up patches have
+not been tested as I lack the HW. All testing and comments if
+driver/device removal is even possible for changed drivers is highly
+appreciated. If removal is not possible I will gladly drop the patches
+from series - although leaking lookups may serve as bad example for new
+developers =)
+
+Patch 10 adds support for clock gate in ROHM bd71837 and bd71847 PMICs.
+This change is included in the series because it depends on new managed
+interfaces introduced in this series.
+
+bd718x7 driver and devm interfaces are tested on BeagleBoneBlack and 
+bd71837 break-out board. Clk area register interface of bd71847 is
+identical to bd71837.
+
+Changed drivers are:
+clk-max77686, clk-st, clk-hi655x, rk808, clk-twl6040
+and apcs-msm8916. New driver is clk-bd718x7
+
+This series has been discussed for a while now. For those who want to
+see whole discussion:
+
+The bd71837 driver was originally proposed here
+https://lore.kernel.org/lkml/d99c8762b0fbbcb18ec4f4d104191364c0ea798c.1528117485.git.matti.vaittinen@fi.rohmeurope.com/
+
+clk portion was separated from that series and devm variants were
+proposed here
+https://lore.kernel.org/linux-clk/cover.1535630942.git.matti.vaittinen@fi.rohmeurope.com/
+
+Cleanup to other drivers was initiated in this series while waiting for
+MFD portions of bd718x7 to be applied. And now when MFD dependencies are in-tree
+the patch version (4) combined bd718x7 driver back to this series.
+
+Changelog (for this series) v6
+- Drop 'devm_of_clk_add_parent_hw_provider'. Change
+  'devm_of_clk_add_hw_provider' to look the parent device node for
+  provider information if device's own node does not contain
+  #clock-cells - property.
+- Add kerneldoc in own patch.
+- Remove NULL checks from devres match function for clkdev releasing
+- Clean styling issues from clkdev.c
+
+Changelog (for this series) v5
+- Split v4 patch 1. Place clkdev stuff to patch 1 and clk provider to patch 2
+- Remove devm_clk_release_clkdev from devres.txt
+- Added kerneldoc for managed provider registrations.
+- Cleaned styling issues.
+
+Changelog (for this series) v4
+- Add support for ROHM bd718x7 PMIC clock gate. Included in this patch
+  series because it depends on managed interfaces added in patch 1.
+
+Changelog (for this series) v3
+Address issues spotted by Krzysztof Kozlowski
+- Drop patch 3 for clk-s3c2410-dclk as this device can never be removed
+- Fix indentiation for clk-max77686
+- Rest  of the patches are unchanged.
+
+Changelog (for this series) v2
+Issue spotted by 0-Day test suite
+- Add a stub function 'devm_of_clk_add_parent_hw_provider' for no OF config.
+- patches 2-8 are unchanged.
+
+This patch series is based on clk-next
+
 ---
- Documentation/filesystems/fsverity.rst |  4 ++--
- fs/ext4/Kconfig                        | 20 --------------------
- fs/ext4/ext4.h                         |  2 --
- fs/ext4/readpage.c                     |  4 ++--
- fs/ext4/super.c                        |  6 +++---
- fs/ext4/sysfs.c                        |  4 ++--
- fs/f2fs/Kconfig                        | 20 --------------------
- fs/f2fs/data.c                         |  2 +-
- fs/f2fs/f2fs.h                         |  2 --
- fs/f2fs/super.c                        |  6 +++---
- fs/f2fs/sysfs.c                        |  4 ++--
- fs/verity/Kconfig                      |  3 ++-
- include/linux/fs.h                     |  4 ++--
- include/linux/fsverity.h               |  3 +--
- 14 files changed, 20 insertions(+), 64 deletions(-)
 
-diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
-index d633fc0567bd..bb208dad10d9 100644
---- a/Documentation/filesystems/fsverity.rst
-+++ b/Documentation/filesystems/fsverity.rst
-@@ -279,7 +279,7 @@ ext4
- 
- ext4 supports fs-verity since kernel version TODO.
- 
--CONFIG_EXT4_FS_VERITY must be enabled in the kernel config.  Also, the
-+CONFIG_FS_VERITY must be enabled in the kernel config.  Also, the
- filesystem must have been formatted with ``-O verity``, or had
- ``tune2fs -O verity`` run on it.  These require e2fsprogs v1.44.4-2 or
- later.  This e2fsprogs version is also required for e2fsck to
-@@ -306,7 +306,7 @@ f2fs
- 
- f2fs supports fs-verity since kernel version TODO.
- 
--CONFIG_F2FS_FS_VERITY must be enabled in the kernel config.  Also, the
-+CONFIG_FS_VERITY must be enabled in the kernel config.  Also, the
- filesystem must have been formatted with ``-O verity``.  This requires
- f2fs-tools v1.11.0 or later.
- 
-diff --git a/fs/ext4/Kconfig b/fs/ext4/Kconfig
-index e1002bbf35bf..031e5a82d556 100644
---- a/fs/ext4/Kconfig
-+++ b/fs/ext4/Kconfig
-@@ -96,26 +96,6 @@ config EXT4_FS_SECURITY
- 	  If you are not using a security module that requires using
- 	  extended attributes for file security labels, say N.
- 
--config EXT4_FS_VERITY
--	bool "Ext4 Verity"
--	depends on EXT4_FS
--	select FS_VERITY
--	help
--	  This option enables fs-verity for ext4.  fs-verity is the
--	  dm-verity mechanism implemented at the file level.  Userspace
--	  can append a Merkle tree (hash tree) to a file, then enable
--	  fs-verity on the file.  ext4 will then transparently verify
--	  any data read from the file against the Merkle tree.  The file
--	  is also made read-only.
--
--	  This serves as an integrity check, but the availability of the
--	  Merkle tree root hash also allows efficiently supporting
--	  various use cases where normally the whole file would need to
--	  be hashed at once, such as auditing and authenticity
--	  verification (appraisal).
--
--	  If unsure, say N.
--
- config EXT4_DEBUG
- 	bool "EXT4 debugging support"
- 	depends on EXT4_FS
-diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-index 64bf9fb7ef18..bff8d639dd0c 100644
---- a/fs/ext4/ext4.h
-+++ b/fs/ext4/ext4.h
-@@ -41,8 +41,6 @@
- #endif
- 
- #include <linux/fscrypt.h>
--
--#define __FS_HAS_VERITY IS_ENABLED(CONFIG_EXT4_FS_VERITY)
- #include <linux/fsverity.h>
- 
- #include <linux/compiler.h>
-diff --git a/fs/ext4/readpage.c b/fs/ext4/readpage.c
-index 2c037df629dd..8717ac0a5bb2 100644
---- a/fs/ext4/readpage.c
-+++ b/fs/ext4/readpage.c
-@@ -158,7 +158,7 @@ static struct bio_post_read_ctx *get_bio_post_read_ctx(struct inode *inode,
- 
- 	if (IS_ENCRYPTED(inode) && S_ISREG(inode->i_mode))
- 		post_read_steps |= 1 << STEP_DECRYPT;
--#ifdef CONFIG_EXT4_FS_VERITY
-+#ifdef CONFIG_FS_VERITY
- 	if (inode->i_verity_info != NULL &&
- 	    (index < ((i_size_read(inode) + PAGE_SIZE - 1) >> PAGE_SHIFT)))
- 		post_read_steps |= 1 << STEP_VERITY;
-@@ -205,7 +205,7 @@ static void mpage_end_io(struct bio *bio)
- 
- static inline loff_t ext4_readpage_limit(struct inode *inode)
- {
--#ifdef CONFIG_EXT4_FS_VERITY
-+#ifdef CONFIG_FS_VERITY
- 	if (IS_VERITY(inode)) {
- 		if (inode->i_verity_info)
- 			/* limit to end of metadata region */
-diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-index 35ed3c48f8d2..0d169de59f76 100644
---- a/fs/ext4/super.c
-+++ b/fs/ext4/super.c
-@@ -1316,7 +1316,7 @@ static const struct fscrypt_operations ext4_cryptops = {
- };
- #endif
- 
--#ifdef CONFIG_EXT4_FS_VERITY
-+#ifdef CONFIG_FS_VERITY
- static int ext4_set_verity(struct inode *inode, loff_t data_i_size)
- {
- 	int err;
-@@ -1402,7 +1402,7 @@ static const struct fsverity_operations ext4_verityops = {
- 	.set_verity		= ext4_set_verity,
- 	.get_metadata_end	= ext4_get_metadata_end,
- };
--#endif /* CONFIG_EXT4_FS_VERITY */
-+#endif /* CONFIG_FS_VERITY */
- 
- #ifdef CONFIG_QUOTA
- static const char * const quotatypes[] = INITQFNAMES;
-@@ -4235,7 +4235,7 @@ static int ext4_fill_super(struct super_block *sb, void *data, int silent)
- #ifdef CONFIG_FS_ENCRYPTION
- 	sb->s_cop = &ext4_cryptops;
- #endif
--#ifdef CONFIG_EXT4_FS_VERITY
-+#ifdef CONFIG_FS_VERITY
- 	sb->s_vop = &ext4_verityops;
- #endif
- #ifdef CONFIG_QUOTA
-diff --git a/fs/ext4/sysfs.c b/fs/ext4/sysfs.c
-index 8bc915452a38..6fa0f47c3180 100644
---- a/fs/ext4/sysfs.c
-+++ b/fs/ext4/sysfs.c
-@@ -227,7 +227,7 @@ EXT4_ATTR_FEATURE(meta_bg_resize);
- #ifdef CONFIG_FS_ENCRYPTION
- EXT4_ATTR_FEATURE(encryption);
- #endif
--#ifdef CONFIG_EXT4_FS_VERITY
-+#ifdef CONFIG_FS_VERITY
- EXT4_ATTR_FEATURE(verity);
- #endif
- EXT4_ATTR_FEATURE(metadata_csum_seed);
-@@ -239,7 +239,7 @@ static struct attribute *ext4_feat_attrs[] = {
- #ifdef CONFIG_FS_ENCRYPTION
- 	ATTR_LIST(encryption),
- #endif
--#ifdef CONFIG_EXT4_FS_VERITY
-+#ifdef CONFIG_FS_VERITY
- 	ATTR_LIST(verity),
- #endif
- 	ATTR_LIST(metadata_csum_seed),
-diff --git a/fs/f2fs/Kconfig b/fs/f2fs/Kconfig
-index ce60e480fec1..708e23816575 100644
---- a/fs/f2fs/Kconfig
-+++ b/fs/f2fs/Kconfig
-@@ -70,26 +70,6 @@ config F2FS_CHECK_FS
- 
- 	  If you want to improve the performance, say N.
- 
--config F2FS_FS_VERITY
--	bool "F2FS Verity"
--	depends on F2FS_FS
--	select FS_VERITY
--	help
--	  This option enables fs-verity for f2fs.  fs-verity is the
--	  dm-verity mechanism implemented at the file level.  Userspace
--	  can append a Merkle tree (hash tree) to a file, then enable
--	  fs-verity on the file.  f2fs will then transparently verify
--	  any data read from the file against the Merkle tree.  The file
--	  is also made read-only.
--
--	  This serves as an integrity check, but the availability of the
--	  Merkle tree root hash also allows efficiently supporting
--	  various use cases where normally the whole file would need to
--	  be hashed at once, such as auditing and authenticity
--	  verification (appraisal).
--
--	  If unsure, say N.
--
- config F2FS_IO_TRACE
- 	bool "F2FS IO tracer"
- 	depends on F2FS_FS
-diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
-index 844ec573263e..83b59b985894 100644
---- a/fs/f2fs/data.c
-+++ b/fs/f2fs/data.c
-@@ -610,7 +610,7 @@ static struct bio *f2fs_grab_read_bio(struct inode *inode, block_t blkaddr,
- 
- 	if (f2fs_encrypted_file(inode))
- 		post_read_steps |= 1 << STEP_DECRYPT;
--#ifdef CONFIG_F2FS_FS_VERITY
-+#ifdef CONFIG_FS_VERITY
- 	if (inode->i_verity_info != NULL &&
- 	    (first_idx < ((i_size_read(inode) + PAGE_SIZE - 1) >> PAGE_SHIFT)))
- 		post_read_steps |= 1 << STEP_VERITY;
-diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
-index ea8a5ffc4f1f..dc999af932f2 100644
---- a/fs/f2fs/f2fs.h
-+++ b/fs/f2fs/f2fs.h
-@@ -25,8 +25,6 @@
- #include <crypto/hash.h>
- 
- #include <linux/fscrypt.h>
--
--#define __FS_HAS_VERITY IS_ENABLED(CONFIG_F2FS_FS_VERITY)
- #include <linux/fsverity.h>
- 
- #ifdef CONFIG_F2FS_CHECK_FS
-diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
-index 4287cf348d3c..60d5338280fb 100644
---- a/fs/f2fs/super.c
-+++ b/fs/f2fs/super.c
-@@ -2197,7 +2197,7 @@ static const struct fscrypt_operations f2fs_cryptops = {
- };
- #endif
- 
--#ifdef CONFIG_F2FS_FS_VERITY
-+#ifdef CONFIG_FS_VERITY
- static int f2fs_set_verity(struct inode *inode, loff_t data_i_size)
- {
- 	int err;
-@@ -2222,7 +2222,7 @@ static const struct fsverity_operations f2fs_verityops = {
- 	.set_verity		= f2fs_set_verity,
- 	.get_metadata_end	= f2fs_get_metadata_end,
- };
--#endif /* CONFIG_F2FS_FS_VERITY */
-+#endif /* CONFIG_FS_VERITY */
- 
- static struct inode *f2fs_nfs_get_inode(struct super_block *sb,
- 		u64 ino, u32 generation)
-@@ -3146,7 +3146,7 @@ static int f2fs_fill_super(struct super_block *sb, void *data, int silent)
- #ifdef CONFIG_FS_ENCRYPTION
- 	sb->s_cop = &f2fs_cryptops;
- #endif
--#ifdef CONFIG_F2FS_FS_VERITY
-+#ifdef CONFIG_FS_VERITY
- 	sb->s_vop = &f2fs_verityops;
- #endif
- 	sb->s_xattr = f2fs_xattr_handlers;
-diff --git a/fs/f2fs/sysfs.c b/fs/f2fs/sysfs.c
-index 737677655bc0..949e6d87f4e3 100644
---- a/fs/f2fs/sysfs.c
-+++ b/fs/f2fs/sysfs.c
-@@ -444,7 +444,7 @@ F2FS_FEATURE_RO_ATTR(flexible_inline_xattr, FEAT_FLEXIBLE_INLINE_XATTR);
- F2FS_FEATURE_RO_ATTR(quota_ino, FEAT_QUOTA_INO);
- F2FS_FEATURE_RO_ATTR(inode_crtime, FEAT_INODE_CRTIME);
- F2FS_FEATURE_RO_ATTR(lost_found, FEAT_LOST_FOUND);
--#ifdef CONFIG_F2FS_FS_VERITY
-+#ifdef CONFIG_FS_VERITY
- F2FS_FEATURE_RO_ATTR(verity, FEAT_VERITY);
- #endif
- F2FS_FEATURE_RO_ATTR(sb_checksum, FEAT_SB_CHECKSUM);
-@@ -507,7 +507,7 @@ static struct attribute *f2fs_feat_attrs[] = {
- 	ATTR_LIST(quota_ino),
- 	ATTR_LIST(inode_crtime),
- 	ATTR_LIST(lost_found),
--#ifdef CONFIG_F2FS_FS_VERITY
-+#ifdef CONFIG_FS_VERITY
- 	ATTR_LIST(verity),
- #endif
- 	ATTR_LIST(sb_checksum),
-diff --git a/fs/verity/Kconfig b/fs/verity/Kconfig
-index a7470a2e4892..6d9437a432cd 100644
---- a/fs/verity/Kconfig
-+++ b/fs/verity/Kconfig
-@@ -1,5 +1,5 @@
- config FS_VERITY
--	tristate "FS Verity (read-only file-based authenticity protection)"
-+	bool "FS Verity (read-only file-based authenticity protection)"
- 	select CRYPTO
- 	# SHA-256 is selected as it's intended to be the default hash algorithm.
- 	# To avoid bloat, other wanted algorithms must be selected explicitly.
-@@ -23,6 +23,7 @@ config FS_VERITY
- 	  the contents may actually be needed.  Also, fs-verity verifies
- 	  data each time it is paged back in, which provides better
- 	  protection against malicious disks vs. an ahead-of-time hash.
-+	  Currently Ext4 and F2FS make use of this feature.
- 
- 	  If unsure, say N.
- 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index de602d9f8d0e..1583b861a225 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -704,7 +704,7 @@ struct inode {
- 	struct fscrypt_info	*i_crypt_info;
- #endif
- 
--#if IS_ENABLED(CONFIG_FS_VERITY)
-+#ifdef CONFIG_FS_VERITY
- 	struct fsverity_info	*i_verity_info;
- #endif
- 
-@@ -1407,7 +1407,7 @@ struct super_block {
- #ifdef CONFIG_FS_ENCRYPTION
- 	const struct fscrypt_operations	*s_cop;
- #endif
--#if IS_ENABLED(CONFIG_FS_VERITY)
-+#ifdef CONFIG_FS_VERITY
- 	const struct fsverity_operations *s_vop;
- #endif
- 	struct hlist_bl_head	s_roots;	/* alternate root dentries for NFS */
-diff --git a/include/linux/fsverity.h b/include/linux/fsverity.h
-index c30c4f6ed411..f37132c640ee 100644
---- a/include/linux/fsverity.h
-+++ b/include/linux/fsverity.h
-@@ -19,8 +19,7 @@ struct fsverity_operations {
- 	int (*get_metadata_end)(struct inode *inode, loff_t *metadata_end_ret);
- };
- 
--#if __FS_HAS_VERITY
--
-+#ifdef CONFIG_FS_VERITY
- /* ioctl.c */
- extern int fsverity_ioctl_enable(struct file *filp, const void __user *arg);
- extern int fsverity_ioctl_measure(struct file *filp, void __user *arg);
+Matti Vaittinen (10):
+  clkdev: add managed clkdev lookup registration
+  clk: Add kerneldoc to managed of-provider interfaces
+  clk: of-provider: look at parent if registered device has no provider
+    info
+  clk: clk-max77686: Clean clkdev lookup leak and use devm
+  clk: clk-st: avoid clkdev lookup leak at remove
+  clk: clk-hi655x: Free of_provider at remove
+  clk: rk808: use managed version of of_provider registration
+  clk: clk-twl6040: Free of_provider at remove
+  clk: apcs-msm8916: simplify probe cleanup by using devm
+  clk: bd718x7: Initial support for ROHM bd71837/bd71847 PMIC clock
+
+ Documentation/driver-model/devres.txt |   1 +
+ drivers/clk/Kconfig                   |   7 ++
+ drivers/clk/Makefile                  |   1 +
+ drivers/clk/clk-bd718x7.c             | 131 ++++++++++++++++++++++++++++++++++
+ drivers/clk/clk-hi655x.c              |   4 +-
+ drivers/clk/clk-max77686.c            |  28 ++------
+ drivers/clk/clk-rk808.c               |  15 +---
+ drivers/clk/clk-twl6040.c             |   5 +-
+ drivers/clk/clk.c                     |  38 +++++++++-
+ drivers/clk/clkdev.c                  | 111 ++++++++++++++++++++++------
+ drivers/clk/qcom/apcs-msm8916.c       |   5 +-
+ drivers/clk/x86/clk-st.c              |   3 +-
+ include/linux/clkdev.h                |   4 ++
+ 13 files changed, 284 insertions(+), 69 deletions(-)
+ create mode 100644 drivers/clk/clk-bd718x7.c
+
 -- 
-2.19.1
-
+2.14.3
