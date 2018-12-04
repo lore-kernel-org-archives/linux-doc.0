@@ -1,294 +1,186 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C356B7D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 00:11:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 032D37D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 00:35:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725909AbeLDAL2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Dec 2018 19:11:28 -0500
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:35042 "EHLO
-        mx0b-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725903AbeLDAL2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Dec 2018 19:11:28 -0500
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id wB404UCO009420;
-        Mon, 3 Dec 2018 16:11:17 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=facebook;
- bh=U3JjbP/W/sU665MEzYUwF/I0/Jtnm8EbcXnYYbGHVWE=;
- b=VoT7Y/J+TEZoF1P/Ep3X/ceknIYm+xRV2k8d5htltf8v8z2/7+oqTcwTcOF5NO1WEdgU
- JpSFr5PjkG/bMgfHn100OHe7OBJWwSFM7KTzowvm5MGK2Qg61E+YzqG8nXg4GHj5MgyY
- Eoz54+8Pp8nL4jDbaXfiDtPoRh1o0w2QHq0= 
-Received: from mail.thefacebook.com ([199.201.64.23])
-        by mx0a-00082601.pphosted.com with ESMTP id 2p5cmr0dv0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Mon, 03 Dec 2018 16:11:17 -0800
-Received: from prn-hub06.TheFacebook.com (2620:10d:c081:35::130) by
- prn-hub02.TheFacebook.com (2620:10d:c081:35::126) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.1531.3; Mon, 3 Dec 2018 16:11:15 -0800
-Received: from NAM04-CO1-obe.outbound.protection.outlook.com (192.168.54.28)
- by o365-in.thefacebook.com (192.168.16.30) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.1.1531.3
- via Frontend Transport; Mon, 3 Dec 2018 16:11:15 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector1-fb-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U3JjbP/W/sU665MEzYUwF/I0/Jtnm8EbcXnYYbGHVWE=;
- b=hqy3wa11mMwe0Mv2HkXxZ0jtequq0TF4VXKe3BWGEoiOGHcL4z9JbdcGIWiSpekfX7WCyZTa+HpUPCYpMu8pSFyGzZmiidY1A2ncNOI7LECz7l9rtKPcKs35uYljsA8nbGbU/xZwzQzxFYVi+S97QXVUUzNDgrRc8wxLaEjgulA=
-Received: from BY2PR15MB0167.namprd15.prod.outlook.com (10.163.64.141) by
- BY2PR15MB0453.namprd15.prod.outlook.com (10.163.110.14) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1382.22; Tue, 4 Dec 2018 00:11:13 +0000
-Received: from BY2PR15MB0167.namprd15.prod.outlook.com
- ([fe80::1d40:c1ed:72a7:38a6]) by BY2PR15MB0167.namprd15.prod.outlook.com
- ([fe80::1d40:c1ed:72a7:38a6%4]) with mapi id 15.20.1382.020; Tue, 4 Dec 2018
- 00:11:13 +0000
-From:   Roman Gushchin <guro@fb.com>
-To:     Oleg Nesterov <oleg@redhat.com>
-CC:     Roman Gushchin <guroan@gmail.com>, Tejun Heo <tj@kernel.org>,
-        "Dan Carpenter" <dan.carpenter@oracle.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Kernel Team <Kernel-team@fb.com>
-Subject: Re: [PATCH v4 4/7] cgroup: cgroup v2 freezer
-Thread-Topic: [PATCH v4 4/7] cgroup: cgroup v2 freezer
-Thread-Index: AQHUiQcuu3vJ28CJwUGWXyoIhkv5PaVtHB4AgACdiIA=
-Date:   Tue, 4 Dec 2018 00:11:13 +0000
-Message-ID: <20181204001105.GA14586@castle.DHCP.thefacebook.com>
-References: <20181130234745.6756-1-guro@fb.com>
- <20181130234745.6756-5-guro@fb.com> <20181203144717.GD31795@redhat.com>
-In-Reply-To: <20181203144717.GD31795@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: MWHPR12CA0056.namprd12.prod.outlook.com
- (2603:10b6:300:103::18) To BY2PR15MB0167.namprd15.prod.outlook.com
- (2a01:111:e400:58e0::13)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [2620:10d:c090:200::5:9a6e]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;BY2PR15MB0453;20:NiNXplmZzDJ0GpanlWCkM6fZChgaxvTGXsWOJl6vtoe+y7L5tQWNtaCPfdP4xbTaMI3Am2p+vKaHcVh1cmeId6p/hF7CV/e5TvN8s9yIdIrEpzXcLrF8+Fx+8qxiJKDFqDP4/WRhMr1m3OtpgF6wgovkGPNnB5oANkT/lL66C0c=
-x-ms-office365-filtering-correlation-id: 5c476327-b7c5-453a-01c8-08d6597d0017
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390098)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(2017052603328)(7153060)(7193020);SRVR:BY2PR15MB0453;
-x-ms-traffictypediagnostic: BY2PR15MB0453:
-x-microsoft-antispam-prvs: <BY2PR15MB04531CC56F5859AB859BD123BEAF0@BY2PR15MB0453.namprd15.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(10201501046)(93006095)(93001095)(3231455)(999002)(11241501185)(944501493)(52105112)(3002001)(148016)(149066)(150057)(6041310)(20161123560045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123562045)(201708071742011)(7699051)(76991095);SRVR:BY2PR15MB0453;BCL:0;PCL:0;RULEID:;SRVR:BY2PR15MB0453;
-x-forefront-prvs: 0876988AF0
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(136003)(376002)(396003)(346002)(366004)(39860400002)(189003)(199004)(97736004)(6116002)(11346002)(476003)(5660300001)(486006)(46003)(68736007)(446003)(102836004)(4326008)(186003)(33656002)(39060400002)(256004)(5024004)(14444005)(6246003)(33896004)(6436002)(305945005)(105586002)(2906002)(316002)(25786009)(99286004)(106356001)(7736002)(229853002)(6486002)(52116002)(54906003)(6506007)(76176011)(386003)(71190400001)(71200400001)(6512007)(6916009)(8676002)(1076002)(8936002)(53936002)(478600001)(86362001)(9686003)(14454004)(81156014)(81166006)(42262002);DIR:OUT;SFP:1102;SCL:1;SRVR:BY2PR15MB0453;H:BY2PR15MB0167.namprd15.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: fb.com does not designate
- permitted sender hosts)
-x-microsoft-antispam-message-info: hGN1PV1bymjoaPPxEDdQtkSfluZQMBNU1ZfEGE503xpKVD/Zk2REspjTu/skKDS4lCME5u6Vml3BevkthIwNUlz2aNAEnEcGSMpW3kJKQ112RDtd9HLB762YYb2it2THpaVc2r47ngsZe+Ln5WArfihwQZbj3dLjA80sQjeMIaIzmXTBE97DNZOkMuHzhrHqRL2HxAXzG4+v82LSy9H34aFzEjeBlUxdL52G+CUD2So2QCbaz2wef8WDtaB+GToLLyUeefHUivanbCUDRW1U/Y6GoZ7f4RMiTsVEir/FZ/0UEWEE1y9k5mXhQ8fZykTEE1h5Ng05ILcnnSI8k5pPbNfPOjpAXCmfKPZJTDJcO0I=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <87C0C50BC289E147B62B1AF5F48DDDBE@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S1725968AbeLDAeo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Dec 2018 19:34:44 -0500
+Received: from smtprelay2.synopsys.com ([198.182.60.111]:55626 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725976AbeLDAeo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Dec 2018 19:34:44 -0500
+Received: from mailhost.synopsys.com (mailhost3.synopsys.com [10.12.238.238])
+        by smtprelay.synopsys.com (Postfix) with ESMTP id D879410C0D9D;
+        Mon,  3 Dec 2018 16:34:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1543883683; bh=HxEWwKUr3cxjBM6M14wChG45B2lBPcmcP3Yu7mHlwyw=;
+        h=From:Subject:To:CC:References:Date:In-Reply-To:From;
+        b=VRbcrFhuQB23FQKRDLCQ0i8MilD7gN1xBoVGC3YnI1a879gJA1+eK1joBVwmtLijV
+         +m9MQKJC9gwl2oC2zYl+uWZb1rXyuK/5XQXhpkb3UKqNT0Q75j9CaBD/zAiQFkLvl+
+         uoCayvMOC6af13d3enj4fTUE9gE5sz/EY485W826bRNtnvUJ1VXYwD3O3QvYFZ+Muf
+         RCuibbBQa20adu+JnKLKOWu/MT8TnBWbhqTMvx5EQli09Qd06aFdZVTL8Nye8nEDQg
+         95lDM3R6gbwolVvzdPEEJnMtvo9CrVKUOGymSceakHK/6EHij8nH34laU0XMoL0JeZ
+         RAxLMmPBY4B+w==
+Received: from us01wehtc1.internal.synopsys.com (us01wehtc1-vip.internal.synopsys.com [10.12.239.236])
+        by mailhost.synopsys.com (Postfix) with ESMTP id E78D73778;
+        Mon,  3 Dec 2018 16:34:39 -0800 (PST)
+Received: from DE02WEHTCB.internal.synopsys.com (10.225.19.94) by
+ us01wehtc1.internal.synopsys.com (10.12.239.235) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Mon, 3 Dec 2018 16:34:39 -0800
+Received: from DE02WEHTCA.internal.synopsys.com (10.225.19.92) by
+ DE02WEHTCB.internal.synopsys.com (10.225.19.94) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Tue, 4 Dec 2018 01:34:37 +0100
+Received: from [10.0.2.15] (10.225.2.138) by DE02WEHTCA.internal.synopsys.com
+ (10.225.19.80) with Microsoft SMTP Server (TLS) id 14.3.408.0; Tue, 4 Dec
+ 2018 01:34:36 +0100
+From:   vitor <vitor.soares@synopsys.com>
+Subject: Re: [PATCH] i3c: master: dw: split dw-i3c-master.c into master and
+ bus specific parts
+To:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        vitor <vitor.soares@synopsys.com>
+CC:     <wsa@the-dreams.de>, <linux-i2c@vger.kernel.org>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <gregkh@linuxfoundation.org>,
+        <arnd@arndb.de>, <psroka@cadence.com>, <agolec@cadence.com>,
+        <adouglas@cadence.com>, <bfolta@cadence.com>, <dkos@cadence.com>,
+        <alicja@cadence.com>, <cwronka@cadence.com>, <sureshp@cadence.com>,
+        <rafalc@cadence.com>, <thomas.petazzoni@bootlin.com>, <nm@ti.com>,
+        <robh+dt@kernel.org>, <pawel.moll@arm.com>, <mark.rutland@arm.com>,
+        <ijc+devicetree@hellion.org.uk>, <galak@codeaurora.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <geert@linux-m68k.org>, <linus.walleij@linaro.org>,
+        <Xiang.Lin@synaptics.com>, <linux-gpio@vger.kernel.org>,
+        <nsekhar@ti.com>, <pgaj@cadence.com>, <peda@axentia.se>,
+        <mshettel@codeaurora.org>, <swboyd@chromium.org>,
+        <joao.pinto@synopsys.com>
+References: <ade2c1a8d1eb48681b01ccdc9bed22caf5e96c4b.1542904564.git.soares@synopsys.com>
+ <20181122210202.6af50fcc@bbrezillon>
+ <6d513e04-3a57-1989-429c-64631101c5a2@synopsys.com>
+ <20181123135004.7fd1cd58@bbrezillon>
+ <83115f47-1326-cb33-a7dc-4bc8ff95befa@synopsys.com>
+ <20181126133550.51469816@bbrezillon>
+ <4e9c0461-02a3-80b2-c9b7-2e9ea9b38f8b@synopsys.com>
+ <20181126195618.352eafb1@bbrezillon>
+ <4c743a9a-d636-d34c-b7e3-913f18e6c754@synopsys.com>
+ <20181126223334.08105d89@bbrezillon>
+ <0912ea50-b365-d583-9d33-1dff236acbad@synopsys.com>
+ <20181127133350.0361f998@bbrezillon>
+Message-ID: <623809f3-1d1f-a10c-783a-07b545c5955c@synopsys.com>
+Date:   Tue, 4 Dec 2018 00:34:20 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c476327-b7c5-453a-01c8-08d6597d0017
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Dec 2018 00:11:13.0739
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY2PR15MB0453
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-03_12:,,
- signatures=0
-X-Proofpoint-Spam-Reason: safe
-X-FB-Internal: Safe
+In-Reply-To: <20181127133350.0361f998@bbrezillon>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.225.2.138]
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 03, 2018 at 03:47:18PM +0100, Oleg Nesterov wrote:
-> To be honest, I fail to understand this patch. At least after a quick gla=
-nce,
-> I will try to read it again tomorrow but so far I do not even understand =
-the
-> desired semantics wrt signals/ptrace.
->=20
-> On 11/30, Roman Gushchin wrote:
-> >
-> > @@ -368,6 +369,8 @@ static inline int signal_pending_state(long state, =
-struct task_struct *p)
-> >  		return 0;
-> >  	if (!signal_pending(p))
-> >  		return 0;
-> > +	if (unlikely(cgroup_task_frozen(p)))
-> > +		return __fatal_signal_pending(p);
->=20
-> Oh, this is not nice. And doesn't look right.
->=20
-> > +/*
-> > + * Entry path into frozen state.
-> > + * If the task was not frozen before, counters are updated and the cgr=
-oup state
-> > + * is revisited. Otherwise, the task is put into the TASK_KILLABLE sle=
-ep.
-> > + */
-> > +void cgroup_enter_frozen(void)
-> > +{
-> > +	if (!current->frozen) {
-> > +		struct cgroup *cgrp;
-> > +
-> > +		spin_lock_irq(&css_set_lock);
-> > +		current->frozen =3D true;
-> > +		cgrp =3D task_dfl_cgroup(current);
-> > +		cgrp->freezer.nr_frozen_tasks++;
-> > +		WARN_ON_ONCE(cgrp->freezer.nr_frozen_tasks >
-> > +			     cgrp->freezer.nr_tasks_to_freeze);
-> > +		cgroup_update_frozen(cgrp, true);
-> > +		spin_unlock_irq(&css_set_lock);
-> > +	}
-> > +
-> > +	__set_current_state(TASK_INTERRUPTIBLE);
-> > +	schedule();
->=20
-> The comment above says TASK_KILLABLE, very confusing.
+Hi Boris,
 
-Sorry, it's a leftover from one of the previous versions. Fixed.
 
->=20
-> Probably this pairs with the change in signal_pending_state() above. So t=
-his
-> schedule() should actually "work" in that it won't return if signal_pendi=
-ng().
->=20
-> But this can't protect from another signal_wake_up(). Yes, iiuc in this c=
-ase
-> cgroup_enter_frozen() will be called again "soon" but this all looks stra=
-nge.
+Sorry for the delayed response.
 
-So, the idea here is to make ptrace traps and fatal signals working, but
-non-fatal shouldn't be delivered.
 
-As soon as the frozen task is looping in the signal delivery loop, it's fin=
-e,
-it's not going anywhere.
+On 27/11/18 12:33, Boris Brezillon wrote:
+> Hi Vitor,
+>
+> On Tue, 27 Nov 2018 11:50:53 +0000
+> vitor<vitor.soares@synopsys.com>  wrote:
+>
+>
+>>>> Sorry for that and don't take me wrong... maybe I should rise this
+>>>> question early but this only came up now when I started splitting and
+>>>> thinking where to put what is for master for slave, what is common and
+>>>> the thing of putting everything of controller in a folder.
+>>> So you have such a dual-role controller?
+>> Yes, we already talked about secondary master support.
+> There's a difference between a secondary master that waits for its time
+> to become the currrent master, and a secondary master that provides I3C
+> device features when it's acting as a slave (sensor, GPIO
+> controller, ...). So far we focused on supporting the former. If
+> there's a need for the latter, then we should start thinking about the
+> slave framework...
+>
+>>> What I call a slave controller would be something that lets you reply to
+>>> SDR/DDR transactions or fill a generic regmap that would be exposed to
+>>> other masters on the bus. This way we could implement generic slave
+>>> drivers in Linux (the same way we have gadget drivers). Anything else
+>>> is likely to be to specific to be exposed as a generic framework.
+>> I would bet to do something like in i2c, we don't need the same level of
+>> complexity found in USB.
+> Can you detail a bit more what you have in mind? I don't think we can
+> do like I2C, simply because we need to expose a valid DCR +
+> manuf-ID/PID so that other masters can bind the device to the
+> appropriate driver on their side. Plus, if we're about to expose
+> generic profiles, we likely don't want each I3C slave controller driver
+> to do that on its own.
 
-Without the change above the task is getting out of schedule() immediately,
-if any signal is pending (including non-fatals). So it becomes a busy-loop.
 
->=20
-> > --- a/kernel/ptrace.c
-> > +++ b/kernel/ptrace.c
-> > @@ -410,6 +410,13 @@ static int ptrace_attach(struct task_struct *task,=
- long request,
-> >
-> >  	spin_lock(&task->sighand->siglock);
-> >
-> > +	/*
-> > +	 * If the process is frozen, let's wake it up to give it a chance
-> > +	 * to enter the ptrace trap.
-> > +	 */
-> > +	if (cgroup_task_frozen(task))
-> > +		wake_up_process(task);
->=20
-> And why this can't race with cgroup_enter_frozen() ?
->=20
-> Or think of PTRACE_INTERRUPT. It can race with cgroup_enter_frozen() too,=
- the
-> tracee can miss this request because of that change in signal_pending_sta=
-te().
+I think this should be discuss in another thread. Do you agree?
 
-It's a good point. So I need an additional synchronization around
-checking/setting the JOBCTL_TRAP_FREEZE?
 
->=20
->=20
-> >  static void do_jobctl_trap(void)
-> >  {
-> > +	struct sighand_struct *sighand =3D current->sighand;
-> >  	struct signal_struct *signal =3D current->signal;
-> >  	int signr =3D current->jobctl & JOBCTL_STOP_SIGMASK;
-> > =20
-> > -	if (current->ptrace & PT_SEIZED) {
-> > -		if (!signal->group_stop_count &&
-> > -		    !(signal->flags & SIGNAL_STOP_STOPPED))
-> > -			signr =3D SIGTRAP;
-> > -		WARN_ON_ONCE(!signr);
-> > -		ptrace_do_notify(signr, signr | (PTRACE_EVENT_STOP << 8),
-> > -				 CLD_STOPPED);
-> > -	} else {
-> > -		WARN_ON_ONCE(!signr);
-> > -		ptrace_stop(signr, CLD_STOPPED, 0, NULL);
-> > -		current->exit_code =3D 0;
-> > +	if (current->jobctl & (JOBCTL_TRAP_STOP | JOBCTL_TRAP_NOTIFY)) {
-> > +		if (current->ptrace & PT_SEIZED) {
-> > +			if (!signal->group_stop_count &&
-> > +			    !(signal->flags & SIGNAL_STOP_STOPPED))
-> > +				signr =3D SIGTRAP;
-> > +			WARN_ON_ONCE(!signr);
-> > +			ptrace_do_notify(signr,
-> > +					 signr | (PTRACE_EVENT_STOP << 8),
-> > +					 CLD_STOPPED);
-> > +		} else {
-> > +			WARN_ON_ONCE(!signr);
-> > +			ptrace_stop(signr, CLD_STOPPED, 0, NULL);
-> > +			current->exit_code =3D 0;
-> > +		}
-> > +	} else if (current->jobctl & JOBCTL_TRAP_FREEZE) {
-> > +		/*
-> > +		 * Enter the frozen state, unless the task is about to exit.
-> > +		 */
-> > +		if (fatal_signal_pending(current)) {
-> > +			current->jobctl &=3D ~JOBCTL_TRAP_FREEZE;
-> > +		} else {
-> > +			spin_unlock_irq(&sighand->siglock);
-> > +			cgroup_enter_frozen();
-> > +			spin_lock_irq(&sighand->siglock);
-> > +		}
-> >  	}
-> >  }
-> > =20
-> > @@ -2401,12 +2420,23 @@ bool get_signal(struct ksignal *ksig)
-> >  		    do_signal_stop(0))
-> >  			goto relock;
-> > =20
-> > -		if (unlikely(current->jobctl & JOBCTL_TRAP_MASK)) {
-> > +		if (unlikely(current->jobctl &
-> > +			     (JOBCTL_TRAP_MASK | JOBCTL_TRAP_FREEZE))) {
-> >  			do_jobctl_trap();
->=20
-> Cosmetic nit, but can't you add another helper? To me something like
->=20
-> 		if (JOBCTL_TRAP_MASK)
-> 			do_jobctl_trap();
-> 		else if (JOBCTL_TRAP_FREEZE)
-> 			do_jobctl_freeze();
->=20
-> will look more clean, but I won't insist.
+>>>> Taking the USB as exemple do you prefer a dwc folder on i3c root?
+>>> Hm, not sure I like this idea either. So I see 2 options:
+>>>
+>>> 1/ put all controller drivers (both master and slave ones) in a common
+>>>      directory (drivers/i3c/controllers) as you suggest, and prefix them
+>>>      correctly (i3c-master-<ip>.c, i3c-slave-<ip>.c and i3c-dual-<ip>.c)
+>> I agree with the controller folder but not with prefix. Please check
+>> what is already in the kernel.
+> If we mix everything in the same subdir, I'd like to have an easy way
+> to quickly identify those that are slave controllers and those that are
+> master controllers. For the dual-role thing, maybe we can consider them
+> as master (ones with advances slave features).
+>
+> Would you be okay with drivers/i3c/controllers/{designware,dw}/..., so
+> that you can have all designware drivers (for both slave and master
+> blocks) in the same dir?
 
-Sure.
 
->=20
->=20
-> > +		/*
-> > +		 * If the task is leaving the frozen state, let's update
-> > +		 * cgroup counters and reset the frozen bit.
-> > +		 */
-> > +		if (unlikely(cgroup_task_frozen(current))) {
-> > +			spin_unlock_irq(&sighand->siglock);
-> > +			cgroup_leave_frozen();
-> > +			spin_lock_irq(&sighand->siglock);
->=20
-> looks like this needs another "goto relock", no?
->=20
-> And perhaps this another reason for the new do_jobctl_freeze() helper whi=
-ch
-> could absorb this leave_frozen() ?
+Yes, that was what I trying to tell you. For me this might be the best 
+option.
 
-Makes sense. Will follow this path in v5.
+I would like to avoid having dual role i3c driver in a master folder.
 
-Thank you!
+
+> For those that are placed directly under drivers/i3c/controllers/...
+> (because they only have one .c file), I'd like to keep a standard
+> prefix.
+
+
+I don't disagree, and for those that have more than one file they should 
+be in a folder, right?
+
+What prefix do you have in mind for those files inside a folder?
+
+
+>> To be clear, the subsystem is nice and I working with daily. As I said
+>> this is something that I dealing now and I'm telling what I think that
+>> is not correct.
+>>
+> Come on! All I've seen so far are complaints on tiny details, it
+> definitely doesn't prevent you from adding new features.
+>
+> Regards,
+>
+> Boris
+
+
+No, it's not. But as you can see to slipt the driver in parts this 
+subject has some relevance.
+
+
+Best regards,
+
+Vitor Soares
+
+
