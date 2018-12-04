@@ -1,239 +1,140 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 89BE77D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 23:16:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8C5BF7D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 23:35:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726609AbeLDXQd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Dec 2018 18:16:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40292 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726037AbeLDXQc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 4 Dec 2018 18:16:32 -0500
-Received: from gmail.com (unknown [104.132.1.85])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8046B20879;
-        Tue,  4 Dec 2018 23:16:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1543965391;
-        bh=/Zvn1IqSxCFpJZhefFmYB/kNSQIq82dhd6h/f64zF94=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ktFaFijKmDpHoNt7BWT5pMBssTvVZLVXUBeHBMJem8y3UqkOT6yx3iWJX5oSGbgPM
-         kzSSg1cJ+7NiHl6DhLPBe3rpiV09ZC92RkW4oFXxBmVL8ylk1Cz8qbWQdQHOMSMiMV
-         C49iYLmzoiCSz+/RMkNoMX/J4Q5fyPRxpEQWTVxk=
-Date:   Tue, 4 Dec 2018 15:16:29 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Chandan Rajendra <chandan@linux.vnet.ibm.com>
-Cc:     linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-doc@vger.kernel.org, linux-mips@linux-mips.org,
-        linux-s390@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, tytso@mit.edu,
-        adilger.kernel@dilger.ca, jaegeuk@kernel.org, yuchao0@huawei.com,
-        corbet@lwn.net, ralf@linux-mips.org, paul.burton@mips.com,
-        jhogan@kernel.org, green.hu@gmail.com, deanbo422@gmail.com,
-        schwidefsky@de.ibm.com, heiko.carstens@de.ibm.com, richard@nod.at,
-        dedekind1@gmail.com, adrian.hunter@intel.com,
-        viro@zeniv.linux.org.uk
-Subject: Re: [PATCH V2 2/7] f2fs: use IS_ENCRYPTED() to check encryption
- status
-Message-ID: <20181204231628.GB70682@gmail.com>
-References: <20181204095650.12562-1-chandan@linux.vnet.ibm.com>
- <20181204095650.12562-3-chandan@linux.vnet.ibm.com>
+        id S1725904AbeLDXfY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Dec 2018 18:35:24 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37036 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726273AbeLDXfY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Dec 2018 18:35:24 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wB4NUMWi117829
+        for <linux-doc@vger.kernel.org>; Tue, 4 Dec 2018 18:35:23 -0500
+Received: from e34.co.us.ibm.com (e34.co.us.ibm.com [32.97.110.152])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2p5xvaj28k-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 04 Dec 2018 18:35:22 -0500
+Received: from localhost
+        by e34.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <bauerman@linux.ibm.com>;
+        Tue, 4 Dec 2018 23:35:22 -0000
+Received: from b03cxnp08025.gho.boulder.ibm.com (9.17.130.17)
+        by e34.co.us.ibm.com (192.168.1.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 4 Dec 2018 23:35:17 -0000
+Received: from b03ledav006.gho.boulder.ibm.com (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+        by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wB4NZGdl24314094
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 4 Dec 2018 23:35:16 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BD520C6055;
+        Tue,  4 Dec 2018 23:35:16 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8BF6CC605A;
+        Tue,  4 Dec 2018 23:35:12 +0000 (GMT)
+Received: from morokweng.localdomain (unknown [9.85.142.32])
+        by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTPS;
+        Tue,  4 Dec 2018 23:35:12 +0000 (GMT)
+References: <20181116200712.14154-1-bauerman@linux.ibm.com> <alpine.LRH.2.21.1812050855270.22148@namei.org>
+User-agent: mu4e 1.0; emacs 26.1
+From:   Thiago Jung Bauermann <bauerman@linux.ibm.com>
+To:     James Morris <jmorris@namei.org>
+Cc:     linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        David Howells <dhowells@redhat.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "AKASHI\, Takahiro" <takahiro.akashi@linaro.org>
+Subject: Re: [PATCH v8 00/14] Appended signatures support for IMA appraisal
+In-reply-to: <alpine.LRH.2.21.1812050855270.22148@namei.org>
+Date:   Tue, 04 Dec 2018 21:35:07 -0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181204095650.12562-3-chandan@linux.vnet.ibm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+x-cbid: 18120423-0016-0000-0000-0000095F714E
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00010172; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000270; SDB=6.01127061; UDB=6.00585382; IPR=6.00907195;
+ MB=3.00024448; MTD=3.00000008; XFM=3.00000015; UTC=2018-12-04 23:35:22
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18120423-0017-0000-0000-0000414B0F40
+Message-Id: <87k1ko50ic.fsf@morokweng.localdomain>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-04_10:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1812040202
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 04, 2018 at 03:26:45PM +0530, Chandan Rajendra wrote:
-> This commit removes the f2fs specific f2fs_encrypted_inode() and makes
-> use of the generic IS_ENCRYPTED() macro to check for the encryption
-> status of an inode.
-> 
-> Acked-by: Chao Yu <yuchao0@huawei.com>
-> Signed-off-by: Chandan Rajendra <chandan@linux.vnet.ibm.com>
 
-This commit message is incorrect because f2fs_encrypted_inode() isn't actually
-removed by this patch.  Did you mean to remove it?  I think you can if you
-change f2fs_encrypted_file() to:
+Hello James,
 
-static inline bool f2fs_encrypted_file(struct inode *inode)
-{
-        return IS_ENCRYPTED(inode) && S_ISREG(inode->i_mode);
-}
+Thanks for you interest in these patches.
 
-... and if you replace the other calls to f2fs_encrypted_inode() with
-file_is_encrypt().
+James Morris <jmorris@namei.org> writes:
 
-- Eric
+> On Fri, 16 Nov 2018, Thiago Jung Bauermann wrote:
+>
+>> On the OpenPOWER platform, secure boot and trusted boot are being
+>> implemented using IMA for taking measurements and verifying signatures.
+>> Since the kernel image on Power servers is an ELF binary, kernels are
+>> signed using the scripts/sign-file tool and thus use the same signature
+>> format as signed kernel modules.
+>>
+>> This patch series adds support in IMA for verifying those signatures.
+>
+> Are you saying you use IMA to verify kernels during boot?  From a Linux
+> bootloader?
 
-> ---
->  fs/f2fs/data.c  |  4 ++--
->  fs/f2fs/dir.c   | 10 +++++-----
->  fs/f2fs/file.c  | 10 +++++-----
->  fs/f2fs/namei.c |  6 +++---
->  4 files changed, 15 insertions(+), 15 deletions(-)
-> 
-> diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
-> index 09d9fc1676a7..844ec573263e 100644
-> --- a/fs/f2fs/data.c
-> +++ b/fs/f2fs/data.c
-> @@ -1491,7 +1491,7 @@ int f2fs_fiemap(struct inode *inode, struct fiemap_extent_info *fieinfo,
->  	}
->  
->  	if (size) {
-> -		if (f2fs_encrypted_inode(inode))
-> +		if (IS_ENCRYPTED(inode))
->  			flags |= FIEMAP_EXTENT_DATA_ENCRYPTED;
->  
->  		ret = fiemap_fill_next_extent(fieinfo, logical,
-> @@ -1764,7 +1764,7 @@ static inline bool check_inplace_update_policy(struct inode *inode,
->  	if (policy & (0x1 << F2FS_IPU_ASYNC) &&
->  			fio && fio->op == REQ_OP_WRITE &&
->  			!(fio->op_flags & REQ_SYNC) &&
-> -			!f2fs_encrypted_inode(inode))
-> +			!IS_ENCRYPTED(inode))
->  		return true;
->  
->  	/* this is only set during fdatasync */
-> diff --git a/fs/f2fs/dir.c b/fs/f2fs/dir.c
-> index bacc667950b6..cf9e2564388d 100644
-> --- a/fs/f2fs/dir.c
-> +++ b/fs/f2fs/dir.c
-> @@ -385,7 +385,7 @@ struct page *f2fs_init_inode_metadata(struct inode *inode, struct inode *dir,
->  		if (err)
->  			goto put_error;
->  
-> -		if ((f2fs_encrypted_inode(dir) || dummy_encrypt) &&
-> +		if ((IS_ENCRYPTED(dir) || dummy_encrypt) &&
->  					f2fs_may_encrypt(inode)) {
->  			err = fscrypt_inherit_context(dir, inode, page, false);
->  			if (err)
-> @@ -399,7 +399,7 @@ struct page *f2fs_init_inode_metadata(struct inode *inode, struct inode *dir,
->  
->  	if (new_name) {
->  		init_dent_inode(new_name, page);
-> -		if (f2fs_encrypted_inode(dir))
-> +		if (IS_ENCRYPTED(dir))
->  			file_set_enc_name(inode);
->  	}
->  
-> @@ -808,7 +808,7 @@ int f2fs_fill_dentries(struct dir_context *ctx, struct f2fs_dentry_ptr *d,
->  		de_name.name = d->filename[bit_pos];
->  		de_name.len = le16_to_cpu(de->name_len);
->  
-> -		if (f2fs_encrypted_inode(d->inode)) {
-> +		if (IS_ENCRYPTED(d->inode)) {
->  			int save_len = fstr->len;
->  
->  			err = fscrypt_fname_disk_to_usr(d->inode,
-> @@ -852,7 +852,7 @@ static int f2fs_readdir(struct file *file, struct dir_context *ctx)
->  	struct fscrypt_str fstr = FSTR_INIT(NULL, 0);
->  	int err = 0;
->  
-> -	if (f2fs_encrypted_inode(inode)) {
-> +	if (IS_ENCRYPTED(inode)) {
->  		err = fscrypt_get_encryption_info(inode);
->  		if (err && err != -ENOKEY)
->  			goto out;
-> @@ -914,7 +914,7 @@ static int f2fs_readdir(struct file *file, struct dir_context *ctx)
->  
->  static int f2fs_dir_open(struct inode *inode, struct file *filp)
->  {
-> -	if (f2fs_encrypted_inode(inode))
-> +	if (IS_ENCRYPTED(inode))
->  		return fscrypt_get_encryption_info(inode) ? -EACCES : 0;
->  	return 0;
->  }
-> diff --git a/fs/f2fs/file.c b/fs/f2fs/file.c
-> index 87794b2a45ff..6c7ad15000b9 100644
-> --- a/fs/f2fs/file.c
-> +++ b/fs/f2fs/file.c
-> @@ -585,7 +585,7 @@ static int truncate_partial_data_page(struct inode *inode, u64 from,
->  	zero_user(page, offset, PAGE_SIZE - offset);
->  
->  	/* An encrypted inode should have a key and truncate the last page. */
-> -	f2fs_bug_on(F2FS_I_SB(inode), cache_only && f2fs_encrypted_inode(inode));
-> +	f2fs_bug_on(F2FS_I_SB(inode), cache_only && IS_ENCRYPTED(inode));
->  	if (!cache_only)
->  		set_page_dirty(page);
->  	f2fs_put_page(page, 1);
-> @@ -730,7 +730,7 @@ int f2fs_getattr(const struct path *path, struct kstat *stat,
->  		stat->attributes |= STATX_ATTR_APPEND;
->  	if (flags & F2FS_COMPR_FL)
->  		stat->attributes |= STATX_ATTR_COMPRESSED;
-> -	if (f2fs_encrypted_inode(inode))
-> +	if (IS_ENCRYPTED(inode))
->  		stat->attributes |= STATX_ATTR_ENCRYPTED;
->  	if (flags & F2FS_IMMUTABLE_FL)
->  		stat->attributes |= STATX_ATTR_IMMUTABLE;
-> @@ -1587,7 +1587,7 @@ static long f2fs_fallocate(struct file *file, int mode,
->  	if (!S_ISREG(inode->i_mode))
->  		return -EINVAL;
->  
-> -	if (f2fs_encrypted_inode(inode) &&
-> +	if (IS_ENCRYPTED(inode) &&
->  		(mode & (FALLOC_FL_COLLAPSE_RANGE | FALLOC_FL_INSERT_RANGE)))
->  		return -EOPNOTSUPP;
->  
-> @@ -1671,7 +1671,7 @@ static int f2fs_ioc_getflags(struct file *filp, unsigned long arg)
->  	struct f2fs_inode_info *fi = F2FS_I(inode);
->  	unsigned int flags = fi->i_flags;
->  
-> -	if (f2fs_encrypted_inode(inode))
-> +	if (IS_ENCRYPTED(inode))
->  		flags |= F2FS_ENCRYPT_FL;
->  	if (f2fs_has_inline_data(inode) || f2fs_has_inline_dentry(inode))
->  		flags |= F2FS_INLINE_DATA_FL;
-> @@ -2430,7 +2430,7 @@ static int f2fs_move_file_range(struct file *file_in, loff_t pos_in,
->  	if (!S_ISREG(src->i_mode) || !S_ISREG(dst->i_mode))
->  		return -EINVAL;
->  
-> -	if (f2fs_encrypted_inode(src) || f2fs_encrypted_inode(dst))
-> +	if (IS_ENCRYPTED(src) || IS_ENCRYPTED(dst))
->  		return -EOPNOTSUPP;
->  
->  	if (src == dst) {
-> diff --git a/fs/f2fs/namei.c b/fs/f2fs/namei.c
-> index 99299ede7429..6ae37e0cf6e3 100644
-> --- a/fs/f2fs/namei.c
-> +++ b/fs/f2fs/namei.c
-> @@ -75,7 +75,7 @@ static struct inode *f2fs_new_inode(struct inode *dir, umode_t mode)
->  	set_inode_flag(inode, FI_NEW_INODE);
->  
->  	/* If the directory encrypted, then we should encrypt the inode. */
-> -	if ((f2fs_encrypted_inode(dir) || DUMMY_ENCRYPTION_ENABLED(sbi)) &&
-> +	if ((IS_ENCRYPTED(dir) || DUMMY_ENCRYPTION_ENABLED(sbi)) &&
->  				f2fs_may_encrypt(inode))
->  		f2fs_set_encrypted_inode(inode);
->  
-> @@ -476,7 +476,7 @@ static struct dentry *f2fs_lookup(struct inode *dir, struct dentry *dentry,
->  		if (err)
->  			goto out_iput;
->  	}
-> -	if (f2fs_encrypted_inode(dir) &&
-> +	if (IS_ENCRYPTED(dir) &&
->  	    (S_ISDIR(inode->i_mode) || S_ISLNK(inode->i_mode)) &&
->  	    !fscrypt_has_permitted_context(dir, inode)) {
->  		f2fs_msg(inode->i_sb, KERN_WARNING,
-> @@ -803,7 +803,7 @@ static int f2fs_tmpfile(struct inode *dir, struct dentry *dentry, umode_t mode)
->  	if (unlikely(f2fs_cp_error(sbi)))
->  		return -EIO;
->  
-> -	if (f2fs_encrypted_inode(dir) || DUMMY_ENCRYPTION_ENABLED(sbi)) {
-> +	if (IS_ENCRYPTED(dir) || DUMMY_ENCRYPTION_ENABLED(sbi)) {
->  		int err = fscrypt_get_encryption_info(dir);
->  		if (err)
->  			return err;
-> -- 
-> 2.19.1
-> 
+Yes to both. OpenPOWER machines have embedded in their firmware a Linux
+kernel and initramfs to use as bootloader, using Petitboot. kexec is
+used to load the OS and boot it.
+
+>> It adds flexibility to OpenPOWER secure boot, because it allows it to boot
+>> kernels with the signature appended to them as well as kernels where the
+>> signature is stored in the IMA extended attribute.
+>
+> Just to clarify, with these patches, IMA will be able to verify the
+> native form of signed kernel modules?
+
+That wasn't my use case to develop the patches, but I just tested and it
+works.
+
+I just had to make a slight modification: there's a whitelist of IMA
+hooks that are allowed to use the module signature format (in the
+ima_hook_supports_modsig function), and I had to add MODULE_CHECK to it.
+The next version of the patches will have this change.
+
+The only difference is that IMA looks for a valid key in the IMA
+keyring, while the CONFIG_MODULE_SIG code looks for the module signing
+key in the builtin and secondary trusted keyrings.
+
+> i.e. without xattrs at all, and
+> this will work with existing signed modules?
+
+No xattrs at all, and yes.
+
+--
+Thiago Jung Bauermann
+IBM Linux Technology Center
+
