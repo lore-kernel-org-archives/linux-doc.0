@@ -5,299 +5,169 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3724B7D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 09:35:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 900D47D08E
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 09:57:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725767AbeLDJf2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Dec 2018 04:35:28 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:45908 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725764AbeLDJf2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 4 Dec 2018 04:35:28 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 89DA02D7E5;
-        Tue,  4 Dec 2018 09:35:27 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-12-37.pek2.redhat.com [10.72.12.37])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 951F617DC0;
-        Tue,  4 Dec 2018 09:35:14 +0000 (UTC)
-Subject: Re: [PATCH 1/2 v2] kdump: add the vmcoreinfo documentation
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
-        tglx@linutronix.de, mingo@redhat.com, x86@kernel.org,
-        akpm@linux-foundation.org, bhe@redhat.com, dyoung@redhat.com,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20181202030839.29945-1-lijiang@redhat.com>
- <20181202030839.29945-2-lijiang@redhat.com> <20181203150809.GA4794@zn.tnic>
-From:   lijiang <lijiang@redhat.com>
-Message-ID: <779dbae7-f6e2-e9e4-bdd0-0a9e6ec62487@redhat.com>
-Date:   Tue, 4 Dec 2018 17:35:09 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1725764AbeLDJ5H (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Dec 2018 04:57:07 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40370 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725613AbeLDJ5H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Dec 2018 04:57:07 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wB49sijT100225
+        for <linux-doc@vger.kernel.org>; Tue, 4 Dec 2018 04:57:06 -0500
+Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2p5meb1063-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 04 Dec 2018 04:57:05 -0500
+Received: from localhost
+        by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <chandan@linux.vnet.ibm.com>;
+        Tue, 4 Dec 2018 09:57:05 -0000
+Received: from b01cxnp22034.gho.pok.ibm.com (9.57.198.24)
+        by e12.ny.us.ibm.com (146.89.104.199) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 4 Dec 2018 09:56:58 -0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
+        by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wB49uuII18546738
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 4 Dec 2018 09:56:56 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 49DFBAC05E;
+        Tue,  4 Dec 2018 09:56:56 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 70D9DAC059;
+        Tue,  4 Dec 2018 09:56:50 +0000 (GMT)
+Received: from localhost.in.ibm.com (unknown [9.124.35.71])
+        by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+        Tue,  4 Dec 2018 09:56:49 +0000 (GMT)
+From:   Chandan Rajendra <chandan@linux.vnet.ibm.com>
+To:     linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-doc@vger.kernel.org, linux-mips@linux-mips.org,
+        linux-s390@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org
+Cc:     Chandan Rajendra <chandan@linux.vnet.ibm.com>, tytso@mit.edu,
+        adilger.kernel@dilger.ca, ebiggers@kernel.org, jaegeuk@kernel.org,
+        yuchao0@huawei.com, corbet@lwn.net, ralf@linux-mips.org,
+        paul.burton@mips.com, jhogan@kernel.org, green.hu@gmail.com,
+        deanbo422@gmail.com, schwidefsky@de.ibm.com,
+        heiko.carstens@de.ibm.com, richard@nod.at, dedekind1@gmail.com,
+        adrian.hunter@intel.com, viro@zeniv.linux.org.uk
+Subject: [PATCH V2 0/7] Remove fs specific fscrypt and fsverity build config options
+Date:   Tue,  4 Dec 2018 15:26:43 +0530
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-In-Reply-To: <20181203150809.GA4794@zn.tnic>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Tue, 04 Dec 2018 09:35:27 +0000 (UTC)
+X-TM-AS-GCONF: 00
+x-cbid: 18120409-0060-0000-0000-000002DE35C9
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00010169; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000270; SDB=6.01126788; UDB=6.00585218; IPR=6.00906923;
+ MB=3.00024437; MTD=3.00000008; XFM=3.00000015; UTC=2018-12-04 09:57:04
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18120409-0061-0000-0000-0000476B2AD6
+Message-Id: <20181204095650.12562-1-chandan@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-04_06:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1812040087
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-在 2018年12月03日 23:08, Borislav Petkov 写道:
-> Add some more Ccs.
-> 
+In order to have a common code base for fscrypt & fsverity "post read"
+processing across filesystems which implement fscrypt/fsverity, this
+commit removes filesystem specific build config option
+(CONFIG_EXT4_FS_ENCRYPTION, CONFIG_EXT4_FS_VERITY,
+CONFIG_F2FS_FS_ENCRYPTION, CONFIG_F2FS_FS_VERITY and
+CONFIG_UBIFS_FS_ENCRYPTION) and replaces it with build options
+(CONFIG_FS_ENCRYPTION and CONFIG_FS_VERITY) whose values affect all
+the filesystems making use of fscrypt and fsverity.
 
-Thanks a lot.
+PS: Since I have access to only to x86 and ppc64le machines, I haven't tested the
+defconfig files for other architectures.
 
-There are more people to review and improve this document together, that would
-be fine.
+Changelog:
+V1 -> V2:
+1. Address the following review comments provided by Eric Biggers,
+   - In ext4_should_use_dax(), Use ext4_test_inode_flag() to check for
+     fscrypt/fsverity status of an inode.
+   - Update documentation associated with fscrypt & fsverity to refer to
+     CONFIG_FS_ENCRYPTION and CONFIG_FS_VERITY build flags.
+   - Remove filesystem specific fscrypt build configuration from defconfig
+     files.
+   - Provide a list of supported filesystems for CONFIG_FS_ENCRYPTION and
+     CONFIG_FS_VERITY build flags.
+   - Update comment describing S_VERITY flag.
+2. Remove UBIFS specific encryption build option and make use of the generic
+   CONFIG_FS_ENCRYPTION flag.
 
-> On Sun, Dec 02, 2018 at 11:08:38AM +0800, Lianbo Jiang wrote:
->> This document lists some variables that export to vmcoreinfo, and briefly
->> describles what these variables indicate. It should be instructive for
->> many people who do not know the vmcoreinfo, and it also normalizes the
->> exported variable as a standard ABI between kernel and use-space.
-> 
-> Yeah, I'm not sure about it being an ABI. Apparently, it is considered
-> too tightly coupled to the kernel for it to be an ABI.
-> 
-> Regardless, thanks for doing that.
-> 
+RFC -> V1:
+1. Add a new patch to implement S_VERITY/IS_VERITY().
+2. Split code that replaces filesystem specific routines with generic
+   IS_ENCRYPTED() and IS_VERITY() calls into separate patches.
 
-It's my pleasure to do that.
+Chandan Rajendra (7):
+  ext4: use IS_ENCRYPTED() to check encryption status
+  f2fs: use IS_ENCRYPTED() to check encryption status
+  fscrypt: remove filesystem specific build config option
+  Add S_VERITY and IS_VERITY()
+  ext4: use IS_VERITY() to check inode's fsverity status
+  f2fs: use IS_VERITY() to check inode's fsverity status
+  fsverity: Remove filesystem specific build config option
 
->> Suggested-by: Borislav Petkov <bp@suse.de>
->> Signed-off-by: Lianbo Jiang <lijiang@redhat.com>
->> ---
->>  Documentation/kdump/vmcoreinfo.txt | 400 +++++++++++++++++++++++++++++
->>  1 file changed, 400 insertions(+)
->>  create mode 100644 Documentation/kdump/vmcoreinfo.txt
->>
->> diff --git a/Documentation/kdump/vmcoreinfo.txt b/Documentation/kdump/vmcoreinfo.txt
-> 
-> Aren't we adding new docs in rst format only or what is the logic there?
-> 
-> Jon?
-> 
->> new file mode 100644
->> index 000000000000..c6759be14af7
->> --- /dev/null
->> +++ b/Documentation/kdump/vmcoreinfo.txt
->> @@ -0,0 +1,400 @@
->> +================================================================
->> +		Documentation for Vmcoreinfo
->> +================================================================
->> +
->> +=======================
->> +What is the vmcoreinfo?
->> +=======================
->> +The vmcoreinfo contains the first kernel's various information, for
-> 
-> The first sentence here should be explaining what VMCOREINFO is: it is
-> an ELF PT_NOTE section. So that people can go, oh ok, it is a special
-> ELF section, when reading.
-> 
-> Then, MAKEDUMPFILE(8) spells VMCOREINFO in all caps and I think we
-> should do that too here, for ease of recognition.
-> 
+ Documentation/filesystems/fscrypt.rst   |   4 +-
+ Documentation/filesystems/fsverity.rst  |   4 +-
+ arch/mips/configs/generic_defconfig     |   2 +-
+ arch/nds32/configs/defconfig            |   2 +-
+ arch/s390/configs/debug_defconfig       |   2 +-
+ arch/s390/configs/performance_defconfig |   2 +-
+ fs/crypto/Kconfig                       |   5 +-
+ fs/ext4/Kconfig                         |  35 --
+ fs/ext4/dir.c                           |  10 +-
+ fs/ext4/ext4.h                          |  23 +-
+ fs/ext4/ext4_jbd2.h                     |   2 +-
+ fs/ext4/extents.c                       |   4 +-
+ fs/ext4/file.c                          |   2 +-
+ fs/ext4/ialloc.c                        |   2 +-
+ fs/ext4/inode.c                         |  32 +-
+ fs/ext4/ioctl.c                         |   4 +-
+ fs/ext4/move_extent.c                   |   3 +-
+ fs/ext4/namei.c                         |  18 +-
+ fs/ext4/page-io.c                       |   8 +-
+ fs/ext4/readpage.c                      |  10 +-
+ fs/ext4/super.c                         |  13 +-
+ fs/ext4/sysfs.c                         |   8 +-
+ fs/f2fs/Kconfig                         |  31 --
+ fs/f2fs/data.c                          |   6 +-
+ fs/f2fs/dir.c                           |  10 +-
+ fs/f2fs/f2fs.h                          |   9 +-
+ fs/f2fs/file.c                          |  16 +-
+ fs/f2fs/inode.c                         |   4 +-
+ fs/f2fs/namei.c                         |   6 +-
+ fs/f2fs/super.c                         |  14 +-
+ fs/f2fs/sysfs.c                         |   8 +-
+ fs/ubifs/Kconfig                        |  11 -
+ fs/ubifs/Makefile                       |   2 +-
+ fs/ubifs/ioctl.c                        |   4 +-
+ fs/ubifs/sb.c                           |   2 +-
+ fs/ubifs/super.c                        |   2 +-
+ fs/ubifs/ubifs.h                        |   5 +-
+ fs/verity/Kconfig                       |   3 +-
+ include/linux/fs.h                      |  10 +-
+ include/linux/fscrypt.h                 | 416 +++++++++++++++++++++++-
+ include/linux/fscrypt_notsupp.h         | 231 -------------
+ include/linux/fscrypt_supp.h            | 204 ------------
+ include/linux/fsverity.h                |   3 +-
+ 43 files changed, 532 insertions(+), 660 deletions(-)
+ delete mode 100644 include/linux/fscrypt_notsupp.h
+ delete mode 100644 include/linux/fscrypt_supp.h
 
-This is good advice.
+-- 
+2.19.1
 
-> Btw, do we have a makedumpfile switch or a tool/script which dumps
-> VMCOREINFO contents in human-readable form?
-> 
-
-Generating VMCOREINFO is easy in the first kernel, for example:
-# makedumpfile -g VMCOREINFO -x vmlinux
-
-# file VMCOREINFO
-VMCOREINFO: ASCII text
-
-> Maybe something nicer than:
-> 
-> $ hexdump -C /proc/kcore
-> 
->> +example, structure size, page size, symbol values and field offset,
->> +etc. These data are encapsulated into an elf format, and these data
->> +will also help user-space tools(e.g. makedumpfile, crash) analyze the
->> +first kernel's memory usage.
->> +
->> +================
->> +Common variables
->> +================
->> +
->> +init_uts_ns.name.release
->> +========================
->> +The number of OS release.
->> +
->> +PAGE_SIZE
->> +=========
->> +The size of a page. It is usually 4k bytes.
->> +
->> +init_uts_ns
->> +===========
->> +This is the UTS namespace, which is used to isolate two specific elements
->> +of the system that relate to the uname system call. The UTS namespace is
->> +named after the data structure used to store information returned by the
->> +uname system call.
-> 
-> Those non-obvious exports should also have a short explanation why
-> they're part of VMCOREINFO.
-> 
->> +
->> +node_online_map
->> +===============
->> +It is a macro definition, actually it is an arrary node_states[N_ONLINE],
->> +and it represents the set of online node in a system, one bit position
->> +per node number.
-> 
-> Ditto.
-> 
-> So yeah, people can find out what those things are but I think it is
-> more important to state here *why* they're part of VMCOREINFO and how
-> they're used and why they're exported.
-> 
-
-This is a good question.
-
-For these two *why*, it should be easy to understand. Because user-space tools
-need to know basic information, such as the symbol values, field offset, structure
-size, etc. Otherwise, these tools won't know how to analyze the memory of the crash
-kernel.
-
-For the second question 'how they are used', we can get the answer from user-space
-tools, such as makedumpfile, crash tools. Therefore, it may not need to explain any
-more in kernel document. On the other hand, if we must put these contents into kernel
-document, i have to say, that would be a hard task.
-
-
-> Who knows, some might turn out to be not needed anymore. :)
-> 
->> +
->> +swapper_pg_dir
->> +=============
->> +It is always an array, it gerenally stands for the pgd for the kernel.
->> +When mmu is enabled in config file, the 'swapper_pg_dir' is valid.
->> +
->> +_stext
->> +======
->> +It is an assemble directive that defines the beginning of the text section.
-> 
-> That's an assembly symbol.
-> 
->> +In gerenal, the '_stext' indicates the kernel start address.
->> +
->> +vmap_area_list
->> +==============
->> +It stores the virtual area list, makedumpfile can get the vmalloc start
->> +value according to this variable.
-> 
-> "... from this variable."
-> 
->> +
->> +mem_map
->> +=======
->> +Physical addresses are translated to struct pages by treating them as an
->> +index into the mem_map array. Shifting a physical address PAGE_SHIFT bits
->> +to the right will treat it as a PFN from physical address 0, which is also
->> +an index within the mem_map array.
->> +
->> +In a word, it can map the address to struct page.
-> 
-> "In short, ... "
-> 
->> +
->> +contig_page_data
->> +================
->> +Makedumpfile can get the pglist_data structure according to this symbol
-> 
-> Please look up in the dictionary what "according" means. Using it in
-> this context is at least weird.
-> 
-
-Thank you for pointing out my mistake.
-
-I'm going to look up in the Collins dictionary and record this word on my
-notebook using a pen.
-
->> +'contig_page_data'. The pglist_data structure is used to describe the
->> +memory layout.
->> +
->> +mem_section|(mem_section, NR_SECTION_ROOTS)|(mem_section, section_mem_map)
->> +==========================================================================
->> +Export the address of 'mem_section' array, and it's length, structure size,
->> +and the 'section_mem_map' offset.
->> +
->> +It exists in the sparse memory mapping model, and it is also somewhat
->> +similar to the mem_map variable, both of them will help to translate
->> +the address.
->> +
->> +page
->> +====
->> +The size of a 'page' structure.
->> +
->> +pglist_data
->> +===========
->> +The size of a 'pglist_data' structure.
->> +
->> +zone
->> +====
->> +The size of a 'zone' structure.
->> +
->> +free_area
->> +=========
->> +The size of a 'free_area' structure.
->> +
->> +list_head
->> +=========
->> +The size of a 'list_head' structure.
->> +
->> +nodemask_t
->> +==========
->> +The size of a 'nodemask_t' type.
->> +
->> +(page, flags|_refcount|mapping|lru|_mapcount|private|compound_dtor|
->> +       compound_order|compound_head)
->> +===================================================================
->> +The page structure is a familiar concept for most of linuxer, there is no
->> +need to explain too much.
-> 
-> Just delete that sentence.
-> 
->> To know more information, please refer to the
->> +definition of the page struct(include/linux/mm_types.h).
->> +
->> +(pglist_data, node_zones|nr_zones|node_mem_map|node_start_pfn|node_
->> +              spanned_pages|node_id)
->> +===================================================================
->> +On NUMA machines, each NUMA node would have a pg_data_t to describe
-> 
-> s/would have/has/
-> 
->> +it's memory layout. On UMA machines there is a single pglist_data which
->> +describes the whole memory.
->> +
->> +The pglist_data structure contains these varibales, here export their
-> 					    ^^^^^^^^^
-> 
-> Before you send next time, run the *whole* text through a spellchecker.
-> 
->> +offset in the pglist_data structure, which is defined in this file
->> +"include/linux/mmzone.h".
-> 
-> You don't have to state where stuff is defined - I hope everyone
-> should be able to grep.
-> 
-
-Thanks for your comment in detail.
-I will improve them in patch v3.
-
-Regards,
-Lianbo
-
-> ...
-> 
