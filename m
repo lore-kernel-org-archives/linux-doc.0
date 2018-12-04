@@ -1,63 +1,75 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 57CCA7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 19:39:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 547B27D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 22:00:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725880AbeLDTjw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Dec 2018 14:39:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43514 "EHLO mail.kernel.org"
+        id S1725904AbeLDWAi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Dec 2018 17:00:38 -0500
+Received: from namei.org ([65.99.196.166]:57642 "EHLO namei.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725855AbeLDTjw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 4 Dec 2018 14:39:52 -0500
-Received: from localhost (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E7B2E2081C;
-        Tue,  4 Dec 2018 19:39:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1543952392;
-        bh=aVdSRiFETmY9eEUpLNHwuSWx+iPFRxgvcxjDPYH0cIs=;
-        h=To:From:In-Reply-To:Cc:References:Subject:Date:From;
-        b=XjkPZW0g/FaiMcRHCdtwCO16Quce6XxcXgrxOkbFCwdNWfuQWFKs0SgHJvi61BwOP
-         +D4BYAuTnovpyqqlQxMVPT7k5yXZwQAQ6IDa1x7HhZyvM2qR5nW+EjlLjP8j72lQtH
-         yR6FJXndbFLjAiQ703dO4lASfGfjNtSemLpouy0c=
-Content-Type: text/plain; charset="utf-8"
+        id S1725880AbeLDWAh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 4 Dec 2018 17:00:37 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by namei.org (8.14.4/8.14.4) with ESMTP id wB4Lxkjh022787;
+        Tue, 4 Dec 2018 21:59:46 GMT
+Date:   Wed, 5 Dec 2018 08:59:45 +1100 (AEDT)
+From:   James Morris <jmorris@namei.org>
+To:     Thiago Jung Bauermann <bauerman@linux.ibm.com>
+cc:     linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        David Howells <dhowells@redhat.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "AKASHI, Takahiro" <takahiro.akashi@linaro.org>
+Subject: Re: [PATCH v8 00/14] Appended signatures support for IMA appraisal
+In-Reply-To: <20181116200712.14154-1-bauerman@linux.ibm.com>
+Message-ID: <alpine.LRH.2.21.1812050855270.22148@namei.org>
+References: <20181116200712.14154-1-bauerman@linux.ibm.com>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-To:     matti.vaittinen@fi.rohmeurope.com, mazziesaccount@gmail.com
-From:   Stephen Boyd <sboyd@kernel.org>
-In-Reply-To: <dbbe1896ba62d2421606fb0807740d9e6090a1df.1543922403.git.matti.vaittinen@fi.rohmeurope.com>
-Cc:     mturquette@baylibre.com, cw00.choi@samsung.com, krzk@kernel.org,
-        b.zolnierkie@samsung.com, linux@armlinux.org.uk,
-        andy.gross@linaro.org, david.brown@linaro.org, pavel@ucw.cz,
-        andrew.smirnov@gmail.com, pombredanne@nexb.com,
-        sjhuang@iluvatar.ai, akshu.agrawal@amd.com, djkurtz@chromium.org,
-        rafael.j.wysocki@intel.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <cover.1543922403.git.matti.vaittinen@fi.rohmeurope.com>
- <dbbe1896ba62d2421606fb0807740d9e6090a1df.1543922403.git.matti.vaittinen@fi.rohmeurope.com>
-Message-ID: <154395239140.88331.1595713170039757326@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.7
-Subject: Re: [PATCH v6 02/10] clk: Add kerneldoc to managed of-provider interfaces
-Date:   Tue, 04 Dec 2018 11:39:51 -0800
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Matti Vaittinen (2018-12-04 03:33:48)
-> Document the devm_of_clk_del_provider and the
-> devm_of_clk_add_hw_provider functions.
-> =
+On Fri, 16 Nov 2018, Thiago Jung Bauermann wrote:
 
-> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-> ---
+> On the OpenPOWER platform, secure boot and trusted boot are being
+> implemented using IMA for taking measurements and verifying signatures.
+> Since the kernel image on Power servers is an ELF binary, kernels are
+> signed using the scripts/sign-file tool and thus use the same signature
+> format as signed kernel modules.
+> 
+> This patch series adds support in IMA for verifying those signatures.
 
-Applied to clk-next
+Are you saying you use IMA to verify kernels during boot?  From a Linux 
+bootloader?
+
+> It adds flexibility to OpenPOWER secure boot, because it allows it to boot
+> kernels with the signature appended to them as well as kernels where the
+> signature is stored in the IMA extended attribute.
+
+Just to clarify, with these patches, IMA will be able to verify the 
+native form of signed kernel modules?  i.e. without xattrs at all, and 
+this will work with existing signed modules?
+
+
+
+-- 
+James Morris
+<jmorris@namei.org>
 
