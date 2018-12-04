@@ -1,85 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-7.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D5DBC7D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 18:16:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1947B7D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 18:21:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725864AbeLDSQp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Dec 2018 13:16:45 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:42146 "EHLO mail.skyhub.de"
+        id S1725886AbeLDSVP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Dec 2018 13:21:15 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41024 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725855AbeLDSQp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 4 Dec 2018 13:16:45 -0500
-Received: from zn.tnic (p200300EC2BC7BF005D01DF6409406D0C.dip0.t-ipconnect.de [IPv6:2003:ec:2bc7:bf00:5d01:df64:940:6d0c])
+        id S1725831AbeLDSVP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 4 Dec 2018 13:21:15 -0500
+Received: from localhost (unknown [104.132.0.74])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 91A401EC0503;
-        Tue,  4 Dec 2018 19:16:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1543947402;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=597Ut/nMMpYvAjAkkCleisg9v4nyonsqUnciIJavCAU=;
-        b=l7/NU7gJK9vsmwi9rP39X1S6rRpbb9k86b+S6CwO/0ZwASyMnPeF584KPelA5fVINL4l5R
-        92shdKZlOvqvlVglZ6AJFlgHl4RD8UhvUHfJyjFIc0UQ4wyzJZmJ1ocbtSxj9TGUQJf3XL
-        JKI5ICeJdhH1V+v2e9Z8hGUW828dmBs=
-Date:   Tue, 4 Dec 2018 19:16:41 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [RFC PATCH v6 04/26] x86/fpu/xstate: Introduce XSAVES system
- states
-Message-ID: <20181204181641.GA16705@zn.tnic>
-References: <20181119214809.6086-1-yu-cheng.yu@intel.com>
- <20181119214809.6086-5-yu-cheng.yu@intel.com>
- <20181204160144.GG11803@zn.tnic>
- <752c38422a6536d8df99b619214f935e4bc882ad.camel@intel.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 4309A2081B;
+        Tue,  4 Dec 2018 18:21:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1543947674;
+        bh=ji3ydNM9SAxkRfwU4F7pz7IU3OSBPHbSsD5+rB3CtjE=;
+        h=To:From:In-Reply-To:Cc:References:Subject:Date:From;
+        b=Mxh6dvBeoILkGY7JQWm9eHVEtdIGzc31l5mDVHjU33+gY0nmzB8039rMp/3c8DFIP
+         IenYO7tNM5siEPvUG5ja6mDDge9vLVLoulcaGATqqDTEgpISHfrIxt48SMXeO+Dj05
+         8O/w11s2m6SBxBKixpmDT43w9VJjjt5Bs8rTxpiI=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <752c38422a6536d8df99b619214f935e4bc882ad.camel@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: quoted-printable
+To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+From:   Stephen Boyd <sboyd@kernel.org>
+In-Reply-To: <20181204071315.GA31204@localhost.localdomain>
+Cc:     mazziesaccount@gmail.com, Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Andy Gross <andy.gross@linaro.org>,
+        David Brown <david.brown@linaro.org>,
+        Andrey Smirnov <andrew.smirnov@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Huang Shijie <sjhuang@iluvatar.ai>,
+        Daniel Kurtz <djkurtz@chromium.org>,
+        Akshu Agrawal <akshu.agrawal@amd.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org
+References: <cover.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
+ <ec0d6ee7ea79f0e05041ed3e564b0aadb297ef5f.1542107769.git.matti.vaittinen@fi.rohmeurope.com>
+ <154356805035.88331.16867826308376667832@swboyd.mtv.corp.google.com>
+ <20181130105022.GA15388@localhost.localdomain>
+ <154388011043.88331.6461709079501929390@swboyd.mtv.corp.google.com>
+ <20181204071315.GA31204@localhost.localdomain>
+Message-ID: <154394767367.88331.17679291261207728780@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.7
+Subject: Re: [PATCH v4 1/8] clk: clkdev/of_clk - add managed lookup and provider
+ registrations
+Date:   Tue, 04 Dec 2018 10:21:13 -0800
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 04, 2018 at 09:08:11AM -0800, Yu-cheng Yu wrote:
-> Then we will do this very often.  Why don't we create all three in the
-> beginning: xfeatures_mask_all, xfeatures_mask_user, and xfeatures_mask_system?
+Quoting Matti Vaittinen (2018-12-03 23:13:15)
+> On Mon, Dec 03, 2018 at 03:35:10PM -0800, Stephen Boyd wrote:
+> =
 
-Because the _all thing is the OR-ed product of the two and then you
-don't have to update it when the _user and the _system ones change
-because you'll be creating it on the fly each time.
+> > If the DT doesn't have the #clock-cells property in the node being
+> > registered then calling clk_get() will fail for any consumer devices
+> > that point to the node with a phandle and clock specifier. I don't
+> > expect us to get very far into development if that's the case.
+> =
 
--- 
-Regards/Gruss,
-    Boris.
+> Makes sense. So only potential thing to break is if someone out there
+> has broken DT/driver - where they currently see this failure. Eg. they
+> use node w/o #clock-cells as provider and where they try and fail
+> controlling this clock - but ignore the error (and system just "works"
+> with HW defaults). After this change they may actually succeed in
+> controlling - but do control wrong clock.
+> =
 
-Good mailing practices for 400: avoid top-posting and trim the reply.
+> Not likely scenario (sure happens somewhere) - and it involves already
+> broken design. So I agree with you. Besides, you are the maintainer for
+> clk framework and thus get the most of the rain if **** hits the fan =3DD
+
+Yes, exactly.
+
+> =
+
+> > Of course, we don't fail in of_clk_add_provider() if there isn't a
+> > #clock-cells property in the node, we just happily add the node to the
+> > provider list and carry on. I doubt anyone is failing to specify the DT
+> > property, but maybe they are, in which case we could keep not failing
+> > and just add the node of whatever we're called with originally if
+> > neither the parent or the passed node have the #clock-cells property. I
+> > wouldn't try to go any higher than one node above the current node and
+> > look for a #clock-cells though.
+> =
+
+> I think we should use parent device's node, not the paren node in DT,
+> right? But I agree, we should only look "one level up in the chain".
+
+Are these two things different? I'm suggesting looking at
+device_node::parent and trying to find a #clock-cells property.
+
