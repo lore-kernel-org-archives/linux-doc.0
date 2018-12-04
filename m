@@ -1,175 +1,171 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 57C987D08E
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 12:34:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 952A67D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Dec 2018 16:01:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726222AbeLDMej (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Dec 2018 07:34:39 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:46652 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725767AbeLDMej (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Dec 2018 07:34:39 -0500
-Received: by mail-lj1-f195.google.com with SMTP id v15-v6so14705326ljh.13;
-        Tue, 04 Dec 2018 04:34:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=p7t1Zylc680WxUHGy4zLyH8y54duQW2sGGC10lMzwVo=;
-        b=EZNkAWZK4JA1loBdbiD0csmzBNwSvmD2W7a31+CRQJEKDtPrwoPOglXgM+f+8g0PuJ
-         uWJY9d9Mfq1sVjOsCEogzpUtXbpHnLLPB0mHQ0tEp5nGLSYlpelisEJ/ymjMolMA9til
-         c5oECT5tivAcEx1/V1rMa2TU2BmkzAcWRHOkZb+sJh753oxBSapIrKe6FhnyYHYaaPfO
-         cNz32tHq1xZPzjOukSlJBjYS8YDtDH6/+f98kx8fbzidGErw1Y743MJ5leIruqixWddy
-         2W0URzHtXUmRZhhr95o6KwopaoiSY57cz3UpOnwFdQHiVv+FVMERRHqfsp0xysQWGxqn
-         SUKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=p7t1Zylc680WxUHGy4zLyH8y54duQW2sGGC10lMzwVo=;
-        b=Zyhs57BvoCXj1/Uq49Eb+BV/hjUoiEoe1WA97RMdOb5i9amdzMgKXY5QPl0i40brIS
-         vsQpKueHJ4yJ2lYwrwqYHnuoAo7o8nSGv18L9upKJEfF3Sw2IKYFL5dKkehPGwXruM0n
-         cft7izSxQQGR9/xVFC+E9PZmQrApVYxxT0A9CZJQxoi0gr3X8ZTclIuuv2KBgE6B99uG
-         OqLUDDLLSZNkmDmcLRstM0yd+y73BXb2kHEuCRyP4zALXBkBNNeeSPmU+nGrlFEMZC68
-         ukWes1lkxR2mpOpdXDkTn79Ju9RJbsSCNBsT1E0u5/HCH3WzxYBUvMqHCoo47s24jt1W
-         Z8DA==
-X-Gm-Message-State: AA+aEWaPxgb+GOLGWLy2wiNclKzrvY95c9ZhKDC+hj6AEIFoM8vOix0I
-        bBitKi09VsRrj/V5hWe5xQA=
-X-Google-Smtp-Source: AFSGD/V1zNhbWYNdoriRBLuDrZSKH3voip/q97HzGbOdQfwkZ9NlENpkNldkpGiMhqR9hJNIbnzwzQ==
-X-Received: by 2002:a2e:4819:: with SMTP id v25-v6mr13752395lja.2.1543926874397;
-        Tue, 04 Dec 2018 04:34:34 -0800 (PST)
-Received: from [192.168.10.160] (91-156-179-117.elisa-laajakaista.fi. [91.156.179.117])
-        by smtp.gmail.com with ESMTPSA id y24-v6sm3072205ljd.20.2018.12.04.04.34.32
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 04 Dec 2018 04:34:33 -0800 (PST)
-Subject: Re: [PATCH 10/17] prmem: documentation
-To:     Andy Lutomirski <luto@amacapital.net>,
-        Matthew Wilcox <willy@infradead.org>
-Cc:     Andrew Lutomirski <luto@kernel.org>,
-        Igor Stoppa <igor.stoppa@huawei.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Mimi Zohar <zohar@linux.vnet.ibm.com>,
-        Dave Chinner <david@fromorbit.com>,
-        James Morris <jmorris@namei.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
+        id S1726906AbeLDQBw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Dec 2018 11:01:52 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:49648 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726421AbeLDQBw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 4 Dec 2018 11:01:52 -0500
+Received: from zn.tnic (p200300EC2BC7BF00BC61940C2B6F1886.dip0.t-ipconnect.de [IPv6:2003:ec:2bc7:bf00:bc61:940c:2b6f:1886])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5F16F1EC0229;
+        Tue,  4 Dec 2018 17:01:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1543939310;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=gp6cjwxBy7EYDhDhF+JUrl/ImlJ4usANKUTRqPLA9Nc=;
+        b=eWwVwzy6AD+eVcqhvXI9JLwF0JLq+4Q0v3RPouHe7Nojq+etUQsVea4sAmLuLgXzLJSmyX
+        XEXSWDXGwq5us0SzY0HMKLZM7og5FNXLrLRD8bw/53DE5KgBJX+So0ZsVe9zKPeTNsI7Hx
+        kqIwrj71EJF3OR1k4Put87LhOjrCgEY=
+Date:   Tue, 4 Dec 2018 17:01:45 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Laura Abbott <labbott@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-References: <6f60afc9-0fed-7f95-a11a-9a2eef33094c@gmail.com>
- <CALCETrXNckT9W288VXx-6inO5qYn-6dUPocKGcBT0GCO3xi3ZQ@mail.gmail.com>
- <386C0CB1-C4B1-43E2-A754-DA8DBE4FB3CB@gmail.com>
- <CALCETrWWcfLK4W3mn0bavzejmMBVKMX29aAUA3+VPQ8m9vmfhw@mail.gmail.com>
- <9373ccf0-f51b-4bfa-2b16-e03ebf3c670d@huawei.com>
- <2e52e103-15d0-0c26-275f-894dfd07e8ec@huawei.com>
- <CALCETrV0sPgf4ZgG1joF_5hM-ycPsWM9DWGO=diQ_LQKin4VuA@mail.gmail.com>
- <1166e55c-0c06-195c-a501-383b4055ea46@gmail.com>
- <3BB9DE07-E0AE-43E2-99F1-E4AA774CD462@amacapital.net>
- <5e10c8e4-aa71-1eea-b1ce-50d7d0a60e8c@gmail.com>
- <20181122200416.GS3065@bombadil.infradead.org>
- <CALCETrXB34QBcYk=k5DT1t4h7EezaPxbxM2S_h2nYk5Nv1c4_Q@mail.gmail.com>
-From:   Igor Stoppa <igor.stoppa@gmail.com>
-Message-ID: <20ad363b-e78d-efcb-0a17-3ae2d3fbaa5f@gmail.com>
-Date:   Tue, 4 Dec 2018 14:34:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [RFC PATCH v6 04/26] x86/fpu/xstate: Introduce XSAVES system
+ states
+Message-ID: <20181204160144.GG11803@zn.tnic>
+References: <20181119214809.6086-1-yu-cheng.yu@intel.com>
+ <20181119214809.6086-5-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CALCETrXB34QBcYk=k5DT1t4h7EezaPxbxM2S_h2nYk5Nv1c4_Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20181119214809.6086-5-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
-apologies for the delayed answer.
-Please find my reply to both last mails in the thread, below.
-
-On 22/11/2018 22:53, Andy Lutomirski wrote:
-> On Thu, Nov 22, 2018 at 12:04 PM Matthew Wilcox <willy@infradead.org> wrote:
->>
->> On Thu, Nov 22, 2018 at 09:27:02PM +0200, Igor Stoppa wrote:
->>> I have studied the code involved with Nadav's patchset.
->>> I am perplexed about these sentences you wrote.
->>>
->>> More to the point (to the best of my understanding):
->>>
->>> poking_init()
->>> -------------
->>>    1. it gets one random poking address and ensures to have at least 2
->>>       consecutive PTEs from the same PMD
->>>    2. it then proceeds to map/unmap an address from the first of the 2
->>>       consecutive PTEs, so that, later on, there will be no need to
->>>       allocate pages, which might fail, if poking from atomic context.
->>>    3. at this point, the page tables are populated, for the address that
->>>       was obtained at point 1, and this is ok, because the address is fixed
->>>
->>> write_rare
->>> ----------
->>>    4. it can happen on any available core / thread at any time, therefore
->>>       each of them needs a different address
->>
->> No?  Each CPU has its own CR3 (eg each CPU might be running a different
->> user task).  If you have _one_ address for each allocation, it may or
->> may not be mapped on other CPUs at the same time -- you simply don't care.
-
-Yes, somehow I lost track of that aspect.
-
->> The writable address can even be a simple formula to calculate from
->> the read-only address, you don't have to allocate an address in the
->> writable mapping space.
->>
+On Mon, Nov 19, 2018 at 01:47:47PM -0800, Yu-cheng Yu wrote:
+> Control-flow Enforcement (CET) MSR contents are XSAVES system states.
+> To support CET, introduce XSAVES system states first.
 > 
-> Agreed.  I suggest the formula:
-> 
-> writable_address = readable_address - rare_write_offset.  For
-> starters, rare_write_offset can just be a constant.  If we want to get
-> fancy later on, it can be randomized.
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/include/asm/fpu/internal.h |  3 +-
+>  arch/x86/include/asm/fpu/xstate.h   |  4 +-
+>  arch/x86/kernel/fpu/core.c          |  6 +-
+>  arch/x86/kernel/fpu/init.c          | 10 ---
+>  arch/x86/kernel/fpu/xstate.c        | 94 +++++++++++++++++++----------
+>  5 files changed, 69 insertions(+), 48 deletions(-)
 
-ok, I hope I captured it here [1]
+...
 
-> If we do it like this, then we don't need to modify any pagetables at
-> all when we do a rare write.  Instead we can set up the mapping at
-> boot or when we allocate the rare write space, and the actual rare
-> write code can just switch mms and do the write.
+> @@ -704,6 +710,7 @@ static int init_xstate_size(void)
+>   */
+>  static void fpu__init_disable_system_xstate(void)
+>  {
+> +	xfeatures_mask_all = 0;
+>  	xfeatures_mask_user = 0;
+>  	cr4_clear_bits(X86_CR4_OSXSAVE);
+>  	fpu__xstate_clear_all_cpu_caps();
+> @@ -717,6 +724,8 @@ void __init fpu__init_system_xstate(void)
+>  {
+>  	unsigned int eax, ebx, ecx, edx;
+>  	static int on_boot_cpu __initdata = 1;
+> +	u64 cpu_system_xfeatures_mask;
+> +	u64 cpu_user_xfeatures_mask;
 
-I did it. I have little feeling about the actual amount of data 
-involved, but there is a (probably very remote) chance that the remap 
-wouldn't work, at least in the current implementation.
+So what I had in mind is to not have those local vars but use
+xfeatures_mask_user and xfeatures_mask_system here directly...
 
-It's a bit different from what I had in mind initially, since I was 
-thinking to have one single approach to both statically allocated memory 
-(is there a better way to describe it) and what is provided from the 
-allocator that would come next.
+>  	int err;
+>  	int i;
+>  
+> @@ -739,10 +748,23 @@ void __init fpu__init_system_xstate(void)
+>  		return;
+>  	}
+>  
+> +	/*
+> +	 * Find user states supported by the processor.
+> +	 * Only these bits can be set in XCR0.
+> +	 */
+>  	cpuid_count(XSTATE_CPUID, 0, &eax, &ebx, &ecx, &edx);
+> -	xfeatures_mask_user = eax + ((u64)edx << 32);
+> +	cpu_user_xfeatures_mask = eax + ((u64)edx << 32);
+>  
+> -	if ((xfeatures_mask_user & XFEATURE_MASK_FPSSE) != XFEATURE_MASK_FPSSE) {
+> +	/*
+> +	 * Find system states supported by the processor.
+> +	 * Only these bits can be set in IA32_XSS MSR.
+> +	 */
+> +	cpuid_count(XSTATE_CPUID, 1, &eax, &ebx, &ecx, &edx);
+> +	cpu_system_xfeatures_mask = ecx + ((u64)edx << 32);
+> +
+> +	xfeatures_mask_all = cpu_user_xfeatures_mask | cpu_system_xfeatures_mask;
 
-As I wrote, I do not particularly like the way I implemented multiple 
-functionality vs remapping, but I couldn't figure out any better way to 
-do it, so eventually I kept this one, hoping to get some advice on how 
-to improve it.
+... and not introduce xfeatures_mask_all at all but everywhere you need
+all features, to do:
 
-I did not provide yet an example, yet, but IMA has some flags that are 
-probably very suitable, since they depend on policy reloading, which can 
-happen multiple times, but could be used to disable it.
+	(xfeatures_mask_user | xfeatures_mask_system)
 
-[1] https://www.openwall.com/lists/kernel-hardening/2018/12/04/3
+and work with that.
 
---
-igor
+...
+
+> @@ -1178,7 +1208,7 @@ int copy_kernel_to_xstate(struct xregs_state *xsave, const void *kbuf)
+>  	 * The state that came in from userspace was user-state only.
+>  	 * Mask all the user states out of 'xfeatures':
+>  	 */
+> -	xsave->header.xfeatures &= XFEATURE_MASK_SUPERVISOR;
+> +	xsave->header.xfeatures &= (xfeatures_mask_all & ~xfeatures_mask_user);
+
+... and this would be
+
+	xsave->header.xfeatures &= xfeatures_mask_system;
+
+>  
+>  	/*
+>  	 * Add back in the features that came in from userspace:
+> @@ -1234,7 +1264,7 @@ int copy_user_to_xstate(struct xregs_state *xsave, const void __user *ubuf)
+>  	 * The state that came in from userspace was user-state only.
+>  	 * Mask all the user states out of 'xfeatures':
+>  	 */
+> -	xsave->header.xfeatures &= XFEATURE_MASK_SUPERVISOR;
+> +	xsave->header.xfeatures &= (xfeatures_mask_all & ~xfeatures_mask_user);
+
+Ditto here.
+
+This way you have *two* mask variables and code queries them only.
+
+Hmmm?
+
+Or am I missing something?
+
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
