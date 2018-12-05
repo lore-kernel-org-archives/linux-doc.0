@@ -1,166 +1,102 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CA2A67D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 07:00:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 071C57D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 07:35:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726369AbeLEHAx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Dec 2018 02:00:53 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:38068 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726102AbeLEHAx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Dec 2018 02:00:53 -0500
-Received: by mail-lj1-f196.google.com with SMTP id c19-v6so17301570lja.5;
-        Tue, 04 Dec 2018 23:00:50 -0800 (PST)
+        id S1726874AbeLEHfA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Dec 2018 02:35:00 -0500
+Received: from mail-pl1-f176.google.com ([209.85.214.176]:35089 "EHLO
+        mail-pl1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726171AbeLEHfA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Dec 2018 02:35:00 -0500
+Received: by mail-pl1-f176.google.com with SMTP id p8so9655765plo.2
+        for <linux-doc@vger.kernel.org>; Tue, 04 Dec 2018 23:35:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=netronome-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :organization:mime-version:content-transfer-encoding;
+        bh=iH0xbYUDB3oTs9lK4TxdFHYfcIqtagE5wPfwFn+2+W0=;
+        b=B7VD+YAsxHlW/hsjhw0Px4QZ+Wr2w/yzZk3xQerQe5vmnhxH29is5r+X05dEZRBuqm
+         FLb61NBuM2o/p1U4ta2HPkZPfmA/B8I5vQsklGAzvLdRzYrDRt/4EQ/pr1woy3OjqMa9
+         dDCBPt83KMu7qdItrP1yVoRMh3WJzT8KTkMWb8OukBzroaFUG4j1GV8/iLAV6Q8o0gnn
+         1kydeou9jQhjh3fn059kAj+k5XRKtFwcfxUJYGJqtKTutBQXVLUlgJIHK9G1gYYgjhlW
+         EkFYaVPXcS7uv8mkyZf8EKYLvW2LNHovalo3vwttDXtZcWS1H2Gp7IXMwPW5XMPtVdMC
+         vVaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=27B9qMspjDD1AgXG4zXqfQyvg5Itc4l3gB9owMvrM3Q=;
-        b=X8r4j3cumJPUoM42jCpaX1QVOZBC5fHMtE2okmGlcCQSjfLtudFiSQUdab7fpek8oe
-         Aug0gKiHdqV+PdO0paIEmETccbcxvcwAUBXPzd1bsZZePNRAi0SAt4XW6moZYLM6i75f
-         ApHxVI+444+ebEoCh+0J9qdqOWyNhqrBIDtK6fNiBLJ/a84+fZKWwcCPPycNhF3Pk8/9
-         2j1+8cED07Pb4VWqEUHTTO8JTohkAPlMO5RaX4gt+7i96yDkgUcqefFFtFl+RhXh4HPR
-         Y7HFBZvFbekO7Ll/+1lgt6GHXa/2wlLAce0iuI3e1sjyYi/wpoyVz9bjF/L8BG76rI3Y
-         ATDA==
-X-Gm-Message-State: AA+aEWafRu1xXnZo/ZqcAUHDhfQeNG/h9wRcrQGg+bpigrh1mSuQGIHY
-        DKQq4NwFsQ/Rag+HhUhxM0k=
-X-Google-Smtp-Source: AFSGD/WiwQEFwql3iiSwej26/LOJHQCZfhdkkv48Wrxs4/02xOu2RhZf3qo3aFV6UA4/3LLifIZWHw==
-X-Received: by 2002:a2e:449c:: with SMTP id b28-v6mr14439032ljf.47.1543993249678;
-        Tue, 04 Dec 2018 23:00:49 -0800 (PST)
-Received: from localhost.localdomain ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id q127-v6sm3917951ljq.45.2018.12.04.23.00.48
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:organization:mime-version:content-transfer-encoding;
+        bh=iH0xbYUDB3oTs9lK4TxdFHYfcIqtagE5wPfwFn+2+W0=;
+        b=O8aQiElVM9rZ5Tsj5GlmMwvkuoWpfsf85AlSqnDGAlr76EPnKtv3HaENYzpUFHU6G8
+         Eaq4RJ/X6UZqdEksEF2eW6e4/FxbOESY2vPzGpDfHZssFEFe8aBO/YwVEfzlzABsUb0B
+         HPY/HXKjcJv6yLzYIdptSgxgZvLogR0VO61IKfGVUamWBDDheem0fiqqx/IZJij7hLj6
+         HOXOcL0GD5gOG59isZwmeeEU2DuxF83doRt6yjZLGsa35KLq0Wgfa7A/sT6FJUkSG0bf
+         kbkbtuaeG5DIGoThuQ8M0mubaw2DfnCZY5keRuW8UEKP8xCzSfQZu0wal8+7meV8m4Te
+         DHNw==
+X-Gm-Message-State: AA+aEWb3DxLhe0TxyZuppv94ylAiDHns5xMAga17/ViB7qXfJWCeoaep
+        R0igeTCM2xUA6X0bYU0nzqG0dw==
+X-Google-Smtp-Source: AFSGD/WVu+GnVP2BBEgbBcgsu3dlsIE3D6MJTUrv9RTqslar96nkUJ90yX1R/Vh01rqFIx28aIu4gQ==
+X-Received: by 2002:a17:902:ab92:: with SMTP id f18mr22224945plr.221.1543995299443;
+        Tue, 04 Dec 2018 23:34:59 -0800 (PST)
+Received: from cakuba.netronome.com ([2601:646:8e00:727e::5])
+        by smtp.gmail.com with ESMTPSA id 12sm17926372pgd.35.2018.12.04.23.34.58
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 04 Dec 2018 23:00:49 -0800 (PST)
-Date:   Wed, 5 Dec 2018 09:00:46 +0200
-From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     mazziesaccount@gmail.com, mturquette@baylibre.com,
-        cw00.choi@samsung.com, krzk@kernel.org, b.zolnierkie@samsung.com,
-        linux@armlinux.org.uk, andy.gross@linaro.org,
-        david.brown@linaro.org, pavel@ucw.cz, andrew.smirnov@gmail.com,
-        pombredanne@nexb.com, sjhuang@iluvatar.ai, akshu.agrawal@amd.com,
-        djkurtz@chromium.org, rafael.j.wysocki@intel.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v6 03/10] clk: of-provider: look at parent if registered
- device has no provider info
-Message-ID: <20181205070046.GD31204@localhost.localdomain>
-References: <cover.1543922403.git.matti.vaittinen@fi.rohmeurope.com>
- <a40442ad1a2f1d13798ba535eca371845bae9248.1543922403.git.matti.vaittinen@fi.rohmeurope.com>
- <154395229720.88331.16585219136189943316@swboyd.mtv.corp.google.com>
+        Tue, 04 Dec 2018 23:34:59 -0800 (PST)
+Date:   Tue, 4 Dec 2018 23:34:55 -0800
+From:   Jakub Kicinski <jakub.kicinski@netronome.com>
+To:     David Miller <davem@davemloft.net>
+Cc:     corbet@lwn.net, oss-drivers@netronome.com, netdev@vger.kernel.org,
+        jesse.brandeburg@intel.com, dsahern@gmail.com, jiri@resnulli.us,
+        stephen@networkplumber.org, henrik@austad.us,
+        linux-doc@vger.kernel.org
+Subject: Re: [RFC] net: documentation: build a directory structure for
+ drivers
+Message-ID: <20181204233455.41e78793@cakuba.netronome.com>
+In-Reply-To: <20181204.211327.172944025163036359.davem@davemloft.net>
+References: <20181204014328.14424-1-jakub.kicinski@netronome.com>
+        <20181204.211327.172944025163036359.davem@davemloft.net>
+Organization: Netronome Systems, Ltd.
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <154395229720.88331.16585219136189943316@swboyd.mtv.corp.google.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Stephen,
-
-I copied some parts of the v4 discussion here as well. Let's continue
-them under this one email thread. (and yep, this is my bad we now have
-multiple email threads - I did these new patches without waiting for
-the final conclusion. I should try to be more patient in the future...)
-
-> > > I think we should use parent device's node, not the paren node in DT,        
-> > > right? But I agree, we should only look "one level up in the chain".         
-                                                                                 
-> > Are these two things different? I'm suggesting looking at                      
-> > device_node::parent and trying to find a #clock-cells property.                
-                                                                                 
-> I thought that MFD sub-devices may completely lack the DT node but I
-> will verify this tomorrow.
-
-So yep. It appears that the DT node for MFD sub-device is left NULL.
-This is quite logical as there really is no clk sub-node in MFD (pmic)
-node. The option to "hack around" this would be setting the of_node to
-parent node in driver code. But this feels wrong. Drivers should not
-mess with the "dt node ownership" - and it also feels a bit odd when
-many devices use same DT node. I think we may hit in problems when
-obtaining resources or doing reference counting. Hence I think we should
-keep the of_node NULL for sub-device if the sub-device does not have own
-node inside the main devie node. And I think Rob was not a fan of having
-own nodes for sub-devices inside the MFD node (AFAIR my first driver
-draft for this device had it but Rob and you thought that was not correct).
-
-On Tue, Dec 04, 2018 at 11:38:17AM -0800, Stephen Boyd wrote:
-> Quoting Matti Vaittinen (2018-12-04 03:34:53)
-> > It seems to be usual for MFD devices that the created 'clock sub-device'
-> > do not have own DT node. The clock provider information is usually in the
-> > main device node which is owned by the MFD device. Change the devm variant
-> > of clk of-provider registration to check the parent device node if given
-> > device has no own node or if the node does not contain the #clock-cells
-> > property. In such case use the parent node if it contains the #clock-cells.
-> > 
-> > Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-> > ---
-> >  drivers/clk/clk.c | 27 +++++++++++++++++++++++----
-> >  1 file changed, 23 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> > index 78c90913f987..66dc7c1483d7 100644
-> > --- a/drivers/clk/clk.c
-> > +++ b/drivers/clk/clk.c
-> > @@ -3893,6 +3893,11 @@ static void devm_of_clk_release_provider(struct device *dev, void *res)
-> >         of_clk_del_provider(*(struct device_node **)res);
-> >  }
-> >  
-> > +static int of_is_clk_provider(struct device_node *np)
-> > +{
-> > +       return !!of_find_property(np, "#clock-cells", NULL);
-> > +}
-> > +
-> >  /**
-> >   * devm_of_clk_add_hw_provider() - Managed clk provider node registration
-> >   * @dev: Device acting as the clock provider. Used for DT node and lifetime.
-> > @@ -3901,8 +3906,11 @@ static void devm_of_clk_release_provider(struct device *dev, void *res)
-> >   *
-> >   * Returns 0 on success or an errno on failure.
-> >   *
-> > - * Registers clock provider for given device's node. Provider is automatically
-> > - * released at device exit.
-> > + * Registers clock provider for given device's node. If the device has no DT
-> > + * node or if the device node lacks of clock provider information (#clock-cells)
-> > + * then the parent device's node is scanned for this information. If parent node
-> > + * has the #clock-cells then it is used in registration. Provider is
-> > + * automatically released at device exit.
-> >   */
-> >  int devm_of_clk_add_hw_provider(struct device *dev,
-> >                         struct clk_hw *(*get)(struct of_phandle_args *clkspec,
-> > @@ -3912,12 +3920,17 @@ int devm_of_clk_add_hw_provider(struct device *dev,
-> >         struct device_node **ptr, *np;
-> >         int ret;
-> >  
-> > +       np = dev->of_node;
-> > +
-> > +       if (!of_is_clk_provider(dev->of_node))
-> > +               if (of_is_clk_provider(dev->parent->of_node))
-> > +                       np = dev->parent->of_node;
+On Tue, 04 Dec 2018 21:13:27 -0800 (PST), David Miller wrote:
+> From: Jakub Kicinski <jakub.kicinski@netronome.com>
+> Date: Mon,  3 Dec 2018 17:43:28 -0800
 > 
-> As said on v5, let's just modify of_clk_add_provider() to do the parent
-> search.
+> > Documentation/networking/ is full of cryptically named files with
+> > driver documentation.  This makes finding interesting information
+> > at a glance really hard.  Move all those files into a directory
+> > called device_drivers (since not all drivers are for device) and
+> > fix up references.
+> > 
+> > RFC v0.1 -> RFC v1:
+> >  - also add .txt suffix to the files which are missing it (Quentin)
+> > 
+> > Signed-off-by: Jakub Kicinski <jakub.kicinski@netronome.com>
+> > Reviewed-by: Quentin Monnet <quentin.monnet@netronome.com>
+> > ---
+> > I'm posting as an RFC to see what the general feeling is about
+> > such a patch.  I can split into per-driver changes later if that's
+> > the best way forward.  
+> 
+> I'm fine with this patch as-is.
+> 
+> Do you mind if I just apply it to net-next?
 
-But that won't solve the issue if we don't do "dirty hacks" in driver.
-The devm interface still only gets the device-pointer, not the DT node
-as argument. And if DT node for device is NULL (like in MFD cases) -
-then there is no parent node, only parent device with a node. For plain
-of_clk_add_provider() the driver can just give the parent's node pointer
-in cases where it knows it is the parent who has the provider data in
-DT. But our original problem is in devm interfaces.
+Not at all.  
 
-Br,
-	Matti Vaittinen
+I feel slightly bad for not CCing all the maintainers but then again it
+just a slight reorg, I don't see a strong reason anyone would
+particularly care.  
 
--- 
-Matti Vaittinen
-ROHM Semiconductors
-
-~~~ "I don't think so," said Rene Descartes.  Just then, he vanished ~~~
+Thanks!
