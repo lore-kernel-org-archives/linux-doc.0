@@ -1,109 +1,125 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 736857D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 00:08:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C97277D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 02:35:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725905AbeLEAIf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Dec 2018 19:08:35 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48440 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725875AbeLEAIe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 4 Dec 2018 19:08:34 -0500
-Received: from gmail.com (unknown [104.132.1.85])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 894A12082B;
-        Wed,  5 Dec 2018 00:08:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1543968514;
-        bh=qAZ/le5vwMfqELRtW8Jcd+Jf0HxGLN2GLo0tGYJWUYQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fU+sLe2v8QrSCIrCIKNmeAg6DxeV67P8q5c6VcMCoEwKk1+gRAOigB9tmYk6x4j4Y
-         dCH+LKg5x6Cu1p5EfTf+7fXUS3EB843r2D4yYbYXgjlC20sDwHJqw5nisYgcXd7HAZ
-         KSCNmSCgwFXIsxFspCfr3rXYH/Vs5+3Px6q78G+I=
-Date:   Tue, 4 Dec 2018 16:08:32 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Chandan Rajendra <chandan@linux.vnet.ibm.com>
-Cc:     linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-doc@vger.kernel.org, linux-mips@linux-mips.org,
-        linux-s390@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, tytso@mit.edu,
-        adilger.kernel@dilger.ca, jaegeuk@kernel.org, yuchao0@huawei.com,
-        corbet@lwn.net, ralf@linux-mips.org, paul.burton@mips.com,
-        jhogan@kernel.org, green.hu@gmail.com, deanbo422@gmail.com,
-        schwidefsky@de.ibm.com, heiko.carstens@de.ibm.com, richard@nod.at,
-        dedekind1@gmail.com, adrian.hunter@intel.com,
-        viro@zeniv.linux.org.uk
-Subject: Re: [PATCH V2 7/7] fsverity: Remove filesystem specific build config
- option
-Message-ID: <20181205000831.GI70682@gmail.com>
-References: <20181204095650.12562-1-chandan@linux.vnet.ibm.com>
- <20181204095650.12562-8-chandan@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181204095650.12562-8-chandan@linux.vnet.ibm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726037AbeLECf0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Dec 2018 21:35:26 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:41233 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725834AbeLECf0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Dec 2018 21:35:26 -0500
+Received: by mail-pf1-f196.google.com with SMTP id b7so9212736pfi.8
+        for <linux-doc@vger.kernel.org>; Tue, 04 Dec 2018 18:35:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=byW6p4S4eM51fSS1xfZ9xzVN+oqvY4pZ3OBeX/tNsqM=;
+        b=ATrCFX0AUw3N/t6K+D+lC4nB4fmUsKeq1RFks/SpheQPpkjHC6Z6CVITWp++RH2gdi
+         bhuO2LU5WwxohVR983/iYAhPARSEcMbe/1NywaUFmz2I+Q5+LCrS1u6Zcx319/nyUbKD
+         Rvq9/glWewozLqQvUXAoMF9eMq1ov4Kwgc5VxCb7PnO6zL5rMySEb/MB9Oftw0sD9Cfj
+         +nue9qyZbyEfBFatQTtGrSq40KdkZ73XecHRBRgpMpWMyvcL7d8UbdkAU1bxI+7vshuQ
+         D5ZWYyUPzZd3i1lNMke7wIKSONnf5juC8wicTHD8DQdA05lFx2MWVeoy/mEVqerZnYaO
+         PIPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=byW6p4S4eM51fSS1xfZ9xzVN+oqvY4pZ3OBeX/tNsqM=;
+        b=nSik1+AYiqOS8CgUdGNl6Y15HNsxR/sNJzLg0NwJJxBUhq6fGEG3XsovLa2nQaCTG5
+         SIrrfdaOHGiyXOtUKqdwe7/2mLaq4YvOGpSe4PXKGKtyaJGRlKEj/M12oMrkjrgx2xQJ
+         3tmSnVk5PfMjd33e5Y+nq7Bd4lAhgwlFTNNOAV0Wkz6bfo7ubUfVkYUKErlFFWl9/FOv
+         Jgh2xdviYR+gT8E2ezNSZG292XReWPy1okgD68RTMGBwwSFb4ZxhnUO1sDyNM/a2P7x5
+         tb4TS/LVmPuyQiqdip5Hf5P9FSRr5+UNe87DXrkQpbt7MzI2Zh+yiSiThOl09qSC/Bum
+         O5Dw==
+X-Gm-Message-State: AA+aEWYxeFS20fS+TI+g6bTFXZWH9L5RLPWao+DWlt5QKuuh/WaGxYX/
+        bZmGDD9MqQ6Wf9RX+Xtnik8=
+X-Google-Smtp-Source: AFSGD/VZ460ddkmSWsEb1ZtVrfS9y8Y9IMIzLwBgweXpFQGuJwDn1pNI83oEFnMYDXs/iW68Hcno5Q==
+X-Received: by 2002:a63:c10f:: with SMTP id w15mr18644758pgf.199.1543977325174;
+        Tue, 04 Dec 2018 18:35:25 -0800 (PST)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id v9sm27454463pfg.144.2018.12.04.18.35.23
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 04 Dec 2018 18:35:24 -0800 (PST)
+From:   Wei Yang <richard.weiyang@gmail.com>
+To:     david@redhat.com, mhocko@suse.com, osalvador@suse.de
+Cc:     akpm@linux-foundation.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, Wei Yang <richard.weiyang@gmail.com>
+Subject: [PATCH 1/2] admin-guide/memory-hotplug.rst: remove locking internal part from admin-guide
+Date:   Wed,  5 Dec 2018 10:34:25 +0800
+Message-Id: <20181205023426.24029-1-richard.weiyang@gmail.com>
+X-Mailer: git-send-email 2.15.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Chandan,
+Locking Internal section exists in core-api documentation, which is more
+suitable for this.
 
-On Tue, Dec 04, 2018 at 03:26:50PM +0530, Chandan Rajendra wrote:
-> In order to have a common code base for fsverity "post read" processing
-> for all filesystems which support fsverity, this commit removes
-> filesystem specific build config option (e.g. CONFIG_EXT4_FS_VERITY)
-> and replaces it with a build option (i.e. CONFIG_FS_VERITY) whose
-> value affects all the filesystems making use of fsverity.
-> 
-> Signed-off-by: Chandan Rajendra <chandan@linux.vnet.ibm.com>
-> ---
->  Documentation/filesystems/fsverity.rst |  4 ++--
->  fs/ext4/Kconfig                        | 20 --------------------
->  fs/ext4/ext4.h                         |  2 --
->  fs/ext4/readpage.c                     |  4 ++--
->  fs/ext4/super.c                        |  6 +++---
->  fs/ext4/sysfs.c                        |  4 ++--
->  fs/f2fs/Kconfig                        | 20 --------------------
->  fs/f2fs/data.c                         |  2 +-
->  fs/f2fs/f2fs.h                         |  2 --
->  fs/f2fs/super.c                        |  6 +++---
->  fs/f2fs/sysfs.c                        |  4 ++--
->  fs/verity/Kconfig                      |  3 ++-
->  include/linux/fs.h                     |  4 ++--
->  include/linux/fsverity.h               |  3 +--
->  14 files changed, 20 insertions(+), 64 deletions(-)
-> 
-[...]
-> diff --git a/include/linux/fsverity.h b/include/linux/fsverity.h
-> index c30c4f6ed411..f37132c640ee 100644
-> --- a/include/linux/fsverity.h
-> +++ b/include/linux/fsverity.h
-> @@ -19,8 +19,7 @@ struct fsverity_operations {
->  	int (*get_metadata_end)(struct inode *inode, loff_t *metadata_end_ret);
->  };
->  
-> -#if __FS_HAS_VERITY
-> -
-> +#ifdef CONFIG_FS_VERITY
->  /* ioctl.c */
->  extern int fsverity_ioctl_enable(struct file *filp, const void __user *arg);
->  extern int fsverity_ioctl_measure(struct file *filp, void __user *arg);
-> -- 
-> 2.19.1
-> 
+This patch removes the duplication part here.
 
-Can you grep for __FS_HAS_VERITY?  It's still mentioned twice in comments for
-this #ifdef (these should be changed to CONFIG_FS_VERITY), and it's still
-defined in fs/verity/fsverity_private.h (that one should be removed).
+Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
+---
+ Documentation/admin-guide/mm/memory-hotplug.rst | 40 -------------------------
+ 1 file changed, 40 deletions(-)
 
-Thanks,
+diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+index 5c4432c96c4b..241f4ce1e387 100644
+--- a/Documentation/admin-guide/mm/memory-hotplug.rst
++++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+@@ -392,46 +392,6 @@ Need more implementation yet....
+  - Notification completion of remove works by OS to firmware.
+  - Guard from remove if not yet.
+ 
+-
+-Locking Internals
+-=================
+-
+-When adding/removing memory that uses memory block devices (i.e. ordinary RAM),
+-the device_hotplug_lock should be held to:
+-
+-- synchronize against online/offline requests (e.g. via sysfs). This way, memory
+-  block devices can only be accessed (.online/.state attributes) by user
+-  space once memory has been fully added. And when removing memory, we
+-  know nobody is in critical sections.
+-- synchronize against CPU hotplug and similar (e.g. relevant for ACPI and PPC)
+-
+-Especially, there is a possible lock inversion that is avoided using
+-device_hotplug_lock when adding memory and user space tries to online that
+-memory faster than expected:
+-
+-- device_online() will first take the device_lock(), followed by
+-  mem_hotplug_lock
+-- add_memory_resource() will first take the mem_hotplug_lock, followed by
+-  the device_lock() (while creating the devices, during bus_add_device()).
+-
+-As the device is visible to user space before taking the device_lock(), this
+-can result in a lock inversion.
+-
+-onlining/offlining of memory should be done via device_online()/
+-device_offline() - to make sure it is properly synchronized to actions
+-via sysfs. Holding device_hotplug_lock is advised (to e.g. protect online_type)
+-
+-When adding/removing/onlining/offlining memory or adding/removing
+-heterogeneous/device memory, we should always hold the mem_hotplug_lock in
+-write mode to serialise memory hotplug (e.g. access to global/zone
+-variables).
+-
+-In addition, mem_hotplug_lock (in contrast to device_hotplug_lock) in read
+-mode allows for a quite efficient get_online_mems/put_online_mems
+-implementation, so code accessing memory can protect from that memory
+-vanishing.
+-
+-
+ Future Work
+ ===========
+ 
+-- 
+2.15.1
 
-- Eric
