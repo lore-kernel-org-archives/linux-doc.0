@@ -5,84 +5,103 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1ED9A7D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 20:31:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E21357D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 21:01:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727402AbeLEUbn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Dec 2018 15:31:43 -0500
-Received: from tyo162.gate.nec.co.jp ([114.179.232.162]:45456 "EHLO
-        tyo162.gate.nec.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727257AbeLEUbn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Dec 2018 15:31:43 -0500
-Received: from mailgate02.nec.co.jp ([114.179.233.122])
-        by tyo162.gate.nec.co.jp (8.15.1/8.15.1) with ESMTPS id wB5KUotb026532
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Thu, 6 Dec 2018 05:30:50 +0900
-Received: from mailsv01.nec.co.jp (mailgate-v.nec.co.jp [10.204.236.94])
-        by mailgate02.nec.co.jp (8.15.1/8.15.1) with ESMTP id wB5KUo5i022167;
-        Thu, 6 Dec 2018 05:30:50 +0900
-Received: from mail02.kamome.nec.co.jp (mail02.kamome.nec.co.jp [10.25.43.5])
-        by mailsv01.nec.co.jp (8.15.1/8.15.1) with ESMTP id wB5KUoQa016274;
-        Thu, 6 Dec 2018 05:30:50 +0900
-Received: from bpxc99gp.gisp.nec.co.jp ([10.38.151.139] [10.38.151.139]) by mail02.kamome.nec.co.jp with ESMTP id BT-MMP-375347; Thu, 6 Dec 2018 05:29:15 +0900
-Received: from BPXM09GP.gisp.nec.co.jp ([10.38.151.201]) by
- BPXC11GP.gisp.nec.co.jp ([10.38.151.139]) with mapi id 14.03.0319.002; Thu, 6
- Dec 2018 05:29:15 +0900
-From:   Kazuhito Hagio <k-hagio@ab.jp.nec.com>
-To:     lijiang <lijiang@redhat.com>, Borislav Petkov <bp@alien8.de>
-CC:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "bhe@redhat.com" <bhe@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "dyoung@redhat.com" <dyoung@redhat.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-Subject: RE: [PATCH 1/2 v2] kdump: add the vmcoreinfo documentation
-Thread-Topic: [PATCH 1/2 v2] kdump: add the vmcoreinfo documentation
-Thread-Index: AQHUjKXemQXNLRGc+UGdsBH5ZuUNaqVwM/AQ
-Date:   Wed, 5 Dec 2018 20:29:14 +0000
-Message-ID: <4AE2DC15AC0B8543882A74EA0D43DBEC0356426E@BPXM09GP.gisp.nec.co.jp>
-References: <20181202030839.29945-1-lijiang@redhat.com>
- <20181202030839.29945-2-lijiang@redhat.com> <20181203150809.GA4794@zn.tnic>
- <779dbae7-f6e2-e9e4-bdd0-0a9e6ec62487@redhat.com>
- <20181205113032.GF29510@zn.tnic>
- <3d1a7e68-34c5-d118-fe09-7c9bc14cce84@redhat.com>
-In-Reply-To: <3d1a7e68-34c5-d118-fe09-7c9bc14cce84@redhat.com>
-Accept-Language: ja-JP, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [143.101.133.146]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1728448AbeLEVBI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Dec 2018 16:01:08 -0500
+Received: from mx2.suse.de ([195.135.220.15]:58404 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728156AbeLEVBH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Dec 2018 16:01:07 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay1.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id E4906AFE4;
+        Wed,  5 Dec 2018 21:01:05 +0000 (UTC)
+From:   NeilBrown <neilb@suse.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Date:   Thu, 06 Dec 2018 08:00:58 +1100
+Cc:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] Documentation: convert path-lookup from markdown to resturctured text
+In-Reply-To: <20181205124644.3f8a452a@lwn.net>
+References: <87k1l9dgx9.fsf@notabene.neil.brown.name> <87sgzc7v50.fsf@notabene.neil.brown.name> <20181205124644.3f8a452a@lwn.net>
+Message-ID: <87woonelit.fsf@notabene.neil.brown.name>
 MIME-Version: 1.0
-X-TM-AS-MML: disable
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiA+PiBHZW5lcmF0aW5nIFZNQ09SRUlORk8gaXMgZWFzeSBpbiB0aGUgZmlyc3Qga2VybmVsLCBm
-b3IgZXhhbXBsZToNCj4gPj4gIyBtYWtlZHVtcGZpbGUgLWcgVk1DT1JFSU5GTyAteCB2bWxpbnV4
-DQo+ID4NCj4gPiBJIGdldDoNCj4gPg0KPiA+ICQgbWFrZWR1bXBmaWxlIC1nIFZNQ09SRUlORk8g
-LXggdm1saW51eA0KPiA+IFRoZSBrZXJuZWwgdmVyc2lvbiBpcyBub3Qgc3VwcG9ydGVkLg0KPiA+
-IFRoZSBtYWtlZHVtcGZpbGUgb3BlcmF0aW9uIG1heSBiZSBpbmNvbXBsZXRlLg0KPiA+DQo+ID4g
-VGhlIHZtY29yZWluZm8gaXMgc2F2ZWQgdG8gVk1DT1JFSU5GTy4NCj4gPg0KPiA+IG1ha2VkdW1w
-ZmlsZSBDb21wbGV0ZWQuDQo+ID4NCj4gPiBCdXQgdGhlIHRleHQgZmlsZSBsb29rcyBvayBBRkFJ
-Q1QuIFBsZWFzZSBhZGQgdGhhdCBjb21tYW5kIHRvIHRoZQ0KPiA+IGRvY3VtZW50YXRpb24gZmls
-ZS4NCj4gPg0KDQpQbGVhc2Ugbm90ZSB0aGF0IHRoaXMgVk1DT1JFSU5GTyBpcyBnZW5lcmF0ZWQg
-ZnJvbSB0aGUgaW5mb3JtYXRpb24gaW4NCnRoZSB2bWxpbnV4IG9ubHksIG5vdCBmcm9tIHRoZSBy
-dW5uaW5nIGtlcm5lbCBhbmQgL3Byb2Mva2NvcmUuIFNvIGlmDQp3ZSBhZGQgYSBjb21tYW5kIHRv
-IGR1bXAgaXQgZnJvbSBydW5uaW5nIGtlcm5lbCwgaXQncyBub3Qgc3VpdGFibGUuDQoNCihUaGlz
-IHN3aXRjaCBpcyBpbnRlbmRlZCB0byBtYWtlIGEgZGF0YSB0aGF0IGlzIHVzZWQgaW5zdGVhZCBv
-ZiB2bWxpbnV4DQogd2hlbiB2bWNvcmUgZGlkbid0IGhhdmUgVk1DT1JFSU5GTyBhbmQgbWFrZWR1
-bXBmaWxlIGlzIGluIGEgc2l0dWF0aW9uDQogdGhhdCB3ZSBkb24ndCBoYXZlIHZtbGludXguIFBs
-ZWFzZSBzZWUgdGhlIGV4cGxhbmF0aW9uIG9mIHRoZSAtaSBhbmQNCiAtZyBvcHRpb25zIGluIG1h
-a2VmdW1wZmlsZSg4KS4pDQoNCm1ha2VkdW1wZmlsZSBkb2Vzbid0IGhhdmUgYW55IHN3aXRjaCB3
-aGljaCBkdW1wcyBWTUNPUkVJTkZPIGZyb20ga2NvcmUNCmZvciBub3cuIChJJ20gdGhpbmtpbmcg
-dG8gaGF2ZSBtYWtlZHVtcGZpbGUgZHVtcCBpdCBhcyBkZWJ1ZyBtZXNzYWdlLA0KdGhvdWdoLikN
-Cg0KVGhhbmtzLA0KS2F6dQ0KDQo=
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Dec 05 2018, Jonathan Corbet wrote:
+
+> On Wed, 05 Dec 2018 10:02:51 +1100
+> NeilBrown <neilb@suse.com> wrote:
+>
+>> This allows the document to be integrated with the main documentation
+>> tree.
+>> Changes include:
+>> - rename from .md to .rst
+>> - use `` for code, not single `
+>> - use correct sub-section marking
+>> - fix indented blocks, both code and non-code
+>> - fix external-link markup
+>>=20
+>> Signed-off-by: NeilBrown <neilb@suse.com>
+>
+> Looks good at a first glance, but I have one question...
+>
+>>  Documentation/filesystems/index.rst                |   2 +
+>>  .../{path-lookup.md =3D> path-lookup.rst}            | 875 +++++++++++-=
+---------
+>>  2 files changed, 448 insertions(+), 429 deletions(-)
+>>  rename Documentation/filesystems/{path-lookup.md =3D> path-lookup.rst} =
+(59%)
+>>=20
+>> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesys=
+tems/index.rst
+>> index 46d1b1be3a51..3c0f441a9536 100644
+>> --- a/Documentation/filesystems/index.rst
+>> +++ b/Documentation/filesystems/index.rst
+>> @@ -359,3 +359,5 @@ encryption of files and directories.
+>>      :maxdepth: 2
+>>=20=20
+>>      fscrypt
+>> +
+>> +.. include::  path-lookup.rst
+>
+> Is there a reason you used "include" rather than just adding it to the
+> TOC tree with the rest?
+
+Simple.  I didn't know what I was doing, and so randomly made changes until
+the result seemed acceptable - then I stopped.  If there is a better
+way, feel free to tweak that when applying.
+
+Thanks,
+NeilBrown
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAlwIPIoACgkQOeye3VZi
+gbmOuRAAphLwAwpqMrOx5FjVzmI5fe7P245acp0qETdojbIiZAvgbch4WFdIpiBY
+rB8NAd7gWoh96T/YFO+DnuZdP+V/CMrsWswcGxGp4QWZlB/nXmM8e/uAzZ4v6LAB
+bycspvt40p1Ubafck1FlNxxO6axtsqTvmdidVHWzUUjTc5q+k65bOWSP3/nNmIpD
+CZV2Val+RnkcS/ZbbwtM1dkowrLOWNV1dn7qNIKo1xC3QX/vA7QOtnjLgHZBeTQY
+ywUgiKOcvJQgpQ9cBzUyz3JxnXr+D6EobThA7qAceEeU10D80cSuzYOcDeH6Xj7A
+FvYUbic+t7PXTrxTYDHopCb3Ejck7JbxwQtvE5s6w2YR7qeVSDonDs/MCyAmbM/C
+xar0VVCfGUQDkRRvwcXsHHQ8Iqku4cqx9hoT2TxKXvf67bPEY77HXo0iyL3NMj/J
+sqcKKYh/pHDvKVLAd14NcFRFPYXdonQZQW1PfBY3pWgiiUiGWZ9wf330iq6ZM8GP
+bXW55JaGVQStpFwnyuA4IEjxqgsj5993Uwb+2zlqHVBMbelwR9RtFFiMs1UbCdDP
+gX397BtDqcBnW8qStK6AQWTQhQOqZQ2iEXIA+j5IUpr+Jj81kVn5yrAI0TK7tj4s
+F/3ByfUn37q+zMdTFM4bc++//VeRWp0rkukiY5NdGZmKE8FyHR0=
+=XcmR
+-----END PGP SIGNATURE-----
+--=-=-=--
