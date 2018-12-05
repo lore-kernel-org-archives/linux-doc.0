@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-7.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 529527D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 17:26:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EF4CA7D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 17:28:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728370AbeLERZT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Dec 2018 12:25:19 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49022 "EHLO mail.kernel.org"
+        id S1727839AbeLER2X (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Dec 2018 12:28:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51028 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728359AbeLERZT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Dec 2018 12:25:19 -0500
+        id S1727660AbeLER2X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Dec 2018 12:28:23 -0500
 Received: from localhost (unknown [104.132.0.74])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A3FE520989;
-        Wed,  5 Dec 2018 17:25:18 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EDE7D205C9;
+        Wed,  5 Dec 2018 17:28:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1544030718;
-        bh=a5S8271YuAAXHW3TVhL4YiMFaZAFFUty9bLcYII0KAM=;
+        s=default; t=1544030902;
+        bh=CJqF/RQAkQe8DyvmUG4i2ze4TJnVlCi4awEbse+57dk=;
         h=To:From:In-Reply-To:Cc:References:Subject:Date:From;
-        b=lCr12/vutigdQ+5Og42lkakuqiMHAdK6v7F58k/xWmR4RMgx0AMYjkZQOMQ8oRqFL
-         hWMVGxuMwMdujxSUMURGp7thXKU0Lq+Hero8AP2+MnY5P6PrgE9aVwrbWS+wUJ8lfa
-         DO8daaw3M6p0GQrprOYQwHkEAPUtafhLLeZVXWiU=
+        b=pJIrhNmLsH1Iwo1G/6I/+g1aUjqR902jDDXUT0oxCPOFPR7vfDFFC//P1ke75dI0y
+         VpfXSqI/ficJiQwCXaY5C+YqMn1OTC7zAHK7n1Y4uWsQa9dfwkSTstcMOyM5liT1pq
+         sq8Ojw2L6rs++9O3yGz6niJ3KI+CJj190GOH3t68=
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 To:     matti.vaittinen@fi.rohmeurope.com, mazziesaccount@gmail.com
 From:   Stephen Boyd <sboyd@kernel.org>
-In-Reply-To: <1c73fcc1dcb63aa0e5c65492692658a9e74f3c2d.1543922403.git.matti.vaittinen@fi.rohmeurope.com>
+In-Reply-To: <b1a7aa06389ccd46f60db3e63bdf1e9ce9781d49.1543922403.git.matti.vaittinen@fi.rohmeurope.com>
 Cc:     mturquette@baylibre.com, cw00.choi@samsung.com, krzk@kernel.org,
         b.zolnierkie@samsung.com, linux@armlinux.org.uk,
         andy.gross@linaro.org, david.brown@linaro.org, pavel@ucw.cz,
@@ -41,22 +41,98 @@ Cc:     mturquette@baylibre.com, cw00.choi@samsung.com, krzk@kernel.org,
         linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <cover.1543922403.git.matti.vaittinen@fi.rohmeurope.com>
- <1c73fcc1dcb63aa0e5c65492692658a9e74f3c2d.1543922403.git.matti.vaittinen@fi.rohmeurope.com>
-Message-ID: <154403071814.88331.10541605548687550422@swboyd.mtv.corp.google.com>
+ <b1a7aa06389ccd46f60db3e63bdf1e9ce9781d49.1543922403.git.matti.vaittinen@fi.rohmeurope.com>
+Message-ID: <154403090130.88331.18352581261422337586@swboyd.mtv.corp.google.com>
 User-Agent: alot/0.7
-Subject: Re: [PATCH v6 09/10] clk: apcs-msm8916: simplify probe cleanup by using devm
-Date:   Wed, 05 Dec 2018 09:25:18 -0800
+Subject: Re: [PATCH v6 10/10] clk: bd718x7: Initial support for ROHM bd71837/bd71847
+ PMIC clock
+Date:   Wed, 05 Dec 2018 09:28:21 -0800
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Matti Vaittinen (2018-12-04 03:39:06)
-> use devm variant for of_provider registration.
-> =
+Quoting Matti Vaittinen (2018-12-04 03:39:38)
+> diff --git a/drivers/clk/clk-bd718x7.c b/drivers/clk/clk-bd718x7.c
+> new file mode 100644
+> index 000000000000..d486859526ed
+> --- /dev/null
+> +++ b/drivers/clk/clk-bd718x7.c
+> @@ -0,0 +1,131 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +// Copyright (C) 2018 ROHM Semiconductors
+> +// bd71837.c  -- ROHM BD71837MWV clock driver
 
-> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-> ---
+This isn't even the name of the file. Please remove. Also, only the SPDX
+tag is supposed to have // on it and the other things should be normal
+/* */ comment style.
 
-Applied to clk-next
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/init.h>
+> +#include <linux/err.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/slab.h>
+> +#include <linux/mfd/rohm-bd718x7.h>
+> +#include <linux/clk-provider.h>
+> +#include <linux/clkdev.h>
+> +#include <linux/regmap.h>
+[....]
+> +
+> +static int bd71837_clk_probe(struct platform_device *pdev)
+> +{
+> +       struct bd718xx_clk *c;
+> +       int rval =3D -ENOMEM;
+> +       const char *parent_clk;
+> +       struct device *parent =3D pdev->dev.parent;
+> +       struct bd718xx *mfd =3D dev_get_drvdata(parent);
+> +       struct clk_init_data init =3D {
+> +               .name =3D "bd718xx-32k-out",
+> +               .ops =3D &bd71837_clk_ops,
+> +       };
+> +
+> +       c =3D devm_kzalloc(&pdev->dev, sizeof(*c), GFP_KERNEL);
+> +       if (!c)
+> +               return -ENOMEM;
+> +
+> +       init.num_parents =3D 1;
+> +       parent_clk =3D of_clk_get_parent_name(parent->of_node, 0);
+> +
+> +       init.parent_names =3D &parent_clk;
+> +       if (!parent_clk) {
+> +               dev_err(&pdev->dev, "No parent clk found\n");
+> +               return -EINVAL;
+> +       }
+> +
+> +       c->reg =3D BD718XX_REG_OUT32K;
+> +       c->mask =3D BD718XX_OUT32K_EN;
+> +       c->mfd =3D mfd;
+> +       c->pdev =3D pdev;
+> +       c->hw.init =3D &init;
+> +
+> +       of_property_read_string_index(parent->of_node,
+> +                                     "clock-output-names", 0, &init.name=
+);
+> +
+> +       rval =3D devm_clk_hw_register(&pdev->dev, &c->hw);
+> +       if (!rval) {
+> +               rval =3D devm_clk_hw_register_clkdev(&pdev->dev,
+> +                                                  &c->hw, init.name, NUL=
+L);
 
+Do you plan to use the clkdev lookup? This driver looks fairly DT
+dependent, so I would prefer to remove the clkdev part and only add it
+later if anyone needs it.
+
+> +               if (rval)
+> +                       dev_warn(&pdev->dev, "Failed to register clkdev\n=
+");
+> +               if (parent->of_node) {
+> +                       rval =3D devm_of_clk_add_hw_provider(&pdev->dev,
+> +                                            of_clk_hw_simple_get, &c->hw=
+);
+> +                       if (rval)
+> +                               dev_err(&pdev->dev,
+> +                                       "adding clk provider failed\n");
+> +               }
