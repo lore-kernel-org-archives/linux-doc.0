@@ -5,18 +5,18 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E7D017D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 22:33:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3A62A7D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 22:45:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727620AbeLEWd4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Dec 2018 17:33:56 -0500
-Received: from cloudserver094114.home.pl ([79.96.170.134]:41460 "EHLO
+        id S1727630AbeLEWpt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Dec 2018 17:45:49 -0500
+Received: from cloudserver094114.home.pl ([79.96.170.134]:56347 "EHLO
         cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727339AbeLEWd4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Dec 2018 17:33:56 -0500
+        with ESMTP id S1727177AbeLEWpt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Dec 2018 17:45:49 -0500
 Received: from 79.184.252.87.ipv4.supernova.orange.pl (79.184.252.87) (HELO aspire.rjw.lan)
  by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.177)
- id 81156c3b7fa5ca2c; Wed, 5 Dec 2018 23:33:52 +0100
+ id bb70f2fd3131f3ff; Wed, 5 Dec 2018 23:45:46 +0100
 From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
 To:     Linux PM <linux-pm@vger.kernel.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
@@ -25,9 +25,9 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
         Giovanni Gherdovich <ggherdovich@suse.cz>,
         Doug Smythies <dsmythies@telus.net>
-Subject: [PATCH v2] cpuidle: Add 'high' and 'low' idle state metrics
-Date:   Wed, 05 Dec 2018 23:33:40 +0100
-Message-ID: <3956581.Kf8ajzdeNX@aspire.rjw.lan>
+Subject: [PATCH] cpuidle: Add cpuidle.governor= command line parameter
+Date:   Wed, 05 Dec 2018 23:45:34 +0100
+Message-ID: <1752296.bicKxrytZO@aspire.rjw.lan>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -37,180 +37,111 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Subject: [PATCH] cpuidle: Add 'high' and 'low' idle state metrics
 
-Add two new metrics for CPU idle states, "high" and "low", to count
-the number of times the given state had been asked for (or entered
-from the kernel's perspective), but the observed idle duration turned
-out to be too high or too low for it (respectively).
+Add cpuidle.governor= command line parameter to allow the default
+cpuidle governor to be replaced.
 
-These mertics help to estimate the quality of the CPU idle governor
-in use.
+That is useful, for example, if someone running a tickful kernel
+wants to use the menu governor on it.
 
 Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 ---
 
--> v2: Compute the "low" metric as the number of times the entered
-       state has been too shallow for sure (and not just probably)
-       by taking that state's exit latency into account when computing
-       it (the "high" metric computation did that in the previous version
-       too).
+On top of https://patchwork.kernel.org/patch/10714995/ and
+https://patchwork.kernel.org/patch/10705317/
 
 ---
- Documentation/ABI/testing/sysfs-devices-system-cpu |    7 ++++
- Documentation/admin-guide/pm/cpuidle.rst           |   10 ++++++
- drivers/cpuidle/cpuidle.c                          |   31 ++++++++++++++++++++-
- drivers/cpuidle/sysfs.c                            |    6 ++++
- include/linux/cpuidle.h                            |    2 +
- 5 files changed, 55 insertions(+), 1 deletion(-)
+ Documentation/admin-guide/kernel-parameters.txt |    3 +++
+ Documentation/admin-guide/pm/cpuidle.rst        |    7 +++++++
+ drivers/cpuidle/cpuidle.c                       |    1 +
+ drivers/cpuidle/cpuidle.h                       |    1 +
+ drivers/cpuidle/governor.c                      |    9 +++++++--
+ 5 files changed, 19 insertions(+), 2 deletions(-)
 
+Index: linux-pm/drivers/cpuidle/governor.c
+===================================================================
+--- linux-pm.orig/drivers/cpuidle/governor.c
++++ linux-pm/drivers/cpuidle/governor.c
+@@ -11,10 +11,13 @@
+ #include <linux/cpu.h>
+ #include <linux/cpuidle.h>
+ #include <linux/mutex.h>
++#include <linux/module.h>
+ #include <linux/pm_qos.h>
+ 
+ #include "cpuidle.h"
+ 
++char param_governor[CPUIDLE_NAME_LEN];
++
+ LIST_HEAD(cpuidle_governors);
+ struct cpuidle_governor *cpuidle_curr_governor;
+ 
+@@ -86,9 +89,11 @@ int cpuidle_register_governor(struct cpu
+ 	mutex_lock(&cpuidle_lock);
+ 	if (__cpuidle_find_governor(gov->name) == NULL) {
+ 		ret = 0;
+-		list_add_tail(&gov->governor_list, &cpuidle_governors);
+ 		if (!cpuidle_curr_governor ||
+-		    cpuidle_curr_governor->rating < gov->rating)
++		    !strncasecmp(param_governor, gov->name, CPUIDLE_NAME_LEN) ||
++		    (cpuidle_curr_governor->rating < gov->rating &&
++		     strncasecmp(param_governor, cpuidle_curr_governor->name,
++				 CPUIDLE_NAME_LEN)))
+ 			cpuidle_switch_governor(gov);
+ 	}
+ 	mutex_unlock(&cpuidle_lock);
 Index: linux-pm/drivers/cpuidle/cpuidle.c
 ===================================================================
 --- linux-pm.orig/drivers/cpuidle/cpuidle.c
 +++ linux-pm/drivers/cpuidle/cpuidle.c
-@@ -202,7 +202,6 @@ int cpuidle_enter_state(struct cpuidle_d
- 	struct cpuidle_state *target_state = &drv->states[index];
- 	bool broadcast = !!(target_state->flags & CPUIDLE_FLAG_TIMER_STOP);
- 	ktime_t time_start, time_end;
--	s64 diff;
+@@ -731,4 +731,5 @@ static int __init cpuidle_init(void)
+ }
  
- 	/*
- 	 * Tell the time framework to switch to a broadcast timer because our
-@@ -248,6 +247,9 @@ int cpuidle_enter_state(struct cpuidle_d
- 		local_irq_enable();
- 
- 	if (entered_state >= 0) {
-+		s64 diff, delay = drv->states[entered_state].exit_latency;
-+		int i;
-+
- 		/*
- 		 * Update cpuidle counters
- 		 * This can be moved to within driver enter routine,
-@@ -260,6 +262,33 @@ int cpuidle_enter_state(struct cpuidle_d
- 		dev->last_residency = (int)diff;
- 		dev->states_usage[entered_state].time += dev->last_residency;
- 		dev->states_usage[entered_state].usage++;
-+
-+		if (diff < drv->states[entered_state].target_residency) {
-+			for (i = entered_state - 1; i >= 0; i--) {
-+				if (drv->states[i].disabled ||
-+				    dev->states_usage[i].disable)
-+					continue;
-+
-+				/* Shallower states are enabled, so update. */
-+				dev->states_usage[entered_state].high++;
-+				break;
-+			}
-+		} else if (diff > delay) {
-+			for (i = entered_state + 1; i < drv->state_count; i++) {
-+				if (drv->states[i].disabled ||
-+				    dev->states_usage[i].disable)
-+					continue;
-+
-+				/*
-+				 * Update if a deeper state would have been a
-+				 * better match for the observed idle duration.
-+				 */
-+				if (diff - delay >= drv->states[i].target_residency)
-+					dev->states_usage[entered_state].low++;
-+
-+				break;
-+			}
-+		}
- 	} else {
- 		dev->last_residency = 0;
- 	}
-Index: linux-pm/include/linux/cpuidle.h
+ module_param(off, int, 0444);
++module_param_string(governor, param_governor, CPUIDLE_NAME_LEN, 0444);
+ core_initcall(cpuidle_init);
+Index: linux-pm/drivers/cpuidle/cpuidle.h
 ===================================================================
---- linux-pm.orig/include/linux/cpuidle.h
-+++ linux-pm/include/linux/cpuidle.h
-@@ -33,6 +33,8 @@ struct cpuidle_state_usage {
- 	unsigned long long	disable;
- 	unsigned long long	usage;
- 	unsigned long long	time; /* in US */
-+	unsigned long long	high; /* Number of times it's been too deep */
-+	unsigned long long	low;  /* Number of times it's been too shallow */
- #ifdef CONFIG_SUSPEND
- 	unsigned long long	s2idle_usage;
- 	unsigned long long	s2idle_time; /* in US */
-Index: linux-pm/drivers/cpuidle/sysfs.c
-===================================================================
---- linux-pm.orig/drivers/cpuidle/sysfs.c
-+++ linux-pm/drivers/cpuidle/sysfs.c
-@@ -301,6 +301,8 @@ define_show_state_str_function(name)
- define_show_state_str_function(desc)
- define_show_state_ull_function(disable)
- define_store_state_ull_function(disable)
-+define_show_state_ull_function(high)
-+define_show_state_ull_function(low)
+--- linux-pm.orig/drivers/cpuidle/cpuidle.h
++++ linux-pm/drivers/cpuidle/cpuidle.h
+@@ -7,6 +7,7 @@
+ #define __DRIVER_CPUIDLE_H
  
- define_one_state_ro(name, show_state_name);
- define_one_state_ro(desc, show_state_desc);
-@@ -310,6 +312,8 @@ define_one_state_ro(power, show_state_po
- define_one_state_ro(usage, show_state_usage);
- define_one_state_ro(time, show_state_time);
- define_one_state_rw(disable, show_state_disable, store_state_disable);
-+define_one_state_ro(high, show_state_high);
-+define_one_state_ro(low, show_state_low);
- 
- static struct attribute *cpuidle_state_default_attrs[] = {
- 	&attr_name.attr,
-@@ -320,6 +324,8 @@ static struct attribute *cpuidle_state_d
- 	&attr_usage.attr,
- 	&attr_time.attr,
- 	&attr_disable.attr,
-+	&attr_high.attr,
-+	&attr_low.attr,
- 	NULL
- };
- 
+ /* For internal use only */
++extern char param_governor[];
+ extern struct cpuidle_governor *cpuidle_curr_governor;
+ extern struct list_head cpuidle_governors;
+ extern struct list_head cpuidle_detected_devices;
 Index: linux-pm/Documentation/admin-guide/pm/cpuidle.rst
 ===================================================================
 --- linux-pm.orig/Documentation/admin-guide/pm/cpuidle.rst
 +++ linux-pm/Documentation/admin-guide/pm/cpuidle.rst
-@@ -404,9 +404,19 @@ object corresponding to it, as follows:
- ``disable``
- 	Whether or not this idle state is disabled.
+@@ -576,6 +576,13 @@ processors implementing the architecture
+ however, so it is rather crude and not very energy-efficient.  For this reason,
+ it is not recommended for production use.
  
-+``high``
-+	Total number of times this idle state had been asked for, but the
-+	observed idle duration was certainly too short to match its target
-+	residency.
++The ``cpuidle.governor=`` kernel command line switch allows the ``CPUIdle``
++governor to use to be specified.  It has to be appended with a string matching
++the name of an available governor (e.g. ``cpuidle.governor=menu``) and that
++governor will be used instead of the default one.  It is possible to force
++the ``menu`` governor to be used on the systems that use the ``ladder`` governor
++by default this way, for example.
 +
- ``latency``
- 	Exit latency of the idle state in microseconds.
- 
-+``low``
-+	Total number of times this idle state had been asked for, but cerainly
-+	a deeper idle state would have been a better match for the observed idle
-+	duration.
-+
- ``name``
- 	Name of the idle state.
- 
-Index: linux-pm/Documentation/ABI/testing/sysfs-devices-system-cpu
+ The other kernel command line parameters controlling CPU idle time management
+ described below are only relevant for the *x86* architecture and some of
+ them affect Intel processors only.
+Index: linux-pm/Documentation/admin-guide/kernel-parameters.txt
 ===================================================================
---- linux-pm.orig/Documentation/ABI/testing/sysfs-devices-system-cpu
-+++ linux-pm/Documentation/ABI/testing/sysfs-devices-system-cpu
-@@ -145,6 +145,8 @@ What:		/sys/devices/system/cpu/cpuX/cpui
- 		/sys/devices/system/cpu/cpuX/cpuidle/stateN/power
- 		/sys/devices/system/cpu/cpuX/cpuidle/stateN/time
- 		/sys/devices/system/cpu/cpuX/cpuidle/stateN/usage
-+		/sys/devices/system/cpu/cpuX/cpuidle/stateN/high
-+		/sys/devices/system/cpu/cpuX/cpuidle/stateN/low
- Date:		September 2007
- KernelVersion:	v2.6.24
- Contact:	Linux power management list <linux-pm@vger.kernel.org>
-@@ -166,6 +168,11 @@ Description:
+--- linux-pm.orig/Documentation/admin-guide/kernel-parameters.txt
++++ linux-pm/Documentation/admin-guide/kernel-parameters.txt
+@@ -674,6 +674,9 @@
+ 	cpuidle.off=1	[CPU_IDLE]
+ 			disable the cpuidle sub-system
  
- 		usage: (RO) Number of times this state was entered (a count).
- 
-+		high: (RO) Number of times this state was entered, but the
-+		      observed CPU target residency was too high for it (a count).
++	cpuidle.governor=
++			[CPU_IDLE] Name of the cpuidle governor to use.
 +
-+		low: (RO) Number of times this state was entered, but the
-+		     observed CPU target residency was too low for it (a count).
+ 	cpufreq.off=1	[CPU_FREQ]
+ 			disable the cpufreq sub-system
  
- What:		/sys/devices/system/cpu/cpuX/cpuidle/stateN/desc
- Date:		February 2008
 
