@@ -1,213 +1,232 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-7.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6D46C7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 15:33:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EBC037D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 17:19:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727945AbeLEPdo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Dec 2018 10:33:44 -0500
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:39744 "EHLO
-        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727103AbeLEPdm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Dec 2018 10:33:42 -0500
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20181205153341euoutp02df239962b43801056b9ba1c7cc97ed49~teaq7pq5y2216222162euoutp02X
-        for <linux-doc@vger.kernel.org>; Wed,  5 Dec 2018 15:33:41 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20181205153341euoutp02df239962b43801056b9ba1c7cc97ed49~teaq7pq5y2216222162euoutp02X
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1544024021;
-        bh=NIIayDVnsscvK2KS6LhVsZsJnl1s/5/jFldtqUDvwWw=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=s1ErGYnHxYvGnMmaBb+9PMJD0LI/6+IhY0OMYpQ1UqZJL24R18b6jtjew9GyK+yer
-         POBsb5n2ODoB6kkKMshVlmq0QXtzvkKxODLe9YPdq/MrBZkxuF4k6w7tzvf43hCSk9
-         OzU2S2FPSlseoOYs3xPnBILMhZNy8EOz1kTwIVTQ=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20181205153340eucas1p2ccb9dab1ab5e42f55f33a1f399ad8058~teaqKfvQm2703327033eucas1p2h;
-        Wed,  5 Dec 2018 15:33:40 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id 3C.D2.04294.4DFE70C5; Wed,  5
-        Dec 2018 15:33:40 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20181205153339eucas1p25e35fee10542f5bd1d5e3d1d36122d58~teapcTFhG3067030670eucas1p2r;
-        Wed,  5 Dec 2018 15:33:39 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20181205153339eusmtrp1a32f41be35599c7cd8a2799400d5370c~teapNfuR30905509055eusmtrp1c;
-        Wed,  5 Dec 2018 15:33:39 +0000 (GMT)
-X-AuditID: cbfec7f4-c77a99c0000010c6-d7-5c07efd49a68
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms2.samsung.com (EUCPMTA) with SMTP id 4D.48.04128.3DFE70C5; Wed,  5
-        Dec 2018 15:33:39 +0000 (GMT)
-Received: from [106.120.51.20] (unknown [106.120.51.20]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20181205153339eusmtip2767744ec18d2587d3ce185a33ab62f89~teaop8au03260132601eusmtip2H;
-        Wed,  5 Dec 2018 15:33:38 +0000 (GMT)
-Subject: Re: [PATCH v2 00/11] thermal: add new flag irq-mode for trip point
-To:     Zhang Rui <rui.zhang@intel.com>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Cc:     edubezval@gmail.com, daniel.lezcano@linaro.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, corbet@lwn.net, b.zolnierkie@samsung.com,
-        krzk@kernel.org
-From:   Lukasz Luba <l.luba@partner.samsung.com>
-Message-ID: <ffca9e30-7a7c-7f61-24a1-016c9ea1e611@partner.samsung.com>
-Date:   Wed, 5 Dec 2018 16:33:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-        Thunderbird/60.2.1
-MIME-Version: 1.0
-In-Reply-To: <1544022486.2841.42.camel@intel.com>
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrOKsWRmVeSWpSXmKPExsWy7djP87pX3rPHGEzfJWKxccZ6VosnB9oZ
-        LeZ9lrWYf+Qcq8X8K9dYLc6f38BusekxkLWwbQmLxeVdc9gsPvceYbRYev0ik0Xr3iPsFk8e
-        9rE58HqsmbeG0WPnrLvsHov3vGTy2LSqk83jzrU9bB6bl9R7LO6bzOrRt2UVo8fnTXIBnFFc
-        NimpOZllqUX6dglcGWePf2YpOKBScXhOSAPjIrkuRk4OCQETiX2TzrOC2EICKxgl/t+Q6mLk
-        ArK/MEr8brjDDuF8ZpTYu3wWC0zHzM2vmSASy4Gqlk1nhHDeMkocvPGSHaRKWMBb4uD/aWC2
-        iMAeRonz33VAipgFZjNKdC2fC9TOwcEmoCexY1UhSA2vgJvE4XvTwepZBFQktkz9yQhiiwpE
-        SHTcX80GUSMocXLmE7ArOAUMJXZen8oEYjMLiEvcejIfypaXaN46mxlkl4TAT3aJ/d/a2SHO
-        dpF4dvgdE4QtLPHq+BaouIzE6ck9UK8VS5ztWMUGYddItJ/cAVVjLXH4+EVWkJuZBTQl1u/S
-        BzElBBwlPq62hjD5JG68FYS4gE9i0rbpzBBhXomONiGIGRoSW3ouQO0Xk1i+Zhr7BEalWUj+
-        moXkl1lIfpmFsHYBI8sqRvHU0uLc9NRio7zUcr3ixNzi0rx0veT83E2MwOR2+t/xLzsYd/1J
-        OsQowMGoxMP74gF7jBBrYllxZe4hRgkOZiUR3hU2QCHelMTKqtSi/Pii0pzU4kOM0hwsSuK8
-        1QwPooUE0hNLUrNTUwtSi2CyTBycUg2MwktiKtvWN81yd/FVWLS9S2vd/iotXZXX5/P9XA+4
-        5TPsu7CYR54lKPmFCJvrPCUnhttGmk7H4q0jS9Ye9FGzsmp73WieWn0jX1tc6TPXNFepHUv/
-        Sk5isf75uef4qjVx7/bwW81NPVSwdsuXRDNr8yevgtesO899XHUdp6LAZb/QgjaPmmtKLMUZ
-        iYZazEXFiQBGZohGagMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrLIsWRmVeSWpSXmKPExsVy+t/xe7qX37PHGBzfrmCxccZ6VosnB9oZ
-        LeZ9lrWYf+Qcq8X8K9dYLc6f38BusekxkLWwbQmLxeVdc9gsPvceYbRYev0ik0Xr3iPsFk8e
-        9rE58HqsmbeG0WPnrLvsHov3vGTy2LSqk83jzrU9bB6bl9R7LO6bzOrRt2UVo8fnTXIBnFF6
-        NkX5pSWpChn5xSW2StGGFkZ6hpYWekYmlnqGxuaxVkamSvp2NimpOZllqUX6dgl6GWePf2Yp
-        OKBScXhOSAPjIrkuRk4OCQETiZmbXzN1MXJxCAksZZT49nIiI0RCTGLSvu3sELawxJ9rXWwQ
-        Ra+Bih6fZQJJCAt4Sxz8Pw2sSERgD6PEo9WaIEXMArMZJT68Ogo19iijxNQNL4DaOTjYBPQk
-        dqwqBGngFXCTOHxvOlgzi4CKxJapP8E2iwpESJx9uY4RokZQ4uTMJywgNqeAocTO61PBFjML
-        mEnM2/yQGcIWl7j1ZD5UXF6ieets5gmMQrOQtM9C0jILScssJC0LGFlWMYqklhbnpucWG+kV
-        J+YWl+al6yXn525iBEb1tmM/t+xg7HoXfIhRgINRiYf3xQP2GCHWxLLiytxDjBIczEoivCts
-        gEK8KYmVValF+fFFpTmpxYcYTYGem8gsJZqcD0w4eSXxhqaG5haWhubG5sZmFkrivOcNKqOE
-        BNITS1KzU1MLUotg+pg4OKUaGANO//jAPmtLtenvp090FfXyMi5P31f36d2PCb4TThQ3HpN7
-        Nn/dc66aWe5LNi44Y7a5S/lP1zt97vlT3rpFfqzSvln+e+Kl7BSRaQsE96eVMoZ/nHWHbR7z
-        kc3f5h75YmnAfuTEp8PT1swyuOD29YVF3ErueRIqsxpO3M9jeLb9q7yrB9uap/t2KLEUZyQa
-        ajEXFScCACbHJ8UAAwAA
-X-CMS-MailID: 20181205153339eucas1p25e35fee10542f5bd1d5e3d1d36122d58
-X-Msg-Generator: CA
+        id S1728062AbeLERTf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Dec 2018 12:19:35 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46760 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728047AbeLERTf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Dec 2018 12:19:35 -0500
+Received: from localhost (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C32222082B;
+        Wed,  5 Dec 2018 17:19:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1544030373;
+        bh=uzsaPsig8b873ezprISC8EwBO8YotKaZo0BtH68T5RA=;
+        h=To:From:In-Reply-To:Cc:References:Subject:Date:From;
+        b=htYb7sr6bXuk8/biWoQ2AHhvWW1EZMe8nLkOVHeliuOUBx8kKGZEdUBUIfB4Q/yzf
+         TQ28c4lstuiIv0o4P8Fx6h0mwOTbXmZ2y7UeHTDDVG4f7W3xr3mAwmX486ZANyX0UN
+         rMEx/IUTXCGAVsPqlCT1jYwBIaUJVMrBVXeT9Q4c=
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20181107171019eucas1p1fcb1f44e00265434548d901479f2ea94
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20181107171019eucas1p1fcb1f44e00265434548d901479f2ea94
-References: <CGME20181107171019eucas1p1fcb1f44e00265434548d901479f2ea94@eucas1p1.samsung.com>
-        <1541610593-28542-1-git-send-email-l.luba@partner.samsung.com>
-        <1544022486.2841.42.camel@intel.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+From:   Stephen Boyd <sboyd@kernel.org>
+X-Patchwork-Hint: ignore
+In-Reply-To: <20181205070046.GD31204@localhost.localdomain>
+Cc:     mazziesaccount@gmail.com, mturquette@baylibre.com,
+        cw00.choi@samsung.com, krzk@kernel.org, b.zolnierkie@samsung.com,
+        linux@armlinux.org.uk, andy.gross@linaro.org,
+        david.brown@linaro.org, pavel@ucw.cz, andrew.smirnov@gmail.com,
+        pombredanne@nexb.com, sjhuang@iluvatar.ai, akshu.agrawal@amd.com,
+        djkurtz@chromium.org, rafael.j.wysocki@intel.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <cover.1543922403.git.matti.vaittinen@fi.rohmeurope.com>
+ <a40442ad1a2f1d13798ba535eca371845bae9248.1543922403.git.matti.vaittinen@fi.rohmeurope.com>
+ <154395229720.88331.16585219136189943316@swboyd.mtv.corp.google.com>
+ <20181205070046.GD31204@localhost.localdomain>
+Message-ID: <154403037317.88331.9382087418367713867@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.7
+Subject: Re: [PATCH v6 03/10] clk: of-provider: look at parent if registered device
+ has no provider info
+Date:   Wed, 05 Dec 2018 09:19:33 -0800
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rui,
+Quoting Matti Vaittinen (2018-12-04 23:00:46)
+> Hello Stephen,
+> =
 
-On 12/5/18 4:08 PM, Zhang Rui wrote:
-> On 三, 2018-11-07 at 18:09 +0100, Lukasz Luba wrote:
->> Hi all,
->>
->> This patch set adds a new flag and mechanism in thermal trip points
->> in
->> DT.  The old implementation in thermal zone in DT sets the same
->> configuration for all internal trip points. It does not work for all
->> HW.  There are SoCs which support IRQs for some trip points (i.e.
->> Exynos 4 has 4 trip points with IRQs). For additional one defined
->> inside the thermal zone there is a need of 'polling'. When developer
->> adds polling mode settings inside the thermal zone, all the trip
->> points will be registered for polling, even those supporting IRQs,
->> which does not make sense.
-> 
-> we have two timers, one for polling, and one for passive cooling.
-> I think we are talking about passive cooling timer only, right?
-> And the real problem is that we have multiple passive trip points and
-> only part of them support irq_mode, and we don't want to start the
-> passive polling timer for all of the passive trip points.
-Yes exactly, we don't want to poll all of them by starting 'passive 
-polling timer'.
+> I copied some parts of the v4 discussion here as well. Let's continue
+> them under this one email thread. (and yep, this is my bad we now have
+> multiple email threads - I did these new patches without waiting for
+> the final conclusion. I should try to be more patient in the future...)
+> =
 
-Regards,
-Lukasz
-> 
-> thanks,
-> rui
-> 
->>   Thus, developers create workarounds, which
->> are confusing for some other developers.  To workaround,
->> people declare some trip points as 'active' (those with IRQ support).
->> It allows to bypass polling mode in thermal framework applied for
->> all thermal zone's trip points.
->>
->> Thermal framework defines 4 types of trip points. The 'passive' means
->> passive cooling using DVFS, 'active' is designed for fan and other
->> devices actively changing the outside conditions. Therefore, a
->> workaround
->> mentioned earlier is confusing when someone does not know about the
->> framework limitations.
->>
->> This patch set tries to solve the issue by adding one flag inside the
->> trip point: 'irq-mode;'.  The trip point 'passive' declared in DT
->> with
->> explicit flag 'irq-mode;' will not register itself as polling mode.
->> Thermal framework will skip it during scheduling next read out work.
->> The old global-polling-mode-configuration-inside-thermal-zone is
->> still
->> valid.  Patch set does not break existing design for trip points
->> which
->> do not have 'irq-mode' flag - they will use polling.
->>
->> As an example please check patch #10 for Exynos4 SoC family, where
->> there
->> is 4 HW supported trip points and there is a need of 6. The rest 2
->> are
->> declared as 'passive' without 'irq-mode;' flag, which means polling
->> mode needed for them.
->>
->> Patch #1 is a small cleanup in thermal framework.
->>
->> Change log:
->> v2
->> - changed description in cover letter
->> - change commit messages according to Krzysztof comments
->> - rebase on top of current mainline (v4.20-rc1)
->>
->> Regards,
->> Lukasz Luba
->>
->> Lukasz Luba (11):
->>    thermal: remove unused function parameter
->>    thermal: add irq-mode configuration for trip point
->>    thermal: add new sysfs file for irq-mode
->>    Doc: thermal: new irq-mode for trip point
->>    Doc: DT: thermal: new irq-mode for trip point
->>    arm64: dts: exynos5433: add support for thermal trip irq-mode
->>    arm64: dts: exynos7: add support for thermal trip irq-mode
->>    arm: dts: exynos4: add support for thermal trip irq-mode
->>    arm: dts: exynos5420: add support for thermal trip irq-mode
->>    arm: dts: exynos5422: add support for thermal trip irq-mode
->>    arm: dts: exynos5410: add support for thermal trip irq-mode
->>
->>   .../devicetree/bindings/thermal/thermal.txt        |   7 ++
->>   Documentation/thermal/sysfs-api.txt                |   9 ++
->>   arch/arm/boot/dts/exynos4-cpu-thermal.dtsi         |  10 +-
->>   arch/arm/boot/dts/exynos5410-odroidxu.dts          |  10 +-
->>   arch/arm/boot/dts/exynos5420-trip-points.dtsi      |  10 +-
->>   arch/arm/boot/dts/exynos5422-odroidxu3-common.dtsi |  40 +++++---
->>   arch/arm64/boot/dts/exynos/exynos5433-tmu.dtsi     | 105
->> ++++++++++++++-------
->>   .../arm64/boot/dts/exynos/exynos7-trip-points.dtsi |   8 ++
->>   drivers/thermal/of-thermal.c                       |  17 ++++
->>   drivers/thermal/thermal_core.c                     |  16 ++--
->>   drivers/thermal/thermal_sysfs.c                    |  53 ++++++++++-
->>   include/linux/thermal.h                            |   5 +
->>   12 files changed, 226 insertions(+), 64 deletions(-)
->>
-> 
-> 
+> > > > I think we should use parent device's node, not the paren node in D=
+T,        =
+
+> > > > right? But I agree, we should only look "one level up in the chain"=
+.         =
+
+>                                                                          =
+        =
+
+> > > Are these two things different? I'm suggesting looking at            =
+          =
+
+> > > device_node::parent and trying to find a #clock-cells property.      =
+          =
+
+>                                                                          =
+        =
+
+> > I thought that MFD sub-devices may completely lack the DT node but I
+> > will verify this tomorrow.
+> =
+
+> So yep. It appears that the DT node for MFD sub-device is left NULL.
+> This is quite logical as there really is no clk sub-node in MFD (pmic)
+> node. The option to "hack around" this would be setting the of_node to
+> parent node in driver code. But this feels wrong. Drivers should not
+> mess with the "dt node ownership" - and it also feels a bit odd when
+> many devices use same DT node. I think we may hit in problems when
+> obtaining resources or doing reference counting. Hence I think we should
+> keep the of_node NULL for sub-device if the sub-device does not have own
+> node inside the main devie node. And I think Rob was not a fan of having
+> own nodes for sub-devices inside the MFD node (AFAIR my first driver
+> draft for this device had it but Rob and you thought that was not correct=
+).
+
+Yes let's not change this.
+
+> > > @@ -3901,8 +3906,11 @@ static void devm_of_clk_release_provider(struc=
+t device *dev, void *res)
+> > >   *
+> > >   * Returns 0 on success or an errno on failure.
+> > >   *
+> > > - * Registers clock provider for given device's node. Provider is aut=
+omatically
+> > > - * released at device exit.
+> > > + * Registers clock provider for given device's node. If the device h=
+as no DT
+> > > + * node or if the device node lacks of clock provider information (#=
+clock-cells)
+> > > + * then the parent device's node is scanned for this information. If=
+ parent node
+> > > + * has the #clock-cells then it is used in registration. Provider is
+> > > + * automatically released at device exit.
+> > >   */
+> > >  int devm_of_clk_add_hw_provider(struct device *dev,
+> > >                         struct clk_hw *(*get)(struct of_phandle_args =
+*clkspec,
+> > > @@ -3912,12 +3920,17 @@ int devm_of_clk_add_hw_provider(struct device=
+ *dev,
+> > >         struct device_node **ptr, *np;
+> > >         int ret;
+> > >  =
+
+> > > +       np =3D dev->of_node;
+> > > +
+> > > +       if (!of_is_clk_provider(dev->of_node))
+> > > +               if (of_is_clk_provider(dev->parent->of_node))
+> > > +                       np =3D dev->parent->of_node;
+> > =
+
+> > As said on v5, let's just modify of_clk_add_provider() to do the parent
+> > search.
+> =
+
+> But that won't solve the issue if we don't do "dirty hacks" in driver.
+> The devm interface still only gets the device-pointer, not the DT node
+> as argument. And if DT node for device is NULL (like in MFD cases) -
+> then there is no parent node, only parent device with a node. For plain
+> of_clk_add_provider() the driver can just give the parent's node pointer
+> in cases where it knows it is the parent who has the provider data in
+> DT. But our original problem is in devm interfaces.
+> =
+
+
+I was misunderstanding the MFD design. Should still work though, so I
+squashed this into the patch to clean things up a bit. Does this work
+for you?
+
+------8<-----
+
+diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+index bb689161f0f5..6ff852bda892 100644
+--- a/drivers/clk/clk.c
++++ b/drivers/clk/clk.c
+@@ -3893,9 +3893,23 @@ static void devm_of_clk_release_provider(struct devi=
+ce *dev, void *res)
+ 	of_clk_del_provider(*(struct device_node **)res);
+ }
+ =
+
+-static int of_is_clk_provider(struct device_node *np)
++/*
++ * We allow a child device to use its parent device as the clock provider =
+node
++ * for cases like MFD sub-devices where the child device driver wants to u=
+se
++ * devm_*() APIs but not list the device in DT as a sub-node.
++ */
++static struct device_node *get_clk_provider_node(struct device *dev)
+ {
+-	return !!of_find_property(np, "#clock-cells", NULL);
++	struct device_node *np, *parent_np;
++
++	np =3D dev->of_node;
++	parent_np =3D dev->parent ? dev->parent->of_node : NULL;
++
++	if (!of_find_property(np, "#clock-cells", NULL))
++		if (of_find_property(parent_np, "#clock-cells", NULL))
++			np =3D parent_np;
++
++	return np;
+ }
+ =
+
+ /**
+@@ -3920,17 +3934,12 @@ int devm_of_clk_add_hw_provider(struct device *dev,
+ 	struct device_node **ptr, *np;
+ 	int ret;
+ =
+
+-	np =3D dev->of_node;
+-
+-	if (!of_is_clk_provider(dev->of_node))
+-		if (of_is_clk_provider(dev->parent->of_node))
+-			np =3D dev->parent->of_node;
+-
+ 	ptr =3D devres_alloc(devm_of_clk_release_provider, sizeof(*ptr),
+ 			   GFP_KERNEL);
+ 	if (!ptr)
+ 		return -ENOMEM;
+ =
+
++	np =3D get_clk_provider_node(dev);
+ 	ret =3D of_clk_add_hw_provider(np, get, data);
+ 	if (!ret) {
+ 		*ptr =3D np;
+@@ -3981,13 +3990,8 @@ static int devm_clk_provider_match(struct device *de=
+v, void *res, void *data)
+ void devm_of_clk_del_provider(struct device *dev)
+ {
+ 	int ret;
+-	struct device_node *np;
+-
+-	np =3D dev->of_node;
++	struct device_node *np =3D get_clk_provider_node(dev);
+ =
+
+-	if (!of_is_clk_provider(dev->of_node))
+-		if (of_is_clk_provider(dev->parent->of_node))
+-			np =3D dev->parent->of_node;
+ 	ret =3D devres_release(dev, devm_of_clk_release_provider,
+ 			     devm_clk_provider_match, np);
+ =
+
+
