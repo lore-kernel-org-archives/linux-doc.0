@@ -1,163 +1,160 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 152FA7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 08:40:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9C8EA7DC5B
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 09:20:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727225AbeLEIkz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Dec 2018 03:40:55 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45930 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726866AbeLEIkz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Dec 2018 03:40:55 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wB58cPTw065349
-        for <linux-doc@vger.kernel.org>; Wed, 5 Dec 2018 03:40:54 -0500
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2p6apy9w1x-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 05 Dec 2018 03:40:54 -0500
-Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Wed, 5 Dec 2018 08:40:51 -0000
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 5 Dec 2018 08:40:48 -0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wB58el0k065884
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 5 Dec 2018 08:40:48 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C8BB74C040;
-        Wed,  5 Dec 2018 08:40:47 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 184A24C052;
-        Wed,  5 Dec 2018 08:40:47 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.206.89])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed,  5 Dec 2018 08:40:46 +0000 (GMT)
-Date:   Wed, 5 Dec 2018 10:40:45 +0200
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Wei Yang <richard.weiyang@gmail.com>
-Cc:     david@redhat.com, mhocko@suse.com, osalvador@suse.de,
-        akpm@linux-foundation.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH 2/2] core-api/memory-hotplug.rst: divide Locking Internal
- section by different locks
+        id S1726102AbeLEJUO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Dec 2018 04:20:14 -0500
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:33215 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726861AbeLEJUN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Dec 2018 04:20:13 -0500
+Received: by mail-ed1-f68.google.com with SMTP id p6so8110311eds.0
+        for <linux-doc@vger.kernel.org>; Wed, 05 Dec 2018 01:20:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=l3bYzngQOEI9Dy5+IQEyyY8JpQD1U2jOm8Ftqg4rJjM=;
+        b=YX5UFlOgIgIIkBv+/rfK1KxHcU6sVWDv5Vdk0XwTaVQ6AZRH0u8a+YTywBBGJ8aFa4
+         rhy2X6gqauS1hJKJZ9RoYU3sw1gTMiBoTrtByMp/ngynpQhsJwEn7MEmDOa2nkwB2KUI
+         RA1Uz4dyorEJIOvzHOuiV8z47VmXONG9929Ma07wTdbnZuaQCLeAozLZ7me80c7Mf7cO
+         k9NTz6fWgDV1iLPQy9CNpWOR4UjE3q4sEReIQgyiXKTIqh1HNTpjs4saLGPo23Xz/gqD
+         oAaOgIrt0h+9+Jrj7l/2sMJyRMZ7KRaz5iC7nQPm5lO+51TIWE6SjaLP5k2SOtS7hLA2
+         Rz6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=l3bYzngQOEI9Dy5+IQEyyY8JpQD1U2jOm8Ftqg4rJjM=;
+        b=rHrjRtQkqhMnwsk6PcnjowP1EpZrKCDpy4dn0fLMRZIHayAeQmaQeMtXUxYO28KY+n
+         PL3RWQOx/3YDeb3Myk8OGa/6QNhxK7c/yxfOk5oLFxBUUiGaYZ7DrpfWU7I4sEpRg6CT
+         WlPKN1RummkGn9h7kpyIvF5iE+ki54VbJhurWA9cwHGOzJecyoWXUdZhQb9ApSTjCWsx
+         a/tTf9ne84F7TYnt8Au0N/tODCFr91orobk+Sx4cwjgejsqdt37ELEUTNsFTkuUluTkp
+         i/VY51ekqhMBrl9xa+6OdiOGUemaXwlSmweD9oreYO1FKkGnPUZaqetRXbLWqxm1nNwO
+         h8dQ==
+X-Gm-Message-State: AA+aEWbPHs4B47Q+r+kkYlDhIaFY+Ca72FNv/+XACN8FZtrDWO/g5D1a
+        UAsjebBuEZRwSCwATpq1qFI=
+X-Google-Smtp-Source: AFSGD/WA0OCJL5sI29YtI7OdV94ADiFNo7Q5xuVkYTv8lRzJ70H3/UhojtXsFauZbRSq6SI7kIgoeg==
+X-Received: by 2002:aa7:c248:: with SMTP id y8mr20274685edo.205.1544001610548;
+        Wed, 05 Dec 2018 01:20:10 -0800 (PST)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id x90sm5221523ede.35.2018.12.05.01.20.09
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 05 Dec 2018 01:20:09 -0800 (PST)
+Date:   Wed, 5 Dec 2018 09:20:09 +0000
+From:   Wei Yang <richard.weiyang@gmail.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Wei Yang <richard.weiyang@gmail.com>, mhocko@suse.com,
+        osalvador@suse.de, akpm@linux-foundation.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>
+Subject: Re: [PATCH 1/2] admin-guide/memory-hotplug.rst: remove locking
+ internal part from admin-guide
+Message-ID: <20181205092009.n5vb67bd6nuxwkcd@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
 References: <20181205023426.24029-1-richard.weiyang@gmail.com>
- <20181205023426.24029-2-richard.weiyang@gmail.com>
+ <c4f2a712-391b-60b9-64fa-bc8b6bde9994@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181205023426.24029-2-richard.weiyang@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 18120508-0016-0000-0000-00000232403A
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18120508-0017-0000-0000-0000328A4FA8
-Message-Id: <20181205084044.GB19181@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-05_02:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=776 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1812050081
+In-Reply-To: <c4f2a712-391b-60b9-64fa-bc8b6bde9994@redhat.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 05, 2018 at 10:34:26AM +0800, Wei Yang wrote:
-> Currently locking for memory hotplug is a little complicated.
-> 
-> Generally speaking, we leverage the two global lock:
-> 
->   * device_hotplug_lock
->   * mem_hotplug_lock
-> 
-> to serialise the process.
-> 
-> While for the long term, we are willing to have more fine-grained lock
-> to provide higher scalability.
-> 
-> This patch divides Locking Internal section based on these two global
-> locks to help readers to understand it. Also it adds some new finding to
-> enrich it.
-> 
-> [David: words arrangement]
-> 
-> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
-> ---
->  Documentation/core-api/memory-hotplug.rst | 27 ++++++++++++++++++++++++---
->  1 file changed, 24 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/core-api/memory-hotplug.rst b/Documentation/core-api/memory-hotplug.rst
-> index de7467e48067..95662b283328 100644
-> --- a/Documentation/core-api/memory-hotplug.rst
-> +++ b/Documentation/core-api/memory-hotplug.rst
-> @@ -89,6 +89,20 @@ NOTIFY_STOP stops further processing of the notification queue.
->  Locking Internals
->  =================
-> 
-> +There are three locks involved in memory-hotplug, two global lock and one local
+On Wed, Dec 05, 2018 at 09:03:24AM +0100, David Hildenbrand wrote:
+>On 05.12.18 03:34, Wei Yang wrote:
+>> Locking Internal section exists in core-api documentation, which is more
+>> suitable for this.
+>> 
+>> This patch removes the duplication part here.
+>> 
+>> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
+>> ---
+>>  Documentation/admin-guide/mm/memory-hotplug.rst | 40 -------------------------
+>>  1 file changed, 40 deletions(-)
+>> 
+>> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+>> index 5c4432c96c4b..241f4ce1e387 100644
+>> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
+>> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+>> @@ -392,46 +392,6 @@ Need more implementation yet....
+>>   - Notification completion of remove works by OS to firmware.
+>>   - Guard from remove if not yet.
+>>  
+>> -
+>> -Locking Internals
+>> -=================
+>> -
+>> -When adding/removing memory that uses memory block devices (i.e. ordinary RAM),
+>> -the device_hotplug_lock should be held to:
+>> -
+>> -- synchronize against online/offline requests (e.g. via sysfs). This way, memory
+>> -  block devices can only be accessed (.online/.state attributes) by user
+>> -  space once memory has been fully added. And when removing memory, we
+>> -  know nobody is in critical sections.
+>> -- synchronize against CPU hotplug and similar (e.g. relevant for ACPI and PPC)
+>> -
+>> -Especially, there is a possible lock inversion that is avoided using
+>> -device_hotplug_lock when adding memory and user space tries to online that
+>> -memory faster than expected:
+>> -
+>> -- device_online() will first take the device_lock(), followed by
+>> -  mem_hotplug_lock
+>> -- add_memory_resource() will first take the mem_hotplug_lock, followed by
+>> -  the device_lock() (while creating the devices, during bus_add_device()).
+>> -
+>> -As the device is visible to user space before taking the device_lock(), this
+>> -can result in a lock inversion.
+>> -
+>> -onlining/offlining of memory should be done via device_online()/
+>> -device_offline() - to make sure it is properly synchronized to actions
+>> -via sysfs. Holding device_hotplug_lock is advised (to e.g. protect online_type)
+>> -
+>> -When adding/removing/onlining/offlining memory or adding/removing
+>> -heterogeneous/device memory, we should always hold the mem_hotplug_lock in
+>> -write mode to serialise memory hotplug (e.g. access to global/zone
+>> -variables).
+>> -
+>> -In addition, mem_hotplug_lock (in contrast to device_hotplug_lock) in read
+>> -mode allows for a quite efficient get_online_mems/put_online_mems
+>> -implementation, so code accessing memory can protect from that memory
+>> -vanishing.
+>> -
+>> -
+>>  Future Work
+>>  ===========
+>>  
+>> 
+>
+>I reported this yesterday to Jonathan and Mike
+>
+>https://lkml.org/lkml/2018/12/3/340
+>
 
-typo:                                                          ^locks
+Ah, Thanks :-)
 
-> +lock:
-> +
-> +- device_hotplug_lock
-> +- mem_hotplug_lock
-> +- device_lock
-> +
-> +Currently, they are twisted together for all kinds of reasons. The following
-> +part is divided into device_hotplug_lock and mem_hotplug_lock parts
-> +respectively to describe those tricky situations.
-> +
-> +device_hotplug_lock
-> +---------------------
-> +
->  When adding/removing memory that uses memory block devices (i.e. ordinary RAM),
->  the device_hotplug_lock should be held to:
-> 
-> @@ -111,13 +125,20 @@ As the device is visible to user space before taking the device_lock(), this
->  can result in a lock inversion.
-> 
->  onlining/offlining of memory should be done via device_online()/
-> -device_offline() - to make sure it is properly synchronized to actions
-> -via sysfs. Holding device_hotplug_lock is advised (to e.g. protect online_type)
-> +device_offline() - to make sure it is properly synchronized to actions via
-> +sysfs. Even mem_hotplug_lock is used to protect the process, because of the
-
-I think it should be "Even if mem_hotplug_lock ..."
-
-> +lock inversion described above, holding device_hotplug_lock is still advised
-> +(to e.g. protect online_type)
-> +
-> +mem_hotplug_lock
-> +---------------------
-> 
->  When adding/removing/onlining/offlining memory or adding/removing
->  heterogeneous/device memory, we should always hold the mem_hotplug_lock in
->  write mode to serialise memory hotplug (e.g. access to global/zone
-> -variables).
-> +variables). Currently, we take advantage of this to serialise sparsemem's
-> +mem_section handling in sparse_add_one_section() and
-> +sparse_remove_one_section().
-> 
->  In addition, mem_hotplug_lock (in contrast to device_hotplug_lock) in read
->  mode allows for a quite efficient get_online_mems/put_online_mems
-> -- 
-> 2.15.1
-> 
+>
+>Anyhow
+>
+>Reviewed-by: David Hildenbrand <david@redhat.com>
+>
+>-- 
+>
+>Thanks,
+>
+>David / dhildenb
 
 -- 
-Sincerely yours,
-Mike.
-
+Wei Yang
+Help you, Help me
