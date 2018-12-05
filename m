@@ -1,170 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 114707D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 09:24:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A475C7D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 09:27:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726351AbeLEJYa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Dec 2018 04:24:30 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:44833 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726866AbeLEJYa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Dec 2018 04:24:30 -0500
-Received: by mail-ed1-f66.google.com with SMTP id y56so16355067edd.11
-        for <linux-doc@vger.kernel.org>; Wed, 05 Dec 2018 01:24:28 -0800 (PST)
+        id S1727347AbeLEJ1I (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Dec 2018 04:27:08 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:33163 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726874AbeLEJ1H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Dec 2018 04:27:07 -0500
+Received: by mail-lj1-f193.google.com with SMTP id v1-v6so17671633ljd.0
+        for <linux-doc@vger.kernel.org>; Wed, 05 Dec 2018 01:27:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+        d=austad-us.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=3LtDrRVOLH3NuxAxrILhsAyGH0iOXHMcwOEpKBYTr9E=;
-        b=DqafEesBPLpzzrbXhNs21FeSLK7tfoHZsaIpYy0FR6peD+F39avTOrZ23+ZGlclwJ3
-         jpqcxi3okya+IyC1xVmXX2yX8l/015mG1FQboVDW+xJs37WXv2p59e6wDDHW/mDyu3Qh
-         QGrXfeXh4/eggqAEsKH05DW9bVx4uLTe0jvkFaf3d32VBarcTjPSgCG6R6UQzTonM0Io
-         3t976JaiTeIYqrONJRcfpg4uXDJpC88qjMVl9UKSVlxK3Z/guOn/bDSPaxw+TP8w73PV
-         KptPp3xegP3dmDdJqfXQ7bdv2fHmHW4Ltll1NyJoAFU8mab8+f3KHOJZLg2OksWV1Ppc
-         4+Tg==
+        bh=QkdJwMvUK5e6A9VSfqPjhaNWcf3F+LQDu3vCqBsXJsE=;
+        b=1NL8Yh4i3jtJhnmOO08sqBWQMBbS3eHQZ6IkOUyyCsYc+WkP7juYHKNCraH718zGoc
+         7bbZadeceWYE8qY9gl/e/41w1WF0Id8ai0y9zFr8qvQhgRMNRveIEgIBlLjOdNmgya0e
+         0wS06IRo9tUFcaS4wmk8f1mPgNcxiFZuaHydFJnA7Xdt92HjlFVqKv6kExNuSO+68lYw
+         lZ6r3ENo5DguMPQ8ciNMXJKaqlQ7PSM0F0jvduhBfEaNLRynbU0NRz4i1RhUjjaysddM
+         LEM3CbPWwYgm19nfmEz2bw03cy/pQINVl+2Q63WCF+3elbrJI6gW63ELNV2T7alhjKBT
+         9ong==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=3LtDrRVOLH3NuxAxrILhsAyGH0iOXHMcwOEpKBYTr9E=;
-        b=kFIpywKIW/++cpcATTAePDXouTVXabACuIMPzAokfZeAZGzk5yhnpvUJleNmpaJ2yv
-         37xk9HYdGBT0sg3uDN/+F7IoPOln80Ro/LGrrJmXOK2I3CP7BKVIRoZ3Q6pMmngkMQZS
-         gqTj4G4lPWPNEAfI1kp32QRUfPQUOev64tuxOyE9Z8fnrTDGOwRwqZQ6VByLUDtmmDPS
-         WfhdN9IvtvGfDz4UCF379oBoTKCoib+SDI5EUXvXIR4gIZiRTahYBG1IABCLZCcGUOuV
-         SoFsMgLyVBVmm+iHnMhkvOSj3BjLmmU78yWbY4qFK+N8kHiQY30ijFxklkdTB+NF4UUv
-         g6Hg==
-X-Gm-Message-State: AA+aEWaBWO44Z16Or+GIdR9ul1vWvE8o03+gFuUN2Hy4rcywJLxRbc2b
-        b9MtAByjQwMh8n+piHfSIoM=
-X-Google-Smtp-Source: AFSGD/X/McN+dzXYDYL2N2T6zGbK+Q/0eg9VILiqcuP1GrPxwhLTLK/JyQPMsdpVgd8TZYS4RCVQug==
-X-Received: by 2002:a17:906:3105:: with SMTP id 5-v6mr18573003ejx.122.1544001868045;
-        Wed, 05 Dec 2018 01:24:28 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id k32sm5534117edb.42.2018.12.05.01.24.27
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 05 Dec 2018 01:24:27 -0800 (PST)
-Date:   Wed, 5 Dec 2018 09:24:26 +0000
-From:   Wei Yang <richard.weiyang@gmail.com>
-To:     Mike Rapoport <rppt@linux.ibm.com>
-Cc:     Wei Yang <richard.weiyang@gmail.com>, david@redhat.com,
-        mhocko@suse.com, osalvador@suse.de, akpm@linux-foundation.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 2/2] core-api/memory-hotplug.rst: divide Locking Internal
- section by different locks
-Message-ID: <20181205092426.6i7rrhcackavpdys@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20181205023426.24029-1-richard.weiyang@gmail.com>
- <20181205023426.24029-2-richard.weiyang@gmail.com>
- <20181205084044.GB19181@rapoport-lnx>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=QkdJwMvUK5e6A9VSfqPjhaNWcf3F+LQDu3vCqBsXJsE=;
+        b=CacUZCjWOwIlVCZwgbLD2iCuK84w0H1C1xMYoSs4t2Fwbi7PIRUfYyOooJxRdEG3iY
+         4RNmHZEhnNUrxGs9fWJALBJXtQiUCgWvTihWcOTYmHmsjz42SL9/mv0x6E1T2rmq4iGO
+         B7ZQD6vLipDPyJZ0GKUnPggivFmw+EeIqYRFGOkFyV5E3k/OY6DCfNmvyDcdEeTwbrlg
+         LY+B7colPtSLyUlWWDnb9JktcN1ZtlcCHhR0Wze84MBR4lnCX8snXf+CSJhdyG+WeVfb
+         yzVXwO3Y8lHn+As2MVkkSIgnLKxHI/1Z2OvdmmbCOXWnridiSXuwaW3pT/MMS3tdp008
+         DVKg==
+X-Gm-Message-State: AA+aEWa2x0+0UCRK6O+OIE+66o6174AwxD/BRv5Yd/VIJ+EGP0SJi+cJ
+        X48hwb4y+ANJTshXiXtfOnzJjw==
+X-Google-Smtp-Source: AFSGD/WsP/bZlpTrcUvH3FAW2QAaYrnscobObdDy23O321hR/pDEjcMvtb/rOgMdARBVMVzLDQguIw==
+X-Received: by 2002:a2e:9c52:: with SMTP id t18-v6mr12790515ljj.149.1544002025208;
+        Wed, 05 Dec 2018 01:27:05 -0800 (PST)
+Received: from sisyphus.home.austad.us (11.92-220-88.customer.lyse.net. [92.220.88.11])
+        by smtp.gmail.com with ESMTPSA id c14sm3527311lfb.40.2018.12.05.01.27.03
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 05 Dec 2018 01:27:04 -0800 (PST)
+Date:   Wed, 5 Dec 2018 10:27:02 +0100
+From:   Henrik Austad <henrik@austad.us>
+To:     Jakub Kicinski <jakub.kicinski@netronome.com>
+Cc:     davem@davemloft.net, Jonathan Corbet <corbet@lwn.net>,
+        oss-drivers@netronome.com, netdev@vger.kernel.org,
+        jesse.brandeburg@intel.com, dsahern@gmail.com, jiri@resnulli.us,
+        stephen@networkplumber.org, linux-doc@vger.kernel.org
+Subject: Re: [RFC] net: documentation: build a directory structure for drivers
+Message-ID: <20181205092702.GA1121@sisyphus.home.austad.us>
+References: <20181204014328.14424-1-jakub.kicinski@netronome.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="gBBFr7Ir9EOA20Yy"
 Content-Disposition: inline
-In-Reply-To: <20181205084044.GB19181@rapoport-lnx>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20181204014328.14424-1-jakub.kicinski@netronome.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 05, 2018 at 10:40:45AM +0200, Mike Rapoport wrote:
->On Wed, Dec 05, 2018 at 10:34:26AM +0800, Wei Yang wrote:
->> Currently locking for memory hotplug is a little complicated.
->> 
->> Generally speaking, we leverage the two global lock:
->> 
->>   * device_hotplug_lock
->>   * mem_hotplug_lock
->> 
->> to serialise the process.
->> 
->> While for the long term, we are willing to have more fine-grained lock
->> to provide higher scalability.
->> 
->> This patch divides Locking Internal section based on these two global
->> locks to help readers to understand it. Also it adds some new finding to
->> enrich it.
->> 
->> [David: words arrangement]
->> 
->> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
->> ---
->>  Documentation/core-api/memory-hotplug.rst | 27 ++++++++++++++++++++++++---
->>  1 file changed, 24 insertions(+), 3 deletions(-)
->> 
->> diff --git a/Documentation/core-api/memory-hotplug.rst b/Documentation/core-api/memory-hotplug.rst
->> index de7467e48067..95662b283328 100644
->> --- a/Documentation/core-api/memory-hotplug.rst
->> +++ b/Documentation/core-api/memory-hotplug.rst
->> @@ -89,6 +89,20 @@ NOTIFY_STOP stops further processing of the notification queue.
->>  Locking Internals
->>  =================
->> 
->> +There are three locks involved in memory-hotplug, two global lock and one local
->
->typo:                                                          ^locks
->
 
-Thanks :-)
+--gBBFr7Ir9EOA20Yy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> +lock:
->> +
->> +- device_hotplug_lock
->> +- mem_hotplug_lock
->> +- device_lock
->> +
->> +Currently, they are twisted together for all kinds of reasons. The following
->> +part is divided into device_hotplug_lock and mem_hotplug_lock parts
->> +respectively to describe those tricky situations.
->> +
->> +device_hotplug_lock
->> +---------------------
->> +
->>  When adding/removing memory that uses memory block devices (i.e. ordinary RAM),
->>  the device_hotplug_lock should be held to:
->> 
->> @@ -111,13 +125,20 @@ As the device is visible to user space before taking the device_lock(), this
->>  can result in a lock inversion.
->> 
->>  onlining/offlining of memory should be done via device_online()/
->> -device_offline() - to make sure it is properly synchronized to actions
->> -via sysfs. Holding device_hotplug_lock is advised (to e.g. protect online_type)
->> +device_offline() - to make sure it is properly synchronized to actions via
->> +sysfs. Even mem_hotplug_lock is used to protect the process, because of the
->
->I think it should be "Even if mem_hotplug_lock ..."
->
+On Mon, Dec 03, 2018 at 05:43:28PM -0800, Jakub Kicinski wrote:
+> Documentation/networking/ is full of cryptically named files with
+> driver documentation.  This makes finding interesting information
+> at a glance really hard.  Move all those files into a directory
+> called device_drivers (since not all drivers are for device) and
+> fix up references.
+>=20
+> RFC v0.1 -> RFC v1:
+>  - also add .txt suffix to the files which are missing it (Quentin)
+>=20
+> Signed-off-by: Jakub Kicinski <jakub.kicinski@netronome.com>
+> Reviewed-by: Quentin Monnet <quentin.monnet@netronome.com>
 
-Ah, my poor English, will fix it in next version. :-)
+Looks good to me!
 
->> +lock inversion described above, holding device_hotplug_lock is still advised
->> +(to e.g. protect online_type)
->> +
->> +mem_hotplug_lock
->> +---------------------
->> 
->>  When adding/removing/onlining/offlining memory or adding/removing
->>  heterogeneous/device memory, we should always hold the mem_hotplug_lock in
->>  write mode to serialise memory hotplug (e.g. access to global/zone
->> -variables).
->> +variables). Currently, we take advantage of this to serialise sparsemem's
->> +mem_section handling in sparse_add_one_section() and
->> +sparse_remove_one_section().
->> 
->>  In addition, mem_hotplug_lock (in contrast to device_hotplug_lock) in read
->>  mode allows for a quite efficient get_online_mems/put_online_mems
->> -- 
->> 2.15.1
->> 
->
->-- 
->Sincerely yours,
->Mike.
+Acked-by: Henrik Austad <henrik@austad.us>
 
--- 
-Wei Yang
-Help you, Help me
+-Henrik
+
+--gBBFr7Ir9EOA20Yy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlwHmeYACgkQ6k5VT6v45lk4PgCguTK+AX+tnrtsytRd8KAhkPzO
+t9UAn2zqgvVv3NH5ed4aSc6fTRULLVaV
+=CjCB
+-----END PGP SIGNATURE-----
+
+--gBBFr7Ir9EOA20Yy--
