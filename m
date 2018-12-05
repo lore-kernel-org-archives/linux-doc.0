@@ -5,103 +5,212 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E21357D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 21:01:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E7D017D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 22:33:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728448AbeLEVBI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Dec 2018 16:01:08 -0500
-Received: from mx2.suse.de ([195.135.220.15]:58404 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728156AbeLEVBH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Dec 2018 16:01:07 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay1.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id E4906AFE4;
-        Wed,  5 Dec 2018 21:01:05 +0000 (UTC)
-From:   NeilBrown <neilb@suse.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Date:   Thu, 06 Dec 2018 08:00:58 +1100
-Cc:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] Documentation: convert path-lookup from markdown to resturctured text
-In-Reply-To: <20181205124644.3f8a452a@lwn.net>
-References: <87k1l9dgx9.fsf@notabene.neil.brown.name> <87sgzc7v50.fsf@notabene.neil.brown.name> <20181205124644.3f8a452a@lwn.net>
-Message-ID: <87woonelit.fsf@notabene.neil.brown.name>
+        id S1727620AbeLEWd4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Dec 2018 17:33:56 -0500
+Received: from cloudserver094114.home.pl ([79.96.170.134]:41460 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727339AbeLEWd4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Dec 2018 17:33:56 -0500
+Received: from 79.184.252.87.ipv4.supernova.orange.pl (79.184.252.87) (HELO aspire.rjw.lan)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.177)
+ id 81156c3b7fa5ca2c; Wed, 5 Dec 2018 23:33:52 +0100
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Linux PM <linux-pm@vger.kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Giovanni Gherdovich <ggherdovich@suse.cz>,
+        Doug Smythies <dsmythies@telus.net>
+Subject: [PATCH v2] cpuidle: Add 'high' and 'low' idle state metrics
+Date:   Wed, 05 Dec 2018 23:33:40 +0100
+Message-ID: <3956581.Kf8ajzdeNX@aspire.rjw.lan>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Subject: [PATCH] cpuidle: Add 'high' and 'low' idle state metrics
 
-On Wed, Dec 05 2018, Jonathan Corbet wrote:
+Add two new metrics for CPU idle states, "high" and "low", to count
+the number of times the given state had been asked for (or entered
+from the kernel's perspective), but the observed idle duration turned
+out to be too high or too low for it (respectively).
 
-> On Wed, 05 Dec 2018 10:02:51 +1100
-> NeilBrown <neilb@suse.com> wrote:
->
->> This allows the document to be integrated with the main documentation
->> tree.
->> Changes include:
->> - rename from .md to .rst
->> - use `` for code, not single `
->> - use correct sub-section marking
->> - fix indented blocks, both code and non-code
->> - fix external-link markup
->>=20
->> Signed-off-by: NeilBrown <neilb@suse.com>
->
-> Looks good at a first glance, but I have one question...
->
->>  Documentation/filesystems/index.rst                |   2 +
->>  .../{path-lookup.md =3D> path-lookup.rst}            | 875 +++++++++++-=
----------
->>  2 files changed, 448 insertions(+), 429 deletions(-)
->>  rename Documentation/filesystems/{path-lookup.md =3D> path-lookup.rst} =
-(59%)
->>=20
->> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesys=
-tems/index.rst
->> index 46d1b1be3a51..3c0f441a9536 100644
->> --- a/Documentation/filesystems/index.rst
->> +++ b/Documentation/filesystems/index.rst
->> @@ -359,3 +359,5 @@ encryption of files and directories.
->>      :maxdepth: 2
->>=20=20
->>      fscrypt
->> +
->> +.. include::  path-lookup.rst
->
-> Is there a reason you used "include" rather than just adding it to the
-> TOC tree with the rest?
+These mertics help to estimate the quality of the CPU idle governor
+in use.
 
-Simple.  I didn't know what I was doing, and so randomly made changes until
-the result seemed acceptable - then I stopped.  If there is a better
-way, feel free to tweak that when applying.
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+---
 
-Thanks,
-NeilBrown
+-> v2: Compute the "low" metric as the number of times the entered
+       state has been too shallow for sure (and not just probably)
+       by taking that state's exit latency into account when computing
+       it (the "high" metric computation did that in the previous version
+       too).
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+---
+ Documentation/ABI/testing/sysfs-devices-system-cpu |    7 ++++
+ Documentation/admin-guide/pm/cpuidle.rst           |   10 ++++++
+ drivers/cpuidle/cpuidle.c                          |   31 ++++++++++++++++++++-
+ drivers/cpuidle/sysfs.c                            |    6 ++++
+ include/linux/cpuidle.h                            |    2 +
+ 5 files changed, 55 insertions(+), 1 deletion(-)
 
------BEGIN PGP SIGNATURE-----
+Index: linux-pm/drivers/cpuidle/cpuidle.c
+===================================================================
+--- linux-pm.orig/drivers/cpuidle/cpuidle.c
++++ linux-pm/drivers/cpuidle/cpuidle.c
+@@ -202,7 +202,6 @@ int cpuidle_enter_state(struct cpuidle_d
+ 	struct cpuidle_state *target_state = &drv->states[index];
+ 	bool broadcast = !!(target_state->flags & CPUIDLE_FLAG_TIMER_STOP);
+ 	ktime_t time_start, time_end;
+-	s64 diff;
+ 
+ 	/*
+ 	 * Tell the time framework to switch to a broadcast timer because our
+@@ -248,6 +247,9 @@ int cpuidle_enter_state(struct cpuidle_d
+ 		local_irq_enable();
+ 
+ 	if (entered_state >= 0) {
++		s64 diff, delay = drv->states[entered_state].exit_latency;
++		int i;
++
+ 		/*
+ 		 * Update cpuidle counters
+ 		 * This can be moved to within driver enter routine,
+@@ -260,6 +262,33 @@ int cpuidle_enter_state(struct cpuidle_d
+ 		dev->last_residency = (int)diff;
+ 		dev->states_usage[entered_state].time += dev->last_residency;
+ 		dev->states_usage[entered_state].usage++;
++
++		if (diff < drv->states[entered_state].target_residency) {
++			for (i = entered_state - 1; i >= 0; i--) {
++				if (drv->states[i].disabled ||
++				    dev->states_usage[i].disable)
++					continue;
++
++				/* Shallower states are enabled, so update. */
++				dev->states_usage[entered_state].high++;
++				break;
++			}
++		} else if (diff > delay) {
++			for (i = entered_state + 1; i < drv->state_count; i++) {
++				if (drv->states[i].disabled ||
++				    dev->states_usage[i].disable)
++					continue;
++
++				/*
++				 * Update if a deeper state would have been a
++				 * better match for the observed idle duration.
++				 */
++				if (diff - delay >= drv->states[i].target_residency)
++					dev->states_usage[entered_state].low++;
++
++				break;
++			}
++		}
+ 	} else {
+ 		dev->last_residency = 0;
+ 	}
+Index: linux-pm/include/linux/cpuidle.h
+===================================================================
+--- linux-pm.orig/include/linux/cpuidle.h
++++ linux-pm/include/linux/cpuidle.h
+@@ -33,6 +33,8 @@ struct cpuidle_state_usage {
+ 	unsigned long long	disable;
+ 	unsigned long long	usage;
+ 	unsigned long long	time; /* in US */
++	unsigned long long	high; /* Number of times it's been too deep */
++	unsigned long long	low;  /* Number of times it's been too shallow */
+ #ifdef CONFIG_SUSPEND
+ 	unsigned long long	s2idle_usage;
+ 	unsigned long long	s2idle_time; /* in US */
+Index: linux-pm/drivers/cpuidle/sysfs.c
+===================================================================
+--- linux-pm.orig/drivers/cpuidle/sysfs.c
++++ linux-pm/drivers/cpuidle/sysfs.c
+@@ -301,6 +301,8 @@ define_show_state_str_function(name)
+ define_show_state_str_function(desc)
+ define_show_state_ull_function(disable)
+ define_store_state_ull_function(disable)
++define_show_state_ull_function(high)
++define_show_state_ull_function(low)
+ 
+ define_one_state_ro(name, show_state_name);
+ define_one_state_ro(desc, show_state_desc);
+@@ -310,6 +312,8 @@ define_one_state_ro(power, show_state_po
+ define_one_state_ro(usage, show_state_usage);
+ define_one_state_ro(time, show_state_time);
+ define_one_state_rw(disable, show_state_disable, store_state_disable);
++define_one_state_ro(high, show_state_high);
++define_one_state_ro(low, show_state_low);
+ 
+ static struct attribute *cpuidle_state_default_attrs[] = {
+ 	&attr_name.attr,
+@@ -320,6 +324,8 @@ static struct attribute *cpuidle_state_d
+ 	&attr_usage.attr,
+ 	&attr_time.attr,
+ 	&attr_disable.attr,
++	&attr_high.attr,
++	&attr_low.attr,
+ 	NULL
+ };
+ 
+Index: linux-pm/Documentation/admin-guide/pm/cpuidle.rst
+===================================================================
+--- linux-pm.orig/Documentation/admin-guide/pm/cpuidle.rst
++++ linux-pm/Documentation/admin-guide/pm/cpuidle.rst
+@@ -404,9 +404,19 @@ object corresponding to it, as follows:
+ ``disable``
+ 	Whether or not this idle state is disabled.
+ 
++``high``
++	Total number of times this idle state had been asked for, but the
++	observed idle duration was certainly too short to match its target
++	residency.
++
+ ``latency``
+ 	Exit latency of the idle state in microseconds.
+ 
++``low``
++	Total number of times this idle state had been asked for, but cerainly
++	a deeper idle state would have been a better match for the observed idle
++	duration.
++
+ ``name``
+ 	Name of the idle state.
+ 
+Index: linux-pm/Documentation/ABI/testing/sysfs-devices-system-cpu
+===================================================================
+--- linux-pm.orig/Documentation/ABI/testing/sysfs-devices-system-cpu
++++ linux-pm/Documentation/ABI/testing/sysfs-devices-system-cpu
+@@ -145,6 +145,8 @@ What:		/sys/devices/system/cpu/cpuX/cpui
+ 		/sys/devices/system/cpu/cpuX/cpuidle/stateN/power
+ 		/sys/devices/system/cpu/cpuX/cpuidle/stateN/time
+ 		/sys/devices/system/cpu/cpuX/cpuidle/stateN/usage
++		/sys/devices/system/cpu/cpuX/cpuidle/stateN/high
++		/sys/devices/system/cpu/cpuX/cpuidle/stateN/low
+ Date:		September 2007
+ KernelVersion:	v2.6.24
+ Contact:	Linux power management list <linux-pm@vger.kernel.org>
+@@ -166,6 +168,11 @@ Description:
+ 
+ 		usage: (RO) Number of times this state was entered (a count).
+ 
++		high: (RO) Number of times this state was entered, but the
++		      observed CPU target residency was too high for it (a count).
++
++		low: (RO) Number of times this state was entered, but the
++		     observed CPU target residency was too low for it (a count).
+ 
+ What:		/sys/devices/system/cpu/cpuX/cpuidle/stateN/desc
+ Date:		February 2008
 
-iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAlwIPIoACgkQOeye3VZi
-gbmOuRAAphLwAwpqMrOx5FjVzmI5fe7P245acp0qETdojbIiZAvgbch4WFdIpiBY
-rB8NAd7gWoh96T/YFO+DnuZdP+V/CMrsWswcGxGp4QWZlB/nXmM8e/uAzZ4v6LAB
-bycspvt40p1Ubafck1FlNxxO6axtsqTvmdidVHWzUUjTc5q+k65bOWSP3/nNmIpD
-CZV2Val+RnkcS/ZbbwtM1dkowrLOWNV1dn7qNIKo1xC3QX/vA7QOtnjLgHZBeTQY
-ywUgiKOcvJQgpQ9cBzUyz3JxnXr+D6EobThA7qAceEeU10D80cSuzYOcDeH6Xj7A
-FvYUbic+t7PXTrxTYDHopCb3Ejck7JbxwQtvE5s6w2YR7qeVSDonDs/MCyAmbM/C
-xar0VVCfGUQDkRRvwcXsHHQ8Iqku4cqx9hoT2TxKXvf67bPEY77HXo0iyL3NMj/J
-sqcKKYh/pHDvKVLAd14NcFRFPYXdonQZQW1PfBY3pWgiiUiGWZ9wf330iq6ZM8GP
-bXW55JaGVQStpFwnyuA4IEjxqgsj5993Uwb+2zlqHVBMbelwR9RtFFiMs1UbCdDP
-gX397BtDqcBnW8qStK6AQWTQhQOqZQ2iEXIA+j5IUpr+Jj81kVn5yrAI0TK7tj4s
-F/3ByfUn37q+zMdTFM4bc++//VeRWp0rkukiY5NdGZmKE8FyHR0=
-=XcmR
------END PGP SIGNATURE-----
---=-=-=--
