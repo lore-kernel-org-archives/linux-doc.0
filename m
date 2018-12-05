@@ -5,31 +5,31 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5AE2F7D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 08:03:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B0B3D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 08:08:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726861AbeLEID2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Dec 2018 03:03:28 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:56822 "EHLO mx1.redhat.com"
+        id S1726171AbeLEIIu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Dec 2018 03:08:50 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:59380 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726171AbeLEID1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Dec 2018 03:03:27 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        id S1726102AbeLEIIu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Dec 2018 03:08:50 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 1FBA6C062CEB;
-        Wed,  5 Dec 2018 08:03:27 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 7504030820EE;
+        Wed,  5 Dec 2018 08:08:49 +0000 (UTC)
 Received: from [10.36.117.65] (ovpn-117-65.ams2.redhat.com [10.36.117.65])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5F9AC5D738;
-        Wed,  5 Dec 2018 08:03:25 +0000 (UTC)
-Subject: Re: [PATCH 1/2] admin-guide/memory-hotplug.rst: remove locking
- internal part from admin-guide
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0BE2D6012C;
+        Wed,  5 Dec 2018 08:08:47 +0000 (UTC)
+Subject: Re: [PATCH 2/2] core-api/memory-hotplug.rst: divide Locking Internal
+ section by different locks
 To:     Wei Yang <richard.weiyang@gmail.com>, mhocko@suse.com,
         osalvador@suse.de
 Cc:     akpm@linux-foundation.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, Jonathan Corbet <corbet@lwn.net>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>
+        linux-mm@kvack.org
 References: <20181205023426.24029-1-richard.weiyang@gmail.com>
+ <20181205023426.24029-2-richard.weiyang@gmail.com>
 From:   David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -76,94 +76,109 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
  SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <c4f2a712-391b-60b9-64fa-bc8b6bde9994@redhat.com>
-Date:   Wed, 5 Dec 2018 09:03:24 +0100
+Message-ID: <570e4080-8c35-3de4-9ee6-8a508a2a4649@redhat.com>
+Date:   Wed, 5 Dec 2018 09:08:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.3.1
 MIME-Version: 1.0
-In-Reply-To: <20181205023426.24029-1-richard.weiyang@gmail.com>
+In-Reply-To: <20181205023426.24029-2-richard.weiyang@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.32]); Wed, 05 Dec 2018 08:03:27 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Wed, 05 Dec 2018 08:08:49 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 05.12.18 03:34, Wei Yang wrote:
-> Locking Internal section exists in core-api documentation, which is more
-> suitable for this.
+> Currently locking for memory hotplug is a little complicated.
 > 
-> This patch removes the duplication part here.
+> Generally speaking, we leverage the two global lock:
+> 
+>   * device_hotplug_lock
+>   * mem_hotplug_lock
+> 
+> to serialise the process.
+> 
+> While for the long term, we are willing to have more fine-grained lock
+> to provide higher scalability.
+> 
+> This patch divides Locking Internal section based on these two global
+> locks to help readers to understand it. Also it adds some new finding to
+> enrich it.
+> 
+> [David: words arrangement]
 > 
 > Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
 > ---
->  Documentation/admin-guide/mm/memory-hotplug.rst | 40 -------------------------
->  1 file changed, 40 deletions(-)
+>  Documentation/core-api/memory-hotplug.rst | 27 ++++++++++++++++++++++++---
+>  1 file changed, 24 insertions(+), 3 deletions(-)
 > 
-> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-> index 5c4432c96c4b..241f4ce1e387 100644
-> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
-> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-> @@ -392,46 +392,6 @@ Need more implementation yet....
->   - Notification completion of remove works by OS to firmware.
->   - Guard from remove if not yet.
+> diff --git a/Documentation/core-api/memory-hotplug.rst b/Documentation/core-api/memory-hotplug.rst
+> index de7467e48067..95662b283328 100644
+> --- a/Documentation/core-api/memory-hotplug.rst
+> +++ b/Documentation/core-api/memory-hotplug.rst
+> @@ -89,6 +89,20 @@ NOTIFY_STOP stops further processing of the notification queue.
+>  Locking Internals
+>  =================
 >  
-> -
-> -Locking Internals
-> -=================
-> -
-> -When adding/removing memory that uses memory block devices (i.e. ordinary RAM),
-> -the device_hotplug_lock should be held to:
-> -
-> -- synchronize against online/offline requests (e.g. via sysfs). This way, memory
-> -  block devices can only be accessed (.online/.state attributes) by user
-> -  space once memory has been fully added. And when removing memory, we
-> -  know nobody is in critical sections.
-> -- synchronize against CPU hotplug and similar (e.g. relevant for ACPI and PPC)
-> -
-> -Especially, there is a possible lock inversion that is avoided using
-> -device_hotplug_lock when adding memory and user space tries to online that
-> -memory faster than expected:
-> -
-> -- device_online() will first take the device_lock(), followed by
-> -  mem_hotplug_lock
-> -- add_memory_resource() will first take the mem_hotplug_lock, followed by
-> -  the device_lock() (while creating the devices, during bus_add_device()).
-> -
-> -As the device is visible to user space before taking the device_lock(), this
-> -can result in a lock inversion.
-> -
-> -onlining/offlining of memory should be done via device_online()/
+> +There are three locks involved in memory-hotplug, two global lock and one local
+> +lock:
+> +
+> +- device_hotplug_lock
+> +- mem_hotplug_lock
+> +- device_lock
+> +
+
+Do we really only ever use these three and not anything else when
+adding/removing/onlining/offlining memory?
+
+(I am thinking e.g. about pgdat_resize_lock)
+
+If so, you should phrase that maybe more generally Or add more details :)
+
+"In addition to fine grained locks like pgdat_resize_lock, there are
+three locks involved ..."
+
+
+> +Currently, they are twisted together for all kinds of reasons. The following
+> +part is divided into device_hotplug_lock and mem_hotplug_lock parts
+> +respectively to describe those tricky situations.
+> +
+> +device_hotplug_lock
+> +---------------------
+> +
+>  When adding/removing memory that uses memory block devices (i.e. ordinary RAM),
+>  the device_hotplug_lock should be held to:
+>  
+> @@ -111,13 +125,20 @@ As the device is visible to user space before taking the device_lock(), this
+>  can result in a lock inversion.
+>  
+>  onlining/offlining of memory should be done via device_online()/
 > -device_offline() - to make sure it is properly synchronized to actions
 > -via sysfs. Holding device_hotplug_lock is advised (to e.g. protect online_type)
-> -
-> -When adding/removing/onlining/offlining memory or adding/removing
-> -heterogeneous/device memory, we should always hold the mem_hotplug_lock in
-> -write mode to serialise memory hotplug (e.g. access to global/zone
-> -variables).
-> -
-> -In addition, mem_hotplug_lock (in contrast to device_hotplug_lock) in read
-> -mode allows for a quite efficient get_online_mems/put_online_mems
-> -implementation, so code accessing memory can protect from that memory
-> -vanishing.
-> -
-> -
->  Future Work
->  ===========
+> +device_offline() - to make sure it is properly synchronized to actions via
+> +sysfs. Even mem_hotplug_lock is used to protect the process, because of the
+> +lock inversion described above, holding device_hotplug_lock is still advised
+> +(to e.g. protect online_type)
+> +
+> +mem_hotplug_lock
+> +---------------------
 >  
+>  When adding/removing/onlining/offlining memory or adding/removing
+>  heterogeneous/device memory, we should always hold the mem_hotplug_lock in
+>  write mode to serialise memory hotplug (e.g. access to global/zone
+> -variables).
+> +variables). Currently, we take advantage of this to serialise sparsemem's
+> +mem_section handling in sparse_add_one_section() and
+> +sparse_remove_one_section().
+>  
+>  In addition, mem_hotplug_lock (in contrast to device_hotplug_lock) in read
+>  mode allows for a quite efficient get_online_mems/put_online_mems
 > 
 
-I reported this yesterday to Jonathan and Mike
-
-https://lkml.org/lkml/2018/12/3/340
-
-
-Anyhow
-
-Reviewed-by: David Hildenbrand <david@redhat.com>
 
 -- 
 
