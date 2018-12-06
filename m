@@ -1,95 +1,72 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 902D67D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Dec 2018 16:01:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0C65C7D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Dec 2018 16:58:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725949AbeLFQBc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Dec 2018 11:01:32 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:42312 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725907AbeLFQBb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Dec 2018 11:01:31 -0500
-Received: by mail-ot1-f68.google.com with SMTP id v23so845251otk.9;
-        Thu, 06 Dec 2018 08:01:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dGsnISE4FIz3KQANOsJodhs5OOKMBBgVf9JyNqy91KY=;
-        b=Pb7c9liUJiikpZkKTCPiEfgLwt/PLPzsQunOw8ew3+Lg0nErefYWMfrTyFftv7Soj1
-         vnKvRjjpGTXaAPewKbn0rRp8V0WgBTlTWZHB74zIFemgWfXGy2GJQhvLTuTa6mWP/Cfy
-         NudE5H/KKO9zujAfmsn0EXV31mg3DUga6A2mQFpIggfYfkGGIuo9tknd4/iV2hQKURHI
-         KH0XVFj0ifaBaVmp1bvHVgjQ/MApP8ajWOkoikcbJrxgAnTqyZNOVq2OKz6VOk821LVW
-         Dnx8/uPDgdUIu6NaW9yWQ5JwSPyYwuCLJKhsDw/FSpYHjc32MH1qdbsInYtXCczHzNoj
-         0QBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dGsnISE4FIz3KQANOsJodhs5OOKMBBgVf9JyNqy91KY=;
-        b=l7pKAetZ2r15ZnefMom0HZxXt6x9DSR7cRARIeegatR00MeS0mcb1m02kVLii1YlE6
-         bb9ACCUQjw24cJUIZ1ZfobYmZZjQyYbsKb/zYpqjnwB+RkL1dAgJSx5jvUblAsJ6KA4E
-         LsLk7JcR01Pl+DeX48Y3/LWrj8aRYM6mBIUqe3gUnmkG+JUm3dBkWPen+fdtyZSb6gXI
-         4aNyxfS8OzHNTj7lCJ7vvOAcwMQHJkhWj+kj7dXC3nzo3wdeA34U6HADSamTte+mrIVk
-         bvyXKp9BQPrnmolc7xNjA5wWmrhgxXCl9NvYg+e+HVuUJwJ3JnKjczqc1bV38DaQ8Alv
-         UaBg==
-X-Gm-Message-State: AA+aEWY4ymnTOf96Qh/nsdrbxJbmRBP3705mJprz9dOc52uzn5mhNuGA
-        cqYqWiw1LS74KDufxDKe2ye+iG5/eCJUvfqfGQ66L6n9
-X-Google-Smtp-Source: AFSGD/U2HcJuBLCF0Rzz5fG7dqBs1l/1mPF6ZVMRqidGWc0mp5Dd0H5KvetGCI3cpTmsyUeIizr8pwJ5E6bBb8Z91zY=
-X-Received: by 2002:a9d:2c65:: with SMTP id f92mr18615316otb.18.1544112091176;
- Thu, 06 Dec 2018 08:01:31 -0800 (PST)
+        id S1725908AbeLFQ6E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Dec 2018 11:58:04 -0500
+Received: from ms.lwn.net ([45.79.88.28]:33760 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725907AbeLFQ6E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Dec 2018 11:58:04 -0500
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id CC2D82B6;
+        Thu,  6 Dec 2018 16:58:00 +0000 (UTC)
+Date:   Thu, 6 Dec 2018 09:57:55 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Alexey Budankov <alexey.budankov@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jann Horn <jannh@google.com>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Tvrtko Ursulin <tursulin@ursulin.net>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v4 1/2] Documentation/admin-guide: introduce
+ perf-security.rst file
+Message-ID: <20181206095755.2c2a0b6b@lwn.net>
+In-Reply-To: <CAGXu5jJ_CyE5A2VUSyyi-uj4webfZM9ZOACp523p5xFhv1KCAQ@mail.gmail.com>
+References: <feac7efa-df6f-cca1-e321-28d220bf0411@linux.intel.com>
+        <b1a4fa08-482d-0fcc-c798-efb9a9894a47@linux.intel.com>
+        <CAGXu5jJ_CyE5A2VUSyyi-uj4webfZM9ZOACp523p5xFhv1KCAQ@mail.gmail.com>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20181206115053.7665-1-ganapatrao.kulkarni@cavium.com> <20181206123420.GA26473@arm.com>
-In-Reply-To: <20181206123420.GA26473@arm.com>
-From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
-Date:   Thu, 6 Dec 2018 21:31:19 +0530
-Message-ID: <CAKTKpr6QHWO=G6cMS8WFM8HNpTv4ZMZeieT8QoBSYfZYBiCWqQ@mail.gmail.com>
-Subject: Re: [PATCH v11 0/2] Add ThunderX2 SoC Performance Monitoring Unit driver
-To:     Will Deacon <will.deacon@arm.com>
-Cc:     Ganapatrao Kulkarni <Ganapatrao.Kulkarni@cavium.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>, suzuki.poulose@arm.com,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Nair, Jayachandran" <Jayachandran.Nair@cavium.com>,
-        Robert Richter <Robert.Richter@cavium.com>,
-        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 6, 2018 at 6:04 PM Will Deacon <will.deacon@arm.com> wrote:
->
-> Hi Ganapat,
->
-> On Thu, Dec 06, 2018 at 11:51:24AM +0000, Kulkarni, Ganapatrao wrote:
-> > This patchset adds PMU driver for Cavium's ThunderX2 SoC UNCORE devices.
-> > The SoC has PMU support in L3 cache controller (L3C) and in the
-> > DDR4 Memory Controller (DMC).
+On Wed, 5 Dec 2018 17:10:48 -0800
+Kees Cook <keescook@chromium.org> wrote:
+
+> On Tue, Nov 27, 2018 at 12:15 AM Alexey Budankov
+> <alexey.budankov@linux.intel.com> wrote:
 > >
 > >
-> > v11:
-> >       Updated Patch 2 with minor comments.
->
-> Thanks. I've pushed this out on my perf/updates branch:
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/log/?h=perf/updates
->
-> but note that I did make some spelling and formatting changes to the
-> Documentation patch, as well as removal of the event descriptions (they
-> should be part of the perf tool, as is done for the other system PMUs).
+> > Implement initial version of perf-security.rst documentation file
+> > covering security concerns of perf_event_paranoid settings.
+> >
+> > Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+> > Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>  
+> 
+> Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Thanks Will.
->
-> Will
+OK, series applied, thanks.
 
-Thanks,
-Ganapat
+jon
