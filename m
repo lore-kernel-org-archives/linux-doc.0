@@ -1,70 +1,95 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 83EE87DD2A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Dec 2018 15:03:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 902D67D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Dec 2018 16:01:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726166AbeLFPD1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Dec 2018 10:03:27 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:32938 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726150AbeLFPD1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Dec 2018 10:03:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=1Ww/RtAgrRIH6lz2Y8vYaAIvbz9EYN+kMxq+fYs0Tlw=; b=DnMjz38YhyM7PLXhdeLObvURP
-        JFeTpmgs2ZwbDa7eNFJHD14PdgsM9CV2tPU8RqzROvL9wlqmr6bK3dLhEXfTvlzVFYfQZmrrdpTFW
-        LVdAKSFw5vTPAKbxgA5D+uufgT92OWm6YMexiRoiYu5ItAJM838GjbUizzO4t/yDVAo0CKriW9Ms8
-        jJ14gvvvDivnMnro4WTt1hAkCOhd2zwjAsElYLNpvACeeO2It+uMNjmTebBYMnW5fIw0rwdiN2Bjg
-        3JV45NvYx9xhfc7a8sMs3lcr2Kxo2Fxm+Xl1lBW1YiYCEQ+nvebKobsgJHhXc20IIKAgafwuRXudN
-        kiv695RrQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gUvBV-0000uP-EY; Thu, 06 Dec 2018 15:03:25 +0000
-Date:   Thu, 6 Dec 2018 07:03:25 -0800
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     linux-kbuild@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: Re: [PATCH 2/3] kbuild: generate asm-generic wrappers if mandatory
- headers are missing
-Message-ID: <20181206150325.GA2726@infradead.org>
-References: <1544009286-15705-1-git-send-email-yamada.masahiro@socionext.com>
- <1544009286-15705-2-git-send-email-yamada.masahiro@socionext.com>
+        id S1725949AbeLFQBc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Dec 2018 11:01:32 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:42312 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725907AbeLFQBb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Dec 2018 11:01:31 -0500
+Received: by mail-ot1-f68.google.com with SMTP id v23so845251otk.9;
+        Thu, 06 Dec 2018 08:01:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dGsnISE4FIz3KQANOsJodhs5OOKMBBgVf9JyNqy91KY=;
+        b=Pb7c9liUJiikpZkKTCPiEfgLwt/PLPzsQunOw8ew3+Lg0nErefYWMfrTyFftv7Soj1
+         vnKvRjjpGTXaAPewKbn0rRp8V0WgBTlTWZHB74zIFemgWfXGy2GJQhvLTuTa6mWP/Cfy
+         NudE5H/KKO9zujAfmsn0EXV31mg3DUga6A2mQFpIggfYfkGGIuo9tknd4/iV2hQKURHI
+         KH0XVFj0ifaBaVmp1bvHVgjQ/MApP8ajWOkoikcbJrxgAnTqyZNOVq2OKz6VOk821LVW
+         Dnx8/uPDgdUIu6NaW9yWQ5JwSPyYwuCLJKhsDw/FSpYHjc32MH1qdbsInYtXCczHzNoj
+         0QBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dGsnISE4FIz3KQANOsJodhs5OOKMBBgVf9JyNqy91KY=;
+        b=l7pKAetZ2r15ZnefMom0HZxXt6x9DSR7cRARIeegatR00MeS0mcb1m02kVLii1YlE6
+         bb9ACCUQjw24cJUIZ1ZfobYmZZjQyYbsKb/zYpqjnwB+RkL1dAgJSx5jvUblAsJ6KA4E
+         LsLk7JcR01Pl+DeX48Y3/LWrj8aRYM6mBIUqe3gUnmkG+JUm3dBkWPen+fdtyZSb6gXI
+         4aNyxfS8OzHNTj7lCJ7vvOAcwMQHJkhWj+kj7dXC3nzo3wdeA34U6HADSamTte+mrIVk
+         bvyXKp9BQPrnmolc7xNjA5wWmrhgxXCl9NvYg+e+HVuUJwJ3JnKjczqc1bV38DaQ8Alv
+         UaBg==
+X-Gm-Message-State: AA+aEWY4ymnTOf96Qh/nsdrbxJbmRBP3705mJprz9dOc52uzn5mhNuGA
+        cqYqWiw1LS74KDufxDKe2ye+iG5/eCJUvfqfGQ66L6n9
+X-Google-Smtp-Source: AFSGD/U2HcJuBLCF0Rzz5fG7dqBs1l/1mPF6ZVMRqidGWc0mp5Dd0H5KvetGCI3cpTmsyUeIizr8pwJ5E6bBb8Z91zY=
+X-Received: by 2002:a9d:2c65:: with SMTP id f92mr18615316otb.18.1544112091176;
+ Thu, 06 Dec 2018 08:01:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1544009286-15705-2-git-send-email-yamada.masahiro@socionext.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+References: <20181206115053.7665-1-ganapatrao.kulkarni@cavium.com> <20181206123420.GA26473@arm.com>
+In-Reply-To: <20181206123420.GA26473@arm.com>
+From:   Ganapatrao Kulkarni <gklkml16@gmail.com>
+Date:   Thu, 6 Dec 2018 21:31:19 +0530
+Message-ID: <CAKTKpr6QHWO=G6cMS8WFM8HNpTv4ZMZeieT8QoBSYfZYBiCWqQ@mail.gmail.com>
+Subject: Re: [PATCH v11 0/2] Add ThunderX2 SoC Performance Monitoring Unit driver
+To:     Will Deacon <will.deacon@arm.com>
+Cc:     Ganapatrao Kulkarni <Ganapatrao.Kulkarni@cavium.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Mark Rutland <mark.rutland@arm.com>, suzuki.poulose@arm.com,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Nair, Jayachandran" <Jayachandran.Nair@cavium.com>,
+        Robert Richter <Robert.Richter@cavium.com>,
+        Vadim.Lomovtsev@cavium.com, Jan.Glauber@cavium.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 05, 2018 at 08:28:05PM +0900, Masahiro Yamada wrote:
-> Some time ago, Sam pointed out a certain degree of overwrap between
-> generic-y and mandatory-y. (https://lkml.org/lkml/2017/7/10/121)
-> 
-> I a bit tweaked the meaning of mandatory-y; now it defines the minimum
-> set of ASM headers that all architectures must have.
-> 
-> If arch does not have specific implementation of a mandatory header,
-> Kbuild will let it fallback to the asm-generic one by automatically
-> generating a wrapper. This will allow to drop lots of redundant
-> generic-y defines.
-> 
-> Previously, "mandatory" was used in the context of UAPI, but I guess
-> this can be extended to kernel space ASM headers.
+On Thu, Dec 6, 2018 at 6:04 PM Will Deacon <will.deacon@arm.com> wrote:
+>
+> Hi Ganapat,
+>
+> On Thu, Dec 06, 2018 at 11:51:24AM +0000, Kulkarni, Ganapatrao wrote:
+> > This patchset adds PMU driver for Cavium's ThunderX2 SoC UNCORE devices.
+> > The SoC has PMU support in L3 cache controller (L3C) and in the
+> > DDR4 Memory Controller (DMC).
+> >
+> >
+> > v11:
+> >       Updated Patch 2 with minor comments.
+>
+> Thanks. I've pushed this out on my perf/updates branch:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/log/?h=perf/updates
+>
+> but note that I did make some spelling and formatting changes to the
+> Documentation patch, as well as removal of the event descriptions (they
+> should be part of the perf tool, as is done for the other system PMUs).
 
-How useful is it to keep the generic-y behavior around at all vs making
-everything useful mandatory?
+Thanks Will.
+>
+> Will
+
+Thanks,
+Ganapat
