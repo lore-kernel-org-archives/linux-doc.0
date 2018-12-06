@@ -1,178 +1,164 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-4.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	RCVD_IN_SORBS_WEB autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DAD237D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Dec 2018 11:10:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A3FE17D08E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Dec 2018 11:51:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729553AbeLFLKs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Dec 2018 06:10:48 -0500
-Received: from foss.arm.com ([217.140.101.70]:47614 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727575AbeLFLKr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Dec 2018 06:10:47 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0D8BDEBD;
-        Thu,  6 Dec 2018 03:10:47 -0800 (PST)
-Received: from edgewater-inn.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CDC253F5AF;
-        Thu,  6 Dec 2018 03:10:46 -0800 (PST)
-Received: by edgewater-inn.cambridge.arm.com (Postfix, from userid 1000)
-        id D6DE91AE0A0D; Thu,  6 Dec 2018 11:11:07 +0000 (GMT)
-Date:   Thu, 6 Dec 2018 11:11:07 +0000
-From:   Will Deacon <will.deacon@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
-Subject: Re: [PATCH v12 20/25] kasan, arm64: add brk handler for inline
- instrumentation
-Message-ID: <20181206111107.GE23697@arm.com>
-References: <cover.1543337629.git.andreyknvl@google.com>
- <e825441eda1dbbbb7f583f826a66c94e6f88316a.1543337629.git.andreyknvl@google.com>
- <20181129180138.GB4318@arm.com>
- <CAAeHK+zVzWJ7RBsX88SOsebq0a40ypuawYFd4w4woFSHuximOw@mail.gmail.com>
+        id S1727832AbeLFLv2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Dec 2018 06:51:28 -0500
+Received: from mail-eopbgr690061.outbound.protection.outlook.com ([40.107.69.61]:34352
+        "EHLO NAM04-CO1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727763AbeLFLv1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Dec 2018 06:51:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=CAVIUMNETWORKS.onmicrosoft.com; s=selector1-cavium-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vn72x9QaKH7thCn7Fik87OMXNZqWUAlVUFajR263ykw=;
+ b=dFBUGQjihskBaqFNxayYlAaZljkHEnBNYye5tD9h+P63aGHa0jC29u8H5saMd1pksr06oC5UKHmzvu1+G5ggsuWP5hioibQvJlMC8e8+rYh+CdKw/yDW1g13Kqu3k1vhx9wVb5FQR7S2YyXoMMA0CBGhlcpJ24UQrYRHkOeU9UI=
+Received: from BN7PR07MB5298.namprd07.prod.outlook.com (20.176.177.92) by
+ BN7PR07MB5315.namprd07.prod.outlook.com (20.176.177.138) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1404.20; Thu, 6 Dec 2018 11:51:24 +0000
+Received: from BN7PR07MB5298.namprd07.prod.outlook.com
+ ([fe80::f892:12f:1622:393c]) by BN7PR07MB5298.namprd07.prod.outlook.com
+ ([fe80::f892:12f:1622:393c%2]) with mapi id 15.20.1404.020; Thu, 6 Dec 2018
+ 11:51:24 +0000
+From:   "Kulkarni, Ganapatrao" <Ganapatrao.Kulkarni@cavium.com>
+To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+CC:     "Will.Deacon@arm.com" <Will.Deacon@arm.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "Nair, Jayachandran" <Jayachandran.Nair@cavium.com>,
+        "Richter, Robert" <Robert.Richter@cavium.com>,
+        "Lomovtsev, Vadim" <Vadim.Lomovtsev@cavium.com>,
+        Jan Glauber <Jan.Glauber@cavium.com>,
+        "gklkml16@gmail.com" <gklkml16@gmail.com>
+Subject: [PATCH v11 0/2] Add ThunderX2 SoC Performance Monitoring Unit driver
+Thread-Topic: [PATCH v11 0/2] Add ThunderX2 SoC Performance Monitoring Unit
+ driver
+Thread-Index: AQHUjVoDVKOOAvuMrk+MXZ/HfMWH/A==
+Date:   Thu, 6 Dec 2018 11:51:24 +0000
+Message-ID: <20181206115053.7665-1-ganapatrao.kulkarni@cavium.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: PN1PR01CA0114.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c00::30)
+ To BN7PR07MB5298.namprd07.prod.outlook.com (2603:10b6:408:2d::28)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Ganapatrao.Kulkarni@cavium.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [111.93.218.67]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;BN7PR07MB5315;6:Y2HJiZO4Yl0EclUhCuwTxhBTkV13WCTVJOPadWNf91mkeYTCk5IErgBMjtOqjJJg1kY9ijA8PySVovL+my++fAGCNT409xKTKmiMW5ft7Eg1t5tpd6vO5+u1EcYcRL/9mDp5TJPk3DT0GG7EkciwAFj+614DQg7vmRtfXM1vv4SJKV4A+T18M6dA2iBf5Ma/VjrN4hutYgQ7rlVHoAZ7DZKsxZYEQL3oRbYNXH3W0qX6JiN+p+cPTsBoGLzoQCKCkv9STHA5syZhrpDUA1ScUklk4fXY9dXuXiEyveJxXB6oh2W3rwdQdWpXJy+W0Yfp+h/tf2s04qj4m9GAeaG9Zsns2ewiLabY+dOgLKKQFcFO4Ho/vaDeHKWh2McXhNZy3tCVH44JgE8S9LAlLdcwUCBdI8xYHHNmEqnXlhVkiSTMUxMehe1/0SlWxHxUa0J850C0jW93mu/rFkpXiMMpww==;5:js/O5bdq04VSLv4hDn431qVec+CsvAX47j5gFvbB73uf2u3eosIfSl88RyApCqzuspBvKcAH8LQITXz+v6YcayXsK+9rFF5kFUgaVUfuffmqnQDssbkZPQYmMqvZEXozDI7Orfv4Z6LepEfpg7m3WLGKcUPndPoZbfuVFiSn/5I=;7:jt87Et57+PlEHqTQEScodUiFKSUKbUlAuSUYo5e6HI2uId+e08JjdYFcWGSD5gjXlCrcn1GhVOQLUokyrMtTpMGXN/9r9UxZz9iX4qpVFl4u/UDx2zlB2IkJkZvbsY6Az49oLyrztO3VCRnBtXjxSg==
+x-ms-office365-filtering-correlation-id: 6cc64019-91e5-43ee-2b4b-08d65b712582
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390098)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(2017052603328)(7153060)(7193020);SRVR:BN7PR07MB5315;
+x-ms-traffictypediagnostic: BN7PR07MB5315:
+x-microsoft-antispam-prvs: <BN7PR07MB5315A6AB2CBD819863AE0A7C83A90@BN7PR07MB5315.namprd07.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(10201501046)(3002001)(93006095)(93001095)(3231455)(999002)(944501520)(52105112)(148016)(149066)(150057)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(20161123562045)(20161123560045)(20161123558120)(20161123564045)(201708071742011)(7699051)(76991095);SRVR:BN7PR07MB5315;BCL:0;PCL:0;RULEID:;SRVR:BN7PR07MB5315;
+x-forefront-prvs: 087894CD3C
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(346002)(376002)(39860400002)(366004)(136003)(199004)(189003)(1076002)(5660300001)(2906002)(53936002)(6306002)(2501003)(6486002)(6436002)(316002)(26005)(54906003)(110136005)(186003)(102836004)(6512007)(6116002)(3846002)(36756003)(99286004)(66066001)(8936002)(71190400001)(78486014)(2616005)(71200400001)(81166006)(81156014)(25786009)(97736004)(8676002)(14444005)(6506007)(52116002)(386003)(256004)(476003)(486006)(105586002)(7736002)(86362001)(68736007)(966005)(4326008)(305945005)(2201001)(72206003)(14454004)(508600001)(106356001)(39060400002);DIR:OUT;SFP:1101;SCL:1;SRVR:BN7PR07MB5315;H:BN7PR07MB5298.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: cavium.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: iXjGQKDCsKKBecBe3hqIZBARCL0/iOGR5WtY3sm5YxuiwJ4CfaPu0wQAvIza7GLxn/PFaQ8rHDMpRXxVY8o13ODMrGsLhaCfNA20RtSbXZDdpSs1kmV5yfKck8ylzQvNGZQ5ZwOupzkfjK3YcUp2tFecuTi1Hk/MZ+RG919Yfrr6YVjI9ZlWXrL6nS/SpoF2XVtG+dbCLs61gRfbrnGBzquzYiDDvSp3ntw2KahLN3N1nAtbmrsYr+tKs61UMSq0M0cHuhZSdhln/4hWxrA6QQzUq8VXdqV+fid1U9YXAIr4XD94nQecojt5R0L9ZqjccwkknLwDBgtKo33u5RmpGyOU/Ly3B4Ey/TBQ/ktsFsU=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+zVzWJ7RBsX88SOsebq0a40ypuawYFd4w4woFSHuximOw@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+X-OriginatorOrg: cavium.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6cc64019-91e5-43ee-2b4b-08d65b712582
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Dec 2018 11:51:24.2356
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 711e4ccf-2e9b-4bcf-a551-4094005b6194
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR07MB5315
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 06, 2018 at 11:31:43AM +0100, Andrey Konovalov wrote:
-> On Thu, Nov 29, 2018 at 7:01 PM Will Deacon <will.deacon@arm.com> wrote:
-> >
-> > On Tue, Nov 27, 2018 at 05:55:38PM +0100, Andrey Konovalov wrote:
-> > > Tag-based KASAN inline instrumentation mode (which embeds checks of shadow
-> > > memory into the generated code, instead of inserting a callback) generates
-> > > a brk instruction when a tag mismatch is detected.
-> > >
-> > > This commit adds a tag-based KASAN specific brk handler, that decodes the
-> > > immediate value passed to the brk instructions (to extract information
-> > > about the memory access that triggered the mismatch), reads the register
-> > > values (x0 contains the guilty address) and reports the bug.
-> > >
-> > > Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
-> > > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> > > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> > > ---
-> > >  arch/arm64/include/asm/brk-imm.h |  2 +
-> > >  arch/arm64/kernel/traps.c        | 68 +++++++++++++++++++++++++++++++-
-> > >  include/linux/kasan.h            |  3 ++
-> > >  3 files changed, 71 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/arch/arm64/include/asm/brk-imm.h b/arch/arm64/include/asm/brk-imm.h
-> > > index ed693c5bcec0..2945fe6cd863 100644
-> > > --- a/arch/arm64/include/asm/brk-imm.h
-> > > +++ b/arch/arm64/include/asm/brk-imm.h
-> > > @@ -16,10 +16,12 @@
-> > >   * 0x400: for dynamic BRK instruction
-> > >   * 0x401: for compile time BRK instruction
-> > >   * 0x800: kernel-mode BUG() and WARN() traps
-> > > + * 0x9xx: tag-based KASAN trap (allowed values 0x900 - 0x9ff)
-> > >   */
-> > >  #define FAULT_BRK_IMM                        0x100
-> > >  #define KGDB_DYN_DBG_BRK_IMM         0x400
-> > >  #define KGDB_COMPILED_DBG_BRK_IMM    0x401
-> > >  #define BUG_BRK_IMM                  0x800
-> > > +#define KASAN_BRK_IMM                        0x900
-> > >
-> > >  #endif
-> > > diff --git a/arch/arm64/kernel/traps.c b/arch/arm64/kernel/traps.c
-> > > index 5f4d9acb32f5..04bdc53716ef 100644
-> > > --- a/arch/arm64/kernel/traps.c
-> > > +++ b/arch/arm64/kernel/traps.c
-> > > @@ -35,6 +35,7 @@
-> > >  #include <linux/sizes.h>
-> > >  #include <linux/syscalls.h>
-> > >  #include <linux/mm_types.h>
-> > > +#include <linux/kasan.h>
-> > >
-> > >  #include <asm/atomic.h>
-> > >  #include <asm/bug.h>
-> > > @@ -284,10 +285,14 @@ void arm64_notify_die(const char *str, struct pt_regs *regs,
-> > >       }
-> > >  }
-> > >
-> > > -void arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
-> > > +void __arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
-> > >  {
-> > >       regs->pc += size;
-> > > +}
-> > >
-> > > +void arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
-> > > +{
-> > > +     __arm64_skip_faulting_instruction(regs, size);
-> > >       /*
-> > >        * If we were single stepping, we want to get the step exception after
-> > >        * we return from the trap.
-> > > @@ -959,7 +964,7 @@ static int bug_handler(struct pt_regs *regs, unsigned int esr)
-> > >       }
-> > >
-> > >       /* If thread survives, skip over the BUG instruction and continue: */
-> > > -     arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
-> > > +     __arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
-> >
-> > Why do you want to avoid the single-step logic here? Given that we're
-> > skipping over the brk instruction, why wouldn't you want that to trigger
-> > a step exception if single-step is enabled?
-> 
-> I was asked to do that, see the discussion here:
-> 
-> https://www.spinics.net/lists/linux-mm/msg146575.html
-> https://www.spinics.net/lists/linux-mm/msg148215.html
-> https://www.spinics.net/lists/linux-mm/msg148367.html
+This patchset adds PMU driver for Cavium's ThunderX2 SoC UNCORE devices.
+The SoC has PMU support in L3 cache controller (L3C) and in the
+DDR4 Memory Controller (DMC).
 
-Aha, but we subsequently fixed the underlying problem in commit
-9478f1927e6e ("arm64: only advance singlestep for user instruction traps").
-You were on cc, but I appreciate it's not clear that it was related to this.
 
-Anyway, you can just call arm64_skip_faulting_instruction() as you were
-doing and there's no need for this refactoring.
+v11:
+	Updated Patch 2 with minor comments.
 
-Please could you spin a new version so that akpm can replace the one which
-he has queued?
+v10:
+	Updated Documentation patch with comments [6].
 
-Thanks,
+[6] https://lkml.org/lkml/2018/12/5/649
 
-Will
+v9:
+	Updated with comments [5].
+
+[5] https://lkml.org/lkml/2018/11/22/517
+
+v8:
+	Updated with comments [4].
+
+[4] https://lkml.org/lkml/2018/10/25/215
+
+v7:
+	Incorporated review comments [3].
+	Modified driver as loadable module.
+	Updated Documentation with Event description.
+	Removed per-channel(no SMC calls) sampling implementation(
+	Since DMC and L3C channels are interleave, we have decided to
+	sample channel zero and prorate it to account for a Device).
+
+[3] https://patchwork.kernel.org/patch/10479203/
+
+v6:
+	Rebased to 4.18-rc1
+	Updated with comments from John Garry[3]
+
+[3] https://lkml.org/lkml/2018/5/17/408
+
+v5:
+	Incorporated review comments from Mark Rutland[2]
+v4:
+	Incorporated review comments from Mark Rutland[1]
+
+[1] https://www.spinics.net/lists/arm-kernel/msg588563.html
+[2] https://lkml.org/lkml/2018/4/26/376
+
+v3:
+	Fixed warning reported by kbuild robot
+
+v2:
+	Rebased to 4.12-rc1
+	Removed Arch VULCAN dependency.
+	Update SMC call parameters as per latest firmware.
+
+v1:
+	Initial patch
+
+Ganapatrao Kulkarni (2):
+  perf, uncore: Adding documentation for ThunderX2 pmu uncore driver
+  ThunderX2, perf : Add Cavium ThunderX2 SoC UNCORE PMU driver
+
+ Documentation/perf/thunderx2-pmu.txt |  93 +++
+ drivers/perf/Kconfig                 |   9 +
+ drivers/perf/Makefile                |   1 +
+ drivers/perf/thunderx2_pmu.c         | 861 +++++++++++++++++++++++++++
+ include/linux/cpuhotplug.h           |   1 +
+ 5 files changed, 965 insertions(+)
+ create mode 100644 Documentation/perf/thunderx2-pmu.txt
+ create mode 100644 drivers/perf/thunderx2_pmu.c
+
+--=20
+2.18.0
+
