@@ -1,113 +1,131 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8FAE57D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Dec 2018 23:16:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 878597D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Dec 2018 00:26:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727701AbeLEXQG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Dec 2018 18:16:06 -0500
-Received: from cmta17.telus.net ([209.171.16.90]:52655 "EHLO cmta17.telus.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727337AbeLEXQG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Dec 2018 18:16:06 -0500
-X-Greylist: delayed 487 seconds by postgrey-1.27 at vger.kernel.org; Wed, 05 Dec 2018 18:16:05 EST
-Received: from dougxps ([173.180.45.4])
-        by cmsmtp with SMTP
-        id UgGpgyTLMP96wUgGqgUMum; Wed, 05 Dec 2018 16:07:57 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=telus.net; s=neo;
-        t=1544051277; bh=16wvuldLn/HqQsgWpoEWod0QYyN9fSua/uB09H8QZeg=;
-        h=From:To:Cc:References:In-Reply-To:Subject:Date;
-        b=Ixrm4fAMPHZhlbw+KbgVLYE2fV9PpzMbfekfg8Twfg696fMOVBsAGnOT47jCO6cn3
-         i1oqhIaUmmcio9YATSoT+ryCf9F9sdYfE7XWnuqvkIzYN40RmCFQn0KulQw8QC5CYe
-         AWFwaCKkQe2MHbCAUbYwSTxK4WDnsB97F7baSeVxaL5OEwBPNm+F23+K/nq4Ul9xSB
-         RVux6GOJx/lHvtPosvkiM5HIp5ROYj0igQnoopL87albbdUgrE9oytbWvRnfsEPJHC
-         a2TWmf53lPa6dz5xUYYqQvdXLSH41Kc1hJIRjGprN4+Ozk69CYd1n5XTL0wi+cYYFx
-         MGH0GqOCZdzvQ==
-X-Authority-Analysis: v=2.3 cv=G5vN7Os5 c=1 sm=1 tr=0
- a=zJWegnE7BH9C0Gl4FFgQyA==:117 a=zJWegnE7BH9C0Gl4FFgQyA==:17
- a=Pyq9K9CWowscuQLKlpiwfMBGOR0=:19 a=kj9zAlcOel0A:10 a=jpbZs5yXI5kjarsWqy4A:9
- a=xj_gZadtinr1vAgT:21 a=fUl3DSob3bFrHl83:21 a=CjuIK1q_8ugA:10
-From:   "Doug Smythies" <dsmythies@telus.net>
-To:     "'Rafael J. Wysocki'" <rjw@rjwysocki.net>
-Cc:     "'LKML'" <linux-kernel@vger.kernel.org>,
-        "'Linux Documentation'" <linux-doc@vger.kernel.org>,
-        "'Peter Zijlstra'" <peterz@infradead.org>,
-        "'Daniel Lezcano'" <daniel.lezcano@linaro.org>,
-        "'Giovanni Gherdovich'" <ggherdovich@suse.cz>,
-        "'Linux PM'" <linux-pm@vger.kernel.org>,
-        "Doug Smythies" <dsmythies@telus.net>
-References: TnO3gBgeGpqCWTnO8gldCG
-In-Reply-To: TnO3gBgeGpqCWTnO8gldCG
-Subject: RE: [PATCH] cpuidle: Add 'high' and 'low' idle state metrics
-Date:   Wed, 5 Dec 2018 15:07:54 -0800
-Message-ID: <006901d48cef$5bb88a00$13299e00$@net>
-MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Office Outlook 12.0
-Thread-Index: AdSLBCu1OtjiTaHmT7WIyCahJReY1QB6N6Qg
-Content-Language: en-ca
-X-CMAE-Envelope: MS4wfCwM4h6RU1EZMsyr00ZI/veEoIPUzkZohFpAGgzHtovZUNownDbH8fTBGkF4H70KkYfFyXWa7G15AEJZ8is0uN/tBh1ZNOesnYnNjRWgZK31NrqsFBnd
- EjcU5xwPM7k5Sf9GIj6srhSCWyS4FtLfP6q510NT+Tsaxd5iOeQFrymYJAERTBuFbnEyqfMNad8IikUIeSSqlIZobP+XlC5r02KRFFz5V2u6NwbChGPFYn/h
- T/gke/LufHoh+veVaZnXPFHh6kEnroyQp59ISMAd8rScOlqV/YJtMcHkPTHFVTSEO+KTrVrTcQjUGaBiFGEZB+jNftKcuegYF4CLtzQdvgQwrw2Ih02udJTG
- hsP11xw65TM3R9W/4Ym0qo6VrDlm6uDQLsIv7izeP/I58MPo6xk=
+        id S1727575AbeLFA0c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Dec 2018 19:26:32 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:39926 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727514AbeLFA0c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Dec 2018 19:26:32 -0500
+Received: by mail-pl1-f194.google.com with SMTP id 101so10873234pld.6
+        for <linux-doc@vger.kernel.org>; Wed, 05 Dec 2018 16:26:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=Q+ykiBMRTkCeImqS+tC78J5Rh8XlO4UH5sOpHLm2riY=;
+        b=h9F7wLZFqRiMYuebpBQeZkD1Uzf7nnDxqkjrZvFlpI+6b+WMMRfMoZKck5fbU9xglk
+         gEHxKZzutP/r7zojICtrQy5KBT5NHUD+3C9NWjZ/x3eWLRk923PR6xPwOGcI5uzFSU/E
+         JRRAehsxzEmoLf8aZRVCCjep2/Rz2Ud6Jx341O8p8+vK05evlGWbArF6zNSWVjkL8hkP
+         aeBBImDZn4NodwZVrdAeP16sh41GfR0T8v74GQX5FKEEtFqBoVFNeKkbda4kpnwt50JS
+         0Fqw6dKvyHL043v+7xJFlDHAiMR63vhfV/HYkB1S3IobjQJ2xBItjSbUpqkEX5nHqUC2
+         6KwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=Q+ykiBMRTkCeImqS+tC78J5Rh8XlO4UH5sOpHLm2riY=;
+        b=iY2BXsXUZM9p7Rx+eNUSJ8XApzT+YMRrtY5ynVyZRCiDD9SagC0bkremeB3mAZEWHX
+         lwqNyH4VVvQCPBpe70EQFbwnH3BniHG80e/YX7kGIEgPNS7wEwD4zWO9SUZakk5Zgg5F
+         yFb0f6mueNG4EwRAae63+Lb8G4pPlTDPmClLJ5IEyDp2B9rfhqLM02M5gEwZc5/2lVL6
+         uo8RxU8QhOsynzwRszBG30Vk4SUlFHXe1UVzxQ3FF0A1mffM9ehnDt9wOOkf2b5dgzUq
+         YuRCnKDxMdrOqW4nhCFFgtiDBTo3veUPCmhu+qOtCkwTDpgYWXT0m3rjXgQ0uLa5vo/f
+         6klQ==
+X-Gm-Message-State: AA+aEWbfCC8zcT+XlBZiX4ZznW0pTF7u0t9sxeu7yzdO/jOm0/bhkPf0
+        re2XoL/t3B9YFbV3DFEvWXI=
+X-Google-Smtp-Source: AFSGD/XYP1iDJaINowV0OHqBgU+KrIneycWfBQNEdVmXtrovPSboSSw+z6xVLwlxBMDCnyiekjM/3w==
+X-Received: by 2002:a17:902:8c91:: with SMTP id t17mr25395582plo.119.1544055991816;
+        Wed, 05 Dec 2018 16:26:31 -0800 (PST)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id z8sm49214584pgz.53.2018.12.05.16.26.30
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 05 Dec 2018 16:26:31 -0800 (PST)
+From:   Wei Yang <richard.weiyang@gmail.com>
+To:     rppt@linux.ibm.com, david@redhat.com, mhocko@suse.com,
+        osalvador@suse.de
+Cc:     akpm@linux-foundation.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, Wei Yang <richard.weiyang@gmail.com>
+Subject: [PATCH v2 1/2] admin-guide/memory-hotplug.rst: remove locking internal part from admin-guide
+Date:   Thu,  6 Dec 2018 08:26:21 +0800
+Message-Id: <20181206002622.30675-1-richard.weiyang@gmail.com>
+X-Mailer: git-send-email 2.15.1
+In-Reply-To: <20181205023426.24029-1-richard.weiyang@gmail.com>
+References: <20181205023426.24029-1-richard.weiyang@gmail.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rafael,
+Locking Internal section exists in core-api documentation, which is more
+suitable for this.
 
-On 2018.12.03 04:32 Rafael J. Wysocki wrote:
+This patch removes the duplication part here.
 
-> Add two new metrics for CPU idle states, "high" and "low", to count
-> the number of times the given state had been asked for (or entered
-> from the kernel's perspective), but the observed idle duration turned
-> out to be too high or too low for it (respectively).
+Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+---
+ Documentation/admin-guide/mm/memory-hotplug.rst | 40 -------------------------
+ 1 file changed, 40 deletions(-)
 
-I wonder about the "high" "low" terminology here.
-
-> These mertics help to estimat the quality of the CPU idle governor
-> in use.
-
-Yes, very useful. Thanks.
-
-Here the terms are mixed with "deep" and "shallow"
-
-> +	unsigned long long	high; /* Number of times it's been too deep */
-> +	unsigned long long	low;  /* Number of times it's been too shallow */
-
-> +``high``
-> +	Total number of times this idle state had been asked for, but the
-> +	observed idle duration was too short to match its target residency.
-> +
-
-O.K. To avoid ambiguity, how about naming them "too_short" and "too_long"?
-
-> +``low``
-> +	Total number of times this idle state had been asked for, but a deeper
-> +	idle state would have been a better match for the observed idle duration.
-
-Even though I read the patch, by the time I actually looked at the numbers I had
-forgotten the meaning. I had look at idle state 0 and 4 (the deepest for my computer)
-to figure it out:
-
-doug@s15:~/c$ cat /sys/devices/system/cpu/cpu0/cpuidle/state0/low
-259871
-doug@s15:~/c$ cat /sys/devices/system/cpu/cpu0/cpuidle/state0/high
-0
-doug@s15:~/c$ cat /sys/devices/system/cpu/cpu0/cpuidle/state4/low
-0
-doug@s15:~/c$ cat /sys/devices/system/cpu/cpu0/cpuidle/state4/high
-5584
-
-Because state 0 can not be too short and state 4 can not be too long.
-
-... Doug
-
+diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+index 5c4432c96c4b..241f4ce1e387 100644
+--- a/Documentation/admin-guide/mm/memory-hotplug.rst
++++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+@@ -392,46 +392,6 @@ Need more implementation yet....
+  - Notification completion of remove works by OS to firmware.
+  - Guard from remove if not yet.
+ 
+-
+-Locking Internals
+-=================
+-
+-When adding/removing memory that uses memory block devices (i.e. ordinary RAM),
+-the device_hotplug_lock should be held to:
+-
+-- synchronize against online/offline requests (e.g. via sysfs). This way, memory
+-  block devices can only be accessed (.online/.state attributes) by user
+-  space once memory has been fully added. And when removing memory, we
+-  know nobody is in critical sections.
+-- synchronize against CPU hotplug and similar (e.g. relevant for ACPI and PPC)
+-
+-Especially, there is a possible lock inversion that is avoided using
+-device_hotplug_lock when adding memory and user space tries to online that
+-memory faster than expected:
+-
+-- device_online() will first take the device_lock(), followed by
+-  mem_hotplug_lock
+-- add_memory_resource() will first take the mem_hotplug_lock, followed by
+-  the device_lock() (while creating the devices, during bus_add_device()).
+-
+-As the device is visible to user space before taking the device_lock(), this
+-can result in a lock inversion.
+-
+-onlining/offlining of memory should be done via device_online()/
+-device_offline() - to make sure it is properly synchronized to actions
+-via sysfs. Holding device_hotplug_lock is advised (to e.g. protect online_type)
+-
+-When adding/removing/onlining/offlining memory or adding/removing
+-heterogeneous/device memory, we should always hold the mem_hotplug_lock in
+-write mode to serialise memory hotplug (e.g. access to global/zone
+-variables).
+-
+-In addition, mem_hotplug_lock (in contrast to device_hotplug_lock) in read
+-mode allows for a quite efficient get_online_mems/put_online_mems
+-implementation, so code accessing memory can protect from that memory
+-vanishing.
+-
+-
+ Future Work
+ ===========
+ 
+-- 
+2.15.1
 
