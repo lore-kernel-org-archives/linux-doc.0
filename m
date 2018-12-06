@@ -6,52 +6,52 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 63A137D8AA
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Dec 2018 12:34:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 20EB17D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Dec 2018 12:37:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729445AbeLFMel (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Dec 2018 07:34:41 -0500
-Received: from mail-it1-f193.google.com ([209.85.166.193]:54796 "EHLO
-        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728482AbeLFMek (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Dec 2018 07:34:40 -0500
-Received: by mail-it1-f193.google.com with SMTP id i145so1038856ita.4
-        for <linux-doc@vger.kernel.org>; Thu, 06 Dec 2018 04:34:40 -0800 (PST)
+        id S1728764AbeLFMg7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Dec 2018 07:36:59 -0500
+Received: from mail-io1-f68.google.com ([209.85.166.68]:46879 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729038AbeLFMg7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Dec 2018 07:36:59 -0500
+Received: by mail-io1-f68.google.com with SMTP id v10so179772ios.13
+        for <linux-doc@vger.kernel.org>; Thu, 06 Dec 2018 04:36:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=nM+uQOx9zVJ8TTDrLmJDveS5niw0RvoquTiTM/JIbLw=;
-        b=QHnyJ6/yH1EW8wjSmjDnHSybVF3eCxoG9OkhLo5sURlwI01Pae6pEQvUlJsCDaHhwL
-         G5Cd0KNGuaAj/ArVykwK2mLAPerPTIgmOQ5Q1on6L+lMwIiASbdSu37Fs//KLDjiC04l
-         gn9wWyu3uDky0aLZ1hvFbH9Xc+fTbWS4EoIIS5s4DtydWN3R8iypwu3sV2u1f17zvwNG
-         npmu2Pho+qxFun7F39seB2GkAAI5ILuX8ogvU3FI6GeHMZWdBv5PSt08LQO8bp8fsiwv
-         L+nhIJ01aqxbN1cSawS17opGL3Mx73CqRDXsS2KC9lyrvN+/i9V8NQp6xW2gi+Fs7rdC
-         JkPQ==
+        bh=WidNIP8PGlQQtkA0lmSuS7tUfoPMSknLn9VUL0IsozE=;
+        b=eF4lMLd2gM5bZJkTfp6Rs2kYVm7O2ljRh8HtAeOfR/uvqp9VX9Le/TtrRT4623RIW9
+         S37itEwpEmj2zoERka2diuAljUcjkjdXO182hvOyUN0whOir04e6TkSCA33JGJhc04yc
+         vA0VMroGWF2XsAc9XPb2Ti576+1OhnTFlFLpuSYYU9PlebzUtOiYlNDXrS7Q3wLpNtpv
+         VTEefTG7R6HvqN1nlJnEta/2ds92zk+a+UXyTze/lHXdz5XyqfUTgAu2aMkeBOT3EWdZ
+         +0v4SzUCJkcJF52coaPIb3gYx+Uu7LXUvWaHF1dyFK8zP8+M/DrG8ohcEnrL4h4pDCXE
+         DaPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nM+uQOx9zVJ8TTDrLmJDveS5niw0RvoquTiTM/JIbLw=;
-        b=Nh0MaXODkx2CFA7qIXetWohiWBCdprbS+Zax7Q4uQwjbxXNnLUEwG9hbzFJxuTqkhv
-         srjaIqT+sWmo/RyJopq3bCv/EZV5cb7u2c5qJyoAT4OsxCnO/R1oXlQ/qSEAR5ZHoLHj
-         LV46WcT2VIpzYYpY7So5uaoiVh0UogB5A2FMTgS1SNBwT830XX/RJuE5HM+U0OFoYnr6
-         fnOz0c3PCtgFU5FUAtuLrhef8IId0neNLcZ4dd49i4NkBIj5LREW85fGe3mqaTn2AZDq
-         Ta2fxd3r1a7WAp9x/Jb1PFztbP8cmYRPBlLvClzTwjWFm7ytVtyuM3DFv0mrLO96AESG
-         6gFA==
-X-Gm-Message-State: AA+aEWb69s8Gt9w9xHHV1bU2g702ZLBuGA11jAVstC+RYn6yZLS3wGul
-        zbWpbAURbtLxDrJ0U7VmR44fN5uZtYxAypdz3KfpIw==
-X-Google-Smtp-Source: AFSGD/VcGSD8ikWZwwSM3NrN8u9F7ooCVd7MOzvHziuFtTWLcldbEDKMv2fzZYPc4Ei/J45KpUmfQ3cx0v8+PATAUoU=
-X-Received: by 2002:a02:93c2:: with SMTP id z60mr24418458jah.51.1544099679394;
- Thu, 06 Dec 2018 04:34:39 -0800 (PST)
+        bh=WidNIP8PGlQQtkA0lmSuS7tUfoPMSknLn9VUL0IsozE=;
+        b=I2h53gIkUM5PX1fAa6tXS6nK90aAGdpjcFssycLxQkl1ycS4fKmAQZFniC0/m1/84F
+         8Jx5uwGfs3/8V77PYC6Ymemu2zyHySnUydqgxJu+Ngh12x3+tOHRHW4rNBKKECFc7gFa
+         lKKJFBnnxB5QJNMtoS+GHADXiPsKW51rlSBYLdXhOSRQuj0F9vXWtYIxRBAzhwptRfHz
+         h1VJOYQ8TMPdxUTmfu+RblXp+IUubRzm+Gus20QBkzUHoRdwOL2EFJGNmZuzx89JkD9g
+         uR7hM6fC1v7a5QlErgoE7+NKEM1zQfEtQCaBFUyfxnakG3vsVed2b65aSOCdXV5NtawR
+         Tplg==
+X-Gm-Message-State: AA+aEWYHGqVyMJKnfsd9AOrBGTh/H9SV64AmEMh5dCDG0d6hiJK8a4p+
+        NjsmD2r7pW+A3WOPnfus7t//PQKLFIWA3HMB6uUCqA==
+X-Google-Smtp-Source: AFSGD/Xm9VGdnSPf1hWOUupCpcd7a1Mg3qQvtYoJwqmAMi3YOnI7fV93LEeSmCsW4kQDTIuBhjZmOXHOAFzCCUI1QE0=
+X-Received: by 2002:a6b:6919:: with SMTP id e25mr8796163ioc.119.1544099817423;
+ Thu, 06 Dec 2018 04:36:57 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1541687720.git.andreyknvl@google.com> <4a4063a3e074608b99cf22ab447fecc36d056251.1541687720.git.andreyknvl@google.com>
- <20181129182218.GH22027@arrakis.emea.arm.com>
-In-Reply-To: <20181129182218.GH22027@arrakis.emea.arm.com>
+References: <cover.1541687720.git.andreyknvl@google.com> <c9028422854fb5bfb79d798397b30d4701207062.1541687720.git.andreyknvl@google.com>
+ <20181129182323.GI22027@arrakis.emea.arm.com>
+In-Reply-To: <20181129182323.GI22027@arrakis.emea.arm.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Thu, 6 Dec 2018 13:34:28 +0100
-Message-ID: <CAAeHK+z3uJrkwunH6DDuJOVg_trk6pmKgN4QLx7LnDLEP1TSDw@mail.gmail.com>
-Subject: Re: [PATCH v8 1/8] arm64: add type casts to untagged_addr macro
+Date:   Thu, 6 Dec 2018 13:36:46 +0100
+Message-ID: <CAAeHK+y7AwdXsEgBYqLUzps2K8aGcbDsSpS+obCs11voZX55og@mail.gmail.com>
+Subject: Re: [PATCH v8 2/8] uaccess: add untagged_addr definition for other arches
 To:     Catalin Marinas <catalin.marinas@arm.com>
 Cc:     Will Deacon <will.deacon@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -85,42 +85,24 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 29, 2018 at 7:22 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
+On Thu, Nov 29, 2018 at 7:23 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
 >
-> On Thu, Nov 08, 2018 at 03:36:08PM +0100, Andrey Konovalov wrote:
-> > This patch makes the untagged_addr macro accept all kinds of address types
-> > (void *, unsigned long, etc.) and allows not to specify type casts in each
-> > place where it is used. This is done by using __typeof__.
+> On Thu, Nov 08, 2018 at 03:36:09PM +0100, Andrey Konovalov wrote:
+> > diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
+> > index efe79c1cdd47..c045b4eff95e 100644
+> > --- a/include/linux/uaccess.h
+> > +++ b/include/linux/uaccess.h
+> > @@ -13,6 +13,10 @@
 > >
-> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> > ---
-> >  arch/arm64/include/asm/uaccess.h | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >  #include <asm/uaccess.h>
 > >
-> > diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
-> > index 07c34087bd5e..c1325271e368 100644
-> > --- a/arch/arm64/include/asm/uaccess.h
-> > +++ b/arch/arm64/include/asm/uaccess.h
-> > @@ -101,7 +101,8 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
-> >   * up with a tagged userland pointer. Clear the tag to get a sane pointer to
-> >   * pass on to access_ok(), for instance.
-> >   */
-> > -#define untagged_addr(addr)          sign_extend64(addr, 55)
-> > +#define untagged_addr(addr)          \
-> > +     ((__typeof__(addr))sign_extend64((__u64)(addr), 55))
+> > +#ifndef untagged_addr
+> > +#define untagged_addr(addr) addr
+> > +#endif
 >
-> Nitpick: same comment as here (use u64):
->
-> http://lkml.kernel.org/r/20181123173739.osgvnnhmptdgtlnl@lakrids.cambridge.arm.com
+> Nitpick: add braces around (addr). Otherwise:
 
-Will do in v9.
+Will do in v9, thanks!
 
 >
 > Acked-by: Catalin Marinas <catalin.marinas@arm.com>
->
-> (not acking the whole series just yet, only specific patches to remember
-> what I reviewed)
-
-OK.
-
-Thanks!
