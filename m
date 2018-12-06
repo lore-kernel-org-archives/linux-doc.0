@@ -1,110 +1,70 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ADEF87D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Dec 2018 14:08:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 83EE87DD2A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Dec 2018 15:03:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728764AbeLFOIl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Dec 2018 09:08:41 -0500
-Received: from foss.arm.com ([217.140.101.70]:51352 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727704AbeLFOIl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Dec 2018 09:08:41 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5F18FA78;
-        Thu,  6 Dec 2018 06:08:40 -0800 (PST)
-Received: from localhost (unknown [10.1.31.65])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0867A3F575;
-        Thu,  6 Dec 2018 06:08:40 -0800 (PST)
-Received: from cmarinas by localhost with local (Exim 4.89)
-        (envelope-from <catalin.marinas@arm.com>)
-        id 1gUuKT-0003cv-5H; Thu, 06 Dec 2018 14:08:37 +0000
-Date:   Thu, 6 Dec 2018 14:08:36 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: Re: [PATCH v8 0/8] arm64: untag user pointers passed to the kernel
-Message-ID: <20181206140836.vhhfnv7hta6pzwd4@localhost>
-References: <cover.1541687720.git.andreyknvl@google.com>
- <CAAeHK+w1Qv6owkdWfjbXMFqOA8BURDN5gviw8vpgi3eon1dWmA@mail.gmail.com>
- <20181129181650.GG22027@arrakis.emea.arm.com>
- <CAAeHK+x9CuqqgvP6pZEV1Gz5cFHNpwsuUDbWQFHFzTy8GBMPKA@mail.gmail.com>
+        id S1726166AbeLFPD1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Dec 2018 10:03:27 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:32938 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726150AbeLFPD1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Dec 2018 10:03:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=1Ww/RtAgrRIH6lz2Y8vYaAIvbz9EYN+kMxq+fYs0Tlw=; b=DnMjz38YhyM7PLXhdeLObvURP
+        JFeTpmgs2ZwbDa7eNFJHD14PdgsM9CV2tPU8RqzROvL9wlqmr6bK3dLhEXfTvlzVFYfQZmrrdpTFW
+        LVdAKSFw5vTPAKbxgA5D+uufgT92OWm6YMexiRoiYu5ItAJM838GjbUizzO4t/yDVAo0CKriW9Ms8
+        jJ14gvvvDivnMnro4WTt1hAkCOhd2zwjAsElYLNpvACeeO2It+uMNjmTebBYMnW5fIw0rwdiN2Bjg
+        3JV45NvYx9xhfc7a8sMs3lcr2Kxo2Fxm+Xl1lBW1YiYCEQ+nvebKobsgJHhXc20IIKAgafwuRXudN
+        kiv695RrQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gUvBV-0000uP-EY; Thu, 06 Dec 2018 15:03:25 +0000
+Date:   Thu, 6 Dec 2018 07:03:25 -0800
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: Re: [PATCH 2/3] kbuild: generate asm-generic wrappers if mandatory
+ headers are missing
+Message-ID: <20181206150325.GA2726@infradead.org>
+References: <1544009286-15705-1-git-send-email-yamada.masahiro@socionext.com>
+ <1544009286-15705-2-git-send-email-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAAeHK+x9CuqqgvP6pZEV1Gz5cFHNpwsuUDbWQFHFzTy8GBMPKA@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <1544009286-15705-2-git-send-email-yamada.masahiro@socionext.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 06, 2018 at 01:44:24PM +0100, Andrey Konovalov wrote:
-> On Thu, Nov 29, 2018 at 7:16 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > On Thu, Nov 08, 2018 at 03:48:10PM +0100, Andrey Konovalov wrote:
-> > > On Thu, Nov 8, 2018 at 3:36 PM, Andrey Konovalov <andreyknvl@google.com> wrote:
-> > > > Changes in v8:
-> > > > - Rebased onto 65102238 (4.20-rc1).
-> > > > - Added a note to the cover letter on why syscall wrappers/shims that untag
-> > > >   user pointers won't work.
-> > > > - Added a note to the cover letter that this patchset has been merged into
-> > > >   the Pixel 2 kernel tree.
-> > > > - Documentation fixes, in particular added a list of syscalls that don't
-> > > >   support tagged user pointers.
-> > >
-> > > I've changed the documentation to be more specific, please take a look.
-> > >
-> > > I haven't done anything about adding a way for the user to find out
-> > > that the kernel supports this ABI extension. I don't know what would
-> > > the the preferred way to do this, and we haven't received any comments
-> > > on that from anybody else. Probing "on some innocuous syscall
-> > > currently returning -EFAULT on tagged pointer arguments" works though,
-> > > as you mentioned.
-> >
-> > We've had some internal discussions and also talked to some people at
-> > Plumbers. I think the best option is to introduce an AT_FLAGS bit to
-> > describe the ABI relaxation on tagged pointers. Vincenzo is going to
-> > propose a patch on top of this series.
+On Wed, Dec 05, 2018 at 08:28:05PM +0900, Masahiro Yamada wrote:
+> Some time ago, Sam pointed out a certain degree of overwrap between
+> generic-y and mandatory-y. (https://lkml.org/lkml/2017/7/10/121)
 > 
-> So should I wait for a patch from Vincenzo before posting v9 or post
-> it as is? Or try to develop this patch myself?
+> I a bit tweaked the meaning of mandatory-y; now it defines the minimum
+> set of ASM headers that all architectures must have.
+> 
+> If arch does not have specific implementation of a mandatory header,
+> Kbuild will let it fallback to the asm-generic one by automatically
+> generating a wrapper. This will allow to drop lots of redundant
+> generic-y defines.
+> 
+> Previously, "mandatory" was used in the context of UAPI, but I guess
+> this can be extended to kernel space ASM headers.
 
-The reason Vincenzo hasn't posted his patches yet is that we are still
-debating internally how to document which syscalls accept non-zero
-top-byte, what to do with future syscalls for which we don't know the
-semantics.
-
-Happy to take the discussion to the public list if Vincenzo posts his
-patches. The conclusion of the ABI discussion may have an impact on the
-actual implementation that you are proposing in this series.
-
--- 
-Catalin
+How useful is it to keep the generic-y behavior around at all vs making
+everything useful mandatory?
