@@ -6,58 +6,54 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 68DCD7D8D4
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Dec 2018 12:26:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 53A857D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Dec 2018 12:26:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729514AbeLFM0H (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Dec 2018 07:26:07 -0500
-Received: from mail-io1-f66.google.com ([209.85.166.66]:34292 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729909AbeLFM0H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Dec 2018 07:26:07 -0500
-Received: by mail-io1-f66.google.com with SMTP id r9so223018ioa.1
-        for <linux-doc@vger.kernel.org>; Thu, 06 Dec 2018 04:26:06 -0800 (PST)
+        id S1729752AbeLFMZT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Dec 2018 07:25:19 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:35703 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729740AbeLFMZS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Dec 2018 07:25:18 -0500
+Received: by mail-wm1-f67.google.com with SMTP id c126so843828wmh.0
+        for <linux-doc@vger.kernel.org>; Thu, 06 Dec 2018 04:25:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wcrQnAPF661+3WixbW/biGMry6TOjJEviqadHK67u1g=;
-        b=HmoGJlRIzBGjTI45c6oZZWLJ27CVota+y9lZnaIsdIwFfftDE7rpBoZpiV81DpW8E5
-         bbbZYB/VJq7jFDkIkODJxkM3IF6YadZuGC/qRwXJP9f62FgsVCDuHjXhnBihZhIJ/kzJ
-         ijdLXpZMnjydMB5b0mgfN+X3h7uOXtsClC2AN1sXVvipVgnPbKk76xGdmLRK4ap3xQ/O
-         YElv6bsfYZYa+Zd6qnV6DwOmTbb0LvEUGzkjH9esFyq4N/gqsIa3+0kdORAXODRkS0A1
-         Te4u9veYTWfdeWYC4NlC1HZfzLvHS7zt88QxWijgLt9P3lEYMEDW28wpHbxPz356g1Er
-         +4+w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=8uSAA6A1aRTWO16DLBjPQUae1SegzQbJDGVzmV8tpfs=;
+        b=tLSUtkLSM4VsoseHSxkk9UlgsSF9LYHyfSyPHzE/hgw9NdIVRYjEYCt2b2sZUlJG/1
+         uqDS28//AknGUJ6zk2zY4PKdQ8+4tirjbHwaZwuxUYII8/CJ2BuOvvpkEq/aDfpTbtoA
+         VH3gjYgJrXPk8eyVj8GZp51F8r6L+zIZ6ZpfxVzGvB6LVe2umAITfjSip/j218/bx97S
+         HEvzXQSP2vxF0z4FWOYeSDWfMGAnX7lb9LTbaJAupapKa+mQu+Pwrsg7gUZRweVO212H
+         R6tMZh/eBx1slp1fOaIraS+NDJMvXZ3LH07qR8gRV2FudaCq+whsbKrPssVnGqelpPwL
+         B8eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wcrQnAPF661+3WixbW/biGMry6TOjJEviqadHK67u1g=;
-        b=Gv0IwELe2PnDxUmrJYKDX/toKQFTc+25cUWQ1Qw3jEwBi+HnX9ZU2rh/rYmcGDKaX5
-         fbPZg1jbSGn8QND42Ouzvnn1h++6XhPPmsr7GFIPE4sGCgFIrASOEiQqGR0nzaNiOZWm
-         6C5FIm5siUNOJ7xj6tAoXUtM6Sv3e7Ogr4UyYt7vRGLkiulD/wQJdQXO+zD/qALnrDrc
-         dWXF/KsHaVbyi444BFCBeZxQfQVAqH9YyRyrHgqdxkEasx+g7wWDf1h+gH8d5BICLzwj
-         gzaWvzaCt3vhU8BcqJsWuREy8lsu5aHyGYHYO66CMkPqB4cyEGXSYxySZoa+BnfQVNCH
-         hgEA==
-X-Gm-Message-State: AA+aEWaRgLeQUQCasHiPKacup4/5IC68NCpK6/n/N4+7nflWyAN2YtfO
-        utxWudkLeSLx+wWmlnhy2mcp8r16YY4JrHknJGkc0g==
-X-Google-Smtp-Source: AFSGD/XMruDrVJTKAoWkikR35kp0TkElzg8XSiJWXCLDTiuVscHdJFtYhqXFO5HCqhr+U+ZmpZE9vl5ADf7M7pl8HHs=
-X-Received: by 2002:a5d:91d7:: with SMTP id k23mr26027272ior.31.1544099165799;
- Thu, 06 Dec 2018 04:26:05 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1543337629.git.andreyknvl@google.com> <e825441eda1dbbbb7f583f826a66c94e6f88316a.1543337629.git.andreyknvl@google.com>
- <20181129180138.GB4318@arm.com> <CAAeHK+zVzWJ7RBsX88SOsebq0a40ypuawYFd4w4woFSHuximOw@mail.gmail.com>
- <20181206111107.GE23697@arm.com>
-In-Reply-To: <20181206111107.GE23697@arm.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=8uSAA6A1aRTWO16DLBjPQUae1SegzQbJDGVzmV8tpfs=;
+        b=tKgaW+feVNYuTuh/9rfoy9pzwMH4oUugeTmQepmIIDRpWJXgO/Me6efXg+qJg1UoOe
+         p94eDp4TNFucx/iI5sbcSrCFK36EttJkOdMdMmjtZIDAp6RKEvuXwnTYK21IKVJMA8kO
+         yDlI0sAe5cNeQc2WT0CrhT3GDH6vEVYZ5cCt5abbE1zsgWQFLSicZ4sAa4JUXTLl2V6j
+         rBc1zLPu6s/CzNs42OqjOuvneiqXDsBACxAxByIcrZF22oAV2YEP9VNRa55N2bnRu4kF
+         leuUhHfv0rNZXBsZZmBIv78WuOWFJSNVM7j08uSytZ/OO1nPc8ljcW3D1bZmSwi88G8+
+         a45g==
+X-Gm-Message-State: AA+aEWZ3/HvLSXcWnzLQAc4yGAUMPiEdX8BEIVDOBZrpQ29KDc/fLJRv
+        9ORaEBi0tv3+MRFVKcfkEFJmIA==
+X-Google-Smtp-Source: AFSGD/V4zIb54Ou409sQv+ZnuWNPIZMqrE2tacqLuIwacW/LC9rLfpzzJFwYCO48owsIvI7L30/Cmg==
+X-Received: by 2002:a1c:4681:: with SMTP id t123mr9124048wma.24.1544099116333;
+        Thu, 06 Dec 2018 04:25:16 -0800 (PST)
+Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:3180:41f8:3010:ff61])
+        by smtp.gmail.com with ESMTPSA id j8sm339988wrt.40.2018.12.06.04.25.14
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 06 Dec 2018 04:25:15 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Thu, 6 Dec 2018 13:25:54 +0100
-Message-ID: <CAAeHK+w9NQYRHuNw-fAFDKVjF1L7pxTVRfe=DX1aC1iq5hYt1w@mail.gmail.com>
-Subject: Re: [PATCH v12 20/25] kasan, arm64: add brk handler for inline instrumentation
-To:     Will Deacon <will.deacon@arm.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
         Dmitry Vyukov <dvyukov@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
         Christoph Lameter <cl@linux.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -70,19 +66,16 @@ Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Paul Lawrence <paullawrence@google.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Kate Stewart <kstewart@linuxfoundation.org>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org
+Cc:     Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
         Lee Smith <Lee.Smith@arm.com>,
         Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
         Jacob Bramley <Jacob.Bramley@arm.com>,
@@ -90,109 +83,228 @@ Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Jann Horn <jannh@google.com>,
         Mark Brand <markbrand@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Vishwath Mohan <vishwath@google.com>,
+        Andrey Konovalov <andreyknvl@google.com>
+Subject: [PATCH v13 17/25] kasan: add bug reporting routines for tag-based mode
+Date:   Thu,  6 Dec 2018 13:24:35 +0100
+Message-Id: <aee6897b1bd077732a315fd84c6b4f234dbfdfcb.1544099024.git.andreyknvl@google.com>
+X-Mailer: git-send-email 2.20.0.rc1.387.gf8505762e3-goog
+In-Reply-To: <cover.1544099024.git.andreyknvl@google.com>
+References: <cover.1544099024.git.andreyknvl@google.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 6, 2018 at 12:10 PM Will Deacon <will.deacon@arm.com> wrote:
->
-> On Thu, Dec 06, 2018 at 11:31:43AM +0100, Andrey Konovalov wrote:
-> > On Thu, Nov 29, 2018 at 7:01 PM Will Deacon <will.deacon@arm.com> wrote:
-> > >
-> > > On Tue, Nov 27, 2018 at 05:55:38PM +0100, Andrey Konovalov wrote:
-> > > > Tag-based KASAN inline instrumentation mode (which embeds checks of shadow
-> > > > memory into the generated code, instead of inserting a callback) generates
-> > > > a brk instruction when a tag mismatch is detected.
-> > > >
-> > > > This commit adds a tag-based KASAN specific brk handler, that decodes the
-> > > > immediate value passed to the brk instructions (to extract information
-> > > > about the memory access that triggered the mismatch), reads the register
-> > > > values (x0 contains the guilty address) and reports the bug.
-> > > >
-> > > > Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
-> > > > Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> > > > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> > > > ---
-> > > >  arch/arm64/include/asm/brk-imm.h |  2 +
-> > > >  arch/arm64/kernel/traps.c        | 68 +++++++++++++++++++++++++++++++-
-> > > >  include/linux/kasan.h            |  3 ++
-> > > >  3 files changed, 71 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/arch/arm64/include/asm/brk-imm.h b/arch/arm64/include/asm/brk-imm.h
-> > > > index ed693c5bcec0..2945fe6cd863 100644
-> > > > --- a/arch/arm64/include/asm/brk-imm.h
-> > > > +++ b/arch/arm64/include/asm/brk-imm.h
-> > > > @@ -16,10 +16,12 @@
-> > > >   * 0x400: for dynamic BRK instruction
-> > > >   * 0x401: for compile time BRK instruction
-> > > >   * 0x800: kernel-mode BUG() and WARN() traps
-> > > > + * 0x9xx: tag-based KASAN trap (allowed values 0x900 - 0x9ff)
-> > > >   */
-> > > >  #define FAULT_BRK_IMM                        0x100
-> > > >  #define KGDB_DYN_DBG_BRK_IMM         0x400
-> > > >  #define KGDB_COMPILED_DBG_BRK_IMM    0x401
-> > > >  #define BUG_BRK_IMM                  0x800
-> > > > +#define KASAN_BRK_IMM                        0x900
-> > > >
-> > > >  #endif
-> > > > diff --git a/arch/arm64/kernel/traps.c b/arch/arm64/kernel/traps.c
-> > > > index 5f4d9acb32f5..04bdc53716ef 100644
-> > > > --- a/arch/arm64/kernel/traps.c
-> > > > +++ b/arch/arm64/kernel/traps.c
-> > > > @@ -35,6 +35,7 @@
-> > > >  #include <linux/sizes.h>
-> > > >  #include <linux/syscalls.h>
-> > > >  #include <linux/mm_types.h>
-> > > > +#include <linux/kasan.h>
-> > > >
-> > > >  #include <asm/atomic.h>
-> > > >  #include <asm/bug.h>
-> > > > @@ -284,10 +285,14 @@ void arm64_notify_die(const char *str, struct pt_regs *regs,
-> > > >       }
-> > > >  }
-> > > >
-> > > > -void arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
-> > > > +void __arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
-> > > >  {
-> > > >       regs->pc += size;
-> > > > +}
-> > > >
-> > > > +void arm64_skip_faulting_instruction(struct pt_regs *regs, unsigned long size)
-> > > > +{
-> > > > +     __arm64_skip_faulting_instruction(regs, size);
-> > > >       /*
-> > > >        * If we were single stepping, we want to get the step exception after
-> > > >        * we return from the trap.
-> > > > @@ -959,7 +964,7 @@ static int bug_handler(struct pt_regs *regs, unsigned int esr)
-> > > >       }
-> > > >
-> > > >       /* If thread survives, skip over the BUG instruction and continue: */
-> > > > -     arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
-> > > > +     __arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
-> > >
-> > > Why do you want to avoid the single-step logic here? Given that we're
-> > > skipping over the brk instruction, why wouldn't you want that to trigger
-> > > a step exception if single-step is enabled?
-> >
-> > I was asked to do that, see the discussion here:
-> >
-> > https://www.spinics.net/lists/linux-mm/msg146575.html
-> > https://www.spinics.net/lists/linux-mm/msg148215.html
-> > https://www.spinics.net/lists/linux-mm/msg148367.html
->
-> Aha, but we subsequently fixed the underlying problem in commit
-> 9478f1927e6e ("arm64: only advance singlestep for user instruction traps").
-> You were on cc, but I appreciate it's not clear that it was related to this.
+This commit adds rountines, that print tag-based KASAN error reports.
+Those are quite similar to generic KASAN, the difference is:
 
-Sorry, missed that patch.
+1. The way tag-based KASAN finds the first bad shadow cell (with a
+   mismatching tag). Tag-based KASAN compares memory tags from the shadow
+   memory to the pointer tag.
 
-> Anyway, you can just call arm64_skip_faulting_instruction() as you were
-> doing and there's no need for this refactoring.
->
-> Please could you spin a new version so that akpm can replace the one which
-> he has queued?
+2. Tag-based KASAN reports all bugs with the "KASAN: invalid-access"
+   header.
 
-Done. Thanks!
+Also simplify generic KASAN find_first_bad_addr.
+
+Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ mm/kasan/generic_report.c | 16 ++++-------
+ mm/kasan/kasan.h          |  5 ++++
+ mm/kasan/report.c         | 57 +++++++++++++++++++++------------------
+ mm/kasan/tags_report.c    | 18 +++++++++++++
+ 4 files changed, 59 insertions(+), 37 deletions(-)
+
+diff --git a/mm/kasan/generic_report.c b/mm/kasan/generic_report.c
+index 5201d1770700..a4604cceae59 100644
+--- a/mm/kasan/generic_report.c
++++ b/mm/kasan/generic_report.c
+@@ -33,16 +33,13 @@
+ #include "kasan.h"
+ #include "../slab.h"
+ 
+-static const void *find_first_bad_addr(const void *addr, size_t size)
++void *find_first_bad_addr(void *addr, size_t size)
+ {
+-	u8 shadow_val = *(u8 *)kasan_mem_to_shadow(addr);
+-	const void *first_bad_addr = addr;
++	void *p = addr;
+ 
+-	while (!shadow_val && first_bad_addr < addr + size) {
+-		first_bad_addr += KASAN_SHADOW_SCALE_SIZE;
+-		shadow_val = *(u8 *)kasan_mem_to_shadow(first_bad_addr);
+-	}
+-	return first_bad_addr;
++	while (p < addr + size && !(*(u8 *)kasan_mem_to_shadow(p)))
++		p += KASAN_SHADOW_SCALE_SIZE;
++	return p;
+ }
+ 
+ static const char *get_shadow_bug_type(struct kasan_access_info *info)
+@@ -50,9 +47,6 @@ static const char *get_shadow_bug_type(struct kasan_access_info *info)
+ 	const char *bug_type = "unknown-crash";
+ 	u8 *shadow_addr;
+ 
+-	info->first_bad_addr = find_first_bad_addr(info->access_addr,
+-						info->access_size);
+-
+ 	shadow_addr = (u8 *)kasan_mem_to_shadow(info->first_bad_addr);
+ 
+ 	/*
+diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+index 33cc3b0e017e..82a23b23ff93 100644
+--- a/mm/kasan/kasan.h
++++ b/mm/kasan/kasan.h
+@@ -119,6 +119,7 @@ void kasan_poison_shadow(const void *address, size_t size, u8 value);
+ void check_memory_region(unsigned long addr, size_t size, bool write,
+ 				unsigned long ret_ip);
+ 
++void *find_first_bad_addr(void *addr, size_t size);
+ const char *get_bug_type(struct kasan_access_info *info);
+ 
+ void kasan_report(unsigned long addr, size_t size,
+@@ -139,10 +140,14 @@ static inline void quarantine_remove_cache(struct kmem_cache *cache) { }
+ 
+ #ifdef CONFIG_KASAN_SW_TAGS
+ 
++void print_tags(u8 addr_tag, const void *addr);
++
+ u8 random_tag(void);
+ 
+ #else
+ 
++static inline void print_tags(u8 addr_tag, const void *addr) { }
++
+ static inline u8 random_tag(void)
+ {
+ 	return 0;
+diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+index 64a74f334c45..214d85035f99 100644
+--- a/mm/kasan/report.c
++++ b/mm/kasan/report.c
+@@ -64,11 +64,10 @@ static int __init kasan_set_multi_shot(char *str)
+ }
+ __setup("kasan_multi_shot", kasan_set_multi_shot);
+ 
+-static void print_error_description(struct kasan_access_info *info,
+-					const char *bug_type)
++static void print_error_description(struct kasan_access_info *info)
+ {
+ 	pr_err("BUG: KASAN: %s in %pS\n",
+-		bug_type, (void *)info->ip);
++		get_bug_type(info), (void *)info->ip);
+ 	pr_err("%s of size %zu at addr %px by task %s/%d\n",
+ 		info->is_write ? "Write" : "Read", info->access_size,
+ 		info->access_addr, current->comm, task_pid_nr(current));
+@@ -272,6 +271,8 @@ void kasan_report_invalid_free(void *object, unsigned long ip)
+ 
+ 	start_report(&flags);
+ 	pr_err("BUG: KASAN: double-free or invalid-free in %pS\n", (void *)ip);
++	print_tags(get_tag(object), reset_tag(object));
++	object = reset_tag(object);
+ 	pr_err("\n");
+ 	print_address_description(object);
+ 	pr_err("\n");
+@@ -279,41 +280,45 @@ void kasan_report_invalid_free(void *object, unsigned long ip)
+ 	end_report(&flags);
+ }
+ 
+-static void kasan_report_error(struct kasan_access_info *info)
+-{
+-	unsigned long flags;
+-
+-	start_report(&flags);
+-
+-	print_error_description(info, get_bug_type(info));
+-	pr_err("\n");
+-
+-	if (!addr_has_shadow(info->access_addr)) {
+-		dump_stack();
+-	} else {
+-		print_address_description((void *)info->access_addr);
+-		pr_err("\n");
+-		print_shadow_for_address(info->first_bad_addr);
+-	}
+-
+-	end_report(&flags);
+-}
+-
+ void kasan_report(unsigned long addr, size_t size,
+ 		bool is_write, unsigned long ip)
+ {
+ 	struct kasan_access_info info;
++	void *tagged_addr;
++	void *untagged_addr;
++	unsigned long flags;
+ 
+ 	if (likely(!report_enabled()))
+ 		return;
+ 
+ 	disable_trace_on_warning();
+ 
+-	info.access_addr = (void *)addr;
+-	info.first_bad_addr = (void *)addr;
++	tagged_addr = (void *)addr;
++	untagged_addr = reset_tag(tagged_addr);
++
++	info.access_addr = tagged_addr;
++	if (addr_has_shadow(untagged_addr))
++		info.first_bad_addr = find_first_bad_addr(tagged_addr, size);
++	else
++		info.first_bad_addr = untagged_addr;
+ 	info.access_size = size;
+ 	info.is_write = is_write;
+ 	info.ip = ip;
+ 
+-	kasan_report_error(&info);
++	start_report(&flags);
++
++	print_error_description(&info);
++	if (addr_has_shadow(untagged_addr))
++		print_tags(get_tag(tagged_addr), info.first_bad_addr);
++	pr_err("\n");
++
++	if (addr_has_shadow(untagged_addr)) {
++		print_address_description(untagged_addr);
++		pr_err("\n");
++		print_shadow_for_address(info.first_bad_addr);
++	} else {
++		dump_stack();
++	}
++
++	end_report(&flags);
+ }
+diff --git a/mm/kasan/tags_report.c b/mm/kasan/tags_report.c
+index 8af15e87d3bc..573c51d20d09 100644
+--- a/mm/kasan/tags_report.c
++++ b/mm/kasan/tags_report.c
+@@ -37,3 +37,21 @@ const char *get_bug_type(struct kasan_access_info *info)
+ {
+ 	return "invalid-access";
+ }
++
++void *find_first_bad_addr(void *addr, size_t size)
++{
++	u8 tag = get_tag(addr);
++	void *p = reset_tag(addr);
++	void *end = p + size;
++
++	while (p < end && tag == *(u8 *)kasan_mem_to_shadow(p))
++		p += KASAN_SHADOW_SCALE_SIZE;
++	return p;
++}
++
++void print_tags(u8 addr_tag, const void *addr)
++{
++	u8 *shadow = (u8 *)kasan_mem_to_shadow(addr);
++
++	pr_err("Pointer tag: [%02x], memory tag: [%02x]\n", addr_tag, *shadow);
++}
+-- 
+2.20.0.rc1.387.gf8505762e3-goog
+
