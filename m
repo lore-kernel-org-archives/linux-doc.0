@@ -1,143 +1,217 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 960A57D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Dec 2018 00:26:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 105887D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Dec 2018 01:11:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727794AbeLFA0j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Dec 2018 19:26:39 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:38158 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727514AbeLFA0j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Dec 2018 19:26:39 -0500
-Received: by mail-pl1-f193.google.com with SMTP id e5so10873151plb.5
-        for <linux-doc@vger.kernel.org>; Wed, 05 Dec 2018 16:26:38 -0800 (PST)
+        id S1728799AbeLFBLF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Dec 2018 20:11:05 -0500
+Received: from mail-yb1-f195.google.com ([209.85.219.195]:44529 "EHLO
+        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728648AbeLFBLE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Dec 2018 20:11:04 -0500
+Received: by mail-yb1-f195.google.com with SMTP id j145so4913738ybg.11
+        for <linux-doc@vger.kernel.org>; Wed, 05 Dec 2018 17:11:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=URCyZCPL+TUEFjSpR/fenuVZXwVf0zMM4zm8B9xW2pA=;
-        b=X2SljuWn+9bHWDMbyEyaxzOXEa1CTVhuZwutL1yEfJLDYl9NKJm2Kgw+1uosRkYMNl
-         3QJwbPA2cJv6vDvAGJCcIsk7y1bqjyT0dDsQMOOrENr9O0mPGPACPkmlmbPA+70I/fse
-         FzdEa6l+FYByRZ4nUDwk3mlQN2asxSvYj7SL7/DmyqBjY9LcKiMAY4MtMCGoH6MSmFyI
-         cxBe70WguRLY4Y594pSW/MGy6XTO6e/sGVZwUWbWm8MeGYKgFWgLGF3luO45x7oJoEFI
-         rL3gU4OPcd0w/A+gP55Qkj+ccP94wq1M6QKcAWVzE0d7oRY94CtfmCT9o0QRNkzxVsbD
-         onhg==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YMsFPOwp+HYuQfKFu9COzZPdWHtGKQJMtECRPLEDAaA=;
+        b=iOFoDPQesDyogJo9GYnMT/IyfMDQgqUjVHWcy41ovY8oNDgtNmemTGH69m+iRtz4/G
+         n4m/kY9MPmq3/J9ow86qmMllfTIvd3Ko8NrJnfyajL6nMtRw4q5ss1qqJmVFDouhKAIJ
+         pdAStRLIaEwQwBhmXubejRWGccZwkQfgwOXEY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=URCyZCPL+TUEFjSpR/fenuVZXwVf0zMM4zm8B9xW2pA=;
-        b=j23vEtE3z0PKl8HrAhHLPn/baPjn/NjvNlCMaFGyt9oNUSxciISdvbhG7VuYDGIBmo
-         KbLi3fDqx/kfG3y9hLhow1QIoBAQmBInEtxYnoSYkzjRVlbLVtpSt5Du+NEt72bAKfjm
-         k21GFDvYDlAcZC4oeuHzbI5z3w8aWGHFe5yOOhZrkIbOvmiWnqJctgLZqD9a4lRn/xJ3
-         T9DZd1p2QIC5X8NxMdnIfXvzDZOrEr1LXvE60XVtznE3Du/8Hetn5qe/GSd9GV7Ssz9y
-         +sHzwHOWbp5DSMUaLcTn7+VY4iceY61x4CRY1xkdtHyYWRJAiRQfE6xFWPqUFXAsUpNI
-         1RuA==
-X-Gm-Message-State: AA+aEWYEKmLXObFQF9gNco/kVxlzvuOgZRhNvXOQWs6B2qL0OefvsDOH
-        OsjeuGR/F9N3Q3roIaSQGFg=
-X-Google-Smtp-Source: AFSGD/W6/H8znQ6RfXPvhVzpcTkpVDdl7lQ7B+GA01lNNYw1QkCIeTJkfpeKW+9gzt6QzH2a3lYoGw==
-X-Received: by 2002:a17:902:70c6:: with SMTP id l6mr26947492plt.30.1544055998474;
-        Wed, 05 Dec 2018 16:26:38 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id e24sm30646534pfi.153.2018.12.05.16.26.37
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YMsFPOwp+HYuQfKFu9COzZPdWHtGKQJMtECRPLEDAaA=;
+        b=B4zXyt4PNUbmDn0p+5ZwsPaRVONDd3DvuWOcr+4iyF8UyTjFe2Dw04HA3fqjRgCUyZ
+         jlMKwzToJ0X06KNiXDYUZnIx6Bj9mtgSX5cq+CjZvHL8PqbR9KfaZcmS/OJby+BlnBfs
+         cjShTHI9/Sk9kl/7R4vZqtmo/vdL62vS8zicbioDnZaz+S+f/hOLqVbszy1xHkSODXZ+
+         ALIA1/PFxDm5S46cihycfimrpexSuVDnzUGnZsOQeYR9AKhQFEy4y8qzHw/JyUPCA62n
+         ExzvNT9IXeySamvWw392s4M6sgdpdf2QtgQI0qv8hrq+QK6mRfAV09STnNBBFwqqyh4J
+         rnNA==
+X-Gm-Message-State: AA+aEWZJR635cwfehCeU9M+bzyG/lsG2iUTH2yC9CtHIHLdJxTdUdp6Z
+        SuLFjGcbwJerLmKRPZvOo5VVuNq+4qk=
+X-Google-Smtp-Source: AFSGD/XPgk6cvVuTaDUsHZ/Ewc3PhPSN5lNrcmRmgwTtWkt0HuX4vdekczKG+3VwNQSoSJ33jDeDFA==
+X-Received: by 2002:a0d:ea8e:: with SMTP id t136mr27267100ywe.376.1544058662544;
+        Wed, 05 Dec 2018 17:11:02 -0800 (PST)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id u2sm8129284ywe.84.2018.12.05.17.11.00
+        for <linux-doc@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 05 Dec 2018 16:26:37 -0800 (PST)
-From:   Wei Yang <richard.weiyang@gmail.com>
-To:     rppt@linux.ibm.com, david@redhat.com, mhocko@suse.com,
-        osalvador@suse.de
-Cc:     akpm@linux-foundation.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, Wei Yang <richard.weiyang@gmail.com>
-Subject: [PATCH v2 2/2] core-api/memory-hotplug.rst: divide Locking Internal section by different locks
-Date:   Thu,  6 Dec 2018 08:26:22 +0800
-Message-Id: <20181206002622.30675-2-richard.weiyang@gmail.com>
-X-Mailer: git-send-email 2.15.1
-In-Reply-To: <20181206002622.30675-1-richard.weiyang@gmail.com>
-References: <20181205023426.24029-1-richard.weiyang@gmail.com>
- <20181206002622.30675-1-richard.weiyang@gmail.com>
+        Wed, 05 Dec 2018 17:11:01 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id f125so5084014ybc.0
+        for <linux-doc@vger.kernel.org>; Wed, 05 Dec 2018 17:11:00 -0800 (PST)
+X-Received: by 2002:a81:98e:: with SMTP id 136mr26259370ywj.47.1544058660007;
+ Wed, 05 Dec 2018 17:11:00 -0800 (PST)
+MIME-Version: 1.0
+References: <feac7efa-df6f-cca1-e321-28d220bf0411@linux.intel.com> <b1a4fa08-482d-0fcc-c798-efb9a9894a47@linux.intel.com>
+In-Reply-To: <b1a4fa08-482d-0fcc-c798-efb9a9894a47@linux.intel.com>
+From:   Kees Cook <keescook@chromium.org>
+Date:   Wed, 5 Dec 2018 17:10:48 -0800
+X-Gmail-Original-Message-ID: <CAGXu5jJ_CyE5A2VUSyyi-uj4webfZM9ZOACp523p5xFhv1KCAQ@mail.gmail.com>
+Message-ID: <CAGXu5jJ_CyE5A2VUSyyi-uj4webfZM9ZOACp523p5xFhv1KCAQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] Documentation/admin-guide: introduce
+ perf-security.rst file
+To:     Alexey Budankov <alexey.budankov@linux.intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jann Horn <jannh@google.com>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Tvrtko Ursulin <tursulin@ursulin.net>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently locking for memory hotplug is a little complicated.
+On Tue, Nov 27, 2018 at 12:15 AM Alexey Budankov
+<alexey.budankov@linux.intel.com> wrote:
+>
+>
+> Implement initial version of perf-security.rst documentation file
+> covering security concerns of perf_event_paranoid settings.
+>
+> Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+> Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
 
-Generally speaking, we leverage the two global lock:
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-  * device_hotplug_lock
-  * mem_hotplug_lock
+-Kees
 
-to serialise the process.
+> ---
+> Changes in v4:
+> - added docs for perf_event related capabilities
+> Changes in v3:
+> - toning down of the markup for "scope, access and resource"
+> - adding definite article for "Linux implementation"
+> Changes in v2:
+> - reverted patches order in the set to avoid CI issue
+> - replaced old PCL referencing by PE (Perf Events)
+> - skipped >=3 setting documentation at the moment
+> ---
+>  Documentation/admin-guide/perf-security.rst | 97 +++++++++++++++++++++
+>  1 file changed, 97 insertions(+)
+>  create mode 100644 Documentation/admin-guide/perf-security.rst
+>
+> diff --git a/Documentation/admin-guide/perf-security.rst b/Documentation/admin-guide/perf-security.rst
+> new file mode 100644
+> index 000000000000..f73ebfe9bfe2
+> --- /dev/null
+> +++ b/Documentation/admin-guide/perf-security.rst
+> @@ -0,0 +1,97 @@
+> +.. _perf_security:
+> +
+> +Perf Events and tool security
+> +=============================
+> +
+> +Overview
+> +--------
+> +
+> +Usage of Performance Counters for Linux (perf_events) [1]_ , [2]_ , [3]_ can
+> +impose a considerable risk of leaking sensitive data accessed by monitored
+> +processes. The data leakage is possible both in scenarios of direct usage of
+> +perf_events system call API [2]_ and over data files generated by Perf tool user
+> +mode utility (Perf) [3]_ , [4]_ . The risk depends on the nature of data that
+> +perf_events performance monitoring units (PMU) [2]_ collect and expose for
+> +performance analysis. Having that said perf_events/Perf performance monitoring
+> +is the subject for security access control management [5]_ .
+> +
+> +perf_events/Perf access control
+> +-------------------------------
+> +
+> +To perform security checks, the Linux implementation splits processes into two
+> +categories [6]_ : a) privileged processes (whose effective user ID is 0, referred
+> +to as superuser or root), and b) unprivileged processes (whose effective UID is
+> +nonzero). Privileged processes bypass all kernel security permission checks so
+> +perf_events performance monitoring is fully available to privileged processes
+> +without access, scope and resource restrictions.
+> +
+> +Unprivileged processes are subject to a full security permission check based on
+> +the process's credentials [5]_ (usually: effective UID, effective GID, and
+> +supplementary group list).
+> +
+> +Linux divides the privileges traditionally associated with superuser into
+> +distinct units, known as capabilities [6]_ , which can be independently enabled
+> +and disabled on per-thread basis for processes and files of unprivileged users.
+> +
+> +Unprivileged processes with enabled CAP_SYS_ADMIN capability are treated as
+> +privileged processes with respect to perf_events performance monitoring and
+> +bypass *scope* permissions checks in the kernel.
+> +
+> +Unprivileged processes using perf_events system call API is also subject for
+> +PTRACE_MODE_READ_REALCREDS ptrace access mode check [7]_ , whose outcome
+> +determines whether monitoring is permitted. So unprivileged processes provided
+> +with CAP_SYS_PTRACE capability are effectively permitted to pass the check.
+> +
+> +Other capabilities being granted to unprivileged processes can effectively
+> +enable capturing of additional data required for later performance analysis of
+> +monitored processes or a system. For example, CAP_SYSLOG capability permits
+> +reading kernel space memory addresses from /proc/kallsyms file.
+> +
+> +perf_events/Perf unprivileged users
+> +-----------------------------------
+> +
+> +perf_events/Perf *scope* and *access* control for unprivileged processes is
+> +governed by perf_event_paranoid [2]_ setting:
+> +
+> +-1:
+> +     Impose no *scope* and *access* restrictions on using perf_events performance
+> +     monitoring. Per-user per-cpu perf_event_mlock_kb [2]_ locking limit is
+> +     ignored when allocating memory buffers for storing performance data.
+> +     This is the least secure mode since allowed monitored *scope* is
+> +     maximized and no perf_events specific limits are imposed on *resources*
+> +     allocated for performance monitoring.
+> +
+> +>=0:
+> +     *scope* includes per-process and system wide performance monitoring
+> +     but excludes raw tracepoints and ftrace function tracepoints monitoring.
+> +     CPU and system events happened when executing either in user or
+> +     in kernel space can be monitored and captured for later analysis.
+> +     Per-user per-cpu perf_event_mlock_kb locking limit is imposed but
+> +     ignored for unprivileged processes with CAP_IPC_LOCK [6]_ capability.
+> +
+> +>=1:
+> +     *scope* includes per-process performance monitoring only and excludes
+> +     system wide performance monitoring. CPU and system events happened when
+> +     executing either in user or in kernel space can be monitored and
+> +     captured for later analysis. Per-user per-cpu perf_event_mlock_kb
+> +     locking limit is imposed but ignored for unprivileged processes with
+> +     CAP_IPC_LOCK capability.
+> +
+> +>=2:
+> +     *scope* includes per-process performance monitoring only. CPU and system
+> +     events happened when executing in user space only can be monitored and
+> +     captured for later analysis. Per-user per-cpu perf_event_mlock_kb
+> +     locking limit is imposed but ignored for unprivileged processes with
+> +     CAP_IPC_LOCK capability.
+> +
+> +Bibliography
+> +------------
+> +
+> +.. [1] `<https://lwn.net/Articles/337493/>`_
+> +.. [2] `<http://man7.org/linux/man-pages/man2/perf_event_open.2.html>`_
+> +.. [3] `<http://web.eece.maine.edu/~vweaver/projects/perf_events/>`_
+> +.. [4] `<https://perf.wiki.kernel.org/index.php/Main_Page>`_
+> +.. [5] `<https://www.kernel.org/doc/html/latest/security/credentials.html>`_
+> +.. [6] `<http://man7.org/linux/man-pages/man7/capabilities.7.html>`_
+> +.. [7] `<http://man7.org/linux/man-pages/man2/ptrace.2.html>`_
+> +
 
-While for the long term, we are willing to have more fine-grained lock
-to provide higher scalability.
 
-This patch divides Locking Internal section based on these two global
-locks to help readers to understand it. Also it adds some new finding to
-enrich it.
 
-[David: words arrangement]
-
-Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
----
-v2: adjustment based on David and Mike comment
----
- Documentation/core-api/memory-hotplug.rst | 27 ++++++++++++++++++++++++---
- 1 file changed, 24 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/core-api/memory-hotplug.rst b/Documentation/core-api/memory-hotplug.rst
-index de7467e48067..51d477ad4b80 100644
---- a/Documentation/core-api/memory-hotplug.rst
-+++ b/Documentation/core-api/memory-hotplug.rst
-@@ -89,6 +89,20 @@ NOTIFY_STOP stops further processing of the notification queue.
- Locking Internals
- =================
- 
-+In addition to fine grained locks like pgdat_resize_lock, there are three locks
-+involved
-+
-+- device_hotplug_lock
-+- mem_hotplug_lock
-+- device_lock
-+
-+Currently, they are twisted together for all kinds of reasons. The following
-+part is divided into device_hotplug_lock and mem_hotplug_lock parts
-+respectively to describe those tricky situations.
-+
-+device_hotplug_lock
-+---------------------
-+
- When adding/removing memory that uses memory block devices (i.e. ordinary RAM),
- the device_hotplug_lock should be held to:
- 
-@@ -111,13 +125,20 @@ As the device is visible to user space before taking the device_lock(), this
- can result in a lock inversion.
- 
- onlining/offlining of memory should be done via device_online()/
--device_offline() - to make sure it is properly synchronized to actions
--via sysfs. Holding device_hotplug_lock is advised (to e.g. protect online_type)
-+device_offline() - to make sure it is properly synchronized to actions via
-+sysfs. Even if mem_hotplug_lock is used to protect the process, because of the
-+lock inversion described above, holding device_hotplug_lock is still advised
-+(to e.g. protect online_type)
-+
-+mem_hotplug_lock
-+---------------------
- 
- When adding/removing/onlining/offlining memory or adding/removing
- heterogeneous/device memory, we should always hold the mem_hotplug_lock in
- write mode to serialise memory hotplug (e.g. access to global/zone
--variables).
-+variables). Currently, we take advantage of this to serialise sparsemem's
-+mem_section handling in sparse_add_one_section() and
-+sparse_remove_one_section().
- 
- In addition, mem_hotplug_lock (in contrast to device_hotplug_lock) in read
- mode allows for a quite efficient get_online_mems/put_online_mems
 -- 
-2.15.1
-
+Kees Cook
