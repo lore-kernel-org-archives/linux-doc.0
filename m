@@ -5,48 +5,48 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2DFD77D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Dec 2018 12:48:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4831B7D8A5
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Dec 2018 12:49:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726018AbeLGMsu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Dec 2018 07:48:50 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:54119 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726011AbeLGMsu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Dec 2018 07:48:50 -0500
-Received: by mail-wm1-f65.google.com with SMTP id y1so4247830wmi.3
-        for <linux-doc@vger.kernel.org>; Fri, 07 Dec 2018 04:48:48 -0800 (PST)
+        id S1726050AbeLGMtJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Dec 2018 07:49:09 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:43082 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726194AbeLGMtI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Dec 2018 07:49:08 -0500
+Received: by mail-wr1-f66.google.com with SMTP id r10so3666221wrs.10
+        for <linux-doc@vger.kernel.org>; Fri, 07 Dec 2018 04:49:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=mena-vt-edu.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LnTR2zDZgCijfk2DcdnLSZDS0zNNzvjE9cRG7wgn868=;
-        b=t7xh69VduDRJ5LBR81AsSYvy+bvytlthpc640egwGHHAbxG0d0VuK2LhJ0haPZ+cXl
-         4ws0JUrAgXcusrM7ObzqramdvnN1mtpbLPfpZGI9frjRtQC42OA6E99QnXXCxNFgo3Cu
-         98W6qNJHkLWGAedkoQyrUOcwg0cyOA7XqPQ3t3D021tB+jppMHPhW3suPpUQWv9SEEfX
-         /RlM6P6xEYfV/QAQMYrzigiVv2JIJj5amc6zbNkbR2/cXg7McIYEUP18Z0FdoZIp2mdZ
-         nqObYGdvDWiEf04pDgAYJWsZwS7VhuJ9D7GQqoE1Ct3nK8aCVMbFOyi5XaVO7kp+ML2D
-         ydpg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=S5NVvoOgAgdZo8wmN11QDMw/7RKccGkERCz5dFRhs3I=;
+        b=HsAo0n5ZNHZaaJaRpG3bq8GeB9YXcLdfGtEPiqJR7TiK9RyHGc09ZiBOLVU2/W+GE0
+         V5xYVxwH0yMcAuvTT3IRWHgbtyrUSJjJzeMXPG/c6Dl1235iHf6MF6F7qX3JO7jHRj0n
+         bQjlCVGAQt81pNjjoJSFNzVRYe8zmL8APySTvaZrLtQNWX/ZSF6bRA8M1TcoReAIk29r
+         yVPaYrUMimHnqJ5kgHtagJ+L9KMndIbDBFw7ZFg1lOKmc8PE6RkiyIJqBdovX3EYwv8J
+         1tX5uw0LgZjnd0xFISAw71qw72AJlRkQhrupmJBtsifpJMophzJ+rkWe+16yl4pBfKDt
+         jjDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LnTR2zDZgCijfk2DcdnLSZDS0zNNzvjE9cRG7wgn868=;
-        b=b42Nl+uDPOC8xNl+CupqONWS52w9dVlS+KdALTqWQ6gsmQR8ed6aOjt5luMve0nO0B
-         Lx2dQ28kkXBa6pH2d4gGzpRLhk/PItKtRcAKZBi9OsGF2SP6w56n/VK+HttyVOTWmfJx
-         RQ01RqRKYaLyQycR5iYqOruYXMpIHWLHzRk0mjN+KJDBNJxnmsdocwhBZ5+vbAliCMEY
-         tLI6B1SY9/oHdxHts/bh4Tqin/BfEq8vmB4iV1yT3sL4p1XIU8gZtiTwRGZNhKvQZlv5
-         2nUbJBLf9/AXolOxiqsw44hFemsAj41AEUa2CIawOINXDiK45UrpONOzyTvQpSzWpdjC
-         EmRg==
-X-Gm-Message-State: AA+aEWahB8gq2cG+q7V1/1o8pvUCDPmwBAbuu/603c6GAf1fgu6Wdbnd
-        X6Lr1Hh/CtVHzesOvk+gIwzL8Q==
-X-Google-Smtp-Source: AFSGD/VrTxNO99K9joHVg/FUytIXKhfVjHA8o+Vzp0C12QQibaz/LKyBuDe5E9n8U4Kzl5CXiSH+hQ==
-X-Received: by 2002:a1c:2b45:: with SMTP id r66mr2061160wmr.7.1544186927711;
-        Fri, 07 Dec 2018 04:48:47 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=S5NVvoOgAgdZo8wmN11QDMw/7RKccGkERCz5dFRhs3I=;
+        b=flPnuzCU7WaY+AsrDhWVYWmLN9HORZZ6cqMr1V8S9yRfrRD/OyUVnwVT9wHy5RwsE7
+         FC4gLpv7pCfu2+GGAPwTtSOd5MktOLqHe4nYtb+pT0JduYJRBnIjH7QKMXBp78loJ6oR
+         vZ+c5pGPNiO5ywiIzgEMVMK1QbooCdw0PT5w7vNLodLB47v/709fj0jmW/2R44Ld6Doy
+         +GsG3p9cTPYZh/tMWVb95hK/RvMc67OvtjHDfrPCezOzFMEMbCG4/g/nUUVueGltRKpI
+         b3gVvC6983q+JcOkM0sx34Ihb+tBDlEDXzPjbkespTg7ZGzx+9hjhAlAdxewajKCQU41
+         zWnw==
+X-Gm-Message-State: AA+aEWZHzFyIV2GzZfnv4yg3u8466kvhPmbirb0K32Z8e6OGuPwdxMLn
+        2FFOpcL72lIfl3vPr4CrhkBlmA==
+X-Google-Smtp-Source: AFSGD/Xg0iVjxrHzmepdWCYZL5IIBms+bQjq3bJau9vmc8enLf7nlyrhxgrAgU168RFf41hftAmKlg==
+X-Received: by 2002:adf:fd03:: with SMTP id e3mr1640907wrr.280.1544186947022;
+        Fri, 07 Dec 2018 04:49:07 -0800 (PST)
 Received: from localhost.localdomain ([156.213.98.90])
-        by smtp.gmail.com with ESMTPSA id i192sm4362949wmg.7.2018.12.07.04.48.43
+        by smtp.gmail.com with ESMTPSA id i192sm4362949wmg.7.2018.12.07.04.49.02
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Dec 2018 04:48:47 -0800 (PST)
+        Fri, 07 Dec 2018 04:49:06 -0800 (PST)
 From:   Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
 To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Jonathan Corbet <corbet@lwn.net>,
@@ -59,10 +59,12 @@ To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Boris Lukashev <blukashev@sempervictus.com>,
         Igor Stoppa <igor.stoppa@gmail.com>
 Cc:     Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-Subject: [PATCH V7 0/10] KVM: X86: Introducing ROE Protection Kernel Hardening
-Date:   Fri,  7 Dec 2018 14:47:53 +0200
-Message-Id: <20181207124803.10828-1-ahmedsoliman@mena.vt.edu>
+Subject: [PATCH 04/10] KVM: Document Memory ROE
+Date:   Fri,  7 Dec 2018 14:47:57 +0200
+Message-Id: <20181207124803.10828-5-ahmedsoliman@mena.vt.edu>
 X-Mailer: git-send-email 2.19.2
+In-Reply-To: <20181207124803.10828-1-ahmedsoliman@mena.vt.edu>
+References: <20181207124803.10828-1-ahmedsoliman@mena.vt.edu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -70,200 +72,60 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
--- Summary --
-
-ROE is a hypercall that enables host operating system to restrict guest's access
-to its own memory. This will provide a hardening mechanism that can be used to
-stop rootkits from manipulating kernel static data structures and code. Once a
-memory region is protected the guest kernel can't even request undoing the
-protection.
-
-Memory protected by ROE should be non-swapable because even if the ROE protected
-page got swapped out, It won't be possible to write anything in its place.
-
-ROE hypercall should be capable of either protecting a whole memory frame or
-parts of it. With these two, it should be possible for guest kernel to protect
-its memory and all the page table entries for that memory inside the page table.
-I am still not sure whether this should be part of ROE job or the guest's job.
-
-
-The reason why it would be better to implement this from inside kvm: instead of
-(host) user space is the need to access SPTEs to modify the permissions, while
-mprotect() from user space can work in theory. It will become a big performance
-hit to vmexit and switch to user space mode on each fault, on the other hand,
-having the permission handled by EPT should make some remarkable performance
-gain.
-
-Our threat model assumes that an attacker got full root access to a running
-guest and his goal is to manipulate kernel code/data (hook syscalls, overwrite
-IDT ..etc).
-
-There is future work in progress to also put some sort of protection on the page
-table register CR3 and other critical registers that can be intercepted by KVM.
-This way it won't be possible for an attacker to manipulate any part of the
-guests page table.
-
-
--- Test Case --
-
-I was requested to add a test to tools/testing/selftests/kvm/. But the original
-testing suite didn't work for my machine, I experienced shutdown due to triple
-fault because of EPT fault with the current tests. I tried bisecting but the
-triple fault was there from the very first commit.
-
-So instead I would provide here a demo kernel module to test the current
-implementation:
-
-```
-	#include <linux/init.h>
-	#include <linux/module.h>
-	#include <linux/kernel.h>
-	#include <linux/slab.h>
-	#include <linux/kvm_para.h>
-	#include <linux/mm.h>
-	MODULE_LICENSE("GPL");
-	MODULE_AUTHOR("OddCoder");
-	MODULE_DESCRIPTION("ROE Hello world Module");
-	MODULE_VERSION("0.0.1");
-
-	#define KVM_HC_ROE 11
-	#define ROE_VERSION 0
-	#define ROE_MPROTECT 1
-	#define ROE_MPROTECT_CHUNK 2
-
-	static long roe_version(void){
-		return kvm_hypercall1 (KVM_HC_ROE, ROE_VERSION);
-	}
-
-	static long roe_mprotect(void *addr, long pg_count) {
-		return kvm_hypercall3 (KVM_HC_ROE, ROE_MPROTECT, (u64)addr, pg_count);
-	}
-
-	static long roe_mprotect_chunk(void *addr, long size) {
-		return kvm_hypercall3 (KVM_HC_ROE, ROE_MPROTECT_CHUNK, (u64)addr, size);
-	}
-
- 	static int __init hello(void ) {
-		int x;
-		struct page *pg1, *pg2;
-		void *memory;
-		pg1 = alloc_page(GFP_KERNEL);
-		pg2 = alloc_page(GFP_KERNEL);
-		memory = page_to_virt(pg1);
-		pr_info ("ROE_VERSION: %ld\n", roe_version());
-		pr_info ("Allocated memory: 0x%llx\n", (u64)memory);
-		pr_info("Physical Address: 0x%llx\n", virt_to_phys(memory));
-		strcpy((char *)memory, "ROE PROTECTED");
-		pr_info("memory_content: %s\n", (char *)memory);
-		x = roe_mprotect((void *)memory, 1);
-		strcpy((char *)memory, "The strcpy should silently fail and"
-					"memory content won't be modified");
-		pr_info("memory_content: %s\n", (char *)memory);
-		memory = page_to_virt(pg2);
-		pr_info ("Allocated memory: 0x%llx\n", (u64)memory);
-		pr_info("Physical Address: 0x%llx\n", virt_to_phys(memory));
-		strcpy((char *)memory, "ROE PROTECTED PARTIALLY");
-		roe_mprotect_chunk((void *)memory, strlen((char *)memory));
-		pr_info("memory_content: %s\n", (char *)memory);
-		strcpy((char *)memory, "XXXXXXXXXXXXXXXXXXXXXXX"
-					" <- Text here not modified still Can concat");
-		pr_info("memory_content: %s\n", (char *)memory);
-		return 0;
-	}
-	static void __exit bye(void) {
-		pr_info("Allocated Memory May never be freed at all!\n");
-		pr_info("Actually this is more of an ABI demonstration\n");
-		pr_info("than actual use case\n");
-		}
-	module_init(hello);
-	module_exit(bye);
-
-```
-
-I tried this on Gentoo host with Ubuntu guest and Qemu from git after applying
-the following changes to Qemu
-
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 4880a05399..57d0973aca 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -2035,6 +2035,9 @@ int kvm_cpu_exec(CPUState *cpu)
-                              run->mmio.is_write);
-             ret = 0;
-             break;
-+	case KVM_EXIT_ROE:
-+	    ret = 0;
-+	    break;
-         case KVM_EXIT_IRQ_WINDOW_OPEN:
-             DPRINTF("irq_window_open\n");
-             ret = EXCP_INTERRUPT;
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index f11a7eb49c..67aded8f00 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -235,7 +235,7 @@ struct kvm_hyperv_exit {
- #define KVM_EXIT_S390_STSI        25
- #define KVM_EXIT_IOAPIC_EOI       26
- #define KVM_EXIT_HYPERV           27
--
-+#define KVM_EXIT_ROE              28
- /* For KVM_EXIT_INTERNAL_ERROR */
- /* Emulate instruction failed. */
- #define KVM_INTERNAL_ERROR_EMULATION	1
-
-
-
--- Change log V6 -> V7 --
-
-- Completely remove CONFIG_KVM_ROE, ROE is always enabled, since it is opt in
-  anyway.
-- Bug fixes regarding how each element in the protection bitmap maps to the
-  equivalent SPTE.
-- General Code cleaning.
-
-
--- Known Issues --
-
-- THP is not supported yet. In general it is not supported when the guest frame
-  size is not the same as the equivalent EPT frame size.
-
-The previous version (V6) of the patch set can be found at [1]
-
--- links --
-
-[1] https://lkml.org/lkml/2018/11/4/417
-
--- List of patches --
-
-[PATCH V7 01/10] KVM: State whether memory should be freed in
-[PATCH V7 02/10] KVM: X86: Add arbitrary data pointer in kvm memslot
-[PATCH V7 03/10] KVM: X86: Add helper function to convert SPTE to GFN
-[PATCH V7 04/10] KVM: Document Memory ROE
-[PATCH V7 05/10] KVM: Create architecture independent ROE skeleton
-[PATCH V7 06/10] KVM: X86: Enable ROE for x86
-[PATCH V7 07/10] KVM: Add support for byte granular memory ROE
-[PATCH V7 08/10] KVM: X86: Port ROE_MPROTECT_CHUNK to x86
-[PATCH V7 09/10] KVM: Add new exit reason For ROE violations
-[PATCH V7 10/10] KVM: Log ROE violations in system log
-
-
--- Difstat --
-
- Documentation/virtual/kvm/hypercalls.txt |  40 ++++
- arch/x86/include/asm/kvm_host.h          |   2 +-
- arch/x86/kvm/Makefile                    |   4 +-
- arch/x86/kvm/mmu.c                       | 121 +++++------
- arch/x86/kvm/mmu.h                       |  31 ++-
- arch/x86/kvm/roe.c                       | 104 ++++++++++
- arch/x86/kvm/roe_arch.h                  |  28 +++
- arch/x86/kvm/x86.c                       |  21 +-
- include/kvm/roe.h                        |  28 +++
- include/linux/kvm_host.h                 |  25 +++
- include/uapi/linux/kvm.h                 |   2 +-
- include/uapi/linux/kvm_para.h            |   5 +
- virt/kvm/kvm_main.c                      |  56 +++--
- virt/kvm/roe.c                           | 342 +++++++++++++++++++++++++++++++
- virt/kvm/roe_generic.h                   |  18 ++
- 15 files changed, 732 insertions(+), 95 deletions(-)
-
+ROE version documented here is implemented in the next 2 patches
 Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
+---
+ Documentation/virtual/kvm/hypercalls.txt | 40 ++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+
+diff --git a/Documentation/virtual/kvm/hypercalls.txt b/Documentation/virtual/kvm/hypercalls.txt
+index da24c138c8..a31f316ce6 100644
+--- a/Documentation/virtual/kvm/hypercalls.txt
++++ b/Documentation/virtual/kvm/hypercalls.txt
+@@ -141,3 +141,43 @@ a0 corresponds to the APIC ID in the third argument (a2), bit 1
+ corresponds to the APIC ID a2+1, and so on.
+ 
+ Returns the number of CPUs to which the IPIs were delivered successfully.
++
++7. KVM_HC_ROE
++----------------
++Architecture: x86
++Status: active
++Purpose: Hypercall used to apply Read-Only Enforcement to guest memory and
++registers
++Usage 1:
++     a0: ROE_VERSION
++
++Returns non-signed number that represents the current version of ROE
++implementation current version.
++
++Usage 2:
++
++     a0: ROE_MPROTECT	(requires version >= 1)
++     a1: Start address aligned to page boundary.
++     a2: Number of pages to be protected.
++
++This configuration lets a guest kernel have part of its read/write memory
++converted into read-only.  This action is irreversible.
++Upon successful run, the number of pages protected is returned.
++
++Usage 3:
++     a0: ROE_MPROTECT_CHUNK	(requires version >= 2)
++     a1: Start address aligned to page boundary.
++     a2: Number of bytes to be protected.
++This configuration lets a guest kernel have part of its read/write memory
++converted into read-only with bytes granularity. ROE_MPROTECT_CHUNK is
++relatively slow compared to ROE_MPROTECT. This action is irreversible.
++Upon successful run, the number of bytes protected is returned.
++
++Error codes:
++	-KVM_ENOSYS: system call being triggered from ring 3 or it is not
++	implemented.
++	-EINVAL: error based on given parameters.
++
++Notes: KVM_HC_ROE can not be triggered from guest Ring 3 (user mode). The
++reason is that user mode malicious software can make use of it to enforce read
++only protection on an arbitrary memory page thus crashing the kernel.
+-- 
+2.19.2
+
