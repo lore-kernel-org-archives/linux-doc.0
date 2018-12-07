@@ -2,159 +2,130 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6B8077D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Dec 2018 21:13:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 687D17D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Dec 2018 11:09:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726038AbeLFVNS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Dec 2018 16:13:18 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40336 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726029AbeLFVNS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Dec 2018 16:13:18 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wB6LAj35021518
-        for <linux-doc@vger.kernel.org>; Thu, 6 Dec 2018 16:13:16 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2p79kx567k-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 06 Dec 2018 16:13:16 -0500
-Received: from localhost
-        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Thu, 6 Dec 2018 21:13:13 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 6 Dec 2018 21:13:09 -0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wB6LD8QD50987252
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 6 Dec 2018 21:13:08 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6A62811C054;
-        Thu,  6 Dec 2018 21:13:08 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 79E5211C04A;
-        Thu,  6 Dec 2018 21:13:06 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.206.110])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Thu,  6 Dec 2018 21:13:06 +0000 (GMT)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Thu, 06 Dec 2018 23:13:05 +0200
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
-Subject: [PATCH 1/2] slab: make kmem_cache_create{_usercopy} description proper kernel-doc
-Date:   Thu,  6 Dec 2018 23:13:00 +0200
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1544130781-13443-1-git-send-email-rppt@linux.ibm.com>
-References: <1544130781-13443-1-git-send-email-rppt@linux.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 18120621-0028-0000-0000-00000327259A
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18120621-0029-0000-0000-000023E3392F
-Message-Id: <1544130781-13443-2-git-send-email-rppt@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-06_08:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1812060177
+        id S1725994AbeLGLJU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Dec 2018 06:09:20 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:36952 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725987AbeLGLJU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Dec 2018 06:09:20 -0500
+Received: by mail-lj1-f195.google.com with SMTP id e5-v6so3213156lja.4;
+        Fri, 07 Dec 2018 03:09:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=5n7FOSEyksrh57PJHjGDlxFPGVAgAQo+DVFsEwiRMpk=;
+        b=lhyyjoErkSm8rjS3OUThBXc+/cqiVblm1tQ8PfiR/wA0RA9RLKUjqFdrOr+alTixz7
+         LrU7tpOhGCC/8B0tLk/7x4S6Ga0mF7voTvt7KW7BTzSSTJJPxV18tTi9wTdD5ILJRkyU
+         8Dky5P8EEgfq77gcYYEKZ7qENT+5e+J+GhbCop6nErojvXfMCeJce8Ft6mKGjSo8FXkR
+         AqRWCiBBuKmwn9B99YO4NEDiaXwVcmajPVcXe3KWZ9pK0wRB1L53FbnQdlFtwbh8jAYR
+         ldwl2fdqh8SI+aogLpmU9UE8/JN5iTclBzCFSEyKANc1QEZB1n/lf4J8ER8P1mt/QhQd
+         LZUg==
+X-Gm-Message-State: AA+aEWZPB/z83ak52hnfi/91dmS0+WxTgCUb+yUcTTJcvs2YtLi3eIpc
+        4NhmWVBV1BjiIQgASZR6gdY=
+X-Google-Smtp-Source: AFSGD/Ufo7GqJGm42DR6pVbm7eD6mEnCYjdnJZH/Y4hw9wPEYTprrMmrEseKHgmyetwRmPz6iTCGmg==
+X-Received: by 2002:a2e:974a:: with SMTP id f10-v6mr1211286ljj.61.1544180958271;
+        Fri, 07 Dec 2018 03:09:18 -0800 (PST)
+Received: from localhost.localdomain (84-253-205-125.bb.dnainternet.fi. [84.253.205.125])
+        by smtp.gmail.com with ESMTPSA id x18-v6sm552608lji.27.2018.12.07.03.09.16
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 07 Dec 2018 03:09:17 -0800 (PST)
+Date:   Fri, 7 Dec 2018 13:09:00 +0200
+From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+To:     matti.vaittinen@fi.rohmeurope.com, mazziesaccount@gmail.com,
+        corbet@lwn.net, cw00.choi@samsung.com, krzk@kernel.org,
+        b.zolnierkie@samsung.com, mturquette@baylibre.com,
+        sboyd@kernel.org, linux@armlinux.org.uk, pombredanne@nexb.com,
+        sre@kernel.org, vkoul@kernel.org, linux@roeck-us.net, pavel@ucw.cz,
+        sjhuang@iluvatar.ai, andrew.smirnov@gmail.com,
+        djkurtz@chromium.org, akshu.agrawal@amd.com,
+        rafael.j.wysocki@intel.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v7 0/3] clk: clkdev add managed lookup registrations
+Message-ID: <cover.1544177090.git.matti.vaittinen@fi.rohmeurope.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the description for kmem_cache_create, fixup the return value paragraph
-and make both kmem_cache_create and add the second '*' to the comment
-opening.
+Series adds managed clkdev lookup interfaces and cleans few drivers
 
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+Few clk drivers appear to be leaking clkdev lookup registrations at
+driver remove. The patch series adds devm versions of lookup
+registrations and cleans up few drivers. Driver clean-up patches have
+not been tested as I lack the HW. All testing and comments if
+driver/device removal is even possible for changed drivers is highly
+appreciated. If removal is not possible I will gladly drop the patches
+from series - although leaking lookups may serve as bad example for new
+developers =)
+
+Changed drivers are:
+clk-max77686 and clk-st
+
+Please note that the patch #2 requires this change to work correctly:
+https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/commit/?h=clk-next&id=05502bf9eb7a7297f5fa6f1d17b169b3d5b53570
+
+Changelog v7:
+- rewmoved already applied of_provider patches and
+  now independent bd718x7 patch from the series.
+- No functional changes.
+
+Changelog v6
+- Drop 'devm_of_clk_add_parent_hw_provider'. Change
+  'devm_of_clk_add_hw_provider' to look the parent device node for
+  provider information if device's own node does not contain
+  #clock-cells - property.
+- Add kerneldoc in own patch.
+- Remove NULL checks from devres match function for clkdev releasing
+- Clean styling issues from clkdev.c
+
+Changelog v5
+- Split v4 patch 1. Place clkdev stuff to patch 1 and clk provider to patch 2
+- Remove devm_clk_release_clkdev from devres.txt
+- Added kerneldoc for managed provider registrations.
+- Cleaned styling issues.
+
+Changelog v4
+- Add support for ROHM bd718x7 PMIC clock gate. Included in this patch
+  series because it depends on managed interfaces added in patch 1.
+
+Changelog v3
+Address issues spotted by Krzysztof Kozlowski
+- Drop patch 3 for clk-s3c2410-dclk as this device can never be removed
+- Fix indentiation for clk-max77686
+- Rest  of the patches are unchanged.
+
+Changelog v2
+Issue spotted by 0-Day test suite
+- Add a stub function 'devm_of_clk_add_parent_hw_provider' for no OF config.
+- patches 2-8 are unchanged.
+
+This patch series is based on clk-next
+
 ---
- mm/slab_common.c | 35 +++++++++++++++++++++++++++++++----
- 1 file changed, 31 insertions(+), 4 deletions(-)
 
-diff --git a/mm/slab_common.c b/mm/slab_common.c
-index 7eb8dc1..dbf63d6 100644
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -406,8 +406,9 @@ static struct kmem_cache *create_cache(const char *name,
- 	goto out;
- }
- 
--/*
-- * kmem_cache_create_usercopy - Create a cache.
-+/**
-+ * kmem_cache_create_usercopy - Create a cache with a region suitable
-+ * for copying to userspace
-  * @name: A string which is used in /proc/slabinfo to identify this cache.
-  * @size: The size of objects to be created in this cache.
-  * @align: The required alignment for the objects.
-@@ -416,7 +417,6 @@ static struct kmem_cache *create_cache(const char *name,
-  * @usersize: Usercopy region size
-  * @ctor: A constructor for the objects.
-  *
-- * Returns a ptr to the cache on success, NULL on failure.
-  * Cannot be called within a interrupt, but can be interrupted.
-  * The @ctor is run when new pages are allocated by the cache.
-  *
-@@ -425,12 +425,14 @@ static struct kmem_cache *create_cache(const char *name,
-  * %SLAB_POISON - Poison the slab with a known test pattern (a5a5a5a5)
-  * to catch references to uninitialised memory.
-  *
-- * %SLAB_RED_ZONE - Insert `Red' zones around the allocated memory to check
-+ * %SLAB_RED_ZONE - Insert `Red` zones around the allocated memory to check
-  * for buffer overruns.
-  *
-  * %SLAB_HWCACHE_ALIGN - Align the objects in this cache to a hardware
-  * cacheline.  This can be beneficial if you're counting cycles as closely
-  * as davem.
-+ *
-+ * Return: a pointer to the cache on success, NULL on failure.
-  */
- struct kmem_cache *
- kmem_cache_create_usercopy(const char *name,
-@@ -514,6 +516,31 @@ kmem_cache_create_usercopy(const char *name,
- }
- EXPORT_SYMBOL(kmem_cache_create_usercopy);
- 
-+/**
-+ * kmem_cache_create - Create a cache.
-+ * @name: A string which is used in /proc/slabinfo to identify this cache.
-+ * @size: The size of objects to be created in this cache.
-+ * @align: The required alignment for the objects.
-+ * @flags: SLAB flags
-+ * @ctor: A constructor for the objects.
-+ *
-+ * Cannot be called within a interrupt, but can be interrupted.
-+ * The @ctor is run when new pages are allocated by the cache.
-+ *
-+ * The flags are
-+ *
-+ * %SLAB_POISON - Poison the slab with a known test pattern (a5a5a5a5)
-+ * to catch references to uninitialised memory.
-+ *
-+ * %SLAB_RED_ZONE - Insert `Red` zones around the allocated memory to check
-+ * for buffer overruns.
-+ *
-+ * %SLAB_HWCACHE_ALIGN - Align the objects in this cache to a hardware
-+ * cacheline.  This can be beneficial if you're counting cycles as closely
-+ * as davem.
-+ *
-+ * Return: a pointer to the cache on success, NULL on failure.
-+ */
- struct kmem_cache *
- kmem_cache_create(const char *name, unsigned int size, unsigned int align,
- 		slab_flags_t flags, void (*ctor)(void *))
+Matti Vaittinen (3):
+  clkdev: add managed clkdev lookup registration
+  clk: clk-max77686: Clean clkdev lookup leak and use devm
+  clk: clk-st: avoid clkdev lookup leak at remove
+
+ Documentation/driver-model/devres.txt |   1 +
+ drivers/clk/clk-max77686.c            |  28 ++-------
+ drivers/clk/clkdev.c                  | 111 +++++++++++++++++++++++++++-------
+ drivers/clk/x86/clk-st.c              |   3 +-
+ include/linux/clkdev.h                |   4 ++
+ 5 files changed, 101 insertions(+), 46 deletions(-)
+
 -- 
-2.7.4
-
+2.14.3
