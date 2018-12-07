@@ -5,83 +5,206 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 63A747D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Dec 2018 11:11:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7E54F7D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Dec 2018 11:57:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725987AbeLGLLC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Dec 2018 06:11:02 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:35614 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725988AbeLGLLB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Dec 2018 06:11:01 -0500
-Received: by mail-lj1-f193.google.com with SMTP id x85-v6so3222915ljb.2;
-        Fri, 07 Dec 2018 03:11:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=IPaANYg+BKvew3Ns6tmkF9qat1yGp0JhQQkX999AOmA=;
-        b=Cemqz9Yv00lY99V8NnAPDcwfS/meoGP21xJiqIFI3VIaQ25u6eZmslJvURKXCz6zJi
-         0QbeyEfrRMm/18OGZwFO+yUTLxCpplQEZd+RRA0lPWTP4hDXPp+OIE+KJB2u+mCLxvfD
-         WjCVMwezji3jN2xlAuB5tLuSPyuk4sGwnBy+EEV7Mn2LC8IZr23Q6xr0LOL62Ow72njD
-         mnfXHJXbBHdnfHgAepXCnlfKMylYAcAImdIEMKOfymcUHrwTjmAtwlOwd60ODQuNa+Iw
-         bHa/Erp/sVfaadygiaDo1qWG/wnXY04o0s8cGSv+uNRvEyFX2QbKad96MQGOdfMQI+QY
-         YC+w==
-X-Gm-Message-State: AA+aEWYWuH3vW+Dz1w2qwv0SjX6mOMBY/LLWvOjvarY2W+zXmr0Bk1Kw
-        HUEweDRP6Wx9kHIYsJ1lH+E=
-X-Google-Smtp-Source: AFSGD/XfomwTlfwAe22p+SJG0lO7BIYoQtcGAA7ynED9gQVIJ8DPFu04mYExY5/4RW93QAjgp7daSg==
-X-Received: by 2002:a2e:197:: with SMTP id f23-v6mr1095815lji.144.1544181059423;
-        Fri, 07 Dec 2018 03:10:59 -0800 (PST)
-Received: from localhost.localdomain (84-253-205-125.bb.dnainternet.fi. [84.253.205.125])
-        by smtp.gmail.com with ESMTPSA id q127-v6sm571001ljq.45.2018.12.07.03.10.57
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 07 Dec 2018 03:10:58 -0800 (PST)
-Date:   Fri, 7 Dec 2018 13:10:51 +0200
-From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-To:     matti.vaittinen@fi.rohmeurope.com, mazziesaccount@gmail.com,
-        corbet@lwn.net, cw00.choi@samsung.com, krzk@kernel.org,
-        b.zolnierkie@samsung.com, mturquette@baylibre.com,
-        sboyd@kernel.org, linux@armlinux.org.uk, pombredanne@nexb.com,
-        sre@kernel.org, vkoul@kernel.org, linux@roeck-us.net, pavel@ucw.cz,
-        sjhuang@iluvatar.ai, andrew.smirnov@gmail.com,
-        djkurtz@chromium.org, akshu.agrawal@amd.com,
-        rafael.j.wysocki@intel.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v7 3/3] clk: clk-st: avoid clkdev lookup leak at remove
-Message-ID: <f40c69fc858cc7ec3cc722c6664d933ea6558fb9.1544177090.git.matti.vaittinen@fi.rohmeurope.com>
-References: <cover.1544177090.git.matti.vaittinen@fi.rohmeurope.com>
+        id S1726081AbeLGL5T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Dec 2018 06:57:19 -0500
+Received: from cloudserver094114.home.pl ([79.96.170.134]:44018 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726052AbeLGL5T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Dec 2018 06:57:19 -0500
+Received: from 79.184.252.87.ipv4.supernova.orange.pl (79.184.252.87) (HELO aspire.rjw.lan)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.183)
+ id 6b86abfbbb6bf789; Fri, 7 Dec 2018 12:57:14 +0100
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Linux PM <linux-pm@vger.kernel.org>,
+        Doug Smythies <dsmythies@telus.net>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Giovanni Gherdovich <ggherdovich@suse.cz>
+Subject: [PATCH] cpuidle: Add 'above' and 'below' idle state metrics
+Date:   Fri, 07 Dec 2018 12:57:00 +0100
+Message-ID: <1688146.Dmze7u1T7F@aspire.rjw.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1544177090.git.matti.vaittinen@fi.rohmeurope.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Use devm based clkdev lookup registration to avoid leaking lookup
-structures.
+From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Subject: [PATCH] cpuidle: Add 'above' and 'below' idle state metrics
 
-Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Add two new metrics for CPU idle states, "above" and "below", to count
+the number of times the given state had been asked for (or entered
+from the kernel's perspective), but the observed idle duration turned
+out to be too short or too long for it (respectively).
+
+These mertics help to estimate the quality of the CPU idle governor
+in use.
+
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 ---
- drivers/clk/x86/clk-st.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/clk/x86/clk-st.c b/drivers/clk/x86/clk-st.c
-index 3a0996f2d556..25d4b97aff9b 100644
---- a/drivers/clk/x86/clk-st.c
-+++ b/drivers/clk/x86/clk-st.c
-@@ -52,7 +52,8 @@ static int st_clk_probe(struct platform_device *pdev)
- 		0, st_data->base + MISCCLKCNTL1, OSCCLKENB,
- 		CLK_GATE_SET_TO_DISABLE, NULL);
+This is a replacement for https://patchwork.kernel.org/patch/10714995/ with
+the metrics renamed and some documentation confusion cleaned up.  Thanks!
+
+---
+ Documentation/ABI/testing/sysfs-devices-system-cpu |    7 ++++
+ Documentation/admin-guide/pm/cpuidle.rst           |   10 ++++++
+ drivers/cpuidle/cpuidle.c                          |   31 ++++++++++++++++++++-
+ drivers/cpuidle/sysfs.c                            |    6 ++++
+ include/linux/cpuidle.h                            |    2 +
+ 5 files changed, 55 insertions(+), 1 deletion(-)
+
+Index: linux-pm/drivers/cpuidle/cpuidle.c
+===================================================================
+--- linux-pm.orig/drivers/cpuidle/cpuidle.c
++++ linux-pm/drivers/cpuidle/cpuidle.c
+@@ -202,7 +202,6 @@ int cpuidle_enter_state(struct cpuidle_d
+ 	struct cpuidle_state *target_state = &drv->states[index];
+ 	bool broadcast = !!(target_state->flags & CPUIDLE_FLAG_TIMER_STOP);
+ 	ktime_t time_start, time_end;
+-	s64 diff;
  
--	clk_hw_register_clkdev(hws[ST_CLK_GATE], "oscout1", NULL);
-+	devm_clk_hw_register_clkdev(&pdev->dev, hws[ST_CLK_GATE], "oscout1",
-+				    NULL);
+ 	/*
+ 	 * Tell the time framework to switch to a broadcast timer because our
+@@ -248,6 +247,9 @@ int cpuidle_enter_state(struct cpuidle_d
+ 		local_irq_enable();
  
- 	return 0;
- }
--- 
-2.14.3
+ 	if (entered_state >= 0) {
++		s64 diff, delay = drv->states[entered_state].exit_latency;
++		int i;
++
+ 		/*
+ 		 * Update cpuidle counters
+ 		 * This can be moved to within driver enter routine,
+@@ -260,6 +262,33 @@ int cpuidle_enter_state(struct cpuidle_d
+ 		dev->last_residency = (int)diff;
+ 		dev->states_usage[entered_state].time += dev->last_residency;
+ 		dev->states_usage[entered_state].usage++;
++
++		if (diff < drv->states[entered_state].target_residency) {
++			for (i = entered_state - 1; i >= 0; i--) {
++				if (drv->states[i].disabled ||
++				    dev->states_usage[i].disable)
++					continue;
++
++				/* Shallower states are enabled, so update. */
++				dev->states_usage[entered_state].above++;
++				break;
++			}
++		} else if (diff > delay) {
++			for (i = entered_state + 1; i < drv->state_count; i++) {
++				if (drv->states[i].disabled ||
++				    dev->states_usage[i].disable)
++					continue;
++
++				/*
++				 * Update if a deeper state would have been a
++				 * better match for the observed idle duration.
++				 */
++				if (diff - delay >= drv->states[i].target_residency)
++					dev->states_usage[entered_state].below++;
++
++				break;
++			}
++		}
+ 	} else {
+ 		dev->last_residency = 0;
+ 	}
+Index: linux-pm/include/linux/cpuidle.h
+===================================================================
+--- linux-pm.orig/include/linux/cpuidle.h
++++ linux-pm/include/linux/cpuidle.h
+@@ -33,6 +33,8 @@ struct cpuidle_state_usage {
+ 	unsigned long long	disable;
+ 	unsigned long long	usage;
+ 	unsigned long long	time; /* in US */
++	unsigned long long	above; /* Number of times it's been too deep */
++	unsigned long long	below;  /* Number of times it's been too shallow */
+ #ifdef CONFIG_SUSPEND
+ 	unsigned long long	s2idle_usage;
+ 	unsigned long long	s2idle_time; /* in US */
+Index: linux-pm/drivers/cpuidle/sysfs.c
+===================================================================
+--- linux-pm.orig/drivers/cpuidle/sysfs.c
++++ linux-pm/drivers/cpuidle/sysfs.c
+@@ -301,6 +301,8 @@ define_show_state_str_function(name)
+ define_show_state_str_function(desc)
+ define_show_state_ull_function(disable)
+ define_store_state_ull_function(disable)
++define_show_state_ull_function(above)
++define_show_state_ull_function(below)
+ 
+ define_one_state_ro(name, show_state_name);
+ define_one_state_ro(desc, show_state_desc);
+@@ -310,6 +312,8 @@ define_one_state_ro(power, show_state_po
+ define_one_state_ro(usage, show_state_usage);
+ define_one_state_ro(time, show_state_time);
+ define_one_state_rw(disable, show_state_disable, store_state_disable);
++define_one_state_ro(above, show_state_above);
++define_one_state_ro(below, show_state_below);
+ 
+ static struct attribute *cpuidle_state_default_attrs[] = {
+ 	&attr_name.attr,
+@@ -320,6 +324,8 @@ static struct attribute *cpuidle_state_d
+ 	&attr_usage.attr,
+ 	&attr_time.attr,
+ 	&attr_disable.attr,
++	&attr_above.attr,
++	&attr_below.attr,
+ 	NULL
+ };
+ 
+Index: linux-pm/Documentation/admin-guide/pm/cpuidle.rst
+===================================================================
+--- linux-pm.orig/Documentation/admin-guide/pm/cpuidle.rst
++++ linux-pm/Documentation/admin-guide/pm/cpuidle.rst
+@@ -398,6 +398,16 @@ deeper the (effective) idle state repres
+ a number of files (attributes) representing the properties of the idle state
+ object corresponding to it, as follows:
+ 
++``above``
++	Total number of times this idle state had been asked for, but the
++	observed idle duration was certainly too short to match its target
++	residency.
++
++``below``
++	Total number of times this idle state had been asked for, but cerainly
++	a deeper idle state would have been a better match for the observed idle
++	duration.
++
+ ``desc``
+ 	Description of the idle state.
+ 
+Index: linux-pm/Documentation/ABI/testing/sysfs-devices-system-cpu
+===================================================================
+--- linux-pm.orig/Documentation/ABI/testing/sysfs-devices-system-cpu
++++ linux-pm/Documentation/ABI/testing/sysfs-devices-system-cpu
+@@ -145,6 +145,8 @@ What:		/sys/devices/system/cpu/cpuX/cpui
+ 		/sys/devices/system/cpu/cpuX/cpuidle/stateN/power
+ 		/sys/devices/system/cpu/cpuX/cpuidle/stateN/time
+ 		/sys/devices/system/cpu/cpuX/cpuidle/stateN/usage
++		/sys/devices/system/cpu/cpuX/cpuidle/stateN/high
++		/sys/devices/system/cpu/cpuX/cpuidle/stateN/below
+ Date:		September 2007
+ KernelVersion:	v2.6.24
+ Contact:	Linux power management list <linux-pm@vger.kernel.org>
+@@ -166,6 +168,11 @@ Description:
+ 
+ 		usage: (RO) Number of times this state was entered (a count).
+ 
++		above: (RO) Number of times this state was entered, but the
++		       observed CPU idle duration was too short for it (a count).
++
++		below: (RO) Number of times this state was entered, but the
++		       observed CPU idle duration was too long for it (a count).
+ 
+ What:		/sys/devices/system/cpu/cpuX/cpuidle/stateN/desc
+ Date:		February 2008
+
