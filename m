@@ -1,130 +1,238 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BE6657D8AA
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Dec 2018 12:50:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3659A7D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Dec 2018 12:57:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726045AbeLGMuI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Dec 2018 07:50:08 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:38344 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726125AbeLGMsy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Dec 2018 07:48:54 -0500
-Received: by mail-wm1-f65.google.com with SMTP id m22so4430496wml.3
-        for <linux-doc@vger.kernel.org>; Fri, 07 Dec 2018 04:48:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mena-vt-edu.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=DU7M5piB0Rvr3KyQYQ6V1yh0wa36ooPj9QZW0CCD+Y8=;
-        b=cSU1cVB9KCuBGlEeWVp6IcB3lNQiouoLV/w/JRBvclbuTZthEsJ6tnxD6hSXO2+4dK
-         8JC2tibVV0lv6hFG2jpXY+wLTXKpXT9I+ApY51qsiPLsoDJiMeoK3tmPP4cMVE/3Ixsm
-         2H03FCopLGrTTIfAxUlFP7ndXtBdMJpLqvLXtYrD8Y3P4yh+vvFwT0jMhoghr3VR0h4X
-         Pu3URCe6HknbBOry1QaRvs1P1wAgMKoYJ64hnxjHdmLLVeTyS2xQ96tkKkDqPV6qcOMp
-         VJ98RFEyhkixt/wdsrLjYLlhHEKp0t8I5I0DYqNRsnH01O0uGugvZZHo2Oc76ZSjcXVq
-         CxSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=DU7M5piB0Rvr3KyQYQ6V1yh0wa36ooPj9QZW0CCD+Y8=;
-        b=j3Rcj9KnnQ+dey3zXpY9gVdxXG+Y6QzW/gzFK/cyoOnwb0ywHkNxKW+M/Y7BO7vSLA
-         0an5/gIvCyWTkrg7U3UQNwPzUAjdaqUbH/uy9gfNRqMOqRS3Nxwb8zqqpXyHGAiKwwpx
-         X8dUiT7K/9CYFfh7QowJDp60UI73SFRq9M1yM1sOcvN3numSznRovizgeoIZ7Ht/uDc7
-         O09u+cbWAPsDTQkmW0h3da4hKeDjG8JFpQcG3TddIFDy1F9Gxm2kqrcQz1Rh9EynKrQE
-         T6f91EFEzQnSc8C38n0VzpHitB85r3cvgjHzYTGjDyCiwf6ZUUjmFainV1cvy6j6r/Lh
-         Qi5w==
-X-Gm-Message-State: AA+aEWa/pP54o3EPBcIJffHHzfWLxBw7TRroGJk5GCTqiL4T6OW+rxB/
-        CMUks6CzO3/w30GhQwj0+9HQeA==
-X-Google-Smtp-Source: AFSGD/VD5A9bP8tcLxrmke4ui26mgs0SJBgedL/b6iChfzDt0Fm09UUCW7OdnezygTMA0WRirXDUIA==
-X-Received: by 2002:a1c:544f:: with SMTP id p15mr2079564wmi.37.1544186932211;
-        Fri, 07 Dec 2018 04:48:52 -0800 (PST)
-Received: from localhost.localdomain ([156.213.98.90])
-        by smtp.gmail.com with ESMTPSA id i192sm4362949wmg.7.2018.12.07.04.48.47
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Dec 2018 04:48:51 -0800 (PST)
-From:   Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        hpa@zytor.com, x86@kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ahmedsoliman0x666@gmail.com, ovich00@gmail.com,
-        kernel-hardening@lists.openwall.com, nigel.edwards@hpe.com,
-        Boris Lukashev <blukashev@sempervictus.com>,
-        Igor Stoppa <igor.stoppa@gmail.com>
-Cc:     Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-Subject: [PATCH 01/10] KVM: State whether memory should be freed in kvm_free_memslot
-Date:   Fri,  7 Dec 2018 14:47:54 +0200
-Message-Id: <20181207124803.10828-2-ahmedsoliman@mena.vt.edu>
-X-Mailer: git-send-email 2.19.2
-In-Reply-To: <20181207124803.10828-1-ahmedsoliman@mena.vt.edu>
-References: <20181207124803.10828-1-ahmedsoliman@mena.vt.edu>
+        id S1726086AbeLGM5I (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Dec 2018 07:57:08 -0500
+Received: from foss.arm.com ([217.140.101.70]:43878 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726032AbeLGM5I (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Dec 2018 07:57:08 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 317B4EBD;
+        Fri,  7 Dec 2018 04:57:08 -0800 (PST)
+Received: from e107981-ln.cambridge.arm.com (e107981-ln.cambridge.arm.com [10.1.197.40])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ABBDB3F5AF;
+        Fri,  7 Dec 2018 04:57:06 -0800 (PST)
+Date:   Fri, 7 Dec 2018 12:57:00 +0000
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc:     Linux PM <linux-pm@vger.kernel.org>,
+        Doug Smythies <dsmythies@telus.net>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Giovanni Gherdovich <ggherdovich@suse.cz>
+Subject: Re: [PATCH] cpuidle: Add 'above' and 'below' idle state metrics
+Message-ID: <20181207125700.GA20256@e107981-ln.cambridge.arm.com>
+References: <1688146.Dmze7u1T7F@aspire.rjw.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1688146.Dmze7u1T7F@aspire.rjw.lan>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The conditions upon which kvm_free_memslot are kind of ad-hock,
-it will be hard to extend memslot with allocatable data that needs to be
-freed, so I replaced the current mechanism by clear flag that states if
-the memory slot should be freed.
+On Fri, Dec 07, 2018 at 12:57:00PM +0100, Rafael J. Wysocki wrote:
+> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> Subject: [PATCH] cpuidle: Add 'above' and 'below' idle state metrics
+> 
+> Add two new metrics for CPU idle states, "above" and "below", to count
+> the number of times the given state had been asked for (or entered
+> from the kernel's perspective), but the observed idle duration turned
+> out to be too short or too long for it (respectively).
+> 
+> These mertics help to estimate the quality of the CPU idle governor
 
-Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
----
- virt/kvm/kvm_main.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+s/mertics/metrics
 
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 2679e476b6..039c1ef9a7 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -549,9 +549,10 @@ static void kvm_destroy_dirty_bitmap(struct kvm_memory_slot *memslot)
-  * Free any memory in @free but not in @dont.
-  */
- static void kvm_free_memslot(struct kvm *kvm, struct kvm_memory_slot *free,
--			      struct kvm_memory_slot *dont)
-+			      struct kvm_memory_slot *dont,
-+			      enum kvm_mr_change change)
- {
--	if (!dont || free->dirty_bitmap != dont->dirty_bitmap)
-+	if (change == KVM_MR_DELETE)
- 		kvm_destroy_dirty_bitmap(free);
- 
- 	kvm_arch_free_memslot(kvm, free, dont);
-@@ -567,7 +568,7 @@ static void kvm_free_memslots(struct kvm *kvm, struct kvm_memslots *slots)
- 		return;
- 
- 	kvm_for_each_memslot(memslot, slots)
--		kvm_free_memslot(kvm, memslot, NULL);
-+		kvm_free_memslot(kvm, memslot, NULL, KVM_MR_DELETE);
- 
- 	kvfree(slots);
- }
-@@ -1063,14 +1064,14 @@ int __kvm_set_memory_region(struct kvm *kvm,
- 
- 	kvm_arch_commit_memory_region(kvm, mem, &old, &new, change);
- 
--	kvm_free_memslot(kvm, &old, &new);
-+	kvm_free_memslot(kvm, &old, &new, change);
- 	kvfree(old_memslots);
- 	return 0;
- 
- out_slots:
- 	kvfree(slots);
- out_free:
--	kvm_free_memslot(kvm, &new, &old);
-+	kvm_free_memslot(kvm, &new, &old, change);
- out:
- 	return r;
- }
--- 
-2.19.2
+> in use.
+> 
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> ---
+> 
+> This is a replacement for https://patchwork.kernel.org/patch/10714995/ with
+> the metrics renamed and some documentation confusion cleaned up.  Thanks!
+> 
+> ---
+>  Documentation/ABI/testing/sysfs-devices-system-cpu |    7 ++++
+>  Documentation/admin-guide/pm/cpuidle.rst           |   10 ++++++
+>  drivers/cpuidle/cpuidle.c                          |   31 ++++++++++++++++++++-
+>  drivers/cpuidle/sysfs.c                            |    6 ++++
+>  include/linux/cpuidle.h                            |    2 +
+>  5 files changed, 55 insertions(+), 1 deletion(-)
+> 
+> Index: linux-pm/drivers/cpuidle/cpuidle.c
+> ===================================================================
+> --- linux-pm.orig/drivers/cpuidle/cpuidle.c
+> +++ linux-pm/drivers/cpuidle/cpuidle.c
+> @@ -202,7 +202,6 @@ int cpuidle_enter_state(struct cpuidle_d
+>  	struct cpuidle_state *target_state = &drv->states[index];
+>  	bool broadcast = !!(target_state->flags & CPUIDLE_FLAG_TIMER_STOP);
+>  	ktime_t time_start, time_end;
+> -	s64 diff;
+>  
+>  	/*
+>  	 * Tell the time framework to switch to a broadcast timer because our
+> @@ -248,6 +247,9 @@ int cpuidle_enter_state(struct cpuidle_d
+>  		local_irq_enable();
+>  
+>  	if (entered_state >= 0) {
+> +		s64 diff, delay = drv->states[entered_state].exit_latency;
 
+I am probably pointing out something that has been already debated,
+apologies if so.
+
+exit_latency is the *worst* case exit latency for idle states that involve
+multiple CPUs, we can't say for certain it is the latency that was
+actually experienced by the idle state exit.
+
+It can be microseconds (eg CPU resume) vs milliseconds (eg groups of
+cpus resume).
+
+I think the current approach (which may only understimate the "below" by
+substracting the worst case value) is reasonable but I pointed this out
+since I do not know how these stats will be used.
+
+Lorenzo
+
+> +		int i;
+> +
+>  		/*
+>  		 * Update cpuidle counters
+>  		 * This can be moved to within driver enter routine,
+> @@ -260,6 +262,33 @@ int cpuidle_enter_state(struct cpuidle_d
+>  		dev->last_residency = (int)diff;
+>  		dev->states_usage[entered_state].time += dev->last_residency;
+>  		dev->states_usage[entered_state].usage++;
+> +
+> +		if (diff < drv->states[entered_state].target_residency) {
+> +			for (i = entered_state - 1; i >= 0; i--) {
+> +				if (drv->states[i].disabled ||
+> +				    dev->states_usage[i].disable)
+> +					continue;
+> +
+> +				/* Shallower states are enabled, so update. */
+> +				dev->states_usage[entered_state].above++;
+> +				break;
+> +			}
+> +		} else if (diff > delay) {
+> +			for (i = entered_state + 1; i < drv->state_count; i++) {
+> +				if (drv->states[i].disabled ||
+> +				    dev->states_usage[i].disable)
+> +					continue;
+> +
+> +				/*
+> +				 * Update if a deeper state would have been a
+> +				 * better match for the observed idle duration.
+> +				 */
+> +				if (diff - delay >= drv->states[i].target_residency)
+> +					dev->states_usage[entered_state].below++;
+> +
+> +				break;
+> +			}
+> +		}
+>  	} else {
+>  		dev->last_residency = 0;
+>  	}
+> Index: linux-pm/include/linux/cpuidle.h
+> ===================================================================
+> --- linux-pm.orig/include/linux/cpuidle.h
+> +++ linux-pm/include/linux/cpuidle.h
+> @@ -33,6 +33,8 @@ struct cpuidle_state_usage {
+>  	unsigned long long	disable;
+>  	unsigned long long	usage;
+>  	unsigned long long	time; /* in US */
+> +	unsigned long long	above; /* Number of times it's been too deep */
+> +	unsigned long long	below;  /* Number of times it's been too shallow */
+>  #ifdef CONFIG_SUSPEND
+>  	unsigned long long	s2idle_usage;
+>  	unsigned long long	s2idle_time; /* in US */
+> Index: linux-pm/drivers/cpuidle/sysfs.c
+> ===================================================================
+> --- linux-pm.orig/drivers/cpuidle/sysfs.c
+> +++ linux-pm/drivers/cpuidle/sysfs.c
+> @@ -301,6 +301,8 @@ define_show_state_str_function(name)
+>  define_show_state_str_function(desc)
+>  define_show_state_ull_function(disable)
+>  define_store_state_ull_function(disable)
+> +define_show_state_ull_function(above)
+> +define_show_state_ull_function(below)
+>  
+>  define_one_state_ro(name, show_state_name);
+>  define_one_state_ro(desc, show_state_desc);
+> @@ -310,6 +312,8 @@ define_one_state_ro(power, show_state_po
+>  define_one_state_ro(usage, show_state_usage);
+>  define_one_state_ro(time, show_state_time);
+>  define_one_state_rw(disable, show_state_disable, store_state_disable);
+> +define_one_state_ro(above, show_state_above);
+> +define_one_state_ro(below, show_state_below);
+>  
+>  static struct attribute *cpuidle_state_default_attrs[] = {
+>  	&attr_name.attr,
+> @@ -320,6 +324,8 @@ static struct attribute *cpuidle_state_d
+>  	&attr_usage.attr,
+>  	&attr_time.attr,
+>  	&attr_disable.attr,
+> +	&attr_above.attr,
+> +	&attr_below.attr,
+>  	NULL
+>  };
+>  
+> Index: linux-pm/Documentation/admin-guide/pm/cpuidle.rst
+> ===================================================================
+> --- linux-pm.orig/Documentation/admin-guide/pm/cpuidle.rst
+> +++ linux-pm/Documentation/admin-guide/pm/cpuidle.rst
+> @@ -398,6 +398,16 @@ deeper the (effective) idle state repres
+>  a number of files (attributes) representing the properties of the idle state
+>  object corresponding to it, as follows:
+>  
+> +``above``
+> +	Total number of times this idle state had been asked for, but the
+> +	observed idle duration was certainly too short to match its target
+> +	residency.
+> +
+> +``below``
+> +	Total number of times this idle state had been asked for, but cerainly
+> +	a deeper idle state would have been a better match for the observed idle
+> +	duration.
+> +
+>  ``desc``
+>  	Description of the idle state.
+>  
+> Index: linux-pm/Documentation/ABI/testing/sysfs-devices-system-cpu
+> ===================================================================
+> --- linux-pm.orig/Documentation/ABI/testing/sysfs-devices-system-cpu
+> +++ linux-pm/Documentation/ABI/testing/sysfs-devices-system-cpu
+> @@ -145,6 +145,8 @@ What:		/sys/devices/system/cpu/cpuX/cpui
+>  		/sys/devices/system/cpu/cpuX/cpuidle/stateN/power
+>  		/sys/devices/system/cpu/cpuX/cpuidle/stateN/time
+>  		/sys/devices/system/cpu/cpuX/cpuidle/stateN/usage
+> +		/sys/devices/system/cpu/cpuX/cpuidle/stateN/high
+> +		/sys/devices/system/cpu/cpuX/cpuidle/stateN/below
+>  Date:		September 2007
+>  KernelVersion:	v2.6.24
+>  Contact:	Linux power management list <linux-pm@vger.kernel.org>
+> @@ -166,6 +168,11 @@ Description:
+>  
+>  		usage: (RO) Number of times this state was entered (a count).
+>  
+> +		above: (RO) Number of times this state was entered, but the
+> +		       observed CPU idle duration was too short for it (a count).
+> +
+> +		below: (RO) Number of times this state was entered, but the
+> +		       observed CPU idle duration was too long for it (a count).
+>  
+>  What:		/sys/devices/system/cpu/cpuX/cpuidle/stateN/desc
+>  Date:		February 2008
+> 
