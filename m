@@ -1,238 +1,147 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3659A7D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Dec 2018 12:57:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CAEF07D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Dec 2018 13:40:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726086AbeLGM5I (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Dec 2018 07:57:08 -0500
-Received: from foss.arm.com ([217.140.101.70]:43878 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726032AbeLGM5I (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Dec 2018 07:57:08 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 317B4EBD;
-        Fri,  7 Dec 2018 04:57:08 -0800 (PST)
-Received: from e107981-ln.cambridge.arm.com (e107981-ln.cambridge.arm.com [10.1.197.40])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ABBDB3F5AF;
-        Fri,  7 Dec 2018 04:57:06 -0800 (PST)
-Date:   Fri, 7 Dec 2018 12:57:00 +0000
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     Linux PM <linux-pm@vger.kernel.org>,
-        Doug Smythies <dsmythies@telus.net>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>
-Subject: Re: [PATCH] cpuidle: Add 'above' and 'below' idle state metrics
-Message-ID: <20181207125700.GA20256@e107981-ln.cambridge.arm.com>
-References: <1688146.Dmze7u1T7F@aspire.rjw.lan>
+        id S1726008AbeLGNkI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Dec 2018 08:40:08 -0500
+Received: from mail-it1-f195.google.com ([209.85.166.195]:56138 "EHLO
+        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725997AbeLGNkI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Dec 2018 08:40:08 -0500
+Received: by mail-it1-f195.google.com with SMTP id o19so6846761itg.5;
+        Fri, 07 Dec 2018 05:40:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QZXOxCmXChwQnEIdXhUUmnLs50L3mvTVM/iVgJWrrCM=;
+        b=G/t9Px1j0jXrR3MzTgIZSl56sw48OTkb7wwT4NJK1HgP9mMfek2XH8LyteYPPDm9nG
+         i+kDA/BD7XgeAB5qBc2Uj6vR1uBOZVhfcdzJwSri8/byDDx1t4SXqetF0vAxBzMnbKme
+         ry5Mya85zw1isLLie2MmFI+QPpGYZVepvMFVQpHD0zezwZFCPuN4kZFYWZpLd6TxTnLE
+         +a2N2iy5SmEIhP/oG478K4vcYuvAO/xrpga2QLx0a8gWobxvoTn05LMHaCLojLIy1iiQ
+         28jtPKT6d2GKGFeXSEV72WA9lZZQJ2ZE41n1bBb0oaDz4PCP5LJ9XG/UoFOwy9WB+Pg+
+         3ZJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QZXOxCmXChwQnEIdXhUUmnLs50L3mvTVM/iVgJWrrCM=;
+        b=DHTUHNDrGVQ4c4LCceTKpyc5msVkkUvHTGHbXOkrGeCLBXYCzd4UKUqWZNKKfWWZNy
+         tNR8x17QCTeKYmtjRTHYtLjl2DrT5qI9SBaeuls3MgAROpUegSSQRB58Ps/3CDE33uqJ
+         fPZwmUU8q+3UWDM7tykkOKF5zN1E/rMtzZ0DprkLjtoa21Hj5q24JLPw5tZ4O2V6U5Cr
+         EiTOulZfspHNQUjf/xB+/4862sagatnVtRvES7tPOaO8QcU0BiZ3jwLqvCl4J0b/8Z5J
+         LE34rZQP3pBTRiLG0kalWBCwv9TPovzDXYaKanKCwl1ocqE5hf1NtgX7xCsBu8oE7EJn
+         74PA==
+X-Gm-Message-State: AA+aEWaAAO31g2Dm0v9J6ZrJYxqTWm6QnLedACiTXsaPqDlXeeXL8OuX
+        rtfTMq/XPEelBytZ+uP64mGTJglxsoCIDzIfwDI=
+X-Google-Smtp-Source: AFSGD/XbOHW/zXOhA4bdEgg20HUHD0DtMFmBjzHois75dVpzcZAIuER3IN3Ri1068cAo7NanWHWDGr+Q3FjjtCIyzBA=
+X-Received: by 2002:a02:3f0b:: with SMTP id d11mr1899652jaa.26.1544190005869;
+ Fri, 07 Dec 2018 05:40:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1688146.Dmze7u1T7F@aspire.rjw.lan>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20181130192737.15053-1-jarkko.sakkinen@linux.intel.com>
+ <CAGXu5j+jBNBsD3pvUSfEh6Lc5T1YMpbM0HeG1c6BHiJe+cKVOQ@mail.gmail.com>
+ <20181130195652.7syqys76646kpaph@linux-r8p5> <20181130205521.GA21006@linux.intel.com>
+ <1543611662.3031.20.camel@HansenPartnership.com> <20181130214405.GG23772@linux.intel.com>
+ <1543615069.3031.27.camel@HansenPartnership.com> <20181130221219.GA25537@linux.intel.com>
+ <20181130151459.3ca2f5c8@lwn.net> <CAMuHMdUkpLWm5NZmYj=uMgVncw6ZOb7j9KxFoDGhrnr7vzpx_w@mail.gmail.com>
+In-Reply-To: <CAMuHMdUkpLWm5NZmYj=uMgVncw6ZOb7j9KxFoDGhrnr7vzpx_w@mail.gmail.com>
+From:   Eric Curtin <ericcurtin17@gmail.com>
+Date:   Fri, 7 Dec 2018 13:39:54 +0000
+Message-ID: <CANpvso4ZjJkUA7+saYRR4qssvreZcm-74EPo3nrGSohFZF9akA@mail.gmail.com>
+Subject: Re: [PATCH RFC 00/15] Zero ****s, hugload of hugs <3
+To:     geert@linux-m68k.org
+Cc:     corbet@lwn.net, jarkko.sakkinen@linux.intel.com,
+        James.Bottomley@hansenpartnership.com, dave@stgolabs.net,
+        keescook@chromium.org,
+        Kernel development list <linux-kernel@vger.kernel.org>,
+        amir73il@gmail.com, akpm@linux-foundation.org,
+        andriy.shevchenko@linux.intel.com, dja@axtens.net,
+        davem@davemloft.net, linux@dominikbrodowski.net,
+        dri-devel@lists.freedesktop.org, edumazet@google.com,
+        federico.vaga@vaga.pv.it, geert+renesas@glider.be, deller@gmx.de,
+        kumba@gentoo.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-media@vger.kernel.org,
+        linux-mips@linux-mips.org, linux-mtd@lists.infradead.org,
+        linux-parisc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-scsi@vger.kernel.org, matthias.bgg@gmail.com,
+        netdev@vger.kernel.org, nouveau@lists.freedesktop.org,
+        pabeni@redhat.com, paul.burton@mips.com, pmladek@suse.com,
+        robh@kernel.org, sean.wang@mediatek.com,
+        sergey.senozhatsky@gmail.com, shannon.nelson@oracle.com,
+        sbrivio@redhat.com, rostedt@goodmis.org, me@tobin.cc,
+        makita.toshiaki@lab.ntt.co.jp, willemb@google.com, yhs@fb.com,
+        yanjun.zhu@oracle.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 07, 2018 at 12:57:00PM +0100, Rafael J. Wysocki wrote:
-> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> Subject: [PATCH] cpuidle: Add 'above' and 'below' idle state metrics
-> 
-> Add two new metrics for CPU idle states, "above" and "below", to count
-> the number of times the given state had been asked for (or entered
-> from the kernel's perspective), but the observed idle duration turned
-> out to be too short or too long for it (respectively).
-> 
-> These mertics help to estimate the quality of the CPU idle governor
+Hi Guys,
 
-s/mertics/metrics
+I initially thought these patches were a joke. But I guess they are
+not. I suppose 2018 is the year everything became offensive.
 
-> in use.
-> 
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> ---
-> 
-> This is a replacement for https://patchwork.kernel.org/patch/10714995/ with
-> the metrics renamed and some documentation confusion cleaned up.  Thanks!
-> 
-> ---
->  Documentation/ABI/testing/sysfs-devices-system-cpu |    7 ++++
->  Documentation/admin-guide/pm/cpuidle.rst           |   10 ++++++
->  drivers/cpuidle/cpuidle.c                          |   31 ++++++++++++++++++++-
->  drivers/cpuidle/sysfs.c                            |    6 ++++
->  include/linux/cpuidle.h                            |    2 +
->  5 files changed, 55 insertions(+), 1 deletion(-)
-> 
-> Index: linux-pm/drivers/cpuidle/cpuidle.c
-> ===================================================================
-> --- linux-pm.orig/drivers/cpuidle/cpuidle.c
-> +++ linux-pm/drivers/cpuidle/cpuidle.c
-> @@ -202,7 +202,6 @@ int cpuidle_enter_state(struct cpuidle_d
->  	struct cpuidle_state *target_state = &drv->states[index];
->  	bool broadcast = !!(target_state->flags & CPUIDLE_FLAG_TIMER_STOP);
->  	ktime_t time_start, time_end;
-> -	s64 diff;
->  
->  	/*
->  	 * Tell the time framework to switch to a broadcast timer because our
-> @@ -248,6 +247,9 @@ int cpuidle_enter_state(struct cpuidle_d
->  		local_irq_enable();
->  
->  	if (entered_state >= 0) {
-> +		s64 diff, delay = drv->states[entered_state].exit_latency;
+Could we avoid the s/fuck/hug/g though? I have nothing against
+re-wording this stuff to remove the curse word, but it should at least
+make sense.
 
-I am probably pointing out something that has been already debated,
-apologies if so.
+What's going to happen is someone is a newbie is going to see a comment
+like "We found an mark in the idr at the right wd, but it's not the
+mark we were told to remove. eparis seriously hugged up somewhere",
+probably google the term as they are unfamiliar with it, find out it's
+an alias for "fucked" and if they are sensitive get offended anyway.
 
-exit_latency is the *worst* case exit latency for idle states that involve
-multiple CPUs, we can't say for certain it is the latency that was
-actually experienced by the idle state exit.
-
-It can be microseconds (eg CPU resume) vs milliseconds (eg groups of
-cpus resume).
-
-I think the current approach (which may only understimate the "below" by
-substracting the worst case value) is reasonable but I pointed this out
-since I do not know how these stats will be used.
-
-Lorenzo
-
-> +		int i;
-> +
->  		/*
->  		 * Update cpuidle counters
->  		 * This can be moved to within driver enter routine,
-> @@ -260,6 +262,33 @@ int cpuidle_enter_state(struct cpuidle_d
->  		dev->last_residency = (int)diff;
->  		dev->states_usage[entered_state].time += dev->last_residency;
->  		dev->states_usage[entered_state].usage++;
-> +
-> +		if (diff < drv->states[entered_state].target_residency) {
-> +			for (i = entered_state - 1; i >= 0; i--) {
-> +				if (drv->states[i].disabled ||
-> +				    dev->states_usage[i].disable)
-> +					continue;
-> +
-> +				/* Shallower states are enabled, so update. */
-> +				dev->states_usage[entered_state].above++;
-> +				break;
-> +			}
-> +		} else if (diff > delay) {
-> +			for (i = entered_state + 1; i < drv->state_count; i++) {
-> +				if (drv->states[i].disabled ||
-> +				    dev->states_usage[i].disable)
-> +					continue;
-> +
-> +				/*
-> +				 * Update if a deeper state would have been a
-> +				 * better match for the observed idle duration.
-> +				 */
-> +				if (diff - delay >= drv->states[i].target_residency)
-> +					dev->states_usage[entered_state].below++;
-> +
-> +				break;
-> +			}
-> +		}
->  	} else {
->  		dev->last_residency = 0;
->  	}
-> Index: linux-pm/include/linux/cpuidle.h
-> ===================================================================
-> --- linux-pm.orig/include/linux/cpuidle.h
-> +++ linux-pm/include/linux/cpuidle.h
-> @@ -33,6 +33,8 @@ struct cpuidle_state_usage {
->  	unsigned long long	disable;
->  	unsigned long long	usage;
->  	unsigned long long	time; /* in US */
-> +	unsigned long long	above; /* Number of times it's been too deep */
-> +	unsigned long long	below;  /* Number of times it's been too shallow */
->  #ifdef CONFIG_SUSPEND
->  	unsigned long long	s2idle_usage;
->  	unsigned long long	s2idle_time; /* in US */
-> Index: linux-pm/drivers/cpuidle/sysfs.c
-> ===================================================================
-> --- linux-pm.orig/drivers/cpuidle/sysfs.c
-> +++ linux-pm/drivers/cpuidle/sysfs.c
-> @@ -301,6 +301,8 @@ define_show_state_str_function(name)
->  define_show_state_str_function(desc)
->  define_show_state_ull_function(disable)
->  define_store_state_ull_function(disable)
-> +define_show_state_ull_function(above)
-> +define_show_state_ull_function(below)
->  
->  define_one_state_ro(name, show_state_name);
->  define_one_state_ro(desc, show_state_desc);
-> @@ -310,6 +312,8 @@ define_one_state_ro(power, show_state_po
->  define_one_state_ro(usage, show_state_usage);
->  define_one_state_ro(time, show_state_time);
->  define_one_state_rw(disable, show_state_disable, store_state_disable);
-> +define_one_state_ro(above, show_state_above);
-> +define_one_state_ro(below, show_state_below);
->  
->  static struct attribute *cpuidle_state_default_attrs[] = {
->  	&attr_name.attr,
-> @@ -320,6 +324,8 @@ static struct attribute *cpuidle_state_d
->  	&attr_usage.attr,
->  	&attr_time.attr,
->  	&attr_disable.attr,
-> +	&attr_above.attr,
-> +	&attr_below.attr,
->  	NULL
->  };
->  
-> Index: linux-pm/Documentation/admin-guide/pm/cpuidle.rst
-> ===================================================================
-> --- linux-pm.orig/Documentation/admin-guide/pm/cpuidle.rst
-> +++ linux-pm/Documentation/admin-guide/pm/cpuidle.rst
-> @@ -398,6 +398,16 @@ deeper the (effective) idle state repres
->  a number of files (attributes) representing the properties of the idle state
->  object corresponding to it, as follows:
->  
-> +``above``
-> +	Total number of times this idle state had been asked for, but the
-> +	observed idle duration was certainly too short to match its target
-> +	residency.
-> +
-> +``below``
-> +	Total number of times this idle state had been asked for, but cerainly
-> +	a deeper idle state would have been a better match for the observed idle
-> +	duration.
-> +
->  ``desc``
->  	Description of the idle state.
->  
-> Index: linux-pm/Documentation/ABI/testing/sysfs-devices-system-cpu
-> ===================================================================
-> --- linux-pm.orig/Documentation/ABI/testing/sysfs-devices-system-cpu
-> +++ linux-pm/Documentation/ABI/testing/sysfs-devices-system-cpu
-> @@ -145,6 +145,8 @@ What:		/sys/devices/system/cpu/cpuX/cpui
->  		/sys/devices/system/cpu/cpuX/cpuidle/stateN/power
->  		/sys/devices/system/cpu/cpuX/cpuidle/stateN/time
->  		/sys/devices/system/cpu/cpuX/cpuidle/stateN/usage
-> +		/sys/devices/system/cpu/cpuX/cpuidle/stateN/high
-> +		/sys/devices/system/cpu/cpuX/cpuidle/stateN/below
->  Date:		September 2007
->  KernelVersion:	v2.6.24
->  Contact:	Linux power management list <linux-pm@vger.kernel.org>
-> @@ -166,6 +168,11 @@ Description:
->  
->  		usage: (RO) Number of times this state was entered (a count).
->  
-> +		above: (RO) Number of times this state was entered, but the
-> +		       observed CPU idle duration was too short for it (a count).
-> +
-> +		below: (RO) Number of times this state was entered, but the
-> +		       observed CPU idle duration was too long for it (a count).
->  
->  What:		/sys/devices/system/cpu/cpuX/cpuidle/stateN/desc
->  Date:		February 2008
-> 
+On Sat, 1 Dec 2018 at 08:20, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Jon,
+>
+> On Fri, Nov 30, 2018 at 11:15 PM Jonathan Corbet <corbet@lwn.net> wrote:
+> > On Fri, 30 Nov 2018 14:12:19 -0800
+> > Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com> wrote:
+> >
+> > > As a maintainer myself (and based on somewhat disturbed feedback from
+> > > other maintainers) I can only make the conclusion that nobody knows what
+> > > the responsibility part here means.
+> > >
+> > > I would interpret, if I read it like at lawyer at least, that even for
+> > > existing code you would need to do the changes postmorterm.
+> > >
+> > > Is this wrong interpretation?  Should I conclude that I made a mistake
+> > > by reading the CoC and trying to understand what it *actually* says?
+> > > After this discussion, I can say that I understand it less than before.
+> >
+> > Have you read Documentation/process/code-of-conduct-interpretation.rst?
+> > As has been pointed out, it contains a clear answer to how things should
+> > be interpreted here.
+>
+> Indeed:
+>
+> | Contributions submitted for the kernel should use appropriate language.
+> | Content that already exists predating the Code of Conduct will not be
+> | addressed now as a violation.
+>
+> However:
+>
+> | Inappropriate language can be seen as a
+> | bug, though; such bugs will be fixed more quickly if any interested
+> | parties submit patches to that effect.
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
