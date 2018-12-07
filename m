@@ -6,46 +6,47 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 408C17D089
+	by archive.lwn.net (Postfix) with ESMTP id 6B6CF7D8A5
 	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Dec 2018 20:16:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726315AbeLGUPh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Dec 2018 15:15:37 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:42259 "EHLO
+        id S1726079AbeLGUQ1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Dec 2018 15:16:27 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:39598 "EHLO
         mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726313AbeLGUPg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Dec 2018 15:15:36 -0500
-Received: by mail-pg1-f196.google.com with SMTP id d72so2176264pga.9;
-        Fri, 07 Dec 2018 12:15:35 -0800 (PST)
+        with ESMTP id S1726319AbeLGUPi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Dec 2018 15:15:38 -0500
+Received: by mail-pg1-f196.google.com with SMTP id w6so2177768pgl.6;
+        Fri, 07 Dec 2018 12:15:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=kgzafWSB1mVEChz4YZIBR4ca68MW5UetsrrL1D6H/2o=;
-        b=lLCYxi3QAVOQwiwiUoB3BkACgAIi0jyTHnWxMpFslTXOrH+g6BRE/MbBDYZU+0Vlg8
-         vb8Up+FEqncnzrY9NnY5v+KNfAOk7j3W1HfpjQ1CnQ1OHdUm9Oek7O8YyCQf29ykxNj3
-         WjTTXTiam3J27y6cYU/7BMBUppvpO3y31IRErC2cNjFm3Jo9fUTp1Wc+Ysfn8C0Sphes
-         VgtSDYCm6Mc21CpujJX0gVbs/7lrClRsm/IMpIMZ0LYuHdZQP5T1s1ebAu0enl8rnrLi
-         6If+BnhBqxa/dy8OAPpTd/ef5g5C5t+ejKYaiZIcYKODegQA3k1mBL/yWlEsvQStB/xH
-         ulYQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=CXMv0Vhrfz8OgUyxnyaG6yJ3Btg8UiW/JMvPPUaP47g=;
+        b=iv1dU8CL7eCxkwjdGBFS0mbtxk6GU8XmzSL0nJFOoIS3VrhbCDGf0tP7iWGdFyLajD
+         aplvV93AwOr0eNpnVx2zfFszUcI9KJzC3oAbVs0+ahZvCFNKy+zAlp8pkxa97NR92hMK
+         pjgD1Fm33eANuoVbsiu7oh7dI0OarvO/14v6gXDwWqljuOHakvlaZDRSXOua3/s8mujq
+         IaDC3x/5XRCDmnhvPaBJZHXh66MAnAM5vF+v0MytJfiEbYunsILafsGbXfnynRIPXzwN
+         ysUrfKuhMeXogcAMnw5sPNpw2f175HdVKRuW7TFFgHtHiu2p3QYsNPAaktOHWdQM1i84
+         5GQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=kgzafWSB1mVEChz4YZIBR4ca68MW5UetsrrL1D6H/2o=;
-        b=NTtVmz3L56g+XRfpz1EaXjeYCmUk0cDCW8/pP0ZD3P3Lvq+dlIekhosQm0zjTx80Sw
-         coqDxUbtlc2rjR5HsENKwm+zxMTrgS15n29TML+2nWKBoLWBB3CCoo5dYQk+UM6BRlBh
-         MOwqqp9w1Sg+QcqUFV8XLa3YYDHmYuHShjOjJwjg5X5kqne4KkQlkvbtK4kppCaw6MCZ
-         oqD3btq2VlBuqI7Hg1yY8rVr33FYWTk65L9/mNT8FQpIrJBDwJxQm2wuiR1hkVGm1YIu
-         /2tAzP94WUvVqxaGqkozu9k3WGdl1FDO+MhNcpXfWSZVXu1VgKKEX4bV88wkwrJKV/rD
-         HVMw==
-X-Gm-Message-State: AA+aEWYysZfEHlg+bkw3+BfjzNEDcqQWkO2QVmkKK4ZunYTMzpOg5Uh1
-        JebsuNcSjYNf6jOsqhgZGJY=
-X-Google-Smtp-Source: AFSGD/VZBFdd4HUZSa8YanaYPf8IjQh24kzKR50EoG7PORPdwgyn/4Kap8jZ8atd1fIKBVfz8lqWPQ==
-X-Received: by 2002:a62:6408:: with SMTP id y8mr3572195pfb.202.1544213734806;
-        Fri, 07 Dec 2018 12:15:34 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=CXMv0Vhrfz8OgUyxnyaG6yJ3Btg8UiW/JMvPPUaP47g=;
+        b=btQDsWd1JULN3iU0ESvmHHk6iOnZrTZ8J3thpnMEuPkA+IkDn8dGiBtt11oULNrqF/
+         ShBjYBcF2XbX7tcXMRdl4o1Avp1jKr2Aqe4YlUZOnNJAdz5PhM4Ks2ptCcmWRRkFWfvb
+         j9Xixqu4cEsSMHXP3NRveHgWMSraLvpzV+dghjG08oSIIAlE6nT9TYiwEMa4daANciRv
+         qQZmwKEq7rt1iFZh15ZQjTDkWACRPe07lSWfPaaM4X2awZISID9A9nn67ixEI7sE7yom
+         08KugbYhf2yPHK7wxre9yrX7/+wmlX/xZmQeGdVHO3IAzlSimmSdK5GamRYaXTa0rh+J
+         1EDQ==
+X-Gm-Message-State: AA+aEWZwjJ5hszgatFjOZsvddGYxSjLbxS1VupJ/pQWtBUi2INdVtuGD
+        VuYZM/CL7Q0A3A9WjVtOB58=
+X-Google-Smtp-Source: AFSGD/Xzu9bkbeks40O2SGCZiYVYF2PqYn8T+cGanFzGlm74lZiHOkKF33gcr0CIj/VOO2BVdD5/xQ==
+X-Received: by 2002:a62:2f06:: with SMTP id v6mr3660164pfv.216.1544213736978;
+        Fri, 07 Dec 2018 12:15:36 -0800 (PST)
 Received: from castle.thefacebook.com ([2620:10d:c090:200::6:d83b])
-        by smtp.gmail.com with ESMTPSA id q75sm5870898pfa.38.2018.12.07.12.15.33
+        by smtp.gmail.com with ESMTPSA id q75sm5870898pfa.38.2018.12.07.12.15.36
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 07 Dec 2018 12:15:34 -0800 (PST)
+        Fri, 07 Dec 2018 12:15:36 -0800 (PST)
 From:   Roman Gushchin <guroan@gmail.com>
 X-Google-Original-From: Roman Gushchin <guro@fb.com>
 To:     Tejun Heo <tj@kernel.org>, Oleg Nesterov <oleg@redhat.com>
@@ -54,86 +55,116 @@ Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
         cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, kernel-team@fb.com,
         Roman Gushchin <guro@fb.com>
-Subject: [PATCH v5 0/7] freezer for cgroup v2
-Date:   Fri,  7 Dec 2018 12:15:24 -0800
-Message-Id: <20181207201531.1665-1-guro@fb.com>
+Subject: [PATCH v5 2/7] cgroup: implement __cgroup_task_count() helper
+Date:   Fri,  7 Dec 2018 12:15:26 -0800
+Message-Id: <20181207201531.1665-3-guro@fb.com>
 X-Mailer: git-send-email 2.17.2
+In-Reply-To: <20181207201531.1665-1-guro@fb.com>
+References: <20181207201531.1665-1-guro@fb.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patchset implements freezer for cgroup v2.
+The helper is identical to the existing cgroup_task_count()
+except it doesn't take the css_set_lock by itself, assuming
+that the caller does.
 
-It provides similar functionality as v1 freezer, but the interface
-conforms to the cgroup v2 interface design principles, and it
-provides a better user experience: tasks can be killed, ptrace works,
-there is no separate controller, which has to be enabled, etc.
+Also, move cgroup_task_count() implementation into
+kernel/cgroup/cgroup.c, as there is nothing specific to cgroup v1.
 
-Patches (1), (2) and (3) are some preparational work, patch (4) contains
-the implementation, patch (5) is a small cgroup kselftest fix,
-patch (6) covers freezer adds 6 new kselftests to cover the freezer
-functionality. Patch (7) adds corresponding docs.
+Signed-off-by: Roman Gushchin <guro@fb.com>
+Cc: Tejun Heo <tj@kernel.org>
+Cc: kernel-team@fb.com
+---
+ kernel/cgroup/cgroup-internal.h |  1 +
+ kernel/cgroup/cgroup-v1.c       | 16 ----------------
+ kernel/cgroup/cgroup.c          | 33 +++++++++++++++++++++++++++++++++
+ 3 files changed, 34 insertions(+), 16 deletions(-)
 
-v5->v4:
-  - rewored cgroup state transition code (suggested by Tejun Heo)
-  - look at JOBCTL_TRAP_FREEZE instead of task->frozen in
-    recalc_sigpending(), check for task->frozen and JOBCTL_TRAP_FREEZE
-    in signal_pending_state() (suggested by Oleg Nesterov)
-  - some cosmetic changes in signal.c (suggested by Oleg Nesterov)
-  - cleaned up comments
-
-v4->v3:
-  - reading nr_descendants doesn't require taking css_set_lock anymore
-  - fixed docs based on Mike Rapoport's feedback
-  - fixed double irq lock found by Dan Carpenter
-
-v3->v2:
-  - dropped TASK_FROZEN for now, frozen tasks are put into TASK_INTERRUPTIBLE
-  state; it's probably not the final version, but the API question can be
-  discussed separately
-  - don't clear TIF_SIGPENDING before going to sleep, instead add
-  task->frozen check in signal_pending_state() and recalc_sigpending()
-  - cgroup-level counter are now synchronized using css_set_lock,
-  which simplified the whole code (e.g. per-cgroup works were removed)
-  - the amount of comments increased significantly
-  - many other improvements incorporating feedback from Tejun and Oleg
-
-v2->v1:
-  - fixed locking aroung calling cgroup_freezer_leave()
-  - added docs
-
-Roman Gushchin (7):
-  cgroup: rename freezer.c into legacy_freezer.c
-  cgroup: implement __cgroup_task_count() helper
-  cgroup: protect cgroup->nr_(dying_)descendants by css_set_lock
-  cgroup: cgroup v2 freezer
-  kselftests: cgroup: don't fail on cg_kill_all() error in cg_destroy()
-  kselftests: cgroup: add freezer controller self-tests
-  cgroup: document cgroup v2 freezer interface
-
- Documentation/admin-guide/cgroup-v2.rst       |  27 +
- include/linux/cgroup-defs.h                   |  33 +
- include/linux/cgroup.h                        |  42 ++
- include/linux/sched.h                         |   2 +
- include/linux/sched/jobctl.h                  |   2 +
- include/linux/sched/signal.h                  |   3 +
- kernel/cgroup/Makefile                        |   4 +-
- kernel/cgroup/cgroup-internal.h               |   1 +
- kernel/cgroup/cgroup-v1.c                     |  16 -
- kernel/cgroup/cgroup.c                        | 145 +++-
- kernel/cgroup/freezer.c                       | 634 ++++++----------
- kernel/cgroup/legacy_freezer.c                | 481 ++++++++++++
- kernel/signal.c                               |  55 +-
- tools/testing/selftests/cgroup/.gitignore     |   1 +
- tools/testing/selftests/cgroup/Makefile       |   2 +
- tools/testing/selftests/cgroup/cgroup_util.c  |  85 ++-
- tools/testing/selftests/cgroup/cgroup_util.h  |   7 +
- tools/testing/selftests/cgroup/test_freezer.c | 685 ++++++++++++++++++
- 18 files changed, 1794 insertions(+), 431 deletions(-)
- create mode 100644 kernel/cgroup/legacy_freezer.c
- create mode 100644 tools/testing/selftests/cgroup/test_freezer.c
-
+diff --git a/kernel/cgroup/cgroup-internal.h b/kernel/cgroup/cgroup-internal.h
+index c950864016e2..a195328431ce 100644
+--- a/kernel/cgroup/cgroup-internal.h
++++ b/kernel/cgroup/cgroup-internal.h
+@@ -226,6 +226,7 @@ int cgroup_rmdir(struct kernfs_node *kn);
+ int cgroup_show_path(struct seq_file *sf, struct kernfs_node *kf_node,
+ 		     struct kernfs_root *kf_root);
+ 
++int __cgroup_task_count(const struct cgroup *cgrp);
+ int cgroup_task_count(const struct cgroup *cgrp);
+ 
+ /*
+diff --git a/kernel/cgroup/cgroup-v1.c b/kernel/cgroup/cgroup-v1.c
+index 51063e7a93c2..6134fef07d57 100644
+--- a/kernel/cgroup/cgroup-v1.c
++++ b/kernel/cgroup/cgroup-v1.c
+@@ -336,22 +336,6 @@ static struct cgroup_pidlist *cgroup_pidlist_find_create(struct cgroup *cgrp,
+ 	return l;
+ }
+ 
+-/**
+- * cgroup_task_count - count the number of tasks in a cgroup.
+- * @cgrp: the cgroup in question
+- */
+-int cgroup_task_count(const struct cgroup *cgrp)
+-{
+-	int count = 0;
+-	struct cgrp_cset_link *link;
+-
+-	spin_lock_irq(&css_set_lock);
+-	list_for_each_entry(link, &cgrp->cset_links, cset_link)
+-		count += link->cset->nr_tasks;
+-	spin_unlock_irq(&css_set_lock);
+-	return count;
+-}
+-
+ /*
+  * Load a cgroup's pidarray with either procs' tgids or tasks' pids
+  */
+diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+index e06994fd4e34..7519a4307021 100644
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -563,6 +563,39 @@ static void cgroup_get_live(struct cgroup *cgrp)
+ 	css_get(&cgrp->self);
+ }
+ 
++/**
++ * __cgroup_task_count - count the number of tasks in a cgroup. The caller
++ * is responsible for taking the css_set_lock.
++ * @cgrp: the cgroup in question
++ */
++int __cgroup_task_count(const struct cgroup *cgrp)
++{
++	int count = 0;
++	struct cgrp_cset_link *link;
++
++	lockdep_assert_held(&css_set_lock);
++
++	list_for_each_entry(link, &cgrp->cset_links, cset_link)
++		count += link->cset->nr_tasks;
++
++	return count;
++}
++
++/**
++ * cgroup_task_count - count the number of tasks in a cgroup.
++ * @cgrp: the cgroup in question
++ */
++int cgroup_task_count(const struct cgroup *cgrp)
++{
++	int count;
++
++	spin_lock_irq(&css_set_lock);
++	count = __cgroup_task_count(cgrp);
++	spin_unlock_irq(&css_set_lock);
++
++	return count;
++}
++
+ struct cgroup_subsys_state *of_css(struct kernfs_open_file *of)
+ {
+ 	struct cgroup *cgrp = of->kn->parent->priv;
 -- 
 2.17.2
 
