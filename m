@@ -4,49 +4,49 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E6DBD7D8A3
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Dec 2018 20:16:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3DB0F7D8D5
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Dec 2018 20:16:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726346AbeLGUPj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Dec 2018 15:15:39 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:42262 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726331AbeLGUPj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Dec 2018 15:15:39 -0500
-Received: by mail-pg1-f196.google.com with SMTP id d72so2176310pga.9;
-        Fri, 07 Dec 2018 12:15:38 -0800 (PST)
+        id S1726331AbeLGUPm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Dec 2018 15:15:42 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:40903 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726363AbeLGUPl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Dec 2018 15:15:41 -0500
+Received: by mail-pf1-f196.google.com with SMTP id i12so2437767pfo.7;
+        Fri, 07 Dec 2018 12:15:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=AF6FjZ5bYHqrhn2j5NEFo6/8zOWEnmu3uN/KpDBNyX8=;
-        b=Zab/XM4V325VwLDjQweH6/BjCmL72mI1hULkW0qXSRg8VLOY0XFTvNNtOPrJPZL50C
-         eq1kPcbT++Kv9gQaRQassMfIIa4TjxnlWxGak0TIK7KWHKsTDevl5n1aPTBKIRaMtcH/
-         365X7yjF6admMely003US2abDL4tEZEVQgPShcLtBSzu5G5XPFq+qeIcA4aakQh5koOR
-         TORvjAVHpA3Qe53DyMmCvUk51knVyBPPacmJ+uHZyyIKVCbu5fVA1PIV8JJZS4UMqNcO
-         0Bs1g+Zfffl7P022i3lO54vLdB20PdVYUCzQuEUJ8pOZHdDatawPP6aoODY3S4xa5tGg
-         Cbiw==
+        bh=oiVWgL/WHUTd0gentorRc6DDTrlDET1vasHz44Fkvas=;
+        b=Tl6AQp5NBS+Vty8MRgicYJ/jVsKR0CryNf5wkhgDTDviSmtB5Wz5KcTOni7EQWYiOH
+         M7G/A/ahbj0zI4CX/oWxaTi3eJ6MDEIHpJoed0IEfumnekz0XOS5c/X94GXsjpeRxgu+
+         l2CL4eRuaWgoJimP0SL5rSZ5XqAxlywguM+C8fB+TRPnFh7lzKNozNYlW0wRdQBzUa/a
+         ao6SOAXWMayp5gxtmPSMC71qWuSZw4ETGeggMgxoH2KE8z3aAC0/mT4J9+OJA3FOHaru
+         l5GNQdJ37yTs4EbHlaXxMHzY7kffSwszM0uq23KIDYpnEAM7yJecJW8OXtILW++JSxuo
+         zwQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=AF6FjZ5bYHqrhn2j5NEFo6/8zOWEnmu3uN/KpDBNyX8=;
-        b=PxOWmIF9WmxBi0lZVkSsghhTGjebyDHYrMJoFOdRo5sBGsECQ4UMpbvhEjcTOQop5N
-         1p+F4XA+sRy9Ym0vahcOVRaRGkOGKdHq3eYRPtOOBUfybaxxqZZz0ve6C+gW3CjgJ1Fd
-         11WyqLDNxUjcwpbr52lELuGmnOji1knJH73hlTJ93ADtkSoMVdTayoU3WDNyoXukmSgk
-         PUqHclnY1kz5kB9LM2Nhywis2dcoJOs6CKsnZe5Iy6F7j/mFhznraS52SFxRmh5SZkYZ
-         R9ME0dfFUfoENNAbZl5nanhHdqwEofg0Ki98Z9p/fBjYeLjL+C3Rpt/Qb29EKl0xjtTj
-         3ylA==
-X-Gm-Message-State: AA+aEWbXLciIOVs00VD8ZOvtwHSFXoEkJ4+9CJ94sXnGI2pT6oW1RJoF
-        MshZL7WOUPRBxngWJ9+n7+8=
-X-Google-Smtp-Source: AFSGD/W9Uo+dyGKJC3EyYGG4gUbwzT3syau4aeixLuZm/XXzFbmUHUFNos5Py5QC5NN1ilRKzr/cjw==
-X-Received: by 2002:a63:d846:: with SMTP id k6mr3216257pgj.251.1544213738150;
-        Fri, 07 Dec 2018 12:15:38 -0800 (PST)
+        bh=oiVWgL/WHUTd0gentorRc6DDTrlDET1vasHz44Fkvas=;
+        b=B1U9JjQEq6+sMMcLcb8vzVAT6YRoR810hN8Gw3T5Y+GICcwfjHv2waip1foTnzvrzy
+         tuDjARzfxpWXE9OjZCv9nTQbbfuH2mPEAOi3uY2RRbzGbQwEfEyce4H1hbRzuFTeUuCv
+         pyEZnh2G1LU2+oON2B5QVsimR/fEH7ytoxVr89y13gCrHZpK9YQHgZeMsBF+b3YDeU2H
+         zSdwz631ZJc9apFcRpfToel9uQHWs3t24vPOF4rWbuRunooGhXEaX57fC+h3aowLvNfT
+         gSy+5tm3LiWTjapdDPSI9lgbwVBinbOaXFlKDKKidCbDuXkek7KQ27QcUprzzoljwxwX
+         tFfA==
+X-Gm-Message-State: AA+aEWZEi8V1rpqZUATGfW8Q6b5Shxo8QZci5h23Pw4ouLbpFN4Z/01X
+        jS9zr2EtRXhTNAxhd+Ap66w=
+X-Google-Smtp-Source: AFSGD/W5GF7l5xue5w7Lkrut0LyE2fg5jVo/CiU87iJyb7jzaQvHLrVInJWKnL5WvqjQBRBvOaQdpA==
+X-Received: by 2002:a63:26c1:: with SMTP id m184mr2951411pgm.367.1544213740629;
+        Fri, 07 Dec 2018 12:15:40 -0800 (PST)
 Received: from castle.thefacebook.com ([2620:10d:c090:200::6:d83b])
-        by smtp.gmail.com with ESMTPSA id q75sm5870898pfa.38.2018.12.07.12.15.37
+        by smtp.gmail.com with ESMTPSA id q75sm5870898pfa.38.2018.12.07.12.15.39
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 07 Dec 2018 12:15:37 -0800 (PST)
+        Fri, 07 Dec 2018 12:15:39 -0800 (PST)
 From:   Roman Gushchin <guroan@gmail.com>
 X-Google-Original-From: Roman Gushchin <guro@fb.com>
 To:     Tejun Heo <tj@kernel.org>, Oleg Nesterov <oleg@redhat.com>
@@ -54,10 +54,11 @@ Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>,
         cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, kernel-team@fb.com,
-        Roman Gushchin <guro@fb.com>
-Subject: [PATCH v5 3/7] cgroup: protect cgroup->nr_(dying_)descendants by css_set_lock
-Date:   Fri,  7 Dec 2018 12:15:27 -0800
-Message-Id: <20181207201531.1665-4-guro@fb.com>
+        Roman Gushchin <guro@fb.com>, Shuah Khan <shuah@kernel.org>,
+        linux-kselftest@vger.kernel.org
+Subject: [PATCH v5 5/7] kselftests: cgroup: don't fail on cg_kill_all() error in cg_destroy()
+Date:   Fri,  7 Dec 2018 12:15:29 -0800
+Message-Id: <20181207201531.1665-6-guro@fb.com>
 X-Mailer: git-send-email 2.17.2
 In-Reply-To: <20181207201531.1665-1-guro@fb.com>
 References: <20181207201531.1665-1-guro@fb.com>
@@ -66,89 +67,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The number of descendant cgroups and the number of dying
-descendant cgroups are currently synchronized using the cgroup_mutex.
-
-The number of descendant cgroups will be required by the cgroup v2
-freezer, which will use it to determine if a cgroup is frozen
-(depending on total number of descendants and number of frozen
-descendants). It's not always acceptable to grab the cgroup_mutex,
-especially from quite hot paths (e.g. exit()).
-
-To avoid this, let's additionally synchronize these counters using
-the css_set_lock.
-
-So, it's safe to read these counters with either cgroup_mutex or
-css_set_lock locked, and for changing both locks should be acquired.
+If the cgroup destruction races with an exit() of a belonging
+process(es), cg_kill_all() may fail. It's not a good reason to make
+cg_destroy() fail and leave the cgroup in place, potentially causing
+next test runs to fail.
 
 Signed-off-by: Roman Gushchin <guro@fb.com>
+Cc: Shuah Khan <shuah@kernel.org>
 Cc: Tejun Heo <tj@kernel.org>
 Cc: kernel-team@fb.com
+Cc: linux-kselftest@vger.kernel.org
 ---
- include/linux/cgroup-defs.h | 5 +++++
- kernel/cgroup/cgroup.c      | 6 ++++++
- 2 files changed, 11 insertions(+)
+ tools/testing/selftests/cgroup/cgroup_util.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
-index 8fcbae1b8db0..03355d7008ff 100644
---- a/include/linux/cgroup-defs.h
-+++ b/include/linux/cgroup-defs.h
-@@ -348,6 +348,11 @@ struct cgroup {
- 	 * Dying cgroups are cgroups which were deleted by a user,
- 	 * but are still existing because someone else is holding a reference.
- 	 * max_descendants is a maximum allowed number of descent cgroups.
-+	 *
-+	 * nr_descendants and nr_dying_descendants are protected
-+	 * by cgroup_mutex and css_set_lock. It's fine to read them holding
-+	 * any of cgroup_mutex and css_set_lock; for writing both locks
-+	 * should be held.
- 	 */
- 	int nr_descendants;
- 	int nr_dying_descendants;
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index 7519a4307021..f89dde50f693 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -4723,9 +4723,11 @@ static void css_release_work_fn(struct work_struct *work)
- 		if (cgroup_on_dfl(cgrp))
- 			cgroup_rstat_flush(cgrp);
- 
-+		spin_lock_irq(&css_set_lock);
- 		for (tcgrp = cgroup_parent(cgrp); tcgrp;
- 		     tcgrp = cgroup_parent(tcgrp))
- 			tcgrp->nr_dying_descendants--;
-+		spin_unlock_irq(&css_set_lock);
- 
- 		cgroup_idr_remove(&cgrp->root->cgroup_idr, cgrp->id);
- 		cgrp->id = -1;
-@@ -4943,12 +4945,14 @@ static struct cgroup *cgroup_create(struct cgroup *parent)
- 	if (ret)
- 		goto out_psi_free;
- 
-+	spin_lock_irq(&css_set_lock);
- 	for (tcgrp = cgrp; tcgrp; tcgrp = cgroup_parent(tcgrp)) {
- 		cgrp->ancestor_ids[tcgrp->level] = tcgrp->id;
- 
- 		if (tcgrp != cgrp)
- 			tcgrp->nr_descendants++;
+diff --git a/tools/testing/selftests/cgroup/cgroup_util.c b/tools/testing/selftests/cgroup/cgroup_util.c
+index 14c9fe284806..eba06f94433b 100644
+--- a/tools/testing/selftests/cgroup/cgroup_util.c
++++ b/tools/testing/selftests/cgroup/cgroup_util.c
+@@ -227,9 +227,7 @@ int cg_destroy(const char *cgroup)
+ retry:
+ 	ret = rmdir(cgroup);
+ 	if (ret && errno == EBUSY) {
+-		ret = cg_killall(cgroup);
+-		if (ret)
+-			return ret;
++		cg_killall(cgroup);
+ 		usleep(100);
+ 		goto retry;
  	}
-+	spin_unlock_irq(&css_set_lock);
- 
- 	if (notify_on_release(parent))
- 		set_bit(CGRP_NOTIFY_ON_RELEASE, &cgrp->flags);
-@@ -5233,10 +5237,12 @@ static int cgroup_destroy_locked(struct cgroup *cgrp)
- 	if (parent && cgroup_is_threaded(cgrp))
- 		parent->nr_threaded_children--;
- 
-+	spin_lock_irq(&css_set_lock);
- 	for (tcgrp = cgroup_parent(cgrp); tcgrp; tcgrp = cgroup_parent(tcgrp)) {
- 		tcgrp->nr_descendants--;
- 		tcgrp->nr_dying_descendants++;
- 	}
-+	spin_unlock_irq(&css_set_lock);
- 
- 	cgroup1_check_for_release(parent);
- 
 -- 
 2.17.2
 
