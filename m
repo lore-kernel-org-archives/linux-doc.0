@@ -5,43 +5,43 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D8F947D089
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  8 Dec 2018 06:52:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 658967D089
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  8 Dec 2018 06:52:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726147AbeLHGwB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 8 Dec 2018 01:52:01 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59882 "EHLO
+        id S1726193AbeLHGwN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 8 Dec 2018 01:52:13 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34154 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726146AbeLHGwB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Dec 2018 01:52:01 -0500
+        by vger.kernel.org with ESMTP id S1726186AbeLHGwN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Dec 2018 01:52:13 -0500
 Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wB86mT29017426
-        for <linux-doc@vger.kernel.org>; Sat, 8 Dec 2018 01:52:00 -0500
-Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2p817uf2pg-1
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wB86mPOZ016781
+        for <linux-doc@vger.kernel.org>; Sat, 8 Dec 2018 01:52:13 -0500
+Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2p817uf2wy-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sat, 08 Dec 2018 01:52:00 -0500
+        for <linux-doc@vger.kernel.org>; Sat, 08 Dec 2018 01:52:12 -0500
 Received: from localhost
-        by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <chandan@linux.vnet.ibm.com>;
-        Sat, 8 Dec 2018 06:51:58 -0000
-Received: from b01cxnp22035.gho.pok.ibm.com (9.57.198.25)
-        by e12.ny.us.ibm.com (146.89.104.199) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Sat, 8 Dec 2018 06:52:11 -0000
+Received: from b01cxnp22036.gho.pok.ibm.com (9.57.198.26)
+        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sat, 8 Dec 2018 06:51:53 -0000
+        Sat, 8 Dec 2018 06:52:03 -0000
 Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
-        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wB86ppY418808914
+        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wB86q1U122479028
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sat, 8 Dec 2018 06:51:51 GMT
+        Sat, 8 Dec 2018 06:52:01 GMT
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 1E272AC05B;
-        Sat,  8 Dec 2018 06:51:51 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id BCF99AC059;
+        Sat,  8 Dec 2018 06:52:01 +0000 (GMT)
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4B72FAC059;
-        Sat,  8 Dec 2018 06:51:43 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id B53DDAC05E;
+        Sat,  8 Dec 2018 06:51:52 +0000 (GMT)
 Received: from localhost.localdomain.com (unknown [9.85.72.40])
         by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
-        Sat,  8 Dec 2018 06:51:42 +0000 (GMT)
+        Sat,  8 Dec 2018 06:51:52 +0000 (GMT)
 From:   Chandan Rajendra <chandan@linux.vnet.ibm.com>
 To:     linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
         linux-doc@vger.kernel.org, linux-mips@linux-mips.org,
@@ -54,24 +54,26 @@ Cc:     Chandan Rajendra <chandan@linux.vnet.ibm.com>, tytso@mit.edu,
         deanbo422@gmail.com, schwidefsky@de.ibm.com,
         heiko.carstens@de.ibm.com, richard@nod.at, dedekind1@gmail.com,
         adrian.hunter@intel.com, viro@zeniv.linux.org.uk
-Subject: [PATCH V3 0/9] Remove fs specific fscrypt and fsverity build config options
-Date:   Sat,  8 Dec 2018 12:21:35 +0530
+Subject: [PATCH V3 1/9] ext4: use IS_ENCRYPTED() to check encryption status
+Date:   Sat,  8 Dec 2018 12:21:36 +0530
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20181208065144.19486-1-chandan@linux.vnet.ibm.com>
+References: <20181208065144.19486-1-chandan@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 18120806-0060-0000-0000-000002E0E683
+x-cbid: 18120806-2213-0000-0000-00000326D13D
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00010192; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000270; SDB=6.01128646; UDB=6.00586333; IPR=6.00908778;
- MB=3.00024599; MTD=3.00000008; XFM=3.00000015; UTC=2018-12-08 06:51:58
+ PH=3.00000004; SC=3.00000270; SDB=6.01128647; UDB=6.00586333; IPR=6.00908778;
+ MB=3.00024599; MTD=3.00000008; XFM=3.00000015; UTC=2018-12-08 06:52:09
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18120806-0061-0000-0000-000047770CDD
-Message-Id: <20181208065144.19486-1-chandan@linux.vnet.ibm.com>
+x-cbparentid: 18120806-2214-0000-0000-00005C871B8B
+Message-Id: <20181208065144.19486-2-chandan@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-08_02:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1810050000 definitions=main-1812080065
@@ -80,113 +82,279 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to have a common code base for fscrypt & fsverity "post read"
-processing across filesystems which implement fscrypt/fsverity, this
-commit removes filesystem specific build config option
-(CONFIG_EXT4_FS_ENCRYPTION, CONFIG_EXT4_FS_VERITY,
-CONFIG_F2FS_FS_ENCRYPTION, CONFIG_F2FS_FS_VERITY and
-CONFIG_UBIFS_FS_ENCRYPTION) and replaces it with build options
-(CONFIG_FS_ENCRYPTION and CONFIG_FS_VERITY) whose values affect all
-the filesystems making use of fscrypt and fsverity.
+This commit removes the ext4 specific ext4_encrypted_inode() and makes
+use of the generic IS_ENCRYPTED() macro to check for the encryption
+status of an inode.
 
-PS: Since I have access to only to x86 and ppc64le machines, I haven't tested the
-defconfig files for other architectures.
+Reviewed-by: Eric Biggers <ebiggers@google.com>
+Signed-off-by: Chandan Rajendra <chandan@linux.vnet.ibm.com>
+---
+ fs/ext4/dir.c         |  8 ++++----
+ fs/ext4/ext4.h        |  5 -----
+ fs/ext4/ext4_jbd2.h   |  2 +-
+ fs/ext4/extents.c     |  4 ++--
+ fs/ext4/ialloc.c      |  2 +-
+ fs/ext4/inode.c       | 16 +++++++---------
+ fs/ext4/move_extent.c |  3 +--
+ fs/ext4/namei.c       |  8 ++++----
+ fs/ext4/page-io.c     |  3 +--
+ fs/ext4/readpage.c    |  2 +-
+ 10 files changed, 22 insertions(+), 31 deletions(-)
 
-Changelog:
-V2 -> V3:
-1. Remove unnecessary line breaks.
-2. Remove the definition of f2fs_encrypted_inode().
-3. Fix Kconfig dependencies for fscrypt w.r.t F2FS and UBIFS. If F2FS is enabled
-   in the kernel build configuration, F2FS_FS_XATTR is selected if FS_ENCRYPTION
-   is enabled. Similarly, if UBIFS is enabled in the kernel build configuration,
-   UBIFS_FS_XATTR and BLOCK is selected if FS_ENCRYPTION is enabled.
-4. Two new patches have been added to move verity status check to
-   fsverity_file_open() and fsverity_prepare_setattr().
-5. For patch "f2fs: use IS_VERITY() to check inode's fsverity status", the
-   acked-by tag given by Chao Yu has been removed since I added an invocation to
-   f2fs_set_inode_flags() inside f2fs_set_verity(). This is needed to have
-   S_VERITY flag set on the corresponding VFS inode.
-
-V1 -> V2:
-1. Address the following review comments provided by Eric Biggers,
-   - In ext4_should_use_dax(), Use ext4_test_inode_flag() to check for
-     fscrypt/fsverity status of an inode.
-   - Update documentation associated with fscrypt & fsverity to refer to
-     CONFIG_FS_ENCRYPTION and CONFIG_FS_VERITY build flags.
-   - Remove filesystem specific fscrypt build configuration from defconfig
-     files.
-   - Provide a list of supported filesystems for CONFIG_FS_ENCRYPTION and
-     CONFIG_FS_VERITY build flags.
-   - Update comment describing S_VERITY flag.
-2. Remove UBIFS specific encryption build option and make use of the generic
-   CONFIG_FS_ENCRYPTION flag.
-
-RFC -> V1:
-1. Add a new patch to implement S_VERITY/IS_VERITY().
-2. Split code that replaces filesystem specific routines with generic
-   IS_ENCRYPTED() and IS_VERITY() calls into separate patches.
-
-Chandan Rajendra (9):
-  ext4: use IS_ENCRYPTED() to check encryption status
-  f2fs: use IS_ENCRYPTED() to check encryption status
-  fscrypt: remove filesystem specific build config option
-  Add S_VERITY and IS_VERITY()
-  ext4: use IS_VERITY() to check inode's fsverity status
-  f2fs: use IS_VERITY() to check inode's fsverity status
-  fsverity: Remove filesystem specific build config option
-  fsverity: Move verity status check to fsverity_file_open
-  fsverity: Move verity status check to fsverity_prepare_setattr
-
- Documentation/filesystems/fscrypt.rst   |   4 +-
- Documentation/filesystems/fsverity.rst  |   4 +-
- arch/mips/configs/generic_defconfig     |   2 +-
- arch/nds32/configs/defconfig            |   2 +-
- arch/s390/configs/debug_defconfig       |   2 +-
- arch/s390/configs/performance_defconfig |   2 +-
- fs/crypto/Kconfig                       |   5 +-
- fs/crypto/fscrypt_private.h             |   1 -
- fs/ext4/Kconfig                         |  35 --
- fs/ext4/dir.c                           |  10 +-
- fs/ext4/ext4.h                          |  23 +-
- fs/ext4/ext4_jbd2.h                     |   2 +-
- fs/ext4/extents.c                       |   4 +-
- fs/ext4/file.c                          |   8 +-
- fs/ext4/ialloc.c                        |   2 +-
- fs/ext4/inode.c                         |  40 ++-
- fs/ext4/ioctl.c                         |   4 +-
- fs/ext4/move_extent.c                   |   3 +-
- fs/ext4/namei.c                         |  18 +-
- fs/ext4/page-io.c                       |   9 +-
- fs/ext4/readpage.c                      |  10 +-
- fs/ext4/super.c                         |  13 +-
- fs/ext4/sysfs.c                         |   8 +-
- fs/f2fs/Kconfig                         |  32 +-
- fs/f2fs/data.c                          |   6 +-
- fs/f2fs/dir.c                           |  10 +-
- fs/f2fs/f2fs.h                          |  23 +-
- fs/f2fs/file.c                          |  28 +-
- fs/f2fs/inode.c                         |   8 +-
- fs/f2fs/namei.c                         |   6 +-
- fs/f2fs/super.c                         |  15 +-
- fs/f2fs/sysfs.c                         |   8 +-
- fs/ubifs/Kconfig                        |  13 +-
- fs/ubifs/Makefile                       |   2 +-
- fs/ubifs/ioctl.c                        |   4 +-
- fs/ubifs/sb.c                           |   2 +-
- fs/ubifs/super.c                        |   2 +-
- fs/ubifs/ubifs.h                        |   5 +-
- fs/verity/Kconfig                       |   3 +-
- fs/verity/fsverity_private.h            |   1 -
- fs/verity/setup.c                       |   5 +-
- include/linux/fs.h                      |  10 +-
- include/linux/fscrypt.h                 | 416 +++++++++++++++++++++++-
- include/linux/fscrypt_notsupp.h         | 231 -------------
- include/linux/fscrypt_supp.h            | 204 ------------
- include/linux/fsverity.h                |   7 +-
- 46 files changed, 554 insertions(+), 698 deletions(-)
- delete mode 100644 include/linux/fscrypt_notsupp.h
- delete mode 100644 include/linux/fscrypt_supp.h
-
+diff --git a/fs/ext4/dir.c b/fs/ext4/dir.c
+index f93f9881ec18..fb7a64ea5679 100644
+--- a/fs/ext4/dir.c
++++ b/fs/ext4/dir.c
+@@ -111,7 +111,7 @@ static int ext4_readdir(struct file *file, struct dir_context *ctx)
+ 	int dir_has_error = 0;
+ 	struct fscrypt_str fstr = FSTR_INIT(NULL, 0);
+ 
+-	if (ext4_encrypted_inode(inode)) {
++	if (IS_ENCRYPTED(inode)) {
+ 		err = fscrypt_get_encryption_info(inode);
+ 		if (err && err != -ENOKEY)
+ 			return err;
+@@ -138,7 +138,7 @@ static int ext4_readdir(struct file *file, struct dir_context *ctx)
+ 			return err;
+ 	}
+ 
+-	if (ext4_encrypted_inode(inode)) {
++	if (IS_ENCRYPTED(inode)) {
+ 		err = fscrypt_fname_alloc_buffer(inode, EXT4_NAME_LEN, &fstr);
+ 		if (err < 0)
+ 			return err;
+@@ -245,7 +245,7 @@ static int ext4_readdir(struct file *file, struct dir_context *ctx)
+ 			offset += ext4_rec_len_from_disk(de->rec_len,
+ 					sb->s_blocksize);
+ 			if (le32_to_cpu(de->inode)) {
+-				if (!ext4_encrypted_inode(inode)) {
++				if (!IS_ENCRYPTED(inode)) {
+ 					if (!dir_emit(ctx, de->name,
+ 					    de->name_len,
+ 					    le32_to_cpu(de->inode),
+@@ -613,7 +613,7 @@ static int ext4_dx_readdir(struct file *file, struct dir_context *ctx)
+ 
+ static int ext4_dir_open(struct inode * inode, struct file * filp)
+ {
+-	if (ext4_encrypted_inode(inode))
++	if (IS_ENCRYPTED(inode))
+ 		return fscrypt_get_encryption_info(inode) ? -EACCES : 0;
+ 	return 0;
+ }
+diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+index 80957f9d3cbe..2ae6ab88f218 100644
+--- a/fs/ext4/ext4.h
++++ b/fs/ext4/ext4.h
+@@ -2297,11 +2297,6 @@ extern unsigned ext4_free_clusters_after_init(struct super_block *sb,
+ 					      struct ext4_group_desc *gdp);
+ ext4_fsblk_t ext4_inode_to_goal_block(struct inode *);
+ 
+-static inline bool ext4_encrypted_inode(struct inode *inode)
+-{
+-	return ext4_test_inode_flag(inode, EXT4_INODE_ENCRYPT);
+-}
+-
+ static inline bool ext4_verity_inode(struct inode *inode)
+ {
+ #ifdef CONFIG_EXT4_FS_VERITY
+diff --git a/fs/ext4/ext4_jbd2.h b/fs/ext4/ext4_jbd2.h
+index 15b6dd733780..a1ac7e9245ec 100644
+--- a/fs/ext4/ext4_jbd2.h
++++ b/fs/ext4/ext4_jbd2.h
+@@ -411,7 +411,7 @@ static inline int ext4_inode_journal_mode(struct inode *inode)
+ 	    (ext4_test_inode_flag(inode, EXT4_INODE_JOURNAL_DATA) &&
+ 	    !test_opt(inode->i_sb, DELALLOC))) {
+ 		/* We do not support data journalling for encrypted data */
+-		if (S_ISREG(inode->i_mode) && ext4_encrypted_inode(inode))
++		if (S_ISREG(inode->i_mode) && IS_ENCRYPTED(inode))
+ 			return EXT4_INODE_ORDERED_DATA_MODE;  /* ordered */
+ 		return EXT4_INODE_JOURNAL_DATA_MODE;	/* journal data */
+ 	}
+diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
+index 240b6dea5441..79d986dbf5af 100644
+--- a/fs/ext4/extents.c
++++ b/fs/ext4/extents.c
+@@ -3631,7 +3631,7 @@ static int ext4_ext_convert_to_initialized(handle_t *handle,
+ 		max_zeroout = sbi->s_extent_max_zeroout_kb >>
+ 			(inode->i_sb->s_blocksize_bits - 10);
+ 
+-	if (ext4_encrypted_inode(inode))
++	if (IS_ENCRYPTED(inode))
+ 		max_zeroout = 0;
+ 
+ 	/*
+@@ -4818,7 +4818,7 @@ long ext4_fallocate(struct file *file, int mode, loff_t offset, loff_t len)
+ 	 * leave it disabled for encrypted inodes for now.  This is a
+ 	 * bug we should fix....
+ 	 */
+-	if (ext4_encrypted_inode(inode) &&
++	if (IS_ENCRYPTED(inode) &&
+ 	    (mode & (FALLOC_FL_COLLAPSE_RANGE | FALLOC_FL_INSERT_RANGE |
+ 		     FALLOC_FL_ZERO_RANGE)))
+ 		return -EOPNOTSUPP;
+diff --git a/fs/ext4/ialloc.c b/fs/ext4/ialloc.c
+index 2addcb8730e1..3002f110eb4f 100644
+--- a/fs/ext4/ialloc.c
++++ b/fs/ext4/ialloc.c
+@@ -771,7 +771,7 @@ struct inode *__ext4_new_inode(handle_t *handle, struct inode *dir,
+ 	if (unlikely(ext4_forced_shutdown(sbi)))
+ 		return ERR_PTR(-EIO);
+ 
+-	if ((ext4_encrypted_inode(dir) || DUMMY_ENCRYPTION_ENABLED(sbi)) &&
++	if ((IS_ENCRYPTED(dir) || DUMMY_ENCRYPTION_ENABLED(sbi)) &&
+ 	    (S_ISREG(mode) || S_ISDIR(mode) || S_ISLNK(mode)) &&
+ 	    !(i_flags & EXT4_EA_INODE_FL)) {
+ 		err = fscrypt_get_encryption_info(dir);
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index d7019f5dca6f..0efa30f921b0 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -415,7 +415,7 @@ int ext4_issue_zeroout(struct inode *inode, ext4_lblk_t lblk, ext4_fsblk_t pblk,
+ {
+ 	int ret;
+ 
+-	if (ext4_encrypted_inode(inode))
++	if (IS_ENCRYPTED(inode))
+ 		return fscrypt_zeroout_range(inode, lblk, pblk, len);
+ 
+ 	ret = sb_issue_zeroout(inode->i_sb, pblk, len, GFP_NOFS);
+@@ -1217,8 +1217,7 @@ static int ext4_block_write_begin(struct page *page, loff_t pos, unsigned len,
+ 		    (block_start < from || block_end > to)) {
+ 			ll_rw_block(REQ_OP_READ, 0, 1, &bh);
+ 			*wait_bh++ = bh;
+-			decrypt = ext4_encrypted_inode(inode) &&
+-				S_ISREG(inode->i_mode);
++			decrypt = IS_ENCRYPTED(inode) && S_ISREG(inode->i_mode);
+ 		}
+ 	}
+ 	/*
+@@ -3880,7 +3879,7 @@ static ssize_t ext4_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
+ 	ssize_t ret;
+ 
+ #ifdef CONFIG_EXT4_FS_ENCRYPTION
+-	if (ext4_encrypted_inode(inode) && S_ISREG(inode->i_mode))
++	if (IS_ENCRYPTED(inode) && S_ISREG(inode->i_mode))
+ 		return 0;
+ #endif
+ 
+@@ -4067,8 +4066,7 @@ static int __ext4_block_zero_page_range(handle_t *handle,
+ 		/* Uhhuh. Read error. Complain and punt. */
+ 		if (!buffer_uptodate(bh))
+ 			goto unlock;
+-		if (S_ISREG(inode->i_mode) &&
+-		    ext4_encrypted_inode(inode)) {
++		if (S_ISREG(inode->i_mode) && IS_ENCRYPTED(inode)) {
+ 			/* We expect the key to be set. */
+ 			BUG_ON(!fscrypt_has_encryption_key(inode));
+ 			BUG_ON(blocksize != PAGE_SIZE);
+@@ -4144,7 +4142,7 @@ static int ext4_block_truncate_page(handle_t *handle,
+ 	struct inode *inode = mapping->host;
+ 
+ 	/* If we are processing an encrypted inode during orphan list handling */
+-	if (ext4_encrypted_inode(inode) && !fscrypt_has_encryption_key(inode))
++	if (IS_ENCRYPTED(inode) && !fscrypt_has_encryption_key(inode))
+ 		return 0;
+ 
+ 	blocksize = inode->i_sb->s_blocksize;
+@@ -4724,7 +4722,7 @@ static bool ext4_should_use_dax(struct inode *inode)
+ 		return false;
+ 	if (ext4_has_inline_data(inode))
+ 		return false;
+-	if (ext4_encrypted_inode(inode))
++	if (ext4_test_inode_flag(inode, EXT4_INODE_ENCRYPT))
+ 		return false;
+ 	if (ext4_verity_inode(inode))
+ 		return false;
+@@ -5050,7 +5048,7 @@ struct inode *ext4_iget(struct super_block *sb, unsigned long ino)
+ 			ret = -EFSCORRUPTED;
+ 			goto bad_inode;
+ 		}
+-		if (ext4_encrypted_inode(inode)) {
++		if (IS_ENCRYPTED(inode)) {
+ 			inode->i_op = &ext4_encrypted_symlink_inode_operations;
+ 			ext4_set_aops(inode);
+ 		} else if (ext4_inode_is_fast_symlink(inode)) {
+diff --git a/fs/ext4/move_extent.c b/fs/ext4/move_extent.c
+index 2f5be02fc6f6..1083a9f3f16a 100644
+--- a/fs/ext4/move_extent.c
++++ b/fs/ext4/move_extent.c
+@@ -592,8 +592,7 @@ ext4_move_extents(struct file *o_filp, struct file *d_filp, __u64 orig_blk,
+ 		return -EOPNOTSUPP;
+ 	}
+ 
+-	if (ext4_encrypted_inode(orig_inode) ||
+-	    ext4_encrypted_inode(donor_inode)) {
++	if (IS_ENCRYPTED(orig_inode) || IS_ENCRYPTED(donor_inode)) {
+ 		ext4_msg(orig_inode->i_sb, KERN_ERR,
+ 			 "Online defrag not supported for encrypted files");
+ 		return -EOPNOTSUPP;
+diff --git a/fs/ext4/namei.c b/fs/ext4/namei.c
+index 67a38532032a..0de60207a963 100644
+--- a/fs/ext4/namei.c
++++ b/fs/ext4/namei.c
+@@ -620,7 +620,7 @@ static struct stats dx_show_leaf(struct inode *dir,
+ 
+ 				name  = de->name;
+ 				len = de->name_len;
+-				if (ext4_encrypted_inode(dir))
++				if (IS_ENCRYPTED(dir))
+ 					res = fscrypt_get_encryption_info(dir);
+ 				if (res) {
+ 					printk(KERN_WARNING "Error setting up"
+@@ -985,7 +985,7 @@ static int htree_dirblock_to_tree(struct file *dir_file,
+ 					   EXT4_DIR_REC_LEN(0));
+ #ifdef CONFIG_EXT4_FS_ENCRYPTION
+ 	/* Check if the directory is encrypted */
+-	if (ext4_encrypted_inode(dir)) {
++	if (IS_ENCRYPTED(dir)) {
+ 		err = fscrypt_get_encryption_info(dir);
+ 		if (err < 0) {
+ 			brelse(bh);
+@@ -1014,7 +1014,7 @@ static int htree_dirblock_to_tree(struct file *dir_file,
+ 			continue;
+ 		if (de->inode == 0)
+ 			continue;
+-		if (!ext4_encrypted_inode(dir)) {
++		if (!IS_ENCRYPTED(dir)) {
+ 			tmp_str.name = de->name;
+ 			tmp_str.len = de->name_len;
+ 			err = ext4_htree_store_dirent(dir_file,
+@@ -1577,7 +1577,7 @@ static struct dentry *ext4_lookup(struct inode *dir, struct dentry *dentry, unsi
+ 					 ino);
+ 			return ERR_PTR(-EFSCORRUPTED);
+ 		}
+-		if (!IS_ERR(inode) && ext4_encrypted_inode(dir) &&
++		if (!IS_ERR(inode) && IS_ENCRYPTED(dir) &&
+ 		    (S_ISDIR(inode->i_mode) || S_ISLNK(inode->i_mode)) &&
+ 		    !fscrypt_has_permitted_context(dir, inode)) {
+ 			ext4_warning(inode->i_sb,
+diff --git a/fs/ext4/page-io.c b/fs/ext4/page-io.c
+index 2aa62d58d8dd..c398b55da854 100644
+--- a/fs/ext4/page-io.c
++++ b/fs/ext4/page-io.c
+@@ -477,8 +477,7 @@ int ext4_bio_write_page(struct ext4_io_submit *io,
+ 
+ 	bh = head = page_buffers(page);
+ 
+-	if (ext4_encrypted_inode(inode) && S_ISREG(inode->i_mode) &&
+-	    nr_to_submit) {
++	if (IS_ENCRYPTED(inode) && S_ISREG(inode->i_mode) && nr_to_submit) {
+ 		gfp_t gfp_flags = GFP_NOFS;
+ 
+ 	retry_encrypt:
+diff --git a/fs/ext4/readpage.c b/fs/ext4/readpage.c
+index d3dd1ff745db..45e707fb9749 100644
+--- a/fs/ext4/readpage.c
++++ b/fs/ext4/readpage.c
+@@ -156,7 +156,7 @@ static struct bio_post_read_ctx *get_bio_post_read_ctx(struct inode *inode,
+ 	unsigned int post_read_steps = 0;
+ 	struct bio_post_read_ctx *ctx = NULL;
+ 
+-	if (ext4_encrypted_inode(inode) && S_ISREG(inode->i_mode))
++	if (IS_ENCRYPTED(inode) && S_ISREG(inode->i_mode))
+ 		post_read_steps |= 1 << STEP_DECRYPT;
+ #ifdef CONFIG_EXT4_FS_VERITY
+ 	if (inode->i_verity_info != NULL &&
 -- 
 2.19.1
 
