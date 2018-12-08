@@ -1,170 +1,278 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6B6CF7D8A5
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Dec 2018 20:16:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 15C937D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  8 Dec 2018 04:48:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726079AbeLGUQ1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Dec 2018 15:16:27 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:39598 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726319AbeLGUPi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Dec 2018 15:15:38 -0500
-Received: by mail-pg1-f196.google.com with SMTP id w6so2177768pgl.6;
-        Fri, 07 Dec 2018 12:15:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=CXMv0Vhrfz8OgUyxnyaG6yJ3Btg8UiW/JMvPPUaP47g=;
-        b=iv1dU8CL7eCxkwjdGBFS0mbtxk6GU8XmzSL0nJFOoIS3VrhbCDGf0tP7iWGdFyLajD
-         aplvV93AwOr0eNpnVx2zfFszUcI9KJzC3oAbVs0+ahZvCFNKy+zAlp8pkxa97NR92hMK
-         pjgD1Fm33eANuoVbsiu7oh7dI0OarvO/14v6gXDwWqljuOHakvlaZDRSXOua3/s8mujq
-         IaDC3x/5XRCDmnhvPaBJZHXh66MAnAM5vF+v0MytJfiEbYunsILafsGbXfnynRIPXzwN
-         ysUrfKuhMeXogcAMnw5sPNpw2f175HdVKRuW7TFFgHtHiu2p3QYsNPAaktOHWdQM1i84
-         5GQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=CXMv0Vhrfz8OgUyxnyaG6yJ3Btg8UiW/JMvPPUaP47g=;
-        b=btQDsWd1JULN3iU0ESvmHHk6iOnZrTZ8J3thpnMEuPkA+IkDn8dGiBtt11oULNrqF/
-         ShBjYBcF2XbX7tcXMRdl4o1Avp1jKr2Aqe4YlUZOnNJAdz5PhM4Ks2ptCcmWRRkFWfvb
-         j9Xixqu4cEsSMHXP3NRveHgWMSraLvpzV+dghjG08oSIIAlE6nT9TYiwEMa4daANciRv
-         qQZmwKEq7rt1iFZh15ZQjTDkWACRPe07lSWfPaaM4X2awZISID9A9nn67ixEI7sE7yom
-         08KugbYhf2yPHK7wxre9yrX7/+wmlX/xZmQeGdVHO3IAzlSimmSdK5GamRYaXTa0rh+J
-         1EDQ==
-X-Gm-Message-State: AA+aEWZwjJ5hszgatFjOZsvddGYxSjLbxS1VupJ/pQWtBUi2INdVtuGD
-        VuYZM/CL7Q0A3A9WjVtOB58=
-X-Google-Smtp-Source: AFSGD/Xzu9bkbeks40O2SGCZiYVYF2PqYn8T+cGanFzGlm74lZiHOkKF33gcr0CIj/VOO2BVdD5/xQ==
-X-Received: by 2002:a62:2f06:: with SMTP id v6mr3660164pfv.216.1544213736978;
-        Fri, 07 Dec 2018 12:15:36 -0800 (PST)
-Received: from castle.thefacebook.com ([2620:10d:c090:200::6:d83b])
-        by smtp.gmail.com with ESMTPSA id q75sm5870898pfa.38.2018.12.07.12.15.36
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 07 Dec 2018 12:15:36 -0800 (PST)
-From:   Roman Gushchin <guroan@gmail.com>
-X-Google-Original-From: Roman Gushchin <guro@fb.com>
-To:     Tejun Heo <tj@kernel.org>, Oleg Nesterov <oleg@redhat.com>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-team@fb.com,
-        Roman Gushchin <guro@fb.com>
-Subject: [PATCH v5 2/7] cgroup: implement __cgroup_task_count() helper
-Date:   Fri,  7 Dec 2018 12:15:26 -0800
-Message-Id: <20181207201531.1665-3-guro@fb.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20181207201531.1665-1-guro@fb.com>
-References: <20181207201531.1665-1-guro@fb.com>
+        id S1726140AbeLHEsL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Dec 2018 23:48:11 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:27382 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726081AbeLHEsL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Dec 2018 23:48:11 -0500
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id wB84lgNF002156;
+        Sat, 8 Dec 2018 13:47:43 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com wB84lgNF002156
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1544244463;
+        bh=VB9bGHxvOCr5E7IqapZQRPhpA80nL13YyrwFsjP0H5A=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=tkgfdYsjt6ilS88JANsIoCMje1wXdXWZVUcq9ti13lU/oI4m/Evy26OqWQ/O7cbyW
+         6lKfYik6ZKIfSG6Xyv9SGAxFd6IgoHhSP77kjS+ZnvxcscUfI1jsASGkRZOfY6hkpl
+         IPrjH24KYqU80U7RV1u49D2l5mmLJ+964v1+y4lVDXkIPM8l1f/D6DrXnQL/iE2g/I
+         ASNKv39H26d3i7ZD2szs0W0X61tywSQW/M13qxC6uP20w7F8Od0t23t1RGN2ftumeM
+         U0rej+86KE7IJr663adAvevhwqRpaZZ+Xq0oR9U+897FAvQeCfKbZqjCmb8ulXBGP3
+         7RPK+iWvw0H8g==
+X-Nifty-SrcIP: [209.85.221.177]
+Received: by mail-vk1-f177.google.com with SMTP id y14so1432842vkd.1;
+        Fri, 07 Dec 2018 20:47:42 -0800 (PST)
+X-Gm-Message-State: AA+aEWYoDkIjKJPSyXbEGQssZGwgSfESJrrgZgIXbtANvfrnNcGMFeKN
+        H1F+4jX6FzjT8/raV32RIkUYP3PVLi34Yr9QpG4=
+X-Google-Smtp-Source: AFSGD/UEzO2QbuCB7Z1lLud5pOTxf1yaKX9QJnznh9Dj+hCdKETu9rIE9yOOTaHdy04vuaiEhkTG2PJs+FVF+ZlsGzI=
+X-Received: by 2002:a1f:6bc8:: with SMTP id k69mr1987537vki.84.1544244461522;
+ Fri, 07 Dec 2018 20:47:41 -0800 (PST)
+MIME-Version: 1.0
+References: <20181203213223.16986-1-robh@kernel.org> <20181203213223.16986-2-robh@kernel.org>
+In-Reply-To: <20181203213223.16986-2-robh@kernel.org>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Sat, 8 Dec 2018 13:47:05 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARgyL+Pq+SCkUUKnMny4nDw1L4zEevdzqbyGGAoE+BXUA@mail.gmail.com>
+Message-ID: <CAK7LNARgyL+Pq+SCkUUKnMny4nDw1L4zEevdzqbyGGAoE+BXUA@mail.gmail.com>
+Subject: Re: [PATCH v2 01/34] kbuild: Add support for DT binding schema checks
+To:     Rob Herring <robh@kernel.org>
+Cc:     DTML <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        darknighte@darknighte.com, Frank Rowand <frowand.list@gmail.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        grant.likely@arm.com, kumar.gala@linaro.org,
+        arm-soc <arm@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The helper is identical to the existing cgroup_task_count()
-except it doesn't take the css_set_lock by itself, assuming
-that the caller does.
+Hi Rob,
 
-Also, move cgroup_task_count() implementation into
-kernel/cgroup/cgroup.c, as there is nothing specific to cgroup v1.
 
-Signed-off-by: Roman Gushchin <guro@fb.com>
-Cc: Tejun Heo <tj@kernel.org>
-Cc: kernel-team@fb.com
----
- kernel/cgroup/cgroup-internal.h |  1 +
- kernel/cgroup/cgroup-v1.c       | 16 ----------------
- kernel/cgroup/cgroup.c          | 33 +++++++++++++++++++++++++++++++++
- 3 files changed, 34 insertions(+), 16 deletions(-)
+On Tue, Dec 4, 2018 at 6:32 AM Rob Herring <robh@kernel.org> wrote:
+>
+> This adds the build infrastructure for checking DT binding schema
+> documents and validating dts files using the binding schema.
+>
+> Check DT binding schema documents:
+> make dt_binding_check
+>
+> Build dts files and check using DT binding schema:
+> make dtbs_check
+>
+> Optionally, DT_SCHEMA_FILES can passed in with a schema file(s) to use
+> for validation. This makes it easier to find and fix errors generated by
+> a specific schema.
+>
+> Currently, the validation targets are separate from a normal build to
+> avoid a hard dependency on the external DT schema project and because
+> there are lots of warnings generated.
+>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-kbuild@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .gitignore                                   |  1 +
+>  Documentation/Makefile                       |  2 +-
+>  Documentation/devicetree/bindings/.gitignore |  1 +
+>  Documentation/devicetree/bindings/Makefile   | 33 ++++++++++++++++++++
+>  Makefile                                     | 11 +++++--
+>  scripts/Makefile.lib                         | 24 ++++++++++++--
+>  6 files changed, 67 insertions(+), 5 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/.gitignore
+>  create mode 100644 Documentation/devicetree/bindings/Makefile
+>
+> diff --git a/.gitignore b/.gitignore
+> index 97ba6b79834c..a20ac26aa2f5 100644
+> --- a/.gitignore
+> +++ b/.gitignore
+> @@ -15,6 +15,7 @@
+>  *.bin
+>  *.bz2
+>  *.c.[012]*.*
+> +*.dt.yaml
+>  *.dtb
+>  *.dtb.S
+>  *.dwo
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index 2ca77ad0f238..9786957c6a35 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -2,7 +2,7 @@
+>  # Makefile for Sphinx documentation
+>  #
+>
+> -subdir-y :=
+> +subdir-y := devicetree/bindings/
+>
+>  # You can set these variables from the command line.
+>  SPHINXBUILD   = sphinx-build
+> diff --git a/Documentation/devicetree/bindings/.gitignore b/Documentation/devicetree/bindings/.gitignore
+> new file mode 100644
+> index 000000000000..d9194c02dd08
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/.gitignore
+> @@ -0,0 +1 @@
+> +*.example.dts
+> diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
+> new file mode 100644
+> index 000000000000..ee0110dd8131
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/Makefile
+> @@ -0,0 +1,33 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +DT_DOC_CHECKER ?= dt-doc-validate
+> +DT_EXTRACT_EX ?= dt-extract-example
+> +DT_MK_SCHEMA ?= dt-mk-schema
+> +DT_MK_SCHEMA_FLAGS := $(if $(DT_SCHEMA_FILES), -u)
+> +
+> +quiet_cmd_chk_binding = CHKDT   $<
+> +      cmd_chk_binding = (set -e; \
+> +                         $(DT_DOC_CHECKER) $< ; \
+> +                         mkdir -p $(dir $@) ; \
+> +                         $(DT_EXTRACT_EX) $< > $@ )
+> +
+> +$(obj)/%.example.dts: $(src)/%.yaml FORCE
+> +       $(call if_changed,chk_binding)
+> +
+> +DT_TMP_SCHEMA := .schema.yaml.tmp
+> +extra-y += $(DT_TMP_SCHEMA)
+> +
+> +quiet_cmd_mk_schema = SCHEMA  $@
+> +      cmd_mk_schema = mkdir -p $(obj); \
+> +                      rm -f $@; \
+> +                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $<
 
-diff --git a/kernel/cgroup/cgroup-internal.h b/kernel/cgroup/cgroup-internal.h
-index c950864016e2..a195328431ce 100644
---- a/kernel/cgroup/cgroup-internal.h
-+++ b/kernel/cgroup/cgroup-internal.h
-@@ -226,6 +226,7 @@ int cgroup_rmdir(struct kernfs_node *kn);
- int cgroup_show_path(struct seq_file *sf, struct kernfs_node *kf_node,
- 		     struct kernfs_root *kf_root);
- 
-+int __cgroup_task_count(const struct cgroup *cgrp);
- int cgroup_task_count(const struct cgroup *cgrp);
- 
- /*
-diff --git a/kernel/cgroup/cgroup-v1.c b/kernel/cgroup/cgroup-v1.c
-index 51063e7a93c2..6134fef07d57 100644
---- a/kernel/cgroup/cgroup-v1.c
-+++ b/kernel/cgroup/cgroup-v1.c
-@@ -336,22 +336,6 @@ static struct cgroup_pidlist *cgroup_pidlist_find_create(struct cgroup *cgrp,
- 	return l;
- }
- 
--/**
-- * cgroup_task_count - count the number of tasks in a cgroup.
-- * @cgrp: the cgroup in question
-- */
--int cgroup_task_count(const struct cgroup *cgrp)
--{
--	int count = 0;
--	struct cgrp_cset_link *link;
--
--	spin_lock_irq(&css_set_lock);
--	list_for_each_entry(link, &cgrp->cset_links, cset_link)
--		count += link->cset->nr_tasks;
--	spin_unlock_irq(&css_set_lock);
--	return count;
--}
--
- /*
-  * Load a cgroup's pidarray with either procs' tgids or tasks' pids
-  */
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index e06994fd4e34..7519a4307021 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -563,6 +563,39 @@ static void cgroup_get_live(struct cgroup *cgrp)
- 	css_get(&cgrp->self);
- }
- 
-+/**
-+ * __cgroup_task_count - count the number of tasks in a cgroup. The caller
-+ * is responsible for taking the css_set_lock.
-+ * @cgrp: the cgroup in question
-+ */
-+int __cgroup_task_count(const struct cgroup *cgrp)
-+{
-+	int count = 0;
-+	struct cgrp_cset_link *link;
-+
-+	lockdep_assert_held(&css_set_lock);
-+
-+	list_for_each_entry(link, &cgrp->cset_links, cset_link)
-+		count += link->cset->nr_tasks;
-+
-+	return count;
-+}
-+
-+/**
-+ * cgroup_task_count - count the number of tasks in a cgroup.
-+ * @cgrp: the cgroup in question
-+ */
-+int cgroup_task_count(const struct cgroup *cgrp)
-+{
-+	int count;
-+
-+	spin_lock_irq(&css_set_lock);
-+	count = __cgroup_task_count(cgrp);
-+	spin_unlock_irq(&css_set_lock);
-+
-+	return count;
-+}
-+
- struct cgroup_subsys_state *of_css(struct kernfs_open_file *of)
- {
- 	struct cgroup *cgrp = of->kn->parent->priv;
+
+I think '$<' is wrong.
+
+'$<' is replaced with the first prerequisite.
+
+
+You can easily check what is happening here.
+
+$ cat   Documentation/devicetree/bindings/..schema.yaml.tmp.cmd
+cmd_Documentation/devicetree/bindings/.schema.yaml.tmp := mkdir -p
+Documentation/devicetree/bindings; rm -f
+Documentation/devicetree/bindings/.schema.yaml.tmp; dt-mk-schema  -o
+Documentation/devicetree/bindings/.schema.yaml.tmp
+Documentation/devicetree/bindings/arm/ti/ti,davinci.yaml
+
+
+So, the dt-validater will check only binding from ti,davinci.yaml,
+which is almost useless.
+
+
+
+If I understand it correctly,
+.schema.yaml.tmp should contain all binding yaml.
+
+
+I fixed it up like follows:
+
+diff --git a/Documentation/devicetree/bindings/Makefile
+b/Documentation/devicetree/bindings/Makefile
+index ee0110d..267458f 100644
+--- a/Documentation/devicetree/bindings/Makefile
++++ b/Documentation/devicetree/bindings/Makefile
+@@ -19,7 +19,7 @@ extra-y += $(DT_TMP_SCHEMA)
+ quiet_cmd_mk_schema = SCHEMA  $@
+       cmd_mk_schema = mkdir -p $(obj); \
+                       rm -f $@; \
+-                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $<
++                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@
+$(filter-out FORCE, $^)
+
+ DT_DOCS = $(shell cd $(srctree)/$(src) && find * -name '*.yaml')
+ DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
+
+
+
+Then, I see another error.
+
+
+  SCHEMA  Documentation/devicetree/bindings/.schema.yaml.tmp
+Traceback (most recent call last):
+  File "/home/masahiro/ref/yaml-bindings/tools/dt-mk-schema", line 32,
+in <module>
+    schemas = dtschema.process_schemas(args.schemas, core_schema=(not
+args.useronly))
+  File "/usr/local/lib/python3.5/dist-packages/dtschema-0.0.1-py3.5.egg/dtschema/lib.py",
+line 359, in process_schemas
+    sch = process_schema(os.path.abspath(filename))
+  File "/usr/local/lib/python3.5/dist-packages/dtschema-0.0.1-py3.5.egg/dtschema/lib.py",
+line 314, in process_schema
+    schema = load_schema(filename)
+  File "/usr/local/lib/python3.5/dist-packages/dtschema-0.0.1-py3.5.egg/dtschema/lib.py",
+line 80, in load_schema
+    return yaml.load(f.read())
+  File "/usr/lib/python3.5/codecs.py", line 321, in decode
+    (result, consumed) = self._buffer_decode(data, self.errors, final)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd0 in position
+0: invalid continuation byte
+Documentation/devicetree/bindings/Makefile:33: recipe for target
+'Documentation/devicetree/bindings/.schema.yaml.tmp' failed
+make[1]: *** [Documentation/devicetree/bindings/.schema.yaml.tmp] Error 1
+Makefile:1278: recipe for target 'dt_binding_check' failed
+make: *** [dt_binding_check] Error 2
+
+
+
+
+
+
+
+BTW, I cannot build *.dt.yaml
+
+
+
+  DTC     arch/arm/boot/dts/alpine-db.dt.yaml
+FATAL ERROR: Unknown output format "yaml"
+scripts/Makefile.lib:313: recipe for target
+'arch/arm/boot/dts/alpine-db.dt.yaml' failed
+make[1]: *** [arch/arm/boot/dts/alpine-db.dt.yaml] Error 1
+make[1]: *** Deleting file 'arch/arm/boot/dts/alpine-db.dt.yaml'
+Makefile:1262: recipe for target 'dtbs_check' failed
+
+
+
+
+I use linux-next.
+
+
+script/dtc/dtc does not understand '-O yaml'
+
+
+I also tried the upstream DTC project with no success.
+
+
+Where can I get dtc with yaml support?
+
+
+
+
+
 -- 
-2.17.2
-
+Best Regards
+Masahiro Yamada
