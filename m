@@ -1,278 +1,192 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 15C937D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  8 Dec 2018 04:48:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D8F947D089
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  8 Dec 2018 06:52:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726140AbeLHEsL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Dec 2018 23:48:11 -0500
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:27382 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726081AbeLHEsL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Dec 2018 23:48:11 -0500
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id wB84lgNF002156;
-        Sat, 8 Dec 2018 13:47:43 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com wB84lgNF002156
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1544244463;
-        bh=VB9bGHxvOCr5E7IqapZQRPhpA80nL13YyrwFsjP0H5A=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=tkgfdYsjt6ilS88JANsIoCMje1wXdXWZVUcq9ti13lU/oI4m/Evy26OqWQ/O7cbyW
-         6lKfYik6ZKIfSG6Xyv9SGAxFd6IgoHhSP77kjS+ZnvxcscUfI1jsASGkRZOfY6hkpl
-         IPrjH24KYqU80U7RV1u49D2l5mmLJ+964v1+y4lVDXkIPM8l1f/D6DrXnQL/iE2g/I
-         ASNKv39H26d3i7ZD2szs0W0X61tywSQW/M13qxC6uP20w7F8Od0t23t1RGN2ftumeM
-         U0rej+86KE7IJr663adAvevhwqRpaZZ+Xq0oR9U+897FAvQeCfKbZqjCmb8ulXBGP3
-         7RPK+iWvw0H8g==
-X-Nifty-SrcIP: [209.85.221.177]
-Received: by mail-vk1-f177.google.com with SMTP id y14so1432842vkd.1;
-        Fri, 07 Dec 2018 20:47:42 -0800 (PST)
-X-Gm-Message-State: AA+aEWYoDkIjKJPSyXbEGQssZGwgSfESJrrgZgIXbtANvfrnNcGMFeKN
-        H1F+4jX6FzjT8/raV32RIkUYP3PVLi34Yr9QpG4=
-X-Google-Smtp-Source: AFSGD/UEzO2QbuCB7Z1lLud5pOTxf1yaKX9QJnznh9Dj+hCdKETu9rIE9yOOTaHdy04vuaiEhkTG2PJs+FVF+ZlsGzI=
-X-Received: by 2002:a1f:6bc8:: with SMTP id k69mr1987537vki.84.1544244461522;
- Fri, 07 Dec 2018 20:47:41 -0800 (PST)
+        id S1726147AbeLHGwB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 8 Dec 2018 01:52:01 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59882 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726146AbeLHGwB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Dec 2018 01:52:01 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wB86mT29017426
+        for <linux-doc@vger.kernel.org>; Sat, 8 Dec 2018 01:52:00 -0500
+Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2p817uf2pg-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Sat, 08 Dec 2018 01:52:00 -0500
+Received: from localhost
+        by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <chandan@linux.vnet.ibm.com>;
+        Sat, 8 Dec 2018 06:51:58 -0000
+Received: from b01cxnp22035.gho.pok.ibm.com (9.57.198.25)
+        by e12.ny.us.ibm.com (146.89.104.199) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Sat, 8 Dec 2018 06:51:53 -0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
+        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wB86ppY418808914
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sat, 8 Dec 2018 06:51:51 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 1E272AC05B;
+        Sat,  8 Dec 2018 06:51:51 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 4B72FAC059;
+        Sat,  8 Dec 2018 06:51:43 +0000 (GMT)
+Received: from localhost.localdomain.com (unknown [9.85.72.40])
+        by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+        Sat,  8 Dec 2018 06:51:42 +0000 (GMT)
+From:   Chandan Rajendra <chandan@linux.vnet.ibm.com>
+To:     linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-doc@vger.kernel.org, linux-mips@linux-mips.org,
+        linux-s390@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org
+Cc:     Chandan Rajendra <chandan@linux.vnet.ibm.com>, tytso@mit.edu,
+        adilger.kernel@dilger.ca, ebiggers@kernel.org, jaegeuk@kernel.org,
+        yuchao0@huawei.com, corbet@lwn.net, ralf@linux-mips.org,
+        paul.burton@mips.com, jhogan@kernel.org, green.hu@gmail.com,
+        deanbo422@gmail.com, schwidefsky@de.ibm.com,
+        heiko.carstens@de.ibm.com, richard@nod.at, dedekind1@gmail.com,
+        adrian.hunter@intel.com, viro@zeniv.linux.org.uk
+Subject: [PATCH V3 0/9] Remove fs specific fscrypt and fsverity build config options
+Date:   Sat,  8 Dec 2018 12:21:35 +0530
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <20181203213223.16986-1-robh@kernel.org> <20181203213223.16986-2-robh@kernel.org>
-In-Reply-To: <20181203213223.16986-2-robh@kernel.org>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sat, 8 Dec 2018 13:47:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARgyL+Pq+SCkUUKnMny4nDw1L4zEevdzqbyGGAoE+BXUA@mail.gmail.com>
-Message-ID: <CAK7LNARgyL+Pq+SCkUUKnMny4nDw1L4zEevdzqbyGGAoE+BXUA@mail.gmail.com>
-Subject: Re: [PATCH v2 01/34] kbuild: Add support for DT binding schema checks
-To:     Rob Herring <robh@kernel.org>
-Cc:     DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        darknighte@darknighte.com, Frank Rowand <frowand.list@gmail.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        grant.likely@arm.com, kumar.gala@linaro.org,
-        arm-soc <arm@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 18120806-0060-0000-0000-000002E0E683
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00010192; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000270; SDB=6.01128646; UDB=6.00586333; IPR=6.00908778;
+ MB=3.00024599; MTD=3.00000008; XFM=3.00000015; UTC=2018-12-08 06:51:58
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18120806-0061-0000-0000-000047770CDD
+Message-Id: <20181208065144.19486-1-chandan@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-08_02:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1812080065
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
+In order to have a common code base for fscrypt & fsverity "post read"
+processing across filesystems which implement fscrypt/fsverity, this
+commit removes filesystem specific build config option
+(CONFIG_EXT4_FS_ENCRYPTION, CONFIG_EXT4_FS_VERITY,
+CONFIG_F2FS_FS_ENCRYPTION, CONFIG_F2FS_FS_VERITY and
+CONFIG_UBIFS_FS_ENCRYPTION) and replaces it with build options
+(CONFIG_FS_ENCRYPTION and CONFIG_FS_VERITY) whose values affect all
+the filesystems making use of fscrypt and fsverity.
 
+PS: Since I have access to only to x86 and ppc64le machines, I haven't tested the
+defconfig files for other architectures.
 
-On Tue, Dec 4, 2018 at 6:32 AM Rob Herring <robh@kernel.org> wrote:
->
-> This adds the build infrastructure for checking DT binding schema
-> documents and validating dts files using the binding schema.
->
-> Check DT binding schema documents:
-> make dt_binding_check
->
-> Build dts files and check using DT binding schema:
-> make dtbs_check
->
-> Optionally, DT_SCHEMA_FILES can passed in with a schema file(s) to use
-> for validation. This makes it easier to find and fix errors generated by
-> a specific schema.
->
-> Currently, the validation targets are separate from a normal build to
-> avoid a hard dependency on the external DT schema project and because
-> there are lots of warnings generated.
->
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Cc: Michal Marek <michal.lkml@markovi.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-kbuild@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .gitignore                                   |  1 +
->  Documentation/Makefile                       |  2 +-
->  Documentation/devicetree/bindings/.gitignore |  1 +
->  Documentation/devicetree/bindings/Makefile   | 33 ++++++++++++++++++++
->  Makefile                                     | 11 +++++--
->  scripts/Makefile.lib                         | 24 ++++++++++++--
->  6 files changed, 67 insertions(+), 5 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/.gitignore
->  create mode 100644 Documentation/devicetree/bindings/Makefile
->
-> diff --git a/.gitignore b/.gitignore
-> index 97ba6b79834c..a20ac26aa2f5 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -15,6 +15,7 @@
->  *.bin
->  *.bz2
->  *.c.[012]*.*
-> +*.dt.yaml
->  *.dtb
->  *.dtb.S
->  *.dwo
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index 2ca77ad0f238..9786957c6a35 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -2,7 +2,7 @@
->  # Makefile for Sphinx documentation
->  #
->
-> -subdir-y :=
-> +subdir-y := devicetree/bindings/
->
->  # You can set these variables from the command line.
->  SPHINXBUILD   = sphinx-build
-> diff --git a/Documentation/devicetree/bindings/.gitignore b/Documentation/devicetree/bindings/.gitignore
-> new file mode 100644
-> index 000000000000..d9194c02dd08
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/.gitignore
-> @@ -0,0 +1 @@
-> +*.example.dts
-> diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
-> new file mode 100644
-> index 000000000000..ee0110dd8131
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/Makefile
-> @@ -0,0 +1,33 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +DT_DOC_CHECKER ?= dt-doc-validate
-> +DT_EXTRACT_EX ?= dt-extract-example
-> +DT_MK_SCHEMA ?= dt-mk-schema
-> +DT_MK_SCHEMA_FLAGS := $(if $(DT_SCHEMA_FILES), -u)
-> +
-> +quiet_cmd_chk_binding = CHKDT   $<
-> +      cmd_chk_binding = (set -e; \
-> +                         $(DT_DOC_CHECKER) $< ; \
-> +                         mkdir -p $(dir $@) ; \
-> +                         $(DT_EXTRACT_EX) $< > $@ )
-> +
-> +$(obj)/%.example.dts: $(src)/%.yaml FORCE
-> +       $(call if_changed,chk_binding)
-> +
-> +DT_TMP_SCHEMA := .schema.yaml.tmp
-> +extra-y += $(DT_TMP_SCHEMA)
-> +
-> +quiet_cmd_mk_schema = SCHEMA  $@
-> +      cmd_mk_schema = mkdir -p $(obj); \
-> +                      rm -f $@; \
-> +                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $<
+Changelog:
+V2 -> V3:
+1. Remove unnecessary line breaks.
+2. Remove the definition of f2fs_encrypted_inode().
+3. Fix Kconfig dependencies for fscrypt w.r.t F2FS and UBIFS. If F2FS is enabled
+   in the kernel build configuration, F2FS_FS_XATTR is selected if FS_ENCRYPTION
+   is enabled. Similarly, if UBIFS is enabled in the kernel build configuration,
+   UBIFS_FS_XATTR and BLOCK is selected if FS_ENCRYPTION is enabled.
+4. Two new patches have been added to move verity status check to
+   fsverity_file_open() and fsverity_prepare_setattr().
+5. For patch "f2fs: use IS_VERITY() to check inode's fsverity status", the
+   acked-by tag given by Chao Yu has been removed since I added an invocation to
+   f2fs_set_inode_flags() inside f2fs_set_verity(). This is needed to have
+   S_VERITY flag set on the corresponding VFS inode.
 
+V1 -> V2:
+1. Address the following review comments provided by Eric Biggers,
+   - In ext4_should_use_dax(), Use ext4_test_inode_flag() to check for
+     fscrypt/fsverity status of an inode.
+   - Update documentation associated with fscrypt & fsverity to refer to
+     CONFIG_FS_ENCRYPTION and CONFIG_FS_VERITY build flags.
+   - Remove filesystem specific fscrypt build configuration from defconfig
+     files.
+   - Provide a list of supported filesystems for CONFIG_FS_ENCRYPTION and
+     CONFIG_FS_VERITY build flags.
+   - Update comment describing S_VERITY flag.
+2. Remove UBIFS specific encryption build option and make use of the generic
+   CONFIG_FS_ENCRYPTION flag.
 
-I think '$<' is wrong.
+RFC -> V1:
+1. Add a new patch to implement S_VERITY/IS_VERITY().
+2. Split code that replaces filesystem specific routines with generic
+   IS_ENCRYPTED() and IS_VERITY() calls into separate patches.
 
-'$<' is replaced with the first prerequisite.
+Chandan Rajendra (9):
+  ext4: use IS_ENCRYPTED() to check encryption status
+  f2fs: use IS_ENCRYPTED() to check encryption status
+  fscrypt: remove filesystem specific build config option
+  Add S_VERITY and IS_VERITY()
+  ext4: use IS_VERITY() to check inode's fsverity status
+  f2fs: use IS_VERITY() to check inode's fsverity status
+  fsverity: Remove filesystem specific build config option
+  fsverity: Move verity status check to fsverity_file_open
+  fsverity: Move verity status check to fsverity_prepare_setattr
 
-
-You can easily check what is happening here.
-
-$ cat   Documentation/devicetree/bindings/..schema.yaml.tmp.cmd
-cmd_Documentation/devicetree/bindings/.schema.yaml.tmp := mkdir -p
-Documentation/devicetree/bindings; rm -f
-Documentation/devicetree/bindings/.schema.yaml.tmp; dt-mk-schema  -o
-Documentation/devicetree/bindings/.schema.yaml.tmp
-Documentation/devicetree/bindings/arm/ti/ti,davinci.yaml
-
-
-So, the dt-validater will check only binding from ti,davinci.yaml,
-which is almost useless.
-
-
-
-If I understand it correctly,
-.schema.yaml.tmp should contain all binding yaml.
-
-
-I fixed it up like follows:
-
-diff --git a/Documentation/devicetree/bindings/Makefile
-b/Documentation/devicetree/bindings/Makefile
-index ee0110d..267458f 100644
---- a/Documentation/devicetree/bindings/Makefile
-+++ b/Documentation/devicetree/bindings/Makefile
-@@ -19,7 +19,7 @@ extra-y += $(DT_TMP_SCHEMA)
- quiet_cmd_mk_schema = SCHEMA  $@
-       cmd_mk_schema = mkdir -p $(obj); \
-                       rm -f $@; \
--                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $<
-+                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@
-$(filter-out FORCE, $^)
-
- DT_DOCS = $(shell cd $(srctree)/$(src) && find * -name '*.yaml')
- DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
-
-
-
-Then, I see another error.
-
-
-  SCHEMA  Documentation/devicetree/bindings/.schema.yaml.tmp
-Traceback (most recent call last):
-  File "/home/masahiro/ref/yaml-bindings/tools/dt-mk-schema", line 32,
-in <module>
-    schemas = dtschema.process_schemas(args.schemas, core_schema=(not
-args.useronly))
-  File "/usr/local/lib/python3.5/dist-packages/dtschema-0.0.1-py3.5.egg/dtschema/lib.py",
-line 359, in process_schemas
-    sch = process_schema(os.path.abspath(filename))
-  File "/usr/local/lib/python3.5/dist-packages/dtschema-0.0.1-py3.5.egg/dtschema/lib.py",
-line 314, in process_schema
-    schema = load_schema(filename)
-  File "/usr/local/lib/python3.5/dist-packages/dtschema-0.0.1-py3.5.egg/dtschema/lib.py",
-line 80, in load_schema
-    return yaml.load(f.read())
-  File "/usr/lib/python3.5/codecs.py", line 321, in decode
-    (result, consumed) = self._buffer_decode(data, self.errors, final)
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd0 in position
-0: invalid continuation byte
-Documentation/devicetree/bindings/Makefile:33: recipe for target
-'Documentation/devicetree/bindings/.schema.yaml.tmp' failed
-make[1]: *** [Documentation/devicetree/bindings/.schema.yaml.tmp] Error 1
-Makefile:1278: recipe for target 'dt_binding_check' failed
-make: *** [dt_binding_check] Error 2
-
-
-
-
-
-
-
-BTW, I cannot build *.dt.yaml
-
-
-
-  DTC     arch/arm/boot/dts/alpine-db.dt.yaml
-FATAL ERROR: Unknown output format "yaml"
-scripts/Makefile.lib:313: recipe for target
-'arch/arm/boot/dts/alpine-db.dt.yaml' failed
-make[1]: *** [arch/arm/boot/dts/alpine-db.dt.yaml] Error 1
-make[1]: *** Deleting file 'arch/arm/boot/dts/alpine-db.dt.yaml'
-Makefile:1262: recipe for target 'dtbs_check' failed
-
-
-
-
-I use linux-next.
-
-
-script/dtc/dtc does not understand '-O yaml'
-
-
-I also tried the upstream DTC project with no success.
-
-
-Where can I get dtc with yaml support?
-
-
-
-
+ Documentation/filesystems/fscrypt.rst   |   4 +-
+ Documentation/filesystems/fsverity.rst  |   4 +-
+ arch/mips/configs/generic_defconfig     |   2 +-
+ arch/nds32/configs/defconfig            |   2 +-
+ arch/s390/configs/debug_defconfig       |   2 +-
+ arch/s390/configs/performance_defconfig |   2 +-
+ fs/crypto/Kconfig                       |   5 +-
+ fs/crypto/fscrypt_private.h             |   1 -
+ fs/ext4/Kconfig                         |  35 --
+ fs/ext4/dir.c                           |  10 +-
+ fs/ext4/ext4.h                          |  23 +-
+ fs/ext4/ext4_jbd2.h                     |   2 +-
+ fs/ext4/extents.c                       |   4 +-
+ fs/ext4/file.c                          |   8 +-
+ fs/ext4/ialloc.c                        |   2 +-
+ fs/ext4/inode.c                         |  40 ++-
+ fs/ext4/ioctl.c                         |   4 +-
+ fs/ext4/move_extent.c                   |   3 +-
+ fs/ext4/namei.c                         |  18 +-
+ fs/ext4/page-io.c                       |   9 +-
+ fs/ext4/readpage.c                      |  10 +-
+ fs/ext4/super.c                         |  13 +-
+ fs/ext4/sysfs.c                         |   8 +-
+ fs/f2fs/Kconfig                         |  32 +-
+ fs/f2fs/data.c                          |   6 +-
+ fs/f2fs/dir.c                           |  10 +-
+ fs/f2fs/f2fs.h                          |  23 +-
+ fs/f2fs/file.c                          |  28 +-
+ fs/f2fs/inode.c                         |   8 +-
+ fs/f2fs/namei.c                         |   6 +-
+ fs/f2fs/super.c                         |  15 +-
+ fs/f2fs/sysfs.c                         |   8 +-
+ fs/ubifs/Kconfig                        |  13 +-
+ fs/ubifs/Makefile                       |   2 +-
+ fs/ubifs/ioctl.c                        |   4 +-
+ fs/ubifs/sb.c                           |   2 +-
+ fs/ubifs/super.c                        |   2 +-
+ fs/ubifs/ubifs.h                        |   5 +-
+ fs/verity/Kconfig                       |   3 +-
+ fs/verity/fsverity_private.h            |   1 -
+ fs/verity/setup.c                       |   5 +-
+ include/linux/fs.h                      |  10 +-
+ include/linux/fscrypt.h                 | 416 +++++++++++++++++++++++-
+ include/linux/fscrypt_notsupp.h         | 231 -------------
+ include/linux/fscrypt_supp.h            | 204 ------------
+ include/linux/fsverity.h                |   7 +-
+ 46 files changed, 554 insertions(+), 698 deletions(-)
+ delete mode 100644 include/linux/fscrypt_notsupp.h
+ delete mode 100644 include/linux/fscrypt_supp.h
 
 -- 
-Best Regards
-Masahiro Yamada
+2.19.1
+
