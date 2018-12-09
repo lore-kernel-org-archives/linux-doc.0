@@ -1,153 +1,129 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6F45C7D8A3
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Dec 2018 20:06:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C04437D089
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Dec 2018 21:49:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726281AbeLIUGF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 9 Dec 2018 15:06:05 -0500
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:39832 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726233AbeLIUGF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Dec 2018 15:06:05 -0500
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 4290E806FA; Sun,  9 Dec 2018 21:05:57 +0100 (CET)
-Date:   Sun, 9 Dec 2018 21:06:00 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Josh Triplett <josh@joshtriplett.org>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, dave.hansen@intel.com,
-        sean.j.christopherson@intel.com, nhorman@redhat.com,
-        npmccallum@redhat.com, Alexei Starovoitov <ast@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
-        "open list:INTEL SGX" <intel-sgx-kernel-dev@lists.01.org>,
-        Janakarajan Natarajan <Janakarajan.Natarajan@amd.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        "open list:KERNEL VIRTUAL MACHINE FOR X86 (KVM/x86)" 
-        <kvm@vger.kernel.org>, Len Brown <len.brown@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "open list:CRYPTO API" <linux-crypto@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:SPARSE CHECKER" <linux-sparse@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Vikas Shivappa <vikas.shivappa@linux.intel.com>
-Subject: Re: [PATCH v11 00/13] Intel SGX1 support
-Message-ID: <20181209200600.GA11608@amd>
-References: <20180608171216.26521-1-jarkko.sakkinen@linux.intel.com>
- <20180612105011.GA26931@amd>
- <20180619145943.GC8034@linux.intel.com>
- <20180619200414.GA3143@amd>
- <20180619214833.GA5873@localhost>
+        id S1726327AbeLIVtQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 9 Dec 2018 16:49:16 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:39722 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726194AbeLIVtQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Dec 2018 16:49:16 -0500
+Received: by mail-ot1-f67.google.com with SMTP id n8so8633813otl.6;
+        Sun, 09 Dec 2018 13:49:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zxc1SH8d2bzeeZeVs1nLkE3aDJ6fkBALoEeEOAbX9RI=;
+        b=CXl2gG6qqRAdEIzpjLI5qg3R4WONWSXAe5LSm/M23Udrtm9bw2AfygxbICMTP4XIv/
+         tquysNo3NuqAPuXqvrWe5UXr85x5y4mZbzCWlzZtO0h+JTZMFtVe/2pp3yRz3RpAxOBa
+         wyTLbGIpA8jsvXrLPVMQ2kQvjE4LSRN+5zU3ucSsxQeG0R3s/IUxLILJHmwOUo7pZrFl
+         diNL/aaDmmRKSW8B3EGp2QvhpHmoatRKGzEdXlYM/kCgawKxi5jtdQGBa2RPFd5UoqXo
+         jcsQvZioS5sqRpEiI1YVVRK0CkZ19EDj3P8Fi+DYc0KU1+hE9fxRPX6zj9p+zki/sPan
+         hKqg==
+X-Gm-Message-State: AA+aEWb2Rg7Huz3RKYtaNRDjG2nNBbcgPxDxDnF0+DrauYbxw0kuZUkD
+        hJ/cjCwOTvgTTKhGLeBe6mpw3lUY33pc99/Xh0M=
+X-Google-Smtp-Source: AFSGD/Wibporwm63DMyn8vom1wXOjbwEOoG55o8Ex9LqiZI4wKywwO8lPQW3ypUT6ruPmBvr8rwoNj3YXDF5aVJz1xQ=
+X-Received: by 2002:a9d:60b:: with SMTP id 11mr6757360otn.200.1544392154931;
+ Sun, 09 Dec 2018 13:49:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="bp/iNruPH9dso1Pn"
-Content-Disposition: inline
-In-Reply-To: <20180619214833.GA5873@localhost>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+References: <1688146.Dmze7u1T7F@aspire.rjw.lan> <20181207125700.GA20256@e107981-ln.cambridge.arm.com>
+In-Reply-To: <20181207125700.GA20256@e107981-ln.cambridge.arm.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Sun, 9 Dec 2018 22:49:03 +0100
+Message-ID: <CAJZ5v0h5-BOzPmBAMUChTxb74XO9VxQdv1RL0yj2d3VYvd1yOA@mail.gmail.com>
+Subject: Re: [PATCH] cpuidle: Add 'above' and 'below' idle state metrics
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Doug Smythies <dsmythies@telus.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Giovanni Gherdovich <ggherdovich@suse.cz>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Dec 7, 2018 at 1:57 PM Lorenzo Pieralisi
+<lorenzo.pieralisi@arm.com> wrote:
+>
+> On Fri, Dec 07, 2018 at 12:57:00PM +0100, Rafael J. Wysocki wrote:
+> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > Subject: [PATCH] cpuidle: Add 'above' and 'below' idle state metrics
+> >
+> > Add two new metrics for CPU idle states, "above" and "below", to count
+> > the number of times the given state had been asked for (or entered
+> > from the kernel's perspective), but the observed idle duration turned
+> > out to be too short or too long for it (respectively).
+> >
+> > These mertics help to estimate the quality of the CPU idle governor
+>
+> s/mertics/metrics
 
---bp/iNruPH9dso1Pn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Right, thanks!
 
-Hi!
+> > in use.
+> >
+> > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > ---
+> >
+> > This is a replacement for https://patchwork.kernel.org/patch/10714995/ with
+> > the metrics renamed and some documentation confusion cleaned up.  Thanks!
+> >
+> > ---
+> >  Documentation/ABI/testing/sysfs-devices-system-cpu |    7 ++++
+> >  Documentation/admin-guide/pm/cpuidle.rst           |   10 ++++++
+> >  drivers/cpuidle/cpuidle.c                          |   31 ++++++++++++++++++++-
+> >  drivers/cpuidle/sysfs.c                            |    6 ++++
+> >  include/linux/cpuidle.h                            |    2 +
+> >  5 files changed, 55 insertions(+), 1 deletion(-)
+> >
+> > Index: linux-pm/drivers/cpuidle/cpuidle.c
+> > ===================================================================
+> > --- linux-pm.orig/drivers/cpuidle/cpuidle.c
+> > +++ linux-pm/drivers/cpuidle/cpuidle.c
+> > @@ -202,7 +202,6 @@ int cpuidle_enter_state(struct cpuidle_d
+> >       struct cpuidle_state *target_state = &drv->states[index];
+> >       bool broadcast = !!(target_state->flags & CPUIDLE_FLAG_TIMER_STOP);
+> >       ktime_t time_start, time_end;
+> > -     s64 diff;
+> >
+> >       /*
+> >        * Tell the time framework to switch to a broadcast timer because our
+> > @@ -248,6 +247,9 @@ int cpuidle_enter_state(struct cpuidle_d
+> >               local_irq_enable();
+> >
+> >       if (entered_state >= 0) {
+> > +             s64 diff, delay = drv->states[entered_state].exit_latency;
+>
+> I am probably pointing out something that has been already debated,
+> apologies if so.
+>
+> exit_latency is the *worst* case exit latency for idle states that involve
+> multiple CPUs, we can't say for certain it is the latency that was
+> actually experienced by the idle state exit.
 
-(sorry to bring up old thread).
+Right.
 
-> > > > > Intel(R) SGX is a set of CPU instructions that can be used by app=
-lications
-> > > > > to set aside private regions of code and data. The code outside t=
-he enclave
-> > > > > is disallowed to access the memory inside the enclave by the CPU =
-access
-> > > > > control.  In a way you can think that SGX provides inverted sandb=
-ox. It
-> > > > > protects the application from a malicious host.
-> > > >=20
-> > > > Do you intend to allow non-root applications to use SGX?
-> > > >=20
-> > > > What are non-evil uses for SGX?
-> > > >=20
-> > > > ...because it is quite useful for some kinds of evil:
-> > >=20
-> > > The default permissions for the device are 600.
-> >=20
-> > Good. This does not belong to non-root.
->=20
-> There are entirely legitimate use cases for using this as an
-> unprivileged user. However, that'll be up to system and distribution
-> policy, which can evolve over time, and it makes sense for the *initial*
-> kernel permission to start out root-only and then adjust permissions via
-> udev.
+> It can be microseconds (eg CPU resume) vs milliseconds (eg groups of
+> cpus resume).
+>
+> I think the current approach (which may only understimate the "below" by
+> substracting the worst case value) is reasonable but I pointed this out
+> since I do not know how these stats will be used.
 
-Agreed.
+This is on purpose.
 
-> > What are some non-evil uses for SGX?
->=20
-> Building a software certificate store. Hardening key-agent software like
-> ssh-agent or gpg-agent. Building a challenge-response authentication
-> system. Providing more assurance that your server infrastructure is
-> uncompromised. Offloading computation to a system without having to
-> fully trust that system.
+I want to count the cases when the selected state has been off for certain.
 
-I think you can do the crypto stuff... as crypto already verifies the
-results. But I don't think you can do the computation offload.
-
-> As one of many possibilities, imagine a distcc that didn't have to trust
-> the compile nodes. The compile nodes could fail to return results at
-> all, but they couldn't alter the results.
-
-distcc on untrusted nodes ... oh yes, that would be great.
-
-Except that you can't do it, right? :-).
-
-First, AFAICT it would be quite hard to get gcc to run under SGX. But
-maybe you have spare month or three and can do it.
-
-But ... you really can't guarantee getting right results. Evil owner
-of the machine might intentionaly overheat the CPU, glitch the power,
-induce single-bit errors using gamma source, ... You can't do it.
-
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---bp/iNruPH9dso1Pn
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlwNdagACgkQMOfwapXb+vLmBACglfRsX3Mr2i4qikFMap6DH0ZS
-3OwAnj5BaVdvd6w1ipEHlMOQVSTpim9l
-=7YhW
------END PGP SIGNATURE-----
-
---bp/iNruPH9dso1Pn--
+Thanks,
+Rafael
