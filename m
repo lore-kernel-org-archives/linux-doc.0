@@ -1,164 +1,243 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=5.0 tests=DATE_IN_PAST_03_06,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B337A7D089
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Dec 2018 00:59:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D3B6D7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Dec 2018 16:10:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726029AbeLIA7W (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 8 Dec 2018 19:59:22 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:33335 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726019AbeLIA7W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Dec 2018 19:59:22 -0500
-Received: by mail-ot1-f65.google.com with SMTP id i20so7313493otl.0;
-        Sat, 08 Dec 2018 16:59:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=h6hyBNtXtk8QJd/0fN3k0sl9h5vNd3JJTGW7U7PZofg=;
-        b=rC2wQhKhX2jfyjTw3+QqcInBvttzcz2wW1M5FIRRk7WrtlrzZCKNHkEBHo2N1xPJDv
-         yZapSEK2DnrrFW6ptlNUi4FN1wmxFUphty1MKVZfsPndgUHSX+GYClK1yGNC0iOdsJDo
-         2L4jxAGEjHrtgBEL+6PWiNDduQ4rz3n86fVqYaC4xf5cqistHvKGcDCGKXcnRa24iYVk
-         OpH3E+pOHP1jlYefaLY4PG/011KehEnzoxM3aq7yNtgPeit0kYTvkKELCugejh/2OIQr
-         kuBSJeB8NgvRYuMOBH5MRNixvwwLCS1TFlDWHFkLmGaG86iiLlZODTbyUMSOxwLrKArD
-         RZCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=h6hyBNtXtk8QJd/0fN3k0sl9h5vNd3JJTGW7U7PZofg=;
-        b=fuwd5XNCa0MlFFBLXAdtO21MPH5hwHOnekU4Jz1H3awtySj2zyH39pl+EoCMaJe+g1
-         N3lEZzkvFMyc6C2G2szICtnZ+3PbfVSljbW/FyGk6kCJE2Ib6faPONPXn15IkyykF9Pi
-         EALLwA956BUo+vVxmcFvIQ9XNZmWZT6HMz9IcFWX7w4VDsT+za1RmNsEWp37EEFotCIz
-         3x+w/oj+fQx19d7sZMbR5kpRU+QPdzb+etkerO+T5z1IXhAb5p+HVzXDuMSWAOXyE/00
-         Ykportr6rWAjJw00iaIhfT8AnSW/VnXWUq7EHLlRcffa1IripndgmV02elS9cfYMXUVR
-         YgCA==
-X-Gm-Message-State: AA+aEWb/NPzhTUHZpDv91E4oYGomsufe111Fy9RgFWMM7oyu241wK9OU
-        GLYfL/5naHljVZ7DHAiItCBHKtmccTdgwYvQheo=
-X-Google-Smtp-Source: AFSGD/Vp6jlEQ/nvdrcc7+MeHkCadzJxm3qfwP3C0aTgWzXuy9VTEip6b6h2+aJxZ+PfXAxQQGwsaGi2UDpHIPk4sC4=
-X-Received: by 2002:a05:6830:13d7:: with SMTP id e23mr5259029otq.2.1544317161194;
- Sat, 08 Dec 2018 16:59:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20181202093257.3918-1-geert@linux-m68k.org> <20181203110506.GA7485@kroah.com>
- <20181203121519.GA7478@amd> <CAHk-=wiDeCY_ENy9S-6DjPgzzF=1UucJGrKo_K98jYA-yR1jJg@mail.gmail.com>
-In-Reply-To: <CAHk-=wiDeCY_ENy9S-6DjPgzzF=1UucJGrKo_K98jYA-yR1jJg@mail.gmail.com>
-From:   Michael Tirado <mtirado418@gmail.com>
-Date:   Sat, 8 Dec 2018 20:31:53 +0000
-Message-ID: <CAMkWEXP3BQJ-UAVOcMEo+9gJevPJG8Ahor0MFydiGG8-=xOUUg@mail.gmail.com>
-Subject: Re: [PATCH v3] code-of-conduct: Remove explicit list of
- discrimination factors
-To:     torvalds@linux-foundation.org
-Cc:     pavel@ucw.cz, gregkh@linuxfoundation.org, geert@linux-m68k.org,
-        corbet@lwn.net, frowand.list@gmail.com, tomi.valkeinen@iki.fi,
-        bvanassche@acm.org, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726258AbeLIQKB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 9 Dec 2018 11:10:01 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49182 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726256AbeLIQKB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Dec 2018 11:10:01 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wB9G8qim143773
+        for <linux-doc@vger.kernel.org>; Sun, 9 Dec 2018 11:10:00 -0500
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2p8uyd8hmy-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Sun, 09 Dec 2018 11:10:00 -0500
+Received: from localhost
+        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Sun, 9 Dec 2018 16:09:57 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Sun, 9 Dec 2018 16:09:55 -0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wB9G9tip59834490
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sun, 9 Dec 2018 16:09:55 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id EB205A405C;
+        Sun,  9 Dec 2018 16:09:54 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 77752A4054;
+        Sun,  9 Dec 2018 16:09:53 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.8.213])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Sun,  9 Dec 2018 16:09:53 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Sun, 09 Dec 2018 18:09:52 +0200
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
+Subject: [PATCH] docs/networking: fix formatting of Intel drivers documentation
+Date:   Sun,  9 Dec 2018 18:09:51 +0200
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+x-cbid: 18120916-0020-0000-0000-000002F4A380
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18120916-0021-0000-0000-00002144C0C7
+Message-Id: <1544371791-31192-1-git-send-email-rppt@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-09_06:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=606 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1812090149
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 3, 2018 at 4:52 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Mon, Dec 3, 2018 at 4:15 AM Pavel Machek <pavel@ucw.cz> wrote:
-> >
-> > Linus, I don't think Greg is doing good job maintaining this. Can you
-> > take the patch?
-> > (Or explain what is going on here, because I don't
-> > think public has full story).
->
-> I think Greg is doing a fine job, and I personally will not take
-> patches to the CoC without *much* stronger reasons than just some
-> random opinion.
->
+The documentation of Intel drivers is missing the heading adornment for
+document titles.
 
-Oh wow, see this is why I was 50/50 split on if I should still spend my
-time working on Linux anymore, glad that's now settled.
+This causes the generated html to have TOC entries from these documents to
+appear as top level TOC entries:
 
-I think Greg is doing a fine job dodging questions by saying, "it's
-fine, just wait and see if something happens". Who are the $(people)
-that choose to put this document into the kernel repo, and most
-importantly, WHY? Was it You, Greg, Someone else too? What opinions
-lead $(people) to choose the exact wording in this document, are
-they not also "random" opinions on a non-technical issue that should
-be equally disregarded?
+* Linux* Base Driver for Intel(R) Ethernet Network Connection
+* Contents
+* Identifying Your Adapter
+* Command Line Parameters
+  * AutoNeg
+  * Duplex
+  ...
 
-> This is an area where everybody has opinions, and there is no inherent
-> technical agreement ...
-> ... actual problems caused by real
-> issues ...
->
+Add overline heading adornment to document titles.
 
-What a nice *professional* reply, you wear your best suit and tie
-for sending emails now? We have reached canary status, IM{NR,R}O.
-Not that you people care, but FWIW: I'm officially done with upstream
-Linux as a bare metal kernel. I won't criticize any awkward patches
-people are proposing, or propose any of my own because I've lost
-trust in upstream to manage and defend the project adequately from
-it's competitors so this is all starting to feel like a waste of
-my free time now.
-
-OK, I can't leave you all without letting you the one thing that angered
-me nearly every time I updated to a new "stable" kernel over the last 3-4
-years. The phrase "we don't break userspace" is misleading at best, unless
-you assume all userspaces are running up to date .so's published by the
-kernel maintainers. All of my code interfaces directly with the kernel and
-not some .so layer that hides API breakage from it's users. Though my opinion
-is just some random and absolutely not professional or corporate sponsored
-opinion and thus in this newest age of Linux development, must be worthless!
-
-Linux kernel dev's should now have to repeat this mantra "there is no
-breakage, your userland just needs updates!" (obviously /s). I was actually
-getting nervous about having to update from 4.14 soon and learning about the
-fun new undocumented behaviors (sadly not /s).
-
-Sorry if this wording is too harsh, I mean no disrespect just genuinely
-DONE with this corporate bullhug[1] AND false sense of stability. AND the
-fact that you feel there are no real problems caused by horribly worded
-governance related documents with glaringly obvious and probably exploitable
-flaws. A document that AFAICT nobody likes except You, Greg, and a few people
-getting their paycheck from $(multi-billion-dollar corporation with
-questionable motives and history).
-
-[1]: In order to comply with the CoC, replace **** with a hug.
-
+Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 ---
- drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c        | 2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/fuc/macros.fuc | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c
-b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c
-index 9cc10e438b3d..55a0060881ea 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c
-@@ -446,7 +446,7 @@ init_ram_restrict(struct nvbios_init *init)
- {
-        /* This appears to be the behaviour of the VBIOS parser, and *is*
-         * important to cache the NV_PEXTDEV_BOOT0 on later chipsets to
--        * avoid fucking up the memory controller (somehow) by reading it
-+        * avoid hugging up the memory controller (somehow) by reading it
-         * on every INIT_RAM_RESTRICT_ZM_GROUP opcode.
-         *
-         * Preserving the non-caching behaviour on earlier chipsets just
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/fuc/macros.fuc
-b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/fuc/macros.fuc
-index 3737bd27f74e..ee364c71cc2e 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/fuc/macros.fuc
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/fuc/macros.fuc
-@@ -46,7 +46,7 @@
- #define NV_PPWR_INTR_EN_SET_SUBINTR                                  0x00000800
- #define NV_PPWR_INTR_EN_SET_WATCHDOG                                 0x00000002
- #define NV_PPWR_INTR_EN_CLR                                              0x0014
--#define NV_PPWR_INTR_EN_CLR_MASK                    /* fuck i hate envyas */ -1
-+#define NV_PPWR_INTR_EN_CLR_MASK                    /* hug i hate envyas */ -1
- #define NV_PPWR_INTR_ROUTE                                               0x001c
- #define NV_PPWR_TIMER_LOW                                                0x002c
- #define NV_PPWR_WATCHDOG_TIME                                            0x0034
+Another interesting thing is that many of these documents have very similar
+or even identical titles.
+It would be nice to include the adapter name in the titles to make them
+distinguishable.
+
+ Documentation/networking/e100.rst    | 1 +
+ Documentation/networking/e1000.rst   | 1 +
+ Documentation/networking/e1000e.rst  | 1 +
+ Documentation/networking/fm10k.rst   | 1 +
+ Documentation/networking/i40e.rst    | 1 +
+ Documentation/networking/iavf.rst    | 1 +
+ Documentation/networking/ice.rst     | 1 +
+ Documentation/networking/igb.rst     | 1 +
+ Documentation/networking/igbvf.rst   | 1 +
+ Documentation/networking/ixgb.rst    | 1 +
+ Documentation/networking/ixgbe.rst   | 1 +
+ Documentation/networking/ixgbevf.rst | 1 +
+ 12 files changed, 12 insertions(+)
+
+diff --git a/Documentation/networking/e100.rst b/Documentation/networking/e100.rst
+index 5e2839b..2b9f488 100644
+--- a/Documentation/networking/e100.rst
++++ b/Documentation/networking/e100.rst
+@@ -1,5 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0+
+ 
++==============================================================
+ Linux* Base Driver for the Intel(R) PRO/100 Family of Adapters
+ ==============================================================
+ 
+diff --git a/Documentation/networking/e1000.rst b/Documentation/networking/e1000.rst
+index 6379d4d..956560b 100644
+--- a/Documentation/networking/e1000.rst
++++ b/Documentation/networking/e1000.rst
+@@ -1,5 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0+
+ 
++===========================================================
+ Linux* Base Driver for Intel(R) Ethernet Network Connection
+ ===========================================================
+ 
+diff --git a/Documentation/networking/e1000e.rst b/Documentation/networking/e1000e.rst
+index 33554e5..01999f0 100644
+--- a/Documentation/networking/e1000e.rst
++++ b/Documentation/networking/e1000e.rst
+@@ -1,5 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0+
+ 
++======================================================
+ Linux* Driver for Intel(R) Ethernet Network Connection
+ ======================================================
+ 
+diff --git a/Documentation/networking/fm10k.rst b/Documentation/networking/fm10k.rst
+index bf5e594..ac3269e 100644
+--- a/Documentation/networking/fm10k.rst
++++ b/Documentation/networking/fm10k.rst
+@@ -1,5 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0+
+ 
++==============================================================
+ Linux* Base Driver for Intel(R) Ethernet Multi-host Controller
+ ==============================================================
+ 
+diff --git a/Documentation/networking/i40e.rst b/Documentation/networking/i40e.rst
+index 0cc16c5..848fd38 100644
+--- a/Documentation/networking/i40e.rst
++++ b/Documentation/networking/i40e.rst
+@@ -1,5 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0+
+ 
++==================================================================
+ Linux* Base Driver for the Intel(R) Ethernet Controller 700 Series
+ ==================================================================
+ 
+diff --git a/Documentation/networking/iavf.rst b/Documentation/networking/iavf.rst
+index f8b42b6..2d0c3ba 100644
+--- a/Documentation/networking/iavf.rst
++++ b/Documentation/networking/iavf.rst
+@@ -1,5 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0+
+ 
++==================================================================
+ Linux* Base Driver for Intel(R) Ethernet Adaptive Virtual Function
+ ==================================================================
+ 
+diff --git a/Documentation/networking/ice.rst b/Documentation/networking/ice.rst
+index 4d118b8..c220aa2 100644
+--- a/Documentation/networking/ice.rst
++++ b/Documentation/networking/ice.rst
+@@ -1,5 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0+
+ 
++===================================================================
+ Linux* Base Driver for the Intel(R) Ethernet Connection E800 Series
+ ===================================================================
+ 
+diff --git a/Documentation/networking/igb.rst b/Documentation/networking/igb.rst
+index ba16b86..e8f99af 100644
+--- a/Documentation/networking/igb.rst
++++ b/Documentation/networking/igb.rst
+@@ -1,5 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0+
+ 
++===========================================================
+ Linux* Base Driver for Intel(R) Ethernet Network Connection
+ ===========================================================
+ 
+diff --git a/Documentation/networking/igbvf.rst b/Documentation/networking/igbvf.rst
+index a8a9ffa..9cddabe 100644
+--- a/Documentation/networking/igbvf.rst
++++ b/Documentation/networking/igbvf.rst
+@@ -1,5 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0+
+ 
++============================================================
+ Linux* Base Virtual Function Driver for Intel(R) 1G Ethernet
+ ============================================================
+ 
+diff --git a/Documentation/networking/ixgb.rst b/Documentation/networking/ixgb.rst
+index 8bd80e27..9450182 100644
+--- a/Documentation/networking/ixgb.rst
++++ b/Documentation/networking/ixgb.rst
+@@ -1,5 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0+
+ 
++=====================================================================
+ Linux Base Driver for 10 Gigabit Intel(R) Ethernet Network Connection
+ =====================================================================
+ 
+diff --git a/Documentation/networking/ixgbe.rst b/Documentation/networking/ixgbe.rst
+index 725fc69..255bfe1 100644
+--- a/Documentation/networking/ixgbe.rst
++++ b/Documentation/networking/ixgbe.rst
+@@ -1,5 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0+
+ 
++=============================================================================
+ Linux* Base Driver for the Intel(R) Ethernet 10 Gigabit PCI Express Adapters
+ =============================================================================
+ 
+diff --git a/Documentation/networking/ixgbevf.rst b/Documentation/networking/ixgbevf.rst
+index 56cde63..5d49773 100644
+--- a/Documentation/networking/ixgbevf.rst
++++ b/Documentation/networking/ixgbevf.rst
+@@ -1,5 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0+
+ 
++=============================================================
+ Linux* Base Virtual Function Driver for Intel(R) 10G Ethernet
+ =============================================================
+ 
+-- 
+2.7.4
+
