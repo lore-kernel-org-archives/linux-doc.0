@@ -1,145 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0D2A27D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Dec 2018 22:58:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8FFC17D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Dec 2018 23:02:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726443AbeLIW6p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 9 Dec 2018 17:58:45 -0500
-Received: from mx2.suse.de ([195.135.220.15]:57314 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726337AbeLIW6p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 9 Dec 2018 17:58:45 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay1.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 89BD4AC36;
-        Sun,  9 Dec 2018 22:58:43 +0000 (UTC)
-From:   NeilBrown <neilb@suse.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Date:   Mon, 10 Dec 2018 09:58:37 +1100
-Cc:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] Documentation: convert path-lookup from markdown to resturctured text
-In-Reply-To: <20181206100912.535b351d@lwn.net>
-References: <87k1l9dgx9.fsf@notabene.neil.brown.name> <87sgzc7v50.fsf@notabene.neil.brown.name> <20181205124644.3f8a452a@lwn.net> <87woonelit.fsf@notabene.neil.brown.name> <20181206100912.535b351d@lwn.net>
-Message-ID: <87h8fmcnoi.fsf@notabene.neil.brown.name>
+        id S1726658AbeLIXCD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 9 Dec 2018 18:02:03 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:46127 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726612AbeLIXCC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Dec 2018 18:02:02 -0500
+Received: by mail-pg1-f194.google.com with SMTP id w7so4054592pgp.13
+        for <linux-doc@vger.kernel.org>; Sun, 09 Dec 2018 15:02:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :user-agent:mime-version;
+        bh=4xiM69Ri1+YEOaZxsVKSi1HDZ8z+4OcwG0v9rvp4EEY=;
+        b=F6Wzr6nYejv64AeC1tfELeTm4Nb1ZvsM+Tf3FnKesb6He4AkQ4BEidMXGCRAfLB9aC
+         26Uuu4qoHDZ4T2JR23bw9QSu5C0rq03y+z6zoZPJQQi8kvGxkYh6jlBYv141tny3uSh8
+         rVchmPQypIK/2QPjYkUO7mLCWsWLYrW3kejW/H7vhsDcBt86LFPiCbXMhR5wDC1uhSsr
+         3fNCMWpyEAldQ03ne7UtQr+sNobwKEhFyu7UNYgLTF5PTYAxtCSRAJ3lJemEX6sYr6ae
+         5J6voF6eVeu4LOqzbV57x1/xa8kzp8FPufNrlXVWH+EofWtK6JSZzu+Fn9WgLAwJskHI
+         wiQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:user-agent:mime-version;
+        bh=4xiM69Ri1+YEOaZxsVKSi1HDZ8z+4OcwG0v9rvp4EEY=;
+        b=WB84iJVNryc00hf2HoV9y9ytIrIRh8+G5O81YX9V+m+9U7FM+yiAr8LK2zHXkY282V
+         GSUk5wrPej+DiZwqPlPLDtaHQGv/d0w+UiloQ19Jel2qGzz0X7HK7RpzW5xmdtz0z1hQ
+         YtVfV/nD+5xFPZmxJFQB24jIBK8KI1LYX5bEa3GErd3ObP0a8vofviIC59srjEo2Q35j
+         kRZX46nlT+TH+c3+86uFlaaD5J+92D/CZ5f4g/SvTFqcxJkfUHZNyde6K9Djhv4g4a15
+         4BSoQyfAd+T3zqU3hQsd7nV40ykCO0tXqM6pE5wbbQvAYSFxlzzoMuoXUCWGzntSLuwA
+         4T3A==
+X-Gm-Message-State: AA+aEWbYzlphmF7HnbMw01gCpyz3G5RQBQIjrP36WYoq8AbMr0gB823o
+        Yok34T4ACwWLz9dkwZ50QyfPqg==
+X-Google-Smtp-Source: AFSGD/Ws/ius5rek515zFhAt8FWEblbGjV3iFAGzg0AZdNSWtDwzWby4JN6zElN5SgbZa3r3JbJJqg==
+X-Received: by 2002:a62:4bcf:: with SMTP id d76mr10712174pfj.170.1544396521823;
+        Sun, 09 Dec 2018 15:02:01 -0800 (PST)
+Received: from [2620:15c:17:3:3a5:23a7:5e32:4598] ([2620:15c:17:3:3a5:23a7:5e32:4598])
+        by smtp.gmail.com with ESMTPSA id i123sm14945950pfg.164.2018.12.09.15.02.00
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 09 Dec 2018 15:02:00 -0800 (PST)
+Date:   Sun, 9 Dec 2018 15:02:00 -0800 (PST)
+From:   David Rientjes <rientjes@google.com>
+X-X-Sender: rientjes@chino.kir.corp.google.com
+To:     Mike Rapoport <rppt@linux.ibm.com>
+cc:     Jonathan Corbet <corbet@lwn.net>, Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] slab: make kmem_cache_create{_usercopy} description
+ proper kernel-doc
+In-Reply-To: <1544130781-13443-2-git-send-email-rppt@linux.ibm.com>
+Message-ID: <alpine.DEB.2.21.1812091501460.206717@chino.kir.corp.google.com>
+References: <1544130781-13443-1-git-send-email-rppt@linux.ibm.com> <1544130781-13443-2-git-send-email-rppt@linux.ibm.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+On Thu, 6 Dec 2018, Mike Rapoport wrote:
 
-On Thu, Dec 06 2018, Jonathan Corbet wrote:
+> Add the description for kmem_cache_create, fixup the return value paragraph
+> and make both kmem_cache_create and add the second '*' to the comment
+> opening.
+> 
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 
-> On Thu, 06 Dec 2018 08:00:58 +1100
-> NeilBrown <neilb@suse.com> wrote:
->
->> > Is there a reason you used "include" rather than just adding it to the
->> > TOC tree with the rest?=20=20
->>=20
->> Simple.  I didn't know what I was doing, and so randomly made changes un=
-til
->> the result seemed acceptable - then I stopped.  If there is a better
->> way, feel free to tweak that when applying.
->
-> OK, tweaked and applied, thanks.
->
-> jon
-
-Thanks...
-
-However we now have a stub section "Pathname lookup" which serves only
-to introduce another stub sectoin "Pathname lookup in Linux", which does
-little more than introduce the rest of the section.
-This seems inelegant, and is probably why I went for the "include"
-approach.
-
-What would you think of something more like the following?
-
-Thanks,
-NeilBrown
-
-
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystem=
-s/index.rst
-index ba921bdd5b06..605befab300b 100644
-=2D-- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -363,8 +363,18 @@ encryption of files and directories.
- Pathname lookup
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
-=2DPathname lookup in Linux is a complex beast; the document linked below
-=2Dprovides a comprehensive summary for those looking for the details.
-+
-+This write-up is based on three articles published at lwn.net:
-+
-+- <https://lwn.net/Articles/649115/> Pathname lookup in Linux
-+- <https://lwn.net/Articles/649729/> RCU-walk: faster pathname lookup in L=
-inux
-+- <https://lwn.net/Articles/650786/> A walk among the symlinks
-+
-+Written by Neil Brown with help from Al Viro and Jon Corbet.
-+It has subsequently been updated to reflect changes in the kernel
-+including:
-+
-+- per-directory parallel name lookup.
-=20
- .. toctree::
-    :maxdepth: 2
-diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/file=
-systems/path-lookup.rst
-index 30a155736afe..9d6b68853f5b 100644
-=2D-- a/Documentation/filesystems/path-lookup.rst
-+++ b/Documentation/filesystems/path-lookup.rst
-@@ -1,18 +1,3 @@
-=2D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=2DPathname lookup in Linux
-=2D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=2D
-=2DThis write-up is based on three articles published at lwn.net:
-=2D
-=2D- <https://lwn.net/Articles/649115/> Pathname lookup in Linux
-=2D- <https://lwn.net/Articles/649729/> RCU-walk: faster pathname lookup in=
- Linux
-=2D- <https://lwn.net/Articles/650786/> A walk among the symlinks
-=2D
-=2DWritten by Neil Brown with help from Al Viro and Jon Corbet.
-=2DIt has subsequently been updated to reflect changes in the kernel
-=2Dincluding:
-=2D
-=2D- per-directory parallel name lookup.
-=20
- Introduction to pathname lookup
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAlwNnh0ACgkQOeye3VZi
-gbnoGBAAjDczYJTC0kacul7i43refFtkjks8ZUBJMNWfY+6Vwt26wUFJxFXUDwA4
-afavTflcD7ESD40GFljq/bwhwHjGI+1AB5Y5o2I8SaTlSUPnzohWQKbg8tgZRVxp
-n9b27wTGvD7kWbXShoGPclfRJsFR04ZW3gughrz0369IyZTO9UByzx/GMbxj/Ejo
-UtHqWQFmh90RTl4ES4Ms3bjVNwSBrBie2ZSAqS2Kqs8gJ38R7gbF/DE2CfHhsKGj
-lT5HF+9UEtb4kwZsn+QoSCqeMbtwKRm3f0KsbhKYNgi0Z0dreSa/d5RH7NFwbPfC
-0TwlcTI/2VxOyDxod4Z6p3CZ7CkQu8BiuRLOZTOaL/0I3GEV+YKEM4lFli9Uy68D
-4jk9Qhgec63FNwn8UXA9LiTAUIHILdoynYXmquZjmIC/FQomgCG6/pilLLM6hMRi
-dw91OCsj4KFCd8oqMfbyjjYo7KwCyBwraDic83GG15eqijv+L0GfqY9mfnMXWXqf
-3Cp9iFsNJnEmX3ZftDqonQiUKQ0BHzN1C2MEbMQyTo0Z/sxrWHitzbpNqb62RtEk
-IdgpZ32p0mvnXnGl2F2gsJJH06P0O+SNtBCer3TeVzvjQd/vmHCbrypoIxJUag+R
-JLJUBRawiwNSATv9rn03GJFgdekypUUKwSxylRg79mNyZfHZpoQ=
-=sKnw
------END PGP SIGNATURE-----
---=-=-=--
+Acked-by: David Rientjes <rientjes@google.com>
