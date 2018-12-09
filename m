@@ -1,129 +1,145 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C04437D089
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Dec 2018 21:49:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0D2A27D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Dec 2018 22:58:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726327AbeLIVtQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 9 Dec 2018 16:49:16 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:39722 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726194AbeLIVtQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Dec 2018 16:49:16 -0500
-Received: by mail-ot1-f67.google.com with SMTP id n8so8633813otl.6;
-        Sun, 09 Dec 2018 13:49:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zxc1SH8d2bzeeZeVs1nLkE3aDJ6fkBALoEeEOAbX9RI=;
-        b=CXl2gG6qqRAdEIzpjLI5qg3R4WONWSXAe5LSm/M23Udrtm9bw2AfygxbICMTP4XIv/
-         tquysNo3NuqAPuXqvrWe5UXr85x5y4mZbzCWlzZtO0h+JTZMFtVe/2pp3yRz3RpAxOBa
-         wyTLbGIpA8jsvXrLPVMQ2kQvjE4LSRN+5zU3ucSsxQeG0R3s/IUxLILJHmwOUo7pZrFl
-         diNL/aaDmmRKSW8B3EGp2QvhpHmoatRKGzEdXlYM/kCgawKxi5jtdQGBa2RPFd5UoqXo
-         jcsQvZioS5sqRpEiI1YVVRK0CkZ19EDj3P8Fi+DYc0KU1+hE9fxRPX6zj9p+zki/sPan
-         hKqg==
-X-Gm-Message-State: AA+aEWb2Rg7Huz3RKYtaNRDjG2nNBbcgPxDxDnF0+DrauYbxw0kuZUkD
-        hJ/cjCwOTvgTTKhGLeBe6mpw3lUY33pc99/Xh0M=
-X-Google-Smtp-Source: AFSGD/Wibporwm63DMyn8vom1wXOjbwEOoG55o8Ex9LqiZI4wKywwO8lPQW3ypUT6ruPmBvr8rwoNj3YXDF5aVJz1xQ=
-X-Received: by 2002:a9d:60b:: with SMTP id 11mr6757360otn.200.1544392154931;
- Sun, 09 Dec 2018 13:49:14 -0800 (PST)
+        id S1726443AbeLIW6p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 9 Dec 2018 17:58:45 -0500
+Received: from mx2.suse.de ([195.135.220.15]:57314 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726337AbeLIW6p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 9 Dec 2018 17:58:45 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay1.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 89BD4AC36;
+        Sun,  9 Dec 2018 22:58:43 +0000 (UTC)
+From:   NeilBrown <neilb@suse.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Date:   Mon, 10 Dec 2018 09:58:37 +1100
+Cc:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] Documentation: convert path-lookup from markdown to resturctured text
+In-Reply-To: <20181206100912.535b351d@lwn.net>
+References: <87k1l9dgx9.fsf@notabene.neil.brown.name> <87sgzc7v50.fsf@notabene.neil.brown.name> <20181205124644.3f8a452a@lwn.net> <87woonelit.fsf@notabene.neil.brown.name> <20181206100912.535b351d@lwn.net>
+Message-ID: <87h8fmcnoi.fsf@notabene.neil.brown.name>
 MIME-Version: 1.0
-References: <1688146.Dmze7u1T7F@aspire.rjw.lan> <20181207125700.GA20256@e107981-ln.cambridge.arm.com>
-In-Reply-To: <20181207125700.GA20256@e107981-ln.cambridge.arm.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Sun, 9 Dec 2018 22:49:03 +0100
-Message-ID: <CAJZ5v0h5-BOzPmBAMUChTxb74XO9VxQdv1RL0yj2d3VYvd1yOA@mail.gmail.com>
-Subject: Re: [PATCH] cpuidle: Add 'above' and 'below' idle state metrics
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Doug Smythies <dsmythies@telus.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 7, 2018 at 1:57 PM Lorenzo Pieralisi
-<lorenzo.pieralisi@arm.com> wrote:
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Dec 06 2018, Jonathan Corbet wrote:
+
+> On Thu, 06 Dec 2018 08:00:58 +1100
+> NeilBrown <neilb@suse.com> wrote:
 >
-> On Fri, Dec 07, 2018 at 12:57:00PM +0100, Rafael J. Wysocki wrote:
-> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > Subject: [PATCH] cpuidle: Add 'above' and 'below' idle state metrics
-> >
-> > Add two new metrics for CPU idle states, "above" and "below", to count
-> > the number of times the given state had been asked for (or entered
-> > from the kernel's perspective), but the observed idle duration turned
-> > out to be too short or too long for it (respectively).
-> >
-> > These mertics help to estimate the quality of the CPU idle governor
+>> > Is there a reason you used "include" rather than just adding it to the
+>> > TOC tree with the rest?=20=20
+>>=20
+>> Simple.  I didn't know what I was doing, and so randomly made changes un=
+til
+>> the result seemed acceptable - then I stopped.  If there is a better
+>> way, feel free to tweak that when applying.
 >
-> s/mertics/metrics
-
-Right, thanks!
-
-> > in use.
-> >
-> > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > ---
-> >
-> > This is a replacement for https://patchwork.kernel.org/patch/10714995/ with
-> > the metrics renamed and some documentation confusion cleaned up.  Thanks!
-> >
-> > ---
-> >  Documentation/ABI/testing/sysfs-devices-system-cpu |    7 ++++
-> >  Documentation/admin-guide/pm/cpuidle.rst           |   10 ++++++
-> >  drivers/cpuidle/cpuidle.c                          |   31 ++++++++++++++++++++-
-> >  drivers/cpuidle/sysfs.c                            |    6 ++++
-> >  include/linux/cpuidle.h                            |    2 +
-> >  5 files changed, 55 insertions(+), 1 deletion(-)
-> >
-> > Index: linux-pm/drivers/cpuidle/cpuidle.c
-> > ===================================================================
-> > --- linux-pm.orig/drivers/cpuidle/cpuidle.c
-> > +++ linux-pm/drivers/cpuidle/cpuidle.c
-> > @@ -202,7 +202,6 @@ int cpuidle_enter_state(struct cpuidle_d
-> >       struct cpuidle_state *target_state = &drv->states[index];
-> >       bool broadcast = !!(target_state->flags & CPUIDLE_FLAG_TIMER_STOP);
-> >       ktime_t time_start, time_end;
-> > -     s64 diff;
-> >
-> >       /*
-> >        * Tell the time framework to switch to a broadcast timer because our
-> > @@ -248,6 +247,9 @@ int cpuidle_enter_state(struct cpuidle_d
-> >               local_irq_enable();
-> >
-> >       if (entered_state >= 0) {
-> > +             s64 diff, delay = drv->states[entered_state].exit_latency;
+> OK, tweaked and applied, thanks.
 >
-> I am probably pointing out something that has been already debated,
-> apologies if so.
->
-> exit_latency is the *worst* case exit latency for idle states that involve
-> multiple CPUs, we can't say for certain it is the latency that was
-> actually experienced by the idle state exit.
+> jon
 
-Right.
+Thanks...
 
-> It can be microseconds (eg CPU resume) vs milliseconds (eg groups of
-> cpus resume).
->
-> I think the current approach (which may only understimate the "below" by
-> substracting the worst case value) is reasonable but I pointed this out
-> since I do not know how these stats will be used.
+However we now have a stub section "Pathname lookup" which serves only
+to introduce another stub sectoin "Pathname lookup in Linux", which does
+little more than introduce the rest of the section.
+This seems inelegant, and is probably why I went for the "include"
+approach.
 
-This is on purpose.
-
-I want to count the cases when the selected state has been off for certain.
+What would you think of something more like the following?
 
 Thanks,
-Rafael
+NeilBrown
+
+
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystem=
+s/index.rst
+index ba921bdd5b06..605befab300b 100644
+=2D-- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -363,8 +363,18 @@ encryption of files and directories.
+ Pathname lookup
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+=2DPathname lookup in Linux is a complex beast; the document linked below
+=2Dprovides a comprehensive summary for those looking for the details.
++
++This write-up is based on three articles published at lwn.net:
++
++- <https://lwn.net/Articles/649115/> Pathname lookup in Linux
++- <https://lwn.net/Articles/649729/> RCU-walk: faster pathname lookup in L=
+inux
++- <https://lwn.net/Articles/650786/> A walk among the symlinks
++
++Written by Neil Brown with help from Al Viro and Jon Corbet.
++It has subsequently been updated to reflect changes in the kernel
++including:
++
++- per-directory parallel name lookup.
+=20
+ .. toctree::
+    :maxdepth: 2
+diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/file=
+systems/path-lookup.rst
+index 30a155736afe..9d6b68853f5b 100644
+=2D-- a/Documentation/filesystems/path-lookup.rst
++++ b/Documentation/filesystems/path-lookup.rst
+@@ -1,18 +1,3 @@
+=2D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=2DPathname lookup in Linux
+=2D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=2D
+=2DThis write-up is based on three articles published at lwn.net:
+=2D
+=2D- <https://lwn.net/Articles/649115/> Pathname lookup in Linux
+=2D- <https://lwn.net/Articles/649729/> RCU-walk: faster pathname lookup in=
+ Linux
+=2D- <https://lwn.net/Articles/650786/> A walk among the symlinks
+=2D
+=2DWritten by Neil Brown with help from Al Viro and Jon Corbet.
+=2DIt has subsequently been updated to reflect changes in the kernel
+=2Dincluding:
+=2D
+=2D- per-directory parallel name lookup.
+=20
+ Introduction to pathname lookup
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAlwNnh0ACgkQOeye3VZi
+gbnoGBAAjDczYJTC0kacul7i43refFtkjks8ZUBJMNWfY+6Vwt26wUFJxFXUDwA4
+afavTflcD7ESD40GFljq/bwhwHjGI+1AB5Y5o2I8SaTlSUPnzohWQKbg8tgZRVxp
+n9b27wTGvD7kWbXShoGPclfRJsFR04ZW3gughrz0369IyZTO9UByzx/GMbxj/Ejo
+UtHqWQFmh90RTl4ES4Ms3bjVNwSBrBie2ZSAqS2Kqs8gJ38R7gbF/DE2CfHhsKGj
+lT5HF+9UEtb4kwZsn+QoSCqeMbtwKRm3f0KsbhKYNgi0Z0dreSa/d5RH7NFwbPfC
+0TwlcTI/2VxOyDxod4Z6p3CZ7CkQu8BiuRLOZTOaL/0I3GEV+YKEM4lFli9Uy68D
+4jk9Qhgec63FNwn8UXA9LiTAUIHILdoynYXmquZjmIC/FQomgCG6/pilLLM6hMRi
+dw91OCsj4KFCd8oqMfbyjjYo7KwCyBwraDic83GG15eqijv+L0GfqY9mfnMXWXqf
+3Cp9iFsNJnEmX3ZftDqonQiUKQ0BHzN1C2MEbMQyTo0Z/sxrWHitzbpNqb62RtEk
+IdgpZ32p0mvnXnGl2F2gsJJH06P0O+SNtBCer3TeVzvjQd/vmHCbrypoIxJUag+R
+JLJUBRawiwNSATv9rn03GJFgdekypUUKwSxylRg79mNyZfHZpoQ=
+=sKnw
+-----END PGP SIGNATURE-----
+--=-=-=--
