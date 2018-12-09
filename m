@@ -2,242 +2,152 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D3B6D7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Dec 2018 16:10:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6F45C7D8A3
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Dec 2018 20:06:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726258AbeLIQKB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 9 Dec 2018 11:10:01 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49182 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726256AbeLIQKB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Dec 2018 11:10:01 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wB9G8qim143773
-        for <linux-doc@vger.kernel.org>; Sun, 9 Dec 2018 11:10:00 -0500
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2p8uyd8hmy-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sun, 09 Dec 2018 11:10:00 -0500
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Sun, 9 Dec 2018 16:09:57 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sun, 9 Dec 2018 16:09:55 -0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wB9G9tip59834490
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sun, 9 Dec 2018 16:09:55 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id EB205A405C;
-        Sun,  9 Dec 2018 16:09:54 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 77752A4054;
-        Sun,  9 Dec 2018 16:09:53 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.8.213])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Sun,  9 Dec 2018 16:09:53 +0000 (GMT)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Sun, 09 Dec 2018 18:09:52 +0200
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Jeff Kirsher <jeffrey.t.kirsher@intel.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
-Subject: [PATCH] docs/networking: fix formatting of Intel drivers documentation
-Date:   Sun,  9 Dec 2018 18:09:51 +0200
-X-Mailer: git-send-email 2.7.4
-X-TM-AS-GCONF: 00
-x-cbid: 18120916-0020-0000-0000-000002F4A380
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18120916-0021-0000-0000-00002144C0C7
-Message-Id: <1544371791-31192-1-git-send-email-rppt@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-09_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=606 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1812090149
+        id S1726281AbeLIUGF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 9 Dec 2018 15:06:05 -0500
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:39832 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726233AbeLIUGF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Dec 2018 15:06:05 -0500
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 4290E806FA; Sun,  9 Dec 2018 21:05:57 +0100 (CET)
+Date:   Sun, 9 Dec 2018 21:06:00 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Josh Triplett <josh@joshtriplett.org>
+Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, dave.hansen@intel.com,
+        sean.j.christopherson@intel.com, nhorman@redhat.com,
+        npmccallum@redhat.com, Alexei Starovoitov <ast@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
+        "open list:INTEL SGX" <intel-sgx-kernel-dev@lists.01.org>,
+        Janakarajan Natarajan <Janakarajan.Natarajan@amd.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        "open list:KERNEL VIRTUAL MACHINE FOR X86 (KVM/x86)" 
+        <kvm@vger.kernel.org>, Len Brown <len.brown@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "open list:CRYPTO API" <linux-crypto@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:SPARSE CHECKER" <linux-sparse@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Vikas Shivappa <vikas.shivappa@linux.intel.com>
+Subject: Re: [PATCH v11 00/13] Intel SGX1 support
+Message-ID: <20181209200600.GA11608@amd>
+References: <20180608171216.26521-1-jarkko.sakkinen@linux.intel.com>
+ <20180612105011.GA26931@amd>
+ <20180619145943.GC8034@linux.intel.com>
+ <20180619200414.GA3143@amd>
+ <20180619214833.GA5873@localhost>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="bp/iNruPH9dso1Pn"
+Content-Disposition: inline
+In-Reply-To: <20180619214833.GA5873@localhost>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The documentation of Intel drivers is missing the heading adornment for
-document titles.
 
-This causes the generated html to have TOC entries from these documents to
-appear as top level TOC entries:
+--bp/iNruPH9dso1Pn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-* Linux* Base Driver for Intel(R) Ethernet Network Connection
-* Contents
-* Identifying Your Adapter
-* Command Line Parameters
-  * AutoNeg
-  * Duplex
-  ...
+Hi!
 
-Add overline heading adornment to document titles.
+(sorry to bring up old thread).
 
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
----
+> > > > > Intel(R) SGX is a set of CPU instructions that can be used by app=
+lications
+> > > > > to set aside private regions of code and data. The code outside t=
+he enclave
+> > > > > is disallowed to access the memory inside the enclave by the CPU =
+access
+> > > > > control.  In a way you can think that SGX provides inverted sandb=
+ox. It
+> > > > > protects the application from a malicious host.
+> > > >=20
+> > > > Do you intend to allow non-root applications to use SGX?
+> > > >=20
+> > > > What are non-evil uses for SGX?
+> > > >=20
+> > > > ...because it is quite useful for some kinds of evil:
+> > >=20
+> > > The default permissions for the device are 600.
+> >=20
+> > Good. This does not belong to non-root.
+>=20
+> There are entirely legitimate use cases for using this as an
+> unprivileged user. However, that'll be up to system and distribution
+> policy, which can evolve over time, and it makes sense for the *initial*
+> kernel permission to start out root-only and then adjust permissions via
+> udev.
 
-Another interesting thing is that many of these documents have very similar
-or even identical titles.
-It would be nice to include the adapter name in the titles to make them
-distinguishable.
+Agreed.
 
- Documentation/networking/e100.rst    | 1 +
- Documentation/networking/e1000.rst   | 1 +
- Documentation/networking/e1000e.rst  | 1 +
- Documentation/networking/fm10k.rst   | 1 +
- Documentation/networking/i40e.rst    | 1 +
- Documentation/networking/iavf.rst    | 1 +
- Documentation/networking/ice.rst     | 1 +
- Documentation/networking/igb.rst     | 1 +
- Documentation/networking/igbvf.rst   | 1 +
- Documentation/networking/ixgb.rst    | 1 +
- Documentation/networking/ixgbe.rst   | 1 +
- Documentation/networking/ixgbevf.rst | 1 +
- 12 files changed, 12 insertions(+)
+> > What are some non-evil uses for SGX?
+>=20
+> Building a software certificate store. Hardening key-agent software like
+> ssh-agent or gpg-agent. Building a challenge-response authentication
+> system. Providing more assurance that your server infrastructure is
+> uncompromised. Offloading computation to a system without having to
+> fully trust that system.
 
-diff --git a/Documentation/networking/e100.rst b/Documentation/networking/e100.rst
-index 5e2839b..2b9f488 100644
---- a/Documentation/networking/e100.rst
-+++ b/Documentation/networking/e100.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0+
- 
-+==============================================================
- Linux* Base Driver for the Intel(R) PRO/100 Family of Adapters
- ==============================================================
- 
-diff --git a/Documentation/networking/e1000.rst b/Documentation/networking/e1000.rst
-index 6379d4d..956560b 100644
---- a/Documentation/networking/e1000.rst
-+++ b/Documentation/networking/e1000.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0+
- 
-+===========================================================
- Linux* Base Driver for Intel(R) Ethernet Network Connection
- ===========================================================
- 
-diff --git a/Documentation/networking/e1000e.rst b/Documentation/networking/e1000e.rst
-index 33554e5..01999f0 100644
---- a/Documentation/networking/e1000e.rst
-+++ b/Documentation/networking/e1000e.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0+
- 
-+======================================================
- Linux* Driver for Intel(R) Ethernet Network Connection
- ======================================================
- 
-diff --git a/Documentation/networking/fm10k.rst b/Documentation/networking/fm10k.rst
-index bf5e594..ac3269e 100644
---- a/Documentation/networking/fm10k.rst
-+++ b/Documentation/networking/fm10k.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0+
- 
-+==============================================================
- Linux* Base Driver for Intel(R) Ethernet Multi-host Controller
- ==============================================================
- 
-diff --git a/Documentation/networking/i40e.rst b/Documentation/networking/i40e.rst
-index 0cc16c5..848fd38 100644
---- a/Documentation/networking/i40e.rst
-+++ b/Documentation/networking/i40e.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0+
- 
-+==================================================================
- Linux* Base Driver for the Intel(R) Ethernet Controller 700 Series
- ==================================================================
- 
-diff --git a/Documentation/networking/iavf.rst b/Documentation/networking/iavf.rst
-index f8b42b6..2d0c3ba 100644
---- a/Documentation/networking/iavf.rst
-+++ b/Documentation/networking/iavf.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0+
- 
-+==================================================================
- Linux* Base Driver for Intel(R) Ethernet Adaptive Virtual Function
- ==================================================================
- 
-diff --git a/Documentation/networking/ice.rst b/Documentation/networking/ice.rst
-index 4d118b8..c220aa2 100644
---- a/Documentation/networking/ice.rst
-+++ b/Documentation/networking/ice.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0+
- 
-+===================================================================
- Linux* Base Driver for the Intel(R) Ethernet Connection E800 Series
- ===================================================================
- 
-diff --git a/Documentation/networking/igb.rst b/Documentation/networking/igb.rst
-index ba16b86..e8f99af 100644
---- a/Documentation/networking/igb.rst
-+++ b/Documentation/networking/igb.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0+
- 
-+===========================================================
- Linux* Base Driver for Intel(R) Ethernet Network Connection
- ===========================================================
- 
-diff --git a/Documentation/networking/igbvf.rst b/Documentation/networking/igbvf.rst
-index a8a9ffa..9cddabe 100644
---- a/Documentation/networking/igbvf.rst
-+++ b/Documentation/networking/igbvf.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0+
- 
-+============================================================
- Linux* Base Virtual Function Driver for Intel(R) 1G Ethernet
- ============================================================
- 
-diff --git a/Documentation/networking/ixgb.rst b/Documentation/networking/ixgb.rst
-index 8bd80e27..9450182 100644
---- a/Documentation/networking/ixgb.rst
-+++ b/Documentation/networking/ixgb.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0+
- 
-+=====================================================================
- Linux Base Driver for 10 Gigabit Intel(R) Ethernet Network Connection
- =====================================================================
- 
-diff --git a/Documentation/networking/ixgbe.rst b/Documentation/networking/ixgbe.rst
-index 725fc69..255bfe1 100644
---- a/Documentation/networking/ixgbe.rst
-+++ b/Documentation/networking/ixgbe.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0+
- 
-+=============================================================================
- Linux* Base Driver for the Intel(R) Ethernet 10 Gigabit PCI Express Adapters
- =============================================================================
- 
-diff --git a/Documentation/networking/ixgbevf.rst b/Documentation/networking/ixgbevf.rst
-index 56cde63..5d49773 100644
---- a/Documentation/networking/ixgbevf.rst
-+++ b/Documentation/networking/ixgbevf.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0+
- 
-+=============================================================
- Linux* Base Virtual Function Driver for Intel(R) 10G Ethernet
- =============================================================
- 
--- 
-2.7.4
+I think you can do the crypto stuff... as crypto already verifies the
+results. But I don't think you can do the computation offload.
 
+> As one of many possibilities, imagine a distcc that didn't have to trust
+> the compile nodes. The compile nodes could fail to return results at
+> all, but they couldn't alter the results.
+
+distcc on untrusted nodes ... oh yes, that would be great.
+
+Except that you can't do it, right? :-).
+
+First, AFAICT it would be quite hard to get gcc to run under SGX. But
+maybe you have spare month or three and can do it.
+
+But ... you really can't guarantee getting right results. Evil owner
+of the machine might intentionaly overheat the CPU, glitch the power,
+induce single-bit errors using gamma source, ... You can't do it.
+
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--bp/iNruPH9dso1Pn
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlwNdagACgkQMOfwapXb+vLmBACglfRsX3Mr2i4qikFMap6DH0ZS
+3OwAnj5BaVdvd6w1ipEHlMOQVSTpim9l
+=7YhW
+-----END PGP SIGNATURE-----
+
+--bp/iNruPH9dso1Pn--
