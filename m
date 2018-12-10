@@ -1,66 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7A94C7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 06:06:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 314797D8AA
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 07:47:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726434AbeLJGGp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Dec 2018 01:06:45 -0500
-Received: from imap.thunk.org ([74.207.234.97]:41090 "EHLO imap.thunk.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726422AbeLJGGo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 Dec 2018 01:06:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=thunk.org;
-         s=ef5046eb; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=k2uo0/vB27zkNp2h/w5RUklfsPuynkqE2vL21peVqe8=; b=DJ5+LkNF9XL/SbDcy20sBEp+p4
-        XK3LXFG4JBJxqFTHv0tG9jBdNEsL/NTsNipx0orN8rQNQxOataKKt4mWhzsZEYtkGUYVyqMXvwVNt
-        sYQbNbHlukJks0Msc9s/hwxRYg+wDC+6lY4uPWlmXfKt9VQs8oMXuLg/EIDcbyJE+ET0=;
-Received: from root (helo=callcc.thunk.org)
-        by imap.thunk.org with local-esmtp (Exim 4.89)
-        (envelope-from <tytso@thunk.org>)
-        id 1gWEhn-0004TR-Uf; Mon, 10 Dec 2018 06:06:12 +0000
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 5286C7A492E; Mon, 10 Dec 2018 01:06:10 -0500 (EST)
-Date:   Mon, 10 Dec 2018 01:06:10 -0500
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     Chandan Rajendra <chandan@linux.vnet.ibm.com>
-Cc:     linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-doc@vger.kernel.org, linux-mips@linux-mips.org,
-        linux-s390@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, adilger.kernel@dilger.ca,
-        ebiggers@kernel.org, jaegeuk@kernel.org, yuchao0@huawei.com,
-        corbet@lwn.net, ralf@linux-mips.org, paul.burton@mips.com,
-        jhogan@kernel.org, green.hu@gmail.com, deanbo422@gmail.com,
-        schwidefsky@de.ibm.com, heiko.carstens@de.ibm.com, richard@nod.at,
-        dedekind1@gmail.com, adrian.hunter@intel.com,
-        viro@zeniv.linux.org.uk
-Subject: Re: [PATCH V3 0/9] Remove fs specific fscrypt and fsverity build
- config options
-Message-ID: <20181210060610.GJ1840@mit.edu>
-References: <20181208065144.19486-1-chandan@linux.vnet.ibm.com>
+        id S1726262AbeLJHrj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Dec 2018 02:47:39 -0500
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:45791 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726202AbeLJHrj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 02:47:39 -0500
+X-Originating-IP: 50.39.174.102
+Received: from localhost (50-39-174-102.bvtn.or.frontiernet.net [50.39.174.102])
+        (Authenticated sender: josh@joshtriplett.org)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 387411BF215;
+        Mon, 10 Dec 2018 07:47:19 +0000 (UTC)
+Date:   Sun, 9 Dec 2018 23:47:17 -0800
+From:   Josh Triplett <josh@joshtriplett.org>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, dave.hansen@intel.com,
+        sean.j.christopherson@intel.com, nhorman@redhat.com,
+        npmccallum@redhat.com, Alexei Starovoitov <ast@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
+        "open list:INTEL SGX" <intel-sgx-kernel-dev@lists.01.org>,
+        Janakarajan Natarajan <Janakarajan.Natarajan@amd.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        "open list:KERNEL VIRTUAL MACHINE FOR X86 (KVM/x86)" 
+        <kvm@vger.kernel.org>, Len Brown <len.brown@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "open list:CRYPTO API" <linux-crypto@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:SPARSE CHECKER" <linux-sparse@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Vikas Shivappa <vikas.shivappa@linux.intel.com>
+Subject: Re: [PATCH v11 00/13] Intel SGX1 support
+Message-ID: <20181210074717.GA9880@localhost>
+References: <20180608171216.26521-1-jarkko.sakkinen@linux.intel.com>
+ <20180612105011.GA26931@amd>
+ <20180619145943.GC8034@linux.intel.com>
+ <20180619200414.GA3143@amd>
+ <20180619214833.GA5873@localhost>
+ <20181209200600.GA11608@amd>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181208065144.19486-1-chandan@linux.vnet.ibm.com>
+In-Reply-To: <20181209200600.GA11608@amd>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: tytso@thunk.org
-X-SA-Exim-Scanned: No (on imap.thunk.org); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Chandan,
+On Sun, Dec 09, 2018 at 09:06:00PM +0100, Pavel Machek wrote:
+...
+> > > > The default permissions for the device are 600.
+> > > 
+> > > Good. This does not belong to non-root.
+> > 
+> > There are entirely legitimate use cases for using this as an
+> > unprivileged user. However, that'll be up to system and distribution
+> > policy, which can evolve over time, and it makes sense for the *initial*
+> > kernel permission to start out root-only and then adjust permissions via
+> > udev.
+> 
+> Agreed.
+> 
+> > Building a software certificate store. Hardening key-agent software like
+> > ssh-agent or gpg-agent. Building a challenge-response authentication
+> > system. Providing more assurance that your server infrastructure is
+> > uncompromised. Offloading computation to a system without having to
+> > fully trust that system.
+> 
+> I think you can do the crypto stuff... as crypto already verifies the
+> results. But I don't think you can do the computation offload.
 
-Thanks!  I've applied this patch series to the fscrypt git tree.
+You can, as long as you can do attestation.
 
-	      	      	   	 	- Ted
+> > As one of many possibilities, imagine a distcc that didn't have to trust
+> > the compile nodes. The compile nodes could fail to return results at
+> > all, but they couldn't alter the results.
+> 
+> distcc on untrusted nodes ... oh yes, that would be great.
+> 
+> Except that you can't do it, right? :-).
+> 
+> First, AFAICT it would be quite hard to get gcc to run under SGX. But
+> maybe you have spare month or three and can do it.
+
+Assuming you don't need to #include files, gcc seems quite simple to run
+in an enclave: data in, computation inside, data out.
