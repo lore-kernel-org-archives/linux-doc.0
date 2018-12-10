@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-13.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9C9E57DD4C
+	by archive.lwn.net (Postfix) with ESMTP id DBD1D7D8BA
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 12:52:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727473AbeLJMvz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Dec 2018 07:51:55 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:36346 "EHLO
+        id S1726997AbeLJMwD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Dec 2018 07:52:03 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:34625 "EHLO
         mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727456AbeLJMvQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 07:51:16 -0500
-Received: by mail-wr1-f67.google.com with SMTP id u3so10374928wrs.3
-        for <linux-doc@vger.kernel.org>; Mon, 10 Dec 2018 04:51:14 -0800 (PST)
+        with ESMTP id S1727366AbeLJMvN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 07:51:13 -0500
+Received: by mail-wr1-f67.google.com with SMTP id j2so10379308wrw.1
+        for <linux-doc@vger.kernel.org>; Mon, 10 Dec 2018 04:51:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=spp1yx5uWvAgxErNR01vKeP4ipxAKNr5cbWijdqL/NI=;
-        b=tvsXwVCKLmRdJsM+euD1t0rVUHOOn+/ZTTi3MnnQ9yebryAkbI4hvbPXubAR8j9xbT
-         rSzx3Kyplc8mI1Q5cCWawts1mVwnbRT/UG0tp4Xvt5MDVVu5AjP34+MyjU+t6RTFt/1F
-         GtjCSp16Bsb0olrw8ju4ga21oFPvQHFAjGiXj06kBSulY2fBvH1/8yimSxJdEzM0IjDe
-         S2UHXqy/PlTnElD5PvCE/Ei8NOK6WhW4AzfjK1G4NAKHmzILpvArpdT0x23Ci7QVw1Jf
-         siaqLTUGCqHPMIili1iJlbBGd6qfhARL0xDVAgzKR2wFfvkvY0Mi96XrFZLLMJ9KfrPg
-         c6gA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oGDIvgYxZZleX0Ulu+jNQ7Fyei62P/2z/8zBNl/93Dc=;
+        b=CYKQFOhod6bfTdNiD5E0gl/TAYYFsLLVjJMUWBI9eLEIp3KHIBvGvC+iBrKrMpL3ox
+         eXjbO39qD17mcHW5R9lf8ScycOGv1Xt+4+PeVnc1n+vwKOAjYnpivn6dJZkutGfhpY9b
+         YGT/kndBtsb0tF01ZCTFX7l+RP3skCVbfBSF1SYguFloq4XzTFko3raYwtEoYf85JXU0
+         SdIllWn0YMzWII/KbzXSTyr056I5dOE7jfdjX1eT2/cnwsghF0U8mdJy/a80OQ1pPkVS
+         LnAJ/qZT7Ly8CRfqhla3R4vHMx9o9dceJ363jAwGA5U+IubdveZ5QGwkSxGGGyP9jO3i
+         YMhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=spp1yx5uWvAgxErNR01vKeP4ipxAKNr5cbWijdqL/NI=;
-        b=YiFpvmsRoDAFof4X67+6ac1Gz8yFm9EfQmGCTSoCkoYhDjlobI4xOpukR1Lt8jsSPh
-         QZXxRGeY5F3ZQvqKok9+XK9i8859OQ/pzYxfEY7KFryH8T2V1hqHHiC0NQ/3r10n66mC
-         nWCsavlBqIHPmH7jxUDX/huJvzC+XUE8Mq73yx52ANvyjl0fmAVpx6NyDBpP1/pyJBKo
-         pkFOypn+Ox9TdFyo8zqa8IcZAcmw+eb99fJ198Ji0hwpMFBOKDYGrev9nKwE7gRV1Vy4
-         v/IJsPTufScKfV11ULorRhuD/gTJmUiu2A2eB7ntwvb/u+uR+DHJOluaEeme+BFIBPX+
-         iQvQ==
-X-Gm-Message-State: AA+aEWYiQorw+hDWe8H2F3mrbJbRhsT81xAUKsov5t8I8iCzc7AwdmAg
-        MHEtxV5tWtOnfCPXP0Ved9gn0g==
-X-Google-Smtp-Source: AFSGD/WK6voMtzDjeOrD0p0dIVtqA5GSBJDXWoYR6ofaTs6wbsSMRcTZb/d4/4QZpcv/PkUOjr5HNQ==
-X-Received: by 2002:a5d:684b:: with SMTP id o11mr9182121wrw.316.1544446274117;
-        Mon, 10 Dec 2018 04:51:14 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oGDIvgYxZZleX0Ulu+jNQ7Fyei62P/2z/8zBNl/93Dc=;
+        b=p1JZmsvjOJdr9MfYT5478Pf3q76tnpfhYLfqJDjpxXo8yuwOX1ZOIdZ3mRrtA8Tmqu
+         erEW+xgtBFeOiFOEh4ha1YfYR1rxRtL+WYvsuhk7z6ZYXqJP88jKRcDLsi8kB5CV4coY
+         2ukjHm9h353z1rU7A8Dg0iWppchZyxR91zQz8HP7Bz+5j7eQ2dqSxApcciitN+ayfTjI
+         osmHW6260PjD/ufHLihCniX85ayMVmCBurcHiFu76SQ+Bkcz77n7nOjYzfCDeaqyuY83
+         2iYrT82r6H63nWnW+WUPYCcqXN1yheYnRdJ7E7ywSR/QqG04Xww2GTxezYFqXHQn1tFa
+         W4LA==
+X-Gm-Message-State: AA+aEWYU81JKAlVa1ObTVjPocyvV2dAQf5lrFGwkNhiidmriLwuFzKOh
+        GF9rSZ7LDiyNuXKp/4oRrM6Tkg==
+X-Google-Smtp-Source: AFSGD/W+0VMOrP6F6m4iYYBJD4b/AqgZqMY3B5+sANxwG4N5SbFW/Be7uVPSv3yYB39DvjcVRS7LHA==
+X-Received: by 2002:adf:82e4:: with SMTP id 91mr10203851wrc.131.1544446269077;
+        Mon, 10 Dec 2018 04:51:09 -0800 (PST)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:3180:41f8:3010:ff61])
-        by smtp.gmail.com with ESMTPSA id l197sm36893363wma.44.2018.12.10.04.51.12
+        by smtp.gmail.com with ESMTPSA id l197sm36893363wma.44.2018.12.10.04.51.07
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Dec 2018 04:51:13 -0800 (PST)
+        Mon, 10 Dec 2018 04:51:08 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -73,12 +73,10 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v9 3/8] arm64: untag user addresses in access_ok and __uaccess_mask_ptr
-Date:   Mon, 10 Dec 2018 13:51:00 +0100
-Message-Id: <674252952827b57f4259876cd4ddf802f3539356.1544445454.git.andreyknvl@google.com>
+Subject: [PATCH v9 0/8] arm64: untag user pointers passed to the kernel
+Date:   Mon, 10 Dec 2018 13:50:57 +0100
+Message-Id: <cover.1544445454.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.20.0.rc2.403.gdbc3b29805-goog
-In-Reply-To: <cover.1544445454.git.andreyknvl@google.com>
-References: <cover.1544445454.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -86,58 +84,158 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-copy_from_user (and a few other similar functions) are used to copy data
-from user memory into the kernel memory or vice versa. Since a user can
-provided a tagged pointer to one of the syscalls that use copy_from_user,
-we need to correctly handle such pointers.
+arm64 has a feature called Top Byte Ignore, which allows to embed pointer
+tags into the top byte of each pointer. Userspace programs (such as
+HWASan, a memory debugging tool [1]) might use this feature and pass
+tagged user pointers to the kernel through syscalls or other interfaces.
 
-Do this by untagging user pointers in access_ok and in __uaccess_mask_ptr,
-before performing access validity checks.
+Right now the kernel is already able to handle user faults with tagged
+pointers, due to these patches:
 
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+1. 81cddd65 ("arm64: traps: fix userspace cache maintenance emulation on a
+             tagged pointer")
+2. 7dcd9dd8 ("arm64: hw_breakpoint: fix watchpoint matching for tagged
+              pointers")
+3. 276e9327 ("arm64: entry: improve data abort handling of tagged
+              pointers")
+
+When passing tagged pointers to syscalls, there's a special case of such a
+pointer being passed to one of the memory syscalls (mmap, mprotect, etc.).
+These syscalls don't do memory accesses but rather deal with memory
+ranges, hence an untagged pointer is better suited.
+
+This patchset extends tagged pointer support to non-memory syscalls. This
+is done by reusing the untagged_addr macro to untag user pointers when the
+kernel performs pointer checking to find out whether the pointer comes
+from userspace (most notably in access_ok). The untagging is done only
+when the pointer is being checked, the tag is preserved as the pointer
+makes its way through the kernel.
+
+One of the alternative approaches to untagging that was considered is to
+completely strip the pointer tag as the pointer enters the kernel with
+some kind of a syscall wrapper, but that won't work with the countless
+number of different ioctl calls. With this approach we would need a custom
+wrapper for each ioctl variation, which doesn't seem practical.
+
+The following testing approaches has been taken to find potential issues
+with user pointer untagging:
+
+1. Static testing (with sparse [2] and separately with a custom static
+   analyzer based on Clang) to track casts of __user pointers to integer
+   types to find places where untagging needs to be done.
+
+2. Dynamic testing: adding BUG_ON(has_tag(addr)) to find_vma() and running
+   a modified syzkaller version that passes tagged pointers to the kernel.
+
+Based on the results of the testing the requried patches have been added
+to the patchset.
+
+This patchset has been merged into the Pixel 2 kernel tree and is now
+being used to enable testing of Pixel 2 phones with HWASan.
+
+This patchset is a prerequisite for ARM's memory tagging hardware feature
+support [3].
+
+Thanks!
+
+[1] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
+
+[2] https://github.com/lucvoo/sparse-dev/commit/5f960cb10f56ec2017c128ef9d16060e0145f292
+
+[3] https://community.arm.com/processors/b/blog/posts/arm-a-profile-architecture-2018-developments-armv85a
+
+Changes in v9:
+- Rebased onto 4.20-rc6.
+- Used u64 instead of __u64 in type casts in the untagged_addr macro for
+  arm64.
+- Added braces around (addr) in the untagged_addr macro for other arches.
+
+Changes in v8:
+- Rebased onto 65102238 (4.20-rc1).
+- Added a note to the cover letter on why syscall wrappers/shims that untag
+  user pointers won't work.
+- Added a note to the cover letter that this patchset has been merged into
+  the Pixel 2 kernel tree.
+- Documentation fixes, in particular added a list of syscalls that don't
+  support tagged user pointers.
+
+Changes in v7:
+- Rebased onto 17b57b18 (4.19-rc6).
+- Dropped the "arm64: untag user address in __do_user_fault" patch, since
+  the existing patches already handle user faults properly.
+- Dropped the "usb, arm64: untag user addresses in devio" patch, since the
+  passed pointer must come from a vma and therefore be untagged.
+- Dropped the "arm64: annotate user pointers casts detected by sparse"
+  patch (see the discussion to the replies of the v6 of this patchset).
+- Added more context to the cover letter.
+- Updated Documentation/arm64/tagged-pointers.txt.
+
+Changes in v6:
+  1 From 502466b9652c57a23af3bd72124144319212f30b Mon Sep 17 00:00:00 2001
+- Added annotations for user pointer casts found by sparse.
+  1 From 502466b9652c57a23af3bd72124144319212f30b Mon Sep 17 00:00:00 2001
+- Rebased onto 050cdc6c (4.19-rc1+).
+  1 From 502466b9652c57a23af3bd72124144319212f30b Mon Sep 17 00:00:00 2001
+
+Changes in v5:
+- Added 3 new patches that add untagging to places found with static
+  analysis.
+- Rebased onto 44c929e1 (4.18-rc8).
+
+Changes in v4:
+- Added a selftest for checking that passing tagged pointers to the
+  kernel succeeds.
+- Rebased onto 81e97f013 (4.18-rc1+).
+
+Changes in v3:
+- Rebased onto e5c51f30 (4.17-rc6+).
+- Added linux-arch@ to the list of recipients.
+
+Changes in v2:
+- Rebased onto 2d618bdf (4.17-rc3+).
+- Removed excessive untagging in gup.c.
+- Removed untagging pointers returned from __uaccess_mask_ptr.
+
+Changes in v1:
+- Rebased onto 4.17-rc1.
+
+Changes in RFC v2:
+- Added "#ifndef untagged_addr..." fallback in linux/uaccess.h instead of
+  defining it for each arch individually.
+- Updated Documentation/arm64/tagged-pointers.txt.
+- Dropped "mm, arm64: untag user addresses in memory syscalls".
+- Rebased onto 3eb2ce82 (4.16-rc7).
+
+Reviewed-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
----
- arch/arm64/include/asm/uaccess.h | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
-index 3c3864ba3cc1..d28c3b1314ce 100644
---- a/arch/arm64/include/asm/uaccess.h
-+++ b/arch/arm64/include/asm/uaccess.h
-@@ -104,7 +104,8 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
- #define untagged_addr(addr)		\
- 	((__typeof__(addr))sign_extend64((u64)(addr), 55))
- 
--#define access_ok(type, addr, size)	__range_ok(addr, size)
-+#define access_ok(type, addr, size)	\
-+	__range_ok(untagged_addr(addr), size)
- #define user_addr_max			get_fs
- 
- #define _ASM_EXTABLE(from, to)						\
-@@ -236,7 +237,8 @@ static inline void uaccess_enable_not_uao(void)
- 
- /*
-  * Sanitise a uaccess pointer such that it becomes NULL if above the
-- * current addr_limit.
-+ * current addr_limit. In case the pointer is tagged (has the top byte set),
-+ * untag the pointer before checking.
-  */
- #define uaccess_mask_ptr(ptr) (__typeof__(ptr))__uaccess_mask_ptr(ptr)
- static inline void __user *__uaccess_mask_ptr(const void __user *ptr)
-@@ -244,10 +246,11 @@ static inline void __user *__uaccess_mask_ptr(const void __user *ptr)
- 	void __user *safe_ptr;
- 
- 	asm volatile(
--	"	bics	xzr, %1, %2\n"
-+	"	bics	xzr, %3, %2\n"
- 	"	csel	%0, %1, xzr, eq\n"
- 	: "=&r" (safe_ptr)
--	: "r" (ptr), "r" (current_thread_info()->addr_limit)
-+	: "r" (ptr), "r" (current_thread_info()->addr_limit),
-+	  "r" (untagged_addr(ptr))
- 	: "cc");
- 
- 	csdb();
+Andrey Konovalov (8):
+  arm64: add type casts to untagged_addr macro
+  uaccess: add untagged_addr definition for other arches
+  arm64: untag user addresses in access_ok and __uaccess_mask_ptr
+  mm, arm64: untag user addresses in mm/gup.c
+  lib, arm64: untag addrs passed to strncpy_from_user and strnlen_user
+  fs, arm64: untag user address in copy_mount_options
+  arm64: update Documentation/arm64/tagged-pointers.txt
+  selftests, arm64: add a selftest for passing tagged pointers to kernel
+
+ Documentation/arm64/tagged-pointers.txt       | 25 +++++++++++--------
+ arch/arm64/include/asm/uaccess.h              | 14 +++++++----
+ fs/namespace.c                                |  2 +-
+ include/linux/uaccess.h                       |  4 +++
+ lib/strncpy_from_user.c                       |  2 ++
+ lib/strnlen_user.c                            |  2 ++
+ mm/gup.c                                      |  4 +++
+ tools/testing/selftests/arm64/.gitignore      |  1 +
+ tools/testing/selftests/arm64/Makefile        | 11 ++++++++
+ .../testing/selftests/arm64/run_tags_test.sh  | 12 +++++++++
+ tools/testing/selftests/arm64/tags_test.c     | 19 ++++++++++++++
+ 11 files changed, 80 insertions(+), 16 deletions(-)
+ create mode 100644 tools/testing/selftests/arm64/.gitignore
+ create mode 100644 tools/testing/selftests/arm64/Makefile
+ create mode 100755 tools/testing/selftests/arm64/run_tags_test.sh
+ create mode 100644 tools/testing/selftests/arm64/tags_test.c
+
 -- 
 2.20.0.rc2.403.gdbc3b29805-goog
 
