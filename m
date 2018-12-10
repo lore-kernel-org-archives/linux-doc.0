@@ -1,81 +1,66 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 521B17D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Dec 2018 23:02:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7A94C7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 06:06:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726672AbeLIXCX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 9 Dec 2018 18:02:23 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:38603 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726619AbeLIXCW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Dec 2018 18:02:22 -0500
-Received: by mail-pg1-f193.google.com with SMTP id g189so4076056pgc.5
-        for <linux-doc@vger.kernel.org>; Sun, 09 Dec 2018 15:02:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=D5Oat1hTwep3QcyUUzhhIIbWo+ArAwmB9qovC2BFFIA=;
-        b=NQ0qH8yNMvM8rcj2kzZA/zTuM94nQo2Y5mrAw2Ik3c7GQZbEVpxlefKWaol8KEYonu
-         BpDu8CcrVguM9wEcXGZjaAILY+8Nj2sH/zL881blr1m5DBmQm15b2+syPeDwXFiBlbGq
-         6CohlQJdCI5xPdrJcxzeQ/ovYr8eL9822jyBeXmkiNSqbwG0PMsPhbr/+bvDvbYqD8+3
-         gdRn2A5yJpf05RTNiOhapyEyCk9O6pq78tga3eJb6U56s9L6oE9/5U2uSFE08imcGw8y
-         M6sL9vg8NxV9nzidZRnJSzclbjtgft40Ju8pMaamT1y9cIsrWbNoLzT62SAi5YwtXq0v
-         T/xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=D5Oat1hTwep3QcyUUzhhIIbWo+ArAwmB9qovC2BFFIA=;
-        b=NXwvIZ/ywLIHU6Z3HLmp+drrtDHxsm/yeKRKmYcUHacmlXFJV2qpOqUIOX4xT8Hb9Z
-         wAQdwIq0rapYvaa8m+h6Pr41axE+JgM00LPkvA4MbZUiAnFHTskMMjxNZmHx0s9T6LMk
-         +OUIynYm/H3EykUQIohNj6DK1ezrPWoK8GAix3HMarTMGhun5GKWfXGcFStrLeALK8zb
-         HsgqcdJ+6ltmTUunIlHaIdZxiAA1wrYEEsLLvp+kkE1nk0goy3oFVd+CtqcHz7CIuIF8
-         q6g8c2BWV3qQslh/jlm3TiX6aYR3Gnw8/FH+928Mvh1NSBHn5mp5HzJqYsoopO28cyiv
-         tDrg==
-X-Gm-Message-State: AA+aEWbs1Y3UQ/jAcMKDTraexBO78PDSXd1TT2RrEeoRJ+kihVMNNbzt
-        sKVbTTWl1BJNcpbCuPXvCooNPg==
-X-Google-Smtp-Source: AFSGD/VvmJVBeopuZ1ffLyHckP4egtr0JNSa4uiIE75nkdqUf8S1tpFylGl9S2dJenxSgY6gGE2GGw==
-X-Received: by 2002:a62:2f06:: with SMTP id v6mr10322382pfv.216.1544396542132;
-        Sun, 09 Dec 2018 15:02:22 -0800 (PST)
-Received: from [2620:15c:17:3:3a5:23a7:5e32:4598] ([2620:15c:17:3:3a5:23a7:5e32:4598])
-        by smtp.gmail.com with ESMTPSA id n21sm18582015pfg.84.2018.12.09.15.02.21
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 09 Dec 2018 15:02:21 -0800 (PST)
-Date:   Sun, 9 Dec 2018 15:02:21 -0800 (PST)
-From:   David Rientjes <rientjes@google.com>
-X-X-Sender: rientjes@chino.kir.corp.google.com
-To:     Mike Rapoport <rppt@linux.ibm.com>
-cc:     Jonathan Corbet <corbet@lwn.net>, Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] docs/mm-api: link slab_common.c to "The Slab Cache"
- section
-In-Reply-To: <1544130781-13443-3-git-send-email-rppt@linux.ibm.com>
-Message-ID: <alpine.DEB.2.21.1812091502070.206717@chino.kir.corp.google.com>
-References: <1544130781-13443-1-git-send-email-rppt@linux.ibm.com> <1544130781-13443-3-git-send-email-rppt@linux.ibm.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1726434AbeLJGGp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Dec 2018 01:06:45 -0500
+Received: from imap.thunk.org ([74.207.234.97]:41090 "EHLO imap.thunk.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726422AbeLJGGo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Dec 2018 01:06:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=thunk.org;
+         s=ef5046eb; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=k2uo0/vB27zkNp2h/w5RUklfsPuynkqE2vL21peVqe8=; b=DJ5+LkNF9XL/SbDcy20sBEp+p4
+        XK3LXFG4JBJxqFTHv0tG9jBdNEsL/NTsNipx0orN8rQNQxOataKKt4mWhzsZEYtkGUYVyqMXvwVNt
+        sYQbNbHlukJks0Msc9s/hwxRYg+wDC+6lY4uPWlmXfKt9VQs8oMXuLg/EIDcbyJE+ET0=;
+Received: from root (helo=callcc.thunk.org)
+        by imap.thunk.org with local-esmtp (Exim 4.89)
+        (envelope-from <tytso@thunk.org>)
+        id 1gWEhn-0004TR-Uf; Mon, 10 Dec 2018 06:06:12 +0000
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id 5286C7A492E; Mon, 10 Dec 2018 01:06:10 -0500 (EST)
+Date:   Mon, 10 Dec 2018 01:06:10 -0500
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     Chandan Rajendra <chandan@linux.vnet.ibm.com>
+Cc:     linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-doc@vger.kernel.org, linux-mips@linux-mips.org,
+        linux-s390@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, adilger.kernel@dilger.ca,
+        ebiggers@kernel.org, jaegeuk@kernel.org, yuchao0@huawei.com,
+        corbet@lwn.net, ralf@linux-mips.org, paul.burton@mips.com,
+        jhogan@kernel.org, green.hu@gmail.com, deanbo422@gmail.com,
+        schwidefsky@de.ibm.com, heiko.carstens@de.ibm.com, richard@nod.at,
+        dedekind1@gmail.com, adrian.hunter@intel.com,
+        viro@zeniv.linux.org.uk
+Subject: Re: [PATCH V3 0/9] Remove fs specific fscrypt and fsverity build
+ config options
+Message-ID: <20181210060610.GJ1840@mit.edu>
+References: <20181208065144.19486-1-chandan@linux.vnet.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20181208065144.19486-1-chandan@linux.vnet.ibm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Mail-From: tytso@thunk.org
+X-SA-Exim-Scanned: No (on imap.thunk.org); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 6 Dec 2018, Mike Rapoport wrote:
+Chandan,
 
-> Several functions in mm/slab_common.c have kernel-doc comments, it makes
-> perfect sense to link them to the MM API reference.
-> 
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+Thanks!  I've applied this patch series to the fscrypt git tree.
 
-Acked-by: David Rientjes <rientjes@google.com>
+	      	      	   	 	- Ted
