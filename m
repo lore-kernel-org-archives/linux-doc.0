@@ -1,423 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.0 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BD0737D8A3
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 18:19:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E4C2C7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 18:32:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727868AbeLJST2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Dec 2018 13:19:28 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37752 "EHLO mail.kernel.org"
+        id S1726602AbeLJSck (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Dec 2018 13:32:40 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:58424 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726699AbeLJST1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 Dec 2018 13:19:27 -0500
-Received: from gmail.com (unknown [104.132.1.77])
+        id S1728191AbeLJSck (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Dec 2018 13:32:40 -0500
+Received: from zn.tnic (p200300EC2BCAD0009567F52EDB121050.dip0.t-ipconnect.de [IPv6:2003:ec:2bca:d000:9567:f52e:db12:1050])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 51C3320672;
-        Mon, 10 Dec 2018 18:19:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1544465966;
-        bh=lt6WrrPJaSmmBrFfJl3iEVqpm0Z4naRAwcDdx3G/Dtc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fDC4kNkNSRRqZJIdBAfcvHtxyso8md0bgKVtoyUecJ4muC6z2e5Kej0cLv3fojT4t
-         i3qhMGLT+j3qx7liX0MmeGMZgHqyNE7IPvUSA0HFbF8rnTLKCYGyulHPLjLVhDYcCx
-         LEBJVbbCl6f3JscukwKOTFhxYDYr+H8nTvZbUwYQ=
-Date:   Mon, 10 Dec 2018 10:19:23 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Chandan Rajendra <chandan@linux.vnet.ibm.com>
-Cc:     linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-doc@vger.kernel.org, linux-mips@linux-mips.org,
-        linux-s390@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, tytso@mit.edu,
-        adilger.kernel@dilger.ca, jaegeuk@kernel.org, yuchao0@huawei.com,
-        corbet@lwn.net, ralf@linux-mips.org, paul.burton@mips.com,
-        jhogan@kernel.org, green.hu@gmail.com, deanbo422@gmail.com,
-        schwidefsky@de.ibm.com, heiko.carstens@de.ibm.com, richard@nod.at,
-        dedekind1@gmail.com, adrian.hunter@intel.com,
-        viro@zeniv.linux.org.uk
-Subject: Re: [PATCH V3 7/9] fsverity: Remove filesystem specific build config
- option
-Message-ID: <20181210181923.GG92174@gmail.com>
-References: <20181208065144.19486-1-chandan@linux.vnet.ibm.com>
- <20181208065144.19486-8-chandan@linux.vnet.ibm.com>
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2346E1EC0B1A;
+        Mon, 10 Dec 2018 19:32:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1544466758;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=AnYQxsLg5VLYWmdi1oAOl6F1M7J8PNaU8ra3mMt6E14=;
+        b=bFVRFebkcKmTz/0nqijmCluZ/7Vi+valJqfkmk/tyMBuFCysvBzOzP2kGSFg6d8fsC2JWh
+        yDs6r+J/25stHBQNgeRIFO2pdPI5jDyzvAjch4JKL3FHY3VDO7eE9LNfTqP2he/uYTIHm9
+        iLM5oWPaxrCaydLMNzh0j0ExNpBs2wg=
+Date:   Mon, 10 Dec 2018 19:32:21 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+Cc:     lijiang <lijiang@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "bhe@redhat.com" <bhe@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "dyoung@redhat.com" <dyoung@redhat.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
+Subject: Re: [PATCH 1/2 v2] kdump: add the vmcoreinfo documentation
+Message-ID: <20181210183221.GA5482@zn.tnic>
+References: <20181202030839.29945-1-lijiang@redhat.com>
+ <20181202030839.29945-2-lijiang@redhat.com>
+ <20181203150809.GA4794@zn.tnic>
+ <779dbae7-f6e2-e9e4-bdd0-0a9e6ec62487@redhat.com>
+ <20181205113032.GF29510@zn.tnic>
+ <3d1a7e68-34c5-d118-fe09-7c9bc14cce84@redhat.com>
+ <4AE2DC15AC0B8543882A74EA0D43DBEC0356426E@BPXM09GP.gisp.nec.co.jp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20181208065144.19486-8-chandan@linux.vnet.ibm.com>
+In-Reply-To: <4AE2DC15AC0B8543882A74EA0D43DBEC0356426E@BPXM09GP.gisp.nec.co.jp>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Dec 08, 2018 at 12:21:42PM +0530, Chandan Rajendra wrote:
-> In order to have a common code base for fsverity "post read" processing
-> for all filesystems which support fsverity, this commit removes
-> filesystem specific build config option (e.g. CONFIG_EXT4_FS_VERITY)
-> and replaces it with a build option (i.e. CONFIG_FS_VERITY) whose
-> value affects all the filesystems making use of fsverity.
-> 
-> Signed-off-by: Chandan Rajendra <chandan@linux.vnet.ibm.com>
+On Wed, Dec 05, 2018 at 08:29:14PM +0000, Kazuhito Hagio wrote:
+> Please note that this VMCOREINFO is generated from the information in
+> the vmlinux only, not from the running kernel and /proc/kcore. So if
+> we add a command to dump it from running kernel, it's not suitable.
 
-Reviewed-by: Eric Biggers <ebiggers@google.com>
+Sure, I used a vmlinux for that.
 
-> ---
->  Documentation/filesystems/fsverity.rst |  4 ++--
->  fs/ext4/Kconfig                        | 20 --------------------
->  fs/ext4/ext4.h                         |  2 --
->  fs/ext4/readpage.c                     |  4 ++--
->  fs/ext4/super.c                        |  6 +++---
->  fs/ext4/sysfs.c                        |  4 ++--
->  fs/f2fs/Kconfig                        | 20 --------------------
->  fs/f2fs/data.c                         |  2 +-
->  fs/f2fs/f2fs.h                         |  2 --
->  fs/f2fs/super.c                        |  6 +++---
->  fs/f2fs/sysfs.c                        |  4 ++--
->  fs/verity/Kconfig                      |  3 ++-
->  fs/verity/fsverity_private.h           |  1 -
->  include/linux/fs.h                     |  4 ++--
->  include/linux/fsverity.h               |  7 +++----
->  15 files changed, 22 insertions(+), 67 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
-> index d633fc0567bd..bb208dad10d9 100644
-> --- a/Documentation/filesystems/fsverity.rst
-> +++ b/Documentation/filesystems/fsverity.rst
-> @@ -279,7 +279,7 @@ ext4
->  
->  ext4 supports fs-verity since kernel version TODO.
->  
-> -CONFIG_EXT4_FS_VERITY must be enabled in the kernel config.  Also, the
-> +CONFIG_FS_VERITY must be enabled in the kernel config.  Also, the
->  filesystem must have been formatted with ``-O verity``, or had
->  ``tune2fs -O verity`` run on it.  These require e2fsprogs v1.44.4-2 or
->  later.  This e2fsprogs version is also required for e2fsck to
-> @@ -306,7 +306,7 @@ f2fs
->  
->  f2fs supports fs-verity since kernel version TODO.
->  
-> -CONFIG_F2FS_FS_VERITY must be enabled in the kernel config.  Also, the
-> +CONFIG_FS_VERITY must be enabled in the kernel config.  Also, the
->  filesystem must have been formatted with ``-O verity``.  This requires
->  f2fs-tools v1.11.0 or later.
->  
-> diff --git a/fs/ext4/Kconfig b/fs/ext4/Kconfig
-> index e1002bbf35bf..031e5a82d556 100644
-> --- a/fs/ext4/Kconfig
-> +++ b/fs/ext4/Kconfig
-> @@ -96,26 +96,6 @@ config EXT4_FS_SECURITY
->  	  If you are not using a security module that requires using
->  	  extended attributes for file security labels, say N.
->  
-> -config EXT4_FS_VERITY
-> -	bool "Ext4 Verity"
-> -	depends on EXT4_FS
-> -	select FS_VERITY
-> -	help
-> -	  This option enables fs-verity for ext4.  fs-verity is the
-> -	  dm-verity mechanism implemented at the file level.  Userspace
-> -	  can append a Merkle tree (hash tree) to a file, then enable
-> -	  fs-verity on the file.  ext4 will then transparently verify
-> -	  any data read from the file against the Merkle tree.  The file
-> -	  is also made read-only.
-> -
-> -	  This serves as an integrity check, but the availability of the
-> -	  Merkle tree root hash also allows efficiently supporting
-> -	  various use cases where normally the whole file would need to
-> -	  be hashed at once, such as auditing and authenticity
-> -	  verification (appraisal).
-> -
-> -	  If unsure, say N.
-> -
->  config EXT4_DEBUG
->  	bool "EXT4 debugging support"
->  	depends on EXT4_FS
-> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-> index 64bf9fb7ef18..bff8d639dd0c 100644
-> --- a/fs/ext4/ext4.h
-> +++ b/fs/ext4/ext4.h
-> @@ -41,8 +41,6 @@
->  #endif
->  
->  #include <linux/fscrypt.h>
-> -
-> -#define __FS_HAS_VERITY IS_ENABLED(CONFIG_EXT4_FS_VERITY)
->  #include <linux/fsverity.h>
->  
->  #include <linux/compiler.h>
-> diff --git a/fs/ext4/readpage.c b/fs/ext4/readpage.c
-> index 2c037df629dd..8717ac0a5bb2 100644
-> --- a/fs/ext4/readpage.c
-> +++ b/fs/ext4/readpage.c
-> @@ -158,7 +158,7 @@ static struct bio_post_read_ctx *get_bio_post_read_ctx(struct inode *inode,
->  
->  	if (IS_ENCRYPTED(inode) && S_ISREG(inode->i_mode))
->  		post_read_steps |= 1 << STEP_DECRYPT;
-> -#ifdef CONFIG_EXT4_FS_VERITY
-> +#ifdef CONFIG_FS_VERITY
->  	if (inode->i_verity_info != NULL &&
->  	    (index < ((i_size_read(inode) + PAGE_SIZE - 1) >> PAGE_SHIFT)))
->  		post_read_steps |= 1 << STEP_VERITY;
-> @@ -205,7 +205,7 @@ static void mpage_end_io(struct bio *bio)
->  
->  static inline loff_t ext4_readpage_limit(struct inode *inode)
->  {
-> -#ifdef CONFIG_EXT4_FS_VERITY
-> +#ifdef CONFIG_FS_VERITY
->  	if (IS_VERITY(inode)) {
->  		if (inode->i_verity_info)
->  			/* limit to end of metadata region */
-> diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-> index 35ed3c48f8d2..0d169de59f76 100644
-> --- a/fs/ext4/super.c
-> +++ b/fs/ext4/super.c
-> @@ -1316,7 +1316,7 @@ static const struct fscrypt_operations ext4_cryptops = {
->  };
->  #endif
->  
-> -#ifdef CONFIG_EXT4_FS_VERITY
-> +#ifdef CONFIG_FS_VERITY
->  static int ext4_set_verity(struct inode *inode, loff_t data_i_size)
->  {
->  	int err;
-> @@ -1402,7 +1402,7 @@ static const struct fsverity_operations ext4_verityops = {
->  	.set_verity		= ext4_set_verity,
->  	.get_metadata_end	= ext4_get_metadata_end,
->  };
-> -#endif /* CONFIG_EXT4_FS_VERITY */
-> +#endif /* CONFIG_FS_VERITY */
->  
->  #ifdef CONFIG_QUOTA
->  static const char * const quotatypes[] = INITQFNAMES;
-> @@ -4235,7 +4235,7 @@ static int ext4_fill_super(struct super_block *sb, void *data, int silent)
->  #ifdef CONFIG_FS_ENCRYPTION
->  	sb->s_cop = &ext4_cryptops;
->  #endif
-> -#ifdef CONFIG_EXT4_FS_VERITY
-> +#ifdef CONFIG_FS_VERITY
->  	sb->s_vop = &ext4_verityops;
->  #endif
->  #ifdef CONFIG_QUOTA
-> diff --git a/fs/ext4/sysfs.c b/fs/ext4/sysfs.c
-> index 8bc915452a38..6fa0f47c3180 100644
-> --- a/fs/ext4/sysfs.c
-> +++ b/fs/ext4/sysfs.c
-> @@ -227,7 +227,7 @@ EXT4_ATTR_FEATURE(meta_bg_resize);
->  #ifdef CONFIG_FS_ENCRYPTION
->  EXT4_ATTR_FEATURE(encryption);
->  #endif
-> -#ifdef CONFIG_EXT4_FS_VERITY
-> +#ifdef CONFIG_FS_VERITY
->  EXT4_ATTR_FEATURE(verity);
->  #endif
->  EXT4_ATTR_FEATURE(metadata_csum_seed);
-> @@ -239,7 +239,7 @@ static struct attribute *ext4_feat_attrs[] = {
->  #ifdef CONFIG_FS_ENCRYPTION
->  	ATTR_LIST(encryption),
->  #endif
-> -#ifdef CONFIG_EXT4_FS_VERITY
-> +#ifdef CONFIG_FS_VERITY
->  	ATTR_LIST(verity),
->  #endif
->  	ATTR_LIST(metadata_csum_seed),
-> diff --git a/fs/f2fs/Kconfig b/fs/f2fs/Kconfig
-> index a5a1a381fcf1..e57cc754d543 100644
-> --- a/fs/f2fs/Kconfig
-> +++ b/fs/f2fs/Kconfig
-> @@ -71,26 +71,6 @@ config F2FS_CHECK_FS
->  
->  	  If you want to improve the performance, say N.
->  
-> -config F2FS_FS_VERITY
-> -	bool "F2FS Verity"
-> -	depends on F2FS_FS
-> -	select FS_VERITY
-> -	help
-> -	  This option enables fs-verity for f2fs.  fs-verity is the
-> -	  dm-verity mechanism implemented at the file level.  Userspace
-> -	  can append a Merkle tree (hash tree) to a file, then enable
-> -	  fs-verity on the file.  f2fs will then transparently verify
-> -	  any data read from the file against the Merkle tree.  The file
-> -	  is also made read-only.
-> -
-> -	  This serves as an integrity check, but the availability of the
-> -	  Merkle tree root hash also allows efficiently supporting
-> -	  various use cases where normally the whole file would need to
-> -	  be hashed at once, such as auditing and authenticity
-> -	  verification (appraisal).
-> -
-> -	  If unsure, say N.
-> -
->  config F2FS_IO_TRACE
->  	bool "F2FS IO tracer"
->  	depends on F2FS_FS
-> diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
-> index 844ec573263e..83b59b985894 100644
-> --- a/fs/f2fs/data.c
-> +++ b/fs/f2fs/data.c
-> @@ -610,7 +610,7 @@ static struct bio *f2fs_grab_read_bio(struct inode *inode, block_t blkaddr,
->  
->  	if (f2fs_encrypted_file(inode))
->  		post_read_steps |= 1 << STEP_DECRYPT;
-> -#ifdef CONFIG_F2FS_FS_VERITY
-> +#ifdef CONFIG_FS_VERITY
->  	if (inode->i_verity_info != NULL &&
->  	    (first_idx < ((i_size_read(inode) + PAGE_SIZE - 1) >> PAGE_SHIFT)))
->  		post_read_steps |= 1 << STEP_VERITY;
-> diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
-> index 54bd93c7b630..7161918042e7 100644
-> --- a/fs/f2fs/f2fs.h
-> +++ b/fs/f2fs/f2fs.h
-> @@ -25,8 +25,6 @@
->  #include <crypto/hash.h>
->  
->  #include <linux/fscrypt.h>
-> -
-> -#define __FS_HAS_VERITY IS_ENABLED(CONFIG_F2FS_FS_VERITY)
->  #include <linux/fsverity.h>
->  
->  #ifdef CONFIG_F2FS_CHECK_FS
-> diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
-> index 73320202bd01..4a67b901eefc 100644
-> --- a/fs/f2fs/super.c
-> +++ b/fs/f2fs/super.c
-> @@ -2197,7 +2197,7 @@ static const struct fscrypt_operations f2fs_cryptops = {
->  };
->  #endif
->  
-> -#ifdef CONFIG_F2FS_FS_VERITY
-> +#ifdef CONFIG_FS_VERITY
->  static int f2fs_set_verity(struct inode *inode, loff_t data_i_size)
->  {
->  	int err;
-> @@ -2223,7 +2223,7 @@ static const struct fsverity_operations f2fs_verityops = {
->  	.set_verity		= f2fs_set_verity,
->  	.get_metadata_end	= f2fs_get_metadata_end,
->  };
-> -#endif /* CONFIG_F2FS_FS_VERITY */
-> +#endif /* CONFIG_FS_VERITY */
->  
->  static struct inode *f2fs_nfs_get_inode(struct super_block *sb,
->  		u64 ino, u32 generation)
-> @@ -3147,7 +3147,7 @@ static int f2fs_fill_super(struct super_block *sb, void *data, int silent)
->  #ifdef CONFIG_FS_ENCRYPTION
->  	sb->s_cop = &f2fs_cryptops;
->  #endif
-> -#ifdef CONFIG_F2FS_FS_VERITY
-> +#ifdef CONFIG_FS_VERITY
->  	sb->s_vop = &f2fs_verityops;
->  #endif
->  	sb->s_xattr = f2fs_xattr_handlers;
-> diff --git a/fs/f2fs/sysfs.c b/fs/f2fs/sysfs.c
-> index 737677655bc0..949e6d87f4e3 100644
-> --- a/fs/f2fs/sysfs.c
-> +++ b/fs/f2fs/sysfs.c
-> @@ -444,7 +444,7 @@ F2FS_FEATURE_RO_ATTR(flexible_inline_xattr, FEAT_FLEXIBLE_INLINE_XATTR);
->  F2FS_FEATURE_RO_ATTR(quota_ino, FEAT_QUOTA_INO);
->  F2FS_FEATURE_RO_ATTR(inode_crtime, FEAT_INODE_CRTIME);
->  F2FS_FEATURE_RO_ATTR(lost_found, FEAT_LOST_FOUND);
-> -#ifdef CONFIG_F2FS_FS_VERITY
-> +#ifdef CONFIG_FS_VERITY
->  F2FS_FEATURE_RO_ATTR(verity, FEAT_VERITY);
->  #endif
->  F2FS_FEATURE_RO_ATTR(sb_checksum, FEAT_SB_CHECKSUM);
-> @@ -507,7 +507,7 @@ static struct attribute *f2fs_feat_attrs[] = {
->  	ATTR_LIST(quota_ino),
->  	ATTR_LIST(inode_crtime),
->  	ATTR_LIST(lost_found),
-> -#ifdef CONFIG_F2FS_FS_VERITY
-> +#ifdef CONFIG_FS_VERITY
->  	ATTR_LIST(verity),
->  #endif
->  	ATTR_LIST(sb_checksum),
-> diff --git a/fs/verity/Kconfig b/fs/verity/Kconfig
-> index a7470a2e4892..6d9437a432cd 100644
-> --- a/fs/verity/Kconfig
-> +++ b/fs/verity/Kconfig
-> @@ -1,5 +1,5 @@
->  config FS_VERITY
-> -	tristate "FS Verity (read-only file-based authenticity protection)"
-> +	bool "FS Verity (read-only file-based authenticity protection)"
->  	select CRYPTO
->  	# SHA-256 is selected as it's intended to be the default hash algorithm.
->  	# To avoid bloat, other wanted algorithms must be selected explicitly.
-> @@ -23,6 +23,7 @@ config FS_VERITY
->  	  the contents may actually be needed.  Also, fs-verity verifies
->  	  data each time it is paged back in, which provides better
->  	  protection against malicious disks vs. an ahead-of-time hash.
-> +	  Currently Ext4 and F2FS make use of this feature.
->  
->  	  If unsure, say N.
->  
-> diff --git a/fs/verity/fsverity_private.h b/fs/verity/fsverity_private.h
-> index 4b39d0a5544b..a7acb98ac42e 100644
-> --- a/fs/verity/fsverity_private.h
-> +++ b/fs/verity/fsverity_private.h
-> @@ -15,7 +15,6 @@
->  #define pr_fmt(fmt) "fs-verity: " fmt
->  
->  #include <crypto/sha.h>
-> -#define __FS_HAS_VERITY 1
->  #include <linux/fsverity.h>
->  
->  /*
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index de602d9f8d0e..1583b861a225 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -704,7 +704,7 @@ struct inode {
->  	struct fscrypt_info	*i_crypt_info;
->  #endif
->  
-> -#if IS_ENABLED(CONFIG_FS_VERITY)
-> +#ifdef CONFIG_FS_VERITY
->  	struct fsverity_info	*i_verity_info;
->  #endif
->  
-> @@ -1407,7 +1407,7 @@ struct super_block {
->  #ifdef CONFIG_FS_ENCRYPTION
->  	const struct fscrypt_operations	*s_cop;
->  #endif
-> -#if IS_ENABLED(CONFIG_FS_VERITY)
-> +#ifdef CONFIG_FS_VERITY
->  	const struct fsverity_operations *s_vop;
->  #endif
->  	struct hlist_bl_head	s_roots;	/* alternate root dentries for NFS */
-> diff --git a/include/linux/fsverity.h b/include/linux/fsverity.h
-> index c30c4f6ed411..ea8c418bd7d5 100644
-> --- a/include/linux/fsverity.h
-> +++ b/include/linux/fsverity.h
-> @@ -19,8 +19,7 @@ struct fsverity_operations {
->  	int (*get_metadata_end)(struct inode *inode, loff_t *metadata_end_ret);
->  };
->  
-> -#if __FS_HAS_VERITY
-> -
-> +#ifdef CONFIG_FS_VERITY
->  /* ioctl.c */
->  extern int fsverity_ioctl_enable(struct file *filp, const void __user *arg);
->  extern int fsverity_ioctl_measure(struct file *filp, void __user *arg);
-> @@ -42,7 +41,7 @@ static inline bool fsverity_check_hole(struct inode *inode, struct page *page)
->  	return inode->i_verity_info == NULL || fsverity_verify_page(page);
->  }
->  
-> -#else /* !__FS_HAS_VERITY */
-> +#else  /* ! CONFIG_FS_VERITY */
->  
->  /* ioctl.c */
->  
-> @@ -107,6 +106,6 @@ static inline bool fsverity_check_hole(struct inode *inode, struct page *page)
->  	return true;
->  }
->  
-> -#endif	/* !__FS_HAS_VERITY */
-> +#endif	/* ! CONFIG_FS_VERITY */
->  
->  #endif	/* _LINUX_FSVERITY_H */
-> -- 
-> 2.19.1
-> 
+> makedumpfile doesn't have any switch which dumps VMCOREINFO from kcore
+> for now. (I'm thinking to have makedumpfile dump it as debug message,
+> though.)
+
+Might be useful as people are looking into using VMCOREINFO when
+debugging a live kernel...
+
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
