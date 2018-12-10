@@ -1,120 +1,183 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B95A37D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 21:37:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 457D37D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 21:41:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729961AbeLJVgz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Dec 2018 16:36:55 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:46204 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727225AbeLJVgy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 16:36:54 -0500
-Received: by mail-oi1-f193.google.com with SMTP id x202so10254676oif.13;
-        Mon, 10 Dec 2018 13:36:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dr8hiCyXQo1hX2X5cWuN+3q50xv31unul6ES2t08gWQ=;
-        b=b4CBCNIBD4qHDcquWq8V2GmPk8K+qYv/R8K88/4wPGEr6OrmFY/E8V/M+wf5/Kjh7X
-         dd/1D1M4YqlowpN9VbXMyjB5mirgJndxe6j+HAqHFfZ7WH5gCmuYgNa0AU9Q+18H9NtT
-         xc4lrMrPbxsbud1k9L15zexoZx6EMpfzbmNPICNj8qHEkkIgHFwoMzPf/sRd75mADouf
-         aYKbL9GgJVV8EtLBE86S6T+neuM4GH8wrDwLzE4B+Ggs1L3mP4Zm+SjydvU0txmFnMRB
-         DfZDmHc0m/WY1j1j6Omy/Q02iJ0pQjXnlKWs0LuuoMkO93cEOQV3pUF9dKaaXtn9CR1f
-         Xf1g==
-X-Gm-Message-State: AA+aEWZeJIIswYSvobPDwMF6PsjNCaw+/8i0NspHNdj0/9H6LaTua3Ey
-        7k2LgVnrYJgr3Guk439ybHxDWc12XqnE795WJCg=
-X-Google-Smtp-Source: AFSGD/V68YN4KJdP+oM/xNtL9uLLfSwoeX+Ydrgm6FK2g8sG5+h2zscYEIHBxqi95P28qyjJIHQqV8UI4ogvC6ndEgU=
-X-Received: by 2002:aca:b642:: with SMTP id g63mr7945600oif.195.1544477813386;
- Mon, 10 Dec 2018 13:36:53 -0800 (PST)
-MIME-Version: 1.0
-References: <3514439.dzOWKx1Cjx@aspire.rjw.lan> <20181210122104.GL5289@hirez.programming.kicks-ass.net>
-In-Reply-To: <20181210122104.GL5289@hirez.programming.kicks-ass.net>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Mon, 10 Dec 2018 22:36:40 +0100
-Message-ID: <CAJZ5v0j-a6cHayRtcsUPbUTBT0iBSUvmcUy6pfSSvUVcTMBxbw@mail.gmail.com>
-Subject: Re: [PATCH v2] cpuidle: Add 'above' and 'below' idle state metrics
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Doug Smythies <dsmythies@telus.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1730103AbeLJVlU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Dec 2018 16:41:20 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:54744 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730097AbeLJVlU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Dec 2018 16:41:20 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 816E93097071;
+        Mon, 10 Dec 2018 21:41:19 +0000 (UTC)
+Received: from llong.com (dhcp-17-223.bos.redhat.com [10.18.17.223])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2928E5C1B4;
+        Mon, 10 Dec 2018 21:41:15 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Johannes Weiner <hannes@cmpxchg.org>
+Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-api@vger.kernel.org,
+        Roman Gushchin <guro@fb.com>, Jens Axboe <axboe@kernel.dk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dennis Zhou <dennis@kernel.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v5 5/5] cgroup: Document bypass mode
+Date:   Mon, 10 Dec 2018 16:40:58 -0500
+Message-Id: <1544478058-24252-6-git-send-email-longman@redhat.com>
+In-Reply-To: <1544478058-24252-1-git-send-email-longman@redhat.com>
+References: <1544478058-24252-1-git-send-email-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Mon, 10 Dec 2018 21:41:19 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 10, 2018 at 1:21 PM Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Mon, Dec 10, 2018 at 12:30:23PM +0100, Rafael J. Wysocki wrote:
-> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> >
-> > Add two new metrics for CPU idle states, "above" and "below", to count
-> > the number of times the given state had been asked for (or entered
-> > from the kernel's perspective), but the observed idle duration turned
-> > out to be too short or too long for it (respectively).
-> >
-> > These metrics help to estimate the quality of the CPU idle governor
-> > in use.
-> >
-> > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
->
-> > @@ -260,6 +262,33 @@ int cpuidle_enter_state(struct cpuidle_d
-> >               dev->last_residency = (int)diff;
-> >               dev->states_usage[entered_state].time += dev->last_residency;
-> >               dev->states_usage[entered_state].usage++;
-> > +
-> > +             if (diff < drv->states[entered_state].target_residency) {
-> > +                     for (i = entered_state - 1; i >= 0; i--) {
-> > +                             if (drv->states[i].disabled ||
-> > +                                 dev->states_usage[i].disable)
-> > +                                     continue;
-> > +
-> > +                             /* Shallower states are enabled, so update. */
-> > +                             dev->states_usage[entered_state].above++;
-> > +                             break;
-> > +                     }
-> > +             } else if (diff > delay) {
-> > +                     for (i = entered_state + 1; i < drv->state_count; i++) {
-> > +                             if (drv->states[i].disabled ||
-> > +                                 dev->states_usage[i].disable)
-> > +                                     continue;
-> > +
-> > +                             /*
-> > +                              * Update if a deeper state would have been a
-> > +                              * better match for the observed idle duration.
-> > +                              */
-> > +                             if (diff - delay >= drv->states[i].target_residency)
-> > +                                     dev->states_usage[entered_state].below++;
-> > +
-> > +                             break;
-> > +                     }
-> > +             }
->
-> One question on this; why is this tracked unconditionally?
+The cgroup-v2.rst file is updated to document the new bypass mode.
 
-Because I didn't quite see how to make that conditional in a sensible way.
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 66 ++++++++++++++++++++++++---------
+ 1 file changed, 48 insertions(+), 18 deletions(-)
 
-These things are counters and counting with the help of tracepoints
-isn't particularly convenient (and one needs debugfs to be there to
-use tracepoints and they require root access etc).
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 07e0613..17e6584 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -372,9 +372,16 @@ disabled by writing to the "cgroup.subtree_control" file::
+ 
+   # echo "+cpu +memory -io" > cgroup.subtree_control
+ 
+-Only controllers which are listed in "cgroup.controllers" can be
+-enabled.  When multiple operations are specified as above, either they
+-all succeed or fail.  If multiple operations on the same controller
++The prefixes '+', '-' and '#' are used to enable, disable or put
++a controller in the bypass mode respectively.  In the bypass mode,
++a controller is disabled in a cgroup, but it can be enabled again in
++its child cgroups as it will still be listed in "cgroup.controllers".
++Bypass mode can only be used on bypassable controllers.  Currently,
++only the cpu controller is bypassable.
++
++Only controllers which are listed in "cgroup.controllers" can be enabled
++or bypassed.  When multiple operations are specified as above, either
++they all succeed or fail.  If multiple operations on the same controller
+ are specified, the last one is effective.
+ 
+ Enabling a controller in a cgroup indicates that the distribution of
+@@ -399,6 +406,20 @@ prefixed controller interface files from C and D.  This means that the
+ controller interface files - anything which doesn't start with
+ "cgroup." are owned by the parent rather than the cgroup itself.
+ 
++Once a bypassable controller is put into bypass mode in
++"cgroup.subtree_control", that controller can optionally be enabled
++again in child cgroups by writing the controller name with the '+ prefix
++into "cgroup.controllers".  Writing the controller name with the '#'
++prefix into "cgroup.controllers" resets the state back to bypass mode.
++The state of a bypassable controller cannot be changed anymore if it
++is enabled or bypassed in its "cgroup.subtree_control".
++
++The use of bypass mode thus allows a cgroup parent to have the ability
++to selectively enable a bypassable controller in a subset of its child
++cgroups instead of in either all or none of them. In other words, a
++bypassable can be enabled only on the cgroups that actually need it,
++if desired.
++
+ 
+ Top-down Constraint
+ ~~~~~~~~~~~~~~~~~~~
+@@ -406,10 +427,11 @@ Top-down Constraint
+ Resources are distributed top-down and a cgroup can further distribute
+ a resource only if the resource has been distributed to it from the
+ parent.  This means that all non-root "cgroup.subtree_control" files
+-can only contain controllers which are enabled in the parent's
+-"cgroup.subtree_control" file.  A controller can be enabled only if
+-the parent has the controller enabled and a controller can't be
+-disabled if one or more children have it enabled.
++can only contain controllers which are enabled or bypassed in the
++parent's "cgroup.subtree_control" file.  A controller can be enabled
++or bypassed only if the parent has the controller enabled or bypassed
++and the state of a controller can't be changed if one or more children
++have it enabled or bypassed.
+ 
+ 
+ No Internal Process Constraint
+@@ -834,11 +856,18 @@ All cgroup core files are prefixed with "cgroup."
+ 	should be granted along with the containing directory.
+ 
+   cgroup.controllers
+-	A read-only space separated values file which exists on all
++	A read-write space separated values file which exists on all
+ 	cgroups.
+ 
+ 	It shows space separated list of all controllers available to
+-	the cgroup.  The controllers are not ordered.
++	the cgroup.  Controller names with '#' prefix are in bypass mode.
++	The controllers are not ordered.
++
++	When a controller is set into bypass mode in its parent's
++	"cgroup.subtree_control", its name prefixed with '+' or '#'
++	can be written to enable it or reset it back to bypass mode
++	respectively.  Controllers not in bypass mode are not allowed
++	to be written.
+ 
+   cgroup.subtree_control
+ 	A read-write space separated values file which exists on all
+@@ -848,12 +877,12 @@ All cgroup core files are prefixed with "cgroup."
+ 	which are enabled to control resource distribution from the
+ 	cgroup to its children.
+ 
+-	Space separated list of controllers prefixed with '+' or '-'
+-	can be written to enable or disable controllers.  A controller
+-	name prefixed with '+' enables the controller and '-'
+-	disables.  If a controller appears more than once on the list,
+-	the last one is effective.  When multiple enable and disable
+-	operations are specified, either all succeed or all fail.
++	Space separated list of controllers prefixed with '+', '-' or
++	'#' can be written to enable, disable or bypass controllers
++	respectively.  If a controller appears more than once on
++	the list, the last one is effective.  When multiple enable,
++	disable or bypass operations are specified, either all succeed
++	or all fail.
+ 
+   cgroup.events
+ 	A read-only flat-keyed file which exists on non-root cgroups.
+@@ -904,17 +933,18 @@ Controllers
+ CPU
+ ---
+ 
+-The "cpu" controllers regulates distribution of CPU cycles.  This
++The "cpu" controller regulates distribution of CPU cycles.  This
+ controller implements weight and absolute bandwidth limit models for
+ normal scheduling policy and absolute bandwidth allocation model for
+-realtime scheduling policy.
++realtime scheduling policy.  The cpu controller is bypassable.
+ 
+ WARNING: cgroup2 doesn't yet support control of realtime processes and
+ the cpu controller can only be enabled when all RT processes are in
+ the root cgroup.  Be aware that system management software may already
+ have placed RT processes into nonroot cgroups during the system boot
+ process, and these processes may need to be moved to the root cgroup
+-before the cpu controller can be enabled.
++before the cpu controller can be enabled unless bypass mode is used
++in those non-root cgroups.
+ 
+ 
+ CPU Interface Files
+-- 
+1.8.3.1
 
-> Would not a tracepoint be better?; then there is no overhead in the
-> normal case where nobody gives a crap about these here numbers.
-
-There is an existing tracepoint that in principle could be used to
-produce this information, but it is such a major PITA in practice that
-nobody does that.  Guess why. :-)
-
-Also, the "usage" and "time" counters are there in sysfs, so why not these two?
-
-And is the overhead really that horrible?
