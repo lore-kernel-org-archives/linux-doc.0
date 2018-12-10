@@ -3,51 +3,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 60B417D089
+	by archive.lwn.net (Postfix) with ESMTP id 8AF327D8BA
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 12:51:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727458AbeLJMvN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Dec 2018 07:51:13 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:39912 "EHLO
+        id S1727469AbeLJMvP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Dec 2018 07:51:15 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:53063 "EHLO
         mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727404AbeLJMvM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 07:51:12 -0500
-Received: by mail-wm1-f65.google.com with SMTP id f81so11065037wmd.4
-        for <linux-doc@vger.kernel.org>; Mon, 10 Dec 2018 04:51:12 -0800 (PST)
+        with ESMTP id S1727457AbeLJMvO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 07:51:14 -0500
+Received: by mail-wm1-f65.google.com with SMTP id r11-v6so10754284wmb.2
+        for <linux-doc@vger.kernel.org>; Mon, 10 Dec 2018 04:51:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=DGAUj6PSqqPDQJ5J6R6pKlBVa6bTvYS48OkmKh4Sulk=;
-        b=gls6f17iFdY+aaMHKZj2c6iqSD/1QrF4roruo3c5l5rPA1aVvvzHjI2CFqg/lmlOS5
-         QV5WzVIcjFGeG5EZOAQBUSLUhKGejG5O9B8bsP3m0ZDDbDXlypr860QwpgdjRFT3VtOy
-         XxeDJnbsSvMDNeVg7Zd3WWKgfoYfCaUgEKOfQw5HnKoHFqbh4YmdPnz+wYY39XjVd+O7
-         nOiFe7/AFJYVdSf7VYpOu//HoHkRLNS028ysC6yapgWia3lzb7Jo2WuChJRuNCDkW4mV
-         cPqpApKuM6RsIoZYmQ0wgoKMKNyLL+EL+mT4Ax0maE+25TL9RSBHw3MXHz8+SN4ZTCt0
-         F53A==
+        bh=EnNoEMrMgUcWWKorAen45ktTirJw06vWZl+y3HjnYKc=;
+        b=ZFDzySXH+RcGKbu7apwOJhQV89JvZa+gIzkdi3lCpAr8rANmuaA696lcNSMihz5jsd
+         Mgc8z5GDqlKqPiGIFUGFJV5LZ6mPD1yG7h/fXqDnZeBSJrvzsxOfDPf/WQ2TgUnbPF+K
+         BulPEM7LRkLz/+A0NCyQ10FFjDpEaoS17rWmhBEhu1vWUWzxbXcbBgiYI+GWlU+bKJpF
+         hbHErYklHv8F4KC/8y3KrbRg/WdRewnyb+I6zzpz2QW0JhyjVBllF1qeuzcMDR2q476/
+         85vwRgG7I3nE+1b5PDbnOhjIJiH5ILXwm/PcvsVjUrvLOA0sv3kgXe81o9mc0j3Nhaf+
+         o9oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DGAUj6PSqqPDQJ5J6R6pKlBVa6bTvYS48OkmKh4Sulk=;
-        b=P5IZysQUHbYXROr1nTUV/tthd1DrL6SaIG6OChksJEHNxRt0NeQSRvRI7QZObo4QAx
-         Qjj2T9iZnNtPuwT/sciQi2ki3pnZuJJlNOWAzPTaPbkVDE6OsOb49Pfm4jpBmI8t+7OS
-         +APTEuDgNsZWstOB/P1+pXl7mku1ggXP+77fx8Cb/sovrhn90qD5+qINFv++ERO0QHQL
-         g68jTLAom5BoXbdwG94TzgqX7DgUqsPpSmvguB+N+Ps+lGgFZ7h5kzRHNCYDH5eysivI
-         dEmyGN18YbmDZgRWm0ntqoPaXsdfuYq2kIUhNTGyng6oqFtOXuIOB+/nQ66ttRszLdab
-         V4cw==
-X-Gm-Message-State: AA+aEWZ9y3dK1cFry5AziWPQZJuto3M5fZtBeSffcB7PHdTCNrJPoIXi
-        VVgaJd1pM4i5spcAMqqYh4+3+A==
-X-Google-Smtp-Source: AFSGD/Wfd26kZrXesEpia2lo9KfLrUJNSZ6LeKcsVzx9h0ZIx3ectSG+FrTDJ+dLbEuGhtbGIsbJVQ==
-X-Received: by 2002:a7b:cb18:: with SMTP id u24mr10123577wmj.138.1544446271115;
-        Mon, 10 Dec 2018 04:51:11 -0800 (PST)
+        bh=EnNoEMrMgUcWWKorAen45ktTirJw06vWZl+y3HjnYKc=;
+        b=J7FeMdM1U0Sl/P65qbZlMW+gUOowvi5+qk86/AkfSEteiWCrFlVq2lOA1B5bSHYfMg
+         +crB0yu1k3GKrR/3dVHbCrbswuUBYyaeKiB04SFnMp0eBOTa+yt8DCjRXZOPFxHZQdmz
+         PKV6MzFo83RucOdAgWggCRhQfEyfBpweBJNSTL8ITvrJWySlPMAo7mug2s8o4/Jjd6NX
+         tP+V0LPEBfZ9X7old+dzBvbaHSnQw/NXFaWGrfUtwOQe2jxkQe0EamFD/3LDj/Mf3TDt
+         h9yC8WELiB/QNAUyj2ekJuF1zUTRLHAyxYChyP6kextk0XVNz2PApGyz1l4Ms0hCTsgN
+         nIew==
+X-Gm-Message-State: AA+aEWYry5b2cuu/rW64NU/8LDflriLcjLGNTwtf60z4LpJ8flX8Mllh
+        XXXhTUQBXSt8PSkX5DDnHf+W4A==
+X-Google-Smtp-Source: AFSGD/XfpH+7b2MBHMbSzaZiRmsmRTBYGLOi6i4h/Gy2a0EmicqS+e3KfIv69EriIxjgI+TvTV5Ofg==
+X-Received: by 2002:a1c:d08b:: with SMTP id h133mr10494086wmg.8.1544446272635;
+        Mon, 10 Dec 2018 04:51:12 -0800 (PST)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:3180:41f8:3010:ff61])
-        by smtp.gmail.com with ESMTPSA id l197sm36893363wma.44.2018.12.10.04.51.09
+        by smtp.gmail.com with ESMTPSA id l197sm36893363wma.44.2018.12.10.04.51.11
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Dec 2018 04:51:09 -0800 (PST)
+        Mon, 10 Dec 2018 04:51:11 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -73,9 +73,9 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v9 1/8] arm64: add type casts to untagged_addr macro
-Date:   Mon, 10 Dec 2018 13:50:58 +0100
-Message-Id: <07836d7852b5c2d9588e28e4081a6f783689377c.1544445454.git.andreyknvl@google.com>
+Subject: [PATCH v9 2/8] uaccess: add untagged_addr definition for other arches
+Date:   Mon, 10 Dec 2018 13:50:59 +0100
+Message-Id: <35f97a89d5cc881f0f4052f43d56b3b7ed736581.1544445454.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.20.0.rc2.403.gdbc3b29805-goog
 In-Reply-To: <cover.1544445454.git.andreyknvl@google.com>
 References: <cover.1544445454.git.andreyknvl@google.com>
@@ -86,30 +86,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch makes the untagged_addr macro accept all kinds of address types
-(void *, unsigned long, etc.) and allows not to specify type casts in each
-place where it is used. This is done by using __typeof__.
+To allow arm64 syscalls accept tagged pointers from userspace, we must
+untag them when they are passed to the kernel. Since untagging is done in
+generic parts of the kernel, the untagged_addr macro needs to be defined
+for all architectures.
+
+Define it as a noop for other architectures besides arm64.
 
 Acked-by: Catalin Marinas <catalin.marinas@arm.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- arch/arm64/include/asm/uaccess.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/linux/uaccess.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
-index 07c34087bd5e..3c3864ba3cc1 100644
---- a/arch/arm64/include/asm/uaccess.h
-+++ b/arch/arm64/include/asm/uaccess.h
-@@ -101,7 +101,8 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
-  * up with a tagged userland pointer. Clear the tag to get a sane pointer to
-  * pass on to access_ok(), for instance.
-  */
--#define untagged_addr(addr)		sign_extend64(addr, 55)
-+#define untagged_addr(addr)		\
-+	((__typeof__(addr))sign_extend64((u64)(addr), 55))
+diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
+index efe79c1cdd47..42b7a4ac65e2 100644
+--- a/include/linux/uaccess.h
++++ b/include/linux/uaccess.h
+@@ -13,6 +13,10 @@
  
- #define access_ok(type, addr, size)	__range_ok(addr, size)
- #define user_addr_max			get_fs
+ #include <asm/uaccess.h>
+ 
++#ifndef untagged_addr
++#define untagged_addr(addr) (addr)
++#endif
++
+ /*
+  * Architectures should provide two primitives (raw_copy_{to,from}_user())
+  * and get rid of their private instances of copy_{to,from}_user() and
 -- 
 2.20.0.rc2.403.gdbc3b29805-goog
 
