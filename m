@@ -1,99 +1,138 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EA9B67D8AA
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 22:51:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 67D087D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 23:12:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729777AbeLJWvn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Dec 2018 17:51:43 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:50872 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728778AbeLJWvm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 17:51:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=PQb1q845RWQZm358ejdkwZ6SIZIUEOGu4lnd0KyFk1k=; b=Ht4qoTv6aSYyOJ2d4RsYJCPS4
-        tQ2KGpJHR1j4Dm5tQtn2TPzjq+fv/nwC35YxF7SZ0s3Y9ZHDrUmmKdWHmcfQioafhGGD9ItEMTpy8
-        MSGVGJFaCfJDkUeJf5dMjFmlf+goc7oFGNu5l/Ux106fgSM6DAwuiUnpu9eCSKg4HTCQidstPq7VD
-        5zFPbNR+ZDMlD1A02MvtLG13GGprBj/0dYFXXzGg3+H5vLv2LSSTl+u2ohFPlOFzjRFf16fe06Fm8
-        yzj3v272O8nSAzPa3Z90Ep1ZPjrUaHWfcAlP7Eze6sIlrFG9tdiQWYmXfqHHMoMar8VZuzt3kk1Gq
-        YbgBHdfUQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gWUOn-0003Lo-Go; Mon, 10 Dec 2018 22:51:37 +0000
-Received: by worktop (Postfix, from userid 1000)
-        id C64896E1394; Mon, 10 Dec 2018 23:51:34 +0100 (CET)
-Date:   Mon, 10 Dec 2018 23:51:34 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Doug Smythies <dsmythies@telus.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        id S1730014AbeLJXM3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Dec 2018 18:12:29 -0500
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:41575 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726841AbeLJXM3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 18:12:29 -0500
+X-Originating-IP: 134.134.139.72
+Received: from localhost (jfdmzpr03-ext.jf.intel.com [134.134.139.72])
+        (Authenticated sender: josh@joshtriplett.org)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 8E241E0002;
+        Mon, 10 Dec 2018 23:12:05 +0000 (UTC)
+Date:   Mon, 10 Dec 2018 15:12:00 -0800
+From:   Josh Triplett <josh@joshtriplett.org>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>, x86@kernel.org,
+        platform-driver-x86@vger.kernel.org, dave.hansen@intel.com,
+        sean.j.christopherson@intel.com, nhorman@redhat.com,
+        npmccallum@redhat.com, Alexei Starovoitov <ast@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
+        "open list:INTEL SGX" <intel-sgx-kernel-dev@lists.01.org>,
+        Janakarajan Natarajan <Janakarajan.Natarajan@amd.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        "open list:KERNEL VIRTUAL MACHINE FOR X86 (KVM/x86)" 
+        <kvm@vger.kernel.org>, Len Brown <len.brown@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "open list:CRYPTO API" <linux-crypto@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Subject: Re: [PATCH v2] cpuidle: Add 'above' and 'below' idle state metrics
-Message-ID: <20181210225134.GB24811@worktop.programming.kicks-ass.net>
-References: <3514439.dzOWKx1Cjx@aspire.rjw.lan>
- <20181210122104.GL5289@hirez.programming.kicks-ass.net>
- <CAJZ5v0j-a6cHayRtcsUPbUTBT0iBSUvmcUy6pfSSvUVcTMBxbw@mail.gmail.com>
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:SPARSE CHECKER" <linux-sparse@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Vikas Shivappa <vikas.shivappa@linux.intel.com>
+Subject: Re: [PATCH v11 00/13] Intel SGX1 support
+Message-ID: <20181210231159.GA10718@localhost>
+References: <20180608171216.26521-1-jarkko.sakkinen@linux.intel.com>
+ <20180612105011.GA26931@amd>
+ <20180619145943.GC8034@linux.intel.com>
+ <20180619200414.GA3143@amd>
+ <20180619214833.GA5873@localhost>
+ <20181209200600.GA11608@amd>
+ <20181210074717.GA9880@localhost>
+ <20181210082704.GA14594@amd>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJZ5v0j-a6cHayRtcsUPbUTBT0iBSUvmcUy6pfSSvUVcTMBxbw@mail.gmail.com>
-User-Agent: Mutt/1.5.22.1 (2013-10-16)
+In-Reply-To: <20181210082704.GA14594@amd>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 10, 2018 at 10:36:40PM +0100, Rafael J. Wysocki wrote:
-> On Mon, Dec 10, 2018 at 1:21 PM Peter Zijlstra <peterz@infradead.org> wrote:
-
-> > One question on this; why is this tracked unconditionally?
+On Mon, Dec 10, 2018 at 09:27:04AM +0100, Pavel Machek wrote:
+> On Sun 2018-12-09 23:47:17, Josh Triplett wrote:
+> > On Sun, Dec 09, 2018 at 09:06:00PM +0100, Pavel Machek wrote:
+> > ...
+> > > > > > The default permissions for the device are 600.
+> > > > > 
+> > > > > Good. This does not belong to non-root.
+> > > > 
+> > > > There are entirely legitimate use cases for using this as an
+> > > > unprivileged user. However, that'll be up to system and distribution
+> > > > policy, which can evolve over time, and it makes sense for the *initial*
+> > > > kernel permission to start out root-only and then adjust permissions via
+> > > > udev.
+> > > 
+> > > Agreed.
+> > > 
+> > > > Building a software certificate store. Hardening key-agent software like
+> > > > ssh-agent or gpg-agent. Building a challenge-response authentication
+> > > > system. Providing more assurance that your server infrastructure is
+> > > > uncompromised. Offloading computation to a system without having to
+> > > > fully trust that system.
+> > > 
+> > > I think you can do the crypto stuff... as crypto already verifies the
+> > > results. But I don't think you can do the computation offload.
+> > 
+> > You can, as long as you can do attestation.
 > 
-> Because I didn't quite see how to make that conditional in a sensible way.
+> You can not, because random errors are very easy to trigger for person
+> with physical access,
 
-Something like:
+Random errors can also just happen, so if you're concerned about that
+you might want to build each object on two different machines and
+compare. Good luck generating the *same* random errors on two machines.
 
-	if (static_branch_unlikely(__tracepoint_idle_above) ||
-	    static_branch_unlikely(__tracepoint_idle_below)) {
+(And, of course, someone can also DoS you in any number of other ways,
+such as accepting data and then never sending back a result. So you'll
+need timeouts and failovers.)
 
-		// do stuff that calls trace_idle_above() /
-		// trace_idle_below().
-
-	}
-
-> These things are counters and counting with the help of tracepoints
-> isn't particularly convenient (and one needs debugfs to be there to
-> use tracepoints and they require root access etc).
-
-Root only should not be a problem for a developer; and aren't these
-numbers only really interesting if you're prodding at the idle governor?
-
-> > Would not a tracepoint be better?; then there is no overhead in the
-> > normal case where nobody gives a crap about these here numbers.
+> > > > As one of many possibilities, imagine a distcc that didn't have to trust
+> > > > the compile nodes. The compile nodes could fail to return results at
+> > > > all, but they couldn't alter the results.
+> > > 
+> > > distcc on untrusted nodes ... oh yes, that would be great.
+> > > 
+> > > Except that you can't do it, right? :-).
+> > > 
+> > > First, AFAICT it would be quite hard to get gcc to run under SGX. But
+> > > maybe you have spare month or three and can do it.
+> > 
+> > Assuming you don't need to #include files, gcc seems quite simple to run
+> > in an enclave: data in, computation inside, data out.
 > 
-> There is an existing tracepoint that in principle could be used to
-> produce this information, but it is such a major PITA in practice that
-> nobody does that.  Guess why. :-)
+> So is there a plan to run dynamically linked binaries inside enclave?
 
-Sounds like you need to ship a convenient script or something :-)
+I've seen some approaches for that, but you could also just statically
+link your compiler. (Since you'd need attestation for all the individual
+libraries, you'd need to know the versions of all those libraries, so
+you might as well just statically link.)
 
-> Also, the "usage" and "time" counters are there in sysfs, so why not these two?
-> 
-> And is the overhead really that horrible?
+> Or maybe even python/shell scripts? It looked to me like virtual
+> memory will be "interesting" for enclaves.
 
-Dunno; it could be cold cachelines, at which point it can be fairly
-expensive. Also, being stuck with API is fairly horrible if you want to
-'fix' it.
+Memory management doesn't seem that hard to deal with.
