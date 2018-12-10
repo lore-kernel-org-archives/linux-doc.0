@@ -1,135 +1,300 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C36F07D8A8
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 14:31:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D609C7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 15:55:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727976AbeLJObf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Dec 2018 09:31:35 -0500
-Received: from foss.arm.com ([217.140.101.70]:55240 "EHLO foss.arm.com"
+        id S1728383AbeLJPzW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Dec 2018 10:55:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41942 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726791AbeLJObe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 Dec 2018 09:31:34 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ED6FB15AD;
-        Mon, 10 Dec 2018 06:31:33 -0800 (PST)
-Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 89F883F575;
-        Mon, 10 Dec 2018 06:31:29 -0800 (PST)
-From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
-To:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: [RFC][PATCH 3/3] arm64: elf: Advertise relaxed ABI
-Date:   Mon, 10 Dec 2018 14:30:44 +0000
-Message-Id: <20181210143044.12714-4-vincenzo.frascino@arm.com>
-X-Mailer: git-send-email 2.19.2
-In-Reply-To: <20181210143044.12714-1-vincenzo.frascino@arm.com>
-References: <cover.1544445454.git.andreyknvl@google.com>
- <20181210143044.12714-1-vincenzo.frascino@arm.com>
+        id S1728187AbeLJPzW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Dec 2018 10:55:22 -0500
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2D56B20851;
+        Mon, 10 Dec 2018 15:55:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1544457320;
+        bh=tdWexW1Em2QodRxbR0688bp4OOd6b37LaRogcjCXLQ8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=VHPCCWjM+xyX0xQvBVkHWlE/CTNadjBibh+Fx6AaPoaXhV001GGtkgaew1uuYHopP
+         dLGv59342si/I1E9t5gCzNxmBKWmYbPfaYqzboxJnStHz+Cp/bOAkvkF3vM/LprAtQ
+         oUHRJ+sKgPM9iop4dHFYe+ghq1lMeYyqT8TazAFs=
+Received: by mail-qt1-f180.google.com with SMTP id n32so12761135qte.11;
+        Mon, 10 Dec 2018 07:55:20 -0800 (PST)
+X-Gm-Message-State: AA+aEWamVOIO8bsMu8+r49LKk+fSvaXmQVLF7JgNuZoYmSGBt0AKdKLm
+        zOgl1HDmiZgz4K4/QDz6eHKXI4ubOFZ33iL1Rg==
+X-Google-Smtp-Source: AFSGD/WdL3jH1aB2r9XkwGH03MZ292O51eVgVHWN8vXa/0befR9IQoem6DmJxhW5WLlW09pkSQBDXEKgsydwEU2bHRM=
+X-Received: by 2002:ac8:6b18:: with SMTP id w24mr12721557qts.144.1544457319305;
+ Mon, 10 Dec 2018 07:55:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20181203213223.16986-1-robh@kernel.org> <20181203213223.16986-2-robh@kernel.org>
+ <CAK7LNARgyL+Pq+SCkUUKnMny4nDw1L4zEevdzqbyGGAoE+BXUA@mail.gmail.com>
+In-Reply-To: <CAK7LNARgyL+Pq+SCkUUKnMny4nDw1L4zEevdzqbyGGAoE+BXUA@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Mon, 10 Dec 2018 09:55:08 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLhNq2LWffT5XK9nd+p_7oYacMmsQidP_cmjkd7DsNmNQ@mail.gmail.com>
+Message-ID: <CAL_JsqLhNq2LWffT5XK9nd+p_7oYacMmsQidP_cmjkd7DsNmNQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/34] kbuild: Add support for DT binding schema checks
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Sean Hudson <darknighte@darknighte.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Grant Likely <grant.likely@arm.com>,
+        Kumar Gala <kumar.gala@linaro.org>,
+        ARM-SoC Maintainers <arm@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On arm64 the TCR_EL1.TBI0 bit has been set since Linux 3.x hence
-the userspace (EL0) is allowed to set a non-zero value in the top
-byte but the resulting pointers are not allowed at the user-kernel
-syscall ABI boundary.
+On Fri, Dec 7, 2018 at 10:47 PM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
+>
+> Hi Rob,
+>
+>
+> On Tue, Dec 4, 2018 at 6:32 AM Rob Herring <robh@kernel.org> wrote:
+> >
+> > This adds the build infrastructure for checking DT binding schema
+> > documents and validating dts files using the binding schema.
+> >
+> > Check DT binding schema documents:
+> > make dt_binding_check
+> >
+> > Build dts files and check using DT binding schema:
+> > make dtbs_check
+> >
+> > Optionally, DT_SCHEMA_FILES can passed in with a schema file(s) to use
+> > for validation. This makes it easier to find and fix errors generated by
+> > a specific schema.
+> >
+> > Currently, the validation targets are separate from a normal build to
+> > avoid a hard dependency on the external DT schema project and because
+> > there are lots of warnings generated.
+> >
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: Mark Rutland <mark.rutland@arm.com>
+> > Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> > Cc: Michal Marek <michal.lkml@markovi.net>
+> > Cc: linux-doc@vger.kernel.org
+> > Cc: devicetree@vger.kernel.org
+> > Cc: linux-kbuild@vger.kernel.org
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+> > ---
+> >  .gitignore                                   |  1 +
+> >  Documentation/Makefile                       |  2 +-
+> >  Documentation/devicetree/bindings/.gitignore |  1 +
+> >  Documentation/devicetree/bindings/Makefile   | 33 ++++++++++++++++++++
+> >  Makefile                                     | 11 +++++--
+> >  scripts/Makefile.lib                         | 24 ++++++++++++--
+> >  6 files changed, 67 insertions(+), 5 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/.gitignore
+> >  create mode 100644 Documentation/devicetree/bindings/Makefile
+> >
+> > diff --git a/.gitignore b/.gitignore
+> > index 97ba6b79834c..a20ac26aa2f5 100644
+> > --- a/.gitignore
+> > +++ b/.gitignore
+> > @@ -15,6 +15,7 @@
+> >  *.bin
+> >  *.bz2
+> >  *.c.[012]*.*
+> > +*.dt.yaml
+> >  *.dtb
+> >  *.dtb.S
+> >  *.dwo
+> > diff --git a/Documentation/Makefile b/Documentation/Makefile
+> > index 2ca77ad0f238..9786957c6a35 100644
+> > --- a/Documentation/Makefile
+> > +++ b/Documentation/Makefile
+> > @@ -2,7 +2,7 @@
+> >  # Makefile for Sphinx documentation
+> >  #
+> >
+> > -subdir-y :=
+> > +subdir-y := devicetree/bindings/
+> >
+> >  # You can set these variables from the command line.
+> >  SPHINXBUILD   = sphinx-build
+> > diff --git a/Documentation/devicetree/bindings/.gitignore b/Documentation/devicetree/bindings/.gitignore
+> > new file mode 100644
+> > index 000000000000..d9194c02dd08
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/.gitignore
+> > @@ -0,0 +1 @@
+> > +*.example.dts
+> > diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
+> > new file mode 100644
+> > index 000000000000..ee0110dd8131
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/Makefile
+> > @@ -0,0 +1,33 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +DT_DOC_CHECKER ?= dt-doc-validate
+> > +DT_EXTRACT_EX ?= dt-extract-example
+> > +DT_MK_SCHEMA ?= dt-mk-schema
+> > +DT_MK_SCHEMA_FLAGS := $(if $(DT_SCHEMA_FILES), -u)
+> > +
+> > +quiet_cmd_chk_binding = CHKDT   $<
+> > +      cmd_chk_binding = (set -e; \
+> > +                         $(DT_DOC_CHECKER) $< ; \
+> > +                         mkdir -p $(dir $@) ; \
+> > +                         $(DT_EXTRACT_EX) $< > $@ )
+> > +
+> > +$(obj)/%.example.dts: $(src)/%.yaml FORCE
+> > +       $(call if_changed,chk_binding)
+> > +
+> > +DT_TMP_SCHEMA := .schema.yaml.tmp
+> > +extra-y += $(DT_TMP_SCHEMA)
+> > +
+> > +quiet_cmd_mk_schema = SCHEMA  $@
+> > +      cmd_mk_schema = mkdir -p $(obj); \
+> > +                      rm -f $@; \
+> > +                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $<
+>
+>
+> I think '$<' is wrong.
+>
+> '$<' is replaced with the first prerequisite.
 
-This patch sets ARM64_AT_FLAGS_SYSCALL_TBI (bit[0]) in the AT_FLAGS
-to advertise the relaxation of the ABI to the userspace.
+Indeed.
 
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will.deacon@arm.com>
-CC: Andrey Konovalov <andreyknvl@google.com>
-Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
----
- arch/arm64/include/asm/atflags.h      | 7 +++++++
- arch/arm64/include/asm/elf.h          | 5 +++++
- arch/arm64/include/uapi/asm/atflags.h | 8 ++++++++
- 3 files changed, 20 insertions(+)
- create mode 100644 arch/arm64/include/asm/atflags.h
- create mode 100644 arch/arm64/include/uapi/asm/atflags.h
+> You can easily check what is happening here.
+>
+> $ cat   Documentation/devicetree/bindings/..schema.yaml.tmp.cmd
+> cmd_Documentation/devicetree/bindings/.schema.yaml.tmp := mkdir -p
+> Documentation/devicetree/bindings; rm -f
+> Documentation/devicetree/bindings/.schema.yaml.tmp; dt-mk-schema  -o
+> Documentation/devicetree/bindings/.schema.yaml.tmp
+> Documentation/devicetree/bindings/arm/ti/ti,davinci.yaml
+>
+>
+> So, the dt-validater will check only binding from ti,davinci.yaml,
+> which is almost useless.
+>
+>
+>
+> If I understand it correctly,
+> .schema.yaml.tmp should contain all binding yaml.
+>
+>
+> I fixed it up like follows:
+>
+> diff --git a/Documentation/devicetree/bindings/Makefile
+> b/Documentation/devicetree/bindings/Makefile
+> index ee0110d..267458f 100644
+> --- a/Documentation/devicetree/bindings/Makefile
+> +++ b/Documentation/devicetree/bindings/Makefile
+> @@ -19,7 +19,7 @@ extra-y += $(DT_TMP_SCHEMA)
+>  quiet_cmd_mk_schema = SCHEMA  $@
+>        cmd_mk_schema = mkdir -p $(obj); \
+>                        rm -f $@; \
+> -                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $<
+> +                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@
+> $(filter-out FORCE, $^)
 
-diff --git a/arch/arm64/include/asm/atflags.h b/arch/arm64/include/asm/atflags.h
-new file mode 100644
-index 000000000000..b20093d61bf2
---- /dev/null
-+++ b/arch/arm64/include/asm/atflags.h
-@@ -0,0 +1,7 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __ASM_ATFLAGS_H
-+#define __ASM_ATFLAGS_H
-+
-+#include <uapi/asm/atflags.h>
-+
-+#endif
-diff --git a/arch/arm64/include/asm/elf.h b/arch/arm64/include/asm/elf.h
-index 433b9554c6a1..da5a6d310ff4 100644
---- a/arch/arm64/include/asm/elf.h
-+++ b/arch/arm64/include/asm/elf.h
-@@ -16,6 +16,7 @@
- #ifndef __ASM_ELF_H
- #define __ASM_ELF_H
- 
-+#include <asm/atflags.h>
- #include <asm/hwcap.h>
- 
- /*
-@@ -163,6 +164,10 @@ do {									\
- 		NEW_AUX_ENT(AT_IGNORE, 0);				\
- } while (0)
- 
-+/* Platform specific AT_FLAGS */
-+#define ELF_AT_FLAGS			ARM64_AT_FLAGS_SYSCALL_TBI
-+#define COMPAT_ELF_AT_FLAGS		0
-+
- #define ARCH_HAS_SETUP_ADDITIONAL_PAGES
- struct linux_binprm;
- extern int arch_setup_additional_pages(struct linux_binprm *bprm,
-diff --git a/arch/arm64/include/uapi/asm/atflags.h b/arch/arm64/include/uapi/asm/atflags.h
-new file mode 100644
-index 000000000000..1cf25692ffd6
---- /dev/null
-+++ b/arch/arm64/include/uapi/asm/atflags.h
-@@ -0,0 +1,8 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __UAPI_ASM_ATFLAGS_H
-+#define __UAPI_ASM_ATFLAGS_H
-+
-+/* Platform specific AT_FLAGS */
-+#define ARM64_AT_FLAGS_SYSCALL_TBI	(1 << 0)
-+
-+#endif
--- 
-2.19.2
+Thanks, I incorporated this fix.
 
+>
+>  DT_DOCS = $(shell cd $(srctree)/$(src) && find * -name '*.yaml')
+>  DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
+>
+>
+>
+> Then, I see another error.
+
+I fixed this with this change:
+
+@@ -27,7 +27,7 @@ DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
+ extra-y += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
+ extra-y += $(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES))
+
+-$(obj)/$(DT_TMP_SCHEMA): $(addprefix $(obj)/,$(patsubst
+$(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES)))
++$(obj)/$(DT_TMP_SCHEMA): | $(addprefix $(obj)/,$(patsubst
+$(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES)))
+
+ $(obj)/$(DT_TMP_SCHEMA): $(addprefix $(srctree)/, $(DT_SCHEMA_FILES)) FORCE
+        $(call if_changed,mk_schema)
+
+>
+>
+>   SCHEMA  Documentation/devicetree/bindings/.schema.yaml.tmp
+> Traceback (most recent call last):
+>   File "/home/masahiro/ref/yaml-bindings/tools/dt-mk-schema", line 32,
+> in <module>
+>     schemas = dtschema.process_schemas(args.schemas, core_schema=(not
+> args.useronly))
+>   File "/usr/local/lib/python3.5/dist-packages/dtschema-0.0.1-py3.5.egg/dtschema/lib.py",
+> line 359, in process_schemas
+>     sch = process_schema(os.path.abspath(filename))
+>   File "/usr/local/lib/python3.5/dist-packages/dtschema-0.0.1-py3.5.egg/dtschema/lib.py",
+> line 314, in process_schema
+>     schema = load_schema(filename)
+>   File "/usr/local/lib/python3.5/dist-packages/dtschema-0.0.1-py3.5.egg/dtschema/lib.py",
+> line 80, in load_schema
+>     return yaml.load(f.read())
+>   File "/usr/lib/python3.5/codecs.py", line 321, in decode
+>     (result, consumed) = self._buffer_decode(data, self.errors, final)
+> UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd0 in position
+> 0: invalid continuation byte
+> Documentation/devicetree/bindings/Makefile:33: recipe for target
+> 'Documentation/devicetree/bindings/.schema.yaml.tmp' failed
+> make[1]: *** [Documentation/devicetree/bindings/.schema.yaml.tmp] Error 1
+> Makefile:1278: recipe for target 'dt_binding_check' failed
+> make: *** [dt_binding_check] Error 2
+>
+>
+>
+>
+>
+>
+>
+> BTW, I cannot build *.dt.yaml
+>
+>
+>
+>   DTC     arch/arm/boot/dts/alpine-db.dt.yaml
+> FATAL ERROR: Unknown output format "yaml"
+> scripts/Makefile.lib:313: recipe for target
+> 'arch/arm/boot/dts/alpine-db.dt.yaml' failed
+> make[1]: *** [arch/arm/boot/dts/alpine-db.dt.yaml] Error 1
+> make[1]: *** Deleting file 'arch/arm/boot/dts/alpine-db.dt.yaml'
+> Makefile:1262: recipe for target 'dtbs_check' failed
+>
+>
+>
+>
+> I use linux-next.
+>
+>
+> script/dtc/dtc does not understand '-O yaml'
+>
+>
+> I also tried the upstream DTC project with no success.
+>
+>
+> Where can I get dtc with yaml support?
+
+You need libyaml and its headers. I'll try to make this a better error
+message. For now, libyaml is optional so we don't break everyone just
+building dtbs.
+
+Rob
