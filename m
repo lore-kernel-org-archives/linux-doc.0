@@ -1,105 +1,115 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-13.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AE4EC7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 12:21:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 60B417D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 12:51:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727618AbeLJMVV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Dec 2018 07:21:21 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:57804 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726911AbeLJMVV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 07:21:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Ii5jUu8KY65cqCBnTcU9GjsMbZKc+9mVTzcav5zXm2c=; b=iadHGu1YhZ/f3s/Kk15LRIkEj
-        MnMAkW55cmsBTf/AwrDbMTbK0ClsU2B3Fim7RpAQ0I7X6Oz+e9QKWw+OtYJUzMcxh21TDFIGuPuBv
-        GTyck664C4XavZHadHKevIwA12gwhp8O4QvPZz+kpKgFgw40Kf4Brwwmnlp8TR+LE7xSuefueyrVP
-        IuYnj5oPaEEiyGFWZXvNp0n3LIoMgotk3+vZOtiJJcgK0o0t/DmE9jOaHU58Ryz5P8O6Xf0KsVatt
-        dawj/gV8WJb5XclciqQCFCm5bitHh/8XaoJiXAxu9JAKUhTC8B4IuKuSt+Kh1EzXZqYpn84C/Hcyo
-        VUcP0Nwzw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gWKYd-0003n3-MD; Mon, 10 Dec 2018 12:21:08 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 9416A207261A4; Mon, 10 Dec 2018 13:21:04 +0100 (CET)
-Date:   Mon, 10 Dec 2018 13:21:04 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     Linux PM <linux-pm@vger.kernel.org>,
-        Doug Smythies <dsmythies@telus.net>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Subject: Re: [PATCH v2] cpuidle: Add 'above' and 'below' idle state metrics
-Message-ID: <20181210122104.GL5289@hirez.programming.kicks-ass.net>
-References: <3514439.dzOWKx1Cjx@aspire.rjw.lan>
+        id S1727458AbeLJMvN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Dec 2018 07:51:13 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:39912 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727404AbeLJMvM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 07:51:12 -0500
+Received: by mail-wm1-f65.google.com with SMTP id f81so11065037wmd.4
+        for <linux-doc@vger.kernel.org>; Mon, 10 Dec 2018 04:51:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=DGAUj6PSqqPDQJ5J6R6pKlBVa6bTvYS48OkmKh4Sulk=;
+        b=gls6f17iFdY+aaMHKZj2c6iqSD/1QrF4roruo3c5l5rPA1aVvvzHjI2CFqg/lmlOS5
+         QV5WzVIcjFGeG5EZOAQBUSLUhKGejG5O9B8bsP3m0ZDDbDXlypr860QwpgdjRFT3VtOy
+         XxeDJnbsSvMDNeVg7Zd3WWKgfoYfCaUgEKOfQw5HnKoHFqbh4YmdPnz+wYY39XjVd+O7
+         nOiFe7/AFJYVdSf7VYpOu//HoHkRLNS028ysC6yapgWia3lzb7Jo2WuChJRuNCDkW4mV
+         cPqpApKuM6RsIoZYmQ0wgoKMKNyLL+EL+mT4Ax0maE+25TL9RSBHw3MXHz8+SN4ZTCt0
+         F53A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=DGAUj6PSqqPDQJ5J6R6pKlBVa6bTvYS48OkmKh4Sulk=;
+        b=P5IZysQUHbYXROr1nTUV/tthd1DrL6SaIG6OChksJEHNxRt0NeQSRvRI7QZObo4QAx
+         Qjj2T9iZnNtPuwT/sciQi2ki3pnZuJJlNOWAzPTaPbkVDE6OsOb49Pfm4jpBmI8t+7OS
+         +APTEuDgNsZWstOB/P1+pXl7mku1ggXP+77fx8Cb/sovrhn90qD5+qINFv++ERO0QHQL
+         g68jTLAom5BoXbdwG94TzgqX7DgUqsPpSmvguB+N+Ps+lGgFZ7h5kzRHNCYDH5eysivI
+         dEmyGN18YbmDZgRWm0ntqoPaXsdfuYq2kIUhNTGyng6oqFtOXuIOB+/nQ66ttRszLdab
+         V4cw==
+X-Gm-Message-State: AA+aEWZ9y3dK1cFry5AziWPQZJuto3M5fZtBeSffcB7PHdTCNrJPoIXi
+        VVgaJd1pM4i5spcAMqqYh4+3+A==
+X-Google-Smtp-Source: AFSGD/Wfd26kZrXesEpia2lo9KfLrUJNSZ6LeKcsVzx9h0ZIx3ectSG+FrTDJ+dLbEuGhtbGIsbJVQ==
+X-Received: by 2002:a7b:cb18:: with SMTP id u24mr10123577wmj.138.1544446271115;
+        Mon, 10 Dec 2018 04:51:11 -0800 (PST)
+Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:3180:41f8:3010:ff61])
+        by smtp.gmail.com with ESMTPSA id l197sm36893363wma.44.2018.12.10.04.51.09
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 10 Dec 2018 04:51:09 -0800 (PST)
+From:   Andrey Konovalov <andreyknvl@google.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>
+Subject: [PATCH v9 1/8] arm64: add type casts to untagged_addr macro
+Date:   Mon, 10 Dec 2018 13:50:58 +0100
+Message-Id: <07836d7852b5c2d9588e28e4081a6f783689377c.1544445454.git.andreyknvl@google.com>
+X-Mailer: git-send-email 2.20.0.rc2.403.gdbc3b29805-goog
+In-Reply-To: <cover.1544445454.git.andreyknvl@google.com>
+References: <cover.1544445454.git.andreyknvl@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3514439.dzOWKx1Cjx@aspire.rjw.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 10, 2018 at 12:30:23PM +0100, Rafael J. Wysocki wrote:
-> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> 
-> Add two new metrics for CPU idle states, "above" and "below", to count
-> the number of times the given state had been asked for (or entered
-> from the kernel's perspective), but the observed idle duration turned
-> out to be too short or too long for it (respectively).
-> 
-> These metrics help to estimate the quality of the CPU idle governor
-> in use.
-> 
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+This patch makes the untagged_addr macro accept all kinds of address types
+(void *, unsigned long, etc.) and allows not to specify type casts in each
+place where it is used. This is done by using __typeof__.
 
-> @@ -260,6 +262,33 @@ int cpuidle_enter_state(struct cpuidle_d
->  		dev->last_residency = (int)diff;
->  		dev->states_usage[entered_state].time += dev->last_residency;
->  		dev->states_usage[entered_state].usage++;
-> +
-> +		if (diff < drv->states[entered_state].target_residency) {
-> +			for (i = entered_state - 1; i >= 0; i--) {
-> +				if (drv->states[i].disabled ||
-> +				    dev->states_usage[i].disable)
-> +					continue;
-> +
-> +				/* Shallower states are enabled, so update. */
-> +				dev->states_usage[entered_state].above++;
-> +				break;
-> +			}
-> +		} else if (diff > delay) {
-> +			for (i = entered_state + 1; i < drv->state_count; i++) {
-> +				if (drv->states[i].disabled ||
-> +				    dev->states_usage[i].disable)
-> +					continue;
-> +
-> +				/*
-> +				 * Update if a deeper state would have been a
-> +				 * better match for the observed idle duration.
-> +				 */
-> +				if (diff - delay >= drv->states[i].target_residency)
-> +					dev->states_usage[entered_state].below++;
-> +
-> +				break;
-> +			}
-> +		}
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ arch/arm64/include/asm/uaccess.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-One question on this; why is this tracked unconditionally?
+diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
+index 07c34087bd5e..3c3864ba3cc1 100644
+--- a/arch/arm64/include/asm/uaccess.h
++++ b/arch/arm64/include/asm/uaccess.h
+@@ -101,7 +101,8 @@ static inline unsigned long __range_ok(const void __user *addr, unsigned long si
+  * up with a tagged userland pointer. Clear the tag to get a sane pointer to
+  * pass on to access_ok(), for instance.
+  */
+-#define untagged_addr(addr)		sign_extend64(addr, 55)
++#define untagged_addr(addr)		\
++	((__typeof__(addr))sign_extend64((u64)(addr), 55))
+ 
+ #define access_ok(type, addr, size)	__range_ok(addr, size)
+ #define user_addr_max			get_fs
+-- 
+2.20.0.rc2.403.gdbc3b29805-goog
 
-Would not a tracepoint be better?; then there is no overhead in the
-normal case where nobody gives a crap about these here numbers.
