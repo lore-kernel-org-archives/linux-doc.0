@@ -1,169 +1,182 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B49837D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 13:45:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B9E9D7D8A8
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 14:31:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727071AbeLJNpu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Dec 2018 08:45:50 -0500
-Received: from mail-oi1-f179.google.com ([209.85.167.179]:39253 "EHLO
-        mail-oi1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726305AbeLJNpu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 08:45:50 -0500
-Received: by mail-oi1-f179.google.com with SMTP id i6so8969281oia.6;
-        Mon, 10 Dec 2018 05:45:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=zZyLLUhZXcYJ2LtJLGESHBqFDN04cjKgYPLf3lUGB3w=;
-        b=NzDeZ9KudDpiXL9cdONJSrPvKBsw5xsCqlcR36gRoKo7fa3HU8xHnR7sDtDApmo7By
-         78Yv7t8uaY0AVR2yAs/0NOq4fHbkiF3cdlS/NVfLC2XBKdJPs03wvHz5oGiEs1j2NgFa
-         ZiZzDJh8lx/Y5U9BgFARDcjBu4wBhz9MSTOOQxK/Y4vw9OfRfHLzcyGO/98wx+cMjptz
-         eiVzZ1tQ57KZFCyNkcugCAZL/+lB5o8wdR8V23hYlxMKJ082ob2+P3ZGL/ru9U7HQI75
-         bXuBZahoJqwzfmM+IpO9vCHnKTNjeR7KLlTPBc2xt0KMkckofr/Et8CT3giTkJ5Yjwtt
-         q27g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=zZyLLUhZXcYJ2LtJLGESHBqFDN04cjKgYPLf3lUGB3w=;
-        b=MhMBgMcajl9W3GeB4Scx1xcWUnhjBHdWX52fzgwWWZ3KfuN8boa45YyTD0p2wum7kH
-         6+Qwm7YCpzSsPxxnyXTBMlA+0WkOPsZpyUy3x6c6s1vGo7MBxgqcm5KfGs5Y68YVzprj
-         zl5ZsnffrQkFMx5cHagp6pF36h56F5lP/v/Z5e8ieafVnIGgoVrGS/yLwyJJUYD7rq8H
-         q31c28gaCMutwuxS7Ed2ks1kJvpdiWCoQjm2AS5me2SHQUQZ12Ul2JGQK6pDLm3b76bN
-         zstcVaY3KKS6Eh4JVdQkxgJNTHFV76on+AFJ9F02Jqd+NoUU6zVMhEVUCqaHQM9ScqnW
-         aQWw==
-X-Gm-Message-State: AA+aEWbg7J+XXTPNgg2tn1Nw6apta7y+18X9xF91dpnZxy+4ZIo0FZkd
-        ABeZbEmmMWmA4Dy+YULW3rQ06d7ObDULvXABUoI=
-X-Google-Smtp-Source: AFSGD/VyqY0leLtqw14agbiYFVZ8Dv7/cBcu+Dcc7nQUmMczgwsozhrzRAXtZK/d9d42XPDYqP2jGBqoqqjc15n9DZs=
-X-Received: by 2002:aca:ad14:: with SMTP id w20mr7145422oie.3.1544449548608;
- Mon, 10 Dec 2018 05:45:48 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a4a:2819:0:0:0:0:0 with HTTP; Mon, 10 Dec 2018 05:45:47
- -0800 (PST)
-In-Reply-To: <5534B7D4-A5D9-4F44-9620-970A7F9EC140@linaro.org>
-References: <20181119103424.3853-1-paolo.valente@linaro.org>
- <20181120162816.GV2509588@devbig004.ftw2.facebook.com> <25296DAE-73EC-46CC-9A98-A8B7E9017BB7@linaro.org>
- <7D7FAB43-5F62-4402-A9B3-E7C2E30AE680@linaro.org> <20181130184256.GI2509588@devbig004.ftw2.facebook.com>
- <5534B7D4-A5D9-4F44-9620-970A7F9EC140@linaro.org>
-From:   Angelo Ruocco <angelo.ruocco.90@gmail.com>
-Date:   Mon, 10 Dec 2018 14:45:47 +0100
-Message-ID: <CADiTV-29TmkB5-k=TtQfoJqjP2Qv7GSsGLXAPBaTB6DoQ+6yyw@mail.gmail.com>
-Subject: Re: [PATCH V2 00/10] unify the interface of the proportional-share
- policy in blkio/io
-To:     Paolo Valente <paolo.valente@linaro.org>
-Cc:     "'Paolo Valente' via bfq-iosched" <bfq-iosched@googlegroups.com>,
-        Jens Axboe <axboe@kernel.dk>,
+        id S1727711AbeLJObU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Dec 2018 09:31:20 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:55154 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726791AbeLJObU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Dec 2018 09:31:20 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E807B1596;
+        Mon, 10 Dec 2018 06:31:19 -0800 (PST)
+Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 837193F575;
+        Mon, 10 Dec 2018 06:31:15 -0800 (PST)
+From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
+To:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Angelo Ruocco <angeloruocco90@gmail.com>,
-        Dennis Zhou <dennis@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        Liu Bo <bo.liu@linux.alibaba.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ulf.hansson@linaro.org, linus.walleij@linaro.org,
-        broonie@kernel.org, oleksandr@natalenko.name,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: [RFC][PATCH 0/3] arm64 relaxed ABI
+Date:   Mon, 10 Dec 2018 14:30:41 +0000
+Message-Id: <20181210143044.12714-1-vincenzo.frascino@arm.com>
+X-Mailer: git-send-email 2.19.2
+In-Reply-To: <cover.1544445454.git.andreyknvl@google.com>
+References: <cover.1544445454.git.andreyknvl@google.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2018-11-30 19:53 GMT+01:00, Paolo Valente <paolo.valente@linaro.org>:
->
->
->> Il giorno 30 nov 2018, alle ore 19:42, Tejun Heo <tj@kernel.org> ha
->> scritto:
->>
->> Hello, Paolo.
->>
->> On Fri, Nov 30, 2018 at 07:23:24PM +0100, Paolo Valente wrote:
->>>> Then we understood that exactly the same happens with throttling, in
->>>> case the latter is activated on different devices w.r.t. bfq.
->>>>
->>>> In addition, the same may happen, in the near future, with the
->>>> bandwidth controller Josef is working on.  If the controller can be
->>>> configured per device, as with throttling, then statistics may differ,
->>>> for the same interface files, between bfq, throttling and that
->>>> controller.
->>
->> So, regardless of how all these are implemented, what's presented to
->> user should be consistent and clear.  There's no other way around it.
->> Only what's relevant should be visible to userspace.
->>
->>> have you had time to look into this?  Any improvement to this
->>> interface is ok for us. We are only interested in finally solving this
->>> interface issue, as, for what concerns us directly, it has been
->>> preventing legacy code to use bfq for years.
->>
->> Unfortunately, I don't have any implementation proposal, but we can't
->> show things this way to userspace.
->>
->
-> Well, this is not very helpful to move forward :)
->
-> Let me try to repeat the problem, to try to help you help us unblock
-> the situation.
->
-> If we have multiple entities attached to the same interface output
-> file, you don't find it clear that each entity shows the number it
-> wants to show.  But you have no idea either of how that differentiated
-> information should be shown.  Is this the situation, or is the problem
-> somewhere 'above' this level?
->
-> If the problem is as I described it, here are some proposal attempts:
-> 1) Do you want file sharing to be allowed only if all entities will
-> output the same number?  (this seems excessive, but maybe it makes
-> sense)
-> 2) Do you want only one number to be shown, equal to the sum of the
-> numbers of each entity?  (in some cases, this may make sense)
-> 3) Do you prefer an average?
-> 4) Do you have any other idea, even if just germinal?
+On arm64 the TCR_EL1.TBI0 bit has been set since Linux 3.x hence
+the userspace (EL0) is allowed to set a non-zero value in the top
+byte but the resulting pointers are not allowed at the user-kernel
+syscall ABI boundary.
 
-To further add to what Paolo said and better expose the problem, I'd like to
-say that all those proposals have issues.
-If we only allow "same output" cftypes to be shared then we lose all the
-flexibility of this solution, and we need a way for an entity to know other
-entities internal variables beforehand, which sounds at least very hard, and
-maybe is not even an acceptable thing to do.
-To put the average, sum or some other mathematical function in the file only
-makes sense for certain cftypes, so also doesn't sound like a good idea. In
-fact I can think of scenarios where only seeing the different values of the
-entities makes sense for a user.
+This patchset proposes a relaxation of the ABI and a mechanism to
+advertise it to the userspace via an AT_FLAGS.
 
-I understand that the problem is inconsistency: having a file that behaves
-differently depending on the situation, and the only way to prevent this I can
-think of is to *always* show the entity owner of a certain file (or part of the
-output), even when the output would be the same among entities or when the
-file is not currently shared but could be. Can this be an acceptable solution?
+The rationale behind the choice of AT_FLAGS is that the Unix System V
+ABI defines AT_FLAGS as "flags", leaving some degree of freedom in
+interpretation.
+There are two previous attempts of using AT_FLAGS in the Linux Kernel
+for different reasons: the first was more generic and was used to expose
+the support for the GNU STACK NX feature [1] and the second was done for
+the MIPS architecture and was used to expose the support of "MIPS ABI
+Extension for IEEE Std 754 Non-Compliant Interlinking" [2].
+Both the changes are currently _not_ merged in mainline.
+The only architecture that reserves some of the bits in AT_FLAGS is
+currently MIPS, which introduced the concept of platform specific ABI
+(psABI) reserving the top-byte [3].
 
-Angelo
+When ARM64_AT_FLAGS_SYSCALL_TBI is set the kernel is advertising
+to the userspace that a relaxed ABI is supported hence this type
+of pointers are now allowed to be passed to the syscalls when they are
+in memory ranges obtained by anonymous mmap() or brk().
 
->
-> Looking forward to your feedback,
-> Paolo
->
->
->> Thanks.
->>
->> --
->> tejun
->>
->> --
->> You received this message because you are subscribed to the Google Groups
->> "bfq-iosched" group.
->> To unsubscribe from this group and stop receiving emails from it, send an
->> email to bfq-iosched+unsubscribe@googlegroups.com.
->> For more options, visit https://groups.google.com/d/optout.
->
->
+The userspace _must_ verify that the flag is set before passing tagged
+pointers to the syscalls allowed by this relaxation.
+
+More in general, exposing the ARM64_AT_FLAGS_SYSCALL_TBI flag and mandating
+to the software to check that the feature is present, before using the
+associated functionality, it provides a degree of control on the decision
+of disabling such a feature in future without consequently breaking the
+userspace.
+
+The change required a modification of the elf common code, because in Linux
+the AT_FLAGS are currently set to zero by default by the kernel.
+
+The newly added flag has been verified on arm64 using the code below.
+#include <stdio.h>
+#include <stdbool.h>
+#include <sys/auxv.h>
+
+#define ARM64_AT_FLAGS_SYSCALL_TBI     (1 << 0)
+
+bool arm64_syscall_tbi_is_present(void)
+{
+        unsigned long at_flags = getauxval(AT_FLAGS);
+        if (at_flags & ARM64_AT_FLAGS_SYSCALL_TBI)
+                return true;
+
+        return false;
+}
+
+void main()
+{
+        if (arm64_syscall_tbi_is_present())
+                printf("ARM64_AT_FLAGS_SYSCALL_TBI is present\n");
+}
+
+This patchset should be merged together with [4].
+
+[1] https://patchwork.ozlabs.org/patch/579578/
+[2] https://lore.kernel.org/patchwork/cover/618280/
+[3] ftp://www.linux-mips.org/pub/linux/mips/doc/ABI/psABI_mips3.0.pdf
+[4] https://patchwork.kernel.org/cover/10674351/
+
+ABI References:
+---------------
+Sco SysV ABI: http://www.sco.com/developers/gabi/2003-12-17/contents.html
+PowerPC AUXV: http://openpowerfoundation.org/wp-content/uploads/resources/leabi/content/dbdoclet.50655242_98651.html
+AMD64 ABI: https://www.cs.tufts.edu/comp/40-2012f/readings/amd64-abi.pdf
+x86 ABI: https://www.uclibc.org/docs/psABI-i386.pdf
+MIPS ABI: ftp://www.linux-mips.org/pub/linux/mips/doc/ABI/psABI_mips3.0.pdf
+ARM ABI: http://infocenter.arm.com/help/topic/com.arm.doc.ihi0044f/IHI0044F_aaelf.pdf
+SPARC ABI: http://math-atlas.sourceforge.net/devel/assembly/abi_sysV_sparc.pdf
+
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will.deacon@arm.com>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Kate Stewart <kstewart@linuxfoundation.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Ingo Molnar <mingo@kernel.org>
+Cc: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Shuah Khan <shuah@kernel.org>
+Cc: Chintan Pandya <cpandya@codeaurora.org>
+Cc: Jacob Bramley <Jacob.Bramley@arm.com>
+Cc: Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>
+Cc: Andrey Konovalov <andreyknvl@google.com>
+Cc: Lee Smith <Lee.Smith@arm.com>
+Cc: Kostya Serebryany <kcc@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>,
+Cc: Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>
+Cc: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Cc: Evgeniy Stepanov <eugenis@google.com>
+CC: Alexander Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+
+Vincenzo Frascino (3):
+  elf: Make AT_FLAGS arch configurable
+  arm64: Define Documentation/arm64/elf_at_flags.txt
+  arm64: elf: Advertise relaxed ABI
+
+ Documentation/arm64/elf_at_flags.txt  | 111 ++++++++++++++++++++++++++
+ arch/arm64/include/asm/atflags.h      |   7 ++
+ arch/arm64/include/asm/elf.h          |   5 ++
+ arch/arm64/include/uapi/asm/atflags.h |   8 ++
+ fs/binfmt_elf.c                       |   6 +-
+ fs/binfmt_elf_fdpic.c                 |   6 +-
+ fs/compat_binfmt_elf.c                |   5 ++
+ 7 files changed, 146 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/arm64/elf_at_flags.txt
+ create mode 100644 arch/arm64/include/asm/atflags.h
+ create mode 100644 arch/arm64/include/uapi/asm/atflags.h
+
+-- 
+2.19.2
+
