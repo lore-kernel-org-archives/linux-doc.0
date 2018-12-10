@@ -1,211 +1,275 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B0D5E7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 19:56:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8714E7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 20:32:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727529AbeLJT43 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Dec 2018 14:56:29 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:39810 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727515AbeLJT43 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 Dec 2018 14:56:29 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id C9F37307EA92;
-        Mon, 10 Dec 2018 19:56:27 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-223.bos.redhat.com [10.18.17.223])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C9F0E5D965;
-        Mon, 10 Dec 2018 19:56:25 +0000 (UTC)
-Subject: Re: [PATCH v4 1/5] cgroup: subtree_control bypass mode for bypassable
- controllers
-To:     Dan Carpenter <dan.carpenter@oracle.com>, kbuild@01.org
-Cc:     kbuild-all@01.org, Tejun Heo <tj@kernel.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Roman Gushchin <guro@fb.com>, Jens Axboe <axboe@kernel.dk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dennis Zhou <dennis@kernel.org>,
-        Shakeel Butt <shakeelb@google.com>
-References: <20181129111811.GP3073@unbuntlaptop>
-From:   Waiman Long <longman@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- weim8xU=
-Organization: Red Hat
-Message-ID: <181c8ea6-7b5a-1ee4-7049-84aad192697c@redhat.com>
-Date:   Mon, 10 Dec 2018 14:56:25 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1728694AbeLJUc3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Dec 2018 15:32:29 -0500
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:42134 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727494AbeLJUc2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 15:32:28 -0500
+Received: by mail-oi1-f195.google.com with SMTP id w13so10115364oiw.9;
+        Mon, 10 Dec 2018 12:32:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Z/1koWbCGQMD5zy9wBBmxwZQ1rWEBMNYAqc6ECB9skQ=;
+        b=EZdfOm4+IcjVM0URs8bSUmrj6jDcD99nd7+8lFHv5co7VnH5WxIMfiDryqDx5bSG7t
+         aHGaSWSSpvu0XtYaAURIH+PMcqg7TvM+WCAD4efisNuWpoEqvd7k54CcK6Er5KbLsCdp
+         G1me37U8qKTUJYByIhpOpWNeHAPviptaNQAxXCHbBz183PuNgqIK1Js606NMzx9ru/80
+         lQ7Q4VoWkRgiHIatPF7G2k8EKh1I3d7Eh0wifd99S3a5QKFl6FhDn47EsbJ5Et/tYZdR
+         DqI/N1KKStIwoPVGHFBrRXzZ/IOkjqkv/5TMa57QLGu3Z/YApo+/cOFPx8oihF2Nfc9+
+         6Bmw==
+X-Gm-Message-State: AA+aEWbdaHQ5cWxMqkeEr6oA3iJL6f7yL1XWl0m9OUftI1tDPNOPx2R7
+        L3rfM1Z1wgTDMYDSOmlmLPSZRpQ=
+X-Google-Smtp-Source: AFSGD/UTOysIXvcEQiFKuCHLs2ATAjNMwlkcajeldIQbdkDgNta5snxM1Nr638bmDd8Q/+Ck51b8Lw==
+X-Received: by 2002:aca:684a:: with SMTP id d71mr7974897oic.264.1544473947171;
+        Mon, 10 Dec 2018 12:32:27 -0800 (PST)
+Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.googlemail.com with ESMTPSA id a66sm6223860oib.42.2018.12.10.12.32.25
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 10 Dec 2018 12:32:26 -0800 (PST)
+From:   Rob Herring <robh@kernel.org>
+To:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Sean Hudson <darknighte@darknighte.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, Grant Likely <grant.likely@arm.com>,
+        Kumar Gala <kumar.gala@linaro.org>, arm@kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: [PATCH v3] kbuild: Add support for DT binding schema checks
+Date:   Mon, 10 Dec 2018 14:32:25 -0600
+Message-Id: <20181210203225.11179-1-robh@kernel.org>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-In-Reply-To: <20181129111811.GP3073@unbuntlaptop>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Mon, 10 Dec 2018 19:56:28 +0000 (UTC)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/29/2018 06:18 AM, Dan Carpenter wrote:
-> Hi Waiman,
->
-> Thank you for the patch! Perhaps something to improve:
->
-> url:    https://github.com/0day-ci/linux/commits/Waiman-Long/cgroup-Introducing-bypass-mode/20181123-030552
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
->
-> smatch warnings:
-> kernel/cgroup/cgroup.c:4893 css_create() error: we previously assumed 'parent' could be null (see line 4864)
->
-> # https://github.com/0day-ci/linux/commit/8b68fd4330e043645667a5d3306398f8f88f9ff2
-> git remote add linux-review https://github.com/0day-ci/linux
-> git remote update linux-review
-> git checkout 8b68fd4330e043645667a5d3306398f8f88f9ff2
-> vim +/parent +4893 kernel/cgroup/cgroup.c
->
-> a31f2d3ff kernel/cgroup.c        Tejun Heo        2012-11-19  4840  
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4841  /**
-> 6cd0f5bba kernel/cgroup.c        Tejun Heo        2016-03-03  4842   * css_create - create a cgroup_subsys_state
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4843   * @cgrp: the cgroup new css will be associated with
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4844   * @ss: the subsys of new css
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4845   *
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4846   * Create a new css associated with @cgrp - @ss pair.  On success, the new
-> 6cd0f5bba kernel/cgroup.c        Tejun Heo        2016-03-03  4847   * css is online and installed in @cgrp.  This function doesn't create the
-> 6cd0f5bba kernel/cgroup.c        Tejun Heo        2016-03-03  4848   * interface files.  Returns 0 on success, -errno on failure.
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4849   */
-> 6cd0f5bba kernel/cgroup.c        Tejun Heo        2016-03-03  4850  static struct cgroup_subsys_state *css_create(struct cgroup *cgrp,
-> 6cd0f5bba kernel/cgroup.c        Tejun Heo        2016-03-03  4851  					      struct cgroup_subsys *ss)
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4852  {
-> d51f39b05 kernel/cgroup.c        Tejun Heo        2014-05-16  4853  	struct cgroup *parent = cgroup_parent(cgrp);
-> 8b68fd433 kernel/cgroup/cgroup.c Waiman Long      2018-11-20  4854  	struct cgroup_subsys_state *parent_css = NULL;
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4855  	struct cgroup_subsys_state *css;
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4856  	int err;
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4857  
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4858  	lockdep_assert_held(&cgroup_mutex);
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4859  
-> 8b68fd433 kernel/cgroup/cgroup.c Waiman Long      2018-11-20  4860  	/*
-> 8b68fd433 kernel/cgroup/cgroup.c Waiman Long      2018-11-20  4861  	 * As cgroup may be in bypass mode, need to skip over ancestor
-> 8b68fd433 kernel/cgroup/cgroup.c Waiman Long      2018-11-20  4862  	 * cgroups with NULL CSS.
-> 8b68fd433 kernel/cgroup/cgroup.c Waiman Long      2018-11-20  4863  	 */
-> 8b68fd433 kernel/cgroup/cgroup.c Waiman Long      2018-11-20 @4864  	for (; parent && !parent_css; parent = cgroup_parent(parent))
->                                                                                ^^^^^^^^^^^^^^^^^^^^^
-> 8b68fd433 kernel/cgroup/cgroup.c Waiman Long      2018-11-20  4865  		parent_css = cgroup_css(parent, ss);
->
-> When we exit this loop it means either parent is NULL or parent_css
-> is non-NULL.
+This adds the build infrastructure for checking DT binding schema
+documents and validating dts files using the binding schema.
 
-Sorry for the bug. I should have a temp variable to go up
-cgroup_parent() iteration chain and leave parent alone. Thanks for
-spotting that.
+Check DT binding schema documents:
+make dt_binding_check
 
-> 8b68fd433 kernel/cgroup/cgroup.c Waiman Long      2018-11-20  4866  
-> 1fed1b2e3 kernel/cgroup.c        Tejun Heo        2014-05-16  4867  	css = ss->css_alloc(parent_css);
-> e7e15b87f kernel/cgroup.c        Tejun Heo        2016-06-21  4868  	if (!css)
-> e7e15b87f kernel/cgroup.c        Tejun Heo        2016-06-21  4869  		css = ERR_PTR(-ENOMEM);
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4870  	if (IS_ERR(css))
-> 6cd0f5bba kernel/cgroup.c        Tejun Heo        2016-03-03  4871  		return css;
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4872  
-> 8b68fd433 kernel/cgroup/cgroup.c Waiman Long      2018-11-20  4873  	init_and_link_css(css, ss, cgrp, parent_css);
-> a2bed8209 kernel/cgroup.c        Tejun Heo        2014-05-04  4874  
-> 2aad2a86f kernel/cgroup.c        Tejun Heo        2014-09-24  4875  	err = percpu_ref_init(&css->refcnt, css_release, 0, GFP_KERNEL);
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4876  	if (err)
-> 3eb59ec64 kernel/cgroup.c        Li Zefan         2014-03-18  4877  		goto err_free_css;
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4878  
-> cf780b7dc kernel/cgroup.c        Vladimir Davydov 2015-08-03  4879  	err = cgroup_idr_alloc(&ss->css_idr, NULL, 2, 0, GFP_KERNEL);
-> 15a4c835e kernel/cgroup.c        Tejun Heo        2014-05-04  4880  	if (err < 0)
-> b00c52dae kernel/cgroup.c        Wenwei Tao       2016-05-13  4881  		goto err_free_css;
-> 15a4c835e kernel/cgroup.c        Tejun Heo        2014-05-04  4882  	css->id = err;
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4883  
-> 15a4c835e kernel/cgroup.c        Tejun Heo        2014-05-04  4884  	/* @css is ready to be brought online now, make it visible */
-> 1fed1b2e3 kernel/cgroup.c        Tejun Heo        2014-05-16  4885  	list_add_tail_rcu(&css->sibling, &parent_css->children);
-> 15a4c835e kernel/cgroup.c        Tejun Heo        2014-05-04  4886  	cgroup_idr_replace(&ss->css_idr, css, css->id);
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4887  
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4888  	err = online_css(css);
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4889  	if (err)
-> 1fed1b2e3 kernel/cgroup.c        Tejun Heo        2014-05-16  4890  		goto err_list_del;
-> 944196278 kernel/cgroup.c        Tejun Heo        2014-03-19  4891  
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4892  	if (ss->broken_hierarchy && !ss->warned_broken_hierarchy &&
-> d51f39b05 kernel/cgroup.c        Tejun Heo        2014-05-16 @4893  	    cgroup_parent(parent)) {
->                                                                                           ^^^^^^
-> We dereference parent inside the function, but I don't know for sure
-> if this is reachable when "parent" is NULL.
->
-> ed3d261b5 kernel/cgroup.c        Joe Perches      2014-04-25  4894  		pr_warn("%s (%d) created nested cgroup for controller \"%s\" which has incomplete hierarchy support. Nested cgroups may change behavior in the future.\n",
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4895  			current->comm, current->pid, ss->name);
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4896  		if (!strcmp(ss->name, "memory"))
-> ed3d261b5 kernel/cgroup.c        Joe Perches      2014-04-25  4897  			pr_warn("\"memory\" requires setting use_hierarchy to 1 on the root\n");
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4898  		ss->warned_broken_hierarchy = true;
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4899  	}
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4900  
-> 6cd0f5bba kernel/cgroup.c        Tejun Heo        2016-03-03  4901  	return css;
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4902  
-> 1fed1b2e3 kernel/cgroup.c        Tejun Heo        2014-05-16  4903  err_list_del:
-> 1fed1b2e3 kernel/cgroup.c        Tejun Heo        2014-05-16  4904  	list_del_rcu(&css->sibling);
-> 3eb59ec64 kernel/cgroup.c        Li Zefan         2014-03-18  4905  err_free_css:
-> 8f53470ba kernel/cgroup/cgroup.c Tejun Heo        2018-04-26  4906  	list_del_rcu(&css->rstat_css_node);
-> 8f36aaec9 kernel/cgroup/cgroup.c Tejun Heo        2018-03-14  4907  	INIT_RCU_WORK(&css->destroy_rwork, css_free_rwork_fn);
-> 8f36aaec9 kernel/cgroup/cgroup.c Tejun Heo        2018-03-14  4908  	queue_rcu_work(cgroup_destroy_wq, &css->destroy_rwork);
-> 6cd0f5bba kernel/cgroup.c        Tejun Heo        2016-03-03  4909  	return ERR_PTR(err);
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4910  }
-> c81c925ad kernel/cgroup.c        Tejun Heo        2013-12-06  4911  
->
-> ---
-> 0-DAY kernel test infrastructure                Open Source Technology Center
-> https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+Build dts files and check using DT binding schema:
+make dtbs_check
 
-Cheers,
-Longman
+Optionally, DT_SCHEMA_FILES can passed in with a schema file(s) to use
+for validation. This makes it easier to find and fix errors generated by
+a specific schema.
+
+Currently, the validation targets are separate from a normal build to
+avoid a hard dependency on the external DT schema project and because
+there are lots of warnings generated.
+
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: linux-doc@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kbuild@vger.kernel.org
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+v3:
+- Fix error causing only 1st schema file to get used.
+- Add a more useful error message when dtc is missing YAML support 
+telling the user they need to install libyaml devel package.
+
+ 
+ .gitignore                                   |  1 +
+ Documentation/Makefile                       |  2 +-
+ Documentation/devicetree/bindings/.gitignore |  1 +
+ Documentation/devicetree/bindings/Makefile   | 33 +++++++++++++++++
+ Makefile                                     | 11 ++++--
+ scripts/Makefile.lib                         | 37 ++++++++++++++++++--
+ 6 files changed, 80 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/.gitignore
+ create mode 100644 Documentation/devicetree/bindings/Makefile
+
+diff --git a/.gitignore b/.gitignore
+index 97ba6b79834c..a20ac26aa2f5 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -15,6 +15,7 @@
+ *.bin
+ *.bz2
+ *.c.[012]*.*
++*.dt.yaml
+ *.dtb
+ *.dtb.S
+ *.dwo
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 2ca77ad0f238..9786957c6a35 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -2,7 +2,7 @@
+ # Makefile for Sphinx documentation
+ #
+ 
+-subdir-y :=
++subdir-y := devicetree/bindings/
+ 
+ # You can set these variables from the command line.
+ SPHINXBUILD   = sphinx-build
+diff --git a/Documentation/devicetree/bindings/.gitignore b/Documentation/devicetree/bindings/.gitignore
+new file mode 100644
+index 000000000000..d9194c02dd08
+--- /dev/null
++++ b/Documentation/devicetree/bindings/.gitignore
+@@ -0,0 +1 @@
++*.example.dts
+diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
+new file mode 100644
+index 000000000000..43f8657ab070
+--- /dev/null
++++ b/Documentation/devicetree/bindings/Makefile
+@@ -0,0 +1,33 @@
++# SPDX-License-Identifier: GPL-2.0
++DT_DOC_CHECKER ?= dt-doc-validate
++DT_EXTRACT_EX ?= dt-extract-example
++DT_MK_SCHEMA ?= dt-mk-schema
++DT_MK_SCHEMA_FLAGS := $(if $(DT_SCHEMA_FILES), -u)
++
++quiet_cmd_chk_binding = CHKDT   $<
++      cmd_chk_binding = (set -e; \
++                         $(DT_DOC_CHECKER) $< ; \
++                         mkdir -p $(dir $@) ; \
++                         $(DT_EXTRACT_EX) $< > $@ )
++
++$(obj)/%.example.dts: $(src)/%.yaml FORCE
++	$(call if_changed,chk_binding)
++
++DT_TMP_SCHEMA := .schema.yaml.tmp
++extra-y += $(DT_TMP_SCHEMA)
++
++quiet_cmd_mk_schema = SCHEMA  $@
++      cmd_mk_schema = mkdir -p $(obj); \
++                      rm -f $@; \
++                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $(filter-out FORCE, $^)
++
++DT_DOCS = $(shell cd $(srctree)/$(src) && find * -name '*.yaml')
++DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
++
++extra-y += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
++extra-y += $(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES))
++
++$(obj)/$(DT_TMP_SCHEMA): | $(addprefix $(obj)/,$(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES)))
++
++$(obj)/$(DT_TMP_SCHEMA): $(addprefix $(srctree)/, $(DT_SCHEMA_FILES)) FORCE
++	$(call if_changed,mk_schema)
+diff --git a/Makefile b/Makefile
+index 2f36db897895..ff59adf43300 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1232,10 +1232,13 @@ ifneq ($(dtstree),)
+ %.dtb: prepare3 scripts_dtc
+ 	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+ 
+-PHONY += dtbs dtbs_install
++PHONY += dtbs dtbs_install dt_binding_check
+ dtbs: prepare3 scripts_dtc
+ 	$(Q)$(MAKE) $(build)=$(dtstree)
+ 
++dtbs_check: prepare3 dt_binding_check
++	$(Q)$(MAKE) $(build)=$(dtstree) CHECK_DTBS=1
++
+ dtbs_install:
+ 	$(Q)$(MAKE) $(dtbinst)=$(dtstree)
+ 
+@@ -1249,6 +1252,9 @@ PHONY += scripts_dtc
+ scripts_dtc: scripts_basic
+ 	$(Q)$(MAKE) $(build)=scripts/dtc
+ 
++dt_binding_check: scripts_dtc
++	$(Q)$(MAKE) $(build)=Documentation/devicetree/bindings
++
+ # ---------------------------------------------------------------------------
+ # Modules
+ 
+@@ -1611,7 +1617,8 @@ clean: $(clean-dirs)
+ 	$(call cmd,rmfiles)
+ 	@find $(if $(KBUILD_EXTMOD), $(KBUILD_EXTMOD), .) $(RCS_FIND_IGNORE) \
+ 		\( -name '*.[aios]' -o -name '*.ko' -o -name '.*.cmd' \
+-		-o -name '*.ko.*' -o -name '*.dtb' -o -name '*.dtb.S' \
++		-o -name '*.ko.*' \
++		-o -name '*.dtb' -o -name '*.dtb.S' -o -name '*.dt.yaml' \
+ 		-o -name '*.dwo' -o -name '*.lst' \
+ 		-o -name '*.su'  \
+ 		-o -name '.*.d' -o -name '.*.tmp' -o -name '*.mod.c' \
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 8fe4468f9bda..6a3450b20041 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -61,6 +61,11 @@ real-obj-m := $(foreach m, $(obj-m), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y))
+ extra-y				+= $(dtb-y)
+ extra-$(CONFIG_OF_ALL_DTBS)	+= $(dtb-)
+ 
++ifneq ($(CHECK_DTBS),)
++extra-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
++extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
++endif
++
+ # Add subdir path
+ 
+ extra-y		:= $(addprefix $(obj)/,$(extra-y))
+@@ -284,13 +289,41 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
+ quiet_cmd_dtc = DTC     $@
+ cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
+ 	$(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
+-	$(DTC) -O dtb -o $@ -b 0 \
++	$(DTC) -O $(2) -o $@ -b 0 \
+ 		$(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
+ 		-d $(depfile).dtc.tmp $(dtc-tmp) ; \
+ 	cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
+ 
+ $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
+-	$(call if_changed_dep,dtc)
++	$(call if_changed_dep,dtc,dtb)
++
++DT_CHECKER ?= dt-validate
++DT_BINDING_DIR := Documentation/devicetree/bindings
++DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/.schema.yaml.tmp
++
++quiet_cmd_dtb_check =	CHECK   $@
++      cmd_dtb_check =	$(DT_CHECKER) -p $(DT_TMP_SCHEMA) $@ ;
++
++define rule_dtc_dt_yaml
++	$(call cmd_and_fixdep,dtc,yaml)		\
++	$(call echo-cmd,dtb_check) $(cmd_dtb_check)
++endef
++
++cmd_dtc_yaml_chk = \
++	if ! echo "/dts-v1/; /{};" | $(DTC) -I dts -O yaml > /dev/null ; then \
++		echo "*"; \
++		echo "* dtc needs libyaml for DT schema validation support."; \
++		echo "* Install the necessary libyaml development package from your distro."; \
++		echo "*"; \
++		false; \
++	fi; \
++	touch $@
++
++$(objtree)/scripts/dtc/.dtc-yaml-chk.tmp: $(DTC) FORCE
++	$(call if_changed,dtc_yaml_chk)
++
++$(obj)/%.dt.yaml: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE | $(objtree)/scripts/dtc/.dtc-yaml-chk.tmp
++	$(call if_changed_rule,dtc_dt_yaml)
+ 
+ dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
+ 
+-- 
+2.19.1
 
