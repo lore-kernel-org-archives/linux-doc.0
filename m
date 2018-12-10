@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-13.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 08E647DD41
+	by archive.lwn.net (Postfix) with ESMTP id 724167DD48
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 12:52:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727822AbeLJMvi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Dec 2018 07:51:38 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:44509 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727805AbeLJMvU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 07:51:20 -0500
-Received: by mail-wr1-f65.google.com with SMTP id z5so10313671wrt.11
-        for <linux-doc@vger.kernel.org>; Mon, 10 Dec 2018 04:51:19 -0800 (PST)
+        id S1726738AbeLJMvx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Dec 2018 07:51:53 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:53310 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727474AbeLJMvR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 07:51:17 -0500
+Received: by mail-wm1-f66.google.com with SMTP id y1so10752521wmi.3
+        for <linux-doc@vger.kernel.org>; Mon, 10 Dec 2018 04:51:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pdp/ryV9bt4+HrjeOWrdnZnBI6aj8YPFqzbeaIQ9j68=;
-        b=VEgcxLaXoi0dOKDXk3mvZgG3orCXpa3lyeE6CP4OJMDCNte/zoFeg72gBtyYRUM/+z
-         dkdH0FX3oaVuoZ2TdAnAWlMAq2acZqiJrldMEieGTNK+3b5PjuVvTUt13jkyridlEMir
-         ldYCNgQs6aUD15xGtoBy02lnJF80uPmFB1DrhlhknCsVZxjWvFv1RdkV5JJ5GSpCW5Fm
-         4CiX7I8udlN21IjNRASuq0xeFFDULrKpoEaM9D2i67zp9cQXXr2TQKyBW/cdB/XiSE0/
-         JddgPffO2wfeBRJJGAVFDqBC6nXfN7M9u/3FUN6B+81x1rMeN5f1CRtoSZFGlT6PrwZW
-         bQNw==
+        bh=O6AqR+kzU7DWQeNGwKtE5aEN5/daSSLGL2wqVNM1I1o=;
+        b=o94crt9sdWRW+Hm+QmVzs2SQOfXkb5I8ZA1YUWGR/rhiyXLta3D09PlbP8iJAgQz4P
+         AaMOg13WCXc/3V43uJSupLTElnHz42/Ee7IzHa1JjP6TjqWFlUNN//X23cnby2HTY/og
+         axjylPN+XFavkTnP0oGFHln3ZwFe2/juKQ5sJAgtxYNAFtsVDFeYuPsBQ0hII0bfcLEK
+         XiMERt9XLjpmq8N8DJ1YK866L0D0OEONbAo9KCgz28iqGOX3iPjmbwdb16LAY28Asm+R
+         C/Nun82fTDPABrkfsixYhSu9EPH9yIADCvsKOyVMjDxIqyFwkkJ/ZzoNiySiBB50PDA4
+         tGmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pdp/ryV9bt4+HrjeOWrdnZnBI6aj8YPFqzbeaIQ9j68=;
-        b=HL4AjwnlA+c5Um/lUu+vGV9gVdndyx9iCEUuQkFNUq4nE7wGQ8vVC4R+EJ+mhooSbY
-         5jbO0FqJepN4ZgWAPkR/1oCWwgEpTkZhPfAxtNzUP9OBRY92hrut8avgyAJc9t5dKEZT
-         vr2lQ3iX0EJfPe+hDRx0Wjsu2y2mW/BrNruo6O7oXB0pbeEzl1wonzMN3G15gC/mgxE9
-         R6jp0bO37hdrd2Lwe7aFpmgIjr6lV5nZb57N3ZrR0AcI8SLPLjF/BzrJL/JjFCTE0UtQ
-         sHz2DpMM47Mfgr6RGDZ7c4w5wkdaY0iEFcbZ3maSGEM60Akc/LNr1X42QblUaSfi3yRt
-         +Iaw==
-X-Gm-Message-State: AA+aEWZmbOuav8mlArxHPQLiWHGnTJ27GXwLLwv8V7SbrkDyDGXp6oH5
-        vmU+BkU5lIKkQL9eHoqt1UVr6A==
-X-Google-Smtp-Source: AFSGD/WkZ2Ib7xqoZNcfNco/+WzWdTWYInohVyU59jy0CeiifxD2IPgCZSpbiMewGDrt/7AYo1yayA==
-X-Received: by 2002:a5d:61c4:: with SMTP id q4mr9258512wrv.308.1544446278383;
-        Mon, 10 Dec 2018 04:51:18 -0800 (PST)
+        bh=O6AqR+kzU7DWQeNGwKtE5aEN5/daSSLGL2wqVNM1I1o=;
+        b=LnjeezPn0mORnGWz7VDRNECREZzwYCWEztugiEJd9JTSd2SV+Yjk0nKQA1DrN487hD
+         sW4xoJn1W39XjXxV3ImVTvKjQdy57zCzxj5K68Pb47E1o39OdDQCudsV3mmNaBQl5b4f
+         B3+Qx+7rdeuQ3DPZWwOY8PDPXXMdxkgjkB3NXbjRcBQw0dBbrFVHWM74yNu4pfTZCi12
+         34jvyQl+pHgx9NlDY7mtKK0c5wpNMJzcdJk0DL/W/WiHZNHmsuHrkCzq2qnha13bM2Vi
+         6nwKdyshJeZIfHFhPViNf+rLxCkAHPJ+l1IDSJV+VdbfZOR4XBZLdX+huWmbYmRNYoQK
+         jWzw==
+X-Gm-Message-State: AA+aEWYOPHbjN70O/zAnDeUU24ZleCHYslLa0PBIrhqAiyJz+f7Z2QvW
+        bZG03s1uy169vX2rHVMIQVnrEA==
+X-Google-Smtp-Source: AFSGD/Xve6So/1Ery1o5wmvM73iVMPQ4hP1b6ACBIixN+5CPW479nD99WkZw/3+pQqT8QAsR/mEorA==
+X-Received: by 2002:a1c:570d:: with SMTP id l13mr11011978wmb.139.1544446275548;
+        Mon, 10 Dec 2018 04:51:15 -0800 (PST)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:3180:41f8:3010:ff61])
-        by smtp.gmail.com with ESMTPSA id l197sm36893363wma.44.2018.12.10.04.51.17
+        by smtp.gmail.com with ESMTPSA id l197sm36893363wma.44.2018.12.10.04.51.14
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Dec 2018 04:51:17 -0800 (PST)
+        Mon, 10 Dec 2018 04:51:14 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -73,9 +73,9 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v9 6/8] fs, arm64: untag user address in copy_mount_options
-Date:   Mon, 10 Dec 2018 13:51:03 +0100
-Message-Id: <07a4efa5983abec2355b2754812509a73f648332.1544445454.git.andreyknvl@google.com>
+Subject: [PATCH v9 4/8] mm, arm64: untag user addresses in mm/gup.c
+Date:   Mon, 10 Dec 2018 13:51:01 +0100
+Message-Id: <f67011f11f676bf7b947bf819273e22b828b9b9b.1544445454.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.20.0.rc2.403.gdbc3b29805-goog
 In-Reply-To: <cover.1544445454.git.andreyknvl@google.com>
 References: <cover.1544445454.git.andreyknvl@google.com>
@@ -86,31 +86,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In copy_mount_options a user address is being subtracted from TASK_SIZE.
-If the address is lower than TASK_SIZE, the size is calculated to not
-allow the exact_copy_from_user() call to cross TASK_SIZE boundary.
-However if the address is tagged, then the size will be calculated
-incorrectly.
+mm/gup.c provides a kernel interface that accepts user addresses and
+manipulates user pages directly (for example get_user_pages, that is used
+by the futex syscall). Since a user can provided tagged addresses, we need
+to handle such case.
 
-Untag the address before subtracting.
+Add untagging to gup.c functions that use user addresses for vma lookup.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- fs/namespace.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ mm/gup.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index a7f91265ea67..694dcedb7e7d 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -2686,7 +2686,7 @@ void *copy_mount_options(const void __user * data)
- 	 * the remainder of the page.
- 	 */
- 	/* copy_from_user cannot cross TASK_SIZE ! */
--	size = TASK_SIZE - (unsigned long)data;
-+	size = TASK_SIZE - (unsigned long)untagged_addr(data);
- 	if (size > PAGE_SIZE)
- 		size = PAGE_SIZE;
+diff --git a/mm/gup.c b/mm/gup.c
+index 8cb68a50dbdf..409aedb1e2d5 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -683,6 +683,8 @@ static long __get_user_pages(struct task_struct *tsk, struct mm_struct *mm,
+ 	if (!nr_pages)
+ 		return 0;
+ 
++	start = untagged_addr(start);
++
+ 	VM_BUG_ON(!!pages != !!(gup_flags & FOLL_GET));
+ 
+ 	/*
+@@ -845,6 +847,8 @@ int fixup_user_fault(struct task_struct *tsk, struct mm_struct *mm,
+ 	struct vm_area_struct *vma;
+ 	vm_fault_t ret, major = 0;
+ 
++	address = untagged_addr(address);
++
+ 	if (unlocked)
+ 		fault_flags |= FAULT_FLAG_ALLOW_RETRY;
  
 -- 
 2.20.0.rc2.403.gdbc3b29805-goog
