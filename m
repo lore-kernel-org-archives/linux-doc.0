@@ -1,163 +1,145 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+X-Spam-Status: No, score=-3.0 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B507D7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 16:26:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 108BE7D08E
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 17:26:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727471AbeLJQ0d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Dec 2018 11:26:33 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:53110 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726392AbeLJQ0d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 11:26:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=EwdIqZYk1Wml2JA2RBNPt9I8IB54sRZXzkIJ56jqPsY=; b=SstBYQOmioGYaHAlOesSuTHCX
-        wg+noZ8tVfcV8KAGfziQdF1uGiIyD+a9JrlbdV1NFKi/bHKslmAcswQBqnQ+WGAIt2z46ROUk1iAi
-        KA/ucTR5Sdf/qQlX/v57zq6EU3PYdSN4SLu/X/Xgro94JYiWLQd7LNEiDbEq5zflgQNLhiGm+vO4U
-        zDu7eBuxwCIH8n1vmIkR3lsYAemtPjwAcr5JLawkls6UWXUxRs6KxlKSM10RoO0UHflQ1ck3LIyE+
-        MvqfOKU0T6efbiL8XeOQumsa3NLFtm8tnvy+c92n1DSIXXOEHp2MrdaW3dRCVvaL5TptM3UNJ0vmf
-        SZ6Aweigg==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gWOO8-0007ik-Qr; Mon, 10 Dec 2018 16:26:32 +0000
-Subject: Re: [PATCH v1 8/9] drm/doc: Add initial komeda driver documentation
-To:     "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>,
-        Liviu Dudau <Liviu.Dudau@arm.com>,
-        "Jonathan Chai (Arm Technology China)" <Jonathan.Chai@arm.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        "Julien Yin (Arm Technology China)" <Julien.Yin@arm.com>,
-        Alexandru-Cosmin Gheorghe <Alexandru-Cosmin.Gheorghe@arm.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "maarten.lankhorst@linux.intel.com" 
-        <maarten.lankhorst@linux.intel.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        nd <nd@arm.com>
-References: <20181205102522.7989-1-james.qian.wang@arm.com>
- <ae6f05e0-d199-e9af-60c6-66fc73e3bf7b@infradead.org>
- <20181210114649.GB8863@james-ThinkStation-P300>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <2c2716f5-c3dd-924f-fad4-b6d4ccfc01e5@infradead.org>
-Date:   Mon, 10 Dec 2018 08:26:30 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1727126AbeLJR0P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Dec 2018 12:26:15 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49106 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726798AbeLJR0P (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Dec 2018 12:26:15 -0500
+Received: from gmail.com (unknown [104.132.1.77])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 30EC82064D;
+        Mon, 10 Dec 2018 17:26:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1544462773;
+        bh=0gSLkdWt5ST6oT4w/dOcP7NkxBfEZdD9ALCfQgwjp6w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=om1rqLaL+R9348CYm3jCB+W5qUU8DjFZX0nR/GMSxaQ7MwLCrUeSs7HRKjXP1l0wx
+         vdeiX3eXMfNUE3ZczR4nGQzt9M1gqmel+tYPWM3g0Eqkks/jpghdSLxplLP3QtSfND
+         mxYTF7MF7/Wk63f1Wduhf4QFQp7ulLwIirJ4+uVQ=
+Date:   Mon, 10 Dec 2018 09:26:11 -0800
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Chandan Rajendra <chandan@linux.vnet.ibm.com>
+Cc:     linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-doc@vger.kernel.org, linux-mips@linux-mips.org,
+        linux-s390@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-fsdevel@vger.kernel.org, tytso@mit.edu,
+        adilger.kernel@dilger.ca, jaegeuk@kernel.org, yuchao0@huawei.com,
+        corbet@lwn.net, ralf@linux-mips.org, paul.burton@mips.com,
+        jhogan@kernel.org, green.hu@gmail.com, deanbo422@gmail.com,
+        schwidefsky@de.ibm.com, heiko.carstens@de.ibm.com, richard@nod.at,
+        dedekind1@gmail.com, adrian.hunter@intel.com,
+        viro@zeniv.linux.org.uk
+Subject: Re: [PATCH V3 8/9] fsverity: Move verity status check to
+ fsverity_file_open
+Message-ID: <20181210172610.GA92174@gmail.com>
+References: <20181208065144.19486-1-chandan@linux.vnet.ibm.com>
+ <20181208065144.19486-9-chandan@linux.vnet.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20181210114649.GB8863@james-ThinkStation-P300>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181208065144.19486-9-chandan@linux.vnet.ibm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/10/18 3:47 AM, james qian wang (Arm Technology China) wrote:
-> On Wed, Dec 05, 2018 at 06:08:38PM -0800, Randy Dunlap wrote:
->> On 12/5/18 2:25 AM, james qian wang (Arm Technology China) wrote:
->>> Signed-off-by: James (Qian) Wang <james.qian.wang@arm.com>
->>> ---
->>>  Documentation/gpu/drivers.rst    |   1 +
->>>  Documentation/gpu/komeda-kms.rst | 483 +++++++++++++++++++++++++++++++
->>>  2 files changed, 484 insertions(+)
->>>  create mode 100644 Documentation/gpu/komeda-kms.rst
->>
->> Hi,
->>
->> I have some editing changes for you to consider, although I did have a few
->> problems with reading the text.
->>
+Hi Chandan,
+
+On Sat, Dec 08, 2018 at 12:21:43PM +0530, Chandan Rajendra wrote:
+> Instead of conditionally checking for verity status of an inode before
+> invoking fsverity_file_open(), this commit moves the check inside the
+> definition of fsverity_file_open().
 > 
-> Thank you Randy, I'll correct the doc according to your comments in the next version.
+> Signed-off-by: Chandan Rajendra <chandan@linux.vnet.ibm.com>
+> ---
+>  fs/ext4/file.c    | 8 +++-----
+>  fs/f2fs/file.c    | 8 +++-----
+>  fs/verity/setup.c | 3 +++
+>  3 files changed, 9 insertions(+), 10 deletions(-)
+> 
+> diff --git a/fs/ext4/file.c b/fs/ext4/file.c
+> index 30fbd663354f..b404a857cd48 100644
+> --- a/fs/ext4/file.c
+> +++ b/fs/ext4/file.c
+> @@ -444,11 +444,9 @@ static int ext4_file_open(struct inode * inode, struct file * filp)
+>  	if (ret)
+>  		return ret;
+>  
+> -	if (IS_VERITY(inode)) {
+> -		ret = fsverity_file_open(inode, filp);
+> -		if (ret)
+> -			return ret;
+> -	}
+> +	ret = fsverity_file_open(inode, filp);
+> +	if (ret)
+> +		return ret;
+>  
+>  	/*
+>  	 * Set up the jbd2_inode if we are opening the inode for
+> diff --git a/fs/f2fs/file.c b/fs/f2fs/file.c
+> index 2eb4821d95d1..925c0d9608da 100644
+> --- a/fs/f2fs/file.c
+> +++ b/fs/f2fs/file.c
+> @@ -491,11 +491,9 @@ static int f2fs_file_open(struct inode *inode, struct file *filp)
+>  	if (err)
+>  		return err;
+>  
+> -	if (IS_VERITY(inode)) {
+> -		err = fsverity_file_open(inode, filp);
+> -		if (err)
+> -			return err;
+> -	}
+> +	err = fsverity_file_open(inode, filp);
+> +	if (err)
+> +		return err;
+>  
+>  	filp->f_mode |= FMODE_NOWAIT;
+>  
+> diff --git a/fs/verity/setup.c b/fs/verity/setup.c
+> index 08b609127531..bc463dc601b1 100644
+> --- a/fs/verity/setup.c
+> +++ b/fs/verity/setup.c
+> @@ -771,6 +771,9 @@ static int setup_fsverity_info(struct inode *inode)
+>   */
+>  int fsverity_file_open(struct inode *inode, struct file *filp)
+>  {
+> +	if (!IS_VERITY(inode))
+> +		return 0;
+> +
+>  	if (filp->f_mode & FMODE_WRITE) {
+>  		pr_debug("Denying opening verity file (ino %lu) for write\n",
+>  			 inode->i_ino);
+> -- 
+> 2.19.1
 > 
 
-Hi James,
+This will break ext4 and f2fs when !CONFIG_FS_VERITY because then:
 
->>> diff --git a/Documentation/gpu/komeda-kms.rst b/Documentation/gpu/komeda-kms.rst
->>> new file mode 100644
->>> index 000000000000..8af925ca0869
->>> --- /dev/null
->>> +++ b/Documentation/gpu/komeda-kms.rst
->>> @@ -0,0 +1,483 @@
->>> +.. SPDX-License-Identifier: GPL-2.0
->>> +
->>> +==============================
->>> + drm/komeda ARM display driver
->>> +==============================
->>> +
->>> +The drm/komeda driver supports for the ARM display processor D71 and later
->>
->>                   driver supports the ARM
->>
->>> +IPs, this document is for giving a brief overview of driver design: how it
->>
->>    IPs. This document gives a brief overview of the driver design:
->>
->> (although I hate using "IPs" like that.)
-> 
-> How about "Product" or "Chipset"
+static inline int fsverity_file_open(struct inode *inode, struct file *filp)
+{
+	return -EOPNOTSUPP;
+}
 
-Yes, much better IMO.
+Can you please make it like fscrypt_file_open()?
 
+static inline int fsverity_file_open(struct inode *inode, struct file *filp)
+{
+	if (IS_VERITY(inode))
+		return -EOPNOTSUPP;
+	return 0;
+}
 
->>> +works and why design it like that.
->>> +
->>> +Overview of D71 like display IPs
->>> +================================
->>> +
->>> +From D71, Arm display IP begins to adopt a flexible and modularized
->>
->>              ARM
-> 
-> Sorry my fault, I used "ARM" in the initial lines which misleads you, but after
-> Arm reband last year, the "Arm" is the right version.
-> 
-> And I'll unify all the usage to "Arm" in the next version.
+Same with fsverity_prepare_setattr().
 
-I thought that you would know more about that than I do.
-
-
-
-[snip]
-
->> So above, I tried to write what I thought you meant, but saying that Layer_Split
->> needs to be handled in user mode ... and then saying that if it is handled in the
->> kernel, it would be smooth and simple -- that seems to be contradictory to me,
->> so I guess I didn't understand it very well.
->>
-> 
-> Sorry, I need to reorganize my sentence. maybe like below:
-> 
-> Layer_Split is quite complicated feature, which splits a big image into
-> two parts and handle it by two layers and scalers individually.
-
-                handles
-
-> But it imports a edge problem or effect in the middle of image after the split.
-
-                 an                              middle of the image
-
-> To avoid such problem, need a complicated Split calculation and some special
-
-           such a problem, it needs a complicated
-
-> configurationes to the layer and scaler.
-
-  configurations
-
-
-> We'd better hide such HW related complexity to user mode.
-
-
-
-thanks,
--- 
-~Randy
+- Eric
