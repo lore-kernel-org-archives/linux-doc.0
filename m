@@ -2,149 +2,209 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5ECC47D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 08:27:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 28A3B7D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 11:30:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726251AbeLJI1K (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Dec 2018 03:27:10 -0500
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:56076 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726170AbeLJI1K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 03:27:10 -0500
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 9F63E807A6; Mon, 10 Dec 2018 09:27:01 +0100 (CET)
-Date:   Mon, 10 Dec 2018 09:27:04 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Josh Triplett <josh@joshtriplett.org>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, dave.hansen@intel.com,
-        sean.j.christopherson@intel.com, nhorman@redhat.com,
-        npmccallum@redhat.com, Alexei Starovoitov <ast@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
-        "open list:INTEL SGX" <intel-sgx-kernel-dev@lists.01.org>,
-        Janakarajan Natarajan <Janakarajan.Natarajan@amd.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        "open list:KERNEL VIRTUAL MACHINE FOR X86 (KVM/x86)" 
-        <kvm@vger.kernel.org>, Len Brown <len.brown@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "open list:CRYPTO API" <linux-crypto@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:SPARSE CHECKER" <linux-sparse@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        id S1726804AbeLJLan (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Dec 2018 06:30:43 -0500
+Received: from cloudserver094114.home.pl ([79.96.170.134]:51145 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726146AbeLJLan (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 06:30:43 -0500
+Received: from 79.184.252.35.ipv4.supernova.orange.pl (79.184.252.35) (HELO aspire.rjw.lan)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.183)
+ id 3457bc1e441579d4; Mon, 10 Dec 2018 12:30:40 +0100
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Linux PM <linux-pm@vger.kernel.org>
+Cc:     Doug Smythies <dsmythies@telus.net>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Vikas Shivappa <vikas.shivappa@linux.intel.com>
-Subject: Re: [PATCH v11 00/13] Intel SGX1 support
-Message-ID: <20181210082704.GA14594@amd>
-References: <20180608171216.26521-1-jarkko.sakkinen@linux.intel.com>
- <20180612105011.GA26931@amd>
- <20180619145943.GC8034@linux.intel.com>
- <20180619200414.GA3143@amd>
- <20180619214833.GA5873@localhost>
- <20181209200600.GA11608@amd>
- <20181210074717.GA9880@localhost>
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Giovanni Gherdovich <ggherdovich@suse.cz>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Subject: [PATCH v2] cpuidle: Add 'above' and 'below' idle state metrics
+Date:   Mon, 10 Dec 2018 12:30:23 +0100
+Message-ID: <3514439.dzOWKx1Cjx@aspire.rjw.lan>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="EeQfGwPcQSOJBaQU"
-Content-Disposition: inline
-In-Reply-To: <20181210074717.GA9880@localhost>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
---EeQfGwPcQSOJBaQU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add two new metrics for CPU idle states, "above" and "below", to count
+the number of times the given state had been asked for (or entered
+from the kernel's perspective), but the observed idle duration turned
+out to be too short or too long for it (respectively).
 
-On Sun 2018-12-09 23:47:17, Josh Triplett wrote:
-> On Sun, Dec 09, 2018 at 09:06:00PM +0100, Pavel Machek wrote:
-> ...
-> > > > > The default permissions for the device are 600.
-> > > >=20
-> > > > Good. This does not belong to non-root.
-> > >=20
-> > > There are entirely legitimate use cases for using this as an
-> > > unprivileged user. However, that'll be up to system and distribution
-> > > policy, which can evolve over time, and it makes sense for the *initi=
-al*
-> > > kernel permission to start out root-only and then adjust permissions =
-via
-> > > udev.
-> >=20
-> > Agreed.
-> >=20
-> > > Building a software certificate store. Hardening key-agent software l=
-ike
-> > > ssh-agent or gpg-agent. Building a challenge-response authentication
-> > > system. Providing more assurance that your server infrastructure is
-> > > uncompromised. Offloading computation to a system without having to
-> > > fully trust that system.
-> >=20
-> > I think you can do the crypto stuff... as crypto already verifies the
-> > results. But I don't think you can do the computation offload.
->=20
-> You can, as long as you can do attestation.
+These metrics help to estimate the quality of the CPU idle governor
+in use.
 
-You can not, because random errors are very easy to trigger for person
-with physical access, as I explained in the part of email you
-stripped.
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+---
 
-> > > As one of many possibilities, imagine a distcc that didn't have to tr=
-ust
-> > > the compile nodes. The compile nodes could fail to return results at
-> > > all, but they couldn't alter the results.
-> >=20
-> > distcc on untrusted nodes ... oh yes, that would be great.
-> >=20
-> > Except that you can't do it, right? :-).
-> >=20
-> > First, AFAICT it would be quite hard to get gcc to run under SGX. But
-> > maybe you have spare month or three and can do it.
->=20
-> Assuming you don't need to #include files, gcc seems quite simple to run
-> in an enclave: data in, computation inside, data out.
+-> v2: Fix a leftover in the documentation from the previous versions
+       of the patch and a typo in the changelog.
 
-So is there a plan to run dynamically linked binaries inside enclave?
-Or maybe even python/shell scripts? It looked to me like virtual
-memory will be "interesting" for enclaves.
+---
+ Documentation/ABI/testing/sysfs-devices-system-cpu |    7 ++++
+ Documentation/admin-guide/pm/cpuidle.rst           |   10 ++++++
+ drivers/cpuidle/cpuidle.c                          |   31 ++++++++++++++++++++-
+ drivers/cpuidle/sysfs.c                            |    6 ++++
+ include/linux/cpuidle.h                            |    2 +
+ 5 files changed, 55 insertions(+), 1 deletion(-)
 
+Index: linux-pm/drivers/cpuidle/cpuidle.c
+===================================================================
+--- linux-pm.orig/drivers/cpuidle/cpuidle.c
++++ linux-pm/drivers/cpuidle/cpuidle.c
+@@ -202,7 +202,6 @@ int cpuidle_enter_state(struct cpuidle_d
+ 	struct cpuidle_state *target_state = &drv->states[index];
+ 	bool broadcast = !!(target_state->flags & CPUIDLE_FLAG_TIMER_STOP);
+ 	ktime_t time_start, time_end;
+-	s64 diff;
+ 
+ 	/*
+ 	 * Tell the time framework to switch to a broadcast timer because our
+@@ -248,6 +247,9 @@ int cpuidle_enter_state(struct cpuidle_d
+ 		local_irq_enable();
+ 
+ 	if (entered_state >= 0) {
++		s64 diff, delay = drv->states[entered_state].exit_latency;
++		int i;
++
+ 		/*
+ 		 * Update cpuidle counters
+ 		 * This can be moved to within driver enter routine,
+@@ -260,6 +262,33 @@ int cpuidle_enter_state(struct cpuidle_d
+ 		dev->last_residency = (int)diff;
+ 		dev->states_usage[entered_state].time += dev->last_residency;
+ 		dev->states_usage[entered_state].usage++;
++
++		if (diff < drv->states[entered_state].target_residency) {
++			for (i = entered_state - 1; i >= 0; i--) {
++				if (drv->states[i].disabled ||
++				    dev->states_usage[i].disable)
++					continue;
++
++				/* Shallower states are enabled, so update. */
++				dev->states_usage[entered_state].above++;
++				break;
++			}
++		} else if (diff > delay) {
++			for (i = entered_state + 1; i < drv->state_count; i++) {
++				if (drv->states[i].disabled ||
++				    dev->states_usage[i].disable)
++					continue;
++
++				/*
++				 * Update if a deeper state would have been a
++				 * better match for the observed idle duration.
++				 */
++				if (diff - delay >= drv->states[i].target_residency)
++					dev->states_usage[entered_state].below++;
++
++				break;
++			}
++		}
+ 	} else {
+ 		dev->last_residency = 0;
+ 	}
+Index: linux-pm/include/linux/cpuidle.h
+===================================================================
+--- linux-pm.orig/include/linux/cpuidle.h
++++ linux-pm/include/linux/cpuidle.h
+@@ -33,6 +33,8 @@ struct cpuidle_state_usage {
+ 	unsigned long long	disable;
+ 	unsigned long long	usage;
+ 	unsigned long long	time; /* in US */
++	unsigned long long	above; /* Number of times it's been too deep */
++	unsigned long long	below; /* Number of times it's been too shallow */
+ #ifdef CONFIG_SUSPEND
+ 	unsigned long long	s2idle_usage;
+ 	unsigned long long	s2idle_time; /* in US */
+Index: linux-pm/drivers/cpuidle/sysfs.c
+===================================================================
+--- linux-pm.orig/drivers/cpuidle/sysfs.c
++++ linux-pm/drivers/cpuidle/sysfs.c
+@@ -301,6 +301,8 @@ define_show_state_str_function(name)
+ define_show_state_str_function(desc)
+ define_show_state_ull_function(disable)
+ define_store_state_ull_function(disable)
++define_show_state_ull_function(above)
++define_show_state_ull_function(below)
+ 
+ define_one_state_ro(name, show_state_name);
+ define_one_state_ro(desc, show_state_desc);
+@@ -310,6 +312,8 @@ define_one_state_ro(power, show_state_po
+ define_one_state_ro(usage, show_state_usage);
+ define_one_state_ro(time, show_state_time);
+ define_one_state_rw(disable, show_state_disable, store_state_disable);
++define_one_state_ro(above, show_state_above);
++define_one_state_ro(below, show_state_below);
+ 
+ static struct attribute *cpuidle_state_default_attrs[] = {
+ 	&attr_name.attr,
+@@ -320,6 +324,8 @@ static struct attribute *cpuidle_state_d
+ 	&attr_usage.attr,
+ 	&attr_time.attr,
+ 	&attr_disable.attr,
++	&attr_above.attr,
++	&attr_below.attr,
+ 	NULL
+ };
+ 
+Index: linux-pm/Documentation/admin-guide/pm/cpuidle.rst
+===================================================================
+--- linux-pm.orig/Documentation/admin-guide/pm/cpuidle.rst
++++ linux-pm/Documentation/admin-guide/pm/cpuidle.rst
+@@ -398,6 +398,16 @@ deeper the (effective) idle state repres
+ a number of files (attributes) representing the properties of the idle state
+ object corresponding to it, as follows:
+ 
++``above``
++	Total number of times this idle state had been asked for, but the
++	observed idle duration was certainly too short to match its target
++	residency.
++
++``below``
++	Total number of times this idle state had been asked for, but cerainly
++	a deeper idle state would have been a better match for the observed idle
++	duration.
++
+ ``desc``
+ 	Description of the idle state.
+ 
+Index: linux-pm/Documentation/ABI/testing/sysfs-devices-system-cpu
+===================================================================
+--- linux-pm.orig/Documentation/ABI/testing/sysfs-devices-system-cpu
++++ linux-pm/Documentation/ABI/testing/sysfs-devices-system-cpu
+@@ -145,6 +145,8 @@ What:		/sys/devices/system/cpu/cpuX/cpui
+ 		/sys/devices/system/cpu/cpuX/cpuidle/stateN/power
+ 		/sys/devices/system/cpu/cpuX/cpuidle/stateN/time
+ 		/sys/devices/system/cpu/cpuX/cpuidle/stateN/usage
++		/sys/devices/system/cpu/cpuX/cpuidle/stateN/above
++		/sys/devices/system/cpu/cpuX/cpuidle/stateN/below
+ Date:		September 2007
+ KernelVersion:	v2.6.24
+ Contact:	Linux power management list <linux-pm@vger.kernel.org>
+@@ -166,6 +168,11 @@ Description:
+ 
+ 		usage: (RO) Number of times this state was entered (a count).
+ 
++		above: (RO) Number of times this state was entered, but the
++		       observed CPU idle duration was too short for it (a count).
++
++		below: (RO) Number of times this state was entered, but the
++		       observed CPU idle duration was too long for it (a count).
+ 
+ What:		/sys/devices/system/cpu/cpuX/cpuidle/stateN/desc
+ Date:		February 2008
 
-								Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---EeQfGwPcQSOJBaQU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlwOI1gACgkQMOfwapXb+vLmawCgoL+ivKPUBf9B9dD7LjJnawsy
-T8YAoIpGC5LiF84jvJgnIzvNVAFu+Wrx
-=jQvj
------END PGP SIGNATURE-----
-
---EeQfGwPcQSOJBaQU--
