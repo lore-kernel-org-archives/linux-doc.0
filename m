@@ -3,51 +3,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8AF327D8BA
+	by archive.lwn.net (Postfix) with ESMTP id C986A7DD2A
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 12:51:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727469AbeLJMvP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Dec 2018 07:51:15 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:53063 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727457AbeLJMvO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 07:51:14 -0500
-Received: by mail-wm1-f65.google.com with SMTP id r11-v6so10754284wmb.2
-        for <linux-doc@vger.kernel.org>; Mon, 10 Dec 2018 04:51:13 -0800 (PST)
+        id S1727588AbeLJMvX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Dec 2018 07:51:23 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:36365 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727850AbeLJMvX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 07:51:23 -0500
+Received: by mail-wm1-f66.google.com with SMTP id a18so11160194wmj.1
+        for <linux-doc@vger.kernel.org>; Mon, 10 Dec 2018 04:51:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=EnNoEMrMgUcWWKorAen45ktTirJw06vWZl+y3HjnYKc=;
-        b=ZFDzySXH+RcGKbu7apwOJhQV89JvZa+gIzkdi3lCpAr8rANmuaA696lcNSMihz5jsd
-         Mgc8z5GDqlKqPiGIFUGFJV5LZ6mPD1yG7h/fXqDnZeBSJrvzsxOfDPf/WQ2TgUnbPF+K
-         BulPEM7LRkLz/+A0NCyQ10FFjDpEaoS17rWmhBEhu1vWUWzxbXcbBgiYI+GWlU+bKJpF
-         hbHErYklHv8F4KC/8y3KrbRg/WdRewnyb+I6zzpz2QW0JhyjVBllF1qeuzcMDR2q476/
-         85vwRgG7I3nE+1b5PDbnOhjIJiH5ILXwm/PcvsVjUrvLOA0sv3kgXe81o9mc0j3Nhaf+
-         o9oA==
+        bh=htNgLuq9Zq22KIFtx4RRYdIKYt1PSRPcUvgmlifjwvU=;
+        b=IPY0J0E2deGNCT3dMOHF3Bmylp3aWY/zWUIg1jI0VvEQ2WNai/QLbBSKwAlBlxyEsB
+         +x7Icd34IAQh1eF1POy95Vl5O6jDMzTp1nprbJN/LwulyKw9RmKKZUd6mVT/EGhyqmHa
+         1tqsX3hNorl6Tem5io1S6kqEJWfpPsISCeDrIXsyYkRRxsiPCNzyartzWj8dTdelCgJD
+         fkYjz2H7kaii4gNRKpGJEs53NjdE6xRgRvcqDrxjXexI2aLvcXhZlFL+oZSfMiIVZd6K
+         QapQS8fhNfIYapc7kpsxaiLrqB/DRPgKAVgCG7yBsEJmJrBewQ3SV+sI+HCdlSJlv52G
+         zPDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=EnNoEMrMgUcWWKorAen45ktTirJw06vWZl+y3HjnYKc=;
-        b=J7FeMdM1U0Sl/P65qbZlMW+gUOowvi5+qk86/AkfSEteiWCrFlVq2lOA1B5bSHYfMg
-         +crB0yu1k3GKrR/3dVHbCrbswuUBYyaeKiB04SFnMp0eBOTa+yt8DCjRXZOPFxHZQdmz
-         PKV6MzFo83RucOdAgWggCRhQfEyfBpweBJNSTL8ITvrJWySlPMAo7mug2s8o4/Jjd6NX
-         tP+V0LPEBfZ9X7old+dzBvbaHSnQw/NXFaWGrfUtwOQe2jxkQe0EamFD/3LDj/Mf3TDt
-         h9yC8WELiB/QNAUyj2ekJuF1zUTRLHAyxYChyP6kextk0XVNz2PApGyz1l4Ms0hCTsgN
-         nIew==
-X-Gm-Message-State: AA+aEWYry5b2cuu/rW64NU/8LDflriLcjLGNTwtf60z4LpJ8flX8Mllh
-        XXXhTUQBXSt8PSkX5DDnHf+W4A==
-X-Google-Smtp-Source: AFSGD/XfpH+7b2MBHMbSzaZiRmsmRTBYGLOi6i4h/Gy2a0EmicqS+e3KfIv69EriIxjgI+TvTV5Ofg==
-X-Received: by 2002:a1c:d08b:: with SMTP id h133mr10494086wmg.8.1544446272635;
-        Mon, 10 Dec 2018 04:51:12 -0800 (PST)
+        bh=htNgLuq9Zq22KIFtx4RRYdIKYt1PSRPcUvgmlifjwvU=;
+        b=Ae8tYUNXRkRIVuAGk9K770srx2SlNdgTC3W0LB+YGvNhhihYfO+KkHeFaChAVYvSti
+         dPs5Z4u3hw9nVWVXuS8/BOWZcJ+Zw1zUxnbFnwuYS+BF8UhiUylxpHiUvCRFl7BBbGsk
+         +WML9V3I3gJWdckHWDiIu0UUK8MvT1y28JwHKPReWM4oEtkXxxm1LxeT6axnvZXn8g1b
+         QpfXxLVw+qar7hRrnNExOXNUIH20Wzd1r6++EhiQ9/YNyfYQkXVkVuYngIpQ2jfx0w98
+         8+5K7ulI/pdzt98zeKPZCUuegbVvkDSm9N64hDP3bvtL+E2ctbh9QCM8RE7446ZCdeTb
+         qLIA==
+X-Gm-Message-State: AA+aEWbbSrz12sgLblgmsk6W52qpi6ydI7F5LzVGggsBZ8sj5suxxWCg
+        0Bf7vfddQoMWj+IffOjULAUdGA==
+X-Google-Smtp-Source: AFSGD/Wvuhf6G6eOpW5vjcIUpM8htygFR/RVEC5RbfnAeJGyaCuDNPuFXX3LyyAqxNCgS6H6SuCQtA==
+X-Received: by 2002:a1c:d08b:: with SMTP id h133mr10494550wmg.8.1544446281211;
+        Mon, 10 Dec 2018 04:51:21 -0800 (PST)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:10:3180:41f8:3010:ff61])
-        by smtp.gmail.com with ESMTPSA id l197sm36893363wma.44.2018.12.10.04.51.11
+        by smtp.gmail.com with ESMTPSA id l197sm36893363wma.44.2018.12.10.04.51.19
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Dec 2018 04:51:11 -0800 (PST)
+        Mon, 10 Dec 2018 04:51:20 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -73,9 +73,9 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v9 2/8] uaccess: add untagged_addr definition for other arches
-Date:   Mon, 10 Dec 2018 13:50:59 +0100
-Message-Id: <35f97a89d5cc881f0f4052f43d56b3b7ed736581.1544445454.git.andreyknvl@google.com>
+Subject: [PATCH v9 8/8] selftests, arm64: add a selftest for passing tagged pointers to kernel
+Date:   Mon, 10 Dec 2018 13:51:05 +0100
+Message-Id: <502466b9652c57a23af3bd72124144319212f30b.1544445454.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.20.0.rc2.403.gdbc3b29805-goog
 In-Reply-To: <cover.1544445454.git.andreyknvl@google.com>
 References: <cover.1544445454.git.andreyknvl@google.com>
@@ -86,34 +86,89 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To allow arm64 syscalls accept tagged pointers from userspace, we must
-untag them when they are passed to the kernel. Since untagging is done in
-generic parts of the kernel, the untagged_addr macro needs to be defined
-for all architectures.
+This patch adds a simple test, that calls the uname syscall with a
+tagged user pointer as an argument. Without the kernel accepting tagged
+user pointers the test fails with EFAULT.
 
-Define it as a noop for other architectures besides arm64.
-
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- include/linux/uaccess.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ tools/testing/selftests/arm64/.gitignore      |  1 +
+ tools/testing/selftests/arm64/Makefile        | 11 +++++++++++
+ .../testing/selftests/arm64/run_tags_test.sh  | 12 ++++++++++++
+ tools/testing/selftests/arm64/tags_test.c     | 19 +++++++++++++++++++
+ 4 files changed, 43 insertions(+)
+ create mode 100644 tools/testing/selftests/arm64/.gitignore
+ create mode 100644 tools/testing/selftests/arm64/Makefile
+ create mode 100755 tools/testing/selftests/arm64/run_tags_test.sh
+ create mode 100644 tools/testing/selftests/arm64/tags_test.c
 
-diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
-index efe79c1cdd47..42b7a4ac65e2 100644
---- a/include/linux/uaccess.h
-+++ b/include/linux/uaccess.h
-@@ -13,6 +13,10 @@
- 
- #include <asm/uaccess.h>
- 
-+#ifndef untagged_addr
-+#define untagged_addr(addr) (addr)
-+#endif
+diff --git a/tools/testing/selftests/arm64/.gitignore b/tools/testing/selftests/arm64/.gitignore
+new file mode 100644
+index 000000000000..e8fae8d61ed6
+--- /dev/null
++++ b/tools/testing/selftests/arm64/.gitignore
+@@ -0,0 +1 @@
++tags_test
+diff --git a/tools/testing/selftests/arm64/Makefile b/tools/testing/selftests/arm64/Makefile
+new file mode 100644
+index 000000000000..a61b2e743e99
+--- /dev/null
++++ b/tools/testing/selftests/arm64/Makefile
+@@ -0,0 +1,11 @@
++# SPDX-License-Identifier: GPL-2.0
 +
- /*
-  * Architectures should provide two primitives (raw_copy_{to,from}_user())
-  * and get rid of their private instances of copy_{to,from}_user() and
++# ARCH can be overridden by the user for cross compiling
++ARCH ?= $(shell uname -m 2>/dev/null || echo not)
++
++ifneq (,$(filter $(ARCH),aarch64 arm64))
++TEST_GEN_PROGS := tags_test
++TEST_PROGS := run_tags_test.sh
++endif
++
++include ../lib.mk
+diff --git a/tools/testing/selftests/arm64/run_tags_test.sh b/tools/testing/selftests/arm64/run_tags_test.sh
+new file mode 100755
+index 000000000000..745f11379930
+--- /dev/null
++++ b/tools/testing/selftests/arm64/run_tags_test.sh
+@@ -0,0 +1,12 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++
++echo "--------------------"
++echo "running tags test"
++echo "--------------------"
++./tags_test
++if [ $? -ne 0 ]; then
++	echo "[FAIL]"
++else
++	echo "[PASS]"
++fi
+diff --git a/tools/testing/selftests/arm64/tags_test.c b/tools/testing/selftests/arm64/tags_test.c
+new file mode 100644
+index 000000000000..1452ed7d33f9
+--- /dev/null
++++ b/tools/testing/selftests/arm64/tags_test.c
+@@ -0,0 +1,19 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <stdio.h>
++#include <unistd.h>
++#include <stdint.h>
++#include <sys/utsname.h>
++
++#define SHIFT_TAG(tag)		((uint64_t)(tag) << 56)
++#define SET_TAG(ptr, tag)	(((uint64_t)(ptr) & ~SHIFT_TAG(0xff)) | \
++					SHIFT_TAG(tag))
++
++int main(void)
++{
++	struct utsname utsname;
++	void *ptr = &utsname;
++	void *tagged_ptr = (void *)SET_TAG(ptr, 0x42);
++	int err = uname(tagged_ptr);
++	return err;
++}
 -- 
 2.20.0.rc2.403.gdbc3b29805-goog
 
