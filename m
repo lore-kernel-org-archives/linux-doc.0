@@ -1,389 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 57A617D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 04:39:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7824D7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 07:28:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730149AbeLKEjN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Dec 2018 23:39:13 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:49357 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729060AbeLKEjN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 23:39:13 -0500
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id wBB4d3a0009060;
-        Tue, 11 Dec 2018 13:39:04 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com wBB4d3a0009060
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1544503144;
-        bh=Oood8TAfVHUh/TERJE8Q4Ksf5SJWTHtrCaWvyC4Mju8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Y0HKxL3AnARq5Mj2gyJpZZ6sQrKP6ZAgmjNbwPLaIMEF4bKHgWUDPnt3ulxxZoVSe
-         mSlb+/iQNf8A4HAq1EXJd5yHuOEnsGZ8KJRahw2uAOL3kgPgUx72wOz5QLWh/NUuFv
-         0p0oPMI61kAE7TMOrsPAY0CPK1vTOyRrItjb8oBZLAskzLfA3nx0Q5mpvmu6HE9ZiD
-         ofQk0LWIDm3m1qJ95/yb8pspspuJinJcJD5pDvVcWBzqYTOh6+F/BsKe1sZ6g5YC2c
-         9t9Ukq5KAehLglzo5H6z7FyIrXTIKWAgPgla781nOgPBGWGCHskM93Zfqro0Rma1r4
-         MTz1oT9FiF/0A==
-X-Nifty-SrcIP: [209.85.217.49]
-Received: by mail-vs1-f49.google.com with SMTP id y27so8124952vsi.1;
-        Mon, 10 Dec 2018 20:39:04 -0800 (PST)
-X-Gm-Message-State: AA+aEWaetB/GT608mt8WhZEBOTMHc7rsSWPAqnnmjA4OXVdhdx3ZjZmd
-        dHVpeGb+DBHtXrFbKzBAjfI63w6AItehEpZ+rNc=
-X-Google-Smtp-Source: AFSGD/WSCxoASVkdjL9j1CKQvTKRwFY3nYisnYvF2RHWQfsjn1uHbVVxpY3tjniQHMF/s702uLv6NKca+Msq9AIZWt4=
-X-Received: by 2002:a67:a858:: with SMTP id r85mr6427130vse.215.1544503142862;
- Mon, 10 Dec 2018 20:39:02 -0800 (PST)
+        id S1726094AbeLKH2R (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Dec 2018 02:28:17 -0500
+Received: from cmta17.telus.net ([209.171.16.90]:59834 "EHLO cmta17.telus.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726085AbeLKH2R (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Dec 2018 02:28:17 -0500
+Received: from dougxps ([173.180.45.4])
+        by cmsmtp with SMTP
+        id WcSfgdL0SP96wWcSggwQ7d; Tue, 11 Dec 2018 00:28:14 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=telus.net; s=neo;
+        t=1544513294; bh=CVpunYFypL/dXiyjG9R9gzj4K4lgYzkFiiwy2UAzYyE=;
+        h=From:To:Cc:References:In-Reply-To:Subject:Date;
+        b=5F/9RpJoXyVUdxml5XvA/fodUx92Tj9HZsTBRZjw0yhiTeV+/4hcfyxHnhJn3WWm5
+         T2f+q856LoEekCxVvJ5raAnZ8LFrcWBVgXlJdc/jg6yP0UeayLLEqIrI/TMoX2Hkhf
+         I5MG6lOJO04EmlFG88zxDZYw6WC/uJ7GT1VLCD2FSOj56Y/vLesKhXOVTzOgfVF9bt
+         pL1bvs+o4b0cCipEM/qaMEmkSEDAdx7CXF9WJIaQ+nBccmX2d1+gGy3tKzmx5fwOBm
+         NWqnItXKTqR4EOpErlugmgKgBLjwa0fRxBBCiSIkiUX0bO6NvMIOpJ82Zwn6IWAK8y
+         gtJ/VqCUIUJZQ==
+X-Authority-Analysis: v=2.3 cv=G5vN7Os5 c=1 sm=1 tr=0
+ a=zJWegnE7BH9C0Gl4FFgQyA==:117 a=zJWegnE7BH9C0Gl4FFgQyA==:17
+ a=Pyq9K9CWowscuQLKlpiwfMBGOR0=:19 a=kj9zAlcOel0A:10 a=JfrnYn6hAAAA:8
+ a=j_xubRRabc_gLPjOC1IA:9 a=CjuIK1q_8ugA:10 a=1CNFftbPRP8L7MoqJWF3:22
+From:   "Doug Smythies" <dsmythies@telus.net>
+To:     "'Peter Zijlstra'" <peterz@infradead.org>,
+        "'Rafael J. Wysocki'" <rafael@kernel.org>
+Cc:     "'Rafael J. Wysocki'" <rjw@rjwysocki.net>,
+        "'Linux PM'" <linux-pm@vger.kernel.org>,
+        "'Linux Kernel Mailing List'" <linux-kernel@vger.kernel.org>,
+        "'open list:DOCUMENTATION'" <linux-doc@vger.kernel.org>,
+        "'Daniel Lezcano'" <daniel.lezcano@linaro.org>,
+        "'Giovanni Gherdovich'" <ggherdovich@suse.cz>,
+        "'Lorenzo Pieralisi'" <lorenzo.pieralisi@arm.com>,
+        "Doug Smythies" <dsmythies@telus.net>
+References: <3514439.dzOWKx1Cjx@aspire.rjw.lan> <20181210122104.GL5289@hirez.programming.kicks-ass.net> <CAJZ5v0j-a6cHayRtcsUPbUTBT0iBSUvmcUy6pfSSvUVcTMBxbw@mail.gmail.com> WUOsgxly2wifMWUOxgv0We
+In-Reply-To: WUOsgxly2wifMWUOxgv0We
+Subject: RE: [PATCH v2] cpuidle: Add 'above' and 'below' idle state metrics
+Date:   Mon, 10 Dec 2018 23:28:07 -0800
+Message-ID: <003401d49123$13627710$3a276530$@net>
 MIME-Version: 1.0
-References: <20181210203225.11179-1-robh@kernel.org>
-In-Reply-To: <20181210203225.11179-1-robh@kernel.org>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 11 Dec 2018 13:38:26 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAThtAOy4PQiYZ2X0oWrHdcLi7on8ctSXJ=bfT0HNh7NFQ@mail.gmail.com>
-Message-ID: <CAK7LNAThtAOy4PQiYZ2X0oWrHdcLi7on8ctSXJ=bfT0HNh7NFQ@mail.gmail.com>
-Subject: Re: [PATCH v3] kbuild: Add support for DT binding schema checks
-To:     Rob Herring <robh@kernel.org>
-Cc:     DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        darknighte@darknighte.com, Frank Rowand <frowand.list@gmail.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        grant.likely@arm.com, Kumar Gala <kumar.gala@linaro.org>,
-        arm-soc <arm@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+        charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: AdSQ2u+9QZn0bxubQISdP83AHOeGqAARHUkw
+Content-Language: en-ca
+X-CMAE-Envelope: MS4wfC33gNEF43A6YSw0pX/n+IeerjIUSXbDcDusVBnW+qrmWiQiKxZtEuoW9qt38DIJZpL6Fe7dfay05A3bOPn6rB+wua9/yslg8OuvigUbli+qBWf0DZyt
+ l6UjzQjYaBxSPRaTRERa6Y7Dn4z11vb3P9zxb4GtTvDt/hEozTnWT19YgJ9lfrOecP7UfcYPHjFePlrHDq95gE4icUv9hEHv1e4BQXWiaKF+g5qGhy0Gyw/B
+ DidzH4wMfzWOkIclJg+F/UVRDHK1LMXmC0Ifq07u64Wtipwz8545+jXLO2zzGbeGbj5vQqI4e5PdcXnAxIq4GVUN6WWmfnWllZdQjkgLomAlgpC1+QxOHy7X
+ HlxVxPMXoYh3D0lHyPSsfMnv356Ltz47Y+ALgW5jGwaM7PYjvEK/Prs1Blghp4dGNx78dQwKNPmPS0G+miKvIeJY6INWByVJfpjCstvpXnU35s72g3Z0ima4
+ HKVlPJOAEefnUdVV
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
+On 2018.12.10 02:52 Peter Zijlstra wrote:
+>On Mon, Dec 10, 2018 at 10:36:40PM +0100, Rafael J. Wysocki wrote:
+>> On Mon, Dec 10, 2018 at 1:21 PM Peter Zijlstra <peterz@infradead.org> wrote:
 
-On Tue, Dec 11, 2018 at 5:50 AM Rob Herring <robh@kernel.org> wrote:
+>>> Would not a tracepoint be better?; then there is no overhead in the
+>>> normal case where nobody gives a crap about these here numbers.
+>> 
+>> There is an existing tracepoint that in principle could be used to
+>> produce this information, but it is such a major PITA in practice that
+>> nobody does that.  Guess why. :-)
 >
-> This adds the build infrastructure for checking DT binding schema
-> documents and validating dts files using the binding schema.
->
-> Check DT binding schema documents:
-> make dt_binding_check
->
-> Build dts files and check using DT binding schema:
-> make dtbs_check
->
-> Optionally, DT_SCHEMA_FILES can passed in with a schema file(s) to use
+> Sounds like you need to ship a convenient script or something :-)
 
+For the histogram plots of idle durations that I sometimes provide, trace
+is used. It is more work to do it the trace way. Very often, when the rate
+of idle state entries/ exits is high, turning on trace influences the system
+under test significantly. Also, even if I allocate the majority of my memory
+to the trace buffer (i.e. 15 of my 16 gigabytes), I can only acquire a few 
+minutes of trace data before filling the buffer.
 
-Perhaps, "can be passed" ?
+Some of my tests run for hours, and these new counters provide a way to acquire
+potentially useful (I don't have enough experience with them yet to know how useful)
+information, while having no influence on the system under test because
+I only take samples once per minute, or sometimes 4 times per minute.
 
+>> Also, the "usage" and "time" counters are there in sysfs, so why not these two?
 
+I agree, how are these two counters any different?
 
-> for validation. This makes it easier to find and fix errors generated by
-> a specific schema.
->
-> Currently, the validation targets are separate from a normal build to
-> avoid a hard dependency on the external DT schema project and because
-> there are lots of warnings generated.
->
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Cc: Michal Marek <michal.lkml@markovi.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-kbuild@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> v3:
-> - Fix error causing only 1st schema file to get used.
-> - Add a more useful error message when dtc is missing YAML support
-> telling the user they need to install libyaml devel package.
->
->
->  .gitignore                                   |  1 +
->  Documentation/Makefile                       |  2 +-
->  Documentation/devicetree/bindings/.gitignore |  1 +
->  Documentation/devicetree/bindings/Makefile   | 33 +++++++++++++++++
->  Makefile                                     | 11 ++++--
->  scripts/Makefile.lib                         | 37 ++++++++++++++++++--
->  6 files changed, 80 insertions(+), 5 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/.gitignore
->  create mode 100644 Documentation/devicetree/bindings/Makefile
->
-> diff --git a/.gitignore b/.gitignore
-> index 97ba6b79834c..a20ac26aa2f5 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -15,6 +15,7 @@
->  *.bin
->  *.bz2
->  *.c.[012]*.*
-> +*.dt.yaml
->  *.dtb
->  *.dtb.S
->  *.dwo
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index 2ca77ad0f238..9786957c6a35 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -2,7 +2,7 @@
->  # Makefile for Sphinx documentation
->  #
->
-> -subdir-y :=
-> +subdir-y := devicetree/bindings/
->
->  # You can set these variables from the command line.
->  SPHINXBUILD   = sphinx-build
-> diff --git a/Documentation/devicetree/bindings/.gitignore b/Documentation/devicetree/bindings/.gitignore
-> new file mode 100644
-> index 000000000000..d9194c02dd08
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/.gitignore
-> @@ -0,0 +1 @@
-> +*.example.dts
-> diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
-> new file mode 100644
-> index 000000000000..43f8657ab070
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/Makefile
-> @@ -0,0 +1,33 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +DT_DOC_CHECKER ?= dt-doc-validate
-> +DT_EXTRACT_EX ?= dt-extract-example
-> +DT_MK_SCHEMA ?= dt-mk-schema
-> +DT_MK_SCHEMA_FLAGS := $(if $(DT_SCHEMA_FILES), -u)
-> +
-> +quiet_cmd_chk_binding = CHKDT   $<
+In about a week or so, I'll have some test data comparing 4.20-rc5 with teov6
+teov7 along with the idle data (graphs) that I usually provide and also these
+new counters.
 
+... Doug
 
-In convention, the short log displays the target name
-instead of the prerequisite.
 
-If O=foo/bar is given, $< shows the full path,
-then log will look like follows:
-
-
-  CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/calxeda.yaml
-  DTC     Documentation/devicetree/bindings/arm/calxeda.example.dtb
-  CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/qcom.yaml
-  DTC     Documentation/devicetree/bindings/arm/qcom.example.dtb
-  CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/xilinx.yaml
-  DTC     Documentation/devicetree/bindings/arm/xilinx.example.dtb
-  CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/ti/nspire.yaml
-  DTC     Documentation/devicetree/bindings/arm/ti/nspire.example.dtb
-  CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/ti/ti,davinci.yaml
-  DTC     Documentation/devicetree/bindings/arm/ti/ti,davinci.example.dtb
-  CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/altera.yaml
-
-You might think it is ugly.
-
-
-
-
-> +      cmd_chk_binding = (set -e; \
-> +                         $(DT_DOC_CHECKER) $< ; \
-> +                         mkdir -p $(dir $@) ; \
-> +                         $(DT_EXTRACT_EX) $< > $@ )
-
-
-- 'set -e' is redundant because if_changed already has it.
-
-- 'mkdir mkdir -p $(dir $@)' is also redundant because
-   scripts/Makefile.build automatically creates it.
-
--  You do not need to execute this in a sub-shell
-
-
-
-You can simplify like this:
-
-       cmd_chk_binding = $(DT_DOC_CHECKER) $< ; \
-                         $(DT_EXTRACT_EX) $< > $@
-
-
-
-> +$(obj)/%.example.dts: $(src)/%.yaml FORCE
-> +       $(call if_changed,chk_binding)
-> +
-> +DT_TMP_SCHEMA := .schema.yaml.tmp
-
-
-BTW, why does this file start with a period?
-What is the meaning of '.tmp' extension?
-
-
-
-> +extra-y += $(DT_TMP_SCHEMA)
-> +
-> +quiet_cmd_mk_schema = SCHEMA  $@
-> +      cmd_mk_schema = mkdir -p $(obj); \
-> +                      rm -f $@; \
-> +                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $(filter-out FORCE, $^)
-
-
-"mkdir -p $(obj)" is redundant.
-
-
-Why is 'rm -f $@' necessary ?
-Can't dt-mk-schema overwrite the output file?
-
-
-
-
-> +DT_DOCS = $(shell cd $(srctree)/$(src) && find * -name '*.yaml')
-> +DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
-> +
-> +extra-y += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
-> +extra-y += $(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES))
-
-
-
-I assume you intentionally did not do like this:
-
-extra-y += $(patsubst %.yaml,%.example.dtb, $(DT_DOCS))
-
-From the commit description, DT_SCHEMA_FILES might be overridden by a user.
-So, I think this is OK.
-
-
-
-
-> +$(obj)/$(DT_TMP_SCHEMA): | $(addprefix $(obj)/,$(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES)))
-
-I do not understand this line.
-Why is it necessary?
-
-*.example.dtb files are generated anyway
-since they are listed in extra-y.
-
-
-
-
-> +$(obj)/$(DT_TMP_SCHEMA): $(addprefix $(srctree)/, $(DT_SCHEMA_FILES)) FORCE
-> +       $(call if_changed,mk_schema)
-
-
-You do not need to prefix $(srctree)/ because Kbuild uses VPATH.
-
-
-$(obj)/$(DT_TMP_SCHEMA): $(DT_SCHEMA_FILES) FORCE
-       $(call if_changed,mk_schema)
-
-
-is fine.
-
-
-
-
-
-
-
-> +cmd_dtc_yaml_chk = \
-> +       if ! echo "/dts-v1/; /{};" | $(DTC) -I dts -O yaml > /dev/null ; then \
-> +               echo "*"; \
-> +               echo "* dtc needs libyaml for DT schema validation support."; \
-> +               echo "* Install the necessary libyaml development package from your distro."; \
-> +               echo "*"; \
-> +               false; \
-> +       fi; \
-> +       touch $@
-> +
-> +$(objtree)/scripts/dtc/.dtc-yaml-chk.tmp: $(DTC) FORCE
-> +       $(call if_changed,dtc_yaml_chk)
-
-
-Hmm, this is kind of ugly.
-
-I'd rather check this in scripts/dtc/Makefile
-
-
-
-How about something like below?
-
-
-
-diff --git a/Makefile b/Makefile
-index ff59adf..a3e2db2 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1233,11 +1233,11 @@ ifneq ($(dtstree),)
-        $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
-
- PHONY += dtbs dtbs_install dt_binding_check
--dtbs: prepare3 scripts_dtc
-+dtbs dtbs_check: prepare3 scripts_dtc
-        $(Q)$(MAKE) $(build)=$(dtstree)
-
--dtbs_check: prepare3 dt_binding_check
--       $(Q)$(MAKE) $(build)=$(dtstree) CHECK_DTBS=1
-+dtbs_check: export CHECK_DTBS=1
-+dtbs_check: dt_binding_check
-
- dtbs_install:
-        $(Q)$(MAKE) $(dtbinst)=$(dtstree)
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 8a7d622..5017175 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -309,20 +309,7 @@ define rule_dtc_dt_yaml
-        $(call echo-cmd,dtb_check) $(cmd_dtb_check)
- endef
-
--cmd_dtc_yaml_chk = \
--       if ! echo "/dts-v1/; /{};" | $(DTC) -I dts -O yaml > /dev/null ; then \
--               echo "*"; \
--               echo "* dtc needs libyaml for DT schema validation support."; \
--               echo "* Install the necessary libyaml development
-package from your distro."; \
--               echo "*"; \
--               false; \
--       fi; \
--       touch $@
--
--$(objtree)/scripts/dtc/.dtc-yaml-chk.tmp: $(DTC) FORCE
--       $(call if_changed,dtc_yaml_chk)
--
--$(obj)/%.dt.yaml: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE |
-$(objtree)/scripts/dtc/.dtc-yaml-chk.tmp
-+$(obj)/%.dt.yaml: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
-        $(call if_changed_rule,dtc_dt_yaml)
-
- dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
-diff --git a/scripts/dtc/Makefile b/scripts/dtc/Makefile
-index 056d5da..3e497f1 100644
---- a/scripts/dtc/Makefile
-+++ b/scripts/dtc/Makefile
-@@ -12,6 +12,10 @@ dtc-objs     += dtc-lexer.lex.o dtc-parser.tab.o
- HOST_EXTRACFLAGS := -I$(src)/libfdt
-
- ifeq ($(wildcard /usr/include/yaml.h),)
-+ifeq ($(CHECK_DTBS),1)
-+$(error dtc needs libyaml for DT schema validation support. \
-+        Install the necessary libyaml development package.)
-+endif
- HOST_EXTRACFLAGS += -DNO_YAML
- else
- dtc-objs       += yamltree.o
-
-
-
-
-
-One drawback of this approach is,
-this is not checked if you are using out-of-tree DTC.
-Probably, Rob is the only person that overrides DTC.
-
-
-
-
-
-
-
--- 
-Best Regards
-Masahiro Yamada
