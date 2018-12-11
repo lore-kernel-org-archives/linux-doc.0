@@ -5,118 +5,93 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9F43F7D8BA
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 16:23:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DC0F37D8A3
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 16:26:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727653AbeLKQWw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Dec 2018 11:22:52 -0500
-Received: from foss.arm.com ([217.140.101.70]:52176 "EHLO foss.arm.com"
+        id S1727223AbeLKQ0g (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Dec 2018 11:26:36 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:49456 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727686AbeLKQWw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 Dec 2018 11:22:52 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3D88D1596;
-        Tue, 11 Dec 2018 08:22:51 -0800 (PST)
-Received: from [10.1.196.72] (e119884-lin.cambridge.arm.com [10.1.196.72])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5F89F3F575;
-        Tue, 11 Dec 2018 08:22:45 -0800 (PST)
-Subject: Re: [PATCH v13 19/25] kasan: add hooks implementation for tag-based
- mode
-To:     Andrey Konovalov <andreyknvl@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
+        id S1726628AbeLKQ0g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Dec 2018 11:26:36 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id D91B7308FB8B;
+        Tue, 11 Dec 2018 16:26:35 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.131])
+        by smtp.corp.redhat.com (Postfix) with SMTP id F2B3D600D6;
+        Tue, 11 Dec 2018 16:26:33 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Tue, 11 Dec 2018 17:26:35 +0100 (CET)
+Date:   Tue, 11 Dec 2018 17:26:32 +0100
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Roman Gushchin <guroan@gmail.com>
+Cc:     Tejun Heo <tj@kernel.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
-        linux-kbuild@vger.kernel.org
-Cc:     Vishwath Mohan <vishwath@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>
-References: <cover.1544099024.git.andreyknvl@google.com>
- <bda78069e3b8422039794050ddcb2d53d053ed41.1544099024.git.andreyknvl@google.com>
-From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <2bf7415e-2724-b3c3-9571-20c8b6d43b92@arm.com>
-Date:   Tue, 11 Dec 2018 16:22:43 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-team@fb.com,
+        Roman Gushchin <guro@fb.com>
+Subject: Re: [PATCH v5 4/7] cgroup: cgroup v2 freezer
+Message-ID: <20181211162632.GB8504@redhat.com>
+References: <20181207201531.1665-1-guro@fb.com>
+ <20181207201531.1665-5-guro@fb.com>
 MIME-Version: 1.0
-In-Reply-To: <bda78069e3b8422039794050ddcb2d53d053ed41.1544099024.git.andreyknvl@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181207201531.1665-5-guro@fb.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Tue, 11 Dec 2018 16:26:36 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Andrey,
-
-On 06/12/2018 12:24, Andrey Konovalov wrote:
-> This commit adds tag-based KASAN specific hooks implementation and
-> adjusts common generic and tag-based KASAN ones.
-> 
-> 1. When a new slab cache is created, tag-based KASAN rounds up the size of
->    the objects in this cache to KASAN_SHADOW_SCALE_SIZE (== 16).
-> 
-> 2. On each kmalloc tag-based KASAN generates a random tag, sets the shadow
->    memory, that corresponds to this object to this tag, and embeds this
->    tag value into the top byte of the returned pointer.
-> 
-> 3. On each kfree tag-based KASAN poisons the shadow memory with a random
->    tag to allow detection of use-after-free bugs.
-> 
-> The rest of the logic of the hook implementation is very much similar to
-> the one provided by generic KASAN. Tag-based KASAN saves allocation and
-> free stack metadata to the slab object the same way generic KASAN does.
-> 
-> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
-> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> ---
->  mm/kasan/common.c | 116 ++++++++++++++++++++++++++++++++++++++--------
->  mm/kasan/kasan.h  |   8 ++++
->  mm/kasan/tags.c   |  48 +++++++++++++++++++
->  3 files changed, 153 insertions(+), 19 deletions(-)
+On 12/07, Roman Gushchin wrote:
 >
+> Cgroup v2 freezer tries to put tasks into a state similar to jobctl
+> stop. This means that tasks can be killed, ptraced (using
+> PTRACE_SEIZE*), and interrupted. It is possible to attach to
+> a frozen task, get some information (e.g. read registers) and detach.
 
+I fail to understand how this all supposed to work.
 
-[...]
+> @@ -368,6 +369,8 @@ static inline int signal_pending_state(long state, struct task_struct *p)
+>  		return 0;
+>  	if (!signal_pending(p))
+>  		return 0;
+> +	if (unlikely(cgroup_task_frozen(p) && p->jobctl == JOBCTL_TRAP_FREEZE))
+> +		return __fatal_signal_pending(p);
 
-> @@ -265,6 +290,8 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
->  		return;
->  	}
->  
-> +	cache->align = round_up(cache->align, KASAN_SHADOW_SCALE_SIZE);
+I think I will never agree with this change ;) and I don't think it actually helps.
+
+> +void cgroup_enter_frozen(void)
+> +{
+> +	if (!current->frozen) {
+> +		spin_lock_irq(&css_set_lock);
+> +		current->frozen = true;
+> +		cgroup_inc_frozen_cnt(task_dfl_cgroup(current), false, true);
+> +		spin_unlock_irq(&css_set_lock);
+> +	}
 > +
+> +	__set_current_state(TASK_INTERRUPTIBLE);
+> +	schedule();
 
-Did you consider to set ARCH_SLAB_MINALIGN instead of this round up?
+So once again, suppose it races with PTRACE_INTERRUPT, or SIGSTOP, or something
+else which should be handled by get_signal() before do_freezer_trap().
 
--- 
-Regards,
-Vincenzo
+If (say) PTRACE_INTERRUPT comes before schedule it will be lost. Otherwise
+the frozen task will react. This can't be right. Or I am totally confused.
+
+Perhaps you can split this patch? start with cgroup_enter_frozen() using
+TASK_KILLABLE, then teach it to handle ptrace/stop/etc? I think this way it
+would be simpler to discuss the necessary changes and document what exactly
+are you trying to do.
+
+and btw.... what about suspend? try_to_freeze_tasks() will obviously fail
+if there is a ->frozen thread?
+
+Oleg.
+
