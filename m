@@ -1,160 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D1BE07DE6F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 16:04:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9F43F7D8BA
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 16:23:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730786AbeLKQED (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Dec 2018 11:04:03 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:26017 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730552AbeLKQED (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Dec 2018 11:04:03 -0500
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id wBBG3Zxa004409;
-        Wed, 12 Dec 2018 01:03:35 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com wBBG3Zxa004409
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1544544216;
-        bh=yybUklpXv+i3ZvDZN0IW/BOVhtWK4rILiidGaAjhMpM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=OPczIJ4FOYy580LZ7DS/3nKvrqqoOMHIZIKWccecRRjdvtFhKfsasloqP+Dao9mEm
-         yzIvnhZYIU23eLSWDkv5eknjQSTX81s+9ltfglUEI9fvClHdaKOOIV0hO2IbCPtae5
-         cU9qNLWUULDw8JVFXwonarCPtCbPoaKBO6MB1qZxmij13lnLAV6E9ZPLkrDQlccFhG
-         Nvs9c5jSADVSTLnT7pFwfBpGaFqq76gCdwKJ5HV/jPocJnHYkPkZ8QYjqAq0l478+r
-         Q0qx8ITQFTQfN63dUPdk+p7cMblUVHzDlDv83AUwvUQbE3b0yFbwuVZGN8cnpvfj0R
-         IO0sQl7AJbqKg==
-X-Nifty-SrcIP: [209.85.222.47]
-Received: by mail-ua1-f47.google.com with SMTP id k10so5303937ual.6;
-        Tue, 11 Dec 2018 08:03:35 -0800 (PST)
-X-Gm-Message-State: AA+aEWazi+9hQx0qqBC1uJwACTeKIT5TYSo8sjvQYGax6aOZnekq9qRz
-        vD5vJz5j0CRuen2MuTOS0eVOHb/uA3qo8E87qsg=
-X-Google-Smtp-Source: AFSGD/XZc79/L4SuKcG1VJ0VKvjIawgbFQtNLlqIpxPcLm8VGbMkBdVTmt2/WSQVL+Vpd0inHxvZI+sz8UNKgKFxppM=
-X-Received: by 2002:ab0:849:: with SMTP id b9mr3720525uaf.93.1544544214488;
- Tue, 11 Dec 2018 08:03:34 -0800 (PST)
-MIME-Version: 1.0
-References: <20181210203225.11179-1-robh@kernel.org> <CAK7LNAThtAOy4PQiYZ2X0oWrHdcLi7on8ctSXJ=bfT0HNh7NFQ@mail.gmail.com>
- <CAL_JsqL7n2sjLbJVieVDQ4YtKMi2COCaijO9ZNu7ggzmXXxLEg@mail.gmail.com>
-In-Reply-To: <CAL_JsqL7n2sjLbJVieVDQ4YtKMi2COCaijO9ZNu7ggzmXXxLEg@mail.gmail.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Wed, 12 Dec 2018 01:02:58 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARkr-g9ae+74QE6GMuxLM0JPgEqYOkwb0njXcb9-=nBdQ@mail.gmail.com>
-Message-ID: <CAK7LNARkr-g9ae+74QE6GMuxLM0JPgEqYOkwb0njXcb9-=nBdQ@mail.gmail.com>
-Subject: Re: [PATCH v3] kbuild: Add support for DT binding schema checks
-To:     Rob Herring <robh@kernel.org>
-Cc:     DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        darknighte@darknighte.com, Frank Rowand <frowand.list@gmail.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        grant.likely@arm.com, Kumar Gala <kumar.gala@linaro.org>,
-        arm-soc <arm@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        id S1727653AbeLKQWw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Dec 2018 11:22:52 -0500
+Received: from foss.arm.com ([217.140.101.70]:52176 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727686AbeLKQWw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Dec 2018 11:22:52 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3D88D1596;
+        Tue, 11 Dec 2018 08:22:51 -0800 (PST)
+Received: from [10.1.196.72] (e119884-lin.cambridge.arm.com [10.1.196.72])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5F89F3F575;
+        Tue, 11 Dec 2018 08:22:45 -0800 (PST)
+Subject: Re: [PATCH v13 19/25] kasan: add hooks implementation for tag-based
+ mode
+To:     Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org
+Cc:     Vishwath Mohan <vishwath@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>
+References: <cover.1544099024.git.andreyknvl@google.com>
+ <bda78069e3b8422039794050ddcb2d53d053ed41.1544099024.git.andreyknvl@google.com>
+From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <2bf7415e-2724-b3c3-9571-20c8b6d43b92@arm.com>
+Date:   Tue, 11 Dec 2018 16:22:43 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+MIME-Version: 1.0
+In-Reply-To: <bda78069e3b8422039794050ddcb2d53d053ed41.1544099024.git.andreyknvl@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 12, 2018 at 12:13 AM Rob Herring <robh@kernel.org> wrote:
+Hi Andrey,
 
+On 06/12/2018 12:24, Andrey Konovalov wrote:
+> This commit adds tag-based KASAN specific hooks implementation and
+> adjusts common generic and tag-based KASAN ones.
+> 
+> 1. When a new slab cache is created, tag-based KASAN rounds up the size of
+>    the objects in this cache to KASAN_SHADOW_SCALE_SIZE (== 16).
+> 
+> 2. On each kmalloc tag-based KASAN generates a random tag, sets the shadow
+>    memory, that corresponds to this object to this tag, and embeds this
+>    tag value into the top byte of the returned pointer.
+> 
+> 3. On each kfree tag-based KASAN poisons the shadow memory with a random
+>    tag to allow detection of use-after-free bugs.
+> 
+> The rest of the logic of the hook implementation is very much similar to
+> the one provided by generic KASAN. Tag-based KASAN saves allocation and
+> free stack metadata to the slab object the same way generic KASAN does.
+> 
+> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> ---
+>  mm/kasan/common.c | 116 ++++++++++++++++++++++++++++++++++++++--------
+>  mm/kasan/kasan.h  |   8 ++++
+>  mm/kasan/tags.c   |  48 +++++++++++++++++++
+>  3 files changed, 153 insertions(+), 19 deletions(-)
 >
-> > > +$(obj)/%.example.dts: $(src)/%.yaml FORCE
-> > > +       $(call if_changed,chk_binding)
-> > > +
-> > > +DT_TMP_SCHEMA := .schema.yaml.tmp
-> >
-> >
-> > BTW, why does this file start with a period?
-> > What is the meaning of '.tmp' extension?
->
-> Nothing really. Just named it something so it gets cleaned and ignored by git.
 
 
-It is cleaned whatever file name you use.
+[...]
 
+> @@ -265,6 +290,8 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+>  		return;
+>  	}
+>  
+> +	cache->align = round_up(cache->align, KASAN_SHADOW_SCALE_SIZE);
+> +
 
-See scripts/Makefile.clean
-
-__clean-files   := $(extra-y) $(extra-m) $(extra-)       \
-                   $(always) $(targets) $(clean-files)   \
-                   $(hostprogs-y) $(hostprogs-m) $(hostprogs-) \
-                   $(hostlibs-y) $(hostlibs-m) $(hostlibs-) \
-                   $(hostcxxlibs-y) $(hostcxxlibs-m)
-
-
-$(extra-y) is cleaned.
-
-
-
-You are adding *.example.dts to .gitignore
-
-Why not "schema.yaml" ?
-
-
-
-
-> > > +extra-y += $(DT_TMP_SCHEMA)
-> > > +
-> > > +quiet_cmd_mk_schema = SCHEMA  $@
-> > > +      cmd_mk_schema = mkdir -p $(obj); \
-> > > +                      rm -f $@; \
-> > > +                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $(filter-out FORCE, $^)
-> >
-> >
-> > "mkdir -p $(obj)" is redundant.
-> >
-> >
-> > Why is 'rm -f $@' necessary ?
-> > Can't dt-mk-schema overwrite the output file?
->
-> It is for error case when the output file is not generated. I can
-> handle this within dt-mk-schema instead.
-> > > +DT_DOCS = $(shell cd $(srctree)/$(src) && find * -name '*.yaml')
-> > > +DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
-> > > +
-> > > +extra-y += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
-> > > +extra-y += $(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES))
-> >
-> >
-> >
-> > I assume you intentionally did not do like this:
-> >
-> > extra-y += $(patsubst %.yaml,%.example.dtb, $(DT_DOCS))
-> >
-> > From the commit description, DT_SCHEMA_FILES might be overridden by a user.
-> > So, I think this is OK.
-> >
-> >
-> >
-> >
-> > > +$(obj)/$(DT_TMP_SCHEMA): | $(addprefix $(obj)/,$(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES)))
-> >
-> > I do not understand this line.
-> > Why is it necessary?
-> >
-> > *.example.dtb files are generated anyway
-> > since they are listed in extra-y.
->
-> It is enforcing the ordering. Without it, the binding checks and
-> building .schema.yaml.tmp happen in parallel because both only have
-> the source files as dependencies. The '|' keeps the dependencies out
-> of the dependency list($^).
-
-
-What kind problem would you see if
-the binding checks and building .schema.yaml.tmp
-happen in parallel?
-
-
+Did you consider to set ARCH_SLAB_MINALIGN instead of this round up?
 
 -- 
-Best Regards
-Masahiro Yamada
+Regards,
+Vincenzo
