@@ -5,50 +5,49 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 903227D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 13:00:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 435C87D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 13:01:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726398AbeLKNAO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Dec 2018 08:00:14 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:30117 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726203AbeLKNAO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Dec 2018 08:00:14 -0500
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id wBBD02hW027415;
-        Tue, 11 Dec 2018 22:00:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com wBBD02hW027415
+        id S1726190AbeLKNBu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Dec 2018 08:01:50 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:35098 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726531AbeLKNBu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Dec 2018 08:01:50 -0500
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id wBBD1ksO004846;
+        Tue, 11 Dec 2018 22:01:47 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com wBBD1ksO004846
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1544533203;
-        bh=twubWNm7C/dHzNFwoFHVCUMciZ0Sld3ahZ1E7w/D48Q=;
+        s=dec2015msa; t=1544533307;
+        bh=No9xOhJADUYQeHm2q3q2ynI3sayEoRJ+pXaBMGBljCY=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=KUzYHY86ID8JjhXQ6Ey2ZIpONlHlRutHRwgJBti2rHRSozoW00BY2kn/r/mT7SShH
-         7Jv5WJ0xKj8X/b6FBGgDFybditq/MO64GzZrN1JxTLx0H770Pkej3N+p3QdFSGXjuK
-         SCi7YaGh48TBDJW3rg35i3bgcX5/pDoZ1E5XtsqxwsyBf8S99plf7UvkYZY3Unnlw+
-         oOjjl3ia1QXUTtIzZWEwZro3g0DfD7q6Bu9DGG3mfUB7FAkpNMgZeVKne/Za9HgpF2
-         TsbM0OyPGU4Sz+VWbA20/BfC2HR3QYYplUqUP7qLvl+eT1Q6i1C7knx1daTUtSyE0y
-         +0TubPkvbpJeg==
-X-Nifty-SrcIP: [209.85.222.41]
-Received: by mail-ua1-f41.google.com with SMTP id e16so5069081uam.12;
-        Tue, 11 Dec 2018 05:00:03 -0800 (PST)
-X-Gm-Message-State: AA+aEWb4jrFmOXNjnRt47e9bXBzoPyptyMPzwwm5UJbuPJWav1Vq2THG
-        HD/iDXWYI9bRNq6Xt0LrIvLCq3wu/SbWc7cuz0s=
-X-Google-Smtp-Source: AFSGD/VqzOYRbYT45HUtGTBbZIr4xjI6beS8S0eCVtRR639tWGfJa672xNME7Tgo1tY98gGLM+L1YJnc5uvfT2jUn3I=
-X-Received: by 2002:ab0:6705:: with SMTP id q5mr7405382uam.89.1544533202351;
- Tue, 11 Dec 2018 05:00:02 -0800 (PST)
+        b=lb+FixOrBgg97ttnpnivs5864b9r2MhlESMWaRu/vJ5TpGvgnZQEFx2xyLjcMYXDI
+         TUQrJleNlffuVgth39BJ9HXSv24btz4yTALdIvlUqrAjsQRMDEiVGnBohqkqmV0ZlC
+         62S41MTqd3RYiqhoxo8+aVzmLqSbh3tnb2npehRIzSECxntBWQX8LC/TPZv302vZWh
+         fg2BmgoFZd+ktOcmAPqglkJjl3ZozzT0w0gpyVjnEfC0tz8meDhmLoxWmqPNFjK0OA
+         BW1VGdQBhZFaiJ+n/hMuh3K07uCA8b26XDIAH4AZ/ktPwxo8UoSmAYim1JwlTz1wca
+         vlAqIe1aVXchg==
+X-Nifty-SrcIP: [209.85.217.42]
+Received: by mail-vs1-f42.google.com with SMTP id n10so8776923vso.13;
+        Tue, 11 Dec 2018 05:01:47 -0800 (PST)
+X-Gm-Message-State: AA+aEWY4Y/GFpmqFW29jjHCK4RRP2uUxGitxYphWo6FuaAoplgwz+MB9
+        xiM+Kecz2WxIJ8w5c29tCoOVios27/Cz9VjHGsA=
+X-Google-Smtp-Source: AFSGD/XP7u3JBH12nJ0I5BYvwn3D60VRK66r/aWrfTZsLKYhiXSQayAnbl9E7N2yFafU4+fcRJUGlQ65tHVN9vjdi9I=
+X-Received: by 2002:a67:485:: with SMTP id 127mr7388150vse.54.1544533305718;
+ Tue, 11 Dec 2018 05:01:45 -0800 (PST)
 MIME-Version: 1.0
 References: <1544009286-15705-1-git-send-email-yamada.masahiro@socionext.com>
- <1544009286-15705-2-git-send-email-yamada.masahiro@socionext.com> <20181206150325.GA2726@infradead.org>
-In-Reply-To: <20181206150325.GA2726@infradead.org>
+ <1544009286-15705-2-git-send-email-yamada.masahiro@socionext.com> <20181206180459.GA19166@ravnborg.org>
+In-Reply-To: <20181206180459.GA19166@ravnborg.org>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 11 Dec 2018 21:59:26 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS7hh4f8mYoZc7RUWStnchhftUN0nU5MJ_trjyNJx50Lw@mail.gmail.com>
-Message-ID: <CAK7LNAS7hh4f8mYoZc7RUWStnchhftUN0nU5MJ_trjyNJx50Lw@mail.gmail.com>
+Date:   Tue, 11 Dec 2018 22:01:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ8RjUkc57CWi_rnLopGSQQBtgerYJO+F7_0MD+p=NFxA@mail.gmail.com>
+Message-ID: <CAK7LNAQ8RjUkc57CWi_rnLopGSQQBtgerYJO+F7_0MD+p=NFxA@mail.gmail.com>
 Subject: Re: [PATCH 2/3] kbuild: generate asm-generic wrappers if mandatory
  headers are missing
-To:     Christoph Hellwig <hch@infradead.org>
+To:     Sam Ravnborg <sam@ravnborg.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -59,10 +58,10 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Christoph,
+Hi Sam,
 
 
-On Fri, Dec 7, 2018 at 12:04 AM Christoph Hellwig <hch@infradead.org> wrote:
+On Fri, Dec 7, 2018 at 3:06 AM Sam Ravnborg <sam@ravnborg.org> wrote:
 >
 > On Wed, Dec 05, 2018 at 08:28:05PM +0900, Masahiro Yamada wrote:
 > > Some time ago, Sam pointed out a certain degree of overwrap between
@@ -78,28 +77,27 @@ On Fri, Dec 7, 2018 at 12:04 AM Christoph Hellwig <hch@infradead.org> wrote:
 > >
 > > Previously, "mandatory" was used in the context of UAPI, but I guess
 > > this can be extended to kernel space ASM headers.
+> >
+> > Suggested-by: Sam Ravnborg <sam@ravnborg.org>
+> > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 >
-> How useful is it to keep the generic-y behavior around at all vs making
-> everything useful mandatory?
+> Nice work!
+>
+> For the full series:
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+>
+> Have you considered to warn if generic-y contains a header listed
+> in mandatory-y - to prevent that they sneak back in.
+> And to catch when we lift a header from available to mandatory.
 
 
-What I can tell is not all architectures
-support kvm_para.h, ucontext.h
-
-I guess they will stay as arch-specific generic-y,
-but I am not an expert in this area.
-
-
-kvm_para.h is missing csky, nds32, riscv.
-
-ucontext.h is missing in alpha, arm, m68k, parisc, sparc, xtensa
+Yes, I also thought of this,
+and probably we should do it.
 
 
 
-bpf_perf_event.h could be promoted to mandatory-y ?
-All architectures have it.
 
 
--- 
+--
 Best Regards
 Masahiro Yamada
