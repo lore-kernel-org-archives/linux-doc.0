@@ -1,104 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3D1957D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 10:46:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 903227D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 13:00:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726323AbeLKKqt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Dec 2018 05:46:49 -0500
-Received: from cloudserver094114.home.pl ([79.96.170.134]:58447 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726104AbeLKKqt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Dec 2018 05:46:49 -0500
-Received: from 79.184.252.35.ipv4.supernova.orange.pl (79.184.252.35) (HELO aspire.rjw.lan)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.183)
- id b0a1c4ebf1536e1a; Tue, 11 Dec 2018 11:46:47 +0100
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     lenb@kernel.org, viresh.kumar@linaro.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, yu.c.chen@intel.com
-Subject: Re: [PATCH 1/2] cpufreq: intel_pstate: Force HWP min perf before offline
-Date:   Tue, 11 Dec 2018 11:46:29 +0100
-Message-ID: <1570245.TxyEhuTLgx@aspire.rjw.lan>
-In-Reply-To: <20181116222420.24260-1-srinivas.pandruvada@linux.intel.com>
-References: <20181116222420.24260-1-srinivas.pandruvada@linux.intel.com>
+        id S1726398AbeLKNAO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Dec 2018 08:00:14 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:30117 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726203AbeLKNAO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Dec 2018 08:00:14 -0500
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id wBBD02hW027415;
+        Tue, 11 Dec 2018 22:00:03 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com wBBD02hW027415
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1544533203;
+        bh=twubWNm7C/dHzNFwoFHVCUMciZ0Sld3ahZ1E7w/D48Q=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KUzYHY86ID8JjhXQ6Ey2ZIpONlHlRutHRwgJBti2rHRSozoW00BY2kn/r/mT7SShH
+         7Jv5WJ0xKj8X/b6FBGgDFybditq/MO64GzZrN1JxTLx0H770Pkej3N+p3QdFSGXjuK
+         SCi7YaGh48TBDJW3rg35i3bgcX5/pDoZ1E5XtsqxwsyBf8S99plf7UvkYZY3Unnlw+
+         oOjjl3ia1QXUTtIzZWEwZro3g0DfD7q6Bu9DGG3mfUB7FAkpNMgZeVKne/Za9HgpF2
+         TsbM0OyPGU4Sz+VWbA20/BfC2HR3QYYplUqUP7qLvl+eT1Q6i1C7knx1daTUtSyE0y
+         +0TubPkvbpJeg==
+X-Nifty-SrcIP: [209.85.222.41]
+Received: by mail-ua1-f41.google.com with SMTP id e16so5069081uam.12;
+        Tue, 11 Dec 2018 05:00:03 -0800 (PST)
+X-Gm-Message-State: AA+aEWb4jrFmOXNjnRt47e9bXBzoPyptyMPzwwm5UJbuPJWav1Vq2THG
+        HD/iDXWYI9bRNq6Xt0LrIvLCq3wu/SbWc7cuz0s=
+X-Google-Smtp-Source: AFSGD/VqzOYRbYT45HUtGTBbZIr4xjI6beS8S0eCVtRR639tWGfJa672xNME7Tgo1tY98gGLM+L1YJnc5uvfT2jUn3I=
+X-Received: by 2002:ab0:6705:: with SMTP id q5mr7405382uam.89.1544533202351;
+ Tue, 11 Dec 2018 05:00:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <1544009286-15705-1-git-send-email-yamada.masahiro@socionext.com>
+ <1544009286-15705-2-git-send-email-yamada.masahiro@socionext.com> <20181206150325.GA2726@infradead.org>
+In-Reply-To: <20181206150325.GA2726@infradead.org>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Tue, 11 Dec 2018 21:59:26 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS7hh4f8mYoZc7RUWStnchhftUN0nU5MJ_trjyNJx50Lw@mail.gmail.com>
+Message-ID: <CAK7LNAS7hh4f8mYoZc7RUWStnchhftUN0nU5MJ_trjyNJx50Lw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] kbuild: generate asm-generic wrappers if mandatory
+ headers are missing
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Friday, November 16, 2018 11:24:19 PM CET Srinivas Pandruvada wrote:
-> Force HWP Request MAX = HWP Request MIN = HWP Capability MIN and EPP to
-> 0xFF. In this way the performance limits on the offlined CPU will not
-> influence performance limits on its sibling CPU, which is still online.
-> 
-> If the sibling CPU is calling for higher performance, it will impact the
-> max core performance. Here core performance will follow higher of the
-> performance requests from each sibling.
-> 
-> Reported-and-tested-by: Chen Yu <yu.c.chen@intel.com>
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> ---
->  drivers/cpufreq/intel_pstate.c | 28 ++++++++++++++++++++++++++--
->  1 file changed, 26 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/cpufreq/intel_pstate.c b/drivers/cpufreq/intel_pstate.c
-> index 14f551a3d36e..501ab9f4489a 100644
-> --- a/drivers/cpufreq/intel_pstate.c
-> +++ b/drivers/cpufreq/intel_pstate.c
-> @@ -830,6 +830,28 @@ static void intel_pstate_hwp_set(unsigned int cpu)
->  	wrmsrl_on_cpu(cpu, MSR_HWP_REQUEST, value);
->  }
->  
-> +static void intel_pstate_hwp_force_min_perf(int cpu)
-> +{
-> +	u64 value;
-> +	int min_perf;
-> +
-> +	value = all_cpu_data[cpu]->hwp_req_cached;
-> +	value &= ~GENMASK_ULL(31, 0);
-> +	min_perf = HWP_LOWEST_PERF(all_cpu_data[cpu]->hwp_cap_cached);
-> +
-> +	/* Set hwp_max = hwp_min */
-> +	value |= HWP_MAX_PERF(min_perf);
-> +	value |= HWP_MIN_PERF(min_perf);
-> +
-> +	/* Set EPP/EPB to min */
-> +	if (static_cpu_has(X86_FEATURE_HWP_EPP))
-> +		value |= HWP_ENERGY_PERF_PREFERENCE(HWP_EPP_POWERSAVE);
-> +	else
-> +		intel_pstate_set_epb(cpu, HWP_EPP_BALANCE_POWERSAVE);
-> +
-> +	wrmsrl_on_cpu(cpu, MSR_HWP_REQUEST, value);
-> +}
-> +
->  static int intel_pstate_hwp_save_state(struct cpufreq_policy *policy)
->  {
->  	struct cpudata *cpu_data = all_cpu_data[policy->cpu];
-> @@ -2093,10 +2115,12 @@ static void intel_pstate_stop_cpu(struct cpufreq_policy *policy)
->  	pr_debug("CPU %d exiting\n", policy->cpu);
->  
->  	intel_pstate_clear_update_util_hook(policy->cpu);
-> -	if (hwp_active)
-> +	if (hwp_active) {
->  		intel_pstate_hwp_save_state(policy);
-> -	else
-> +		intel_pstate_hwp_force_min_perf(policy->cpu);
-> +	} else {
->  		intel_cpufreq_stop_cpu(policy);
-> +	}
->  }
->  
->  static int intel_pstate_cpu_exit(struct cpufreq_policy *policy)
-> 
+Hi Christoph,
 
-Both this one and the [2/2] applied, thanks!
 
+On Fri, Dec 7, 2018 at 12:04 AM Christoph Hellwig <hch@infradead.org> wrote:
+>
+> On Wed, Dec 05, 2018 at 08:28:05PM +0900, Masahiro Yamada wrote:
+> > Some time ago, Sam pointed out a certain degree of overwrap between
+> > generic-y and mandatory-y. (https://lkml.org/lkml/2017/7/10/121)
+> >
+> > I a bit tweaked the meaning of mandatory-y; now it defines the minimum
+> > set of ASM headers that all architectures must have.
+> >
+> > If arch does not have specific implementation of a mandatory header,
+> > Kbuild will let it fallback to the asm-generic one by automatically
+> > generating a wrapper. This will allow to drop lots of redundant
+> > generic-y defines.
+> >
+> > Previously, "mandatory" was used in the context of UAPI, but I guess
+> > this can be extended to kernel space ASM headers.
+>
+> How useful is it to keep the generic-y behavior around at all vs making
+> everything useful mandatory?
+
+
+What I can tell is not all architectures
+support kvm_para.h, ucontext.h
+
+I guess they will stay as arch-specific generic-y,
+but I am not an expert in this area.
+
+
+kvm_para.h is missing csky, nds32, riscv.
+
+ucontext.h is missing in alpha, arm, m68k, parisc, sparc, xtensa
+
+
+
+bpf_perf_event.h could be promoted to mandatory-y ?
+All architectures have it.
+
+
+-- 
+Best Regards
+Masahiro Yamada
