@@ -1,109 +1,201 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7FB247D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 18:31:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0AA7E7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 18:35:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727154AbeLKSbD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Dec 2018 13:31:03 -0500
-Received: from mga01.intel.com ([192.55.52.88]:10758 "EHLO mga01.intel.com"
+        id S1726664AbeLKSfl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Dec 2018 13:35:41 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33842 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726435AbeLKSbC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 Dec 2018 13:31:02 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Dec 2018 10:31:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,343,1539673200"; 
-   d="scan'208";a="100721643"
-Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.154])
-  by orsmga008.jf.intel.com with ESMTP; 11 Dec 2018 10:31:01 -0800
-Date:   Tue, 11 Dec 2018 10:31:01 -0800
-From:   Sean Christopherson <sean.j.christopherson@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Josh Triplett <josh@joshtriplett.org>, Pavel Machek <pavel@ucw.cz>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        x86@kernel.org, platform-driver-x86@vger.kernel.org,
-        nhorman@redhat.com, npmccallum@redhat.com,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
-        "open list:INTEL SGX" <intel-sgx-kernel-dev@lists.01.org>,
-        Janakarajan Natarajan <Janakarajan.Natarajan@amd.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        "open list:KERNEL VIRTUAL MACHINE FOR X86 (KVM/x86)" 
-        <kvm@vger.kernel.org>, Len Brown <len.brown@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "open list:CRYPTO API" <linux-crypto@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:SPARSE CHECKER" <linux-sparse@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Vikas Shivappa <vikas.shivappa@linux.intel.com>
-Subject: Re: [PATCH v11 00/13] Intel SGX1 support
-Message-ID: <20181211183101.GE14731@linux.intel.com>
-References: <20180608171216.26521-1-jarkko.sakkinen@linux.intel.com>
- <20180612105011.GA26931@amd>
- <20180619145943.GC8034@linux.intel.com>
- <20180619200414.GA3143@amd>
- <20180619214833.GA5873@localhost>
- <20181209200600.GA11608@amd>
- <20181210074717.GA9880@localhost>
- <20181210082704.GA14594@amd>
- <20181210231159.GA10718@localhost>
- <12301623-0a63-10ac-1d5e-828569a953e5@intel.com>
+        id S1726252AbeLKSfl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Dec 2018 13:35:41 -0500
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8CA37208E7;
+        Tue, 11 Dec 2018 18:35:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1544553339;
+        bh=p8EYJ/W+tstdk9YOyWSoVKU0GF7Ar/LYqGAocqTKjN4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=OWQ81JFKXZTiHWodKIjRr+PHBOP1poJulI2bqPwB6Dw9OgiKT9r5Bt9tJT9LED/ON
+         qY6kCVSeQIrh7w35A/PMsdTz5nYfAaEsvglLfTQITTa4rdrM6DcR6z41Uvm9yEnPjh
+         AwQ8ZkQpf4FXa0veSWmAmxFqskHCGIa1/xUXNrmE=
+Received: by mail-qt1-f169.google.com with SMTP id p17so17582344qtl.5;
+        Tue, 11 Dec 2018 10:35:39 -0800 (PST)
+X-Gm-Message-State: AA+aEWaCU5e5ozyTaEAimvjl1t/oLUv+hTo9HBBT7b4sPtuEPTK5j3gu
+        isJLV2+9sCJEnODNYRylcDpzsrWUEnvT1PvqQw==
+X-Google-Smtp-Source: AFSGD/XseHpa+vQVxHR9GEAcS6cxLcCfOLfE/L6WOZfoUsMgmKGeQvPeV58OCxEJnc4x9BXpjTkrK4b0fW9kWb7Db+w=
+X-Received: by 2002:ac8:1712:: with SMTP id w18mr16930766qtj.76.1544553338724;
+ Tue, 11 Dec 2018 10:35:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <12301623-0a63-10ac-1d5e-828569a953e5@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20181210203225.11179-1-robh@kernel.org> <CAK7LNAThtAOy4PQiYZ2X0oWrHdcLi7on8ctSXJ=bfT0HNh7NFQ@mail.gmail.com>
+ <CAL_JsqL7n2sjLbJVieVDQ4YtKMi2COCaijO9ZNu7ggzmXXxLEg@mail.gmail.com> <CAK7LNARkr-g9ae+74QE6GMuxLM0JPgEqYOkwb0njXcb9-=nBdQ@mail.gmail.com>
+In-Reply-To: <CAK7LNARkr-g9ae+74QE6GMuxLM0JPgEqYOkwb0njXcb9-=nBdQ@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 11 Dec 2018 12:35:26 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJ_1RukAZx5tCpp+X8mdNuOT6LTAdYOzN5UyhRK6SAo2Q@mail.gmail.com>
+Message-ID: <CAL_JsqJ_1RukAZx5tCpp+X8mdNuOT6LTAdYOzN5UyhRK6SAo2Q@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: Add support for DT binding schema checks
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Sean Hudson <darknighte@darknighte.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Grant Likely <grant.likely@arm.com>,
+        Kumar Gala <kumar.gala@linaro.org>,
+        ARM-SoC Maintainers <arm@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 11, 2018 at 10:10:38AM -0800, Dave Hansen wrote:
-> On 12/10/18 3:12 PM, Josh Triplett wrote:
-> >> Or maybe even python/shell scripts? It looked to me like virtual
-> >> memory will be "interesting" for enclaves.
-> > Memory management doesn't seem that hard to deal with.
-> 
-> The problems are:
-> 
-> 1. SGX enclave memory (EPC) is statically allocated at boot and can't
->    grow or shrink
-> 2. EPC is much smaller than regular RAM
-> 3. The core VM has no comprehension of EPC use, thus can not help
->    with its algorithms, like the LRU
-> 4. The SGX driver implements its own VM which is substantially simpler
->    than the core VM, but less feature-rich, fast, or scalable
+On Tue, Dec 11, 2018 at 10:03 AM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
+>
+> On Wed, Dec 12, 2018 at 12:13 AM Rob Herring <robh@kernel.org> wrote:
+>
+> >
+> > > > +$(obj)/%.example.dts: $(src)/%.yaml FORCE
+> > > > +       $(call if_changed,chk_binding)
+> > > > +
+> > > > +DT_TMP_SCHEMA := .schema.yaml.tmp
+> > >
+> > >
+> > > BTW, why does this file start with a period?
+> > > What is the meaning of '.tmp' extension?
+> >
+> > Nothing really. Just named it something so it gets cleaned and ignored by git.
+>
+>
+> It is cleaned whatever file name you use.
+>
+>
+> See scripts/Makefile.clean
+>
+> __clean-files   := $(extra-y) $(extra-m) $(extra-)       \
+>                    $(always) $(targets) $(clean-files)   \
+>                    $(hostprogs-y) $(hostprogs-m) $(hostprogs-) \
+>                    $(hostlibs-y) $(hostlibs-m) $(hostlibs-) \
+>                    $(hostcxxlibs-y) $(hostcxxlibs-m)
+>
+>
+> $(extra-y) is cleaned.
 
-I'd also add:
+True.
 
-  5. Swapping EPC pages can only be done through SGX specific ISA that
-     has strict concurrency requirements and enforces TLB flushing.
-  6. There are specialized types of EPC pages that have different
-     swapping requirements than regular EPC pages.
-  7. EPC pages that are exposed to a KVM guest have yet another set of
-     swapping requirements.
+>
+>
+> You are adding *.example.dts to .gitignore
+>
+> Why not "schema.yaml" ?
 
-In other words, extending the core VM to SGX EPC is painfully difficult.
+Okay. I'll do "processed-schema.yaml" to give a bit better name of
+what it contains.
+
+>
+> > > > +extra-y += $(DT_TMP_SCHEMA)
+> > > > +
+> > > > +quiet_cmd_mk_schema = SCHEMA  $@
+> > > > +      cmd_mk_schema = mkdir -p $(obj); \
+> > > > +                      rm -f $@; \
+> > > > +                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $(filter-out FORCE, $^)
+> > >
+> > >
+> > > "mkdir -p $(obj)" is redundant.
+> > >
+> > >
+> > > Why is 'rm -f $@' necessary ?
+> > > Can't dt-mk-schema overwrite the output file?
+> >
+> > It is for error case when the output file is not generated. I can
+> > handle this within dt-mk-schema instead.
+> > > > +DT_DOCS = $(shell cd $(srctree)/$(src) && find * -name '*.yaml')
+> > > > +DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
+> > > > +
+> > > > +extra-y += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
+> > > > +extra-y += $(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES))
+> > >
+> > >
+> > >
+> > > I assume you intentionally did not do like this:
+> > >
+> > > extra-y += $(patsubst %.yaml,%.example.dtb, $(DT_DOCS))
+> > >
+> > > From the commit description, DT_SCHEMA_FILES might be overridden by a user.
+> > > So, I think this is OK.
+> > >
+> > >
+> > >
+> > >
+> > > > +$(obj)/$(DT_TMP_SCHEMA): | $(addprefix $(obj)/,$(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES)))
+> > >
+> > > I do not understand this line.
+> > > Why is it necessary?
+> > >
+> > > *.example.dtb files are generated anyway
+> > > since they are listed in extra-y.
+> >
+> > It is enforcing the ordering. Without it, the binding checks and
+> > building .schema.yaml.tmp happen in parallel because both only have
+> > the source files as dependencies. The '|' keeps the dependencies out
+> > of the dependency list($^).
+>
+>
+> What kind problem would you see if
+> the binding checks and building .schema.yaml.tmp
+> happen in parallel?
+
+In case of no errors in the binding docs, it doesn't matter. If there
+are errors, I don't want the dtbs validation to run if any schema
+doesn't validate. However, I played around with this a bit more and it
+seems like having the examples' dts/dtb in extra-y prevents that from
+happening. Does that match your expections? If so, then I think we can
+remove the dependency.
+
+Here's an example.
+
+  SCHEMA  Documentation/devicetree/bindings/.schema.yaml.tmp
+  CHKDT   Documentation/devicetree/bindings/arm/vt8500.yaml
+  CHKDT   Documentation/devicetree/bindings/arm/zte.yaml
+  CHKDT   Documentation/devicetree/bindings/arm/altera/socfpga-clk-manager.yaml
+  CHKDT   Documentation/devicetree/bindings/arm/ti/ti,davinci.yaml
+  CHKDT   Documentation/devicetree/bindings/arm/ti/nspire.yaml
+  CHKDT   Documentation/devicetree/bindings/arm/spear.yaml
+  CHKDT   Documentation/devicetree/bindings/arm/altera.yaml
+warning: no schema found in file:
+../Documentation/devicetree/bindings/arm/xilinx.yaml
+/home/rob/proj/git/linux-2.6/Documentation/devicetree/bindings/arm/xilinx.yaml:
+ignoring, error in schema 'onOf'
+  CHKDT   Documentation/devicetree/bindings/arm/sti.yaml
+  CHKDT   Documentation/devicetree/bindings/arm/qcom.yaml
+  CHKDT   Documentation/devicetree/bindings/arm/primecell.yaml
+  CHKDT   Documentation/devicetree/bindings/arm/cpus.yaml
+  CHKDT   Documentation/devicetree/bindings/arm/sirf.yaml
+  CHKDT   Documentation/devicetree/bindings/arm/calxeda.yaml
+  CHKDT   Documentation/devicetree/bindings/arm/xilinx.yaml
+  CHKDT   Documentation/devicetree/bindings/example-schema.yaml
+/home/rob/proj/git/linux-2.6/Documentation/devicetree/bindings/arm/xilinx.yaml:
+properties:compatible:onOf: 'onOf' is not one of ['$ref',
+'additionalItems', 'allOf', 'const', 'contains', 'default',
+'dependencies', 'description', 'enum', 'items', 'minItems', 'minimum',
+'maxItems', 'maximum', 'not', 'oneOf', 'pattern', 'patternProperties',
+'properties', 'required', 'type', 'typeSize']
+make[2]: *** [../Documentation/devicetree/bindings/Makefile:12:
+Documentation/devicetree/bindings/arm/xilinx.example.dts] Error 1
+
+Rob
