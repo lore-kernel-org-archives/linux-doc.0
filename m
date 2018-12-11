@@ -1,234 +1,95 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
-	autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C582C7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 15:12:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2256B7DD2A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 15:18:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726412AbeLKPMa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Dec 2018 10:12:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39272 "EHLO mail.kernel.org"
+        id S1726690AbeLKPSJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Dec 2018 10:18:09 -0500
+Received: from foss.arm.com ([217.140.101.70]:49600 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726402AbeLKPMa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 Dec 2018 10:12:30 -0500
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3F1DF2084C;
-        Tue, 11 Dec 2018 15:12:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1544541148;
-        bh=8rdO4cZxt6xReUlC0rdEaykJNgyVG46s2ZIBuuHkODI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=DKhCOW2N+zbs4bqGinIj4uROtK12ZWwT5ga5lJWjMhUqsUzIKsMl42n21R9mCeXqt
-         mued0cG8TsdiT1DRQNHLHQByFIFebeW0eS/dOvVbu0iD3wzcNqgHBr22cKg+jqchSl
-         7vPMose8YidGuHGyYuvHkR/3Owr3/UjE1KOXPwu0=
-Received: by mail-qk1-f178.google.com with SMTP id 131so8760242qkd.4;
-        Tue, 11 Dec 2018 07:12:28 -0800 (PST)
-X-Gm-Message-State: AA+aEWa44vuUPpYov5rwtTAUk98QSm6r8Hmd0bj4uDZbeyFNcwrb6mDn
-        4Rr+8+M55YyEoRRP6/Hpcu6bF2kdP0uFqFadHw==
-X-Google-Smtp-Source: AFSGD/V3f26Ch4DAfmZuZLq2FicXTg6QAR2pNTWHGlCMwtI3VbwyQWvG5J7FwQTDt18OKG/uBw9e9YtJ5itSx2oBQnI=
-X-Received: by 2002:ae9:ef14:: with SMTP id d20mr15157892qkg.147.1544541147417;
- Tue, 11 Dec 2018 07:12:27 -0800 (PST)
-MIME-Version: 1.0
-References: <20181210203225.11179-1-robh@kernel.org> <CAK7LNAThtAOy4PQiYZ2X0oWrHdcLi7on8ctSXJ=bfT0HNh7NFQ@mail.gmail.com>
-In-Reply-To: <CAK7LNAThtAOy4PQiYZ2X0oWrHdcLi7on8ctSXJ=bfT0HNh7NFQ@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 11 Dec 2018 09:12:15 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqL7n2sjLbJVieVDQ4YtKMi2COCaijO9ZNu7ggzmXXxLEg@mail.gmail.com>
-Message-ID: <CAL_JsqL7n2sjLbJVieVDQ4YtKMi2COCaijO9ZNu7ggzmXXxLEg@mail.gmail.com>
-Subject: Re: [PATCH v3] kbuild: Add support for DT binding schema checks
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Sean Hudson <darknighte@darknighte.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Grant Likely <grant.likely@arm.com>,
-        Kumar Gala <kumar.gala@linaro.org>,
-        ARM-SoC Maintainers <arm@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1726672AbeLKPSI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Dec 2018 10:18:08 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8293F1596;
+        Tue, 11 Dec 2018 07:18:07 -0800 (PST)
+Received: from edgewater-inn.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 4FC8C3F575;
+        Tue, 11 Dec 2018 07:18:07 -0800 (PST)
+Received: by edgewater-inn.cambridge.arm.com (Postfix, from userid 1000)
+        id 572D31AE0CE1; Tue, 11 Dec 2018 15:18:30 +0000 (GMT)
+Date:   Tue, 11 Dec 2018 15:18:30 +0000
+From:   Will Deacon <will.deacon@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org, Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
+Subject: Re: [PATCH v13 00/25] kasan: add software tag-based mode for arm64
+Message-ID: <20181211151829.GB11718@edgewater-inn.cambridge.arm.com>
+References: <cover.1544099024.git.andreyknvl@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1544099024.git.andreyknvl@google.com>
+User-Agent: Mutt/1.11.1+30 (d10eec459b35) ()
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 10, 2018 at 10:39 PM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> Hi Rob,
->
-> On Tue, Dec 11, 2018 at 5:50 AM Rob Herring <robh@kernel.org> wrote:
-> >
-> > This adds the build infrastructure for checking DT binding schema
-> > documents and validating dts files using the binding schema.
-> >
-> > Check DT binding schema documents:
-> > make dt_binding_check
-> >
-> > Build dts files and check using DT binding schema:
-> > make dtbs_check
-> >
-> > Optionally, DT_SCHEMA_FILES can passed in with a schema file(s) to use
->
->
-> Perhaps, "can be passed" ?
+Hi Andrey,
 
-Yes.
+On Thu, Dec 06, 2018 at 01:24:18PM +0100, Andrey Konovalov wrote:
+> This patchset adds a new software tag-based mode to KASAN [1].
+> (Initially this mode was called KHWASAN, but it got renamed,
+>  see the naming rationale at the end of this section).
+> 
+> The plan is to implement HWASan [2] for the kernel with the incentive,
+> that it's going to have comparable to KASAN performance, but in the same
+> time consume much less memory, trading that off for somewhat imprecise
+> bug detection and being supported only for arm64.
 
-[...]
+For the arm64 parts:
 
-> > +quiet_cmd_chk_binding = CHKDT   $<
->
->
-> In convention, the short log displays the target name
-> instead of the prerequisite.
+Acked-by: Will Deacon <will.deacon@arm.com>
 
-Yes, but here there is no target. We're just running a check on the source.
+I assume that you plan to replace the current patches in -mm with this
+series?
 
+Cheers,
 
-> If O=foo/bar is given, $< shows the full path,
-> then log will look like follows:
->
->
->   CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/calxeda.yaml
->   DTC     Documentation/devicetree/bindings/arm/calxeda.example.dtb
->   CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/qcom.yaml
->   DTC     Documentation/devicetree/bindings/arm/qcom.example.dtb
->   CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/xilinx.yaml
->   DTC     Documentation/devicetree/bindings/arm/xilinx.example.dtb
->   CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/ti/nspire.yaml
->   DTC     Documentation/devicetree/bindings/arm/ti/nspire.example.dtb
->   CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/ti/ti,davinci.yaml
->   DTC     Documentation/devicetree/bindings/arm/ti/ti,davinci.example.dtb
->   CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/altera.yaml
->
-> You might think it is ugly.
-
-I've changed it to this:
-
-quiet_cmd_chk_binding = CHKDT   $(patsubst $(srctree)/%,%,$<)
-
-[...]
-
-> > +$(obj)/%.example.dts: $(src)/%.yaml FORCE
-> > +       $(call if_changed,chk_binding)
-> > +
-> > +DT_TMP_SCHEMA := .schema.yaml.tmp
->
->
-> BTW, why does this file start with a period?
-> What is the meaning of '.tmp' extension?
-
-Nothing really. Just named it something so it gets cleaned and ignored by git.
-
-> > +extra-y += $(DT_TMP_SCHEMA)
-> > +
-> > +quiet_cmd_mk_schema = SCHEMA  $@
-> > +      cmd_mk_schema = mkdir -p $(obj); \
-> > +                      rm -f $@; \
-> > +                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $(filter-out FORCE, $^)
->
->
-> "mkdir -p $(obj)" is redundant.
->
->
-> Why is 'rm -f $@' necessary ?
-> Can't dt-mk-schema overwrite the output file?
-
-It is for error case when the output file is not generated. I can
-handle this within dt-mk-schema instead.
-
-> > +DT_DOCS = $(shell cd $(srctree)/$(src) && find * -name '*.yaml')
-> > +DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
-> > +
-> > +extra-y += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
-> > +extra-y += $(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES))
->
->
->
-> I assume you intentionally did not do like this:
->
-> extra-y += $(patsubst %.yaml,%.example.dtb, $(DT_DOCS))
->
-> From the commit description, DT_SCHEMA_FILES might be overridden by a user.
-> So, I think this is OK.
->
->
->
->
-> > +$(obj)/$(DT_TMP_SCHEMA): | $(addprefix $(obj)/,$(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES)))
->
-> I do not understand this line.
-> Why is it necessary?
->
-> *.example.dtb files are generated anyway
-> since they are listed in extra-y.
-
-It is enforcing the ordering. Without it, the binding checks and
-building .schema.yaml.tmp happen in parallel because both only have
-the source files as dependencies. The '|' keeps the dependencies out
-of the dependency list($^).
-
-[...]
-
-> > +cmd_dtc_yaml_chk = \
-> > +       if ! echo "/dts-v1/; /{};" | $(DTC) -I dts -O yaml > /dev/null ; then \
-> > +               echo "*"; \
-> > +               echo "* dtc needs libyaml for DT schema validation support."; \
-> > +               echo "* Install the necessary libyaml development package from your distro."; \
-> > +               echo "*"; \
-> > +               false; \
-> > +       fi; \
-> > +       touch $@
-> > +
-> > +$(objtree)/scripts/dtc/.dtc-yaml-chk.tmp: $(DTC) FORCE
-> > +       $(call if_changed,dtc_yaml_chk)
->
->
-> Hmm, this is kind of ugly.
->
-> I'd rather check this in scripts/dtc/Makefile
->
->
->
-> How about something like below?
-
-Looks good.
-
->  ifeq ($(wildcard /usr/include/yaml.h),)
-> +ifeq ($(CHECK_DTBS),1)
-
-I'm going to change this to "ifneq ($CHECK_DTBS),)" in case we start
-supporting more than 1 value such as warning levels.
-
-> +$(error dtc needs libyaml for DT schema validation support. \
-> +        Install the necessary libyaml development package.)
-> +endif
->  HOST_EXTRACFLAGS += -DNO_YAML
->  else
->  dtc-objs       += yamltree.o
->
->
->
->
->
-> One drawback of this approach is,
-> this is not checked if you are using out-of-tree DTC.
-> Probably, Rob is the only person that overrides DTC.
-
-Sadly, that's probably true.
-
-Thanks for your thorough review.
-
-Rob
+Will
