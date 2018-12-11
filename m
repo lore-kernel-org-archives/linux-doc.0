@@ -1,35 +1,63 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-13.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 814A67DD31
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 16:02:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 35A857DD4F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 16:02:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726801AbeLKP76 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Dec 2018 10:59:58 -0500
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:51058 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726762AbeLKP75 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 Dec 2018 10:59:57 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 759BE1596;
-        Tue, 11 Dec 2018 07:59:56 -0800 (PST)
-Received: from edgewater-inn.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 438C33F575;
-        Tue, 11 Dec 2018 07:59:56 -0800 (PST)
-Received: by edgewater-inn.cambridge.arm.com (Postfix, from userid 1000)
-        id 4F95A1AE0CFD; Tue, 11 Dec 2018 16:00:19 +0000 (GMT)
-Date:   Tue, 11 Dec 2018 16:00:19 +0000
-From:   Will Deacon <will.deacon@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>, akpm@linux-foundation.org
+        id S1730899AbeLKQBV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Dec 2018 11:01:21 -0500
+Received: from mail-it1-f193.google.com ([209.85.166.193]:36525 "EHLO
+        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730859AbeLKP5k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Dec 2018 10:57:40 -0500
+Received: by mail-it1-f193.google.com with SMTP id c9so4602912itj.1
+        for <linux-doc@vger.kernel.org>; Tue, 11 Dec 2018 07:57:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=a7GgIEdfZjoPzHXKjruKKF4bLDJm5C4iEVQoLgxYlNA=;
+        b=fH8wewH9gmW8AIjXG6YvW2fWZybyPGueW2f9j6NdlkI3Z7ckHNTRhh1FJ6eIawfQic
+         9vGKLZP3xeEqyD4xNOnZBTlsbEKV+lD5egwUeZHOdL3PAmAdnXsxdfpZsUciZYOmBEMI
+         AbooqmZp9PEpsHNoceG1/b+l2lQg6cZe1w82YxIEomS4n0b3Sb+jsVUjGa4MP50xfK+Y
+         Jsihn+2y8LcLv0/YUn6Bxfh8Dv1RDipi/PRCJYfAz6btaSMsIpAvXjTVA1E1d9q+TdzZ
+         Zqg5kWBek54CrgILRXCSWZBXQNIFeeEpeOxyncmdwOXbdciTJjxNfxut3FzYEx0IVBpv
+         ba3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=a7GgIEdfZjoPzHXKjruKKF4bLDJm5C4iEVQoLgxYlNA=;
+        b=BaG2C6NmL1dAVr6ji8kLlRKEpamfOGD+Zx/K9+BHap0fIuz8rKZPsBYIUDS7/0hOuu
+         cXC0JQFyU1Xv/0VIMShg5i/i9SmEu84UtESAQm1BZ56yjbgUa88zxt8oDVPy1bIw0JZb
+         +h6KYb5G9IIWPzH3snMJo65RvEQ/j7gN5XP8a1AnbtVS+GAl0UbH8UbEFWU/MazAl5ww
+         qP/wlwdCUQ3UKiPHXSLhX7VOZRzgYugeLUbdUXKXAFfMv3g13KmI5kDAHXkTrjAOZYuK
+         Dx+hDKgRrtTKYK/X2o4BjR0DtrMauTw5SBnwyVXAL7xKHykWsopWbobKL8nDmV++weWM
+         BWQQ==
+X-Gm-Message-State: AA+aEWYah3wpXw2G5eFue05oO9bjyOzdJzeD5bgnTGlcQTTvgSWB/Z3a
+        9gdJyQ26T4alswibNypEANPFb+F1zlb34jfL2GQ+8A==
+X-Google-Smtp-Source: AFSGD/Xa42s7qlran/2s4FWOHYk5xWmochjhyXZBVfzlmdyFZy2EvirPhMaWO+rQ7u7Ip2B7ZNTDTDx6JtS+Ar/D0xc=
+X-Received: by 2002:a02:93c2:: with SMTP id z60mr14982400jah.51.1544543859038;
+ Tue, 11 Dec 2018 07:57:39 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1544099024.git.andreyknvl@google.com> <20181211151829.GB11718@edgewater-inn.cambridge.arm.com>
+In-Reply-To: <20181211151829.GB11718@edgewater-inn.cambridge.arm.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Tue, 11 Dec 2018 16:57:27 +0100
+Message-ID: <CAAeHK+xxNsOfaUZhcErc+fjEEv0YZ-dbQ0fTXzQUO4dZbM-GgA@mail.gmail.com>
+Subject: Re: [PATCH v13 00/25] kasan: add software tag-based mode for arm64
+To:     Will Deacon <will.deacon@arm.com>
 Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
         Dmitry Vyukov <dvyukov@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Marc Zyngier <marc.zyngier@arm.com>,
@@ -61,54 +89,41 @@ Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Mark Brand <markbrand@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Vishwath Mohan <vishwath@google.com>
-Subject: Re: [PATCH v13 00/25] kasan: add software tag-based mode for arm64
-Message-ID: <20181211160018.GA12597@edgewater-inn.cambridge.arm.com>
-References: <cover.1544099024.git.andreyknvl@google.com>
- <20181211151829.GB11718@edgewater-inn.cambridge.arm.com>
- <CAAeHK+xxNsOfaUZhcErc+fjEEv0YZ-dbQ0fTXzQUO4dZbM-GgA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+xxNsOfaUZhcErc+fjEEv0YZ-dbQ0fTXzQUO4dZbM-GgA@mail.gmail.com>
-User-Agent: Mutt/1.11.1+30 (d10eec459b35) ()
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[moving akpm to To:]
+On Tue, Dec 11, 2018 at 4:18 PM Will Deacon <will.deacon@arm.com> wrote:
+>
+> Hi Andrey,
+>
+> On Thu, Dec 06, 2018 at 01:24:18PM +0100, Andrey Konovalov wrote:
+> > This patchset adds a new software tag-based mode to KASAN [1].
+> > (Initially this mode was called KHWASAN, but it got renamed,
+> >  see the naming rationale at the end of this section).
+> >
+> > The plan is to implement HWASan [2] for the kernel with the incentive,
+> > that it's going to have comparable to KASAN performance, but in the same
+> > time consume much less memory, trading that off for somewhat imprecise
+> > bug detection and being supported only for arm64.
+>
+> For the arm64 parts:
+>
+> Acked-by: Will Deacon <will.deacon@arm.com>
+>
+> I assume that you plan to replace the current patches in -mm with this
+> series?
+>
+> Cheers,
+>
+> Will
 
-On Tue, Dec 11, 2018 at 04:57:27PM +0100, Andrey Konovalov wrote:
-> On Tue, Dec 11, 2018 at 4:18 PM Will Deacon <will.deacon@arm.com> wrote:
-> > On Thu, Dec 06, 2018 at 01:24:18PM +0100, Andrey Konovalov wrote:
-> > > This patchset adds a new software tag-based mode to KASAN [1].
-> > > (Initially this mode was called KHWASAN, but it got renamed,
-> > >  see the naming rationale at the end of this section).
-> > >
-> > > The plan is to implement HWASan [2] for the kernel with the incentive,
-> > > that it's going to have comparable to KASAN performance, but in the same
-> > > time consume much less memory, trading that off for somewhat imprecise
-> > > bug detection and being supported only for arm64.
-> >
-> > For the arm64 parts:
-> >
-> > Acked-by: Will Deacon <will.deacon@arm.com>
-> >
-> > I assume that you plan to replace the current patches in -mm with this
-> > series?
-> >
-> > Cheers,
-> >
-> > Will
-> 
-> Hi Will,
-> 
-> Yes, that was the intention of sending v13. Should have I sent a
-> separate patch with v12->v13 fixes instead? I don't know what's the
-> usual way to make changes to the patchset once it's in the mm tree.
+Hi Will,
 
-No, I was just checking that the intention was for akpm to pick this up in
-preference to the old stuff! That works for me, and the minor conflict with
-arm64 in next was already resolved by Stephen.
+Yes, that was the intention of sending v13. Should have I sent a
+separate patch with v12->v13 fixes instead? I don't know what's the
+usual way to make changes to the patchset once it's in the mm tree.
 
-Will
+Thanks!
