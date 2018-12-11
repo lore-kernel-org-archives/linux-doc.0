@@ -1,138 +1,389 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 67D087D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Dec 2018 23:12:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 57A617D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 04:39:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730014AbeLJXM3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Dec 2018 18:12:29 -0500
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:41575 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726841AbeLJXM3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 18:12:29 -0500
-X-Originating-IP: 134.134.139.72
-Received: from localhost (jfdmzpr03-ext.jf.intel.com [134.134.139.72])
-        (Authenticated sender: josh@joshtriplett.org)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 8E241E0002;
-        Mon, 10 Dec 2018 23:12:05 +0000 (UTC)
-Date:   Mon, 10 Dec 2018 15:12:00 -0800
-From:   Josh Triplett <josh@joshtriplett.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>, x86@kernel.org,
-        platform-driver-x86@vger.kernel.org, dave.hansen@intel.com,
-        sean.j.christopherson@intel.com, nhorman@redhat.com,
-        npmccallum@redhat.com, Alexei Starovoitov <ast@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
-        "open list:INTEL SGX" <intel-sgx-kernel-dev@lists.01.org>,
-        Janakarajan Natarajan <Janakarajan.Natarajan@amd.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        "open list:KERNEL VIRTUAL MACHINE FOR X86 (KVM/x86)" 
-        <kvm@vger.kernel.org>, Len Brown <len.brown@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "open list:CRYPTO API" <linux-crypto@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:SPARSE CHECKER" <linux-sparse@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Vikas Shivappa <vikas.shivappa@linux.intel.com>
-Subject: Re: [PATCH v11 00/13] Intel SGX1 support
-Message-ID: <20181210231159.GA10718@localhost>
-References: <20180608171216.26521-1-jarkko.sakkinen@linux.intel.com>
- <20180612105011.GA26931@amd>
- <20180619145943.GC8034@linux.intel.com>
- <20180619200414.GA3143@amd>
- <20180619214833.GA5873@localhost>
- <20181209200600.GA11608@amd>
- <20181210074717.GA9880@localhost>
- <20181210082704.GA14594@amd>
+        id S1730149AbeLKEjN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Dec 2018 23:39:13 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:49357 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729060AbeLKEjN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Dec 2018 23:39:13 -0500
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id wBB4d3a0009060;
+        Tue, 11 Dec 2018 13:39:04 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com wBB4d3a0009060
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1544503144;
+        bh=Oood8TAfVHUh/TERJE8Q4Ksf5SJWTHtrCaWvyC4Mju8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Y0HKxL3AnARq5Mj2gyJpZZ6sQrKP6ZAgmjNbwPLaIMEF4bKHgWUDPnt3ulxxZoVSe
+         mSlb+/iQNf8A4HAq1EXJd5yHuOEnsGZ8KJRahw2uAOL3kgPgUx72wOz5QLWh/NUuFv
+         0p0oPMI61kAE7TMOrsPAY0CPK1vTOyRrItjb8oBZLAskzLfA3nx0Q5mpvmu6HE9ZiD
+         ofQk0LWIDm3m1qJ95/yb8pspspuJinJcJD5pDvVcWBzqYTOh6+F/BsKe1sZ6g5YC2c
+         9t9Ukq5KAehLglzo5H6z7FyIrXTIKWAgPgla781nOgPBGWGCHskM93Zfqro0Rma1r4
+         MTz1oT9FiF/0A==
+X-Nifty-SrcIP: [209.85.217.49]
+Received: by mail-vs1-f49.google.com with SMTP id y27so8124952vsi.1;
+        Mon, 10 Dec 2018 20:39:04 -0800 (PST)
+X-Gm-Message-State: AA+aEWaetB/GT608mt8WhZEBOTMHc7rsSWPAqnnmjA4OXVdhdx3ZjZmd
+        dHVpeGb+DBHtXrFbKzBAjfI63w6AItehEpZ+rNc=
+X-Google-Smtp-Source: AFSGD/WSCxoASVkdjL9j1CKQvTKRwFY3nYisnYvF2RHWQfsjn1uHbVVxpY3tjniQHMF/s702uLv6NKca+Msq9AIZWt4=
+X-Received: by 2002:a67:a858:: with SMTP id r85mr6427130vse.215.1544503142862;
+ Mon, 10 Dec 2018 20:39:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181210082704.GA14594@amd>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20181210203225.11179-1-robh@kernel.org>
+In-Reply-To: <20181210203225.11179-1-robh@kernel.org>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Tue, 11 Dec 2018 13:38:26 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAThtAOy4PQiYZ2X0oWrHdcLi7on8ctSXJ=bfT0HNh7NFQ@mail.gmail.com>
+Message-ID: <CAK7LNAThtAOy4PQiYZ2X0oWrHdcLi7on8ctSXJ=bfT0HNh7NFQ@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: Add support for DT binding schema checks
+To:     Rob Herring <robh@kernel.org>
+Cc:     DTML <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        darknighte@darknighte.com, Frank Rowand <frowand.list@gmail.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        grant.likely@arm.com, Kumar Gala <kumar.gala@linaro.org>,
+        arm-soc <arm@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 10, 2018 at 09:27:04AM +0100, Pavel Machek wrote:
-> On Sun 2018-12-09 23:47:17, Josh Triplett wrote:
-> > On Sun, Dec 09, 2018 at 09:06:00PM +0100, Pavel Machek wrote:
-> > ...
-> > > > > > The default permissions for the device are 600.
-> > > > > 
-> > > > > Good. This does not belong to non-root.
-> > > > 
-> > > > There are entirely legitimate use cases for using this as an
-> > > > unprivileged user. However, that'll be up to system and distribution
-> > > > policy, which can evolve over time, and it makes sense for the *initial*
-> > > > kernel permission to start out root-only and then adjust permissions via
-> > > > udev.
-> > > 
-> > > Agreed.
-> > > 
-> > > > Building a software certificate store. Hardening key-agent software like
-> > > > ssh-agent or gpg-agent. Building a challenge-response authentication
-> > > > system. Providing more assurance that your server infrastructure is
-> > > > uncompromised. Offloading computation to a system without having to
-> > > > fully trust that system.
-> > > 
-> > > I think you can do the crypto stuff... as crypto already verifies the
-> > > results. But I don't think you can do the computation offload.
-> > 
-> > You can, as long as you can do attestation.
-> 
-> You can not, because random errors are very easy to trigger for person
-> with physical access,
+Hi Rob,
 
-Random errors can also just happen, so if you're concerned about that
-you might want to build each object on two different machines and
-compare. Good luck generating the *same* random errors on two machines.
+On Tue, Dec 11, 2018 at 5:50 AM Rob Herring <robh@kernel.org> wrote:
+>
+> This adds the build infrastructure for checking DT binding schema
+> documents and validating dts files using the binding schema.
+>
+> Check DT binding schema documents:
+> make dt_binding_check
+>
+> Build dts files and check using DT binding schema:
+> make dtbs_check
+>
+> Optionally, DT_SCHEMA_FILES can passed in with a schema file(s) to use
 
-(And, of course, someone can also DoS you in any number of other ways,
-such as accepting data and then never sending back a result. So you'll
-need timeouts and failovers.)
 
-> > > > As one of many possibilities, imagine a distcc that didn't have to trust
-> > > > the compile nodes. The compile nodes could fail to return results at
-> > > > all, but they couldn't alter the results.
-> > > 
-> > > distcc on untrusted nodes ... oh yes, that would be great.
-> > > 
-> > > Except that you can't do it, right? :-).
-> > > 
-> > > First, AFAICT it would be quite hard to get gcc to run under SGX. But
-> > > maybe you have spare month or three and can do it.
-> > 
-> > Assuming you don't need to #include files, gcc seems quite simple to run
-> > in an enclave: data in, computation inside, data out.
-> 
-> So is there a plan to run dynamically linked binaries inside enclave?
+Perhaps, "can be passed" ?
 
-I've seen some approaches for that, but you could also just statically
-link your compiler. (Since you'd need attestation for all the individual
-libraries, you'd need to know the versions of all those libraries, so
-you might as well just statically link.)
 
-> Or maybe even python/shell scripts? It looked to me like virtual
-> memory will be "interesting" for enclaves.
 
-Memory management doesn't seem that hard to deal with.
+> for validation. This makes it easier to find and fix errors generated by
+> a specific schema.
+>
+> Currently, the validation targets are separate from a normal build to
+> avoid a hard dependency on the external DT schema project and because
+> there are lots of warnings generated.
+>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-kbuild@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> v3:
+> - Fix error causing only 1st schema file to get used.
+> - Add a more useful error message when dtc is missing YAML support
+> telling the user they need to install libyaml devel package.
+>
+>
+>  .gitignore                                   |  1 +
+>  Documentation/Makefile                       |  2 +-
+>  Documentation/devicetree/bindings/.gitignore |  1 +
+>  Documentation/devicetree/bindings/Makefile   | 33 +++++++++++++++++
+>  Makefile                                     | 11 ++++--
+>  scripts/Makefile.lib                         | 37 ++++++++++++++++++--
+>  6 files changed, 80 insertions(+), 5 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/.gitignore
+>  create mode 100644 Documentation/devicetree/bindings/Makefile
+>
+> diff --git a/.gitignore b/.gitignore
+> index 97ba6b79834c..a20ac26aa2f5 100644
+> --- a/.gitignore
+> +++ b/.gitignore
+> @@ -15,6 +15,7 @@
+>  *.bin
+>  *.bz2
+>  *.c.[012]*.*
+> +*.dt.yaml
+>  *.dtb
+>  *.dtb.S
+>  *.dwo
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index 2ca77ad0f238..9786957c6a35 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -2,7 +2,7 @@
+>  # Makefile for Sphinx documentation
+>  #
+>
+> -subdir-y :=
+> +subdir-y := devicetree/bindings/
+>
+>  # You can set these variables from the command line.
+>  SPHINXBUILD   = sphinx-build
+> diff --git a/Documentation/devicetree/bindings/.gitignore b/Documentation/devicetree/bindings/.gitignore
+> new file mode 100644
+> index 000000000000..d9194c02dd08
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/.gitignore
+> @@ -0,0 +1 @@
+> +*.example.dts
+> diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
+> new file mode 100644
+> index 000000000000..43f8657ab070
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/Makefile
+> @@ -0,0 +1,33 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +DT_DOC_CHECKER ?= dt-doc-validate
+> +DT_EXTRACT_EX ?= dt-extract-example
+> +DT_MK_SCHEMA ?= dt-mk-schema
+> +DT_MK_SCHEMA_FLAGS := $(if $(DT_SCHEMA_FILES), -u)
+> +
+> +quiet_cmd_chk_binding = CHKDT   $<
+
+
+In convention, the short log displays the target name
+instead of the prerequisite.
+
+If O=foo/bar is given, $< shows the full path,
+then log will look like follows:
+
+
+  CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/calxeda.yaml
+  DTC     Documentation/devicetree/bindings/arm/calxeda.example.dtb
+  CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/qcom.yaml
+  DTC     Documentation/devicetree/bindings/arm/qcom.example.dtb
+  CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/xilinx.yaml
+  DTC     Documentation/devicetree/bindings/arm/xilinx.example.dtb
+  CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/ti/nspire.yaml
+  DTC     Documentation/devicetree/bindings/arm/ti/nspire.example.dtb
+  CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/ti/ti,davinci.yaml
+  DTC     Documentation/devicetree/bindings/arm/ti/ti,davinci.example.dtb
+  CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/altera.yaml
+
+You might think it is ugly.
+
+
+
+
+> +      cmd_chk_binding = (set -e; \
+> +                         $(DT_DOC_CHECKER) $< ; \
+> +                         mkdir -p $(dir $@) ; \
+> +                         $(DT_EXTRACT_EX) $< > $@ )
+
+
+- 'set -e' is redundant because if_changed already has it.
+
+- 'mkdir mkdir -p $(dir $@)' is also redundant because
+   scripts/Makefile.build automatically creates it.
+
+-  You do not need to execute this in a sub-shell
+
+
+
+You can simplify like this:
+
+       cmd_chk_binding = $(DT_DOC_CHECKER) $< ; \
+                         $(DT_EXTRACT_EX) $< > $@
+
+
+
+> +$(obj)/%.example.dts: $(src)/%.yaml FORCE
+> +       $(call if_changed,chk_binding)
+> +
+> +DT_TMP_SCHEMA := .schema.yaml.tmp
+
+
+BTW, why does this file start with a period?
+What is the meaning of '.tmp' extension?
+
+
+
+> +extra-y += $(DT_TMP_SCHEMA)
+> +
+> +quiet_cmd_mk_schema = SCHEMA  $@
+> +      cmd_mk_schema = mkdir -p $(obj); \
+> +                      rm -f $@; \
+> +                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $(filter-out FORCE, $^)
+
+
+"mkdir -p $(obj)" is redundant.
+
+
+Why is 'rm -f $@' necessary ?
+Can't dt-mk-schema overwrite the output file?
+
+
+
+
+> +DT_DOCS = $(shell cd $(srctree)/$(src) && find * -name '*.yaml')
+> +DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
+> +
+> +extra-y += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
+> +extra-y += $(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES))
+
+
+
+I assume you intentionally did not do like this:
+
+extra-y += $(patsubst %.yaml,%.example.dtb, $(DT_DOCS))
+
+From the commit description, DT_SCHEMA_FILES might be overridden by a user.
+So, I think this is OK.
+
+
+
+
+> +$(obj)/$(DT_TMP_SCHEMA): | $(addprefix $(obj)/,$(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES)))
+
+I do not understand this line.
+Why is it necessary?
+
+*.example.dtb files are generated anyway
+since they are listed in extra-y.
+
+
+
+
+> +$(obj)/$(DT_TMP_SCHEMA): $(addprefix $(srctree)/, $(DT_SCHEMA_FILES)) FORCE
+> +       $(call if_changed,mk_schema)
+
+
+You do not need to prefix $(srctree)/ because Kbuild uses VPATH.
+
+
+$(obj)/$(DT_TMP_SCHEMA): $(DT_SCHEMA_FILES) FORCE
+       $(call if_changed,mk_schema)
+
+
+is fine.
+
+
+
+
+
+
+
+> +cmd_dtc_yaml_chk = \
+> +       if ! echo "/dts-v1/; /{};" | $(DTC) -I dts -O yaml > /dev/null ; then \
+> +               echo "*"; \
+> +               echo "* dtc needs libyaml for DT schema validation support."; \
+> +               echo "* Install the necessary libyaml development package from your distro."; \
+> +               echo "*"; \
+> +               false; \
+> +       fi; \
+> +       touch $@
+> +
+> +$(objtree)/scripts/dtc/.dtc-yaml-chk.tmp: $(DTC) FORCE
+> +       $(call if_changed,dtc_yaml_chk)
+
+
+Hmm, this is kind of ugly.
+
+I'd rather check this in scripts/dtc/Makefile
+
+
+
+How about something like below?
+
+
+
+diff --git a/Makefile b/Makefile
+index ff59adf..a3e2db2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1233,11 +1233,11 @@ ifneq ($(dtstree),)
+        $(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+
+ PHONY += dtbs dtbs_install dt_binding_check
+-dtbs: prepare3 scripts_dtc
++dtbs dtbs_check: prepare3 scripts_dtc
+        $(Q)$(MAKE) $(build)=$(dtstree)
+
+-dtbs_check: prepare3 dt_binding_check
+-       $(Q)$(MAKE) $(build)=$(dtstree) CHECK_DTBS=1
++dtbs_check: export CHECK_DTBS=1
++dtbs_check: dt_binding_check
+
+ dtbs_install:
+        $(Q)$(MAKE) $(dtbinst)=$(dtstree)
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 8a7d622..5017175 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -309,20 +309,7 @@ define rule_dtc_dt_yaml
+        $(call echo-cmd,dtb_check) $(cmd_dtb_check)
+ endef
+
+-cmd_dtc_yaml_chk = \
+-       if ! echo "/dts-v1/; /{};" | $(DTC) -I dts -O yaml > /dev/null ; then \
+-               echo "*"; \
+-               echo "* dtc needs libyaml for DT schema validation support."; \
+-               echo "* Install the necessary libyaml development
+package from your distro."; \
+-               echo "*"; \
+-               false; \
+-       fi; \
+-       touch $@
+-
+-$(objtree)/scripts/dtc/.dtc-yaml-chk.tmp: $(DTC) FORCE
+-       $(call if_changed,dtc_yaml_chk)
+-
+-$(obj)/%.dt.yaml: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE |
+$(objtree)/scripts/dtc/.dtc-yaml-chk.tmp
++$(obj)/%.dt.yaml: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
+        $(call if_changed_rule,dtc_dt_yaml)
+
+ dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
+diff --git a/scripts/dtc/Makefile b/scripts/dtc/Makefile
+index 056d5da..3e497f1 100644
+--- a/scripts/dtc/Makefile
++++ b/scripts/dtc/Makefile
+@@ -12,6 +12,10 @@ dtc-objs     += dtc-lexer.lex.o dtc-parser.tab.o
+ HOST_EXTRACFLAGS := -I$(src)/libfdt
+
+ ifeq ($(wildcard /usr/include/yaml.h),)
++ifeq ($(CHECK_DTBS),1)
++$(error dtc needs libyaml for DT schema validation support. \
++        Install the necessary libyaml development package.)
++endif
+ HOST_EXTRACFLAGS += -DNO_YAML
+ else
+ dtc-objs       += yamltree.o
+
+
+
+
+
+One drawback of this approach is,
+this is not checked if you are using out-of-tree DTC.
+Probably, Rob is the only person that overrides DTC.
+
+
+
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
