@@ -1,147 +1,160 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F33D97DD4F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 16:04:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D1BE07DE6F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 16:04:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730510AbeLKQDD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Dec 2018 11:03:03 -0500
-Received: from mail-it1-f195.google.com ([209.85.166.195]:36697 "EHLO
-        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730957AbeLKQC4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Dec 2018 11:02:56 -0500
-Received: by mail-it1-f195.google.com with SMTP id c9so4635139itj.1
-        for <linux-doc@vger.kernel.org>; Tue, 11 Dec 2018 08:02:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6lDXo7875JvpNdIIVM85W2LwkMrgyNvSCv8MEHJ7j3k=;
-        b=tS66kPRg4T6a6sS3sCR8zxd6jJehHiIxUakWflPr5JBabcgJNYs/9EXBlKW/nn/cjS
-         8hiuTHeetM9Z6fjYktYVpqCqOgioXJJH40Kut411yYAQ5Sg7FsuXHZyS1cZcXcal3RUQ
-         1fxKxyiPEgqlARKdyP+QLzED8jm5S2YHBV3trOwG705At6V1sOrYIZ4N6TpORwF38vaO
-         4mNwGg+o8jgncxjb+Z6S5I2oySkLj8UWXWIJehk4yw62OPMSEnvRUmrkhrp6b9pgD4R9
-         G3PMqrp5qTOXRWC08JbCfJi6hymkWk2uIhjCQrJP9f9sRUtvhVS2snCjgwH2TZJi0s7l
-         NlYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6lDXo7875JvpNdIIVM85W2LwkMrgyNvSCv8MEHJ7j3k=;
-        b=C9OPueHbaKFzH5BgjcaFwQr7vQoObjF/co8yxDRMgmNV7V6/oDOhXq8sEkU+PNeOh4
-         09XFrNloj3+SYGwde3Q0ZZS1/UNtoeIOy+ihI0uvQF6KNLvUydAdGj1xXveG1FIKUACQ
-         P3Scm8B0Nyis3DxwCf8eVJ1KZ/9ttgAgeJEdQr14B+bEswSKhxC49vkqiPS6geq+r0KT
-         qggCnN7uFwSMcCVAituoKXP8Za4p7RNOgmNKr7RC+eBuDlaXwjD9dFfMjumT22+q7ye6
-         QTOYXFxXI4HDxKvNuPmjLaibkg3kiT/R3Pd5tAZkqA2lyhnRgCPuMyQV0eZhclWOBWis
-         V1jA==
-X-Gm-Message-State: AA+aEWa9YcqkZxRJ67nSyJ72w86iOCiX5lwUSM0TNhrsphtQ8pn24xLE
-        CG+lrEFdXDVO58JGybg5eLi/rf4hoGW7erbBbZvsnA==
-X-Google-Smtp-Source: AFSGD/U6BIMWUwS3xtHV5rNSN2HKjNYFekO3qmjT25rL0Od6qoFKALCSF3wVHgir1HaFI5iW36y7+D5gI8TVCF3PLbk=
-X-Received: by 2002:a24:2716:: with SMTP id g22mr2447702ita.40.1544544174164;
- Tue, 11 Dec 2018 08:02:54 -0800 (PST)
+        id S1730786AbeLKQED (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Dec 2018 11:04:03 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:26017 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730552AbeLKQED (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Dec 2018 11:04:03 -0500
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id wBBG3Zxa004409;
+        Wed, 12 Dec 2018 01:03:35 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com wBBG3Zxa004409
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1544544216;
+        bh=yybUklpXv+i3ZvDZN0IW/BOVhtWK4rILiidGaAjhMpM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=OPczIJ4FOYy580LZ7DS/3nKvrqqoOMHIZIKWccecRRjdvtFhKfsasloqP+Dao9mEm
+         yzIvnhZYIU23eLSWDkv5eknjQSTX81s+9ltfglUEI9fvClHdaKOOIV0hO2IbCPtae5
+         cU9qNLWUULDw8JVFXwonarCPtCbPoaKBO6MB1qZxmij13lnLAV6E9ZPLkrDQlccFhG
+         Nvs9c5jSADVSTLnT7pFwfBpGaFqq76gCdwKJ5HV/jPocJnHYkPkZ8QYjqAq0l478+r
+         Q0qx8ITQFTQfN63dUPdk+p7cMblUVHzDlDv83AUwvUQbE3b0yFbwuVZGN8cnpvfj0R
+         IO0sQl7AJbqKg==
+X-Nifty-SrcIP: [209.85.222.47]
+Received: by mail-ua1-f47.google.com with SMTP id k10so5303937ual.6;
+        Tue, 11 Dec 2018 08:03:35 -0800 (PST)
+X-Gm-Message-State: AA+aEWazi+9hQx0qqBC1uJwACTeKIT5TYSo8sjvQYGax6aOZnekq9qRz
+        vD5vJz5j0CRuen2MuTOS0eVOHb/uA3qo8E87qsg=
+X-Google-Smtp-Source: AFSGD/XZc79/L4SuKcG1VJ0VKvjIawgbFQtNLlqIpxPcLm8VGbMkBdVTmt2/WSQVL+Vpd0inHxvZI+sz8UNKgKFxppM=
+X-Received: by 2002:ab0:849:: with SMTP id b9mr3720525uaf.93.1544544214488;
+ Tue, 11 Dec 2018 08:03:34 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1544099024.git.andreyknvl@google.com> <b2550106eb8a68b10fefbabce820910b115aa853.1544099024.git.andreyknvl@google.com>
- <20181211152840.ezjujzpyz5z6fd2d@ltop.local>
-In-Reply-To: <20181211152840.ezjujzpyz5z6fd2d@ltop.local>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 11 Dec 2018 17:02:42 +0100
-Message-ID: <CAAeHK+y0AzO8r21L=9HftHuoTXMuTjkZYJOZ6hKZqCEQOjygHQ@mail.gmail.com>
-Subject: Re: [PATCH v13 05/25] kasan: add CONFIG_KASAN_GENERIC and CONFIG_KASAN_SW_TAGS
-To:     Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
+References: <20181210203225.11179-1-robh@kernel.org> <CAK7LNAThtAOy4PQiYZ2X0oWrHdcLi7on8ctSXJ=bfT0HNh7NFQ@mail.gmail.com>
+ <CAL_JsqL7n2sjLbJVieVDQ4YtKMi2COCaijO9ZNu7ggzmXXxLEg@mail.gmail.com>
+In-Reply-To: <CAL_JsqL7n2sjLbJVieVDQ4YtKMi2COCaijO9ZNu7ggzmXXxLEg@mail.gmail.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed, 12 Dec 2018 01:02:58 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARkr-g9ae+74QE6GMuxLM0JPgEqYOkwb0njXcb9-=nBdQ@mail.gmail.com>
+Message-ID: <CAK7LNARkr-g9ae+74QE6GMuxLM0JPgEqYOkwb0njXcb9-=nBdQ@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: Add support for DT binding schema checks
+To:     Rob Herring <robh@kernel.org>
+Cc:     DTML <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        darknighte@darknighte.com, Frank Rowand <frowand.list@gmail.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        grant.likely@arm.com, Kumar Gala <kumar.gala@linaro.org>,
+        arm-soc <arm@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
+        Michal Marek <michal.lkml@markovi.net>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-sparse@vger.kernel.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 11, 2018 at 4:28 PM Luc Van Oostenryck
-<luc.vanoostenryck@gmail.com> wrote:
+On Wed, Dec 12, 2018 at 12:13 AM Rob Herring <robh@kernel.org> wrote:
+
 >
-> On Thu, Dec 06, 2018 at 01:24:23PM +0100, Andrey Konovalov wrote:
-> > diff --git a/include/linux/compiler-clang.h b/include/linux/compiler-clang.h
-> > index 3e7dafb3ea80..39f668d5066b 100644
-> > --- a/include/linux/compiler-clang.h
-> > +++ b/include/linux/compiler-clang.h
-> > @@ -16,9 +16,13 @@
-> >  /* all clang versions usable with the kernel support KASAN ABI version 5 */
-> >  #define KASAN_ABI_VERSION 5
+> > > +$(obj)/%.example.dts: $(src)/%.yaml FORCE
+> > > +       $(call if_changed,chk_binding)
+> > > +
+> > > +DT_TMP_SCHEMA := .schema.yaml.tmp
 > >
-> > +#if __has_feature(address_sanitizer) || __has_feature(hwaddress_sanitizer)
-> >  /* emulate gcc's __SANITIZE_ADDRESS__ flag */
-> > -#if __has_feature(address_sanitizer)
-> >  #define __SANITIZE_ADDRESS__
-> > +#define __no_sanitize_address \
-> > +             __attribute__((no_sanitize("address", "hwaddress")))
-> > +#else
-> > +#define __no_sanitize_address
-> >  #endif
 > >
-> >  /*
-> > diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
-> > index 2010493e1040..5776da43da97 100644
-> > --- a/include/linux/compiler-gcc.h
-> > +++ b/include/linux/compiler-gcc.h
-> > @@ -143,6 +143,12 @@
-> >  #define KASAN_ABI_VERSION 3
-> >  #endif
-> >
-> > +#if __has_attribute(__no_sanitize_address__)
-> > +#define __no_sanitize_address __attribute__((no_sanitize_address))
-> > +#else
-> > +#define __no_sanitize_address
-> > +#endif
+> > BTW, why does this file start with a period?
+> > What is the meaning of '.tmp' extension?
 >
-> Not really important but it's the name with leading and trailing
-> underscores that is tested with __has_attribute() but then it's
-> the naked 'no_sanitize_address' that is used in the attribute.
+> Nothing really. Just named it something so it gets cleaned and ignored by git.
 
-Hi Luc,
 
-You're right. This shouldn't be important though, since "__" in
-attribute names are optional AFAIK. It might make sense to fix it as a
-separate patch when this series is merged.
+It is cleaned whatever file name you use.
 
-Thanks!
+
+See scripts/Makefile.clean
+
+__clean-files   := $(extra-y) $(extra-m) $(extra-)       \
+                   $(always) $(targets) $(clean-files)   \
+                   $(hostprogs-y) $(hostprogs-m) $(hostprogs-) \
+                   $(hostlibs-y) $(hostlibs-m) $(hostlibs-) \
+                   $(hostcxxlibs-y) $(hostcxxlibs-m)
+
+
+$(extra-y) is cleaned.
+
+
+
+You are adding *.example.dts to .gitignore
+
+Why not "schema.yaml" ?
+
+
+
+
+> > > +extra-y += $(DT_TMP_SCHEMA)
+> > > +
+> > > +quiet_cmd_mk_schema = SCHEMA  $@
+> > > +      cmd_mk_schema = mkdir -p $(obj); \
+> > > +                      rm -f $@; \
+> > > +                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $(filter-out FORCE, $^)
+> >
+> >
+> > "mkdir -p $(obj)" is redundant.
+> >
+> >
+> > Why is 'rm -f $@' necessary ?
+> > Can't dt-mk-schema overwrite the output file?
+>
+> It is for error case when the output file is not generated. I can
+> handle this within dt-mk-schema instead.
+> > > +DT_DOCS = $(shell cd $(srctree)/$(src) && find * -name '*.yaml')
+> > > +DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
+> > > +
+> > > +extra-y += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
+> > > +extra-y += $(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES))
+> >
+> >
+> >
+> > I assume you intentionally did not do like this:
+> >
+> > extra-y += $(patsubst %.yaml,%.example.dtb, $(DT_DOCS))
+> >
+> > From the commit description, DT_SCHEMA_FILES might be overridden by a user.
+> > So, I think this is OK.
+> >
+> >
+> >
+> >
+> > > +$(obj)/$(DT_TMP_SCHEMA): | $(addprefix $(obj)/,$(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES)))
+> >
+> > I do not understand this line.
+> > Why is it necessary?
+> >
+> > *.example.dtb files are generated anyway
+> > since they are listed in extra-y.
+>
+> It is enforcing the ordering. Without it, the binding checks and
+> building .schema.yaml.tmp happen in parallel because both only have
+> the source files as dependencies. The '|' keeps the dependencies out
+> of the dependency list($^).
+
+
+What kind problem would you see if
+the binding checks and building .schema.yaml.tmp
+happen in parallel?
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
