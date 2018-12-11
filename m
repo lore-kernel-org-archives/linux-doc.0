@@ -1,103 +1,234 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 435C87D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 13:01:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C582C7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 15:12:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726190AbeLKNBu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Dec 2018 08:01:50 -0500
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:35098 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726531AbeLKNBu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Dec 2018 08:01:50 -0500
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id wBBD1ksO004846;
-        Tue, 11 Dec 2018 22:01:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com wBBD1ksO004846
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1544533307;
-        bh=No9xOhJADUYQeHm2q3q2ynI3sayEoRJ+pXaBMGBljCY=;
+        id S1726412AbeLKPMa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Dec 2018 10:12:30 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39272 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726402AbeLKPMa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Dec 2018 10:12:30 -0500
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3F1DF2084C;
+        Tue, 11 Dec 2018 15:12:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1544541148;
+        bh=8rdO4cZxt6xReUlC0rdEaykJNgyVG46s2ZIBuuHkODI=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=lb+FixOrBgg97ttnpnivs5864b9r2MhlESMWaRu/vJ5TpGvgnZQEFx2xyLjcMYXDI
-         TUQrJleNlffuVgth39BJ9HXSv24btz4yTALdIvlUqrAjsQRMDEiVGnBohqkqmV0ZlC
-         62S41MTqd3RYiqhoxo8+aVzmLqSbh3tnb2npehRIzSECxntBWQX8LC/TPZv302vZWh
-         fg2BmgoFZd+ktOcmAPqglkJjl3ZozzT0w0gpyVjnEfC0tz8meDhmLoxWmqPNFjK0OA
-         BW1VGdQBhZFaiJ+n/hMuh3K07uCA8b26XDIAH4AZ/ktPwxo8UoSmAYim1JwlTz1wca
-         vlAqIe1aVXchg==
-X-Nifty-SrcIP: [209.85.217.42]
-Received: by mail-vs1-f42.google.com with SMTP id n10so8776923vso.13;
-        Tue, 11 Dec 2018 05:01:47 -0800 (PST)
-X-Gm-Message-State: AA+aEWY4Y/GFpmqFW29jjHCK4RRP2uUxGitxYphWo6FuaAoplgwz+MB9
-        xiM+Kecz2WxIJ8w5c29tCoOVios27/Cz9VjHGsA=
-X-Google-Smtp-Source: AFSGD/XP7u3JBH12nJ0I5BYvwn3D60VRK66r/aWrfTZsLKYhiXSQayAnbl9E7N2yFafU4+fcRJUGlQ65tHVN9vjdi9I=
-X-Received: by 2002:a67:485:: with SMTP id 127mr7388150vse.54.1544533305718;
- Tue, 11 Dec 2018 05:01:45 -0800 (PST)
+        b=DKhCOW2N+zbs4bqGinIj4uROtK12ZWwT5ga5lJWjMhUqsUzIKsMl42n21R9mCeXqt
+         mued0cG8TsdiT1DRQNHLHQByFIFebeW0eS/dOvVbu0iD3wzcNqgHBr22cKg+jqchSl
+         7vPMose8YidGuHGyYuvHkR/3Owr3/UjE1KOXPwu0=
+Received: by mail-qk1-f178.google.com with SMTP id 131so8760242qkd.4;
+        Tue, 11 Dec 2018 07:12:28 -0800 (PST)
+X-Gm-Message-State: AA+aEWa44vuUPpYov5rwtTAUk98QSm6r8Hmd0bj4uDZbeyFNcwrb6mDn
+        4Rr+8+M55YyEoRRP6/Hpcu6bF2kdP0uFqFadHw==
+X-Google-Smtp-Source: AFSGD/V3f26Ch4DAfmZuZLq2FicXTg6QAR2pNTWHGlCMwtI3VbwyQWvG5J7FwQTDt18OKG/uBw9e9YtJ5itSx2oBQnI=
+X-Received: by 2002:ae9:ef14:: with SMTP id d20mr15157892qkg.147.1544541147417;
+ Tue, 11 Dec 2018 07:12:27 -0800 (PST)
 MIME-Version: 1.0
-References: <1544009286-15705-1-git-send-email-yamada.masahiro@socionext.com>
- <1544009286-15705-2-git-send-email-yamada.masahiro@socionext.com> <20181206180459.GA19166@ravnborg.org>
-In-Reply-To: <20181206180459.GA19166@ravnborg.org>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 11 Dec 2018 22:01:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ8RjUkc57CWi_rnLopGSQQBtgerYJO+F7_0MD+p=NFxA@mail.gmail.com>
-Message-ID: <CAK7LNAQ8RjUkc57CWi_rnLopGSQQBtgerYJO+F7_0MD+p=NFxA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] kbuild: generate asm-generic wrappers if mandatory
- headers are missing
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+References: <20181210203225.11179-1-robh@kernel.org> <CAK7LNAThtAOy4PQiYZ2X0oWrHdcLi7on8ctSXJ=bfT0HNh7NFQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAThtAOy4PQiYZ2X0oWrHdcLi7on8ctSXJ=bfT0HNh7NFQ@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 11 Dec 2018 09:12:15 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqL7n2sjLbJVieVDQ4YtKMi2COCaijO9ZNu7ggzmXXxLEg@mail.gmail.com>
+Message-ID: <CAL_JsqL7n2sjLbJVieVDQ4YtKMi2COCaijO9ZNu7ggzmXXxLEg@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: Add support for DT binding schema checks
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Sean Hudson <darknighte@darknighte.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Grant Likely <grant.likely@arm.com>,
+        Kumar Gala <kumar.gala@linaro.org>,
+        ARM-SoC Maintainers <arm@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>
+        Mark Rutland <mark.rutland@arm.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Sam,
-
-
-On Fri, Dec 7, 2018 at 3:06 AM Sam Ravnborg <sam@ravnborg.org> wrote:
+On Mon, Dec 10, 2018 at 10:39 PM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
 >
-> On Wed, Dec 05, 2018 at 08:28:05PM +0900, Masahiro Yamada wrote:
-> > Some time ago, Sam pointed out a certain degree of overwrap between
-> > generic-y and mandatory-y. (https://lkml.org/lkml/2017/7/10/121)
-> >
-> > I a bit tweaked the meaning of mandatory-y; now it defines the minimum
-> > set of ASM headers that all architectures must have.
-> >
-> > If arch does not have specific implementation of a mandatory header,
-> > Kbuild will let it fallback to the asm-generic one by automatically
-> > generating a wrapper. This will allow to drop lots of redundant
-> > generic-y defines.
-> >
-> > Previously, "mandatory" was used in the context of UAPI, but I guess
-> > this can be extended to kernel space ASM headers.
-> >
-> > Suggested-by: Sam Ravnborg <sam@ravnborg.org>
-> > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Hi Rob,
 >
-> Nice work!
+> On Tue, Dec 11, 2018 at 5:50 AM Rob Herring <robh@kernel.org> wrote:
+> >
+> > This adds the build infrastructure for checking DT binding schema
+> > documents and validating dts files using the binding schema.
+> >
+> > Check DT binding schema documents:
+> > make dt_binding_check
+> >
+> > Build dts files and check using DT binding schema:
+> > make dtbs_check
+> >
+> > Optionally, DT_SCHEMA_FILES can passed in with a schema file(s) to use
 >
-> For the full series:
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
 >
-> Have you considered to warn if generic-y contains a header listed
-> in mandatory-y - to prevent that they sneak back in.
-> And to catch when we lift a header from available to mandatory.
+> Perhaps, "can be passed" ?
+
+Yes.
+
+[...]
+
+> > +quiet_cmd_chk_binding = CHKDT   $<
+>
+>
+> In convention, the short log displays the target name
+> instead of the prerequisite.
+
+Yes, but here there is no target. We're just running a check on the source.
 
 
-Yes, I also thought of this,
-and probably we should do it.
+> If O=foo/bar is given, $< shows the full path,
+> then log will look like follows:
+>
+>
+>   CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/calxeda.yaml
+>   DTC     Documentation/devicetree/bindings/arm/calxeda.example.dtb
+>   CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/qcom.yaml
+>   DTC     Documentation/devicetree/bindings/arm/qcom.example.dtb
+>   CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/xilinx.yaml
+>   DTC     Documentation/devicetree/bindings/arm/xilinx.example.dtb
+>   CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/ti/nspire.yaml
+>   DTC     Documentation/devicetree/bindings/arm/ti/nspire.example.dtb
+>   CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/ti/ti,davinci.yaml
+>   DTC     Documentation/devicetree/bindings/arm/ti/ti,davinci.example.dtb
+>   CHKDT   /home/masahiro/ref/linux-devicetree/Documentation/devicetree/bindings/arm/altera.yaml
+>
+> You might think it is ugly.
 
+I've changed it to this:
 
+quiet_cmd_chk_binding = CHKDT   $(patsubst $(srctree)/%,%,$<)
 
+[...]
 
+> > +$(obj)/%.example.dts: $(src)/%.yaml FORCE
+> > +       $(call if_changed,chk_binding)
+> > +
+> > +DT_TMP_SCHEMA := .schema.yaml.tmp
+>
+>
+> BTW, why does this file start with a period?
+> What is the meaning of '.tmp' extension?
 
---
-Best Regards
-Masahiro Yamada
+Nothing really. Just named it something so it gets cleaned and ignored by git.
+
+> > +extra-y += $(DT_TMP_SCHEMA)
+> > +
+> > +quiet_cmd_mk_schema = SCHEMA  $@
+> > +      cmd_mk_schema = mkdir -p $(obj); \
+> > +                      rm -f $@; \
+> > +                      $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $(filter-out FORCE, $^)
+>
+>
+> "mkdir -p $(obj)" is redundant.
+>
+>
+> Why is 'rm -f $@' necessary ?
+> Can't dt-mk-schema overwrite the output file?
+
+It is for error case when the output file is not generated. I can
+handle this within dt-mk-schema instead.
+
+> > +DT_DOCS = $(shell cd $(srctree)/$(src) && find * -name '*.yaml')
+> > +DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
+> > +
+> > +extra-y += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
+> > +extra-y += $(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES))
+>
+>
+>
+> I assume you intentionally did not do like this:
+>
+> extra-y += $(patsubst %.yaml,%.example.dtb, $(DT_DOCS))
+>
+> From the commit description, DT_SCHEMA_FILES might be overridden by a user.
+> So, I think this is OK.
+>
+>
+>
+>
+> > +$(obj)/$(DT_TMP_SCHEMA): | $(addprefix $(obj)/,$(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES)))
+>
+> I do not understand this line.
+> Why is it necessary?
+>
+> *.example.dtb files are generated anyway
+> since they are listed in extra-y.
+
+It is enforcing the ordering. Without it, the binding checks and
+building .schema.yaml.tmp happen in parallel because both only have
+the source files as dependencies. The '|' keeps the dependencies out
+of the dependency list($^).
+
+[...]
+
+> > +cmd_dtc_yaml_chk = \
+> > +       if ! echo "/dts-v1/; /{};" | $(DTC) -I dts -O yaml > /dev/null ; then \
+> > +               echo "*"; \
+> > +               echo "* dtc needs libyaml for DT schema validation support."; \
+> > +               echo "* Install the necessary libyaml development package from your distro."; \
+> > +               echo "*"; \
+> > +               false; \
+> > +       fi; \
+> > +       touch $@
+> > +
+> > +$(objtree)/scripts/dtc/.dtc-yaml-chk.tmp: $(DTC) FORCE
+> > +       $(call if_changed,dtc_yaml_chk)
+>
+>
+> Hmm, this is kind of ugly.
+>
+> I'd rather check this in scripts/dtc/Makefile
+>
+>
+>
+> How about something like below?
+
+Looks good.
+
+>  ifeq ($(wildcard /usr/include/yaml.h),)
+> +ifeq ($(CHECK_DTBS),1)
+
+I'm going to change this to "ifneq ($CHECK_DTBS),)" in case we start
+supporting more than 1 value such as warning levels.
+
+> +$(error dtc needs libyaml for DT schema validation support. \
+> +        Install the necessary libyaml development package.)
+> +endif
+>  HOST_EXTRACFLAGS += -DNO_YAML
+>  else
+>  dtc-objs       += yamltree.o
+>
+>
+>
+>
+>
+> One drawback of this approach is,
+> this is not checked if you are using out-of-tree DTC.
+> Probably, Rob is the only person that overrides DTC.
+
+Sadly, that's probably true.
+
+Thanks for your thorough review.
+
+Rob
