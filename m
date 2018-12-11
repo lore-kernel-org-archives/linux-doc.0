@@ -1,273 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F3CC27D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 20:24:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 71E867D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 21:45:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726219AbeLKUYL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Dec 2018 15:24:11 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:40860 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726125AbeLKUYL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Dec 2018 15:24:11 -0500
-Received: by mail-ot1-f68.google.com with SMTP id s5so15355975oth.7;
-        Tue, 11 Dec 2018 12:24:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qDEl5D7sjNExZPgDsPayoPbNtf9cuUrPusIJ99/11Fs=;
-        b=c3B8PGuoySVK17q/Diy2PY48uuONz9w0zsnteY4jNr+pUJXoAsKI/qak2+5Kc3i064
-         bDKa6Nu8M0TdnazThR3bIifWE6i8Zn3fiP3r89zV+VmkY/twwqkCLrdrY/v1VxfZ4CKc
-         aM3nsa+tiXjbVGZydiZZoLJ7sPbJjYiGVASLNGE11eRXCleEInhr0rg5ez3ud4Ez2+3E
-         ItnSPTIpanYSNBeuONNFHf1xGdXteNNlP+17RykxWPGfvpGDGGnggumVCsKTJ+E2YM9b
-         EZBM+hBnIkT00MYwVBcIEXhNqpCLiqJ5Su//ctI8ou9BttML62GZC0kQ29/RlJZSY26w
-         V1UA==
-X-Gm-Message-State: AA+aEWaNAusr2wnPg7fKC9Vm1MKHd4cjK1AVFhPP9I5dw8LrNLYbOc9m
-        7IY3MU3P3DIPTw6GXX+G362di7s=
-X-Google-Smtp-Source: AFSGD/Ub2SvNQ//jyxN7kG/dzI9pQIkB5mZMsjKnHNEQKUsianwAcKxOxEAWYW850wtYb3gHq/udiA==
-X-Received: by 2002:a05:6830:d:: with SMTP id c13mr13187750otp.82.1544559848822;
-        Tue, 11 Dec 2018 12:24:08 -0800 (PST)
-Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.googlemail.com with ESMTPSA id z9sm7327127oiz.21.2018.12.11.12.24.07
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 11 Dec 2018 12:24:08 -0800 (PST)
-From:   Rob Herring <robh@kernel.org>
-To:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Sean Hudson <darknighte@darknighte.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, Grant Likely <grant.likely@arm.com>,
-        Kumar Gala <kumar.gala@linaro.org>, arm@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1726253AbeLKVpB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Dec 2018 16:45:01 -0500
+Received: from mail.linuxfoundation.org ([140.211.169.12]:37866 "EHLO
+        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726136AbeLKVpA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Dec 2018 16:45:00 -0500
+Received: from akpm3.svl.corp.google.com (unknown [104.133.8.65])
+        by mail.linuxfoundation.org (Postfix) with ESMTPSA id 1184B9DA;
+        Tue, 11 Dec 2018 21:44:58 +0000 (UTC)
+Date:   Tue, 11 Dec 2018 13:44:57 -0800
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Will Deacon <will.deacon@arm.com>
+Cc:     Andrey Konovalov <andreyknvl@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Lameter <cl@linux.com>,
         Mark Rutland <mark.rutland@arm.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: [PATCH v4] kbuild: Add support for DT binding schema checks
-Date:   Tue, 11 Dec 2018 14:24:06 -0600
-Message-Id: <20181211202406.27721-1-robh@kernel.org>
-X-Mailer: git-send-email 2.19.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
+Subject: Re: [PATCH v13 00/25] kasan: add software tag-based mode for arm64
+Message-Id: <20181211134457.2eff4a98b13ceda564ab9b37@linux-foundation.org>
+In-Reply-To: <20181211160018.GA12597@edgewater-inn.cambridge.arm.com>
+References: <cover.1544099024.git.andreyknvl@google.com>
+        <20181211151829.GB11718@edgewater-inn.cambridge.arm.com>
+        <CAAeHK+xxNsOfaUZhcErc+fjEEv0YZ-dbQ0fTXzQUO4dZbM-GgA@mail.gmail.com>
+        <20181211160018.GA12597@edgewater-inn.cambridge.arm.com>
+X-Mailer: Sylpheed 3.6.0 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This adds the build infrastructure for checking DT binding schema
-documents and validating dts files using the binding schema.
+On Tue, 11 Dec 2018 16:00:19 +0000 Will Deacon <will.deacon@arm.com> wrote:
 
-Check DT binding schema documents:
-make dt_binding_check
+> > Yes, that was the intention of sending v13. Should have I sent a
+> > separate patch with v12->v13 fixes instead? I don't know what's the
+> > usual way to make changes to the patchset once it's in the mm tree.
 
-Build dts files and check using DT binding schema:
-make dtbs_check
-
-Optionally, DT_SCHEMA_FILES can be passed in with a schema file(s) to
-use for validation. This makes it easier to find and fix errors
-generated by a specific schema.
-
-Currently, the validation targets are separate from a normal build to
-avoid a hard dependency on the external DT schema project and because
-there are lots of warnings generated.
-
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc: Michal Marek <michal.lkml@markovi.net>
-Cc: linux-doc@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kbuild@vger.kernel.org
-Signed-off-by: Rob Herring <robh@kernel.org>
----
-v4:
-- Rework libyaml check and error message with Masahiro's version
-- Simplify build rules and dependencies
-
-
- .gitignore                                   |  1 +
- Documentation/Makefile                       |  2 +-
- Documentation/devicetree/bindings/.gitignore |  2 ++
- Documentation/devicetree/bindings/Makefile   | 27 ++++++++++++++++++++
- Makefile                                     | 13 +++++++---
- scripts/Makefile.lib                         | 24 +++++++++++++++--
- scripts/dtc/Makefile                         |  4 +++
- 7 files changed, 67 insertions(+), 6 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/.gitignore
- create mode 100644 Documentation/devicetree/bindings/Makefile
-
-diff --git a/.gitignore b/.gitignore
-index 97ba6b79834c..a20ac26aa2f5 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -15,6 +15,7 @@
- *.bin
- *.bz2
- *.c.[012]*.*
-+*.dt.yaml
- *.dtb
- *.dtb.S
- *.dwo
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 2ca77ad0f238..9786957c6a35 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -2,7 +2,7 @@
- # Makefile for Sphinx documentation
- #
- 
--subdir-y :=
-+subdir-y := devicetree/bindings/
- 
- # You can set these variables from the command line.
- SPHINXBUILD   = sphinx-build
-diff --git a/Documentation/devicetree/bindings/.gitignore b/Documentation/devicetree/bindings/.gitignore
-new file mode 100644
-index 000000000000..ef82fcfcccab
---- /dev/null
-+++ b/Documentation/devicetree/bindings/.gitignore
-@@ -0,0 +1,2 @@
-+*.example.dts
-+processed-schema.yaml
-diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
-new file mode 100644
-index 000000000000..6e5cef0ed6fb
---- /dev/null
-+++ b/Documentation/devicetree/bindings/Makefile
-@@ -0,0 +1,27 @@
-+# SPDX-License-Identifier: GPL-2.0
-+DT_DOC_CHECKER ?= dt-doc-validate
-+DT_EXTRACT_EX ?= dt-extract-example
-+DT_MK_SCHEMA ?= dt-mk-schema
-+DT_MK_SCHEMA_FLAGS := $(if $(DT_SCHEMA_FILES), -u)
-+
-+quiet_cmd_chk_binding = CHKDT   $(patsubst $(srctree)/%,%,$<)
-+      cmd_chk_binding = $(DT_DOC_CHECKER) $< ; \
-+                        $(DT_EXTRACT_EX) $< > $@
-+
-+$(obj)/%.example.dts: $(src)/%.yaml FORCE
-+	$(call if_changed,chk_binding)
-+
-+DT_TMP_SCHEMA := processed-schema.yaml
-+extra-y += $(DT_TMP_SCHEMA)
-+
-+quiet_cmd_mk_schema = SCHEMA  $@
-+      cmd_mk_schema = $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $(filter-out FORCE, $^)
-+
-+DT_DOCS = $(shell cd $(srctree)/$(src) && find * -name '*.yaml')
-+DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
-+
-+extra-y += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
-+extra-y += $(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES))
-+
-+$(obj)/$(DT_TMP_SCHEMA): $(DT_SCHEMA_FILES) FORCE
-+	$(call if_changed,mk_schema)
-diff --git a/Makefile b/Makefile
-index 2f36db897895..a3e2db2a3119 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1232,10 +1232,13 @@ ifneq ($(dtstree),)
- %.dtb: prepare3 scripts_dtc
- 	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
- 
--PHONY += dtbs dtbs_install
--dtbs: prepare3 scripts_dtc
-+PHONY += dtbs dtbs_install dt_binding_check
-+dtbs dtbs_check: prepare3 scripts_dtc
- 	$(Q)$(MAKE) $(build)=$(dtstree)
- 
-+dtbs_check: export CHECK_DTBS=1
-+dtbs_check: dt_binding_check
-+
- dtbs_install:
- 	$(Q)$(MAKE) $(dtbinst)=$(dtstree)
- 
-@@ -1249,6 +1252,9 @@ PHONY += scripts_dtc
- scripts_dtc: scripts_basic
- 	$(Q)$(MAKE) $(build)=scripts/dtc
- 
-+dt_binding_check: scripts_dtc
-+	$(Q)$(MAKE) $(build)=Documentation/devicetree/bindings
-+
- # ---------------------------------------------------------------------------
- # Modules
- 
-@@ -1611,7 +1617,8 @@ clean: $(clean-dirs)
- 	$(call cmd,rmfiles)
- 	@find $(if $(KBUILD_EXTMOD), $(KBUILD_EXTMOD), .) $(RCS_FIND_IGNORE) \
- 		\( -name '*.[aios]' -o -name '*.ko' -o -name '.*.cmd' \
--		-o -name '*.ko.*' -o -name '*.dtb' -o -name '*.dtb.S' \
-+		-o -name '*.ko.*' \
-+		-o -name '*.dtb' -o -name '*.dtb.S' -o -name '*.dt.yaml' \
- 		-o -name '*.dwo' -o -name '*.lst' \
- 		-o -name '*.su'  \
- 		-o -name '.*.d' -o -name '.*.tmp' -o -name '*.mod.c' \
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 8fe4468f9bda..723b33c942df 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -61,6 +61,11 @@ real-obj-m := $(foreach m, $(obj-m), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y))
- extra-y				+= $(dtb-y)
- extra-$(CONFIG_OF_ALL_DTBS)	+= $(dtb-)
- 
-+ifneq ($(CHECK_DTBS),)
-+extra-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
-+extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
-+endif
-+
- # Add subdir path
- 
- extra-y		:= $(addprefix $(obj)/,$(extra-y))
-@@ -284,13 +289,28 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
- quiet_cmd_dtc = DTC     $@
- cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
- 	$(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
--	$(DTC) -O dtb -o $@ -b 0 \
-+	$(DTC) -O $(2) -o $@ -b 0 \
- 		$(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
- 		-d $(depfile).dtc.tmp $(dtc-tmp) ; \
- 	cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
- 
- $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
--	$(call if_changed_dep,dtc)
-+	$(call if_changed_dep,dtc,dtb)
-+
-+DT_CHECKER ?= dt-validate
-+DT_BINDING_DIR := Documentation/devicetree/bindings
-+DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/processed-schema.yaml
-+
-+quiet_cmd_dtb_check =	CHECK   $@
-+      cmd_dtb_check =	$(DT_CHECKER) -p $(DT_TMP_SCHEMA) $@ ;
-+
-+define rule_dtc_dt_yaml
-+	$(call cmd_and_fixdep,dtc,yaml)		\
-+	$(call echo-cmd,dtb_check) $(cmd_dtb_check)
-+endef
-+
-+$(obj)/%.dt.yaml: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
-+	$(call if_changed_rule,dtc_dt_yaml)
- 
- dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
- 
-diff --git a/scripts/dtc/Makefile b/scripts/dtc/Makefile
-index 056d5da6c477..5f227d8d39d8 100644
---- a/scripts/dtc/Makefile
-+++ b/scripts/dtc/Makefile
-@@ -12,6 +12,10 @@ dtc-objs	+= dtc-lexer.lex.o dtc-parser.tab.o
- HOST_EXTRACFLAGS := -I$(src)/libfdt
- 
- ifeq ($(wildcard /usr/include/yaml.h),)
-+ifneq ($(CHECK_DTBS),)
-+$(error dtc needs libyaml for DT schema validation support. \
-+	Install the necessary libyaml development package.)
-+endif
- HOST_EXTRACFLAGS += -DNO_YAML
- else
- dtc-objs	+= yamltree.o
--- 
-2.19.1
+I usually convert replacement patches into deltas so people can see
+what changed.  In this case it got messy so I dropped v12 and remerged
+v13 wholesale.
 
