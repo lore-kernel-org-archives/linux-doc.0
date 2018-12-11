@@ -1,202 +1,273 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 293657D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 18:41:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F3CC27D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Dec 2018 20:24:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726402AbeLKSlD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Dec 2018 13:41:03 -0500
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:54266 "EHLO
-        mx0b-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726252AbeLKSlD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Dec 2018 13:41:03 -0500
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id wBBIa1HU028763;
-        Tue, 11 Dec 2018 10:40:52 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=facebook;
- bh=PpWQbWMTDJn8Dhs/5lI36chAw7QFMQc+Ii/W6sMeU/g=;
- b=cHA7ygEVyGuJhCeEYRYLdGAR+MpbJ244XoZ4Ut90aZMXBsfNUyweXFdFMBPYcR1Hme6i
- 7x8siT0izetQqvvHv5L8PwZXQtoB1rBZNQD5WnRdZycJ/2WcxmQEaJCH4E87WQ3Ho1gK
- j1lYpWbXdm8sn0OxPrhQ00GHe74Tyt+yjNU= 
-Received: from maileast.thefacebook.com ([199.201.65.23])
-        by mx0a-00082601.pphosted.com with ESMTP id 2pafja0s1q-3
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Tue, 11 Dec 2018 10:40:52 -0800
-Received: from frc-mbx05.TheFacebook.com (2620:10d:c0a1:f82::29) by
- frc-hub02.TheFacebook.com (2620:10d:c021:18::172) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.1531.3; Tue, 11 Dec 2018 10:40:43 -0800
-Received: from frc-hub04.TheFacebook.com (2620:10d:c021:18::174) by
- frc-mbx05.TheFacebook.com (2620:10d:c0a1:f82::29) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.1531.3; Tue, 11 Dec 2018 10:40:43 -0800
-Received: from NAM05-BY2-obe.outbound.protection.outlook.com (192.168.183.28)
- by o365-in.thefacebook.com (192.168.177.74) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.1.1531.3
- via Frontend Transport; Tue, 11 Dec 2018 10:40:42 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector1-fb-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PpWQbWMTDJn8Dhs/5lI36chAw7QFMQc+Ii/W6sMeU/g=;
- b=kKFAZWhZcIw7qpLPF6pnKAr3tGmETMhLbCImoWCyna0lO/VP/0d/jCM5MKrCKzUw6j6WcG3y6TvabpO5L2l4c5BsM7ZyPjA1TOzWJIGqh++6XXAJ474K2c3acPZRGHvqEPXvJDTzx7QfuKVtkgrhc8SrXqtHixtQWOKA1IFRx/c=
-Received: from BYAPR15MB2631.namprd15.prod.outlook.com (20.179.156.24) by
- BYAPR15MB2197.namprd15.prod.outlook.com (52.135.196.143) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1404.22; Tue, 11 Dec 2018 18:40:39 +0000
-Received: from BYAPR15MB2631.namprd15.prod.outlook.com
- ([fe80::990:c2e0:2a8a:25c5]) by BYAPR15MB2631.namprd15.prod.outlook.com
- ([fe80::990:c2e0:2a8a:25c5%3]) with mapi id 15.20.1425.016; Tue, 11 Dec 2018
- 18:40:39 +0000
-From:   Roman Gushchin <guro@fb.com>
-To:     Oleg Nesterov <oleg@redhat.com>
-CC:     Roman Gushchin <guroan@gmail.com>, Tejun Heo <tj@kernel.org>,
-        "Dan Carpenter" <dan.carpenter@oracle.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Kernel Team <Kernel-team@fb.com>
-Subject: Re: [PATCH v5 4/7] cgroup: cgroup v2 freezer
-Thread-Topic: [PATCH v5 4/7] cgroup: cgroup v2 freezer
-Thread-Index: AQHUjmmlQwOP1yU/lEmjwwDF9MnbZKV5v7oAgAAldIA=
-Date:   Tue, 11 Dec 2018 18:40:39 +0000
-Message-ID: <20181211184033.GA8971@tower.DHCP.thefacebook.com>
-References: <20181207201531.1665-1-guro@fb.com>
- <20181207201531.1665-5-guro@fb.com> <20181211162632.GB8504@redhat.com>
-In-Reply-To: <20181211162632.GB8504@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: CO1PR15CA0047.namprd15.prod.outlook.com
- (2603:10b6:101:1f::15) To BYAPR15MB2631.namprd15.prod.outlook.com
- (2603:10b6:a03:152::24)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [2620:10d:c090:200::5:8d6e]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;BYAPR15MB2197;20:LgPwXsxaSyQYqf75ddXxEpI36UOF9t674K5pxXVWIzv+d4C7BhMc4+gH4hkorXH8KdPbEYtL/ZxXGyyu2/3NU+6F7xwNiEOqfrK93rx+dCqiR3KjPLFxN0J24qVHz67LVgD9n7IDsiQ4ErTPmjS/shnW/Hnxln3F1jfQEjZBbl0=
-x-ms-office365-filtering-correlation-id: 803cb22c-63aa-4129-7d82-08d65f982575
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390098)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(2017052603328)(7153060)(7193020);SRVR:BYAPR15MB2197;
-x-ms-traffictypediagnostic: BYAPR15MB2197:
-x-microsoft-antispam-prvs: <BYAPR15MB2197BDED36EC84F2BD877C9FBEA60@BYAPR15MB2197.namprd15.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(823302103)(3231455)(999002)(11241501185)(944501520)(52105112)(10201501046)(93006095)(93001095)(3002001)(148016)(149066)(150057)(6041310)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(20161123564045)(20161123560045)(201708071742011)(7699051)(76991095);SRVR:BYAPR15MB2197;BCL:0;PCL:0;RULEID:;SRVR:BYAPR15MB2197;
-x-forefront-prvs: 08831F51DC
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(136003)(366004)(396003)(376002)(346002)(199004)(189003)(305945005)(8676002)(81166006)(229853002)(8936002)(81156014)(6916009)(1076002)(97736004)(6116002)(33656002)(7736002)(6486002)(6436002)(14454004)(105586002)(54906003)(106356001)(316002)(68736007)(6512007)(25786009)(478600001)(9686003)(71190400001)(102836004)(53936002)(446003)(186003)(6506007)(4326008)(39060400002)(46003)(11346002)(76176011)(5660300001)(99286004)(386003)(71200400001)(6246003)(476003)(2906002)(14444005)(86362001)(5024004)(256004)(486006)(33896004)(52116002)(42262002);DIR:OUT;SFP:1102;SCL:1;SRVR:BYAPR15MB2197;H:BYAPR15MB2631.namprd15.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: fb.com does not designate
- permitted sender hosts)
-x-microsoft-antispam-message-info: e+k6P3JXjYNKjbUxAqHNMmxujNexL8gZfHbnCMKOQaO+aojcwrnyPMgzJc/YqL3ZDAhw7wjgTdJLqwA01nniw73s0jkJuPDqZp72DlVGY1TKs/1uvG8j2NoQdHFGjnZEmSA84+f/qdbA63Z8xxooSXL8VDwmDzxRigt7eAOxGu81USUC5BDmSsF+kwZEQCji9zYdNpp2NnYAt9fWajT9n8ijXa3Copfkgu5PC+MKl27DPiXsX07yPlBxcijKZdmSF+nPxFTj2BFDdHSeZJan5sPOb9fknGCogzQzqF0Bcgh4an82ChZjeGDEv9A0kJSJ
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <3E1A5BC97A871243831DD0A6C3D02A1F@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S1726219AbeLKUYL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Dec 2018 15:24:11 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:40860 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726125AbeLKUYL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Dec 2018 15:24:11 -0500
+Received: by mail-ot1-f68.google.com with SMTP id s5so15355975oth.7;
+        Tue, 11 Dec 2018 12:24:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qDEl5D7sjNExZPgDsPayoPbNtf9cuUrPusIJ99/11Fs=;
+        b=c3B8PGuoySVK17q/Diy2PY48uuONz9w0zsnteY4jNr+pUJXoAsKI/qak2+5Kc3i064
+         bDKa6Nu8M0TdnazThR3bIifWE6i8Zn3fiP3r89zV+VmkY/twwqkCLrdrY/v1VxfZ4CKc
+         aM3nsa+tiXjbVGZydiZZoLJ7sPbJjYiGVASLNGE11eRXCleEInhr0rg5ez3ud4Ez2+3E
+         ItnSPTIpanYSNBeuONNFHf1xGdXteNNlP+17RykxWPGfvpGDGGnggumVCsKTJ+E2YM9b
+         EZBM+hBnIkT00MYwVBcIEXhNqpCLiqJ5Su//ctI8ou9BttML62GZC0kQ29/RlJZSY26w
+         V1UA==
+X-Gm-Message-State: AA+aEWaNAusr2wnPg7fKC9Vm1MKHd4cjK1AVFhPP9I5dw8LrNLYbOc9m
+        7IY3MU3P3DIPTw6GXX+G362di7s=
+X-Google-Smtp-Source: AFSGD/Ub2SvNQ//jyxN7kG/dzI9pQIkB5mZMsjKnHNEQKUsianwAcKxOxEAWYW850wtYb3gHq/udiA==
+X-Received: by 2002:a05:6830:d:: with SMTP id c13mr13187750otp.82.1544559848822;
+        Tue, 11 Dec 2018 12:24:08 -0800 (PST)
+Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.googlemail.com with ESMTPSA id z9sm7327127oiz.21.2018.12.11.12.24.07
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 11 Dec 2018 12:24:08 -0800 (PST)
+From:   Rob Herring <robh@kernel.org>
+To:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Sean Hudson <darknighte@darknighte.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, Grant Likely <grant.likely@arm.com>,
+        Kumar Gala <kumar.gala@linaro.org>, arm@kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: [PATCH v4] kbuild: Add support for DT binding schema checks
+Date:   Tue, 11 Dec 2018 14:24:06 -0600
+Message-Id: <20181211202406.27721-1-robh@kernel.org>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 803cb22c-63aa-4129-7d82-08d65f982575
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2018 18:40:39.1591
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB2197
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-11_06:,,
- signatures=0
-X-Proofpoint-Spam-Reason: safe
-X-FB-Internal: Safe
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 11, 2018 at 05:26:32PM +0100, Oleg Nesterov wrote:
-> On 12/07, Roman Gushchin wrote:
-> >
-> > Cgroup v2 freezer tries to put tasks into a state similar to jobctl
-> > stop. This means that tasks can be killed, ptraced (using
-> > PTRACE_SEIZE*), and interrupted. It is possible to attach to
-> > a frozen task, get some information (e.g. read registers) and detach.
->=20
-> I fail to understand how this all supposed to work.
->=20
-> > @@ -368,6 +369,8 @@ static inline int signal_pending_state(long state, =
-struct task_struct *p)
-> >  		return 0;
-> >  	if (!signal_pending(p))
-> >  		return 0;
-> > +	if (unlikely(cgroup_task_frozen(p) && p->jobctl =3D=3D JOBCTL_TRAP_FR=
-EEZE))
-> > +		return __fatal_signal_pending(p);
->=20
-> I think I will never agree with this change ;) and I don't think it actua=
-lly helps.
+This adds the build infrastructure for checking DT binding schema
+documents and validating dts files using the binding schema.
 
-See below.
+Check DT binding schema documents:
+make dt_binding_check
 
->=20
-> > +void cgroup_enter_frozen(void)
-> > +{
-> > +	if (!current->frozen) {
-> > +		spin_lock_irq(&css_set_lock);
-> > +		current->frozen =3D true;
-> > +		cgroup_inc_frozen_cnt(task_dfl_cgroup(current), false, true);
-> > +		spin_unlock_irq(&css_set_lock);
-> > +	}
-> > +
-> > +	__set_current_state(TASK_INTERRUPTIBLE);
-> > +	schedule();
->=20
-> So once again, suppose it races with PTRACE_INTERRUPT, or SIGSTOP, or som=
-ething
-> else which should be handled by get_signal() before do_freezer_trap().
->=20
-> If (say) PTRACE_INTERRUPT comes before schedule it will be lost. Otherwis=
-e
-> the frozen task will react. This can't be right. Or I am totally confused=
-.
+Build dts files and check using DT binding schema:
+make dtbs_check
 
-Why?
-PTRACE_INTERRUPT will set JOBCTL_TRAP_STOP, so signal_pending_state()
-will return true, schedule() will return immediately, and we'll handle the =
-trap.
+Optionally, DT_SCHEMA_FILES can be passed in with a schema file(s) to
+use for validation. This makes it easier to find and fix errors
+generated by a specific schema.
 
->=20
-> Perhaps you can split this patch? start with cgroup_enter_frozen() using
-> TASK_KILLABLE, then teach it to handle ptrace/stop/etc? I think this way =
-it
-> would be simpler to discuss the necessary changes and document what exact=
-ly
-> are you trying to do.
->=20
-> and btw.... what about suspend? try_to_freeze_tasks() will obviously fail
-> if there is a ->frozen thread?
+Currently, the validation targets are separate from a normal build to
+avoid a hard dependency on the external DT schema project and because
+there are lots of warnings generated.
 
-I have to think a bit more here, but something like this will probably work=
-:
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: linux-doc@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kbuild@vger.kernel.org
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+v4:
+- Rework libyaml check and error message with Masahiro's version
+- Simplify build rules and dependencies
 
-diff --git a/kernel/freezer.c b/kernel/freezer.c
-index b162b74611e4..590ac4d10b02 100644
---- a/kernel/freezer.c
-+++ b/kernel/freezer.c
-@@ -134,7 +134,7 @@ bool freeze_task(struct task_struct *p)
-                return false;
-=20
-        spin_lock_irqsave(&freezer_lock, flags);
--       if (!freezing(p) || frozen(p)) {
-+       if (!freezing(p) || frozen(p) || cgroup_task_frozen()) {
-                spin_unlock_irqrestore(&freezer_lock, flags);
-                return false;
-        }
 
---
+ .gitignore                                   |  1 +
+ Documentation/Makefile                       |  2 +-
+ Documentation/devicetree/bindings/.gitignore |  2 ++
+ Documentation/devicetree/bindings/Makefile   | 27 ++++++++++++++++++++
+ Makefile                                     | 13 +++++++---
+ scripts/Makefile.lib                         | 24 +++++++++++++++--
+ scripts/dtc/Makefile                         |  4 +++
+ 7 files changed, 67 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/.gitignore
+ create mode 100644 Documentation/devicetree/bindings/Makefile
 
-If the task is already frozen by the cgroup freezer, we don't have to do
-anything additionally.
+diff --git a/.gitignore b/.gitignore
+index 97ba6b79834c..a20ac26aa2f5 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -15,6 +15,7 @@
+ *.bin
+ *.bz2
+ *.c.[012]*.*
++*.dt.yaml
+ *.dtb
+ *.dtb.S
+ *.dwo
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 2ca77ad0f238..9786957c6a35 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -2,7 +2,7 @@
+ # Makefile for Sphinx documentation
+ #
+ 
+-subdir-y :=
++subdir-y := devicetree/bindings/
+ 
+ # You can set these variables from the command line.
+ SPHINXBUILD   = sphinx-build
+diff --git a/Documentation/devicetree/bindings/.gitignore b/Documentation/devicetree/bindings/.gitignore
+new file mode 100644
+index 000000000000..ef82fcfcccab
+--- /dev/null
++++ b/Documentation/devicetree/bindings/.gitignore
+@@ -0,0 +1,2 @@
++*.example.dts
++processed-schema.yaml
+diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
+new file mode 100644
+index 000000000000..6e5cef0ed6fb
+--- /dev/null
++++ b/Documentation/devicetree/bindings/Makefile
+@@ -0,0 +1,27 @@
++# SPDX-License-Identifier: GPL-2.0
++DT_DOC_CHECKER ?= dt-doc-validate
++DT_EXTRACT_EX ?= dt-extract-example
++DT_MK_SCHEMA ?= dt-mk-schema
++DT_MK_SCHEMA_FLAGS := $(if $(DT_SCHEMA_FILES), -u)
++
++quiet_cmd_chk_binding = CHKDT   $(patsubst $(srctree)/%,%,$<)
++      cmd_chk_binding = $(DT_DOC_CHECKER) $< ; \
++                        $(DT_EXTRACT_EX) $< > $@
++
++$(obj)/%.example.dts: $(src)/%.yaml FORCE
++	$(call if_changed,chk_binding)
++
++DT_TMP_SCHEMA := processed-schema.yaml
++extra-y += $(DT_TMP_SCHEMA)
++
++quiet_cmd_mk_schema = SCHEMA  $@
++      cmd_mk_schema = $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $(filter-out FORCE, $^)
++
++DT_DOCS = $(shell cd $(srctree)/$(src) && find * -name '*.yaml')
++DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
++
++extra-y += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
++extra-y += $(patsubst $(src)/%.yaml,%.example.dtb, $(DT_SCHEMA_FILES))
++
++$(obj)/$(DT_TMP_SCHEMA): $(DT_SCHEMA_FILES) FORCE
++	$(call if_changed,mk_schema)
+diff --git a/Makefile b/Makefile
+index 2f36db897895..a3e2db2a3119 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1232,10 +1232,13 @@ ifneq ($(dtstree),)
+ %.dtb: prepare3 scripts_dtc
+ 	$(Q)$(MAKE) $(build)=$(dtstree) $(dtstree)/$@
+ 
+-PHONY += dtbs dtbs_install
+-dtbs: prepare3 scripts_dtc
++PHONY += dtbs dtbs_install dt_binding_check
++dtbs dtbs_check: prepare3 scripts_dtc
+ 	$(Q)$(MAKE) $(build)=$(dtstree)
+ 
++dtbs_check: export CHECK_DTBS=1
++dtbs_check: dt_binding_check
++
+ dtbs_install:
+ 	$(Q)$(MAKE) $(dtbinst)=$(dtstree)
+ 
+@@ -1249,6 +1252,9 @@ PHONY += scripts_dtc
+ scripts_dtc: scripts_basic
+ 	$(Q)$(MAKE) $(build)=scripts/dtc
+ 
++dt_binding_check: scripts_dtc
++	$(Q)$(MAKE) $(build)=Documentation/devicetree/bindings
++
+ # ---------------------------------------------------------------------------
+ # Modules
+ 
+@@ -1611,7 +1617,8 @@ clean: $(clean-dirs)
+ 	$(call cmd,rmfiles)
+ 	@find $(if $(KBUILD_EXTMOD), $(KBUILD_EXTMOD), .) $(RCS_FIND_IGNORE) \
+ 		\( -name '*.[aios]' -o -name '*.ko' -o -name '.*.cmd' \
+-		-o -name '*.ko.*' -o -name '*.dtb' -o -name '*.dtb.S' \
++		-o -name '*.ko.*' \
++		-o -name '*.dtb' -o -name '*.dtb.S' -o -name '*.dt.yaml' \
+ 		-o -name '*.dwo' -o -name '*.lst' \
+ 		-o -name '*.su'  \
+ 		-o -name '.*.d' -o -name '.*.tmp' -o -name '*.mod.c' \
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 8fe4468f9bda..723b33c942df 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -61,6 +61,11 @@ real-obj-m := $(foreach m, $(obj-m), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y))
+ extra-y				+= $(dtb-y)
+ extra-$(CONFIG_OF_ALL_DTBS)	+= $(dtb-)
+ 
++ifneq ($(CHECK_DTBS),)
++extra-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
++extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
++endif
++
+ # Add subdir path
+ 
+ extra-y		:= $(addprefix $(obj)/,$(extra-y))
+@@ -284,13 +289,28 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
+ quiet_cmd_dtc = DTC     $@
+ cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
+ 	$(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
+-	$(DTC) -O dtb -o $@ -b 0 \
++	$(DTC) -O $(2) -o $@ -b 0 \
+ 		$(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
+ 		-d $(depfile).dtc.tmp $(dtc-tmp) ; \
+ 	cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
+ 
+ $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
+-	$(call if_changed_dep,dtc)
++	$(call if_changed_dep,dtc,dtb)
++
++DT_CHECKER ?= dt-validate
++DT_BINDING_DIR := Documentation/devicetree/bindings
++DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/processed-schema.yaml
++
++quiet_cmd_dtb_check =	CHECK   $@
++      cmd_dtb_check =	$(DT_CHECKER) -p $(DT_TMP_SCHEMA) $@ ;
++
++define rule_dtc_dt_yaml
++	$(call cmd_and_fixdep,dtc,yaml)		\
++	$(call echo-cmd,dtb_check) $(cmd_dtb_check)
++endef
++
++$(obj)/%.dt.yaml: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
++	$(call if_changed_rule,dtc_dt_yaml)
+ 
+ dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
+ 
+diff --git a/scripts/dtc/Makefile b/scripts/dtc/Makefile
+index 056d5da6c477..5f227d8d39d8 100644
+--- a/scripts/dtc/Makefile
++++ b/scripts/dtc/Makefile
+@@ -12,6 +12,10 @@ dtc-objs	+= dtc-lexer.lex.o dtc-parser.tab.o
+ HOST_EXTRACFLAGS := -I$(src)/libfdt
+ 
+ ifeq ($(wildcard /usr/include/yaml.h),)
++ifneq ($(CHECK_DTBS),)
++$(error dtc needs libyaml for DT schema validation support. \
++	Install the necessary libyaml development package.)
++endif
+ HOST_EXTRACFLAGS += -DNO_YAML
+ else
+ dtc-objs	+= yamltree.o
+-- 
+2.19.1
 
-Thanks!
