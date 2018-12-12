@@ -1,85 +1,214 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_HI,T_HK_NAME_MR_MRS
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-13.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0C4CB7DD29
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 14:05:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2E71E7D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 14:23:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727745AbeLLOF3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Dec 2018 09:05:29 -0500
-Received: from mx-2.esenfc.pt ([193.137.66.234]:36492 "EHLO mx-2.esenfc.pt"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727471AbeLLOF2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Dec 2018 09:05:28 -0500
-X-Greylist: delayed 583 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Dec 2018 09:05:21 EST
-Received: from localhost (localhost [127.0.0.1])
-        by mx-2.esenfc.pt (Postfix) with ESMTP id 256CC16A8;
-        Wed, 12 Dec 2018 13:52:18 +0000 (WET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=esenfc.pt; s=201703;
-        t=1544622738; bh=3GJZfQ7u3viyLeulLFi4ILCqM+vVAbNIWeK+tqTOeUk=;
-        h=Date:From:Reply-to:To:Subject:From;
-        b=RXgcaDYVkMepcjM0bMnCNvYUt2e1rKjy4LLKEuLwxdsD15B/zXygrArSj0FEDXz7Y
-         C19LzsgGz5D3+KPnCZoGY99Ek/9MbWzMYB5ksqtXHZVLN6rVRywOF8hO1rqZqPH6F5
-         N1k2xIbXjgO4xanFS225dNMjwDx6cvIVd0rICGtyLA96uBhCn8edqe9+MzWQZMoJaT
-         zqUuwfnMGfXRQGlG1OtNkWQzrBMH2MOo4CEhIXxyRo1kxaeFEbP+w6SAnY5K2g+npJ
-         Qe5by5bN76fbcZNpVSTh10/xaJ0kShzfuUMZFStsFepMpKtH997WCEPVDr3SHmUoj4
-         KA7o39MXL1ILA==
-X-Virus-Scanned: Debian amavisd-new at mx-2.esenfc.pt
-Received: from mx-2.esenfc.pt ([127.0.0.1])
-        by localhost (mx-2.esenfc.pt [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 7qdXsewQa5aG; Wed, 12 Dec 2018 13:52:17 +0000 (WET)
-Received: from webmail.esenfc.pt (unknown [193.137.66.239])
-        by mx-2.esenfc.pt (Postfix) with ESMTP id 279C216A9;
-        Wed, 12 Dec 2018 13:52:12 +0000 (WET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=esenfc.pt; s=201703;
-        t=1544622732; bh=3GJZfQ7u3viyLeulLFi4ILCqM+vVAbNIWeK+tqTOeUk=;
-        h=Date:From:Reply-to:To:Subject:From;
-        b=H++CSUCAvfaRYBvrmPcxbFWDOLnq67/V0XWca9zNkGhrPbMba/HNIw3V4kH+4dCGk
-         JvoUQX+xyqKG1sMpv7VGd0VJiBsXfspMVGNqoEuaDacdAXI0y6q9BYUOAsJMiosL+A
-         d1RFWVUppPF2hgoGq5f8rtBaN6WeqsvMC2p/Q16ClAYiGPytFZwbi4F19xo7PQASpG
-         tZQ2VH3qGjmaaSMtN75TGRPtBy5UOdPu2WH5YVbWSlSfOHmKIwi5Lr5eHnGYaCdmfJ
-         W5l4YXi9Z++ouZq/ssI9Yei39Q4lc7OrkeCx/qvzyO03IkYFo2t1Xgu8phuHxN6GSx
-         h0kuRHCMYS7KA==
-Received: by webmail.esenfc.pt (Postfix, from userid 33)
-        id C9A8D1B815F; Wed, 12 Dec 2018 13:52:11 +0000 (WET)
-Received: from www.9mobile.com.ng (www.9mobile.com.ng [41.190.31.251]) by
-        webmail.esenfc.pt (Horde Framework) with HTTP; Wed, 12 Dec 2018 13:52:09
-        +0000
-Message-ID: <20181212135209.79542ua5ehnsdhmo@webmail.esenfc.pt>
-Date:   Wed, 12 Dec 2018 13:52:09 +0000
-From:   "Mr Peter OWEN" <floriano@esenfc.pt>
-Reply-to: oxfordxx101@yahoo.com
-To:     undisclosed-recipients:;
-Subject: Lets Work Together
+        id S1727536AbeLLOXi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Dec 2018 09:23:38 -0500
+Received: from mail-io1-f68.google.com ([209.85.166.68]:42089 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726232AbeLLOXi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Dec 2018 09:23:38 -0500
+Received: by mail-io1-f68.google.com with SMTP id x6so14896410ioa.9
+        for <linux-doc@vger.kernel.org>; Wed, 12 Dec 2018 06:23:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5HeCY+qfNW68JyXgR+P+pjtQluLT63gICkd8mXzVWt0=;
+        b=YAX0yw0jLQJqvG/D1zGKyd9yyNqVljM0M8/t+9zYiQreARgjtPJ06EHaU5bmu+95OI
+         7iub4w2bsAyEbICd7ymZvlLI1C0Md4mb1kILIjDaHn1hd+K/cw7Rx7K/2/QXZkwvy1qK
+         MUDuDqp3sBKkyzt2lN8FGSJBgJlib+aW7t36Bn6v1khBqdjbGX2DNM5EsMy/hY3BkDUn
+         t5cE+1KsMQqG3pAJeVmQpDTg+JEsKN4qlg7QihWhEQeiEr5k33FjIwgjg/QhcxaXu7Cd
+         cwAG7pJrNKIfCYnN4KlqA4aZ2E5AZf+zZRAKpO9Y4/93vwqTnyy8oJSSdkOv7OA+TP/b
+         87/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5HeCY+qfNW68JyXgR+P+pjtQluLT63gICkd8mXzVWt0=;
+        b=Rg1EeDcoyLUI7fm1nZ/tmNggK4aSn3x4PnFVYZfGvcx/ehzju7zf0pN/W61hE/sO6N
+         6K9LrZLQY3rIg/j3vvtUM8n9faTjX6nrc9xOHKJjojr364GeKENycviGv5CYYXD0mWSe
+         pDwD4JJ4/GerFqYcdfyCZJ4BanwCa1FsFiBeJrabbJccXPj5s76ZxEGvhWSjMTYXXfl3
+         2cCasySpzPq2IckIsvXH/82HiaYIrIaePqmzncyaq1kjTASORqCFMxEDqNhwp0wwdYXj
+         FwU6uF64b41ikfP3az4eDnm2LsOX218UH+qYFK14XvUmvozPIJvB+tsjflxi+qsec0mH
+         lCgQ==
+X-Gm-Message-State: AA+aEWYc1Bq+gclXEZtU7kz9QhJGPnd0IVbr3PlPU+Vgyfz+Dz8jJeuE
+        NlRcTMqWgomZ6ubvqRjgiWqUXIqqpdMrnnyhJD18YA==
+X-Google-Smtp-Source: AFSGD/Xoo76/Zd/BISj6Tlv1jiIAOEhZNF6y5niaow/6Mi/L5hmlvuZ2Io/1Ck+O/e+yEhvaa32uruXQQGktnDwHF4w=
+X-Received: by 2002:a5d:91c7:: with SMTP id k7mr14360378ior.31.1544624616866;
+ Wed, 12 Dec 2018 06:23:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset=ISO-8859-1;
-        DelSp="Yes";
-        format="flowed"
-Content-Disposition: inline
-Content-Transfer-Encoding: 7bit
-User-Agent: Internet Messaging Program (IMP) H3 (4.2)
+References: <cover.1544445454.git.andreyknvl@google.com> <20181210143044.12714-1-vincenzo.frascino@arm.com>
+In-Reply-To: <20181210143044.12714-1-vincenzo.frascino@arm.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Wed, 12 Dec 2018 15:23:25 +0100
+Message-ID: <CAAeHK+xPZ-Z9YUAq=3+hbjj4uyJk32qVaxZkhcSAHYC4mHAkvQ@mail.gmail.com>
+Subject: Re: [RFC][PATCH 0/3] arm64 relaxed ABI
+To:     Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Dec 10, 2018 at 3:31 PM Vincenzo Frascino
+<vincenzo.frascino@arm.com> wrote:
+>
+> On arm64 the TCR_EL1.TBI0 bit has been set since Linux 3.x hence
+> the userspace (EL0) is allowed to set a non-zero value in the top
+> byte but the resulting pointers are not allowed at the user-kernel
+> syscall ABI boundary.
+>
+> This patchset proposes a relaxation of the ABI and a mechanism to
+> advertise it to the userspace via an AT_FLAGS.
+>
+> The rationale behind the choice of AT_FLAGS is that the Unix System V
+> ABI defines AT_FLAGS as "flags", leaving some degree of freedom in
+> interpretation.
+> There are two previous attempts of using AT_FLAGS in the Linux Kernel
+> for different reasons: the first was more generic and was used to expose
+> the support for the GNU STACK NX feature [1] and the second was done for
+> the MIPS architecture and was used to expose the support of "MIPS ABI
+> Extension for IEEE Std 754 Non-Compliant Interlinking" [2].
+> Both the changes are currently _not_ merged in mainline.
+> The only architecture that reserves some of the bits in AT_FLAGS is
+> currently MIPS, which introduced the concept of platform specific ABI
+> (psABI) reserving the top-byte [3].
+>
+> When ARM64_AT_FLAGS_SYSCALL_TBI is set the kernel is advertising
+> to the userspace that a relaxed ABI is supported hence this type
+> of pointers are now allowed to be passed to the syscalls when they are
+> in memory ranges obtained by anonymous mmap() or brk().
+>
+> The userspace _must_ verify that the flag is set before passing tagged
+> pointers to the syscalls allowed by this relaxation.
+>
+> More in general, exposing the ARM64_AT_FLAGS_SYSCALL_TBI flag and mandating
+> to the software to check that the feature is present, before using the
+> associated functionality, it provides a degree of control on the decision
+> of disabling such a feature in future without consequently breaking the
+> userspace.
+>
+> The change required a modification of the elf common code, because in Linux
+> the AT_FLAGS are currently set to zero by default by the kernel.
+>
+> The newly added flag has been verified on arm64 using the code below.
+> #include <stdio.h>
+> #include <stdbool.h>
+> #include <sys/auxv.h>
+>
+> #define ARM64_AT_FLAGS_SYSCALL_TBI     (1 << 0)
+>
+> bool arm64_syscall_tbi_is_present(void)
+> {
+>         unsigned long at_flags = getauxval(AT_FLAGS);
+>         if (at_flags & ARM64_AT_FLAGS_SYSCALL_TBI)
+>                 return true;
+>
+>         return false;
+> }
+>
+> void main()
+> {
+>         if (arm64_syscall_tbi_is_present())
+>                 printf("ARM64_AT_FLAGS_SYSCALL_TBI is present\n");
+> }
+>
+> This patchset should be merged together with [4].
+>
+> [1] https://patchwork.ozlabs.org/patch/579578/
+> [2] https://lore.kernel.org/patchwork/cover/618280/
+> [3] ftp://www.linux-mips.org/pub/linux/mips/doc/ABI/psABI_mips3.0.pdf
+> [4] https://patchwork.kernel.org/cover/10674351/
+>
+> ABI References:
+> ---------------
+> Sco SysV ABI: http://www.sco.com/developers/gabi/2003-12-17/contents.html
+> PowerPC AUXV: http://openpowerfoundation.org/wp-content/uploads/resources/leabi/content/dbdoclet.50655242_98651.html
+> AMD64 ABI: https://www.cs.tufts.edu/comp/40-2012f/readings/amd64-abi.pdf
+> x86 ABI: https://www.uclibc.org/docs/psABI-i386.pdf
+> MIPS ABI: ftp://www.linux-mips.org/pub/linux/mips/doc/ABI/psABI_mips3.0.pdf
+> ARM ABI: http://infocenter.arm.com/help/topic/com.arm.doc.ihi0044f/IHI0044F_aaelf.pdf
+> SPARC ABI: http://math-atlas.sourceforge.net/devel/assembly/abi_sysV_sparc.pdf
+>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will.deacon@arm.com>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Kate Stewart <kstewart@linuxfoundation.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Ingo Molnar <mingo@kernel.org>
+> Cc: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+> Cc: Shuah Khan <shuah@kernel.org>
+> Cc: Chintan Pandya <cpandya@codeaurora.org>
+> Cc: Jacob Bramley <Jacob.Bramley@arm.com>
+> Cc: Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>
+> Cc: Andrey Konovalov <andreyknvl@google.com>
+> Cc: Lee Smith <Lee.Smith@arm.com>
+> Cc: Kostya Serebryany <kcc@google.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>,
+> Cc: Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>
+> Cc: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+> Cc: Evgeniy Stepanov <eugenis@google.com>
+> CC: Alexander Viro <viro@zeniv.linux.org.uk>
+> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+>
+> Vincenzo Frascino (3):
+>   elf: Make AT_FLAGS arch configurable
+>   arm64: Define Documentation/arm64/elf_at_flags.txt
+>   arm64: elf: Advertise relaxed ABI
+>
+>  Documentation/arm64/elf_at_flags.txt  | 111 ++++++++++++++++++++++++++
+>  arch/arm64/include/asm/atflags.h      |   7 ++
+>  arch/arm64/include/asm/elf.h          |   5 ++
+>  arch/arm64/include/uapi/asm/atflags.h |   8 ++
+>  fs/binfmt_elf.c                       |   6 +-
+>  fs/binfmt_elf_fdpic.c                 |   6 +-
+>  fs/compat_binfmt_elf.c                |   5 ++
+>  7 files changed, 146 insertions(+), 2 deletions(-)
+>  create mode 100644 Documentation/arm64/elf_at_flags.txt
+>  create mode 100644 arch/arm64/include/asm/atflags.h
+>  create mode 100644 arch/arm64/include/uapi/asm/atflags.h
+>
+> --
+> 2.19.2
+>
 
-
-Good Day,
-Hope you are doing great Today.I have a proposed BUSINESS DEAL that  
-will benefit both parties. This is legitimate,legal and your  
-personality will not be compromised.Please Reply to me ONLY if you are  
-interested and consider your self capable for details.
-
-Sincerely,
-
-Peter OWEN
-
-----------------------------------------------------------------
-This message was sent using IMP, the Internet Messaging Program.
-
+Acked-by: Andrey Konovalov <andreyknvl@google.com>
