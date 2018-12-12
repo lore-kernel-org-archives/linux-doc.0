@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9E5D57D8A3
+	by archive.lwn.net (Postfix) with ESMTP id DC6F97DD29
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 22:23:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728444AbeLLWVl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1728420AbeLLWVl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 12 Dec 2018 17:21:41 -0500
-Received: from outils.crapouillou.net ([89.234.176.41]:44942 "EHLO
+Received: from outils.crapouillou.net ([89.234.176.41]:44940 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728393AbeLLWVl (ORCPT
+        with ESMTP id S1727131AbeLLWVl (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Dec 2018 17:21:41 -0500
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Thierry Reding <thierry.reding@gmail.com>,
@@ -32,19 +32,19 @@ Cc:     Mathieu Malaterre <malat@debian.org>,
         linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org, od@zcrc.me,
         Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v8 21/26] MIPS: CI20: Reduce system timer and clocksource to 3 MHz
-Date:   Wed, 12 Dec 2018 23:12:26 +0100
-Message-Id: <20181212221226.19194-1-paul@crapouillou.net>
+Subject: [PATCH v8 22/26] MIPS: CI20: defconfig: enable OST driver
+Date:   Wed, 12 Dec 2018 23:12:41 +0100
+Message-Id: <20181212221241.19256-1-paul@crapouillou.net>
 In-Reply-To: <20181212220922.18759-1-paul@crapouillou.net>
 References: <20181212220922.18759-1-paul@crapouillou.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1544652755; bh=oMxZ6AwauCwPGsEAXokGRL6V/FQaYp9ZahPHDS7nrKo=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=t8KzJrHq+2ZR2G2DOX5KTMZzcjnC+bKffuxVOzZXPlMhB4Hja/M4bX1EjxxgMWdVZRb5Ms/sQ8XfbFMLFvs1CmiU4GjREzHLZDSYR7aWWEEayMewk55SD7p8vCsveT5U3VGwKKSHPBoPa7u786BmBlOazCoZFq02VdCDZh5hInM=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1544652765; bh=zdvPHIApC4MbQrLaHzcOb42zcFNS04FyWnT3qIfxq7Y=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=P6DTTi+pBq/RHiQ3mSm/EDuOWvA5EDQLg3zVvzl0C5UjOelO6BnasrydlPnwDriFMwogGgFDE3n6E1cHR8GnmuwxiIkJS0kEf6+mRbMKhGCjJaknKVA3XjmHLTnhsZ3b9W2vg9qse9U0BkoZsHlcjjMlvcaMoBXXgltdlYtrB5g=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The default clock (48 MHz) is too fast for the system timer, which fails
-to report time accurately.
+The OST driver provides a clocksource and sched_clock that are much more
+accurate than the default ones.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
@@ -52,29 +52,27 @@ Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 Notes:
      v5: New patch
     
-     v6: Set also the rate for the clocksource channel's clock
+     v6: No change
     
      v7: No change
 
      v8: No change
 
- arch/mips/boot/dts/ingenic/ci20.dts | 6 ++++++
- 1 file changed, 6 insertions(+)
+ arch/mips/configs/ci20_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/mips/boot/dts/ingenic/ci20.dts b/arch/mips/boot/dts/ingenic/ci20.dts
-index 50cff3cbcc6d..f64d32443097 100644
---- a/arch/mips/boot/dts/ingenic/ci20.dts
-+++ b/arch/mips/boot/dts/ingenic/ci20.dts
-@@ -238,3 +238,9 @@
- 		bias-disable;
- 	};
- };
-+
-+&tcu {
-+	/* 3 MHz for the system timer and clocksource */
-+	assigned-clocks = <&tcu TCU_CLK_TIMER0>, <&tcu TCU_CLK_TIMER1>;
-+	assigned-clock-rates = <3000000>, <3000000>;
-+};
+diff --git a/arch/mips/configs/ci20_defconfig b/arch/mips/configs/ci20_defconfig
+index 030ff9c205fb..9b09b9a7f943 100644
+--- a/arch/mips/configs/ci20_defconfig
++++ b/arch/mips/configs/ci20_defconfig
+@@ -111,6 +111,7 @@ CONFIG_RTC_CLASS=y
+ CONFIG_RTC_DRV_JZ4740=y
+ CONFIG_DMADEVICES=y
+ CONFIG_DMA_JZ4780=y
++CONFIG_INGENIC_OST=y
+ # CONFIG_IOMMU_SUPPORT is not set
+ CONFIG_MEMORY=y
+ CONFIG_EXT4_FS=y
 -- 
 2.11.0
 
