@@ -1,165 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,UPPERCASE_50_75 autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C73C97D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 17:49:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 56F987D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 22:14:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727983AbeLLRtG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Dec 2018 12:49:06 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:55140 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727808AbeLLRtG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Dec 2018 12:49:06 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 85004A4058;
-        Wed, 12 Dec 2018 17:49:05 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.131])
-        by smtp.corp.redhat.com (Postfix) with SMTP id B19F75D73F;
-        Wed, 12 Dec 2018 17:49:03 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Wed, 12 Dec 2018 18:49:05 +0100 (CET)
-Date:   Wed, 12 Dec 2018 18:49:02 +0100
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Roman Gushchin <guro@fb.com>
-Cc:     Roman Gushchin <guroan@gmail.com>, Tejun Heo <tj@kernel.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Kernel Team <Kernel-team@fb.com>
-Subject: Re: [PATCH v5 4/7] cgroup: cgroup v2 freezer
-Message-ID: <20181212174902.GA30309@redhat.com>
-References: <20181207201531.1665-1-guro@fb.com>
- <20181207201531.1665-5-guro@fb.com>
- <20181211162632.GB8504@redhat.com>
- <20181211184033.GA8971@tower.DHCP.thefacebook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181211184033.GA8971@tower.DHCP.thefacebook.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Wed, 12 Dec 2018 17:49:05 +0000 (UTC)
+        id S1726973AbeLLWOo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Dec 2018 17:14:44 -0500
+Received: from outils.crapouillou.net ([89.234.176.41]:38382 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726294AbeLLWOo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Dec 2018 17:14:44 -0500
+X-Greylist: delayed 307 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Dec 2018 17:14:41 EST
+From:   Paul Cercueil <paul@crapouillou.net>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mathieu Malaterre <malat@debian.org>,
+        Ezequiel Garcia <ezequiel@collabora.co.uk>,
+        PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>,
+        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-clk@vger.kernel.org, od@zcrc.me,
+        Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH v8 25/26] MIPS: GCW0: defconfig: Enable OST, watchdog, PWM drivers
+Date:   Wed, 12 Dec 2018 23:14:35 +0100
+Message-Id: <20181212221436.19613-1-paul@crapouillou.net>
+In-Reply-To: <20181212220922.18759-1-paul@crapouillou.net>
+References: <20181212220922.18759-1-paul@crapouillou.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1544652880; bh=F0LbjVzBTEYaaS03XKu2WMbo0Fth1wF9oOHlv1RuWS4=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=I7wcRKRPclD3TRNJLDjbL+gWSdf0Uv+jv1nVr0cUxlgshyUwRqH//zVceC00mijvRwoioocu7aqpwBvONeeiz/7fcnwunlOqu1QkM3TeSmdK8P1FpPRXhnn0qh4QuGjUTBUL8MbC1flvUYy82DFcUYe9U+iztymKwhjMacEdH4k=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/11, Roman Gushchin wrote:
->
-> On Tue, Dec 11, 2018 at 05:26:32PM +0100, Oleg Nesterov wrote:
-> > On 12/07, Roman Gushchin wrote:
-> > >
-> > > Cgroup v2 freezer tries to put tasks into a state similar to jobctl
-> > > stop. This means that tasks can be killed, ptraced (using
-> > > PTRACE_SEIZE*), and interrupted. It is possible to attach to
-> > > a frozen task, get some information (e.g. read registers) and detach.
-> >
-> > I fail to understand how this all supposed to work.
-> >
-> > > @@ -368,6 +369,8 @@ static inline int signal_pending_state(long state, struct task_struct *p)
-> > >  		return 0;
-> > >  	if (!signal_pending(p))
-> > >  		return 0;
-> > > +	if (unlikely(cgroup_task_frozen(p) && p->jobctl == JOBCTL_TRAP_FREEZE))
-> > > +		return __fatal_signal_pending(p);
-> >
-> > I think I will never agree with this change ;) and I don't think it actually helps.
->
-> See below.
->
-> >
-> > > +void cgroup_enter_frozen(void)
-> > > +{
-> > > +	if (!current->frozen) {
-> > > +		spin_lock_irq(&css_set_lock);
-> > > +		current->frozen = true;
-> > > +		cgroup_inc_frozen_cnt(task_dfl_cgroup(current), false, true);
-> > > +		spin_unlock_irq(&css_set_lock);
-> > > +	}
-> > > +
-> > > +	__set_current_state(TASK_INTERRUPTIBLE);
-> > > +	schedule();
-> >
-> > So once again, suppose it races with PTRACE_INTERRUPT, or SIGSTOP, or something
-> > else which should be handled by get_signal() before do_freezer_trap().
-> >
-> > If (say) PTRACE_INTERRUPT comes before schedule it will be lost. Otherwise
-> > the frozen task will react. This can't be right. Or I am totally confused.
->
-> Why?
-> PTRACE_INTERRUPT will set JOBCTL_TRAP_STOP, so signal_pending_state()
-> will return true, schedule() will return immediately, and we'll handle the trap.
+The OST driver provides a clocksource and sched_clock that are much more
+accurate than the default ones.
 
-OK, I misread the JOBCTL_TRAP_FREEZE check as "jobctl & JOBCTL_TRAP_FREEZE".
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+---
 
-But p->jobctl == JOBCTL_TRAP_FREEZE doesn't look right too. For example,
-JOBCTL_STOP_DEQUEUED can be set. You probably need something like
+Notes:
+     v8: New patch
 
-	jobctl & (JOBCTL_PENDING_MASK | JOBCTL_TRAP_FREEZE) == JOBCTL_TRAP_FREEZE
+ arch/mips/configs/gcw0_defconfig | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-And you need a barrier in between, iow you need set_current_state(TASK_INTERRUPTIBLE).
-
-But this doesn't really matter. I don't think you need to modify signal_pending_state()
-and penalize schedule(). You can do something like
-
-	spin_lock_irq(sigllock);
-	if (jobctl & (JOBCTL_PENDING_MASK | JOBCTL_TRAP_FREEZE) == JOBCTL_TRAP_FREEZE &&
-	    !__fatal_signal_pending())
-	{
-		__set_current_state(TASK_INTERRUPTIBLE);
-		clear_thread_flag(TIF_SIGPENDING);
-	}
-	spin_unlock_irq(siglock);
-
-	schedule();
-	// recalc_sigpending() is not needed
-
-in cgroup_enter_frozen() with the same effect. Which looks equally ugly and
-suboptimal, but at least this doesn't touch the sched code.
-
-> > and btw.... what about suspend? try_to_freeze_tasks() will obviously fail
-> > if there is a ->frozen thread?
->
-> I have to think a bit more here, but something like this will probably work:
->
-> diff --git a/kernel/freezer.c b/kernel/freezer.c
-> index b162b74611e4..590ac4d10b02 100644
-> --- a/kernel/freezer.c
-> +++ b/kernel/freezer.c
-> @@ -134,7 +134,7 @@ bool freeze_task(struct task_struct *p)
->                 return false;
->
->         spin_lock_irqsave(&freezer_lock, flags);
-> -       if (!freezing(p) || frozen(p)) {
-> +       if (!freezing(p) || frozen(p) || cgroup_task_frozen()) {
->                 spin_unlock_irqrestore(&freezer_lock, flags);
->                 return false;
->         }
->
-> --
->
-> If the task is already frozen by the cgroup freezer, we don't have to do
-> anything additionally.
-
-I don't think so. A cgroup_task_frozen() task can be killed after
-try_to_freeze_tasks() succeeds, and the exiting task can close files,
-do IO, etc. Or it can be thawed by cgroup_freeze_task(false).
-
-In short, if try_to_freeze_tasks() succeeds, the caller has all rights
-to assume that nobody can escape from __refrigerator().
-
-
-And what about TASK_STOPPED/TASK_TRACED tasks? They can not be frozen
-or thawed, right? This doesn't look good, and this differs from the
-current freezer controller...
-
-Oleg.
+diff --git a/arch/mips/configs/gcw0_defconfig b/arch/mips/configs/gcw0_defconfig
+index 99ac1fa3b35f..7116400e8cbf 100644
+--- a/arch/mips/configs/gcw0_defconfig
++++ b/arch/mips/configs/gcw0_defconfig
+@@ -1,14 +1,14 @@
++CONFIG_NO_HZ_IDLE=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_PREEMPT_VOLUNTARY=y
++CONFIG_EMBEDDED=y
+ CONFIG_MACH_INGENIC=y
+ CONFIG_JZ4770_GCW0=y
+ CONFIG_HIGHMEM=y
+-# CONFIG_BOUNCE is not set
+-CONFIG_PREEMPT_VOLUNTARY=y
+ # CONFIG_SECCOMP is not set
+-CONFIG_NO_HZ_IDLE=y
+-CONFIG_HIGH_RES_TIMERS=y
+-CONFIG_EMBEDDED=y
+-# CONFIG_BLK_DEV_BSG is not set
+ # CONFIG_SUSPEND is not set
++# CONFIG_BLK_DEV_BSG is not set
++# CONFIG_BOUNCE is not set
+ CONFIG_NET=y
+ CONFIG_PACKET=y
+ CONFIG_UNIX=y
+@@ -20,8 +20,13 @@ CONFIG_SERIAL_8250=y
+ # CONFIG_SERIAL_8250_DEPRECATED_OPTIONS is not set
+ CONFIG_SERIAL_8250_CONSOLE=y
+ CONFIG_SERIAL_8250_INGENIC=y
++CONFIG_WATCHDOG=y
++CONFIG_JZ4740_WDT=y
+ CONFIG_USB=y
+ CONFIG_USB_OHCI_HCD=y
+ CONFIG_USB_OHCI_HCD_PLATFORM=y
+ CONFIG_NOP_USB_XCEIV=y
++CONFIG_INGENIC_OST=y
++CONFIG_PWM=y
++CONFIG_PWM_JZ4740=y
+ CONFIG_TMPFS=y
+-- 
+2.11.0
 
