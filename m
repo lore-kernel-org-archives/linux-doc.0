@@ -2,104 +2,168 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5E6127D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 16:27:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 357A67D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 17:01:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726922AbeLLQ1c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Dec 2018 11:27:32 -0500
-Received: from mga09.intel.com ([134.134.136.24]:15352 "EHLO mga09.intel.com"
+        id S1727900AbeLLRBU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Dec 2018 12:01:20 -0500
+Received: from foss.arm.com ([217.140.101.70]:45420 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726358AbeLLQ1b (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Dec 2018 11:27:31 -0500
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Dec 2018 08:27:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,344,1539673200"; 
-   d="asc'?scan'208";a="283032975"
-Received: from jtkirshe-desk1.jf.intel.com ([134.134.177.96])
-  by orsmga005.jf.intel.com with ESMTP; 12 Dec 2018 08:27:31 -0800
-Message-ID: <1f0fdfbc345052633adae5f2adc41324c962bca1.camel@intel.com>
-Subject: Re: [PATCH] docs/networking: fix formatting of Intel drivers
- documentation
-From:   Jeff Kirsher <jeffrey.t.kirsher@intel.com>
-Reply-To: jeffrey.t.kirsher@intel.com
-To:     David Miller <davem@davemloft.net>, rppt@linux.ibm.com
-Cc:     corbet@lwn.net, netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Date:   Wed, 12 Dec 2018 08:28:00 -0800
-In-Reply-To: <20181211.225049.1058545043529020701.davem@davemloft.net>
-References: <1544371791-31192-1-git-send-email-rppt@linux.ibm.com>
-         <20181211.225049.1058545043529020701.davem@davemloft.net>
-Organization: Intel
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-v9U6KiVK+gaCKQbujl1T"
-User-Agent: Evolution 3.30.3 (3.30.3-1.fc29) 
-Mime-Version: 1.0
+        id S1726358AbeLLRBT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Dec 2018 12:01:19 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 38D4A80D;
+        Wed, 12 Dec 2018 09:01:19 -0800 (PST)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EDEF63F575;
+        Wed, 12 Dec 2018 09:01:14 -0800 (PST)
+Date:   Wed, 12 Dec 2018 17:01:12 +0000
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Evgeniy Stepanov <eugenis@google.com>
+Subject: Re: [PATCH v9 0/8] arm64: untag user pointers passed to the kernel
+Message-ID: <20181212170108.GZ3505@e103592.cambridge.arm.com>
+References: <cover.1544445454.git.andreyknvl@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1544445454.git.andreyknvl@google.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Dec 10, 2018 at 01:50:57PM +0100, Andrey Konovalov wrote:
+> arm64 has a feature called Top Byte Ignore, which allows to embed pointer
+> tags into the top byte of each pointer. Userspace programs (such as
+> HWASan, a memory debugging tool [1]) might use this feature and pass
+> tagged user pointers to the kernel through syscalls or other interfaces.
+> 
+> Right now the kernel is already able to handle user faults with tagged
+> pointers, due to these patches:
+> 
+> 1. 81cddd65 ("arm64: traps: fix userspace cache maintenance emulation on a
+>              tagged pointer")
+> 2. 7dcd9dd8 ("arm64: hw_breakpoint: fix watchpoint matching for tagged
+>               pointers")
+> 3. 276e9327 ("arm64: entry: improve data abort handling of tagged
+>               pointers")
+> 
+> When passing tagged pointers to syscalls, there's a special case of such a
+> pointer being passed to one of the memory syscalls (mmap, mprotect, etc.).
+> These syscalls don't do memory accesses but rather deal with memory
+> ranges, hence an untagged pointer is better suited.
+> 
+> This patchset extends tagged pointer support to non-memory syscalls. This
+> is done by reusing the untagged_addr macro to untag user pointers when the
+> kernel performs pointer checking to find out whether the pointer comes
+> from userspace (most notably in access_ok). The untagging is done only
+> when the pointer is being checked, the tag is preserved as the pointer
+> makes its way through the kernel.
+> 
+> One of the alternative approaches to untagging that was considered is to
+> completely strip the pointer tag as the pointer enters the kernel with
+> some kind of a syscall wrapper, but that won't work with the countless
+> number of different ioctl calls. With this approach we would need a custom
+> wrapper for each ioctl variation, which doesn't seem practical.
+> 
+> The following testing approaches has been taken to find potential issues
+> with user pointer untagging:
+> 
+> 1. Static testing (with sparse [2] and separately with a custom static
+>    analyzer based on Clang) to track casts of __user pointers to integer
+>    types to find places where untagging needs to be done.
+> 
+> 2. Dynamic testing: adding BUG_ON(has_tag(addr)) to find_vma() and running
+>    a modified syzkaller version that passes tagged pointers to the kernel.
+> 
+> Based on the results of the testing the requried patches have been added
+> to the patchset.
+> 
+> This patchset has been merged into the Pixel 2 kernel tree and is now
+> being used to enable testing of Pixel 2 phones with HWASan.
 
---=-v9U6KiVK+gaCKQbujl1T
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Do you have an idea of how much of the user/kernel interface is covered
+by this workload?
 
-On Tue, 2018-12-11 at 22:50 -0800, David Miller wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
-> Date: Sun,  9 Dec 2018 18:09:51 +0200
->=20
-> > The documentation of Intel drivers is missing the heading adornment
-> > for
-> > document titles.
-> >=20
-> > This causes the generated html to have TOC entries from these
-> > documents to
-> > appear as top level TOC entries:
-> >=20
-> > * Linux* Base Driver for Intel(R) Ethernet Network Connection
-> > * Contents
-> > * Identifying Your Adapter
-> > * Command Line Parameters
-> >   * AutoNeg
-> >   * Duplex
-> >   ...
-> >=20
-> > Add overline heading adornment to document titles.
-> >=20
-> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
->=20
-> Jeff, I am assuming you picked this up.
->=20
-> Let me know if you haven't and you want me to integrate it.
+> This patchset is a prerequisite for ARM's memory tagging hardware feature
+> support [3].
 
-I got it covered, thanks!
+It looks like there's been a lot of progress made here towards smoking
+out most of the sites in the kernel where pointers need to be untagged.
 
---=-v9U6KiVK+gaCKQbujl1T
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+However, I do think that we need a clear policy for how existing kernel
+interfaces are to be interpreted in the presence of tagged pointers.
+Unless we have that nailed down, we are likely to be able to make only
+vague guarantees to userspace about what works, and the ongoing risk
+of ABI regressions and inconsistencies seems high.
 
------BEGIN PGP SIGNATURE-----
+I don't really see how we can advertise a full system interface if we
+know some subset of it doesn't work for foreseeable userspace
+environments.  I feel that presenting the current changes as an ABI
+relaxation may be a recipe for future problems, since the forwards
+compatibility guarantees we're able to make today are few and rather
+vague.
 
-iQIzBAABCAAdFiEEiTyZWz+nnTrOJ1LZ5W/vlVpL7c4FAlwRNxAACgkQ5W/vlVpL
-7c4UhA/9EXuylAdB8zh57fOKOm3s420IgTtIrTe3hVAecCVoh7zQr38mbn61dCVm
-8xyZ5qTy354YJhJSygu5C+TUQwCGSLh788VLGtrkUijoBmZPQOH4S8Rs9bnFlE3C
-1hgBTYUJq4QFZQsjhcVYu9oSYJhOLGmAPpMYecbjuRnH76w4glnSCZhWsBk+0+CV
-RA3qAlq/QXd5HFq9wZJlxD4aAsx/id1J/xsGXi7bzGyQTnCnPCEKhAY94X31Wd3v
-+6WSxKJdup56JtSzLE3TDwY0l+4ZDe3h+jKkbtgfZNKNgXsT69Yp9bznbjNVcXmP
-ck5TPpXxxQsyDgjgx33WC7OtAyQ+u7mNol9Ir4LiP+4mtEPBdYu+hAXF62TSOcjF
-QkrQJlOEx6VWOztvhH+SpPK6fWu2K6tlKbQ7etNNzc8/prdgTWsWemyYXHFaSiDr
-hv2zl6FIs29o3eoAtXGTwiUrvMPPpEnWeDZnOXRyWb3gyN+f0zwBwb0Pa/y50wBb
-PYNkefwbHFluL0rD4dJJDHLktGzzobXx2e+MaS3PMiLVVZVgvJHeYDFkWx+YN+JK
-4d1G9ALxW4AvVHPWkyVONtb9cfNE0b5aHJ0jQQxs5NbUspYeAFoLNLEu3SZr5HeY
-oE4Q0CLJc2LgEHnuzNk5WCtHs09TcGre3hTJe/spukJzdjV+A0o=
-=DhcH
------END PGP SIGNATURE-----
+Can we define an opt-in for tagged-pointer userspace, that rejects all
+syscalls that we haven't checked and whitelisted (or that are
+uncheckable like ioctl)?  This reflects the reality that we don't have
+a regular userspace environment in which standards-compliant software
+that uses address tags in a reasonable way will just work.
 
---=-v9U6KiVK+gaCKQbujl1T--
+It might be feasible to promote this to be enabled by default later on,
+if it becomes sufficiently complete.
 
+
+In the meantime, I think we really need to nail down the kernel's
+policies on
+
+ * in the default configuration (without opt-in), is the presence of
+non-address bits in pointers exchanged with the kernel simply
+considered broken?  (Even with this series, the de factor answer
+generally seems to be "yes", although many specific things will now
+work fine)
+
+ * if not, how do we tighten syscall / interface specifications to
+describe what happens with pointers containing non-address bits, while
+keeping the existing behaviour for untagged pointers?
+
+We would want a general recipe that gives clear guidance on what
+userspace should expect an arbitrarily chosen syscall to do with its
+pointers, without having to enumerate each and every case.
+
+To be sustainable, we would also need to solve that in a way that
+doesn't need to be reintented per-arch.
+
+
+There may already be some background on these topics -- can you throw me
+a link if so?
+
+Cheers
+---Dave
