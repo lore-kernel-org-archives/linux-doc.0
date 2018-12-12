@@ -1,68 +1,83 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 580FA7D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 06:50:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7649F7D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 09:46:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726468AbeLLGuu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Dec 2018 01:50:50 -0500
-Received: from shards.monkeyblade.net ([23.128.96.9]:51248 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726428AbeLLGuu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Dec 2018 01:50:50 -0500
-Received: from localhost (unknown [IPv6:2601:601:9f80:35cd::bf5])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 4E6961456EE6D;
-        Tue, 11 Dec 2018 22:50:50 -0800 (PST)
-Date:   Tue, 11 Dec 2018 22:50:49 -0800 (PST)
-Message-Id: <20181211.225049.1058545043529020701.davem@davemloft.net>
-To:     rppt@linux.ibm.com
-Cc:     jeffrey.t.kirsher@intel.com, corbet@lwn.net,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs/networking: fix formatting of Intel drivers
- documentation
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <1544371791-31192-1-git-send-email-rppt@linux.ibm.com>
-References: <1544371791-31192-1-git-send-email-rppt@linux.ibm.com>
-X-Mailer: Mew version 6.8 on Emacs 26.1
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Tue, 11 Dec 2018 22:50:50 -0800 (PST)
+        id S1726697AbeLLJqV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Dec 2018 04:46:21 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:56498 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726651AbeLLJqU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Dec 2018 04:46:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=s/qc4uW6NBXupLnXJsYLmAJxT6wemoTcD/fG8c6HBDk=; b=YHlZvmttLn0SZ+bTZfk18C8Us
+        nF/7C2fZhSrm+8PAjR1HnnY+qwCFohUlwSSiEhQY163EtRfRABTac2c+oIf710ObiC8SmDD1yyDIW
+        DBaWmfZp0/G285HU560qki4wSbIYKBY6jwd7JiJJ9Z+Gdzq/CSFodKdRBTweGZe/NTEiLhtnbC08s
+        Fz5jVYvldVCvw/vQCrQ4uzvS0s/K6wX0goFF3WfqBFkjYnVKMY2Tsd+f+Pu7TRBiZN13yLUcjZ1mg
+        3kzpmxhZK4xiKTtsr7Cb7MNETvFJdx0DJd2xAHiUJ/OvfU8TiL04Iw7kB7WtcreZUc+Xg2roJXlFZ
+        ygJSTABGg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gX15n-0006mR-Lm; Wed, 12 Dec 2018 09:46:11 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 360082075BF39; Wed, 12 Dec 2018 10:46:10 +0100 (CET)
+Date:   Wed, 12 Dec 2018 10:46:10 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Doug Smythies <dsmythies@telus.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Giovanni Gherdovich <ggherdovich@suse.cz>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Subject: Re: [PATCH v2] cpuidle: Add 'above' and 'below' idle state metrics
+Message-ID: <20181212094610.GW5289@hirez.programming.kicks-ass.net>
+References: <3514439.dzOWKx1Cjx@aspire.rjw.lan>
+ <20181210122104.GL5289@hirez.programming.kicks-ass.net>
+ <CAJZ5v0j-a6cHayRtcsUPbUTBT0iBSUvmcUy6pfSSvUVcTMBxbw@mail.gmail.com>
+ <20181210225134.GB24811@worktop.programming.kicks-ass.net>
+ <CAJZ5v0jvbDCCgy=nUfb-yZCYGOxe4-XexbvnmeBm8ZPDPBaK4w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJZ5v0jvbDCCgy=nUfb-yZCYGOxe4-XexbvnmeBm8ZPDPBaK4w@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mike Rapoport <rppt@linux.ibm.com>
-Date: Sun,  9 Dec 2018 18:09:51 +0200
+On Tue, Dec 11, 2018 at 10:51:48AM +0100, Rafael J. Wysocki wrote:
+> On Mon, Dec 10, 2018 at 11:51 PM Peter Zijlstra <peterz@infradead.org> wrote:
 
-> The documentation of Intel drivers is missing the heading adornment for
-> document titles.
+> > Dunno; it could be cold cachelines, at which point it can be fairly
+> > expensive. Also, being stuck with API is fairly horrible if you want to
+> > 'fix' it.
 > 
-> This causes the generated html to have TOC entries from these documents to
-> appear as top level TOC entries:
+> All of the cache lines involved should've been touched earlier in this
+> code path by the governor.  At least menu and the new one both touch
+> them.
 > 
-> * Linux* Base Driver for Intel(R) Ethernet Network Connection
-> * Contents
-> * Identifying Your Adapter
-> * Command Line Parameters
->   * AutoNeg
->   * Duplex
->   ...
-> 
-> Add overline heading adornment to document titles.
-> 
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> The API part I'm not too worried about.  I know it is useful and two
+> other people have told that to me already. :-)
 
-Jeff, I am assuming you picked this up.
+Like said on IRC; I mostly wanted to raise the issue of overhead due to
+stats and ABI -- it's something I've been bitten by too many times :/
 
-Let me know if you haven't and you want me to integrate it.
+If you're confident you're hitting the same lines with the already
+extant accouning (time and usage) and you cannot make the whole lot
+conditional because of ABI (bah) then I'll not stand in the way here.
 
-Thanks.
+I agree the numbers are useful, I'm just weary of overhead.
