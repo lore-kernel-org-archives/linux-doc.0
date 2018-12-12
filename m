@@ -3,17 +3,17 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C8BA87DD2A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 22:16:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8E6F57D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 22:18:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728526AbeLLWQl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Dec 2018 17:16:41 -0500
-Received: from outils.crapouillou.net ([89.234.176.41]:40640 "EHLO
+        id S1728685AbeLLWQ5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Dec 2018 17:16:57 -0500
+Received: from outils.crapouillou.net ([89.234.176.41]:40776 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728520AbeLLWQl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Dec 2018 17:16:41 -0500
+        with ESMTP id S1728629AbeLLWQ4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Dec 2018 17:16:56 -0500
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -32,48 +32,96 @@ Cc:     Mathieu Malaterre <malat@debian.org>,
         linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org, od@zcrc.me,
         Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v8 17/26] MIPS: Kconfig: Select TCU timer driver when MACH_INGENIC is set
-Date:   Wed, 12 Dec 2018 23:09:12 +0100
-Message-Id: <20181212220922.18759-18-paul@crapouillou.net>
+Subject: [PATCH v8 15/26] pwm: jz4740: Add support for the JZ4725B
+Date:   Wed, 12 Dec 2018 23:09:10 +0100
+Message-Id: <20181212220922.18759-16-paul@crapouillou.net>
 In-Reply-To: <20181212220922.18759-1-paul@crapouillou.net>
 References: <20181212220922.18759-1-paul@crapouillou.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1544652604; bh=vs8N331qXksxHhjH5xUZb03cPmLn0oXTiqu92bKldBc=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=V10lY1wNbhR9V0Y4cLa8raPsD84wA7Sa0Bi5q6tPqpqRNc8HfcXax9yRmkg+bdR69Fk1Xs6fyrVSUF0asEa/w9ZXFxanHytmrTBZ9LrqVzWZl3y+uHHKWY4IMORrovRQEm9lEbiwboyooc6t7wagwAaLRkjsrzkdRviwNuTPL2A=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1544652601; bh=ptH1zBuWIb5CX5KHiI5O9NVkaP83AWNLOKEvmZk/hc4=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=KOU9cIK9qCDtAPM2qQXMmBqHEfAzExSlIJ7pxm6eXnZKXTyPjhlV5xGwUJMDYDVUGU53GO3tHjZXx2kIuM8XzcuJmeqvwP8RsPzZjX6C5uXNYiVo1k+noiYg9RAbsL/iWp9iicx+RIaSrLNamqlE7sg9Jc1yVKxdXZ4XJQaPeNU=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We cannot boot to userspace (not even initramfs) if the timer driver is
-not present; so it makes sense to enable it unconditionally when
-MACH_INGENIC is set.
+The PWM in the JZ4725B works the same as in the JZ4740, except that it
+only has 6 channels available instead of 8.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Acked-by: Thierry Reding <thierry.reding@gmail.com>
 ---
 
 Notes:
      v5: New patch
     
-     v6: No change
+     v6: - Move of_device_id structure back at the bottom (less noise in
+           patch)
+         - Use device_get_match_data() instead of of_* variant
     
      v7: No change
 
      v8: No change
 
- arch/mips/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/pwm/pwm-jz4740.c | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
-diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
-index 8272ea4c7264..8bd53a4e871b 100644
---- a/arch/mips/Kconfig
-+++ b/arch/mips/Kconfig
-@@ -390,6 +390,7 @@ config MACH_INGENIC
- 	select BUILTIN_DTB
- 	select USE_OF
- 	select LIBFDT
-+	select INGENIC_TIMER
+diff --git a/drivers/pwm/pwm-jz4740.c b/drivers/pwm/pwm-jz4740.c
+index cb8d8cec353f..a3a8da8af0de 100644
+--- a/drivers/pwm/pwm-jz4740.c
++++ b/drivers/pwm/pwm-jz4740.c
+@@ -24,6 +24,10 @@
  
- config LANTIQ
- 	bool "Lantiq based platforms"
+ #define NUM_PWM 8
+ 
++struct jz4740_soc_info {
++	unsigned int num_pwms;
++};
++
+ struct jz4740_pwm_chip {
+ 	struct pwm_chip chip;
+ 	struct clk *clks[NUM_PWM];
+@@ -217,9 +221,14 @@ static const struct pwm_ops jz4740_pwm_ops = {
+ 
+ static int jz4740_pwm_probe(struct platform_device *pdev)
+ {
++	const struct jz4740_soc_info *soc_info;
+ 	struct jz4740_pwm_chip *jz4740;
+ 	struct device *dev = &pdev->dev;
+ 
++	soc_info = device_get_match_data(dev);
++	if (!soc_info)
++		return -EINVAL;
++
+ 	jz4740 = devm_kzalloc(dev, sizeof(*jz4740), GFP_KERNEL);
+ 	if (!jz4740)
+ 		return -ENOMEM;
+@@ -238,7 +247,7 @@ static int jz4740_pwm_probe(struct platform_device *pdev)
+ 
+ 	jz4740->chip.dev = dev;
+ 	jz4740->chip.ops = &jz4740_pwm_ops;
+-	jz4740->chip.npwm = NUM_PWM;
++	jz4740->chip.npwm = soc_info->num_pwms;
+ 	jz4740->chip.base = -1;
+ 	jz4740->chip.of_xlate = of_pwm_xlate_with_flags;
+ 	jz4740->chip.of_pwm_n_cells = 3;
+@@ -256,8 +265,17 @@ static int jz4740_pwm_remove(struct platform_device *pdev)
+ }
+ 
+ #ifdef CONFIG_OF
++static const struct jz4740_soc_info jz4740_soc_info = {
++	.num_pwms = 8,
++};
++
++static const struct jz4740_soc_info jz4725b_soc_info = {
++	.num_pwms = 6,
++};
++
+ static const struct of_device_id jz4740_pwm_dt_ids[] = {
+-	{ .compatible = "ingenic,jz4740-pwm", },
++	{ .compatible = "ingenic,jz4740-pwm", .data = &jz4740_soc_info },
++	{ .compatible = "ingenic,jz4725b-pwm", .data = &jz4725b_soc_info },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, jz4740_pwm_dt_ids);
 -- 
 2.11.0
 
