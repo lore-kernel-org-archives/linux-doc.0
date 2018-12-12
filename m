@@ -5,15 +5,15 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DB1AA7DD2A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 22:20:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9E5D57D8A3
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 22:23:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728470AbeLLWTl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Dec 2018 17:19:41 -0500
-Received: from outils.crapouillou.net ([89.234.176.41]:40650 "EHLO
+        id S1728444AbeLLWVl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Dec 2018 17:21:41 -0500
+Received: from outils.crapouillou.net ([89.234.176.41]:44942 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728521AbeLLWQm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Dec 2018 17:16:42 -0500
+        with ESMTP id S1728393AbeLLWVl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Dec 2018 17:21:41 -0500
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -32,69 +32,49 @@ Cc:     Mathieu Malaterre <malat@debian.org>,
         linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org, od@zcrc.me,
         Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v8 01/26] dt-bindings: ingenic: Add DT bindings for TCU clocks
-Date:   Wed, 12 Dec 2018 23:08:56 +0100
-Message-Id: <20181212220922.18759-2-paul@crapouillou.net>
+Subject: [PATCH v8 21/26] MIPS: CI20: Reduce system timer and clocksource to 3 MHz
+Date:   Wed, 12 Dec 2018 23:12:26 +0100
+Message-Id: <20181212221226.19194-1-paul@crapouillou.net>
 In-Reply-To: <20181212220922.18759-1-paul@crapouillou.net>
 References: <20181212220922.18759-1-paul@crapouillou.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1544652574; bh=jDjeSp9zB/3eH+mPAvg15webR0kBtHrBWa1POnLOpwU=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=k8BK+uHILIsY7vy5AKwAXE7TjXEq7M7sPBBFCsSRLB7W4btA9sE1szF1ZtUc/zhgOWXYUuwrGf6H+ZMj9eZO4anoj9XoUn5gTcpPJR+EUvMFtWIxICZCcg4Kd5PCgTrCtc1NCksKOgFSO6ZudXkJKTD8der+2R0ixYosHi87Zjo=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1544652755; bh=oMxZ6AwauCwPGsEAXokGRL6V/FQaYp9ZahPHDS7nrKo=; h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=t8KzJrHq+2ZR2G2DOX5KTMZzcjnC+bKffuxVOzZXPlMhB4Hja/M4bX1EjxxgMWdVZRb5Ms/sQ8XfbFMLFvs1CmiU4GjREzHLZDSYR7aWWEEayMewk55SD7p8vCsveT5U3VGwKKSHPBoPa7u786BmBlOazCoZFq02VdCDZh5hInM=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This header provides clock numbers for the ingenic,tcu
-DT binding.
+The default clock (48 MHz) is too fast for the system timer, which fails
+to report time accurately.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 
 Notes:
-     v2: Use SPDX identifier for the license
+     v5: New patch
     
-     v3: No change
-    
-     v4: No change
-    
-     v5: s/JZ47*_/TCU_/ and dropped *_CLK_LAST defines
-    
-     v6: No change
+     v6: Set also the rate for the clocksource channel's clock
     
      v7: No change
 
      v8: No change
 
- include/dt-bindings/clock/ingenic,tcu.h | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
- create mode 100644 include/dt-bindings/clock/ingenic,tcu.h
+ arch/mips/boot/dts/ingenic/ci20.dts | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/include/dt-bindings/clock/ingenic,tcu.h b/include/dt-bindings/clock/ingenic,tcu.h
-new file mode 100644
-index 000000000000..d569650a7945
---- /dev/null
-+++ b/include/dt-bindings/clock/ingenic,tcu.h
-@@ -0,0 +1,20 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * This header provides clock numbers for the ingenic,tcu DT binding.
-+ */
+diff --git a/arch/mips/boot/dts/ingenic/ci20.dts b/arch/mips/boot/dts/ingenic/ci20.dts
+index 50cff3cbcc6d..f64d32443097 100644
+--- a/arch/mips/boot/dts/ingenic/ci20.dts
++++ b/arch/mips/boot/dts/ingenic/ci20.dts
+@@ -238,3 +238,9 @@
+ 		bias-disable;
+ 	};
+ };
 +
-+#ifndef __DT_BINDINGS_CLOCK_INGENIC_TCU_H__
-+#define __DT_BINDINGS_CLOCK_INGENIC_TCU_H__
-+
-+#define TCU_CLK_TIMER0	0
-+#define TCU_CLK_TIMER1	1
-+#define TCU_CLK_TIMER2	2
-+#define TCU_CLK_TIMER3	3
-+#define TCU_CLK_TIMER4	4
-+#define TCU_CLK_TIMER5	5
-+#define TCU_CLK_TIMER6	6
-+#define TCU_CLK_TIMER7	7
-+#define TCU_CLK_WDT	8
-+#define TCU_CLK_OST	9
-+
-+#endif /* __DT_BINDINGS_CLOCK_INGENIC_TCU_H__ */
++&tcu {
++	/* 3 MHz for the system timer and clocksource */
++	assigned-clocks = <&tcu TCU_CLK_TIMER0>, <&tcu TCU_CLK_TIMER1>;
++	assigned-clock-rates = <3000000>, <3000000>;
++};
 -- 
 2.11.0
 
