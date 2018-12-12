@@ -2,246 +2,164 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 89E207D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 17:35:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C73C97D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 17:49:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728203AbeLLRfG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Dec 2018 12:35:06 -0500
-Received: from foss.arm.com ([217.140.101.70]:46150 "EHLO foss.arm.com"
+        id S1727983AbeLLRtG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Dec 2018 12:49:06 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:55140 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727845AbeLLRfF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Dec 2018 12:35:05 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DF1B480D;
-        Wed, 12 Dec 2018 09:35:04 -0800 (PST)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 580663F575;
-        Wed, 12 Dec 2018 09:35:00 -0800 (PST)
-Date:   Wed, 12 Dec 2018 17:34:57 +0000
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: Re: [RFC][PATCH 2/3] arm64: Define
- Documentation/arm64/elf_at_flags.txt
-Message-ID: <20181212173457.GA3505@e103592.cambridge.arm.com>
-References: <cover.1544445454.git.andreyknvl@google.com>
- <20181210143044.12714-1-vincenzo.frascino@arm.com>
- <20181210143044.12714-3-vincenzo.frascino@arm.com>
+        id S1727808AbeLLRtG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Dec 2018 12:49:06 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 85004A4058;
+        Wed, 12 Dec 2018 17:49:05 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.131])
+        by smtp.corp.redhat.com (Postfix) with SMTP id B19F75D73F;
+        Wed, 12 Dec 2018 17:49:03 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Wed, 12 Dec 2018 18:49:05 +0100 (CET)
+Date:   Wed, 12 Dec 2018 18:49:02 +0100
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Roman Gushchin <guro@fb.com>
+Cc:     Roman Gushchin <guroan@gmail.com>, Tejun Heo <tj@kernel.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Kernel Team <Kernel-team@fb.com>
+Subject: Re: [PATCH v5 4/7] cgroup: cgroup v2 freezer
+Message-ID: <20181212174902.GA30309@redhat.com>
+References: <20181207201531.1665-1-guro@fb.com>
+ <20181207201531.1665-5-guro@fb.com>
+ <20181211162632.GB8504@redhat.com>
+ <20181211184033.GA8971@tower.DHCP.thefacebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181210143044.12714-3-vincenzo.frascino@arm.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20181211184033.GA8971@tower.DHCP.thefacebook.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Wed, 12 Dec 2018 17:49:05 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 10, 2018 at 02:30:43PM +0000, Vincenzo Frascino wrote:
-> On arm64 the TCR_EL1.TBI0 bit has been set since Linux 3.x hence
-> the userspace (EL0) is allowed to set a non-zero value in the
-> top byte but the resulting pointers are not allowed at the
-> user-kernel syscall ABI boundary.
-> 
-> With the relaxed ABI proposed through this document, it is now possible
-> to pass tagged pointers to the syscalls, when these pointers are in
-> memory ranges obtained by an anonymous (MAP_ANONYMOUS) mmap() or brk().
+On 12/11, Roman Gushchin wrote:
+>
+> On Tue, Dec 11, 2018 at 05:26:32PM +0100, Oleg Nesterov wrote:
+> > On 12/07, Roman Gushchin wrote:
+> > >
+> > > Cgroup v2 freezer tries to put tasks into a state similar to jobctl
+> > > stop. This means that tasks can be killed, ptraced (using
+> > > PTRACE_SEIZE*), and interrupted. It is possible to attach to
+> > > a frozen task, get some information (e.g. read registers) and detach.
+> >
+> > I fail to understand how this all supposed to work.
+> >
+> > > @@ -368,6 +369,8 @@ static inline int signal_pending_state(long state, struct task_struct *p)
+> > >  		return 0;
+> > >  	if (!signal_pending(p))
+> > >  		return 0;
+> > > +	if (unlikely(cgroup_task_frozen(p) && p->jobctl == JOBCTL_TRAP_FREEZE))
+> > > +		return __fatal_signal_pending(p);
+> >
+> > I think I will never agree with this change ;) and I don't think it actually helps.
+>
+> See below.
+>
+> >
+> > > +void cgroup_enter_frozen(void)
+> > > +{
+> > > +	if (!current->frozen) {
+> > > +		spin_lock_irq(&css_set_lock);
+> > > +		current->frozen = true;
+> > > +		cgroup_inc_frozen_cnt(task_dfl_cgroup(current), false, true);
+> > > +		spin_unlock_irq(&css_set_lock);
+> > > +	}
+> > > +
+> > > +	__set_current_state(TASK_INTERRUPTIBLE);
+> > > +	schedule();
+> >
+> > So once again, suppose it races with PTRACE_INTERRUPT, or SIGSTOP, or something
+> > else which should be handled by get_signal() before do_freezer_trap().
+> >
+> > If (say) PTRACE_INTERRUPT comes before schedule it will be lost. Otherwise
+> > the frozen task will react. This can't be right. Or I am totally confused.
+>
+> Why?
+> PTRACE_INTERRUPT will set JOBCTL_TRAP_STOP, so signal_pending_state()
+> will return true, schedule() will return immediately, and we'll handle the trap.
 
-What about other anonymous memory such as the process stack?
+OK, I misread the JOBCTL_TRAP_FREEZE check as "jobctl & JOBCTL_TRAP_FREEZE".
 
-What about MAP_PRIVATE mappings of /dev/zero (i.e., oldskool "anonymous"
-mappings)?
+But p->jobctl == JOBCTL_TRAP_FREEZE doesn't look right too. For example,
+JOBCTL_STOP_DEQUEUED can be set. You probably need something like
 
-I wonder whether this should really say MAP_PRIVATE rather than
-MAP_ANONYMOUS.  There are two requirements here:
+	jobctl & (JOBCTL_PENDING_MASK | JOBCTL_TRAP_FREEZE) == JOBCTL_TRAP_FREEZE
 
- * the memory must be the exclusive property of a single process,
-   otherwise tagging it on-the-fly could break some other process;
+And you need a barrier in between, iow you need set_current_state(TASK_INTERRUPTIBLE).
 
- * the memory should be regular memory, i.e., not something like a
-   mapped device.  Since copy-on-write mappings of devices make little
-   sense, and we want writes to devices to propagate to the hardware
-   directly, MAP_PRIVATE doesn't make a lot of sense for such mappings.
+But this doesn't really matter. I don't think you need to modify signal_pending_state()
+and penalize schedule(). You can do something like
 
-MAP_ANONYMOUS | MAP_SHARED is theoretically possible, and we should
-make sure that it does the expected thing.  Tagging such memory is
-probably a bad idea, just like any other MAP_SHARED memory.
+	spin_lock_irq(sigllock);
+	if (jobctl & (JOBCTL_PENDING_MASK | JOBCTL_TRAP_FREEZE) == JOBCTL_TRAP_FREEZE &&
+	    !__fatal_signal_pending())
+	{
+		__set_current_state(TASK_INTERRUPTIBLE);
+		clear_thread_flag(TIF_SIGPENDING);
+	}
+	spin_unlock_irq(siglock);
 
-I'm assuming here that tagging some currently shared copy-on-write pages
-would throw a page fault and trigger a copy, so that we end up tagging
-the calling process's private copy of the page.
+	schedule();
+	// recalc_sigpending() is not needed
 
-I also don't see how the above requirements conflict with regular file-
-backed mappings (which would need to work if you want to be able to
-tag objects in .bss or .data etc.)
+in cgroup_enter_frozen() with the same effect. Which looks equally ugly and
+suboptimal, but at least this doesn't touch the sched code.
 
-> This change in the ABI requires a mechanism to inform the userspace
-> that such an option is available.
-> 
-> This patch specifies and documents the way on which AT_FLAGS can be
-> used to advertise this feature to the userspace.
-> 
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will.deacon@arm.com>
-> CC: Andrey Konovalov <andreyknvl@google.com>
-> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> ---
->  Documentation/arm64/elf_at_flags.txt | 111 +++++++++++++++++++++++++++
->  1 file changed, 111 insertions(+)
->  create mode 100644 Documentation/arm64/elf_at_flags.txt
-> 
-> diff --git a/Documentation/arm64/elf_at_flags.txt b/Documentation/arm64/elf_at_flags.txt
-> new file mode 100644
-> index 000000000000..153e657c058a
-> --- /dev/null
-> +++ b/Documentation/arm64/elf_at_flags.txt
-> @@ -0,0 +1,111 @@
-> +ARM64 ELF AT_FLAGS
-> +==================
-> +
-> +This document describes the usage and semantics of AT_FLAGS on arm64.
-> +
-> +1. Introduction
-> +---------------
-> +
-> +AT_FLAGS is part of the Auxiliary Vector, contains the flags and it
-> +is currently set to zero by the kernel on arm64.
-> +
-> +The auxiliary vector can be accessed by the userspace using the
-> +getauxval() API provided by the C library.
-> +getauxval() returns an unsigned long and when a flag is present in
-> +the AT_FLAGS, the corresponding bit in the returned value is set to 1.
-> +
-> +The AT_FLAGS with a "defined semantic" on arm64 are exposed to the
-> +userspace via user API (uapi/asm/atflags.h).
-> +The AT_FLAGS bits with "undefined semantics" are set to zero by default.
-> +This means that the AT_FLAGS bits to which this document does not assign
-> +an explicit meaning are to be intended reserved for future use.
-> +The kernel will populate all such bits with zero until meanings are
-> +assigned to them. If and when meanings are assigned, it is guaranteed
-> +that they will not impact the functional operation of existing userspace
-> +software. Userspace software should ignore any AT_FLAGS bit whose meaning
-> +is not defined when the software is written.
-> +
-> +The userspace software can test for features by acquiring the AT_FLAGS
-> +entry of the auxiliary vector, and testing whether a relevant flag
-> +is set.
-> +
-> +Example of a userspace test function:
-> +
-> +bool feature_x_is_present(void)
-> +{
-> +	unsigned long at_flags = getauxval(AT_FLAGS);
-> +	if (at_flags & FEATURE_X)
-> +		return true;
-> +
-> +	return false;
-> +}
-> +
-> +Where the software relies on a feature advertised by AT_FLAGS, it
-> +should check that the feature is present before attempting to
-> +use it.
-> +
-> +2. Features exposed via AT_FLAGS
-> +--------------------------------
-> +
-> +bit[0]: ARM64_AT_FLAGS_SYSCALL_TBI
-> +
-> +    On arm64 the TCR_EL1.TBI0 bit has been set since Linux 3.x hence
-> +    the userspace (EL0) is allowed to set a non-zero value in the top
-> +    byte but the resulting pointers are not allowed at the user-kernel
-> +    syscall ABI boundary.
-> +    When bit[0] is set to 1 the kernel is advertising to the userspace
-> +    that a relaxed ABI is supported hence this type of pointers are now
-> +    allowed to be passed to the syscalls, when these pointers are in
-> +    memory ranges obtained by anonymous (MAP_ANONYMOUS) mmap() or brk().
+> > and btw.... what about suspend? try_to_freeze_tasks() will obviously fail
+> > if there is a ->frozen thread?
+>
+> I have to think a bit more here, but something like this will probably work:
+>
+> diff --git a/kernel/freezer.c b/kernel/freezer.c
+> index b162b74611e4..590ac4d10b02 100644
+> --- a/kernel/freezer.c
+> +++ b/kernel/freezer.c
+> @@ -134,7 +134,7 @@ bool freeze_task(struct task_struct *p)
+>                 return false;
+>
+>         spin_lock_irqsave(&freezer_lock, flags);
+> -       if (!freezing(p) || frozen(p)) {
+> +       if (!freezing(p) || frozen(p) || cgroup_task_frozen()) {
+>                 spin_unlock_irqrestore(&freezer_lock, flags);
+>                 return false;
+>         }
+>
+> --
+>
+> If the task is already frozen by the cgroup freezer, we don't have to do
+> anything additionally.
 
-"TBI" is a slightly odd name.
+I don't think so. A cgroup_task_frozen() task can be killed after
+try_to_freeze_tasks() succeeds, and the exiting task can close files,
+do IO, etc. Or it can be thawed by cgroup_freeze_task(false).
 
-The kernel seems not to be ignoring the top byte, otherwise how could
-it make a difference whehter the memory is anonymous or something else?
-
-(With memory tagging enabled, the top byte is also not architecturally
-ignored.)
-
-> +    In these cases the tag is preserved as the pointer goes through the
-> +    kernel. Only when the kernel needs to check if a pointer is coming
-> +    from userspace (i.e. access_ok()) an untag operation is required.
-
-Does the last sentence belong here?  That's about kernel internals,
-whereas the rest all seems user-facing.
-
-> +
-> +3. ARM64_AT_FLAGS_SYSCALL_TBI
-> +-----------------------------
-> +
-> +When ARM64_AT_FLAGS_SYSCALL_TBI is enabled every syscalls can accept tagged
-> +pointers, when these pointers are in memory ranges obtained by an anonymous
-> +(MAP_ANONYMOUS) mmap() or brk().
-> +
-> +A definition of the meaning of tagged pointers on arm64 can be found in:
-> +Documentation/arm64/tagged-pointers.txt.
-> +
-> +When a pointer does not are in a memory range obtained by an anonymous mmap()
-> +or brk(), this can not be passed to a syscall if it is tagged.
-> +
-> +To be more explicit: a syscall can accept pointers whose memory range is
-> +obtained by a non-anonymous mmap() or brk() if and only if the tag encoded in
-> +the top-byte is 0x00.
-> +
-> +When a new syscall is added, this can accept tagged pointers if and only if
-> +these pointers are in memory ranges obtained by an anonymous (MAP_ANONYMOUS)
-> +mmap() or brk(). In all the other cases, the tag encoded in the top-byte is
-> +expected to be 0x00.
-
-Does this apply to kernel interfaces that are not syscalls?
-
-And does it apply to ioctls in general (I think from discussions
-elsewhere that it can't).
-
-What about things that flow through the kernel, like an
-si_value.sival_ptr that propagates from sigqueue(2) to the signal frame
-of the signalled thread, or registered with the kernel via aio_read(2)?
-
-This kind of thing is why I would like to define a set of rules for
-making an educated guess about how the kernel should interpret
-arbitrary arguments (in an ideal world).
+In short, if try_to_freeze_tasks() succeeds, the caller has all rights
+to assume that nobody can escape from __refrigerator().
 
 
-With issues like this in the mix, it seems difficult to extract general
-guarantees from ARM64_AT_FLAGS_SYSCALL_TBI.  If it means that just
-certain specific uses of a few specific syscalls work with tagged
-pointers, that may not be very useful by ifself?  It sounds like if
-you are tagging memory at all, you suddenly need to port every random
-library you're using.
+And what about TASK_STOPPED/TASK_TRACED tasks? They can not be frozen
+or thawed, right? This doesn't look good, and this differs from the
+current freezer controller...
 
-[...]
+Oleg.
 
-Cheers
----Dave
