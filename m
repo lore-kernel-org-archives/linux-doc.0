@@ -1,94 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_HI,T_HK_NAME_MR_MRS
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D82727D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 10:17:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0C4CB7DD29
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 14:05:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726943AbeLLKRQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Dec 2018 05:17:16 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:38623 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726680AbeLLKRQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Dec 2018 05:17:16 -0500
-Received: by mail-oi1-f196.google.com with SMTP id a77so14567532oii.5;
-        Wed, 12 Dec 2018 02:17:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6+10hSmsp/rU+JVU4vz4Ml32VNDJmF0tfJ0D2i4zNYI=;
-        b=VUbD18BuMN+5yKQtMBqeItr8SBZRgD/NOPbuB57Snw1Ti8YxZj9C2QDmfBuaYPZyyt
-         FPape202iASbEX3s1D4vv2/1pjImVkFxwHZh1o6XIPlwienEyTDjdJCy3py1rihykyja
-         +ejKX4IwtYkKWofGVQAohQK6626+5ZMDPOjKR2bGkULrPGQlt5s+7qZnRfjFSynwNgdJ
-         7vr3xlROGEpR5h3aV/OoAUYw0Fn6pBrbe+b88X8/NQIa6BJ/ZKKXriJLNvzacy3fjaIW
-         dDX/FaDOBoEEtNYAmudR8v51QUZfUhEn4pXCaXqh9YakeyPXckPgYgMPueMnWQsym/1l
-         NZfQ==
-X-Gm-Message-State: AA+aEWZvy9D9UtPYKJLmlOgz/FZe7K1oYoJcqJ+fvyWnzoYikmn+zDnv
-        Wdo66CNQ7Aa7/CvIAwvjtSWXpqEHorHHOqqkxqg=
-X-Google-Smtp-Source: AFSGD/VrLgbXWacibdAHZsorj8esS1nhqBbscoC1DPJkRVArvsHs8ycUZfv9/1JhNlyvK+zYfPkik7JH+aOUUWUpLtE=
-X-Received: by 2002:aca:368a:: with SMTP id d132mr52537oia.193.1544609835322;
- Wed, 12 Dec 2018 02:17:15 -0800 (PST)
+        id S1727745AbeLLOF3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Dec 2018 09:05:29 -0500
+Received: from mx-2.esenfc.pt ([193.137.66.234]:36492 "EHLO mx-2.esenfc.pt"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727471AbeLLOF2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Dec 2018 09:05:28 -0500
+X-Greylist: delayed 583 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Dec 2018 09:05:21 EST
+Received: from localhost (localhost [127.0.0.1])
+        by mx-2.esenfc.pt (Postfix) with ESMTP id 256CC16A8;
+        Wed, 12 Dec 2018 13:52:18 +0000 (WET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=esenfc.pt; s=201703;
+        t=1544622738; bh=3GJZfQ7u3viyLeulLFi4ILCqM+vVAbNIWeK+tqTOeUk=;
+        h=Date:From:Reply-to:To:Subject:From;
+        b=RXgcaDYVkMepcjM0bMnCNvYUt2e1rKjy4LLKEuLwxdsD15B/zXygrArSj0FEDXz7Y
+         C19LzsgGz5D3+KPnCZoGY99Ek/9MbWzMYB5ksqtXHZVLN6rVRywOF8hO1rqZqPH6F5
+         N1k2xIbXjgO4xanFS225dNMjwDx6cvIVd0rICGtyLA96uBhCn8edqe9+MzWQZMoJaT
+         zqUuwfnMGfXRQGlG1OtNkWQzrBMH2MOo4CEhIXxyRo1kxaeFEbP+w6SAnY5K2g+npJ
+         Qe5by5bN76fbcZNpVSTh10/xaJ0kShzfuUMZFStsFepMpKtH997WCEPVDr3SHmUoj4
+         KA7o39MXL1ILA==
+X-Virus-Scanned: Debian amavisd-new at mx-2.esenfc.pt
+Received: from mx-2.esenfc.pt ([127.0.0.1])
+        by localhost (mx-2.esenfc.pt [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 7qdXsewQa5aG; Wed, 12 Dec 2018 13:52:17 +0000 (WET)
+Received: from webmail.esenfc.pt (unknown [193.137.66.239])
+        by mx-2.esenfc.pt (Postfix) with ESMTP id 279C216A9;
+        Wed, 12 Dec 2018 13:52:12 +0000 (WET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=esenfc.pt; s=201703;
+        t=1544622732; bh=3GJZfQ7u3viyLeulLFi4ILCqM+vVAbNIWeK+tqTOeUk=;
+        h=Date:From:Reply-to:To:Subject:From;
+        b=H++CSUCAvfaRYBvrmPcxbFWDOLnq67/V0XWca9zNkGhrPbMba/HNIw3V4kH+4dCGk
+         JvoUQX+xyqKG1sMpv7VGd0VJiBsXfspMVGNqoEuaDacdAXI0y6q9BYUOAsJMiosL+A
+         d1RFWVUppPF2hgoGq5f8rtBaN6WeqsvMC2p/Q16ClAYiGPytFZwbi4F19xo7PQASpG
+         tZQ2VH3qGjmaaSMtN75TGRPtBy5UOdPu2WH5YVbWSlSfOHmKIwi5Lr5eHnGYaCdmfJ
+         W5l4YXi9Z++ouZq/ssI9Yei39Q4lc7OrkeCx/qvzyO03IkYFo2t1Xgu8phuHxN6GSx
+         h0kuRHCMYS7KA==
+Received: by webmail.esenfc.pt (Postfix, from userid 33)
+        id C9A8D1B815F; Wed, 12 Dec 2018 13:52:11 +0000 (WET)
+Received: from www.9mobile.com.ng (www.9mobile.com.ng [41.190.31.251]) by
+        webmail.esenfc.pt (Horde Framework) with HTTP; Wed, 12 Dec 2018 13:52:09
+        +0000
+Message-ID: <20181212135209.79542ua5ehnsdhmo@webmail.esenfc.pt>
+Date:   Wed, 12 Dec 2018 13:52:09 +0000
+From:   "Mr Peter OWEN" <floriano@esenfc.pt>
+Reply-to: oxfordxx101@yahoo.com
+To:     undisclosed-recipients:;
+Subject: Lets Work Together
 MIME-Version: 1.0
-References: <3514439.dzOWKx1Cjx@aspire.rjw.lan> <20181210122104.GL5289@hirez.programming.kicks-ass.net>
- <CAJZ5v0j-a6cHayRtcsUPbUTBT0iBSUvmcUy6pfSSvUVcTMBxbw@mail.gmail.com>
- <20181210225134.GB24811@worktop.programming.kicks-ass.net>
- <CAJZ5v0jvbDCCgy=nUfb-yZCYGOxe4-XexbvnmeBm8ZPDPBaK4w@mail.gmail.com>
- <20181212094610.GW5289@hirez.programming.kicks-ass.net> <CAPDyKFpPGosZ69ZgMZMASGZxTn1kxu5GrJ7rZoXKn8MC05SMTQ@mail.gmail.com>
-In-Reply-To: <CAPDyKFpPGosZ69ZgMZMASGZxTn1kxu5GrJ7rZoXKn8MC05SMTQ@mail.gmail.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 12 Dec 2018 11:17:03 +0100
-Message-ID: <CAJZ5v0gNqUO59_xQAdk-rVR6JJCZ4RfHbNJOUuBWSyy6yN6pjw@mail.gmail.com>
-Subject: Re: [PATCH v2] cpuidle: Add 'above' and 'below' idle state metrics
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Doug Smythies <dsmythies@telus.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+        charset=ISO-8859-1;
+        DelSp="Yes";
+        format="flowed"
+Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
+User-Agent: Internet Messaging Program (IMP) H3 (4.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 12, 2018 at 10:57 AM Ulf Hansson <ulf.hansson@linaro.org> wrote:
->
-> On Wed, 12 Dec 2018 at 10:46, Peter Zijlstra <peterz@infradead.org> wrote:
-> >
-> > On Tue, Dec 11, 2018 at 10:51:48AM +0100, Rafael J. Wysocki wrote:
-> > > On Mon, Dec 10, 2018 at 11:51 PM Peter Zijlstra <peterz@infradead.org> wrote:
-> >
-> > > > Dunno; it could be cold cachelines, at which point it can be fairly
-> > > > expensive. Also, being stuck with API is fairly horrible if you want to
-> > > > 'fix' it.
-> > >
-> > > All of the cache lines involved should've been touched earlier in this
-> > > code path by the governor.  At least menu and the new one both touch
-> > > them.
-> > >
-> > > The API part I'm not too worried about.  I know it is useful and two
-> > > other people have told that to me already. :-)
-> >
-> > Like said on IRC; I mostly wanted to raise the issue of overhead due to
-> > stats and ABI -- it's something I've been bitten by too many times :/
-> >
-> > If you're confident you're hitting the same lines with the already
-> > extant accouning (time and usage) and you cannot make the whole lot
-> > conditional because of ABI (bah) then I'll not stand in the way here.
-> >
-> > I agree the numbers are useful, I'm just weary of overhead.
->
-> I tend to agree. So then why not move this to debugfs, it seems like
-> it's really there it belongs. No?
 
-The "usage" and "time" counters are there in sysfs already and they
-are ABI, so putting the new ones into debugfs only makes them harder
-to use for no real gain.
+
+Good Day,
+Hope you are doing great Today.I have a proposed BUSINESS DEAL that  
+will benefit both parties. This is legitimate,legal and your  
+personality will not be compromised.Please Reply to me ONLY if you are  
+interested and consider your self capable for details.
+
+Sincerely,
+
+Peter OWEN
+
+----------------------------------------------------------------
+This message was sent using IMP, the Internet Messaging Program.
+
