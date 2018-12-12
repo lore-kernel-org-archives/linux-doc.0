@@ -5,43 +5,43 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AA7027D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 04:08:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BFC517D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 04:08:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726416AbeLLEI2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Dec 2018 23:08:28 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46950 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726321AbeLLEI2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Dec 2018 23:08:28 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wBC3xAtR047864
-        for <linux-doc@vger.kernel.org>; Tue, 11 Dec 2018 23:08:27 -0500
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2parkwn2h2-1
+        id S1726405AbeLLEIi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Dec 2018 23:08:38 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46396 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726394AbeLLEIh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Dec 2018 23:08:37 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wBC3xDoE116048
+        for <linux-doc@vger.kernel.org>; Tue, 11 Dec 2018 23:08:36 -0500
+Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2par3qnx9t-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 11 Dec 2018 23:08:27 -0500
+        for <linux-doc@vger.kernel.org>; Tue, 11 Dec 2018 23:08:36 -0500
 Received: from localhost
-        by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <chandan@linux.vnet.ibm.com>;
-        Wed, 12 Dec 2018 04:08:26 -0000
-Received: from b01cxnp23034.gho.pok.ibm.com (9.57.198.29)
-        by e15.ny.us.ibm.com (146.89.104.202) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Wed, 12 Dec 2018 04:08:35 -0000
+Received: from b01cxnp22035.gho.pok.ibm.com (9.57.198.25)
+        by e16.ny.us.ibm.com (146.89.104.203) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 12 Dec 2018 04:08:20 -0000
+        Wed, 12 Dec 2018 04:08:29 -0000
 Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com [9.57.199.109])
-        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wBC48IIC21561542
+        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wBC48RaQ18284764
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 12 Dec 2018 04:08:18 GMT
+        Wed, 12 Dec 2018 04:08:27 GMT
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id F21FE112064;
-        Wed, 12 Dec 2018 04:08:17 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id 512CD112062;
+        Wed, 12 Dec 2018 04:08:27 +0000 (GMT)
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8D7D6112067;
-        Wed, 12 Dec 2018 04:08:09 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id 7E5EA112061;
+        Wed, 12 Dec 2018 04:08:19 +0000 (GMT)
 Received: from localhost.localdomain.com (unknown [9.199.35.96])
         by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
-        Wed, 12 Dec 2018 04:08:09 +0000 (GMT)
+        Wed, 12 Dec 2018 04:08:19 +0000 (GMT)
 From:   Chandan Rajendra <chandan@linux.vnet.ibm.com>
 To:     linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
         linux-doc@vger.kernel.org, linux-mips@linux-mips.org,
@@ -54,26 +54,26 @@ Cc:     Chandan Rajendra <chandan@linux.vnet.ibm.com>, tytso@mit.edu,
         deanbo422@gmail.com, schwidefsky@de.ibm.com,
         heiko.carstens@de.ibm.com, richard@nod.at, dedekind1@gmail.com,
         adrian.hunter@intel.com, viro@zeniv.linux.org.uk
-Subject: [PATCH V4 4/9] Add S_VERITY and IS_VERITY()
-Date:   Wed, 12 Dec 2018 09:37:31 +0530
+Subject: [PATCH V4 5/9] ext4: use IS_VERITY() to check inode's fsverity status
+Date:   Wed, 12 Dec 2018 09:37:32 +0530
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20181212040736.2849-1-chandan@linux.vnet.ibm.com>
 References: <20181212040736.2849-1-chandan@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 18121204-0068-0000-0000-000003704817
+x-cbid: 18121204-0072-0000-0000-000003D81AA4
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00010214; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000270; SDB=6.01130510; UDB=6.00587450; IPR=6.00910643;
- MB=3.00024659; MTD=3.00000008; XFM=3.00000015; UTC=2018-12-12 04:08:25
+ PH=3.00000004; SC=3.00000270; SDB=6.01130510; UDB=6.00582089; IPR=6.00910643;
+ MB=3.00024660; MTD=3.00000008; XFM=3.00000015; UTC=2018-12-12 04:08:34
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18121204-0069-0000-0000-000046BC5B95
-Message-Id: <20181212040736.2849-5-chandan@linux.vnet.ibm.com>
+x-cbparentid: 18121204-0073-0000-0000-00004A69EDCA
+Message-Id: <20181212040736.2849-6-chandan@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-12_01:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1810050000 definitions=main-1812120032
@@ -82,36 +82,122 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Similar to S_ENCRYPTED/IS_ENCRYPTED(), this commit adds
-S_VERITY/IS_VERITY() to be able to check if a VFS inode has verity
-information associated with it.
+This commit removes the ext4 specific ext4_verity_inode() and makes
+use of the generic IS_ENCRYPTED() macro or ext4_test_inode_flag() to
+check for the encryption status of an inode.
 
 Reviewed-by: Eric Biggers <ebiggers@google.com>
 Signed-off-by: Chandan Rajendra <chandan@linux.vnet.ibm.com>
 ---
- include/linux/fs.h | 2 ++
- 1 file changed, 2 insertions(+)
+ fs/ext4/ext4.h     |  9 ---------
+ fs/ext4/file.c     |  2 +-
+ fs/ext4/inode.c    | 10 ++++++----
+ fs/ext4/readpage.c |  2 +-
+ fs/ext4/super.c    |  1 +
+ 5 files changed, 9 insertions(+), 15 deletions(-)
 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 389a35e028bf..de602d9f8d0e 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -1938,6 +1938,7 @@ struct super_operations {
- #define S_DAX		0	/* Make all the DAX code disappear */
+diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+index db21df885186..64bf9fb7ef18 100644
+--- a/fs/ext4/ext4.h
++++ b/fs/ext4/ext4.h
+@@ -2296,15 +2296,6 @@ extern unsigned ext4_free_clusters_after_init(struct super_block *sb,
+ 					      struct ext4_group_desc *gdp);
+ ext4_fsblk_t ext4_inode_to_goal_block(struct inode *);
+ 
+-static inline bool ext4_verity_inode(struct inode *inode)
+-{
+-#ifdef CONFIG_EXT4_FS_VERITY
+-	return ext4_test_inode_flag(inode, EXT4_INODE_VERITY);
+-#else
+-	return false;
+-#endif
+-}
+-
+ #ifdef CONFIG_FS_ENCRYPTION
+ static inline int ext4_fname_setup_filename(struct inode *dir,
+ 			const struct qstr *iname,
+diff --git a/fs/ext4/file.c b/fs/ext4/file.c
+index cb4b69ef01a2..30fbd663354f 100644
+--- a/fs/ext4/file.c
++++ b/fs/ext4/file.c
+@@ -444,7 +444,7 @@ static int ext4_file_open(struct inode * inode, struct file * filp)
+ 	if (ret)
+ 		return ret;
+ 
+-	if (ext4_verity_inode(inode)) {
++	if (IS_VERITY(inode)) {
+ 		ret = fsverity_file_open(inode, filp);
+ 		if (ret)
+ 			return ret;
+diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+index 8a55255a6c32..703f55635824 100644
+--- a/fs/ext4/inode.c
++++ b/fs/ext4/inode.c
+@@ -3883,7 +3883,7 @@ static ssize_t ext4_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
+ 		return 0;
  #endif
- #define S_ENCRYPTED	16384	/* Encrypted file (using fs/crypto/) */
-+#define S_VERITY	32768	/* Verity file (using fs/verity/) */
  
- /*
-  * Note that nosuid etc flags are inode-specific: setting some file-system
-@@ -1978,6 +1979,7 @@ static inline bool sb_rdonly(const struct super_block *sb) { return sb->s_flags
- #define IS_NOSEC(inode)		((inode)->i_flags & S_NOSEC)
- #define IS_DAX(inode)		((inode)->i_flags & S_DAX)
- #define IS_ENCRYPTED(inode)	((inode)->i_flags & S_ENCRYPTED)
-+#define IS_VERITY(inode)	((inode)->i_flags & S_VERITY)
+-	if (ext4_verity_inode(inode))
++	if (IS_VERITY(inode))
+ 		return 0;
  
- #define IS_WHITEOUT(inode)	(S_ISCHR(inode->i_mode) && \
- 				 (inode)->i_rdev == WHITEOUT_DEV)
+ 	/*
+@@ -4724,7 +4724,7 @@ static bool ext4_should_use_dax(struct inode *inode)
+ 		return false;
+ 	if (ext4_test_inode_flag(inode, EXT4_INODE_ENCRYPT))
+ 		return false;
+-	if (ext4_verity_inode(inode))
++	if (ext4_test_inode_flag(inode, EXT4_INODE_VERITY))
+ 		return false;
+ 	return true;
+ }
+@@ -4748,9 +4748,11 @@ void ext4_set_inode_flags(struct inode *inode)
+ 		new_fl |= S_DAX;
+ 	if (flags & EXT4_ENCRYPT_FL)
+ 		new_fl |= S_ENCRYPTED;
++	if (flags & EXT4_VERITY_FL)
++		new_fl |= S_VERITY;
+ 	inode_set_flags(inode, new_fl,
+ 			S_SYNC|S_APPEND|S_IMMUTABLE|S_NOATIME|S_DIRSYNC|S_DAX|
+-			S_ENCRYPTED);
++			S_ENCRYPTED|S_VERITY);
+ }
+ 
+ static blkcnt_t ext4_inode_blocks(struct ext4_inode *raw_inode,
+@@ -5508,7 +5510,7 @@ int ext4_setattr(struct dentry *dentry, struct iattr *attr)
+ 	if (error)
+ 		return error;
+ 
+-	if (ext4_verity_inode(inode)) {
++	if (IS_VERITY(inode)) {
+ 		error = fsverity_prepare_setattr(dentry, attr);
+ 		if (error)
+ 			return error;
+diff --git a/fs/ext4/readpage.c b/fs/ext4/readpage.c
+index 7252f0a60cdb..2c037df629dd 100644
+--- a/fs/ext4/readpage.c
++++ b/fs/ext4/readpage.c
+@@ -206,7 +206,7 @@ static void mpage_end_io(struct bio *bio)
+ static inline loff_t ext4_readpage_limit(struct inode *inode)
+ {
+ #ifdef CONFIG_EXT4_FS_VERITY
+-	if (ext4_verity_inode(inode)) {
++	if (IS_VERITY(inode)) {
+ 		if (inode->i_verity_info)
+ 			/* limit to end of metadata region */
+ 			return fsverity_full_i_size(inode);
+diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+index 16fb483a6f4a..35ed3c48f8d2 100644
+--- a/fs/ext4/super.c
++++ b/fs/ext4/super.c
+@@ -1344,6 +1344,7 @@ static int ext4_set_verity(struct inode *inode, loff_t data_i_size)
+ 	err = ext4_reserve_inode_write(handle, inode, &iloc);
+ 	if (err == 0) {
+ 		ext4_set_inode_flag(inode, EXT4_INODE_VERITY);
++		ext4_set_inode_flags(inode);
+ 		EXT4_I(inode)->i_disksize = data_i_size;
+ 		err = ext4_mark_iloc_dirty(handle, inode, &iloc);
+ 	}
 -- 
 2.19.1
 
