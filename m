@@ -1,360 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 682D37D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 09:55:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C60F07D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Dec 2018 09:58:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726815AbeLLJzq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Dec 2018 04:55:46 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38830 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726877AbeLLJzp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Dec 2018 04:55:45 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wBC9ndW9141362
-        for <linux-doc@vger.kernel.org>; Wed, 12 Dec 2018 04:55:44 -0500
-Received: from e36.co.us.ibm.com (e36.co.us.ibm.com [32.97.110.154])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2paycqteh3-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 12 Dec 2018 04:55:44 -0500
-Received: from localhost
-        by e36.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <chandan@linux.vnet.ibm.com>;
-        Wed, 12 Dec 2018 09:50:43 -0000
-Received: from b03cxnp08026.gho.boulder.ibm.com (9.17.130.18)
-        by e36.co.us.ibm.com (192.168.1.136) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 12 Dec 2018 09:50:36 -0000
-Received: from b03ledav003.gho.boulder.ibm.com (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
-        by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wBC9oYR520250792
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 12 Dec 2018 09:50:34 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id F0D506A047;
-        Wed, 12 Dec 2018 09:50:33 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 1A3FB6A04D;
-        Wed, 12 Dec 2018 09:50:25 +0000 (GMT)
-Received: from localhost.localdomain.com (unknown [9.85.69.92])
-        by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Wed, 12 Dec 2018 09:50:24 +0000 (GMT)
-From:   Chandan Rajendra <chandan@linux.vnet.ibm.com>
-To:     linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-doc@vger.kernel.org, linux-mips@linux-mips.org,
-        linux-s390@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org
-Cc:     Chandan Rajendra <chandan@linux.vnet.ibm.com>, tytso@mit.edu,
-        adilger.kernel@dilger.ca, ebiggers@kernel.org, jaegeuk@kernel.org,
-        yuchao0@huawei.com, corbet@lwn.net, ralf@linux-mips.org,
-        paul.burton@mips.com, jhogan@kernel.org, green.hu@gmail.com,
-        deanbo422@gmail.com, schwidefsky@de.ibm.com,
-        heiko.carstens@de.ibm.com, richard@nod.at, dedekind1@gmail.com,
-        adrian.hunter@intel.com, viro@zeniv.linux.org.uk
-Subject: [PATCH V5 1/9] ext4: use IS_ENCRYPTED() to check encryption status
-Date:   Wed, 12 Dec 2018 15:20:10 +0530
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20181212095018.12648-1-chandan@linux.vnet.ibm.com>
-References: <20181212095018.12648-1-chandan@linux.vnet.ibm.com>
+        id S1726598AbeLLJ5y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Dec 2018 04:57:54 -0500
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:34157 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726519AbeLLJ5w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Dec 2018 04:57:52 -0500
+Received: by mail-vs1-f65.google.com with SMTP id y27so10718117vsi.1
+        for <linux-doc@vger.kernel.org>; Wed, 12 Dec 2018 01:57:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=S+5XufIdKH+Z4EliHZJOG6Njz1hoSyCuvV8UrtZVDkg=;
+        b=QYGNqPvPzBtNMZNRj6aXIxyVAzdwxMOQHL0yFqGrZ52DTmnZnsU+6GEHygqCSEdPUP
+         AhGSw6g0MsRSf7wX0fkZB8TJRidZL7EQovyp9A8nAiDQaWTw8QT6SCdb1o4Wd3hqLk0O
+         q4AB/mR4bwVHPwUevehtbBbgsbK+2PKbR9bS0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=S+5XufIdKH+Z4EliHZJOG6Njz1hoSyCuvV8UrtZVDkg=;
+        b=b/nY169hH19a+0DyIoOpJPBaw288kic38s+tMbhW+nTLgIjm5AvC+DeOIPD3+pwS3C
+         dU+zxHh35vNdi2STxsPnwBegEQZ2b1BUCPR1viU+9kIN+mDIs81VB1ASKe1HTb0LiRON
+         jlC1I+q2Rkusf1zor12aRGJbfLOy7WOAsEafcYoGs3BfNQhgUGdhqNeBlypt9iTXnSgM
+         ljdsHBP15GvBI3REiORU69JgmbCPxtx5NZePZ9IZ3mnwnIqToAqxCRirKX/PlPDHCity
+         D8snadoIh7Glp2/kXroX1mMerGJDBGKoCbqhr2ry2TtAdxOWhryhFemBnTsrQu1G4mfc
+         OYvw==
+X-Gm-Message-State: AA+aEWYF/0L0NauZh93+guL+BmjiILDoAjODFwnbmlR15vlIY1B9A9FC
+        MoZTwVIUeI4tMmqf3PF0JGQHA3JqvPP0gwXJ0wUK7Q==
+X-Google-Smtp-Source: AFSGD/WO3Y4+WiZPQQe/HZoey15rkxnp5921c+XNpOeri09V2Am2P96g8s3Ib2ftNux9r0KJb8Ux5LEr0hIeIrYHbQ0=
+X-Received: by 2002:a67:d00f:: with SMTP id r15mr8940351vsi.191.1544608671054;
+ Wed, 12 Dec 2018 01:57:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 18121209-0020-0000-0000-00000E988D15
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00010214; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000270; SDB=6.01130624; UDB=6.00587518; IPR=6.00910758;
- MB=3.00024664; MTD=3.00000008; XFM=3.00000015; UTC=2018-12-12 09:50:42
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18121209-0021-0000-0000-000064060A2D
-Message-Id: <20181212095018.12648-2-chandan@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-12_03:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1812120087
+References: <3514439.dzOWKx1Cjx@aspire.rjw.lan> <20181210122104.GL5289@hirez.programming.kicks-ass.net>
+ <CAJZ5v0j-a6cHayRtcsUPbUTBT0iBSUvmcUy6pfSSvUVcTMBxbw@mail.gmail.com>
+ <20181210225134.GB24811@worktop.programming.kicks-ass.net>
+ <CAJZ5v0jvbDCCgy=nUfb-yZCYGOxe4-XexbvnmeBm8ZPDPBaK4w@mail.gmail.com> <20181212094610.GW5289@hirez.programming.kicks-ass.net>
+In-Reply-To: <20181212094610.GW5289@hirez.programming.kicks-ass.net>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 12 Dec 2018 10:57:15 +0100
+Message-ID: <CAPDyKFpPGosZ69ZgMZMASGZxTn1kxu5GrJ7rZoXKn8MC05SMTQ@mail.gmail.com>
+Subject: Re: [PATCH v2] cpuidle: Add 'above' and 'below' idle state metrics
+To:     Peter Zijlstra <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Linux PM <linux-pm@vger.kernel.org>, dsmythies@telus.net,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        ggherdovich@suse.cz, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit removes the ext4 specific ext4_encrypted_inode() and makes
-use of the generic IS_ENCRYPTED() macro to check for the encryption
-status of an inode.
+On Wed, 12 Dec 2018 at 10:46, Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> On Tue, Dec 11, 2018 at 10:51:48AM +0100, Rafael J. Wysocki wrote:
+> > On Mon, Dec 10, 2018 at 11:51 PM Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> > > Dunno; it could be cold cachelines, at which point it can be fairly
+> > > expensive. Also, being stuck with API is fairly horrible if you want to
+> > > 'fix' it.
+> >
+> > All of the cache lines involved should've been touched earlier in this
+> > code path by the governor.  At least menu and the new one both touch
+> > them.
+> >
+> > The API part I'm not too worried about.  I know it is useful and two
+> > other people have told that to me already. :-)
+>
+> Like said on IRC; I mostly wanted to raise the issue of overhead due to
+> stats and ABI -- it's something I've been bitten by too many times :/
+>
+> If you're confident you're hitting the same lines with the already
+> extant accouning (time and usage) and you cannot make the whole lot
+> conditional because of ABI (bah) then I'll not stand in the way here.
+>
+> I agree the numbers are useful, I'm just weary of overhead.
 
-Reviewed-by: Eric Biggers <ebiggers@google.com>
-Signed-off-by: Chandan Rajendra <chandan@linux.vnet.ibm.com>
----
- fs/ext4/dir.c         |  8 ++++----
- fs/ext4/ext4.h        |  5 -----
- fs/ext4/ext4_jbd2.h   |  2 +-
- fs/ext4/extents.c     |  4 ++--
- fs/ext4/ialloc.c      |  2 +-
- fs/ext4/inode.c       | 16 +++++++---------
- fs/ext4/move_extent.c |  3 +--
- fs/ext4/namei.c       |  8 ++++----
- fs/ext4/page-io.c     |  3 +--
- fs/ext4/readpage.c    |  2 +-
- 10 files changed, 22 insertions(+), 31 deletions(-)
+I tend to agree. So then why not move this to debugfs, it seems like
+it's really there it belongs. No?
 
-diff --git a/fs/ext4/dir.c b/fs/ext4/dir.c
-index f93f9881ec18..fb7a64ea5679 100644
---- a/fs/ext4/dir.c
-+++ b/fs/ext4/dir.c
-@@ -111,7 +111,7 @@ static int ext4_readdir(struct file *file, struct dir_context *ctx)
- 	int dir_has_error = 0;
- 	struct fscrypt_str fstr = FSTR_INIT(NULL, 0);
- 
--	if (ext4_encrypted_inode(inode)) {
-+	if (IS_ENCRYPTED(inode)) {
- 		err = fscrypt_get_encryption_info(inode);
- 		if (err && err != -ENOKEY)
- 			return err;
-@@ -138,7 +138,7 @@ static int ext4_readdir(struct file *file, struct dir_context *ctx)
- 			return err;
- 	}
- 
--	if (ext4_encrypted_inode(inode)) {
-+	if (IS_ENCRYPTED(inode)) {
- 		err = fscrypt_fname_alloc_buffer(inode, EXT4_NAME_LEN, &fstr);
- 		if (err < 0)
- 			return err;
-@@ -245,7 +245,7 @@ static int ext4_readdir(struct file *file, struct dir_context *ctx)
- 			offset += ext4_rec_len_from_disk(de->rec_len,
- 					sb->s_blocksize);
- 			if (le32_to_cpu(de->inode)) {
--				if (!ext4_encrypted_inode(inode)) {
-+				if (!IS_ENCRYPTED(inode)) {
- 					if (!dir_emit(ctx, de->name,
- 					    de->name_len,
- 					    le32_to_cpu(de->inode),
-@@ -613,7 +613,7 @@ static int ext4_dx_readdir(struct file *file, struct dir_context *ctx)
- 
- static int ext4_dir_open(struct inode * inode, struct file * filp)
- {
--	if (ext4_encrypted_inode(inode))
-+	if (IS_ENCRYPTED(inode))
- 		return fscrypt_get_encryption_info(inode) ? -EACCES : 0;
- 	return 0;
- }
-diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-index 80957f9d3cbe..2ae6ab88f218 100644
---- a/fs/ext4/ext4.h
-+++ b/fs/ext4/ext4.h
-@@ -2297,11 +2297,6 @@ extern unsigned ext4_free_clusters_after_init(struct super_block *sb,
- 					      struct ext4_group_desc *gdp);
- ext4_fsblk_t ext4_inode_to_goal_block(struct inode *);
- 
--static inline bool ext4_encrypted_inode(struct inode *inode)
--{
--	return ext4_test_inode_flag(inode, EXT4_INODE_ENCRYPT);
--}
--
- static inline bool ext4_verity_inode(struct inode *inode)
- {
- #ifdef CONFIG_EXT4_FS_VERITY
-diff --git a/fs/ext4/ext4_jbd2.h b/fs/ext4/ext4_jbd2.h
-index 15b6dd733780..a1ac7e9245ec 100644
---- a/fs/ext4/ext4_jbd2.h
-+++ b/fs/ext4/ext4_jbd2.h
-@@ -411,7 +411,7 @@ static inline int ext4_inode_journal_mode(struct inode *inode)
- 	    (ext4_test_inode_flag(inode, EXT4_INODE_JOURNAL_DATA) &&
- 	    !test_opt(inode->i_sb, DELALLOC))) {
- 		/* We do not support data journalling for encrypted data */
--		if (S_ISREG(inode->i_mode) && ext4_encrypted_inode(inode))
-+		if (S_ISREG(inode->i_mode) && IS_ENCRYPTED(inode))
- 			return EXT4_INODE_ORDERED_DATA_MODE;  /* ordered */
- 		return EXT4_INODE_JOURNAL_DATA_MODE;	/* journal data */
- 	}
-diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
-index 240b6dea5441..79d986dbf5af 100644
---- a/fs/ext4/extents.c
-+++ b/fs/ext4/extents.c
-@@ -3631,7 +3631,7 @@ static int ext4_ext_convert_to_initialized(handle_t *handle,
- 		max_zeroout = sbi->s_extent_max_zeroout_kb >>
- 			(inode->i_sb->s_blocksize_bits - 10);
- 
--	if (ext4_encrypted_inode(inode))
-+	if (IS_ENCRYPTED(inode))
- 		max_zeroout = 0;
- 
- 	/*
-@@ -4818,7 +4818,7 @@ long ext4_fallocate(struct file *file, int mode, loff_t offset, loff_t len)
- 	 * leave it disabled for encrypted inodes for now.  This is a
- 	 * bug we should fix....
- 	 */
--	if (ext4_encrypted_inode(inode) &&
-+	if (IS_ENCRYPTED(inode) &&
- 	    (mode & (FALLOC_FL_COLLAPSE_RANGE | FALLOC_FL_INSERT_RANGE |
- 		     FALLOC_FL_ZERO_RANGE)))
- 		return -EOPNOTSUPP;
-diff --git a/fs/ext4/ialloc.c b/fs/ext4/ialloc.c
-index 2addcb8730e1..3002f110eb4f 100644
---- a/fs/ext4/ialloc.c
-+++ b/fs/ext4/ialloc.c
-@@ -771,7 +771,7 @@ struct inode *__ext4_new_inode(handle_t *handle, struct inode *dir,
- 	if (unlikely(ext4_forced_shutdown(sbi)))
- 		return ERR_PTR(-EIO);
- 
--	if ((ext4_encrypted_inode(dir) || DUMMY_ENCRYPTION_ENABLED(sbi)) &&
-+	if ((IS_ENCRYPTED(dir) || DUMMY_ENCRYPTION_ENABLED(sbi)) &&
- 	    (S_ISREG(mode) || S_ISDIR(mode) || S_ISLNK(mode)) &&
- 	    !(i_flags & EXT4_EA_INODE_FL)) {
- 		err = fscrypt_get_encryption_info(dir);
-diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index d7019f5dca6f..0efa30f921b0 100644
---- a/fs/ext4/inode.c
-+++ b/fs/ext4/inode.c
-@@ -415,7 +415,7 @@ int ext4_issue_zeroout(struct inode *inode, ext4_lblk_t lblk, ext4_fsblk_t pblk,
- {
- 	int ret;
- 
--	if (ext4_encrypted_inode(inode))
-+	if (IS_ENCRYPTED(inode))
- 		return fscrypt_zeroout_range(inode, lblk, pblk, len);
- 
- 	ret = sb_issue_zeroout(inode->i_sb, pblk, len, GFP_NOFS);
-@@ -1217,8 +1217,7 @@ static int ext4_block_write_begin(struct page *page, loff_t pos, unsigned len,
- 		    (block_start < from || block_end > to)) {
- 			ll_rw_block(REQ_OP_READ, 0, 1, &bh);
- 			*wait_bh++ = bh;
--			decrypt = ext4_encrypted_inode(inode) &&
--				S_ISREG(inode->i_mode);
-+			decrypt = IS_ENCRYPTED(inode) && S_ISREG(inode->i_mode);
- 		}
- 	}
- 	/*
-@@ -3880,7 +3879,7 @@ static ssize_t ext4_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
- 	ssize_t ret;
- 
- #ifdef CONFIG_EXT4_FS_ENCRYPTION
--	if (ext4_encrypted_inode(inode) && S_ISREG(inode->i_mode))
-+	if (IS_ENCRYPTED(inode) && S_ISREG(inode->i_mode))
- 		return 0;
- #endif
- 
-@@ -4067,8 +4066,7 @@ static int __ext4_block_zero_page_range(handle_t *handle,
- 		/* Uhhuh. Read error. Complain and punt. */
- 		if (!buffer_uptodate(bh))
- 			goto unlock;
--		if (S_ISREG(inode->i_mode) &&
--		    ext4_encrypted_inode(inode)) {
-+		if (S_ISREG(inode->i_mode) && IS_ENCRYPTED(inode)) {
- 			/* We expect the key to be set. */
- 			BUG_ON(!fscrypt_has_encryption_key(inode));
- 			BUG_ON(blocksize != PAGE_SIZE);
-@@ -4144,7 +4142,7 @@ static int ext4_block_truncate_page(handle_t *handle,
- 	struct inode *inode = mapping->host;
- 
- 	/* If we are processing an encrypted inode during orphan list handling */
--	if (ext4_encrypted_inode(inode) && !fscrypt_has_encryption_key(inode))
-+	if (IS_ENCRYPTED(inode) && !fscrypt_has_encryption_key(inode))
- 		return 0;
- 
- 	blocksize = inode->i_sb->s_blocksize;
-@@ -4724,7 +4722,7 @@ static bool ext4_should_use_dax(struct inode *inode)
- 		return false;
- 	if (ext4_has_inline_data(inode))
- 		return false;
--	if (ext4_encrypted_inode(inode))
-+	if (ext4_test_inode_flag(inode, EXT4_INODE_ENCRYPT))
- 		return false;
- 	if (ext4_verity_inode(inode))
- 		return false;
-@@ -5050,7 +5048,7 @@ struct inode *ext4_iget(struct super_block *sb, unsigned long ino)
- 			ret = -EFSCORRUPTED;
- 			goto bad_inode;
- 		}
--		if (ext4_encrypted_inode(inode)) {
-+		if (IS_ENCRYPTED(inode)) {
- 			inode->i_op = &ext4_encrypted_symlink_inode_operations;
- 			ext4_set_aops(inode);
- 		} else if (ext4_inode_is_fast_symlink(inode)) {
-diff --git a/fs/ext4/move_extent.c b/fs/ext4/move_extent.c
-index 2f5be02fc6f6..1083a9f3f16a 100644
---- a/fs/ext4/move_extent.c
-+++ b/fs/ext4/move_extent.c
-@@ -592,8 +592,7 @@ ext4_move_extents(struct file *o_filp, struct file *d_filp, __u64 orig_blk,
- 		return -EOPNOTSUPP;
- 	}
- 
--	if (ext4_encrypted_inode(orig_inode) ||
--	    ext4_encrypted_inode(donor_inode)) {
-+	if (IS_ENCRYPTED(orig_inode) || IS_ENCRYPTED(donor_inode)) {
- 		ext4_msg(orig_inode->i_sb, KERN_ERR,
- 			 "Online defrag not supported for encrypted files");
- 		return -EOPNOTSUPP;
-diff --git a/fs/ext4/namei.c b/fs/ext4/namei.c
-index 67a38532032a..0de60207a963 100644
---- a/fs/ext4/namei.c
-+++ b/fs/ext4/namei.c
-@@ -620,7 +620,7 @@ static struct stats dx_show_leaf(struct inode *dir,
- 
- 				name  = de->name;
- 				len = de->name_len;
--				if (ext4_encrypted_inode(dir))
-+				if (IS_ENCRYPTED(dir))
- 					res = fscrypt_get_encryption_info(dir);
- 				if (res) {
- 					printk(KERN_WARNING "Error setting up"
-@@ -985,7 +985,7 @@ static int htree_dirblock_to_tree(struct file *dir_file,
- 					   EXT4_DIR_REC_LEN(0));
- #ifdef CONFIG_EXT4_FS_ENCRYPTION
- 	/* Check if the directory is encrypted */
--	if (ext4_encrypted_inode(dir)) {
-+	if (IS_ENCRYPTED(dir)) {
- 		err = fscrypt_get_encryption_info(dir);
- 		if (err < 0) {
- 			brelse(bh);
-@@ -1014,7 +1014,7 @@ static int htree_dirblock_to_tree(struct file *dir_file,
- 			continue;
- 		if (de->inode == 0)
- 			continue;
--		if (!ext4_encrypted_inode(dir)) {
-+		if (!IS_ENCRYPTED(dir)) {
- 			tmp_str.name = de->name;
- 			tmp_str.len = de->name_len;
- 			err = ext4_htree_store_dirent(dir_file,
-@@ -1577,7 +1577,7 @@ static struct dentry *ext4_lookup(struct inode *dir, struct dentry *dentry, unsi
- 					 ino);
- 			return ERR_PTR(-EFSCORRUPTED);
- 		}
--		if (!IS_ERR(inode) && ext4_encrypted_inode(dir) &&
-+		if (!IS_ERR(inode) && IS_ENCRYPTED(dir) &&
- 		    (S_ISDIR(inode->i_mode) || S_ISLNK(inode->i_mode)) &&
- 		    !fscrypt_has_permitted_context(dir, inode)) {
- 			ext4_warning(inode->i_sb,
-diff --git a/fs/ext4/page-io.c b/fs/ext4/page-io.c
-index 2aa62d58d8dd..c398b55da854 100644
---- a/fs/ext4/page-io.c
-+++ b/fs/ext4/page-io.c
-@@ -477,8 +477,7 @@ int ext4_bio_write_page(struct ext4_io_submit *io,
- 
- 	bh = head = page_buffers(page);
- 
--	if (ext4_encrypted_inode(inode) && S_ISREG(inode->i_mode) &&
--	    nr_to_submit) {
-+	if (IS_ENCRYPTED(inode) && S_ISREG(inode->i_mode) && nr_to_submit) {
- 		gfp_t gfp_flags = GFP_NOFS;
- 
- 	retry_encrypt:
-diff --git a/fs/ext4/readpage.c b/fs/ext4/readpage.c
-index d3dd1ff745db..45e707fb9749 100644
---- a/fs/ext4/readpage.c
-+++ b/fs/ext4/readpage.c
-@@ -156,7 +156,7 @@ static struct bio_post_read_ctx *get_bio_post_read_ctx(struct inode *inode,
- 	unsigned int post_read_steps = 0;
- 	struct bio_post_read_ctx *ctx = NULL;
- 
--	if (ext4_encrypted_inode(inode) && S_ISREG(inode->i_mode))
-+	if (IS_ENCRYPTED(inode) && S_ISREG(inode->i_mode))
- 		post_read_steps |= 1 << STEP_DECRYPT;
- #ifdef CONFIG_EXT4_FS_VERITY
- 	if (inode->i_verity_info != NULL &&
--- 
-2.19.1
-
+Kind regards
+Uffe
