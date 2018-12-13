@@ -5,43 +5,43 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 507627D8A5
+	by archive.lwn.net (Postfix) with ESMTP id A16F67DD2A
 	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Dec 2018 02:12:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726967AbeLMCLt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Dec 2018 21:11:49 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50188 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726907AbeLMCLt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Dec 2018 21:11:49 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wBD23jpY025141
-        for <linux-doc@vger.kernel.org>; Wed, 12 Dec 2018 21:11:48 -0500
+        id S1726494AbeLMCMe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Dec 2018 21:12:34 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48392 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726875AbeLMCLi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Dec 2018 21:11:38 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wBD23jAe089441
+        for <linux-doc@vger.kernel.org>; Wed, 12 Dec 2018 21:11:36 -0500
 Received: from e36.co.us.ibm.com (e36.co.us.ibm.com [32.97.110.154])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2pbbktf28c-1
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2pbacvj411-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 12 Dec 2018 21:11:47 -0500
+        for <linux-doc@vger.kernel.org>; Wed, 12 Dec 2018 21:11:36 -0500
 Received: from localhost
         by e36.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <bauerman@linux.ibm.com>;
-        Thu, 13 Dec 2018 02:11:47 -0000
-Received: from b03cxnp08027.gho.boulder.ibm.com (9.17.130.19)
+        Thu, 13 Dec 2018 02:11:35 -0000
+Received: from b03cxnp08028.gho.boulder.ibm.com (9.17.130.20)
         by e36.co.us.ibm.com (192.168.1.136) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 13 Dec 2018 02:11:41 -0000
+        Thu, 13 Dec 2018 02:11:29 -0000
 Received: from b03ledav006.gho.boulder.ibm.com (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
-        by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wBD2BdiD29884464
+        by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wBD2BSx122020116
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 13 Dec 2018 02:11:39 GMT
+        Thu, 13 Dec 2018 02:11:28 GMT
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D4ADAC605F;
-        Thu, 13 Dec 2018 02:11:39 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id 55033C6057;
+        Thu, 13 Dec 2018 02:11:28 +0000 (GMT)
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9C998C6059;
-        Thu, 13 Dec 2018 02:11:35 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id CBABFC6066;
+        Thu, 13 Dec 2018 02:11:22 +0000 (GMT)
 Received: from morokweng.localdomain.com (unknown [9.80.227.60])
         by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Thu, 13 Dec 2018 02:11:35 +0000 (GMT)
+        Thu, 13 Dec 2018 02:11:22 +0000 (GMT)
 From:   Thiago Jung Bauermann <bauerman@linux.ibm.com>
 To:     linux-integrity@vger.kernel.org
 Cc:     linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
@@ -59,81 +59,55 @@ Cc:     linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
         "AKASHI, Takahiro" <takahiro.akashi@linaro.org>,
         Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Subject: [PATCH v9 09/14] ima: Export func_tokens
-Date:   Thu, 13 Dec 2018 00:09:02 -0200
+Subject: [PATCH v9 07/14] integrity: Select CONFIG_KEYS instead of depending on it
+Date:   Thu, 13 Dec 2018 00:09:00 -0200
 X-Mailer: git-send-email 2.17.2
 In-Reply-To: <20181213020907.13601-1-bauerman@linux.ibm.com>
 References: <20181213020907.13601-1-bauerman@linux.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18121302-0020-0000-0000-00000E98FB6D
+x-cbid: 18121302-0020-0000-0000-00000E98FB61
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00010217; HX=3.00000242; KW=3.00000007;
  PH=3.00000004; SC=3.00000270; SDB=6.01130951; UDB=6.00587714; IPR=6.00911085;
- MB=3.00024674; MTD=3.00000008; XFM=3.00000015; UTC=2018-12-13 02:11:45
+ MB=3.00024674; MTD=3.00000008; XFM=3.00000015; UTC=2018-12-13 02:11:33
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18121302-0021-0000-0000-000064081CD5
-Message-Id: <20181213020907.13601-10-bauerman@linux.ibm.com>
+x-cbparentid: 18121302-0021-0000-0000-000064081CAC
+Message-Id: <20181213020907.13601-8-bauerman@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-12_04:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=987 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1810050000 definitions=main-1812130017
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ima_read_modsig() will need it so that it can show an error message.
+This avoids a dependency cycle in soon-to-be-introduced
+CONFIG_IMA_APPRAISE_MODSIG: it will select CONFIG_MODULE_SIG_FORMAT
+which in turn selects CONFIG_KEYS. Kconfig then complains that
+CONFIG_INTEGRITY_SIGNATURE depends on CONFIG_KEYS.
 
 Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Signed-off-by: Mimi Zohar <zohar@linux.ibm.com>
 ---
- security/integrity/ima/ima.h        |  2 ++
- security/integrity/ima/ima_policy.c | 12 ++++++------
- 2 files changed, 8 insertions(+), 6 deletions(-)
+ security/integrity/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.h
-index e4f72b30cb28..f0bc2a182cbf 100644
---- a/security/integrity/ima/ima.h
-+++ b/security/integrity/ima/ima.h
-@@ -195,6 +195,8 @@ enum ima_hooks {
- 	__ima_hooks(__ima_hook_enumify)
- };
+diff --git a/security/integrity/Kconfig b/security/integrity/Kconfig
+index 4b4d2aeef539..176905bef20a 100644
+--- a/security/integrity/Kconfig
++++ b/security/integrity/Kconfig
+@@ -17,8 +17,8 @@ if INTEGRITY
  
-+extern const char *const func_tokens[];
-+
- /* LIM API function definitions */
- int ima_get_action(struct inode *inode, const struct cred *cred, u32 secid,
- 		   int mask, enum ima_hooks func, int *pcr);
-diff --git a/security/integrity/ima/ima_policy.c b/security/integrity/ima/ima_policy.c
-index d17a23b5c91d..b7ee342fbe4a 100644
---- a/security/integrity/ima/ima_policy.c
-+++ b/security/integrity/ima/ima_policy.c
-@@ -1138,6 +1138,12 @@ void ima_delete_rules(void)
- 	}
- }
- 
-+#define __ima_hook_stringify(str)	(#str),
-+
-+const char *const func_tokens[] = {
-+	__ima_hooks(__ima_hook_stringify)
-+};
-+
- #ifdef	CONFIG_IMA_READ_POLICY
- enum {
- 	mask_exec = 0, mask_write, mask_read, mask_append
-@@ -1150,12 +1156,6 @@ static const char *const mask_tokens[] = {
- 	"MAY_APPEND"
- };
- 
--#define __ima_hook_stringify(str)	(#str),
--
--static const char *const func_tokens[] = {
--	__ima_hooks(__ima_hook_stringify)
--};
--
- void *ima_policy_start(struct seq_file *m, loff_t *pos)
- {
- 	loff_t l = *pos;
+ config INTEGRITY_SIGNATURE
+ 	bool "Digital signature verification using multiple keyrings"
+-	depends on KEYS
+ 	default n
++	select KEYS
+ 	select SIGNATURE
+ 	help
+ 	  This option enables digital signature verification support
 
