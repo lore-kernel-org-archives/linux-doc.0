@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 490947D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Dec 2018 09:24:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7798F7D08E
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Dec 2018 09:31:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727608AbeLMJY1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Dec 2018 04:24:27 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:52059 "EHLO
+        id S1727749AbeLMJbG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Dec 2018 04:31:06 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:51635 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727599AbeLMJY0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Dec 2018 04:24:26 -0500
+        with ESMTP id S1727063AbeLMJbF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Dec 2018 04:31:05 -0500
 Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
         by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.89)
         (envelope-from <ukl@pengutronix.de>)
-        id 1gXNE2-0006FW-Kv; Thu, 13 Dec 2018 10:24:10 +0100
+        id 1gXNKV-00073L-4E; Thu, 13 Dec 2018 10:30:51 +0100
 Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
         (envelope-from <ukl@pengutronix.de>)
-        id 1gXNE1-0006EO-CE; Thu, 13 Dec 2018 10:24:09 +0100
-Date:   Thu, 13 Dec 2018 10:24:09 +0100
+        id 1gXNKT-0006Vw-9B; Thu, 13 Dec 2018 10:30:49 +0100
+Date:   Thu, 13 Dec 2018 10:30:49 +0100
 From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Paul Cercueil <paul@crapouillou.net>
@@ -42,15 +42,16 @@ Cc:     Thierry Reding <thierry.reding@gmail.com>,
         linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
         linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org, od@zcrc.me
-Subject: Re: [PATCH v8 15/26] pwm: jz4740: Add support for the JZ4725B
-Message-ID: <20181213092409.ml4wpnzow2nnszkd@pengutronix.de>
+Subject: Re: [PATCH v8 11/26] pwm: jz4740: Use regmap and clocks from TCU
+ driver
+Message-ID: <20181213093049.rxdvf6tip7iqdj3c@pengutronix.de>
 References: <20181212220922.18759-1-paul@crapouillou.net>
- <20181212220922.18759-16-paul@crapouillou.net>
+ <20181212220922.18759-12-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20181212220922.18759-16-paul@crapouillou.net>
+In-Reply-To: <20181212220922.18759-12-paul@crapouillou.net>
 User-Agent: NeoMutt/20170113 (1.7.2)
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
 X-SA-Exim-Mail-From: ukl@pengutronix.de
@@ -63,16 +64,68 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Hello,
 
-On Wed, Dec 12, 2018 at 11:09:10PM +0100, Paul Cercueil wrote:
-> The PWM in the JZ4725B works the same as in the JZ4740, except that it
-> only has 6 channels available instead of 8.
+On Wed, Dec 12, 2018 at 11:09:06PM +0100, Paul Cercueil wrote:
+> [...]
+>  static int jz4740_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
+>  {
+> -	uint32_t ctrl = jz4740_timer_get_ctrl(pwm->pwm);
+> +	struct jz4740_pwm_chip *jz = to_jz4740(chip);
+>  
+> -	ctrl |= JZ_TIMER_CTRL_PWM_ENABLE;
+> -	jz4740_timer_set_ctrl(pwm->hwpwm, ctrl);
+> -	jz4740_timer_enable(pwm->hwpwm);
+> +	/* Enable PWM output */
+> +	regmap_update_bits(jz->map, TCU_REG_TCSRc(pwm->hwpwm),
+> +				TCU_TCSR_PWM_EN, TCU_TCSR_PWM_EN);
 
-this driver is probed only from device tree? If yes, it might be
-sensible to specify the number of PWMs there and get it from there.
-There doesn't seem to be a generic binding for that, but there are
-several drivers that could benefit from it. (This is a bigger project
-though and shouldn't stop your patch. Still more as it already got
-Thierry's ack.)
+Usually follow-up lines are indented to the matching parenthesis.
+
+> [...]
+>  static int jz4740_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
+>  			     int duty_ns, int period_ns)
+>  {
+>  	struct jz4740_pwm_chip *jz4740 = to_jz4740(pwm->chip);
+> +	struct clk *clk = jz4740->clks[pwm->hwpwm];
+> +	unsigned long rate, new_rate, period, duty;
+>  	unsigned long long tmp;
+> -	unsigned long period, duty;
+> -	unsigned int prescaler = 0;
+> -	uint16_t ctrl;
+> +	unsigned int tcsr;
+>  	bool is_enabled;
+>  
+> -	tmp = (unsigned long long)clk_get_rate(jz4740->clk) * period_ns;
+> -	do_div(tmp, 1000000000);
+> -	period = tmp;
+> +	rate = clk_get_rate(clk);
+> +
+> +	for (;;) {
+> +		tmp = (unsigned long long) rate * period_ns;
+> +		do_div(tmp, 1000000000);
+>  
+> -	while (period > 0xffff && prescaler < 6) {
+> -		period >>= 2;
+> -		++prescaler;
+> +		if (tmp <= 0xffff)
+> +			break;
+> +
+> +		new_rate = clk_round_rate(clk, rate / 2);
+> +
+> +		if (new_rate < rate)
+> +			rate = new_rate;
+> +		else
+> +			return -EINVAL;
+>  	}
+>  
+> -	if (prescaler == 6)
+> -		return -EINVAL;
+> +	clk_set_rate(clk, rate);
+
+Maybe this could better live in a separate patch. If you split still
+further to have the conversion to regmap in a single patch, then the
+conversion to the clk_* functions and then improve the algorithm for the
+clk settings each of the patches is easier to review than this one patch
+that does all three things at once.
 
 Best regards
 Uwe
