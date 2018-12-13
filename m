@@ -2,105 +2,128 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AD88D7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Dec 2018 09:17:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DDAF47DBEB
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Dec 2018 09:18:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727548AbeLMJRR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Dec 2018 04:17:17 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:49753 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726578AbeLMJRR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Dec 2018 04:17:17 -0500
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 7A2F4B3F2E01E;
-        Thu, 13 Dec 2018 17:17:12 +0800 (CST)
-Received: from ros.huawei.com (10.143.28.118) by
- DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
- 14.3.408.0; Thu, 13 Dec 2018 17:17:04 +0800
-From:   Dongjiu Geng <gengdongjiu@huawei.com>
-To:     <rkrcmar@redhat.com>, <corbet@lwn.net>, <christoffer.dall@arm.com>,
-        <marc.zyngier@arm.com>, <catalin.marinas@arm.com>,
-        <will.deacon@arm.com>, <kvm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-CC:     Dongjiu Geng <gengdongjiu@huawei.com>,
-        Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH RFC] kvm: arm64: export memory error recovery capability to user space
-Date:   Thu, 13 Dec 2018 01:15:31 -0800
-Message-ID: <1544692531-9122-1-git-send-email-gengdongjiu@huawei.com>
-X-Mailer: git-send-email 2.7.4
+        id S1727194AbeLMJSj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Dec 2018 04:18:39 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:59305 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727980AbeLMJSj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Dec 2018 04:18:39 -0500
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1gXN8T-0005Yl-Ns; Thu, 13 Dec 2018 10:18:25 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1gXN8Q-0005wl-CR; Thu, 13 Dec 2018 10:18:22 +0100
+Date:   Thu, 13 Dec 2018 10:18:22 +0100
+From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mathieu Malaterre <malat@debian.org>,
+        Ezequiel Garcia <ezequiel@collabora.co.uk>,
+        PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>,
+        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-clk@vger.kernel.org, od@zcrc.me
+Subject: Re: [PATCH v8 12/26] pwm: jz4740: Allow selection of PWM channels 0
+ and 1
+Message-ID: <20181213091822.r5ilpsllfhzaiqw4@pengutronix.de>
+References: <20181212220922.18759-1-paul@crapouillou.net>
+ <20181212220922.18759-13-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.143.28.118]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20181212220922.18759-13-paul@crapouillou.net>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When user space do memory recovery, it will check whether KVM and
-guest support the error recovery, only when both of them support,
-user space will do the error recovery. This patch exports this
-capability of KVM to user space.
+On Wed, Dec 12, 2018 at 11:09:07PM +0100, Paul Cercueil wrote:
+> The TCU channels 0 and 1 were previously reserved for system tasks, and
+> thus unavailable for PWM.
+> 
+> The driver will now only allow a PWM channel to be requested if memory
+> resources corresponding to the register area of the channel were
+> supplied to the driver. This allows the TCU channels to be reserved for
+> system tasks from within the devicetree.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
----
-User space needs to check this capability of KVM is suggested by Peter[1],
-this patch as RFC tag because user space patches are still under review,
-so this kernel patch is firstly sent out for review.
+While there is someone caring for this driver I'd like to complete (a
+bit) my picture about the different capabilities and specialities of the
+supported PWMs. So I have a few questions:
 
-[1]: https://patchwork.codeaurora.org/patch/652261/
----
- Documentation/virtual/kvm/api.txt | 9 +++++++++
- arch/arm64/kvm/reset.c            | 1 +
- include/uapi/linux/kvm.h          | 1 +
- 3 files changed, 11 insertions(+)
+Is there a publicly available reference manual for this device? (If
+yes, adding a link to the driver would be great.)
 
-diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
-index cd209f7..241e2e2 100644
---- a/Documentation/virtual/kvm/api.txt
-+++ b/Documentation/virtual/kvm/api.txt
-@@ -4895,3 +4895,12 @@ Architectures: x86
- This capability indicates that KVM supports paravirtualized Hyper-V IPI send
- hypercalls:
- HvCallSendSyntheticClusterIpi, HvCallSendSyntheticClusterIpiEx.
-+
-+8.21 KVM_CAP_ARM_MEMORY_ERROR_RECOVERY
-+
-+Architectures: arm, arm64
-+
-+This capability indicates that guest memory error can be detected by the KVM which
-+supports the error recovery. When user space do recovery, such as QEMU, it will
-+check whether KVM and guest support memory error recovery, only when both of them
-+support, user space will do the error recovery.
-diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
-index b72a3dd..90d1d9a 100644
---- a/arch/arm64/kvm/reset.c
-+++ b/arch/arm64/kvm/reset.c
-@@ -82,6 +82,7 @@ int kvm_arch_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 		r = kvm_arm_support_pmu_v3();
- 		break;
- 	case KVM_CAP_ARM_INJECT_SERROR_ESR:
-+	case KVM_CAP_ARM_MEMORY_ERROR_RECOVERY:
- 		r = cpus_have_const_cap(ARM64_HAS_RAS_EXTN);
- 		break;
- 	case KVM_CAP_SET_GUEST_DEBUG:
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 2b7a652..3b19580 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -975,6 +975,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_HYPERV_ENLIGHTENED_VMCS 163
- #define KVM_CAP_EXCEPTION_PAYLOAD 164
- #define KVM_CAP_ARM_VM_IPA_SIZE 165
-+#define KVM_CAP_ARM_MEMORY_ERROR_RECOVERY 166
- 
- #ifdef KVM_CAP_IRQ_ROUTING
- 
+jz4740_pwm_config looks as if the currently running period isn't
+completed before the new config is in effect. Is that correct? If yes,
+can this be fixed? A similar question for set_polarity: Does setting the
+JZ_TIMER_CTRL_PWM_ACTIVE_LOW bit in the control register take effect
+immediately or is this shadowed until the next period starts?
+
+How does the device's output behave after the PWM is disabled?
+Does it complete the currently running period? How does the output
+behave then? (active/inactive/high/low/high-z?)
+
+> @@ -42,11 +68,7 @@ static int jz4740_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+>  	char clk_name[16];
+>  	int ret;
+>  
+> -	/*
+> -	 * Timers 0 and 1 are used for system tasks, so they are unavailable
+> -	 * for use as PWMs.
+> -	 */
+> -	if (pwm->hwpwm < 2)
+> +	if (!jz4740_pwm_can_use_chn(jz, pwm->hwpwm))
+>  		return -EBUSY;
+
+Maybe EBUSY isn't the best choice here. If the needed register space for
+the requested pwm is not included in the memory resources provided to
+the device I'd prefer ENXIO or ENODEV.
+
+>  	snprintf(clk_name, sizeof(clk_name), "timer%u", pwm->hwpwm);
+> @@ -208,6 +230,12 @@ static int jz4740_pwm_probe(struct platform_device *pdev)
+>  		return -EINVAL;
+>  	}
+>  
+> +	jz4740->parent_res = platform_get_resource(
+> +				to_platform_device(dev->parent),
+> +				IORESOURCE_MEM, 0);
+> +	if (!jz4740->parent_res)
+> +		return -EINVAL;
+> +
+>  	jz4740->chip.dev = dev;
+>  	jz4740->chip.ops = &jz4740_pwm_ops;
+>  	jz4740->chip.npwm = NUM_PWM;
+
+Thanks
+Uwe
+
 -- 
-2.7.4
-
+Pengutronix e.K.                           | Uwe Kleine-König            |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
