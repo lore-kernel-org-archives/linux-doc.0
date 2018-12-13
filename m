@@ -1,106 +1,152 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E2F757D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Dec 2018 13:36:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DE6617D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Dec 2018 13:58:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729483AbeLMNgf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Dec 2018 08:36:35 -0500
-Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:45728 "EHLO
-        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729281AbeLMNgf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Dec 2018 08:36:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1544708194; x=1576244194;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-id:mime-version:content-transfer-encoding;
-  bh=Lbe2paPaMLnxHpwk06gIyn2RUOgS33/6z6Ym9wl5b1Q=;
-  b=Tb2J4WkELMJbOtTk3vhKSFt0V4VtnaaLwoIkVzphGnhPQMgNqX7+fu5C
-   LPiYXwJct97b8M8WHIFzcpx9/N7dJOXh3l3S/WBHkLkfdrtdSXFYXjTPT
-   iFJpz4l+QJ869F3uw1QIgb78Ypiy8975t1RQAUKCXVxVmG5BIqblDv4Nf
-   o=;
-X-IronPort-AV: E=Sophos;i="5.56,253,1539648000"; 
-   d="scan'208";a="372224611"
-Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2b-3714e498.us-west-2.amazon.com) ([10.124.125.6])
-  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 13 Dec 2018 13:36:32 +0000
-Received: from EX13MTAUEA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
-        by email-inbound-relay-2b-3714e498.us-west-2.amazon.com (8.14.7/8.14.7) with ESMTP id wBDDaQZh020950
-        (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
-        Thu, 13 Dec 2018 13:36:30 GMT
-Received: from EX13D02EUB002.ant.amazon.com (10.43.166.170) by
- EX13MTAUEA001.ant.amazon.com (10.43.61.82) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Thu, 13 Dec 2018 13:36:29 +0000
-Received: from EX13D02EUB004.ant.amazon.com (10.43.166.221) by
- EX13D02EUB002.ant.amazon.com (10.43.166.170) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Thu, 13 Dec 2018 13:36:28 +0000
-Received: from EX13D02EUB004.ant.amazon.com ([10.43.166.221]) by
- EX13D02EUB004.ant.amazon.com ([10.43.166.221]) with mapi id 15.00.1367.000;
- Thu, 13 Dec 2018 13:36:28 +0000
-From:   "Stecklina, Julian" <jsteckli@amazon.de>
-To:     "corbet@lwn.net" <corbet@lwn.net>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "ahmedsoliman0x666@gmail.com" <ahmedsoliman0x666@gmail.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "ovich00@gmail.com" <ovich00@gmail.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "igor.stoppa@gmail.com" <igor.stoppa@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "nigel.edwards@hpe.com" <nigel.edwards@hpe.com>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "ahmedsoliman@mena.vt.edu" <ahmedsoliman@mena.vt.edu>,
-        "kernel-hardening@lists.openwall.com" 
-        <kernel-hardening@lists.openwall.com>,
-        "rkrcmar@redhat.com" <rkrcmar@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "blukashev@sempervictus.com" <blukashev@sempervictus.com>
-Subject: Re: [PATCH V7 0/10] KVM: X86: Introducing ROE Protection Kernel
- Hardening
-Thread-Topic: [PATCH V7 0/10] KVM: X86: Introducing ROE Protection Kernel
- Hardening
-Thread-Index: AQHUjixIsnZ4VYbyrkW3BFrTaBk7l6V8tVmA
-Date:   Thu, 13 Dec 2018 13:36:27 +0000
-Message-ID: <1544708187.5826.1.camel@amazon.de>
-References: <20181207124803.10828-1-ahmedsoliman@mena.vt.edu>
-In-Reply-To: <20181207124803.10828-1-ahmedsoliman@mena.vt.edu>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.43.166.129]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5996DEAF3FAC094393A048101A131781@amazon.com>
+        id S1729539AbeLMN6m (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Dec 2018 08:58:42 -0500
+Received: from outils.crapouillou.net ([89.234.176.41]:57384 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729516AbeLMN6m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Dec 2018 08:58:42 -0500
+Date:   Thu, 13 Dec 2018 14:58:31 +0100
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v8 12/26] pwm: jz4740: Allow selection of PWM channels 0
+ and 1
+To:     Uwe =?iso-8859-1?q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mathieu Malaterre <malat@debian.org>,
+        Ezequiel Garcia <ezequiel@collabora.co.uk>,
+        PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>,
+        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-clk@vger.kernel.org, od@zcrc.me
+Message-Id: <1544709511.18952.0@crapouillou.net>
+In-Reply-To: <20181213091822.r5ilpsllfhzaiqw4@pengutronix.de>
+References: <20181212220922.18759-1-paul@crapouillou.net>
+        <20181212220922.18759-13-paul@crapouillou.net>
+        <20181213091822.r5ilpsllfhzaiqw4@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1544709518; bh=26MoHcxWFkAmikKZd//2oI7Jptf7WKxs2OlZ7GVv+Io=; h=Date:From:Subject:To:Cc:Message-Id:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding; b=JBbFAERd2CX+tEa7VVKLv26zALIkQ8qAjxxGiPYlZhXx/jnbcaM36KjqZhphUYdV/xmAz+JRgiIQph+EcRo6J8rRSWlUOzhYwDX4RTT7kt9M/o8qCe5+4oPx2bqMUKpgtYhB77ezxHcy8LJsa2wBl+5IXs1HCi0HE8Vt3ttVhsI=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-QWhtZWQsDQoNCk9uIEZyaSwgMjAxOC0xMi0wNyBhdCAxNDo0NyArMDIwMCwgQWhtZWQgQWJkIEVs
-IE1hd2dvb2Qgd3JvdGU6DQo+IFRoZSByZWFzb24gd2h5IGl0IHdvdWxkIGJlIGJldHRlciB0byBp
-bXBsZW1lbnQgdGhpcyBmcm9tIGluc2lkZSBrdm06IGluc3RlYWQNCj4gb2YNCj4gKGhvc3QpIHVz
-ZXIgc3BhY2UgaXMgdGhlIG5lZWQgdG8gYWNjZXNzIFNQVEVzIHRvIG1vZGlmeSB0aGUgcGVybWlz
-c2lvbnMsIHdoaWxlDQo+IG1wcm90ZWN0KCkgZnJvbSB1c2VyIHNwYWNlIGNhbiB3b3JrIGluIHRo
-ZW9yeS4gSXQgd2lsbCBiZWNvbWUgYSBiaWcNCj4gcGVyZm9ybWFuY2UNCj4gaGl0IHRvIHZtZXhp
-dCBhbmQgc3dpdGNoIHRvIHVzZXIgc3BhY2UgbW9kZSBvbiBlYWNoIGZhdWx0LCBvbiB0aGUgb3Ro
-ZXIgaGFuZCwNCj4gaGF2aW5nIHRoZSBwZXJtaXNzaW9uIGhhbmRsZWQgYnkgRVBUIHNob3VsZCBt
-YWtlIHNvbWUgcmVtYXJrYWJsZSBwZXJmb3JtYW5jZQ0KPiBnYWluLg0KDQpHaXZlbiB0aGF0IHdy
-aXRlcyB0byB0aGVzZSBhcmVhcyBzaG91bGQgYmUgZXhjZXB0aW9uYWwgb2NjdXJyZW5jZXMsIEkg
-ZG9uJ3QNCnVuZGVyc3RhbmQgd2h5IHRoaXMgcGF0aCBuZWVkcyB0byBiZSBvcHRpbWl6ZWQuIFRv
-IG1lIGl0IHNlZW1zLCBhIHN0cmFpZ2h0LQ0KZm9yd2FyZCB1c2Vyc3BhY2UgaW1wbGVtZW50YXRp
-b24gd2l0aCBubyBhZGRpdGlvbmFsIGNvZGUgaW4gdGhlIGtlcm5lbCBhY2hpZXZlcw0KdGhlIHNh
-bWUgZmVhdHVyZS4gQ2FuIHlvdSBlbGFib3JhdGU/DQoNCkp1bGlhbgoKCgpBbWF6b24gRGV2ZWxv
-cG1lbnQgQ2VudGVyIEdlcm1hbnkgR21iSApLcmF1c2Vuc3RyLiAzOAoxMDExNyBCZXJsaW4KR2Vz
-Y2hhZWZ0c2Z1ZWhyZXI6IENocmlzdGlhbiBTY2hsYWVnZXIsIFJhbGYgSGVyYnJpY2gKVXN0LUlE
-OiBERSAyODkgMjM3IDg3OQpFaW5nZXRyYWdlbiBhbSBBbXRzZ2VyaWNodCBDaGFybG90dGVuYnVy
-ZyBIUkIgMTQ5MTczIEIKCg==
+Hi,
+
+Le jeu. 13 d=E9c. 2018 =E0 10:18, Uwe Kleine-K=F6nig=20
+<u.kleine-koenig@pengutronix.de> a =E9crit :
+> On Wed, Dec 12, 2018 at 11:09:07PM +0100, Paul Cercueil wrote:
+>>  The TCU channels 0 and 1 were previously reserved for system tasks,=20
+>> and
+>>  thus unavailable for PWM.
+>>=20
+>>  The driver will now only allow a PWM channel to be requested if=20
+>> memory
+>>  resources corresponding to the register area of the channel were
+>>  supplied to the driver. This allows the TCU channels to be reserved=20
+>> for
+>>  system tasks from within the devicetree.
+>>=20
+>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>=20
+> While there is someone caring for this driver I'd like to complete (a
+> bit) my picture about the different capabilities and specialities of=20
+> the
+> supported PWMs. So I have a few questions:
+>=20
+> Is there a publicly available reference manual for this device? (If
+> yes, adding a link to the driver would be great.)
+
+I have them here: https://zcrc.me/~paul/jz_docs/
+
+> jz4740_pwm_config looks as if the currently running period isn't
+> completed before the new config is in effect. Is that correct? If yes,
+> can this be fixed? A similar question for set_polarity: Does setting=20
+> the
+> JZ_TIMER_CTRL_PWM_ACTIVE_LOW bit in the control register take effect
+> immediately or is this shadowed until the next period starts?
+
+I don't really know. We only use this driver for a rumble motor and=20
+backlight.
+Somebody would have to check with a logic analyzer.
+
+> How does the device's output behave after the PWM is disabled?
+> Does it complete the currently running period? How does the output
+> behave then? (active/inactive/high/low/high-z?)
+
+There's a bit to toggle between "graceful" shutdown (bit clear) and=20
+"abrupt"
+shutdown (bit set). TCSR bit 9. I think that graceful shutdown will=20
+complete
+the running period, then keep the level active. Abrupt shutdown will=20
+keep the
+current level of the line.
+
+>>  @@ -42,11 +68,7 @@ static int jz4740_pwm_request(struct pwm_chip=20
+>> *chip, struct pwm_device *pwm)
+>>   	char clk_name[16];
+>>   	int ret;
+>>=20
+>>  -	/*
+>>  -	 * Timers 0 and 1 are used for system tasks, so they are=20
+>> unavailable
+>>  -	 * for use as PWMs.
+>>  -	 */
+>>  -	if (pwm->hwpwm < 2)
+>>  +	if (!jz4740_pwm_can_use_chn(jz, pwm->hwpwm))
+>>   		return -EBUSY;
+>=20
+> Maybe EBUSY isn't the best choice here. If the needed register space=20
+> for
+> the requested pwm is not included in the memory resources provided to
+> the device I'd prefer ENXIO or ENODEV.
+
+The idea was that if we don't get the register space we need, that means
+the channel is used for something else, hence the EBUSY. Should I switch
+it to ENXIO?
+
+>>   	snprintf(clk_name, sizeof(clk_name), "timer%u", pwm->hwpwm);
+>>  @@ -208,6 +230,12 @@ static int jz4740_pwm_probe(struct=20
+>> platform_device *pdev)
+>>   		return -EINVAL;
+>>   	}
+>>=20
+>>  +	jz4740->parent_res =3D platform_get_resource(
+>>  +				to_platform_device(dev->parent),
+>>  +				IORESOURCE_MEM, 0);
+>>  +	if (!jz4740->parent_res)
+>>  +		return -EINVAL;
+>>  +
+>>   	jz4740->chip.dev =3D dev;
+>>   	jz4740->chip.ops =3D &jz4740_pwm_ops;
+>>   	jz4740->chip.npwm =3D NUM_PWM;
+>=20
+> Thanks
+> Uwe
+>=20
+> --
+> Pengutronix e.K.                           | Uwe Kleine-K=F6nig       =20
+>     |
+> Industrial Linux Solutions                 |=20
+> http://www.pengutronix.de/  |
+=
 
