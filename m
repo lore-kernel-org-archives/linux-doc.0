@@ -2,46 +2,46 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_MIXED_ES autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BC6917D8A5
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Dec 2018 02:11:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A796F7DD31
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Dec 2018 02:12:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726923AbeLMCLo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Dec 2018 21:11:44 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49692 "EHLO
+        id S1727011AbeLMCLz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Dec 2018 21:11:55 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47528 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726916AbeLMCLn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Dec 2018 21:11:43 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wBD23kjb089531
-        for <linux-doc@vger.kernel.org>; Wed, 12 Dec 2018 21:11:42 -0500
-Received: from e35.co.us.ibm.com (e35.co.us.ibm.com [32.97.110.153])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2pbacvj457-1
+        by vger.kernel.org with ESMTP id S1726405AbeLMCLy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Dec 2018 21:11:54 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wBD23iuo116278
+        for <linux-doc@vger.kernel.org>; Wed, 12 Dec 2018 21:11:53 -0500
+Received: from e36.co.us.ibm.com (e36.co.us.ibm.com [32.97.110.154])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2pb8ku75r5-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 12 Dec 2018 21:11:41 -0500
+        for <linux-doc@vger.kernel.org>; Wed, 12 Dec 2018 21:11:53 -0500
 Received: from localhost
-        by e35.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e36.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <bauerman@linux.ibm.com>;
-        Thu, 13 Dec 2018 02:11:41 -0000
-Received: from b03cxnp08028.gho.boulder.ibm.com (9.17.130.20)
-        by e35.co.us.ibm.com (192.168.1.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        Thu, 13 Dec 2018 02:11:52 -0000
+Received: from b03cxnp08027.gho.boulder.ibm.com (9.17.130.19)
+        by e36.co.us.ibm.com (192.168.1.136) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 13 Dec 2018 02:11:35 -0000
+        Thu, 13 Dec 2018 02:11:47 -0000
 Received: from b03ledav006.gho.boulder.ibm.com (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
-        by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wBD2BYEO26083338
+        by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wBD2BjIT17301516
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 13 Dec 2018 02:11:34 GMT
+        Thu, 13 Dec 2018 02:11:45 GMT
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id EEC39C6061;
-        Thu, 13 Dec 2018 02:11:33 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id A4638C6057;
+        Thu, 13 Dec 2018 02:11:45 +0000 (GMT)
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C2F14C605F;
-        Thu, 13 Dec 2018 02:11:29 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id 40D82C605B;
+        Thu, 13 Dec 2018 02:11:41 +0000 (GMT)
 Received: from morokweng.localdomain.com (unknown [9.80.227.60])
         by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Thu, 13 Dec 2018 02:11:29 +0000 (GMT)
+        Thu, 13 Dec 2018 02:11:41 +0000 (GMT)
 From:   Thiago Jung Bauermann <bauerman@linux.ibm.com>
 To:     linux-integrity@vger.kernel.org
 Cc:     linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
@@ -59,20 +59,20 @@ Cc:     linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
         "AKASHI, Takahiro" <takahiro.akashi@linaro.org>,
         Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Subject: [PATCH v9 08/14] ima: Introduce is_signed()
-Date:   Thu, 13 Dec 2018 00:09:01 -0200
+Subject: [PATCH v9 10/14] ima: Add modsig appraise_type option for module-style appended signatures
+Date:   Thu, 13 Dec 2018 00:09:03 -0200
 X-Mailer: git-send-email 2.17.2
 In-Reply-To: <20181213020907.13601-1-bauerman@linux.ibm.com>
 References: <20181213020907.13601-1-bauerman@linux.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 18121302-0012-0000-0000-000016E90ECE
+x-cbid: 18121302-0020-0000-0000-00000E98FB71
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00010217; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000270; SDB=6.01130951; UDB=6.00587714; IPR=6.00911084;
- MB=3.00024674; MTD=3.00000008; XFM=3.00000015; UTC=2018-12-13 02:11:39
+ PH=3.00000004; SC=3.00000270; SDB=6.01130951; UDB=6.00587714; IPR=6.00911085;
+ MB=3.00024674; MTD=3.00000008; XFM=3.00000015; UTC=2018-12-13 02:11:51
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18121302-0013-0000-0000-0000556F7FA0
-Message-Id: <20181213020907.13601-9-bauerman@linux.ibm.com>
+x-cbparentid: 18121302-0021-0000-0000-000064081CE2
+Message-Id: <20181213020907.13601-11-bauerman@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-12_04:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -85,77 +85,181 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-With the introduction of another IMA signature type (modsig), some places
-will need to check for both of them. It is cleaner to do that if there's a
-helper function to tell whether an xattr_value represents an IMA
-signature.
+Introduce the modsig keyword to the IMA policy syntax to specify that
+a given hook should expect the file to have the IMA signature appended
+to it. Here is how it can be used in a rule:
+
+appraise func=KEXEC_KERNEL_CHECK appraise_type=imasig|modsig
+
+With this rule, IMA will accept either a signature stored in the extended
+attribute or an appended signature.
+
+For now, the rule above will behave exactly the same as if
+appraise_type=imasig was specified. The actual modsig implementation
+will be introduced separately.
 
 Suggested-by: Mimi Zohar <zohar@linux.ibm.com>
 Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 ---
- security/integrity/ima/ima.h              | 5 +++++
- security/integrity/ima/ima_appraise.c     | 7 +++----
- security/integrity/ima/ima_template_lib.c | 2 +-
- 3 files changed, 9 insertions(+), 5 deletions(-)
+ Documentation/ABI/testing/ima_policy |  6 +++++-
+ security/integrity/ima/Kconfig       | 10 +++++++++
+ security/integrity/ima/Makefile      |  1 +
+ security/integrity/ima/ima.h         |  9 ++++++++
+ security/integrity/ima/ima_modsig.c  | 31 ++++++++++++++++++++++++++++
+ security/integrity/ima/ima_policy.c  | 12 +++++++++--
+ security/integrity/integrity.h       |  1 +
+ 7 files changed, 67 insertions(+), 3 deletions(-)
 
+diff --git a/Documentation/ABI/testing/ima_policy b/Documentation/ABI/testing/ima_policy
+index 74c6702de74e..9d1dfd0a8891 100644
+--- a/Documentation/ABI/testing/ima_policy
++++ b/Documentation/ABI/testing/ima_policy
+@@ -37,7 +37,7 @@ Description:
+ 			euid:= decimal value
+ 			fowner:= decimal value
+ 		lsm:  	are LSM specific
+-		option:	appraise_type:= [imasig]
++		option:	appraise_type:= [imasig] [imasig|modsig]
+ 			pcr:= decimal value
+ 
+ 		default policy:
+@@ -103,3 +103,7 @@ Description:
+ 
+ 			measure func=KEXEC_KERNEL_CHECK pcr=4
+ 			measure func=KEXEC_INITRAMFS_CHECK pcr=5
++
++		Example of appraise rule allowing modsig appended signatures:
++
++			appraise func=KEXEC_KERNEL_CHECK appraise_type=imasig|modsig
+diff --git a/security/integrity/ima/Kconfig b/security/integrity/ima/Kconfig
+index a18f8c6d13b5..bba19f9ea184 100644
+--- a/security/integrity/ima/Kconfig
++++ b/security/integrity/ima/Kconfig
+@@ -231,6 +231,16 @@ config IMA_APPRAISE_BOOTPARAM
+ 	  This option enables the different "ima_appraise=" modes
+ 	  (eg. fix, log) from the boot command line.
+ 
++config IMA_APPRAISE_MODSIG
++	bool "Support module-style signatures for appraisal"
++	depends on IMA_APPRAISE
++	default n
++	help
++	   Adds support for signatures appended to files. The format of the
++	   appended signature is the same used for signed kernel modules.
++	   The modsig keyword can be used in the IMA policy to allow a hook
++	   to accept such signatures.
++
+ config IMA_TRUSTED_KEYRING
+ 	bool "Require all keys on the .ima keyring be signed (deprecated)"
+ 	depends on IMA_APPRAISE && SYSTEM_TRUSTED_KEYRING
+diff --git a/security/integrity/ima/Makefile b/security/integrity/ima/Makefile
+index d921dc4f9eb0..31d57cdf2421 100644
+--- a/security/integrity/ima/Makefile
++++ b/security/integrity/ima/Makefile
+@@ -9,5 +9,6 @@ obj-$(CONFIG_IMA) += ima.o
+ ima-y := ima_fs.o ima_queue.o ima_init.o ima_main.o ima_crypto.o ima_api.o \
+ 	 ima_policy.o ima_template.o ima_template_lib.o
+ ima-$(CONFIG_IMA_APPRAISE) += ima_appraise.o
++ima-$(CONFIG_IMA_APPRAISE_MODSIG) += ima_modsig.o
+ ima-$(CONFIG_HAVE_IMA_KEXEC) += ima_kexec.o
+ obj-$(CONFIG_IMA_BLACKLIST_KEYRING) += ima_mok.o
 diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.h
-index cc12f3449a72..e4f72b30cb28 100644
+index f0bc2a182cbf..69c06e2d7bd6 100644
 --- a/security/integrity/ima/ima.h
 +++ b/security/integrity/ima/ima.h
-@@ -154,6 +154,11 @@ unsigned long ima_get_binary_runtime_size(void);
- int ima_init_template(void);
- void ima_init_template_list(void);
+@@ -299,6 +299,15 @@ static inline int ima_read_xattr(struct dentry *dentry,
  
-+static inline bool is_signed(const struct evm_ima_xattr_data *xattr_value)
+ #endif /* CONFIG_IMA_APPRAISE */
+ 
++#ifdef CONFIG_IMA_APPRAISE_MODSIG
++bool ima_hook_supports_modsig(enum ima_hooks func);
++#else
++static inline bool ima_hook_supports_modsig(enum ima_hooks func)
 +{
-+	return xattr_value && xattr_value->type == EVM_IMA_XATTR_DIGSIG;
++	return false;
 +}
++#endif /* CONFIG_IMA_APPRAISE_MODSIG */
 +
- /*
-  * used to protect h_table and sha_table
-  */
-diff --git a/security/integrity/ima/ima_appraise.c b/security/integrity/ima/ima_appraise.c
-index dcb8226972cf..085386c77b0b 100644
---- a/security/integrity/ima/ima_appraise.c
-+++ b/security/integrity/ima/ima_appraise.c
-@@ -335,15 +335,14 @@ int ima_appraise_measurement(enum ima_hooks func,
- 	} else if (status != INTEGRITY_PASS) {
- 		/* Fix mode, but don't replace file signatures. */
- 		if ((ima_appraise & IMA_APPRAISE_FIX) &&
--		    (!xattr_value ||
--		     xattr_value->type != EVM_IMA_XATTR_DIGSIG)) {
-+		    !is_signed(xattr_value)) {
- 			if (!ima_fix_xattr(dentry, iint))
- 				status = INTEGRITY_PASS;
- 		}
+ /* LSM based policy rules require audit */
+ #ifdef CONFIG_IMA_LSM_RULES
  
- 		/* Permit new files with file signatures, but without data. */
- 		if (inode->i_size == 0 && iint->flags & IMA_NEW_FILE &&
--		    xattr_value && xattr_value->type == EVM_IMA_XATTR_DIGSIG) {
-+		    is_signed(xattr_value)) {
- 			status = INTEGRITY_PASS;
+diff --git a/security/integrity/ima/ima_modsig.c b/security/integrity/ima/ima_modsig.c
+new file mode 100644
+index 000000000000..08182bd7f445
+--- /dev/null
++++ b/security/integrity/ima/ima_modsig.c
+@@ -0,0 +1,31 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * IMA support for appraising module-style appended signatures.
++ *
++ * Copyright (C) 2018  IBM Corporation
++ *
++ * Author:
++ * Thiago Jung Bauermann <bauerman@linux.ibm.com>
++ */
++
++#include "ima.h"
++
++/**
++ * ima_hook_supports_modsig - can the policy allow modsig for this hook?
++ *
++ * modsig is only supported by hooks using ima_post_read_file, because only they
++ * preload the contents of the file in a buffer. FILE_CHECK does that in some
++ * cases, but not when reached from vfs_open. POLICY_CHECK can support it, but
++ * it's not useful in practice because it's a text file so deny.
++ */
++bool ima_hook_supports_modsig(enum ima_hooks func)
++{
++	switch (func) {
++	case KEXEC_KERNEL_CHECK:
++	case KEXEC_INITRAMFS_CHECK:
++	case MODULE_CHECK:
++		return true;
++	default:
++		return false;
++	}
++}
+diff --git a/security/integrity/ima/ima_policy.c b/security/integrity/ima/ima_policy.c
+index b7ee342fbe4a..c38a63f56b7b 100644
+--- a/security/integrity/ima/ima_policy.c
++++ b/security/integrity/ima/ima_policy.c
+@@ -1036,6 +1036,10 @@ static int ima_parse_rule(char *rule, struct ima_rule_entry *entry)
+ 			ima_log_string(ab, "appraise_type", args[0].from);
+ 			if ((strcmp(args[0].from, "imasig")) == 0)
+ 				entry->flags |= IMA_DIGSIG_REQUIRED;
++			else if (ima_hook_supports_modsig(entry->func) &&
++				 strcmp(args[0].from, "imasig|modsig") == 0)
++				entry->flags |= IMA_DIGSIG_REQUIRED
++						| IMA_MODSIG_ALLOWED;
+ 			else
+ 				result = -EINVAL;
+ 			break;
+@@ -1328,8 +1332,12 @@ int ima_policy_show(struct seq_file *m, void *v)
+ 			}
  		}
- 
-@@ -458,7 +457,7 @@ int ima_inode_setxattr(struct dentry *dentry, const char *xattr_name,
- 		if (!xattr_value_len || (xvalue->type >= IMA_XATTR_LAST))
- 			return -EINVAL;
- 		ima_reset_appraise_flags(d_backing_inode(dentry),
--			xvalue->type == EVM_IMA_XATTR_DIGSIG);
-+					 is_signed(xvalue));
- 		result = 0;
  	}
- 	return result;
-diff --git a/security/integrity/ima/ima_template_lib.c b/security/integrity/ima/ima_template_lib.c
-index 43752002c222..300912914b17 100644
---- a/security/integrity/ima/ima_template_lib.c
-+++ b/security/integrity/ima/ima_template_lib.c
-@@ -382,7 +382,7 @@ int ima_eventsig_init(struct ima_event_data *event_data,
- {
- 	struct evm_ima_xattr_data *xattr_value = event_data->xattr_value;
+-	if (entry->flags & IMA_DIGSIG_REQUIRED)
+-		seq_puts(m, "appraise_type=imasig ");
++	if (entry->flags & IMA_DIGSIG_REQUIRED) {
++		if (entry->flags & IMA_MODSIG_ALLOWED)
++			seq_puts(m, "appraise_type=imasig|modsig ");
++		else
++			seq_puts(m, "appraise_type=imasig ");
++	}
+ 	if (entry->flags & IMA_PERMIT_DIRECTIO)
+ 		seq_puts(m, "permit_directio ");
+ 	rcu_read_unlock();
+diff --git a/security/integrity/integrity.h b/security/integrity/integrity.h
+index dec5ab8cf9e9..4549488a048a 100644
+--- a/security/integrity/integrity.h
++++ b/security/integrity/integrity.h
+@@ -36,6 +36,7 @@
+ #define IMA_NEW_FILE		0x04000000
+ #define EVM_IMMUTABLE_DIGSIG	0x08000000
+ #define IMA_FAIL_UNVERIFIABLE_SIGS	0x10000000
++#define IMA_MODSIG_ALLOWED	0x20000000
  
--	if ((!xattr_value) || (xattr_value->type != EVM_IMA_XATTR_DIGSIG))
-+	if (!is_signed(xattr_value))
- 		return 0;
- 
- 	return ima_write_template_field_data(xattr_value, event_data->xattr_len,
+ #define IMA_DO_MASK		(IMA_MEASURE | IMA_APPRAISE | IMA_AUDIT | \
+ 				 IMA_HASH | IMA_APPRAISE_SUBMASK)
 
