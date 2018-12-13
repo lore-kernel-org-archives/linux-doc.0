@@ -1,135 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7798F7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Dec 2018 09:31:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E2F757D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Dec 2018 13:36:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727749AbeLMJbG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Dec 2018 04:31:06 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:51635 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727063AbeLMJbF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Dec 2018 04:31:05 -0500
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1gXNKV-00073L-4E; Thu, 13 Dec 2018 10:30:51 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1gXNKT-0006Vw-9B; Thu, 13 Dec 2018 10:30:49 +0100
-Date:   Thu, 13 Dec 2018 10:30:49 +0100
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mathieu Malaterre <malat@debian.org>,
-        Ezequiel Garcia <ezequiel@collabora.co.uk>,
-        PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>,
-        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk@vger.kernel.org, od@zcrc.me
-Subject: Re: [PATCH v8 11/26] pwm: jz4740: Use regmap and clocks from TCU
- driver
-Message-ID: <20181213093049.rxdvf6tip7iqdj3c@pengutronix.de>
-References: <20181212220922.18759-1-paul@crapouillou.net>
- <20181212220922.18759-12-paul@crapouillou.net>
+        id S1729483AbeLMNgf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Dec 2018 08:36:35 -0500
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:45728 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729281AbeLMNgf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Dec 2018 08:36:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1544708194; x=1576244194;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-id:mime-version:content-transfer-encoding;
+  bh=Lbe2paPaMLnxHpwk06gIyn2RUOgS33/6z6Ym9wl5b1Q=;
+  b=Tb2J4WkELMJbOtTk3vhKSFt0V4VtnaaLwoIkVzphGnhPQMgNqX7+fu5C
+   LPiYXwJct97b8M8WHIFzcpx9/N7dJOXh3l3S/WBHkLkfdrtdSXFYXjTPT
+   iFJpz4l+QJ869F3uw1QIgb78Ypiy8975t1RQAUKCXVxVmG5BIqblDv4Nf
+   o=;
+X-IronPort-AV: E=Sophos;i="5.56,253,1539648000"; 
+   d="scan'208";a="372224611"
+Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2b-3714e498.us-west-2.amazon.com) ([10.124.125.6])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 13 Dec 2018 13:36:32 +0000
+Received: from EX13MTAUEA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+        by email-inbound-relay-2b-3714e498.us-west-2.amazon.com (8.14.7/8.14.7) with ESMTP id wBDDaQZh020950
+        (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+        Thu, 13 Dec 2018 13:36:30 GMT
+Received: from EX13D02EUB002.ant.amazon.com (10.43.166.170) by
+ EX13MTAUEA001.ant.amazon.com (10.43.61.82) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Thu, 13 Dec 2018 13:36:29 +0000
+Received: from EX13D02EUB004.ant.amazon.com (10.43.166.221) by
+ EX13D02EUB002.ant.amazon.com (10.43.166.170) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Thu, 13 Dec 2018 13:36:28 +0000
+Received: from EX13D02EUB004.ant.amazon.com ([10.43.166.221]) by
+ EX13D02EUB004.ant.amazon.com ([10.43.166.221]) with mapi id 15.00.1367.000;
+ Thu, 13 Dec 2018 13:36:28 +0000
+From:   "Stecklina, Julian" <jsteckli@amazon.de>
+To:     "corbet@lwn.net" <corbet@lwn.net>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "ahmedsoliman0x666@gmail.com" <ahmedsoliman0x666@gmail.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "ovich00@gmail.com" <ovich00@gmail.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "igor.stoppa@gmail.com" <igor.stoppa@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "nigel.edwards@hpe.com" <nigel.edwards@hpe.com>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "ahmedsoliman@mena.vt.edu" <ahmedsoliman@mena.vt.edu>,
+        "kernel-hardening@lists.openwall.com" 
+        <kernel-hardening@lists.openwall.com>,
+        "rkrcmar@redhat.com" <rkrcmar@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "blukashev@sempervictus.com" <blukashev@sempervictus.com>
+Subject: Re: [PATCH V7 0/10] KVM: X86: Introducing ROE Protection Kernel
+ Hardening
+Thread-Topic: [PATCH V7 0/10] KVM: X86: Introducing ROE Protection Kernel
+ Hardening
+Thread-Index: AQHUjixIsnZ4VYbyrkW3BFrTaBk7l6V8tVmA
+Date:   Thu, 13 Dec 2018 13:36:27 +0000
+Message-ID: <1544708187.5826.1.camel@amazon.de>
+References: <20181207124803.10828-1-ahmedsoliman@mena.vt.edu>
+In-Reply-To: <20181207124803.10828-1-ahmedsoliman@mena.vt.edu>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.43.166.129]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5996DEAF3FAC094393A048101A131781@amazon.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20181212220922.18759-12-paul@crapouillou.net>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: base64
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+QWhtZWQsDQoNCk9uIEZyaSwgMjAxOC0xMi0wNyBhdCAxNDo0NyArMDIwMCwgQWhtZWQgQWJkIEVs
+IE1hd2dvb2Qgd3JvdGU6DQo+IFRoZSByZWFzb24gd2h5IGl0IHdvdWxkIGJlIGJldHRlciB0byBp
+bXBsZW1lbnQgdGhpcyBmcm9tIGluc2lkZSBrdm06IGluc3RlYWQNCj4gb2YNCj4gKGhvc3QpIHVz
+ZXIgc3BhY2UgaXMgdGhlIG5lZWQgdG8gYWNjZXNzIFNQVEVzIHRvIG1vZGlmeSB0aGUgcGVybWlz
+c2lvbnMsIHdoaWxlDQo+IG1wcm90ZWN0KCkgZnJvbSB1c2VyIHNwYWNlIGNhbiB3b3JrIGluIHRo
+ZW9yeS4gSXQgd2lsbCBiZWNvbWUgYSBiaWcNCj4gcGVyZm9ybWFuY2UNCj4gaGl0IHRvIHZtZXhp
+dCBhbmQgc3dpdGNoIHRvIHVzZXIgc3BhY2UgbW9kZSBvbiBlYWNoIGZhdWx0LCBvbiB0aGUgb3Ro
+ZXIgaGFuZCwNCj4gaGF2aW5nIHRoZSBwZXJtaXNzaW9uIGhhbmRsZWQgYnkgRVBUIHNob3VsZCBt
+YWtlIHNvbWUgcmVtYXJrYWJsZSBwZXJmb3JtYW5jZQ0KPiBnYWluLg0KDQpHaXZlbiB0aGF0IHdy
+aXRlcyB0byB0aGVzZSBhcmVhcyBzaG91bGQgYmUgZXhjZXB0aW9uYWwgb2NjdXJyZW5jZXMsIEkg
+ZG9uJ3QNCnVuZGVyc3RhbmQgd2h5IHRoaXMgcGF0aCBuZWVkcyB0byBiZSBvcHRpbWl6ZWQuIFRv
+IG1lIGl0IHNlZW1zLCBhIHN0cmFpZ2h0LQ0KZm9yd2FyZCB1c2Vyc3BhY2UgaW1wbGVtZW50YXRp
+b24gd2l0aCBubyBhZGRpdGlvbmFsIGNvZGUgaW4gdGhlIGtlcm5lbCBhY2hpZXZlcw0KdGhlIHNh
+bWUgZmVhdHVyZS4gQ2FuIHlvdSBlbGFib3JhdGU/DQoNCkp1bGlhbgoKCgpBbWF6b24gRGV2ZWxv
+cG1lbnQgQ2VudGVyIEdlcm1hbnkgR21iSApLcmF1c2Vuc3RyLiAzOAoxMDExNyBCZXJsaW4KR2Vz
+Y2hhZWZ0c2Z1ZWhyZXI6IENocmlzdGlhbiBTY2hsYWVnZXIsIFJhbGYgSGVyYnJpY2gKVXN0LUlE
+OiBERSAyODkgMjM3IDg3OQpFaW5nZXRyYWdlbiBhbSBBbXRzZ2VyaWNodCBDaGFybG90dGVuYnVy
+ZyBIUkIgMTQ5MTczIEIKCg==
 
-On Wed, Dec 12, 2018 at 11:09:06PM +0100, Paul Cercueil wrote:
-> [...]
->  static int jz4740_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
->  {
-> -	uint32_t ctrl = jz4740_timer_get_ctrl(pwm->pwm);
-> +	struct jz4740_pwm_chip *jz = to_jz4740(chip);
->  
-> -	ctrl |= JZ_TIMER_CTRL_PWM_ENABLE;
-> -	jz4740_timer_set_ctrl(pwm->hwpwm, ctrl);
-> -	jz4740_timer_enable(pwm->hwpwm);
-> +	/* Enable PWM output */
-> +	regmap_update_bits(jz->map, TCU_REG_TCSRc(pwm->hwpwm),
-> +				TCU_TCSR_PWM_EN, TCU_TCSR_PWM_EN);
-
-Usually follow-up lines are indented to the matching parenthesis.
-
-> [...]
->  static int jz4740_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
->  			     int duty_ns, int period_ns)
->  {
->  	struct jz4740_pwm_chip *jz4740 = to_jz4740(pwm->chip);
-> +	struct clk *clk = jz4740->clks[pwm->hwpwm];
-> +	unsigned long rate, new_rate, period, duty;
->  	unsigned long long tmp;
-> -	unsigned long period, duty;
-> -	unsigned int prescaler = 0;
-> -	uint16_t ctrl;
-> +	unsigned int tcsr;
->  	bool is_enabled;
->  
-> -	tmp = (unsigned long long)clk_get_rate(jz4740->clk) * period_ns;
-> -	do_div(tmp, 1000000000);
-> -	period = tmp;
-> +	rate = clk_get_rate(clk);
-> +
-> +	for (;;) {
-> +		tmp = (unsigned long long) rate * period_ns;
-> +		do_div(tmp, 1000000000);
->  
-> -	while (period > 0xffff && prescaler < 6) {
-> -		period >>= 2;
-> -		++prescaler;
-> +		if (tmp <= 0xffff)
-> +			break;
-> +
-> +		new_rate = clk_round_rate(clk, rate / 2);
-> +
-> +		if (new_rate < rate)
-> +			rate = new_rate;
-> +		else
-> +			return -EINVAL;
->  	}
->  
-> -	if (prescaler == 6)
-> -		return -EINVAL;
-> +	clk_set_rate(clk, rate);
-
-Maybe this could better live in a separate patch. If you split still
-further to have the conversion to regmap in a single patch, then the
-conversion to the clk_* functions and then improve the algorithm for the
-clk settings each of the patches is easier to review than this one patch
-that does all three things at once.
-
-Best regards
-Uwe
-
--- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
