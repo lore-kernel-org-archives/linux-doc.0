@@ -1,139 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5DD587D8A3
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Dec 2018 14:35:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E45297D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Dec 2018 16:01:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728044AbeLMOe6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Dec 2018 09:34:58 -0500
-Received: from outils.crapouillou.net ([89.234.176.41]:33626 "EHLO
-        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727618AbeLMOe6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Dec 2018 09:34:58 -0500
-Date:   Thu, 13 Dec 2018 15:34:48 +0100
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v8 11/26] pwm: jz4740: Use regmap and clocks from TCU
- driver
-To:     Uwe =?iso-8859-1?q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mathieu Malaterre <malat@debian.org>,
-        Ezequiel Garcia <ezequiel@collabora.co.uk>,
-        PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>,
-        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk@vger.kernel.org, od@zcrc.me
-Message-Id: <1544711688.18952.2@crapouillou.net>
-In-Reply-To: <20181213093049.rxdvf6tip7iqdj3c@pengutronix.de>
-References: <20181212220922.18759-1-paul@crapouillou.net>
-        <20181212220922.18759-12-paul@crapouillou.net>
-        <20181213093049.rxdvf6tip7iqdj3c@pengutronix.de>
+        id S1728687AbeLMQBD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Dec 2018 11:01:03 -0500
+Received: from mail-ua1-f65.google.com ([209.85.222.65]:33596 "EHLO
+        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727901AbeLMQBD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Dec 2018 11:01:03 -0500
+Received: by mail-ua1-f65.google.com with SMTP id t8so894647uap.0
+        for <linux-doc@vger.kernel.org>; Thu, 13 Dec 2018 08:01:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mena-vt-edu.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=84yR9u94FchxuM6bLlwEw8+aUqVwObavnlxKODAuoY0=;
+        b=0II1czK8gAnU/Iv1ee5SltTk87Ew1CNMUmZ/HWgMIcTwtQQBBIM5N3Mo07oPwbMkoW
+         timi8VvYZhmn/rbnPVEErCAiZNTtfwKg8FnEcaELbd8Q19qLwfZkmDDksPCTMeZa0EDV
+         YyKvgnHVlUbAMqgOPvIv/9yWb29e931WBAGiqJ5Fj+KyfQMlCnEJ3TcdunwgzjbE2rdd
+         h76wCWBE7iY85N0qJMWOWY28dpuRSXXh1HM8Q14VICKCvYrGFTB61nJRJZFXQmZk+3F/
+         75HmgGzP+n5riyuGlMU0Y614Va+EG45OB4fvKLJL75YYQtGkFBMWdDqHjzR0o65ZuAgm
+         QNTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=84yR9u94FchxuM6bLlwEw8+aUqVwObavnlxKODAuoY0=;
+        b=DbPTWmoTVyzlqVdPYH3KbxB/pue89K9EkPmN7JoBxqYVK+/wD8U+VYJix5AgV/SwgC
+         w6pQOQnNNrH9dapMCjeLviw/Gi6zucgWx0SYSqBWNiFgq5s7w/bvCc8lQJDZWabPNGR5
+         4vyp0NptcXi0xwcr1QPIWiXgGvgyC7C+ns+KtQH+1oEVtTsmAbOOtYdrlDpjZ0jm3luR
+         8kGZNnEOWlW8nTx2+DKg9JCwyouXIesad5S5An/NubvpQsZMshkhZD9bKJDDCs8RS/7v
+         VWx083pNPDUL8Uov2eeHuX/YLMirGqWvhqbGbfl4z30NWmMzjDOSvGmddeaot8GF5+CX
+         TkuQ==
+X-Gm-Message-State: AA+aEWY5t3Z1eCyOXTeqebo4Tvts3xFPVdRc7HfzsT+GFBFjWmcJ8nW5
+        S3HlWpqnEUurKuijH6vpe1QPs+y4nDXLAmBV97D/XQ==
+X-Google-Smtp-Source: AFSGD/V6vBqQelhDC9ZJ2ZRr+wZJWx/lD8vjWTlLO4o4Nn3x8qXnuzt89O7tHVPns2g7tankIjygE53bj7+x6tEMHXg=
+X-Received: by 2002:ab0:1d17:: with SMTP id j23mr11094550uak.133.1544716861667;
+ Thu, 13 Dec 2018 08:01:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1544711695; bh=vaRtKNxh69Zx4hzvWE5BlnM9SpbIUcaAwID6xRuePy8=; h=Date:From:Subject:To:Cc:Message-Id:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding; b=T7UHAV5/VDNreRQfwVVjkZX+9isrsLbPDUyjv9HX0ECy20R2rJZgWtH8FSok79fnY87YvQff34fYuHIwmRmCVTFQGkRzUs0Lclil4Imr34ZWTQy6ETzwB2nJX8dGGZskwkrWKvJNBRbUrM+DSnhnqOcNo5FSow8chDMzWibIufs=
+References: <20181207124803.10828-1-ahmedsoliman@mena.vt.edu> <1544708187.5826.1.camel@amazon.de>
+In-Reply-To: <1544708187.5826.1.camel@amazon.de>
+From:   Ahmed Soliman <ahmedsoliman@mena.vt.edu>
+Date:   Thu, 13 Dec 2018 18:00:05 +0200
+Message-ID: <CANBxJ=FP9GSfMES3e5dSct2qV0Z=uz7uPXufQNqoi5e+sWxvgQ@mail.gmail.com>
+Subject: Re: [PATCH V7 0/10] KVM: X86: Introducing ROE Protection Kernel Hardening
+To:     jsteckli@amazon.de
+Cc:     Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Ahmed Soliman <ahmedsoliman0x666@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        =?UTF-8?B?6rmA7J246rK4?= <ovich00@gmail.com>, x86@kernel.org,
+        Igor Stoppa <igor.stoppa@gmail.com>, hpa@zytor.com,
+        Ingo Molnar <mingo@redhat.com>, nigel.edwards@hpe.com,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        kernel-hardening@lists.openwall.com, rkrcmar@redhat.com,
+        linux-doc@vger.kernel.org,
+        Boris Lukashev <blukashev@sempervictus.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hello,
 
-Le jeu. 13 d=E9c. 2018 =E0 10:30, Uwe Kleine-K=F6nig=20
-<u.kleine-koenig@pengutronix.de> a =E9crit :
-> Hello,
->=20
-> On Wed, Dec 12, 2018 at 11:09:06PM +0100, Paul Cercueil wrote:
->>  [...]
->>   static int jz4740_pwm_enable(struct pwm_chip *chip, struct=20
->> pwm_device *pwm)
->>   {
->>  -	uint32_t ctrl =3D jz4740_timer_get_ctrl(pwm->pwm);
->>  +	struct jz4740_pwm_chip *jz =3D to_jz4740(chip);
->>=20
->>  -	ctrl |=3D JZ_TIMER_CTRL_PWM_ENABLE;
->>  -	jz4740_timer_set_ctrl(pwm->hwpwm, ctrl);
->>  -	jz4740_timer_enable(pwm->hwpwm);
->>  +	/* Enable PWM output */
->>  +	regmap_update_bits(jz->map, TCU_REG_TCSRc(pwm->hwpwm),
->>  +				TCU_TCSR_PWM_EN, TCU_TCSR_PWM_EN);
->=20
-> Usually follow-up lines are indented to the matching parenthesis.
+> Given that writes to these areas should be exceptional occurrences,
 
-OK.
+No not in the case of partially protected page.
 
->>  [...]
->>   static int jz4740_pwm_config(struct pwm_chip *chip, struct=20
->> pwm_device *pwm,
->>   			     int duty_ns, int period_ns)
->>   {
->>   	struct jz4740_pwm_chip *jz4740 =3D to_jz4740(pwm->chip);
->>  +	struct clk *clk =3D jz4740->clks[pwm->hwpwm];
->>  +	unsigned long rate, new_rate, period, duty;
->>   	unsigned long long tmp;
->>  -	unsigned long period, duty;
->>  -	unsigned int prescaler =3D 0;
->>  -	uint16_t ctrl;
->>  +	unsigned int tcsr;
->>   	bool is_enabled;
->>=20
->>  -	tmp =3D (unsigned long long)clk_get_rate(jz4740->clk) * period_ns;
->>  -	do_div(tmp, 1000000000);
->>  -	period =3D tmp;
->>  +	rate =3D clk_get_rate(clk);
->>  +
->>  +	for (;;) {
->>  +		tmp =3D (unsigned long long) rate * period_ns;
->>  +		do_div(tmp, 1000000000);
->>=20
->>  -	while (period > 0xffff && prescaler < 6) {
->>  -		period >>=3D 2;
->>  -		++prescaler;
->>  +		if (tmp <=3D 0xffff)
->>  +			break;
->>  +
->>  +		new_rate =3D clk_round_rate(clk, rate / 2);
->>  +
->>  +		if (new_rate < rate)
->>  +			rate =3D new_rate;
->>  +		else
->>  +			return -EINVAL;
->>   	}
->>=20
->>  -	if (prescaler =3D=3D 6)
->>  -		return -EINVAL;
->>  +	clk_set_rate(clk, rate);
->=20
-> Maybe this could better live in a separate patch. If you split still
-> further to have the conversion to regmap in a single patch, then the
-> conversion to the clk_* functions and then improve the algorithm for=20
-> the
-> clk settings each of the patches is easier to review than this one=20
-> patch
-> that does all three things at once.
+> I don't  understand why this path needs to be optimized. To me it seems, a straight-
+> forward userspace implementation with no additional code in the kernel achieves
+> the same feature. Can you elaborate?
 
-I can try.
+The performance hit I was talking about was when dealing with page with
+mixed content, given that page is partially read only and partially writable.
+The way this is handled is by emulating the writes from inside kvm, now if this
+was done from host's userspace, then every write operating (a size of at most
+1 cpu  word I guess ?) will require switching from guest to kvm and then to host
+userspace, which is major performance hit. I originally made it for protecting
+guest's page table part that shouldn't be remapped ever. Since the page table
+gets modified a lot, emulating the writes from host user space instead
+of the kernel
+would add an unnecessary overhead. Also it doesn't sound right to me
+to place the
+protection inside the page table when it can be placed inside the
+virtualization EPT.
 
-> Best regards
-> Uwe
->=20
-> --
-> Pengutronix e.K.                           | Uwe Kleine-K=F6nig       =20
->     |
-> Industrial Linux Solutions                 |=20
-> http://www.pengutronix.de/  |
-=
+But aside from that, I think I was wrong about hinting that it is
+simple when done from
+user space, handling cases like THP and huge pages (which I did not support yet)
+doesn't seam to be easy when done from user space and when doing Registers
+ROE has some arch specific details. That's why I think it is better to
+continue doing
+it from KVM kernel module.
 
+thanks,
+Ahmed
