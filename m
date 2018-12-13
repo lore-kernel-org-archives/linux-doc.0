@@ -1,58 +1,33 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,URIBL_BLACK autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 88B687D8A3
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Dec 2018 16:18:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 21A617D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Dec 2018 20:33:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729020AbeLMQSg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Dec 2018 11:18:36 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:40142 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727428AbeLMQSg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Dec 2018 11:18:36 -0500
-Received: by mail-ed1-f66.google.com with SMTP id d3so2498992edx.7;
-        Thu, 13 Dec 2018 08:18:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=+FdXPipH9AIz3yWNmpA4/ClAfz2jT9tmmIjwYuktQ+E=;
-        b=bQ/1vb5cCIdHP7A762nSa7Ce2w2un5zz0IfsSzrx+QthoqKuIJaFdrLZs6vwOLfeMf
-         uix/5McKQTkmpX0Y6iYY4hXgAJ7x8Arf8xqZg/A/4nMpRC45QjFGxayE74keC1ewiW4c
-         kPxo3NAoi35hAU5lhsHkMrzgd7+DuNOwjiEHeWEYLyc5SJbEv1jfpn4C53U6lSWglti6
-         FTYRQi2YYgnQCwBHznmL9Ljeg3RADkRqX2nvOhFcOnKEU8Yhq3cRgj3ooVnyJv5Kab7U
-         Wd+iZnaNjQ9l7rtTozZnkYthc0kBw7k3xdrgsynro2mzEXofgfEoo0I2f4fo8TF7sZde
-         b8vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=+FdXPipH9AIz3yWNmpA4/ClAfz2jT9tmmIjwYuktQ+E=;
-        b=UWoKX6PUlVhx61L+rpWL3NVMVX/JQ/9ISoxqSgkpg+aZVcQu39+33FUvT0WM1Bwo/Q
-         6BYo8sT386SPIg+tlrLxWftxNaiF7oGH4fTlcymOm3alMGx+Ut/P3KY/PZ+5SgSlCwB6
-         8Ta54vgv6PajAUcIxW1LzQmRyi83v0RrklcctCDcs6j4A3GRDjbiK+cdaSbyugeKlufp
-         ixAABZxroQg2PYl+fvS5JTAo8PTwQPZ3aQ6lBEpF6RQcc975MzMsHJWWZAd+lDthAM4S
-         0YOOWlIibv+AIOi6iceynW7wJlZ0PmbdUPjCxsDda7vSyg37cQfLHb96d+z9QzeyL0Yz
-         q3OA==
-X-Gm-Message-State: AA+aEWaPCY1Dqj0ekw0RxUhchMWAwkC4UtaBgA2aA1m8buJPqD2bkCjT
-        tQacAhu1H9qeSpPwBui0Cxo=
-X-Google-Smtp-Source: AFSGD/XHM3NswUvX+kvSB6GgwBHruq+9RY4kmKXvtZ1x9yOZWjFcjY50qAH4sw7m6tfwvHzf+XrZcg==
-X-Received: by 2002:a17:906:e287:: with SMTP id gg7-v6mr19062147ejb.128.1544717913525;
-        Thu, 13 Dec 2018 08:18:33 -0800 (PST)
-Received: from localhost (pD9E51040.dip0.t-ipconnect.de. [217.229.16.64])
-        by smtp.gmail.com with ESMTPSA id h11-v6sm403394ejc.3.2018.12.13.08.18.32
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 13 Dec 2018 08:18:32 -0800 (PST)
-Date:   Thu, 13 Dec 2018 17:18:31 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
+        id S1727455AbeLMUdC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Dec 2018 15:33:02 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:55739 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727417AbeLMUdB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Dec 2018 15:33:01 -0500
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1gXXf4-0002sW-Mz; Thu, 13 Dec 2018 21:32:46 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1gXXf1-0000z0-Sz; Thu, 13 Dec 2018 21:32:43 +0100
+Date:   Thu, 13 Dec 2018 21:32:43 +0100
+From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
 To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -67,77 +42,126 @@ Cc:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?=
         linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
         linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org, od@zcrc.me
-Subject: Re: [PATCH v8 15/26] pwm: jz4740: Add support for the JZ4725B
-Message-ID: <20181213161831.GC13531@ulmo>
+Subject: Re: [PATCH v8 12/26] pwm: jz4740: Allow selection of PWM channels 0
+ and 1
+Message-ID: <20181213203243.ucjwqtkyp6aboxp4@pengutronix.de>
 References: <20181212220922.18759-1-paul@crapouillou.net>
- <20181212220922.18759-16-paul@crapouillou.net>
- <20181213092409.ml4wpnzow2nnszkd@pengutronix.de>
- <1544709795.18952.1@crapouillou.net>
+ <20181212220922.18759-13-paul@crapouillou.net>
+ <20181213091822.r5ilpsllfhzaiqw4@pengutronix.de>
+ <1544709511.18952.0@crapouillou.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="8NvZYKFJsRX2Djef"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1544709795.18952.1@crapouillou.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1544709511.18952.0@crapouillou.net>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---8NvZYKFJsRX2Djef
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Dec 13, 2018 at 03:03:15PM +0100, Paul Cercueil wrote:
+On Thu, Dec 13, 2018 at 02:58:31PM +0100, Paul Cercueil wrote:
 > Hi,
->=20
-> Le jeu. 13 d=C3=A9c. 2018 =C3=A0 10:24, Uwe Kleine-K=C3=B6nig
-> <u.kleine-koenig@pengutronix.de> a =C3=A9crit :
-> > Hello,
-> >=20
-> > On Wed, Dec 12, 2018 at 11:09:10PM +0100, Paul Cercueil wrote:
-> > >  The PWM in the JZ4725B works the same as in the JZ4740, except that
-> > > it
-> > >  only has 6 channels available instead of 8.
-> >=20
-> > this driver is probed only from device tree? If yes, it might be
-> > sensible to specify the number of PWMs there and get it from there.
-> > There doesn't seem to be a generic binding for that, but there are
-> > several drivers that could benefit from it. (This is a bigger project
-> > though and shouldn't stop your patch. Still more as it already got
-> > Thierry's ack.)
->=20
-> I think there needs to be a proper guideline, as there doesn't seem to be
-> a consensus about this. I learned from emails with Rob and Linus (Walleij)
-> that I should not have in devicetree what I can deduce from the compatible
-> string.
+> 
+> Le jeu. 13 déc. 2018 à 10:18, Uwe Kleine-König
+> <u.kleine-koenig@pengutronix.de> a écrit :
+> > On Wed, Dec 12, 2018 at 11:09:07PM +0100, Paul Cercueil wrote:
+> > >  The TCU channels 0 and 1 were previously reserved for system tasks,
+> > > and
+> > >  thus unavailable for PWM.
+> > > 
+> > >  The driver will now only allow a PWM channel to be requested if
+> > > memory
+> > >  resources corresponding to the register area of the channel were
+> > >  supplied to the driver. This allows the TCU channels to be reserved
+> > > for
+> > >  system tasks from within the devicetree.
+> > > 
+> > >  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > 
+> > While there is someone caring for this driver I'd like to complete (a
+> > bit) my picture about the different capabilities and specialities of the
+> > supported PWMs. So I have a few questions:
+> > 
+> > Is there a publicly available reference manual for this device? (If
+> > yes, adding a link to the driver would be great.)
+> 
+> I have them here: https://zcrc.me/~paul/jz_docs/
 
-Correct. If the compatible string already defines the number of PWMs
-that the hardware exposes, there's no need to explicitly say so again in
-DT.
+Is this link good enough to add it to the driver? From a quick view I'd
+say this is another pwm implementation that gets active on pwm_disable().
+Can you confirm this?
 
-Thierry
+> > jz4740_pwm_config looks as if the currently running period isn't
+> > completed before the new config is in effect. Is that correct? If yes,
+> > can this be fixed? A similar question for set_polarity: Does setting the
+> > JZ_TIMER_CTRL_PWM_ACTIVE_LOW bit in the control register take effect
+> > immediately or is this shadowed until the next period starts?
+> 
+> I don't really know. We only use this driver for a rumble motor and
+> backlight.
+> Somebody would have to check with a logic analyzer.
 
---8NvZYKFJsRX2Djef
-Content-Type: application/pgp-signature; name="signature.asc"
+depending on the possible timings you might also be able to test this
+e.g. by setting:
 
------BEGIN PGP SIGNATURE-----
+	duty_cycle=1ms, period=5s
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlwShlcACgkQ3SOs138+
-s6FpGBAAnSdBj1VfdT/8QgKaKbqU4xM6IIM84lPPIcpnwOx61r4Q9wKVlcWX7I9h
-uYpGNc+ObutBYqeqCt73aJZ6AW9EQyvD47/D2dMHt6SexpCAse2Rg7OfwPxV3qN7
-NlfVdBSqtBGcrVZZLtZ3+JPkLzIUhl4UooMQo6j73FCRiww7k1B5YfdrGeN38kDA
-o8nMXKNuSRSXSF3KUNeDHx2mIB1BjRJJjW5pOwfIbQbO4EdhxHzkgS54UlZU/bUr
-z0gqwFMOGsRPrhSmvDv5CR5GKbbxC/YR3uPcAFOSgEuXr+1LEaEtzhTea5h1yokw
-POmWLezWZ6Y8RlhawFhnBWGg44E/HO1x5H3UVUQjmM16I++lovIyZh8PwwAhyO5q
-6mEWlcLjBnPoOXh7t8RRmZUJ5s6za2l2oBm6Ot/mjDjrPmabwNCMVDTz5GyHDtK3
-uflj6xxSlSt8eQV66yFA62wdoXPz5MFSGumz+kOQQOs2rqzSGh3C7rp3nU5xmE/K
-DfsNs92AvWte+ad0nbvZ3IrPYkZH/FdJErx6QMEBUvbwcmwxPh0m4VfKaa8DUZ7Z
-s9dKdJYLkT6RtGpBK9qK3Anrh7Cp6+zImtyf7pyh89KN2P4oIQroq51Ape6gpFnt
-RZVc3NqUTOk2/RXelfCPC23ShWn1dxzOSOhXrtQ6FQOAKwQ7bkY=
-=qfF6
------END PGP SIGNATURE-----
+and then
 
---8NvZYKFJsRX2Djef--
+	duty_cycle=5s, period=5s
+
+. If the implementation is right your display should be dark for nearly
+5 seconds. (And the second call to pwm_apply should also block until the
+display is on.)
+
+> > How does the device's output behave after the PWM is disabled?
+> > Does it complete the currently running period? How does the output
+> > behave then? (active/inactive/high/low/high-z?)
+> 
+> There's a bit to toggle between "graceful" shutdown (bit clear) and "abrupt"
+> shutdown (bit set). TCSR bit 9. I think that graceful shutdown will complete
+> the running period, then keep the level active. Abrupt shutdown will keep
+> the
+> current level of the line.
+
+Can you confirm the things you think above? I'd like to have them
+eventually documented in the driver.
+
+> > >  @@ -42,11 +68,7 @@ static int jz4740_pwm_request(struct pwm_chip
+> > > *chip, struct pwm_device *pwm)
+> > >   	char clk_name[16];
+> > >   	int ret;
+> > > 
+> > >  -	/*
+> > >  -	 * Timers 0 and 1 are used for system tasks, so they are
+> > > unavailable
+> > >  -	 * for use as PWMs.
+> > >  -	 */
+> > >  -	if (pwm->hwpwm < 2)
+> > >  +	if (!jz4740_pwm_can_use_chn(jz, pwm->hwpwm))
+> > >   		return -EBUSY;
+> > 
+> > Maybe EBUSY isn't the best choice here. If the needed register space for
+> > the requested pwm is not included in the memory resources provided to
+> > the device I'd prefer ENXIO or ENODEV.
+> 
+> The idea was that if we don't get the register space we need, that means
+> the channel is used for something else, hence the EBUSY. Should I switch
+> it to ENXIO?
+
+I understand your reasoning, but I think it's misleading. If I get
+-EBUSY from a PWM driver I'd start searching for another user of said
+resource. With ENXIO or ENODEV it's more obvious that the driver isn't
+responsible for the resource that was requested.
+
+Best regards
+Uwe
+
+-- 
+Pengutronix e.K.                           | Uwe Kleine-König            |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
