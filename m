@@ -1,95 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	RCVD_IN_SORBS_WEB autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 487B07D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Dec 2018 20:58:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5D4F27D8A3
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Dec 2018 21:53:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730885AbeLNU6I (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Dec 2018 15:58:08 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:33024 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730757AbeLNU6I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Dec 2018 15:58:08 -0500
-Received: by mail-pl1-f194.google.com with SMTP id z23so3263982plo.0;
-        Fri, 14 Dec 2018 12:58:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=nKn9yheUmyYNGOHtNqDCelwebCWGHkX+/pUrK3UVzM8=;
-        b=dJWHLX2FpXTq8S4acSufbNHvMbzNb4p0GG6Ed48izfhGWPWK1oHzmm8ZsDxs92mGMr
-         Jj+KmxM6oHj65FRaPcjYCEXWmPEZwVItcSv5BrVbNez6Zh8gKYim3rjY/axju+3hpiSH
-         Yg6dvx5VFq6l2JoQ+/7iuXK5snmBD/d0LeaxpLW8oG9haHl3SFjjCA1y/AqiHj1KAXYT
-         yDGnPdJvTTsi3kTlTpmBfvmwpa7ffYfvz8qXU+tiDsgDGRM2lGRktS2mutv93noIxov6
-         Kzbv66EznoQNG1OuQbehQN2RNUhNCyJvNksg0WiTQYc+ddxLNBBQRav29G1IVJ0uPxpu
-         NCJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=nKn9yheUmyYNGOHtNqDCelwebCWGHkX+/pUrK3UVzM8=;
-        b=LRk2kd4dTt9yNvn4cH52enPztxNRpeI8fap2dovdheAhTTcuvxq+GHS6/0/EQcg+zL
-         XQE1I5O8eUhAUR4IhDJ+PAk26yMLA7kfP1omlJG576IvkamVMhGsEgLe+lh1HFCDfWL+
-         eQxzYOt6+z6XbHRpzazApkhG9cauw2qraka5BcBuryGLfFfUpKmEU0aAv6tmmOlUZM5A
-         cwDCfddFmmTIjI1vwTHqCNVwYolJHc2ujDlrR3FquLk+aodPb/MW7aDCY6AI5ZUaBl/O
-         J8/2S3dzngWrvu+Je8s6pGxr7aGFyv9dNDSMV8ak99uYvJbXAEahEqVI9x97GQ1qi8vE
-         lvvg==
-X-Gm-Message-State: AA+aEWYb6Qydz4jxoqna6ZlKfUtIYLHekJR/Nw1qqIgWPCgl1U8GEh+8
-        gEigVfZBFljPOljFjbiRQNc=
-X-Google-Smtp-Source: AFSGD/VLOh89EnSalpSeo0xal3qwzpwuPo4L7brqqgRwlMOJJEBw6LlplkSXuEYB80SMB6owLwlrWw==
-X-Received: by 2002:a17:902:29ab:: with SMTP id h40mr4239467plb.238.1544821087915;
-        Fri, 14 Dec 2018 12:58:07 -0800 (PST)
-Received: from himanshu-Vostro-3559 ([103.233.116.134])
-        by smtp.gmail.com with ESMTPSA id a10sm7108659pfi.138.2018.12.14.12.58.04
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 14 Dec 2018 12:58:07 -0800 (PST)
-Date:   Sat, 15 Dec 2018 02:28:00 +0530
-From:   Himanshu Jha <himanshujha199640@gmail.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>,
-        joe@perches.com, gregkh@linuxfoundation.org, apw@canonical.com,
-        linux-kernel@vger.kernel.org, niklas.cassel@linaro.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] checkpatch: add Co-developed-by to signature tags
-Message-ID: <20181214205800.GA22639@himanshu-Vostro-3559>
-References: <1544808928-20002-1-git-send-email-jorge.ramirez-ortiz@linaro.org>
- <1544808928-20002-3-git-send-email-jorge.ramirez-ortiz@linaro.org>
- <20181214121634.1157f2302c8ba1825fc03ad2@linux-foundation.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181214121634.1157f2302c8ba1825fc03ad2@linux-foundation.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        id S1731144AbeLNVxT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Dec 2018 16:53:19 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:56074 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731293AbeLNVxS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Dec 2018 16:53:18 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id D2AA583F63;
+        Fri, 14 Dec 2018 21:53:17 +0000 (UTC)
+Received: from llong.com (dhcp-17-223.bos.redhat.com [10.18.17.223])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4AF7B5FCD0;
+        Fri, 14 Dec 2018 21:53:12 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jan Kara <jack@suse.cz>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Larry Woodman <lwoodman@redhat.com>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        "Wangkai (Kevin C)" <wangkai86@huawei.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Waiman Long <longman@redhat.com>
+Subject: [RESEND PATCH v4 0/3] fs/dcache: Track # of negative dentries
+Date:   Fri, 14 Dec 2018 16:53:01 -0500
+Message-Id: <1544824384-17668-1-git-send-email-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]); Fri, 14 Dec 2018 21:53:18 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 14, 2018 at 12:16:34PM -0800, Andrew Morton wrote:
-> On Fri, 14 Dec 2018 18:35:28 +0100 Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org> wrote:
-> 
-> > As per Documentation/process/submitting-patches, Co-developed-by is a
-> > valid signature.
-> > 
-> 
-> I'm with Joe - I find this tag kinda useless and duplicative.  But whatever.
+ v3->v4:
+  - Drop patch 4 as it is just a minor optimization.
+  - Add a cc:stable tag to patch 1.
+  - Clean up some comments in patch 3.
 
-I'm fine either way, just the problem is:
+ v2->v3:
+  - With confirmation that the dummy array in dentry_stat structure
+    was never a replacement of a previously used field, patch 3 is now
+    reverted back to use one of dummy field as the negative dentry count
+    instead of adding a new field.
 
-	Co-developed-by Vs Co-Developed-by
+ v1->v2:
+  - Clarify what the new nr_dentry_negative per-cpu counter is tracking
+    and open-code the increment and decrement as suggested by Dave Chinner.
+  - Append the new nr_dentry_negative count as the 7th element of dentry-state
+    instead of replacing one of the dummy entries.
+  - Remove patch "fs/dcache: Make negative dentries easier to be
+    reclaimed" for now as I need more time to think about what
+    to do with it.
+  - Add 2 more patches to address issues found while reviewing the
+    dentry code.
+  - Add another patch to change the conditional branch of
+    nr_dentry_negative accounting to conditional move so as to reduce
+    the performance impact of the accounting code.
 
-with checkpatch spitting out that it is not a valid signature.
+This patchset addresses 2 issues found in the dentry code and adds a
+new nr_dentry_negative per-cpu counter to track the total number of
+negative dentries in all the LRU lists.
 
-In the end, I can completely remove the tag from docs if it is useless
-and duplicative.
+Patch 1 fixes a bug in the accounting of nr_dentry_unused in
+shrink_dcache_sb().
+
+Patch 2 removes the ____cacheline_aligned_in_smp tag from super_block
+LRU lists.
+
+Patch 3 adds the new nr_dentry_negative per-cpu counter.
+
+Various filesystem related tests were run and no statistically
+significant changes in performance outside of the possible noise range
+was observed.
+
+Waiman Long (3):
+  fs/dcache: Fix incorrect nr_dentry_unused accounting in
+    shrink_dcache_sb()
+  fs: Don't need to put list_lru into its own cacheline
+  fs/dcache: Track & report number of negative dentries
+
+ Documentation/sysctl/fs.txt | 26 ++++++++++++++++----------
+ fs/dcache.c                 | 38 +++++++++++++++++++++++++++++++++-----
+ include/linux/dcache.h      |  7 ++++---
+ include/linux/fs.h          |  9 +++++----
+ 4 files changed, 58 insertions(+), 22 deletions(-)
 
 -- 
-Himanshu Jha
-Undergraduate Student
-Department of Electronics & Communication
-Guru Tegh Bahadur Institute of Technology
+1.8.3.1
+
