@@ -1,122 +1,208 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DB3877D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Dec 2018 13:56:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9A23B7D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Dec 2018 14:13:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729718AbeLNN4A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Dec 2018 08:56:00 -0500
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:52186 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729709AbeLNN4A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Dec 2018 08:56:00 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B233780D;
-        Fri, 14 Dec 2018 05:55:59 -0800 (PST)
-Received: from [10.1.196.105] (eglon.cambridge.arm.com [10.1.196.105])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AAD653F575;
-        Fri, 14 Dec 2018 05:55:57 -0800 (PST)
-Subject: Re: [RFC RESEND PATCH] kvm: arm64: export memory error recovery
- capability to user space
-To:     Dongjiu Geng <gengdongjiu@huawei.com>
-References: <1544782537-13377-1-git-send-email-gengdongjiu@huawei.com>
-From:   James Morse <james.morse@arm.com>
-Cc:     peter.maydell@linaro.org, rkrcmar@redhat.com, corbet@lwn.net,
-        christoffer.dall@arm.com, marc.zyngier@arm.com,
-        catalin.marinas@arm.com, will.deacon@arm.com, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Message-ID: <f252e4ca-cdc2-bc42-32a6-5dae7dee51ee@arm.com>
-Date:   Fri, 14 Dec 2018 13:55:55 +0000
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1729783AbeLNONI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Dec 2018 09:13:08 -0500
+Received: from mail-eopbgr80081.outbound.protection.outlook.com ([40.107.8.81]:18944
+        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729981AbeLNONI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Dec 2018 09:13:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector1-arm-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HQAsCdEeWya4efGJdpQW9f7PTeGUNgKDLBpUGoBZ96E=;
+ b=MzCrrfRMG54mexpJQM3PuMhGGxs05k6LejSoSEvi8IB1Ce8VxRgMSu5b5E6fsGxkpT/0VfOT0j7jBulbOOVCrviR/PBq8urBIwhQqH74ZxW9FBmJW/bKNEcWLC0wQyVh3Q/OU+QAfClF4S3+FIgXNtvqM6bZ47RZQ8NB8EyHD3M=
+Received: from AM0PR08MB3891.eurprd08.prod.outlook.com (20.178.82.147) by
+ AM0PR08MB3217.eurprd08.prod.outlook.com (52.134.94.10) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1404.23; Fri, 14 Dec 2018 14:12:23 +0000
+Received: from AM0PR08MB3891.eurprd08.prod.outlook.com
+ ([fe80::f1f9:6693:ed35:d489]) by AM0PR08MB3891.eurprd08.prod.outlook.com
+ ([fe80::f1f9:6693:ed35:d489%4]) with mapi id 15.20.1425.021; Fri, 14 Dec 2018
+ 14:12:23 +0000
+From:   Ayan Halder <Ayan.Halder@arm.com>
+To:     Liviu Dudau <Liviu.Dudau@arm.com>
+CC:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>, "corbet@lwn.net" <corbet@lwn.net>,
+        "airlied@linux.ie" <airlied@linux.ie>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
+        "malidp@foss.arm.com" <malidp@foss.arm.com>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        nd <nd@arm.com>, "sean@poorly.run" <sean@poorly.run>
+Subject: Re: [RFC AFBC 06/12] drm/arm/malidp:- Added support for new YUV
+ formats for DP500, DP550 and DP650
+Thread-Topic: [RFC AFBC 06/12] drm/arm/malidp:- Added support for new YUV
+ formats for DP500, DP550 and DP650
+Thread-Index: AQHUivvODNv595J0pU+YPcE059kyEKVuzv+AgA+JGQA=
+Date:   Fri, 14 Dec 2018 14:12:23 +0000
+Message-ID: <20181214141222.GC19564@arm.com>
+References: <1543836703-8491-1-git-send-email-ayan.halder@arm.com>
+ <1543836703-8491-7-git-send-email-ayan.halder@arm.com>
+ <20181204165746.GN988@e110455-lin.cambridge.arm.com>
+In-Reply-To: <20181204165746.GN988@e110455-lin.cambridge.arm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: CWLP265CA0233.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:401:4f::29) To AM0PR08MB3891.eurprd08.prod.outlook.com
+ (2603:10a6:208:109::19)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Ayan.Halder@arm.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [217.140.106.50]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;AM0PR08MB3217;6:uaJXo2+KJzDkk53vPNu4Um3OfB4Z362Rjc4Z4ZKA0zi1Zy0Vhr8ZALFfc9RhDLH8c+zrU1tVYGzF4TjcI+12HAjd11dZkmanV9qHV8uDdtUJERL6xh0cHaVu/WvLD4bO5dLgq7eFAFQGRzhyhHNZ2Wpd75hg3QComISYCeXJZijp/j1HovM5ne6j7VjLAYJal+SqFlZ+z0zDZ79FX53m54FAs7tQ8FGNFXSWX+y0+v3f8IR46Y00ZFChHElZjTLkQ7IZD2LaSxos1znDtmz8U2nw7zL8GUl/0F71LuyT4U7n7cyGBaeW/WTvnAaVcL0WQWqpFW5JY2T4uVO03I7rIzh4OJNNKOGjTthKm0fb1WqzemkJoCZjj8wz4VM678MjzBStV+vxaqM2cuaZypcy8hkiPBDq2lT0QlyYXorNHOCZpNzFQ2ETT//kf5CtDEVySzPR8/yxzVD4aYkxmpevGw==;5:lJyXsfEENmm/QsjNnClJrmq5YVmf7yULZIpTizRPYDjznb7V/u5I0ZezmqihP8qI2SSi5FNyYY6lW6vHOWjGB2LP6ySQfs1WDtkteUEyzdYKQoGrdrq28N1V/qrP1iSK9M/fjW2dR3UKOtM8m9RzbtHeazc2/aez81uvPEv/arY=;7:FEo67FiK8CloJzzwRRXpChdgO2TX2pgLJRcJzWuDhY2JWaELuu4hnGlRyqk9L3L/PWafjyLHJzIFXcSKeca46uAAi8iVmtIPU58TDGP61IQV2N5OunNkqQmx7SzzmkG8fddnbqVLpvOHu7CEPBWTAQ==
+x-ms-office365-filtering-correlation-id: f88e2af3-38e0-4c1c-6652-08d661ce2ad2
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(4618075)(2017052603328)(7153060)(7193020);SRVR:AM0PR08MB3217;
+x-ms-traffictypediagnostic: AM0PR08MB3217:
+nodisclaimer: True
+x-microsoft-antispam-prvs: <AM0PR08MB3217E979E904C02CA2C58AA8E4A10@AM0PR08MB3217.eurprd08.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(3230021)(999002)(6040522)(2401047)(5005006)(8121501046)(3231475)(944501520)(52105112)(93006095)(93001095)(3002001)(10201501046)(6055026)(148016)(149066)(150057)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(20161123558120)(20161123564045)(20161123560045)(201708071742011)(7699051)(76991095);SRVR:AM0PR08MB3217;BCL:0;PCL:0;RULEID:;SRVR:AM0PR08MB3217;
+x-forefront-prvs: 08864C38AC
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(396003)(136003)(366004)(346002)(376002)(199004)(189003)(71200400001)(6116002)(6246003)(6486002)(71190400001)(66066001)(68736007)(446003)(105586002)(478600001)(229853002)(53936002)(4326008)(76176011)(6862004)(81156014)(6436002)(476003)(97736004)(8676002)(2616005)(6636002)(256004)(11346002)(25786009)(33656002)(72206003)(486006)(14444005)(7736002)(217873002)(14454004)(8936002)(81166006)(2906002)(316002)(54906003)(36756003)(575784001)(44832011)(966005)(86362001)(6512007)(6306002)(106356001)(99286004)(7416002)(26005)(186003)(5660300001)(386003)(6506007)(305945005)(37006003)(1076002)(52116002)(102836004)(3846002);DIR:OUT;SFP:1101;SCL:1;SRVR:AM0PR08MB3217;H:AM0PR08MB3891.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: arm.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: iQS+TTEk5E9Wnc4YrwUY+XsFAX4WZatBxjn5QORN4pkzjyAKv0QHJKJ4cZxnd/xnpTaFhWGTHvH5jNWl+FHBTVhiXmN8QtKlkqB5gK2x0FQ+EcraUUS3UkG84sCVbYdsqEwCaUWUmCWFvnWmT0ZoTVuDKFgh24mD4W4Cr1LYftyBVZ+xZekWKn1XGAqPZMuEhEoNZTaoheITDlS75hU0+0NFJ9lMjxBKV+u/oTb9a8VD63kW6IjwbQAVsDImQvR23nr3Ju03xrs+FAEFQLW7mUdEMKbP+v6vR1x/+6HMlWYtAbh9AhDlCf+wKu7+3pfE
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <38B393AF784A9848BC01696DFDB772F3@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <1544782537-13377-1-git-send-email-gengdongjiu@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f88e2af3-38e0-4c1c-6652-08d661ce2ad2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Dec 2018 14:12:23.3467
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3217
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Dongjiu Geng,
+On Tue, Dec 04, 2018 at 04:57:46PM +0000, Liviu Dudau wrote:
 
-On 14/12/2018 10:15, Dongjiu Geng wrote:
-> When user space do memory recovery, it will check whether KVM and
-> guest support the error recovery, only when both of them support,
-> user space will do the error recovery. This patch exports this
-> capability of KVM to user space.
+Hi Liviu,
+> On Mon, Dec 03, 2018 at 11:32:00AM +0000, Ayan Halder wrote:
+> > We have added some new formats to be supported on DP500/DP550/DP650.
+>=20
+> Make a bit more descriptive commit message here, please!
+>
+I will keep the following commit message :-
 
-I can understand user-space only wanting to do the work if host and guest
-support the feature. But 'error recovery' isn't a KVM feature, its a Linux
-kernel feature.
+""We have added support for some AFBC only pixel formats like :-
+DRM_FORMAT_YUV420_8BIT (single plane YUV 420 8 bit format)
+DRM_FORMAT_VUY888 (single plane YUV 444 8 bit format)
+DRM_FORMAT_VUY101010 (single plane YUV 444 10 bit format)
+DRM_FORMAT_YUV420_10BIT (single plane YUV 420 10 bit format)
 
-KVM will send it's user-space a SIGBUS with MCEERR code whenever its trying to
-map a page at stage2 that the kernel-mm code refuses this because its poisoned.
-(e.g. check_user_page_hwpoison(), get_user_pages() returns -EHWPOISON)
+Generally, these formats are supported by our hardware using the same hw-id=
+s as
+the equivalent multi plane pixel formats.
 
-This is exactly the same as happens to a normal user-space process.
+Also we have added support for XYUV 444 8 and 10 bit formats.""
 
-I think you really want to know if the host kernel was built with
-CONFIG_MEMORY_FAILURE. The not-at-all-portable way to tell this from user-space
-is the presence of /proc/sys/vm/memory_failure_* files.
-(It looks like the prctl():PR_MCE_KILL/PR_MCE_KILL_GET options silently update
-an ignored policy if the kernel isn't built with CONFIG_MEMORY_FAILURE, so they
-aren't helpful)
-
-
-> diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
-> index cd209f7..241e2e2 100644
-> --- a/Documentation/virtual/kvm/api.txt
-> +++ b/Documentation/virtual/kvm/api.txt
-> @@ -4895,3 +4895,12 @@ Architectures: x86
->  This capability indicates that KVM supports paravirtualized Hyper-V IPI send
->  hypercalls:
->  HvCallSendSyntheticClusterIpi, HvCallSendSyntheticClusterIpiEx.
-> +
-> +8.21 KVM_CAP_ARM_MEMORY_ERROR_RECOVERY
-> +
-> +Architectures: arm, arm64
-> +
-> +This capability indicates that guest memory error can be detected by the KVM which
-> +supports the error recovery.
-
-KVM doesn't detect these errors.
-The hardware detects them and notifies the OS via one of a number of mechanisms.
-This gets plumbed into memory_failure(), which sets a flag that the mm code uses
-to prevent the page being used again.
-
-KVM is only involved when it tries to map a page at stage2 and the mm code
-rejects it with -EHWPOISON. This is the same as the architectures
-do_page_fault() checking for (fault & VM_FAULT_HWPOISON) out of
-handle_mm_fault(). We don't have a KVM cap for this, nor do we need one.
-
-
-> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
-> index b72a3dd..90d1d9a 100644
-> --- a/arch/arm64/kvm/reset.c
-> +++ b/arch/arm64/kvm/reset.c
-> @@ -82,6 +82,7 @@ int kvm_arch_vm_ioctl_check_extension(struct kvm *kvm, long ext)
->  		r = kvm_arm_support_pmu_v3();
->  		break;
->  	case KVM_CAP_ARM_INJECT_SERROR_ESR:
-> +	case KVM_CAP_ARM_MEMORY_ERROR_RECOVERY:
->  		r = cpus_have_const_cap(ARM64_HAS_RAS_EXTN);
->  		break;
-
-The CPU RAS Extensions are not at all relevant here. It is perfectly possible to
-support memory-failure without them, AMD-Seattle and APM-X-Gene do this. These
-systems would report not-supported here, but the kernel does support this stuff.
-Just because the CPU supports this, doesn't mean the kernel was built with
-CONFIG_MEMORY_FAILURE. The CPU reports may be ignored, or upgraded to SIGKILL.
-
-
+Let me know if this looks fine.
 
 Thanks,
-
-James
+Ayan Kumar halder
+> >=20
+> > Signed-off-by: Ayan Kumar Halder <ayan.halder@arm.com>
+> >=20
+> > Depends on :- https://patchwork.kernel.org/patch/10460063/
+>=20
+> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+>=20
+> Best regards,
+> Liviu
+>=20
+> > ---
+> >  drivers/gpu/drm/arm/malidp_hw.c | 22 +++++++++++++++++++++-
+> >  1 file changed, 21 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/arm/malidp_hw.c b/drivers/gpu/drm/arm/mali=
+dp_hw.c
+> > index 55d379b..25ac5890 100644
+> > --- a/drivers/gpu/drm/arm/malidp_hw.c
+> > +++ b/drivers/gpu/drm/arm/malidp_hw.c
+> > @@ -49,6 +49,12 @@ static const struct malidp_format_id malidp500_de_fo=
+rmats[] =3D {
+> >  	{ DRM_FORMAT_YUYV, DE_VIDEO1, 13 },
+> >  	{ DRM_FORMAT_NV12, DE_VIDEO1 | SE_MEMWRITE, 14 },
+> >  	{ DRM_FORMAT_YUV420, DE_VIDEO1, 15 },
+> > +	{ DRM_FORMAT_XYUV8888, DE_VIDEO1, 16 },
+> > +	/* These are supported with AFBC only */
+> > +	{ DRM_FORMAT_YUV420_8BIT, DE_VIDEO1, 14 },
+> > +	{ DRM_FORMAT_VUY888, DE_VIDEO1, 16 },
+> > +	{ DRM_FORMAT_VUY101010, DE_VIDEO1, 17 },
+> > +	{ DRM_FORMAT_YUV420_10BIT, DE_VIDEO1, 18 }
+> >  };
+> > =20
+> >  #define MALIDP_ID(__group, __format) \
+> > @@ -74,11 +80,25 @@ static const struct malidp_format_id malidp500_de_f=
+ormats[] =3D {
+> >  	{ DRM_FORMAT_ABGR1555, DE_VIDEO1 | DE_GRAPHICS1 | DE_VIDEO2, MALIDP_I=
+D(4, 1) }, \
+> >  	{ DRM_FORMAT_RGB565, DE_VIDEO1 | DE_GRAPHICS1 | DE_VIDEO2, MALIDP_ID(=
+4, 2) }, \
+> >  	{ DRM_FORMAT_BGR565, DE_VIDEO1 | DE_GRAPHICS1 | DE_VIDEO2, MALIDP_ID(=
+4, 3) }, \
+> > +	/* This is only supported with linear modifier */	\
+> > +	{ DRM_FORMAT_XYUV8888, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(5, 0) },\
+> > +	/* This is only supported with AFBC modifier */		\
+> > +	{ DRM_FORMAT_VUY888, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(5, 0) }, \
+> >  	{ DRM_FORMAT_YUYV, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(5, 2) },	\
+> > +	/* This is only supported with linear modifier */ \
+> >  	{ DRM_FORMAT_UYVY, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(5, 3) },	\
+> >  	{ DRM_FORMAT_NV12, DE_VIDEO1 | DE_VIDEO2 | SE_MEMWRITE, MALIDP_ID(5, =
+6) },	\
+> > +	/* This is only supported with AFBC modifier */ \
+> > +	{ DRM_FORMAT_YUV420_8BIT, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(5, 6) }, \
+> >  	{ DRM_FORMAT_YUV420, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(5, 7) }, \
+> > -	{ DRM_FORMAT_X0L2, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(6, 6)}
+> > +	/* This is only supported with linear modifier */ \
+> > +	{ DRM_FORMAT_XVYU2101010, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(6, 0)}, \
+> > +	/* This is only supported with AFBC modifier */ \
+> > +	{ DRM_FORMAT_VUY101010, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(6, 0)}, \
+> > +	{ DRM_FORMAT_X0L2, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(6, 6)}, \
+> > +	/* This is only supported with AFBC modifier */ \
+> > +	{ DRM_FORMAT_YUV420_10BIT, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(6, 7)}, \
+> > +	{ DRM_FORMAT_P010, DE_VIDEO1 | DE_VIDEO2, MALIDP_ID(6, 7)}
+> > =20
+> >  static const struct malidp_format_id malidp550_de_formats[] =3D {
+> >  	MALIDP_COMMON_FORMATS,
+> > --=20
+> > 2.7.4
+> >=20
+>=20
+> --=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> | I would like to |
+> | fix the world,  |
+> | but they're not |
+> | giving me the   |
+>  \ source code!  /
+>   ---------------
+>     ??\_(???)_/??
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
