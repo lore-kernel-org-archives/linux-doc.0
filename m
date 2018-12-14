@@ -5,100 +5,126 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ED1A67D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Dec 2018 20:42:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4AF3B7D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Dec 2018 01:28:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727495AbeLMUmh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Dec 2018 15:42:37 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:58315 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727810AbeLMUmh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Dec 2018 15:42:37 -0500
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1gXXoL-0003hN-Dt; Thu, 13 Dec 2018 21:42:21 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1gXXoK-0001FF-2n; Thu, 13 Dec 2018 21:42:20 +0100
-Date:   Thu, 13 Dec 2018 21:42:19 +0100
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mathieu Malaterre <malat@debian.org>,
-        Ezequiel Garcia <ezequiel@collabora.co.uk>,
-        PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>,
-        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk@vger.kernel.org, od@zcrc.me,
-        Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v8 15/26] pwm: jz4740: Add support for the JZ4725B
-Message-ID: <20181213204219.onem3q6dcmakusl2@pengutronix.de>
-References: <20181212220922.18759-1-paul@crapouillou.net>
- <20181212220922.18759-16-paul@crapouillou.net>
- <20181213092409.ml4wpnzow2nnszkd@pengutronix.de>
- <1544709795.18952.1@crapouillou.net>
+        id S1729135AbeLNB00 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Dec 2018 20:26:26 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:55218 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727638AbeLNB00 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 Dec 2018 20:26:26 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 5FB24C04958C;
+        Fri, 14 Dec 2018 01:26:24 +0000 (UTC)
+Received: from malachite.bss.redhat.com (dhcp-10-20-1-11.bss.redhat.com [10.20.1.11])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1D696600C5;
+        Fri, 14 Dec 2018 01:26:21 +0000 (UTC)
+From:   Lyude Paul <lyude@redhat.com>
+To:     dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc:     Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
+        Harry Wentland <harry.wentland@amd.com>,
+        Jerry Zuo <Jerry.Zuo@amd.com>,
+        "David Airlie" <airlied@linux.ie>,
+        "Maxime Ripard" <maxime.ripard@bootlin.com>,
+        "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+        linux-kernel@vger.kernel.org, "Sean Paul" <sean@poorly.run>,
+        linux-doc@vger.kernel.org, "Jonathan Corbet" <corbet@lwn.net>,
+        "Lyude Paul" <lyude@redhat.com>,
+        "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
+        "Jani Nikula" <jani.nikula@linux.intel.com>,
+        "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>,
+        "Sean Paul" <seanpaul@chromium.org>,
+        "Karol Herbst" <karolherbst@gmail.com>,
+        "Ben Skeggs" <bskeggs@redhat.com>,
+        "Ilia Mirkin" <imirkin@alum.mit.edu>
+Subject: [WIP PATCH 00/15] MST refcounting/atomic helpers cleanup
+Date:   Thu, 13 Dec 2018 20:25:29 -0500
+Message-Id: <20181214012604.13746-1-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1544709795.18952.1@crapouillou.net>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Fri, 14 Dec 2018 01:26:25 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[Adding Linus Walleij to Cc:]
+This is a WIP version of the series I've been working on for a while now
+to get all of the atomic DRM drivers in the tree to use the atomic MST
+helpers, and to make the atomic MST helpers actually idempotent. Turns
+out it's a lot more difficult to do that without also fixing how port
+and branch device refcounting works so that it actually makes sense,
+since the current upstream implementation requires a ton of magic in the
+atomic helpers to work around properly and in many situations just plain
+doesn't work as intended.
 
-Hello,
+This patch series is starting to get bigger, and since there's still a
+few bits here and there regarding the new refcount implementation that I
+haven't quite decided on yet I figured I should get an opinion from
+everyone else.
 
-On Thu, Dec 13, 2018 at 03:03:15PM +0100, Paul Cercueil wrote:
-> Le jeu. 13 déc. 2018 à 10:24, Uwe Kleine-König
-> <u.kleine-koenig@pengutronix.de> a écrit :
-> > On Wed, Dec 12, 2018 at 11:09:10PM +0100, Paul Cercueil wrote:
-> > >  The PWM in the JZ4725B works the same as in the JZ4740, except that
-> > > it
-> > >  only has 6 channels available instead of 8.
-> > 
-> > this driver is probed only from device tree? If yes, it might be
-> > sensible to specify the number of PWMs there and get it from there.
-> > There doesn't seem to be a generic binding for that, but there are
-> > several drivers that could benefit from it. (This is a bigger project
-> > though and shouldn't stop your patch. Still more as it already got
-> > Thierry's ack.)
-> 
-> I think there needs to be a proper guideline, as there doesn't seem to be
-> a consensus about this. I learned from emails with Rob and Linus (Walleij)
-> that I should not have in devicetree what I can deduce from the compatible
-> string.
+Currently I've got a couple of thoughts on how I could improve this
+further:
 
-I understood them a bit differently. It is ok to deduce things from the
-compatible string. But if you define a generic property (say) "num-pwms"
-that is used uniformly in most bindings this is ok, too. (And then the
-two different devices could use the same compatible.)
+* Get rid of drm_dp_mst_get_*_validated() entirely - I'm 90% sure that
+  with the new refcounting scheme we might not actually need port
+  validation at all anymore, assuming we make the use of malloc references
+  in all of the DRM drivers. Either way, I don't think validation was ever
+  actually a concept that worked: without malloc references, the port or
+  branch device that's being passed to drm_dp_mst_get_*_validated()
+  could be freed which also in turn means that that the stale pointer
+  could in theory have gotten reused for a new port and thus-cause us to
+  consider a freed port validated.
+* Get rid of drm_dp_mst_get_vcpi_slots() - with malloc references, I
+  don't think there's any use for this either
+* Get rid of drm_dp_mst_reset_vcpi_slots() - I think the only time this
+  function ever made sense was with port validation? Honestly, I wonder
+  if we ever needed this at all...
 
-An upside of the generic "num-pwms" property is that the pwm core could
-sanity check pwm phandles before passing them to the hardware drivers.
+Note: I haven't applied some of the comments from the reviews for the
+series this is based off of:
 
-Best regards
-Uwe
+drm/dp_mst: Improve VCPI helpers, use in nouveau
+https://patchwork.freedesktop.org/series/51414/
+
+This is just getting put on the ML so I can get some feedback on this.
+
+Lyude Paul (15):
+  drm/dp_mst: Remove bogus conditional in drm_dp_update_payload_part1()
+  drm/dp_mst: Refactor drm_dp_update_payload_part1()
+  drm/dp_mst: Introduce new refcounting scheme for mstbs and ports
+  drm/dp_mst: Stop releasing VCPI when removing ports from topology
+  drm/dp_mst: Fix payload deallocation on hotplugs using malloc refs
+  drm/i915: Keep malloc references to MST ports
+  drm/nouveau: Remove bogus cleanup in nv50_mstm_add_connector()
+  drm/nouveau: Remove unnecessary VCPI checks in nv50_msto_cleanup()
+  drm/nouveau: Fix potential use-after-frees for MSTCs
+  drm/nouveau: Stop unsetting mstc->port, use malloc refs
+  drm/nouveau: Grab payload lock in nv50_msto_payload()
+  drm/dp_mst: Add some atomic state iterator macros
+  drm/dp_mst: Start tracking per-port VCPI allocations
+  drm/dp_mst: Check payload count in drm_dp_mst_atomic_check()
+  drm/nouveau: Use atomic VCPI helpers for MST
+
+ .../gpu/dp-mst/topology-figure-1.dot          |  31 +
+ .../gpu/dp-mst/topology-figure-2.dot          |  37 +
+ .../gpu/dp-mst/topology-figure-3.dot          |  40 +
+ Documentation/gpu/drm-kms-helpers.rst         | 125 ++-
+ drivers/gpu/drm/drm_dp_mst_topology.c         | 910 ++++++++++++++----
+ drivers/gpu/drm/i915/intel_connector.c        |   4 +
+ drivers/gpu/drm/i915/intel_display.c          |   4 +
+ drivers/gpu/drm/i915/intel_dp_mst.c           |  66 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c       |  94 +-
+ include/drm/drm_dp_mst_helper.h               | 139 ++-
+ 10 files changed, 1178 insertions(+), 272 deletions(-)
+ create mode 100644 Documentation/gpu/dp-mst/topology-figure-1.dot
+ create mode 100644 Documentation/gpu/dp-mst/topology-figure-2.dot
+ create mode 100644 Documentation/gpu/dp-mst/topology-figure-3.dot
 
 -- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+2.19.2
+
