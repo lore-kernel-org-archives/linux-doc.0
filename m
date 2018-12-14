@@ -5,101 +5,158 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 38D257D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Dec 2018 10:17:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1DBAA7DD2A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Dec 2018 12:35:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729256AbeLNKRQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Dec 2018 05:17:16 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:16567 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728829AbeLNKRQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Dec 2018 05:17:16 -0500
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id B09C8A91BF2DF;
-        Fri, 14 Dec 2018 18:17:12 +0800 (CST)
-Received: from ros.huawei.com (10.143.28.118) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.408.0; Fri, 14 Dec 2018 18:17:10 +0800
-From:   Dongjiu Geng <gengdongjiu@huawei.com>
-To:     <peter.maydell@linaro.org>, <rkrcmar@redhat.com>, <corbet@lwn.net>,
-        <christoffer.dall@arm.com>, <marc.zyngier@arm.com>,
-        <catalin.marinas@arm.com>, <will.deacon@arm.com>,
-        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: [RFC RESEND PATCH] kvm: arm64: export memory error recovery capability to user space
-Date:   Fri, 14 Dec 2018 02:15:37 -0800
-Message-ID: <1544782537-13377-1-git-send-email-gengdongjiu@huawei.com>
-X-Mailer: git-send-email 2.7.4
+        id S1730952AbeLNMev (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Dec 2018 07:34:51 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:51034 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731336AbeLNMeq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Dec 2018 07:34:46 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8B412EBD;
+        Fri, 14 Dec 2018 04:34:45 -0800 (PST)
+Received: from [10.37.12.200] (unknown [10.37.12.200])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DFCDF3F575;
+        Fri, 14 Dec 2018 04:34:36 -0800 (PST)
+Subject: Re: [PATCH v13 19/25] kasan: add hooks implementation for tag-based
+ mode
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Vishwath Mohan <vishwath@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>
+References: <cover.1544099024.git.andreyknvl@google.com>
+ <bda78069e3b8422039794050ddcb2d53d053ed41.1544099024.git.andreyknvl@google.com>
+ <2bf7415e-2724-b3c3-9571-20c8b6d43b92@arm.com>
+ <CAAeHK+xc6R_p26-tu--9W1L1PvUAFb70J23ByiEukKz3uVC3EQ@mail.gmail.com>
+From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <b99b331d-22ca-b9db-8677-4896c427ef10@arm.com>
+Date:   Fri, 14 Dec 2018 12:35:38 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.143.28.118]
-X-CFilter-Loop: Reflected
+In-Reply-To: <CAAeHK+xc6R_p26-tu--9W1L1PvUAFb70J23ByiEukKz3uVC3EQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When user space do memory recovery, it will check whether KVM and
-guest support the error recovery, only when both of them support,
-user space will do the error recovery. This patch exports this
-capability of KVM to user space.
+On 12/12/18 3:04 PM, Andrey Konovalov wrote:
+> On Tue, Dec 11, 2018 at 5:22 PM Vincenzo Frascino
+> <vincenzo.frascino@arm.com> wrote:
+>>
+>> Hi Andrey,
+>>
+>> On 06/12/2018 12:24, Andrey Konovalov wrote:
+>>> This commit adds tag-based KASAN specific hooks implementation and
+>>> adjusts common generic and tag-based KASAN ones.
+>>>
+>>> 1. When a new slab cache is created, tag-based KASAN rounds up the size of
+>>>    the objects in this cache to KASAN_SHADOW_SCALE_SIZE (== 16).
+>>>
+>>> 2. On each kmalloc tag-based KASAN generates a random tag, sets the shadow
+>>>    memory, that corresponds to this object to this tag, and embeds this
+>>>    tag value into the top byte of the returned pointer.
+>>>
+>>> 3. On each kfree tag-based KASAN poisons the shadow memory with a random
+>>>    tag to allow detection of use-after-free bugs.
+>>>
+>>> The rest of the logic of the hook implementation is very much similar to
+>>> the one provided by generic KASAN. Tag-based KASAN saves allocation and
+>>> free stack metadata to the slab object the same way generic KASAN does.
+>>>
+>>> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+>>> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+>>> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+>>> ---
+>>>  mm/kasan/common.c | 116 ++++++++++++++++++++++++++++++++++++++--------
+>>>  mm/kasan/kasan.h  |   8 ++++
+>>>  mm/kasan/tags.c   |  48 +++++++++++++++++++
+>>>  3 files changed, 153 insertions(+), 19 deletions(-)
+>>>
+>>
+>>
+>> [...]
+>>
+>>> @@ -265,6 +290,8 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+>>>               return;
+>>>       }
+>>>
+>>> +     cache->align = round_up(cache->align, KASAN_SHADOW_SCALE_SIZE);
+>>> +
+>>
+>> Did you consider to set ARCH_SLAB_MINALIGN instead of this round up?
+> 
+> I didn't know about this macro. Looks like we can use it to do the
+> same thing. Do you think it's a better solution to redefine
+> ARCH_SLAB_MINALIGN to KASAN_SHADOW_SCALE_SIZE for arm64 when tag-based
+> KASAN is enabled instead of adjusting cache->align in
+> kasan_cache_create?
+>
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
----
-User space needs to check this capability of KVM is suggested by Peter[1],
-this patch as RFC tag because user space patches are still under review,
-so this kernel patch is firstly sent out for review.
+Yes, I think it is better because in this way we do not need to add extra code
+to do the rounding.
 
-[1]: https://patchwork.codeaurora.org/patch/652261/
----
- Documentation/virtual/kvm/api.txt | 9 +++++++++
- arch/arm64/kvm/reset.c            | 1 +
- include/uapi/linux/kvm.h          | 1 +
- 3 files changed, 11 insertions(+)
+Curiosity, did you try your patches with SLUB red zoning enabled?
+Since the area used for the Redzone is just after the payload, aligning the
+object_size independently from the allocator could have side effects, at least
+if I understand well how the mechanism works.
 
-diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
-index cd209f7..241e2e2 100644
---- a/Documentation/virtual/kvm/api.txt
-+++ b/Documentation/virtual/kvm/api.txt
-@@ -4895,3 +4895,12 @@ Architectures: x86
- This capability indicates that KVM supports paravirtualized Hyper-V IPI send
- hypercalls:
- HvCallSendSyntheticClusterIpi, HvCallSendSyntheticClusterIpiEx.
-+
-+8.21 KVM_CAP_ARM_MEMORY_ERROR_RECOVERY
-+
-+Architectures: arm, arm64
-+
-+This capability indicates that guest memory error can be detected by the KVM which
-+supports the error recovery. When user space do recovery, such as QEMU, it will
-+check whether KVM and guest support memory error recovery, only when both of them
-+support, user space will do the error recovery.
-diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
-index b72a3dd..90d1d9a 100644
---- a/arch/arm64/kvm/reset.c
-+++ b/arch/arm64/kvm/reset.c
-@@ -82,6 +82,7 @@ int kvm_arch_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 		r = kvm_arm_support_pmu_v3();
- 		break;
- 	case KVM_CAP_ARM_INJECT_SERROR_ESR:
-+	case KVM_CAP_ARM_MEMORY_ERROR_RECOVERY:
- 		r = cpus_have_const_cap(ARM64_HAS_RAS_EXTN);
- 		break;
- 	case KVM_CAP_SET_GUEST_DEBUG:
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 2b7a652..3b19580 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -975,6 +975,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_HYPERV_ENLIGHTENED_VMCS 163
- #define KVM_CAP_EXCEPTION_PAYLOAD 164
- #define KVM_CAP_ARM_VM_IPA_SIZE 165
-+#define KVM_CAP_ARM_MEMORY_ERROR_RECOVERY 166
- 
- #ifdef KVM_CAP_IRQ_ROUTING
- 
+Setting ARCH_SLAB_MINALIGN should avoid this as well.
+
+What do you think?
+
+>>
+>> --
+>> Regards,
+>> Vincenzo
+>>
+>> --
+>> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+>> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+>> To post to this group, send email to kasan-dev@googlegroups.com.
+>> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2bf7415e-2724-b3c3-9571-20c8b6d43b92%40arm.com.
+>> For more options, visit https://groups.google.com/d/optout.
+
 -- 
-2.7.4
-
+Regards,
+Vincenzo
