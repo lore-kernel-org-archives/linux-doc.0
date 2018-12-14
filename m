@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-13.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CAF0A7DD48
+	by archive.lwn.net (Postfix) with ESMTP id 008C17DD4C
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Dec 2018 17:16:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729915AbeLNRQp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Dec 2018 12:16:45 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:40705 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730406AbeLNRQY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Dec 2018 12:16:24 -0500
-Received: by mail-pl1-f193.google.com with SMTP id u18so3017883plq.7
-        for <linux-doc@vger.kernel.org>; Fri, 14 Dec 2018 09:16:23 -0800 (PST)
+        id S1730341AbeLNRQR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Dec 2018 12:16:17 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:39098 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729660AbeLNRQR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Dec 2018 12:16:17 -0500
+Received: by mail-pg1-f193.google.com with SMTP id w6so2976630pgl.6
+        for <linux-doc@vger.kernel.org>; Fri, 14 Dec 2018 09:16:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YwSYAI43KM10GrnM4hZ3Qtd3y6BkTcR7ZHO9M+skX2s=;
-        b=akXIWndiUHaos9TbyNLP3xeaC0ZtOOtr3cSf/ilsoUM7WywehoLoqyXEZzuFIORB9M
-         OvxzyeHc32Q4lx447L/4jMQROuD8Tpifnb+eTjanco+ff7o+IwZScCVw5XFu71NXZHQx
-         h65SJNlG1uCZ+LcxQFWTzPj27rLKDsz7X5nBwYOPjf33icL9nUeUcN8H4DxeA2dJ2CoJ
-         u04GoPkgs3B2NaoDOzsMLnvT61RyHEVW0r29CnBfMfhJUd+xuXxPuur/lVVYkfCIPun7
-         /axdZ+sXYAdccL5hZ+AL8HqqFeX7QG3R9jGqHbyBu5W6pW9dZ01ISpGwMqGQkIolMen/
-         1COA==
+        bh=sCRWYoNU0VkVJ/z3jhqejq2doYZrQjVc/bE8fLkqY2M=;
+        b=qtqDt0yWn90HRTU+TjV+hv+Nm4vyH6Oihs6UoQLIHJzjQGDbObJpGMIW9v+FkBaVLR
+         Uj8Mr9R6Rg0Sz1w7z3mYjuvKfxqj1KpIz5MHIF71R3JSGS6DuFPN+gh6/j1qi+lTThBZ
+         bUtMX2GGllNQNpMM1hWDtA8Jb3e/DqguXh/VMkUbYokl1bHIab0fSzpccYMg5XIsFgtL
+         cwNrvkofLgF/3zHa+CdOYBv8XhaIjPY6MX6VtZTlE9YX5+0piu/xcN/kY9kPUOGsU1hx
+         /NMZB+XqLjN8gHVlZLBzkM9TnJZ0KARCM0+BSoqoytH9MUyVZtILnhGsikxNDrCX2BIa
+         cXWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YwSYAI43KM10GrnM4hZ3Qtd3y6BkTcR7ZHO9M+skX2s=;
-        b=j/+ZkQm8xMPADXw+B7SbWWf4yFHBbwa9cKkty8BpEKFFSOj86rfubn4btg1KyhWRJo
-         oPoU+sD4V9ujV/xCV8UbJ6s+1YciNEf0P4MsLhloXbB23Y4bni7pTJGoqTrnD46MZMs7
-         +aUBfGW1O6UvouYA/zDAYiOhSx/DWiZJp+K0aSz1cLIwAi1vOX6UyRZpTERwHsiIeN/K
-         7MQeSkGsYgPu8gYDisrvjiZswxI6PnAFGzqXiCV7ukdDIg3/jQxUgh+FMNToTBlw8gIz
-         6XJkMAAOx6N/1zrAEPCq1hwvbDC+72wwLO9BkEYbbjLHwUBYOG06ezAKSy2BtzgROMob
-         F4XQ==
-X-Gm-Message-State: AA+aEWbeZPrEZ5+9vACZuBxuh2GgHEVq9LMSyo5B1MdWC1p22g915Zcs
-        Ai1gFrCLa/rrpcSMcko6vNApwA==
-X-Google-Smtp-Source: AFSGD/UnqpC986vJpvC7OunDuj94mE83rlw4ebocm39rs/p+lo9QYqHHDyqOGddBMnR+LPZQxbTwJQ==
-X-Received: by 2002:a17:902:b20e:: with SMTP id t14mr3653918plr.128.1544807783288;
-        Fri, 14 Dec 2018 09:16:23 -0800 (PST)
+        bh=sCRWYoNU0VkVJ/z3jhqejq2doYZrQjVc/bE8fLkqY2M=;
+        b=iw2boBaHs9J+ZIextjBRyC2QDg1owcy0DWyIrUxju74Pi/s9xA7xDdrPn8Jhefqq6t
+         m8a4T2taWoo+Vr72TapbGVK3G4JM1piHugsKkRSgY/eTVc4aXfFQCKWiKzdmrhRvklVz
+         8UW/2rqXicVyUc8IJv+aP++aBPmHoH3fod18YfjeOsGDBM4TU8zb4gS/4qKY8UPj5cHg
+         Rek1j94DHuV4FuHmNo2r20MGvjXMgxBhm9FKwEiDn2dZagLKtps2WhrymMiDa3MFTxe0
+         qDtrVJrw6c5umCj0evmSPYKndVO8AHQ1ldXgVhVFUfTbPsWd+TOq1e8RsucsRVlo3iWl
+         Tb6Q==
+X-Gm-Message-State: AA+aEWbx0qhofrMxwQTQARIvE+LQax6uQuq/3QW564q62jCECvbW91sE
+        IXfiGsGoewC9AHYvruY9ui3bDw==
+X-Google-Smtp-Source: AFSGD/WwBkLtx/2+rsJz8EKva+zOAw3UYuj7OIEVEXnn41gItTDoWAgGJfWYfZ3NqfogZ0YiSy18Ow==
+X-Received: by 2002:a63:b34f:: with SMTP id x15mr3471723pgt.243.1544807776049;
+        Fri, 14 Dec 2018 09:16:16 -0800 (PST)
 Received: from surenb0.mtv.corp.google.com ([2620:0:1000:1612:3320:4357:47df:276b])
-        by smtp.googlemail.com with ESMTPSA id g185sm7605761pfc.174.2018.12.14.09.16.20
+        by smtp.googlemail.com with ESMTPSA id g185sm7605761pfc.174.2018.12.14.09.16.13
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 Dec 2018 09:16:21 -0800 (PST)
+        Fri, 14 Dec 2018 09:16:14 -0800 (PST)
 From:   Suren Baghdasaryan <surenb@google.com>
 To:     gregkh@linuxfoundation.org
 Cc:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
@@ -56,9 +56,9 @@ Cc:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
         corbet@lwn.net, cgroups@vger.kernel.org, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         kernel-team@android.com, Suren Baghdasaryan <surenb@google.com>
-Subject: [PATCH 4/6] psi: introduce state_mask to represent stalled psi states
-Date:   Fri, 14 Dec 2018 09:15:06 -0800
-Message-Id: <20181214171508.7791-5-surenb@google.com>
+Subject: [PATCH 2/6] kernel: cgroup: add poll file operation
+Date:   Fri, 14 Dec 2018 09:15:04 -0800
+Message-Id: <20181214171508.7791-3-surenb@google.com>
 X-Mailer: git-send-email 2.20.0.405.gbc1bbc6f85-goog
 In-Reply-To: <20181214171508.7791-1-surenb@google.com>
 References: <20181214171508.7791-1-surenb@google.com>
@@ -69,121 +69,81 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The psi monitoring patches will need to determine the same states as
-record_times(). To avoid calculating them twice, maintain a state mask
-that can be consulted cheaply. Do this in a separate patch to keep the
-churn in the main feature patch at a minimum.
+From: Johannes Weiner <hannes@cmpxchg.org>
 
+Cgroup has a standardized poll/notification mechanism for waking all
+pollers on all fds when a filesystem node changes. To allow polling
+for custom events, add a .poll callback that can override the default.
+
+This is in preparation for pollable cgroup pressure files which have
+per-fd trigger configurations.
+
+Signed-off-by: Johannes Weiner <hannes@cmpxchg.org>
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 ---
- include/linux/psi_types.h |  3 +++
- kernel/sched/psi.c        | 29 +++++++++++++++++++----------
- 2 files changed, 22 insertions(+), 10 deletions(-)
+ include/linux/cgroup-defs.h |  4 ++++
+ kernel/cgroup/cgroup.c      | 12 ++++++++++++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
-index 2cf422db5d18..2c6e9b67b7eb 100644
---- a/include/linux/psi_types.h
-+++ b/include/linux/psi_types.h
-@@ -53,6 +53,9 @@ struct psi_group_cpu {
- 	/* States of the tasks belonging to this group */
- 	unsigned int tasks[NR_PSI_TASK_COUNTS];
+diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
+index 5e1694fe035b..6f9ea8601421 100644
+--- a/include/linux/cgroup-defs.h
++++ b/include/linux/cgroup-defs.h
+@@ -32,6 +32,7 @@ struct kernfs_node;
+ struct kernfs_ops;
+ struct kernfs_open_file;
+ struct seq_file;
++struct poll_table_struct;
  
-+	/* Aggregate pressure state derived from the tasks */
-+	u32 state_mask;
+ #define MAX_CGROUP_TYPE_NAMELEN 32
+ #define MAX_CGROUP_ROOT_NAMELEN 64
+@@ -573,6 +574,9 @@ struct cftype {
+ 	ssize_t (*write)(struct kernfs_open_file *of,
+ 			 char *buf, size_t nbytes, loff_t off);
+ 
++	__poll_t (*poll)(struct kernfs_open_file *of,
++			 struct poll_table_struct *pt);
 +
- 	/* Period time sampling buckets for each state of interest (ns) */
- 	u32 times[NR_PSI_STATES];
- 
-diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
-index d2b9c9a1a62f..153c0624976b 100644
---- a/kernel/sched/psi.c
-+++ b/kernel/sched/psi.c
-@@ -212,17 +212,17 @@ static bool test_state(unsigned int *tasks, enum psi_states state)
- static void get_recent_times(struct psi_group *group, int cpu, u32 *times)
- {
- 	struct psi_group_cpu *groupc = per_cpu_ptr(group->pcpu, cpu);
--	unsigned int tasks[NR_PSI_TASK_COUNTS];
- 	u64 now, state_start;
-+	enum psi_states s;
- 	unsigned int seq;
--	int s;
-+	u32 state_mask;
- 
- 	/* Snapshot a coherent view of the CPU state */
- 	do {
- 		seq = read_seqcount_begin(&groupc->seq);
- 		now = cpu_clock(cpu);
- 		memcpy(times, groupc->times, sizeof(groupc->times));
--		memcpy(tasks, groupc->tasks, sizeof(groupc->tasks));
-+		state_mask = groupc->state_mask;
- 		state_start = groupc->state_start;
- 	} while (read_seqcount_retry(&groupc->seq, seq));
- 
-@@ -238,7 +238,7 @@ static void get_recent_times(struct psi_group *group, int cpu, u32 *times)
- 		 * (u32) and our reported pressure close to what's
- 		 * actually happening.
- 		 */
--		if (test_state(tasks, s))
-+		if (state_mask & (1 << s))
- 			times[s] += now - state_start;
- 
- 		delta = times[s] - groupc->times_prev[s];
-@@ -390,15 +390,15 @@ static void record_times(struct psi_group_cpu *groupc, int cpu,
- 	delta = now - groupc->state_start;
- 	groupc->state_start = now;
- 
--	if (test_state(groupc->tasks, PSI_IO_SOME)) {
-+	if (groupc->state_mask & (1 << PSI_IO_SOME)) {
- 		groupc->times[PSI_IO_SOME] += delta;
--		if (test_state(groupc->tasks, PSI_IO_FULL))
-+		if (groupc->state_mask & (1 << PSI_IO_FULL))
- 			groupc->times[PSI_IO_FULL] += delta;
- 	}
- 
--	if (test_state(groupc->tasks, PSI_MEM_SOME)) {
-+	if (groupc->state_mask & (1 << PSI_MEM_SOME)) {
- 		groupc->times[PSI_MEM_SOME] += delta;
--		if (test_state(groupc->tasks, PSI_MEM_FULL))
-+		if (groupc->state_mask & (1 << PSI_MEM_FULL))
- 			groupc->times[PSI_MEM_FULL] += delta;
- 		else if (memstall_tick) {
- 			u32 sample;
-@@ -419,10 +419,10 @@ static void record_times(struct psi_group_cpu *groupc, int cpu,
- 		}
- 	}
- 
--	if (test_state(groupc->tasks, PSI_CPU_SOME))
-+	if (groupc->state_mask & (1 << PSI_CPU_SOME))
- 		groupc->times[PSI_CPU_SOME] += delta;
- 
--	if (test_state(groupc->tasks, PSI_NONIDLE))
-+	if (groupc->state_mask & (1 << PSI_NONIDLE))
- 		groupc->times[PSI_NONIDLE] += delta;
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ 	struct lock_class_key	lockdep_key;
+ #endif
+diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+index 6aaf5dd5383b..ffcd7483b8ee 100644
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -3499,6 +3499,16 @@ static ssize_t cgroup_file_write(struct kernfs_open_file *of, char *buf,
+ 	return ret ?: nbytes;
  }
  
-@@ -431,6 +431,8 @@ static void psi_group_change(struct psi_group *group, int cpu,
- {
- 	struct psi_group_cpu *groupc;
- 	unsigned int t, m;
-+	enum psi_states s;
-+	u32 state_mask = 0;
- 
- 	groupc = per_cpu_ptr(group->pcpu, cpu);
- 
-@@ -463,6 +465,13 @@ static void psi_group_change(struct psi_group *group, int cpu,
- 		if (set & (1 << t))
- 			groupc->tasks[t]++;
- 
-+	/* Calculate state mask representing active states */
-+	for (s = 0; s < NR_PSI_STATES; s++) {
-+		if (test_state(groupc->tasks, s))
-+			state_mask |= (1 << s);
-+	}
-+	groupc->state_mask = state_mask;
++static __poll_t cgroup_file_poll(struct kernfs_open_file *of, poll_table *pt)
++{
++	struct cftype *cft = of->kn->priv;
 +
- 	write_seqcount_end(&groupc->seq);
- }
++	if (cft->poll)
++		return cft->poll(of, pt);
++
++	return kernfs_generic_poll(of, pt);
++}
++
+ static void *cgroup_seqfile_start(struct seq_file *seq, loff_t *ppos)
+ {
+ 	return seq_cft(seq)->seq_start(seq, ppos);
+@@ -3537,6 +3547,7 @@ static struct kernfs_ops cgroup_kf_single_ops = {
+ 	.open			= cgroup_file_open,
+ 	.release		= cgroup_file_release,
+ 	.write			= cgroup_file_write,
++	.poll			= cgroup_file_poll,
+ 	.seq_show		= cgroup_seqfile_show,
+ };
  
+@@ -3545,6 +3556,7 @@ static struct kernfs_ops cgroup_kf_ops = {
+ 	.open			= cgroup_file_open,
+ 	.release		= cgroup_file_release,
+ 	.write			= cgroup_file_write,
++	.poll			= cgroup_file_poll,
+ 	.seq_start		= cgroup_seqfile_start,
+ 	.seq_next		= cgroup_seqfile_next,
+ 	.seq_stop		= cgroup_seqfile_stop,
 -- 
 2.20.0.405.gbc1bbc6f85-goog
 
