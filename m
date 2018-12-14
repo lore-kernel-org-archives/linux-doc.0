@@ -1,128 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2E87D7D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Dec 2018 14:26:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7080E7D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Dec 2018 14:34:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729758AbeLNO0s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Dec 2018 09:26:48 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:47915 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730207AbeLNO0r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Dec 2018 09:26:47 -0500
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1gXoQB-00047i-3n; Fri, 14 Dec 2018 15:26:31 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1gXoQ8-0005E4-4I; Fri, 14 Dec 2018 15:26:28 +0100
-Date:   Fri, 14 Dec 2018 15:26:28 +0100
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>
-Cc:     Paul Cercueil <paul@crapouillou.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ralf Baechle <ralf@linux-mips.org>, paul.burton@mips.com,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mathieu Malaterre <malat@debian.org>, ezequiel@collabora.co.uk,
-        prasannatsmkumar@gmail.com, linux-pwm@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>,
-        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk <linux-clk@vger.kernel.org>, od@zcrc.me
-Subject: Re: [PATCH v8 15/26] pwm: jz4740: Add support for the JZ4725B
-Message-ID: <20181214142628.zwi4hadrju53z6f3@pengutronix.de>
-References: <20181212220922.18759-1-paul@crapouillou.net>
- <20181212220922.18759-16-paul@crapouillou.net>
- <20181213092409.ml4wpnzow2nnszkd@pengutronix.de>
- <1544709795.18952.1@crapouillou.net>
- <20181213204219.onem3q6dcmakusl2@pengutronix.de>
- <CACRpkdbABtDgwKai=8Pfji7qVb-XHsX8pDsuDdS5hhg7qEN0Bw@mail.gmail.com>
+        id S1729766AbeLNOeG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Dec 2018 09:34:06 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:46882 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729722AbeLNOeF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Dec 2018 09:34:05 -0500
+Received: by mail-oi1-f193.google.com with SMTP id x202so4661009oif.13
+        for <linux-doc@vger.kernel.org>; Fri, 14 Dec 2018 06:34:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FMgXFm/rRO6gaes71rbchB5oOTyNj1IYboe7Uczq2eU=;
+        b=V2wPt5bUwXqnvzs31xGj2MrPI+XxhIUzteHmi6Oqb60Y0tTQY4Cbzxj+KVvzFxkklM
+         eNNrxoWQYUYRuJw5i3zPl8KJfiJ1oYW7CFbIEMcdd5n7rQ6odxGaL6eVnULBVaS0hVp1
+         wzqwncglY2NjV+LYVflwHi2Fcf7tONEDeNnDU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FMgXFm/rRO6gaes71rbchB5oOTyNj1IYboe7Uczq2eU=;
+        b=PRnpeSq3sOruhUIrHa4ZJaMiRR6IPSBQWBojrEyEMz15/3yVnpWQfKL0RqnyWF+RT0
+         PvxJfh7PPC2eh8krF+q/8k/5/xLe1FXSGC6yXeqmav+y1lkDSgJ3hyzURBsbxQoUZ39e
+         7pq4/RECD2YBpomrRPzs0F+GeVVqrw15A+r+4acLat63NfkG+s+eOAdX3m3SCfUX3DIP
+         Fl4BDH6fOYDS4IVkMXrqF9XQ3r5a8JDPDa0uDfFZllygMn9fneEw+afIvvKY0DAyZi/m
+         PpTRVS8amV/YATM+7tU/4Fwhed8yvrIg+CZw/rScvNw2zF0lUKTBfEzwJvzeLbroJDSP
+         wrpA==
+X-Gm-Message-State: AA+aEWanzLQHQcN2BTcjXEREzeZdTyS3tpm/4Dz8iQ4SPGKYWhIZxyMj
+        mOQfPFdhmv5vaX5yukuWOrHXIlfhqogN4m/DN2caCQ==
+X-Google-Smtp-Source: AFSGD/VEtBNKjE0LtLP8dvRnqOk+rnG/1YhJtF32Sp5qGNQxxKCTyYCTDd7v15itBfj8DgVQqyyEC9U658f38RS9lxM=
+X-Received: by 2002:aca:bcc6:: with SMTP id m189mr1951162oif.337.1544798045123;
+ Fri, 14 Dec 2018 06:34:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdbABtDgwKai=8Pfji7qVb-XHsX8pDsuDdS5hhg7qEN0Bw@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <1544782537-13377-1-git-send-email-gengdongjiu@huawei.com> <f252e4ca-cdc2-bc42-32a6-5dae7dee51ee@arm.com>
+In-Reply-To: <f252e4ca-cdc2-bc42-32a6-5dae7dee51ee@arm.com>
+From:   Peter Maydell <peter.maydell@linaro.org>
+Date:   Fri, 14 Dec 2018 14:33:53 +0000
+Message-ID: <CAFEAcA-ajJ_W0FtC00aEiG=wGgbbU_8OEt+B+B87647gTsSMvQ@mail.gmail.com>
+Subject: Re: [RFC RESEND PATCH] kvm: arm64: export memory error recovery
+ capability to user space
+To:     James Morse <james.morse@arm.com>
+Cc:     gengdongjiu <gengdongjiu@huawei.com>,
+        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        kvm-devel <kvm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        arm-mail-list <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+On Fri, 14 Dec 2018 at 13:56, James Morse <james.morse@arm.com> wrote:
+>
+> Hi Dongjiu Geng,
+>
+> On 14/12/2018 10:15, Dongjiu Geng wrote:
+> > When user space do memory recovery, it will check whether KVM and
+> > guest support the error recovery, only when both of them support,
+> > user space will do the error recovery. This patch exports this
+> > capability of KVM to user space.
+>
+> I can understand user-space only wanting to do the work if host and guest
+> support the feature. But 'error recovery' isn't a KVM feature, its a Linux
+> kernel feature.
+>
+> KVM will send it's user-space a SIGBUS with MCEERR code whenever its trying to
+> map a page at stage2 that the kernel-mm code refuses this because its poisoned.
+> (e.g. check_user_page_hwpoison(), get_user_pages() returns -EHWPOISON)
+>
+> This is exactly the same as happens to a normal user-space process.
+>
+> I think you really want to know if the host kernel was built with
+> CONFIG_MEMORY_FAILURE.
 
-On Fri, Dec 14, 2018 at 02:50:20PM +0100, Linus Walleij wrote:
-> On Thu, Dec 13, 2018 at 9:42 PM Uwe Kleine-König
-> <u.kleine-koenig@pengutronix.de> wrote:
-> > [Adding Linus Walleij to Cc:]
-> > On Thu, Dec 13, 2018 at 03:03:15PM +0100, Paul Cercueil wrote:
-> > > Le jeu. 13 déc. 2018 à 10:24, Uwe Kleine-König
-> > > <u.kleine-koenig@pengutronix.de> a écrit :
-> > > > On Wed, Dec 12, 2018 at 11:09:10PM +0100, Paul Cercueil wrote:
-> > > > >  The PWM in the JZ4725B works the same as in the JZ4740, except that
-> > > > > it
-> > > > >  only has 6 channels available instead of 8.
-> > > >
-> > > > this driver is probed only from device tree? If yes, it might be
-> > > > sensible to specify the number of PWMs there and get it from there.
-> > > > There doesn't seem to be a generic binding for that, but there are
-> > > > several drivers that could benefit from it. (This is a bigger project
-> > > > though and shouldn't stop your patch. Still more as it already got
-> > > > Thierry's ack.)
-> > >
-> > > I think there needs to be a proper guideline, as there doesn't seem to be
-> > > a consensus about this. I learned from emails with Rob and Linus (Walleij)
-> > > that I should not have in devicetree what I can deduce from the compatible
-> > > string.
-> >
-> > I understood them a bit differently. It is ok to deduce things from the
-> > compatible string. But if you define a generic property (say) "num-pwms"
-> > that is used uniformly in most bindings this is ok, too. (And then the
-> > two different devices could use the same compatible.)
-> >
-> > An upside of the generic "num-pwms" property is that the pwm core could
-> > sanity check pwm phandles before passing them to the hardware drivers.
-> 
-> I don't know if this helps, but in GPIO we have "ngpios" which is
-> used to augment an existing block as to the number of lines actually
-> used with it.
-> 
-> The typical case is that an ASIC engineer synthesize a block for
-> 32 GPIOs but only 12 of them are routed to external pads. So
-> we augment the behaviour of that driver to only use 12 of the
-> 32 lines.
-> 
-> I guess using the remaining 20 lines "works" in a sense but they
-> have no practical use and will just bias electrons in the silicon
-> for no use.
+Does userspace need to care about that? Presumably if the host kernel
+wasn't built with that support then it will simply never deliver
+any memory failure events to QEMU, which is fine.
 
-This looks very similar to the case under discussion.
- 
-> So if the PWM case is something similar, then by all means add
-> num-pwms.
+The point I was trying to make in the email Dongjiu references
+(https://patchwork.codeaurora.org/patch/652261/) is simply that
+"QEMU gets memory-failure notifications from the host kernel"
+does not imply "the guest is prepared to receive memory
+failure notifications", and so the code path which handles
+the SIGBUS must do some kind of check for whether the guest
+CPU is a type which expects them and that the board code
+set up the ACPI tables that it wants to fill in.
 
-.. or "npwms" to use the same nomenclature as the gpio binding?
-
-Best regards
-Uwe
-
--- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+thanks
+-- PMM
