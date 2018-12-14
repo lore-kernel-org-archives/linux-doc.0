@@ -1,133 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 834AC7D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Dec 2018 13:50:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DB3877D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Dec 2018 13:56:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729951AbeLNNue (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Dec 2018 08:50:34 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:40181 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729949AbeLNNue (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Dec 2018 08:50:34 -0500
-Received: by mail-lf1-f68.google.com with SMTP id v5so4301697lfe.7
-        for <linux-doc@vger.kernel.org>; Fri, 14 Dec 2018 05:50:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=TT1Xs744YvFr5FAOSJ08uVRir7gQf/QP/n2KzZnawb4=;
-        b=IGmGG/fR90Y4O2GWuPCFosA3GPigBCBFBNgDMnigNYaRp29bz+Q64UKDZ3ciUk8yHw
-         7Gs09Ev9iiu6JyOo3nFwZ0IE3PdcBBpYZLTzU4xL003pMsLgJKswjiIrhdj6+IgnPkv4
-         wV5x+yytrMqp85gCYnD8rqNfM9U/4WazcNCqg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=TT1Xs744YvFr5FAOSJ08uVRir7gQf/QP/n2KzZnawb4=;
-        b=Oj/beSHkwcIyMSprnDbff51euWI0uvSDPayijMA/mIcNo9sc5mnQz7sc0h3yivWNmz
-         NYTmA14/LMawq2qqGCp8j03tehUzru1JffXChnxagYYaab/Kkd6iZGK+oJkaVw5hLMrm
-         8CeWJEhbmOPGAT4ab6Y6HxjCwdxaGLh061pDc0YLXCUqahCR9jgSTODxW8fC8eP86bNR
-         ZF73Nl4vFvLusft7PzJoQIn9gGYKH8wx+XDMM4vcZ9PVeUqRG/SHbUccZBDh0QrlVO04
-         KwfJx+gLn4G2pmTGs0wE0XO+2mVhNzRClaf3+pM3rqDdGBxuqHV+p6G3Sh4w1SiWZYSe
-         KHIg==
-X-Gm-Message-State: AA+aEWbiKLd/gf+uMTJf0RdPchoJHSP5MiPemIEsrQ42kbgFzhKZwGtM
-        PgS76FGoQqTY5LvdCkjWETkLPpHgW0FH3GUuqxWEQw==
-X-Google-Smtp-Source: AFSGD/UqPR5H867B8OQqykdWDeMpN/oCXYbkKZLdsU9DGeKyv5jHL9rQd2rVYFonCRchJ54w/zm7nWjRae35TLhjVgk=
-X-Received: by 2002:a19:4849:: with SMTP id v70mr1849137lfa.62.1544795432320;
- Fri, 14 Dec 2018 05:50:32 -0800 (PST)
+        id S1729718AbeLNN4A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Dec 2018 08:56:00 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:52186 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729709AbeLNN4A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Dec 2018 08:56:00 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B233780D;
+        Fri, 14 Dec 2018 05:55:59 -0800 (PST)
+Received: from [10.1.196.105] (eglon.cambridge.arm.com [10.1.196.105])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AAD653F575;
+        Fri, 14 Dec 2018 05:55:57 -0800 (PST)
+Subject: Re: [RFC RESEND PATCH] kvm: arm64: export memory error recovery
+ capability to user space
+To:     Dongjiu Geng <gengdongjiu@huawei.com>
+References: <1544782537-13377-1-git-send-email-gengdongjiu@huawei.com>
+From:   James Morse <james.morse@arm.com>
+Cc:     peter.maydell@linaro.org, rkrcmar@redhat.com, corbet@lwn.net,
+        christoffer.dall@arm.com, marc.zyngier@arm.com,
+        catalin.marinas@arm.com, will.deacon@arm.com, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Message-ID: <f252e4ca-cdc2-bc42-32a6-5dae7dee51ee@arm.com>
+Date:   Fri, 14 Dec 2018 13:55:55 +0000
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.0
 MIME-Version: 1.0
-References: <20181212220922.18759-1-paul@crapouillou.net> <20181212220922.18759-16-paul@crapouillou.net>
- <20181213092409.ml4wpnzow2nnszkd@pengutronix.de> <1544709795.18952.1@crapouillou.net>
- <20181213204219.onem3q6dcmakusl2@pengutronix.de>
-In-Reply-To: <20181213204219.onem3q6dcmakusl2@pengutronix.de>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 14 Dec 2018 14:50:20 +0100
-Message-ID: <CACRpkdbABtDgwKai=8Pfji7qVb-XHsX8pDsuDdS5hhg7qEN0Bw@mail.gmail.com>
-Subject: Re: [PATCH v8 15/26] pwm: jz4740: Add support for the JZ4725B
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Paul Cercueil <paul@crapouillou.net>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ralf Baechle <ralf@linux-mips.org>, paul.burton@mips.com,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mathieu Malaterre <malat@debian.org>, ezequiel@collabora.co.uk,
-        prasannatsmkumar@gmail.com, linux-pwm@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>,
-        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk <linux-clk@vger.kernel.org>, od@zcrc.me
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1544782537-13377-1-git-send-email-gengdongjiu@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 13, 2018 at 9:42 PM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
-> [Adding Linus Walleij to Cc:]
->
-> Hello,
->
-> On Thu, Dec 13, 2018 at 03:03:15PM +0100, Paul Cercueil wrote:
-> > Le jeu. 13 d=C3=A9c. 2018 =C3=A0 10:24, Uwe Kleine-K=C3=B6nig
-> > <u.kleine-koenig@pengutronix.de> a =C3=A9crit :
-> > > On Wed, Dec 12, 2018 at 11:09:10PM +0100, Paul Cercueil wrote:
-> > > >  The PWM in the JZ4725B works the same as in the JZ4740, except tha=
-t
-> > > > it
-> > > >  only has 6 channels available instead of 8.
-> > >
-> > > this driver is probed only from device tree? If yes, it might be
-> > > sensible to specify the number of PWMs there and get it from there.
-> > > There doesn't seem to be a generic binding for that, but there are
-> > > several drivers that could benefit from it. (This is a bigger project
-> > > though and shouldn't stop your patch. Still more as it already got
-> > > Thierry's ack.)
-> >
-> > I think there needs to be a proper guideline, as there doesn't seem to =
-be
-> > a consensus about this. I learned from emails with Rob and Linus (Walle=
-ij)
-> > that I should not have in devicetree what I can deduce from the compati=
-ble
-> > string.
->
-> I understood them a bit differently. It is ok to deduce things from the
-> compatible string. But if you define a generic property (say) "num-pwms"
-> that is used uniformly in most bindings this is ok, too. (And then the
-> two different devices could use the same compatible.)
->
-> An upside of the generic "num-pwms" property is that the pwm core could
-> sanity check pwm phandles before passing them to the hardware drivers.
+Hi Dongjiu Geng,
 
-I don't know if this helps, but in GPIO we have "ngpios" which is
-used to augment an existing block as to the number of lines actually
-used with it.
+On 14/12/2018 10:15, Dongjiu Geng wrote:
+> When user space do memory recovery, it will check whether KVM and
+> guest support the error recovery, only when both of them support,
+> user space will do the error recovery. This patch exports this
+> capability of KVM to user space.
 
-The typical case is that an ASIC engineer synthesize a block for
-32 GPIOs but only 12 of them are routed to external pads. So
-we augment the behaviour of that driver to only use 12 of the
-32 lines.
+I can understand user-space only wanting to do the work if host and guest
+support the feature. But 'error recovery' isn't a KVM feature, its a Linux
+kernel feature.
 
-I guess using the remaining 20 lines "works" in a sense but they
-have no practical use and will just bias electrons in the silicon
-for no use.
+KVM will send it's user-space a SIGBUS with MCEERR code whenever its trying to
+map a page at stage2 that the kernel-mm code refuses this because its poisoned.
+(e.g. check_user_page_hwpoison(), get_user_pages() returns -EHWPOISON)
 
-So if the PWM case is something similar, then by all means add
-num-pwms.
+This is exactly the same as happens to a normal user-space process.
 
-Yours,
-Linus Walleij
+I think you really want to know if the host kernel was built with
+CONFIG_MEMORY_FAILURE. The not-at-all-portable way to tell this from user-space
+is the presence of /proc/sys/vm/memory_failure_* files.
+(It looks like the prctl():PR_MCE_KILL/PR_MCE_KILL_GET options silently update
+an ignored policy if the kernel isn't built with CONFIG_MEMORY_FAILURE, so they
+aren't helpful)
+
+
+> diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
+> index cd209f7..241e2e2 100644
+> --- a/Documentation/virtual/kvm/api.txt
+> +++ b/Documentation/virtual/kvm/api.txt
+> @@ -4895,3 +4895,12 @@ Architectures: x86
+>  This capability indicates that KVM supports paravirtualized Hyper-V IPI send
+>  hypercalls:
+>  HvCallSendSyntheticClusterIpi, HvCallSendSyntheticClusterIpiEx.
+> +
+> +8.21 KVM_CAP_ARM_MEMORY_ERROR_RECOVERY
+> +
+> +Architectures: arm, arm64
+> +
+> +This capability indicates that guest memory error can be detected by the KVM which
+> +supports the error recovery.
+
+KVM doesn't detect these errors.
+The hardware detects them and notifies the OS via one of a number of mechanisms.
+This gets plumbed into memory_failure(), which sets a flag that the mm code uses
+to prevent the page being used again.
+
+KVM is only involved when it tries to map a page at stage2 and the mm code
+rejects it with -EHWPOISON. This is the same as the architectures
+do_page_fault() checking for (fault & VM_FAULT_HWPOISON) out of
+handle_mm_fault(). We don't have a KVM cap for this, nor do we need one.
+
+
+> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
+> index b72a3dd..90d1d9a 100644
+> --- a/arch/arm64/kvm/reset.c
+> +++ b/arch/arm64/kvm/reset.c
+> @@ -82,6 +82,7 @@ int kvm_arch_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>  		r = kvm_arm_support_pmu_v3();
+>  		break;
+>  	case KVM_CAP_ARM_INJECT_SERROR_ESR:
+> +	case KVM_CAP_ARM_MEMORY_ERROR_RECOVERY:
+>  		r = cpus_have_const_cap(ARM64_HAS_RAS_EXTN);
+>  		break;
+
+The CPU RAS Extensions are not at all relevant here. It is perfectly possible to
+support memory-failure without them, AMD-Seattle and APM-X-Gene do this. These
+systems would report not-supported here, but the kernel does support this stuff.
+Just because the CPU supports this, doesn't mean the kernel was built with
+CONFIG_MEMORY_FAILURE. The CPU reports may be ignored, or upgraded to SIGKILL.
+
+
+
+Thanks,
+
+James
