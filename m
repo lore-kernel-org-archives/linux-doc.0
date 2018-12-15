@@ -1,165 +1,151 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 41B0C7D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Dec 2018 22:31:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B21217D089
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 15 Dec 2018 00:06:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729630AbeLNWbN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Dec 2018 17:31:13 -0500
-Received: from mail-vk1-f195.google.com ([209.85.221.195]:35346 "EHLO
-        mail-vk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729341AbeLNWbN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Dec 2018 17:31:13 -0500
-Received: by mail-vk1-f195.google.com with SMTP id b18so1650847vke.2;
-        Fri, 14 Dec 2018 14:31:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=1aXsQu9yk6+RQb278EvNnMC6crwN3ixF95JlXBTg5B4=;
-        b=qnt1VyrTUsBFFg8bMZs/8P84bIl8kifun+vi2QRIHyJ9zsy5k6eZvEyCTdyZ0SBcYy
-         48v9MAfy4O4ZsfYud6FW9903I7DdM0xP+VfKXBKZfhMB/qHasiWxSptAd9BuicJ38RqC
-         ptzYKOOGXHsDUf3RnBF8Qxao4q15TbBqA5oIR39KOV+koXhG/amQeDtcM405ga66nDo9
-         hqZd7aj+R+Yz9AtBkp4jfD5XQRiwOkYrrcq+Gi9XcuWNcUj74vGolu5aQI857c3fgi+2
-         x3Kh+6tOynPja1fUc1a7NXA321txMws9mGQJbuaDc3iwRRgo0utlV9deigkPu6vJUxkW
-         nncQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=1aXsQu9yk6+RQb278EvNnMC6crwN3ixF95JlXBTg5B4=;
-        b=QhvxTo8yxwsGLCkXGnKYB4vOWrl+uyXGbpxKWqfoKAmM8gyNlbhm0cKNW025pqobO8
-         zRsPXmFD5pJb2Ast/IxfBttEN4y+QqdNI4XK2hqzW5gzpGs3cAIke5+L/vmhl6I9UAo/
-         16kuEQS4wIQ0OSKzLHd3H2TlWP9JMHrK6+6q6Fn0bu8EmY0uW7SDAG+KpeKxBzXHcYzg
-         2/QmBo4yVAFJJYv39m7ReeiMtvNwnMlh+163Hz0N39f9FvY7boQfZMW5d3bErYG/Aw3J
-         at/9jSPS441P2k/c7LcFSpeGKm82FYXgmolAZS+8NPVJVyo4A5TVTbWtnieB5bzWux3o
-         5t3Q==
-X-Gm-Message-State: AA+aEWYLx7CePf+ZXbGvS1UDGMtb0nCxlq2H/ev869lEgQQzCHkUgwis
-        SVUWaJOT8LAnYCCPaZgb7v82i9Y42K1pV4nXRhE=
-X-Google-Smtp-Source: AFSGD/Xu8zz10yAibznyL7tmWADFlIsar+MPEhx6wi8b+C3ypFNldBkJFmbp6ZZSzdCaV+VS7VMxpK9Pab6sBK/Zw4Y=
-X-Received: by 2002:a1f:f8cf:: with SMTP id w198mr2149238vkh.82.1544826672105;
- Fri, 14 Dec 2018 14:31:12 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a67:4401:0:0:0:0:0 with HTTP; Fri, 14 Dec 2018 14:31:11
- -0800 (PST)
-In-Reply-To: <f252e4ca-cdc2-bc42-32a6-5dae7dee51ee@arm.com>
-References: <1544782537-13377-1-git-send-email-gengdongjiu@huawei.com> <f252e4ca-cdc2-bc42-32a6-5dae7dee51ee@arm.com>
-From:   gengdongjiu <gengdj.1984@gmail.com>
-Date:   Sat, 15 Dec 2018 06:31:11 +0800
-Message-ID: <CAMj-D2D_fsOS1La3HGV2=bys5KjeQ0=fskrAL1V9FEkUTHFo1w@mail.gmail.com>
+        id S1726604AbeLOAGu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Dec 2018 19:06:50 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:6918 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726423AbeLOAGu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Dec 2018 19:06:50 -0500
+Received: from DGGEMA404-HUB.china.huawei.com (unknown [172.30.72.56])
+        by Forcepoint Email with ESMTP id 9BDBD206077CD;
+        Sat, 15 Dec 2018 08:06:46 +0800 (CST)
+Received: from DGGEMA523-MBX.china.huawei.com ([169.254.5.180]) by
+ DGGEMA404-HUB.china.huawei.com ([10.3.20.45]) with mapi id 14.03.0415.000;
+ Sat, 15 Dec 2018 08:06:44 +0800
+From:   gengdongjiu <gengdongjiu@huawei.com>
+To:     Peter Maydell <peter.maydell@linaro.org>,
+        James Morse <james.morse@arm.com>
+CC:     =?utf-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Will Deacon" <will.deacon@arm.com>,
+        kvm-devel <kvm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        arm-mail-list <linux-arm-kernel@lists.infradead.org>
 Subject: Re: [RFC RESEND PATCH] kvm: arm64: export memory error recovery
  capability to user space
-To:     James Morse <james.morse@arm.com>
-Cc:     Dongjiu Geng <gengdongjiu@huawei.com>, peter.maydell@linaro.org,
-        rkrcmar@redhat.com, corbet@lwn.net, christoffer.dall@arm.com,
-        marc.zyngier@arm.com, catalin.marinas@arm.com, will.deacon@arm.com,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Thread-Topic: [RFC RESEND PATCH] kvm: arm64: export memory error recovery
+ capability to user space
+Thread-Index: AdST/PTIoTJkAAg6TOC88quIUt5hUw==
+Date:   Sat, 15 Dec 2018 00:06:44 +0000
+Message-ID: <0184EA26B2509940AA629AE1405DD7F201FFC1EF@dggema523-mbx.china.huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.45.91.186]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-HI James,
-
-      Thanks for the mail and comments, I will reply to you in the next mail.
-
-2018-12-14 21:55 GMT+08:00, James Morse <james.morse@arm.com>:
-> Hi Dongjiu Geng,
->
-> On 14/12/2018 10:15, Dongjiu Geng wrote:
->> When user space do memory recovery, it will check whether KVM and
->> guest support the error recovery, only when both of them support,
->> user space will do the error recovery. This patch exports this
->> capability of KVM to user space.
->
-> I can understand user-space only wanting to do the work if host and guest
-> support the feature. But 'error recovery' isn't a KVM feature, its a Linux
-> kernel feature.
->
-> KVM will send it's user-space a SIGBUS with MCEERR code whenever its trying
-> to
-> map a page at stage2 that the kernel-mm code refuses this because its
-> poisoned.
-> (e.g. check_user_page_hwpoison(), get_user_pages() returns -EHWPOISON)
->
-> This is exactly the same as happens to a normal user-space process.
->
-> I think you really want to know if the host kernel was built with
-> CONFIG_MEMORY_FAILURE. The not-at-all-portable way to tell this from
-> user-space
-> is the presence of /proc/sys/vm/memory_failure_* files.
-> (It looks like the prctl():PR_MCE_KILL/PR_MCE_KILL_GET options silently
-> update
-> an ignored policy if the kernel isn't built with CONFIG_MEMORY_FAILURE, so
-> they
-> aren't helpful)
->
->
->> diff --git a/Documentation/virtual/kvm/api.txt
->> b/Documentation/virtual/kvm/api.txt
->> index cd209f7..241e2e2 100644
->> --- a/Documentation/virtual/kvm/api.txt
->> +++ b/Documentation/virtual/kvm/api.txt
->> @@ -4895,3 +4895,12 @@ Architectures: x86
->>  This capability indicates that KVM supports paravirtualized Hyper-V IPI
->> send
->>  hypercalls:
->>  HvCallSendSyntheticClusterIpi, HvCallSendSyntheticClusterIpiEx.
->> +
->> +8.21 KVM_CAP_ARM_MEMORY_ERROR_RECOVERY
->> +
->> +Architectures: arm, arm64
->> +
->> +This capability indicates that guest memory error can be detected by the
->> KVM which
->> +supports the error recovery.
->
-> KVM doesn't detect these errors.
-> The hardware detects them and notifies the OS via one of a number of
-> mechanisms.
-> This gets plumbed into memory_failure(), which sets a flag that the mm code
-> uses
-> to prevent the page being used again.
->
-> KVM is only involved when it tries to map a page at stage2 and the mm code
-> rejects it with -EHWPOISON. This is the same as the architectures
-> do_page_fault() checking for (fault & VM_FAULT_HWPOISON) out of
-> handle_mm_fault(). We don't have a KVM cap for this, nor do we need one.
->
->
->> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
->> index b72a3dd..90d1d9a 100644
->> --- a/arch/arm64/kvm/reset.c
->> +++ b/arch/arm64/kvm/reset.c
->> @@ -82,6 +82,7 @@ int kvm_arch_vm_ioctl_check_extension(struct kvm *kvm,
->> long ext)
->>  		r = kvm_arm_support_pmu_v3();
->>  		break;
->>  	case KVM_CAP_ARM_INJECT_SERROR_ESR:
->> +	case KVM_CAP_ARM_MEMORY_ERROR_RECOVERY:
->>  		r = cpus_have_const_cap(ARM64_HAS_RAS_EXTN);
->>  		break;
->
-> The CPU RAS Extensions are not at all relevant here. It is perfectly
-> possible to
-> support memory-failure without them, AMD-Seattle and APM-X-Gene do this.
-> These
-> systems would report not-supported here, but the kernel does support this
-> stuff.
-> Just because the CPU supports this, doesn't mean the kernel was built with
-> CONFIG_MEMORY_FAILURE. The CPU reports may be ignored, or upgraded to
-> SIGKILL.
->
->
->
-> Thanks,
->
-> James
->
+PiANCj4gT24gRnJpLCAxNCBEZWMgMjAxOCBhdCAxMzo1NiwgSmFtZXMgTW9yc2UgPGphbWVzLm1v
+cnNlQGFybS5jb20+IHdyb3RlOg0KPiA+DQo+ID4gSGkgRG9uZ2ppdSBHZW5nLA0KPiA+DQo+ID4g
+T24gMTQvMTIvMjAxOCAxMDoxNSwgRG9uZ2ppdSBHZW5nIHdyb3RlOg0KPiA+ID4gV2hlbiB1c2Vy
+IHNwYWNlIGRvIG1lbW9yeSByZWNvdmVyeSwgaXQgd2lsbCBjaGVjayB3aGV0aGVyIEtWTSBhbmQN
+Cj4gPiA+IGd1ZXN0IHN1cHBvcnQgdGhlIGVycm9yIHJlY292ZXJ5LCBvbmx5IHdoZW4gYm90aCBv
+ZiB0aGVtIHN1cHBvcnQsDQo+ID4gPiB1c2VyIHNwYWNlIHdpbGwgZG8gdGhlIGVycm9yIHJlY292
+ZXJ5LiBUaGlzIHBhdGNoIGV4cG9ydHMgdGhpcw0KPiA+ID4gY2FwYWJpbGl0eSBvZiBLVk0gdG8g
+dXNlciBzcGFjZS4NCj4gPg0KPiA+IEkgY2FuIHVuZGVyc3RhbmQgdXNlci1zcGFjZSBvbmx5IHdh
+bnRpbmcgdG8gZG8gdGhlIHdvcmsgaWYgaG9zdCBhbmQNCj4gPiBndWVzdCBzdXBwb3J0IHRoZSBm
+ZWF0dXJlLiBCdXQgJ2Vycm9yIHJlY292ZXJ5JyBpc24ndCBhIEtWTSBmZWF0dXJlLA0KPiA+IGl0
+cyBhIExpbnV4IGtlcm5lbCBmZWF0dXJlLg0KPiA+DQo+ID4gS1ZNIHdpbGwgc2VuZCBpdCdzIHVz
+ZXItc3BhY2UgYSBTSUdCVVMgd2l0aCBNQ0VFUlIgY29kZSB3aGVuZXZlciBpdHMNCj4gPiB0cnlp
+bmcgdG8gbWFwIGEgcGFnZSBhdCBzdGFnZTIgdGhhdCB0aGUga2VybmVsLW1tIGNvZGUgcmVmdXNl
+cyB0aGlzIGJlY2F1c2UgaXRzIHBvaXNvbmVkLg0KPiA+IChlLmcuIGNoZWNrX3VzZXJfcGFnZV9o
+d3BvaXNvbigpLCBnZXRfdXNlcl9wYWdlcygpIHJldHVybnMgLUVIV1BPSVNPTikNCj4gPg0KPiA+
+IFRoaXMgaXMgZXhhY3RseSB0aGUgc2FtZSBhcyBoYXBwZW5zIHRvIGEgbm9ybWFsIHVzZXItc3Bh
+Y2UgcHJvY2Vzcy4NCj4gPg0KPiA+IEkgdGhpbmsgeW91IHJlYWxseSB3YW50IHRvIGtub3cgaWYg
+dGhlIGhvc3Qga2VybmVsIHdhcyBidWlsdCB3aXRoDQo+ID4gQ09ORklHX01FTU9SWV9GQUlMVVJF
+Lg0KPiANCj4gRG9lcyB1c2Vyc3BhY2UgbmVlZCB0byBjYXJlIGFib3V0IHRoYXQ/IFByZXN1bWFi
+bHkgaWYgdGhlIGhvc3Qga2VybmVsIHdhc24ndCBidWlsdCB3aXRoIHRoYXQgc3VwcG9ydCB0aGVu
+IGl0IHdpbGwgc2ltcGx5IG5ldmVyIGRlbGl2ZXIgYW55DQo+IG1lbW9yeSBmYWlsdXJlIGV2ZW50
+cyB0byBRRU1VLCB3aGljaCBpcyBmaW5lLg0KPiANCj4gVGhlIHBvaW50IEkgd2FzIHRyeWluZyB0
+byBtYWtlIGluIHRoZSBlbWFpbCBEb25naml1IHJlZmVyZW5jZXMNCj4gKGh0dHBzOi8vcGF0Y2h3
+b3JrLmNvZGVhdXJvcmEub3JnL3BhdGNoLzY1MjI2MS8pIGlzIHNpbXBseSB0aGF0ICJRRU1VIGdl
+dHMgbWVtb3J5LWZhaWx1cmUgbm90aWZpY2F0aW9ucyBmcm9tIHRoZSBob3N0IGtlcm5lbCINCj4g
+ZG9lcyBub3QgaW1wbHkgInRoZSBndWVzdCBpcyBwcmVwYXJlZCB0byByZWNlaXZlIG1lbW9yeSBm
+YWlsdXJlIG5vdGlmaWNhdGlvbnMiLCBhbmQgc28gdGhlIGNvZGUgcGF0aCB3aGljaCBoYW5kbGVz
+IHRoZSBTSUdCVVMgbXVzdCBkbw0KPiBzb21lIGtpbmQgb2YgY2hlY2sgZm9yIHdoZXRoZXIgdGhl
+IGd1ZXN0IENQVSBpcyBhIHR5cGUgd2hpY2ggZXhwZWN0cyB0aGVtIGFuZCB0aGF0IHRoZSBib2Fy
+ZCBjb2RlIHNldCB1cCB0aGUgQUNQSSB0YWJsZXMgdGhhdCBpdCB3YW50cyB0bw0KPiBmaWxsIGlu
+Lg0KDQpUaGFua3MgUGV0ZXIncyBleHBsYW5hdGlvbi4gRnJhbmtseSBzcGVha2luZywgSSBhZ3Jl
+ZSBQZXRlcidzIHN1Z2dlc3Rpb24uDQoNClRvIEphbWVzLCBJIGV4cGxhaW4gbW9yZSB0byB5b3Us
+IGFzIHBldGVyIHNhaWQgUUVNVSBuZWVkcyB0byBjaGVjayB3aGV0aGVyIHRoZSBndWVzdCBDUFUg
+aXMgYSB0eXBlIHdoaWNoIGNhbiBoYW5kbGUgdGhlIGVycm9yIHRob3VnaCBndWVzdCBBQ1BJIHRh
+YmxlLiBMZXQgdXMgc2VlIHRoZSBYODYncyBRRU1VIGxvZ2ljOg0KMS4gQmVmb3JlIHRoZSB2Q1BV
+IGNyZWF0ZWQsIGl0IHdpbGwgc2V0IGEgZGVmYXVsdCBlbnYtPm1jZ19jYXAgdmFsdWUgd2l0aCBN
+Q0VfQ0FQX0RFRiBmbGFnLCBNQ0dfU0VSX1AgbWVhbnMgaXQgZXhwZWN0ZWQgdGhlIGd1ZXN0IENQ
+VSBtb2RlbCBzdXBwb3J0cyBSQVMgZXJyb3IgcmVjb3ZlcnkuWzFdDQoyLiB3aGVuIHRoZSB2Q1BV
+IGluaXRpYWxpemUsIGl0IHdpbGwgY2hlY2sgd2hldGhlciBob3N0IGtlcm5lbCBzdXBwb3J0IHRo
+aXMgZmVhdHVyZVsyXS4gT25seSB3aGVuIGhvc3Qga2VybmVsIGFuZCBkZWZhdWx0IGVudi0+bWNn
+X2NhcCB2YWx1ZSBhbGwgZXhwZWN0ZWQgdGhpcyBmZWF0dXJlLCB0aGVuIGl0IHdpbGwgc2V0dXAg
+dkNQVSBzdXBwb3J0IFJBUyBlcnJvciByZWNvdmVyeVszXS4NClNvIEkgYWRkIHRoaXMgSU9DVEwg
+IktWTV9DQVBfQVJNX01FTU9SWV9FUlJPUl9SRUNPVkVSWSIgdG8gTGV0IFFFTVUgY2hlY2sgd2hl
+dGhlciBob3N0L0tWTSBzdXBwb3J0IFJBUyBlcnJvciBkZXRlY3Rpb24gYW5kIHJlY292ZXJ5LCBv
+bmx5IHdoZW4gdGhpcyBzdXBwb3J0cywgUUVNVSB3aWxsIGRvIHRoZSBlcnJvciByZWNvdmVyeSBm
+b3IgdGhlIGd1ZXN0IG1lbW9yeS4gDQoNClsxXQ0KI2RlZmluZSBNQ0VfQ0FQX0RFRiAgICAgKE1D
+R19DVExfUHxNQ0dfU0VSX1ApDQpjZW52LT5tY2dfY2FwID0gTUNFX0NBUF9ERUYgfCBNQ0VfQkFO
+S1NfREVGIHwNCiAgICAgICAgICAgICAgICAgICAgICAgIChjcHUtPmVuYWJsZV9sbWNlID8gTUNH
+X0xNQ0VfUCA6IDApOw0KDQpbMl0gcmV0ID0ga3ZtX2dldF9tY2VfY2FwX3N1cHBvcnRlZChjcy0+
+a3ZtX3N0YXRlLCAmbWNnX2NhcCwgJmJhbmtzKTsNCg0KWzNdDQplbnYtPm1jZ19jYXAgJj0gbWNn
+X2NhcCB8IE1DR19DQVBfQkFOS1NfTUFTSzsNCnJldCA9IGt2bV92Y3B1X2lvY3RsKGNzLCBLVk1f
+WDg2X1NFVFVQX01DRSwgJmVudi0+bWNnX2NhcCk7DQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS1Gb3IgSmFtZXMncyBjb21tZW50cy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiBLVk0gZG9l
+c24ndCBkZXRlY3QgdGhlc2UgZXJyb3JzLg0KPiBUaGUgaGFyZHdhcmUgZGV0ZWN0cyB0aGVtIGFu
+ZCBub3RpZmllcyB0aGUgT1MgdmlhIG9uZSBvZiBhIG51bWJlciBvZiBtZWNoYW5pc21zLg0KPiBU
+aGlzIGdldHMgcGx1bWJlZCBpbnRvIG1lbW9yeV9mYWlsdXJlKCksIHdoaWNoIHNldHMgYSBmbGFn
+IHRoYXQgdGhlIG1tIGNvZGUgdXNlcw0KPiB0byBwcmV2ZW50IHRoZSBwYWdlIGJlaW5nIHVzZWQg
+YWdhaW4uDQoNCj4gS1ZNIGlzIG9ubHkgaW52b2x2ZWQgd2hlbiBpdCB0cmllcyB0byBtYXAgYSBw
+YWdlIGF0IHN0YWdlMiBhbmQgdGhlIG1tIGNvZGUNCj4gcmVqZWN0cyBpdCB3aXRoIC1FSFdQT0lT
+T04uIFRoaXMgaXMgdGhlIHNhbWUgYXMgdGhlIGFyY2hpdGVjdHVyZXMNCj4gZG9fcGFnZV9mYXVs
+dCgpIGNoZWNraW5nIGZvciAoZmF1bHQgJiBWTV9GQVVMVF9IV1BPSVNPTikgb3V0IG9mDQo+IGhh
+bmRsZV9tbV9mYXVsdCgpLiBXZSBkb24ndCBoYXZlIGEgS1ZNIGNhcCBmb3IgdGhpcywgbm9yIGRv
+IHdlIG5lZWQgb25lLg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpKYW1lcywgZm9yIHlvdXIgYWJvdmUgY29tbWVu
+dHMsIEkgY29tcGxldGVkIHVuZGVyc3RhbmQsIGJ1dCBLVk0gYWxzbyBkZWxpdmVyZWQgdGhlIFNJ
+R0JVUywgd2hpY2ggbWVhbnMgS1ZNIHN1cHBvcnRzIGd1ZXN0IG1lbW9yeSBSQVMgZXJyb3IgcmVj
+b3ZlcnksIHNvIG1heWJlIHdlIG5lZWQgdG8gdGVsbCB1c2VyIHNwYWNlIHRoaXMgY2FwYWJpbGl0
+eS4NCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSBGb3Ig
+SmFtZXMncyBjb21tZW50cyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0NCj4gVGhlIENQVSBSQVMgRXh0ZW5zaW9ucyBhcmUgbm90IGF0IGFsbCByZWxl
+dmFudCBoZXJlLiBJdCBpcyBwZXJmZWN0bHkgcG9zc2libGUgdG8NCj4gc3VwcG9ydCBtZW1vcnkt
+ZmFpbHVyZSB3aXRob3V0IHRoZW0sIEFNRC1TZWF0dGxlIGFuZCBBUE0tWC1HZW5lIGRvIHRoaXMu
+IFRoZXNlDQo+IHN5c3RlbXMgd291bGQgcmVwb3J0IG5vdC1zdXBwb3J0ZWQgaGVyZSwgYnV0IHRo
+ZSBrZXJuZWwgZG9lcyBzdXBwb3J0IHRoaXMgc3R1ZmYuDQo+IEp1c3QgYmVjYXVzZSB0aGUgQ1BV
+IHN1cHBvcnRzIHRoaXMsIGRvZXNuJ3QgbWVhbiB0aGUga2VybmVsIHdhcyBidWlsdCB3aXRoDQo+
+IENPTkZJR19NRU1PUllfRkFJTFVSRS4gVGhlIENQVSByZXBvcnRzIG1heSBiZSBpZ25vcmVkLCBv
+ciB1cGdyYWRlZCB0byBTSUdLSUxMLg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCkphbWVzLCBmb3Ig
+eW91ciBhYm92ZSBjb21tZW50c1s0XSwgaWYgeW91IHRoaW5rIHdlIHNob3VsZCBub3QgY2hlY2sg
+dGhlICJjcHVzX2hhdmVfY29uc3RfY2FwKEFSTTY0X0hBU19SQVNfRVhUTikiLCB3aGljaCBkbyB5
+b3UgcHJlZmVyIHdlIHNob3VsZCBjaGVjaz8NCkluIHRoZSBYODYgS1ZNIGNvZGUsIGl0IHVzZXMg
+aGFyZGNvZGUgdG8gdGVsbCB1c2Ugc3BhY2UgdGhlIGhvc3QvS1ZNIHN1cHBvcnQgUkFTIGVycm9y
+IHNvZnR3YXJlIHJlY292ZXJ5LiBJZiBLVk0gZG9lcyBub3QgY2hlY2sgdGhlICIgY3B1c19oYXZl
+X2NvbnN0X2NhcChBUk02NF9IQVNfUkFTX0VYVE4pIiwgd2UgaGF2ZSB0byBjaGVjayB0aGUgaGFy
+ZGNvZGUgYXMgWDg2J3MgbWV0aG9kLg0KDQpbNF06DQp1NjQgX19yZWFkX21vc3RseSBrdm1fbWNl
+X2NhcF9zdXBwb3J0ZWQgPSBNQ0dfQ1RMX1AgfCBNQ0dfU0VSX1A7DQoNCmxvbmcga3ZtX2FyY2hf
+ZGV2X2lvY3RsKHN0cnVjdCBmaWxlICpmaWxwLA0KCQkJdW5zaWduZWQgaW50IGlvY3RsLCB1bnNp
+Z25lZCBsb25nIGFyZykNCnsNCgljYXNlIEtWTV9YODZfR0VUX01DRV9DQVBfU1VQUE9SVEVEOiB7
+DQoJCXIgPSAtRUZBVUxUOw0KCQlpZiAoY29weV90b191c2VyKGFyZ3AsICZrdm1fbWNlX2NhcF9z
+dXBwb3J0ZWQsDQoJCQkJIHNpemVvZihrdm1fbWNlX2NhcF9zdXBwb3J0ZWQpKSkNCgkJCWdvdG8g
+b3V0Ow0KCQlyID0gMDsNCgkJYnJlYWs7DQoJfQ0KfQ0KDQo+IA0KPiB0aGFua3MNCj4gLS0gUE1N
+DQo=
