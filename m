@@ -2,153 +2,96 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 90FDA7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 15 Dec 2018 00:12:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 643B77D089
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 15 Dec 2018 17:53:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726609AbeLOAMp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Dec 2018 19:12:45 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:6509 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726448AbeLOAMp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Dec 2018 19:12:45 -0500
-Received: from DGGEMA403-HUB.china.huawei.com (unknown [172.30.72.54])
-        by Forcepoint Email with ESMTP id 2710F66B1BB7;
-        Sat, 15 Dec 2018 08:12:41 +0800 (CST)
-Received: from DGGEMA523-MBX.china.huawei.com ([169.254.5.180]) by
- DGGEMA403-HUB.china.huawei.com ([10.3.20.44]) with mapi id 14.03.0415.000;
- Sat, 15 Dec 2018 08:12:40 +0800
-From:   gengdongjiu <gengdongjiu@huawei.com>
-To:     Peter Maydell <peter.maydell@linaro.org>,
-        James Morse <james.morse@arm.com>
-CC:     =?utf-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Will Deacon" <will.deacon@arm.com>,
-        kvm-devel <kvm@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        arm-mail-list <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [RFC RESEND PATCH] kvm: arm64: export memory error recovery
- capability to user space
-Thread-Topic: [RFC RESEND PATCH] kvm: arm64: export memory error recovery
- capability to user space
-Thread-Index: AdST/PTIoTJkAAg6TOC88quIUt5hUwADV3eg
-Date:   Sat, 15 Dec 2018 00:12:40 +0000
-Message-ID: <0184EA26B2509940AA629AE1405DD7F201FFC21E@dggema523-mbx.china.huawei.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.45.91.186]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+        id S1726813AbeLORx1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 15 Dec 2018 12:53:27 -0500
+Received: from smtprelay0108.hostedemail.com ([216.40.44.108]:37583 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726641AbeLORx0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Dec 2018 12:53:26 -0500
+X-Greylist: delayed 503 seconds by postgrey-1.27 at vger.kernel.org; Sat, 15 Dec 2018 12:53:26 EST
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+        by smtpgrave06.hostedemail.com (Postfix) with ESMTP id F38BD80051B0
+        for <linux-doc@vger.kernel.org>; Sat, 15 Dec 2018 17:45:04 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay02.hostedemail.com (Postfix) with ESMTP id 52FDF40E8;
+        Sat, 15 Dec 2018 17:45:03 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: lock08_833657f341953
+X-Filterd-Recvd-Size: 2657
+Received: from XPS-9350.home (unknown [47.151.153.53])
+        (Authenticated sender: joe@perches.com)
+        by omf08.hostedemail.com (Postfix) with ESMTPA;
+        Sat, 15 Dec 2018 17:45:01 +0000 (UTC)
+Message-ID: <9d20d06ea2b92e6b66f0a2dc58f8b191fd7778ce.camel@perches.com>
+Subject: Re: [PATCH 2/2] checkpatch: add Co-developed-by to signature tags
+From:   Joe Perches <joe@perches.com>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>
+Cc:     gregkh@linuxfoundation.org, himanshujha199640@gmail.com,
+        apw@canonical.com, linux-kernel@vger.kernel.org,
+        niklas.cassel@linaro.org, corbet@lwn.net, linux-doc@vger.kernel.org
+Date:   Sat, 15 Dec 2018 09:45:00 -0800
+In-Reply-To: <20181214121634.1157f2302c8ba1825fc03ad2@linux-foundation.org>
+References: <1544808928-20002-1-git-send-email-jorge.ramirez-ortiz@linaro.org>
+         <1544808928-20002-3-git-send-email-jorge.ramirez-ortiz@linaro.org>
+         <20181214121634.1157f2302c8ba1825fc03ad2@linux-foundation.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.30.1-1build1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiANCj4gT24gRnJpLCAxNCBEZWMgMjAxOCBhdCAxMzo1NiwgSmFtZXMgTW9yc2UgPGphbWVzLm1v
-cnNlQGFybS5jb20+IHdyb3RlOg0KPiA+DQo+ID4gSGkgRG9uZ2ppdSBHZW5nLA0KPiA+DQo+ID4g
-T24gMTQvMTIvMjAxOCAxMDoxNSwgRG9uZ2ppdSBHZW5nIHdyb3RlOg0KPiA+ID4gV2hlbiB1c2Vy
-IHNwYWNlIGRvIG1lbW9yeSByZWNvdmVyeSwgaXQgd2lsbCBjaGVjayB3aGV0aGVyIEtWTSBhbmQg
-DQo+ID4gPiBndWVzdCBzdXBwb3J0IHRoZSBlcnJvciByZWNvdmVyeSwgb25seSB3aGVuIGJvdGgg
-b2YgdGhlbSBzdXBwb3J0LCANCj4gPiA+IHVzZXIgc3BhY2Ugd2lsbCBkbyB0aGUgZXJyb3IgcmVj
-b3ZlcnkuIFRoaXMgcGF0Y2ggZXhwb3J0cyB0aGlzIA0KPiA+ID4gY2FwYWJpbGl0eSBvZiBLVk0g
-dG8gdXNlciBzcGFjZS4NCj4gPg0KPiA+IEkgY2FuIHVuZGVyc3RhbmQgdXNlci1zcGFjZSBvbmx5
-IHdhbnRpbmcgdG8gZG8gdGhlIHdvcmsgaWYgaG9zdCBhbmQgDQo+ID4gZ3Vlc3Qgc3VwcG9ydCB0
-aGUgZmVhdHVyZS4gQnV0ICdlcnJvciByZWNvdmVyeScgaXNuJ3QgYSBLVk0gZmVhdHVyZSwgDQo+
-ID4gaXRzIGEgTGludXgga2VybmVsIGZlYXR1cmUuDQo+ID4NCj4gPiBLVk0gd2lsbCBzZW5kIGl0
-J3MgdXNlci1zcGFjZSBhIFNJR0JVUyB3aXRoIE1DRUVSUiBjb2RlIHdoZW5ldmVyIGl0cyANCj4g
-PiB0cnlpbmcgdG8gbWFwIGEgcGFnZSBhdCBzdGFnZTIgdGhhdCB0aGUga2VybmVsLW1tIGNvZGUg
-cmVmdXNlcyB0aGlzIGJlY2F1c2UgaXRzIHBvaXNvbmVkLg0KPiA+IChlLmcuIGNoZWNrX3VzZXJf
-cGFnZV9od3BvaXNvbigpLCBnZXRfdXNlcl9wYWdlcygpIHJldHVybnMgDQo+ID4gLUVIV1BPSVNP
-TikNCj4gPg0KPiA+IFRoaXMgaXMgZXhhY3RseSB0aGUgc2FtZSBhcyBoYXBwZW5zIHRvIGEgbm9y
-bWFsIHVzZXItc3BhY2UgcHJvY2Vzcy4NCj4gPg0KPiA+IEkgdGhpbmsgeW91IHJlYWxseSB3YW50
-IHRvIGtub3cgaWYgdGhlIGhvc3Qga2VybmVsIHdhcyBidWlsdCB3aXRoIA0KPiA+IENPTkZJR19N
-RU1PUllfRkFJTFVSRS4NCj4gDQo+IERvZXMgdXNlcnNwYWNlIG5lZWQgdG8gY2FyZSBhYm91dCB0
-aGF0PyBQcmVzdW1hYmx5IGlmIHRoZSBob3N0IGtlcm5lbCANCj4gd2Fzbid0IGJ1aWx0IHdpdGgg
-dGhhdCBzdXBwb3J0IHRoZW4gaXQgd2lsbCBzaW1wbHkgbmV2ZXIgZGVsaXZlciBhbnkgbWVtb3J5
-IGZhaWx1cmUgZXZlbnRzIHRvIFFFTVUsIHdoaWNoIGlzIGZpbmUuDQo+IA0KPiBUaGUgcG9pbnQg
-SSB3YXMgdHJ5aW5nIHRvIG1ha2UgaW4gdGhlIGVtYWlsIERvbmdqaXUgcmVmZXJlbmNlcw0KPiAo
-aHR0cHM6Ly9wYXRjaHdvcmsuY29kZWF1cm9yYS5vcmcvcGF0Y2gvNjUyMjYxLykgaXMgc2ltcGx5
-IHRoYXQgIlFFTVUgZ2V0cyBtZW1vcnktZmFpbHVyZSBub3RpZmljYXRpb25zIGZyb20gdGhlIGhv
-c3Qga2VybmVsIg0KPiBkb2VzIG5vdCBpbXBseSAidGhlIGd1ZXN0IGlzIHByZXBhcmVkIHRvIHJl
-Y2VpdmUgbWVtb3J5IGZhaWx1cmUgDQo+IG5vdGlmaWNhdGlvbnMiLCBhbmQgc28gdGhlIGNvZGUg
-cGF0aCB3aGljaCBoYW5kbGVzIHRoZSBTSUdCVVMgbXVzdCBkbyANCj4gc29tZSBraW5kIG9mIGNo
-ZWNrIGZvciB3aGV0aGVyIHRoZSBndWVzdCBDUFUgaXMgYSB0eXBlIHdoaWNoIGV4cGVjdHMgdGhl
-bSBhbmQgdGhhdCB0aGUgYm9hcmQgY29kZSBzZXQgdXAgdGhlIEFDUEkgdGFibGVzIHRoYXQgaXQg
-d2FudHMgdG8gZmlsbCBpbi4NCg0KVGhhbmtzIFBldGVyJ3MgZXhwbGFuYXRpb24uIEZyYW5rbHkg
-c3BlYWtpbmcsIEkgYWdyZWUgUGV0ZXIncyBzdWdnZXN0aW9uLg0KDQpUbyBKYW1lcywgSSBleHBs
-YWluIG1vcmUgdG8geW91LCBhcyBwZXRlciBzYWlkIFFFTVUgbmVlZHMgdG8gY2hlY2sgd2hldGhl
-ciB0aGUgZ3Vlc3QgQ1BVIGlzIGEgdHlwZSB3aGljaCBjYW4gaGFuZGxlIHRoZSBlcnJvciB0aG91
-Z2ggZ3Vlc3QgQUNQSSB0YWJsZS4gTGV0IHVzIHNlZSB0aGUgWDg2J3MgUUVNVSBsb2dpYzoNCjEu
-IEJlZm9yZSB0aGUgdkNQVSBjcmVhdGVkLCBpdCB3aWxsIHNldCBhIGRlZmF1bHQgZW52LT5tY2df
-Y2FwIHZhbHVlIHdpdGggTUNFX0NBUF9ERUYgZmxhZywgTUNHX1NFUl9QIG1lYW5zIGl0IGV4cGVj
-dGVkIHRoZSBndWVzdCBDUFUgbW9kZWwgc3VwcG9ydHMgUkFTIGVycm9yIHJlY292ZXJ5LlsxXSAy
-LiB3aGVuIHRoZSB2Q1BVIGluaXRpYWxpemUsIGl0IHdpbGwgY2hlY2sgd2hldGhlciBob3N0IGtl
-cm5lbCBzdXBwb3J0IHRoaXMgZmVhdHVyZVsyXS4gT25seSB3aGVuIGhvc3Qga2VybmVsIGFuZCBk
-ZWZhdWx0IGVudi0+bWNnX2NhcCB2YWx1ZSBhbGwgZXhwZWN0ZWQgdGhpcyBmZWF0dXJlLCB0aGVu
-IGl0IHdpbGwgc2V0dXAgdkNQVSBzdXBwb3J0IFJBUyBlcnJvciByZWNvdmVyeVszXS4NClNvIEkg
-YWRkIHRoaXMgSU9DVEwgIktWTV9DQVBfQVJNX01FTU9SWV9FUlJPUl9SRUNPVkVSWSIgdG8gTGV0
-IFFFTVUgY2hlY2sgd2hldGhlciBob3N0L0tWTSBzdXBwb3J0IFJBUyBlcnJvciBkZXRlY3Rpb24g
-YW5kIHJlY292ZXJ5LCBvbmx5IHdoZW4gdGhpcyBzdXBwb3J0cywgUUVNVSB3aWxsIGRvIHRoZSBl
-cnJvciByZWNvdmVyeSBmb3IgdGhlIGd1ZXN0IG1lbW9yeS4gDQoNClsxXQ0KI2RlZmluZSBNQ0Vf
-Q0FQX0RFRiAgICAgKE1DR19DVExfUHxNQ0dfU0VSX1ApDQpjZW52LT5tY2dfY2FwID0gTUNFX0NB
-UF9ERUYgfCBNQ0VfQkFOS1NfREVGIHwNCiAgICAgICAgICAgICAgICAgICAgICAgIChjcHUtPmVu
-YWJsZV9sbWNlID8gTUNHX0xNQ0VfUCA6IDApOw0KDQpbMl0gcmV0ID0ga3ZtX2dldF9tY2VfY2Fw
-X3N1cHBvcnRlZChjcy0+a3ZtX3N0YXRlLCAmbWNnX2NhcCwgJmJhbmtzKTsNCg0KWzNdDQplbnYt
-Pm1jZ19jYXAgJj0gbWNnX2NhcCB8IE1DR19DQVBfQkFOS1NfTUFTSzsNCnJldCA9IGt2bV92Y3B1
-X2lvY3RsKGNzLCBLVk1fWDg2X1NFVFVQX01DRSwgJmVudi0+bWNnX2NhcCk7DQoNCi0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1Gb3IgSmFtZXMncyBjb21tZW50cy0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLQ0KPiBLVk0gZG9lc24ndCBkZXRlY3QgdGhlc2UgZXJyb3JzLg0KPiBUaGUgaGFyZHdhcmUg
-ZGV0ZWN0cyB0aGVtIGFuZCBub3RpZmllcyB0aGUgT1MgdmlhIG9uZSBvZiBhIG51bWJlciBvZiBt
-ZWNoYW5pc21zLg0KPiBUaGlzIGdldHMgcGx1bWJlZCBpbnRvIG1lbW9yeV9mYWlsdXJlKCksIHdo
-aWNoIHNldHMgYSBmbGFnIHRoYXQgdGhlIG1tIA0KPiBjb2RlIHVzZXMgdG8gcHJldmVudCB0aGUg
-cGFnZSBiZWluZyB1c2VkIGFnYWluLg0KDQo+IEtWTSBpcyBvbmx5IGludm9sdmVkIHdoZW4gaXQg
-dHJpZXMgdG8gbWFwIGEgcGFnZSBhdCBzdGFnZTIgYW5kIHRoZSBtbSANCj4gY29kZSByZWplY3Rz
-IGl0IHdpdGggLUVIV1BPSVNPTi4gVGhpcyBpcyB0aGUgc2FtZSBhcyB0aGUgYXJjaGl0ZWN0dXJl
-cw0KPiBkb19wYWdlX2ZhdWx0KCkgY2hlY2tpbmcgZm9yIChmYXVsdCAmIFZNX0ZBVUxUX0hXUE9J
-U09OKSBvdXQgb2YgDQo+IGhhbmRsZV9tbV9mYXVsdCgpLiBXZSBkb24ndCBoYXZlIGEgS1ZNIGNh
-cCBmb3IgdGhpcywgbm9yIGRvIHdlIG5lZWQgb25lLg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpKYW1lcywgZm9y
-IHlvdXIgYWJvdmUgY29tbWVudHMsIEkgY29tcGxldGVkIHVuZGVyc3RhbmQsIGJ1dCBLVk0gYWxz
-byBkZWxpdmVyZWQgdGhlIFNJR0JVUywgd2hpY2ggbWVhbnMgS1ZNIHN1cHBvcnRzIGd1ZXN0IG1l
-bW9yeSBSQVMgZXJyb3IgcmVjb3ZlcnksIHNvIG1heWJlIHdlIG5lZWQgdG8gdGVsbCB1c2VyIHNw
-YWNlIHRoaXMgY2FwYWJpbGl0eS4NCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLSBGb3IgSmFtZXMncyBjb21tZW50cyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gVGhlIENQVSBSQVMgRXh0ZW5zaW9ucyBh
-cmUgbm90IGF0IGFsbCByZWxldmFudCBoZXJlLiBJdCBpcyBwZXJmZWN0bHkgDQo+IHBvc3NpYmxl
-IHRvIHN1cHBvcnQgbWVtb3J5LWZhaWx1cmUgd2l0aG91dCB0aGVtLCBBTUQtU2VhdHRsZSBhbmQg
-DQo+IEFQTS1YLUdlbmUgZG8gdGhpcy4gVGhlc2Ugc3lzdGVtcyB3b3VsZCByZXBvcnQgbm90LXN1
-cHBvcnRlZCBoZXJlLCBidXQgdGhlIGtlcm5lbCBkb2VzIHN1cHBvcnQgdGhpcyBzdHVmZi4NCj4g
-SnVzdCBiZWNhdXNlIHRoZSBDUFUgc3VwcG9ydHMgdGhpcywgZG9lc24ndCBtZWFuIHRoZSBrZXJu
-ZWwgd2FzIGJ1aWx0IA0KPiB3aXRoIENPTkZJR19NRU1PUllfRkFJTFVSRS4gVGhlIENQVSByZXBv
-cnRzIG1heSBiZSBpZ25vcmVkLCBvciB1cGdyYWRlZCB0byBTSUdLSUxMLg0KLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0NCkphbWVzLCBmb3IgeW91ciBhYm92ZSBjb21tZW50cywgaWYgeW91IHRoaW5rIHdl
-IHNob3VsZCBub3QgY2hlY2sgdGhlICJjcHVzX2hhdmVfY29uc3RfY2FwKEFSTTY0X0hBU19SQVNf
-RVhUTikiLCB3aGljaCBkbyB5b3UgcHJlZmVyIHdlIHNob3VsZCBjaGVjaz8NCkluIHRoZSBYODYg
-S1ZNIGNvZGUsIGl0IHVzZXMgaGFyZGNvZGUgdG8gdGVsbCB1c2Ugc3BhY2UgdGhlIGhvc3QvS1ZN
-IHN1cHBvcnQgUkFTIGVycm9yIHNvZnR3YXJlIHJlY292ZXJ5WzRdLiBJZiBLVk0gZG9lcyBub3Qg
-Y2hlY2sgdGhlICIgY3B1c19oYXZlX2NvbnN0X2NhcChBUk02NF9IQVNfUkFTX0VYVE4pIiwgd2Ug
-aGF2ZSB0byBjaGVjayB0aGUgaGFyZGNvZGUgYXMgWDg2J3MgbWV0aG9kLg0KDQpbNF06DQp1NjQg
-X19yZWFkX21vc3RseSBrdm1fbWNlX2NhcF9zdXBwb3J0ZWQgPSBNQ0dfQ1RMX1AgfCBNQ0dfU0VS
-X1A7DQoNCmxvbmcga3ZtX2FyY2hfZGV2X2lvY3RsKHN0cnVjdCBmaWxlICpmaWxwLA0KCQkJdW5z
-aWduZWQgaW50IGlvY3RsLCB1bnNpZ25lZCBsb25nIGFyZykNCnsNCiAgICAuLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uDQoJY2FzZSBLVk1fWDg2X0dFVF9NQ0VfQ0FQX1NVUFBPUlRFRDogew0KCQlyID0gLUVG
-QVVMVDsNCgkJaWYgKGNvcHlfdG9fdXNlcihhcmdwLCAma3ZtX21jZV9jYXBfc3VwcG9ydGVkLA0K
-CQkJCSBzaXplb2Yoa3ZtX21jZV9jYXBfc3VwcG9ydGVkKSkpDQoJCQlnb3RvIG91dDsNCgkJciA9
-IDA7DQoJCWJyZWFrOw0KCX0NCiAgICAuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLg0KfQ0KDQo+IA0KPiB0aGFua3MN
-Cj4gLS0gUE1NDQo=
+On Fri, 2018-12-14 at 12:16 -0800, Andrew Morton wrote:
+> On Fri, 14 Dec 2018 18:35:28 +0100 Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org> wrote:
+> 
+> > As per Documentation/process/submitting-patches, Co-developed-by is a
+> > valid signature.
+> > 
+> 
+> I'm with Joe - I find this tag kinda useless and duplicative.  But whatever.
+> 
+> But as the documentation says, Co-developed-by must be accompanied by a
+> Signed-off-by:.  It would be helpful if checkpatch were to detect a
+> failure to do this.
+
+perhaps
+---
+ scripts/checkpatch.pl | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 93e84c9504a1..056d4b47ffaf 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -2673,7 +2673,20 @@ sub process {
+ 				WARN("BAD_SIGN_OFF",
+ 				     "Duplicate signature\n" . $herecurr);
+ 			} else {
+-				$signatures{$sig_nospace} = 1;
++				$signatures{$sig_nospace} = $herecurr;
++			}
++		}
++
++# Check for "Co-developed-by:" uses without equivalent "Signed-off-by:"
++# $signatures keys are all lower case without spaces
++		if ($rawline =~ /^---$/) {
++			foreach my $sig (keys %signatures) {
++				next if ($sig !~ /^co-developed-by:(.*)/);
++				my $signer = $1;
++				if (!defined $signatures{"signed-off-by:$signer"}) {
++					WARN("CODEVELOPED_WITHOUT_SIGNOFF",
++					     "Co-developed-by: used without Signed-off-by: by same person\n" . $signatures{$sig});
++				}
+ 			}
+ 		}
+ 
+
