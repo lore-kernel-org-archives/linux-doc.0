@@ -5,137 +5,84 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2DCA87D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 16 Dec 2018 14:19:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4EA967D089
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 16 Dec 2018 19:37:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730719AbeLPOTC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 16 Dec 2018 09:19:02 -0500
-Received: from outils.crapouillou.net ([89.234.176.41]:47650 "EHLO
-        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730181AbeLPOTC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Dec 2018 09:19:02 -0500
-Date:   Sun, 16 Dec 2018 15:18:52 +0100
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v8 15/26] pwm: jz4740: Add support for the JZ4725B
-To:     Uwe =?iso-8859-1?q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ralf Baechle <ralf@linux-mips.org>, paul.burton@mips.com,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mathieu Malaterre <malat@debian.org>, ezequiel@collabora.co.uk,
-        prasannatsmkumar@gmail.com, linux-pwm@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>,
-        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk <linux-clk@vger.kernel.org>, od@zcrc.me
-Message-Id: <1544969932.1649.1@crapouillou.net>
-In-Reply-To: <20181214142628.zwi4hadrju53z6f3@pengutronix.de>
-References: <20181212220922.18759-1-paul@crapouillou.net>
-        <20181212220922.18759-16-paul@crapouillou.net>
-        <20181213092409.ml4wpnzow2nnszkd@pengutronix.de>
-        <1544709795.18952.1@crapouillou.net>
-        <20181213204219.onem3q6dcmakusl2@pengutronix.de>
-        <CACRpkdbABtDgwKai=8Pfji7qVb-XHsX8pDsuDdS5hhg7qEN0Bw@mail.gmail.com>
-        <20181214142628.zwi4hadrju53z6f3@pengutronix.de>
+        id S1730758AbeLPThf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 16 Dec 2018 14:37:35 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:46236 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730746AbeLPThf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Dec 2018 14:37:35 -0500
+Received: by mail-lf1-f67.google.com with SMTP id f23so7860215lfc.13
+        for <linux-doc@vger.kernel.org>; Sun, 16 Dec 2018 11:37:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rhaHyVhc63MzSY3yf2QAnmgzLKrW87+qU0wix3hm9f0=;
+        b=Deb/anuvet0KUnP1M84Olye3QqbZdP758tOHfAhXxvHnBYl+yOjd00ejqoeO7D0sa/
+         m30wXMg5JEJ1O9/ANwXKZNH8uDiD3kpInAhIG1C3IqIwE4VT4bxCHfTJGWk9at9CcW5p
+         qc3ToOJ58WyaVvT5JDFJnpbPxDEsP0OJPiorI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rhaHyVhc63MzSY3yf2QAnmgzLKrW87+qU0wix3hm9f0=;
+        b=RpZeVihaltWLmvH3nWJQNYRdJ83P9i3SleiEteyT4wV8xepNaPvN2IeWM+/9B+0CX8
+         Jx3DL8Oklqb/F1VUQoK6GO784NVxmVqzSSi+nLpbIgriGPu6+J17tYv7xp8mCKlZm8oT
+         Bu4R1sJuWFc/GoypF28L5GDEjgvw5wY6iwLgYFdM4sLa6TNwWfVcL2KsblZdt63L3T+O
+         LACWTh1XHFx4RGLYI15B5H4H9yz0NiHd+AChbzsmuQNWs4xyXIqZDsQqq7UC0Oe7ADGH
+         xmyFjioAKdAos7I/e0PAPY+Urb25sCUGSOVqZRPAtzhy2jmj6q5WlwBSX2u/tGxgaQEr
+         w6Eg==
+X-Gm-Message-State: AA+aEWYRQBN1tl8x6pN2X5pvrlyYYsQEjSegqRNdLx1gK6UqBnSiZn2l
+        Un+yWIF690yMUNLEBjSjFbH5pPMQNF0=
+X-Google-Smtp-Source: AFSGD/WnIRaZYWITR63mfTqV1CksXZ++p4Ld2MsJcXJ2DrjTJ6FAVJjfHDfu8D32Y33Ykuae+09oEA==
+X-Received: by 2002:a19:d486:: with SMTP id l128mr5506650lfg.114.1544989053074;
+        Sun, 16 Dec 2018 11:37:33 -0800 (PST)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com. [209.85.208.180])
+        by smtp.gmail.com with ESMTPSA id q30sm2224292lfi.94.2018.12.16.11.37.31
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 16 Dec 2018 11:37:32 -0800 (PST)
+Received: by mail-lj1-f180.google.com with SMTP id l15-v6so9092577lja.9
+        for <linux-doc@vger.kernel.org>; Sun, 16 Dec 2018 11:37:31 -0800 (PST)
+X-Received: by 2002:a2e:9983:: with SMTP id w3-v6mr6413154lji.133.1544989051486;
+ Sun, 16 Dec 2018 11:37:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net; s=mail; t=1544969939; bh=Hq0ZCESR3VxDldevdsZM7ZBAIOVzdtDgctxCR8ptZxw=; h=Date:From:Subject:To:Cc:Message-Id:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding; b=kpCkiwt8CzWBqSxf3PO2XKz2pv714bSG/ju7bnOTcthGFgwwX/s/S89ZPxETnVvQu+mZCgmWYFY/fYruHETa+6BD01b8ZDJoHAl0etWfET5yqAvlsF9V1BKhn0PsicOtXTS7sRSzuHiJO2hVto2EJlpt1+mUmFAL75SX6rs40j4=
+References: <1544824384-17668-1-git-send-email-longman@redhat.com>
+In-Reply-To: <1544824384-17668-1-git-send-email-longman@redhat.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sun, 16 Dec 2018 11:37:15 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wi-V7LjAAzFuxg+eLQAdp+Ay4WmVJdTNxgPjqKXaj-3Xw@mail.gmail.com>
+Message-ID: <CAHk-=wi-V7LjAAzFuxg+eLQAdp+Ay4WmVJdTNxgPjqKXaj-3Xw@mail.gmail.com>
+Subject: Re: [RESEND PATCH v4 0/3] fs/dcache: Track # of negative dentries
+To:     Waiman Long <longman@redhat.com>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org, mcgrof@kernel.org,
+        Kees Cook <keescook@chromium.org>, Jan Kara <jack@suse.cz>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        Ingo Molnar <mingo@kernel.org>, mszeredi@redhat.com,
+        Matthew Wilcox <willy@infradead.org>, lwoodman@redhat.com,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        wangkai86@huawei.com, Michal Hocko <mhocko@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Fri, Dec 14, 2018 at 1:53 PM Waiman Long <longman@redhat.com> wrote:
+>
+> This patchset addresses 2 issues found in the dentry code and adds a
+> new nr_dentry_negative per-cpu counter to track the total number of
+> negative dentries in all the LRU lists.
 
-Le ven. 14 d=E9c. 2018 =E0 15:26, Uwe Kleine-K=F6nig=20
-<u.kleine-koenig@pengutronix.de> a =E9crit :
-> Hello,
->=20
-> On Fri, Dec 14, 2018 at 02:50:20PM +0100, Linus Walleij wrote:
->>  On Thu, Dec 13, 2018 at 9:42 PM Uwe Kleine-K=F6nig
->>  <u.kleine-koenig@pengutronix.de> wrote:
->>  > [Adding Linus Walleij to Cc:]
->>  > On Thu, Dec 13, 2018 at 03:03:15PM +0100, Paul Cercueil wrote:
->>  > > Le jeu. 13 d=E9c. 2018 =E0 10:24, Uwe Kleine-K=F6nig
->>  > > <u.kleine-koenig@pengutronix.de> a =E9crit :
->>  > > > On Wed, Dec 12, 2018 at 11:09:10PM +0100, Paul Cercueil wrote:
->>  > > > >  The PWM in the JZ4725B works the same as in the JZ4740,=20
->> except that
->>  > > > > it
->>  > > > >  only has 6 channels available instead of 8.
->>  > > >
->>  > > > this driver is probed only from device tree? If yes, it might=20
->> be
->>  > > > sensible to specify the number of PWMs there and get it from=20
->> there.
->>  > > > There doesn't seem to be a generic binding for that, but=20
->> there are
->>  > > > several drivers that could benefit from it. (This is a bigger=20
->> project
->>  > > > though and shouldn't stop your patch. Still more as it=20
->> already got
->>  > > > Thierry's ack.)
->>  > >
->>  > > I think there needs to be a proper guideline, as there doesn't=20
->> seem to be
->>  > > a consensus about this. I learned from emails with Rob and=20
->> Linus (Walleij)
->>  > > that I should not have in devicetree what I can deduce from the=20
->> compatible
->>  > > string.
->>  >
->>  > I understood them a bit differently. It is ok to deduce things=20
->> from the
->>  > compatible string. But if you define a generic property (say)=20
->> "num-pwms"
->>  > that is used uniformly in most bindings this is ok, too. (And=20
->> then the
->>  > two different devices could use the same compatible.)
->>  >
->>  > An upside of the generic "num-pwms" property is that the pwm core=20
->> could
->>  > sanity check pwm phandles before passing them to the hardware=20
->> drivers.
->>=20
->>  I don't know if this helps, but in GPIO we have "ngpios" which is
->>  used to augment an existing block as to the number of lines actually
->>  used with it.
->>=20
->>  The typical case is that an ASIC engineer synthesize a block for
->>  32 GPIOs but only 12 of them are routed to external pads. So
->>  we augment the behaviour of that driver to only use 12 of the
->>  32 lines.
->>=20
->>  I guess using the remaining 20 lines "works" in a sense but they
->>  have no practical use and will just bias electrons in the silicon
->>  for no use.
->=20
-> This looks very similar to the case under discussion.
->=20
->>  So if the PWM case is something similar, then by all means add
->>  num-pwms.
->=20
-> .. or "npwms" to use the same nomenclature as the gpio binding?
+The series looks sane to me. I'm assuming I'll get it either though
+-mm or from Al..
 
-If we're going to do something like this, should it be the drivers or
-the core (within pwmchip_add) that checks for this "npwms" property?
-
-> Best regards
-> Uwe
->=20
-> --
-> Pengutronix e.K.                           | Uwe Kleine-K=F6nig       =20
->     |
-> Industrial Linux Solutions                 |=20
-> http://www.pengutronix.de/  |
-=
-
+            Linus
