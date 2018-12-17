@@ -5,261 +5,312 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 858C47D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Dec 2018 14:06:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EEC3E7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Dec 2018 14:13:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732650AbeLQOGH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Dec 2018 09:06:07 -0500
-Received: from esa1.microchip.iphmx.com ([68.232.147.91]:4037 "EHLO
-        esa1.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732630AbeLQOGG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Dec 2018 09:06:06 -0500
+        id S1727478AbeLQONn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Dec 2018 09:13:43 -0500
+Received: from esa5.microchip.iphmx.com ([216.71.150.166]:52511 "EHLO
+        esa5.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726767AbeLQONn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Dec 2018 09:13:43 -0500
 X-IronPort-AV: E=Sophos;i="5.56,365,1539673200"; 
-   d="scan'208";a="25348364"
+   d="scan'208";a="22366013"
 Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 17 Dec 2018 07:06:05 -0700
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.76.105) with Microsoft SMTP Server (TLS) id
- 14.3.352.0; Mon, 17 Dec 2018 07:06:19 -0700
+  by esa5.microchip.iphmx.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 17 Dec 2018 07:13:43 -0700
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.76.106) with Microsoft SMTP Server (TLS) id
+ 14.3.352.0; Mon, 17 Dec 2018 07:13:41 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=microchiptechnology.onmicrosoft.com;
  s=selector1-microchiptechnology-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y+r9aTRB8U3MEznm8j5LxuS/dV+IQ9TM+YxgbJ4Xdyk=;
- b=yuDYj6zt6Qh2yBOaLHEitOLPLRq3BAkVvz4OkhIY2QvZdaDZ2HzdyAzSPKyW9EwxSrTv6t1WjT92Z5ARIyHb3b1y1nzRuJay4KFnTiZAhTh77YiZOtiK2AN86BY5eO0mcEzbR6k7YGp1HLzTIdzvvnjJgdWtJeJEQxc5nNyFaeU=
+ bh=tuJv263tGe8h3AzwfWZaMNbSWZNEBAAuTghyVLMHBGs=;
+ b=MRwIiVwFtDteUs1qZyGNXRkpoK4H6Db+ftXgLmHaKsfKoZYpJO0b93Tp432PalAbhWyPHGA+Aqhn74ITPzwSBCWx+v6ppamwmpxMGCWqQyS4nASORqQVee0T9ssQfcWWhLcL0mdddklWMf3cIJoNlOPKWZlcAQb92f+ISxKx+BE=
 Received: from BY2PR11MB0744.namprd11.prod.outlook.com (10.163.112.142) by
- BY2PR11MB0646.namprd11.prod.outlook.com (10.163.159.24) with Microsoft SMTP
+ BY2PR11MB0584.namprd11.prod.outlook.com (10.163.159.15) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1425.22; Mon, 17 Dec 2018 14:06:03 +0000
+ 15.20.1425.19; Mon, 17 Dec 2018 14:13:37 +0000
 Received: from BY2PR11MB0744.namprd11.prod.outlook.com
  ([fe80::cd88:53bd:589a:ab7f]) by BY2PR11MB0744.namprd11.prod.outlook.com
  ([fe80::cd88:53bd:589a:ab7f%2]) with mapi id 15.20.1425.021; Mon, 17 Dec 2018
- 14:06:03 +0000
+ 14:13:37 +0000
 From:   <Claudiu.Beznea@microchip.com>
-To:     <thierry.reding@gmail.com>, <corbet@lwn.net>,
+To:     <thierry.reding@gmail.com>, <robh@kernel.org>, <corbet@lwn.net>,
         <Nicolas.Ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
-        <Ludovic.Desroches@microchip.com>, <robh@kernel.org>
+        <Ludovic.Desroches@microchip.com>
 CC:     <linux-pwm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v6 0/9] extend PWM framework to support PWM modes
-Thread-Topic: [PATCH v6 0/9] extend PWM framework to support PWM modes
-Thread-Index: AQHUlhE8HNT3QU0iq0yzJwofK9n4eaWC9x6A
-Date:   Mon, 17 Dec 2018 14:06:03 +0000
-Message-ID: <e82d397f-81d4-31e3-a1e0-7c31c362b10d@microchip.com>
-References: <1545055368-23338-1-git-send-email-claudiu.beznea@microchip.com>
-In-Reply-To: <1545055368-23338-1-git-send-email-claudiu.beznea@microchip.com>
+        <linux-arm-kernel@lists.infradead.org>,
+        <Claudiu.Beznea@microchip.com>
+Subject: [PATCH v7 0/6] extend PWM framework to support PWM modes
+Thread-Topic: [PATCH v7 0/6] extend PWM framework to support PWM modes
+Thread-Index: AQHUlhKzksFWWUwQG0uTo0qGzE/WsQ==
+Date:   Mon, 17 Dec 2018 14:13:36 +0000
+Message-ID: <1545055999-23950-1-git-send-email-claudiu.beznea@microchip.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-clientproxiedby: VI1PR0501CA0012.eurprd05.prod.outlook.com
- (2603:10a6:800:92::22) To BY2PR11MB0744.namprd11.prod.outlook.com
+x-clientproxiedby: VI1P195CA0015.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:800:d0::25) To BY2PR11MB0744.namprd11.prod.outlook.com
  (2a01:111:e400:52de::14)
 authentication-results: spf=none (sender IP is )
  smtp.mailfrom=Claudiu.Beznea@microchip.com; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-originating-ip: [94.177.32.154]
 x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;BY2PR11MB0646;6:Tf9fL7+tshgHFa+xRkQp2Z2pqzeE599QWq0JrUjMG54LtHtp5Anf3OgZqb6Jb0xfJ0xHzxrfcu0OQZwTgS3GnAcnGF9nxJNooiaQFYU4hbbhuV9oClrME/kY2Q11iKp8Fg+56m3u21+sRm+57XAno/K/HTmtFwEVVuyyPRrJRomlv3yo+WkzGKMXtpnxT9Pvmuhe8eKhd8R4X182c577wj1a8W2T2QtQpJBqfhw5+Pdosaw6rL4NOAUtfoMjF8F425QsUR8B/XaQDbLYk1mvH3U8yGEZFk2eqItqt9dGD3xsPxqqI1YOXdWBEQBX/LUDiNBbBYyl0DdPOmKZTV3TJyvaE/bzjQzWniT7pZKnnvi+Zv4bmmhz70ituy5cGRwbCw6t/s/PuiN9GYIXv3Q6d3uLlM/HBvJEjHiWTL5Ju7VlTv7ZgxflW66O+J3Zlwg+PJzRsXHBRlYufV7ZAFm0Pw==;5:PUfhyAkeWz5RPsAeLkXEJ3bYqWazqOMakFw9eQ6XPEqFCoJ+ZNVo0ds4ONe1qCuMX6SPfPR8QB1TquUUNRiTqVgmiBLRmuqkyBuz7XyF634KJPE6tGHnzHSz8D2iifV/x+v4Ja6Ylb0tC8KClyELX50/YwirTOCBrhj0V0PoLFQ=;7:YwJBtlcL0f0yjSxhitL1CaZ883syC02/aHsXOAoTtfvLLZ4SxtiIgV9KHWhDSG6QsLMt71lc/c0JnjLG1igU4/joENNIFVxKgA+D6Bb2DX9xmpHRP3FB/to+DyeuTQlUJuiUN6MnUdIEvVvde8Hcdw==
-x-ms-office365-filtering-correlation-id: 8c9b4c8e-54ba-4cd6-f6ff-08d66428c77d
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(2017052603328)(7153060)(7193020);SRVR:BY2PR11MB0646;
-x-ms-traffictypediagnostic: BY2PR11MB0646:
-x-microsoft-antispam-prvs: <BY2PR11MB064629EE40E452756CC5855A87BC0@BY2PR11MB0646.namprd11.prod.outlook.com>
+x-microsoft-exchange-diagnostics: 1;BY2PR11MB0584;6:Lqnepj9WhEoN3GFo0R3/YhePRZQXSh9SQaIkWEYM4PVfNJXYlyzyDVSxNvjV9ZxHyoRybOyjtzFVKG9QPPKlKzEiLrASCGK3+dQJ9gQnTuIHGsqR2iyjhh26Qf0uI23rpYpVIPI+UyaYFKvf3T+Kl2ZsX3/c5CWIxx2JBSFC8krZfeeGw5yici8aLZ8y5OLRhtA+LgIy0hFGyy9wDdpCuZaEryo8i6ivWlj1QzVuXwc48MO0A+7hwzLAilV3ZzC4BvMBOSemU5mPXDJhMGV4NoHJ/uFtmls0zfHs5fijt3/cEAXqQacbl3Xv8zCvT5xpwUx9P6gaVnbamEQQ+LU8UpuG4DG3tTlP5GmFsjxec/rn3hR1xsV5Mkmw+MSqlUQsXZc21DZBzDSSnNRFuid4ItfODSb+zmriAnbXuq3IR7tNJCn9pCA/o5giwXrY8bnKLDMa39jY9D9VVvdUpxiWJg==;5:Ff3wXHr5MNEEdJNQmyv4txehLShOuzSTrFpiDA61v2uuIrTcSY9JekJpFZ6ekoBET95N1+ecWyY89hRbdD4R9Xie68xXNqOOBrEiNBJKPZPCZgrq2BF1GwQTVGRZ30GU7htXLTnaz+zoRJfFO3OV/6gLrc8OTKSeyX9j9xrxWig=;7:qX1j/t+WMsHObF5YUBZR6GI1b+a+yCXp1tPAoV01CJu0guXdp7jGLw5MTycpvWhskYcIlRI32RTAzkt0ypBUPdOjif9nP1Hw3dp3qMXOubbBMeUswGod1mejvogUcekbeH0wn6B/1uy63A+HWUCUxg==
+x-ms-office365-filtering-correlation-id: 4dc95255-baf5-48fb-f7ae-08d66429d5f3
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(2017052603328)(7153060)(7193020);SRVR:BY2PR11MB0584;
+x-ms-traffictypediagnostic: BY2PR11MB0584:
+x-microsoft-antispam-prvs: <BY2PR11MB05843412CAEEE44416F1846787BC0@BY2PR11MB0584.namprd11.prod.outlook.com>
 x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(3230021)(999002)(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(3002001)(10201501046)(3231475)(944501520)(4982022)(52105112)(148016)(149066)(150057)(6041310)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123558120)(20161123562045)(201708071742011)(7699051)(76991095);SRVR:BY2PR11MB0646;BCL:0;PCL:0;RULEID:;SRVR:BY2PR11MB0646;
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(3230021)(999002)(6040522)(2401047)(8121501046)(5005006)(10201501046)(3002001)(3231475)(944501520)(4982022)(52105112)(93006095)(93001095)(148016)(149066)(150057)(6041310)(20161123560045)(20161123564045)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(201708071742011)(7699051)(76991095);SRVR:BY2PR11MB0584;BCL:0;PCL:0;RULEID:;SRVR:BY2PR11MB0584;
 x-forefront-prvs: 08897B549D
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(366004)(376002)(136003)(39860400002)(396003)(199004)(189003)(6436002)(102836004)(26005)(81156014)(53546011)(386003)(6506007)(31686004)(66066001)(106356001)(25786009)(6512007)(486006)(229853002)(105586002)(86362001)(6306002)(6486002)(5660300001)(52116002)(76176011)(99286004)(31696002)(2906002)(446003)(3846002)(6116002)(11346002)(2616005)(8936002)(256004)(36756003)(72206003)(966005)(478600001)(53936002)(39060400002)(8676002)(4326008)(97736004)(7736002)(305945005)(71190400001)(71200400001)(186003)(476003)(316002)(68736007)(14454004)(81166006)(54906003)(110136005)(6246003)(2501003);DIR:OUT;SFP:1101;SCL:1;SRVR:BY2PR11MB0646;H:BY2PR11MB0744.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(396003)(39860400002)(376002)(346002)(366004)(199004)(189003)(8676002)(25786009)(68736007)(6506007)(386003)(6116002)(102836004)(5660300001)(6436002)(966005)(66066001)(3846002)(39060400002)(478600001)(107886003)(71190400001)(2501003)(72206003)(256004)(305945005)(71200400001)(6486002)(7736002)(186003)(97736004)(26005)(52116002)(316002)(54906003)(476003)(6306002)(4326008)(2201001)(99286004)(14454004)(2616005)(2906002)(6512007)(36756003)(53936002)(110136005)(86362001)(6636002)(8936002)(81156014)(486006)(81166006)(105586002)(106356001);DIR:OUT;SFP:1101;SCL:1;SRVR:BY2PR11MB0584;H:BY2PR11MB0744.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: microchip.com does not designate
  permitted sender hosts)
-x-microsoft-antispam-message-info: aoeFQQ0OHIqwu+s+88pNC3tREpcDXGhn8fJcciuLZfU1C1waHH3EJVaoDV7d3XzwPdM7xvoyn3sM1+iXWiOFd/lBHeLmnXoZil1YrZ8Txdf90ospKm9cxGah0yxSJFYkruyPsSBwUYNV3c1lASmX75PjiYgGxAlo9rjWIXLDCLEjQzWkQuNHgcmxDeyU/ePTRwtsP4FliwbcXt1ZuwhpoakKzKSDuAaigUgiWlHHWOdQZssMvuXEJ1MufqKNbMxRJFuDBah5CVLf2qHdnSssIpHVU4IBtRB9rMx4AyYIJToIHlZLv28dDM5W+wMSaIih
+x-microsoft-antispam-message-info: nzOhB5H+SjrJtQV7XO0pOBydMZSA9SspMb3heMdvtC7DT2C2qeI4yYSHvhBbisCkjGwAsbpFsv+HtY7dWGaW8kdPlfPqa3Rh0M9pYlT3cGIf/TWy5TiycMcLb9wCTiQh6uEL84P9KqFwFPFhQ3Brr+LITiB5SN3oRx+XUH37adpSLf+VLc7OyXbCDJy96v1KFUBHYkBlvSqKgvj6R95D6lmoF4RoMzCdwQOae6pKSUtx1H8bPoqihpZ8/9ESr4GUtwUuVO6qAv6gQNXm0h1l/abqJZbeGu9HnXYsdCCc/5Q4Y9BYQqOXYEve+3wjNO7Q
 spamdiagnosticoutput: 1:99
 spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <07AD13D2CC617C46949C739C67A1FED7@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c9b4c8e-54ba-4cd6-f6ff-08d66428c77d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2018 14:06:03.0406
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4dc95255-baf5-48fb-f7ae-08d66429d5f3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2018 14:13:36.8859
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY2PR11MB0646
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY2PR11MB0584
 X-OriginatorOrg: microchip.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-UGxlYXNlIGlnbm9yZSB0aGlzIG9uZSwgdGhlIG51bWJlciBvZiBwYXRjaGVzIGluIGNvdmVyIGxl
-dHRlciBpcyB3cm9uZzogMC85DQpzaG91bGQgYmUgMC82Lg0KDQpUaGFuayB5b3UsDQpDbGF1ZGl1
-IEJlem5lYQ0KDQpPbiAxNy4xMi4yMDE4IDE2OjAzLCBDbGF1ZGl1IEJlem5lYSAtIE0xODA2MyB3
-cm90ZToNCj4gRnJvbTogQ2xhdWRpdSBCZXpuZWEgPGNsYXVkaXUuYmV6bmVhQG1pY3JvY2hpcC5j
-b20+DQo+IA0KPiBIaSwNCj4gDQo+IFRoaXMgc2VyaWVzIGV4dGVuZHMgUFdNIGZyYW1ld29yayB3
-aXRoIFBXTSBtb2Rlcy4NCj4gDQo+IFRoZSBjdXJyZW50IHBhdGNoIHNlcmllcyBhZGQgdGhlIGZv
-bGxvd2luZyBQV00gbW9kZXM6DQo+IC0gUFdNIG1vZGUgbm9ybWFsDQo+IC0gUFdNIG1vZGUgY29t
-cGxlbWVudGFyeQ0KPiAtIFBXTSBtb2RlIHB1c2gtcHVsbA0KPiANCj4gSW4gdGhlIGZvbGxvd2lu
-ZyBkZXNjcmlwdGlvbiBQV014X3kgcmVmZXJzIHRvIG91dHB1dCB5IG9mIFBXTSB3aXRoIElEIHgu
-DQo+IA0KPiBOb3JtYWwgbW9kZSAtIGZvciBQV00gY2hhbm5lbHMgd2l0aCBvbmUgb3V0cHV0OyBv
-dXRwdXQgd2F2ZWZvcm1zIGxvb2tzIGxpa2UNCj4gdGhpczoNCj4gICAgICAgICAgICAgICBfXyAg
-ICAgIF9fICAgICAgX18gICAgICBfXyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgDQo+ICAgICBQV014ICAgX198ICB8X19fX3wgIHxfX19ffCAgfF9fX198ICB8X18gICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA0KPiAgICAgICAgICAgICAgXiAgICAg
-ICBeICAgICAgIF4gICAgICAgXiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICANCj4gDQo+ICAgICBXaGVyZSAnXicgc3BlY2lmaWVzIHRoZSBiZWdpbm5pbmcgb2YgYSBw
-ZXJpb2QuDQo+IA0KPiBTaW5jZSBQV01zIHdpdGggbW9yZSB0aGFuIG9uZSBvdXRwdXQgcGVyIGNo
-YW5uZWwgY291bGQgYmUgdXNlZCBhcyBvbmUNCj4gb3V0cHV0IFBXTSB0aGUgbm9ybWFsIG1vZGUg
-aXMgdGhlIGRlZmF1bHQgbW9kZSBmb3IgYWxsIFBXTXMgKGlmIG5vdCBzcGVjaWZpZWQNCj4gb3Ro
-ZXJ3aXNlKS4NCj4gDQo+IENvbXBsZW1lbnRhcnkgbW9kZSAtIGZvciBQV00gY2hhbm5lbHMgd2l0
-aCB0d28gb3V0cHV0czsgb3V0cHV0IHdhdmVmb3Jtcw0KPiBmb3IgYSBQV00gY2hhbm5lbCBpbiBj
-b21wbGVtZW50YXJ5IG1vZGUgbG9va3MgbGluZSB0aGlzOg0KPiAgICAgICAgICAgICAgIF9fICAg
-ICAgX18gICAgICBfXyAgICAgIF9fICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICANCj4gICAgIFBXTXhfMCBfX3wgIHxfX19ffCAgfF9fX198ICB8X19fX3wgIHxfXyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgDQo+ICAgICAgICAgICAgX18gICAgX19f
-XyAgICBfX19fICAgIF9fX18gICAgX18gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIA0KPiAgICAgUFdNeF8xICAgfF9ffCAgICB8X198ICAgIHxfX3wgICAgfF9ffCAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICANCj4gICAgICAgICAgICAgIF4gICAgICAg
-XiAgICAgICBeICAgICAgIF4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgDQo+IA0KPiAgICAgV2hlcmUgJ14nIHNwZWNpZmllcyB0aGUgYmVnaW5uaW5nIG9mIGEgcGVy
-aW9kLg0KPiANCj4gUHVzaC1wdWxsIG1vZGUgLSBmb3IgUFdNIGNoYW5uZWxzIHdpdGggdHdvIG91
-dHB1dHM7IG91dHB1dCB3YXZlZm9ybXMgZm9yIGENCj4gUFdNIGNoYW5uZWwgaW4gcHVzaC1wdWxs
-IG1vZGUgd2l0aCBub3JtYWwgcG9sYXJpdHkgbG9va3MgbGlrZSB0aGlzOg0KPiAgICAgICAgICAg
-ICAgIF9fICAgICAgICAgICAgICBfXyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgDQo+ICAgICBQV014XzAgX198ICB8X19fX19fX19fX19ffCAgfF9fX19f
-X19fX18gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICANCj4gICAgICAgICAg
-ICAgICAgICAgICAgIF9fICAgICAgICAgICAgICBfXyAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIA0KPiAgICAgUFdNeF8xIF9fX19fX19fX198ICB8X19fX19fX19fX19f
-fCAgfF9fICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgDQo+ICAgICAgICAg
-ICAgICBeICAgICAgIF4gICAgICAgXiAgICAgICBeICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICANCj4gDQo+ICAgICBJZiBwb2xhcml0eSBpcyBpbnZlcnNlZDoNCj4g
-ICAgICAgICAgICBfXyAgICBfX19fX19fX19fX18gICAgX19fX19fX19fXyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIA0KPiAgICAgUFdNeF8wICAgfF9ffCAgICAgICAgICAg
-IHxfX3wgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgDQo+
-ICAgICAgICAgICAgX19fX19fX19fXyAgICBfX19fX19fX19fX18gICAgX18gICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICANCj4gICAgIFBXTXhfMSAgICAgICAgICAgfF9ffCAg
-ICAgICAgICAgIHxfX3wgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA0K
-PiAgICAgICAgICAgICAgXiAgICAgICBeICAgICAgIF4gICAgICAgXiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgDQo+IA0KPiAgICAgV2hlcmUgJ14nIHNwZWNpZmll
-cyB0aGUgYmVnaW5uaW5nIG9mIGEgcGVyaW9kLg0KPiAgDQo+IFRoZSBQV00gd29ya2luZyBtb2Rl
-cyBhcmUgcGVyIFBXTSBjaGFubmVsIHJlZ2lzdGVyZWQgYXMgUFdNJ3MgY2FwYWJpbGl0aWVzLg0K
-PiBUaGUgZHJpdmVyIHJlZ2lzdGVycyBpdHNlbGYgdG8gUFdNIGNvcmUgYSBnZXRfY2FwcygpIGZ1
-bmN0aW9uLCBpbg0KPiBzdHJ1Y3QgcHdtX29wcywgdGhhdCB3aWxsIGJlIHVzZWQgYnkgUFdNIGNv
-cmUgdG8gcmV0cmlldmUgUFdNIGNhcGFiaWxpdGllcy4NCj4gSWYgdGhpcyBmdW5jdGlvbiBpcyBu
-b3QgcmVnaXN0ZXJlZCBpbiBkcml2ZXIncyBwcm9iZSwgYSBkZWZhdWx0IGZ1bmN0aW9uDQo+IHdp
-bGwgYmUgdXNlZCB0byByZXRyaWV2ZSBQV00gY2FwYWJpbGl0aWVzLiBDdXJyZW50bHksIHRoZSBk
-ZWZhdWx0DQo+IGNhcGFiaWxpdGllcyBpbmNsdWRlcyBvbmx5IFBXTSBub3JtYWwgbW9kZS4NCj4g
-DQo+IFBXTSBzdGF0ZSBoYXMgYmVlbiB1cGRhdGVkIHRvIGtlZXAgUFdNIG1vZGUuIFBXTSBtb2Rl
-IGNvdWxkIGJlIGNvbmZpZ3VyZWQNCj4gdmlhIHN5c2ZzLiBwd21fYXBwbHlfc3RhdGUoKSB3aWxs
-IGRvIHRoZSBwcmVsaW1pbmFyeSB2YWxpZGF0aW9uIGZvciBQV00gbW9kZQ0KPiB0byBiZSBhcHBs
-aWVkLg0KPiANCj4gSW4gc3lzZnMsIHVzZXIgY291bGQgZ2V0IFBXTSBtb2RlcyBieSByZWFkaW5n
-IG1vZGUgZmlsZSBvZiBQV00gZGV2aWNlOg0KPiByb290QHNhbWE1ZDIteHBsYWluZWQ6L3N5cy9j
-bGFzcy9wd20vcHdtY2hpcDAvcHdtMiMgbHMgLWwNCj4gdG90YWwgMA0KPiAtci0tci0tci0tIDEg
-cm9vdCByb290IDQwOTYgT2N0IDExIDE4OjA4IGNhcHR1cmUNCj4gLXJ3LXItLXItLSAxIHJvb3Qg
-cm9vdCA0MDk2IE9jdCAxMSAxODoxNCBkdXR5X2N5Y2xlDQo+IC1ydy1yLS1yLS0gMSByb290IHJv
-b3QgNDA5NiBPY3QgMTEgMTg6MTEgZW5hYmxlDQo+IC1ydy1yLS1yLS0gMSByb290IHJvb3QgNDA5
-NiBPY3QgMTEgMTg6MTQgbW9kZQ0KPiAtcnctci0tci0tIDEgcm9vdCByb290IDQwOTYgT2N0IDEx
-IDE4OjA5IHBlcmlvZA0KPiAtcnctci0tci0tIDEgcm9vdCByb290IDQwOTYgT2N0IDExIDE4OjE0
-IHBvbGFyaXR5DQo+IGRyd3hyLXhyLXggMiByb290IHJvb3QgICAgMCBPY3QgMTEgMTg6MDggcG93
-ZXINCj4gLXJ3LXItLXItLSAxIHJvb3Qgcm9vdCA0MDk2IE9jdCAxMSAxODowOCB1ZXZlbnQNCj4g
-cm9vdEBzYW1hNWQyLXhwbGFpbmVkOi9zeXMvY2xhc3MvcHdtL3B3bWNoaXAwL3B3bTIjIGNhdCBt
-b2RlDQo+IG5vcm1hbCBjb21wbGVtZW50YXJ5IFtwdXNoLXB1bGxdDQo+IA0KPiBUaGUgbW9kZSBl
-bmNsb3NlZCBpbiBicmFja2V0IGlzIHRoZSBjdXJyZW50bHkgYWN0aXZlIG1vZGUuDQo+IA0KPiBU
-aGUgbW9kZSBjb3VsZCBiZSBzZXQsIHZpYSBzeXNmcywgYnkgd3JpdGluZyB0byBtb2RlIGZpbGUg
-b25lIG9mIHRoZSBtb2Rlcw0KPiBkaXNwbGF5ZWQgYXQgcmVhZDoNCj4gcm9vdEBzYW1hNWQyLXhw
-bGFpbmVkOi9zeXMvY2xhc3MvcHdtL3B3bWNoaXAwL3B3bTIjIGVjaG8gbm9ybWFsID4gbW9kZQ0K
-PiByb290QHNhbWE1ZDIteHBsYWluZWQ6L3N5cy9jbGFzcy9wd20vcHdtY2hpcDAvcHdtMiMgY2F0
-IG1vZGUNCj4gW25vcm1hbF0gY29tcGxlbWVudGFyeSBwdXNoLXB1bGwgDQo+IA0KPiBUaGUgUFdN
-IHB1c2gtcHVsbCBtb2RlIGNvdWxkIGJlIHVzZWZ1bGwgaW4gYXBwbGljYXRpb25zIGxpa2UgaGFs
-ZiBicmlkZ2UNCj4gY29udmVydGVycyAoc2VlIFsxXSwgcGFnZSAyMTI2KS4NCj4gDQo+IFRoaXMg
-c2VyaWVzIGFsc28gYWRkIFBXTSBtb2RlcyBzdXBwb3J0IGZvciBBdG1lbC9NaWNyb2NoaXAgU29D
-cy4NCj4gDQo+IFRoYW5rIHlvdSwNCj4gQ2xhdWRpdSBCZXpuZWENCj4gDQo+IFsxXSBodHRwOi8v
-d3cxLm1pY3JvY2hpcC5jb20vZG93bmxvYWRzL2VuL0RldmljZURvYy9EUzYwMDAxNDc2Qi5wZGYN
-Cj4gDQo+IENoYW5nZXMgaW4gdjY6DQo+IC0gZ2V0IHJpZCBvZiBEVCBjaGFuZ2VzOw0KPiAtIGdl
-dCByaWQgb2YgZ2V0X2RlZmF1bHRfY2FwcyBtZW1iZXIgb2Ygc3RydWN0IHB3bV9jaGlwOw0KPiAt
-IHJlbW92ZSBzdHJ1Y3QgcHdtX2NoaXAgYXJndW1lbnQgb2YgcHdtX2dldF9jYXBzKCk7IGNhcHMg
-YXJlIHJldHJpZXZlZA0KPiAgIGluIHRoZSBjb250ZXh0IG9mIGEgUFdNIGRldmljZSBhbmQgYXQg
-dGhpcyBtb21lbnQgdGhlIGNoaXAgc2hvdWxkIGJlIHZhbGlkOw0KPiAgIGFsc28sIGdldCByaWQg
-b2YgY2hpcC0+b3BzIGNoZWNrIGluIHB3bV9nZXRfY2FwcygpOw0KPiAtIHJlbmFtZSBwd21fbW9k
-ZV9nZXRfdmFsaWQoKSBmdW5jdGlvbiB0byBwd21fZ2V0X2RlZmF1bHRfbW9kZWJpdCgpOw0KPiAt
-IHJlbmFtZSBtb2RlIG1lbWJlciBvZiBzdHJ1Y3QgcHdtX2NhcHMgdG8gbW9kZXNfbXNrOw0KPiAt
-IHJlbmFtZSBwd21fbW9kZV92YWxpZCgpIGZ1bmN0aW9uIHRvIHB3bV9zdXBwb3J0c19tb2RlKCkg
-YW5kIHJlbmFtZQ0KPiAgIGl0cyBtb2RlIGFyZ3VtZW50IHRvIG1vZGViaXQgdG8gZW1waGFzaXpl
-IHdoYXQgc2hvdWxkIGJlIHBhc3NlZCB0byBpdDsNCj4gLSByZW5hbWUgcHdtX21vZGVfZGVzYygp
-IHRvIHB3bV9nZXRfbW9kZV9uYW1lKCkgYW5kIGF2b2lkIHJldHVybmluZyAiaW52YWxpZCINCj4g
-ICBzdHJpbmc7IHB3bV9nZXRfbW9kZV9uYW1lKCkgaXMgY2FsbGVkIG9ubHkgd2l0aCBhIHZhbGlk
-IG1vZGViaXQ7DQo+IC0gcmVuYW1lIG1vZGUgbWVtYmVyIG9mIHN0cnVjdCBwd21fc3RhdGUgdG8g
-bW9kZWJpdCB0byBlbXBoYXNpemUgdGhhdCBpdCBzdG9yZXMNCj4gICBhIGJpdG1hc2s7DQo+IC0g
-dXNlIGNvbnN0IGFyZ3VtZW50cyBmb3IgcHdtX2dldF9kZWZhdWx0X21vZGViaXQoKSwgcHdtX2dl
-dF9jYXBzKCksDQo+ICAgcHdtX3N1cHBvcnRzX21vZGUoKSBhbmQgZ2V0X2NhcHMoKSBtZW1iZXIg
-b2Ygc3RydWN0IHB3bV9vcHM7DQo+IC0gY2hhbmdlIHJldHVybiB0eXBlIG9mIHB3bV9vcHM6Omdl
-dF9jYXBzKCkgdG8gaW50Ow0KPiAtIHJlbmFtZSBQV01DX01PREUoKSBtYWNybyB0byBQV01fTU9E
-RV9CSVQoKTsNCj4gLSByZW5hbWUgUFdNQ19NT0RFXzxtb2RlLW5hbWU+X0JJVCBlbnVtIG1lbWJl
-cnMgdG8gUFdNX01PREVfPG1vZGUtbmFtZT47DQo+IC0gcmVtb3ZlIHBhdGNoZXMgMi85LCAzLzks
-IDQvOSBmcm9tIHByZXZpb3VzIHZlcnNpb24gc2luY2UgdGhleSB3ZXJlIHJlbGF0ZWQNCj4gICB0
-byBEVCBjaGFuZ2VzOw0KPiAtIHVzZSBQV014X3kgbmFtaW5nIGluIGRvY3VtZW50YXRpb24gdG8g
-ZW1waGFzaXplIGl0IGlzIHRhbGtlZCBhYm91dCBvdXRwdXQNCj4gICB5IG9mIFBXTSB4Ow0KPiAt
-IHVzZSAxLzMgZHV0eSBmYWN0b3IgaW4gd2F2ZWZvcm1zIGZyb20gZG9jdW1lbnRhdGlvbiBwYXRj
-aGVzOw0KPiAtIHVzZSAnXicgdG8gZW1waGFzaXplIHRoZSBiZWdpbm5pbmcgb2YgYSBuZXcgcGVy
-aW9kIGluIGRvY3VtZW50YXRpb24gcGF0Y2hlcy4NCj4gDQo+IENoYW5nZXMgaW4gdjU6DQo+IC0g
-c29sdmVkIGtidWlsZCBlcnJvcnMgYnkgcmVtb3ZpbmcgZHVtbXkgZnVuY3Rpb25zIGZvciBjYXNl
-IHdoZXJlDQo+ICAgQ09ORklHX1BXTSBpcyBub3QgZGVmaW5lZDsgYWRvcHRlZCB0aGlzIGFwcHJv
-YWNoIHNpbmNlIHRoZSByZW1vdmVkDQo+ICAgZnVuY3Rpb24gYXJlIHVzZWQgb25seSB3aGVuIENP
-TkZJR19QV00gaXMgZGVmaW5lZCAoaW4gUFdNIGNvcmUNCj4gICBhbmQgZmV3IGRyaXZlcnMgZnJv
-bSBkcml2ZXJzL3B3bS8gZGlyZWN0b3J5KQ0KPiANCj4gQ2hhbmdlcyBpbiB2NDoNCj4gLSByZW1v
-dmVkIGNoYW5nZXMgcmVsYXRlZCB0byBwd21fY29uZmlnKCkgYXMgcGVyIG1haW50YWluZXIgcHJv
-cG9zYWxzDQo+IC0gYWRkZWQgcHdtX21vZGVfZ2V0X3ZhbGlkKCkgdG8gcmV0cmlldmUgYSB2YWxp
-ZCBQV00gbW9kZSBmcm9yIFBXTSBkZXZpY2UNCj4gICBpbnN0ZWFkIG9mIHVzaW5nIEJJVChmZnMo
-Y2Fwcy5tb2RlKSAtIDEpIGFuZCBjaGFuZ2VkIGRyaXZlcnMgdG8gdXNlDQo+ICAgcHdtX21vZGVf
-Z2V0X3ZhbGlkKCkgaW5zdGVhZCBvZiBwd21fZ2V0X2NhcHMoKSArIEJJVChmZnMoY2Fwcy5tb2Rl
-KSAtIDEpDQo+ICAgKHBhdGNoZXMgMiwgMywgNCBmcm9tIHRoaXMgc2VyaWVzKQ0KPiAtIHJlbmFt
-ZWQgUFdNX01PREUoKSBtYWNybyBpbiBQV01DX01PREUoKSB0byBhdm9pZCBjb25mbGljdHMgd2l0
-aA0KPiAgIHB3bS1zdW40aS5jIGRyaXZlciAoJ0MnIHN0YW5kcyBmb3IgY2FwYWJpbGl0eSkNCj4g
-LSByZW1vdmVkIHB3bV9jYXBzX3ZhbGlkKCkgZnVuY3Rpb24NCj4gLSByZW5hbWVkIFBXTV9EVE1P
-REVfQ09NUExFTUVOVEFSWSBhbmQgUFdNX0RUTU9ERV9QVVNIX1BVTEwgbWFjcm9zIGluDQo+ICAg
-UFdNX01PREVfQ09NUExFTUVOVEFSWSBhbmQgUFdNX01PREVfUFVTSF9QVUxMDQo+IA0KPiBDaGFu
-Z2VzIGluIHYzOg0KPiAtIHJlbW92ZWQgY2hhbmdlcyByZWxhdGVkIHRvIG9ubHkgb25lIG9mX3hs
-YXRlIGZ1bmN0aW9uIGZvciBhbGwgUFdNIGRyaXZlcnMNCj4gLSBzd2l0Y2ggdG8gUFdNIGNhcGFi
-aWxpdGllcyBwZXIgUFdNIGNoYW5uZWwgbm9yIHBlciBQV00gY2hpcA0KPiAtIHNxdWFzaCBkb2N1
-bWVudGF0aW9uIGFuZCBiaW5kaW5ncyBwYXRjaGVzIGFzIHJlcXVldGVkIGJ5IHJldmlld2VyDQo+
-IC0gaW50cm9kdWNlZCBQV01fTU9ERShuYW1lKSBtYWNybyBhbmQgdXNlZCBhIGJpdCBlbnVtIGZv
-ciBwd20gbW9kZXMNCj4gLSByZWxhdGVkIHRvIERUIGJpbmRpbmdzLCB1c2VkIGZsYWdzIGNlbGwg
-YWxzbyBmb3IgUFdNIG1vZGVzDQo+IC0gdXBkYXRlZCBvZl94bGF0ZSBzcGVjaWZpYyBmdW5jdGlv
-bnMgd2l0aCAic3RhdGUtPm1vZGUgPSBtb2RlOyINCj4gICBpbnN0cnVjdGlvbnMgdG8gYXZvaWQg
-cHdtX2FwcGx5X3N0YXRlKCkgZmFpbHVyZXMNCj4gLSB1c2UgYXZhaWxhYmxlIG1vZGVzIGZvciBQ
-V00gY2hhbm5lbCBpbiBwd21fY29uZmlnKCkgYnkgZmlyc3QgY2FsbGluZw0KPiAgIHB3bV9nZXRf
-Y2FwcygpIHRvIGdldCBjYXBzLm1vZGVzDQo+IC0gdXNlIGxvb3BzIHRocm91Z2ggYXZhaWxhYmxl
-IG1vZGVzIGluIG1vZGVfc3RvcmUoKS9tb2RlX3Nob3coKSBhbmQgYWxzbyBpbg0KPiAgIG9mX3B3
-bV94bGF0ZV93aXRoX2ZsYWdzKCkgaW5zdGVhZCBvZiAiaWYgZWxzZSIgaW5zdHJ1Y3Rpb25zOyBp
-biB0aGlzIHdheSwNCj4gICB0aGUgYWRkaXRpb24gb2YgYSBuZXcgbW9kZSBpcyBpbmRlcGVuZGVu
-dCBvZiB0aGlzIGNvZGUgc2VjdGlvbnMNCj4gLSB1c2UgRFRMST0xLCBEVEhJPTAgcmVnaXN0ZXIg
-c2V0dGluZ3MgdG8gb2J0YWluIHB1c2gtcHVsbCBtb2RlIHdhdmVmb3Jtcw0KPiAgIGZvciBBdG1l
-bC9NaWNyb2NoaXAgUFdNIGNvbnRyb2xsZXIuDQo+IA0KPiBDaGFuZ2VzIGluIHYyOg0KPiAtIHJl
-bW92ZSBvZl94bGF0ZSBhbmQgb2ZfcHdtX25fY2VsbHMgYW5kIHVzZSBnZW5lcmljIGZ1bmN0aW9u
-cyB0byBwaGFyc2UgRFQNCj4gICBpbnB1dHM7IHRoaXMgaXMgZG9uZSBpbiBwYXRjaGVzIDEsIDIs
-IDMsIDQsIDUsIDYsIDcgb2YgdGhpcyBzZXJpZXM7IHRoaXMgd2lsbA0KPiAgIG1ha2UgZWFzeSB0
-aGUgYWRkaXRpb24gb2YgUFdNIG1vZGUgc3VwcG9ydCBmcm9tIERUDQo+IC0gYWRkIFBXTSBtb2Rl
-IG5vcm1hbA0KPiAtIHJlZ2lzdGVyIFBXTSBtb2RlcyBhcyBjYXBhYmlsaXRpZXMgb2YgUFdNIGNo
-aXBzIGF0IGRyaXZlciBwcm9iZSBhbmQsIGluIGNhc2UNCj4gICBkcml2ZXIgZG9lc24ndCBwcm92
-aWRlIHRoZXNlIGNhcGFiaWxpdGllcyB1c2UgZGVmYXVsdCBvbmVzDQo+IC0gY2hhbmdlIHRoZSB3
-YXkgUFdNIG1vZGUgaXMgcGhhcnNlZCB2aWEgRFQgYnkgdXNpbmcgYSBuZXcgaW5wdXQgZm9yIHB3
-bXMNCj4gICBiaW5kaW5nIHByb3BlcnR5DQo+IA0KPiANCj4gQ2xhdWRpdSBCZXpuZWEgKDkpOg0K
-PiAgIHB3bTogZXh0ZW5kIFBXTSBmcmFtZXdvcmsgd2l0aCBQV00gbW9kZXMNCj4gICBwd206IGNs
-cHM3MTF4OiBwb3B1bGF0ZSBQV00gbW9kZSBpbiBvZl94bGF0ZSBmdW5jdGlvbg0KPiAgIHB3bTog
-Y3Jvcy1lYzogcG9wdWxhdGUgUFdNIG1vZGUgaW4gb2ZfeGxhdGUgZnVuY3Rpb24NCj4gICBwd206
-IHB4YTogcG9wdWxhdGUgUFdNIG1vZGUgaW4gb2ZfeGxhdGUgZnVuY3Rpb24NCj4gICBwd206IGFk
-ZCBQV00gbW9kZXMNCj4gICBwd206IGF0bWVsOiBhZGQgcHdtIGNhcGFiaWxpdGllcw0KPiAgIHB3
-bTogYWRkIHB1c2gtcHVsbCBtb2RlIHN1cHBvcnQNCj4gICBwd206IGFkZCBkb2N1bWVudGF0aW9u
-IGZvciBwd20gcHVzaC1wdWxsIG1vZGUNCj4gICBwd206IGF0bWVsOiBhZGQgcHVzaC1wdWxsIG1v
-ZGUgc3VwcG9ydA0KPiANCj4gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9wd20v
-cHdtLnR4dCB8ICAxMSArKy0NCj4gIERvY3VtZW50YXRpb24vcHdtLnR4dCAgICAgICAgICAgICAg
-ICAgICAgICAgICB8ICA0MiArKysrKysrKy0NCj4gIGRyaXZlcnMvcHdtL2NvcmUuYyAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB8IDEyNSArKysrKysrKysrKysrKysrKysrKysrKysrLQ0KPiAg
-ZHJpdmVycy9wd20vcHdtLWF0bWVsLmMgICAgICAgICAgICAgICAgICAgICAgIHwgMTE4ICsrKysr
-KysrKysrKysrKysrLS0tLS0tLQ0KPiAgZHJpdmVycy9wd20vcHdtLWNscHM3MTF4LmMgICAgICAg
-ICAgICAgICAgICAgIHwgIDEwICsrLQ0KPiAgZHJpdmVycy9wd20vcHdtLWNyb3MtZWMuYyAgICAg
-ICAgICAgICAgICAgICAgIHwgICAxICsNCj4gIGRyaXZlcnMvcHdtL3B3bS1weGEuYyAgICAgICAg
-ICAgICAgICAgICAgICAgICB8ICAgMSArDQo+ICBkcml2ZXJzL3B3bS9zeXNmcy5jICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgfCAgNjEgKysrKysrKysrKysrKw0KPiAgaW5jbHVkZS9kdC1iaW5k
-aW5ncy9wd20vcHdtLmggICAgICAgICAgICAgICAgIHwgICAyICsNCj4gIGluY2x1ZGUvbGludXgv
-cHdtLmggICAgICAgICAgICAgICAgICAgICAgICAgICB8ICA2NCArKysrKysrKysrKysrDQo+ICAx
-MCBmaWxlcyBjaGFuZ2VkLCAzOTUgaW5zZXJ0aW9ucygrKSwgNDAgZGVsZXRpb25zKC0pDQo+IA0K
+From: Claudiu Beznea <claudiu.beznea@microchip.com>
+
+Hi,
+
+This series extends PWM framework with PWM modes.
+
+The current patch series add the following PWM modes:
+- PWM mode normal
+- PWM mode complementary
+- PWM mode push-pull
+
+In the following description PWMx_y refers to output y of PWM with ID x.
+
+Normal mode - for PWM channels with one output; output waveforms looks like
+this:
+              __      __      __      __                                   =
+     =20
+    PWMx   __|  |____|  |____|  |____|  |__                                =
+     =20
+             ^       ^       ^       ^                                     =
+     =20
+
+    Where '^' specifies the beginning of a period.
+
+Since PWMs with more than one output per channel could be used as one
+output PWM the normal mode is the default mode for all PWMs (if not specifi=
+ed
+otherwise).
+
+Complementary mode - for PWM channels with two outputs; output waveforms
+for a PWM channel in complementary mode looks line this:
+              __      __      __      __                                   =
+     =20
+    PWMx_0 __|  |____|  |____|  |____|  |__                                =
+     =20
+           __    ____    ____    ____    __                                =
+     =20
+    PWMx_1   |__|    |__|    |__|    |__|                                  =
+     =20
+             ^       ^       ^       ^                                     =
+     =20
+
+    Where '^' specifies the beginning of a period.
+
+Push-pull mode - for PWM channels with two outputs; output waveforms for a
+PWM channel in push-pull mode with normal polarity looks like this:
+              __              __                                           =
+      =20
+    PWMx_0 __|  |____________|  |__________                                =
+      =20
+                      __              __                                   =
+      =20
+    PWMx_1 __________|  |____________|  |__                                =
+      =20
+             ^       ^       ^       ^                                     =
+      =20
+
+    If polarity is inversed:
+           __    ____________    __________                                =
+      =20
+    PWMx_0   |__|            |__|                                          =
+      =20
+           __________    ____________    __                                =
+      =20
+    PWMx_1           |__|            |__|                                  =
+      =20
+             ^       ^       ^       ^                                     =
+      =20
+
+    Where '^' specifies the beginning of a period.
+=20
+The PWM working modes are per PWM channel registered as PWM's capabilities.
+The driver registers itself to PWM core a get_caps() function, in
+struct pwm_ops, that will be used by PWM core to retrieve PWM capabilities.
+If this function is not registered in driver's probe, a default function
+will be used to retrieve PWM capabilities. Currently, the default
+capabilities includes only PWM normal mode.
+
+PWM state has been updated to keep PWM mode. PWM mode could be configured
+via sysfs. pwm_apply_state() will do the preliminary validation for PWM mod=
+e
+to be applied.
+
+In sysfs, user could get PWM modes by reading mode file of PWM device:
+root@sama5d2-xplained:/sys/class/pwm/pwmchip0/pwm2# ls -l
+total 0
+-r--r--r-- 1 root root 4096 Oct 11 18:08 capture
+-rw-r--r-- 1 root root 4096 Oct 11 18:14 duty_cycle
+-rw-r--r-- 1 root root 4096 Oct 11 18:11 enable
+-rw-r--r-- 1 root root 4096 Oct 11 18:14 mode
+-rw-r--r-- 1 root root 4096 Oct 11 18:09 period
+-rw-r--r-- 1 root root 4096 Oct 11 18:14 polarity
+drwxr-xr-x 2 root root    0 Oct 11 18:08 power
+-rw-r--r-- 1 root root 4096 Oct 11 18:08 uevent
+root@sama5d2-xplained:/sys/class/pwm/pwmchip0/pwm2# cat mode
+normal complementary [push-pull]
+
+The mode enclosed in bracket is the currently active mode.
+
+The mode could be set, via sysfs, by writing to mode file one of the modes
+displayed at read:
+root@sama5d2-xplained:/sys/class/pwm/pwmchip0/pwm2# echo normal > mode
+root@sama5d2-xplained:/sys/class/pwm/pwmchip0/pwm2# cat mode
+[normal] complementary push-pull=20
+
+The PWM push-pull mode could be usefull in applications like half bridge
+converters (see [1], page 2126).
+
+This series also add PWM modes support for Atmel/Microchip SoCs.
+
+Thank you,
+Claudiu Beznea
+
+[1] http://ww1.microchip.com/downloads/en/DeviceDoc/DS60001476B.pdf
+
+Changes in v7:
+- use proper number of patches in cover letter title
+
+Changes in v6:
+- get rid of DT changes;
+- get rid of get_default_caps member of struct pwm_chip;
+- remove struct pwm_chip argument of pwm_get_caps(); caps are retrieved
+  in the context of a PWM device and at this moment the chip should be vali=
+d;
+  also, get rid of chip->ops check in pwm_get_caps();
+- rename pwm_mode_get_valid() function to pwm_get_default_modebit();
+- rename mode member of struct pwm_caps to modes_msk;
+- rename pwm_mode_valid() function to pwm_supports_mode() and rename
+  its mode argument to modebit to emphasize what should be passed to it;
+- rename pwm_mode_desc() to pwm_get_mode_name() and avoid returning "invali=
+d"
+  string; pwm_get_mode_name() is called only with a valid modebit;
+- rename mode member of struct pwm_state to modebit to emphasize that it st=
+ores
+  a bitmask;
+- use const arguments for pwm_get_default_modebit(), pwm_get_caps(),
+  pwm_supports_mode() and get_caps() member of struct pwm_ops;
+- change return type of pwm_ops::get_caps() to int;
+- rename PWMC_MODE() macro to PWM_MODE_BIT();
+- rename PWMC_MODE_<mode-name>_BIT enum members to PWM_MODE_<mode-name>;
+- remove patches 2/9, 3/9, 4/9 from previous version since they were relate=
+d
+  to DT changes;
+- use PWMx_y naming in documentation to emphasize it is talked about output
+  y of PWM x;
+- use 1/3 duty factor in waveforms from documentation patches;
+- use '^' to emphasize the beginning of a new period in documentation patch=
+es.
+
+Changes in v5:
+- solved kbuild errors by removing dummy functions for case where
+  CONFIG_PWM is not defined; adopted this approach since the removed
+  function are used only when CONFIG_PWM is defined (in PWM core
+  and few drivers from drivers/pwm/ directory)
+
+Changes in v4:
+- removed changes related to pwm_config() as per maintainer proposals
+- added pwm_mode_get_valid() to retrieve a valid PWM mode fror PWM device
+  instead of using BIT(ffs(caps.mode) - 1) and changed drivers to use
+  pwm_mode_get_valid() instead of pwm_get_caps() + BIT(ffs(caps.mode) - 1)
+  (patches 2, 3, 4 from this series)
+- renamed PWM_MODE() macro in PWMC_MODE() to avoid conflicts with
+  pwm-sun4i.c driver ('C' stands for capability)
+- removed pwm_caps_valid() function
+- renamed PWM_DTMODE_COMPLEMENTARY and PWM_DTMODE_PUSH_PULL macros in
+  PWM_MODE_COMPLEMENTARY and PWM_MODE_PUSH_PULL
+
+Changes in v3:
+- removed changes related to only one of_xlate function for all PWM drivers
+- switch to PWM capabilities per PWM channel nor per PWM chip
+- squash documentation and bindings patches as requeted by reviewer
+- introduced PWM_MODE(name) macro and used a bit enum for pwm modes
+- related to DT bindings, used flags cell also for PWM modes
+- updated of_xlate specific functions with "state->mode =3D mode;"
+  instructions to avoid pwm_apply_state() failures
+- use available modes for PWM channel in pwm_config() by first calling
+  pwm_get_caps() to get caps.modes
+- use loops through available modes in mode_store()/mode_show() and also in
+  of_pwm_xlate_with_flags() instead of "if else" instructions; in this way,
+  the addition of a new mode is independent of this code sections
+- use DTLI=3D1, DTHI=3D0 register settings to obtain push-pull mode wavefor=
+ms
+  for Atmel/Microchip PWM controller.
+
+Changes in v2:
+- remove of_xlate and of_pwm_n_cells and use generic functions to pharse DT
+  inputs; this is done in patches 1, 2, 3, 4, 5, 6, 7 of this series; this =
+will
+  make easy the addition of PWM mode support from DT
+- add PWM mode normal
+- register PWM modes as capabilities of PWM chips at driver probe and, in c=
+ase
+  driver doesn't provide these capabilities use default ones
+- change the way PWM mode is pharsed via DT by using a new input for pwms
+  binding property
+
+
+Claudiu Beznea (9):
+  pwm: extend PWM framework with PWM modes
+  pwm: clps711x: populate PWM mode in of_xlate function
+  pwm: cros-ec: populate PWM mode in of_xlate function
+  pwm: pxa: populate PWM mode in of_xlate function
+  pwm: add PWM modes
+  pwm: atmel: add pwm capabilities
+  pwm: add push-pull mode support
+  pwm: add documentation for pwm push-pull mode
+  pwm: atmel: add push-pull mode support
+
+ Documentation/devicetree/bindings/pwm/pwm.txt |  11 ++-
+ Documentation/pwm.txt                         |  42 ++++++++-
+ drivers/pwm/core.c                            | 125 ++++++++++++++++++++++=
++++-
+ drivers/pwm/pwm-atmel.c                       | 118 +++++++++++++++++-----=
+--
+ drivers/pwm/pwm-clps711x.c                    |  10 ++-
+ drivers/pwm/pwm-cros-ec.c                     |   1 +
+ drivers/pwm/pwm-pxa.c                         |   1 +
+ drivers/pwm/sysfs.c                           |  61 +++++++++++++
+ include/dt-bindings/pwm/pwm.h                 |   2 +
+ include/linux/pwm.h                           |  64 +++++++++++++
+ 10 files changed, 395 insertions(+), 40 deletions(-)
+
+--=20
+2.7.4
+
