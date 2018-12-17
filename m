@@ -1,94 +1,163 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0AB957D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Dec 2018 15:55:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4AC387D089
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Dec 2018 15:56:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727840AbeLQPzl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Dec 2018 10:55:41 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:39890 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727617AbeLQPzl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Dec 2018 10:55:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=574+4ZD7Du9DDrY3jcdjsYd7VDFDIpxaJakuUWbr19s=; b=NzN4oTZi6gyJm2aSWquP3ym0d
-        9omamrHx6pqwcZKsaR2e90jn3JJGPgWxUbNtXeKUrfjI47HpoiolK5gTOXYmROfIcTsA4j38T2tS6
-        QwtlKihqL0AwxJKPVt2KhAMOEkNu+c9hCRXVjbXZIp9geLuF9OkitZG5hfKTCJ3BtBmTXjGlrSYI1
-        4TgSqH4hgpz+eFez7W8mmEGlwcbjR5NRugb3gofnJfLixyB/rnj0dIWTg3Trhfze1lT42vr5lqQVB
-        Z5uHM1LAngIidwmkDDiiTrrPgFICAjkZgEEmZ5miFSveGJjArtzaUovOv2s9v6TQNP94sjT0v0yGT
-        oftNPPBHg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gYvEu-0000Ca-Vq; Mon, 17 Dec 2018 15:55:29 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 7717F20276AC4; Mon, 17 Dec 2018 16:55:25 +0100 (CET)
-Date:   Mon, 17 Dec 2018 16:55:25 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     gregkh@linuxfoundation.org, tj@kernel.org, lizefan@huawei.com,
-        hannes@cmpxchg.org, axboe@kernel.dk, dennis@kernel.org,
-        dennisszhou@gmail.com, mingo@redhat.com, akpm@linux-foundation.org,
-        corbet@lwn.net, cgroups@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH 4/6] psi: introduce state_mask to represent stalled psi
- states
-Message-ID: <20181217155525.GC2218@hirez.programming.kicks-ass.net>
-References: <20181214171508.7791-1-surenb@google.com>
- <20181214171508.7791-5-surenb@google.com>
+        id S2387982AbeLQP4C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Dec 2018 10:56:02 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:59282 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387981AbeLQP4C (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 Dec 2018 10:56:02 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BCA45A78;
+        Mon, 17 Dec 2018 07:56:01 -0800 (PST)
+Received: from [10.1.196.105] (eglon.cambridge.arm.com [10.1.196.105])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BCC753F575;
+        Mon, 17 Dec 2018 07:55:59 -0800 (PST)
+Subject: Re: [RFC RESEND PATCH] kvm: arm64: export memory error recovery
+ capability to user space
+To:     gengdongjiu <gengdongjiu@huawei.com>,
+        Peter Maydell <peter.maydell@linaro.org>
+Cc:     =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        kvm-devel <kvm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        arm-mail-list <linux-arm-kernel@lists.infradead.org>
+References: <0184EA26B2509940AA629AE1405DD7F201FFC21E@dggema523-mbx.china.huawei.com>
+From:   James Morse <james.morse@arm.com>
+Message-ID: <c01e3ed0-f66c-f7df-295a-70b44bad49ff@arm.com>
+Date:   Mon, 17 Dec 2018 15:55:58 +0000
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181214171508.7791-5-surenb@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <0184EA26B2509940AA629AE1405DD7F201FFC21E@dggema523-mbx.china.huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 14, 2018 at 09:15:06AM -0800, Suren Baghdasaryan wrote:
-> The psi monitoring patches will need to determine the same states as
-> record_times(). To avoid calculating them twice, maintain a state mask
-> that can be consulted cheaply. Do this in a separate patch to keep the
-> churn in the main feature patch at a minimum.
+Hi gengdongjiu, Peter,
+
+I think the root issue here is the name of the cpufeature 'RAS Extensions', this
+doesn't mean RAS is new, or even requires these features. It's just standardised
+records, classification and a barrier.
+Not only is it possible to build a platform that supports RAS without this
+extensions: there are at least three platforms out there that do!
+
+
+On 15/12/2018 00:12, gengdongjiu wrote:
+>> On Fri, 14 Dec 2018 at 13:56, James Morse <james.morse@arm.com> wrote:
+>>> On 14/12/2018 10:15, Dongjiu Geng wrote:
+>>>> When user space do memory recovery, it will check whether KVM and 
+>>>> guest support the error recovery, only when both of them support, 
+>>>> user space will do the error recovery. This patch exports this 
+>>>> capability of KVM to user space.
+>>>
+>>> I can understand user-space only wanting to do the work if host and 
+>>> guest support the feature. But 'error recovery' isn't a KVM feature, 
+>>> its a Linux kernel feature.
+
+[...]
+
+> Thanks Peter's explanation. Frankly speaking, I agree Peter's suggestion.
 > 
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> ---
->  include/linux/psi_types.h |  3 +++
->  kernel/sched/psi.c        | 29 +++++++++++++++++++----------
->  2 files changed, 22 insertions(+), 10 deletions(-)
+> To James, I explain more to you, as peter said QEMU needs to check whether
+> the guest CPU is a type which can handle the error though guest ACPI table.
+
+I don't think this really matters. Its only the NMIlike notifications that the
+guest doesn't have to register or poll. The ones we support today extend the
+architectures existing behaviour: you would have taken an external-abort on a
+real system, whether you know about the additional metadata doesn't matter to Qemu.
+
+
+> Let us see the X86's QEMU logic:
+> 1. Before the vCPU created, it will set a default env->mcg_cap value with
+
+> MCE_CAP_DEF flag, MCG_SER_P means it expected the guest CPU model supports
+> RAS error recovery.[1] 2. when the vCPU initialize, it will check whether host
+> kernel support this feature[2]. Only when host kernel and default env->mcg_cap
+> value all expected this feature, then it will setup vCPU support RAS error
+> recovery[3].
+
+This looks like KVM exposing a CPU capability to Qemu, which then configures the
+behaviour KVM gives to the guest. This doesn't tell you anything about what the
+guest supports. This doesn't tell you if the host-kernel supports
+memory_failure(). You can think of this as being equivalent to the VSESR_EL2
+support. Just because the CPU has it doesn't mean the host or guest kernel have
+been built to know what to do.
+
+I test NOTIFY_SEA by injecting an address into memory_failure() using
+CONFIG_HWPOISON_INJECT. This causes kvmtool to take an AR signal next time the
+guest accesses the page, which then gets presented to the guest as an
+external-abort, with the CPER records describing the abort created by kvmtool.
+This is all on v8.0 hardware, nothing about the CPU is relevant here.
+
+
+> -------------------------------------For James's comments---------------------------------------------------------------------
+>> KVM doesn't detect these errors.
+>> The hardware detects them and notifies the OS via one of a number of mechanisms.
+>> This gets plumbed into memory_failure(), which sets a flag that the mm 
+>> code uses to prevent the page being used again.
 > 
-> diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
-> index 2cf422db5d18..2c6e9b67b7eb 100644
-> --- a/include/linux/psi_types.h
-> +++ b/include/linux/psi_types.h
-> @@ -53,6 +53,9 @@ struct psi_group_cpu {
->  	/* States of the tasks belonging to this group */
->  	unsigned int tasks[NR_PSI_TASK_COUNTS];
->  
-> +	/* Aggregate pressure state derived from the tasks */
-> +	u32 state_mask;
-> +
->  	/* Period time sampling buckets for each state of interest (ns) */
->  	u32 times[NR_PSI_STATES];
->  
+>> KVM is only involved when it tries to map a page at stage2 and the mm 
+>> code rejects it with -EHWPOISON. This is the same as the architectures
+>> do_page_fault() checking for (fault & VM_FAULT_HWPOISON) out of 
+>> handle_mm_fault(). We don't have a KVM cap for this, nor do we need one.
+> ------------------------------------------------------------------------------------------------------------------------------
+> James, for your above comments, I completed understand, but KVM also delivered
+> the SIGBUS,
 
-Since we spend so much time counting space in that line, maybe add a
-note to the Changlog about how this fits.
+kvm_send_hwpoison_signal()? This is just making guest-accesses look like
+Qemu-acesses to linux. It's just plumbing.
 
-Also, since I just had to re-count, you might want to add explicit
-numbers to the psi_res and psi_states enums.
+You could just as easily take the signal from memory_failure()s kill_proc() code.
 
-> +		if (state_mask & (1 << s))
 
-We have the BIT() macro, but I'm honestly not sure that will improve
-things.
+> which means KVM supports guest memory RAS error recovery, so maybe
+> we need to tell user space this capability.
+
+It was merged with ARCH_SUPPORTS_MEMORY_FAILURE. You're really asking if the
+host kernel supports CONFIG_MEMORY_FAILURE, and its plumbed in in all the right
+places.
+
+It's not practical for user-space to know this, handling the signal when it
+arrives is the best thing to do.
+
+
+> ---------------------------------------------- For James's comments ---------------------------------------------------
+>> The CPU RAS Extensions are not at all relevant here. It is perfectly 
+>> possible to support memory-failure without them, AMD-Seattle and 
+>> APM-X-Gene do this. These systems would report not-supported here, but the kernel does support this stuff.
+>> Just because the CPU supports this, doesn't mean the kernel was built 
+>> with CONFIG_MEMORY_FAILURE. The CPU reports may be ignored, or upgraded to SIGKILL.
+> --------------------------------------------------------------------------------------------------------------------------------------
+> James, for your above comments, if you think we should not check the> "cpus_have_const_cap(ARM64_HAS_RAS_EXTN)", which do you prefer we should check?
+
+> In the X86 KVM code, it uses hardcode to tell use space the host/KVM support RAS error
+> software recovery[4]. If KVM does not check the " cpus_have_const_cap(ARM64_HAS_RAS_EXTN)",
+> we have to check the hardcode as X86's method.
+
+There is no CPU property that means the platform has RAS support. Platforms can
+support RAS for memory errors (which is all we are talking about here) without them.
+The guest can't know from a CPU property that the platform supports RAS. If it
+finds a HEST with GHES entries it can register interrupts and polling-timers. If
+it can probe an edac driver, it can use that.
+
+
+Thanks,
+
+James
