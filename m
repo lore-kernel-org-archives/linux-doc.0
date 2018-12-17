@@ -5,124 +5,206 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C8D137D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Dec 2018 21:06:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5C1497D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Dec 2018 21:14:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728204AbeLQVGV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Dec 2018 16:06:21 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:58332 "EHLO
+        id S1727719AbeLQVOi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Dec 2018 16:14:38 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:58372 "EHLO
         merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726969AbeLQVGV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Dec 2018 16:06:21 -0500
+        with ESMTP id S1727676AbeLQVOi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Dec 2018 16:14:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Type:In-Reply-To:MIME-Version:
-        Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=F5eDz++z/FQJ213bay0vdKfK1MgxKX+eXhxMIAA31Go=; b=TADvunuPcx9nhwIyhivs69EW4
-        ETFO94vFVgZjs1BNj9rLk72dTLsV6+ckzW4b7REeEIFMx7xHY/XFVfmHHgxoIROC8v1JyRoJHZloc
-        FrH9cdDaj5DVrT4GnZx/lne23boVEwlGbDlGE+yNf7xRyI4C32mx33FQOKqVjo7IEavuXiqvVpfFW
-        v16fTnIQJjiYPGEApg8IxLE+YNXwvysMcvN7JmJnCkFXPxJ/f89cx926q3OlZb88ZKvsuWgAqE13u
-        nLYYgzYOeq/P3jxVGpAx5pS+/zpMu57NC+E/admts7MPRZjmynWtlj17SC4pj+FenWGTgipNf32oO
-        zuhUqdlPw==;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=xv9R1Asq4kEgfFCTtrXG0S4Xh7eOlzNzos1JZWNF1H8=; b=I0FyCN4eVCfx2zW9cAgqtLF7AY
+        5R13wuEY3TxpTT1OYPMt/2iWjzARcGhZnElO8i9Onvm5RLye7ECxNDP3CJuGgak4KEu4ukYDFBjCI
+        yC8QPtQpgIh6UqeKGIOe+4CgxCRkxWoD8yjpzlQfAAQOvhmSdQF1Lgpc7lM0nMuitH59NNMumjqwc
+        FE7HGJkrpX/Myk4cSC+4OZr+fUfaS69jyxv5PGCW97h4A0ijMSWvZt4pxhYgJ07xGn4kM4Gk5lDTT
+        uwK6lkE2bThI7BPae09KHbjvRMhUQVfKAlDk0DGWaqQRXP4rRo0c9aHT9VU1HflNJdOgEnLmMtKY7
+        NmEGU0nA==;
 Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
         by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gZ05j-0003ww-4y; Mon, 17 Dec 2018 21:06:19 +0000
-Subject: Re: [PATCH 0/1] RFC: Revamp admin-guide/tainted-kernels.rst to make
- it more comprehensible
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        id 1gZ0DZ-0003yF-R8; Mon, 17 Dec 2018 21:14:26 +0000
+Subject: Re: [PATCH 1/1] docs: Revamp tainted-kernels.rst to make it more
+ comprehensible
+To:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 References: <20181217152043.9989-1-linux@leemhuis.info>
- <20181217112437.5fe868eb@lwn.net>
+ <20181217152043.9989-2-linux@leemhuis.info>
 From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <8f67a8ca-bf64-c537-843a-b03bcfc3dace@infradead.org>
-Date:   Mon, 17 Dec 2018 13:06:15 -0800
+Message-ID: <b834144e-b95d-4513-4bc4-1114e1facdc9@infradead.org>
+Date:   Mon, 17 Dec 2018 13:14:23 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.3.0
 MIME-Version: 1.0
-In-Reply-To: <20181217112437.5fe868eb@lwn.net>
-Content-Type: multipart/mixed;
- boundary="------------6BBD015C4CD1538B71FF8F14"
+In-Reply-To: <20181217152043.9989-2-linux@leemhuis.info>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------6BBD015C4CD1538B71FF8F14
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+On 12/17/18 7:20 AM, Thorsten Leemhuis wrote:
+> 
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> ---
+>  Documentation/admin-guide/tainted-kernels.rst | 105 ++++++++++++++++--
+>  1 file changed, 96 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+> index 28a869c509a0..aabd307a178a 100644
+> --- a/Documentation/admin-guide/tainted-kernels.rst
+> +++ b/Documentation/admin-guide/tainted-kernels.rst
+> @@ -1,10 +1,102 @@
+>  Tainted kernels
+>  ---------------
+>  
+> -Some oops reports contain the string **'Tainted: '** after the program
+> -counter. This indicates that the kernel has been tainted by some
+> -mechanism.  The string is followed by a series of position-sensitive
+> -characters, each representing a particular tainted value.
+> +The kernel will mark itself as 'tainted' when something occurs that
+> +might be relevant later when investigating problems. Don't worry
+> +yourself too much about this, most of the time it's not a problem to run
+> +a tainted kernel; the information is mainly of interest once someone
+> +wants to investigate some problem, as its real cause might be the event
+> +that got the kernel tainted. That's why the kernel will remain tainted
+> +even after you undo what caused the taint (i.e. unload a proprietary
+> +kernel module), to indicate the kernel remains not trustworthy. That's
+> +also why the kernel will print the tainted state when it noticed
 
-On 12/17/18 10:24 AM, Jonathan Corbet wrote:
-> Here's an idea if you feel like improving this: rather than putting an
-> inscrutable program inline, add a taint_status script to scripts/ that
-> prints out the status in fully human-readable form, with the explanation
-> for every set bit.
+                                                            notices
 
+> +ainternal problem (a 'kernel bug'), a recoverable error ('kernel oops')
 
-And some people prefer not adding tools that use python, perl, etc.
+   an internal
 
-E.g., I use this shell script (named 'chktaint', which could probably
-be done better):
+> +or a nonrecoverable error ('kernel panic') and writes debug information
+> +about this to the logs ``dmesg`` outputs. It's also possible to check
+> +the tainted state at runtime through a file in ``/proc/``.
+> +
+> +
+> +Tainted flag in bugs, oops or panics messages
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +You find the tainted state near the top after the list of loaded
+> +modules.  The state is part of the line that begins with mentioning CPU
+> +('CPU:'), Process ID ('PID:'), and a shorted name of the executed
 
-(see attachment)
+                                        shortened
+
+> +command ('Comm:') that triggered the event. When followed by **'Not
+> +tainted: '** the kernel was not tainted at the time of the event; if it
+> +was, then it will print **'Tainted: '** and characters either letters or
+> +blanks. The meaning of those characters is explained in below table. The
+
+                                                        in the table below. The
+
+> +output for example might state '``Tainted: P   WO``' when the kernel got
+> +tainted earlier because a proprietary Module (``P``) was loaded, a
+> +warning occurred (``W``), and an externally-built module was loaded
+> +(``O``). To decode other letters use below table.
+
+                                    use the table below.
+
+> +
+> +
+> +Decoding tainted state at runtime
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +At runtime, you can query the tainted state by reading
+> +``/proc/sys/kernel/tainted``. If that returns ``0``, the kernel is not
+> +tainted; any other number indicates the reasons why it is. You might
+> +find that number in below table if there was only one reason that got
+
+                    in the table below                          for the
+
+> +the kernel tainted. If there were multiple reasons you need to decode
+
+   kernel to be tainted.                      reasons,
+
+> +the number, as it is a bitfield, where each bit indicates the absence or
+> +presence of a particular type of taint. You can use the following python
+> +command to decode::
+> +
+> +	$ python3 -c 'from pprint import pprint; from itertools import zip_longest; pprint(list(zip_longest(range(1,17), reversed(bin(int(open("/proc/sys/kernel/tainted").read()))[2:]),fillvalue="0")))'
+> +	[(1, '1'),
+> +	 (2, '0'),
+> +	 (3, '0'),
+> +	 (4, '0'),
+> +	 (5, '0'),
+> +	 (6, '0'),
+> +	 (7, '0'),
+> +	 (8, '0'),
+> +	 (9, '0'),
+> +	 (10, '1'),
+> +	 (11, '0'),
+> +	 (12, '0'),
+> +	 (13, '1'),
+> +	 (14, '0'),
+> +	 (15, '0'),
+> +	 (16, '0')]
+> +
+> +In this case ``/proc/sys/kernel/tainted`` contained ``4609``, as the
+> +kernel got tainted because a proprietary Module (Bit 1) got loaded, a
+> +warning occurred (Bit 10), and an externally-built module got loaded
+> +(Bit 13). To decode other bits use below table.
+
+                                  use the table below.
+
+> +
+> +
+> +Table for decoding tainted state
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +===  ===  ======  ========================================================
+> +Bit  Log     Int  Reason that got the kernel tainted
+> +===  ===  ======  ========================================================
+> + 1)  G/P       0  proprietary module got loaded
+> + 2)  _/F       2  module was force loaded
+> + 3)  _/S       4  SMP kernel oops on a officially SMP incapable processor
+> + 4)  _/R       8  module was force unloaded
+> + 5)  _/M      16  processor reported a Machine Check Exception (MCE)
+> + 6)  _/B      32  bad page referenced or some unexpected page flags
+> + 7)  _/U      64  taint requested by userspace application
+> + 8)  _/D     128  kernel died recently, i.e. there was an OOPS or BUG
+> + 9)  _/A     256  ACPI table overridden by user
+> +10)  _/W     512  kernel issued warning
+> +11)  _/C    1024  staging driver got loaded
+> +12)  _/I    2048  workaround for bug in platform firmware in use
+> +13)  _/O    4096  externally-built ("out-of-tree") module got loaded
+> +14)  _/E    8192  unsigned module was loaded
+> +15)  _/L   16384  soft lockup occurred
+> +16)  _/K   32768  Kernel live patched
+> +===  ===  ======  ========================================================
+> +
+> +Note: To make reading easier ``_`` is representing a blank in this
+> +table.
+> +
+> +More detailed explanation for tainting
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>  
+>   1)  ``G`` if all modules loaded have a GPL or compatible license, ``P`` if
+>       any proprietary module has been loaded.  Modules without a
+> @@ -52,8 +144,3 @@ characters, each representing a particular tainted value.
+>  
+>   16) ``K`` if the kernel has been live patched.
+>  
+> -The primary reason for the **'Tainted: '** string is to tell kernel
+> -debuggers if this is a clean kernel or if anything unusual has
+> -occurred.  Tainting is permanent: even if an offending module is
+> -unloaded, the tainted value remains to indicate that the kernel is not
+> -trustworthy.
+> 
+
+thanks for the update.
 
 -- 
 ~Randy
-
---------------6BBD015C4CD1538B71FF8F14
-Content-Type: text/plain; charset=UTF-8;
- name="chktaint"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="chktaint"
-
-IyEgL2Jpbi9zaAojIEdQTCB2Mi4KIyBSYW5keSBEdW5sYXAgPHJkdW5sYXBAaW5mcmFkZWFk
-Lm9yZz4KClRBSU5URklMRT0iL3Byb2Mvc3lzL2tlcm5lbC90YWludGVkIgoKaWYgWyAhIC1y
-ICRUQUlOVEZJTEUgXTsgdGhlbgoJZWNobyAiTm8gZmlsZTogJFRBSU5URklMRSIKCWV4aXQK
-ZmkKCnRhaW50PWBjYXQgJFRBSU5URklMRWAKaWYgWyAkdGFpbnQgLWVxIDAgXTsgdGhlbgoJ
-ZWNobyAiS2VybmVsIG5vdCBUYWludGVkIgoJZXhpdApmaQoKZWNobyAiUmF3IFRhaW50IHZh
-bHVlOiAkdGFpbnQiClQ9JHRhaW50Cm91dD0KCmFkZG91dCgpIHsKCW91dD0kb3V0JDEKfQoK
-aWYgWyBgZXhwciAkVCAlIDJgIC1lcSAwIF07IHRoZW4KCWFkZG91dCAiRyIKZWxzZQoJYWRk
-b3V0ICJQIgkjIFByb3ByaWV0YXJ5IG1vZHVsZSB3YXMgbG9hZGVkCmZpCgpUPWBleHByICRU
-IC8gMmAKaWYgWyBgZXhwciAkVCAlIDJgIC1lcSAwIF07IHRoZW4KCWFkZG91dCAiICIKZWxz
-ZQoJYWRkb3V0ICJGIgkjIG1vZHVsZSB3YXMgZm9yY2UgbG9hZGVkCmZpCgpUPWBleHByICRU
-IC8gMmAKaWYgWyBgZXhwciAkVCAlIDJgIC1lcSAwIF07IHRoZW4KCWFkZG91dCAiICIKZWxz
-ZQoJYWRkb3V0ICJTIgkjIG9vcHMgb24gbm9uLXN1cHBvcnRlZCBTTVAgaGFyZHdhcmUKZmkK
-ClQ9YGV4cHIgJFQgLyAyYAppZiBbIGBleHByICRUICUgMmAgLWVxIDAgXTsgdGhlbgoJYWRk
-b3V0ICIgIgplbHNlCglhZGRvdXQgIlIiCSMgbW9kdWxlIHdhcyBmb3JjZSB1bmxvYWRlZApm
-aQoKVD1gZXhwciAkVCAvIDJgCmlmIFsgYGV4cHIgJFQgJSAyYCAtZXEgMCBdOyB0aGVuCglh
-ZGRvdXQgIiAiCmVsc2UKCWFkZG91dCAiTSIJIyBNYWNoaW5lIENoZWNrIGV4Y2VwdGlvbgpm
-aQoKVD1gZXhwciAkVCAvIDJgCmlmIFsgYGV4cHIgJFQgJSAyYCAtZXEgMCBdOyB0aGVuCglh
-ZGRvdXQgIiAiCmVsc2UKCWFkZG91dCAiQiIJIyBCYWQgUGFnZSByZWZlcmVuY2UKZmkKClQ9
-YGV4cHIgJFQgLyAyYAppZiBbIGBleHByICRUICUgMmAgLWVxIDAgXTsgdGhlbgoJYWRkb3V0
-ICIgIgplbHNlCglhZGRvdXQgIlUiCSMgVXNlciB0YWludCByZXF1ZXN0ZWQKZmkKClQ9YGV4
-cHIgJFQgLyAyYAppZiBbIGBleHByICRUICUgMmAgLWVxIDAgXTsgdGhlbgoJYWRkb3V0ICIg
-IgplbHNlCglhZGRvdXQgIkQiCSMga2VybmVsIERpZWQsIE9vcHMsIG9yIEJ1ZwpmaQoKVD1g
-ZXhwciAkVCAvIDJgCmlmIFsgYGV4cHIgJFQgJSAyYCAtZXEgMCBdOyB0aGVuCglhZGRvdXQg
-IiAiCmVsc2UKCWFkZG91dCAiQSIJIyBBQ1BJIHRhYmxlIG92ZXJyaWRkZW4KZmkKClQ9YGV4
-cHIgJFQgLyAyYAppZiBbIGBleHByICRUICUgMmAgLWVxIDAgXTsgdGhlbgoJYWRkb3V0ICIg
-IgplbHNlCglhZGRvdXQgIlciCSMgcHJldmlvdXMgV2FybmluZyB3YXMgaXNzdWVkCmZpCgpU
-PWBleHByICRUIC8gMmAKaWYgWyBgZXhwciAkVCAlIDJgIC1lcSAwIF07IHRoZW4KCWFkZG91
-dCAiICIKZWxzZQoJYWRkb3V0ICJDIgkjIFN0YWdpbmcgKENyYXApIG1vZHVsZSB3YXMgbG9h
-ZGVkCmZpCgpUPWBleHByICRUIC8gMmAKaWYgWyBgZXhwciAkVCAlIDJgIC1lcSAwIF07IHRo
-ZW4KCWFkZG91dCAiICIKZWxzZQoJYWRkb3V0ICJJIgkjIGZpcm13YXJlIGJ1ZyB3b3JrYXJv
-dW5kCmZpCgpUPWBleHByICRUIC8gMmAKaWYgWyBgZXhwciAkVCAlIDJgIC1lcSAwIF07IHRo
-ZW4KCWFkZG91dCAiICIKZWxzZQoJYWRkb3V0ICJPIgkjIG91dC1vZi10cmVlIG1vZHVsZSBs
-b2FkZWQKZmkKClQ9YGV4cHIgJFQgLyAyYAppZiBbIGBleHByICRUICUgMmAgLWVxIDAgXTsg
-dGhlbgoJYWRkb3V0ICIgIgplbHNlCglhZGRvdXQgIkUiCSMgdW5zaWduZWQgbW9kdWxlIGxv
-YWRlZCBpbiBrZXJuZWwgd2l0aCBzaWduaW5nCmZpCgpUPWBleHByICRUIC8gMmAKaWYgWyBg
-ZXhwciAkVCAlIDJgIC1lcSAwIF07IHRoZW4KCWFkZG91dCAiICIKZWxzZQoJYWRkb3V0ICJM
-IgkjIHNvZnQgbG9ja3VwIHJlcG9ydGVkCmZpCgpUPWBleHByICRUIC8gMmAKaWYgWyBgZXhw
-ciAkVCAlIDJgIC1lcSAwIF07IHRoZW4KCWFkZG91dCAiICIKZWxzZQoJYWRkb3V0ICJLIgkj
-IGtlcm5lbCBoYXMgYmVlbiBsaXZlLXBhdGNoZWQKZmkKClQ9YGV4cHIgJFQgLyAyYAppZiBb
-IGBleHByICRUICUgMmAgLWVxIDAgXTsgdGhlbgoJYWRkb3V0ICIgIgplbHNlCglhZGRvdXQg
-IlgiCSMgYXV4aWxpYXJ5IHRhaW50LCB1c2VkIGJ5IGRpc3Ryb3MKZmkKClQ9YGV4cHIgJFQg
-LyAyYAppZiBbIGBleHByICRUICUgMmAgLWVxIDAgXTsgdGhlbgoJYWRkb3V0ICIgIgplbHNl
-CglhZGRvdXQgIlQiCSMgc3RydWN0IHJhbmRvbWl6YXRpb24gcGx1Z2luIHdhcyB1c2VkCmZp
-CgplY2hvICJLZXJuZWwgVGFpbnQ6ICRvdXQiCiNFT0YjCg==
---------------6BBD015C4CD1538B71FF8F14--
