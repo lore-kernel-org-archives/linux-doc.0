@@ -1,216 +1,196 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0E2D67D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Dec 2018 18:24:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AC0687D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Dec 2018 19:33:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387657AbeLQSYv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Dec 2018 13:24:51 -0500
-Received: from ms.lwn.net ([45.79.88.28]:54094 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388838AbeLQSYv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 Dec 2018 13:24:51 -0500
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id F1CF6739;
-        Mon, 17 Dec 2018 18:24:48 +0000 (UTC)
-Date:   Mon, 17 Dec 2018 11:24:37 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/1] RFC: Revamp admin-guide/tainted-kernels.rst to make
- it more comprehensible
-Message-ID: <20181217112437.5fe868eb@lwn.net>
-In-Reply-To: <20181217152043.9989-1-linux@leemhuis.info>
-References: <20181217152043.9989-1-linux@leemhuis.info>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S2387981AbeLQTdz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Dec 2018 14:33:55 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:41731 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387846AbeLQTdz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Dec 2018 14:33:55 -0500
+Received: by mail-pf1-f193.google.com with SMTP id b7so6850930pfi.8
+        for <linux-doc@vger.kernel.org>; Mon, 17 Dec 2018 11:33:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zqAJ7CpVrClj01fc/bQYKz6q7wMWGbGap3pF5MFiebg=;
+        b=Vb6I7xDD+N84CKMrD7JqBKLThyRzVJstMpfI88sWi3C/amzPJqd++0eAjzjxfSGZ5p
+         owoD9N9R8WxLP4KxFs670QbqMIUxys3LisKdvQQvPxDlpMliFOTnEFQQcf47kHzDZuIQ
+         rERc8yBDh5MrMar07ymNZJvCxhAEKbYgH3GJqYmnBMcWQEg4r3NdJeEHc49AlzPM+U9F
+         ln2jrtI/nxmIoBuaTB64cLW7lttBtPNESWQjnywIyeiO1IC0YaJcInXINJK4YTyrUT5k
+         SKpUoB+RmGiwHonpgoXMWhSOjdhX8l4A0KPTOygwYVbEbsfq2kXKcJEDj4Ee9iYxXmeP
+         x2ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zqAJ7CpVrClj01fc/bQYKz6q7wMWGbGap3pF5MFiebg=;
+        b=csaiRVxeoM8xB50Jn7JeuCoSZxP+2LjEP/xMG6/QwtHFHjaAcrE5i048LcJYyM70IQ
+         7TwZBL+gMrBfpLjH6K7BRnZjvtmG4KYb3/Q41hQporyZWbS6NLMDvahODu3aTFzyJdkg
+         QjQub6z5NueeqiMwgHEXZhDAAGRjdTVfvEO2HsXhzl8p8ihsvemIE1hJA1N1Wk937XlW
+         UvBAAi/b8Upa+T20ea754ElC5j3djC426ySHWIo/i5mAZXM3wZBVi5tTTKEPVQcc5xFp
+         Ez8MTgovGjy2ZOhdi1H37B/xXiZOEuuieevnCuUi1FHmD6KMRZuPhH5GTKMk9u8pwVSo
+         h4rw==
+X-Gm-Message-State: AA+aEWZuGOVFo6dgffi4FqSaSx1yqaoeltXNwkE96xydubeSPrSgQwII
+        OCbKSkKy2VWfHHndUpRgW2Z/Nh9Mo4v7RMXQWRGm0Q==
+X-Google-Smtp-Source: AFSGD/Xd0N9kSPdtbqHt/fg4ep3w/r7nr4OCd0w90Ake1b8L6P3PKf9tZwx1pfsuvpi4AzjAyra5gqpyLz3prTpDllI=
+X-Received: by 2002:a63:7044:: with SMTP id a4mr12916378pgn.359.1545075233957;
+ Mon, 17 Dec 2018 11:33:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+References: <cover.1544099024.git.andreyknvl@google.com> <bda78069e3b8422039794050ddcb2d53d053ed41.1544099024.git.andreyknvl@google.com>
+ <2bf7415e-2724-b3c3-9571-20c8b6d43b92@arm.com> <CAAeHK+xc6R_p26-tu--9W1L1PvUAFb70J23ByiEukKz3uVC3EQ@mail.gmail.com>
+ <b99b331d-22ca-b9db-8677-4896c427ef10@arm.com>
+In-Reply-To: <b99b331d-22ca-b9db-8677-4896c427ef10@arm.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Mon, 17 Dec 2018 20:33:42 +0100
+Message-ID: <CAAeHK+w2jppKbb26bBk6uP9ydZeHrtNc6b2CVv4xbvt6ecVooA@mail.gmail.com>
+Subject: Re: [PATCH v13 19/25] kasan: add hooks implementation for tag-based mode
+To:     Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Vishwath Mohan <vishwath@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Evgenii Stepanov <eugenis@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 17 Dec 2018 16:20:42 +0100
-Thorsten Leemhuis <linux@leemhuis.info> wrote:
+On Fri, Dec 14, 2018 at 1:34 PM Vincenzo Frascino
+<vincenzo.frascino@arm.com> wrote:
+>
+> On 12/12/18 3:04 PM, Andrey Konovalov wrote:
+> > On Tue, Dec 11, 2018 at 5:22 PM Vincenzo Frascino
+> > <vincenzo.frascino@arm.com> wrote:
+> >>
+> >> Hi Andrey,
+> >>
+> >> On 06/12/2018 12:24, Andrey Konovalov wrote:
+> >>> This commit adds tag-based KASAN specific hooks implementation and
+> >>> adjusts common generic and tag-based KASAN ones.
+> >>>
+> >>> 1. When a new slab cache is created, tag-based KASAN rounds up the size of
+> >>>    the objects in this cache to KASAN_SHADOW_SCALE_SIZE (== 16).
+> >>>
+> >>> 2. On each kmalloc tag-based KASAN generates a random tag, sets the shadow
+> >>>    memory, that corresponds to this object to this tag, and embeds this
+> >>>    tag value into the top byte of the returned pointer.
+> >>>
+> >>> 3. On each kfree tag-based KASAN poisons the shadow memory with a random
+> >>>    tag to allow detection of use-after-free bugs.
+> >>>
+> >>> The rest of the logic of the hook implementation is very much similar to
+> >>> the one provided by generic KASAN. Tag-based KASAN saves allocation and
+> >>> free stack metadata to the slab object the same way generic KASAN does.
+> >>>
+> >>> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+> >>> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+> >>> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> >>> ---
+> >>>  mm/kasan/common.c | 116 ++++++++++++++++++++++++++++++++++++++--------
+> >>>  mm/kasan/kasan.h  |   8 ++++
+> >>>  mm/kasan/tags.c   |  48 +++++++++++++++++++
+> >>>  3 files changed, 153 insertions(+), 19 deletions(-)
+> >>>
+> >>
+> >>
+> >> [...]
+> >>
+> >>> @@ -265,6 +290,8 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+> >>>               return;
+> >>>       }
+> >>>
+> >>> +     cache->align = round_up(cache->align, KASAN_SHADOW_SCALE_SIZE);
+> >>> +
+> >>
+> >> Did you consider to set ARCH_SLAB_MINALIGN instead of this round up?
+> >
+> > I didn't know about this macro. Looks like we can use it to do the
+> > same thing. Do you think it's a better solution to redefine
+> > ARCH_SLAB_MINALIGN to KASAN_SHADOW_SCALE_SIZE for arm64 when tag-based
+> > KASAN is enabled instead of adjusting cache->align in
+> > kasan_cache_create?
+> >
+>
+> Yes, I think it is better because in this way we do not need to add extra code
+> to do the rounding.
+>
+> Curiosity, did you try your patches with SLUB red zoning enabled?
+> Since the area used for the Redzone is just after the payload, aligning the
+> object_size independently from the allocator could have side effects, at least
+> if I understand well how the mechanism works.
+>
+> Setting ARCH_SLAB_MINALIGN should avoid this as well.
+>
+> What do you think?
 
-> Hi! Find my first contribution to the kernel documentation in the reply to this
-> mail. Hopefully a lot more will follow.
+Sounds good to me.
 
-Hopefully!  Looking forward to it.
+Andrew, how should proceed with this? Send another fixup patch or
+resend the whole series?
 
-> Sorry for using the simple table format for the table. I only noticed the
-> list table format is preferred after creating the table. Shall I convert
-> it for the next submission? Sounds like a downside to me, as for a table
-> this small the simple table format seems way easier to parse when reading
-> the plain text file.
-
-The thing that matters is readability in the plain-text format.  Your
-table here is fine, no reason to redo it.
-
-With regard to the patch itself:
-
-> diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
-> index 28a869c509a0..aabd307a178a 100644
-> --- a/Documentation/admin-guide/tainted-kernels.rst
-> +++ b/Documentation/admin-guide/tainted-kernels.rst
-> @@ -1,10 +1,102 @@
->  Tainted kernels
->  ---------------
->  
-> -Some oops reports contain the string **'Tainted: '** after the program
-> -counter. This indicates that the kernel has been tainted by some
-> -mechanism.  The string is followed by a series of position-sensitive
-> -characters, each representing a particular tainted value.
-> +The kernel will mark itself as 'tainted' when something occurs that
-> +might be relevant later when investigating problems. Don't worry
-> +yourself too much about this, most of the time it's not a problem to run
-
-s/yourself//
-
-> +a tainted kernel; the information is mainly of interest once someone
-> +wants to investigate some problem, as its real cause might be the event
-> +that got the kernel tainted. 
-
-While this is true, an oops with a taint flag will often be ignored by
-developers.  It's worth saying that, if at all possible, a problem needs
-to be reproduced on an untainted kernel.
-
-> That's why the kernel will remain tainted
-> +even after you undo what caused the taint (i.e. unload a proprietary
-> +kernel module), to indicate the kernel remains not trustworthy. That's
-> +also why the kernel will print the tainted state when it noticed
-> +ainternal problem (a 'kernel bug'), a recoverable error ('kernel oops')
-> +or a nonrecoverable error ('kernel panic') and writes debug information
-> +about this to the logs ``dmesg`` outputs. It's also possible to check
-> +the tainted state at runtime through a file in ``/proc/``.
-> +
-> +
-> +Tainted flag in bugs, oops or panics messages
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +You find the tainted state near the top after the list of loaded
-> +modules.  The state is part of the line that begins with mentioning CPU
-> +('CPU:'), Process ID ('PID:'), and a shorted name of the executed
-> +command ('Comm:') that triggered the event. 
-
-This seems like a good place for an example.
-
-> When followed by **'Not
-> +tainted: '** the kernel was not tainted at the time of the event; if it
-> +was, then it will print **'Tainted: '** and characters either letters or
-> +blanks. The meaning of those characters is explained in below table. The
-> +output for example might state '``Tainted: P   WO``' when the kernel got
-> +tainted earlier because a proprietary Module (``P``) was loaded, a
-> +warning occurred (``W``), and an externally-built module was loaded
-> +(``O``). To decode other letters use below table.
-> +
-> +
-> +Decoding tainted state at runtime
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +At runtime, you can query the tainted state by reading
-> +``/proc/sys/kernel/tainted``. If that returns ``0``, the kernel is not
-> +tainted; any other number indicates the reasons why it is. You might
-> +find that number in below table if there was only one reason that got
-> +the kernel tainted. If there were multiple reasons you need to decode
-> +the number, as it is a bitfield, where each bit indicates the absence or
-> +presence of a particular type of taint. You can use the following python
-> +command to decode::
-
-Here's an idea if you feel like improving this: rather than putting an
-inscrutable program inline, add a taint_status script to scripts/ that
-prints out the status in fully human-readable form, with the explanation
-for every set bit.
-
-> +
-> +	$ python3 -c 'from pprint import pprint; from itertools import zip_longest; pprint(list(zip_longest(range(1,17), reversed(bin(int(open("/proc/sys/kernel/tainted").read()))[2:]),fillvalue="0")))'
-> +	[(1, '1'),
-> +	 (2, '0'),
-> +	 (3, '0'),
-> +	 (4, '0'),
-> +	 (5, '0'),
-> +	 (6, '0'),
-> +	 (7, '0'),
-> +	 (8, '0'),
-> +	 (9, '0'),
-> +	 (10, '1'),
-> +	 (11, '0'),
-> +	 (12, '0'),
-> +	 (13, '1'),
-> +	 (14, '0'),
-> +	 (15, '0'),
-> +	 (16, '0')]
-> +
-> +In this case ``/proc/sys/kernel/tainted`` contained ``4609``, as the
-> +kernel got tainted because a proprietary Module (Bit 1) got loaded, a
-> +warning occurred (Bit 10), and an externally-built module got loaded
-> +(Bit 13). To decode other bits use below table.
-> +
-> +
-> +Table for decoding tainted state
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-As noted before, this table is entirely readable and need not be messed
-with. 
-
-> +===  ===  ======  ========================================================
-> +Bit  Log     Int  Reason that got the kernel tainted
-> +===  ===  ======  ========================================================
-> + 1)  G/P       0  proprietary module got loaded
-
-I'd s/got/was/ throughout.  Also, this is the kernel, we start counting at
-zero! :)
-
-> + 2)  _/F       2  module was force loaded
-> + 3)  _/S       4  SMP kernel oops on a officially SMP incapable processor
-> + 4)  _/R       8  module was force unloaded
-> + 5)  _/M      16  processor reported a Machine Check Exception (MCE)
-> + 6)  _/B      32  bad page referenced or some unexpected page flags
-> + 7)  _/U      64  taint requested by userspace application
-> + 8)  _/D     128  kernel died recently, i.e. there was an OOPS or BUG
-> + 9)  _/A     256  ACPI table overridden by user
-> +10)  _/W     512  kernel issued warning
-> +11)  _/C    1024  staging driver got loaded
-> +12)  _/I    2048  workaround for bug in platform firmware in use
-> +13)  _/O    4096  externally-built ("out-of-tree") module got loaded
-> +14)  _/E    8192  unsigned module was loaded
-> +15)  _/L   16384  soft lockup occurred
-> +16)  _/K   32768  Kernel live patched
-
-A look at kernel.h shows two more flags.  TAINT_AUX doesn't seem to be
-used, but TAINT_RANDSTRUCT is.
-
-> +===  ===  ======  ========================================================
-> +
-> +Note: To make reading easier ``_`` is representing a blank in this
-> +table.
-> +
-> +More detailed explanation for tainting
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  
->   1)  ``G`` if all modules loaded have a GPL or compatible license, ``P`` if
->       any proprietary module has been loaded.  Modules without a
-> @@ -52,8 +144,3 @@ characters, each representing a particular tainted value.
->  
->   16) ``K`` if the kernel has been live patched.
->  
-> -The primary reason for the **'Tainted: '** string is to tell kernel
-> -debuggers if this is a clean kernel or if anything unusual has
-> -occurred.  Tainting is permanent: even if an offending module is
-> -unloaded, the tainted value remains to indicate that the kernel is not
-> -trustworthy.
-> -- 
-> 2.18.1
-
-Thanks,
-
-jon
+>
+> >>
+> >> --
+> >> Regards,
+> >> Vincenzo
+> >>
+> >> --
+> >> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> >> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> >> To post to this group, send email to kasan-dev@googlegroups.com.
+> >> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2bf7415e-2724-b3c3-9571-20c8b6d43b92%40arm.com.
+> >> For more options, visit https://groups.google.com/d/optout.
+>
+> --
+> Regards,
+> Vincenzo
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To post to this group, send email to kasan-dev@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/b99b331d-22ca-b9db-8677-4896c427ef10%40arm.com.
+> For more options, visit https://groups.google.com/d/optout.
