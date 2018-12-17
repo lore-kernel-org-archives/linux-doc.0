@@ -5,36 +5,36 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EEC3E7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Dec 2018 14:13:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 861207DD29
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Dec 2018 14:14:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727478AbeLQONn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Dec 2018 09:13:43 -0500
-Received: from esa5.microchip.iphmx.com ([216.71.150.166]:52511 "EHLO
-        esa5.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726767AbeLQONn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Dec 2018 09:13:43 -0500
+        id S1732120AbeLQOO1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Dec 2018 09:14:27 -0500
+Received: from esa2.microchip.iphmx.com ([68.232.149.84]:44908 "EHLO
+        esa2.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387442AbeLQOOA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Dec 2018 09:14:00 -0500
 X-IronPort-AV: E=Sophos;i="5.56,365,1539673200"; 
-   d="scan'208";a="22366013"
+   d="scan'208";a="24311049"
 Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 17 Dec 2018 07:13:43 -0700
+  by esa2.microchip.iphmx.com with ESMTP/TLS/AES128-SHA; 17 Dec 2018 07:13:59 -0700
 Received: from NAM02-SN1-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.76.106) with Microsoft SMTP Server (TLS) id
- 14.3.352.0; Mon, 17 Dec 2018 07:13:41 -0700
+ email.microchip.com (10.10.76.37) with Microsoft SMTP Server (TLS) id
+ 14.3.352.0; Mon, 17 Dec 2018 07:13:59 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=microchiptechnology.onmicrosoft.com;
  s=selector1-microchiptechnology-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tuJv263tGe8h3AzwfWZaMNbSWZNEBAAuTghyVLMHBGs=;
- b=MRwIiVwFtDteUs1qZyGNXRkpoK4H6Db+ftXgLmHaKsfKoZYpJO0b93Tp432PalAbhWyPHGA+Aqhn74ITPzwSBCWx+v6ppamwmpxMGCWqQyS4nASORqQVee0T9ssQfcWWhLcL0mdddklWMf3cIJoNlOPKWZlcAQb92f+ISxKx+BE=
+ bh=XvVjPyoaV+bK8s4DYjcBuwUc1zpXS76CKb2RhaH4FuE=;
+ b=ZsAh0GblGMqmnSNf8GithG2oFf5VmSwg1VsFwGHSPb+pjAXAsg6OF2EVLc+7v/O6EtLzsyLFJroPOTCEuREnzVkIZsVxQiwuv8fgcslPpcDeYtRdIeZTFKIgR2AFOan4Z+DOXkqm71Hs2GmHMLoMfDC8c4h2urVh/IeuQca8akI=
 Received: from BY2PR11MB0744.namprd11.prod.outlook.com (10.163.112.142) by
  BY2PR11MB0584.namprd11.prod.outlook.com (10.163.159.15) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1425.19; Mon, 17 Dec 2018 14:13:37 +0000
+ 15.20.1425.19; Mon, 17 Dec 2018 14:13:56 +0000
 Received: from BY2PR11MB0744.namprd11.prod.outlook.com
  ([fe80::cd88:53bd:589a:ab7f]) by BY2PR11MB0744.namprd11.prod.outlook.com
  ([fe80::cd88:53bd:589a:ab7f%2]) with mapi id 15.20.1425.021; Mon, 17 Dec 2018
- 14:13:37 +0000
+ 14:13:56 +0000
 From:   <Claudiu.Beznea@microchip.com>
 To:     <thierry.reding@gmail.com>, <robh@kernel.org>, <corbet@lwn.net>,
         <Nicolas.Ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
@@ -43,11 +43,13 @@ CC:     <linux-pwm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <Claudiu.Beznea@microchip.com>
-Subject: [PATCH v7 0/6] extend PWM framework to support PWM modes
-Thread-Topic: [PATCH v7 0/6] extend PWM framework to support PWM modes
-Thread-Index: AQHUlhKzksFWWUwQG0uTo0qGzE/WsQ==
-Date:   Mon, 17 Dec 2018 14:13:36 +0000
-Message-ID: <1545055999-23950-1-git-send-email-claudiu.beznea@microchip.com>
+Subject: [PATCH v7 6/6] pwm: atmel: add push-pull mode support
+Thread-Topic: [PATCH v7 6/6] pwm: atmel: add push-pull mode support
+Thread-Index: AQHUlhK/YNrd5tGcekuRqvgsmc9ZwQ==
+Date:   Mon, 17 Dec 2018 14:13:56 +0000
+Message-ID: <1545055999-23950-7-git-send-email-claudiu.beznea@microchip.com>
+References: <1545055999-23950-1-git-send-email-claudiu.beznea@microchip.com>
+In-Reply-To: <1545055999-23950-1-git-send-email-claudiu.beznea@microchip.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -60,25 +62,25 @@ authentication-results: spf=none (sender IP is )
 x-ms-exchange-messagesentrepresentingtype: 1
 x-originating-ip: [94.177.32.154]
 x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;BY2PR11MB0584;6:Lqnepj9WhEoN3GFo0R3/YhePRZQXSh9SQaIkWEYM4PVfNJXYlyzyDVSxNvjV9ZxHyoRybOyjtzFVKG9QPPKlKzEiLrASCGK3+dQJ9gQnTuIHGsqR2iyjhh26Qf0uI23rpYpVIPI+UyaYFKvf3T+Kl2ZsX3/c5CWIxx2JBSFC8krZfeeGw5yici8aLZ8y5OLRhtA+LgIy0hFGyy9wDdpCuZaEryo8i6ivWlj1QzVuXwc48MO0A+7hwzLAilV3ZzC4BvMBOSemU5mPXDJhMGV4NoHJ/uFtmls0zfHs5fijt3/cEAXqQacbl3Xv8zCvT5xpwUx9P6gaVnbamEQQ+LU8UpuG4DG3tTlP5GmFsjxec/rn3hR1xsV5Mkmw+MSqlUQsXZc21DZBzDSSnNRFuid4ItfODSb+zmriAnbXuq3IR7tNJCn9pCA/o5giwXrY8bnKLDMa39jY9D9VVvdUpxiWJg==;5:Ff3wXHr5MNEEdJNQmyv4txehLShOuzSTrFpiDA61v2uuIrTcSY9JekJpFZ6ekoBET95N1+ecWyY89hRbdD4R9Xie68xXNqOOBrEiNBJKPZPCZgrq2BF1GwQTVGRZ30GU7htXLTnaz+zoRJfFO3OV/6gLrc8OTKSeyX9j9xrxWig=;7:qX1j/t+WMsHObF5YUBZR6GI1b+a+yCXp1tPAoV01CJu0guXdp7jGLw5MTycpvWhskYcIlRI32RTAzkt0ypBUPdOjif9nP1Hw3dp3qMXOubbBMeUswGod1mejvogUcekbeH0wn6B/1uy63A+HWUCUxg==
-x-ms-office365-filtering-correlation-id: 4dc95255-baf5-48fb-f7ae-08d66429d5f3
+x-microsoft-exchange-diagnostics: 1;BY2PR11MB0584;6:AoQ0QGzzp+MlkHg3v2sP7hNYfj1ngPsJEbjXtdap8AcRG1MQEfSe+G6U/OYpzL/UJXIm8jwxoRUfvIIAmTZsxGxq2i9KZEE16i7O4cxJ/mjK3nweig1UEEd8lGFkAs1WA+2WebEeLKw8RikoG6xvXXxC6gzsWLSojC1KNqfjIRTSOhgX5s37NCM9OvEHrEnMtOOkggh2piBwSKcyCbMNvTto9nROo3BGueV1aTwaMa4tf5dLq0yweTxe6QeecCj2zwCvsNj8xOYH9dXHR3G9OcYg3mzAeNjjUxbQND9+O50lb9d596xf4AX1oy9TfeKSXbR/XXWNjmruOcJWS9Y+HY6VMvsLMfnm4i3kYjd30FC9iYDEZVSi8I4pghg1g7AjMdAZSHxg8EYXOPBd/t0aGx+G9nDOu+IFPMgbS1sFxmJ3V8aVd/qxDE7bcAOelvvyfWCxAkAz4XvQbX+h7YAMvA==;5:mpH4D+rJHtyeGjSyXhjLVYqnZllNc6uh2v4h38saophONl7KfXesvx2JArPZCZGZAqoeVKy5AG4QiSX2f1yUBYyyukfDLI6p3F/N0qTKliOTigUHm7w+mjrepkchZHGV63n2XlWSlksOvWcAFi7uwcnW1/dodte/keiv7/NSgBc=;7:7bkb0zWRPMRZYuzGjGd1twYNWM7arXihwqwBpy8cAcR6pmP8J7BzE9Y0Ydqj4qWAyh1tNlmILDxaKp/DvSdfpnnYNIfyPt1LiGcLolKC6VQhZx6jFK6TEMJ93jc6u5Ir7PISSeoSas3OLhm8dEYl0w==
+x-ms-office365-filtering-correlation-id: f10fc0e4-9509-47f4-9fdb-08d66429e1c0
 x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(2017052603328)(7153060)(7193020);SRVR:BY2PR11MB0584;
 x-ms-traffictypediagnostic: BY2PR11MB0584:
-x-microsoft-antispam-prvs: <BY2PR11MB05843412CAEEE44416F1846787BC0@BY2PR11MB0584.namprd11.prod.outlook.com>
+x-microsoft-antispam-prvs: <BY2PR11MB05846C361C9F13EA236C741887BC0@BY2PR11MB0584.namprd11.prod.outlook.com>
 x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(3230021)(999002)(6040522)(2401047)(8121501046)(5005006)(10201501046)(3002001)(3231475)(944501520)(4982022)(52105112)(93006095)(93001095)(148016)(149066)(150057)(6041310)(20161123560045)(20161123564045)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(201708071742011)(7699051)(76991095);SRVR:BY2PR11MB0584;BCL:0;PCL:0;RULEID:;SRVR:BY2PR11MB0584;
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(3230021)(999002)(6040522)(2401047)(8121501046)(5005006)(10201501046)(3002001)(3231475)(944501520)(52105112)(93006095)(93001095)(148016)(149066)(150057)(6041310)(20161123560045)(20161123564045)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(201708071742011)(7699051)(76991095);SRVR:BY2PR11MB0584;BCL:0;PCL:0;RULEID:;SRVR:BY2PR11MB0584;
 x-forefront-prvs: 08897B549D
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(396003)(39860400002)(376002)(346002)(366004)(199004)(189003)(8676002)(25786009)(68736007)(6506007)(386003)(6116002)(102836004)(5660300001)(6436002)(966005)(66066001)(3846002)(39060400002)(478600001)(107886003)(71190400001)(2501003)(72206003)(256004)(305945005)(71200400001)(6486002)(7736002)(186003)(97736004)(26005)(52116002)(316002)(54906003)(476003)(6306002)(4326008)(2201001)(99286004)(14454004)(2616005)(2906002)(6512007)(36756003)(53936002)(110136005)(86362001)(6636002)(8936002)(81156014)(486006)(81166006)(105586002)(106356001);DIR:OUT;SFP:1101;SCL:1;SRVR:BY2PR11MB0584;H:BY2PR11MB0744.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(396003)(39860400002)(376002)(346002)(366004)(199004)(189003)(8676002)(25786009)(68736007)(6506007)(386003)(6116002)(102836004)(5660300001)(6436002)(66066001)(3846002)(39060400002)(478600001)(107886003)(71190400001)(2501003)(72206003)(256004)(305945005)(71200400001)(6486002)(7736002)(186003)(97736004)(26005)(52116002)(316002)(54906003)(476003)(4326008)(2201001)(99286004)(14444005)(14454004)(11346002)(2616005)(446003)(2906002)(76176011)(6512007)(36756003)(53936002)(110136005)(86362001)(6636002)(8936002)(81156014)(575784001)(486006)(81166006)(105586002)(106356001);DIR:OUT;SFP:1101;SCL:1;SRVR:BY2PR11MB0584;H:BY2PR11MB0744.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: microchip.com does not designate
  permitted sender hosts)
-x-microsoft-antispam-message-info: nzOhB5H+SjrJtQV7XO0pOBydMZSA9SspMb3heMdvtC7DT2C2qeI4yYSHvhBbisCkjGwAsbpFsv+HtY7dWGaW8kdPlfPqa3Rh0M9pYlT3cGIf/TWy5TiycMcLb9wCTiQh6uEL84P9KqFwFPFhQ3Brr+LITiB5SN3oRx+XUH37adpSLf+VLc7OyXbCDJy96v1KFUBHYkBlvSqKgvj6R95D6lmoF4RoMzCdwQOae6pKSUtx1H8bPoqihpZ8/9ESr4GUtwUuVO6qAv6gQNXm0h1l/abqJZbeGu9HnXYsdCCc/5Q4Y9BYQqOXYEve+3wjNO7Q
+x-microsoft-antispam-message-info: ulsTaBJ+0Tf6UoEBzf6DJxt5Gqwuaeg4ihmAyPgWtYe0ebi7rQGA/WRESkAIUV4fxsJUgxhky7IF/hFgqrCz24UkWGbKMC95fNzRQ9nWEqfmXQbsW0Kw/kKU6Rk19PlnL5sColN/wRZ1Cc2AhuuUP/iY/wIHBEaufYswh5g6DKeGa0qV7iO7GFhhHa0Gk9V9+xracJsirwxWUWjfARXVzM67ZywlduRBmboNEZ2ibydrDGEJ77IFn+9T9SLDdqX3LZseL7//4/5TgJTlehjR+5VNHQfppm89gB4guOU1W6u1yPskDxHVBbiQnmbARnGp
 spamdiagnosticoutput: 1:99
 spamdiagnosticmetadata: NSPM
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4dc95255-baf5-48fb-f7ae-08d66429d5f3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2018 14:13:36.8859
+X-MS-Exchange-CrossTenant-Network-Message-Id: f10fc0e4-9509-47f4-9fdb-08d66429e1c0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2018 14:13:56.6290
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
@@ -91,226 +93,105 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Claudiu Beznea <claudiu.beznea@microchip.com>
 
-Hi,
+Add support for PWM push-pull mode. This is only supported by SAMA5D2 SoCs.
 
-This series extends PWM framework with PWM modes.
+Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+---
+ drivers/pwm/pwm-atmel.c | 40 ++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 36 insertions(+), 4 deletions(-)
 
-The current patch series add the following PWM modes:
-- PWM mode normal
-- PWM mode complementary
-- PWM mode push-pull
-
-In the following description PWMx_y refers to output y of PWM with ID x.
-
-Normal mode - for PWM channels with one output; output waveforms looks like
-this:
-              __      __      __      __                                   =
-     =20
-    PWMx   __|  |____|  |____|  |____|  |__                                =
-     =20
-             ^       ^       ^       ^                                     =
-     =20
-
-    Where '^' specifies the beginning of a period.
-
-Since PWMs with more than one output per channel could be used as one
-output PWM the normal mode is the default mode for all PWMs (if not specifi=
-ed
-otherwise).
-
-Complementary mode - for PWM channels with two outputs; output waveforms
-for a PWM channel in complementary mode looks line this:
-              __      __      __      __                                   =
-     =20
-    PWMx_0 __|  |____|  |____|  |____|  |__                                =
-     =20
-           __    ____    ____    ____    __                                =
-     =20
-    PWMx_1   |__|    |__|    |__|    |__|                                  =
-     =20
-             ^       ^       ^       ^                                     =
-     =20
-
-    Where '^' specifies the beginning of a period.
-
-Push-pull mode - for PWM channels with two outputs; output waveforms for a
-PWM channel in push-pull mode with normal polarity looks like this:
-              __              __                                           =
-      =20
-    PWMx_0 __|  |____________|  |__________                                =
-      =20
-                      __              __                                   =
-      =20
-    PWMx_1 __________|  |____________|  |__                                =
-      =20
-             ^       ^       ^       ^                                     =
-      =20
-
-    If polarity is inversed:
-           __    ____________    __________                                =
-      =20
-    PWMx_0   |__|            |__|                                          =
-      =20
-           __________    ____________    __                                =
-      =20
-    PWMx_1           |__|            |__|                                  =
-      =20
-             ^       ^       ^       ^                                     =
-      =20
-
-    Where '^' specifies the beginning of a period.
+diff --git a/drivers/pwm/pwm-atmel.c b/drivers/pwm/pwm-atmel.c
+index b72cacd5dca3..650d475a4c34 100644
+--- a/drivers/pwm/pwm-atmel.c
++++ b/drivers/pwm/pwm-atmel.c
+@@ -33,8 +33,11 @@
 =20
-The PWM working modes are per PWM channel registered as PWM's capabilities.
-The driver registers itself to PWM core a get_caps() function, in
-struct pwm_ops, that will be used by PWM core to retrieve PWM capabilities.
-If this function is not registered in driver's probe, a default function
-will be used to retrieve PWM capabilities. Currently, the default
-capabilities includes only PWM normal mode.
-
-PWM state has been updated to keep PWM mode. PWM mode could be configured
-via sysfs. pwm_apply_state() will do the preliminary validation for PWM mod=
-e
-to be applied.
-
-In sysfs, user could get PWM modes by reading mode file of PWM device:
-root@sama5d2-xplained:/sys/class/pwm/pwmchip0/pwm2# ls -l
-total 0
--r--r--r-- 1 root root 4096 Oct 11 18:08 capture
--rw-r--r-- 1 root root 4096 Oct 11 18:14 duty_cycle
--rw-r--r-- 1 root root 4096 Oct 11 18:11 enable
--rw-r--r-- 1 root root 4096 Oct 11 18:14 mode
--rw-r--r-- 1 root root 4096 Oct 11 18:09 period
--rw-r--r-- 1 root root 4096 Oct 11 18:14 polarity
-drwxr-xr-x 2 root root    0 Oct 11 18:08 power
--rw-r--r-- 1 root root 4096 Oct 11 18:08 uevent
-root@sama5d2-xplained:/sys/class/pwm/pwmchip0/pwm2# cat mode
-normal complementary [push-pull]
-
-The mode enclosed in bracket is the currently active mode.
-
-The mode could be set, via sysfs, by writing to mode file one of the modes
-displayed at read:
-root@sama5d2-xplained:/sys/class/pwm/pwmchip0/pwm2# echo normal > mode
-root@sama5d2-xplained:/sys/class/pwm/pwmchip0/pwm2# cat mode
-[normal] complementary push-pull=20
-
-The PWM push-pull mode could be usefull in applications like half bridge
-converters (see [1], page 2126).
-
-This series also add PWM modes support for Atmel/Microchip SoCs.
-
-Thank you,
-Claudiu Beznea
-
-[1] http://ww1.microchip.com/downloads/en/DeviceDoc/DS60001476B.pdf
-
-Changes in v7:
-- use proper number of patches in cover letter title
-
-Changes in v6:
-- get rid of DT changes;
-- get rid of get_default_caps member of struct pwm_chip;
-- remove struct pwm_chip argument of pwm_get_caps(); caps are retrieved
-  in the context of a PWM device and at this moment the chip should be vali=
-d;
-  also, get rid of chip->ops check in pwm_get_caps();
-- rename pwm_mode_get_valid() function to pwm_get_default_modebit();
-- rename mode member of struct pwm_caps to modes_msk;
-- rename pwm_mode_valid() function to pwm_supports_mode() and rename
-  its mode argument to modebit to emphasize what should be passed to it;
-- rename pwm_mode_desc() to pwm_get_mode_name() and avoid returning "invali=
-d"
-  string; pwm_get_mode_name() is called only with a valid modebit;
-- rename mode member of struct pwm_state to modebit to emphasize that it st=
-ores
-  a bitmask;
-- use const arguments for pwm_get_default_modebit(), pwm_get_caps(),
-  pwm_supports_mode() and get_caps() member of struct pwm_ops;
-- change return type of pwm_ops::get_caps() to int;
-- rename PWMC_MODE() macro to PWM_MODE_BIT();
-- rename PWMC_MODE_<mode-name>_BIT enum members to PWM_MODE_<mode-name>;
-- remove patches 2/9, 3/9, 4/9 from previous version since they were relate=
-d
-  to DT changes;
-- use PWMx_y naming in documentation to emphasize it is talked about output
-  y of PWM x;
-- use 1/3 duty factor in waveforms from documentation patches;
-- use '^' to emphasize the beginning of a new period in documentation patch=
-es.
-
-Changes in v5:
-- solved kbuild errors by removing dummy functions for case where
-  CONFIG_PWM is not defined; adopted this approach since the removed
-  function are used only when CONFIG_PWM is defined (in PWM core
-  and few drivers from drivers/pwm/ directory)
-
-Changes in v4:
-- removed changes related to pwm_config() as per maintainer proposals
-- added pwm_mode_get_valid() to retrieve a valid PWM mode fror PWM device
-  instead of using BIT(ffs(caps.mode) - 1) and changed drivers to use
-  pwm_mode_get_valid() instead of pwm_get_caps() + BIT(ffs(caps.mode) - 1)
-  (patches 2, 3, 4 from this series)
-- renamed PWM_MODE() macro in PWMC_MODE() to avoid conflicts with
-  pwm-sun4i.c driver ('C' stands for capability)
-- removed pwm_caps_valid() function
-- renamed PWM_DTMODE_COMPLEMENTARY and PWM_DTMODE_PUSH_PULL macros in
-  PWM_MODE_COMPLEMENTARY and PWM_MODE_PUSH_PULL
-
-Changes in v3:
-- removed changes related to only one of_xlate function for all PWM drivers
-- switch to PWM capabilities per PWM channel nor per PWM chip
-- squash documentation and bindings patches as requeted by reviewer
-- introduced PWM_MODE(name) macro and used a bit enum for pwm modes
-- related to DT bindings, used flags cell also for PWM modes
-- updated of_xlate specific functions with "state->mode =3D mode;"
-  instructions to avoid pwm_apply_state() failures
-- use available modes for PWM channel in pwm_config() by first calling
-  pwm_get_caps() to get caps.modes
-- use loops through available modes in mode_store()/mode_show() and also in
-  of_pwm_xlate_with_flags() instead of "if else" instructions; in this way,
-  the addition of a new mode is independent of this code sections
-- use DTLI=3D1, DTHI=3D0 register settings to obtain push-pull mode wavefor=
-ms
-  for Atmel/Microchip PWM controller.
-
-Changes in v2:
-- remove of_xlate and of_pwm_n_cells and use generic functions to pharse DT
-  inputs; this is done in patches 1, 2, 3, 4, 5, 6, 7 of this series; this =
-will
-  make easy the addition of PWM mode support from DT
-- add PWM mode normal
-- register PWM modes as capabilities of PWM chips at driver probe and, in c=
-ase
-  driver doesn't provide these capabilities use default ones
-- change the way PWM mode is pharsed via DT by using a new input for pwms
-  binding property
-
-
-Claudiu Beznea (9):
-  pwm: extend PWM framework with PWM modes
-  pwm: clps711x: populate PWM mode in of_xlate function
-  pwm: cros-ec: populate PWM mode in of_xlate function
-  pwm: pxa: populate PWM mode in of_xlate function
-  pwm: add PWM modes
-  pwm: atmel: add pwm capabilities
-  pwm: add push-pull mode support
-  pwm: add documentation for pwm push-pull mode
-  pwm: atmel: add push-pull mode support
-
- Documentation/devicetree/bindings/pwm/pwm.txt |  11 ++-
- Documentation/pwm.txt                         |  42 ++++++++-
- drivers/pwm/core.c                            | 125 ++++++++++++++++++++++=
-+++-
- drivers/pwm/pwm-atmel.c                       | 118 +++++++++++++++++-----=
---
- drivers/pwm/pwm-clps711x.c                    |  10 ++-
- drivers/pwm/pwm-cros-ec.c                     |   1 +
- drivers/pwm/pwm-pxa.c                         |   1 +
- drivers/pwm/sysfs.c                           |  61 +++++++++++++
- include/dt-bindings/pwm/pwm.h                 |   2 +
- include/linux/pwm.h                           |  64 +++++++++++++
- 10 files changed, 395 insertions(+), 40 deletions(-)
-
+ #define PWM_CMR			0x0
+ /* Bit field in CMR */
+-#define PWM_CMR_CPOL		(1 << 9)
+-#define PWM_CMR_UPD_CDTY	(1 << 10)
++#define PWM_CMR_CPOL		BIT(9)
++#define PWM_CMR_UPD_CDTY	BIT(10)
++#define PWM_CMR_DTHI		BIT(17)
++#define PWM_CMR_DTLI		BIT(18)
++#define PWM_CMR_PPM		BIT(19)
+ #define PWM_CMR_CPRE_MSK	0xF
+=20
+ /* The following registers for PWM v1 */
+@@ -219,16 +222,19 @@ static int atmel_pwm_apply(struct pwm_chip *chip, str=
+uct pwm_device *pwm,
+ {
+ 	struct atmel_pwm_chip *atmel_pwm =3D to_atmel_pwm_chip(chip);
+ 	struct pwm_state cstate;
++	struct pwm_caps caps;
+ 	unsigned long cprd, cdty;
+ 	u32 pres, val;
+ 	int ret;
+=20
+ 	pwm_get_state(pwm, &cstate);
++	pwm_get_caps(pwm, &caps);
+=20
+ 	if (state->enabled) {
+ 		if (cstate.enabled &&
+ 		    cstate.polarity =3D=3D state->polarity &&
+-		    cstate.period =3D=3D state->period) {
++		    cstate.period =3D=3D state->period &&
++		    cstate.modebit =3D=3D state->modebit) {
+ 			cprd =3D atmel_pwm_ch_readl(atmel_pwm, pwm->hwpwm,
+ 						  atmel_pwm->data->regs.period);
+ 			atmel_pwm_calculate_cdty(state, cprd, &cdty);
+@@ -263,6 +269,18 @@ static int atmel_pwm_apply(struct pwm_chip *chip, stru=
+ct pwm_device *pwm,
+ 			val &=3D ~PWM_CMR_CPOL;
+ 		else
+ 			val |=3D PWM_CMR_CPOL;
++
++		/* PWM mode. */
++		if (caps.modes_msk & PWM_MODE_BIT(PUSH_PULL)) {
++			if (state->modebit =3D=3D PWM_MODE_BIT(PUSH_PULL)) {
++				val |=3D PWM_CMR_PPM | PWM_CMR_DTLI;
++				val &=3D ~PWM_CMR_DTHI;
++			} else {
++				val &=3D ~(PWM_CMR_PPM | PWM_CMR_DTLI |
++					 PWM_CMR_DTHI);
++			}
++		}
++
+ 		atmel_pwm_ch_writel(atmel_pwm, pwm->hwpwm, PWM_CMR, val);
+ 		atmel_pwm_set_cprd_cdty(chip, pwm, cprd, cdty);
+ 		mutex_lock(&atmel_pwm->isr_lock);
+@@ -319,6 +337,20 @@ static const struct atmel_pwm_data atmel_pwm_data_v2 =
+=3D {
+ 	},
+ };
+=20
++static const struct atmel_pwm_data atmel_pwm_data_v3 =3D {
++	.regs =3D {
++		.period		=3D PWMV2_CPRD,
++		.period_upd	=3D PWMV2_CPRDUPD,
++		.duty		=3D PWMV2_CDTY,
++		.duty_upd	=3D PWMV2_CDTYUPD,
++	},
++	.caps =3D {
++		.modes_msk =3D PWM_MODE_BIT(NORMAL) |
++			     PWM_MODE_BIT(COMPLEMENTARY) |
++			     PWM_MODE_BIT(PUSH_PULL),
++	},
++};
++
+ static const struct platform_device_id atmel_pwm_devtypes[] =3D {
+ 	{
+ 		.name =3D "at91sam9rl-pwm",
+@@ -341,7 +373,7 @@ static const struct of_device_id atmel_pwm_dt_ids[] =3D=
+ {
+ 		.data =3D &atmel_pwm_data_v2,
+ 	}, {
+ 		.compatible =3D "atmel,sama5d2-pwm",
+-		.data =3D &atmel_pwm_data_v2,
++		.data =3D &atmel_pwm_data_v3,
+ 	}, {
+ 		/* sentinel */
+ 	},
 --=20
 2.7.4
 
