@@ -1,190 +1,216 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6A8367D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Dec 2018 18:23:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0E2D67D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Dec 2018 18:24:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388815AbeLQSX6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Dec 2018 13:23:58 -0500
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:41109 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388812AbeLQSX5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Dec 2018 13:23:57 -0500
-Received: by mail-qk1-f195.google.com with SMTP id 189so7904464qkj.8
-        for <linux-doc@vger.kernel.org>; Mon, 17 Dec 2018 10:23:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=P4GuFcNbaeLR0enY0NKknfehQDA9aBA5NA7dHQ7FTFc=;
-        b=anF8KtfH5h2u/u82lNXVbLnHnW4pRnT8emNbzdMGu4BVrB6/eK5wFEc29YYbAerAD7
-         8TFU2Ikpx/oTA3wsOw1h3HHmT2g6P1K8dYE1MjqHdLadMKKWEVNNECn2+pfgb4O6TPzC
-         W66NLk1F8RRLiJKu4NV4aP4pNyXJ8kTICIsH0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=P4GuFcNbaeLR0enY0NKknfehQDA9aBA5NA7dHQ7FTFc=;
-        b=SwROMphkOfLHPKgJBBj555gNW1ZkpKAbsP8DEh25pQoEgQvhmXlLQx9uSqanvORj3B
-         50d/+ou7XvrzhRGwbDCaXkMdElVvje7bKkLtn5bumP0l9CjkBXZ3eqmFQkLLp376Q/EP
-         mlXhd85xu3TB61Xykj3XtknECnu2cAuBTcGx8Db01U51M74/XPwb8BFKYPkHn8bsNi2I
-         AIsBi6LQGSBmEZQCF/NbecOgowjoU9oIzGHqPCJdEwTgYEO1LuIViu8STRem313DLk58
-         pw/IkLgWTfcIErGDXntRjtQk1/vbXqTVvrKxAMG+wpQ2zD3srHMDqzSn099t7idzPN7M
-         5kbA==
-X-Gm-Message-State: AA+aEWa7GycWv6qKKAkCIKQFdJNW79DwunrPFHbcpAuofXRZvBS3vN6m
-        zfyr5M2bgcLcGKVBsUs5dTQmHQ==
-X-Google-Smtp-Source: AFSGD/XZyrsTzjtpaEzU+kGYptY/buHBFtYNi8KH/A9Ew6NwUND1DLZc3TjqMKW8qwnyT1lL52vBOQ==
-X-Received: by 2002:a37:1ad9:: with SMTP id l86mr12842072qkh.54.1545071036115;
-        Mon, 17 Dec 2018 10:23:56 -0800 (PST)
-Received: from xanadu.home (modemcable228.104-82-70.mc.videotron.ca. [70.82.104.228])
-        by smtp.gmail.com with ESMTPSA id 5sm10590138qtw.50.2018.12.17.10.23.54
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 17 Dec 2018 10:23:54 -0800 (PST)
-Date:   Mon, 17 Dec 2018 13:23:52 -0500 (EST)
-From:   Nicolas Pitre <nicolas.pitre@linaro.org>
-To:     Nathan Chancellor <natechancellor@gmail.com>
-cc:     Russell King <linux@armlinux.org.uk>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tri Vo <trong@android.com>
-Subject: Re: [PATCH] ARM: Ensure that NEON code always compiles with Clang
-In-Reply-To: <20181215212304.19390-1-natechancellor@gmail.com>
-Message-ID: <nycvar.YSQ.7.76.1812171318310.3623@knanqh.ubzr>
-References: <20181215212304.19390-1-natechancellor@gmail.com>
-User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+        id S2387657AbeLQSYv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Dec 2018 13:24:51 -0500
+Received: from ms.lwn.net ([45.79.88.28]:54094 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388838AbeLQSYv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 Dec 2018 13:24:51 -0500
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id F1CF6739;
+        Mon, 17 Dec 2018 18:24:48 +0000 (UTC)
+Date:   Mon, 17 Dec 2018 11:24:37 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/1] RFC: Revamp admin-guide/tainted-kernels.rst to make
+ it more comprehensible
+Message-ID: <20181217112437.5fe868eb@lwn.net>
+In-Reply-To: <20181217152043.9989-1-linux@leemhuis.info>
+References: <20181217152043.9989-1-linux@leemhuis.info>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 15 Dec 2018, Nathan Chancellor wrote:
+On Mon, 17 Dec 2018 16:20:42 +0100
+Thorsten Leemhuis <linux@leemhuis.info> wrote:
 
-> While building arm32 allyesconfig, I ran into the following errors:
-> 
->   arch/arm/lib/xor-neon.c:17:2: error: You should compile this file with
->   '-mfloat-abi=softfp -mfpu=neon'
-> 
->   In file included from lib/raid6/neon1.c:27:
->   /home/nathan/cbl/prebuilt/lib/clang/8.0.0/include/arm_neon.h:28:2:
->   error: "NEON support not enabled"
-> 
-> Building V=1 showed NEON_FLAGS getting passed along to Clang but
-> __ARM_NEON__ was not getting defined. Ultimately, it boils down to Clang
-> only defining __ARM_NEON__ when targeting armv7, rather than armv6k,
-> which is the '-march' value for allyesconfig.
-> 
-> From lib/Basic/Targets/ARM.cpp in the Clang source:
-> 
->   // This only gets set when Neon instructions are actually available, unlike
->   // the VFP define, hence the soft float and arch check. This is subtly
->   // different from gcc, we follow the intent which was that it should be set
->   // when Neon instructions are actually available.
->   if ((FPU & NeonFPU) && !SoftFloat && ArchVersion >= 7) {
->     Builder.defineMacro("__ARM_NEON", "1");
->     Builder.defineMacro("__ARM_NEON__");
->     // current AArch32 NEON implementations do not support double-precision
->     // floating-point even when it is present in VFP.
->     Builder.defineMacro("__ARM_NEON_FP",
->                         "0x" + Twine::utohexstr(HW_FP & ~HW_FP_DP));
->   }
-> 
-> Ard Biesheuvel recommended explicitly adding '-march=armv7-a' at the
-> beginning of the NEON_FLAGS definitions so that __ARM_NEON__ always gets
-> definined by Clang. This doesn't functionally change anything because
-> that code will only run where NEON is supported, which is implicitly
-> armv7.
-> 
-> Link: https://github.com/ClangBuiltLinux/linux/issues/287
-> Suggested-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+> Hi! Find my first contribution to the kernel documentation in the reply to this
+> mail. Hopefully a lot more will follow.
 
-Did you test that this doesn't create issues with gcc e.g. complaints 
-from the linker that objects have incompatible architecture 
-specifications or similar annoyance? This already happened in the past 
-but I forget the exact scenario. If you already did, or after you do 
-validate with gcc as well, then you may add:
+Hopefully!  Looking forward to it.
 
-Acked-by: Nicolas Pitre <nico@linaro.org>
+> Sorry for using the simple table format for the table. I only noticed the
+> list table format is preferred after creating the table. Shall I convert
+> it for the next submission? Sounds like a downside to me, as for a table
+> this small the simple table format seems way easier to parse when reading
+> the plain text file.
 
+The thing that matters is readability in the plain-text format.  Your
+table here is fine, no reason to redo it.
 
+With regard to the patch itself:
 
-> ---
->  Documentation/arm/kernel_mode_neon.txt | 4 ++--
->  arch/arm/lib/Makefile                  | 2 +-
->  arch/arm/lib/xor-neon.c                | 2 +-
->  lib/raid6/Makefile                     | 2 +-
->  4 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/arm/kernel_mode_neon.txt b/Documentation/arm/kernel_mode_neon.txt
-> index 525452726d31..b9e060c5b61e 100644
-> --- a/Documentation/arm/kernel_mode_neon.txt
-> +++ b/Documentation/arm/kernel_mode_neon.txt
-> @@ -6,7 +6,7 @@ TL;DR summary
->  * Use only NEON instructions, or VFP instructions that don't rely on support
->    code
->  * Isolate your NEON code in a separate compilation unit, and compile it with
-> -  '-mfpu=neon -mfloat-abi=softfp'
-> +  '-march=armv7-a -mfpu=neon -mfloat-abi=softfp'
->  * Put kernel_neon_begin() and kernel_neon_end() calls around the calls into your
->    NEON code
->  * Don't sleep in your NEON code, and be aware that it will be executed with
-> @@ -87,7 +87,7 @@ instructions appearing in unexpected places if no special care is taken.
->  Therefore, the recommended and only supported way of using NEON/VFP in the
->  kernel is by adhering to the following rules:
->  * isolate the NEON code in a separate compilation unit and compile it with
-> -  '-mfpu=neon -mfloat-abi=softfp';
-> +  '-march=armv7-a -mfpu=neon -mfloat-abi=softfp';
->  * issue the calls to kernel_neon_begin(), kernel_neon_end() as well as the calls
->    into the unit containing the NEON code from a compilation unit which is *not*
->    built with the GCC flag '-mfpu=neon' set.
-> diff --git a/arch/arm/lib/Makefile b/arch/arm/lib/Makefile
-> index ad25fd1872c7..0bff0176db2c 100644
-> --- a/arch/arm/lib/Makefile
-> +++ b/arch/arm/lib/Makefile
-> @@ -39,7 +39,7 @@ $(obj)/csumpartialcopy.o:	$(obj)/csumpartialcopygeneric.S
->  $(obj)/csumpartialcopyuser.o:	$(obj)/csumpartialcopygeneric.S
+> diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+> index 28a869c509a0..aabd307a178a 100644
+> --- a/Documentation/admin-guide/tainted-kernels.rst
+> +++ b/Documentation/admin-guide/tainted-kernels.rst
+> @@ -1,10 +1,102 @@
+>  Tainted kernels
+>  ---------------
 >  
->  ifeq ($(CONFIG_KERNEL_MODE_NEON),y)
-> -  NEON_FLAGS			:= -mfloat-abi=softfp -mfpu=neon
-> +  NEON_FLAGS			:= -march=armv7-a -mfloat-abi=softfp -mfpu=neon
->    CFLAGS_xor-neon.o		+= $(NEON_FLAGS)
->    obj-$(CONFIG_XOR_BLOCKS)	+= xor-neon.o
->  endif
-> diff --git a/arch/arm/lib/xor-neon.c b/arch/arm/lib/xor-neon.c
-> index a6741a895189..4600b62d845f 100644
-> --- a/arch/arm/lib/xor-neon.c
-> +++ b/arch/arm/lib/xor-neon.c
-> @@ -14,7 +14,7 @@
->  MODULE_LICENSE("GPL");
+> -Some oops reports contain the string **'Tainted: '** after the program
+> -counter. This indicates that the kernel has been tainted by some
+> -mechanism.  The string is followed by a series of position-sensitive
+> -characters, each representing a particular tainted value.
+> +The kernel will mark itself as 'tainted' when something occurs that
+> +might be relevant later when investigating problems. Don't worry
+> +yourself too much about this, most of the time it's not a problem to run
+
+s/yourself//
+
+> +a tainted kernel; the information is mainly of interest once someone
+> +wants to investigate some problem, as its real cause might be the event
+> +that got the kernel tainted. 
+
+While this is true, an oops with a taint flag will often be ignored by
+developers.  It's worth saying that, if at all possible, a problem needs
+to be reproduced on an untainted kernel.
+
+> That's why the kernel will remain tainted
+> +even after you undo what caused the taint (i.e. unload a proprietary
+> +kernel module), to indicate the kernel remains not trustworthy. That's
+> +also why the kernel will print the tainted state when it noticed
+> +ainternal problem (a 'kernel bug'), a recoverable error ('kernel oops')
+> +or a nonrecoverable error ('kernel panic') and writes debug information
+> +about this to the logs ``dmesg`` outputs. It's also possible to check
+> +the tainted state at runtime through a file in ``/proc/``.
+> +
+> +
+> +Tainted flag in bugs, oops or panics messages
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +You find the tainted state near the top after the list of loaded
+> +modules.  The state is part of the line that begins with mentioning CPU
+> +('CPU:'), Process ID ('PID:'), and a shorted name of the executed
+> +command ('Comm:') that triggered the event. 
+
+This seems like a good place for an example.
+
+> When followed by **'Not
+> +tainted: '** the kernel was not tainted at the time of the event; if it
+> +was, then it will print **'Tainted: '** and characters either letters or
+> +blanks. The meaning of those characters is explained in below table. The
+> +output for example might state '``Tainted: P   WO``' when the kernel got
+> +tainted earlier because a proprietary Module (``P``) was loaded, a
+> +warning occurred (``W``), and an externally-built module was loaded
+> +(``O``). To decode other letters use below table.
+> +
+> +
+> +Decoding tainted state at runtime
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +At runtime, you can query the tainted state by reading
+> +``/proc/sys/kernel/tainted``. If that returns ``0``, the kernel is not
+> +tainted; any other number indicates the reasons why it is. You might
+> +find that number in below table if there was only one reason that got
+> +the kernel tainted. If there were multiple reasons you need to decode
+> +the number, as it is a bitfield, where each bit indicates the absence or
+> +presence of a particular type of taint. You can use the following python
+> +command to decode::
+
+Here's an idea if you feel like improving this: rather than putting an
+inscrutable program inline, add a taint_status script to scripts/ that
+prints out the status in fully human-readable form, with the explanation
+for every set bit.
+
+> +
+> +	$ python3 -c 'from pprint import pprint; from itertools import zip_longest; pprint(list(zip_longest(range(1,17), reversed(bin(int(open("/proc/sys/kernel/tainted").read()))[2:]),fillvalue="0")))'
+> +	[(1, '1'),
+> +	 (2, '0'),
+> +	 (3, '0'),
+> +	 (4, '0'),
+> +	 (5, '0'),
+> +	 (6, '0'),
+> +	 (7, '0'),
+> +	 (8, '0'),
+> +	 (9, '0'),
+> +	 (10, '1'),
+> +	 (11, '0'),
+> +	 (12, '0'),
+> +	 (13, '1'),
+> +	 (14, '0'),
+> +	 (15, '0'),
+> +	 (16, '0')]
+> +
+> +In this case ``/proc/sys/kernel/tainted`` contained ``4609``, as the
+> +kernel got tainted because a proprietary Module (Bit 1) got loaded, a
+> +warning occurred (Bit 10), and an externally-built module got loaded
+> +(Bit 13). To decode other bits use below table.
+> +
+> +
+> +Table for decoding tainted state
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+As noted before, this table is entirely readable and need not be messed
+with. 
+
+> +===  ===  ======  ========================================================
+> +Bit  Log     Int  Reason that got the kernel tainted
+> +===  ===  ======  ========================================================
+> + 1)  G/P       0  proprietary module got loaded
+
+I'd s/got/was/ throughout.  Also, this is the kernel, we start counting at
+zero! :)
+
+> + 2)  _/F       2  module was force loaded
+> + 3)  _/S       4  SMP kernel oops on a officially SMP incapable processor
+> + 4)  _/R       8  module was force unloaded
+> + 5)  _/M      16  processor reported a Machine Check Exception (MCE)
+> + 6)  _/B      32  bad page referenced or some unexpected page flags
+> + 7)  _/U      64  taint requested by userspace application
+> + 8)  _/D     128  kernel died recently, i.e. there was an OOPS or BUG
+> + 9)  _/A     256  ACPI table overridden by user
+> +10)  _/W     512  kernel issued warning
+> +11)  _/C    1024  staging driver got loaded
+> +12)  _/I    2048  workaround for bug in platform firmware in use
+> +13)  _/O    4096  externally-built ("out-of-tree") module got loaded
+> +14)  _/E    8192  unsigned module was loaded
+> +15)  _/L   16384  soft lockup occurred
+> +16)  _/K   32768  Kernel live patched
+
+A look at kernel.h shows two more flags.  TAINT_AUX doesn't seem to be
+used, but TAINT_RANDSTRUCT is.
+
+> +===  ===  ======  ========================================================
+> +
+> +Note: To make reading easier ``_`` is representing a blank in this
+> +table.
+> +
+> +More detailed explanation for tainting
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 >  
->  #ifndef __ARM_NEON__
-> -#error You should compile this file with '-mfloat-abi=softfp -mfpu=neon'
-> +#error You should compile this file with '-march=armv7-a -mfloat-abi=softfp -mfpu=neon'
->  #endif
+>   1)  ``G`` if all modules loaded have a GPL or compatible license, ``P`` if
+>       any proprietary module has been loaded.  Modules without a
+> @@ -52,8 +144,3 @@ characters, each representing a particular tainted value.
 >  
->  /*
-> diff --git a/lib/raid6/Makefile b/lib/raid6/Makefile
-> index 2f8b61dfd9b0..bfec7c87c61e 100644
-> --- a/lib/raid6/Makefile
-> +++ b/lib/raid6/Makefile
-> @@ -25,7 +25,7 @@ endif
->  ifeq ($(CONFIG_KERNEL_MODE_NEON),y)
->  NEON_FLAGS := -ffreestanding
->  ifeq ($(ARCH),arm)
-> -NEON_FLAGS += -mfloat-abi=softfp -mfpu=neon
-> +NEON_FLAGS += -march=armv7-a -mfloat-abi=softfp -mfpu=neon
->  endif
->  CFLAGS_recov_neon_inner.o += $(NEON_FLAGS)
->  ifeq ($(ARCH),arm64)
+>   16) ``K`` if the kernel has been live patched.
+>  
+> -The primary reason for the **'Tainted: '** string is to tell kernel
+> -debuggers if this is a clean kernel or if anything unusual has
+> -occurred.  Tainting is permanent: even if an offending module is
+> -unloaded, the tainted value remains to indicate that the kernel is not
+> -trustworthy.
 > -- 
-> 2.20.1
-> 
-> 
+> 2.18.1
+
+Thanks,
+
+jon
