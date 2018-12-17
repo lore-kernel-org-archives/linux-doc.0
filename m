@@ -1,459 +1,461 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C8E1B7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Dec 2018 14:01:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4EA3A7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Dec 2018 14:03:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732273AbeLQOBM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Dec 2018 09:01:12 -0500
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:56700 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727329AbeLQOBM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 Dec 2018 09:01:12 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 60D05A78;
-        Mon, 17 Dec 2018 06:01:11 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0CDE43F59C;
-        Mon, 17 Dec 2018 06:01:11 -0800 (PST)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
-        id 5D1E4680208; Mon, 17 Dec 2018 14:01:09 +0000 (GMT)
-Date:   Mon, 17 Dec 2018 14:01:09 +0000
-From:   Liviu Dudau <Liviu.Dudau@arm.com>
-To:     Ayan Halder <Ayan.Halder@arm.com>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>, "corbet@lwn.net" <corbet@lwn.net>,
-        "airlied@linux.ie" <airlied@linux.ie>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
-        "malidp@foss.arm.com" <malidp@foss.arm.com>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        nd <nd@arm.com>, "sean@poorly.run" <sean@poorly.run>
-Subject: Re: [RFC v3 AFBC 04/12] drm/arm/malidp: Set the AFBC register bits
- if the framebuffer has AFBC modifier
-Message-ID: <20181217140109.GY988@e110455-lin.cambridge.arm.com>
-References: <1543836703-8491-1-git-send-email-ayan.halder@arm.com>
- <1543836703-8491-5-git-send-email-ayan.halder@arm.com>
- <20181204165051.GL988@e110455-lin.cambridge.arm.com>
- <20181214134512.GA19564@arm.com>
+        id S1733033AbeLQODQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Dec 2018 09:03:16 -0500
+Received: from esa1.microchip.iphmx.com ([68.232.147.91]:3914 "EHLO
+        esa1.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733030AbeLQODO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Dec 2018 09:03:14 -0500
+X-IronPort-AV: E=Sophos;i="5.56,365,1539673200"; 
+   d="scan'208";a="25348228"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 17 Dec 2018 07:03:13 -0700
+Received: from NAM03-DM3-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.76.107) with Microsoft SMTP Server (TLS) id
+ 14.3.352.0; Mon, 17 Dec 2018 07:03:13 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector1-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+BMkSmX/0HT0VNAH+rqVTriEboRLGFCp1YYtHWxHBGw=;
+ b=qznG7HxO5g4n3M7sQV4Y6WpRke+KRQxVYgk6+tDF44F/Q2EHqUQsemL1x31HA6hjbJlJDB/Mh1MSSFoeBkUl9V4ZN9Vik7Ow/2maCsKYjVZk4D9DKcSOmsjyKhu4MpC3r8msbMd4PEA+TlvWuBZx69IWQgyfa8rSFkL77U8/ygc=
+Received: from BY2PR11MB0744.namprd11.prod.outlook.com (10.163.112.142) by
+ BY2PR11MB0504.namprd11.prod.outlook.com (10.163.158.26) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1425.19; Mon, 17 Dec 2018 14:03:10 +0000
+Received: from BY2PR11MB0744.namprd11.prod.outlook.com
+ ([fe80::cd88:53bd:589a:ab7f]) by BY2PR11MB0744.namprd11.prod.outlook.com
+ ([fe80::cd88:53bd:589a:ab7f%2]) with mapi id 15.20.1425.021; Mon, 17 Dec 2018
+ 14:03:10 +0000
+From:   <Claudiu.Beznea@microchip.com>
+To:     <thierry.reding@gmail.com>, <corbet@lwn.net>,
+        <Nicolas.Ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+        <Ludovic.Desroches@microchip.com>, <robh@kernel.org>
+CC:     <linux-pwm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <Claudiu.Beznea@microchip.com>
+Subject: [PATCH v6 1/6] pwm: extend PWM framework with PWM modes
+Thread-Topic: [PATCH v6 1/6] pwm: extend PWM framework with PWM modes
+Thread-Index: AQHUlhE+GrlwQCMgUU2o1NRWZN9iBA==
+Date:   Mon, 17 Dec 2018 14:03:10 +0000
+Message-ID: <1545055368-23338-2-git-send-email-claudiu.beznea@microchip.com>
+References: <1545055368-23338-1-git-send-email-claudiu.beznea@microchip.com>
+In-Reply-To: <1545055368-23338-1-git-send-email-claudiu.beznea@microchip.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: CWLP123CA0118.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:401:5f::34) To BY2PR11MB0744.namprd11.prod.outlook.com
+ (2a01:111:e400:52de::14)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Claudiu.Beznea@microchip.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [94.177.32.154]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;BY2PR11MB0504;6:PmI476miHhZIZyCgVQAGQdaQHi8tCF8irHmIfqurGjFRHKPrFU8uzAUXbI/tah1h7SQeybQvv6/Iwt1jhL8dFo47RQEYdlQx2gkNsyK8sF0d3u98/Ii4MaTLv0FhJUH9T+vIE61m9mIVGf0W3MBdTq7nh15BFkJf1BaF/wakV4srditsG0s2Q+QgTCzsz2z+UIQ85V0Ks1L8dO8JwBYQcqK/X/Q06z3kqUuUsJ6h+BWsJXdUVhhAFL3Zg2t1fYcvnImo1Fx4K80dZlQPrG9fNWaJrMFfqmLoDVH/bIZ/3se60KxJKc9H+z5+u5/j1uyBi2/VMG4Jxyt/WpqUUagEdQ+vRr/HP9n60LUJSbdAdsx4I18dMSdhVDrVvCr0FgB0/n0Jpc3mjwL0ZJPxPFa8h/QciSrIJDpHMhsdkYTSUjSqFYGMaijHFuxrr4Lhq77n1Imkbv3O/j4gfyRRYf2xlA==;5:VD/gBq9dnSoEAnOI1zUElBuLPfhFuO81EqD44GUm+iyZ8v9Np3DCkn717l7H71k/UbOezYtyX3SF1e5GX5irRisqFQuf6C6ifLOxDnTDTOI3Ct2aMtGOFdJBXxog4omh6voyKkQznyogoul0SoB/pbI4ppscFElR2xWb3l91YK0=;7:aQxhqNjKABBAftbFphjruCuVH1LFlYcBzplVcDD9ka1+TBRzc0OTXGvdjlTEnBwqylislQajL+pF2uj5iCWwNn66bnHN7zrfCE55kvOAWhtE7vPFDHj3jNW+5Ehllunr0LSUAKmrGld8kFgC/YjTAg==
+x-ms-office365-filtering-correlation-id: 17428bbd-cee4-4631-20de-08d66428608a
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600074)(711020)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:BY2PR11MB0504;
+x-ms-traffictypediagnostic: BY2PR11MB0504:
+x-microsoft-antispam-prvs: <BY2PR11MB050406FAD123C428B3505AC187BC0@BY2PR11MB0504.namprd11.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(3230021)(999002)(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(3002001)(3231475)(944501520)(52105112)(10201501046)(148016)(149066)(150057)(6041310)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123562045)(20161123560045)(201708071742011)(7699051)(76991095);SRVR:BY2PR11MB0504;BCL:0;PCL:0;RULEID:;SRVR:BY2PR11MB0504;
+x-forefront-prvs: 08897B549D
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(346002)(366004)(39860400002)(396003)(136003)(199004)(189003)(4744004)(52116002)(476003)(186003)(106356001)(14454004)(5660300001)(2906002)(97736004)(99286004)(25786009)(86362001)(11346002)(2616005)(71200400001)(71190400001)(6436002)(6486002)(3846002)(6116002)(316002)(110136005)(54906003)(66066001)(486006)(26005)(6512007)(8936002)(81166006)(8676002)(446003)(36756003)(105586002)(102836004)(53936002)(72206003)(81156014)(305945005)(6506007)(76176011)(386003)(68736007)(39060400002)(478600001)(107886003)(7736002)(14444005)(256004)(4326008)(2501003);DIR:OUT;SFP:1101;SCL:1;SRVR:BY2PR11MB0504;H:BY2PR11MB0744.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: microchip.com does not designate
+ permitted sender hosts)
+x-microsoft-antispam-message-info: p1sx3MR5qCHcTZIYqtfqvIJQnJXNDfXdu+9XCqq4NISFXeBTsdF/mJK7ZQPtJ0xdSxSYM2nJcm/8OyKDg5RjX6UD8PkB4YrXL54XN2DgCosHjLws0v2WEXiOaNQSqyB3/iPqJ4GEedFch1gshRa1G/k+ZtDhM+4oPxdaBWrg1Tzoqkhp/BroFcdWEaW+OW5dJnV5xWxsmCfD1XgS9/XE4hNnj/qsCXqaAlk92XnT8GnK6ZULaTDszXVrOWGa15HaLlNq8UM83/MNqOm9CWQBl1A3/r7LNUCfCTGt46yCtA3grWbrZhqkU5YqS3OArl5n
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20181214134512.GA19564@arm.com>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17428bbd-cee4-4631-20de-08d66428608a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2018 14:03:10.7474
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY2PR11MB0504
+X-OriginatorOrg: microchip.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 14, 2018 at 01:45:13PM +0000, Ayan Halder wrote:
-> On Tue, Dec 04, 2018 at 04:50:51PM +0000, Liviu Dudau wrote:
-> 
-> Hi Liviu,
-> 
-> Please let me know if you agree with my comments. Then I will send a
-> v4 patch for this.
-> > On Mon, Dec 03, 2018 at 11:31:58AM +0000, Ayan Halder wrote:
-> > > Added the AFBC decoder registers for DP500 , DP550 and DP650.
-> > > These registers control the processing of AFBC buffers. It controls various
-> > > features like AFBC decoder enable, lossless transformation and block split
-> > > as well as setting of the left, right, top and bottom cropping of AFBC buffers
-> > > (in number of pixels).
-> > > All the layers (except DE_SMART) support framebuffers with AFBC modifiers.
-> > > One needs to set the pixel values of the top, left, bottom and right cropping
-> > > for the AFBC framebuffer.
-> > > Cropping an AFBC framebuffer is controlled by the AFBC crop registers.
-> > > In that case, the layer input size registers should be configured with
-> > > framebuffer's dimensions and not with drm_plane_state source width/height
-> > > values (which is used for non AFBC framebuffer to denote cropping).
-> > > 
-> > > Changes from v1:
-> > >  - Removed the "if (fb->modifier)" check from malidp_de_plane_update()
-> > > and added it in malidp_de_set_plane_afbc(). This will consolidate all the
-> > > AFBC specific register configurations in a single function ie
-> > > malidp_de_set_plane_afbc().
-> > > 
-> > > Changes from v2:
-> > >  - For AFBC framebuffer, layer input size register should be set to framebuffer's
-> > > width and height
-> > > 
-> > > Signed-off-by: Ayan Kumar Halder <ayan.halder@arm.com>
-> > > ---
-> > >  drivers/gpu/drm/arm/malidp_hw.c     |  25 +++++----
-> > >  drivers/gpu/drm/arm/malidp_hw.h     |   2 +
-> > >  drivers/gpu/drm/arm/malidp_planes.c | 109 +++++++++++++++++++++++++++++++-----
-> > >  drivers/gpu/drm/arm/malidp_regs.h   |  20 +++++++
-> > >  4 files changed, 130 insertions(+), 26 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/arm/malidp_hw.c b/drivers/gpu/drm/arm/malidp_hw.c
-> > > index b9bed11..87b7b12 100644
-> > > --- a/drivers/gpu/drm/arm/malidp_hw.c
-> > > +++ b/drivers/gpu/drm/arm/malidp_hw.c
-> > > @@ -94,11 +94,12 @@ static const struct malidp_layer malidp500_layers[] = {
-> > >  	 *	yuv2rgb matrix offset, mmu control register offset, rotation_features
-> > >  	 */
-> > >  	{ DE_VIDEO1, MALIDP500_DE_LV_BASE, MALIDP500_DE_LV_PTR_BASE,
-> > > -		MALIDP_DE_LV_STRIDE0, MALIDP500_LV_YUV2RGB, 0, ROTATE_ANY },
-> > > +		MALIDP_DE_LV_STRIDE0, MALIDP500_LV_YUV2RGB, 0, ROTATE_ANY,
-> > > +		MALIDP500_DE_LV_AD_CTRL },
-> > >  	{ DE_GRAPHICS1, MALIDP500_DE_LG1_BASE, MALIDP500_DE_LG1_PTR_BASE,
-> > > -		MALIDP_DE_LG_STRIDE, 0, 0, ROTATE_ANY },
-> > > +		MALIDP_DE_LG_STRIDE, 0, 0, ROTATE_ANY, MALIDP500_DE_LG1_AD_CTRL },
-> > >  	{ DE_GRAPHICS2, MALIDP500_DE_LG2_BASE, MALIDP500_DE_LG2_PTR_BASE,
-> > > -		MALIDP_DE_LG_STRIDE, 0, 0, ROTATE_ANY },
-> > > +		MALIDP_DE_LG_STRIDE, 0, 0, ROTATE_ANY, MALIDP500_DE_LG2_AD_CTRL },
-> > >  };
-> > >  
-> > >  static const struct malidp_layer malidp550_layers[] = {
-> > > @@ -106,13 +107,15 @@ static const struct malidp_layer malidp550_layers[] = {
-> > >  	 *	yuv2rgb matrix offset, mmu control register offset, rotation_features
-> > >  	 */
-> > >  	{ DE_VIDEO1, MALIDP550_DE_LV1_BASE, MALIDP550_DE_LV1_PTR_BASE,
-> > > -		MALIDP_DE_LV_STRIDE0, MALIDP550_LV_YUV2RGB, 0, ROTATE_ANY },
-> > > +		MALIDP_DE_LV_STRIDE0, MALIDP550_LV_YUV2RGB, 0, ROTATE_ANY,
-> > > +		MALIDP550_DE_LV1_AD_CTRL },
-> > >  	{ DE_GRAPHICS1, MALIDP550_DE_LG_BASE, MALIDP550_DE_LG_PTR_BASE,
-> > > -		MALIDP_DE_LG_STRIDE, 0, 0, ROTATE_ANY },
-> > > +		MALIDP_DE_LG_STRIDE, 0, 0, ROTATE_ANY, MALIDP550_DE_LG_AD_CTRL },
-> > >  	{ DE_VIDEO2, MALIDP550_DE_LV2_BASE, MALIDP550_DE_LV2_PTR_BASE,
-> > > -		MALIDP_DE_LV_STRIDE0, MALIDP550_LV_YUV2RGB, 0, ROTATE_ANY },
-> > > +		MALIDP_DE_LV_STRIDE0, MALIDP550_LV_YUV2RGB, 0, ROTATE_ANY,
-> > > +		MALIDP550_DE_LV2_AD_CTRL },
-> > >  	{ DE_SMART, MALIDP550_DE_LS_BASE, MALIDP550_DE_LS_PTR_BASE,
-> > > -		MALIDP550_DE_LS_R1_STRIDE, 0, 0, ROTATE_NONE },
-> > > +		MALIDP550_DE_LS_R1_STRIDE, 0, 0, ROTATE_NONE, 0 },
-> > >  };
-> > >  
-> > >  static const struct malidp_layer malidp650_layers[] = {
-> > > @@ -122,16 +125,16 @@ static const struct malidp_layer malidp650_layers[] = {
-> > >  	 */
-> > >  	{ DE_VIDEO1, MALIDP550_DE_LV1_BASE, MALIDP550_DE_LV1_PTR_BASE,
-> > >  		MALIDP_DE_LV_STRIDE0, MALIDP550_LV_YUV2RGB,
-> > > -		MALIDP650_DE_LV_MMU_CTRL, ROTATE_ANY },
-> > > +		MALIDP650_DE_LV_MMU_CTRL, ROTATE_ANY, MALIDP550_DE_LV1_AD_CTRL },
-> > >  	{ DE_GRAPHICS1, MALIDP550_DE_LG_BASE, MALIDP550_DE_LG_PTR_BASE,
-> > >  		MALIDP_DE_LG_STRIDE, 0, MALIDP650_DE_LG_MMU_CTRL,
-> > > -		ROTATE_COMPRESSED },
-> > > +		ROTATE_COMPRESSED, MALIDP550_DE_LG_AD_CTRL },
-> > >  	{ DE_VIDEO2, MALIDP550_DE_LV2_BASE, MALIDP550_DE_LV2_PTR_BASE,
-> > >  		MALIDP_DE_LV_STRIDE0, MALIDP550_LV_YUV2RGB,
-> > > -		MALIDP650_DE_LV_MMU_CTRL, ROTATE_ANY },
-> > > +		MALIDP650_DE_LV_MMU_CTRL, ROTATE_ANY, MALIDP550_DE_LV2_AD_CTRL },
-> > >  	{ DE_SMART, MALIDP550_DE_LS_BASE, MALIDP550_DE_LS_PTR_BASE,
-> > >  		MALIDP550_DE_LS_R1_STRIDE, 0, MALIDP650_DE_LS_MMU_CTRL,
-> > > -		ROTATE_NONE },
-> > > +		ROTATE_NONE, 0 },
-> > >  };
-> > >  
-> > >  #define SE_N_SCALING_COEFFS	96
-> > > diff --git a/drivers/gpu/drm/arm/malidp_hw.h b/drivers/gpu/drm/arm/malidp_hw.h
-> > > index 40155e2..651558f 100644
-> > > --- a/drivers/gpu/drm/arm/malidp_hw.h
-> > > +++ b/drivers/gpu/drm/arm/malidp_hw.h
-> > > @@ -70,6 +70,8 @@ struct malidp_layer {
-> > >  	s16 yuv2rgb_offset;	/* offset to the YUV->RGB matrix entries */
-> > >  	u16 mmu_ctrl_offset;    /* offset to the MMU control register */
-> > >  	enum rotation_features rot;	/* type of rotation supported */
-> > > +	/* address offset for the AFBC decoder registers */
-> > > +	u16 afbc_decoder_offset;
-> > >  };
-> > >  
-> > >  enum malidp_scaling_coeff_set {
-> > > diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/malidp_planes.c
-> > > index c9a6d3e..cd60f73 100644
-> > > --- a/drivers/gpu/drm/arm/malidp_planes.c
-> > > +++ b/drivers/gpu/drm/arm/malidp_planes.c
-> > > @@ -592,6 +592,80 @@ static void malidp_de_set_mmu_control(struct malidp_plane *mp,
-> > >  			mp->layer->base + mp->layer->mmu_ctrl_offset);
-> > >  }
-> > >  
-> > > +static void malidp_set_plane_base_addr(struct drm_framebuffer *fb,
-> > > +				       struct malidp_plane *mp,
-> > > +				       int plane_index)
-> > > +{
-> > > +	dma_addr_t paddr;
-> > > +	u16 ptr;
-> > > +	struct drm_plane *plane = &mp->base;
-> > > +	bool afbc = fb->modifier ? true : false;
-> > > +
-> > > +	ptr = mp->layer->ptr + (plane_index << 4);
-> > > +
-> > > +	/*
-> > > +	 * For AFBC buffers, cropping is handled by AFBC decoder rather than
-> > > +	 * pointer manipulation.
-> > > +	 */
-> > 
-> > I think this comment needs to go in malidp_de_plane_update, not in this function.
-> > This function only updates the plane's base address.
-> >
-> I will reword the comment like this if it sounds sane :-
-> 
-> drm_fb_cma_get_gem_addr() alters the physical base address of the framebuffer
-> as per the plane's src_x, src_y co-ordinates (ie to take care of source cropping).
-> For AFBC, this is not needed as the cropping is handled by _AD_CROP_H
-> and _AD_CROP_V registers.
+From: Claudiu Beznea <claudiu.beznea@microchip.com>
 
-Yeah, that sounds more in line with what the code does.
+Add basic PWM modes: normal and complementary. These modes should
+differentiate the single output PWM channels from two outputs PWM
+channels. These modes could be set as follow:
+1. PWM channels with one output per channel:
+- normal mode
+2. PWM channels with two outputs per channel:
+- normal mode
+- complementary mode
+Since users could use a PWM channel with two output as one output PWM
+channel, the PWM normal mode is allowed to be set for PWM channels with
+two outputs; in fact PWM normal mode should be supported by all PWMs.
 
-> 
-> > > +	if (!afbc) {
-> > > +		paddr = drm_fb_cma_get_gem_addr(fb, plane->state,
-> > > +						plane_index);
-> > > +	} else {
-> > > +		struct drm_gem_cma_object *obj;
-> > > +
-> > > +		obj = drm_fb_cma_get_gem_obj(fb, plane_index);
-> > > +
-> > > +		if (WARN_ON(!obj))
-> > > +			return;
-> > > +		paddr = obj->paddr;
-> > > +	}
-> > > +
-> > > +	malidp_hw_write(mp->hwdev, lower_32_bits(paddr), ptr);
-> > > +	malidp_hw_write(mp->hwdev, upper_32_bits(paddr), ptr + 4);
-> > > +}
-> > > +
-> > > +static void malidp_de_set_plane_afbc(struct drm_plane *plane)
-> > > +{
-> > > +	struct malidp_plane *mp;
-> > > +	u32 src_w, src_h, val = 0, src_x, src_y;
-> > > +	struct drm_framebuffer *fb = plane->state->fb;
-> > > +
-> > > +	mp = to_malidp_plane(plane);
-> > > +
-> > > +	/* no afbc_decoder_offset means AFBC is not supported on this plane */
-> > > +	if (!mp->layer->afbc_decoder_offset)
-> > > +		return;
-> > > +
-> > > +	if (!fb->modifier) {
-> > > +		malidp_hw_write(mp->hwdev, 0, mp->layer->afbc_decoder_offset);
-> > > +		return;
-> > > +	}
-> > > +
-> > > +	/* convert src values from Q16 fixed point to integer */
-> > > +	src_w = plane->state->src_w >> 16;
-> > > +	src_h = plane->state->src_h >> 16;
-> > > +	src_x = plane->state->src_x >> 16;
-> > > +	src_y = plane->state->src_y >> 16;
-> > > +
-> > > +	val = ((fb->width - (src_x + src_w)) << MALIDP_AD_CROP_RIGHT_OFFSET) |
-> > > +		   src_x;
-> > > +	malidp_hw_write(mp->hwdev, val,
-> > > +			mp->layer->afbc_decoder_offset + MALIDP_AD_CROP_H);
-> > > +
-> > > +	val = ((fb->height - (src_y + src_h)) << MALIDP_AD_CROP_BOTTOM_OFFSET) |
-> > > +		   src_y;
-> > > +	malidp_hw_write(mp->hwdev, val,
-> > > +			mp->layer->afbc_decoder_offset + MALIDP_AD_CROP_V);
-> > > +
-> > > +	val = MALIDP_AD_EN;
-> > > +	if (fb->modifier & AFBC_FORMAT_MOD_SPLIT)
-> > > +		val |= MALIDP_AD_BS;
-> > > +	if (fb->modifier & AFBC_FORMAT_MOD_YTR)
-> > > +		val |= MALIDP_AD_YTR;
-> > > +
-> > > +	malidp_hw_write(mp->hwdev, val, mp->layer->afbc_decoder_offset);
-> > > +}
-> > > +
-> > >  static void malidp_de_plane_update(struct drm_plane *plane,
-> > >  				   struct drm_plane_state *old_state)
-> > >  {
-> > > @@ -600,30 +674,33 @@ static void malidp_de_plane_update(struct drm_plane *plane,
-> > >  	struct drm_plane_state *state = plane->state;
-> > >  	u16 pixel_alpha = state->pixel_blend_mode;
-> > >  	u8 plane_alpha = state->alpha >> 8;
-> > > +	bool format_has_alpha = state->fb->format->has_alpha;
-> > >  	u32 src_w, src_h, dest_w, dest_h, val;
-> > >  	int i;
-> > > +	struct drm_framebuffer *fb = plane->state->fb;
-> > >  
-> > >  	mp = to_malidp_plane(plane);
-> > >  
-> > > -	/* convert src values from Q16 fixed point to integer */
-> > > -	src_w = state->src_w >> 16;
-> > > -	src_h = state->src_h >> 16;
-> > > -	dest_w = state->crtc_w;
-> > > -	dest_h = state->crtc_h;
-> > > +	/* For AFBC framebuffer, use the framebuffer width and height for configuring
-> > > +	 * layer input size register.
-> > > +	 */
-> > > +	if (fb->modifier) {
-> > > +		src_w = fb->width;
-> > > +		src_h = fb->height;
-> > > +	} else {
-> > > +		/* convert src values from Q16 fixed point to integer */
-> > > +		src_w = ms->base.src_w >> 16;
-> > > +		src_h = ms->base.src_h >> 16;
-> > > +	}
-> > > +	dest_w = ms->base.crtc_w;
-> > > +	dest_h = ms->base.crtc_h;
-> > 
-> > These two lines above are equivalent to the last two lines you deleted. Why you need this change?
-> > 
-> Agreed, I will remove this change.
-> > >  
-> > >  	val = malidp_hw_read(mp->hwdev, mp->layer->base);
-> > >  	val = (val & ~LAYER_FORMAT_MASK) | ms->format;
-> > >  	malidp_hw_write(mp->hwdev, val, mp->layer->base);
-> > >  
-> > > -	for (i = 0; i < ms->n_planes; i++) {
-> > > -		/* calculate the offset for the layer's plane registers */
-> > > -		u16 ptr = mp->layer->ptr + (i << 4);
-> > > -		dma_addr_t fb_addr = drm_fb_cma_get_gem_addr(state->fb,
-> > > -							     state, i);
-> > > -
-> > > -		malidp_hw_write(mp->hwdev, lower_32_bits(fb_addr), ptr);
-> > > -		malidp_hw_write(mp->hwdev, upper_32_bits(fb_addr), ptr + 4);
-> > > -	}
-> > > +	for (i = 0; i < ms->n_planes; i++)
-> > > +		malidp_set_plane_base_addr(fb, mp, i);
-> > >  
-> > >  	malidp_de_set_mmu_control(mp, ms);
-> > >  
-> > > @@ -657,6 +734,8 @@ static void malidp_de_plane_update(struct drm_plane *plane,
-> > >  				mp->layer->base + MALIDP550_LS_R1_IN_SIZE);
-> > >  	}
-> > >  
-> > > +	malidp_de_set_plane_afbc(plane);
-> > 
-> > I feel like this function call should be done only if (fb->modifier) is
-> > true.
-> We need to call this function even is fb->modifier = 0. Please refer
-> to the following snippet in malidp_de_set_plane_afbc()
-> 
-> if (!fb->modifier) {
->       malidp_hw_write(mp->hwdev, 0, mp->layer->afbc_decoder_offset);
->       return;
-> }
+The PWM capabilities were implemented per PWM channel. Every PWM controller
+will register a function to get PWM capabilities. If this is not explicitly
+set by the driver a default function will be used to retrieve the PWM
+capabilities (in this case the PWM capabilities will contain only PWM
+normal mode). To retrieve capabilities the pwm_get_caps() function could
+be used.
 
-Right, that is to reset the afbc_decoder_offset, correct? Still, it
-would look a bit more obvious if the code looked like this here:
+Every PWM channel have associated a mode in the PWM state. Proper
+support was added to get/set PWM mode. Only modes supported by PWM channel
+could be set.
 
-	if (!fb->modifier)
-		malidp_hw_write(mp->hwdev, 0, mp->layer->afbc_decoder_offset);
-	else
-		malidp_de_set_plane_afbc(plane);
+Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+---
+ drivers/pwm/core.c  | 91 +++++++++++++++++++++++++++++++++++++++++++++++++=
++++-
+ drivers/pwm/sysfs.c | 61 +++++++++++++++++++++++++++++++++++
+ include/linux/pwm.h | 35 +++++++++++++++++++++
+ 3 files changed, 186 insertions(+), 1 deletion(-)
 
-> I will prefer to keep all the AFBC register configuration in a single
-> function.
+diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
+index 1581f6ab1b1f..eb444ee8d486 100644
+--- a/drivers/pwm/core.c
++++ b/drivers/pwm/core.c
+@@ -249,6 +249,88 @@ static bool pwm_ops_check(const struct pwm_ops *ops)
+ 	return false;
+ }
+=20
++static int pwm_get_default_caps(struct pwm_caps *caps)
++{
++	static const struct pwm_caps default_caps =3D {
++		.modes_msk =3D PWM_MODE_BIT(NORMAL),
++	};
++
++	if (!caps)
++		return -EINVAL;
++
++	*caps =3D default_caps;
++
++	return 0;
++}
++
++/**
++ * pwm_get_caps() - get PWM capabilities of a PWM device
++ * @pwm: PWM device to get the capabilities for
++ * @caps: returned capabilities
++ *
++ * Returns: 0 on success or a negative error code on failure
++ */
++int pwm_get_caps(const struct pwm_device *pwm, struct pwm_caps *caps)
++{
++	if (!pwm || !caps)
++		return -EINVAL;
++
++	if (pwm->chip->ops->get_caps)
++		return pwm->chip->ops->get_caps(pwm->chip, pwm, caps);
++
++	return pwm_get_default_caps(caps);
++}
++EXPORT_SYMBOL_GPL(pwm_get_caps);
++
++/**
++ * pwm_get_default_modebit() - get the default mode for PWM (as a bit mask=
+)
++ * @pwm: PWM device to get the default mode for
++ *
++ * Returns: the default PWM mode (as a bit mask) for PWM device
++ */
++unsigned long pwm_get_default_modebit(const struct pwm_device *pwm)
++{
++	struct pwm_caps caps;
++
++	if (pwm_get_caps(pwm, &caps))
++		return PWM_MODE_BIT(NORMAL);
++
++	return BIT(ffs(caps.modes_msk) - 1);
++}
++EXPORT_SYMBOL_GPL(pwm_get_default_modebit);
++
++/**
++ * pwm_supports_mode() - check if PWM mode is supported by PWM device
++ * @pwm: PWM device
++ * @modebit: PWM mode bit mask to be checked (see PWM_MODE_BIT())
++ *
++ * Returns: true if PWM mode is supported, false otherwise
++ */
++bool pwm_supports_mode(const struct pwm_device *pwm, unsigned long modebit=
+)
++{
++	struct pwm_caps caps;
++
++	if (!pwm || !modebit)
++		return false;
++
++	if (hweight_long(modebit) !=3D 1 || ffs(modebit) - 1 >=3D PWM_MODE_CNT)
++		return false;
++
++	if (pwm_get_caps(pwm, &caps))
++		return false;
++
++	return !!(caps.modes_msk & modebit);
++}
++EXPORT_SYMBOL_GPL(pwm_supports_mode);
++
++const char *pwm_get_mode_name(unsigned long modebit)
++{
++	if (modebit =3D=3D PWM_MODE_BIT(COMPLEMENTARY))
++		return "complementary";
++
++	return "normal";
++}
++
+ /**
+  * pwmchip_add_with_polarity() - register a new PWM chip
+  * @chip: the PWM chip to add
+@@ -294,6 +376,7 @@ int pwmchip_add_with_polarity(struct pwm_chip *chip,
+ 		pwm->pwm =3D chip->base + i;
+ 		pwm->hwpwm =3D i;
+ 		pwm->state.polarity =3D polarity;
++		pwm->state.modebit =3D pwm_get_default_modebit(pwm);
+=20
+ 		if (chip->ops->get_state)
+ 			chip->ops->get_state(chip, pwm, &pwm->state);
+@@ -469,7 +552,8 @@ int pwm_apply_state(struct pwm_device *pwm, struct pwm_=
+state *state)
+ 	int err;
+=20
+ 	if (!pwm || !state || !state->period ||
+-	    state->duty_cycle > state->period)
++	    state->duty_cycle > state->period ||
++	    !pwm_supports_mode(pwm, state->modebit))
+ 		return -EINVAL;
+=20
+ 	if (!memcmp(state, &pwm->state, sizeof(*state)))
+@@ -530,6 +614,8 @@ int pwm_apply_state(struct pwm_device *pwm, struct pwm_=
+state *state)
+=20
+ 			pwm->state.enabled =3D state->enabled;
+ 		}
++
++		pwm->state.modebit =3D state->modebit;
+ 	}
+=20
+ 	return 0;
+@@ -579,6 +665,8 @@ int pwm_adjust_config(struct pwm_device *pwm)
+ 	pwm_get_args(pwm, &pargs);
+ 	pwm_get_state(pwm, &state);
+=20
++	state.modebit =3D pwm_get_default_modebit(pwm);
++
+ 	/*
+ 	 * If the current period is zero it means that either the PWM driver
+ 	 * does not support initial state retrieval or the PWM has not yet
+@@ -999,6 +1087,7 @@ static void pwm_dbg_show(struct pwm_chip *chip, struct=
+ seq_file *s)
+ 		seq_printf(s, " duty: %u ns", state.duty_cycle);
+ 		seq_printf(s, " polarity: %s",
+ 			   state.polarity ? "inverse" : "normal");
++		seq_printf(s, " mode: %s", pwm_get_mode_name(state.modebit));
+=20
+ 		seq_puts(s, "\n");
+ 	}
+diff --git a/drivers/pwm/sysfs.c b/drivers/pwm/sysfs.c
+index ceb233dd6048..7865fbafbeb4 100644
+--- a/drivers/pwm/sysfs.c
++++ b/drivers/pwm/sysfs.c
+@@ -223,11 +223,71 @@ static ssize_t capture_show(struct device *child,
+ 	return sprintf(buf, "%u %u\n", result.period, result.duty_cycle);
+ }
+=20
++static ssize_t mode_show(struct device *child,
++			 struct device_attribute *attr,
++			 char *buf)
++{
++	struct pwm_device *pwm =3D child_to_pwm_device(child);
++	struct pwm_state state;
++	unsigned long modebit;
++	enum pwm_mode mode;
++	int len =3D 0;
++
++	pwm_get_state(pwm, &state);
++
++	for (mode =3D PWM_MODE_NORMAL; mode < PWM_MODE_CNT; mode++) {
++		modebit =3D BIT(mode);
++		if (pwm_supports_mode(pwm, modebit)) {
++			if (state.modebit =3D=3D modebit)
++				len +=3D scnprintf(buf + len,
++						 PAGE_SIZE - len, "[%s] ",
++						 pwm_get_mode_name(modebit));
++			else
++				len +=3D scnprintf(buf + len,
++						 PAGE_SIZE - len, "%s ",
++						 pwm_get_mode_name(modebit));
++		}
++	}
++
++	len +=3D scnprintf(buf + len, PAGE_SIZE - len, "\n");
++	return len;
++}
++
++static ssize_t mode_store(struct device *child,
++			  struct device_attribute *attr,
++			  const char *buf, size_t size)
++{
++	struct pwm_export *export =3D child_to_pwm_export(child);
++	struct pwm_device *pwm =3D export->pwm;
++	struct pwm_state state;
++	unsigned long modebit;
++	enum pwm_mode mode;
++	int ret;
++
++	for (mode =3D PWM_MODE_NORMAL; mode < PWM_MODE_CNT; mode++) {
++		modebit =3D BIT(mode);
++		if (sysfs_streq(buf, pwm_get_mode_name(modebit)))
++			break;
++	}
++
++	if (mode =3D=3D PWM_MODE_CNT)
++		return -EINVAL;
++
++	mutex_lock(&export->lock);
++	pwm_get_state(pwm, &state);
++	state.modebit =3D modebit;
++	ret =3D pwm_apply_state(pwm, &state);
++	mutex_unlock(&export->lock);
++
++	return ret ? : size;
++}
++
+ static DEVICE_ATTR_RW(period);
+ static DEVICE_ATTR_RW(duty_cycle);
+ static DEVICE_ATTR_RW(enable);
+ static DEVICE_ATTR_RW(polarity);
+ static DEVICE_ATTR_RO(capture);
++static DEVICE_ATTR_RW(mode);
+=20
+ static struct attribute *pwm_attrs[] =3D {
+ 	&dev_attr_period.attr,
+@@ -235,6 +295,7 @@ static struct attribute *pwm_attrs[] =3D {
+ 	&dev_attr_enable.attr,
+ 	&dev_attr_polarity.attr,
+ 	&dev_attr_capture.attr,
++	&dev_attr_mode.attr,
+ 	NULL
+ };
+ ATTRIBUTE_GROUPS(pwm);
+diff --git a/include/linux/pwm.h b/include/linux/pwm.h
+index 56518adc31dd..abe189d891af 100644
+--- a/include/linux/pwm.h
++++ b/include/linux/pwm.h
+@@ -10,6 +10,9 @@ struct pwm_capture;
+ struct seq_file;
+=20
+ struct pwm_chip;
++struct pwm_device;
++
++unsigned long pwm_get_default_modebit(const struct pwm_device *pwm);
+=20
+ /**
+  * enum pwm_polarity - polarity of a PWM signal
+@@ -26,6 +29,28 @@ enum pwm_polarity {
+ };
+=20
+ /**
++ * PWM modes capabilities
++ * @PWM_MODE_NORMAL: PWM has one output
++ * @PWM_MODE_COMPLEMENTARY: PWM has 2 outputs with opposite polarities
++ * @PWM_MODE_CNT: PWM modes count
++ */
++enum pwm_mode {
++	PWM_MODE_NORMAL,
++	PWM_MODE_COMPLEMENTARY,
++	PWM_MODE_CNT,
++};
++
++#define PWM_MODE_BIT(name)		BIT(PWM_MODE_##name)
++
++/**
++ * struct pwm_caps - PWM capabilities
++ * @modes_msk: bitmask of supported modes (see PWM_MODE_*)
++ */
++struct pwm_caps {
++	unsigned long modes_msk;
++};
++
++/**
+  * struct pwm_args - board-dependent PWM arguments
+  * @period: reference period
+  * @polarity: reference polarity
+@@ -53,12 +78,14 @@ enum {
+  * @period: PWM period (in nanoseconds)
+  * @duty_cycle: PWM duty cycle (in nanoseconds)
+  * @polarity: PWM polarity
++ * @modebit: PWM mode bit
+  * @enabled: PWM enabled status
+  */
+ struct pwm_state {
+ 	unsigned int period;
+ 	unsigned int duty_cycle;
+ 	enum pwm_polarity polarity;
++	unsigned long modebit;
+ 	bool enabled;
+ };
+=20
+@@ -181,6 +208,7 @@ static inline void pwm_init_state(const struct pwm_devi=
+ce *pwm,
+ 	state->period =3D args.period;
+ 	state->polarity =3D args.polarity;
+ 	state->duty_cycle =3D 0;
++	state->modebit =3D pwm_get_default_modebit(pwm);
+ }
+=20
+ /**
+@@ -254,6 +282,7 @@ pwm_set_relative_duty_cycle(struct pwm_state *state, un=
+signed int duty_cycle,
+  * @get_state: get the current PWM state. This function is only
+  *	       called once per PWM device when the PWM chip is
+  *	       registered.
++ * @get_caps: get PWM capabilities.
+  * @dbg_show: optional routine to show contents in debugfs
+  * @owner: helps prevent removal of modules exporting active PWMs
+  */
+@@ -272,6 +301,8 @@ struct pwm_ops {
+ 		     struct pwm_state *state);
+ 	void (*get_state)(struct pwm_chip *chip, struct pwm_device *pwm,
+ 			  struct pwm_state *state);
++	int (*get_caps)(const struct pwm_chip *chip,
++			const struct pwm_device *pwm, struct pwm_caps *caps);
+ #ifdef CONFIG_DEBUG_FS
+ 	void (*dbg_show)(struct pwm_chip *chip, struct seq_file *s);
+ #endif
+@@ -438,6 +469,9 @@ struct pwm_device *pwm_request_from_chip(struct pwm_chi=
+p *chip,
+ 					 unsigned int index,
+ 					 const char *label);
+=20
++int pwm_get_caps(const struct pwm_device *pwm, struct pwm_caps *caps);
++bool pwm_supports_mode(const struct pwm_device *pwm, unsigned long modebit=
+);
++const char *pwm_get_mode_name(unsigned long modebit);
+ struct pwm_device *of_pwm_xlate_with_flags(struct pwm_chip *pc,
+ 		const struct of_phandle_args *args);
+=20
+@@ -592,6 +626,7 @@ static inline void pwm_apply_args(struct pwm_device *pw=
+m)
+ 	state.enabled =3D false;
+ 	state.polarity =3D pwm->args.polarity;
+ 	state.period =3D pwm->args.period;
++	state.modebit =3D pwm_get_default_modebit(pwm);
+=20
+ 	pwm_apply_state(pwm, &state);
+ }
+--=20
+2.7.4
 
-But I agree, it is probably easier to keep them all together. Please
-discard my previous comment.
-
-Best regards,
-Liviu
-
-> 
-> Thanks,
-> Ayan Kumar Halder
-> > 
-> > > +
-> > >  	/* first clear the rotation bits */
-> > >  	val = malidp_hw_read(mp->hwdev, mp->layer->base + MALIDP_LAYER_CONTROL);
-> > >  	val &= ~LAYER_ROT_MASK;
-> > > @@ -674,7 +753,7 @@ static void malidp_de_plane_update(struct drm_plane *plane,
-> > >  
-> > >  	if (state->alpha != DRM_BLEND_ALPHA_OPAQUE) {
-> > >  		val |= LAYER_COMP_PLANE;
-> > > -	} else if (state->fb->format->has_alpha) {
-> > > +	} else if (format_has_alpha) {
-> > 
-> > This change has nothing to do with AFBC, it should not be in this patch.
-> > 
-> > >  		/* We only care about blend mode if the format has alpha */
-> > >  		switch (pixel_alpha) {
-> > >  		case DRM_MODE_BLEND_PREMULTI:
-> > > diff --git a/drivers/gpu/drm/arm/malidp_regs.h b/drivers/gpu/drm/arm/malidp_regs.h
-> > > index 7ce3e14..a0dd6e1 100644
-> > > --- a/drivers/gpu/drm/arm/malidp_regs.h
-> > > +++ b/drivers/gpu/drm/arm/malidp_regs.h
-> > > @@ -198,10 +198,13 @@
-> > >  #define MALIDP500_LV_YUV2RGB		((s16)(-0xB8))
-> > >  #define MALIDP500_DE_LV_BASE		0x00100
-> > >  #define MALIDP500_DE_LV_PTR_BASE	0x00124
-> > > +#define MALIDP500_DE_LV_AD_CTRL		0x00400
-> > >  #define MALIDP500_DE_LG1_BASE		0x00200
-> > >  #define MALIDP500_DE_LG1_PTR_BASE	0x0021c
-> > > +#define MALIDP500_DE_LG1_AD_CTRL	0x0040c
-> > >  #define MALIDP500_DE_LG2_BASE		0x00300
-> > >  #define MALIDP500_DE_LG2_PTR_BASE	0x0031c
-> > > +#define MALIDP500_DE_LG2_AD_CTRL	0x00418
-> > >  #define MALIDP500_SE_BASE		0x00c00
-> > >  #define MALIDP500_SE_CONTROL		0x00c0c
-> > >  #define MALIDP500_SE_MEMWRITE_OUT_SIZE	0x00c2c
-> > > @@ -228,10 +231,13 @@
-> > >  #define MALIDP550_LV_YUV2RGB		0x00084
-> > >  #define MALIDP550_DE_LV1_BASE		0x00100
-> > >  #define MALIDP550_DE_LV1_PTR_BASE	0x00124
-> > > +#define MALIDP550_DE_LV1_AD_CTRL	0x001B8
-> > >  #define MALIDP550_DE_LV2_BASE		0x00200
-> > >  #define MALIDP550_DE_LV2_PTR_BASE	0x00224
-> > > +#define MALIDP550_DE_LV2_AD_CTRL	0x002B8
-> > >  #define MALIDP550_DE_LG_BASE		0x00300
-> > >  #define MALIDP550_DE_LG_PTR_BASE	0x0031c
-> > > +#define MALIDP550_DE_LG_AD_CTRL		0x00330
-> > >  #define MALIDP550_DE_LS_BASE		0x00400
-> > >  #define MALIDP550_DE_LS_PTR_BASE	0x0042c
-> > >  #define MALIDP550_DE_PERF_BASE		0x00500
-> > > @@ -258,6 +264,20 @@
-> > >  #define MALIDP_MMU_CTRL_PX_PS(x)	(1 << (8 + (x)))
-> > >  #define MALIDP_MMU_CTRL_PP_NUM_REQ(x)	(((x) & 0x7f) << 12)
-> > >  
-> > > +/* AFBC register offsets relative to MALIDPXXX_DE_LX_AD_CTRL */
-> > > +/* The following register offsets are common for DP500, DP550 and DP650 */
-> > > +#define MALIDP_AD_CROP_H                0x4
-> > > +#define MALIDP_AD_CROP_V                0x8
-> > > +#define MALIDP_AD_END_PTR_LOW           0xc
-> > > +#define MALIDP_AD_END_PTR_HIGH          0x10
-> > > +
-> > > +/* AFBC decoder Registers */
-> > > +#define MALIDP_AD_EN                    BIT(0)
-> > > +#define MALIDP_AD_YTR                   BIT(4)
-> > > +#define MALIDP_AD_BS                    BIT(8)
-> > > +#define MALIDP_AD_CROP_RIGHT_OFFSET     16
-> > > +#define MALIDP_AD_CROP_BOTTOM_OFFSET    16
-> > > +
-> > >  /*
-> > >   * Starting with DP550 the register map blocks has been standardised to the
-> > >   * following layout:
-> > > -- 
-> > > 2.7.4
-> > > 
-> > 
-> > Best regards,
-> > Liviu
-> > 
-> > 
-> > -- 
-> > ====================
-> > | I would like to |
-> > | fix the world,  |
-> > | but they're not |
-> > | giving me the   |
-> >  \ source code!  /
-> >   ---------------
-> >     ??\_(???)_/??
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
