@@ -1,174 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ACAE97D08E
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Dec 2018 17:22:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 866B97D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Dec 2018 17:30:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727186AbeLRRW6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Dec 2018 12:22:58 -0500
-Received: from mail-wr1-f42.google.com ([209.85.221.42]:38791 "EHLO
-        mail-wr1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726812AbeLRRW5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Dec 2018 12:22:57 -0500
-Received: by mail-wr1-f42.google.com with SMTP id v13so16726287wrw.5
-        for <linux-doc@vger.kernel.org>; Tue, 18 Dec 2018 09:22:56 -0800 (PST)
+        id S1727159AbeLRRaI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Dec 2018 12:30:08 -0500
+Received: from mail-yw1-f66.google.com ([209.85.161.66]:46657 "EHLO
+        mail-yw1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726555AbeLRRaD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Dec 2018 12:30:03 -0500
+Received: by mail-yw1-f66.google.com with SMTP id t13so6980559ywe.13
+        for <linux-doc@vger.kernel.org>; Tue, 18 Dec 2018 09:30:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=A8dUrmsI3uhRJycvb5Lt2RLbjLjJPOChaN1JgkfUuDI=;
-        b=gi2K0UAneGavKoIZ/1rnLlZkJYk5BLZIkBmRdAqAodRl8kwQZ5D1ebrSoC1Wp1ZzVB
-         LNnRvKZzp14g5738QO7lAyeFtBmcN6fUZwg5nuvIZQPWPUfHT2A48FFis0l/xE0JE9us
-         rTlQgWOip7fd3aX4PhNLRjECPNTO94/T1gu7w=
+        d=cmpxchg-org.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=gUey7Zbt0/b42GYcDqdXluKToQHKpjhH7c7i9g2qAPQ=;
+        b=07Kj4DIqpm3qGJrMz5nve9A4ZGGKM2wV5SM0fLcyYiPgFD383RDtI8GCbLnKYpyJoZ
+         q5M2bWJ3BpkxaIxeWrO5JRbJWvzXmWeeVWkWgOqzfCJRoaatMVkheQb6JRb4hQ6o2RCj
+         riUiEFXdQNyx3l7nlOT0N+p3h2zjL97Gekt3+IHb/HgCJWBQAiM0kXdlWRgrrWU2bxyC
+         tyDnlJcu86Ue/BYguoXWsyZIbmRCO7foD9F/e3bn4JOquWM1/Q1nN68kk3vLxvbEMYbq
+         qfpfNF94PtsWNp+xoBJJfF6BBd4AEZijMnkieXM6lzH+GWo0q3OGRSyPrEIoxKG2jCba
+         ShTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=A8dUrmsI3uhRJycvb5Lt2RLbjLjJPOChaN1JgkfUuDI=;
-        b=uVtvG9Rm5zDeNCEpiCVSqS2MVLNH8TMj6cYh/6qURRZTPyJzWDQM85rFmHjjYgM8N7
-         eyPdPL1AroeFuaQUJyGOtTbJy2UrUdIKqfmKsKrRoT6dxjGi/fos8N2EWZEs4PEAhnX2
-         l50AkKcjDaXytD9Uiws+hZ+91EvfvTIbfQJS/ArE6wokZKk/gMmZVyDWFy0uFnoaDfTm
-         vuicNIyrcYB3HgxYCQ38+ZyDAtDdcO0w+jAmKNhMoAErkWOW2h/DmYKFWkjGH3ZiXbHl
-         v5cW4k5GP8Vle+x356+G7cs8q0Nq7HzLvZjKCoob8UuVGL3taVaEeiO8UaLzOo3F8MQK
-         PPUg==
-X-Gm-Message-State: AA+aEWbeQLCuZlTQ/9G//ylBD2fvpf/qdKvfsRfdtbQKR2nkPzKprZfD
-        8VMYFo4c1Ow8NwADgHOuEwEQAA==
-X-Google-Smtp-Source: AFSGD/V/4jq1c5AHLGoOcMnoI+E//DsAiN2x/RiKrmFSZz9rvqRvHiiFVlK4xn14h6HnFwyjjWdrIA==
-X-Received: by 2002:adf:f052:: with SMTP id t18mr16450678wro.112.1545153775180;
-        Tue, 18 Dec 2018 09:22:55 -0800 (PST)
-Received: from [192.168.0.100] ([84.33.66.6])
-        by smtp.gmail.com with ESMTPSA id h62sm2756362wmf.11.2018.12.18.09.22.53
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 18 Dec 2018 09:22:54 -0800 (PST)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 12.2 \(3445.102.3\))
-Subject: Re: [PATCH V2 00/10] unify the interface of the proportional-share
- policy in blkio/io
-From:   Paolo Valente <paolo.valente@linaro.org>
-In-Reply-To: <20181218164126.GX2509588@devbig004.ftw2.facebook.com>
-Date:   Tue, 18 Dec 2018 18:22:52 +0100
-Cc:     Angelo Ruocco <angelo.ruocco.90@gmail.com>,
-        'Paolo Valente' via bfq-iosched 
-        <bfq-iosched@googlegroups.com>, Jens Axboe <axboe@kernel.dk>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=gUey7Zbt0/b42GYcDqdXluKToQHKpjhH7c7i9g2qAPQ=;
+        b=X1jhWsoMqdbu0gP6fD9YgxJRguYUJTArGM8jCCBEhQOGvCZ1McIzHJHbxiu2OvbwjZ
+         tbo2nCcH4lcIy+HBO6Cxqi4VWXiLMYZw5033aucAlmSFjAHdQHHYFQLO7mEj+3iFRfPv
+         JALK93w4iPEf3Y7bRuB5ZSSN004kyaTSvoAxmumsdeZp2bNJe96MnQcoh29aUJh6T9dH
+         LjS31ieq1LX7iR3r7DdJocB64FRLZi0mdjDZUzT5KbpMuDsuCu3/XtGoFPvKdTocXWew
+         Vi0IdRFu1ItWrfvlZmKEfz7V6sA5BDf05YNGLiaoqHx1+dV0ZRD4YI+LJ02uvMWsU4I6
+         csgg==
+X-Gm-Message-State: AA+aEWbGG4drD5lCsrn2mDeBteR75AAETG9Abj5xI+lqPJHCfLuAUfS0
+        zDZROg7t1C3MxS3wQuxpjXfcBw==
+X-Google-Smtp-Source: AFSGD/VJ8mToi8jB+b4MstqcYsknuunF3B8wM6GlqGohCYMZs/EtHDS1Yz68V7FkHOCaIF7F6xRCuw==
+X-Received: by 2002:a81:29cc:: with SMTP id p195mr19043540ywp.407.1545154202149;
+        Tue, 18 Dec 2018 09:30:02 -0800 (PST)
+Received: from localhost ([2620:10d:c091:200::4:4329])
+        by smtp.gmail.com with ESMTPSA id n10sm3803576ywc.48.2018.12.18.09.30.01
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 18 Dec 2018 09:30:01 -0800 (PST)
+Date:   Tue, 18 Dec 2018 12:30:00 -0500
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Suren Baghdasaryan <surenb@google.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Angelo Ruocco <angeloruocco90@gmail.com>,
-        Dennis Zhou <dennis@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        Liu Bo <bo.liu@linux.alibaba.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        linux-block <linux-block@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>, broonie@kernel.org,
-        oleksandr@natalenko.name, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <EC4F9B54-2352-4D85-B56C-5800CFEBCCB8@linaro.org>
-References: <20181119103424.3853-1-paolo.valente@linaro.org>
- <20181120162816.GV2509588@devbig004.ftw2.facebook.com>
- <25296DAE-73EC-46CC-9A98-A8B7E9017BB7@linaro.org>
- <7D7FAB43-5F62-4402-A9B3-E7C2E30AE680@linaro.org>
- <20181130184256.GI2509588@devbig004.ftw2.facebook.com>
- <5534B7D4-A5D9-4F44-9620-970A7F9EC140@linaro.org>
- <CADiTV-29TmkB5-k=TtQfoJqjP2Qv7GSsGLXAPBaTB6DoQ+6yyw@mail.gmail.com>
- <874A0232-2103-4364-BD88-F33B85D6A764@linaro.org>
- <20181218164126.GX2509588@devbig004.ftw2.facebook.com>
-To:     Tejun Heo <tj@kernel.org>
-X-Mailer: Apple Mail (2.3445.102.3)
+        Tejun Heo <tj@kernel.org>, lizefan@huawei.com, axboe@kernel.dk,
+        dennis@kernel.org, Dennis Zhou <dennisszhou@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, kernel-team@android.com
+Subject: Re: [PATCH 6/6] psi: introduce psi monitor
+Message-ID: <20181218173000.GA4733@cmpxchg.org>
+References: <20181214171508.7791-1-surenb@google.com>
+ <20181214171508.7791-7-surenb@google.com>
+ <20181217162223.GD2218@hirez.programming.kicks-ass.net>
+ <CAJuCfpHGsDnE-eAHY1QnX949stA3cvNA=078q1swqVnz95aJfg@mail.gmail.com>
+ <20181218104622.GB15430@hirez.programming.kicks-ass.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181218104622.GB15430@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Dec 18, 2018 at 11:46:22AM +0100, Peter Zijlstra wrote:
+> On Mon, Dec 17, 2018 at 05:21:05PM -0800, Suren Baghdasaryan wrote:
+> > On Mon, Dec 17, 2018 at 8:22 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> 
+> > > How well has this thing been fuzzed? Custom string parser, yay!
+> > 
+> > Honestly, not much. Normal cases and some obvious corner cases. Will
+> > check if I can use some fuzzer to get more coverage or will write a
+> > script.
+> > I'm not thrilled about writing a custom parser, so if there is a
+> > better way to handle this please advise.
+> 
+> The grammar seems fairly simple, something like:
+> 
+>   some-full = "some" | "full" ;
+>   threshold-abs = integer ;
+>   threshold-pct = integer, { "%" } ;
+>   threshold = threshold-abs | threshold-pct ;
+>   window = integer ;
+>   trigger = some-full, space, threshold, space, window ;
+> 
+> And that could even be expressed as two scanf formats:
+> 
+>  "%4s %u%% %u" , "%4s %u %u"
+> 
+> which then gets your something like:
+> 
+>   char type[5];
+> 
+>   if (sscanf(input, "%4s %u%% %u", &type, &pct, &window) == 3) {
+>   	// do pct thing
+>   } else if (sscanf(intput, "%4s %u %u", &type, &thres, &window) == 3) {
+>   	// do abs thing
+>   } else return -EFAIL;
+> 
+>   if (!strcmp(type, "some")) {
+>   	// some
+>   } else if (!strcmp(type, "full")) {
+>   	// full
+>   } else return -EFAIL;
+> 
+>   // do more
 
+We might want to drop the percentage notation.
 
-> Il giorno 18 dic 2018, alle ore 17:41, Tejun Heo <tj@kernel.org> ha =
-scritto:
->=20
-> Hello, Paolo.
->=20
-> On Tue, Dec 18, 2018 at 08:48:10AM +0100, Paolo Valente wrote:
->> If Tejun cannot see any solution to his concern, then can we just
->> switch to this extension, considering that
->> - for non-shared names the interface is *identical* to the current
->>  one;
->> - by using this new interface, and getting feedback we could
->>  understand how to better handle Tejun's concern?
->> A lot of systems do use weights, and people don't even know that =
-these
->> systems don't work correctly in blk-mq.  And they won't work =
-correctly
->> in any available configuration from 4.21, if we don't fix this =
-problem.
->=20
-> So, when seen from userland, how it should behave isn't vague or
-> complicated.  For a given device and policy type, there can be only
-> one implementation active.
+While it's somewhat convenient, it's also not unreasonable to ask
+userspace to do a simple "threshold * win / 100" themselves, and it
+would simplify the interface spec and the parser.
 
-Yes, but the problem is the opposite. You may have
-- two different policies, with the same interface parameter,=20
-- one active on one device
-- the other one active on another device
+Sure, psi outputs percentages, but only for fixed window sizes, so
+that actually saves us something, whereas this parser here needs to
+take a fractional anyway. The output is also in decimal notation,
+which is necessary for granularity. And I really don't think we want
+to add float parsing on top of this interface spec.
 
-In that case, statistics from one policy necessarily differ from
-statistics from the other policy.
-
-In this respect, in a system with more than one drive it already
-happens that the same policy is active on different devices.  When
-printing a statistics interface file for the policy, the output will
-be a list of separate statistics, with a bunch of statistics *for
-each* drive (plus a grand total in some cases).
-
-So, our proposal simply extends this scheme in the most natural way:
-if, now, also two or more policies share the same statistics file,
-then the output will be a list of separate statistics, one for each
-policy.  The statistics for each policy will be tagged with the policy
-name, and will have the same identical form as above.  It seems the
-most natural hierarchical extension of the same scheme.
-
-At any rate, if you don't like it, just tell us how you prefer it
-done.  Do you prefer the sharing of statistics file to be simply
-forbidden?  (If this can be done.) I think such an incomplete solution
-would preserve part of the current mess; but, if this allows us to
-exit from this impasse, then it is ok for me.
-
-*Any* feasible option is ok for me. Just pick one.
-
->  It doesn't make sense to have two weight
-> mechanisms active on one device, right?
-
-(Un)fortunately, the problem are not weights.  There won't be two
-weights for two policies expiring a weight parameter.  The problems
-concerns statistics.  See above.
-
-
->  So, the interface should only
-> present what makes sense to the user for both configuration knobs and
-> statistics, and that'd be a hard requirement because we don't want to
-> present confusing spurious information to userspace.
->=20
-> There seemd to have been significant misunderstandings as to what the
-> requirements are when this was discussed way back, so idk what the
-> good path forward is at this point.  Just keep the current names?
->=20
-
-I don't clearly understand how "just picking the current names" is a
-way forward, but if we do not make this extension, in a way or the
-other, then two policies will simply not be allowed to share the same
-interface files.  And we will be still at the starting point.
-
-Thanks,
-Paolo
-
-> Thanks.
->=20
-> --=20
-> tejun
-
+So neither the convenience nor the symmetry argument are very
+compelling IMO. It might be better to just not go there.
