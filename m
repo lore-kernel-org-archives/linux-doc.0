@@ -1,112 +1,125 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5267A7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Dec 2018 10:46:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 53BC27D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Dec 2018 10:53:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726557AbeLRKqd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Dec 2018 05:46:33 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:49520 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726364AbeLRKqc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Dec 2018 05:46:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=eVdR9lHYgwIxzuSNH4ypjLBCr5/5VTkW/iKHFipJKEw=; b=acARrZ8SMv7OG02VMWkIkr5Dd
-        /0APdno5I3UgmIndDgCVAu6y/HDffHq8/7LAe+BENcI5bUOt5NFlpAqo4Rxj+IRJ1LYjHxo2dHdx4
-        +XOc94/R7CtzYrhn9vscgao/MUV5O15SSwsLbTA0D9TNm6xoAnshjwKojdfeF6yZfjDC0eUMMjTrp
-        LCPr122DPJzkWwYPYtBh/OSgHxErOHaKJrkblvkOxCCHlGucpMi75hNn2QOm7xEMx9gnlKI+4be8B
-        0JRtOkmwpTvU1e5BR4IAJ3QT/7orXG6ETq/G5VuPpztkvixdW+D0DeXAtXb/FldnQxfAQpaN+/DUz
-        fZJ+jqrzg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gZCtL-0002gf-VC; Tue, 18 Dec 2018 10:46:24 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 378B320276AC4; Tue, 18 Dec 2018 11:46:22 +0100 (CET)
-Date:   Tue, 18 Dec 2018 11:46:22 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tejun Heo <tj@kernel.org>, lizefan@huawei.com,
-        Johannes Weiner <hannes@cmpxchg.org>, axboe@kernel.dk,
-        dennis@kernel.org, Dennis Zhou <dennisszhou@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, kernel-team@android.com
-Subject: Re: [PATCH 6/6] psi: introduce psi monitor
-Message-ID: <20181218104622.GB15430@hirez.programming.kicks-ass.net>
-References: <20181214171508.7791-1-surenb@google.com>
- <20181214171508.7791-7-surenb@google.com>
- <20181217162223.GD2218@hirez.programming.kicks-ass.net>
- <CAJuCfpHGsDnE-eAHY1QnX949stA3cvNA=078q1swqVnz95aJfg@mail.gmail.com>
+        id S1726512AbeLRKxQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Dec 2018 05:53:16 -0500
+Received: from mga03.intel.com ([134.134.136.65]:57320 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726505AbeLRKxP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Dec 2018 05:53:15 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Dec 2018 02:53:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,367,1539673200"; 
+   d="scan'208";a="130907682"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 18 Dec 2018 02:53:09 -0800
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [PATCH] usb: typec: Improve Alt Mode documentation
+Date:   Tue, 18 Dec 2018 13:53:08 +0300
+Message-Id: <20181218105308.54824-1-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.19.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJuCfpHGsDnE-eAHY1QnX949stA3cvNA=078q1swqVnz95aJfg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 17, 2018 at 05:21:05PM -0800, Suren Baghdasaryan wrote:
-> On Mon, Dec 17, 2018 at 8:22 AM Peter Zijlstra <peterz@infradead.org> wrote:
+Adding the document to the usb index file and fixing a few
+references. Also, exposing the code examples as "literal
+blocks" so they are more easy to read.
 
-> > How well has this thing been fuzzed? Custom string parser, yay!
-> 
-> Honestly, not much. Normal cases and some obvious corner cases. Will
-> check if I can use some fuzzer to get more coverage or will write a
-> script.
-> I'm not thrilled about writing a custom parser, so if there is a
-> better way to handle this please advise.
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+ Documentation/driver-api/usb/index.rst     |  1 +
+ Documentation/driver-api/usb/typec.rst     |  1 +
+ Documentation/driver-api/usb/typec_bus.rst | 24 +++++++++++-----------
+ 3 files changed, 14 insertions(+), 12 deletions(-)
 
-The grammar seems fairly simple, something like:
-
-  some-full = "some" | "full" ;
-  threshold-abs = integer ;
-  threshold-pct = integer, { "%" } ;
-  threshold = threshold-abs | threshold-pct ;
-  window = integer ;
-  trigger = some-full, space, threshold, space, window ;
-
-And that could even be expressed as two scanf formats:
-
- "%4s %u%% %u" , "%4s %u %u"
-
-which then gets your something like:
-
-  char type[5];
-
-  if (sscanf(input, "%4s %u%% %u", &type, &pct, &window) == 3) {
-  	// do pct thing
-  } else if (sscanf(intput, "%4s %u %u", &type, &thres, &window) == 3) {
-  	// do abs thing
-  } else return -EFAIL;
-
-  if (!strcmp(type, "some")) {
-  	// some
-  } else if (!strcmp(type, "full")) {
-  	// full
-  } else return -EFAIL;
-
-  // do more
-
-which seems like a lot less error prone. Alternatively you can use 4
-formats:
-
-  "some %u%% %u" "some %u %u"
-  "full %u%% %u" "full %u %u"
-
-and avoid the whole 'type' thing.
-
+diff --git a/Documentation/driver-api/usb/index.rst b/Documentation/driver-api/usb/index.rst
+index 8fe995a1ec94..cfa8797ea614 100644
+--- a/Documentation/driver-api/usb/index.rst
++++ b/Documentation/driver-api/usb/index.rst
+@@ -19,6 +19,7 @@ Linux USB API
+    dwc3
+    writing_musb_glue_layer
+    typec
++   typec_bus
+    usb3-debug-port
+ 
+ .. only::  subproject and html
+diff --git a/Documentation/driver-api/usb/typec.rst b/Documentation/driver-api/usb/typec.rst
+index 48ff58095f11..201163d8c13e 100644
+--- a/Documentation/driver-api/usb/typec.rst
++++ b/Documentation/driver-api/usb/typec.rst
+@@ -1,3 +1,4 @@
++.. _typec:
+ 
+ USB Type-C connector class
+ ==========================
+diff --git a/Documentation/driver-api/usb/typec_bus.rst b/Documentation/driver-api/usb/typec_bus.rst
+index d5eec1715b5b..f47a69bff498 100644
+--- a/Documentation/driver-api/usb/typec_bus.rst
++++ b/Documentation/driver-api/usb/typec_bus.rst
+@@ -13,10 +13,10 @@ every alternate mode, so every alternate mode will need a custom driver.
+ USB Type-C bus allows binding a driver to the discovered partner alternate
+ modes by using the SVID and the mode number.
+ 
+-USB Type-C Connector Class provides a device for every alternate mode a port
+-supports, and separate device for every alternate mode the partner supports.
+-The drivers for the alternate modes are bound to the partner alternate mode
+-devices, and the port alternate mode devices must be handled by the port
++:ref:`USB Type-C Connector Class <typec>` provides a device for every alternate
++mode a port supports, and separate device for every alternate mode the partner
++supports. The drivers for the alternate modes are bound to the partner alternate
++mode devices, and the port alternate mode devices must be handled by the port
+ drivers.
+ 
+ When a new partner alternate mode device is registered, it is linked to the
+@@ -46,7 +46,7 @@ enter any modes on their own.
+ ``->vdm`` is the most important callback in the operation callbacks vector. It
+ will be used to deliver all the SVID specific commands from the partner to the
+ alternate mode driver, and vice versa in case of port drivers. The drivers send
+-the SVID specific commands to each other using :c:func:`typec_altmode_vmd()`.
++the SVID specific commands to each other using :c:func:`typec_altmode_vdm()`.
+ 
+ If the communication with the partner using the SVID specific commands results
+ in need to reconfigure the pins on the connector, the alternate mode driver
+@@ -67,15 +67,15 @@ Type-C Specification, and also put the connector back to ``TYPEC_STATE_USB``
+ after the mode has been exited.
+ 
+ An example of working definitions for SVID specific pin configurations would
+-look like this:
++look like this::
+ 
+-enum {
+-	ALTMODEX_CONF_A = TYPEC_STATE_MODAL,
+-	ALTMODEX_CONF_B,
+-	...
+-};
++    enum {
++        ALTMODEX_CONF_A = TYPEC_STATE_MODAL,
++        ALTMODEX_CONF_B,
++        ...
++    };
+ 
+-Helper macro ``TYPEC_MODAL_STATE()`` can also be used:
++Helper macro ``TYPEC_MODAL_STATE()`` can also be used::
+ 
+ #define ALTMODEX_CONF_A = TYPEC_MODAL_STATE(0);
+ #define ALTMODEX_CONF_B = TYPEC_MODAL_STATE(1);
+-- 
+2.19.2
 
