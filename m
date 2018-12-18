@@ -5,33 +5,33 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D89A47D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Dec 2018 10:17:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5267A7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Dec 2018 10:46:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726390AbeLRKRt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Dec 2018 05:17:49 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:36202 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726364AbeLRKRt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Dec 2018 05:17:49 -0500
+        id S1726557AbeLRKqd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Dec 2018 05:46:33 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:49520 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726364AbeLRKqc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Dec 2018 05:46:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=npocvrWTM5VM1Ou07JEzt+r0Ck5x6NKw6E5HKl5iEQ4=; b=b5Kbrb2JdSoQQyVzmq+c1RngP
-        6TsFwi3SpZsjXqufi7bz6U1e8Ebb4Ck5zaQ+Bq35klosTTnCC3/GzLjztkiwiVOySROu6PIgaNeRl
-        +Zljrzmwp4WvwheBPlaJQpUSJRN3xB0RGuvOWMShYxSQQuPiw01nsMgxSBjQGcpnvB3xDYWQr3tb+
-        kYXL01lDr0QRJsC4iC5BfVfjNPt2TvEqNqeqIo4w6daB7+u6SKJq34wOEcJeKqZlhN1zb+OtMqoZS
-        EsP45cujoQ1C7cG8R+97Zp1VNiQjg/7YJtZPfRJvHbRMwIzAXATYfRbq4tiUgBnjyHBO1ePBwVk5e
-        TsIZgzKGA==;
+         bh=eVdR9lHYgwIxzuSNH4ypjLBCr5/5VTkW/iKHFipJKEw=; b=acARrZ8SMv7OG02VMWkIkr5Dd
+        /0APdno5I3UgmIndDgCVAu6y/HDffHq8/7LAe+BENcI5bUOt5NFlpAqo4Rxj+IRJ1LYjHxo2dHdx4
+        +XOc94/R7CtzYrhn9vscgao/MUV5O15SSwsLbTA0D9TNm6xoAnshjwKojdfeF6yZfjDC0eUMMjTrp
+        LCPr122DPJzkWwYPYtBh/OSgHxErOHaKJrkblvkOxCCHlGucpMi75hNn2QOm7xEMx9gnlKI+4be8B
+        0JRtOkmwpTvU1e5BR4IAJ3QT/7orXG6ETq/G5VuPpztkvixdW+D0DeXAtXb/FldnQxfAQpaN+/DUz
+        fZJ+jqrzg==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gZCRM-0007Lm-OR; Tue, 18 Dec 2018 10:17:29 +0000
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gZCtL-0002gf-VC; Tue, 18 Dec 2018 10:46:24 +0000
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 850D92027DA8E; Tue, 18 Dec 2018 11:17:27 +0100 (CET)
-Date:   Tue, 18 Dec 2018 11:17:27 +0100
+        id 378B320276AC4; Tue, 18 Dec 2018 11:46:22 +0100 (CET)
+Date:   Tue, 18 Dec 2018 11:46:22 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     Suren Baghdasaryan <surenb@google.com>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -43,31 +43,70 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
         linux-mm <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
         LKML <linux-kernel@vger.kernel.org>, kernel-team@android.com
-Subject: Re: [PATCH 4/6] psi: introduce state_mask to represent stalled psi
- states
-Message-ID: <20181218101727.GA15430@hirez.programming.kicks-ass.net>
+Subject: Re: [PATCH 6/6] psi: introduce psi monitor
+Message-ID: <20181218104622.GB15430@hirez.programming.kicks-ass.net>
 References: <20181214171508.7791-1-surenb@google.com>
- <20181214171508.7791-5-surenb@google.com>
- <20181217155525.GC2218@hirez.programming.kicks-ass.net>
- <CAJuCfpHrQB7OtEC535=s4iJqwan17nAc-mbycV1aJ3RUQTWCPA@mail.gmail.com>
+ <20181214171508.7791-7-surenb@google.com>
+ <20181217162223.GD2218@hirez.programming.kicks-ass.net>
+ <CAJuCfpHGsDnE-eAHY1QnX949stA3cvNA=078q1swqVnz95aJfg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJuCfpHrQB7OtEC535=s4iJqwan17nAc-mbycV1aJ3RUQTWCPA@mail.gmail.com>
+In-Reply-To: <CAJuCfpHGsDnE-eAHY1QnX949stA3cvNA=078q1swqVnz95aJfg@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 17, 2018 at 05:14:53PM -0800, Suren Baghdasaryan wrote:
-> On Mon, Dec 17, 2018 at 7:55 AM Peter Zijlstra <peterz@infradead.org> wrote:
-> > > +             if (state_mask & (1 << s))
-> >
-> > We have the BIT() macro, but I'm honestly not sure that will improve
-> > things.
-> 
-> I was mimicking the rest of the code in psi.c that uses this kind of
-> bit masking. Can change if you think that would be better.
+On Mon, Dec 17, 2018 at 05:21:05PM -0800, Suren Baghdasaryan wrote:
+> On Mon, Dec 17, 2018 at 8:22 AM Peter Zijlstra <peterz@infradead.org> wrote:
 
-Yeah, I really don't know.. keep it as is I suppose.
+> > How well has this thing been fuzzed? Custom string parser, yay!
+> 
+> Honestly, not much. Normal cases and some obvious corner cases. Will
+> check if I can use some fuzzer to get more coverage or will write a
+> script.
+> I'm not thrilled about writing a custom parser, so if there is a
+> better way to handle this please advise.
+
+The grammar seems fairly simple, something like:
+
+  some-full = "some" | "full" ;
+  threshold-abs = integer ;
+  threshold-pct = integer, { "%" } ;
+  threshold = threshold-abs | threshold-pct ;
+  window = integer ;
+  trigger = some-full, space, threshold, space, window ;
+
+And that could even be expressed as two scanf formats:
+
+ "%4s %u%% %u" , "%4s %u %u"
+
+which then gets your something like:
+
+  char type[5];
+
+  if (sscanf(input, "%4s %u%% %u", &type, &pct, &window) == 3) {
+  	// do pct thing
+  } else if (sscanf(intput, "%4s %u %u", &type, &thres, &window) == 3) {
+  	// do abs thing
+  } else return -EFAIL;
+
+  if (!strcmp(type, "some")) {
+  	// some
+  } else if (!strcmp(type, "full")) {
+  	// full
+  } else return -EFAIL;
+
+  // do more
+
+which seems like a lot less error prone. Alternatively you can use 4
+formats:
+
+  "some %u%% %u" "some %u %u"
+  "full %u%% %u" "full %u %u"
+
+and avoid the whole 'type' thing.
+
+
