@@ -1,217 +1,174 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7318A7D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Dec 2018 17:17:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ACAE97D08E
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Dec 2018 17:22:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727022AbeLRRRp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Dec 2018 12:17:45 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:34258 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726422AbeLRRRo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Dec 2018 12:17:44 -0500
-Received: by mail-pl1-f194.google.com with SMTP id w4so8117917plz.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Dec 2018 09:17:44 -0800 (PST)
+        id S1727186AbeLRRW6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Dec 2018 12:22:58 -0500
+Received: from mail-wr1-f42.google.com ([209.85.221.42]:38791 "EHLO
+        mail-wr1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726812AbeLRRW5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Dec 2018 12:22:57 -0500
+Received: by mail-wr1-f42.google.com with SMTP id v13so16726287wrw.5
+        for <linux-doc@vger.kernel.org>; Tue, 18 Dec 2018 09:22:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=442vwuYNQl3+5+R2IJ9SAnj2SpikSYGCJwnnp94ndjs=;
-        b=YX+nY/00hzrzrhGcabJW/utVNQDVyaI34CjDeDXKdc+Rseslqj7UR8Ddf5oCmldnMu
-         NOITKWcZM2vowIlLpKt8CFETsRtFUdkcTxML5wsC57nFe7RVhaopiw/fpJa930YD6t74
-         8qfLKIhzkFAR5R0nPvqEbmcfgcUKGMA6Pr7RQPrUBaub+zeGk0TkNL69RRZVX/uaowCb
-         pBoU6GGUSJhH5lfPOab4FTFUAf665kyCMpzfWH3BAUmlCElkBEhTU3/yWqBfbVQOOKaR
-         C5LvriU6dLuNtMc9zhUa7YvuK42A2ONFp1wckXdby+ZB+ujj9fA/of8OCMQ/xJH6B8mW
-         JIYA==
+        d=linaro.org; s=google;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=A8dUrmsI3uhRJycvb5Lt2RLbjLjJPOChaN1JgkfUuDI=;
+        b=gi2K0UAneGavKoIZ/1rnLlZkJYk5BLZIkBmRdAqAodRl8kwQZ5D1ebrSoC1Wp1ZzVB
+         LNnRvKZzp14g5738QO7lAyeFtBmcN6fUZwg5nuvIZQPWPUfHT2A48FFis0l/xE0JE9us
+         rTlQgWOip7fd3aX4PhNLRjECPNTO94/T1gu7w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=442vwuYNQl3+5+R2IJ9SAnj2SpikSYGCJwnnp94ndjs=;
-        b=SqrV0P+frRJKHEBvmO4NXxTye0RBCYDXQLtHyyxq+6k5pfeFtg4uf9gXY/GCu6urvY
-         UDeJm7f+MRC43RdQoApR4bLuxZwgUPEpHsEAoLNKEJwf9O+ITj6MSm1YNH/1kobfn4r5
-         NRf6NZ2M9yXxBiec3xgxZaU//EttcMH5F8mJGtuY/l/DJI7X1Y5uxWrEeMBUkHw5PDx3
-         XlnmA4ZxlnbYvU3jYY8VxWu6jF45rtF+lQBfZnV3bmghZ2B7Hz5EBkOdsLoGv2kanwMI
-         nhwoiDT7vT16KlHGaGaarIsADTW8+v28QpcvgTZYpw16xAEDidqjBIcP6blf3zPONPgv
-         sG8g==
-X-Gm-Message-State: AA+aEWaTKM+9YlVHW0GOUuWADd622FN5Gj1EEzl5/aYD5O6rUvRRzghT
-        aqL/nTVzMCQcRHUbaT4jVQKVkKJ1bvRjrynGmz/Xkw==
-X-Google-Smtp-Source: AFSGD/XG6prkkaGhEvsMh8RZmmoz4vN18xdqZlmvYKp7Ep4oBBgcJW+0c2dBBYrLaiWSMA/XFYvCi2eisvSYSxagorI=
-X-Received: by 2002:a17:902:b406:: with SMTP id x6mr16359864plr.329.1545153463562;
- Tue, 18 Dec 2018 09:17:43 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1544445454.git.andreyknvl@google.com> <20181212170108.GZ3505@e103592.cambridge.arm.com>
-In-Reply-To: <20181212170108.GZ3505@e103592.cambridge.arm.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 18 Dec 2018 18:17:31 +0100
-Message-ID: <CAAeHK+zf=qxfk0yRp-yb7rAJLFdUXJdidq5tA-x8-EBdV7kE7A@mail.gmail.com>
-Subject: Re: [PATCH v9 0/8] arm64: untag user pointers passed to the kernel
-To:     Dave Martin <Dave.Martin@arm.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=A8dUrmsI3uhRJycvb5Lt2RLbjLjJPOChaN1JgkfUuDI=;
+        b=uVtvG9Rm5zDeNCEpiCVSqS2MVLNH8TMj6cYh/6qURRZTPyJzWDQM85rFmHjjYgM8N7
+         eyPdPL1AroeFuaQUJyGOtTbJy2UrUdIKqfmKsKrRoT6dxjGi/fos8N2EWZEs4PEAhnX2
+         l50AkKcjDaXytD9Uiws+hZ+91EvfvTIbfQJS/ArE6wokZKk/gMmZVyDWFy0uFnoaDfTm
+         vuicNIyrcYB3HgxYCQ38+ZyDAtDdcO0w+jAmKNhMoAErkWOW2h/DmYKFWkjGH3ZiXbHl
+         v5cW4k5GP8Vle+x356+G7cs8q0Nq7HzLvZjKCoob8UuVGL3taVaEeiO8UaLzOo3F8MQK
+         PPUg==
+X-Gm-Message-State: AA+aEWbeQLCuZlTQ/9G//ylBD2fvpf/qdKvfsRfdtbQKR2nkPzKprZfD
+        8VMYFo4c1Ow8NwADgHOuEwEQAA==
+X-Google-Smtp-Source: AFSGD/V/4jq1c5AHLGoOcMnoI+E//DsAiN2x/RiKrmFSZz9rvqRvHiiFVlK4xn14h6HnFwyjjWdrIA==
+X-Received: by 2002:adf:f052:: with SMTP id t18mr16450678wro.112.1545153775180;
+        Tue, 18 Dec 2018 09:22:55 -0800 (PST)
+Received: from [192.168.0.100] ([84.33.66.6])
+        by smtp.gmail.com with ESMTPSA id h62sm2756362wmf.11.2018.12.18.09.22.53
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 18 Dec 2018 09:22:54 -0800 (PST)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.2 \(3445.102.3\))
+Subject: Re: [PATCH V2 00/10] unify the interface of the proportional-share
+ policy in blkio/io
+From:   Paolo Valente <paolo.valente@linaro.org>
+In-Reply-To: <20181218164126.GX2509588@devbig004.ftw2.facebook.com>
+Date:   Tue, 18 Dec 2018 18:22:52 +0100
+Cc:     Angelo Ruocco <angelo.ruocco.90@gmail.com>,
+        'Paolo Valente' via bfq-iosched 
+        <bfq-iosched@googlegroups.com>, Jens Axboe <axboe@kernel.dk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+        Li Zefan <lizefan@huawei.com>,
+        Angelo Ruocco <angeloruocco90@gmail.com>,
+        Dennis Zhou <dennis@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        Liu Bo <bo.liu@linux.alibaba.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>, broonie@kernel.org,
+        oleksandr@natalenko.name, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <EC4F9B54-2352-4D85-B56C-5800CFEBCCB8@linaro.org>
+References: <20181119103424.3853-1-paolo.valente@linaro.org>
+ <20181120162816.GV2509588@devbig004.ftw2.facebook.com>
+ <25296DAE-73EC-46CC-9A98-A8B7E9017BB7@linaro.org>
+ <7D7FAB43-5F62-4402-A9B3-E7C2E30AE680@linaro.org>
+ <20181130184256.GI2509588@devbig004.ftw2.facebook.com>
+ <5534B7D4-A5D9-4F44-9620-970A7F9EC140@linaro.org>
+ <CADiTV-29TmkB5-k=TtQfoJqjP2Qv7GSsGLXAPBaTB6DoQ+6yyw@mail.gmail.com>
+ <874A0232-2103-4364-BD88-F33B85D6A764@linaro.org>
+ <20181218164126.GX2509588@devbig004.ftw2.facebook.com>
+To:     Tejun Heo <tj@kernel.org>
+X-Mailer: Apple Mail (2.3445.102.3)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 12, 2018 at 6:01 PM Dave Martin <Dave.Martin@arm.com> wrote:
->
-> On Mon, Dec 10, 2018 at 01:50:57PM +0100, Andrey Konovalov wrote:
-> > arm64 has a feature called Top Byte Ignore, which allows to embed pointer
-> > tags into the top byte of each pointer. Userspace programs (such as
-> > HWASan, a memory debugging tool [1]) might use this feature and pass
-> > tagged user pointers to the kernel through syscalls or other interfaces.
-> >
-> > Right now the kernel is already able to handle user faults with tagged
-> > pointers, due to these patches:
-> >
-> > 1. 81cddd65 ("arm64: traps: fix userspace cache maintenance emulation on a
-> >              tagged pointer")
-> > 2. 7dcd9dd8 ("arm64: hw_breakpoint: fix watchpoint matching for tagged
-> >               pointers")
-> > 3. 276e9327 ("arm64: entry: improve data abort handling of tagged
-> >               pointers")
-> >
-> > When passing tagged pointers to syscalls, there's a special case of such a
-> > pointer being passed to one of the memory syscalls (mmap, mprotect, etc.).
-> > These syscalls don't do memory accesses but rather deal with memory
-> > ranges, hence an untagged pointer is better suited.
-> >
-> > This patchset extends tagged pointer support to non-memory syscalls. This
-> > is done by reusing the untagged_addr macro to untag user pointers when the
-> > kernel performs pointer checking to find out whether the pointer comes
-> > from userspace (most notably in access_ok). The untagging is done only
-> > when the pointer is being checked, the tag is preserved as the pointer
-> > makes its way through the kernel.
-> >
-> > One of the alternative approaches to untagging that was considered is to
-> > completely strip the pointer tag as the pointer enters the kernel with
-> > some kind of a syscall wrapper, but that won't work with the countless
-> > number of different ioctl calls. With this approach we would need a custom
-> > wrapper for each ioctl variation, which doesn't seem practical.
-> >
-> > The following testing approaches has been taken to find potential issues
-> > with user pointer untagging:
-> >
-> > 1. Static testing (with sparse [2] and separately with a custom static
-> >    analyzer based on Clang) to track casts of __user pointers to integer
-> >    types to find places where untagging needs to be done.
-> >
-> > 2. Dynamic testing: adding BUG_ON(has_tag(addr)) to find_vma() and running
-> >    a modified syzkaller version that passes tagged pointers to the kernel.
-> >
-> > Based on the results of the testing the requried patches have been added
-> > to the patchset.
-> >
-> > This patchset has been merged into the Pixel 2 kernel tree and is now
-> > being used to enable testing of Pixel 2 phones with HWASan.
 
-Hi, Dave,
 
->
-> Do you have an idea of how much of the user/kernel interface is covered
-> by this workload?
+> Il giorno 18 dic 2018, alle ore 17:41, Tejun Heo <tj@kernel.org> ha =
+scritto:
+>=20
+> Hello, Paolo.
+>=20
+> On Tue, Dec 18, 2018 at 08:48:10AM +0100, Paolo Valente wrote:
+>> If Tejun cannot see any solution to his concern, then can we just
+>> switch to this extension, considering that
+>> - for non-shared names the interface is *identical* to the current
+>>  one;
+>> - by using this new interface, and getting feedback we could
+>>  understand how to better handle Tejun's concern?
+>> A lot of systems do use weights, and people don't even know that =
+these
+>> systems don't work correctly in blk-mq.  And they won't work =
+correctly
+>> in any available configuration from 4.21, if we don't fix this =
+problem.
+>=20
+> So, when seen from userland, how it should behave isn't vague or
+> complicated.  For a given device and policy type, there can be only
+> one implementation active.
 
-Not really. I don't even know what kind of measurements can be used to
-obtain this estimate. But Pixel 2 kernel with these patches + Android
-runtime instrumented with HWASan works.
+Yes, but the problem is the opposite. You may have
+- two different policies, with the same interface parameter,=20
+- one active on one device
+- the other one active on another device
 
->
-> > This patchset is a prerequisite for ARM's memory tagging hardware feature
-> > support [3].
->
-> It looks like there's been a lot of progress made here towards smoking
-> out most of the sites in the kernel where pointers need to be untagged.
->
-> However, I do think that we need a clear policy for how existing kernel
-> interfaces are to be interpreted in the presence of tagged pointers.
-> Unless we have that nailed down, we are likely to be able to make only
-> vague guarantees to userspace about what works, and the ongoing risk
-> of ABI regressions and inconsistencies seems high.
->
-> I don't really see how we can advertise a full system interface if we
-> know some subset of it doesn't work for foreseeable userspace
-> environments.  I feel that presenting the current changes as an ABI
-> relaxation may be a recipe for future problems, since the forwards
-> compatibility guarantees we're able to make today are few and rather
-> vague.
->
-> Can we define an opt-in for tagged-pointer userspace, that rejects all
-> syscalls that we haven't checked and whitelisted (or that are
-> uncheckable like ioctl)?  This reflects the reality that we don't have
-> a regular userspace environment in which standards-compliant software
-> that uses address tags in a reasonable way will just work.
->
-> It might be feasible to promote this to be enabled by default later on,
-> if it becomes sufficiently complete.
->
->
-> In the meantime, I think we really need to nail down the kernel's
-> policies on
->
->  * in the default configuration (without opt-in), is the presence of
-> non-address bits in pointers exchanged with the kernel simply
-> considered broken?  (Even with this series, the de factor answer
-> generally seems to be "yes", although many specific things will now
-> work fine)
->
->  * if not, how do we tighten syscall / interface specifications to
-> describe what happens with pointers containing non-address bits, while
-> keeping the existing behaviour for untagged pointers?
->
-> We would want a general recipe that gives clear guidance on what
-> userspace should expect an arbitrarily chosen syscall to do with its
-> pointers, without having to enumerate each and every case.
->
-> To be sustainable, we would also need to solve that in a way that
-> doesn't need to be reintented per-arch.
+In that case, statistics from one policy necessarily differ from
+statistics from the other policy.
 
-As I understand your main concern is userspace/kernel ABI changes
-these patches introduce. This concern was already pointed out by
-Catalin, and working out the details is still in progress.
+In this respect, in a system with more than one drive it already
+happens that the same policy is active on different devices.  When
+printing a statistics interface file for the policy, the output will
+be a list of separate statistics, with a bunch of statistics *for
+each* drive (plus a grand total in some cases).
 
->
-> There may already be some background on these topics -- can you throw me
-> a link if so?
+So, our proposal simply extends this scheme in the most natural way:
+if, now, also two or more policies share the same statistics file,
+then the output will be a list of separate statistics, one for each
+policy.  The statistics for each policy will be tagged with the policy
+name, and will have the same identical form as above.  It seems the
+most natural hierarchical extension of the same scheme.
 
-I don't have a single link, I would suggest to look at the comments
-for all the previous versions of this patchset. I see you saw the
-pathset by Vincenzo, it also has some information about this.
+At any rate, if you don't like it, just tell us how you prefer it
+done.  Do you prefer the sharing of statistics file to be simply
+forbidden?  (If this can be done.) I think such an incomplete solution
+would preserve part of the current mess; but, if this allows us to
+exit from this impasse, then it is ok for me.
 
->
-> Cheers
-> ---Dave
+*Any* feasible option is ok for me. Just pick one.
 
-Thanks!
+>  It doesn't make sense to have two weight
+> mechanisms active on one device, right?
+
+(Un)fortunately, the problem are not weights.  There won't be two
+weights for two policies expiring a weight parameter.  The problems
+concerns statistics.  See above.
+
+
+>  So, the interface should only
+> present what makes sense to the user for both configuration knobs and
+> statistics, and that'd be a hard requirement because we don't want to
+> present confusing spurious information to userspace.
+>=20
+> There seemd to have been significant misunderstandings as to what the
+> requirements are when this was discussed way back, so idk what the
+> good path forward is at this point.  Just keep the current names?
+>=20
+
+I don't clearly understand how "just picking the current names" is a
+way forward, but if we do not make this extension, in a way or the
+other, then two policies will simply not be allowed to share the same
+interface files.  And we will be still at the starting point.
+
+Thanks,
+Paolo
+
+> Thanks.
+>=20
+> --=20
+> tejun
+
