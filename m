@@ -1,270 +1,953 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5B3457D08E
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Dec 2018 01:28:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 497D17D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Dec 2018 07:31:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726501AbeLRB2T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Dec 2018 20:28:19 -0500
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:60628 "EHLO
-        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726260AbeLRB2S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Dec 2018 20:28:18 -0500
-Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id wBI1P8fe011693;
-        Mon, 17 Dec 2018 17:28:10 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=facebook;
- bh=i6kq1toTi6Y41x7q39A4sqXlgAtPkMKJQMjTBCP+N6Q=;
- b=hepYaHzORr2FDww3zU+VucCd/U1Fyfv2YJp3aPasZh0EBnz+IMZbs2WuDo69jZJBzetq
- QfZT7hUzbr74aPaPWiiGYaGbj5c6tFf4HGa4STRIorWRVeRuPMW39cl3KnJNav+pyHnf
- HHGQbu0KKClc09M0QpE/vNvdP9nhN+PXTcc= 
-Received: from maileast.thefacebook.com ([199.201.65.23])
-        by mx0a-00082601.pphosted.com with ESMTP id 2pen15gcx6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Mon, 17 Dec 2018 17:28:10 -0800
-Received: from frc-mbx05.TheFacebook.com (2620:10d:c0a1:f82::29) by
- frc-hub03.TheFacebook.com (2620:10d:c021:18::173) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.1531.3; Mon, 17 Dec 2018 17:28:08 -0800
-Received: from frc-hub05.TheFacebook.com (2620:10d:c021:18::175) by
- frc-mbx05.TheFacebook.com (2620:10d:c0a1:f82::29) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.1531.3; Mon, 17 Dec 2018 17:28:08 -0800
-Received: from NAM03-BY2-obe.outbound.protection.outlook.com (192.168.183.28)
- by o365-in.thefacebook.com (192.168.177.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.1.1531.3
- via Frontend Transport; Mon, 17 Dec 2018 17:28:08 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector1-fb-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i6kq1toTi6Y41x7q39A4sqXlgAtPkMKJQMjTBCP+N6Q=;
- b=JsVQnX+/mbdy1LJqzsRZlb9jInufmrZb8Mk1V3q/ABQEOHyqRZbDISNBeuyl0bsi+zv/3h+oO6GaJW/h5g6Cm5uN5hSE8+L9Y5AAMIUXVarXrT2Z+5GeKx8nDlOLyxdUT8cgPgiYY1dWYGfRtH9wFneLYbOaIG/oMc7M06BlgXg=
-Received: from BYAPR15MB2631.namprd15.prod.outlook.com (20.179.156.24) by
- BYAPR15MB3381.namprd15.prod.outlook.com (20.179.59.12) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1425.19; Tue, 18 Dec 2018 01:28:04 +0000
-Received: from BYAPR15MB2631.namprd15.prod.outlook.com
- ([fe80::990:c2e0:2a8a:25c5]) by BYAPR15MB2631.namprd15.prod.outlook.com
- ([fe80::990:c2e0:2a8a:25c5%3]) with mapi id 15.20.1425.021; Tue, 18 Dec 2018
- 01:28:04 +0000
-From:   Roman Gushchin <guro@fb.com>
-To:     Oleg Nesterov <oleg@redhat.com>
-CC:     Roman Gushchin <guroan@gmail.com>, Tejun Heo <tj@kernel.org>,
-        "Dan Carpenter" <dan.carpenter@oracle.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Kernel Team <Kernel-team@fb.com>
-Subject: Re: [PATCH v5 4/7] cgroup: cgroup v2 freezer
-Thread-Topic: [PATCH v5 4/7] cgroup: cgroup v2 freezer
-Thread-Index: AQHUjmmlQwOP1yU/lEmjwwDF9MnbZKV5v7oA//+fV4CAAgoKAIAIW+QA
-Date:   Tue, 18 Dec 2018 01:28:04 +0000
-Message-ID: <20181218012800.GA29563@tower.DHCP.thefacebook.com>
-References: <20181207201531.1665-1-guro@fb.com>
- <20181207201531.1665-5-guro@fb.com> <20181211162632.GB8504@redhat.com>
- <20181211184033.GA8971@tower.DHCP.thefacebook.com>
- <20181212174902.GA30309@redhat.com>
-In-Reply-To: <20181212174902.GA30309@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: MWHPR12CA0026.namprd12.prod.outlook.com
- (2603:10b6:301:2::12) To BYAPR15MB2631.namprd15.prod.outlook.com
- (2603:10b6:a03:152::24)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [2620:10d:c090:200::6:5e5f]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;BYAPR15MB3381;20:mULJQ6BSOJL/wWxedCBAM7LOlto4/m46Eud1VIDpQ2mhwUJcztLjfvv8N2ZK2uQaIlGSH53McUaBcnk4YA/7LcoUHQUZlwRwBnIycOZsbIoxpz/Pp0IR5nd5E5mVmTaTQLKxLl3pqpfdLVwFvPjqn3njEkBI/KurYdSIk154ejw=
-x-ms-office365-filtering-correlation-id: 4f3a6cf1-ff67-461b-f3cb-08d664880eab
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(2017052603328)(7153060)(7193020);SRVR:BYAPR15MB3381;
-x-ms-traffictypediagnostic: BYAPR15MB3381:
-x-microsoft-antispam-prvs: <BYAPR15MB3381A4BACF44A4A703C0C40BBEBD0@BYAPR15MB3381.namprd15.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(3230021)(999002)(11241501185)(6040522)(2401047)(5005006)(8121501046)(823302103)(3231475)(944501520)(52105112)(93006095)(93001095)(3002001)(10201501046)(148016)(149066)(150057)(6041310)(20161123558120)(20161123560045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(201708071742011)(7699051)(76991095);SRVR:BYAPR15MB3381;BCL:0;PCL:0;RULEID:;SRVR:BYAPR15MB3381;
-x-forefront-prvs: 08902E536D
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(376002)(136003)(366004)(346002)(396003)(199004)(189003)(8936002)(68736007)(14444005)(33656002)(6512007)(33896004)(6916009)(5024004)(76176011)(305945005)(52116002)(9686003)(316002)(93886005)(1076003)(345774005)(25786009)(5660300001)(2906002)(99286004)(6436002)(446003)(6116002)(4326008)(386003)(229853002)(105586002)(71200400001)(39060400002)(186003)(7736002)(106356001)(46003)(86362001)(256004)(478600001)(6486002)(8676002)(476003)(14454004)(486006)(11346002)(54906003)(6246003)(53936002)(6506007)(81156014)(97736004)(102836004)(81166006)(71190400001);DIR:OUT;SFP:1102;SCL:1;SRVR:BYAPR15MB3381;H:BYAPR15MB2631.namprd15.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: fb.com does not designate
- permitted sender hosts)
-x-microsoft-antispam-message-info: jrJeq7RFga4owXLNyBOchelC7sMD9QyiUywG6H4sR69ZSRFcItUD7IgIMwcibZooPIWfQ4am8MLjHObyKvWbm/ETe3jo6KP9Ced/KFEkittfKbWfBa39XowNxCOMKNe2n/DDLUJsR+3bul3wrEyc3ENrckK+9mjPbK5f895lcxJaSuomOP9dLkIexd0laLyCWn/uocEpNr7irBNdUJQBj5NdGYyB5HlasMqEd9H7wOZ+CvOJql22tD28FkBXf+/c8i3CINXQfYbiqAIRqLByzl8CN/o62kV/GCoRXECWU4RMi4Qn1uPMKdJk0kkcFJWt
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <6CF8A95676590942A875E1FEB3ABDA1C@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S1726409AbeLRHbp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Dec 2018 02:31:45 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:52616 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726360AbeLRHbo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Dec 2018 02:31:44 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 6459B169731;
+        Tue, 18 Dec 2018 07:31:44 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-12-60.pek2.redhat.com [10.72.12.60])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id E1809277DF;
+        Tue, 18 Dec 2018 07:31:35 +0000 (UTC)
+Subject: Re: [PATCH 1/2 v3] kdump: add the vmcoreinfo documentation
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
+        tglx@linutronix.de, mingo@redhat.com, x86@kernel.org,
+        akpm@linux-foundation.org, bhe@redhat.com, dyoung@redhat.com,
+        linux-doc@vger.kernel.org
+References: <20181216131617.2612-1-lijiang@redhat.com>
+ <20181216131617.2612-2-lijiang@redhat.com> <20181217130024.GD12165@zn.tnic>
+From:   lijiang <lijiang@redhat.com>
+Message-ID: <826c1a6b-41da-bc1a-f9c2-0d52e774b572@redhat.com>
+Date:   Tue, 18 Dec 2018 15:31:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f3a6cf1-ff67-461b-f3cb-08d664880eab
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2018 01:28:04.8066
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB3381
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-18_01:,,
- signatures=0
-X-Proofpoint-Spam-Reason: safe
-X-FB-Internal: Safe
+In-Reply-To: <20181217130024.GD12165@zn.tnic>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Tue, 18 Dec 2018 07:31:44 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 12, 2018 at 06:49:02PM +0100, Oleg Nesterov wrote:
-> On 12/11, Roman Gushchin wrote:
-> >
-> > On Tue, Dec 11, 2018 at 05:26:32PM +0100, Oleg Nesterov wrote:
-> > > On 12/07, Roman Gushchin wrote:
-> > > >
-> > > > Cgroup v2 freezer tries to put tasks into a state similar to jobctl
-> > > > stop. This means that tasks can be killed, ptraced (using
-> > > > PTRACE_SEIZE*), and interrupted. It is possible to attach to
-> > > > a frozen task, get some information (e.g. read registers) and detac=
-h.
-> > >
-> > > I fail to understand how this all supposed to work.
-> > >
-> > > > @@ -368,6 +369,8 @@ static inline int signal_pending_state(long sta=
-te, struct task_struct *p)
-> > > >  		return 0;
-> > > >  	if (!signal_pending(p))
-> > > >  		return 0;
-> > > > +	if (unlikely(cgroup_task_frozen(p) && p->jobctl =3D=3D JOBCTL_TRA=
-P_FREEZE))
-> > > > +		return __fatal_signal_pending(p);
-> > >
-> > > I think I will never agree with this change ;) and I don't think it a=
-ctually helps.
-> >
-> > See below.
-> >
-> > >
-> > > > +void cgroup_enter_frozen(void)
-> > > > +{
-> > > > +	if (!current->frozen) {
-> > > > +		spin_lock_irq(&css_set_lock);
-> > > > +		current->frozen =3D true;
-> > > > +		cgroup_inc_frozen_cnt(task_dfl_cgroup(current), false, true);
-> > > > +		spin_unlock_irq(&css_set_lock);
-> > > > +	}
-> > > > +
-> > > > +	__set_current_state(TASK_INTERRUPTIBLE);
-> > > > +	schedule();
-> > >
-> > > So once again, suppose it races with PTRACE_INTERRUPT, or SIGSTOP, or=
- something
-> > > else which should be handled by get_signal() before do_freezer_trap()=
-.
-> > >
-> > > If (say) PTRACE_INTERRUPT comes before schedule it will be lost. Othe=
-rwise
-> > > the frozen task will react. This can't be right. Or I am totally conf=
-used.
-> >
-> > Why?
-> > PTRACE_INTERRUPT will set JOBCTL_TRAP_STOP, so signal_pending_state()
-> > will return true, schedule() will return immediately, and we'll handle =
-the trap.
->=20
-> OK, I misread the JOBCTL_TRAP_FREEZE check as "jobctl & JOBCTL_TRAP_FREEZ=
-E".
->=20
-> But p->jobctl =3D=3D JOBCTL_TRAP_FREEZE doesn't look right too. For examp=
-le,
-> JOBCTL_STOP_DEQUEUED can be set. You probably need something like
->=20
-> 	jobctl & (JOBCTL_PENDING_MASK | JOBCTL_TRAP_FREEZE) =3D=3D JOBCTL_TRAP_F=
-REEZE
->=20
-> And you need a barrier in between, iow you need set_current_state(TASK_IN=
-TERRUPTIBLE).
->=20
-> But this doesn't really matter. I don't think you need to modify signal_p=
-ending_state()
-> and penalize schedule(). You can do something like
->=20
-> 	spin_lock_irq(sigllock);
-> 	if (jobctl & (JOBCTL_PENDING_MASK | JOBCTL_TRAP_FREEZE) =3D=3D JOBCTL_TR=
-AP_FREEZE &&
-> 	    !__fatal_signal_pending())
-> 	{
-> 		__set_current_state(TASK_INTERRUPTIBLE);
-> 		clear_thread_flag(TIF_SIGPENDING);
-> 	}
-> 	spin_unlock_irq(siglock);
->=20
-> 	schedule();
-> 	// recalc_sigpending() is not needed
->=20
-> in cgroup_enter_frozen() with the same effect. Which looks equally ugly a=
-nd
-> suboptimal, but at least this doesn't touch the sched code.
+在 2018年12月17日 21:00, Borislav Petkov 写道:
+> On Sun, Dec 16, 2018 at 09:16:16PM +0800, Lianbo Jiang wrote:
+>> +clear_idx
+>> +=========
+>> +The index that the next printk record to read after the last 'clear'
+>> +command. It indicates the first record after the last SYSLOG_ACTION
+>> +_CLEAR, like issued by 'dmesg -c'.
+> 
+> What is that used for by the userspace tools?
+> 
 
-Gotcha. Will follow this approach in v6.
+The clear_idx is used when dumping the dmesg log.
 
->=20
-> > > and btw.... what about suspend? try_to_freeze_tasks() will obviously =
-fail
-> > > if there is a ->frozen thread?
-> >
-> > I have to think a bit more here, but something like this will probably =
-work:
-> >
-> > diff --git a/kernel/freezer.c b/kernel/freezer.c
-> > index b162b74611e4..590ac4d10b02 100644
-> > --- a/kernel/freezer.c
-> > +++ b/kernel/freezer.c
-> > @@ -134,7 +134,7 @@ bool freeze_task(struct task_struct *p)
-> >                 return false;
-> >
-> >         spin_lock_irqsave(&freezer_lock, flags);
-> > -       if (!freezing(p) || frozen(p)) {
-> > +       if (!freezing(p) || frozen(p) || cgroup_task_frozen()) {
-> >                 spin_unlock_irqrestore(&freezer_lock, flags);
-> >                 return false;
-> >         }
-> >
-> > --
-> >
-> > If the task is already frozen by the cgroup freezer, we don't have to d=
-o
-> > anything additionally.
->=20
-> I don't think so. A cgroup_task_frozen() task can be killed after
-> try_to_freeze_tasks() succeeds, and the exiting task can close files,
-> do IO, etc. Or it can be thawed by cgroup_freeze_task(false).
->=20
-> In short, if try_to_freeze_tasks() succeeds, the caller has all rights
-> to assume that nobody can escape from __refrigerator().
+>> +
+>> +log_next_idx
+>> +============
+>> +The index of the next record to store in the buffer 'log_buf'. It helps
+>> +to compute the index of current strings position.
+>> +
+>> +printk_log
+>> +==========
+>> +The size of a structure 'printk_log'. It helps to compute the size of
+>> +messages, and extract dmesg log.
+> 
+> What is the difference between that and log_buf?
+> 
 
-But this is what we do with stopped and ptraced tasks, isn't it?
-We do use freezable_schedule() and the system freezer just ignores such tas=
-ks.
-I believe that cgroup v2 freezer should follow the same path.
+The printk_log is used to output human readable text, it will encapsulate header
+information for log_buf, such as timestamp, syslog level, etc.
 
->=20
-> And what about TASK_STOPPED/TASK_TRACED tasks? They can not be frozen
-> or thawed, right? This doesn't look good, and this differs from the
-> current freezer controller...
+> 
+> 
+>> +
+>> +(printk_log, ts_nsec|len|text_len|dict_len)
+>> +===========================================
+>> +It represents these field offsets in the structure 'printk_log'. User
+>> +space tools can parse it and detect any changes to structure down the
+>> +line.
+> 
+> What does that mean? "any changes down the line"?
+> 
 
-Good question!
+User space tools can parse it and check whether the values of printk_log's members
+have been changed. 
 
-It looks like cgroup v1 freezer just ignores them treating as already froze=
-n,
-which doesn't look nice.
+I will improve it in patch v4.
 
-I'd say s/signal_wake_up(task, 0)/signal_wake_up(task, 1) in
-cgroup_freeze_task() will do the job of moving them into the frozen state.
-The question is how to get them back into the stopped state, if cgroup is
-unfrozen. At this point there are no more signs, that the task has been
-previously frozen. I've no better idea, than to introduce another
-per-task bit/flag. If you have any better ideas, please, share.
 
-Thank you for the review!
+>> +
+>> +(free_area.free_list, MIGRATE_TYPES)
+>> +====================================
+>> +The number of migrate types for pages. The free_list is divided into
+>> +the array, it needs to know the number of the array.
+> 
+> ... for?
+> 
+
+It needs to know the number of the array when makedumpfile computes the number of
+free pages.
+
+>> +
+>> +NR_FREE_PAGES
+>> +=============
+>> +On linux-2.6.21 or later, the number of free_pages is in
+>> +vm_stat[NR_FREE_PAGES]. It can get the number of free pages from the
+>> +array.
+>> +
+>> +PG_lru|PG_private|PG_swapcache|PG_swapbacked|PG_slab|
+>> +PG_hwpoision|PG_head_mask
+>> +=====================================================
+>> +It means the attribute of a page. These flags will be used to filter
+>> +the free pages.
+>> +
+>> +PAGE_BUDDY_MAPCOUNT_VALUE or ~PG_buddy
+>> +======================================
+>> +The 'PG_buddy' flag indicates that the page is free and in the buddy
+>> +system. Makedumpfile can exclude the free pages managed by a buddy.
+> 
+> That text belongs with the one above?
+> 
+
+It exported the value of (~PG_buddy), so it is placed here independently.
+
+>> +
+>> +HUGETLB_PAGE_DTOR
+>> +=================
+>> +The 'HUGETLB_PAGE_DTOR' flag indicates the hugetlbfs pages. Makedumpfile
+>> +will exclude these pages.
+>> +
+>> +================
+>> +x86_64 variables
+>> +================
+>> +
+>> +phys_base
+>> +=========
+>> +In x86_64, the 'phys_base' is necessary to convert virtual address of
+>> +exported kernel symbol to physical address.
+>> +
+>> +init_top_pgt
+>> +============
+>> +The 'init_top_pgt' used to walk through the whole page table and convert
+>> +virtual address to physical address.
+> 
+> This is the same as swapper_pg_dir?
+> 
+
+These two variables are somewhat similar, but they are used in different scenarios.
+
+>> +
+>> +pgtable_l5_enabled
+>> +==================
+>> +User-space tools need to know whether the crash kernel was in 5-level
+>> +paging mode or not.
+>> +
+>> +node_data
+>> +=========
+>> +This is a struct 'pglist_data' array, it stores all numa nodes information.
+>> +In general, Makedumpfile can get the pglist_data structure from symbol
+>> +'node_data'.
+>> +
+>> +(node_data, MAX_NUMNODES)
+>> +=========================
+>> +The number of this 'node_data' array. It means the maximum number of the
+>> +nodes in system.
+>> +
+>> +KERNELOFFSET
+>> +============
+>> +Randomize the address of the kernel image. This is the offset of KASLR in
+>> +VMCOREINFO ELF notes. It is used to compute the page offset in x86_64. If
+>> +KASLE is disabled, this value is zero.
+>> +
+>> +KERNEL_IMAGE_SIZE
+>> +=================
+>> +The size of 'KERNEL_IMAGE_SIZE', currently unused.
+> 
+> So remove?
+> 
+
+I'm not sure whether it should be removed, so i keep it.
+
+>> +
+>> +The old MODULES_VADDR need be decided by KERNEL_IMAGE_SIZE when kaslr
+>> +enabled. Now MODULES_VADDR is not needed any more since Pratyush makes
+>> +all VA to PA converting done by page table lookup.
+> 
+> Also, I did clean this up considerably - please include in your next
+> version:
+> 
+
+Great, thanks for you help. I will post v4 later.
+
+Regards,
+Lianbo
+
+> ---
+> diff --git a/Documentation/kdump/vmcoreinfo.txt b/Documentation/kdump/vmcoreinfo.txt
+> index d71260bf383a..2ce34d952bfd 100644
+> --- a/Documentation/kdump/vmcoreinfo.txt
+> +++ b/Documentation/kdump/vmcoreinfo.txt
+> @@ -1,18 +1,19 @@
+>  ================================================================
+> -		Documentation for VMCOREINFO
+> +			VMCOREINFO
+>  ================================================================
+>  
+>  =======================
+>  What is the VMCOREINFO?
+>  =======================
+> -It is a special ELF note section. The VMCOREINFO contains the first
+> -kernel's various information, for example, structure size, page size,
+> -symbol values and field offset, etc. These data are packed into an ELF
+> -note section, and these data will also help user-space tools(e.g. crash
+> -makedumpfile) analyze the first kernel's memory usage.
+> -
+> -In general, makedumpfile can dump the VMCOREINFO contents from vmlinux
+> -in the first kernel. For example:
+> +
+> +VMCOREINFO is a special ELF note section. It contains various
+> +information from the kernel like structure size, page size, symbol
+> +values, field offsets, etc. These data are packed into an ELF note
+> +section and used by user-space tools like crash and makedumpfile to
+> +analyze a kernel's memory layout.
+> +
+> +To dump the VMCOREINFO contents, one can do:
+> +
+>  # makedumpfile -g VMCOREINFO -x vmlinux
+>  
+>  ================
+> @@ -20,123 +21,132 @@ Common variables
+>  ================
+>  
+>  init_uts_ns.name.release
+> -========================
+> -The number of OS release. Based on this version number, people can find
+> -the source code for the corresponding version. When analyzing the vmcore,
+> -people must read the source code to find the reason why the kernel crashed.
+> +------------------------
+> +
+> +The version of the Linux kernel. Used to find the corresponding source
+> +code from which the kernel has been built.
+>  
+>  PAGE_SIZE
+> -=========
+> -The size of a page. It is the smallest unit of data for memory management
+> -in kernel. It is usually 4k bytes and the page is aligned in 4k bytes,
+> -which is very important for computing address.
+> +---------
+> +
+> +The size of a page. It is the smallest unit of data for memory
+> +management in kernel. It is usually 4096 bytes and a page is aligned on
+> +4096 bytes. Used for computing page addresses.
+>  
+>  init_uts_ns
+> -===========
+> -This is the UTS namespace, which is used to isolate two specific elements
+> -of the system that relate to the uname system call. The UTS namespace is
+> -named after the data structure used to store information returned by the
+> -uname system call.
+> +-----------
+> +
+> +This is the UTS namespace, which is used to isolate two specific
+> +elements of the system that relate to the uname(2) system call. The UTS
+> +namespace is named after the data structure used to store information
+> +returned by the uname(2) system call.
+>  
+> -User-space tools can get the kernel name, host name, kernel release number,
+> -kernel version, architecture name and OS type from the 'init_uts_ns'.
+> +User-space tools can get the kernel name, host name, kernel release
+> +number, kernel version, architecture name and OS type from it.
+>  
+>  node_online_map
+> -===============
+> -It is a macro definition, actually it is an array node_states[N_ONLINE],
+> -and it represents the set of online node in a system, one bit position
+> -per node number.
+> +---------------
+>  
+> -This is used to keep track of which nodes are in the system and online.
+> +An array node_states[N_ONLINE] which represents the set of online node
+> +in a system, one bit position per node number. Used to keep track of
+> +which nodes are in the system and online.
+>  
+>  swapper_pg_dir
+> -=============
+> -It generally indicates the pgd for the kernel. When mmu is enabled in
+> -config file, the 'swapper_pg_dir' is valid.
+> +-------------
+>  
+> -The 'swapper_pg_dir' helps to translate the virtual address to a physical
+> -address.
+> +The global page directory pointer of the kernel. Used to translate
+> +virtual to physical addresses.
+>  
+>  _stext
+> -======
+> -It is an assemble symbol that defines the beginning of the text section.
+> -In general, the '_stext' indicates the kernel start address. This is used
+> -to convert a virtual address to a physical address when the virtual address
+> -does not belong to the 'vmalloc' address.
+> +------
+> +
+> +Defines the beginning of the text section. In general, _stext indicates
+> +the kernel start address. Used to convert a virtual address from the
+> +direct kernel map to a physical address.
+>  
+>  vmap_area_list
+> -==============
+> -It stores the virtual area list, makedumpfile can get the vmalloc start
+> +--------------
+> +
+> +Stores the virtual area list. makedumpfile can get the vmalloc start
+>  value from this variable. This value is necessary for vmalloc translation.
+>  
+>  mem_map
+> -=======
+> -Physical addresses are translated to struct pages by treating them as an
+> -index into the mem_map array. Shifting a physical address PAGE_SHIFT bits
+> -to the right will treat it as a PFN from physical address 0, which is also
+> -an index within the mem_map array.
+> +-------
+> +
+> +Physical addresses are translated to struct pages by treating them as
+> +an index into the mem_map array. Right-shifting a physical address
+> +PAGE_SHIFT bits converts it into a page frame number which is an index
+> +into that mem_map array.
+>  
+> -In short, it can map the address to struct page.
+> +Used to map an address to the corresponding struct page.
+>  
+>  contig_page_data
+> -================
+> -Makedumpfile can get the pglist_data structure from this symbol
+> -'contig_page_data'. The pglist_data structure is used to describe the
+> -memory layout.
+> +----------------
+>  
+> -User-space tools can use this symbols for excluding free pages.
+> +Makedumpfile can get the pglist_data structure from this symbol, which
+> +is used to describe the memory layout.
+> +
+> +User-space tools use this to exclude free pages when dumping memory.
+>  
+>  mem_section|(mem_section, NR_SECTION_ROOTS)|(mem_section, section_mem_map)
+> -==========================================================================
+> -Export the address of 'mem_section' array, and it's length, structure size,
+> -and the 'section_mem_map' offset.
+> +--------------------------------------------------------------------------
+> +
+> +The address of the mem_section array, its length, structure size, and
+> +the section_mem_map offset.
+>  
+>  It exists in the sparse memory mapping model, and it is also somewhat
+> -similar to the mem_map variable, both of them will help to translate
+> -the address.
+> +similar to the mem_map variable, both of them are used to translate an
+> +address.
+>  
+>  page
+> -====
+> -The size of a 'page' structure. In kernel, the page is an important data
+> -structure, it is widely used to compute the continuous memory.
+> +----
+> +
+> +The size of a page structure. struct page is an important data structure
+> +and it is widely used to compute the contiguous memory.
+>  
+>  pglist_data
+> -===========
+> -The size of a 'pglist_data' structure. This value will be used to check if
+> -the 'pglist_data' structure is valid. It is also one of the conditions for
+> -checking the memory type.
+> +-----------
+> +
+> +The size of a pglist_data structure. This value will be used to check
+> +if the pglist_data structure is valid. It is also used for checking the
+> +memory type.
+>  
+>  zone
+> -====
+> -The size of a 'zone' structure. This value is often used to check if the
+> -'zone' structure is found. It is necessary structures for excluding free
+> -pages.
+> +----
+> +
+> +The size of a zone structure. This value is often used to check if the
+> +zone structure has been found. It is also used for excluding free pages.
+>  
+>  free_area
+> -=========
+> -The size of a 'free_area' structure. It indicates whether the 'free_area'
+> -structure is valid or not. This is useful for excluding free pages.
+> +---------
+> +
+> +The size of a free_area structure. It indicates whether the free_area
+> +structure is valid or not. Useful for excluding free pages.
+>  
+>  list_head
+> -=========
+> -The size of a 'list_head' structure. It depends on this value when
+> -iterating the free list.
+> +---------
+> +
+> +The size of a list_head structure. Used when iterating lists in a
+> +post-mortem analysis session.
+>  
+>  nodemask_t
+> -==========
+> -The size of a 'nodemask_t' type. This value is used to compute the number
+> +----------
+> +
+> +The size of a nodemask_t type. This value is used to compute the number
+>  of online nodes.
+>  
+>  (page, flags|_refcount|mapping|lru|_mapcount|private|compound_dtor|
+>         compound_order|compound_head)
+> -===================================================================
+> +-------------------------------------------------------------------
+> +
+>  User-space tools can compute their values based on the offset of these
+>  variables. The variables are helpful to exclude unnecessary pages.
+>  
+>  (pglist_data, node_zones|nr_zones|node_mem_map|node_start_pfn|node_
+>                spanned_pages|node_id)
+> -===================================================================
+> -On NUMA machines, each NUMA node has a pg_data_t to describe it's memory
+> +-------------------------------------------------------------------
+> +
+> +On NUMA machines, each NUMA node has a pg_data_t to describe its memory
+>  layout. On UMA machines there is a single pglist_data which describes the
+>  whole memory.
+>  
+> @@ -144,16 +154,18 @@ These values are used to check the memory type, and they are also helpful
+>  to compute the virtual address for memory map.
+>  
+>  (zone, free_area|vm_stat|spanned_pages)
+> -=======================================
+> -Each node is divided up into a number of blocks called zones which
+> +---------------------------------------
+> +
+> +Each node is divided into a number of blocks called zones which
+>  represent ranges within memory. A zone is described by a structure zone.
+>  Each zone type is suitable for a different type of usage.
+>  
+> -User-space tools can compute their values based on the offset of these
+> +User-space tools can compute required values based on the offset of these
+>  variables.
+>  
+>  (free_area, free_list)
+> -======================
+> +----------------------
+> +
+>  Offset of the free_list's member. This value is used to compute the number
+>  of free pages.
+>  
+> @@ -162,295 +174,325 @@ The fields in this structure are simple, the free_list represents a linked
+>  list of free page blocks.
+>  
+>  (list_head, next|prev)
+> -======================
+> -Offsets of the list_head's members. In general, the list_head is used to
+> -define a circular linked list. User-space tools often need to traverse
+> -the lists to get specific pages.
+> +----------------------
+> +
+> +Offsets of the list_head's members. list_head is used to define a
+> +circular linked list. User-space tools need these in order to traverse
+> +lists.
+>  
+>  (vmap_area, va_start|list)
+> -==========================
+> +--------------------------
+> +
+>  Offsets of the vmap_area's members. They indicate the vmalloc layer
+> -information. Makedumpfile can get the start address of vmalloc region.
+> +information. Makedumpfile gets the start address of the vmalloc region.
+>  
+>  (zone.free_area, MAX_ORDER)
+> -===========================
+> +---------------------------
+> +
+>  It indicates the maximum number of the array free_area. This macro is
+> -used to the zone buddy allocator. User-space tools use this value to
+> +used by the zone buddy allocator. User-space tools use this value to
+>  iterate the free_area.
+>  
+>  log_buf
+> -=======
+> -In general, console output is written to the ring buffer 'log_buf' at
+> -index 'log_first_idx'. It can get kernel log from the log_buf.
+> +-------
+> +
+> +Console output is written to the ring buffer log_buf at index
+> +log_first_idx. Used to get the kernel log.
+>  
+>  log_buf_len
+> -===========
+> -Length of a 'log_buf'. Makedumpfile can read the number of strings
+> -from the log_buf.
+> +-----------
+>  
+> -log_first_idx
+> -=============
+> -Index of the first record stored in the buffer 'log_buf'. This value
+> -tells the user-space tools the place where to read the strings in the
+> +Length of a log_buf. Used to read the number of strings from the
+>  log_buf.
+>  
+> +log_first_idx
+> +-------------
+> +
+> +Index of the first record stored in the buffer log_buf. Used by
+> +user-space tools to read the strings in the log_buf.
+> +
+>  clear_idx
+> -=========
+> -The index that the next printk record to read after the last 'clear'
+> +---------
+> +
+> +The index that the next printk() record to read after the last clear
+>  command. It indicates the first record after the last SYSLOG_ACTION
+>  _CLEAR, like issued by 'dmesg -c'.
+>  
+>  log_next_idx
+> -============
+> -The index of the next record to store in the buffer 'log_buf'. It helps
+> -to compute the index of current strings position.
+> +------------
+> +
+> +The index of the next record to store in the buffer log_buf. Used to
+> +compute the index of the current string position.
+>  
+>  printk_log
+> -==========
+> -The size of a structure 'printk_log'. It helps to compute the size of
+> +----------
+> +
+> +The size of a structure printk_log. Used to compute the size of
+>  messages, and extract dmesg log.
+>  
+>  (printk_log, ts_nsec|len|text_len|dict_len)
+> -===========================================
+> -It represents these field offsets in the structure 'printk_log'. User
+> -space tools can parse it and detect any changes to structure down the
+> -line.
+> +-------------------------------------------
+> +
+> +It represents field offsets in struct printk_log. User space tools can
+> +parse it and detect any changes to structure down the line.
+>  
+>  (free_area.free_list, MIGRATE_TYPES)
+> -====================================
+> +------------------------------------
+> +
+>  The number of migrate types for pages. The free_list is divided into
+>  the array, it needs to know the number of the array.
+>  
+>  NR_FREE_PAGES
+> -=============
+> +-------------
+> +
+>  On linux-2.6.21 or later, the number of free_pages is in
+> -vm_stat[NR_FREE_PAGES]. It can get the number of free pages from the
+> -array.
+> +vm_stat[NR_FREE_PAGES]. Used to get the number of free pages.
+>  
+>  PG_lru|PG_private|PG_swapcache|PG_swapbacked|PG_slab|
+>  PG_hwpoision|PG_head_mask
+> -=====================================================
+> -It means the attribute of a page. These flags will be used to filter
+> -the free pages.
+> +-----------------------------------------------------a
+> +
+> +Page attributes. These flags are used to filter free pages.
+>  
+>  PAGE_BUDDY_MAPCOUNT_VALUE or ~PG_buddy
+> -======================================
+> -The 'PG_buddy' flag indicates that the page is free and in the buddy
+> +--------------------------------------
+> +
+> +The PG_buddy flag indicates that the page is free and in the buddy
+>  system. Makedumpfile can exclude the free pages managed by a buddy.
+>  
+>  HUGETLB_PAGE_DTOR
+> -=================
+> -The 'HUGETLB_PAGE_DTOR' flag indicates the hugetlbfs pages. Makedumpfile
+> -will exclude these pages.
+> +-----------------
+>  
+> -================
+> -x86_64 variables
+> -================
+> +The HUGETLB_PAGE_DTOR flag denotes hugetlbfs pages. Makedumpfile
+> +excludes these pages.
+> +
+> +======
+> +x86_64
+> +======
+>  
+>  phys_base
+> -=========
+> -In x86_64, the 'phys_base' is necessary to convert virtual address of
+> -exported kernel symbol to physical address.
+> +---------
+> +
+> +Used to convert the virtual address of an exported kernel symbol to its
+> +physical address.
+>  
+>  init_top_pgt
+> -============
+> -The 'init_top_pgt' used to walk through the whole page table and convert
+> -virtual address to physical address.
+> +------------
+> +
+> +Used to walk through the whole page table and convert virtual addresses
+> +to physical addresses.
+>  
+>  pgtable_l5_enabled
+> -==================
+> +------------------
+> +
+>  User-space tools need to know whether the crash kernel was in 5-level
+> -paging mode or not.
+> +paging mode.
+>  
+>  node_data
+> -=========
+> -This is a struct 'pglist_data' array, it stores all numa nodes information.
+> -In general, Makedumpfile can get the pglist_data structure from symbol
+> -'node_data'.
+> +---------
+> +
+> +This is a struct pglist_data array and stores all numa nodes
+> +information. Makedumpfile gets the pglist_data structure from it.
+>  
+>  (node_data, MAX_NUMNODES)
+> -=========================
+> -The number of this 'node_data' array. It means the maximum number of the
+> -nodes in system.
+> +-------------------------
+> +
+> +The maximum number of the nodes in system.
+>  
+>  KERNELOFFSET
+> -============
+> -Randomize the address of the kernel image. This is the offset of KASLR in
+> -VMCOREINFO ELF notes. It is used to compute the page offset in x86_64. If
+> -KASLE is disabled, this value is zero.
+> +------------
+> +
+> +The kernel randomization offset. Used to compute the page offset. If
+> +KASLR is disabled, this value is zero.
+>  
+>  KERNEL_IMAGE_SIZE
+> -=================
+> -The size of 'KERNEL_IMAGE_SIZE', currently unused.
+> +-----------------
+>  
+> -The old MODULES_VADDR need be decided by KERNEL_IMAGE_SIZE when kaslr
+> -enabled. Now MODULES_VADDR is not needed any more since Pratyush makes
+> -all VA to PA converting done by page table lookup.
+> +Currently unused.
+>  
+>  PAGE_OFFLINE_MAPCOUNT_VALUE(~PG_offline)
+> -========================================
+> -The value of 'PG_offline' flag can be used for marking pages as logically
+> -offline. Makedumpfile can directly skip pages that are logically offline.
+> +----------------------------------------
+> +
+> +The value of PG_offline flag can be used for marking pages as logically
+> +offline. Makedumpfile skips pages that are logically offline.
+>  
+>  sme_mask
+> -========
+> -For AMD machine with SME feature, it indicates the secure memory encryption
+> -mask. Makedumpfile tools need to know whether the crash kernel was encrypted
+> -or not. If SME is enabled in the first kernel, the crash kernel's page
+> -table(pgd/pud/pmd/pte) contains the memory encryption mask, so need to
+> -remove the sme mask to obtain the true physical address.
+> +--------
+>  
+> -=============
+> -x86 variables
+> -=============
+> +For AMD machine with SME feature, it indicates the secure memory
+> +encryption mask. Makedumpfile tools need to know whether the crash
+> +kernel was encrypted. If SME is enabled in the first kernel, the crash
+> +kernel's page table (pgd/pud/pmd/pte) contains the memory encryption
+> +mask and this is used to remove the SME mask to obtain the true physical
+> +address.
+> +
+> +======
+> +x86_32
+> +======
+>  
+>  X86_PAE
+> -=======
+> -It means the physical address extension. It has the cost of more
+> -page table lookup overhead, and also consumes more page table space
+> -per process. This flag will be used to check whether the PAE was
+> -enabled in crash kernel or not when converting virtual address to
+> -physical address.
+> +-------
+>  
+> -==============
+> -ia64 variables
+> -==============
+> +Denotes whether physical address extensions are enabled. It has the cost
+> +of more page table lookup overhead, and also consumes more page table
+> +space per process. Used to check whether PAE was enabled in the crash
+> +kernel when converting virtual addresses to physical addresses.
+> +
+> +====
+> +ia64
+> +====
+>  
+>  pgdat_list|(pgdat_list, MAX_NUMNODES)
+> -=====================================
+> -This is a struct 'pg_data_t' array, it stores all numa nodes information.
+> -And the 'MAX_NUMNODES' indicates the number of the nodes.
+> +-------------------------------------
+> +
+> +pg_data_t array storing all numa nodes information. MAX_NUMNODES
+> +indicates the number of the nodes.
+>  
+>  node_memblk|(node_memblk, NR_NODE_MEMBLKS)
+> -==========================================
+> +------------------------------------------
+> +
+>  List of node memory chunks. Filled when parsing SRAT table to obtain
+> -information about memory nodes. The 'NR_NODE_MEMBLKS' indicates the number
+> +information about memory nodes. NR_NODE_MEMBLKS indicates the number
+>  of node memory chunks.
+>  
+> -These values are used to compute the number of nodes in crash kernel.
+> +These values are used to compute the number of nodes in the crash kernel.
+>  
+>  node_memblk_s|(node_memblk_s, start_paddr)|(node_memblk_s, size)
+> -================================================================
+> -The size of a struct 'node_memblk_s', and the offsets of the
+> -node_memblk_s's members. It helps to compute the number of nodes.
+> +----------------------------------------------------------------
+> +
+> +The size of a struct node_memblk_s and the offsets of the
+> +node_memblk_s's members. Used to compute the number of nodes.
+>  
+>  PGTABLE_3|PGTABLE_4
+> -===================
+> +-------------------
+> +
+>  User-space tools need to know whether the crash kernel was in 3-level or
+> -4-level paging mode. This flag can help to distinguish the page table.
+> +4-level paging mode. Used to distinguish the page table.
+>  
+> -===============
+> -arm64 variables
+> -===============
+> +=====
+> +ARM64
+> +=====
+>  
+>  VA_BITS
+> -=======
+> -The maximum number of bits for virtual addresses. This value helps to
+> -compute the virtual memory ranges.
+> +-------
+> +
+> +The maximum number of bits for virtual addresses. Used to compute the
+> +virtual memory ranges.
+>  
+>  kimage_voffset
+> -==============
+> -The offset between the kernel virtual and physical mappings. This value
+> -helps to translate virtual address to physical address.
+> +--------------
+> +
+> +The offset between the kernel virtual and physical mappings. Used to
+> +translate virtual to physical addresses.
+>  
+>  PHYS_OFFSET
+> -===========
+> -It indicates the physical address of the start of memory. It is similar
+> -with the kimage_voffset, which is used to translate virtual address to
+> -physical address.
+> +-----------
+> +
+> +Indicates the physical address of the start of memory. Similar to
+> +kimage_voffset, which is used to translate virtual address to physical
+> +address.
+>  
+>  KERNELOFFSET
+> -============
+> -It is similar to x86_64.
+> +------------
+> +
+> +The kernel randomization offset. Used to compute the page offset. If
+> +KASLR is disabled, this value is zero.
+>  
+>  =============
+>  arm variables
+>  =============
+>  
+>  ARM_LPAE
+> -========
+> -It indicates whether the crash kernel support the large physical address
+> -extension. This value will tell you how to translate virtual address to
+> -physical address.
+> +--------
+>  
+> -==============
+> -s390 variables
+> -==============
+> +It indicates whether the crash kernel supports large physical address
+> +extensions. Used to translate virtual address to physical address.
+> +
+> +====
+> +s390
+> +====
+>  
+>  lowcore_ptr
+> -==========
+> -An array with a pointer to the lowcore of every CPU. This value
+> -helps to print the psw and all registers information.
+> +----------
+> +
+> +An array with a pointer to the lowcore of every CPU. Used to print the
+> +psw and all registers information.
+>  
+>  high_memory
+> -===========
+> -It can get the vmalloc_start address from the high_memory symbol.
+> +-----------
+> +
+> +Used to get the vmalloc_start address from the high_memory symbol.
+>  
+>  (lowcore_ptr, NR_CPUS)
+> -======================
+> -The maximum number of cpus.
+> +----------------------
+>  
+> -TODO.
+> +The maximum number of CPUs.
+> +
+> +=======
+> +powerpc
+> +=======
+>  
+> -powerpc variables
+> -=================
+>  
+>  node_data|(node_data, MAX_NUMNODES)
+> -===================================
+> -Please refer to common variables.
+> +-----------------------------------
+> +
+> +See above.
+>  
+>  contig_page_data
+> -================
+> -Please refer to common variables.
+> +----------------
+> +
+> +See above.
+>  
+>  vmemmap_list
+> -============
+> -The 'vmemmap_list' maintains the entire vmemmap physical mapping. It
+> -can get vmemmap list count and populate vmemmap regions info. If the
+> -vmemmap address translation information is stored in crash kernel,
+> -which helps to translate vmemmap kernel virtual addresses.
+> +------------
+> +
+> +The vmemmap_list maintains the entire vmemmap physical mapping. It can
+> +get vmemmap list count and populate vmemmap regions info. If the vmemmap
+> +address translation information is stored in the crash kernel, it helps
+> +to translate vmemmap kernel virtual addresses.
+>  
+>  mmu_vmemmap_psize
+> -=================
+> -The size of a page. It will try to use this page sizes for vmemmap if
+> -support. This value helps to translate virtual address to physical
+> -address.
+> +-----------------
+> +
+> +The size of a page. Used to translate address to physical addresses.
+>  
+>  mmu_psize_defs
+> -==============
+> -It stores a variety of pages, such as the page size is 4k, 64k, or 16M.
+> +--------------
+>  
+> -It depends on this value when making vtop translations.
+> +Page size definitions, i.e. 4k, 64k, or 16M.
+> +
+> +Used to make vtop translations.
+>  
+>  vmemmap_backing|(vmemmap_backing, list)|(vmemmap_backing, phys)|
+>  (vmemmap_backing, virt_addr)
+> -================================================================
+> +----------------------------------------------------------------
+> +
+>  The vmemmap virtual address space management does not have a traditional
+>  page table to track which virtual struct pages are backed by physical
+>  mapping. The virtual to physical mappings are tracked in a simple linked
+>  list format.
+>  
+> -And user-space tools need to know the offset of 'list', 'phys' and
+> -'virt_addr'. It depends on these values when computing the count of
+> -vmemmap regions.
+> +User-space tools need to know the offset of list, phys and virt_addr
+> +when computing the count of vmemmap regions.
+>  
+>  mmu_psize_def|(mmu_psize_def, shift)
+> -====================================
+> -The size of a struct 'mmu_psize_def', and the offset of mmu_psize_def's
+> +------------------------------------
+> +
+> +The size of a struct mmu_psize_def and the offset of mmu_psize_def's
+>  member.
+>  
+> -These values help to make the vtop translations.
+> +Used in vtop translations.
+>  
+> -============
+> -sh variables
+> -============
+> +==
+> +sh
+> +==
+>  
+>  node_data|(node_data, MAX_NUMNODES)
+> -===================================
+> -It is similar to X86_64, please refer to above description.
+> +-----------------------------------
+> +
+> +See above.
+>  
+>  X2TLB
+> -=====
+> -It indicates whether the crash kernel enables the extended mode of the SH.
+> +-----
+>  
+> -TODO.
+> +Indicates whether the crash kernel enables SH extended mode.
+> 
