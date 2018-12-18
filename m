@@ -1,102 +1,157 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DFD757D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Dec 2018 18:00:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6555F7D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Dec 2018 18:05:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727581AbeLRR7r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Dec 2018 12:59:47 -0500
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:50730 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727567AbeLRR7q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 Dec 2018 12:59:46 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DB88AA78;
-        Tue, 18 Dec 2018 09:59:45 -0800 (PST)
-Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.113])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 78DF93F5C0;
-        Tue, 18 Dec 2018 09:59:41 -0800 (PST)
-Date:   Tue, 18 Dec 2018 17:59:38 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kostya Serebryany <kcc@google.com>,
+        id S1727319AbeLRSFt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Dec 2018 13:05:49 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:52783 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727487AbeLRSFs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Dec 2018 13:05:48 -0500
+Received: by mail-wm1-f68.google.com with SMTP id m1so3596267wml.2
+        for <linux-doc@vger.kernel.org>; Tue, 18 Dec 2018 10:05:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=6lEfEC1lHx7ice2Le/HKQJGJ1GtmYuRqhVayCgxWRhY=;
+        b=X4NhPEvvQIRX7udARiL0IrXceTbHRgn4yeGsIf0NAv5+fanbfYkF8e72S+/3RrMvY1
+         Zt5O1SOYcocxeEBMtuaPV6i58TpJToRHnelhtLHhbSUcRsxSg71MWH5QLC6xaZwQDH03
+         yZsnvi7qBhnpRX2CWL3N4I0JyVHGMVCCXgGbA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=6lEfEC1lHx7ice2Le/HKQJGJ1GtmYuRqhVayCgxWRhY=;
+        b=Q0PqwQiwtyuha2jmTBIJq8a0uPQdimLnqFQ+5+ipwYwFKLidIi0gSMFKH5rfgYgl3G
+         +BbjyNAug0vDg9h/cxuJG3218oduRtGU268q8pzNp4g1GVgAxVyDo3hBj7tm2yO7Erbn
+         kQJ1NRjIoX7FB7tJ6ks8puCCvbgkZF2hPiC+krztkT/A0igF4qNKl9hCrbmLCWeLkRMn
+         WslSJFwJLTZTB81qEV4gqMyMlDVFd0NSrglNO0iWPkT31mlzwVWYRCGOZnWeOkJB+sgc
+         JVApZti/Do7RWgPCO56XF5ZggfsZcs+9KcJ/Aceh8EFHLaEcHhUJw8FE4uc19Wn0H2ZK
+         Mq+g==
+X-Gm-Message-State: AA+aEWYjQC4hspG7Fvvfxjq8rGBLsVGA1qI7F5MgpXJ0HC1Ei5C2UU7w
+        Gi4vxpM8VRtg9zKrnsQ6A/TFRw==
+X-Google-Smtp-Source: AFSGD/VjRiKTxDSQVTm80qu8/gLvMTgqv6imP+pKKhsM+8csuBJ4iBUxZbVnRPVQBg3rdMGI47yBjg==
+X-Received: by 2002:a1c:1741:: with SMTP id 62mr3954903wmx.25.1545156344847;
+        Tue, 18 Dec 2018 10:05:44 -0800 (PST)
+Received: from [192.168.0.100] ([84.33.66.6])
+        by smtp.gmail.com with ESMTPSA id y185sm1943751wmg.34.2018.12.18.10.05.43
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 18 Dec 2018 10:05:44 -0800 (PST)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.2 \(3445.102.3\))
+Subject: Re: [PATCH V2 00/10] unify the interface of the proportional-share
+ policy in blkio/io
+From:   Paolo Valente <paolo.valente@linaro.org>
+In-Reply-To: <EC4F9B54-2352-4D85-B56C-5800CFEBCCB8@linaro.org>
+Date:   Tue, 18 Dec 2018 19:05:42 +0100
+Cc:     Tejun Heo <tj@kernel.org>,
+        Angelo Ruocco <angelo.ruocco.90@gmail.com>,
+        Jens Axboe <axboe@kernel.dk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: Re: [RFC][PATCH 0/3] arm64 relaxed ABI
-Message-ID: <20181218175938.GD20197@arrakis.emea.arm.com>
-References: <cover.1544445454.git.andreyknvl@google.com>
- <20181210143044.12714-1-vincenzo.frascino@arm.com>
- <CAAeHK+xPZ-Z9YUAq=3+hbjj4uyJk32qVaxZkhcSAHYC4mHAkvQ@mail.gmail.com>
- <20181212150230.GH65138@arrakis.emea.arm.com>
- <CAAeHK+zxYJDJ7DJuDAOuOMgGvckFwMAoVUTDJzb6MX3WsXhRTQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+zxYJDJ7DJuDAOuOMgGvckFwMAoVUTDJzb6MX3WsXhRTQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Li Zefan <lizefan@huawei.com>,
+        Angelo Ruocco <angeloruocco90@gmail.com>,
+        Dennis Zhou <dennis@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        Liu Bo <bo.liu@linux.alibaba.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>, broonie@kernel.org,
+        oleksandr@natalenko.name, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <E6C76EEB-122B-4FE5-A670-FA066F813C1D@linaro.org>
+References: <20181119103424.3853-1-paolo.valente@linaro.org>
+ <20181120162816.GV2509588@devbig004.ftw2.facebook.com>
+ <25296DAE-73EC-46CC-9A98-A8B7E9017BB7@linaro.org>
+ <7D7FAB43-5F62-4402-A9B3-E7C2E30AE680@linaro.org>
+ <20181130184256.GI2509588@devbig004.ftw2.facebook.com>
+ <5534B7D4-A5D9-4F44-9620-970A7F9EC140@linaro.org>
+ <CADiTV-29TmkB5-k=TtQfoJqjP2Qv7GSsGLXAPBaTB6DoQ+6yyw@mail.gmail.com>
+ <874A0232-2103-4364-BD88-F33B85D6A764@linaro.org>
+ <20181218164126.GX2509588@devbig004.ftw2.facebook.com>
+ <EC4F9B54-2352-4D85-B56C-5800CFEBCCB8@linaro.org>
+To:     bfq-iosched@googlegroups.com
+X-Mailer: Apple Mail (2.3445.102.3)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 18, 2018 at 04:03:38PM +0100, Andrey Konovalov wrote:
-> On Wed, Dec 12, 2018 at 4:02 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > The summary of our internal discussions (mostly between kernel
-> > developers) is that we can't properly describe a user ABI that covers
-> > future syscalls or syscall extensions while not all syscalls accept
-> > tagged pointers. So we tweaked the requirements slightly to only allow
-> > tagged pointers back into the kernel *if* the originating address is
-> > from an anonymous mmap() or below sbrk(0). This should cover some of the
-> > ioctls or getsockopt(TCP_ZEROCOPY_RECEIVE) where the user passes a
-> > pointer to a buffer obtained via mmap() on the device operations.
-> >
-> > (sorry for not being clear on what Vincenzo's proposal implies)
-> 
-> OK, I see. So I need to make the following changes to my patchset AFAIU.
-> 
-> 1. Make sure that we only allow tagged user addresses that originate
-> from an anonymous mmap() or below sbrk(0). How exactly should this
-> check be performed?
 
-I don't think we should perform such checks. That's rather stating that
-the kernel only guarantees that the tagged pointers work if they
-originated from these memory ranges.
 
-> 2. Allow tagged addressed passed to memory syscalls (as long as (1) is
-> satisfied). Do I understand correctly that this means that I need to
-> locate all find_vma() callers outside of mm/ and fix them up as well?
+> Il giorno 18 dic 2018, alle ore 18:22, Paolo Valente =
+<paolo.valente@linaro.org> ha scritto:
+>=20
+>=20
+>=20
+>> Il giorno 18 dic 2018, alle ore 17:41, Tejun Heo <tj@kernel.org> ha =
+scritto:
+>>=20
+>> Hello, Paolo.
+>>=20
+>> On Tue, Dec 18, 2018 at 08:48:10AM +0100, Paolo Valente wrote:
+>>> If Tejun cannot see any solution to his concern, then can we just
+>>> switch to this extension, considering that
+>>> - for non-shared names the interface is *identical* to the current
+>>> one;
+>>> - by using this new interface, and getting feedback we could
+>>> understand how to better handle Tejun's concern?
+>>> A lot of systems do use weights, and people don't even know that =
+these
+>>> systems don't work correctly in blk-mq.  And they won't work =
+correctly
+>>> in any available configuration from 4.21, if we don't fix this =
+problem.
+>>=20
+>> So, when seen from userland, how it should behave isn't vague or
+>> complicated.  For a given device and policy type, there can be only
+>> one implementation active.
+>=20
+> Yes, but the problem is the opposite. You may have
+> - two different policies, with the same interface parameter,=20
+> - one active on one device
+> - the other one active on another device
+>=20
+> In that case, statistics from one policy necessarily differ from
+> statistics from the other policy.
+>=20
+> In this respect, in a system with more than one drive it already
+> happens that the same policy is active on different devices.  When
+> printing a statistics interface file for the policy, the output will
+> be a list of separate statistics, with a bunch of statistics *for
+> each* drive (plus a grand total in some cases).
+>=20
+> So, our proposal simply extends this scheme in the most natural way:
+> if, now, also two or more policies share the same statistics file,
+> then the output will be a list of separate statistics, one for each
+> policy.  The statistics for each policy will be tagged with the policy
+> name, and will have the same identical form as above.  It seems the
+> most natural hierarchical extension of the same scheme.
+>=20
+> At any rate, if you don't like it, just tell us how you prefer it
+> done.  Do you prefer the sharing of statistics file to be simply
+> forbidden?  (If this can be done.) I think such an incomplete solution
+> would preserve part of the current mess; but, if this allows us to
+> exit from this impasse, then it is ok for me.
+>=20
+> *Any* feasible option is ok for me. Just pick one.
+>=20
+>> It doesn't make sense to have two weight
+>> mechanisms active on one device, right?
+>=20
+> (Un)fortunately, the problem are not weights.  There won't be two
+> weights for two policies expiring a weight parameter.  The problems
 
-Yes (unless anyone as a better idea or objections to this approach).
+s/expiring/sharing sorry
 
-BTW, I'll be off until the new year, so won't be able to follow up.
-
--- 
-Catalin
