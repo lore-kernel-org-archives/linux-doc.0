@@ -1,87 +1,102 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0D08B7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Dec 2018 11:20:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 30AAE7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Dec 2018 11:41:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726540AbeLRLUz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Dec 2018 06:20:55 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:36700 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726379AbeLRLUz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Dec 2018 06:20:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=av9GRHNyktN/rrRPxyVr1ZPAQkB0SrO0NwsExGjEb1M=; b=XOxp3L2Jih+52yxhkkiASWGJY
-        cNpAW2m1FLK7hlDfd40yRp97q5zubZXoQkqN1UbDHwcoU3TapvKtYuw+CVU3lxDZ1MLd5WZAG5Uv5
-        syjVFAEiaqmqrsoxrk4M4e1RFa8SI3d1PlEW4Lg/FHPSfJOwrZ0pwpa87MU0FCsr/WSmYBNQ/tfP2
-        3BjzmVVWxgWtP8rsjIYLz2EaWVdzitQjjou5pBBDEO5ol4qPUTtJVNRbULiJdUgVvU20TOlPpJ0b9
-        7o6sFk47TrtR/H7IDtrVQSoctQb7bw5Q9A6rFVC6CoEl+mu59NILELjgdcrc42dCkmYbSUZtqYFAL
-        hJkmDrlFw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gZDQV-0007dB-7Z; Tue, 18 Dec 2018 11:20:39 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 958722027DA91; Tue, 18 Dec 2018 12:20:37 +0100 (CET)
-Date:   Tue, 18 Dec 2018 12:20:37 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tejun Heo <tj@kernel.org>, lizefan@huawei.com,
-        Johannes Weiner <hannes@cmpxchg.org>, axboe@kernel.dk,
-        dennis@kernel.org, Dennis Zhou <dennisszhou@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, kernel-team@android.com
-Subject: Re: [PATCH 6/6] psi: introduce psi monitor
-Message-ID: <20181218112037.GB16284@hirez.programming.kicks-ass.net>
-References: <20181214171508.7791-1-surenb@google.com>
- <20181214171508.7791-7-surenb@google.com>
- <20181217162223.GD2218@hirez.programming.kicks-ass.net>
- <CAJuCfpHGsDnE-eAHY1QnX949stA3cvNA=078q1swqVnz95aJfg@mail.gmail.com>
- <20181218104622.GB15430@hirez.programming.kicks-ass.net>
+        id S1726452AbeLRLlV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Dec 2018 06:41:21 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:35350 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726540AbeLRLlV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Dec 2018 06:41:21 -0500
+Received: from zn.tnic (p200300EC2BD17800B0C9856CE6A48B11.dip0.t-ipconnect.de [IPv6:2003:ec:2bd1:7800:b0c9:856c:e6a4:8b11])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id AAD471EC0230;
+        Tue, 18 Dec 2018 12:41:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1545133279;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=l5JRiN5uznoDQAqFX3WDLhur2EpQtG6ZJJkRqN6BZS4=;
+        b=hJpxFsnZvkskd/BhWAGFdReWrs+BWo5midiD787gd/EQtDEQftvUpzl12gK6ZiL/JxiHvJ
+        sSP+U1B9W7XhlU/eyHww9tpyLPjm3hcTWONZObC+1Q2l4yNZCtjWESqiOgJ0szJG1gqj3D
+        n+u0ky1BJJDtTaGDFMWk2UtRuiDdjyI=
+Date:   Tue, 18 Dec 2018 12:41:18 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     lijiang <lijiang@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
+        tglx@linutronix.de, mingo@redhat.com, x86@kernel.org,
+        akpm@linux-foundation.org, bhe@redhat.com, dyoung@redhat.com,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2 v3] kdump: add the vmcoreinfo documentation
+Message-ID: <20181218114118.GE7485@zn.tnic>
+References: <20181216131617.2612-1-lijiang@redhat.com>
+ <20181216131617.2612-2-lijiang@redhat.com>
+ <20181217130024.GD12165@zn.tnic>
+ <826c1a6b-41da-bc1a-f9c2-0d52e774b572@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20181218104622.GB15430@hirez.programming.kicks-ass.net>
+In-Reply-To: <826c1a6b-41da-bc1a-f9c2-0d52e774b572@redhat.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 18, 2018 at 11:46:22AM +0100, Peter Zijlstra wrote:
-> On Mon, Dec 17, 2018 at 05:21:05PM -0800, Suren Baghdasaryan wrote:
-> > On Mon, Dec 17, 2018 at 8:22 AM Peter Zijlstra <peterz@infradead.org> wrote:
-> 
-> > > How well has this thing been fuzzed? Custom string parser, yay!
+On Tue, Dec 18, 2018 at 03:31:32PM +0800, lijiang wrote:
+> The printk_log is used to output human readable text, it will encapsulate header
+> information for log_buf, such as timestamp, syslog level, etc.
+
+Me asking those questions is supposed to hint that the explanations need
+improvement. But you get the idea...
+
+> >> +PG_lru|PG_private|PG_swapcache|PG_swapbacked|PG_slab|
+> >> +PG_hwpoision|PG_head_mask
+> >> +=====================================================
+> >> +It means the attribute of a page. These flags will be used to filter
+> >> +the free pages.
+> >> +
+> >> +PAGE_BUDDY_MAPCOUNT_VALUE or ~PG_buddy
+> >> +======================================
+> >> +The 'PG_buddy' flag indicates that the page is free and in the buddy
+> >> +system. Makedumpfile can exclude the free pages managed by a buddy.
 > > 
-> > Honestly, not much. Normal cases and some obvious corner cases. Will
-> > check if I can use some fuzzer to get more coverage or will write a
-> > script.
-> > I'm not thrilled about writing a custom parser, so if there is a
-> > better way to handle this please advise.
+> > That text belongs with the one above?
+> > 
+> It exported the value of (~PG_buddy), so it is placed here independently.
+
+Then make that obvious in the description. The one above talks about the
+PG flags and this one should talk about PAGE_BUDDY_MAPCOUNT_VALUE and
+what it is used for. The fact that it is computed by negating PG_buddy
+is an implementation detail.
+
+> These two variables are somewhat similar, but they are used in
+> different scenarios.
+
+Those different scenarious need to be part of the description.
+
+> >> +KERNEL_IMAGE_SIZE
+> >> +=================
+> >> +The size of 'KERNEL_IMAGE_SIZE', currently unused.
+> > 
+> > So remove?
+> > 
 > 
-> The grammar seems fairly simple, something like:
-> 
->   some-full = "some" | "full" ;
->   threshold-abs = integer ;
->   threshold-pct = integer, { "%" } ;
+> I'm not sure whether it should be removed, so i keep it.
 
-Sorry, no {} there obviously. That '%' isn't optional.
+If it is unused, it should be removed as an VMCOREINFO export and from
+the docs. But that can be done later, as a separate patch.
 
->   threshold = threshold-abs | threshold-pct ;
->   window = integer ;
->   trigger = some-full, space, threshold, space, window ;
+-- 
+Regards/Gruss,
+    Boris.
 
-Clearly it's been a fair while since I wrote BNF like stuff ;-)
+Good mailing practices for 400: avoid top-posting and trim the reply.
