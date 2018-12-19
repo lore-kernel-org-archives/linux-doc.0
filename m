@@ -2,32 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ABB2E7D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Dec 2018 19:38:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 06DF37D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Dec 2018 19:45:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728734AbeLSTiX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Dec 2018 14:38:23 -0500
-Received: from mga18.intel.com ([134.134.136.126]:6688 "EHLO mga18.intel.com"
+        id S1728307AbeLSTpN convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Dec 2018 14:45:13 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:52604 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727079AbeLSTiX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 19 Dec 2018 14:38:23 -0500
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Dec 2018 11:38:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,373,1539673200"; 
-   d="scan'208";a="111900886"
-Received: from tassilo.jf.intel.com (HELO tassilo.localdomain) ([10.7.201.137])
-  by orsmga003.jf.intel.com with ESMTP; 19 Dec 2018 11:38:22 -0800
-Received: by tassilo.localdomain (Postfix, from userid 1000)
-        id 8E974300B49; Wed, 19 Dec 2018 11:38:22 -0800 (PST)
-Date:   Wed, 19 Dec 2018 11:38:22 -0800
-From:   Andi Kleen <ak@linux.intel.com>
-To:     Waiman Long <longman@redhat.com>
+        id S1727479AbeLSTpN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 Dec 2018 14:45:13 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 0E3E587633;
+        Wed, 19 Dec 2018 19:45:12 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-223.bos.redhat.com [10.18.17.223])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 10EF06BF73;
+        Wed, 19 Dec 2018 19:45:07 +0000 (UTC)
+Subject: Re: [RFC PATCH] x86/speculation: Don't inherit TIF_SSBD on execve()
+To:     Andi Kleen <ak@linux.intel.com>
 Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>,
         Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
@@ -40,36 +37,101 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         KarimAllah Ahmed <karahmed@amazon.de>,
         Peter Zijlstra <peterz@infradead.org>,
         Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-Subject: Re: [RFC PATCH] x86/speculation: Don't inherit TIF_SSBD on execve()
-Message-ID: <20181219193822.GU25620@tassilo.jf.intel.com>
 References: <1545246590-12704-1-git-send-email-longman@redhat.com>
+ <20181219193822.GU25620@tassilo.jf.intel.com>
+From:   Waiman Long <longman@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ weim8xU=
+Organization: Red Hat
+Message-ID: <f2cd45e2-e390-a6f6-f4fb-1d316be0f54c@redhat.com>
+Date:   Wed, 19 Dec 2018 14:45:07 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1545246590-12704-1-git-send-email-longman@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20181219193822.GU25620@tassilo.jf.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Wed, 19 Dec 2018 19:45:12 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 19, 2018 at 02:09:50PM -0500, Waiman Long wrote:
-> With the default SPEC_STORE_BYPASS_SECCOMP/SPEC_STORE_BYPASS_PRCTL mode,
-> the TIF_SSBD bit will be inherited when a new task is fork'ed or cloned.
-> 
-> As only certain class of applications (like Java) requires disabling
-> speculative store bypass for security purpose, it may not make sense to
-> allow the TIF_SSBD bit to be inherited across execve() boundary where the
-> new application may not need SSBD at all and is probably not aware that
-> SSBD may have been turned on. This may cause an unnecessary performance
-> loss of up to 20% in some cases.
-> 
-> The arch_setup_new_exec() function is updated to clear the TIF_SSBD
-> bit unless it has been force-disabled.
+On 12/19/2018 02:38 PM, Andi Kleen wrote:
+> On Wed, Dec 19, 2018 at 02:09:50PM -0500, Waiman Long wrote:
+>> With the default SPEC_STORE_BYPASS_SECCOMP/SPEC_STORE_BYPASS_PRCTL mode,
+>> the TIF_SSBD bit will be inherited when a new task is fork'ed or cloned.
+>>
+>> As only certain class of applications (like Java) requires disabling
+>> speculative store bypass for security purpose, it may not make sense to
+>> allow the TIF_SSBD bit to be inherited across execve() boundary where the
+>> new application may not need SSBD at all and is probably not aware that
+>> SSBD may have been turned on. This may cause an unnecessary performance
+>> loss of up to 20% in some cases.
+>>
+>> The arch_setup_new_exec() function is updated to clear the TIF_SSBD
+>> bit unless it has been force-disabled.
+> This makes it impossible to write a wrapper that turns this mode
+> on for unmodified programs.
 
-This makes it impossible to write a wrapper that turns this mode
-on for unmodified programs.
+You can always force disable SSB. In that case, all the child processes
+will have SSBD on.
 
-Do you have a real use case where this behavior is a problem?
+>
+> Do you have a real use case where this behavior is a problem?
+>
+> -Andi
 
--Andi
+Yes, we have an enterprise application partner that found that their
+application slow down up to 10-20% depending on how their application
+was set up. With the slow setup, the application was spawned by Java
+processes causing the SSBD bit to stay on when the application was running.
+
+Cheers,
+Longman
+
+
