@@ -1,217 +1,208 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E97407D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Dec 2018 12:53:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BE6C27D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Dec 2018 13:55:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727369AbeLSMxA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Dec 2018 07:53:00 -0500
-Received: from foss.arm.com ([217.140.101.70]:34772 "EHLO foss.arm.com"
+        id S1728344AbeLSNz6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Dec 2018 08:55:58 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43134 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726833AbeLSMxA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 19 Dec 2018 07:53:00 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D18F7A78;
-        Wed, 19 Dec 2018 04:52:59 -0800 (PST)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 47CD73F5C0;
-        Wed, 19 Dec 2018 04:52:55 -0800 (PST)
-Date:   Wed, 19 Dec 2018 12:52:52 +0000
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [RFC][PATCH 0/3] arm64 relaxed ABI
-Message-ID: <20181219125249.GB22067@e103592.cambridge.arm.com>
-References: <cover.1544445454.git.andreyknvl@google.com>
- <20181210143044.12714-1-vincenzo.frascino@arm.com>
- <CAAeHK+xPZ-Z9YUAq=3+hbjj4uyJk32qVaxZkhcSAHYC4mHAkvQ@mail.gmail.com>
- <20181212150230.GH65138@arrakis.emea.arm.com>
- <CAAeHK+zxYJDJ7DJuDAOuOMgGvckFwMAoVUTDJzb6MX3WsXhRTQ@mail.gmail.com>
- <20181218175938.GD20197@arrakis.emea.arm.com>
+        id S1727088AbeLSNz6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 Dec 2018 08:55:58 -0500
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id ADF06218A6;
+        Wed, 19 Dec 2018 13:55:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1545227756;
+        bh=FM+hsBx9/RBvpYL8sdkk2SO2cjqnMa9L4ZTTEJHHrXE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=NN7ExXfe9m3AN1QAD409R99D5hkT263tmcT7QMtQNYRXjaFmJs64FHlamMPP7WEB9
+         XIh/xFI0rS1YvZt6E3V5PBuCPwM5Zz89IMHdQM4bGSgzT/SHHm6NJ7TQju4xBrfU6e
+         PzQQzOcwmB9uA123x23++xlEo1RixkChVsxaLyrI=
+Received: by mail-qt1-f173.google.com with SMTP id r14so22318438qtp.1;
+        Wed, 19 Dec 2018 05:55:56 -0800 (PST)
+X-Gm-Message-State: AA+aEWa7QcwKl4A0S5QelNTGl9NTWY1ZL/TFLNg6ie8aqIkKm76Jh9UN
+        DUOegzWTjmklt/Vejx2Ti0VV8Os5tkh00N2UCA==
+X-Google-Smtp-Source: AFSGD/U7MMddC0x398KdCFTj5CQ7/aHVczQLCSfUV1R98gGC1p/jxF4mJvD6vB5+15NByhakKiMMJunMABmOHn+XaDg=
+X-Received: by 2002:aed:3ecf:: with SMTP id o15mr22163473qtf.26.1545227755896;
+ Wed, 19 Dec 2018 05:55:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181218175938.GD20197@arrakis.emea.arm.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+References: <20181219123147.16090-1-james.qian.wang@arm.com> <20181219123147.16090-3-james.qian.wang@arm.com>
+In-Reply-To: <20181219123147.16090-3-james.qian.wang@arm.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Wed, 19 Dec 2018 07:55:44 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLsQ__dpu0Xh5zmLbOx_B8t0t0kJzoh-nOf=nuZSppAYg@mail.gmail.com>
+Message-ID: <CAL_JsqLsQ__dpu0Xh5zmLbOx_B8t0t0kJzoh-nOf=nuZSppAYg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/9] dt/bindings: drm/komeda: Add DT bindings for ARM
+ display processor D71
+To:     james.qian.wang@arm.com
+Cc:     Liviu Dudau <Liviu.Dudau@arm.com>,
+        Mark Rutland <Mark.Rutland@arm.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Jonathan.Chai@arm.com,
+        Alexandru-Cosmin Gheorghe <Alexandru-Cosmin.Gheorghe@arm.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Yiqi.Kang@arm.com,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Tiannan.Zhu@arm.com, Jonathan Corbet <corbet@lwn.net>,
+        David Airlie <airlied@linux.ie>,
+        Mali DP Maintainers <malidp@foss.arm.com>,
+        thomas.Sun@arm.com, Ayan.Halder@arm.com,
+        devicetree@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Jin.Gao@arm.com, nd@arm.com, Sean Paul <sean@poorly.run>,
+        Lowry.Li@arm.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Julien.Yin@arm.com, Andrew Morton <akpm@linux-foundation.org>,
+        David Miller <davem@davemloft.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 18, 2018 at 05:59:38PM +0000, Catalin Marinas wrote:
-> On Tue, Dec 18, 2018 at 04:03:38PM +0100, Andrey Konovalov wrote:
-> > On Wed, Dec 12, 2018 at 4:02 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
-> > > The summary of our internal discussions (mostly between kernel
-> > > developers) is that we can't properly describe a user ABI that covers
-> > > future syscalls or syscall extensions while not all syscalls accept
-> > > tagged pointers. So we tweaked the requirements slightly to only allow
-> > > tagged pointers back into the kernel *if* the originating address is
-> > > from an anonymous mmap() or below sbrk(0). This should cover some of the
-> > > ioctls or getsockopt(TCP_ZEROCOPY_RECEIVE) where the user passes a
-> > > pointer to a buffer obtained via mmap() on the device operations.
-> > >
-> > > (sorry for not being clear on what Vincenzo's proposal implies)
-> > 
-> > OK, I see. So I need to make the following changes to my patchset AFAIU.
-> > 
-> > 1. Make sure that we only allow tagged user addresses that originate
-> > from an anonymous mmap() or below sbrk(0). How exactly should this
-> > check be performed?
-> 
-> I don't think we should perform such checks. That's rather stating that
-> the kernel only guarantees that the tagged pointers work if they
-> originated from these memory ranges.
+On Wed, Dec 19, 2018 at 6:33 AM james qian wang (Arm Technology China)
+<james.qian.wang@arm.com> wrote:
+>
+> Add DT bindings documentation for the ARM display processor D71 and later
+> IPs.
+>
+> Signed-off-by: James (Qian) Wang <james.qian.wang@arm.com>
+> ---
+>  .../bindings/display/arm/arm,komeda.txt       | 87 +++++++++++++++++++
+>  1 file changed, 87 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/arm/arm,komeda.txt
+>
+> diff --git a/Documentation/devicetree/bindings/display/arm/arm,komeda.txt b/Documentation/devicetree/bindings/display/arm/arm,komeda.txt
+> new file mode 100644
+> index 000000000000..d4b53c11b2a2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/arm/arm,komeda.txt
+> @@ -0,0 +1,87 @@
+> +Device Tree bindings for ARM Komeda display driver
+> +
+> +Required properties:
+> +- compatible: Should be "arm,mali-d71"
+> +- reg: Physical base address and length of the registers in the system
+> +- interrupts: the interrupt line numbers of the device in the system
 
-I concur.
+How many?
 
-Really, the kernel should do the expected thing with all "non-weird"
-memory.
+> +- interrupt-names: contains the names of the IRQs in the order they were
+> +    provided in the "interrupts" property. Must contain: "DPU".
 
-In lieu of a proper definition of "non-weird", I think we should have
-some lists of things that are explicitly included, and also excluded:
+There's no point in *-names when there is only one entry.
 
-OK:
-	kernel-allocated process stack
-	brk area
-	MAP_ANONYMOUS | MAP_PRIVATE
-	MAP_PRIVATE mappings of /dev/zero
+> +- clocks: A list of phandle + clock-specifier pairs, one for each entry
+> +    in 'clock-names'
+> +- clock-names: A list of clock names. It should contain:
+> +      - "pclk": for the APB interface clock
+> +      - "mclk": for the main processor clock
 
-Not OK:
-	MAP_SHARED
-	mmaps of non-memory-like devices
-	mmaps of anything that is not a regular file
-	the VDSO
-	...
+The order here doesn't match the example.
 
-In general, userspace can tag memory that it "owns", and we do not assume
-a transfer of ownership except in the "OK" list above.  Otherwise, it's
-the kernel's memory, or the owner is simply not well defined.
+> +- #address-cells: Must be 1
+> +- #size-cells: Must be 0
+> +
+> +Required properties for sub-node: pipeline@nq
+> +Each device contains one or two pipeline sub-nodes (at least one), each
+> +pipeline node should provide properties:
+> +- reg: Zero-indexed identifier for the pipeline
+> +- clocks: A list of phandle + clock-specifier pairs, one for each entry
+> +    in 'clock-names'
+> +- clock-names: should contain:
+> +      - "aclk": AXI interface clock
+> +      - "pxclk": pixel clock
 
+The order here doesn't match the example.
 
-I would also like to see advice for userspace developers, particularly
-things like (strawman, please challenge!):
+> +
+> +- port: each pipeline connect to an encoder input port. The connection is
+> +    modelled using the OF graph bindings specified in
 
- * Userspace should set tags at the point of allocation only.
+modeled
 
- * If you don't know how an object was allocated, you cannot modify the
-   tag, period.
+> +    Documentation/devicetree/bindings/graph.txt
+> +
+> +Optional properties:
+> +  - memory-region: phandle to a node describing memory (see
+> +    Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt)
+> +    to be used for the framebuffer; if not present, the framebuffer may
+> +    be located anywhere in memory.
+> +
+> +Example:
+> +/ {
+> +       ...
+> +
+> +       dp0: display@c00000 {
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +               compatible = "arm,mali-d71";
+> +               reg = <0xc00000 0x20000>;
+> +               interrupts = <0 168 4>;
+> +               interrupt-names = "DPU";
+> +               clocks = <&dpu_mclk>, <&dpu_aclk>;
+> +               clock-names = "mclk", "pclk";
+> +
+> +               pl0: pipeline@0 {
+> +                       clocks = <&fpgaosc2>, <&dpu_aclk>;
+> +                       clock-names = "pxclk", "aclk";
+> +                       reg = <0>;
 
- * A single C object should be accessed using a single, fixed pointer tag
-   throughout its entire lifetime.
+Is there a register range for each pipeline? If so, using that here
+would be better than index.
 
- * Tags can be changed only when there are no outstanding pointers to
-   the affected object or region that may be used to access the object
-   or region (i.e., if the object were allocated from the C heap and
-   is it safe to realloc() it, then it is safe to change the tag; for
-   other types of allocation, analogous arguments can be applied).
+> +
+> +                       ports {
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +
+> +                               port@0 {
+> +                                       reg = <0>;
 
- * When the kernel dereferences a pointer on userspace's behalf, it
-   shall behave equivalently to userspace dereferencing the same pointer,
-   including use of the same tag (where passed by userspace).
+You can drop 'ports' moving port up a level. And for a single port,
+you don't need reg.
 
- * Where the pointer tag affects pointer dereference behaviour (i.e.,
-   with hardware memory colouring) the kernel makes no guarantee to
-   honour pointer tags correctly for every location a buffer based on a
-   pointer passed by userspace to the kernel.
-
-   (This means for example that for a read(fd, buf, size), we can check
-   the tag for a single arbitrary location in *(char (*)[size])buf
-   before passing the buffer to get_user_pages().  Hopefully this could
-   be done in get_user_pages() itself rather than hunting call sites.
-   For userspace, it means that you're on your own if you ask the
-   kernel to operate on a buffer than spans multiple, independently-
-   allocated objects, or a deliberately striped single object.)
-
- * The kernel shall not extend the lifetime of user pointers in ways
-   that are not clear from the specification of the syscall or
-   interface to which the pointer is passed (and in any case shall not
-   extend pointer lifetimes without good reason).
-
-   So no clever transparent caching between syscalls, unless it _really_
-   is transparent in the presence of tags.
-
- * For purposes other than dereference, the kernel shall accept any
-   legitimately tagged pointer (according to the above rules) as
-   identifying the associated memory location.
-
-   So, mprotect(some_page_aligned_object, ...); is valid irrespective
-   of where page_aligned_object() came from.  There is no implicit
-   derefence by the kernel here, hence no tag check.
-
-   The kernel does not guarantee to work correctly if the wrong tag
-   is used, but there is not always a well-defined "right" tag, so
-   we can't really guarantee to check it.  So a pointer derived by
-   any reasonable means by userspace has to be treated as equally
-   valid.
-  
-
-We would need to get some cross-arch buy-in for this, otherwise core
-maintainers might just refuse to maintain the necessary guarantees.
-
-
-> > 2. Allow tagged addressed passed to memory syscalls (as long as (1) is
-> > satisfied). Do I understand correctly that this means that I need to
-> > locate all find_vma() callers outside of mm/ and fix them up as well?
-> 
-> Yes (unless anyone as a better idea or objections to this approach).
-
-Also, watch out for code that pokes about inside struct vma directly.
-
-I'm wondering, could we define an explicit type, say,
-
-	struct user_vaddr {
-		unsigned long addr;
-	};
-
-to replace the unsigned longs in struct vma the mm API?  This would
-turn ad-hoc (unsigned long) casts into build breaks.  We could have
-an explicit conversion functions, say,
-
-	struct user_vaddr __user_vaddr_unsafe(void __user *);
-	void __user *__user_ptr_unsafe(struct user_vaddr);
-
-that we robotically insert in all the relevant places to mark
-unaudited code.
-
-This allows us to keep the kernel buildable, while flagging things
-that will need review.  We would also need to warn the mm folks to
-reject any new code using these unsafe conversions.
-
-Of course, it would be a non-trivial effort...
-
-> 
-> BTW, I'll be off until the new year, so won't be able to follow up.
-
-Cheers
----Dave
+> +                                       dp0_pl0_out: endpoint {
+> +                                               remote-endpoint = <&db_dvi0_in>;
+> +                                       };
+> +                               };
+> +                       };
+> +               };
+> +               pl1: pipeline@1 {
+> +                       clocks = <&fpgaosc2>, <&dpu_aclk>;
+> +                       clock-names = "pxclk", "aclk";
+> +                       reg = <1>;
+> +
+> +                       ports {
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +
+> +                               port@0 {
+> +                                       reg = <0>;
+> +                                       dp0_pl1_out: endpoint {
+> +                                               remote-endpoint = <&db_dvi1_in>;
+> +                                       };
+> +                               };
+> +                       };
+> +               };
+> +       };
+> +       ...
+> +};
+> --
+> 2.17.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
