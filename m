@@ -1,131 +1,80 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C39BB7D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Dec 2018 16:16:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 28FB27D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Dec 2018 16:38:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732080AbeLTQQy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Dec 2018 11:16:54 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:50126 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728803AbeLTQQx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 Dec 2018 11:16:53 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id D98EA169741;
-        Thu, 20 Dec 2018 16:16:52 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.131])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 01EDB6B645;
-        Thu, 20 Dec 2018 16:16:50 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Thu, 20 Dec 2018 17:16:52 +0100 (CET)
-Date:   Thu, 20 Dec 2018 17:16:50 +0100
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Roman Gushchin <guro@fb.com>
-Cc:     Roman Gushchin <guroan@gmail.com>, Tejun Heo <tj@kernel.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Kernel Team <Kernel-team@fb.com>
-Subject: Re: [PATCH v5 4/7] cgroup: cgroup v2 freezer
-Message-ID: <20181220161649.GA31865@redhat.com>
-References: <20181207201531.1665-1-guro@fb.com>
- <20181207201531.1665-5-guro@fb.com>
- <20181211162632.GB8504@redhat.com>
- <20181211184033.GA8971@tower.DHCP.thefacebook.com>
- <20181212174902.GA30309@redhat.com>
- <20181218012800.GA29563@tower.DHCP.thefacebook.com>
- <20181218171230.GA11319@redhat.com>
- <20181218202701.GA12730@castle.DHCP.thefacebook.com>
+        id S1729011AbeLTQiO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Dec 2018 11:38:14 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:34206 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726604AbeLTQiO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Dec 2018 11:38:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=CG/jSNeNChtKOqB2GhAVgwv4KkxMfGgWF7pWoOr89kI=; b=u2tt3Yrf2gIH3x6Lnk4xszbFQ
+        DKw9iASYROnevBlH9Xf7ze13R9C39PJ4lpFpZ3KD90t42ccnswbKEo890nx7HyTrjz3rncZL01Djt
+        3DOIokdM0vEuFIFV4noCtHDVgZd1KQwohx8FcUY1Fd0L0uB4WEOV5HtQ18Q15XTywKy+FTK2l10WW
+        gp67ZHzG5XYNIhudHXe42JPZfbi0ByP9kMr+GFMUy/gRZcCQ1QtBXu+Nnbq92Ka5/FkxNaaRCEq42
+        sJ6lrCeCBfkXoTGRNaXeFtdJbA6Vs8K6EGj8bZnNo6bPeFS0NcKBtOBN3rV02VlOCJJH4sp92X6aS
+        Jmf/TQA5g==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1ga1Kv-0000cj-Ji; Thu, 20 Dec 2018 16:38:13 +0000
+Subject: Re: [PATCH 0/1] RFC: Revamp admin-guide/tainted-kernels.rst to make
+ it more comprehensible
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20181217152043.9989-1-linux@leemhuis.info>
+ <20181217112437.5fe868eb@lwn.net>
+ <8f67a8ca-bf64-c537-843a-b03bcfc3dace@infradead.org>
+ <96fc8865-c54f-5c6c-f6c8-d7a5a12735e6@leemhuis.info>
+ <20181220082819.69fc3e5c@lwn.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <a02caf89-9221-8e31-4a2d-44b46b81cda2@infradead.org>
+Date:   Thu, 20 Dec 2018 08:38:06 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181218202701.GA12730@castle.DHCP.thefacebook.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Thu, 20 Dec 2018 16:16:53 +0000 (UTC)
+In-Reply-To: <20181220082819.69fc3e5c@lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/18, Roman Gushchin wrote:
->
-> > > > > --- a/kernel/freezer.c
-> > > > > +++ b/kernel/freezer.c
-> > > > > @@ -134,7 +134,7 @@ bool freeze_task(struct task_struct *p)
-> > > > >                 return false;
-> > > > >
-> > > > >         spin_lock_irqsave(&freezer_lock, flags);
-> > > > > -       if (!freezing(p) || frozen(p)) {
-> > > > > +       if (!freezing(p) || frozen(p) || cgroup_task_frozen()) {
-> > > > >                 spin_unlock_irqrestore(&freezer_lock, flags);
-> > > > >                 return false;
-> > > > >         }
-> > > > >
-> > > > > --
-> > > > >
-> > > > > If the task is already frozen by the cgroup freezer, we don't have to do
-> > > > > anything additionally.
-> > > >
-> > > > I don't think so. A cgroup_task_frozen() task can be killed after
-> > > > try_to_freeze_tasks() succeeds, and the exiting task can close files,
-> > > > do IO, etc. Or it can be thawed by cgroup_freeze_task(false).
-> > > >
-> > > > In short, if try_to_freeze_tasks() succeeds, the caller has all rights
-> > > > to assume that nobody can escape from __refrigerator().
-> > >
-> > > But this is what we do with stopped and ptraced tasks, isn't it?
-> >
-> > No,
-> >
-> > > We do use freezable_schedule() and the system freezer just ignores such tasks.
-> >
-> > 	static inline void freezable_schedule(void)
-> > 	{
-> > 		freezer_do_not_count();
-> > 		schedule();
-> > 		freezer_count();
-> > 	}
-> >
-> > and note that freezer_count() calls try_to_freeze().
-> >
-> > IOW, the task sleeping in freezable_schedule() doesn't really differ from the
-> > task sleeping in __refrigerator(). It is not that "the system freezer just
-> > ignores such tasks", it ignores them because it can safely count them as frozen.
->
-> Right, so the task is sleeping peacefully, and we know, that it won't get
-> anywhere, because we'll catch it in freezer_count(). We allow it to sleep
-> there, we don't force it to __refrigerator(), and we treat it as frozen.
->
-> How's that different to cgroup v2 freezer? If the task is frozen by cgroup v2
-> freezer, let it sleep there, and catch if it tries to escape. Exactly as it
-> works for SIGSTOP.
->
-> Am I missing something?
+On 12/20/18 7:28 AM, Jonathan Corbet wrote:
+> On Thu, 20 Dec 2018 16:23:38 +0100
+> Thorsten Leemhuis <linux@leemhuis.info> wrote:
+> 
+>> While at it: Jonathan, you mentioned putting the script in scripts/, but
+>> according to the Makefile in that directory it is "for various helper
+>> programs used throughout the kernel for the build process". That's one
+>> reason why it feels wrong to put it there. Another one: that script
+>> targets users and thus we should try to make sure they can access it
+>> easily. That's why I'm currently inclined to put it in tools/ somewhere.
+> 
+> Yeah, tools/ is a better place.  Maybe a tools/debugging directory or some
+> such?
 
-Roman, perhaps we misunderstood each other...
+chktaint is similar (IMO) to scripts/decodecode though.
 
-I still think that the cgroup_task_frozen() check in freeze_task() you proposed
-a) is not right, and b) it is not what we do with the STOPPED/TRACED tasks which
-call freezable_schedule(). This is what I tried to say.
+@Thorsten:
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 
-If you meant that freezer v2 can too use freezable_schedule() - I agree.
 
-> So, you think that v2 freezer should follow the same approach, and allow tasks
-> sleeping on SIGSTOP, for instance, to be treated as frozen?
-> Hm, maybe. I have to think more here.
-
-I think this would be nice. Otherwise, say, CGRP_FREEZE can be never reported
-if I read this code correctly. And this looks "symmetrical" with the fact that
-a ->frozen task reacts to SIGSTOP and it is still treated as frozen after that.
-
-Oleg.
-
+thanks,
+-- 
+~Randy
