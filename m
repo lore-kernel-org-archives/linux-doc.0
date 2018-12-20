@@ -5,29 +5,34 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8D6057D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Dec 2018 15:41:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 17E467D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Dec 2018 15:54:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730784AbeLTPlw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Dec 2018 10:41:52 -0500
-Received: from ms.lwn.net ([45.79.88.28]:53502 "EHLO ms.lwn.net"
+        id S1730951AbeLTPyE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Dec 2018 10:54:04 -0500
+Received: from ms.lwn.net ([45.79.88.28]:53534 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729519AbeLTPlv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 Dec 2018 10:41:51 -0500
+        id S1728172AbeLTPyE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 Dec 2018 10:54:04 -0500
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5A0D0182;
-        Thu, 20 Dec 2018 15:41:51 +0000 (UTC)
-Date:   Thu, 20 Dec 2018 08:41:50 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id 13A726D9;
+        Thu, 20 Dec 2018 15:54:04 +0000 (UTC)
+Date:   Thu, 20 Dec 2018 08:54:03 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     linux-doc@vger.kernel.org, kernel@collabora.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] configfs: fix wrong name of struct in documentation
-Message-ID: <20181220084150.3075f8d7@lwn.net>
-In-Reply-To: <20181207191158.18769-1-helen.koike@collabora.com>
-References: <20181207191158.18769-1-helen.koike@collabora.com>
+To:     NeilBrown <neilb@suse.com>
+Cc:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] Documentation: convert path-lookup from markdown to
+ resturctured text
+Message-ID: <20181220085403.5538683d@lwn.net>
+In-Reply-To: <87h8fmcnoi.fsf@notabene.neil.brown.name>
+References: <87k1l9dgx9.fsf@notabene.neil.brown.name>
+        <87sgzc7v50.fsf@notabene.neil.brown.name>
+        <20181205124644.3f8a452a@lwn.net>
+        <87woonelit.fsf@notabene.neil.brown.name>
+        <20181206100912.535b351d@lwn.net>
+        <87h8fmcnoi.fsf@notabene.neil.brown.name>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -37,40 +42,21 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  7 Dec 2018 17:11:58 -0200
-Helen Koike <helen.koike@collabora.com> wrote:
+On Mon, 10 Dec 2018 09:58:37 +1100
+NeilBrown <neilb@suse.com> wrote:
 
-> The name of the struct is configfs_bin_attribute instead of
-> configfs_attribute
+> However we now have a stub section "Pathname lookup" which serves only
+> to introduce another stub sectoin "Pathname lookup in Linux", which does
+> little more than introduce the rest of the section.
+> This seems inelegant, and is probably why I went for the "include"
+> approach.
 > 
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> 
-> ---
-> 
->  Documentation/filesystems/configfs/configfs.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/filesystems/configfs/configfs.txt b/Documentation/filesystems/configfs/configfs.txt
-> index 3828e85345ae..16e606c11f40 100644
-> --- a/Documentation/filesystems/configfs/configfs.txt
-> +++ b/Documentation/filesystems/configfs/configfs.txt
-> @@ -216,7 +216,7 @@ be called whenever userspace asks for a write(2) on the attribute.
->  
->  [struct configfs_bin_attribute]
->  
-> -	struct configfs_attribute {
-> +	struct configfs_bin_attribute {
->  		struct configfs_attribute	cb_attr;
->  		void				*cb_private;
->  		size_t				cb_max_size;
+> What would you think of something more like the following?
 
-The document is clearly wrong, and this patch makes it better, so I've
-applied it - thanks!
+Sorry for the delay ... $EXCUSES ...
 
-That said, the structure appears to have grown some fields that are not
-reflected in the document; I suspect that there's much more in there that
-is somewhat fictional at this point.  Hopefully somebody someday can help
-to fix it up.
+This makes sense; I went ahead and applied it with your SOB on it; let me
+know if that's not what you wanted.
 
 Thanks,
 
