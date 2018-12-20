@@ -1,208 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 50C227D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Dec 2018 17:39:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3616C7D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Dec 2018 18:22:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387966AbeLTRjJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Dec 2018 12:39:09 -0500
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:35358 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387920AbeLTRjJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Dec 2018 12:39:09 -0500
-Received: by mail-ed1-f65.google.com with SMTP id x30so2462161edx.2;
-        Thu, 20 Dec 2018 09:39:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ztZtXb7LkmN+J/DHEGiSJERmjE2sMXdpFqMqyM0TrjQ=;
-        b=je/p97iSPcO7zkNK4jgfwqhXcHmgKBMOlBKA8YMiqCR4xbUhMil0IGWC5iYq9LlldO
-         kfaG8wW96XLFSab7b1DGWebMyt7zZFD87xKB57FEKlrZvKj7Ni9Tt6nFCmdwPkFMgRfT
-         MRmggp4wdmsvW3PLJCmQG3eqthbjwM0PPn2XItchhmBHrlP9KorCRqCfOZyfZ/DbOGwL
-         He1SHyg7f/znJYi0OwxELpkjmCa26D/gak6wklvbh4B7KlN7fPhyT9/7kx2rLH2ZrEAJ
-         bWrSVQd3bhw3Ql0vtjcMd52/zwY5y7FJYF4TEmqtnXg2fRNijHNRCNq9FxD+X42hQUBL
-         aRfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ztZtXb7LkmN+J/DHEGiSJERmjE2sMXdpFqMqyM0TrjQ=;
-        b=Hyko2Ok/+goKLbzaIG4nQ9SuQKB9YYAomxolFiJFfr+g2hpT2aitz1Ut+dkLSRF2N9
-         7vZu6Zl6ttwzBr68CAJ8iNURbwq2rc1oIFMFL4kVDDNyE0qhjs1inYraBlWx3FDz9bRG
-         QrwjKekAnYguEyrHCgb7YWLHpZxyjU4DpPxEsSt4H+x6/TZbA3vJG+3cOEoC0XYLkZtj
-         QVMon/5yaP18AM0i4aFKYpDPBW3UBjsWi+OFc278mKtkWShQ91+sIr51sHpRZ02TnchS
-         0AnkCqUEOOfVm08wTaf6KwKzLi6qEJ9QHDSoaIKwhKXpFV+jeKCTw6u6Hor/VxOQp3+C
-         QX9A==
-X-Gm-Message-State: AA+aEWag0jA/2kcAQ0cLRJcuTdMtC1AvHDmpNwEIwHget8U/IfeQygQ4
-        6VoxaebR/otjrC1xTS1HX+c=
-X-Google-Smtp-Source: AFSGD/VNbmKdDZWGj9jtF0gqtj6UCbP6mKM/5DHezG1sA418uySDqKmkZGGAU3OIL8KNNM9JOc69dg==
-X-Received: by 2002:a50:ad55:: with SMTP id z21mr24473300edc.74.1545327545905;
-        Thu, 20 Dec 2018 09:39:05 -0800 (PST)
-Received: from localhost (pD9E51040.dip0.t-ipconnect.de. [217.229.16.64])
-        by smtp.gmail.com with ESMTPSA id r23-v6sm2219868eji.64.2018.12.20.09.39.04
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 20 Dec 2018 09:39:04 -0800 (PST)
-Date:   Thu, 20 Dec 2018 18:39:04 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     Paul Cercueil <paul@crapouillou.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ralf Baechle <ralf@linux-mips.org>, paul.burton@mips.com,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mathieu Malaterre <malat@debian.org>, ezequiel@collabora.co.uk,
-        prasannatsmkumar@gmail.com, linux-pwm@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>,
-        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk <linux-clk@vger.kernel.org>, od@zcrc.me
-Subject: Re: [PATCH v8 15/26] pwm: jz4740: Add support for the JZ4725B
-Message-ID: <20181220173904.GE9408@ulmo>
-References: <20181212220922.18759-1-paul@crapouillou.net>
- <20181212220922.18759-16-paul@crapouillou.net>
- <20181213092409.ml4wpnzow2nnszkd@pengutronix.de>
- <1544709795.18952.1@crapouillou.net>
- <20181213204219.onem3q6dcmakusl2@pengutronix.de>
- <CACRpkdbABtDgwKai=8Pfji7qVb-XHsX8pDsuDdS5hhg7qEN0Bw@mail.gmail.com>
- <20181214142628.zwi4hadrju53z6f3@pengutronix.de>
- <1544969932.1649.1@crapouillou.net>
- <20181217075321.k45vhgnszeqs3tea@pengutronix.de>
+        id S2388799AbeLTSWC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Dec 2018 13:22:02 -0500
+Received: from wp227.webpack.hosteurope.de ([80.237.132.234]:60366 "EHLO
+        wp227.webpack.hosteurope.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730855AbeLTSWC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Dec 2018 13:22:02 -0500
+Received: from ip4d142c80.dynamic.kabel-deutschland.de ([77.20.44.128] helo=[192.168.66.118]); authenticated
+        by wp227.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1ga2xK-00078S-Gd; Thu, 20 Dec 2018 19:21:58 +0100
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20181217152043.9989-1-linux@leemhuis.info>
+ <20181217112437.5fe868eb@lwn.net>
+ <8f67a8ca-bf64-c537-843a-b03bcfc3dace@infradead.org>
+ <96fc8865-c54f-5c6c-f6c8-d7a5a12735e6@leemhuis.info>
+ <20181220082819.69fc3e5c@lwn.net>
+ <a02caf89-9221-8e31-4a2d-44b46b81cda2@infradead.org>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Openpgp: preference=signencrypt
+Autocrypt: addr=linux@leemhuis.info; prefer-encrypt=mutual; keydata=
+ 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
+ 5iv6NKaV29GWHbY=
+Subject: Re: [PATCH 0/1] RFC: Revamp admin-guide/tainted-kernels.rst to make
+ it more comprehensible
+Message-ID: <0996ba55-e5e1-49e2-f0ed-82cb1619ee03@leemhuis.info>
+Date:   Thu, 20 Dec 2018 19:21:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="k3qmt+ucFURmlhDS"
-Content-Disposition: inline
-In-Reply-To: <20181217075321.k45vhgnszeqs3tea@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <a02caf89-9221-8e31-4a2d-44b46b81cda2@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1545330121;a92d69e3;
+X-HE-SMSGID: 1ga2xK-00078S-Gd
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Am 20.12.18 um 17:38 schrieb Randy Dunlap:
+> On 12/20/18 7:28 AM, Jonathan Corbet wrote:
+>> On Thu, 20 Dec 2018 16:23:38 +0100
+>> Thorsten Leemhuis <linux@leemhuis.info> wrote:
+>>
+>>> While at it: Jonathan, you mentioned putting the script in scripts/, but
+>>> according to the Makefile in that directory it is "for various helper
+>>> programs used throughout the kernel for the build process". That's one
+>>> reason why it feels wrong to put it there. Another one: that script
+>>> targets users and thus we should try to make sure they can access it
+>>> easily. That's why I'm currently inclined to put it in tools/ somewhere.
+>> Yeah, tools/ is a better place.  Maybe a tools/debugging directory or some
+>> such?
+> chktaint
 
---k3qmt+ucFURmlhDS
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+BTW, I renamed it to kernel-taintstatus, sounded more appropriate to me.
+Does anyone mind?
 
-On Mon, Dec 17, 2018 at 08:53:21AM +0100, Uwe Kleine-K=C3=B6nig wrote:
-> On Sun, Dec 16, 2018 at 03:18:52PM +0100, Paul Cercueil wrote:
-> > Hi,
-> >=20
-> > Le ven. 14 d=C3=A9c. 2018 =C3=A0 15:26, Uwe Kleine-K=C3=B6nig
-> > <u.kleine-koenig@pengutronix.de> a =C3=A9crit :
-> > > Hello,
-> > >=20
-> > > On Fri, Dec 14, 2018 at 02:50:20PM +0100, Linus Walleij wrote:
-> > > > On Thu, Dec 13, 2018 at 9:42 PM Uwe Kleine-K=C3=B6nig
-> > > > <u.kleine-koenig@pengutronix.de> wrote:
-> > > > > [Adding Linus Walleij to Cc:]
-> > > > > On Thu, Dec 13, 2018 at 03:03:15PM +0100, Paul Cercueil wrote:
-> > > > > > Le jeu. 13 d=C3=A9c. 2018 =C3=A0 10:24, Uwe Kleine-K=C3=B6nig
-> > > > > > <u.kleine-koenig@pengutronix.de> a =C3=A9crit :
-> > > > > > > On Wed, Dec 12, 2018 at 11:09:10PM +0100, Paul Cercueil wrote:
-> > > > > > > >  The PWM in the JZ4725B works the same as in the JZ4740,
-> > > > > > > >  except that it only has 6 channels available instead of
-> > > > > > > >  8.
-> > > > > > >
-> > > > > > > this driver is probed only from device tree? If yes, it
-> > > > > > > might be sensible to specify the number of PWMs there and
-> > > > > > > get it from there.
-> > > > > > > There doesn't seem to be a generic binding for that, but ther=
-e are
-> > > > > > > several drivers that could benefit from it. (This is a bigger=
- project
-> > > > > > > though and shouldn't stop your patch. Still more as it alread=
-y got
-> > > > > > > Thierry's ack.)
-> > > > > >
-> > > > > > I think there needs to be a proper guideline, as there doesn't =
-seem to be
-> > > > > > a consensus about this. I learned from emails with Rob and  Lin=
-us (Walleij)
-> > > > > > that I should not have in devicetree what I can deduce from the=
- compatible
-> > > > > > string.
-> > > > >
-> > > > > I understood them a bit differently. It is ok to deduce things fr=
-om the
-> > > > > compatible string. But if you define a generic property (say) "nu=
-m-pwms"
-> > > > > that is used uniformly in most bindings this is ok, too. (And the=
-n the
-> > > > > two different devices could use the same compatible.)
-> > > > >
-> > > > > An upside of the generic "num-pwms" property is that the pwm core=
- could
-> > > > > sanity check pwm phandles before passing them to the hardware dri=
-vers.
-> > > >=20
-> > > >  I don't know if this helps, but in GPIO we have "ngpios" which is
-> > > >  used to augment an existing block as to the number of lines actual=
-ly
-> > > >  used with it.
-> > > >=20
-> > > >  The typical case is that an ASIC engineer synthesize a block for
-> > > >  32 GPIOs but only 12 of them are routed to external pads. So
-> > > >  we augment the behaviour of that driver to only use 12 of the
-> > > >  32 lines.
-> > > >=20
-> > > >  I guess using the remaining 20 lines "works" in a sense but they
-> > > >  have no practical use and will just bias electrons in the silicon
-> > > >  for no use.
-> > >=20
-> > > This looks very similar to the case under discussion.
-> > >=20
-> > > >  So if the PWM case is something similar, then by all means add
-> > > >  num-pwms.
-> > >=20
-> > > .. or "npwms" to use the same nomenclature as the gpio binding?
-> >=20
-> > If we're going to do something like this, should it be the drivers or
-> > the core (within pwmchip_add) that checks for this "npwms" property?
->=20
-> Of course this should be done in the core. The driver than can rely on
-> the validity of the index. But as I wrote before, this shouldn't stop
-> your patch from going in.
->=20
-> But if Thierry agrees that this npmws (or num-pwms) is a good idea, it
-> would be great to start early to convert drivers.
+> is similar (IMO) to scripts/decodecode though.
 
-Do we actually need this? It seems like Paul's patch here properly
-derives the number of available PWMs from the compatible string, so I
-don't see what the extra num-pwms (or whatever) property would add.
+Hmmm. Maybe it would be better to move this to tools/? Will take a quick
+look, guess sooner or later by current endeavours will lead me to the
+documentation that refers to this script anyway.
 
-Thierry
+> @Thorsten:
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 
---k3qmt+ucFURmlhDS
-Content-Type: application/pgp-signature; name="signature.asc"
+Thx. And thx for the feedback in the other reply.
 
------BEGIN PGP SIGNATURE-----
+BTW, for those following this thread and my earlier quest for a simple
+cmd to decode /proc/sys/kernel/tainted: looks like @apexo on twitter
+(thx again!) found a trick to do what I want which should work on most
+systems out-of-the-box:
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlwb07cACgkQ3SOs138+
-s6HqPQ/9EvqzyNbYIZcLq9uI1GFXYCcBJH2WDzabK4dC9qZDaof2UMjSPj5rBEaL
-EOZv/Yn+EaN5IoIo65MIVyPzB5dSyFuh2MZkBlXpH0c2JhIY/d/hd+7ZmxdjEVib
-CcBiBHi+QP+CJhQ5gKDFtqwXiU1hlff560NFpfDfFVNWtyeXN+2I1caEftRybYsq
-R+V/boJKSK+HygyNlKxY8bpZq2p/9eC2hndeJNI1rXdzXuv/if4+ZC9ZqKlDOLbz
-3zOHzMjHAl33uUVpQhJR11x+KmAnkTPBZ0Mn3Jv1AtAL/3FCOkNDwBx2CXjUnUxC
-HzRLcURjKRctjATnpd2tJwtuJZUyFxY0dcysRK0/+C/DD0Rj78aECIXald7npdDl
-MVk5SNplY1WpWkzdM8rwYWYuskHpU5IWB2haq6FLju6vq6ABEQYlg95OskrjZOih
-QPW2aN7CPgKfCilVhS1Ur3r4t6FxX/w33rEuJNeVaNsn2jFuQrVLeff1iHoXeRNg
-832gbMNIdJnSEV18tXizFVwvC3s1GWKiBLk7spSLTuxGaYQr82Na9DyBTdsqj/0a
-V2AttQ1GeTlDN/GjmqQrpfDYG6LJK7SRsXSmqsXR6J7187gSfRoLMzivYMaxJGsj
-qgbreq98AzZ1z5GiHQKL0NFRHaoHlTSMprrjhLsnIy+sBV+8t/g=
-=pWXg
------END PGP SIGNATURE-----
+$ for i in $(seq 18); do echo $i $(($(cat
+/proc/sys/kernel/tainted)>>($i-1)&1));done
 
---k3qmt+ucFURmlhDS--
+Ciao, Thorsten
