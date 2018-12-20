@@ -1,280 +1,162 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E4E777D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Dec 2018 10:54:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B7CA97D8A3
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Dec 2018 13:03:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731210AbeLTKyk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Dec 2018 05:54:40 -0500
-Received: from mail-eopbgr70081.outbound.protection.outlook.com ([40.107.7.81]:52896
-        "EHLO EUR04-HE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725869AbeLTKyj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 Dec 2018 05:54:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector1-arm-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h+8lBurfm7kEhvnaLupCSpq9KejOzhmRNRxbE2EVwKg=;
- b=dspGScL+ysbz0QM1ajbFDdRwO849UKd/tfLJqPkoRs3lcRIqhARq6X6RswFSUE8wVq38qYINYACZhvOScV8sb7pJksTZn8Rh3Iuu7NawfPezM0mhXfeWUXydOb+tRYBeIqLuFjbKljKlrzyNTFQey1I2S5ooVY2bPCb/NfH5OlA=
-Received: from AM0PR08MB4483.eurprd08.prod.outlook.com (20.179.35.149) by
- AM0PR08MB3377.eurprd08.prod.outlook.com (20.177.109.77) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1425.19; Thu, 20 Dec 2018 10:54:34 +0000
-Received: from AM0PR08MB4483.eurprd08.prod.outlook.com
- ([fe80::1dff:434f:5905:45db]) by AM0PR08MB4483.eurprd08.prod.outlook.com
- ([fe80::1dff:434f:5905:45db%5]) with mapi id 15.20.1446.020; Thu, 20 Dec 2018
- 10:54:34 +0000
-From:   "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
-To:     Rob Herring <robh+dt@kernel.org>
-CC:     Liviu Dudau <Liviu.Dudau@arm.com>,
-        Mark Rutland <Mark.Rutland@arm.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        "Jonathan Chai (Arm Technology China)" <Jonathan.Chai@arm.com>,
-        Alexandru-Cosmin Gheorghe <Alexandru-Cosmin.Gheorghe@arm.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        "Yiqi Kang (Arm Technology China)" <Yiqi.Kang@arm.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "Tiannan Zhu (Arm Technology China)" <Tiannan.Zhu@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Airlie <airlied@linux.ie>,
-        Mali DP Maintainers <malidp@foss.arm.com>,
-        "thomas Sun (Arm Technology China)" <thomas.Sun@arm.com>,
-        Ayan Halder <Ayan.Halder@arm.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Jin Gao (Arm Technology China)" <Jin.Gao@arm.com>,
-        nd <nd@arm.com>, Sean Paul <sean@poorly.run>,
-        "Lowry Li (Arm Technology China)" <Lowry.Li@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        "Julien Yin (Arm Technology China)" <Julien.Yin@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Miller <davem@davemloft.net>
-Subject: Re: [PATCH v2 2/9] dt/bindings: drm/komeda: Add DT bindings for ARM
- display processor D71
-Thread-Topic: [PATCH v2 2/9] dt/bindings: drm/komeda: Add DT bindings for ARM
- display processor D71
-Thread-Index: AQHUl5cAOCEuMH0GRUuCne9wdYhyiw==
-Date:   Thu, 20 Dec 2018 10:54:34 +0000
-Message-ID: <20181220105419.GA7599@james-ThinkStation-P300>
-References: <20181219123147.16090-1-james.qian.wang@arm.com>
- <20181219123147.16090-3-james.qian.wang@arm.com>
- <CAL_JsqLsQ__dpu0Xh5zmLbOx_B8t0t0kJzoh-nOf=nuZSppAYg@mail.gmail.com>
-In-Reply-To: <CAL_JsqLsQ__dpu0Xh5zmLbOx_B8t0t0kJzoh-nOf=nuZSppAYg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mutt/1.9.4 (2018-02-28)
-x-originating-ip: [113.29.88.7]
-x-clientproxiedby: SYBPR01CA0090.ausprd01.prod.outlook.com
- (2603:10c6:10:3::30) To AM0PR08MB4483.eurprd08.prod.outlook.com
- (2603:10a6:208:145::21)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=james.qian.wang@arm.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;AM0PR08MB3377;6:XDnlj4zO8mgynzrA3J+1Vx+nHfY64mYBzEN4RZPK/UBTaWFEk3RoEz7O2xBF8aG6hC7nxLmFIsPn9naVxtW5IxtUzZmS9JZBFpIza4PDLeBoIvyPp9muupfErwNZBI5OX1hjzq9cogG/cs5mmSqvG4Q0OenPijcjfniRxHIE6u60QzodaLFZxsi/W1J+UBDN+Jn/zCagfwm33vHbsN8fxJ5pPGqn+C9MUuk9e4eev828e2laapVbeVikmll9ZCDTtgPoABVENs2UpDQ5QjW9vyp1zqvmCbh1aRIuhYMLrgYGkSTdRrrV5Zr7tFqO+wdx1j3M3qeGjyg5vys84n7zbr5np0jVfActLJSqWNzZ0WoNEvVFyv82pstECoeqDWeqkCzT2aTqbR4EO1K++47SzdiCY1+2D+ZPDOoE3wd/WXvphKcxsc0q5gQiRP5pZHNxAMRsUWulH4OvqohB1wrQzg==;5:m+tC1/EMRLUFwYNG49Q4eNTZYnvMMSY+Yv7mf/muh9LvLsSAQWJvYVr1aFFcvYJZ70uKEINn739BPL97+s+loyGsITy75735/Lfw0dqS2UOCwSITldnvvZIE2zYlL5zRiCvZLkZ3IJa7pr3NaKRUMl4n3cMwq/VIuyvKt5cRyso=;7:dqnB/hNdQDo7Q+TUEar235oxqB0z+uFcvvvSKy1XQL5OPrpjc1J4xAUI+1rMc+ZMMkXRn3T6pLTEHXVlLls9621RYrSgE2W+hYtiz13a0cR8l0I0UKkmC/8eR3F3UYE3fqP3jSidm5RQENhaTR8lTw==
-x-ms-office365-filtering-correlation-id: 31dad57f-af23-4ed3-33f6-08d6666986fd
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(4618075)(2017052603328)(7153060)(7193020);SRVR:AM0PR08MB3377;
-x-ms-traffictypediagnostic: AM0PR08MB3377:
-nodisclaimer: True
-x-microsoft-antispam-prvs: <AM0PR08MB3377E7891CB414BD84B2788EB3BF0@AM0PR08MB3377.eurprd08.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(3230021)(999002)(5005026)(6040522)(2401047)(8121501046)(3002001)(10201501046)(93006095)(93001095)(3231475)(944501520)(52105112)(6055026)(149066)(150057)(6041310)(20161123558120)(20161123562045)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(201708071742011)(7699051)(76991095);SRVR:AM0PR08MB3377;BCL:0;PCL:0;RULEID:;SRVR:AM0PR08MB3377;
-x-forefront-prvs: 0892FA9A88
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(7916004)(376002)(39860400002)(136003)(346002)(366004)(396003)(189003)(199004)(26005)(5660300001)(53936002)(6512007)(8936002)(9686003)(6306002)(8676002)(71190400001)(71200400001)(25786009)(4326008)(68736007)(7416002)(97736004)(256004)(14444005)(81156014)(1076003)(6246003)(966005)(81166006)(86362001)(2906002)(6436002)(3846002)(106356001)(105586002)(54906003)(6116002)(305945005)(33716001)(7736002)(33656002)(52116002)(14454004)(229853002)(11346002)(476003)(316002)(99286004)(76176011)(58126008)(33896004)(478600001)(386003)(53546011)(6506007)(186003)(486006)(6486002)(66066001)(55236004)(446003)(102836004)(18370500001)(87944003);DIR:OUT;SFP:1101;SCL:1;SRVR:AM0PR08MB3377;H:AM0PR08MB4483.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: arm.com does not designate
- permitted sender hosts)
-x-microsoft-antispam-message-info: NRGrXBYCx3Oaq0fQ/PlNq0mbEuOHP11xbyI/KgL6K+vV8kxlOvfnxtIi1CALNlXDostrYwnmR58mv4TMHnQhbEiozY0q79qmvOT7W987hYUeB8Oq4XWpEwqEZk28PNUOjXQ/7DEuXZHnUCPKzwFluTH+khfyZ2KdlFjjqfsBuq+ECDf95EwWK/wCH9EBRHPQd34o4qK0DANqs7S2awxcek+n9YLOvs85MMi0GnOmasIc1K+kY3FA9EWxbaw6pknJXtbinrbo1siE9RRnM+N725Tnrh4zKO7J7CwAiDvco3OInTGxByymEK2UmP5KGwj0
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <0BC68A1DB0FB1C44B013DBA8EB76D7B4@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S1732606AbeLTNDE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Dec 2018 08:03:04 -0500
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:46242 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731735AbeLTNC6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Dec 2018 08:02:58 -0500
+Received: by mail-pl1-f195.google.com with SMTP id t13so852305ply.13
+        for <linux-doc@vger.kernel.org>; Thu, 20 Dec 2018 05:02:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=z33AmGyYeTegWwnOqVnqPvq8oZtBrBxpXFU1R2PJCDQ=;
+        b=KOeaA4RFW7Vqmg1WmtF7cLRxXmCj5vMgg/OW/MzbZg9l2h0MXNBFsh3zJFRGYNu9DL
+         JQNodnslaUNkEMUDlplfn5SNiK72WbiPVGpnNv6NRBHvX6XoGTgY/jZj+W4fZ/MeW/7D
+         oTOnVG92FVpJiZ3YMS0mI2x4XmEEitQ36aIsSIqOOzMnvzxdAwV+Nl7IaJ0UgmIOiLOz
+         6fPS168dfauNGrXAZW3rlx9zDa++2V2sFumbzrBbc9I2rQvcBCtHZGrqGSW0wn4Fflvx
+         fE+uj/0LHKELDJESqQj4LRamOVJ974sekG30+ZoSbG/78as7kjwnRa+y4ifax8qYDwxR
+         UCfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=z33AmGyYeTegWwnOqVnqPvq8oZtBrBxpXFU1R2PJCDQ=;
+        b=Uyvy8JsKDTRRqwahRaq+y1vyOJpUNvrqfjf5TsfdY8QR6pQfBrm6n/37Xc6Knn9gmy
+         5nZPbSGuFwindNRD/ae/imiKkgWbEVJ8lgQygnyy2Tox8OmbRuq0HsMtYS2vTE9KNjLa
+         kBp2eAONuXt7uA/iQUEZ4XyA5tKU1QrmNn8B24mW12VXfdxSuOctLoguZne/ndJ54h4B
+         cIZE9o23MytJNsh+nRdpBuidZrgvVGMlMxZ965+HJkTnoO5NQKbLundEQyM6FHUa9Xa5
+         fjE4FZexdiMK7lymxi0aZYlvVxzAG253H/R0siDakEkAT4pO3eLhbD7eLdVxvrz7RWGu
+         1YsA==
+X-Gm-Message-State: AA+aEWYzlMcMUbOAz3spK6UlhuNBdrPTiT9+bR/EKMMmhIzI+dJ2Sm4e
+        FgNW332peNPq5XZT71dlbAGr+m2O+i2SesEjahrgOA==
+X-Google-Smtp-Source: AFSGD/WOa83WUlOnQ0njasNEnkyLgn6475HlT3sAOPSTUT2Ym4C/TKTW1I6IgMjTWWIfkk7SKMal+m4GX2ZLl0cvNIQ=
+X-Received: by 2002:a17:902:a58a:: with SMTP id az10mr24543086plb.10.1545310976746;
+ Thu, 20 Dec 2018 05:02:56 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31dad57f-af23-4ed3-33f6-08d6666986fd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Dec 2018 10:54:34.4555
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3377
+References: <706da77adfceb0c324e824d03b52d58a752577ea.1545139710.git.andreyknvl@google.com>
+ <20181218125453.4c5e6c056d31ccaa3a73d4a5@linux-foundation.org>
+In-Reply-To: <20181218125453.4c5e6c056d31ccaa3a73d4a5@linux-foundation.org>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Thu, 20 Dec 2018 14:02:45 +0100
+Message-ID: <CAAeHK+yggnKfkycdUdTHG4MvWBMq_XK70m0rQuH873DZU+RnGQ@mail.gmail.com>
+Subject: Re: [PATCH mm] kasan, arm64: use ARCH_SLAB_MINALIGN instead of manual aligning
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-sparse@vger.kernel.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 19, 2018 at 07:55:44AM -0600, Rob Herring wrote:
-> On Wed, Dec 19, 2018 at 6:33 AM james qian wang (Arm Technology China)
-> <james.qian.wang@arm.com> wrote:
+On Tue, Dec 18, 2018 at 9:55 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Tue, 18 Dec 2018 14:30:33 +0100 Andrey Konovalov <andreyknvl@google.com> wrote:
+>
+> > Instead of changing cache->align to be aligned to KASAN_SHADOW_SCALE_SIZE
+> > in kasan_cache_create() we can reuse the ARCH_SLAB_MINALIGN macro.
 > >
-> > Add DT bindings documentation for the ARM display processor D71 and lat=
-er
-> > IPs.
+> > ...
 > >
-> > Signed-off-by: James (Qian) Wang <james.qian.wang@arm.com>
-> > ---
-> >  .../bindings/display/arm/arm,komeda.txt       | 87 +++++++++++++++++++
-> >  1 file changed, 87 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/arm/arm,k=
-omeda.txt
+> > --- a/arch/arm64/include/asm/kasan.h
+> > +++ b/arch/arm64/include/asm/kasan.h
+> > @@ -36,6 +36,10 @@
+> >  #define KASAN_SHADOW_OFFSET     (KASAN_SHADOW_END - (1ULL << \
+> >                                       (64 - KASAN_SHADOW_SCALE_SHIFT)))
 > >
-> > diff --git a/Documentation/devicetree/bindings/display/arm/arm,komeda.t=
-xt b/Documentation/devicetree/bindings/display/arm/arm,komeda.txt
-> > new file mode 100644
-> > index 000000000000..d4b53c11b2a2
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/arm/arm,komeda.txt
-> > @@ -0,0 +1,87 @@
-> > +Device Tree bindings for ARM Komeda display driver
+> > +#ifdef CONFIG_KASAN_SW_TAGS
+> > +#define ARCH_SLAB_MINALIGN   (1ULL << KASAN_SHADOW_SCALE_SHIFT)
+> > +#endif
 > > +
-> > +Required properties:
-> > +- compatible: Should be "arm,mali-d71"
-> > +- reg: Physical base address and length of the registers in the system
-> > +- interrupts: the interrupt line numbers of the device in the system
->=20
-> How many?
-
-Sorry, only one interrupt. will fix it in the next version.=20
-
-> > +- interrupt-names: contains the names of the IRQs in the order they we=
-re
-> > +    provided in the "interrupts" property. Must contain: "DPU".
->=20
-> There's no point in *-names when there is only one entry.
->=20
-> > +- clocks: A list of phandle + clock-specifier pairs, one for each entr=
-y
-> > +    in 'clock-names'
-> > +- clock-names: A list of clock names. It should contain:
-> > +      - "pclk": for the APB interface clock
-> > +      - "mclk": for the main processor clock
->=20
-> The order here doesn't match the example.
-
-will fix it.
-
->=20
-> > +- #address-cells: Must be 1
-> > +- #size-cells: Must be 0
-> > +
-> > +Required properties for sub-node: pipeline@nq
-> > +Each device contains one or two pipeline sub-nodes (at least one), eac=
-h
-> > +pipeline node should provide properties:
-> > +- reg: Zero-indexed identifier for the pipeline
-> > +- clocks: A list of phandle + clock-specifier pairs, one for each entr=
-y
-> > +    in 'clock-names'
-> > +- clock-names: should contain:
-> > +      - "aclk": AXI interface clock
-> > +      - "pxclk": pixel clock
->=20
-> The order here doesn't match the example.
+> >  void kasan_init(void);
+> >  void kasan_copy_shadow(pgd_t *pgdir);
+> >  asmlinkage void kasan_early_init(void);
+>
+> This looks unreliable.  include/linux/slab.h has
+>
+> /*
+>  * Setting ARCH_SLAB_MINALIGN in arch headers allows a different alignment.
+>  * Intended for arches that get misalignment faults even for 64 bit integer
+>  * aligned buffers.
+>  */
+> #ifndef ARCH_SLAB_MINALIGN
+> #define ARCH_SLAB_MINALIGN __alignof__(unsigned long long)
+> #endif
+>
+> so if a .c file includes arch/arm64/include/asm/kasan.h after
+> include/linux/slab.h, it can get a macro-redefined warning.  If the .c
+> file includes those headers in the other order, ARCH_SLAB_MINALIGN will
+> get a different value compared to other .c files.
+>
+> Or something like that.
+>
+> Different architectures define ARCH_SLAB_MINALIGN in different place:
+>
+> ./arch/microblaze/include/asm/page.h:#define ARCH_SLAB_MINALIGN L1_CACHE_BYTES
+> ./arch/arm/include/asm/cache.h:#define ARCH_SLAB_MINALIGN 8
+> ./arch/sh/include/asm/page.h:#define ARCH_SLAB_MINALIGN 8
+> ./arch/c6x/include/asm/cache.h:#define ARCH_SLAB_MINALIGN       L1_CACHE_BYTES
+> ./arch/sparc/include/asm/cache.h:#define ARCH_SLAB_MINALIGN     __alignof__(unsigned long long)
+> ./arch/xtensa/include/asm/processor.h:#define ARCH_SLAB_MINALIGN STACK_ALIGN
+>
+> which is rather bad of us.
+>
+> But still.  I think your definition should occur in an arch header file
+> which is reliably included from slab.h.  And kasan code should get its
+> definition of ARCH_SLAB_MINALIGN by including slab.h.
 >
 
-will fix it in the next version.
+KASAN code doesn't use this macro directly, so I don't think it needs
+to get it's definition.
 
-> > +
-> > +- port: each pipeline connect to an encoder input port. The connection=
- is
-> > +    modelled using the OF graph bindings specified in
->=20
-> modeled
-
-will fix it.
-
->=20
-> > +    Documentation/devicetree/bindings/graph.txt
-> > +
-> > +Optional properties:
-> > +  - memory-region: phandle to a node describing memory (see
-> > +    Documentation/devicetree/bindings/reserved-memory/reserved-memory.=
-txt)
-> > +    to be used for the framebuffer; if not present, the framebuffer ma=
-y
-> > +    be located anywhere in memory.
-> > +
-> > +Example:
-> > +/ {
-> > +       ...
-> > +
-> > +       dp0: display@c00000 {
-> > +               #address-cells =3D <1>;
-> > +               #size-cells =3D <0>;
-> > +               compatible =3D "arm,mali-d71";
-> > +               reg =3D <0xc00000 0x20000>;
-> > +               interrupts =3D <0 168 4>;
-> > +               interrupt-names =3D "DPU";
-> > +               clocks =3D <&dpu_mclk>, <&dpu_aclk>;
-> > +               clock-names =3D "mclk", "pclk";
-> > +
-> > +               pl0: pipeline@0 {
-> > +                       clocks =3D <&fpgaosc2>, <&dpu_aclk>;
-> > +                       clock-names =3D "pxclk", "aclk";
-> > +                       reg =3D <0>;
->=20
-> Is there a register range for each pipeline? If so, using that here
-> would be better than index.
-
-Sorry, there is no register range for the pipeline.
-
->=20
-> > +
-> > +                       ports {
-> > +                               #address-cells =3D <1>;
-> > +                               #size-cells =3D <0>;
-> > +
-> > +                               port@0 {
-> > +                                       reg =3D <0>;
->=20
-> You can drop 'ports' moving port up a level. And for a single port,
-> you don't need reg.
-
-you're right will fix it.
->=20
-> > +                                       dp0_pl0_out: endpoint {
-> > +                                               remote-endpoint =3D <&d=
-b_dvi0_in>;
-> > +                                       };
-> > +                               };
-> > +                       };
-> > +               };
-> > +               pl1: pipeline@1 {
-> > +                       clocks =3D <&fpgaosc2>, <&dpu_aclk>;
-> > +                       clock-names =3D "pxclk", "aclk";
-> > +                       reg =3D <1>;
-> > +
-> > +                       ports {
-> > +                               #address-cells =3D <1>;
-> > +                               #size-cells =3D <0>;
-> > +
-> > +                               port@0 {
-> > +                                       reg =3D <0>;
-> > +                                       dp0_pl1_out: endpoint {
-> > +                                               remote-endpoint =3D <&d=
-b_dvi1_in>;
-> > +                                       };
-> > +                               };
-> > +                       };
-> > +               };
-> > +       };
-> > +       ...
-> > +};
-> > --
-> > 2.17.1
-> >
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+What do you think about adding #include <linux/kasan.h> into
+linux/slab.h? Perhaps with a comment that this is needed to get
+definition of ARCH_SLAB_MINALIGN?
