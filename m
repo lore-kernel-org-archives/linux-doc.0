@@ -5,48 +5,47 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 28FB27D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Dec 2018 16:38:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A2A1C7D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Dec 2018 16:42:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729011AbeLTQiO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Dec 2018 11:38:14 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:34206 "EHLO
+        id S1731147AbeLTQmQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Dec 2018 11:42:16 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:36932 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726604AbeLTQiO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Dec 2018 11:38:14 -0500
+        with ESMTP id S1730176AbeLTQmQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Dec 2018 11:42:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
         Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=CG/jSNeNChtKOqB2GhAVgwv4KkxMfGgWF7pWoOr89kI=; b=u2tt3Yrf2gIH3x6Lnk4xszbFQ
-        DKw9iASYROnevBlH9Xf7ze13R9C39PJ4lpFpZ3KD90t42ccnswbKEo890nx7HyTrjz3rncZL01Djt
-        3DOIokdM0vEuFIFV4noCtHDVgZd1KQwohx8FcUY1Fd0L0uB4WEOV5HtQ18Q15XTywKy+FTK2l10WW
-        gp67ZHzG5XYNIhudHXe42JPZfbi0ByP9kMr+GFMUy/gRZcCQ1QtBXu+Nnbq92Ka5/FkxNaaRCEq42
-        sJ6lrCeCBfkXoTGRNaXeFtdJbA6Vs8K6EGj8bZnNo6bPeFS0NcKBtOBN3rV02VlOCJJH4sp92X6aS
-        Jmf/TQA5g==;
+         bh=AsrGz4wyhV6a5LoNUZXjMxkoDjCYbgsfI12XBltVZow=; b=qoPByeRzbhFBCAixECZW50A9F
+        6DZbytuPCbBaBtCZ/lv1zSa1FHdsJqGCcRAn8I9n3KRtxGj/iPoAlTUjkrChc1lPh3+OlEMvWY9fr
+        DOZ0bcqeIJcLJmBZv7Y4Z5XhRwg9w9HUL73GGDEcgWZnPjin/hCZK4Imd92Ke44zRp0oTxHYgLZXA
+        T5pieI3NNYfamVUwIUH9G75Ac0khWpumPucyNPYUv/4UxiaUvU4JzJFBKF7tIr1EIWmpIWFNaYEIX
+        eeRDsvAsHUK/GnZnz8QkHGNuKoL8vArLk0hLeO2FeCbz3HrfVlTKeaJqlwS5F0IOrNP8JgUP49ZQE
+        S73tHFVIA==;
 Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1ga1Kv-0000cj-Ji; Thu, 20 Dec 2018 16:38:13 +0000
+        id 1ga1On-0002fi-FJ; Thu, 20 Dec 2018 16:42:15 +0000
 Subject: Re: [PATCH 0/1] RFC: Revamp admin-guide/tainted-kernels.rst to make
  it more comprehensible
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Thorsten Leemhuis <linux@leemhuis.info>
+To:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 References: <20181217152043.9989-1-linux@leemhuis.info>
  <20181217112437.5fe868eb@lwn.net>
  <8f67a8ca-bf64-c537-843a-b03bcfc3dace@infradead.org>
  <96fc8865-c54f-5c6c-f6c8-d7a5a12735e6@leemhuis.info>
- <20181220082819.69fc3e5c@lwn.net>
 From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <a02caf89-9221-8e31-4a2d-44b46b81cda2@infradead.org>
-Date:   Thu, 20 Dec 2018 08:38:06 -0800
+Message-ID: <e77c03ff-a84b-4020-34a4-fc9fa5f1eccb@infradead.org>
+Date:   Thu, 20 Dec 2018 08:42:13 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.3.0
 MIME-Version: 1.0
-In-Reply-To: <20181220082819.69fc3e5c@lwn.net>
+In-Reply-To: <96fc8865-c54f-5c6c-f6c8-d7a5a12735e6@leemhuis.info>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -55,26 +54,50 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/20/18 7:28 AM, Jonathan Corbet wrote:
-> On Thu, 20 Dec 2018 16:23:38 +0100
-> Thorsten Leemhuis <linux@leemhuis.info> wrote:
+On 12/20/18 7:23 AM, Thorsten Leemhuis wrote:
+> Hi! Am 17.12.18 um 22:06 schrieb Randy Dunlap:
+>> On 12/17/18 10:24 AM, Jonathan Corbet wrote:
+>>> Here's an idea if you feel like improving this: rather than putting an
+>>> inscrutable program inline, add a taint_status script to scripts/ that
+>>> prints out the status in fully human-readable form, with the explanation
+>>> for every set bit.
+>> And some people prefer not adding tools that use python, perl, etc.
 > 
->> While at it: Jonathan, you mentioned putting the script in scripts/, but
->> according to the Makefile in that directory it is "for various helper
->> programs used throughout the kernel for the build process". That's one
->> reason why it feels wrong to put it there. Another one: that script
->> targets users and thus we should try to make sure they can access it
->> easily. That's why I'm currently inclined to put it in tools/ somewhere.
+> Yeah, I know :-/ On twitter @apexo (thx!) suggested these two:
 > 
-> Yeah, tools/ is a better place.  Maybe a tools/debugging directory or some
-> such?
+> dc -e"[00000000000000]n2o$(cat /proc/sys/kernel/tainted)p"|fold
+> -w1|tac|nl| grep  -m 18 '.'
+> 
+> (echo -n 000000000000000;(echo obase=2;cat
+> /proc/sys/kernel/tainted)|bc)|fold -w1|tac|nl| grep -m 18 '.'
+> 
+> But it needs bc, which often is not installed by default  :-/ Any as you
+> mentioned already: using Perl (
+> 
+> perl -e 'printf("%016b\n",<STDIN>)' < /proc/sys/kernel/tainted |fold
+> -w1|tac|nl
+> 
+> ) also has it downsides. Having something that works in plain bash/sh
+> would be great...
+> 
+> Nevertheless: I'm still inclined to put a one liner decode command into
+> tainted-kernels.rst so people can decode the file easily even if they do
+> not have attached script at hand.
+> 
+>> E.g., I use this shell script (named 'chktaint', which could probably
+>> be done better):
+> 
+> Many thx. Find a slightly improved version attached that directly prints
+> the reason. I assume that's more like what Jonathan had in mind. The
+> script now is also capable of decoding a value retrieved from
+> /proc/sys/kernel/tainted on another system.
 
-chktaint is similar (IMO) to scripts/decodecode though.
+Thorsten:
 
-@Thorsten:
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+- drop the trailing spaces on multiple lines
+- s/follwing/following/
 
 
-thanks,
+thanks.
 -- 
 ~Randy
