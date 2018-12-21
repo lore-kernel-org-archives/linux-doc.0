@@ -1,188 +1,195 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 811F47D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Dec 2018 18:11:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EE4E97D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Dec 2018 18:17:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391196AbeLUSL4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Dec 2018 13:11:56 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:40667 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725937AbeLUSLz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Dec 2018 13:11:55 -0500
-Received: by mail-pg1-f193.google.com with SMTP id z10so2838784pgp.7
-        for <linux-doc@vger.kernel.org>; Fri, 21 Dec 2018 10:11:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=s+s0cCpjIWVQiboFpL5zFPaKNhtl7rE4uoN8aqs1kLI=;
-        b=YimIdrgGY5kOVlG+kPdeha0dYALLoL0bjb1JmPeUURrqxIDlMdxfvYSpiGsZ0iGmol
-         gCWlw+WkTsc8JvRW7g19ZIDhPwGQ7eDw87yKddTzTA7BhtzCQ8LRK9HdvT4SEPN9QP40
-         A20cT9XO+yZMY0u9a52rdr1fVMJZDDZhPA3p5QIVWJn0JOAj1ljqSb2duLO4h8VDzQi2
-         ZlDqExCtiF15mDyzzu7lxMprzH2n9y1Ipl4Hanx+LdH/3uQ9I1Bc05z5TNcxiw+ApspW
-         2AZVxK0qNh3VgMfyPoohoap0Ri2yyK2ut+hUq0QH8zoAMHVHmeMC7fcQ63ZGXMpkfAaP
-         gFoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=s+s0cCpjIWVQiboFpL5zFPaKNhtl7rE4uoN8aqs1kLI=;
-        b=VNeFhK0kSFVrXS02PlRL81JC2Fwhp5VZqlR4AgufyUuaGMTuJmDLwBQps71PgsYAqM
-         0Dx+ZJSGkhMDgulE5y6jBKPvA5bWgpIhvR7L9aKFY6wynqStH250t4Xnc3hunim6D/mt
-         31JPSwmFfWmo/66QY0BjcGmEWluZKvV79do0MHHss7bC9LmSyvQRSUEFmJ+dGW7JDqJE
-         S+bqbKgBaeCioU/ZpYRtSQF9nNQzLMNy/Lpdfa55dFTSOuTYtghBKkU7z6xXYBzw5C2W
-         oCT3h3G/A6qJ9Sq8aoeyPrZaVxys5kbqYfaTUriAvduXGNqDKKjhl5If/Ta8DSV94nU2
-         M7sQ==
-X-Gm-Message-State: AJcUukcv2+d26O8ngFb/xJl1eEyO6ComksquWWelf8B/TIN1+oKdBIwS
-        1eh6h/+YFhZZik7VGkxrgO882tSxzVm26KIXC/P+jtaowag=
-X-Google-Smtp-Source: ALg8bN7lftdti7rNkwuau6n+UL53WBYOLTn2sRichzFPafU22RR8xqToudo0eJodzgc4hxheyd66mmmDj0JlmSCWJVY=
-X-Received: by 2002:a63:42c1:: with SMTP id p184mr3374238pga.202.1545415914314;
- Fri, 21 Dec 2018 10:11:54 -0800 (PST)
-MIME-Version: 1.0
-References: <20181215212304.19390-1-natechancellor@gmail.com>
-In-Reply-To: <20181215212304.19390-1-natechancellor@gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 21 Dec 2018 10:11:43 -0800
-Message-ID: <CAKwvOdkfehycubxKDLs9vZvKWE4QR+EyerxNSaV72aDwySx8eQ@mail.gmail.com>
-Subject: Re: [PATCH] ARM: Ensure that NEON code always compiles with Clang
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Russell King <linux@armlinux.org.uk>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        id S1732261AbeLUSRo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Dec 2018 13:17:44 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:56310 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731660AbeLUSRo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 Dec 2018 13:17:44 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7B23EEBD;
+        Fri, 21 Dec 2018 10:17:43 -0800 (PST)
+Received: from [10.1.196.105] (eglon.cambridge.arm.com [10.1.196.105])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 87D223F575;
+        Fri, 21 Dec 2018 10:17:41 -0800 (PST)
+From:   James Morse <james.morse@arm.com>
+Subject: Re: [RFC RESEND PATCH] kvm: arm64: export memory error recovery
+ capability to user space
+To:     Peter Maydell <peter.maydell@linaro.org>
+Cc:     gengdongjiu <gengdongjiu@huawei.com>,
+        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Nicolas Pitre <nicolas.pitre@linaro.org>,
-        linux-doc@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>, Tri Vo <trong@android.com>
-Content-Type: text/plain; charset="UTF-8"
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        kvm-devel <kvm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        arm-mail-list <linux-arm-kernel@lists.infradead.org>
+References: <0184EA26B2509940AA629AE1405DD7F201FFC21E@dggema523-mbx.china.huawei.com>
+ <c01e3ed0-f66c-f7df-295a-70b44bad49ff@arm.com>
+ <CAFEAcA8No4tti6o9oErdfGKyHqRTfXebO4fuEOhBApFAxw=LOg@mail.gmail.com>
+Message-ID: <1d73ec5a-b58d-1e00-b681-53cd80cba999@arm.com>
+Date:   Fri, 21 Dec 2018 18:17:40 +0000
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.1
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA8No4tti6o9oErdfGKyHqRTfXebO4fuEOhBApFAxw=LOg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Dec 15, 2018 at 1:23 PM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> While building arm32 allyesconfig, I ran into the following errors:
->
->   arch/arm/lib/xor-neon.c:17:2: error: You should compile this file with
->   '-mfloat-abi=softfp -mfpu=neon'
->
->   In file included from lib/raid6/neon1.c:27:
->   /home/nathan/cbl/prebuilt/lib/clang/8.0.0/include/arm_neon.h:28:2:
->   error: "NEON support not enabled"
->
-> Building V=1 showed NEON_FLAGS getting passed along to Clang but
-> __ARM_NEON__ was not getting defined. Ultimately, it boils down to Clang
-> only defining __ARM_NEON__ when targeting armv7, rather than armv6k,
-> which is the '-march' value for allyesconfig.
->
-> From lib/Basic/Targets/ARM.cpp in the Clang source:
->
->   // This only gets set when Neon instructions are actually available, unlike
->   // the VFP define, hence the soft float and arch check. This is subtly
->   // different from gcc, we follow the intent which was that it should be set
->   // when Neon instructions are actually available.
->   if ((FPU & NeonFPU) && !SoftFloat && ArchVersion >= 7) {
->     Builder.defineMacro("__ARM_NEON", "1");
->     Builder.defineMacro("__ARM_NEON__");
->     // current AArch32 NEON implementations do not support double-precision
->     // floating-point even when it is present in VFP.
->     Builder.defineMacro("__ARM_NEON_FP",
->                         "0x" + Twine::utohexstr(HW_FP & ~HW_FP_DP));
->   }
->
-> Ard Biesheuvel recommended explicitly adding '-march=armv7-a' at the
-> beginning of the NEON_FLAGS definitions so that __ARM_NEON__ always gets
-> definined by Clang. This doesn't functionally change anything because
-> that code will only run where NEON is supported, which is implicitly
-> armv7.
->
-> Link: https://github.com/ClangBuiltLinux/linux/issues/287
-> Suggested-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+Hi Peter,
 
-Nathan,
-Thanks for sending the patch, and thanks to Ard for the suggestion.
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+On 19/12/2018 19:02, Peter Maydell wrote:
+> On Mon, 17 Dec 2018 at 15:56, James Morse <james.morse@arm.com> wrote:
+>> I don't think this really matters. Its only the NMIlike notifications that the
+>> guest doesn't have to register or poll. The ones we support today extend the
+>> architectures existing behaviour: you would have taken an external-abort on a
+>> real system, whether you know about the additional metadata doesn't matter to Qemu.
+> 
+> Consider the case where we booted the guest using a DTB and no ACPI
+> table at all -- we certainly can't just call QEMU code that tries to
+> add entries to a nonexistent table.
 
-> ---
->  Documentation/arm/kernel_mode_neon.txt | 4 ++--
->  arch/arm/lib/Makefile                  | 2 +-
->  arch/arm/lib/xor-neon.c                | 2 +-
->  lib/raid6/Makefile                     | 2 +-
->  4 files changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/arm/kernel_mode_neon.txt b/Documentation/arm/kernel_mode_neon.txt
-> index 525452726d31..b9e060c5b61e 100644
-> --- a/Documentation/arm/kernel_mode_neon.txt
-> +++ b/Documentation/arm/kernel_mode_neon.txt
-> @@ -6,7 +6,7 @@ TL;DR summary
->  * Use only NEON instructions, or VFP instructions that don't rely on support
->    code
->  * Isolate your NEON code in a separate compilation unit, and compile it with
-> -  '-mfpu=neon -mfloat-abi=softfp'
-> +  '-march=armv7-a -mfpu=neon -mfloat-abi=softfp'
->  * Put kernel_neon_begin() and kernel_neon_end() calls around the calls into your
->    NEON code
->  * Don't sleep in your NEON code, and be aware that it will be executed with
-> @@ -87,7 +87,7 @@ instructions appearing in unexpected places if no special care is taken.
->  Therefore, the recommended and only supported way of using NEON/VFP in the
->  kernel is by adhering to the following rules:
->  * isolate the NEON code in a separate compilation unit and compile it with
-> -  '-mfpu=neon -mfloat-abi=softfp';
-> +  '-march=armv7-a -mfpu=neon -mfloat-abi=softfp';
->  * issue the calls to kernel_neon_begin(), kernel_neon_end() as well as the calls
->    into the unit containing the NEON code from a compilation unit which is *not*
->    built with the GCC flag '-mfpu=neon' set.
-> diff --git a/arch/arm/lib/Makefile b/arch/arm/lib/Makefile
-> index ad25fd1872c7..0bff0176db2c 100644
-> --- a/arch/arm/lib/Makefile
-> +++ b/arch/arm/lib/Makefile
-> @@ -39,7 +39,7 @@ $(obj)/csumpartialcopy.o:     $(obj)/csumpartialcopygeneric.S
->  $(obj)/csumpartialcopyuser.o:  $(obj)/csumpartialcopygeneric.S
->
->  ifeq ($(CONFIG_KERNEL_MODE_NEON),y)
-> -  NEON_FLAGS                   := -mfloat-abi=softfp -mfpu=neon
-> +  NEON_FLAGS                   := -march=armv7-a -mfloat-abi=softfp -mfpu=neon
->    CFLAGS_xor-neon.o            += $(NEON_FLAGS)
->    obj-$(CONFIG_XOR_BLOCKS)     += xor-neon.o
->  endif
-> diff --git a/arch/arm/lib/xor-neon.c b/arch/arm/lib/xor-neon.c
-> index a6741a895189..4600b62d845f 100644
-> --- a/arch/arm/lib/xor-neon.c
-> +++ b/arch/arm/lib/xor-neon.c
-> @@ -14,7 +14,7 @@
->  MODULE_LICENSE("GPL");
->
->  #ifndef __ARM_NEON__
-> -#error You should compile this file with '-mfloat-abi=softfp -mfpu=neon'
-> +#error You should compile this file with '-march=armv7-a -mfloat-abi=softfp -mfpu=neon'
->  #endif
->
->  /*
-> diff --git a/lib/raid6/Makefile b/lib/raid6/Makefile
-> index 2f8b61dfd9b0..bfec7c87c61e 100644
-> --- a/lib/raid6/Makefile
-> +++ b/lib/raid6/Makefile
-> @@ -25,7 +25,7 @@ endif
->  ifeq ($(CONFIG_KERNEL_MODE_NEON),y)
->  NEON_FLAGS := -ffreestanding
->  ifeq ($(ARCH),arm)
-> -NEON_FLAGS += -mfloat-abi=softfp -mfpu=neon
-> +NEON_FLAGS += -march=armv7-a -mfloat-abi=softfp -mfpu=neon
->  endif
->  CFLAGS_recov_neon_inner.o += $(NEON_FLAGS)
->  ifeq ($(ARCH),arm64)
-> --
-> 2.20.1
->
+Sure, because you know which of the two sets of firmware-table you're providing.
+
+I'm taking the behaviour of physical machines as the template for what we should
+do here. I can boot a DT-only kernel on Seattle. Firmware has no idea I did
+this, it will still take DRAM uncorrected-error IRQs in firmware, and generate
+CPER records in the POLLed areas. But the kernel will never look, because it
+booted with DT.
+What happens if the kernel goes on to access the corrupt location? It either
+gets corrupt values back, or an external abort, depending on the design of the
+memory-controller.
+
+X-gene uses an IRQ for its firmware-first notification. Booted with DT that
+interrupt can be asserted, but as the OS has didn't know to register it, its
+never taken. We eventually get the same corrupt-values/external-abort behaviour.
+
+KVM/Linux is acting as the memory controller using stage2. When an error is
+detected by the host it unmaps the page from stage2, and refuses to map it again
+until its fixed up in Qemu's memory map (which can happen automatically). If the
+kernel can't fix it itself, the AO signal is like the DRAM-IRQ above, and the AR
+like the external abort.
+We don't have a parallel to the 'gets corrupt values back' behaviour as Linux
+will always unmap hwpoison pages from user-space/guests.
+
+If the host-kernel wasn't build with CONFIG_MEMORY_FAILURE, its like the memory
+controller doesn't support any of the above. I think knowing this is the closest
+to what you want.
 
 
--- 
-Thanks,
-~Nick Desaulniers
+> My main point is that there
+> needs to be logic in Dongjiu's QEMU patches that checks more than
+> just "does this KVM feature exist". I'm not sufficiently familiar
+> with all this RAS stuff to be certain what those checks should
+> be and what the right choices are; I just know we need to check
+> *something*...
+
+I think this is the crux of where we don't see this the same way.
+The v8.2 RAS stuff is new, RAS support on arm64 is not. Kernel support arrived
+at roughly the same time, but not CPU support. There are v8.0 systems that
+support RAS. There are DT systems that can do the same with edac drivers.
+The physical v8.0 systems that do this, are doing it without any extra CPU support.
+
+I think x86's behaviour here includes some history, which we don't have.
+From the order of the HEST entries, it looks like the machine-check stuff came
+first, then firmware-first using a 'GHES' entry in that table.
+I think Qemu on x86 only supports the emulated machine check stuff, so it needs
+to check KVM has the widget to do this.
+If Qemu on x86 supported firmware-first, I don't think there would be anything
+to check. (details below)
+
+
+>>> Let us see the X86's QEMU logic:
+>>> 1. Before the vCPU created, it will set a default env->mcg_cap value with
+>>
+>>> MCE_CAP_DEF flag, MCG_SER_P means it expected the guest CPU model supports
+>>> RAS error recovery.[1] 2. when the vCPU initialize, it will check whether host
+>>> kernel support this feature[2]. Only when host kernel and default env->mcg_cap
+>>> value all expected this feature, then it will setup vCPU support RAS error
+>>> recovery[3].
+>>
+>> This looks like KVM exposing a CPU capability to Qemu, which then configures the
+>> behaviour KVM gives to the guest. This doesn't tell you anything about what the
+>> guest supports.
+> 
+> It tells you what the *guest CPU* supports, which for x86 is a combination
+> of (a) what did the user/machine model ask for and (b) what can KVM
+> actually implement. I don't much care whether the guest OS supports
+> anything or not, that's its business... but it does seem odd to me
+> that the equivalent Arm code is not similarly saying "what were we
+> asked for, and what can we do?".
+
+The flow is something like:
+For AO, generate CPER records, and notify the OS via NOTIFY_POLL (which isn't
+really a notification) or some flavour of IRQ.
+To do this, Qemu needs to be able to write to its reserved area of guest memory,
+and possibly trigger an interrupt.
+
+For AR, generate CPER records and notify the OS via external abort. (the
+presence of the CPER records makes this NOTIFY_SEA or NOTIFY_SEI).
+To do this, Qemu again needs to be able to write to guest memory, set guest
+registers (KVM_SET_ONE_REG()). If it wants to inject an
+SError-Interrupt/Asynchronous-external-abort while the guest has it masked, it
+needs KVM_SET_VCPU_EVENTS().
+
+Nothing here depends on the CPU or kernel configuration. This is all ACPI stuff,
+so its the same on x86. (The only difference is external-abort becomes NMI,
+which is probably done through SET_VCPU_EVENTS())
+
+What were we asked for? Qemu wants to know if it can write to guest memory,
+guest registers (for synchronous external abort) and trigger interrupts. It has
+always been able to do these things.
+
+
+> I think one question here which it would be good to answer is:
+> if we are modelling a guest and we haven't specifically provided
+> it an ACPI table to tell it about memory errors, what do we do
+> when we get a sigbus from the host? We have basically two choices:
+>  (1) send the guest an SError (aka asynchronous external abort)
+>      anyway (with no further info about what the memory error is)
+
+For an AR signal an external abort is valid. Its up to the implementation
+whether these are synchronous or asynchronous. Qemu can only take a signal for
+something that was synchronous, so you can choose between the two.
+Synchronous external abort is marginally better as an unaware OS knows its
+affects this thread, and may be able to kill it.
+SError with an imp-def ESR is indistinguishable from 'part of the soc fell out',
+and should always result in a panic().
+
+
+>  (2) just stop QEMU (as we would for a memory error in QEMU's
+>      own memory)
+
+This is also valid. A machine may take external-abort to EL3 and then
+reboot/crash/burn.
+
+
+Just in case this is the deeper issue: I keep picking on memory-errors, what
+about CPU errors?
+Linux can't handle these at all, unless they are also memory errors. If we take
+an imprecise abort from a guest KVM can't tell Qemu using signals. We don't have
+any mechanism to tell user-space about imprecise exceptions. In this case KVM
+throws an imp-def SError back at the affected vcpu, these are allowed to be
+imprecise, as this is the closest thing we have.
+
+This does mean that any AO/AR signal Qemu gets is a memory error.
+
+
+Happy New Year,
+
+James
