@@ -2,32 +2,32 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A85557D08E
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Dec 2018 10:00:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A97677D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Dec 2018 10:01:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389277AbeLUKAZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Dec 2018 05:00:25 -0500
-Received: from mail-eopbgr40079.outbound.protection.outlook.com ([40.107.4.79]:64284
-        "EHLO EUR03-DB5-obe.outbound.protection.outlook.com"
+        id S2389133AbeLUJ7y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Dec 2018 04:59:54 -0500
+Received: from mail-eopbgr60069.outbound.protection.outlook.com ([40.107.6.69]:22326
+        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2389267AbeLUKAY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 Dec 2018 05:00:24 -0500
+        id S1730794AbeLUJ7w (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 Dec 2018 04:59:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
  s=selector1-arm-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Au4tOnaVhgUfve33gYnpt3VEnu1TQZjb1ebp+Klu1t8=;
- b=Wga3hXrybj7wWPXHXUgKKlM9ZKZjWdRgsAdbWeqUnEDA9MpWFJG3EjSbHYCSoJun6INdXhxl6apAfqO8PhqxkoCU2fZvWkRjdTC6irl3dEkqLvr5uqWAXHFxOMFCmMP6/Z5U0SNbCpWyrz0Z3KEw99ZVDZjwzu0n+nnC6YuuVdk=
+ bh=GDL6c8ViKEwc9vENOdCLTuRyabILdLLGr0zSuLZlWqY=;
+ b=ZOOF89ens68fli/qH4jnpEtiNNY9zhqsMOhIhijOggsHh8Ift4ErSQ3m97ZBeyN9a3GOO9W/R8wb5iEeN4oeRMsxY7hEz/0pOSiWqp3WvE8IyCibCZz3mYI17IDPIPEZxPtPd2GR7osksNr5AM24Q8dL2Pu51aq7RymDWJ00sjQ=
 Received: from AM0PR08MB4483.eurprd08.prod.outlook.com (20.179.35.149) by
  AM0PR08MB3187.eurprd08.prod.outlook.com (52.134.93.156) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1446.19; Fri, 21 Dec 2018 10:00:17 +0000
+ 15.20.1446.19; Fri, 21 Dec 2018 09:59:28 +0000
 Received: from AM0PR08MB4483.eurprd08.prod.outlook.com
  ([fe80::1dff:434f:5905:45db]) by AM0PR08MB4483.eurprd08.prod.outlook.com
  ([fe80::1dff:434f:5905:45db%5]) with mapi id 15.20.1446.020; Fri, 21 Dec 2018
- 10:00:17 +0000
+ 09:59:28 +0000
 From:   "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
 To:     Liviu Dudau <Liviu.Dudau@arm.com>
 CC:     "Jonathan Chai (Arm Technology China)" <Jonathan.Chai@arm.com>,
@@ -62,11 +62,11 @@ CC:     "Jonathan Chai (Arm Technology China)" <Jonathan.Chai@arm.com>,
         "airlied@linux.ie" <airlied@linux.ie>,
         "yamada.masahiro@socionext.com" <yamada.masahiro@socionext.com>,
         "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
-Subject: [PATCH v3 6/9] drm/komeda: Add komeda_framebuffer
-Thread-Topic: [PATCH v3 6/9] drm/komeda: Add komeda_framebuffer
-Thread-Index: AQHUmRP5skxDANnM6EeocvoEivyStQ==
-Date:   Fri, 21 Dec 2018 10:00:17 +0000
-Message-ID: <20181221095757.15510-7-james.qian.wang@arm.com>
+Subject: [PATCH v3 3/9] drm/komeda: Build komeda to be a platform module
+Thread-Topic: [PATCH v3 3/9] drm/komeda: Build komeda to be a platform module
+Thread-Index: AQHUmRPc4AylaC/fOEuiq67HHBm8+Q==
+Date:   Fri, 21 Dec 2018 09:59:28 +0000
+Message-ID: <20181221095757.15510-4-james.qian.wang@arm.com>
 References: <20181221095757.15510-1-james.qian.wang@arm.com>
 In-Reply-To: <20181221095757.15510-1-james.qian.wang@arm.com>
 Accept-Language: en-US
@@ -81,28 +81,28 @@ authentication-results: spf=none (sender IP is )
  smtp.mailfrom=james.qian.wang@arm.com; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;AM0PR08MB3187;6:9KAXu41KPk2aGc6i0kr5yQACa3rVSChIiJR3g87qMyjdSOgpXLrRGkHHlL9KTVckA0bmXGgJOys9n1pd/Lt3+PhdoBpGxTfUEa7n/5YmVqw/XtDdNn1r/u7FMvhVy6SO1aJj4srle4G4FuZrr/49ZRyM6zoUXN648wrRtdZp+khou7gzYKS0Kea7rcWyfH/QXLP75Yj5hGI+QoBv3WUTc/MumRnIrNYJefytu89oob4Azm5B/HJDv/Ve4jirNQKEeeN0JHmCztr3wY4dmM3IAgMuSujLXZSK9hGQbbQt/FkyvvQobXagMxsz06RMyojOvhRQmsdFm/me1zM42z7QchDaMisBrlSKv5PmAN+hQ9G8zK2mWlOc+onG3pJq7ECJf+eLmLoGjg43OnKCmpsYee9hC0PvB7hGM4niFBCEBHdw4tjB0m6XvLw52RbpOdGrHjR8HdzP9Sxl2FEGKvQp3Q==;5:9vp2S3X4OnXhS53ppL4jSrXjyTG3yaFSKY44FfCJ4T8umg0IBxgQBuOfyUZ/9b6+iFcj0xeZA/aBlyJ+QSFoAgXg5IR/T06vFxSO8BFEhWJDS6uoGKfIEpVOLujeUbqQT5qea2EJlPlbiBJQEhd2slJbVKsKNh3MGp15Bl55tJg=;7:4C6niPI8X+TugwjwWXlJxMHrQ3vJ81BXIscpRsGlD1bKZD3Uj9Yvwql8ZxkgUuu8oGXmi0DUh7bETYO7t2ZKnBSnYAnijzpNdY90UoJCxWAfMBuAOiZrOHDgDazV+WAuutnmeYb/B2T7GifQmS4KrA==
-x-ms-office365-filtering-correlation-id: 510db79f-7d54-404e-d8cd-08d6672b1bf2
+x-microsoft-exchange-diagnostics: 1;AM0PR08MB3187;6:sgRS2G2WrIfn7t6UgFGhVssGrrwNbRePAdF25VrurbKCgQtGHy6YReP8xMCXrZj8bz95jsuERzeJDlAY23RLNtjuixGbIfunAhqm8i+g5BJljElijITnv1crW0IgKc9VoNHsCD8qKnqoeNr0SAUJZ+K0QFKrYulL0eGzwbJbgjBLYqlnvJN9bpFALl9gpP6pU5T2BCuAe8QnaYSLeWk3N7ogsthbEwteyWIlgtqXb8903BQYQf/nNttxLrUBW/xiEpQq4GCfaD7mKLqWcfZLwk4ZQtOMjjPl5uupc41oJzA/e/IPrshcW0B8bYsxV+2VZgqMSv1IacyuJeI/CSjP0301itWfY7+3yjHptRI/Eu0tuFhTJt2UevB98y7ceNSIPR3Vn3W3VRN0w4bMxAzkrbWVxpLZw2uZT1les54hI/iy65FTUln9J2MN70ATIri4Id6ujGgKDJTe9ySwc60ikw==;5:BE9ywXGVruSS44fZCkaa2TRGoQCKNtkJTgX2uw2iawobu1AeupKSDr5LAaJ743umbeqo+cPVDq1Rva1uMPywyp8Mf6krP7F5b7A8sVgZWfeo2vwcnZo5ZBOddA/yDnH8Y621nPK8IcTEbYswZ7h6ckAtJi8QL2lTvT7+Z1UrY0k=;7:s/0vdGZCPIDO6/TJtd4Lguk1IQO7tU0Q9HGZtjFRPQnfTke+sWsrSEWM19MD2lA3OhIko+YzMQukd3H1lWDtyMr3jBXAGCK/ngdRovwr35XPj0ax+BGrk+1ucZWSiR7vMyZE6LFkghc/PedXfPvZtQ==
+x-ms-office365-filtering-correlation-id: bae27fd7-91fe-485a-cdce-08d6672afef7
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(4618075)(2017052603328)(7153060)(7193020);SRVR:AM0PR08MB3187;
 x-ms-traffictypediagnostic: AM0PR08MB3187:
 nodisclaimer: True
-x-microsoft-antispam-prvs: <AM0PR08MB3187AF239EC1C3AC1C765D68B3B80@AM0PR08MB3187.eurprd08.prod.outlook.com>
+x-microsoft-antispam-prvs: <AM0PR08MB3187393C50B5D16C2820D72FB3B80@AM0PR08MB3187.eurprd08.prod.outlook.com>
 x-ms-exchange-senderadcheck: 1
 x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(3230021)(999002)(5005026)(6040522)(2401047)(8121501046)(3002001)(10201501046)(93006095)(93001095)(3231475)(944501520)(52105112)(6055026)(149066)(150057)(6041310)(20161123558120)(20161123564045)(20161123562045)(20161123560045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(201708071742011)(7699051)(76991095);SRVR:AM0PR08MB3187;BCL:0;PCL:0;RULEID:;SRVR:AM0PR08MB3187;
 x-forefront-prvs: 0893636978
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(396003)(39860400002)(376002)(136003)(366004)(189003)(199004)(71200400001)(97736004)(71190400001)(103116003)(86362001)(14454004)(2906002)(5660300001)(106356001)(6116002)(105586002)(66066001)(54906003)(6636002)(3846002)(37006003)(99286004)(68736007)(478600001)(25786009)(6486002)(7736002)(36756003)(6436002)(76176011)(316002)(186003)(386003)(6506007)(55236004)(1076003)(26005)(6512007)(256004)(14444005)(6862004)(52116002)(81156014)(476003)(486006)(81166006)(7416002)(102836004)(8676002)(305945005)(2616005)(8936002)(53936002)(4326008)(446003)(11346002);DIR:OUT;SFP:1101;SCL:1;SRVR:AM0PR08MB3187;H:AM0PR08MB4483.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(396003)(39860400002)(376002)(136003)(366004)(189003)(199004)(71200400001)(97736004)(575784001)(71190400001)(103116003)(86362001)(14454004)(2906002)(5660300001)(106356001)(6116002)(105586002)(66066001)(54906003)(6636002)(3846002)(37006003)(99286004)(68736007)(478600001)(25786009)(6486002)(7736002)(36756003)(6436002)(76176011)(316002)(186003)(386003)(6506007)(55236004)(1076003)(26005)(6512007)(256004)(14444005)(6862004)(52116002)(81156014)(476003)(486006)(81166006)(7416002)(102836004)(8676002)(305945005)(2616005)(8936002)(53936002)(4326008)(446003)(11346002)(21314003);DIR:OUT;SFP:1101;SCL:1;SRVR:AM0PR08MB3187;H:AM0PR08MB4483.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 received-spf: None (protection.outlook.com: arm.com does not designate
  permitted sender hosts)
-x-microsoft-antispam-message-info: x2d+rg8CwUpEtpfgrA73FjVtTLlfahADLSa25hI4een1q8plv46vImAKBQYl7+UbqTVB7l1LJFzEpZJ31YgvCghF9KP6iYxjH8VBFU0EWOq+wb69StQySZ/55BvjsCaWwlhLWv7P7pb4IUJI0IFpSxbJyQIxJcroXbtwwDBOvZwoGtJhRFuqqVYDvsx6/1t4FfbXQemGTgdTmCbIb5iuQEKG0eDmfqV4ypnwl4HkmyhZ7axEtaOn3LMPrAhUpiwuszMGLmbNS0c2RzXqT5C4n0mgGAfz0qyRjf2KBEFSKPdTyFf9qP763b57Lu4ajFtt
+x-microsoft-antispam-message-info: xJ/PYdvs9Epu9PHpKZMeMraCUSH5jOVVBzxvW6V+qrvWnz0hJuFnbeF87VTLq6btKn3itYmhcSuBK4f+glto2V77RxDRC+NCoSyCSO5aJsrO92kpjhhg55lcc0HPh9Mn22mTMewNeXFO5LHuWkb/WTCPP4OIttCutvzDlxWGq1n5g+ft2pKZjnRF7Ir9ziuZfDwj0+yt28CdAnbvLxg0G+s74gH4RZLyfoKQjn3+aa/4Qa60KJwoGNIHYa2AX+FdGz7+gFrzOe6liaiuerOEM6UntmMX4MLdzDVa76cV/a1Pd6M57DPrnf8TYvY+8O9F
 spamdiagnosticoutput: 1:99
 spamdiagnosticmetadata: NSPM
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 510db79f-7d54-404e-d8cd-08d6672b1bf2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Dec 2018 10:00:17.3181
+X-MS-Exchange-CrossTenant-Network-Message-Id: bae27fd7-91fe-485a-cdce-08d6672afef7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Dec 2018 09:59:28.6948
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
@@ -112,247 +112,311 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-komeda_framebuffer is for extending drm_framebuffer to add komeda own
-attributes and komeda specific fb handling.
+Implement a simple wrapper for platform module to build komeda to module,
+Also add a very simple D71 layer code to show how to discover a product.
+Komeda driver direct bind the product ENTRY function xxx_identity to DT
+compatible name like:
+
+d71_product =3D {
+	.product_id =3D MALIDP_D71_PRODUCT_ID,
+	.identify =3D d71_identify,
+},
+
+const struct of_device_id komeda_of_match[] =3D {
+	{ .compatible =3D "arm,mali-d71", .data =3D &d71_product, },
+	{},
+};
+
+Then when linux found a matched DT node and call driver to probe, we can
+easily get the of data, and call into the product to do the identify:
+
+komeda_bind()
+{
+    ...
+    product =3D of_device_get_match_data(dev);
+
+    product->identify();
+    ...
+}
 
 Changes in v3:
 - Fixed style problem found by checkpatch.pl --strict.
 
 Signed-off-by: James (Qian) Wang <james.qian.wang@arm.com>
 ---
- drivers/gpu/drm/arm/display/komeda/Makefile   |   3 +-
- .../arm/display/komeda/komeda_framebuffer.c   | 165 ++++++++++++++++++
- .../arm/display/komeda/komeda_framebuffer.h   |  31 ++++
- 3 files changed, 198 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
- create mode 100644 drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.h
+ .../gpu/drm/arm/display/include/malidp_io.h   |  42 ++++++
+ drivers/gpu/drm/arm/display/komeda/Makefile   |   6 +-
+ .../gpu/drm/arm/display/komeda/d71/d71_dev.c  |  33 +++++
+ .../gpu/drm/arm/display/komeda/komeda_dev.h   |   3 +
+ .../gpu/drm/arm/display/komeda/komeda_drv.c   | 132 ++++++++++++++++++
+ 5 files changed, 215 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/arm/display/include/malidp_io.h
+ create mode 100644 drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+ create mode 100644 drivers/gpu/drm/arm/display/komeda/komeda_drv.c
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/Makefile b/drivers/gpu/drm/=
-arm/display/komeda/Makefile
-index 394fc2aa434a..25beae900ed2 100644
---- a/drivers/gpu/drm/arm/display/komeda/Makefile
-+++ b/drivers/gpu/drm/arm/display/komeda/Makefile
-@@ -8,7 +8,8 @@ komeda-y :=3D \
- 	komeda_drv.o \
- 	komeda_dev.o \
- 	komeda_format_caps.o \
--	komeda_pipeline.o
-+	komeda_pipeline.o \
-+	komeda_framebuffer.o
-=20
- komeda-y +=3D \
- 	d71/d71_dev.o
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c b/driv=
-ers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
+diff --git a/drivers/gpu/drm/arm/display/include/malidp_io.h b/drivers/gpu/=
+drm/arm/display/include/malidp_io.h
 new file mode 100644
-index 000000000000..4ddd5314ca23
+index 000000000000..4fb3caf864ce
 --- /dev/null
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-@@ -0,0 +1,165 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * (C) COPYRIGHT 2018 ARM Limited. All rights reserved.
-+ * Author: James.Qian.Wang <james.qian.wang@arm.com>
-+ *
-+ */
-+#include <drm/drm_gem.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_fb_cma_helper.h>
-+#include <drm/drm_gem_cma_helper.h>
-+#include "komeda_framebuffer.h"
-+#include "komeda_dev.h"
-+
-+static void komeda_fb_destroy(struct drm_framebuffer *fb)
-+{
-+	struct komeda_fb *kfb =3D to_kfb(fb);
-+	u32 i;
-+
-+	for (i =3D 0; i < fb->format->num_planes; i++)
-+		drm_gem_object_put_unlocked(fb->obj[i]);
-+
-+	drm_framebuffer_cleanup(fb);
-+	kfree(kfb);
-+}
-+
-+static int komeda_fb_create_handle(struct drm_framebuffer *fb,
-+				   struct drm_file *file, u32 *handle)
-+{
-+	return drm_gem_handle_create(file, fb->obj[0], handle);
-+}
-+
-+static const struct drm_framebuffer_funcs komeda_fb_funcs =3D {
-+	.destroy	=3D komeda_fb_destroy,
-+	.create_handle	=3D komeda_fb_create_handle,
-+};
-+
-+static int
-+komeda_fb_none_afbc_size_check(struct komeda_dev *mdev, struct komeda_fb *=
-kfb,
-+			       struct drm_file *file,
-+			       const struct drm_mode_fb_cmd2 *mode_cmd)
-+{
-+	struct drm_framebuffer *fb =3D &kfb->base;
-+	struct drm_gem_object *obj;
-+	u32 min_size =3D 0;
-+	u32 i;
-+
-+	for (i =3D 0; i < fb->format->num_planes; i++) {
-+		obj =3D drm_gem_object_lookup(file, mode_cmd->handles[i]);
-+		if (!obj) {
-+			DRM_DEBUG_KMS("Failed to lookup GEM object\n");
-+			fb->obj[i] =3D NULL;
-+
-+			return -ENOENT;
-+		}
-+
-+		kfb->aligned_w =3D fb->width / (i ? fb->format->hsub : 1);
-+		kfb->aligned_h =3D fb->height / (i ? fb->format->vsub : 1);
-+
-+		if (fb->pitches[i] % mdev->chip.bus_width) {
-+			DRM_DEBUG_KMS("Pitch[%d]: 0x%x doesn't align to 0x%x\n",
-+				      i, fb->pitches[i], mdev->chip.bus_width);
-+			drm_gem_object_put_unlocked(obj);
-+			fb->obj[i] =3D NULL;
-+
-+			return -EINVAL;
-+		}
-+
-+		min_size =3D ((kfb->aligned_h / kfb->format_caps->tile_size - 1)
-+			    * fb->pitches[i])
-+			    + (kfb->aligned_w * fb->format->cpp[i]
-+			       * kfb->format_caps->tile_size)
-+			    + fb->offsets[i];
-+
-+		if (obj->size < min_size) {
-+			DRM_DEBUG_KMS("Fail to check none afbc fb size.\n");
-+			drm_gem_object_put_unlocked(obj);
-+			fb->obj[i] =3D NULL;
-+
-+			return -EINVAL;
-+		}
-+
-+		fb->obj[i] =3D obj;
-+	}
-+
-+	if (fb->format->num_planes =3D=3D 3) {
-+		if (fb->pitches[1] !=3D fb->pitches[2]) {
-+			DRM_DEBUG_KMS("The pitch[1] and [2] are not same\n");
-+			return -EINVAL;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+struct drm_framebuffer *
-+komeda_fb_create(struct drm_device *dev, struct drm_file *file,
-+		 const struct drm_mode_fb_cmd2 *mode_cmd)
-+{
-+	struct komeda_dev *mdev =3D dev->dev_private;
-+	struct komeda_fb *kfb;
-+	int ret =3D 0, i;
-+
-+	kfb =3D kzalloc(sizeof(*kfb), GFP_KERNEL);
-+	if (!kfb)
-+		return ERR_PTR(-ENOMEM);
-+
-+	kfb->format_caps =3D komeda_get_format_caps(&mdev->fmt_tbl,
-+						  mode_cmd->pixel_format,
-+						  mode_cmd->modifier[0]);
-+	if (!kfb->format_caps) {
-+		DRM_DEBUG_KMS("FMT %x is not supported.\n",
-+			      mode_cmd->pixel_format);
-+		kfree(kfb);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	drm_helper_mode_fill_fb_struct(dev, &kfb->base, mode_cmd);
-+
-+	ret =3D komeda_fb_none_afbc_size_check(mdev, kfb, file, mode_cmd);
-+	if (ret < 0)
-+		goto err_cleanup;
-+
-+	ret =3D drm_framebuffer_init(dev, &kfb->base, &komeda_fb_funcs);
-+	if (ret < 0) {
-+		DRM_DEBUG_KMS("failed to initialize fb\n");
-+
-+		goto err_cleanup;
-+	}
-+
-+	return &kfb->base;
-+
-+err_cleanup:
-+	for (i =3D 0; i < kfb->base.format->num_planes; i++)
-+		drm_gem_object_put_unlocked(kfb->base.obj[i]);
-+
-+	kfree(kfb);
-+	return ERR_PTR(ret);
-+}
-+
-+dma_addr_t
-+komeda_fb_get_pixel_addr(struct komeda_fb *kfb, int x, int y, int plane)
-+{
-+	struct drm_framebuffer *fb =3D &kfb->base;
-+	const struct drm_gem_cma_object *obj;
-+	u32 plane_x, plane_y, cpp, pitch, offset;
-+
-+	if (plane > fb->format->num_planes) {
-+		DRM_DEBUG_KMS("Out of max plane num.\n");
-+		return -EINVAL;
-+	}
-+
-+	obj =3D drm_fb_cma_get_gem_obj(fb, plane);
-+
-+	offset =3D fb->offsets[plane];
-+	if (!fb->modifier) {
-+		plane_x =3D x / (plane ? fb->format->hsub : 1);
-+		plane_y =3D y / (plane ? fb->format->vsub : 1);
-+		cpp =3D fb->format->cpp[plane];
-+		pitch =3D fb->pitches[plane];
-+		offset +=3D plane_x * cpp *  kfb->format_caps->tile_size +
-+				(plane_y * pitch) / kfb->format_caps->tile_size;
-+	}
-+
-+	return obj->paddr + offset;
-+}
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.h b/driv=
-ers/gpu/drm/arm/display/komeda/komeda_framebuffer.h
-new file mode 100644
-index 000000000000..383780013bb9
---- /dev/null
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.h
-@@ -0,0 +1,31 @@
++++ b/drivers/gpu/drm/arm/display/include/malidp_io.h
+@@ -0,0 +1,42 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
 + * (C) COPYRIGHT 2018 ARM Limited. All rights reserved.
 + * Author: James.Qian.Wang <james.qian.wang@arm.com>
 + *
 + */
-+#ifndef _KOMEDA_FRAMEBUFFER_H_
-+#define _KOMEDA_FRAMEBUFFER_H_
++#ifndef _MALIDP_IO_H_
++#define _MALIDP_IO_H_
 +
-+/** struct komeda_fb - entend drm_framebuffer with komeda attribute */
-+struct komeda_fb {
-+	/** @base: &drm_framebuffer */
-+	struct drm_framebuffer base;
-+	/* @format_caps: &komeda_format_caps */
-+	const struct komeda_format_caps *format_caps;
-+	/** @aligned_w: aligned frame buffer width */
-+	u32 aligned_w;
-+	/** @aligned_h: aligned frame buffer height */
-+	u32 aligned_h;
++#include <linux/io.h>
++
++static inline u32
++malidp_read32(u32 __iomem *base, u32 offset)
++{
++	return readl((base + (offset >> 2)));
++}
++
++static inline void
++malidp_write32(u32 __iomem *base, u32 offset, u32 v)
++{
++	writel(v, (base + (offset >> 2)));
++}
++
++static inline void
++malidp_write32_mask(u32 __iomem *base, u32 offset, u32 m, u32 v)
++{
++	u32 tmp =3D malidp_read32(base, offset);
++
++	tmp &=3D (~m);
++	malidp_write32(base, offset, v | tmp);
++}
++
++static inline void
++malidp_write_group(u32 __iomem *base, u32 offset, int num, const u32 *valu=
+es)
++{
++	int i;
++
++	for (i =3D 0; i < num; i++)
++		malidp_write32(base, offset + i * 4, values[i]);
++}
++
++#endif /*_MALIDP_IO_H_*/
+diff --git a/drivers/gpu/drm/arm/display/komeda/Makefile b/drivers/gpu/drm/=
+arm/display/komeda/Makefile
+index 5b44e36509b1..c03d6876ef75 100644
+--- a/drivers/gpu/drm/arm/display/komeda/Makefile
++++ b/drivers/gpu/drm/arm/display/komeda/Makefile
+@@ -5,7 +5,11 @@ ccflags-y :=3D \
+ 	-I$(src)
+=20
+ komeda-y :=3D \
++	komeda_drv.o \
+ 	komeda_dev.o \
+-	komeda_pipeline.o \
++	komeda_pipeline.o
++
++komeda-y +=3D \
++	d71/d71_dev.o
+=20
+ obj-$(CONFIG_DRM_KOMEDA) +=3D komeda.o
+diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c b/drivers/gpu=
+/drm/arm/display/komeda/d71/d71_dev.c
+new file mode 100644
+index 000000000000..af3dabb499cd
+--- /dev/null
++++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+@@ -0,0 +1,33 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * (C) COPYRIGHT 2018 ARM Limited. All rights reserved.
++ * Author: James.Qian.Wang <james.qian.wang@arm.com>
++ *
++ */
++#include "malidp_io.h"
++#include "komeda_dev.h"
++
++static int d71_enum_resources(struct komeda_dev *mdev)
++{
++	/* TODO add enum resources */
++	return -1;
++}
++
++static struct komeda_dev_funcs d71_chip_funcs =3D {
++	.enum_resources	=3D d71_enum_resources,
++	.cleanup	=3D NULL,
 +};
 +
-+#define to_kfb(dfb)	container_of(dfb, struct komeda_fb, base)
++#define GLB_ARCH_ID		0x000
++#define GLB_CORE_ID		0x004
++#define GLB_CORE_INFO		0x008
 +
-+struct drm_framebuffer *
-+komeda_fb_create(struct drm_device *dev, struct drm_file *file,
-+		 const struct drm_mode_fb_cmd2 *mode_cmd);
-+dma_addr_t
-+komeda_fb_get_pixel_addr(struct komeda_fb *kfb, int x, int y, int plane);
-+bool komeda_fb_is_layer_supported(struct komeda_fb *kfb, u32 layer_type);
++struct komeda_dev_funcs *
++d71_identify(u32 __iomem *reg_base, struct komeda_chip_info *chip)
++{
++	chip->arch_id	=3D malidp_read32(reg_base, GLB_ARCH_ID);
++	chip->core_id	=3D malidp_read32(reg_base, GLB_CORE_ID);
++	chip->core_info	=3D malidp_read32(reg_base, GLB_CORE_INFO);
 +
-+#endif
++	return &d71_chip_funcs;
++}
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_dev.h b/drivers/gpu/=
+drm/arm/display/komeda/komeda_dev.h
+index ad8fa160eff9..680e3e2cf100 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_dev.h
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_dev.h
+@@ -92,6 +92,9 @@ komeda_product_match(struct komeda_dev *mdev, u32 target)
+ 	return MALIDP_CORE_ID_PRODUCT_ID(mdev->chip.core_id) =3D=3D target;
+ }
+=20
++struct komeda_dev_funcs *
++d71_identify(u32 __iomem *reg, struct komeda_chip_info *chip);
++
+ struct komeda_dev *komeda_dev_create(struct device *dev);
+ void komeda_dev_destroy(struct komeda_dev *mdev);
+=20
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c b/drivers/gpu/=
+drm/arm/display/komeda/komeda_drv.c
+new file mode 100644
+index 000000000000..a2657b3d09d7
+--- /dev/null
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+@@ -0,0 +1,132 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * (C) COPYRIGHT 2018 ARM Limited. All rights reserved.
++ * Author: James.Qian.Wang <james.qian.wang@arm.com>
++ *
++ */
++#include <linux/module.h>
++#include <linux/kernel.h>
++#include <linux/platform_device.h>
++#include <linux/component.h>
++#include <drm/drm_of.h>
++#include "komeda_dev.h"
++
++struct komeda_drv {
++	struct komeda_dev *mdev;
++};
++
++static void komeda_unbind(struct device *dev)
++{
++	struct komeda_drv *mdrv =3D dev_get_drvdata(dev);
++
++	dev_set_drvdata(dev, NULL);
++
++	if (!mdrv)
++		return;
++
++	komeda_dev_destroy(mdrv->mdev);
++	kfree(mdrv);
++}
++
++static int komeda_bind(struct device *dev)
++{
++	struct komeda_drv *mdrv;
++	int err;
++
++	mdrv =3D kzalloc(sizeof(*mdrv), GFP_KERNEL);
++	if (!mdrv)
++		return -ENOMEM;
++
++	mdrv->mdev =3D komeda_dev_create(dev);
++	if (IS_ERR(mdrv->mdev)) {
++		err =3D PTR_ERR(mdrv->mdev);
++		goto free_mdrv;
++	}
++
++	dev_set_drvdata(dev, mdrv);
++
++	return 0;
++
++free_mdrv:
++	kfree(mdrv);
++	return err;
++}
++
++static const struct component_master_ops komeda_master_ops =3D {
++	.bind	=3D komeda_bind,
++	.unbind	=3D komeda_unbind,
++};
++
++static int compare_of(struct device *dev, void *data)
++{
++	return dev->of_node =3D=3D data;
++}
++
++static void komeda_add_slave(struct device *master,
++			     struct component_match **match,
++			     struct device_node *np, int port)
++{
++	struct device_node *remote;
++
++	remote =3D of_graph_get_remote_node(np, port, 0);
++	if (!remote) {
++		drm_of_component_match_add(master, match, compare_of, remote);
++		of_node_put(remote);
++	}
++}
++
++static int komeda_platform_probe(struct platform_device *pdev)
++{
++	struct device *dev =3D &pdev->dev;
++	struct component_match *match =3D NULL;
++	struct device_node *child;
++
++	if (!dev->of_node)
++		return -ENODEV;
++
++	for_each_available_child_of_node(dev->of_node, child) {
++		if (of_node_cmp(child->name, "pipeline") !=3D 0)
++			continue;
++
++		/* add connector */
++		komeda_add_slave(dev, &match, child, KOMEDA_OF_PORT_OUTPUT);
++	}
++
++	return component_master_add_with_match(dev, &komeda_master_ops, match);
++}
++
++static int komeda_platform_remove(struct platform_device *pdev)
++{
++	component_master_del(&pdev->dev, &komeda_master_ops);
++	return 0;
++}
++
++static const struct komeda_product_data komeda_products[] =3D {
++	[MALI_D71] =3D {
++		.product_id =3D MALIDP_D71_PRODUCT_ID,
++		.identify =3D d71_identify,
++	},
++};
++
++const struct of_device_id komeda_of_match[] =3D {
++	{ .compatible =3D "arm,mali-d71", .data =3D &komeda_products[MALI_D71], }=
+,
++	{},
++};
++
++MODULE_DEVICE_TABLE(of, komeda_of_match);
++
++static struct platform_driver komeda_platform_driver =3D {
++	.probe	=3D komeda_platform_probe,
++	.remove	=3D komeda_platform_remove,
++	.driver	=3D {
++		.name =3D "komeda",
++		.of_match_table	=3D komeda_of_match,
++		.pm =3D NULL,
++	},
++};
++
++module_platform_driver(komeda_platform_driver);
++
++MODULE_AUTHOR("James.Qian.Wang <james.qian.wang@arm.com>");
++MODULE_DESCRIPTION("Komeda KMS driver");
++MODULE_LICENSE("GPL v2");
 --=20
 2.17.1
 
