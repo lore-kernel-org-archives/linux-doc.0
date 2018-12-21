@@ -1,136 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9D4EE7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Dec 2018 14:06:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 846EC7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Dec 2018 14:29:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390804AbeLUOGG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Dec 2018 09:06:06 -0500
-Received: from mail-vk1-f196.google.com ([209.85.221.196]:33674 "EHLO
-        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388956AbeLUOGG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Dec 2018 09:06:06 -0500
-Received: by mail-vk1-f196.google.com with SMTP id d201so1179106vka.0
-        for <linux-doc@vger.kernel.org>; Fri, 21 Dec 2018 06:06:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mena-vt-edu.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sWKARN8/VCXibTg+NNQexXIY2rqC24fDbGVY37avEas=;
-        b=r8K0LsTXrL50PWWvc8H3HRzopFOoWXVhd4rX+i3LSpnfy8TvRq6M2V+xBF3jnhNuj2
-         YmmKtiRezLDTZGiU+cfVEW7N62g1gpNBDyVxR4D0ezGU9R8cwfcyPFBJ8zf633RwJTyN
-         wxhtFOcQ9RwEoAKViywMHDl0JZSPF8pr/Gub8DleEIo4cH5Zx6gM8DLUp/OwnDx3ZhAY
-         ajdACTikjnw0hmq8RjYM4yW5svqeXCKR2tHgXTW9pqUoH/5ZFz9MBIJ/qwaOlf/g1qG+
-         gu0alGrHLZXCMRdfEa4Yh0Lh71MXNjSSYo9MdAVRFKekHLsHABhj2sRixCV2gLRfMDy7
-         KSjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sWKARN8/VCXibTg+NNQexXIY2rqC24fDbGVY37avEas=;
-        b=CMCtaMykcXOgeywIUzJ/81we7lnEJufuWAmbhF9nOQEJgJ4+pqEkjojCAx1j0mllL+
-         PnKf0vW65mClnYW9VckaGdaeT4U6+kOCQHLpibDiHoiwiAy22sgRCf1v+bF6lCWDNIEf
-         fUtaAR1udV7RHdkg/QfoH/ayBmM8GoxDulB56wohF1j/8l7TV3/mQC9IcOd5F4nje8oa
-         BRyPhB/it8GHmidPqzd5EgcT6REJgb5KdVFzTI+riVjf4l//sqZjs1n7Zlbc5LEWYaYV
-         C+ZDyrCJ5GSPtjQUvrs4DI4Vu429hQ8/rKLw9tk+JNdahwIqDRK5HahDqWueaa+JjIHc
-         UDxA==
-X-Gm-Message-State: AJcUukf/S1Yyk47fjS/lh3q+PI+uU6j8sk5teGNLlAfZMBqMBUcdFMf6
-        hX9u1QtYMRB32ePJl2fMnVZwtJK5FGfwSkXeIwLXoA==
-X-Google-Smtp-Source: ALg8bN6hFgWDu3D1YmWAptStk/IVSD/UuC+h32t30mytGyaxfChiKMwXR/qqga7zA98CZLn4JRbS3NitrL+wRaBRCCk=
-X-Received: by 2002:a1f:a702:: with SMTP id q2mr965502vke.43.1545401164447;
- Fri, 21 Dec 2018 06:06:04 -0800 (PST)
+        id S2390873AbeLUO35 convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Dec 2018 09:29:57 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41748 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730556AbeLUO34 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Dec 2018 09:29:56 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wBLETMUM125621
+        for <linux-doc@vger.kernel.org>; Fri, 21 Dec 2018 09:29:55 -0500
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2ph1h51p0c-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 21 Dec 2018 09:29:55 -0500
+Received: from localhost
+        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Fri, 21 Dec 2018 14:29:53 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 21 Dec 2018 14:29:50 -0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wBLETn8a56295464
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 21 Dec 2018 14:29:49 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9A59411C05C;
+        Fri, 21 Dec 2018 14:29:49 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6035111C052;
+        Fri, 21 Dec 2018 14:29:49 +0000 (GMT)
+Received: from [9.148.204.67] (unknown [9.148.204.67])
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Fri, 21 Dec 2018 14:29:48 +0000 (GMT)
+Date:   Fri, 21 Dec 2018 16:29:45 +0200
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20181220083423.40233348@lwn.net>
+References: <1544130781-13443-1-git-send-email-rppt@linux.ibm.com> <20181220075912.GA12338@rapoport-lnx> <20181220083423.40233348@lwn.net>
 MIME-Version: 1.0
-References: <20181207124803.10828-1-ahmedsoliman@mena.vt.edu>
- <1544708187.5826.1.camel@amazon.de> <CANBxJ=FP9GSfMES3e5dSct2qV0Z=uz7uPXufQNqoi5e+sWxvgQ@mail.gmail.com>
-In-Reply-To: <CANBxJ=FP9GSfMES3e5dSct2qV0Z=uz7uPXufQNqoi5e+sWxvgQ@mail.gmail.com>
-From:   Ahmed Soliman <ahmedsoliman@mena.vt.edu>
-Date:   Fri, 21 Dec 2018 16:05:01 +0200
-Message-ID: <CANBxJ=H7x_LZ1h=+HrbTcBd2Qt+RWz+c+0_JkUseZG6k-ozvuQ@mail.gmail.com>
-Subject: Re: [PATCH V7 0/10] KVM: X86: Introducing ROE Protection Kernel Hardening
-To:     jsteckli@amazon.de
-Cc:     Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Ahmed Soliman <ahmedsoliman0x666@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        =?UTF-8?B?6rmA7J246rK4?= <ovich00@gmail.com>, x86@kernel.org,
-        Igor Stoppa <igor.stoppa@gmail.com>, hpa@zytor.com,
-        Ingo Molnar <mingo@redhat.com>, nigel.edwards@hpe.com,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        kernel-hardening@lists.openwall.com, rkrcmar@redhat.com,
-        linux-doc@vger.kernel.org,
-        Boris Lukashev <blukashev@sempervictus.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Subject: Re: [PATCH 0/2] docs/mm-api: link kernel-doc comments from slab_common.c
+To:     Jonathan Corbet <corbet@lwn.net>
+CC:     Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+From:   Mike Rapoport <rppt@linux.ibm.com>
+X-TM-AS-GCONF: 00
+x-cbid: 18122114-0016-0000-0000-00000239BF51
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18122114-0017-0000-0000-0000329220C5
+Message-Id: <1E20B2F5-93F6-4763-9068-75630DF2541C@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-21_07:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1812210114
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
 
-> > I don't  understand why this path needs to be optimized. To me it seems, a straight-
-> > forward userspace implementation with no additional code in the kernel achieves
-> > the same feature. Can you elaborate?
 
-I was doing some benchmarking to figure out the overhead introduced by
-ROE, I think I can add more
-details about the overhead I am talking about, first I will explain
-the existing paths for a memory write
-attempts:
-[1] Normal memory write is done directly in guest kernel space.
-[2] Writing into Fully ROE protected page (The write operation will fail).
-[3] Writing into Partial ROE protected region (The write operation will fail).
-[4] Writing into writable memory in a page that contains Partial ROE
-protected region (The write operation is committed to memory).
+On December 20, 2018 5:34:23 PM GMT+02:00, Jonathan Corbet <corbet@lwn.net> wrote:
+>On Thu, 20 Dec 2018 09:59:13 +0200
+>Mike Rapoport <rppt@linux.ibm.com> wrote:
+>
+>> ping?
+>
+>Sorry, been traveling,
 
-Path [1] is the normal write... guest kernel will not have to switch
-to guest and the performance was almost the same between host and
-guest, Writing 1 MB (a byte at a time) took no more than 4
-milliseconds. This will not be affected by whether ROE is done from
-users pace or kernel space.
+No problem, I just wanted to make sure it didn't fall between the cracks.
 
-Path [2] will switch between guest's kernel to host kernel, then the
-host kernel switches to user space to decide what should be done.  The
-guest host ->host kernel -> host user space switch is done on ever
-separate write attempt (which is approx 1000000 in this case) It took
-~5000 milliseconds to fail the 1M write attempt. and as the above one
-user space ROE will not affect this one that much and I am not aware
-of any possible optimization, yet ideas are welcomed.
+> and I still don't really know what to do with
+>patches that are more mm/ than Documentation/. 
 
-Path [3] will also switch between guest kernel to host kernel to host
-users pace...However the time taken to attempt 1M write took ~5000
-when the guest had less than 32 protected chunks system wide, as the
-number of chunks increased, the time also increased in a linear
-fashion till it reached 20 seconds took to do 1M write attempt when
-the system had about separate 2048 protected chunks. For this
-benchmark I allocated a page and protected every other byte :). I
-think this can be optimized by replacing the linked list used to keep
-track of chunks with maybe skip-list or Red Black tree. and It will be
-available in the next patch set. as the previous cases user space VS
-kernel space will not affect performance here at all.
+Well, these seem to be quite documentation, although they touch mm files ;-)
 
-Path [4] The guest kernel switches to host kernel and the write
-operation is done in the host kernel (note we saved a switch from host
-kernel to host user space)
-The host kernel emulates the write operation and get back to guest
-kernel. The writing speed was notably slow but on average twice the
-speed at Path[3] (~2900 ms for less than 32 chunks and it went up to
-11 seconds for 2048 chunks. Path [4] can be optimized the same way
-path [3].
+> I've just applied these, though.
 
-Note that the dominating factor here is how many switches are done, If
-ROE was implemented in user-space, Path [4] which will be at least as
-slow as Path [3] which is about 2x slower.
+Thanks!
 
-I hope it is less ambiguous now.
+>Thanks,
+>
+>jon
 
-Thanks,
+-- 
+Sent from my Android device with K-9 Mail. Please excuse my brevity.
 
---
-Ahmed.
-Junior Researcher, IoT and Cyber Security lab, SmartCI, Alexandria
-University, & CIS @  VMI
