@@ -1,448 +1,136 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A87427D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Dec 2018 12:31:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9D4EE7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Dec 2018 14:06:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388040AbeLUMbj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Dec 2018 07:31:39 -0500
-Received: from wp227.webpack.hosteurope.de ([80.237.132.234]:46860 "EHLO
-        wp227.webpack.hosteurope.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732614AbeLUMbj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Dec 2018 07:31:39 -0500
-Received: from ip4d142c80.dynamic.kabel-deutschland.de ([77.20.44.128] helo=[192.168.66.118]); authenticated
-        by wp227.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1gaJxl-0006SL-BY; Fri, 21 Dec 2018 13:31:33 +0100
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20181217152043.9989-1-linux@leemhuis.info>
- <20181217112437.5fe868eb@lwn.net>
- <8f67a8ca-bf64-c537-843a-b03bcfc3dace@infradead.org>
- <96fc8865-c54f-5c6c-f6c8-d7a5a12735e6@leemhuis.info>
- <20181220082819.69fc3e5c@lwn.net>
- <a02caf89-9221-8e31-4a2d-44b46b81cda2@infradead.org>
- <0996ba55-e5e1-49e2-f0ed-82cb1619ee03@leemhuis.info>
- <abd75184-1d33-4877-eef7-eeca436e5220@infradead.org>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Openpgp: preference=signencrypt
-Autocrypt: addr=linux@leemhuis.info; prefer-encrypt=mutual; keydata=
- mQINBFJ4AQ0BEADCz16x4kl/YGBegAsYXJMjFRi3QOr2YMmcNuu1fdsi3XnM+xMRaukWby47
- JcsZYLDKRHTQ/Lalw9L1HI3NRwK+9ayjg31wFdekgsuPbu4x5RGDIfyNpd378Upa8SUmvHik
- apCnzsxPTEE4Z2KUxBIwTvg+snEjgZ03EIQEi5cKmnlaUynNqv3xaGstx5jMCEnR2X54rH8j
- QPvo2l5/79Po58f6DhxV2RrOrOjQIQcPZ6kUqwLi6EQOi92NS9Uy6jbZcrMqPIRqJZ/tTKIR
- OLWsEjNrc3PMcve+NmORiEgLFclN8kHbPl1tLo4M5jN9xmsa0OZv3M0katqW8kC1hzR7mhz+
- Rv4MgnbkPDDO086HjQBlS6Zzo49fQB2JErs5nZ0mwkqlETu6emhxneAMcc67+ZtTeUj54K2y
- Iu8kk6ghaUAfgMqkdIzeSfhO8eURMhvwzSpsqhUs7pIj4u0TPN8OFAvxE/3adoUwMaB+/plk
- sNe9RsHHPV+7LGADZ6OzOWWftk34QLTVTcz02bGyxLNIkhY+vIJpZWX9UrfGdHSiyYThHCIy
- /dLz95b9EG+1tbCIyNynr9TjIOmtLOk7ssB3kL3XQGgmdQ+rJ3zckJUQapLKP2YfBi+8P1iP
- rKkYtbWk0u/FmCbxcBA31KqXQZoR4cd1PJ1PDCe7/DxeoYMVuwARAQABtCdUaG9yc3RlbiBM
- ZWVtaHVpcyA8bGludXhAbGVlbWh1aXMuaW5mbz6JAj0EEwEKACcFAlJ4A3UCGwMFCQ0oaIAF
- CwkIBwMFFQoJCAsFFgIDAQACHgECF4AACgkQcrbm70xYPS0OOw/+OM+pakOz+MDn9vAgc5Xj
- dVqxjH1+cg7UWkW6UrkniT3i+THv535lGwwB93iQpG0eaLqIPcfFqWGHCJDY4ys8AdCiGA55
- D8eX/A/94Dboz6hzxfu2M4KvpiV2FQrklIZXGiLfr0+ybBUu+PoiS4OA8UzNc/rtAZivb6qm
- T62uUGtmWoj86hDSual9Syi1dn4ff9PVJcGMFk4URkg83qZpVeU/iOnPO7mfhV5l9yfuvP9h
- zhHQOTDrcOm8vJVgcs3TAd8WKke7ueBxuwlDS4a9X0ohT3MycO1sUSx5VpnHsZynvvyITEOW
- njjuBhIJrbjt+c/9HWz+5cJJ7QZOE1KrOAN+u6N4yFZrMFFKKug/s/z9wy7Cg5ANphJ/35to
- nZDV9MCw96sDONEdwEl2u4ZwN5oNJGdFm93odoGSvzu0LNgGi1AWE38pOKmq8EVDYJNMhsv+
- V0oj9vJJso22F5LBJjg233PIdvkF6KwihTiryVZUi3rX1RSwH8HFzVDCETW7bp3EAyUPuoTD
- f8vb7/5RZpNFzy/WtAt80hqp773+PAgPJuXGliI2uJol3nz9PWRhf6yn3U2VSkbiIG3MjwpJ
- vJL/dbiiKWn932U/JV8OKA4m7GKy44ZnTL0nYf/30/5gEVMM8FiPiY1Cybw907WYUxW+dboi
- eu8fdvHIi0xIBWu5Ag0EUngBDQEQAM7v97GrVs5cuvi6ouXUxUvfoSrxTLXUW/71uKPQkLDK
- i9gSRqBOLl78t3Gp3L3MqHc01wlMW3rDT++/Sanh8rO1pBdprS1V9pZ8l0lAZvzjcGrLiuyi
- 8/KrrLHlLLL4yTw3cPJkSwFr43LGLGdKoCFOpAW72HJFFpGyY/9JLkApprpUTHGkEa0WK5O2
- XVDo2mJoykflCR5Y8S4Hq3oMol7pUScQqYT+ZooKMoqGtXrHrfIhfX4W/mFmNel9SN057nFQ
- ol4sc8cJ97sIlRoNvJ/r3X2eZWnJAjo+oiuPpX85Xc+DXyFyvvP0dcA/cjo9a69zrIw6jmro
- KDMYBBTosIUA4iZUSlWg235gtRuTdWH0CJ/dM5xGHDO/kqfEXOUVIDecn7sMonInyCUArYlo
- IxfLbXCBLioNE5hm+h0BwLRmgVyslxkLpQ9QpgRyFs4O2xoHuUeuoXW6tQYjF+UHZP6N0q9j
- iwq8VoajHa3iRS826BHNEtdwQsVYJZz6nb+bHe73m9Gs+Sxkus8lU3U27j1LuAtWW7LT27gg
- cEsHtxEab6ZnSMx7SCuBvYhiEd0nqNKFjs0L5BZ/JtpOh9vw3pc/SHBxHn0nubtBoyANfG2R
- Le0dpPAjGfOL6cljnIYMFytgzVwDs6uM8FfFuE4mIhYiFV30o9fObwqbhO49LoKdABEBAAGJ
- AiUEGAEKAA8FAlJ4AQ0CGwwFCQ0oaIAACgkQcrbm70xYPS2OxxAAr8OqW+bEjQV2PLLAHIh6
- fmhajXtSn9bzULofgyD4PsgMsG25di74GbegGyTIwt7cS7Z5ZR5KL7ZkN1GTDFGlWyiZ+6NC
- VsWR62+eujnYvtHsQPaTo8A/uFV+Too4v4ikS4ZD0ondWa1FimLouem9QwOSnyn4yErxUQcU
- yUXHLhUtYs7MO5R4G++Ev+9eK7rRqPeUOqTjQV6Eigi5Ny4536fKMJDNp+YhlRopWBA0fVjf
- tF0MJTV0ShFK1YWLOADJYo9NG+KOeyUqesOvRSxtpQcdcrwPFjkJ3JcknxZstvWid4goqMY7
- l/vGoG7zQDSxUDpXcG9X70yHrmVK/w0dn/PHalfUnOsQpvQYTjGhZ4UnXAVaBsouYLGFo9AL
- lLNERHY4eRR4MEYvk6ABZ1AEaJwiwyZuPRt/iN1EIMM7fnQQcdBYHGJzaV8a3jwHeLAPY1e/
- hS1OsrR9pqGvqQsagYkiZFOCjZxx0IQhokMSIxbFvNfLHTqXXpJzlCv9QGj3s2ZG6o36u42k
- yc+mP1ya8uxIFEwcp6C1h4TTisVFC2DXxDi7pqUd9oTuI4Hg19/i07cdYUHDiraDXSXW5zH9
- 5ZDV+rSqDU3ercoRd2qjGUOIXWOytHTeJhVOWqM0vOmXDUwwYHuEb0HFn3d/tz+idSrXUSXZ
- 5iv6NKaV29GWHbY=
-Subject: Re: [PATCH 0/1] RFC: Revamp admin-guide/tainted-kernels.rst to make
- it more comprehensible
-Message-ID: <a610b68c-9469-a96e-9d2d-cfe0453e3c6d@leemhuis.info>
-Date:   Fri, 21 Dec 2018 13:31:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.1
+        id S2390804AbeLUOGG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Dec 2018 09:06:06 -0500
+Received: from mail-vk1-f196.google.com ([209.85.221.196]:33674 "EHLO
+        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388956AbeLUOGG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Dec 2018 09:06:06 -0500
+Received: by mail-vk1-f196.google.com with SMTP id d201so1179106vka.0
+        for <linux-doc@vger.kernel.org>; Fri, 21 Dec 2018 06:06:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mena-vt-edu.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sWKARN8/VCXibTg+NNQexXIY2rqC24fDbGVY37avEas=;
+        b=r8K0LsTXrL50PWWvc8H3HRzopFOoWXVhd4rX+i3LSpnfy8TvRq6M2V+xBF3jnhNuj2
+         YmmKtiRezLDTZGiU+cfVEW7N62g1gpNBDyVxR4D0ezGU9R8cwfcyPFBJ8zf633RwJTyN
+         wxhtFOcQ9RwEoAKViywMHDl0JZSPF8pr/Gub8DleEIo4cH5Zx6gM8DLUp/OwnDx3ZhAY
+         ajdACTikjnw0hmq8RjYM4yW5svqeXCKR2tHgXTW9pqUoH/5ZFz9MBIJ/qwaOlf/g1qG+
+         gu0alGrHLZXCMRdfEa4Yh0Lh71MXNjSSYo9MdAVRFKekHLsHABhj2sRixCV2gLRfMDy7
+         KSjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sWKARN8/VCXibTg+NNQexXIY2rqC24fDbGVY37avEas=;
+        b=CMCtaMykcXOgeywIUzJ/81we7lnEJufuWAmbhF9nOQEJgJ4+pqEkjojCAx1j0mllL+
+         PnKf0vW65mClnYW9VckaGdaeT4U6+kOCQHLpibDiHoiwiAy22sgRCf1v+bF6lCWDNIEf
+         fUtaAR1udV7RHdkg/QfoH/ayBmM8GoxDulB56wohF1j/8l7TV3/mQC9IcOd5F4nje8oa
+         BRyPhB/it8GHmidPqzd5EgcT6REJgb5KdVFzTI+riVjf4l//sqZjs1n7Zlbc5LEWYaYV
+         C+ZDyrCJ5GSPtjQUvrs4DI4Vu429hQ8/rKLw9tk+JNdahwIqDRK5HahDqWueaa+JjIHc
+         UDxA==
+X-Gm-Message-State: AJcUukf/S1Yyk47fjS/lh3q+PI+uU6j8sk5teGNLlAfZMBqMBUcdFMf6
+        hX9u1QtYMRB32ePJl2fMnVZwtJK5FGfwSkXeIwLXoA==
+X-Google-Smtp-Source: ALg8bN6hFgWDu3D1YmWAptStk/IVSD/UuC+h32t30mytGyaxfChiKMwXR/qqga7zA98CZLn4JRbS3NitrL+wRaBRCCk=
+X-Received: by 2002:a1f:a702:: with SMTP id q2mr965502vke.43.1545401164447;
+ Fri, 21 Dec 2018 06:06:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <abd75184-1d33-4877-eef7-eeca436e5220@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1545395496;fb8432d1;
-X-HE-SMSGID: 1gaJxl-0006SL-BY
+References: <20181207124803.10828-1-ahmedsoliman@mena.vt.edu>
+ <1544708187.5826.1.camel@amazon.de> <CANBxJ=FP9GSfMES3e5dSct2qV0Z=uz7uPXufQNqoi5e+sWxvgQ@mail.gmail.com>
+In-Reply-To: <CANBxJ=FP9GSfMES3e5dSct2qV0Z=uz7uPXufQNqoi5e+sWxvgQ@mail.gmail.com>
+From:   Ahmed Soliman <ahmedsoliman@mena.vt.edu>
+Date:   Fri, 21 Dec 2018 16:05:01 +0200
+Message-ID: <CANBxJ=H7x_LZ1h=+HrbTcBd2Qt+RWz+c+0_JkUseZG6k-ozvuQ@mail.gmail.com>
+Subject: Re: [PATCH V7 0/10] KVM: X86: Introducing ROE Protection Kernel Hardening
+To:     jsteckli@amazon.de
+Cc:     Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Ahmed Soliman <ahmedsoliman0x666@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        =?UTF-8?B?6rmA7J246rK4?= <ovich00@gmail.com>, x86@kernel.org,
+        Igor Stoppa <igor.stoppa@gmail.com>, hpa@zytor.com,
+        Ingo Molnar <mingo@redhat.com>, nigel.edwards@hpe.com,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        kernel-hardening@lists.openwall.com, rkrcmar@redhat.com,
+        linux-doc@vger.kernel.org,
+        Boris Lukashev <blukashev@sempervictus.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 20.12.18 um 21:10 schrieb Randy Dunlap:
-> On 12/20/18 10:21 AM, Thorsten Leemhuis wrote:
->> Am 20.12.18 um 17:38 schrieb Randy Dunlap:
->>> On 12/20/18 7:28 AM, Jonathan Corbet wrote:
->>>> On Thu, 20 Dec 2018 16:23:38 +0100
->>>> Thorsten Leemhuis <linux@leemhuis.info> wrote:
->>>>> While at it: Jonathan, you mentioned putting the script in scripts/, but
->>>>> according to the Makefile in that directory it is "for various helper
->>>>> programs used throughout the kernel for the build process". That's one
->>>>> reason why it feels wrong to put it there. Another one: that script
->>>>> targets users and thus we should try to make sure they can access it
->>>>> easily. That's why I'm currently inclined to put it in tools/ somewhere.
->>>> Yeah, tools/ is a better place.  Maybe a tools/debugging directory or some
->>>> such?
->>> chktaint
->> BTW, I renamed it to kernel-taintstatus, sounded more appropriate to me.
->> Does anyone mind?
-> Not terribly, although that seems too long to me.  ;)
-> maybe 'taintstatus'?
+Hello,
 
-I settled to "kernel-chktaint" for now. I'm not attached to the name, but IMHO
-making it obvious what this tool checks is worth the "kernel-" prefix.
- 
->> BTW, for those following this thread and my earlier quest for a simple
->> cmd to decode /proc/sys/kernel/tainted: looks like @apexo on twitter
->> (thx again!) found a trick to do what I want which should work on most
->> systems out-of-the-box:
->> $ for i in $(seq 18); do echo $i $(($(cat
->> /proc/sys/kernel/tainted)>>($i-1)&1));done
-> I think Jon mentioned this:  The output should begin with bit #0,
-> not bit #1, so it should show bits 0 - 17 (or whatever the max is),
-> not 1 - 18.
+> > I don't  understand why this path needs to be optimized. To me it seems, a straight-
+> > forward userspace implementation with no additional code in the kernel achieves
+> > the same feature. Can you elaborate?
 
-No worries, replying to that is nearly next on my todo list.
+I was doing some benchmarking to figure out the overhead introduced by
+ROE, I think I can add more
+details about the overhead I am talking about, first I will explain
+the existing paths for a memory write
+attempts:
+[1] Normal memory write is done directly in guest kernel space.
+[2] Writing into Fully ROE protected page (The write operation will fail).
+[3] Writing into Partial ROE protected region (The write operation will fail).
+[4] Writing into writable memory in a page that contains Partial ROE
+protected region (The write operation is committed to memory).
 
-BTW & FYI, find below the patch I have prepared now.
+Path [1] is the normal write... guest kernel will not have to switch
+to guest and the performance was almost the same between host and
+guest, Writing 1 MB (a byte at a time) took no more than 4
+milliseconds. This will not be affected by whether ROE is done from
+users pace or kernel space.
 
-Ciao, Thorsten
+Path [2] will switch between guest's kernel to host kernel, then the
+host kernel switches to user space to decide what should be done.  The
+guest host ->host kernel -> host user space switch is done on ever
+separate write attempt (which is approx 1000000 in this case) It took
+~5000 milliseconds to fail the 1M write attempt. and as the above one
+user space ROE will not affect this one that much and I am not aware
+of any possible optimization, yet ideas are welcomed.
 
-commit 2aa04b7a65a5ecceac27a0d9c0d64a4b04ae943a
-Author: Thorsten Leemhuis <linux@leemhuis.info>
-Date:   Fri Dec 21 12:24:19 2018 +0100
+Path [3] will also switch between guest kernel to host kernel to host
+users pace...However the time taken to attempt 1M write took ~5000
+when the guest had less than 32 protected chunks system wide, as the
+number of chunks increased, the time also increased in a linear
+fashion till it reached 20 seconds took to do 1M write attempt when
+the system had about separate 2048 protected chunks. For this
+benchmark I allocated a page and protected every other byte :). I
+think this can be optimized by replacing the linked list used to keep
+track of chunks with maybe skip-list or Red Black tree. and It will be
+available in the next patch set. as the previous cases user space VS
+kernel space will not affect performance here at all.
 
-    tools: create tools/debugging/ and add a script decoding /proc/sys/kernel/tainted
-    
-    Add a script to the tools/ directory that shows if or why the running kernel was
-    tainted. The script was mostly written by Randy Dunlap (thx!), who published it
-    while discussing changes that try to make admin-guide/tainted-kernels.rst more
-    comprehensible (https://lore.kernel.org/lkml/8f67a8ca-bf64-c537-843a-b03bcfc3dace@infradead.org/);
-    I enhanced the script a bit and created this patch.
-    
-    As the script targets users I did not want to add it to scripts/, as according
-    to its Makefile "contains sources for various helper programs used throughout
-    the kernel for the build process". The directory tools/scripts/ also did not
-    look like a good fit, as the stuff that's there already is used for other
-    purposes. That's why I created a new directory for tools like this; maybe we
-    should move scripts/decodecode there as well, but that's something for another
-    day.
-    
-    Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-    Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+Path [4] The guest kernel switches to host kernel and the write
+operation is done in the host kernel (note we saved a switch from host
+kernel to host user space)
+The host kernel emulates the write operation and get back to guest
+kernel. The writing speed was notably slow but on average twice the
+speed at Path[3] (~2900 ms for less than 32 chunks and it went up to
+11 seconds for 2048 chunks. Path [4] can be optimized the same way
+path [3].
 
-diff --git a/tools/Makefile b/tools/Makefile
-index abb358a70ad0..c0d1e59f5abb 100644
---- a/tools/Makefile
-+++ b/tools/Makefile
-@@ -12,6 +12,7 @@ help:
- 	@echo '  acpi                   - ACPI tools'
- 	@echo '  cgroup                 - cgroup tools'
- 	@echo '  cpupower               - a tool for all things x86 CPU power'
-+	@echo '  debugging              - tools for debugging'
- 	@echo '  firewire               - the userspace part of nosy, an IEEE-1394 traffic sniffer'
- 	@echo '  freefall               - laptop accelerometer program for disk protection'
- 	@echo '  gpio                   - GPIO tools'
-@@ -60,7 +61,7 @@ acpi: FORCE
- cpupower: FORCE
- 	$(call descend,power/$@)
- 
--cgroup firewire hv guest spi usb virtio vm bpf iio gpio objtool leds wmi pci: FORCE
-+cgroup firewire hv guest spi usb virtio vm bpf iio gpio objtool leds wmi pci debugging: FORCE
- 	$(call descend,$@)
- 
- liblockdep: FORCE
-@@ -95,7 +96,8 @@ kvm_stat: FORCE
- all: acpi cgroup cpupower gpio hv firewire liblockdep \
- 		perf selftests spi turbostat usb \
- 		virtio vm bpf x86_energy_perf_policy \
--		tmon freefall iio objtool kvm_stat wmi pci
-+		tmon freefall iio objtool kvm_stat wmi \
-+		pci debugging
- 
- acpi_install:
- 	$(call descend,power/$(@:_install=),install)
-@@ -103,7 +105,7 @@ acpi_install:
- cpupower_install:
- 	$(call descend,power/$(@:_install=),install)
- 
--cgroup_install firewire_install gpio_install hv_install iio_install perf_install spi_install usb_install virtio_install vm_install bpf_install objtool_install wmi_install pci_install:
-+cgroup_install firewire_install gpio_install hv_install iio_install perf_install spi_install usb_install virtio_install vm_install bpf_install objtool_install wmi_install pci_install debugging_install:
- 	$(call descend,$(@:_install=),install)
- 
- liblockdep_install:
-@@ -129,7 +131,7 @@ install: acpi_install cgroup_install cpupower_install gpio_install \
- 		perf_install selftests_install turbostat_install usb_install \
- 		virtio_install vm_install bpf_install x86_energy_perf_policy_install \
- 		tmon_install freefall_install objtool_install kvm_stat_install \
--		wmi_install pci_install
-+		wmi_install pci_install debugging_install
- 
- acpi_clean:
- 	$(call descend,power/acpi,clean)
-@@ -137,7 +139,7 @@ acpi_clean:
- cpupower_clean:
- 	$(call descend,power/cpupower,clean)
- 
--cgroup_clean hv_clean firewire_clean spi_clean usb_clean virtio_clean vm_clean wmi_clean bpf_clean iio_clean gpio_clean objtool_clean leds_clean pci_clean:
-+cgroup_clean hv_clean firewire_clean spi_clean usb_clean virtio_clean vm_clean wmi_clean bpf_clean iio_clean gpio_clean objtool_clean leds_clean pci_clean debugging_clean:
- 	$(call descend,$(@:_clean=),clean)
- 
- liblockdep_clean:
-@@ -175,6 +177,6 @@ clean: acpi_clean cgroup_clean cpupower_clean hv_clean firewire_clean \
- 		perf_clean selftests_clean turbostat_clean spi_clean usb_clean virtio_clean \
- 		vm_clean bpf_clean iio_clean x86_energy_perf_policy_clean tmon_clean \
- 		freefall_clean build_clean libbpf_clean libsubcmd_clean liblockdep_clean \
--		gpio_clean objtool_clean leds_clean wmi_clean pci_clean
-+		gpio_clean objtool_clean leds_clean wmi_clean pci_clean debugging_clean
- 
- .PHONY: FORCE
-diff --git a/tools/debugging/Makefile b/tools/debugging/Makefile
-new file mode 100644
-index 000000000000..e2b7c1a6fb8f
---- /dev/null
-+++ b/tools/debugging/Makefile
-@@ -0,0 +1,16 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# Makefile for debugging tools
-+
-+PREFIX ?= /usr
-+BINDIR ?= bin
-+INSTALL ?= install
-+
-+TARGET = kernel-chktaint
-+
-+all: $(TARGET)
-+
-+clean:
-+
-+install: kernel-chktaint
-+	$(INSTALL) -D -m 755 $(TARGET) $(DESTDIR)$(PREFIX)/$(BINDIR)/$(TARGET)
-+
-diff --git a/tools/debugging/kernel-chktaint b/tools/debugging/kernel-chktaint
-new file mode 100644
-index 000000000000..98861858b192
---- /dev/null
-+++ b/tools/debugging/kernel-chktaint
-@@ -0,0 +1,199 @@
-+#! /bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Randy Dunlap <rdunlap@infradead.org>, 2018
-+# Thorsten Leemhuis <linux@leemhuis.info>, 2018
-+
-+usage()
-+{
-+	cat <<EOF
-+usage: ${0##*/}
-+       ${0##*/} <int>
-+
-+Call without parameters to decode /proc/sys/kernel/tainted.
-+
-+Call with a positive integer as parameter to decode a value you
-+retrieved from /proc/sys/kernel/tainted on another system.
-+
-+EOF
-+}
-+
-+if [ "$1"x != "x" ]; then
-+	if  [ "$1"x == "--helpx" ] || [ "$1"x == "-hx" ] ; then
-+		usage
-+		exit 1
-+	elif  [ $1 -ge 0 ] 2>/dev/null ; then
-+		taint=$1
-+	else
-+		echo "Error: Parameter '$1' not a positive interger. Aborting." >&2
-+		exit 1
-+	fi
-+else
-+	TAINTFILE="/proc/sys/kernel/tainted"
-+	if [ ! -r $TAINTFILE ]; then
-+		echo "No file: $TAINTFILE"
-+		exit
-+	fi
-+
-+	taint=`cat $TAINTFILE`
-+fi
-+
-+if [ $taint -eq 0 ]; then
-+	echo "Kernel not Tainted"
-+	exit
-+else
-+	echo "Kernel is Tainted for following reasons:"
-+fi
-+
-+T=$taint
-+out=
-+
-+addout() {
-+	out=$out$1
-+}
-+
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout "G"
-+else
-+	addout "P"
-+	echo " * Proprietary module was loaded."
-+fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "F"
-+	echo " * Module was force loaded."
-+fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "S"
-+	echo " * SMP kernel oops on an officially SMP incapable processor."
-+fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "R"
-+	echo " * Module was force unloaded."
-+fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "M"
-+	echo " * Processor reported a Machine Check Exception (MCE)."
-+fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "B"
-+	echo " * Bad page referenced or some unexpected page flags."
-+fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "U"
-+	echo " * Taint requested by userspace application."
-+fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "D"
-+	echo " * Kernel died recently, i.e. there was an OOPS or BUG"
-+fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "A"
-+	echo " * ACPI table overridden by user."
-+fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "W"
-+	echo " * Kernel issued warning."
-+fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "C"
-+	echo " * Staging driver was loaded."
-+fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "I"
-+	echo " * Workaround for bug in platform firmware applied."
-+fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "O"
-+	echo " * Externally-built ('out-of-tree') module was loaded"
-+fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "E"
-+	echo " * Unsigned module was loaded."
-+fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "L"
-+	echo " * Soft lockup occurred."
-+fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "K"
-+	echo " * Kernel live patched."
-+fi
-+
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "X"
-+	echo " * Auxiliary taint, defined for and used by distros."
-+
-+fi
-+T=`expr $T / 2`
-+if [ `expr $T % 2` -eq 0 ]; then
-+	addout " "
-+else
-+	addout "T"
-+	echo " * Kernel was built with the struct randomization plugin."
-+fi
-+
-+echo "Raw taint value as int/string: $taint/'$out'"
-+#EOF#
+Note that the dominating factor here is how many switches are done, If
+ROE was implemented in user-space, Path [4] which will be at least as
+slow as Path [3] which is about 2x slower.
+
+I hope it is less ambiguous now.
+
+Thanks,
+
+--
+Ahmed.
+Junior Researcher, IoT and Cyber Security lab, SmartCI, Alexandria
+University, & CIS @  VMI
