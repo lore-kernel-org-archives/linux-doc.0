@@ -5,29 +5,29 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F165B7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Dec 2018 09:59:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DB2427D08E
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Dec 2018 10:00:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389104AbeLUJ7u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Dec 2018 04:59:50 -0500
+        id S2389168AbeLUJ7z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Dec 2018 04:59:55 -0500
 Received: from mail-eopbgr60069.outbound.protection.outlook.com ([40.107.6.69]:22326
         "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729268AbeLUJ7u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 Dec 2018 04:59:50 -0500
+        id S1729268AbeLUJ7z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 Dec 2018 04:59:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
  s=selector1-arm-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oNeKExCutgOK38V9MkPTTIC1w4o2zbdxUb5j/rfZDw0=;
- b=hbqJ8zUHWTl29ihYL+8LNV7uDSyUhRzbhwgG4wYgYEVExooz/xEWuQgJ7HX67ce74TnH3+bM3m7v/e+bxP1RTcf/3Go8lrhnWxSRvQEDB56SSakx1M/POpgxw/NY12vqNNF0eO0p5DzMY+YDOr8AAuwRMn4eUA0XDIkOLX3/UDI=
+ bh=92UZkqWHclV/Uto+etihjeN/lekW+MZ90Day1/phJZI=;
+ b=o4IJeJdP9d9MH7MdysXhoUU5DLLXnMTriH3a3k+fU21PJiPOCvuTG+3qpZyObsl9onHcL23c8gcMShZxpW8d0uonNDoOQeCijR3wG4pMuSAAZdwnKh5LbzxqAKJfdMENiu5kvGMF1aVA41yMuvJHiRIoNPDELvnuXhLmTqoIatI=
 Received: from AM0PR08MB4483.eurprd08.prod.outlook.com (20.179.35.149) by
  AM0PR08MB3187.eurprd08.prod.outlook.com (52.134.93.156) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1446.19; Fri, 21 Dec 2018 09:59:12 +0000
+ 15.20.1446.19; Fri, 21 Dec 2018 09:59:45 +0000
 Received: from AM0PR08MB4483.eurprd08.prod.outlook.com
  ([fe80::1dff:434f:5905:45db]) by AM0PR08MB4483.eurprd08.prod.outlook.com
  ([fe80::1dff:434f:5905:45db%5]) with mapi id 15.20.1446.020; Fri, 21 Dec 2018
- 09:59:12 +0000
+ 09:59:45 +0000
 From:   "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
 To:     Liviu Dudau <Liviu.Dudau@arm.com>
 CC:     "Jonathan Chai (Arm Technology China)" <Jonathan.Chai@arm.com>,
@@ -62,13 +62,11 @@ CC:     "Jonathan Chai (Arm Technology China)" <Jonathan.Chai@arm.com>,
         "airlied@linux.ie" <airlied@linux.ie>,
         "yamada.masahiro@socionext.com" <yamada.masahiro@socionext.com>,
         "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
-Subject: [PATCH v3 2/9] dt/bindings: drm/komeda: Add DT bindings for ARM
- display processor D71
-Thread-Topic: [PATCH v3 2/9] dt/bindings: drm/komeda: Add DT bindings for ARM
- display processor D71
-Thread-Index: AQHUmRPTBdPt1uc570uDsKJLIqlNSA==
-Date:   Fri, 21 Dec 2018 09:59:12 +0000
-Message-ID: <20181221095757.15510-3-james.qian.wang@arm.com>
+Subject: [PATCH v3 4/9] drm/komeda: Add DT parsing
+Thread-Topic: [PATCH v3 4/9] drm/komeda: Add DT parsing
+Thread-Index: AQHUmRPmFz/CSM3MT0ypNcL64pQHzA==
+Date:   Fri, 21 Dec 2018 09:59:44 +0000
+Message-ID: <20181221095757.15510-5-james.qian.wang@arm.com>
 References: <20181221095757.15510-1-james.qian.wang@arm.com>
 In-Reply-To: <20181221095757.15510-1-james.qian.wang@arm.com>
 Accept-Language: en-US
@@ -83,28 +81,28 @@ authentication-results: spf=none (sender IP is )
  smtp.mailfrom=james.qian.wang@arm.com; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;AM0PR08MB3187;6:9ifAP2FrWlnX0nTBZl0Jg1fkqF6d4W2lh6jlbNi0PISVrm3S+asK0VUOdcKrwt6wwRb9qFNS3LjfoCpGV6Cc+L4lt2o/Be6z4Ql8K1Cg24jG3Rrw34Ln4ONnihUHjDf6Pp7dafiqdOpmeYyjx3qH3IGVKet+1KsNK4Ta0kdMOl2btObOY5E0TN3nxj9R9HkNpMrtxN016DWWXeJ8GkTGSz8IbUdINrm61WJBTV0ro8gWkSux4nh+n9UXPyC2GebXPT+6KGzIqtwz2RirmCgE52V43HJCX2WC7YDM+WL89Ih49vX+BWO11PvspMBomRU/dWKk39LovTjZA+tbrL5qBiAG9sUaj6k7oi3hr21yv6h0D+6WPhY0CGcXL80qQhhnQx2PGJYnWtmwqET2UqjBC2MPX0TfSwkbrfh1LwI6B6AMqVvxFdKj5+IXqo98Rm8VWoLR+JSIiv9r7gdUpebc/A==;5:2m2e8zwEAN7q/ahhy/Q1zAL9hDLjimW+4yfkiIfS7gPS0S/dlRJI4UZHhPOJtPDwCUvafdIGMfw7tOTnDy5EewNhOmVo0iPdxkr8I4Gxoi3eFBX25zC/OF3/hlLLE7NZ5Fh+ahxAspqkpdZBhiaobhdGAFCbPKr5SxgN4j7bvmk=;7:bYUG06WAgj8ISQV5QjUUxhvDB3wLoAPXDF66ev/GXitM9pgjC4oWTroiSSBrG6Ep//0vsDTTJHnKoUYM0kwJBQkjzlH0hZSrConqrc3RxMLMYQGIODDP6AFl3Xlx6eyFfaFeQe6u/ux+NaKjl3+aKA==
-x-ms-office365-filtering-correlation-id: fdfb71a1-5b1a-4c56-f020-08d6672af552
+x-microsoft-exchange-diagnostics: 1;AM0PR08MB3187;6:cZdF15ti26ZlgG3P4R9/eHg+VP4zVBqnCJ1weDckeMyaDnedGeuL5rPjmQT7noBZtng+bHAnzwlguJHRo+5jOMCcuolF4w6XsMaqE629SGoavm32Gk2Ti592xGxKDNsWLI+6Akh5qMzxLmTMW/3LWTst4fjpnR4C4plbF586cMF0gi9mD0CyHNjjC4FIquMJsn6SwkYcY1XoVc2dpVHTeA6Vb/K0V5o3siwkDr24kbGP4BYI5QJNsNvaMoHmdzLyVzAU8qig/OKtsf5JuVYavRnqoZEk1s0jvkh1tPl0CTP/qWQsRbri2BwGVoRBxtGJNlB1u5AK7Pp2PYk7umMF8bNc5Wtve714bX5Fo6qO0KnrQDPcidSksrVV6JOC5xYqmJKR7z5fVQRtwg7lBB6nTezTIuI2+ZHFn+7O3huj4mw2XdMgDS0uVBGwecCpRa0ieli6cBxlWHgM1HLKFUqG3g==;5:jFKPjzz0jMMia0NiguEO4wKMO49MrVP5dVIF+qXSEH/9VsE+1mDpExxKGUjxt5Jeu9tnlXvZJ9h4Rs6QfpfztsyBsshOe5ivzDT2P/fBq4HeL5/wINQ0943N3yTF8zxFJVpoHYfKPLtgJfpS8QY/ke6Cmen1THkVy/vO3zJDy/o=;7:KK7VFm2vdTZf4NWfM1c+9TiiKDr8KED2mU5vrgGpdtNqjTEnyHUDFZCl7QeLX8tqD3b2mOSj7mSQid38IF6pFubLiivJtnnUoBPf0uXOeWDAGwSF/c3jsXgHx0rYlnlDe+1XMAdrzCbHyNFrHaZFHg==
+x-ms-office365-filtering-correlation-id: b0944e13-e296-4fca-3c80-08d6672b089b
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600074)(711020)(4618075)(2017052603328)(7153060)(7193020);SRVR:AM0PR08MB3187;
 x-ms-traffictypediagnostic: AM0PR08MB3187:
 nodisclaimer: True
-x-microsoft-antispam-prvs: <AM0PR08MB31879D21F8B5BB9CA8CC0BB6B3B80@AM0PR08MB3187.eurprd08.prod.outlook.com>
+x-microsoft-antispam-prvs: <AM0PR08MB3187E3D05C40FA9B8FDF8F18B3B80@AM0PR08MB3187.eurprd08.prod.outlook.com>
 x-ms-exchange-senderadcheck: 1
 x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(3230021)(999002)(5005026)(6040522)(2401047)(8121501046)(3002001)(10201501046)(93006095)(93001095)(3231475)(944501520)(52105112)(6055026)(149066)(150057)(6041310)(20161123558120)(20161123564045)(20161123562045)(20161123560045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(201708071742011)(7699051)(76991095);SRVR:AM0PR08MB3187;BCL:0;PCL:0;RULEID:;SRVR:AM0PR08MB3187;
 x-forefront-prvs: 0893636978
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(396003)(39860400002)(376002)(136003)(366004)(189003)(199004)(71200400001)(97736004)(71190400001)(103116003)(86362001)(14454004)(2906002)(5660300001)(106356001)(6116002)(105586002)(66066001)(54906003)(6636002)(3846002)(37006003)(99286004)(68736007)(478600001)(25786009)(6486002)(7736002)(36756003)(6436002)(76176011)(316002)(186003)(386003)(6506007)(55236004)(1076003)(26005)(6512007)(256004)(6862004)(52116002)(81156014)(476003)(486006)(81166006)(7416002)(102836004)(8676002)(305945005)(2616005)(8936002)(53936002)(4326008)(446003)(11346002);DIR:OUT;SFP:1101;SCL:1;SRVR:AM0PR08MB3187;H:AM0PR08MB4483.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(396003)(39860400002)(376002)(136003)(366004)(189003)(199004)(71200400001)(97736004)(575784001)(71190400001)(103116003)(86362001)(14454004)(2906002)(5660300001)(106356001)(6116002)(105586002)(66066001)(54906003)(6636002)(3846002)(37006003)(99286004)(68736007)(478600001)(25786009)(6486002)(7736002)(36756003)(6436002)(76176011)(316002)(186003)(386003)(6506007)(55236004)(1076003)(26005)(6512007)(256004)(6862004)(52116002)(81156014)(476003)(486006)(81166006)(7416002)(102836004)(8676002)(305945005)(2616005)(8936002)(53936002)(4326008)(446003)(11346002);DIR:OUT;SFP:1101;SCL:1;SRVR:AM0PR08MB3187;H:AM0PR08MB4483.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 received-spf: None (protection.outlook.com: arm.com does not designate
  permitted sender hosts)
-x-microsoft-antispam-message-info: Mg+TS1idSpEEqw/XW8IiRaZnoZqbaqbJO3mot4xHfOx5WAASYiQWMWjrWen/RPXjnBG3LNtmP8AjlySqJ5FFiYUKWRzggUblYVVOpqrhVDspsi4M1yAwGqPQ+mOlUZHbFebX0O95jAK1CsTZIDdKAZq9y/lnAo+PdkL3pZmQWnsuzoaxwSvs8NZilI5Cu/NoQ9ITMRnhR+GdC08PA/W/m9dgNWIx3suirii3zKevHdWsjiLynwAkHY94QrRp9+xeGBa3jDvvM28SpJBgpWNdidI+KZz+mz+HpVHIxCFAGmIZ90NcRG1lrzCZ/pZRD8wX
+x-microsoft-antispam-message-info: szQTx3CyNle52ZpaDzkxeQ4zHZACKy55JDv0yTLVmiEJsOCFCXkYYckmXbif5eNXrnQqwsz/S/zmDjnWVygtv7bLX7iidhBCa4BtHvShHC9Zglwb8XHtjxfdWYlKyf2/AwQ5d8G/AlOl5+OIJc/7lNLfLshieEixU9NgZnYQI1/w1xbkM1Br1Xd/OtNj0Fa1qzQeL/S1GHg1/7oE1rXBqxGF/Ll+BirI8Aov8iikQVYmLCaRjHRnUDf1gvIuDTsdFTcmOGXMYHUZPHO25NoDDKw/6qS1P4lr7bPqfyAu+5mxF2nQ3im0oTM4ka1HfqZP
 spamdiagnosticoutput: 1:99
 spamdiagnosticmetadata: NSPM
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fdfb71a1-5b1a-4c56-f020-08d6672af552
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Dec 2018 09:59:12.5077
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0944e13-e296-4fca-3c80-08d6672b089b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Dec 2018 09:59:44.8652
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
@@ -114,106 +112,169 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add DT bindings documentation for the ARM display processor D71 and later
-IPs.
-
-Signed-off-by: James (Qian) Wang <james.qian.wang@arm.com>
+Parse DT and initialize corresponding dev/pipeline attributes.
 
 Changes in v3:
-- Deleted unnecessary property: interrupt-names.
-- Dropped 'ports' and moving 'port' up a level.
----
- .../bindings/display/arm/arm,komeda.txt       | 79 +++++++++++++++++++
- 1 file changed, 79 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/arm/arm,komed=
-a.txt
+- Fixed style problem found by checkpatch.pl --strict.
 
-diff --git a/Documentation/devicetree/bindings/display/arm/arm,komeda.txt b=
-/Documentation/devicetree/bindings/display/arm/arm,komeda.txt
-new file mode 100644
-index 000000000000..b4e450243c7d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/arm/arm,komeda.txt
-@@ -0,0 +1,79 @@
-+Device Tree bindings for ARM Komeda display driver
+Changes in v2:
+- Unified abbreviation of "pipeline" to "pipe".
+
+Signed-off-by: James (Qian) Wang <james.qian.wang@arm.com>
+---
+ .../gpu/drm/arm/display/komeda/komeda_dev.c   | 76 +++++++++++++++++++
+ .../gpu/drm/arm/display/komeda/komeda_dev.h   |  3 +
+ .../drm/arm/display/komeda/komeda_pipeline.c  |  4 +
+ .../drm/arm/display/komeda/komeda_pipeline.h  |  7 ++
+ 4 files changed, 90 insertions(+)
+
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_dev.c b/drivers/gpu/=
+drm/arm/display/komeda/komeda_dev.c
+index 887a17005367..d0cc4f758077 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_dev.c
+@@ -12,6 +12,76 @@
+ #include <linux/version.h>
+ #include "komeda_dev.h"
+=20
++static int komeda_parse_pipe_dt(struct komeda_dev *mdev, struct device_nod=
+e *np)
++{
++	struct komeda_pipeline *pipe;
++	struct clk *clk;
++	u32 pipe_id;
++	int ret =3D 0;
 +
-+Required properties:
-+- compatible: Should be "arm,mali-d71"
-+- reg: Physical base address and length of the registers in the system
-+- interrupts: the interrupt line number of the device in the system
-+- clocks: A list of phandle + clock-specifier pairs, one for each entry
-+    in 'clock-names'
-+- clock-names: A list of clock names. It should contain:
-+      - "mclk": for the main processor clock
-+      - "pclk": for the APB interface clock
-+- #address-cells: Must be 1
-+- #size-cells: Must be 0
++	ret =3D of_property_read_u32(np, "reg", &pipe_id);
++	if (ret !=3D 0 || pipe_id >=3D mdev->n_pipelines)
++		return -EINVAL;
 +
-+Required properties for sub-node: pipeline@nq
-+Each device contains one or two pipeline sub-nodes (at least one), each
-+pipeline node should provide properties:
-+- reg: Zero-indexed identifier for the pipeline
-+- clocks: A list of phandle + clock-specifier pairs, one for each entry
-+    in 'clock-names'
-+- clock-names: should contain:
-+      - "pxclk": pixel clock
-+      - "aclk": AXI interface clock
++	pipe =3D mdev->pipelines[pipe_id];
 +
-+- port: each pipeline connect to an encoder input port. The connection is
-+    modeled using the OF graph bindings specified in
-+    Documentation/devicetree/bindings/graph.txt
++	clk =3D of_clk_get_by_name(np, "aclk");
++	if (IS_ERR(clk)) {
++		DRM_ERROR("get aclk for pipeline %d failed!\n", pipe_id);
++		return PTR_ERR(clk);
++	}
++	pipe->aclk =3D clk;
 +
-+Optional properties:
-+  - memory-region: phandle to a node describing memory (see
-+    Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt)
-+    to be used for the framebuffer; if not present, the framebuffer may
-+    be located anywhere in memory.
++	clk =3D of_clk_get_by_name(np, "pxclk");
++	if (IS_ERR(clk)) {
++		DRM_ERROR("get pxclk for pipeline %d failed!\n", pipe_id);
++		return PTR_ERR(clk);
++	}
++	pipe->pxlclk =3D clk;
 +
-+Example:
-+/ {
-+	...
++	/* enum ports */
++	pipe->of_output_dev =3D
++		of_graph_get_remote_node(np, KOMEDA_OF_PORT_OUTPUT, 0);
++	pipe->of_output_port =3D
++		of_graph_get_port_by_id(np, KOMEDA_OF_PORT_OUTPUT);
 +
-+	dp0: display@c00000 {
-+		#address-cells =3D <1>;
-+		#size-cells =3D <0>;
-+		compatible =3D "arm,mali-d71";
-+		reg =3D <0xc00000 0x20000>;
-+		interrupts =3D <0 168 4>;
-+		clocks =3D <&dpu_mclk>, <&dpu_aclk>;
-+		clock-names =3D "mclk", "pclk";
++	pipe->of_node =3D np;
 +
-+		dp0_pipe0: pipeline@0 {
-+			clocks =3D <&fpgaosc2>, <&dpu_aclk>;
-+			clock-names =3D "pxclk", "aclk";
-+			reg =3D <0>;
++	return 0;
++}
 +
-+			#address-cells =3D <1>;
-+			#size-cells =3D <0>;
++static int komeda_parse_dt(struct device *dev, struct komeda_dev *mdev)
++{
++	struct platform_device *pdev =3D to_platform_device(dev);
++	struct device_node *child, *np =3D dev->of_node;
++	struct clk *clk;
++	int ret;
 +
-+			port@0 {
-+				dp0_pipe0_out: endpoint {
-+					remote-endpoint =3D <&db_dvi0_in>;
-+				};
-+			};
-+		};
++	clk =3D devm_clk_get(dev, "mclk");
++	if (IS_ERR(clk))
++		return PTR_ERR(clk);
 +
-+		dp0_pipe1: pipeline@1 {
-+			clocks =3D <&fpgaosc2>, <&dpu_aclk>;
-+			clock-names =3D "pxclk", "aclk";
-+			reg =3D <1>;
++	mdev->mclk =3D clk;
++	mdev->irq  =3D platform_get_irq(pdev, 0);
++	if (mdev->irq < 0) {
++		DRM_ERROR("could not get IRQ number.\n");
++		return mdev->irq;
++	}
 +
-+			#address-cells =3D <1>;
-+			#size-cells =3D <0>;
++	for_each_available_child_of_node(np, child) {
++		if (of_node_cmp(child->name, "pipeline") =3D=3D 0) {
++			ret =3D komeda_parse_pipe_dt(mdev, child);
++			if (ret) {
++				DRM_ERROR("parse pipeline dt error!\n");
++				of_node_put(child);
++				break;
++			}
++		}
++	}
 +
-+			port@0 {
-+				dp0_pipe1_out: endpoint {
-+					remote-endpoint =3D <&db_dvi1_in>;
-+				};
-+			};
-+		};
-+	};
-+	...
-+};
++	return ret;
++}
++
+ struct komeda_dev *komeda_dev_create(struct device *dev)
+ {
+ 	struct platform_device *pdev =3D to_platform_device(dev);
+@@ -74,6 +144,12 @@ struct komeda_dev *komeda_dev_create(struct device *dev=
+)
+ 		goto err_cleanup;
+ 	}
+=20
++	err =3D komeda_parse_dt(dev, mdev);
++	if (err) {
++		DRM_ERROR("parse device tree failed.\n");
++		goto err_cleanup;
++	}
++
+ 	return mdev;
+=20
+ err_cleanup:
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_dev.h b/drivers/gpu/=
+drm/arm/display/komeda/komeda_dev.h
+index 680e3e2cf100..4a27a44e2ec6 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_dev.h
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_dev.h
+@@ -72,6 +72,9 @@ struct komeda_dev {
+ 	/** @mck: HW main engine clk */
+ 	struct clk *mclk;
+=20
++	/** @irq: irq number */
++	u32 irq;
++
+ 	int n_pipelines;
+ 	struct komeda_pipeline *pipelines[KOMEDA_MAX_PIPELINES];
+=20
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c b/drivers=
+/gpu/drm/arm/display/komeda/komeda_pipeline.c
+index 9293598b0533..e731b2a85c3a 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
+@@ -55,6 +55,10 @@ void komeda_pipeline_destroy(struct komeda_dev *mdev,
+ 	clk_put(pipe->pxlclk);
+ 	clk_put(pipe->aclk);
+=20
++	of_node_put(pipe->of_output_dev);
++	of_node_put(pipe->of_output_port);
++	of_node_put(pipe->of_node);
++
+ 	devm_kfree(mdev->dev, pipe);
+ }
+=20
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h b/drivers=
+/gpu/drm/arm/display/komeda/komeda_pipeline.h
+index 2174796d47c5..d1e0c1140273 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.h
+@@ -290,6 +290,13 @@ struct komeda_pipeline {
+ 	struct komeda_improc *improc;
+ 	struct komeda_timing_ctrlr *ctrlr;
+ 	struct komeda_pipeline_funcs *funcs; /* private pipeline functions */
++
++	/** @of_node: pipeline dt node */
++	struct device_node *of_node;
++	/** @of_output_port: pipeline output port */
++	struct device_node *of_output_port;
++	/** @of_output_dev: output connector device node */
++	struct device_node *of_output_dev;
+ };
+=20
+ /**
 --=20
 2.17.1
 
