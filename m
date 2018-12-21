@@ -1,107 +1,456 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 846EC7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Dec 2018 14:29:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A01A97D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Dec 2018 14:46:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390873AbeLUO35 convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Dec 2018 09:29:57 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41748 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730556AbeLUO34 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Dec 2018 09:29:56 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id wBLETMUM125621
-        for <linux-doc@vger.kernel.org>; Fri, 21 Dec 2018 09:29:55 -0500
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2ph1h51p0c-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 21 Dec 2018 09:29:55 -0500
-Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Fri, 21 Dec 2018 14:29:53 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 21 Dec 2018 14:29:50 -0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id wBLETn8a56295464
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 21 Dec 2018 14:29:49 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9A59411C05C;
-        Fri, 21 Dec 2018 14:29:49 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6035111C052;
-        Fri, 21 Dec 2018 14:29:49 +0000 (GMT)
-Received: from [9.148.204.67] (unknown [9.148.204.67])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 21 Dec 2018 14:29:48 +0000 (GMT)
-Date:   Fri, 21 Dec 2018 16:29:45 +0200
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20181220083423.40233348@lwn.net>
-References: <1544130781-13443-1-git-send-email-rppt@linux.ibm.com> <20181220075912.GA12338@rapoport-lnx> <20181220083423.40233348@lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Subject: Re: [PATCH 0/2] docs/mm-api: link kernel-doc comments from slab_common.c
-To:     Jonathan Corbet <corbet@lwn.net>
-CC:     Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        id S1725372AbeLUOqM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Dec 2018 09:46:12 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:38775 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403949AbeLUOqL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Dec 2018 09:46:11 -0500
+Received: by mail-wm1-f65.google.com with SMTP id m22so5983986wml.3
+        for <linux-doc@vger.kernel.org>; Fri, 21 Dec 2018 06:46:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=rpqnL0JcJJoj7eRp5gFAviS8n3esW/zh8yneDX/x76o=;
+        b=bZ1XQvMI7y6u+7xi8ZEsU4ytEli4h3k7rGpP4xqJKNxZAHCGbLvpCkpAGlBAgk5G+B
+         WDDbGohOyakxIRgupVrC/pyggJshwVf8+hy4DdwOShkWccoNY4jWjWpuc3/QGlmVkIKT
+         OHtLiV+wIEv/z70VU9X8WiQGJt/HaR+yC0R1E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=rpqnL0JcJJoj7eRp5gFAviS8n3esW/zh8yneDX/x76o=;
+        b=kMIQxF9fbaizBi1KpE+QdkVXeeVF2iS6GJ9X1pPoX9m4sM+3NhhqeYyScRUejc0B+u
+         e/vVk4STMT3amKX9HfahCucKdc/ZIAAEy1ZWqHkn5/cE8FZV8IbW1IwhNQ9LNcgw3O29
+         7O1lpDzZMl/sZgBLZJyoEifHi5plA1iVBHs2VCcGbyxt4twlqDFnio4J8T+u9OhdI3Yt
+         s49QPi1Y0IEY08bpghAP/nHm1fb+I7fLQ+yZhcEWbnr+6vL1LuRHRsyxI9TALfyCN8Wa
+         uDACzExRevMS6qJPZR+4+oJqmdWqy8XPPcXr8Q0wrjGtf8PJ7UBD4J0yQHwjoOwxXOb9
+         aJKw==
+X-Gm-Message-State: AA+aEWaW5viPzueXhkiJYda3OnLjFtNcwGTAgABpA/NO3d8Fdb6jjXcr
+        M8PzwYpo5h6ReRa6z0zx8AZuFw==
+X-Google-Smtp-Source: AFSGD/W4sVIkoJ4SIotJ67vGaM2yCkDddZ7mZK2fOz43C8WtKny63M3BRAR47dJmjV5Og0pH5pj9oQ==
+X-Received: by 2002:a1c:9d57:: with SMTP id g84mr3198722wme.16.1545403567010;
+        Fri, 21 Dec 2018 06:46:07 -0800 (PST)
+Received: from dell ([95.149.164.119])
+        by smtp.gmail.com with ESMTPSA id v1sm12740441wrw.90.2018.12.21.06.46.05
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 21 Dec 2018 06:46:06 -0800 (PST)
+Date:   Fri, 21 Dec 2018 14:46:03 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Cc:     Rob Herring <robh+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        Eric Sandeen <sandeen@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
+        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
+        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
+        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-From:   Mike Rapoport <rppt@linux.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 18122114-0016-0000-0000-00000239BF51
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 18122114-0017-0000-0000-0000329220C5
-Message-Id: <1E20B2F5-93F6-4763-9068-75630DF2541C@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2018-12-21_07:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1812210114
+        Randy Dunlap <rdunlap@infradead.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Stephen Boyd <sboyd@codeaurora.org>,
+        David Kershner <david.kershner@unisys.com>,
+        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Johan Hovold <johan@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Juergen Gross <jgross@suse.com>,
+        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        openbmc@lists.ozlabs.org,
+        James Feist <james.feist@linux.intel.com>,
+        Jason M Biils <jason.m.bills@linux.intel.com>,
+        Vernon Mauery <vernon.mauery@linux.intel.com>
+Subject: Re: [PATCH v9 08/12] mfd: intel-peci-client: Add PECI client MFD
+ driver
+Message-ID: <20181221144603.GR13248@dell>
+References: <20181218210417.30140-1-jae.hyun.yoo@linux.intel.com>
+ <20181218210417.30140-9-jae.hyun.yoo@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20181218210417.30140-9-jae.hyun.yoo@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, 18 Dec 2018, Jae Hyun Yoo wrote:
 
+> This commit adds PECI client MFD driver.
+> 
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Andrew Jeffery <andrew@aj.id.au>
+> Cc: James Feist <james.feist@linux.intel.com>
+> Cc: Jason M Biils <jason.m.bills@linux.intel.com>
+> Cc: Joel Stanley <joel@jms.id.au>
+> Cc: Vernon Mauery <vernon.mauery@linux.intel.com>
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+> ---
+>  drivers/mfd/Kconfig                   |  14 +++
+>  drivers/mfd/Makefile                  |   1 +
+>  drivers/mfd/intel-peci-client.c       | 150 ++++++++++++++++++++++++++
+>  include/linux/mfd/intel-peci-client.h | 110 +++++++++++++++++++
+>  4 files changed, 275 insertions(+)
+>  create mode 100644 drivers/mfd/intel-peci-client.c
+>  create mode 100644 include/linux/mfd/intel-peci-client.h
+> 
+> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+> index 8c5dfdce4326..d021aa8dfa99 100644
+> --- a/drivers/mfd/Kconfig
+> +++ b/drivers/mfd/Kconfig
+> @@ -604,6 +604,20 @@ config MFD_INTEL_MSIC
+>  	  Passage) chip. This chip embeds audio, battery, GPIO, etc.
+>  	  devices used in Intel Medfield platforms.
+>  
+> +config MFD_INTEL_PECI_CLIENT
+> +	bool "Intel PECI client"
+> +	depends on (PECI || COMPILE_TEST)
+> +	select MFD_CORE
+> +	help
+> +	  If you say yes to this option, support will be included for the
+> +	  Intel PECI (Platform Environment Control Interface) client. PECI is a
+> +	  one-wire bus interface that provides a communication channel from PECI
+> +	  clients in Intel processors and chipset components to external
+> +	  monitoring or control devices.
 
-On December 20, 2018 5:34:23 PM GMT+02:00, Jonathan Corbet <corbet@lwn.net> wrote:
->On Thu, 20 Dec 2018 09:59:13 +0200
->Mike Rapoport <rppt@linux.ibm.com> wrote:
->
->> ping?
->
->Sorry, been traveling,
+This driver doesn't appear to actually do anything that can't be done
+in a header file i.e. match some static data with a CPU ID.  The child
+devices can be registered by whatever registers this device.
 
-No problem, I just wanted to make sure it didn't fall between the cracks.
+It seems superfluous.  Why do you need it?
 
-> and I still don't really know what to do with
->patches that are more mm/ than Documentation/. 
+> +	  Additional drivers must be enabled in order to use the functionality
+> +	  of the device.
+> +
+>  config MFD_IPAQ_MICRO
+>  	bool "Atmel Micro ASIC (iPAQ h3100/h3600/h3700) Support"
+>  	depends on SA1100_H3100 || SA1100_H3600
+> diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+> index 12980a4ad460..b8c1da8e748b 100644
+> --- a/drivers/mfd/Makefile
+> +++ b/drivers/mfd/Makefile
+> @@ -204,6 +204,7 @@ obj-$(CONFIG_MFD_INTEL_LPSS)	+= intel-lpss.o
+>  obj-$(CONFIG_MFD_INTEL_LPSS_PCI)	+= intel-lpss-pci.o
+>  obj-$(CONFIG_MFD_INTEL_LPSS_ACPI)	+= intel-lpss-acpi.o
+>  obj-$(CONFIG_MFD_INTEL_MSIC)	+= intel_msic.o
+> +obj-$(CONFIG_MFD_INTEL_PECI_CLIENT)	+= intel-peci-client.o
+>  obj-$(CONFIG_MFD_PALMAS)	+= palmas.o
+>  obj-$(CONFIG_MFD_VIPERBOARD)    += viperboard.o
+>  obj-$(CONFIG_MFD_RC5T583)	+= rc5t583.o rc5t583-irq.o
+> diff --git a/drivers/mfd/intel-peci-client.c b/drivers/mfd/intel-peci-client.c
+> new file mode 100644
+> index 000000000000..d53e4f1078ac
+> --- /dev/null
+> +++ b/drivers/mfd/intel-peci-client.c
+> @@ -0,0 +1,150 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +// Copyright (c) 2018 Intel Corporation
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/mfd/core.h>
+> +#include <linux/mfd/intel-peci-client.h>
+> +#include <linux/module.h>
+> +#include <linux/peci.h>
+> +#include <linux/of_device.h>
 
-Well, these seem to be quite documentation, although they touch mm files ;-)
+Alphabetical.
 
-> I've just applied these, though.
+> +#define CPU_ID_MODEL_MASK      GENMASK(7, 4)
+> +#define CPU_ID_FAMILY_MASK     GENMASK(11, 8)
+> +#define CPU_ID_EXT_MODEL_MASK  GENMASK(19, 16)
+> +#define CPU_ID_EXT_FAMILY_MASK GENMASK(27, 20)
+> +
+> +#define LOWER_NIBBLE_MASK      GENMASK(3, 0)
+> +#define UPPER_NIBBLE_MASK      GENMASK(7, 4)
+> +#define LOWER_BYTE_MASK        GENMASK(7, 0)
+> +#define UPPER_BYTE_MASK        GENMASK(16, 8)
+> +
+> +enum cpu_gens {
+> +	CPU_GEN_HSX = 0, /* Haswell Xeon */
+> +	CPU_GEN_BRX,     /* Broadwell Xeon */
+> +	CPU_GEN_SKX,     /* Skylake Xeon */
+> +};
 
-Thanks!
+This is unused.
 
->Thanks,
->
->jon
+> +static struct mfd_cell peci_functions[] = {
+> +	{ .name = "peci-cputemp", },
+> +	{ .name = "peci-dimmtemp", },
+> +	/* TODO: Add additional PECI sideband functions into here */
+> +};
+> +
+> +static const struct cpu_gen_info cpu_gen_info_table[] = {
+> +	[CPU_GEN_HSX] = {
+> +		.family        = 6, /* Family code */
+> +		.model         = INTEL_FAM6_HASWELL_X,
+> +		.core_max      = CORE_MAX_ON_HSX,
+> +		.chan_rank_max = CHAN_RANK_MAX_ON_HSX,
+> +		.dimm_idx_max  = DIMM_IDX_MAX_ON_HSX },
+> +	[CPU_GEN_BRX] = {
+> +		.family        = 6, /* Family code */
+> +		.model         = INTEL_FAM6_BROADWELL_X,
+> +		.core_max      = CORE_MAX_ON_BDX,
+> +		.chan_rank_max = CHAN_RANK_MAX_ON_BDX,
+> +		.dimm_idx_max  = DIMM_IDX_MAX_ON_BDX },
+> +	[CPU_GEN_SKX] = {
+> +		.family        = 6, /* Family code */
+> +		.model         = INTEL_FAM6_SKYLAKE_X,
+> +		.core_max      = CORE_MAX_ON_SKX,
+> +		.chan_rank_max = CHAN_RANK_MAX_ON_SKX,
+> +		.dimm_idx_max  = DIMM_IDX_MAX_ON_SKX },
+> +};
+> +
+> +static int peci_client_get_cpu_gen_info(struct peci_client_manager *priv)
+> +{
+> +	u32 cpu_id;
+> +	u16 family;
+> +	u8 model;
+> +	int rc;
+
+ret is almost ubiquitous in the kernel.  Please use it instead.
+
+> +	int i;
+> +
+> +	rc = peci_get_cpu_id(priv->client->adapter, priv->client->addr,
+> +			     &cpu_id);
+> +	if (rc)
+> +		return rc;
+> +
+> +	family = FIELD_PREP(LOWER_BYTE_MASK,
+> +			    FIELD_GET(CPU_ID_FAMILY_MASK, cpu_id)) |
+> +		 FIELD_PREP(UPPER_BYTE_MASK,
+> +			    FIELD_GET(CPU_ID_EXT_FAMILY_MASK, cpu_id));
+> +	model = FIELD_PREP(LOWER_NIBBLE_MASK,
+> +			   FIELD_GET(CPU_ID_MODEL_MASK, cpu_id)) |
+> +		FIELD_PREP(UPPER_NIBBLE_MASK,
+> +			   FIELD_GET(CPU_ID_EXT_MODEL_MASK, cpu_id));
+> +
+> +	for (i = 0; i < ARRAY_SIZE(cpu_gen_info_table); i++) {
+> +		const struct cpu_gen_info *cpu_info = &cpu_gen_info_table[i];
+> +
+> +		if (family == cpu_info->family && model == cpu_info->model) {
+> +			priv->gen_info = cpu_info;
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (!priv->gen_info) {
+> +		dev_err(priv->dev, "Can't support this CPU: 0x%x\n", cpu_id);
+> +		rc = -ENODEV;
+> +	}
+> +
+> +	return rc;
+> +}
+> +
+> +static int peci_client_probe(struct peci_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct peci_client_manager *priv;
+> +	uint cpu_no;
+> +	int ret;
+> +
+> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	dev_set_drvdata(dev, priv);
+> +	priv->client = client;
+> +	priv->dev = dev;
+
+If you have client (Which contains dev, you don't need dev).
+
+> +	cpu_no = client->addr - PECI_BASE_ADDR;
+> +
+> +	ret = peci_client_get_cpu_gen_info(priv);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = devm_mfd_add_devices(priv->dev, cpu_no, peci_functions,
+> +				   ARRAY_SIZE(peci_functions), NULL, 0, NULL);
+> +	if (ret < 0) {
+> +		dev_err(priv->dev, "Failed to register child devices: %d\n",
+> +			ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +#ifdef CONFIG_OF
+> +static const struct of_device_id peci_client_of_table[] = {
+> +	{ .compatible = "intel,peci-client" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, peci_client_of_table);
+> +#endif
+> +
+> +static const struct peci_device_id peci_client_ids[] = {
+> +	{ .name = "peci-client" },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(peci, peci_client_ids);
+> +
+> +static struct peci_driver peci_client_driver = {
+> +	.probe    = peci_client_probe,
+> +	.id_table = peci_client_ids,
+> +	.driver   = {
+> +		.name           = "peci-client",
+> +		.of_match_table = of_match_ptr(peci_client_of_table),
+> +	},
+> +};
+> +module_peci_driver(peci_client_driver);
+> +
+> +MODULE_AUTHOR("Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>");
+> +MODULE_DESCRIPTION("PECI client driver");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/include/linux/mfd/intel-peci-client.h b/include/linux/mfd/intel-peci-client.h
+> new file mode 100644
+> index 000000000000..8f6d823a59cd
+> --- /dev/null
+> +++ b/include/linux/mfd/intel-peci-client.h
+> @@ -0,0 +1,110 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/* Copyright (c) 2018 Intel Corporation */
+> +
+> +#ifndef __LINUX_MFD_INTEL_PECI_CLIENT_H
+> +#define __LINUX_MFD_INTEL_PECI_CLIENT_H
+> +
+> +#include <linux/peci.h>
+> +
+> +#if IS_ENABLED(CONFIG_X86)
+> +#include <asm/intel-family.h>
+> +#else
+> +/**
+> + * Architectures other than x86 cannot include the header file so define these
+> + * at here. These are needed for detecting type of client x86 CPUs behind a PECI
+> + * connection.
+> + */
+> +#define INTEL_FAM6_HASWELL_X   0x3F
+> +#define INTEL_FAM6_BROADWELL_X 0x4F
+> +#define INTEL_FAM6_SKYLAKE_X   0x55
+> +#endif
+> +
+> +#define CORE_MAX_ON_HSX        18 /* Max number of cores on Haswell */
+> +#define CHAN_RANK_MAX_ON_HSX   8  /* Max number of channel ranks on Haswell */
+> +#define DIMM_IDX_MAX_ON_HSX    3  /* Max DIMM index per channel on Haswell */
+> +
+> +#define CORE_MAX_ON_BDX        24 /* Max number of cores on Broadwell */
+> +#define CHAN_RANK_MAX_ON_BDX   4  /* Max number of channel ranks on Broadwell */
+> +#define DIMM_IDX_MAX_ON_BDX    3  /* Max DIMM index per channel on Broadwell */
+> +
+> +#define CORE_MAX_ON_SKX        28 /* Max number of cores on Skylake */
+> +#define CHAN_RANK_MAX_ON_SKX   6  /* Max number of channel ranks on Skylake */
+> +#define DIMM_IDX_MAX_ON_SKX    2  /* Max DIMM index per channel on Skylake */
+> +
+> +#define CORE_NUMS_MAX          CORE_MAX_ON_SKX
+> +#define CHAN_RANK_MAX          CHAN_RANK_MAX_ON_HSX
+> +#define DIMM_IDX_MAX           DIMM_IDX_MAX_ON_HSX
+> +#define DIMM_NUMS_MAX          (CHAN_RANK_MAX * DIMM_IDX_MAX)
+> +
+> +/**
+> + * struct cpu_gen_info - CPU generation specific information
+> + * @family: CPU family ID
+> + * @model: CPU model
+> + * @core_max: max number of cores
+> + * @chan_rank_max: max number of channel ranks
+> + * @dimm_idx_max: max number of DIMM indices
+> + *
+> + * CPU generation specific information to identify maximum number of cores and
+> + * DIMM slots.
+> + */
+> +struct cpu_gen_info {
+> +	u16  family;
+> +	u8   model;
+> +	uint core_max;
+> +	uint chan_rank_max;
+> +	uint dimm_idx_max;
+> +};
+> +
+> +/**
+> + * struct peci_client_manager - PECI client manager information
+> + * @client; pointer to the PECI client
+> + * @dev: pointer to the struct device
+> + * @name: PECI client manager name
+> + * @gen_info: CPU generation info of the detected CPU
+> + *
+> + * PECI client manager information for managing PECI sideband functions on a CPU
+> + * client.
+> + */
+> +struct peci_client_manager {
+> +	struct peci_client *client;
+> +	struct device *dev;
+> +	char name[PECI_NAME_SIZE];
+> +	const struct cpu_gen_info *gen_info;
+> +};
+> +
+> +/**
+> + * peci_client_read_package_config - read from the Package Configuration Space
+> + * @priv: driver private data structure
+> + * @index: encoding index for the requested service
+> + * @param: parameter to specify the exact data being requested
+> + * @data: data buffer to store the result
+> + * Context: can sleep
+> + *
+> + * A generic PECI command that provides read access to the
+> + * "Package Configuration Space" that is maintained by the PCU, including
+> + * various power and thermal management functions. Typical PCS read services
+> + * supported by the processor may include access to temperature data, energy
+> + * status, run time information, DIMM temperatures and so on.
+> + *
+> + * Return: zero on success, else a negative error code.
+> + */
+> +static inline int
+> +peci_client_read_package_config(struct peci_client_manager *priv,
+> +				u8 index, u16 param, u8 *data)
+> +{
+> +	struct peci_rd_pkg_cfg_msg msg;
+> +	int rc;
+> +
+> +	msg.addr = priv->client->addr;
+> +	msg.index = index;
+> +	msg.param = param;
+> +	msg.rx_len = 4;
+> +
+> +	rc = peci_command(priv->client->adapter, PECI_CMD_RD_PKG_CFG, &msg);
+> +	if (!rc)
+> +		memcpy(data, msg.pkg_config, 4);
+> +
+> +	return rc;
+> +}
+> +
+> +#endif /* __LINUX_MFD_INTEL_PECI_CLIENT_H */
 
 -- 
-Sent from my Android device with K-9 Mail. Please excuse my brevity.
-
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
