@@ -1,729 +1,948 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 344D07D089
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Dec 2018 17:40:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 691DB7D089
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 23 Dec 2018 01:01:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392619AbeLVRjf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 22 Dec 2018 12:39:35 -0500
-Received: from mga07.intel.com ([134.134.136.100]:41689 "EHLO mga07.intel.com"
+        id S2404358AbeLWBBr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 22 Dec 2018 20:01:47 -0500
+Received: from mx.kolabnow.com ([95.128.36.42]:4714 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391527AbeLVRje (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 22 Dec 2018 12:39:34 -0500
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Dec 2018 06:13:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,384,1539673200"; 
-   d="gz'50?scan'50,208,50";a="120381568"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 22 Dec 2018 06:13:03 -0800
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1gai1W-000Cih-He; Sat, 22 Dec 2018 22:13:02 +0800
-Date:   Sat, 22 Dec 2018 22:12:25 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     kbuild-all@01.org, gregkh@linuxfoundation.org, tj@kernel.org,
-        lizefan@huawei.com, hannes@cmpxchg.org, axboe@kernel.dk,
-        dennis@kernel.org, dennisszhou@gmail.com, mingo@redhat.com,
-        peterz@infradead.org, akpm@linux-foundation.org, corbet@lwn.net,
-        cgroups@vger.kernel.org, linux-mm@kvack.org,
+        id S2404329AbeLWBBq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 22 Dec 2018 20:01:46 -0500
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id F180D573;
+        Sun, 23 Dec 2018 02:01:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-transfer-encoding:content-type:content-type:mime-version
+        :message-id:date:date:subject:subject:from:from:received
+        :received:received; s=dkim20160331; t=1545526894; x=1547341295;
+         bh=biTLff/feay6kxXOYH45gdrJFCU82ZrcCjzsHMdP/F8=; b=u8uEn8D4/1ck
+        /xC2Fg9WvOeCA1QCNL1a2s9+PwvGfudWA7RSPUnRpbL8yh/tNUIu9Tj1IREtPdCJ
+        a7ENO+lqOAeiioCvaL/ol72b8fLbEbi+xo1Qgzv9r8mL79C1BZN25fpmhTQQo2ny
+        mBmSO5MGO6+6ojvZ0lyoJm+yVEExY11y+QCQzNSInjOT8EIf8fJjjYrmsfkX5crV
+        FG7j4Mg+pPIwsZg+C4xnncnCrXe8GBnNHXv+RxsXR9z0Dnujcr1P8LA8V2uIefiE
+        ldm+AJN7sR+Y5zt8pBDxWp1cHlU/HrENNsLIrJwzJNST9yHjRPB1y5SVlgSMh0fI
+        +F2hCPQo3JpVoiRBmA6uLL7wYfbxrBqbRMwZftvw3L6t/738ZGm9yzKqCuTf3Jz3
+        qqffAB/mhSPCtYmjYL/f4XvbIUPsAXiqaG8NxdMyjH9XOlhzMdMGdXLRbv6hPRdG
+        DrUtvY34S75JPCfrLMBrp2njVb00l9vKJFA6Kff1+ptv/8wqfG9QmQ+kIRFi6b7M
+        UkB1jxVcbB86lyxqgueWYjil7qxbPlhIaGztnjwCSpBUUVPQcT5h1sJwj8+HTqKI
+        GGAQk4y9Zz0y3OFzeugY4XM/LbOmfbMrEgx/rn58HXM6YWYTGRry/yHEDjykQn2N
+        VzM8796daoy+Wdrl4QGT4Ohy5vrBFRE=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id CAV3j_L31oZz; Sun, 23 Dec 2018 02:01:34 +0100 (CET)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 2BB3B299;
+        Sun, 23 Dec 2018 02:01:34 +0100 (CET)
+Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id A5646373;
+        Sun, 23 Dec 2018 02:01:33 +0100 (CET)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Alessia Mantegazza <amantegazza@vaga.pv.it>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-team@android.com, Suren Baghdasaryan <surenb@google.com>
-Subject: Re: [PATCH 6/6] psi: introduce psi monitor
-Message-ID: <201812222240.sjW3pwDk%fengguang.wu@intel.com>
-References: <20181214171508.7791-7-surenb@google.com>
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: [PATCH] doc:it_IT: translation for process/submitting-patches
+Date:   Sun, 23 Dec 2018 02:01:02 +0100
+Message-Id: <20181223010102.6391-1-federico.vaga@vaga.pv.it>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="2fHTh5uZTiUOsy+g"
-Content-Disposition: inline
-In-Reply-To: <20181214171508.7791-7-surenb@google.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+It translats the document process/submitting-patches.rst.
 
---2fHTh5uZTiUOsy+g
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi Suren,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v4.20-rc7]
-[cannot apply to next-20181221]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
-
-url:    https://github.com/0day-ci/linux/commits/Suren-Baghdasaryan/psi-pressure-stall-monitors/20181215-181714
-config: i386-randconfig-i2-12162314 (attached as .config)
-compiler: gcc-7 (Debian 7.3.0-1) 7.3.0
-reproduce:
-        # save the attached .config to linux build tree
-        make ARCH=i386 
-
-All errors (new ones prefixed by >>):
-
-   kernel/sched/psi.o: In function `psi_trigger_create':
->> kernel/sched/psi.c:1029: undefined reference to `__udivdi3'
-   kernel/sched/psi.o: In function `psi_trigger_destroy':
-   kernel/sched/psi.c:1057: undefined reference to `__udivdi3'
-
-vim +1029 kernel/sched/psi.c
-
-  1006	
-  1007	struct psi_trigger *psi_trigger_create(struct psi_group *group,
-  1008			enum psi_states state, u32 threshold_us, u32 win_sz_us)
-  1009	{
-  1010		struct psi_trigger *t;
-  1011	
-  1012		if (static_branch_likely(&psi_disabled))
-  1013			return ERR_PTR(-EOPNOTSUPP);
-  1014	
-  1015		t = kzalloc(sizeof(*t), GFP_KERNEL);
-  1016		if (!t)
-  1017			return ERR_PTR(-ENOMEM);
-  1018	
-  1019		t->group = group;
-  1020		t->state = state;
-  1021		t->threshold = threshold_us * NSEC_PER_USEC;
-  1022		t->win.size = win_sz_us * NSEC_PER_USEC;
-  1023		t->event = 0;
-  1024		init_waitqueue_head(&t->event_wait);
-  1025	
-  1026		mutex_lock(&group->update_lock);
-  1027	
-  1028		list_add(&t->node, &group->triggers);
-> 1029		group->trigger_min_period = min(group->trigger_min_period,
-  1030			t->win.size / PSI_TRIG_UPDATES_PER_WIN);
-  1031		group->nr_triggers[t->state]++;
-  1032		group->trigger_mask |= (1 << t->state);
-  1033	
-  1034		mutex_unlock(&group->update_lock);
-  1035	
-  1036		return t;
-  1037	}
-  1038	
-
+Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 ---
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+ .../it_IT/process/submitting-patches.rst      | 862 +++++++++++++++++-
+ 1 file changed, 858 insertions(+), 4 deletions(-)
 
---2fHTh5uZTiUOsy+g
-Content-Type: application/gzip
-Content-Disposition: attachment; filename=".config.gz"
-Content-Transfer-Encoding: base64
+diff --git a/Documentation/translations/it_IT/process/submitting-patches.rst b/Documentation/translations/it_IT/process/submitting-patches.rst
+index d633775ed556..b6368a45a8e4 100644
+--- a/Documentation/translations/it_IT/process/submitting-patches.rst
++++ b/Documentation/translations/it_IT/process/submitting-patches.rst
+@@ -1,13 +1,867 @@
+ .. include:: ../disclaimer-ita.rst
+ 
+ :Original: :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
+-
++:Translator: Federico Vaga <federico.vaga@vaga.pv.it>
+ 
+ .. _it_submittingpatches:
+ 
+-Sottomettere modifiche: la guida essenziale per vedere il vostro codice nel kernel
+-==================================================================================
++Inviare patch: la guida essenziale per vedere il vostro codice nel kernel
++=========================================================================
++
++Una persona o un'azienda che volesse inviare una patch al kernel potrebbe
++sentirsi scoraggiata dal processo di sottomissione, specialmente quando manca
++una certa familiarità col "sistema".  Questo testo è una raccolta di
++suggerimenti che aumenteranno significativamente le probabilità di vedere le
++vostre patch accettate.
++
++Questo documento contiene un vasto numero di suggerimenti concisi.  Per
++maggiori dettagli su come funziona il processo di sviluppo del kernel leggete
++:ref:`Documentation/translations/it_IT/process <it_development_process_main>`.
++Leggete anche :ref:`Documentation/translations/it_IT/process/submit-checklist.rst <it_submitchecklist>`
++per una lista di punti da verificare prima di inviare del codice.  Se state
++inviando un driver, allora leggete anche :ref:`Documentation/translations/it_IT/process/submitting-drivers.rst <it_submittingdrivers>`;
++per delle patch relative alle associazioni per Device Tree leggete
++Documentation/devicetree/bindings/submitting-patches.txt.
++
++Molti di questi passi descrivono il comportamento di base del sistema di
++controllo di versione ``git``; se utilizzate ``git`` per preparare le vostre
++patch molto del lavoro più ripetitivo lo troverete già fatto per voi, tuttavia
++dovete preparare e documentare un certo numero di patch.  Generalmente, l'uso
++di ``git`` renderà la vostra vita di sviluppatore del kernel più facile.
++
++0) Ottenere i sorgenti attuali
++------------------------------
++
++Se non avete un repositorio coi sorgenti del kernel più recenti, allora usate
++``git`` per ottenerli.  Vorrete iniziare col repositorio principale che può
++essere recuperato col comando::
++
++  git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
++
++Notate, comunque, che potreste non voler sviluppare direttamente coi sorgenti
++principali del kernel.  La maggior parte dei manutentori hanno i propri
++sorgenti e desiderano che le patch siano preparate basandosi su di essi.
++Guardate l'elemento **T:** per un determinato sottosistema nel file MAINTANERS
++che troverete nei sorgenti, o semplicemente chiedete al manutentore nel caso
++in cui i sorgenti da usare non siano elencati il quel file.
++
++Esiste ancora la possibilità di scaricare un rilascio del kernel come archivio
++tar (come descritto in una delle prossime sezioni), ma questa è la via più
++complicata per sviluppare per il kernel.
++
++1) ``diff -up``
++---------------
++
++Se dovete produrre le vostre patch a mano, usate ``diff -up`` o ``diff -uprN``
++per crearle.  Git produce di base le patch in questo formato; se state
++usando ``git``, potete saltare interamente questa sezione.
++
++Tutte le modifiche al kernel Linux avvengono mediate patch, come descritte
++in :manpage:`diff(1)`.  Quando create la vostra patch, assicuratevi di
++crearla nel formato "unified diff", come l'argomento ``-u`` di
++:manpage:`diff(1)`.
++Inoltre, per favore usate l'argomento ``-p`` per mostrare la funzione C
++alla quale si riferiscono le diverse modifiche - questo rende il risultato
++di ``diff`` molto più facile da leggere.  Le patch dovrebbero essere basate
++sulla radice dei sorgenti del kernel, e non sulle sue sottocartelle.
++
++Per creare una patch per un singolo file, spesso è sufficiente fare::
++
++	SRCTREE= linux
++	MYFILE=  drivers/net/mydriver.c
++
++	cd $SRCTREE
++	cp $MYFILE $MYFILE.orig
++	vi $MYFILE	# make your change
++	cd ..
++	diff -up $SRCTREE/$MYFILE{.orig,} > /tmp/patch
++
++Per creare una patch per molteplici file, dovreste spacchettare i sorgenti
++"vergini", o comunque non modificati, e fare un ``diff`` coi vostri.
++Per esempio::
++
++	MYSRC= /devel/linux
++
++	tar xvfz linux-3.19.tar.gz
++	mv linux-3.19 linux-3.19-vanilla
++	diff -uprN -X linux-3.19-vanilla/Documentation/dontdiff \
++		linux-3.19-vanilla $MYSRC > /tmp/patch
++
++``dontdiff`` è una lista di file che sono generati durante il processo di
++compilazione del kernel; questi dovrebbero essere ignorati in qualsiasi
++patch generata con :manpage:`diff(1)`.
++
++Assicuratevi che la vostra patch non includa file che non ne fanno veramente
++parte.  Al fine di verificarne la correttezza, assicuratevi anche di
++revisionare la vostra patch -dopo- averla generata con :manpage:`diff(1)`.
++
++Se le vostre modifiche producono molte differenze, allora dovrete dividerle
++in patch indipendenti che modificano le cose in passi logici;  leggete
++:ref:`split_changes`.  Questo faciliterà la revisione da parte degli altri
++sviluppatori, il che è molto importante se volete che la patch venga accettata.
++
++Se state utilizzando ``git``, ``git rebase -i`` può aiutarvi nel procedimento.
++Se non usate ``git``, un'alternativa popolare è ``quilt``
++<http://savannah.nongnu.org/projects/quilt>.
++
++.. _it_describe_changes:
++
++2) Descrivete le vostre modifiche
++---------------------------------
++
++Descrivete il vostro problema. Esiste sempre un problema che via ha spinto
++ha fare il vostro lavoro, che sia la correzione di un baco da una riga o una
++nuova funzionalità da 5000 righe di codice.  Convincete i revisori che vale
++la pena risolvere il vostro problema e che ha senso continuare a leggere oltre
++al primo paragrafo.
++
++Descrivete ciò che sarà visibile agli utenti.  Chiari incidenti nel sistema
++e blocchi sono abbastanza convincenti, ma non tutti i bachi sono così evidenti.
++Anche se il problema è stato scoperto durante la revisione del codice,
++descrivete l'impatto che questo avrà sugli utenti.  Tenete presente che
++la maggior parte delle installazioni Linux usa un kernel che arriva dai
++sorgenti stabili o dai sorgenti di una distribuzione particolare che prende
++singolarmente le patch dai sorgenti principali; quindi, includete tutte
++le informazioni che possono essere utili a capire le vostre modifiche:
++le circostanze che causano il problema, estratti da dmesg, descrizioni di
++un incidente di sistema, prestazioni di una regressione, picchi di latenza,
++blocchi, eccetera.
++
++Quantificare le ottimizzazioni e i compromessi.  Se affermate di aver
++migliorato le prestazioni, il consumo di memoria, l'impatto sollo stack,
++o la dimensione del file binario, includete dei numeri a supporto della
++vostra dichiarazione.  Ma ricordatevi di descrivere anche eventuali costi
++che non sono ovvi.  Solitamente le ottimizzazioni non sono gratuite, ma sono
++un compromesso fra l'uso di CPU, la memoria e la leggibilità; o, quando si
++parla di ipotesi euristiche, fra differenti carichi.  Descrivete i lati
++negativi che vi aspettate dall'ottimizzazione cosicché i revisori possano
++valutare i costi e i benefici.
++
++Una volta che il problema è chiaro, descrivete come lo risolvete andando
++nel dettaglio tecnico.  È molto importante che descriviate la modifica
++in un inglese semplice cosicché i revisori possano verificare che il codice si
++comporti come descritto.
++
++I manutentori vi saranno grati se scrivete la descrizione della patch in un
++formato che sia compatibile con il gestore dei sorgenti usato dal kernel,
++``git``, come un "commit log".  Leggete :ref:`it_explicit_in_reply_to`.
++
++Risolvete solo un problema per patch.  Se la vostra descrizione inizia ad
++essere lunga, potrebbe essere un segno che la vostra patch necessita d'essere
++divisa. Leggete :ref:`split_changes`.
++
++Quando inviate o rinviate una patch o una serie, includete la descrizione
++completa delle modifiche e la loro giustificazione.  Non limitatevi a dire che
++questa è la versione N della patch (o serie).  Non aspettatevi che i
++manutentori di un sottosistema vadano a cercare le versioni precedenti per
++cercare la descrizione da aggiungere.  In pratica, la patch (o serie) e la sua
++descrizione devono essere un'unica cosa.  Questo aiuta i manutentori e i
++revisori.  Probabilmente, alcuni revisori non hanno nemmeno ricevuto o visto
++le versioni precedenti della patch.
++
++Descrivete le vostro modifiche usando l'imperativo, per esempio "make xyzzy
++do frotz" piuttosto che "[This patch] makes xyzzy do frotz" or "[I] changed
++xyzzy to do frotz", come se steste dando ordini al codice di cambiare il suo
++comportamento.
++
++Se la patch corregge un baco conosciuto, fare riferimento a quel baco inserendo
++il suo numero o il suo URL.  Se la patch è la conseguenza di una discussione
++su una lista di discussione, allora fornite l'URL all'archivio di quella
++discussione;  usate i collegamenti a https://lkml.kernel.org/ con il
++``Message-Id``, in questo modo vi assicurerete che il collegamento non diventi
++invalido nel tempo.
++
++Tuttavia, cercate di rendere la vostra spiegazione comprensibile anche senza
++far riferimento a fonti esterne.  In aggiunta ai collegamenti a bachi e liste
++di discussione, riassumente i punti più importanti della discussione che hanno
++portato alla creazione della patch.
++
++Se volete far riferimento a uno specifico commit, non usate solo
++l'identificativo SHA-1.  Per cortesia, aggiungete anche la breve riga
++riassuntiva del commit per rendere la chiaro ai revisori l'oggetto.
++Per esempio::
++
++	Commit e21d2170f36602ae2708 ("video: remove unnecessary
++	platform_set_drvdata()") removed the unnecessary
++	platform_set_drvdata(), but left the variable "dev" unused,
++	delete it.
++
++Dovreste anche assicurarvi di usare almeno i primi 12 caratteri
++dell'identificativo SHA-1.  Il repositorio del kernel ha *molti* oggetti e
++questo rende possibile la collisione fra due identificativi con pochi
++caratteri.  Tenete ben presente che anche se oggi non ci sono collisioni con il
++vostro identificativo a 6 caratteri, potrebbero essercene fra 5 anni da oggi.
++
++Se la vostra patch corregge un baco in un commit specifico, per esempio avete
++trovato un problema usando ``git bisect``, per favore usate l'etichetta
++'Fixes:' indicando i primi 12 caratteri dell'identificativo SHA-1 seguiti
++dalla riga riassuntiva.  Per esempio::
++
++	Fixes: e21d2170f366 ("video: remove unnecessary platform_set_drvdata()")
++
++La seguente configurazione di ``git config`` può essere usata per formattare
++i risultati dei comandi ``git log`` o ``git show`` come nell'esempio
++precedente::
++
++	[core]
++		abbrev = 12
++	[pretty]
++		fixes = Fixes: %h (\"%s\")
++
++.. _it_split_changes:
++
++3) Separate le vostre modifiche
++-------------------------------
++
++Separate ogni **cambiamento logico** in patch distinte.
++
++Per esempio, se i vostri cambiamenti per un singolo driver includono
++sia delle correzioni di bachi che miglioramenti alle prestazioni,
++allora separateli in due o più patch.  Se i vostri cambiamenti includono
++un aggiornamento dell'API e un nuovo driver che lo sfrutta, allora separateli
++in due patch.
++
++D'altro canto, se fate una singola modifica su più file, raggruppate tutte
++queste modifiche in una singola patch.  Dunque, un singolo cambiamento logico
++è contenuto in una sola patch.
++
++Il punto da ricordare è che ogni modifica dovrebbe fare delle modifiche
++che siano facilmente comprensibili e che possano essere verificate dai revisori.
++Ogni patch dovrebbe essere giustificabile di per sé.
++
++Se al fine di ottenere un cambiamento completo una patch dipende da un'altra,
++va bene.  Semplicemente scrivete una nota nella descrizione della patch per
++farlo presente: **"this patch depends on patch X"**.
++
++Quando dividete i vostri cambiamenti in una serie di patch, prestate
++particolare attenzione alla verifica di ogni patch della serie; per ognuna
++il kernel deve compilare ed essere eseguito correttamente.  Gli sviluppatori
++che usano ``git bisect`` per scovare i problemi potrebbero finire nel mezzo
++della vostra serie in un punto qualsiasi; non vi saranno grati se nel mezzo
++avete introdotto dei bachi.
++
++Se non potete condensare la vostra serie di patch in una più piccola, allora
++pubblicatene una quindicina alla volta e aspettate che vengano revisionate
++ed integrate.
++
++
++4) Verificate lo stile delle vostre modifiche
++---------------------------------------------
++
++Controllate che la vostra patch non violi lo stile del codice, maggiori
++dettagli sono disponibili in :ref:`Documentation/translations/it_IT/process/coding-style.rst <it_codingstyle>`.
++Non farlo porta semplicemente a una perdita di tempo da parte dei revisori e
++voi vedrete la vostra patch rifiutata, probabilmente senza nemmeno essere stata
++letta.
++
++Un'eccezione importante si ha quando del codice viene spostato da un file
++ad un altro -- in questo caso non dovreste modificare il codice spostato
++per nessun motivo, almeno non nella patch che lo sposta.  Questo separa
++chiaramente l'azione di spostare il codice e il vostro cambiamento.
++Questo aiuta enormemente la revisione delle vere differenze e permette agli
++strumenti di tenere meglio la traccia della storia del codice.
++
++Prima di inviare una patch, verificatene lo stile usando l'apposito
++verificatore (scripts/checkpatch.pl).  Da notare, comunque, che il verificator
++di stile dovrebbe essere visto come una guida, non come un sostituto al
++giudizio umano.  Se il vostro codice è migliore nonostante una violazione
++dello stile, probabilmente è meglio lasciarlo com'è.
++
++Il verificatore ha tre diversi livelli di severità:
++ - ERROR: le cose sono molto probabilmente sbagliate
++ - WARNING: le cose necessitano d'essere revisionate con attenzione
++ - CHECK: le cose necessitano di un pensierino
++
++Dovreste essere in grado di giustificare tutte le eventuali violazioni rimaste
++nella vostra patch.
++
++
++5) Selezionate i destinatari della vostra patch
++-----------------------------------------------
++
++Dovreste sempre inviare una copia della patch ai manutentori dei sottosistemi
++interessati dalle modifiche; date un'occhiata al file MAINTAINERS e alla storia
++delle revisioni per scoprire chi si occupa del codice.  Lo script
++scripts/get_maintainer.pl può esservi d'aiuto.  Se non riuscite a trovare un
++manutentore per il sottosistema su cui state lavorando, allora Andrew Morton
++(akpm@linux-foundation.org) sarà la vostra ultima possibilità.
++
++Normalmente, dovreste anche scegliere una lista di discussione a cui inviare
++la vostra serie di patch.  La lista di discussione linux-kernel@vger.kernel.org
++è proprio l'ultima spiaggia, il volume di email su questa lista fa si che
++diversi sviluppatori non la seguano.  Guardate nel file MAINTAINERS per trovare
++la lista di discussione dedicata ad un sottosistema; probabilmente lì la vostra
++patch riceverà molta più attenzione.  Tuttavia, per favore, non spammate le
++liste di discussione che non sono interessate al vostro lavoro.
++
++Molte delle liste di discussione relative al kernel vengono ospitate su
++vger.kernel.org; potete trovare un loro elenco alla pagina
++http://vger.kernel.org/vger-lists.html.  Tuttavia, ci sono altre liste di
++discussione ospitate altrove.
++
++Non inviate più di 15 patch alla volta sulle liste di discussione vger!!!
++
++L'ultimo giudizio sull'integrazione delle modifiche accettate spetta a
++Linux Torvalds.  Il suo indirizzo e-mail è <torvalds@linux-foundation.org>.
++Riceve moltissime e-mail, e, a questo punto, solo poche patch passano
++direttamente attraverso il suo giudizio; quindi, dovreste fare del vostro
++meglio per -evitare di- inviargli e-mail.
++
++Se avete una patch che corregge un baco di sicurezza che potrebbe essere
++sfruttato, inviatela a security@kernel.org.  Per bachi importanti, un breve
++embargo potrebbe essere preso in considerazione per dare il tempo alle
++distribuzioni di prendere la patch e renderla disponibile ai loro utenti;
++in questo caso, ovviamente, la patch non dovrebbe essere inviata su alcuna
++lista di discussione pubblica.
++
++Patch che correggono bachi importanti su un kernel già rilasciato, dovrebbero
++essere inviate ai manutentori dei kernel stabili aggiungendo la seguente riga::
++
++  Cc: stable@vger.kernel.org
++
++nella vostra patch, nell'area dedicata alle firme (notate, NON come destinatario
++delle e-mail).  In aggiunta a questo file, dovreste leggere anche
++:ref:`Documentation/translations/it_IT/process/stable-kernel-rules.rst <it_stable_kernel_rules>`
++
++Tuttavia, notate, che alcuni manutentori di sottosistema preferiscono avere
++l'ultima parola su quali patch dovrebbero essere aggiunte ai kernel stabili.
++La rete di manutentori, in particolare, non vorrebbe vedere i singoli
++sviluppatori aggiungere alle loro patch delle righe come quella sopracitata.
++
++Se le modifiche hanno effetti sull'interfaccia con lo spazio utente, per favore
++inviate una patch per le pagine man ai manutentori di suddette pagine (elencati
++nel file MAINTAINERS), o almeno una notifica circa la vostra modifica,
++cosicché l'informazione possa trovare la sua strada nel manuale.  Le modifiche
++all'API dello spazio utente dovrebbero essere inviate in copia anche a
++linux-api@vger.kernel.org.
++
++Per le piccole patch potreste aggiungere in CC l'indirizzo
++*Trivial Patch Monkey trivial@kernel.org* che ha lo scopo di raccogliere
++le patch "banali".  Date uno sguardo al file MAINTAINERS per vedere chi
++è l'attuale amministratore.
++
++Le patch banali devono rientrare in una delle seguenti categorie:
++
++- errori grammaticali nella documentazione
++- errori grammaticali negli errori che potrebbero rompere :manpage:`grep(1)`
++- correzione di avvisi di compilazione (riempirsi di avvisi inutili è negativo)
++- correzione di errori di compilazione (solo se correggono qualcosa sul serio)
++- rimozione di funzioni/macro deprecate
++- sostituzione di codice non potabile con uno portabile (anche in codice
++  specifico per un'architettura, dato che le persone copiano, fintanto che
++  la modifica sia banale)
++- qualsiasi modifica dell'autore/manutentore di un file (in pratica
++  "patch monkey" in modalità ritrasmissione)
++
++
++6) Niente: MIME, links, compressione, allegati.  Solo puro testo
++----------------------------------------------------------------
++
++Linus e gli altri sviluppatori del kernel devono poter commentare
++le modifiche che sottomettete.  Per uno sviluppatore è importante
++essere in grado di "citare" le vostre modifiche, usando normali
++programmi di posta elettronica, cosicché sia possibile commentare
++una porzione specifica del vostro codice.
++
++Per questa ragione tutte le patch devono essere inviate via e-mail
++come testo.
+ 
+ .. warning::
+ 
+-    TODO ancora da tradurre
++  Se decidete di copiare ed incollare la patch nel corpo dell'e-mail, state
++  attenti che il vostro programma non corrompa il contenuto con andate
++  a capo automatiche.
++
++La patch non deve essere un allegato MIME, compresso o meno.  Molti
++dei più popolari programmi di posta elettronica non trasmettono un allegato
++MIME come puro testo, e questo rende impossibile commentare il vostro codice.
++Inoltre, un allegato MIME rende l'attività di Linus più laboriosa, diminuendo
++così la possibilità che il vostro allegato-MIME venga accettato.
++
++Eccezione: se il vostro servizio di posta storpia le patch, allora qualcuno
++potrebbe chiedervi di rinviarle come allegato MIME.
++
++Leggete :ref:`Documentation/translations/it_IT/process/email-clients.rst <it_email_clients>`
++per dei suggerimenti sulla configurazione del programmi di posta elettronica
++per l'invio di patch intatte.
++
++7) Dimensione delle e-mail
++--------------------------
++
++Le grosse modifiche non sono adatte ad una lista di discussione, e nemmeno
++per alcuni manutentori.  Se la vostra patch, non compressa, eccede i 300 kB
++di spazio, allora caricatela in una spazio accessibile su internet fornendo
++l'URL (collegamento) ad essa.  Ma notate che se la vostra patch eccede i 300 kB
++è quasi certo che necessiti comunque di essere spezzettata.
++
++8) Rispondere ai commenti di revisione
++--------------------------------------
++
++Quasi certamente i revisori vi invieranno dei commenti su come migliorare
++la vostra patch.  Dovete rispondere a questi commenti; ignorare i revisori
++è un ottimo modo per essere ignorati.  Riscontri o domande che non conducono
++ad una modifica del codice quasi certamente dovrebbero portare ad un commento
++nel changelog cosicché il prossimo revisore potrà meglio comprendere cosa stia
++accadendo.
++
++Assicuratevi di dire ai revisori quali cambiamenti state facendo e di
++ringraziarli per il loro tempo.  Revisionare codice è un lavoro faticoso e che
++richiede molto tempo, e a volte i revisori diventano burberi.  Tuttavia, anche
++in questo caso, rispondete con educazione e concentratevi sul problema che
++hanno evidenziato.
++
++9) Non scoraggiatevi - o impazientitevi
++---------------------------------------
++
++Dopo che avete inviato le vostre modifiche, siate pazienti e aspettate.
++I revisori sono persone occupate e potrebbero non ricevere la vostra patch
++immediatamente.
++
++Un tempo, le patch erano solite scomparire nel vuoto senza alcun commento,
++ma ora il processo di sviluppo funziona meglio.  Dovreste ricevere commenti
++in una settimana o poco più; se questo non dovesse accadere, assicuratevi di
++aver inviato le patch correttamente.  Aspettate almeno una settimana prima di
++rinviare le modifiche o sollecitare i revisori - probabilmente anche di più
++durante la finestra d'integrazione.
++
++10) Aggiungete PATCH nell'oggetto
++---------------------------------
++
++Dato l'alto volume di e-mail per Linus, e la lista linux-kernel, è prassi
++prefiggere il vostro oggetto con [PATCH].  Questo permette a Linus e agli
++altri sviluppatori del kernel di distinguere facilmente le patch dalle altre
++discussioni.
++
++
++11) Firmate il vostro lavoro - Il certificato d'origine dello sviluppatore
++--------------------------------------------------------------------------
++
++Per migliorare la tracciabilità su "chi ha fatto cosa", specialmente per
++quelle patch che per raggiungere lo stadio finale passano attraverso
++diversi livelli di manutentori, abbiamo introdotto la procedura di "firma"
++delle patch che vengono inviate per e-mail.
++
++La firma è una semplice riga alla fine della descrizione della patch che
++certifica che l'avete scritta voi o che avete il diritto di pubblicarla
++come patch open-source.  Le regole sono abbastanza semplici: se potete
++certificare quanto segue:
++
++Il certificato d'origine dello sviluppatore 1.1
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Contribuendo a questo progetto, io certifico che:
++
++        (a) Il contributo è stato creato interamente, o in parte, da me e che
++            ho il diritto di inviarlo in accordo con la licenza open-source
++            indicata nel file; oppure
++
++        (b) Il contributo è basato su un lavoro precedente che, nei limiti
++            della mia conoscenza, è coperto da un'appropriata licenza
++            open-source che mi da il diritto di modificarlo e inviarlo,
++            le cui modifiche sono interamente o in parte mie, in accordo con
++            la licenza open-source (a meno che non abbia il permesso di usare
++            un'altra licenza) indicata nel file; oppure
++
++        (c) Il contributo mi è stato fornito direttamente da qualcuno che
++            ha certificato (a), (b) o (c) e non l'ho modificata.
++
++        (d) Capisco e concordo col fatto che questo progetto e i suoi
++            contributi sono pubblici e che un registro dei contributi (incluse
++            tutte le informazioni personali che invio con essi, inclusa la mia
++            firma) verrà mantenuto indefinitamente e che possa essere
++            ridistribuito in accordo con questo progetto o le licenze
++            open-source coinvolte.
++
++poi dovete solo aggiungere una riga che dice::
++
++	Signed-off-by: Random J Developer <random@developer.example.org>
++
++usando il vostro vero nome (spiacenti, non si accettano pseudonimi o
++contributi anonimi).
++
++Alcune persone aggiungono delle etichette alla fine.  Per ora queste verranno
++ignorate, ma potete farlo per meglio identificare procedure aziendali interne o
++per aggiungere dettagli circa la firma.
++
++Se siete un manutentore di un sottosistema o di un ramo, qualche volta dovrete
++modificare leggermente le patch che avete ricevuto al fine di poterle
++integrare; questo perché il codice non è esattamente lo stesso nei vostri
++sorgenti e in quelli dei vostri contributori.  Se rispettate rigidamente la
++regola (c), dovreste chiedere al mittente di rifare la patch, ma questo è
++controproducente e una totale perdita di tempo ed energia.  La regola (b)
++vi permette di correggere il codice, ma poi diventa davvero maleducato cambiare
++la patch di qualcuno e addossargli la responsabilità per i vostri bachi.
++Per risolvere questo problema dovreste aggiungere una riga, fra l'ultimo
++Signed-off-by e il vostro, che spiega la vostra modifica.  Nonostante non ci
++sia nulla di obbligatorio, un modo efficace è quello di indicare il vostro
++nome o indirizzo email fra parentesi quadre, seguito da una breve descrizione;
++questo renderà abbastanza visibile chi è responsabile per le modifiche
++dell'ultimo minuto.  Per esempio::
++
++	Signed-off-by: Random J Developer <random@developer.example.org>
++	[lucky@maintainer.example.org: struct foo moved from foo.c to foo.h]
++	Signed-off-by: Lucky K Maintainer <lucky@maintainer.example.org>
++
++Questa pratica è particolarmente utile se siete i manutentori di un ramo
++stabile ma al contempo volete dare credito agli autori, tracciare e integrare
++le modifiche, e proteggere i mittenti dalle lamentele.  Notate che in nessuna
++circostanza è permessa la modifica dell'identità dell'autore (l'intestazione
++From), dato che è quella che appare nei changelog.
++
++Un appunto speciale per chi porta il codice su vecchie versioni.  Sembra che
++sia comune l'utile pratica di inserire un'indicazione circa l'origine della
++patch all'inizio del messaggio di commit (appena dopo la riga dell'oggetto)
++al fine di migliorare la tracciabilità.  Per esempio, questo è quello che si
++vede nel rilascio stabile 3.x-stable::
++
++  Date:   Tue Oct 7 07:26:38 2014 -0400
++
++    libata: Un-break ATA blacklist
++
++    commit 1c40279960bcd7d52dbdf1d466b20d24b99176c8 upstream.
++
++E qui quello che potrebbe vedersi su un kernel più vecchio dove la patch è
++stata applicata::
++
++    Date:   Tue May 13 22:12:27 2008 +0200
++
++        wireless, airo: waitbusy() won't delay
++
++        [backport of 2.6 commit b7acbdfbd1f277c1eb23f344f899cfa4cd0bf36a]
++
++Qualunque sia il formato, questa informazione fornisce un importante aiuto
++alle persone che vogliono seguire i vostri sorgenti, e quelle che cercano
++dei bachi.
++
++
++12) Quando utilizzare Acked-by:, Cc:, e Co-Developed-by:
++--------------------------------------------------------
++
++L'etichetta Signed-off-by: indica che il firmatario è stato coinvolto nello
++sviluppo della patch, o che era nel suo percorso di consegna.
++
++Se una persona non è direttamente coinvolta con la preparazione o gestione
++della patch ma desidera firmare e mettere agli atti la loro approvazione,
++allora queste persone possono chiedere di aggiungere al changelog della patch
++una riga Acked-by:.
++
++Acked-by: viene spesso utilizzato dai manutentori del sottosistema in oggetto
++quando quello stesso manutentore non ha contribuito né trasmesso la patch.
++
++Acked-by: non è formale come Signed-off-by:.  Questo indica che la persona ha
++revisionato la patch e l'ha trovata accettabile.  Per cui, a volte, chi
++integra le patch convertirà un "sì, mi sembra che vada bene" in un Acked-by:
++(ma tenete presente che solitamente è meglio chiedere esplicitamente).
++
++Acked-by: non indica l'accettazione di un'intera patch.  Per esempio, quando
++una patch ha effetti su diversi sottosistemi e ha un Acked-by: da un
++manutentore di uno di questi, significa che il manutentore accetta quella
++parte di codice relativa al sottosistema che mantiene.  Qui dovremmo essere
++giudiziosi.  Quando si hanno dei dubbi si dovrebbe far riferimento alla
++discussione originale negli archivi della lista di discussione.
++
++Se una persona ha avuto l'opportunità di commentare la patch, ma non lo ha
++fatto, potete aggiungere l'etichetta ``Cc:`` alla patch.  Questa è l'unica
++etichetta che può essere aggiunta senza che la persona in questione faccia
++alcunché - ma dovrebbe indicare che la persona ha ricevuto una copia della
++patch.  Questa etichetta documenta che terzi potenzialmente interessati sono
++stati inclusi nella discussione.
++
++L'etichetta Co-Developed-by: indica che la patch è stata scritta dall'autore in
++collaborazione con un altro sviluppatore.  Qualche volta questo è utile quando
++più persone lavorano sulla stessa patch.  Notate, questa persona deve avere
++nella patch anche una riga Signed-off-by:.
++
++
++13) Utilizzare Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: e Fixes:
++-----------------------------------------------------------------------------
++
++L'etichetta Reported-by da credito alle persone che trovano e riportano i bachi
++e si spera che questo possa ispirarli ad aiutarci nuovamente in futuro.
++Rammentate che se il baco è stato riportato in privato, dovrete chiedere il
++permesso prima di poter utilizzare l'etichetta Reported-by.
++
++L'etichetta Tested-by: indica che la patch è stata verificata con successo
++(su un qualche sistema) dalla persona citata.  Questa etichetta informa i
++manutentori che qualche verifica è stata fatta, fornisce un mezzo per trovare
++persone che possano verificare il codice in futuro, e garantisce che queste
++stesse persone ricevano credito per il loro lavoro.
++
++Reviewd-by:, invece, indica che la patch è stata revisionata ed è stata
++considerata accettabile in accordo con la dichiarazione dei revisori:
++
++Dichiarazione di svista dei revisori
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Offrendo la mia etichetta Reviewed-by, dichiaro quanto segue:
++
++	 (a) Ho effettuato una revisione tecnica di questa patch per valutarne
++	     l'adeguatezza ai fini dell'inclusione nel ramo principale del
++	     kernel.
++
++	 (b) Tutti i problemi e le domande riguardanti la patch sono stati
++	     comunicati al mittente.  Sono soddisfatto dalle risposte
++	     del mittente.
++
++	 (c) Nonostante ci potrebbero essere cose migliorabili in queste
++	     sottomissione, credo che sia, in questo momento, (1) una modifica
++	     di interesse per il kernel, e (2) libera da problemi che
++	     potrebbero metterne in discussione l'integrazione.
++
++	 (d) Nonostante abbia revisionato la patch e creda che vada bene,
++	     non garantisco (se non specificato altrimenti) che questa
++	     otterrà quello che promette o funzionerà correttamente in tutte
++	     le possibili situazioni.
++
++L'etichetta Reviewed-by è la dichiarazione di un parere sulla bontà di
++una modifica che si ritiene appropriata e senza alcun problema tecnico
++importante.  Qualsiasi revisore interessato (quelli che lo hanno fatto)
++possono offrire il proprio Reviewed-by per la patch.  Questa etichetta serve
++a dare credito ai revisori e a informare i manutentori sul livello di revisione
++che è stato fatto sulla patch.  L'etichetta Reviewd-by, quando fornita da
++revisori conosciuti per la loro conoscenza sulla materia in oggetto e per la
++loro serietà nella revisione, accrescerà le probabilità che la vostra patch
++venga integrate nel kernel.
++
++L'etichetta Suggested-by: indica che l'idea della patch è stata suggerita
++dalla persona nominata e le da credito. Tenete a mente che questa etichetta
++non dovrebbe essere aggiunta senza un permesso esplicito, specialmente se
++l'idea non è stata pubblicata in un forum pubblico.  Detto ciò, dando credito
++a chi ci fornisce delle idee, si spera di poterli ispirare ad aiutarci
++nuovamente in futuro.
++
++L'etichetta Fixes: indica che la patch corregge un problema in un commit
++precedente.  Serve a chiarire l'origine di un baco, il che aiuta la revisione
++del baco stesso.  Questa etichetta è di aiuto anche per i manutentori dei
++kernel stabili al fine di capire quale kernel deve ricevere la correzione.
++Questo è il modo suggerito per indicare che un baco è stato corretto nella
++patch. Per maggiori dettagli leggete :ref:`it_describe_changes`
++
++
++14) Il formato canonico delle patch
++-----------------------------------
++
++Questa sezione descrive il formato che dovrebbe essere usato per le patch.
++Notate che se state usando un repositorio ``git`` per salvare le vostre patch
++potere usare il comando ``git format-patch`` per ottenere patch nel formato
++appropriato.  Lo strumento non crea il testo necessario, per cui, leggete
++le seguenti istruzioni.
++
++L'oggetto di una patch canonica è la riga::
++
++    Subject: [PATCH 001/123] subsystem: summary phrase
++
++Il corpo di una patch canonica contiene i seguenti elementi:
++
++  - Una riga ``from`` che specifica l'autore della patch, seguita
++    da una riga vuota (necessaria soltanto se la persona che invia la
++    patch non ne è l'autore).
++
++  - Il corpo della spiegazione, con linee non più lunghe di 75 caratteri,
++    che verrà copiato permanentemente nel changelog per descrivere la patch.
++
++  - Una riga vuota
++
++  - Le righe ``Signed-off-by:``, descritte in precedenza, che finiranno
++    anch'esse nel changelog.
++
++  - Una linea di demarcazione contenente semplicemente ``---``.
++
++  - Qualsiasi altro commento che non deve finire nel changelog.
++
++  - Le effettive modifiche al codice (il prodotto di ``diff``).
++
++Il formato usato per l'oggetto permette ai programmi di posta di usarlo
++per ordinare le patch alfabeticamente - tutti i programmi di posta hanno
++questa funzionalità - dato che al numero sequenziale si antepongono degli zeri;
++in questo modo l'ordine numerico ed alfabetico coincidono.
++
++Il ``subsystem`` nell'oggetto dell'email dovrebbe identificare l'area
++o il sottosistema modificato dalla patch.
++
++La ``summary phrase`` nell'oggetto dell'email dovrebbe descrivere brevemente
++il contenuto della patch.  La ``summary phrase`` non dovrebbe essere un nome
++di file. Non utilizzate la stessa ``summary phrase`` per tutte le patch in
++una serie (dove una ``serie di patch`` è una sequenza ordinata di diverse
++patch correlate).
++
++Ricordatevi che la ``summary phrase`` della vostra email diventerà un
++identificatore globale ed unico per quella patch.  Si propaga fino al
++changelog ``git``.  La ``summary phrase`` potrà essere usata in futuro
++dagli sviluppatori per riferirsi a quella patch.  Le persone vorranno
++cercare la ``summary phrase`` su internet per leggere le discussioni che la
++riguardano.  Potrebbe anche essere l'unica cosa che le persone vedranno
++quando, in due o tre mesi, riguarderanno centinaia di patch usando strumenti
++come ``gitk`` o ``git log --oneline``.
++
++Per queste ragioni, dovrebbe essere lunga fra i 70 e i 75 caratteri, e deve
++descrivere sia cosa viene modificato, sia il perché sia necessario. Essere
++brevi e descrittivi è una bella sfida, ma questo è quello che fa un riassunto
++ben scritto.
++
++La ``summary phrase`` può avere un'etichetta (*tag*) di prefisso racchiusa fra
++le parentesi quadre "Subject: [PATCH <tag>...] <summary phrase>".
++Le etichette non verranno considerate come parte della frase riassuntiva, ma
++indicano come la patch dovrebbe essere trattata.  Fra le etichette più comuni
++ci sono quelle di versione che vengono usate quando una patch è stata inviata
++più volte (per esempio, "v1, v2, v3"); oppure "RFC" per indicare che si
++attendono dei commenti (*Request For Comments*).  Se ci sono quattro patch
++nella serie, queste dovrebbero essere enumerate così: 1/4, 2/4, 3/4, 4/4.
++Questo assicura che gli sviluppatori capiranno l'ordine in cui le patch
++dovrebbero essere applicate, e per tracciare quelle che hanno revisionate o
++che hanno applicato.
++
++Un paio di esempi di oggetti::
++
++    Subject: [PATCH 2/5] ext2: improve scalability of bitmap searching
++    Subject: [PATCH v2 01/27] x86: fix eflags tracking
++
++La riga ``from`` dev'essere la prima nel corpo del messaggio ed è nel
++formato:
++
++        From: Original Author <author@example.com>
++
++La riga ``from`` indica chi verrà accreditato nel changelog permanente come
++l'autore della patch.  Se la riga ``from`` è mancante, allora per determinare
++l'autore da inserire nel changelog verrà usata la riga ``From``
++nell'intestazione dell'email.
++
++Il corpo della spiegazione verrà incluso nel changelog permanente, per cui
++deve aver senso per un lettore esperto che è ha dimenticato i dettagli della
++discussione che hanno portato alla patch.  L'inclusione di informazioni
++sui problemi oggetto dalla patch (messaggi del kernel, messaggi di oops,
++eccetera) è particolarmente utile per le persone che potrebbero cercare fra
++i messaggi di log per la patch che li tratta.  Se la patch corregge un errore
++di compilazione, non sarà necessario includere proprio _tutto_ quello che
++è uscito dal compilatore; aggiungete solo quello che è necessario per far si
++che la vostra patch venga trovata.  Come nella ``summary phrase``, è importante
++essere sia brevi che descrittivi.
++
++La linea di demarcazione ``---`` serve essenzialmente a segnare dove finisce
++il messaggio di changelog.
++
++Aggiungere il ``diffstat`` dopo ``---`` è un buon uso di questo spazio, per
++mostrare i file che sono cambiati, e il numero di file aggiunto o rimossi.
++Un ``diffstat`` è particolarmente utile per le patch grandi.  Altri commenti
++che sono importanti solo per i manutentori, quindi inadatti al changelog
++permanente, dovrebbero essere messi qui.  Un buon esempio per questo tipo
++di commenti potrebbe essere quello di descrivere le differenze fra le versioni
++della patch.
++
++Se includete un ``diffstat`` dopo ``---``, usate le opzioni ``-p 1 -w70``
++cosicché i nomi dei file elencati non occupino troppo spazio (facilmente
++rientreranno negli 80 caratteri, magari con qualche indentazione).
++(``git`` genera di base dei diffstat adatti).
++
++Maggiori dettagli sul formato delle patch nei riferimenti qui di seguito.
++
++.. _it_explicit_in_reply_to:
++
++15) Usare esplicitamente In-Reply-To nell'intestazione
++------------------------------------------------------
++
++Aggiungere manualmente In-Reply-To: nell'intestazione dell'e-mail
++potrebbe essere d'aiuto per associare una patch ad una discussione
++precedente, per esempio per collegare la correzione di un baco con l'e-mail
++che lo riportava.  Tuttavia, per serie di patch multiple è generalmente
++sconsigliato l'uso di In-Reply-To: per collegare precedenti versioni.
++In questo modo versioni multiple di una patch non diventeranno un'ingestibile
++giungla di riferimenti all'interno dei programmi di posta.  Se un collegamento
++è utile, potete usare https://lkml.kernel.org/ per ottenere i collegamenti
++ad una versione precedente di una serie di patch (per esempio, potete usarlo
++per l'email introduttiva alla serie).
++
++16) Inviare richieste ``git pull``
++----------------------------------
++
++Se avete una serie di patch, potrebbe essere più conveniente per un manutentore
++tirarle dentro al repositorio del sottosistema attraverso l'operazione
++``git pull``.  Comunque, tenete presente che prendere patch da uno sviluppatore
++in questo modo richiede un livello di fiducia più alto rispetto a prenderle da
++una lista di discussione.  Di conseguenza, molti manutentori sono riluttanti
++ad accettare richieste di *pull*, specialmente dagli sviluppatori nuovi e
++quindi sconosciuti.  Se siete in dubbio, potete fare una richiesta di *pull*
++come messaggio introduttivo ad una normale pubblicazione di patch, così
++il manutentore avrà la possibilità di scegliere come integrarle.
++
++Una richiesta di *pull* dovrebbe avere nell'oggetto [GIT] o [PULL].
++La richiesta stessa dovrebbe includere il nome del repositorio e quello del
++ramo su una singola riga; dovrebbe essere più o meno così::
++
++  Please pull from
++
++      git://jdelvare.pck.nerim.net/jdelvare-2.6 i2c-for-linus
++
++  to get these changes:
++
++Una richiesta di *pull* dovrebbe includere anche un messaggio generico
++che dica cos'è incluso, una lista delle patch usando ``git shortlog``, e una
++panoramica sugli effetti della serie di patch con ``diffstat``.  Il modo più
++semplice per ottenere tutte queste informazioni è, ovviamente, quello di
++lasciar fare tutto a ``git`` con il comando ``git request-pull``.
++
++Alcuni manutentori (incluso Linus) vogliono vedere le richieste di *pull*
++da commit firmati con GPG; questo fornisce una maggiore garanzia sul fatto
++che siate stati proprio voi a fare la richiesta.  In assenza di tale etichetta
++firmata Linus, in particolare, non prenderà alcuna patch da siti pubblici come
++GitHub.
++
++Il primo passo verso la creazione di questa etichetta firmata è quello di
++creare una chiave GNUPG ed averla fatta firmare da uno o più sviluppatori
++principali del kernel.  Questo potrebbe essere difficile per i nuovi
++sviluppatori, ma non ci sono altre vie.  Andare alle conferenze potrebbe
++essere un buon modo per trovare sviluppatori che possano firmare la vostra
++chiave.
++
++Una volta che avete preparato la vostra serie di patch in ``git``, e volete che
++qualcuno le prenda, create una etichetta firmata col comando ``git tag -s``.
++Questo creerà una nuova etichetta che identifica l'ultimo commit della serie
++contenente una firma creata con la vostra chiave privata.  Avrete anche
++l'opportunità di aggiungere un messaggio di changelog all'etichetta; questo è
++il posto ideale per descrivere gli effetti della richiesta di *pull*.
++
++Se i sorgenti da cui il manutentore prenderà le patch non sono gli stessi del
++repositorio su cui state lavorando, allora non dimenticatevi di caricare
++l'etichetta firmata anche sui sorgenti pubblici.
++
++Quando generate una richiesta di *pull*, usate l'etichetta firmata come
++obiettivo.  Un comando come il seguente farà il suo dovere::
++
++  git request-pull master git://my.public.tree/linux.git my-signed-tag
++
++
++Riferimenti
++-----------
++
++Andrew Morton, "La patch perfetta" (tpp).
++  <http://www.ozlabs.org/~akpm/stuff/tpp.txt>
++
++Jeff Garzik, "Formato per la sottomissione di patch per il kernel Linux"
++  <http://linux.yyz.us/patch-format.html>
++
++Greg Kroah-Hartman, "Come scocciare un manutentore di un sottosistema"
++  <http://www.kroah.com/log/linux/maintainer.html>
++
++  <http://www.kroah.com/log/linux/maintainer-02.html>
++
++  <http://www.kroah.com/log/linux/maintainer-03.html>
++
++  <http://www.kroah.com/log/linux/maintainer-04.html>
++
++  <http://www.kroah.com/log/linux/maintainer-05.html>
++
++  <http://www.kroah.com/log/linux/maintainer-06.html>
++
++No!!!! Basta gigantesche bombe patch alle persone sulla lista linux-kernel@vger.kernel.org!
++  <https://lkml.org/lkml/2005/7/11/336>
++
++Kernel Documentation/translations/it_IT/process/coding-style.rst:
++  :ref:`Documentation/translations/it_IT/process/coding-style.rst <it_codingstyle>`
++
++E-mail di Linus Torvalds sul formato canonico di una patch:
++  <http://lkml.org/lkml/2005/4/7/183>
++
++Andi Kleen, "Su come sottomettere patch del kernel"
++  Alcune strategie su come sottomettere modifiche toste o controverse.
++
++  http://halobates.de/on-submitting-patches.pdf
+-- 
+2.19.2
 
-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
 
---2fHTh5uZTiUOsy+g--
