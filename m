@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 871397D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Dec 2018 18:15:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5CC6E7D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Dec 2018 18:15:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728152AbeL0SOv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Dec 2018 13:14:51 -0500
-Received: from outils.crapouillou.net ([89.234.176.41]:54672 "EHLO
+        id S1727308AbeL0SOF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Dec 2018 13:14:05 -0500
+Received: from outils.crapouillou.net ([89.234.176.41]:54294 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727376AbeL0SOO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Dec 2018 13:14:14 -0500
+        with ESMTP id S1726639AbeL0SOE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Dec 2018 13:14:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1545934449; h=from:from:sender:reply-to:subject:subject:date:date:
+        s=mail; t=1545934439; h=from:from:sender:reply-to:subject:subject:date:date:
          message-id:message-id:to:to:cc:cc:mime-version:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=n9oebVyt08RpmFk0LHBOuFFDBXWbh4nBFbxy/7YDdw4=;
-        b=nUoXSsPtaCZ3NkONajN/SrJL9HqbRdkZ5TF2R7mndvjHaCj4PCaijcSlAxW1pQf1aOe1A2
-        FkQlDm5Gk7QjSw12glvMXOb2QW+aKWvJynRgbpGi3TgNzkR2TZ74K9PFcN86kVQWrMCqdC
-        EjYFChs47xi09weFb57jobVZ/TEdF5s=
+        bh=yFq9PATHo+DDPckUfNumupkmaX3d3PAQeKsmpJweYF8=;
+        b=HrfmVMfgl36GGP1ccpGslqVkkt4mzYQv9+JcDdRLfH6jj/o91c02TSbonmk9lvQofm3ngA
+        MdqziwrdWO6cPfWx0zD2XIcYHg3pP/jlUqFzm9lfH5xDCrzW3Jo9Xc1AhHhHkYmSfLvbZQ
+        aKBQt6mcuk64Zx4XwwuVXhkVsxbuJEI=
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -38,9 +38,9 @@ Cc:     linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
         linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v9 22/27] MIPS: qi_lb60: Reduce system timer and clocksource to 750 kHz
-Date:   Thu, 27 Dec 2018 19:13:14 +0100
-Message-Id: <20181227181319.31095-23-paul@crapouillou.net>
+Subject: [PATCH v9 16/27] pwm: jz4740: Drop dependency on MACH_INGENIC, use COMPILE_TEST
+Date:   Thu, 27 Dec 2018 19:13:08 +0100
+Message-Id: <20181227181319.31095-17-paul@crapouillou.net>
 In-Reply-To: <20181227181319.31095-1-paul@crapouillou.net>
 References: <20181227181319.31095-1-paul@crapouillou.net>
 Sender: linux-doc-owner@vger.kernel.org
@@ -48,16 +48,22 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The default clock (12 MHz) is too fast for the system timer, which fails
-to report time accurately.
+Depending on MACH_INGENIC prevent us from creating a generic kernel that
+works on more than one MIPS board. Instead, we just depend on MIPS being
+set.
+
+On other architectures, this driver can still be built, thanks to
+COMPILE_TEST. This is used by automated tools to find bugs, for
+instance.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Acked-by: Thierry Reding <thierry.reding@gmail.com>
 ---
 
 Notes:
      v5: New patch
     
-     v6: Remove ingenic,clocksource-channel property
+     v6: No change
     
      v7: No change
 
@@ -65,23 +71,22 @@ Notes:
 
      v9: No change
 
- arch/mips/boot/dts/ingenic/qi_lb60.dts | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/pwm/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/mips/boot/dts/ingenic/qi_lb60.dts b/arch/mips/boot/dts/ingenic/qi_lb60.dts
-index 85529a142409..de9d45e2c24a 100644
---- a/arch/mips/boot/dts/ingenic/qi_lb60.dts
-+++ b/arch/mips/boot/dts/ingenic/qi_lb60.dts
-@@ -45,3 +45,9 @@
- 		bias-disable;
- 	};
- };
-+
-+&tcu {
-+	/* 750 kHz for the system timer and clocksource */
-+	assigned-clocks = <&tcu TCU_CLK_TIMER0>, <&tcu TCU_CLK_TIMER1>;
-+	assigned-clock-rates = <750000>, <750000>;
-+};
+diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
+index 0343f0c1238e..d6f62d9cdc18 100644
+--- a/drivers/pwm/Kconfig
++++ b/drivers/pwm/Kconfig
+@@ -201,7 +201,7 @@ config PWM_IMX
+ 
+ config PWM_JZ4740
+ 	tristate "Ingenic JZ47xx PWM support"
+-	depends on MACH_INGENIC
++	depends on MIPS || COMPILE_TEST
+ 	depends on COMMON_CLK
+ 	select INGENIC_TIMER
+ 	help
 -- 
 2.11.0
 
