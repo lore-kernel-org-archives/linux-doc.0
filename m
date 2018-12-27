@@ -2,107 +2,106 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5E2277D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Dec 2018 18:17:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D14947D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Dec 2018 23:41:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726521AbeL0SNi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Dec 2018 13:13:38 -0500
-Received: from outils.crapouillou.net ([89.234.176.41]:53656 "EHLO
-        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726549AbeL0SNh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Dec 2018 13:13:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1545934414; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=vI/q5d8GNrVQclW8Z7qvB3AxNbNko22OaZZ2GZimLvU=;
-        b=JqwT8MzptOrD0q8uNbho0XJFCGWgwcCeQaUxTx6B9kzjCBqxO1RWuy8/vXZm4AZrGMQLLk
-        6XZDb8JBQ4UGqwjOHX+amjS54cmkarVQw68qo1JVQRE1Je/5fYBqI3sUOvR54tbUus9LPl
-        JE842cu901ru9v6+rSx1478IeHFsYBI=
-From:   Paul Cercueil <paul@crapouillou.net>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v9 01/27] dt-bindings: ingenic: Add DT bindings for TCU clocks
-Date:   Thu, 27 Dec 2018 19:12:53 +0100
-Message-Id: <20181227181319.31095-2-paul@crapouillou.net>
-In-Reply-To: <20181227181319.31095-1-paul@crapouillou.net>
-References: <20181227181319.31095-1-paul@crapouillou.net>
+        id S1729393AbeL0Xlu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Dec 2018 18:41:50 -0500
+Received: from mail-yb1-f196.google.com ([209.85.219.196]:40510 "EHLO
+        mail-yb1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727907AbeL0Xlu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Dec 2018 18:41:50 -0500
+Received: by mail-yb1-f196.google.com with SMTP id x201so4030458ybg.7;
+        Thu, 27 Dec 2018 15:41:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=xXBTIXHVAax3PJVgWEmGAt722IyPRVkq/7ftu76zskQ=;
+        b=nHfNQX9WXbd4v1mYIWQy9AJqEYEykYb6VEtomgVx398VGjNDSzl1QME1bez7OOt2Vw
+         wSqtfmtGl2Gc9HatZWi/yVq3upLi8AJolttyrb0KzXCS+OGY+dsUPieA7cy199UNekp4
+         pPzQcLgMIGp1H+wAlId3XaC5phb2GrqvWxY1ZIOjP23OxnhDaIA9C1IPYlXkYoNBwQar
+         u97YBGsc2chKeilI6xnMZ2oVYWXKbWOi3ucrHJkfmRlc/JnJHq8WVIyDoQwGTM3iGhbM
+         Q5PIgAeFdI4adTRai6O64MmXbIFRr0EhhZ06navKwHiU5mFIpXG+ofq4TJkz89aleImg
+         XvsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=xXBTIXHVAax3PJVgWEmGAt722IyPRVkq/7ftu76zskQ=;
+        b=nqcIdhueK6hjdrT6g/ts6tPodjw7mu1CWs8PYNjm2RJUZGAlOUgXgvb46sLWtNkuu6
+         Xt+t3W+/2JBFkRV4VrGbTpBpWPBdxGAVxUbN+L//4aE8DMkWn+/WaC+zBtgt5bhOtJuZ
+         kzeI8qcMvZOqRFdYmJ4JbPJmmEyLXeDW8VP7v06dh2VR4l07tHsQl0Y+YAFeef5oAeUN
+         /8rV0Tkb0N3rCegV33Se/vr1DmfUhH/0aqalGxR04Ny9NHcdws9M/SlY97KQGlRa4ZLs
+         zlRocP0yQ60vXyvUplzwGA4xq5dpQV6rVQRJJJg2o7l0dcFvW3+teAI2/8SMXQuniR6A
+         1nlQ==
+X-Gm-Message-State: AJcUukf1IyJbM/FHIPP6Qa3QM+bInzbtfzKjhN2rfIhtgvtyT52C529p
+        fsnCE0HAavJKt3mHvBSEdFg=
+X-Google-Smtp-Source: AFSGD/VzIZXeDLBlBNwHflUwXYh0UgkX4wlTAZfzxQkH57xCRgOFqGov3CIUJ2Go8/Y5FqpPwM9LCA==
+X-Received: by 2002:a25:15c1:: with SMTP id 184-v6mr25095796ybv.332.1545954108520;
+        Thu, 27 Dec 2018 15:41:48 -0800 (PST)
+Received: from localhost ([2620:10d:c091:180::1:7729])
+        by smtp.gmail.com with ESMTPSA id z186sm21072531ywd.107.2018.12.27.15.41.46
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 27 Dec 2018 15:41:47 -0800 (PST)
+Date:   Thu, 27 Dec 2018 15:41:44 -0800
+From:   Tejun Heo <tj@kernel.org>
+To:     Paolo Valente <paolo.valente@linaro.org>
+Cc:     bfq-iosched@googlegroups.com,
+        Angelo Ruocco <angelo.ruocco.90@gmail.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Angelo Ruocco <angeloruocco90@gmail.com>,
+        Dennis Zhou <dennis@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        Liu Bo <bo.liu@linux.alibaba.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>, broonie@kernel.org,
+        oleksandr@natalenko.name, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH V2 00/10] unify the interface of the proportional-share
+ policy in blkio/io
+Message-ID: <20181227234144.GE2509588@devbig004.ftw2.facebook.com>
+References: <20181120162816.GV2509588@devbig004.ftw2.facebook.com>
+ <25296DAE-73EC-46CC-9A98-A8B7E9017BB7@linaro.org>
+ <7D7FAB43-5F62-4402-A9B3-E7C2E30AE680@linaro.org>
+ <20181130184256.GI2509588@devbig004.ftw2.facebook.com>
+ <5534B7D4-A5D9-4F44-9620-970A7F9EC140@linaro.org>
+ <CADiTV-29TmkB5-k=TtQfoJqjP2Qv7GSsGLXAPBaTB6DoQ+6yyw@mail.gmail.com>
+ <874A0232-2103-4364-BD88-F33B85D6A764@linaro.org>
+ <20181218164126.GX2509588@devbig004.ftw2.facebook.com>
+ <EC4F9B54-2352-4D85-B56C-5800CFEBCCB8@linaro.org>
+ <A360EBDC-B297-4754-AF5C-0A6C30D725B4@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <A360EBDC-B297-4754-AF5C-0A6C30D725B4@linaro.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This header provides clock numbers for the ingenic,tcu
-DT binding.
+Hello, Paolo.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Acked-by: Stephen Boyd <sboyd@kernel.org>
----
+On Sun, Dec 23, 2018 at 12:00:14PM +0100, Paolo Valente wrote:
+> 4.21 is coming ...  and the legacy proportional share interface will
+> be gone with cfq.  This will break legacy code using the
+> proportional-share interface on top of bfq.  This code may just fail
+> when trying to use interface files that don't exist any longer.
 
-Notes:
-     v2: Use SPDX identifier for the license
-    
-     v3: No change
-    
-     v4: No change
-    
-     v5: s/JZ47*_/TCU_/ and dropped *_CLK_LAST defines
-    
-     v6: No change
-    
-     v7: No change
+Sounds like inheriting .cfq namespace would be the easiest.  Would
+that work?
 
-     v8: No change
+Thanks.
 
-     v9: No change
-
- include/dt-bindings/clock/ingenic,tcu.h | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
- create mode 100644 include/dt-bindings/clock/ingenic,tcu.h
-
-diff --git a/include/dt-bindings/clock/ingenic,tcu.h b/include/dt-bindings/clock/ingenic,tcu.h
-new file mode 100644
-index 000000000000..d569650a7945
---- /dev/null
-+++ b/include/dt-bindings/clock/ingenic,tcu.h
-@@ -0,0 +1,20 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * This header provides clock numbers for the ingenic,tcu DT binding.
-+ */
-+
-+#ifndef __DT_BINDINGS_CLOCK_INGENIC_TCU_H__
-+#define __DT_BINDINGS_CLOCK_INGENIC_TCU_H__
-+
-+#define TCU_CLK_TIMER0	0
-+#define TCU_CLK_TIMER1	1
-+#define TCU_CLK_TIMER2	2
-+#define TCU_CLK_TIMER3	3
-+#define TCU_CLK_TIMER4	4
-+#define TCU_CLK_TIMER5	5
-+#define TCU_CLK_TIMER6	6
-+#define TCU_CLK_TIMER7	7
-+#define TCU_CLK_WDT	8
-+#define TCU_CLK_OST	9
-+
-+#endif /* __DT_BINDINGS_CLOCK_INGENIC_TCU_H__ */
 -- 
-2.11.0
-
+tejun
