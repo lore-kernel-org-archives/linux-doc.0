@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9B4A37DD2A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Dec 2018 18:14:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 871397D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 27 Dec 2018 18:15:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727780AbeL0SOU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 27 Dec 2018 13:14:20 -0500
-Received: from outils.crapouillou.net ([89.234.176.41]:54870 "EHLO
+        id S1728152AbeL0SOv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 27 Dec 2018 13:14:51 -0500
+Received: from outils.crapouillou.net ([89.234.176.41]:54672 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727337AbeL0SOT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Dec 2018 13:14:19 -0500
+        with ESMTP id S1727376AbeL0SOO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Dec 2018 13:14:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1545934454; h=from:from:sender:reply-to:subject:subject:date:date:
+        s=mail; t=1545934449; h=from:from:sender:reply-to:subject:subject:date:date:
          message-id:message-id:to:to:cc:cc:mime-version:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=yKG322FndZ2CbkJ8FcD7Y6jllruXqMnKih4gGdHMsM0=;
-        b=klRbrqIxL7+ywFY0Ek2SW41S9JW6wkenSZSD1fzb6DFFCNCBcrHk54dHS4wIpmygW9sjSb
-        7e5/OuD63jwvVKty4ySnU3R0lI2/5cX+huXTNAN9+xdm8Obx4mFi/deHp0SE8RvFismiwK
-        zbXM7zcAa7ZIeOPgFRww3kmTbkghlSA=
+        bh=n9oebVyt08RpmFk0LHBOuFFDBXWbh4nBFbxy/7YDdw4=;
+        b=nUoXSsPtaCZ3NkONajN/SrJL9HqbRdkZ5TF2R7mndvjHaCj4PCaijcSlAxW1pQf1aOe1A2
+        FkQlDm5Gk7QjSw12glvMXOb2QW+aKWvJynRgbpGi3TgNzkR2TZ74K9PFcN86kVQWrMCqdC
+        EjYFChs47xi09weFb57jobVZ/TEdF5s=
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -38,9 +38,9 @@ Cc:     linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
         linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v9 25/27] MIPS: GCW0: Reduce system timer to 750 kHz
-Date:   Thu, 27 Dec 2018 19:13:17 +0100
-Message-Id: <20181227181319.31095-26-paul@crapouillou.net>
+Subject: [PATCH v9 22/27] MIPS: qi_lb60: Reduce system timer and clocksource to 750 kHz
+Date:   Thu, 27 Dec 2018 19:13:14 +0100
+Message-Id: <20181227181319.31095-23-paul@crapouillou.net>
 In-Reply-To: <20181227181319.31095-1-paul@crapouillou.net>
 References: <20181227181319.31095-1-paul@crapouillou.net>
 Sender: linux-doc-owner@vger.kernel.org
@@ -48,33 +48,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The default clock (12 MHz) is too fast for the system timer.
+The default clock (12 MHz) is too fast for the system timer, which fails
+to report time accurately.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
 
 Notes:
-     v8: New patch
+     v5: New patch
+    
+     v6: Remove ingenic,clocksource-channel property
+    
+     v7: No change
 
-     v9: Don't configure clock timer1, as the OS Timer is used as
-         clocksource on this SoC
+     v8: No change
 
- arch/mips/boot/dts/ingenic/gcw0.dts | 6 ++++++
+     v9: No change
+
+ arch/mips/boot/dts/ingenic/qi_lb60.dts | 6 ++++++
  1 file changed, 6 insertions(+)
 
-diff --git a/arch/mips/boot/dts/ingenic/gcw0.dts b/arch/mips/boot/dts/ingenic/gcw0.dts
-index 35f0291e8d38..c26572f8b8ae 100644
---- a/arch/mips/boot/dts/ingenic/gcw0.dts
-+++ b/arch/mips/boot/dts/ingenic/gcw0.dts
-@@ -60,3 +60,9 @@
- 	/* The WiFi module is connected to the UHC. */
- 	status = "okay";
+diff --git a/arch/mips/boot/dts/ingenic/qi_lb60.dts b/arch/mips/boot/dts/ingenic/qi_lb60.dts
+index 85529a142409..de9d45e2c24a 100644
+--- a/arch/mips/boot/dts/ingenic/qi_lb60.dts
++++ b/arch/mips/boot/dts/ingenic/qi_lb60.dts
+@@ -45,3 +45,9 @@
+ 		bias-disable;
+ 	};
  };
 +
 +&tcu {
-+	/* 750 kHz for the system timer */
-+	assigned-clocks = <&tcu TCU_CLK_TIMER0>;
-+	assigned-clock-rates = <750000>;
++	/* 750 kHz for the system timer and clocksource */
++	assigned-clocks = <&tcu TCU_CLK_TIMER0>, <&tcu TCU_CLK_TIMER1>;
++	assigned-clock-rates = <750000>, <750000>;
 +};
 -- 
 2.11.0
