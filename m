@@ -1,36 +1,56 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 482F97D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Dec 2018 11:15:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 074317DD2A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Dec 2018 11:57:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730811AbeL1LP6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Dec 2018 06:15:58 -0500
-Received: from mail-eopbgr00086.outbound.protection.outlook.com ([40.107.0.86]:48928
-        "EHLO EUR02-AM5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728367AbeL1LP6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 28 Dec 2018 06:15:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector1-arm-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pKnZl5qhjDQAgyC6NI/lg+RmJMCdH+UCMmWZUTuXN6Y=;
- b=JtrmgexKYL95YG7ErZGCQeP6PyHKhEsLnBe7Q88ybSLsxKzSLpqwLgVgpsRP/Rq0nVp0PD02VZtR1x2emMy5SKBvfwgs2nRchtxwoQqKlWV/EXZ1PpmroJ2MKtZ8qidxsVUzLzMPedSA9HxkiM8eVc4ZpiM/+H7hMlso95p9xAs=
-Received: from AM3PR08MB0611.eurprd08.prod.outlook.com (10.163.188.149) by
- AM3PR08MB0184.eurprd08.prod.outlook.com (10.161.35.148) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1471.20; Fri, 28 Dec 2018 11:15:50 +0000
-Received: from AM3PR08MB0611.eurprd08.prod.outlook.com
- ([fe80::3c73:534c:9c6e:352d]) by AM3PR08MB0611.eurprd08.prod.outlook.com
- ([fe80::3c73:534c:9c6e:352d%2]) with mapi id 15.20.1471.019; Fri, 28 Dec 2018
- 11:15:50 +0000
-From:   "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-CC:     Liviu Dudau <Liviu.Dudau@arm.com>,
+        id S1727027AbeL1L4m (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Dec 2018 06:56:42 -0500
+Received: from mail-io1-f67.google.com ([209.85.166.67]:40556 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726083AbeL1L4l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Dec 2018 06:56:41 -0500
+Received: by mail-io1-f67.google.com with SMTP id a2so4216141iok.7
+        for <linux-doc@vger.kernel.org>; Fri, 28 Dec 2018 03:56:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=rX921hZEd7dAiYwFA4LBdTDnsTkinpQHYAy3hog7+ao=;
+        b=RP42pOo1z1H3JD2ms+a7Xd7adEtbCpDrvnsfXHPTeoClqEDUVkAr1hBwOcl/Jm4nZ+
+         i4rayWwP3nQb5FPTtZjcIUDo27aV2U7naEWbXmEpqWWqfoYVWbv0U1800+5eT8a3sIb5
+         w6u8LcYldTSYyU9+eiS/nbAzi09D6tf0oQTL0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=rX921hZEd7dAiYwFA4LBdTDnsTkinpQHYAy3hog7+ao=;
+        b=MkezW4ZVOHCFab7vW0gOhw7mbtQNWT/MAi20kTdHcI1Rw4dq3dnn+TN4P9qEE7x1WC
+         ouIsh9G4Vv8F3hTH2OLi3TZUW0IyLx75oPXH0cWIfeRIzsh1dlkNUOqadB6eWiTP0YQ4
+         +LAgrzBTc8hThbbXXoGelmOFDpknV9qj7is2KVwJMKgNHNr+8aUfD75lcT+TVaz9KKSm
+         JmYRD8tRGP9rijEA2AjAr5qZOglHxlnYZxdnRYHLXX78M7Xt9BBX4oEpcGOfIXfu9hPP
+         gyRO9hqbJQlrGoS7pac3jTeID4P8iAoHZuyb/Y3IdDZ6ToizefBhUrm+3W01pLgXyLr4
+         Tciw==
+X-Gm-Message-State: AJcUukfRr3qRRzlzCRRNqe18C61A4yVEm/DkxN1kRNbQVJR8jcGBKsKe
+        esyuncokLggr6Yub+lvHNHwTgILT2P26H62AfxoipA==
+X-Google-Smtp-Source: ALg8bN5XhwpGJJJHfTRrtQKyIZ9rtsF7ngsmTSoTVlfiOzVGOpET5cZoKkk3OZsPKmXsELRqDqi4aduFwEDF+eyw9pY=
+X-Received: by 2002:a5d:959a:: with SMTP id a26mr18874487ioo.278.1545998200301;
+ Fri, 28 Dec 2018 03:56:40 -0800 (PST)
+MIME-Version: 1.0
+References: <20181221095757.15510-1-james.qian.wang@arm.com>
+ <20181221095757.15510-10-james.qian.wang@arm.com> <20181224123314.GK22341@e110455-lin.cambridge.arm.com>
+ <CAKMK7uGt63=_KuECQc2ivuSZb8gMD1=6n0=Q2bcvzCEPo84uFw@mail.gmail.com> <20181228111534.GA19025@james-ThinkStation-P300>
+In-Reply-To: <20181228111534.GA19025@james-ThinkStation-P300>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Fri, 28 Dec 2018 12:56:27 +0100
+Message-ID: <CAKMK7uFaGnjznux9E9gzmppW-+Pbx6UoFHEYjtWvBJWh3ro-nA@mail.gmail.com>
+Subject: Re: [PATCH v3 9/9] MAINTAINERS: Add maintainer for arm komeda driver
+To:     "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
+Cc:     Liviu Dudau <Liviu.Dudau@arm.com>,
         "Jonathan Chai (Arm Technology China)" <Jonathan.Chai@arm.com>,
         Brian Starkey <Brian.Starkey@arm.com>,
         "Julien Yin (Arm Technology China)" <Julien.Yin@arm.com>,
@@ -62,104 +82,112 @@ CC:     Liviu Dudau <Liviu.Dudau@arm.com>,
         "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
         "airlied@linux.ie" <airlied@linux.ie>,
         "yamada.masahiro@socionext.com" <yamada.masahiro@socionext.com>
-Subject: Re: [PATCH v3 9/9] MAINTAINERS: Add maintainer for arm komeda driver
-Thread-Topic: [PATCH v3 9/9] MAINTAINERS: Add maintainer for arm komeda driver
-Thread-Index: AQHUmRQWeovHOOq9j0aufyIPqdEpbA==
-Date:   Fri, 28 Dec 2018 11:15:50 +0000
-Message-ID: <20181228111534.GA19025@james-ThinkStation-P300>
-References: <20181221095757.15510-1-james.qian.wang@arm.com>
- <20181221095757.15510-10-james.qian.wang@arm.com>
- <20181224123314.GK22341@e110455-lin.cambridge.arm.com>
- <CAKMK7uGt63=_KuECQc2ivuSZb8gMD1=6n0=Q2bcvzCEPo84uFw@mail.gmail.com>
-In-Reply-To: <CAKMK7uGt63=_KuECQc2ivuSZb8gMD1=6n0=Q2bcvzCEPo84uFw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mutt/1.9.4 (2018-02-28)
-x-originating-ip: [113.29.88.7]
-x-clientproxiedby: SYXPR01CA0125.ausprd01.prod.outlook.com
- (2603:10c6:0:2d::34) To AM3PR08MB0611.eurprd08.prod.outlook.com
- (2a01:111:e400:c408::21)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=james.qian.wang@arm.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;AM3PR08MB0184;6:o5de2F2WPnmFM+ANs8mF8yq86CtlgrSk9tzTE5bgi2lUp5bbNekmAgzkllVREXKrk4gEIo4PEMwsNmxmLVip/jS71c8FLqLZL156/qLnqD8BS8xUrn/fd6q3EDPwOugSW7W/vI5OG5rHPMaO0khaYpRTiqbIDZnUVDzdkFvqUftKfOotOl8GtiVm5tViaJREBo3wLXJZrI2ht+zeP+yKm4JXTicvwoZZT3XGtzm6pmxUOIb11O8VNCcYME0ahhWt2A55qsRg663sFy8wGzeBUUXO8lvuNY83n8+onP9WN7GVj8O/VLb3jwCQQbIuRuq06rU5mpBrutkpu+Xzbl8CNbD/Psd/v0GyxmdkPmHzHtbrX3l5WJcdkPNomh89Mqof6VVILHYzEg6os0mWDOP1Tja4w3iJCIKHapcy8lUVAmmZXlSMrG42vVK2MslKe1eDHsNzO2oVMIU69c4MDXEgsfHbIyRxCyl7KcHMvEgNzoI=;5:/r4VGhEMdBCC1F5LaMIuny8fT8dZCOWJ4vutriZCEq21V9Oyh6X1et836wm7ks7dIz+MOBlokHy6qSYwbuv3YyKFX8es5THHGHfUybe8hjCa/DYcwuQ5xVXIw/w80t4gD7ZGWtmK7yCRJyh/oT/VAs8/sCItiVsUeY1dUxzZk34=;7:icjAx4OLbKKqtGZp969A72In6XbRUuE1R2J0svKTt2LP+Z7r06dAcxEq/DX94EPdgrXrgeIlzgOasBMnfSzBK9rl+ZW0opPxpE2i6OIZJA+AKbiaRv/dXCVPkkrNJpnq5MPettrXmKOWgULAHWgaXg==
-x-ms-office365-filtering-correlation-id: 99982d56-d648-409b-37e2-08d66cb5d2a9
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600109)(711020)(4618075)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:AM3PR08MB0184;
-x-ms-traffictypediagnostic: AM3PR08MB0184:
-nodisclaimer: True
-x-microsoft-antispam-prvs: <AM3PR08MB0184F3240F41540ED696FDFDB3B70@AM3PR08MB0184.eurprd08.prod.outlook.com>
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(3230021)(908002)(999002)(5005026)(6040522)(2401047)(8121501046)(3002001)(3231475)(944501520)(4982022)(52105112)(10201501046)(93006095)(93001095)(6055026)(6041310)(20161123560045)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123564045)(20161123562045)(201708071742011)(7699051)(76991095);SRVR:AM3PR08MB0184;BCL:0;PCL:0;RULEID:;SRVR:AM3PR08MB0184;
-x-forefront-prvs: 09007040D4
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(7916004)(366004)(396003)(346002)(376002)(136003)(39860400002)(199004)(189003)(11346002)(478600001)(446003)(14444005)(229853002)(6306002)(3846002)(53936002)(6486002)(966005)(6512007)(86362001)(6436002)(6246003)(6116002)(9686003)(4326008)(2906002)(256004)(476003)(1076003)(6916009)(486006)(305945005)(33716001)(55236004)(102836004)(33656002)(7736002)(386003)(68736007)(8676002)(81156014)(71190400001)(53546011)(99286004)(5660300001)(25786009)(93886005)(81166006)(58126008)(186003)(6506007)(33896004)(105586002)(97736004)(316002)(14454004)(106356001)(54906003)(26005)(52116002)(71200400001)(7416002)(66066001)(8936002)(76176011)(18370500001);DIR:OUT;SFP:1101;SCL:1;SRVR:AM3PR08MB0184;H:AM3PR08MB0611.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: arm.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: UWSJdauJhLyoVwP0YubrhryqXm8K/nydKdRvskarIuRpaaVjeKO0FDZ3OZ8SdnU9DKowIdmzDoGyJC68/8Eb6hgsKWcLVhtqfP8V1Z6G+GNL3RfgTEHugIy7CQwgKtjX+1TK3rCWdQsrAC6rQKysKDsIkUI9dUsMBei3UA1gObMY05DzU9ZSgDcyUlEZ7x6jqn/ZUBPbEzdlK96SbB67Zx1hvvLCURtMlnBaXDECBDC3xrUJeLSGttzfOrWIG/HHXC3XmDDCjEfWtqPmwIAugRjlckiKjRIpPaXE2n0dsFWPZCOX+gb9RGpykZM57Pmh
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <BAC77A78A210154DBBF52CA4E104FF1E@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99982d56-d648-409b-37e2-08d66cb5d2a9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Dec 2018 11:15:50.2802
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM3PR08MB0184
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gTW9uLCBEZWMgMjQsIDIwMTggYXQgMDI6MDU6NDNQTSArMDEwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToNCj4gT24gTW9uLCBEZWMgMjQsIDIwMTggYXQgMTozMyBQTSBMaXZpdSBEdWRhdSA8TGl2
-aXUuRHVkYXVAYXJtLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBPbiBGcmksIERlYyAyMSwgMjAxOCBh
-dCAxMDowMTowNkFNICswMDAwLCBqYW1lcyBxaWFuIHdhbmcgKEFybSBUZWNobm9sb2d5IENoaW5h
-KSB3cm90ZToNCj4gPiA+IHYyOiBBZGp1c3RlZCB0aGUgcG9zaXRpb24gb2YgS09NRURBIGJ5IGFs
-cGhhYmV0aWNhbCBvcmRlcg0KPiA+ID4NCj4gPiA+IFNpZ25lZC1vZmYtYnk6IEphbWVzIChRaWFu
-KSBXYW5nIDxqYW1lcy5xaWFuLndhbmdAYXJtLmNvbT4NCj4gPg0KPiA+IEFja2VkLWJ5OiBMaXZp
-dSBEdWRhdSA8bGl2aXUuZHVkYXVAYXJtLmNvbT4NCj4gPg0KPiA+IEJlc3QgcmVnYXJkcywNCj4g
-PiBMaXZpdQ0KPiA+DQo+ID4gPiAtLS0NCj4gPiA+ICBNQUlOVEFJTkVSUyB8IDkgKysrKysrKysr
-DQo+ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKQ0KPiA+ID4NCj4gPiA+IGRp
-ZmYgLS1naXQgYS9NQUlOVEFJTkVSUyBiL01BSU5UQUlORVJTDQo+ID4gPiBpbmRleCAyNTRiN2Iy
-Njc3MzEuLmU0OGMyZTVmZDI5ZiAxMDA2NDQNCj4gPiA+IC0tLSBhL01BSU5UQUlORVJTDQo+ID4g
-PiArKysgYi9NQUlOVEFJTkVSUw0KPiA+ID4gQEAgLTExMjQsNiArMTEyNCwxNSBAQCBTOiAgICAg
-U3VwcG9ydGVkDQo+ID4gPiAgRjogICBkcml2ZXJzL2dwdS9kcm0vYXJtL2hkbGNkXyoNCj4gPiA+
-ICBGOiAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2FybSxoZGxj
-ZC50eHQNCj4gPiA+DQo+ID4gPiArQVJNIEtPTUVEQSBEUk0tS01TIERSSVZFUg0KPiA+ID4gK006
-ICAgSmFtZXMgKFFpYW4pIFdhbmcgPGphbWVzLnFpYW4ud2FuZ0Bhcm0uY29tPg0KPiA+ID4gK006
-ICAgTWFsaSBEUCBNYWludGFpbmVycyA8bWFsaWRwQGZvc3MuYXJtLmNvbT4NCj4gPiA+ICtTOiAg
-IFN1cHBvcnRlZA0KPiA+ID4gK0Y6ICAgZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2luY2x1
-ZGUvDQo+ID4gPiArRjogICBkcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhLw0KPiA+
-ID4gK0Y6ICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYXJtL2Fy
-bSxrb21lZGEudHh0DQo+ID4gPiArRjogICBEb2N1bWVudGF0aW9uL2dwdS9rb21lZGEta21zLnJz
-dA0KPiANCj4gTWVudGlvbmluZyB0aGUgZ2l0IHRyZWUgd291bGQgYmUgZ29vZC4gQW5kIEkgZ3Vl
-c3MgeW91J2xsIGRvIHNvbWUga2luZA0KPiBvZiBncm91cCBtYWludGFpbmVyc2hpcD8gUHJvYmFi
-bHkgc3RpbGwgZ29vZCBpZiB5b3Ugc2VuZCBvdXQgYQ0KPiBkZWRpY2F0ZWQvdG9waWMgcHVsbCBy
-ZXF1ZXN0IGZvciB0aGlzIG5ldyBkcml2ZXIsIGJ1dCBmcm9tIHRoZW4gb24NCj4gaXQncyBhbGwg
-aW4gdGhlIHNhbWUgZ2l0IHJlcG8uDQo+IC1EYW5pZWwNCg0KSGkgRGFuaWVsOg0KDQpUaGUga29t
-ZWRhIGRyaXZlciB3aWxsIHVzZSBhbiBBcm0taG9zdGVkIHRyZWU6DQoNCmdpdCBnaXQ6Ly9saW51
-eC1hcm0ub3JnL2xpbnV4LWxkLmdpdCBmb3ItdXBzdHJlYW0vbWFsaS1kcA0KDQpTYW1lIGFzIG90
-aGVyIGFybSBkaXNwbGF5IGRyaXZlcnMuIEFuZCBMaXZpdSBEdWRhdSB3aWxsIGhlbHAgdG8gc2Vu
-ZCB0aGUgcHVsbA0KcmVxdWVzdCB0byBtZXJnZSB0aGlzIHRvcGljIGludG8gZHJtLW5leHQuDQoN
-CkFuZCB3ZSBhcmUgcGxhbm5pbmcgdG8gYWRvcHQgYSBncm91cCBtYWludGFpbmVyc2hpcCBhbmQg
-bWlncmF0ZSB0b3dhcmRzIGRybS1taXNjLW5leHQsDQpidXQgd2UganVzdCBuZWVkIHRvIGhhdmUg
-ZW5vdWdoIHBlb3BsZSBhbmQgZW5vdWdoIGV4cGVyaWVuY2Ugd2l0aCB3b3JraW5nIHdpdGggdXBz
-dHJlYW0NCmJlZm9yZSB3ZSBqdW1wIGFsbCBpbi4NCg0KTGFzdCBhIFQ6IGVudHJ5IHdpbGwgYmUg
-YWRkZWQgaW4gdGhlIG5leHQgdmVyc2lvbi4NCg0KVDogICAgICBnaXQgZ2l0Oi8vbGludXgtYXJt
-Lm9yZy9saW51eC1sZC5naXQgZm9yLXVwc3RyZWFtL21hbGktZHANCg0KSmFtZXMNCg0KPiA+ID4g
-Kw0KPiA+ID4gIEFSTSBNQUxJLURQIERSTSBEUklWRVINCj4gPiA+ICBNOiAgIExpdml1IER1ZGF1
-IDxsaXZpdS5kdWRhdUBhcm0uY29tPg0KPiA+ID4gIE06ICAgQnJpYW4gU3RhcmtleSA8YnJpYW4u
-c3RhcmtleUBhcm0uY29tPg0KPiA+ID4gLS0NCj4gPiA+IDIuMTcuMQ0KPiA+ID4NCj4gPg0KPiA+
-IC0tDQo+ID4gPT09PT09PT09PT09PT09PT09PT0NCj4gPiB8IEkgd291bGQgbGlrZSB0byB8DQo+
-ID4gfCBmaXggdGhlIHdvcmxkLCAgfA0KPiA+IHwgYnV0IHRoZXkncmUgbm90IHwNCj4gPiB8IGdp
-dmluZyBtZSB0aGUgICB8DQo+ID4gIFwgc291cmNlIGNvZGUhICAvDQo+ID4gICAtLS0tLS0tLS0t
-LS0tLS0NCj4gPiAgICAgwq9cXyjjg4QpXy/Crw0KPiANCj4gDQo+IA0KPiAtLSANCj4gRGFuaWVs
-IFZldHRlcg0KPiBTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24NCj4gKzQxICgw
-KSA3OSAzNjUgNTcgNDggLSBodHRwOi8vYmxvZy5mZndsbC5jaA0K
+On Fri, Dec 28, 2018 at 12:15 PM james qian wang (Arm Technology
+China) <james.qian.wang@arm.com> wrote:
+>
+> On Mon, Dec 24, 2018 at 02:05:43PM +0100, Daniel Vetter wrote:
+> > On Mon, Dec 24, 2018 at 1:33 PM Liviu Dudau <Liviu.Dudau@arm.com> wrote=
+:
+> > >
+> > > On Fri, Dec 21, 2018 at 10:01:06AM +0000, james qian wang (Arm Techno=
+logy China) wrote:
+> > > > v2: Adjusted the position of KOMEDA by alphabetical order
+> > > >
+> > > > Signed-off-by: James (Qian) Wang <james.qian.wang@arm.com>
+> > >
+> > > Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+> > >
+> > > Best regards,
+> > > Liviu
+> > >
+> > > > ---
+> > > >  MAINTAINERS | 9 +++++++++
+> > > >  1 file changed, 9 insertions(+)
+> > > >
+> > > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > > index 254b7b267731..e48c2e5fd29f 100644
+> > > > --- a/MAINTAINERS
+> > > > +++ b/MAINTAINERS
+> > > > @@ -1124,6 +1124,15 @@ S:     Supported
+> > > >  F:   drivers/gpu/drm/arm/hdlcd_*
+> > > >  F:   Documentation/devicetree/bindings/display/arm,hdlcd.txt
+> > > >
+> > > > +ARM KOMEDA DRM-KMS DRIVER
+> > > > +M:   James (Qian) Wang <james.qian.wang@arm.com>
+> > > > +M:   Mali DP Maintainers <malidp@foss.arm.com>
+> > > > +S:   Supported
+> > > > +F:   drivers/gpu/drm/arm/display/include/
+> > > > +F:   drivers/gpu/drm/arm/display/komeda/
+> > > > +F:   Documentation/devicetree/bindings/display/arm/arm,komeda.txt
+> > > > +F:   Documentation/gpu/komeda-kms.rst
+> >
+> > Mentioning the git tree would be good. And I guess you'll do some kind
+> > of group maintainership? Probably still good if you send out a
+> > dedicated/topic pull request for this new driver, but from then on
+> > it's all in the same git repo.
+> > -Daniel
+>
+> Hi Daniel:
+>
+> The komeda driver will use an Arm-hosted tree:
+>
+> git git://linux-arm.org/linux-ld.git for-upstream/mali-dp
+>
+> Same as other arm display drivers. And Liviu Dudau will help to send the =
+pull
+> request to merge this topic into drm-next.
+>
+> And we are planning to adopt a group maintainership and migrate towards d=
+rm-misc-next,
+> but we just need to have enough people and enough experience with working=
+ with upstream
+> before we jump all in.
+
+arm drivers are probably a bit too big for drm-misc, but you could use
+the same tooling to maintain a drm-arm tree. I guess that's the idea?
+-Daniel
+
+> Last a T: entry will be added in the next version.
+>
+> T:      git git://linux-arm.org/linux-ld.git for-upstream/mali-dp
+>
+> James
+>
+> > > > +
+> > > >  ARM MALI-DP DRM DRIVER
+> > > >  M:   Liviu Dudau <liviu.dudau@arm.com>
+> > > >  M:   Brian Starkey <brian.starkey@arm.com>
+> > > > --
+> > > > 2.17.1
+> > > >
+> > >
+> > > --
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > | I would like to |
+> > > | fix the world,  |
+> > > | but they're not |
+> > > | giving me the   |
+> > >  \ source code!  /
+> > >   ---------------
+> > >     =C2=AF\_(=E3=83=84)_/=C2=AF
+> >
+> >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > +41 (0) 79 365 57 48 - http://blog.ffwll.ch
+
+
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
