@@ -1,105 +1,73 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 01D8D7D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 28 Dec 2018 21:49:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4557D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 29 Dec 2018 02:14:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726332AbeL1Vs5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 28 Dec 2018 16:48:57 -0500
-Received: from mail-io1-f65.google.com ([209.85.166.65]:46839 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725913AbeL1Vs5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Dec 2018 16:48:57 -0500
-Received: by mail-io1-f65.google.com with SMTP id v10so17639484ios.13;
-        Fri, 28 Dec 2018 13:48:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Pgp8QGM8Sxxy+ekOkA+knxIXmgF85vwv+RMpA4VSbk8=;
-        b=lAWfndzZAMnCjngEkD+CYOj+aq8t05yWQfWRZosGqPSC12qfTFpRAKpMSd6gf3TkV6
-         IL25p+pRj2n++KIGdwJTc9+EypgTMJG3llJCiOjHUnfjH0x0XQhwisTC1be7hj4Qv65W
-         AQK3fJ84WdfcHi16RktPzKRrQAW6W9loM1+954d0GTXRgptdf535yYHtzFphVbn+9mtk
-         /Q2e01DzgEcgPgRbamGmig9oPxuzmqmjTT8/8WXgAX1Do5cfotxv+E3oyzHZBBcwBd+o
-         xxgc+ct6DoLDq0A1rAr7c8TuCSpFWTK21xakt4cwx0vuxMuJeQlVcIloRzVoQfXKj+Fs
-         AbbQ==
-X-Gm-Message-State: AJcUukdjTKdDG8gMQDC2OfNnLjGcDrfV2BmlkKOF7UU0m9gh9kCdIJGs
-        kU7dfUrxbPwScQvLW38yxLyp0kU=
-X-Google-Smtp-Source: ALg8bN6aDTD1I7/EbuShlAij+H9/MbsXHjlDPik1xXo1Fd8ylo7K27yHtXd/qIvMn/YaGE7V6iXytg==
-X-Received: by 2002:a6b:2b07:: with SMTP id r7mr19828025ior.169.1546033735971;
-        Fri, 28 Dec 2018 13:48:55 -0800 (PST)
-Received: from localhost ([24.51.61.172])
-        by smtp.gmail.com with ESMTPSA id m10sm4218931ioq.25.2018.12.28.13.48.54
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 28 Dec 2018 13:48:55 -0800 (PST)
-Date:   Fri, 28 Dec 2018 15:48:53 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v9 03/27] dt-bindings: Add doc for the Ingenic TCU drivers
-Message-ID: <20181228214853.GA8568@bogus>
-References: <20181227181319.31095-1-paul@crapouillou.net>
- <20181227181319.31095-4-paul@crapouillou.net>
+        id S1727152AbeL2COo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 28 Dec 2018 21:14:44 -0500
+Received: from owa.iluvatar.ai ([103.91.158.24]:62077 "EHLO owa.iluvatar.ai"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727137AbeL2COo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 28 Dec 2018 21:14:44 -0500
+X-Greylist: delayed 906 seconds by postgrey-1.27 at vger.kernel.org; Fri, 28 Dec 2018 21:14:43 EST
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; d=iluvatar.ai; s=key_2018;
+        c=relaxed/relaxed; t=1546048767; h=from:subject:to:date:message-id;
+        bh=L6Cn/A0nKjoKq2LKU/bOE4c8OruEBiP21sdPd2ytLPc=;
+        b=Caq51BcXsGKBx05AB6mAbTKSoJZSPG7DTGH1bJ+VXYrndXyQZ72zXCVQWGbfyXaWDXTsnQQwwbJ
+        +/K3DKRSayjwSrPe/6xhJKWDDTUC2FLWiMsje4AWVd9fRb5mD5FE4vD2Lq3M4FY5+VBzw28/BXsyB
+        6tIohtbR9T57mFwyA1k=
+Received: from localhost.localdomain (10.101.1.99) by
+ S-10-101-1-102.iluvatar.local (10.101.1.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1415.2; Sat, 29 Dec 2018 09:59:27 +0800
+From:   Huang Shijie <sjhuang@iluvatar.ai>
+To:     <akpm@linux-foundation.org>
+CC:     <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Huang Shijie <sjhuang@iluvatar.ai>
+Subject: [PATCH] Documentation: rename addr_in_gen_pool to gen_pool_has_addr
+Date:   Sat, 29 Dec 2018 09:59:14 +0800
+Message-ID: <20181229015914.5573-1-sjhuang@iluvatar.ai>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20181227181319.31095-4-paul@crapouillou.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Originating-IP: [10.101.1.99]
+X-ClientProxiedBy: S-10-101-1-105.iluvatar.local (10.101.1.105) To
+ S-10-101-1-102.iluvatar.local (10.101.1.102)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 27 Dec 2018 19:12:55 +0100, Paul Cercueil wrote:
-> Add documentation about how to properly use the Ingenic TCU
-> (Timer/Counter Unit) drivers from devicetree.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
-> 
-> Notes:
->      v4: New patch in this series. Corresponds to V2 patches 3-4-5 with
->          added content.
->     
->      v5: - Edited PWM/watchdog DT bindings documentation to point to the new
->            document.
->          - Moved main document to
->            Documentation/devicetree/bindings/timer/ingenic,tcu.txt
->          - Updated documentation to reflect the new devicetree bindings.
->     
->      v6: - Removed PWM/watchdog documentation files as asked by upstream
->          - Removed doc about properties that should be implicit
->          - Removed doc about ingenic,timer-channel /
->            ingenic,clocksource-channel as they are gone
->          - Fix WDT clock name in the binding doc
->          - Fix lengths of register areas in watchdog/pwm nodes
->     
->      v7: No change
-> 
->      v8: - Fix address of the PWM node
->          - Added doc about system timer and clocksource children nodes
-> 
->      v9: - Remove doc about system timer and clocksource children
->            nodes...
-> 	 - Add doc about ingenic,pwm-channels-mask property
-> 
->  .../devicetree/bindings/pwm/ingenic,jz47xx-pwm.txt |  25 ----
->  .../devicetree/bindings/timer/ingenic,tcu.txt      | 139 +++++++++++++++++++++
->  .../bindings/watchdog/ingenic,jz4740-wdt.txt       |  17 ---
->  3 files changed, 139 insertions(+), 42 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/pwm/ingenic,jz47xx-pwm.txt
->  create mode 100644 Documentation/devicetree/bindings/timer/ingenic,tcu.txt
->  delete mode 100644 Documentation/devicetree/bindings/watchdog/ingenic,jz4740-wdt.txt
-> 
+Update the document, since we have renamed addr_in_gen_pool to
+gen_pool_has_addr.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Huang Shijie <sjhuang@iluvatar.ai>
+---
+
+Sorry, I missed to update this document...
+
+---
+ Documentation/core-api/genalloc.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/core-api/genalloc.rst b/Documentation/core-api/genalloc.rst
+index 6b38a39fab24..a534cc7ebd05 100644
+--- a/Documentation/core-api/genalloc.rst
++++ b/Documentation/core-api/genalloc.rst
+@@ -129,7 +129,7 @@ writing of special-purpose memory allocators in the future.
+    :functions: gen_pool_for_each_chunk
+ 
+ .. kernel-doc:: lib/genalloc.c
+-   :functions: addr_in_gen_pool
++   :functions: gen_pool_has_addr
+ 
+ .. kernel-doc:: lib/genalloc.c
+    :functions: gen_pool_avail
+-- 
+2.17.1
+
