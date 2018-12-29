@@ -1,112 +1,55 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7F3247D08E
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 29 Dec 2018 18:14:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1FF307D08E
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 29 Dec 2018 18:33:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727954AbeL2SOa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 29 Dec 2018 13:14:30 -0500
-Received: from wes1-so2.wedos.net ([46.28.106.16]:50746 "EHLO
-        wes1-so2.wedos.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725981AbeL2SOa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Dec 2018 13:14:30 -0500
-X-Greylist: delayed 545 seconds by postgrey-1.27 at vger.kernel.org; Sat, 29 Dec 2018 13:14:29 EST
-Received: from localhost (ip4-46-39-182-135.cust.nbox.cz [46.39.182.135])
-        by wes1-so2.wedos.net (Postfix) with ESMTPSA id 43Rs1Z3P2hzr3;
-        Sat, 29 Dec 2018 19:05:22 +0100 (CET)
-Date:   Sat, 29 Dec 2018 19:05:18 +0100
-From:   Otto Sabart <ottosabart@seberm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] doc: net: fix bad references to network drivers
-Message-ID: <20181229180518.GA8680@personal>
+        id S1727568AbeL2SdF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 29 Dec 2018 13:33:05 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:60734 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727541AbeL2SdF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Dec 2018 13:33:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=JxQRG8Zo29ppJdE9Tan2PVoOVDdpEGD7g60FdqOiVQw=; b=jfl/MDRTM3pQl25aesD8OUzdS
+        OfBu5REdM1InjhzCV6lWBy4wAOPm9+rbOg01EjzrrJaFm1NZaNIqjGomXbpNl1pdJd9Mn7ZIK9pRC
+        Ps/qw38tO0VEXp/H2r2zfEn1fvL8zJOGFPP1IIVE28Zk8cgYMHWOC9u5zhqYw1FfHmQARW20CyIdu
+        qf8gP1lEAmuA/3J0bzYmXlaQM3EmGrhrdAy+7R6DDbvfKYASBFJuonsY8QfhkPEYl1bexN49tWMq7
+        kTx74/9dXqVE/TAYHaASatgxR3DEgPyeWaew49hB9zWqhmHiNnE3pETqUF0UsYLLIQN6SI7t9nDon
+        BkUgTzOnQ==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gdJPv-0000Gv-TO; Sat, 29 Dec 2018 18:32:59 +0000
+Date:   Sat, 29 Dec 2018 10:32:59 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Otto Sabart <ottosabart@seberm.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc: net: fix bad references to network drivers
+Message-ID: <20181229183259.GB6310@bombadil.infradead.org>
+References: <20181229180518.GA8680@personal>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="huq684BweRXVnRxX"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-PGP-Key: http://seberm.com/pubkey.asc
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20181229180518.GA8680@personal>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, Dec 29, 2018 at 07:05:18PM +0100, Otto Sabart wrote:
+> Fix "reference to nonexisting document" warnings.
+> 
+> Signed-off-by: Otto Sabart <ottosabart@seberm.com>
 
---huq684BweRXVnRxX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: b255e500c8dc ("net: documentation: build a directory structure for drivers")
 
-Fix "reference to nonexisting document" warnings.
-
-Signed-off-by: Otto Sabart <ottosabart@seberm.com>
----
- Documentation/networking/index.rst | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
-
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/=
-index.rst
-index 6a47629ef8ed..59e86de662cd 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -11,19 +11,19 @@ Contents:
-    batman-adv
-    can
-    can_ucan_protocol
--   dpaa2/index
--   e100
--   e1000
--   e1000e
--   fm10k
--   igb
--   igbvf
--   ixgb
--   ixgbe
--   ixgbevf
--   i40e
--   iavf
--   ice
-+   device_drivers/freescale/dpaa2/index
-+   device_drivers/intel/e100
-+   device_drivers/intel/e1000
-+   device_drivers/intel/e1000e
-+   device_drivers/intel/fm10k
-+   device_drivers/intel/igb
-+   device_drivers/intel/igbvf
-+   device_drivers/intel/ixgb
-+   device_drivers/intel/ixgbe
-+   device_drivers/intel/ixgbevf
-+   device_drivers/intel/i40e
-+   device_drivers/intel/iavf
-+   device_drivers/intel/ice
-    kapi
-    z8530book
-    msg_zerocopy
---=20
-2.17.2
-
---huq684BweRXVnRxX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlwnt14ACgkQgjuumfi+
-HjzXyA//SaG3lvpKqzBPMNwHNlo/YCnQTyTAszJ+LFYirvojaxRF+MdDkkY4W4Ct
-J+zen0VgZ2VfhDyfg6di7YCEnFL+QoC7yrBscD8vevaWtTr5Y+4G2ROR/erZINUf
-neSGiBIlLVZ4wVR7GUf4T8juHUjk1sZGEScsW8fM9uw4Yze1kwsBEyqWVZyMF4ra
-pSNV6KmnxgGuNspg5/DaeL16r+buGaoOA7agaKbi5WVX0AhjAPXcz4gIpM/MpBWF
-zw86tiZYoQNPDlAIpvwJU531vaxcVmnLkvdJFSHua4o9iAYdabCWAi68LOR04k2z
-6XNbKLQfQMEZtN2Gvl9ZeRy7bEmFV5fu09MU8qn242nscdOF1wCVOXEU42J+XwMa
-k5MI6BHLehDnJn/OWIqdSpBwFrVhQ73qJXgA9bmTUKEhyrGXb6M9fOWnhZbsm/Dz
-KTjajKOotooJkNHjjnAIcjCRt6XrrP0np9xXlC1VMCvLWyo40M2IwZe5KmFAwovj
-BTfkYmVxrtgtojHIB1glHybZpJLMRBu97jjnBjmcuDGxxSjqdRTSk0S5XzQgrSBe
-t0m51Pn4DvmUdhPK1zTRXjXYsYVu2KHGcl7HTFHbpeuosHgc+zEJkh2bGp4Zpvu6
-NGP6714Qf79YvoFL2AWOmymXXjg2BmO+NkJpHObL92CGXwzTqhs=
-=EXA4
------END PGP SIGNATURE-----
-
---huq684BweRXVnRxX--
