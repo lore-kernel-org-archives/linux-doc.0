@@ -1,83 +1,138 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 25C837D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 29 Dec 2018 21:00:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 458E67D089
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 29 Dec 2018 21:57:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726659AbeL2VAW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 29 Dec 2018 16:00:22 -0500
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:40450 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726643AbeL2VAW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Dec 2018 16:00:22 -0500
-Received: by mail-qk1-f193.google.com with SMTP id y16so14183742qki.7
-        for <linux-doc@vger.kernel.org>; Sat, 29 Dec 2018 13:00:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=geciauskas-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=Nbvt2JbNrBkjyHvWPTN7JE8gLjEXoIKmEBiZDXg+0Ps=;
-        b=WxXIaUVh6l7Z75gL0hc3soJCyp7//COEF0rQ7UtJb+r05Hf0i6JVE/CFFCc4lNak1N
-         uJe7A//ZIJrRK3NRjU7ovGLzzuS7WxxNbylICoZ4n2gd6d8yi6AfA5tdOFn4hslr7wNl
-         B0Rir58cWnn9L+OSmGhc9SgjcFDHqGkAZXNTXTetarhMjhhaN1lrefrps95mvRwpiVC9
-         FVI7AJT8qj8gzzfC4LgRBz0QDYlZ/ru/37YnBkyBT6AIBVir8uHkjpQ21zh2Zf+NO3hm
-         U4eXBHkBmr5JHwVbwzXUQOuHwPoCucamlVpFOguAXgwWGEyqqCzce6wa1Cb6uzrVWrVk
-         9sGw==
+        id S1727117AbeL2V5p convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 29 Dec 2018 16:57:45 -0500
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:44784 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728554AbeL2V5p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Dec 2018 16:57:45 -0500
+Received: by mail-qt1-f195.google.com with SMTP id n32so26462867qte.11;
+        Sat, 29 Dec 2018 13:57:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Nbvt2JbNrBkjyHvWPTN7JE8gLjEXoIKmEBiZDXg+0Ps=;
-        b=qC8TqtXAxvZ5kgfzZP1yFOg3ycezt7/VxuO73cOI35jV4l01cPqzdkABBv2HKW6loX
-         NVnWoMywVYLu168ApzffiKAxTtxQcy1QGbpp8/1vcU2MSVTAH3a8bPrUB+phdp89qSlq
-         42lZRjsHNRWDV6o9I5gtLzmFv7NTb8lg1+oD6z3VfJtYbnO/5mvlfqIOWcJf47N4tB+1
-         7AZ75NzQlz0qMHrkfSywCTI+rvF9AAvREEkmRBS4sKDWTZ05dWheuUR0awFe1QVeVZ9G
-         oatoBZyOlhPXOBAPGR3z28r7SNN+4Vk6DulYgJyLImj9ZgLOdwLKyqtiEeJLpdPfGRhS
-         VuIA==
-X-Gm-Message-State: AJcUuke0S4121UsWqf4sgOFUYTObZ3FzTlg/tzp9H5FTZoPf0M1FQTgo
-        0Fn9C1moAnTchSH5ayk59+23hLXgxGY=
-X-Google-Smtp-Source: ALg8bN7q7hvuqcexZNqX8k3jJvodpoE2Fj3lmWpPG8d2KSN8pBKO67nvXMaB0cF8w4QPRwzVmtv4Aw==
-X-Received: by 2002:a37:b201:: with SMTP id b1mr28367573qkf.306.1546117221346;
-        Sat, 29 Dec 2018 13:00:21 -0800 (PST)
-Received: from triton ([2601:18d:8800:7790:9deb:c7c:226:32fc])
-        by smtp.gmail.com with ESMTPSA id q184sm15798326qkb.23.2018.12.29.13.00.20
-        (version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sat, 29 Dec 2018 13:00:20 -0800 (PST)
-From:   Ramunas Geciauskas <kernel@geciauskas.com>
-To:     corbet@lwn.net, linux-doc@vger.kernel.org
-Cc:     Ramunas Geciauskas <kernel@geciauskas.com>
-Subject: [PATCH] Documentation/admin-guide: update URL of LKML information link
-Date:   Sat, 29 Dec 2018 16:00:00 -0500
-Message-Id: <20181229210000.1132-1-kernel@geciauskas.com>
-X-Mailer: git-send-email 2.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ei4rDf2o5vhDoh51gyAfX+grGTs30ykQyclfhGAnvuU=;
+        b=WXJG53efqBsE2ie8sDtEUY4p7T4r5+jt2dKy5y2c3PfeCkbQBpWFn9kUc5T7reRoSj
+         wPcYR0f9HG2mfM+kJVjA5YSn7a8qRWgbuIRX8JRMYTNs0olC1yZMWMElLP8JQXGeczZu
+         STJKl6ajeIHZvFDdRWjQxZ1IQEoVQ6bXJWlqTzAqyZUSiCetrN2kap49H+k+3JPBxMcW
+         ZPO5UfFlm9Sh+q5MzxWfufqcKDdrOoYmNeKdrHf55lMfHJA5PDvgIFYTRaEB0ctPPFXT
+         26urKGEMqBmU53o1z0gsdRKzipCPJ96ZaSCKAP2nIIKPhQY5sshC9yPCjgCwhqVh924X
+         WDMQ==
+X-Gm-Message-State: AJcUukep56hHoN+8dPlNrIhCcYVVYTxc685G5/gDULWJBErcQmDTAFGG
+        BeVG25tMOOd5MuOvFnSV36LVlmqyNgjdxprMWa8=
+X-Google-Smtp-Source: ALg8bN7zKH1wAVwrp2XPC1sj4+ngWylVJVnnSjCxSQvOhkbmK5N4QjXESdQfZ50FncUPXk52pqLa/wPqi/+lcYTuKXs=
+X-Received: by 2002:ac8:1d12:: with SMTP id d18mr3737644qtl.343.1546120663249;
+ Sat, 29 Dec 2018 13:57:43 -0800 (PST)
+MIME-Version: 1.0
+References: <da5620dc7a2b9d33f2a0dd7f4dc3afdab5a66f26.1534795606.git.joe@perches.com>
+ <CAMuHMdXPFgp5sLR5-UExEvxNbKSR5H--dk7KMit_XFSFN+1uHw@mail.gmail.com>
+ <1996329d875e1ab5b9cd69db187b7037ad3a0d8d.camel@perches.com> <CAMuHMdW1OqswdSRj2DROFST46dLCmMU5=ki2x0FBn8OjJjgLdg@mail.gmail.com>
+In-Reply-To: <CAMuHMdW1OqswdSRj2DROFST46dLCmMU5=ki2x0FBn8OjJjgLdg@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Sat, 29 Dec 2018 22:57:26 +0100
+Message-ID: <CAK8P3a2K5m91-KPybKx5EGcMR=3CZDUeUqxe2MeRqg95j9WLeA@mail.gmail.com>
+Subject: Re: [PATCH] Raise the minimum required gcc version to 4.6
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Joe Perches <joe@perches.com>,
+        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Mike Galbraith <efault@gmx.de>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rik van Riel <riel@surriel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Information regarding linux-kernel mailing list is no longer hosted on tux.org
-Update the link to point to the one available at kernel.org
+On Sat, Dec 29, 2018 at 3:25 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-Signed-off-by: Ramunas Geciauskas <kernel@geciauskas.com>
----
- Documentation/admin-guide/reporting-bugs.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On Fri, Aug 24, 2018 at 12:00 AM Joe Perches <joe@perches.com> wrote:
+> > On Thu, 2018-08-23 at 23:52 +0200, Geert Uytterhoeven wrote:
+> --- build.log.linux-4.20.0-atari-07795-g835f16c9b68966ff-gcc-4.1.2-20061115-prerelease-Ubuntu-4.1.1-21
+> +++ build.log.linux-4.20.0-atari-07767-gc085b9fd60f52a62-gcc-7.3.0-27ubuntu1~18.04
+>
+> 20 warning regressions:
+>   + arch/m68k/atari/config.c: warning: ISO C90 forbids variable length
+> array ‘switches’ [-Wvla]:  => 151:2
 
-diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
-index 4650edb8840a..49ac8dc3594d 100644
---- a/Documentation/admin-guide/reporting-bugs.rst
-+++ b/Documentation/admin-guide/reporting-bugs.rst
-@@ -67,7 +67,7 @@ If you can't figure out which subsystem caused the issue, you should file
- a bug in kernel.org bugzilla and send email to
- linux-kernel@vger.kernel.org, referencing the bugzilla URL.  (For more
- information on the linux-kernel mailing list see
--http://www.tux.org/lkml/).
-+http://vger.kernel.org/lkml/).
- 
- 
- Tips for reporting bugs
--- 
-2.11.0
+Ah, so we still have some of these. The warning was only recently added.
 
+>   + arch/m68k/include/asm/cmpxchg.h: warning: value computed is not
+> used [-Wunused-value]:  => 79:22, 122:3, 137:3
+
+IIRC this can be avoided using a ({ ... }) type expression.
+
+>   + arch/m68k/include/asm/raw_io.h: warning: cast to pointer from
+> integer of different size [-Wint-to-pointer-cast]:  => 20:19, 33:35,
+> 26:31, 30:32
+
+The I/O accessors are defined in an unusual way that defeats a lot
+of the type checking we normally have. Generally speaking the
+memory space operations (readl/ioread32/__raw_readl, ...) should
+be inline functions taking a 'const volatile void __iomem *' argument
+(non-const for writel), while the I/O space operations should take
+an integer port number (16 or 32 bit, depending on how your ISA
+or PCI buses work).
+
+Doing that should avoid all the warnings you quote here, but may
+introduce warnings about nonportable driver code.
+
+>   + arch/m68k/include/asm/string.h: warning: argument 2 null where
+> non-null expected [-Wnonnull]:  => 72:25
+
+This might be a kernel bug.
+
+>   + arch/m68k/kernel/setup_mm.c: warning: #warning Are you building an
+> allnoconfig kernel? [-Wcpp]:  => 51:2
+>   + arch/m68k/kernel/setup_mm.c: warning: #warning No CPU/platform
+> type selected, your kernel will not work! [-Wcpp]:  => 50:2
+>   + arch/m68k/mvme147/config.c: warning: #warning check me! [-Wcpp]:  => 150:2
+>   + arch/m68k/mvme16x/config.c: warning: #warning check me! [-Wcpp]:  => 397:2
+
+I've removed that kind of warning from other architectures.
+
+>   + arch/m68k/kernel/signal.c: warning: ISO C90 forbids variable
+> length array ‘buf’ [-Wvla]:  => 654:3
+
+You can probably pick the maximum here.
+
+>   + drivers/i2c/i2c-core-base.c: warning: ‘ret’ may be used
+> uninitialized in this function [-Wmaybe-uninitialized]:  => 235:5
+
+This might come from the new CONFIG_NO_AUTO_INLINE.
+
+>   + drivers/input/joystick/analog.c: warning: #warning Precise timer
+> not defined for this architecture. [-Wcpp]:  => 172:2
+
+Maybe add a Kconfig dependency on !M68K?
+
+>   + include/linux/dynamic_debug.h: warning: statement will never be
+> executed [-Wswitch-unreachable]:  => 115:19
+
+No idea.
+
+>   + warning: unmet direct dependencies detected for NEED_MULTIPLE_NODES:  => N/A
+>   + warning: unmet direct dependencies detected for SND_SOC_QDSP6:  => N/A
+
+Not gcc warnings.
+
+      Arnd
