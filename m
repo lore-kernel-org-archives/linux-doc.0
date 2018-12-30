@@ -1,101 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-2.4 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,RCVD_IN_SORBS_WEB,SUBJ_ALL_CAPS
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6CA227D089
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 30 Dec 2018 19:02:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D8CB67DD32
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 30 Dec 2018 21:59:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726321AbeL3TCA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 30 Dec 2018 14:02:00 -0500
-Received: from wes1-so2.wedos.net ([46.28.106.16]:43216 "EHLO
-        wes1-so2.wedos.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726300AbeL3TCA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Dec 2018 14:02:00 -0500
-Received: from localhost (ip4-46-39-182-135.cust.nbox.cz [46.39.182.135])
-        by wes1-so2.wedos.net (Postfix) with ESMTPSA id 43SVDQ4kSSztq;
-        Sun, 30 Dec 2018 20:01:58 +0100 (CET)
-Date:   Sun, 30 Dec 2018 20:01:55 +0100
-From:   Otto Sabart <ottosabart@seberm.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Tejun Heo <tj@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH] doc: cgroup: add missing literal block
-Message-ID: <20181230190155.GA15155@personal>
+        id S1726932AbeL3V66 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 30 Dec 2018 16:58:58 -0500
+Received: from walmailout07.yourhostingaccount.com ([65.254.253.59]:55537 "EHLO
+        walmailout07.yourhostingaccount.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726321AbeL3V65 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Dec 2018 16:58:57 -0500
+X-Greylist: delayed 1840 seconds by postgrey-1.27 at vger.kernel.org; Sun, 30 Dec 2018 16:58:54 EST
+Received: from mailscan07.yourhostingaccount.com ([10.1.15.7] helo=walmailscan07.yourhostingaccount.com)
+        by walmailout07.yourhostingaccount.com with esmtp (Exim)
+        id 1gdid2-0008P8-OO; Sun, 30 Dec 2018 16:28:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=cent.org;
+         s=dkim; h=Sender:Content-Transfer-Encoding:Content-Type:MIME-Version:
+        Reply-To:From:Subject:Date:Message-ID:To:Cc:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=+WRw4Y09rhnSMGu7LIPKTBg/MsQibVKq801Ml69g9+w=; b=0LuksJTcGwGGGzsPleTr6gGQxH
+        qB3eSCK6Vig2wDH8AUzjoZUQ1exANVxFpWe20zhqnm36i5AzVO0RC3FtNu5e/D8xV7DZK3QfaIy3k
+        IeQOUFqMB/cYa5QgKxP+KGPJa89y726mQCqgSSOUGHwLSys1o5ABNVbkZHo7Psy8WRvILgNEwHst3
+        TBoDGCLrVlQ8D5olXAiWu6aeV6vL+qc438/8xVtJiuB9+d6ieTRYaWbACB2kKe4Qa0iUTVs5lOKbA
+        +VAsS4U8BFUueLHL5oOSE5+0VRkTpW0qMwBixYgNqmTj2xfqnMN7gphnXKUv3+AN/OPkmnNvGRUe7
+        nny3Rqpg==;
+Received: from [10.114.3.32] (helo=walimpout12)
+        by walmailscan07.yourhostingaccount.com with esmtp (Exim)
+        id 1gdid2-0002eT-LC; Sun, 30 Dec 2018 16:28:12 -0500
+Received: from walwebmail14.yourhostingaccount.com ([10.1.16.14])
+        by walimpout12 with 
+        id JMU51z00B0JCG4S01MU8WD; Sun, 30 Dec 2018 16:28:12 -0500
+X-Authority-Analysis: v=2.2 cv=To2WvHfh c=1 sm=1 tr=0
+ a=n2W/kC2S0AwmpNK9BEHj3A==:117 a=7plFA6IJMCgbPl5aA3gbEA==:17
+ a=9cW_t1CCXrUA:10 a=zlw6mIyzVA8A:10 a=8nJEP1OIZ-IA:10 a=x7bEGLp0ZPQA:10
+ a=2ur7OfE09M0A:10 a=pGLkceISAAAA:8 a=2L4BxACa6-1GIkAYp-sA:9
+ a=ArhfIeuPc9SDLGGZ:21 a=sbvIy4xMBKf-EJUh:21 a=wPNLvfGTeEIA:10
+ a=RrcrlfCYq9cA:10 a=0llLuTgoWCczD7xk5_MJ:22 a=FUa4_AY26n6ZoQlZ3gpA:22
+Received: from [127.0.0.1] (helo=email.fatcow.com)
+        by walwebmail14.yourhostingaccount.com with esmtp (Exim)
+        id 1gdicr-000261-5Z; Sun, 30 Dec 2018 16:28:01 -0500
+Received: from 105.112.29.193
+        (SquirrelMail authenticated user mimi@ubaakubia212.fatcow.com)
+        by email.fatcow.com with HTTP;
+        Sun, 30 Dec 2018 16:28:01 -0500
+Message-ID: <b0c87e6c0241920819eecb057e8869b6.squirrel@email.fatcow.com>
+Date:   Sun, 30 Dec 2018 16:28:01 -0500
+Subject: ALLIANCE LOAN OFFER/PROJECT FUNDING
+From:   "FUND ALLIANCE INTERNATIONAL" <info@cent.org>
+Reply-To: olistin001@gmail.com
+User-Agent: SquirrelMail/1.4.19
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="7AUc2qLy4jB3hD7Z"
-Content-Disposition: inline
-X-PGP-Key: http://seberm.com/pubkey.asc
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+X-Priority: 3 (Normal)
+Importance: Normal
+X-EN-AuthUser: mimi@ubaakubia212.fatcow.com
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---7AUc2qLy4jB3hD7Z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-This patch fixes multiple build warnings:
-"WARNING: Block quote ends without a blank line; unexpected unindent."
 
-Signed-off-by: Otto Sabart <ottosabart@seberm.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+Good Day,
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-=
-guide/cgroup-v2.rst
-index 7bf3f129c68b..2687a454effc 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1505,12 +1505,13 @@ The limits are only applied at the peer level in th=
-e hierarchy.  This means that
- in the diagram below, only groups A, B, and C will influence each other, a=
-nd
- groups D and F will influence each other.  Group G will influence nobody.
-=20
--			[root]
--		/	   |		\
--		A	   B		C
--	       /  \        |
--	      D    F	   G
-+::
-=20
-+           [root]
-+       /     |     \
-+      A      B      C
-+     /  \    |
-+    D    F   G
-=20
- So the ideal way to configure this is to set io.latency in groups A, B, an=
-d C.
- Generally you do not want to set a value lower than the latency your device
---=20
-2.17.2
+I'm Olivia Austin a consultant from Fund Alliance International, We are
+currently offering 95% Non-Recourse Loan with our BG Leased Monetization
+Program for trade finance, constructions, credit enhancement, government
+funding, property investment and all-round range of funding, with 2%
+interest rate per annul for a period of 10-years + 1 year grace period
+with no pre-payment penalties. .
 
---7AUc2qLy4jB3hD7Z
-Content-Type: application/pgp-signature; name="signature.asc"
+    TERMS:
 
------BEGIN PGP SIGNATURE-----
+    2 % INTEREST RATE YEARLY
+    10 YEARS DURATION
+    1M-50B USD / EUR REQUIREMENT:
 
-iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlwpFiIACgkQgjuumfi+
-HjyF3w/+LsrAXcH79ZEiJRVNiAhln6IjB6Sc7lJ49zEh3rb+0gXoBXiUb1rIaDOt
-CcAGhyoDXyBruKrW3xQLaxDECqfxBRB3rtvsfMBF16SNOJzDDU+1jYrCpmRg7F5g
-vcmNGjQb7znDM3UQvVX81MSZjGoi0bYMYiLJgJ66YbgbvDTRo8/cpDfSDhD62cVE
-TH6rCYxYExXI0BfE41jL5ndLHvm1kPi70W2UzsgscWgup94rji5vIcd7K2CMPCop
-dMdppidFa4VfSty18DcIqr+oN014owBgzUfYDaDawii4POQocyWFU/Zw81DT0T2K
-p9if0srzxIV7ATwQbODvESbVuyGkPjyXHhf/Yni3AXB+Q5528QPtbxscInl063r3
-jYqOAUYhv2VJwlGYRhDxiOBOok0pzT2VKXNli/mGSu6afDoaX1DhPpHSvTO4IJ1D
-NZIrK+i5uOLwZiUQSvfQ35q9tKbFzn7WPAdY1xp+8MBpaPW96ZAzv5xwx3zCDAeA
-dFIQMBQUU000cIFsJcF/GsD685uCA5oSzX6kxyBpTIDpXKTTesx5XvZhxoFzi/E1
-onoQpYuU/a2ner5V5xUrCJzj7MrGbYnYotFAM1RNwCHPLrKcq2R6evWg/oIJDRan
-yuE5LCVQbb/eaP8XcIbzEUH5iC7g+XJZUaqvCUHCd9YAwa0QIEM=
-=Ggwi
------END PGP SIGNATURE-----
+    1.      CLIENT MUST OWN OR REPRESENT A COMPANY.
 
---7AUc2qLy4jB3hD7Z--
+    2.      CLIENT MUST BE ABLE TO PROVIDE BUSINESS PLAN OR EXECUTIVE
+SUMMARY OR SUMMARY PURPOSE OF THE LOAN.
+
+Let us know if you are interested in our services and meet up with the
+requirements? so as to provide you with more information.
+
+Regards,
+Olivia Austin
+Fund Alliance
+Lutzowplatz 17 10785, Berlin
+Germany
+Phone: +49 (322) 2109 7890
+Email:olistin001@gmail.com
+
+
+
