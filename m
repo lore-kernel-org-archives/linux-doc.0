@@ -1,138 +1,124 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 458E67D089
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 29 Dec 2018 21:57:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 88F0B7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 30 Dec 2018 10:25:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727117AbeL2V5p convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 29 Dec 2018 16:57:45 -0500
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:44784 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728554AbeL2V5p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Dec 2018 16:57:45 -0500
-Received: by mail-qt1-f195.google.com with SMTP id n32so26462867qte.11;
-        Sat, 29 Dec 2018 13:57:43 -0800 (PST)
+        id S1726042AbeL3KZb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 30 Dec 2018 05:25:31 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:33879 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726063AbeL3KZb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Dec 2018 05:25:31 -0500
+Received: by mail-wm1-f68.google.com with SMTP id y185so28454781wmd.1
+        for <linux-doc@vger.kernel.org>; Sun, 30 Dec 2018 02:25:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=RcIxiy51crz2BQyDtywt/mbWbWq0tfJAe0NkaqiG1IM=;
+        b=J2Gz+1F1qZXyqxAPjwSRThTSJUptrgZUg6fKCtvgXhgC8HcoRmlPrhLmIwcxyF6xn+
+         wbCktOKo6nps6P+AolCt1l1RLjoq9WdSMOwUXb/dz10JTbqZ9y+TOrrS6g4FyWrMhgfI
+         gy1xRQH3ziJRyLLoBvajgBfamYoD0nXeNpCIU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ei4rDf2o5vhDoh51gyAfX+grGTs30ykQyclfhGAnvuU=;
-        b=WXJG53efqBsE2ie8sDtEUY4p7T4r5+jt2dKy5y2c3PfeCkbQBpWFn9kUc5T7reRoSj
-         wPcYR0f9HG2mfM+kJVjA5YSn7a8qRWgbuIRX8JRMYTNs0olC1yZMWMElLP8JQXGeczZu
-         STJKl6ajeIHZvFDdRWjQxZ1IQEoVQ6bXJWlqTzAqyZUSiCetrN2kap49H+k+3JPBxMcW
-         ZPO5UfFlm9Sh+q5MzxWfufqcKDdrOoYmNeKdrHf55lMfHJA5PDvgIFYTRaEB0ctPPFXT
-         26urKGEMqBmU53o1z0gsdRKzipCPJ96ZaSCKAP2nIIKPhQY5sshC9yPCjgCwhqVh924X
-         WDMQ==
-X-Gm-Message-State: AJcUukep56hHoN+8dPlNrIhCcYVVYTxc685G5/gDULWJBErcQmDTAFGG
-        BeVG25tMOOd5MuOvFnSV36LVlmqyNgjdxprMWa8=
-X-Google-Smtp-Source: ALg8bN7zKH1wAVwrp2XPC1sj4+ngWylVJVnnSjCxSQvOhkbmK5N4QjXESdQfZ50FncUPXk52pqLa/wPqi/+lcYTuKXs=
-X-Received: by 2002:ac8:1d12:: with SMTP id d18mr3737644qtl.343.1546120663249;
- Sat, 29 Dec 2018 13:57:43 -0800 (PST)
-MIME-Version: 1.0
-References: <da5620dc7a2b9d33f2a0dd7f4dc3afdab5a66f26.1534795606.git.joe@perches.com>
- <CAMuHMdXPFgp5sLR5-UExEvxNbKSR5H--dk7KMit_XFSFN+1uHw@mail.gmail.com>
- <1996329d875e1ab5b9cd69db187b7037ad3a0d8d.camel@perches.com> <CAMuHMdW1OqswdSRj2DROFST46dLCmMU5=ki2x0FBn8OjJjgLdg@mail.gmail.com>
-In-Reply-To: <CAMuHMdW1OqswdSRj2DROFST46dLCmMU5=ki2x0FBn8OjJjgLdg@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Sat, 29 Dec 2018 22:57:26 +0100
-Message-ID: <CAK8P3a2K5m91-KPybKx5EGcMR=3CZDUeUqxe2MeRqg95j9WLeA@mail.gmail.com>
-Subject: Re: [PATCH] Raise the minimum required gcc version to 4.6
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Joe Perches <joe@perches.com>,
-        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Mike Galbraith <efault@gmx.de>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rik van Riel <riel@surriel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=RcIxiy51crz2BQyDtywt/mbWbWq0tfJAe0NkaqiG1IM=;
+        b=XRVGHkhxCfFBX11RCK4PvrRwEmZOhzPmA+LUfNqeSR9YwJC+AkjVJ1uMxYj7fpoMwv
+         3U2+vcegTkh7KY4oCn/1D4SBPaAYyKhp2m7e08BLQuOIMuFeadflUo9h98z3TVAEOvZS
+         8g3jX9pOpS3ixHTfDAXXlvIq1O3fIyGBM72f3i2ho+9h46COE8tFyr5i56kC9wFZbyrj
+         ygaCfw0n0gnpoCp1AEFm1NXijCBhJlJVi/A3ywTjyMh42h2jmWoDaB9e9hW5TKmVAAIe
+         0+z4YhHgudz9/GP+e/yDHakL+yXC8raYXsGiY6KXTq1ysPD3BBAGjxCdn9FrfR2cGmZx
+         SvcQ==
+X-Gm-Message-State: AJcUukfDVSlWxC5XfcDH+PsMD20gRTXc+aTgoOXBZ3UwRvt+l9lOPPFR
+        sLAgFfIUscSAmjloxh8tEU2F5A==
+X-Google-Smtp-Source: ALg8bN526XimT9K+w4VLwcsCWezIkvqZvSgRHDdQJ9tWiXJjZ+pgAgEhFYvyy530UENjshRziH1ByQ==
+X-Received: by 2002:a1c:c64e:: with SMTP id w75mr30115242wmf.46.1546165529055;
+        Sun, 30 Dec 2018 02:25:29 -0800 (PST)
+Received: from [192.168.0.101] ([88.147.52.125])
+        by smtp.gmail.com with ESMTPSA id z12sm33115243wrh.35.2018.12.30.02.25.27
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 30 Dec 2018 02:25:28 -0800 (PST)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.2 \(3445.102.3\))
+Subject: Re: [PATCH V2 00/10] unify the interface of the proportional-share
+ policy in blkio/io
+From:   Paolo Valente <paolo.valente@linaro.org>
+In-Reply-To: <20181227234144.GE2509588@devbig004.ftw2.facebook.com>
+Date:   Sun, 30 Dec 2018 11:25:25 +0100
+Cc:     'Paolo Valente' via bfq-iosched <bfq-iosched@googlegroups.com>,
+        Angelo Ruocco <angelo.ruocco.90@gmail.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Angelo Ruocco <angeloruocco90@gmail.com>,
+        Dennis Zhou <dennis@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        Liu Bo <bo.liu@linux.alibaba.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>, broonie@kernel.org,
+        oleksandr@natalenko.name, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <F2A4E669-8C79-46D7-8A97-2C561FF5346B@linaro.org>
+References: <20181120162816.GV2509588@devbig004.ftw2.facebook.com>
+ <25296DAE-73EC-46CC-9A98-A8B7E9017BB7@linaro.org>
+ <7D7FAB43-5F62-4402-A9B3-E7C2E30AE680@linaro.org>
+ <20181130184256.GI2509588@devbig004.ftw2.facebook.com>
+ <5534B7D4-A5D9-4F44-9620-970A7F9EC140@linaro.org>
+ <CADiTV-29TmkB5-k=TtQfoJqjP2Qv7GSsGLXAPBaTB6DoQ+6yyw@mail.gmail.com>
+ <874A0232-2103-4364-BD88-F33B85D6A764@linaro.org>
+ <20181218164126.GX2509588@devbig004.ftw2.facebook.com>
+ <EC4F9B54-2352-4D85-B56C-5800CFEBCCB8@linaro.org>
+ <A360EBDC-B297-4754-AF5C-0A6C30D725B4@linaro.org>
+ <20181227234144.GE2509588@devbig004.ftw2.facebook.com>
+To:     Tejun Heo <tj@kernel.org>
+X-Mailer: Apple Mail (2.3445.102.3)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Dec 29, 2018 at 3:25 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-> On Fri, Aug 24, 2018 at 12:00 AM Joe Perches <joe@perches.com> wrote:
-> > On Thu, 2018-08-23 at 23:52 +0200, Geert Uytterhoeven wrote:
-> --- build.log.linux-4.20.0-atari-07795-g835f16c9b68966ff-gcc-4.1.2-20061115-prerelease-Ubuntu-4.1.1-21
-> +++ build.log.linux-4.20.0-atari-07767-gc085b9fd60f52a62-gcc-7.3.0-27ubuntu1~18.04
->
-> 20 warning regressions:
->   + arch/m68k/atari/config.c: warning: ISO C90 forbids variable length
-> array ‘switches’ [-Wvla]:  => 151:2
 
-Ah, so we still have some of these. The warning was only recently added.
+> Il giorno 28 dic 2018, alle ore 00:41, Tejun Heo <tj@kernel.org> ha =
+scritto:
+>=20
+> Hello, Paolo.
+>=20
+> On Sun, Dec 23, 2018 at 12:00:14PM +0100, Paolo Valente wrote:
+>> 4.21 is coming ...  and the legacy proportional share interface will
+>> be gone with cfq.  This will break legacy code using the
+>> proportional-share interface on top of bfq.  This code may just fail
+>> when trying to use interface files that don't exist any longer.
+>=20
+> Sounds like inheriting .cfq namespace would be the easiest.  Would
+> that work?
+>=20
 
->   + arch/m68k/include/asm/cmpxchg.h: warning: value computed is not
-> used [-Wunused-value]:  => 79:22, 122:3, 137:3
+For bfq, yes, but what will, e.g., Josef do when he adds his new
+proportional-share implementation?  Will he add a new set of names not
+used by any legacy piece of code?
 
-IIRC this can be avoided using a ({ ... }) type expression.
+What's the benefit of throwing away months of work, on which we agreed
+before starting it, and that solves a problem already acknowledged by
+interested parties?
 
->   + arch/m68k/include/asm/raw_io.h: warning: cast to pointer from
-> integer of different size [-Wint-to-pointer-cast]:  => 20:19, 33:35,
-> 26:31, 30:32
+Thanks,
+Paolo
 
-The I/O accessors are defined in an unusual way that defeats a lot
-of the type checking we normally have. Generally speaking the
-memory space operations (readl/ioread32/__raw_readl, ...) should
-be inline functions taking a 'const volatile void __iomem *' argument
-(non-const for writel), while the I/O space operations should take
-an integer port number (16 or 32 bit, depending on how your ISA
-or PCI buses work).
+> Thanks.
+>=20
+> --=20
+> tejun
 
-Doing that should avoid all the warnings you quote here, but may
-introduce warnings about nonportable driver code.
-
->   + arch/m68k/include/asm/string.h: warning: argument 2 null where
-> non-null expected [-Wnonnull]:  => 72:25
-
-This might be a kernel bug.
-
->   + arch/m68k/kernel/setup_mm.c: warning: #warning Are you building an
-> allnoconfig kernel? [-Wcpp]:  => 51:2
->   + arch/m68k/kernel/setup_mm.c: warning: #warning No CPU/platform
-> type selected, your kernel will not work! [-Wcpp]:  => 50:2
->   + arch/m68k/mvme147/config.c: warning: #warning check me! [-Wcpp]:  => 150:2
->   + arch/m68k/mvme16x/config.c: warning: #warning check me! [-Wcpp]:  => 397:2
-
-I've removed that kind of warning from other architectures.
-
->   + arch/m68k/kernel/signal.c: warning: ISO C90 forbids variable
-> length array ‘buf’ [-Wvla]:  => 654:3
-
-You can probably pick the maximum here.
-
->   + drivers/i2c/i2c-core-base.c: warning: ‘ret’ may be used
-> uninitialized in this function [-Wmaybe-uninitialized]:  => 235:5
-
-This might come from the new CONFIG_NO_AUTO_INLINE.
-
->   + drivers/input/joystick/analog.c: warning: #warning Precise timer
-> not defined for this architecture. [-Wcpp]:  => 172:2
-
-Maybe add a Kconfig dependency on !M68K?
-
->   + include/linux/dynamic_debug.h: warning: statement will never be
-> executed [-Wswitch-unreachable]:  => 115:19
-
-No idea.
-
->   + warning: unmet direct dependencies detected for NEED_MULTIPLE_NODES:  => N/A
->   + warning: unmet direct dependencies detected for SND_SOC_QDSP6:  => N/A
-
-Not gcc warnings.
-
-      Arnd
