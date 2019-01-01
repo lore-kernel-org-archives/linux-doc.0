@@ -1,53 +1,81 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B346D7D089
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 31 Dec 2018 22:13:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A0BF17D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 Jan 2019 14:04:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727739AbeLaWN3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 31 Dec 2018 17:13:29 -0500
-Received: from ms.lwn.net ([45.79.88.28]:59754 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727416AbeLaWN3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 31 Dec 2018 17:13:29 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 98E272D1;
-        Mon, 31 Dec 2018 22:13:28 +0000 (UTC)
-Date:   Mon, 31 Dec 2018 15:13:27 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-Subject: Re: [GIT PULL] Documentation for 5.0
-Message-ID: <20181231151327.404ee4d8@lwn.net>
-In-Reply-To: <CAHk-=wj8=xoaS=QJXRMo70Si0E5xvJmdyA2-cu99_MA_FjhHTA@mail.gmail.com>
-References: <20181228090622.4c210228@lwn.net>
-        <CAHk-=wj8=xoaS=QJXRMo70Si0E5xvJmdyA2-cu99_MA_FjhHTA@mail.gmail.com>
-Organization: LWN.net
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+        id S1728816AbfAAOER (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 1 Jan 2019 09:04:17 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:33539 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727965AbfAAOER (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jan 2019 09:04:17 -0500
+Received: by mail-pg1-f193.google.com with SMTP id z11so13595742pgu.0;
+        Tue, 01 Jan 2019 06:04:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=wTbIRGXnplu0V0rucdMJVUoO9mdEyF612KcyI5DJ8AY=;
+        b=BLRc/o3dWWSvEKPe4jq59fhDSY+OfvElmkKUGBqHn8hofHP0e6bEQPxi+kcNXHY1U+
+         LavKmGVzDEcaDvYDuthfJYFjLxxhBE2QbB5QuHNqwJbX1aoMYPIUW2eKJEK3zYugV1Zk
+         auB7F0J10r5JgosBzKVArUIgkgbsL5ASzAbFEFfcY90kGFff09wsmf1oKGw6Y4BOS0/V
+         GBT7q1DADex+veOZanI/YnTqh6c8u3lEDfdB63og4+cvMQln0Op7k2jtIkbJuPBGs1nh
+         Y5T+LCDMAz94cVX2tQlODHUds2ecuTfa/CkyYIDwIu8xEoLYGqIWDOyrkLM2kcW8e064
+         LxyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=wTbIRGXnplu0V0rucdMJVUoO9mdEyF612KcyI5DJ8AY=;
+        b=AIzQszhNlgAMU0NVxMaH1l+fObRe+jIglE7jLFepsjJstC6R57qQrYsazIizjdcwDN
+         dqrmM69HM21NmzRwvvHnBNUo/sKOuvvqqRJyX2lWvq3Uj9yaQApJ7dPp+YLX9G8pT0SB
+         /g1VdWdwwtJNM5GS1n8EqIz8zHXvQscXqXO8L8xwGbF8i1Td3tAUI7j2NfYFoeGk2b4S
+         7ab/sEVrcl0Jlp+11R0OOHtuCZSul4Z1Oi/wR1LBV5lVvhWEOnk5Ded8U6yz+w0La33B
+         iLq4aKfbvN6tTw1W0NseJCzVeKriWaZHJ0SxoTog7kndVazRPRfsOFhV+25fiHHVgqtI
+         5DXw==
+X-Gm-Message-State: AJcUukcO1unzPVauCyQWPjPWW0dH+/HfKfKxqSTbajdsK0kTXMXtpjH6
+        O5IClOz/nwOR1ANnNbPdGA==
+X-Google-Smtp-Source: ALg8bN6bmHR62EAu/+g3V9ywop65oukxqOBbPfqR1SxKCSUUHO+PD/oFoZ+hMS6a5zPbJmg/6N8tsw==
+X-Received: by 2002:a65:4142:: with SMTP id x2mr10348501pgp.356.1546351456389;
+        Tue, 01 Jan 2019 06:04:16 -0800 (PST)
+Received: from localhost.localdomain (li1566-229.members.linode.com. [139.162.86.229])
+        by smtp.gmail.com with ESMTPSA id v14sm121117477pgf.3.2019.01.01.06.04.07
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Tue, 01 Jan 2019 06:04:15 -0800 (PST)
+From:   Junchang Wang <junchangwang@gmail.com>
+To:     dave@stgolabs.net, paulmck@linux.ibm.com, josh@joshtriplett.org,
+        corbet@lwn.net, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Junchang Wang <junchangwang@gmail.com>
+Subject: [PATCH 0/2] Documentation/RCU: Update documents
+Date:   Tue,  1 Jan 2019 22:03:18 +0800
+Message-Id: <1546351400-16389-1-git-send-email-junchangwang@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 29 Dec 2018 11:24:34 -0800
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
+Hi list,
 
-> New signing key? And one that you forgot to push out to keyservers?
+This patch set updates a few outdated links/sections in the documents of RCU.
+Please take a look.
 
-Sort of...some time ago, I tried to be a good kid and made a separate
-signing subkey like Konstantin told me to.  Then I couldn't ever get the
-nitrokey thing to work and then got distracted; I guess I never uploaded
-that key.  I'm not really sure why gpg decided to start using it now.
-It's uploaded now, anyway.
+--
+Junchang Wang (2):
+  whatisRCU.txt: correct outdated links
+  torture.txt: update the list of supported torture types
 
-TLDR: I kind of suck at this gpg thing.  Sorry for the confusion.
+ Documentation/RCU/torture.txt   | 15 +++++++--------
+ Documentation/RCU/whatisRCU.txt |  4 ++--
+ 2 files changed, 9 insertions(+), 10 deletions(-)
 
-jon
+-- 
+2.7.4
+
