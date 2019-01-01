@@ -1,98 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 672E27D089
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 Jan 2019 15:48:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3E49D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  1 Jan 2019 17:53:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728837AbfAAPry (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 1 Jan 2019 10:47:54 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:46756 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728135AbfAAPry (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jan 2019 10:47:54 -0500
-Received: by mail-pf1-f195.google.com with SMTP id c73so14164999pfe.13;
-        Tue, 01 Jan 2019 07:47:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=nuCVJ/9FRKM73Wwlsp/YZ3g94ydYvMBaX8LRNO6g3d8=;
-        b=BQZRDhFUKAG0AXxIhKodg+DSUGhTL1Htv1Wme2bqT75KZ+jL24qgNfFZsAqZHsP6oS
-         f5X0rvFUBa3FuR9TFYA2DertGSp6E6Kxny3jY15ewuzK1b5M/Lknbp7scUtuP8AeljLt
-         N3pwV/6V8NdegrgSoP154U9dJ64GBH7XfkSxIYl1n8dw71OUYCY4fRINj8E006CxE7SQ
-         v1cD5SXxZ6bOWYnVqn7uFSBAQYL306FierbjmRdFfqAF6yBrYy/ddV6rPqotLoAiJd9d
-         J42VCITHHcb/tcVPmkLyC1aTnfMbBnMyDGFPqde/Ziv8MNjh01sX+S9GUeH/QxFvmv3z
-         qpYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=nuCVJ/9FRKM73Wwlsp/YZ3g94ydYvMBaX8LRNO6g3d8=;
-        b=Yh5ZDoVpAoAxDdKtELv7b2hBY17rpqjeIcVSxyp3efsgRz38zADlzBaI9HZgBFC8B6
-         1h8j/JIVKO3Y8dX7K+OvehdY+hxz+0Iejo+KJeIpVi2u14tz2bkYDoM8VQD+S8GdCspo
-         71nbiXPRoXjUsSutTBTtpu76Nons3U5OCIf49YZLvbfs0Boyfi2lBOMH0wwGiGj5XfNR
-         u6ZLQPsMfUQx+Gl59X/3h4x+0OwHuB+RS/7CEIb/1wQScTsPQfFBrR1AntTdxnBhxTSK
-         Y/MJ920zRtXyxKu6ecCoA+OVj/TpNV9jv1BzpWueX3a4VDJNHpGFmWPjJPDwmJ8derIL
-         ggTw==
-X-Gm-Message-State: AJcUuke+IOorWQqxzDdw6MF3wROJrSO0CZcdb/52jB8B6YYLy7wiR0PT
-        ozS1nfwuLK9tCQzgHREuF7w=
-X-Google-Smtp-Source: ALg8bN5ZTIA1V/FX/MwxBtbFwftHjuGxhbFgJNlYNySbyIBLjemKYrW5RNNTwDZ+jhSxlLhu1HuKjg==
-X-Received: by 2002:a63:b4c:: with SMTP id a12mr11035056pgl.131.1546357672624;
-        Tue, 01 Jan 2019 07:47:52 -0800 (PST)
-Received: from localhost.localdomain ([207.246.99.41])
-        by smtp.gmail.com with ESMTPSA id m3sm84122386pff.173.2019.01.01.07.47.50
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 01 Jan 2019 07:47:52 -0800 (PST)
-From:   Changbin Du <changbin.du@gmail.com>
-To:     rostedt@goodmis.org
-Cc:     mingo@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH 4/5] sched/tracing: Show stacktrace for wakeup tracers
-Date:   Tue,  1 Jan 2019 23:46:13 +0800
-Message-Id: <20190101154614.8887-5-changbin.du@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190101154614.8887-1-changbin.du@gmail.com>
-References: <20190101154614.8887-1-changbin.du@gmail.com>
+        id S1726205AbfAARxM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 1 Jan 2019 12:53:12 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56934 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726199AbfAARxM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jan 2019 12:53:12 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x01Hn0MC008427
+        for <linux-doc@vger.kernel.org>; Tue, 1 Jan 2019 12:53:11 -0500
+Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2pr717c5jp-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 01 Jan 2019 12:53:10 -0500
+Received: from localhost
+        by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Tue, 1 Jan 2019 17:53:10 -0000
+Received: from b01cxnp23032.gho.pok.ibm.com (9.57.198.27)
+        by e17.ny.us.ibm.com (146.89.104.204) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 1 Jan 2019 17:53:06 -0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x01Hr5qg22151328
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 1 Jan 2019 17:53:05 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 44734B205F;
+        Tue,  1 Jan 2019 17:53:05 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2360BB2064;
+        Tue,  1 Jan 2019 17:53:04 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.85.153.1])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Tue,  1 Jan 2019 17:53:04 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 843DC16C3373; Tue,  1 Jan 2019 09:53:22 -0800 (PST)
+Date:   Tue, 1 Jan 2019 09:53:22 -0800
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     Junchang Wang <junchangwang@gmail.com>
+Cc:     dave@stgolabs.net, josh@joshtriplett.org, corbet@lwn.net,
+        rostedt@goodmis.org, mathieu.desnoyers@efficios.com,
+        jiangshanlai@gmail.com, joel@joelfernandes.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] whatisRCU.txt: fix outdated links
+Reply-To: paulmck@linux.ibm.com
+References: <1546351400-16389-1-git-send-email-junchangwang@gmail.com>
+ <1546351400-16389-2-git-send-email-junchangwang@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1546351400-16389-2-git-send-email-junchangwang@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 19010117-0040-0000-0000-000004AB0911
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00010329; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000272; SDB=6.01140282; UDB=6.00592163; IPR=6.00920497;
+ MB=3.00024931; MTD=3.00000008; XFM=3.00000015; UTC=2019-01-01 17:53:08
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19010117-0041-0000-0000-000008B60FDA
+Message-Id: <20190101175322.GV4170@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-01_09:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1901010163
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This align the behavior of wakeup tracers with irqsoff latency tracer
-that we record stacktrace at the beginning and end of waking up. The
-stacktrace shows us what is happening in the kernel.
+On Tue, Jan 01, 2019 at 10:03:19PM +0800, Junchang Wang wrote:
+> Fix outdated links in whatisRCU.txt.
+> 
+> Signed-off-by: Junchang Wang <junchangwang@gmail.com>
 
-Signed-off-by: Changbin Du <changbin.du@gmail.com>
----
- kernel/trace/trace_sched_wakeup.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Queued and pushed, thank you!
 
-diff --git a/kernel/trace/trace_sched_wakeup.c b/kernel/trace/trace_sched_wakeup.c
-index da5b6e012840..0ec136d408ff 100644
---- a/kernel/trace/trace_sched_wakeup.c
-+++ b/kernel/trace/trace_sched_wakeup.c
-@@ -474,6 +474,8 @@ probe_wakeup_sched_switch(void *ignore, bool preempt,
- 	data = per_cpu_ptr(wakeup_trace->trace_buffer.data, wakeup_cpu);
- 
- 	__trace_function(wakeup_trace, CALLER_ADDR0, CALLER_ADDR1, flags, pc);
-+	/* Skip 2 functions to get to the task switch function */
-+	__trace_stack(wakeup_trace, flags, 2, pc);
- 	tracing_sched_switch_trace(wakeup_trace, prev, next, flags, pc);
- 
- 	T0 = data->preempt_timestamp;
-@@ -593,6 +595,8 @@ probe_wakeup(void *ignore, struct task_struct *p)
- 	 * it should be safe to use it here.
- 	 */
- 	__trace_function(wakeup_trace, CALLER_ADDR1, CALLER_ADDR2, flags, pc);
-+	/* Skip 2 functions to get to the task wakeup function */
-+	__trace_stack(wakeup_trace, flags, 2, pc);
- 
- out_locked:
- 	arch_spin_unlock(&wakeup_lock);
--- 
-2.17.1
+							Thanx, Paul
+
+> ---
+>  Documentation/RCU/whatisRCU.txt | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/RCU/whatisRCU.txt b/Documentation/RCU/whatisRCU.txt
+> index 4a68543..1ace208 100644
+> --- a/Documentation/RCU/whatisRCU.txt
+> +++ b/Documentation/RCU/whatisRCU.txt
+> @@ -302,7 +302,7 @@ rcu_dereference()
+>  	must prohibit.	The rcu_dereference_protected() variant takes
+>  	a lockdep expression to indicate which locks must be acquired
+>  	by the caller. If the indicated protection is not provided,
+> -	a lockdep splat is emitted.  See RCU/Design/Requirements.html
+> +	a lockdep splat is emitted.  See RCU/Design/Requirements/Requirements.html
+>  	and the API's code comments for more details and example usage.
+>  
+>  The following diagram shows how each API communicates among the
+> @@ -560,7 +560,7 @@ presents two such "toy" implementations of RCU, one that is implemented
+>  in terms of familiar locking primitives, and another that more closely
+>  resembles "classic" RCU.  Both are way too simple for real-world use,
+>  lacking both functionality and performance.  However, they are useful
+> -in getting a feel for how RCU works.  See kernel/rcupdate.c for a
+> +in getting a feel for how RCU works.  See kernel/rcu/update.c for a
+>  production-quality implementation, and see:
+>  
+>  	http://www.rdrop.com/users/paulmck/RCU
+> -- 
+> 2.7.4
+> 
 
