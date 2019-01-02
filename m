@@ -5,28 +5,28 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 06FFB7D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 20:02:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DCBC17D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 20:02:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727014AbfABUCc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Jan 2019 15:02:32 -0500
-Received: from wes1-so2.wedos.net ([46.28.106.16]:50030 "EHLO
-        wes1-so2.wedos.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726961AbfABUCc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 15:02:32 -0500
+        id S1726876AbfABUCy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Jan 2019 15:02:54 -0500
+Received: from wes1-so1-b.wedos.net ([46.28.106.43]:52320 "EHLO
+        wes1-so1.wedos.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726107AbfABUCy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 15:02:54 -0500
 Received: from localhost (ip4-46-39-182-135.cust.nbox.cz [46.39.182.135])
-        by wes1-so2.wedos.net (Postfix) with ESMTPSA id 43VMQt3RrVztn;
-        Wed,  2 Jan 2019 21:02:30 +0100 (CET)
-Date:   Wed, 2 Jan 2019 21:02:27 +0100
+        by wes1-so1.wedos.net (Postfix) with ESMTPSA id 43VMRJ39yrz3CV;
+        Wed,  2 Jan 2019 21:02:52 +0100 (CET)
+Date:   Wed, 2 Jan 2019 21:02:49 +0100
 From:   Otto Sabart <ottosabart@seberm.com>
 To:     linux-doc@vger.kernel.org
 Cc:     Jonathan Corbet <corbet@lwn.net>, trivial@kernel.org
-Subject: [PATCH 6/8] doc: scsi: remove reference to tmscsim.txt file
-Message-ID: <a7e4bb18f9363ff42f257414d8aea36f465e4256.1546457947.git.ottosabart@seberm.com>
+Subject: [PATCH 7/8] doc: pinctrl: fix bad reference to pinctrl.txt file
+Message-ID: <128a452d88f8648c643c17c546d8a5f8036d7354.1546457947.git.ottosabart@seberm.com>
 References: <cover.1546457946.git.ottosabart@seberm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="VbJkn9YxBvnuCH5J"
+        protocol="application/pgp-signature"; boundary="LZvS9be/3tNcYl/X"
 Content-Disposition: inline
 In-Reply-To: <cover.1546457946.git.ottosabart@seberm.com>
 X-PGP-Key: http://seberm.com/pubkey.asc
@@ -37,54 +37,57 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---VbJkn9YxBvnuCH5J
+--LZvS9be/3tNcYl/X
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-The tmscsim.txt doc file was removed in c121107d0f84.
+The pinctrl.txt file was converted into reStructuredText and moved into
+driver-api folder. This patch updates the broken reference.
 
-Fixes: c121107d0f84 ("scsi: documentation: Obsolete documentation reference=
-s")
+Fixes: 5a9b73832e9e ("pinctrl.txt: move it to the driver-api book")
 Signed-off-by: Otto Sabart <ottosabart@seberm.com>
 ---
- drivers/scsi/Kconfig | 2 --
- 1 file changed, 2 deletions(-)
+ include/linux/mfd/madera/pdata.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/scsi/Kconfig b/drivers/scsi/Kconfig
-index f38882f6f37d..6cbc391689ad 100644
---- a/drivers/scsi/Kconfig
-+++ b/drivers/scsi/Kconfig
-@@ -1196,8 +1196,6 @@ config SCSI_AM53C974
- 	  PCscsi/PCnet (Am53/79C974) solutions.
- 	  This is a new implementation base on the generic esp_scsi driver.
-=20
--	  Documentation can be found in <file:Documentation/scsi/tmscsim.txt>.
--
- 	  Note that this driver does NOT support Tekram DC390W/U/F, which are
- 	  based on NCR/Symbios chips. Use "NCR53C8XX SCSI support" for those.
-=20
+diff --git a/include/linux/mfd/madera/pdata.h b/include/linux/mfd/madera/pd=
+ata.h
+index 8dc852402dbb..dd00ab824e5b 100644
+--- a/include/linux/mfd/madera/pdata.h
++++ b/include/linux/mfd/madera/pdata.h
+@@ -34,7 +34,8 @@ struct madera_codec_pdata;
+  * @micvdd:	    Substruct of pdata for the MICVDD regulator
+  * @irq_flags:	    Mode for primary IRQ (defaults to active low)
+  * @gpio_base:	    Base GPIO number
+- * @gpio_configs:   Array of GPIO configurations (See Documentation/pinctr=
+l.txt)
++ * @gpio_configs:   Array of GPIO configurations (See
++ *		    Documentation/driver-api/pinctl.rst)
+  * @n_gpio_configs: Number of entries in gpio_configs
+  * @gpsw:	    General purpose switch mode setting. Depends on the external
+  *		    hardware connected to the switch. (See the SW1_MODE field
 --=20
 2.17.2
 
---VbJkn9YxBvnuCH5J
+--LZvS9be/3tNcYl/X
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlwtGNIACgkQgjuumfi+
-HjyHhRAAh8h/UmcXENQ89yqL+8Dpdsd+wSAYxK1ILEScDxI0SL3iih1SxHussNa8
-yJGGCGofZp4NNNnvnpcU6sa8a5lZjaNcEQEEyzY5XZ5nYoAe1sT6CysoJcNWMyoo
-eQy4I40NaknNlmp5G/c2EyFYpBBE7dBvG6qwKXLeE0iddeIEY7dvb4+6v/QRMymN
-BnWM0rDC7GdmKYTBVK/SLwQ5kNR6+z6eL5YkU73mjxJTS4uhmYH/9QvqI9Cs6SJE
-PJeiB4Qv/uSUi4WAUTxFUowhoKDnesJicTNPv12rzgdwF4I2yF45T2OtqILlojQ5
-8MDquK+rwTvXyi5YtuDrVxUNeJAAWg3AZ2ra/fbsCT7je+JZ7cfqw13OeksbF6RK
-6ItN4Y57VAY30VLkzqj6v4A07i/UjwjRloM5TecQV5s4kLwmPtGp4XA/6JKRcjG4
-ZkRn8drXeDdgBsLg47t2bWovpbDpgDignmUEsFJ0nyJaG27yxTlkRTYk2PAjOtsg
-/RZ+3LBzvnk1mgf7jvSqpFWffJkcZd8YVA9ZJWOtPL5fTKJQVp1orpPuWOCSQ+vT
-tj0b9nWL2CnuvSEZXw3O9MJ7CZsS/QCKb64bbjJiZxi3ei6FPr2SHiWa+qXl7MZD
-tcL+tN2gsNLx48oI1xe0ZkyS0qrn6IMo7h3is2G0DtFnFplXzuE=
-=9XLX
+iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlwtGOkACgkQgjuumfi+
+HjxnLA//fw6fKYzSTrg+Ygy4dnWo3jX6I5UGQIKy1SD6Hru2MfobmTk7pQttzj5q
+33gte9UAr1KKPRTgHmnRjFFxqh1ttpMnoFrw9XlJCNsBl/6BqpJh/RtXYfwNBGg/
+vttXpLyjTJeyBDfqUaUh0NAqlLR3+Jdly29R0561GSuUsKtP2he8tXI2au+hQDZo
+2VxmLY+U5rBJwd3DzW/OPUSSKc5hK8VXJbl8prZcU9FmPmtKQd++PfcvRoMmHI7S
+GeLPTyfwrxDQxx1GccjDMRUU4H949+uiufyvJSxeGOsXJPvmNHzl9PVFn6Nw/+kL
+euwWs5Gh0isgKS8iy3KskT3iaQ5Fj3g+GiP89zk8K69C9GiuIUf8kJuxQ764lJ6P
+5YhKIwssLBkxhoQsPYhzrqtftiM8SPcOmn6FFSZqd3CbndlidFuYei2xnorxgPH2
+QlC/og9d2YJBZLUL1uqegkxtErKdOPRs2n2ZyccItfUp4cKyXYW1qfkLHXj/YT7y
+ZTERtXCyMXJfvMFK841J3b0H75YsyAooSv2U1Q7UYffsm2LnPicwNuloIDEv60SS
+0kuXgOx+mwSYgPjrXhvFegJfVoMLjUKsnBWA3ucqESWacNrbQbow7bnrylhPs/Qo
+q5NRkJZ51H+1jM66xiaXF2ld1DI6jSHuEnLGhjhY1fNMfoBw6HM=
+=m2bp
 -----END PGP SIGNATURE-----
 
---VbJkn9YxBvnuCH5J--
+--LZvS9be/3tNcYl/X--
