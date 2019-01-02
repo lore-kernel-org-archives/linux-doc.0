@@ -1,36 +1,30 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B9C4B7D8A5
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 21:00:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B2D307D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 21:24:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726824AbfABVAc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Jan 2019 16:00:32 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:54506 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726116AbfABVAb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 16:00:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=M4IGlqEQFNqwliRsSyTfnKKOspsRl2QEciHUCHKHBN0=; b=mIeAx4XVHfAq1tTMDZX8ChgGK
-        kAxwG2LXSgH6Wm6fsEETnxI6IlDSIePpmkA7ns1A8K823CvsVsHYSxnUB8QfOrqgIBqJM4KVFslHk
-        nwJ+Vt30zxTIv3iZU27h7W75GbjIGoqKl3XksGTd0xd6alAOyb+Yaj1p7L46p/96fXy14n8yY5ElO
-        SKqBGLBv3j71+qDvoBOVHjrXfCnj/wTGscOhZ3LKCEnbPdMeD+L2K8/fpY1AWddSKfnqPv62015sO
-        tGsuHjrT9OC5VUqRPd+Yhq3Zs6aRBwjs50rKDQctY9vWrxWUtFRdliQs4CdjjfyF10lhV2nwKl6z9
-        a5qqLWuJA==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gencm-0005xD-EQ; Wed, 02 Jan 2019 21:00:24 +0000
-Date:   Wed, 2 Jan 2019 13:00:24 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     "Michael S. Tsirkin" <mst@redhat.com>
+        id S1728865AbfABVYW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Jan 2019 16:24:22 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:44632 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727139AbfABVYW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Jan 2019 16:24:22 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id C6225C049D7F;
+        Wed,  2 Jan 2019 21:24:20 +0000 (UTC)
+Received: from redhat.com (ovpn-120-148.rdu2.redhat.com [10.10.120.148])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 58D2F5C230;
+        Wed,  2 Jan 2019 21:24:16 +0000 (UTC)
+Date:   Wed, 2 Jan 2019 16:24:15 -0500
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     Matthew Wilcox <willy@infradead.org>
 Cc:     linux-kernel@vger.kernel.org, Jason Wang <jasowang@redhat.com>,
         Alan Stern <stern@rowland.harvard.edu>,
         Andrea Parri <andrea.parri@amarulasolutions.com>,
@@ -54,28 +48,36 @@ Cc:     linux-kernel@vger.kernel.org, Jason Wang <jasowang@redhat.com>,
         linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
         linux-sparse@vger.kernel.org
 Subject: Re: [PATCH RFC 3/4] barriers: convert a control to a data dependency
-Message-ID: <20190102210024.GJ6310@bombadil.infradead.org>
+Message-ID: <20190102162400-mutt-send-email-mst@kernel.org>
 References: <20190102205715.14054-1-mst@redhat.com>
  <20190102205715.14054-4-mst@redhat.com>
+ <20190102210024.GJ6310@bombadil.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190102205715.14054-4-mst@redhat.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <20190102210024.GJ6310@bombadil.infradead.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Wed, 02 Jan 2019 21:24:21 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 02, 2019 at 03:57:58PM -0500, Michael S. Tsirkin wrote:
-> @@ -875,6 +893,8 @@ to the CPU containing it.  See the section on "Multicopy atomicity"
->  for more information.
->  
->  
-> +
-> +
->  In summary:
->  
->    (*) Control dependencies can order prior loads against later stores.
+On Wed, Jan 02, 2019 at 01:00:24PM -0800, Matthew Wilcox wrote:
+> On Wed, Jan 02, 2019 at 03:57:58PM -0500, Michael S. Tsirkin wrote:
+> > @@ -875,6 +893,8 @@ to the CPU containing it.  See the section on "Multicopy atomicity"
+> >  for more information.
+> >  
+> >  
+> > +
+> > +
+> >  In summary:
+> >  
+> >    (*) Control dependencies can order prior loads against later stores.
+> 
+> Was this hunk intentional?
 
-Was this hunk intentional?
+Nope, thanks for catching this.
+
+-- 
+MST
