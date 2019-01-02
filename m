@@ -5,85 +5,73 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5072A7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 15:56:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0E5117D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 15:59:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728640AbfABP4O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Jan 2019 10:56:14 -0500
-Received: from mail-yw1-f65.google.com ([209.85.161.65]:45341 "EHLO
-        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728026AbfABP4N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 10:56:13 -0500
-Received: by mail-yw1-f65.google.com with SMTP id d190so12163768ywd.12;
-        Wed, 02 Jan 2019 07:56:13 -0800 (PST)
+        id S1729754AbfABP7c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Jan 2019 10:59:32 -0500
+Received: from mail-yw1-f68.google.com ([209.85.161.68]:45574 "EHLO
+        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729119AbfABP7b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 10:59:31 -0500
+Received: by mail-yw1-f68.google.com with SMTP id d190so12167763ywd.12;
+        Wed, 02 Jan 2019 07:59:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=BGyphusPVmyKOgfZwxPiTbaMVHhwPo7VwZbqrFW8CcE=;
-        b=ZJmiamyfEykbygxcmx1H/pBXb2S+Y27xQBlWUHC5VqCkFnsNGFJnjxifThDyyFOysc
-         vYGVBZw0AaKxyL0fE8xKiF0PWBCBh787PgKPOZKjWNT1+bCnLfsVFa1F5NHpStL963du
-         B/1K6siD90E7ui48l6uFXuofc/0eDDX3yBjCQXry4WjyKLt5Bu8SbE5F8CnAWz+DHmbI
-         J6ZUKdhf/SkLCKBPoY6phZfJrBk8kGL7mNlMiQe8spxp/yntRf0bTdVHIvZyy/ZGl8hi
-         QEAIOtjMGx1qhWWCBRqpDxfMYG2P0va9MosLBZpe08ccwqmSX3h8fx8tUmv3RHW3PY1O
-         w/1g==
+        bh=KEm4etM4eth7Ri6QC0Qy/Ny7yfGhtJOfLTX5Wxxna5k=;
+        b=sRHxOSdaBaFi473jP/zE8RO9engV9JPOtZIuRliV1TWd0k54Fw+0C5nRZdb0NGQpTI
+         mowTKqB2k2/1KNRAYO12wMiaZu4d78283qupOjiq6OcJ4GU4aX4Sn5XvIx07YvUwnxfg
+         iT8ug0uyks3nHXzPxufcBj9VrxQNK6S0jJutD3Uq8xY48yJUPaVLFbyVvLBeJrZliWUA
+         1PBductC3wEaNMfo/jAt66ZqkHGMcjNx5gtd6TGb7EJHxjg5vFzmKEiK7TTg0d/sYlaM
+         hYKFmuSw2ozLN/1n6ic7PhVfroD6T92C3wkzPWGnEjgfsA03atxNto6K3CukhScLs6al
+         aoVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
          :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=BGyphusPVmyKOgfZwxPiTbaMVHhwPo7VwZbqrFW8CcE=;
-        b=IzQXzd4mYM6UNJwPiwf/h4rqOwUTl9b7sCfsA/OFkzwHpZCmRS2EHoTeBtIUGXdTYX
-         7PsW55PHZM3DURbj7inDAr/7NRJ00ijJS9BRYODESBk2AVJPpiOU++rj40gMNHVofEdC
-         vppSBd87HfKW3pN+nOtCkIHmcdOjZafEh1MpQ5+2QkQYzzIsd4Aryxf6VVearap4qpmZ
-         emJIhwPmufvklVh1TXBC1siv/tz+ArhKAnntrKZq6LufJnUUnxEbPLSfpaBCvJ1yUt1y
-         Z2HYYYhBWJ/5nT+YSmtd8yOsTFBDY3NfQ5sk3shVDjfWoO6EkZ+7B4rRkBMp8gTt7i3m
-         w8bA==
-X-Gm-Message-State: AA+aEWZ+JnJEYWV7k7X8gRmlimTeiu0MasrHRqhDa/zPA7a/aKF3GO7T
-        TvSosrG843pldqtfPDtXAbI=
-X-Google-Smtp-Source: AFSGD/VHrUaqjeLArUm5QnP7Eec02Dd0/gC7BbjYv4/UqnjIbFeAfjU8A/RCHnDhUMKx3NAp8cRPvA==
-X-Received: by 2002:a81:33c4:: with SMTP id z187mr45695055ywz.294.1546444572622;
-        Wed, 02 Jan 2019 07:56:12 -0800 (PST)
+        bh=KEm4etM4eth7Ri6QC0Qy/Ny7yfGhtJOfLTX5Wxxna5k=;
+        b=PVw15p96Sj3APhs7pQBenc2GWesHIhLeLE60Nh6A7ZxQA2QCkoULtEliYsrPWPGU+w
+         CGW7tQ58uxC2z3xdJqqzr+qsB6LU/E9WYIlpE+eCTiwT6lSoNjDRhbEogmrFBDsknypR
+         G++G6Bu6ZEsoQuH2L6QbTPRPqWENVjWxnfKWAiWfEkSfczAhYh8a56o6TK/GtWEb2FHZ
+         BmA8oHF2AW7i5lRlYmvi3dw7eBAU+uD1Xdt4i4Xe95gRklr4Hq9PtwQgjSPzTjI4LUnn
+         2E3T1o5jvJr/r6B7j9Pf+Eqbx2SSlOE0n1pamOzs5VuXwVHV+z+ekpxRiJ7DRwU3gY1v
+         MuNA==
+X-Gm-Message-State: AA+aEWYgdVlzOCt30Y3sXIl9tEGY59+Hdbh9gwSroircXcP3xsgndrl5
+        IpYkcaJhzc6ciXwgkNnwOxo=
+X-Google-Smtp-Source: AFSGD/U5RK14IhPpEa+Evj4RPFjYA0hD645oUXuq+AypuCIR80KZDnBZCVg4PNDItZh1tKrC2GsO8A==
+X-Received: by 2002:a81:2b04:: with SMTP id r4mr45856882ywr.511.1546444770354;
+        Wed, 02 Jan 2019 07:59:30 -0800 (PST)
 Received: from localhost ([2620:10d:c091:200::6:f03d])
-        by smtp.gmail.com with ESMTPSA id 141sm20524815yws.47.2019.01.02.07.56.11
+        by smtp.gmail.com with ESMTPSA id q185sm19612505ywe.87.2019.01.02.07.59.29
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 02 Jan 2019 07:56:11 -0800 (PST)
-Date:   Wed, 2 Jan 2019 07:56:09 -0800
+        Wed, 02 Jan 2019 07:59:29 -0800 (PST)
+Date:   Wed, 2 Jan 2019 07:59:28 -0800
 From:   Tejun Heo <tj@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Otto Sabart <ottosabart@seberm.com>, linux-doc@vger.kernel.org,
+To:     Otto Sabart <ottosabart@seberm.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] doc: cgroup: use graphviz code instead of ASCII art
-Message-ID: <20190102155609.GO2509588@devbig004.ftw2.facebook.com>
-References: <20181230164945.GA2644@personal>
- <20181230104020.1074d807@lwn.net>
+Subject: Re: [PATCH] doc: cgroup: add missing literal block
+Message-ID: <20190102155928.GP2509588@devbig004.ftw2.facebook.com>
+References: <20181230190155.GA15155@personal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181230104020.1074d807@lwn.net>
+In-Reply-To: <20181230190155.GA15155@personal>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Dec 30, 2018 at 10:40:29AM -0700, Jonathan Corbet wrote:
-> On Sun, 30 Dec 2018 17:49:45 +0100
-> Otto Sabart <ottosabart@seberm.com> wrote:
+On Sun, Dec 30, 2018 at 08:01:55PM +0100, Otto Sabart wrote:
+> This patch fixes multiple build warnings:
+> "WARNING: Block quote ends without a blank line; unexpected unindent."
 > 
-> > The graphviz looks better. This patch also fixes multiple build warnings:
-> > "WARNING: Block quote ends without a blank line; unexpected unindent."
-> > 
-> > Signed-off-by: Otto Sabart <ottosabart@seberm.com>
-> 
-> The graphviz looks better *in some settings*, such as the formatted
-> version of the docs.  Please remember, though, that we need to preserve
-> the readability of the plain-text documents as well, and my own feeling
-> is that this patch is a step backward in that regard.  I'll defer to
-> Tejun on this if he feels otherwise, but my sense is that this is not
-> something we want to do.
+> Signed-off-by: Otto Sabart <ottosabart@seberm.com>
 
-Yeah, I'd much prefer to prioritize source file readability.  My
-anecdotal experience is that most folks read the text file directly.
+Applied to cgroup/for-4.22.
 
 Thanks.
 
