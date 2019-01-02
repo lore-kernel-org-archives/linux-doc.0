@@ -5,28 +5,29 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2EFF67D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 20:01:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8754B7D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 20:01:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726930AbfABUBL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Jan 2019 15:01:11 -0500
-Received: from wes1-so2.wedos.net ([46.28.106.16]:45337 "EHLO
-        wes1-so2.wedos.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726089AbfABUBL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 15:01:11 -0500
+        id S1726923AbfABUB1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Jan 2019 15:01:27 -0500
+Received: from wes1-so1-b.wedos.net ([46.28.106.43]:55018 "EHLO
+        wes1-so1.wedos.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726089AbfABUB1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 15:01:27 -0500
 Received: from localhost (ip4-46-39-182-135.cust.nbox.cz [46.39.182.135])
-        by wes1-so2.wedos.net (Postfix) with ESMTPSA id 43VMPK5nc8zsM;
-        Wed,  2 Jan 2019 21:01:09 +0100 (CET)
-Date:   Wed, 2 Jan 2019 21:01:06 +0100
+        by wes1-so1.wedos.net (Postfix) with ESMTPSA id 43VMPc71Ysz3Mv;
+        Wed,  2 Jan 2019 21:01:24 +0100 (CET)
+Date:   Wed, 2 Jan 2019 21:01:21 +0100
 From:   Otto Sabart <ottosabart@seberm.com>
 To:     linux-doc@vger.kernel.org
 Cc:     Jonathan Corbet <corbet@lwn.net>, trivial@kernel.org
-Subject: [PATCH 1/8] MAINTAINERS: fix bad file reference into Documentation
-Message-ID: <2aa1f2f0d7cc6be67fafc67939ebba219b2719af.1546457947.git.ottosabart@seberm.com>
+Subject: [PATCH 2/8] doc: filesystems: fix bad references to nonexistent
+ ext4.rst file
+Message-ID: <dd6f9b732fa6c8b76e5d42f413b49a0106b2815f.1546457947.git.ottosabart@seberm.com>
 References: <cover.1546457946.git.ottosabart@seberm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="wRRV7LY7NUeQGEoC"
+        protocol="application/pgp-signature"; boundary="PNTmBPCT7hxwcZjr"
 Content-Disposition: inline
 In-Reply-To: <cover.1546457946.git.ottosabart@seberm.com>
 X-PGP-Key: http://seberm.com/pubkey.asc
@@ -37,52 +38,86 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---wRRV7LY7NUeQGEoC
-Content-Type: text/plain; charset=utf-8
+--PNTmBPCT7hxwcZjr
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-There is no `samsung,exynos5250-trng.txt` file in the documentation and
-I do not think it ever existed.
+The ext4.rst file does not exist anymore. This patch changes all references
+to point to the whole ext4 directory.
 
+Fixes: d3091215921b ("docs: move ext4 administrative docs to admin-guide/")
 Signed-off-by: Otto Sabart <ottosabart@seberm.com>
 ---
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+ Documentation/filesystems/dax.txt  | 2 +-
+ Documentation/filesystems/ext2.txt | 2 +-
+ MAINTAINERS                        | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/=
+dax.txt
+index bc393e0a22b8..6d2c0d340dea 100644
+--- a/Documentation/filesystems/dax.txt
++++ b/Documentation/filesystems/dax.txt
+@@ -75,7 +75,7 @@ exposure of uninitialized data through mmap.
+=20
+ These filesystems may be used for inspiration:
+ - ext2: see Documentation/filesystems/ext2.txt
+-- ext4: see Documentation/filesystems/ext4/ext4.rst
++- ext4: see Documentation/filesystems/ext4/
+ - xfs:  see Documentation/filesystems/xfs.txt
+=20
+=20
+diff --git a/Documentation/filesystems/ext2.txt b/Documentation/filesystems=
+/ext2.txt
+index a45c9fc0747b..a19973a4dd1e 100644
+--- a/Documentation/filesystems/ext2.txt
++++ b/Documentation/filesystems/ext2.txt
+@@ -358,7 +358,7 @@ and are copied into the filesystem.  If a transaction i=
+s incomplete at
+ the time of the crash, then there is no guarantee of consistency for
+ the blocks in that transaction so they are discarded (which means any
+ filesystem changes they represent are also lost).
+-Check Documentation/filesystems/ext4/ext4.rst if you want to read more abo=
+ut
++Check Documentation/filesystems/ext4/ if you want to read more about
+ ext4 and journaling.
+=20
+ References
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 7ba42fbb2c4a..076288b9a133 100644
+index 076288b9a133..f6d7a69a9002 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -13251,7 +13251,6 @@ M:	=C5=81ukasz Stelmach <l.stelmach@samsung.com>
- L:	linux-samsung-soc@vger.kernel.org
+@@ -5695,7 +5695,7 @@ W:	http://ext4.wiki.kernel.org
+ Q:	http://patchwork.ozlabs.org/project/linux-ext4/list/
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git
  S:	Maintained
- F:	drivers/char/hw_random/exynos-trng.c
--F:	Documentation/devicetree/bindings/rng/samsung,exynos5250-trng.txt
+-F:	Documentation/filesystems/ext4/ext4.rst
++F:	Documentation/filesystems/ext4/
+ F:	fs/ext4/
 =20
- SAMSUNG FRAMEBUFFER DRIVER
- M:	Jingoo Han <jingoohan1@gmail.com>
+ Extended Verification Module (EVM)
 --=20
 2.17.2
 
---wRRV7LY7NUeQGEoC
+--PNTmBPCT7hxwcZjr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlwtGIEACgkQgjuumfi+
-Hjxg9A/9H3vgmftpKbmwpyiqZ8aO8pkiG52i5+hIdx0m8aA8pKBCrdHumR/TQ/a5
-2ZdJv4j/1nXawOAd/UDpAXJDgylKvSgkDNo1w+80RyMWPwaS4SNiobBkOnGewb9G
-ptEnXMCwmYCP1sqLKprY+2RnguJbiFG4p2pNYarCHY6JMWzioXWtLv7h6GSykOlQ
-/AETaKv2GLEMszDWU7WtSKJ5RwyfV/h+rRx9q7dRqlB4/yZ6XZlJ9vyONOkXNhwM
-8DFOY0odDI6+ojddlM0zhe/+OSqrikd7CEVv/o5jIHu/cmatiWW5eQ11UD6mn+1s
-HyCGwuEpH6HtZ3N/pCToGHEXClEMie5OF5QWJiy1+MCLXHFYtwdlSGlZaf5A/kAc
-HKmeajTq7hZHbf9kISBGb4QPVy7wMIVac3ErYSbBFYREE+qyHZXoSMiweEPQ4Npg
-Ink9JqEaV1YA7eiqpWT8IlXURL5gB4eRcevk7lwD+7p0xsI1xOspHQW008T68TXX
-qKGY8fERVudF9+peHhSuUq0TGdZ7aTz+FfpTBzm0nFW3ebM4B4Cs8R5UBgnXEbPx
-DnSC+xTej94qB+XYvDAhKpKwpVKMhE6G/lVv/BpBmEhr1eDppsAZPHw2eV251jA6
-ARLN2H0ajrUbTuwy2Vgec5wk/0dpRDyXKLiHmfoycDhASF5fFi0=
-=5/w6
+iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlwtGJEACgkQgjuumfi+
+HjzNlg/+JJnKVK3II5m4IVegoCaYgsh2qcZADbhKsTM9bjrEeJBlOcgv7WOCuJ9Z
+qWq0DCBcoiGfl6UJ78UuWX/vzFNqoyfnptE9nhY02y0ZmAyPCFufe+tkPvSL3muf
+MFFucEzRckEJU0labOx+jOaoxU0myeFapt/ZH+Tmdm/PWfeeKM43KXoSVwB4Hsd6
+Agf5hHMCNkx9iYfJWzpfOdUct0gYiZ9oVEuStIAuZIPiH2976XJogIrb20Mex9uZ
+73+jP1BHcC4Qn566GIROlfJKfoudoSnDB6i5EWDqkNHvUhI7RRKF0FSMrBmrAWnN
+RnWCnY+MMABpqAOaNWKA/+fbVeKF/8NOdill9w3CLMnEy0Pfg7L0Vpz/sQjeq7Ui
+zP18CW1GgSIXNuSx5OTbSSA5+8SD2fCqOUAzVZHFnrAymBW3zPUN5MdWotuOK2cs
+C72KTK/reAhIv8NekFs+ghwfao1L4D65OOlvhgJxqCtsknla6CgOCbcW1FLwzlMa
+DVYLWLiKdXKA2nM+Yy7iUb66ApREHFjqLCvUCukLrYzIo1S2galWb8NMjsOmG3/l
+8/nZq6K671Pqzpf3Ym0T5NxTiUAzgFkaWrb6QXXO03fFffGOJWIH1AeZb55GQukR
+jAf2CBeOKFzniqZkyIDqUwqZuSCuUAaEKLRohp10OASUF6GgXQk=
+=wBe7
 -----END PGP SIGNATURE-----
 
---wRRV7LY7NUeQGEoC--
+--PNTmBPCT7hxwcZjr--
