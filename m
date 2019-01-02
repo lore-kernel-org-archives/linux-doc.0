@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6C6737D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 18:22:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2B9F77D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 18:29:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726951AbfABSWU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Jan 2019 13:22:20 -0500
-Received: from mga12.intel.com ([192.55.52.136]:36855 "EHLO mga12.intel.com"
+        id S1728023AbfABS31 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Jan 2019 13:29:27 -0500
+Received: from mga14.intel.com ([192.55.52.115]:41253 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725993AbfABSWU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Jan 2019 13:22:20 -0500
+        id S1727130AbfABS31 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Jan 2019 13:29:27 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Jan 2019 10:22:19 -0800
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Jan 2019 10:29:27 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.56,431,1539673200"; 
-   d="scan'208";a="263909751"
+   d="scan'208";a="263911103"
 Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.143]) ([10.7.153.143])
-  by orsmga004.jf.intel.com with ESMTP; 02 Jan 2019 10:22:19 -0800
-Subject: Re: [PATCH v9 08/12] mfd: intel-peci-client: Add PECI client MFD
- driver
+  by orsmga004.jf.intel.com with ESMTP; 02 Jan 2019 10:29:26 -0800
+Subject: Re: [PATCH v9 07/12] dt-bindings: mfd: Add a document for PECI client
+ MFD
 To:     Lee Jones <lee.jones@linaro.org>
 Cc:     Rob Herring <robh+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
         Guenter Roeck <linux@roeck-us.net>,
@@ -63,15 +63,15 @@ Cc:     Rob Herring <robh+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
         Jason M Biils <jason.m.bills@linux.intel.com>,
         Vernon Mauery <vernon.mauery@linux.intel.com>
 References: <20181218210417.30140-1-jae.hyun.yoo@linux.intel.com>
- <20181218210417.30140-9-jae.hyun.yoo@linux.intel.com>
- <20181221144603.GR13248@dell>
+ <20181218210417.30140-8-jae.hyun.yoo@linux.intel.com>
+ <20181221144754.GS13248@dell>
 From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <8e4bcf7d-aa43-6745-2ade-9123c8d182ef@linux.intel.com>
-Date:   Wed, 2 Jan 2019 10:22:18 -0800
+Message-ID: <fa605dae-977f-452a-cd86-2c0db9237892@linux.intel.com>
+Date:   Wed, 2 Jan 2019 10:29:26 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
  Thunderbird/60.3.3
 MIME-Version: 1.0
-In-Reply-To: <20181221144603.GR13248@dell>
+In-Reply-To: <20181221144754.GS13248@dell>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -82,128 +82,56 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi Lee,
 
-On 12/21/2018 6:46 AM, Lee Jones wrote:
+On 12/21/2018 6:47 AM, Lee Jones wrote:
 > On Tue, 18 Dec 2018, Jae Hyun Yoo wrote:
 > 
->> This commit adds PECI client MFD driver.
+>> This commit adds a dt-bindings document for PECI client MFD.
 >>
+>> +* Intel PECI client bindings
 
 <snip>
 
->>   
->> +config MFD_INTEL_PECI_CLIENT
->> +	bool "Intel PECI client"
->> +	depends on (PECI || COMPILE_TEST)
->> +	select MFD_CORE
->> +	help
->> +	  If you say yes to this option, support will be included for the
->> +	  Intel PECI (Platform Environment Control Interface) client. PECI is a
->> +	  one-wire bus interface that provides a communication channel from PECI
->> +	  clients in Intel processors and chipset components to external
->> +	  monitoring or control devices.
-> 
-> This driver doesn't appear to actually do anything that can't be done
-> in a header file i.e. match some static data with a CPU ID.  The child
-> devices can be registered by whatever registers this device.
-> 
-> It seems superfluous.  Why do you need it?
->
-
-The main reason I added it is to provide a way for sharing the same unit
-address from multiple side-band function drivers that read 'reg'
-property setting from the parent node (this driver's node). The 'reg'
-property reading code is not in this driver but it will be performed in
-peci-core when this driver is registered using
-module_peci_driver(peci_client_driver), and then it will provides
-client->addr information for all its child node drivers.
-
-<snip>
-
->> +#include <linux/bitfield.h>
->> +#include <linux/mfd/core.h>
->> +#include <linux/mfd/intel-peci-client.h>
->> +#include <linux/module.h>
->> +#include <linux/peci.h>
->> +#include <linux/of_device.h>
-> 
-> Alphabetical.
-> 
-
-Will fix it. Thanks!
-
-<snip>
-
->> +enum cpu_gens {
->> +	CPU_GEN_HSX = 0, /* Haswell Xeon */
->> +	CPU_GEN_BRX,     /* Broadwell Xeon */
->> +	CPU_GEN_SKX,     /* Skylake Xeon */
->> +};
-> 
-> This is unused.
-> 
-
-This is being used in 8 lines below but actually the static array can be
-initialized without using this enum type. Will remove it.
-
->> +static struct mfd_cell peci_functions[] = {
->> +	{ .name = "peci-cputemp", },
->> +	{ .name = "peci-dimmtemp", },
->> +	/* TODO: Add additional PECI sideband functions into here */
->> +};
+>> +PECI (Platform Environment Control Interface) is a one-wire bus interface that
+>> +provides a communication channel from PECI clients in Intel processors and
+>> +chipset components to external monitoring or control devices. PECI is designed
+>> +to support the following sideband functions:
 >> +
->> +static const struct cpu_gen_info cpu_gen_info_table[] = {
->> +	[CPU_GEN_HSX] = {
->> +		.family        = 6, /* Family code */
->> +		.model         = INTEL_FAM6_HASWELL_X,
->> +		.core_max      = CORE_MAX_ON_HSX,
->> +		.chan_rank_max = CHAN_RANK_MAX_ON_HSX,
->> +		.dimm_idx_max  = DIMM_IDX_MAX_ON_HSX },
->> +	[CPU_GEN_BRX] = {
->> +		.family        = 6, /* Family code */
->> +		.model         = INTEL_FAM6_BROADWELL_X,
->> +		.core_max      = CORE_MAX_ON_BDX,
->> +		.chan_rank_max = CHAN_RANK_MAX_ON_BDX,
->> +		.dimm_idx_max  = DIMM_IDX_MAX_ON_BDX },
->> +	[CPU_GEN_SKX] = {
->> +		.family        = 6, /* Family code */
->> +		.model         = INTEL_FAM6_SKYLAKE_X,
->> +		.core_max      = CORE_MAX_ON_SKX,
->> +		.chan_rank_max = CHAN_RANK_MAX_ON_SKX,
->> +		.dimm_idx_max  = DIMM_IDX_MAX_ON_SKX },
->> +};
+>> +- Processor and DRAM thermal management
+>> +- Platform Manageability
+>> +- Processor Interface Tuning and Diagnostics
+>> +- Failure Analysis
 >> +
->> +static int peci_client_get_cpu_gen_info(struct peci_client_manager *priv)
->> +{
->> +	u32 cpu_id;
->> +	u16 family;
->> +	u8 model;
->> +	int rc;
-> 
-> ret is almost ubiquitous in the kernel.  Please use it instead.
-> 
-
-Okay. Will change rc to ret.
-
-<snip>
-
->> +static int peci_client_probe(struct peci_client *client)
->> +{
->> +	struct device *dev = &client->dev;
->> +	struct peci_client_manager *priv;
->> +	uint cpu_no;
->> +	int ret;
+>> +Required properties:
+>> +- compatible : Should be "intel,peci-client".
+>> +- reg        : Should contain address of a client CPU. According to the PECI
+>> +	       specification, client addresses start from 0x30.
 >> +
->> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
->> +	if (!priv)
->> +		return -ENOMEM;
+>> +Example:
+>> +	peci-bus@0 {
+>> +		compatible = "vendor,soc-peci";
+>> +		reg = <0x0 0x1000>;
+>> +		#address-cells = <1>;
+>> +		#size-cells = <0>;
 >> +
->> +	dev_set_drvdata(dev, priv);
->> +	priv->client = client;
->> +	priv->dev = dev;
+>> +		peci-client@30 {
+>> +			compatible = "intel,peci-client";
+>> +			reg = <0x30>;
+>> +		};
+>> +
+>> +		peci-client@31 {
+>> +			compatible = "intel,peci-client";
+>> +			reg = <0x31>;
+>> +		};
 > 
-> If you have client (Which contains dev, you don't need dev).
+> The PECI Client driver (masquerading as an MFD driver in this set)
+> doesn't actually do anything special.  Instead of detailing it here,
+> register the child devices directly instead.
 > 
 
-Makes sense. Will remove the 'dev' member.
+Main purpose of the PECI client driver is providing 'reg' value to its
+child devices. If I add the child nodes directly, compiler will make
+warnings while building dtb because the child nodes are using the same
+unit address.
 
-<snip>
+Thanks,
+Jae
