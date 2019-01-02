@@ -5,28 +5,28 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DCBC17D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 20:02:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3A30A7D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 20:03:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726876AbfABUCy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Jan 2019 15:02:54 -0500
-Received: from wes1-so1-b.wedos.net ([46.28.106.43]:52320 "EHLO
+        id S1726107AbfABUDK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Jan 2019 15:03:10 -0500
+Received: from wes1-so1-b.wedos.net ([46.28.106.43]:38306 "EHLO
         wes1-so1.wedos.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726107AbfABUCy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 15:02:54 -0500
+        with ESMTP id S1725984AbfABUDJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 15:03:09 -0500
 Received: from localhost (ip4-46-39-182-135.cust.nbox.cz [46.39.182.135])
-        by wes1-so1.wedos.net (Postfix) with ESMTPSA id 43VMRJ39yrz3CV;
-        Wed,  2 Jan 2019 21:02:52 +0100 (CET)
-Date:   Wed, 2 Jan 2019 21:02:49 +0100
+        by wes1-so1.wedos.net (Postfix) with ESMTPSA id 43VMRb36hDz3Wv;
+        Wed,  2 Jan 2019 21:03:07 +0100 (CET)
+Date:   Wed, 2 Jan 2019 21:03:03 +0100
 From:   Otto Sabart <ottosabart@seberm.com>
 To:     linux-doc@vger.kernel.org
 Cc:     Jonathan Corbet <corbet@lwn.net>, trivial@kernel.org
-Subject: [PATCH 7/8] doc: pinctrl: fix bad reference to pinctrl.txt file
-Message-ID: <128a452d88f8648c643c17c546d8a5f8036d7354.1546457947.git.ottosabart@seberm.com>
+Subject: [PATCH 8/8] doc: fix multiple broken references
+Message-ID: <2dec20c26066c8941e5bcf64a48dfa7af9570108.1546457947.git.ottosabart@seberm.com>
 References: <cover.1546457946.git.ottosabart@seberm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="LZvS9be/3tNcYl/X"
+        protocol="application/pgp-signature"; boundary="G4iJoqBmSsgzjUCe"
 Content-Disposition: inline
 In-Reply-To: <cover.1546457946.git.ottosabart@seberm.com>
 X-PGP-Key: http://seberm.com/pubkey.asc
@@ -37,57 +37,127 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---LZvS9be/3tNcYl/X
+--G4iJoqBmSsgzjUCe
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-The pinctrl.txt file was converted into reStructuredText and moved into
-driver-api folder. This patch updates the broken reference.
+Some files were moved/converted into reStructuredRext/YAML, some were
+removed completely. This patch fixes broken references mainly in
+Documentation tree. There were also broken refs in Kconfigs and one
+in arch tree.
 
-Fixes: 5a9b73832e9e ("pinctrl.txt: move it to the driver-api book")
 Signed-off-by: Otto Sabart <ottosabart@seberm.com>
 ---
- include/linux/mfd/madera/pdata.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ Documentation/cgroup-v1/blkio-controller.txt    | 6 ++----
+ arch/arm64/kernel/kexec_image.c                 | 2 +-
+ arch/x86/Kconfig                                | 2 +-
+ mm/Kconfig                                      | 2 +-
+ 5 files changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/include/linux/mfd/madera/pdata.h b/include/linux/mfd/madera/pd=
-ata.h
-index 8dc852402dbb..dd00ab824e5b 100644
---- a/include/linux/mfd/madera/pdata.h
-+++ b/include/linux/mfd/madera/pdata.h
-@@ -34,7 +34,8 @@ struct madera_codec_pdata;
-  * @micvdd:	    Substruct of pdata for the MICVDD regulator
-  * @irq_flags:	    Mode for primary IRQ (defaults to active low)
-  * @gpio_base:	    Base GPIO number
-- * @gpio_configs:   Array of GPIO configurations (See Documentation/pinctr=
-l.txt)
-+ * @gpio_configs:   Array of GPIO configurations (See
-+ *		    Documentation/driver-api/pinctl.rst)
-  * @n_gpio_configs: Number of entries in gpio_configs
-  * @gpsw:	    General purpose switch mode setting. Depends on the external
-  *		    hardware connected to the switch. (See the SW1_MODE field
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentatio=
+n/admin-guide/kernel-parameters.txt
+index 408781ee142c..1d7624f1d2ac 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2372,7 +2372,7 @@
+ 			set according to the
+ 			CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE kernel config
+ 			option.
+-			See Documentation/memory-hotplug.txt.
++			See Documentation/admin-guide/mm/memory-hotplug.rst.
+=20
+ 	memmap=3Dexactmap	[KNL,X86] Enable setting of an exact
+ 			E820 memory map, as specified by the user.
+diff --git a/Documentation/cgroup-v1/blkio-controller.txt b/Documentation/c=
+group-v1/blkio-controller.txt
+index 673dc34d3f78..a99fefff9cb9 100644
+--- a/Documentation/cgroup-v1/blkio-controller.txt
++++ b/Documentation/cgroup-v1/blkio-controller.txt
+@@ -108,8 +108,7 @@ If somebody created a hierarchy like as follows.
+ 		     test3
+=20
+ CFQ by default and throttling with "sane_behavior" will handle the
+-hierarchy correctly.  For details on CFQ hierarchy support, refer to
+-Documentation/block/cfq-iosched.txt.  For throttling, all limits apply
++hierarchy correctly.  For throttling, all limits apply
+ to the whole subtree while all statistics are local to the IOs
+ directly generated by tasks in that cgroup.
+=20
+@@ -177,8 +176,7 @@ Proportional weight policy files
+ - blkio.leaf_weight[_device]
+ 	- Equivalents of blkio.weight[_device] for the purpose of
+           deciding how much weight tasks in the given cgroup has while
+-          competing with the cgroup's child cgroups. For details,
+-          please refer to Documentation/block/cfq-iosched.txt.
++          competing with the cgroup's child cgroups.
+=20
+ - blkio.time
+ 	- disk time allocated to cgroup per device in milliseconds. First
+diff --git a/arch/arm64/kernel/kexec_image.c b/arch/arm64/kernel/kexec_imag=
+e.c
+index 07bf740bea91..31cc2f423aa8 100644
+--- a/arch/arm64/kernel/kexec_image.c
++++ b/arch/arm64/kernel/kexec_image.c
+@@ -53,7 +53,7 @@ static void *image_load(struct kimage *image,
+=20
+ 	/*
+ 	 * We require a kernel with an unambiguous Image header. Per
+-	 * Documentation/booting.txt, this is the case when image_size
++	 * Documentation/arm64/booting.txt, this is the case when image_size
+ 	 * is non-zero (practically speaking, since v3.17).
+ 	 */
+ 	h =3D (struct arm64_image_header *)kernel;
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index e260460210e1..8d1e85c01916 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -1635,7 +1635,7 @@ config ARCH_MEMORY_PROBE
+ 	depends on X86_64 && MEMORY_HOTPLUG
+ 	help
+ 	  This option enables a sysfs memory/probe interface for testing.
+-	  See Documentation/memory-hotplug.txt for more information.
++	  See Documentation/admin-guide/mm/memory-hotplug.rst for more informatio=
+n.
+ 	  If you are unsure how to answer this question, answer N.
+=20
+ config ARCH_PROC_KCORE_TEXT
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 25c71eb8a7db..410e28224d45 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -168,7 +168,7 @@ config MEMORY_HOTPLUG_DEFAULT_ONLINE
+ 	  onlining policy (/sys/devices/system/memory/auto_online_blocks) which
+ 	  determines what happens to newly added memory regions. Policy setting
+ 	  can always be changed at runtime.
+-	  See Documentation/memory-hotplug.txt for more information.
++	  See Documentation/admin-guide/mm/memory-hotplug.rst for more informatio=
+n.
+=20
+ 	  Say Y here if you want all hot-plugged memory blocks to appear in
+ 	  'online' state by default.
 --=20
 2.17.2
 
---LZvS9be/3tNcYl/X
+--G4iJoqBmSsgzjUCe
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlwtGOkACgkQgjuumfi+
-HjxnLA//fw6fKYzSTrg+Ygy4dnWo3jX6I5UGQIKy1SD6Hru2MfobmTk7pQttzj5q
-33gte9UAr1KKPRTgHmnRjFFxqh1ttpMnoFrw9XlJCNsBl/6BqpJh/RtXYfwNBGg/
-vttXpLyjTJeyBDfqUaUh0NAqlLR3+Jdly29R0561GSuUsKtP2he8tXI2au+hQDZo
-2VxmLY+U5rBJwd3DzW/OPUSSKc5hK8VXJbl8prZcU9FmPmtKQd++PfcvRoMmHI7S
-GeLPTyfwrxDQxx1GccjDMRUU4H949+uiufyvJSxeGOsXJPvmNHzl9PVFn6Nw/+kL
-euwWs5Gh0isgKS8iy3KskT3iaQ5Fj3g+GiP89zk8K69C9GiuIUf8kJuxQ764lJ6P
-5YhKIwssLBkxhoQsPYhzrqtftiM8SPcOmn6FFSZqd3CbndlidFuYei2xnorxgPH2
-QlC/og9d2YJBZLUL1uqegkxtErKdOPRs2n2ZyccItfUp4cKyXYW1qfkLHXj/YT7y
-ZTERtXCyMXJfvMFK841J3b0H75YsyAooSv2U1Q7UYffsm2LnPicwNuloIDEv60SS
-0kuXgOx+mwSYgPjrXhvFegJfVoMLjUKsnBWA3ucqESWacNrbQbow7bnrylhPs/Qo
-q5NRkJZ51H+1jM66xiaXF2ld1DI6jSHuEnLGhjhY1fNMfoBw6HM=
-=m2bp
+iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlwtGPYACgkQgjuumfi+
+HjyKuQ//SudQbYoFNJiFX0JQF0Yj16J9U2b6kttB7h8IbZ1EoUc12++aPJiyw32A
+pW7M0dachsQrmRTR8XTe1lvnZyIoa/NQhum+I0FI/33tN1hfAanu+dPltsbQZnhJ
+PLrz2JrTLtvlm4twqJLdvBAFjhBLyyKJdAe9wA0/DFbL6Vwx2Xf/GCn/uMqMAHMy
+AweL2hDD6B0txoBgy7QeO7WkfYrDucgKZEKszN8BigMreuiCUCnT1J8HmcrN0ClR
+3SANpfGlkqNv58VJqCw8BpYg2kf1k2WH5H1fz+fM0j//hUHAGHKzeDcsBW+Tv1Dx
+wH6TihBsBma3iikhUfPj/wKU8F3r1vh8uR1vAnEyeRGWJW/RWjsq9v7rjklGj6iI
+W+VS13y/66xRz3X7vfpNXvNN3NtNyXNMv+s9neWzC5GsaBji3qI3XiqV3nkOPgzg
+II/9Lvrv429OQau42Uf+aXfno4L7vkcqpH6+ouDBYnru0Kcku5Wf+yfGQDO/CXTf
+/G7y+aaws+a7XfLNTGJfSDRGyagn3wVFoSJpOaYF58aIFKd+OMR6dOgHx0Qf0xLM
+M8W1btWYGWX/LeX95NCQPO8w2jgoXAp+t75Ha92qSD6ind46QxMxUrN9vEgxjI4u
+QCwv+psxc8hs3ELt5ywib2peseW5WEjnl+yVrz1RFA92B3s5dsM=
+=SL05
 -----END PGP SIGNATURE-----
 
---LZvS9be/3tNcYl/X--
+--G4iJoqBmSsgzjUCe--
