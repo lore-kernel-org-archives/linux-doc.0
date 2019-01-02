@@ -5,133 +5,104 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2B9F77D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 18:29:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6C6DA7D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 20:00:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728023AbfABS31 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Jan 2019 13:29:27 -0500
-Received: from mga14.intel.com ([192.55.52.115]:41253 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727130AbfABS31 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Jan 2019 13:29:27 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Jan 2019 10:29:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,431,1539673200"; 
-   d="scan'208";a="263911103"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.143]) ([10.7.153.143])
-  by orsmga004.jf.intel.com with ESMTP; 02 Jan 2019 10:29:26 -0800
-Subject: Re: [PATCH v9 07/12] dt-bindings: mfd: Add a document for PECI client
- MFD
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Eric Sandeen <sandeen@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
-        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
-        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
-        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Stephen Boyd <sboyd@codeaurora.org>,
-        David Kershner <david.kershner@unisys.com>,
-        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Johan Hovold <johan@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Juergen Gross <jgross@suse.com>,
-        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        openbmc@lists.ozlabs.org,
-        James Feist <james.feist@linux.intel.com>,
-        Jason M Biils <jason.m.bills@linux.intel.com>,
-        Vernon Mauery <vernon.mauery@linux.intel.com>
-References: <20181218210417.30140-1-jae.hyun.yoo@linux.intel.com>
- <20181218210417.30140-8-jae.hyun.yoo@linux.intel.com>
- <20181221144754.GS13248@dell>
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <fa605dae-977f-452a-cd86-2c0db9237892@linux.intel.com>
-Date:   Wed, 2 Jan 2019 10:29:26 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.3
+        id S1726924AbfABUAy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Jan 2019 15:00:54 -0500
+Received: from wes1-so1-b.wedos.net ([46.28.106.43]:37924 "EHLO
+        wes1-so1.wedos.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726089AbfABUAx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 15:00:53 -0500
+Received: from localhost (ip4-46-39-182-135.cust.nbox.cz [46.39.182.135])
+        by wes1-so1.wedos.net (Postfix) with ESMTPSA id 43VMNz2xfzz37Y;
+        Wed,  2 Jan 2019 21:00:51 +0100 (CET)
+Date:   Wed, 2 Jan 2019 21:00:47 +0100
+From:   Otto Sabart <ottosabart@seberm.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, trivial@kernel.org
+Subject: [PATCH 0/8] Fix bad references to documentation files
+Message-ID: <cover.1546457946.git.ottosabart@seberm.com>
 MIME-Version: 1.0
-In-Reply-To: <20181221144754.GS13248@dell>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="OXfL5xGRrasGEqWY"
+Content-Disposition: inline
+X-PGP-Key: http://seberm.com/pubkey.asc
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Lee,
 
-On 12/21/2018 6:47 AM, Lee Jones wrote:
-> On Tue, 18 Dec 2018, Jae Hyun Yoo wrote:
-> 
->> This commit adds a dt-bindings document for PECI client MFD.
->>
->> +* Intel PECI client bindings
+--OXfL5xGRrasGEqWY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-<snip>
+This series of patches fixes multiple warnings
+=66rom `$ make refcheckdocs` output.
 
->> +PECI (Platform Environment Control Interface) is a one-wire bus interface that
->> +provides a communication channel from PECI clients in Intel processors and
->> +chipset components to external monitoring or control devices. PECI is designed
->> +to support the following sideband functions:
->> +
->> +- Processor and DRAM thermal management
->> +- Platform Manageability
->> +- Processor Interface Tuning and Diagnostics
->> +- Failure Analysis
->> +
->> +Required properties:
->> +- compatible : Should be "intel,peci-client".
->> +- reg        : Should contain address of a client CPU. According to the PECI
->> +	       specification, client addresses start from 0x30.
->> +
->> +Example:
->> +	peci-bus@0 {
->> +		compatible = "vendor,soc-peci";
->> +		reg = <0x0 0x1000>;
->> +		#address-cells = <1>;
->> +		#size-cells = <0>;
->> +
->> +		peci-client@30 {
->> +			compatible = "intel,peci-client";
->> +			reg = <0x30>;
->> +		};
->> +
->> +		peci-client@31 {
->> +			compatible = "intel,peci-client";
->> +			reg = <0x31>;
->> +		};
-> 
-> The PECI Client driver (masquerading as an MFD driver in this set)
-> doesn't actually do anything special.  Instead of detailing it here,
-> register the child devices directly instead.
-> 
+I am still not sure if it's good practise to send these changes in
+a series (because they touch multiple trees) or as a single commit
+because it is one "logical" change :).
 
-Main purpose of the PECI client driver is providing 'reg' value to its
-child devices. If I add the child nodes directly, compiler will make
-warnings while building dtb because the child nodes are using the same
-unit address.
+I have no problem with squashing these commits (or some of them), just
+let me know.
 
-Thanks,
-Jae
+
+Otto Sabart (8):
+  MAINTAINERS: fix bad file reference into Documentation
+  doc: filesystems: fix bad references to nonexistent ext4.rst file
+  doc: bindings: fix bad reference to ARM CPU bindings
+  doc: trace: fix reference to cpuidle documentation file
+  doc: gpio-mvebu: fix broken reference  to cp110-system-controller0.txt fi=
+le
+  doc: scsi: remove reference to tmscsim.txt file
+  doc: pinctrl: fix bad reference to pinctrl.txt file
+  doc: fix multiple broken references
+
+ Documentation/admin-guide/kernel-parameters.txt             | 2 +-
+ Documentation/cgroup-v1/blkio-controller.txt                | 6 ++----
+ Documentation/devicetree/bindings/arm/cpu-capacity.txt      | 2 +-
+ Documentation/devicetree/bindings/arm/idle-states.txt       | 2 +-
+ Documentation/devicetree/bindings/arm/sp810.txt             | 2 +-
+ Documentation/devicetree/bindings/arm/topology.txt          | 2 +-
+ Documentation/devicetree/bindings/display/arm,pl11x.txt     | 2 +-
+ Documentation/devicetree/bindings/gpio/gpio-mvebu.txt       | 2 --
+ .../devicetree/bindings/interrupt-controller/arm,gic-v3.txt | 2 +-
+ Documentation/filesystems/dax.txt                           | 2 +-
+ Documentation/filesystems/ext2.txt                          | 2 +-
+ Documentation/trace/coresight-cpu-debug.txt                 | 2 +-
+ MAINTAINERS                                                 | 3 +--
+ arch/arm64/kernel/kexec_image.c                             | 2 +-
+ arch/x86/Kconfig                                            | 2 +-
+ drivers/scsi/Kconfig                                        | 2 --
+ include/linux/mfd/madera/pdata.h                            | 3 ++-
+ mm/Kconfig                                                  | 2 +-
+ 18 files changed, 18 insertions(+), 24 deletions(-)
+
+--=20
+2.17.2
+
+--OXfL5xGRrasGEqWY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlwtGFgACgkQgjuumfi+
+Hjx2HA//SrMo9lg8zMKqye+UVsacjp6cOwu4aRxWSiRUxaFf2Vkx/bgxJbvyChT6
++y+OutAxhKF0093ZgU0sLOS0Xrt9r+7IOSmuBJ1gapS7phgN7xMrckjuUp9y7Egp
+oh9K/YZxoJhkqfGz/CFiTUzHWMn4AbJxgWIUqFiH/2K6kPul0DMkuEwKTjcP04H2
+ybFxMq9ZM/PIJgMXic/o7ANtmCwFjOiFYPXbIlWav8h71N3oi+TzmgX6nlssdpbp
+8mFKhdL76m63LfLaWSyCzhcyHyrXtdDq6jGn5jS1L3CSSxMp0oEJmQGtqc96CxTt
+cv28uK8qj/I18MCzCu2JKceseC51JjTLqaNg+TKJT29H4tffCyEkHSMI/3uFliOE
+Dyf4TDiUol7hlV9aPQ+ilLmEyq7U61J59Z2sLQ7K9bXP0aBuzapQPgKxbkwo76ol
+XnqbCip+4W3Vp3MDMwv44mrR4g9tWiV5+Z128tzthcS1+FNXtdyg4jxp7pQunmXO
+EGKITUZr5dSWfDqyFiBzmllQtoTs6u5bqVN6r5K8/qRX6Wa474jDATQ6K3jD9dH9
+280sYwk5RSaw6ECaA3C4KCgtO9N/JCGFl7rL2oDtw/Otekhs2osmAvK4LUbE3Xqn
+qeSw8xOVqYLoL/cfY2xROx/NN+M2TNadYLEDPPZVzbX99iHp5p8=
+=IKsG
+-----END PGP SIGNATURE-----
+
+--OXfL5xGRrasGEqWY--
