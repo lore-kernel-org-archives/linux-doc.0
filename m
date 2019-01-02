@@ -5,159 +5,113 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3A30A7D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 20:03:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BC3D57D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 20:14:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726107AbfABUDK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Jan 2019 15:03:10 -0500
-Received: from wes1-so1-b.wedos.net ([46.28.106.43]:38306 "EHLO
-        wes1-so1.wedos.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725984AbfABUDJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 15:03:09 -0500
-Received: from localhost (ip4-46-39-182-135.cust.nbox.cz [46.39.182.135])
-        by wes1-so1.wedos.net (Postfix) with ESMTPSA id 43VMRb36hDz3Wv;
-        Wed,  2 Jan 2019 21:03:07 +0100 (CET)
-Date:   Wed, 2 Jan 2019 21:03:03 +0100
-From:   Otto Sabart <ottosabart@seberm.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, trivial@kernel.org
-Subject: [PATCH 8/8] doc: fix multiple broken references
-Message-ID: <2dec20c26066c8941e5bcf64a48dfa7af9570108.1546457947.git.ottosabart@seberm.com>
-References: <cover.1546457946.git.ottosabart@seberm.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="G4iJoqBmSsgzjUCe"
-Content-Disposition: inline
-In-Reply-To: <cover.1546457946.git.ottosabart@seberm.com>
-X-PGP-Key: http://seberm.com/pubkey.asc
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726304AbfABUOl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Jan 2019 15:14:41 -0500
+Received: from mail.linuxfoundation.org ([140.211.169.12]:44590 "EHLO
+        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726253AbfABUOk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 15:14:40 -0500
+Received: from akpm3.svl.corp.google.com (unknown [104.133.8.65])
+        by mail.linuxfoundation.org (Postfix) with ESMTPSA id 47BEAB6B;
+        Wed,  2 Jan 2019 20:14:38 +0000 (UTC)
+Date:   Wed, 2 Jan 2019 12:14:36 -0800
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org, Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>
+Subject: Re: [PATCH v2 1/3] kasan, arm64: use ARCH_SLAB_MINALIGN instead of
+ manual aligning
+Message-Id: <20190102121436.5c2b72d1b0ec49affadc9692@linux-foundation.org>
+In-Reply-To: <b16c90197bb2c06c780e6e981c40345e03fda465.1546450432.git.andreyknvl@google.com>
+References: <cover.1546450432.git.andreyknvl@google.com>
+        <b16c90197bb2c06c780e6e981c40345e03fda465.1546450432.git.andreyknvl@google.com>
+X-Mailer: Sylpheed 3.6.0 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed,  2 Jan 2019 18:36:06 +0100 Andrey Konovalov <andreyknvl@google.com> wrote:
 
---G4iJoqBmSsgzjUCe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Instead of changing cache->align to be aligned to KASAN_SHADOW_SCALE_SIZE
+> in kasan_cache_create() we can reuse the ARCH_SLAB_MINALIGN macro.
+> 
+> ...
+>
+> --- a/arch/arm64/include/asm/kasan.h
+> +++ b/arch/arm64/include/asm/kasan.h
+> @@ -36,6 +36,10 @@
+>  #define KASAN_SHADOW_OFFSET     (KASAN_SHADOW_END - (1ULL << \
+>  					(64 - KASAN_SHADOW_SCALE_SHIFT)))
+>  
+> +#ifdef CONFIG_KASAN_SW_TAGS
+> +#define ARCH_SLAB_MINALIGN	(1ULL << KASAN_SHADOW_SCALE_SHIFT)
+> +#endif
+> +
+>  void kasan_init(void);
+>  void kasan_copy_shadow(pgd_t *pgdir);
+>  asmlinkage void kasan_early_init(void);
+> diff --git a/include/linux/slab.h b/include/linux/slab.h
+> index 11b45f7ae405..d87f913ab4e8 100644
+> --- a/include/linux/slab.h
+> +++ b/include/linux/slab.h
+> @@ -16,6 +16,7 @@
+>  #include <linux/overflow.h>
+>  #include <linux/types.h>
+>  #include <linux/workqueue.h>
+> +#include <linux/kasan.h>
+>  
 
-Some files were moved/converted into reStructuredRext/YAML, some were
-removed completely. This patch fixes broken references mainly in
-Documentation tree. There were also broken refs in Kconfigs and one
-in arch tree.
+This still seems unadvisable.  Like other architectures, arm defines
+ARCH_SLAB_MINALIGN in arch/arm/include/asm/cache.h. 
+arch/arm/include/asm64/cache.h doesn't define ARCH_SLAB_MINALIGN
+afaict.
 
-Signed-off-by: Otto Sabart <ottosabart@seberm.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- Documentation/cgroup-v1/blkio-controller.txt    | 6 ++----
- arch/arm64/kernel/kexec_image.c                 | 2 +-
- arch/x86/Kconfig                                | 2 +-
- mm/Kconfig                                      | 2 +-
- 5 files changed, 6 insertions(+), 8 deletions(-)
+If arch/arm/include/asm64/cache.h later gets a definition of
+ARCH_SLAB_MINALIGN then we again face the risk that different .c files
+will see different values of ARCH_SLAB_MINALIGN depending on which
+headers they include.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentatio=
-n/admin-guide/kernel-parameters.txt
-index 408781ee142c..1d7624f1d2ac 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2372,7 +2372,7 @@
- 			set according to the
- 			CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE kernel config
- 			option.
--			See Documentation/memory-hotplug.txt.
-+			See Documentation/admin-guide/mm/memory-hotplug.rst.
-=20
- 	memmap=3Dexactmap	[KNL,X86] Enable setting of an exact
- 			E820 memory map, as specified by the user.
-diff --git a/Documentation/cgroup-v1/blkio-controller.txt b/Documentation/c=
-group-v1/blkio-controller.txt
-index 673dc34d3f78..a99fefff9cb9 100644
---- a/Documentation/cgroup-v1/blkio-controller.txt
-+++ b/Documentation/cgroup-v1/blkio-controller.txt
-@@ -108,8 +108,7 @@ If somebody created a hierarchy like as follows.
- 		     test3
-=20
- CFQ by default and throttling with "sane_behavior" will handle the
--hierarchy correctly.  For details on CFQ hierarchy support, refer to
--Documentation/block/cfq-iosched.txt.  For throttling, all limits apply
-+hierarchy correctly.  For throttling, all limits apply
- to the whole subtree while all statistics are local to the IOs
- directly generated by tasks in that cgroup.
-=20
-@@ -177,8 +176,7 @@ Proportional weight policy files
- - blkio.leaf_weight[_device]
- 	- Equivalents of blkio.weight[_device] for the purpose of
-           deciding how much weight tasks in the given cgroup has while
--          competing with the cgroup's child cgroups. For details,
--          please refer to Documentation/block/cfq-iosched.txt.
-+          competing with the cgroup's child cgroups.
-=20
- - blkio.time
- 	- disk time allocated to cgroup per device in milliseconds. First
-diff --git a/arch/arm64/kernel/kexec_image.c b/arch/arm64/kernel/kexec_imag=
-e.c
-index 07bf740bea91..31cc2f423aa8 100644
---- a/arch/arm64/kernel/kexec_image.c
-+++ b/arch/arm64/kernel/kexec_image.c
-@@ -53,7 +53,7 @@ static void *image_load(struct kimage *image,
-=20
- 	/*
- 	 * We require a kernel with an unambiguous Image header. Per
--	 * Documentation/booting.txt, this is the case when image_size
-+	 * Documentation/arm64/booting.txt, this is the case when image_size
- 	 * is non-zero (practically speaking, since v3.17).
- 	 */
- 	h =3D (struct arm64_image_header *)kernel;
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index e260460210e1..8d1e85c01916 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -1635,7 +1635,7 @@ config ARCH_MEMORY_PROBE
- 	depends on X86_64 && MEMORY_HOTPLUG
- 	help
- 	  This option enables a sysfs memory/probe interface for testing.
--	  See Documentation/memory-hotplug.txt for more information.
-+	  See Documentation/admin-guide/mm/memory-hotplug.rst for more informatio=
-n.
- 	  If you are unsure how to answer this question, answer N.
-=20
- config ARCH_PROC_KCORE_TEXT
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 25c71eb8a7db..410e28224d45 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -168,7 +168,7 @@ config MEMORY_HOTPLUG_DEFAULT_ONLINE
- 	  onlining policy (/sys/devices/system/memory/auto_online_blocks) which
- 	  determines what happens to newly added memory regions. Policy setting
- 	  can always be changed at runtime.
--	  See Documentation/memory-hotplug.txt for more information.
-+	  See Documentation/admin-guide/mm/memory-hotplug.rst for more informatio=
-n.
-=20
- 	  Say Y here if you want all hot-plugged memory blocks to appear in
- 	  'online' state by default.
---=20
-2.17.2
+So what to say about this?  The architecture's ARCH_SLAB_MINALIGN
+should be defined in the architecture's cache.h, end of story.  Not in
+slab.h, not in kasan.h.
 
---G4iJoqBmSsgzjUCe
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlwtGPYACgkQgjuumfi+
-HjyKuQ//SudQbYoFNJiFX0JQF0Yj16J9U2b6kttB7h8IbZ1EoUc12++aPJiyw32A
-pW7M0dachsQrmRTR8XTe1lvnZyIoa/NQhum+I0FI/33tN1hfAanu+dPltsbQZnhJ
-PLrz2JrTLtvlm4twqJLdvBAFjhBLyyKJdAe9wA0/DFbL6Vwx2Xf/GCn/uMqMAHMy
-AweL2hDD6B0txoBgy7QeO7WkfYrDucgKZEKszN8BigMreuiCUCnT1J8HmcrN0ClR
-3SANpfGlkqNv58VJqCw8BpYg2kf1k2WH5H1fz+fM0j//hUHAGHKzeDcsBW+Tv1Dx
-wH6TihBsBma3iikhUfPj/wKU8F3r1vh8uR1vAnEyeRGWJW/RWjsq9v7rjklGj6iI
-W+VS13y/66xRz3X7vfpNXvNN3NtNyXNMv+s9neWzC5GsaBji3qI3XiqV3nkOPgzg
-II/9Lvrv429OQau42Uf+aXfno4L7vkcqpH6+ouDBYnru0Kcku5Wf+yfGQDO/CXTf
-/G7y+aaws+a7XfLNTGJfSDRGyagn3wVFoSJpOaYF58aIFKd+OMR6dOgHx0Qf0xLM
-M8W1btWYGWX/LeX95NCQPO8w2jgoXAp+t75Ha92qSD6ind46QxMxUrN9vEgxjI4u
-QCwv+psxc8hs3ELt5ywib2peseW5WEjnl+yVrz1RFA92B3s5dsM=
-=SL05
------END PGP SIGNATURE-----
-
---G4iJoqBmSsgzjUCe--
