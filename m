@@ -1,31 +1,37 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 16AAD7D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 20:58:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B9C4B7D8A5
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 21:00:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729010AbfABU6K (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Jan 2019 15:58:10 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:35662 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728953AbfABU6G (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Jan 2019 15:58:06 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 8ED1B806BC;
-        Wed,  2 Jan 2019 20:58:03 +0000 (UTC)
-Received: from redhat.com (ovpn-120-148.rdu2.redhat.com [10.10.120.148])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 679BD60C47;
-        Wed,  2 Jan 2019 20:57:59 +0000 (UTC)
-Date:   Wed, 2 Jan 2019 15:57:58 -0500
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Jason Wang <jasowang@redhat.com>,
+        id S1726824AbfABVAc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Jan 2019 16:00:32 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:54506 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726116AbfABVAb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 16:00:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=M4IGlqEQFNqwliRsSyTfnKKOspsRl2QEciHUCHKHBN0=; b=mIeAx4XVHfAq1tTMDZX8ChgGK
+        kAxwG2LXSgH6Wm6fsEETnxI6IlDSIePpmkA7ns1A8K823CvsVsHYSxnUB8QfOrqgIBqJM4KVFslHk
+        nwJ+Vt30zxTIv3iZU27h7W75GbjIGoqKl3XksGTd0xd6alAOyb+Yaj1p7L46p/96fXy14n8yY5ElO
+        SKqBGLBv3j71+qDvoBOVHjrXfCnj/wTGscOhZ3LKCEnbPdMeD+L2K8/fpY1AWddSKfnqPv62015sO
+        tGsuHjrT9OC5VUqRPd+Yhq3Zs6aRBwjs50rKDQctY9vWrxWUtFRdliQs4CdjjfyF10lhV2nwKl6z9
+        a5qqLWuJA==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gencm-0005xD-EQ; Wed, 02 Jan 2019 21:00:24 +0000
+Date:   Wed, 2 Jan 2019 13:00:24 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     "Michael S. Tsirkin" <mst@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Jason Wang <jasowang@redhat.com>,
         Alan Stern <stern@rowland.harvard.edu>,
         Andrea Parri <andrea.parri@amarulasolutions.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -47,143 +53,29 @@ Cc:     Jason Wang <jasowang@redhat.com>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
         linux-sparse@vger.kernel.org
-Subject: [PATCH RFC 3/4] barriers: convert a control to a data dependency
-Message-ID: <20190102205715.14054-4-mst@redhat.com>
+Subject: Re: [PATCH RFC 3/4] barriers: convert a control to a data dependency
+Message-ID: <20190102210024.GJ6310@bombadil.infradead.org>
 References: <20190102205715.14054-1-mst@redhat.com>
+ <20190102205715.14054-4-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190102205715.14054-1-mst@redhat.com>
-X-Mutt-Fcc: =sent
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Wed, 02 Jan 2019 20:58:05 +0000 (UTC)
+In-Reply-To: <20190102205715.14054-4-mst@redhat.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It's not uncommon to have two access two unrelated memory locations in a
-specific order.  At the moment one has to use a memory barrier for this.
+On Wed, Jan 02, 2019 at 03:57:58PM -0500, Michael S. Tsirkin wrote:
+> @@ -875,6 +893,8 @@ to the CPU containing it.  See the section on "Multicopy atomicity"
+>  for more information.
+>  
+>  
+> +
+> +
+>  In summary:
+>  
+>    (*) Control dependencies can order prior loads against later stores.
 
-However, if the first access was a read and the second used an address
-depending on the first one we would have a data dependency and no
-barrier would be necessary.
-
-This adds a new interface: dependent_ptr_mb which does exactly this: it
-returns a pointer with a data dependency on the supplied value.
-
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- Documentation/memory-barriers.txt | 20 ++++++++++++++++++++
- arch/alpha/include/asm/barrier.h  |  1 +
- include/asm-generic/barrier.h     | 18 ++++++++++++++++++
- include/linux/compiler.h          |  4 ++++
- 4 files changed, 43 insertions(+)
-
-diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-index c1d913944ad8..9dbaa2e1dbf6 100644
---- a/Documentation/memory-barriers.txt
-+++ b/Documentation/memory-barriers.txt
-@@ -691,6 +691,18 @@ case what's actually required is:
- 		p = READ_ONCE(b);
- 	}
- 
-+Alternatively, a control dependency can be converted to a data dependency,
-+e.g.:
-+
-+	q = READ_ONCE(a);
-+	if (q) {
-+		b = dependent_ptr_mb(b, q);
-+		p = READ_ONCE(b);
-+	}
-+
-+Note how the result of dependent_ptr_mb must be used with the following
-+accesses in order to have an effect.
-+
- However, stores are not speculated.  This means that ordering -is- provided
- for load-store control dependencies, as in the following example:
- 
-@@ -836,6 +848,12 @@ out-guess your code.  More generally, although READ_ONCE() does force
- the compiler to actually emit code for a given load, it does not force
- the compiler to use the results.
- 
-+Converting to a data dependency helps with this too:
-+
-+	q = READ_ONCE(a);
-+	b = dependent_ptr_mb(b, q);
-+	WRITE_ONCE(b, 1);
-+
- In addition, control dependencies apply only to the then-clause and
- else-clause of the if-statement in question.  In particular, it does
- not necessarily apply to code following the if-statement:
-@@ -875,6 +893,8 @@ to the CPU containing it.  See the section on "Multicopy atomicity"
- for more information.
- 
- 
-+
-+
- In summary:
- 
-   (*) Control dependencies can order prior loads against later stores.
-diff --git a/arch/alpha/include/asm/barrier.h b/arch/alpha/include/asm/barrier.h
-index 92ec486a4f9e..b4934e8c551b 100644
---- a/arch/alpha/include/asm/barrier.h
-+++ b/arch/alpha/include/asm/barrier.h
-@@ -59,6 +59,7 @@
-  * as Alpha, "y" could be set to 3 and "x" to 0.  Use rmb()
-  * in cases like this where there are no data dependencies.
-  */
-+#define ARCH_NEEDS_READ_BARRIER_DEPENDS 1
- #define read_barrier_depends() __asm__ __volatile__("mb": : :"memory")
- 
- #ifdef CONFIG_SMP
-diff --git a/include/asm-generic/barrier.h b/include/asm-generic/barrier.h
-index 2cafdbb9ae4c..fa2e2ef72b68 100644
---- a/include/asm-generic/barrier.h
-+++ b/include/asm-generic/barrier.h
-@@ -70,6 +70,24 @@
- #define __smp_read_barrier_depends()	read_barrier_depends()
- #endif
- 
-+#if defined(COMPILER_HAS_OPTIMIZER_HIDE_VAR) && \
-+	!defined(ARCH_NEEDS_READ_BARRIER_DEPENDS)
-+
-+#define dependent_ptr_mb(ptr, val) ({					\
-+	long dependent_ptr_mb_val = (long)(val);			\
-+	long dependent_ptr_mb_ptr = (long)(ptr) - dependent_ptr_mb_val;	\
-+									\
-+	BUILD_BUG_ON(sizeof(val) > sizeof(long));			\
-+	OPTIMIZER_HIDE_VAR(dependent_ptr_mb_val);			\
-+	(typeof(ptr))(dependent_ptr_mb_ptr + dependent_ptr_mb_val);	\
-+})
-+
-+#else
-+
-+#define dependent_ptr_mb(ptr, val) ({ mb(); (ptr); })
-+
-+#endif
-+
- #ifdef CONFIG_SMP
- 
- #ifndef smp_mb
-diff --git a/include/linux/compiler.h b/include/linux/compiler.h
-index 6601d39e8c48..f599c30f1b28 100644
---- a/include/linux/compiler.h
-+++ b/include/linux/compiler.h
-@@ -152,9 +152,13 @@ void ftrace_likely_update(struct ftrace_likely_data *f, int val,
- #endif
- 
- #ifndef OPTIMIZER_HIDE_VAR
-+
- /* Make the optimizer believe the variable can be manipulated arbitrarily. */
- #define OPTIMIZER_HIDE_VAR(var)						\
- 	__asm__ ("" : "=rm" (var) : "0" (var))
-+
-+#define COMPILER_HAS_OPTIMIZER_HIDE_VAR 1
-+
- #endif
- 
- /* Not-quite-unique ID. */
--- 
-MST
-
+Was this hunk intentional?
