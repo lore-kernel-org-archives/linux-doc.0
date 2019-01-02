@@ -5,28 +5,30 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6C6DA7D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 20:00:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2EFF67D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 20:01:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726924AbfABUAy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Jan 2019 15:00:54 -0500
-Received: from wes1-so1-b.wedos.net ([46.28.106.43]:37924 "EHLO
-        wes1-so1.wedos.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726089AbfABUAx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 15:00:53 -0500
+        id S1726930AbfABUBL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Jan 2019 15:01:11 -0500
+Received: from wes1-so2.wedos.net ([46.28.106.16]:45337 "EHLO
+        wes1-so2.wedos.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726089AbfABUBL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 15:01:11 -0500
 Received: from localhost (ip4-46-39-182-135.cust.nbox.cz [46.39.182.135])
-        by wes1-so1.wedos.net (Postfix) with ESMTPSA id 43VMNz2xfzz37Y;
-        Wed,  2 Jan 2019 21:00:51 +0100 (CET)
-Date:   Wed, 2 Jan 2019 21:00:47 +0100
+        by wes1-so2.wedos.net (Postfix) with ESMTPSA id 43VMPK5nc8zsM;
+        Wed,  2 Jan 2019 21:01:09 +0100 (CET)
+Date:   Wed, 2 Jan 2019 21:01:06 +0100
 From:   Otto Sabart <ottosabart@seberm.com>
 To:     linux-doc@vger.kernel.org
 Cc:     Jonathan Corbet <corbet@lwn.net>, trivial@kernel.org
-Subject: [PATCH 0/8] Fix bad references to documentation files
-Message-ID: <cover.1546457946.git.ottosabart@seberm.com>
+Subject: [PATCH 1/8] MAINTAINERS: fix bad file reference into Documentation
+Message-ID: <2aa1f2f0d7cc6be67fafc67939ebba219b2719af.1546457947.git.ottosabart@seberm.com>
+References: <cover.1546457946.git.ottosabart@seberm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="OXfL5xGRrasGEqWY"
+        protocol="application/pgp-signature"; boundary="wRRV7LY7NUeQGEoC"
 Content-Disposition: inline
+In-Reply-To: <cover.1546457946.git.ottosabart@seberm.com>
 X-PGP-Key: http://seberm.com/pubkey.asc
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
@@ -35,74 +37,52 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---OXfL5xGRrasGEqWY
-Content-Type: text/plain; charset=us-ascii
+--wRRV7LY7NUeQGEoC
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-This series of patches fixes multiple warnings
-=66rom `$ make refcheckdocs` output.
+There is no `samsung,exynos5250-trng.txt` file in the documentation and
+I do not think it ever existed.
 
-I am still not sure if it's good practise to send these changes in
-a series (because they touch multiple trees) or as a single commit
-because it is one "logical" change :).
+Signed-off-by: Otto Sabart <ottosabart@seberm.com>
+---
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
 
-I have no problem with squashing these commits (or some of them), just
-let me know.
-
-
-Otto Sabart (8):
-  MAINTAINERS: fix bad file reference into Documentation
-  doc: filesystems: fix bad references to nonexistent ext4.rst file
-  doc: bindings: fix bad reference to ARM CPU bindings
-  doc: trace: fix reference to cpuidle documentation file
-  doc: gpio-mvebu: fix broken reference  to cp110-system-controller0.txt fi=
-le
-  doc: scsi: remove reference to tmscsim.txt file
-  doc: pinctrl: fix bad reference to pinctrl.txt file
-  doc: fix multiple broken references
-
- Documentation/admin-guide/kernel-parameters.txt             | 2 +-
- Documentation/cgroup-v1/blkio-controller.txt                | 6 ++----
- Documentation/devicetree/bindings/arm/cpu-capacity.txt      | 2 +-
- Documentation/devicetree/bindings/arm/idle-states.txt       | 2 +-
- Documentation/devicetree/bindings/arm/sp810.txt             | 2 +-
- Documentation/devicetree/bindings/arm/topology.txt          | 2 +-
- Documentation/devicetree/bindings/display/arm,pl11x.txt     | 2 +-
- Documentation/devicetree/bindings/gpio/gpio-mvebu.txt       | 2 --
- .../devicetree/bindings/interrupt-controller/arm,gic-v3.txt | 2 +-
- Documentation/filesystems/dax.txt                           | 2 +-
- Documentation/filesystems/ext2.txt                          | 2 +-
- Documentation/trace/coresight-cpu-debug.txt                 | 2 +-
- MAINTAINERS                                                 | 3 +--
- arch/arm64/kernel/kexec_image.c                             | 2 +-
- arch/x86/Kconfig                                            | 2 +-
- drivers/scsi/Kconfig                                        | 2 --
- include/linux/mfd/madera/pdata.h                            | 3 ++-
- mm/Kconfig                                                  | 2 +-
- 18 files changed, 18 insertions(+), 24 deletions(-)
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7ba42fbb2c4a..076288b9a133 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13251,7 +13251,6 @@ M:	=C5=81ukasz Stelmach <l.stelmach@samsung.com>
+ L:	linux-samsung-soc@vger.kernel.org
+ S:	Maintained
+ F:	drivers/char/hw_random/exynos-trng.c
+-F:	Documentation/devicetree/bindings/rng/samsung,exynos5250-trng.txt
+=20
+ SAMSUNG FRAMEBUFFER DRIVER
+ M:	Jingoo Han <jingoohan1@gmail.com>
 --=20
 2.17.2
 
---OXfL5xGRrasGEqWY
+--wRRV7LY7NUeQGEoC
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlwtGFgACgkQgjuumfi+
-Hjx2HA//SrMo9lg8zMKqye+UVsacjp6cOwu4aRxWSiRUxaFf2Vkx/bgxJbvyChT6
-+y+OutAxhKF0093ZgU0sLOS0Xrt9r+7IOSmuBJ1gapS7phgN7xMrckjuUp9y7Egp
-oh9K/YZxoJhkqfGz/CFiTUzHWMn4AbJxgWIUqFiH/2K6kPul0DMkuEwKTjcP04H2
-ybFxMq9ZM/PIJgMXic/o7ANtmCwFjOiFYPXbIlWav8h71N3oi+TzmgX6nlssdpbp
-8mFKhdL76m63LfLaWSyCzhcyHyrXtdDq6jGn5jS1L3CSSxMp0oEJmQGtqc96CxTt
-cv28uK8qj/I18MCzCu2JKceseC51JjTLqaNg+TKJT29H4tffCyEkHSMI/3uFliOE
-Dyf4TDiUol7hlV9aPQ+ilLmEyq7U61J59Z2sLQ7K9bXP0aBuzapQPgKxbkwo76ol
-XnqbCip+4W3Vp3MDMwv44mrR4g9tWiV5+Z128tzthcS1+FNXtdyg4jxp7pQunmXO
-EGKITUZr5dSWfDqyFiBzmllQtoTs6u5bqVN6r5K8/qRX6Wa474jDATQ6K3jD9dH9
-280sYwk5RSaw6ECaA3C4KCgtO9N/JCGFl7rL2oDtw/Otekhs2osmAvK4LUbE3Xqn
-qeSw8xOVqYLoL/cfY2xROx/NN+M2TNadYLEDPPZVzbX99iHp5p8=
-=IKsG
+iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlwtGIEACgkQgjuumfi+
+Hjxg9A/9H3vgmftpKbmwpyiqZ8aO8pkiG52i5+hIdx0m8aA8pKBCrdHumR/TQ/a5
+2ZdJv4j/1nXawOAd/UDpAXJDgylKvSgkDNo1w+80RyMWPwaS4SNiobBkOnGewb9G
+ptEnXMCwmYCP1sqLKprY+2RnguJbiFG4p2pNYarCHY6JMWzioXWtLv7h6GSykOlQ
+/AETaKv2GLEMszDWU7WtSKJ5RwyfV/h+rRx9q7dRqlB4/yZ6XZlJ9vyONOkXNhwM
+8DFOY0odDI6+ojddlM0zhe/+OSqrikd7CEVv/o5jIHu/cmatiWW5eQ11UD6mn+1s
+HyCGwuEpH6HtZ3N/pCToGHEXClEMie5OF5QWJiy1+MCLXHFYtwdlSGlZaf5A/kAc
+HKmeajTq7hZHbf9kISBGb4QPVy7wMIVac3ErYSbBFYREE+qyHZXoSMiweEPQ4Npg
+Ink9JqEaV1YA7eiqpWT8IlXURL5gB4eRcevk7lwD+7p0xsI1xOspHQW008T68TXX
+qKGY8fERVudF9+peHhSuUq0TGdZ7aTz+FfpTBzm0nFW3ebM4B4Cs8R5UBgnXEbPx
+DnSC+xTej94qB+XYvDAhKpKwpVKMhE6G/lVv/BpBmEhr1eDppsAZPHw2eV251jA6
+ARLN2H0ajrUbTuwy2Vgec5wk/0dpRDyXKLiHmfoycDhASF5fFi0=
+=5/w6
 -----END PGP SIGNATURE-----
 
---OXfL5xGRrasGEqWY--
+--wRRV7LY7NUeQGEoC--
