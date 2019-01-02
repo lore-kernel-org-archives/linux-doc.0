@@ -2,77 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 470217D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 16:02:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4E8C37D8A8
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 16:03:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729873AbfABQBw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Jan 2019 11:01:52 -0500
-Received: from mail-yw1-f65.google.com ([209.85.161.65]:45774 "EHLO
-        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729042AbfABQBw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 11:01:52 -0500
-Received: by mail-yw1-f65.google.com with SMTP id d190so12171090ywd.12;
-        Wed, 02 Jan 2019 08:01:51 -0800 (PST)
+        id S1730340AbfABQDd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Jan 2019 11:03:33 -0500
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:36664 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729748AbfABQDc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 11:03:32 -0500
+Received: by mail-yw1-f67.google.com with SMTP id i73so12192602ywg.3;
+        Wed, 02 Jan 2019 08:03:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=2gyVo0zAuaMWKPgLYFM54CA4UZusSqF/vmUNVGmnVPA=;
-        b=IEe4J+U6qnkKybj/9bNuccNj6QC9KJjBObWp99oXRW7+c1O7RobYOMrHouyiRO3nxR
-         jzfHjhK81pJkFuPWTLUtEprSyZ6WU2CjS00X6NJ0PrREd5dQdKh5NxILr9hzuvhSm7d/
-         11t+Gbk4OB+bnUdR9o2K6e+1U9ANO6NRlJDq00K6jE/7niaNy4QYL9Kj0vSQdALyPB2J
-         hyUGHTVI6rBuBr1VmvnCT8LTGatl5OvU1y7nueqUV/EadeRwo4oBFe9W0ZYCPANBuafI
-         2Fp4zcLoKtiVPNIlZJZqItsyHZxJZdd/qzPpITwhvyRyoRyda8gy4FNhrkfDndsm6uTR
-         R2mg==
+        bh=u1Y5F5QyWMT81pPdUhO/4L6FwI8LQOLlKRkMDxzGx2w=;
+        b=UJ0p0Wz7uxup9TAief0MdXe76Ow8aRiZXnQIibAx+cZyy+mDwHhPQpKVxkEDi5zJin
+         ggIW/pbu/86h7LHHdU3hnO7kkKzvtFTP2XI6y4tEy1kvI/t8tMh2ZBiFsg3eD3oKV7bf
+         Kk7OTZb0jVEv7dDlylaPcaFKhgQ8mh9G9Ct2BzpcUqQuyJU2O9qMFk5IkuuwL0i0VGI+
+         kI9PMD8A1WU7/sTzmeCjtSfZWHziSTehGV1uUMsjYNtfOVDpt3X+s9lP4jVLVULmTQEX
+         4E/KVcv0vXDmy7ve643oSX65v35qFiSm5Q+UOXFfS2rO5f365LVjnCEpE5+zMEqjbX7+
+         bucw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
          :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=2gyVo0zAuaMWKPgLYFM54CA4UZusSqF/vmUNVGmnVPA=;
-        b=r9BNzd18IDvT571x3/1rSnkhCNQggGLtQiJiSyI4ccCINI/Bo4bCUKRtB3Nya87bDU
-         uze71JvAEpV9A/dh47zYGDwv4z/XFDF3i7Fc4TvVUZCbrKLyY+YpCAXlURkLL61sWnkk
-         t1tF8oCjKQqNk49vZcAdaG6UQdptUyX8Bjdsq1vVJEPNlQIPoeGOCa4g1U3CKCa4FqI5
-         OFRV+wq84dQg7F7r5iH6eN9naitlaz62Lz7fL3pGVczVWr+v3QKJKKgVFTu5A55Icga5
-         WnT43jD+cSlxGLEcaYaBU4r2DVhYkwCXH5G269sCIokkb2M3iyuFLmS4S5GZaXhmEQOW
-         vmxQ==
-X-Gm-Message-State: AA+aEWZtBpuwyg7RJcAeztCfv5SqLzbn1RnmeYYx9hbCcVf7jWQXBwx8
-        x2GNRzE0donXUtgxHq5y43k=
-X-Google-Smtp-Source: AFSGD/U7YnrKdfqGB5L7h7dljEExW9Nh/rBBiqylysQakK8/8RC9TpQBTuRJdk5DzuQkIQtyFnTd9A==
-X-Received: by 2002:a0d:f2c5:: with SMTP id b188mr44799419ywf.341.1546444911379;
-        Wed, 02 Jan 2019 08:01:51 -0800 (PST)
+        bh=u1Y5F5QyWMT81pPdUhO/4L6FwI8LQOLlKRkMDxzGx2w=;
+        b=hwEGGghQaY832o95kWSUyRT7ngV6llQG2d5g6ObJuOwOlklGJfmkSoxVm/Z0SbciVA
+         XERjMJA+X3ch5CvDHmiihbcv65Lm5/daDV7aO3WrAkn9Clsr0HK8iDzNYaRSVR7kEXn0
+         qPxe9clIYTwB7bgl6MuZ4/bMtPRKVXwN13khnPVsfxlqmhJ0/99DJMNkn054OOBi/whu
+         JSFWywLykmXoRN8FPJu2w0/RMEEWuX8mWvvH+FFysVi/KXbpB8jXUKYoSDaHi2Mae23x
+         NJ/j1eGs5HidUkq7vISYEfq32HZdB/gAIpmWZwYzwL3UhKt/sYqdBCMzmOYgGRmXYPvr
+         YP9g==
+X-Gm-Message-State: AA+aEWa77UoZXOOUIHAQFdJeBJReY4yJVHxKhFXRfbEaura/K5RQKsuZ
+        mN/PF7ywSNCOxNMFKJpgTNQ3hlv2
+X-Google-Smtp-Source: AFSGD/XRokfuq18vR8XdJiyPHASGxD98isxgDwv7M3U8ofu2gsfZHPafHj4vWrebUdFe+dBIL8tptQ==
+X-Received: by 2002:a81:6257:: with SMTP id w84mr45542791ywb.273.1546445011281;
+        Wed, 02 Jan 2019 08:03:31 -0800 (PST)
 Received: from localhost ([2620:10d:c091:200::6:f03d])
-        by smtp.gmail.com with ESMTPSA id r63sm20848514ywe.18.2019.01.02.08.01.50
+        by smtp.gmail.com with ESMTPSA id x4sm42970059ywj.80.2019.01.02.08.03.30
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 02 Jan 2019 08:01:50 -0800 (PST)
-Date:   Wed, 2 Jan 2019 08:01:49 -0800
+        Wed, 02 Jan 2019 08:03:30 -0800 (PST)
+Date:   Wed, 2 Jan 2019 08:03:28 -0800
 From:   Tejun Heo <tj@kernel.org>
-To:     Otto Sabart <ottosabart@seberm.com>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] doc: cgroup: highlight all paths using the :file:
- inline markup
-Message-ID: <20190102160149.GQ2509588@devbig004.ftw2.facebook.com>
-References: <20181230165044.GA3097@personal>
+To:     Paolo Valente <paolo.valente@linaro.org>
+Cc:     'Paolo Valente' via bfq-iosched <bfq-iosched@googlegroups.com>,
+        Angelo Ruocco <angelo.ruocco.90@gmail.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Li Zefan <lizefan@huawei.com>,
+        Angelo Ruocco <angeloruocco90@gmail.com>,
+        Dennis Zhou <dennis@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        Liu Bo <bo.liu@linux.alibaba.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>, broonie@kernel.org,
+        oleksandr@natalenko.name, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH V2 00/10] unify the interface of the proportional-share
+ policy in blkio/io
+Message-ID: <20190102160328.GR2509588@devbig004.ftw2.facebook.com>
+References: <7D7FAB43-5F62-4402-A9B3-E7C2E30AE680@linaro.org>
+ <20181130184256.GI2509588@devbig004.ftw2.facebook.com>
+ <5534B7D4-A5D9-4F44-9620-970A7F9EC140@linaro.org>
+ <CADiTV-29TmkB5-k=TtQfoJqjP2Qv7GSsGLXAPBaTB6DoQ+6yyw@mail.gmail.com>
+ <874A0232-2103-4364-BD88-F33B85D6A764@linaro.org>
+ <20181218164126.GX2509588@devbig004.ftw2.facebook.com>
+ <EC4F9B54-2352-4D85-B56C-5800CFEBCCB8@linaro.org>
+ <A360EBDC-B297-4754-AF5C-0A6C30D725B4@linaro.org>
+ <20181227234144.GE2509588@devbig004.ftw2.facebook.com>
+ <F2A4E669-8C79-46D7-8A97-2C561FF5346B@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20181230165044.GA3097@personal>
+In-Reply-To: <F2A4E669-8C79-46D7-8A97-2C561FF5346B@linaro.org>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Dec 30, 2018 at 05:50:44PM +0100, Otto Sabart wrote:
-> Improve readability using the :file: markup.
+Hello, Paolo.
 
-Heh, that's a minor plus for formatted output and minor minus for the
-source.  If this is a convention generally followed for
-documentations, I have no objects.  That said, can you please reflow
-the lines?
+On Sun, Dec 30, 2018 at 11:25:25AM +0100, Paolo Valente wrote:
+> What's the benefit of throwing away months of work, on which we agreed
+> before starting it, and that solves a problem already acknowledged by
+> interested parties?
+
+Showing multiple conflicting numbers definitely isn't anything which
+is agreed upon.
 
 Thanks.
 
