@@ -4,117 +4,139 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 710F67D089
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 00:50:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 469F17D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 03:48:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727711AbfABAua (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 1 Jan 2019 19:50:30 -0500
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:42861 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726829AbfABAua (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jan 2019 19:50:30 -0500
-Received: by mail-qt1-f193.google.com with SMTP id d19so32089364qtq.9;
-        Tue, 01 Jan 2019 16:50:29 -0800 (PST)
+        id S1726421AbfABDsM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 1 Jan 2019 22:48:12 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:36223 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726250AbfABDsM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Jan 2019 22:48:12 -0500
+Received: by mail-ot1-f66.google.com with SMTP id k98so25845875otk.3;
+        Tue, 01 Jan 2019 19:48:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=XxLqDJO83NzZqUs9l0I2WXpjX0hVp/k0rXBXAMJGIk4=;
-        b=TFutalGh8rIsw9l6y3WCoJSbIDE7i90D8OAJReTXbwVQszwM7cVsNCsZmNPDap+nXV
-         FM5p448PHmHt8ds5r71c7b2m5r0VDfxNHBTejvCkXYj58WpMCOZoFWEwlsM9oGgb5boo
-         FBYUFM4sHxugm8jPNguVOdcRyKLwe7UUexKpy483FUgb15oMz8thbjrDx1PK3rlIEvIz
-         nzkPaAxokILb+YuhlM//a++6TIxqTksoVRHTHEflpdvQ/aQzYC3RPXDD1zIcODfwSyl8
-         PdTib+wEN3IBaTPiMkxaV+YdBsydilOXhdvBUzg4SGNSE3tOOOlizVhLANWAwx/oT5Xb
-         riUg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Lj+HXFiyeSp2iatCPOHH7H41XOwFdCCB7wpYsZSyrSk=;
+        b=vQXOF2NSLBt3fmz0t1SvDuoXwHWRPRFqHHuLG259wBDmX5PX23HCUiLX+i5N9Z73tl
+         hp4sKJ2VWrWn/t7JZuYOkqea5Uq3eMbSUigyZG9P4j6XBOS9x498rcgKzgr+HZDA64Js
+         i6/Y167qkRyFoqZAJa6RWfHOfnRRm9Mxe2s4+2fmig2wFL5Ih3nuSKzPGcwZd/dHb69S
+         tQujXZzmjefBSJ5gvSIYBs2WzuxF8bwt5N3iZeIhHeA5NyZ0JiXONXtWt+W5eEadQRry
+         HxTut1+iBYoi43WdsmaD7dasDW7g2Jl51/NffqU88OgUKwSbtrAULd27JvJtieb+4bq6
+         asCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=XxLqDJO83NzZqUs9l0I2WXpjX0hVp/k0rXBXAMJGIk4=;
-        b=Yhggw5e34/8g22FS0XY1R6okJNChQ0FrhFqemhR2oLGlqpioxvJi1giGaahBF7Vevv
-         ohHbHxbHHofUwMDfWD6JK4YiSJryKfm31yaAXVU6se/WoPvz8ytATH97OBXXAFHIaDNe
-         xpw3y1+AGTDRjxclYiuAg+QecZLU4W/MhDQTsMNQj9iAtLxz6iz6kt0t3lxwo3glpBtB
-         h/STE16t93JjRftwWhT8ra8YmKLsDldd4CvvQnQCN6yPQnGSs4bTCkTg1hWy1qSjZae7
-         8UNcX+kxQ1FddTRqVoYC9NYO/KG8uIg14ug0lLuJhBj2lVJtcsga+AbPKj6SXKuiWOQd
-         WNGw==
-X-Gm-Message-State: AJcUukdXM9736hb9fGvxQzpmP822+fIcjyRoM0yHvVa9dzQzw+H9gyU5
-        9jcpGk4f2JuBRGU1BjnEAybBShHvF+Y=
-X-Google-Smtp-Source: ALg8bN6kboAfpvRJIHGus8N7ynTb0SCyOAmo5QwelouWfD3ErTdAkiNt02z/JaFRxYuDDyoOUgykRA==
-X-Received: by 2002:a0c:fa8f:: with SMTP id o15mr41761945qvn.135.1546390228764;
-        Tue, 01 Jan 2019 16:50:28 -0800 (PST)
-Received: from bebop ([186.212.93.174])
-        by smtp.gmail.com with ESMTPSA id j95sm23244327qtb.74.2019.01.01.16.50.25
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 01 Jan 2019 16:50:28 -0800 (PST)
-Date:   Tue, 1 Jan 2019 22:50:58 -0200
-From:   Marcos Paulo de Souza <marcos.souza.org@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] Docs/kernel-api.rst: Remove removed blk-tag.c reference
-Message-ID: <20190102005056.GA54189@bebop>
-References: <20190102004015.47152-1-marcos.souza.org@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Lj+HXFiyeSp2iatCPOHH7H41XOwFdCCB7wpYsZSyrSk=;
+        b=kjeLwGSYryZgivr9r/Atgl5pg3VAs8Ze0pXXI0KSkClTlR8LW2NsdAEeUTi4vqUEl6
+         KwT+qCab9ug2niIH5Yau6UeWLyjwr9J8VqaoFqwSlYGoqVvloLmF/E41R4tkISKUntvW
+         Iizw3j0CkhthcfpruFlIwarAvVXQklZ3kx76IGcdalETaJ4+Dbtyt9p2h0YbmpehsZ5O
+         0mbFmYr9xjwIyRFnpC5jvN/6dNYAFkOb+Qhqhl63uQzwUnu8EZJBLaWwrO7ucgmAp0DG
+         uEXPpcBz8HsUMvYxNv6rRn0iGxBz8+bZVYU0WLLWTRvv4Hj+VVfJ0zY9dFYMAfURolJ2
+         qn0g==
+X-Gm-Message-State: AJcUukdQOPuZXhLcghAWWp/Q5+N+D7tEMu6PEyTq0etBV5H+9c4wV9IL
+        9qvhL9yVkg+yYkX0tFrAus6tDkoOwtAK83Bsi9fujUNcpw==
+X-Google-Smtp-Source: ALg8bN5tBDPBa2TwzX3qPSOhMiFWR72MBjM15nqEwUCMf6NgUkxWdAjWH4wkcMvAAVPg7hwCiO61bJD8LTjxom9lWXQ=
+X-Received: by 2002:a9d:5c82:: with SMTP id a2mr28237304oti.64.1546400891554;
+ Tue, 01 Jan 2019 19:48:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190102004015.47152-1-marcos.souza.org@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1546351400-16389-1-git-send-email-junchangwang@gmail.com>
+ <1546351400-16389-3-git-send-email-junchangwang@gmail.com> <20190101175510.GW4170@linux.ibm.com>
+In-Reply-To: <20190101175510.GW4170@linux.ibm.com>
+From:   Junchang Wang <junchangwang@gmail.com>
+Date:   Wed, 2 Jan 2019 11:48:00 +0800
+Message-ID: <CABoNC82px+072c2eKWcpjMyJX-m8Dh4=L0W6Wxw5Q+HeXoK2Pg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] torture.txt: update the list of supported torture types
+To:     Paul McKenney <paulmck@linux.ibm.com>
+Cc:     dave@stgolabs.net, josh@joshtriplett.org,
+        Jonathan Corbet <corbet@lwn.net>, rostedt@goodmis.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        jiangshanlai@gmail.com, joel@joelfernandes.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Patch sent by mistake. The commit message should be:
-"Docs/kernel-api.rst: Remove blk-tag.c reference"
+On Wed, Jan 2, 2019 at 1:54 AM Paul E. McKenney <paulmck@linux.ibm.com> wrote:
+>
+> On Tue, Jan 01, 2019 at 10:03:20PM +0800, Junchang Wang wrote:
+> > Torture types "rcu_bh" and "sched" were removed in commit "c770c82a23".
+> > The name of torture type "rcu_busted" was changed to "busted" in commit
+> > "b3c983142d". Two other types, "srcud" and "busted_srcud" were added in
+> > commits "ca1d51ed98" and "2397d072f7", respectively. This patch updates
+> > torture.txt accordingly.
+> >
+> > Signed-off-by: Junchang Wang <junchangwang@gmail.com>
+>
+> Given that this section of this file duplicates the rcutorture kernel boot
+> parameters called out in Documentation/admin-guide/kernel-parameters.txt,
+> perhaps the best way forward is to instead remove this information from
+> Documentation/RCU/torture.txt in favor of a reference to the information
+> (with search string) in Documentation/admin-guide/kernel-parameters.txt.
+>
+> Thoughts?
+
+Hi Paul,
+
+Thanks for the comment; indeed the section "MODULE PARAMETERS" in
+torture.txt duplicates the corresponding sections in
+kernel-parameters.txt. I can resubmit a patch that (1) removes the
+section "MODULE PARAMETERS" in torture.txt, and (2) add a single
+sentence saying "Module parameters are detailed in
+Documentation/admin-guide/kernel-parameters.txt". Does that sound
+good?
 
 Thanks,
+--Junchang
 
-On Tue, Jan 01, 2019 at 10:40:14PM -0200, Marcos Paulo de Souza wrote:
-> After 7ca01926463a, legacy rq tagging was removed, so block/blk-tag.c
-> does not exists anymore. When generating pdfdocs, sphinx complains about
-> this missing file:
-> 
-> Error: Cannot open file ./block/blk-tag.c
-> Error: Cannot open file ./block/blk-tag.c
-> Error: Cannot open file ./block/blk-tag.c
-> Error: Cannot open file ./block/blk-tag.c
-> 
-> So remove blk-tag.c traces from kernel-api.rst file to silence these
-> warnings.
-> 
-> Signed-off-by: Marcos Paulo de Souza <marcos.souza.org@gmail.com>
-> ---
->  Documentation/core-api/kernel-api.rst | 6 ------
->  1 file changed, 6 deletions(-)
-> 
-> diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-> index 3431337ee4e6..cdd24943fbcc 100644
-> --- a/Documentation/core-api/kernel-api.rst
-> +++ b/Documentation/core-api/kernel-api.rst
-> @@ -291,12 +291,6 @@ Block Devices
->  .. kernel-doc:: block/blk-lib.c
->     :export:
->  
-> -.. kernel-doc:: block/blk-tag.c
-> -   :export:
-> -
-> -.. kernel-doc:: block/blk-tag.c
-> -   :internal:
-> -
->  .. kernel-doc:: block/blk-integrity.c
->     :export:
->  
-> -- 
-> 2.16.4
-> 
-
--- 
-Thanks,
-Marcos
+>
+>                                                         Thanx, Paul
+>
+> > ---
+> >  Documentation/RCU/torture.txt | 15 +++++++--------
+> >  1 file changed, 7 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/Documentation/RCU/torture.txt b/Documentation/RCU/torture.txt
+> > index 55918b5..6395f0b 100644
+> > --- a/Documentation/RCU/torture.txt
+> > +++ b/Documentation/RCU/torture.txt
+> > @@ -155,20 +155,19 @@ torture_type    The type of RCU to test, with string values as follows:
+> >                       along with expedited, synchronous, and polling
+> >                       variants.
+> >
+> > -             "rcu_bh": rcu_read_lock_bh(), rcu_read_unlock_bh(), and
+> > -                     call_rcu_bh(), along with expedited and synchronous
+> > -                     variants.
+> > -
+> > -             "rcu_busted": This tests an intentionally incorrect version
+> > +             "busted": This tests an intentionally incorrect version
+> >                       of RCU in order to help test rcutorture itself.
+> >
+> >               "srcu": srcu_read_lock(), srcu_read_unlock() and
+> >                       call_srcu(), along with expedited and
+> >                       synchronous variants.
+> >
+> > -             "sched": preempt_disable(), preempt_enable(), and
+> > -                     call_rcu_sched(), along with expedited,
+> > -                     synchronous, and polling variants.
+> > +             "srcud": A second form of srcu that dynamically allocates
+> > +                     and frees srcu_struct to test srcu cleanup code path.
+> > +
+> > +             "busted_srcud": This torture type verifies rcutorture's ability
+> > +                     to detect extensions of RCU read-side critical sections
+> > +                     that are not handled.
+> >
+> >               "tasks": voluntary context switch and call_rcu_tasks(),
+> >                       along with expedited and synchronous variants.
+> > --
+> > 2.7.4
+> >
+>
