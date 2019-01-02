@@ -1,348 +1,209 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E32607D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 17:36:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6C6737D089
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  2 Jan 2019 18:22:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726201AbfABRgY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 2 Jan 2019 12:36:24 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:37861 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726069AbfABRgV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Jan 2019 12:36:21 -0500
-Received: by mail-wm1-f67.google.com with SMTP id g67so28228766wmd.2
-        for <linux-doc@vger.kernel.org>; Wed, 02 Jan 2019 09:36:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=JbDh3nO/eQ5r3H90w51/iWL5ZM5B6uICF84/YZhcCg4=;
-        b=J3EioQAmzqQ510tIYUdGn3niW30hZBCQDaqUxXA6W8Tx56EgefOMxfeiYePggvLtzV
-         duXz2IeiYTCZpxPro8vAGHyjWQH/Y1/d/Ak/b3m9WVFcOtcdpIuYK79GinCB8sSiZtG3
-         ldCh6avAFDLKYMtq9F3XaB02vQPo22UkXsFhXhyIBx7oOFhnHXxUUD8YJ7FKz6fLxj4g
-         UdEA7DwTWevqPwpxJS3DNw0FJygWBLCgnIL+wZ0Gdd6dAoG2Qh+1ORT2/g8fuq65aSCh
-         hwax2bMe285RhifAqx23AgtZ3ATuL6cdl/MSN8F0BuYYlWJ2a2yf/dyePmmOzCrkGSnZ
-         /Clg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=JbDh3nO/eQ5r3H90w51/iWL5ZM5B6uICF84/YZhcCg4=;
-        b=UZYmYVTx4LLBbmx5WK0PP+sJZjXiVG7cK/qyz1zN3WEQqKig6ydz/tj2AMv6Qitwc2
-         VSFNfnXaKy/SAix01Ddt7DmoGWKuiKxAwwJpZY/G8owlu5x2eKlelf3Pm0JE3i5bMkgc
-         fwA1/mfrI6CCLZ5FdTD0iXHhRI5+frHCz/E/ZbeoAKjBgaHk8LBLReq4Tg8/7ZQ3Y7P2
-         BwtyJKRb9BRddig8P7sZH5ugscPxhVqVcG5crptTv2WtvalB6ccIJEAMJdXVSyDgqAgl
-         oHH9eDQkgYcVk2BPX5qaoINFr5Onzarn18HEtejFroWwTjWiGbeYWFdd8UJqHvNPKlHM
-         /+cg==
-X-Gm-Message-State: AA+aEWbXvpcrB83Bk883XJYIpnxdenPMrR5f0Arfpdq/PEcTCHz6v1Pc
-        EkM+DfS1+mC4KuiQPBeDQsJbOQ==
-X-Google-Smtp-Source: ALg8bN4dqeXqnEdkw7vZRXClez1sw3njLXNHpEGFyX9nPGsXXD3dzvB0Oz/M0AbKGq7DF3oZ68k8Uw==
-X-Received: by 2002:a1c:e715:: with SMTP id e21mr36108254wmh.101.1546450578353;
-        Wed, 02 Jan 2019 09:36:18 -0800 (PST)
-Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:13:8ce:d7fa:9f4c:492])
-        by smtp.gmail.com with ESMTPSA id t4sm45987076wrm.6.2019.01.02.09.36.16
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 02 Jan 2019 09:36:17 -0800 (PST)
-From:   Andrey Konovalov <andreyknvl@google.com>
-To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Christoph Lameter <cl@linux.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S1726951AbfABSWU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 2 Jan 2019 13:22:20 -0500
+Received: from mga12.intel.com ([192.55.52.136]:36855 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725993AbfABSWU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Jan 2019 13:22:20 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Jan 2019 10:22:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,431,1539673200"; 
+   d="scan'208";a="263909751"
+Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.143]) ([10.7.153.143])
+  by orsmga004.jf.intel.com with ESMTP; 02 Jan 2019 10:22:19 -0800
+Subject: Re: [PATCH v9 08/12] mfd: intel-peci-client: Add PECI client MFD
+ driver
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Rob Herring <robh+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
         Mark Rutland <mark.rutland@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Dave Martin <dave.martin@arm.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Paul Lawrence <paullawrence@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Jonathan Corbet <corbet@lwn.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
-        linux-kbuild@vger.kernel.org
-Cc:     Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Jann Horn <jannh@google.com>,
-        Mark Brand <markbrand@google.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vishwath Mohan <vishwath@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v2 3/3] kasan: fix krealloc handling for tag-based mode
-Date:   Wed,  2 Jan 2019 18:36:08 +0100
-Message-Id: <bc983dc45be2af41701ac3a88f154b5dd1459a26.1546450432.git.andreyknvl@google.com>
-X-Mailer: git-send-email 2.20.1.415.g653613c723-goog
-In-Reply-To: <cover.1546450432.git.andreyknvl@google.com>
-References: <cover.1546450432.git.andreyknvl@google.com>
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        Eric Sandeen <sandeen@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
+        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
+        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
+        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Stephen Boyd <sboyd@codeaurora.org>,
+        David Kershner <david.kershner@unisys.com>,
+        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Johan Hovold <johan@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Juergen Gross <jgross@suse.com>,
+        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        openbmc@lists.ozlabs.org,
+        James Feist <james.feist@linux.intel.com>,
+        Jason M Biils <jason.m.bills@linux.intel.com>,
+        Vernon Mauery <vernon.mauery@linux.intel.com>
+References: <20181218210417.30140-1-jae.hyun.yoo@linux.intel.com>
+ <20181218210417.30140-9-jae.hyun.yoo@linux.intel.com>
+ <20181221144603.GR13248@dell>
+From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Message-ID: <8e4bcf7d-aa43-6745-2ade-9123c8d182ef@linux.intel.com>
+Date:   Wed, 2 Jan 2019 10:22:18 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.3
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20181221144603.GR13248@dell>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Right now tag-based KASAN can retag the memory that is reallocated via
-krealloc and return a differently tagged pointer even if the same slab
-object gets used and no reallocated technically happens.
+Hi Lee,
 
-There are a few issues with this approach. One is that krealloc callers
-can't rely on comparing the return value with the passed argument to
-check whether reallocation happened. Another is that if a caller knows
-that no reallocation happened, that it can access object memory through
-the old pointer, which leads to false positives. Look at nf_ct_ext_add()
-to see an example.
+On 12/21/2018 6:46 AM, Lee Jones wrote:
+> On Tue, 18 Dec 2018, Jae Hyun Yoo wrote:
+> 
+>> This commit adds PECI client MFD driver.
+>>
 
-Fix this by keeping the same tag if the memory don't actually gets
-reallocated during krealloc.
+<snip>
 
-Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
----
- include/linux/kasan.h | 14 +++++---------
- include/linux/slab.h  |  4 ++--
- mm/kasan/common.c     | 20 ++++++++++++--------
- mm/slab.c             |  8 ++++----
- mm/slab_common.c      |  2 +-
- mm/slub.c             | 10 +++++-----
- 6 files changed, 29 insertions(+), 29 deletions(-)
+>>   
+>> +config MFD_INTEL_PECI_CLIENT
+>> +	bool "Intel PECI client"
+>> +	depends on (PECI || COMPILE_TEST)
+>> +	select MFD_CORE
+>> +	help
+>> +	  If you say yes to this option, support will be included for the
+>> +	  Intel PECI (Platform Environment Control Interface) client. PECI is a
+>> +	  one-wire bus interface that provides a communication channel from PECI
+>> +	  clients in Intel processors and chipset components to external
+>> +	  monitoring or control devices.
+> 
+> This driver doesn't appear to actually do anything that can't be done
+> in a header file i.e. match some static data with a CPU ID.  The child
+> devices can be registered by whatever registers this device.
+> 
+> It seems superfluous.  Why do you need it?
+>
 
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index b40ea104dd36..7576fff90923 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -57,9 +57,8 @@ void * __must_check kasan_kmalloc_large(const void *ptr, size_t size,
- void kasan_kfree_large(void *ptr, unsigned long ip);
- void kasan_poison_kfree(void *ptr, unsigned long ip);
- void * __must_check kasan_kmalloc(struct kmem_cache *s, const void *object,
--					size_t size, gfp_t flags);
--void * __must_check kasan_krealloc(const void *object, size_t new_size,
--					gfp_t flags);
-+				size_t size, gfp_t flags, bool krealloc);
-+void kasan_krealloc(const void *object, size_t new_size, gfp_t flags);
- 
- void * __must_check kasan_slab_alloc(struct kmem_cache *s, void *object,
- 					gfp_t flags);
-@@ -118,15 +117,12 @@ static inline void *kasan_kmalloc_large(void *ptr, size_t size, gfp_t flags)
- static inline void kasan_kfree_large(void *ptr, unsigned long ip) {}
- static inline void kasan_poison_kfree(void *ptr, unsigned long ip) {}
- static inline void *kasan_kmalloc(struct kmem_cache *s, const void *object,
--				size_t size, gfp_t flags)
--{
--	return (void *)object;
--}
--static inline void *kasan_krealloc(const void *object, size_t new_size,
--				 gfp_t flags)
-+				size_t size, gfp_t flags, bool krealloc)
- {
- 	return (void *)object;
- }
-+static inline void kasan_krealloc(const void *object, size_t new_size,
-+				 gfp_t flags) {}
- 
- static inline void *kasan_slab_alloc(struct kmem_cache *s, void *object,
- 				   gfp_t flags)
-diff --git a/include/linux/slab.h b/include/linux/slab.h
-index d87f913ab4e8..1cd168758c05 100644
---- a/include/linux/slab.h
-+++ b/include/linux/slab.h
-@@ -445,7 +445,7 @@ static __always_inline void *kmem_cache_alloc_trace(struct kmem_cache *s,
- {
- 	void *ret = kmem_cache_alloc(s, flags);
- 
--	ret = kasan_kmalloc(s, ret, size, flags);
-+	ret = kasan_kmalloc(s, ret, size, flags, false);
- 	return ret;
- }
- 
-@@ -456,7 +456,7 @@ kmem_cache_alloc_node_trace(struct kmem_cache *s,
- {
- 	void *ret = kmem_cache_alloc_node(s, gfpflags, node);
- 
--	ret = kasan_kmalloc(s, ret, size, gfpflags);
-+	ret = kasan_kmalloc(s, ret, size, gfpflags, false);
- 	return ret;
- }
- #endif /* CONFIG_TRACING */
-diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-index 44390392d4c9..b6633ab86160 100644
---- a/mm/kasan/common.c
-+++ b/mm/kasan/common.c
-@@ -392,7 +392,7 @@ void * __must_check kasan_init_slab_obj(struct kmem_cache *cache,
- void * __must_check kasan_slab_alloc(struct kmem_cache *cache, void *object,
- 					gfp_t flags)
- {
--	return kasan_kmalloc(cache, object, cache->object_size, flags);
-+	return kasan_kmalloc(cache, object, cache->object_size, flags, false);
- }
- 
- static inline bool shadow_invalid(u8 tag, s8 shadow_byte)
-@@ -451,7 +451,7 @@ bool kasan_slab_free(struct kmem_cache *cache, void *object, unsigned long ip)
- }
- 
- void * __must_check kasan_kmalloc(struct kmem_cache *cache, const void *object,
--					size_t size, gfp_t flags)
-+				size_t size, gfp_t flags, bool krealloc)
- {
- 	unsigned long redzone_start;
- 	unsigned long redzone_end;
-@@ -468,8 +468,12 @@ void * __must_check kasan_kmalloc(struct kmem_cache *cache, const void *object,
- 	redzone_end = round_up((unsigned long)object + cache->object_size,
- 				KASAN_SHADOW_SCALE_SIZE);
- 
--	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS))
--		tag = assign_tag(cache, object, false);
-+	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS)) {
-+		if (krealloc)
-+			tag = get_tag(object);
-+		else
-+			tag = assign_tag(cache, object, false);
-+	}
- 
- 	/* Tag is ignored in set_tag without CONFIG_KASAN_SW_TAGS */
- 	kasan_unpoison_shadow(set_tag(object, tag), size);
-@@ -508,19 +512,19 @@ void * __must_check kasan_kmalloc_large(const void *ptr, size_t size,
- 	return (void *)ptr;
- }
- 
--void * __must_check kasan_krealloc(const void *object, size_t size, gfp_t flags)
-+void kasan_krealloc(const void *object, size_t size, gfp_t flags)
- {
- 	struct page *page;
- 
- 	if (unlikely(object == ZERO_SIZE_PTR))
--		return (void *)object;
-+		return;
- 
- 	page = virt_to_head_page(object);
- 
- 	if (unlikely(!PageSlab(page)))
--		return kasan_kmalloc_large(object, size, flags);
-+		kasan_kmalloc_large(object, size, flags);
- 	else
--		return kasan_kmalloc(page->slab_cache, object, size, flags);
-+		kasan_kmalloc(page->slab_cache, object, size, flags, true);
- }
- 
- void kasan_poison_kfree(void *ptr, unsigned long ip)
-diff --git a/mm/slab.c b/mm/slab.c
-index 73fe23e649c9..09b54386cf67 100644
---- a/mm/slab.c
-+++ b/mm/slab.c
-@@ -3604,7 +3604,7 @@ kmem_cache_alloc_trace(struct kmem_cache *cachep, gfp_t flags, size_t size)
- 
- 	ret = slab_alloc(cachep, flags, _RET_IP_);
- 
--	ret = kasan_kmalloc(cachep, ret, size, flags);
-+	ret = kasan_kmalloc(cachep, ret, size, flags, false);
- 	trace_kmalloc(_RET_IP_, ret,
- 		      size, cachep->size, flags);
- 	return ret;
-@@ -3647,7 +3647,7 @@ void *kmem_cache_alloc_node_trace(struct kmem_cache *cachep,
- 
- 	ret = slab_alloc_node(cachep, flags, nodeid, _RET_IP_);
- 
--	ret = kasan_kmalloc(cachep, ret, size, flags);
-+	ret = kasan_kmalloc(cachep, ret, size, flags, false);
- 	trace_kmalloc_node(_RET_IP_, ret,
- 			   size, cachep->size,
- 			   flags, nodeid);
-@@ -3668,7 +3668,7 @@ __do_kmalloc_node(size_t size, gfp_t flags, int node, unsigned long caller)
- 	if (unlikely(ZERO_OR_NULL_PTR(cachep)))
- 		return cachep;
- 	ret = kmem_cache_alloc_node_trace(cachep, flags, node, size);
--	ret = kasan_kmalloc(cachep, ret, size, flags);
-+	ret = kasan_kmalloc(cachep, ret, size, flags, false);
- 
- 	return ret;
- }
-@@ -3706,7 +3706,7 @@ static __always_inline void *__do_kmalloc(size_t size, gfp_t flags,
- 		return cachep;
- 	ret = slab_alloc(cachep, flags, caller);
- 
--	ret = kasan_kmalloc(cachep, ret, size, flags);
-+	ret = kasan_kmalloc(cachep, ret, size, flags, false);
- 	trace_kmalloc(caller, ret,
- 		      size, cachep->size, flags);
- 
-diff --git a/mm/slab_common.c b/mm/slab_common.c
-index 81732d05e74a..b55c58178f83 100644
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -1507,7 +1507,7 @@ static __always_inline void *__do_krealloc(const void *p, size_t new_size,
- 		ks = ksize(p);
- 
- 	if (ks >= new_size) {
--		p = kasan_krealloc((void *)p, new_size, flags);
-+		kasan_krealloc((void *)p, new_size, flags);
- 		return (void *)p;
- 	}
- 
-diff --git a/mm/slub.c b/mm/slub.c
-index 1e3d0ec4e200..20aa0547acbf 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -2763,7 +2763,7 @@ void *kmem_cache_alloc_trace(struct kmem_cache *s, gfp_t gfpflags, size_t size)
- {
- 	void *ret = slab_alloc(s, gfpflags, _RET_IP_);
- 	trace_kmalloc(_RET_IP_, ret, size, s->size, gfpflags);
--	ret = kasan_kmalloc(s, ret, size, gfpflags);
-+	ret = kasan_kmalloc(s, ret, size, gfpflags, false);
- 	return ret;
- }
- EXPORT_SYMBOL(kmem_cache_alloc_trace);
-@@ -2791,7 +2791,7 @@ void *kmem_cache_alloc_node_trace(struct kmem_cache *s,
- 	trace_kmalloc_node(_RET_IP_, ret,
- 			   size, s->size, gfpflags, node);
- 
--	ret = kasan_kmalloc(s, ret, size, gfpflags);
-+	ret = kasan_kmalloc(s, ret, size, gfpflags, false);
- 	return ret;
- }
- EXPORT_SYMBOL(kmem_cache_alloc_node_trace);
-@@ -3364,7 +3364,7 @@ static void early_kmem_cache_node_alloc(int node)
- 	init_tracking(kmem_cache_node, n);
- #endif
- 	n = kasan_kmalloc(kmem_cache_node, n, sizeof(struct kmem_cache_node),
--		      GFP_KERNEL);
-+		      GFP_KERNEL, false);
- 	page->freelist = get_freepointer(kmem_cache_node, n);
- 	page->inuse = 1;
- 	page->frozen = 0;
-@@ -3779,7 +3779,7 @@ void *__kmalloc(size_t size, gfp_t flags)
- 
- 	trace_kmalloc(_RET_IP_, ret, size, s->size, flags);
- 
--	ret = kasan_kmalloc(s, ret, size, flags);
-+	ret = kasan_kmalloc(s, ret, size, flags, false);
- 
- 	return ret;
- }
-@@ -3823,7 +3823,7 @@ void *__kmalloc_node(size_t size, gfp_t flags, int node)
- 
- 	trace_kmalloc_node(_RET_IP_, ret, size, s->size, flags, node);
- 
--	ret = kasan_kmalloc(s, ret, size, flags);
-+	ret = kasan_kmalloc(s, ret, size, flags, false);
- 
- 	return ret;
- }
--- 
-2.20.1.415.g653613c723-goog
+The main reason I added it is to provide a way for sharing the same unit
+address from multiple side-band function drivers that read 'reg'
+property setting from the parent node (this driver's node). The 'reg'
+property reading code is not in this driver but it will be performed in
+peci-core when this driver is registered using
+module_peci_driver(peci_client_driver), and then it will provides
+client->addr information for all its child node drivers.
 
+<snip>
+
+>> +#include <linux/bitfield.h>
+>> +#include <linux/mfd/core.h>
+>> +#include <linux/mfd/intel-peci-client.h>
+>> +#include <linux/module.h>
+>> +#include <linux/peci.h>
+>> +#include <linux/of_device.h>
+> 
+> Alphabetical.
+> 
+
+Will fix it. Thanks!
+
+<snip>
+
+>> +enum cpu_gens {
+>> +	CPU_GEN_HSX = 0, /* Haswell Xeon */
+>> +	CPU_GEN_BRX,     /* Broadwell Xeon */
+>> +	CPU_GEN_SKX,     /* Skylake Xeon */
+>> +};
+> 
+> This is unused.
+> 
+
+This is being used in 8 lines below but actually the static array can be
+initialized without using this enum type. Will remove it.
+
+>> +static struct mfd_cell peci_functions[] = {
+>> +	{ .name = "peci-cputemp", },
+>> +	{ .name = "peci-dimmtemp", },
+>> +	/* TODO: Add additional PECI sideband functions into here */
+>> +};
+>> +
+>> +static const struct cpu_gen_info cpu_gen_info_table[] = {
+>> +	[CPU_GEN_HSX] = {
+>> +		.family        = 6, /* Family code */
+>> +		.model         = INTEL_FAM6_HASWELL_X,
+>> +		.core_max      = CORE_MAX_ON_HSX,
+>> +		.chan_rank_max = CHAN_RANK_MAX_ON_HSX,
+>> +		.dimm_idx_max  = DIMM_IDX_MAX_ON_HSX },
+>> +	[CPU_GEN_BRX] = {
+>> +		.family        = 6, /* Family code */
+>> +		.model         = INTEL_FAM6_BROADWELL_X,
+>> +		.core_max      = CORE_MAX_ON_BDX,
+>> +		.chan_rank_max = CHAN_RANK_MAX_ON_BDX,
+>> +		.dimm_idx_max  = DIMM_IDX_MAX_ON_BDX },
+>> +	[CPU_GEN_SKX] = {
+>> +		.family        = 6, /* Family code */
+>> +		.model         = INTEL_FAM6_SKYLAKE_X,
+>> +		.core_max      = CORE_MAX_ON_SKX,
+>> +		.chan_rank_max = CHAN_RANK_MAX_ON_SKX,
+>> +		.dimm_idx_max  = DIMM_IDX_MAX_ON_SKX },
+>> +};
+>> +
+>> +static int peci_client_get_cpu_gen_info(struct peci_client_manager *priv)
+>> +{
+>> +	u32 cpu_id;
+>> +	u16 family;
+>> +	u8 model;
+>> +	int rc;
+> 
+> ret is almost ubiquitous in the kernel.  Please use it instead.
+> 
+
+Okay. Will change rc to ret.
+
+<snip>
+
+>> +static int peci_client_probe(struct peci_client *client)
+>> +{
+>> +	struct device *dev = &client->dev;
+>> +	struct peci_client_manager *priv;
+>> +	uint cpu_no;
+>> +	int ret;
+>> +
+>> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+>> +	if (!priv)
+>> +		return -ENOMEM;
+>> +
+>> +	dev_set_drvdata(dev, priv);
+>> +	priv->client = client;
+>> +	priv->dev = dev;
+> 
+> If you have client (Which contains dev, you don't need dev).
+> 
+
+Makes sense. Will remove the 'dev' member.
+
+<snip>
