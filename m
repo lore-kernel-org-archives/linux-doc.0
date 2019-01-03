@@ -1,281 +1,239 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 806C57D8A3
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Jan 2019 18:12:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 961257D08E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Jan 2019 18:45:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728261AbfACSMP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 Jan 2019 13:12:15 -0500
-Received: from ms.lwn.net ([45.79.88.28]:57560 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727932AbfACSMP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 3 Jan 2019 13:12:15 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B696B97D;
-        Thu,  3 Jan 2019 18:12:12 +0000 (UTC)
-Date:   Thu, 3 Jan 2019 11:12:11 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 0/1] RFC: Revamp admin-guide/tainted-kernels.rst to make
- it more comprehensible
-Message-ID: <20190103111211.14a81d95@lwn.net>
-In-Reply-To: <9260c3aa-5c52-c35d-7a6a-ef5c58b82b10@leemhuis.info>
-References: <20181217152043.9989-1-linux@leemhuis.info>
-        <20181217112437.5fe868eb@lwn.net>
-        <9260c3aa-5c52-c35d-7a6a-ef5c58b82b10@leemhuis.info>
-Organization: LWN.net
+        id S1726279AbfACSpf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 3 Jan 2019 13:45:35 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:42016 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726208AbfACSpe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jan 2019 13:45:34 -0500
+Received: by mail-wr1-f66.google.com with SMTP id q18so34474712wrx.9
+        for <linux-doc@vger.kernel.org>; Thu, 03 Jan 2019 10:45:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=loqk+YaJssCyhGzAFNinnRGb50LrNU13L8MGywEfc18=;
+        b=hTmg+DGuRIQF2vlqz/Vhl1D+/+mvgPMsjqLDHi0P1rk+WOre7zmTu5qqGxv3MuZCCE
+         UmLGhAKFZbzdsd4JMY8pdmgI4HYcHr4YnHntxG+Gt//m4C9Qndntnz8PKfjmfZeLTDpd
+         K0fspUq1NKHV5A284NV0qPwtJ8DdvroBOj8kdD2qczrMK2lmGiPk5KVZxusGtbJdfqwR
+         UUZxn2Qs6thHtP1o2ZG8BwsnsoATqNMckkznlYwnbdZQ8C3QDsxrTRM76uXF0vMqJHwb
+         NV6DgqPzaJ4SZY9nrBP+8lLvzwTIs4vFYaq5Eyd/Nw+pUV8pY0KTWdZ5qFjegRMm8Ha4
+         w6xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=loqk+YaJssCyhGzAFNinnRGb50LrNU13L8MGywEfc18=;
+        b=D01eR3HJJ+acXxg04H+jaaWKLtPg0e2i/q4nEwk/R79R6ZY5Oq4e/9HF+ENKzwFEZy
+         18AI+PWBgD4Jy9v254alkohpfYDVo6bBgtthyq6YSuvP0VvvNMVMF/+x6oCIZPe5ILfq
+         ZxbroUJs5Ugn3DT3Pt6YDPYSth8K36zBs9LRMOh08vxhVOR2j8zeU/EHl32ZVxO4SlKg
+         8NkFivah7tuIjHn1FPhsolXzc2lGodfGR/5dTvzTTnNJaGCiQ2S2Vffm7nx7On3KN0gO
+         qw4RU48uXU/WhH4U7LvVxIYljVAkP9ffbzoKlOVgQBxZ5pZOsQhlAhJjQuBstEKSkc6k
+         mUsA==
+X-Gm-Message-State: AJcUukczSl9JbWxyHSVEtQ5zNCKAbfiSf9D6l4bsJSpIGZ5SskAvip7B
+        G7/ueAaOCQipvUwUedUrASPYqQ==
+X-Google-Smtp-Source: ALg8bN4jM3MVHQyzwSzizLWeommEZcTAUOfqxGGPUDgiXkfn7dghhnI866UT0Yj3Z9dcwdbzSDIU7w==
+X-Received: by 2002:adf:e34b:: with SMTP id n11mr39771740wrj.91.1546541130566;
+        Thu, 03 Jan 2019 10:45:30 -0800 (PST)
+Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:13:8ce:d7fa:9f4c:492])
+        by smtp.gmail.com with ESMTPSA id t12sm52236944wrr.65.2019.01.03.10.45.28
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 03 Jan 2019 10:45:29 -0800 (PST)
+From:   Andrey Konovalov <andreyknvl@google.com>
+To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org
+Cc:     Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>,
+        Andrey Konovalov <andreyknvl@google.com>
+Subject: [PATCH v3 3/3] kasan: fix krealloc handling for tag-based mode
+Date:   Thu,  3 Jan 2019 19:45:21 +0100
+Message-Id: <bb2a71d17ed072bcc528cbee46fcbd71a6da3be4.1546540962.git.andreyknvl@google.com>
+X-Mailer: git-send-email 2.20.1.415.g653613c723-goog
+In-Reply-To: <cover.1546540962.git.andreyknvl@google.com>
+References: <cover.1546540962.git.andreyknvl@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sorry for the delay in responding to this ... $EXCUSES ... 
+Right now tag-based KASAN can retag the memory that is reallocated via
+krealloc and return a differently tagged pointer even if the same slab
+object gets used and no reallocated technically happens.
 
-On Fri, 21 Dec 2018 16:26:31 +0100
-Thorsten Leemhuis <linux@leemhuis.info> wrote:
+There are a few issues with this approach. One is that krealloc callers
+can't rely on comparing the return value with the passed argument to
+check whether reallocation happened. Another is that if a caller knows
+that no reallocation happened, that it can access object memory through
+the old pointer, which leads to false positives. Look at nf_ct_ext_add()
+to see an example.
 
-> > Here's an idea if you feel like improving this: rather than putting an
-> > inscrutable program inline, add a taint_status script to scripts/ that
-> > prints out the status in fully human-readable form, with the explanation
-> > for every set bit.  
-> 
-> I posted the script earlier today and noticed now that it prints only
-> the fully human-readable form, not if a bit it set or unset. Would you
-> prefer if it did that as well?
+Fix this by keeping the same tag if the memory don't actually gets
+reallocated during krealloc.
 
-Not sure I have an opinion; perhaps if it can be done in a readable way
-putting more information is better than less.
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ mm/kasan/common.c | 63 ++++++++++++++++++++++++++++++++---------------
+ 1 file changed, 43 insertions(+), 20 deletions(-)
 
-> >> +===  ===  ======  ========================================================
-> >> +Bit  Log     Int  Reason that got the kernel tainted
-> >> +===  ===  ======  ========================================================
-> >> + 1)  G/P       0  proprietary module got loaded  
-> > I'd s/got/was/ throughout.  Also, this is the kernel, we start counting at
-> > zero! :)  
-> 
-> Hehe, yeah :-D At first I actually started at zero, but that looked
-> odd as the old explanations (those already in the file) start to could at one.
-> Having a off-by-one within one document is just confusing, that's why I
-> decided against starting at zero here.
-> 
-> Another reason that came to my mind when reading your comment: Yes, this
-> is the kernel, but the document should be easy to understand even for
-> inexperienced users (e.g. people that know how to open and use command
-> line tools, but never learned programming). That's why I leaning towards
-> starting with one everywhere. But yes, that can be confusing, that's
-> why I added a note, albeit I'm not really happy with it yet:
-> 
-> """
-> Note: This document is aimed at users and thus starts to count at one here and
-> in other places.  Use ``seq 0 17`` instead to start counting at zero, as it's
-> normal for developers.
-> """
-> 
-> See below for full context. Anyway: I can change the text to start at zero if
-> you prefer it.
+diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+index 44390392d4c9..73c9cbfdedf4 100644
+--- a/mm/kasan/common.c
++++ b/mm/kasan/common.c
+@@ -347,28 +347,43 @@ void kasan_poison_object_data(struct kmem_cache *cache, void *object)
+ }
+ 
+ /*
+- * Since it's desirable to only call object contructors once during slab
+- * allocation, we preassign tags to all such objects. Also preassign tags for
+- * SLAB_TYPESAFE_BY_RCU slabs to avoid use-after-free reports.
+- * For SLAB allocator we can't preassign tags randomly since the freelist is
+- * stored as an array of indexes instead of a linked list. Assign tags based
+- * on objects indexes, so that objects that are next to each other get
+- * different tags.
+- * After a tag is assigned, the object always gets allocated with the same tag.
+- * The reason is that we can't change tags for objects with constructors on
+- * reallocation (even for non-SLAB_TYPESAFE_BY_RCU), because the constructor
+- * code can save the pointer to the object somewhere (e.g. in the object
+- * itself). Then if we retag it, the old saved pointer will become invalid.
++ * This function assigns a tag to an object considering the following:
++ * 1. A cache might have a constructor, which might save a pointer to a slab
++ *    object somewhere (e.g. in the object itself). We preassign a tag for
++ *    each object in caches with constructors during slab creation and reuse
++ *    the same tag each time a particular object is allocated.
++ * 2. A cache might be SLAB_TYPESAFE_BY_RCU, which means objects can be
++ *    accessed after being freed. We preassign tags for objects in these
++ *    caches as well.
++ * 3. For SLAB allocator we can't preassign tags randomly since the freelist
++ *    is stored as an array of indexes instead of a linked list. Assign tags
++ *    based on objects indexes, so that objects that are next to each other
++ *    get different tags.
+  */
+-static u8 assign_tag(struct kmem_cache *cache, const void *object, bool new)
++static u8 assign_tag(struct kmem_cache *cache, const void *object,
++			bool init, bool krealloc)
+ {
++	/* Reuse the same tag for krealloc'ed objects. */
++	if (krealloc)
++		return get_tag(object);
++
++	/*
++	 * If the cache neither has a constructor nor has SLAB_TYPESAFE_BY_RCU
++	 * set, assign a tag when the object is being allocated (init == false).
++	 */
+ 	if (!cache->ctor && !(cache->flags & SLAB_TYPESAFE_BY_RCU))
+-		return new ? KASAN_TAG_KERNEL : random_tag();
++		return init ? KASAN_TAG_KERNEL : random_tag();
+ 
++	/* For caches that either have a constructor or SLAB_TYPESAFE_BY_RCU: */
+ #ifdef CONFIG_SLAB
++	/* For SLAB assign tags based on the object index in the freelist. */
+ 	return (u8)obj_to_index(cache, virt_to_page(object), (void *)object);
+ #else
+-	return new ? random_tag() : get_tag(object);
++	/*
++	 * For SLUB assign a random tag during slab creation, otherwise reuse
++	 * the already assigned tag.
++	 */
++	return init ? random_tag() : get_tag(object);
+ #endif
+ }
+ 
+@@ -384,7 +399,8 @@ void * __must_check kasan_init_slab_obj(struct kmem_cache *cache,
+ 	__memset(alloc_info, 0, sizeof(*alloc_info));
+ 
+ 	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS))
+-		object = set_tag(object, assign_tag(cache, object, true));
++		object = set_tag(object,
++				assign_tag(cache, object, true, false));
+ 
+ 	return (void *)object;
+ }
+@@ -450,8 +466,8 @@ bool kasan_slab_free(struct kmem_cache *cache, void *object, unsigned long ip)
+ 	return __kasan_slab_free(cache, object, ip, true);
+ }
+ 
+-void * __must_check kasan_kmalloc(struct kmem_cache *cache, const void *object,
+-					size_t size, gfp_t flags)
++static void *__kasan_kmalloc(struct kmem_cache *cache, const void *object,
++				size_t size, gfp_t flags, bool krealloc)
+ {
+ 	unsigned long redzone_start;
+ 	unsigned long redzone_end;
+@@ -469,7 +485,7 @@ void * __must_check kasan_kmalloc(struct kmem_cache *cache, const void *object,
+ 				KASAN_SHADOW_SCALE_SIZE);
+ 
+ 	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS))
+-		tag = assign_tag(cache, object, false);
++		tag = assign_tag(cache, object, false, krealloc);
+ 
+ 	/* Tag is ignored in set_tag without CONFIG_KASAN_SW_TAGS */
+ 	kasan_unpoison_shadow(set_tag(object, tag), size);
+@@ -481,6 +497,12 @@ void * __must_check kasan_kmalloc(struct kmem_cache *cache, const void *object,
+ 
+ 	return set_tag(object, tag);
+ }
++
++void * __must_check kasan_kmalloc(struct kmem_cache *cache, const void *object,
++				size_t size, gfp_t flags)
++{
++	return __kasan_kmalloc(cache, object, size, flags, false);
++}
+ EXPORT_SYMBOL(kasan_kmalloc);
+ 
+ void * __must_check kasan_kmalloc_large(const void *ptr, size_t size,
+@@ -520,7 +542,8 @@ void * __must_check kasan_krealloc(const void *object, size_t size, gfp_t flags)
+ 	if (unlikely(!PageSlab(page)))
+ 		return kasan_kmalloc_large(object, size, flags);
+ 	else
+-		return kasan_kmalloc(page->slab_cache, object, size, flags);
++		return __kasan_kmalloc(page->slab_cache, object, size,
++						flags, true);
+ }
+ 
+ void kasan_poison_kfree(void *ptr, unsigned long ip)
+-- 
+2.20.1.415.g653613c723-goog
 
-This is a kernel document in the end, so I do really think that we should
-be consistent with kernel conventions.  
-
-> Tainted kernels
-> ---------------
-> 
-> The kernel will mark itself as 'tainted' when something occurs that might be
-> relevant later when investigating problems. Don't worry too much about this,
-> most of the time it's not a problem to run a tainted kernel; the information is
-> mainly of interest once someone wants to investigate some problem, as its real
-> cause might be the event that got the kernel tainted. That's why bug reports
-> from tainted kernels will often be ignored by developers, hence try to reproduce
-> problems with an untainted kernel.
-> 
-> Note the kernel will remain tainted even after you undo what caused the taint
-> (i.e. unload a proprietary kernel module), to indicate the kernel remains not
-> trustworthy. That's also why the kernel will print the tainted state when it
-> notices an internal problem (a 'kernel bug'), a recoverable error
-> ('kernel oops') or a non-recoverable error ('kernel panic') and writes debug
-> information about this to the logs ``dmesg`` outputs. It's also possible to
-> check the tainted state at runtime through a file in ``/proc/``.
-> 
-> 
-> Tainted flag in bugs, oops or panics messages
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> You find the tainted state near the top in a line starting with 'CPU:'; if or
-> why the kernel is shown after the Process ID ('PID:') and a shortened name of
-> the command ('Comm:') that triggered the event:
-> 
-> BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
-> Oops: 0002 [#1] SMP PTI
-> CPU: 0 PID: 4424 Comm: insmod Tainted: P        W  O      4.20.0-0.rc6.fc30 #1
-> Hardware name: Red Hat KVM, BIOS 0.5.1 01/01/2011
-> RIP: 0010:my_oops_init+0x13/0x1000 [kpanic]
-> [...]
-> 
-> You'll find a **'Not tainted: '** there if the kernel was not tainted at the
-> time of the event; if it was, then it will print **'Tainted: '** and characters
-> either letters or blanks. The meaning of those characters is explained in the
-> table below. In above example it's '``Tainted: P        W  O     ``' as as the
-
-A seriously minor nit, but I would format this as:
-
-  In the above example it's::
-
-	Tainted: P        W  O
-
-  as the kernel got tainted...
-
-That will keep the text from being broken in unfortunate places in the
-formatted docs.
-
-(One "as" is also sufficient :)
-
-> kernel got tainted earlier because a proprietary Module (``P``) was loaded, a
-> warning occurred (``W``), and an externally-built module was loaded (``O``).
-> To decode other letters use the table below.
-> 
-> 
-> Decoding tainted state at runtime
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> At runtime, you can query the tainted state by reading
-> ``cat /proc/sys/kernel/tainted``. If that returns ``0``, the kernel is not
-> tainted; any other number indicates the reasons why it is. The easiest way to
-> decode that number is the script ``tools/debugging/kernel-chktaint``, which your
-> distribution might ship as part of a package called ``linux-tools`` or
-> ``kernel-tools``; if it doesn't you can download the script from
-> `git.kernel.org <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/tools/debugging/kernel-chktaint>`_.
-> and execute it with ``sh kernel-chktaint``
-> 
-> If you do not want to run that script you can try to decode the number yourself.
-> That's easy if there was only one reason that got your kernel tainted, as in
-> this case you can find the number with the table below. If there were multiple
-> reasons you need to decode the number, as it is a bitfield, where each bit
-> indicates the absence or presence of a particular type of taint. It's best to
-> leave that to the aforementioned script, but if you need something quick you can
-> use this shell command to check which bits are set:
-> 
-> 	$ for i in $(seq 18); do echo $i $(($(cat /proc/sys/kernel/tainted)>>($i-1)&1));done
-> 
-> Note: This document is aimed at users and thus starts to count at one here and
-> in other places.  Use ``seq 0 17`` instead to start counting at zero, as it's
-> normal for developers.
-
-Again, just zero-base it and keep things simple and consistent.
-
-> Table for decoding tainted state
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> ====  ===  ======  ========================================================
-> Pos.  Log  Number  Reason that got the kernel tainted
-> ====  ===  ======  ========================================================
->   1)  G/P       0  proprietary module was loaded
->   2)  _/F       2  module was force loaded
->   3)  _/S       4  SMP kernel oops on an officially SMP incapable processor
->   4)  _/R       8  module was force unloaded
->   5)  _/M      16  processor reported a Machine Check Exception (MCE)
->   6)  _/B      32  bad page referenced or some unexpected page flags
->   7)  _/U      64  taint requested by userspace application
->   8)  _/D     128  kernel died recently, i.e. there was an OOPS or BUG
->   9)  _/A     256  ACPI table overridden by user
->  10)  _/W     512  kernel issued warning
->  11)  _/C    1024  staging driver was loaded
->  12)  _/I    2048  workaround for bug in platform firmware applied
->  13)  _/O    4096  externally-built ("out-of-tree") module was loaded
->  14)  _/E    8192  unsigned module was loaded
->  15)  _/L   16384  soft lockup occurred
->  16)  _/K   32768  Kernel live patched
->  17)  _/K   65536  Auxiliary taint, defined for and used by distros
->  18)  _/K  131072  Kernel was built with the struct randomization plugin
-> ====  ===  ======  ========================================================
-> 
-> Note: To make reading easier ``_`` is representing a blank in this
-> table.
-> 
-> More detailed explanation for tainting
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
->  1)  ``G`` if all modules loaded have a GPL or compatible license, ``P`` if
->      any proprietary module has been loaded.  Modules without a
->      MODULE_LICENSE or with a MODULE_LICENSE that is not recognised by
->      insmod as GPL compatible are assumed to be proprietary.
-> 
->  2)  ``F`` if any module was force loaded by ``insmod -f``, ``' '`` if all
->      modules were loaded normally.
-> 
->  3)  ``S`` if the oops occurred on an SMP kernel running on hardware that
->      hasn't been certified as safe to run multiprocessor.
->      Currently this occurs only on various Athlons that are not
->      SMP capable.
-
-I wonder if any such hardware has ever run anything remotely resembling a
-current kernel.  In any case, a quick grep suggests that this taint can be
-set in a number of other places as well.
-
->  4)  ``R`` if a module was force unloaded by ``rmmod -f``, ``' '`` if all
->      modules were unloaded normally.
-> 
->  5)  ``M`` if any processor has reported a Machine Check Exception,
->      ``' '`` if no Machine Check Exceptions have occurred.
-> 
->  6)  ``B`` if a page-release function has found a bad page reference or
->      some unexpected page flags.
-
-I'd be tempted to add something like: "This taint indicates a hardware
-problem or a kernel bug; there should be other information in the log
-indicating why this bit was set."
-
->  7)  ``U`` if a user or user application specifically requested that the
->      Tainted flag be set, ``' '`` otherwise.
-> 
->  8)  ``D`` if the kernel has died recently, i.e. there was an OOPS or BUG.
-> 
->  9)  ``A`` if the ACPI table has been overridden.
-> 
->  10) ``W`` if a warning has previously been issued by the kernel.
->      (Though some warnings may set more specific taint flags.)
-> 
->  11) ``C`` if a staging driver has been loaded.
-
-There's a couple of other situations where this one is set as well; not
-sure if it's worth the trouble to try to describe them.
-
->  12) ``I`` if the kernel is working around a severe bug in the platform
->      firmware (BIOS or similar).
-> 
->  13) ``O`` if an externally-built ("out-of-tree") module has been loaded.
-> 
->  14) ``E`` if an unsigned module has been loaded in a kernel supporting
->      module signature.
-> 
->  15) ``L`` if a soft lockup has previously occurred on the system.
-> 
->  16) ``K`` if the kernel has been live patched.
-> 
->  17) ``X`` Auxiliary taint, defined for and used by Linux distributors.
-
-Do we know anything about whether anybody uses this?
-
->  18) ``T`` Kernel was build with randstruct plugin, which can intentionally
->      produce extremely unusual kernel structure layouts (even performance
->      pathological ones), which is important to know when debugging. Set at
->      build time.
-
-with *the* randstruct plugin
-
-Overall, just nits except for the start-with-zero thing.
-
-Thanks,
-
-jon
