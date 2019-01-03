@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4E7757D8A3
+	by archive.lwn.net (Postfix) with ESMTP id CB2D87D8A8
 	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Jan 2019 18:45:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726210AbfACSpt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 Jan 2019 13:45:49 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:43114 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726207AbfACSp3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jan 2019 13:45:29 -0500
-Received: by mail-wr1-f68.google.com with SMTP id r10so34464616wrs.10
-        for <linux-doc@vger.kernel.org>; Thu, 03 Jan 2019 10:45:27 -0800 (PST)
+        id S1726227AbfACSp2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 3 Jan 2019 13:45:28 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:53374 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726156AbfACSp1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jan 2019 13:45:27 -0500
+Received: by mail-wm1-f65.google.com with SMTP id d15so30081866wmb.3
+        for <linux-doc@vger.kernel.org>; Thu, 03 Jan 2019 10:45:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=LcZuxDuPGnY34gBBOzPjzW9RC6MdmGqedzN7uzgRX8A=;
-        b=JzRV4OzU47GC2npsOEq89Allc1qgPv+Y5jsoLkXuyflZ9xTmZcqNEWdvopVB2mLN9u
-         8dO+4sD19DkkXcPnobH6i4C8sPCDcTKX0Zb5bMIzj7AAWZze9z4tJvCau1rxfVHhRRRb
-         jSjusOJhz6SUeB4bWg1pRK3Ec1iK+PCIbicMVihCOHNB3eu8wG57R5YW7mn3YHEbjXfG
-         GoNIzVch9Hl/MBebbU2cyVjj/+ZtkiaLrajzmanxTB4cyMH9xs/7d39MOEsVTcaLg585
-         xYTZJkUhlbbMrBQ3Hrw6gURwz+PJUt3SD5vFdNZwyzVNZuM8xmb9QtROaHCZOT2IPHuL
-         VF0w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ITHs4YFYCIBJqlnIEDmL4pdf24tyFGf+yxfC0Fh4pdM=;
+        b=h7mND0Ja2CKX3WEOQZZNYqd9Wl32B4mOeHcoyNptcwaUsD1PDVzEu47VrmDVJUf5I/
+         WypbBGhjGDrsNseH3LE81ezH6HRM+2k+CLcnghlohirns+/D5S+RzY88W5ncYB/QXGE4
+         FbSucETcPMTEFkrY8hH7Ezrp+JFajaHzL+fEpNCZVUcWhEeCvstyL4ZBK2jmpnv3KX//
+         zhlc96slJeXGPvl+PDvcNgEKSIZ3PYuexVQtTtCSTtMcJRwOKvVuipGRsELAuHweHeIM
+         5kGT8cfnOeSShUJDPY4ZZYwnvDDgcJHkq2gdObP0PmXMvHEIam2ksYVYLTM8kno/zPM2
+         fQWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=LcZuxDuPGnY34gBBOzPjzW9RC6MdmGqedzN7uzgRX8A=;
-        b=NrDKjX40yNLLmS3wkA5WU8WkzwnEVyOKitezkZB4xqFT3LZwa6NMB+nItoXXYj3idW
-         JyVQt2lBhI1lImnFOtkR9wz8h+DD/eS+l/uMzjSVAOJUcibyWt8XgRP1na0DvdEF6Ib3
-         NnESpAXTpkhO/rSUipQwGnVek9Z4JMIrai9eRzKkcroJhfwQQTpzp/4DWYYvRxqSqU2Q
-         JcjYUgiTSsss4ebmcd6+7rlOPGxcu4JtqC8pn3JFW8Vap3E92hG815ED+UCSbPqXeDbD
-         1oCNz4rvLyJb9uz0W5H5qK3nMrBgl63/pSwZkmMet69my0Rn7jucsEN/A1WhWeurNTRO
-         KlNQ==
-X-Gm-Message-State: AJcUukcYpej4NWjt7DhitRF9sldHr4kRBrVSu1YQ8vk1t9SlYjhm8Im0
-        3i3Nkbow4FKEwrn5H6VnVOjI6w==
-X-Google-Smtp-Source: ALg8bN5f1SEsd4ITLAOkW46zsAXPnkQ0Kw16Q2Kzdp8Q2K31EY+gUdUwN0+RWy+mZNfdm32Jcr+xpQ==
-X-Received: by 2002:adf:fa05:: with SMTP id m5mr29524927wrr.155.1546541126907;
-        Thu, 03 Jan 2019 10:45:26 -0800 (PST)
-Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:13:8ce:d7fa:9f4c:492])
-        by smtp.gmail.com with ESMTPSA id t12sm52236944wrr.65.2019.01.03.10.45.25
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ITHs4YFYCIBJqlnIEDmL4pdf24tyFGf+yxfC0Fh4pdM=;
+        b=Xm8XesrXt9Ks0xGzBK5i86RPQitdmzapWCGqG+bALOqunHkt9cUM4+ArrT+Ljb1RpX
+         s8Dht2RCF9xCUhzNyEwQU62dFqy7YMmPWWiZcZwTSU2xt1VbiWaDFBk9woty0+xnWT+O
+         65/wxkZy+SkrR0Ow/ICTE9OeU+TUP9pOtbLYPP4aSUwQvrwOoONyNUD35HpcPMWdop8B
+         WMjxWz65+1E2+rri5+tbJz7rXabnnuxExJl8r5Ug01qREA4GZn2BMUzhER3IfrmRATfN
+         W2hESihANeStSCRE006roC4p4+YQsqagHAKMDuPuDx5SfEKyu9d21ZbEhL1yBQY8CmK/
+         rhVg==
+X-Gm-Message-State: AJcUukfreyL/fiWE1ueWnnT5qkiEajOQV+CoIih4FsJUSH9ZTq2sGdKP
+        PGVf83ESX+0wo9HtVFrVv618zQ==
+X-Google-Smtp-Source: ALg8bN6PfR1Ylu4w+0u4VmomLr/zJW+6Qt2xgzQ9hKBfW94sc2lkLW4VnkWuDt9Lz7DbH3yYH4+Q1w==
+X-Received: by 2002:a7b:cb18:: with SMTP id u24mr37572044wmj.138.1546541125030;
         Thu, 03 Jan 2019 10:45:25 -0800 (PST)
+Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:13:8ce:d7fa:9f4c:492])
+        by smtp.gmail.com with ESMTPSA id t12sm52236944wrr.65.2019.01.03.10.45.23
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 03 Jan 2019 10:45:23 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -86,12 +86,10 @@ Cc:     Kostya Serebryany <kcc@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Vishwath Mohan <vishwath@google.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v3 1/3] kasan, arm64: use ARCH_SLAB_MINALIGN instead of manual aligning
-Date:   Thu,  3 Jan 2019 19:45:19 +0100
-Message-Id: <52ddd881916bcc153a9924c154daacde78522227.1546540962.git.andreyknvl@google.com>
+Subject: [PATCH v3 0/3] kasan: tag-based mode fixes
+Date:   Thu,  3 Jan 2019 19:45:18 +0100
+Message-Id: <cover.1546540962.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.20.1.415.g653613c723-goog
-In-Reply-To: <cover.1546540962.git.andreyknvl@google.com>
-References: <cover.1546540962.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -99,46 +97,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Instead of changing cache->align to be aligned to KASAN_SHADOW_SCALE_SIZE
-in kasan_cache_create() we can reuse the ARCH_SLAB_MINALIGN macro.
+Changes in v3:
+- Fixed krealloc tag assigning without changing kasan_kmalloc hook and
+  added more comments to the assign_tag function while at it.
+- Moved ARCH_SLAB_MINALIGN definition to arch/arm64/include/asm/cache.h.
 
-Suggested-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
----
- arch/arm64/include/asm/cache.h | 6 ++++++
- mm/kasan/common.c              | 2 --
- 2 files changed, 6 insertions(+), 2 deletions(-)
+Changes in v2:
+- Added "kasan: make tag based mode work with CONFIG_HARDENED_USERCOPY"
+  patch.
+- Added "kasan: fix krealloc handling for tag-based mode" patch.
 
-diff --git a/arch/arm64/include/asm/cache.h b/arch/arm64/include/asm/cache.h
-index 13dd42c3ad4e..eb43e09c1980 100644
---- a/arch/arm64/include/asm/cache.h
-+++ b/arch/arm64/include/asm/cache.h
-@@ -58,6 +58,12 @@
-  */
- #define ARCH_DMA_MINALIGN	(128)
- 
-+#ifdef CONFIG_KASAN_SW_TAGS
-+#define ARCH_SLAB_MINALIGN	(1ULL << KASAN_SHADOW_SCALE_SHIFT)
-+#else
-+#define ARCH_SLAB_MINALIGN	__alignof__(unsigned long long)
-+#endif
-+
- #ifndef __ASSEMBLY__
- 
- #include <linux/bitops.h>
-diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-index 03d5d1374ca7..44390392d4c9 100644
---- a/mm/kasan/common.c
-+++ b/mm/kasan/common.c
-@@ -298,8 +298,6 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
- 		return;
- 	}
- 
--	cache->align = round_up(cache->align, KASAN_SHADOW_SCALE_SIZE);
--
- 	*flags |= SLAB_KASAN;
- }
- 
+Andrey Konovalov (3):
+  kasan, arm64: use ARCH_SLAB_MINALIGN instead of manual aligning
+  kasan: make tag based mode work with CONFIG_HARDENED_USERCOPY
+  kasan: fix krealloc handling for tag-based mode
+
+ arch/arm64/include/asm/cache.h |  6 ++++
+ mm/kasan/common.c              | 65 ++++++++++++++++++++++------------
+ mm/slub.c                      |  2 ++
+ 3 files changed, 51 insertions(+), 22 deletions(-)
+
 -- 
 2.20.1.415.g653613c723-goog
 
