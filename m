@@ -5,178 +5,111 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 02AF17D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Jan 2019 18:55:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 428C97D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Jan 2019 19:32:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726626AbfACSzj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 Jan 2019 13:55:39 -0500
-Received: from wes1-so2.wedos.net ([46.28.106.16]:60103 "EHLO
-        wes1-so2.wedos.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726564AbfACSzj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jan 2019 13:55:39 -0500
-Received: from localhost (ip4-46-39-182-135.cust.nbox.cz [46.39.182.135])
-        by wes1-so2.wedos.net (Postfix) with ESMTPSA id 43VxvB4xJNz2hN;
-        Thu,  3 Jan 2019 19:55:34 +0100 (CET)
-Date:   Thu, 3 Jan 2019 19:55:29 +0100
-From:   Otto Sabart <ottosabart@seberm.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>
-Cc:     Jonathan Corbet <corbet@lwn.net>, trivial@kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 3/8] doc: bindings: fix bad reference to ARM CPU bindings
-Message-ID:
- <e37cabca16342ce3889957b606274e6588254682.1546457947.git.ottosabart@seberm.com>
-References: <cover.1546457946.git.ottosabart@seberm.com>
+        id S1727357AbfACTcj convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 3 Jan 2019 14:32:39 -0500
+Received: from tyo162.gate.nec.co.jp ([114.179.232.162]:55035 "EHLO
+        tyo162.gate.nec.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727342AbfACTcj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jan 2019 14:32:39 -0500
+Received: from mailgate01.nec.co.jp ([114.179.233.122])
+        by tyo162.gate.nec.co.jp (8.15.1/8.15.1) with ESMTPS id x03JVrD6006770
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Fri, 4 Jan 2019 04:31:53 +0900
+Received: from mailsv01.nec.co.jp (mailgate-v.nec.co.jp [10.204.236.94])
+        by mailgate01.nec.co.jp (8.15.1/8.15.1) with ESMTP id x03JVrqN032082;
+        Fri, 4 Jan 2019 04:31:53 +0900
+Received: from mail02.kamome.nec.co.jp (mail02.kamome.nec.co.jp [10.25.43.5])
+        by mailsv01.nec.co.jp (8.15.1/8.15.1) with ESMTP id x03JVrwa020740;
+        Fri, 4 Jan 2019 04:31:53 +0900
+Received: from bpxc99gp.gisp.nec.co.jp ([10.38.151.136] [10.38.151.136]) by mail03.kamome.nec.co.jp with ESMTP id BT-MMP-1172895; Fri, 4 Jan 2019 04:28:16 +0900
+Received: from BPXM09GP.gisp.nec.co.jp ([10.38.151.201]) by
+ BPXC08GP.gisp.nec.co.jp ([10.38.151.136]) with mapi id 14.03.0319.002; Fri, 4
+ Jan 2019 04:28:15 +0900
+From:   Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+To:     Lianbo Jiang <lijiang@redhat.com>
+CC:     "bhe@redhat.com" <bhe@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "dyoung@redhat.com" <dyoung@redhat.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 1/2 v4] kdump: add the vmcoreinfo documentation
+Thread-Topic: [PATCH 1/2 v4] kdump: add the vmcoreinfo documentation
+Thread-Index: AQHUmCarLJirG+8GGUKf+iqFxfsfO6WclVbw
+Date:   Thu, 3 Jan 2019 19:28:14 +0000
+Message-ID: <4AE2DC15AC0B8543882A74EA0D43DBEC035656E1@BPXM09GP.gisp.nec.co.jp>
+References: <20181220054044.30738-1-lijiang@redhat.com>
+ <20181220054044.30738-2-lijiang@redhat.com>
+In-Reply-To: <20181220054044.30738-2-lijiang@redhat.com>
+Accept-Language: ja-JP, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [143.101.133.166]
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="9amGYk9869ThD9tj"
-Content-Disposition: inline
-In-Reply-To: <cover.1546457946.git.ottosabart@seberm.com>
-X-PGP-Key: http://seberm.com/pubkey.asc
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-TM-AS-MML: disable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
-Message-ID: <20190103185529.lr5pdErGjZOTncJRq4HVjtGa2owr_fMvxPK6SgjuiIA@z>
+
+Hi Lianbo,
+
+-----Original Message-----
+> +=======================
+> +What is the VMCOREINFO?
+> +=======================
+> +
+> +VMCOREINFO is a special ELF note section. It contains various
+> +information from the kernel like structure size, page size, symbol
+> +values, field offsets, etc. These data are packed into an ELF note
+> +section and used by user-space tools like crash and makedumpfile to
+> +analyze a kernel's memory layout.
+> +
+> +To dump the VMCOREINFO contents, one can do:
+> +
+> +# makedumpfile -g VMCOREINFO -x vmlinux
+
+again, this command does not dump the VMCOREINFO in ELF note section.
+It converts the vmlinux's debug infomation into a VMCOREINFO-like data.
+So I don't think this command is suitable to introduce here.
+
+> +PG_lru|PG_private|PG_swapcache|PG_swapbacked|PG_slab|
+> +PG_hwpoision|PG_head_mask
+> +-----------------------------------------------------
+> +
+> +Page attributes. These flags are used to filter free pages.
+
+Some of these are not used to filter *free* pages, so
+
+... used to filter various unnecessary pages.
+
+> +PAGE_BUDDY_MAPCOUNT_VALUE or ~PG_buddy
+> +--------------------------------------
+
+then, this can be merged into the one above?
+
+> +======
+> +x86_64
+> +======
+...
+> +PAGE_OFFLINE_MAPCOUNT_VALUE(~PG_offline)
+> +----------------------------------------
+
+This looks not only for x86_64, and also can be merged into
+the PG_* flags?
+
+Thank you for your effort!
+Kazu
 
 
---9amGYk9869ThD9tj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-The primecell.txt and cpus.txt files were converted into YAML. This
-patch updates old references with new ones.
-
-Fixes: d3c207eeb905 ("dt-bindings: arm: Convert primecell binding to json-s=
-chema")
-Fixes: 672951cbd1b7 ("dt-bindings: arm: Convert cpu binding to json-schema")
-Signed-off-by: Otto Sabart <ottosabart@seberm.com>
----
-
-As suggested by Jon Corbet, I am *resending* this patch once again to
-correct maintainers. There are no changes in the code since my previous
-e-mail.
-
-Please review.
-
- Documentation/devicetree/bindings/arm/cpu-capacity.txt          | 2 +-
- Documentation/devicetree/bindings/arm/idle-states.txt           | 2 +-
- Documentation/devicetree/bindings/arm/sp810.txt                 | 2 +-
- Documentation/devicetree/bindings/arm/topology.txt              | 2 +-
- Documentation/devicetree/bindings/display/arm,pl11x.txt         | 2 +-
- .../devicetree/bindings/interrupt-controller/arm,gic-v3.txt     | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/arm/cpu-capacity.txt b/Docum=
-entation/devicetree/bindings/arm/cpu-capacity.txt
-index 84262cdb8d29..96fa46cb133c 100644
---- a/Documentation/devicetree/bindings/arm/cpu-capacity.txt
-+++ b/Documentation/devicetree/bindings/arm/cpu-capacity.txt
-@@ -235,4 +235,4 @@ cpus {
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
- [1] ARM Linux Kernel documentation - CPUs bindings
--    Documentation/devicetree/bindings/arm/cpus.txt
-+    Documentation/devicetree/bindings/arm/cpus.yaml
-diff --git a/Documentation/devicetree/bindings/arm/idle-states.txt b/Docume=
-ntation/devicetree/bindings/arm/idle-states.txt
-index 8f0937db55c5..45730ba60af5 100644
---- a/Documentation/devicetree/bindings/arm/idle-states.txt
-+++ b/Documentation/devicetree/bindings/arm/idle-states.txt
-@@ -684,7 +684,7 @@ cpus {
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
- [1] ARM Linux Kernel documentation - CPUs bindings
--    Documentation/devicetree/bindings/arm/cpus.txt
-+    Documentation/devicetree/bindings/arm/cpus.yaml
-=20
- [2] ARM Linux Kernel documentation - PSCI bindings
-     Documentation/devicetree/bindings/arm/psci.txt
-diff --git a/Documentation/devicetree/bindings/arm/sp810.txt b/Documentatio=
-n/devicetree/bindings/arm/sp810.txt
-index 1b2ab1ff5587..46652bf65147 100644
---- a/Documentation/devicetree/bindings/arm/sp810.txt
-+++ b/Documentation/devicetree/bindings/arm/sp810.txt
-@@ -4,7 +4,7 @@ SP810 System Controller
- Required properties:
-=20
- - compatible:	standard compatible string for a Primecell peripheral,
--		see Documentation/devicetree/bindings/arm/primecell.txt
-+		see Documentation/devicetree/bindings/arm/primecell.yaml
- 		for more details
- 		should be: "arm,sp810", "arm,primecell"
-=20
-diff --git a/Documentation/devicetree/bindings/arm/topology.txt b/Documenta=
-tion/devicetree/bindings/arm/topology.txt
-index de9eb0486630..b0d80c0fb265 100644
---- a/Documentation/devicetree/bindings/arm/topology.txt
-+++ b/Documentation/devicetree/bindings/arm/topology.txt
-@@ -472,4 +472,4 @@ cpus {
-=20
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
- [1] ARM Linux kernel documentation
--    Documentation/devicetree/bindings/arm/cpus.txt
-+    Documentation/devicetree/bindings/arm/cpus.yaml
-diff --git a/Documentation/devicetree/bindings/display/arm,pl11x.txt b/Docu=
-mentation/devicetree/bindings/display/arm,pl11x.txt
-index ef89ab46b2c9..572fa2773ec4 100644
---- a/Documentation/devicetree/bindings/display/arm,pl11x.txt
-+++ b/Documentation/devicetree/bindings/display/arm,pl11x.txt
-@@ -1,6 +1,6 @@
- * ARM PrimeCell Color LCD Controller PL110/PL111
-=20
--See also Documentation/devicetree/bindings/arm/primecell.txt
-+See also Documentation/devicetree/bindings/arm/primecell.yaml
-=20
- Required properties:
-=20
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/arm,gic=
--v3.txt b/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3=
-=2Etxt
-index b83bb8249074..a3be5298a5eb 100644
---- a/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.txt
-+++ b/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.txt
-@@ -78,7 +78,7 @@ Sub-nodes:
- PPI affinity can be expressed as a single "ppi-partitions" node,
- containing a set of sub-nodes, each with the following property:
- - affinity: Should be a list of phandles to CPU nodes (as described in
--Documentation/devicetree/bindings/arm/cpus.txt).
-+  Documentation/devicetree/bindings/arm/cpus.yaml).
-=20
- GICv3 has one or more Interrupt Translation Services (ITS) that are
- used to route Message Signalled Interrupts (MSI) to the CPUs.
---=20
-2.17.2
-
---9amGYk9869ThD9tj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlwuWp0ACgkQgjuumfi+
-Hjxg9Q//YPAdOOtBEGTAwp8Fj2vZRjyv4LYrFOuAbFRjQjhGSJNPqxST5HURc6W5
-slGAmZQDZgbC3lUdPX6pNYq5bUz2U1hN50ZABlYsDDP3P0MJxxwqlX+WG1SjPvlD
-VQiTozObPMVGVQaHtx4f6k4KP9bb02bujwB5UEHchE8YIzjJ0vkSqDRtq8PawrCM
-NPx1ChQLbbG6yxNwAGfvrLbNob6XAYTou4rYmPbQae9rfE8xvkLXgkzz6+lpBAJH
-hLXYOCtzg5KXPjXbGZV5cQUvgPb8FyAU5r+hQk4UWyo6BprPu9rlGesTGkSTyNqH
-psIhI9MiGsHofvhhimmB/DknkmSVkrMbl++1Si9PaInu+kuI4DLf6pCZjHZuqVAH
-JjW58n3ZuF8UU1xWoAGzASae+pAK8VZ0hnC5zjNcLNLuSJhGxEbFbu403oXuiaYV
-vXNmF/Wz2GfU/BGiiBUIgpVSAMeawenL/Lx58FsavOZkMBrxCIv28CYaZZcaHc6W
-P0OtdzFx5ApfKbEJQcdH5sSp4llnUDL61g1p5U1YGhm+wgMXp+YqGGifmbfquaYv
-oQlbK9sEuK8JMLBbxPgrWoK5Uv4k4ZyqPa+RPEVqBX+4zCOg4zcU6ChQvWkW/lAR
-0YslcLMHdBJiWzaRTWYUCLeDH/3Pr/PWNl28InKTviADIwhgtgo=
-=GXi+
------END PGP SIGNATURE-----
-
---9amGYk9869ThD9tj--
