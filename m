@@ -3,31 +3,31 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+	autolearn=unavailable autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BD9477D089
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Jan 2019 11:31:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D70A57D089
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Jan 2019 11:39:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728829AbfACLbi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 Jan 2019 06:31:38 -0500
-Received: from mail-eopbgr50089.outbound.protection.outlook.com ([40.107.5.89]:57024
+        id S1731222AbfACLji (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 3 Jan 2019 06:39:38 -0500
+Received: from mail-eopbgr50045.outbound.protection.outlook.com ([40.107.5.45]:65120
         "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726814AbfACLbi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 3 Jan 2019 06:31:38 -0500
+        id S1730324AbfACLji (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 3 Jan 2019 06:39:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
  s=selector1-arm-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
  bh=w7Xoac+Y6NGqyCKklwpx5HT8b4rzFuU6zmpbkhX1Xzk=;
- b=dsDmb44RygnjEVIqNNIHQGqBC2kYgn2KdJn7Njs+zbv7Q8TU/e9GyKu0vDVw9mDC9jXT7OOscm5ozXvKPAQl2xTI4WYq8zAq3S8WkBMqasWZkkZjFguPV6NDc4rsgDJeOetOafDYuSf0RQLGlYWUG8o7jejhJkezpN3YtQVrimk=
+ b=MmlOJPfveOFMNM47XU+Y8nuVebei2B4bFGJgpM+CtbYqUOfNLVqXoi4nWppQUw4TWFP8WbnsEmvcoF9jK++HlWjLFWc3ccTG1UTwroQmXVV8X2iTqhk5O6bSGKWrm7pBoz+R9iit8f+GBd945WXT9AfYC4mJJnSrHtfwJ0MdHsM=
 Received: from AM3PR08MB0611.eurprd08.prod.outlook.com (10.163.188.149) by
- AM3PR08MB0182.eurprd08.prod.outlook.com (10.161.35.146) with Microsoft SMTP
+ AM3PR08MB0659.eurprd08.prod.outlook.com (10.163.189.13) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1495.6; Thu, 3 Jan 2019 11:31:23 +0000
+ 15.20.1495.6; Thu, 3 Jan 2019 11:39:31 +0000
 Received: from AM3PR08MB0611.eurprd08.prod.outlook.com
  ([fe80::3c73:534c:9c6e:352d]) by AM3PR08MB0611.eurprd08.prod.outlook.com
  ([fe80::3c73:534c:9c6e:352d%2]) with mapi id 15.20.1495.005; Thu, 3 Jan 2019
- 11:31:23 +0000
+ 11:39:31 +0000
 From:   "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
 To:     Liviu Dudau <Liviu.Dudau@arm.com>,
         "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
@@ -63,49 +63,49 @@ CC:     "Jonathan Chai (Arm Technology China)" <Jonathan.Chai@arm.com>,
         "airlied@linux.ie" <airlied@linux.ie>,
         "yamada.masahiro@socionext.com" <yamada.masahiro@socionext.com>,
         "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
-Subject: [PATCH 0/9] Overview of Arm komeda display driver
-Thread-Topic: [PATCH 0/9] Overview of Arm komeda display driver
-Thread-Index: AQHUo1faKNIioKqxJEuhbf+Gjn3THw==
-Date:   Thu, 3 Jan 2019 11:31:23 +0000
-Message-ID: <20190103112957.15203-1-james.qian.wang@arm.com>
+Subject: [PATCH v4 0/9] Overview of Arm komeda display driver
+Thread-Topic: [PATCH v4 0/9] Overview of Arm komeda display driver
+Thread-Index: AQHUo1j9xK7u/mlxvkGoo55Qe4+jIA==
+Date:   Thu, 3 Jan 2019 11:39:30 +0000
+Message-ID: <20190103113841.15403-1-james.qian.wang@arm.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [113.29.88.7]
-x-clientproxiedby: SYBPR01CA0062.ausprd01.prod.outlook.com
- (2603:10c6:10:2::26) To AM3PR08MB0611.eurprd08.prod.outlook.com
+x-clientproxiedby: SY2PR01CA0046.ausprd01.prod.outlook.com
+ (2603:10c6:1:15::34) To AM3PR08MB0611.eurprd08.prod.outlook.com
  (2a01:111:e400:c408::21)
 authentication-results: spf=none (sender IP is )
  smtp.mailfrom=james.qian.wang@arm.com; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;AM3PR08MB0182;6:QbPxqaumkLw6h1Dc90V6SXS4J/AKktNnkTkI7NM3rkqRoKT0LzjbrgQeAeZvK4C4TC73iw4coy+sK45pHMV3VLUBbF7lQKDPsLTMn+hn8uV8fyDXA6CNNXyJ4O1RBZwwYjoxms61dGp4L6GMS/rU7KN31OOFgTukQfhqIvE9avZ/atOkWXpX0itw3egstUVwCn6ePMZKD0HfvAU7mKBR7i41wRFY8tKjLqUH5L8AMREe9ap/f/az+toSQkYTj6EYVkcKhXKVVkN/pK+LHqRO62Xr5NoW2vGbqHNKM+Hn0wxbehkSoD7sDapjF2ncjg4mZq0SHiow6y6wfAX7D7vY/Tsq+6nClvzQMeVLNIHFv/84pfNH9f8UgoL/BpY2AyKtvUKA6hXmpPmoEClWxPc7M2bkdifRKzTXFRCo5dLROIdeYya0M/zjNChOmSsMsgRbbKTE4UGe8Io5XZAH8P/ylA==;5:fjFeM3ktaj2fu/YSk4Hwxe/afT5ZuMdqZEw4tzHKGxp7W6N5Gzu7ZMXP2FwHQ1Dx6MI4I2zCVIJGSqPHYUaUYOBOhVKNAFTwcFxbH15LL8YdzVl9kmwjhnUiPApw1rx3/GrAqavCyOjfKe6ydgCQ3D8pCbxBSDSCV5Wfu1QsCUTmvcnfjmZDrHvIkw7OI4uTIN3+0WLILHFx40wBH/+Aog==;7:JGaUwn/qdxjsvRGpZndviy6JQzg31/aQ9g7b2/DSsFGJva+qGbN23DjFl6wI+f2dM9+aCo72DrmueRpCkAvtMeWM0eYjvXoKQpvbuTNQtkWcL9SbAXg2p82eMtPJJ9PAj7jojJ3RhinZS3uE53ARsw==
-x-ms-office365-filtering-correlation-id: f2a301e1-90e8-4a83-bc4f-08d6716efd1a
+x-microsoft-exchange-diagnostics: 1;AM3PR08MB0659;6:yDjnCbh07yZrxu+xvWui82DsdjAez2/4HnREMFhJcfauv1ZIl9c5te0HVWBtk70FtpvSymcWEklXX5nwz4ii0x+25ho7/qt20UW3TaPFW5fA0tN5dsAzdecW+Gkuv3W/Jsx+PEOnidmaZa5T+XDm+K089pnEHpa7DRNqymll+7iTO4KMFnAJw93OEvPgjq4v3Y5nAFayVvXgcLvmeh80IjdWMF9dU8BFA20Zl1LPiAnZKpCddEEBVyKGmMwyn7GQAM6bxqOPXKhN1KEBx2u3fN6OhFuaiZnmgzy9bTDD90igUw1nnjNrukdyqugKiq79pAuf8a6D+Bl07mSvJhI/lplESWeHc3EJrKyYpFN4v9xXt6Ci0mAZd4RJVq/ixVqszbtxwQmcOGPyNaObfGxdTpjW8fo5p3U5ViOsr+L70nxQ//VAYn0yKEqbuQqAE3vc9h2gqCxthBiSfYU1zzbpYg==;5:1jIXKJg3Lu/H8hKgx3lA6UJW7VeohYbNb+VX08upIZ1e2nvM8Z6/kBZP5daILG8IVrZV3xZKq+im6JEI1a5nH7Vfd2yV+MiUB8arDnhVV0A6qotG9IenEbNeBQ6ICiuWjfKOh2DAXOeApq3yL0V1MunuEWGbmuwoCg55WZttfF1rluYxpK3NV6XWO/+99S81JptuhqjG5VMXb66waLLleg==;7:HvEK6VNgkH57H56SqXjOLcDKWS1O6yo75I7c7P6oJya/zgkSGkXNLYg3MfRfu2J0SBeGUNdg3OiE4ccycDgcMyQENSfhM/mbexhGd2ynCt7lfeb4qQ3FkS4cskx/Sf2qryYh4rwoGVgX6t+XjestHw==
+x-ms-office365-filtering-correlation-id: 5cd9ae72-6c45-4dda-f6d7-08d671701ff0
 x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600109)(711020)(4618075)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:AM3PR08MB0182;
-x-ms-traffictypediagnostic: AM3PR08MB0182:
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600109)(711020)(4618075)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:AM3PR08MB0659;
+x-ms-traffictypediagnostic: AM3PR08MB0659:
 nodisclaimer: True
-x-microsoft-antispam-prvs: <AM3PR08MB0182C53E3512B86801CD6B9AB38D0@AM3PR08MB0182.eurprd08.prod.outlook.com>
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(3230021)(908002)(999002)(5005026)(6040522)(8220060)(2401047)(8121501046)(10201501046)(3002001)(3231475)(944501520)(52105112)(93006095)(93001095)(6055026)(6041310)(20161123560045)(20161123562045)(20161123564045)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(201708071742011)(7699051)(76991095);SRVR:AM3PR08MB0182;BCL:0;PCL:0;RULEID:;SRVR:AM3PR08MB0182;
+x-microsoft-antispam-prvs: <AM3PR08MB06592C981918C2B688C18B3AB38D0@AM3PR08MB0659.eurprd08.prod.outlook.com>
+x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(8211001083)(3230021)(908002)(999002)(5005026)(6040522)(8220060)(2401047)(8121501046)(10201501046)(3002001)(93006095)(93001095)(3231475)(944501520)(52105112)(6055026)(6041310)(20161123562045)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123564045)(20161123560045)(201708071742011)(7699051)(76991095);SRVR:AM3PR08MB0659;BCL:0;PCL:0;RULEID:;SRVR:AM3PR08MB0659;
 x-forefront-prvs: 0906E83A25
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(366004)(376002)(346002)(396003)(39860400002)(199004)(189003)(105586002)(7736002)(6436002)(71190400001)(6486002)(71200400001)(97736004)(8936002)(2906002)(81156014)(8676002)(81166006)(106356001)(103116003)(305945005)(36756003)(14454004)(54906003)(110136005)(316002)(68736007)(99286004)(478600001)(476003)(2616005)(386003)(6506007)(55236004)(102836004)(186003)(26005)(2201001)(86362001)(486006)(5660300001)(53936002)(66066001)(5024004)(6512007)(52116002)(256004)(4326008)(14444005)(2501003)(3846002)(6116002)(1076003)(7416002)(25786009);DIR:OUT;SFP:1101;SCL:1;SRVR:AM3PR08MB0182;H:AM3PR08MB0611.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:3;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(39860400002)(366004)(376002)(396003)(136003)(189003)(199004)(53936002)(52116002)(25786009)(106356001)(4326008)(316002)(103116003)(386003)(6506007)(55236004)(71190400001)(102836004)(26005)(2616005)(476003)(7736002)(1076003)(14454004)(256004)(66066001)(14444005)(5024004)(478600001)(305945005)(110136005)(8936002)(99286004)(81156014)(54906003)(81166006)(68736007)(8676002)(36756003)(5660300001)(6486002)(6436002)(2501003)(6512007)(105586002)(97736004)(486006)(3846002)(6116002)(86362001)(186003)(2906002)(7416002)(71200400001)(2201001);DIR:OUT;SFP:1101;SCL:1;SRVR:AM3PR08MB0659;H:AM3PR08MB0611.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 received-spf: None (protection.outlook.com: arm.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: gVtCdm9iN66f6LeE4ZX7MuYFzOpy9EtsoI8LWzONm+RXAXnfFJqOJ8Th9uZQavViiSuguWKYArYtIZAGtG+KdXml2RtZTtjLONXuTgZrShMhhX2Q92VJyNL6TiST2GgYWO/YKwHE3MhXQkV6WcJD5/5faj9wVq7xvaqTxPSzp6MOI9LhOcly87DaGBUytbu+s9yVUt4tM8hl0wWYpfoT8OMVoZYh3ZWlwPkYkAJeYLcSAJodYbVZLVlOElUb+hN223xsm54B81tOSN+Wut0ITM5yGdEX9KNRgwLaaQtRxMPzxns3FwKZpfHyUhD7Sync
+x-microsoft-antispam-message-info: bfF5VoZrShdA+czJBYvJ7B5nHhtQzpz29GBjdLgb16ceAW9mQnldwZRg4ubEOTWKjh3tLZpMheINxcGmfViCB8WUGYlWDsBNHJzHVdzOq3JNiLfelTyaJJPrX5fakpmyk65B+MQNr7Q/PIsYW6++5sKheeCrnPu2iMfZIYCm/P/fk/1bmoUlugRTnFxRkK1DUsjj3ZTTgjC3oCVH3StSZZy1VEtk3adoUPlf6vTCmvBy79D5eF1vkRJGA1hThK/fg2bLJ4vZRCO1qR4qTtxfvZdfJuouRWjR7I9NHq4Gm7tCAV4e68+mXqlHm6G/qEVM
 spamdiagnosticoutput: 1:99
 spamdiagnosticmetadata: NSPM
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f2a301e1-90e8-4a83-bc4f-08d6716efd1a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jan 2019 11:31:23.0586
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5cd9ae72-6c45-4dda-f6d7-08d671701ff0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jan 2019 11:39:30.9248
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM3PR08MB0182
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM3PR08MB0659
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
