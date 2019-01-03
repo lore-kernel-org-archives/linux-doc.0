@@ -1,546 +1,255 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2D2FC7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Jan 2019 13:30:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1A1A97D08E
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Jan 2019 14:25:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731679AbfACN3u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 Jan 2019 08:29:50 -0500
-Received: from esa6.microchip.iphmx.com ([216.71.154.253]:42329 "EHLO
-        esa6.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731409AbfACN3t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jan 2019 08:29:49 -0500
-X-IronPort-AV: E=Sophos;i="5.56,435,1539673200"; 
-   d="scan'208";a="22165264"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 03 Jan 2019 06:29:48 -0700
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.76.107) with Microsoft SMTP Server (TLS) id
- 14.3.352.0; Thu, 3 Jan 2019 06:30:20 -0700
+        id S1727284AbfACOZa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 3 Jan 2019 09:25:30 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:35181 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727147AbfACOZa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jan 2019 09:25:30 -0500
+Received: by mail-pg1-f193.google.com with SMTP id s198so16079765pgs.2;
+        Thu, 03 Jan 2019 06:25:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector1-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6ReJdSPRLur42ChEef64TCSjKzn6BBELfoqH8OV4ZGY=;
- b=a5w3L0wewzlZdPrqHyKIuaoyDN+Zz5/gNKrm7E61ISs5gXaUCk47gLXK0VW/+V7H5H1mIMNXNnU4DhMEE8+XtLwvhPdjCwJsomwaR6/OEiBwWuYHLkauEttLwr9rYhQe3u/27HnXVd6ljePfPa0ky3/zy1Bm7mXPyo1UsAajjU0=
-Received: from MWHPR11MB1920.namprd11.prod.outlook.com (10.175.54.19) by
- MWHPR11MB1984.namprd11.prod.outlook.com (10.175.54.147) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1495.6; Thu, 3 Jan 2019 13:29:45 +0000
-Received: from MWHPR11MB1920.namprd11.prod.outlook.com
- ([fe80::e553:ff9d:8c0b:9627]) by MWHPR11MB1920.namprd11.prod.outlook.com
- ([fe80::e553:ff9d:8c0b:9627%6]) with mapi id 15.20.1495.005; Thu, 3 Jan 2019
- 13:29:45 +0000
-From:   <Claudiu.Beznea@microchip.com>
-To:     <thierry.reding@gmail.com>, <corbet@lwn.net>,
-        <Nicolas.Ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
-        <Ludovic.Desroches@microchip.com>
-CC:     <linux-pwm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <Claudiu.Beznea@microchip.com>
-Subject: [PATCH v8 1/6] pwm: extend PWM framework with PWM modes
-Thread-Topic: [PATCH v8 1/6] pwm: extend PWM framework with PWM modes
-Thread-Index: AQHUo2hjF9SHYVC+/UyvQjeBLKSGNw==
-Date:   Thu, 3 Jan 2019 13:29:44 +0000
-Message-ID: <1546522081-23659-2-git-send-email-claudiu.beznea@microchip.com>
-References: <1546522081-23659-1-git-send-email-claudiu.beznea@microchip.com>
-In-Reply-To: <1546522081-23659-1-git-send-email-claudiu.beznea@microchip.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: VI1PR07CA0209.eurprd07.prod.outlook.com
- (2603:10a6:802:3f::33) To MWHPR11MB1920.namprd11.prod.outlook.com
- (2603:10b6:300:110::19)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Claudiu.Beznea@microchip.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [94.177.32.154]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;MWHPR11MB1984;6:roNmuBqogtV9npHEKNXjkWKuwI8I6moAwwHXsBp0uwYK/tJ1grVXvqe2YSCya8lb+58s7D3+uiH6LOTu3+32SSuxalYt1plsnqqpDStgxU+TVMKLUKbTh+GzENwGrYqKq4jjh20b0wBjq3+7j0yBTkGUJ1auOyeltqwH4MeEvNvEOnIdHu68W7RUS8okegeo2uNy4SPy8IirMbNTYY68nRwRT0XF6JRO7FlkEH+hUJTDbRRRDKw7Ju8SobY03OuNY32bA/IW5Wl6+W3meUACOukTiiAE/4ozmpUxmBzyIafLBIScLNVPgYTUwugl7VeZiXTM2cdy/zjo16bXmjcuWDLgf6n/sjgIH05DgUJLN+a9MUsUsUubAXZOBtASKnN1UybUsqrsbA6hkF30wK6OEXNpMuMZG01wGjGdQdAydCRs9zbHqP9O2co6JXRCreAB5v04sLEitKhbG6xahlxWsQ==;5:q/IhCGv9jRQh3tJ3unHqwTFRWHXYmngqoRuSnz0PlBXw8G7qCIrMbYhPdWYlodFEDwViL7SOAhtkDd1n9B+R7GzQOdLpm7T9brvS6YnVpWVdTYQ8st6xa1Xk020f2Mx3g27JFsoltohWotdrc0/y676v/cW0asFFnBUXoQXHWq7jtR8+DQDkZNuPGS2wG82t4dPhxUE6TD/t9aKBwSVkVA==;7:deenA9spZLekTVGgh/p5phBnm+j/vBtzrgSSDzq01A3NvuXfECe4pel+eMmQj43+4KGwMtTBW54fLgD4earZ32+Typb6cj4xCRJZJ2DU0aSwwZ43eCXZzmMZeXdoGdChNyxRhAer2lg+TI2orU4Odg==
-x-ms-office365-filtering-correlation-id: 696837e1-99fd-49fd-ffc6-08d6717f861b
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600109)(711020)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:MWHPR11MB1984;
-x-ms-traffictypediagnostic: MWHPR11MB1984:
-x-microsoft-antispam-prvs: <MWHPR11MB198442C0FBF537751B80C84A878D0@MWHPR11MB1984.namprd11.prod.outlook.com>
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(3230021)(908002)(999002)(5005026)(6040522)(8220060)(2401047)(8121501046)(93006095)(93001095)(3231475)(944501520)(52105112)(3002001)(10201501046)(6041310)(20161123564045)(20161123560045)(20161123562045)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(201708071742011)(7699051)(76991095);SRVR:MWHPR11MB1984;BCL:0;PCL:0;RULEID:;SRVR:MWHPR11MB1984;
-x-forefront-prvs: 0906E83A25
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(136003)(376002)(346002)(396003)(366004)(199004)(189003)(11346002)(71190400001)(6486002)(2501003)(72206003)(14454004)(4744004)(2616005)(476003)(97736004)(446003)(5660300001)(478600001)(316002)(6636002)(86362001)(99286004)(54906003)(52116002)(110136005)(71200400001)(6436002)(6512007)(186003)(53936002)(305945005)(7736002)(3846002)(39060400002)(6506007)(386003)(6116002)(105586002)(106356001)(107886003)(68736007)(76176011)(36756003)(4326008)(26005)(81156014)(81166006)(102836004)(8936002)(66066001)(2906002)(486006)(8676002)(256004)(25786009)(14444005);DIR:OUT;SFP:1101;SCL:1;SRVR:MWHPR11MB1984;H:MWHPR11MB1920.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: microchip.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: ZzJeUHOotROsYl4YdxgXKlYzHf29pnJ/jlZ31tO0RADhprufvMTjY/NHpMc4TphL6NffTT2h9rX28DBeDIbGyrkwFWuphwQvj8YS/U/qUyrwJkAjyC5POO58LPBcnnyeW3NWP4keWXTxofhwBtRzDkdb8d9E3QdlVU0HpA/TMMAfW9giIbgHlYxw1JM602WrNRn4S6zOoO24MRphZjasIXzR2wJ9jC2ZDEckKKJ2SCexfgZisX8RwPBiePNYDr0v3x17WoByDgsbGYpbZ6mQ6dMW4FJnTbaobvdDcpJ3bWj2U0E3/nZIOE2pki7g8or2
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 696837e1-99fd-49fd-ffc6-08d6717f861b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jan 2019 13:29:44.8304
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1984
-X-OriginatorOrg: microchip.com
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=iLTZ0cgTG91z7S9lSIj8BQKMB7ZsyNxPQ7QHvLRKSb0=;
+        b=PvCJeV/gh3OKnFiUMA+1t5W0R5uPwOVrHRtKa/5/2wppCyB1IAk1BBmFpwUdTIn44+
+         LpCj6EiZetisq7GljryF/1UdjQTbiE9xq3tuELkJVdR2SkKEQCkzpxLo7aNowDCq5fR2
+         uLpJQsYthkyYT1979uJQibSCh3iADnxDQZSRytdN0Te7qkXe2HV2eirG/jew3W2JZgP4
+         hg8/+f514lPx/3z2+NspopUS4mhwnmmIMlhmi54C5falub5DSju8keFLGKxa2n3ku6qN
+         HN7j8Z33OG9lVL9DkAgLAwVEPGS/bO+ErpCsZiTRK4HNa31FGkz8D6K5yUn8n4A8B2Yp
+         zK1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=iLTZ0cgTG91z7S9lSIj8BQKMB7ZsyNxPQ7QHvLRKSb0=;
+        b=GCFW3GUYvmXbT02mnEyvaab6hGkMoK/c+WxEAyz2970ypHv9pPobZsafPYaXkugyVj
+         xwDnU6QFoXtXSDm3SDuOe36rE1OFqOgYaEntbmJTU1/SyGjVEuCAQxtTxk1bawa9SEaB
+         gsd36aLhMJvabaSlxnsUWI8Pjim+bybmFX1cd/yr0L52N25ZQwYfD+BOSEG9V3IKl/9d
+         IiaWaTrMoIxFE20BdwK0Wlg60yVRiJH8UYDtdp9EQ5xQiH1orsEy+YjfpJhMCtbKL75e
+         OelJmTx4I1kNKC6TPEhkMAMQWPubzfy2C4lS5gToEtZKpk0mHXNbMj41MvVntOCTtunG
+         Z1lA==
+X-Gm-Message-State: AJcUukdliPYcOOOtCzar4kK4Z3VFMnpdogBBcE1lM49JuozsJTUUMGJE
+        P6MuWCjJllwC+OBwFTEoxA==
+X-Google-Smtp-Source: ALg8bN5gJFhaVNoSRbxaTG3Q15UUzOOPszm1XhNQKwvai9Zjgws1M9+8fJxxxsJg98nApdYPH1EwOA==
+X-Received: by 2002:a63:2109:: with SMTP id h9mr17207318pgh.277.1546525529084;
+        Thu, 03 Jan 2019 06:25:29 -0800 (PST)
+Received: from localhost.localdomain (li1566-229.members.linode.com. [139.162.86.229])
+        by smtp.gmail.com with ESMTPSA id v12sm80201432pgg.41.2019.01.03.06.25.22
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Thu, 03 Jan 2019 06:25:28 -0800 (PST)
+From:   Junchang Wang <junchangwang@gmail.com>
+To:     dave@stgolabs.net, paulmck@linux.ibm.com, josh@joshtriplett.org,
+        corbet@lwn.net
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Junchang Wang <junchangwang@gmail.com>
+Subject: [PATCH] RCU/torture.txt: remove section MODULE PARAMETERS
+Date:   Thu,  3 Jan 2019 22:24:51 +0800
+Message-Id: <1546525491-5724-1-git-send-email-junchangwang@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Claudiu Beznea <claudiu.beznea@microchip.com>
+The supported module parameters are detailed in both RCU/torture.txt and 
+admin-guide/kernel-parameters.txt, and the latter is actively maintained.
+So this patch removes section MODULE PARAMETERS in torture.txt and
+adds a reference to the information in kernel-parameters.txt.
 
-Add basic PWM modes: normal and complementary. These modes should
-differentiate the single output PWM channels from two outputs PWM
-channels. These modes could be set as follow:
-1. PWM channels with one output per channel:
-- normal mode
-2. PWM channels with two outputs per channel:
-- normal mode
-- complementary mode
-Since users could use a PWM channel with two output as one output PWM
-channel, the PWM normal mode is allowed to be set for PWM channels with
-two outputs; in fact PWM normal mode should be supported by all PWMs.
-
-The PWM capabilities were implemented per PWM channel. Every PWM controller
-will register a function to get PWM capabilities. If this is not explicitly
-set by the driver a default function will be used to retrieve the PWM
-capabilities (in this case the PWM capabilities will contain only PWM
-normal mode). To retrieve capabilities the pwm_get_caps() function could
-be used.
-
-Every PWM channel have associated a mode in the PWM state. Proper
-support was added to get/set PWM mode. Only modes supported by PWM channel
-could be set.
-
-Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+Signed-off-by: Junchang Wang <junchangwang@gmail.com>
 ---
- drivers/pwm/core.c  |  91 ++++++++++++++++++++++++++++++++++++++++++++-
- drivers/pwm/sysfs.c |  61 ++++++++++++++++++++++++++++++
- include/linux/pwm.h | 104 +++++++++++++++++++++++++++++++++++-------------=
-----
- 3 files changed, 222 insertions(+), 34 deletions(-)
+ Documentation/RCU/torture.txt | 169 +-----------------------------------------
+ 1 file changed, 2 insertions(+), 167 deletions(-)
 
-diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-index 1581f6ab1b1f..eb444ee8d486 100644
---- a/drivers/pwm/core.c
-+++ b/drivers/pwm/core.c
-@@ -249,6 +249,88 @@ static bool pwm_ops_check(const struct pwm_ops *ops)
- 	return false;
- }
-=20
-+static int pwm_get_default_caps(struct pwm_caps *caps)
-+{
-+	static const struct pwm_caps default_caps =3D {
-+		.modes_msk =3D PWM_MODE_BIT(NORMAL),
-+	};
-+
-+	if (!caps)
-+		return -EINVAL;
-+
-+	*caps =3D default_caps;
-+
-+	return 0;
-+}
-+
-+/**
-+ * pwm_get_caps() - get PWM capabilities of a PWM device
-+ * @pwm: PWM device to get the capabilities for
-+ * @caps: returned capabilities
-+ *
-+ * Returns: 0 on success or a negative error code on failure
-+ */
-+int pwm_get_caps(const struct pwm_device *pwm, struct pwm_caps *caps)
-+{
-+	if (!pwm || !caps)
-+		return -EINVAL;
-+
-+	if (pwm->chip->ops->get_caps)
-+		return pwm->chip->ops->get_caps(pwm->chip, pwm, caps);
-+
-+	return pwm_get_default_caps(caps);
-+}
-+EXPORT_SYMBOL_GPL(pwm_get_caps);
-+
-+/**
-+ * pwm_get_default_modebit() - get the default mode for PWM (as a bit mask=
-)
-+ * @pwm: PWM device to get the default mode for
-+ *
-+ * Returns: the default PWM mode (as a bit mask) for PWM device
-+ */
-+unsigned long pwm_get_default_modebit(const struct pwm_device *pwm)
-+{
-+	struct pwm_caps caps;
-+
-+	if (pwm_get_caps(pwm, &caps))
-+		return PWM_MODE_BIT(NORMAL);
-+
-+	return BIT(ffs(caps.modes_msk) - 1);
-+}
-+EXPORT_SYMBOL_GPL(pwm_get_default_modebit);
-+
-+/**
-+ * pwm_supports_mode() - check if PWM mode is supported by PWM device
-+ * @pwm: PWM device
-+ * @modebit: PWM mode bit mask to be checked (see PWM_MODE_BIT())
-+ *
-+ * Returns: true if PWM mode is supported, false otherwise
-+ */
-+bool pwm_supports_mode(const struct pwm_device *pwm, unsigned long modebit=
-)
-+{
-+	struct pwm_caps caps;
-+
-+	if (!pwm || !modebit)
-+		return false;
-+
-+	if (hweight_long(modebit) !=3D 1 || ffs(modebit) - 1 >=3D PWM_MODE_CNT)
-+		return false;
-+
-+	if (pwm_get_caps(pwm, &caps))
-+		return false;
-+
-+	return !!(caps.modes_msk & modebit);
-+}
-+EXPORT_SYMBOL_GPL(pwm_supports_mode);
-+
-+const char *pwm_get_mode_name(unsigned long modebit)
-+{
-+	if (modebit =3D=3D PWM_MODE_BIT(COMPLEMENTARY))
-+		return "complementary";
-+
-+	return "normal";
-+}
-+
- /**
-  * pwmchip_add_with_polarity() - register a new PWM chip
-  * @chip: the PWM chip to add
-@@ -294,6 +376,7 @@ int pwmchip_add_with_polarity(struct pwm_chip *chip,
- 		pwm->pwm =3D chip->base + i;
- 		pwm->hwpwm =3D i;
- 		pwm->state.polarity =3D polarity;
-+		pwm->state.modebit =3D pwm_get_default_modebit(pwm);
-=20
- 		if (chip->ops->get_state)
- 			chip->ops->get_state(chip, pwm, &pwm->state);
-@@ -469,7 +552,8 @@ int pwm_apply_state(struct pwm_device *pwm, struct pwm_=
-state *state)
- 	int err;
-=20
- 	if (!pwm || !state || !state->period ||
--	    state->duty_cycle > state->period)
-+	    state->duty_cycle > state->period ||
-+	    !pwm_supports_mode(pwm, state->modebit))
- 		return -EINVAL;
-=20
- 	if (!memcmp(state, &pwm->state, sizeof(*state)))
-@@ -530,6 +614,8 @@ int pwm_apply_state(struct pwm_device *pwm, struct pwm_=
-state *state)
-=20
- 			pwm->state.enabled =3D state->enabled;
- 		}
-+
-+		pwm->state.modebit =3D state->modebit;
- 	}
-=20
- 	return 0;
-@@ -579,6 +665,8 @@ int pwm_adjust_config(struct pwm_device *pwm)
- 	pwm_get_args(pwm, &pargs);
- 	pwm_get_state(pwm, &state);
-=20
-+	state.modebit =3D pwm_get_default_modebit(pwm);
-+
- 	/*
- 	 * If the current period is zero it means that either the PWM driver
- 	 * does not support initial state retrieval or the PWM has not yet
-@@ -999,6 +1087,7 @@ static void pwm_dbg_show(struct pwm_chip *chip, struct=
- seq_file *s)
- 		seq_printf(s, " duty: %u ns", state.duty_cycle);
- 		seq_printf(s, " polarity: %s",
- 			   state.polarity ? "inverse" : "normal");
-+		seq_printf(s, " mode: %s", pwm_get_mode_name(state.modebit));
-=20
- 		seq_puts(s, "\n");
- 	}
-diff --git a/drivers/pwm/sysfs.c b/drivers/pwm/sysfs.c
-index ceb233dd6048..7865fbafbeb4 100644
---- a/drivers/pwm/sysfs.c
-+++ b/drivers/pwm/sysfs.c
-@@ -223,11 +223,71 @@ static ssize_t capture_show(struct device *child,
- 	return sprintf(buf, "%u %u\n", result.period, result.duty_cycle);
- }
-=20
-+static ssize_t mode_show(struct device *child,
-+			 struct device_attribute *attr,
-+			 char *buf)
-+{
-+	struct pwm_device *pwm =3D child_to_pwm_device(child);
-+	struct pwm_state state;
-+	unsigned long modebit;
-+	enum pwm_mode mode;
-+	int len =3D 0;
-+
-+	pwm_get_state(pwm, &state);
-+
-+	for (mode =3D PWM_MODE_NORMAL; mode < PWM_MODE_CNT; mode++) {
-+		modebit =3D BIT(mode);
-+		if (pwm_supports_mode(pwm, modebit)) {
-+			if (state.modebit =3D=3D modebit)
-+				len +=3D scnprintf(buf + len,
-+						 PAGE_SIZE - len, "[%s] ",
-+						 pwm_get_mode_name(modebit));
-+			else
-+				len +=3D scnprintf(buf + len,
-+						 PAGE_SIZE - len, "%s ",
-+						 pwm_get_mode_name(modebit));
-+		}
-+	}
-+
-+	len +=3D scnprintf(buf + len, PAGE_SIZE - len, "\n");
-+	return len;
-+}
-+
-+static ssize_t mode_store(struct device *child,
-+			  struct device_attribute *attr,
-+			  const char *buf, size_t size)
-+{
-+	struct pwm_export *export =3D child_to_pwm_export(child);
-+	struct pwm_device *pwm =3D export->pwm;
-+	struct pwm_state state;
-+	unsigned long modebit;
-+	enum pwm_mode mode;
-+	int ret;
-+
-+	for (mode =3D PWM_MODE_NORMAL; mode < PWM_MODE_CNT; mode++) {
-+		modebit =3D BIT(mode);
-+		if (sysfs_streq(buf, pwm_get_mode_name(modebit)))
-+			break;
-+	}
-+
-+	if (mode =3D=3D PWM_MODE_CNT)
-+		return -EINVAL;
-+
-+	mutex_lock(&export->lock);
-+	pwm_get_state(pwm, &state);
-+	state.modebit =3D modebit;
-+	ret =3D pwm_apply_state(pwm, &state);
-+	mutex_unlock(&export->lock);
-+
-+	return ret ? : size;
-+}
-+
- static DEVICE_ATTR_RW(period);
- static DEVICE_ATTR_RW(duty_cycle);
- static DEVICE_ATTR_RW(enable);
- static DEVICE_ATTR_RW(polarity);
- static DEVICE_ATTR_RO(capture);
-+static DEVICE_ATTR_RW(mode);
-=20
- static struct attribute *pwm_attrs[] =3D {
- 	&dev_attr_period.attr,
-@@ -235,6 +295,7 @@ static struct attribute *pwm_attrs[] =3D {
- 	&dev_attr_enable.attr,
- 	&dev_attr_polarity.attr,
- 	&dev_attr_capture.attr,
-+	&dev_attr_mode.attr,
- 	NULL
- };
- ATTRIBUTE_GROUPS(pwm);
-diff --git a/include/linux/pwm.h b/include/linux/pwm.h
-index d5199b507d79..3d89343bc405 100644
---- a/include/linux/pwm.h
-+++ b/include/linux/pwm.h
-@@ -26,6 +26,28 @@ enum pwm_polarity {
- };
-=20
- /**
-+ * PWM modes capabilities
-+ * @PWM_MODE_NORMAL: PWM has one output
-+ * @PWM_MODE_COMPLEMENTARY: PWM has 2 outputs with opposite polarities
-+ * @PWM_MODE_CNT: PWM modes count
-+ */
-+enum pwm_mode {
-+	PWM_MODE_NORMAL,
-+	PWM_MODE_COMPLEMENTARY,
-+	PWM_MODE_CNT,
-+};
-+
-+#define PWM_MODE_BIT(name)		BIT(PWM_MODE_##name)
-+
-+/**
-+ * struct pwm_caps - PWM capabilities
-+ * @modes_msk: bitmask of supported modes (see PWM_MODE_*)
-+ */
-+struct pwm_caps {
-+	unsigned long modes_msk;
-+};
-+
-+/**
-  * struct pwm_args - board-dependent PWM arguments
-  * @period: reference period
-  * @polarity: reference polarity
-@@ -53,12 +75,14 @@ enum {
-  * @period: PWM period (in nanoseconds)
-  * @duty_cycle: PWM duty cycle (in nanoseconds)
-  * @polarity: PWM polarity
-+ * @modebit: PWM mode bit
-  * @enabled: PWM enabled status
-  */
- struct pwm_state {
- 	unsigned int period;
- 	unsigned int duty_cycle;
- 	enum pwm_polarity polarity;
-+	unsigned long modebit;
- 	bool enabled;
- };
-=20
-@@ -151,39 +175,6 @@ static inline void pwm_get_args(const struct pwm_devic=
-e *pwm,
- }
-=20
- /**
-- * pwm_init_state() - prepare a new state to be applied with pwm_apply_sta=
-te()
-- * @pwm: PWM device
-- * @state: state to fill with the prepared PWM state
-- *
-- * This functions prepares a state that can later be tweaked and applied
-- * to the PWM device with pwm_apply_state(). This is a convenient function
-- * that first retrieves the current PWM state and the replaces the period
-- * and polarity fields with the reference values defined in pwm->args.
-- * Once the function returns, you can adjust the ->enabled and ->duty_cycl=
-e
-- * fields according to your needs before calling pwm_apply_state().
-- *
-- * ->duty_cycle is initially set to zero to avoid cases where the current
-- * ->duty_cycle value exceed the pwm_args->period one, which would trigger
-- * an error if the user calls pwm_apply_state() without adjusting ->duty_c=
-ycle
-- * first.
-- */
--static inline void pwm_init_state(const struct pwm_device *pwm,
--				  struct pwm_state *state)
--{
--	struct pwm_args args;
+diff --git a/Documentation/RCU/torture.txt b/Documentation/RCU/torture.txt
+index 55918b5..c12d4cc 100644
+--- a/Documentation/RCU/torture.txt
++++ b/Documentation/RCU/torture.txt
+@@ -10,173 +10,8 @@ status messages via printk(), which can be examined via the dmesg
+ command (perhaps grepping for "torture").  The test is started
+ when the module is loaded, and stops when the module is unloaded.
+ 
 -
--	/* First get the current state. */
--	pwm_get_state(pwm, state);
+-MODULE PARAMETERS
 -
--	/* Then fill it with the reference config */
--	pwm_get_args(pwm, &args);
+-This module has the following parameters:
 -
--	state->period =3D args.period;
--	state->polarity =3D args.polarity;
--	state->duty_cycle =3D 0;
--}
+-fqs_duration	Duration (in microseconds) of artificially induced bursts
+-		of force_quiescent_state() invocations.  In RCU
+-		implementations having force_quiescent_state(), these
+-		bursts help force races between forcing a given grace
+-		period and that grace period ending on its own.
 -
--/**
-  * pwm_get_relative_duty_cycle() - Get a relative duty cycle value
-  * @state: PWM state to extract the duty cycle from
-  * @scale: target scale of the relative duty cycle
-@@ -254,6 +245,7 @@ pwm_set_relative_duty_cycle(struct pwm_state *state, un=
-signed int duty_cycle,
-  * @get_state: get the current PWM state. This function is only
-  *	       called once per PWM device when the PWM chip is
-  *	       registered.
-+ * @get_caps: get PWM capabilities.
-  * @dbg_show: optional routine to show contents in debugfs
-  * @owner: helps prevent removal of modules exporting active PWMs
-  */
-@@ -272,6 +264,8 @@ struct pwm_ops {
- 		     struct pwm_state *state);
- 	void (*get_state)(struct pwm_chip *chip, struct pwm_device *pwm,
- 			  struct pwm_state *state);
-+	int (*get_caps)(const struct pwm_chip *chip,
-+			const struct pwm_device *pwm, struct pwm_caps *caps);
- #ifdef CONFIG_DEBUG_FS
- 	void (*dbg_show)(struct pwm_chip *chip, struct seq_file *s);
- #endif
-@@ -402,6 +396,10 @@ struct pwm_device *pwm_request_from_chip(struct pwm_ch=
-ip *chip,
- 					 unsigned int index,
- 					 const char *label);
-=20
-+int pwm_get_caps(const struct pwm_device *pwm, struct pwm_caps *caps);
-+bool pwm_supports_mode(const struct pwm_device *pwm, unsigned long modebit=
-);
-+unsigned long pwm_get_default_modebit(const struct pwm_device *pwm);
-+const char *pwm_get_mode_name(unsigned long modebit);
- struct pwm_device *of_pwm_xlate_with_flags(struct pwm_chip *pc,
- 		const struct of_phandle_args *args);
-=20
-@@ -488,6 +486,11 @@ static inline struct pwm_device *pwm_request_from_chip=
-(struct pwm_chip *chip,
- 	return ERR_PTR(-ENODEV);
- }
-=20
-+static inline unsigned long pwm_get_default_modebit(const struct pwm_devic=
-e *pwm)
-+{
-+	return 0;
-+}
-+
- static inline struct pwm_device *pwm_get(struct device *dev,
- 					 const char *consumer)
- {
-@@ -522,6 +525,40 @@ static inline void devm_pwm_put(struct device *dev, st=
-ruct pwm_device *pwm)
- }
- #endif
-=20
-+/**
-+ * pwm_init_state() - prepare a new state to be applied with pwm_apply_sta=
-te()
-+ * @pwm: PWM device
-+ * @state: state to fill with the prepared PWM state
-+ *
-+ * This functions prepares a state that can later be tweaked and applied
-+ * to the PWM device with pwm_apply_state(). This is a convenient function
-+ * that first retrieves the current PWM state and the replaces the period
-+ * and polarity fields with the reference values defined in pwm->args.
-+ * Once the function returns, you can adjust the ->enabled and ->duty_cycl=
-e
-+ * fields according to your needs before calling pwm_apply_state().
-+ *
-+ * ->duty_cycle is initially set to zero to avoid cases where the current
-+ * ->duty_cycle value exceed the pwm_args->period one, which would trigger
-+ * an error if the user calls pwm_apply_state() without adjusting ->duty_c=
-ycle
-+ * first.
-+ */
-+static inline void pwm_init_state(const struct pwm_device *pwm,
-+				  struct pwm_state *state)
-+{
-+	struct pwm_args args;
-+
-+	/* First get the current state. */
-+	pwm_get_state(pwm, state);
-+
-+	/* Then fill it with the reference config */
-+	pwm_get_args(pwm, &args);
-+
-+	state->period =3D args.period;
-+	state->polarity =3D args.polarity;
-+	state->duty_cycle =3D 0;
-+	state->modebit =3D pwm_get_default_modebit(pwm);
-+}
-+
- static inline void pwm_apply_args(struct pwm_device *pwm)
- {
- 	struct pwm_state state =3D { };
-@@ -550,6 +587,7 @@ static inline void pwm_apply_args(struct pwm_device *pw=
-m)
- 	state.enabled =3D false;
- 	state.polarity =3D pwm->args.polarity;
- 	state.period =3D pwm->args.period;
-+	state.modebit =3D pwm_get_default_modebit(pwm);
-=20
- 	pwm_apply_state(pwm, &state);
- }
---=20
+-fqs_holdoff	Holdoff time (in microseconds) between consecutive calls
+-		to force_quiescent_state() within a burst.
+-
+-fqs_stutter	Wait time (in seconds) between consecutive bursts
+-		of calls to force_quiescent_state().
+-
+-gp_normal	Make the fake writers use normal synchronous grace-period
+-		primitives.
+-
+-gp_exp		Make the fake writers use expedited synchronous grace-period
+-		primitives.  If both gp_normal and gp_exp are set, or
+-		if neither gp_normal nor gp_exp are set, then randomly
+-		choose the primitive so that about 50% are normal and
+-		50% expedited.  By default, neither are set, which
+-		gives best overall test coverage.
+-
+-irqreader	Says to invoke RCU readers from irq level.  This is currently
+-		done via timers.  Defaults to "1" for variants of RCU that
+-		permit this.  (Or, more accurately, variants of RCU that do
+-		-not- permit this know to ignore this variable.)
+-
+-n_barrier_cbs	If this is nonzero, RCU barrier testing will be conducted,
+-		in which case n_barrier_cbs specifies the number of
+-		RCU callbacks (and corresponding kthreads) to use for
+-		this testing.  The value cannot be negative.  If you
+-		specify this to be non-zero when torture_type indicates a
+-		synchronous RCU implementation (one for which a member of
+-		the synchronize_rcu() rather than the call_rcu() family is
+-		used -- see the documentation for torture_type below), an
+-		error will be reported and no testing will be carried out.
+-
+-nfakewriters	This is the number of RCU fake writer threads to run.  Fake
+-		writer threads repeatedly use the synchronous "wait for
+-		current readers" function of the interface selected by
+-		torture_type, with a delay between calls to allow for various
+-		different numbers of writers running in parallel.
+-		nfakewriters defaults to 4, which provides enough parallelism
+-		to trigger special cases caused by multiple writers, such as
+-		the synchronize_srcu() early return optimization.
+-
+-nreaders	This is the number of RCU reading threads supported.
+-		The default is twice the number of CPUs.  Why twice?
+-		To properly exercise RCU implementations with preemptible
+-		read-side critical sections.
+-
+-onoff_interval
+-		The number of seconds between each attempt to execute a
+-		randomly selected CPU-hotplug operation.  Defaults to
+-		zero, which disables CPU hotplugging.  In HOTPLUG_CPU=n
+-		kernels, rcutorture will silently refuse to do any
+-		CPU-hotplug operations regardless of what value is
+-		specified for onoff_interval.
+-
+-onoff_holdoff	The number of seconds to wait until starting CPU-hotplug
+-		operations.  This would normally only be used when
+-		rcutorture was built into the kernel and started
+-		automatically at boot time, in which case it is useful
+-		in order to avoid confusing boot-time code with CPUs
+-		coming and going.
+-
+-shuffle_interval
+-		The number of seconds to keep the test threads affinitied
+-		to a particular subset of the CPUs, defaults to 3 seconds.
+-		Used in conjunction with test_no_idle_hz.
+-
+-shutdown_secs	The number of seconds to run the test before terminating
+-		the test and powering off the system.  The default is
+-		zero, which disables test termination and system shutdown.
+-		This capability is useful for automated testing.
+-
+-stall_cpu	The number of seconds that a CPU should be stalled while
+-		within both an rcu_read_lock() and a preempt_disable().
+-		This stall happens only once per rcutorture run.
+-		If you need multiple stalls, use modprobe and rmmod to
+-		repeatedly run rcutorture.  The default for stall_cpu
+-		is zero, which prevents rcutorture from stalling a CPU.
+-
+-		Note that attempts to rmmod rcutorture while the stall
+-		is ongoing will hang, so be careful what value you
+-		choose for this module parameter!  In addition, too-large
+-		values for stall_cpu might well induce failures and
+-		warnings in other parts of the kernel.  You have been
+-		warned!
+-
+-stall_cpu_holdoff
+-		The number of seconds to wait after rcutorture starts
+-		before stalling a CPU.  Defaults to 10 seconds.
+-
+-stat_interval	The number of seconds between output of torture
+-		statistics (via printk()).  Regardless of the interval,
+-		statistics are printed when the module is unloaded.
+-		Setting the interval to zero causes the statistics to
+-		be printed -only- when the module is unloaded, and this
+-		is the default.
+-
+-stutter		The length of time to run the test before pausing for this
+-		same period of time.  Defaults to "stutter=5", so as
+-		to run and pause for (roughly) five-second intervals.
+-		Specifying "stutter=0" causes the test to run continuously
+-		without pausing, which is the old default behavior.
+-
+-test_boost	Whether or not to test the ability of RCU to do priority
+-		boosting.  Defaults to "test_boost=1", which performs
+-		RCU priority-inversion testing only if the selected
+-		RCU implementation supports priority boosting.  Specifying
+-		"test_boost=0" never performs RCU priority-inversion
+-		testing.  Specifying "test_boost=2" performs RCU
+-		priority-inversion testing even if the selected RCU
+-		implementation does not support RCU priority boosting,
+-		which can be used to test rcutorture's ability to
+-		carry out RCU priority-inversion testing.
+-
+-test_boost_interval
+-		The number of seconds in an RCU priority-inversion test
+-		cycle.	Defaults to "test_boost_interval=7".  It is
+-		usually wise for this value to be relatively prime to
+-		the value selected for "stutter".
+-
+-test_boost_duration
+-		The number of seconds to do RCU priority-inversion testing
+-		within any given "test_boost_interval".  Defaults to
+-		"test_boost_duration=4".
+-
+-test_no_idle_hz	Whether or not to test the ability of RCU to operate in
+-		a kernel that disables the scheduling-clock interrupt to
+-		idle CPUs.  Boolean parameter, "1" to test, "0" otherwise.
+-		Defaults to omitting this test.
+-
+-torture_type	The type of RCU to test, with string values as follows:
+-
+-		"rcu":  rcu_read_lock(), rcu_read_unlock() and call_rcu(),
+-			along with expedited, synchronous, and polling
+-			variants.
+-
+-		"rcu_bh": rcu_read_lock_bh(), rcu_read_unlock_bh(), and
+-			call_rcu_bh(), along with expedited and synchronous
+-			variants.
+-
+-		"rcu_busted": This tests an intentionally incorrect version
+-			of RCU in order to help test rcutorture itself.
+-
+-		"srcu": srcu_read_lock(), srcu_read_unlock() and
+-			call_srcu(), along with expedited and
+-			synchronous variants.
+-
+-		"sched": preempt_disable(), preempt_enable(), and
+-			call_rcu_sched(), along with expedited,
+-			synchronous, and polling variants.
+-
+-		"tasks": voluntary context switch and call_rcu_tasks(),
+-			along with expedited and synchronous variants.
+-
+-		Defaults to "rcu".
+-
+-verbose		Enable debug printk()s.  Default is disabled.
+-
++Module parameters are detailed in
++Documentation/admin-guide/kernel-parameters.txt.
+ 
+ OUTPUT
+ 
+-- 
 2.7.4
 
