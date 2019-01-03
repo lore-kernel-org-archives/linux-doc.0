@@ -3,51 +3,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 69D507D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Jan 2019 18:45:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4E7757D8A3
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Jan 2019 18:45:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726278AbfACSpe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 Jan 2019 13:45:34 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:37400 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726247AbfACSpb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jan 2019 13:45:31 -0500
-Received: by mail-wr1-f66.google.com with SMTP id s12so34469317wrt.4
-        for <linux-doc@vger.kernel.org>; Thu, 03 Jan 2019 10:45:29 -0800 (PST)
+        id S1726210AbfACSpt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 3 Jan 2019 13:45:49 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:43114 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726207AbfACSp3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jan 2019 13:45:29 -0500
+Received: by mail-wr1-f68.google.com with SMTP id r10so34464616wrs.10
+        for <linux-doc@vger.kernel.org>; Thu, 03 Jan 2019 10:45:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=wqfuZcAjUCBtOLKWkS6SRZq/hte3EYpV7rEPQw3hkz8=;
-        b=Ba8p1LN6oK3Pi0Fl7zZMXYDUR1uRcqSUKMdpT1Q7mAQ6syoy5qLvkHGMUj6j/vGuB2
-         mPO5FuGEoA96YcXVqzSpSwHEKELmv7R+EvR+inn+PIduuMt4TwXWHgaGeZc0ky7vvm86
-         yH9L4u9oYTTxmMJbx5HQX1aqZm017enJlCtGAbNGdHs15wOBu7Y61tXbAM6zeVySF49T
-         mmuEIvLHrEZb5taS7g9ooF90sN5EBjH7gGfduXn1VTHmhUOpSR2P22jZqk1x1eBZqFiP
-         sH2YY6VeZEfqquy8gfHxRd99KsANe2ythZVkjVH7ZxaZekAiskkZhF+Vg3IKqAONrIV4
-         HEZg==
+        bh=LcZuxDuPGnY34gBBOzPjzW9RC6MdmGqedzN7uzgRX8A=;
+        b=JzRV4OzU47GC2npsOEq89Allc1qgPv+Y5jsoLkXuyflZ9xTmZcqNEWdvopVB2mLN9u
+         8dO+4sD19DkkXcPnobH6i4C8sPCDcTKX0Zb5bMIzj7AAWZze9z4tJvCau1rxfVHhRRRb
+         jSjusOJhz6SUeB4bWg1pRK3Ec1iK+PCIbicMVihCOHNB3eu8wG57R5YW7mn3YHEbjXfG
+         GoNIzVch9Hl/MBebbU2cyVjj/+ZtkiaLrajzmanxTB4cyMH9xs/7d39MOEsVTcaLg585
+         xYTZJkUhlbbMrBQ3Hrw6gURwz+PJUt3SD5vFdNZwyzVNZuM8xmb9QtROaHCZOT2IPHuL
+         VF0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wqfuZcAjUCBtOLKWkS6SRZq/hte3EYpV7rEPQw3hkz8=;
-        b=VDSTPbFkZVJq6PY6xPyS1+iwq7UJtFrpGXl11e8kOj6Tj/zHKrrZvqSJ5/Pxy3SbI9
-         Pxo9iqXJDWnFAnwMjoY1wj95XA2cUl8XDsUzjbMmoHc8i+p+wPGhKT/1AYZjSAI/y5pC
-         k2pb2dD0HavK/D/iofASjimlRsUQFPI2FAyi6GCB0cKTDF5i1XIg6jRxPiOKMrrnY/wJ
-         1GhoXKchvMZPcliCWZjqHH/swAP+qIzbGvgV5+fw4U/RL3q4lz2zjJhN1dWHDHHoQ16y
-         zB0O13TWzOYdy62SYPZtcI8//XlQHW3fhLQkfCnGnFe1nmu9pD310t3VYQfSzTfdWrDj
-         5aAQ==
-X-Gm-Message-State: AJcUukdTDfjpUPuBoSXz0KcRaRJL9WFuqCmzRTofWibApywWrpRLLw9t
-        bwPwbVa1Kuv8uxKvoPrEMOzzTw==
-X-Google-Smtp-Source: ALg8bN4LFcO01Vv4WTRKcuv5YTd1wsOefh/eH/jXvbvXe+jy9rGwknH3ImOWsoQ1UvdKBEe2ffL9iQ==
-X-Received: by 2002:a05:6000:f:: with SMTP id h15mr40972842wrx.248.1546541128878;
-        Thu, 03 Jan 2019 10:45:28 -0800 (PST)
+        bh=LcZuxDuPGnY34gBBOzPjzW9RC6MdmGqedzN7uzgRX8A=;
+        b=NrDKjX40yNLLmS3wkA5WU8WkzwnEVyOKitezkZB4xqFT3LZwa6NMB+nItoXXYj3idW
+         JyVQt2lBhI1lImnFOtkR9wz8h+DD/eS+l/uMzjSVAOJUcibyWt8XgRP1na0DvdEF6Ib3
+         NnESpAXTpkhO/rSUipQwGnVek9Z4JMIrai9eRzKkcroJhfwQQTpzp/4DWYYvRxqSqU2Q
+         JcjYUgiTSsss4ebmcd6+7rlOPGxcu4JtqC8pn3JFW8Vap3E92hG815ED+UCSbPqXeDbD
+         1oCNz4rvLyJb9uz0W5H5qK3nMrBgl63/pSwZkmMet69my0Rn7jucsEN/A1WhWeurNTRO
+         KlNQ==
+X-Gm-Message-State: AJcUukcYpej4NWjt7DhitRF9sldHr4kRBrVSu1YQ8vk1t9SlYjhm8Im0
+        3i3Nkbow4FKEwrn5H6VnVOjI6w==
+X-Google-Smtp-Source: ALg8bN5f1SEsd4ITLAOkW46zsAXPnkQ0Kw16Q2Kzdp8Q2K31EY+gUdUwN0+RWy+mZNfdm32Jcr+xpQ==
+X-Received: by 2002:adf:fa05:: with SMTP id m5mr29524927wrr.155.1546541126907;
+        Thu, 03 Jan 2019 10:45:26 -0800 (PST)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:13:8ce:d7fa:9f4c:492])
-        by smtp.gmail.com with ESMTPSA id t12sm52236944wrr.65.2019.01.03.10.45.27
+        by smtp.gmail.com with ESMTPSA id t12sm52236944wrr.65.2019.01.03.10.45.25
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 03 Jan 2019 10:45:27 -0800 (PST)
+        Thu, 03 Jan 2019 10:45:25 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
@@ -86,9 +86,9 @@ Cc:     Kostya Serebryany <kcc@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Vishwath Mohan <vishwath@google.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v3 2/3] kasan: make tag based mode work with CONFIG_HARDENED_USERCOPY
-Date:   Thu,  3 Jan 2019 19:45:20 +0100
-Message-Id: <7e756a298d514c4482f52aea6151db34818d395d.1546540962.git.andreyknvl@google.com>
+Subject: [PATCH v3 1/3] kasan, arm64: use ARCH_SLAB_MINALIGN instead of manual aligning
+Date:   Thu,  3 Jan 2019 19:45:19 +0100
+Message-Id: <52ddd881916bcc153a9924c154daacde78522227.1546540962.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.20.1.415.g653613c723-goog
 In-Reply-To: <cover.1546540962.git.andreyknvl@google.com>
 References: <cover.1546540962.git.andreyknvl@google.com>
@@ -99,30 +99,45 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-With CONFIG_HARDENED_USERCOPY enabled __check_heap_object() compares and
-then subtracts a potentially tagged pointer with a non-tagged address of
-the page that this pointer belongs to, which leads to unexpected behavior.
+Instead of changing cache->align to be aligned to KASAN_SHADOW_SCALE_SIZE
+in kasan_cache_create() we can reuse the ARCH_SLAB_MINALIGN macro.
 
-Untag the pointer in __check_heap_object() before doing any of these
-operations.
-
+Suggested-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- mm/slub.c | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm64/include/asm/cache.h | 6 ++++++
+ mm/kasan/common.c              | 2 --
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/mm/slub.c b/mm/slub.c
-index 36c0befeebd8..1e3d0ec4e200 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -3846,6 +3846,8 @@ void __check_heap_object(const void *ptr, unsigned long n, struct page *page,
- 	unsigned int offset;
- 	size_t object_size;
+diff --git a/arch/arm64/include/asm/cache.h b/arch/arm64/include/asm/cache.h
+index 13dd42c3ad4e..eb43e09c1980 100644
+--- a/arch/arm64/include/asm/cache.h
++++ b/arch/arm64/include/asm/cache.h
+@@ -58,6 +58,12 @@
+  */
+ #define ARCH_DMA_MINALIGN	(128)
  
-+	ptr = kasan_reset_tag(ptr);
++#ifdef CONFIG_KASAN_SW_TAGS
++#define ARCH_SLAB_MINALIGN	(1ULL << KASAN_SHADOW_SCALE_SHIFT)
++#else
++#define ARCH_SLAB_MINALIGN	__alignof__(unsigned long long)
++#endif
 +
- 	/* Find object and usable object size. */
- 	s = page->slab_cache;
+ #ifndef __ASSEMBLY__
+ 
+ #include <linux/bitops.h>
+diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+index 03d5d1374ca7..44390392d4c9 100644
+--- a/mm/kasan/common.c
++++ b/mm/kasan/common.c
+@@ -298,8 +298,6 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+ 		return;
+ 	}
+ 
+-	cache->align = round_up(cache->align, KASAN_SHADOW_SCALE_SIZE);
+-
+ 	*flags |= SLAB_KASAN;
+ }
  
 -- 
 2.20.1.415.g653613c723-goog
