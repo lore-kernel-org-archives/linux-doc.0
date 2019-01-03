@@ -2,294 +2,280 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9511C7D08E
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Jan 2019 17:04:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 806C57D8A3
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  3 Jan 2019 18:12:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732465AbfACRDx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 Jan 2019 12:03:53 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57478 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732384AbfACRDx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jan 2019 12:03:53 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x03Gx6B2037070
-        for <linux-doc@vger.kernel.org>; Thu, 3 Jan 2019 12:03:52 -0500
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2psn3tm2jp-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 03 Jan 2019 12:03:51 -0500
-Received: from localhost
-        by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Thu, 3 Jan 2019 17:03:49 -0000
-Received: from b01cxnp23034.gho.pok.ibm.com (9.57.198.29)
-        by e17.ny.us.ibm.com (146.89.104.204) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 3 Jan 2019 17:03:47 -0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x03H3kQ119333308
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 3 Jan 2019 17:03:46 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 68E1BB205F;
-        Thu,  3 Jan 2019 17:03:46 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 37782B2065;
-        Thu,  3 Jan 2019 17:03:46 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.85.153.1])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Thu,  3 Jan 2019 17:03:45 +0000 (GMT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id 7AA3316C5FC5; Thu,  3 Jan 2019 09:04:05 -0800 (PST)
-Date:   Thu, 3 Jan 2019 09:04:05 -0800
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     Junchang Wang <junchangwang@gmail.com>
-Cc:     dave@stgolabs.net, josh@joshtriplett.org, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] RCU/torture.txt: remove section MODULE PARAMETERS
-Reply-To: paulmck@linux.ibm.com
-References: <1546525491-5724-1-git-send-email-junchangwang@gmail.com>
+        id S1728261AbfACSMP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 3 Jan 2019 13:12:15 -0500
+Received: from ms.lwn.net ([45.79.88.28]:57560 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727932AbfACSMP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 3 Jan 2019 13:12:15 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id B696B97D;
+        Thu,  3 Jan 2019 18:12:12 +0000 (UTC)
+Date:   Thu, 3 Jan 2019 11:12:11 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 0/1] RFC: Revamp admin-guide/tainted-kernels.rst to make
+ it more comprehensible
+Message-ID: <20190103111211.14a81d95@lwn.net>
+In-Reply-To: <9260c3aa-5c52-c35d-7a6a-ef5c58b82b10@leemhuis.info>
+References: <20181217152043.9989-1-linux@leemhuis.info>
+        <20181217112437.5fe868eb@lwn.net>
+        <9260c3aa-5c52-c35d-7a6a-ef5c58b82b10@leemhuis.info>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1546525491-5724-1-git-send-email-junchangwang@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 19010317-0040-0000-0000-000004AC19BD
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00010338; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000272; SDB=6.01141214; UDB=6.00593882; IPR=6.00921439;
- MB=3.00024955; MTD=3.00000008; XFM=3.00000015; UTC=2019-01-03 17:03:49
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19010317-0041-0000-0000-000008B719C2
-Message-Id: <20190103170405.GF4170@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-03_07:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1901030150
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 03, 2019 at 10:24:51PM +0800, Junchang Wang wrote:
-> The supported module parameters are detailed in both RCU/torture.txt and 
-> admin-guide/kernel-parameters.txt, and the latter is actively maintained.
-> So this patch removes section MODULE PARAMETERS in torture.txt and
-> adds a reference to the information in kernel-parameters.txt.
+Sorry for the delay in responding to this ... $EXCUSES ... 
+
+On Fri, 21 Dec 2018 16:26:31 +0100
+Thorsten Leemhuis <linux@leemhuis.info> wrote:
+
+> > Here's an idea if you feel like improving this: rather than putting an
+> > inscrutable program inline, add a taint_status script to scripts/ that
+> > prints out the status in fully human-readable form, with the explanation
+> > for every set bit.  
 > 
-> Signed-off-by: Junchang Wang <junchangwang@gmail.com>
+> I posted the script earlier today and noticed now that it prints only
+> the fully human-readable form, not if a bit it set or unset. Would you
+> prefer if it did that as well?
 
-Queued and pushed, thank you!
+Not sure I have an opinion; perhaps if it can be done in a readable way
+putting more information is better than less.
 
-I made some small updates, first capitalizing the word following the
-colon (":") in the subject line and second adding a search string
-for Documentation/admin-guide/kernel-parameters.txt.  Please see below
-and please let me know if I messed anything up.
+> >> +===  ===  ======  ========================================================
+> >> +Bit  Log     Int  Reason that got the kernel tainted
+> >> +===  ===  ======  ========================================================
+> >> + 1)  G/P       0  proprietary module got loaded  
+> > I'd s/got/was/ throughout.  Also, this is the kernel, we start counting at
+> > zero! :)  
+> 
+> Hehe, yeah :-D At first I actually started at zero, but that looked
+> odd as the old explanations (those already in the file) start to could at one.
+> Having a off-by-one within one document is just confusing, that's why I
+> decided against starting at zero here.
+> 
+> Another reason that came to my mind when reading your comment: Yes, this
+> is the kernel, but the document should be easy to understand even for
+> inexperienced users (e.g. people that know how to open and use command
+> line tools, but never learned programming). That's why I leaning towards
+> starting with one everywhere. But yes, that can be confusing, that's
+> why I added a note, albeit I'm not really happy with it yet:
+> 
+> """
+> Note: This document is aimed at users and thus starts to count at one here and
+> in other places.  Use ``seq 0 17`` instead to start counting at zero, as it's
+> normal for developers.
+> """
+> 
+> See below for full context. Anyway: I can change the text to start at zero if
+> you prefer it.
 
-							Thanx, Paul
+This is a kernel document in the end, so I do really think that we should
+be consistent with kernel conventions.  
 
-------------------------------------------------------------------------
+> Tainted kernels
+> ---------------
+> 
+> The kernel will mark itself as 'tainted' when something occurs that might be
+> relevant later when investigating problems. Don't worry too much about this,
+> most of the time it's not a problem to run a tainted kernel; the information is
+> mainly of interest once someone wants to investigate some problem, as its real
+> cause might be the event that got the kernel tainted. That's why bug reports
+> from tainted kernels will often be ignored by developers, hence try to reproduce
+> problems with an untainted kernel.
+> 
+> Note the kernel will remain tainted even after you undo what caused the taint
+> (i.e. unload a proprietary kernel module), to indicate the kernel remains not
+> trustworthy. That's also why the kernel will print the tainted state when it
+> notices an internal problem (a 'kernel bug'), a recoverable error
+> ('kernel oops') or a non-recoverable error ('kernel panic') and writes debug
+> information about this to the logs ``dmesg`` outputs. It's also possible to
+> check the tainted state at runtime through a file in ``/proc/``.
+> 
+> 
+> Tainted flag in bugs, oops or panics messages
+> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> You find the tainted state near the top in a line starting with 'CPU:'; if or
+> why the kernel is shown after the Process ID ('PID:') and a shortened name of
+> the command ('Comm:') that triggered the event:
+> 
+> BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
+> Oops: 0002 [#1] SMP PTI
+> CPU: 0 PID: 4424 Comm: insmod Tainted: P        W  O      4.20.0-0.rc6.fc30 #1
+> Hardware name: Red Hat KVM, BIOS 0.5.1 01/01/2011
+> RIP: 0010:my_oops_init+0x13/0x1000 [kpanic]
+> [...]
+> 
+> You'll find a **'Not tainted: '** there if the kernel was not tainted at the
+> time of the event; if it was, then it will print **'Tainted: '** and characters
+> either letters or blanks. The meaning of those characters is explained in the
+> table below. In above example it's '``Tainted: P        W  O     ``' as as the
 
-commit 150c2476dd32126505dc26f644fa8eb643630d9c
-Author: Junchang Wang <junchangwang@gmail.com>
-Date:   Thu Jan 3 22:24:51 2019 +0800
+A seriously minor nit, but I would format this as:
 
-    RCU/torture.txt: Remove section MODULE PARAMETERS
-    
-    The supported module parameters are detailed in both RCU/torture.txt and
-    admin-guide/kernel-parameters.txt, and the latter is actively maintained.
-    So this patch removes section MODULE PARAMETERS in torture.txt and
-    adds a reference to the information in kernel-parameters.txt.
-    
-    Signed-off-by: Junchang Wang <junchangwang@gmail.com>
-    Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
-    [ paulmck: Add search string. ]
+  In the above example it's::
 
-diff --git a/Documentation/RCU/torture.txt b/Documentation/RCU/torture.txt
-index 55918b54808b..a41a0384d20c 100644
---- a/Documentation/RCU/torture.txt
-+++ b/Documentation/RCU/torture.txt
-@@ -10,173 +10,8 @@ status messages via printk(), which can be examined via the dmesg
- command (perhaps grepping for "torture").  The test is started
- when the module is loaded, and stops when the module is unloaded.
- 
--
--MODULE PARAMETERS
--
--This module has the following parameters:
--
--fqs_duration	Duration (in microseconds) of artificially induced bursts
--		of force_quiescent_state() invocations.  In RCU
--		implementations having force_quiescent_state(), these
--		bursts help force races between forcing a given grace
--		period and that grace period ending on its own.
--
--fqs_holdoff	Holdoff time (in microseconds) between consecutive calls
--		to force_quiescent_state() within a burst.
--
--fqs_stutter	Wait time (in seconds) between consecutive bursts
--		of calls to force_quiescent_state().
--
--gp_normal	Make the fake writers use normal synchronous grace-period
--		primitives.
--
--gp_exp		Make the fake writers use expedited synchronous grace-period
--		primitives.  If both gp_normal and gp_exp are set, or
--		if neither gp_normal nor gp_exp are set, then randomly
--		choose the primitive so that about 50% are normal and
--		50% expedited.  By default, neither are set, which
--		gives best overall test coverage.
--
--irqreader	Says to invoke RCU readers from irq level.  This is currently
--		done via timers.  Defaults to "1" for variants of RCU that
--		permit this.  (Or, more accurately, variants of RCU that do
--		-not- permit this know to ignore this variable.)
--
--n_barrier_cbs	If this is nonzero, RCU barrier testing will be conducted,
--		in which case n_barrier_cbs specifies the number of
--		RCU callbacks (and corresponding kthreads) to use for
--		this testing.  The value cannot be negative.  If you
--		specify this to be non-zero when torture_type indicates a
--		synchronous RCU implementation (one for which a member of
--		the synchronize_rcu() rather than the call_rcu() family is
--		used -- see the documentation for torture_type below), an
--		error will be reported and no testing will be carried out.
--
--nfakewriters	This is the number of RCU fake writer threads to run.  Fake
--		writer threads repeatedly use the synchronous "wait for
--		current readers" function of the interface selected by
--		torture_type, with a delay between calls to allow for various
--		different numbers of writers running in parallel.
--		nfakewriters defaults to 4, which provides enough parallelism
--		to trigger special cases caused by multiple writers, such as
--		the synchronize_srcu() early return optimization.
--
--nreaders	This is the number of RCU reading threads supported.
--		The default is twice the number of CPUs.  Why twice?
--		To properly exercise RCU implementations with preemptible
--		read-side critical sections.
--
--onoff_interval
--		The number of seconds between each attempt to execute a
--		randomly selected CPU-hotplug operation.  Defaults to
--		zero, which disables CPU hotplugging.  In HOTPLUG_CPU=n
--		kernels, rcutorture will silently refuse to do any
--		CPU-hotplug operations regardless of what value is
--		specified for onoff_interval.
--
--onoff_holdoff	The number of seconds to wait until starting CPU-hotplug
--		operations.  This would normally only be used when
--		rcutorture was built into the kernel and started
--		automatically at boot time, in which case it is useful
--		in order to avoid confusing boot-time code with CPUs
--		coming and going.
--
--shuffle_interval
--		The number of seconds to keep the test threads affinitied
--		to a particular subset of the CPUs, defaults to 3 seconds.
--		Used in conjunction with test_no_idle_hz.
--
--shutdown_secs	The number of seconds to run the test before terminating
--		the test and powering off the system.  The default is
--		zero, which disables test termination and system shutdown.
--		This capability is useful for automated testing.
--
--stall_cpu	The number of seconds that a CPU should be stalled while
--		within both an rcu_read_lock() and a preempt_disable().
--		This stall happens only once per rcutorture run.
--		If you need multiple stalls, use modprobe and rmmod to
--		repeatedly run rcutorture.  The default for stall_cpu
--		is zero, which prevents rcutorture from stalling a CPU.
--
--		Note that attempts to rmmod rcutorture while the stall
--		is ongoing will hang, so be careful what value you
--		choose for this module parameter!  In addition, too-large
--		values for stall_cpu might well induce failures and
--		warnings in other parts of the kernel.  You have been
--		warned!
--
--stall_cpu_holdoff
--		The number of seconds to wait after rcutorture starts
--		before stalling a CPU.  Defaults to 10 seconds.
--
--stat_interval	The number of seconds between output of torture
--		statistics (via printk()).  Regardless of the interval,
--		statistics are printed when the module is unloaded.
--		Setting the interval to zero causes the statistics to
--		be printed -only- when the module is unloaded, and this
--		is the default.
--
--stutter		The length of time to run the test before pausing for this
--		same period of time.  Defaults to "stutter=5", so as
--		to run and pause for (roughly) five-second intervals.
--		Specifying "stutter=0" causes the test to run continuously
--		without pausing, which is the old default behavior.
--
--test_boost	Whether or not to test the ability of RCU to do priority
--		boosting.  Defaults to "test_boost=1", which performs
--		RCU priority-inversion testing only if the selected
--		RCU implementation supports priority boosting.  Specifying
--		"test_boost=0" never performs RCU priority-inversion
--		testing.  Specifying "test_boost=2" performs RCU
--		priority-inversion testing even if the selected RCU
--		implementation does not support RCU priority boosting,
--		which can be used to test rcutorture's ability to
--		carry out RCU priority-inversion testing.
--
--test_boost_interval
--		The number of seconds in an RCU priority-inversion test
--		cycle.	Defaults to "test_boost_interval=7".  It is
--		usually wise for this value to be relatively prime to
--		the value selected for "stutter".
--
--test_boost_duration
--		The number of seconds to do RCU priority-inversion testing
--		within any given "test_boost_interval".  Defaults to
--		"test_boost_duration=4".
--
--test_no_idle_hz	Whether or not to test the ability of RCU to operate in
--		a kernel that disables the scheduling-clock interrupt to
--		idle CPUs.  Boolean parameter, "1" to test, "0" otherwise.
--		Defaults to omitting this test.
--
--torture_type	The type of RCU to test, with string values as follows:
--
--		"rcu":  rcu_read_lock(), rcu_read_unlock() and call_rcu(),
--			along with expedited, synchronous, and polling
--			variants.
--
--		"rcu_bh": rcu_read_lock_bh(), rcu_read_unlock_bh(), and
--			call_rcu_bh(), along with expedited and synchronous
--			variants.
--
--		"rcu_busted": This tests an intentionally incorrect version
--			of RCU in order to help test rcutorture itself.
--
--		"srcu": srcu_read_lock(), srcu_read_unlock() and
--			call_srcu(), along with expedited and
--			synchronous variants.
--
--		"sched": preempt_disable(), preempt_enable(), and
--			call_rcu_sched(), along with expedited,
--			synchronous, and polling variants.
--
--		"tasks": voluntary context switch and call_rcu_tasks(),
--			along with expedited and synchronous variants.
--
--		Defaults to "rcu".
--
--verbose		Enable debug printk()s.  Default is disabled.
--
-+Module parameters are prefixed by "rcutorture." in
-+Documentation/admin-guide/kernel-parameters.txt.
- 
- OUTPUT
- 
+	Tainted: P        W  O
 
+  as the kernel got tainted...
+
+That will keep the text from being broken in unfortunate places in the
+formatted docs.
+
+(One "as" is also sufficient :)
+
+> kernel got tainted earlier because a proprietary Module (``P``) was loaded, a
+> warning occurred (``W``), and an externally-built module was loaded (``O``).
+> To decode other letters use the table below.
+> 
+> 
+> Decoding tainted state at runtime
+> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> At runtime, you can query the tainted state by reading
+> ``cat /proc/sys/kernel/tainted``. If that returns ``0``, the kernel is not
+> tainted; any other number indicates the reasons why it is. The easiest way to
+> decode that number is the script ``tools/debugging/kernel-chktaint``, which your
+> distribution might ship as part of a package called ``linux-tools`` or
+> ``kernel-tools``; if it doesn't you can download the script from
+> `git.kernel.org <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/tools/debugging/kernel-chktaint>`_.
+> and execute it with ``sh kernel-chktaint``
+> 
+> If you do not want to run that script you can try to decode the number yourself.
+> That's easy if there was only one reason that got your kernel tainted, as in
+> this case you can find the number with the table below. If there were multiple
+> reasons you need to decode the number, as it is a bitfield, where each bit
+> indicates the absence or presence of a particular type of taint. It's best to
+> leave that to the aforementioned script, but if you need something quick you can
+> use this shell command to check which bits are set:
+> 
+> 	$ for i in $(seq 18); do echo $i $(($(cat /proc/sys/kernel/tainted)>>($i-1)&1));done
+> 
+> Note: This document is aimed at users and thus starts to count at one here and
+> in other places.  Use ``seq 0 17`` instead to start counting at zero, as it's
+> normal for developers.
+
+Again, just zero-base it and keep things simple and consistent.
+
+> Table for decoding tainted state
+> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> ====  ===  ======  ========================================================
+> Pos.  Log  Number  Reason that got the kernel tainted
+> ====  ===  ======  ========================================================
+>   1)  G/P       0  proprietary module was loaded
+>   2)  _/F       2  module was force loaded
+>   3)  _/S       4  SMP kernel oops on an officially SMP incapable processor
+>   4)  _/R       8  module was force unloaded
+>   5)  _/M      16  processor reported a Machine Check Exception (MCE)
+>   6)  _/B      32  bad page referenced or some unexpected page flags
+>   7)  _/U      64  taint requested by userspace application
+>   8)  _/D     128  kernel died recently, i.e. there was an OOPS or BUG
+>   9)  _/A     256  ACPI table overridden by user
+>  10)  _/W     512  kernel issued warning
+>  11)  _/C    1024  staging driver was loaded
+>  12)  _/I    2048  workaround for bug in platform firmware applied
+>  13)  _/O    4096  externally-built ("out-of-tree") module was loaded
+>  14)  _/E    8192  unsigned module was loaded
+>  15)  _/L   16384  soft lockup occurred
+>  16)  _/K   32768  Kernel live patched
+>  17)  _/K   65536  Auxiliary taint, defined for and used by distros
+>  18)  _/K  131072  Kernel was built with the struct randomization plugin
+> ====  ===  ======  ========================================================
+> 
+> Note: To make reading easier ``_`` is representing a blank in this
+> table.
+> 
+> More detailed explanation for tainting
+> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+>  1)  ``G`` if all modules loaded have a GPL or compatible license, ``P`` if
+>      any proprietary module has been loaded.  Modules without a
+>      MODULE_LICENSE or with a MODULE_LICENSE that is not recognised by
+>      insmod as GPL compatible are assumed to be proprietary.
+> 
+>  2)  ``F`` if any module was force loaded by ``insmod -f``, ``' '`` if all
+>      modules were loaded normally.
+> 
+>  3)  ``S`` if the oops occurred on an SMP kernel running on hardware that
+>      hasn't been certified as safe to run multiprocessor.
+>      Currently this occurs only on various Athlons that are not
+>      SMP capable.
+
+I wonder if any such hardware has ever run anything remotely resembling a
+current kernel.  In any case, a quick grep suggests that this taint can be
+set in a number of other places as well.
+
+>  4)  ``R`` if a module was force unloaded by ``rmmod -f``, ``' '`` if all
+>      modules were unloaded normally.
+> 
+>  5)  ``M`` if any processor has reported a Machine Check Exception,
+>      ``' '`` if no Machine Check Exceptions have occurred.
+> 
+>  6)  ``B`` if a page-release function has found a bad page reference or
+>      some unexpected page flags.
+
+I'd be tempted to add something like: "This taint indicates a hardware
+problem or a kernel bug; there should be other information in the log
+indicating why this bit was set."
+
+>  7)  ``U`` if a user or user application specifically requested that the
+>      Tainted flag be set, ``' '`` otherwise.
+> 
+>  8)  ``D`` if the kernel has died recently, i.e. there was an OOPS or BUG.
+> 
+>  9)  ``A`` if the ACPI table has been overridden.
+> 
+>  10) ``W`` if a warning has previously been issued by the kernel.
+>      (Though some warnings may set more specific taint flags.)
+> 
+>  11) ``C`` if a staging driver has been loaded.
+
+There's a couple of other situations where this one is set as well; not
+sure if it's worth the trouble to try to describe them.
+
+>  12) ``I`` if the kernel is working around a severe bug in the platform
+>      firmware (BIOS or similar).
+> 
+>  13) ``O`` if an externally-built ("out-of-tree") module has been loaded.
+> 
+>  14) ``E`` if an unsigned module has been loaded in a kernel supporting
+>      module signature.
+> 
+>  15) ``L`` if a soft lockup has previously occurred on the system.
+> 
+>  16) ``K`` if the kernel has been live patched.
+> 
+>  17) ``X`` Auxiliary taint, defined for and used by Linux distributors.
+
+Do we know anything about whether anybody uses this?
+
+>  18) ``T`` Kernel was build with randstruct plugin, which can intentionally
+>      produce extremely unusual kernel structure layouts (even performance
+>      pathological ones), which is important to know when debugging. Set at
+>      build time.
+
+with *the* randstruct plugin
+
+Overall, just nits except for the start-with-zero thing.
+
+Thanks,
+
+jon
