@@ -1,90 +1,124 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2BB947D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Jan 2019 02:12:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2699D7D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Jan 2019 02:28:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726102AbfADCMZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 3 Jan 2019 21:12:25 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:33298 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726093AbfADCMZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Jan 2019 21:12:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=/IGAFm0DToSIUCWQ0ouldW/qf/VZal4Cb6BeiKoy7vU=; b=P3yplPoW5QNfGbad/2dT1ua4f
-        wRZUNc03/w2v2Mwy0AbGuPo3CM8gVd93G03PeSvfzRGlxleqL3qwJJucnB9JBNMeVuQrx9dTMIMT+
-        JviUqjhRUvpW8cJZ2dGOPqpgqiebmYZLOZqOtPfSj2Op0S+xgvM9zvMskWO/lsovLTwNF2ZAvVkTA
-        NUkmJAv6qsP6tjhmMaiXztElo7jQpn4+oCJqo72Un6P9/3h5qrhGHNY9AKamFNB79tA27V/6QVj1T
-        5vv5QSDtdVmd+OeHqRhJ+W2Ya2q9Tk9kqiJ+cgqEyhlavsi2NUAzDyOAPkMrFYKqJp75EizkNlfsW
-        VFoyPdc9Q==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gfEyD-0003nI-MT; Fri, 04 Jan 2019 02:12:21 +0000
-Date:   Thu, 3 Jan 2019 18:12:21 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Bart Van Assche <bvanassche@acm.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        "Geyslan G . Bem" <geyslan@gmail.com>,
-        Tiago Natel de Moura <tiago4orion@gmail.com>,
-        Alison Chaiken <alison_chaiken@mentor.com>,
-        Joe Perches <joe@perches.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Zhang Le <r0bertz@gentoo.org>, Li Yang <leo@zh-kernel.org>
-Subject: Re: [PATCH] Documentation/CodingStyle: Move emacs settings into
- .dir-locals.el
-Message-ID: <20190104021221.GS6310@bombadil.infradead.org>
-References: <20190104003957.82220-1-bvanassche@acm.org>
+        id S1726178AbfADC2b (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 3 Jan 2019 21:28:31 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:59688 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726163AbfADC2b (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 3 Jan 2019 21:28:31 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 4B81258E27;
+        Fri,  4 Jan 2019 02:28:31 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-12-85.pek2.redhat.com [10.72.12.85])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 47D595C223;
+        Fri,  4 Jan 2019 02:28:23 +0000 (UTC)
+Subject: Re: [PATCH 1/2 v4] kdump: add the vmcoreinfo documentation
+To:     Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+Cc:     "bhe@redhat.com" <bhe@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "dyoung@redhat.com" <dyoung@redhat.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20181220054044.30738-1-lijiang@redhat.com>
+ <20181220054044.30738-2-lijiang@redhat.com>
+ <4AE2DC15AC0B8543882A74EA0D43DBEC035656E1@BPXM09GP.gisp.nec.co.jp>
+From:   lijiang <lijiang@redhat.com>
+Message-ID: <bf26e868-9dfd-5344-df56-df8ff0442df0@redhat.com>
+Date:   Fri, 4 Jan 2019 10:28:20 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190104003957.82220-1-bvanassche@acm.org>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <4AE2DC15AC0B8543882A74EA0D43DBEC035656E1@BPXM09GP.gisp.nec.co.jp>
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Fri, 04 Jan 2019 02:28:31 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 03, 2019 at 04:39:57PM -0800, Bart Van Assche wrote:
-> @@ -571,50 +571,11 @@ item, explaining its use.
->  9) You've made a mess of it
->  ---------------------------
->  
-> -That's OK, we all do.  You've probably been told by your long-time Unix
-> -user helper that ``GNU emacs`` automatically formats the C sources for
-> -you, and you've noticed that yes, it does do that, but the defaults it
-> -uses are less than desirable (in fact, they are worse than random
-> -typing - an infinite number of monkeys typing into GNU emacs would never
-> -make a good program).
+在 2019年01月04日 03:28, Kazuhito Hagio 写道:
+> Hi Lianbo,
+> 
+> -----Original Message-----
+>> +=======================
+>> +What is the VMCOREINFO?
+>> +=======================
+>> +
+>> +VMCOREINFO is a special ELF note section. It contains various
+>> +information from the kernel like structure size, page size, symbol
+>> +values, field offsets, etc. These data are packed into an ELF note
+>> +section and used by user-space tools like crash and makedumpfile to
+>> +analyze a kernel's memory layout.
+>> +
+>> +To dump the VMCOREINFO contents, one can do:
+>> +
+>> +# makedumpfile -g VMCOREINFO -x vmlinux
+> 
+> again, this command does not dump the VMCOREINFO in ELF note section.
+> It converts the vmlinux's debug infomation into a VMCOREINFO-like data.
+> So I don't think this command is suitable to introduce here.
+> 
 
-I feel like this patch makes the mistake a lot of doc patches do ... it
-removes some of the whimsical humourous comments that have been with
-us for years.  I don't think this paragraph needs to be changed in
-the slightest.
+Thank you, Kazu.
 
-> -So, you can either get rid of GNU emacs, or change it to use saner
-> -values.  To do the latter, you can stick the following in your .emacs file:
-> -
-[...]
-> -
-> -This will make emacs go better with the kernel coding style for C
-> -files below ``~/src/linux-trees``.
-> +``GNU emacs`` automatically formats the C sources for you. However,
-> +the defaults it uses are less than desirable. Use a version of emacs
-> +that support directory local variables such that it automatically
-> +picks up the settings from .dir-locals.el in the kernel top level
-> +directory.
+As you mentioned, makedumpfile in 'devel' branch can print VMCOREINFO in /proc/kcore,
+can i add the following command to this document?
 
-How about:
+#makedumpfile --mem-usage /proc/kcore -D
 
-So, you can either get rid of GNU emacs, or change it to use saner
-defaults.  Versions of emacs since [...] support directory local
-variables and will pick up the settings from .dir-locals.el in the
-kernel top level directory.
+>> +PG_lru|PG_private|PG_swapcache|PG_swapbacked|PG_slab|
+>> +PG_hwpoision|PG_head_mask
+>> +-----------------------------------------------------
+>> +
+>> +Page attributes. These flags are used to filter free pages.
+> 
+> Some of these are not used to filter *free* pages, so
+> 
+> ... used to filter various unnecessary pages.
+> 
+
+Great. I will modify it in next post.
+
+And also merge the 'PG_buddy' and 'PG_offline'  into the PG_* flag here.
+
+Many thanks.
+
+Lianbo
+
+>> +PAGE_BUDDY_MAPCOUNT_VALUE or ~PG_buddy
+>> +--------------------------------------
+> 
+> then, this can be merged into the one above?
+> 
+>> +======
+>> +x86_64
+>> +======
+> ...
+>> +PAGE_OFFLINE_MAPCOUNT_VALUE(~PG_offline)
+>> +----------------------------------------
+> 
+> This looks not only for x86_64, and also can be merged into
+> the PG_* flags?
+> 
+> Thank you for your effort!
+> Kazu
+> 
+> 
