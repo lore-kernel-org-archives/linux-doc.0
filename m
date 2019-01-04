@@ -1,73 +1,156 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.1
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.1
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7C0C47D089
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Jan 2019 14:29:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D78407D089
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Jan 2019 15:33:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726135AbfADO3C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 4 Jan 2019 09:29:02 -0500
-Received: from mout.gmx.net ([212.227.15.15]:43319 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725939AbfADO3B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 4 Jan 2019 09:29:01 -0500
-Received: from localhost.localdomain ([113.116.156.175]) by mail.gmx.com
- (mrgmx003 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 0Lcjgd-1h3zyq3275-00kATP; Fri, 04 Jan 2019 15:28:32 +0100
-From:   Chengguang Xu <cgxu519@gmx.com>
-To:     jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net
-Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        Chengguang Xu <cgxu519@gmx.com>
-Subject: [PATCH] doc: fix typo in Documentation/hwmon/f71882fg
-Date:   Fri,  4 Jan 2019 22:27:22 +0800
-Message-Id: <20190104142722.24824-1-cgxu519@gmx.com>
-X-Mailer: git-send-email 2.17.2
-X-Provags-ID: V03:K1:xz1/smTw/HBcidYnmIVKOVUA11+I73xEF+Hgk0j1DsVZx5Gylfa
- OUNmnWoTwqL2vVr/lm1has9rOnnLRUWN9PamObOaf3rP27d3F3NJzTslI9a6L+gL/6vFmYr
- arv1b7bNWo8kJMOrEU4gbnD9kMDreGjwHBkd2TH8oYf83HhyVEyaPyerfOMKG4+unJlImbU
- /L8QxHxrlZqvGHZA7XqjA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:G/u/0qwK0+o=:/HIXn5qiGRbPCT5I5eZx4j
- r+hpV1LRKHz2lcTfKkqhR5q7sJm6C4IgvfPxiLE8j3t07k3eqJ5FzeovTrB4kBwegQa9z4Rei
- CiUz0JVKVFYrCzhEDJ4dbQXPhuAbo2TouhicOZ1MLUdriFog5Zn9X+rDLZArErltI80eCa/WS
- JwsZ7froge31B2YIbtGJnqmlqTYvvhhugcFmXKfm+0hYNu2rZ74OE1hT+QD3HheajgqILfwPe
- 0MG+BhOGtVEtUbnsls+Hx3V723Tx4/Im5tQDrBh5ALefw5EM0ecY9s6+ISHaUwy8iHzPEL4/k
- BIq1CQRVePfFnvxNfqHs5XolIo+6rrHxovCaWfC6Y3EhXoQvAA8CErlEidUIKVvvy46h7vcUn
- ZEDvbMG1Ac1yQbT2hpo79j+b8hE53cZcKcOoRMAKpL7XW63JmdT9vIaxKBIl7sNjYaVRZfQci
- rarwWbbLNrJlfCC7DWZ4a17KRUo5tYtovH6/KbSUvgYB1gkpqUNwsMA68e6a5UTOEVKOvrrNm
- 8efYbMj7Og79TdkXP2LTl4SpWifBoh/TBDcOuK7EpdnbeHfFUoe0viblBVFw7ECMY8e6KwVO9
- l0/DQDz9jpsmO2CCzZvOiS8hxvh1FnxyFJ6DKYOjG8ECk+fywEKDAaKsGmUemFGcSIC9COG2A
- lm8O0dUknv3ErVUcAgARUks1oVhL2lRqb2jofzM3Fdw/OYJTsCXl7XabV/uTfwQ8huljTl/El
- Fkq7npiWAxjeFj/8zvN8ck9jKMRnfrs9PHXqu2zEdIJU6bFv9g6+shW0ooR10lCXjTCyVLEpy
- GUsWT33hynzNl5lbElolaCu0pMcrBJCk7i+De9Cp3mBUkb2J3GN+WIzU2MzJwzxltTfJvSHzz
- uhi5KqGKapbZEnmXN3DYJkqJGBJDhX/LV1aebjv6k=
+        id S1727092AbfADPdo convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 4 Jan 2019 10:33:44 -0500
+Received: from tyo162.gate.nec.co.jp ([114.179.232.162]:56068 "EHLO
+        tyo162.gate.nec.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726797AbfADPdn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Jan 2019 10:33:43 -0500
+Received: from mailgate01.nec.co.jp ([114.179.233.122])
+        by tyo162.gate.nec.co.jp (8.15.1/8.15.1) with ESMTPS id x04FX8Yu025100
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Sat, 5 Jan 2019 00:33:08 +0900
+Received: from mailsv01.nec.co.jp (mailgate-v.nec.co.jp [10.204.236.94])
+        by mailgate01.nec.co.jp (8.15.1/8.15.1) with ESMTP id x04FX8sh008206;
+        Sat, 5 Jan 2019 00:33:08 +0900
+Received: from mail03.kamome.nec.co.jp (mail03.kamome.nec.co.jp [10.25.43.7])
+        by mailsv01.nec.co.jp (8.15.1/8.15.1) with ESMTP id x04FX8LT020459;
+        Sat, 5 Jan 2019 00:33:08 +0900
+Received: from bpxc99gp.gisp.nec.co.jp ([10.38.151.136] [10.38.151.136]) by mail02.kamome.nec.co.jp with ESMTP id BT-MMP-1186735; Sat, 5 Jan 2019 00:31:29 +0900
+Received: from BPXM09GP.gisp.nec.co.jp ([10.38.151.201]) by
+ BPXC08GP.gisp.nec.co.jp ([10.38.151.136]) with mapi id 14.03.0319.002; Sat, 5
+ Jan 2019 00:31:29 +0900
+From:   Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+To:     lijiang <lijiang@redhat.com>
+CC:     "bhe@redhat.com" <bhe@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "dyoung@redhat.com" <dyoung@redhat.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 1/2 v4] kdump: add the vmcoreinfo documentation
+Thread-Topic: [PATCH 1/2 v4] kdump: add the vmcoreinfo documentation
+Thread-Index: AQHUmCarLJirG+8GGUKf+iqFxfsfO6WclVbwgAFNzQCAAWiK4A==
+Date:   Fri, 4 Jan 2019 15:31:28 +0000
+Message-ID: <4AE2DC15AC0B8543882A74EA0D43DBEC035657CA@BPXM09GP.gisp.nec.co.jp>
+References: <20181220054044.30738-1-lijiang@redhat.com>
+ <20181220054044.30738-2-lijiang@redhat.com>
+ <4AE2DC15AC0B8543882A74EA0D43DBEC035656E1@BPXM09GP.gisp.nec.co.jp>
+ <bf26e868-9dfd-5344-df56-df8ff0442df0@redhat.com>
+In-Reply-To: <bf26e868-9dfd-5344-df56-df8ff0442df0@redhat.com>
+Accept-Language: ja-JP, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [143.101.133.161]
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: 8BIT
+MIME-Version: 1.0
+X-TM-AS-MML: disable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Just fix a typo in Documentation/hwmon/f71882fg.
+-----Original Message-----
+> >> +=======================
+> >> +What is the VMCOREINFO?
+> >> +=======================
+> >> +
+> >> +VMCOREINFO is a special ELF note section. It contains various
+> >> +information from the kernel like structure size, page size, symbol
+> >> +values, field offsets, etc. These data are packed into an ELF note
+> >> +section and used by user-space tools like crash and makedumpfile to
+> >> +analyze a kernel's memory layout.
+> >> +
+> >> +To dump the VMCOREINFO contents, one can do:
+> >> +
+> >> +# makedumpfile -g VMCOREINFO -x vmlinux
+> >
+> > again, this command does not dump the VMCOREINFO in ELF note section.
+> > It converts the vmlinux's debug infomation into a VMCOREINFO-like data.
+> > So I don't think this command is suitable to introduce here.
+> >
+> 
+> Thank you, Kazu.
+> 
+> As you mentioned, makedumpfile in 'devel' branch can print VMCOREINFO in /proc/kcore,
+> can i add the following command to this document?
+> 
+> #makedumpfile --mem-usage /proc/kcore -D
 
-Signed-off-by: Chengguang Xu <cgxu519@gmx.com>
+I don't know whether we can add unreleased softwares to the document.
+Any comments on this?
+
+If it's OK, crash also can dump it, so
 ---
- Documentation/hwmon/f71882fg | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+To dump the VMCOREINFO contents, one can do:
 
-diff --git a/Documentation/hwmon/f71882fg b/Documentation/hwmon/f71882fg
-index de91c0db5846..4c3cb8377d74 100644
---- a/Documentation/hwmon/f71882fg
-+++ b/Documentation/hwmon/f71882fg
-@@ -94,7 +94,7 @@ Note that the lowest numbered temperature zone trip point corresponds to
- to the border between the highest and one but highest temperature zones, and
- vica versa. So the temperature zone trip points 1-4 (or 1-2) go from high temp
- to low temp! This is how things are implemented in the IC, and the driver
--mimicks this.
-+mimics this.
- 
- There are 2 modes to specify the speed of the fan, PWM duty cycle (or DC
- voltage) mode, where 0-100% duty cycle (0-100% of 12V) is specified. And RPM
--- 
-2.17.2
+  # crash vmlinux /proc/kcore
+  ...
+  > help -n
+or
+  # makedumpfile -D --mem-usage /proc/kcore
+---
+
+or remove that for now and update later?
+
+> 
+> >> +PG_lru|PG_private|PG_swapcache|PG_swapbacked|PG_slab|
+> >> +PG_hwpoision|PG_head_mask
+> >> +-----------------------------------------------------
+> >> +
+> >> +Page attributes. These flags are used to filter free pages.
+> >
+> > Some of these are not used to filter *free* pages, so
+> >
+> > ... used to filter various unnecessary pages.
+> >
+> 
+> Great. I will modify it in next post.
+> 
+> And also merge the 'PG_buddy' and 'PG_offline'  into the PG_* flag here.
+
+Thanks, I think your "PAGE_OFFLINE_MAPCOUNT_VALUE(~PG_offline)" style is good.
+
+Kazu
+
+> 
+> Many thanks.
+> 
+> Lianbo
+> 
+> >> +PAGE_BUDDY_MAPCOUNT_VALUE or ~PG_buddy
+> >> +--------------------------------------
+> >
+> > then, this can be merged into the one above?
+> >
+> >> +======
+> >> +x86_64
+> >> +======
+> > ...
+> >> +PAGE_OFFLINE_MAPCOUNT_VALUE(~PG_offline)
+> >> +----------------------------------------
+> >
+> > This looks not only for x86_64, and also can be merged into
+> > the PG_* flags?
+> >
+> > Thank you for your effort!
+> > Kazu
+> >
+> >
+
 
