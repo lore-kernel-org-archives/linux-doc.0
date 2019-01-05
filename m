@@ -1,105 +1,131 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
-X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on archive.lwn.net
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.1
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EE7F77D0D8
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  4 Jan 2019 22:39:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D5CCB7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  5 Jan 2019 01:26:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726212AbfADWjN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 4 Jan 2019 17:39:13 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:39284 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726122AbfADWjN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Jan 2019 17:39:13 -0500
-Received: by mail-pl1-f196.google.com with SMTP id 101so18014781pld.6
-        for <linux-doc@vger.kernel.org>; Fri, 04 Jan 2019 14:39:13 -0800 (PST)
+        id S1726229AbfAEB0t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 4 Jan 2019 20:26:49 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:34118 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725862AbfAEB0t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Jan 2019 20:26:49 -0500
+Received: by mail-pl1-f194.google.com with SMTP id w4so18163781plz.1;
+        Fri, 04 Jan 2019 17:26:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=vYqZdkMKi7Jgfl1eWfMElua+x0asDiHZJv3Enjj0O0Q=;
+        b=UW/9IznH+QOWJor/WFFVUVP4d61GoX9y0KuoXyro0Ul/QcwVX3ybV1YLVECryjTPZW
+         1lFziFne3QN+lLuAuMGX5maioi3SkT0UNsJiW/HF7PW+roqEHiTpgcECkxauNpawFTUS
+         M72yrO/61vReoVIKjmqYu4Ey76Xf3u5vgFHYKUfLDrm/IG7DqhYcs9x5ncwkRU4YV2k3
+         8KuPw8bBLBZWdgC76x0FgwT77B2OqvX5LN2GBo/yQ0HGD4V48pfO4EeOt5lAJVf1ytUi
+         eSpvCP8oHdXhmV21KbeIaVCGfWGZoLRitXB88zTUUh2FOSxD2AHCKkLQrzimvg0wg3hI
+         vgBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=UnTc67cQ0buHqQjnVXp21T5/l6QzSz2FFMcQhKvMTNY=;
-        b=LJ7x7l7Crh4Dfu0snH5dgbQRrB9fyf9P7g0wgeyh8HgecoHGOwz20icb3jIgfP6Wub
-         z4/MREuhMtKSQT9lJ+9B5d8IoKgiiqqLPQP/qguJZe35qaDnpxKjPETGN6kevcI4bJ7Q
-         hN5sYd/AvLjg4TnaGX7bj2TLIy0ztzy/70s21ehm6mjGPS0jjkZwi7BhOqHRqABV2Xt5
-         yFh/2Gm8fLmsMwLOFha3NmfNqxqV4EdvhgJ/ldaYrkF/r+2xPGmkrZhH20WhOvlI4BUM
-         GB3UqWplBPZ8H6p5UkXBbosV6JbtBRITwfu2yZHBDwsbF8T2ZAB7gvB1EMekir2gUJkz
-         B5yQ==
-X-Gm-Message-State: AJcUukd7WyULKeE8dJgI9Q8vx0+1KlMLPPaCvFIxgh3ST6LO+wZiQyCP
-        G8Y+G1UrEMtBqETcbXDSA38=
-X-Google-Smtp-Source: ALg8bN51Sk+fslBWJmvxHAV45E/Yh7aUHX1adFBysvMzW0jX89cX4Tptq7Hk1Y0EG3Xygd2RMZf9SQ==
-X-Received: by 2002:a17:902:bf44:: with SMTP id u4mr42893697pls.5.1546641552394;
-        Fri, 04 Jan 2019 14:39:12 -0800 (PST)
-Received: from ?IPv6:2620:15c:2cd:203:5cdc:422c:7b28:ebb5? ([2620:15c:2cd:203:5cdc:422c:7b28:ebb5])
-        by smtp.gmail.com with ESMTPSA id m3sm70035336pfi.102.2019.01.04.14.39.11
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=vYqZdkMKi7Jgfl1eWfMElua+x0asDiHZJv3Enjj0O0Q=;
+        b=HEyi/XoQHo2KNg/ECRQCb2Aybg8mdCEU+b1JBWenFnurRz0jHlsBQRYVXBLFMHDrcn
+         HBIM9R4ouX0vyyGMT5H+dtJylbXqtOV7onTsLObz0FDU3Z8lKOO9g9LsCsebRH0ycppJ
+         aC2Bt3iVcV+61stnTNybL3LqQb1oyyOKCzIVog5/8H4Md0il6a4gkwzbKRgcsALm12LG
+         2OWxtq4pN1Szv5n6p1ZpxjhFve3VQUJWy5F28VovOUtml7jPKwFZUJXxab6E33eQlEo3
+         /rW0vtFEHyWdKjz73mS35Al/x/L4bXEnD7qzUFiO8FTSgSjhCdA/aIPQyNXN+wz6DwKw
+         /fOQ==
+X-Gm-Message-State: AJcUukdVzi9cerr2PHZUr+6oEmeX56DnR3POY2yYnRxGffU8UJlaXqiE
+        loKDYfYVmpzkovGkYWMQBus=
+X-Google-Smtp-Source: ALg8bN6GoUmq8erY41K7ewa9DpdAVF1qLJOHRoFH5rn2zhqeJxKxrV+7Gg+VudilCgPD1Ul1IHxf2A==
+X-Received: by 2002:a17:902:9b87:: with SMTP id y7mr36564554plp.336.1546651608245;
+        Fri, 04 Jan 2019 17:26:48 -0800 (PST)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id c67sm77148549pfg.170.2019.01.04.17.26.47
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 04 Jan 2019 14:39:11 -0800 (PST)
-Message-ID: <1546641550.83374.8.camel@acm.org>
-Subject: Re: [PATCH] Documentation/CodingStyle: Use directory-local
- variables for emacs
-From:   Bart Van Assche <bvanassche@acm.org>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Matthew Wilcox <willy@infradead.org>,
-        "Geyslan G . Bem" <geyslan@gmail.com>,
-        Tiago Natel de Moura <tiago4orion@gmail.com>,
-        Alison Chaiken <alison@she-devel.com>,
-        Joe Perches <joe@perches.com>, Li Yang <leo@zh-kernel.org>
-Date:   Fri, 04 Jan 2019 14:39:10 -0800
-In-Reply-To: <1951386.HLNclI27qt@harkonnen>
-References: <20190104210834.89231-1-bvanassche@acm.org>
-         <1951386.HLNclI27qt@harkonnen>
-Content-Type: text/plain; charset="UTF-7"
-X-Mailer: Evolution 3.26.2-1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Fri, 04 Jan 2019 17:26:47 -0800 (PST)
+Date:   Fri, 4 Jan 2019 17:26:43 -0800
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     =?iso-8859-1?B?QnL8bnMs?= Stefan <Stefan.Bruens@rwth-aachen.de>
+Cc:     "jdelvare@suse.com" <jdelvare@suse.com>,
+        "linux@roeck-us.net" <linux@roeck-us.net>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [RFC][PATCH] hwmon: (ina2xx) Improve current and power reading
+ precision
+Message-ID: <20190105012642.GA18025@Asurada-Nvidia.nvidia.com>
+References: <20181121012629.5432-1-nicoleotsuka@gmail.com>
+ <2863036.QIPGp1Eqjm@sbruens-linux.lcs.intern>
+ <20181121194051.GA8902@Asurada-Nvidia.nvidia.com>
+ <1717545.GXSegKtrMu@sbruens-linux.lcs.intern>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1717545.GXSegKtrMu@sbruens-linux.lcs.intern>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2019-01-04 at 23:10 +-0100, Federico Vaga wrote:
-+AD4 On Friday, January 4, 2019 10:08:33 PM CET Bart Van Assche wrote:
-+AD4 +AD4 In emacs 23.1 support for directory-local variables was added (see also
-+AD4 +AD4 https://lists.gnu.org/archive/html/info-gnu-emacs/2009-07/msg00000.html).
-+AD4 +AD4 Simplify the settings in coding-style.rst by using that feature.
-+AD4 +AD4 Additionally, do not inherit any settings from emacs' linux coding style
-+AD4 +AD4 to minimize dependencies on the version of emacs that is being used.
-+AD4 +AD4 
-+AD4 +AD4 I have verified with several large and nontrivial kernel source files
-+AD4 +AD4 that the new settings format code according to what checkpatch expects.
-+AD4 +AD4 
-+AD4 +AD4 Signed-off-by: Bart Van Assche +ADw-bvanassche+AEA-acm.org+AD4
-+AD4 +AD4 Cc: Matthew Wilcox +ADw-willy+AEA-infradead.org+AD4
-+AD4 +AD4 Cc: Geyslan G. Bem +ADw-geyslan+AEA-gmail.com+AD4
-+AD4 +AD4 Cc: Tiago Natel de Moura +ADw-tiago4orion+AEA-gmail.com+AD4
-+AD4 +AD4 Cc: Alison Chaiken +ADw-alison+AEA-she-devel.com+AD4
-+AD4 +AD4 Cc: Joe Perches +ADw-joe+AEA-perches.com+AD4
-+AD4 +AD4 Cc: Federico Vaga +ADw-federico.vaga+AEA-vaga.pv.it+AD4
-+AD4 +AD4 Cc: Li Yang +ADw-leo+AEA-zh-kernel.org+AD4
-+AD4 +AD4 ---
-+AD4 +AD4  Documentation/process/coding-style.rst +AHw 57 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+----------
-+AD4 +AD4  1 file changed, 37 insertions(+-), 20 deletions(-)
-+AD4 +AD4 
-+AD4 +AD4 Changes compared to v1:
-+AD4 +AD4 - Removed top-level .dir-locals.el file again and updated coding-style.rst
-+AD4 +AD4 instead. - Restored the humourous paragraph about emacs.
-+AD4 +AD4 - Left out Italian and Chinese translations.
-+AD4 
-+AD4 Since now there are only code changes, I think you can apply them on both 
-+AD4 Italian and Chinese translations.
+Hi Stefan,
 
-Good point.
+Sorry for a super late reply. I took a long vacation.
 
-+AD4 As a general comment, I personally think that it worth to mention the fact 
-+AD4 that the user can take this code (actually part of it) and put it in a .dir-
-+AD4 locals.el file in the top-level directory.
+On Wed, Nov 21, 2018 at 10:16:09PM +0000, Brüns, Stefan wrote:
+> > > Another concern may be voltage drop over the shunt, but for this case you
+> > > have a nominal voltage of 1.8V, so 30uV are 0.001%.
+> > > 
+> > > > When measuring a 1.8v voltage running a small current (e.g. 33 mA),
+> > > > the power value (that's supposed to be 59.4 mW) becomes inaccurate
+> > > > due to the larger scale (25mA for method A; 62.5 mA for method B).
+> > 
+> > Just found out that I have typos here: 25mW and 62.5mW.
+> > 
+> > > Another look into the datasheet reveals, even at full gain (PGA=1), the
+> > > LSB is 40mV / 2^12 = 40mV / 4096 ~ 10uV. So when the current ADC reads
+> > > out as 3*LSB, this anything between 25mA and 35mA. This is the best case
+> > > figure.
+> > Current read doesn't get affected a lot actually, since hwmon ABI
+> > also reports current value in unit mA. However, the power read is
+> > the matter here. With a 62.5mW power_lsb, power results are kinda
+> > useless on my system.
+> 
+> The reported current does not matter here, actually. Internally, the ADC value 
+> will have an uncertainty of 10mA (at PGA=1). At 1.8V, your uncertainty is 
+> 18mW. And thats *only* the quantization noise. It wont get better than that.
 
-I'm not sure we should recommend this. Settings in +AH4-/.emacs are not affected
-by git clean -f -x but .dir-locals.el is removed by that command.
+The fact is that I do get better power results after setting the
+calibration value to 0x7ff. That's the necessity of this change.
 
-Thanks,
+> Also note, you are apparently using the ina2xx hwmon driver - I strongly 
+> advise against it, you should either use the ina2xx driver from the IIO 
+> subsystem directly, or use the IIO driver via iio-hwmon.
 
-Bart.
+The IIO version is also using the minimum calibration value. It
+will not solve my problem here.
+
+> There is also always the possibility to read the bus and shunt voltage 
+> registers and calculate the power manually.
+
+Won't that be a waste since the hardware could have provided a
+better accuracy? It would need more I2C bus reads and cpu cycles
+for calculation.
+
+I don't get why you're against a setting for calibration value.
+This is how the hardware got designed to cover different cases.
+Since we do have such a case that needs some accuracy, it'd be
+fair to add it into the driver. Plus, the feature won't change
+the minimum calibration value at all -- everyone would be happy.
+
+Thanks
+Nicolin
