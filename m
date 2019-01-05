@@ -5,24 +5,24 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 88DF47D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  5 Jan 2019 19:46:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3E1647D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  5 Jan 2019 19:57:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726378AbfAETqN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 5 Jan 2019 14:46:13 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:51727 "EHLO
+        id S1726346AbfAET5l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 5 Jan 2019 14:57:41 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:54245 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726375AbfAETqM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Jan 2019 14:46:12 -0500
+        with ESMTP id S1726267AbfAET5k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Jan 2019 14:57:40 -0500
 Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
         by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.89)
         (envelope-from <ukl@pengutronix.de>)
-        id 1gfrtQ-0006g4-BF; Sat, 05 Jan 2019 20:46:00 +0100
+        id 1gfs4V-0007aT-7h; Sat, 05 Jan 2019 20:57:27 +0100
 Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
         (envelope-from <ukl@pengutronix.de>)
-        id 1gfrtP-00035v-Rw; Sat, 05 Jan 2019 20:45:59 +0100
-Date:   Sat, 5 Jan 2019 20:45:59 +0100
+        id 1gfs4T-0003Kv-SL; Sat, 05 Jan 2019 20:57:25 +0100
+Date:   Sat, 5 Jan 2019 20:57:25 +0100
 From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Paul Cercueil <paul@crapouillou.net>
@@ -38,15 +38,16 @@ Cc:     Thierry Reding <thierry.reding@gmail.com>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-watchdog@vger.kernel.org, linux-mips@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v9 13/27] pwm: jz4740: Use clocks from TCU driver
-Message-ID: <20190105194559.jtwyx7th32saa6qh@pengutronix.de>
+Subject: Re: [PATCH v9 14/27] pwm: jz4740: Improve algorithm of clock
+ calculation
+Message-ID: <20190105195725.cuxfge6zkpbt3cyk@pengutronix.de>
 References: <20181227181319.31095-1-paul@crapouillou.net>
- <20181227181319.31095-14-paul@crapouillou.net>
+ <20181227181319.31095-15-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20181227181319.31095-14-paul@crapouillou.net>
+In-Reply-To: <20181227181319.31095-15-paul@crapouillou.net>
 User-Agent: NeoMutt/20170113 (1.7.2)
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
 X-SA-Exim-Mail-From: ukl@pengutronix.de
@@ -57,22 +58,67 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+On Thu, Dec 27, 2018 at 07:13:06PM +0100, Paul Cercueil wrote:
+> The previous algorithm hardcoded details about how the TCU clocks work.
+> The new algorithm will use clk_round_rate to find the perfect clock rate
+> for the PWM channel.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+> 
+> Notes:
+>      v9: New patch
+> 
+>  drivers/pwm/pwm-jz4740.c | 26 +++++++++++++++-----------
+>  1 file changed, 15 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/pwm/pwm-jz4740.c b/drivers/pwm/pwm-jz4740.c
+> index c6136bd4434b..dd80a2cf6528 100644
+> --- a/drivers/pwm/pwm-jz4740.c
+> +++ b/drivers/pwm/pwm-jz4740.c
+> @@ -110,23 +110,27 @@ static int jz4740_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+>  	struct jz4740_pwm_chip *jz4740 = to_jz4740(pwm->chip);
+>  	struct clk *clk = jz4740->clks[pwm->hwpwm],
+>  		   *parent_clk = clk_get_parent(clk);
+> -	unsigned long rate, period, duty;
+> +	unsigned long rate, new_rate, period, duty;
+>  	unsigned long long tmp;
+> -	unsigned int prescaler = 0;
+>  
+>  	rate = clk_get_rate(parent_clk);
+> -	tmp = (unsigned long long)rate * state->period;
+> -	do_div(tmp, 1000000000);
+> -	period = tmp;
+>  
+> -	while (period > 0xffff && prescaler < 6) {
+> -		period >>= 2;
+> -		rate >>= 2;
+> -		++prescaler;
+> +	for (;;) {
+> +		tmp = (unsigned long long)rate * state->period;
+> +		do_div(tmp, 1000000000);
 
-On Thu, Dec 27, 2018 at 07:13:05PM +0100, Paul Cercueil wrote:
-> diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-> index 4ed003bc3d8d..0343f0c1238e 100644
-> --- a/drivers/pwm/Kconfig
-> +++ b/drivers/pwm/Kconfig
-> @@ -202,7 +202,8 @@ config PWM_IMX
->  config PWM_JZ4740
->  	tristate "Ingenic JZ47xx PWM support"
->  	depends on MACH_INGENIC
-> -	select REGMAP
-> +	depends on COMMON_CLK
-> +	select INGENIC_TIMER
+NSEC_PER_SEC?
 
-Did you drop REGMAP on purpose?
+> +
+> +		if (tmp <= 0xffff)
+> +			break;
+> +
+> +		new_rate = clk_round_rate(clk, rate - 1);
+> +
+> +		if (new_rate < rate)
+> +			rate = new_rate;
+> +		else
+> +			return -EINVAL;
+
+You are assuming stuff here about the parent clk which isn't guaranteed
+(AFAICT) by the clk framework: If you call clk_round_rate(clk, rate - 1)
+this might well return rate even if the clock could run slower than
+rate.
+
+Wouldn't it make sense to start iterating with rate = 0xffff * 1e9 /
+period? Otherwise you get bad configurations if rate is considerable
+slower than necessary.
 
 Best regards
 Uwe
