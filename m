@@ -2,103 +2,57 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D0D357D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  5 Jan 2019 21:27:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E5E4A7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  5 Jan 2019 22:30:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726391AbfAEV11 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 5 Jan 2019 16:27:27 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:45459 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726332AbfAEV11 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Jan 2019 16:27:27 -0500
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1gftTN-0006fL-0m; Sat, 05 Jan 2019 22:27:13 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1gftTL-0000Ds-FK; Sat, 05 Jan 2019 22:27:11 +0100
-Date:   Sat, 5 Jan 2019 22:27:11 +0100
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-pwm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Russell King <linux@armlinux.org.uk>
-Subject: Re: [PATCH v9 14/27] pwm: jz4740: Improve algorithm of clock
- calculation
-Message-ID: <20190105212711.s765knwwerceytvk@pengutronix.de>
-References: <20181227181319.31095-1-paul@crapouillou.net>
- <20181227181319.31095-15-paul@crapouillou.net>
- <20190105195725.cuxfge6zkpbt3cyk@pengutronix.de>
- <1546722339.30174.0@crapouillou.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1546722339.30174.0@crapouillou.net>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+        id S1726335AbfAEWae (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 5 Jan 2019 17:30:34 -0500
+Received: from shards.monkeyblade.net ([23.128.96.9]:33794 "EHLO
+        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726318AbfAEWae (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Jan 2019 17:30:34 -0500
+Received: from localhost (unknown [IPv6:2601:601:9f80:35cd::cf9])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 195BF14C63C81;
+        Sat,  5 Jan 2019 14:15:17 -0800 (PST)
+Date:   Sat, 05 Jan 2019 14:15:16 -0800 (PST)
+Message-Id: <20190105.141516.1525542484975135006.davem@davemloft.net>
+To:     ottosabart@seberm.com
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/5] doc: networking: update references to files
+ describing offloads
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <cce5f338791563e31c0b4702cedce35d66959fbc.1546553515.git.ottosabart@seberm.com>
+References: <cover.1546553515.git.ottosabart@seberm.com>
+        <cce5f338791563e31c0b4702cedce35d66959fbc.1546553515.git.ottosabart@seberm.com>
+X-Mailer: Mew version 6.8 on Emacs 26.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Sat, 05 Jan 2019 14:15:17 -0800 (PST)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Paul,
+From: Otto Sabart <ottosabart@seberm.com>
+Date: Fri, 4 Jan 2019 11:42:29 +0100
 
-On Sat, Jan 05, 2019 at 06:05:38PM -0300, Paul Cercueil wrote:
-> On Sat, Jan 5, 2019 at 4:57 PM, Uwe Kleine-König
-> <u.kleine-koenig@pengutronix.de> wrote:
-> > You are assuming stuff here about the parent clk which isn't guaranteed
-> > (AFAICT) by the clk framework: If you call clk_round_rate(clk, rate - 1)
-> > this might well return rate even if the clock could run slower than
-> > rate.
+> Update reference to checksum-offloads.rst file which was converted into
+> RST.
 > 
-> It may not be guaranteed by the clock framework itself, but it is guaranteed
-> to behave like that on this family of SoCs.
-
-You shouldn't rely on that. Experience shows that people will start
-copying code to machines where this is not guaranteed. Even if they
-don't copy and only learn from reading this is bad. Also how do you
-guarantee that this won't change in the future making the pwm code break
-without noticing?
-
-If you use an API better don't assume more things given than are
-guaranteed by the API.
-
-Having said that I would consider it sensible to introduce something
-like clk_roundup_rate() and clk_rounddown_rate() which would allow
-calculations like that.
-
-> > Wouldn't it make sense to start iterating with rate = 0xffff * 1e9 /
-> > period? Otherwise you get bad configurations if rate is considerable
-> > slower than necessary.
+> Whole kernel code was grepped for references using:
+> $ grep -r "\(segmentation\|checksum\)-offloads.txt" .
 > 
-> The algorithm will start with 'rate' being the parent clock's rate, which
-> will always be the highest rate that the child clock will support.
+> There should be no other references
+> to {segmentation,checksum}-offloads.txt files.
+> 
+> Signed-off-by: Otto Sabart <ottosabart@seberm.com>
 
-Ah right, I missed that bit.
- 
-Best regards
-Uwe
-
--- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Probably this should be combined into patch #2.
