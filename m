@@ -1,94 +1,91 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 958CA7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  5 Jan 2019 17:43:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 229897D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  5 Jan 2019 19:42:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726437AbfAERnE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 5 Jan 2019 12:43:04 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:42958 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726296AbfAERnE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Jan 2019 12:43:04 -0500
-Received: by mail-pf1-f195.google.com with SMTP id 64so19787040pfr.9;
-        Sat, 05 Jan 2019 09:43:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Uu4Q4YzxndDcy6Wp8xYTRTGSWykdwfVoM2daBTgUlIU=;
-        b=k5H5NWtXL0LFBGCwhP75S9CkCJn2bjtS112UqcwyslF8ANeHJ5Lhcq9zsa2jk7UYTn
-         VIfR8qoFGPgaGjpeQ8Bgo8GoBHAQmSKM/OYfYb/axMrMBEknJuCIgGvKwOIgoxeFZ51j
-         W4mgklg/5Q2asl73kVyzhsCihO2NCNeJtYrBJgSckKdD6nx0I9wQXojOzi24D5Hdc7D7
-         E3sdWU6fcL7qICZrrZiMUxyHxFwiWkKJPh1FgZggBZoa7d6qpLwO6PLroBpO9i9wznjy
-         Tj5ZRIxnhnfV/Q3zDy8V0wx9s8+GJA0bh7kJNj5nKHIBGNnaCmHmYxF0qQGPWJ7Ilvqu
-         xkjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Uu4Q4YzxndDcy6Wp8xYTRTGSWykdwfVoM2daBTgUlIU=;
-        b=f/au1V6DO7PVUlDvAamDiwoJaxBuZKX8E1HWWHahIxwdt+QSdWW1pIAWuOJ+4buYCY
-         cJXXht8UzpNpWQzPMPmmy1c4zMvlrD+G5cPAh/XXa29iZAW5vhX9lUyJxaYVCuHqco/T
-         sHKNotH60ZUioqsgLdEem/Q7JLjcsLyPgHmzVJjeHPAzykb3jvWgOW/1WqfaJbNpL6GW
-         3cV/lYPo1bLaJ2P4vE8wUk4eVE0aSZ7yF0pSoI0qInQWbJ1640rBUpdJEyfjJ2vU+f0R
-         2oMFlSupgyiT1QRBxT5KK7r6rG9NsKhmdCp76kq/UxGkYmYAxtmn/liC2rNJ8F7PizUk
-         dl8w==
-X-Gm-Message-State: AA+aEWaOQX1A/0rIsGk6qLmYcjrySu8Lp9i2KfdyJDATlyR+dmxNbJol
-        lAubaiAQM5c9BUiVt1sbt5iR/kaG
-X-Google-Smtp-Source: AFSGD/V9L3nrC7yb+BMfvDbz8605HR5zvE6+WFr1d5R7dBOB3+8TyiHOYGjK7/BVRE0cUeiF7OKUCw==
-X-Received: by 2002:a62:5716:: with SMTP id l22mr58347130pfb.16.1546710183470;
-        Sat, 05 Jan 2019 09:43:03 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id h74sm117828049pfd.35.2019.01.05.09.43.01
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 05 Jan 2019 09:43:02 -0800 (PST)
-Date:   Sat, 5 Jan 2019 09:43:01 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Chengguang Xu <cgxu519@gmx.com>
-Cc:     jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc: fix typo in Documentation/hwmon/f71882fg
-Message-ID: <20190105174301.GA13667@roeck-us.net>
-References: <20190104142722.24824-1-cgxu519@gmx.com>
+        id S1726357AbfAETmp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 5 Jan 2019 14:42:45 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:60111 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726277AbfAETmo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Jan 2019 14:42:44 -0500
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1gfrq1-0006Qh-61; Sat, 05 Jan 2019 20:42:29 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1gfrpy-0002yV-7L; Sat, 05 Jan 2019 20:42:26 +0100
+Date:   Sat, 5 Jan 2019 20:42:26 +0100
+From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-pwm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH v9 12/27] pwm: jz4740: Use regmap from TCU driver
+Message-ID: <20190105194226.pe4huzynz4civ3lm@pengutronix.de>
+References: <20181227181319.31095-1-paul@crapouillou.net>
+ <20181227181319.31095-13-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20190104142722.24824-1-cgxu519@gmx.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20181227181319.31095-13-paul@crapouillou.net>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 04, 2019 at 10:27:22PM +0800, Chengguang Xu wrote:
-> Just fix a typo in Documentation/hwmon/f71882fg.
+On Thu, Dec 27, 2018 at 07:13:04PM +0100, Paul Cercueil wrote:
+> The ingenic-timer "TCU" driver provides us with a regmap, that we can
+> use to safely access the TCU registers.
 > 
-> Signed-off-by: Chengguang Xu <cgxu519@gmx.com>
+> While this driver is devicetree-compatible, it is never (as of now)
+> probed from devicetree, so this change does not introduce a ABI problem
+> with current devicetree files.
 
-Applied to hwmon-next.
+Does it change behaviour? If so, how?
 
-Thanks,
-Guenter
-
-> ---
->  Documentation/hwmon/f71882fg | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/hwmon/f71882fg b/Documentation/hwmon/f71882fg
-> index de91c0db5846..4c3cb8377d74 100644
-> --- a/Documentation/hwmon/f71882fg
-> +++ b/Documentation/hwmon/f71882fg
-> @@ -94,7 +94,7 @@ Note that the lowest numbered temperature zone trip point corresponds to
->  to the border between the highest and one but highest temperature zones, and
->  vica versa. So the temperature zone trip points 1-4 (or 1-2) go from high temp
->  to low temp! This is how things are implemented in the IC, and the driver
-> -mimicks this.
-> +mimics this.
+> @@ -113,26 +117,37 @@ static int jz4740_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
 >  
->  There are 2 modes to specify the speed of the fan, PWM duty cycle (or DC
->  voltage) mode, where 0-100% duty cycle (0-100% of 12V) is specified. And RPM
+>  	jz4740_pwm_disable(chip, pwm);
+>  
+> -	jz4740_timer_set_count(pwm->hwpwm, 0);
+> -	jz4740_timer_set_duty(pwm->hwpwm, duty);
+> -	jz4740_timer_set_period(pwm->hwpwm, period);
+> +	/* Set abrupt shutdown */
+> +	regmap_update_bits(jz4740->map, TCU_REG_TCSRc(pwm->hwpwm),
+> +			   TCU_TCSR_PWM_SD, TCU_TCSR_PWM_SD);
+
+I think I already pointed that out before: abrupt mode is wrong. If
+.apply is called with a new set of parameters the currently running
+period with the old values is expected to complete before the new values
+take effect.
+
+Best regards
+Uwe
+
+-- 
+Pengutronix e.K.                           | Uwe Kleine-König            |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
