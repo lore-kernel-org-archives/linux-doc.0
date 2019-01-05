@@ -1,131 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D5CCB7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  5 Jan 2019 01:26:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 958CA7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  5 Jan 2019 17:43:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726229AbfAEB0t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 4 Jan 2019 20:26:49 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:34118 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725862AbfAEB0t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Jan 2019 20:26:49 -0500
-Received: by mail-pl1-f194.google.com with SMTP id w4so18163781plz.1;
-        Fri, 04 Jan 2019 17:26:48 -0800 (PST)
+        id S1726437AbfAERnE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 5 Jan 2019 12:43:04 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:42958 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726296AbfAERnE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Jan 2019 12:43:04 -0500
+Received: by mail-pf1-f195.google.com with SMTP id 64so19787040pfr.9;
+        Sat, 05 Jan 2019 09:43:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=vYqZdkMKi7Jgfl1eWfMElua+x0asDiHZJv3Enjj0O0Q=;
-        b=UW/9IznH+QOWJor/WFFVUVP4d61GoX9y0KuoXyro0Ul/QcwVX3ybV1YLVECryjTPZW
-         1lFziFne3QN+lLuAuMGX5maioi3SkT0UNsJiW/HF7PW+roqEHiTpgcECkxauNpawFTUS
-         M72yrO/61vReoVIKjmqYu4Ey76Xf3u5vgFHYKUfLDrm/IG7DqhYcs9x5ncwkRU4YV2k3
-         8KuPw8bBLBZWdgC76x0FgwT77B2OqvX5LN2GBo/yQ0HGD4V48pfO4EeOt5lAJVf1ytUi
-         eSpvCP8oHdXhmV21KbeIaVCGfWGZoLRitXB88zTUUh2FOSxD2AHCKkLQrzimvg0wg3hI
-         vgBQ==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Uu4Q4YzxndDcy6Wp8xYTRTGSWykdwfVoM2daBTgUlIU=;
+        b=k5H5NWtXL0LFBGCwhP75S9CkCJn2bjtS112UqcwyslF8ANeHJ5Lhcq9zsa2jk7UYTn
+         VIfR8qoFGPgaGjpeQ8Bgo8GoBHAQmSKM/OYfYb/axMrMBEknJuCIgGvKwOIgoxeFZ51j
+         W4mgklg/5Q2asl73kVyzhsCihO2NCNeJtYrBJgSckKdD6nx0I9wQXojOzi24D5Hdc7D7
+         E3sdWU6fcL7qICZrrZiMUxyHxFwiWkKJPh1FgZggBZoa7d6qpLwO6PLroBpO9i9wznjy
+         Tj5ZRIxnhnfV/Q3zDy8V0wx9s8+GJA0bh7kJNj5nKHIBGNnaCmHmYxF0qQGPWJ7Ilvqu
+         xkjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=vYqZdkMKi7Jgfl1eWfMElua+x0asDiHZJv3Enjj0O0Q=;
-        b=HEyi/XoQHo2KNg/ECRQCb2Aybg8mdCEU+b1JBWenFnurRz0jHlsBQRYVXBLFMHDrcn
-         HBIM9R4ouX0vyyGMT5H+dtJylbXqtOV7onTsLObz0FDU3Z8lKOO9g9LsCsebRH0ycppJ
-         aC2Bt3iVcV+61stnTNybL3LqQb1oyyOKCzIVog5/8H4Md0il6a4gkwzbKRgcsALm12LG
-         2OWxtq4pN1Szv5n6p1ZpxjhFve3VQUJWy5F28VovOUtml7jPKwFZUJXxab6E33eQlEo3
-         /rW0vtFEHyWdKjz73mS35Al/x/L4bXEnD7qzUFiO8FTSgSjhCdA/aIPQyNXN+wz6DwKw
-         /fOQ==
-X-Gm-Message-State: AJcUukdVzi9cerr2PHZUr+6oEmeX56DnR3POY2yYnRxGffU8UJlaXqiE
-        loKDYfYVmpzkovGkYWMQBus=
-X-Google-Smtp-Source: ALg8bN6GoUmq8erY41K7ewa9DpdAVF1qLJOHRoFH5rn2zhqeJxKxrV+7Gg+VudilCgPD1Ul1IHxf2A==
-X-Received: by 2002:a17:902:9b87:: with SMTP id y7mr36564554plp.336.1546651608245;
-        Fri, 04 Jan 2019 17:26:48 -0800 (PST)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id c67sm77148549pfg.170.2019.01.04.17.26.47
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 04 Jan 2019 17:26:47 -0800 (PST)
-Date:   Fri, 4 Jan 2019 17:26:43 -0800
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     =?iso-8859-1?B?QnL8bnMs?= Stefan <Stefan.Bruens@rwth-aachen.de>
-Cc:     "jdelvare@suse.com" <jdelvare@suse.com>,
-        "linux@roeck-us.net" <linux@roeck-us.net>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [RFC][PATCH] hwmon: (ina2xx) Improve current and power reading
- precision
-Message-ID: <20190105012642.GA18025@Asurada-Nvidia.nvidia.com>
-References: <20181121012629.5432-1-nicoleotsuka@gmail.com>
- <2863036.QIPGp1Eqjm@sbruens-linux.lcs.intern>
- <20181121194051.GA8902@Asurada-Nvidia.nvidia.com>
- <1717545.GXSegKtrMu@sbruens-linux.lcs.intern>
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Uu4Q4YzxndDcy6Wp8xYTRTGSWykdwfVoM2daBTgUlIU=;
+        b=f/au1V6DO7PVUlDvAamDiwoJaxBuZKX8E1HWWHahIxwdt+QSdWW1pIAWuOJ+4buYCY
+         cJXXht8UzpNpWQzPMPmmy1c4zMvlrD+G5cPAh/XXa29iZAW5vhX9lUyJxaYVCuHqco/T
+         sHKNotH60ZUioqsgLdEem/Q7JLjcsLyPgHmzVJjeHPAzykb3jvWgOW/1WqfaJbNpL6GW
+         3cV/lYPo1bLaJ2P4vE8wUk4eVE0aSZ7yF0pSoI0qInQWbJ1640rBUpdJEyfjJ2vU+f0R
+         2oMFlSupgyiT1QRBxT5KK7r6rG9NsKhmdCp76kq/UxGkYmYAxtmn/liC2rNJ8F7PizUk
+         dl8w==
+X-Gm-Message-State: AA+aEWaOQX1A/0rIsGk6qLmYcjrySu8Lp9i2KfdyJDATlyR+dmxNbJol
+        lAubaiAQM5c9BUiVt1sbt5iR/kaG
+X-Google-Smtp-Source: AFSGD/V9L3nrC7yb+BMfvDbz8605HR5zvE6+WFr1d5R7dBOB3+8TyiHOYGjK7/BVRE0cUeiF7OKUCw==
+X-Received: by 2002:a62:5716:: with SMTP id l22mr58347130pfb.16.1546710183470;
+        Sat, 05 Jan 2019 09:43:03 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id h74sm117828049pfd.35.2019.01.05.09.43.01
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 05 Jan 2019 09:43:02 -0800 (PST)
+Date:   Sat, 5 Jan 2019 09:43:01 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Chengguang Xu <cgxu519@gmx.com>
+Cc:     jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] doc: fix typo in Documentation/hwmon/f71882fg
+Message-ID: <20190105174301.GA13667@roeck-us.net>
+References: <20190104142722.24824-1-cgxu519@gmx.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1717545.GXSegKtrMu@sbruens-linux.lcs.intern>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20190104142722.24824-1-cgxu519@gmx.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Stefan,
-
-Sorry for a super late reply. I took a long vacation.
-
-On Wed, Nov 21, 2018 at 10:16:09PM +0000, Brüns, Stefan wrote:
-> > > Another concern may be voltage drop over the shunt, but for this case you
-> > > have a nominal voltage of 1.8V, so 30uV are 0.001%.
-> > > 
-> > > > When measuring a 1.8v voltage running a small current (e.g. 33 mA),
-> > > > the power value (that's supposed to be 59.4 mW) becomes inaccurate
-> > > > due to the larger scale (25mA for method A; 62.5 mA for method B).
-> > 
-> > Just found out that I have typos here: 25mW and 62.5mW.
-> > 
-> > > Another look into the datasheet reveals, even at full gain (PGA=1), the
-> > > LSB is 40mV / 2^12 = 40mV / 4096 ~ 10uV. So when the current ADC reads
-> > > out as 3*LSB, this anything between 25mA and 35mA. This is the best case
-> > > figure.
-> > Current read doesn't get affected a lot actually, since hwmon ABI
-> > also reports current value in unit mA. However, the power read is
-> > the matter here. With a 62.5mW power_lsb, power results are kinda
-> > useless on my system.
+On Fri, Jan 04, 2019 at 10:27:22PM +0800, Chengguang Xu wrote:
+> Just fix a typo in Documentation/hwmon/f71882fg.
 > 
-> The reported current does not matter here, actually. Internally, the ADC value 
-> will have an uncertainty of 10mA (at PGA=1). At 1.8V, your uncertainty is 
-> 18mW. And thats *only* the quantization noise. It wont get better than that.
+> Signed-off-by: Chengguang Xu <cgxu519@gmx.com>
 
-The fact is that I do get better power results after setting the
-calibration value to 0x7ff. That's the necessity of this change.
+Applied to hwmon-next.
 
-> Also note, you are apparently using the ina2xx hwmon driver - I strongly 
-> advise against it, you should either use the ina2xx driver from the IIO 
-> subsystem directly, or use the IIO driver via iio-hwmon.
+Thanks,
+Guenter
 
-The IIO version is also using the minimum calibration value. It
-will not solve my problem here.
-
-> There is also always the possibility to read the bus and shunt voltage 
-> registers and calculate the power manually.
-
-Won't that be a waste since the hardware could have provided a
-better accuracy? It would need more I2C bus reads and cpu cycles
-for calculation.
-
-I don't get why you're against a setting for calibration value.
-This is how the hardware got designed to cover different cases.
-Since we do have such a case that needs some accuracy, it'd be
-fair to add it into the driver. Plus, the feature won't change
-the minimum calibration value at all -- everyone would be happy.
-
-Thanks
-Nicolin
+> ---
+>  Documentation/hwmon/f71882fg | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/hwmon/f71882fg b/Documentation/hwmon/f71882fg
+> index de91c0db5846..4c3cb8377d74 100644
+> --- a/Documentation/hwmon/f71882fg
+> +++ b/Documentation/hwmon/f71882fg
+> @@ -94,7 +94,7 @@ Note that the lowest numbered temperature zone trip point corresponds to
+>  to the border between the highest and one but highest temperature zones, and
+>  vica versa. So the temperature zone trip points 1-4 (or 1-2) go from high temp
+>  to low temp! This is how things are implemented in the IC, and the driver
+> -mimicks this.
+> +mimics this.
+>  
+>  There are 2 modes to specify the speed of the fan, PWM duty cycle (or DC
+>  voltage) mode, where 0-100% duty cycle (0-100% of 12V) is specified. And RPM
