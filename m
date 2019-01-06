@@ -3,50 +3,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 594567D8AB
+	by archive.lwn.net (Postfix) with ESMTP id 8DD077DBD4
 	for <lwn-linux-doc@archive.lwn.net>; Sun,  6 Jan 2019 19:26:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726502AbfAFTZx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 6 Jan 2019 14:25:53 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:44813 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726477AbfAFTZk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Jan 2019 14:25:40 -0500
-Received: by mail-ed1-f66.google.com with SMTP id y56so35986613edd.11
-        for <linux-doc@vger.kernel.org>; Sun, 06 Jan 2019 11:25:38 -0800 (PST)
+        id S1726538AbfAFTZ6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 6 Jan 2019 14:25:58 -0500
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:38676 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726513AbfAFTZ5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Jan 2019 14:25:57 -0500
+Received: by mail-ed1-f65.google.com with SMTP id h50so36062240ede.5
+        for <linux-doc@vger.kernel.org>; Sun, 06 Jan 2019 11:25:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=mena-vt-edu.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ibxTSM7aAfMxp0mh34e5XoCF9bu27Z34+6gCZTrPT34=;
-        b=HoV8NuMvRHRIahTLZDBI7mFj8a25nP7usZ14wlIEpO5VDxbpItPPfakKDHJd0tpXjr
-         A0xgBMAWYLPvKkIjy7HPMLg+FPHv9SXcaymFZ+PeFBicagcBq0K7E9iU/3AMRwEwfBXA
-         tEXG5wGu0eqGdkSsdkRFDRRvb5FaSQRQ0+6B0EFmJ3pMLM3yuualpb+DnrRGqAfwcAfb
-         LDjWeRjsPkH2ukGWunr91Bx9l1twcY8wlzi9qYk2gR4BwVppDrJniJQSqXTwHmDDJK3G
-         tRpdXeiZ/aLzNIcawK7iBf8+lNGE08fdD7eeUlBG8+EtRtgGyZkLtcx6EV6qwcNMiZrF
-         5++g==
+        bh=cHRFL44h2OEM1lGSXPFKxqS991ECPuCJqpPKgvIlapQ=;
+        b=KEfqEDbYHJHFat0d7k/SsLeiNGb2l2oBGNsu1x9SHxosQwcUh5K0nDZzEvDGhtv69V
+         rBVJnLVh9dJi7VzxS+I9htCZxxJ1pu62txl/k0LcelzrHv7D0s8Ln0Xl7dOx1S5wFVU+
+         kNlB9+8xD6XpC3TqA3UVkjSalKkdGZVy5qjlIhOAsyPuwfL2nwuqTGeaEngl9sPl3k19
+         Qi6hGVW7bFeMB3W+3tGESlW5x0Yqsrh6e2db3Cn8KSqlCo2D9878S9mcnEsi3yGqT9Yl
+         DEcs18lqm4aQk9eVU5Dedo8GHqRTFtXmoMGswZlhVj/dbzxRc5geaWqQyQrwSJdsahsq
+         CkkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ibxTSM7aAfMxp0mh34e5XoCF9bu27Z34+6gCZTrPT34=;
-        b=H1CJxAapbkou9W9VQJ0jpDRPa3t2WQ2TjVfNI12iqDrbv46ToKjLwK0PSjEg5itLBD
-         slOowr6PyN03F429thdEYCPIV134PlGzGQhJbEdi44rW/y4YDvgx28+xj5sOjYv8Hp0B
-         XpY0NkMHCONqVfHmIEW9yWd6twAT/U70MqB1+kFVJq392vytqiZoSN4dhFOl2HOV8gg6
-         4UhvHa+PvJEBiEtlY4/txP+TP4NFtV+02tjVtqjo5ulPyZU0wtmkFjwtKyin3r4fS9aX
-         8u7kmB+4V314+cFDuJ3BMRbN5p3VUg8G+BeYHGAF3FsS59Dgj0YgiN0EFe/k5QNAcpy3
-         8IQw==
-X-Gm-Message-State: AA+aEWboerxZQCPTD7CkwlBUKPcAFOHYc0g7+SgCEXUI9IT3nh6YxA/J
-        Mo14iWQh1ECShndAhV8ZryJQKQ==
-X-Google-Smtp-Source: AFSGD/WAe91TAKjmYeWuStwWgG2ypoS1UZa6t5xjlxl6mGSeeQxsX7WS7F/s7MqHKXGG8Rq9N9yz4w==
-X-Received: by 2002:a17:906:228d:: with SMTP id p13-v6mr44874418eja.159.1546802738138;
-        Sun, 06 Jan 2019 11:25:38 -0800 (PST)
+        bh=cHRFL44h2OEM1lGSXPFKxqS991ECPuCJqpPKgvIlapQ=;
+        b=BD13+ApJOUlz7lQG9Sa0GVAkEzlJWAIwytsZbcoLoy4xSREKpyHKDLkvb8XR/rSO7x
+         hrSAR3/kvrKNvA77/V+3kghiQQRvIzMJ8bg2XLloS9kvaR19aHhstAszUJ2vvoh0Iv6d
+         nV1wSu2LWUK+75GAY0isrLpoW8ZB2KYFkQWAA9qqvLLRh/bCL51JEfTCBf+FBf9Fr/QM
+         As8fqqaTP2FZMs0Sy+um5hx1NgLZ0OzKzOvvDJr8tln5P8nJyvvx+6ovYxZMw+wnq7Tr
+         vkevlOo0H3Nm2q5fw53zu92CA/t728kjfzG2E1DvuP25NZJHKheKudy3tKl7A+fUEBmi
+         4iRQ==
+X-Gm-Message-State: AA+aEWbKYPl+8uNwdsJxRh+8pKwDIzhvaMHujgcP6luIYrQogVxgJTgO
+        Z5b2qw8jSLkUPry08er5/KCqjw==
+X-Google-Smtp-Source: AFSGD/XqtQKuRnnj21d08kcDdLhSO4wUG6nERjP9lWtoHtsK6ajf6QBm/wfd9O9rmFuIR6O0HjFzcg==
+X-Received: by 2002:a17:906:4bd7:: with SMTP id x23-v6mr45533733ejv.105.1546802755701;
+        Sun, 06 Jan 2019 11:25:55 -0800 (PST)
 Received: from localhost.localdomain ([156.212.65.252])
-        by smtp.gmail.com with ESMTPSA id b46sm29994035edd.94.2019.01.06.11.25.32
+        by smtp.gmail.com with ESMTPSA id b46sm29994035edd.94.2019.01.06.11.25.50
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 06 Jan 2019 11:25:37 -0800 (PST)
+        Sun, 06 Jan 2019 11:25:55 -0800 (PST)
 From:   Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
 To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Jonathan Corbet <corbet@lwn.net>,
@@ -59,9 +59,9 @@ To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Boris Lukashev <blukashev@sempervictus.com>,
         Igor Stoppa <igor.stoppa@gmail.com>
 Cc:     Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-Subject: [PATCH V8 08/11] KVM: X86: Port ROE_MPROTECT_CHUNK to x86
-Date:   Sun,  6 Jan 2019 21:23:42 +0200
-Message-Id: <20190106192345.13578-9-ahmedsoliman@mena.vt.edu>
+Subject: [PATCH V8 11/11] KVM: ROE: Store protected chunks in red black tree
+Date:   Sun,  6 Jan 2019 21:23:45 +0200
+Message-Id: <20190106192345.13578-12-ahmedsoliman@mena.vt.edu>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <20190106192345.13578-1-ahmedsoliman@mena.vt.edu>
 References: <20190106192345.13578-1-ahmedsoliman@mena.vt.edu>
@@ -72,34 +72,382 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Apply d->memslot->partial_roe_bitmap to shadow page table entries
-too.
+The old way of storing protected chunks was a linked list. That made
+linear overhead when searching for chunks. When reaching 2000 chunk, The
+time taken two read the last chunk was about 10 times slower than the
+first chunk. This patch stores the chunks as tree for faster search.
 
 Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
 ---
- arch/x86/kvm/roe.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ include/linux/kvm_host.h |  36 ++++++-
+ virt/kvm/roe.c           | 228 +++++++++++++++++++++++++++------------
+ virt/kvm/roe_generic.h   |   3 +
+ 3 files changed, 197 insertions(+), 70 deletions(-)
 
-diff --git a/arch/x86/kvm/roe.c b/arch/x86/kvm/roe.c
-index f787106be8..700f69823b 100644
---- a/arch/x86/kvm/roe.c
-+++ b/arch/x86/kvm/roe.c
-@@ -25,11 +25,14 @@ static bool __rmap_write_protect_roe(struct kvm *kvm,
- 	struct rmap_iterator iter;
- 	bool prot;
- 	bool flush = false;
-+	void *full_bmp =  memslot->roe_bitmap;
-+	void *part_bmp = memslot->partial_roe_bitmap;
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index 9acf5f54ac..5f4bec0662 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -9,6 +9,7 @@
+ #include <linux/types.h>
+ #include <linux/hardirq.h>
+ #include <linux/list.h>
++#include <linux/rbtree.h>
+ #include <linux/mutex.h>
+ #include <linux/spinlock.h>
+ #include <linux/signal.h>
+@@ -301,7 +302,7 @@ static inline int kvm_vcpu_exiting_guest_mode(struct kvm_vcpu *vcpu)
+ struct protected_chunk {
+ 	gpa_t gpa;
+ 	u64 size;
+-	struct list_head list;
++	struct rb_node node;
+ };
  
- 	for_each_rmap_spte(rmap_head, &iter, sptep) {
- 		int idx = spte_to_gfn(sptep) - memslot->base_gfn;
+ static inline bool kvm_roe_range_overlap(struct protected_chunk *chunk,
+@@ -316,12 +317,43 @@ static inline bool kvm_roe_range_overlap(struct protected_chunk *chunk,
+ 		(gpa + len - 1 >= chunk->gpa);
+ }
  
--		prot = !test_bit(idx, memslot->roe_bitmap) && pt_protect;
-+		prot = !(test_bit(idx, full_bmp) || test_bit(idx, part_bmp));
-+		prot = prot && pt_protect;
- 		flush |= spte_write_protect(sptep, prot);
++static inline int kvm_roe_range_cmp_position(struct protected_chunk *chunk,
++		gpa_t gpa, int len) {
++	/*
++	 * returns -1 if the gpa and len are smaller than chunk.
++	 * returns 0 if they overlap or strictly adjacent
++	 * returns 1 if gpa and len are bigger than the chunk
++	 */
++
++	if (gpa + len <= chunk->gpa)
++		return -1;
++	if (gpa >= chunk->gpa + chunk->size)
++		return 1;
++	return 0;
++}
++
++static inline int kvm_roe_range_cmp_mergability(struct protected_chunk *chunk,
++		gpa_t gpa, int len) {
++	/*
++	 * returns -1 if the gpa and len are smaller than chunk and not adjacent
++	 * to it
++	 * returns 0 if they overlap or strictly adjacent
++	 * returns 1 if gpa and len are bigger than the chunk and not adjacent
++	 * to it
++	 */
++	if (gpa + len < chunk->gpa)
++		return -1;
++	if (gpa > chunk->gpa + chunk->size)
++		return 1;
++	return 0;
++
++}
+ struct kvm_memory_slot {
+ 	gfn_t base_gfn;
+ 	unsigned long npages;
+ 	unsigned long *roe_bitmap;
+ 	unsigned long *partial_roe_bitmap;
+-	struct list_head *prot_list;
++	struct rb_root  *prot_root;
+ 	unsigned long *dirty_bitmap;
+ 	struct kvm_arch_memory_slot arch;
+ 	unsigned long userspace_addr;
+diff --git a/virt/kvm/roe.c b/virt/kvm/roe.c
+index e424b45e1c..15297c0e57 100644
+--- a/virt/kvm/roe.c
++++ b/virt/kvm/roe.c
+@@ -23,10 +23,10 @@ int kvm_roe_init(struct kvm_memory_slot *slot)
+ 			sizeof(unsigned long), GFP_KERNEL);
+ 	if (!slot->partial_roe_bitmap)
+ 		goto fail2;
+-	slot->prot_list = kvzalloc(sizeof(struct list_head), GFP_KERNEL);
+-	if (!slot->prot_list)
++	slot->prot_root = kvzalloc(sizeof(struct rb_root), GFP_KERNEL);
++	if (!slot->prot_root)
+ 		goto fail3;
+-	INIT_LIST_HEAD(slot->prot_list);
++	*slot->prot_root = RB_ROOT;
+ 	return 0;
+ fail3:
+ 	kvfree(slot->partial_roe_bitmap);
+@@ -40,12 +40,19 @@ int kvm_roe_init(struct kvm_memory_slot *slot)
+ static bool kvm_roe_protected_range(struct kvm_memory_slot *slot, gpa_t gpa,
+ 		int len)
+ {
+-	struct list_head *pos;
+-	struct protected_chunk *cur_chunk;
+-
+-	list_for_each(pos, slot->prot_list) {
+-		cur_chunk = list_entry(pos, struct protected_chunk, list);
+-		if (kvm_roe_range_overlap(cur_chunk, gpa, len))
++	struct rb_node *node = slot->prot_root->rb_node;
++
++	while (node) {
++		struct protected_chunk *cur_chunk;
++		int cmp;
++
++		cur_chunk = rb_entry(node, struct protected_chunk, node);
++		cmp = kvm_roe_range_cmp_position(cur_chunk, gpa, len);
++		if (cmp < 0)/*target chunk is before current node*/
++			node = node->rb_left;
++		else if (cmp > 0)/*target chunk is after current node*/
++			node = node->rb_right;
++		else
+ 			return true;
  	}
- 	return flush;
+ 	return false;
+@@ -62,18 +69,24 @@ bool kvm_roe_check_range(struct kvm_memory_slot *slot, gfn_t gfn, int offset,
+ }
+ EXPORT_SYMBOL_GPL(kvm_roe_check_range);
+ 
+-void kvm_roe_free(struct kvm_memory_slot *slot)
++static void kvm_roe_destroy_tree(struct rb_node *node)
+ {
+-	struct protected_chunk *pos, *n;
+-	struct list_head *head = slot->prot_list;
++	struct protected_chunk *cur_chunk;
++
++	if (!node)
++		return;
++	kvm_roe_destroy_tree(node->rb_left);
++	kvm_roe_destroy_tree(node->rb_right);
++	cur_chunk = rb_entry(node, struct protected_chunk, node);
++	kvfree(cur_chunk);
++}
+ 
++void kvm_roe_free(struct kvm_memory_slot *slot)
++{
+ 	kvfree(slot->roe_bitmap);
+ 	kvfree(slot->partial_roe_bitmap);
+-	list_for_each_entry_safe(pos, n, head, list) {
+-		list_del(&pos->list);
+-		kvfree(pos);
+-	}
+-	kvfree(slot->prot_list);
++	kvm_roe_destroy_tree(slot->prot_root->rb_node);
++	kvfree(slot->prot_root);
+ }
+ 
+ static void kvm_warning_roe_violation(u64 addr, const void *data, int len)
+@@ -193,40 +206,119 @@ static int kvm_roe_full_protect_range(struct kvm_vcpu *vcpu, u64 gva,
+ 	return count;
+ }
+ 
+-static int kvm_roe_insert_chunk_next(struct list_head *pos, u64 gpa, u64 size)
+-{
+-	struct protected_chunk *chunk;
+-
+-	chunk = kvzalloc(sizeof(struct protected_chunk), GFP_KERNEL);
+-	chunk->gpa = gpa;
+-	chunk->size = size;
+-	INIT_LIST_HEAD(&chunk->list);
+-	list_add(&chunk->list, pos);
+-	return size;
+-}
+-
+-static int kvm_roe_expand_chunk(struct protected_chunk *pos, u64 gpa, u64 size)
++static u64 kvm_roe_expand_chunk(struct protected_chunk *pos, u64 gpa, u64 size)
+ {
+ 	u64 old_ptr = pos->gpa;
+ 	u64 old_size = pos->size;
++	u64 ret = 0;
+ 
+-	if (gpa < old_ptr)
++	if (gpa < old_ptr) {
+ 		pos->gpa = gpa;
+-	if (gpa + size > old_ptr + old_size)
++		ret |= KVM_ROE_MERGE_LEFT;
++	}
++	if (gpa + size > old_ptr + old_size) {
+ 		pos->size = gpa + size - pos->gpa;
+-	return size;
++		ret |= KVM_ROE_MERGE_RIGHT;
++	}
++	return ret;
+ }
++static void kvm_roe_merge_left(struct rb_root *root, struct rb_node *start)
++{
++	struct rb_root fake_root;
++	struct protected_chunk *target, *first;
++	struct rb_node *node, *stop;
++	u64 i, count = 0;
+ 
+-static bool kvm_roe_merge_chunks(struct protected_chunk *chunk)
++	if (!start->rb_left)
++		return;
++	fake_root = (struct rb_root) {start->rb_left};
++	stop = rb_prev(rb_first(&fake_root));
++	/* Back traverse till no node can be merged*/
++	target = container_of(start, struct protected_chunk, node);
++	for (node = rb_last(&fake_root); node != stop; node = rb_prev(node)) {
++		struct protected_chunk *pos;
++
++		pos = container_of(node, struct protected_chunk, node);
++		if (kvm_roe_range_cmp_mergability(target, pos->gpa, pos->size))
++			break;
++		count += 1;
++	}
++	if (!count)
++		return;
++	/* merging step*/
++	node = rb_next(node);
++	first = container_of(node, struct protected_chunk, node);
++	kvm_roe_expand_chunk(target, first->gpa, first->size);
++	/* forward traverse and delete all in between*/
++	for (i = 0; i < count; i++) {
++		struct protected_chunk *pos;
++
++		pos = container_of(node, struct protected_chunk, node);
++		rb_erase(node, root);
++		kvfree(pos);
++		node = rb_next(node);
++	}
++}
++
++static void kvm_roe_merge_right(struct rb_root *root, struct rb_node *start)
+ {
+-	/*attempt merging 2 consecutive given the first one*/
+-	struct protected_chunk *next = list_next_entry(chunk, list);
++	struct rb_root fake_root;
++	struct protected_chunk *target, *first;
++	struct rb_node *node, *stop;
++	u64 i, count = 0;
+ 
+-	if (!kvm_roe_range_overlap(chunk, next->gpa, next->size))
+-		return false;
+-	kvm_roe_expand_chunk(chunk, next->gpa, next->size);
+-	list_del(&next->list);
+-	kvfree(next);
++	if (!start->rb_right)
++		return;
++	fake_root = (struct rb_root) {start->rb_right};
++	stop = rb_next(rb_last(&fake_root));
++	/* Forward traverse till no node can be merged*/
++	target = container_of(start, struct protected_chunk, node);
++	for (node = rb_first(&fake_root); node != stop; node = rb_next(node)) {
++		struct protected_chunk *pos;
++
++		pos = container_of(node, struct protected_chunk, node);
++		if (kvm_roe_range_cmp_mergability(target, pos->gpa, pos->size))
++			break;
++		count += 1;
++	}
++	if (!count)
++		return;
++	/* merging step*/
++	node = rb_prev(node);
++	first = container_of(node, struct protected_chunk, node);
++	kvm_roe_expand_chunk(target, first->gpa, first->size);
++	/* Backward traverse and delete all in between*/
++	for (i = 0; i < count; i++) {
++		struct protected_chunk *pos;
++
++		pos = container_of(node, struct protected_chunk, node);
++		rb_erase(node, root);
++		kvfree(pos);
++		node = rb_prev(node);
++	}
++}
++
++static bool kvm_roe_merge_chunks(struct rb_root *root, struct rb_node *target,
++		u64 gpa, u64 size)
++{
++	/*
++	 * attempt merging all adjacent chunks after inserting a chunk that is
++	 * adjacent or inersecting with  an existing chunk
++	 */
++	struct protected_chunk *cur;
++	u64 merge;
++
++	cur = container_of(target, struct protected_chunk, node);
++	merge = kvm_roe_expand_chunk(cur, gpa, size);
++	/*
++	 * We will not have to worry about the parent node while merging
++	 * If it was mergeable with the new to be inserted chunk we wouldn't
++	 * have gone deeper.
++	 **/
++	if (merge & KVM_ROE_MERGE_LEFT)
++		kvm_roe_merge_left(root, target);
++	if (merge & KVM_ROE_MERGE_RIGHT)
++		kvm_roe_merge_right(root, target);
+ 	return true;
+ }
+ 
+@@ -234,35 +326,35 @@ static int __kvm_roe_insert_chunk(struct kvm_memory_slot *slot, u64 gpa,
+ 		u64 size)
+ {
+ 	/* kvm->slots_lock must be acquired*/
+-	struct protected_chunk *pos;
+-	struct list_head *head = slot->prot_list;
+-
+-	if (list_empty(head))
+-		return kvm_roe_insert_chunk_next(head, gpa, size);
+-	/*
+-	 * pos here will never get deleted maybe the next one will
+-	 * that is why list_for_each_entry_safe is completely unsafe
+-	 */
+-	list_for_each_entry(pos, head, list) {
+-		if (kvm_roe_range_overlap(pos, gpa, size)) {
+-			int ret = kvm_roe_expand_chunk(pos, gpa, size);
+-
+-			while (head != pos->list.next)
+-				if (!kvm_roe_merge_chunks(pos))
+-					break;
+-			return ret;
+-		}
+-		if (pos->gpa > gpa) {
+-			struct protected_chunk *prev;
+-
+-			prev = list_prev_entry(pos, list);
+-			return kvm_roe_insert_chunk_next(&prev->list, gpa,
+-					size);
++	struct rb_node **new = &(slot->prot_root->rb_node), *parent = NULL;
++	struct protected_chunk *insert_me;
++	bool merge = false;
++
++	while (*new) {
++		struct protected_chunk *chunk;
++		int cmp;
++
++		chunk = container_of(*new, struct protected_chunk, node);
++		cmp = kvm_roe_range_cmp_mergability(chunk, gpa, size);
++		parent = *new;
++		if (cmp < 0) {
++			new = &((*new)->rb_left);
++		} else if (cmp > 0) {
++			new = &((*new)->rb_right);
++		} else {
++			merge = true;
++			kvm_roe_merge_chunks(slot->prot_root, *new, gpa, size);
++			break;
+ 		}
+ 	}
+-	pos = list_last_entry(head, struct protected_chunk, list);
+-
+-	return kvm_roe_insert_chunk_next(&pos->list, gpa, size);
++	if (merge)
++		return size;
++	insert_me = kvzalloc(sizeof(struct protected_chunk), GFP_KERNEL);
++	insert_me->gpa = gpa;
++	insert_me->size = size;
++	rb_link_node(&insert_me->node, parent, new);
++	rb_insert_color(&insert_me->node, slot->prot_root);
++	return size;
+ }
+ 
+ static int kvm_roe_insert_chunk(struct kvm *kvm, u64 gpa, u64 size)
+diff --git a/virt/kvm/roe_generic.h b/virt/kvm/roe_generic.h
+index 6c5f0cf381..8e42c9795c 100644
+--- a/virt/kvm/roe_generic.h
++++ b/virt/kvm/roe_generic.h
+@@ -10,6 +10,9 @@
+  *
+  */
+ 
++#define KVM_ROE_MERGE_LEFT	0x1
++#define KVM_ROE_MERGE_RIGHT	0x2
++
+ void kvm_roe_free(struct kvm_memory_slot *slot);
+ int kvm_roe_init(struct kvm_memory_slot *slot);
+ bool kvm_roe_check_range(struct kvm_memory_slot *slot, gfn_t gfn, int offset,
 -- 
 2.19.2
 
