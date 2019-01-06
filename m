@@ -3,50 +3,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7FED97D8AB
+	by archive.lwn.net (Postfix) with ESMTP id 974B57D8BA
 	for <lwn-linux-doc@archive.lwn.net>; Sun,  6 Jan 2019 19:25:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726212AbfAFTZH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 6 Jan 2019 14:25:07 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:33054 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726206AbfAFTZG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Jan 2019 14:25:06 -0500
-Received: by mail-ed1-f66.google.com with SMTP id p6so36136481eds.0
-        for <linux-doc@vger.kernel.org>; Sun, 06 Jan 2019 11:25:04 -0800 (PST)
+        id S1726260AbfAFTZL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 6 Jan 2019 14:25:11 -0500
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:36729 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726113AbfAFTZL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Jan 2019 14:25:11 -0500
+Received: by mail-ed1-f65.google.com with SMTP id f23so36062040edb.3
+        for <linux-doc@vger.kernel.org>; Sun, 06 Jan 2019 11:25:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=mena-vt-edu.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=JVFrpeC80OLPbUMIpkWyZ48VgZSdWjNoszlgtYxl1bA=;
-        b=KaBI2q3/uBexAYFXmYVxNaOky7+KEIjhnMbF1ZRYNfRjP/l8JnG7ygwokL3ryoTYoo
-         XSxmyjc3BtvsQNGIWNOVU78x6GlfO0moFUkKCVjxfD49oBJwKOLkrbhiIZyNLx4SjcsA
-         4vG5pOvf8Mh3eH6vcLRe9WOKRmeuVecU3fwHs7jfdX+HknovyWx8y4C9HrS0jM4eQchE
-         xvZPocrgUdtouud2tyHLLtf9dyJ/F9GysEFtA02Z++qjylHakq4j4xXVvColyOaAQZ9D
-         f+ObvPu5sNzF/IdeynUaD1GF+ZROMxUvc/bZyU7Z2f/Ai1NN27URH4/5qhMOd7wv/mEg
-         dzFA==
+        bh=juz3/8ubyO70o/WwTakdDVvsVYAiN+8d71XTlXhc8d0=;
+        b=steZiVVlp0a+SY0QZj98+HUEpB+SGU2fbQS7H3wpS+ptnLLFDoHHCjCQOVZVKKqUVW
+         OUGZ+Xns0jjpiAHyw0qb/o2V2bmJnriImE0hdzUF3+hYfUoTcmU59muqVRwZB/HwKGS+
+         fYomN2joLB5sxf6SR9hqc3A9et/eLYq9lhoiMp4T72DurvYOnlWDNThCnDuW8nwu9vsW
+         uvxgYFXC0dNSGFI1L5z6HptxxxabfaXFRhC9Q+ZHuFr+pHOLn+vMPczC0hVuCpmMVc7Z
+         tp4eH0JJSCsyHAsgJ2JLLRAm6QRgObMJ62BvxkC7U6zw2XYEmQmAFLxUs3m3MnZOJW9/
+         cKHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JVFrpeC80OLPbUMIpkWyZ48VgZSdWjNoszlgtYxl1bA=;
-        b=Kdx87Sodpx50LyeuXAqj/bX1zvPmFgSZYbrsKGmCr9C+2lZslciE66+b362DrDo5j9
-         a4ztCpqeck5JFBwRzE4cafERcNlYFVT3P7Qo/n4JpjJAfNrSMfg2VGJYllWsZhlhJkZ5
-         2CPm3suQNw4EKFthqQvPHZSVfktEnpzJrwUnDqAxQxuOxqmTs4hZc4XT53Di2M+/KXvG
-         bTGZmDzlq92AKyI7fE243pdI0vPRfGDBAheTrs7iWVBa2qIZ0xRtiuf8gWmkR4GKBmnh
-         UUv8InKHI4Th+LXXwMGgZpg//3ky62kp9UCcDZwQbDHGOuL3s7gYAdnckFMLcrU1i9nV
-         gONg==
-X-Gm-Message-State: AA+aEWYpLn1VhH5vzCgqWKP960uSFL1tmhF3Nk0BKHf2VTf3ivAezg0J
-        7Rm+XqCdn3WJ+38dF94Rf84DQw==
-X-Google-Smtp-Source: AFSGD/VU4BrrmtFBx6yTzk1savAl8kaDN4OsDQepa/Rfgqlu7emiTSD4reLp2gHn3b+zoEOHJ07FCw==
-X-Received: by 2002:a17:906:3e47:: with SMTP id t7-v6mr44368793eji.201.1546802703999;
-        Sun, 06 Jan 2019 11:25:03 -0800 (PST)
+        bh=juz3/8ubyO70o/WwTakdDVvsVYAiN+8d71XTlXhc8d0=;
+        b=faSe1Y+dvvJIRxc+pT50YqLOwt90/XMTfKWgw0WAj64zsbQSRSfqbjfJ/5VsX/QYRx
+         OGSGrYWB9f0DFtjFyRhNGPIsyMaOaN3YERpd58MigHRHlSQFd2qFQT/OdRq2ReYqw/zM
+         1fVwQjZv/4UQ97Gd6ppvEukyTC85VZ9qOdBINR5GcPizXxWb1ifW4JpwFyDooos9zppD
+         zzjM8z5l9gWKIdda4NVxePXQ3n0/9WkdveqPOcz4Dlne4uRkKSed3jPCn+VcfcDxsjOu
+         RrbOCNsVeqHuL6RzB9O1PWcZSZCPpoA7DP+zybeptmqI0IZGuafb0QiJOk4EvSiQElib
+         QkGg==
+X-Gm-Message-State: AA+aEWZeVThCDlPV+mosqOO+YrvaDihpaTpfxuf+BFszP6tMkjFOPESy
+        tgO7Z58Sjn2VrAPEaZ+MpVUNUg==
+X-Google-Smtp-Source: AFSGD/UvYgbKU5xyrz93gZaOyQ+KFy6uO5zf3YP7d8coLvYHSjYPA5V+eFF+u48ZvYMDUhQKtHjMkQ==
+X-Received: by 2002:aa7:d29a:: with SMTP id w26mr54305747edq.30.1546802709581;
+        Sun, 06 Jan 2019 11:25:09 -0800 (PST)
 Received: from localhost.localdomain ([156.212.65.252])
-        by smtp.gmail.com with ESMTPSA id b46sm29994035edd.94.2019.01.06.11.24.59
+        by smtp.gmail.com with ESMTPSA id b46sm29994035edd.94.2019.01.06.11.25.04
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 06 Jan 2019 11:25:03 -0800 (PST)
+        Sun, 06 Jan 2019 11:25:09 -0800 (PST)
 From:   Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
 To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Jonathan Corbet <corbet@lwn.net>,
@@ -59,9 +59,9 @@ To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Boris Lukashev <blukashev@sempervictus.com>,
         Igor Stoppa <igor.stoppa@gmail.com>
 Cc:     Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-Subject: [PATCH V8 02/11] KVM: X86: Add arbitrary data pointer in kvm memslot iterator functions
-Date:   Sun,  6 Jan 2019 21:23:36 +0200
-Message-Id: <20190106192345.13578-3-ahmedsoliman@mena.vt.edu>
+Subject: [PATCH V8 03/11] KVM: X86: Add helper function to convert SPTE to GFN
+Date:   Sun,  6 Jan 2019 21:23:37 +0200
+Message-Id: <20190106192345.13578-4-ahmedsoliman@mena.vt.edu>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <20190106192345.13578-1-ahmedsoliman@mena.vt.edu>
 References: <20190106192345.13578-1-ahmedsoliman@mena.vt.edu>
@@ -72,246 +72,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This will help sharing data into the slot_level_handler callback. In my
-case I need to a share a counter for the pages traversed to use it in some
-bitmap. Being able to send arbitrary memory pointer into the
-slot_level_handler callback made it easy.
-
 Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
 ---
- arch/x86/kvm/mmu.c | 65 ++++++++++++++++++++++++++--------------------
- 1 file changed, 37 insertions(+), 28 deletions(-)
+ arch/x86/kvm/mmu.c | 7 +++++++
+ arch/x86/kvm/mmu.h | 1 +
+ 2 files changed, 8 insertions(+)
 
 diff --git a/arch/x86/kvm/mmu.c b/arch/x86/kvm/mmu.c
-index ce770b4462..098df7d135 100644
+index 098df7d135..bbfe3f2863 100644
 --- a/arch/x86/kvm/mmu.c
 +++ b/arch/x86/kvm/mmu.c
-@@ -1525,7 +1525,7 @@ static bool spte_write_protect(u64 *sptep, bool pt_protect)
+@@ -1053,6 +1053,13 @@ static gfn_t kvm_mmu_page_get_gfn(struct kvm_mmu_page *sp, int index)
  
- static bool __rmap_write_protect(struct kvm *kvm,
- 				 struct kvm_rmap_head *rmap_head,
--				 bool pt_protect)
-+				 bool pt_protect, void *data)
- {
- 	u64 *sptep;
- 	struct rmap_iterator iter;
-@@ -1564,7 +1564,8 @@ static bool wrprot_ad_disabled_spte(u64 *sptep)
-  *	- W bit on ad-disabled SPTEs.
-  * Returns true iff any D or W bits were cleared.
-  */
--static bool __rmap_clear_dirty(struct kvm *kvm, struct kvm_rmap_head *rmap_head)
-+static bool __rmap_clear_dirty(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
-+				void *data)
- {
- 	u64 *sptep;
- 	struct rmap_iterator iter;
-@@ -1590,7 +1591,8 @@ static bool spte_set_dirty(u64 *sptep)
- 	return mmu_spte_update(sptep, spte);
+ 	return sp->gfn + (index << ((sp->role.level - 1) * PT64_LEVEL_BITS));
  }
++gfn_t spte_to_gfn(u64 *spte)
++{
++	struct kvm_mmu_page *sp;
++
++	sp = page_header(__pa(spte));
++	return kvm_mmu_page_get_gfn(sp, spte - sp->spt);
++}
  
--static bool __rmap_set_dirty(struct kvm *kvm, struct kvm_rmap_head *rmap_head)
-+static bool __rmap_set_dirty(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
-+				void *data)
+ static void kvm_mmu_page_set_gfn(struct kvm_mmu_page *sp, int index, gfn_t gfn)
  {
- 	u64 *sptep;
- 	struct rmap_iterator iter;
-@@ -1622,7 +1624,7 @@ static void kvm_mmu_write_protect_pt_masked(struct kvm *kvm,
- 	while (mask) {
- 		rmap_head = __gfn_to_rmap(slot->base_gfn + gfn_offset + __ffs(mask),
- 					  PT_PAGE_TABLE_LEVEL, slot);
--		__rmap_write_protect(kvm, rmap_head, false);
-+		__rmap_write_protect(kvm, rmap_head, false, NULL);
- 
- 		/* clear the first set bit */
- 		mask &= mask - 1;
-@@ -1648,7 +1650,7 @@ void kvm_mmu_clear_dirty_pt_masked(struct kvm *kvm,
- 	while (mask) {
- 		rmap_head = __gfn_to_rmap(slot->base_gfn + gfn_offset + __ffs(mask),
- 					  PT_PAGE_TABLE_LEVEL, slot);
--		__rmap_clear_dirty(kvm, rmap_head);
-+		__rmap_clear_dirty(kvm, rmap_head, NULL);
- 
- 		/* clear the first set bit */
- 		mask &= mask - 1;
-@@ -1701,7 +1703,8 @@ bool kvm_mmu_slot_gfn_write_protect(struct kvm *kvm,
- 
- 	for (i = PT_PAGE_TABLE_LEVEL; i <= PT_MAX_HUGEPAGE_LEVEL; ++i) {
- 		rmap_head = __gfn_to_rmap(gfn, i, slot);
--		write_protected |= __rmap_write_protect(kvm, rmap_head, true);
-+		write_protected |= __rmap_write_protect(kvm, rmap_head, true,
-+				NULL);
- 	}
- 
- 	return write_protected;
-@@ -1715,7 +1718,8 @@ static bool rmap_write_protect(struct kvm_vcpu *vcpu, u64 gfn)
- 	return kvm_mmu_slot_gfn_write_protect(vcpu->kvm, slot, gfn);
- }
- 
--static bool kvm_zap_rmapp(struct kvm *kvm, struct kvm_rmap_head *rmap_head)
-+static bool kvm_zap_rmapp(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
-+		void *data)
- {
- 	u64 *sptep;
- 	struct rmap_iterator iter;
-@@ -1735,7 +1739,7 @@ static int kvm_unmap_rmapp(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
- 			   struct kvm_memory_slot *slot, gfn_t gfn, int level,
- 			   unsigned long data)
- {
--	return kvm_zap_rmapp(kvm, rmap_head);
-+	return kvm_zap_rmapp(kvm, rmap_head, NULL);
- }
- 
- static int kvm_set_pte_rmapp(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
-@@ -5552,13 +5556,15 @@ void kvm_mmu_uninit_vm(struct kvm *kvm)
- }
- 
- /* The return value indicates if tlb flush on all vcpus is needed. */
--typedef bool (*slot_level_handler) (struct kvm *kvm, struct kvm_rmap_head *rmap_head);
-+typedef bool (*slot_level_handler) (struct kvm *kvm,
-+		struct kvm_rmap_head *rmap_head, void *data);
- 
- /* The caller should hold mmu-lock before calling this function. */
- static __always_inline bool
- slot_handle_level_range(struct kvm *kvm, struct kvm_memory_slot *memslot,
- 			slot_level_handler fn, int start_level, int end_level,
--			gfn_t start_gfn, gfn_t end_gfn, bool lock_flush_tlb)
-+			gfn_t start_gfn, gfn_t end_gfn, bool lock_flush_tlb,
-+			void *data)
- {
- 	struct slot_rmap_walk_iterator iterator;
- 	bool flush = false;
-@@ -5566,7 +5572,7 @@ slot_handle_level_range(struct kvm *kvm, struct kvm_memory_slot *memslot,
- 	for_each_slot_rmap_range(memslot, start_level, end_level, start_gfn,
- 			end_gfn, &iterator) {
- 		if (iterator.rmap)
--			flush |= fn(kvm, iterator.rmap);
-+			flush |= fn(kvm, iterator.rmap, data);
- 
- 		if (need_resched() || spin_needbreak(&kvm->mmu_lock)) {
- 			if (flush && lock_flush_tlb) {
-@@ -5588,36 +5594,36 @@ slot_handle_level_range(struct kvm *kvm, struct kvm_memory_slot *memslot,
- static __always_inline bool
- slot_handle_level(struct kvm *kvm, struct kvm_memory_slot *memslot,
- 		  slot_level_handler fn, int start_level, int end_level,
--		  bool lock_flush_tlb)
-+		  bool lock_flush_tlb, void *data)
- {
- 	return slot_handle_level_range(kvm, memslot, fn, start_level,
- 			end_level, memslot->base_gfn,
- 			memslot->base_gfn + memslot->npages - 1,
--			lock_flush_tlb);
-+			lock_flush_tlb, data);
- }
- 
- static __always_inline bool
- slot_handle_all_level(struct kvm *kvm, struct kvm_memory_slot *memslot,
--		      slot_level_handler fn, bool lock_flush_tlb)
-+		      slot_level_handler fn, bool lock_flush_tlb, void *data)
- {
- 	return slot_handle_level(kvm, memslot, fn, PT_PAGE_TABLE_LEVEL,
--				 PT_MAX_HUGEPAGE_LEVEL, lock_flush_tlb);
-+				 PT_MAX_HUGEPAGE_LEVEL, lock_flush_tlb, data);
- }
- 
- static __always_inline bool
- slot_handle_large_level(struct kvm *kvm, struct kvm_memory_slot *memslot,
--			slot_level_handler fn, bool lock_flush_tlb)
-+			slot_level_handler fn, bool lock_flush_tlb, void *data)
- {
- 	return slot_handle_level(kvm, memslot, fn, PT_PAGE_TABLE_LEVEL + 1,
--				 PT_MAX_HUGEPAGE_LEVEL, lock_flush_tlb);
-+				 PT_MAX_HUGEPAGE_LEVEL, lock_flush_tlb, data);
- }
- 
- static __always_inline bool
- slot_handle_leaf(struct kvm *kvm, struct kvm_memory_slot *memslot,
--		 slot_level_handler fn, bool lock_flush_tlb)
-+		 slot_level_handler fn, bool lock_flush_tlb, void *data)
- {
- 	return slot_handle_level(kvm, memslot, fn, PT_PAGE_TABLE_LEVEL,
--				 PT_PAGE_TABLE_LEVEL, lock_flush_tlb);
-+				 PT_PAGE_TABLE_LEVEL, lock_flush_tlb, data);
- }
- 
- void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
-@@ -5645,7 +5651,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
- 			flush |= slot_handle_level_range(kvm, memslot,
- 					kvm_zap_rmapp, PT_PAGE_TABLE_LEVEL,
- 					PT_MAX_HUGEPAGE_LEVEL, start,
--					end - 1, flush_tlb);
-+					end - 1, flush_tlb, NULL);
- 		}
- 	}
- 
-@@ -5657,9 +5663,10 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
- }
- 
- static bool slot_rmap_write_protect(struct kvm *kvm,
--				    struct kvm_rmap_head *rmap_head)
-+				    struct kvm_rmap_head *rmap_head,
-+				    void *data)
- {
--	return __rmap_write_protect(kvm, rmap_head, false);
-+	return __rmap_write_protect(kvm, rmap_head, false, data);
- }
- 
- void kvm_mmu_slot_remove_write_access(struct kvm *kvm,
-@@ -5669,7 +5676,7 @@ void kvm_mmu_slot_remove_write_access(struct kvm *kvm,
- 
- 	spin_lock(&kvm->mmu_lock);
- 	flush = slot_handle_all_level(kvm, memslot, slot_rmap_write_protect,
--				      false);
-+				      false, NULL);
- 	spin_unlock(&kvm->mmu_lock);
- 
- 	/*
-@@ -5696,7 +5703,8 @@ void kvm_mmu_slot_remove_write_access(struct kvm *kvm,
- }
- 
- static bool kvm_mmu_zap_collapsible_spte(struct kvm *kvm,
--					 struct kvm_rmap_head *rmap_head)
-+					 struct kvm_rmap_head *rmap_head,
-+					 void *data)
- {
- 	u64 *sptep;
- 	struct rmap_iterator iter;
-@@ -5740,7 +5748,7 @@ void kvm_mmu_zap_collapsible_sptes(struct kvm *kvm,
- 	/* FIXME: const-ify all uses of struct kvm_memory_slot.  */
- 	spin_lock(&kvm->mmu_lock);
- 	slot_handle_leaf(kvm, (struct kvm_memory_slot *)memslot,
--			 kvm_mmu_zap_collapsible_spte, true);
-+			 kvm_mmu_zap_collapsible_spte, true, NULL);
- 	spin_unlock(&kvm->mmu_lock);
- }
- 
-@@ -5750,7 +5758,7 @@ void kvm_mmu_slot_leaf_clear_dirty(struct kvm *kvm,
- 	bool flush;
- 
- 	spin_lock(&kvm->mmu_lock);
--	flush = slot_handle_leaf(kvm, memslot, __rmap_clear_dirty, false);
-+	flush = slot_handle_leaf(kvm, memslot, __rmap_clear_dirty, false, NULL);
- 	spin_unlock(&kvm->mmu_lock);
- 
- 	lockdep_assert_held(&kvm->slots_lock);
-@@ -5774,7 +5782,7 @@ void kvm_mmu_slot_largepage_remove_write_access(struct kvm *kvm,
- 
- 	spin_lock(&kvm->mmu_lock);
- 	flush = slot_handle_large_level(kvm, memslot, slot_rmap_write_protect,
--					false);
-+					false, NULL);
- 	spin_unlock(&kvm->mmu_lock);
- 
- 	/* see kvm_mmu_slot_remove_write_access */
-@@ -5792,7 +5800,8 @@ void kvm_mmu_slot_set_dirty(struct kvm *kvm,
- 	bool flush;
- 
- 	spin_lock(&kvm->mmu_lock);
--	flush = slot_handle_all_level(kvm, memslot, __rmap_set_dirty, false);
-+	flush = slot_handle_all_level(kvm, memslot, __rmap_set_dirty, false,
-+			NULL);
- 	spin_unlock(&kvm->mmu_lock);
- 
- 	lockdep_assert_held(&kvm->slots_lock);
+diff --git a/arch/x86/kvm/mmu.h b/arch/x86/kvm/mmu.h
+index c7b333147c..49d7f2f002 100644
+--- a/arch/x86/kvm/mmu.h
++++ b/arch/x86/kvm/mmu.h
+@@ -211,4 +211,5 @@ void kvm_mmu_gfn_allow_lpage(struct kvm_memory_slot *slot, gfn_t gfn);
+ bool kvm_mmu_slot_gfn_write_protect(struct kvm *kvm,
+ 				    struct kvm_memory_slot *slot, u64 gfn);
+ int kvm_arch_write_log_dirty(struct kvm_vcpu *vcpu);
++gfn_t spte_to_gfn(u64 *sptep);
+ #endif
 -- 
 2.19.2
 
