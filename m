@@ -5,48 +5,48 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 974B57D8BA
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  6 Jan 2019 19:25:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C43887D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  6 Jan 2019 19:25:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726260AbfAFTZL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 6 Jan 2019 14:25:11 -0500
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:36729 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726113AbfAFTZL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Jan 2019 14:25:11 -0500
-Received: by mail-ed1-f65.google.com with SMTP id f23so36062040edb.3
-        for <linux-doc@vger.kernel.org>; Sun, 06 Jan 2019 11:25:10 -0800 (PST)
+        id S1726355AbfAFTZY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 6 Jan 2019 14:25:24 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:44792 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726402AbfAFTZX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Jan 2019 14:25:23 -0500
+Received: by mail-ed1-f66.google.com with SMTP id y56so35986231edd.11
+        for <linux-doc@vger.kernel.org>; Sun, 06 Jan 2019 11:25:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=mena-vt-edu.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=juz3/8ubyO70o/WwTakdDVvsVYAiN+8d71XTlXhc8d0=;
-        b=steZiVVlp0a+SY0QZj98+HUEpB+SGU2fbQS7H3wpS+ptnLLFDoHHCjCQOVZVKKqUVW
-         OUGZ+Xns0jjpiAHyw0qb/o2V2bmJnriImE0hdzUF3+hYfUoTcmU59muqVRwZB/HwKGS+
-         fYomN2joLB5sxf6SR9hqc3A9et/eLYq9lhoiMp4T72DurvYOnlWDNThCnDuW8nwu9vsW
-         uvxgYFXC0dNSGFI1L5z6HptxxxabfaXFRhC9Q+ZHuFr+pHOLn+vMPczC0hVuCpmMVc7Z
-         tp4eH0JJSCsyHAsgJ2JLLRAm6QRgObMJ62BvxkC7U6zw2XYEmQmAFLxUs3m3MnZOJW9/
-         cKHg==
+        bh=ba3tDASNTotjNQKnGm55/6Aw1NBRDm2GVVzFiCk5Tjc=;
+        b=zpYfPxRqEB8eTs8o0j0BgjToS8DwTFxUsViK4Irqzc7ffz2W8Fd0FYrDYlUk6yATFp
+         357eynaCBZTuLK866VMPnkdQLlkaGyLc0NuqabKuwfBrafo+0Y1cno5gb5H5WLqZF/0l
+         rCOOs0Rm9EWp4eTjuCO9yt66WVy4OZ0vTzALcmvMNQcOGz165ek8IJV7fHffXqKj1ZYV
+         ukwo/RMLDT8FA73ab3ZjNDjh09LMG2RZTSb06VeaZqgOPJAYZVKPEx7VVY1VZiU4p+gr
+         ZPYkHBAL3OYpwxm0yAyuSVayqW/ecs7CiDr/cSZNd7CgFtYpcXQoEAfP9A7rzOEzxNq7
+         v++A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=juz3/8ubyO70o/WwTakdDVvsVYAiN+8d71XTlXhc8d0=;
-        b=faSe1Y+dvvJIRxc+pT50YqLOwt90/XMTfKWgw0WAj64zsbQSRSfqbjfJ/5VsX/QYRx
-         OGSGrYWB9f0DFtjFyRhNGPIsyMaOaN3YERpd58MigHRHlSQFd2qFQT/OdRq2ReYqw/zM
-         1fVwQjZv/4UQ97Gd6ppvEukyTC85VZ9qOdBINR5GcPizXxWb1ifW4JpwFyDooos9zppD
-         zzjM8z5l9gWKIdda4NVxePXQ3n0/9WkdveqPOcz4Dlne4uRkKSed3jPCn+VcfcDxsjOu
-         RrbOCNsVeqHuL6RzB9O1PWcZSZCPpoA7DP+zybeptmqI0IZGuafb0QiJOk4EvSiQElib
-         QkGg==
-X-Gm-Message-State: AA+aEWZeVThCDlPV+mosqOO+YrvaDihpaTpfxuf+BFszP6tMkjFOPESy
-        tgO7Z58Sjn2VrAPEaZ+MpVUNUg==
-X-Google-Smtp-Source: AFSGD/UvYgbKU5xyrz93gZaOyQ+KFy6uO5zf3YP7d8coLvYHSjYPA5V+eFF+u48ZvYMDUhQKtHjMkQ==
-X-Received: by 2002:aa7:d29a:: with SMTP id w26mr54305747edq.30.1546802709581;
-        Sun, 06 Jan 2019 11:25:09 -0800 (PST)
+        bh=ba3tDASNTotjNQKnGm55/6Aw1NBRDm2GVVzFiCk5Tjc=;
+        b=Na2NDNrNyY1h0L96+Ufj2+nqVeTWuYGzWY1rIoiA3yTdI5xb9FYPdLvXNno3r4bes0
+         iEVXGkxULVsFUYSeE92TyOyqxf73uJcV28lNWtnl7nMmATeH+4ZEfTxcaIPaxqJh1v30
+         KM6ln4+BS4oAE+f7np9zUN2HFtsdbottDHZIdKvWiyYZfZcNlQkM8fgvOo4vaRn6pMv9
+         NpKMxrEcxxtR4mI7lMg1TpfUA/fnYGCY52w/Vo1Zzi0phWRa28Pne8hM/4c5PoJoslD3
+         M5EwjZ3Pj+jitLmH45R/Phr0Q/SAMUEeIaX4gLbRydIVi2L1ivbRXlofj/aRQ8zjB4Lj
+         10sA==
+X-Gm-Message-State: AA+aEWYMsOGZ1YFy02ZlXlaNW+GsRj5UsGYAxN3DjNEzu+1uoUkOxA4Q
+        P6NPfbfxi8L+J9rAHYmVBjDQ+g==
+X-Google-Smtp-Source: AFSGD/XhUQUcfgzrbTWmeYyvbIgQTMKsvPax7rZU4TJofh58jJImciLyOvBNwbUxmpAo3xaP3JGbkg==
+X-Received: by 2002:a17:906:474e:: with SMTP id j14-v6mr45305847ejs.55.1546802720684;
+        Sun, 06 Jan 2019 11:25:20 -0800 (PST)
 Received: from localhost.localdomain ([156.212.65.252])
-        by smtp.gmail.com with ESMTPSA id b46sm29994035edd.94.2019.01.06.11.25.04
+        by smtp.gmail.com with ESMTPSA id b46sm29994035edd.94.2019.01.06.11.25.17
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 06 Jan 2019 11:25:09 -0800 (PST)
+        Sun, 06 Jan 2019 11:25:20 -0800 (PST)
 From:   Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
 To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Jonathan Corbet <corbet@lwn.net>,
@@ -59,9 +59,9 @@ To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Boris Lukashev <blukashev@sempervictus.com>,
         Igor Stoppa <igor.stoppa@gmail.com>
 Cc:     Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-Subject: [PATCH V8 03/11] KVM: X86: Add helper function to convert SPTE to GFN
-Date:   Sun,  6 Jan 2019 21:23:37 +0200
-Message-Id: <20190106192345.13578-4-ahmedsoliman@mena.vt.edu>
+Subject: [PATCH V8 05/11] KVM: Create architecture independent ROE skeleton
+Date:   Sun,  6 Jan 2019 21:23:39 +0200
+Message-Id: <20190106192345.13578-6-ahmedsoliman@mena.vt.edu>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <20190106192345.13578-1-ahmedsoliman@mena.vt.edu>
 References: <20190106192345.13578-1-ahmedsoliman@mena.vt.edu>
@@ -72,40 +72,323 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This patch introduces a hypercall that can assist against subset of kernel
+rootkits, it works by place readonly protection in shadow PTE. The end
+result protection is also kept in a bitmap for each kvm_memory_slot and is
+used as reference when updating SPTEs. The whole goal is to protect the
+guest kernel static data from modification if attacker is running from
+guest ring 0, for this reason there is no hypercall to revert effect of
+Memory ROE hypercall. This patch doesn't implement integrity check on guest
+TLB so obvious attack on the current implementation will involve guest
+virtual address -> guest physical address remapping, but there are plans to
+fix that. For this patch to work on a given arch/ one would need to
+implement 2 function that are architecture specific:
+kvm_roe_arch_commit_protection() and kvm_roe_arch_is_userspace(). Also it
+would need to have kvm_roe invoked using the appropriate hypercall
+mechanism.
+
 Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
 ---
- arch/x86/kvm/mmu.c | 7 +++++++
- arch/x86/kvm/mmu.h | 1 +
- 2 files changed, 8 insertions(+)
+ include/kvm/roe.h             |  16 ++++
+ include/linux/kvm_host.h      |   1 +
+ include/uapi/linux/kvm_para.h |   4 +
+ virt/kvm/kvm_main.c           |  19 +++--
+ virt/kvm/roe.c                | 136 ++++++++++++++++++++++++++++++++++
+ virt/kvm/roe_generic.h        |  19 +++++
+ 6 files changed, 190 insertions(+), 5 deletions(-)
+ create mode 100644 include/kvm/roe.h
+ create mode 100644 virt/kvm/roe.c
+ create mode 100644 virt/kvm/roe_generic.h
 
-diff --git a/arch/x86/kvm/mmu.c b/arch/x86/kvm/mmu.c
-index 098df7d135..bbfe3f2863 100644
---- a/arch/x86/kvm/mmu.c
-+++ b/arch/x86/kvm/mmu.c
-@@ -1053,6 +1053,13 @@ static gfn_t kvm_mmu_page_get_gfn(struct kvm_mmu_page *sp, int index)
- 
- 	return sp->gfn + (index << ((sp->role.level - 1) * PT64_LEVEL_BITS));
- }
-+gfn_t spte_to_gfn(u64 *spte)
-+{
-+	struct kvm_mmu_page *sp;
+diff --git a/include/kvm/roe.h b/include/kvm/roe.h
+new file mode 100644
+index 0000000000..6a86866623
+--- /dev/null
++++ b/include/kvm/roe.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: GPL-2.0 */
 +
-+	sp = page_header(__pa(spte));
-+	return kvm_mmu_page_get_gfn(sp, spte - sp->spt);
-+}
++#ifndef __KVM_ROE_H__
++#define __KVM_ROE_H__
++/*
++ * KVM Read Only Enforcement
++ * Copyright (c) 2018 Ahmed Abd El Mawgood
++ *
++ * Author Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
++ *
++ */
++void kvm_roe_arch_commit_protection(struct kvm *kvm,
++		struct kvm_memory_slot *slot);
++int kvm_roe(struct kvm_vcpu *vcpu, u64 a0, u64 a1, u64 a2, u64 a3);
++bool kvm_roe_arch_is_userspace(struct kvm_vcpu *vcpu);
++#endif
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index c38cc5eb7e..a627c6e81a 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -297,6 +297,7 @@ static inline int kvm_vcpu_exiting_guest_mode(struct kvm_vcpu *vcpu)
+ struct kvm_memory_slot {
+ 	gfn_t base_gfn;
+ 	unsigned long npages;
++	unsigned long *roe_bitmap;
+ 	unsigned long *dirty_bitmap;
+ 	struct kvm_arch_memory_slot arch;
+ 	unsigned long userspace_addr;
+diff --git a/include/uapi/linux/kvm_para.h b/include/uapi/linux/kvm_para.h
+index 6c0ce49931..e6004e0750 100644
+--- a/include/uapi/linux/kvm_para.h
++++ b/include/uapi/linux/kvm_para.h
+@@ -28,7 +28,11 @@
+ #define KVM_HC_MIPS_CONSOLE_OUTPUT	8
+ #define KVM_HC_CLOCK_PAIRING		9
+ #define KVM_HC_SEND_IPI		10
++#define KVM_HC_ROE			11
  
- static void kvm_mmu_page_set_gfn(struct kvm_mmu_page *sp, int index, gfn_t gfn)
++/* ROE Functionality parameters */
++#define ROE_VERSION			0
++#define ROE_MPROTECT			1
+ /*
+  * hypercalls use architecture specific
+  */
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 2f37b4b6a2..88b5fbcbb0 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -61,6 +61,7 @@
+ #include "coalesced_mmio.h"
+ #include "async_pf.h"
+ #include "vfio.h"
++#include "roe_generic.h"
+ 
+ #define CREATE_TRACE_POINTS
+ #include <trace/events/kvm.h>
+@@ -551,9 +552,10 @@ static void kvm_free_memslot(struct kvm *kvm, struct kvm_memory_slot *free,
+ 			      struct kvm_memory_slot *dont,
+ 			      enum kvm_mr_change change)
  {
-diff --git a/arch/x86/kvm/mmu.h b/arch/x86/kvm/mmu.h
-index c7b333147c..49d7f2f002 100644
---- a/arch/x86/kvm/mmu.h
-+++ b/arch/x86/kvm/mmu.h
-@@ -211,4 +211,5 @@ void kvm_mmu_gfn_allow_lpage(struct kvm_memory_slot *slot, gfn_t gfn);
- bool kvm_mmu_slot_gfn_write_protect(struct kvm *kvm,
- 				    struct kvm_memory_slot *slot, u64 gfn);
- int kvm_arch_write_log_dirty(struct kvm_vcpu *vcpu);
-+gfn_t spte_to_gfn(u64 *sptep);
- #endif
+-	if (change == KVM_MR_DELETE)
++	if (change == KVM_MR_DELETE) {
++		kvm_roe_free(free);
+ 		kvm_destroy_dirty_bitmap(free);
+-
++	}
+ 	kvm_arch_free_memslot(kvm, free, dont);
+ 
+ 	free->npages = 0;
+@@ -1018,6 +1020,8 @@ int __kvm_set_memory_region(struct kvm *kvm,
+ 		if (kvm_create_dirty_bitmap(&new) < 0)
+ 			goto out_free;
+ 	}
++	if (kvm_roe_init(&new) < 0)
++		goto out_free;
+ 
+ 	slots = kvzalloc(sizeof(struct kvm_memslots), GFP_KERNEL);
+ 	if (!slots)
+@@ -1348,13 +1352,18 @@ static bool memslot_is_readonly(struct kvm_memory_slot *slot)
+ 	return slot->flags & KVM_MEM_READONLY;
+ }
+ 
++static bool gfn_is_readonly(struct kvm_memory_slot *slot, gfn_t gfn)
++{
++	return gfn_is_full_roe(slot, gfn) || memslot_is_readonly(slot);
++}
++
+ static unsigned long __gfn_to_hva_many(struct kvm_memory_slot *slot, gfn_t gfn,
+ 				       gfn_t *nr_pages, bool write)
+ {
+ 	if (!slot || slot->flags & KVM_MEMSLOT_INVALID)
+ 		return KVM_HVA_ERR_BAD;
+ 
+-	if (memslot_is_readonly(slot) && write)
++	if (gfn_is_readonly(slot, gfn) && write)
+ 		return KVM_HVA_ERR_RO_BAD;
+ 
+ 	if (nr_pages)
+@@ -1402,7 +1411,7 @@ unsigned long gfn_to_hva_memslot_prot(struct kvm_memory_slot *slot,
+ 	unsigned long hva = __gfn_to_hva_many(slot, gfn, NULL, false);
+ 
+ 	if (!kvm_is_error_hva(hva) && writable)
+-		*writable = !memslot_is_readonly(slot);
++		*writable = !gfn_is_readonly(slot, gfn);
+ 
+ 	return hva;
+ }
+@@ -1640,7 +1649,7 @@ kvm_pfn_t __gfn_to_pfn_memslot(struct kvm_memory_slot *slot, gfn_t gfn,
+ 	}
+ 
+ 	/* Do not map writable pfn in the readonly memslot. */
+-	if (writable && memslot_is_readonly(slot)) {
++	if (writable && gfn_is_readonly(slot, gfn)) {
+ 		*writable = false;
+ 		writable = NULL;
+ 	}
+diff --git a/virt/kvm/roe.c b/virt/kvm/roe.c
+new file mode 100644
+index 0000000000..33d3a4f507
+--- /dev/null
++++ b/virt/kvm/roe.c
+@@ -0,0 +1,136 @@
++// SPDX-License-Identifier: GPL-2.0
++
++/*
++ * KVM Read Only Enforcement
++ * Copyright (c) 2018 Ahmed Abd El Mawgood
++ *
++ * Author: Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
++ *
++ */
++#include <linux/kvm_host.h>
++#include <linux/kvm.h>
++#include <linux/kvm_para.h>
++#include <kvm/roe.h>
++
++int kvm_roe_init(struct kvm_memory_slot *slot)
++{
++	slot->roe_bitmap = kvzalloc(BITS_TO_LONGS(slot->npages) *
++			sizeof(unsigned long), GFP_KERNEL);
++	if (!slot->roe_bitmap)
++		return -ENOMEM;
++	return 0;
++
++}
++
++void kvm_roe_free(struct kvm_memory_slot *slot)
++{
++	kvfree(slot->roe_bitmap);
++}
++
++static void kvm_roe_protect_slot(struct kvm *kvm, struct kvm_memory_slot *slot,
++		gfn_t gfn, u64 npages)
++{
++	int i;
++
++	for (i = gfn - slot->base_gfn; i < gfn + npages - slot->base_gfn; i++)
++		set_bit(i, slot->roe_bitmap);
++	kvm_roe_arch_commit_protection(kvm, slot);
++}
++
++
++static int __kvm_roe_protect_range(struct kvm *kvm, gpa_t gpa, u64 npages)
++{
++	struct kvm_memory_slot *slot;
++	gfn_t gfn = gpa >> PAGE_SHIFT;
++	int count = 0;
++
++	while (npages != 0) {
++		slot = gfn_to_memslot(kvm, gfn);
++		if (!slot) {
++			gfn += 1;
++			npages -= 1;
++			continue;
++		}
++		if (gfn + npages > slot->base_gfn + slot->npages) {
++			u64 _npages = slot->base_gfn + slot->npages - gfn;
++
++			kvm_roe_protect_slot(kvm, slot, gfn, _npages);
++			gfn += _npages;
++			count += _npages;
++			npages -= _npages;
++		} else {
++			kvm_roe_protect_slot(kvm, slot, gfn, npages);
++			count += npages;
++			npages = 0;
++		}
++	}
++	if (count == 0)
++		return -EINVAL;
++	return count;
++}
++
++static int kvm_roe_protect_range(struct kvm *kvm, gpa_t gpa, u64 npages)
++{
++	int r;
++
++	mutex_lock(&kvm->slots_lock);
++	r = __kvm_roe_protect_range(kvm, gpa, npages);
++	mutex_unlock(&kvm->slots_lock);
++	return r;
++}
++
++
++static int kvm_roe_full_protect_range(struct kvm_vcpu *vcpu, u64 gva,
++		u64 npages)
++{
++	struct kvm *kvm = vcpu->kvm;
++	gpa_t gpa;
++	u64 hva;
++	u64 count = 0;
++	int i;
++	int status;
++
++	if (gva & ~PAGE_MASK)
++		return -EINVAL;
++	// We need to make sure that there will be no overflow
++	if ((npages << PAGE_SHIFT) >> PAGE_SHIFT != npages || npages == 0)
++		return -EINVAL;
++	for (i = 0; i < npages; i++) {
++		gpa = kvm_mmu_gva_to_gpa_system(vcpu, gva + (i << PAGE_SHIFT),
++				NULL);
++		hva = gfn_to_hva(kvm, gpa >> PAGE_SHIFT);
++		if (kvm_is_error_hva(hva))
++			continue;
++		if (!access_ok(hva, 1 << PAGE_SHIFT))
++			continue;
++		status =  kvm_roe_protect_range(vcpu->kvm, gpa, 1);
++		if (status > 0)
++			count += status;
++	}
++	if (count == 0)
++		return -EINVAL;
++	return count;
++}
++
++int kvm_roe(struct kvm_vcpu *vcpu, u64 a0, u64 a1, u64 a2, u64 a3)
++{
++	int ret;
++	/*
++	 * First we need to make sure that we are running from something that
++	 * isn't usermode
++	 */
++	if (kvm_roe_arch_is_userspace(vcpu))
++		return -KVM_ENOSYS;
++	switch (a0) {
++	case ROE_VERSION:
++		ret = 1; //current version
++		break;
++	case ROE_MPROTECT:
++		ret = kvm_roe_full_protect_range(vcpu, a1, a2);
++		break;
++	default:
++		ret = -EINVAL;
++	}
++	return ret;
++}
++EXPORT_SYMBOL_GPL(kvm_roe);
+diff --git a/virt/kvm/roe_generic.h b/virt/kvm/roe_generic.h
+new file mode 100644
+index 0000000000..36e5b52c5b
+--- /dev/null
++++ b/virt/kvm/roe_generic.h
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef __KVM_ROE_GENERIC_H__
++#define __KVM_ROE_GENERIC_H__
++/*
++ * KVM Read Only Enforcement
++ * Copyright (c) 2018 Ahmed Abd El Mawgood
++ *
++ * Author Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
++ *
++ */
++
++void kvm_roe_free(struct kvm_memory_slot *slot);
++int kvm_roe_init(struct kvm_memory_slot *slot);
++static inline bool gfn_is_full_roe(struct kvm_memory_slot *slot, gfn_t gfn)
++{
++	return test_bit(gfn - slot->base_gfn, slot->roe_bitmap);
++}
++#endif
 -- 
 2.19.2
 
