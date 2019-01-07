@@ -3,101 +3,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E663F7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 15:54:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 64E037D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 15:58:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726654AbfAGPym (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Jan 2019 10:54:42 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:56652 "EHLO
+        id S1727712AbfAGP6n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Jan 2019 10:58:43 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:58124 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726511AbfAGPym (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 10:54:42 -0500
+        with ESMTP id S1727237AbfAGP6n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 10:58:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
         :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=EB8jJo74ngJGhrjSVclXwp46WwssCxFPErndM29eks4=; b=JLSAJM2YVQOUjWUV138MvuYR9
-        3dPjf9waKIDM2/SO2xRhDIZubSfm4WiTjU1KRVlE61YjDLJBX6BUQeR6hXY70aeXEitHFolg5nUWF
-        BaJYfMxGBI5kEhXiGbsj4uGDUZOO0cKwQ5TgztVLIm0k1/Hvw9xclye+ufU0bEAbJ6UEANhk8ffkc
-        h0Rd/oZ/ZVFxuhY1jj5oXhfWd4feL+hb9fzMcpe5C8RYWl/rF4Cemdu+QVbcrvCfOzQAKAU9eXjfG
-        A7P6JZ5ObfZZxoErjKxkU3AM7TO+uz8iQYnhPcQg5ui+LYFSbIOHWiMF42+c9mZkfoYcQ8U43sJO7
-        kecSpl8eQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1ggXEP-0006cV-MG; Mon, 07 Jan 2019 15:54:26 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 3023020074A04; Mon,  7 Jan 2019 16:54:23 +0100 (CET)
-Date:   Mon, 7 Jan 2019 16:54:23 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <andrea.parri@amarulasolutions.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>, linux-arch@vger.kernel.org,
-        netdev@vger.kernel.org, virtualization@lists.linux-foundation.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-sparse@vger.kernel.org
-Subject: Re: [PATCH RFC 3/4] barriers: convert a control to a data dependency
-Message-ID: <20190107155423.GM2218@hirez.programming.kicks-ass.net>
-References: <20190102205715.14054-1-mst@redhat.com>
- <20190102205715.14054-4-mst@redhat.com>
- <86023cbe-d1ae-a0d6-7b75-26556f1a0c1f@redhat.com>
- <20190106231756-mutt-send-email-mst@kernel.org>
- <20190107094610.GA2861@worktop.programming.kicks-ass.net>
- <20190107082223-mutt-send-email-mst@kernel.org>
+         bh=T/TCTiThUfcYYjxY+9m5Saw3iGYolZhNfHagKgM7EqU=; b=sqn2MwUuwC86K5XCjwh+rb0sT
+        Uzjx7tifpyNgZoY8GbpHrRabXn+wk6n8plAk487DOOk83ZZ27DWE5OUZH24+/qRgwa0g1WOuMzML0
+        VIoucPQelqTnGloNoK4+NAK7hT0+3l7u19ozoTF94mFLWa74bHf4HSFsSnGetj0GJ8cYAUR5VMV0Y
+        /jKmHERtAZXBQ2BnYizU0IXfjTGIq8y6ac6HbbB691dJWlY7jIbq0gPFHic9+BWP/Fq3q+Yss/gd5
+        WLHo9ZciAuA8ugUe8+m4iJM/WYZ/ecdmB7Bnqm/psXYpbL3RnnB1iNpZEekonfUo/UnBUPh6MY456
+        /iX5v42Pg==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1ggXIX-0008OQ-1T; Mon, 07 Jan 2019 15:58:41 +0000
+Date:   Mon, 7 Jan 2019 07:58:40 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Daniel Colascione <dancol@google.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 2/2] /proc/stat: Add sysctl parameter to control irq
+ counts latency
+Message-ID: <20190107155840.GY6310@bombadil.infradead.org>
+References: <1546873978-27797-1-git-send-email-longman@redhat.com>
+ <1546873978-27797-3-git-send-email-longman@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190107082223-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1546873978-27797-3-git-send-email-longman@redhat.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 07, 2019 at 08:36:36AM -0500, Michael S. Tsirkin wrote:
-> On Mon, Jan 07, 2019 at 10:46:10AM +0100, Peter Zijlstra wrote:
-
-> > How about naming the thing: dependent_ptr() ? That is without any (r)mb
-> > implications at all. The address dependency is strictly weaker than an
-> > rmb in that it will only order the two loads in qestion and not, like
-> > rmb, any prior to any later load.
+On Mon, Jan 07, 2019 at 10:12:58AM -0500, Waiman Long wrote:
+> Reading /proc/stat can be slow especially if there are many irqs and on
+> systems with many CPUs as summation of all the percpu counts for each
+> of the irqs is required. On some newer systems, there can be more than
+> 1000 irqs per socket.
 > 
-> So I'm fine with this as it's enough for virtio, but I would like to point out two things:
+> Applications that need to read /proc/stat many times per seconds will
+> easily hit a bottleneck. In reality, the irq counts are seldom looked
+> at. Even those applications that read them don't really need up-to-date
+> information. One way to reduce the performance impact of irq counts
+> computation is to do it less frequently.
 > 
-> 1. E.g. on x86 both SMP and DMA variants can be NOPs but
-> the madatory one can't, so assuming we do not want
-> it to be stronger than rmp then either we want
-> smp_dependent_ptr(), dma_dependent_ptr(), dependent_ptr()
-> or we just will specify that dependent_ptr() works for
-> both DMA and SMP.
+> A new "fs/proc-stat-irqs-latency-ms" sysctl parameter is now added to
 
-The latter; the construct simply generates dependent loads. It is up to
-the CPU as to what all that works for.
+No.  No, no, no, no, no.  No.
 
-> 2. Down the road, someone might want to order a store after a load.
-> Address dependency does that for us too. Assuming we make
-> dependent_ptr a NOP on x86, we will want an mb variant
-> which isn't a NOP on x86. Will we want to rename
-> dependent_ptr to dependent_ptr_rmb at that point?
+Stop adding new sysctls for this kind of thing.  It's just a way to shift
+blame from us (who allegedly know what we're doing) to the sysadmin
+(who probably has better things to be doing than keeping up with the
+intricacies of development of every single piece of software running on
+their system).
 
-Not sure; what is the actual overhead of the construct on x86 vs the
-NOP?
+Let's figure out what this _should_ be.  As a strawman, I propose we
+update these stats once a second.  That's easy to document and understand.
+
+> @@ -98,7 +105,48 @@ static u64 compute_stat_irqs_sum(void)
+>  static void show_stat_irqs(struct seq_file *p)
+>  {
+>  	int i;
+> +#ifdef CONFIG_PROC_SYSCTL
+> +	static char *irqs_buf;		   /* Buffer for irqs values */
+> +	static int buflen;
+> +	static unsigned long last_jiffies; /* Last buffer update jiffies */
+> +	static DEFINE_MUTEX(irqs_mutex);
+> +	unsigned int latency = proc_stat_irqs_latency_ms;
+> +
+> +	if (latency) {
+> +		char *ptr;
+> +
+> +		latency = _msecs_to_jiffies(latency);
+> +
+> +		mutex_lock(&irqs_mutex);
+> +		if (irqs_buf && time_before(jiffies, last_jiffies + latency))
+> +			goto print_out;
+> +
+> +		/*
+> +		 * Each irq value may require up to 11 bytes.
+> +		 */
+> +		if (!irqs_buf) {
+> +			irqs_buf = kmalloc(nr_irqs * 11 + 32,
+> +					   GFP_KERNEL | __GFP_ZERO);
+
+Why are you caching the _output_ of calling sprintf(), rather than caching the
+values of each interrupt?
+
