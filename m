@@ -1,180 +1,400 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 444DB7D099
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 21:42:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 39BD57D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 21:42:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727395AbfAGVmX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Jan 2019 16:42:23 -0500
-Received: from mail-vs1-f66.google.com ([209.85.217.66]:33650 "EHLO
-        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727236AbfAGVmW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 16:42:22 -0500
-Received: by mail-vs1-f66.google.com with SMTP id p74so1229423vsc.0
-        for <linux-doc@vger.kernel.org>; Mon, 07 Jan 2019 13:42:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hS2gSuvP5ACAtJN0YLQzxg50f6d7JdKFNF6Mv5pVdRc=;
-        b=BVEZhsTr7Kv3or/6ZyOwbwq6pvKwoZolGI/lgCHlldXD0uEJ20RyOeDuJKjiuFzaug
-         t6SZ4ZCKE5+eJUTUIRDouV+xN4nF1Wasg2TxN8bAtF3lHI738dcu+6soQ2/KZJr3Vt9y
-         3Ss/T6KKFbSm9bK0yoOMeLon/LFXYHKb2B+no=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hS2gSuvP5ACAtJN0YLQzxg50f6d7JdKFNF6Mv5pVdRc=;
-        b=tWFQibOF6GXHf/sKyOMrIh3sJCdyVpkJsXXjir2cNTYlBdktdLCPs10yss3NpLv6/D
-         dpPqYczqg/gwKn2RM22gn6Is9cxD94FrYvwQhSxpYsYJTpTytms7R+4UZqomm+JZF2ha
-         v04TZkJUW2Rq/5rgjelzNaWHzEtx9q2cDEjcfP/KbLvBeaF9KpXQh1m/KJZSfAzyoKUC
-         6b92xPfPj72v3xzrtdEUFfPARSmBLvwHwYKEIPsEp2s+lZXhIjjxOtI6/o1TDple0Ndq
-         DVa994H7VZsdg5iqglIDO0kmstAazedHw/pqfR2V3Tkk+dF1l6iUrWLbWVQSfKGTxHK2
-         cz/A==
-X-Gm-Message-State: AA+aEWYw/TVmIS9UObZ8IZCoyFWG2UOkNllUovbYHs4lCs//onqxs1Ku
-        1cASk6WbDLedS9QSVxD67B1TLxsntOM=
-X-Google-Smtp-Source: ALg8bN5+hyMsZ7SGRRCaka9CB+DoS6glddA0B3vJPQVP7pB5t8ALopUjPtIMSpVxBcSf+DrpA3s/cQ==
-X-Received: by 2002:a67:382:: with SMTP id 124mr25180750vsd.201.1546897340948;
-        Mon, 07 Jan 2019 13:42:20 -0800 (PST)
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com. [209.85.221.172])
-        by smtp.gmail.com with ESMTPSA id t13sm15775867uao.19.2019.01.07.13.42.19
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 07 Jan 2019 13:42:19 -0800 (PST)
-Received: by mail-vk1-f172.google.com with SMTP id h128so421684vkg.11
-        for <linux-doc@vger.kernel.org>; Mon, 07 Jan 2019 13:42:19 -0800 (PST)
-X-Received: by 2002:a1f:298e:: with SMTP id p136mr23091757vkp.40.1546897338734;
- Mon, 07 Jan 2019 13:42:18 -0800 (PST)
-MIME-Version: 1.0
-References: <1546873978-27797-1-git-send-email-longman@redhat.com> <1546873978-27797-2-git-send-email-longman@redhat.com>
-In-Reply-To: <1546873978-27797-2-git-send-email-longman@redhat.com>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Mon, 7 Jan 2019 13:42:07 -0800
-X-Gmail-Original-Message-ID: <CAGXu5jL_jMM4PaPcrptc-sFA2X0QZM=upr5hqHFXnSkhvqPHLA@mail.gmail.com>
-Message-ID: <CAGXu5jL_jMM4PaPcrptc-sFA2X0QZM=upr5hqHFXnSkhvqPHLA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] /proc/stat: Extract irqs counting code into show_stat_irqs()
-To:     Waiman Long <longman@redhat.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
+        id S1727244AbfAGVl5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Jan 2019 16:41:57 -0500
+Received: from mga05.intel.com ([192.55.52.43]:19777 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727013AbfAGVly (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Jan 2019 16:41:54 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jan 2019 13:41:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,451,1539673200"; 
+   d="scan'208";a="124046674"
+Received: from maru.jf.intel.com ([10.54.51.77])
+  by FMSMGA003.fm.intel.com with ESMTP; 07 Jan 2019 13:41:52 -0800
+From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+To:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
         Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Daniel Colascione <dancol@google.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        Eric Sandeen <sandeen@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
+        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
+        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
+        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Stephen Boyd <sboyd@codeaurora.org>,
+        David Kershner <david.kershner@unisys.com>,
+        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
+        Sagar Dharia <sdharia@codeaurora.org>,
+        Johan Hovold <johan@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Juergen Gross <jgross@suse.com>,
+        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>
+Cc:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        openbmc@lists.ozlabs.org,
+        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
+        James Feist <james.feist@linux.intel.com>,
+        Jason M Biils <jason.m.bills@linux.intel.com>,
+        Vernon Mauery <vernon.mauery@linux.intel.com>
+Subject: [PATCH v10 08/12] mfd: intel-peci-client: Add PECI client driver
+Date:   Mon,  7 Jan 2019 13:41:32 -0800
+Message-Id: <20190107214136.5256-9-jae.hyun.yoo@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190107214136.5256-1-jae.hyun.yoo@linux.intel.com>
+References: <20190107214136.5256-1-jae.hyun.yoo@linux.intel.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 7, 2019 at 7:13 AM Waiman Long <longman@redhat.com> wrote:
->
-> The code that generates the "intr" line of /proc/stat is now moved
-> from show_stat() into a new function - show_stat_irqs(). There is no
-> functional change.
->
-> Signed-off-by: Waiman Long <longman@redhat.com>
+This commit adds PECI client driver.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Andrew Jeffery <andrew@aj.id.au>
+Cc: James Feist <james.feist@linux.intel.com>
+Cc: Jason M Biils <jason.m.bills@linux.intel.com>
+Cc: Joel Stanley <joel@jms.id.au>
+Cc: Vernon Mauery <vernon.mauery@linux.intel.com>
+Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+---
+ drivers/mfd/Kconfig                   |  14 +++
+ drivers/mfd/Makefile                  |   1 +
+ drivers/mfd/intel-peci-client.c       | 143 ++++++++++++++++++++++++++
+ include/linux/mfd/intel-peci-client.h | 108 +++++++++++++++++++
+ 4 files changed, 266 insertions(+)
+ create mode 100644 drivers/mfd/intel-peci-client.c
+ create mode 100644 include/linux/mfd/intel-peci-client.h
 
--Kees
-
-> ---
->  fs/proc/stat.c | 39 +++++++++++++++++++++++++++++----------
->  1 file changed, 29 insertions(+), 10 deletions(-)
->
-> diff --git a/fs/proc/stat.c b/fs/proc/stat.c
-> index 535eda7..4b06f1b 100644
-> --- a/fs/proc/stat.c
-> +++ b/fs/proc/stat.c
-> @@ -79,12 +79,38 @@ static u64 get_iowait_time(int cpu)
->
->  #endif
->
-> +static u64 compute_stat_irqs_sum(void)
-> +{
-> +       int i;
-> +       u64 sum = 0;
-> +
-> +       for_each_possible_cpu(i) {
-> +               sum += kstat_cpu_irqs_sum(i);
-> +               sum += arch_irq_stat_cpu(i);
-> +       }
-> +       sum += arch_irq_stat();
-> +       return sum;
-> +}
-> +
-> +/*
-> + * Print out the "intr" line of /proc/stat.
-> + */
-> +static void show_stat_irqs(struct seq_file *p)
-> +{
-> +       int i;
-> +
-> +       seq_put_decimal_ull(p, "intr ", compute_stat_irqs_sum());
-> +       for_each_irq_nr(i)
-> +               seq_put_decimal_ull(p, " ", kstat_irqs_usr(i));
-> +
-> +       seq_putc(p, '\n');
-> +}
-> +
->  static int show_stat(struct seq_file *p, void *v)
->  {
->         int i, j;
->         u64 user, nice, system, idle, iowait, irq, softirq, steal;
->         u64 guest, guest_nice;
-> -       u64 sum = 0;
->         u64 sum_softirq = 0;
->         unsigned int per_softirq_sums[NR_SOFTIRQS] = {0};
->         struct timespec64 boottime;
-> @@ -105,8 +131,6 @@ static int show_stat(struct seq_file *p, void *v)
->                 steal += kcpustat_cpu(i).cpustat[CPUTIME_STEAL];
->                 guest += kcpustat_cpu(i).cpustat[CPUTIME_GUEST];
->                 guest_nice += kcpustat_cpu(i).cpustat[CPUTIME_GUEST_NICE];
-> -               sum += kstat_cpu_irqs_sum(i);
-> -               sum += arch_irq_stat_cpu(i);
->
->                 for (j = 0; j < NR_SOFTIRQS; j++) {
->                         unsigned int softirq_stat = kstat_softirqs_cpu(j, i);
-> @@ -115,7 +139,6 @@ static int show_stat(struct seq_file *p, void *v)
->                         sum_softirq += softirq_stat;
->                 }
->         }
-> -       sum += arch_irq_stat();
->
->         seq_put_decimal_ull(p, "cpu  ", nsec_to_clock_t(user));
->         seq_put_decimal_ull(p, " ", nsec_to_clock_t(nice));
-> @@ -154,14 +177,10 @@ static int show_stat(struct seq_file *p, void *v)
->                 seq_put_decimal_ull(p, " ", nsec_to_clock_t(guest_nice));
->                 seq_putc(p, '\n');
->         }
-> -       seq_put_decimal_ull(p, "intr ", (unsigned long long)sum);
-> -
-> -       /* sum again ? it could be updated? */
-> -       for_each_irq_nr(j)
-> -               seq_put_decimal_ull(p, " ", kstat_irqs_usr(j));
-> +       show_stat_irqs(p);
->
->         seq_printf(p,
-> -               "\nctxt %llu\n"
-> +               "ctxt %llu\n"
->                 "btime %llu\n"
->                 "processes %lu\n"
->                 "procs_running %lu\n"
-> --
-> 1.8.3.1
->
-
-
+diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+index 8c5dfdce4326..d021aa8dfa99 100644
+--- a/drivers/mfd/Kconfig
++++ b/drivers/mfd/Kconfig
+@@ -604,6 +604,20 @@ config MFD_INTEL_MSIC
+ 	  Passage) chip. This chip embeds audio, battery, GPIO, etc.
+ 	  devices used in Intel Medfield platforms.
+ 
++config MFD_INTEL_PECI_CLIENT
++	bool "Intel PECI client"
++	depends on (PECI || COMPILE_TEST)
++	select MFD_CORE
++	help
++	  If you say yes to this option, support will be included for the
++	  Intel PECI (Platform Environment Control Interface) client. PECI is a
++	  one-wire bus interface that provides a communication channel from PECI
++	  clients in Intel processors and chipset components to external
++	  monitoring or control devices.
++
++	  Additional drivers must be enabled in order to use the functionality
++	  of the device.
++
+ config MFD_IPAQ_MICRO
+ 	bool "Atmel Micro ASIC (iPAQ h3100/h3600/h3700) Support"
+ 	depends on SA1100_H3100 || SA1100_H3600
+diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+index 12980a4ad460..b8c1da8e748b 100644
+--- a/drivers/mfd/Makefile
++++ b/drivers/mfd/Makefile
+@@ -204,6 +204,7 @@ obj-$(CONFIG_MFD_INTEL_LPSS)	+= intel-lpss.o
+ obj-$(CONFIG_MFD_INTEL_LPSS_PCI)	+= intel-lpss-pci.o
+ obj-$(CONFIG_MFD_INTEL_LPSS_ACPI)	+= intel-lpss-acpi.o
+ obj-$(CONFIG_MFD_INTEL_MSIC)	+= intel_msic.o
++obj-$(CONFIG_MFD_INTEL_PECI_CLIENT)	+= intel-peci-client.o
+ obj-$(CONFIG_MFD_PALMAS)	+= palmas.o
+ obj-$(CONFIG_MFD_VIPERBOARD)    += viperboard.o
+ obj-$(CONFIG_MFD_RC5T583)	+= rc5t583.o rc5t583-irq.o
+diff --git a/drivers/mfd/intel-peci-client.c b/drivers/mfd/intel-peci-client.c
+new file mode 100644
+index 000000000000..d62442438512
+--- /dev/null
++++ b/drivers/mfd/intel-peci-client.c
+@@ -0,0 +1,143 @@
++// SPDX-License-Identifier: GPL-2.0
++// Copyright (c) 2018-2019 Intel Corporation
++
++#include <linux/bitfield.h>
++#include <linux/mfd/core.h>
++#include <linux/mfd/intel-peci-client.h>
++#include <linux/module.h>
++#include <linux/of_device.h>
++#include <linux/peci.h>
++
++#define CPU_ID_MODEL_MASK      GENMASK(7, 4)
++#define CPU_ID_FAMILY_MASK     GENMASK(11, 8)
++#define CPU_ID_EXT_MODEL_MASK  GENMASK(19, 16)
++#define CPU_ID_EXT_FAMILY_MASK GENMASK(27, 20)
++
++#define LOWER_NIBBLE_MASK      GENMASK(3, 0)
++#define UPPER_NIBBLE_MASK      GENMASK(7, 4)
++#define LOWER_BYTE_MASK        GENMASK(7, 0)
++#define UPPER_BYTE_MASK        GENMASK(16, 8)
++
++static struct mfd_cell peci_functions[] = {
++	{ .name = "peci-cputemp", },
++	{ .name = "peci-dimmtemp", },
++	/* TODO: Add additional PECI sideband functions into here */
++};
++
++static const struct cpu_gen_info cpu_gen_info_table[] = {
++	{ /* Haswell Xeon */
++		.family        = 6, /* Family code */
++		.model         = INTEL_FAM6_HASWELL_X,
++		.core_max      = CORE_MAX_ON_HSX,
++		.chan_rank_max = CHAN_RANK_MAX_ON_HSX,
++		.dimm_idx_max  = DIMM_IDX_MAX_ON_HSX },
++	{ /* Broadwell Xeon */
++		.family        = 6, /* Family code */
++		.model         = INTEL_FAM6_BROADWELL_X,
++		.core_max      = CORE_MAX_ON_BDX,
++		.chan_rank_max = CHAN_RANK_MAX_ON_BDX,
++		.dimm_idx_max  = DIMM_IDX_MAX_ON_BDX },
++	{ /* Skylake Xeon */
++		.family        = 6, /* Family code */
++		.model         = INTEL_FAM6_SKYLAKE_X,
++		.core_max      = CORE_MAX_ON_SKX,
++		.chan_rank_max = CHAN_RANK_MAX_ON_SKX,
++		.dimm_idx_max  = DIMM_IDX_MAX_ON_SKX },
++};
++
++static int peci_client_get_cpu_gen_info(struct peci_client_manager *priv)
++{
++	struct device *dev = &priv->client->dev;
++	u32 cpu_id;
++	u16 family;
++	u8 model;
++	int ret;
++	int i;
++
++	ret = peci_get_cpu_id(priv->client->adapter, priv->client->addr,
++			      &cpu_id);
++	if (ret)
++		return ret;
++
++	family = FIELD_PREP(LOWER_BYTE_MASK,
++			    FIELD_GET(CPU_ID_FAMILY_MASK, cpu_id)) |
++		 FIELD_PREP(UPPER_BYTE_MASK,
++			    FIELD_GET(CPU_ID_EXT_FAMILY_MASK, cpu_id));
++	model = FIELD_PREP(LOWER_NIBBLE_MASK,
++			   FIELD_GET(CPU_ID_MODEL_MASK, cpu_id)) |
++		FIELD_PREP(UPPER_NIBBLE_MASK,
++			   FIELD_GET(CPU_ID_EXT_MODEL_MASK, cpu_id));
++
++	for (i = 0; i < ARRAY_SIZE(cpu_gen_info_table); i++) {
++		const struct cpu_gen_info *cpu_info = &cpu_gen_info_table[i];
++
++		if (family == cpu_info->family && model == cpu_info->model) {
++			priv->gen_info = cpu_info;
++			break;
++		}
++	}
++
++	if (!priv->gen_info) {
++		dev_err(dev, "Can't support this CPU: 0x%x\n", cpu_id);
++		ret = -ENODEV;
++	}
++
++	return ret;
++}
++
++static int peci_client_probe(struct peci_client *client)
++{
++	struct device *dev = &client->dev;
++	struct peci_client_manager *priv;
++	uint cpu_no;
++	int ret;
++
++	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	dev_set_drvdata(dev, priv);
++	priv->client = client;
++	cpu_no = client->addr - PECI_BASE_ADDR;
++
++	ret = peci_client_get_cpu_gen_info(priv);
++	if (ret)
++		return ret;
++
++	ret = devm_mfd_add_devices(dev, cpu_no, peci_functions,
++				   ARRAY_SIZE(peci_functions), NULL, 0, NULL);
++	if (ret < 0) {
++		dev_err(dev, "Failed to register child devices: %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
++
++#if IS_ENABLED(CONFIG_OF)
++static const struct of_device_id peci_client_of_table[] = {
++	{ .compatible = "intel,peci-client" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, peci_client_of_table);
++#endif /* CONFIG_OF */
++
++static const struct peci_device_id peci_client_ids[] = {
++	{ .name = "peci-client" },
++	{ }
++};
++MODULE_DEVICE_TABLE(peci, peci_client_ids);
++
++static struct peci_driver peci_client_driver = {
++	.probe    = peci_client_probe,
++	.id_table = peci_client_ids,
++	.driver   = {
++		.name           = "peci-client",
++		.of_match_table = of_match_ptr(peci_client_of_table),
++	},
++};
++module_peci_driver(peci_client_driver);
++
++MODULE_AUTHOR("Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>");
++MODULE_DESCRIPTION("PECI client driver");
++MODULE_LICENSE("GPL v2");
+diff --git a/include/linux/mfd/intel-peci-client.h b/include/linux/mfd/intel-peci-client.h
+new file mode 100644
+index 000000000000..dd5eb36cca75
+--- /dev/null
++++ b/include/linux/mfd/intel-peci-client.h
+@@ -0,0 +1,108 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/* Copyright (c) 2018-2019 Intel Corporation */
++
++#ifndef __LINUX_MFD_INTEL_PECI_CLIENT_H
++#define __LINUX_MFD_INTEL_PECI_CLIENT_H
++
++#include <linux/peci.h>
++
++#if IS_ENABLED(CONFIG_X86)
++#include <asm/intel-family.h>
++#else
++/**
++ * Architectures other than x86 cannot include the header file so define these
++ * at here. These are needed for detecting type of client x86 CPUs behind a PECI
++ * connection.
++ */
++#define INTEL_FAM6_HASWELL_X   0x3F
++#define INTEL_FAM6_BROADWELL_X 0x4F
++#define INTEL_FAM6_SKYLAKE_X   0x55
++#endif
++
++#define CORE_MAX_ON_HSX        18 /* Max number of cores on Haswell */
++#define CHAN_RANK_MAX_ON_HSX   8  /* Max number of channel ranks on Haswell */
++#define DIMM_IDX_MAX_ON_HSX    3  /* Max DIMM index per channel on Haswell */
++
++#define CORE_MAX_ON_BDX        24 /* Max number of cores on Broadwell */
++#define CHAN_RANK_MAX_ON_BDX   4  /* Max number of channel ranks on Broadwell */
++#define DIMM_IDX_MAX_ON_BDX    3  /* Max DIMM index per channel on Broadwell */
++
++#define CORE_MAX_ON_SKX        28 /* Max number of cores on Skylake */
++#define CHAN_RANK_MAX_ON_SKX   6  /* Max number of channel ranks on Skylake */
++#define DIMM_IDX_MAX_ON_SKX    2  /* Max DIMM index per channel on Skylake */
++
++#define CORE_NUMS_MAX          CORE_MAX_ON_SKX
++#define CHAN_RANK_MAX          CHAN_RANK_MAX_ON_HSX
++#define DIMM_IDX_MAX           DIMM_IDX_MAX_ON_HSX
++#define DIMM_NUMS_MAX          (CHAN_RANK_MAX * DIMM_IDX_MAX)
++
++/**
++ * struct cpu_gen_info - CPU generation specific information
++ * @family: CPU family ID
++ * @model: CPU model
++ * @core_max: max number of cores
++ * @chan_rank_max: max number of channel ranks
++ * @dimm_idx_max: max number of DIMM indices
++ *
++ * CPU generation specific information to identify maximum number of cores and
++ * DIMM slots.
++ */
++struct cpu_gen_info {
++	u16  family;
++	u8   model;
++	uint core_max;
++	uint chan_rank_max;
++	uint dimm_idx_max;
++};
++
++/**
++ * struct peci_client_manager - PECI client manager information
++ * @client; pointer to the PECI client
++ * @name: PECI client manager name
++ * @gen_info: CPU generation info of the detected CPU
++ *
++ * PECI client manager information for managing PECI sideband functions on a CPU
++ * client.
++ */
++struct peci_client_manager {
++	struct peci_client *client;
++	char name[PECI_NAME_SIZE];
++	const struct cpu_gen_info *gen_info;
++};
++
++/**
++ * peci_client_read_package_config - read from the Package Configuration Space
++ * @priv: driver private data structure
++ * @index: encoding index for the requested service
++ * @param: parameter to specify the exact data being requested
++ * @data: data buffer to store the result
++ * Context: can sleep
++ *
++ * A generic PECI command that provides read access to the
++ * "Package Configuration Space" that is maintained by the PCU, including
++ * various power and thermal management functions. Typical PCS read services
++ * supported by the processor may include access to temperature data, energy
++ * status, run time information, DIMM temperatures and so on.
++ *
++ * Return: zero on success, else a negative error code.
++ */
++static inline int
++peci_client_read_package_config(struct peci_client_manager *priv,
++				u8 index, u16 param, u8 *data)
++{
++	struct peci_rd_pkg_cfg_msg msg;
++	int rc;
++
++	msg.addr = priv->client->addr;
++	msg.index = index;
++	msg.param = param;
++	msg.rx_len = 4;
++
++	rc = peci_command(priv->client->adapter, PECI_CMD_RD_PKG_CFG, &msg);
++	if (!rc)
++		memcpy(data, msg.pkg_config, 4);
++
++	return rc;
++}
++
++#endif /* __LINUX_MFD_INTEL_PECI_CLIENT_H */
 -- 
-Kees Cook
+2.20.1
+
