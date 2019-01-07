@@ -5,136 +5,112 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F2A3A7D099
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 19:13:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DB7997D099
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 19:25:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727138AbfAGTNf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Jan 2019 14:13:35 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:43974 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726602AbfAGTNf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Jan 2019 14:13:35 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 64AA0C05090E;
-        Mon,  7 Jan 2019 19:13:34 +0000 (UTC)
-Received: from redhat.com (ovpn-122-143.rdu2.redhat.com [10.10.122.143])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4A5D968874;
-        Mon,  7 Jan 2019 19:13:30 +0000 (UTC)
-Date:   Mon, 7 Jan 2019 14:13:29 -0500
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <andrea.parri@amarulasolutions.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>, linux-arch@vger.kernel.org,
-        netdev@vger.kernel.org, virtualization@lists.linux-foundation.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-sparse@vger.kernel.org
-Subject: Re: [PATCH RFC 3/4] barriers: convert a control to a data dependency
-Message-ID: <20190107140447-mutt-send-email-mst@kernel.org>
-References: <20190102205715.14054-1-mst@redhat.com>
- <20190102205715.14054-4-mst@redhat.com>
- <86023cbe-d1ae-a0d6-7b75-26556f1a0c1f@redhat.com>
- <20190106231756-mutt-send-email-mst@kernel.org>
- <20190107094610.GA2861@worktop.programming.kicks-ass.net>
- <20190107082223-mutt-send-email-mst@kernel.org>
- <20190107190236.GF1215@linux.ibm.com>
+        id S1727176AbfAGTZC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Jan 2019 14:25:02 -0500
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:50240 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726934AbfAGTZB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 14:25:01 -0500
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 24B13808ED; Mon,  7 Jan 2019 20:24:54 +0100 (CET)
+Date:   Mon, 7 Jan 2019 20:24:58 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Subject: Re: Consistent capitalization of "device tree"?
+Message-ID: <20190107192458.GG933@amd>
+References: <20190107183711.GA5671@amd>
+ <91bc4723-8e3a-4ed6-5104-36a614d6a6d2@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="7lMq7vMTJT4tNk0a"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190107190236.GF1215@linux.ibm.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Mon, 07 Jan 2019 19:13:35 +0000 (UTC)
+In-Reply-To: <91bc4723-8e3a-4ed6-5104-36a614d6a6d2@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 07, 2019 at 11:02:36AM -0800, Paul E. McKenney wrote:
-> On Mon, Jan 07, 2019 at 08:36:36AM -0500, Michael S. Tsirkin wrote:
-> > On Mon, Jan 07, 2019 at 10:46:10AM +0100, Peter Zijlstra wrote:
-> > > On Sun, Jan 06, 2019 at 11:23:07PM -0500, Michael S. Tsirkin wrote:
-> > > > On Mon, Jan 07, 2019 at 11:58:23AM +0800, Jason Wang wrote:
-> > > > > On 2019/1/3 上午4:57, Michael S. Tsirkin wrote:
-> > > 
-> > > > > > +#if defined(COMPILER_HAS_OPTIMIZER_HIDE_VAR) && \
-> > > > > > +	!defined(ARCH_NEEDS_READ_BARRIER_DEPENDS)
-> > > > > > +
-> > > > > > +#define dependent_ptr_mb(ptr, val) ({					\
-> > > > > > +	long dependent_ptr_mb_val = (long)(val);			\
-> > > > > > +	long dependent_ptr_mb_ptr = (long)(ptr) - dependent_ptr_mb_val;	\
-> > > > > > +									\
-> > > > > > +	BUILD_BUG_ON(sizeof(val) > sizeof(long));			\
-> > > > > > +	OPTIMIZER_HIDE_VAR(dependent_ptr_mb_val);			\
-> > > > > > +	(typeof(ptr))(dependent_ptr_mb_ptr + dependent_ptr_mb_val);	\
-> > > > > > +})
-> > > > > > +
-> > > > > > +#else
-> > > > > > +
-> > > > > > +#define dependent_ptr_mb(ptr, val) ({ mb(); (ptr); })
-> > > > > 
-> > > > > 
-> > > > > So for the example of patch 4, we'd better fall back to rmb() or need a
-> > > > > dependent_ptr_rmb()?
-> > > > > 
-> > > > > Thanks
-> > > > 
-> > > > You mean for strongly ordered architectures like Intel?
-> > > > Yes, maybe it makes sense to have dependent_ptr_smp_rmb,
-> > > > dependent_ptr_dma_rmb and dependent_ptr_virt_rmb.
-> > > > 
-> > > > mb variant is unused right now so I'll remove it.
-> > > 
-> > > How about naming the thing: dependent_ptr() ? That is without any (r)mb
-> > > implications at all. The address dependency is strictly weaker than an
-> > > rmb in that it will only order the two loads in qestion and not, like
-> > > rmb, any prior to any later load.
-> > 
-> > So I'm fine with this as it's enough for virtio, but I would like to point out two things:
-> > 
-> > 1. E.g. on x86 both SMP and DMA variants can be NOPs but
-> > the madatory one can't, so assuming we do not want
-> > it to be stronger than rmp then either we want
-> > smp_dependent_ptr(), dma_dependent_ptr(), dependent_ptr()
-> > or we just will specify that dependent_ptr() works for
-> > both DMA and SMP.
-> > 
-> > 2. Down the road, someone might want to order a store after a load.
-> > Address dependency does that for us too. Assuming we make
-> > dependent_ptr a NOP on x86, we will want an mb variant
-> > which isn't a NOP on x86. Will we want to rename
-> > dependent_ptr to dependent_ptr_rmb at that point?
-> 
-> But x86 preserves store-after-load orderings anyway, and even Alpha
-> respects ordering from loads to dependent stores.  So what am I missing
-> here?
-> 
-> 							Thanx, Paul
 
-Oh you are right. Stores are not reordered with older loads on x86.
+--7lMq7vMTJT4tNk0a
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So point 2 is moot. Sorry about the noise.
+On Mon 2019-01-07 11:06:27, Frank Rowand wrote:
+>=20
+> + Frank
+>=20
+> On 1/7/19 10:37 AM, Pavel Machek wrote:
+> > Is it "Device Tree" or "device tree"?
+> >    =20
+> >  pavel@duo:/data/l/k/Documentation$ grep -r "Device Tree"  | wc -l
+> >  235
+> >  pavel@duo:/data/l/k/Documentation$ grep -r "device tree"  | wc -l
+> >  595
+> >    =20
+> > I guess it would be nice to make it consistent. I guess "device tree"
+> > is preffered?
+> >=20
+> > Should we do something like this?
+> > 								Pavel
+> >=20
+> > Signed-off-by: Pavel Machek <pavel@ucw.cz>
+> >    =20
+> > diff --git a/Documentation/devicetree/overlay-notes.txt b/Documentation=
+/devicetree/overlay-notes.txt
+> > index 725fb8d..cc5f507 100644
+> > --- a/Documentation/devicetree/overlay-notes.txt
+> > +++ b/Documentation/devicetree/overlay-notes.txt
+> > @@ -8,7 +8,7 @@ companion document to Documentation/devicetree/dynamic-=
+resolution-notes.txt[1]
+> >  How overlays work
+> >  -----------------
+> > =20
+> > -A Device Tree's overlay purpose is to modify the kernel's live tree, a=
+nd
+> > +A device tree's overlay purpose is to modify the kernel's live tree, a=
+nd
+> >  have the modification affecting the state of the kernel in a way that
+> >  is reflecting the changes.
+> >  Since the kernel mainly deals with devices, any new device node that r=
+esult
+> >=20
+>=20
+> Not a strong opinion, but I would prefer a third option of devicetree.  T=
+hat
+> makes it much easier to search for.
 
-I guess at this point the only sticking point is the ECC compiler.
-I'm inclined to stick an mb() there, seeing as it doesn't even
-have spectre protection enabled. Slow but safe.
+That one is much less popular at the moment -- according to my
+searches... so it would be a bigger change.
 
--- 
-MST
+(Which I'll gladly support if I won't have to do the work... as long
+as it is consistent. But I believe that "device tree" is most common
+here, makes sense, and is easiest change, so...)
+
+								Pavel
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--7lMq7vMTJT4tNk0a
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlwzp4oACgkQMOfwapXb+vLEswCbBdm8IyiDQtOuQQ0KTBtyw36x
+Rn8AoJx0B+t/4p+SF3GVwBh1YyRYJHsX
+=V5r1
+-----END PGP SIGNATURE-----
+
+--7lMq7vMTJT4tNk0a--
