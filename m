@@ -2,318 +2,252 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6B9CD7D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 12:02:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 36F617D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 13:16:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726535AbfAGMCH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Jan 2019 07:02:07 -0500
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:44654 "EHLO
-        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726655AbfAGMB5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 07:01:57 -0500
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436282|-1;CH=green;FP=0|0|0|0|0|-1|-1|-1;HT=e01l07391;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=14;RT=14;SR=0;TI=SMTPD_---.DibxlYK_1546862495;
-Received: from PC-liaoweixiong.allwinnertech.com(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.DibxlYK_1546862495)
-          by smtp.aliyun-inc.com(10.147.40.200);
-          Mon, 07 Jan 2019 20:01:52 +0800
-From:   liaoweixiong <liaoweixiong@allwinnertech.com>
-To:     Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        liaoweixiong <liaoweixiong@allwinnertech.com>
-Subject: [RFC v5 4/4] Documentation: pstore/blk: create document for pstore_blk
-Date:   Mon,  7 Jan 2019 20:01:02 +0800
-Message-Id: <1546862462-19640-5-git-send-email-liaoweixiong@allwinnertech.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1546862462-19640-1-git-send-email-liaoweixiong@allwinnertech.com>
-References: <1546862462-19640-1-git-send-email-liaoweixiong@allwinnertech.com>
+        id S1730178AbfAGNDF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Jan 2019 08:03:05 -0500
+Received: from bastet.se.axis.com ([195.60.68.11]:37102 "EHLO
+        bastet.se.axis.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730918AbfAGNDE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 08:03:04 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by bastet.se.axis.com (Postfix) with ESMTP id 8F9B21844B;
+        Mon,  7 Jan 2019 14:03:01 +0100 (CET)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+        by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id RbzXBgy2OCTx; Mon,  7 Jan 2019 14:03:00 +0100 (CET)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+        by bastet.se.axis.com (Postfix) with ESMTPS id 2C43C18351;
+        Mon,  7 Jan 2019 14:03:00 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 145381A065;
+        Mon,  7 Jan 2019 14:03:00 +0100 (CET)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 07D8E1A064;
+        Mon,  7 Jan 2019 14:03:00 +0100 (CET)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+        by boulder02.se.axis.com (Postfix) with ESMTP;
+        Mon,  7 Jan 2019 14:02:59 +0100 (CET)
+Received: from lnxartpec.se.axis.com (lnxartpec.se.axis.com [10.88.4.9])
+        by thoth.se.axis.com (Postfix) with ESMTP id EF72B1C75;
+        Mon,  7 Jan 2019 14:02:59 +0100 (CET)
+Received: by lnxartpec.se.axis.com (Postfix, from userid 10564)
+        id EB0458017A; Mon,  7 Jan 2019 14:02:59 +0100 (CET)
+From:   Vincent Whitchurch <vincent.whitchurch@axis.com>
+To:     akpm@linux-foundation.org
+Cc:     viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        mcgrof@kernel.org, keescook@chromium.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, Vincent Whitchurch <rabinv@axis.com>
+Subject: [PATCH] drop_caches: Allow unmapping pages
+Date:   Mon,  7 Jan 2019 14:02:39 +0100
+Message-Id: <20190107130239.3417-1-vincent.whitchurch@axis.com>
+X-Mailer: git-send-email 2.20.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The documemt, at Documentation/admin-guide/pstore-block.rst,
-tells user how to use pstore_blk and the attentions about panic
-read/write
+drop_caches does not drop pages which are currently mapped.  Add an
+option to try to unmap and drop even these pages.  This provides a
+simple way to obtain a rough estimate of how many file pages are used in
+a particular use case: drop everything and check how much gets read
+back.
 
-Signed-off-by: liaoweixiong <liaoweixiong@allwinnertech.com>
+ # cat /proc/meminfo | grep file
+ Active(file):      16608 kB
+ Inactive(file):    23424 kB
+ # echo 3 > /proc/sys/vm/drop_caches && cat /proc/meminfo | grep file
+ Active(file):      10624 kB
+ Inactive(file):    15060 kB
+ # echo 11 > /proc/sys/vm/drop_caches && cat /proc/meminfo | grep file
+ Active(file):        240 kB
+ Inactive(file):     2344 kB
+
+Signed-off-by: Vincent Whitchurch <vincent.whitchurch@axis.com>
 ---
- Documentation/admin-guide/pstore-block.rst | 226 +++++++++++++++++++++++++++++
- MAINTAINERS                                |   1 +
- fs/pstore/Kconfig                          |   4 +
- 3 files changed, 231 insertions(+)
- create mode 100644 Documentation/admin-guide/pstore-block.rst
+ Documentation/sysctl/vm.txt |  4 ++++
+ fs/drop_caches.c            |  3 ++-
+ include/linux/fs.h          | 10 ++++++++--
+ kernel/sysctl.c             |  4 ++--
+ mm/truncate.c               | 39 ++++++++++++++++++++++++-------------
+ 5 files changed, 41 insertions(+), 19 deletions(-)
 
-diff --git a/Documentation/admin-guide/pstore-block.rst b/Documentation/admin-guide/pstore-block.rst
-new file mode 100644
-index 0000000..2fc9fd8
---- /dev/null
-+++ b/Documentation/admin-guide/pstore-block.rst
-@@ -0,0 +1,226 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Pstore block oops/panic logger
-+==============================
-+
-+Introduction
-+------------
-+
-+Pstore block (pstore_blk) is an oops/panic logger that write its logs to block
-+device before the system crashes. Pstore_blk needs block device driver
-+registering a partition path of the block device, like /dev/mmcblk0p7 for mmc
-+driver, and read/write APIs for this partition when on panic.
-+
-+Pstore block concepts
-+---------------------
-+
-+Pstore block begins at function ``blkz_register``, by which block driver
-+registers to pstore_blk. Recomemd that, block driver should register to
-+pstore_blk after block device is ready. Block driver transfers a structure
-+``blkz_info`` which is defined in *linux/pstore_blk.h*.
-+
-+The following key members of ``struct blkz_info`` may be of interest to you.
-+
-+part_path
-+~~~~~~~~~
-+
-+The path of partition used for pstore_blk. It may be ``/dev/mmcblk[N]p[M]`` for
-+mmc, and ``/dev/mtdblock[N]`` for mtd device.
-+
-+The ``part_path`` is not necessarily if you self-defined general read/write APIs
-+on ``blkz_info``. In other words, the ``part_path`` is only used (by function
-+blkz_sample_read/write) when general read/write APIs are not defined.
-+
-+See more on section **read/write**.
-+
-+part_size
-+~~~~~~~~~
-+
-+The total size in bytes of partition used for pstore_blk. This member **MUST**
-+be effective and a multiple of 4096. It is recommended to 1M or larger for block
-+device.
-+
-+The block device area is divided into many chunks, and each event writes
-+a chunk of information.
-+
-+dmesg_size
-+~~~~~~~~~~
-+
-+The chunk size in bytes for dmesg(oops/panic). It **MUST** be a multiple of
-+SECTOR_SIZE (Most of the time, the SECTOR_SIZE is 512). If you don't need dmesg,
-+you are safely to set it to 0.
-+
-+NOTE that, the remaining space, except ``pmsg_size`` and others, belongs to
-+dmesg. It means that there are multiple chunks for dmesg.
-+
-+Psotre_blk will log to dmesg chunks one by one, and always overwrite the oldest
-+chunk if no free chunk.
-+
-+pmsg_size
-+~~~~~~~~~
-+
-+The chunk size in bytes for pmsg. It **MUST** be a multiple of SECTOR_SIZE (Most
-+of the time, the SECTOR_SIZE is 512). If you don't need pmsg, you are safely to
-+set it to 0.
-+
-+There is only one chunk for pmsg.
-+
-+Pmsg is a user space accessible pstore object. Writes to */dev/pmsg0* are
-+appended to the chunk. On reboot the contents are available in
-+/sys/fs/pstore/pmsg-blkoops-0.
-+
-+dump_oops
-+~~~~~~~~~
-+
-+Dumping both oopses and panics can be done by setting 1 in the ``dump_oops``
-+member while setting 0 in that variable dumps only the panics.
-+
-+read/write
-+~~~~~~~~~~
-+
-+They are general ``read/write`` APIs. It is safely and recommended to ignore it,
-+but set ``part_path``.
-+
-+These general APIs are used all the time expect panic. The ``read`` API is
-+usually used to recover data from block device, and the ``write`` API is usually
-+to flush new data and erase to block device.
-+
-+Pstore_blk will temporarily hold all new data before block device is ready. If
-+you ignore both of ``read/write`` and ``part_path``, the old data will not be
-+recovered and the new data will not be flushed until panic, using panic APIs.
-+If you don't have panic APIs neither, all the data will be dropped when reboot.
-+
-+NOTE that, the general APIs must check whether the block device is ready if
-+self-defined.
-+
-+panic_read/panic_write
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+They are ``read/write`` APIs for panic. They are likely to general
-+``read/write`` but will be used only when on panic.
-+
-+The attentions for panic read/write see section
-+**Attentions in panic read/write APIs**.
-+
-+Register to pstore block
-+------------------------
-+
-+Block device driver call ``blkz_register`` to register to Psotre_blk.
-+For example:
-+
-+.. code-block:: c
-+
-+ #include <linux/pstore_blk.h>
-+ [...]
-+
-+ static ssize_t XXXX_panic_read(char *buf, size bytes, loff_t pos)
-+ {
-+    [...]
-+ }
-+
-+ static ssize_t XXXX_panic_write(const char *buf, size_t bytes, loff_t pos)
-+ {
-+        [...]
-+ }
-+
-+ struct blkz_info XXXX_info = {
-+        .onwer = THIS_MODULE,
-+        .name = <...>,
-+        .dmesg_size = <...>,
-+        .pmsg_size = <...>,
-+        .dump_oops = true,
-+        .panic_read = XXXX_panic_read,
-+        .panic_write = XXXX_panic_write,
-+ };
-+
-+ static int __init XXXX_init(void)
-+ {
-+        [... get partition information ...]
-+        XXXX_info.part_path = <...>;
-+        XXXX_info.part_size = <...>;
-+
-+        [...]
-+        return blkz_register(&XXXX_info);
-+ }
-+
-+There are multiple ways by which you can get partition information.
-+
-+A. Use the module parameters and kernel cmdline.
-+B. Use Device Tree bindings.
-+C. Use Kconfig.
-+D. Use Driver Feature.
-+   For example, traverse all MTD device by ``register_mtd_user``, and get the
-+   matching name MTD partition.
-+
-+NOTE that, all of above are done by block driver rather then pstore_blk.
-+
-+The attentions for panic read/write see section
-+**Attentions in panic read/write APIs**.
-+
-+Compression and header
-+----------------------
-+
-+Block device is large enough, it is not necessary to compress dmesg data.
-+Actually, we recommend not compress. Because pstore_blk will insert some
-+information into the first line of dmesg data if no compression.
-+For example::
-+
-+        blkoops: Panic: Total 16 times
-+
-+It means that it's the 16th times panic log since burning.
-+Sometimes, the oops|panic counter since burning is very important for embedded
-+device to judge whether the system is stable.
-+
-+The follow line is insert by pstore filesystem.
-+For example::
-+
-+        Oops#2 Part1
-+
-+It means that it's the 2nd times oops log on last booting.
-+
-+Reading the data
-+----------------
-+
-+The dump data can be read from the pstore filesystem. The format for these
-+files is ``dmesg-blkoops-[N]`` for dmesg(oops|panic) and ``pmsg-blkoops-0`` for
-+pmsg, where N is the record number. To delete a stored record from block device,
-+simply unlink the respective pstore file. The timestamp of the dump file records
-+the trigger time.
-+
-+Attentions in panic read/write APIs
-+-----------------------------------
-+
-+If on panic, the kernel is not going to be running for much longer. The tasks
-+will not be scheduled and the most kernel resources will be out of service. It
-+looks like a single-threaded program running on a single-core computer.
-+
-+The following points need special attention for panic read/write APIs:
-+
-+1. Can **NOT** allocate any memory.
-+
-+   If you need memory, just allocate while the block driver is initialing rather
-+   than waiting until the panic.
-+
-+2. Must be polled, **NOT** interrupt driven.
-+
-+   No task schedule any more. The block driver should delay to ensure the write
-+   succeeds, but NOT sleep.
-+
-+3. Can **NOT** take any lock.
-+
-+   There is no other task, no any share resource, you are safely to break all
-+   locks.
-+
-+4. Just use cpu to transfer.
-+
-+   Do not use DMA to transfer unless you are sure that DMA will not keep lock.
-+
-+5. Operate register directly.
-+
-+   Try not to use linux kernel resources. Do io map while initialing rather than
-+   waiting until the panic.
-+
-+6. Reset your block device and controller if necessary.
-+
-+   If you are not sure the state of you block device and controller when panic,
-+   you are safely to stop and reset them.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0abecc5..ebf9c71 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12054,6 +12054,7 @@ F:	include/linux/pstore*
- F:	drivers/firmware/efi/efi-pstore.c
- F:	drivers/acpi/apei/erst.c
- F:	Documentation/admin-guide/ramoops.rst
-+F:	Documentation/admin-guide/pstore-block.rst
- F:	Documentation/devicetree/bindings/reserved-memory/ramoops.txt
- K:	\b(pstore|ramoops)
+diff --git a/Documentation/sysctl/vm.txt b/Documentation/sysctl/vm.txt
+index 187ce4f599a2..6ea06c2c973b 100644
+--- a/Documentation/sysctl/vm.txt
++++ b/Documentation/sysctl/vm.txt
+@@ -222,6 +222,10 @@ To increase the number of objects freed by this operation, the user may run
+ number of dirty objects on the system and create more candidates to be
+ dropped.
  
-diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
-index 18b1fe6..5c5273c 100644
---- a/fs/pstore/Kconfig
-+++ b/fs/pstore/Kconfig
-@@ -160,6 +160,10 @@ config PSTORE_BLK
- 	  This enables panic and oops message to be logged to a block dev
- 	  where it can be read back at some later point.
++By default, pages which are currently mapped are not dropped from the
++pagecache.  If you want to unmap and drop these pages too, echo 9 or 11 instead
++of 1 or 3 respectively (set bit 4).
++
+ This file is not a means to control the growth of the various kernel caches
+ (inodes, dentries, pagecache, etc...)  These objects are automatically
+ reclaimed by the kernel when memory is needed elsewhere on the system.
+diff --git a/fs/drop_caches.c b/fs/drop_caches.c
+index 82377017130f..9faaa1e3a672 100644
+--- a/fs/drop_caches.c
++++ b/fs/drop_caches.c
+@@ -17,6 +17,7 @@ int sysctl_drop_caches;
+ static void drop_pagecache_sb(struct super_block *sb, void *unused)
+ {
+ 	struct inode *inode, *toput_inode = NULL;
++	bool unmap = sysctl_drop_caches & 8;
  
-+	  For more information, see Documentation/admin-guide/pstore-block.rst.
+ 	spin_lock(&sb->s_inode_list_lock);
+ 	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
+@@ -30,7 +31,7 @@ static void drop_pagecache_sb(struct super_block *sb, void *unused)
+ 		spin_unlock(&inode->i_lock);
+ 		spin_unlock(&sb->s_inode_list_lock);
+ 
+-		invalidate_mapping_pages(inode->i_mapping, 0, -1);
++		__invalidate_mapping_pages(inode->i_mapping, 0, -1, unmap);
+ 		iput(toput_inode);
+ 		toput_inode = inode;
+ 
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 811c77743dad..503e176654ce 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -2675,8 +2675,14 @@ extern int check_disk_change(struct block_device *);
+ extern int __invalidate_device(struct block_device *, bool);
+ extern int invalidate_partition(struct gendisk *, int);
+ #endif
+-unsigned long invalidate_mapping_pages(struct address_space *mapping,
+-					pgoff_t start, pgoff_t end);
++unsigned long __invalidate_mapping_pages(struct address_space *mapping,
++					pgoff_t start, pgoff_t end, bool unmap);
 +
-+	  If unsure, say N.
++static inline unsigned long invalidate_mapping_pages(struct address_space *mapping,
++						     pgoff_t start, pgoff_t end)
++{
++	return __invalidate_mapping_pages(mapping, start, end, false);
++}
+ 
+ static inline void invalidate_remote_inode(struct inode *inode)
+ {
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index ba4d9e85feb8..f12c2a8d84fb 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -125,7 +125,7 @@ static int __maybe_unused neg_one = -1;
+ static int zero;
+ static int __maybe_unused one = 1;
+ static int __maybe_unused two = 2;
+-static int __maybe_unused four = 4;
++static int __maybe_unused fifteen = 15;
+ static unsigned long one_ul = 1;
+ static int one_hundred = 100;
+ static int one_thousand = 1000;
+@@ -1431,7 +1431,7 @@ static struct ctl_table vm_table[] = {
+ 		.mode		= 0644,
+ 		.proc_handler	= drop_caches_sysctl_handler,
+ 		.extra1		= &one,
+-		.extra2		= &four,
++		.extra2		= &fifteen,
+ 	},
+ #ifdef CONFIG_COMPACTION
+ 	{
+diff --git a/mm/truncate.c b/mm/truncate.c
+index 798e7ccfb030..613b02e02146 100644
+--- a/mm/truncate.c
++++ b/mm/truncate.c
+@@ -245,6 +245,22 @@ int generic_error_remove_page(struct address_space *mapping, struct page *page)
+ }
+ EXPORT_SYMBOL(generic_error_remove_page);
+ 
++static int __invalidate_inode_page(struct page *page, bool unmap)
++{
++	struct address_space *mapping = page_mapping(page);
++	if (!mapping)
++		return 0;
++	if (PageDirty(page) || PageWriteback(page))
++		return 0;
++	if (page_mapped(page)) {
++		if (!unmap)
++			return 0;
++		if (!try_to_unmap(page, TTU_IGNORE_ACCESS))
++			return 0;
++	}
++	return invalidate_complete_page(mapping, page);
++}
 +
- config PSTORE_BLKBUF
- 	tristate "pstore block buffer sample"
- 	depends on PSTORE_BLK
+ /*
+  * Safely invalidate one page from its pagecache mapping.
+  * It only drops clean, unused pages. The page must be locked.
+@@ -253,16 +269,10 @@ EXPORT_SYMBOL(generic_error_remove_page);
+  */
+ int invalidate_inode_page(struct page *page)
+ {
+-	struct address_space *mapping = page_mapping(page);
+-	if (!mapping)
+-		return 0;
+-	if (PageDirty(page) || PageWriteback(page))
+-		return 0;
+-	if (page_mapped(page))
+-		return 0;
+-	return invalidate_complete_page(mapping, page);
++	return __invalidate_inode_page(page, false);
+ }
+ 
++
+ /**
+  * truncate_inode_pages_range - truncate range of pages specified by start & end byte offsets
+  * @mapping: mapping to truncate
+@@ -532,16 +542,17 @@ EXPORT_SYMBOL(truncate_inode_pages_final);
+  * @mapping: the address_space which holds the pages to invalidate
+  * @start: the offset 'from' which to invalidate
+  * @end: the offset 'to' which to invalidate (inclusive)
++ * @unmap: try to unmap pages
+  *
+  * This function only removes the unlocked pages, if you want to
+  * remove all the pages of one inode, you must call truncate_inode_pages.
+  *
+  * invalidate_mapping_pages() will not block on IO activity. It will not
+- * invalidate pages which are dirty, locked, under writeback or mapped into
+- * pagetables.
++ * invalidate pages which are dirty, locked, under writeback or, if unmap is
++ * false, mapped into pagetables.
+  */
+-unsigned long invalidate_mapping_pages(struct address_space *mapping,
+-		pgoff_t start, pgoff_t end)
++unsigned long __invalidate_mapping_pages(struct address_space *mapping,
++		pgoff_t start, pgoff_t end, bool unmap)
+ {
+ 	pgoff_t indices[PAGEVEC_SIZE];
+ 	struct pagevec pvec;
+@@ -591,7 +602,7 @@ unsigned long invalidate_mapping_pages(struct address_space *mapping,
+ 				}
+ 			}
+ 
+-			ret = invalidate_inode_page(page);
++			ret = __invalidate_inode_page(page, unmap);
+ 			unlock_page(page);
+ 			/*
+ 			 * Invalidation is a hint that the page is no longer
+@@ -608,7 +619,7 @@ unsigned long invalidate_mapping_pages(struct address_space *mapping,
+ 	}
+ 	return count;
+ }
+-EXPORT_SYMBOL(invalidate_mapping_pages);
++EXPORT_SYMBOL(__invalidate_mapping_pages);
+ 
+ /*
+  * This is like invalidate_complete_page(), except it ignores the page's
 -- 
-1.9.1
+2.20.0
 
