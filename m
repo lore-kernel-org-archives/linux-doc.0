@@ -1,99 +1,66 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DE2C97D099
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 19:37:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D25447D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 20:40:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726978AbfAGThW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Jan 2019 14:37:22 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:48692 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726745AbfAGThW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 14:37:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=oBwxdkBoPjitlvZ+kpbf+JgC70DdqyjJHrpIjXiuLZo=; b=X+em7OJvfj2YOtn9AcE0RDxDb
-        X/Edl5CektMfgyQT7yWGlSPVcRw2pKkiwnr5npyN8mx22VSeeQy0bAyNLGwo7eZxVo6NTiFUl2k2b
-        VO/ISUwyVORTdy4nVh8q9kEMuPCPBvc3gpu7wN/jgn2jrn230gnw8n7xMeZEkXvpCwPQ6heGszdSw
-        dUeYdLoSNai+JVGAUl4RB6eS/ZUqMHVEhHM5zmbfPu+9TYDQ3S6zmZuY5TwxXN5lX3lkUwse5Zz10
-        gXxPfbUtKkyAYusJUfKVTv+IirkcZSCHzQY735j+kxe+SmTud2Qv+RMfxSoIe9+N+S2HDUm/O8YQT
-        5NnSBuP7g==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1ggai6-0002vv-Qv; Mon, 07 Jan 2019 19:37:18 +0000
-Date:   Mon, 7 Jan 2019 11:37:18 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Vincent Whitchurch <vincent.whitchurch@axis.com>,
-        akpm@linux-foundation.org, viro@zeniv.linux.org.uk,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, mcgrof@kernel.org,
-        keescook@chromium.org, corbet@lwn.net, linux-doc@vger.kernel.org,
-        Vincent Whitchurch <rabinv@axis.com>
-Subject: Re: [PATCH] drop_caches: Allow unmapping pages
-Message-ID: <20190107193718.GB6310@bombadil.infradead.org>
-References: <20190107130239.3417-1-vincent.whitchurch@axis.com>
- <20190107141545.GX6310@bombadil.infradead.org>
- <67dac226-00ca-dd0a-800e-0867e12d3ad5@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <67dac226-00ca-dd0a-800e-0867e12d3ad5@intel.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+        id S1726938AbfAGUkd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Jan 2019 15:40:33 -0500
+Received: from smtprelay0042.hostedemail.com ([216.40.44.42]:34061 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726689AbfAGUkd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 15:40:33 -0500
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+        by smtpgrave07.hostedemail.com (Postfix) with ESMTP id 216B218017367
+        for <linux-doc@vger.kernel.org>; Mon,  7 Jan 2019 20:40:25 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 48E7818224D67;
+        Mon,  7 Jan 2019 20:40:24 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: crow50_5a9c327867d24
+X-Filterd-Recvd-Size: 1658
+Received: from XPS-9350.home (unknown [47.151.153.53])
+        (Authenticated sender: joe@perches.com)
+        by omf03.hostedemail.com (Postfix) with ESMTPA;
+        Mon,  7 Jan 2019 20:40:22 +0000 (UTC)
+Message-ID: <8f36db2a0d843cee4d1c076e7daa4b7cae053b49.camel@perches.com>
+Subject: Re: [PATCH v3] Documentation/CodingStyle: Use directory-local
+ variables for emacs settings
+From:   Joe Perches <joe@perches.com>
+To:     Bart Van Assche <bvanassche@acm.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Alison Chaiken <alison@she-devel.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        "Geyslan G . Bem" <geyslan@gmail.com>,
+        Tiago Natel de Moura <tiago4orion@gmail.com>
+Date:   Mon, 07 Jan 2019 12:40:21 -0800
+In-Reply-To: <20190107182019.105393-1-bvanassche@acm.org>
+References: <20190107182019.105393-1-bvanassche@acm.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.30.1-1build1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 07, 2019 at 11:25:16AM -0800, Dave Hansen wrote:
-> On 1/7/19 6:15 AM, Matthew Wilcox wrote:
-> > You're going to get data corruption doing this.  try_to_unmap_one()
-> > does:
-> > 
-> >          /* Move the dirty bit to the page. Now the pte is gone. */
-> >          if (pte_dirty(pteval))
-> >                  set_page_dirty(page);
-> > 
-> > so PageDirty() can be false above, but made true by calling
-> > try_to_unmap().
+On Mon, 2019-01-07 at 10:20 -0800, Bart Van Assche wrote:
+> In emacs 23.1 support for directory-local variables was added (see also
+> https://lists.gnu.org/archive/html/info-gnu-emacs/2009-07/msg00000.html).
+> Simplify the settings in coding-style.rst by using that feature.
+> Additionally, do not inherit any settings from emacs' linux coding style
+> to minimize dependencies on the version of emacs that is being used.
 > 
-> I don't think that PageDirty() check is _required_ for correctness.  You
-> can always safely try_to_unmap() no matter the state of the PTE.  We
-> can't lock out the hardware from setting the Dirty bit, ever.
-> 
-> It's also just fine to unmap PageDirty() pages, as long as when the PTE
-> is created, we move the dirty bit from the PTE into the 'struct page'
-> (which try_to_unmap() does, as you noticed).
+> I have verified with several large and nontrivial kernel source files
+> that the new settings format code according to what checkpatch expects.
 
-Right, but the very next thing the patch does is call
-invalidate_complete_page(), which calls __remove_mapping() which ... oh,
-re-checks PageDirty() and refuses to drop the page.  So this isn't the
-data corruptor that I had thought it was.
+Thanks Bart.
 
-> > I also think the way you've done this is expedient at the cost of
-> > efficiency and layering violations.  I think you should first tear
-> > down the mappings of userspace processes (which will reclaim a lot
-> > of pages allocated to page tables), then you won't need to touch the
-> > invalidate_inode_pages paths at all.
-> 
-> By "tear down the mappings", do you mean something analogous to munmap()
-> where the VMA goes away?  Or madvise(MADV_DONTNEED) where the PTE is
-> destroyed but the VMA remains?
-> 
-> Last time I checked, we only did free_pgtables() when tearing down VMAs,
-> but not for pure unmappings like reclaim or MADV_DONTNEED.  I've thought
-> it might be fun to make a shrinker that scanned page tables looking for
-> zero'd pages, but I've never run into a system where empty page table
-> pages were actually causing a noticeable problem.
 
-A few hours ago when I thought this patch had the ordering of checking
-PageDirty() the wrong way round, I had the madvise analogy in mind so
-that the PTEs would get destroyed and the dirty information transferred
-to the struct page first before trying to drop pages.
