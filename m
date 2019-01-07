@@ -1,98 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5C3127D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 09:43:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C0AF87D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 09:47:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726535AbfAGJnJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Jan 2019 04:43:09 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:39868 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726520AbfAGJnI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Jan 2019 04:43:08 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 600ED356FE;
-        Mon,  7 Jan 2019 09:43:08 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-12-80.pek2.redhat.com [10.72.12.80])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5643119745;
-        Mon,  7 Jan 2019 09:42:58 +0000 (UTC)
-Subject: Re: [PATCH 2/2 v5] kdump,vmcoreinfo: Export the value of sme mask to
- vmcoreinfo
-To:     Baoquan He <bhe@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        akpm@linux-foundation.org, dyoung@redhat.com,
-        linux-doc@vger.kernel.org, k-hagio@ab.jp.nec.com,
-        anderson@redhat.com
-References: <20190107014734.9730-1-lijiang@redhat.com>
- <20190107014734.9730-3-lijiang@redhat.com>
- <20190107022925.GF30750@MiWiFi-R3L-srv>
-From:   lijiang <lijiang@redhat.com>
-Message-ID: <4a922a68-8513-51ab-b887-e367f627f688@redhat.com>
-Date:   Mon, 7 Jan 2019 17:42:55 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1726404AbfAGJrQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Jan 2019 04:47:16 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:35072 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726402AbfAGJrQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 04:47:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=owmLCz674NsQ4X6zYu+dDxoNvJMYgBNm8s6qAzHY3Gk=; b=hcuul/VdcJfvZ+HF+Gdr8duBV9
+        ke+A8rJux1Pd+7Z+uETTQiLDCpJ2l0WUMD1waB/dvl7hQAzDYWl1jh7CIxqieU1PgWKTGHaqEzmAc
+        4b6DeMASCB6pMUO/4zKIP+Cn4PXOPCUMsf/4UM7clHh5085s8EI5XTK98wU526CUVKrv7I6x6Wlyp
+        KeiNU7p35dvCUV1Iis7H2feA2Qtm58VTxXuM6UlSPI/sOvseBGUJ7YZvdKdlP3LMTFib7vEeDvgWX
+        sgW09WCIlYpGbxSl615+AA7JXBRcNgJWJQgGTylY4bQURldEXzmxEy4wtEL+8LLEq1L1QR/0WBl4z
+        KEIk6QkA==;
+Received: from [185.88.64.153] (helo=worktop.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1ggRUJ-0002zr-48; Mon, 07 Jan 2019 09:46:27 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id A9696983877; Mon,  7 Jan 2019 10:46:10 +0100 (CET)
+Date:   Mon, 7 Jan 2019 10:46:10 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     "Michael S. Tsirkin" <mst@redhat.com>
+Cc:     Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <andrea.parri@amarulasolutions.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>, linux-arch@vger.kernel.org,
+        netdev@vger.kernel.org, virtualization@lists.linux-foundation.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-sparse@vger.kernel.org
+Subject: Re: [PATCH RFC 3/4] barriers: convert a control to a data dependency
+Message-ID: <20190107094610.GA2861@worktop.programming.kicks-ass.net>
+References: <20190102205715.14054-1-mst@redhat.com>
+ <20190102205715.14054-4-mst@redhat.com>
+ <86023cbe-d1ae-a0d6-7b75-26556f1a0c1f@redhat.com>
+ <20190106231756-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20190107022925.GF30750@MiWiFi-R3L-srv>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Mon, 07 Jan 2019 09:43:08 +0000 (UTC)
+In-Reply-To: <20190106231756-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-在 2019年01月07日 10:29, Baoquan He 写道:
-> On 01/07/19 at 09:47am, Lianbo Jiang wrote:
->> For AMD machine with SME feature, makedumpfile tools need to know
->> whether the crash kernel was encrypted or not. If SME is enabled
->               ^ crashed
->> in the first kernel, the crash kernel's page table(pgd/pud/pmd/pte)
->                            ^ crashed
->> contains the memory encryption mask, so need to remove the sme mask
->                                         "makedumpfile needs" or
->                                        in makedumpfile need to remove...
+On Sun, Jan 06, 2019 at 11:23:07PM -0500, Michael S. Tsirkin wrote:
+> On Mon, Jan 07, 2019 at 11:58:23AM +0800, Jason Wang wrote:
+> > On 2019/1/3 上午4:57, Michael S. Tsirkin wrote:
 
-Thanks for your comment.
+> > > +#if defined(COMPILER_HAS_OPTIMIZER_HIDE_VAR) && \
+> > > +	!defined(ARCH_NEEDS_READ_BARRIER_DEPENDS)
+> > > +
+> > > +#define dependent_ptr_mb(ptr, val) ({					\
+> > > +	long dependent_ptr_mb_val = (long)(val);			\
+> > > +	long dependent_ptr_mb_ptr = (long)(ptr) - dependent_ptr_mb_val;	\
+> > > +									\
+> > > +	BUILD_BUG_ON(sizeof(val) > sizeof(long));			\
+> > > +	OPTIMIZER_HIDE_VAR(dependent_ptr_mb_val);			\
+> > > +	(typeof(ptr))(dependent_ptr_mb_ptr + dependent_ptr_mb_val);	\
+> > > +})
+> > > +
+> > > +#else
+> > > +
+> > > +#define dependent_ptr_mb(ptr, val) ({ mb(); (ptr); })
+> > 
+> > 
+> > So for the example of patch 4, we'd better fall back to rmb() or need a
+> > dependent_ptr_rmb()?
+> > 
+> > Thanks
+> 
+> You mean for strongly ordered architectures like Intel?
+> Yes, maybe it makes sense to have dependent_ptr_smp_rmb,
+> dependent_ptr_dma_rmb and dependent_ptr_virt_rmb.
+> 
+> mb variant is unused right now so I'll remove it.
 
-This will be modified in next post.
-
-Regards,
-Lianbo
-
->> to obtain the true physical address.
->>
->> Signed-off-by: Lianbo Jiang <lijiang@redhat.com>
->> ---
->>  arch/x86/kernel/machine_kexec_64.c | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/arch/x86/kernel/machine_kexec_64.c b/arch/x86/kernel/machine_kexec_64.c
->> index 4c8acdfdc5a7..bc4108096b18 100644
->> --- a/arch/x86/kernel/machine_kexec_64.c
->> +++ b/arch/x86/kernel/machine_kexec_64.c
->> @@ -352,10 +352,13 @@ void machine_kexec(struct kimage *image)
->>  
->>  void arch_crash_save_vmcoreinfo(void)
->>  {
->> +	u64 sme_mask = sme_me_mask;
->> +
->>  	VMCOREINFO_NUMBER(phys_base);
->>  	VMCOREINFO_SYMBOL(init_top_pgt);
->>  	vmcoreinfo_append_str("NUMBER(pgtable_l5_enabled)=%d\n",
->>  			pgtable_l5_enabled());
->> +	VMCOREINFO_NUMBER(sme_mask);
->>  
->>  #ifdef CONFIG_NUMA
->>  	VMCOREINFO_SYMBOL(node_data);
->> -- 
->> 2.17.1
->>
+How about naming the thing: dependent_ptr() ? That is without any (r)mb
+implications at all. The address dependency is strictly weaker than an
+rmb in that it will only order the two loads in qestion and not, like
+rmb, any prior to any later load.
