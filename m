@@ -1,124 +1,95 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0580B7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 13:36:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 323AF7D0D8
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 14:15:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727204AbfAGNgo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Jan 2019 08:36:44 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:35098 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726886AbfAGNgo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Jan 2019 08:36:44 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 8B9CE7F3EA;
-        Mon,  7 Jan 2019 13:36:43 +0000 (UTC)
-Received: from redhat.com (ovpn-122-143.rdu2.redhat.com [10.10.122.143])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9AF155D9CD;
-        Mon,  7 Jan 2019 13:36:37 +0000 (UTC)
-Date:   Mon, 7 Jan 2019 08:36:36 -0500
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <andrea.parri@amarulasolutions.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>, linux-arch@vger.kernel.org,
-        netdev@vger.kernel.org, virtualization@lists.linux-foundation.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-sparse@vger.kernel.org
-Subject: Re: [PATCH RFC 3/4] barriers: convert a control to a data dependency
-Message-ID: <20190107082223-mutt-send-email-mst@kernel.org>
-References: <20190102205715.14054-1-mst@redhat.com>
- <20190102205715.14054-4-mst@redhat.com>
- <86023cbe-d1ae-a0d6-7b75-26556f1a0c1f@redhat.com>
- <20190106231756-mutt-send-email-mst@kernel.org>
- <20190107094610.GA2861@worktop.programming.kicks-ass.net>
+        id S1726833AbfAGOPs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Jan 2019 09:15:48 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:42806 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726746AbfAGOPs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 09:15:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=tyjMoiH4P3KcOYrj6SCeq/q34vEUy4KTBkQwzS3aQwg=; b=QiF8l3sYPxS+7nBq81w47X0/C
+        M+5pdqzRbJzZjshXvLgC1r1+0fbf6p6L+9CQpFzdkdJ+7FzmB7dEjub6x+w+p06HBwhjqhDdZL/6T
+        iiem+3WhumYKWpviuVSX5tDHF/ycB2n7zL8j11cwAX7M2MRkoZec+el23PcVoBWdjszsb6ys5YpP7
+        bRYsUsh0QrYCvDDz9QimqECiifUJ1Ar6H6JjmL02Tkx9mdwE0GaBeZ4/7MnaqvtWP/zaaxv4Vwi+W
+        boYjdBkwY2c5UFVoNnu2Q6yy9YYHDrWk/50wDRUVwRvSDkTCs0xfpX5LintP/qPJ8Ukoy/Ak7yUI0
+        svvV0EFcQ==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1ggVgv-0002Qa-KS; Mon, 07 Jan 2019 14:15:45 +0000
+Date:   Mon, 7 Jan 2019 06:15:45 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Vincent Whitchurch <vincent.whitchurch@axis.com>
+Cc:     akpm@linux-foundation.org, viro@zeniv.linux.org.uk,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, mcgrof@kernel.org,
+        keescook@chromium.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+        Vincent Whitchurch <rabinv@axis.com>
+Subject: Re: [PATCH] drop_caches: Allow unmapping pages
+Message-ID: <20190107141545.GX6310@bombadil.infradead.org>
+References: <20190107130239.3417-1-vincent.whitchurch@axis.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190107094610.GA2861@worktop.programming.kicks-ass.net>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Mon, 07 Jan 2019 13:36:44 +0000 (UTC)
+In-Reply-To: <20190107130239.3417-1-vincent.whitchurch@axis.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 07, 2019 at 10:46:10AM +0100, Peter Zijlstra wrote:
-> On Sun, Jan 06, 2019 at 11:23:07PM -0500, Michael S. Tsirkin wrote:
-> > On Mon, Jan 07, 2019 at 11:58:23AM +0800, Jason Wang wrote:
-> > > On 2019/1/3 上午4:57, Michael S. Tsirkin wrote:
-> 
-> > > > +#if defined(COMPILER_HAS_OPTIMIZER_HIDE_VAR) && \
-> > > > +	!defined(ARCH_NEEDS_READ_BARRIER_DEPENDS)
-> > > > +
-> > > > +#define dependent_ptr_mb(ptr, val) ({					\
-> > > > +	long dependent_ptr_mb_val = (long)(val);			\
-> > > > +	long dependent_ptr_mb_ptr = (long)(ptr) - dependent_ptr_mb_val;	\
-> > > > +									\
-> > > > +	BUILD_BUG_ON(sizeof(val) > sizeof(long));			\
-> > > > +	OPTIMIZER_HIDE_VAR(dependent_ptr_mb_val);			\
-> > > > +	(typeof(ptr))(dependent_ptr_mb_ptr + dependent_ptr_mb_val);	\
-> > > > +})
-> > > > +
-> > > > +#else
-> > > > +
-> > > > +#define dependent_ptr_mb(ptr, val) ({ mb(); (ptr); })
-> > > 
-> > > 
-> > > So for the example of patch 4, we'd better fall back to rmb() or need a
-> > > dependent_ptr_rmb()?
-> > > 
-> > > Thanks
-> > 
-> > You mean for strongly ordered architectures like Intel?
-> > Yes, maybe it makes sense to have dependent_ptr_smp_rmb,
-> > dependent_ptr_dma_rmb and dependent_ptr_virt_rmb.
-> > 
-> > mb variant is unused right now so I'll remove it.
-> 
-> How about naming the thing: dependent_ptr() ? That is without any (r)mb
-> implications at all. The address dependency is strictly weaker than an
-> rmb in that it will only order the two loads in qestion and not, like
-> rmb, any prior to any later load.
+On Mon, Jan 07, 2019 at 02:02:39PM +0100, Vincent Whitchurch wrote:
+> +++ b/Documentation/sysctl/vm.txt
+> @@ -222,6 +222,10 @@ To increase the number of objects freed by this operation, the user may run
+>  number of dirty objects on the system and create more candidates to be
+>  dropped.
+>  
+> +By default, pages which are currently mapped are not dropped from the
+> +pagecache.  If you want to unmap and drop these pages too, echo 9 or 11 instead
+> +of 1 or 3 respectively (set bit 4).
 
-So I'm fine with this as it's enough for virtio, but I would like to point out two things:
+Typically we number bits from 0, so this would be bit 3, not 4.  I do see
+elsewhere in this file somebody else got this wrong:
 
-1. E.g. on x86 both SMP and DMA variants can be NOPs but
-the madatory one can't, so assuming we do not want
-it to be stronger than rmp then either we want
-smp_dependent_ptr(), dma_dependent_ptr(), dependent_ptr()
-or we just will specify that dependent_ptr() works for
-both DMA and SMP.
+: with your system.  To disable them, echo 4 (bit 3) into drop_caches.
 
-2. Down the road, someone might want to order a store after a load.
-Address dependency does that for us too. Assuming we make
-dependent_ptr a NOP on x86, we will want an mb variant
-which isn't a NOP on x86. Will we want to rename
-dependent_ptr to dependent_ptr_rmb at that point?
+but that should also be fixed.
 
-Thanks,
+> +static int __invalidate_inode_page(struct page *page, bool unmap)
+> +{
+> +	struct address_space *mapping = page_mapping(page);
+> +	if (!mapping)
+> +		return 0;
+> +	if (PageDirty(page) || PageWriteback(page))
+> +		return 0;
+> +	if (page_mapped(page)) {
+> +		if (!unmap)
+> +			return 0;
+> +		if (!try_to_unmap(page, TTU_IGNORE_ACCESS))
+> +			return 0;
 
--- 
-MST
+You're going to get data corruption doing this.  try_to_unmap_one() does:
+
+                /* Move the dirty bit to the page. Now the pte is gone. */
+                if (pte_dirty(pteval))
+                        set_page_dirty(page);
+
+so PageDirty() can be false above, but made true by calling try_to_unmap().
+
+I also think the way you've done this is expedient at the cost of
+efficiency and layering violations.  I think you should first tear
+down the mappings of userspace processes (which will reclaim a lot
+of pages allocated to page tables), then you won't need to touch the
+invalidate_inode_pages paths at all.
+
