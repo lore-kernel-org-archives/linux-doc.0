@@ -1,105 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 98EEB7D8A3
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 16:22:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D4C8A7D8A3
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 16:33:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730090AbfAGQW3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Jan 2019 11:22:29 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:38564 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728683AbfAGQW3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Jan 2019 11:22:29 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id B0387804ED;
-        Mon,  7 Jan 2019 16:22:28 +0000 (UTC)
-Received: from redhat.com (ovpn-122-143.rdu2.redhat.com [10.10.122.143])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 9A08E65F76;
-        Mon,  7 Jan 2019 16:22:23 +0000 (UTC)
-Date:   Mon, 7 Jan 2019 11:22:23 -0500
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <andrea.parri@amarulasolutions.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>, linux-arch@vger.kernel.org,
-        netdev@vger.kernel.org, virtualization@lists.linux-foundation.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-sparse@vger.kernel.org
-Subject: Re: [PATCH RFC 3/4] barriers: convert a control to a data dependency
-Message-ID: <20190107112007-mutt-send-email-mst@kernel.org>
-References: <20190102205715.14054-1-mst@redhat.com>
- <20190102205715.14054-4-mst@redhat.com>
- <86023cbe-d1ae-a0d6-7b75-26556f1a0c1f@redhat.com>
- <20190106231756-mutt-send-email-mst@kernel.org>
- <20190107094610.GA2861@worktop.programming.kicks-ass.net>
- <20190107082223-mutt-send-email-mst@kernel.org>
- <20190107155423.GM2218@hirez.programming.kicks-ass.net>
+        id S1727008AbfAGQdH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Jan 2019 11:33:07 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:42739 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726589AbfAGQdG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 11:33:06 -0500
+Received: by mail-wr1-f67.google.com with SMTP id q18so1052555wrx.9;
+        Mon, 07 Jan 2019 08:33:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=F6PwismgQUx3Nb1dfsjM6hGkSYv/Ilqj/e7nnGtXZK8=;
+        b=o0gLYYOugSmsxql0yEUrY0t66kZPhgfzKR9VIobqIEwUX8734+CONlrLPsLtth3THA
+         vTHAe2TiKlc8gu9mqilqN6jEqlboijw5Sr9MD/p6JtgGn0K2sFA2SQScHeVutjXiDSae
+         m0cnfKY4ojfIClFwNbpST30ZyITZPgalk9s+9GUQ4dahruzDFXaLdchs1Tyrcvnnblwy
+         JaL4iaA3xNInOaUv2d1eW8WSW+IMGzWkY2HkK/9dXkoJNu5hLcPWiKArIl/JcQLEqGIp
+         YgquLz1gZxdoUlBdPyXTufjtwz3yZcOrQPmC9VNV5Gd5gGE+r/XZIkujUy74dR5PSuez
+         MEqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=F6PwismgQUx3Nb1dfsjM6hGkSYv/Ilqj/e7nnGtXZK8=;
+        b=gxHEKe17vVR9gY+s+8saD6IavywgnDruknkgJZFx2HdXU8BWf0UVJ9IKYkzZ8SWMZc
+         tyN7UJQdejC4UUtdSb66di7QDj06RhrrxJc75avq1ORhEgPAJ26c5VyN/xS3pe0Yee4L
+         as8zW6dhNxf15dtFup7VKAzBabs1+pvk3Pn+69NToxTd5OaUYNbhZLEhMYlkpsjDgaK0
+         fre8mPkkTlr2HIBP88S6b0ZbWs1esnKFKzsrPVjUYGBM07m3oQ9NJ6Q5erNC2X509pKE
+         0lM/FUiPuN1eu8/kQq0u+U0JmQxvpW4Yr2dPgkLejLVTfgqpqa//MDeZ3IZP8IAxV6aF
+         qr+g==
+X-Gm-Message-State: AJcUukfJMDxNDhCW1oYygC0KHbAJsZnZowJ5xk6jJggIlcONyC/AFGgj
+        VH2L4FH9AoYs3XT6kXI0HA==
+X-Google-Smtp-Source: ALg8bN6XiEOJZWUCl6cLXLKhX916vT0pL6xemdGCULDz21Opl5eojgxtJ7uYEqYkn1FLEapQ8Gyp1A==
+X-Received: by 2002:adf:fa05:: with SMTP id m5mr39417885wrr.155.1546878784778;
+        Mon, 07 Jan 2019 08:33:04 -0800 (PST)
+Received: from avx2 (nat-minsk-pool-46-53-201-92.telecom.by. [46.53.201.92])
+        by smtp.gmail.com with ESMTPSA id g16sm53449368wru.41.2019.01.07.08.33.03
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 07 Jan 2019 08:33:04 -0800 (PST)
+Date:   Mon, 7 Jan 2019 19:33:01 +0300
+From:   Alexey Dobriyan <adobriyan@gmail.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Waiman Long <longman@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Daniel Colascione <dancol@google.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 2/2] /proc/stat: Add sysctl parameter to control irq
+ counts latency
+Message-ID: <20190107163301.GA14354@avx2>
+References: <1546873978-27797-1-git-send-email-longman@redhat.com>
+ <1546873978-27797-3-git-send-email-longman@redhat.com>
+ <20190107155840.GY6310@bombadil.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190107155423.GM2218@hirez.programming.kicks-ass.net>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Mon, 07 Jan 2019 16:22:29 +0000 (UTC)
+In-Reply-To: <20190107155840.GY6310@bombadil.infradead.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 07, 2019 at 04:54:23PM +0100, Peter Zijlstra wrote:
-> On Mon, Jan 07, 2019 at 08:36:36AM -0500, Michael S. Tsirkin wrote:
-> > On Mon, Jan 07, 2019 at 10:46:10AM +0100, Peter Zijlstra wrote:
+On Mon, Jan 07, 2019 at 07:58:40AM -0800, Matthew Wilcox wrote:
+> On Mon, Jan 07, 2019 at 10:12:58AM -0500, Waiman Long wrote:
+
+> > A new "fs/proc-stat-irqs-latency-ms" sysctl parameter is now added to
 > 
-> > > How about naming the thing: dependent_ptr() ? That is without any (r)mb
-> > > implications at all. The address dependency is strictly weaker than an
-> > > rmb in that it will only order the two loads in qestion and not, like
-> > > rmb, any prior to any later load.
-> > 
-> > So I'm fine with this as it's enough for virtio, but I would like to point out two things:
-> > 
-> > 1. E.g. on x86 both SMP and DMA variants can be NOPs but
-> > the madatory one can't, so assuming we do not want
-> > it to be stronger than rmp then either we want
-> > smp_dependent_ptr(), dma_dependent_ptr(), dependent_ptr()
-> > or we just will specify that dependent_ptr() works for
-> > both DMA and SMP.
+> No.  No, no, no, no, no.  No.
 > 
-> The latter; the construct simply generates dependent loads. It is up to
-> the CPU as to what all that works for.
-
-But not on intel right? On intel loads are ordered so it can be a nop.
-
-> > 2. Down the road, someone might want to order a store after a load.
-> > Address dependency does that for us too. Assuming we make
-> > dependent_ptr a NOP on x86, we will want an mb variant
-> > which isn't a NOP on x86. Will we want to rename
-> > dependent_ptr to dependent_ptr_rmb at that point?
+> Stop adding new sysctls for this kind of thing.  It's just a way to shift
+> blame from us (who allegedly know what we're doing) to the sysadmin
+> (who probably has better things to be doing than keeping up with the
+> intricacies of development of every single piece of software running on
+> their system).
 > 
-> Not sure; what is the actual overhead of the construct on x86 vs the
-> NOP?
+> Let's figure out what this _should_ be.
 
-I'll have to check. There's a pipeline stall almost for sure - that's
-why we put it there after all :).
+Yeah, let's start interrogating about which values specifically this
+super sekret applications wants.
 
--- 
-MST
+I assume CPU stats, so system call which returns CPU statistics in binary form.
+
+> Why are you caching the _output_ of calling sprintf(), rather than caching the
+> values of each interrupt?
+
+For output caching string is better, but I'm not defending the patch.
