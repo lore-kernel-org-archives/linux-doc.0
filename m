@@ -5,67 +5,65 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DDBDE7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 22:32:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E75CE7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 22:34:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbfAGWcU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Jan 2019 17:32:20 -0500
-Received: from ipmail06.adl2.internode.on.net ([150.101.137.129]:32023 "EHLO
-        ipmail06.adl2.internode.on.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726638AbfAGWcU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 17:32:20 -0500
-Received: from ppp59-167-129-252.static.internode.on.net (HELO dastard) ([59.167.129.252])
-  by ipmail06.adl2.internode.on.net with ESMTP; 08 Jan 2019 09:02:17 +1030
-Received: from dave by dastard with local (Exim 4.80)
-        (envelope-from <david@fromorbit.com>)
-        id 1ggdRO-0007A0-Qa; Tue, 08 Jan 2019 09:32:14 +1100
-Date:   Tue, 8 Jan 2019 09:32:14 +1100
-From:   Dave Chinner <david@fromorbit.com>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Daniel Colascione <dancol@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 0/2] /proc/stat: Reduce irqs counting performance overhead
-Message-ID: <20190107223214.GZ6311@dastard>
-References: <1546873978-27797-1-git-send-email-longman@redhat.com>
+        id S1726667AbfAGWen (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Jan 2019 17:34:43 -0500
+Received: from ms.lwn.net ([45.79.88.28]:53654 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726643AbfAGWen (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Jan 2019 17:34:43 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 775A52ED;
+        Mon,  7 Jan 2019 22:34:42 +0000 (UTC)
+Date:   Mon, 7 Jan 2019 15:34:41 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Bart Van Assche <bvanassche@acm.org>
+Cc:     linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Alison Chaiken <alison@she-devel.com>,
+        Joe Perches <joe@perches.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        "Geyslan G . Bem" <geyslan@gmail.com>,
+        Tiago Natel de Moura <tiago4orion@gmail.com>
+Subject: Re: [PATCH v3] Documentation/CodingStyle: Use directory-local
+ variables for emacs settings
+Message-ID: <20190107153441.507affc0@lwn.net>
+In-Reply-To: <20190107182019.105393-1-bvanassche@acm.org>
+References: <20190107182019.105393-1-bvanassche@acm.org>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1546873978-27797-1-git-send-email-longman@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 07, 2019 at 10:12:56AM -0500, Waiman Long wrote:
-> As newer systems have more and more IRQs and CPUs available in their
-> system, the performance of reading /proc/stat frequently is getting
-> worse and worse.
+On Mon,  7 Jan 2019 10:20:19 -0800
+Bart Van Assche <bvanassche@acm.org> wrote:
 
-Because the "roll-your-own" per-cpu counter implementaiton has been
-optimised for low possible addition overhead on the premise that
-summing the counters is rare and isn't a performance issue. This
-patchset is a direct indication that this "summing is rare and can
-be slow" premise is now invalid.
+> In emacs 23.1 support for directory-local variables was added (see also
+> https://lists.gnu.org/archive/html/info-gnu-emacs/2009-07/msg00000.html).
+> Simplify the settings in coding-style.rst by using that feature.
+> Additionally, do not inherit any settings from emacs' linux coding style
+> to minimize dependencies on the version of emacs that is being used.
+> 
+> I have verified with several large and nontrivial kernel source files
+> that the new settings format code according to what checkpatch expects.
+> 
+> Signed-off-by: Bart Van Assche <bvanassche@acm.org>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Alison Chaiken <alison@she-devel.com>
+> Cc: Joe Perches <joe@perches.com>
+> Cc: Federico Vaga <federico.vaga@vaga.pv.it>
+> Cc: Geyslan G. Bem <geyslan@gmail.com>
+> Cc: Tiago Natel de Moura <tiago4orion@gmail.com>
 
-We have percpu counter infrastructure that trades off a small amount
-of addition overhead for zero-cost reading of the counter value.
-i.e. why not just convert this whole mess to percpu_counters and
-then just use percpu_counter_read_positive()? Then we just don't
-care how often userspace reads the /proc file because there is no
-summing involved at all...
+I've applied this (and I'm off to change my .emacs file).  Thanks!
 
-Cheers,
-
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+jon
