@@ -1,90 +1,65 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EF0CD7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 18:37:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E2B0C7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 18:44:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726742AbfAGShN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Jan 2019 13:37:13 -0500
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:48861 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726535AbfAGShN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 13:37:13 -0500
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id D05B2808E2; Mon,  7 Jan 2019 19:37:06 +0100 (CET)
-Date:   Mon, 7 Jan 2019 19:37:11 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+        id S1727505AbfAGSoZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Jan 2019 13:44:25 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:40128 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726792AbfAGSoY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 13:44:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=Wgszna9uWHPbkqI/h2aGcpcDixRFivl24rgAs7PzJi4=; b=Uwjv7+4SkdPrFo+o6iMe5GtTc
+        s+LiFBbYT2hVJc4y8pStuRNQEklXydCQQozLzQKWLCmYBJ0kmiWyDlwRxdvIb4K3X5CLQReLKZtEj
+        sZqmxs9wJXYAyOofl7S0hx4B7viD7vGSkquA5agdduHMnzk6JdmmJXBoG0OjlvnDIk/PQHF1E6abQ
+        H6b7r3AksdjnJJnnNjSpVHltR5gjtaUUh3BcYFXhoZ8fcj+qzjlcbE3rKK/RmSbrTzrk2tqmyh6Vy
+        HQrJdrMwNSLw5Pv6C8sqDj8oBeMDEW6M7N9Fa5JCwg3H5qrZ3pGZ9d+AiP/GXk+isy24HosuoRkPH
+        dyx0IhAwQ==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1ggZst-0005Rc-7n; Mon, 07 Jan 2019 18:44:23 +0000
+Date:   Mon, 7 Jan 2019 10:44:23 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
         kernel list <linux-kernel@vger.kernel.org>, corbet@lwn.net,
         linux-doc@vger.kernel.org
-Subject: Consistent capitalization of "device tree"?
-Message-ID: <20190107183711.GA5671@amd>
+Subject: Re: Consistent capitalization of "device tree"?
+Message-ID: <20190107184423.GA6310@bombadil.infradead.org>
+References: <20190107183711.GA5671@amd>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="W/nzBZO5zC0uMSeA"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20190107183711.GA5671@amd>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Jan 07, 2019 at 07:37:11PM +0100, Pavel Machek wrote:
+> Is it "Device Tree" or "device tree"?
+>     
+>  pavel@duo:/data/l/k/Documentation$ grep -r "Device Tree"  | wc -l
+>  235
+>  pavel@duo:/data/l/k/Documentation$ grep -r "device tree"  | wc -l
+>  595
 
---W/nzBZO5zC0uMSeA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+You missed ...
 
-Is it "Device Tree" or "device tree"?
-   =20
- pavel@duo:/data/l/k/Documentation$ grep -r "Device Tree"  | wc -l
- 235
- pavel@duo:/data/l/k/Documentation$ grep -r "device tree"  | wc -l
- 595
-   =20
-I guess it would be nice to make it consistent. I guess "device tree"
-is preffered?
+$ git grep -r "Device tree" Documentation/ | wc -l
+84
 
-Should we do something like this?
-								Pavel
+although at least some of those are "Capitalise device because it's the
+start of a sentence".
 
-Signed-off-by: Pavel Machek <pavel@ucw.cz>
-   =20
-diff --git a/Documentation/devicetree/overlay-notes.txt b/Documentation/dev=
-icetree/overlay-notes.txt
-index 725fb8d..cc5f507 100644
---- a/Documentation/devicetree/overlay-notes.txt
-+++ b/Documentation/devicetree/overlay-notes.txt
-@@ -8,7 +8,7 @@ companion document to Documentation/devicetree/dynamic-reso=
-lution-notes.txt[1]
- How overlays work
- -----------------
-=20
--A Device Tree's overlay purpose is to modify the kernel's live tree, and
-+A device tree's overlay purpose is to modify the kernel's live tree, and
- have the modification affecting the state of the kernel in a way that
- is reflecting the changes.
- Since the kernel mainly deals with devices, any new device node that result
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---W/nzBZO5zC0uMSeA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlwznFcACgkQMOfwapXb+vIgYwCfTmcj844BEmwus3pL2tHXVvih
-hKwAn3Q//DngNjgqZmiFNmNlFCYcuUey
-=aXsV
------END PGP SIGNATURE-----
-
---W/nzBZO5zC0uMSeA--
