@@ -1,103 +1,625 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 09B1D7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 09:31:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1E0047D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 09:38:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726596AbfAGJbC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Jan 2019 04:31:02 -0500
-Received: from esa2.microchip.iphmx.com ([68.232.149.84]:30174 "EHLO
-        esa2.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726826AbfAGJbC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 04:31:02 -0500
-X-IronPort-AV: E=Sophos;i="5.56,450,1539673200"; 
-   d="scan'208";a="25005031"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 07 Jan 2019 02:31:00 -0700
-Received: from NAM03-CO1-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.76.105) with Microsoft SMTP Server (TLS) id
- 14.3.352.0; Mon, 7 Jan 2019 02:31:36 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector1-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VuWxycnrM4OvrEIP0JP2bbqCNSS1ZgKwFw8o2KcqDAI=;
- b=zhwl852RXfENWqosqtoqaPjAlquByrImOkO+MFTY/glYbuLQa4HRdbyzz9YESaS2LBVMtphbp2bTmXfT11quXsGSY9TRykEV6w1l0SNrdKdZDA71pisoprIJUr5gSWBcHzItadCnSvm0cWr6IQ+gI5bB5LKpIldbR6Ke3VAs/qE=
-Received: from MWHPR11MB1920.namprd11.prod.outlook.com (10.175.54.19) by
- MWHPR11MB1726.namprd11.prod.outlook.com (10.169.237.148) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1495.6; Mon, 7 Jan 2019 09:30:57 +0000
-Received: from MWHPR11MB1920.namprd11.prod.outlook.com
- ([fe80::e553:ff9d:8c0b:9627]) by MWHPR11MB1920.namprd11.prod.outlook.com
- ([fe80::e553:ff9d:8c0b:9627%6]) with mapi id 15.20.1495.011; Mon, 7 Jan 2019
- 09:30:57 +0000
-From:   <Claudiu.Beznea@microchip.com>
-To:     <u.kleine-koenig@pengutronix.de>
-CC:     <thierry.reding@gmail.com>, <corbet@lwn.net>,
-        <Nicolas.Ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
-        <Ludovic.Desroches@microchip.com>, <linux-pwm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v8 2/6] pwm: add PWM modes
-Thread-Topic: [PATCH v8 2/6] pwm: add PWM modes
-Thread-Index: AQHUo2hlGTRebPui4EWivBrexXjs46WhJyiAgAJpXwA=
-Date:   Mon, 7 Jan 2019 09:30:57 +0000
-Message-ID: <49535296-6b5a-ae66-c8c8-100ed435fce7@microchip.com>
-References: <1546522081-23659-1-git-send-email-claudiu.beznea@microchip.com>
- <1546522081-23659-3-git-send-email-claudiu.beznea@microchip.com>
- <20190105204109.hejk2fkabkv3y5ik@pengutronix.de>
-In-Reply-To: <20190105204109.hejk2fkabkv3y5ik@pengutronix.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: VI1P195CA0048.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:802:5a::37) To MWHPR11MB1920.namprd11.prod.outlook.com
- (2603:10b6:300:110::19)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [94.177.32.154]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;MWHPR11MB1726;6:kdNSD/0FWpGD3/3FKi0/Slx9z29U3Q4sLzass37yM2zpGEOTjp5xFDSo+v+fBqSthecOFusI9F3dae4A4q0BJdBxNcJkIoqNV/W696WUXDtQxBaPYbkgEd0RD57Lb5XfN1QtLIEDFnrsjSrUmZd4O5GTvf51wMR8dCrkGGP0ZMy9p+RGjaWiznKGRaDknWGfdpf1+LWGDHNuk2w2Fto0zKSWCUwIDlC4jaI24Fk5nJUAxW0n3sV/knYcZoGkXtFnk/gYenj4dPI9S2/y6sv+82nZ+/yzOlUKsG0aYDkAqQhrb7JGVi/v0+qkk7oJmK0rrFZKZXizvBRk+IKEnsi5RXGOxTkf9MSXhlG3Vlff5pv2w5HINCdhUTOlKmRRhMELi3FBhnjTOBm25Kle/eBb7RT2rcUf1tYNvBcO83FIZ2PuEC9EScsHElzl77x9mZO5Aox5XTwqAYLgyoeGtrlLMA==;5:yWcvKRag80K1ZfIjefQTUGzo+jYu8nIKNU6ZcpQv9+Qy9S2AjA6Tn+dmjJNyDAVwmC/8wtWibdvkYXPiApiN5Efrt+Ad9EwP/DizunPTz6HowBioLNRlvtw/rPZA/n+qqYlOfdu3WP+bT4U2t9VpK/rkvsEVZDdGZEYdZK0PPL7jjX3JOTa3nCDTsp5fWVOJzFT6451LOPCMJNqbFLHblg==;7:8BK9+4/XExI4CQdBFXVMo5xNJFTHEvQ7EqVkiM5qcnZSL+ZrV0c9hC09HFJB5eMB4gnaDK6EsoKD/VRSqs4/+JwCySqxGYhwDhGm3l6bevst+wnxlb8c5KuQRY+sbWfyTSHqCE9Rwp7wWs819lqrhA==
-x-ms-office365-filtering-correlation-id: 74c3f90c-6343-465e-5636-08d67482d42b
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600109)(711020)(2017052603328)(7153060)(7193020);SRVR:MWHPR11MB1726;
-x-ms-traffictypediagnostic: MWHPR11MB1726:
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Claudiu.Beznea@microchip.com; 
-x-microsoft-antispam-prvs: <MWHPR11MB17260EAD4BC2CC8A0B47CEEB87890@MWHPR11MB1726.namprd11.prod.outlook.com>
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:(3230021)(908002)(999002)(5005026)(6040522)(8220060)(2401047)(8121501046)(3002001)(10201501046)(3231475)(944501520)(52105112)(93006095)(93001095)(6041310)(20161123564045)(20161123560045)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(201708071742011)(7699051)(76991095);SRVR:MWHPR11MB1726;BCL:0;PCL:0;RULEID:;SRVR:MWHPR11MB1726;
-x-forefront-prvs: 0910AAF391
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(376002)(136003)(39860400002)(366004)(396003)(199004)(189003)(186003)(25786009)(53936002)(6246003)(229853002)(6512007)(97736004)(256004)(26005)(31686004)(52116002)(3846002)(305945005)(54906003)(76176011)(39060400002)(6436002)(7736002)(6116002)(14454004)(102836004)(71190400001)(316002)(99286004)(105586002)(446003)(72206003)(2906002)(106356001)(71200400001)(5660300001)(11346002)(6486002)(66066001)(478600001)(386003)(36756003)(53546011)(6506007)(6916009)(81166006)(31696002)(2616005)(86362001)(68736007)(4326008)(476003)(8936002)(81156014)(486006)(8676002);DIR:OUT;SFP:1101;SCL:1;SRVR:MWHPR11MB1726;H:MWHPR11MB1920.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: microchip.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: nWF+HurbgGKYbFGsn+hog6Xkioi0OC9XEqarABmp+SUCHOD2+4VArG5VSAhKqIY7TZHAJmz8fk40J/iNXhEvX8MiZZISegGcTAX8oJO9cEteZZt2cRA2+TxTkInOuZ05tdywa+AC9GNgGBZ4QhDig2Nh2QCKkQVHwvTbZC7oL1AZ0p9LExjQZ2WZ/PtQeQHQXktFfZ52Scty6n5akIkEIde5cb/0/4r8gOP3DTpjQ9tQeufe1bQHt5jXTWofgALlVv2MWzceFzcQ4atefWY3x5YfFdRJYTqL9IINMueZtIzrgS3SjArJDIwbx5fAvTR8
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C4016C818D915A4A8CBAB5E24A8F2BE0@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1726535AbfAGJiy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Jan 2019 04:38:54 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:40916 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725550AbfAGJiy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Jan 2019 04:38:54 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id CF41987623;
+        Mon,  7 Jan 2019 09:38:53 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-12-80.pek2.redhat.com [10.72.12.80])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 39E625D9CD;
+        Mon,  7 Jan 2019 09:38:42 +0000 (UTC)
+Subject: Re: [PATCH 1/2 v5] kdump: add the vmcoreinfo documentation
+To:     "Hatayama, Daisuke" <d.hatayama@jp.fujitsu.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc:     "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "bhe@redhat.com" <bhe@redhat.com>,
+        "dyoung@redhat.com" <dyoung@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "k-hagio@ab.jp.nec.com" <k-hagio@ab.jp.nec.com>,
+        "anderson@redhat.com" <anderson@redhat.com>
+References: <20190107014734.9730-1-lijiang@redhat.com>
+ <20190107014734.9730-2-lijiang@redhat.com>
+ <33710E6CAA200E4583255F4FB666C4E21BB8AD64@G01JPEXMBYT03>
+From:   lijiang <lijiang@redhat.com>
+Message-ID: <1bfb6c42-51c3-aef2-21aa-b0572d6bc35b@redhat.com>
+Date:   Mon, 7 Jan 2019 17:38:40 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74c3f90c-6343-465e-5636-08d67482d42b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jan 2019 09:30:57.6816
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1726
-X-OriginatorOrg: microchip.com
+In-Reply-To: <33710E6CAA200E4583255F4FB666C4E21BB8AD64@G01JPEXMBYT03>
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Mon, 07 Jan 2019 09:38:54 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DQoNCk9uIDA1LjAxLjIwMTkgMjI6NDEsIFV3ZSBLbGVpbmUtS8O2bmlnIHdyb3RlOg0KPiBPbiBU
-aHUsIEphbiAwMywgMjAxOSBhdCAwMToyOTo0N1BNICswMDAwLCBDbGF1ZGl1LkJlem5lYUBtaWNy
-b2NoaXAuY29tIHdyb3RlOg0KPj4gRnJvbTogQ2xhdWRpdSBCZXpuZWEgPGNsYXVkaXUuYmV6bmVh
-QG1pY3JvY2hpcC5jb20+DQo+Pg0KPj4gQWRkIFBXTSBub3JtYWwgYW5kIGNvbXBsZW1lbnRhcnkg
-bW9kZXMuDQo+Pg0KPiANCj4gVGhlIFN1YmplY3QgbGluZSBhbmQgdGhlIGNvbW1pdCBsb2cgZG9u
-J3QgcmVhbGx5IG1hdGNoIHRoZSBwYXRjaA0KPiBjb250ZW50IGFzIGl0IG9ubHkgYWRkcyBkb2N1
-bWVudGF0aW9uLg0KDQpvaywgSSdsbCBjaGFuZ2UgaXQuDQoNCj4gDQo+IEJlc3QgcmVnYXJkcw0K
-PiBVd2UNCj4gDQo=
+在 2019年01月07日 15:55, Hatayama, Daisuke 写道:
+> Hi,
+> 
+>> -----Original Message-----
+>> From: linux-kernel-owner@vger.kernel.org
+>> [mailto:linux-kernel-owner@vger.kernel.org] On Behalf Of Lianbo Jiang
+>> Sent: Monday, January 7, 2019 10:48 AM
+>> To: linux-kernel@vger.kernel.org
+>> Cc: kexec@lists.infradead.org; tglx@linutronix.de; mingo@redhat.com;
+>> bp@alien8.de; x86@kernel.org; akpm@linux-foundation.org; bhe@redhat.com;
+>> dyoung@redhat.com; linux-doc@vger.kernel.org; k-hagio@ab.jp.nec.com;
+>> anderson@redhat.com
+>> Subject: [PATCH 1/2 v5] kdump: add the vmcoreinfo documentation
+>>
+>> This document lists some variables that export to vmcoreinfo, and briefly
+>> describles what these variables indicate. It should be instructive for
+>> many people who do not know the vmcoreinfo, and it also normalizes the
+> 
+> I agree to this part, but
+> 
+>> exported variables as a convention between kernel and use-space.
+> 
+> I don't agree to this part.
+> 
+> The meaning of each symbol is decided by each feature in the kernel,
+> not by vmcoreinfo. I suspect anyone mistakenly understand this document is
+> ABI enforcing each symbol works as described. We can change symbols and
+> their meaning regardless of this document.
+> 
+> Oh, I found this topic has already been discussed at v3, and
+> you removed "ABI" in the patch description at v4.
+> 
+> But it seems still confusing to me.
+> I think the explicit description saying that this is for user-land tools,
+> they treats each symbol as described,
+> and the document never affect implementation of each kernel components,
+> is necessary in e.g. "Purpose of this document" section?
+> 
+
+Thanks for your advice.
+
+If this part could make the document become a rope tied around our necks, i would
+like to remove this part from the patch log in next post.
+
+Regards,
+Lianbo
+
+>>
+>> Suggested-by: Borislav Petkov <bp@suse.de>
+>> Signed-off-by: Lianbo Jiang <lijiang@redhat.com>
+>> ---
+>>  Documentation/kdump/vmcoreinfo.txt | 500 +++++++++++++++++++++++++++++
+>>  1 file changed, 500 insertions(+)
+>>  create mode 100644 Documentation/kdump/vmcoreinfo.txt
+>>
+>> diff --git a/Documentation/kdump/vmcoreinfo.txt
+>> b/Documentation/kdump/vmcoreinfo.txt
+>> new file mode 100644
+>> index 000000000000..8e444586b87b
+>> --- /dev/null
+>> +++ b/Documentation/kdump/vmcoreinfo.txt
+>> @@ -0,0 +1,500 @@
+>> +================================================================
+>> +			VMCOREINFO
+>> +================================================================
+>> +
+>> +=======================
+>> +What is the VMCOREINFO?
+>> +=======================
+>> +
+>> +VMCOREINFO is a special ELF note section. It contains various
+>> +information from the kernel like structure size, page size, symbol
+>> +values, field offsets, etc. These data are packed into an ELF note
+>> +section and used by user-space tools like crash and makedumpfile to
+>> +analyze a kernel's memory layout.
+>> +
+>> +================
+>> +Common variables
+>> +================
+>> +
+>> +init_uts_ns.name.release
+>> +------------------------
+>> +
+>> +The version of the Linux kernel. Used to find the corresponding source
+>> +code from which the kernel has been built.
+>> +
+>> +PAGE_SIZE
+>> +---------
+>> +
+>> +The size of a page. It is the smallest unit of data for memory
+>> +management in kernel. It is usually 4096 bytes and a page is aligned
+>> +on 4096 bytes. Used for computing page addresses.
+>> +
+>> +init_uts_ns
+>> +-----------
+>> +
+>> +This is the UTS namespace, which is used to isolate two specific
+>> +elements of the system that relate to the uname(2) system call. The UTS
+>> +namespace is named after the data structure used to store information
+>> +returned by the uname(2) system call.
+>> +
+>> +User-space tools can get the kernel name, host name, kernel release
+>> +number, kernel version, architecture name and OS type from it.
+>> +
+>> +node_online_map
+>> +---------------
+>> +
+>> +An array node_states[N_ONLINE] which represents the set of online node
+>> +in a system, one bit position per node number. Used to keep track of
+>> +which nodes are in the system and online.
+>> +
+>> +swapper_pg_dir
+>> +-------------
+>> +
+>> +The global page directory pointer of the kernel. Used to translate
+>> +virtual to physical addresses.
+>> +
+>> +_stext
+>> +------
+>> +
+>> +Defines the beginning of the text section. In general, _stext indicates
+>> +the kernel start address. Used to convert a virtual address from the
+>> +direct kernel map to a physical address.
+>> +
+>> +vmap_area_list
+>> +--------------
+>> +
+>> +Stores the virtual area list. makedumpfile can get the vmalloc start
+>> +value from this variable. This value is necessary for vmalloc translation.
+>> +
+>> +mem_map
+>> +-------
+>> +
+>> +Physical addresses are translated to struct pages by treating them as
+>> +an index into the mem_map array. Right-shifting a physical address
+>> +PAGE_SHIFT bits converts it into a page frame number which is an index
+>> +into that mem_map array.
+>> +
+>> +Used to map an address to the corresponding struct page.
+>> +
+>> +contig_page_data
+>> +----------------
+>> +
+>> +Makedumpfile can get the pglist_data structure from this symbol, which
+>> +is used to describe the memory layout.
+>> +
+>> +User-space tools use this to exclude free pages when dumping memory.
+>> +
+>> +mem_section|(mem_section, NR_SECTION_ROOTS)|(mem_section, section_mem_map)
+>> +-------------------------------------------------------------------------
+>> -
+>> +
+>> +The address of the mem_section array, its length, structure size, and
+>> +the section_mem_map offset.
+>> +
+>> +It exists in the sparse memory mapping model, and it is also somewhat
+>> +similar to the mem_map variable, both of them are used to translate an
+>> +address.
+>> +
+>> +page
+>> +----
+>> +
+>> +The size of a page structure. struct page is an important data structure
+>> +and it is widely used to compute the contiguous memory.
+>> +
+>> +pglist_data
+>> +-----------
+>> +
+>> +The size of a pglist_data structure. This value will be used to check
+>> +if the pglist_data structure is valid. It is also used for checking the
+>> +memory type.
+>> +
+>> +zone
+>> +----
+>> +
+>> +The size of a zone structure. This value is often used to check if the
+>> +zone structure has been found. It is also used for excluding free pages.
+>> +
+>> +free_area
+>> +---------
+>> +
+>> +The size of a free_area structure. It indicates whether the free_area
+>> +structure is valid or not. Useful for excluding free pages.
+>> +
+>> +list_head
+>> +---------
+>> +
+>> +The size of a list_head structure. Used when iterating lists in a
+>> +post-mortem analysis session.
+>> +
+>> +nodemask_t
+>> +----------
+>> +
+>> +The size of a nodemask_t type. Used to compute the number of online
+>> +nodes.
+>> +
+>> +(page, flags|_refcount|mapping|lru|_mapcount|private|compound_dtor|
+>> +       compound_order|compound_head)
+>> +-------------------------------------------------------------------
+>> +
+>> +User-space tools can compute their values based on the offset of these
+>> +variables. The variables are helpful to exclude unnecessary pages.
+>> +
+>> +(pglist_data, node_zones|nr_zones|node_mem_map|node_start_pfn|node_
+>> +              spanned_pages|node_id)
+>> +-------------------------------------------------------------------
+>> +
+>> +On NUMA machines, each NUMA node has a pg_data_t to describe its memory
+>> +layout. On UMA machines there is a single pglist_data which describes the
+>> +whole memory.
+>> +
+>> +These values are used to check the memory type, and they are also helpful
+>> +to compute the virtual address for memory map.
+>> +
+>> +(zone, free_area|vm_stat|spanned_pages)
+>> +---------------------------------------
+>> +
+>> +Each node is divided into a number of blocks called zones which
+>> +represent ranges within memory. A zone is described by a structure zone.
+>> +Each zone type is suitable for a different type of usage.
+>> +
+>> +User-space tools can compute required values based on the offset of these
+>> +variables.
+>> +
+>> +(free_area, free_list)
+>> +----------------------
+>> +
+>> +Offset of the free_list's member. This value is used to compute the number
+>> +of free pages.
+>> +
+>> +Each zone has a free_area structure array called free_area[MAX_ORDER].
+>> +The fields in this structure are simple, the free_list represents a linked
+>> +list of free page blocks.
+>> +
+>> +(list_head, next|prev)
+>> +----------------------
+>> +
+>> +Offsets of the list_head's members. list_head is used to define a
+>> +circular linked list. User-space tools need these in order to traverse
+>> +lists.
+>> +
+>> +(vmap_area, va_start|list)
+>> +--------------------------
+>> +
+>> +Offsets of the vmap_area's members. They indicate the vmalloc layer
+>> +information. Makedumpfile gets the start address of the vmalloc region.
+>> +
+>> +(zone.free_area, MAX_ORDER)
+>> +---------------------------
+>> +
+>> +It indicates the maximum number of the array free_area. This macro is
+>> +used by the zone buddy allocator. User-space tools use this value to
+>> +iterate the free_area.
+>> +
+>> +log_buf
+>> +-------
+>> +
+>> +Console output is written to the ring buffer log_buf at index
+>> +log_first_idx. Used to get the kernel log.
+>> +
+>> +log_buf_len
+>> +-----------
+>> +
+>> +Length of a log_buf. Used to read the number of strings from the
+>> +log_buf.
+>> +
+>> +log_first_idx
+>> +-------------
+>> +
+>> +Index of the first record stored in the buffer log_buf. Used by
+>> +user-space tools to read the strings in the log_buf.
+>> +
+>> +clear_idx
+>> +---------
+>> +
+>> +The index that the next printk() record to read after the last clear
+>> +command. It indicates the first record after the last SYSLOG_ACTION
+>> +_CLEAR, like issued by 'dmesg -c'. Used by user-space tools to dump
+>> +the dmesg log.
+>> +
+>> +log_next_idx
+>> +------------
+>> +
+>> +The index of the next record to store in the buffer log_buf. Used to
+>> +compute the index of the current string position.
+>> +
+>> +printk_log
+>> +----------
+>> +
+>> +The size of a structure printk_log. Used to compute the size of
+>> +messages, and extract dmesg log. It can output human readable text.
+>> +Encapsulate header information for log_buf, such as timestamp, syslog
+>> +level, etc.
+>> +
+>> +(printk_log, ts_nsec|len|text_len|dict_len)
+>> +-------------------------------------------
+>> +
+>> +It represents field offsets in struct printk_log. User space tools can
+>> +parse it and check whether the values of printk_log's members have been
+>> +changed.
+>> +
+>> +(free_area.free_list, MIGRATE_TYPES)
+>> +------------------------------------
+>> +
+>> +The number of migrate types for pages. The free_list is divided into
+>> +the array, it needs to know the number of the array when makedumpfile
+>> +computes the number of free pages.
+>> +
+>> +NR_FREE_PAGES
+>> +-------------
+>> +
+>> +On linux-2.6.21 or later, the number of free_pages is in
+>> +vm_stat[NR_FREE_PAGES]. Used to get the number of free pages.
+>> +
+>> +PG_lru|PG_private|PG_swapcache|PG_swapbacked|PG_slab|PG_hwpoision
+>> +|PG_head_mask|PAGE_BUDDY_MAPCOUNT_VALUE(~PG_buddy)
+>> +|PAGE_OFFLINE_MAPCOUNT_VALUE(~PG_offline)
+>> +-----------------------------------------------------------------
+>> +
+>> +Page attributes. These flags are used to filter various unnecessary
+>> +pages.
+>> +
+>> +HUGETLB_PAGE_DTOR
+>> +-----------------
+>> +
+>> +The HUGETLB_PAGE_DTOR flag denotes hugetlbfs pages. Makedumpfile
+>> +excludes these pages.
+>> +
+>> +======
+>> +x86_64
+>> +======
+>> +
+>> +phys_base
+>> +---------
+>> +
+>> +Used to convert the virtual address of an exported kernel symbol to its
+>> +physical address.
+>> +
+>> +init_top_pgt
+>> +------------
+>> +
+>> +Used to walk through the whole page table and convert virtual addresses
+>> +to physical addresses. The init_top_pgt is somewhat similar to the
+>> +swapper_pg_dir, but it is only used in x86_64.
+>> +
+>> +pgtable_l5_enabled
+>> +------------------
+>> +
+>> +User-space tools need to know whether the crash kernel was in 5-level
+>> +paging mode.
+>> +
+>> +node_data
+>> +---------
+>> +
+>> +This is a struct pglist_data array and stores all numa nodes
+>> +information. Makedumpfile gets the pglist_data structure from it.
+>> +
+>> +(node_data, MAX_NUMNODES)
+>> +-------------------------
+>> +
+>> +The maximum number of the nodes in system.
+>> +
+>> +KERNELOFFSET
+>> +------------
+>> +
+>> +The kernel randomization offset. Used to compute the page offset. If
+>> +KASLR is disabled, this value is zero.
+>> +
+>> +KERNEL_IMAGE_SIZE
+>> +-----------------
+>> +
+>> +Currently unused by Makedumpfile. Used to compute the module virtual
+>> +address by Crash.
+>> +
+>> +sme_mask
+>> +--------
+>> +
+>> +For AMD machine with SME feature, it indicates the secure memory
+>> +encryption mask. Makedumpfile tools need to know whether the crash
+>> +kernel was encrypted. If SME is enabled in the first kernel, the crash
+>> +kernel's page table (pgd/pud/pmd/pte) contains the memory encryption
+>> +mask and this is used to remove the SME mask to obtain the true physical
+>> +address.
+>> +
+>> +Currently, the sme_mask stores the value of sme_me_mask(bit 47). If need,
+>> +the bit(sme_mask) might be redefined in the future, but the bit 63 will
+>> +be reserved.
+>> +
+>> +For example:
+>> +[ misc	        ][ enc bit  ][ other misc SME info       ]
+>> +0000_0000_0000_0000_1000_0000_0000_0000_0000_0000_..._0000
+>> +63   59   55   51   47   43   39   35   31   27   ... 3
+>> +
+>> +======
+>> +x86_32
+>> +======
+>> +
+>> +X86_PAE
+>> +-------
+>> +
+>> +Denotes whether physical address extensions are enabled. It has the cost
+>> +of more page table lookup overhead, and also consumes more page table
+>> +space per process. Used to check whether PAE was enabled in the crash
+>> +kernel when converting virtual addresses to physical addresses.
+>> +
+>> +====
+>> +ia64
+>> +====
+>> +
+>> +pgdat_list|(pgdat_list, MAX_NUMNODES)
+>> +-------------------------------------
+>> +
+>> +pg_data_t array storing all numa nodes information. MAX_NUMNODES
+>> +indicates the number of the nodes.
+>> +
+>> +node_memblk|(node_memblk, NR_NODE_MEMBLKS)
+>> +------------------------------------------
+>> +
+>> +List of node memory chunks. Filled when parsing SRAT table to obtain
+>> +information about memory nodes. NR_NODE_MEMBLKS indicates the number
+>> +of node memory chunks.
+>> +
+>> +These values are used to compute the number of nodes in the crash kernel.
+>> +
+>> +node_memblk_s|(node_memblk_s, start_paddr)|(node_memblk_s, size)
+>> +----------------------------------------------------------------
+>> +
+>> +The size of a struct node_memblk_s and the offsets of the
+>> +node_memblk_s's members. Used to compute the number of nodes.
+>> +
+>> +PGTABLE_3|PGTABLE_4
+>> +-------------------
+>> +
+>> +User-space tools need to know whether the crash kernel was in 3-level or
+>> +4-level paging mode. Used to distinguish the page table.
+>> +
+>> +=====
+>> +ARM64
+>> +=====
+>> +
+>> +VA_BITS
+>> +-------
+>> +
+>> +The maximum number of bits for virtual addresses. Used to compute the
+>> +virtual memory ranges.
+>> +
+>> +kimage_voffset
+>> +--------------
+>> +
+>> +The offset between the kernel virtual and physical mappings. Used to
+>> +translate virtual to physical addresses.
+>> +
+>> +PHYS_OFFSET
+>> +-----------
+>> +
+>> +Indicates the physical address of the start of memory. Similar to
+>> +kimage_voffset, which is used to translate virtual address to physical
+>> +address.
+>> +
+>> +KERNELOFFSET
+>> +------------
+>> +
+>> +The kernel randomization offset. Used to compute the page offset. If
+>> +KASLR is disabled, this value is zero.
+>> +
+>> +====
+>> +arm
+>> +====
+>> +
+>> +ARM_LPAE
+>> +--------
+>> +
+>> +It indicates whether the crash kernel supports large physical address
+>> +extensions. Used to translate virtual address to physical address.
+>> +
+>> +====
+>> +s390
+>> +====
+>> +
+>> +lowcore_ptr
+>> +----------
+>> +
+>> +An array with a pointer to the lowcore of every CPU. Used to print the
+>> +psw and all registers information.
+>> +
+>> +high_memory
+>> +-----------
+>> +
+>> +Used to get the vmalloc_start address from the high_memory symbol.
+>> +
+>> +(lowcore_ptr, NR_CPUS)
+>> +----------------------
+>> +
+>> +The maximum number of CPUs.
+>> +
+>> +=======
+>> +powerpc
+>> +=======
+>> +
+>> +
+>> +node_data|(node_data, MAX_NUMNODES)
+>> +-----------------------------------
+>> +
+>> +See above.
+>> +
+>> +contig_page_data
+>> +----------------
+>> +
+>> +See above.
+>> +
+>> +vmemmap_list
+>> +------------
+>> +
+>> +The vmemmap_list maintains the entire vmemmap physical mapping. It can
+>> +get vmemmap list count and populate vmemmap regions info. If the vmemmap
+>> +address translation information is stored in the crash kernel, it helps
+>> +to translate vmemmap kernel virtual addresses.
+>> +
+>> +mmu_vmemmap_psize
+>> +-----------------
+>> +
+>> +The size of a page. Used to translate address to physical addresses.
+>> +
+>> +mmu_psize_defs
+>> +--------------
+>> +
+>> +Page size definitions, i.e. 4k, 64k, or 16M.
+>> +
+>> +Used to make vtop translations.
+>> +
+>> +vmemmap_backing|(vmemmap_backing, list)|(vmemmap_backing, phys)|
+>> +(vmemmap_backing, virt_addr)
+>> +----------------------------------------------------------------
+>> +
+>> +The vmemmap virtual address space management does not have a traditional
+>> +page table to track which virtual struct pages are backed by physical
+>> +mapping. The virtual to physical mappings are tracked in a simple linked
+>> +list format.
+>> +
+>> +User-space tools need to know the offset of list, phys and virt_addr
+>> +when computing the count of vmemmap regions.
+>> +
+>> +mmu_psize_def|(mmu_psize_def, shift)
+>> +------------------------------------
+>> +
+>> +The size of a struct mmu_psize_def and the offset of mmu_psize_def's
+>> +member.
+>> +
+>> +Used in vtop translations.
+>> +
+>> +==
+>> +sh
+>> +==
+>> +
+>> +node_data|(node_data, MAX_NUMNODES)
+>> +-----------------------------------
+>> +
+>> +See above.
+>> +
+>> +X2TLB
+>> +-----
+>> +
+>> +Indicates whether the crash kernel enables SH extended mode.
+>> --
+>> 2.17.1
+>>
+> 
+> 
