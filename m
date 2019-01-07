@@ -1,182 +1,198 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 146887D0D7
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 03:19:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E58537D0D7
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 03:58:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726287AbfAGDTm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 6 Jan 2019 22:19:42 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:60868 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726074AbfAGDTm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Jan 2019 22:19:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=wIWra0gqXtdEeJj3klCZ/IQxNvXBPiHt5+l8HXHNqGM=; b=Q9SZmGHDa4YOqZg9qsTPZzCVCI
-        rAto0Ay9XY7fcCeauBMJuoLpoRxxtNDweSA02CsxDMftVzgB/qPlOCIPdw8p/5paySdrPHfvq35U9
-        qOKf1NBJAOGYUNQEcXIabjE4hsCrNhXmRiSvAtqegO28jw66ErkenjFNMt5tUQk5cUoB7Dgx1k+VW
-        KVk98L1Y20fHXrRMXSOV/0FmJUBWMdUq5g0K0qHPGA1a/WLJDruX4AP+HQbZq2REfQLF3vDPPkFN5
-        C8pPkR/Lbbx7YQnEn1fm12rLkPKWKL4epkmG6OeZDJDElG70NwOnC1QK3tYzlUI9iIvIUamUVKvjg
-        Om+11pzg==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1ggLRw-0001bU-5V; Mon, 07 Jan 2019 03:19:36 +0000
-To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     NeilBrown <neilb@suse.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation/filesystems: fix title underline lengths in
- path-lookup.rst
-Message-ID: <abe71918-29c1-ce47-57ad-e1908c7136e6@infradead.org>
-Date:   Sun, 6 Jan 2019 19:19:29 -0800
+        id S1726441AbfAGD6o (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 6 Jan 2019 22:58:44 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:52892 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726246AbfAGD6o (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 6 Jan 2019 22:58:44 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id AC8A57B020;
+        Mon,  7 Jan 2019 03:58:42 +0000 (UTC)
+Received: from [10.72.12.172] (ovpn-12-172.pek2.redhat.com [10.72.12.172])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CCAA5D96F;
+        Mon,  7 Jan 2019 03:58:25 +0000 (UTC)
+Subject: Re: [PATCH RFC 3/4] barriers: convert a control to a data dependency
+To:     "Michael S. Tsirkin" <mst@redhat.com>, linux-kernel@vger.kernel.org
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <andrea.parri@amarulasolutions.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>, linux-arch@vger.kernel.org,
+        netdev@vger.kernel.org, virtualization@lists.linux-foundation.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-sparse@vger.kernel.org
+References: <20190102205715.14054-1-mst@redhat.com>
+ <20190102205715.14054-4-mst@redhat.com>
+From:   Jason Wang <jasowang@redhat.com>
+Message-ID: <86023cbe-d1ae-a0d6-7b75-26556f1a0c1f@redhat.com>
+Date:   Mon, 7 Jan 2019 11:58:23 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190102205715.14054-4-mst@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Mon, 07 Jan 2019 03:58:43 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
 
-Fix Sphinx warnings in path-lookup.rst:
+On 2019/1/3 上午4:57, Michael S. Tsirkin wrote:
+> It's not uncommon to have two access two unrelated memory locations in a
+> specific order.  At the moment one has to use a memory barrier for this.
+>
+> However, if the first access was a read and the second used an address
+> depending on the first one we would have a data dependency and no
+> barrier would be necessary.
+>
+> This adds a new interface: dependent_ptr_mb which does exactly this: it
+> returns a pointer with a data dependency on the supplied value.
+>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>   Documentation/memory-barriers.txt | 20 ++++++++++++++++++++
+>   arch/alpha/include/asm/barrier.h  |  1 +
+>   include/asm-generic/barrier.h     | 18 ++++++++++++++++++
+>   include/linux/compiler.h          |  4 ++++
+>   4 files changed, 43 insertions(+)
+>
+> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+> index c1d913944ad8..9dbaa2e1dbf6 100644
+> --- a/Documentation/memory-barriers.txt
+> +++ b/Documentation/memory-barriers.txt
+> @@ -691,6 +691,18 @@ case what's actually required is:
+>   		p = READ_ONCE(b);
+>   	}
+>   
+> +Alternatively, a control dependency can be converted to a data dependency,
+> +e.g.:
+> +
+> +	q = READ_ONCE(a);
+> +	if (q) {
+> +		b = dependent_ptr_mb(b, q);
+> +		p = READ_ONCE(b);
+> +	}
+> +
+> +Note how the result of dependent_ptr_mb must be used with the following
+> +accesses in order to have an effect.
+> +
+>   However, stores are not speculated.  This means that ordering -is- provided
+>   for load-store control dependencies, as in the following example:
+>   
+> @@ -836,6 +848,12 @@ out-guess your code.  More generally, although READ_ONCE() does force
+>   the compiler to actually emit code for a given load, it does not force
+>   the compiler to use the results.
+>   
+> +Converting to a data dependency helps with this too:
+> +
+> +	q = READ_ONCE(a);
+> +	b = dependent_ptr_mb(b, q);
+> +	WRITE_ONCE(b, 1);
+> +
+>   In addition, control dependencies apply only to the then-clause and
+>   else-clause of the if-statement in question.  In particular, it does
+>   not necessarily apply to code following the if-statement:
+> @@ -875,6 +893,8 @@ to the CPU containing it.  See the section on "Multicopy atomicity"
+>   for more information.
+>   
+>   
+> +
+> +
+>   In summary:
+>   
+>     (*) Control dependencies can order prior loads against later stores.
+> diff --git a/arch/alpha/include/asm/barrier.h b/arch/alpha/include/asm/barrier.h
+> index 92ec486a4f9e..b4934e8c551b 100644
+> --- a/arch/alpha/include/asm/barrier.h
+> +++ b/arch/alpha/include/asm/barrier.h
+> @@ -59,6 +59,7 @@
+>    * as Alpha, "y" could be set to 3 and "x" to 0.  Use rmb()
+>    * in cases like this where there are no data dependencies.
+>    */
+> +#define ARCH_NEEDS_READ_BARRIER_DEPENDS 1
+>   #define read_barrier_depends() __asm__ __volatile__("mb": : :"memory")
+>   
+>   #ifdef CONFIG_SMP
+> diff --git a/include/asm-generic/barrier.h b/include/asm-generic/barrier.h
+> index 2cafdbb9ae4c..fa2e2ef72b68 100644
+> --- a/include/asm-generic/barrier.h
+> +++ b/include/asm-generic/barrier.h
+> @@ -70,6 +70,24 @@
+>   #define __smp_read_barrier_depends()	read_barrier_depends()
+>   #endif
+>   
+> +#if defined(COMPILER_HAS_OPTIMIZER_HIDE_VAR) && \
+> +	!defined(ARCH_NEEDS_READ_BARRIER_DEPENDS)
+> +
+> +#define dependent_ptr_mb(ptr, val) ({					\
+> +	long dependent_ptr_mb_val = (long)(val);			\
+> +	long dependent_ptr_mb_ptr = (long)(ptr) - dependent_ptr_mb_val;	\
+> +									\
+> +	BUILD_BUG_ON(sizeof(val) > sizeof(long));			\
+> +	OPTIMIZER_HIDE_VAR(dependent_ptr_mb_val);			\
+> +	(typeof(ptr))(dependent_ptr_mb_ptr + dependent_ptr_mb_val);	\
+> +})
+> +
+> +#else
+> +
+> +#define dependent_ptr_mb(ptr, val) ({ mb(); (ptr); })
 
-Documentation/filesystems/path-lookup.rst:347: WARNING: Title underline too short.
-Documentation/filesystems/path-lookup.rst:358: WARNING: Title underline too short.
-Documentation/filesystems/path-lookup.rst:369: WARNING: Title underline too short.
-Documentation/filesystems/path-lookup.rst:375: WARNING: Title underline too short.
-Documentation/filesystems/path-lookup.rst:384: WARNING: Title underline too short.
-Documentation/filesystems/path-lookup.rst:513: WARNING: Title underline too short.
-Documentation/filesystems/path-lookup.rst:532: WARNING: Title underline too short.
-Documentation/filesystems/path-lookup.rst:545: WARNING: Title underline too short.
-Documentation/filesystems/path-lookup.rst:701: WARNING: Title underline too short.
-Documentation/filesystems/path-lookup.rst:730: WARNING: Title underline too short.
-Documentation/filesystems/path-lookup.rst:777: WARNING: Title underline too short.
-Documentation/filesystems/path-lookup.rst:799: WARNING: Title underline too short.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Neil, You didn't get these warnings when you built the docs?
+So for the example of patch 4, we'd better fall back to rmb() or need a 
+dependent_ptr_rmb()?
 
- Documentation/filesystems/path-lookup.rst |   24 ++++++++++----------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+Thanks
 
---- lnx-50-rc1.orig/Documentation/filesystems/path-lookup.rst
-+++ lnx-50-rc1/Documentation/filesystems/path-lookup.rst
-@@ -344,7 +344,7 @@ In particular it is held while scanning
- table, and the mount point hash table.
- 
- Bringing it together with ``struct nameidata``
----------------------------------------------
-+----------------------------------------------
- 
- .. _First edition Unix: http://minnie.tuhs.org/cgi-bin/utree.pl?file=V1/u2.s
- 
-@@ -355,7 +355,7 @@ converts a "name" to an "inode".  ``stru
- other fields):
- 
- ``struct path path``
--~~~~~~~~~~~~~~~~~~
-+~~~~~~~~~~~~~~~~~~~~
- 
- A ``path`` contains a ``struct vfsmount`` (which is
- embedded in a ``struct mount``) and a ``struct dentry``.  Together these
-@@ -366,13 +366,13 @@ step.  A reference through ``d_lockref``
- held.
- 
- ``struct qstr last``
--~~~~~~~~~~~~~~~~~~
-+~~~~~~~~~~~~~~~~~~~~
- 
- This is a string together with a length (i.e. _not_ ``nul`` terminated)
- that is the "next" component in the pathname.
- 
- ``int last_type``
--~~~~~~~~~~~~~~~
-+~~~~~~~~~~~~~~~~~
- 
- This is one of ``LAST_NORM``, ``LAST_ROOT``, ``LAST_DOT``, ``LAST_DOTDOT``, or
- ``LAST_BIND``.  The ``last`` field is only valid if the type is
-@@ -381,7 +381,7 @@ components of the symlink have been proc
- fairly self-explanatory.
- 
- ``struct path root``
--~~~~~~~~~~~~~~~~~~
-+~~~~~~~~~~~~~~~~~~~~
- 
- This is used to hold a reference to the effective root of the
- filesystem.  Often that reference won't be needed, so this field is
-@@ -510,7 +510,7 @@ potentially interesting things about the
- to three different flags that might be set in ``dentry->d_flags``:
- 
- ``DCACHE_MANAGE_TRANSIT``
--~~~~~~~~~~~~~~~~~~~~~~~
-+~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- If this flag has been set, then the filesystem has requested that the
- ``d_manage()`` dentry operation be called before handling any possible
-@@ -529,7 +529,7 @@ filesystem, which will then give it a sp
- ``d_manage()`` by returning ``-EISDIR``.
- 
- ``DCACHE_MOUNTED``
--~~~~~~~~~~~~~~~~
-+~~~~~~~~~~~~~~~~~~
- 
- This flag is set on every dentry that is mounted on.  As Linux
- supports multiple filesystem namespaces, it is possible that the
-@@ -542,7 +542,7 @@ If this flag is set, and ``d_manage()``
- and a new ``dentry`` (both with counted references).
- 
- ``DCACHE_NEED_AUTOMOUNT``
--~~~~~~~~~~~~~~~~~~~~~~~
-+~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- If ``d_manage()`` allowed us to get this far, and ``lookup_mnt()`` didn't
- find a mount point, then this flag causes the ``d_automount()`` dentry
-@@ -698,7 +698,7 @@ With that little refresher on seqlocks o
- the bigger picture of how RCU-walk uses seqlocks.
- 
- ``mount_lock`` and ``nd->m_seq``
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- We already met the ``mount_lock`` seqlock when REF-walk used it to
- ensure that crossing a mount point is performed safely.  RCU-walk uses
-@@ -727,7 +727,7 @@ results would have been the same.  This
- at least for vfsmount structures.
- 
- ``dentry->d_seq`` and ``nd->seq``
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- In place of taking a count or lock on ``d_reflock``, RCU-walk samples
- the per-dentry ``d_seq`` seqlock, and stores the sequence number in the
-@@ -774,7 +774,7 @@ getting a counted reference to the new d
- the old dentry which we saw in REF-walk.
- 
- No ``inode->i_rwsem`` or even ``rename_lock``
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- A semaphore is a fairly heavyweight lock that can only be taken when it is
- permissible to sleep.  As ``rcu_read_lock()`` forbids sleeping,
-@@ -796,7 +796,7 @@ locking.  This neatly handles all cases,
- rename_lock would bring no significant value.
- 
- ``unlazy walk()`` and ``complete_walk()``
---------------------------------------
-+-----------------------------------------
- 
- That "dropping down to REF-walk" typically involves a call to
- ``unlazy_walk()``, so named because "RCU-walk" is also sometimes
+
+> +
+> +#endif
+> +
+>   #ifdef CONFIG_SMP
+>   
+>   #ifndef smp_mb
+> diff --git a/include/linux/compiler.h b/include/linux/compiler.h
+> index 6601d39e8c48..f599c30f1b28 100644
+> --- a/include/linux/compiler.h
+> +++ b/include/linux/compiler.h
+> @@ -152,9 +152,13 @@ void ftrace_likely_update(struct ftrace_likely_data *f, int val,
+>   #endif
+>   
+>   #ifndef OPTIMIZER_HIDE_VAR
+> +
+>   /* Make the optimizer believe the variable can be manipulated arbitrarily. */
+>   #define OPTIMIZER_HIDE_VAR(var)						\
+>   	__asm__ ("" : "=rm" (var) : "0" (var))
+> +
+> +#define COMPILER_HAS_OPTIMIZER_HIDE_VAR 1
+> +
+>   #endif
+>   
+>   /* Not-quite-unique ID. */
