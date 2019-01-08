@@ -1,121 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ED0FF7D92A
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 14:10:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3E12D7D161
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 16:11:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728905AbfAHOJ5 convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 Jan 2019 09:09:57 -0500
-Received: from mail-vk1-f195.google.com ([209.85.221.195]:36748 "EHLO
-        mail-vk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728839AbfAHOJ4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jan 2019 09:09:56 -0500
-Received: by mail-vk1-f195.google.com with SMTP id 185so891969vkc.3;
-        Tue, 08 Jan 2019 06:09:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=lBYfDnPVXDNQRdMrfaAMpkN7j7FL3/qAK52ZkVu2fys=;
-        b=tVmm6bJf8DBwx9JY3qav7scbPj9+lzcv6vcSnYrG9wmsX+alw0aoLlwsr33F8EU8Cl
-         W8SXwBKeXe9HnHR3qPU5L1qyKyoY/zLqpgIIEKiSgjBMMIgsNUo/VajRBFNVOW7eay4e
-         LBERWxvWrK66tvh2LQ7p7b/f5hI7dm4GBwlzr8AuGzF2YSr3PRo593aNcCZs+4M9OcM0
-         iy4ThBw3N+Md0W1TVPu4hc+F2zdP7cqc9vxts0AQ7LuoAra6opiO5Vj+6IdbQbvOJGYx
-         ki/vJp/WkeZ952ov4TSMqPhvYZ6VzOmkrHXArm5LXZjF+PjlcMBY8czNaC/k3dh9rRcp
-         mgPw==
-X-Gm-Message-State: AJcUukcOsDl15n3pw/3oXPKtu1SuOH9fejiuDqp6ELP4C1ieC4UudHE3
-        C+tjiRePb+B6fqmrbRMD1gi4JN8pZ8v6SiS0+Zo=
-X-Google-Smtp-Source: ALg8bN6qFRYPO2P1ipa2zYPbcOuFnt82aRPxIbNYPlHO+iRlp4rKCHN4pCHhWU67m2C6Fvyml09H4vGTRLlmS2DTITE=
-X-Received: by 2002:a1f:2145:: with SMTP id h66mr682873vkh.65.1546956595430;
- Tue, 08 Jan 2019 06:09:55 -0800 (PST)
-MIME-Version: 1.0
-References: <da5620dc7a2b9d33f2a0dd7f4dc3afdab5a66f26.1534795606.git.joe@perches.com>
- <CAMuHMdXPFgp5sLR5-UExEvxNbKSR5H--dk7KMit_XFSFN+1uHw@mail.gmail.com>
- <1996329d875e1ab5b9cd69db187b7037ad3a0d8d.camel@perches.com> <CAMuHMdW1OqswdSRj2DROFST46dLCmMU5=ki2x0FBn8OjJjgLdg@mail.gmail.com>
-In-Reply-To: <CAMuHMdW1OqswdSRj2DROFST46dLCmMU5=ki2x0FBn8OjJjgLdg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 8 Jan 2019 15:09:42 +0100
-Message-ID: <CAMuHMdV9W4hDeVW2=jP0YN1vF1mjbr0-4nrcLWi=H1mR214EtQ@mail.gmail.com>
-Subject: Re: [PATCH] Raise the minimum required gcc version to 4.6
-To:     Joe Perches <joe@perches.com>
-Cc:     "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        id S1729223AbfAHQLF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 Jan 2019 11:11:05 -0500
+Received: from mx2.suse.de ([195.135.220.15]:41602 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729077AbfAHQLE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Jan 2019 11:11:04 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 325D8B0A3;
+        Tue,  8 Jan 2019 16:11:02 +0000 (UTC)
+Date:   Tue, 8 Jan 2019 17:11:00 +0100
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Dave Chinner <david@fromorbit.com>
+Cc:     Waiman Long <longman@redhat.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Mike Galbraith <efault@gmx.de>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rik van Riel <riel@surriel.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Daniel Colascione <dancol@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 0/2] /proc/stat: Reduce irqs counting performance overhead
+Message-ID: <20190108161100.GE31793@dhcp22.suse.cz>
+References: <1546873978-27797-1-git-send-email-longman@redhat.com>
+ <20190107223214.GZ6311@dastard>
+ <9b4208b7-f97b-047c-4dab-15bd3791e7de@redhat.com>
+ <20190108020422.GA27534@dastard>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190108020422.GA27534@dastard>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Dec 29, 2018 at 3:25 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Fri, Aug 24, 2018 at 12:00 AM Joe Perches <joe@perches.com> wrote:
-> > On Thu, 2018-08-23 at 23:52 +0200, Geert Uytterhoeven wrote:
-> > > Reverted locally (incl. the follow-up), applied Andrew's fix, detected new
-> > > warnings in v4.18+, and sent patches where it makes sense...
-> >
-> > Thanks for that.
->
-> Given the rise of anonymous unions all over the place, I gave up, and
-> have upgraded from gcc 4.1.2 to 7.3.0 for cross-compiling m68k kernels.
-> One good things is that the kernel size for an atari_defconfig kernel dropped
-> by 3.7% or 163 KiB.
->
-> For the record, below is a list of differences in generated warnings.
-> Note that the source trees are not identical, as the tree used with
-> gcc-7.3.0 did not include any workarounds I needed for gcc-4.1.2.
-> All warnings flagged by gcc 4.1.2 should be false positives (iff I did a
-> good job during the last few years ;-)
->
-> I plan to repeat the exercise with gcc-8.2.0 (after v4.21-rc1 or so).
+On Tue 08-01-19 13:04:22, Dave Chinner wrote:
+> On Mon, Jan 07, 2019 at 05:41:39PM -0500, Waiman Long wrote:
+> > On 01/07/2019 05:32 PM, Dave Chinner wrote:
+> > > On Mon, Jan 07, 2019 at 10:12:56AM -0500, Waiman Long wrote:
+> > >> As newer systems have more and more IRQs and CPUs available in their
+> > >> system, the performance of reading /proc/stat frequently is getting
+> > >> worse and worse.
+> > > Because the "roll-your-own" per-cpu counter implementaiton has been
+> > > optimised for low possible addition overhead on the premise that
+> > > summing the counters is rare and isn't a performance issue. This
+> > > patchset is a direct indication that this "summing is rare and can
+> > > be slow" premise is now invalid.
+> > >
+> > > We have percpu counter infrastructure that trades off a small amount
+> > > of addition overhead for zero-cost reading of the counter value.
+> > > i.e. why not just convert this whole mess to percpu_counters and
+> > > then just use percpu_counter_read_positive()? Then we just don't
+> > > care how often userspace reads the /proc file because there is no
+> > > summing involved at all...
+> > >
+> > > Cheers,
+> > >
+> > > Dave.
+> > 
+> > Yes, percpu_counter_read_positive() is cheap. However, you still need to
+> > pay the price somewhere. In the case of percpu_counter, the update is
+> > more expensive.
+> 
+> Ummm, that's exactly what I just said. It's a percpu counter that
+> solves the "sum is expensive and frequent" problem, just like you
+> are encountering here. I do not need basic scalability algorithms
+> explained to me.
+> 
+> > I would say the percentage of applications that will hit this problem is
+> > small. But for them, this problem has some significant performance overhead.
+> 
+> Well, duh!
+> 
+> What I was suggesting is that you change the per-cpu counter
+> implementation to the /generic infrastructure/ that solves this
+> problem, and then determine if the extra update overhead is at all
+> measurable. If you can't measure any difference in update overhead,
+> then slapping complexity on the existing counter to attempt to
+> mitigate the summing overhead is the wrong solution.
+> 
+> Indeed, it may be that you need o use a custom batch scaling curve
+> for the generic per-cpu coutner infrastructure to mitigate the
+> update overhead, but the fact is we already have generic
+> infrastructure that solves your problem and so the solution should
+> be "use the generic infrastructure" until it can be proven not to
+> work.
+> 
+> i.e. prove the generic infrastructure is not fit for purpose and
+> cannot be improved sufficiently to work for this use case before
+> implementing a complex, one-off snowflake counter implementation...
 
-As promised, gcc-7.3.0 => gcc-8.2.0:
+Completely agreed! Apart from that I find that conversion to a generic
+infrastructure worth even if that doesn't solve the problem at hands
+completely. If for no other reasons then the sheer code removal as kstat
+is not really used for anything apart from this accounting AFAIR. The
+less ad-hoc code we have the better IMHO.
 
-    *** ERRORS ***
-
-    4 error regressions:
-      + error: devfreq.c: undefined reference to `strcmp':  => .text+0x9c6)
-      + error: ldm.c: undefined reference to `strcmp':  =>
-.text+0x1900), .text+0x1964), .text+0x19a0), .text+0x193c)
-      + error: proc.c: undefined reference to `strcmp':  =>
-.text+0x18c), .text+0x178)
-      + error: xattr.c: undefined reference to `strcmp':  =>
-.text+0xbaa), .text+0xbf0), .text+0x2e8), .text+0x268), .text+0x97a),
-.text+0x9be), .text+0x3d4)
-
-Hmm, time to fix the auto-strncmp-to-strcmp-conversion for good...
-
-    *** WARNINGS ***
-
-    1 warning regressions:
-      + drivers/dio/dio.c: warning: ‘strcpy’ writing 69 or more bytes
-into a region of size 64 overflows the destination
-[-Wstringop-overflow=]:  => 240:17
-
-That's a nice one, it found a 15 year old bug. Patch sent ;-)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+And to the underlying problem. Some proc files do not scale on large
+machines. Maybe it is time to explain that to application writers that
+if they are collecting data too agressively then it won't scale. We can
+only do this much. Lying about numbers by hiding updates is, well,
+lying and won't solve the underlying problem. 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Michal Hocko
+SUSE Labs
