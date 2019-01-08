@@ -1,156 +1,78 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 65A7D7D8BA
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 19:40:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 79A367D8A8
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 19:44:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732072AbfAHTer (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 Jan 2019 14:34:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43532 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732026AbfAHTeq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Jan 2019 14:34:46 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EBAE02176F;
-        Tue,  8 Jan 2019 19:34:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1546976085;
-        bh=kre70+d8uzJ8FvACdFI79BLA9fkyW8w13nbV39CgHJk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=1OMrGUPK7WGkr2Z6UK5jJeonKBQ98V4bOonaTEIQSarppcN4rm+KXtt2qpRxzs6mC
-         BkmxzKe/W2e4nT1/ulIfAHNZBgNCSZOKtv3aCT1D3b8ZfMY0NOma4vJ1lk3vRykakr
-         QDefivvZpGeAoWOZSY7YkcEv2KlbF1NVddtLvRm4=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Michal Hocko <mhocko@suse.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        David Rientjes <rientjes@google.com>,
-        Paul Oppenheimer <bepvte@gmail.com>,
-        William Kucharski <william.kucharski@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 36/36] mm, proc: be more verbose about unstable VMA flags in /proc/<pid>/smaps
-Date:   Tue,  8 Jan 2019 14:33:48 -0500
-Message-Id: <20190108193348.123880-36-sashal@kernel.org>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190108193348.123880-1-sashal@kernel.org>
-References: <20190108193348.123880-1-sashal@kernel.org>
+        id S1732681AbfAHTnQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 Jan 2019 14:43:16 -0500
+Received: from wp227.webpack.hosteurope.de ([80.237.132.234]:50174 "EHLO
+        wp227.webpack.hosteurope.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732366AbfAHTnP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jan 2019 14:43:15 -0500
+Received: from ip4d142c80.dynamic.kabel-deutschland.de ([77.20.44.128] helo=xps13.fritz.box); authenticated
+        by wp227.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1ggxHM-00070C-8y; Tue, 08 Jan 2019 20:43:12 +0100
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Thorsten Leemhuis <linux@leemhuis.info>
+Subject: [PATCH v2 0/2] Revamp admin-guide/tainted-kernels.rst to make it more comprehensible
+Date:   Tue,  8 Jan 2019 20:40:05 +0100
+Message-Id: <20190108194007.29439-1-linux@leemhuis.info>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1546976595;8f3fe20b;
+X-HE-SMSGID: 1ggxHM-00070C-8y
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Michal Hocko <mhocko@suse.com>
+Hi! This is the second version of my patch to make
+admin-guide/tainted-kernels.rst more comprehensible. It got triggered while
+working on an update for reporting-bugs.rst, as improving the documentation
+around reporting bugs and regressions was one of the main things that a lot of
+people wanted to see while regression tracking was discussed in the kernel and
+maintainer summit 2017 in Prague.
 
-[ Upstream commit 7550c6079846a24f30d15ac75a941c8515dbedfb ]
+This is the second version of the patch, which became a patch set, as it now
+contains a script Randy (thx) provided during the discussion of the first
+version. 
 
-Patch series "THP eligibility reporting via proc".
+Please review and consider applying.
 
-This series of three patches aims at making THP eligibility reporting much
-more robust and long term sustainable.  The trigger for the change is a
-regression report [2] and the long follow up discussion.  In short the
-specific application didn't have good API to query whether a particular
-mapping can be backed by THP so it has used VMA flags to workaround that.
-These flags represent a deep internal state of VMAs and as such they
-should be used by userspace with a great deal of caution.
+Ciao, Thorsten
 
-A similar has happened for [3] when users complained that VM_MIXEDMAP is
-no longer set on DAX mappings.  Again a lack of a proper API led to an
-abuse.
+Changes since v1 [1]:
+- add tools/debugging/kernel-chktaint
+- take care of Documentation/sysctl/kernel.txt as well
+- renumber existing description to avoid and off-by-one
+- add verbose description for three more taints bits
+- fix a lots of small issues raised during review
 
-The first patch in the series tries to emphasise that that the semantic of
-flags might change and any application consuming those should be really
-careful.
+[1] https://lore.kernel.org/lkml/20181217152043.9989-1-linux@leemhuis.info/
 
-The remaining two patches provide a more suitable interface to address [2]
-and provide a consistent API to query the THP status both for each VMA and
-process wide as well.  [1]
+Thorsten Leemhuis (2):
+  tools: create tools/debugging/ and add a script decoding
+    /proc/sys/kernel/tainted
+  docs: Revamp tainted-kernels.rst to make it more comprehensible
 
-http://lkml.kernel.org/r/20181120103515.25280-1-mhocko@kernel.org [2]
-http://lkml.kernel.org/r/http://lkml.kernel.org/r/alpine.DEB.2.21.1809241054050.224429@chino.kir.corp.google.com
-[3] http://lkml.kernel.org/r/20181002100531.GC4135@quack2.suse.cz
+ Documentation/admin-guide/tainted-kernels.rst | 159 +++++++++++---
+ Documentation/sysctl/kernel.txt               |  50 ++---
+ tools/Makefile                                |  14 +-
+ tools/debugging/Makefile                      |  16 ++
+ tools/debugging/kernel-chktaint               | 202 ++++++++++++++++++
+ 5 files changed, 380 insertions(+), 61 deletions(-)
+ create mode 100644 tools/debugging/Makefile
+ create mode 100755 tools/debugging/kernel-chktaint
 
-This patch (of 3):
-
-Even though vma flags exported via /proc/<pid>/smaps are explicitly
-documented to be not guaranteed for future compatibility the warning
-doesn't go far enough because it doesn't mention semantic changes to those
-flags.  And they are important as well because these flags are a deep
-implementation internal to the MM code and the semantic might change at
-any time.
-
-Let's consider two recent examples:
-http://lkml.kernel.org/r/20181002100531.GC4135@quack2.suse.cz
-: commit e1fb4a086495 "dax: remove VM_MIXEDMAP for fsdax and device dax" has
-: removed VM_MIXEDMAP flag from DAX VMAs. Now our testing shows that in the
-: mean time certain customer of ours started poking into /proc/<pid>/smaps
-: and looks at VMA flags there and if VM_MIXEDMAP is missing among the VMA
-: flags, the application just fails to start complaining that DAX support is
-: missing in the kernel.
-
-http://lkml.kernel.org/r/alpine.DEB.2.21.1809241054050.224429@chino.kir.corp.google.com
-: Commit 1860033237d4 ("mm: make PR_SET_THP_DISABLE immediately active")
-: introduced a regression in that userspace cannot always determine the set
-: of vmas where thp is ineligible.
-: Userspace relies on the "nh" flag being emitted as part of /proc/pid/smaps
-: to determine if a vma is eligible to be backed by hugepages.
-: Previous to this commit, prctl(PR_SET_THP_DISABLE, 1) would cause thp to
-: be disabled and emit "nh" as a flag for the corresponding vmas as part of
-: /proc/pid/smaps.  After the commit, thp is disabled by means of an mm
-: flag and "nh" is not emitted.
-: This causes smaps parsing libraries to assume a vma is eligible for thp
-: and ends up puzzling the user on why its memory is not backed by thp.
-
-In both cases userspace was relying on a semantic of a specific VMA flag.
-The primary reason why that happened is a lack of a proper interface.
-While this has been worked on and it will be fixed properly, it seems that
-our wording could see some refinement and be more vocal about semantic
-aspect of these flags as well.
-
-Link: http://lkml.kernel.org/r/20181211143641.3503-2-mhocko@kernel.org
-Signed-off-by: Michal Hocko <mhocko@suse.com>
-Acked-by: Jan Kara <jack@suse.cz>
-Acked-by: Dan Williams <dan.j.williams@intel.com>
-Acked-by: David Rientjes <rientjes@google.com>
-Acked-by: Mike Rapoport <rppt@linux.ibm.com>
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
-Cc: Dan Williams <dan.j.williams@intel.com>
-Cc: David Rientjes <rientjes@google.com>
-Cc: Paul Oppenheimer <bepvte@gmail.com>
-Cc: William Kucharski <william.kucharski@oracle.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/filesystems/proc.txt | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
-index 74329fd0add2..077c37ed976f 100644
---- a/Documentation/filesystems/proc.txt
-+++ b/Documentation/filesystems/proc.txt
-@@ -484,7 +484,9 @@ manner. The codes are the following:
- 
- Note that there is no guarantee that every flag and associated mnemonic will
- be present in all further kernel releases. Things get changed, the flags may
--be vanished or the reverse -- new added.
-+be vanished or the reverse -- new added. Interpretation of their meaning
-+might change in future as well. So each consumer of these flags has to
-+follow each specific kernel version for the exact semantic.
- 
- This file is only present if the CONFIG_MMU kernel configuration option is
- enabled.
 -- 
-2.19.1
+2.20.1
 
