@@ -1,48 +1,69 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=FROM_EXCESS_BASE64,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AC3177D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 02:19:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E1FA07D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 04:49:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727052AbfAHCTK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Jan 2019 21:19:10 -0500
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:39932 "EHLO
-        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727030AbfAHCTK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 21:19:10 -0500
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436283|-1;CH=green;FP=0|0|0|0|0|-1|-1|-1;HT=e01l07426;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=13;RT=13;SR=0;TI=SMTPD_---.DiqYf8w_1546913942;
-Received: from 172.16.10.102(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.DiqYf8w_1546913942)
-          by smtp.aliyun-inc.com(10.147.42.253);
-          Tue, 08 Jan 2019 10:19:03 +0800
-Subject: Re: [RFC v5 0/4] pstore/block: new support logger for block devices
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <1546862462-19640-1-git-send-email-liaoweixiong@allwinnertech.com>
- <CAGXu5jKrEHkogWsNW0rui8fBbdGin0syWzdfhVhw1V9tTRy0+A@mail.gmail.com>
-From:   =?UTF-8?B?5buW5aiB6ZuE?= <liaoweixiong@allwinnertech.com>
-Message-ID: <46d11c0f-fa85-1214-6676-10b255e1a20e@allwinnertech.com>
-Date:   Tue, 8 Jan 2019 10:19:06 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1727368AbfAHEtf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Jan 2019 23:49:35 -0500
+Received: from mail-yb1-f193.google.com ([209.85.219.193]:45242 "EHLO
+        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727295AbfAHEtf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 23:49:35 -0500
+Received: by mail-yb1-f193.google.com with SMTP id q2so1078911ybd.12;
+        Mon, 07 Jan 2019 20:49:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=oFSWDE7ylA7tHsFZ+Uhyyuy8BZ86kWvQtuER6gDsHAM=;
+        b=Nq5Ewb0G7B/wpzAeVAOQHDAr3MBqAgx+bnVdlV2+iGHij9H8HZkMDXNnHBdnsyDSWZ
+         FUq94AF//AEZZ8l9mcggu4ZWenx86rPvOadPNlkv75C/wMw/ipkKkY6whYb1xfOQgeUg
+         j1K5ToAxM3gsgX77/b0oWH7rdXFNWYnKW6NjnKLU7qxtpNO2IlWJM6IPcOgK7IQ6uDjG
+         DGBoPvdKzC6KOWUZluMnJh7PeaXvBjvkZqpBLgOpihYeEfpv0MIV8CY07XOYpUDrhzf9
+         BxCUSS4KhW+uIzpPycGDf02WOdqtp+5FJZS5ifbLYP3YaZ3n11zWXRNsR0b1uF0Yd/n5
+         lDGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=oFSWDE7ylA7tHsFZ+Uhyyuy8BZ86kWvQtuER6gDsHAM=;
+        b=EDO0UXTa8nNpKn//sj5gr3glOEPkvBDeAHi8wL3SMZ2xHwDZbALga5cSoCm0euOAJW
+         SAQkfECW1ZcYD94hbcXFCnAE756DWv5VcWxExBTn8c6gMHmoDnTFGGhcjZ1cxw2oSIVa
+         zZDmAodEL+zSjGAhz6WLfzheQ2ce1SjoCCWSYVdNUy0+5RJ9wZmOveS2Jrjng9dAEWcV
+         DPraYY6CzcYWy5Sk2IG9DD4UAa02nzxg+qTJ5WZ/2485PF7Wti7TZ2rHuQ8/OlOO1dH4
+         K0V5R3rqgyAbL/Lcpi5PVf/C9SCN/yaQtBzkyIsOsOkTZN1NIQCm37k0DH85Ft3g4YGQ
+         i4HA==
+X-Gm-Message-State: AJcUukclBwRABYHMBD38pM/WIGNP2yMGcSwgrK8EjMsHAT9dQUHdKJGS
+        hCoisfFws6Sb8SSp/WmMjYw=
+X-Google-Smtp-Source: ALg8bN4ouxCMKcODXGkbWP3hIxvMWyx0NqW6urgLUi9W3UN/u/8SgTl+7h6UrFwqyvvcaGozO7CTTQ==
+X-Received: by 2002:a25:84c7:: with SMTP id x7mr211298ybm.378.1546922974393;
+        Mon, 07 Jan 2019 20:49:34 -0800 (PST)
+Received: from [192.168.1.138] (cpe-24-160-118-96.tampabay.res.rr.com. [24.160.118.96])
+        by smtp.gmail.com with ESMTPSA id j134sm31936261ywb.91.2019.01.07.20.49.33
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 07 Jan 2019 20:49:33 -0800 (PST)
+Subject: Re: Consistent capitalization of "device tree"?
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+References: <20190107183711.GA5671@amd>
+ <91bc4723-8e3a-4ed6-5104-36a614d6a6d2@gmail.com> <20190107192458.GG933@amd>
+From:   Frank Rowand <frowand.list@gmail.com>
+Message-ID: <64534368-1ee5-3a6b-18a6-d1d527aa4bdd@gmail.com>
+Date:   Mon, 7 Jan 2019 20:49:32 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <CAGXu5jKrEHkogWsNW0rui8fBbdGin0syWzdfhVhw1V9tTRy0+A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190107192458.GG933@amd>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -50,117 +71,61 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019-01-08 05:47, Kees Cook wrote:
-> On Mon, Jan 7, 2019 at 4:01 AM liaoweixiong
-> <liaoweixiong@allwinnertech.com> wrote:
+On 1/7/19 11:24 AM, Pavel Machek wrote:
+> On Mon 2019-01-07 11:06:27, Frank Rowand wrote:
 >>
->> Why should we need pstore_block?
->> 1. Most embedded intelligent equipment have no persistent ram, which
->> increases costs. We perfer to cheaper solutions, like block devices.
->> In fast, there is already a sample for block device logger in driver
->> MTD (drivers/mtd/mtdoops.c).
->> 2. Do not any equipment have battery, which means that it lost all data
->> on general ram if power failure. Pstore has little to do for these
->> equipments.
+>> + Frank
+>>
+>> On 1/7/19 10:37 AM, Pavel Machek wrote:
+>>> Is it "Device Tree" or "device tree"?
+>>>     
+>>>  pavel@duo:/data/l/k/Documentation$ grep -r "Device Tree"  | wc -l
+>>>  235
+>>>  pavel@duo:/data/l/k/Documentation$ grep -r "device tree"  | wc -l
+>>>  595
+>>>     
+>>> I guess it would be nice to make it consistent. I guess "device tree"
+>>> is preffered?
+>>>
+>>> Should we do something like this?
+>>> 								Pavel
+>>>
+>>> Signed-off-by: Pavel Machek <pavel@ucw.cz>
+>>>     
+>>> diff --git a/Documentation/devicetree/overlay-notes.txt b/Documentation/devicetree/overlay-notes.txt
+>>> index 725fb8d..cc5f507 100644
+>>> --- a/Documentation/devicetree/overlay-notes.txt
+>>> +++ b/Documentation/devicetree/overlay-notes.txt
+>>> @@ -8,7 +8,7 @@ companion document to Documentation/devicetree/dynamic-resolution-notes.txt[1]
+>>>  How overlays work
+>>>  -----------------
+>>>  
+>>> -A Device Tree's overlay purpose is to modify the kernel's live tree, and
+>>> +A device tree's overlay purpose is to modify the kernel's live tree, and
+>>>  have the modification affecting the state of the kernel in a way that
+>>>  is reflecting the changes.
+>>>  Since the kernel mainly deals with devices, any new device node that result
+>>>
+>>
+>> Not a strong opinion, but I would prefer a third option of devicetree.  That
+>> makes it much easier to search for.
 > 
-> I'm catching up from being off over the holidays, but I just wanted to
-> say that I like the general idea here.
+> That one is much less popular at the moment -- according to my
+> searches... so it would be a bigger change.
+> 
+> (Which I'll gladly support if I won't have to do the work... as long
+> as it is consistent. But I believe that "device tree" is most common
+> here, makes sense, and is easiest change, so...)
+> 
+> 								Pavel
 
-Thanks for your work very much! :)
+After finding the rest of the thread, and thinking further, I don't think
+the easiest change is the correct change.  Ease of search is much more
+than just grep of the kernel source, it is also web search engines.  I
+think that the extra effort of "devicetree" is worth while in the long
+run.  But I don't see a need to do an immediate global change - it can
+happen either slowly over time or quickly as people choose to submit
+patches.
 
-> 
->> [PATCH v5]
->> On patch 1:
->> 1. rename pstore/rom to pstore/blk
-> 
-> Thanks! The earlier name seemed wrong. :)
-> 
->> 2. Do not allocate any memory in the write path of panic. So, use local
->> array instead in function romz_recover_dmesg_meta.
->> 3. Add C header file "linux/fs.h" to fix implicit declaration of function
->>    'filp_open','kernel_read'...
->> On patch 3:
->> 1. If panic, do not recover pmsg but flush if it is dirty.
->> 2. Fix erase pmsg failed.
->> On patch 4:
->> 1. Create a document for pstore/blk
-> 
-> Overall, I wonder if more of the ram backend code could get reused for
-> the blk backend? I'd much rather be able to share that, since much of
-> the logic is the same.
+-Frank
 
-Before I wrote pstore/blk, I specially studied pstore/ram. As your
-words, much of the logic is the same, you will see some codes similar to
-pstore/ram.
-But there is still something different with pstore/ram. For example,
-block device maybe unready for read/write before kernel finish
-initializing. So, pstore/blk recovers old data when  mount rather than
-initialize.
-In addition, pstore/blk could not be used for pstore-console, since
-block device much slower than ram.
-In my original design, pstore/blk works like a manager for storage
-space, don't care if it is ram or block device. So, it may works for
-persistent ram too.
-
-> 
-> I'll get to a more detailed review in the coming days. Thanks for sending this!
-> 
-> -Kees
-> 
->>
->> [PATCH v4]
->> On patch 1:
->> 1. Fix always true condition '(--i >= 0) => (0-u32max >= 0)' in function
->>    romz_init_zones by defining variable i to 'int' rahter than
->>    'unsigned int'.
->> 2. To make codes more easily to read, we use macro READ_NEXT_ZONE for
->>    return value of romz_dmesg_read if it need to read next zone.
->>    Moveover, we assign READ_NEXT_ZONE -1024 rather than 0.
->> 3. Add 'FLUSH_META' to 'enum romz_flush_mode' and rename 'NOT_FLUSH' to
->>    'FLUSH_NONE'
->> 4. Function romz_zone_write work badly with FLUSH_PART mode as badly
->>    address and offset to write.
->> On patch 3:
->> NEW SUPPORT psmg for pstore_rom.
->>
->> [PATCH v3]
->> On patch 1:
->> Fix build as module error for undefined 'vfs_read' and 'vfs_write'
->> Both of 'vfs_read' and 'vfs_write' haven't be exproted yet, so we use
->> 'kernel_read' and 'kernel_write' instead.
->>
->> [PATCH v2]
->> On patch 1:
->> Fix build as module error for redefinition of 'romz_unregister' and
->> 'romz_register'
->>
->> [PATCH v1]
->> On patch 1:
->> Core codes of pstore_rom, which works well on allwinner(sunxi) platform.
->> On patch 2:
->> A sample for pstore_rom, using general ram rather than block device.
->>
->> liaoweixiong (4):
->>   pstore/blk: new support logger for block devices
->>   pstore/blk: add sample for pstore_blk
->>   pstore/blk: support pmsg for pstore block
->>   Documentation: pstore/blk: create document for pstore_blk
->>
->>  Documentation/admin-guide/pstore-block.rst |  226 ++++++
->>  MAINTAINERS                                |    1 +
->>  fs/pstore/Kconfig                          |   20 +
->>  fs/pstore/Makefile                         |    5 +
->>  fs/pstore/blkbuf.c                         |   46 ++
->>  fs/pstore/blkzone.c                        | 1168 ++++++++++++++++++++++++++++
->>  include/linux/pstore_blk.h                 |   62 ++
->>  7 files changed, 1528 insertions(+)
->>  create mode 100644 Documentation/admin-guide/pstore-block.rst
->>  create mode 100644 fs/pstore/blkbuf.c
->>  create mode 100644 fs/pstore/blkzone.c
->>  create mode 100644 include/linux/pstore_blk.h
->>
->> --
->> 1.9.1
->>
-> 
-> 
