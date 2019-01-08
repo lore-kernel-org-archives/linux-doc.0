@@ -3,29 +3,29 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 46F5E7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 19:48:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 958CE7D0D8
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 19:58:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729744AbfAHTcY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 Jan 2019 14:32:24 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40854 "EHLO mail.kernel.org"
+        id S1730476AbfAHT6U (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 Jan 2019 14:58:20 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37212 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730434AbfAHTcW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Jan 2019 14:32:22 -0500
+        id S1729783AbfAHT3m (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Jan 2019 14:29:42 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 339E620665;
-        Tue,  8 Jan 2019 19:32:20 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 34F90218A3;
+        Tue,  8 Jan 2019 19:29:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1546975941;
-        bh=e+rkoOgtLTW+dGJqXFCsGRki8oYgkGp/RtKOXYEAwv4=;
+        s=default; t=1546975781;
+        bh=0vKajdQvDYlbTLni4tUr1Jz8lE3e9dBiWzT0FAjJpHw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ej0dixRyvodIim5dmnO/9NXg7nCh0Xkf2DCeaZy1PfyXHC/C832jG00qPqwdBJ08w
-         IhSbzm584ocOIvhYkEzhX2SpSeEJhTgbKrDU0Unry8XNUHxczkhhw463jPO9SHpMi/
-         UPo8rq7pzJB0Iyk3e7ppSctw6UzQ00XdYWEkbUCI=
+        b=WLyM1qhcAzMkP+Mo2hHNlTTCmG3BA91JPAGkZvQKHH2+YKmzUT6ZJ6r8Fk2ScfaQH
+         Cdd7CnSgRPwEdoarR89agXfUsEIk2cC8tUhcjM4EGyf1vQA/YYb1Wj7akkmPSGYT8B
+         EPm46g7oIfWWasAZQLvJLIj+PyF7/YcxZG0EeF2M=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Michal Hocko <mhocko@suse.com>,
@@ -37,12 +37,12 @@ Cc:     Michal Hocko <mhocko@suse.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-fsdevel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 97/97] mm, proc: be more verbose about unstable VMA flags in /proc/<pid>/smaps
-Date:   Tue,  8 Jan 2019 14:29:46 -0500
-Message-Id: <20190108192949.122407-97-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.20 116/117] mm, proc: be more verbose about unstable VMA flags in /proc/<pid>/smaps
+Date:   Tue,  8 Jan 2019 14:26:24 -0500
+Message-Id: <20190108192628.121270-116-sashal@kernel.org>
 X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190108192949.122407-1-sashal@kernel.org>
-References: <20190108192949.122407-1-sashal@kernel.org>
+In-Reply-To: <20190108192628.121270-1-sashal@kernel.org>
+References: <20190108192628.121270-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -137,7 +137,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
-index 22b4b00dee31..06ac6dda9b34 100644
+index 12a5e6e693b6..2a4e63f5122c 100644
 --- a/Documentation/filesystems/proc.txt
 +++ b/Documentation/filesystems/proc.txt
 @@ -496,7 +496,9 @@ manner. The codes are the following:
