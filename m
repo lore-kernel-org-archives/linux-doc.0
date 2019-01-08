@@ -1,219 +1,171 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8A87C7D981
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 16:28:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 088CD7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 16:58:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729669AbfAHQ1P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 Jan 2019 11:27:15 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36310 "EHLO mail.kernel.org"
+        id S1728238AbfAHQ63 convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 Jan 2019 11:58:29 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:37242 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729279AbfAHQ1P (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Jan 2019 11:27:15 -0500
-Received: from localhost.localdomain (unknown [218.0.237.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        id S1727677AbfAHQ63 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Jan 2019 11:58:29 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0CDC02183F;
-        Tue,  8 Jan 2019 16:27:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1546964834;
-        bh=sjMO5BLgh676qwtvz87F45K6lqAOzKaFO1AQwjEmyd8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=1svmLRdKTA5Cin0exnT6FykgD7jRY62B4QE5p10Kul094JtaPYn/DQC1OcQrJ+fes
-         Z2Ootx+ErO9PRwIg0+pWFauV4u8L7NUriD8VCIS0TJoZfLa1Yg8toCb+gI8w/qbmts
-         jkO14n1qs7FyL8Pnncl2m1Na/5OwMkIDPXhm2X+Y=
-From:   guoren@kernel.org
-To:     tglx@linutronix.de, marc.zyngier@arm.com, arnd@arndb.de
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, mhocko@kernel.org,
-        torvalds@linux-foundation.org, linux@roeck-us.net,
-        Guo Ren <ren_guo@c-sky.com>,
-        Lu Baoquan <lu.baoquan@intellif.com>
-Subject: [PATCH 5/5] irqchip/csky: fixup handle_irq_perbit break irq
-Date:   Wed,  9 Jan 2019 00:26:38 +0800
-Message-Id: <1546964798-30067-5-git-send-email-guoren@kernel.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1546964798-30067-1-git-send-email-guoren@kernel.org>
-References: <1546964798-30067-1-git-send-email-guoren@kernel.org>
+        by mx1.redhat.com (Postfix) with ESMTPS id B52E5C0703A8;
+        Tue,  8 Jan 2019 16:58:28 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-223.bos.redhat.com [10.18.17.223])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 10CD05C23E;
+        Tue,  8 Jan 2019 16:58:26 +0000 (UTC)
+Subject: Re: [PATCH 0/2] /proc/stat: Reduce irqs counting performance overhead
+To:     Dave Chinner <david@fromorbit.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Daniel Colascione <dancol@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+References: <1546873978-27797-1-git-send-email-longman@redhat.com>
+ <20190107223214.GZ6311@dastard>
+ <9b4208b7-f97b-047c-4dab-15bd3791e7de@redhat.com>
+ <20190108020422.GA27534@dastard>
+From:   Waiman Long <longman@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ weim8xU=
+Organization: Red Hat
+Message-ID: <56954b42-4258-7268-53b5-ddca28758193@redhat.com>
+Date:   Tue, 8 Jan 2019 11:58:26 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20190108020422.GA27534@dastard>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.32]); Tue, 08 Jan 2019 16:58:29 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Guo Ren <ren_guo@c-sky.com>
+On 01/07/2019 09:04 PM, Dave Chinner wrote:
+> On Mon, Jan 07, 2019 at 05:41:39PM -0500, Waiman Long wrote:
+>> On 01/07/2019 05:32 PM, Dave Chinner wrote:
+>>> On Mon, Jan 07, 2019 at 10:12:56AM -0500, Waiman Long wrote:
+>>>> As newer systems have more and more IRQs and CPUs available in their
+>>>> system, the performance of reading /proc/stat frequently is getting
+>>>> worse and worse.
+>>> Because the "roll-your-own" per-cpu counter implementaiton has been
+>>> optimised for low possible addition overhead on the premise that
+>>> summing the counters is rare and isn't a performance issue. This
+>>> patchset is a direct indication that this "summing is rare and can
+>>> be slow" premise is now invalid.
+>>>
+>>> We have percpu counter infrastructure that trades off a small amount
+>>> of addition overhead for zero-cost reading of the counter value.
+>>> i.e. why not just convert this whole mess to percpu_counters and
+>>> then just use percpu_counter_read_positive()? Then we just don't
+>>> care how often userspace reads the /proc file because there is no
+>>> summing involved at all...
+>>>
+>>> Cheers,
+>>>
+>>> Dave.
+>> Yes, percpu_counter_read_positive() is cheap. However, you still need to
+>> pay the price somewhere. In the case of percpu_counter, the update is
+>> more expensive.
+> Ummm, that's exactly what I just said. It's a percpu counter that
+> solves the "sum is expensive and frequent" problem, just like you
+> are encountering here. I do not need basic scalability algorithms
+> explained to me.
 
-The handle_irq_perbit function loop every bit in hwirq local variable.
+What I am trying to say is that the "sum is expensive and frequent" is
+only true of a very small percentage of applications. It is not true for
+most of them. I am hesitating to add latency to the interrupt path that
+will affect all applications.
+ 
+>> I would say the percentage of applications that will hit this problem is
+>> small. But for them, this problem has some significant performance overhead.
+> Well, duh!
+>
+> What I was suggesting is that you change the per-cpu counter
+> implementation to the /generic infrastructure/ that solves this
+> problem, and then determine if the extra update overhead is at all
+> measurable. If you can't measure any difference in update overhead,
+> then slapping complexity on the existing counter to attempt to
+> mitigate the summing overhead is the wrong solution.
+>
+> Indeed, it may be that you need o use a custom batch scaling curve
+> for the generic per-cpu coutner infrastructure to mitigate the
+> update overhead, but the fact is we already have generic
+> infrastructure that solves your problem and so the solution should
+> be "use the generic infrastructure" until it can be proven not to
+> work.
+>
+> i.e. prove the generic infrastructure is not fit for purpose and
+> cannot be improved sufficiently to work for this use case before
+> implementing a complex, one-off snowflake counter implementation...
 
-handle_irq_perbit(hwirq) {
-  for_everyt_bit_in(hwirq) {
-	handle_domain_irq()
-		->irq_exit()
-		->invoke_softirq()
-		->__do_softirq()
-		->local_irq_enable() // Here will cause new interrupt.
-  }
-}
+I see your point. I like the deferred summation approach that I am
+currently using. If I have to modify the current per-cpu counter
+implementation to support that and I probably need to add counter
+grouping support to amortize the overhead, that can be a major
+undertaking. This is not a high priority item for me at the moment, so I
+may have to wait until I have some spare time left.
 
-When new interrupt coming at local_irq_enable, it will finish another
-interrupt handler and pull down the interrupt source. But hwirq is the
-local variable for handle_irq_perbit(), it can't get new interrupt
-controller pending reg status. So we need update hwirq with pending reg
-in every loop.
-
-Also change write_relax to writel could prevent stw from fast retire.
-When local_irq is enabled, intc regs is really set-in.
-
-Signed-off-by: Guo Ren <ren_guo@c-sky.com>
-Cc: Lu Baoquan <lu.baoquan@intellif.com>
----
- drivers/irqchip/irq-csky-apb-intc.c | 77 ++++++++++++++++++++-----------------
- 1 file changed, 42 insertions(+), 35 deletions(-)
-
-diff --git a/drivers/irqchip/irq-csky-apb-intc.c b/drivers/irqchip/irq-csky-apb-intc.c
-index 2543bab..5a2ec43 100644
---- a/drivers/irqchip/irq-csky-apb-intc.c
-+++ b/drivers/irqchip/irq-csky-apb-intc.c
-@@ -95,7 +95,7 @@ static inline void setup_irq_channel(u32 magic, void __iomem *reg_addr)
- 
- 	/* Setup 64 channel slots */
- 	for (i = 0; i < INTC_IRQS; i += 4)
--		writel_relaxed(build_channel_val(i, magic), reg_addr + i);
-+		writel(build_channel_val(i, magic), reg_addr + i);
- }
- 
- static int __init
-@@ -135,16 +135,10 @@ ck_intc_init_comm(struct device_node *node, struct device_node *parent)
- static inline bool handle_irq_perbit(struct pt_regs *regs, u32 hwirq,
- 				     u32 irq_base)
- {
--	u32 irq;
--
- 	if (hwirq == 0)
- 		return 0;
- 
--	while (hwirq) {
--		irq = __ffs(hwirq);
--		hwirq &= ~BIT(irq);
--		handle_domain_irq(root_domain, irq_base + irq, regs);
--	}
-+	handle_domain_irq(root_domain, irq_base + __fls(hwirq), regs);
- 
- 	return 1;
- }
-@@ -154,12 +148,16 @@ static void gx_irq_handler(struct pt_regs *regs)
- {
- 	bool ret;
- 
--	do {
--		ret  = handle_irq_perbit(regs,
--				readl_relaxed(reg_base + GX_INTC_PEN31_00), 0);
--		ret |= handle_irq_perbit(regs,
--				readl_relaxed(reg_base + GX_INTC_PEN63_32), 32);
--	} while (ret);
-+retry:
-+	ret = handle_irq_perbit(regs,
-+			readl(reg_base + GX_INTC_PEN63_32), 32);
-+	if (ret)
-+		goto retry;
-+
-+	ret = handle_irq_perbit(regs,
-+			readl(reg_base + GX_INTC_PEN31_00), 0);
-+	if (ret)
-+		goto retry;
- }
- 
- static int __init
-@@ -174,14 +172,14 @@ gx_intc_init(struct device_node *node, struct device_node *parent)
- 	/*
- 	 * Initial enable reg to disable all interrupts
- 	 */
--	writel_relaxed(0x0, reg_base + GX_INTC_NEN31_00);
--	writel_relaxed(0x0, reg_base + GX_INTC_NEN63_32);
-+	writel(0x0, reg_base + GX_INTC_NEN31_00);
-+	writel(0x0, reg_base + GX_INTC_NEN63_32);
- 
- 	/*
- 	 * Initial mask reg with all unmasked, because we only use enalbe reg
- 	 */
--	writel_relaxed(0x0, reg_base + GX_INTC_NMASK31_00);
--	writel_relaxed(0x0, reg_base + GX_INTC_NMASK63_32);
-+	writel(0x0, reg_base + GX_INTC_NMASK31_00);
-+	writel(0x0, reg_base + GX_INTC_NMASK63_32);
- 
- 	setup_irq_channel(0x03020100, reg_base + GX_INTC_SOURCE);
- 
-@@ -204,20 +202,29 @@ static void ck_irq_handler(struct pt_regs *regs)
- 	void __iomem *reg_pen_lo = reg_base + CK_INTC_PEN31_00;
- 	void __iomem *reg_pen_hi = reg_base + CK_INTC_PEN63_32;
- 
--	do {
--		/* handle 0 - 31 irqs */
--		ret  = handle_irq_perbit(regs, readl_relaxed(reg_pen_lo), 0);
--		ret |= handle_irq_perbit(regs, readl_relaxed(reg_pen_hi), 32);
-+retry:
-+	/* handle 0 - 63 irqs */
-+	ret = handle_irq_perbit(regs, readl(reg_pen_hi), 32);
-+	if (ret)
-+		goto retry;
- 
--		if (nr_irq == INTC_IRQS)
--			continue;
-+	ret = handle_irq_perbit(regs, readl(reg_pen_lo), 0);
-+	if (ret)
-+		goto retry;
-+
-+	if (nr_irq == INTC_IRQS)
-+		return;
- 
--		/* handle 64 - 127 irqs */
--		ret |= handle_irq_perbit(regs,
--			readl_relaxed(reg_pen_lo + CK_INTC_DUAL_BASE), 64);
--		ret |= handle_irq_perbit(regs,
--			readl_relaxed(reg_pen_hi + CK_INTC_DUAL_BASE), 96);
--	} while (ret);
-+	/* handle 64 - 127 irqs */
-+	ret = handle_irq_perbit(regs,
-+			readl(reg_pen_hi + CK_INTC_DUAL_BASE), 96);
-+	if (ret)
-+		goto retry;
-+
-+	ret = handle_irq_perbit(regs,
-+			readl(reg_pen_lo + CK_INTC_DUAL_BASE), 64);
-+	if (ret)
-+		goto retry;
- }
- 
- static int __init
-@@ -230,11 +237,11 @@ ck_intc_init(struct device_node *node, struct device_node *parent)
- 		return ret;
- 
- 	/* Initial enable reg to disable all interrupts */
--	writel_relaxed(0, reg_base + CK_INTC_NEN31_00);
--	writel_relaxed(0, reg_base + CK_INTC_NEN63_32);
-+	writel(0, reg_base + CK_INTC_NEN31_00);
-+	writel(0, reg_base + CK_INTC_NEN63_32);
- 
- 	/* Enable irq intc */
--	writel_relaxed(BIT(31), reg_base + CK_INTC_ICR);
-+	writel(BIT(31), reg_base + CK_INTC_ICR);
- 
- 	ck_set_gc(node, reg_base, CK_INTC_NEN31_00, 0);
- 	ck_set_gc(node, reg_base, CK_INTC_NEN63_32, 32);
-@@ -260,8 +267,8 @@ ck_dual_intc_init(struct device_node *node, struct device_node *parent)
- 		return ret;
- 
- 	/* Initial enable reg to disable all interrupts */
--	writel_relaxed(0, reg_base + CK_INTC_NEN31_00 + CK_INTC_DUAL_BASE);
--	writel_relaxed(0, reg_base + CK_INTC_NEN63_32 + CK_INTC_DUAL_BASE);
-+	writel(0, reg_base + CK_INTC_NEN31_00 + CK_INTC_DUAL_BASE);
-+	writel(0, reg_base + CK_INTC_NEN63_32 + CK_INTC_DUAL_BASE);
- 
- 	ck_set_gc(node, reg_base + CK_INTC_DUAL_BASE, CK_INTC_NEN31_00, 64);
- 	ck_set_gc(node, reg_base + CK_INTC_DUAL_BASE, CK_INTC_NEN63_32, 96);
--- 
-2.7.4
+Thanks,
+Longman
 
