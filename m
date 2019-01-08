@@ -5,27 +5,27 @@ X-Spam-Status: No, score=-10.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 553307D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 19:38:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 65A7D7D8BA
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 19:40:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732261AbfAHTfc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 Jan 2019 14:35:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44352 "EHLO mail.kernel.org"
+        id S1732072AbfAHTer (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 Jan 2019 14:34:47 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43532 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732281AbfAHTfc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Jan 2019 14:35:32 -0500
+        id S1732026AbfAHTeq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Jan 2019 14:34:46 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CC9182176F;
-        Tue,  8 Jan 2019 19:35:29 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EBAE02176F;
+        Tue,  8 Jan 2019 19:34:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1546976131;
-        bh=2CXt1DJBdIvKwFt6WHa61WhNEkjhEjdAVuLlIeS4LOw=;
+        s=default; t=1546976085;
+        bh=kre70+d8uzJ8FvACdFI79BLA9fkyW8w13nbV39CgHJk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JOuYwuIUXoxRRJWBCgyfX79orA+vGE/2IWLEVMflb3Z+zaohubdgnPRQyDEFEG9s6
-         A82TE/AtSCql+8UbJRWIihZVvXkjH1kIuBnVXW+CLGqaGV2PuVP7jP4wLQGdPSZeNT
-         xwB+tAaGEw6cp+pkvATnoByGSUVGyki7BcEsNEaM=
+        b=1OMrGUPK7WGkr2Z6UK5jJeonKBQ98V4bOonaTEIQSarppcN4rm+KXtt2qpRxzs6mC
+         BkmxzKe/W2e4nT1/ulIfAHNZBgNCSZOKtv3aCT1D3b8ZfMY0NOma4vJ1lk3vRykakr
+         QDefivvZpGeAoWOZSY7YkcEv2KlbF1NVddtLvRm4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Michal Hocko <mhocko@suse.com>,
@@ -37,12 +37,12 @@ Cc:     Michal Hocko <mhocko@suse.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-fsdevel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 28/28] mm, proc: be more verbose about unstable VMA flags in /proc/<pid>/smaps
-Date:   Tue,  8 Jan 2019 14:34:45 -0500
-Message-Id: <20190108193445.124251-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 36/36] mm, proc: be more verbose about unstable VMA flags in /proc/<pid>/smaps
+Date:   Tue,  8 Jan 2019 14:33:48 -0500
+Message-Id: <20190108193348.123880-36-sashal@kernel.org>
 X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190108193445.124251-1-sashal@kernel.org>
-References: <20190108193445.124251-1-sashal@kernel.org>
+In-Reply-To: <20190108193348.123880-1-sashal@kernel.org>
+References: <20190108193348.123880-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -137,10 +137,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
-index 6d2689ebf824..5b87946a53a3 100644
+index 74329fd0add2..077c37ed976f 100644
 --- a/Documentation/filesystems/proc.txt
 +++ b/Documentation/filesystems/proc.txt
-@@ -466,7 +466,9 @@ manner. The codes are the following:
+@@ -484,7 +484,9 @@ manner. The codes are the following:
  
  Note that there is no guarantee that every flag and associated mnemonic will
  be present in all further kernel releases. Things get changed, the flags may
