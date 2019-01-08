@@ -6,85 +6,100 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D5B1D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  7 Jan 2019 23:49:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 757637D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 01:09:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727349AbfAGXtG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Jan 2019 18:49:06 -0500
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:43759 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727344AbfAGXtG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 18:49:06 -0500
-Received: by mail-ed1-f65.google.com with SMTP id f9so2500187eds.10;
-        Mon, 07 Jan 2019 15:49:05 -0800 (PST)
+        id S1726689AbfAHBJn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Jan 2019 20:09:43 -0500
+Received: from mail-yb1-f172.google.com ([209.85.219.172]:44693 "EHLO
+        mail-yb1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726903AbfAHBJm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 20:09:42 -0500
+Received: by mail-yb1-f172.google.com with SMTP id e1so933661ybn.11;
+        Mon, 07 Jan 2019 17:09:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=m66FkWzWK4Ca77T0mttzUwdOm6hMUj5wpz7jHygHJxo=;
-        b=eR5gGUCy+edoG5lufynRkfMK1ZnXTroQawfDEOHX720Qp39G6thntFAbwqcwQSlg4H
-         4WWwbW4sllzYlwrOIaNUYI5ER9jHca/HEexMa+Y94H9JSi9iKT9LIW8HfdrjtOxC3Ywb
-         tOtBKeCrU09xM+wSxmvkPK1SkHN0wXssY8EOxcoLq7xvjEO8xDrcv6FfBfL6NKR7OmLg
-         KLJcCFl7dmM00/J/FuhJahrImviagC3c74hurd8mz3nN2nl5+KwYErZqjns366dvtdOI
-         oxrB+HkUUPhKhzzGZqx8IkiP8CNJlHYdAGDBrAl7osYwGg7U37MHbCcUwfm0cVYhmo6F
-         tcqA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=KgDAscc+FGdRDhmp9pxRPHEyXet/ItuB3TcRw/U/N9A=;
+        b=pf6V/MtC4gVIJKHs9n5v5hgzOebeEa39zTuf6bGsUpJttDe4zrT/nY2P3EtoaX7TGa
+         4oFVreXYWEJzLDsprAo4m13NFMTlGh1f0VGC4Xs3I6c48WMldVDuLGboRrv4u03EYu7T
+         JiFyqyHG+Dv/uEQGkocZTiGko9GdECTyXScU+8ko0Qvd8c6Vj7mlQ3nlH1S/cmB8F+Gm
+         gItUXXBr7zUgy6985IwjVW/L3Rk5FEfltoBgOU5pxv1BqYBqJIu1nW/nVGFps3XPBwsO
+         /LdKmtO/aj0jjXRPKsXfmq1xw/JWD8PD5lUxvJzLFNhlRNHQP+l14klSNMzUJLx31A0y
+         s31A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=m66FkWzWK4Ca77T0mttzUwdOm6hMUj5wpz7jHygHJxo=;
-        b=HqLJj12GFS55XV4GDo/qUpYCA4P0rLqpBw/FXoyhnM6GSk55kzsLwsGwhwmV2hRgIN
-         vRFhWVuNnVGQYBdbsEbFx7B0aFPNTq242FAtcMG7iJxgs/6g1fibhHw9LjA5I7QmP6Ty
-         sNbfeCc4Gy16NaqYpgbxayHTQdUykWzdG/GNCqnE+W9WCXlDAdSA1fGNGWnsLR0USGYL
-         WerjD516YtHv2GIpT28Bx7o/sjrTmu8RbUmfL908GGHuyezXnIBEuUk//cT58d3X9zA1
-         nisAiZKlgOwbu1lhzHFTf9hf9mUtfSdg3l96y0GuANwGHU4Y5GsIIea8D5aigWVO7aBD
-         5QnA==
-X-Gm-Message-State: AA+aEWbsotfWVRiyPI0+wnAP/FD2Hd3jWJaGbOyB0xYU37qM/KY3CNlE
-        uP4kuqFNlFuGGox9dMvRXg==
-X-Google-Smtp-Source: AFSGD/VTzSZXm/YVb+GAuWqfE/hv7XupYD0muTh3KDqpqeQxobehQ109nixgXckZyJZh9CkrBVUrFg==
-X-Received: by 2002:a50:f5af:: with SMTP id u44mr59193359edm.172.1546904944649;
-        Mon, 07 Jan 2019 15:49:04 -0800 (PST)
-Received: from avx2 (nat-minsk-pool-46-53-201-92.telecom.by. [46.53.201.92])
-        by smtp.gmail.com with ESMTPSA id m14sm39056388edc.27.2019.01.07.15.49.03
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=KgDAscc+FGdRDhmp9pxRPHEyXet/ItuB3TcRw/U/N9A=;
+        b=LbVsZitbPcIXtfCJLXXIE3FImYAzyVRcVXgXEliUyDjTb+nIMl0Eo2wxuixynswDqD
+         zUL7ilgMJGQpqeurfeD9braJLxjUZBrLiN++8zcZhkUBH1O6Tt1LFXEEDwjMf73bbdnP
+         ydiRDfstFIPBySa4yXkfLG5AIjzY/92oGhLXfDUR8JyGlJYjWfYjImQ4Y8fYF+pi68Mr
+         9DeU/4i7LQXpGKLg9apEBemBWtn+gnc8FWg98TATRnbcl31bgOBDvtMcl4cSdU/cyFRD
+         x4gpHOEViqGeGlTSNw8qUfyCQmozq8GXk3MRGKdEPsLyWbOX5TVEcuf40Q8ca7X2q+n4
+         Lbfg==
+X-Gm-Message-State: AJcUukcyVF7EnVtisSSi6eLmtK1+xF2CpQN8dsbM2e+Fz4gn8IV8nAxF
+        4b6RkrENSz6gjZsz7h3oOpk=
+X-Google-Smtp-Source: ALg8bN4+k7EX/I9Z1gVONay48BsoWIoXcodIq5k5ZW3FdtujwtN2vjkA/mAwzqzlZxU+Xexb4I2r7g==
+X-Received: by 2002:a25:7797:: with SMTP id s145mr60323867ybc.477.1546909781773;
+        Mon, 07 Jan 2019 17:09:41 -0800 (PST)
+Received: from [192.168.1.138] (cpe-24-160-118-96.tampabay.res.rr.com. [24.160.118.96])
+        by smtp.gmail.com with ESMTPSA id g84sm26174823ywg.9.2019.01.07.17.09.40
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 07 Jan 2019 15:49:04 -0800 (PST)
-Date:   Tue, 8 Jan 2019 02:49:01 +0300
-From:   Alexey Dobriyan <adobriyan@gmail.com>
-To:     Daniel Colascione <dancol@google.com>
-Cc:     Dave Chinner <david@fromorbit.com>,
-        Waiman Long <longman@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
+        Mon, 07 Jan 2019 17:09:41 -0800 (PST)
+Subject: Re: Consistent capitalization of "device tree"?
+To:     Rob Herring <robh@kernel.org>, Pavel Machek <pavel@ucw.cz>
+Cc:     devicetree@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 0/2] /proc/stat: Reduce irqs counting performance overhead
-Message-ID: <20190107234901.GA27074@avx2>
-References: <1546873978-27797-1-git-send-email-longman@redhat.com>
- <20190107223214.GZ6311@dastard>
- <CAKOZueuHGg=F8se1AQqswZWCEco=ScmudWq5X5s1qS4+LCtgWw@mail.gmail.com>
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+References: <20190107183711.GA5671@amd>
+ <CAL_JsqKzs4WoJoe_uCzhS3NBGfHiTQ96GkfSRhtxeah0THoVyw@mail.gmail.com>
+From:   Frank Rowand <frowand.list@gmail.com>
+Message-ID: <4d4cf1b1-0966-305d-9bf3-e9dc84d6e8c6@gmail.com>
+Date:   Mon, 7 Jan 2019 17:09:40 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
+In-Reply-To: <CAL_JsqKzs4WoJoe_uCzhS3NBGfHiTQ96GkfSRhtxeah0THoVyw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAKOZueuHGg=F8se1AQqswZWCEco=ScmudWq5X5s1qS4+LCtgWw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 07, 2019 at 05:41:28PM -0500, Daniel Colascione wrote:
-> There should be a general-purpose way for /proc file readers to tell
-> the kernel which bits of information interest them on a particular read
-> syscall sequence or particular open(2) or something.
+On 1/7/19 10:45 AM, Rob Herring wrote:
+> On Mon, Jan 7, 2019 at 12:37 PM Pavel Machek <pavel@ucw.cz> wrote:
+>>
+>> Is it "Device Tree" or "device tree"?
+>>
+>>  pavel@duo:/data/l/k/Documentation$ grep -r "Device Tree"  | wc -l
+>>  235
+>>  pavel@duo:/data/l/k/Documentation$ grep -r "device tree"  | wc -l
+>>  595
+>>
+>> I guess it would be nice to make it consistent. I guess "device tree"
+>> is preffered?
+> 
+> Well, the spec uses "devicetree" with capital 'D' as needed (titles
+> and start of sentences). I didn't check if we're 100% consistent
+> there.
 
-This opens a pandora box full of ioctls. /proc supports ioctls on files
-which aren't /proc/$PID and /proc/sys/* though.
+For reference, the specification is at:
 
-So people made a mess with allegedly easy text files and now they
-continue to make even more mess adding ioctls on top.
+https://www.devicetree.org/specifications/
+
+
+> 
+>> Should we do something like this?
+> 
+> I'll take patches, but it wouldn't be at the top of my list.
+> 
+> Rob
+> 
+
