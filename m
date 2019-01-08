@@ -5,66 +5,127 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3FA2A7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 21:56:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 231A07D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 22:08:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729218AbfAHV4W (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 Jan 2019 16:56:22 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:34730 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728642AbfAHV4W (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Jan 2019 16:56:22 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 9937F33BE4;
-        Tue,  8 Jan 2019 21:56:22 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-120-14.rdu2.redhat.com [10.10.120.14])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id D3AB15C5FC;
-        Tue,  8 Jan 2019 21:56:21 +0000 (UTC)
-From:   John Pittman <jpittman@redhat.com>
-To:     paolo.valente@linaro.org
-Cc:     axboe@kernel.dk, corbet@lwn.net, linux-block@vger.kernel.org,
-        linux-doc@vger.kernel.org, John Pittman <jpittman@redhat.com>
-Subject: [PATCH] block: doc: add slice_idle_us to bfq documentation
-Date:   Tue,  8 Jan 2019 16:56:13 -0500
-Message-Id: <20190108215613.15277-1-jpittman@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Tue, 08 Jan 2019 21:56:22 +0000 (UTC)
+        id S1728832AbfAHWIn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 Jan 2019 17:08:43 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:58645 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728041AbfAHWIn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jan 2019 17:08:43 -0500
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1ggzY8-0001yS-Cz; Tue, 08 Jan 2019 23:08:40 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1ggzY6-0002vf-Ug; Tue, 08 Jan 2019 23:08:38 +0100
+Date:   Tue, 8 Jan 2019 23:08:38 +0100
+From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Claudiu.Beznea@microchip.com
+Cc:     linux-pwm@vger.kernel.org, alexandre.belloni@bootlin.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Ludovic.Desroches@microchip.com,
+        thierry.reding@gmail.com, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v8 1/6] pwm: extend PWM framework with PWM modes
+Message-ID: <20190108220838.amrun6jsa24yeisg@pengutronix.de>
+References: <1546522081-23659-1-git-send-email-claudiu.beznea@microchip.com>
+ <1546522081-23659-2-git-send-email-claudiu.beznea@microchip.com>
+ <20190105210522.ho2o2a4gc7r7ijeq@pengutronix.de>
+ <67e881c5-0ea7-3d2f-5910-534729097d11@microchip.com>
+ <20190107221040.uos5qlnkjmcayv73@pengutronix.de>
+ <0ef0b4f1-45c3-0280-c1f0-6d499957f74c@microchip.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0ef0b4f1-45c3-0280-c1f0-6d499957f74c@microchip.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Of the tunables available for the bfq I/O scheduler,
-the only one missing from the documentation in
-'Documentation/block/bfq-iosched.txt' is slice_idle_us.
-Add this tunable to the documentation and a short
-explanation of its purpose.
+On Tue, Jan 08, 2019 at 09:21:34AM +0000, Claudiu.Beznea@microchip.com wrote:
+> Hi Uwe,
+> 
+> On 08.01.2019 00:10, Uwe Kleine-König wrote:
+> > Hello Claudiu,
+> > 
+> > On Mon, Jan 07, 2019 at 09:30:55AM +0000, Claudiu.Beznea@microchip.com wrote:
+> >> On 05.01.2019 23:05, Uwe Kleine-König wrote:
+> >>> On Thu, Jan 03, 2019 at 01:29:44PM +0000, Claudiu.Beznea@microchip.com wrote:
+> >>>> From: Claudiu Beznea <claudiu.beznea@microchip.com>
+> >>>>
+> >>>> Add basic PWM modes: normal and complementary. These modes should
+> >>>> differentiate the single output PWM channels from two outputs PWM
+> >>>> channels. These modes could be set as follow:
+> >>>> 1. PWM channels with one output per channel:
+> >>>> - normal mode
+> >>>> 2. PWM channels with two outputs per channel:
+> >>>> - normal mode
+> >>>> - complementary mode
+> >>>> Since users could use a PWM channel with two output as one output PWM
+> >>>> channel, the PWM normal mode is allowed to be set for PWM channels with
+> >>>> two outputs; in fact PWM normal mode should be supported by all PWMs.
+> >>>
+> >>> I still think that my suggestion that I sent in reply to your v5 using
+> >>> .alt_duty_cycle and .alt_offset is the better one as it is more generic.
+> >>
+> >> I like it better my way, I explained myself why.
+> > 
+> > I couldn't really follow your argument though. You seemed to acknowledge
+> > that using .alt_duty_cycle and .alt_offset is more generic.
+> 
+> True it is more generic in the way that it gives the possibility to
+> configure all kind of waveforms. But not all controllers supports this.
+> The use case of this would be to have dead-times with any values, right?
 
-Signed-off-by: John Pittman <jpittman@redhat.com>
----
- Documentation/block/bfq-iosched.txt | 7 +++++++
- 1 file changed, 7 insertions(+)
+Well, I didn't target that. The model I suggested is just a generic set
+of parameters that are able to describe the wave forms for all three
+modes you suggested. That it allows to express dead-times is just a nice
+by-product.
 
-diff --git a/Documentation/block/bfq-iosched.txt b/Documentation/block/bfq-iosched.txt
-index 8d8d8f06cab2..98a8dd5ee385 100644
---- a/Documentation/block/bfq-iosched.txt
-+++ b/Documentation/block/bfq-iosched.txt
-@@ -357,6 +357,13 @@ video playing/streaming, a very low drop rate may be more important
- than maximum throughput. In these cases, consider setting the
- strict_guarantees parameter.
- 
-+slice_idle_us
-+-------------
-+
-+Controls the same tuning parameter as slice_idle, but in microseconds.
-+Either tunable can be used to set idling behavior.  Afterwards, the
-+other tunable will reflect the newly set value in sysfs.
-+
- strict_guarantees
- -----------------
- 
+> >>> I fail to see the upside of storing the mode as 2^mode instead of a
+> >>> plain enum pwm_mode. Given that struct pwm_state is visible for pwm
+> >>> users a plain pwm_mode would at least be more intuitive.
+> >>
+> >> To have all modes supported by a controller grouped in pwm_caps::modes_msk.
+> > 
+> > My question was not about struct pwm_caps::modes_msk but about
+> > struct pwm_state::modebit. As struct pwm_state has visibility even
+> > outside of the pwm API (i.e. it is used by consumers) it is beneficial
+> > to keep that simple. Letting a consumer pass in the mode he wants is
+> > easier to explain than setting a single bit. Also error checking with a
+> > plain enum is easier because you just do:
+> > 
+> > 	if (mode >= MODE_CNT)
+> > 		error()
+> > 
+> > which is easy to grasp. Compare that to
+> > 
+> > 	if (!is_power_of_two(modebit) || modebit >= PWM_MODE_BIT(CNT))
+> > 		error()
+> > 
+> > (modulo syntactical correctness).
+> 
+> The reason I choose to have it as bit was the memcmp() at the beginning of
+> pwm_apply_state() and to avoid starting enum pwm_mode from 1 and to avoid
+> having bit 0 of pwm_caps::modes_msk unused (in the driver I'm using
+> PWM_MODE_BIT() macro to fill in the driver's supported modes).
+
+Does that mean you are convinced by my argument?
+
+Best regards
+Uwe
+
 -- 
-2.17.2
-
+Pengutronix e.K.                           | Uwe Kleine-König            |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
