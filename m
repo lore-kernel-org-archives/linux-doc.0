@@ -2,108 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0F2207D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 22:32:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B00C17D099
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 23:47:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729684AbfAHWc0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 Jan 2019 17:32:26 -0500
-Received: from ipmailnode02.adl6.internode.on.net ([150.101.137.148]:63908
-        "EHLO ipmailnode02.adl6.internode.on.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729042AbfAHWc0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jan 2019 17:32:26 -0500
-X-Greylist: delayed 303 seconds by postgrey-1.27 at vger.kernel.org; Tue, 08 Jan 2019 17:32:25 EST
-Received: from ppp59-167-129-252.static.internode.on.net (HELO dastard) ([59.167.129.252])
-  by ipmail02.adl6.internode.on.net with ESMTP; 09 Jan 2019 08:57:05 +1030
-Received: from dave by dastard with local (Exim 4.80)
-        (envelope-from <david@fromorbit.com>)
-        id 1ggzpw-0000BO-PR; Wed, 09 Jan 2019 09:27:04 +1100
-Date:   Wed, 9 Jan 2019 09:27:04 +1100
-From:   Dave Chinner <david@fromorbit.com>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Daniel Colascione <dancol@google.com>,
+        id S1728402AbfAHXrk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 Jan 2019 18:47:40 -0500
+Received: from ms.lwn.net ([45.79.88.28]:60714 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728882AbfAHXrj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Jan 2019 18:47:39 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id AEF74286;
+        Tue,  8 Jan 2019 23:47:38 +0000 (UTC)
+Date:   Tue, 8 Jan 2019 16:47:37 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 0/2] /proc/stat: Reduce irqs counting performance overhead
-Message-ID: <20190108222704.GD27534@dastard>
-References: <1546873978-27797-1-git-send-email-longman@redhat.com>
- <20190107223214.GZ6311@dastard>
- <9b4208b7-f97b-047c-4dab-15bd3791e7de@redhat.com>
- <20190108020422.GA27534@dastard>
- <56954b42-4258-7268-53b5-ddca28758193@redhat.com>
+Subject: Re: [PATCH v2 0/2] Revamp admin-guide/tainted-kernels.rst to make
+ it more comprehensible
+Message-ID: <20190108164737.0c2539a6@lwn.net>
+In-Reply-To: <20190108194007.29439-1-linux@leemhuis.info>
+References: <20190108194007.29439-1-linux@leemhuis.info>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <56954b42-4258-7268-53b5-ddca28758193@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 08, 2019 at 11:58:26AM -0500, Waiman Long wrote:
-> On 01/07/2019 09:04 PM, Dave Chinner wrote:
-> > On Mon, Jan 07, 2019 at 05:41:39PM -0500, Waiman Long wrote:
-> >> On 01/07/2019 05:32 PM, Dave Chinner wrote:
-> >>> On Mon, Jan 07, 2019 at 10:12:56AM -0500, Waiman Long wrote:
-> > What I was suggesting is that you change the per-cpu counter
-> > implementation to the /generic infrastructure/ that solves this
-> > problem, and then determine if the extra update overhead is at all
-> > measurable. If you can't measure any difference in update overhead,
-> > then slapping complexity on the existing counter to attempt to
-> > mitigate the summing overhead is the wrong solution.
-> >
-> > Indeed, it may be that you need o use a custom batch scaling curve
-> > for the generic per-cpu coutner infrastructure to mitigate the
-> > update overhead, but the fact is we already have generic
-> > infrastructure that solves your problem and so the solution should
-> > be "use the generic infrastructure" until it can be proven not to
-> > work.
-> >
-> > i.e. prove the generic infrastructure is not fit for purpose and
-> > cannot be improved sufficiently to work for this use case before
-> > implementing a complex, one-off snowflake counter implementation...
+On Tue,  8 Jan 2019 20:40:05 +0100
+Thorsten Leemhuis <linux@leemhuis.info> wrote:
+
+> Hi! This is the second version of my patch to make
+> admin-guide/tainted-kernels.rst more comprehensible. It got triggered while
+> working on an update for reporting-bugs.rst, as improving the documentation
+> around reporting bugs and regressions was one of the main things that a lot of
+> people wanted to see while regression tracking was discussed in the kernel and
+> maintainer summit 2017 in Prague.
 > 
-> I see your point. I like the deferred summation approach that I am
-> currently using. If I have to modify the current per-cpu counter
-> implementation to support that
+> This is the second version of the patch, which became a patch set, as it now
+> contains a script Randy (thx) provided during the discussion of the first
+> version. 
+> 
+> Please review and consider applying.
 
-No! Stop that already. The "deferred counter summation" is exactly
-the problem the current algorithm has and exactly the problem the
-generic counters /don't have/. Changing the generic percpu counter
-algorithm to match this specific hand rolled implementation is not
-desirable as it will break implementations that rely on the
-bound maximum summation deviation of the existing algorithm (e.g.
-the ext4 and XFS ENOSPC accounting algorithms).
+OK, so we're so close...  I think the patches are good; they are a welcome
+improvement to the documentation and the script looks great.  Thanks for
+doing this!  Patches applied.
 
-> and I probably need to add counter
-> grouping support to amortize the overhead, that can be a major
+Now for the "I love your patch, something to improve part" :)
 
-The per-cpu counters already have configurable update batching
-to amortise the summation update cost across multiple individual
-per-cpu updates. You don't need to change the implementation at all,
-just tweak the amortisation curve appropriately for the desired
-requirements for update scalability (high) vs read accuracy (low).
+ - Patch 1 didn't apply to docs-next; probably you got caught by the
+   fast-forward to 5.0-rc1.  I've applied it to 4.20 then merged to
+   resolve the conflict in tools/Makefile.
 
-Let's face it, on large systems where counters are frequently
-updated, the resultant sum can be highly inaccurate by the time a
-thousand CPU counters have been summed. The generic counters have a
-predictable and bound "fast sum" maximum deviation (batch size *
-nr_cpus), so over large machines are likely to be much more accurate
-than "unlocked summing on demand" algorithms.
+ - I was tempted to ask you to redo the changelogs, but ended up just
+   tweaking them myself.  Changelogs should focus on what the patch does
+   and why; they aren't usually the place for the history of how the patch
+   came to exist in its current form.  I'll append what actually got
+   committed.  (Filling to 72 columns or so is also a nice touch for
+   changelogs).
 
-Cheers,
+Thanks for doing this work - looking forward to more.
 
-Dave.
+jon
+
+The reworked changelogs are:
+
+    tools: add a kernel-chktaint to tools/debugging
+    
+    Add a script to the tools/ directory that shows if or why the running
+    kernel was tainted. The script was mostly written by Randy Dunlap; I
+    enhanced the script a bit.  There does not appear to be a good home for
+    this script. so create tools/debugging for tools of this nature.
+    
+    Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+    Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+    [ jc: rewrote changelog ]
+    Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+
+-----
+
+    docs: Revamp tainted-kernels.rst to make it more comprehensible
+    
+    Add a section about decoding /proc/sys/kernel/tainted, create a more
+    understandable intro and a hopefully explain better the tainted flags in
+    bugs, oops or panics messages. Only thing missing then is a table that
+    quickly describes the various bits and taint flags before going into more
+    detail, so add that as well.
+    
+    That table is partly based on a section from Documentation/sysctl/kernel.txt
+,
+    but a bit more compact. To avoid confusion I added the shortened version to
+    kernel.txt; the same table is used in three different places now:
+    ./tools/debugging/kernel-chktaint,
+    Documentation/admin-guide/tainted-kernels.rst and
+    Documentation/sysctl/kernel.txt
+    
+    During review of v1 (see above) a number of existing issues with the text
+    were raised, like outdated usages as well as incomplete or missing
+    descriptions.  Address most of those as well.
+    
+    Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+    [jc: tightened up changelog]
+    Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+
+
 -- 
-Dave Chinner
-david@fromorbit.com
+Jonathan Corbet / LWN.net / corbet@lwn.net
