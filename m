@@ -1,105 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 757637D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 01:09:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D76EA7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 02:04:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbfAHBJn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 7 Jan 2019 20:09:43 -0500
-Received: from mail-yb1-f172.google.com ([209.85.219.172]:44693 "EHLO
-        mail-yb1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726903AbfAHBJm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 20:09:42 -0500
-Received: by mail-yb1-f172.google.com with SMTP id e1so933661ybn.11;
-        Mon, 07 Jan 2019 17:09:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KgDAscc+FGdRDhmp9pxRPHEyXet/ItuB3TcRw/U/N9A=;
-        b=pf6V/MtC4gVIJKHs9n5v5hgzOebeEa39zTuf6bGsUpJttDe4zrT/nY2P3EtoaX7TGa
-         4oFVreXYWEJzLDsprAo4m13NFMTlGh1f0VGC4Xs3I6c48WMldVDuLGboRrv4u03EYu7T
-         JiFyqyHG+Dv/uEQGkocZTiGko9GdECTyXScU+8ko0Qvd8c6Vj7mlQ3nlH1S/cmB8F+Gm
-         gItUXXBr7zUgy6985IwjVW/L3Rk5FEfltoBgOU5pxv1BqYBqJIu1nW/nVGFps3XPBwsO
-         /LdKmtO/aj0jjXRPKsXfmq1xw/JWD8PD5lUxvJzLFNhlRNHQP+l14klSNMzUJLx31A0y
-         s31A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=KgDAscc+FGdRDhmp9pxRPHEyXet/ItuB3TcRw/U/N9A=;
-        b=LbVsZitbPcIXtfCJLXXIE3FImYAzyVRcVXgXEliUyDjTb+nIMl0Eo2wxuixynswDqD
-         zUL7ilgMJGQpqeurfeD9braJLxjUZBrLiN++8zcZhkUBH1O6Tt1LFXEEDwjMf73bbdnP
-         ydiRDfstFIPBySa4yXkfLG5AIjzY/92oGhLXfDUR8JyGlJYjWfYjImQ4Y8fYF+pi68Mr
-         9DeU/4i7LQXpGKLg9apEBemBWtn+gnc8FWg98TATRnbcl31bgOBDvtMcl4cSdU/cyFRD
-         x4gpHOEViqGeGlTSNw8qUfyCQmozq8GXk3MRGKdEPsLyWbOX5TVEcuf40Q8ca7X2q+n4
-         Lbfg==
-X-Gm-Message-State: AJcUukcyVF7EnVtisSSi6eLmtK1+xF2CpQN8dsbM2e+Fz4gn8IV8nAxF
-        4b6RkrENSz6gjZsz7h3oOpk=
-X-Google-Smtp-Source: ALg8bN4+k7EX/I9Z1gVONay48BsoWIoXcodIq5k5ZW3FdtujwtN2vjkA/mAwzqzlZxU+Xexb4I2r7g==
-X-Received: by 2002:a25:7797:: with SMTP id s145mr60323867ybc.477.1546909781773;
-        Mon, 07 Jan 2019 17:09:41 -0800 (PST)
-Received: from [192.168.1.138] (cpe-24-160-118-96.tampabay.res.rr.com. [24.160.118.96])
-        by smtp.gmail.com with ESMTPSA id g84sm26174823ywg.9.2019.01.07.17.09.40
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 07 Jan 2019 17:09:41 -0800 (PST)
-Subject: Re: Consistent capitalization of "device tree"?
-To:     Rob Herring <robh@kernel.org>, Pavel Machek <pavel@ucw.cz>
-Cc:     devicetree@vger.kernel.org,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-References: <20190107183711.GA5671@amd>
- <CAL_JsqKzs4WoJoe_uCzhS3NBGfHiTQ96GkfSRhtxeah0THoVyw@mail.gmail.com>
-From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <4d4cf1b1-0966-305d-9bf3-e9dc84d6e8c6@gmail.com>
-Date:   Mon, 7 Jan 2019 17:09:40 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        id S1727160AbfAHCE1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 7 Jan 2019 21:04:27 -0500
+Received: from ipmail06.adl6.internode.on.net ([150.101.137.145]:50126 "EHLO
+        ipmail06.adl6.internode.on.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727028AbfAHCE1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Jan 2019 21:04:27 -0500
+Received: from ppp59-167-129-252.static.internode.on.net (HELO dastard) ([59.167.129.252])
+  by ipmail06.adl6.internode.on.net with ESMTP; 08 Jan 2019 12:34:24 +1030
+Received: from dave by dastard with local (Exim 4.80)
+        (envelope-from <david@fromorbit.com>)
+        id 1gggkg-0007MW-6D; Tue, 08 Jan 2019 13:04:22 +1100
+Date:   Tue, 8 Jan 2019 13:04:22 +1100
+From:   Dave Chinner <david@fromorbit.com>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Daniel Colascione <dancol@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 0/2] /proc/stat: Reduce irqs counting performance overhead
+Message-ID: <20190108020422.GA27534@dastard>
+References: <1546873978-27797-1-git-send-email-longman@redhat.com>
+ <20190107223214.GZ6311@dastard>
+ <9b4208b7-f97b-047c-4dab-15bd3791e7de@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqKzs4WoJoe_uCzhS3NBGfHiTQ96GkfSRhtxeah0THoVyw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9b4208b7-f97b-047c-4dab-15bd3791e7de@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/7/19 10:45 AM, Rob Herring wrote:
-> On Mon, Jan 7, 2019 at 12:37 PM Pavel Machek <pavel@ucw.cz> wrote:
->>
->> Is it "Device Tree" or "device tree"?
->>
->>  pavel@duo:/data/l/k/Documentation$ grep -r "Device Tree"  | wc -l
->>  235
->>  pavel@duo:/data/l/k/Documentation$ grep -r "device tree"  | wc -l
->>  595
->>
->> I guess it would be nice to make it consistent. I guess "device tree"
->> is preffered?
+On Mon, Jan 07, 2019 at 05:41:39PM -0500, Waiman Long wrote:
+> On 01/07/2019 05:32 PM, Dave Chinner wrote:
+> > On Mon, Jan 07, 2019 at 10:12:56AM -0500, Waiman Long wrote:
+> >> As newer systems have more and more IRQs and CPUs available in their
+> >> system, the performance of reading /proc/stat frequently is getting
+> >> worse and worse.
+> > Because the "roll-your-own" per-cpu counter implementaiton has been
+> > optimised for low possible addition overhead on the premise that
+> > summing the counters is rare and isn't a performance issue. This
+> > patchset is a direct indication that this "summing is rare and can
+> > be slow" premise is now invalid.
+> >
+> > We have percpu counter infrastructure that trades off a small amount
+> > of addition overhead for zero-cost reading of the counter value.
+> > i.e. why not just convert this whole mess to percpu_counters and
+> > then just use percpu_counter_read_positive()? Then we just don't
+> > care how often userspace reads the /proc file because there is no
+> > summing involved at all...
+> >
+> > Cheers,
+> >
+> > Dave.
 > 
-> Well, the spec uses "devicetree" with capital 'D' as needed (titles
-> and start of sentences). I didn't check if we're 100% consistent
-> there.
+> Yes, percpu_counter_read_positive() is cheap. However, you still need to
+> pay the price somewhere. In the case of percpu_counter, the update is
+> more expensive.
 
-For reference, the specification is at:
+Ummm, that's exactly what I just said. It's a percpu counter that
+solves the "sum is expensive and frequent" problem, just like you
+are encountering here. I do not need basic scalability algorithms
+explained to me.
 
-https://www.devicetree.org/specifications/
+> I would say the percentage of applications that will hit this problem is
+> small. But for them, this problem has some significant performance overhead.
 
+Well, duh!
 
-> 
->> Should we do something like this?
-> 
-> I'll take patches, but it wouldn't be at the top of my list.
-> 
-> Rob
-> 
+What I was suggesting is that you change the per-cpu counter
+implementation to the /generic infrastructure/ that solves this
+problem, and then determine if the extra update overhead is at all
+measurable. If you can't measure any difference in update overhead,
+then slapping complexity on the existing counter to attempt to
+mitigate the summing overhead is the wrong solution.
 
+Indeed, it may be that you need o use a custom batch scaling curve
+for the generic per-cpu coutner infrastructure to mitigate the
+update overhead, but the fact is we already have generic
+infrastructure that solves your problem and so the solution should
+be "use the generic infrastructure" until it can be proven not to
+work.
+
+i.e. prove the generic infrastructure is not fit for purpose and
+cannot be improved sufficiently to work for this use case before
+implementing a complex, one-off snowflake counter implementation...
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
