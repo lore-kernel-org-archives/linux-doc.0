@@ -2,130 +2,108 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 231A07D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 22:08:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0F2207D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 22:32:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728832AbfAHWIn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 Jan 2019 17:08:43 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:58645 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728041AbfAHWIn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jan 2019 17:08:43 -0500
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ggzY8-0001yS-Cz; Tue, 08 Jan 2019 23:08:40 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1ggzY6-0002vf-Ug; Tue, 08 Jan 2019 23:08:38 +0100
-Date:   Tue, 8 Jan 2019 23:08:38 +0100
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Claudiu.Beznea@microchip.com
-Cc:     linux-pwm@vger.kernel.org, alexandre.belloni@bootlin.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Ludovic.Desroches@microchip.com,
-        thierry.reding@gmail.com, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v8 1/6] pwm: extend PWM framework with PWM modes
-Message-ID: <20190108220838.amrun6jsa24yeisg@pengutronix.de>
-References: <1546522081-23659-1-git-send-email-claudiu.beznea@microchip.com>
- <1546522081-23659-2-git-send-email-claudiu.beznea@microchip.com>
- <20190105210522.ho2o2a4gc7r7ijeq@pengutronix.de>
- <67e881c5-0ea7-3d2f-5910-534729097d11@microchip.com>
- <20190107221040.uos5qlnkjmcayv73@pengutronix.de>
- <0ef0b4f1-45c3-0280-c1f0-6d499957f74c@microchip.com>
+        id S1729684AbfAHWc0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 8 Jan 2019 17:32:26 -0500
+Received: from ipmailnode02.adl6.internode.on.net ([150.101.137.148]:63908
+        "EHLO ipmailnode02.adl6.internode.on.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729042AbfAHWc0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jan 2019 17:32:26 -0500
+X-Greylist: delayed 303 seconds by postgrey-1.27 at vger.kernel.org; Tue, 08 Jan 2019 17:32:25 EST
+Received: from ppp59-167-129-252.static.internode.on.net (HELO dastard) ([59.167.129.252])
+  by ipmail02.adl6.internode.on.net with ESMTP; 09 Jan 2019 08:57:05 +1030
+Received: from dave by dastard with local (Exim 4.80)
+        (envelope-from <david@fromorbit.com>)
+        id 1ggzpw-0000BO-PR; Wed, 09 Jan 2019 09:27:04 +1100
+Date:   Wed, 9 Jan 2019 09:27:04 +1100
+From:   Dave Chinner <david@fromorbit.com>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Daniel Colascione <dancol@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 0/2] /proc/stat: Reduce irqs counting performance overhead
+Message-ID: <20190108222704.GD27534@dastard>
+References: <1546873978-27797-1-git-send-email-longman@redhat.com>
+ <20190107223214.GZ6311@dastard>
+ <9b4208b7-f97b-047c-4dab-15bd3791e7de@redhat.com>
+ <20190108020422.GA27534@dastard>
+ <56954b42-4258-7268-53b5-ddca28758193@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0ef0b4f1-45c3-0280-c1f0-6d499957f74c@microchip.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+In-Reply-To: <56954b42-4258-7268-53b5-ddca28758193@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 08, 2019 at 09:21:34AM +0000, Claudiu.Beznea@microchip.com wrote:
-> Hi Uwe,
+On Tue, Jan 08, 2019 at 11:58:26AM -0500, Waiman Long wrote:
+> On 01/07/2019 09:04 PM, Dave Chinner wrote:
+> > On Mon, Jan 07, 2019 at 05:41:39PM -0500, Waiman Long wrote:
+> >> On 01/07/2019 05:32 PM, Dave Chinner wrote:
+> >>> On Mon, Jan 07, 2019 at 10:12:56AM -0500, Waiman Long wrote:
+> > What I was suggesting is that you change the per-cpu counter
+> > implementation to the /generic infrastructure/ that solves this
+> > problem, and then determine if the extra update overhead is at all
+> > measurable. If you can't measure any difference in update overhead,
+> > then slapping complexity on the existing counter to attempt to
+> > mitigate the summing overhead is the wrong solution.
+> >
+> > Indeed, it may be that you need o use a custom batch scaling curve
+> > for the generic per-cpu coutner infrastructure to mitigate the
+> > update overhead, but the fact is we already have generic
+> > infrastructure that solves your problem and so the solution should
+> > be "use the generic infrastructure" until it can be proven not to
+> > work.
+> >
+> > i.e. prove the generic infrastructure is not fit for purpose and
+> > cannot be improved sufficiently to work for this use case before
+> > implementing a complex, one-off snowflake counter implementation...
 > 
-> On 08.01.2019 00:10, Uwe Kleine-König wrote:
-> > Hello Claudiu,
-> > 
-> > On Mon, Jan 07, 2019 at 09:30:55AM +0000, Claudiu.Beznea@microchip.com wrote:
-> >> On 05.01.2019 23:05, Uwe Kleine-König wrote:
-> >>> On Thu, Jan 03, 2019 at 01:29:44PM +0000, Claudiu.Beznea@microchip.com wrote:
-> >>>> From: Claudiu Beznea <claudiu.beznea@microchip.com>
-> >>>>
-> >>>> Add basic PWM modes: normal and complementary. These modes should
-> >>>> differentiate the single output PWM channels from two outputs PWM
-> >>>> channels. These modes could be set as follow:
-> >>>> 1. PWM channels with one output per channel:
-> >>>> - normal mode
-> >>>> 2. PWM channels with two outputs per channel:
-> >>>> - normal mode
-> >>>> - complementary mode
-> >>>> Since users could use a PWM channel with two output as one output PWM
-> >>>> channel, the PWM normal mode is allowed to be set for PWM channels with
-> >>>> two outputs; in fact PWM normal mode should be supported by all PWMs.
-> >>>
-> >>> I still think that my suggestion that I sent in reply to your v5 using
-> >>> .alt_duty_cycle and .alt_offset is the better one as it is more generic.
-> >>
-> >> I like it better my way, I explained myself why.
-> > 
-> > I couldn't really follow your argument though. You seemed to acknowledge
-> > that using .alt_duty_cycle and .alt_offset is more generic.
-> 
-> True it is more generic in the way that it gives the possibility to
-> configure all kind of waveforms. But not all controllers supports this.
-> The use case of this would be to have dead-times with any values, right?
+> I see your point. I like the deferred summation approach that I am
+> currently using. If I have to modify the current per-cpu counter
+> implementation to support that
 
-Well, I didn't target that. The model I suggested is just a generic set
-of parameters that are able to describe the wave forms for all three
-modes you suggested. That it allows to express dead-times is just a nice
-by-product.
+No! Stop that already. The "deferred counter summation" is exactly
+the problem the current algorithm has and exactly the problem the
+generic counters /don't have/. Changing the generic percpu counter
+algorithm to match this specific hand rolled implementation is not
+desirable as it will break implementations that rely on the
+bound maximum summation deviation of the existing algorithm (e.g.
+the ext4 and XFS ENOSPC accounting algorithms).
 
-> >>> I fail to see the upside of storing the mode as 2^mode instead of a
-> >>> plain enum pwm_mode. Given that struct pwm_state is visible for pwm
-> >>> users a plain pwm_mode would at least be more intuitive.
-> >>
-> >> To have all modes supported by a controller grouped in pwm_caps::modes_msk.
-> > 
-> > My question was not about struct pwm_caps::modes_msk but about
-> > struct pwm_state::modebit. As struct pwm_state has visibility even
-> > outside of the pwm API (i.e. it is used by consumers) it is beneficial
-> > to keep that simple. Letting a consumer pass in the mode he wants is
-> > easier to explain than setting a single bit. Also error checking with a
-> > plain enum is easier because you just do:
-> > 
-> > 	if (mode >= MODE_CNT)
-> > 		error()
-> > 
-> > which is easy to grasp. Compare that to
-> > 
-> > 	if (!is_power_of_two(modebit) || modebit >= PWM_MODE_BIT(CNT))
-> > 		error()
-> > 
-> > (modulo syntactical correctness).
-> 
-> The reason I choose to have it as bit was the memcmp() at the beginning of
-> pwm_apply_state() and to avoid starting enum pwm_mode from 1 and to avoid
-> having bit 0 of pwm_caps::modes_msk unused (in the driver I'm using
-> PWM_MODE_BIT() macro to fill in the driver's supported modes).
+> and I probably need to add counter
+> grouping support to amortize the overhead, that can be a major
 
-Does that mean you are convinced by my argument?
+The per-cpu counters already have configurable update batching
+to amortise the summation update cost across multiple individual
+per-cpu updates. You don't need to change the implementation at all,
+just tweak the amortisation curve appropriately for the desired
+requirements for update scalability (high) vs read accuracy (low).
 
-Best regards
-Uwe
+Let's face it, on large systems where counters are frequently
+updated, the resultant sum can be highly inaccurate by the time a
+thousand CPU counters have been summed. The generic counters have a
+predictable and bound "fast sum" maximum deviation (batch size *
+nr_cpus), so over large machines are likely to be much more accurate
+than "unlocked summing on demand" algorithms.
 
+Cheers,
+
+Dave.
 -- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Dave Chinner
+david@fromorbit.com
