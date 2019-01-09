@@ -2,91 +2,66 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 939FC7D8A3
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Jan 2019 19:58:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 920A57D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Jan 2019 21:04:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728750AbfAIT55 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 9 Jan 2019 14:57:57 -0500
-Received: from wes1-so2-b.wedos.net ([46.28.106.45]:54104 "EHLO
-        wes1-so2.wedos.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728395AbfAIT55 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jan 2019 14:57:57 -0500
-Received: from localhost (ip4-46-39-182-135.cust.nbox.cz [46.39.182.135])
-        by wes1-so2.wedos.net (Postfix) with ESMTPSA id 43Zg0M4kyPzSp;
-        Wed,  9 Jan 2019 20:57:55 +0100 (CET)
-Date:   Wed, 9 Jan 2019 20:57:50 +0100
-From:   Otto Sabart <ottosabart@seberm.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 3/3] doc: networking: add scaling doc into index file
-Message-ID: <f34b41f5660f9c1d15ce44011929ea28d7f0cbe9.1547063330.git.ottosabart@seberm.com>
-References: <cover.1547063330.git.ottosabart@seberm.com>
+        id S1728013AbfAIVED (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 9 Jan 2019 16:04:03 -0500
+Received: from ms.lwn.net ([45.79.88.28]:38528 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728002AbfAIVEC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Jan 2019 16:04:02 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 383682CD
+        for <linux-doc@vger.kernel.org>; Wed,  9 Jan 2019 21:04:02 +0000 (UTC)
+Date:   Wed, 9 Jan 2019 14:04:01 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     linux-doc@vger.kernel.org
+Subject: [PATCH] docs: don't try to get comments from rcupdate_wait.h or
+ rcutree.h
+Message-ID: <20190109140401.3419bdef@lwn.net>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="J2SCkAp4GZ/dPZZf"
-Content-Disposition: inline
-In-Reply-To: <cover.1547063330.git.ottosabart@seberm.com>
-X-PGP-Key: http://seberm.com/pubkey.asc
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Neither file contains any kerneldoc comments, so including them generates
+these warnings in the docs build:
 
---J2SCkAp4GZ/dPZZf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  ./include/linux/rcupdate_wait.h:1: warning: no structured comments found
+  ./include/linux/rcutree.h:1: warning: no structured comments found
 
-Add reference to scaling document into main table of contents in network
-documentation.
+Remove them and make life a little quieter.
 
-Signed-off-by: Otto Sabart <ottosabart@seberm.com>
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- Documentation/networking/index.rst | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/core-api/kernel-api.rst | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/=
-index.rst
-index 6a47629ef8ed..47552ea410fe 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -32,6 +32,7 @@ Contents:
-    alias
-    bridge
-    snmp_counter
-+   scaling
-=20
- .. only::  subproject
-=20
---=20
-2.17.2
+diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+index cdd24943fbcc..71f5d2fe39b7 100644
+--- a/Documentation/core-api/kernel-api.rst
++++ b/Documentation/core-api/kernel-api.rst
+@@ -356,10 +356,6 @@ Read-Copy Update (RCU)
+ 
+ .. kernel-doc:: include/linux/rcupdate.h
+ 
+-.. kernel-doc:: include/linux/rcupdate_wait.h
+-
+-.. kernel-doc:: include/linux/rcutree.h
+-
+ .. kernel-doc:: kernel/rcu/tree.c
+ 
+ .. kernel-doc:: kernel/rcu/tree_plugin.h
+-- 
+2.20.1
 
-
---J2SCkAp4GZ/dPZZf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlw2Uj4ACgkQgjuumfi+
-Hjx7cw/+LIeBVZstolB+lanf3FEmibkupG8LWFIT18eskF1hSXefOxE51aXl62gL
-PGgMtNjCIGe+eZqLRDn9M08rgJSa2X2Qn23XdEW/s3HVUAKkhWCi3RFrPUf9oM4J
-cjyhw9sGeewi6qWSTJRC/Rj/Zi4rMJEGI4Ql7VSHLscfsBs/98d5PYTgQkYlCmHI
-6PEb9/+tcBFsrqjbQ1QIH1nxctS+4y4xIAQhz3nZEQxpuzaxZ+Eks6RM8unbeldH
-YB6/9C6SY2BB9xm42pr4OTN+3p9+AUg35vZXpdDU9xYTxQZDCP0P3yjZlzfpAOHa
-Hfre+JPFws5NlFzMDCrfuSLzgGTjuNxreFEl5yoj+5RU3m5rOf1dNTrFesO2iv5k
-gl09Zs4PNuhDNPDEhAPwfJZmDba4uBR3NS1wJ7BM8UV0/fIGUtrkgvpYFkA3a21s
-OjkSAaZ6RBTU6ytaKaaGv6ISfql5+xxPYVGjKpL9OpPc4nKo/CEwANfHMUs8hK/y
-K14beKy01H9oZ4GmMY914dKik5VFQeRGLTyp8cW6Cn42Y4ONCxDsVX16yynUIaRI
-hl1ruuprGDuViwQ1K9HGrtXXLD81sUZbDD335yzVtdOfKOHut5VK6ZUI1QNUm1GX
-7MIe87fWtg24jViQdMXGty7eilO828Uz/Ad43HBai6LWY869Yyo=
-=VsWs
------END PGP SIGNATURE-----
-
---J2SCkAp4GZ/dPZZf--
