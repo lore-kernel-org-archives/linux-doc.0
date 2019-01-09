@@ -2,132 +2,309 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 797DB7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Jan 2019 11:52:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 242A77D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Jan 2019 13:05:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729617AbfAILwt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 9 Jan 2019 06:52:49 -0500
-Received: from wp227.webpack.hosteurope.de ([80.237.132.234]:57446 "EHLO
-        wp227.webpack.hosteurope.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729603AbfAILws (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jan 2019 06:52:48 -0500
-Received: from [2a00:e68:14:16:d63d:7eff:fe2e:40ee] (helo=thl.ct.heise.de); authenticated
-        by wp227.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1ghCPc-0004KJ-J5; Wed, 09 Jan 2019 12:52:44 +0100
-Subject: Re: [PATCH v2 0/2] Revamp admin-guide/tainted-kernels.rst to make it
- more comprehensible
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-References: <20190108194007.29439-1-linux@leemhuis.info>
- <20190108164737.0c2539a6@lwn.net>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Openpgp: preference=signencrypt
-Autocrypt: addr=linux@leemhuis.info; prefer-encrypt=mutual; keydata=
- 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
- 5iv6NKaV29GWHbY=
-Message-ID: <2ff05fde-089b-a734-b8aa-e676e51fe0b6@leemhuis.info>
-Date:   Wed, 9 Jan 2019 12:52:44 +0100
+        id S1730753AbfAINFQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 9 Jan 2019 08:05:16 -0500
+Received: from foss.arm.com ([217.140.101.70]:43226 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729721AbfAINFQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Jan 2019 08:05:16 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 08317A78;
+        Wed,  9 Jan 2019 05:05:15 -0800 (PST)
+Received: from [10.1.196.72] (e119884-lin.cambridge.arm.com [10.1.196.72])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 92A9F3F6CF;
+        Wed,  9 Jan 2019 05:05:10 -0800 (PST)
+Subject: Re: [RFC][PATCH 2/3] arm64: Define
+ Documentation/arm64/elf_at_flags.txt
+To:     Dave Martin <Dave.Martin@arm.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+References: <cover.1544445454.git.andreyknvl@google.com>
+ <20181210143044.12714-1-vincenzo.frascino@arm.com>
+ <20181210143044.12714-3-vincenzo.frascino@arm.com>
+ <20181212173457.GA3505@e103592.cambridge.arm.com>
+From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <0947d735-c572-834a-efd3-8377d698ac8c@arm.com>
+Date:   Wed, 9 Jan 2019 13:05:08 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <20190108164737.0c2539a6@lwn.net>
+In-Reply-To: <20181212173457.GA3505@e103592.cambridge.arm.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-ZM
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1547034767;47934164;
-X-HE-SMSGID: 1ghCPc-0004KJ-J5
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet schrieb am 09.01.19 um 00:47:
-> On Tue,  8 Jan 2019 20:40:05 +0100
-> Thorsten Leemhuis <linux@leemhuis.info> wrote:
+On 12/12/2018 17:34, Dave Martin wrote:
+> On Mon, Dec 10, 2018 at 02:30:43PM +0000, Vincenzo Frascino wrote:
+>> On arm64 the TCR_EL1.TBI0 bit has been set since Linux 3.x hence
+>> the userspace (EL0) is allowed to set a non-zero value in the
+>> top byte but the resulting pointers are not allowed at the
+>> user-kernel syscall ABI boundary.
+>>
+>> With the relaxed ABI proposed through this document, it is now possible
+>> to pass tagged pointers to the syscalls, when these pointers are in
+>> memory ranges obtained by an anonymous (MAP_ANONYMOUS) mmap() or brk().
+> 
+> What about other anonymous memory such as the process stack?
 >
-> OK, so we're so close...  I think the patches are good; they are a welcome
-> improvement to the documentation and the script looks great.  Thanks for
-> doing this!
 
-More to come, but the revamp for reporting-bugs.rst that I started
-already will take a little bit longer to get done, as there is much
-ground to cover... (and there are three Linux conferences ahead for me
-in the next few weeks, too)
+The process stack is set up by the kernel as a consequence of the exec* family
+of system calls in a way that should be transparent to the userspace.
+For what concerns the userspace applications, the ones that are aware of the
+AT_FLAGS[0] should assume that the stack is always tagged.
 
->  Patches applied.
+> What about MAP_PRIVATE mappings of /dev/zero (i.e., oldskool "anonymous"
+> mappings)?
+> 
 
-thx
+MAP_PRIVATE of /dev/zero is equivalent to MAP_ANONYMOUS | MAP_PRIVATE, hence it
+should follow the same rule of MAP_ANONYMOUS obtained memory ranges.
 
-> Now for the "I love your patch, something to improve part" :)
->  - Patch 1 didn't apply to docs-next; probably you got caught by the
->    fast-forward to 5.0-rc1.  I've applied it to 4.20 then merged to
->    resolve the conflict in tools/Makefile.
+> I wonder whether this should really say MAP_PRIVATE rather than
+> MAP_ANONYMOUS.  There are two requirements here:
+> 
+>  * the memory must be the exclusive property of a single process,
+>    otherwise tagging it on-the-fly could break some other process;
+> 
 
-Ugh, sorry, rechecking was on my mental todo list, but fell through the
-cracks
+I think that it is responsibility of the userspace to tag or not a shared area.
+I do not think that we should exclude MAP_ANONYMOUS | MAP_SHARED because if such
+an area is tagged improperly by a userspace process, the kernel will be able to
+detect the issue and report it.
 
->  - I was tempted to ask you to redo the changelogs, but ended up just
->    tweaking them myself.
+>  * the memory should be regular memory, i.e., not something like a
+>    mapped device.  Since copy-on-write mappings of devices make little
+>    sense, and we want writes to devices to propagate to the hardware
+>    directly, MAP_PRIVATE doesn't make a lot of sense for such mappings.
+> 
 
-Thx.
+What we are trying to target with this ABI change are only pointers in NORMAL
+memory ranges. DEVICE memory should be untagged.
 
-> Changelogs should focus on what the patch does
->    and why; they aren't usually the place for the history of how the patch
->    came to exist in its current form. 
+...
 
-Looks like I got carried away a little bit :-/
+> I'm assuming here that tagging some currently shared copy-on-write pages
+> would throw a page fault and trigger a copy, so that we end up tagging
+> the calling process's private copy of the page.
+> 
+> I also don't see how the above requirements conflict with regular file-
+> backed mappings (which would need to work if you want to be able to
+> tag objects in .bss or .data etc.)
+>
 
-> I'll append what actually got
->    committed.  (Filling to 72 columns or so is also a nice touch for
->    changelogs).
+I agree that we should look at the more general cases to make sure that we will
+not face any incompatibility in future, but, what I am proposing here, assumes
+that the memory areas that can be tagged are only the stack and the heap. This
+is because the features that will use it will be mostly looking for memory
+related errors in these areas.
 
-Ohh, I thought it was 80. *makesnote*
+>> This change in the ABI requires a mechanism to inform the userspace
+>> that such an option is available.
+>>
+>> This patch specifies and documents the way on which AT_FLAGS can be
+>> used to advertise this feature to the userspace.
+>>
+>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+>> Cc: Will Deacon <will.deacon@arm.com>
+>> CC: Andrey Konovalov <andreyknvl@google.com>
+>> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+>> ---
+>>  Documentation/arm64/elf_at_flags.txt | 111 +++++++++++++++++++++++++++
+>>  1 file changed, 111 insertions(+)
+>>  create mode 100644 Documentation/arm64/elf_at_flags.txt
+>>
+>> diff --git a/Documentation/arm64/elf_at_flags.txt b/Documentation/arm64/elf_at_flags.txt
+>> new file mode 100644
+>> index 000000000000..153e657c058a
+>> --- /dev/null
+>> +++ b/Documentation/arm64/elf_at_flags.txt
+>> @@ -0,0 +1,111 @@
+>> +ARM64 ELF AT_FLAGS
+>> +==================
+>> +
+>> +This document describes the usage and semantics of AT_FLAGS on arm64.
+>> +
+>> +1. Introduction
+>> +---------------
+>> +
+>> +AT_FLAGS is part of the Auxiliary Vector, contains the flags and it
+>> +is currently set to zero by the kernel on arm64.
+>> +
+>> +The auxiliary vector can be accessed by the userspace using the
+>> +getauxval() API provided by the C library.
+>> +getauxval() returns an unsigned long and when a flag is present in
+>> +the AT_FLAGS, the corresponding bit in the returned value is set to 1.
+>> +
+>> +The AT_FLAGS with a "defined semantic" on arm64 are exposed to the
+>> +userspace via user API (uapi/asm/atflags.h).
+>> +The AT_FLAGS bits with "undefined semantics" are set to zero by default.
+>> +This means that the AT_FLAGS bits to which this document does not assign
+>> +an explicit meaning are to be intended reserved for future use.
+>> +The kernel will populate all such bits with zero until meanings are
+>> +assigned to them. If and when meanings are assigned, it is guaranteed
+>> +that they will not impact the functional operation of existing userspace
+>> +software. Userspace software should ignore any AT_FLAGS bit whose meaning
+>> +is not defined when the software is written.
+>> +
+>> +The userspace software can test for features by acquiring the AT_FLAGS
+>> +entry of the auxiliary vector, and testing whether a relevant flag
+>> +is set.
+>> +
+>> +Example of a userspace test function:
+>> +
+>> +bool feature_x_is_present(void)
+>> +{
+>> +	unsigned long at_flags = getauxval(AT_FLAGS);
+>> +	if (at_flags & FEATURE_X)
+>> +		return true;
+>> +
+>> +	return false;
+>> +}
+>> +
+>> +Where the software relies on a feature advertised by AT_FLAGS, it
+>> +should check that the feature is present before attempting to
+>> +use it.
+>> +
+>> +2. Features exposed via AT_FLAGS
+>> +--------------------------------
+>> +
+>> +bit[0]: ARM64_AT_FLAGS_SYSCALL_TBI
+>> +
+>> +    On arm64 the TCR_EL1.TBI0 bit has been set since Linux 3.x hence
+>> +    the userspace (EL0) is allowed to set a non-zero value in the top
+>> +    byte but the resulting pointers are not allowed at the user-kernel
+>> +    syscall ABI boundary.
+>> +    When bit[0] is set to 1 the kernel is advertising to the userspace
+>> +    that a relaxed ABI is supported hence this type of pointers are now
+>> +    allowed to be passed to the syscalls, when these pointers are in
+>> +    memory ranges obtained by anonymous (MAP_ANONYMOUS) mmap() or brk().
+> 
+> "TBI" is a slightly odd name.
+> 
+> The kernel seems not to be ignoring the top byte, otherwise how could
+> it make a difference whehter the memory is anonymous or something else?
+> 
+> (With memory tagging enabled, the top byte is also not architecturally
+> ignored.)
+> 
+
+The top-byte is ignored for MMU translations hence it can carry information that
+are relevant for other aspects. This means that the kernel can not ignore that
+the top-byte could be set.
+
+>> +    In these cases the tag is preserved as the pointer goes through the
+>> +    kernel. Only when the kernel needs to check if a pointer is coming
+>> +    from userspace (i.e. access_ok()) an untag operation is required.
+> 
+> Does the last sentence belong here?  That's about kernel internals,
+> whereas the rest all seems user-facing.
+> 
+
+I put it here just to give an idea to the user on when the kernel is going to
+perform an untag operation. But if we want to keep the document completely
+user-facing, I am fine with removing it.
+
+>> +
+>> +3. ARM64_AT_FLAGS_SYSCALL_TBI
+>> +-----------------------------
+>> +
+>> +When ARM64_AT_FLAGS_SYSCALL_TBI is enabled every syscalls can accept tagged
+>> +pointers, when these pointers are in memory ranges obtained by an anonymous
+>> +(MAP_ANONYMOUS) mmap() or brk().
+>> +
+>> +A definition of the meaning of tagged pointers on arm64 can be found in:
+>> +Documentation/arm64/tagged-pointers.txt.
+>> +
+>> +When a pointer does not are in a memory range obtained by an anonymous mmap()
+>> +or brk(), this can not be passed to a syscall if it is tagged.
+>> +
+>> +To be more explicit: a syscall can accept pointers whose memory range is
+>> +obtained by a non-anonymous mmap() or brk() if and only if the tag encoded in
+>> +the top-byte is 0x00.
+>> +
+>> +When a new syscall is added, this can accept tagged pointers if and only if
+>> +these pointers are in memory ranges obtained by an anonymous (MAP_ANONYMOUS)
+>> +mmap() or brk(). In all the other cases, the tag encoded in the top-byte is
+>> +expected to be 0x00.
+> 
+> Does this apply to kernel interfaces that are not syscalls?
+> 
+
+Not at the moment, but it does not seem incompatible with a future extension.
+
+> And does it apply to ioctls in general (I think from discussions
+> elsewhere that it can't).
+> 
+
+Requiring that the pointers accepted by the syscalls belong to ranges that are
+obtained by anonymous mappings, should cover the drivers mmap() cases.
+
+> What about things that flow through the kernel, like an
+> si_value.sival_ptr that propagates from sigqueue(2) to the signal frame
+> of the signalled thread, or registered with the kernel via aio_read(2)?
+> 
+> This kind of thing is why I would like to define a set of rules for
+> making an educated guess about how the kernel should interpret
+> arbitrary arguments (in an ideal world).
+> 
+
+I think that to make an educated choice we need to restrict the problem we are
+trying to target (making sure that we do not take any assumption that could be
+incompatible with the general case) as a first step. Once we are confident that
+it works as expected we can try to extend it progressively.
+
+> 
+> With issues like this in the mix, it seems difficult to extract general
+> guarantees from ARM64_AT_FLAGS_SYSCALL_TBI.  If it means that just
+> certain specific uses of a few specific syscalls work with tagged
+> pointers, that may not be very useful by ifself?  It sounds like if
+> you are tagging memory at all, you suddenly need to port every random
+> library you're using.
+> 
+
+The ABI presented in this document seems quite general (it is not confined to
+specific syscalls). This means that an application that tags the memory can use
+any non tag aware random library as is (without porting it), as far as it
+sanitizes the pointers before and after calling it.
 
 > [...]
+> 
+> Cheers
+> ---Dave
+> 
 
-Ciao, Thorsten
+-- 
+Regards,
+Vincenzo
