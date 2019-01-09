@@ -6,22 +6,22 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 30DCC7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Jan 2019 05:32:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CD0C07D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Jan 2019 05:32:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729463AbfAIFcY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 9 Jan 2019 00:32:24 -0500
-Received: from sender-pp-092.zoho.com ([135.84.80.237]:25378 "EHLO
+        id S1729569AbfAIFcf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 9 Jan 2019 00:32:35 -0500
+Received: from sender-pp-092.zoho.com ([135.84.80.237]:25386 "EHLO
         sender-pp-092.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728469AbfAIFcX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jan 2019 00:32:23 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1547011910; cv=none; 
+        with ESMTP id S1728469AbfAIFcf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jan 2019 00:32:35 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1547011914; cv=none; 
         d=zoho.com; s=zohoarc; 
-        b=D1bvQiE33wdc6DwxL+NxjEVKGDOIBmX+a67WChzSQfmO1uq4Jb1ELnkt0yDVO/wxW8svMSyIX9Au81xUJTPRC9rNc2v481HmwNFyR9/3eM65kDlgUmpvGU7gDP1MSobyNr3Kls48+mfRAKLW08jKsFDqQBcLzTxW7YVPAr34aOY=
+        b=KvXOoTXYyfw46ddGR7sGmAszBd3zNz+y4VRwvDv+kzmsBnQkah6dX/MsVwJUEwEhvL18YY28gVt5nQRXCAjmbGgJLtPmc5GHFIOEolpor4wkXrCY6/tWfzNi8WSSTud9xdBMlA59wmjV7X3r8J2/rQnmHhZ7qblQ3CWoaJ3VL7k=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com; s=zohoarc; 
-        t=1547011910; h=Cc:Date:From:In-Reply-To:Message-ID:References:Subject:To:ARC-Authentication-Results; 
-        bh=le5j2hLw5GH/PW3GIzsYH2jGxnhrLnZ93bpxcuJQ8Vk=; 
-        b=d+nujjZsNMbmscIeW4HtLKTRhnoKRdmLu7um1gv1P4q9TOtaRMo7VoBolhiCXp+R+++TlrdMrMzrZHa5VBCQXc27BHQgk69DxE68Huq6lWtbTNmq951dYFgD/T1wSNi1HYlovIRfhznRONhfSQxilkA1aOy9dPwt8tbcfZJEMgs=
+        t=1547011914; h=Cc:Date:From:In-Reply-To:Message-ID:References:Subject:To:ARC-Authentication-Results; 
+        bh=dw8ZJTmgcsYczIjoDQEr8j6GGcL35J1OcAqunEg0lrU=; 
+        b=dZbpCgY5lfthLyqcJaD4LeyIaWORytR7eW+PfurzN9yRbiw/DthK2oDPeK+vXzp/DcSK4kgEBBKuV7+7ob7UKAWzfR4NiLyt9qugWfbzFU8vCn1GttO18Shg9do324ku4AmevtZDafa9xXASqpc9Hnp5IKJTFR2CQXDpvoIIfwY=
 ARC-Authentication-Results: i=1; mx.zoho.com;
         dkim=pass  header.i=zoho.com;
         spf=pass  smtp.mailfrom=yehs2007@zoho.com;
@@ -29,26 +29,26 @@ ARC-Authentication-Results: i=1; mx.zoho.com;
 DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; 
   s=zapps768; d=zoho.com; 
   h=from:to:cc:subject:date:message-id:in-reply-to:references; 
-  b=LhS5yzC5u2acAzldvuV+A7CeZiHE2dHqLVxe7bR4IGwd5nYm50Va49pVrSP99RhYSZwMvBHGeA1w
-    0oX53NaX71SPutTKNz4Nbwei4kjGQNMqVgF3tfjsclAV+7c+V7qW  
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1547011910;
+  b=GlVOwrDbvVZaHCGu4pCzKpgZ5rgBwI+63BwbUa5nMjHSqGDedyJ/5OSvHRlpe/b1ukdJQwBVcSd6
+    keqnu/+NXwwVX5g801DYVYsijtlyK1Z6EGlQ2HwWx2dnh6oySYQE  
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1547011914;
         s=default; d=zoho.com; i=yehs2007@zoho.com;
-        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; l=897;
-        bh=le5j2hLw5GH/PW3GIzsYH2jGxnhrLnZ93bpxcuJQ8Vk=;
-        b=YZS1IfqEQkbCTAsk+rx98Uw+CswngQBkGYFjbuPl9MQtB/QTdH6FH8DJS/45cBIP
-        p+g3iTJinGqVtpOXY+9kQeA/QX60aefBU+mzs0rOd75OSIB+hjbEAhS0QjBXlVexBBv
-        bNKg8G3b3KGa69LrWwG9oZRNW1vC3zI44WeIPikQ=
+        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References;
+        l=1798; bh=dw8ZJTmgcsYczIjoDQEr8j6GGcL35J1OcAqunEg0lrU=;
+        b=KkYjXWsGOkw1VS5TkVerYjTXSCsfEWTjhL9ElCg+WYNqJwDoK6CEaXgveHejQnwg
+        vApNHnXTEVH3lvZqbaJzkyL7t6UM730sH+oQHmOKc2mDg91at3Z9q+9uwfTNN7Rl9hv
+        R1FkBvSPJezoSB3ezWMxh10AbQSOnT3dLMpXofus=
 Received: from YEHS1XR956R00D1.lenovo.com (123.120.89.99 [123.120.89.99]) by mx.zohomail.com
-        with SMTPS id 154701190890385.06785696697204; Tue, 8 Jan 2019 21:31:48 -0800 (PST)
+        with SMTPS id 1547011912293631.2697486393442; Tue, 8 Jan 2019 21:31:52 -0800 (PST)
 From:   Huaisheng Ye <yehs2007@zoho.com>
 To:     snitzer@redhat.com, agk@redhat.com
 Cc:     dan.j.williams@intel.com, hch@lst.de, jack@suse.cz, corbet@lwn.net,
         dm-devel@redhat.com, linux-kernel@vger.kernel.org,
         linux-nvdimm@lists.01.org, linux-doc@vger.kernel.org,
         chengnt@lenovo.com, Huaisheng Ye <yehs1@lenovo.com>
-Subject: [RFC PATCH v2 2/4] dm-writecache: get rid of memory_data flush to writecache_flush_entry
-Date:   Wed,  9 Jan 2019 13:31:25 +0800
-Message-Id: <20190109053127.8128-3-yehs2007@zoho.com>
+Subject: [RFC PATCH v2 3/4] dm-writecache: expand pmem_reinit for struct dm_writecache
+Date:   Wed,  9 Jan 2019 13:31:26 +0800
+Message-Id: <20190109053127.8128-4-yehs2007@zoho.com>
 X-Mailer: git-send-email 2.17.0.windows.1
 In-Reply-To: <20190109053127.8128-1-yehs2007@zoho.com>
 References: <20190109053127.8128-1-yehs2007@zoho.com>
@@ -60,28 +60,54 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Huaisheng Ye <yehs1@lenovo.com>
 
-writecache_flush_region only works when SSD mode.
-If wc->pmem_mode sets, writecache_flush_region doesn't need to be called in
-writecache_flush_entry.
+When use persistent memory as cache data device, sometimes
+the super block of pmem has messy data stored in it. That would
+have risk to lead fn ctr failed to work due to invalid magic or
+version.
+
+Here we expand pmem_reinit to optional parameters in order to solve
+this issue. When user gets pmem device, which has unrelated data in it,
+as cache device, he should use paramenter 'reinit' to avoid s.magic
+and s.version don't equal to NULL or correct
+MEMORY_SUPERBLOCK_MAGIC/VERSION.
 
 Signed-off-by: Huaisheng Ye <yehs1@lenovo.com>
 ---
- drivers/md/dm-writecache.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/md/dm-writecache.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/md/dm-writecache.c b/drivers/md/dm-writecache.c
-index 2d8e0c0..c69317c 100644
+index c69317c..2c1e825 100644
 --- a/drivers/md/dm-writecache.c
 +++ b/drivers/md/dm-writecache.c
-@@ -688,8 +688,6 @@ static void writecache_poison_lists(struct dm_writecache *wc)
- static void writecache_flush_entry(struct dm_writecache *wc, struct wc_entry *e)
- {
- 	writecache_flush_region(wc, memory_entry(wc, e));
--	if (WC_MODE_PMEM(wc))
--		writecache_flush_region(wc, memory_data(wc, e));
- }
+@@ -149,6 +149,7 @@ struct dm_writecache {
  
- static bool writecache_entry_is_committed(struct dm_writecache *wc, struct wc_entry *e)
+ 	bool pmem_mode:1;
+ 	bool writeback_fua:1;
++	bool pmem_reinit:1;
+ 
+ 	bool overwrote_committed:1;
+ 	bool memory_vmapped:1;
+@@ -2026,6 +2027,10 @@ static int writecache_ctr(struct dm_target *ti, unsigned argc, char **argv)
+ 				wc->writeback_fua = false;
+ 				wc->writeback_fua_set = true;
+ 			} else goto invalid_optional;
++		} else if (!strcasecmp(string, "reinit")) {
++			if (WC_MODE_PMEM(wc))
++				wc->pmem_reinit = true;
++			else goto invalid_optional;
+ 		} else {
+ invalid_optional:
+ 			r = -EINVAL;
+@@ -2127,7 +2132,7 @@ static int writecache_ctr(struct dm_target *ti, unsigned argc, char **argv)
+ 		ti->error = "Hardware memory error when reading superblock";
+ 		goto bad;
+ 	}
+-	if (!le32_to_cpu(s.magic) && !le32_to_cpu(s.version)) {
++	if (wc->pmem_reinit || (!le32_to_cpu(s.magic) && !le32_to_cpu(s.version))) {
+ 		r = init_memory(wc);
+ 		if (r) {
+ 			ti->error = "Unable to initialize device";
 -- 
 1.8.3.1
 
