@@ -1,93 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 102417D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  8 Jan 2019 23:56:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9F52B7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  9 Jan 2019 05:32:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728188AbfAHX46 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 8 Jan 2019 18:56:58 -0500
-Received: from wes1-so2.wedos.net ([46.28.106.16]:40512 "EHLO
-        wes1-so2.wedos.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728112AbfAHX46 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Jan 2019 18:56:58 -0500
-Received: from localhost (ip4-46-39-182-135.cust.nbox.cz [46.39.182.135])
-        by wes1-so2.wedos.net (Postfix) with ESMTPSA id 43Z8Lb6RfFzWy;
-        Wed,  9 Jan 2019 00:56:55 +0100 (CET)
-Date:   Wed, 9 Jan 2019 00:56:51 +0100
-From:   Otto Sabart <ottosabart@seberm.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Subject: [PATCH 1/1] doc: trace: fix reference to cpuidle documentation file
-Message-ID: <f9650f8f9d085a47caf3db1baa41310d6646ae00.1546991610.git.ottosabart@seberm.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="LZvS9be/3tNcYl/X"
-Content-Disposition: inline
-X-PGP-Key: http://seberm.com/pubkey.asc
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1729109AbfAIFcC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 9 Jan 2019 00:32:02 -0500
+Received: from sender-pp-092.zoho.com ([135.84.80.237]:25360 "EHLO
+        sender-pp-092.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728469AbfAIFcC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Jan 2019 00:32:02 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1547011904; cv=none; 
+        d=zoho.com; s=zohoarc; 
+        b=JPscTfC8Q82D0MvDJAPotP/NLecXfoCq0b1ssG1Xkzq/iDoNv7DCjfbksfxQl1g4eFboFgJwMa0ZCfGXzhVC7H2mUt8LBcU6ZRwxSS+t2RnQFdhTAtPuiUCNJDe2+nmHvxRAJKTd1N/9mZ+rFc9Pdobu2JsBdyo6IEcigKNDgsg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com; s=zohoarc; 
+        t=1547011904; h=Cc:Date:From:Message-ID:Subject:To:ARC-Authentication-Results; 
+        bh=4lMfZZ/5tufo0Udnfw9vFuw1iI0gj/s3FGcicjIOBLQ=; 
+        b=MgqQqPjgNASGhGLaZJNY8r+qbc3Tt9oV2Nky9pawAfIdtcDVBb0SiwagnMz7/6g85smrm3yDhcOkUUobeI5ACiXiZuPxuTNPYpyDrOD8/BlW4Icw+Pk0lC8EgYTFedELOvDklTCVMIxk5PpJ+K1F3MtRoRZla0MdayqN5OqBdbs=
+ARC-Authentication-Results: i=1; mx.zoho.com;
+        dkim=pass  header.i=zoho.com;
+        spf=pass  smtp.mailfrom=yehs2007@zoho.com;
+        dmarc=pass header.from=<yehs2007@zoho.com> header.from=<yehs2007@zoho.com>
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; 
+  s=zapps768; d=zoho.com; 
+  h=from:to:cc:subject:date:message-id; 
+  b=hoH38629Q0xQv+b0zLKSdPaQ9w1ivbaGiUy7DCMg4PPL+/cpXGYIrnKh3hHbUwC2F+ILa6mMyWjg
+    YQNgMb0gWHoGYf7nr0LEyCqopO4ruBGtx+Y58Ni+fTm1a3zNy8oo  
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1547011904;
+        s=default; d=zoho.com; i=yehs2007@zoho.com;
+        h=From:To:Cc:Subject:Date:Message-Id; l=1000;
+        bh=4lMfZZ/5tufo0Udnfw9vFuw1iI0gj/s3FGcicjIOBLQ=;
+        b=f6bjgQsuLvVWYtKCdIKXDV/VUBlQfgDhlZMTwu0NWQcuoUk2CQIpSNI1VWJH7D/m
+        fYMcVyG/DvkB04WsmMoUriCu+Nm4UhBcAspNNEFAMGcmldbJf/ZZXuSjvADQ8U4U0HR
+        +kC9bnGmZeI5h6Hev6UJ2+14mxpkbJOz4BKaOOac=
+Received: from YEHS1XR956R00D1.lenovo.com (123.120.89.99 [123.120.89.99]) by mx.zohomail.com
+        with SMTPS id 15470119020141017.1832509629885; Tue, 8 Jan 2019 21:31:42 -0800 (PST)
+From:   Huaisheng Ye <yehs2007@zoho.com>
+To:     snitzer@redhat.com, agk@redhat.com
+Cc:     dan.j.williams@intel.com, hch@lst.de, jack@suse.cz, corbet@lwn.net,
+        dm-devel@redhat.com, linux-kernel@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-doc@vger.kernel.org,
+        chengnt@lenovo.com, Huaisheng Ye <yehs1@lenovo.com>
+Subject: [RFC PATCH v2 0/4] add parameter for pmem cache device init
+Date:   Wed,  9 Jan 2019 13:31:23 +0800
+Message-Id: <20190109053127.8128-1-yehs2007@zoho.com>
+X-Mailer: git-send-email 2.17.0.windows.1
+X-ZohoMailClient: External
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Huaisheng Ye <yehs1@lenovo.com>
 
---LZvS9be/3tNcYl/X
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch set could be used for dm-writecache when use persistent
+memory as cache data device.
 
-Old cpuidle/sysfs.txt file was replaced in aa5eee355b46. So, refer to
-an updated file.
+Patch 1 and 2 go towards removing unused parameter and codes which
+actually doesn't really work.
 
-Fixes: aa5eee355b46 ("Documentation: admin-guide: PM: Add cpuidle document")
-Signed-off-by: Otto Sabart <ottosabart@seberm.com>
----
- Documentation/trace/coresight-cpu-debug.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Patch 3 and 4 are targeted at solving problem fn ctr failed to work
+due to invalid magic or version, which is caused by the super block
+of pmem has messy data stored.
 
-diff --git a/Documentation/trace/coresight-cpu-debug.txt b/Documentation/tr=
-ace/coresight-cpu-debug.txt
-index 89ab09e78e8d..f07e38094b40 100644
---- a/Documentation/trace/coresight-cpu-debug.txt
-+++ b/Documentation/trace/coresight-cpu-debug.txt
-@@ -165,7 +165,7 @@ Do some work...
- The same can also be done from an application program.
-=20
- Disable specific CPU's specific idle state from cpuidle sysfs (see
--Documentation/cpuidle/sysfs.txt):
-+Documentation/admin-guide/pm/cpuidle.rst):
- # echo 1 > /sys/devices/system/cpu/cpu$cpu/cpuidle/state$state/disable
-=20
-=20
---=20
-2.17.2
+Changes Since v1:
+	- add optional parameter reinit to avoid invalid magic or
+	  version.
+	[1]: https://lkml.org/lkml/2019/1/3/43
+
+Huaisheng Ye (4):
+  dm-writecache: remove unused size to writecache_flush_region
+  dm-writecache: get rid of memory_data flush to writecache_flush_entry
+  dm-writecache: expand pmem_reinit for struct dm_writecache
+  Documentation/device-mapper: add optional parameter reinit
+
+ Documentation/device-mapper/writecache.txt |  4 ++++
+ drivers/md/dm-writecache.c                 | 19 +++++++++++--------
+ 2 files changed, 15 insertions(+), 8 deletions(-)
+
+-- 
+1.8.3.1
 
 
---LZvS9be/3tNcYl/X
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlw1OMMACgkQgjuumfi+
-Hjy1gQ//RuHvTrIJhx27Rt8Wiula8M+FF34Y5bxFzXGbY3QSBTK5TnzlKdusnBU7
-hVvg+ICmFQp477MvMjD4y8Y7RDen1p02rY8GgyKnnMfKpSp+bUG9gpa6F52uMPR3
-iIXzGb7YjMx/0u7sgsVup65BQGPJsebvLdSE79usHAdjAsqDdh1wy5DdIHQ2LIW2
-BxhZmKa7zy3bHgdCIWWj16VjTqSJzVblQfhD/2Tidtvgkty2f471BCgWABaS/q6q
-jYQ5IavmDzR91GefuVPqgaFK20MKNFdiBc5fQgcLpTUv/nm1MD7go1NNgCgxphO4
-8Hpj8bJJtNpIO/xYcLBawyf9/etuhagC0okeGK87mcn7Rm5vQEhftpUom4pidlE4
-t8EZTpYQktPO+NM/FPZHkwi2zJeUQto73gXrrdtf7aBCCO1XA4N/iVQqORQPHsvh
-gn85ejVgETwxJ3h5SW8zYBRx3jBv0ndi2EZfsiQguuWcWD2iDnzYFxh1YIJ37/0f
-s/bi8MgXMKJFARpH1o+smmt5aPQ/JyPc9VES3bfn2LeeHN6LlXT0TRBHsSdfWF/Q
-RLHmty89NAHAiIzvqQK4Y5EHxDK6Qgl/RtzGSbPe/O3fL8d31dlApxxReMW+cxUe
-eL+e7gnqJu1007g9XwinErnY53JmDG/pmgItZeqWgn/BqoED2mQ=
-=pfPL
------END PGP SIGNATURE-----
-
---LZvS9be/3tNcYl/X--
