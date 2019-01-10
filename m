@@ -1,131 +1,71 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B996D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 Jan 2019 10:20:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 523277D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 Jan 2019 11:05:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727849AbfAJKUS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 10 Jan 2019 05:20:18 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:42364 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727455AbfAJKUS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Jan 2019 05:20:18 -0500
-Received: by mail-ot1-f66.google.com with SMTP id v23so9446848otk.9;
-        Thu, 10 Jan 2019 02:20:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=erabJoUdEcwQirUCWmkQJ9vJZtqewSYaYSiCYietYOA=;
-        b=nnSmrM8xECxxSVyrbo6gxeUeBRWNowxZCrHlsAZ69ZD5EqTispYXydyR4dvKPLLNhe
-         OtrTdHu0OSHrRCyXeyfyuSAt8KZrMlIyz6LWpCmc+n62mVA8rlkplEPpm28veSsVe4V5
-         SoGC0DTklBAmZHrRIn6A+L7Rt0/X+EPOGO9lA6xHuVQ26vdQ7RuXZSkVnjbkoAa+SSE2
-         rFkpp5GXlvoIlomfjRmI6SrpjaEZe//ugSrBccFpHg2BX28q4j/T94C3slBK1eI38pgq
-         p/ePQNr1qIk5IGVNZ4Sol2EbffrjFsHZdbyjsr9xaZpzLHyIRabcAVP4Elhb4sDyiJmN
-         Jnww==
-X-Gm-Message-State: AJcUukeCq4ZtP8G7CpOvWReL9IofADh6qB0uNyJ24Kgbi+C8fJC8TNar
-        FMeFsyLAX4ArYF4rihTW3Kv6EyKv+vyR1AdRjQw=
-X-Google-Smtp-Source: ALg8bN53ljxeT9TlHd8DjDlHyNKZ1ZK9WrmcawSYtzrL56qs6lrE8IM+0mx6g0cYfcYEocCsja3hr6vIqETPMvlK27w=
-X-Received: by 2002:a9d:2062:: with SMTP id n89mr6063772ota.244.1547115616722;
- Thu, 10 Jan 2019 02:20:16 -0800 (PST)
+        id S1728015AbfAJLFz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 10 Jan 2019 06:05:55 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:60330 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726925AbfAJLFy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Jan 2019 06:05:54 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 78361A78;
+        Thu, 10 Jan 2019 03:05:54 -0800 (PST)
+Received: from queper01-lin.cambridge.arm.com (queper01-lin.cambridge.arm.com [10.1.195.48])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 62F1F3F694;
+        Thu, 10 Jan 2019 03:05:52 -0800 (PST)
+From:   Quentin Perret <quentin.perret@arm.com>
+To:     corbet@lwn.net, peterz@infradead.org, rjw@rjwysocki.net
+Cc:     mingo@redhat.com, morten.rasmussen@arm.com, qais.yousef@arm.com,
+        patrick.bellasi@arm.com, dietmar.eggemann@arm.com,
+        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quentin.perret@arm.com
+Subject: [PATCH 0/2] Documentation: Explain EAS and EM
+Date:   Thu, 10 Jan 2019 11:05:44 +0000
+Message-Id: <20190110110546.8101-1-quentin.perret@arm.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <3514439.dzOWKx1Cjx@aspire.rjw.lan> <e89ee355-3d87-1fe7-a1ff-91a1dd43177b@linaro.org>
-In-Reply-To: <e89ee355-3d87-1fe7-a1ff-91a1dd43177b@linaro.org>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 10 Jan 2019 11:20:05 +0100
-Message-ID: <CAJZ5v0hPnoLzJPRgE43NrB2Vt4BZYx=jgw_-WHoAiBQvhviY1A@mail.gmail.com>
-Subject: Re: [PATCH v2] cpuidle: Add 'above' and 'below' idle state metrics
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Doug Smythies <dsmythies@telus.net>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Giovanni Gherdovich <ggherdovich@suse.cz>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 10, 2019 at 10:53 AM Daniel Lezcano
-<daniel.lezcano@linaro.org> wrote:
->
-> On 10/12/2018 12:30, Rafael J. Wysocki wrote:
-> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> >
-> > Add two new metrics for CPU idle states, "above" and "below", to count
-> > the number of times the given state had been asked for (or entered
-> > from the kernel's perspective), but the observed idle duration turned
-> > out to be too short or too long for it (respectively).
-> >
-> > These metrics help to estimate the quality of the CPU idle governor
-> > in use.
-> >
-> > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > ---
-> >
-> > -> v2: Fix a leftover in the documentation from the previous versions
-> >        of the patch and a typo in the changelog.
-> >
-> > ---
-> >  Documentation/ABI/testing/sysfs-devices-system-cpu |    7 ++++
-> >  Documentation/admin-guide/pm/cpuidle.rst           |   10 ++++++
-> >  drivers/cpuidle/cpuidle.c                          |   31 ++++++++++++++++++++-
-> >  drivers/cpuidle/sysfs.c                            |    6 ++++
-> >  include/linux/cpuidle.h                            |    2 +
-> >  5 files changed, 55 insertions(+), 1 deletion(-)
-> >
-> > Index: linux-pm/drivers/cpuidle/cpuidle.c
-> > ===================================================================
-> > --- linux-pm.orig/drivers/cpuidle/cpuidle.c
-> > +++ linux-pm/drivers/cpuidle/cpuidle.c
-> > @@ -202,7 +202,6 @@ int cpuidle_enter_state(struct cpuidle_d
-> >       struct cpuidle_state *target_state = &drv->states[index];
-> >       bool broadcast = !!(target_state->flags & CPUIDLE_FLAG_TIMER_STOP);
-> >       ktime_t time_start, time_end;
-> > -     s64 diff;
-> >
-> >       /*
-> >        * Tell the time framework to switch to a broadcast timer because our
-> > @@ -248,6 +247,9 @@ int cpuidle_enter_state(struct cpuidle_d
-> >               local_irq_enable();
-> >
-> >       if (entered_state >= 0) {
-> > +             s64 diff, delay = drv->states[entered_state].exit_latency;
-> > +             int i;
-> > +
-> >               /*
-> >                * Update cpuidle counters
-> >                * This can be moved to within driver enter routine,
-> > @@ -260,6 +262,33 @@ int cpuidle_enter_state(struct cpuidle_d
-> >               dev->last_residency = (int)diff;
->
-> Shouldn't we subtract the 'delay' from the computed 'diff' in any case ?
+The recently introduced Energy Aware Scheduling (EAS) feature relies on
+a large set of concepts, assumptions, and design choices that are
+probably not obvious for an outsider. Moreover, enabling EAS on a
+particular platform isn't straightforward because of all its
+dependencies. This series tries to address this by introducing proper
+documentation files for the scheduler's part of EAS and for the newly
+introduced Energy Model (EM) framework. These are meant to explain not
+only the design choices of EAS but also to list its dependencies in a
+human-readable location.
 
-No.
+The two new doc files are simple .txt to be consistent with the existing
+documentation of the relevant subsystems, but I'm happy to translate to
+.rst if deemed necessary.
 
-> Otherwise the 'last_residency' accumulates the effective sleep time and
-> the time to wakeup. We are interested in the sleep time only for
-> prediction and metrics no ?
+All feedback is welcome.
 
-Yes, but 'delay' is the worst-case latency and not the actual one
-experienced, most of the time, and (on average) we would underestimate
-the sleep time if it was always subtracted.
+Thanks !
+Quentin
 
-The idea here is to only count the wakeup as 'above' if the total
-'last_residency' is below the target residency of the idle state that
-was asked for (as in that case we know for certain that the CPU has
-been woken up too early) and to only count it as 'below' if the
-difference between 'last_residency' and 'delay' is greater than or
-equal to the target residency of a deeper idle state (as in that case
-we know for certain that the CPU has been woken up too late).
+Quentin Perret (2):
+  PM / EM: Document the Energy Model framework
+  sched: Document Energy Aware Scheduling
 
-Of course, this means that there is a "gray area" in which we are not
-really sure if the sleep time has matched the idle state that was
-asked for, but there's not much we can do about that IMO.
+ Documentation/power/energy-model.txt     | 144 ++++++++
+ Documentation/scheduler/sched-energy.txt | 425 +++++++++++++++++++++++
+ 2 files changed, 569 insertions(+)
+ create mode 100644 Documentation/power/energy-model.txt
+ create mode 100644 Documentation/scheduler/sched-energy.txt
+
+-- 
+2.20.1
+
