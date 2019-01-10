@@ -1,122 +1,164 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7109C7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 Jan 2019 15:42:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5970C7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 10 Jan 2019 22:08:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728998AbfAJPmC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 10 Jan 2019 10:42:02 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:6530 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728643AbfAJPmB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Jan 2019 10:42:01 -0500
-Received: from DGGEMA401-HUB.china.huawei.com (unknown [172.30.72.55])
-        by Forcepoint Email with ESMTP id 19B0056BF031F82B2727;
-        Thu, 10 Jan 2019 23:41:56 +0800 (CST)
-Received: from DGGEMA422-HUB.china.huawei.com (10.1.198.155) by
- DGGEMA401-HUB.china.huawei.com (10.3.20.42) with Microsoft SMTP Server (TLS)
- id 14.3.408.0; Thu, 10 Jan 2019 23:41:55 +0800
-Received: from DGGEMA523-MBX.china.huawei.com ([169.254.5.180]) by
- dggema422-hub.china.huawei.com ([10.1.198.155]) with mapi id 14.03.0399.000;
- Thu, 10 Jan 2019 23:41:50 +0800
-From:   gengdongjiu <gengdongjiu@huawei.com>
-To:     Peter Maydell <peter.maydell@linaro.org>
-CC:     James Morse <james.morse@arm.com>,
-        =?utf-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        kvm-devel <kvm@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        arm-mail-list <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [RFC RESEND PATCH] kvm: arm64: export memory error recovery
- capability to user space
-Thread-Topic: [RFC RESEND PATCH] kvm: arm64: export memory error recovery
- capability to user space
-Thread-Index: AdSo8Hp33+98LQYESeSIe29UjvqzCwACkt3A
-Date:   Thu, 10 Jan 2019 15:41:49 +0000
-Message-ID: <0184EA26B2509940AA629AE1405DD7F202045458@dggema523-mbx.china.huawei.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.45.56.182]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1728270AbfAJWH5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 10 Jan 2019 17:07:57 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:35748 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728561AbfAJWH4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Jan 2019 17:07:56 -0500
+Received: by mail-pl1-f193.google.com with SMTP id p8so5791161plo.2
+        for <linux-doc@vger.kernel.org>; Thu, 10 Jan 2019 14:07:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ig5qBTqAOOl2ALQFgSUOe0w9ro7QA1aOFe2gQIbsj8Y=;
+        b=crAkPTvPLfl2A5lFXysX3vaxjF/2y1f3sxNNf1vPvrnJgrf1xy0zKoKE0zzMIP8sS4
+         0S4/4dPxl8/cpbT2+JIamABRXt4zrS5tHeKi87QxVixpM8yUAq1DkjhfZCKFm3gr/FEf
+         r83CtOyVbwKYyJrYqv5cQI+2NexV0ZWdKBlYrAizrbZ1vMfqm8xh1WQK+W4l2XUDA73F
+         EaY+oWW1RgTZl8J/azSIUL/Kstz71dOR7Hd7iLpZyF7k2F4Boy6FL/vx9o8H56KDhfPC
+         dVpshDaNnUqN8JlZA++d4n+h8jU7ydNXmt4QX2GlX88chDJ+D4pRC1IsvTCI2aE7T49c
+         EAMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ig5qBTqAOOl2ALQFgSUOe0w9ro7QA1aOFe2gQIbsj8Y=;
+        b=tskl0MofuLPtqPNhirNtlonj3WyCNqEcLrprTo0J+9UYGZ3QHiVn6kQpAWtrQqWcyq
+         jFiO7rMoHaD9CFMbZLx9Fr8NdQL7ukDE+F4VmxVQ/ECk/qVJhLew8xP5CCMf8wWsJ+7U
+         JmtXMjpD7IyND80xlfIdMLtYOt+zhb1yAUYIA8jEM3FhfJQHUSCzNYO9eXQRlDCW6P7V
+         kkZtNt1e5g6dBWo8k6C7UkGAWG6kKPrr0Lj35tnXDwDm9RwRJa71v7az12bffRxLF6pX
+         w7MC+ouWIRiSnzxB4tk6rzTz27qvbrWbYBNGV0+MLhq3lfHymeBAvx3LignncR4NO3pz
+         PLjw==
+X-Gm-Message-State: AJcUukfcLV5zdy23Eyd6LMbdsd1x3N5QTK1DRFz0KcKiJbKkjr+Ab+7A
+        hDOuys8fit2SuEDHFPzxD27kDA==
+X-Google-Smtp-Source: ALg8bN73ksNs0MN12T2hkHxqycU/FXXGxYcKJ+wlnrOwmW+OoBldscti3YwBq5ZkSW4B9iPNx51+KA==
+X-Received: by 2002:a17:902:6b87:: with SMTP id p7mr12264757plk.282.1547158074549;
+        Thu, 10 Jan 2019 14:07:54 -0800 (PST)
+Received: from surenb0.mtv.corp.google.com ([2620:0:1000:1612:3320:4357:47df:276b])
+        by smtp.googlemail.com with ESMTPSA id p7sm152958019pfj.72.2019.01.10.14.07.53
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 10 Jan 2019 14:07:53 -0800 (PST)
+From:   Suren Baghdasaryan <surenb@google.com>
+To:     gregkh@linuxfoundation.org
+Cc:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
+        axboe@kernel.dk, dennis@kernel.org, dennisszhou@gmail.com,
+        mingo@redhat.com, peterz@infradead.org, akpm@linux-foundation.org,
+        corbet@lwn.net, cgroups@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-team@android.com, Suren Baghdasaryan <surenb@google.com>
+Subject: [PATCH v2 0/5] psi: pressure stall monitors v2
+Date:   Thu, 10 Jan 2019 14:07:13 -0800
+Message-Id: <20190110220718.261134-1-surenb@google.com>
+X-Mailer: git-send-email 2.20.1.97.g81188d93c3-goog
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiANCj4gT24gVGh1LCAxMCBKYW4gMjAxOSBhdCAxMjowOSwgZ2VuZ2RvbmdqaXUgPGdlbmdkb25n
-aml1QGh1YXdlaS5jb20+IHdyb3RlOg0KPiA+IFBldGVyLCBJIHN1bW1hcml6ZSBKYW1lcydzIG1h
-aW4gaWRlYSwgSmFtZXMgdGhpbmsgUUVNVSBkb2VzIG5vdCANCj4gPiBuZWVkcyB0byBjaGVjayAq
-c29tZXRoaW5nKiBpZiBRZW11IHN1cHBvcnQgZmlybXdhcmUtZmlyc3QuDQo+ID4gV2hhdCBkbyB3
-ZSBkbyBmb3IgeW91ciBjb21tZW50cz8NCj4gDQo+IFVubGVzcyBJJ20gbWlzc2luZyBzb21ldGhp
-bmcsIHRoZSBjb2RlIGluIHlvdXIgbW9zdCByZWNlbnQgcGF0Y2hzZXQgDQo+IGF0dGVtcHRzIHRv
-IHVwZGF0ZSBhbiBBQ1BJIHRhYmxlIHdoZW4gaXQgZ2V0cyB0aGUgU0lHQlVTIGZyb20gdGhlIGhv
-c3QgDQo+IGtlcm5lbCB3aXRob3V0IGRvaW5nIGFueXRoaW5nIHRvIGNoZWNrIHdoZXRoZXIgaXQg
-aGFzIGV2ZXIgY3JlYXRlZCB0aGUgQUNQSSB0YWJsZSAoYW5kIHNldCB1cCB0aGUgUUVNVSBnbG9i
-YWwgdmFyaWFibGUgdGhhdCB0ZWxscyB0aGUgY29kZSB3aGVyZSBpdCBpcyBpbiB0aGUgZ3Vlc3Qg
-bWVtb3J5KSBpbiB0aGUgZmlyc3QgcGxhY2UuDQoNCndoZW4gUUVNVSB2ZXJzaW9uIGlzIGdyZWF0
-ZXIgdGhhbiBzb21lIHZlcnNpb24sIGl0IHdpbGwgZGVmYXVsdCBjcmVhdGUgdGhlIEFQRUkgdGFi
-bGUuIEJ1dCBvbmx5IHdoZW4gdGhlIGd1ZXN0IGlzIGJvb3RlZCBieSBVRUZJLCBpdCB3aWxsIHN1
-cHBvcnQgdG8gcmVjb3JkIHRoZSBDUEVSIHRvIGd1ZXN0IG1lbW9yeS4gDQpJbiBteSB0ZXN0LCBJ
-IGJvb3QgZ3Vlc3QgdXNpbmcgVUVGSSwgc28gaXQgaXMgbm8gcHJvYmxlbSwgSSB3aWxsIGNoZWNr
-IHdoZXRoZXIgdGhpcyBib290aW5nIHVzZXMgVUVGSSBiZWZvcmUgdXBkYXRlIHRoZSBBQ1BJIHRh
-YmxlLg0KDQo+IEkgZG9uJ3Qgc2VlIGhvdyB0aGF0IGNhbiB3b3JrLgkNCj4gDQo+ID4gPj4gSSB0
-aGluayBvbmUgcXVlc3Rpb24gaGVyZSB3aGljaCBpdCB3b3VsZCBiZSBnb29kIHRvIGFuc3dlciBp
-czoNCj4gPiA+PiBpZiB3ZSBhcmUgbW9kZWxsaW5nIGEgZ3Vlc3QgYW5kIHdlIGhhdmVuJ3Qgc3Bl
-Y2lmaWNhbGx5IHByb3ZpZGVkIA0KPiA+ID4+IGl0IGFuIEFDUEkgdGFibGUgdG8gdGVsbCBpdCBh
-Ym91dCBtZW1vcnkgZXJyb3JzLCB3aGF0IGRvIHdlIGRvIA0KPiA+ID4+IHdoZW4gd2UgZ2V0IGEg
-c2lnYnVzIGZyb20gdGhlIGhvc3Q/IFdlIGhhdmUgYmFzaWNhbGx5IHR3byBjaG9pY2VzOg0KPiA+
-ID4+ICAoMSkgc2VuZCB0aGUgZ3Vlc3QgYW4gU0Vycm9yIChha2EgYXN5bmNocm9ub3VzIGV4dGVy
-bmFsIGFib3J0KQ0KPiA+ID4+ICAgICAgYW55d2F5ICh3aXRoIG5vIGZ1cnRoZXIgaW5mbyBhYm91
-dCB3aGF0IHRoZSBtZW1vcnkgZXJyb3IgaXMpDQo+ID4gPg0KPiA+ID4gRm9yIGFuIEFSIHNpZ25h
-bCBhbiBleHRlcm5hbCBhYm9ydCBpcyB2YWxpZC4gSXRzIHVwIHRvIHRoZSANCj4gPiA+IGltcGxl
-bWVudGF0aW9uIHdoZXRoZXIgdGhlc2UgYXJlIHN5bmNocm9ub3VzIG9yIGFzeW5jaHJvbm91cy4g
-UWVtdSANCj4gPiA+IGNhbiBvbmx5IHRha2UgYSBzaWduYWwgZm9yIHNvbWV0aGluZyB0aGF0IHdh
-cyBzeW5jaHJvbm91cywgc28geW91IGNhbiBjaG9vc2UgYmV0d2VlbiB0aGUgdHdvLg0KPiA+ID4g
-U3luY2hyb25vdXMgZXh0ZXJuYWwgYWJvcnQgaXMgbWFyZ2luYWxseSBiZXR0ZXIgYXMgYW4gdW5h
-d2FyZSBPUyANCj4gPiA+IGtub3dzIGl0cyBhZmZlY3RzIHRoaXMgdGhyZWFkLCBhbmQgbWF5IGJl
-IGFibGUgdG8ga2lsbCBpdC4NCj4gPiA+IFNFcnJvciB3aXRoIGFuIGltcC1kZWYgRVNSIGlzIGlu
-ZGlzdGluZ3Vpc2hhYmxlIGZyb20gJ3BhcnQgb2YgdGhlIA0KPiA+ID4gc29jIGZlbGwgb3V0Jywg
-YW5kIHNob3VsZCBhbHdheXMgcmVzdWx0IGluIGEgcGFuaWMoKS4NCj4gPiA+DQo+ID4gPg0KPiA+
-ID4+ICAoMikganVzdCBzdG9wIFFFTVUgKGFzIHdlIHdvdWxkIGZvciBhIG1lbW9yeSBlcnJvciBp
-biBRRU1VJ3MNCj4gPiA+PiAgICAgIG93biBtZW1vcnkpDQo+ID4gPg0KPiA+ID4gVGhpcyBpcyBh
-bHNvIHZhbGlkLiBBIG1hY2hpbmUgbWF5IHRha2UgZXh0ZXJuYWwtYWJvcnQgdG8gRUwzIGFuZCAN
-Cj4gPiA+IHRoZW4gcmVib290L2NyYXNoL2J1cm4uDQo+IA0KPiBXZSBzaG91bGQgZGVjaWRlIHdo
-aWNoIG9mIHRoZXNlIHdlIHdhbnQgdG8gZG8sIGFuZCBoYXZlIGEgY29tbWVudCANCj4gZXhwbGFp
-bmluZyB3aGF0IHdlJ3JlIGRvaW5nLiBJZiBJJ20gcmVhZGluZyB5b3VyIGN1cnJlbnQgcGF0Y2hz
-ZXQgY29ycmVjdGx5LCBpdCBkb2VzIG5laXRoZXIgLS0gaWYgaXQgY2FuJ3QgcmVjb3JkIHRoZSBm
-YXVsdCBpbiB0aGUgQUNQSSB0YWJsZSBpdCBqdXN0IGlnbm9yZXMgaXQgd2l0aG91dCBlaXRoZXIg
-c3RvcHBpbmcgUUVNVSBvciBkZWxpdmVyaW5nIGFuIFNFcnJvci4NCg0KSmFtZXMgbWF5IG5vdCBr
-bm93IG15IGRldGFpbGVkIGltcGxlbWVudGF0aW9uIGluIHRoZSBRRU1VLiBJbiBteSBwYXRjaCwg
-SSBvbmx5IGhhbmRsZSB0aGUgQlVTX01DRUVSUl9BUiBTSUdCVVMgc2lnbmFsKHN5bmNocm9ub3Vz
-IHNpZ25hbCkuIHdoZW4gdGhlIFNJR0JVUyBpcyBCVVNfTUNFRVJSX0FSLCBpdCB3aWxsIGRlbGl2
-ZXIgYSBzeW5jaHJvbm91cyBleGNlcHRpb24gYWJvcnQuDQpKYW1lcyBzYWlkIGl0IG5lZWRzIHRv
-IGRlbGl2ZXIgYW4gU0Vycm9yIHdoZW4gdGhlIEJVU19NQ0VFUlJfT1IgU0lHQlVTIHNpZ25hbChh
-c3luY2hyb25vdXMgc2lnbmFsKSwgYnV0IEkgZG8gbm90IGhhbmRsZSB0aGUgdGhpcyBjYXNlIGJl
-Y2F1c2UgUUVNVSBtYWluIHRocmVhZCB3aWxsIG1hc2sgdGhpcyBhc3luY2hyb25vdXMgc2lnbmFs
-Lg0KDQpJZiB0aGUgbWVtb3J5IGVycm9yIGlzIGJlbG9uZyB0byBRRU1VIGl0c2VsZiwgSSBqdXN0
-IHByaW50IGFuIGVycm9yIGxvZ1syXS4gSWYgeW91IHRoaW5rLCBpdCBzaG91bGQgc3RvcCBRRU1V
-IGZvciB0aGlzIGNhc2UsIEkgd2lsbCBjaGFuZ2UgaXQuDQoNCnZvaWQga3ZtX2FyY2hfb25fc2ln
-YnVzX3ZjcHUoQ1BVU3RhdGUgKmMsIGludCBjb2RlLCB2b2lkICphZGRyKSB7DQoJLi4uLi4uLi4u
-Li4uLi4uLi4uDQogICAJaWYgKGNvZGUgPT0gQlVTX01DRUVSUl9BUikgew0KICAgIAlrdm1fY3B1
-X3N5bmNocm9uaXplX3N0YXRlKGMpOw0KICAgICAgIAlpZiAoZ2hlc19yZWNvcmRfZXJyb3JzKEFD
-UElfSEVTVF9OT1RJRllfU0VBLCBwYWRkcikpIHsNCiAgICAgCQlrdm1faW5qZWN0X2FybV9zZWEo
-Yyk7DQogICAgIAl9IGVsc2Ugew0KICAgICAgIAkJZnByaW50ZihzdGRlcnIsICJmYWlsZWQgdG8g
-cmVjb3JkIHRoZSBlcnJvclxuIik7DQogICAgICAgCX0NCgl9DQpbMl0JZnByaW50ZihzdGRlcnIs
-ICJIYXJkd2FyZSBtZW1vcnkgZXJyb3IgZm9yIG1lbW9yeSB1c2VkIGJ5ICINCiAgICAgICAgICAg
-ICAgICAiUUVNVSBpdHNlbGYgaW5zdGVhZCBvZiBndWVzdCBzeXN0ZW0hXG4iKTsgDQp9DQoNCj4g
-DQo+IEkgdGhpbmsgSSBmYXZvdXIgb3B0aW9uICgyKSBoZXJlLg0KPiANCj4gdGhhbmtzDQo+IC0t
-IFBNTQ0K
+This is respin of:
+  https://lwn.net/ml/linux-kernel/20181214171508.7791-1-surenb@google.com/
+
+Android is adopting psi to detect and remedy memory pressure that
+results in stuttering and decreased responsiveness on mobile devices.
+
+Psi gives us the stall information, but because we're dealing with
+latencies in the millisecond range, periodically reading the pressure
+files to detect stalls in a timely fashion is not feasible. Psi also
+doesn't aggregate its averages at a high-enough frequency right now.
+
+This patch series extends the psi interface such that users can
+configure sensitive latency thresholds and use poll() and friends to
+be notified when these are breached.
+
+As high-frequency aggregation is costly, it implements an aggregation
+method that is optimized for fast, short-interval averaging, and makes
+the aggregation frequency adaptive, such that high-frequency updates
+only happen while monitored stall events are actively occurring.
+
+With these patches applied, Android can monitor for, and ward off,
+mounting memory shortages before they cause problems for the user.
+For example, using memory stall monitors in userspace low memory
+killer daemon (lmkd) we can detect mounting pressure and kill less
+important processes before device becomes visibly sluggish. In our
+memory stress testing psi memory monitors produce roughly 10x less
+false positives compared to vmpressure signals. Having ability to
+specify multiple triggers for the same psi metric allows other parts
+of Android framework to monitor memory state of the device and act
+accordingly.
+
+The new interface is straight-forward. The user opens one of the
+pressure files for writing and writes a trigger description into the
+file descriptor that defines the stall state - some or full, and the
+maximum stall time over a given window of time. E.g.:
+
+        /* Signal when stall time exceeds 100ms of a 1s window */
+        char trigger[] = "full 100000 1000000"
+        fd = open("/proc/pressure/memory")
+        write(fd, trigger, sizeof(trigger))
+        while (poll() >= 0) {
+                ...
+        };
+        close(fd);
+
+When the monitored stall state is entered, psi adapts its aggregation
+frequency according to what the configured time window requires in
+order to emit event signals in a timely fashion. Once the stalling
+subsides, aggregation reverts back to normal.
+
+The trigger is associated with the open file descriptor. To stop
+monitoring, the user only needs to close the file descriptor and the
+trigger is discarded.
+
+Patches 1-4 prepare the psi code for polling support. Patch 5
+implements the adaptive polling logic, the pressure growth detection
+optimized for short intervals, and hooks up write() and poll() on the
+pressure files.
+
+The patches were developed in collaboration with Johannes Weiner.
+
+The patches are based on 4.20-rc7.
+
+Johannes Weiner (2):
+  fs: kernfs: add poll file operation
+  kernel: cgroup: add poll file operation
+
+Suren Baghdasaryan (3):
+  psi: introduce state_mask to represent stalled psi states
+  psi: rename psi fields in preparation for psi trigger addition
+  psi: introduce psi monitor
+
+ Documentation/accounting/psi.txt | 104 ++++++
+ fs/kernfs/file.c                 |  31 +-
+ include/linux/cgroup-defs.h      |   4 +
+ include/linux/kernfs.h           |   6 +
+ include/linux/psi.h              |  10 +
+ include/linux/psi_types.h        |  83 ++++-
+ kernel/cgroup/cgroup.c           | 119 +++++-
+ kernel/sched/psi.c               | 597 ++++++++++++++++++++++++++++---
+ 8 files changed, 885 insertions(+), 69 deletions(-)
+
+Changes in v2:
+- Preserved psi idle mode, as per Peter
+- Changed input parser to use sscanf, as per Peter
+- Removed percentage threshold support, as per Johannes and Joel
+- Added explicit numbers corresponding to NR_PSI_TASK_COUNTS,
+NR_PSI_RESOURCES and NR_PSI_STATES, as per Peter
+- Added a note about psi_group_cpu struct new size in the changelog
+of the patch introducing new member (0003-...), as per Peter
+- Fixed 64-bit division using div_u64, as per kbuild test robot
+
+-- 
+2.20.1.97.g81188d93c3-goog
+
