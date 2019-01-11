@@ -1,200 +1,170 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-2.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 462457D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Jan 2019 16:16:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A67C57D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Jan 2019 17:30:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729740AbfAKQPa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 11 Jan 2019 11:15:30 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:36289 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728678AbfAKQPa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jan 2019 11:15:30 -0500
-Received: by mail-ot1-f65.google.com with SMTP id k98so13569497otk.3;
-        Fri, 11 Jan 2019 08:15:29 -0800 (PST)
+        id S1732901AbfAKR3q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 11 Jan 2019 12:29:46 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:42239 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729727AbfAKR3q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jan 2019 12:29:46 -0500
+Received: by mail-pl1-f196.google.com with SMTP id y1so7036046plp.9;
+        Fri, 11 Jan 2019 09:29:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=5Ko/FWRLCeuj+yXZD1eSdFoifFvwbUH6md1uqi+OLoA=;
+        b=IlKiZbZtOF5AzGUGpElai8eVbwzYd0jnPX2QwOwK5GnrYbNreFguwsJxRUCGTWv3Jf
+         837bOlpLcMQQbx4HkEvbGbmVhe1Jyn8FTLspeFq/tGZnne4NyFF/vgczag3ZfOqKYgvF
+         WzeZEsLXnGWE3NsU48Ijzt/8Q4B1vvKusIb7hO+GZpg2wAbYa3bu1wmSWCMFJ+mHTSmd
+         lIgEszHsIaF3fgNZbCmbJiw6+gU2kkUgLbknSPfPgdwA1wrg6Uu+QyP3y44Hbfyrz4Xy
+         WII0Vuu/H76RpGm2Pkr/7oFQnQJ+40O9Ipb1JYkpY3g2XVMP7jdfkYScEPlC2B/s3n8u
+         yz2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=o2lJu0osneZBXtlcgr3qMVTvat7qTMs5SntOY5KyBr8=;
-        b=iax4F2oFFFFZizjlivCr2RoOa4ZLpyIIzcJZRKP+3st84q4+D2kpUnbgnhKE6GaJqN
-         0ivZJHczxpt3RECQ08MOnHtbpjy22VrY6tpJJn/X20o6mS3nm95nPUCXHiC+imbElZEq
-         2gXJ6IvS0XXk7VlKXfMzlcqED4n3ZY/eEEt0eMrNvn3ihosgor+Vh0p2ZT/lI+EgZKLM
-         KKAtkoPjVcRK+wiuhb9/ZwmQ4GOcFavN7csg7hPcYUlhErTkBjCkkaD1HM8+0wR67kwC
-         rUe6oQnh0vWdyaccnen8kECtOL9WhwG5rhdqqkY4IgfebgdYEBI2Vi3QjOVfuQEP0kyk
-         IzYQ==
-X-Gm-Message-State: AJcUukcO9qgxldihA5sZvuFUMmNLRCBce8C+DZyeUkfpbmT7LJeuvRBS
-        oR9OjUkORRBafeRnq3Rhyw==
-X-Google-Smtp-Source: ALg8bN6Y7KgQBREz83gcFA7+qntf7qj6ajwNXPn9vaYxX2Kn4lDI6IOAKXi9O0qtS5d0RXp2fXQ3DQ==
-X-Received: by 2002:a9d:5f85:: with SMTP id g5mr10181558oti.333.1547223329316;
-        Fri, 11 Jan 2019 08:15:29 -0800 (PST)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id q128sm37093019oia.4.2019.01.11.08.15.28
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=5Ko/FWRLCeuj+yXZD1eSdFoifFvwbUH6md1uqi+OLoA=;
+        b=DOjFneWu1oZ5Qfiel3SmQs+XtcStjCRFS7L/DGPpjEE2v3TwxB71tq7OOyvm/kcyo8
+         X5g5VaJzjAGM556I1wJcz80J+Vr38JSdKpewcmEBxnY2NbiJ9gPkDT+JuTvxzdE0IgFU
+         9EfW9X+xzxnvkESoH595XFzaQELxkPsaO30TMvWs/G4wEXQQ6rhUTxw6fvnT6vWCeGjS
+         bWMG86U2LhoT2TyYeBiQIjbYCQ/RZmSfny1eJ8hHdd1kUmkmoHkf5/hkwxJQwgpBuRNA
+         LKMzGs/9Gr/XBZOiUn3Jbn2x7DLd3U/1mYjQHw2HMYhPvG/nYbXESgfigHaK6zIRA5ou
+         v6hg==
+X-Gm-Message-State: AJcUukduqT+lK498l5by9BJEX+OwOVwBeo4cOwgQam1igADEZ3wQleab
+        dN+bGQdCjBNjP5MXAdYvsAo=
+X-Google-Smtp-Source: ALg8bN5wmUC+atXVSVCqgBQq8yogV4F1O9yZVIv6fzxcos01UFA4EJoNzdt9ia3TMSzDDtRX1Pc3mg==
+X-Received: by 2002:a17:902:e20b:: with SMTP id ce11mr15019611plb.251.1547227784635;
+        Fri, 11 Jan 2019 09:29:44 -0800 (PST)
+Received: from gmail.com ([2605:e000:1117:c227:3b53:d0fe:bff:4913])
+        by smtp.gmail.com with ESMTPSA id l184sm117480471pfc.112.2019.01.11.09.29.41
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 11 Jan 2019 08:15:28 -0800 (PST)
-Date:   Fri, 11 Jan 2019 10:15:27 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
-Cc:     Liviu Dudau <Liviu.Dudau@arm.com>,
-        "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        Mark Rutland <Mark.Rutland@arm.com>,
+        Fri, 11 Jan 2019 09:29:43 -0800 (PST)
+Date:   Fri, 11 Jan 2019 07:29:40 -1000
+From:   Joey Pabalinas <joeypabalinas@gmail.com>
+To:     Jason Gunthorpe <jgg@mellanox.com>
+Cc:     Joe Perches <joe@perches.com>, Gal Pressman <galpress@amazon.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Stephen Warren <swarren@wwwdotorg.org>,
+        Tariq Toukan <tariqt@mellanox.com>,
+        "xavier.huwei@huawei.com" <xavier.huwei@huawei.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        Doug Ledford <dledford@redhat.com>,
+        Stephen Warren <swarren@nvidia.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
-        "Jonathan Chai (Arm Technology China)" <Jonathan.Chai@arm.com>,
-        Alexandru-Cosmin Gheorghe <Alexandru-Cosmin.Gheorghe@arm.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "yamada.masahiro@socionext.com" <yamada.masahiro@socionext.com>,
-        "Yiqi Kang (Arm Technology China)" <Yiqi.Kang@arm.com>,
-        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
-        "Tiannan Zhu (Arm Technology China)" <Tiannan.Zhu@arm.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "airlied@linux.ie" <airlied@linux.ie>,
-        "malidp@foss.arm.com" <malidp@foss.arm.com>,
-        "thomas Sun (Arm Technology China)" <thomas.Sun@arm.com>,
-        Ayan Halder <Ayan.Halder@arm.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "Jin Gao (Arm Technology China)" <Jin.Gao@arm.com>,
-        nd <nd@arm.com>, "sean@poorly.run" <sean@poorly.run>,
-        "Lowry Li (Arm Technology China)" <Lowry.Li@arm.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
-        "Julien Yin (Arm Technology China)" <Julien.Yin@arm.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "davem@davemloft.net" <davem@davemloft.net>
-Subject: Re: [PATCH v4 2/9] dt/bindings: drm/komeda: Add DT bindings for ARM
- display processor D71
-Message-ID: <20190111161527.GA9669@bogus>
-References: <20190103113841.15403-1-james.qian.wang@arm.com>
- <20190103113841.15403-3-james.qian.wang@arm.com>
+        Joey Pabalinas <joeypabalinas@gmail.com>
+Subject: Re: [PATCH v4] coding-style: Clarify the expectations around bool
+Message-ID: <20190111172940.zufmrhvukqo5hkat@gmail.com>
+Mail-Followup-To: Joey Pabalinas <joeypabalinas@gmail.com>,
+        Jason Gunthorpe <jgg@mellanox.com>, Joe Perches <joe@perches.com>,
+        Gal Pressman <galpress@amazon.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Stephen Warren <swarren@wwwdotorg.org>,
+        Tariq Toukan <tariqt@mellanox.com>,
+        "xavier.huwei@huawei.com" <xavier.huwei@huawei.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        Doug Ledford <dledford@redhat.com>,
+        Stephen Warren <swarren@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20190110234805.GN6890@ziepe.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="zp7lkj5ihh2r6cwq"
 Content-Disposition: inline
-In-Reply-To: <20190103113841.15403-3-james.qian.wang@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190110234805.GN6890@ziepe.ca>
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 03, 2019 at 11:40:04AM +0000, james qian wang (Arm Technology China) wrote:
-> From: "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
-> 
-> Add DT bindings documentation for the ARM display processor D71 and later
-> IPs.
-> 
-> Changes in v4:
-> - Deleted unnecessary address-cells, size-cells [Liviu Dudau]
-> 
-> Changes in v3:
-> - Deleted unnecessary property: interrupt-names.
-> - Dropped 'ports' and moving 'port' up a level.
-> 
-> Signed-off-by: James Qian Wang (Arm Technology China) <james.qian.wang@arm.com>
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> ---
->  .../bindings/display/arm/arm,komeda.txt       | 73 +++++++++++++++++++
->  1 file changed, 73 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/arm/arm,komeda.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/display/arm/arm,komeda.txt b/Documentation/devicetree/bindings/display/arm/arm,komeda.txt
-> new file mode 100644
-> index 000000000000..919d651d3e8c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/arm/arm,komeda.txt
-> @@ -0,0 +1,73 @@
-> +Device Tree bindings for Arm Komeda display driver
-> +
-> +Required properties:
-> +- compatible: Should be "arm,mali-d71"
-> +- reg: Physical base address and length of the registers in the system
-> +- interrupts: the interrupt line number of the device in the system
-> +- clocks: A list of phandle + clock-specifier pairs, one for each entry
-> +    in 'clock-names'
-> +- clock-names: A list of clock names. It should contain:
-> +      - "mclk": for the main processor clock
-> +      - "pclk": for the APB interface clock
-> +- #address-cells: Must be 1
-> +- #size-cells: Must be 0
-> +
-> +Required properties for sub-node: pipeline@nq
-> +Each device contains one or two pipeline sub-nodes (at least one), each
-> +pipeline node should provide properties:
-> +- reg: Zero-indexed identifier for the pipeline
-> +- clocks: A list of phandle + clock-specifier pairs, one for each entry
-> +    in 'clock-names'
-> +- clock-names: should contain:
-> +      - "pxclk": pixel clock
-> +      - "aclk": AXI interface clock
-> +
-> +- port: each pipeline connect to an encoder input port. The connection is
-> +    modeled using the OF graph bindings specified in
-> +    Documentation/devicetree/bindings/graph.txt
-> +
-> +Optional properties:
-> +  - memory-region: phandle to a node describing memory (see
-> +    Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt)
-> +    to be used for the framebuffer; if not present, the framebuffer may
-> +    be located anywhere in memory.
-> +
-> +Example:
-> +/ {
-> +	...
-> +
-> +	dp0: display@c00000 {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		compatible = "arm,mali-d71";
-> +		reg = <0xc00000 0x20000>;
-> +		interrupts = <0 168 4>;
-> +		clocks = <&dpu_mclk>, <&dpu_aclk>;
-> +		clock-names = "mclk", "pclk";
-> +
-> +		dp0_pipe0: pipeline@0 {
-> +			clocks = <&fpgaosc2>, <&dpu_aclk>;
-> +			clock-names = "pxclk", "aclk";
-> +			reg = <0>;
-> +
-> +			port@0 {
 
-Drop the '@0'
+--zp7lkj5ihh2r6cwq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +				dp0_pipe0_out: endpoint {
-> +					remote-endpoint = <&db_dvi0_in>;
-> +				};
-> +			};
-> +		};
-> +
-> +		dp0_pipe1: pipeline@1 {
-> +			clocks = <&fpgaosc2>, <&dpu_aclk>;
-> +			clock-names = "pxclk", "aclk";
-> +			reg = <1>;
-> +
-> +			port@0 {
+On Thu, Jan 10, 2019 at 11:48:13PM +0000, Jason Gunthorpe wrote:
+> There has been some confusion since checkpatch started warning about bool
+> use in structures, and people have been avoiding using it.
+>=20
+> Many people feel there is still a legitimate place for bool in structures,
+> so provide some guidance on bool usage derived from the entire thread that
+> spawned the checkpatch warning.
 
-And here.
+Hey Jason,
 
-With that,
+I very much agree that the bool expectations could be much clearer, and this
+patch is a nice step in that direction! Just a couple small nitpicks:
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+> +Do not use bool if cache line layout or size of the value matters, its s=
+ize
+> +and alignment varies based on the compiled architecture. Structures that=
+ are
+> +optimized for alignment and size should not use bool.
 
-> +				dp0_pipe1_out: endpoint {
-> +					remote-endpoint = <&db_dvi1_in>;
-> +				};
-> +			};
-> +		};
-> +	};
-> +	...
-> +};
-> -- 
-> 2.17.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
++Do not use bool if cache line layout or size of the value matters, as its =
+size
+                                                                    ^
+                                                                    |
+Adding an "as" makes the sentence flow a bit cleaner: --------------
+
+> +into a single bitwise 'flags' argument and 'flags' can often a more read=
+able
+> +alternative if the call-sites have naked true/false constants.
+
++into a single bitwise 'flags' argument and 'flags' can often be a more rea=
+dable
+                                                              ^
+                                                              |
+Missing a "be" here: -----------------------------------------
+
+Ack from me after those two corrections.
+
+Reviewed-by: Joey Pabalinas <joeypabalinas@gmail.com>
+
+--=20
+Cheers,
+Joey Pabalinas
+
+--zp7lkj5ihh2r6cwq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEENpTlWU2hUK/KMvHp2rGdfm9DtVIFAlw40oMACgkQ2rGdfm9D
+tVIt6w//YCX55pUgnakyxl8AEZJg8IeJW725Pj9QA04LY0CaNZ/uRhxvw4IaOTUq
+svXR3RxqEd+B/GMo5WIokxdlPtovU3tbccda3VX14LXKW7J9KMSR5cMdoq7pxCKX
+SuvmDdgU9lF2AiSBF7+46DohL7ENd67wPFswwCcVBfPfNVX7RucfmnXMGZwhiTFF
+fgNjRxsCS4DOVj7Ps9rblhIk3PmSKglTiTu83H9mx3h5AmF5Rd3Rsf9dy2mSYevp
+0NWojWI6+6y2nV4gA9KIo5lW2RutlClpLAmxUMhiQWlQLka2ZUbUI6AlCDwmNnqz
+iyW0QtLNvnSvfgTcbG6gmaHGn5YKCGRB+FZuWLV7igwJLfr7f2lzZgtU2BXZaGnl
+ys6+Ul2x+I0E/ZfqpBcfu0G3lSpTiMLmCRNBSzkEbZjqn/n05cvuHVGUEEELWBq7
+foyg/g5rkjhqEPoSJqaVIn1ngRyMRvAcRdOgOCmn6sidSs21QsZprh4nBGqcio2y
+dt0DSaDSvZZoFaJJwIFT2XHOGUy2X30/CCMb67JrNLav6u4fIYPk1bSUL4YEgjoY
+1n5tfDv/Fpif1JMscsQvryM4XegLkjTAq/fRx4QmB1PWuqVktlTDZnuGNEo3o0kD
+MdBnYUPp51nMlL60JsVoZF+36VOU2QvrLuLxTN8uKxh1YOtR0ck=
+=p1Hy
+-----END PGP SIGNATURE-----
+
+--zp7lkj5ihh2r6cwq--
