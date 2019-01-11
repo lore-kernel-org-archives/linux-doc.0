@@ -1,142 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8F9827D099
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Jan 2019 09:53:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C5BFE7D099
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Jan 2019 10:22:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729662AbfAKJxu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 11 Jan 2019 04:53:50 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:56104 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728042AbfAKJxu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jan 2019 04:53:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=+17v+jxBm1x8sixfNK5SLtJ10oyWZzXTOZvCnrCbUEs=; b=kX0nYqi6gqleGRYqlev8OeFm7G
-        q7WVNYMdFaNo3tjhCUymn1JywpMmFoXCx9/+ZjMVMUKd+T91my6bij3VYImPey6S9Gsfdw3ec5QWj
-        OwNYKghD14S1upeS+7ispiPvz6BInMXsHYN3n9L3skUYbFr1N5dhkaIb9yO0VcIxhO5lmTE0Iwz7r
-        DqTWJv2bjOaXUXO+zcV+yHhxRtDgSy1DXQiDVIUXOGxLyyfg1o8stpNtoSvpaYQCxLBZrFGn/Nrbr
-        8KkQ0QcX+0/Q7UrvFIwmk1e7fBfMt0pMBTa5bL1UplqKE7oO8sOrqGbWj+FhQIhGCY9yGEllfOxXb
-        1FWXSfZw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1ghtVG-00087o-5N; Fri, 11 Jan 2019 09:53:26 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 2521A2080968D; Fri, 11 Jan 2019 10:53:23 +0100 (CET)
-Date:   Fri, 11 Jan 2019 10:53:23 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        mingo@kernel.org, stern@rowland.harvard.edu,
-        parri.andrea@gmail.com, will.deacon@arm.com, boqun.feng@gmail.com,
-        npiggin@gmail.com, dhowells@redhat.com, j.alglave@ucl.ac.uk,
-        luc.maranget@inria.fr, willy@infradead.org,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Laight <David.Laight@ACULAB.COM>,
-        linux-doc@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>
-Subject: Re: [PATCH RFC LKMM 5/7] docs/memory-barriers.txt: Enforce heavy
- ordering for port I/O accesses
-Message-ID: <20190111095323.GO1900@hirez.programming.kicks-ass.net>
-References: <20190109210706.GA27268@linux.ibm.com>
- <20190109210748.29074-5-paulmck@linux.ibm.com>
+        id S1728104AbfAKKWm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 11 Jan 2019 05:22:42 -0500
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:39051 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725801AbfAKKWm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jan 2019 05:22:42 -0500
+Received: by mail-ed1-f68.google.com with SMTP id b14so12657837edt.6
+        for <linux-doc@vger.kernel.org>; Fri, 11 Jan 2019 02:22:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brauner.io; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ZPrExMqjX2aSg2yR/cKM5sDuT7CAwBh7xPK8cb41bao=;
+        b=Ghf2qNccSpA7NEnN6SpJo1YEjgTFgUdEBCRA7jHQyPpNzGUzUC9988UGh8nCPz9P/3
+         1mH1O21uQI8NldhNsSYLzE8H92KfJIDWk11xLL4uI7wEfG3IcGCb6ENMTLFeVx81PZ7l
+         pDCVf1n8zkQn56zdOC8P5u0ew4pTcBT3tBmrlaL077/Fq852o5Go084lMq1YlCML/Zia
+         X7MVCOv3ozbujDpOXi5Tanm6WxDQoJi1yK5tunmTX9baSkxDHdp69DzPdRZ/r9AOAlbn
+         D47Q/E4Rl7b6psNY/FumqCQqmjLD/Cu0SUdge6Eo3pbNEZ9BBZVlvZSUVdFX0MhADMMY
+         EOTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ZPrExMqjX2aSg2yR/cKM5sDuT7CAwBh7xPK8cb41bao=;
+        b=djcNbhi52uRzpJVMHLtx+Iez4lrjN2pooBoRbPm1OVuHjg5W2loFRhPefzt3t5ggxQ
+         3TedmKrruCpjhqpIOaqQ0XSjGRt9oqEsi51c/oUQcgxtN0Ts/KBL4Q1GNQHHiCrDnr8i
+         ZMEvoP4d75fwjHe04FzVU/OOrrmChNueHhiFDafFGB433su+kR/1EJvrMnPOXaWIKQc4
+         g6b2wW+slJ8PFv5puwLtaOJLn74vwr3Cx6vmXelcQh1qXeH1OuhIGNdBtFqRUov9DLkE
+         eTkqEAPsys4f6Y7CmePZVETM0dl+VKwcO1o8nT51H790aB2F1BVgafTy8hIGdqatCuS0
+         mffQ==
+X-Gm-Message-State: AJcUukcFcbG0UsAcfTGc/NIHo7rlp72srt1oX7mSCFRabNfKoSwXQBmo
+        u1gEOHQhbZvsYE5z77mo2Z2Mzg==
+X-Google-Smtp-Source: ALg8bN67TOVnEU0oMn13ie4b+hH7Jk08ktufUBFz88c36nGxp2cJ/XIt4qgUzuOGlnh/DtJqAonuTQ==
+X-Received: by 2002:a17:906:6d59:: with SMTP id a25-v6mr11394021ejt.54.1547202160422;
+        Fri, 11 Jan 2019 02:22:40 -0800 (PST)
+Received: from brauner.io ([2a02:8109:b6c0:d6c:c571:88:8aee:976c])
+        by smtp.gmail.com with ESMTPSA id m14sm3093750edc.27.2019.01.11.02.22.39
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 11 Jan 2019 02:22:39 -0800 (PST)
+Date:   Fri, 11 Jan 2019 11:22:39 +0100
+From:   Christian Brauner <christian@brauner.io>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation/filesystems: add binderfs
+Message-ID: <20190111102238.bpyyb6g4tmkm772h@brauner.io>
+References: <20190110231309.12653-1-christian@brauner.io>
+ <20190110164703.1dd6cee1@lwn.net>
+ <20190110235641.nhuodos74i67jf64@brauner.io>
+ <20190110170811.5d56f9cb@lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190109210748.29074-5-paulmck@linux.ibm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190110170811.5d56f9cb@lwn.net>
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Jan 10, 2019 at 05:08:11PM -0700, Jonathan Corbet wrote:
+> On Fri, 11 Jan 2019 00:56:42 +0100
+> Christian Brauner <christian@brauner.io> wrote:
+> 
+> > >  - Please consider doing this in RST and tying it into our documentation
+> > >    tree.  It's *almost* RST now, so the effort required will be almost
+> > >    zero.  
+> > 
+> > Oh sure. I simply didn't know. I was just going by the files under
+> > Documentation/filesystems/. Is this a separate git tree? If so, where is
+> > located? Or can I just place it as
+> > Documentation/filesystems/binderfs.rst?
+> 
+> The latter - plus an entry in index.rst.  Look at, say, path-lookup.rst in
+> that directory now.
 
-Hi PeterA,
+Good. Thanks!
 
-The Cover leter has this:
+> 
+> > >  - Is it worth putting the example program in the samples/ directory?  Is
+> > >    it something that would ever make any sense to run in its current form?  
+> > 
+> > Hm, I mean I can write a small binary that illustrates mounting and
+> > allocating binder devices in binderfs.
+> 
+> This was just a thought - I sure don't want to try to send you off on some
+> sort of project if it won't be useful! :)
 
-> 5.	Update memory-barriers.txt on enforcing heavy ordering for
->	port-I/O accesses, courtesy of Will Deacon.  This one needs
->	an ack, preferably by someone from Intel.  Matthew Wilcox
->	posted some feedback from an Intel manual here, which might
->	be considered to be a close substitute, but...  ;-)
->
->	http://lkml.kernel.org/r/20181127192234.GF10377@bombadil.infradead.org
+I mean it'll be useful and it's really not a lot of work to be honest.
+It's just extending the program I put into the commit message for
+binderfs itself. :)
 
-which in turn has:
-
-> Here's a quote from Section 18.6 of volume 1 of the Software Developer
-> Manual, November 2018 edition:
-> 
-> When the I/O address space is used instead of memory-mapped I/O, the
-> situation is different in two respects:
-> • The processor never buffers I/O writes. Therefore, strict ordering of
-> I/O operations is enforced by the processor. (As with memory-mapped I/O,
-> it is possible for a chip set to post writes in certain I/O ranges.)
-> • The processor synchronizes I/O instruction execution with external
-> bus activity (see Table 18-1).
-> 
-> Table 18-1 says that in* delays execution of the current instruction until
-> completion of pending stores, and out* delays execution of the _next_
-> instruction until completion of both pending stores and the current store.
-
-Can we give an Intel ACK on the below patch?
-
-On Wed, Jan 09, 2019 at 01:07:46PM -0800, Paul E. McKenney wrote:
-> From: Will Deacon <will.deacon@arm.com>
-> 
-> David Laight explains:
-> 
->   | A long time ago there was a document from Intel that said that
->   | inb/outb weren't necessarily synchronised wrt memory accesses.
->   | (Might be P-pro era). However no processors actually behaved that
->   | way and more recent docs say that inb/outb are fully ordered.
-> 
-> This also reflects the situation on other architectures, the the port
-> accessor macros tend to be implemented in terms of readX/writeX.
-> 
-> Update Documentation/memory-barriers.txt to reflect reality.
-> 
-> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: David Laight <David.Laight@ACULAB.COM>
-> Cc: Alan Stern <stern@rowland.harvard.edu>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: <linux-arch@vger.kernel.org>
-> Cc: <linux-doc@vger.kernel.org>
-> Cc: <linux-kernel@vger.kernel.org>
-> Signed-off-by: Will Deacon <will.deacon@arm.com>
-> Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
-> ---
->  Documentation/memory-barriers.txt | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-> index 1c22b21ae922..a70104e2a087 100644
-> --- a/Documentation/memory-barriers.txt
-> +++ b/Documentation/memory-barriers.txt
-> @@ -2619,10 +2619,8 @@ functions:
->       intermediary bridges (such as the PCI host bridge) may not fully honour
->       that.
->  
-> -     They are guaranteed to be fully ordered with respect to each other.
-> -
-> -     They are not guaranteed to be fully ordered with respect to other types of
-> -     memory and I/O operation.
-> +     They are guaranteed to be fully ordered with respect to each other and
-> +     also with respect to other types of memory and I/O operation.
->  
->   (*) readX(), writeX():
->  
-> -- 
-> 2.17.1
-> 
+Thanks!
+Christian
