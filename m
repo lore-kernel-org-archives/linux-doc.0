@@ -1,66 +1,142 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C3FD57D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Jan 2019 06:26:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8F9827D099
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Jan 2019 09:53:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728590AbfAKG0B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 11 Jan 2019 01:26:01 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45736 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728295AbfAKG0B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Jan 2019 01:26:01 -0500
-Received: from localhost (5356596B.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8D94E20870;
-        Fri, 11 Jan 2019 06:25:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1547187960;
-        bh=BZq7W/mq1WwQjUnjQg0GbBzDfJE6SRMC+B/4SIJJyp0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=r75j1oTmrYnrP/ugPnHC8BYZBdC6mDZd+XbCGlhDWXLxdXiBhVQRAUcgqw0iW/wI1
-         XW9+PvpL2qI1PcVGWovg1MDrQP7TV1aZz5XJGp8QGJnQ//7U0Fv7NraWhNiGLxSP8t
-         i8ojOQ1l/ZeBxTcuGvsfHjIGvEAAvI89ftxfPeHs=
-Date:   Fri, 11 Jan 2019 07:25:56 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
-        axboe@kernel.dk, dennis@kernel.org, dennisszhou@gmail.com,
-        mingo@redhat.com, peterz@infradead.org, akpm@linux-foundation.org,
-        corbet@lwn.net, cgroups@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v2 1/5] fs: kernfs: add poll file operation
-Message-ID: <20190111062556.GA348@kroah.com>
-References: <20190110220718.261134-1-surenb@google.com>
- <20190110220718.261134-2-surenb@google.com>
+        id S1729662AbfAKJxu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 11 Jan 2019 04:53:50 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:56104 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728042AbfAKJxu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jan 2019 04:53:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=+17v+jxBm1x8sixfNK5SLtJ10oyWZzXTOZvCnrCbUEs=; b=kX0nYqi6gqleGRYqlev8OeFm7G
+        q7WVNYMdFaNo3tjhCUymn1JywpMmFoXCx9/+ZjMVMUKd+T91my6bij3VYImPey6S9Gsfdw3ec5QWj
+        OwNYKghD14S1upeS+7ispiPvz6BInMXsHYN3n9L3skUYbFr1N5dhkaIb9yO0VcIxhO5lmTE0Iwz7r
+        DqTWJv2bjOaXUXO+zcV+yHhxRtDgSy1DXQiDVIUXOGxLyyfg1o8stpNtoSvpaYQCxLBZrFGn/Nrbr
+        8KkQ0QcX+0/Q7UrvFIwmk1e7fBfMt0pMBTa5bL1UplqKE7oO8sOrqGbWj+FhQIhGCY9yGEllfOxXb
+        1FWXSfZw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1ghtVG-00087o-5N; Fri, 11 Jan 2019 09:53:26 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 2521A2080968D; Fri, 11 Jan 2019 10:53:23 +0100 (CET)
+Date:   Fri, 11 Jan 2019 10:53:23 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        mingo@kernel.org, stern@rowland.harvard.edu,
+        parri.andrea@gmail.com, will.deacon@arm.com, boqun.feng@gmail.com,
+        npiggin@gmail.com, dhowells@redhat.com, j.alglave@ucl.ac.uk,
+        luc.maranget@inria.fr, willy@infradead.org,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Laight <David.Laight@ACULAB.COM>,
+        linux-doc@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>
+Subject: Re: [PATCH RFC LKMM 5/7] docs/memory-barriers.txt: Enforce heavy
+ ordering for port I/O accesses
+Message-ID: <20190111095323.GO1900@hirez.programming.kicks-ass.net>
+References: <20190109210706.GA27268@linux.ibm.com>
+ <20190109210748.29074-5-paulmck@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190110220718.261134-2-surenb@google.com>
-User-Agent: Mutt/1.11.2 (2019-01-07)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190109210748.29074-5-paulmck@linux.ibm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 10, 2019 at 02:07:14PM -0800, Suren Baghdasaryan wrote:
-> From: Johannes Weiner <hannes@cmpxchg.org>
-> 
-> Kernfs has a standardized poll/notification mechanism for waking all
-> pollers on all fds when a filesystem node changes. To allow polling
-> for custom events, add a .poll callback that can override the default.
-> 
-> This is in preparation for pollable cgroup pressure files which have
-> per-fd trigger configurations.
-> 
-> Signed-off-by: Johannes Weiner <hannes@cmpxchg.org>
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Hi PeterA,
+
+The Cover leter has this:
+
+> 5.	Update memory-barriers.txt on enforcing heavy ordering for
+>	port-I/O accesses, courtesy of Will Deacon.  This one needs
+>	an ack, preferably by someone from Intel.  Matthew Wilcox
+>	posted some feedback from an Intel manual here, which might
+>	be considered to be a close substitute, but...  ;-)
+>
+>	http://lkml.kernel.org/r/20181127192234.GF10377@bombadil.infradead.org
+
+which in turn has:
+
+> Here's a quote from Section 18.6 of volume 1 of the Software Developer
+> Manual, November 2018 edition:
+> 
+> When the I/O address space is used instead of memory-mapped I/O, the
+> situation is different in two respects:
+> • The processor never buffers I/O writes. Therefore, strict ordering of
+> I/O operations is enforced by the processor. (As with memory-mapped I/O,
+> it is possible for a chip set to post writes in certain I/O ranges.)
+> • The processor synchronizes I/O instruction execution with external
+> bus activity (see Table 18-1).
+> 
+> Table 18-1 says that in* delays execution of the current instruction until
+> completion of pending stores, and out* delays execution of the _next_
+> instruction until completion of both pending stores and the current store.
+
+Can we give an Intel ACK on the below patch?
+
+On Wed, Jan 09, 2019 at 01:07:46PM -0800, Paul E. McKenney wrote:
+> From: Will Deacon <will.deacon@arm.com>
+> 
+> David Laight explains:
+> 
+>   | A long time ago there was a document from Intel that said that
+>   | inb/outb weren't necessarily synchronised wrt memory accesses.
+>   | (Might be P-pro era). However no processors actually behaved that
+>   | way and more recent docs say that inb/outb are fully ordered.
+> 
+> This also reflects the situation on other architectures, the the port
+> accessor macros tend to be implemented in terms of readX/writeX.
+> 
+> Update Documentation/memory-barriers.txt to reflect reality.
+> 
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: David Laight <David.Laight@ACULAB.COM>
+> Cc: Alan Stern <stern@rowland.harvard.edu>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: <linux-arch@vger.kernel.org>
+> Cc: <linux-doc@vger.kernel.org>
+> Cc: <linux-kernel@vger.kernel.org>
+> Signed-off-by: Will Deacon <will.deacon@arm.com>
+> Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
+> ---
+>  Documentation/memory-barriers.txt | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+> index 1c22b21ae922..a70104e2a087 100644
+> --- a/Documentation/memory-barriers.txt
+> +++ b/Documentation/memory-barriers.txt
+> @@ -2619,10 +2619,8 @@ functions:
+>       intermediary bridges (such as the PCI host bridge) may not fully honour
+>       that.
+>  
+> -     They are guaranteed to be fully ordered with respect to each other.
+> -
+> -     They are not guaranteed to be fully ordered with respect to other types of
+> -     memory and I/O operation.
+> +     They are guaranteed to be fully ordered with respect to each other and
+> +     also with respect to other types of memory and I/O operation.
+>  
+>   (*) readX(), writeX():
+>  
+> -- 
+> 2.17.1
+> 
