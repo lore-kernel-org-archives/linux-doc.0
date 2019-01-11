@@ -1,215 +1,124 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8C2957D8A3
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Jan 2019 13:42:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7EF6F7D099
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Jan 2019 13:47:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731092AbfAKNlJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 11 Jan 2019 08:41:09 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:39353 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732733AbfAKNlI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jan 2019 08:41:08 -0500
-Received: by mail-ed1-f66.google.com with SMTP id b14so13124459edt.6
-        for <linux-doc@vger.kernel.org>; Fri, 11 Jan 2019 05:41:06 -0800 (PST)
+        id S1732828AbfAKNrr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 11 Jan 2019 08:47:47 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:44181 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732207AbfAKNrq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jan 2019 08:47:46 -0500
+Received: by mail-wr1-f66.google.com with SMTP id z5so15216102wrt.11
+        for <linux-doc@vger.kernel.org>; Fri, 11 Jan 2019 05:47:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=1umRdh9piMshUzKmNMUk5PrC5PY0/mUY/eZpS9XG6U0=;
-        b=Co4XwMqiADoxVdJdwEd5GRwt7nX7YyxmjawClKKPfKsbZeWWZ6aqT6JNmaMME02xQa
-         jei/KeZFlhJiAHkZu64WDPxskhWlBJUrraK0+eT0isTOKXNQsPAjp9SO53Xit1gE6sUB
-         TFwW41xnp8WnCPiSpjXocVAWPL+dnEWxrsk09hnBYXA6CjM95/H8ZzwC5T6vhxcjEG3Q
-         zBzmRXy+xS54IiP4nOIzARKDKjvfGp34tGeS6aO8Y2UfY3K+Jm75j2PTvAkde/32NCLj
-         kVIXMhDCWuJk8FXt8PRPRaFDFHt5+s3PGyHFfvTfbjcXg6c+mFFIvBBqIZZKgjVoEzPb
-         7dug==
+        d=google.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JfzJzGO9UGsoHAHmj51k1BlHyWbSStwDHYTwKhI57Y4=;
+        b=NEkMkJ+mRpnXceIfKVHdidDME1rqbsVFFyuYNbksIGQ533359BmSQX2EilvvFPUN6D
+         tGfDFrq2ukPIHlM36+5L0mDWXTb6Ve78GanvqRtToFr9dzd5KVM3wt9Pdl6siWpUfse4
+         FM0lDfchKlAfLUl0AZ5gJk8fL7NW1qg+hR9XSoLfs+Z5XmjjckYgRkY/AkXKSzSCU91y
+         J+sHFqQ8l26j7qabqmqE5gGX/GMMNOIuG3uKV4yyNrFVQmdFZgyrIK7bQhcGK3CrmYTF
+         10lqjyd/OFB8ceEbDt1sdwwdIcMne/mU27opORNvTLOz9taoqsIXnKQtKou48XFVcVW8
+         MQpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1umRdh9piMshUzKmNMUk5PrC5PY0/mUY/eZpS9XG6U0=;
-        b=kP0JI+kVTeuxml2Uk64cDzMFDzEK03SbRQtmIfjMUV5UEGyMKksPtklpwjkbg/BFA1
-         NLzZ+z3wzXPWF5qY/Jr5q27+kbIib6Q5cZaOaaDaoqfMqoXroWGa9O+qHV8heuMU2ci/
-         UbXYFbVnPp6jJERZRF7hhisoozW+aj5wcHsZ/NEL/kquPRrP5TEF3Dn3qlmAqfN36tYo
-         VP6Z3rI3KCeeXwRlfz2KE6DANCRfRsMaOXkG9tqkouyz9vIel4rzmGoKWAcKJmMuBebx
-         EzVPBIUSS35tUh/vZNSdbZOHyCWy5VrvdvOpZbsKBjiHhSjGDlpo1Mqzw8E+Bh4csRVb
-         kFIw==
-X-Gm-Message-State: AJcUukeXmAyXlAdPqwsmzZA75lXsE0RN2tTYn7AvdcWX/oVactEWdxm2
-        P4hBgJ4t3N1Ikb+n0ubnvHKRGw==
-X-Google-Smtp-Source: ALg8bN4bRXesRD6972GHiQzasQNPy/lEEvqwOsrNgqXJxYSzs0nmBJZTPUAHi/0UUViR/fLUg8ZSNg==
-X-Received: by 2002:a17:906:6308:: with SMTP id p8-v6mr11907660ejk.100.1547214066122;
-        Fri, 11 Jan 2019 05:41:06 -0800 (PST)
-Received: from localhost.localdomain ([2a02:8109:b6c0:d6c:2520:8b:922b:4c43])
-        by smtp.gmail.com with ESMTPSA id a38sm2312070edd.44.2019.01.11.05.41.05
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JfzJzGO9UGsoHAHmj51k1BlHyWbSStwDHYTwKhI57Y4=;
+        b=cKZarAmNF3un4aZfqcGpE/GH7lonUC44nYBpZHeRPGJBBlsh9wwxB2NDCC3+oIlOip
+         j6hRR4+l54vtoK0iUn6FpN6KYfEe3PvYf1QAcngcWSxXJKu5EyIaUhr6Gs9sHh59skmj
+         iIa60c3WAy6B92e+GSNiIgjXFJ4E/rYGZXMeW9lPoratouwfZuAG0eAdiXtAotK6tHPf
+         KYmI63ea3mgONjdieOCuNZSgLcD5mTGWNqB8ds65AUdfivXcugrVpK+bAi+Po/JBChVu
+         nevnAtlqZFyo7/HGFKzPaJ/wOCFz7v9gK8LkbxYVIv19hVNezZ73CEk6O5reqpHwB5LK
+         0xXA==
+X-Gm-Message-State: AJcUukfXH7I8e/HaTigc053o3y39VgYDJjEQkXAjjPfSs/9t6BDmkO45
+        x4T+Hhsbzd0zgJ/8Q8QCY8JZ/g==
+X-Google-Smtp-Source: ALg8bN79o72/jOe8866Av4s1M/ZY2sXogUQzDJeTqtK3cI+i3sVXtdmXDxWwD/wEpFd113uizmdOkg==
+X-Received: by 2002:a5d:454f:: with SMTP id p15mr14423289wrr.39.1547214464989;
+        Fri, 11 Jan 2019 05:47:44 -0800 (PST)
+Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:13:8ce:d7fa:9f4c:492])
+        by smtp.gmail.com with ESMTPSA id 3sm22946971wmw.46.2019.01.11.05.47.42
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 11 Jan 2019 05:41:05 -0800 (PST)
-From:   Christian Brauner <christian@brauner.io>
-To:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Christian Brauner <christian@brauner.io>
-Subject: [PATCH v1 2/2] samples: add binderfs sample program
-Date:   Fri, 11 Jan 2019 14:41:00 +0100
-Message-Id: <20190111134100.24095-2-christian@brauner.io>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190111134100.24095-1-christian@brauner.io>
-References: <20190111134100.24095-1-christian@brauner.io>
+        Fri, 11 Jan 2019 05:47:43 -0800 (PST)
+From:   Andrey Konovalov <andreyknvl@google.com>
+To:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Christoph Lameter <cl@linux.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Dave Martin <dave.martin@arm.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Paul Lawrence <paullawrence@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sparse@vger.kernel.org, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org
+Cc:     Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Jann Horn <jannh@google.com>,
+        Mark Brand <markbrand@google.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vishwath Mohan <vishwath@google.com>,
+        Andrey Konovalov <andreyknvl@google.com>
+Subject: [PATCH] kasan, arm64: remove redundant ARCH_SLAB_MINALIGN define
+Date:   Fri, 11 Jan 2019 14:47:40 +0100
+Message-Id: <7f36be5fdf491259d6c8100232fa93ff40edf841.1547214440.git.andreyknvl@google.com>
+X-Mailer: git-send-email 2.20.1.97.g81188d93c3-goog
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This adds a simple sample program mounting binderfs and adding, then
-removing a binder device.  Hopefully, it will be helpful to users who want
-to know how binderfs is supposed to be used.
+Defining ARCH_SLAB_MINALIGN in arch/arm64/include/asm/cache.h when KASAN
+is off is not needed, as it is defined in defined in include/linux/slab.h
+as ifndef.
 
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
-/* Changelog */
-v1:
-- patch introduced
+ arch/arm64/include/asm/cache.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-v0:
-- patch not present
----
- samples/Kconfig                     |  7 +++
- samples/Makefile                    |  2 +-
- samples/binderfs/Makefile           |  1 +
- samples/binderfs/binderfs_example.c | 83 +++++++++++++++++++++++++++++
- 4 files changed, 92 insertions(+), 1 deletion(-)
- create mode 100644 samples/binderfs/Makefile
- create mode 100644 samples/binderfs/binderfs_example.c
-
-diff --git a/samples/Kconfig b/samples/Kconfig
-index ad1ec7016d4c..d19754ccad08 100644
---- a/samples/Kconfig
-+++ b/samples/Kconfig
-@@ -147,6 +147,13 @@ config SAMPLE_VFIO_MDEV_MBOCHS
- 	  Specifically it does *not* include any legacy vga stuff.
- 	  Device looks a lot like "qemu -device secondary-vga".
+diff --git a/arch/arm64/include/asm/cache.h b/arch/arm64/include/asm/cache.h
+index eb43e09c1980..926434f413fa 100644
+--- a/arch/arm64/include/asm/cache.h
++++ b/arch/arm64/include/asm/cache.h
+@@ -60,8 +60,6 @@
  
-+config SAMPLE_ANDROID_BINDERFS
-+	bool "Build Android binderfs example"
-+	depends on CONFIG_ANDROID_BINDERFS
-+	help
-+	  Builds a sample program to illustrate the use of the Android binderfs
-+	  filesystem.
-+
- config SAMPLE_STATX
- 	bool "Build example extended-stat using code"
- 	depends on BROKEN
-diff --git a/samples/Makefile b/samples/Makefile
-index bd601c038b86..b1142a958811 100644
---- a/samples/Makefile
-+++ b/samples/Makefile
-@@ -3,4 +3,4 @@
- obj-$(CONFIG_SAMPLES)	+= kobject/ kprobes/ trace_events/ livepatch/ \
- 			   hw_breakpoint/ kfifo/ kdb/ hidraw/ rpmsg/ seccomp/ \
- 			   configfs/ connector/ v4l/ trace_printk/ \
--			   vfio-mdev/ statx/ qmi/
-+			   vfio-mdev/ statx/ qmi/ binderfs/
-diff --git a/samples/binderfs/Makefile b/samples/binderfs/Makefile
-new file mode 100644
-index 000000000000..01ca9f2529a7
---- /dev/null
-+++ b/samples/binderfs/Makefile
-@@ -0,0 +1 @@
-+obj-$(CONFIG_SAMPLE_ANDROID_BINDERFS) += binderfs_example.o
-diff --git a/samples/binderfs/binderfs_example.c b/samples/binderfs/binderfs_example.c
-new file mode 100644
-index 000000000000..5bbd2ebc0aea
---- /dev/null
-+++ b/samples/binderfs/binderfs_example.c
-@@ -0,0 +1,83 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <sched.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/ioctl.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+#include <sys/types.h>
-+#include <unistd.h>
-+#include <linux/android/binder.h>
-+#include <linux/android/binderfs.h>
-+
-+int main(int argc, char *argv[])
-+{
-+	int fd, ret, saved_errno;
-+	size_t len;
-+	struct binderfs_device device = { 0 };
-+
-+	ret = unshare(CLONE_NEWNS);
-+	if (ret < 0) {
-+		fprintf(stderr, "%s - Failed to unshare mount namespace\n",
-+			strerror(errno));
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	ret = mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, 0);
-+	if (ret < 0) {
-+		fprintf(stderr, "%s - Failed to mount / as private\n",
-+			strerror(errno));
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	ret = mkdir("/dev/binderfs", 0755);
-+	if (ret < 0 && errno != EEXIST) {
-+		fprintf(stderr, "%s - Failed to create binderfs mountpoint\n",
-+			strerror(errno));
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	ret = mount(NULL, "/dev/binderfs", "binder", 0, 0);
-+	if (ret < 0) {
-+		fprintf(stderr, "%s - Failed to mount binderfs\n",
-+			strerror(errno));
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	memcpy(device.name, "my-binder", strlen("my-binder"));
-+
-+	fd = open("/dev/binderfs/binder-control", O_RDONLY | O_CLOEXEC);
-+	if (fd < 0) {
-+		fprintf(stderr, "%s - Failed to open binder-control device\n",
-+			strerror(errno));
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	ret = ioctl(fd, BINDER_CTL_ADD, &device);
-+	saved_errno = errno;
-+	close(fd);
-+	errno = saved_errno;
-+	if (ret < 0) {
-+		fprintf(stderr, "%s - Failed to allocate new binder device\n",
-+			strerror(errno));
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	printf("Allocated new binder device with major %d, minor %d, and name %s\n",
-+	       device.major, device.minor, device.name);
-+
-+	ret = unlink("/dev/binderfs/my-binder");
-+	if (ret < 0) {
-+		fprintf(stderr, "%s - Failed to delete binder device\n",
-+			strerror(errno));
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	/* Cleanup happens when the mount namespace dies. */
-+	exit(EXIT_SUCCESS);
-+}
+ #ifdef CONFIG_KASAN_SW_TAGS
+ #define ARCH_SLAB_MINALIGN	(1ULL << KASAN_SHADOW_SCALE_SHIFT)
+-#else
+-#define ARCH_SLAB_MINALIGN	__alignof__(unsigned long long)
+ #endif
+ 
+ #ifndef __ASSEMBLY__
 -- 
-2.19.1
+2.20.1.97.g81188d93c3-goog
 
