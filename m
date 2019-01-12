@@ -1,75 +1,156 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0508D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 11 Jan 2019 19:52:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9D1DB7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 12 Jan 2019 04:05:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729953AbfAKTwh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 11 Jan 2019 14:52:37 -0500
-Received: from Galois.linutronix.de ([146.0.238.70]:34581 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729124AbfAKTwh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jan 2019 14:52:37 -0500
-Received: from p4fea4364.dip0.t-ipconnect.de ([79.234.67.100] helo=nanos)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1gi2r2-0002u7-7G; Fri, 11 Jan 2019 20:52:32 +0100
-Date:   Fri, 11 Jan 2019 20:52:31 +0100 (CET)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Waiman Long <longman@redhat.com>
-cc:     Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>,
-        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <ak@linux.intel.com>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Jiri Kosina <jikos@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        KarimAllah Ahmed <karahmed@amazon.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Kees Cook <keescook@chromium.org>
-Subject: Re: [RFC PATCH] x86/speculation: Don't inherit TIF_SSBD on
- execve()
-In-Reply-To: <1545246590-12704-1-git-send-email-longman@redhat.com>
-Message-ID: <alpine.DEB.2.21.1901112046290.1661@nanos.tec.linutronix.de>
-References: <1545246590-12704-1-git-send-email-longman@redhat.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1726387AbfALEFm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 11 Jan 2019 23:05:42 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:43759 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726383AbfALEFl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Jan 2019 23:05:41 -0500
+Received: by mail-pf1-f196.google.com with SMTP id w73so7848791pfk.10;
+        Fri, 11 Jan 2019 20:05:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=QHL2KuRAkECnHXOLptHd4M/L9NgINZ27nYWV6gTR1KQ=;
+        b=rjZvmiHM2ZNj+jiu3m4jAtKgbIxAFPmvBhHk249rifaUofkLymF/t6ODySmBw8BiBH
+         aK8G5oUuHISr/qmsTo3nHH1RGVRqyggZjik/e5L2vlir/Iy4hEf1OmOpuRNSi8YApTDj
+         rHjOt6Iu7mAm4rKfy2LiEc1Ivc0eRoA4b0OYZ6ZSjM7R8rXSPbfCvKxqcQ8eWECawh+S
+         UKPv2gZoxgsQyA0x0pAuKkzaTMe/isjzxEqAGYisEUXSnf/GPOYkm7+9ckXcuhcNYjsL
+         0DJvv7oQ6/dBG93RsQQyK/0mezJmHk2xSBrtrh5i5QD2U3FqyneeMMYoZGfPzoCj/pOs
+         3ogg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=QHL2KuRAkECnHXOLptHd4M/L9NgINZ27nYWV6gTR1KQ=;
+        b=gn6/RRk8PM3/vI9j+n/OTf7s5m9P8MhGynRUcJa87jYZUftBVYycCwbjzQWvhpJTQS
+         AHvbZBi+cGd/nAwIO7MbiQnxZJwpzYXybOdI6wxjnBtLY3xB4XNjjj7U5nwlU3cS61Tk
+         UxIEPvW8/9NkzBo6Wd9ctjnGYLpQu7z3gHdw3WCVxobuyXiXmOrVt1mgEl1nvdUf8ffu
+         CCeDC9cWSIISsvXIP/wqw6JW4igsJzCEopIJoxMr/tV1lJ2i+0nyOyaBJP++FIzaVVfG
+         mWRFh/qbijAfPE0T2T58B2be2ypAl51ivZ2Y7u9cbnHyiB1Kc4O3f+fDzKQTusLjxl5E
+         t3jQ==
+X-Gm-Message-State: AJcUukcGFrfSS9sz/12hi1P3hP76mO4PZS6nBhCQNHnGihgKqm7RcOL0
+        JX3yIuG7tkFKRlRusKftde4=
+X-Google-Smtp-Source: ALg8bN7BjYzDWGojWqNU7h2PI6CdeYfNYvsxcG+vLEGZsUheDFrW5CfA/+Jxj6ftZ6tPkeD9HIcdwA==
+X-Received: by 2002:a62:8a51:: with SMTP id y78mr17008047pfd.35.1547265940834;
+        Fri, 11 Jan 2019 20:05:40 -0800 (PST)
+Received: from mail.google.com ([207.246.99.41])
+        by smtp.gmail.com with ESMTPSA id 24sm338911899pfl.32.2019.01.11.20.05.37
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 11 Jan 2019 20:05:40 -0800 (PST)
+Date:   Sat, 12 Jan 2019 12:05:33 +0800
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Changbin Du <changbin.du@gmail.com>
+Cc:     rostedt@goodmis.org, mingo@redhat.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/5] Improve the latency tracers
+Message-ID: <20190112040531.w7wvt5x6ztxb6qcg@mail.google.com>
+References: <20190101154614.8887-1-changbin.du@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190101154614.8887-1-changbin.du@gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 19 Dec 2018, Waiman Long wrote:
+Hi Steven, Have you checked this serias yet? :)
 
-> With the default SPEC_STORE_BYPASS_SECCOMP/SPEC_STORE_BYPASS_PRCTL mode,
-> the TIF_SSBD bit will be inherited when a new task is fork'ed or cloned.
+On Tue, Jan 01, 2019 at 11:46:09PM +0800, Changbin Du wrote:
+> Happy new year!
 > 
-> As only certain class of applications (like Java) requires disabling
-> speculative store bypass for security purpose, it may not make sense to
-> allow the TIF_SSBD bit to be inherited across execve() boundary where the
-> new application may not need SSBD at all and is probably not aware that
-> SSBD may have been turned on. This may cause an unnecessary performance
-> loss of up to 20% in some cases.
+> This series make some improments for the kernel latency tracers, especilly
+> for the wakeup tracers. The latency tracers will show us more useful
+> information. With this series, the wakeup tracers look like this
+> when display-graph is enabled:
+> 
+> # tracer: wakeup
+> #
+> # wakeup latency trace v1.1.5 on 4.20.0+
+> # --------------------------------------------------------------------
+> # latency: 593 us, #674/674, CPU#0 | (M:desktop VP:0, KP:0, SP:0 HP:0 #P:4)
+> #    -----------------
+> #    | task: kworker/0:1H-339 (uid:0 nice:-20 policy:0 rt_prio:0)
+> #    -----------------
+> #
+> #                                       _-----=> irqs-off        
+> #                                      / _----=> need-resched    
+> #                                     | / _---=> hardirq/softirq 
+> #                                     || / _--=> preempt-depth   
+> #                                     ||| /                      
+> #   REL TIME      CPU  TASK/PID       ||||     DURATION                  FUNCTION CALLS
+> #      |          |     |    |        ||||      |   |                     |   |   |   |
+>         0 us |   0)    <idle>-0    |  dNs. |               |  /*      0:120:R   + [000]   339:100:R kworker/0:1H */
+>         3 us |   0)    <idle>-0    |  dNs. |   0.000 us    |            (null)();
+>   <idle>-0       0dNs.   66us : <stack trace>
+>  => try_to_wake_up
+>  => __queue_work
+>  => queue_work_on
+>  => call_timer_fn
+>  => run_timer_softirq
+>  => __do_softirq
+>  => irq_exit
+>  => smp_apic_timer_interrupt
+>  => apic_timer_interrupt
+>  => native_safe_halt
+>  => default_idle
+>  => default_idle_call
+>  => do_idle
+>  => cpu_startup_entry
+>  => start_kernel
+>  => secondary_startup_64
+>        67 us |   0)    <idle>-0    |  dNs. |   0.721 us    |  ttwu_stat();
+>        69 us |   0)    <idle>-0    |  dNs. |   0.607 us    |  _raw_spin_unlock_irqrestore();
+>        71 us |   0)    <idle>-0    |  .Ns. |   0.598 us    |  _raw_spin_lock_irq();
+>        72 us |   0)    <idle>-0    |  .Ns. |   0.584 us    |  _raw_spin_lock_irq();
+>        73 us |   0)    <idle>-0    |  dNs. |   1.125 us    |  __next_timer_interrupt();
+>        75 us |   0)    <idle>-0    |  dNs. |               |  call_timer_fn() {
+>        76 us |   0)    <idle>-0    |  dNs. |               |    delayed_work_timer_fn() {
+>       [...]
+>       564 us |   0)   kworker-13   |  d... |               |      set_next_entity() {
+>       565 us |   0)   kworker-13   |  d... |   0.524 us    |        __update_load_avg_se();
+>       566 us |   0)   kworker-13   |  d... |   0.562 us    |        __update_load_avg_cfs_rq();
+>       567 us |   0)   kworker-13   |  d... |   2.765 us    |      }
+>       568 us |   0)   kworker-13   |  d... | + 10.077 us   |    }
+>       569 us |   0)   kworker-13   |  d... |   0.000 us    |  __schedule();
+> kworker/-13      0d...  593us : <stack trace>
+>  => schedule
+>  => worker_thread
+>  => kthread
+>  => ret_from_fork
+>       593 us |   0)   kworker-13   |  d... |               |  /*     13:120:I ==> [000]   339:100:R kworker/0:1H */
+> 
+> Changbin Du (5):
+>   function_graph: Support displaying relative timestamp
+>   sched/tracing: Show more info for funcgraph wakeup tracers
+>   sched/tracing: Put a margin between flags and duration for wakeup
+>     tracers
+>   sched/tracing: Show stacktrace for wakeup tracers
+>   trace/doc: Add latency tracer funcgraph example
+> 
+>  Documentation/trace/ftrace.rst       | 51 ++++++++++++++++++++++++++++
+>  kernel/trace/trace.h                 |  9 ++---
+>  kernel/trace/trace_functions_graph.c | 30 ++++++++++++++--
+>  kernel/trace/trace_irqsoff.c         |  2 +-
+>  kernel/trace/trace_sched_wakeup.c    | 11 ++++--
+>  5 files changed, 94 insertions(+), 9 deletions(-)
+> 
+> -- 
+> 2.17.1
+> 
 
-Lot's of MAY's here. Aside of that this fundamentally changes the
-behaviour. I'm not really a fan of doing that.
-
-If there are good reasons to have a non-inherited variant, then we rather
-introduce that instead of changing the existing semantics without a way for
-existing userspace to notice.
-
-Thanks,
-
-	tglx
-
+-- 
+Cheers,
+Changbin Du
