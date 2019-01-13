@@ -3,55 +3,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8778B7D0D8
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 13 Jan 2019 16:10:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B21E17D0D8
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 13 Jan 2019 16:49:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726711AbfAMQKH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 13 Jan 2019 11:10:07 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:50510 "EHLO
+        id S1726617AbfAMQto (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 13 Jan 2019 11:49:44 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:55164 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726254AbfAMQKG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Jan 2019 11:10:06 -0500
+        with ESMTP id S1726566AbfAMQto (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Jan 2019 11:49:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
         :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=2jEw7DQx/zgTT6Qa8x/YpkxR+Y5h8W52vhcmkMl1T1g=; b=SRcIzgtzKJIFK+hp7/648/4uA
-        i4WOwd/2iy0OSyfQNRXfoEWBhPtUZuEuDHzU7P8wvTLjv/0v4aDMGAsNC/9ZNC+APrBZJNjCi0UH/
-        iWeY+310RL9+Xb4MQkCOX7wGoVzW5te+aAEWKj/X89EzKoGQHq1EDTkyFFJHXJl4ZFF82AlNpyOfI
-        ENQG4AfwYONBokmiiXjLXhSNAQOCbz0s2DVTbQB/aswCfWpLcHN9dFUEB+/2+ZXCwi4+9Y41wSKa4
-        Y4t/m9WSThz40ge6bJgm9gi70U5EAMmbhVhyGnGYRdSVeYrVN+mFyCWZzEEUMpGOzfCDn0KCUuDBk
-        zyTVDzOkQ==;
+         bh=wrZm73XoQCJ9+KwY5y7yjv8JJNYe/WdlAJUCzKjmak4=; b=bnvOxTNcPIsfTh7rVGKvYNIhY
+        2VyR6sCq5y8Z7HRM2cNWQvmi9QsuwB9D3QTcwBkKt2IU0WvPJqdCczlYuoUmT1GgEhiFaSNvLxZia
+        1e+OKkHFz0Z+CYhn/++w7S0zOcyTCy+S4X8eI/gNAknsU6wuy5WIA2tBGgTQ9/+iNexNPjOOCDJnv
+        qIzsOf5M1ybNwURSPjtdwOqyiSL2ASxKWafBqWS/V6gq2GpY7M2fEptT+cLsMOeHAWBm/RVybXHUD
+        4RiEQA8HGPSMORyQZc9mbcLAtihbNwgxIcgxldkd0U510htG4QWtV16E5vmNo6UFR7hW7UvyUVTcU
+        kxFxfscGg==;
 Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1giiKq-000809-Ru; Sun, 13 Jan 2019 16:10:04 +0000
-Date:   Sun, 13 Jan 2019 08:10:04 -0800
+        id 1giix6-00041e-Bt; Sun, 13 Jan 2019 16:49:36 +0000
+Date:   Sun, 13 Jan 2019 08:49:36 -0800
 From:   Matthew Wilcox <willy@infradead.org>
-To:     Joel Nider <joeln@il.ibm.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs-rst: doc-guide: Minor grammar fixes
-Message-ID: <20190113161004.GV6310@bombadil.infradead.org>
-References: <1547385359-27927-1-git-send-email-joeln@il.ibm.com>
+To:     Jason Gunthorpe <jgg@mellanox.com>
+Cc:     Joe Perches <joe@perches.com>, Gal Pressman <galpress@amazon.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Stephen Warren <swarren@wwwdotorg.org>,
+        Tariq Toukan <tariqt@mellanox.com>,
+        "xavier.huwei@huawei.com" <xavier.huwei@huawei.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        Doug Ledford <dledford@redhat.com>,
+        Stephen Warren <swarren@nvidia.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4] coding-style: Clarify the expectations around bool
+Message-ID: <20190113164936.GW6310@bombadil.infradead.org>
+References: <20190110234805.GN6890@ziepe.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1547385359-27927-1-git-send-email-joeln@il.ibm.com>
+In-Reply-To: <20190110234805.GN6890@ziepe.ca>
 User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 13, 2019 at 03:15:59PM +0200, Joel Nider wrote:
-> -A way to get rid of that is to use a different version than the one shipped
-> -on your distributions. In order to do that, it is recommended to install
-> +A way to avoid that is to use a different version than the one shipped
-> +on your distributions. In order to do so, it is recommended to install
+On Thu, Jan 10, 2019 at 11:48:13PM +0000, Jason Gunthorpe wrote:
+> +The Linux kernel bool type is an alias for the C99 _Bool type. bool values can
+> +only evaluate to 0 or 1, and implicit or explicit conversion to bool
+> +automatically converts the value to true or false. When using bool types the
+> +!! construction is not needed, which eliminates a class of bugs.
+> +
+> +When working with bool values the true and false definitions should be used
+> +instead of 0 and 1.
+> +
+> +bool function return types and stack variables are always fine to use whenever
+> +appropriate. Use of bool is encouraged to improve readability and is often a
+> +better option than 'int' for storing boolean values.
 
-s/on/with/
+It's awkward to start a sentence with a lower case letter.  How about
+rephrasing this paragraph and the following one as:
 
-Other than that, Acked-by: Matthew Wilcox <willy@infradead.org>
+  Using bool as the return type of a function or as a variable is always
+  fine when appropriate.  It often improves readability and is a better option
+  than int for storing boolean values.  Using bool in data structures is
+  more debatable; its size and alignment can vary between architectures.
+
+> +Do not use bool if cache line layout or size of the value matters, its size
+> +and alignment varies based on the compiled architecture. Structures that are
+> +optimized for alignment and size should not use bool.
+> +
+> +If a structure has many true/false values, consider consolidating them into a
+> +bitfield with 1 bit members, or using an appropriate fixed width type, such as
+> +u8.
