@@ -1,128 +1,244 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3291D7D0D8
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 13 Jan 2019 13:16:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9E08D7D0D8
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 13 Jan 2019 16:01:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726302AbfAMNQX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 13 Jan 2019 08:16:23 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51546 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726221AbfAMNQX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Jan 2019 08:16:23 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x0DDDBMa056461
-        for <linux-doc@vger.kernel.org>; Sun, 13 Jan 2019 08:16:21 -0500
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2pyxja4eyj-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sun, 13 Jan 2019 08:16:21 -0500
-Received: from localhost
-        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <joeln@il.ibm.com>;
-        Sun, 13 Jan 2019 13:16:20 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sun, 13 Jan 2019 13:16:17 -0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x0DDGHA413435018
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sun, 13 Jan 2019 13:16:17 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id EEB9FA404D;
-        Sun, 13 Jan 2019 13:16:16 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 94CBEA4040;
-        Sun, 13 Jan 2019 13:16:15 +0000 (GMT)
-Received: from tal (unknown [9.148.32.96])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Sun, 13 Jan 2019 13:16:15 +0000 (GMT)
-Received: by tal (sSMTP sendmail emulation); Sun, 13 Jan 2019 15:16:14 +0200
-From:   Joel Nider <joeln@il.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Joel Nider <joeln@il.ibm.com>
-Subject: [PATCH] docs-rst: doc-guide: Minor grammar fixes
-Date:   Sun, 13 Jan 2019 15:15:59 +0200
-X-Mailer: git-send-email 2.7.4
-X-TM-AS-GCONF: 00
-x-cbid: 19011313-0012-0000-0000-000002E76A20
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19011313-0013-0000-0000-0000211E77A4
-Message-Id: <1547385359-27927-1-git-send-email-joeln@il.ibm.com>
-Content-Type:   text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
+        id S1726596AbfAMQBw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 13 Jan 2019 11:01:52 -0500
+Received: from mx.kolabnow.com ([95.128.36.42]:48446 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726513AbfAMQBv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 13 Jan 2019 11:01:51 -0500
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 252ED354;
+        Sun, 13 Jan 2019 17:01:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        message-id:references:in-reply-to:subject:subject:from:from:date
+        :date:content-transfer-encoding:content-type:content-type
+        :mime-version:received:received:received; s=dkim20160331; t=
+        1547395306; x=1549209707; bh=tXPWqHtF57CrLGQmxAEjSe9Sfd2iTq/dr3f
+        EtWgozVQ=; b=3VQ7BIjX6dVOz2yVtVVEJF/CAqbBf5uUbCk/PvjfTNlOFZ4zZHN
+        05cQHtny7Re585HepmBjRirm8YwSeQBCHE5UcXZLXKNRHo33xnIqS3l6la88NUaH
+        AXAqLdvP9W7tAsx7CoPNl6vK/RITmbzHSasoRlv3fhgQGBRB+DZyPLfWpxHfBbvJ
+        I4kwDujlYUI9S/U5AHRYuceN5kZqTnqReRIqnettaL1lpJ1uQuN634S+VDgwLeTg
+        zMmZ84JDq2A99OeRGnX48tHrgiiYDXhhx958Ch7+XZPsW87oZofeghQC3ndxxjKH
+        8DaUz3bGQ21I1FEdHbeWmibBzYqm/lJYO5TtlrxaHy6bNJ4RgaAWocOGdRbxSq62
+        JBS2uOPZu6MD2ivmMf+eR/7WQDdDmIlzkUeS54kuisBVbQcA0rWuaWLoXP+7D320
+        FzvIjOT3rGcYXvh3UnRj/rB/pZSMYzqw5LSTw2WBJls9IxNGCgtw0R+27BeYZkAX
+        jFST4bHrLuHv9K3GF3o+ntjp+3AfHXoPCmO5ED1jsXkscSCev5afWv7t1cBO/oaZ
+        1uva3Ip2HAB7W9R5oE0D2YMud+vwPmvO6OIMymjIhR9+e+go22v77nYEV6w9UOsW
+        EZ+XlOl9AOfHFjyMW7tu2fjHEbJ9sg6Pe0IV2R51G24657bUojxR9lnA=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Bl4doZmTTcEN; Sun, 13 Jan 2019 17:01:46 +0100 (CET)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 68277125;
+        Sun, 13 Jan 2019 17:01:46 +0100 (CET)
+Received: from int-subm001.mykolab.com (unknown [10.9.37.1])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id 1915B1E0;
+        Sun, 13 Jan 2019 17:01:41 +0100 (CET)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-13_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=669 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1901130120
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Sun, 13 Jan 2019 17:01:39 +0100
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jason Gunthorpe <jgg@mellanox.com>
+Cc:     Joe Perches <joe@perches.com>, Gal Pressman <galpress@amazon.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Stephen Warren <swarren@wwwdotorg.org>,
+        Tariq Toukan <tariqt@mellanox.com>, xavier.huwei@huawei.com,
+        netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+        Doug Ledford <dledford@redhat.com>,
+        Stephen Warren <swarren@nvidia.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] coding-style: Clarify the expectations around bool
+In-Reply-To: <20190110234805.GN6890@ziepe.ca>
+References: <20190110234805.GN6890@ziepe.ca>
+Message-ID: <d09397d56df116e0d2b8e1a56ace0a37@vaga.pv.it>
+X-Sender: federico.vaga@vaga.pv.it
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While using this guide to learn the new documentation method, I saw
-a few phrases that I felt could be improved. These small changes
-improve the grammar and choice of words to further enhance the
-installation instructions.
+On 2019-01-11 00:48, Jason Gunthorpe wrote:
+> There has been some confusion since checkpatch started warning about 
+> bool
+> use in structures, and people have been avoiding using it.
+> 
+> Many people feel there is still a legitimate place for bool in 
+> structures,
+> so provide some guidance on bool usage derived from the entire thread 
+> that
+> spawned the checkpatch warning.
+> 
+> Link:
+> https://lkml.kernel.org/r/CA+55aFwVZk1OfB9T2v014PTAKFhtVan_Zj2dOjnCy3x6E4UJfA@mail.gmail.com
+> Signed-off-by: Joe Perches <joe@perches.com>
+> Acked-by: Joe Perches <joe@perches.com>
+> Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+> Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
+> ---
+>  Documentation/process/coding-style.rst | 38 +++++++++++++++++++++++---
+>  scripts/checkpatch.pl                  | 13 ---------
+>  2 files changed, 34 insertions(+), 17 deletions(-)
+> 
+> v4:
+> - Describe true/false as definitions [Joe]
+> - Use clearer language for the _Bool explanation [Bart]
+> - Delete the checkpatch tests [Joe]
+> 
+> diff --git a/Documentation/process/coding-style.rst
+> b/Documentation/process/coding-style.rst
+> index b78dd680c03809..db3e030d0df908 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -921,7 +921,37 @@ result.  Typical examples would be functions that
+> return pointers; they use
+>  NULL or the ERR_PTR mechanism to report failure.
+> 
+> 
+> -17) Don't re-invent the kernel macros
+> +17) Using bool
+> +--------------
+> +
+> +The Linux kernel bool type is an alias for the C99 _Bool type. bool 
+> values can
+> +only evaluate to 0 or 1, and implicit or explicit conversion to bool
+> +automatically converts the value to true or false. When using bool 
+> types the
+> +!! construction is not needed, which eliminates a class of bugs.
+> +
+> +When working with bool values the true and false definitions should be 
+> used
+> +instead of 0 and 1.
 
-Signed-off-by: Joel Nider <joeln@il.ibm.com>
----
- Documentation/doc-guide/sphinx.rst | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+A very minor thing. I would suggest to keep consistent, in the 
+statement, the mapping
+between definitions ("true and false [...]") and their correspondent 
+integer values
+("[...] instead of 1 and 0").
 
-diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-index 02605ee..e456a4f 100644
---- a/Documentation/doc-guide/sphinx.rst
-+++ b/Documentation/doc-guide/sphinx.rst
-@@ -27,8 +27,8 @@ Sphinx Install
- ==============
- 
- The ReST markups currently used by the Documentation/ files are meant to be
--built with ``Sphinx`` version 1.3 or upper. If you're desiring to build
--PDF outputs, it is recommended to use version 1.4.6 or upper.
-+built with ``Sphinx`` version 1.3 or higher. If you desire to build
-+PDF output, it is recommended to use version 1.4.6 or higher.
- 
- There's a script that checks for the Sphinx requirements. Please see
- :ref:`sphinx-pre-install` for further details.
-@@ -37,15 +37,15 @@ Most distributions are shipped with Sphinx, but its toolchain is fragile,
- and it is not uncommon that upgrading it or some other Python packages
- on your machine would cause the documentation build to break.
- 
--A way to get rid of that is to use a different version than the one shipped
--on your distributions. In order to do that, it is recommended to install
-+A way to avoid that is to use a different version than the one shipped
-+on your distributions. In order to do so, it is recommended to install
- Sphinx inside a virtual environment, using ``virtualenv-3``
- or ``virtualenv``, depending on how your distribution packaged Python 3.
- 
- .. note::
- 
-    #) Sphinx versions below 1.5 don't work properly with Python's
--      docutils version 0.13.1 or upper. So, if you're willing to use
-+      docutils version 0.13.1 or higher. So, if you're willing to use
-       those versions, you should run ``pip install 'docutils==0.12'``.
- 
-    #) It is recommended to use the RTD theme for html output. Depending
-@@ -82,7 +82,7 @@ output.
- PDF and LaTeX builds
- --------------------
- 
--Such builds are currently supported only with Sphinx versions 1.4 and upper.
-+Such builds are currently supported only with Sphinx versions 1.4 and higher.
- 
- For PDF and LaTeX output, you'll also need ``XeLaTeX`` version 3.14159265.
- 
+In few words, I propose to change "0 and 1" into "1 and 0".
+
+> +
+> +bool function return types and stack variables are always fine to use 
+> whenever
+> +appropriate. Use of bool is encouraged to improve readability and is 
+> often a
+> +better option than 'int' for storing boolean values.
+> +
+> +Do not use bool if cache line layout or size of the value matters, its 
+> size
+> +and alignment varies based on the compiled architecture. Structures 
+> that are
+> +optimized for alignment and size should not use bool.
+> +
+> +If a structure has many true/false values, consider consolidating them 
+> into a
+> +bitfield with 1 bit members, or using an appropriate fixed width type, 
+> such as
+> +u8.
+> +
+> +Similarly for function arguments, many true/false values can be 
+> consolidated
+> +into a single bitwise 'flags' argument and 'flags' can often a more 
+> readable
+> +alternative if the call-sites have naked true/false constants.
+
+Of course, English is not my primary language, but it looks to me that 
+here a "be"
+is missing: "[...] and 'flags' can often a more readable alternative 
+[...]".
+
+> +
+> +Otherwise limited use of bool in structures and arguments can improve
+> +readability.
+
+I'm going to update the Italian translations for this. Do you want me to 
+contribute
+directly to this patch? Otherwise I will send a dedicated patch later 
+when this one
+get accepted.
+
+Thanks
+
+> +18) Don't re-invent the kernel macros
+>  -------------------------------------
+> 
+>  The header file include/linux/kernel.h contains a number of macros 
+> that
+> @@ -944,7 +974,7 @@ need them.  Feel free to peruse that header file
+> to see what else is already
+>  defined that you shouldn't reproduce in your code.
+> 
+> 
+> -18) Editor modelines and other cruft
+> +19) Editor modelines and other cruft
+>  ------------------------------------
+> 
+>  Some editors can interpret configuration information embedded in 
+> source files,
+> @@ -978,7 +1008,7 @@ own custom mode, or may have some other magic
+> method for making indentation
+>  work correctly.
+> 
+> 
+> -19) Inline assembly
+> +20) Inline assembly
+>  -------------------
+> 
+>  In architecture-specific code, you may need to use inline assembly to 
+> interface
+> @@ -1010,7 +1040,7 @@ the next instruction in the assembly output:
+>  	     : /* outputs */ : /* inputs */ : /* clobbers */);
+> 
+> 
+> -20) Conditional Compilation
+> +21) Conditional Compilation
+>  ---------------------------
+> 
+>  Wherever possible, don't use preprocessor conditionals (#if, #ifdef) 
+> in .c
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index b737ca9d720441..d62abd032885a1 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -6368,19 +6368,6 @@ sub process {
+>  			}
+>  		}
+> 
+> -# check for bool bitfields
+> -		if ($sline =~ /^.\s+bool\s*$Ident\s*:\s*\d+\s*;/) {
+> -			WARN("BOOL_BITFIELD",
+> -			     "Avoid using bool as bitfield.  Prefer bool bitfields as
+> unsigned int or u<8|16|32>\n" . $herecurr);
+> -		}
+> -
+> -# check for bool use in .h files
+> -		if ($realfile =~ /\.h$/ &&
+> -		    $sline =~ /^.\s+bool\s*$Ident\s*(?::\s*d+\s*)?;/) {
+> -			CHK("BOOL_MEMBER",
+> -			    "Avoid using bool structure members because of possible
+> alignment issues - see: https://lkml.org/lkml/2017/11/21/384\n" .
+> $herecurr);
+> -		}
+> -
+>  # check for semaphores initialized locked
+>  		if ($line =~ /^.\s*sema_init.+,\W?0\W?\)/) {
+>  			WARN("CONSIDER_COMPLETION",
+
 -- 
-2.7.4
-
+Federico Vaga
+http://www.federicovaga.it/
