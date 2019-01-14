@@ -1,94 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AF5B37D099
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 01:52:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3543A7D099
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 03:21:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726640AbfANBw0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 13 Jan 2019 20:52:26 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:50878 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726631AbfANBw0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 13 Jan 2019 20:52:26 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 784DA80F6D;
-        Mon, 14 Jan 2019 01:52:26 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-12-115.pek2.redhat.com [10.72.12.115])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id D4900183D8;
-        Mon, 14 Jan 2019 01:52:18 +0000 (UTC)
-Subject: Re: [PATCH 1/2 v6] kdump: add the vmcoreinfo documentation
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
-        tglx@linutronix.de, mingo@redhat.com, x86@kernel.org,
-        akpm@linux-foundation.org, bhe@redhat.com, dyoung@redhat.com,
-        k-hagio@ab.jp.nec.com, anderson@redhat.com,
-        linux-doc@vger.kernel.org
-References: <20190110121944.6050-1-lijiang@redhat.com>
- <20190110121944.6050-2-lijiang@redhat.com> <20190111123300.GE4729@zn.tnic>
-From:   lijiang <lijiang@redhat.com>
-Message-ID: <93c1969f-dcc7-4e34-75ff-b14f2ec15269@redhat.com>
-Date:   Mon, 14 Jan 2019 09:52:14 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1726715AbfANDVx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 13 Jan 2019 22:21:53 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:43410 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726622AbfANDVx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Jan 2019 22:21:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=7E5SGxR4bEFCBD6qxts7SUz99Ls5pIxf2mzpClj3tFc=; b=EcpMw11EDbVoqGWIK9JI29htv5
+        wExni+kmKRyP5puw0uwogg/FBnHJ7tN4Osrp/H1Ds9MrotVC6+ywW2NPHqDNV4AnaZ9eSuD5pjhsm
+        jGP9BgtYvzujoSMZ8fgQL4FbPO6efnAcdvwlzPRf598wYgBOTvvZ1iegaruPogQliow5qSfEXlC8H
+        sW7A4HR+6MBgDKHhkT8SP4aUekPwItxR3pGfs5wAclfgCsn/CI+JjmpCGyKHEdMIMXP30MvOGAcME
+        ssZ/vQDp9677Fz8IC/QM1OSomneOta8IOwJoz7WjZd8DLvmY3PJ2TqZHPWOE/lVB1c9NqOqOt8Dy8
+        k74jqB1A==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gisow-0000Vj-Nx; Mon, 14 Jan 2019 03:21:50 +0000
+To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Steven Royer <seroyer@linux.ibm.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] Documentation: add ibmvmc to toctree(index) and fix warnings
+Message-ID: <bd222e7e-33cd-37ce-f702-238a8e93dfc8@infradead.org>
+Date:   Sun, 13 Jan 2019 19:21:46 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.0
 MIME-Version: 1.0
-In-Reply-To: <20190111123300.GE4729@zn.tnic>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Mon, 14 Jan 2019 01:52:26 +0000 (UTC)
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-在 2019年01月11日 20:33, Borislav Petkov 写道:
-> On Thu, Jan 10, 2019 at 08:19:43PM +0800, Lianbo Jiang wrote:
->> +init_uts_ns.name.release
->> +------------------------
->> +
->> +The version of the Linux kernel. Used to find the corresponding source
->> +code from which the kernel has been built.
->> +
-> 
-> ...
-> 
->> +
->> +init_uts_ns
->> +-----------
->> +
->> +This is the UTS namespace, which is used to isolate two specific
->> +elements of the system that relate to the uname(2) system call. The UTS
->> +namespace is named after the data structure used to store information
->> +returned by the uname(2) system call.
->> +
->> +User-space tools can get the kernel name, host name, kernel release
->> +number, kernel version, architecture name and OS type from it.
-> 
-> Already asked this but no reply so lemme paste my question again:
-> 
-> "And this document already fulfills its purpose - those two vmcoreinfo
-> exports are redundant and the first one can be removed.
-> 
-> And now that we agreed that VMCOREINFO is not an ABI and is very tightly
-> coupled to the kernel version, init_uts_ns.name.release can be removed,
-> yes?
-> 
-> Or is there anything speaking against that?"
-> 
+From: Randy Dunlap <rdunlap@infradead.org>
 
-Sorry for this, that is my mistake. Thanks for your reminder.
+Fix Sphinx warnings in ibmvmc.rst, add an index.rst file in
+Documentation/misc-devices/, and insert that index file into the
+top-level index file.
 
-I agree on your point of view. But i forgot that i should remove this variable
-in this post.
+Documentation/misc-devices/ibmvmc.rst:2: WARNING: Explicit markup ends without a blank line; unexpected unindent.
+Documentation/misc-devices/ibmvmc.rst:: WARNING: document isn't included in any toctree
 
-I would like to remove this variable and post again. 
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Steven Royer <seroyer@linux.ibm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+---
+ Documentation/index.rst               |    1 +
+ Documentation/misc-devices/ibmvmc.rst |    1 +
+ Documentation/misc-devices/index.rst  |   17 +++++++++++++++++
+ 3 files changed, 19 insertions(+)
 
-Thanks.
-Lianbo
+--- lnx-50-rc2.orig/Documentation/misc-devices/ibmvmc.rst
++++ lnx-50-rc2/Documentation/misc-devices/ibmvmc.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GPL-2.0+
++
+ ======================================================
+ IBM Virtual Management Channel Kernel Driver (IBMVMC)
+ ======================================================
+--- lnx-50-rc2.orig/Documentation/index.rst
++++ lnx-50-rc2/Documentation/index.rst
+@@ -90,6 +90,7 @@ needed).
+    filesystems/index
+    vm/index
+    bpf/index
++   misc-devices/index
+ 
+ Architecture-specific documentation
+ -----------------------------------
+--- /dev/null
++++ lnx-50-rc2/Documentation/misc-devices/index.rst
+@@ -0,0 +1,17 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++============================================
++Assorted Miscellaneous Devices Documentation
++============================================
++
++This documentation contains information for assorted devices that do not
++fit into other categories.
++
++.. class:: toc-title
++
++	   Table of contents
++
++.. toctree::
++   :maxdepth: 2
++
++   ibmvmc
+
+
