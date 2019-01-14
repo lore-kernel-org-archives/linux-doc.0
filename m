@@ -5,95 +5,141 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1431D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 16:56:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C9B077D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 17:20:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726774AbfANQ42 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Jan 2019 11:56:28 -0500
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:45294 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726767AbfANQ42 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jan 2019 11:56:28 -0500
-Received: by mail-pg1-f194.google.com with SMTP id y4so9689476pgc.12
-        for <linux-doc@vger.kernel.org>; Mon, 14 Jan 2019 08:56:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Vkwq3id0aiSy/vb74DJe2hbNKxSIPAis3Qrod7DHZQ0=;
-        b=lyYVrL/nMjGWRQq1IqKhH+RRcKq8y5UvOTovpShB7RyKJ1o/hirWuzf8BxwnhT2zQi
-         7EyWO35lPb4/GgfXYa/yJHyQDnI9LlTtuHqAX1q5Xo+dDw4wKCVV3l89VW0+fgdWeC87
-         6DRFrxDXOTg3rFvzzhSygiBSR8tgjQVt/GW4EduO1mZHoIXgx1SnBx/p0v97Oj26ELtZ
-         TppihwXBI01kMHpDzE1ktz9G3+HttV+YO6jb2/5zUMy37cezMu6tjL5GdOfx6FERFZjt
-         lw0S/adX13551B41ywIVH5MeG+0qJ9tmpLmROCbBUm6GsJeUK7t5jMx8UvzrQ2fysNVX
-         B4Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Vkwq3id0aiSy/vb74DJe2hbNKxSIPAis3Qrod7DHZQ0=;
-        b=jiNDlN742e0aIr7rBzwpIyyqvT8pEG8uGRjqyLRnBnrzJ2jH4cUmpLIvVkwHDA12p4
-         XOq4D58Jt4lI96IibS4aqcXdE7nxOapQN7tQD8B06ngBM9bi0yftlCZL9HGHybCVf9TV
-         ReOo2kwflnmxsPjWfPMG7Lvy5njBp15HH1G22cezfyT/eaUPIO4P5wCd9Lc7Y9MATjeL
-         7Jpq08og+zH4AvA1a/8qK7BwRFWmQFrf2ljZG4J20HtoYHNsPltO8TQpMS6sACIK6+a1
-         rOwKbFqxDfonwvFHxu4ZBjKhZpFL1gtzFOXOSH/aN+U146u5orjuJv9sl7vFXJ6BoKkI
-         aXZg==
-X-Gm-Message-State: AJcUukdwDTF4DaNiSZ8qhMIuoOoVKkKrHjzWoyrhjxdvKfeuZiA2xXQA
-        s1Tk8N3AkrXuLrCtBzuHuAuFbg==
-X-Google-Smtp-Source: ALg8bN6+3wKpyeAAmIcTMEhwbnGD9psTt39TSnaZ/LOOmkvbnlvqFowv2nBJwQX7Ju+E/MtwyQzljw==
-X-Received: by 2002:a62:7792:: with SMTP id s140mr26138218pfc.26.1547484987383;
-        Mon, 14 Jan 2019 08:56:27 -0800 (PST)
-Received: from ziepe.ca (S010614cc2056d97f.ed.shawcable.net. [174.3.196.123])
-        by smtp.gmail.com with ESMTPSA id x186sm2147168pfb.59.2019.01.14.08.56.22
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 14 Jan 2019 08:56:22 -0800 (PST)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1gj5XB-0006jE-Q4; Mon, 14 Jan 2019 09:56:21 -0700
-Date:   Mon, 14 Jan 2019 09:56:21 -0700
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Joel Nider <joeln@il.ibm.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Leon Romanovsky <leon@kernel.org>,
+        id S1726674AbfANRUz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Jan 2019 12:20:55 -0500
+Received: from mail-eopbgr80052.outbound.protection.outlook.com ([40.107.8.52]:59872
+        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726673AbfANRUz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Jan 2019 12:20:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6XcuNSCDF56wQ6uFJEwLiijDZB4Zk52vqZUhFrSKmHE=;
+ b=WHIH13y6CYHPRUNCkcKgEItQmaQ4YWhqHkIICxEyUtR4sK8dFEKBK2FOWY7XCM/NY5kcM+vRhU1KqG2jn0IaAR9HhkyHmy/2iqgg6TnP0ptTgY51yRu+5oEb48M6A+rGRjY5vLvWJhGxWr1MBhuEWlvQz6tL/M/kelOJ+sRrGh8=
+Received: from HE1PR05MB4601.eurprd05.prod.outlook.com (20.176.163.138) by
+ HE1PR05MB3387.eurprd05.prod.outlook.com (10.170.246.161) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1516.18; Mon, 14 Jan 2019 17:20:50 +0000
+Received: from HE1PR05MB4601.eurprd05.prod.outlook.com
+ ([fe80::75a0:a89d:1227:7ed3]) by HE1PR05MB4601.eurprd05.prod.outlook.com
+ ([fe80::75a0:a89d:1227:7ed3%5]) with mapi id 15.20.1516.019; Mon, 14 Jan 2019
+ 17:20:50 +0000
+From:   Jason Gunthorpe <jgg@mellanox.com>
+To:     Joey Pabalinas <joeypabalinas@gmail.com>,
+        Joe Perches <joe@perches.com>,
+        Gal Pressman <galpress@amazon.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Stephen Warren <swarren@wwwdotorg.org>,
+        Tariq Toukan <tariqt@mellanox.com>,
+        "xavier.huwei@huawei.com" <xavier.huwei@huawei.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
         Doug Ledford <dledford@redhat.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] docs-rst: infiniband: Convert user verbs doc to rst
-Message-ID: <20190114165621.GD22910@ziepe.ca>
-References: <1547456451-7102-1-git-send-email-joeln@il.ibm.com>
- <1547456451-7102-2-git-send-email-joeln@il.ibm.com>
+        Stephen Warren <swarren@nvidia.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4] coding-style: Clarify the expectations around bool
+Thread-Topic: [PATCH v4] coding-style: Clarify the expectations around bool
+Thread-Index: AQHUqT7yMz195OkzB0O1DFW0sNTtuKWqU/gAgAS0gAA=
+Date:   Mon, 14 Jan 2019 17:20:49 +0000
+Message-ID: <20190114172044.GE22875@mellanox.com>
+References: <20190110234805.GN6890@ziepe.ca>
+ <20190111172940.zufmrhvukqo5hkat@gmail.com>
+In-Reply-To: <20190111172940.zufmrhvukqo5hkat@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: MWHPR11CA0025.namprd11.prod.outlook.com
+ (2603:10b6:300:115::11) To HE1PR05MB4601.eurprd05.prod.outlook.com
+ (2603:10a6:7:99::10)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=jgg@mellanox.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [174.3.196.123]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1;HE1PR05MB3387;6:REOL4wVuaX+GUY5bHtX9TV2lGhO5LBowaDe7gE8fIocEsdRSdiYmM3IYCuPSXp25qVDHLQVZ12yQdEBdFd/EZVPHH8sLoXzjKYss1in0iZAQohYKF54/O76B7TpmeDMv10YtQT5QBLV+6UCZCux57LJcww3PE5YdVyL2kVM912lO2ydVoHbL+NFnE1Dn6jDY0upJaIyCbQtIa2eJqdQIhEt0AIqOTJ0UacS9axSsa4G2ByDFMTOmbF6icIYee97xdtZQkNjgNhVS/fV3g2fjSjSrDbrDmH8dAGLYqgRIyIRxQ2vhPEkYYy9cCsy9c9HjY09LHTaVtoEF2zlo7fca0Wbnmrd3pAOA4cc2CCGA84u2QZbCIxgTvTKSqOtK77V3EO/lKL7w+I7Fvxhb3PZYogOmJnW568KjEHOP6UPauXVMQvS2wrudaRKAgP7Rule2KlkJsyQ52Wpr7coCPPpHgw==;5:obu8W8lM87BEMfKUHtllIAaDTNeYwg/0yF+z2hYNO8MAPetVQ//oFLzrk7ferv9hxZAxqZheO+OnuCdwBZd2Cp35H4VBN4Gcpd8v0GG0OrQHU/vSXRarmdhqFlap1bkbCfmCMiCewQLTE5TkDhDTkrF3VB+Phiesw08lZVj7CxyoxqhD32KkAi/4ttm3IkrFuu+orVK7pp0VMjYIwbjWww==;7:G/2/NmGy4pQBEQNWCaVRHK0UDqBJqZgDUrXIM/PqL3IWfxj4ZVdS3IHi16VwJeybNC0KZAbn4n3pAKWVNSubKv/KpRBK0uqpaUlq2y2MObPAyidc+abzfI0bCzPjei6oH6H1om/SLq70hKDkJ0VDeg==
+x-ms-office365-filtering-correlation-id: e452320e-8d92-436b-9068-08d67a44a0ca
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600109)(711020)(4618075)(2017052603328)(7153060)(7193020);SRVR:HE1PR05MB3387;
+x-ms-traffictypediagnostic: HE1PR05MB3387:
+x-microsoft-antispam-prvs: <HE1PR05MB33877B3F755F2BA6B0F4BC93CF800@HE1PR05MB3387.eurprd05.prod.outlook.com>
+x-forefront-prvs: 0917DFAC67
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(366004)(376002)(39860400002)(346002)(396003)(199004)(189003)(2616005)(476003)(11346002)(478600001)(446003)(2501003)(486006)(39060400002)(97736004)(33656002)(53936002)(2906002)(6512007)(7736002)(305945005)(14454004)(66066001)(6246003)(36756003)(25786009)(8676002)(81156014)(81166006)(256004)(14444005)(71200400001)(71190400001)(229853002)(76176011)(52116002)(6486002)(6436002)(105586002)(106356001)(5660300001)(99286004)(7416002)(386003)(102836004)(316002)(68736007)(6506007)(110136005)(1076003)(6116002)(26005)(2201001)(186003)(86362001)(3846002)(8936002)(921003)(1121003);DIR:OUT;SFP:1101;SCL:1;SRVR:HE1PR05MB3387;H:HE1PR05MB4601.eurprd05.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: Z2ZYaowOHWQWkrt5vYwS5KOVvmowcBJvD6FVN0D1w9GK5jd9PT8869GP+8AY9GlYz654Pz+Y0JI3ZEInbAkkm6fjkxLt6ZJ2OYZ3dBtjtAZA+jZrOutjdHH/AJtDKXtfQAG+vP2rsPsDBKQ9XMg0sINIWXlGRoEf3P52uV5oQaP3PHHVw3z+O5XkQO9t6BxYMHA3miPiOIt4rsz7sRWrxk+ckxnDOQHF+K/sFg80xEm63uDU+pxRs8na3s8RzSSCylM4LvRG8ZjnwUKXybh3RdngLlHjTSzgRqvKhHsq59D2NcYThpLaZ4/JUq99OfOkQydSupPR+rBAbCmrSRpTU/YrmR2SUG/nVsdYfDuvbAGL+4XuwANs2AFymZ3+KOhUT7G2Wez0FKcOFzeLVv7I7Qo8jX076Te51adAwAcVq08=
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <420A43F343C15F47AEEDD50D202BF142@eurprd05.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1547456451-7102-2-git-send-email-joeln@il.ibm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e452320e-8d92-436b-9068-08d67a44a0ca
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jan 2019 17:20:49.3468
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR05MB3387
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 14, 2019 at 11:00:49AM +0200, Joel Nider wrote:
-> Replace the existing Documentation/infiniband/user_verbs.txt with
-> Documentation/infiniband/user_verbs.rst. No substantial changes to
-> the content - just some minor reformatting to have the rendering
-> come out nicely.
-> This is in preparation for updating the content in a subsequent
-> patch.
-> 
-> Signed-off-by: Joel Nider <joeln@il.ibm.com>
-> ---
->  Documentation/infiniband/user_verbs.rst | 70 +++++++++++++++++++++++++++++++++
->  Documentation/infiniband/user_verbs.txt | 69 --------------------------------
->  2 files changed, 70 insertions(+), 69 deletions(-)
->  create mode 100644 Documentation/infiniband/user_verbs.rst
->  delete mode 100644 Documentation/infiniband/user_verbs.txt
+On Fri, Jan 11, 2019 at 07:29:40AM -1000, Joey Pabalinas wrote:
+> On Thu, Jan 10, 2019 at 11:48:13PM +0000, Jason Gunthorpe wrote:
+> > There has been some confusion since checkpatch started warning about bo=
+ol
+> > use in structures, and people have been avoiding using it.
+> >=20
+> > Many people feel there is still a legitimate place for bool in structur=
+es,
+> > so provide some guidance on bool usage derived from the entire thread t=
+hat
+> > spawned the checkpatch warning.
+>=20
+> Hey Jason,
+>=20
+> I very much agree that the bool expectations could be much clearer, and t=
+his
+> patch is a nice step in that direction! Just a couple small nitpicks:
+>=20
+> > +Do not use bool if cache line layout or size of the value matters, its=
+ size
+> > +and alignment varies based on the compiled architecture. Structures th=
+at are
+> > +optimized for alignment and size should not use bool.
+>=20
+> +Do not use bool if cache line layout or size of the value matters, as it=
+s size
+>                                                                     ^
+>                                                                     |
+> Adding an "as" makes the sentence flow a bit cleaner: --------------
+>=20
+> > +into a single bitwise 'flags' argument and 'flags' can often a more re=
+adable
+> > +alternative if the call-sites have naked true/false constants.
+>=20
+> +into a single bitwise 'flags' argument and 'flags' can often be a more r=
+eadable
+>                                                               ^
+>                                                               |
+> Missing a "be" here: -----------------------------------------
+>=20
+> Ack from me after those two corrections.
+>=20
+> Reviewed-by: Joey Pabalinas <joeypabalinas@gmail.com>
 
-Thanks for getting this going Joe, I've been mulling over writing more
-docs for this area for a while now.
+done, thanks
 
-Jonathan/linux-doc: Can you Ack at least the build system parts of
-this please? I can take it through the rdma tree, unless you prefer
-otherwise?
-
-Cheers,
 Jason
