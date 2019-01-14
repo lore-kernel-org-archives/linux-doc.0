@@ -5,112 +5,89 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CC5687D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 11:56:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 36AD47D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 12:12:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726414AbfANL4l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Jan 2019 06:56:41 -0500
-Received: from wes1-so1-b.wedos.net ([46.28.106.43]:58209 "EHLO
-        wes1-so1.wedos.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726339AbfANL4l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jan 2019 06:56:41 -0500
-Received: from localhost (ovpn-brq.redhat.com [213.175.37.11])
-        by wes1-so1.wedos.net (Postfix) with ESMTPSA id 43dX4k38YVz2fC;
-        Mon, 14 Jan 2019 12:56:38 +0100 (CET)
-Date:   Mon, 14 Jan 2019 12:56:36 +0100
-From:   Otto Sabart <ottosabart@seberm.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 1/1 RESEND] doc: net: fix bad references to network drivers
-Message-ID: <f6af749d99cf7dd9e5ba90824d0fe898ae69c793.1547466751.git.ottosabart@seberm.com>
+        id S1726491AbfANMMA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Jan 2019 07:12:00 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:60556 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726449AbfANMMA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Jan 2019 07:12:00 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 261B680D;
+        Mon, 14 Jan 2019 04:12:00 -0800 (PST)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C2FBA3F5BD;
+        Mon, 14 Jan 2019 04:11:58 -0800 (PST)
+Date:   Mon, 14 Jan 2019 12:11:56 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Changbin Du <changbin.du@gmail.com>
+Cc:     rostedt@goodmis.org, linux@armlinux.org.uk, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] fgraph: record function return value
+Message-ID: <20190114121151.GC10258@lakrids.cambridge.arm.com>
+References: <20190112065701.30841-1-changbin.du@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="GvXjxJ+pjyke8COw"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-PGP-Key: http://seberm.com/pubkey.asc
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190112065701.30841-1-changbin.du@gmail.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, Jan 12, 2019 at 02:57:01PM +0800, Changbin Du wrote:
+> This patch adds a new trace option 'funcgraph-retval' and is disabled by
+> default. When this option is enabled, fgraph tracer will show the return
+> value of each function. This is useful to find/analyze a original error
+> source in a call graph.
+> 
+> One limitation is that kernel doesn't know the prototype of functions. So
+> fgraph assumes all functions have a retvalue of type int. You must ignore
+> the value of *void* function. And if the retvalue looks like an error code
+> then both hexadecimal and decimal number are displayed.
 
---GvXjxJ+pjyke8COw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This sounds more confusing than helpful, and it sounds like this has
+overlap with FTRACE_WITH_REGS functionality.
 
-Fix "reference to nonexisting document" warnings.
+> diff --git a/arch/arm64/kernel/entry-ftrace.S b/arch/arm64/kernel/entry-ftrace.S
+> index 81b8eb5c4633..223f4ad269d4 100644
+> --- a/arch/arm64/kernel/entry-ftrace.S
+> +++ b/arch/arm64/kernel/entry-ftrace.S
+> @@ -202,6 +202,7 @@ ENTRY(return_to_handler)
+>  	stp x4, x5, [sp, #32]
+>  	stp x6, x7, [sp, #48]
+>  
+> +	mov	x1, x0			// return value
+>  	mov	x0, x29			//     parent's fp
+>  	bl	ftrace_return_to_handler// addr = ftrace_return_to_hander(fp);
+>  	mov	x30, x0			// restore the original return address
 
-Fixes: b255e500c8dc ("net: documentation: build a directory structure
-for drivers")
-Signed-off-by: Otto Sabart <ottosabart@seberm.com>
----
- Documentation/networking/index.rst | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+What about indirect return values? Those go via x8.
 
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/=
-index.rst
-index 6a47629ef8ed..59e86de662cd 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -11,19 +11,19 @@ Contents:
-    batman-adv
-    can
-    can_ucan_protocol
--   dpaa2/index
--   e100
--   e1000
--   e1000e
--   fm10k
--   igb
--   igbvf
--   ixgb
--   ixgbe
--   ixgbevf
--   i40e
--   iavf
--   ice
-+   device_drivers/freescale/dpaa2/index
-+   device_drivers/intel/e100
-+   device_drivers/intel/e1000
-+   device_drivers/intel/e1000e
-+   device_drivers/intel/fm10k
-+   device_drivers/intel/igb
-+   device_drivers/intel/igbvf
-+   device_drivers/intel/ixgb
-+   device_drivers/intel/ixgbe
-+   device_drivers/intel/ixgbevf
-+   device_drivers/intel/i40e
-+   device_drivers/intel/iavf
-+   device_drivers/intel/ice
-    kapi
-    z8530book
-    msg_zerocopy
---=20
-2.17.2
+Additionally, in some cases (e.g. static functions with cross-function
+optimization), the compiler might not follow the usual PCS, so the
+return value might not be in x0 regardless. Maybe such functions aren't
+hooked by ftrace today?
 
+Generally, I don't think that this is going to be reliable.
 
---GvXjxJ+pjyke8COw
-Content-Type: application/pgp-signature; name="signature.asc"
+> +config HAVE_FTRACE_RETVAL
+> +	bool
+> +
+>  config HAVE_DYNAMIC_FTRACE
+>  	bool
+>  	help
+> @@ -160,6 +163,7 @@ config FUNCTION_GRAPH_TRACER
+>  	depends on HAVE_FUNCTION_GRAPH_TRACER
+>  	depends on FUNCTION_TRACER
+>  	depends on !X86_32 || !CC_OPTIMIZE_FOR_SIZE
+> +	select HAVE_FTRACE_RETVAL if (X86 || ARM)
 
------BEGIN PGP SIGNATURE-----
+... but not arm64?
 
-iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlw8ePIACgkQgjuumfi+
-HjxgLw/+LVoxtrmmkC9y6jPbUymOiZnGUokAg7pf8ts10rCDfUMKBdvlDst5JybH
-FJ8v35LQ8YdpCQdtneLBcrQ0ZtbWfZA4RgFOr0TAu7bGLDVZ1vFqx1pR3mHflHhm
-vq9Y/V40XITnXQY1hSKB8UoA7A/tGSoXyCyF30oQX/QfZlnlO9h4xPJmX5Ncz+YT
-92DWXw3maWf3UiBbS7q4L3H5dyOtsKXWcLgtRbaEZSOFjMovAY9r5Wp7SqeMxxJK
-7cRnV8b1TjQc/jUQATFjhk4n2FCYHJIoswGE222RpfkONMTOJvRuKjDHfqd1NCPc
-E+enVQSxlhLDRg4OtUfgtueU4+uT+OtIGct54fOHndQ7q2gi8htzYyWNF4Hlk9aI
-NnnwjzGsdJy1OpPDpi66yesugUShH6/m893QN9MjXioV6ooP7Sh+/f1iy5kxMhZL
-UKGr2GQbHIrswcE0Y4FLcIP9rs3ZwIa0nJwuZ79Jvnb15q2CRTGoMdABmxifOtzM
-W2a3Sg7bUx/iysVz1zmzjq0We97pqxr7J1IWju6rhFiEqFvURf54Wa/Bb1xxdrmZ
-eLA5GfLFgL/Odx8lqaNrLUGt2FTEIG0fMt2y5tyBctDNnAdGTaG58YaoRdjQO8kI
-YAVWE3wwhCbOYv0lJ31G7EQf4pFUm6GZ8FU923DApjkmqyuqFhE=
-=XjHW
------END PGP SIGNATURE-----
-
---GvXjxJ+pjyke8COw--
+Thanks,
+Mark.
