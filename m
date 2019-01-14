@@ -3,32 +3,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D29A87D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 09:10:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 525CC7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 09:15:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726460AbfANJKR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Jan 2019 04:10:17 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:41554 "EHLO mail.skyhub.de"
+        id S1726482AbfANJPM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Jan 2019 04:15:12 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:42358 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726436AbfANJKR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Jan 2019 04:10:17 -0500
+        id S1726437AbfANJPM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Jan 2019 04:15:12 -0500
 Received: from zn.tnic (p200300EC2BC4CA00116FEC2D9C4463FB.dip0.t-ipconnect.de [IPv6:2003:ec:2bc4:ca00:116f:ec2d:9c44:63fb])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 073A01EC058B;
-        Mon, 14 Jan 2019 10:10:15 +0100 (CET)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6D3EE1EC058B;
+        Mon, 14 Jan 2019 10:15:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1547457016;
+        t=1547457311;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=jYgJ9rippeE05eN++d74VuemFMkxvzV21Ngj7PSw0/c=;
-        b=AxIjhBHcPoaTkJz9f1/QIwq+To5GaFjZhP4wgVJ2cjoPc1WUzWuAm7KIo64eqn85htlyZ9
-        PERGfBETJul2e+qwZPpmX0eBUg5tVQFUWqiDbS3GipZeG6jOdAKpyOmOxNNvK/s/Jg6duM
-        7SgbX9Q1rkwuGyHbbPVeHr/hRsNWS/g=
-Date:   Mon, 14 Jan 2019 10:10:14 +0100
+        bh=4Cyw5tVjqr6oJq6X5bdMCiAtpamEVubIioeHcGN2Fcg=;
+        b=Nu1Ma85DzE/D4XYru3fDyGynddKRL+tyVikMssiBryDIGAuVLAbWueRSN5OKqhhe2X70zG
+        HkQYEwzNTQpSZ3rzZW+6+to/mXjQ9377FPVvYk8U3BMdXJ5jGpBhFOY3OUCTystuYJGQhN
+        CI2lasGYUFpkUodj89Q9iXyoCnwLxdI=
+Date:   Mon, 14 Jan 2019 10:15:10 +0100
 From:   Borislav Petkov <bp@alien8.de>
 To:     lijiang <lijiang@redhat.com>
 Cc:     linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
@@ -37,33 +37,39 @@ Cc:     linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
         k-hagio@ab.jp.nec.com, anderson@redhat.com,
         linux-doc@vger.kernel.org
 Subject: Re: [PATCH 1/2 v6] kdump: add the vmcoreinfo documentation
-Message-ID: <20190114091014.GB2773@zn.tnic>
+Message-ID: <20190114091509.GC2773@zn.tnic>
 References: <20190110121944.6050-1-lijiang@redhat.com>
  <20190110121944.6050-2-lijiang@redhat.com>
- <20190111123300.GE4729@zn.tnic>
- <93c1969f-dcc7-4e34-75ff-b14f2ec15269@redhat.com>
+ <20190111145650.GG4729@zn.tnic>
+ <be8fbb64-7748-c7da-55f7-99fe69796a94@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <93c1969f-dcc7-4e34-75ff-b14f2ec15269@redhat.com>
+In-Reply-To: <be8fbb64-7748-c7da-55f7-99fe69796a94@redhat.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 14, 2019 at 09:52:14AM +0800, lijiang wrote:
-> I would like to remove this variable and post again.
+On Mon, Jan 14, 2019 at 01:30:30PM +0800, lijiang wrote:
+> I noticed that the checkpatch was coded in Perl. But i am not familiar with
+> the Perl program language, that would be beyond my ability to do this, i have
+> to learn the Perl program language step by step. :-)
 
-No, you should remove the vmcoreinfo export too:
+You could give it a try - it is not hard :-)
 
-kernel/crash_core.c:398:        VMCOREINFO_OSRELEASE(init_uts_ns.name.release);
+And there's no hurry for this, take your time.
 
-after making sure userspace is not using it and *then* remove the
-documentation.
+> Do you mean this one 'KERNEL_IMAGE_SIZE'?
 
-But you can do that in a separate patch, so that it can be reverted if
-trouble.
+I mean, all those which are unused. Optimally, you should look at the
+tools and see whether they're using those exports and if not, remove
+them. But no hurry here too, take your time.
+
+My final goal is to have this up-to-date documentation of what is
+exported and what is used by user tools so that people can look at it
+first before carelessly exporting yet another thing.
 
 Thx.
 
