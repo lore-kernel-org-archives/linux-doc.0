@@ -5,92 +5,112 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2C3D27D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 11:47:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CC5687D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 11:56:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726482AbfANLrn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Jan 2019 06:47:43 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36314 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726436AbfANLrn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jan 2019 06:47:43 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x0EBj6ot097794
-        for <linux-doc@vger.kernel.org>; Mon, 14 Jan 2019 06:47:42 -0500
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2q0rayc3d7-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 14 Jan 2019 06:47:41 -0500
-Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Mon, 14 Jan 2019 11:47:40 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 14 Jan 2019 11:47:38 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x0EBlbGT51445822
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 14 Jan 2019 11:47:37 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 80C2652054;
-        Mon, 14 Jan 2019 11:47:37 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.207.170])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 007BF52051;
-        Mon, 14 Jan 2019 11:47:35 +0000 (GMT)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Mon, 14 Jan 2019 13:47:35 +0200
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, Mike Rapoport <rppt@linux.ibm.com>
-Subject: [PATCH] docs/core-api: memory-allocation: add mention of kmem_cache_create_userspace
-Date:   Mon, 14 Jan 2019 13:47:34 +0200
-X-Mailer: git-send-email 2.7.4
-X-TM-AS-GCONF: 00
-x-cbid: 19011411-4275-0000-0000-000002FEF2A6
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19011411-4276-0000-0000-0000380D0B8B
-Message-Id: <1547466454-29457-1-git-send-email-rppt@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-14_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1901140098
+        id S1726414AbfANL4l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Jan 2019 06:56:41 -0500
+Received: from wes1-so1-b.wedos.net ([46.28.106.43]:58209 "EHLO
+        wes1-so1.wedos.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726339AbfANL4l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jan 2019 06:56:41 -0500
+Received: from localhost (ovpn-brq.redhat.com [213.175.37.11])
+        by wes1-so1.wedos.net (Postfix) with ESMTPSA id 43dX4k38YVz2fC;
+        Mon, 14 Jan 2019 12:56:38 +0100 (CET)
+Date:   Mon, 14 Jan 2019 12:56:36 +0100
+From:   Otto Sabart <ottosabart@seberm.com>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 1/1 RESEND] doc: net: fix bad references to network drivers
+Message-ID: <f6af749d99cf7dd9e5ba90824d0fe898ae69c793.1547466751.git.ottosabart@seberm.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="GvXjxJ+pjyke8COw"
+Content-Disposition: inline
+X-PGP-Key: http://seberm.com/pubkey.asc
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mention that when a part of a slab cache might be exported to the
-userspace, the cache should be created using kmem_cache_create_usercopy()
 
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+--GvXjxJ+pjyke8COw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Fix "reference to nonexisting document" warnings.
+
+Fixes: b255e500c8dc ("net: documentation: build a directory structure
+for drivers")
+Signed-off-by: Otto Sabart <ottosabart@seberm.com>
 ---
- Documentation/core-api/memory-allocation.rst | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ Documentation/networking/index.rst | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
-index 8954a88..51a200d 100644
---- a/Documentation/core-api/memory-allocation.rst
-+++ b/Documentation/core-api/memory-allocation.rst
-@@ -113,9 +113,11 @@ see :c:func:`kvmalloc_node` reference documentation. Note that
- 
- If you need to allocate many identical objects you can use the slab
- cache allocator. The cache should be set up with
--:c:func:`kmem_cache_create` before it can be used. Afterwards
--:c:func:`kmem_cache_alloc` and its convenience wrappers can allocate
--memory from that cache.
-+:c:func:`kmem_cache_create` or :c:func:`kmem_cache_create_usercopy`
-+before it can be used. The second function should be used if a part of
-+the cache might be copied to the userspace.  After the cache is
-+created :c:func:`kmem_cache_alloc` and its convenience wrappers can
-+allocate memory from that cache.
- 
- When the allocated memory is no longer needed it must be freed. You
- can use :c:func:`kvfree` for the memory allocated with `kmalloc`,
--- 
-2.7.4
+diff --git a/Documentation/networking/index.rst b/Documentation/networking/=
+index.rst
+index 6a47629ef8ed..59e86de662cd 100644
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -11,19 +11,19 @@ Contents:
+    batman-adv
+    can
+    can_ucan_protocol
+-   dpaa2/index
+-   e100
+-   e1000
+-   e1000e
+-   fm10k
+-   igb
+-   igbvf
+-   ixgb
+-   ixgbe
+-   ixgbevf
+-   i40e
+-   iavf
+-   ice
++   device_drivers/freescale/dpaa2/index
++   device_drivers/intel/e100
++   device_drivers/intel/e1000
++   device_drivers/intel/e1000e
++   device_drivers/intel/fm10k
++   device_drivers/intel/igb
++   device_drivers/intel/igbvf
++   device_drivers/intel/ixgb
++   device_drivers/intel/ixgbe
++   device_drivers/intel/ixgbevf
++   device_drivers/intel/i40e
++   device_drivers/intel/iavf
++   device_drivers/intel/ice
+    kapi
+    z8530book
+    msg_zerocopy
+--=20
+2.17.2
 
+
+--GvXjxJ+pjyke8COw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlw8ePIACgkQgjuumfi+
+HjxgLw/+LVoxtrmmkC9y6jPbUymOiZnGUokAg7pf8ts10rCDfUMKBdvlDst5JybH
+FJ8v35LQ8YdpCQdtneLBcrQ0ZtbWfZA4RgFOr0TAu7bGLDVZ1vFqx1pR3mHflHhm
+vq9Y/V40XITnXQY1hSKB8UoA7A/tGSoXyCyF30oQX/QfZlnlO9h4xPJmX5Ncz+YT
+92DWXw3maWf3UiBbS7q4L3H5dyOtsKXWcLgtRbaEZSOFjMovAY9r5Wp7SqeMxxJK
+7cRnV8b1TjQc/jUQATFjhk4n2FCYHJIoswGE222RpfkONMTOJvRuKjDHfqd1NCPc
+E+enVQSxlhLDRg4OtUfgtueU4+uT+OtIGct54fOHndQ7q2gi8htzYyWNF4Hlk9aI
+NnnwjzGsdJy1OpPDpi66yesugUShH6/m893QN9MjXioV6ooP7Sh+/f1iy5kxMhZL
+UKGr2GQbHIrswcE0Y4FLcIP9rs3ZwIa0nJwuZ79Jvnb15q2CRTGoMdABmxifOtzM
+W2a3Sg7bUx/iysVz1zmzjq0We97pqxr7J1IWju6rhFiEqFvURf54Wa/Bb1xxdrmZ
+eLA5GfLFgL/Odx8lqaNrLUGt2FTEIG0fMt2y5tyBctDNnAdGTaG58YaoRdjQO8kI
+YAVWE3wwhCbOYv0lJ31G7EQf4pFUm6GZ8FU923DApjkmqyuqFhE=
+=XjHW
+-----END PGP SIGNATURE-----
+
+--GvXjxJ+pjyke8COw--
