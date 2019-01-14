@@ -5,74 +5,123 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 383C67D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 20:49:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CE4307D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 21:46:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726808AbfANUtP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Jan 2019 15:49:15 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:57930 "EHLO mx1.redhat.com"
+        id S1726592AbfANVqn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Jan 2019 16:46:43 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:35234 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726776AbfANUtP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Jan 2019 15:49:15 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        id S1726591AbfANVqn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Jan 2019 16:46:43 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 570302D7E7;
-        Mon, 14 Jan 2019 20:49:15 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 43D9760CCF;
-        Mon, 14 Jan 2019 20:49:15 +0000 (UTC)
-Received: from zmail24.collab.prod.int.phx2.redhat.com (zmail24.collab.prod.int.phx2.redhat.com [10.5.83.30])
-        by colo-mx.corp.redhat.com (Postfix) with ESMTP id 231593F7CB;
-        Mon, 14 Jan 2019 20:49:15 +0000 (UTC)
-Date:   Mon, 14 Jan 2019 15:49:14 -0500 (EST)
-From:   Dave Anderson <anderson@redhat.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Kazuhito Hagio <k-hagio@ab.jp.nec.com>,
-        Lianbo Jiang <lijiang@redhat.com>,
-        linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
-        tglx@linutronix.de, mingo@redhat.com, x86@kernel.org,
-        akpm@linux-foundation.org, bhe@redhat.com, dyoung@redhat.com,
-        linux-doc@vger.kernel.org
-Message-ID: <1862896935.69778880.1547498954956.JavaMail.zimbra@redhat.com>
-In-Reply-To: <20190114203500.GU2773@zn.tnic>
-References: <20190110121944.6050-1-lijiang@redhat.com> <20190114192144.GQ2773@zn.tnic> <134663991.69764038.1547494607008.JavaMail.zimbra@redhat.com> <20190114195940.GS2773@zn.tnic> <244986363.69770015.1547496453312.JavaMail.zimbra@redhat.com> <20190114201812.GT2773@zn.tnic> <221183717.69773903.1547497592624.JavaMail.zimbra@redhat.com> <20190114203500.GU2773@zn.tnic>
-Subject: Re: [PATCH 1/2 v6] kdump: add the vmcoreinfo documentation
+        by mx1.redhat.com (Postfix) with ESMTPS id 11E4380F90;
+        Mon, 14 Jan 2019 21:46:42 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-223.bos.redhat.com [10.18.17.223])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 138B65D76A;
+        Mon, 14 Jan 2019 21:46:39 +0000 (UTC)
+Subject: Re: [RFC PATCH] x86/speculation: Don't inherit TIF_SSBD on execve()
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>,
+        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <ak@linux.intel.com>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Jiri Kosina <jikos@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        KarimAllah Ahmed <karahmed@amazon.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Kees Cook <keescook@chromium.org>
+References: <1545246590-12704-1-git-send-email-longman@redhat.com>
+ <alpine.DEB.2.21.1901112046290.1661@nanos.tec.linutronix.de>
+From:   Waiman Long <longman@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ weim8xU=
+Organization: Red Hat
+Message-ID: <c2384e8e-619e-fd05-cfd3-8dc593439ea9@redhat.com>
+Date:   Mon, 14 Jan 2019 16:46:39 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
+In-Reply-To: <alpine.DEB.2.21.1901112046290.1661@nanos.tec.linutronix.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.18.17.201, 10.4.195.25]
-Thread-Topic: kdump: add the vmcoreinfo documentation
-Thread-Index: 1w3RLd9A9qEHPbJGj05Nd5Aij519rA==
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Mon, 14 Jan 2019 20:49:15 +0000 (UTC)
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Mon, 14 Jan 2019 21:46:42 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 01/11/2019 02:52 PM, Thomas Gleixner wrote:
+> On Wed, 19 Dec 2018, Waiman Long wrote:
+>
+>> With the default SPEC_STORE_BYPASS_SECCOMP/SPEC_STORE_BYPASS_PRCTL mode,
+>> the TIF_SSBD bit will be inherited when a new task is fork'ed or cloned.
+>>
+>> As only certain class of applications (like Java) requires disabling
+>> speculative store bypass for security purpose, it may not make sense to
+>> allow the TIF_SSBD bit to be inherited across execve() boundary where the
+>> new application may not need SSBD at all and is probably not aware that
+>> SSBD may have been turned on. This may cause an unnecessary performance
+>> loss of up to 20% in some cases.
+> Lot's of MAY's here. Aside of that this fundamentally changes the
+> behaviour. I'm not really a fan of doing that.
+>
+> If there are good reasons to have a non-inherited variant, then we rather
+> introduce that instead of changing the existing semantics without a way for
+> existing userspace to notice.
 
+I understand your point. How about adding a ",noexec" auxillary option
+to the spec_store_bypass_disable command line to activate this new
+behavior without changing the default. Will that be acceptable?
 
------ Original Message -----
-> On Mon, Jan 14, 2019 at 03:26:32PM -0500, Dave Anderson wrote:
-> > No.  It needs *both* the vmlinux file and the vmcore file in order to read
-> > kernel
-> > virtual memory, so just having a kernel virtual address is insufficient.
-> > 
-> > So it's a chicken-and-egg situation.  This particular --osrelease option is used
-> > to determine *what* vmlinux file would be required for an actual crash analysis
-> > session.
-> 
-> Ok, that makes sense. I could've used that explanation when reviewing
-> the documentation. Do you mind skimming through this:
-> 
-> https://lkml.kernel.org/r/20190111145650.GG4729@zn.tnic
-> 
-> in case we've missed explaining relevant usage - like that above - of
-> some of the vmcoreinfo members?
-
-Yeah, I've been watching the thread, and the document looks fine to me.
-It's just that when I saw the discussion of this one being removed that
-I felt the need to respond...  ;-)
-
-Dave
+Cheers,
+Longman
