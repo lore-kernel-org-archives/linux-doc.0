@@ -1,94 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-3.5 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SORTED_RECIPS autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A18C37D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 18:33:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 891F27D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 18:52:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726742AbfANSdH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Jan 2019 13:33:07 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60392 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726732AbfANSdH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jan 2019 13:33:07 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x0EISsWA119490
-        for <linux-doc@vger.kernel.org>; Mon, 14 Jan 2019 13:33:05 -0500
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2q0ycrh29r-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 14 Jan 2019 13:33:05 -0500
+        id S1726745AbfANSwZ convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Jan 2019 13:52:25 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:44850 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726643AbfANSwZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jan 2019 13:52:25 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x0EIiDfD045860
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jan 2019 13:52:24 -0500
+Received: from smtp.notes.na.collabserv.com (smtp.notes.na.collabserv.com [192.155.248.73])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2q0xjjuv24-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jan 2019 13:52:23 -0500
 Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Mon, 14 Jan 2019 18:33:04 -0000
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 14 Jan 2019 18:33:02 -0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x0EIX1cb327944
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 14 Jan 2019 18:33:01 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 69EB3A4055;
-        Mon, 14 Jan 2019 18:33:01 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E526DA4053;
-        Mon, 14 Jan 2019 18:32:59 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.207.129])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Mon, 14 Jan 2019 18:32:59 +0000 (GMT)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Mon, 14 Jan 2019 20:32:59 +0200
-From:   Mike Rapoport <rppt@linux.ibm.com>
+        by smtp.notes.na.collabserv.com with smtp.notes.na.collabserv.com ESMTP
+        for <linux-doc@vger.kernel.org> from <JOELN@il.ibm.com>;
+        Mon, 14 Jan 2019 18:52:23 -0000
+Received: from us1a3-smtp03.a3.dal06.isc4sb.com (10.106.154.98)
+        by smtp.notes.na.collabserv.com (10.106.227.90) with smtp.notes.na.collabserv.com ESMTP;
+        Mon, 14 Jan 2019 18:52:15 -0000
+Received: from us1a3-mail108.a3.dal06.isc4sb.com ([10.146.45.126])
+          by us1a3-smtp03.a3.dal06.isc4sb.com
+          with ESMTP id 2019011418521486-881154 ;
+          Mon, 14 Jan 2019 18:52:14 +0000 
+In-Reply-To: <20190114103421.7fef97c0@lwn.net>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mike Rapoport <rppt@linux.ibm.com>
-Subject: [PATCH] docs/core-api/mm: fix GFP combinations section name
-Date:   Mon, 14 Jan 2019 20:32:58 +0200
-X-Mailer: git-send-email 2.7.4
-X-TM-AS-GCONF: 00
-x-cbid: 19011418-0016-0000-0000-0000024565CC
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19011418-0017-0000-0000-0000329F7911
-Message-Id: <1547490778-6758-1-git-send-email-rppt@linux.ibm.com>
+Cc:     Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [PATCH 1/3] docs-rst: infiniband: Convert user verbs doc to rst
+From:   "Joel Nider" <JOELN@il.ibm.com>
+Date:   Mon, 14 Jan 2019 20:52:14 +0200
+References: <1547456451-7102-1-git-send-email-joeln@il.ibm.com><1547456451-7102-2-git-send-email-joeln@il.ibm.com><20190114165621.GD22910@ziepe.ca>
+ <20190114103421.7fef97c0@lwn.net>
+MIME-Version: 1.0
+X-KeepSent: E572E930:5960E029-C2258382:00673730;
+ type=4; name=$KeepSent
+X-Mailer: IBM Notes Release 9.0.1FP7 August 18, 2016
+X-LLNOutbound: False
+X-Disclaimed: 16875
+X-TNEFEvaluated: 1
+x-cbid: 19011418-3107-0000-0000-00000999387C
+X-IBM-SpamModules-Scores: BY=0.142389; FL=0; FP=0; FZ=0; HX=0; KW=0; PH=0;
+ SC=0.40962; ST=0; TS=0; UL=0; ISC=; MB=0.000000
+X-IBM-SpamModules-Versions: BY=3.00010405; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000274; SDB=6.01146463; UDB=6.00597114; IPR=6.00926749;
+ BA=6.00006200; NDR=6.00000001; ZLA=6.00000005; ZF=6.00000009; ZB=6.00000000;
+ ZP=6.00000000; ZH=6.00000000; ZU=6.00000002; MB=3.00025124; XFM=3.00000015;
+ UTC=2019-01-14 18:52:20
+X-IBM-AV-DETECTION: SAVI=unsuspicious REMOTE=unsuspicious XFE=unused
+X-IBM-AV-VERSION: SAVI=2019-01-14 15:23:34 - 6.00009464
+x-cbparentid: 19011418-3108-0000-0000-00001F5C6572
+Message-Id: <OFE572E930.5960E029-ONC2258382.00673730-C2258382.0067A91D@notes.na.collabserv.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 8BIT
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-14_10:,,
  signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=902 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1901140146
+X-Proofpoint-Spam-Reason: safe
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix the mismatch between "Useful GFP flag combinations" section naming in
-the DOC: section in include/linux/gfp.h and
-Documentation/core-api/mm-api.rst
+Jonathan Corbet <corbet@lwn.net> wrote on 01/14/2019 07:34:21 PM:
 
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
----
- Documentation/core-api/mm-api.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> From: Jonathan Corbet <corbet@lwn.net>
+> To: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Joel Nider <joeln@il.ibm.com>, Leon Romanovsky <leon@kernel.org>, 
+Doug 
+> Ledford <dledford@redhat.com>, Mike Rapoport <rppt@linux.ibm.com>, 
+linux-
+> doc@vger.kernel.org, linux-kernel@vger.kernel.org
+> Date: 01/14/2019 07:37 PM
+> Subject: Re: [PATCH 1/3] docs-rst: infiniband: Convert user verbs doc to 
+rst
+> 
+> On Mon, 14 Jan 2019 09:56:21 -0700
+> Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> 
+> > >  Documentation/infiniband/user_verbs.rst | 70 
++++++++++++++++++++++++++++++++++
+> > >  Documentation/infiniband/user_verbs.txt | 69 
+--------------------------------
+> > >  2 files changed, 70 insertions(+), 69 deletions(-)
+> > >  create mode 100644 Documentation/infiniband/user_verbs.rst
+> > >  delete mode 100644 Documentation/infiniband/user_verbs.txt 
+> > 
+> > Thanks for getting this going Joel, I've been mulling over writing 
+more
+> > docs for this area for a while now.
+> > 
+> > Jonathan/linux-doc: Can you Ack at least the build system parts of
+> > this please? I can take it through the rdma tree, unless you prefer
+> > otherwise?
+> 
+> Can I make a request?  This appears to be user-oriented documentation; 
+can
+> we please place it into the userspace-api manual, rather than keeping it
+> in its own silo?
 
-diff --git a/Documentation/core-api/mm-api.rst b/Documentation/core-api/mm-api.rst
-index aa8e54b8..128e8a7 100644
---- a/Documentation/core-api/mm-api.rst
-+++ b/Documentation/core-api/mm-api.rst
-@@ -35,7 +35,7 @@ users will want to use a plain ``GFP_KERNEL``.
-    :doc: Reclaim modifiers
- 
- .. kernel-doc:: include/linux/gfp.h
--   :doc: Common combinations
-+   :doc: Useful GFP flag combinations
- 
- The Slab Cache
- ==============
--- 
-2.7.4
+I knew someone was going to ask me to do that :-)
+I agree that userspace stuff should all be together, but I guess for 
+historical reasons this one stayed in the infiniband section. So if Jason 
+is ok with moving the doc, I'll take a look in the morning to see how best 
+to work that into the patchset.
+
+> Thanks,
+> 
+> jon
+> 
+
 
