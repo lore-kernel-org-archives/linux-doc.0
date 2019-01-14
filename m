@@ -1,82 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C22747D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 18:01:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A18C37D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 18:33:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726732AbfANSBu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Jan 2019 13:01:50 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:35036 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726723AbfANSBu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Jan 2019 13:01:50 -0500
-Received: from zn.tnic (p200300EC2BC4CA000555087DEC7D7788.dip0.t-ipconnect.de [IPv6:2003:ec:2bc4:ca00:555:87d:ec7d:7788])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2316D1EC0AEA;
-        Mon, 14 Jan 2019 19:01:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1547488908;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=G9b4au4VAWxHUcbA2ouvVkbeuEWRynZFBPq/8nrSnBk=;
-        b=Kqy1QRcgeCOUyoUDfDsW7Q8yUvpoF6VhQtcyJouPIOcrFaGzRFDl2QiocaEegFn9BDYNS2
-        3QK1bpZXJQhNjTZqY76Txcwohx1+T7S8RzT14b5NCiwjx8bH0js+hrFbeNFBBt52fFUPaM
-        tfo2nzIbUy5brsfcSUpGVgsenS25UbM=
-Date:   Mon, 14 Jan 2019 19:01:42 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Kazuhito Hagio <k-hagio@ab.jp.nec.com>
-Cc:     Lianbo Jiang <lijiang@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "bhe@redhat.com" <bhe@redhat.com>,
-        "dyoung@redhat.com" <dyoung@redhat.com>,
-        "anderson@redhat.com" <anderson@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 1/2 v6] kdump: add the vmcoreinfo documentation
-Message-ID: <20190114180142.GO2773@zn.tnic>
-References: <20190110121944.6050-1-lijiang@redhat.com>
- <20190110121944.6050-2-lijiang@redhat.com>
- <20190111123300.GE4729@zn.tnic>
- <4AE2DC15AC0B8543882A74EA0D43DBEC035661E8@BPXM09GP.gisp.nec.co.jp>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <4AE2DC15AC0B8543882A74EA0D43DBEC035661E8@BPXM09GP.gisp.nec.co.jp>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726742AbfANSdH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Jan 2019 13:33:07 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60392 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726732AbfANSdH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jan 2019 13:33:07 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x0EISsWA119490
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jan 2019 13:33:05 -0500
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2q0ycrh29r-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jan 2019 13:33:05 -0500
+Received: from localhost
+        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Mon, 14 Jan 2019 18:33:04 -0000
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 14 Jan 2019 18:33:02 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x0EIX1cb327944
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 14 Jan 2019 18:33:01 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 69EB3A4055;
+        Mon, 14 Jan 2019 18:33:01 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E526DA4053;
+        Mon, 14 Jan 2019 18:32:59 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.207.129])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Mon, 14 Jan 2019 18:32:59 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Mon, 14 Jan 2019 20:32:59 +0200
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mike Rapoport <rppt@linux.ibm.com>
+Subject: [PATCH] docs/core-api/mm: fix GFP combinations section name
+Date:   Mon, 14 Jan 2019 20:32:58 +0200
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+x-cbid: 19011418-0016-0000-0000-0000024565CC
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19011418-0017-0000-0000-0000329F7911
+Message-Id: <1547490778-6758-1-git-send-email-rppt@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-14_10:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=902 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1901140146
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 14, 2019 at 05:48:48PM +0000, Kazuhito Hagio wrote:
-> As for makedumpfile, it will be not impossible to remove the
-> init_uts_ns.name.relase (OSRELEASE), but some fixes are needed.
-> Because historically OSRELEASE has been a kind of a mandatory entry
-> in vmcoreinfo from the beginning of vmcoreinfo, so makedumpfile uses
-> its existence to check whether a vmcoreinfo is sane.
+Fix the mismatch between "Useful GFP flag combinations" section naming in
+the DOC: section in include/linux/gfp.h and
+Documentation/core-api/mm-api.rst
 
-Well, init_uts_ns is exported in vmcoreinfo anyway - makedumpfile
-can simply test init_uts_ns.name.release just as well. And the
-"historically" argument doesn't matter because vmcoreinfo is not an ABI.
+Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+---
+ Documentation/core-api/mm-api.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-So makedumpfile needs to be changed to check that new export.
-
-> Also, I think crash also will need to be fixed if it is removed.
-
-Yes, I'm expecting user tools to be fixed and then exports removed.
-
+diff --git a/Documentation/core-api/mm-api.rst b/Documentation/core-api/mm-api.rst
+index aa8e54b8..128e8a7 100644
+--- a/Documentation/core-api/mm-api.rst
++++ b/Documentation/core-api/mm-api.rst
+@@ -35,7 +35,7 @@ users will want to use a plain ``GFP_KERNEL``.
+    :doc: Reclaim modifiers
+ 
+ .. kernel-doc:: include/linux/gfp.h
+-   :doc: Common combinations
++   :doc: Useful GFP flag combinations
+ 
+ The Slab Cache
+ ==============
 -- 
-Regards/Gruss,
-    Boris.
+2.7.4
 
-Good mailing practices for 400: avoid top-posting and trim the reply.
