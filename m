@@ -1,687 +1,621 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B5B7F7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 04:17:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5182A7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 05:30:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726436AbfANERv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 13 Jan 2019 23:17:51 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:43576 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726306AbfANERv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Jan 2019 23:17:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=zTQTh72oJ8SFMcfWPVR9R8rzHYMPo9WoweTe42exdRQ=; b=jJ82Yyp05ictuQKwqD1pd4smBD
-        pptbycj5CVLYVAD72y4+LLzGH9eUNn/Pr/wtw6gOz7Uph+N3L/dup+NbXE7mGgmzccPZ0oetXi3Oc
-        aXVwDT0Mve3YCXCdv6AEd4byEFoKyfmqc7awtmteLZohmbYannKPlTzpe2Asr0r766GCyAY/rjQfc
-        yO4rBq5Oj0b8ntHyEF5F7VOjMh0WrEWeLT6fyhqvuYKprIbZix2fT9RTlq/xpyMXKzR5KlRfaQxI5
-        dHXFjvaDz4K7H64ztUDhEAVmyYsPqGA0t5PDvtc0McjSPFjvPJsizgd3M1ApkwHn/tBncXZjhpyWa
-        YxUIrC9A==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gith1-0002GI-6z; Mon, 14 Jan 2019 04:17:44 +0000
-To:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        David Miller <davem@davemloft.net>
-Cc:     yupeng <yupeng0921@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] networking: Documentation: fix snmp_counters.rst Sphinx
- warnings
-Message-ID: <b6936a0a-6ef8-47c0-19f1-f8ad17244407@infradead.org>
-Date:   Sun, 13 Jan 2019 20:17:41 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1726064AbfANFan (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Jan 2019 00:30:43 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:55522 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725910AbfANFan (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Jan 2019 00:30:43 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id D3B89C0467DF;
+        Mon, 14 Jan 2019 05:30:42 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-12-115.pek2.redhat.com [10.72.12.115])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BEC7BA79;
+        Mon, 14 Jan 2019 05:30:32 +0000 (UTC)
+Subject: Re: [PATCH 1/2 v6] kdump: add the vmcoreinfo documentation
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
+        tglx@linutronix.de, mingo@redhat.com, x86@kernel.org,
+        akpm@linux-foundation.org, bhe@redhat.com, dyoung@redhat.com,
+        k-hagio@ab.jp.nec.com, anderson@redhat.com,
+        linux-doc@vger.kernel.org
+References: <20190110121944.6050-1-lijiang@redhat.com>
+ <20190110121944.6050-2-lijiang@redhat.com> <20190111145650.GG4729@zn.tnic>
+From:   lijiang <lijiang@redhat.com>
+Message-ID: <be8fbb64-7748-c7da-55f7-99fe69796a94@redhat.com>
+Date:   Mon, 14 Jan 2019 13:30:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
+In-Reply-To: <20190111145650.GG4729@zn.tnic>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Mon, 14 Jan 2019 05:30:43 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+在 2019年01月11日 22:56, Borislav Petkov 写道:
+> On Thu, Jan 10, 2019 at 08:19:43PM +0800, Lianbo Jiang wrote:
+>> This document lists some variables that export to vmcoreinfo, and briefly
+>> describles what these variables indicate. It should be instructive for
+>> many people who do not know the vmcoreinfo.
+>>
+>> Suggested-by: Borislav Petkov <bp@suse.de>
+>> Signed-off-by: Lianbo Jiang <lijiang@redhat.com>
+>> ---
+>>  Documentation/kdump/vmcoreinfo.txt | 500 +++++++++++++++++++++++++++++
+>>  1 file changed, 500 insertions(+)
+>>  create mode 100644 Documentation/kdump/vmcoreinfo.txt
+> 
+> Ok, below is what I'm going to commit if no one complains. I hope you'd
+> find some time to work on adding the checkpatch check for patches which
+> add vmcoreinfo members but do not document them
 
-Fix over 100 documentation warnings in snmp_counter.rst by
-extending the underline string lengths and inserting a blank line
-after bullet items.
+I noticed that the checkpatch was coded in Perl. But i am not familiar with
+the Perl program language, that would be beyond my ability to do this, i have
+to learn the Perl program language step by step. :-)
 
-Examples:
+> and also remove those vmcoreinfo members which are unused.
+> 
 
-Documentation/networking/snmp_counter.rst:1: WARNING: Title overline too short.
-Documentation/networking/snmp_counter.rst:14: WARNING: Bullet list ends without a blank line; unexpected unindent.
+Do you mean this one 'KERNEL_IMAGE_SIZE'?
 
-Fixes: 2b96547223e3 ("add document for TCP OFO, PAWS and skip ACK counters")
-Fixes: 8e2ea53a83df ("add snmp counters document")
-Fixes: 712ee16c230f ("add documents for snmp counters")
-Fixes: 80cc49507ba4 ("net: Add part of TCP counts explanations in snmp_counters.rst")
-Fixes: b08794a922c4 ("documentation of some IP/ICMP snmp counters")
+Currently unused by Makedumpfile, but used to compute the module virtual
+address by Crash.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: yupeng <yupeng0921@gmail.com>
----
- Documentation/networking/snmp_counter.rst |  113 +++++++++++++++-----
- 1 file changed, 86 insertions(+), 27 deletions(-)
+I have corrected this issue in VMCOREINFO doc.
 
---- lnx-50-rc2.orig/Documentation/networking/snmp_counter.rst
-+++ lnx-50-rc2/Documentation/networking/snmp_counter.rst
-@@ -1,16 +1,17 @@
--===========
-+============
- SNMP counter
--===========
-+============
- 
- This document explains the meaning of SNMP counters.
- 
- General IPv4 counters
--====================
-+=====================
- All layer 4 packets and ICMP packets will change these counters, but
- these counters won't be changed by layer 2 packets (such as STP) or
- ARP packets.
- 
- * IpInReceives
-+
- Defined in `RFC1213 ipInReceives`_
- 
- .. _RFC1213 ipInReceives: https://tools.ietf.org/html/rfc1213#page-26
-@@ -23,6 +24,7 @@ and so on).  It indicates the number of
- GRO/LRO.
- 
- * IpInDelivers
-+
- Defined in `RFC1213 ipInDelivers`_
- 
- .. _RFC1213 ipInDelivers: https://tools.ietf.org/html/rfc1213#page-28
-@@ -33,6 +35,7 @@ supported protocols will be delivered, i
- socket, all valid IP packets will be delivered.
- 
- * IpOutRequests
-+
- Defined in `RFC1213 ipOutRequests`_
- 
- .. _RFC1213 ipOutRequests: https://tools.ietf.org/html/rfc1213#page-28
-@@ -42,6 +45,7 @@ multicast packets, and would always be u
- IpExtOutOctets.
- 
- * IpExtInOctets and IpExtOutOctets
-+
- They are Linux kernel extensions, no RFC definitions. Please note,
- RFC1213 indeed defines ifInOctets  and ifOutOctets, but they
- are different things. The ifInOctets and ifOutOctets include the MAC
-@@ -49,6 +53,7 @@ layer header size but IpExtInOctets and
- only include the IP layer header and the IP layer data.
- 
- * IpExtInNoECTPkts, IpExtInECT1Pkts, IpExtInECT0Pkts, IpExtInCEPkts
-+
- They indicate the number of four kinds of ECN IP packets, please refer
- `Explicit Congestion Notification`_ for more details.
- 
-@@ -60,6 +65,7 @@ for the same packet, you might find that
- IpExtInNoECTPkts counts 2 or more.
- 
- * IpInHdrErrors
-+
- Defined in `RFC1213 ipInHdrErrors`_. It indicates the packet is
- dropped due to the IP header error. It might happen in both IP input
- and IP forward paths.
-@@ -67,6 +73,7 @@ and IP forward paths.
- .. _RFC1213 ipInHdrErrors: https://tools.ietf.org/html/rfc1213#page-27
- 
- * IpInAddrErrors
-+
- Defined in `RFC1213 ipInAddrErrors`_. It will be increased in two
- scenarios: (1) The IP address is invalid. (2) The destination IP
- address is not a local address and IP forwarding is not enabled
-@@ -74,6 +81,7 @@ address is not a local address and IP fo
- .. _RFC1213 ipInAddrErrors: https://tools.ietf.org/html/rfc1213#page-27
- 
- * IpExtInNoRoutes
-+
- This counter means the packet is dropped when the IP stack receives a
- packet and can't find a route for it from the route table. It might
- happen when IP forwarding is enabled and the destination IP address is
-@@ -81,6 +89,7 @@ not a local address and there is no rout
- address.
- 
- * IpInUnknownProtos
-+
- Defined in `RFC1213 ipInUnknownProtos`_. It will be increased if the
- layer 4 protocol is unsupported by kernel. If an application is using
- raw socket, kernel will always deliver the packet to the raw socket
-@@ -89,10 +98,12 @@ and this counter won't be increased.
- .. _RFC1213 ipInUnknownProtos: https://tools.ietf.org/html/rfc1213#page-27
- 
- * IpExtInTruncatedPkts
-+
- For IPv4 packet, it means the actual data size is smaller than the
- "Total Length" field in the IPv4 header.
- 
- * IpInDiscards
-+
- Defined in `RFC1213 ipInDiscards`_. It indicates the packet is dropped
- in the IP receiving path and due to kernel internal reasons (e.g. no
- enough memory).
-@@ -100,20 +111,23 @@ enough memory).
- .. _RFC1213 ipInDiscards: https://tools.ietf.org/html/rfc1213#page-28
- 
- * IpOutDiscards
-+
- Defined in `RFC1213 ipOutDiscards`_. It indicates the packet is
- dropped in the IP sending path and due to kernel internal reasons.
- 
- .. _RFC1213 ipOutDiscards: https://tools.ietf.org/html/rfc1213#page-28
- 
- * IpOutNoRoutes
-+
- Defined in `RFC1213 ipOutNoRoutes`_. It indicates the packet is
- dropped in the IP sending path and no route is found for it.
- 
- .. _RFC1213 ipOutNoRoutes: https://tools.ietf.org/html/rfc1213#page-29
- 
- ICMP counters
--============
-+=============
- * IcmpInMsgs and IcmpOutMsgs
-+
- Defined by `RFC1213 icmpInMsgs`_ and `RFC1213 icmpOutMsgs`_
- 
- .. _RFC1213 icmpInMsgs: https://tools.ietf.org/html/rfc1213#page-41
-@@ -126,6 +140,7 @@ IcmpOutMsgs would still be updated if th
- a userspace program.
- 
- * ICMP named types
-+
- | These counters include most of common ICMP types, they are:
- | IcmpInDestUnreachs: `RFC1213 icmpInDestUnreachs`_
- | IcmpInTimeExcds: `RFC1213 icmpInTimeExcds`_
-@@ -180,6 +195,7 @@ straightforward. The 'In' counter means
- and the 'Out' counter means kernel sends such a packet.
- 
- * ICMP numeric types
-+
- They are IcmpMsgInType[N] and IcmpMsgOutType[N], the [N] indicates the
- ICMP type number. These counters track all kinds of ICMP packets. The
- ICMP type number definition could be found in the `ICMP parameters`_
-@@ -192,12 +208,14 @@ IcmpMsgOutType8 would increase 1. And if
- packet, IcmpMsgInType0 would increase 1.
- 
- * IcmpInCsumErrors
-+
- This counter indicates the checksum of the ICMP packet is
- wrong. Kernel verifies the checksum after updating the IcmpInMsgs and
- before updating IcmpMsgInType[N]. If a packet has bad checksum, the
- IcmpInMsgs would be updated but none of IcmpMsgInType[N] would be updated.
- 
- * IcmpInErrors and IcmpOutErrors
-+
- Defined by `RFC1213 icmpInErrors`_ and `RFC1213 icmpOutErrors`_
- 
- .. _RFC1213 icmpInErrors: https://tools.ietf.org/html/rfc1213#page-41
-@@ -209,7 +227,7 @@ and the sending packet path use IcmpOutE
- is increased, IcmpInErrors would always be increased too.
- 
- relationship of the ICMP counters
---------------------------------
-+---------------------------------
- The sum of IcmpMsgOutType[N] is always equal to IcmpOutMsgs, as they
- are updated at the same time. The sum of IcmpMsgInType[N] plus
- IcmpInErrors should be equal or larger than IcmpInMsgs. When kernel
-@@ -229,8 +247,9 @@ IcmpInMsgs should be less than the sum o
- IcmpInErrors.
- 
- General TCP counters
--==================
-+====================
- * TcpInSegs
-+
- Defined in `RFC1213 tcpInSegs`_
- 
- .. _RFC1213 tcpInSegs: https://tools.ietf.org/html/rfc1213#page-48
-@@ -247,6 +266,7 @@ isn't aware of GRO. So if two packets ar
- counter would only increase 1.
- 
- * TcpOutSegs
-+
- Defined in `RFC1213 tcpOutSegs`_
- 
- .. _RFC1213 tcpOutSegs: https://tools.ietf.org/html/rfc1213#page-48
-@@ -258,6 +278,7 @@ GSO, so if a packet would be split to 2
- increase 2.
- 
- * TcpActiveOpens
-+
- Defined in `RFC1213 tcpActiveOpens`_
- 
- .. _RFC1213 tcpActiveOpens: https://tools.ietf.org/html/rfc1213#page-47
-@@ -267,6 +288,7 @@ state. Every time TcpActiveOpens increas
- increase 1.
- 
- * TcpPassiveOpens
-+
- Defined in `RFC1213 tcpPassiveOpens`_
- 
- .. _RFC1213 tcpPassiveOpens: https://tools.ietf.org/html/rfc1213#page-47
-@@ -275,6 +297,7 @@ It means the TCP layer receives a SYN, r
- the SYN-RCVD state.
- 
- * TcpExtTCPRcvCoalesce
-+
- When packets are received by the TCP layer and are not be read by the
- application, the TCP layer will try to merge them. This counter
- indicate how many packets are merged in such situation. If GRO is
-@@ -282,12 +305,14 @@ enabled, lots of packets would be merged
- wouldn't be counted to TcpExtTCPRcvCoalesce.
- 
- * TcpExtTCPAutoCorking
-+
- When sending packets, the TCP layer will try to merge small packets to
- a bigger one. This counter increase 1 for every packet merged in such
- situation. Please refer to the LWN article for more details:
- https://lwn.net/Articles/576263/
- 
- * TcpExtTCPOrigDataSent
-+
- This counter is explained by `kernel commit f19c29e3e391`_, I pasted the
- explaination below::
- 
-@@ -297,6 +322,7 @@ explaination below::
-   more useful to track the TCP retransmission rate.
- 
- * TCPSynRetrans
-+
- This counter is explained by `kernel commit f19c29e3e391`_, I pasted the
- explaination below::
- 
-@@ -304,6 +330,7 @@ explaination below::
-   retransmissions into SYN, fast-retransmits, timeout retransmits, etc.
- 
- * TCPFastOpenActiveFail
-+
- This counter is explained by `kernel commit f19c29e3e391`_, I pasted the
- explaination below::
- 
-@@ -313,6 +340,7 @@ explaination below::
- .. _kernel commit f19c29e3e391: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f19c29e3e391a66a273e9afebaf01917245148cd
- 
- * TcpExtListenOverflows and TcpExtListenDrops
-+
- When kernel receives a SYN from a client, and if the TCP accept queue
- is full, kernel will drop the SYN and add 1 to TcpExtListenOverflows.
- At the same time kernel will also add 1 to TcpExtListenDrops. When a
-@@ -337,7 +365,7 @@ to the accept queue.
- 
- 
- TCP Fast Open
--============
-+=============
- When kernel receives a TCP packet, it has two paths to handler the
- packet, one is fast path, another is slow path. The comment in kernel
- code provides a good explanation of them, I pasted them below::
-@@ -370,22 +398,24 @@ will disable the fast path at first, and
- receives packets.
- 
- * TcpExtTCPPureAcks and TcpExtTCPHPAcks
-+
- If a packet set ACK flag and has no data, it is a pure ACK packet, if
- kernel handles it in the fast path, TcpExtTCPHPAcks will increase 1,
- if kernel handles it in the slow path, TcpExtTCPPureAcks will
- increase 1.
- 
- * TcpExtTCPHPHits
-+
- If a TCP packet has data (which means it is not a pure ACK packet),
- and this packet is handled in the fast path, TcpExtTCPHPHits will
- increase 1.
- 
- 
- TCP abort
--========
--
-+=========
- 
- * TcpExtTCPAbortOnData
-+
- It means TCP layer has data in flight, but need to close the
- connection. So TCP layer sends a RST to the other side, indicate the
- connection is not closed very graceful. An easy way to increase this
-@@ -404,11 +434,13 @@ when the application closes a connection
- immediately and increase the TcpExtTCPAbortOnData counter.
- 
- * TcpExtTCPAbortOnClose
-+
- This counter means the application has unread data in the TCP layer when
- the application wants to close the TCP connection. In such a situation,
- kernel will send a RST to the other side of the TCP connection.
- 
- * TcpExtTCPAbortOnMemory
-+
- When an application closes a TCP connection, kernel still need to track
- the connection, let it complete the TCP disconnect process. E.g. an
- app calls the close method of a socket, kernel sends fin to the other
-@@ -430,10 +462,12 @@ the tcp_mem. Please refer the tcp_mem se
- 
- 
- * TcpExtTCPAbortOnTimeout
-+
- This counter will increase when any of the TCP timers expire. In such
- situation, kernel won't send RST, just give up the connection.
- 
- * TcpExtTCPAbortOnLinger
-+
- When a TCP connection comes into FIN_WAIT_2 state, instead of waiting
- for the fin packet from the other side, kernel could send a RST and
- delete the socket immediately. This is not the default behavior of
-@@ -441,6 +475,7 @@ Linux kernel TCP stack. By configuring t
- you could let kernel follow this behavior.
- 
- * TcpExtTCPAbortFailed
-+
- The kernel TCP layer will send RST if the `RFC2525 2.17 section`_ is
- satisfied. If an internal error occurs during this process,
- TcpExtTCPAbortFailed will be increased.
-@@ -448,7 +483,7 @@ TcpExtTCPAbortFailed will be increased.
- .. _RFC2525 2.17 section: https://tools.ietf.org/html/rfc2525#page-50
- 
- TCP Hybrid Slow Start
--====================
-+=====================
- The Hybrid Slow Start algorithm is an enhancement of the traditional
- TCP congestion window Slow Start algorithm. It uses two pieces of
- information to detect whether the max bandwidth of the TCP path is
-@@ -464,23 +499,27 @@ relate with the Hybrid Slow Start algori
- .. _Hybrid Slow Start paper: https://pdfs.semanticscholar.org/25e9/ef3f03315782c7f1cbcd31b587857adae7d1.pdf
- 
- * TcpExtTCPHystartTrainDetect
-+
- How many times the ACK train length threshold is detected
- 
- * TcpExtTCPHystartTrainCwnd
-+
- The sum of CWND detected by ACK train length. Dividing this value by
- TcpExtTCPHystartTrainDetect is the average CWND which detected by the
- ACK train length.
- 
- * TcpExtTCPHystartDelayDetect
-+
- How many times the packet delay threshold is detected.
- 
- * TcpExtTCPHystartDelayCwnd
-+
- The sum of CWND detected by packet delay. Dividing this value by
- TcpExtTCPHystartDelayDetect is the average CWND which detected by the
- packet delay.
- 
- TCP retransmission and congestion control
--======================================
-+=========================================
- The TCP protocol has two retransmission mechanisms: SACK and fast
- recovery. They are exclusive with each other. When SACK is enabled,
- the kernel TCP stack would use SACK, or kernel would use fast
-@@ -499,12 +538,14 @@ https://pdfs.semanticscholar.org/0e9c/96
- .. _RFC6582: https://tools.ietf.org/html/rfc6582
- 
- * TcpExtTCPRenoRecovery and TcpExtTCPSackRecovery
-+
- When the congestion control comes into Recovery state, if sack is
- used, TcpExtTCPSackRecovery increases 1, if sack is not used,
- TcpExtTCPRenoRecovery increases 1. These two counters mean the TCP
- stack begins to retransmit the lost packets.
- 
- * TcpExtTCPSACKReneging
-+
- A packet was acknowledged by SACK, but the receiver has dropped this
- packet, so the sender needs to retransmit this packet. In this
- situation, the sender adds 1 to TcpExtTCPSACKReneging. A receiver
-@@ -515,6 +556,7 @@ the RTO expires for this packet, then th
- has been dropped by the receiver.
- 
- * TcpExtTCPRenoReorder
-+
- The reorder packet is detected by fast recovery. It would only be used
- if SACK is disabled. The fast recovery algorithm detects recorder by
- the duplicate ACK number. E.g., if retransmission is triggered, and
-@@ -525,6 +567,7 @@ order packet. Thus the sender would find
- expectation, and the sender knows out of order occurs.
- 
- * TcpExtTCPTSReorder
-+
- The reorder packet is detected when a hole is filled. E.g., assume the
- sender sends packet 1,2,3,4,5, and the receiving order is
- 1,2,4,5,3. When the sender receives the ACK of packet 3 (which will
-@@ -534,6 +577,7 @@ fill the hole), two conditions will let
- than the retransmission timestamp.
- 
- * TcpExtTCPSACKReorder
-+
- The reorder packet detected by SACK. The SACK has two methods to
- detect reorder: (1) DSACK is received by the sender. It means the
- sender sends the same packet more than one times. And the only reason
-@@ -558,39 +602,46 @@ sender side.
- .. _RFC2883 : https://tools.ietf.org/html/rfc2883
- 
- * TcpExtTCPDSACKOldSent
-+
- The TCP stack receives a duplicate packet which has been acked, so it
- sends a DSACK to the sender.
- 
- * TcpExtTCPDSACKOfoSent
-+
- The TCP stack receives an out of order duplicate packet, so it sends a
- DSACK to the sender.
- 
- * TcpExtTCPDSACKRecv
-+
- The TCP stack receives a DSACK, which indicate an acknowledged
- duplicate packet is received.
- 
- * TcpExtTCPDSACKOfoRecv
-+
- The TCP stack receives a DSACK, which indicate an out of order
- duplicate packet is received.
- 
- TCP out of order
--===============
-+================
- * TcpExtTCPOFOQueue
-+
- The TCP layer receives an out of order packet and has enough memory
- to queue it.
- 
- * TcpExtTCPOFODrop
-+
- The TCP layer receives an out of order packet but doesn't have enough
- memory, so drops it. Such packets won't be counted into
- TcpExtTCPOFOQueue.
- 
- * TcpExtTCPOFOMerge
-+
- The received out of order packet has an overlay with the previous
- packet. the overlay part will be dropped. All of TcpExtTCPOFOMerge
- packets will also be counted into TcpExtTCPOFOQueue.
- 
- TCP PAWS
--=======
-+========
- PAWS (Protection Against Wrapped Sequence numbers) is an algorithm
- which is used to drop old packets. It depends on the TCP
- timestamps. For detail information, please refer the `timestamp wiki`_
-@@ -600,13 +651,15 @@ and the `RFC of PAWS`_.
- .. _timestamp wiki: https://en.wikipedia.org/wiki/Transmission_Control_Protocol#TCP_timestamps
- 
- * TcpExtPAWSActive
-+
- Packets are dropped by PAWS in Syn-Sent status.
- 
- * TcpExtPAWSEstab
-+
- Packets are dropped by PAWS in any status other than Syn-Sent.
- 
- TCP ACK skip
--===========
-+============
- In some scenarios, kernel would avoid sending duplicate ACKs too
- frequently. Please find more details in the tcp_invalid_ratelimit
- section of the `sysctl document`_. When kernel decides to skip an ACK
-@@ -618,6 +671,7 @@ it has no data.
- .. _sysctl document: https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
- 
- * TcpExtTCPACKSkippedSynRecv
-+
- The ACK is skipped in Syn-Recv status. The Syn-Recv status means the
- TCP stack receives a SYN and replies SYN+ACK. Now the TCP stack is
- waiting for an ACK. Generally, the TCP stack doesn't need to send ACK
-@@ -631,6 +685,7 @@ increase TcpExtTCPACKSkippedSynRecv.
- 
- 
- * TcpExtTCPACKSkippedPAWS
-+
- The ACK is skipped due to PAWS (Protect Against Wrapped Sequence
- numbers) check fails. If the PAWS check fails in Syn-Recv, Fin-Wait-2
- or Time-Wait statuses, the skipped ACK would be counted to
-@@ -639,18 +694,22 @@ TcpExtTCPACKSkippedTimeWait. In all othe
- would be counted to TcpExtTCPACKSkippedPAWS.
- 
- * TcpExtTCPACKSkippedSeq
-+
- The sequence number is out of window and the timestamp passes the PAWS
- check and the TCP status is not Syn-Recv, Fin-Wait-2, and Time-Wait.
- 
- * TcpExtTCPACKSkippedFinWait2
-+
- The ACK is skipped in Fin-Wait-2 status, the reason would be either
- PAWS check fails or the received sequence number is out of window.
- 
- * TcpExtTCPACKSkippedTimeWait
-+
- Tha ACK is skipped in Time-Wait status, the reason would be either
- PAWS check failed or the received sequence number is out of window.
- 
- * TcpExtTCPACKSkippedChallenge
-+
- The ACK is skipped if the ACK is a challenge ACK. The RFC 5961 defines
- 3 kind of challenge ACK, please refer `RFC 5961 section 3.2`_,
- `RFC 5961 section 4.2`_ and `RFC 5961 section 5.2`_. Besides these
-@@ -664,10 +723,10 @@ unacknowledged number (more strict than
- 
- 
- examples
--=======
-+========
- 
- ping test
----------
-+---------
- Run the ping command against the public dns server 8.8.8.8::
- 
-   nstatuser@nstat-a:~$ ping 8.8.8.8 -c 1
-@@ -711,7 +770,7 @@ and its corresponding Echo Reply packet
- So the IpExtInOctets and IpExtOutOctets are 20+16+48=84.
- 
- tcp 3-way handshake
--------------------
-+-------------------
- On server side, we run::
- 
-   nstatuser@nstat-b:~$ nc -lknv 0.0.0.0 9000
-@@ -753,7 +812,7 @@ ACK, so client sent 2 packets, received
- 1, TcpOutSegs increased 2.
- 
- TCP normal traffic
-------------------
-+------------------
- Run nc on server::
- 
-   nstatuser@nstat-b:~$ nc -lkv 0.0.0.0 9000
-@@ -876,7 +935,7 @@ and the packet received from client qual
- was counted into 'TcpExtTCPHPHits'.
- 
- TcpExtTCPAbortOnClose
----------------------
-+---------------------
- On the server side, we run below python script::
- 
-   import socket
-@@ -910,7 +969,7 @@ If we run tcpdump on the server side, we
- RST after we type Ctrl-C.
- 
- TcpExtTCPAbortOnMemory and TcpExtTCPAbortOnTimeout
-------------------------------------------------
-+---------------------------------------------------
- Below is an example which let the orphan socket count be higher than
- net.ipv4.tcp_max_orphans.
- Change tcp_max_orphans to a smaller value on client::
-@@ -1032,7 +1091,7 @@ FIN_WAIT_1 state finally. So we wait for
-   TcpExtTCPAbortOnTimeout         10                 0.0
- 
- TcpExtTCPAbortOnLinger
-----------------------
-+----------------------
- The server side code::
- 
-   nstatuser@nstat-b:~$ cat server_linger.py
-@@ -1077,7 +1136,7 @@ After run client_linger.py, check the ou
-   TcpExtTCPAbortOnLinger          1                  0.0
- 
- TcpExtTCPRcvCoalesce
---------------------
-+--------------------
- On the server, we run a program which listen on TCP port 9000, but
- doesn't read any data::
- 
-@@ -1137,7 +1196,7 @@ the receiving queue. So the TCP layer me
- could find the TcpExtTCPRcvCoalesce increased 1.
- 
- TcpExtListenOverflows and TcpExtListenDrops
------------------------------------------
-+-------------------------------------------
- On server, run the nc command, listen on port 9000::
- 
-   nstatuser@nstat-b:~$ nc -lkv 0.0.0.0 9000
-@@ -1185,7 +1244,7 @@ TcpExtListenOverflows and TcpExtListenDr
- the SYN of the 4th nc was dropped, the client was retrying.
- 
- IpInAddrErrors, IpExtInNoRoutes and IpOutNoRoutes
------------------------------------------------
-+-------------------------------------------------
- server A IP address: 192.168.122.250
- server B IP address: 192.168.122.251
- Prepare on server A, add a route to server B::
-@@ -1280,7 +1339,7 @@ a route for the 8.8.8.8 IP address, so s
- IpOutNoRoutes.
- 
- TcpExtTCPACKSkippedSynRecv
--------------------------
-+--------------------------
- In this test, we send 3 same SYN packets from client to server. The
- first SYN will let server create a socket, set it to Syn-Recv status,
- and reply a SYN/ACK. The second SYN will let server reply the SYN/ACK
-@@ -1328,7 +1387,7 @@ Check snmp cunter on nstat-b::
- As we expected, TcpExtTCPACKSkippedSynRecv is 1.
- 
- TcpExtTCPACKSkippedPAWS
------------------------
-+-----------------------
- To trigger PAWS, we could send an old SYN.
- 
- On nstat-b, let nc listen on port 9000::
-@@ -1365,7 +1424,7 @@ failed, the nstat-b replied an ACK for t
- for the second SYN, and updated TcpExtTCPACKSkippedPAWS.
- 
- TcpExtTCPACKSkippedSeq
----------------------
-+----------------------
- To trigger TcpExtTCPACKSkippedSeq, we send packets which have valid
- timestamp (to pass PAWS check) but the sequence number is out of
- window. The linux TCP stack would avoid to skip if the packet has
+Thanks.
+Lianbo
 
+> Which should be easy because we don't have to be backwards-compatible
+> with makedumpfile as this is not an ABI.
+> 
+> Thx.
+> 
+> ---
+> From: Lianbo Jiang <lijiang@redhat.com>
+> Date: Thu, 10 Jan 2019 20:19:43 +0800
+> Subject: [PATCH] kdump: Document kernel data exported in the vmcoreinfo note
+> 
+> Document data exported in vmcoreinfo and briefly describe its use by
+> userspace tools.a
+> 
+>  [ bp: heavily massage and redact the text. ]
+> 
+> Suggested-by: Borislav Petkov <bp@suse.de>
+> Signed-off-by: Lianbo Jiang <lijiang@redhat.com>
+> Signed-off-by: Borislav Petkov <bp@suse.de>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Baoquan He <bhe@redhat.com>
+> Cc: Dave Young <dyoung@redhat.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Vivek Goyal <vgoyal@redhat.com>
+> Cc: anderson@redhat.com
+> Cc: k-hagio@ab.jp.nec.com
+> Cc: kexec@lists.infradead.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: mingo@redhat.com
+> Cc: x86-ml <x86@kernel.org>
+> Link: https://lkml.kernel.org/r/20190110121944.6050-2-lijiang@redhat.com
+> ---
+>  Documentation/kdump/vmcoreinfo.txt | 494 +++++++++++++++++++++++++++++
+>  1 file changed, 494 insertions(+)
+>  create mode 100644 Documentation/kdump/vmcoreinfo.txt
+> 
+> diff --git a/Documentation/kdump/vmcoreinfo.txt b/Documentation/kdump/vmcoreinfo.txt
+> new file mode 100644
+> index 000000000000..2dc3797940a3
+> --- /dev/null
+> +++ b/Documentation/kdump/vmcoreinfo.txt
+> @@ -0,0 +1,494 @@
+> +================================================================
+> +			VMCOREINFO
+> +================================================================
+> +
+> +===========
+> +What is it?
+> +===========
+> +
+> +VMCOREINFO is a special ELF note section. It contains various
+> +information from the kernel like structure size, page size, symbol
+> +values, field offsets, etc. These data are packed into an ELF note
+> +section and used by user-space tools like crash and makedumpfile to
+> +analyze a kernel's memory layout.
+> +
+> +================
+> +Common variables
+> +================
+> +
+> +init_uts_ns.name.release
+> +------------------------
+> +
+> +The version of the Linux kernel. Used to find the corresponding source
+> +code from which the kernel has been built.
+> +
+> +PAGE_SIZE
+> +---------
+> +
+> +The size of a page. It is the smallest unit of data used by the memory
+> +management facilities. It is usually 4096 bytes of size and a page is
+> +aligned on 4096 bytes. Used for computing page addresses.
+> +
+> +init_uts_ns
+> +-----------
+> +
+> +The UTS namespace which is used to isolate two specific elements of the
+> +system that relate to the uname(2) system call. It is named after the
+> +data structure used to store information returned by the uname(2) system
+> +call.
+> +
+> +User-space tools can get the kernel name, host name, kernel release
+> +number, kernel version, architecture name and OS type from it.
+> +
+> +node_online_map
+> +---------------
+> +
+> +An array node_states[N_ONLINE] which represents the set of online nodes
+> +in a system, one bit position per node number. Used to keep track of
+> +which nodes are in the system and online.
+> +
+> +swapper_pg_dir
+> +-------------
+> +
+> +The global page directory pointer of the kernel. Used to translate
+> +virtual to physical addresses.
+> +
+> +_stext
+> +------
+> +
+> +Defines the beginning of the text section. In general, _stext indicates
+> +the kernel start address. Used to convert a virtual address from the
+> +direct kernel map to a physical address.
+> +
+> +vmap_area_list
+> +--------------
+> +
+> +Stores the virtual area list. makedumpfile gets the vmalloc start value
+> +from this variable and its value is necessary for vmalloc translation.
+> +
+> +mem_map
+> +-------
+> +
+> +Physical addresses are translated to struct pages by treating them as
+> +an index into the mem_map array. Right-shifting a physical address
+> +PAGE_SHIFT bits converts it into a page frame number which is an index
+> +into that mem_map array.
+> +
+> +Used to map an address to the corresponding struct page.
+> +
+> +contig_page_data
+> +----------------
+> +
+> +Makedumpfile gets the pglist_data structure from this symbol, which is
+> +used to describe the memory layout.
+> +
+> +User-space tools use this to exclude free pages when dumping memory.
+> +
+> +mem_section|(mem_section, NR_SECTION_ROOTS)|(mem_section, section_mem_map)
+> +--------------------------------------------------------------------------
+> +
+> +The address of the mem_section array, its length, structure size, and
+> +the section_mem_map offset.
+> +
+> +It exists in the sparse memory mapping model, and it is also somewhat
+> +similar to the mem_map variable, both of them are used to translate an
+> +address.
+> +
+> +page
+> +----
+> +
+> +The size of a page structure. struct page is an important data structure
+> +and it is widely used to compute contiguous memory.
+> +
+> +pglist_data
+> +-----------
+> +
+> +The size of a pglist_data structure. This value is used to check if the
+> +pglist_data structure is valid. It is also used for checking the memory
+> +type.
+> +
+> +zone
+> +----
+> +
+> +The size of a zone structure. This value is used to check if the zone
+> +structure has been found. It is also used for excluding free pages.
+> +
+> +free_area
+> +---------
+> +
+> +The size of a free_area structure. It indicates whether the free_area
+> +structure is valid or not. Useful when excluding free pages.
+> +
+> +list_head
+> +---------
+> +
+> +The size of a list_head structure. Used when iterating lists in a
+> +post-mortem analysis session.
+> +
+> +nodemask_t
+> +----------
+> +
+> +The size of a nodemask_t type. Used to compute the number of online
+> +nodes.
+> +
+> +(page, flags|_refcount|mapping|lru|_mapcount|private|compound_dtor|
+> +       compound_order|compound_head)
+> +-------------------------------------------------------------------
+> +
+> +User-space tools compute their values based on the offset of these
+> +variables. The variables are used when excluding unnecessary pages.
+> +
+> +(pglist_data, node_zones|nr_zones|node_mem_map|node_start_pfn|node_
+> +              spanned_pages|node_id)
+> +-------------------------------------------------------------------
+> +
+> +On NUMA machines, each NUMA node has a pg_data_t to describe its memory
+> +layout. On UMA machines there is a single pglist_data which describes the
+> +whole memory.
+> +
+> +These values are used to check the memory type and to compute the
+> +virtual address for memory map.
+> +
+> +(zone, free_area|vm_stat|spanned_pages)
+> +---------------------------------------
+> +
+> +Each node is divided into a number of blocks called zones which
+> +represent ranges within memory. A zone is described by a structure zone.
+> +
+> +User-space tools compute required values based on the offset of these
+> +variables.
+> +
+> +(free_area, free_list)
+> +----------------------
+> +
+> +Offset of the free_list's member. This value is used to compute the number
+> +of free pages.
+> +
+> +Each zone has a free_area structure array called free_area[MAX_ORDER].
+> +The free_list represents a linked list of free page blocks.
+> +
+> +(list_head, next|prev)
+> +----------------------
+> +
+> +Offsets of the list_head's members. list_head is used to define a
+> +circular linked list. User-space tools need these in order to traverse
+> +lists.
+> +
+> +(vmap_area, va_start|list)
+> +--------------------------
+> +
+> +Offsets of the vmap_area's members. They carry vmalloc-specific
+> +information. Makedumpfile gets the start address of the vmalloc region
+> +from this.
+> +
+> +(zone.free_area, MAX_ORDER)
+> +---------------------------
+> +
+> +Free areas descriptor. User-space tools use this value to iterate the
+> +free_area ranges. MAX_ORDER is used by the zone buddy allocator.
+> +
+> +log_first_idx
+> +-------------
+> +
+> +Index of the first record stored in the buffer log_buf. Used by
+> +user-space tools to read the strings in the log_buf.
+> +
+> +log_buf
+> +-------
+> +
+> +Console output is written to the ring buffer log_buf at index
+> +log_first_idx. Used to get the kernel log.
+> +
+> +log_buf_len
+> +-----------
+> +
+> +log_buf's length.
+> +
+> +clear_idx
+> +---------
+> +
+> +The index that the next printk() record to read after the last clear
+> +command. It indicates the first record after the last SYSLOG_ACTION
+> +_CLEAR, like issued by 'dmesg -c'. Used by user-space tools to dump
+> +the dmesg log.
+> +
+> +log_next_idx
+> +------------
+> +
+> +The index of the next record to store in the buffer log_buf. Used to
+> +compute the index of the current buffer position.
+> +
+> +printk_log
+> +----------
+> +
+> +The size of a structure printk_log. Used to compute the size of
+> +messages, and extract dmesg log. It encapsulates header information for
+> +log_buf, such as timestamp, syslog level, etc.
+> +
+> +(printk_log, ts_nsec|len|text_len|dict_len)
+> +-------------------------------------------
+> +
+> +It represents field offsets in struct printk_log. User space tools
+> +parse it and check whether the values of printk_log's members have been
+> +changed.
+> +
+> +(free_area.free_list, MIGRATE_TYPES)
+> +------------------------------------
+> +
+> +The number of migrate types for pages. The free_list is described by the
+> +array. Used by tools to compute the number of free pages.
+> +
+> +NR_FREE_PAGES
+> +-------------
+> +
+> +On linux-2.6.21 or later, the number of free pages is in
+> +vm_stat[NR_FREE_PAGES]. Used to get the number of free pages.
+> +
+> +PG_lru|PG_private|PG_swapcache|PG_swapbacked|PG_slab|PG_hwpoision
+> +|PG_head_mask|PAGE_BUDDY_MAPCOUNT_VALUE(~PG_buddy)
+> +|PAGE_OFFLINE_MAPCOUNT_VALUE(~PG_offline)
+> +-----------------------------------------------------------------
+> +
+> +Page attributes. These flags are used to filter various unnecessary for
+> +dumping pages.
+> +
+> +HUGETLB_PAGE_DTOR
+> +-----------------
+> +
+> +The HUGETLB_PAGE_DTOR flag denotes hugetlbfs pages. Makedumpfile
+> +excludes these pages.
+> +
+> +======
+> +x86_64
+> +======
+> +
+> +phys_base
+> +---------
+> +
+> +Used to convert the virtual address of an exported kernel symbol to its
+> +corresponding physical address.
+> +
+> +init_top_pgt
+> +------------
+> +
+> +Used to walk through the whole page table and convert virtual addresses
+> +to physical addresses. The init_top_pgt is somewhat similar to
+> +swapper_pg_dir, but it is only used in x86_64.
+> +
+> +pgtable_l5_enabled
+> +------------------
+> +
+> +User-space tools need to know whether the crash kernel was in 5-level
+> +paging mode.
+> +
+> +node_data
+> +---------
+> +
+> +This is a struct pglist_data array and stores all NUMA nodes
+> +information. Makedumpfile gets the pglist_data structure from it.
+> +
+> +(node_data, MAX_NUMNODES)
+> +-------------------------
+> +
+> +The maximum number of nodes in system.
+> +
+> +KERNELOFFSET
+> +------------
+> +
+> +The kernel randomization offset. Used to compute the page offset. If
+> +KASLR is disabled, this value is zero.
+> +
+> +KERNEL_IMAGE_SIZE
+> +-----------------
+> +
+> +Currently unused by Makedumpfile. Used to compute the module virtual
+> +address by Crash.
+> +
+> +sme_mask
+> +--------
+> +
+> +AMD-specific with SME support: it indicates the secure memory encryption
+> +mask. Makedumpfile tools need to know whether the crash kernel was
+> +encrypted. If SME is enabled in the first kernel, the crash kernel's
+> +page table entries (pgd/pud/pmd/pte) contain the memory encryption
+> +mask. This is used to remove the SME mask and obtain the true physical
+> +address.
+> +
+> +Currently, sme_mask stores the value of the C-bit position. If needed,
+> +additional SME-relevant info can be placed in that variable.
+> +
+> +For example:
+> +[ misc	        ][ enc bit  ][ other misc SME info       ]
+> +0000_0000_0000_0000_1000_0000_0000_0000_0000_0000_..._0000
+> +63   59   55   51   47   43   39   35   31   27   ... 3
+> +
+> +======
+> +x86_32
+> +======
+> +
+> +X86_PAE
+> +-------
+> +
+> +Denotes whether physical address extensions are enabled. It has the cost
+> +of a higher page table lookup overhead, and also consumes more page
+> +table space per process. Used to check whether PAE was enabled in the
+> +crash kernel when converting virtual addresses to physical addresses.
+> +
+> +====
+> +ia64
+> +====
+> +
+> +pgdat_list|(pgdat_list, MAX_NUMNODES)
+> +-------------------------------------
+> +
+> +pg_data_t array storing all NUMA nodes information. MAX_NUMNODES
+> +indicates the number of the nodes.
+> +
+> +node_memblk|(node_memblk, NR_NODE_MEMBLKS)
+> +------------------------------------------
+> +
+> +List of node memory chunks. Filled when parsing the SRAT table to obtain
+> +information about memory nodes. NR_NODE_MEMBLKS indicates the number of
+> +node memory chunks.
+> +
+> +These values are used to compute the number of nodes the crashed kernel used.
+> +
+> +node_memblk_s|(node_memblk_s, start_paddr)|(node_memblk_s, size)
+> +----------------------------------------------------------------
+> +
+> +The size of a struct node_memblk_s and the offsets of the
+> +node_memblk_s's members. Used to compute the number of nodes.
+> +
+> +PGTABLE_3|PGTABLE_4
+> +-------------------
+> +
+> +User-space tools need to know whether the crash kernel was in 3-level or
+> +4-level paging mode. Used to distinguish the page table.
+> +
+> +=====
+> +ARM64
+> +=====
+> +
+> +VA_BITS
+> +-------
+> +
+> +The maximum number of bits for virtual addresses. Used to compute the
+> +virtual memory ranges.
+> +
+> +kimage_voffset
+> +--------------
+> +
+> +The offset between the kernel virtual and physical mappings. Used to
+> +translate virtual to physical addresses.
+> +
+> +PHYS_OFFSET
+> +-----------
+> +
+> +Indicates the physical address of the start of memory. Similar to
+> +kimage_voffset, which is used to translate virtual to physical
+> +addresses.
+> +
+> +KERNELOFFSET
+> +------------
+> +
+> +The kernel randomization offset. Used to compute the page offset. If
+> +KASLR is disabled, this value is zero.
+> +
+> +====
+> +arm
+> +====
+> +
+> +ARM_LPAE
+> +--------
+> +
+> +It indicates whether the crash kernel supports large physical address
+> +extensions. Used to translate virtual to physical addresses.
+> +
+> +====
+> +s390
+> +====
+> +
+> +lowcore_ptr
+> +----------
+> +
+> +An array with a pointer to the lowcore of every CPU. Used to print the
+> +psw and all registers information.
+> +
+> +high_memory
+> +-----------
+> +
+> +Used to get the vmalloc_start address from the high_memory symbol.
+> +
+> +(lowcore_ptr, NR_CPUS)
+> +----------------------
+> +
+> +The maximum number of CPUs.
+> +
+> +=======
+> +powerpc
+> +=======
+> +
+> +
+> +node_data|(node_data, MAX_NUMNODES)
+> +-----------------------------------
+> +
+> +See above.
+> +
+> +contig_page_data
+> +----------------
+> +
+> +See above.
+> +
+> +vmemmap_list
+> +------------
+> +
+> +The vmemmap_list maintains the entire vmemmap physical mapping. Used
+> +to get vmemmap list count and populated vmemmap regions info. If the
+> +vmemmap address translation information is stored in the crash kernel,
+> +it is used to translate vmemmap kernel virtual addresses.
+> +
+> +mmu_vmemmap_psize
+> +-----------------
+> +
+> +The size of a page. Used to translate virtual to physical addresses.
+> +
+> +mmu_psize_defs
+> +--------------
+> +
+> +Page size definitions, i.e. 4k, 64k, or 16M.
+> +
+> +Used to make vtop translations.
+> +
+> +vmemmap_backing|(vmemmap_backing, list)|(vmemmap_backing, phys)|
+> +(vmemmap_backing, virt_addr)
+> +----------------------------------------------------------------
+> +
+> +The vmemmap virtual address space management does not have a traditional
+> +page table to track which virtual struct pages are backed by a physical
+> +mapping. The virtual to physical mappings are tracked in a simple linked
+> +list format.
+> +
+> +User-space tools need to know the offset of list, phys and virt_addr
+> +when computing the count of vmemmap regions.
+> +
+> +mmu_psize_def|(mmu_psize_def, shift)
+> +------------------------------------
+> +
+> +The size of a struct mmu_psize_def and the offset of mmu_psize_def's
+> +member.
+> +
+> +Used in vtop translations.
+> +
+> +==
+> +sh
+> +==
+> +
+> +node_data|(node_data, MAX_NUMNODES)
+> +-----------------------------------
+> +
+> +See above.
+> +
+> +X2TLB
+> +-----
+> +
+> +Indicates whether the crashed kernel enabled SH extended mode.
+> 
