@@ -1,101 +1,153 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DDA6E7D161
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 16:21:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F3F0F7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 16:54:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726780AbfANQVT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Jan 2019 11:21:19 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51564 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726680AbfANQVS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Jan 2019 11:21:18 -0500
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CDF9420873;
-        Mon, 14 Jan 2019 16:21:16 +0000 (UTC)
-Date:   Mon, 14 Jan 2019 11:21:15 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     linux@armlinux.org.uk, x86@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH] fgraph: record function return value
-Message-ID: <20190114112115.1cbf21c0@gandalf.local.home>
-In-Reply-To: <20190112065701.30841-1-changbin.du@gmail.com>
-References: <20190112065701.30841-1-changbin.du@gmail.com>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726741AbfANQyJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Jan 2019 11:54:09 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:38669 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726723AbfANQyJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jan 2019 11:54:09 -0500
+Received: by mail-pl1-f196.google.com with SMTP id e5so10389605plb.5
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jan 2019 08:54:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=kodeNV6E0BiVHtTgfRjZXsJv1BXwC9SiHJb9CnuMytM=;
+        b=BXGRaKI2lF2ZuiAZrnSGt6H9H545+0wb+yGLDMVhdli3qwelHIxtmzCq5V9ne6DlAE
+         f/n7xJ7AH4YLpXozUMwoMYY2NM7EcFCS+Dh2bCNcjnOSWHr6E0dlAx04b3/vi1st0Eid
+         FUpZzsSq7ex/1fOFunzmf1UcrG/6MgCUmAEvMjfRfExAdRezw7uyVI/7xWtLF8bwF4Ca
+         U0MeSjBDi26B5AAXzcC/K2DXitpDrz2N4R+DkMvvpTC3HmlmOlZMKuSQTNIlnJKxmlq8
+         S/oinKHWn9sU3fB34CCm5d3KbfUzARvrBqqGwkvYICa8a5uCYMMasxBO54BP93XGdsIy
+         g6hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=kodeNV6E0BiVHtTgfRjZXsJv1BXwC9SiHJb9CnuMytM=;
+        b=XfEUvkLGGvhk4CYPceYUsJZoNMKgFRYCZgHiu99FBbT4QJAYHR+meljkU3V7PoCSaV
+         ltJf9gfiwOS+/j+5+T6Vq+xyC/73ELL9ICmCHRyXmGHoQArs9oVTXHNAhfQ40BupZBGD
+         QuVZci2M3Y2ckWOeyr5CsZDxnPDoaXCB2FXwRzdMEvQBdIiA43H4hSWrtrzd5bX+L5Rf
+         +zrtOSSbpSf+ITT8nIibpt9UblzVriNkd/O5JsvXrm311nSITG1eO4azzBKrQtQ8Q4lm
+         V1LcfhHesBCmeUjEsvlz9CTwtT5eWxwJi7eTDxEIrIYGGgFYGdxZFjkjjIIByQu4uaNx
+         Pmgw==
+X-Gm-Message-State: AJcUukd2jhAsEaO6aLVdRdnexT2UAafkEcFR06x7AyJvW0+PRvgli3ue
+        y/hxUtQrjxGJjxd7ky3X2hjnIOMlfHk=
+X-Google-Smtp-Source: ALg8bN7mZ3NDkAaPn/FlR3h8DT8nbmKGoKjPaEKJUi6m8MEtLxB6arijuTGBk7z03qJSvlJJs4O/gQ==
+X-Received: by 2002:a17:902:b090:: with SMTP id p16mr17313414plr.190.1547484848549;
+        Mon, 14 Jan 2019 08:54:08 -0800 (PST)
+Received: from ziepe.ca (S010614cc2056d97f.ed.shawcable.net. [174.3.196.123])
+        by smtp.gmail.com with ESMTPSA id e23sm1269257pfh.68.2019.01.14.08.54.07
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 14 Jan 2019 08:54:07 -0800 (PST)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1gj5V0-0006iE-NW; Mon, 14 Jan 2019 09:54:06 -0700
+Date:   Mon, 14 Jan 2019 09:54:06 -0700
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Joel Nider <joeln@il.ibm.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Leon Romanovsky <leon@kernel.org>,
+        Doug Ledford <dledford@redhat.com>,
+        Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] docs-rst: update index file with infiniband docs
+Message-ID: <20190114165406.GC22910@ziepe.ca>
+References: <1547456451-7102-1-git-send-email-joeln@il.ibm.com>
+ <1547456451-7102-3-git-send-email-joeln@il.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1547456451-7102-3-git-send-email-joeln@il.ibm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 12 Jan 2019 14:57:01 +0800
-Changbin Du <changbin.du@gmail.com> wrote:
-
-> This patch adds a new trace option 'funcgraph-retval' and is disabled by
-> default. When this option is enabled, fgraph tracer will show the return
-> value of each function. This is useful to find/analyze a original error
-> source in a call graph.
+On Mon, Jan 14, 2019 at 11:00:50AM +0200, Joel Nider wrote:
+> Link the previously converted Documentation/infiniband/user_verbs.rst
+> to the main index by creating a new subsystem (Infiniband) under the
+> root document. This manifests as a new section under "Kernel API
+> Documentation" in the index.html, as well as a new section in the
+> table of contents pane.
 > 
-> One limitation is that kernel doesn't know the prototype of functions. So
-> fgraph assumes all functions have a retvalue of type int. You must ignore
-> the value of *void* function. And if the retvalue looks like an error code
-> then both hexadecimal and decimal number are displayed.
-> 
-> In this patch, only x86 and ARM platforms are supported.
-> 
-> Here is example showing the error is caused by vmx_create_vcpu() and the
-> error code is -5 (-EIO).
-> 
-> with echo 1 > /sys/kernel/debug/tracing/options/funcgraph-retval
-> 
->  3)               |  kvm_vm_ioctl() {
->  3)               |    mutex_lock() {
->  3)               |      _cond_resched() {
->  3)   0.234 us    |        rcu_all_qs(); /* ret=0x80000000 */
->  3)   0.704 us    |      } /* ret=0x0 */
->  3)   1.226 us    |    } /* ret=0x0 */
->  3)   0.247 us    |    mutex_unlock(); /* ret=0xffff8880738ed040 */
->  3)               |    kvm_arch_vcpu_create() {
->  3)               |      vmx_create_vcpu() {
->  3) + 17.969 us   |        kmem_cache_alloc(); /* ret=0xffff88813a980040 */
->  3) + 15.948 us   |        kmem_cache_alloc(); /* ret=0xffff88813aa99200 */
->  3)   0.653 us    |        allocate_vpid.part.88(); /* ret=0x1 */
->  3)   6.964 us    |        kvm_vcpu_init(); /* ret=0xfffffffb */
->  3)   0.323 us    |        free_vpid.part.89(); /* ret=0x1 */
->  3)   9.985 us    |        kmem_cache_free(); /* ret=0x80000000 */
->  3)   9.491 us    |        kmem_cache_free(); /* ret=0x80000000 */
->  3) + 69.858 us   |      } /* ret=0xfffffffffffffffb/-5 */
->  3) + 70.631 us   |    } /* ret=0xfffffffffffffffb/-5 */
->  3)               |    mutex_lock() {
->  3)               |      _cond_resched() {
->  3)   0.199 us    |        rcu_all_qs(); /* ret=0x80000000 */
->  3)   0.594 us    |      } /* ret=0x0 */
->  3)   1.067 us    |    } /* ret=0x0 */
->  3)   0.337 us    |    mutex_unlock(); /* ret=0xffff8880738ed040 */
->  3) + 92.730 us   |  } /* ret=0xfffffffffffffffb/-5 */
-> 
-> Signed-off-by: Changbin Du <changbin.du@gmail.com>
+> This has been tested with 'make htmldocs'.
 > ---
->
 
-Hi Changbin,
+Missed signed-off-by
 
-I'm rewriting a lot of the function graph tracer code to have
-kretprobes be able to work on top of it. It's still a work in progress.
-It would be easier to add something to that work when its done than to
-do it now.
-
-Thanks!
-
--- Steve
+>  Documentation/conf.py              |  2 ++
+>  Documentation/index.rst            |  1 +
+>  Documentation/infiniband/conf.py   | 10 ++++++++++
+>  Documentation/infiniband/index.rst |  9 +++++++++
+>  4 files changed, 22 insertions(+)
+>  create mode 100644 Documentation/infiniband/conf.py
+>  create mode 100644 Documentation/infiniband/index.rst
+> 
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 72647a3..ff71088 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -389,6 +389,8 @@ latex_documents = [
+>       'ext4 Data Structures and Algorithms', 'ext4 Community', 'manual'),
+>      ('gpu/index', 'gpu.tex', 'Linux GPU Driver Developer\'s Guide',
+>       'The kernel development community', 'manual'),
+> +    ('infiniband/index', 'infiniband.tex', 'Infiniband subsystem',
+> +     'The kernel development community', 'manual'),
+>      ('input/index', 'linux-input.tex', 'The Linux input driver subsystem',
+>       'The kernel development community', 'manual'),
+>      ('kernel-hacking/index', 'kernel-hacking.tex', 'Unreliable Guide To Hacking The Linux Kernel',
+> diff --git a/Documentation/index.rst b/Documentation/index.rst
+> index c858c2e..8d91ea5 100644
+> --- a/Documentation/index.rst
+> +++ b/Documentation/index.rst
+> @@ -82,6 +82,7 @@ needed).
+>     core-api/index
+>     media/index
+>     networking/index
+> +   infiniband/index
+>     input/index
+>     gpu/index
+>     security/index
+> diff --git a/Documentation/infiniband/conf.py b/Documentation/infiniband/conf.py
+> new file mode 100644
+> index 0000000..dc42d33
+> --- /dev/null
+> +++ b/Documentation/infiniband/conf.py
+> @@ -0,0 +1,10 @@
+> +# -*- coding: utf-8; mode: python -*-
+> +
+> +project = "Linux Infiniband Documentation"
+> +
+> +tags.add("subproject")
+> +
+> +latex_documents = [
+> +    ('index', 'infiniband.tex', project,
+> +     'The kernel development community', 'manual'),
+> +]
+> diff --git a/Documentation/infiniband/index.rst b/Documentation/infiniband/index.rst
+> new file mode 100644
+> index 0000000..2dedc65
+> --- /dev/null
+> +++ b/Documentation/infiniband/index.rst
+> @@ -0,0 +1,9 @@
+> +Infiniband Documentation
+> +========================
+> +
+> +Contents:
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   user_verbs
+> -- 
+> 2.7.4
+> 
