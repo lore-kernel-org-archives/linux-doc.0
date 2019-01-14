@@ -1,111 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1727F7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 05:35:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 34FF27D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 06:12:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726518AbfANFfG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Jan 2019 00:35:06 -0500
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:40742 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725837AbfANFfG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jan 2019 00:35:06 -0500
-Received: by mail-qk1-f193.google.com with SMTP id y16so9896231qki.7;
-        Sun, 13 Jan 2019 21:35:05 -0800 (PST)
+        id S1726450AbfANGMa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Jan 2019 01:12:30 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:45077 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726306AbfANGMa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jan 2019 01:12:30 -0500
+Received: by mail-pg1-f196.google.com with SMTP id y4so8993133pgc.12;
+        Sun, 13 Jan 2019 22:12:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oaJnHgqxNLSmOeClaph1+naF1VsLXybulRXguvYvNko=;
-        b=mF+vHs/b3gwFu7b+oacGUylpLkfQjRl4AkOOn9YE+Ca0J2kUHAA2XghIU9VX7cS51e
-         7ElDMIIp1YUBbADVHsVA9wtvPn6uh8/H5yYo3Fu/KUpQ4RFxQRJ+Jjt///QGsfJEIb/r
-         gd3HsN0UHLCo9RrpQlz/nmQmEwmenbkWtr58M=
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Bt6AaUzE5JeuNjhdFsMJIMTlGothvrSQNRnBfrCYoSg=;
+        b=Htpt4yDg66zmoVG5oKL0wQ22uPfuzl3IDK0S/IdxC4ewePP9huqK1HDTdOi14u+DRe
+         Zm7bsLTR48RR6tMD++97mi/5CWJ7LWd6kz0f/wUGfeBDsox08am91O5JV9PQnwdMTV1L
+         hT5SyohuT5wxRYqV/5Dyt5d5tL4R5Jq2HZOAXNbykGxTcfdJESOP9Uo8WtF4RYI1vG0e
+         e5FJuk+qLlyq2HtR93+Zr41lmwrmBhDE16dn+hGsLqN4eEHYk5tgUEXhc3tzMxW/8eGn
+         xlq3emJZUGMmOXAB1G75D/vfyIsQeu5uiQ+fltf15Q2P5q5iQly+4dH+iljxcyAWet3d
+         mMpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oaJnHgqxNLSmOeClaph1+naF1VsLXybulRXguvYvNko=;
-        b=tjxz2sBQp2yymGXmhmlwofHD/eWtsYir3PsVieqnDH+WsJnoKr6QCUQOld3FjhPnaR
-         kG/N6KcyhDo6Kj9a4/+w1PCZFf1QftPutU56EcLUNZXv8ijMtItnBNeLy/6tDpKe/0W4
-         bUt2VpoEqIuwVDJxUkEuy08SH5B7VAyUMXfyZIvpN1LHhGKNXA/aNo9AkxPNjww57w+8
-         BfunpK3ofgnuV4Ltm7bKppLFLJlskpLvacBC1cZNIyMOs8N9aKYS0XWStRx23xxjDyg4
-         2amdS31YmMdP2pVyaOGdpIEVDiKAwz7HEyDezAL7IFNIun2HmsTxoyA5w56z37EB2Myg
-         vVwg==
-X-Gm-Message-State: AJcUukfUx1mnswZvVeHa0e4cfThp0hgCM7R72KPOd62JUf5Wt3/u0oig
-        H5swSHmipRD//OV4KHpgJofK1CTb2QpecpaeLXY=
-X-Google-Smtp-Source: ALg8bN7AotucbzagLEkUA9bBE23ZmB2lHcesb2pNRdmv6h/jGw9Q/hiKytIE4a0Gk3hlE5Rft3IETb54XrNZ+PQ4h7U=
-X-Received: by 2002:ae9:dec5:: with SMTP id s188mr21107671qkf.127.1547444104492;
- Sun, 13 Jan 2019 21:35:04 -0800 (PST)
-MIME-Version: 1.0
-References: <20190107214136.5256-1-jae.hyun.yoo@linux.intel.com> <20190107214136.5256-2-jae.hyun.yoo@linux.intel.com>
-In-Reply-To: <20190107214136.5256-2-jae.hyun.yoo@linux.intel.com>
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=Bt6AaUzE5JeuNjhdFsMJIMTlGothvrSQNRnBfrCYoSg=;
+        b=VjZatdzS2LrQYBP8ULLmXR8AL0HDhdnHeF3HqOazWo6w47rgD5GKg++vOo6d79cGPF
+         p9JV0WUCr1PslZzJLZByCXoq04X+inNDUcFWObjcjWF8aDkmk7SEXRpPT2UISQvrFIYa
+         HvSHYxqG/FWmNAWBAY4SBOxyEkYVY/kUg0cMMSQ/lkvzB/FewFqSkY1b5YWLt63c5Xnv
+         GMPiK0I9M0/RJYYlbiw+gLf7rtfXWwUS3Kop8+UmyfURTf4qEvJs8gh6T342xG+MT/WS
+         nqueWEKCWOHAbq69F0QW+BRy08ABE+Da/GbU5bLovkqWYE+XGTuzbv6q2qp+FbAw1Ff1
+         gh0Q==
+X-Gm-Message-State: AJcUukdkCzKQTzsn06tm9wk0E9jn9fAIs+HUDJG277veOg5mpsoVjxm5
+        bkSqty4hcnSv9gZTOgOj/RkNhtTJb5I=
+X-Google-Smtp-Source: ALg8bN5NiZCgNvqCDNtsz+SF8D6ZKHmxedwKIrbMmT/3XjIwRygpO9uSPZd6B6fS4376j26tXsqICw==
+X-Received: by 2002:a63:e247:: with SMTP id y7mr18592332pgj.84.1547446349309;
+        Sun, 13 Jan 2019 22:12:29 -0800 (PST)
+Received: from aurora.jms.id.au ([45.124.203.19])
+        by smtp.gmail.com with ESMTPSA id v15sm120195307pfn.94.2019.01.13.22.12.25
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 13 Jan 2019 22:12:28 -0800 (PST)
+Received: by aurora.jms.id.au (sSMTP sendmail emulation); Mon, 14 Jan 2019 16:42:21 +1030
 From:   Joel Stanley <joel@jms.id.au>
-Date:   Mon, 14 Jan 2019 16:04:53 +1030
-Message-ID: <CACPK8Xe5H31M=U3JQQaOheoopFZQtS0ZegaGRx4Pmw7Ym9g5YQ@mail.gmail.com>
-Subject: Re: [PATCH v10 01/12] dt-bindings: Add a document of PECI subsystem
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Eric Sandeen <sandeen@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>, Wu Hao <hao.wu@intel.com>,
-        Tomohiro Kusumi <kusumi.tomohiro@gmail.com>,
-        "Bryant G . Ly" <bryantly@linux.vnet.ibm.com>,
-        Frederic Barrat <fbarrat@linux.vnet.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Stephen Boyd <sboyd@codeaurora.org>,
-        David Kershner <david.kershner@unisys.com>,
-        Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Johan Hovold <johan@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Juergen Gross <jgross@suse.com>,
-        Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>,
-        linux-hwmon@vger.kernel.org,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        Haiyue Wang <haiyue.wang@linux.intel.com>,
-        James Feist <james.feist@linux.intel.com>,
-        Vernon Mauery <vernon.mauery@linux.intel.com>,
-        Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: [PATCH] docs: Bump version to 5.x
+Date:   Mon, 14 Jan 2019 16:42:21 +1030
+Message-Id: <20190114061221.30494-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 8 Jan 2019 at 08:11, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com> wrote:
->
-> This commit adds a document of generic PECI bus, adapter and client
-> driver.
->
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: Andrew Jeffery <andrew@aj.id.au>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> Reviewed-by: Haiyue Wang <haiyue.wang@linux.intel.com>
-> Reviewed-by: James Feist <james.feist@linux.intel.com>
-> Reviewed-by: Vernon Mauery <vernon.mauery@linux.intel.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+This shows up in the index of https://www.kernel.org/doc/html/latest/ so
+I figured it should be updated.
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+Fixes: bfeffd15528 ("Linux 5.0-rc1")
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+--
+We could also remove the version number instead of applying this patch.
+---
+ Documentation/admin-guide/README.rst | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+index 0797eec76be1..a09baa324951 100644
+--- a/Documentation/admin-guide/README.rst
++++ b/Documentation/admin-guide/README.rst
+@@ -1,9 +1,9 @@
+ .. _readme:
+ 
+-Linux kernel release 4.x <http://kernel.org/>
++Linux kernel release 5.x <http://kernel.org/>
+ =============================================
+ 
+-These are the release notes for Linux version 4.  Read them carefully,
++These are the release notes for Linux version 5.  Read them carefully,
+ as they tell you what this is all about, explain how to install the
+ kernel, and what to do if something goes wrong.
+ 
+@@ -406,3 +406,4 @@ If something goes wrong
+ 
+    gdb'ing a non-running kernel currently fails because ``gdb`` (wrongly)
+    disregards the starting offset for which the kernel is compiled.
++
+-- 
+2.19.1
+
