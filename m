@@ -5,52 +5,52 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F3F0F7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 16:54:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1431D7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 16:56:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726741AbfANQyJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Jan 2019 11:54:09 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:38669 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726723AbfANQyJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jan 2019 11:54:09 -0500
-Received: by mail-pl1-f196.google.com with SMTP id e5so10389605plb.5
-        for <linux-doc@vger.kernel.org>; Mon, 14 Jan 2019 08:54:08 -0800 (PST)
+        id S1726774AbfANQ42 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Jan 2019 11:56:28 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:45294 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726767AbfANQ42 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jan 2019 11:56:28 -0500
+Received: by mail-pg1-f194.google.com with SMTP id y4so9689476pgc.12
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jan 2019 08:56:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ziepe.ca; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=kodeNV6E0BiVHtTgfRjZXsJv1BXwC9SiHJb9CnuMytM=;
-        b=BXGRaKI2lF2ZuiAZrnSGt6H9H545+0wb+yGLDMVhdli3qwelHIxtmzCq5V9ne6DlAE
-         f/n7xJ7AH4YLpXozUMwoMYY2NM7EcFCS+Dh2bCNcjnOSWHr6E0dlAx04b3/vi1st0Eid
-         FUpZzsSq7ex/1fOFunzmf1UcrG/6MgCUmAEvMjfRfExAdRezw7uyVI/7xWtLF8bwF4Ca
-         U0MeSjBDi26B5AAXzcC/K2DXitpDrz2N4R+DkMvvpTC3HmlmOlZMKuSQTNIlnJKxmlq8
-         S/oinKHWn9sU3fB34CCm5d3KbfUzARvrBqqGwkvYICa8a5uCYMMasxBO54BP93XGdsIy
-         g6hQ==
+        bh=Vkwq3id0aiSy/vb74DJe2hbNKxSIPAis3Qrod7DHZQ0=;
+        b=lyYVrL/nMjGWRQq1IqKhH+RRcKq8y5UvOTovpShB7RyKJ1o/hirWuzf8BxwnhT2zQi
+         7EyWO35lPb4/GgfXYa/yJHyQDnI9LlTtuHqAX1q5Xo+dDw4wKCVV3l89VW0+fgdWeC87
+         6DRFrxDXOTg3rFvzzhSygiBSR8tgjQVt/GW4EduO1mZHoIXgx1SnBx/p0v97Oj26ELtZ
+         TppihwXBI01kMHpDzE1ktz9G3+HttV+YO6jb2/5zUMy37cezMu6tjL5GdOfx6FERFZjt
+         lw0S/adX13551B41ywIVH5MeG+0qJ9tmpLmROCbBUm6GsJeUK7t5jMx8UvzrQ2fysNVX
+         B4Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kodeNV6E0BiVHtTgfRjZXsJv1BXwC9SiHJb9CnuMytM=;
-        b=XfEUvkLGGvhk4CYPceYUsJZoNMKgFRYCZgHiu99FBbT4QJAYHR+meljkU3V7PoCSaV
-         ltJf9gfiwOS+/j+5+T6Vq+xyC/73ELL9ICmCHRyXmGHoQArs9oVTXHNAhfQ40BupZBGD
-         QuVZci2M3Y2ckWOeyr5CsZDxnPDoaXCB2FXwRzdMEvQBdIiA43H4hSWrtrzd5bX+L5Rf
-         +zrtOSSbpSf+ITT8nIibpt9UblzVriNkd/O5JsvXrm311nSITG1eO4azzBKrQtQ8Q4lm
-         V1LcfhHesBCmeUjEsvlz9CTwtT5eWxwJi7eTDxEIrIYGGgFYGdxZFjkjjIIByQu4uaNx
-         Pmgw==
-X-Gm-Message-State: AJcUukd2jhAsEaO6aLVdRdnexT2UAafkEcFR06x7AyJvW0+PRvgli3ue
-        y/hxUtQrjxGJjxd7ky3X2hjnIOMlfHk=
-X-Google-Smtp-Source: ALg8bN7mZ3NDkAaPn/FlR3h8DT8nbmKGoKjPaEKJUi6m8MEtLxB6arijuTGBk7z03qJSvlJJs4O/gQ==
-X-Received: by 2002:a17:902:b090:: with SMTP id p16mr17313414plr.190.1547484848549;
-        Mon, 14 Jan 2019 08:54:08 -0800 (PST)
+        bh=Vkwq3id0aiSy/vb74DJe2hbNKxSIPAis3Qrod7DHZQ0=;
+        b=jiNDlN742e0aIr7rBzwpIyyqvT8pEG8uGRjqyLRnBnrzJ2jH4cUmpLIvVkwHDA12p4
+         XOq4D58Jt4lI96IibS4aqcXdE7nxOapQN7tQD8B06ngBM9bi0yftlCZL9HGHybCVf9TV
+         ReOo2kwflnmxsPjWfPMG7Lvy5njBp15HH1G22cezfyT/eaUPIO4P5wCd9Lc7Y9MATjeL
+         7Jpq08og+zH4AvA1a/8qK7BwRFWmQFrf2ljZG4J20HtoYHNsPltO8TQpMS6sACIK6+a1
+         rOwKbFqxDfonwvFHxu4ZBjKhZpFL1gtzFOXOSH/aN+U146u5orjuJv9sl7vFXJ6BoKkI
+         aXZg==
+X-Gm-Message-State: AJcUukdwDTF4DaNiSZ8qhMIuoOoVKkKrHjzWoyrhjxdvKfeuZiA2xXQA
+        s1Tk8N3AkrXuLrCtBzuHuAuFbg==
+X-Google-Smtp-Source: ALg8bN6+3wKpyeAAmIcTMEhwbnGD9psTt39TSnaZ/LOOmkvbnlvqFowv2nBJwQX7Ju+E/MtwyQzljw==
+X-Received: by 2002:a62:7792:: with SMTP id s140mr26138218pfc.26.1547484987383;
+        Mon, 14 Jan 2019 08:56:27 -0800 (PST)
 Received: from ziepe.ca (S010614cc2056d97f.ed.shawcable.net. [174.3.196.123])
-        by smtp.gmail.com with ESMTPSA id e23sm1269257pfh.68.2019.01.14.08.54.07
+        by smtp.gmail.com with ESMTPSA id x186sm2147168pfb.59.2019.01.14.08.56.22
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 14 Jan 2019 08:54:07 -0800 (PST)
+        Mon, 14 Jan 2019 08:56:22 -0800 (PST)
 Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
         (envelope-from <jgg@ziepe.ca>)
-        id 1gj5V0-0006iE-NW; Mon, 14 Jan 2019 09:54:06 -0700
-Date:   Mon, 14 Jan 2019 09:54:06 -0700
+        id 1gj5XB-0006jE-Q4; Mon, 14 Jan 2019 09:56:21 -0700
+Date:   Mon, 14 Jan 2019 09:56:21 -0700
 From:   Jason Gunthorpe <jgg@ziepe.ca>
 To:     Joel Nider <joeln@il.ibm.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -58,96 +58,42 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Doug Ledford <dledford@redhat.com>,
         Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] docs-rst: update index file with infiniband docs
-Message-ID: <20190114165406.GC22910@ziepe.ca>
+Subject: Re: [PATCH 1/3] docs-rst: infiniband: Convert user verbs doc to rst
+Message-ID: <20190114165621.GD22910@ziepe.ca>
 References: <1547456451-7102-1-git-send-email-joeln@il.ibm.com>
- <1547456451-7102-3-git-send-email-joeln@il.ibm.com>
+ <1547456451-7102-2-git-send-email-joeln@il.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1547456451-7102-3-git-send-email-joeln@il.ibm.com>
+In-Reply-To: <1547456451-7102-2-git-send-email-joeln@il.ibm.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 14, 2019 at 11:00:50AM +0200, Joel Nider wrote:
-> Link the previously converted Documentation/infiniband/user_verbs.rst
-> to the main index by creating a new subsystem (Infiniband) under the
-> root document. This manifests as a new section under "Kernel API
-> Documentation" in the index.html, as well as a new section in the
-> table of contents pane.
+On Mon, Jan 14, 2019 at 11:00:49AM +0200, Joel Nider wrote:
+> Replace the existing Documentation/infiniband/user_verbs.txt with
+> Documentation/infiniband/user_verbs.rst. No substantial changes to
+> the content - just some minor reformatting to have the rendering
+> come out nicely.
+> This is in preparation for updating the content in a subsequent
+> patch.
 > 
-> This has been tested with 'make htmldocs'.
+> Signed-off-by: Joel Nider <joeln@il.ibm.com>
 > ---
+>  Documentation/infiniband/user_verbs.rst | 70 +++++++++++++++++++++++++++++++++
+>  Documentation/infiniband/user_verbs.txt | 69 --------------------------------
+>  2 files changed, 70 insertions(+), 69 deletions(-)
+>  create mode 100644 Documentation/infiniband/user_verbs.rst
+>  delete mode 100644 Documentation/infiniband/user_verbs.txt
 
-Missed signed-off-by
+Thanks for getting this going Joe, I've been mulling over writing more
+docs for this area for a while now.
 
->  Documentation/conf.py              |  2 ++
->  Documentation/index.rst            |  1 +
->  Documentation/infiniband/conf.py   | 10 ++++++++++
->  Documentation/infiniband/index.rst |  9 +++++++++
->  4 files changed, 22 insertions(+)
->  create mode 100644 Documentation/infiniband/conf.py
->  create mode 100644 Documentation/infiniband/index.rst
-> 
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 72647a3..ff71088 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -389,6 +389,8 @@ latex_documents = [
->       'ext4 Data Structures and Algorithms', 'ext4 Community', 'manual'),
->      ('gpu/index', 'gpu.tex', 'Linux GPU Driver Developer\'s Guide',
->       'The kernel development community', 'manual'),
-> +    ('infiniband/index', 'infiniband.tex', 'Infiniband subsystem',
-> +     'The kernel development community', 'manual'),
->      ('input/index', 'linux-input.tex', 'The Linux input driver subsystem',
->       'The kernel development community', 'manual'),
->      ('kernel-hacking/index', 'kernel-hacking.tex', 'Unreliable Guide To Hacking The Linux Kernel',
-> diff --git a/Documentation/index.rst b/Documentation/index.rst
-> index c858c2e..8d91ea5 100644
-> --- a/Documentation/index.rst
-> +++ b/Documentation/index.rst
-> @@ -82,6 +82,7 @@ needed).
->     core-api/index
->     media/index
->     networking/index
-> +   infiniband/index
->     input/index
->     gpu/index
->     security/index
-> diff --git a/Documentation/infiniband/conf.py b/Documentation/infiniband/conf.py
-> new file mode 100644
-> index 0000000..dc42d33
-> --- /dev/null
-> +++ b/Documentation/infiniband/conf.py
-> @@ -0,0 +1,10 @@
-> +# -*- coding: utf-8; mode: python -*-
-> +
-> +project = "Linux Infiniband Documentation"
-> +
-> +tags.add("subproject")
-> +
-> +latex_documents = [
-> +    ('index', 'infiniband.tex', project,
-> +     'The kernel development community', 'manual'),
-> +]
-> diff --git a/Documentation/infiniband/index.rst b/Documentation/infiniband/index.rst
-> new file mode 100644
-> index 0000000..2dedc65
-> --- /dev/null
-> +++ b/Documentation/infiniband/index.rst
-> @@ -0,0 +1,9 @@
-> +Infiniband Documentation
-> +========================
-> +
-> +Contents:
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   user_verbs
-> -- 
-> 2.7.4
-> 
+Jonathan/linux-doc: Can you Ack at least the build system parts of
+this please? I can take it through the rdma tree, unless you prefer
+otherwise?
+
+Cheers,
+Jason
