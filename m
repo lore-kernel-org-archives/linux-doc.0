@@ -1,80 +1,62 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 525CC7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 09:15:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2E9B17D099
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 10:08:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726482AbfANJPM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Jan 2019 04:15:12 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:42358 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726437AbfANJPM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Jan 2019 04:15:12 -0500
-Received: from zn.tnic (p200300EC2BC4CA00116FEC2D9C4463FB.dip0.t-ipconnect.de [IPv6:2003:ec:2bc4:ca00:116f:ec2d:9c44:63fb])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6D3EE1EC058B;
-        Mon, 14 Jan 2019 10:15:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1547457311;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=4Cyw5tVjqr6oJq6X5bdMCiAtpamEVubIioeHcGN2Fcg=;
-        b=Nu1Ma85DzE/D4XYru3fDyGynddKRL+tyVikMssiBryDIGAuVLAbWueRSN5OKqhhe2X70zG
-        HkQYEwzNTQpSZ3rzZW+6+to/mXjQ9377FPVvYk8U3BMdXJ5jGpBhFOY3OUCTystuYJGQhN
-        CI2lasGYUFpkUodj89Q9iXyoCnwLxdI=
-Date:   Mon, 14 Jan 2019 10:15:10 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     lijiang <lijiang@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
-        tglx@linutronix.de, mingo@redhat.com, x86@kernel.org,
-        akpm@linux-foundation.org, bhe@redhat.com, dyoung@redhat.com,
-        k-hagio@ab.jp.nec.com, anderson@redhat.com,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2 v6] kdump: add the vmcoreinfo documentation
-Message-ID: <20190114091509.GC2773@zn.tnic>
-References: <20190110121944.6050-1-lijiang@redhat.com>
- <20190110121944.6050-2-lijiang@redhat.com>
- <20190111145650.GG4729@zn.tnic>
- <be8fbb64-7748-c7da-55f7-99fe69796a94@redhat.com>
+        id S1726436AbfANKIR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Jan 2019 05:08:17 -0500
+Received: from Galois.linutronix.de ([146.0.238.70]:38985 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726187AbfANKIR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jan 2019 05:08:17 -0500
+Received: from localhost ([127.0.0.1] helo=bazinga.breakpoint.cc)
+        by Galois.linutronix.de with esmtp (Exim 4.80)
+        (envelope-from <bigeasy@linutronix.de>)
+        id 1gizAE-0001f6-Kf; Mon, 14 Jan 2019 11:08:14 +0100
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, tglx@linutronix.de,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH] Documentation/dev-tools: Use gcc version number instead svn revision number
+Date:   Mon, 14 Jan 2019 11:08:07 +0100
+Message-Id: <20190114100807.7322-1-bigeasy@linutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <be8fbb64-7748-c7da-55f7-99fe69796a94@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 14, 2019 at 01:30:30PM +0800, lijiang wrote:
-> I noticed that the checkpatch was coded in Perl. But i am not familiar with
-> the Perl program language, that would be beyond my ability to do this, i have
-> to learn the Perl program language step by step. :-)
+svn commit 231296 matches commit d29e939c63b71 ("Add fuzzing coverage
+support") in the gcc git. The change is part of gcc 6.1.0.
 
-You could give it a try - it is not hard :-)
+Replace the svn commit number with a gcc version which everyone can
+easily compare.
 
-And there's no hurry for this, take your time.
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ Documentation/dev-tools/kcov.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Do you mean this one 'KERNEL_IMAGE_SIZE'?
-
-I mean, all those which are unused. Optimally, you should look at the
-tools and see whether they're using those exports and if not, remove
-them. But no hurry here too, take your time.
-
-My final goal is to have this up-to-date documentation of what is
-exported and what is used by user tools so that people can look at it
-first before carelessly exporting yet another thing.
-
-Thx.
-
+diff --git a/Documentation/dev-tools/kcov.rst b/Documentation/dev-tools/kcov.rst
+index c2f6452e38ed0..42b6126777998 100644
+--- a/Documentation/dev-tools/kcov.rst
++++ b/Documentation/dev-tools/kcov.rst
+@@ -22,7 +22,7 @@ Prerequisites
+ 
+         CONFIG_KCOV=y
+ 
+-CONFIG_KCOV requires gcc built on revision 231296 or later.
++CONFIG_KCOV requires gcc 6.1.0 or later.
+ 
+ If the comparison operands need to be collected, set::
+ 
 -- 
-Regards/Gruss,
-    Boris.
+2.20.1
 
-Good mailing practices for 400: avoid top-posting and trim the reply.
