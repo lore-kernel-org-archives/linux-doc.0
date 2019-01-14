@@ -1,36 +1,38 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BC4D77D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 17:53:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C22747D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 18:01:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726728AbfANRxR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Jan 2019 12:53:17 -0500
-Received: from tyo162.gate.nec.co.jp ([114.179.232.162]:49485 "EHLO
-        tyo162.gate.nec.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726724AbfANRxR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jan 2019 12:53:17 -0500
-Received: from mailgate01.nec.co.jp ([114.179.233.122])
-        by tyo162.gate.nec.co.jp (8.15.1/8.15.1) with ESMTPS id x0EHqduL031134
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Tue, 15 Jan 2019 02:52:39 +0900
-Received: from mailsv02.nec.co.jp (mailgate-v.nec.co.jp [10.204.236.94])
-        by mailgate01.nec.co.jp (8.15.1/8.15.1) with ESMTP id x0EHqd30025776;
-        Tue, 15 Jan 2019 02:52:39 +0900
-Received: from mail02.kamome.nec.co.jp (mail02.kamome.nec.co.jp [10.25.43.5])
-        by mailsv02.nec.co.jp (8.15.1/8.15.1) with ESMTP id x0EHqd76031839;
-        Tue, 15 Jan 2019 02:52:39 +0900
-Received: from bpxc99gp.gisp.nec.co.jp ([10.38.151.139] [10.38.151.139]) by mail01b.kamome.nec.co.jp with ESMTP id BT-MMP-1426923; Tue, 15 Jan 2019 02:48:49 +0900
-Received: from BPXM09GP.gisp.nec.co.jp ([10.38.151.201]) by
- BPXC11GP.gisp.nec.co.jp ([10.38.151.139]) with mapi id 14.03.0319.002; Tue,
- 15 Jan 2019 02:48:49 +0900
-From:   Kazuhito Hagio <k-hagio@ab.jp.nec.com>
-To:     Borislav Petkov <bp@alien8.de>, Lianbo Jiang <lijiang@redhat.com>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        id S1726732AbfANSBu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Jan 2019 13:01:50 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:35036 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726723AbfANSBu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Jan 2019 13:01:50 -0500
+Received: from zn.tnic (p200300EC2BC4CA000555087DEC7D7788.dip0.t-ipconnect.de [IPv6:2003:ec:2bc4:ca00:555:87d:ec7d:7788])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2316D1EC0AEA;
+        Mon, 14 Jan 2019 19:01:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1547488908;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=G9b4au4VAWxHUcbA2ouvVkbeuEWRynZFBPq/8nrSnBk=;
+        b=Kqy1QRcgeCOUyoUDfDsW7Q8yUvpoF6VhQtcyJouPIOcrFaGzRFDl2QiocaEegFn9BDYNS2
+        3QK1bpZXJQhNjTZqY76Txcwohx1+T7S8RzT14b5NCiwjx8bH0js+hrFbeNFBBt52fFUPaM
+        tfo2nzIbUy5brsfcSUpGVgsenS25UbM=
+Date:   Mon, 14 Jan 2019 19:01:42 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+Cc:     Lianbo Jiang <lijiang@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
         "tglx@linutronix.de" <tglx@linutronix.de>,
         "mingo@redhat.com" <mingo@redhat.com>,
@@ -40,55 +42,41 @@ CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "dyoung@redhat.com" <dyoung@redhat.com>,
         "anderson@redhat.com" <anderson@redhat.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH 1/2 v6] kdump: add the vmcoreinfo documentation
-Thread-Topic: [PATCH 1/2 v6] kdump: add the vmcoreinfo documentation
-Thread-Index: AQHUqanRWrQHojgMdkmYmMqmVCp2bqWvBVMw
-Date:   Mon, 14 Jan 2019 17:48:48 +0000
-Message-ID: <4AE2DC15AC0B8543882A74EA0D43DBEC035661E8@BPXM09GP.gisp.nec.co.jp>
+Subject: Re: [PATCH 1/2 v6] kdump: add the vmcoreinfo documentation
+Message-ID: <20190114180142.GO2773@zn.tnic>
 References: <20190110121944.6050-1-lijiang@redhat.com>
- <20190110121944.6050-2-lijiang@redhat.com> <20190111123300.GE4729@zn.tnic>
-In-Reply-To: <20190111123300.GE4729@zn.tnic>
-Accept-Language: ja-JP, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [143.101.135.126]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <20190110121944.6050-2-lijiang@redhat.com>
+ <20190111123300.GE4729@zn.tnic>
+ <4AE2DC15AC0B8543882A74EA0D43DBEC035661E8@BPXM09GP.gisp.nec.co.jp>
 MIME-Version: 1.0
-X-TM-AS-MML: disable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <4AE2DC15AC0B8543882A74EA0D43DBEC035661E8@BPXM09GP.gisp.nec.co.jp>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gMS8xMS8yMDE5IDc6MzMgQU0sIEJvcmlzbGF2IFBldGtvdiB3cm90ZToNCj4gT24gVGh1LCBK
-YW4gMTAsIDIwMTkgYXQgMDg6MTk6NDNQTSArMDgwMCwgTGlhbmJvIEppYW5nIHdyb3RlOg0KPj4g
-K2luaXRfdXRzX25zLm5hbWUucmVsZWFzZQ0KPj4gKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0K
-Pj4gKw0KPj4gK1RoZSB2ZXJzaW9uIG9mIHRoZSBMaW51eCBrZXJuZWwuIFVzZWQgdG8gZmluZCB0
-aGUgY29ycmVzcG9uZGluZyBzb3VyY2UNCj4+ICtjb2RlIGZyb20gd2hpY2ggdGhlIGtlcm5lbCBo
-YXMgYmVlbiBidWlsdC4NCj4+ICsNCj4gDQo+IC4uLg0KPiANCj4+ICsNCj4+ICtpbml0X3V0c19u
-cw0KPj4gKy0tLS0tLS0tLS0tDQo+PiArDQo+PiArVGhpcyBpcyB0aGUgVVRTIG5hbWVzcGFjZSwg
-d2hpY2ggaXMgdXNlZCB0byBpc29sYXRlIHR3byBzcGVjaWZpYw0KPj4gK2VsZW1lbnRzIG9mIHRo
-ZSBzeXN0ZW0gdGhhdCByZWxhdGUgdG8gdGhlIHVuYW1lKDIpIHN5c3RlbSBjYWxsLiBUaGUgVVRT
-DQo+PiArbmFtZXNwYWNlIGlzIG5hbWVkIGFmdGVyIHRoZSBkYXRhIHN0cnVjdHVyZSB1c2VkIHRv
-IHN0b3JlIGluZm9ybWF0aW9uDQo+PiArcmV0dXJuZWQgYnkgdGhlIHVuYW1lKDIpIHN5c3RlbSBj
-YWxsLg0KPj4gKw0KPj4gK1VzZXItc3BhY2UgdG9vbHMgY2FuIGdldCB0aGUga2VybmVsIG5hbWUs
-IGhvc3QgbmFtZSwga2VybmVsIHJlbGVhc2UNCj4+ICtudW1iZXIsIGtlcm5lbCB2ZXJzaW9uLCBh
-cmNoaXRlY3R1cmUgbmFtZSBhbmQgT1MgdHlwZSBmcm9tIGl0Lg0KPiANCj4gQWxyZWFkeSBhc2tl
-ZCB0aGlzIGJ1dCBubyByZXBseSBzbyBsZW1tZSBwYXN0ZSBteSBxdWVzdGlvbiBhZ2FpbjoNCj4g
-DQo+ICJBbmQgdGhpcyBkb2N1bWVudCBhbHJlYWR5IGZ1bGZpbGxzIGl0cyBwdXJwb3NlIC0gdGhv
-c2UgdHdvIHZtY29yZWluZm8NCj4gZXhwb3J0cyBhcmUgcmVkdW5kYW50IGFuZCB0aGUgZmlyc3Qg
-b25lIGNhbiBiZSByZW1vdmVkLg0KPiANCj4gQW5kIG5vdyB0aGF0IHdlIGFncmVlZCB0aGF0IFZN
-Q09SRUlORk8gaXMgbm90IGFuIEFCSSBhbmQgaXMgdmVyeSB0aWdodGx5DQo+IGNvdXBsZWQgdG8g
-dGhlIGtlcm5lbCB2ZXJzaW9uLCBpbml0X3V0c19ucy5uYW1lLnJlbGVhc2UgY2FuIGJlIHJlbW92
-ZWQsDQo+IHllcz8NCj4gDQo+IE9yIGlzIHRoZXJlIGFueXRoaW5nIHNwZWFraW5nIGFnYWluc3Qg
-dGhhdD8iDQoNCkFzIGZvciBtYWtlZHVtcGZpbGUsIGl0IHdpbGwgYmUgbm90IGltcG9zc2libGUg
-dG8gcmVtb3ZlIHRoZQ0KaW5pdF91dHNfbnMubmFtZS5yZWxhc2UgKE9TUkVMRUFTRSksIGJ1dCBz
-b21lIGZpeGVzIGFyZSBuZWVkZWQuDQpCZWNhdXNlIGhpc3RvcmljYWxseSBPU1JFTEVBU0UgaGFz
-IGJlZW4gYSBraW5kIG9mIGEgbWFuZGF0b3J5IGVudHJ5DQppbiB2bWNvcmVpbmZvIGZyb20gdGhl
-IGJlZ2lubmluZyBvZiB2bWNvcmVpbmZvLCBzbyBtYWtlZHVtcGZpbGUgdXNlcw0KaXRzIGV4aXN0
-ZW5jZSB0byBjaGVjayB3aGV0aGVyIGEgdm1jb3JlaW5mbyBpcyBzYW5lLg0KDQpBbHNvLCBJIHRo
-aW5rIGNyYXNoIGFsc28gd2lsbCBuZWVkIHRvIGJlIGZpeGVkIGlmIGl0IGlzIHJlbW92ZWQuDQpT
-byBJIGhvcGUgaXQgd2lsbCBiZSBsZWZ0IGFzIGl0IGlzLg0KDQpUaGFua3MsDQpLYXp1DQoNCg==
+On Mon, Jan 14, 2019 at 05:48:48PM +0000, Kazuhito Hagio wrote:
+> As for makedumpfile, it will be not impossible to remove the
+> init_uts_ns.name.relase (OSRELEASE), but some fixes are needed.
+> Because historically OSRELEASE has been a kind of a mandatory entry
+> in vmcoreinfo from the beginning of vmcoreinfo, so makedumpfile uses
+> its existence to check whether a vmcoreinfo is sane.
 
+Well, init_uts_ns is exported in vmcoreinfo anyway - makedumpfile
+can simply test init_uts_ns.name.release just as well. And the
+"historically" argument doesn't matter because vmcoreinfo is not an ABI.
+
+So makedumpfile needs to be changed to check that new export.
+
+> Also, I think crash also will need to be fixed if it is removed.
+
+Yes, I'm expecting user tools to be fixed and then exports removed.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
