@@ -1,83 +1,198 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CABEF7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 20:35:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 92E7F7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 14 Jan 2019 20:48:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726767AbfANUfI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Jan 2019 15:35:08 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:59018 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726755AbfANUfI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Jan 2019 15:35:08 -0500
-Received: from zn.tnic (p200300EC2BC4CA00255595821D34C4F7.dip0.t-ipconnect.de [IPv6:2003:ec:2bc4:ca00:2555:9582:1d34:c4f7])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1D7561EC027A;
-        Mon, 14 Jan 2019 21:35:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1547498106;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=ojXxOskL0OW2grAWbQg+gv1scSqyRWX8gYLB34yBQFw=;
-        b=cm2NLAWINNhxnVCeeBrOSVHxsc94zuch92ErHBVdjoGbCsUfW5RkvTL8wlZBpda8cywvea
-        GXHAQVOKVqCo0zka8KnCFEbPdouyAREr0EQGFwf51pRE2idZgUjzrrQmUlZsCMIQM8OjPh
-        cGHfraBAxsS5OYUwfUY0jTDIJ/mx9iM=
-Date:   Mon, 14 Jan 2019 21:35:00 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Dave Anderson <anderson@redhat.com>
-Cc:     Kazuhito Hagio <k-hagio@ab.jp.nec.com>,
-        Lianbo Jiang <lijiang@redhat.com>,
-        linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
-        tglx@linutronix.de, mingo@redhat.com, x86@kernel.org,
-        akpm@linux-foundation.org, bhe@redhat.com, dyoung@redhat.com,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2 v6] kdump: add the vmcoreinfo documentation
-Message-ID: <20190114203500.GU2773@zn.tnic>
-References: <20190110121944.6050-1-lijiang@redhat.com>
- <20190114180142.GO2773@zn.tnic>
- <2126185079.69727846.1547492312033.JavaMail.zimbra@redhat.com>
- <20190114192144.GQ2773@zn.tnic>
- <134663991.69764038.1547494607008.JavaMail.zimbra@redhat.com>
- <20190114195940.GS2773@zn.tnic>
- <244986363.69770015.1547496453312.JavaMail.zimbra@redhat.com>
- <20190114201812.GT2773@zn.tnic>
- <221183717.69773903.1547497592624.JavaMail.zimbra@redhat.com>
+        id S1726782AbfANUsD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 14 Jan 2019 15:48:03 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:37410 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726796AbfANUsC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jan 2019 15:48:02 -0500
+Received: by mail-wm1-f68.google.com with SMTP id g67so1029330wmd.2
+        for <linux-doc@vger.kernel.org>; Mon, 14 Jan 2019 12:48:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jwW1KirWJa3Otm0mdb+FxZ3AFbnGbcDi8Iugc6Rltwo=;
+        b=A2pDQgPMfi8xEcPmWoQZ2vTIY4giMrEqTxyGbkzbS3KIpKn4Rzshn3bvn+6sjPR4v/
+         z3eeTNO9KIL13+ffxR2gzEQ6VTGx2Qoefby8azX1xOvMmP1uqyVMPFpL5OBzd/aHEHiG
+         gx/yvd/XHBODmMQ73oi3WtAGNEhSTdeQSF0uJWHEHIaqeThB2Vc1CMPdWBarjpe/2Op1
+         FnIgnpfClFuK1z7GZIKdpc+2vIwVQrXeSYp4uL6yiI4/MRtFXHeyNuhQHreQFcK57G0f
+         z1+JznRXHIrhESLyl/fpth4COZ/LcDv2W0XMR+hBn5T5ug+ZzV329WtQ4EHSmGk27xid
+         r6sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jwW1KirWJa3Otm0mdb+FxZ3AFbnGbcDi8Iugc6Rltwo=;
+        b=RvvX1l38IFqkpquD/ehkdLXjsZysYIGoERjDwOO6NCCzayhof1exPVSco5P0M0Xv4m
+         OLnuW48D3bdNTFpYaj+tDWouTRZqJwpR4pObO+3/vcX41qeEuaR7HxzCIAQkcKpwmXrA
+         gDYALVS670THlP4SHysBgfEpvPQS3hFfjrY6R5oDuVTRSE9qdGsLY+IxF/ikvfAic9NM
+         GsPyf3GU/FOC3y1NcLxY6T8G9w6oSwWhSgllFVwU6mo5WhNcd2eOUEZBWepEA3TUKGnq
+         Ok6e6YzfcJWeDyRl/uhjqzxHAk9yk2yEL3JDrO5fEesB8H4KZjQalSN6eX+9dliKxqLe
+         kcfA==
+X-Gm-Message-State: AJcUukeSd2nJRnAWdU4VybsVpI0cV266Yvx+Qg2UBeYsbC61sBNeB2zg
+        fldoFX0Uzz9sy50zzd26BQyIl6t34H+sdH0X8Tv86g==
+X-Google-Smtp-Source: ALg8bN7iurn1V/oAb9TPOfzDB1cZrLk7Mb7Ob0iavv3WLprDDiWHghw3bxnNBUClL+Yo6cWdjUkw7edud95FQv0DClc=
+X-Received: by 2002:a1c:e910:: with SMTP id q16mr717314wmc.68.1547498879880;
+ Mon, 14 Jan 2019 12:47:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <221183717.69773903.1547497592624.JavaMail.zimbra@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190110220718.261134-1-surenb@google.com> <20190110220718.261134-6-surenb@google.com>
+ <20190114102137.GB14054@worktop.programming.kicks-ass.net>
+ <CAJuCfpGUWs0E9oPUjPTNm=WhPJcE_DBjZCtCiaVu5WXabKRW6A@mail.gmail.com> <20190114194222.GA10571@cmpxchg.org>
+In-Reply-To: <20190114194222.GA10571@cmpxchg.org>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Mon, 14 Jan 2019 12:47:48 -0800
+Message-ID: <CAJuCfpF+eZFxCuB4QtQDOeDFYRg1LBiAKkF6QZxRk-FenkNu7w@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] psi: introduce psi monitor
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tejun Heo <tj@kernel.org>, lizefan@huawei.com, axboe@kernel.dk,
+        dennis@kernel.org, Dennis Zhou <dennisszhou@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 14, 2019 at 03:26:32PM -0500, Dave Anderson wrote:
-> No.  It needs *both* the vmlinux file and the vmcore file in order to read kernel
-> virtual memory, so just having a kernel virtual address is insufficient.
-> 
-> So it's a chicken-and-egg situation.  This particular --osrelease option is used
-> to determine *what* vmlinux file would be required for an actual crash analysis 
-> session.
+On Mon, Jan 14, 2019 at 11:42 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
+>
+> On Mon, Jan 14, 2019 at 11:30:12AM -0800, Suren Baghdasaryan wrote:
+> > On Mon, Jan 14, 2019 at 2:22 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> > >
+> > > On Thu, Jan 10, 2019 at 02:07:18PM -0800, Suren Baghdasaryan wrote:
+> > > > +/*
+> > > > + * psi_update_work represents slowpath accounting part while
+> > > > + * psi_group_change represents hotpath part.
+> > > > + * There are two potential races between these path:
+> > > > + * 1. Changes to group->polling when slowpath checks for new stall, then
+> > > > + *    hotpath records new stall and then slowpath resets group->polling
+> > > > + *    flag. This leads to the exit from the polling mode while monitored
+> > > > + *    states are still changing.
+> > > > + * 2. Slowpath overwriting an immediate update scheduled from the hotpath
+> > > > + *    with a regular update further in the future and missing the
+> > > > + *    immediate update.
+> > > > + * Both races are handled with a retry cycle in the slowpath:
+> > > > + *
+> > > > + *    HOTPATH:                         |    SLOWPATH:
+> > > > + *                                     |
+> > > > + * A) times[cpu] += delta              | E) delta = times[*]
+> > > > + * B) start_poll = (delta[poll_mask] &&|    if delta[poll_mask]:
+> > > > + *      cmpxchg(g->polling, 0, 1) == 0)| F)   polling_until = now +
+> > > > + *                                     |              grace_period
+> > > > + *                                     |    if now > polling_until:
+> > > > + *    if start_poll:                   |      if g->polling:
+> > > > + * C)   mod_delayed_work(1)            | G)     g->polling = polling = 0
+> > > > + *    else if !delayed_work_pending(): | H)     goto SLOWPATH
+> > > > + * D)   schedule_delayed_work(PSI_FREQ)|    else:
+> > > > + *                                     |      if !g->polling:
+> > > > + *                                     | I)     g->polling = polling = 1
+> > > > + *                                     | J) if delta && first_pass:
+> > > > + *                                     |      next_avg = calculate_averages()
+> > > > + *                                     |      if polling:
+> > > > + *                                     |        next_poll = poll_triggers()
+> > > > + *                                     |    if (delta && first_pass) || polling:
+> > > > + *                                     | K)   mod_delayed_work(
+> > > > + *                                     |          min(next_avg, next_poll))
+> > > > + *                                     |      if !polling:
+> > > > + *                                     |        first_pass = false
+> > > > + *                                     | L)     goto SLOWPATH
+> > > > + *
+> > > > + * Race #1 is represented by (EABGD) sequence in which case slowpath
+> > > > + * deactivates polling mode because it misses new monitored stall and hotpath
+> > > > + * doesn't activate it because at (B) g->polling is not yet reset by slowpath
+> > > > + * in (G). This race is handled by the (H) retry, which in the race described
+> > > > + * above results in the new sequence of (EABGDHEIK) that reactivates polling
+> > > > + * mode.
+> > > > + *
+> > > > + * Race #2 is represented by polling==false && (JABCK) sequence which
+> > > > + * overwrites immediate update scheduled at (C) with a later (next_avg) update
+> > > > + * scheduled at (K). This race is handled by the (L) retry which results in the
+> > > > + * new sequence of polling==false && (JABCKLEIK) that reactivates polling mode
+> > > > + * and reschedules next polling update (next_poll).
+> > > > + *
+> > > > + * Note that retries can't result in an infinite loop because retry #1 happens
+> > > > + * only during polling reactivation and retry #2 happens only on the first
+> > > > + * pass. Constant reactivations are impossible because polling will stay active
+> > > > + * for at least grace_period. Worst case scenario involves two retries (HEJKLE)
+> > > > + */
+> > >
+> > > I'm having a fairly hard time with this. There's a distinct lack of
+> > > memory ordering, and a suspicious mixing of atomic ops (cmpxchg) and
+> > > regular loads and stores (without READ_ONCE/WRITE_ONCE even).
+> > >
+> > > Please clarify.
+> >
+> > Thanks for the feedback.
+> > I do mix atomic and regular loads with g->polling only because the
+> > slowpath is the only one that resets it back to 0, so
+> > cmpxchg(g->polling, 1, 0) == 1 at (G) would always return 1.
+> > Setting g->polling back to 1 at (I) indeed needs an atomic operation
+> > but at that point it does not matter whether hotpath or slowpath sets
+> > it. In either case we will schedule a polling update.
+> > Am I missing anything?
+> >
+> > For memory ordering (which Johannes also pointed out) the critical point is:
+> >
+> > times[cpu] += delta           | if g->polling:
+> > smp_wmb()                     |   g->polling = polling = 0
+> > cmpxchg(g->polling, 0, 1)     |   smp_rmb()
+> >                               |   delta = times[*] (through goto SLOWPATH)
+> >
+> > So that hotpath writes to times[] then g->polling and slowpath reads
+> > g->polling then times[]. cmpxchg() implies a full barrier, so we can
+> > drop smp_wmb(). Something like this:
+> >
+> > times[cpu] += delta           | if g->polling:
+> > cmpxchg(g->polling, 0, 1)     |   g->polling = polling = 0
+> >                               |   smp_rmb()
+> >                               |   delta = times[*] (through goto SLOWPATH)
+>
+> delta = times[*] is get_recent_times(), which uses a seqcount and so
+> implies the smp_rmb() already as well. So we shouldn't need another
+> explicit one. But the comment should point out all the barriers.
 
-Ok, that makes sense. I could've used that explanation when reviewing
-the documentation. Do you mind skimming through this:
+Got it, thanks!
+How about changing the comment this way:
 
-https://lkml.kernel.org/r/20190111145650.GG4729@zn.tnic
+   HOTPATH:                         |    SLOWPATH:
+                                    |
+A) times[cpu] += delta              | E) delta = times[*]
+   smp_wmb()                        |    if delta[poll_mask]:
+B) start_poll = (delta[poll_mask] &&| F)   polling_until = now + grace_period
+     cmpxchg(g->polling, 0, 1) == 0)|    if now > polling_until:
+   if start_poll:                   |      if g->polling:
+C)   mod_delayed_work(1)            | G)     g->polling = polling = 0
+   else if !delayed_work_pending(): |        smp_rmb()
+D)   schedule_delayed_work(PSI_FREQ)| H)     goto SLOWPATH
+                                    |    else:
+                                    |      if !g->polling:
+                                    | I)     g->polling = polling = 1
+                                    | J) if delta && first_pass:
+                                    |      next_avg = calculate_averages()
+                                    |      if polling:
+                                    |        next_poll = poll_triggers()
+                                    |    if (delta && first_pass) || polling:
+                                    | K)   mod_delayed_work(
+                                    |          min(next_avg, next_poll))
+                                    |      if !polling:
+                                    |        first_pass = false
+                                    | L)     goto SLOWPATH
 
-in case we've missed explaining relevant usage - like that above - of
-some of the vmcoreinfo members?
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
+And maybe adding a comment about implied memory barriers in cmpxchg()
+and in seqlock.
+Would that be enough?
