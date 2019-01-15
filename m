@@ -1,82 +1,77 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 185217D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 09:48:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E054F7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 10:07:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726842AbfAOJsz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 Jan 2019 04:48:55 -0500
-Received: from Galois.linutronix.de ([146.0.238.70]:41762 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726123AbfAOJsz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jan 2019 04:48:55 -0500
-Received: from p4fea4364.dip0.t-ipconnect.de ([79.234.67.100] helo=nanos)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1gjLKz-000162-9V; Tue, 15 Jan 2019 10:48:49 +0100
-Date:   Tue, 15 Jan 2019 10:48:48 +0100 (CET)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Waiman Long <longman@redhat.com>
-cc:     Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>,
-        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <ak@linux.intel.com>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Jiri Kosina <jikos@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        KarimAllah Ahmed <karahmed@amazon.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Kees Cook <keescook@chromium.org>
-Subject: Re: [RFC PATCH] x86/speculation: Don't inherit TIF_SSBD on
- execve()
-In-Reply-To: <c2384e8e-619e-fd05-cfd3-8dc593439ea9@redhat.com>
-Message-ID: <alpine.DEB.2.21.1901151045580.1865@nanos.tec.linutronix.de>
-References: <1545246590-12704-1-git-send-email-longman@redhat.com> <alpine.DEB.2.21.1901112046290.1661@nanos.tec.linutronix.de> <c2384e8e-619e-fd05-cfd3-8dc593439ea9@redhat.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1727200AbfAOKHH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Jan 2019 05:07:07 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:37934 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726055AbfAOKHH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Jan 2019 05:07:07 -0500
+Received: from zn.tnic (p200300EC2BCBB4000C4BA7EB962C71EB.dip0.t-ipconnect.de [IPv6:2003:ec:2bcb:b400:c4b:a7eb:962c:71eb])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E6C491EC0B69;
+        Tue, 15 Jan 2019 11:07:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1547546826;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=AThfrLqsUq2xn4tIaET9wGhm1B/0VM5AetYRBejovyA=;
+        b=pVu2t3Ji6sZauXJsLQj4y8reYFyxlrbzy5TEDCDlCyM/NQenGVy/zadPM9v5onqXg4EjsZ
+        ix3q8W5hhkOuZS0MUkALle2Nl+/JlbkWXvVRSe9RFr1TSYstuQWVdCvxbG17HSnpqlRuvF
+        EjsQRl/ZJ5xYQnSqa4GM1+Z9xi925oo=
+Date:   Tue, 15 Jan 2019 11:06:59 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Dave Anderson <anderson@redhat.com>
+Cc:     Kazuhito Hagio <k-hagio@ab.jp.nec.com>,
+        Lianbo Jiang <lijiang@redhat.com>,
+        linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
+        tglx@linutronix.de, mingo@redhat.com, x86@kernel.org,
+        akpm@linux-foundation.org, bhe@redhat.com, dyoung@redhat.com,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2 v6] kdump: add the vmcoreinfo documentation
+Message-ID: <20190115100659.GB6596@zn.tnic>
+References: <20190110121944.6050-1-lijiang@redhat.com>
+ <20190114192144.GQ2773@zn.tnic>
+ <134663991.69764038.1547494607008.JavaMail.zimbra@redhat.com>
+ <20190114195940.GS2773@zn.tnic>
+ <244986363.69770015.1547496453312.JavaMail.zimbra@redhat.com>
+ <20190114201812.GT2773@zn.tnic>
+ <221183717.69773903.1547497592624.JavaMail.zimbra@redhat.com>
+ <20190114203500.GU2773@zn.tnic>
+ <1862896935.69778880.1547498954956.JavaMail.zimbra@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1862896935.69778880.1547498954956.JavaMail.zimbra@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 14 Jan 2019, Waiman Long wrote:
-> On 01/11/2019 02:52 PM, Thomas Gleixner wrote:
-> > On Wed, 19 Dec 2018, Waiman Long wrote:
-> >
-> >> With the default SPEC_STORE_BYPASS_SECCOMP/SPEC_STORE_BYPASS_PRCTL mode,
-> >> the TIF_SSBD bit will be inherited when a new task is fork'ed or cloned.
-> >>
-> >> As only certain class of applications (like Java) requires disabling
-> >> speculative store bypass for security purpose, it may not make sense to
-> >> allow the TIF_SSBD bit to be inherited across execve() boundary where the
-> >> new application may not need SSBD at all and is probably not aware that
-> >> SSBD may have been turned on. This may cause an unnecessary performance
-> >> loss of up to 20% in some cases.
-> > Lot's of MAY's here. Aside of that this fundamentally changes the
-> > behaviour. I'm not really a fan of doing that.
-> >
-> > If there are good reasons to have a non-inherited variant, then we rather
-> > introduce that instead of changing the existing semantics without a way for
-> > existing userspace to notice.
-> 
-> I understand your point. How about adding a ",noexec" auxillary option
-> to the spec_store_bypass_disable command line to activate this new
-> behavior without changing the default. Will that be acceptable?
+On Mon, Jan 14, 2019 at 03:49:14PM -0500, Dave Anderson wrote:
+> Yeah, I've been watching the thread, and the document looks fine to me.
+> It's just that when I saw the discussion of this one being removed that
+> I felt the need to respond...  ;-)
 
-I'd rather have an explicit PR_SPEC_DISABLE_NOEXEC argument for the PRCTL
-so you can decide at the application level what kind of behaviour you want.
+Good. :-)
 
-Thanks,
+Ok, I've amended the init_uts_ns.name.release description with the
+additional important info.
 
-	tglx
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
