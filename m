@@ -1,71 +1,139 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7EAC17D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 15:31:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1709D7D161
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 15:55:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730893AbfAOPbb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 Jan 2019 10:31:31 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:40728 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728679AbfAOPbb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jan 2019 10:31:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=QciLo+wsg0uZeXWr5zAF7r512Gi3FOpmFxN/2k9BQPQ=; b=KxQ9SHRw5S/vqoyv3cI+bd0WE
-        S6N5IlbHR9347Wh2JGe9k7BjJmZ0VluGXDlueZzJqPNSvBBQAeMm4mCGDDGbmV4+sqSBrkOCaxfUt
-        42dL8Mk1qjvWsnyaaJGVh2KGUeD0lggQW7nm+FtPrs/Q5phVi9GgJAyTiTh7yV72H0aLAtq8POvic
-        CaGPgs6gBngjMmKK6/ckxoY8gYcK2Ck8sPcZaL7R7RIJAMqmd1Fmi0In7UQJKwkT/JVdQebNGrMEL
-        Px3ee/tEG7l2duBqjrb9LjmUizOTNVzBFxtvCwmnxMhUlmaeAbt9NTG89uSkNOJwyrf9fsLU7Q2Ow
-        xrc7N3Wug==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gjQga-00022e-Lk; Tue, 15 Jan 2019 15:31:28 +0000
-Date:   Tue, 15 Jan 2019 07:31:28 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Joel Nider <joeln@il.ibm.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>,
-        Doug Ledford <dledford@redhat.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] docs-rst: userspace: update verbs API details
-Message-ID: <20190115153128.GA6310@bombadil.infradead.org>
-References: <1547547991-5314-1-git-send-email-joeln@il.ibm.com>
- <1547547991-5314-3-git-send-email-joeln@il.ibm.com>
+        id S1730095AbfAOPzE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Jan 2019 10:55:04 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:61792 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729807AbfAOPzD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Jan 2019 10:55:03 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 56F87C050939;
+        Tue, 15 Jan 2019 15:55:02 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-223.bos.redhat.com [10.18.17.223])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0504E5C7A0;
+        Tue, 15 Jan 2019 15:54:56 +0000 (UTC)
+Subject: Re: [RFC PATCH] x86/speculation: Don't inherit TIF_SSBD on execve()
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>,
+        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <ak@linux.intel.com>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Jiri Kosina <jikos@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        KarimAllah Ahmed <karahmed@amazon.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Kees Cook <keescook@chromium.org>
+References: <1545246590-12704-1-git-send-email-longman@redhat.com>
+ <alpine.DEB.2.21.1901112046290.1661@nanos.tec.linutronix.de>
+ <c2384e8e-619e-fd05-cfd3-8dc593439ea9@redhat.com>
+ <alpine.DEB.2.21.1901151045580.1865@nanos.tec.linutronix.de>
+From:   Waiman Long <longman@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ weim8xU=
+Organization: Red Hat
+Message-ID: <6bf08fce-cca2-5216-3fe8-8b5e7ab34b30@redhat.com>
+Date:   Tue, 15 Jan 2019 10:54:56 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1547547991-5314-3-git-send-email-joeln@il.ibm.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <alpine.DEB.2.21.1901151045580.1865@nanos.tec.linutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Tue, 15 Jan 2019 15:55:02 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 15, 2019 at 12:26:31PM +0200, Joel Nider wrote:
-> It is important to understand the existing framework when implementing
-> a new verb. The majority of existing API functions are implemented using
-> the write syscall, but this has been superceded by the ioctl syscall
-> for new commands. This patch updates the documentation regarding how
-> to go about implementing a new verb, focusing on the new ioctl
-> interface.
-> 
-> The documentation is far from complete, but this is a good step in the
-> right direction. Future patches can add more detail according to need.
-> Also, the interface is still undergoing substantial changes so an
-> effort was made to document only the stable parts so as to avoid
-> incorrect information since documentation changes tend to lag behind
-> code changes.
+On 01/15/2019 04:48 AM, Thomas Gleixner wrote:
+> On Mon, 14 Jan 2019, Waiman Long wrote:
+>> On 01/11/2019 02:52 PM, Thomas Gleixner wrote:
+>>> On Wed, 19 Dec 2018, Waiman Long wrote:
+>>>
+>>>> With the default SPEC_STORE_BYPASS_SECCOMP/SPEC_STORE_BYPASS_PRCTL mode,
+>>>> the TIF_SSBD bit will be inherited when a new task is fork'ed or cloned.
+>>>>
+>>>> As only certain class of applications (like Java) requires disabling
+>>>> speculative store bypass for security purpose, it may not make sense to
+>>>> allow the TIF_SSBD bit to be inherited across execve() boundary where the
+>>>> new application may not need SSBD at all and is probably not aware that
+>>>> SSBD may have been turned on. This may cause an unnecessary performance
+>>>> loss of up to 20% in some cases.
+>>> Lot's of MAY's here. Aside of that this fundamentally changes the
+>>> behaviour. I'm not really a fan of doing that.
+>>>
+>>> If there are good reasons to have a non-inherited variant, then we rather
+>>> introduce that instead of changing the existing semantics without a way for
+>>> existing userspace to notice.
+>> I understand your point. How about adding a ",noexec" auxillary option
+>> to the spec_store_bypass_disable command line to activate this new
+>> behavior without changing the default. Will that be acceptable?
+> I'd rather have an explicit PR_SPEC_DISABLE_NOEXEC argument for the PRCTL
+> so you can decide at the application level what kind of behaviour you want.
+>
+> Thanks,
+>
+> 	tglx
 
-I think this is a horrible direction to take.  The current document is
-clearly for _users_.  All this documentation you've added is for kernel
-hackers.  It needs to go in a different file, or not be added at all.
+Thanks for the advice. Will work on a v2 to be sent out later this week.
+
+Cheers,
+Longman
 
