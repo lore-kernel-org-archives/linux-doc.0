@@ -1,128 +1,229 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SORTED_RECIPS autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 48F9A7D099
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 20:41:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 45C6F7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 21:22:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389956AbfAOUlh convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 Jan 2019 15:41:37 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:52078 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389942AbfAOUlh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jan 2019 15:41:37 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x0FKeMFf034660
-        for <linux-doc@vger.kernel.org>; Tue, 15 Jan 2019 15:41:36 -0500
-Received: from smtp.notes.na.collabserv.com (smtp.notes.na.collabserv.com [192.155.248.81])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2q1pd1s79s-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 15 Jan 2019 15:41:35 -0500
-Received: from localhost
-        by smtp.notes.na.collabserv.com with smtp.notes.na.collabserv.com ESMTP
-        for <linux-doc@vger.kernel.org> from <JOELN@il.ibm.com>;
-        Tue, 15 Jan 2019 20:41:35 -0000
-Received: from us1a3-smtp05.a3.dal06.isc4sb.com (10.146.71.159)
-        by smtp.notes.na.collabserv.com (10.106.227.88) with smtp.notes.na.collabserv.com ESMTP;
-        Tue, 15 Jan 2019 20:41:27 -0000
-Received: from us1a3-mail108.a3.dal06.isc4sb.com ([10.146.45.126])
-          by us1a3-smtp05.a3.dal06.isc4sb.com
-          with ESMTP id 2019011520412456-996194 ;
-          Tue, 15 Jan 2019 20:41:24 +0000 
-In-Reply-To: <20190115110218.3d844efc@lwn.net>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
-Subject: Re: [PATCH v2 1/2] docs-rst: Convert user verbs doc to rst
-From:   "Joel Nider" <JOELN@il.ibm.com>
-Date:   Tue, 15 Jan 2019 22:41:25 +0200
-References: <1547547991-5314-1-git-send-email-joeln@il.ibm.com><1547547991-5314-2-git-send-email-joeln@il.ibm.com><20190115151402.GA22045@ziepe.ca>
- <20190115110218.3d844efc@lwn.net>
-MIME-Version: 1.0
-X-KeepSent: 3B8FDB62:8EA185E4-C2258383:007190BE;
- type=4; name=$KeepSent
-X-Mailer: IBM Notes Release 9.0.1FP7 August 18, 2016
-X-LLNOutbound: False
-X-Disclaimed: 7623
-X-TNEFEvaluated: 1
-x-cbid: 19011520-7093-0000-0000-000009CC75C7
-X-IBM-SpamModules-Scores: BY=0.142283; FL=0; FP=0; FZ=0; HX=0; KW=0; PH=0;
- SC=0.40962; ST=0; TS=0; UL=0; ISC=; MB=0.001693
-X-IBM-SpamModules-Versions: BY=3.00010413; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000274; SDB=6.01146973; UDB=6.00597424; IPR=6.00927266;
- BA=6.00006202; NDR=6.00000001; ZLA=6.00000005; ZF=6.00000009; ZB=6.00000000;
- ZP=6.00000000; ZH=6.00000000; ZU=6.00000002; MB=3.00025143; XFM=3.00000015;
- UTC=2019-01-15 20:41:32
-X-IBM-AV-DETECTION: SAVI=unsuspicious REMOTE=unsuspicious XFE=unused
-X-IBM-AV-VERSION: SAVI=2019-01-15 19:39:15 - 6.00009469
-x-cbparentid: 19011520-7094-0000-0000-00006F2DA849
-Message-Id: <OF3B8FDB62.8EA185E4-ONC2258383.007190BE-C2258383.0071A7E3@notes.na.collabserv.com>
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 8BIT
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-15_07:,,
- signatures=0
-X-Proofpoint-Spam-Reason: safe
+        id S2390362AbfAOVVx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Jan 2019 16:21:53 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:45372 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1733166AbfAOVVx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Jan 2019 16:21:53 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 39DE581F0F;
+        Tue, 15 Jan 2019 21:21:51 +0000 (UTC)
+Received: from llong.com (dhcp-17-223.bos.redhat.com [10.18.17.223])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 279F11001F3C;
+        Tue, 15 Jan 2019 21:21:48 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Jiri Kosina <jikos@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        KarimAllah Ahmed <karahmed@amazon.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v2] x86/speculation: Add PR_SPEC_DISABLE_NOEXEC
+Date:   Tue, 15 Jan 2019 16:21:34 -0500
+Message-Id: <1547587294-7132-1-git-send-email-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Tue, 15 Jan 2019 21:21:52 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet <corbet@lwn.net> wrote on 01/15/2019 08:02:18 PM:
+With the default SPEC_STORE_BYPASS_SECCOMP/SPEC_STORE_BYPASS_PRCTL mode,
+the TIF_SSBD bit will be inherited when a new task is fork'ed or cloned.
+It will also remain when a new program is execve'ed.
 
-> From: Jonathan Corbet <corbet@lwn.net>
-> To: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Joel Nider <joeln@il.ibm.com>, Leon Romanovsky <leon@kernel.org>, 
-Doug 
-> Ledford <dledford@redhat.com>, Mike Rapoport <rppt@linux.ibm.com>, 
-linux-
-> doc@vger.kernel.org, linux-kernel@vger.kernel.org
-> Date: 01/15/2019 08:14 PM
-> Subject: Re: [PATCH v2 1/2] docs-rst: Convert user verbs doc to rst
-> 
-> On Tue, 15 Jan 2019 08:14:02 -0700
-> Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> 
-> > > Move user_verbs from infiniband to userspace while changing the
-> > > format. Replace the existing Documentation/infiniband/user_verbs.txt
-> > > with Documentation/userspace-api/user_verbs.rst. No substantial 
-changes
-> > > to the content - just some minor reformatting to have the rendering
-> > > come out nicely.
-> > > 
-> > > Since this documents a userspace API, its home should be with the
-> > > other userspace API docs.
-> > > 
-> > > This is in preparation for updating the content in a subsequent
-> > > patch.
-> > > 
-> > > Signed-off-by: Joel Nider <joeln@il.ibm.com>
-> > > ---
-> > >  Documentation/infiniband/user_verbs.txt    | 69 
------------------------------
-> > >  Documentation/userspace-api/index.rst      |  1 +
-> > >  Documentation/userspace-api/user_verbs.rst | 70 
-++++++++++++++++++++++++++++++
-> > >  3 files changed, 71 insertions(+), 69 deletions(-)
-> > >  delete mode 100644 Documentation/infiniband/user_verbs.txt
-> > >  create mode 100644 Documentation/userspace-api/user_verbs.rst 
-> > 
-> > Need to update MAINTAINERS for the new file.. Maybe call this
-> > rdma_user_verbs.rst as we could also have rdma_umad, rdma_cm, etc
-> 
-> Both of those suggestions make sense.  Joel, can you do a quick respin
-> along those lines?  Then I think this one is ready.
+Only certain class of applications (like Java) that can run on behalf
+of multiple users on a single thread will require disabling speculative
+store bypass for security purpose. Those applications will call prctl(2)
+at startup time to disable SSB. They won't rely on the fact the SSB might
+have been disabled. Other applications that don't need SSBD will just
+move on without checking if SSBD has been turned on or not.
 
-Yes, if I understood your other message correctly (I'll wait to see your 
-response on the other thread), I can make these two changes.
+The fact that the TIF_SSBD is inherited across execve(2) boundary
+will cause performance of applications that don't need SSBD but their
+predecessors have SSBD on to be unwittingly impacted especially if they
+write to memory a lot.
 
-> Thanks,
-> 
-> jon
-> 
+To remedy this problem, a new PR_SPEC_DISABLE_NOEXEC argument for the
+PR_SET_SPECULATION_CTRL option of prctl(2) is added to allow applications
+to specify that the SSBD feature bit on the task structure should be
+cleared whenever a new program is being execve'ed.
 
+Signed-off-by: Waiman Long <longman@redhat.com>
+Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+---
+ Documentation/userspace-api/spec_ctrl.rst | 27 +++++++++++++++------------
+ arch/x86/kernel/cpu/bugs.c                | 10 ++++++++++
+ arch/x86/kernel/process.c                 | 12 ++++++++++++
+ include/linux/sched.h                     |  5 +++++
+ include/uapi/linux/prctl.h                |  1 +
+ tools/include/uapi/linux/prctl.h          |  1 +
+ 6 files changed, 44 insertions(+), 12 deletions(-)
+
+diff --git a/Documentation/userspace-api/spec_ctrl.rst b/Documentation/userspace-api/spec_ctrl.rst
+index c4dbe6f..1129c75 100644
+--- a/Documentation/userspace-api/spec_ctrl.rst
++++ b/Documentation/userspace-api/spec_ctrl.rst
+@@ -28,18 +28,20 @@ PR_GET_SPECULATION_CTRL returns the state of the speculation misfeature
+ which is selected with arg2 of prctl(2). The return value uses bits 0-3 with
+ the following meaning:
+ 
+-==== ===================== ===================================================
+-Bit  Define                Description
+-==== ===================== ===================================================
+-0    PR_SPEC_PRCTL         Mitigation can be controlled per task by
+-                           PR_SET_SPECULATION_CTRL.
+-1    PR_SPEC_ENABLE        The speculation feature is enabled, mitigation is
+-                           disabled.
+-2    PR_SPEC_DISABLE       The speculation feature is disabled, mitigation is
+-                           enabled.
+-3    PR_SPEC_FORCE_DISABLE Same as PR_SPEC_DISABLE, but cannot be undone. A
+-                           subsequent prctl(..., PR_SPEC_ENABLE) will fail.
+-==== ===================== ===================================================
++==== ====================== ==================================================
++Bit  Define                 Description
++==== ====================== ==================================================
++0    PR_SPEC_PRCTL          Mitigation can be controlled per task by
++                            PR_SET_SPECULATION_CTRL.
++1    PR_SPEC_ENABLE         The speculation feature is enabled, mitigation is
++                            disabled.
++2    PR_SPEC_DISABLE        The speculation feature is disabled, mitigation is
++                            enabled.
++3    PR_SPEC_FORCE_DISABLE  Same as PR_SPEC_DISABLE, but cannot be undone. A
++                            subsequent prctl(..., PR_SPEC_ENABLE) will fail.
++4    PR_SPEC_DISABLE_NOEXEC Same as PR_SPEC_DISABLE, but the state will be
++                            cleared on :manpage:`execve(2)`.
++==== ====================== ==================================================
+ 
+ If all bits are 0 the CPU is not affected by the speculation misfeature.
+ 
+@@ -92,6 +94,7 @@ Speculation misfeature controls
+    * prctl(PR_SET_SPECULATION_CTRL, PR_SPEC_STORE_BYPASS, PR_SPEC_ENABLE, 0, 0);
+    * prctl(PR_SET_SPECULATION_CTRL, PR_SPEC_STORE_BYPASS, PR_SPEC_DISABLE, 0, 0);
+    * prctl(PR_SET_SPECULATION_CTRL, PR_SPEC_STORE_BYPASS, PR_SPEC_FORCE_DISABLE, 0, 0);
++   * prctl(PR_SET_SPECULATION_CTRL, PR_SPEC_STORE_BYPASS, PR_SPEC_DISABLE_NOEXEC, 0, 0);
+ 
+ - PR_SPEC_INDIR_BRANCH: Indirect Branch Speculation in User Processes
+                         (Mitigate Spectre V2 style attacks against user processes)
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index 1de0f41..484aca4 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -798,15 +798,25 @@ static int ssb_prctl_set(struct task_struct *task, unsigned long ctrl)
+ 		if (task_spec_ssb_force_disable(task))
+ 			return -EPERM;
+ 		task_clear_spec_ssb_disable(task);
++		task_clear_spec_ssb_noexec(task);
+ 		task_update_spec_tif(task);
+ 		break;
+ 	case PR_SPEC_DISABLE:
+ 		task_set_spec_ssb_disable(task);
++		task_clear_spec_ssb_noexec(task);
+ 		task_update_spec_tif(task);
+ 		break;
+ 	case PR_SPEC_FORCE_DISABLE:
+ 		task_set_spec_ssb_disable(task);
+ 		task_set_spec_ssb_force_disable(task);
++		task_clear_spec_ssb_noexec(task);
++		task_update_spec_tif(task);
++		break;
++	case PR_SPEC_DISABLE_NOEXEC:
++		if (task_spec_ssb_force_disable(task))
++			return -EPERM;
++		task_set_spec_ssb_disable(task);
++		task_set_spec_ssb_noexec(task);
+ 		task_update_spec_tif(task);
+ 		break;
+ 	default:
+diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+index 90ae0ca..58ac7be 100644
+--- a/arch/x86/kernel/process.c
++++ b/arch/x86/kernel/process.c
+@@ -255,6 +255,18 @@ void arch_setup_new_exec(void)
+ 	/* If cpuid was previously disabled for this task, re-enable it. */
+ 	if (test_thread_flag(TIF_NOCPUID))
+ 		enable_cpuid();
++
++	/*
++	 * Don't inherit TIF_SSBD across exec boundary when
++	 * PR_SPEC_DISABLE_NOEXEC is used.
++	 */
++	if (test_thread_flag(TIF_SSBD) &&
++	    task_spec_ssb_noexec(current)) {
++		clear_thread_flag(TIF_SSBD);
++		task_clear_spec_ssb_disable(current);
++		task_clear_spec_ssb_noexec(current);
++		speculation_ctrl_update(task_thread_info(current)->flags);
++	}
+ }
+ 
+ static inline void switch_to_bitmap(struct thread_struct *prev,
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 2246662..fa4ea62 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1458,6 +1458,7 @@ static inline bool is_percpu_thread(void)
+ #define PFA_SPEC_SSB_FORCE_DISABLE	4	/* Speculative Store Bypass force disabled*/
+ #define PFA_SPEC_IB_DISABLE		5	/* Indirect branch speculation restricted */
+ #define PFA_SPEC_IB_FORCE_DISABLE	6	/* Indirect branch speculation permanently restricted */
++#define PFA_SPEC_SSB_NOEXEC		7	/* Speculative Store Bypass clear on execve() */
+ 
+ #define TASK_PFA_TEST(name, func)					\
+ 	static inline bool task_##func(struct task_struct *p)		\
+@@ -1486,6 +1487,10 @@ static inline bool is_percpu_thread(void)
+ TASK_PFA_SET(SPEC_SSB_DISABLE, spec_ssb_disable)
+ TASK_PFA_CLEAR(SPEC_SSB_DISABLE, spec_ssb_disable)
+ 
++TASK_PFA_TEST(SPEC_SSB_NOEXEC, spec_ssb_noexec)
++TASK_PFA_SET(SPEC_SSB_NOEXEC, spec_ssb_noexec)
++TASK_PFA_CLEAR(SPEC_SSB_NOEXEC, spec_ssb_noexec)
++
+ TASK_PFA_TEST(SPEC_SSB_FORCE_DISABLE, spec_ssb_force_disable)
+ TASK_PFA_SET(SPEC_SSB_FORCE_DISABLE, spec_ssb_force_disable)
+ 
+diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+index b4875a9..094bb03 100644
+--- a/include/uapi/linux/prctl.h
++++ b/include/uapi/linux/prctl.h
+@@ -219,6 +219,7 @@ struct prctl_mm_map {
+ # define PR_SPEC_ENABLE			(1UL << 1)
+ # define PR_SPEC_DISABLE		(1UL << 2)
+ # define PR_SPEC_FORCE_DISABLE		(1UL << 3)
++# define PR_SPEC_DISABLE_NOEXEC		(1UL << 4)
+ 
+ /* Reset arm64 pointer authentication keys */
+ #define PR_PAC_RESET_KEYS		54
+diff --git a/tools/include/uapi/linux/prctl.h b/tools/include/uapi/linux/prctl.h
+index b4875a9..094bb03 100644
+--- a/tools/include/uapi/linux/prctl.h
++++ b/tools/include/uapi/linux/prctl.h
+@@ -219,6 +219,7 @@ struct prctl_mm_map {
+ # define PR_SPEC_ENABLE			(1UL << 1)
+ # define PR_SPEC_DISABLE		(1UL << 2)
+ # define PR_SPEC_FORCE_DISABLE		(1UL << 3)
++# define PR_SPEC_DISABLE_NOEXEC		(1UL << 4)
+ 
+ /* Reset arm64 pointer authentication keys */
+ #define PR_PAC_RESET_KEYS		54
+-- 
+1.8.3.1
 
