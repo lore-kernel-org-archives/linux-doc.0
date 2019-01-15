@@ -2,139 +2,123 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9670B7D8A9
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 00:40:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 954287D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 08:59:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727511AbfAOAkM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 14 Jan 2019 19:40:12 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:36515 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727423AbfAOAkL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Jan 2019 19:40:11 -0500
-Received: by mail-pg1-f193.google.com with SMTP id n2so419289pgm.3;
-        Mon, 14 Jan 2019 16:40:11 -0800 (PST)
+        id S1727534AbfAOI7n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Jan 2019 03:59:43 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:34732 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726022AbfAOI7n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jan 2019 03:59:43 -0500
+Received: by mail-wr1-f66.google.com with SMTP id j2so2024189wrw.1
+        for <linux-doc@vger.kernel.org>; Tue, 15 Jan 2019 00:59:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=brauner.io; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=KYdEe7mCbCLkq6/hMQNg7hfiL2DeDnOSEiu87HS7RTE=;
-        b=rFzq3jSWMUUh19/zwgJFGyUS+zuCcqgv7uRUyqaAvh7G3T9rysLqbxg+0Wj1e/6lhK
-         JVDYdXv1K6asf9OQlRagqAHhIcT53GDxtYclhZeXmYtE0fixpqXQQqcP4GrCbS1TOgxR
-         97hf+Ov33hIixs2PlTP0Yq7zUpxlyX69JdnaaUf1ShvngsZ5rspfaDVhTwPSs5VmcLIh
-         ntcxvDKxTRGxkeoa5vW+UDt3y/jU6DBkWm9D1ch8l3nJfWWNQWaAlbvfhrvQxR+F8ttQ
-         86bMwP2gOU2fQGfgan8WCOBQFXUXo9PYrssqXboE98cPwoeTVBMp+NB1IoyDrpCfCpNG
-         CRwQ==
+        bh=OK3OKVULq95JjzLPyPV42wcwaFQuWKqJt4Nd/dvlXu0=;
+        b=audtYqfHOMPNRAYSWWk5nee0DQv9WxdI+hs+0O7+hXf4G+qTPKzgL+b6tB3nKZwJys
+         TcSzKvZejKtaHAkf9Q/Myl2PArgKy+bLzv0+VqqHeJYRWMj5SOJPlvCGLTljWgu1LoKd
+         G+d8Oldo2WZAgqHOZlUvnGnm5reU3QMeeoMbG0XlWMxFRwqukFmyBg8ehWDsZ5+dOyHs
+         1qOc9ZiMAnTNuoaZlrqyAXEHjWBg641x1TuDS3T2WzCuSBZmeNW8nttz2sSLUKkKq/aO
+         gfQo/M6B30g1nYa7IAE3UB4GDeRCkSNTZtzXyedcUGwkEA/XojOFnF5RnqReMRO5a4LI
+         /VRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=KYdEe7mCbCLkq6/hMQNg7hfiL2DeDnOSEiu87HS7RTE=;
-        b=MnOQwWl4X7x2ul9aZwSS1EVFewkQBcK7EtShheb3z0dUmPZY0fjztnRQZnM33nbpED
-         /5xdrUUpzm8bMunh7+jER8OGncQBK6m0uh2ifjgWaLgEHuaOYt3ck54XYzwpIWc5vt9N
-         vXpOudc8Qk5XauKYG7XS0Fgxgl2L+2my1KzlxTVvFRP9Dv/pXgmy8uZ+sMC+FVX0f5dK
-         dT3mAqa7m5ddjDiCwiwfcom4ic4QAPeBF3x+DEjDopZ0Q480mWs2wEqDJV1G9X008S6N
-         P2nHmibbogUX5niHsaqjPcShLeeOdGJiGHcPYPZvSi36FkBbsGuxhNwP6we5j0nDJhU4
-         Qm7A==
-X-Gm-Message-State: AJcUukcCsdklFMJBTq0W51S3xbPJ1rlH8x/A8GQ1wjeDV39yF1Ee7pjv
-        8P4xlIEqvmYEEMS1H152+mc=
-X-Google-Smtp-Source: ALg8bN6ItbUo+xZlAQ5lQzc/bCN/gsW4B/u0qepCmTUquTg7JDHPUspxYxjq0dzN90Hr+Gu8Dpzsvg==
-X-Received: by 2002:a63:5455:: with SMTP id e21mr1209256pgm.316.1547512810746;
-        Mon, 14 Jan 2019 16:40:10 -0800 (PST)
-Received: from mail.google.com ([207.246.99.41])
-        by smtp.gmail.com with ESMTPSA id w23sm1794966pgc.72.2019.01.14.16.40.06
+        bh=OK3OKVULq95JjzLPyPV42wcwaFQuWKqJt4Nd/dvlXu0=;
+        b=aeAukCYa/Hqpph7q8aG2O8ErC+MU5rF5TfLSY4Jj21P03eM8wd8Ss0cI0xhGb3kMiU
+         e/wnFoOoiXBr51nOBAC9VtgQ4kJEl97YpzGz6wljxyK3v4+t6BFV7KDO6AtQ0QaXySJr
+         JIzUX7G0btTSwqm25HGKE/XnKYcHnHwvQnr5BAQqgXkaePKvbFSQ0hdtYOhWU4F2havO
+         UcpfVbpe1KIEIL6bNZztZsQA0ix5J+pA9MbhxTGPDRSqrzP3nVMd1A6PRm54sXVpBpdO
+         hwEJGnoQlAeJvjO7PsYW2WycIcAuBZU3A6I5ErU0vP00ZvO2/G/dexCzfzQ+n20VOlLW
+         XL3Q==
+X-Gm-Message-State: AJcUukcO+t2o50+FNPrqGWqMGmPP+bDj3rIs0H8Y1518goFEX0Wej7qa
+        ulDkP2ptp1Kdfh6ihmjUAlZBXQ==
+X-Google-Smtp-Source: ALg8bN5c9EtcD8SLd9LO5WwLYYaA/v87SBPI4FHHfdIbVVaOb9l36TJtEvfSiErK+/IekZJuVM9Bvw==
+X-Received: by 2002:a5d:494a:: with SMTP id r10mr2173888wrs.272.1547542781013;
+        Tue, 15 Jan 2019 00:59:41 -0800 (PST)
+Received: from brauner.io ([154.119.33.254])
+        by smtp.gmail.com with ESMTPSA id s132sm13783388wmf.28.2019.01.15.00.59.38
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 14 Jan 2019 16:40:10 -0800 (PST)
-Date:   Tue, 15 Jan 2019 08:40:02 +0800
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Changbin Du <changbin.du@gmail.com>, linux@armlinux.org.uk,
-        x86@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Matthew Wilcox <willy@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH] fgraph: record function return value
-Message-ID: <20190115004001.hm4arwq5oxhr6up5@mail.google.com>
-References: <20190112065701.30841-1-changbin.du@gmail.com>
- <20190114112115.1cbf21c0@gandalf.local.home>
+        Tue, 15 Jan 2019 00:59:40 -0800 (PST)
+Date:   Tue, 15 Jan 2019 09:59:36 +0100
+From:   Christian Brauner <christian@brauner.io>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] Documentation/filesystems: add binderfs
+Message-ID: <20190115085935.qq7ekff7zdaotv3u@brauner.io>
+References: <20190111134100.24095-1-christian@brauner.io>
+ <20190114172401.018afb9c@lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190114112115.1cbf21c0@gandalf.local.home>
+In-Reply-To: <20190114172401.018afb9c@lwn.net>
 User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Steven,
-On Mon, Jan 14, 2019 at 11:21:15AM -0500, Steven Rostedt wrote:
-> On Sat, 12 Jan 2019 14:57:01 +0800
-> Changbin Du <changbin.du@gmail.com> wrote:
+On Mon, Jan 14, 2019 at 05:24:01PM -0700, Jonathan Corbet wrote:
+> On Fri, 11 Jan 2019 14:40:59 +0100
+> Christian Brauner <christian@brauner.io> wrote:
 > 
-> > This patch adds a new trace option 'funcgraph-retval' and is disabled by
-> > default. When this option is enabled, fgraph tracer will show the return
-> > value of each function. This is useful to find/analyze a original error
-> > source in a call graph.
+> > This documents the Android binderfs filesystem used to dynamically add and
+> > remove binder devices that are private to each instance.
 > > 
-> > One limitation is that kernel doesn't know the prototype of functions. So
-> > fgraph assumes all functions have a retvalue of type int. You must ignore
-> > the value of *void* function. And if the retvalue looks like an error code
-> > then both hexadecimal and decimal number are displayed.
-> > 
-> > In this patch, only x86 and ARM platforms are supported.
-> > 
-> > Here is example showing the error is caused by vmx_create_vcpu() and the
-> > error code is -5 (-EIO).
-> > 
-> > with echo 1 > /sys/kernel/debug/tracing/options/funcgraph-retval
-> > 
-> >  3)               |  kvm_vm_ioctl() {
-> >  3)               |    mutex_lock() {
-> >  3)               |      _cond_resched() {
-> >  3)   0.234 us    |        rcu_all_qs(); /* ret=0x80000000 */
-> >  3)   0.704 us    |      } /* ret=0x0 */
-> >  3)   1.226 us    |    } /* ret=0x0 */
-> >  3)   0.247 us    |    mutex_unlock(); /* ret=0xffff8880738ed040 */
-> >  3)               |    kvm_arch_vcpu_create() {
-> >  3)               |      vmx_create_vcpu() {
-> >  3) + 17.969 us   |        kmem_cache_alloc(); /* ret=0xffff88813a980040 */
-> >  3) + 15.948 us   |        kmem_cache_alloc(); /* ret=0xffff88813aa99200 */
-> >  3)   0.653 us    |        allocate_vpid.part.88(); /* ret=0x1 */
-> >  3)   6.964 us    |        kvm_vcpu_init(); /* ret=0xfffffffb */
-> >  3)   0.323 us    |        free_vpid.part.89(); /* ret=0x1 */
-> >  3)   9.985 us    |        kmem_cache_free(); /* ret=0x80000000 */
-> >  3)   9.491 us    |        kmem_cache_free(); /* ret=0x80000000 */
-> >  3) + 69.858 us   |      } /* ret=0xfffffffffffffffb/-5 */
-> >  3) + 70.631 us   |    } /* ret=0xfffffffffffffffb/-5 */
-> >  3)               |    mutex_lock() {
-> >  3)               |      _cond_resched() {
-> >  3)   0.199 us    |        rcu_all_qs(); /* ret=0x80000000 */
-> >  3)   0.594 us    |      } /* ret=0x0 */
-> >  3)   1.067 us    |    } /* ret=0x0 */
-> >  3)   0.337 us    |    mutex_unlock(); /* ret=0xffff8880738ed040 */
-> >  3) + 92.730 us   |  } /* ret=0xfffffffffffffffb/-5 */
-> > 
-> > Signed-off-by: Changbin Du <changbin.du@gmail.com>
+> > Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+> 
+> Two quick notes:
+> 
 > > ---
-> >
+> > /* Changelog */
+> > v1:
+> > - switch from *.txt to *.rst format
+> > ---
+> >  Documentation/filesystems/binderfs.rst | 70 ++++++++++++++++++++++++++
+> >  1 file changed, 70 insertions(+)
+> >  create mode 100644 Documentation/filesystems/binderfs.rst
 > 
-> Hi Changbin,
+> You didn't add it to index.rst, so it won't actually become part of the
+> docs build.
 > 
-> I'm rewriting a lot of the function graph tracer code to have
-> kretprobes be able to work on top of it. It's still a work in progress.
-> It would be easier to add something to that work when its done than to
-> do it now.
+> > diff --git a/Documentation/filesystems/binderfs.rst b/Documentation/filesystems/binderfs.rst
+> > new file mode 100644
+> > index 000000000000..74a744b42db7
+> > --- /dev/null
+> > +++ b/Documentation/filesystems/binderfs.rst
+> > @@ -0,0 +1,70 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +The Android binderfs Filesystem
+> > +===============================
+> > +
+> > +Android binderfs is a filesystem for the Android binder IPC mechanism.  It
+> > +allows to dynamically add and remove binder devices at runtime.  Binder devices
+> > +located in a new binderfs instance are independent of binder devices located in
+> > +other binderfs instances.  Mounting a new binderfs instance makes it possible
+> > +to get a set of private binder devices.
+> > +
+> > +Mounting binderfs
+> > +-----------------
+> > +
+> > +Android binderfs can be mounted with:
+> > +
+> > +::
 > 
-I cann't wait to see it! I can rebase my cheanges after your work. Thanks!
+> This can be more readably formatted as:
+> 
+> 	Android binderfs can be mounted with::
+> 
+> I've applied the patches, taking the liberty of fixing both of those
+> things up.  Thanks!
 
-> Thanks!
-> 
-> -- Steve
+Thanks Jon! Highly appreciated!
 
--- 
-Cheers,
-Changbin Du
+Christian
