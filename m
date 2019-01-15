@@ -1,91 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 777A57D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 11:00:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7CCE57D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 15:14:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729090AbfAOLAZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 Jan 2019 06:00:25 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:55544 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728508AbfAOLAZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 Jan 2019 06:00:25 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 9B4ED80461;
-        Tue, 15 Jan 2019 11:00:24 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-12-83.pek2.redhat.com [10.72.12.83])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 038D018E4B;
-        Tue, 15 Jan 2019 11:00:15 +0000 (UTC)
-Subject: Re: [PATCH 1/2 v6] kdump: add the vmcoreinfo documentation
-To:     Dave Anderson <anderson@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Kazuhito Hagio <k-hagio@ab.jp.nec.com>
-Cc:     linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
-        tglx@linutronix.de, mingo@redhat.com, x86@kernel.org,
-        akpm@linux-foundation.org, bhe@redhat.com, dyoung@redhat.com,
-        linux-doc@vger.kernel.org
-References: <20190110121944.6050-1-lijiang@redhat.com>
- <20190114192144.GQ2773@zn.tnic>
- <134663991.69764038.1547494607008.JavaMail.zimbra@redhat.com>
- <20190114195940.GS2773@zn.tnic>
- <244986363.69770015.1547496453312.JavaMail.zimbra@redhat.com>
- <20190114201812.GT2773@zn.tnic>
- <221183717.69773903.1547497592624.JavaMail.zimbra@redhat.com>
- <20190114203500.GU2773@zn.tnic>
- <1862896935.69778880.1547498954956.JavaMail.zimbra@redhat.com>
-From:   lijiang <lijiang@redhat.com>
-Message-ID: <a1613510-658e-410c-7554-4b378ae2e756@redhat.com>
-Date:   Tue, 15 Jan 2019 19:00:12 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1729481AbfAOPOF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Jan 2019 10:14:05 -0500
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:39407 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729052AbfAOPOF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jan 2019 10:14:05 -0500
+Received: by mail-pg1-f195.google.com with SMTP id w6so1358918pgl.6
+        for <linux-doc@vger.kernel.org>; Tue, 15 Jan 2019 07:14:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=gvcrVGBeH/udJyWosupO807MtSU2G9zk8J/wtcc9hNQ=;
+        b=G4Z1KGcmqM2IFk4lXQfYRs8zq4UhXeKEg9JARVEHm/y+BwrSMaDmbZmZL6YvP5Q4Jt
+         ZsVxtq2KMwHzUbf461SKdO1Zqi5+V7OUaGciPheNzMI29/N2oCGrqx94whTdnwIQUuaD
+         PZsIFr+yHA1VHranAdQ4u+2hBQFhIYqdBkMHabMdW8Slu77fcce6Zq7acgYB6fyYYCW5
+         LqGClrJqLO37/5Wam6qFUta9tNAgB06aUQEwk4ILfKZaD025O1ygOgeOrUmMk1jWTgmx
+         vdh2PGiMZ+cVuU5ewXiqmW6pC8xr0cryx/9FN1w856rRDarMvwlghuAWxl0A6JBMQ5vk
+         sqJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=gvcrVGBeH/udJyWosupO807MtSU2G9zk8J/wtcc9hNQ=;
+        b=YeWY73M9EU4fsP0xSdaeOd/ke3LeWrWgYWr5S1hENE3ULiLXEKgvdQOtXRsYdwPy1l
+         de9TSBoAkX61VwZvG+B/w9wsPauelOv4Oc58/gpWeYz11QteGqJ8vRT67GcYYv8zvlF2
+         rL5A2JbKcmsBQ2nhBhb6R9YLuEPUcwk8n7mIaozgH7jQ4iMZBSCaIHJaaws5VQwU/ioS
+         up/3U3KC49qStIxo33jeCoZCWO1ud0tokfMioEyFu1vpmEUcV/STSqsh/xZQYFT2IOaO
+         iLKiDUk59lBOWqftziCM87vwnlGrVGpPgKK9bW+YS4c2RD282UVs3rSAxlgR/3Xk0dyo
+         jwsw==
+X-Gm-Message-State: AJcUukd4Bwc5MkhUWqJE23RKK1IY//WAAO3mJaT4asJE8CM/nc//43An
+        efybfzBHQsS5uNhV1/ENbMzmow==
+X-Google-Smtp-Source: ALg8bN7jTTWWN/jexkjN5sA/X9p/yvWobH7kp3RCv9odiyQ5mO83HWT+XvwAp+1Ow6srNcIN46DQkg==
+X-Received: by 2002:a63:dd15:: with SMTP id t21mr4064496pgg.347.1547565243921;
+        Tue, 15 Jan 2019 07:14:03 -0800 (PST)
+Received: from ziepe.ca (S010614cc2056d97f.ed.shawcable.net. [174.3.196.123])
+        by smtp.gmail.com with ESMTPSA id b7sm5394855pfa.52.2019.01.15.07.14.02
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 15 Jan 2019 07:14:03 -0800 (PST)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1gjQPi-0005ut-9t; Tue, 15 Jan 2019 08:14:02 -0700
+Date:   Tue, 15 Jan 2019 08:14:02 -0700
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Joel Nider <joeln@il.ibm.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Leon Romanovsky <leon@kernel.org>,
+        Doug Ledford <dledford@redhat.com>,
+        Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] docs-rst: Convert user verbs doc to rst
+Message-ID: <20190115151402.GA22045@ziepe.ca>
+References: <1547547991-5314-1-git-send-email-joeln@il.ibm.com>
+ <1547547991-5314-2-git-send-email-joeln@il.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <1862896935.69778880.1547498954956.JavaMail.zimbra@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Tue, 15 Jan 2019 11:00:24 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1547547991-5314-2-git-send-email-joeln@il.ibm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-在 2019年01月15日 04:49, Dave Anderson 写道:
+On Tue, Jan 15, 2019 at 12:26:30PM +0200, Joel Nider wrote:
+> Move user_verbs from infiniband to userspace while changing the
+> format. Replace the existing Documentation/infiniband/user_verbs.txt
+> with Documentation/userspace-api/user_verbs.rst. No substantial changes
+> to the content - just some minor reformatting to have the rendering
+> come out nicely.
 > 
+> Since this documents a userspace API, its home should be with the
+> other userspace API docs.
 > 
-> ----- Original Message -----
->> On Mon, Jan 14, 2019 at 03:26:32PM -0500, Dave Anderson wrote:
->>> No.  It needs *both* the vmlinux file and the vmcore file in order to read
->>> kernel
->>> virtual memory, so just having a kernel virtual address is insufficient.
->>>
->>> So it's a chicken-and-egg situation.  This particular --osrelease option is used
->>> to determine *what* vmlinux file would be required for an actual crash analysis
->>> session.
->>
->> Ok, that makes sense. I could've used that explanation when reviewing
->> the documentation. Do you mind skimming through this:
->>
->> https://lkml.kernel.org/r/20190111145650.GG4729@zn.tnic
->>
->> in case we've missed explaining relevant usage - like that above - of
->> some of the vmcoreinfo members?
+> This is in preparation for updating the content in a subsequent
+> patch.
 > 
-> Yeah, I've been watching the thread, and the document looks fine to me.
-> It's just that when I saw the discussion of this one being removed that
-> I felt the need to respond...  ;-)
+> Signed-off-by: Joel Nider <joeln@il.ibm.com>
+> ---
+>  Documentation/infiniband/user_verbs.txt    | 69 -----------------------------
+>  Documentation/userspace-api/index.rst      |  1 +
+>  Documentation/userspace-api/user_verbs.rst | 70 ++++++++++++++++++++++++++++++
+>  3 files changed, 71 insertions(+), 69 deletions(-)
+>  delete mode 100644 Documentation/infiniband/user_verbs.txt
+>  create mode 100644 Documentation/userspace-api/user_verbs.rst
 
-Thank you for explaining this issue. 
-
-Regards,
-Lianbo
-
-> 
-> Dave
-> 
+Need to update MAINTAINERS for the new file.. Maybe call this
+rdma_user_verbs.rst as we could also have rdma_umad, rdma_cm, etc
+ 
+Jason
