@@ -5,135 +5,130 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1709D7D161
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 15:55:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8267D7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 16:30:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730095AbfAOPzE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 Jan 2019 10:55:04 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:61792 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729807AbfAOPzD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 Jan 2019 10:55:03 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 56F87C050939;
-        Tue, 15 Jan 2019 15:55:02 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-223.bos.redhat.com [10.18.17.223])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0504E5C7A0;
-        Tue, 15 Jan 2019 15:54:56 +0000 (UTC)
-Subject: Re: [RFC PATCH] x86/speculation: Don't inherit TIF_SSBD on execve()
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>,
-        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <ak@linux.intel.com>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Jiri Kosina <jikos@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        KarimAllah Ahmed <karahmed@amazon.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Kees Cook <keescook@chromium.org>
-References: <1545246590-12704-1-git-send-email-longman@redhat.com>
- <alpine.DEB.2.21.1901112046290.1661@nanos.tec.linutronix.de>
- <c2384e8e-619e-fd05-cfd3-8dc593439ea9@redhat.com>
- <alpine.DEB.2.21.1901151045580.1865@nanos.tec.linutronix.de>
-From:   Waiman Long <longman@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- weim8xU=
-Organization: Red Hat
-Message-ID: <6bf08fce-cca2-5216-3fe8-8b5e7ab34b30@redhat.com>
-Date:   Tue, 15 Jan 2019 10:54:56 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1729177AbfAOQaV convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Jan 2019 11:30:21 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41770 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727667AbfAOQaV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jan 2019 11:30:21 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x0FGUEHw061048
+        for <linux-doc@vger.kernel.org>; Tue, 15 Jan 2019 11:30:19 -0500
+Received: from smtp.notes.na.collabserv.com (smtp.notes.na.collabserv.com [192.155.248.75])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2q1jbnu5bt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 15 Jan 2019 11:30:17 -0500
+Received: from localhost
+        by smtp.notes.na.collabserv.com with smtp.notes.na.collabserv.com ESMTP
+        for <linux-doc@vger.kernel.org> from <JOELN@il.ibm.com>;
+        Tue, 15 Jan 2019 16:30:08 -0000
+Received: from us1a3-smtp08.a3.dal06.isc4sb.com (10.146.103.57)
+        by smtp.notes.na.collabserv.com (10.106.227.123) with smtp.notes.na.collabserv.com ESMTP;
+        Tue, 15 Jan 2019 16:30:00 -0000
+Received: from us1a3-mail108.a3.dal06.isc4sb.com ([10.146.45.126])
+          by us1a3-smtp08.a3.dal06.isc4sb.com
+          with ESMTP id 2019011516295938-700098 ;
+          Tue, 15 Jan 2019 16:29:59 +0000 
+In-Reply-To: <20190115153128.GA6310@bombadil.infradead.org>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Doug Ledford <dledford@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [PATCH v2 2/2] docs-rst: userspace: update verbs API details
+From:   "Joel Nider" <JOELN@il.ibm.com>
+Date:   Tue, 15 Jan 2019 18:29:59 +0200
+References: <1547547991-5314-1-git-send-email-joeln@il.ibm.com>
+ <1547547991-5314-3-git-send-email-joeln@il.ibm.com>
+ <20190115153128.GA6310@bombadil.infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.1901151045580.1865@nanos.tec.linutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Tue, 15 Jan 2019 15:55:02 +0000 (UTC)
+X-KeepSent: 64BB6EB2:8999493B-C2258383:0058B5B7;
+ type=4; name=$KeepSent
+X-Mailer: IBM Notes Release 9.0.1FP7 August 18, 2016
+X-LLNOutbound: False
+X-Disclaimed: 25507
+X-TNEFEvaluated: 1
+x-cbid: 19011516-3815-0000-0000-000009DAC9F2
+X-IBM-SpamModules-Scores: BY=0; FL=0; FP=0; FZ=0; HX=0; KW=0; PH=0;
+ SC=0.40962; ST=0; TS=0; UL=0; ISC=; MB=0.008534
+X-IBM-SpamModules-Versions: BY=3.00010412; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000274; SDB=6.01146889; UDB=6.00597374; IPR=6.00927181;
+ BA=6.00006201; NDR=6.00000001; ZLA=6.00000005; ZF=6.00000009; ZB=6.00000000;
+ ZP=6.00000000; ZH=6.00000000; ZU=6.00000002; MB=3.00025141; XFM=3.00000015;
+ UTC=2019-01-15 16:30:05
+X-IBM-AV-DETECTION: SAVI=unsuspicious REMOTE=unsuspicious XFE=unused
+X-IBM-AV-VERSION: SAVI=2019-01-15 16:12:44 - 6.00009468
+x-cbparentid: 19011516-3816-0000-0000-00000DB2E2F3
+Message-Id: <OF64BB6EB2.8999493B-ONC2258383.0058B5B7-C2258383.005AA2FD@notes.na.collabserv.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 8BIT
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-15_05:,,
+ signatures=0
+X-Proofpoint-Spam-Reason: safe
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/15/2019 04:48 AM, Thomas Gleixner wrote:
-> On Mon, 14 Jan 2019, Waiman Long wrote:
->> On 01/11/2019 02:52 PM, Thomas Gleixner wrote:
->>> On Wed, 19 Dec 2018, Waiman Long wrote:
->>>
->>>> With the default SPEC_STORE_BYPASS_SECCOMP/SPEC_STORE_BYPASS_PRCTL mode,
->>>> the TIF_SSBD bit will be inherited when a new task is fork'ed or cloned.
->>>>
->>>> As only certain class of applications (like Java) requires disabling
->>>> speculative store bypass for security purpose, it may not make sense to
->>>> allow the TIF_SSBD bit to be inherited across execve() boundary where the
->>>> new application may not need SSBD at all and is probably not aware that
->>>> SSBD may have been turned on. This may cause an unnecessary performance
->>>> loss of up to 20% in some cases.
->>> Lot's of MAY's here. Aside of that this fundamentally changes the
->>> behaviour. I'm not really a fan of doing that.
->>>
->>> If there are good reasons to have a non-inherited variant, then we rather
->>> introduce that instead of changing the existing semantics without a way for
->>> existing userspace to notice.
->> I understand your point. How about adding a ",noexec" auxillary option
->> to the spec_store_bypass_disable command line to activate this new
->> behavior without changing the default. Will that be acceptable?
-> I'd rather have an explicit PR_SPEC_DISABLE_NOEXEC argument for the PRCTL
-> so you can decide at the application level what kind of behaviour you want.
->
-> Thanks,
->
-> 	tglx
+Matthew Wilcox <willy@infradead.org> wrote on 01/15/2019 05:31:28 PM:
 
-Thanks for the advice. Will work on a v2 to be sent out later this week.
+> From: Matthew Wilcox <willy@infradead.org>
+> To: Joel Nider <joeln@il.ibm.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>, 
+Leon 
+> Romanovsky <leon@kernel.org>, Doug Ledford <dledford@redhat.com>, Mike 
+> Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org, 
+linux-kernel@vger.kernel.org
+> Date: 01/15/2019 05:31 PM
+> Subject: Re: [PATCH v2 2/2] docs-rst: userspace: update verbs API 
+details
+> 
+> On Tue, Jan 15, 2019 at 12:26:31PM +0200, Joel Nider wrote:
+> > It is important to understand the existing framework when implementing
+> > a new verb. The majority of existing API functions are implemented 
+using
+> > the write syscall, but this has been superceded by the ioctl syscall
+> > for new commands. This patch updates the documentation regarding how
+> > to go about implementing a new verb, focusing on the new ioctl
+> > interface.
+> > 
+> > The documentation is far from complete, but this is a good step in the
+> > right direction. Future patches can add more detail according to need.
+> > Also, the interface is still undergoing substantial changes so an
+> > effort was made to document only the stable parts so as to avoid
+> > incorrect information since documentation changes tend to lag behind
+> > code changes.
+> 
+> I think this is a horrible direction to take.  The current document is
+> clearly for _users_.  All this documentation you've added is for kernel
+> hackers.  It needs to go in a different file, or not be added at all.
+> 
+Hmm, that's a bit heavy-handed in my opinion. If you look at what is 
+currently under "Userspace API", there are a total of 4 files - not 
+exactly what I would call comprehensive documentation of the Linux kernel 
+interface. So the option of not adding more documentation simply because 
+it is in the wrong section seems a bit defeatist (I think we can all agree 
+more kernel docs is a good thing). So let's assume for the moment that it 
+_should_ be added, and that we are discussing _where_. Yes, the document I 
+am modifying has a bit of a mash of pure userspace API - functions and 
+details that application developers must know - and the lower level 
+details that are more useful for someone who wishes to extend this 
+interface. The existing documentation (specifically unshare) also suffers 
+from the same problem. There is a section (7) called "Low Level Design" 
+which documents very much the same level of detail as the Infiniband doc, 
+so this seems to be at least consistent.
+I think there is a deeper issue - as an application developer, I would 
+only look at this kernel documentation as a last resort. #1 is the 'man' 
+pages, #2 is web search for an example (I know for many it's the other way 
+around). So who really looks at this documentation? I say the vast 
+majority is kernel hackers. So yes, this is about the user-facing API, but 
+not from the application writer's perspective - it should be about how to 
+create a consistent API for users, from the kernel hacker's perspective.
 
-Cheers,
-Longman
+Joel
 
