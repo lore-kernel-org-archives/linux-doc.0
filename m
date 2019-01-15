@@ -1,124 +1,87 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 954287D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 08:59:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B20F97D099
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 09:41:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727534AbfAOI7n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 Jan 2019 03:59:43 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:34732 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726022AbfAOI7n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jan 2019 03:59:43 -0500
-Received: by mail-wr1-f66.google.com with SMTP id j2so2024189wrw.1
-        for <linux-doc@vger.kernel.org>; Tue, 15 Jan 2019 00:59:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=OK3OKVULq95JjzLPyPV42wcwaFQuWKqJt4Nd/dvlXu0=;
-        b=audtYqfHOMPNRAYSWWk5nee0DQv9WxdI+hs+0O7+hXf4G+qTPKzgL+b6tB3nKZwJys
-         TcSzKvZejKtaHAkf9Q/Myl2PArgKy+bLzv0+VqqHeJYRWMj5SOJPlvCGLTljWgu1LoKd
-         G+d8Oldo2WZAgqHOZlUvnGnm5reU3QMeeoMbG0XlWMxFRwqukFmyBg8ehWDsZ5+dOyHs
-         1qOc9ZiMAnTNuoaZlrqyAXEHjWBg641x1TuDS3T2WzCuSBZmeNW8nttz2sSLUKkKq/aO
-         gfQo/M6B30g1nYa7IAE3UB4GDeRCkSNTZtzXyedcUGwkEA/XojOFnF5RnqReMRO5a4LI
-         /VRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=OK3OKVULq95JjzLPyPV42wcwaFQuWKqJt4Nd/dvlXu0=;
-        b=aeAukCYa/Hqpph7q8aG2O8ErC+MU5rF5TfLSY4Jj21P03eM8wd8Ss0cI0xhGb3kMiU
-         e/wnFoOoiXBr51nOBAC9VtgQ4kJEl97YpzGz6wljxyK3v4+t6BFV7KDO6AtQ0QaXySJr
-         JIzUX7G0btTSwqm25HGKE/XnKYcHnHwvQnr5BAQqgXkaePKvbFSQ0hdtYOhWU4F2havO
-         UcpfVbpe1KIEIL6bNZztZsQA0ix5J+pA9MbhxTGPDRSqrzP3nVMd1A6PRm54sXVpBpdO
-         hwEJGnoQlAeJvjO7PsYW2WycIcAuBZU3A6I5ErU0vP00ZvO2/G/dexCzfzQ+n20VOlLW
-         XL3Q==
-X-Gm-Message-State: AJcUukcO+t2o50+FNPrqGWqMGmPP+bDj3rIs0H8Y1518goFEX0Wej7qa
-        ulDkP2ptp1Kdfh6ihmjUAlZBXQ==
-X-Google-Smtp-Source: ALg8bN5c9EtcD8SLd9LO5WwLYYaA/v87SBPI4FHHfdIbVVaOb9l36TJtEvfSiErK+/IekZJuVM9Bvw==
-X-Received: by 2002:a5d:494a:: with SMTP id r10mr2173888wrs.272.1547542781013;
-        Tue, 15 Jan 2019 00:59:41 -0800 (PST)
-Received: from brauner.io ([154.119.33.254])
-        by smtp.gmail.com with ESMTPSA id s132sm13783388wmf.28.2019.01.15.00.59.38
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 15 Jan 2019 00:59:40 -0800 (PST)
-Date:   Tue, 15 Jan 2019 09:59:36 +0100
-From:   Christian Brauner <christian@brauner.io>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] Documentation/filesystems: add binderfs
-Message-ID: <20190115085935.qq7ekff7zdaotv3u@brauner.io>
-References: <20190111134100.24095-1-christian@brauner.io>
- <20190114172401.018afb9c@lwn.net>
+        id S1727248AbfAOJlb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Jan 2019 04:41:31 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:49578 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726011AbfAOJlb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Jan 2019 04:41:31 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id B75EC81F0F;
+        Tue, 15 Jan 2019 09:41:30 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-12-83.pek2.redhat.com [10.72.12.83])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 54FFB19C7E;
+        Tue, 15 Jan 2019 09:41:19 +0000 (UTC)
+Subject: Re: [PATCH 1/2 v6] kdump: add the vmcoreinfo documentation
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
+        tglx@linutronix.de, mingo@redhat.com, x86@kernel.org,
+        akpm@linux-foundation.org, bhe@redhat.com, dyoung@redhat.com,
+        k-hagio@ab.jp.nec.com, anderson@redhat.com,
+        linux-doc@vger.kernel.org
+References: <20190110121944.6050-1-lijiang@redhat.com>
+ <20190110121944.6050-2-lijiang@redhat.com> <20190111145650.GG4729@zn.tnic>
+ <be8fbb64-7748-c7da-55f7-99fe69796a94@redhat.com>
+ <20190114091509.GC2773@zn.tnic>
+From:   lijiang <lijiang@redhat.com>
+Message-ID: <718e6763-8606-1778-de41-c6bc9f9e8c92@redhat.com>
+Date:   Tue, 15 Jan 2019 17:41:16 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
+In-Reply-To: <20190114091509.GC2773@zn.tnic>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190114172401.018afb9c@lwn.net>
-User-Agent: NeoMutt/20180716
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Tue, 15 Jan 2019 09:41:30 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 14, 2019 at 05:24:01PM -0700, Jonathan Corbet wrote:
-> On Fri, 11 Jan 2019 14:40:59 +0100
-> Christian Brauner <christian@brauner.io> wrote:
+在 2019年01月14日 17:15, Borislav Petkov 写道:
+> On Mon, Jan 14, 2019 at 01:30:30PM +0800, lijiang wrote:
+>> I noticed that the checkpatch was coded in Perl. But i am not familiar with
+>> the Perl program language, that would be beyond my ability to do this, i have
+>> to learn the Perl program language step by step. :-)
 > 
-> > This documents the Android binderfs filesystem used to dynamically add and
-> > remove binder devices that are private to each instance.
-> > 
-> > Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+> You could give it a try - it is not hard :-)
 > 
-> Two quick notes:
-> 
-> > ---
-> > /* Changelog */
-> > v1:
-> > - switch from *.txt to *.rst format
-> > ---
-> >  Documentation/filesystems/binderfs.rst | 70 ++++++++++++++++++++++++++
-> >  1 file changed, 70 insertions(+)
-> >  create mode 100644 Documentation/filesystems/binderfs.rst
-> 
-> You didn't add it to index.rst, so it won't actually become part of the
-> docs build.
-> 
-> > diff --git a/Documentation/filesystems/binderfs.rst b/Documentation/filesystems/binderfs.rst
-> > new file mode 100644
-> > index 000000000000..74a744b42db7
-> > --- /dev/null
-> > +++ b/Documentation/filesystems/binderfs.rst
-> > @@ -0,0 +1,70 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +The Android binderfs Filesystem
-> > +===============================
-> > +
-> > +Android binderfs is a filesystem for the Android binder IPC mechanism.  It
-> > +allows to dynamically add and remove binder devices at runtime.  Binder devices
-> > +located in a new binderfs instance are independent of binder devices located in
-> > +other binderfs instances.  Mounting a new binderfs instance makes it possible
-> > +to get a set of private binder devices.
-> > +
-> > +Mounting binderfs
-> > +-----------------
-> > +
-> > +Android binderfs can be mounted with:
-> > +
-> > +::
-> 
-> This can be more readably formatted as:
-> 
-> 	Android binderfs can be mounted with::
-> 
-> I've applied the patches, taking the liberty of fixing both of those
-> things up.  Thanks!
 
-Thanks Jon! Highly appreciated!
+Thank you for encouraging me to do the things.
 
-Christian
+> And there's no hurry for this, take your time.
+> 
+OK. I would like to put this task in my queue. Once i have free time, i will work
+on this issue. 
+
+>> Do you mean this one 'KERNEL_IMAGE_SIZE'?
+> 
+> I mean, all those which are unused. Optimally, you should look at the
+> tools and see whether they're using those exports and if not, remove
+> them. But no hurry here too, take your time.
+> 
+OK. I will check it again, But, basically they are used by Makedumpfile or Crash tools.
+
+
+> My final goal is to have this up-to-date documentation of what is
+> exported and what is used by user tools so that people can look at it
+> first before carelessly exporting yet another thing.
+> 
+Agree.
+
+Thanks,
+Lianbo
+> Thx.
+> 
