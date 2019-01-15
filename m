@@ -2,133 +2,75 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8267D7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 16:30:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 00F5D7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 18:02:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729177AbfAOQaV convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 Jan 2019 11:30:21 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41770 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727667AbfAOQaV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jan 2019 11:30:21 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x0FGUEHw061048
-        for <linux-doc@vger.kernel.org>; Tue, 15 Jan 2019 11:30:19 -0500
-Received: from smtp.notes.na.collabserv.com (smtp.notes.na.collabserv.com [192.155.248.75])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2q1jbnu5bt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 15 Jan 2019 11:30:17 -0500
-Received: from localhost
-        by smtp.notes.na.collabserv.com with smtp.notes.na.collabserv.com ESMTP
-        for <linux-doc@vger.kernel.org> from <JOELN@il.ibm.com>;
-        Tue, 15 Jan 2019 16:30:08 -0000
-Received: from us1a3-smtp08.a3.dal06.isc4sb.com (10.146.103.57)
-        by smtp.notes.na.collabserv.com (10.106.227.123) with smtp.notes.na.collabserv.com ESMTP;
-        Tue, 15 Jan 2019 16:30:00 -0000
-Received: from us1a3-mail108.a3.dal06.isc4sb.com ([10.146.45.126])
-          by us1a3-smtp08.a3.dal06.isc4sb.com
-          with ESMTP id 2019011516295938-700098 ;
-          Tue, 15 Jan 2019 16:29:59 +0000 
-In-Reply-To: <20190115153128.GA6310@bombadil.infradead.org>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+        id S1731119AbfAOSCU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Jan 2019 13:02:20 -0500
+Received: from ms.lwn.net ([45.79.88.28]:43866 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727667AbfAOSCU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Jan 2019 13:02:20 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 709142DD;
+        Tue, 15 Jan 2019 18:02:19 +0000 (UTC)
+Date:   Tue, 15 Jan 2019 11:02:18 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Joel Nider <joeln@il.ibm.com>, Leon Romanovsky <leon@kernel.org>,
         Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
-Subject: Re: [PATCH v2 2/2] docs-rst: userspace: update verbs API details
-From:   "Joel Nider" <JOELN@il.ibm.com>
-Date:   Tue, 15 Jan 2019 18:29:59 +0200
+        Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] docs-rst: Convert user verbs doc to rst
+Message-ID: <20190115110218.3d844efc@lwn.net>
+In-Reply-To: <20190115151402.GA22045@ziepe.ca>
 References: <1547547991-5314-1-git-send-email-joeln@il.ibm.com>
- <1547547991-5314-3-git-send-email-joeln@il.ibm.com>
- <20190115153128.GA6310@bombadil.infradead.org>
+        <1547547991-5314-2-git-send-email-joeln@il.ibm.com>
+        <20190115151402.GA22045@ziepe.ca>
+Organization: LWN.net
 MIME-Version: 1.0
-X-KeepSent: 64BB6EB2:8999493B-C2258383:0058B5B7;
- type=4; name=$KeepSent
-X-Mailer: IBM Notes Release 9.0.1FP7 August 18, 2016
-X-LLNOutbound: False
-X-Disclaimed: 25507
-X-TNEFEvaluated: 1
-x-cbid: 19011516-3815-0000-0000-000009DAC9F2
-X-IBM-SpamModules-Scores: BY=0; FL=0; FP=0; FZ=0; HX=0; KW=0; PH=0;
- SC=0.40962; ST=0; TS=0; UL=0; ISC=; MB=0.008534
-X-IBM-SpamModules-Versions: BY=3.00010412; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000274; SDB=6.01146889; UDB=6.00597374; IPR=6.00927181;
- BA=6.00006201; NDR=6.00000001; ZLA=6.00000005; ZF=6.00000009; ZB=6.00000000;
- ZP=6.00000000; ZH=6.00000000; ZU=6.00000002; MB=3.00025141; XFM=3.00000015;
- UTC=2019-01-15 16:30:05
-X-IBM-AV-DETECTION: SAVI=unsuspicious REMOTE=unsuspicious XFE=unused
-X-IBM-AV-VERSION: SAVI=2019-01-15 16:12:44 - 6.00009468
-x-cbparentid: 19011516-3816-0000-0000-00000DB2E2F3
-Message-Id: <OF64BB6EB2.8999493B-ONC2258383.0058B5B7-C2258383.005AA2FD@notes.na.collabserv.com>
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 8BIT
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-15_05:,,
- signatures=0
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Matthew Wilcox <willy@infradead.org> wrote on 01/15/2019 05:31:28 PM:
+On Tue, 15 Jan 2019 08:14:02 -0700
+Jason Gunthorpe <jgg@ziepe.ca> wrote:
 
-> From: Matthew Wilcox <willy@infradead.org>
-> To: Joel Nider <joeln@il.ibm.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>, 
-Leon 
-> Romanovsky <leon@kernel.org>, Doug Ledford <dledford@redhat.com>, Mike 
-> Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org, 
-linux-kernel@vger.kernel.org
-> Date: 01/15/2019 05:31 PM
-> Subject: Re: [PATCH v2 2/2] docs-rst: userspace: update verbs API 
-details
-> 
-> On Tue, Jan 15, 2019 at 12:26:31PM +0200, Joel Nider wrote:
-> > It is important to understand the existing framework when implementing
-> > a new verb. The majority of existing API functions are implemented 
-using
-> > the write syscall, but this has been superceded by the ioctl syscall
-> > for new commands. This patch updates the documentation regarding how
-> > to go about implementing a new verb, focusing on the new ioctl
-> > interface.
+> > Move user_verbs from infiniband to userspace while changing the
+> > format. Replace the existing Documentation/infiniband/user_verbs.txt
+> > with Documentation/userspace-api/user_verbs.rst. No substantial changes
+> > to the content - just some minor reformatting to have the rendering
+> > come out nicely.
 > > 
-> > The documentation is far from complete, but this is a good step in the
-> > right direction. Future patches can add more detail according to need.
-> > Also, the interface is still undergoing substantial changes so an
-> > effort was made to document only the stable parts so as to avoid
-> > incorrect information since documentation changes tend to lag behind
-> > code changes.
+> > Since this documents a userspace API, its home should be with the
+> > other userspace API docs.
+> > 
+> > This is in preparation for updating the content in a subsequent
+> > patch.
+> > 
+> > Signed-off-by: Joel Nider <joeln@il.ibm.com>
+> > ---
+> >  Documentation/infiniband/user_verbs.txt    | 69 -----------------------------
+> >  Documentation/userspace-api/index.rst      |  1 +
+> >  Documentation/userspace-api/user_verbs.rst | 70 ++++++++++++++++++++++++++++++
+> >  3 files changed, 71 insertions(+), 69 deletions(-)
+> >  delete mode 100644 Documentation/infiniband/user_verbs.txt
+> >  create mode 100644 Documentation/userspace-api/user_verbs.rst  
 > 
-> I think this is a horrible direction to take.  The current document is
-> clearly for _users_.  All this documentation you've added is for kernel
-> hackers.  It needs to go in a different file, or not be added at all.
-> 
-Hmm, that's a bit heavy-handed in my opinion. If you look at what is 
-currently under "Userspace API", there are a total of 4 files - not 
-exactly what I would call comprehensive documentation of the Linux kernel 
-interface. So the option of not adding more documentation simply because 
-it is in the wrong section seems a bit defeatist (I think we can all agree 
-more kernel docs is a good thing). So let's assume for the moment that it 
-_should_ be added, and that we are discussing _where_. Yes, the document I 
-am modifying has a bit of a mash of pure userspace API - functions and 
-details that application developers must know - and the lower level 
-details that are more useful for someone who wishes to extend this 
-interface. The existing documentation (specifically unshare) also suffers 
-from the same problem. There is a section (7) called "Low Level Design" 
-which documents very much the same level of detail as the Infiniband doc, 
-so this seems to be at least consistent.
-I think there is a deeper issue - as an application developer, I would 
-only look at this kernel documentation as a last resort. #1 is the 'man' 
-pages, #2 is web search for an example (I know for many it's the other way 
-around). So who really looks at this documentation? I say the vast 
-majority is kernel hackers. So yes, this is about the user-facing API, but 
-not from the application writer's perspective - it should be about how to 
-create a consistent API for users, from the kernel hacker's perspective.
+> Need to update MAINTAINERS for the new file.. Maybe call this
+> rdma_user_verbs.rst as we could also have rdma_umad, rdma_cm, etc
 
-Joel
+Both of those suggestions make sense.  Joel, can you do a quick respin
+along those lines?  Then I think this one is ready.
 
+Thanks,
+
+jon
