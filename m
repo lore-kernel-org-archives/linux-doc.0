@@ -1,117 +1,95 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-3.5 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SORTED_RECIPS autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4FFA77D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 21:27:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DD7D67D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 21:39:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727307AbfAOV1q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 Jan 2019 16:27:46 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:59184 "EHLO mx1.redhat.com"
+        id S1733071AbfAOVjB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Jan 2019 16:39:01 -0500
+Received: from ms.lwn.net ([45.79.88.28]:44694 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390431AbfAOV1q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 Jan 2019 16:27:46 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1730500AbfAOVjB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Jan 2019 16:39:01 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 578BF89AC1;
-        Tue, 15 Jan 2019 21:27:45 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-223.bos.redhat.com [10.18.17.223])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 247505D6A6;
-        Tue, 15 Jan 2019 21:27:43 +0000 (UTC)
-Subject: Re: [RESEND PATCH v4 0/3] fs/dcache: Track # of negative dentries
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org, mcgrof@kernel.org,
-        Kees Cook <keescook@chromium.org>, Jan Kara <jack@suse.cz>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
-        Ingo Molnar <mingo@kernel.org>, mszeredi@redhat.com,
-        Matthew Wilcox <willy@infradead.org>, lwoodman@redhat.com,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        wangkai86@huawei.com, Michal Hocko <mhocko@kernel.org>
-References: <1544824384-17668-1-git-send-email-longman@redhat.com>
- <CAHk-=wi-V7LjAAzFuxg+eLQAdp+Ay4WmVJdTNxgPjqKXaj-3Xw@mail.gmail.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>
-From:   Waiman Long <longman@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- weim8xU=
-Organization: Red Hat
-Message-ID: <0433488a-c8ad-e31a-6144-648e45478c07@redhat.com>
-Date:   Tue, 15 Jan 2019 16:27:42 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        by ms.lwn.net (Postfix) with ESMTPSA id 54BC72E5;
+        Tue, 15 Jan 2019 21:39:00 +0000 (UTC)
+Date:   Tue, 15 Jan 2019 14:38:59 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     "Joel Nider" <JOELN@il.ibm.com>
+Cc:     Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>,
+        Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v2 2/2] docs-rst: userspace: update verbs API details
+Message-ID: <20190115143859.4cbd5d9c@lwn.net>
+In-Reply-To: <OF76A381CC.2F8183CE-ONC2258383.006FEA4D-C2258383.007140CB@notes.na.collabserv.com>
+References: <1547547991-5314-1-git-send-email-joeln@il.ibm.com>
+        <1547547991-5314-3-git-send-email-joeln@il.ibm.com>
+        <20190115153128.GA6310@bombadil.infradead.org>
+        <OF64BB6EB2.8999493B-ONC2258383.0058B5B7-C2258383.005AA2FD@notes.na.collabserv.com>
+        <20190115110854.63200119@lwn.net>
+        <OF76A381CC.2F8183CE-ONC2258383.006FEA4D-C2258383.007140CB@notes.na.collabserv.com>
+Organization: LWN.net
 MIME-Version: 1.0
-In-Reply-To: <CAHk-=wi-V7LjAAzFuxg+eLQAdp+Ay4WmVJdTNxgPjqKXaj-3Xw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Tue, 15 Jan 2019 21:27:45 +0000 (UTC)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/16/2018 02:37 PM, Linus Torvalds wrote:
-> On Fri, Dec 14, 2018 at 1:53 PM Waiman Long <longman@redhat.com> wrote:
->> This patchset addresses 2 issues found in the dentry code and adds a
->> new nr_dentry_negative per-cpu counter to track the total number of
->> negative dentries in all the LRU lists.
-> The series looks sane to me. I'm assuming I'll get it either though
-> -mm or from Al..
->
->             Linus
+On Tue, 15 Jan 2019 22:37:01 +0200
+"Joel Nider" <JOELN@il.ibm.com> wrote:
 
-Could anyone pick up this patchset?
+> Jonathan Corbet <corbet@lwn.net> wrote on 01/15/2019 08:08:54 PM:
+> > The intent behind the user-space API manual is to document the user-space
+> > API; it's meant to be read by people writing applications and such.
+> > Perhaps they find it with a web search, but it will be there for them, one
+> > hopes, when they want it.  
+> 
+> So is the intent then to duplicate what is already in 'man'? Why would we 
+> want 2 different locations for basically the same information? Wouldn't it 
+> make more sense to just put these few details into appropriate 'man' 
+> pages?
+
+We are not attempting to duplicate the man pages; there's been occasional
+talk of bringing them into the kernel tree, but enthusiasm for that is
+scarce for a number of good reasons.  But there's a lot of information
+about the user-space API that isn't in the man pages, including the piece
+you are converting to RST.
+
+For a huge example, look at the massive v4l2 UAPI documentation that's in
+the kernel; that will never really fit into the man-page model.  (And yes,
+it belongs in the userspace-api directory but isn't there for $REASONS).
+
+> It looks like I misunderstood the purpose of the "userspace API" section 
+> then. So is there a section that is meant for a guide on how to write an 
+> interface function?
+
+For something like this, driver-api seems like the right place.  Someday,
+in some glorious future, it could contain a full manual on how these
+drivers are written, using all of the nice kerneldoc comments that already
+exist under drivers/infiniband.
+
+> OK, just to be clear - you are asking me to leave the original file as-is 
+> (well, after .rst conversion) but move it to the new location 
+> (Documentation/userspace-api), and put my new content into a new file in 
+> the old location (Documentation/infiniband)?
+
+I'd rather see you put the new stuff under Documentation/driver-api, either
+in a standalone file or in a new subdirectory.
+
+Thanks for your patience with this!  We really do want people to contribute
+more documentation, and I feel bad when it seems like I'm making it
+harder.  My hope is that it will pay off in the long run; I think there are
+signs already that this is happening.
 
 Thanks,
-Longman
 
+jon
