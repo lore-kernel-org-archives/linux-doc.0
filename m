@@ -1,95 +1,73 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SORTED_RECIPS autolearn=ham
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DD7D67D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 21:39:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3FA677D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 23:56:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733071AbfAOVjB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 Jan 2019 16:39:01 -0500
-Received: from ms.lwn.net ([45.79.88.28]:44694 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730500AbfAOVjB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 Jan 2019 16:39:01 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 54BC72E5;
-        Tue, 15 Jan 2019 21:39:00 +0000 (UTC)
-Date:   Tue, 15 Jan 2019 14:38:59 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Joel Nider" <JOELN@il.ibm.com>
-Cc:     Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>,
-        Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v2 2/2] docs-rst: userspace: update verbs API details
-Message-ID: <20190115143859.4cbd5d9c@lwn.net>
-In-Reply-To: <OF76A381CC.2F8183CE-ONC2258383.006FEA4D-C2258383.007140CB@notes.na.collabserv.com>
-References: <1547547991-5314-1-git-send-email-joeln@il.ibm.com>
-        <1547547991-5314-3-git-send-email-joeln@il.ibm.com>
-        <20190115153128.GA6310@bombadil.infradead.org>
-        <OF64BB6EB2.8999493B-ONC2258383.0058B5B7-C2258383.005AA2FD@notes.na.collabserv.com>
-        <20190115110854.63200119@lwn.net>
-        <OF76A381CC.2F8183CE-ONC2258383.006FEA4D-C2258383.007140CB@notes.na.collabserv.com>
-Organization: LWN.net
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+        id S1728968AbfAOX4t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Jan 2019 18:56:49 -0500
+Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:36848 "EHLO
+        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727430AbfAOX4t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jan 2019 18:56:49 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04391;MF=yang.shi@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0TIJZTFz_1547596295;
+Received: from e19h19392.et15sqa.tbsite.net(mailfrom:yang.shi@linux.alibaba.com fp:SMTPD_---0TIJZTFz_1547596295)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Wed, 16 Jan 2019 07:51:49 +0800
+From:   Yang Shi <yang.shi@linux.alibaba.com>
+To:     mhocko@suse.com, shakeelb@google.com, hannes@cmpxchg.org,
+        akpm@linux-foundation.org, corbet@lwn.net
+Cc:     yang.shi@linux.alibaba.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] doc: memcontrol: fix the obsolete content about force empty
+Date:   Wed, 16 Jan 2019 07:51:35 +0800
+Message-Id: <1547596295-14085-1-git-send-email-yang.shi@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 15 Jan 2019 22:37:01 +0200
-"Joel Nider" <JOELN@il.ibm.com> wrote:
+We don't do page cache reparent anymore when offlining memcg, so update
+force empty related content accordingly.
 
-> Jonathan Corbet <corbet@lwn.net> wrote on 01/15/2019 08:08:54 PM:
-> > The intent behind the user-space API manual is to document the user-space
-> > API; it's meant to be read by people writing applications and such.
-> > Perhaps they find it with a web search, but it will be there for them, one
-> > hopes, when they want it.  
-> 
-> So is the intent then to duplicate what is already in 'man'? Why would we 
-> want 2 different locations for basically the same information? Wouldn't it 
-> make more sense to just put these few details into appropriate 'man' 
-> pages?
+Reviewed-by: Shakeel Butt <shakeelb@google.com>
+Acked-by: Michal Hocko <mhocko@suse.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>
+Signed-off-by: Yang Shi <yang.shi@linux.alibaba.com>
+---
+ Documentation/cgroup-v1/memory.txt | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-We are not attempting to duplicate the man pages; there's been occasional
-talk of bringing them into the kernel tree, but enthusiasm for that is
-scarce for a number of good reasons.  But there's a lot of information
-about the user-space API that isn't in the man pages, including the piece
-you are converting to RST.
+diff --git a/Documentation/cgroup-v1/memory.txt b/Documentation/cgroup-v1/memory.txt
+index 3682e99..8e2cb1d 100644
+--- a/Documentation/cgroup-v1/memory.txt
++++ b/Documentation/cgroup-v1/memory.txt
+@@ -70,7 +70,7 @@ Brief summary of control files.
+  memory.soft_limit_in_bytes	 # set/show soft limit of memory usage
+  memory.stat			 # show various statistics
+  memory.use_hierarchy		 # set/show hierarchical account enabled
+- memory.force_empty		 # trigger forced move charge to parent
++ memory.force_empty		 # trigger forced page reclaim
+  memory.pressure_level		 # set memory pressure notifications
+  memory.swappiness		 # set/show swappiness parameter of vmscan
+ 				 (See sysctl's vm.swappiness)
+@@ -459,8 +459,9 @@ About use_hierarchy, see Section 6.
+   the cgroup will be reclaimed and as many pages reclaimed as possible.
+ 
+   The typical use case for this interface is before calling rmdir().
+-  Because rmdir() moves all pages to parent, some out-of-use page caches can be
+-  moved to the parent. If you want to avoid that, force_empty will be useful.
++  Though rmdir() offlines memcg, but the memcg may still stay there due to
++  charged file caches. Some out-of-use page caches may keep charged until
++  memory pressure happens. If you want to avoid that, force_empty will be useful.
+ 
+   Also, note that when memory.kmem.limit_in_bytes is set the charges due to
+   kernel pages will still be seen. This is not considered a failure and the
+-- 
+1.8.3.1
 
-For a huge example, look at the massive v4l2 UAPI documentation that's in
-the kernel; that will never really fit into the man-page model.  (And yes,
-it belongs in the userspace-api directory but isn't there for $REASONS).
-
-> It looks like I misunderstood the purpose of the "userspace API" section 
-> then. So is there a section that is meant for a guide on how to write an 
-> interface function?
-
-For something like this, driver-api seems like the right place.  Someday,
-in some glorious future, it could contain a full manual on how these
-drivers are written, using all of the nice kerneldoc comments that already
-exist under drivers/infiniband.
-
-> OK, just to be clear - you are asking me to leave the original file as-is 
-> (well, after .rst conversion) but move it to the new location 
-> (Documentation/userspace-api), and put my new content into a new file in 
-> the old location (Documentation/infiniband)?
-
-I'd rather see you put the new stuff under Documentation/driver-api, either
-in a standalone file or in a new subdirectory.
-
-Thanks for your patience with this!  We really do want people to contribute
-more documentation, and I feel bad when it seems like I'm making it
-harder.  My hope is that it will pay off in the long run; I think there are
-signs already that this is happening.
-
-Thanks,
-
-jon
