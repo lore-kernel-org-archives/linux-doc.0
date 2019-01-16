@@ -2,72 +2,121 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3FA677D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 15 Jan 2019 23:56:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A3D647D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Jan 2019 03:25:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728968AbfAOX4t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 15 Jan 2019 18:56:49 -0500
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:36848 "EHLO
-        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727430AbfAOX4t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Jan 2019 18:56:49 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04391;MF=yang.shi@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0TIJZTFz_1547596295;
-Received: from e19h19392.et15sqa.tbsite.net(mailfrom:yang.shi@linux.alibaba.com fp:SMTPD_---0TIJZTFz_1547596295)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 16 Jan 2019 07:51:49 +0800
-From:   Yang Shi <yang.shi@linux.alibaba.com>
-To:     mhocko@suse.com, shakeelb@google.com, hannes@cmpxchg.org,
-        akpm@linux-foundation.org, corbet@lwn.net
-Cc:     yang.shi@linux.alibaba.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] doc: memcontrol: fix the obsolete content about force empty
-Date:   Wed, 16 Jan 2019 07:51:35 +0800
-Message-Id: <1547596295-14085-1-git-send-email-yang.shi@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+        id S1731040AbfAPDZE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 15 Jan 2019 22:25:04 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52778 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731039AbfAPDZE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Jan 2019 22:25:04 -0500
+Received: from vmware.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B383B206C2;
+        Wed, 16 Jan 2019 03:25:02 +0000 (UTC)
+Date:   Tue, 15 Jan 2019 22:25:00 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Changbin Du <changbin.du@gmail.com>
+Cc:     mingo@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/5] sched/tracing: Show stacktrace for wakeup tracers
+Message-ID: <20190115222500.6b1ca824@vmware.local.home>
+In-Reply-To: <20190101154614.8887-5-changbin.du@gmail.com>
+References: <20190101154614.8887-1-changbin.du@gmail.com>
+        <20190101154614.8887-5-changbin.du@gmail.com>
+X-Mailer: Claws Mail 3.15.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We don't do page cache reparent anymore when offlining memcg, so update
-force empty related content accordingly.
+On Tue,  1 Jan 2019 23:46:13 +0800
+Changbin Du <changbin.du@gmail.com> wrote:
 
-Reviewed-by: Shakeel Butt <shakeelb@google.com>
-Acked-by: Michal Hocko <mhocko@suse.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>
-Signed-off-by: Yang Shi <yang.shi@linux.alibaba.com>
----
- Documentation/cgroup-v1/memory.txt | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+> This align the behavior of wakeup tracers with irqsoff latency tracer
+> that we record stacktrace at the beginning and end of waking up. The
+> stacktrace shows us what is happening in the kernel.
 
-diff --git a/Documentation/cgroup-v1/memory.txt b/Documentation/cgroup-v1/memory.txt
-index 3682e99..8e2cb1d 100644
---- a/Documentation/cgroup-v1/memory.txt
-+++ b/Documentation/cgroup-v1/memory.txt
-@@ -70,7 +70,7 @@ Brief summary of control files.
-  memory.soft_limit_in_bytes	 # set/show soft limit of memory usage
-  memory.stat			 # show various statistics
-  memory.use_hierarchy		 # set/show hierarchical account enabled
-- memory.force_empty		 # trigger forced move charge to parent
-+ memory.force_empty		 # trigger forced page reclaim
-  memory.pressure_level		 # set memory pressure notifications
-  memory.swappiness		 # set/show swappiness parameter of vmscan
- 				 (See sysctl's vm.swappiness)
-@@ -459,8 +459,9 @@ About use_hierarchy, see Section 6.
-   the cgroup will be reclaimed and as many pages reclaimed as possible.
- 
-   The typical use case for this interface is before calling rmdir().
--  Because rmdir() moves all pages to parent, some out-of-use page caches can be
--  moved to the parent. If you want to avoid that, force_empty will be useful.
-+  Though rmdir() offlines memcg, but the memcg may still stay there due to
-+  charged file caches. Some out-of-use page caches may keep charged until
-+  memory pressure happens. If you want to avoid that, force_empty will be useful.
- 
-   Also, note that when memory.kmem.limit_in_bytes is set the charges due to
-   kernel pages will still be seen. This is not considered a failure and the
--- 
-1.8.3.1
+OK, so I've applied (locally) all of the patches in this series except
+this one.
+
+> 
+> Signed-off-by: Changbin Du <changbin.du@gmail.com>
+> ---
+>  kernel/trace/trace_sched_wakeup.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/kernel/trace/trace_sched_wakeup.c b/kernel/trace/trace_sched_wakeup.c
+> index da5b6e012840..0ec136d408ff 100644
+> --- a/kernel/trace/trace_sched_wakeup.c
+> +++ b/kernel/trace/trace_sched_wakeup.c
+> @@ -474,6 +474,8 @@ probe_wakeup_sched_switch(void *ignore, bool preempt,
+>  	data = per_cpu_ptr(wakeup_trace->trace_buffer.data, wakeup_cpu);
+>  
+>  	__trace_function(wakeup_trace, CALLER_ADDR0, CALLER_ADDR1, flags, pc);
+> +	/* Skip 2 functions to get to the task switch function */
+> +	__trace_stack(wakeup_trace, flags, 2, pc);
+
+1) Just put in zero for skip. I found that with all the new updates to
+the unwinders, you can never get this number right :-(, as well as with
+gcc playing games, and retpolines and all that jazz.
+
+>  	tracing_sched_switch_trace(wakeup_trace, prev, next, flags, pc);
+
+2) Have the stack trace go after the sched_switch trace, otherwise it
+looks funny:
+
+      285 us |   5)    <idle>-0    |  dN.2 |   1.632 us    |    }
+      286 us |   5)    <idle>-0    |  d..3 |   0.000 us    |  __schedule();
+  <idle>-0       5d..3  299us : <stack trace>
+ => schedule_idle
+ => do_idle
+ => cpu_startup_entry
+ => start_secondary
+ => secondary_startup_64
+      299 us |   5)    <idle>-0    |  d..3 |               |  /*      0:120:R ==> [005]   811: 98:R i915/signal:0 */
+
+Note, I removed the skip and moved the trace and it looks like this:
+
+      180 us |   3)    <idle>-0    |  dN.2 |   0.944 us    |    }
+      181 us |   3)    <idle>-0    |  d..3 |   0.000 us    |  __schedule();
+      181 us |   3)    <idle>-0    |  d..3 |               |  /*      0:120:R ==> [003]    25:  0:R migration/3 */
+  <idle>-0       3d..3  195us : <stack trace>
+ => probe_wakeup_sched_switch
+ => __schedule
+ => schedule_idle
+ => do_idle
+ => cpu_startup_entry
+ => start_secondary
+ => secondary_startup_64
+
+Yeah, it shows the "probe_wakeup_sched" but its better to show too much
+than not enough. I've had a hard time debugging some kernels because
+the skip was too high.
+
+Please resend this patch with the above updates. Just this patch.
+
+Thanks!
+
+-- Steve
+
+>  
+>  	T0 = data->preempt_timestamp;
+> @@ -593,6 +595,8 @@ probe_wakeup(void *ignore, struct task_struct *p)
+>  	 * it should be safe to use it here.
+>  	 */
+>  	__trace_function(wakeup_trace, CALLER_ADDR1, CALLER_ADDR2, flags, pc);
+> +	/* Skip 2 functions to get to the task wakeup function */
+> +	__trace_stack(wakeup_trace, flags, 2, pc);
+>  
+>  out_locked:
+>  	arch_spin_unlock(&wakeup_lock);
 
