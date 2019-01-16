@@ -2,97 +2,92 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 868687D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Jan 2019 15:01:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8D8187D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Jan 2019 16:03:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404777AbfAPPBJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 Jan 2019 10:01:09 -0500
-Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com ([46.30.210.185]:23954
-        "EHLO mailrelay4-1.pub.mailoutpod1-cph3.one.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2393806AbfAPPBJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jan 2019 10:01:09 -0500
+        id S2405032AbfAPQDM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 Jan 2019 11:03:12 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:46174 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404786AbfAPQDL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jan 2019 11:03:11 -0500
+Received: by mail-pg1-f196.google.com with SMTP id w7so2991802pgp.13;
+        Wed, 16 Jan 2019 08:03:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=haabendal.dk; s=20140924;
-        h=content-type:mime-version:message-id:in-reply-to:date:references:subject:cc:
-         to:from:from;
-        bh=cQB9rzXu6IIyWGE4rBq3324xGrsxfBHHLKXsSOdVsE8=;
-        b=2aNsSdUA+6s4XLpKs0tyfk2RWoBuIvUG/Cm7kAHGTn71db8iG2h65DxGeZsAUBNtfgnDzM1VyN9ur
-         p4azDcPMxjB3Zw5miWjhIR/zf5kTlKF+1xdJ15FwWXm+E9fzmyM757EjJK6qTKUMUB2+8K8DgA9fch
-         om8FyLLFuG70e1Do=
-X-HalOne-Cookie: 0b32515dc14c55f8adf2817b6a7d371658f604a5
-X-HalOne-ID: 4e1533be-199d-11e9-834b-d0431ea8bb10
-Received: from localhost (unknown [87.49.44.116])
-        by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-        id 4e1533be-199d-11e9-834b-d0431ea8bb10;
-        Wed, 16 Jan 2019 14:45:02 +0000 (UTC)
-From:   Esben Haabendal <esben@haabendal.dk>
-To:     Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Cc:     "linux-watchdog\@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "martin\@hundeboll.net" <martin@hundeboll.net>,
-        Rasmus Villemoes <Rasmus.Villemoes@prevas.se>
-Subject: Re: [PATCH v8 0/3] watchdog: allow setting deadline for opening /dev/watchdogN
-References: <20190116121432.26732-1-rasmus.villemoes@prevas.dk>
-Date:   Wed, 16 Jan 2019 15:45:02 +0100
-In-Reply-To: <20190116121432.26732-1-rasmus.villemoes@prevas.dk> (Rasmus
-        Villemoes's message of "Wed, 16 Jan 2019 12:14:41 +0000")
-Message-ID: <87pnsw3bm9.fsf@haabendal.dk>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=7tvUhaOMr6fMd4OHfKBrsZQZNY2iWRK7ENGLWPCFLt0=;
+        b=V2I146kWq5TINmXj0tIRTIFNm0UI+2nMgzKLlX9KbU91Ld4NVFKSlkYQpnrd6qKkZd
+         xmzcJpddBIdS9N6rZcEvd0px6IeTusvomWgtHWZk8r2/dXLjQgf36P+3ZhJjTt+n3SST
+         jUxI0W2xzXy3lvBSUninHJ1xBbG8OQOjR6pRMoJCbrTwg4qe5DgzaSu1izfTjQd0ilLj
+         LgyLa9nwhYSK/Xw+xjHJmRKuImuz35v1J7qhTnv7lqF6RK4xxECf6D2prsbiYN7qmtou
+         0BZ+0w0SWKdzBW/bI3oNyIDiQQSmrgH8fC9ETVSvwsDXIOkwnKwh5MN1v8QThPWwD4DJ
+         H/BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=7tvUhaOMr6fMd4OHfKBrsZQZNY2iWRK7ENGLWPCFLt0=;
+        b=czLsH4o2qGbF4fOGWT4mMB2Rp3azAlGotjk2qeKKPcvdULyR/V2CtzlxJ1YuvTLB+8
+         8T9W+1Vt6O2MwwuYYWMSha4ktoixbpowtPBkfuiZ9DaSO7GtjAvTrVWbXIYuisvkG/Jn
+         pxKjS/tmspyj20etTb5EtRTH4/dvme9MiPKWtgEOgBin2XUmrfzmj0YrOxev9sDhuIiI
+         ZgBiLUL8qrKF2e7E3deyBMiOvvyJ9flSsmmop7kpIfIlswPOhYZveET01RbfhbRiCA4q
+         n4nA66HPTWOmEUOByTtdwrvhH9EAg/ed2IVO3dEdmjq1br86wqsE7sDcEc3Uj6kgDcZ1
+         Zr8g==
+X-Gm-Message-State: AJcUukeGkZEiq/SRc4uLUmXFJ+g6xwziVfnTOtd3MbfBgbheOmexs4UC
+        XZ17+sntUfMl5j+9xHhGbCE=
+X-Google-Smtp-Source: ALg8bN7UHhfC1Y6iel0WKoAul95Y3GKO2dbCrd3hQ/vZSSeh6SfX4Q2buhhbbOxyknc4gVbp2NJ/vw==
+X-Received: by 2002:a63:4819:: with SMTP id v25mr9456809pga.308.1547654589959;
+        Wed, 16 Jan 2019 08:03:09 -0800 (PST)
+Received: from localhost.localdomain ([207.246.99.41])
+        by smtp.gmail.com with ESMTPSA id 184sm8714938pfe.106.2019.01.16.08.03.02
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 16 Jan 2019 08:03:09 -0800 (PST)
+From:   Changbin Du <changbin.du@gmail.com>
+To:     rostedt@goodmis.org
+Cc:     mingo@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Changbin Du <changbin.du@gmail.com>
+Subject: [PATCH v2] sched/tracing: Show stacktrace for wakeup tracers
+Date:   Thu, 17 Jan 2019 00:02:49 +0800
+Message-Id: <20190116160249.7554-1-changbin.du@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rasmus Villemoes <rasmus.villemoes@prevas.dk> writes:
+This align the behavior of wakeup tracers with irqsoff latency tracer
+that we record stacktrace at the beginning and end of waking up. The
+stacktrace shows us what is happening in the kernel.
 
-> If a watchdog driver tells the framework that the device is running,
-> the framework takes care of feeding the watchdog until userspace opens
-> the device. If the userspace application which is supposed to do that
-> never comes up properly, the watchdog is fed indefinitely by the
-> kernel. This can be especially problematic for embedded devices.
->
-> The existing handle_boot_enabled cmdline parameter/config option
-> partially solves that, but that is only usable for the subset of
-> hardware watchdogs that have (or can be configured by the bootloader
-> to have) a timeout that is sufficient to make it realistic for
-> userspace to come up. Many devices have timeouts of only a few
-> seconds, or even less, making handle_boot_enabled insufficient.
->
-> These patches allow one to set a maximum time for which the kernel
-> will feed the watchdog, thus ensuring that either userspace has come
-> up, or the board gets reset. This allows fallback logic in the
-> bootloader to attempt some recovery (for example, if an automatic
-> update is in progress, it could roll back to the previous version).
->
-> The patches have been tested on a Raspberry Pi 2 and a Wandboard.
->
-> Changes in v8: Redo on top of 5.0-rc1 - in particular, adapt to the
-> jiffies->ktime_t conversion (1ff68820 "watchdog: core: make sure the
-> watchdog_worker is not deferred"). Add a patch to make the hardware
-> timeout at the deadline as requested by Guenther - which was actually
-> made very easy by the ktime_t conversion.
->
-> v7 submission at <https://lore.kernel.org/lkml/1511865350-20665-1-git-send-email-rasmus.villemoes@prevas.dk/>
->
-> Rasmus Villemoes (3):
->   watchdog: introduce watchdog.open_timeout commandline parameter
->   watchdog: introduce CONFIG_WATCHDOG_OPEN_TIMEOUT
->   watchdog: make the device time out at open_deadline when open_timeout
->     is used
->
->  .../watchdog/watchdog-parameters.txt          |  9 ++++
->  drivers/watchdog/Kconfig                      |  9 ++++
->  drivers/watchdog/watchdog_dev.c               | 42 +++++++++++++++----
->  3 files changed, 53 insertions(+), 7 deletions(-)
+Signed-off-by: Changbin Du <changbin.du@gmail.com>
+---
+ kernel/trace/trace_sched_wakeup.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-For the whole series:
-Acked-by: Esben Haabendal <esben@haabendal.dk>
+diff --git a/kernel/trace/trace_sched_wakeup.c b/kernel/trace/trace_sched_wakeup.c
+index da5b6e012840..f4fe7d1781e9 100644
+--- a/kernel/trace/trace_sched_wakeup.c
++++ b/kernel/trace/trace_sched_wakeup.c
+@@ -475,6 +475,7 @@ probe_wakeup_sched_switch(void *ignore, bool preempt,
+ 
+ 	__trace_function(wakeup_trace, CALLER_ADDR0, CALLER_ADDR1, flags, pc);
+ 	tracing_sched_switch_trace(wakeup_trace, prev, next, flags, pc);
++	__trace_stack(wakeup_trace, flags, 0, pc);
+ 
+ 	T0 = data->preempt_timestamp;
+ 	T1 = ftrace_now(cpu);
+@@ -586,6 +587,7 @@ probe_wakeup(void *ignore, struct task_struct *p)
+ 	data = per_cpu_ptr(wakeup_trace->trace_buffer.data, wakeup_cpu);
+ 	data->preempt_timestamp = ftrace_now(cpu);
+ 	tracing_sched_wakeup_trace(wakeup_trace, p, current, flags, pc);
++	__trace_stack(wakeup_trace, flags, 0, pc);
+ 
+ 	/*
+ 	 * We must be careful in using CALLER_ADDR2. But since wake_up
+-- 
+2.17.1
+
