@@ -5,37 +5,36 @@ X-Spam-Status: No, score=-4.8 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	LOTS_OF_MONEY,MAILING_LIST_MULTI,RCVD_IN_BL_SPAMCOP_NET,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6979A7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Jan 2019 20:29:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 710E57D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Jan 2019 20:30:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732345AbfAPU3l convert rfc822-to-8bit (ORCPT
+        id S1732371AbfAPUaC convert rfc822-to-8bit (ORCPT
         <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 Jan 2019 15:29:41 -0500
-Received: from mail.iiests.ac.in ([14.139.223.185]:51808 "EHLO
+        Wed, 16 Jan 2019 15:30:02 -0500
+Received: from mail.iiests.ac.in ([14.139.223.185]:52391 "EHLO
         mail.iiests.ac.in" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732002AbfAPU3k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jan 2019 15:29:40 -0500
-X-Greylist: delayed 730 seconds by postgrey-1.27 at vger.kernel.org; Wed, 16 Jan 2019 15:29:39 EST
+        with ESMTP id S1732364AbfAPUaC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jan 2019 15:30:02 -0500
 Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.iiests.ac.in (Postfix) with ESMTP id 3C91C1CE6B14;
-        Thu, 17 Jan 2019 01:47:58 +0530 (IST)
+        by mail.iiests.ac.in (Postfix) with ESMTP id 977C81CE6AEB;
+        Thu, 17 Jan 2019 01:47:09 +0530 (IST)
 Received: from mail.iiests.ac.in ([127.0.0.1])
         by localhost (mail.iiests.ac.in [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id QXkXBz_kcQjw; Thu, 17 Jan 2019 01:47:58 +0530 (IST)
+        with ESMTP id IheOmujvpyVY; Thu, 17 Jan 2019 01:47:09 +0530 (IST)
 Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.iiests.ac.in (Postfix) with ESMTP id D0E9C1CE6B0A;
-        Thu, 17 Jan 2019 01:47:57 +0530 (IST)
+        by mail.iiests.ac.in (Postfix) with ESMTP id 309A51CE6AE8;
+        Thu, 17 Jan 2019 01:47:09 +0530 (IST)
 X-Virus-Scanned: amavisd-new at iiests.ac.in
 Received: from mail.iiests.ac.in ([127.0.0.1])
         by localhost (mail.iiests.ac.in [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id GoW1fuLVHZcu; Thu, 17 Jan 2019 01:47:57 +0530 (IST)
+        with ESMTP id 6zVRjYnxrGpc; Thu, 17 Jan 2019 01:47:09 +0530 (IST)
 Received: from mail.iiests.ac.in (mail.iiests.ac.in [10.1.0.77])
-        by mail.iiests.ac.in (Postfix) with ESMTP id 588451CE6B0B;
-        Thu, 17 Jan 2019 01:47:56 +0530 (IST)
-Date:   Thu, 17 Jan 2019 01:47:56 +0530 (IST)
+        by mail.iiests.ac.in (Postfix) with ESMTP id 7E8211CE6AE5;
+        Thu, 17 Jan 2019 01:47:07 +0530 (IST)
+Date:   Thu, 17 Jan 2019 01:47:07 +0530 (IST)
 From:   friedrich mayrhofer <sanat@math.iiests.ac.in>
 Reply-To: friedrich mayrhofer <friedrichmayrhofer.spende@gmail.com>
-Message-ID: <1102176754.25392.1547669876268.JavaMail.zimbra@math.iiests.ac.in>
+Message-ID: <123943697.25312.1547669827414.JavaMail.zimbra@math.iiests.ac.in>
 Subject: =?utf-8?Q?wohlt=C3=A4tige_Spende_von_2.800.000_euro?=
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -43,7 +42,7 @@ Content-Transfer-Encoding: 8BIT
 X-Originating-IP: [105.4.3.47]
 X-Mailer: Zimbra 8.6.0_GA_1153 (zclient/8.6.0_GA_1153)
 Thread-Topic: =?utf-8?Q?wohlt=C3=A4tige?= Spende von 2.800.000 euro
-Thread-Index: K3Hlxyz1mha1mjKnhb+yxWTU4O6toQ==
+Thread-Index: mnZ4edIMHOknfU3HiSYiMA6u4bXHHQ==
 To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
