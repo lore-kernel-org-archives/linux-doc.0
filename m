@@ -1,81 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A606E7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Jan 2019 21:05:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0A78F7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Jan 2019 21:29:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727109AbfAPVFJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 Jan 2019 16:05:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38474 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726803AbfAPVFJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Jan 2019 16:05:09 -0500
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0685920652;
-        Wed, 16 Jan 2019 21:05:07 +0000 (UTC)
-Date:   Wed, 16 Jan 2019 16:05:06 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     mingo@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] sched/tracing: Show stacktrace for wakeup tracers
-Message-ID: <20190116160506.0d56e027@gandalf.local.home>
-In-Reply-To: <20190116160249.7554-1-changbin.du@gmail.com>
-References: <20190116160249.7554-1-changbin.du@gmail.com>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1729123AbfAPV3i (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 Jan 2019 16:29:38 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:46701 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730248AbfAPV3h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jan 2019 16:29:37 -0500
+Received: by mail-wr1-f67.google.com with SMTP id l9so8600462wrt.13
+        for <linux-doc@vger.kernel.org>; Wed, 16 Jan 2019 13:29:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HJrfE3jaolNs6YKqdZtpYFmOvcf18H8OhY7pa4kzWEY=;
+        b=j8HwzKf4QtGnl55VhWxxU62RJz2zdHqwwXdAJtf4r17Cb5i4Z9PTr3LYowNmAp7bfs
+         +ORL7QKVLtsnXsxfog2gfV4zCd8b0Lp/hBynHbSFCWHpsjhb+gUzSAD4s6BHH/fRV6pB
+         Y8RKIyku/qvSySJPfI4lQbUHofvTuiB69SAxZnEm2/M1qYVOb6tzofxI8DeoSsxlVo+u
+         nZ82jRaDZ+i/eUXJAlQsvkLtbuNxntHHswTgQKdk/B7zvICxLyY6D2dBF/Yx3CINZzCc
+         r7EEDIuZ1ahCWCcTqQtXrHreZMO0rz9tVS/ldkSGVBMgfPl+UDSbYYc4Q+A3wO26h8wa
+         jfTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HJrfE3jaolNs6YKqdZtpYFmOvcf18H8OhY7pa4kzWEY=;
+        b=B3p8OgvtUe4go2/CQ2MO1yfgf117m0deUkbC2aQZLcf78XiwlQPy/AG0CTrOP5wa70
+         66aMB7zqnYdDR7gSYcnpiK0WtUEr0Ug8dIk0OH2gNsbHbVNRxY9Ww+Ps3cvyOdNzBpQ6
+         J6UD6ZTUbYF4UwV+oNKD8iV7w6v2TgmoDrR+P+4+c+Na8sfjNwLthsetomSPjvI4zv30
+         z09r8CjUMTM20AYs3khHrqXnDZgbdbl9FKTj2QpMnn4PLOX+oo4S0orHfNJAVUhUK/bc
+         IG3D6/7ON5sFLqFtkJY31+NtwSyQbWqhjzWyDWdwJ5dElyoDYad/8lLZXilp1gR53shD
+         1WFw==
+X-Gm-Message-State: AJcUukdE/Yw4P+RSogtuaVoYoOonar29Ozl++08uvT+ZCmWi6xVy+bAB
+        1GxLtiGmU0WrkfAyqMTQ81iGVcqFSPYSdKA7tPVbnw==
+X-Google-Smtp-Source: ALg8bN41+hamEJqjA/ErW04qKhyfcdryU7d5AEi8xni3wtZ/EgC/cnBgZaQBeIjpdJCyR0mVUw9KZOn/xGVSOsdGr5g=
+X-Received: by 2002:adf:de91:: with SMTP id w17mr9843729wrl.320.1547674175412;
+ Wed, 16 Jan 2019 13:29:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20190110220718.261134-1-surenb@google.com> <20190110220718.261134-6-surenb@google.com>
+ <20190114102137.GB14054@worktop.programming.kicks-ass.net>
+ <CAJuCfpGUWs0E9oPUjPTNm=WhPJcE_DBjZCtCiaVu5WXabKRW6A@mail.gmail.com>
+ <20190116132446.GF10803@hirez.programming.kicks-ass.net> <CAJuCfpEJW6Uq4GSGEGLKOM4K7ySHUeTGrSUGM1+EJSQ16d8SJg@mail.gmail.com>
+ <20190116191728.GA1380@cmpxchg.org> <20190116192744.GA1576@cmpxchg.org>
+In-Reply-To: <20190116192744.GA1576@cmpxchg.org>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Wed, 16 Jan 2019 13:29:24 -0800
+Message-ID: <CAJuCfpG1+=XXS=7oTaBw_J9cGvmheTDrr3jv8UxBThwa4K+Dmw@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] psi: introduce psi monitor
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tejun Heo <tj@kernel.org>, lizefan@huawei.com, axboe@kernel.dk,
+        dennis@kernel.org, Dennis Zhou <dennisszhou@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 17 Jan 2019 00:02:49 +0800
-Changbin Du <changbin.du@gmail.com> wrote:
+On Wed, Jan 16, 2019 at 11:27 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
+>
+> On Wed, Jan 16, 2019 at 02:17:28PM -0500, Johannes Weiner wrote:
+> > On Wed, Jan 16, 2019 at 09:39:13AM -0800, Suren Baghdasaryan wrote:
+> > > On Wed, Jan 16, 2019 at 5:24 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> > > >
+> > > > On Mon, Jan 14, 2019 at 11:30:12AM -0800, Suren Baghdasaryan wrote:
+> > > > > For memory ordering (which Johannes also pointed out) the critical point is:
+> > > > >
+> > > > > times[cpu] += delta           | if g->polling:
+> > > > > smp_wmb()                     |   g->polling = polling = 0
+> > > > > cmpxchg(g->polling, 0, 1)     |   smp_rmb()
+> > > > >                               |   delta = times[*] (through goto SLOWPATH)
+> > > > >
+> > > > > So that hotpath writes to times[] then g->polling and slowpath reads
+> > > > > g->polling then times[]. cmpxchg() implies a full barrier, so we can
+> > > > > drop smp_wmb(). Something like this:
+> > > > >
+> > > > > times[cpu] += delta           | if g->polling:
+> > > > > cmpxchg(g->polling, 0, 1)     |   g->polling = polling = 0
+> > > > >                               |   smp_rmb()
+> > > > >                               |   delta = times[*] (through goto SLOWPATH)
+> > > > >
+> > > > > Would that address your concern about ordering?
+> > > >
+> > > > cmpxchg() implies smp_mb() before and after, so the smp_wmb() on the
+> > > > left column is superfluous.
+> > >
+> > > Should I keep it in the comments to make it obvious and add a note
+> > > about implicit barriers being the reason we don't call smp_mb() in the
+> > > code explicitly?
+> >
+> > I'd keep 'em out if they aren't actually in the code. But I'd switch
+> >
+> >       delta = times[*]
+> >
+> > in this comment to to
+> >
+> >       get_recent_times() // implies smp_mb()
+>
+> Actually, I might have been mistaken about this. The seqcount locking
+> does an smp_rmb() and an smp_wmb(), and that orders reads and writes
+> respectively, but doesn't necessarily order reads against writes.
+>
+> So I think we need an explicit smp_mb() after all.
 
-> This align the behavior of wakeup tracers with irqsoff latency tracer
-> that we record stacktrace at the beginning and end of waking up. The
-> stacktrace shows us what is happening in the kernel.
-> 
-> Signed-off-by: Changbin Du <changbin.du@gmail.com>
+I see. So, the action items I collected so far:
 
-I've applied your patch, but it may be a while before you see it in
-linux-next. I'll be traveling for a bit and wont be able to do the full
-tests which I do before pushing to my linux-next branch.
+1. Add a comment in the code next to cmpxchg() indicating implicit smp_mb.
+2. Add explicit smp_mb after "g->polling = 0" and before "delta =
+times[*]" both in the code and in the comments (in the slowpath).
+3. Use atomic_t for g->polling. Add a note in the comments why atomic
+operations are not needed in the slowpath.
+4. Minimize line-breaks.
 
-You may see them soon in my ftrace/core branch on kernel.org.
-
--- Steve
-
-> ---
->  kernel/trace/trace_sched_wakeup.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/kernel/trace/trace_sched_wakeup.c b/kernel/trace/trace_sched_wakeup.c
-> index da5b6e012840..f4fe7d1781e9 100644
-> --- a/kernel/trace/trace_sched_wakeup.c
-> +++ b/kernel/trace/trace_sched_wakeup.c
-> @@ -475,6 +475,7 @@ probe_wakeup_sched_switch(void *ignore, bool preempt,
->  
->  	__trace_function(wakeup_trace, CALLER_ADDR0, CALLER_ADDR1, flags, pc);
->  	tracing_sched_switch_trace(wakeup_trace, prev, next, flags, pc);
-> +	__trace_stack(wakeup_trace, flags, 0, pc);
->  
->  	T0 = data->preempt_timestamp;
->  	T1 = ftrace_now(cpu);
-> @@ -586,6 +587,7 @@ probe_wakeup(void *ignore, struct task_struct *p)
->  	data = per_cpu_ptr(wakeup_trace->trace_buffer.data, wakeup_cpu);
->  	data->preempt_timestamp = ftrace_now(cpu);
->  	tracing_sched_wakeup_trace(wakeup_trace, p, current, flags, pc);
-> +	__trace_stack(wakeup_trace, flags, 0, pc);
->  
->  	/*
->  	 * We must be careful in using CALLER_ADDR2. But since wake_up
-
+Please let me know if I missed anything, otherwise will make these
+changes and post ver 3 of the patchset.
+Thanks,
+Suren.
