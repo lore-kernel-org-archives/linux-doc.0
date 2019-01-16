@@ -5,29 +5,29 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C1BFA7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Jan 2019 12:15:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 70BBD7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 16 Jan 2019 12:15:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403989AbfAPMO5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 Jan 2019 07:14:57 -0500
+        id S2392546AbfAPMOs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 Jan 2019 07:14:48 -0500
 Received: from mail-eopbgr50124.outbound.protection.outlook.com ([40.107.5.124]:6116
         "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730413AbfAPMOz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Jan 2019 07:14:55 -0500
+        id S1730413AbfAPMOr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Jan 2019 07:14:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.se;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DGTObNPg/mRLyfZHQcxH+Xv666mNSdafhU8ca+oV0rI=;
- b=gZU3PZi4z74gqplbKOhZ/3FyP8G1Pc/eSRGy8Ulg5E2RfKQXKJAQfL2xtXZH38B4a1f5oZ3Ppt6zPYykbBJB7JEsJ+EMdEZ8i7//ea02jhz+w/omzKYVVraJD2kH4RJdPhI/j5zqJQ6zJMGQj2LK5Mxnq8TusAJYoUF1AlczRKg=
+ bh=3ZNyw9AdIYZoHJV0vFeNf4d7/yyzCxTCW0cWa5gnvdE=;
+ b=KxE4/nRtYeG5/RrZo8hT3mK6HxqC4PhpoaT6n8PzR/0I84Gtn53ykt2Q4g+EcLDmkep2Qrt9ttnqY9Q81RC77FmR6uEr8EeqebFHGfFZtQ6R9pNO60IrWeokD+9hbFKW95Q25dJ8IOFItFni4ZLIQ12XmLzRVFFhZiSKy94FGZk=
 Received: from VI1PR10MB2672.EURPRD10.PROD.OUTLOOK.COM (20.178.126.212) by
  VI1PR10MB2272.EURPRD10.PROD.OUTLOOK.COM (20.177.62.32) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1516.18; Wed, 16 Jan 2019 12:14:44 +0000
+ 15.20.1516.18; Wed, 16 Jan 2019 12:14:42 +0000
 Received: from VI1PR10MB2672.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::dc83:d2d3:895c:e6fc]) by VI1PR10MB2672.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::dc83:d2d3:895c:e6fc%4]) with mapi id 15.20.1516.019; Wed, 16 Jan 2019
- 12:14:44 +0000
+ 12:14:41 +0000
 From:   Rasmus Villemoes <rasmus.villemoes@prevas.dk>
 To:     "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
         Guenter Roeck <linux@roeck-us.net>,
@@ -38,13 +38,13 @@ CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Esben Haabendal <esben@haabendal.dk>,
         "martin@hundeboll.net" <martin@hundeboll.net>,
         Rasmus Villemoes <Rasmus.Villemoes@prevas.se>
-Subject: [PATCH v8 2/3] watchdog: introduce CONFIG_WATCHDOG_OPEN_TIMEOUT
-Thread-Topic: [PATCH v8 2/3] watchdog: introduce CONFIG_WATCHDOG_OPEN_TIMEOUT
-Thread-Index: AQHUrZUQd+iTHOdbz0qapDB2+iUs3g==
-Date:   Wed, 16 Jan 2019 12:14:44 +0000
-Message-ID: <20190116121432.26732-3-rasmus.villemoes@prevas.dk>
-References: <20190116121432.26732-1-rasmus.villemoes@prevas.dk>
-In-Reply-To: <20190116121432.26732-1-rasmus.villemoes@prevas.dk>
+Subject: [PATCH v8 0/3] watchdog: allow setting deadline for opening
+ /dev/watchdogN
+Thread-Topic: [PATCH v8 0/3] watchdog: allow setting deadline for opening
+ /dev/watchdogN
+Thread-Index: AQHUrZUPJyzqo8ukKEK3ybUZ8MCGAQ==
+Date:   Wed, 16 Jan 2019 12:14:41 +0000
+Message-ID: <20190116121432.26732-1-rasmus.villemoes@prevas.dk>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -58,25 +58,25 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.20.1
 x-originating-ip: [81.216.59.226]
 x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;VI1PR10MB2272;6:CjLtDY3y6mrUPNX/Q7iDDvDdSjUrBeq6Ip/trZfDxuI8tuV/wkBmrz5PvkbJuqcYlfNoFqvuXeeC3y5CFmdxmELxCuZF5/z0hIghK+LnqnZPhyVWfrmiP/kkmqHmd/ivUzpjaQBKbZpCokI3vAwKEVux+lsN/0ki3RROhaTgYrt+g59EFx7Ib/EzE2vcRiBMbmAJHCXcXRsfEMLKChXnG06xoLV7Uvi2KEXIWlkzVKBVyiLCIQP3cuytC7ha5VHLj1bZ7woDKEWljKj5DyuRcbSj1K+zdnMyXEf8TCBVcFTKuLIZwnvO+u7HxuUJcRYc+qk25vTx4laIeG2s+xNtfYnKCdyOPCuVRcii4SOh4M3wb7dGYbEWuRGKYwkYdHDkn1MJdUIecR81MA2VxYAyd5A4Yajd7MHpDWxyQpDQubm7tcb5KFr0srnVDLRh1iP9oYuiFptspXLeFd49IniXqQ==;5:ctgFNwv10mRYso1nAQbt+oTWczixrKw0QJGC0h5+CjeSr/i47e/agFh0qjdrjeAmu+Y9IRJcSdNi+haCDkC9PcoqX5w3hkfLRSlb3QSwuihxdeROuSP4II7vPdX7T/QBUctsIm0hQu5VTvsQ0ZEQwwWxBUD6H+o1SOI7yMJRDKpG2QZ2y2KD+Xq7l6zFVulULhWAvF3/SneuNcfbm9h0hA==;7:je24AXDdcKeCRx6eSQolWUnmxVK7xBpexStTzhNNBE7S5iZJjjaiaiBYAv7BLS9gR0wVH2AbdRdxhYYfP9WadwfHItJ6LrCGGQDlDTarudoGHtZUHU3ehbWRSFi33BRj1EDcqBWEQGXNSxR657ZBtg==
-x-ms-office365-filtering-correlation-id: 78016e40-81ec-44ca-278a-08d67bac32ff
+x-microsoft-exchange-diagnostics: 1;VI1PR10MB2272;6:jCrZdSgES4YIrZVF3T+Ovc8g4ZDkpWIUmqZ37HsxptCAwI8PU168P438pwgHzCvai7Bnoi7YjjYORM/YoXxDK1dNiNHuMsIU+kwrCVYcK4U0h1RelATA4ktrihpe0j36JQG0L+TU/Vd0PO+rItXPM8rpCDVOeBg5EWIau36Aqz5WCluMfK5gBZ79JacSG2+3pnJApRykKTH/zgOgY3qTSh7hfRqoHpza3EYnOvnjJEZB/5dUwzYOsUuiRoGoTSp+LFQFpE6xuc7nLPssDl3Sl0ar+88HCfB5F+jVA2zwvGgROGZ+GLbk5nA3z5+ak7UhBORyEmoBAuhbMy8Nyk1rVzoIEyZngGv7AEgbJ/ctdrn+Jk57Q9GCQdusyNbIJp7M0keTdZExyJae1RsqzREcQyquYnlAqFJdRtDjNW276tDJ3nHNMJtOiqrKH2lqA8IV76hUICsYNct2CnLePUMgjw==;5:u7jVMC+v40AXW5sfLsooy+dTd1M177/+YlX0nCPC7Dn96i9fBubjn968Cp32R62NpjHu08lsG8zFDY/KWoGvQ3Q0D5ZyF9RxndV2ECWix1exAOcgK5KEGqlH9FMaqqqNKpCltEHBHFT0Eqzggh8EyTRu8Wh892eFt9NLXVwQ2AVeqJwQSazIPCi3VbSjFR0IyKEpOuY8flM2ACDmtHDogw==;7:3H6fBnG99l7Ogg0W+8xkjmpDvYyAovC+LQx79kCm0hijmcvqcO2JEPxe5LO+ByOzm4tIaZqwJsRgC94geK/hLklPpg+/WS75vxBaZXriyCOemz5T8w8mr8iqTTGtWfSn3C1u6EsywCOSsDMGoRRUvw==
+x-ms-office365-filtering-correlation-id: 7ee95f89-5612-4373-7e90-08d67bac3175
 x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600109)(711020)(2017052603328)(7153060)(7193020);SRVR:VI1PR10MB2272;
 x-ms-traffictypediagnostic: VI1PR10MB2272:
-x-microsoft-antispam-prvs: <VI1PR10MB227251550D28A91431A28CBD8A820@VI1PR10MB2272.EURPRD10.PROD.OUTLOOK.COM>
+x-microsoft-antispam-prvs: <VI1PR10MB2272659A6960E1DF7906A85F8A820@VI1PR10MB2272.EURPRD10.PROD.OUTLOOK.COM>
 x-forefront-prvs: 091949432C
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(136003)(346002)(39850400004)(366004)(376002)(199004)(189003)(43544003)(316002)(478600001)(36756003)(6506007)(386003)(7736002)(50226002)(71190400001)(305945005)(74482002)(4326008)(71200400001)(102836004)(52116002)(68736007)(76176011)(44832011)(110136005)(97736004)(25786009)(54906003)(1076003)(14444005)(72206003)(256004)(14454004)(5660300001)(53936002)(42882007)(2906002)(11346002)(26005)(2616005)(446003)(486006)(476003)(6436002)(66066001)(81156014)(81166006)(186003)(107886003)(99286004)(8936002)(3846002)(8976002)(105586002)(6116002)(106356001)(6486002)(2501003)(8676002)(6512007);DIR:OUT;SFP:1102;SCL:1;SRVR:VI1PR10MB2272;H:VI1PR10MB2672.EURPRD10.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(136003)(346002)(39850400004)(366004)(376002)(199004)(189003)(316002)(478600001)(36756003)(6506007)(386003)(7736002)(50226002)(71190400001)(305945005)(74482002)(4326008)(71200400001)(102836004)(52116002)(68736007)(44832011)(110136005)(97736004)(25786009)(54906003)(1076003)(14444005)(72206003)(256004)(14454004)(5660300001)(53936002)(42882007)(2906002)(26005)(6306002)(2616005)(486006)(476003)(6436002)(66066001)(81156014)(81166006)(186003)(107886003)(99286004)(8936002)(3846002)(8976002)(105586002)(6116002)(106356001)(6486002)(2501003)(8676002)(6512007);DIR:OUT;SFP:1102;SCL:1;SRVR:VI1PR10MB2272;H:VI1PR10MB2672.EURPRD10.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: prevas.se does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: usM/C2WtcdcPKaGo8gW6j8o8CUsSE9hS0dh9+0M04yaZpk9xCb0iAer4tRcGYiA7oabbVmcAa93jCMu7JvgpbxKpFyV+0+fxK7t7AzgayV1A8fFt6pFGnaQc8wggoSds4/mp+JdtA/yk4yvLVRdZVMreJDFRRxXP0pggUImWQBAMl0nZU6EOzEBUEf6ws1vnDHRS3arNQivynyvhmx4QQorJf16KheGci+ltq/pu4Z0aly3mpfyYi+XwJwaqiTUG5yAVPAidbj4jHCc+JgUQHVvOF6EuyizK+eoV61gxFititEcTwDiO5X8UnboyibVUA25move+2gl3wDKDlgZtt6EycDVxl3093FHsbuSBnM9yfrh5fekPmUbAtoKKZbfsx5xIs+/PO5AIvc1yzHEUgymMsDcXwGs+C1r07djg8s0=
+x-microsoft-antispam-message-info: dKWCAUkUqu/3MqJSrP+WhUstZjNK+RnjNAPmV0m4l1IIZmJmPbtgiiF8RV/h/Crbua8BZQ7gbrSeWjmCOggZq4vMir290pvn38zVRsju21giNa9u7UIypac9mqlHrljt6kHCHOgyePnPgd+Ny9LQsRps2grR3TUKAIuLCQJ/IhCJ0KOTTTxTrOuhxKd7b5oT3qI5i2xEGm+9Kt4XEG1OaRjPjsqtia1rshI2z/nHQJQokEycuxTrLahApuZEz2pRAwxHyzR5WKYKofuSJdPtAHrLmfhEq6q9y/7PLZ+reXloKFVY1MRnwVTY81T2+J5JE8oA+ovZLZu/04kTKsOFqzpOPD0J+oOmyWE/A4Jr8zS6yhQV0SQ1d2GcvoLcyMGMkS0zSzMySQTruzMBtZo31pIbFavpYxHPsowSeJJnRVQ=
 spamdiagnosticoutput: 1:99
 spamdiagnosticmetadata: NSPM
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: prevas.dk
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78016e40-81ec-44ca-278a-08d67bac32ff
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jan 2019 12:14:43.2202
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ee95f89-5612-4373-7e90-08d67bac3175
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jan 2019 12:14:40.6403
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d350cf71-778d-4780-88f5-071a4cb1ed61
@@ -86,87 +86,47 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This allows setting a default value for the watchdog.open_timeout
-commandline parameter via Kconfig.
+If a watchdog driver tells the framework that the device is running,
+the framework takes care of feeding the watchdog until userspace opens
+the device. If the userspace application which is supposed to do that
+never comes up properly, the watchdog is fed indefinitely by the
+kernel. This can be especially problematic for embedded devices.
 
-Some BSPs allow remote updating of the kernel image and root file
-system, but updating the bootloader requires physical access. Hence, if
-one has a firmware update that requires relaxing the
-watchdog.open_timeout a little, the value used must be baked into the
-kernel image itself and cannot come from the u-boot environment via the
-kernel command line.
+The existing handle_boot_enabled cmdline parameter/config option
+partially solves that, but that is only usable for the subset of
+hardware watchdogs that have (or can be configured by the bootloader
+to have) a timeout that is sufficient to make it realistic for
+userspace to come up. Many devices have timeouts of only a few
+seconds, or even less, making handle_boot_enabled insufficient.
 
-Being able to set the initial value in .config doesn't change the fact
-that the value on the command line, if present, takes precedence, and is
-of course immensely useful for development purposes while one has
-console acccess, as well as usable in the cases where one can make a
-permanent update of the kernel command line.
+These patches allow one to set a maximum time for which the kernel
+will feed the watchdog, thus ensuring that either userspace has come
+up, or the board gets reset. This allows fallback logic in the
+bootloader to attempt some recovery (for example, if an automatic
+update is in progress, it could roll back to the previous version).
 
-Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
----
- Documentation/watchdog/watchdog-parameters.txt | 3 ++-
- drivers/watchdog/Kconfig                       | 9 +++++++++
- drivers/watchdog/watchdog_dev.c                | 5 +++--
- 3 files changed, 14 insertions(+), 3 deletions(-)
+The patches have been tested on a Raspberry Pi 2 and a Wandboard.
 
-diff --git a/Documentation/watchdog/watchdog-parameters.txt b/Documentation=
-/watchdog/watchdog-parameters.txt
-index 5e4235989154..f550f4fb831d 100644
---- a/Documentation/watchdog/watchdog-parameters.txt
-+++ b/Documentation/watchdog/watchdog-parameters.txt
-@@ -11,7 +11,8 @@ modules.
- The watchdog core parameter watchdog.open_timeout is the maximum time,
- in milliseconds, for which the watchdog framework will take care of
- pinging a hardware watchdog until userspace opens the corresponding
--/dev/watchdogN device. A value of 0 (the default) means an infinite
-+/dev/watchdogN device. The defalt value is
-+CONFIG_WATCHDOG_OPEN_TIMEOUT. A value of 0 means an infinite
- timeout. Setting this to a non-zero value can be useful to ensure that
- either userspace comes up properly, or the board gets reset and allows
- fallback logic in the bootloader to try something else.
-diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
-index 57f017d74a97..289d13fecc27 100644
---- a/drivers/watchdog/Kconfig
-+++ b/drivers/watchdog/Kconfig
-@@ -63,6 +63,15 @@ config WATCHDOG_SYSFS
- 	  Say Y here if you want to enable watchdog device status read through
- 	  sysfs attributes.
-=20
-+config WATCHDOG_OPEN_TIMEOUT
-+	int "Timeout value for opening watchdog device"
-+	default 0
-+	help
-+	  The maximum time, in milliseconds, for which the watchdog
-+	  framework takes care of pinging a hardware watchdog. A value
-+	  of 0 means infinite. The value set here can be overridden by
-+	  the commandline parameter "watchdog.open_timeout".
-+
- #
- # General Watchdog drivers
- #
-diff --git a/drivers/watchdog/watchdog_dev.c b/drivers/watchdog/watchdog_de=
-v.c
-index a9585925458f..804da5b2ce02 100644
---- a/drivers/watchdog/watchdog_dev.c
-+++ b/drivers/watchdog/watchdog_dev.c
-@@ -88,7 +88,7 @@ static struct kthread_worker *watchdog_kworker;
- static bool handle_boot_enabled =3D
- 	IS_ENABLED(CONFIG_WATCHDOG_HANDLE_BOOT_ENABLED);
-=20
--static unsigned open_timeout;
-+static unsigned open_timeout =3D CONFIG_WATCHDOG_OPEN_TIMEOUT;
-=20
- static bool watchdog_past_open_deadline(struct watchdog_core_data *data)
- {
-@@ -1206,4 +1206,5 @@ MODULE_PARM_DESC(handle_boot_enabled,
-=20
- module_param(open_timeout, uint, 0644);
- MODULE_PARM_DESC(open_timeout,
--	"Maximum time (in milliseconds, 0 means infinity) for userspace to take o=
-ver a running watchdog (default=3D0)");
-+	"Maximum time (in milliseconds, 0 means infinity) for userspace to take o=
-ver a running watchdog (default=3D"
-+	__MODULE_STRING(CONFIG_WATCHDOG_OPEN_TIMEOUT) ")");
+Changes in v8: Redo on top of 5.0-rc1 - in particular, adapt to the
+jiffies->ktime_t conversion (1ff68820 "watchdog: core: make sure the
+watchdog_worker is not deferred"). Add a patch to make the hardware
+timeout at the deadline as requested by Guenther - which was actually
+made very easy by the ktime_t conversion.
+
+v7 submission at <https://lore.kernel.org/lkml/1511865350-20665-1-git-send-=
+email-rasmus.villemoes@prevas.dk/>
+
+Rasmus Villemoes (3):
+  watchdog: introduce watchdog.open_timeout commandline parameter
+  watchdog: introduce CONFIG_WATCHDOG_OPEN_TIMEOUT
+  watchdog: make the device time out at open_deadline when open_timeout
+    is used
+
+ .../watchdog/watchdog-parameters.txt          |  9 ++++
+ drivers/watchdog/Kconfig                      |  9 ++++
+ drivers/watchdog/watchdog_dev.c               | 42 +++++++++++++++----
+ 3 files changed, 53 insertions(+), 7 deletions(-)
+
 --=20
 2.20.1
 
