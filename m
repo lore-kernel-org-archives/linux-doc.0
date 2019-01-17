@@ -1,127 +1,169 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-7.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CE9287D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Jan 2019 13:41:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 98DB77D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Jan 2019 14:23:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725889AbfAQNlH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 17 Jan 2019 08:41:07 -0500
-Received: from mail-eopbgr00093.outbound.protection.outlook.com ([40.107.0.93]:6453
-        "EHLO EUR02-AM5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725868AbfAQNlH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 17 Jan 2019 08:41:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vh7cUVaTW0vmnu2rK7lKUEzCXVs3mjBHkExesBCQBlk=;
- b=CdBUwgX8UF3X7H12Ep0PQj547VdSgqq3FbEpPd0IPgwPcPS5FW7rNvpM7m1xRXEtKsPgu4QKNf9HAUaZTEFTcUUGMLLgE5KtWR69ZwVonnaf3YF8KEygNo0w4KdloMfBUjp7rSnlX4rz3NmhOMfhtzkW+QYVuPdLxC18/KvC/UM=
-Received: from AM6PR02MB4470.eurprd02.prod.outlook.com (20.177.191.218) by
- AM6PR02MB3784.eurprd02.prod.outlook.com (52.134.113.141) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1537.26; Thu, 17 Jan 2019 13:40:48 +0000
-Received: from AM6PR02MB4470.eurprd02.prod.outlook.com
- ([fe80::e5f3:a239:2ec4:4453]) by AM6PR02MB4470.eurprd02.prod.outlook.com
- ([fe80::e5f3:a239:2ec4:4453%6]) with mapi id 15.20.1537.018; Thu, 17 Jan 2019
- 13:40:48 +0000
-From:   Peter Rosin <peda@axentia.se>
-To:     Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        id S1727347AbfAQOX3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 17 Jan 2019 09:23:29 -0500
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:60307 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727228AbfAQOX0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jan 2019 09:23:26 -0500
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20190117142324euoutp0190ff5b11fc6a1a568d7434a596e47be7~6qMk_GlUI2353023530euoutp013
+        for <linux-doc@vger.kernel.org>; Thu, 17 Jan 2019 14:23:24 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20190117142324euoutp0190ff5b11fc6a1a568d7434a596e47be7~6qMk_GlUI2353023530euoutp013
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1547735004;
+        bh=kqHi7etvT6LqRMHmuqujN40XjeBE2Rqkmgsa9fcxX0k=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=WEd5c0O7yG7DcAmhf/Ku+ripSek1MWpC9ueajeXYDBUYBtkuIumMdNSOYeCuH2xJq
+         a+IRe6VoxCaG+/bCZA44uQDzYhCtw1Odhg+N9zp0NtRbUUqZqsofUdcB7q4658vYOl
+         n5HSqet01saMnAOfme9O99r9VZ0oDnwmhTRcvkgY=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20190117142323eucas1p253f02f8275b506798ebc76e27b0bc767~6qMklFJi-3138531385eucas1p21;
+        Thu, 17 Jan 2019 14:23:23 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 28.6F.04441.BDF804C5; Thu, 17
+        Jan 2019 14:23:23 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20190117142322eucas1p207baaff114cf906ab0f4a6dbbc6e3ad7~6qMjp-fWH2131221312eucas1p2d;
+        Thu, 17 Jan 2019 14:23:22 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20190117142322eusmtrp2e9e828d7f98657c28d211f777cda030b~6qMjaCKq60873408734eusmtrp24;
+        Thu, 17 Jan 2019 14:23:22 +0000 (GMT)
+X-AuditID: cbfec7f2-5c9ff70000001159-05-5c408fdb578c
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id 3D.B1.04284.ADF804C5; Thu, 17
+        Jan 2019 14:23:22 +0000 (GMT)
+Received: from [106.120.53.102] (unknown [106.120.53.102]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20190117142322eusmtip2768723f9df714b31a1875d3d37eb3683~6qMjDS4Qs2873628736eusmtip2W;
+        Thu, 17 Jan 2019 14:23:22 +0000 (GMT)
+Subject: Re: [PATCH v2] fbdev: fbmem: convert CONFIG_FB_LOGO_CENTER into a
+ cmd, line option
+To:     Peter Rosin <peda@axentia.se>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
         "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Linux Documentation List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2] fbdev: fbmem: convert CONFIG_FB_LOGO_CENTER into a
- cmd, line option
-Thread-Topic: [PATCH v2] fbdev: fbmem: convert CONFIG_FB_LOGO_CENTER into a
- cmd, line option
-Thread-Index: AQHUpnTHhyvatHzd/0Csq85rfagf/6WyKPgAgAFepQA=
-Date:   Thu, 17 Jan 2019 13:40:48 +0000
-Message-ID: <672688c8-1115-1cf8-cac9-82c19219ea3a@axentia.se>
-References: <20181126215725.2548-1-peda@axentia.se>
- <20181126215725.2548-3-peda@axentia.se>
- <CAMuHMdVfoRP_yNL5HcmwwV3fn9GqnsbORtG_hOhWw3qUeMKFKQ@mail.gmail.com>
- <37be75aa-7a63-a937-6de7-777a31af741b@axentia.se>
- <CAMuHMdXR2iuftV26s-EnKo74vZxcW2w_R1dD_Mk+Ug8MsNwL3Q@mail.gmail.com>
- <cb772a2f-2d33-6d0e-9ea6-ba9eb49023f9@axentia.se>
- <662db203-ae18-4a11-7b10-3d7d480f6f37@axentia.se>
- <CAMuHMdXMidVgtz-T8PZDUrKAwJmz9B4g1hNgw6FwrCpU-m5Gew@mail.gmail.com>
- <CGME20190107103630epcas3p1939481c5a659d9dd0f11d026d7f4c4e1@epcas3p1.samsung.com>
- <6a9be31e-0bb4-d477-99e6-6cac3cd5087f@axentia.se>
- <96876402-8860-5c8a-a28f-81f8df58d0ce@samsung.com>
-In-Reply-To: <96876402-8860-5c8a-a28f-81f8df58d0ce@samsung.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
-x-originating-ip: [85.226.244.23]
-x-clientproxiedby: HE1PR05CA0297.eurprd05.prod.outlook.com
- (2603:10a6:7:93::28) To AM6PR02MB4470.eurprd02.prod.outlook.com
- (2603:10a6:20b:60::26)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;AM6PR02MB3784;6:FJ85t6o6zFxhgiBFnjMX88sLNrHP3MHO6Mk3vu9hhRf6HeZZzBLKjeXeIvunf5uL6+v7O4CCHBdBJR7ZPI7AxzlG0DWMIS27sQkjmXe0qEa0uwN4Jr4xhjl4NT5eolrw9BhPykIhUWie2ZOiXdiUh+8v72XQb85IvESo1kAiG3Gq6KOImqm7OTASK3CcnQxzthsPxm5HcVB0bGAJx8edrl3X0iqlM5jh2tT+176wI/q8PtDs7Vk8id5msL51MpbZCgM2ZlPNzep4dOBaySGwaysOD5lbzs2376zYaeFVUtt2RCwvxZHaRy8GRqOS6KXrWJzqAHnobeWjGodru25LmFQjtIGomgLU1WOm6GXZ8sh8gPU4xj27KHMHpmg8/TUV7NzVvKpaslNnlGLcoM4HyXe7Ws7ldA0YNTpDhqCxswXx05f2tB8msxP8gPzFWHeussQrUHE11pEE9NbG5c05FQ==;5:wr2BVpKQzcBzP0u4ADl/6sQqqQYx/lyCu7Wi0oWljPbeXQbXBt6yodyHpSE9KaB7TtgFswlFmFuBKoqliE8Uf46hBE67OpCwyag8/NUJqUJdqczvy/WNPgVcZREdqWtviqcVUkBS2X7SuqTXHTxfrFHsFY6yRXRjw3lzomgSB4SI+LRyWswLqfmfEG3qH3V4B8rdQaQ29HcvdlhebpZWGg==;7:cUMNtnQexbbosvAZrl2TO3srWQ/3cKHg8gwZTM5bQwaeltmPB5JicdS6V/BRaR32DMs6vM3snHR6fuccFWGUmLJV+/nh26bvqqhlkIdB/c2w/JJ+6bgkqUXvdNDCSRpnjh7V4UkwOdHT+lvEj1eJog==
-x-ms-office365-filtering-correlation-id: 234f000b-17d1-4d24-17ca-08d67c816363
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(4534185)(7022145)(4603075)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(5600109)(711020)(2017052603328)(7153060)(7193020);SRVR:AM6PR02MB3784;
-x-ms-traffictypediagnostic: AM6PR02MB3784:
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=peda@axentia.se; 
-x-microsoft-antispam-prvs: <AM6PR02MB37844CAB873295E3CFEC89DDBC830@AM6PR02MB3784.eurprd02.prod.outlook.com>
-x-forefront-prvs: 0920602B08
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39830400003)(396003)(376002)(136003)(366004)(346002)(189003)(199004)(316002)(54906003)(58126008)(229853002)(305945005)(68736007)(6512007)(64126003)(508600001)(71200400001)(65806001)(14454004)(86362001)(65956001)(66066001)(31686004)(14444005)(256004)(71190400001)(76176011)(476003)(446003)(6916009)(99286004)(52116002)(11346002)(2616005)(486006)(8676002)(8936002)(81156014)(81166006)(7736002)(74482002)(53936002)(53546011)(6506007)(386003)(102836004)(106356001)(105586002)(4326008)(6116002)(3846002)(25786009)(186003)(26005)(36756003)(65826007)(6246003)(97736004)(5660300001)(6436002)(2906002)(93886005)(31696002)(6486002);DIR:OUT;SFP:1102;SCL:1;SRVR:AM6PR02MB3784;H:AM6PR02MB4470.eurprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: axentia.se does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 4/tTwzHwuxjT5gDSh9YWlaWTfy0XVFIoBbjoqdXa53U8vD2HInEUzchV1tQ/O0Lpe2e724UYLGWqd+e0rd4tiiscy7YKSVt009hkVvsqE/jIaipw1Pzaf5a+lZj/Phw10PyckxAxuyRulKJCAafaKi/sJSs0fj8UkMnHYlz4DfG4GXrs/ZFzBrevjWafFphIF5pli5bqlQ6Otvr9Y9kSiP1YPU6wo3xWRYkbZQKwJU1CjsrM8ff8e/U7KSPP1qLGB60irsGyDex8oz3gwuW9lXUE3JcT7zgi6Oe87VzgYmQKC0GIIHljjsW2OXGxJIuo2g/kmz04ODGOKIEGqKix4hylVY3dRrL0PbFaSkd9sElieZWAwIxV0qD+V2w04xavmw9CR/SLneTW2hRI41AqlNH7FxEKGr1s3O0w8MEyMhM=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <30DB0D08358DED4EB486AE830FAA3485@eurprd02.prod.outlook.com>
-Content-Transfer-Encoding: base64
+From:   Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Message-ID: <91d4948b-d68c-f9d6-1ffd-e848851595ab@samsung.com>
+Date:   Thu, 17 Jan 2019 15:23:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+        Thunderbird/45.3.0
 MIME-Version: 1.0
-X-OriginatorOrg: axentia.se
-X-MS-Exchange-CrossTenant-Network-Message-Id: 234f000b-17d1-4d24-17ca-08d67c816363
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jan 2019 13:40:47.4714
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4ee68585-03e1-4785-942a-df9c1871a234
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR02MB3784
+In-Reply-To: <672688c8-1115-1cf8-cac9-82c19219ea3a@axentia.se>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprLKsWRmVeSWpSXmKPExsWy7djP87q3+x1iDLpvy1o8OdDOaHHl63s2
+        i2e39jJZLGxbwmJxou8Dq8XlXXPYLPYems/owO4x7cBsdo9DhzsYPe53H2fyWNw3mdXj8ya5
+        ANYoLpuU1JzMstQifbsErozLU5wKlvFVbP1/h7WB8SV3FyMnh4SAicS2q9eYuhi5OIQEVjBK
+        3Np6kBXC+cIoceXIJSjnM6PEvLOT2GFajs3uhmpZzihxbsEuqKr3jBKffp9nAqkSFoiVePxz
+        BRuILSKgKLFg1yxmkCJmgXNMEo9fz2QGSbAJWElMbF/F2MXIwcErYCfxuF0HJMwioCrx6FE3
+        M0hYVCBCov+MOkiYV0BQ4uTMJywgNidQ9aPL08AOYhaQl9j+dg7YeAmBVewS2/cdhLrUReL4
+        4WcsELawxKvjW6DiMhL/d85ngmiYzijx5tdSFghnPaPEmjPHmCCqrCUOH7/ICnIFs4CmxPpd
+        +iCmhICjxO8FPhAmn8SNt4IQN/BJTNo2nRkizCvR0SYEMUNNYsOyDWwwW7t2rmSGsD0kDs66
+        zTyBUXEWks9mIflmFsLaBYzMqxjFU0uLc9NTiw3zUsv1ihNzi0vz0vWS83M3MQITzel/xz/t
+        YPx6KekQowAHoxIPb4eZfYwQa2JZcWXuIUYJDmYlEV7fdocYId6UxMqq1KL8+KLSnNTiQ4zS
+        HCxK4rzVDA+ihQTSE0tSs1NTC1KLYLJMHJxSDYz5CfUCQqm3tPSzz1dyLfuzbza7ghhXaQ2X
+        y94W/X6foLNXKiZnexfYZcamcjAmfDhptu1VTJS36jMm2RPrDjn52s/xy2fk/Wt59NVULSb7
+        +4tvPBTfxZ81bWkb7/yqb1ttfjx3tu+ue8J7of+w5h6R5y8czD68m9ezhHXRhDkvtz+POPTR
+        g0GJpTgj0VCLuag4EQCwenRtMAMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCIsWRmVeSWpSXmKPExsVy+t/xe7q3+h1iDD5fkbN4cqCd0eLK1/ds
+        Fs9u7WWyWNi2hMXiRN8HVovLu+awWew9NJ/Rgd1j2oHZ7B6HDncwetzvPs7ksbhvMqvH501y
+        AaxRejZF+aUlqQoZ+cUltkrRhhZGeoaWFnpGJpZ6hsbmsVZGpkr6djYpqTmZZalF+nYJehmX
+        pzgVLOOr2Pr/DmsD40vuLkZODgkBE4ljs7uZuhi5OIQEljJK3D2yhLGLkQMoISNxfH0ZRI2w
+        xJ9rXWwQNW8ZJTZ92sQOkhAWiJV4/HMFG4gtIqAosWDXLGaIov2sEutWdYN1MAtcYJLYcqmV
+        EaSKTcBKYmL7KrANvAJ2Eo/bdUDCLAKqEo8edTOD2KICERK3HnawgNi8AoISJ2c+AbM5gcof
+        XZ4GtphZQF3iz7xLzBC2vMT2t3OYJzAKzkLSMgtJ2SwkZQsYmVcxiqSWFuem5xYb6hUn5haX
+        5qXrJefnbmIExtC2Yz8372C8tDH4EKMAB6MSD2+HmX2MEGtiWXFl7iFGCQ5mJRFe33aHGCHe
+        lMTKqtSi/Pii0pzU4kOMpkBPTGSWEk3OB8Z3Xkm8oamhuYWlobmxubGZhZI473mDyighgfTE
+        ktTs1NSC1CKYPiYOTqkGxj7vt+o7p+5MnbL+WtvMy7qfcn0uzpQT2pxu8d5W4IJY/c0/DB5/
+        P1cdsFV9LMs5W/CD4JKexwZHt8i+3Lsv+c2Oqsqpf/3XxZd/aYkQ2phhl79/0eNVzIz3uH4+
+        84yYdTbPfqFG44KH1+Z+ZtQwqJp5oHPyzKmalTt9fy8w/qarumqmAKfaB3MlluKMREMt5qLi
+        RAAc0/ETtwIAAA==
+X-CMS-MailID: 20190117142322eucas1p207baaff114cf906ab0f4a6dbbc6e3ad7
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20190107103630epcas3p1939481c5a659d9dd0f11d026d7f4c4e1
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190107103630epcas3p1939481c5a659d9dd0f11d026d7f4c4e1
+References: <20181126215725.2548-1-peda@axentia.se>
+        <20181126215725.2548-3-peda@axentia.se>
+        <CAMuHMdVfoRP_yNL5HcmwwV3fn9GqnsbORtG_hOhWw3qUeMKFKQ@mail.gmail.com>
+        <37be75aa-7a63-a937-6de7-777a31af741b@axentia.se>
+        <CAMuHMdXR2iuftV26s-EnKo74vZxcW2w_R1dD_Mk+Ug8MsNwL3Q@mail.gmail.com>
+        <cb772a2f-2d33-6d0e-9ea6-ba9eb49023f9@axentia.se>
+        <662db203-ae18-4a11-7b10-3d7d480f6f37@axentia.se>
+        <CAMuHMdXMidVgtz-T8PZDUrKAwJmz9B4g1hNgw6FwrCpU-m5Gew@mail.gmail.com>
+        <CGME20190107103630epcas3p1939481c5a659d9dd0f11d026d7f4c4e1@epcas3p1.samsung.com>
+        <6a9be31e-0bb4-d477-99e6-6cac3cd5087f@axentia.se>
+        <96876402-8860-5c8a-a28f-81f8df58d0ce@samsung.com>
+        <672688c8-1115-1cf8-cac9-82c19219ea3a@axentia.se>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gMjAxOS0wMS0xNiAxNzo0NSwgQmFydGxvbWllaiBab2xuaWVya2lld2ljeiB3cm90ZToNCj4g
-T24gMDEvMDcvMjAxOSAxMTozNSBBTSwgUGV0ZXIgUm9zaW4gd3JvdGU6DQo+PiBSaWdodC4gU28s
-IGhlcmUncyBhbiB1cGRhdGUuLi4NCj4+DQo+PiBBZ2FpbiwgaXQgd291bGQgcHJvYmFibHkgYmUg
-YmVzdCBpZiB0aGlzIHdlbnQgaW4gYmVmb3JlIDUuMCBpcyByZWxlYXNlZC4NCj4+DQo+PiBDaGFu
-Z2VzIHNpbmNlIHYxOg0KPj4gLSByZW5hbWUgZnJvbSBmYmNvbj1jZW50ZXItbG9nbyBvcHRpb24g
-dG8gZmJjb249bG9nby1wb3M6Y2VudGVyIChhbmQgYWRqdXN0DQo+PiAgIHRoZSBoZWxwIHRleHQg
-YWNjb3JkaW5nbHkpLg0KPj4NCj4+IENoZWVycywNCj4+IFBldGVyDQo+Pg0KPj4gRnJvbSBlYmZi
-MmZlYjdlYTQyOThhYzljMjIyZTZlYTZmOWM5YTkyNDUyMDg0IE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQ0KPj4gRnJvbTogUGV0ZXIgUm9zaW4gPHBlZGFAYXhlbnRpYS5zZT4NCj4+IENjOiBCYXJ0
-bG9taWVqIFpvbG5pZXJraWV3aWN6IDxiLnpvbG5pZXJraWVAc2Ftc3VuZy5jb20+DQo+PiBDYzog
-Sm9uYXRoYW4gQ29yYmV0IDxjb3JiZXRAbHduLm5ldD4NCj4+IENjOiBQZXRlciBSb3NpbiA8cGVk
-YUBheGVudGlhLnNlPg0KPj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCj4+
-IENjOiBsaW51eC1mYmRldkB2Z2VyLmtlcm5lbC5vcmcNCj4+IENjOiBsaW51eC1kb2NAdmdlci5r
-ZXJuZWwub3JnDQo+PiBUbzogbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZw0KPj4gRGF0ZTog
-TW9uLCA3IEphbiAyMDE5IDA4OjM1OjI2ICswMTAwDQo+PiBTdWJqZWN0OiBbUEFUQ0ggdjJdIGZi
-ZGV2OiBmYm1lbTogY29udmVydCBDT05GSUdfRkJfTE9HT19DRU5URVIgaW50byBhIGNtZA0KPj4g
-IGxpbmUgb3B0aW9uDQo+Pg0KPj4gQSBjb21tYW5kIGxpbmUgb3B0aW9uIGlzIG11Y2ggbW9yZSBm
-bGV4aWJsZSB0aGFuIGEgY29uZmlnIG9wdGlvbiBhbmQNCj4+IHRoZSBzdXBwb3J0aW5nIGNvZGUg
-aXMgc21hbGwuIEdldHMgcmlkIG9mICNpZmRlZnMgaW4gdGhlIGNvZGUgdG9vLi4uDQo+Pg0KPj4g
-U3VnZ2VzdGVkLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4LW02OGsub3JnPg0K
-Pj4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgUm9zaW4gPHBlZGFAYXhlbnRpYS5zZT4NCj4gDQo+IFBh
-dGNoIHF1ZXVlZCBmb3IgNS4wLCB0aGFua3MuDQoNCkhtbSwgSSBzZWUgdGhlIHBhdGNoIG9uIHRo
-ZSBmYmRldi1mb3ItbmV4dCBicmFuY2gsIGJ1dCB0aGF0IHNvdW5kcw0KbGlrZSBzdHVmZiBkZXN0
-aW5lZCBmb3IgNS4xPyBNYXliZSB5b3Ugc2ltcGx5IGRvbid0IGhhdmUgYW55DQpmYmRldi1mb3It
-Y3VycmVudCBvciBmYmRldi1maXhlcyBicmFuY2ggb3Igc29tZXRoaW5nIGxpa2UgdGhhdD8NCg0K
-SnVzdCBjaGVja2luZyB0byBtYWtlIHN1cmUgd2UncmUgb24gdGhlIHNhbWUgcGFnZS4uLg0KDQpD
-aGVlcnMsDQpQZXRlcg0K
+
+On 01/17/2019 02:40 PM, Peter Rosin wrote:
+> On 2019-01-16 17:45, Bartlomiej Zolnierkiewicz wrote:
+>> On 01/07/2019 11:35 AM, Peter Rosin wrote:
+>>> Right. So, here's an update...
+>>>
+>>> Again, it would probably be best if this went in before 5.0 is released.
+>>>
+>>> Changes since v1:
+>>> - rename from fbcon=center-logo option to fbcon=logo-pos:center (and adjust
+>>>   the help text accordingly).
+>>>
+>>> Cheers,
+>>> Peter
+>>>
+>>> From ebfb2feb7ea4298ac9c222e6ea6f9c9a92452084 Mon Sep 17 00:00:00 2001
+>>> From: Peter Rosin <peda@axentia.se>
+>>> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+>>> Cc: Jonathan Corbet <corbet@lwn.net>
+>>> Cc: Peter Rosin <peda@axentia.se>
+>>> Cc: dri-devel@lists.freedesktop.org
+>>> Cc: linux-fbdev@vger.kernel.org
+>>> Cc: linux-doc@vger.kernel.org
+>>> To: linux-kernel@vger.kernel.org
+>>> Date: Mon, 7 Jan 2019 08:35:26 +0100
+>>> Subject: [PATCH v2] fbdev: fbmem: convert CONFIG_FB_LOGO_CENTER into a cmd
+>>>  line option
+>>>
+>>> A command line option is much more flexible than a config option and
+>>> the supporting code is small. Gets rid of #ifdefs in the code too...
+>>>
+>>> Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>>> Signed-off-by: Peter Rosin <peda@axentia.se>
+>>
+>> Patch queued for 5.0, thanks.
+> 
+> Hmm, I see the patch on the fbdev-for-next branch, but that sounds
+> like stuff destined for 5.1? Maybe you simply don't have any
+> fbdev-for-current or fbdev-fixes branch or something like that?
+
+Yes. the single public fbdev branch has been sufficient for now
+(there is no active fbdev development and patches for -rcX kernels
+are even more rare). OTOH there is no problem with adding -fixes
+branch once needed..
+
+Best regards,
+--
+Bartlomiej Zolnierkiewicz
+Samsung R&D Institute Poland
+Samsung Electronics
