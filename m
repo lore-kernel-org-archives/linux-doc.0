@@ -1,107 +1,199 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B5BBC7D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Jan 2019 00:06:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2A07C7D099
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Jan 2019 00:11:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727716AbfAQAG1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 16 Jan 2019 19:06:27 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49520 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725385AbfAQAG0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jan 2019 19:06:26 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x0H04Rjo079260
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jan 2019 19:06:25 -0500
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2q2bdrq3nj-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 16 Jan 2019 19:06:25 -0500
-Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Thu, 17 Jan 2019 00:06:23 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 17 Jan 2019 00:06:20 -0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x0H06JZE1638766
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 17 Jan 2019 00:06:19 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 67D97A4055;
-        Thu, 17 Jan 2019 00:06:19 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 65491A4040;
-        Thu, 17 Jan 2019 00:06:18 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.207.84])
-        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Thu, 17 Jan 2019 00:06:18 +0000 (GMT)
-Date:   Thu, 17 Jan 2019 02:06:16 +0200
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Joel Nider <JOELN@il.ibm.com>, Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v2 2/2] docs-rst: userspace: update verbs API details
-References: <1547547991-5314-1-git-send-email-joeln@il.ibm.com>
- <1547547991-5314-3-git-send-email-joeln@il.ibm.com>
- <20190115153128.GA6310@bombadil.infradead.org>
- <OF64BB6EB2.8999493B-ONC2258383.0058B5B7-C2258383.005AA2FD@notes.na.collabserv.com>
- <20190115110854.63200119@lwn.net>
- <OF76A381CC.2F8183CE-ONC2258383.006FEA4D-C2258383.007140CB@notes.na.collabserv.com>
- <20190115143859.4cbd5d9c@lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190115143859.4cbd5d9c@lwn.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 19011700-0008-0000-0000-000002B207F8
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19011700-0009-0000-0000-0000221E2315
-Message-Id: <20190117000615.GA18089@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-16_09:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=671 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1901160191
+        id S1728213AbfAQALK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 16 Jan 2019 19:11:10 -0500
+Received: from conuserg-12.nifty.com ([210.131.2.79]:16423 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728211AbfAQALK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Jan 2019 19:11:10 -0500
+Received: from grover.tkatk1.zaq.ne.jp (zaqdadce369.zaq.ne.jp [218.220.227.105]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id x0H0A7dI030467;
+        Thu, 17 Jan 2019 09:10:07 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com x0H0A7dI030467
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1547683808;
+        bh=SxYJYsVS6RJFLIMLIgeTo6HceNxuJCOtpPTp/5SyoXI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=cowC4sasdge8VQIXAb6Dl6frth/JC1zE0tSjTNzWPyK2LEgr1zrfE/OGjJw4T4fVO
+         YD0ct0gcIlCVLAWfeUdiWHQSTOeXr+F+OsZZTd9VNJsD6FHMALl0oyIGMZJdW3vLSY
+         KhbYlgZgNMPiokP76FIMOoUPZ1xgu3FsSQIQqGkgEtRNkDRiqS5/Qoh5gachuCNL7y
+         Ek4iR066V3ozGrsQ9i5Xri165VcTMOsCFpWFz6kyRNFa6w0+X4sogsEr9WAlOpIXp3
+         7NCZTpRD/JJl/wrGdjkf64Essbfty5enpWUd8KMyD4pn1w9v49ABFrSZvasV54nI/8
+         y7h2hmUlccuJw==
+X-Nifty-SrcIP: [218.220.227.105]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: [PATCH v3 1/2] kbuild: remove top-level built-in.a
+Date:   Thu, 17 Jan 2019 09:10:03 +0900
+Message-Id: <1547683804-17956-1-git-send-email-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
+The symbol table in the final archive is unneeded; the linker does not
+require the symbol table after the --whole-archive option. Every object
+file in the archive is included in the link anyway.
 
-On Tue, Jan 15, 2019 at 02:38:59PM -0700, Jonathan Corbet wrote:
-> On Tue, 15 Jan 2019 22:37:01 +0200
-> 
-> I'd rather see you put the new stuff under Documentation/driver-api, either
-> in a standalone file or in a new subdirectory.
-> 
-> Thanks for your patience with this!  We really do want people to contribute
-> more documentation, and I feel bad when it seems like I'm making it
-> harder.  My hope is that it will pay off in the long run; I think there are
-> signs already that this is happening.
+Pass thin archives from subdirectories directly to the linker, and
+remove the final archiving step.
 
-I believe its worth adding Documentation/doc-guide/where-to-put-stuff.rst
-with at least basic guidelines for the desired organization of
-Documentation/.
+Fix up the document and comments as well.
 
-> Thanks,
-> 
-> jon
-> 
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+Acked-by: Nicholas Piggin <npiggin@gmail.com>
+---
 
+Changes in v3: None
+Changes in v2:
+ - Update the document and comments
+ - Add Nicholas' Ack
+
+ Documentation/kbuild/makefiles.txt |  9 ++-------
+ scripts/Makefile.build             |  8 ++------
+ scripts/link-vmlinux.sh            | 30 ++++++------------------------
+ 3 files changed, 10 insertions(+), 37 deletions(-)
+
+diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
+index bf28c47..48eab0b 100644
+--- a/Documentation/kbuild/makefiles.txt
++++ b/Documentation/kbuild/makefiles.txt
+@@ -154,13 +154,8 @@ more details, with real examples.
+ 
+ 	Kbuild compiles all the $(obj-y) files.  It then calls
+ 	"$(AR) rcSTP" to merge these files into one built-in.a file.
+-	This is a thin archive without a symbol table, which makes it
+-	unsuitable as a linker input.
+-
+-	The scripts/link-vmlinux.sh script later makes an aggregate
+-	built-in.a with "${AR} rcsTP", which creates the thin archive
+-	with a symbol table and an index, making it a valid input for
+-	the final vmlinux link passes.
++	This is a thin archive without a symbol table. It will be later
++	linked into vmlinux by scripts/link-vmlinux.sh
+ 
+ 	The order of files in $(obj-y) is significant.  Duplicates in
+ 	the lists are allowed: the first instance will be linked into
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index fd03d60..681ab58 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -394,14 +394,10 @@ $(obj)/%.asn1.c $(obj)/%.asn1.h: $(src)/%.asn1 $(objtree)/scripts/asn1_compiler
+ $(sort $(subdir-obj-y)): $(subdir-ym) ;
+ 
+ #
+-# Rule to compile a set of .o files into one .o file
++# Rule to compile a set of .o files into one .a file (without symbol table)
+ #
+ ifdef builtin-target
+ 
+-# built-in.a archives are made with no symbol table or index which
+-# makes them small and fast, but unable to be used by the linker.
+-# scripts/link-vmlinux.sh builds an aggregate built-in.a with a symbol
+-# table and index.
+ quiet_cmd_ar_builtin = AR      $@
+       cmd_ar_builtin = rm -f $@; \
+                      $(AR) rcSTP$(KBUILD_ARFLAGS) $@ $(filter $(real-obj-y), $^)
+@@ -426,7 +422,7 @@ $(modorder-target): $(subdir-ym) FORCE
+ 	$(Q)(cat /dev/null; $(modorder-cmds)) > $@
+ 
+ #
+-# Rule to compile a set of .o files into one .a file
++# Rule to compile a set of .o files into one .a file (with symbol table)
+ #
+ ifdef lib-target
+ quiet_cmd_link_l_target = AR      $@
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index c8cf453..4788def 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -44,24 +44,6 @@ info()
+ 	fi
+ }
+ 
+-# Thin archive build here makes a final archive with symbol table and indexes
+-# from vmlinux objects INIT and MAIN, which can be used as input to linker.
+-# KBUILD_VMLINUX_LIBS archives should already have symbol table and indexes
+-# added.
+-#
+-# Traditional incremental style of link does not require this step
+-#
+-# built-in.a output file
+-#
+-archive_builtin()
+-{
+-	info AR built-in.a
+-	rm -f built-in.a;
+-	${AR} rcsTP${KBUILD_ARFLAGS} built-in.a			\
+-				${KBUILD_VMLINUX_INIT}		\
+-				${KBUILD_VMLINUX_MAIN}
+-}
+-
+ # Link of vmlinux.o used for section mismatch analysis
+ # ${1} output file
+ modpost_link()
+@@ -69,7 +51,8 @@ modpost_link()
+ 	local objects
+ 
+ 	objects="--whole-archive				\
+-		built-in.a					\
++		${KBUILD_VMLINUX_INIT}				\
++		${KBUILD_VMLINUX_MAIN}				\
+ 		--no-whole-archive				\
+ 		--start-group					\
+ 		${KBUILD_VMLINUX_LIBS}				\
+@@ -88,7 +71,8 @@ vmlinux_link()
+ 
+ 	if [ "${SRCARCH}" != "um" ]; then
+ 		objects="--whole-archive			\
+-			built-in.a				\
++			${KBUILD_VMLINUX_INIT}			\
++			${KBUILD_VMLINUX_MAIN}			\
+ 			--no-whole-archive			\
+ 			--start-group				\
+ 			${KBUILD_VMLINUX_LIBS}			\
+@@ -99,7 +83,8 @@ vmlinux_link()
+ 			-T ${lds} ${objects}
+ 	else
+ 		objects="-Wl,--whole-archive			\
+-			built-in.a				\
++			${KBUILD_VMLINUX_INIT}			\
++			${KBUILD_VMLINUX_MAIN}			\
+ 			-Wl,--no-whole-archive			\
+ 			-Wl,--start-group			\
+ 			${KBUILD_VMLINUX_LIBS}			\
+@@ -160,7 +145,6 @@ cleanup()
+ 	rm -f .tmp_System.map
+ 	rm -f .tmp_kallsyms*
+ 	rm -f .tmp_vmlinux*
+-	rm -f built-in.a
+ 	rm -f System.map
+ 	rm -f vmlinux
+ 	rm -f vmlinux.o
+@@ -217,8 +201,6 @@ fi;
+ # final build of init/
+ ${MAKE} -f "${srctree}/scripts/Makefile.build" obj=init
+ 
+-archive_builtin
+-
+ #link vmlinux.o
+ info LD vmlinux.o
+ modpost_link vmlinux.o
 -- 
-Sincerely yours,
-Mike.
+2.7.4
 
