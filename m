@@ -1,119 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SORTED_RECIPS autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D85997D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Jan 2019 06:33:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 41ED97D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Jan 2019 08:13:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727011AbfAQGd0 convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 17 Jan 2019 01:33:26 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:53760 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725882AbfAQGd0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jan 2019 01:33:26 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id x0H6TNpp005692
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jan 2019 01:33:24 -0500
-Received: from smtp.notes.na.collabserv.com (smtp.notes.na.collabserv.com [192.155.248.91])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2q2g2nr8u6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jan 2019 01:33:24 -0500
-Received: from localhost
-        by smtp.notes.na.collabserv.com with smtp.notes.na.collabserv.com ESMTP
-        for <linux-doc@vger.kernel.org> from <JOELN@il.ibm.com>;
-        Thu, 17 Jan 2019 06:33:24 -0000
-Received: from us1a3-smtp08.a3.dal06.isc4sb.com (10.146.103.57)
-        by smtp.notes.na.collabserv.com (10.106.227.143) with smtp.notes.na.collabserv.com ESMTP;
-        Thu, 17 Jan 2019 06:33:18 -0000
-Received: from us1a3-mail108.a3.dal06.isc4sb.com ([10.146.45.126])
-          by us1a3-smtp08.a3.dal06.isc4sb.com
-          with ESMTP id 2019011706331761-80739 ;
-          Thu, 17 Jan 2019 06:33:17 +0000 
-In-Reply-To: <20190115143859.4cbd5d9c@lwn.net>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>,
-        Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v2 2/2] docs-rst: userspace: update verbs API details
-From:   "Joel Nider" <JOELN@il.ibm.com>
-Date:   Thu, 17 Jan 2019 08:33:17 +0200
-References: <1547547991-5314-1-git-send-email-joeln@il.ibm.com><1547547991-5314-3-git-send-email-joeln@il.ibm.com><20190115153128.GA6310@bombadil.infradead.org><OF64BB6EB2.8999493B-ONC2258383.0058B5B7-C2258383.005AA2FD@notes.na.collabserv.com><20190115110854.63200119@lwn.net><OF76A381CC.2F8183CE-ONC2258383.006FEA4D-C2258383.007140CB@notes.na.collabserv.com>
- <20190115143859.4cbd5d9c@lwn.net>
+        id S1727334AbfAQINc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 17 Jan 2019 03:13:32 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:42296 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726819AbfAQINb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jan 2019 03:13:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=Y4uxIJ+NmKS4i1/qDFOJcjGOWHA5fYMzGvsJDpvLNMk=; b=Gb3Z2a5/SgLc7y6cDeKRsD6/b
+        UGyiZaiVvFOZBwXSKjGIYRsQNt6oZrxmzioVR9lNQDxgqinTD+S5lDERHN1ve0DaliP4AwKyITgCM
+        A+UCHwHAEEHzqwPGKMUytNEjA1IxycEObBOFm2SKjW9QKxa4IhnfAgppSs+foYr4ZPx9gJsX9BStQ
+        sBlgLXbY4Pr9Ohz+5g94z2E7eFXauAu5PKKbSLuqAPScIthGvavDjNylmSQvJQsT1cvRNkkMqFHVK
+        cfKQWe6maqz0v82+VU2+yFeXHBL3SWB5DG6pWbwzELav8dUpHCYgZnkf3mU7rYJrOR8kw1h8KeQfb
+        TUhbIbMqQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gk2nc-0005l8-6v; Thu, 17 Jan 2019 08:13:16 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 403C2202647C2; Thu, 17 Jan 2019 09:13:14 +0100 (CET)
+Date:   Thu, 17 Jan 2019 09:13:14 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Suren Baghdasaryan <surenb@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tejun Heo <tj@kernel.org>, lizefan@huawei.com, axboe@kernel.dk,
+        dennis@kernel.org, Dennis Zhou <dennisszhou@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, kernel-team@android.com
+Subject: Re: [PATCH v2 5/5] psi: introduce psi monitor
+Message-ID: <20190117081314.GD10486@hirez.programming.kicks-ass.net>
+References: <20190110220718.261134-1-surenb@google.com>
+ <20190110220718.261134-6-surenb@google.com>
+ <20190114102137.GB14054@worktop.programming.kicks-ass.net>
+ <CAJuCfpGUWs0E9oPUjPTNm=WhPJcE_DBjZCtCiaVu5WXabKRW6A@mail.gmail.com>
+ <20190116132446.GF10803@hirez.programming.kicks-ass.net>
+ <CAJuCfpEJW6Uq4GSGEGLKOM4K7ySHUeTGrSUGM1+EJSQ16d8SJg@mail.gmail.com>
+ <20190116191728.GA1380@cmpxchg.org>
 MIME-Version: 1.0
-X-KeepSent: 50C1BD06:78985B8A-C2258384:004ECD0A;
- type=4; name=$KeepSent
-X-Mailer: IBM Notes Release 9.0.1FP7 August 18, 2016
-X-LLNOutbound: False
-X-Disclaimed: 45319
-X-TNEFEvaluated: 1
-x-cbid: 19011706-9951-0000-0000-00000B003666
-X-IBM-SpamModules-Scores: BY=0; FL=0; FP=0; FZ=0; HX=0; KW=0; PH=0;
- SC=0.40962; ST=0; TS=0; UL=0; ISC=; MB=0.066691
-X-IBM-SpamModules-Versions: BY=3.00010422; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000274; SDB=6.01147643; UDB=6.00597830; IPR=6.00927941;
- BA=6.00006203; NDR=6.00000001; ZLA=6.00000005; ZF=6.00000009; ZB=6.00000000;
- ZP=6.00000000; ZH=6.00000000; ZU=6.00000002; MB=3.00025167; XFM=3.00000015;
- UTC=2019-01-17 06:33:23
-X-IBM-AV-DETECTION: SAVI=unsuspicious REMOTE=unsuspicious XFE=unused
-X-IBM-AV-VERSION: SAVI=2019-01-16 23:56:54 - 6.00009474
-x-cbparentid: 19011706-9952-0000-0000-00001AFB94B3
-Message-Id: <OF50C1BD06.78985B8A-ONC2258384.004ECD0A-C2258385.0024016B@notes.na.collabserv.com>
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 8BIT
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-17_02:,,
- signatures=0
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190116191728.GA1380@cmpxchg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet <corbet@lwn.net> wrote on 01/15/2019 11:38:59 PM:
+On Wed, Jan 16, 2019 at 02:17:28PM -0500, Johannes Weiner wrote:
 
-> We are not attempting to duplicate the man pages; there's been 
-occasional
-> talk of bringing them into the kernel tree, but enthusiasm for that is
-> scarce for a number of good reasons.  But there's a lot of information
-> about the user-space API that isn't in the man pages, including the 
-piece
-> you are converting to RST.
-
-My next task is to update the man pages for rdma-core since I touched 
-libibverbs as well (the _other_ side of this API). So I just want to make 
-sure everything is documented exactly once (no more, no less) and in the 
-correct place.
-
-> For something like this, driver-api seems like the right place. Someday,
-> in some glorious future, it could contain a full manual on how these
-> drivers are written, using all of the nice kerneldoc comments that 
-already
-> exist under drivers/infiniband.
+> > > Also, you probably want to use atomic_t for g->polling, because we
+> > > (sadly) have architectures where regular stores and atomic ops don't
+> > > work 'right'.
+> > 
+> > Oh, I see. Will do. Thanks!
 > 
-> > OK, just to be clear - you are asking me to leave the original file 
-as-is 
-> > (well, after .rst conversion) but move it to the new location 
-> > (Documentation/userspace-api), and put my new content into a new file 
-in 
-> > the old location (Documentation/infiniband)?
-> 
-> I'd rather see you put the new stuff under Documentation/driver-api, 
-either
-> in a standalone file or in a new subdirectory.
+> Yikes, that's news to me too. Good to know.
 
-I took a quick look at what is already there, and I don't see how the RDMA 
-stuff fits. It looks like the majority is about various busses (SPI, PCI, 
-I2C, USB, etc) or other general platform support (clk, edac) that I would 
-use when writing a driver. My changes are very infiniband-specific, and 
-user-facing and don't really seem to fit in with the aforementioned 
-modules. It seems to me that if it does not belong in userspace-api, then 
-leaving it where it is is the best choice.
+See Documentation/atomic_t.txt, specifically the atomic_set() part in
+SEMANTICS.
 
-Regards,
-Joel
+Archs that suffer this include (but are not limited to): parisc,
+sparc32-smp, something arc.
 
-
+And yes, I would dearly love to kill all SMP support for architectures
+like that..
