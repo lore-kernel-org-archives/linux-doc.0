@@ -1,82 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7E2D07D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Jan 2019 12:13:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 953E17D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Jan 2019 12:47:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727082AbfAQMM4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 17 Jan 2019 07:12:56 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:42920 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726991AbfAQMM4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jan 2019 07:12:56 -0500
-Received: by mail-ot1-f68.google.com with SMTP id v23so10874315otk.9
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jan 2019 04:12:56 -0800 (PST)
+        id S1726066AbfAQMrs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 17 Jan 2019 07:47:48 -0500
+Received: from mail-io1-f67.google.com ([209.85.166.67]:33968 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726065AbfAQMrs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jan 2019 07:47:48 -0500
+Received: by mail-io1-f67.google.com with SMTP id b16so7729734ior.1;
+        Thu, 17 Jan 2019 04:47:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=2i62l1RZ2Xxho+N5+QceoL6NMK+JFFGPVOl2S8RZleo=;
-        b=C19+Y6YplMQFh5f7nkzET5jxbKi008OCEGVdsEZ95dtpos84JszUI53bIGzxuYAoT5
-         Z/MLeyBK45pSrSvTanHN3jIQTrXRj+pTe07CZdEZTeG15DFJO3dgasMGJrC0qKndUT24
-         3d6ghq5nb86I3tAUOG3SHutWIEx2U08+1JR22nwbOy05joJEhjMKwJEV6EAJpSCK0wYI
-         zg/nzlDEjLPTg2dqYI9YtymAwKr1Qj6LNICsJ3+9Wzn9kniXsnZxCoaVTl1cHNlnbpAl
-         O964qtNjrnu4JNo9KO5dLJJX5piYH1utgfmc1wOKFiMNLn14r+dmW+qxOawZ/hxNP9w0
-         VkeA==
+         :cc;
+        bh=s3fwbbwVsofMKhpSE5fgZb9rOkZsQ89dbXltbx9H7jo=;
+        b=hokTKV3DkuY+UmoJLIaODm8H1uM2q2eHdB2UFA9XliRcOHACcuFQSHZdlEYQlPTtq6
+         98+eWC348NCWG8WiLRXkNUPIVC5eGnvh5204//bX129BoryMPq085AaoSONGswxfekN0
+         uZvO6k/OVCOcS5icPOjl8Vlpt3toNOkB/71o0ORYjCk5dWZ4pJgPhUHZWt+/Yr12pcOu
+         5IvBPzZWALb7oMTu40SvC9qqe/Jcuyi9GB4/qry20ywcsDUXNjoloujbyenIVcAoJS7P
+         X7LaUBLnRnUJxeIcIKrqVtLwsfcjZdxRB3EXVML/NRqjjC+MmhAH7lxJc6NHB07y+RZL
+         awIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=2i62l1RZ2Xxho+N5+QceoL6NMK+JFFGPVOl2S8RZleo=;
-        b=thOG5Dyp4sD7c8o7UQ7WXLTV/xt2oWS7f9YImNwHhaEpqxC7TPUvHzVgiqR8qpSan9
-         WDDgDrZMEGgDHXptdOFkqCsAc+/HB91wDWUyQlxc3I0gZn5EMh7La9zVVckDziRdJ1sM
-         nQRHQqsagXrZeEQNLLfeYKYgWpyRxlHEyNM4ovog3HeKP7BK9PApS97JZ9xyNJovdZzq
-         +jB4hLODwpV0/uPZR8oJrp3z2b9jNsZW6Zru8MNyK3UdWyUbAvXFIWWDo/OfUux+U5fy
-         2WSrCX/NrR2jDgFo5EuRxIi5mwukhZVihW4rGDkmUiAR1PH9hhdHaeSYUneztLO9l9fj
-         v7cw==
-X-Gm-Message-State: AJcUukd9yxsK9KcrOe4b7IW6lmuFTcst9aB9zSwaZWnai5nBcTsfiDGL
-        Hvb911jw2xQaIgnxMe41wnACthJaH6eC+HPa1lLIA6rWsFY=
-X-Google-Smtp-Source: ALg8bN719629qaqKSIGYp7xBXIRw5W9cIuUN8efeUgyoEDHRRaUdV+VBRcXWwFxxNAb27qAh/Ex59AWKx5+WRrFlPmM=
-X-Received: by 2002:a9d:6191:: with SMTP id g17mr8790446otk.56.1547727175952;
- Thu, 17 Jan 2019 04:12:55 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=s3fwbbwVsofMKhpSE5fgZb9rOkZsQ89dbXltbx9H7jo=;
+        b=tpXUun1qKJWWAQHJWZ5sJQPOrOzf8hAUTDyODxVTMqlaZCGGz/MiQxwSig2f0WEidK
+         CXtX9Yo8r7VmGO4BvvC4SKDBzBBAzS2hXC3TQYGdGw3cCZHZQd0grXMMiUv6NnwD8fen
+         E1RXtAzWZbfvF0gPkhhcqAnVw9LByKQrzX8JnpVOJqJcQPMCCvwrzXtrrmavYu0SHmat
+         GHtW1VD3K+SEGekceasz4WJlYik7Ios37mGikCFFF/aWRUe1zSxfaUaoHzvQPsIXVNOm
+         aT2w9/Bv0xbDRCeTHfv0nQGbWb30in9hKIdBSUYMQcDTElrs2m9vM9JNbdutYnW58K9H
+         NORw==
+X-Gm-Message-State: AJcUukerrQ98AoyPEe7CJzp9AxTt8CxvYtUbXl7C9HgembKfyHiIHTmZ
+        HJzVk380cjTRFdqa0mfedIfTI/yDx3Vln1CSCZQ=
+X-Google-Smtp-Source: ALg8bN4BHnqWtoWTeCAAQunkiLirqvZhbHCN5R2etw5yo6gZ38XcxEvjraow8SbmCnMb0dvr0LCSiHwsxvFoTImPs/Q=
+X-Received: by 2002:a6b:f814:: with SMTP id o20mr7437690ioh.129.1547729266696;
+ Thu, 17 Jan 2019 04:47:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20190117101321.2164-1-wsa+renesas@sang-engineering.com> <CAMuHMdWtXA9Q66vCuG6U-+04kqu2F=DOA63pTkeMZ06EzfOQkQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdWtXA9Q66vCuG6U-+04kqu2F=DOA63pTkeMZ06EzfOQkQ@mail.gmail.com>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Thu, 17 Jan 2019 13:12:45 +0100
-Message-ID: <CAMpxmJXEs1Lg775GtNq9p-feVW3yGU_yJM30n2OOgsm1i=2LUg@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: gpio: driver: fix wire name for I2C
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20180619082445.11062-1-thellstrom@vmware.com> <20180619082445.11062-3-thellstrom@vmware.com>
+ <CAF6AEGubXRVL-PA7TUvW-oF3tTL=oaQ4F+AD_AiX=wUjxCov1g@mail.gmail.com> <9c07b391c16db8b0c788afd4692cc8191baff1aa.camel@vmware.com>
+In-Reply-To: <9c07b391c16db8b0c788afd4692cc8191baff1aa.camel@vmware.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Thu, 17 Jan 2019 07:47:34 -0500
+Message-ID: <CAF6AEGvLOKOScQFMHVAFweGDnbR1E3ORqzH6mymJ60rTXkZEfw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] locking: Implement an algorithm choice for
+ Wound-Wait mutexes
+To:     Thomas Hellstrom <thellstrom@vmware.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "dave@stgolabs.net" <dave@stgolabs.net>,
+        "josh@joshtriplett.org" <josh@joshtriplett.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "seanpaul@chromium.org" <seanpaul@chromium.org>,
+        Pv-drivers <Pv-drivers@vmware.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "gustavo@padovan.org" <gustavo@padovan.org>,
+        "maarten.lankhorst@linux.intel.com" 
+        <maarten.lankhorst@linux.intel.com>,
+        Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
+        "paulmck@linux.vnet.ibm.com" <paulmck@linux.vnet.ibm.com>,
+        "airlied@linux.ie" <airlied@linux.ie>,
+        "pombredanne@nexb.com" <pombredanne@nexb.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-czw., 17 sty 2019 o 11:24 Geert Uytterhoeven <geert@linux-m68k.org> napisa=
-=C5=82(a):
+On Wed, Jan 16, 2019 at 11:49 AM Thomas Hellstrom <thellstrom@vmware.com> wrote:
 >
-> On Thu, Jan 17, 2019 at 11:14 AM Wolfram Sang
-> <wsa+renesas@sang-engineering.com> wrote:
-> > Typo: the data line is called "SDA" not "SCA".
-> >
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Hi,
 >
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> On Wed, 2019-01-16 at 09:24 -0500, Rob Clark wrote:
+> > So, I guess this is to do w/ the magic of merge commits, but it looks
+> > like the hunk changing the crtc_ww_class got lost:
 >
+> So what happened here is that this commit changed it to
+> DEFINE_WD_CLASS
+> and the following commit changed it back again to
+> DEFINE_WW_CLASS
+> so that the algorithm change and only that came with the last commit.
+> Apparently the history of that line got lost when merging since the
+> merge didn't change it; git blame doesn't show it changed, but when
+> looking at the commit history in gitk it's all clear. I guess that's a
+> feature of git.
+>
+> The modeset locks now use true wound-wait rather than wait-die.
 
-Applied to for-next, thanks!
+ahh, ok, that makes sense.  Thanks for clearing up my confusion.
 
-Bart
+BR,
+-R
