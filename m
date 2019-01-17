@@ -1,82 +1,59 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 41ED97D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Jan 2019 08:13:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A42947D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 17 Jan 2019 10:14:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727334AbfAQINc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 17 Jan 2019 03:13:32 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:42296 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726819AbfAQINb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jan 2019 03:13:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Y4uxIJ+NmKS4i1/qDFOJcjGOWHA5fYMzGvsJDpvLNMk=; b=Gb3Z2a5/SgLc7y6cDeKRsD6/b
-        UGyiZaiVvFOZBwXSKjGIYRsQNt6oZrxmzioVR9lNQDxgqinTD+S5lDERHN1ve0DaliP4AwKyITgCM
-        A+UCHwHAEEHzqwPGKMUytNEjA1IxycEObBOFm2SKjW9QKxa4IhnfAgppSs+foYr4ZPx9gJsX9BStQ
-        sBlgLXbY4Pr9Ohz+5g94z2E7eFXauAu5PKKbSLuqAPScIthGvavDjNylmSQvJQsT1cvRNkkMqFHVK
-        cfKQWe6maqz0v82+VU2+yFeXHBL3SWB5DG6pWbwzELav8dUpHCYgZnkf3mU7rYJrOR8kw1h8KeQfb
-        TUhbIbMqQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gk2nc-0005l8-6v; Thu, 17 Jan 2019 08:13:16 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 403C2202647C2; Thu, 17 Jan 2019 09:13:14 +0100 (CET)
-Date:   Thu, 17 Jan 2019 09:13:14 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     Suren Baghdasaryan <surenb@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tejun Heo <tj@kernel.org>, lizefan@huawei.com, axboe@kernel.dk,
-        dennis@kernel.org, Dennis Zhou <dennisszhou@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, kernel-team@android.com
-Subject: Re: [PATCH v2 5/5] psi: introduce psi monitor
-Message-ID: <20190117081314.GD10486@hirez.programming.kicks-ass.net>
-References: <20190110220718.261134-1-surenb@google.com>
- <20190110220718.261134-6-surenb@google.com>
- <20190114102137.GB14054@worktop.programming.kicks-ass.net>
- <CAJuCfpGUWs0E9oPUjPTNm=WhPJcE_DBjZCtCiaVu5WXabKRW6A@mail.gmail.com>
- <20190116132446.GF10803@hirez.programming.kicks-ass.net>
- <CAJuCfpEJW6Uq4GSGEGLKOM4K7ySHUeTGrSUGM1+EJSQ16d8SJg@mail.gmail.com>
- <20190116191728.GA1380@cmpxchg.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190116191728.GA1380@cmpxchg.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726966AbfAQKOG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 17 Jan 2019 05:14:06 -0500
+Received: from sauhun.de ([88.99.104.3]:38640 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726493AbfAQKOG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 17 Jan 2019 05:14:06 -0500
+Received: from localhost (p54B33243.dip0.t-ipconnect.de [84.179.50.67])
+        by pokefinder.org (Postfix) with ESMTPSA id 7AF602C3F83;
+        Thu, 17 Jan 2019 11:14:03 +0100 (CET)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-gpio@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: gpio: driver: fix wire name for I2C
+Date:   Thu, 17 Jan 2019 11:13:21 +0100
+Message-Id: <20190117101321.2164-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 16, 2019 at 02:17:28PM -0500, Johannes Weiner wrote:
+Typo: the data line is called "SDA" not "SCA".
 
-> > > Also, you probably want to use atomic_t for g->polling, because we
-> > > (sadly) have architectures where regular stores and atomic ops don't
-> > > work 'right'.
-> > 
-> > Oh, I see. Will do. Thanks!
-> 
-> Yikes, that's news to me too. Good to know.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ Documentation/driver-api/gpio/driver.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-See Documentation/atomic_t.txt, specifically the atomic_set() part in
-SEMANTICS.
+diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
+index a92d8837b62b..3043167fc557 100644
+--- a/Documentation/driver-api/gpio/driver.rst
++++ b/Documentation/driver-api/gpio/driver.rst
+@@ -135,7 +135,7 @@ This configuration is normally used as a way to achieve one of two things:
+ - inverse wire-OR on an I/O line, for example a GPIO line, making it possible
+   for any driving stage on the line to drive it low even if any other output
+   to the same line is simultaneously driving it high. A special case of this
+-  is driving the SCL and SCA lines of an I2C bus, which is by definition a
++  is driving the SCL and SDA lines of an I2C bus, which is by definition a
+   wire-OR bus.
+ 
+ Both usecases require that the line be equipped with a pull-up resistor. This
+-- 
+2.11.0
 
-Archs that suffer this include (but are not limited to): parisc,
-sparc32-smp, something arc.
-
-And yes, I would dearly love to kill all SMP support for architectures
-like that..
