@@ -2,55 +2,84 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 688BF7D099
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 19:04:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD9247D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 20:38:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729206AbfARTEL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 Jan 2019 14:04:11 -0500
-Received: from shards.monkeyblade.net ([23.128.96.9]:45988 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728832AbfARTEK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jan 2019 14:04:10 -0500
-Received: from localhost (unknown [IPv6:2601:601:9f80:35cd::bf5])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 03D1114BA3537;
-        Fri, 18 Jan 2019 11:04:09 -0800 (PST)
-Date:   Fri, 18 Jan 2019 11:04:07 -0800 (PST)
-Message-Id: <20190118.110407.2286468581643681605.davem@davemloft.net>
-To:     ottosabart@seberm.com
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, corbet@lwn.net
-Subject: Re: [PATCH 1/1 RESEND] doc: net: fix bad references to network
- drivers
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <f6af749d99cf7dd9e5ba90824d0fe898ae69c793.1547466751.git.ottosabart@seberm.com>
-References: <f6af749d99cf7dd9e5ba90824d0fe898ae69c793.1547466751.git.ottosabart@seberm.com>
-X-Mailer: Mew version 6.8 on Emacs 26.1
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Fri, 18 Jan 2019 11:04:10 -0800 (PST)
+        id S1729437AbfARUiO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Jan 2019 15:38:14 -0500
+Received: from wes1-so1.wedos.net ([46.28.106.15]:38219 "EHLO
+        wes1-so1.wedos.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729422AbfARUiO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jan 2019 15:38:14 -0500
+Received: from localhost (ip4-46-39-182-135.cust.nbox.cz [46.39.182.135])
+        by wes1-so1.wedos.net (Postfix) with ESMTPSA id 43hCSh0wMcz4JX;
+        Fri, 18 Jan 2019 21:38:11 +0100 (CET)
+Date:   Fri, 18 Jan 2019 21:38:09 +0100
+From:   Otto Sabart <ottosabart@seberm.com>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 0/1] doc: networking: integrate scaling document into doc
+ tree
+Message-ID: <cover.1547843156.git.ottosabart@seberm.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="M9NhX3UHpAaciwkO"
+Content-Disposition: inline
+X-PGP-Key: http://seberm.com/pubkey.asc
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Otto Sabart <ottosabart@seberm.com>
-Date: Mon, 14 Jan 2019 12:56:36 +0100
 
-> Fix "reference to nonexisting document" warnings.
-> 
-> Fixes: b255e500c8dc ("net: documentation: build a directory structure
-> for drivers")
+--M9NhX3UHpAaciwkO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Please do not chop up Fixes: tags, keep the entire text on one
-continuous line.  I fixed it up for you this time.
+Changes in v2:
+* Changed formatting of sections according to kernel documentation
+  conventions [0].
+* All commits from this series were squashed into one.
 
-> Signed-off-by: Otto Sabart <ottosabart@seberm.com>
+[0] https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html
 
-Applied.
+Otto Sabart (1):
+  doc: networking: integrate scaling document into doc tree
+
+ Documentation/networking/index.rst            |   1 +
+ .../networking/{scaling.txt =3D> scaling.rst}   | 131 ++++++++++++------
+ 2 files changed, 86 insertions(+), 46 deletions(-)
+ rename Documentation/networking/{scaling.txt =3D> scaling.rst} (92%)
+
+--=20
+2.17.2
+
+
+--M9NhX3UHpAaciwkO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlxCOS4ACgkQgjuumfi+
+Hjzdkg/+JoeKOw97YxCqC/u1F690I/utEtBPK4diT8UexcUg5vn07d7htyMhIaQH
+77LgK9h+kCgc0IuL3gDl01TInMid/H6sdHzBqDTcKg3xytwBeoUQGchDORfQRhqv
+5TJ9VGQY9UjxO0b/4p544sTMToGSyuHnIFXVy9Xn9+pTyAYkZ8LfG3af5pCEE64Z
+qUb71Z67kXVoCXX+aux1ll41FUjepvlA3fN80gnk4qWNPp5mMtQQnqD1aYyNjfBe
+RAIu1WzHCW6x9fRIbeKsZpTTvXf5nW5sGgTEguPWy+b3dwQhaNbc469VXlhRmMfo
+cmzTAHToEcB0InOBbM4e6MlxrIkge/+Dyrk0nb9p6InD7kQd2e+eoj2gyqZJ6xJH
+9vvtBJLn2jYcAEbM3tR6+kwtsNBOX7oKNh17dbZUL8eWvk5zMEKutf15xjjK6Rqm
+ZeHba26MP9qGKCG0skAEbcLPyCi5Ef0izFPgwrgT+ksfV+n1gdfWJreUWMBPl2ne
+t+yjq8/7pFpqjkD8AmKSSvpHw/xXBW3BYA+WMr4Kd5oINLlgUVAW4+WLpVKI9or4
+aoRY3emdy75NAHpqaRue4udWnLB1A3UjeSJDhEJFPZSDKCDfgueLJrChsX3P4bVw
+kilN8d2SrGITZQQVUAb7A5AEJLfJ8BLqI7WLvMfErJWjS9esbro=
+=96Qn
+-----END PGP SIGNATURE-----
+
+--M9NhX3UHpAaciwkO--
