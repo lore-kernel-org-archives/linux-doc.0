@@ -5,25 +5,41 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7CE357D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 11:27:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 414E47D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 12:34:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727241AbfARL1D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 Jan 2019 06:27:03 -0500
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:55148 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726722AbfARL1C (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Jan 2019 06:27:02 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 375C3EBD;
-        Fri, 18 Jan 2019 03:27:02 -0800 (PST)
-Received: from queper01-lin (queper01-lin.cambridge.arm.com [10.1.195.48])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F31B33F557;
-        Fri, 18 Jan 2019 03:26:59 -0800 (PST)
-Date:   Fri, 18 Jan 2019 11:26:58 +0000
-From:   Quentin Perret <quentin.perret@arm.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Juri Lelli <juri.lelli@redhat.com>,
+        id S1727597AbfARMeP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Jan 2019 07:34:15 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:41135 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727490AbfARMeP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jan 2019 07:34:15 -0500
+Received: by mail-wr1-f65.google.com with SMTP id x10so14824305wrs.8
+        for <linux-doc@vger.kernel.org>; Fri, 18 Jan 2019 04:34:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=HeZNwP9EcZ9AAVB8WD/3SS0wP0RYFQh5uPHojKsFw98=;
+        b=GwFLfQfVmDIhj5JT8lIyFznhGohS2cN16lzP++ViJfsLJ0zatTIql8WYoTBu+Vf6GJ
+         lCDD0UvCZA7XJMJBIlx/Qph1vfna5rIpNY+MSrwafJOsveIsUTCiW/tsiPnh+jrYiAQa
+         aQODVaML/EpsI91u7inPBSHnBTqkOqq3ex1vqrcox9N6QORJu13uSWs9yudzdiqCgtQN
+         9VX02Cio4XlYIn9j/YzGEtsga4q3LPboHOC7O4yFICqICdv3hoO8tf+eZgx4XxNHRDyj
+         IRwSYCddJiy2k3hrivnA/tDwn5KC1TgMXjQ5N6kfD9EFGYqFvnwPClEiyQZhqcbfjTXH
+         iRAw==
+X-Gm-Message-State: AJcUukf1Gg9O43wCNx/a78LqffUirznnrbpMEvDpm3p4ct1zqjQvvttn
+        CFheFee2OBLAKTNSegp4yaEyUw==
+X-Google-Smtp-Source: ALg8bN486whx+wp2qH2IHDAWlpvY7s8udW2vHDvSbGwqXExR7dRQFCUPskcHLJoxHGNTHfUEH733jQ==
+X-Received: by 2002:adf:f691:: with SMTP id v17mr15766940wrp.114.1547814852799;
+        Fri, 18 Jan 2019 04:34:12 -0800 (PST)
+Received: from localhost.localdomain ([151.15.254.62])
+        by smtp.gmail.com with ESMTPSA id q14sm69149697wrw.39.2019.01.18.04.34.11
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 18 Jan 2019 04:34:12 -0800 (PST)
+Date:   Fri, 18 Jan 2019 13:34:09 +0100
+From:   Juri Lelli <juri.lelli@redhat.com>
+To:     Quentin Perret <quentin.perret@arm.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Peter Zijlstra <peterz@infradead.org>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>,
@@ -35,110 +51,57 @@ Cc:     Juri Lelli <juri.lelli@redhat.com>,
         Linux PM <linux-pm@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH 2/2] sched: Document Energy Aware Scheduling
-Message-ID: <20190118112655.cd5q5x7n4ahv3r5f@queper01-lin>
+Message-ID: <20190118123409.GI14385@localhost.localdomain>
 References: <20190110110546.8101-1-quentin.perret@arm.com>
  <20190110110546.8101-3-quentin.perret@arm.com>
  <20190117155117.GG14385@localhost.localdomain>
  <20190118091652.xn6iw52tccwh6vap@queper01-lin>
  <CAJZ5v0jw0BgmkwrtjuiC7YKO6A+k2eFfFDGtGsSWymW8PSTscA@mail.gmail.com>
  <20190118103359.jqctbopx25h3zvqs@queper01-lin>
- <CAJZ5v0jHq8pgB=XPydTyiqpUpX4ZdA5DVbk=Lqh=aUDBr-QOQQ@mail.gmail.com>
- <CAJZ5v0h24RZf1vF7zV5_2yqrVif_y5W4sBrBWC0Hdf3q5rArNQ@mail.gmail.com>
- <20190118111114.dytdk7oq63illgkg@queper01-lin>
- <CAJZ5v0iJFs00knKqn+M-sO=tMbAxdu3wk6GTAWt+d0bhDFJhww@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJZ5v0iJFs00knKqn+M-sO=tMbAxdu3wk6GTAWt+d0bhDFJhww@mail.gmail.com>
-User-Agent: NeoMutt/20171215
+In-Reply-To: <20190118103359.jqctbopx25h3zvqs@queper01-lin>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Friday 18 Jan 2019 at 12:20:57 (+0100), Rafael J. Wysocki wrote:
-> On Fri, Jan 18, 2019 at 12:11 PM Quentin Perret <quentin.perret@arm.com> wrote:
-> >
-> > On Friday 18 Jan 2019 at 12:01:35 (+0100), Rafael J. Wysocki wrote:
-> > > On Fri, Jan 18, 2019 at 11:58 AM Rafael J. Wysocki <rafael@kernel.org> wrote:
-> > > >
-> > > > On Fri, Jan 18, 2019 at 11:34 AM Quentin Perret <quentin.perret@arm.com> wrote:
-> > > > >
-> > > > > Hi Rafael,
-> > > > >
-> > > > > On Friday 18 Jan 2019 at 10:57:08 (+0100), Rafael J. Wysocki wrote:
-> > > > > > On Fri, Jan 18, 2019 at 10:16 AM Quentin Perret <quentin.perret@arm.com> wrote:
-> > > > > > >
-> > > > > > > Hi Juri,
-> > > > > > >
-> > > > > > > On Thursday 17 Jan 2019 at 16:51:17 (+0100), Juri Lelli wrote:
-> > > > > > > > On 10/01/19 11:05, Quentin Perret wrote:
-> > > > > > > [...]
-> > > > > > > > > +The idea behind introducing an EM is to allow the scheduler to evaluate the
-> > > > > > > > > +implications of its decisions rather than blindly applying energy-saving
-> > > > > > > > > +techniques that may have positive effects only on some platforms. At the same
-> > > > > > > > > +time, the EM must be as simple as possible to minimize the scheduler latency
-> > > > > > > > > +impact.
-> > > > > > > > > +
-> > > > > > > > > +In short, EAS changes the way CFS tasks are assigned to CPUs. When it is time
-> > > > > > > >
-> > > > > > > > Not sure if we want to remark the fact that EAS is looking at CFS tasks
-> > > > > > > > only ATM.
-> > > > > > >
-> > > > > > > Oh, what's wrong about mentioning it ? I mean, it is a fact ATM ...
-> > > > > >
-> > > > > > But it won't hurt to mention that it may cover other scheduling
-> > > > > > classes in the future.  IOW, the scope limit is not fundamental.
-> > > > >
-> > > > > Agreed, I can do that.
-> > > > >
-> > > > > > > > > +for the scheduler to decide where a task should run (during wake-up), the EM
-> > > > > > > > > +is used to break the tie between several good CPU candidates and pick the one
-> > > > > > > > > +that is predicted to yield the best energy consumption without harming the
-> > > > > > > > > +system's throughput. The predictions made by EAS rely on specific elements of
-> > > > > > > > > +knowledge about the platform's topology, which include the 'capacity' of CPUs,
-> > > > > > > >
-> > > > > > > > Add a reference to DT bindings docs defining 'capacity' (or define it
-> > > > > > > > somewhere)?
-> > > > > > >
-> > > > > > > Right, I can mention this is defined in the next section. But are you
-> > > > > > > sure about the reference to the DT bindings ? They're arm-specific right ?
-> > > > > > > Maybe I can give that as an example or something ...
-> > > > > >
-> > > > > > Example sounds right.
-> > > > > >
-> > > > > > You also can point to the section below from here.
-> > > > >
-> > > > > Sounds good.
-> > > > >
-> > > > > > Side note: If the doc is in the .rst format (which Peter won't like
-> > > > > > I'm sure :-)), you can actually use cross-references in it and you get
-> > > > > > a translation to an HTML doc (hosted at kernel.org) for free and the
-> > > > > > cross-references become clickable links in that.
-> > > > >
-> > > > > Right, I personally don't mind the .rst format, but the existing files
-> > > > > in Documentation/power/ and Documentation/scheduler/ are good old txt
-> > > > > files so I just wanted to keep things consistent.
-> > > >
-> > > > In fact, Documentation/power/ is under a slow on-going transition to
-> > > > .rst (due to the benefits mentioned above).
-> > > >
-> > > > > I don't mind converting to rst if necessary :-)
-> > > >
-> > > > It is not necessary, but maybe worth considering.
-> > >
-> > > That said, as this is targeted at Documentation/scheduler/, being
-> > > consistent with the other material in there is probably more
-> > > important.
-> >
-> > Right. Patch 01/02 is targeted at Documentation/power/ though. So if
-> > that makes your life easier I can turn that one into a .rst file, no
-> > problem at all.
+Hi,
+
+On 18/01/19 10:34, Quentin Perret wrote:
+> Hi Rafael,
 > 
-> Yes, I'd prefer it that way.  And please put it into
-> Documentation/driver-api/pm/.
+> On Friday 18 Jan 2019 at 10:57:08 (+0100), Rafael J. Wysocki wrote:
+> > On Fri, Jan 18, 2019 at 10:16 AM Quentin Perret <quentin.perret@arm.com> wrote:
+> > >
+> > > Hi Juri,
+> > >
+> > > On Thursday 17 Jan 2019 at 16:51:17 (+0100), Juri Lelli wrote:
+> > > > On 10/01/19 11:05, Quentin Perret wrote:
+> > > [...]
+> > > > > +The idea behind introducing an EM is to allow the scheduler to evaluate the
+> > > > > +implications of its decisions rather than blindly applying energy-saving
+> > > > > +techniques that may have positive effects only on some platforms. At the same
+> > > > > +time, the EM must be as simple as possible to minimize the scheduler latency
+> > > > > +impact.
+> > > > > +
+> > > > > +In short, EAS changes the way CFS tasks are assigned to CPUs. When it is time
+> > > >
+> > > > Not sure if we want to remark the fact that EAS is looking at CFS tasks
+> > > > only ATM.
+> > >
+> > > Oh, what's wrong about mentioning it ? I mean, it is a fact ATM ...
+> > 
+> > But it won't hurt to mention that it may cover other scheduling
+> > classes in the future.  IOW, the scope limit is not fundamental.
+> 
+> Agreed, I can do that.
 
-Will do in v2.
+Oh, sorry, bad phrasing from my side. I meant that we should probably
+state clearly somewhere that EAS deals with CFS only ATM, but extending
+it to other classes (DEADLINE in particular) makes certainly sense and
+people are welcome to experiment with that.
 
-Thanks,
-Quentin
+So, yeah, I agree with both of you. :-)
