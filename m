@@ -1,29 +1,48 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9A1257D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 10:34:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 94ECB7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 10:58:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726722AbfARKeJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 Jan 2019 05:34:09 -0500
-Received: from foss.arm.com ([217.140.101.70]:54330 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726031AbfARKeJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Jan 2019 05:34:09 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 47168EBD;
-        Fri, 18 Jan 2019 02:34:08 -0800 (PST)
-Received: from queper01-lin (queper01-lin.cambridge.arm.com [10.1.195.48])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0EEE23F557;
-        Fri, 18 Jan 2019 02:34:05 -0800 (PST)
-Date:   Fri, 18 Jan 2019 10:34:01 +0000
-From:   Quentin Perret <quentin.perret@arm.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Juri Lelli <juri.lelli@redhat.com>,
+        id S1726302AbfARK6d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Jan 2019 05:58:33 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:40830 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726809AbfARK6c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jan 2019 05:58:32 -0500
+Received: by mail-oi1-f194.google.com with SMTP id t204so8641398oie.7;
+        Fri, 18 Jan 2019 02:58:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JziQ1Qh8jFaTTCMoH48wl0YfwzuzRkq9NWufSf0sYoo=;
+        b=hUBvV81jlytIxF4WxyZICjBaGwHCByGY/009BILWU5fi36ywgdaQrp2srniyYCZPrN
+         0ycwdExyVNWlfLtxDKh5uI4dVCt+mDiPcxC++ByJHYEPDGUsT7TsfaOcEQ/aaFZxQhir
+         jPBPjgQxCjQr1nr7en1daxV6yHa95ykCmX0K3/ZOrk/6OG47srsy1s5lg337sZ0aK1ls
+         3q4hTHgissrnWne7MYx0kDQejjzWxf2RrqNTm2IvYTMqRMIpNrkS7i08VfrPJ5M5uyxV
+         r3Ysg+UsVdX18Hith0bMaCr/3Dl2/M0Xy6gn3Dtrq2XYqYabzGINOzCnaZqhHl2xH0KU
+         pCkg==
+X-Gm-Message-State: AJcUukdsZywcIeOop0GiqjS0Aw7TFuFOEHCx0AGUG3DY9tyRnGLHjtKK
+        5JWmnq+cOI0I3mdEHON2MBppAqCNjMCqvrsKTrA=
+X-Google-Smtp-Source: ALg8bN5XOrCoTr6yZjBjyfj+J8krW9QYY3G0JRHorfNO+0D1yiDArCeS+BfG4NDIfcYr4QP+fw7tiyrQ3Ee5GZWSEo4=
+X-Received: by 2002:a54:4d01:: with SMTP id v1mr367075oix.246.1547809111788;
+ Fri, 18 Jan 2019 02:58:31 -0800 (PST)
+MIME-Version: 1.0
+References: <20190110110546.8101-1-quentin.perret@arm.com> <20190110110546.8101-3-quentin.perret@arm.com>
+ <20190117155117.GG14385@localhost.localdomain> <20190118091652.xn6iw52tccwh6vap@queper01-lin>
+ <CAJZ5v0jw0BgmkwrtjuiC7YKO6A+k2eFfFDGtGsSWymW8PSTscA@mail.gmail.com> <20190118103359.jqctbopx25h3zvqs@queper01-lin>
+In-Reply-To: <20190118103359.jqctbopx25h3zvqs@queper01-lin>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Fri, 18 Jan 2019 11:58:20 +0100
+Message-ID: <CAJZ5v0jHq8pgB=XPydTyiqpUpX4ZdA5DVbk=Lqh=aUDBr-QOQQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] sched: Document Energy Aware Scheduling
+To:     Quentin Perret <quentin.perret@arm.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Peter Zijlstra <peterz@infradead.org>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>,
@@ -34,79 +53,73 @@ Cc:     Juri Lelli <juri.lelli@redhat.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux PM <linux-pm@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] sched: Document Energy Aware Scheduling
-Message-ID: <20190118103359.jqctbopx25h3zvqs@queper01-lin>
-References: <20190110110546.8101-1-quentin.perret@arm.com>
- <20190110110546.8101-3-quentin.perret@arm.com>
- <20190117155117.GG14385@localhost.localdomain>
- <20190118091652.xn6iw52tccwh6vap@queper01-lin>
- <CAJZ5v0jw0BgmkwrtjuiC7YKO6A+k2eFfFDGtGsSWymW8PSTscA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJZ5v0jw0BgmkwrtjuiC7YKO6A+k2eFfFDGtGsSWymW8PSTscA@mail.gmail.com>
-User-Agent: NeoMutt/20171215
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rafael,
-
-On Friday 18 Jan 2019 at 10:57:08 (+0100), Rafael J. Wysocki wrote:
-> On Fri, Jan 18, 2019 at 10:16 AM Quentin Perret <quentin.perret@arm.com> wrote:
-> >
-> > Hi Juri,
-> >
-> > On Thursday 17 Jan 2019 at 16:51:17 (+0100), Juri Lelli wrote:
-> > > On 10/01/19 11:05, Quentin Perret wrote:
-> > [...]
-> > > > +The idea behind introducing an EM is to allow the scheduler to evaluate the
-> > > > +implications of its decisions rather than blindly applying energy-saving
-> > > > +techniques that may have positive effects only on some platforms. At the same
-> > > > +time, the EM must be as simple as possible to minimize the scheduler latency
-> > > > +impact.
-> > > > +
-> > > > +In short, EAS changes the way CFS tasks are assigned to CPUs. When it is time
+On Fri, Jan 18, 2019 at 11:34 AM Quentin Perret <quentin.perret@arm.com> wrote:
+>
+> Hi Rafael,
+>
+> On Friday 18 Jan 2019 at 10:57:08 (+0100), Rafael J. Wysocki wrote:
+> > On Fri, Jan 18, 2019 at 10:16 AM Quentin Perret <quentin.perret@arm.com> wrote:
 > > >
-> > > Not sure if we want to remark the fact that EAS is looking at CFS tasks
-> > > only ATM.
-> >
-> > Oh, what's wrong about mentioning it ? I mean, it is a fact ATM ...
-> 
-> But it won't hurt to mention that it may cover other scheduling
-> classes in the future.  IOW, the scope limit is not fundamental.
-
-Agreed, I can do that.
-
-> > > > +for the scheduler to decide where a task should run (during wake-up), the EM
-> > > > +is used to break the tie between several good CPU candidates and pick the one
-> > > > +that is predicted to yield the best energy consumption without harming the
-> > > > +system's throughput. The predictions made by EAS rely on specific elements of
-> > > > +knowledge about the platform's topology, which include the 'capacity' of CPUs,
+> > > Hi Juri,
 > > >
-> > > Add a reference to DT bindings docs defining 'capacity' (or define it
-> > > somewhere)?
+> > > On Thursday 17 Jan 2019 at 16:51:17 (+0100), Juri Lelli wrote:
+> > > > On 10/01/19 11:05, Quentin Perret wrote:
+> > > [...]
+> > > > > +The idea behind introducing an EM is to allow the scheduler to evaluate the
+> > > > > +implications of its decisions rather than blindly applying energy-saving
+> > > > > +techniques that may have positive effects only on some platforms. At the same
+> > > > > +time, the EM must be as simple as possible to minimize the scheduler latency
+> > > > > +impact.
+> > > > > +
+> > > > > +In short, EAS changes the way CFS tasks are assigned to CPUs. When it is time
+> > > >
+> > > > Not sure if we want to remark the fact that EAS is looking at CFS tasks
+> > > > only ATM.
+> > >
+> > > Oh, what's wrong about mentioning it ? I mean, it is a fact ATM ...
 > >
-> > Right, I can mention this is defined in the next section. But are you
-> > sure about the reference to the DT bindings ? They're arm-specific right ?
-> > Maybe I can give that as an example or something ...
-> 
-> Example sounds right.
-> 
-> You also can point to the section below from here.
+> > But it won't hurt to mention that it may cover other scheduling
+> > classes in the future.  IOW, the scope limit is not fundamental.
+>
+> Agreed, I can do that.
+>
+> > > > > +for the scheduler to decide where a task should run (during wake-up), the EM
+> > > > > +is used to break the tie between several good CPU candidates and pick the one
+> > > > > +that is predicted to yield the best energy consumption without harming the
+> > > > > +system's throughput. The predictions made by EAS rely on specific elements of
+> > > > > +knowledge about the platform's topology, which include the 'capacity' of CPUs,
+> > > >
+> > > > Add a reference to DT bindings docs defining 'capacity' (or define it
+> > > > somewhere)?
+> > >
+> > > Right, I can mention this is defined in the next section. But are you
+> > > sure about the reference to the DT bindings ? They're arm-specific right ?
+> > > Maybe I can give that as an example or something ...
+> >
+> > Example sounds right.
+> >
+> > You also can point to the section below from here.
+>
+> Sounds good.
+>
+> > Side note: If the doc is in the .rst format (which Peter won't like
+> > I'm sure :-)), you can actually use cross-references in it and you get
+> > a translation to an HTML doc (hosted at kernel.org) for free and the
+> > cross-references become clickable links in that.
+>
+> Right, I personally don't mind the .rst format, but the existing files
+> in Documentation/power/ and Documentation/scheduler/ are good old txt
+> files so I just wanted to keep things consistent.
 
-Sounds good.
+In fact, Documentation/power/ is under a slow on-going transition to
+.rst (due to the benefits mentioned above).
 
-> Side note: If the doc is in the .rst format (which Peter won't like
-> I'm sure :-)), you can actually use cross-references in it and you get
-> a translation to an HTML doc (hosted at kernel.org) for free and the
-> cross-references become clickable links in that.
+> I don't mind converting to rst if necessary :-)
 
-Right, I personally don't mind the .rst format, but the existing files
-in Documentation/power/ and Documentation/scheduler/ are good old txt
-files so I just wanted to keep things consistent. I don't mind
-converting to rst if necessary :-)
-
-Thanks,
-Quentin
+It is not necessary, but maybe worth considering.
