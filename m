@@ -3,61 +3,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-7.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7DC7D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 00:19:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E65547D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 00:22:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725967AbfARATD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 17 Jan 2019 19:19:03 -0500
-Received: from mail-vs1-f66.google.com ([209.85.217.66]:43461 "EHLO
-        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726351AbfARATB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jan 2019 19:19:01 -0500
-Received: by mail-vs1-f66.google.com with SMTP id x1so7389378vsc.10
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jan 2019 16:19:00 -0800 (PST)
+        id S1725992AbfARAVt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 17 Jan 2019 19:21:49 -0500
+Received: from mail-vk1-f196.google.com ([209.85.221.196]:41228 "EHLO
+        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726120AbfARAVs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jan 2019 19:21:48 -0500
+Received: by mail-vk1-f196.google.com with SMTP id t127so2700996vke.8
+        for <linux-doc@vger.kernel.org>; Thu, 17 Jan 2019 16:21:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=gbK3500/QAKDBa4Ar6vFSXiVnXT9NIwYY9sFl/lNuGM=;
-        b=OMxVAeqciw02Og6+V7t8Z3QSQok0l4Pq3qS6Hqff1FkPzet40MmZlw8vr4t6HygK+C
-         pDj5PuE9kaqZeiVVcNuRF7P9qq3s8/huC5f8h1UPpPexbxrnUnFcOxPRozmpJFXIhErB
-         j3quYT18esw0l4aoFjzW/hqxhvobNIksCcEVM=
+        bh=t0gqUl4mUi5tlZDzoaHQ9fvC2be2sR+pQiCoQd+FlXA=;
+        b=b0K32N0LcrQbySCxkqcm6WmnouvQhncJ8aVd8LzQUACWYBUvUvdQ5GelUCEPSXO41U
+         8tfUN4lcKVFtWNYu310QFw7iUkg/9XL+403rqBqm8QVsMMKsSAN+k4pyXg4qF2DceVmz
+         ExeGdh0wbLLRg2EWWT/38DpwKMwEG68aqTdeo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=gbK3500/QAKDBa4Ar6vFSXiVnXT9NIwYY9sFl/lNuGM=;
-        b=tMxwJcJdVhOjqtK5vXDIIYXXU7+D8MHFKuqb1+CtQsefo6WIk66cUxMSgZ7DHMHkDK
-         wjdzdMtQvhOw3SW6jko2hhdTKhZifw/TZtD/kankgBHgLUuOdsYUZAt9ynvyJdWcR3A5
-         oJ6ad/b8u0f15XjMKkzIXP+H8fb3cKhSwQ+cY50TAjKLWmlzr28R0nU/WpmLYFuL6LO/
-         sNUNYPoxhvB2YG087gTx47IeiB0vShldeAc8D7Dcw2PoLvvXDihmskYr6qY81+xPkaue
-         bGFjn/EFN12Yx7sKrLlrvHk7n8ecrqWZbWl4mor2U1l7BQ3qGed27PggtMr+rZvF/5RY
-         cxbg==
-X-Gm-Message-State: AJcUukerOrtZTvFzemikwcbvjYVFok0Fc3oVHjWJy+QjErej2sAepQXv
-        Hh0LMNl/RbJ9INADtnXQx+GnxaV3rCM=
-X-Google-Smtp-Source: ALg8bN5G+ymWUR0hY6+goUk4sWLEIkiLiigUSJtUAgfNeQqZij/E9Jq0r2U4e91EQoTAcfIvCLh/GA==
-X-Received: by 2002:a67:2a83:: with SMTP id q125mr1115148vsq.230.1547770740182;
-        Thu, 17 Jan 2019 16:19:00 -0800 (PST)
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
-        by smtp.gmail.com with ESMTPSA id b131sm42949230vkf.45.2019.01.17.16.18.57
+        bh=t0gqUl4mUi5tlZDzoaHQ9fvC2be2sR+pQiCoQd+FlXA=;
+        b=qdpbgXajd4mQFQ3Wrif2Vb9KBCEohD2MFxic3mMSdMwiGbARjRxFDOqRhvOv40PeXg
+         zi5m3aVzDFhxtdWeCelcgn+MXlPiRG1yKOUAQBmrbqkJr/+dUqB09rildWmcz+JmLqb4
+         OemUsbSKiK5Tf5vnxh735dk5VUH8fIz/QjAiwg13HlE4m3UZF7UdNldflcpWw33xTAMy
+         iJ09iv5uReTWpXUQ6m81NhQIBr0wmmF+K3KT98WbL9xsx2DWWjOmqY2zDMAwHtMIky12
+         hArUFcVcw3G33e7qHgp00rWhdOneTu6T0mjUWFDlyI+F0lr7otXc28iILL/fDuqb2/PO
+         nWNA==
+X-Gm-Message-State: AJcUukdsA3cUbCg6ghErzvxO3U1u1wHTxL6h8+v7zUoRJ6GXTb459E5W
+        ZGCnUXhb9QQWeiqpBsQaI5Ti/om7Y60=
+X-Google-Smtp-Source: ALg8bN4z8Wy6JgrSPUAgKzZSetrHylwVtD1rFrTr8x4BE6vEdYG2vnwqLk2qrblti4j9VYGTV+fDBw==
+X-Received: by 2002:a1f:95d1:: with SMTP id x200mr6428321vkd.78.1547770907385;
+        Thu, 17 Jan 2019 16:21:47 -0800 (PST)
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
+        by smtp.gmail.com with ESMTPSA id l6sm18859873vkh.42.2019.01.17.16.21.44
         for <linux-doc@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 17 Jan 2019 16:18:58 -0800 (PST)
-Received: by mail-vs1-f54.google.com with SMTP id e7so7424768vsc.2
-        for <linux-doc@vger.kernel.org>; Thu, 17 Jan 2019 16:18:57 -0800 (PST)
-X-Received: by 2002:a67:e199:: with SMTP id e25mr6801966vsl.188.1547770737057;
- Thu, 17 Jan 2019 16:18:57 -0800 (PST)
+        Thu, 17 Jan 2019 16:21:44 -0800 (PST)
+Received: by mail-vk1-f171.google.com with SMTP id j23so2692815vke.13
+        for <linux-doc@vger.kernel.org>; Thu, 17 Jan 2019 16:21:44 -0800 (PST)
+X-Received: by 2002:a1f:3d10:: with SMTP id k16mr6446389vka.13.1547770903638;
+ Thu, 17 Jan 2019 16:21:43 -0800 (PST)
 MIME-Version: 1.0
-References: <1546862462-19640-1-git-send-email-liaoweixiong@allwinnertech.com> <1546862462-19640-5-git-send-email-liaoweixiong@allwinnertech.com>
-In-Reply-To: <1546862462-19640-5-git-send-email-liaoweixiong@allwinnertech.com>
+References: <1546862462-19640-1-git-send-email-liaoweixiong@allwinnertech.com>
+ <1546862462-19640-3-git-send-email-liaoweixiong@allwinnertech.com> <CAGXu5j+4QdqSYokE-0Y_pm5RgBp6i+xMgeXjTnNGVVMKeUafYg@mail.gmail.com>
+In-Reply-To: <CAGXu5j+4QdqSYokE-0Y_pm5RgBp6i+xMgeXjTnNGVVMKeUafYg@mail.gmail.com>
 From:   Kees Cook <keescook@chromium.org>
-Date:   Thu, 17 Jan 2019 16:18:45 -0800
-X-Gmail-Original-Message-ID: <CAGXu5jL1=tvNe5Ca-TRmC4--xnEoWkjFxi2Xs2QT7HN2Jdu1+g@mail.gmail.com>
-Message-ID: <CAGXu5jL1=tvNe5Ca-TRmC4--xnEoWkjFxi2Xs2QT7HN2Jdu1+g@mail.gmail.com>
-Subject: Re: [RFC v5 4/4] Documentation: pstore/blk: create document for pstore_blk
+Date:   Thu, 17 Jan 2019 16:21:31 -0800
+X-Gmail-Original-Message-ID: <CAGXu5jKbqP=SaAGqUeP5yhObeLbWnDLXN1=tVQZAaOHxo+D5VQ@mail.gmail.com>
+Message-ID: <CAGXu5jKbqP=SaAGqUeP5yhObeLbWnDLXN1=tVQZAaOHxo+D5VQ@mail.gmail.com>
+Subject: Re: [RFC v5 2/4] pstore/blk: add sample for pstore_blk
 To:     liaoweixiong <liaoweixiong@allwinnertech.com>
 Cc:     Anton Vorontsov <anton@enomsg.org>,
         Colin Cross <ccross@android.com>,
@@ -77,292 +78,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 7, 2019 at 4:02 AM liaoweixiong
-<liaoweixiong@allwinnertech.com> wrote:
+On Thu, Jan 17, 2019 at 4:15 PM Kees Cook <keescook@chromium.org> wrote:
 >
-> The documemt, at Documentation/admin-guide/pstore-block.rst,
+> On Mon, Jan 7, 2019 at 4:01 AM liaoweixiong
+> <liaoweixiong@allwinnertech.com> wrote:
+> >
+> > It is a sample for pstore_blk, using general ram rather than block device.
+> > According to pstore_blk, the data will be saved to ram buffer if not
+> > register device path and apis for panic. So, it can only used to dump
+> > Oops and some things will not reboot.
+>
+> I'm not sure I see the purpose of this implementation? Doesn't this
+> just cause all the pstore machinery to skip any actions? i.e. without
+> bzinfo->part_path, won't blkz_sample_write() just return -EINVAL, etc?
 
-typo: documemt -> document
+Say, instead of a no-op driver, can you build something like the how
+ramoops processes module parameters, so that a person can define an
+arbitrary device at boot time for blkoops? This also allows for easier
+runtime testing too.
 
-> tells user how to use pstore_blk and the attentions about panic
-> read/write
+This all looks good, with some minor tweaks as mentioned. And on
+closer review, yeah, it doesn't look like it shares much with ramoops.
+:)
 
-Yay! I love seeing documentation. :)
+Thanks for sending this series; I look forward to the next version. :)
 
 -Kees
-
->
-> Signed-off-by: liaoweixiong <liaoweixiong@allwinnertech.com>
-> ---
->  Documentation/admin-guide/pstore-block.rst | 226 +++++++++++++++++++++++++++++
->  MAINTAINERS                                |   1 +
->  fs/pstore/Kconfig                          |   4 +
->  3 files changed, 231 insertions(+)
->  create mode 100644 Documentation/admin-guide/pstore-block.rst
->
-> diff --git a/Documentation/admin-guide/pstore-block.rst b/Documentation/admin-guide/pstore-block.rst
-> new file mode 100644
-> index 0000000..2fc9fd8
-> --- /dev/null
-> +++ b/Documentation/admin-guide/pstore-block.rst
-> @@ -0,0 +1,226 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Pstore block oops/panic logger
-> +==============================
-> +
-> +Introduction
-> +------------
-> +
-> +Pstore block (pstore_blk) is an oops/panic logger that write its logs to block
-> +device before the system crashes. Pstore_blk needs block device driver
-> +registering a partition path of the block device, like /dev/mmcblk0p7 for mmc
-> +driver, and read/write APIs for this partition when on panic.
-> +
-> +Pstore block concepts
-> +---------------------
-> +
-> +Pstore block begins at function ``blkz_register``, by which block driver
-> +registers to pstore_blk. Recomemd that, block driver should register to
-> +pstore_blk after block device is ready. Block driver transfers a structure
-> +``blkz_info`` which is defined in *linux/pstore_blk.h*.
-> +
-> +The following key members of ``struct blkz_info`` may be of interest to you.
-> +
-> +part_path
-> +~~~~~~~~~
-> +
-> +The path of partition used for pstore_blk. It may be ``/dev/mmcblk[N]p[M]`` for
-> +mmc, and ``/dev/mtdblock[N]`` for mtd device.
-> +
-> +The ``part_path`` is not necessarily if you self-defined general read/write APIs
-> +on ``blkz_info``. In other words, the ``part_path`` is only used (by function
-> +blkz_sample_read/write) when general read/write APIs are not defined.
-> +
-> +See more on section **read/write**.
-> +
-> +part_size
-> +~~~~~~~~~
-> +
-> +The total size in bytes of partition used for pstore_blk. This member **MUST**
-> +be effective and a multiple of 4096. It is recommended to 1M or larger for block
-> +device.
-> +
-> +The block device area is divided into many chunks, and each event writes
-> +a chunk of information.
-> +
-> +dmesg_size
-> +~~~~~~~~~~
-> +
-> +The chunk size in bytes for dmesg(oops/panic). It **MUST** be a multiple of
-> +SECTOR_SIZE (Most of the time, the SECTOR_SIZE is 512). If you don't need dmesg,
-> +you are safely to set it to 0.
-> +
-> +NOTE that, the remaining space, except ``pmsg_size`` and others, belongs to
-> +dmesg. It means that there are multiple chunks for dmesg.
-> +
-> +Psotre_blk will log to dmesg chunks one by one, and always overwrite the oldest
-> +chunk if no free chunk.
-> +
-> +pmsg_size
-> +~~~~~~~~~
-> +
-> +The chunk size in bytes for pmsg. It **MUST** be a multiple of SECTOR_SIZE (Most
-> +of the time, the SECTOR_SIZE is 512). If you don't need pmsg, you are safely to
-> +set it to 0.
-> +
-> +There is only one chunk for pmsg.
-> +
-> +Pmsg is a user space accessible pstore object. Writes to */dev/pmsg0* are
-> +appended to the chunk. On reboot the contents are available in
-> +/sys/fs/pstore/pmsg-blkoops-0.
-> +
-> +dump_oops
-> +~~~~~~~~~
-> +
-> +Dumping both oopses and panics can be done by setting 1 in the ``dump_oops``
-> +member while setting 0 in that variable dumps only the panics.
-> +
-> +read/write
-> +~~~~~~~~~~
-> +
-> +They are general ``read/write`` APIs. It is safely and recommended to ignore it,
-> +but set ``part_path``.
-> +
-> +These general APIs are used all the time expect panic. The ``read`` API is
-> +usually used to recover data from block device, and the ``write`` API is usually
-> +to flush new data and erase to block device.
-> +
-> +Pstore_blk will temporarily hold all new data before block device is ready. If
-> +you ignore both of ``read/write`` and ``part_path``, the old data will not be
-> +recovered and the new data will not be flushed until panic, using panic APIs.
-> +If you don't have panic APIs neither, all the data will be dropped when reboot.
-> +
-> +NOTE that, the general APIs must check whether the block device is ready if
-> +self-defined.
-> +
-> +panic_read/panic_write
-> +~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +They are ``read/write`` APIs for panic. They are likely to general
-> +``read/write`` but will be used only when on panic.
-> +
-> +The attentions for panic read/write see section
-> +**Attentions in panic read/write APIs**.
-> +
-> +Register to pstore block
-> +------------------------
-> +
-> +Block device driver call ``blkz_register`` to register to Psotre_blk.
-> +For example:
-> +
-> +.. code-block:: c
-> +
-> + #include <linux/pstore_blk.h>
-> + [...]
-> +
-> + static ssize_t XXXX_panic_read(char *buf, size bytes, loff_t pos)
-> + {
-> +    [...]
-> + }
-> +
-> + static ssize_t XXXX_panic_write(const char *buf, size_t bytes, loff_t pos)
-> + {
-> +        [...]
-> + }
-> +
-> + struct blkz_info XXXX_info = {
-> +        .onwer = THIS_MODULE,
-> +        .name = <...>,
-> +        .dmesg_size = <...>,
-> +        .pmsg_size = <...>,
-> +        .dump_oops = true,
-> +        .panic_read = XXXX_panic_read,
-> +        .panic_write = XXXX_panic_write,
-> + };
-> +
-> + static int __init XXXX_init(void)
-> + {
-> +        [... get partition information ...]
-> +        XXXX_info.part_path = <...>;
-> +        XXXX_info.part_size = <...>;
-> +
-> +        [...]
-> +        return blkz_register(&XXXX_info);
-> + }
-> +
-> +There are multiple ways by which you can get partition information.
-> +
-> +A. Use the module parameters and kernel cmdline.
-> +B. Use Device Tree bindings.
-> +C. Use Kconfig.
-> +D. Use Driver Feature.
-> +   For example, traverse all MTD device by ``register_mtd_user``, and get the
-> +   matching name MTD partition.
-> +
-> +NOTE that, all of above are done by block driver rather then pstore_blk.
-> +
-> +The attentions for panic read/write see section
-> +**Attentions in panic read/write APIs**.
-> +
-> +Compression and header
-> +----------------------
-> +
-> +Block device is large enough, it is not necessary to compress dmesg data.
-> +Actually, we recommend not compress. Because pstore_blk will insert some
-> +information into the first line of dmesg data if no compression.
-> +For example::
-> +
-> +        blkoops: Panic: Total 16 times
-> +
-> +It means that it's the 16th times panic log since burning.
-> +Sometimes, the oops|panic counter since burning is very important for embedded
-> +device to judge whether the system is stable.
-> +
-> +The follow line is insert by pstore filesystem.
-> +For example::
-> +
-> +        Oops#2 Part1
-> +
-> +It means that it's the 2nd times oops log on last booting.
-> +
-> +Reading the data
-> +----------------
-> +
-> +The dump data can be read from the pstore filesystem. The format for these
-> +files is ``dmesg-blkoops-[N]`` for dmesg(oops|panic) and ``pmsg-blkoops-0`` for
-> +pmsg, where N is the record number. To delete a stored record from block device,
-> +simply unlink the respective pstore file. The timestamp of the dump file records
-> +the trigger time.
-> +
-> +Attentions in panic read/write APIs
-> +-----------------------------------
-> +
-> +If on panic, the kernel is not going to be running for much longer. The tasks
-> +will not be scheduled and the most kernel resources will be out of service. It
-> +looks like a single-threaded program running on a single-core computer.
-> +
-> +The following points need special attention for panic read/write APIs:
-> +
-> +1. Can **NOT** allocate any memory.
-> +
-> +   If you need memory, just allocate while the block driver is initialing rather
-> +   than waiting until the panic.
-> +
-> +2. Must be polled, **NOT** interrupt driven.
-> +
-> +   No task schedule any more. The block driver should delay to ensure the write
-> +   succeeds, but NOT sleep.
-> +
-> +3. Can **NOT** take any lock.
-> +
-> +   There is no other task, no any share resource, you are safely to break all
-> +   locks.
-> +
-> +4. Just use cpu to transfer.
-> +
-> +   Do not use DMA to transfer unless you are sure that DMA will not keep lock.
-> +
-> +5. Operate register directly.
-> +
-> +   Try not to use linux kernel resources. Do io map while initialing rather than
-> +   waiting until the panic.
-> +
-> +6. Reset your block device and controller if necessary.
-> +
-> +   If you are not sure the state of you block device and controller when panic,
-> +   you are safely to stop and reset them.
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 0abecc5..ebf9c71 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12054,6 +12054,7 @@ F:      include/linux/pstore*
->  F:     drivers/firmware/efi/efi-pstore.c
->  F:     drivers/acpi/apei/erst.c
->  F:     Documentation/admin-guide/ramoops.rst
-> +F:     Documentation/admin-guide/pstore-block.rst
->  F:     Documentation/devicetree/bindings/reserved-memory/ramoops.txt
->  K:     \b(pstore|ramoops)
->
-> diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
-> index 18b1fe6..5c5273c 100644
-> --- a/fs/pstore/Kconfig
-> +++ b/fs/pstore/Kconfig
-> @@ -160,6 +160,10 @@ config PSTORE_BLK
->           This enables panic and oops message to be logged to a block dev
->           where it can be read back at some later point.
->
-> +         For more information, see Documentation/admin-guide/pstore-block.rst.
-> +
-> +         If unsure, say N.
-> +
->  config PSTORE_BLKBUF
->         tristate "pstore block buffer sample"
->         depends on PSTORE_BLK
-> --
-> 1.9.1
->
-
 
 -- 
 Kees Cook
