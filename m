@@ -3,101 +3,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CCBD97D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 07:27:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A8A4C7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 07:33:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727279AbfARH1J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 Jan 2019 02:27:09 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:45497 "EHLO
+        id S1727173AbfARHdg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Jan 2019 02:33:36 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:38501 "EHLO
         new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727167AbfARH1J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jan 2019 02:27:09 -0500
-X-Greylist: delayed 394 seconds by postgrey-1.27 at vger.kernel.org; Fri, 18 Jan 2019 02:27:08 EST
+        by vger.kernel.org with ESMTP id S1727138AbfARHdg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jan 2019 02:33:36 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 373377EDF;
-        Fri, 18 Jan 2019 02:20:34 -0500 (EST)
+        by mailnew.nyi.internal (Postfix) with ESMTP id 927EBC556;
+        Fri, 18 Jan 2019 02:33:34 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Fri, 18 Jan 2019 02:20:34 -0500
+  by compute6.internal (MEProxy); Fri, 18 Jan 2019 02:33:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=9FH1WPeyUAogrW92tsxLk3pJ3xC
-        GJrngi7qugByCJ7w=; b=mw3CDa1KOBgj9f0UzeRvSEak5ze+cZkDgU96OUW3Mp0
-        +Sq+y1gLD2+EA4MQUjRsvWsI9KBPf1lfrvJezIjiikcO9qabPuEjc47OixlmN0pJ
-        9flV1Ks09Uexpdwdn4OrErHjisqmYinQjUAKYgGz96CGAxbCBdIgdG2cGoFPR5ht
-        ZUbEqYpreAL54136pkUvmhGPIfJ8uPqXvVHXCxMAhasmUKwYnPoAul4WOI8sjPqx
-        khQ5G+SqMN+jx7qpUtreUgbIXzcuthrWlsjDozvLstbwk1ELivxQMq+y586DkRZ1
-        i9OMnAZZoWTJcEf79prfwi6b9NNIAjLWqcLsoDr7Btg==
+        :content-type:in-reply-to; s=fm2; bh=fOZ44BA0UAtWnElZYWB7HaN0ObM
+        bDewklA4+wof8+Fw=; b=AiRs/oCMpQmLKne+UItqcAm9nUhsWft3Y+HNYrVNAQS
+        HFregg8paijdnX1CD1XL+is7WVgP6obkUpmAdljP6gQaHZZ9GAO0nEwfYZ+2Fkbg
+        GJH17oLjhm1j0VZq9lB2KUCUsV8Tw/DdnytD/IScM7nirDzZwTlw6jgOdxXXhss/
+        fIkLUtuTgyFbfVRTMG7y2EF8oIwvFCObhNBbdiAE9BlbqyQDuPefJLm3Ei1SlIlI
+        dLnO+WYCkJ5mAKXFxpvY43WFiDR6gA3cA6BIiTLYZwOE8ednnB70ouhpPmckQ6/1
+        cEoRMYEefEZ4BaoD7la8pqwzFlJcXTERc6icBdw5s6A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-type:date:from:in-reply-to
         :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=9FH1WP
-        eyUAogrW92tsxLk3pJ3xCGJrngi7qugByCJ7w=; b=uw7rlftLBSkhFcFVb6V+wF
-        L9pYlDZzHJTGgYEiOjxUJKj+3rV37gK7RMKOPutEoBiNnsadek2VoROj4pDsMcYE
-        X93HKm91yNqTtY7VG5iij9uFlAx9YrqZowa9Mm1FNqDTfUCFJfeL2RcGGX3JkGYL
-        +vMBPc/DdmMq33yRnmit5PBD8C+TTxFG+/6Dhv5mRihRfBQtZi4BYieifDsa7+R2
-        +tpxReM3NdvQk/R/1akCnJCeVvII2szM8BGMpYroxFrFwUDcNf63aJZlN984VHLG
-        BpEiT3DdxEgE9fY/zOKiNxk8S4sXRotry23tlE+YCgdoXxVxIN+d1FrIAsK+7c0Q
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=fOZ44B
+        A0UAtWnElZYWB7HaN0ObMbDewklA4+wof8+Fw=; b=IT912YEvVU2QQWIVXhoYLt
+        3Rb561fJeTOHva6wkR0pIZClRNlHmI35LH6aaXCD5uF76s3nmhPA85kaWCiDLGre
+        P/KiS43OcDT84SU0bSuLi0GTZfOPMLoOyFXMkrD5TZ8qjCTJBNWM5y6yBEk8GK6z
+        CpuMbDVnIR6UBfMDUpBx3wfvYNl2DgJtZBMgfCxENVBvKJjrsvctzIT5Dddk4TO3
+        eMt6ZH/X3R4aCfd6+jTlker67odUvWpl5E+1wTG23JxiId/tV2sG7zTmFqsrGIqD
+        YgS5/3dXsf3OlPx+5kMriNevhy/BmxOiR77+pJA+ZREXf5dIPF4d63UD02TuV83g
         ==
-X-ME-Sender: <xms:QX5BXIlOEbzgdz7WwqI9T8q3MoJ-s8vBkDfEKPaP8gII_TajEDiQuA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedtledrgeelgddutdehucetufdoteggodetrfdotf
+X-ME-Sender: <xms:TYFBXMbBd_dEPjlNpiL4vAKUXHWuyPbnvxVGyHVsDiIrd3ZxrtvTRw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedtledrgeelgddutdeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfquhhtnecuuegrihhlohhuthemucef
     tddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenogfuphgrmhfkphculdeftd
     dtmdenucfjughrpeffhffvuffkfhggtggujggfsehttdertddtredvnecuhfhrohhmpefi
     rhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucfkphepkeefrdekiedrke
     elrddutdejnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtgho
     mhenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:QX5BXIasKiS23CEDa1zHQ2AwLklAPL7LUiKIb50LMA9hSwHnRmlVUw>
-    <xmx:QX5BXPgHVlXGVHBTqB7BJPaaRcTXpckIdSKAETkEcCOKVyANZeivEg>
-    <xmx:QX5BXOyAtDELFDPcll_WuxDYm-2w29Fjy-Nv_EqGxUodtZlqS_oKkA>
-    <xmx:Qn5BXE2hI68d0U3D-0l0H3MBLPnhM5DeV7XBPrfua--xVC5JowfLZg>
+X-ME-Proxy: <xmx:TYFBXN2GZ1Y2fMtNkiQzxNCBwNj9S6inzSz9PGY9iZZv0BRjXdnrlg>
+    <xmx:TYFBXEeuCZFnejiKaZPsybQvfEshtSDmAiImkNWx_ykcUQFovTIeNw>
+    <xmx:TYFBXPAL4S3WjYPA_MM6286q4Fc41-Kjw9XL3flDYB-LMGr0BSuM3w>
+    <xmx:ToFBXNoqFik0fp0rUeg0d3VJiWT0YeJOUBmUL_I6bVgbBTYBDWQzgg>
 Received: from localhost (5356596b.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
-        by mail.messagingengine.com (Postfix) with ESMTPA id F0D8610087;
-        Fri, 18 Jan 2019 02:20:32 -0500 (EST)
-Date:   Fri, 18 Jan 2019 08:20:31 +0100
+        by mail.messagingengine.com (Postfix) with ESMTPA id 32772100E4;
+        Fri, 18 Jan 2019 02:33:33 -0500 (EST)
+Date:   Fri, 18 Jan 2019 08:33:31 +0100
 From:   Greg KH <greg@kroah.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: doc: stable-api-nonsense missing link
-Message-ID: <20190118072031.GH11050@kroah.com>
+Message-ID: <20190118073331.GA13493@kroah.com>
 References: <3122599.2K0FN2NGh9@harkonnen>
  <20190117151953.2ab38ecc@lwn.net>
+ <20190118072031.GH11050@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190117151953.2ab38ecc@lwn.net>
+In-Reply-To: <20190118072031.GH11050@kroah.com>
 User-Agent: Mutt/1.11.2 (2019-01-07)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 17, 2019 at 03:19:53PM -0700, Jonathan Corbet wrote:
-> On Thu, 17 Jan 2019 23:14:08 +0100
-> Federico Vaga <federico.vaga@vaga.pv.it> wrote:
+On Fri, Jan 18, 2019 at 08:20:31AM +0100, Greg KH wrote:
+> On Thu, Jan 17, 2019 at 03:19:53PM -0700, Jonathan Corbet wrote:
+> > On Thu, 17 Jan 2019 23:14:08 +0100
+> > Federico Vaga <federico.vaga@vaga.pv.it> wrote:
+> > 
+> > > in this document
+> > > 
+> > > Documentation/process/stable-api-nonsense.rst
+> > > 
+> > > there is this note:
+> > > 
+> > > <insert link to leech comment from Andrew and Linus here>
+> > > 
+> > > Is it possible to get it fixed with the proper link? I searched for it without 
+> > > success. If that comment is impossible to find I will send a patch to remove 
+> > > that note, but first I wanted to ask you if you know where to get it.
+> > 
+> > That sounds like a question for Greg (copied).  Given that this document
+> > predates the Git era, though, I suspect that whatever reference that was
+> > meant to be is long since lost.
 > 
-> > in this document
-> > 
-> > Documentation/process/stable-api-nonsense.rst
-> > 
-> > there is this note:
-> > 
-> > <insert link to leech comment from Andrew and Linus here>
-> > 
-> > Is it possible to get it fixed with the proper link? I searched for it without 
-> > success. If that comment is impossible to find I will send a patch to remove 
-> > that note, but first I wanted to ask you if you know where to get it.
-> 
-> That sounds like a question for Greg (copied).  Given that this document
-> predates the Git era, though, I suspect that whatever reference that was
-> meant to be is long since lost.
+> It was referring to an email thread about this topic that happened at
+> the time I wrote the document.  Let me try to dig through my archives,
+> but given that it was written well over a decade ago, I don't know if I
+> will be able to find it easily...
 
-It was referring to an email thread about this topic that happened at
-the time I wrote the document.  Let me try to dig through my archives,
-but given that it was written well over a decade ago, I don't know if I
-will be able to find it easily...
+I can't find it at the moment, so taking out the text in <...> is fine
+with me.
 
 thanks,
 
