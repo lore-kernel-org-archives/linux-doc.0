@@ -5,109 +5,100 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DFD877D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 01:47:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CCBD97D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 07:27:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727106AbfARBrW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 17 Jan 2019 20:47:22 -0500
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:40784 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726908AbfARBrW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Jan 2019 20:47:22 -0500
-Received: by mail-qt1-f193.google.com with SMTP id k12so13613626qtf.7;
-        Thu, 17 Jan 2019 17:47:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uTwo0yITEGKp6cTbipX0KbZvBbv3f4rj2ICmUTMtejg=;
-        b=iRnhXj64b80HfZFXu0ykvlYD1yb6EzU65nI3rRetwsQrJhJno6kBwy1zerO1r1bRyJ
-         W8MI+oCJo6yxh/jIbesF9YKyofkByp9Fg1r1e+Jok1LeOME0JvGL4UFwiz5AKXbC5Vna
-         D9zI3xUEiJFNWxsMFEEFM6v/6DRzybcZMVKfk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uTwo0yITEGKp6cTbipX0KbZvBbv3f4rj2ICmUTMtejg=;
-        b=Z0+w2x/G/4/tXxi9iJXR41MWUX2yrc1hfJIhrccTDEsqvNtLRPhVAT0B84yJXsrpni
-         uZzdUeA1C+euIHJpif9NsnnTBeXC7TI/KJ+PqEKKe+P5YqplWpfQoYeH7KvPrbcRVppY
-         azpk1cn5QuGaIM5f34C2ZXv7CEcpU1Lk2PsmIAQTlLiExeZDb0QcHqxtx+t0KrKSu5JD
-         lrncy+YKLtKKKD+lJ+OLnNNvad0iJ+0q2SUZtmZqyCHILBWtCxdvbC6J1Ner1AyUMT93
-         VkSOuXa62ueYECCrntDIj5m2AjZhkfFqDryA7GSkieFQJpRaCswidZ0xcs55RyarLSrq
-         aSNQ==
-X-Gm-Message-State: AJcUukcm4hFlte4eGLOXxWDjazUp7p6pdolCUtk0eU/yxz5nGIScCCgz
-        4oXM3I/SBqO7aiJap8ho89wPz/YyKf+xXtqbONBiyffRsSE=
-X-Google-Smtp-Source: ALg8bN5s1S18KgznjwO4dhn9Mq/f5WN9bFsBjlfPJ6opbGBWDw3+6eWXoCzFvZjJ9v+H4f/2X07g68z69fxED1Lqx+I=
-X-Received: by 2002:ac8:3065:: with SMTP id g34mr14218910qte.136.1547776040664;
- Thu, 17 Jan 2019 17:47:20 -0800 (PST)
+        id S1727279AbfARH1J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Jan 2019 02:27:09 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:45497 "EHLO
+        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727167AbfARH1J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jan 2019 02:27:09 -0500
+X-Greylist: delayed 394 seconds by postgrey-1.27 at vger.kernel.org; Fri, 18 Jan 2019 02:27:08 EST
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 373377EDF;
+        Fri, 18 Jan 2019 02:20:34 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Fri, 18 Jan 2019 02:20:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=9FH1WPeyUAogrW92tsxLk3pJ3xC
+        GJrngi7qugByCJ7w=; b=mw3CDa1KOBgj9f0UzeRvSEak5ze+cZkDgU96OUW3Mp0
+        +Sq+y1gLD2+EA4MQUjRsvWsI9KBPf1lfrvJezIjiikcO9qabPuEjc47OixlmN0pJ
+        9flV1Ks09Uexpdwdn4OrErHjisqmYinQjUAKYgGz96CGAxbCBdIgdG2cGoFPR5ht
+        ZUbEqYpreAL54136pkUvmhGPIfJ8uPqXvVHXCxMAhasmUKwYnPoAul4WOI8sjPqx
+        khQ5G+SqMN+jx7qpUtreUgbIXzcuthrWlsjDozvLstbwk1ELivxQMq+y586DkRZ1
+        i9OMnAZZoWTJcEf79prfwi6b9NNIAjLWqcLsoDr7Btg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=9FH1WP
+        eyUAogrW92tsxLk3pJ3xCGJrngi7qugByCJ7w=; b=uw7rlftLBSkhFcFVb6V+wF
+        L9pYlDZzHJTGgYEiOjxUJKj+3rV37gK7RMKOPutEoBiNnsadek2VoROj4pDsMcYE
+        X93HKm91yNqTtY7VG5iij9uFlAx9YrqZowa9Mm1FNqDTfUCFJfeL2RcGGX3JkGYL
+        +vMBPc/DdmMq33yRnmit5PBD8C+TTxFG+/6Dhv5mRihRfBQtZi4BYieifDsa7+R2
+        +tpxReM3NdvQk/R/1akCnJCeVvII2szM8BGMpYroxFrFwUDcNf63aJZlN984VHLG
+        BpEiT3DdxEgE9fY/zOKiNxk8S4sXRotry23tlE+YCgdoXxVxIN+d1FrIAsK+7c0Q
+        ==
+X-ME-Sender: <xms:QX5BXIlOEbzgdz7WwqI9T8q3MoJ-s8vBkDfEKPaP8gII_TajEDiQuA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedtledrgeelgddutdehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfquhhtnecuuegrihhlohhuthemucef
+    tddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenogfuphgrmhfkphculdeftd
+    dtmdenucfjughrpeffhffvuffkfhggtggujggfsehttdertddtredvnecuhfhrohhmpefi
+    rhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucfkphepkeefrdekiedrke
+    elrddutdejnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtgho
+    mhenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:QX5BXIasKiS23CEDa1zHQ2AwLklAPL7LUiKIb50LMA9hSwHnRmlVUw>
+    <xmx:QX5BXPgHVlXGVHBTqB7BJPaaRcTXpckIdSKAETkEcCOKVyANZeivEg>
+    <xmx:QX5BXOyAtDELFDPcll_WuxDYm-2w29Fjy-Nv_EqGxUodtZlqS_oKkA>
+    <xmx:Qn5BXE2hI68d0U3D-0l0H3MBLPnhM5DeV7XBPrfua--xVC5JowfLZg>
+Received: from localhost (5356596b.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
+        by mail.messagingengine.com (Postfix) with ESMTPA id F0D8610087;
+        Fri, 18 Jan 2019 02:20:32 -0500 (EST)
+Date:   Fri, 18 Jan 2019 08:20:31 +0100
+From:   Greg KH <greg@kroah.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: doc: stable-api-nonsense missing link
+Message-ID: <20190118072031.GH11050@kroah.com>
+References: <3122599.2K0FN2NGh9@harkonnen>
+ <20190117151953.2ab38ecc@lwn.net>
 MIME-Version: 1.0
-References: <1531342898-15790-1-git-send-email-eajames@linux.vnet.ibm.com>
- <1531342898-15790-10-git-send-email-eajames@linux.vnet.ibm.com> <alpine.DEB.2.21.1901180140150.1647@nanos.tec.linutronix.de>
-In-Reply-To: <alpine.DEB.2.21.1901180140150.1647@nanos.tec.linutronix.de>
-From:   Joel Stanley <joel@jms.id.au>
-Date:   Fri, 18 Jan 2019 12:47:08 +1100
-Message-ID: <CACPK8Xf3=pTRubt0VnUJ6GyT7bG15oCL+XtqzfeAAtccqbR_xg@mail.gmail.com>
-Subject: Re: [PATCH v4 9/9] hwmon (occ): Add sysfs attributes for additional
- OCC data
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Eddie James <eajames@linux.vnet.ibm.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-hwmon@vger.kernel.org,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190117151953.2ab38ecc@lwn.net>
+User-Agent: Mutt/1.11.2 (2019-01-07)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 18 Jan 2019 at 11:44, Thomas Gleixner <tglx@linutronix.de> wrote:
->
-> Eddie,
->
-> On Wed, 11 Jul 2018, Eddie James wrote:
->
-> > --- /dev/null
-> > +++ b/drivers/hwmon/occ/sysfs.c
-> > @@ -0,0 +1,188 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * OCC hwmon driver sysfs interface
-> > + *
-> > + * Copyright (C) IBM Corporation 2018
-> > + *
-> > + * This program is free software; you can redistribute it and/or modify
-> > + * it under the terms of the GNU General Public License as published by
-> > + * the Free Software Foundation; either version 2 of the License, or
-> > + * (at your option) any later version.
-> > + */
->
-> The above license information is inconsistent.
->
-> The SPDX license identifier says GPL v2 only, but the license notice says
-> GPL v2 or later. This is just wrong.
->
-> Please decide which one to use and please also remove the boiler plate
-> text. It is redundant.
->
-> See Documentation/process/license-rules.rst
+On Thu, Jan 17, 2019 at 03:19:53PM -0700, Jonathan Corbet wrote:
+> On Thu, 17 Jan 2019 23:14:08 +0100
+> Federico Vaga <federico.vaga@vaga.pv.it> wrote:
+> 
+> > in this document
+> > 
+> > Documentation/process/stable-api-nonsense.rst
+> > 
+> > there is this note:
+> > 
+> > <insert link to leech comment from Andrew and Linus here>
+> > 
+> > Is it possible to get it fixed with the proper link? I searched for it without 
+> > success. If that comment is impossible to find I will send a patch to remove 
+> > that note, but first I wanted to ask you if you know where to get it.
+> 
+> That sounds like a question for Greg (copied).  Given that this document
+> predates the Git era, though, I suspect that whatever reference that was
+> meant to be is long since lost.
 
-Thanks Thomas.
+It was referring to an email thread about this topic that happened at
+the time I wrote the document.  Let me try to dig through my archives,
+but given that it was written well over a decade ago, I don't know if I
+will be able to find it easily...
 
-Eddie, as IBM contributed code our preferred license is GPLv2+. Be
-sure to include the copyright line in your header (I noticed some OCC
-files are missing this, please audit all of your recent
-contributions):
+thanks,
 
-// SPDX-License-Identifier: GPL-2.0+
-// Copyright IBM Corp 2019
-
-Cheers,
-
-Joel
+greg k-h
