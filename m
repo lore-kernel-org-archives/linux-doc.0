@@ -5,193 +5,330 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8E6BF7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 22:50:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D56537D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 22:56:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729575AbfARWuz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 Jan 2019 17:50:55 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:42721 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729835AbfARWuv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jan 2019 17:50:51 -0500
-Received: by mail-pl1-f196.google.com with SMTP id y1so6952635plp.9
-        for <linux-doc@vger.kernel.org>; Fri, 18 Jan 2019 14:50:50 -0800 (PST)
+        id S1729903AbfARW4T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Jan 2019 17:56:19 -0500
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:34536 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729709AbfARW4S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jan 2019 17:56:18 -0500
+Received: by mail-qt1-f194.google.com with SMTP id r14so17135957qtp.1
+        for <linux-doc@vger.kernel.org>; Fri, 18 Jan 2019 14:56:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=MNUKPjJqvWPEMXelfnXE6nuCjxdv1362biBH6cW7C38=;
-        b=b83MAFLRfu9lfKeMa+xo8W6wK+AaLnI3BiblZipDEcIqwUEzaXzjplTd8xyWme5zrC
-         1AJRTEV8U3apfWhZpoY6uL4OpYxVrQhdTzsZpoCr/kl5c9+mTt5ZPwm5kBWnIrQxU4FU
-         l9mZjjf00c3yBH6vJB/929aN1OySxruHF9v9SNbg/cnJ4N4zepEtDmBvZjs88+227IMx
-         BCYYiiShYwvkEzsFLoCAL0h26Y2eilqFa+ZhWT0ovb/UHcXrxuz/2rIDPJmIn7C3iVxF
-         ymWvPhIWtg1H4SEATMemj97j5kl7HTgEtHueNqrVCcPdwxqeKl3upH4RG7KI526Hcst1
-         oHNQ==
+        d=joelfernandes.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wWIoIjynhFpqCzaKzBujc7FkCNVHBpTIttxCTbYayWE=;
+        b=NvWYsYjM2pcZtm/PAixRraf8hCa1Unf7V7r1K+r0z41DojV37fKiyJczwRfSnDNCCa
+         3AcxhuZxm9OR1rQ46qRfCLwFE/Vg0T8XT6kXlJA2ULgGiAt5+5tSsoXHQPIKdMtEjQYZ
+         d4yCbDvI4VZU9XcLxQELSFO0hMVVS1a7gD7A0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=MNUKPjJqvWPEMXelfnXE6nuCjxdv1362biBH6cW7C38=;
-        b=CoLZWdOzfrWwWGFU8049TUOo7umcUO7PhAGjPsrVAOcvQ1/LYsmq59BqfZ2UkpDPGd
-         6V4mRZQ9TNTNOZoI0NKb8pWaFniqEJKBxY8cT2ZNvnck+bYKf/HIlJxQTfIvfAI+EXlh
-         F5vtKoUQ56GONHhHwP9kRNSyn2VSGEJPVK8prJJiHwHFdneIgfpgvEAhXcCk07jEEhNr
-         9gyqLxNfGvwhwqo/eXfbHAGF3sULXn4FpBaCpotcpte12Sd1u1StGcREQsq0hKPrWDnb
-         Sm1pAXB2FcNgM0L5A44CvdhzreULndeJiI6sqdFn+vZo2yamtQzIJCLXpJ3BX4Lnvrpo
-         vXuQ==
-X-Gm-Message-State: AJcUukfgR4Mh+d6uCPMwpLANZsecw7j2kzZfOOvuVVLuEftaWGX3ZQTs
-        p3KzQ/RIk61cCF4PyUucbWcW8g==
-X-Google-Smtp-Source: ALg8bN4qjfesCJZ/3g5Aw/eeYaW0+raxrdBY93e4Mt6TpqCNmp3yGY39XBVP1sgr0Rqw8bRBUUH1SA==
-X-Received: by 2002:a17:902:2ec1:: with SMTP id r59mr21141578plb.254.1547851849940;
-        Fri, 18 Jan 2019 14:50:49 -0800 (PST)
-Received: from ziepe.ca (S010614cc2056d97f.ed.shawcable.net. [174.3.196.123])
-        by smtp.gmail.com with ESMTPSA id 184sm9368824pfe.106.2019.01.18.14.50.48
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 18 Jan 2019 14:50:48 -0800 (PST)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1gkcyN-0007He-Ni; Fri, 18 Jan 2019 15:50:47 -0700
-Date:   Fri, 18 Jan 2019 15:50:47 -0700
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Joe Perches <joe@perches.com>
-Cc:     Gal Pressman <galpress@amazon.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Stephen Warren <swarren@wwwdotorg.org>,
-        Tariq Toukan <tariqt@mellanox.com>, xavier.huwei@huawei.com,
-        netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
-        Doug Ledford <dledford@redhat.com>,
-        Stephen Warren <swarren@nvidia.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5] coding-style: Clarify the expectations around bool
-Message-ID: <20190118225047.GH4759@ziepe.ca>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wWIoIjynhFpqCzaKzBujc7FkCNVHBpTIttxCTbYayWE=;
+        b=eve4QynsbMHBqP9RVOstVRzXY81jdvIg2HVsfrDJJBAJnvejx7xMJBzOmqyVJgwTfL
+         7gBsBVdcJmTKzJwRcGMqfCzcVb2+a1+sM/4kewc6JgjlwEnX0zK1iEPsExICGU0blhqK
+         u1rHCQT1bjkvhDXs1un5CHZI/Aj64qJjNC+l2g36TnZJJ6gAyvyvTx7/ETzfZWC++58W
+         NR3d202IfbjrDSLXDwPV7t3jbuJeaXFkB4vHhpxeknU9hpa5eHe+6SerxoArHvBX++SW
+         u6Q05vg95tU73rsQdhF64FOBzqUyJECiaiYHDgh3iFgMdh0GfdnyM6Zowp/46NjWa9Yp
+         rxrw==
+X-Gm-Message-State: AJcUukcluVXUOYO2/ii/O7UL2Y3ASh0UrZWQsPuE20szp5FZCIpimfDr
+        g9HneZ5cLTPYm0XGhd6pz60NXQ==
+X-Google-Smtp-Source: ALg8bN4lqnF75Fx+LTvoEaRwWtuAcsawjwyvlwj29j72VtFqGlBewmBEmFI4zYLfD0U6WVnNCUYAPg==
+X-Received: by 2002:ac8:27c8:: with SMTP id x8mr17497793qtx.352.1547852177433;
+        Fri, 18 Jan 2019 14:56:17 -0800 (PST)
+Received: from joelaf.cam.corp.google.com ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
+        by smtp.gmail.com with ESMTPSA id r18sm69429803qta.83.2019.01.18.14.56.15
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 18 Jan 2019 14:56:16 -0800 (PST)
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atishp04@gmail.com, Borislav Petkov <bp@alien8.de>,
+        dancol@google.com, gregkh@linuxfoundation.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+        karim.yaghmour@opersys.com, Kees Cook <keescook@chromium.org>,
+        kernel-team@android.com, linux-doc@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        paulmck@linux.vnet.ibm.com,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        rdunlap@infradead.org, rostedt@goodmis.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        yhs@fb.com
+Subject: [RFC] Provide in-kernel headers for making it easy to extend the kernel
+Date:   Fri, 18 Jan 2019 17:55:43 -0500
+Message-Id: <20190118225543.86996-1-joel@joelfernandes.org>
+X-Mailer: git-send-email 2.20.1.321.g9e740568ce-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There has been some confusion since checkpatch started warning about bool
-use in structures, and people have been avoiding using it.
+From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
 
-Many people feel there is still a legitimate place for bool in structures,
-so provide some guidance on bool usage derived from the entire thread that
-spawned the checkpatch warning.
+Introduce in-kernel headers and other artifacts which are made available
+as an archive through proc (/proc/kheaders.tgz file). This archive makes
+it possible to build kernel modules, run eBPF programs, and other
+tracing programs that need to extend the kernel for tracing purposes
+without any dependency on the file system having headers and build
+artifacts.
 
-Link: https://lkml.kernel.org/r/CA+55aFwVZk1OfB9T2v014PTAKFhtVan_Zj2dOjnCy3x6E4UJfA@mail.gmail.com
-Signed-off-by: Joe Perches <joe@perches.com>
-Acked-by: Joe Perches <joe@perches.com>
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-Reviewed-by: Joey Pabalinas <joeypabalinas@gmail.com>
-Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
+On Android and embedded systems, it is common to switch kernels but not
+have kernel headers available on the file system. Raw kernel headers
+also cannot be copied into the filesystem like they can be on other
+distros, due to licensing and other issues. There's no linux-headers
+package on Android. Further once a different kernel is booted, any
+headers stored on the file system will no longer be useful. By storing
+the headers as a compressed archive within the kernel, we can avoid these
+issues that have been a hindrance for a long time.
+
+The feature is buildable as a module thus making it possible to load and
+unload it on demand. A tracing program, or a kernel module builder can
+then load the module, do its thing, and then unload the module to save
+the kernel memory. At the moment the total memory needed is 7MB.
+However, this can be brought down by stripping comments from the header
+files, which brings it down to 4MB. Since many of the headers have
+copyright information, I have avoided stripping the comments in this
+first pass, and can provide future patches to bring the size down if
+needed. A further reduction is possible using bzip compression instead
+of gzip, however I have stuck to gzip to avoid any dependency on less
+popular compression tools.
+
+The code to read the headers is based on /proc/config.gz code and uses
+the same technique to embed the headers.
+
+To build a module, the below steps have been tested on an x86 machine:
+modprobe kheaders    # If building as IKHEADERS as a module
+rm -rf $HOME/headers
+mkdir -p $HOME/headers
+tar -xvf /proc/kheaders.tgz -C $HOME/headers >/dev/null
+cd my-kernel-module
+make -C $HOME/headers M=$(PWD) modules
+rmmod kheaders
+
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
- Documentation/process/coding-style.rst | 38 +++++++++++++++++++++++---
- scripts/checkpatch.pl                  | 13 ---------
- 2 files changed, 34 insertions(+), 17 deletions(-)
+ Documentation/dontdiff  |  1 +
+ arch/x86/Makefile       |  2 ++
+ init/Kconfig            | 10 ++++++
+ kernel/.gitignore       |  2 ++
+ kernel/Makefile         | 29 ++++++++++++++++
+ kernel/kheaders.c       | 74 +++++++++++++++++++++++++++++++++++++++++
+ scripts/gen_ikh_data.sh | 13 ++++++++
+ 7 files changed, 131 insertions(+)
+ create mode 100644 kernel/kheaders.c
+ create mode 100755 scripts/gen_ikh_data.sh
 
-v5:
- - Wording updates from JoeyP, MatthewW, FedericoV
-
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index b78dd680c03809..de889deaf29c42 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -921,7 +921,37 @@ result.  Typical examples would be functions that return pointers; they use
- NULL or the ERR_PTR mechanism to report failure.
+diff --git a/Documentation/dontdiff b/Documentation/dontdiff
+index 2228fcc8e29f..05a2319ee2a2 100644
+--- a/Documentation/dontdiff
++++ b/Documentation/dontdiff
+@@ -151,6 +151,7 @@ int8.c
+ kallsyms
+ kconfig
+ keywords.c
++kheaders_data.h*
+ ksym.c*
+ ksym.h*
+ kxgettext
+diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+index 88398fdf8129..ad176d669da4 100644
+--- a/arch/x86/Makefile
++++ b/arch/x86/Makefile
+@@ -240,6 +240,8 @@ archmacros:
+ ASM_MACRO_FLAGS = -Wa,arch/x86/kernel/macros.s
+ export ASM_MACRO_FLAGS
+ KBUILD_CFLAGS += $(ASM_MACRO_FLAGS)
++IKH_EXTRA += arch/x86/kernel/macros.s
++export IKH_EXTRA
  
+ ###
+ # Kernel objects
+diff --git a/init/Kconfig b/init/Kconfig
+index a4112e95724a..0594df0b33ac 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -549,6 +549,16 @@ config IKCONFIG_PROC
+ 	  This option enables access to the kernel configuration file
+ 	  through /proc/config.gz.
  
--17) Don't re-invent the kernel macros
-+17) Using bool
-+--------------
++config IKHEADERS_PROC
++	tristate "Enable kernel header artifacts through /proc/kheaders.tgz"
++	select BUILD_BIN2C
++	depends on PROC_FS
++	help
++	  This option enables access to the kernel header and other artifacts that
++          are generated during the build process. These can be used to build kernel
++          modules, and other in-kernel programs such as those generated by eBPF
++          and systemtap tools.
 +
-+The Linux kernel bool type is an alias for the C99 _Bool type. bool values can
-+only evaluate to 0 or 1, and implicit or explicit conversion to bool
-+automatically converts the value to true or false. When using bool types the
-+!! construction is not needed, which eliminates a class of bugs.
+ config LOG_BUF_SHIFT
+ 	int "Kernel log buffer size (16 => 64KB, 17 => 128KB)"
+ 	range 12 25
+diff --git a/kernel/.gitignore b/kernel/.gitignore
+index b3097bde4e9c..cacf6b7f6d32 100644
+--- a/kernel/.gitignore
++++ b/kernel/.gitignore
+@@ -3,5 +3,7 @@
+ #
+ config_data.h
+ config_data.gz
++kheaders_data.h
++kheaders_data.tgz
+ timeconst.h
+ hz.bc
+diff --git a/kernel/Makefile b/kernel/Makefile
+index 7343b3a9bff0..d5968305d716 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -73,6 +73,7 @@ obj-$(CONFIG_UTS_NS) += utsname.o
+ obj-$(CONFIG_USER_NS) += user_namespace.o
+ obj-$(CONFIG_PID_NS) += pid_namespace.o
+ obj-$(CONFIG_IKCONFIG) += configs.o
++obj-$(CONFIG_IKHEADERS_PROC) += kheaders.o
+ obj-$(CONFIG_SMP) += stop_machine.o
+ obj-$(CONFIG_KPROBES_SANITY_TEST) += test_kprobes.o
+ obj-$(CONFIG_AUDIT) += audit.o auditfilter.o
+@@ -131,3 +132,31 @@ $(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
+ targets += config_data.h
+ $(obj)/config_data.h: $(obj)/config_data.gz FORCE
+ 	$(call filechk,ikconfiggz)
 +
-+When working with bool values the true and false definitions should be used
-+instead of 1 and 0.
++# Build a list of in-kernel headers for building kernel modules
++# Any other files will be stored in IKH_EXTRA variable.
++ikh_file_list := include/
++ikh_file_list += arch/$(ARCH)/Makefile
++ikh_file_list += arch/$(ARCH)/include/
++ikh_file_list += $(IKH_EXTRA)
++ikh_file_list += scripts/
++ikh_file_list += Makefile
++ikh_file_list += Module.symvers
++ifeq ($(CONFIG_STACK_VALIDATION), y)
++ikh_file_list += $(objtree)/tools/objtool/objtool
++endif
 +
-+bool function return types and stack variables are always fine to use whenever
-+appropriate. Use of bool is encouraged to improve readability and is often a
-+better option than 'int' for storing boolean values.
++$(obj)/kheaders.o: $(obj)/kheaders_data.h
 +
-+Do not use bool if cache line layout or size of the value matters, as its size
-+and alignment varies based on the compiled architecture. Structures that are
-+optimized for alignment and size should not use bool.
++targets += kheaders_data.tgz
 +
-+If a structure has many true/false values, consider consolidating them into a
-+bitfield with 1 bit members, or using an appropriate fixed width type, such as
-+u8.
++quiet_cmd_genikh = GEN     $(obj)/kheaders_data.tgz
++cmd_genikh = $(srctree)/scripts/gen_ikh_data.sh $@ $^ >/dev/null 2>&1
++$(obj)/kheaders_data.tgz: $(ikh_file_list) FORCE
++	$(call cmd,genikh)
 +
-+Similarly for function arguments, many true/false values can be consolidated
-+into a single bitwise 'flags' argument and 'flags' can often be a more
-+readable alternative if the call-sites have naked true/false constants.
++filechk_ikheadersgz = (echo "static const char kernel_headers_data[] __used = KH_MAGIC_START"; cat $< | scripts/bin2c; echo "KH_MAGIC_END;")
 +
-+Otherwise limited use of bool in structures and arguments can improve
-+readability.
++targets += kheaders_data.h
++$(obj)/kheaders_data.h: $(obj)/kheaders_data.tgz FORCE
++	$(call filechk,ikheadersgz)
+diff --git a/kernel/kheaders.c b/kernel/kheaders.c
+new file mode 100644
+index 000000000000..ac4ca0248b8b
+--- /dev/null
++++ b/kernel/kheaders.c
+@@ -0,0 +1,74 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * kernel/kheaders.c
++ * Provide headers and artifacts needed to build kernel modules.
++ * (Borrowed code from kernel/configs.c)
++ */
 +
-+18) Don't re-invent the kernel macros
- -------------------------------------
- 
- The header file include/linux/kernel.h contains a number of macros that
-@@ -944,7 +974,7 @@ need them.  Feel free to peruse that header file to see what else is already
- defined that you shouldn't reproduce in your code.
- 
- 
--18) Editor modelines and other cruft
-+19) Editor modelines and other cruft
- ------------------------------------
- 
- Some editors can interpret configuration information embedded in source files,
-@@ -978,7 +1008,7 @@ own custom mode, or may have some other magic method for making indentation
- work correctly.
- 
- 
--19) Inline assembly
-+20) Inline assembly
- -------------------
- 
- In architecture-specific code, you may need to use inline assembly to interface
-@@ -1010,7 +1040,7 @@ the next instruction in the assembly output:
- 	     : /* outputs */ : /* inputs */ : /* clobbers */);
- 
- 
--20) Conditional Compilation
-+21) Conditional Compilation
- ---------------------------
- 
- Wherever possible, don't use preprocessor conditionals (#if, #ifdef) in .c
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index b737ca9d720441..d62abd032885a1 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -6368,19 +6368,6 @@ sub process {
- 			}
- 		}
- 
--# check for bool bitfields
--		if ($sline =~ /^.\s+bool\s*$Ident\s*:\s*\d+\s*;/) {
--			WARN("BOOL_BITFIELD",
--			     "Avoid using bool as bitfield.  Prefer bool bitfields as unsigned int or u<8|16|32>\n" . $herecurr);
--		}
--
--# check for bool use in .h files
--		if ($realfile =~ /\.h$/ &&
--		    $sline =~ /^.\s+bool\s*$Ident\s*(?::\s*d+\s*)?;/) {
--			CHK("BOOL_MEMBER",
--			    "Avoid using bool structure members because of possible alignment issues - see: https://lkml.org/lkml/2017/11/21/384\n" . $herecurr);
--		}
--
- # check for semaphores initialized locked
- 		if ($line =~ /^.\s*sema_init.+,\W?0\W?\)/) {
- 			WARN("CONSIDER_COMPLETION",
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/proc_fs.h>
++#include <linux/seq_file.h>
++#include <linux/init.h>
++#include <linux/uaccess.h>
++
++/*
++ * Define kernel_headers_data and kernel_headers_data_size, which contains the
++ * compressed kernel headers.  The file is first compressed with gzip and then
++ * bounded by two eight byte magic numbers to allow extraction from a binary
++ * kernel image:
++ *
++ *   IKHD_ST
++ *   <image>
++ *   IKHD_ED
++ */
++#define KH_MAGIC_START	"IKHD_ST"
++#define KH_MAGIC_END	"IKHD_ED"
++#include "kheaders_data.h"
++
++
++#define KH_MAGIC_SIZE (sizeof(KH_MAGIC_START) - 1)
++#define kernel_headers_data_size \
++	(sizeof(kernel_headers_data) - 1 - KH_MAGIC_SIZE * 2)
++
++static ssize_t
++ikheaders_read_current(struct file *file, char __user *buf,
++		      size_t len, loff_t *offset)
++{
++	return simple_read_from_buffer(buf, len, offset,
++				       kernel_headers_data + KH_MAGIC_SIZE,
++				       kernel_headers_data_size);
++}
++
++static const struct file_operations ikheaders_file_ops = {
++	.owner = THIS_MODULE,
++	.read = ikheaders_read_current,
++	.llseek = default_llseek,
++};
++
++static int __init ikheaders_init(void)
++{
++	struct proc_dir_entry *entry;
++
++	/* create the current headers file */
++	entry = proc_create("kheaders.tgz", S_IFREG | S_IRUGO, NULL,
++			    &ikheaders_file_ops);
++	if (!entry)
++		return -ENOMEM;
++
++	proc_set_size(entry, kernel_headers_data_size);
++
++	return 0;
++}
++
++static void __exit ikheaders_cleanup(void)
++{
++	remove_proc_entry("kheaders.tgz", NULL);
++}
++
++module_init(ikheaders_init);
++module_exit(ikheaders_cleanup);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Joel Fernandes");
++MODULE_DESCRIPTION("Echo the kernel header artifacts used to build the kernel");
+diff --git a/scripts/gen_ikh_data.sh b/scripts/gen_ikh_data.sh
+new file mode 100755
+index 000000000000..e87a0f0c13e5
+--- /dev/null
++++ b/scripts/gen_ikh_data.sh
+@@ -0,0 +1,13 @@
++#!/bin/bash
++
++echo "${@:2}" > $1.list
++
++rm -rf $1.tmp
++mkdir $1.tmp
++
++for f in "${@:2}";
++	do find "$f" ! -name "*.c" ! -name "*.o" ! -name "*.cmd" ! -name ".*";
++done | cpio -pd $1.tmp
++
++tar -jcf $1 -C $1.tmp/ . > /dev/null
++rm -rf $1.tmp
 -- 
-2.20.1
+2.20.1.321.g9e740568ce-goog
 
