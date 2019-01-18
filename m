@@ -5,89 +5,151 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2AF527D161
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 13:38:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9EA2D7D099
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 13:44:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727371AbfARNia (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 Jan 2019 08:38:30 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:53778 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727020AbfARNia (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jan 2019 08:38:30 -0500
-Received: by mail-wm1-f68.google.com with SMTP id d15so4529717wmb.3
-        for <linux-doc@vger.kernel.org>; Fri, 18 Jan 2019 05:38:28 -0800 (PST)
+        id S1727496AbfARNo3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Jan 2019 08:44:29 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:37814 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728014AbfARNo2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jan 2019 08:44:28 -0500
+Received: by mail-wm1-f66.google.com with SMTP id g67so4542594wmd.2
+        for <linux-doc@vger.kernel.org>; Fri, 18 Jan 2019 05:44:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id;
-        bh=VgAxxxrE6pIe5JTLS0o6AyfzRnkrf0ffQkkxm2skhIs=;
-        b=j+JGx/ZIPUcCEFjierqfypF1xaMc/u05Jz3z4kO2rueBKroWLfktm2dbE6fyi44N9l
-         whhY6cgkyHPMJ9d0oBQsY6R8kZaGFvsb7QgHPd7zuWcL+AxrSrzULVmz8sElN8+NR3vz
-         q9mIG+CW2L5HQAy+/ESKR9VtAiWToF/1IQnUvS1MXHaIpIJHAUfTU70cTXJ9FE+FVNkk
-         eTH+BzBmRNnC6gibDbCbD1f4kAChh+JWnLUHUS1OWL/h0JmBqn/8pcsbdEG3hCsETVRC
-         OXbA57xfWoLRahTr4CN4kRNIeMXfF3QQSApqgm/RkAk+7+xnY4WIJ/OxmPZe0WZRjxhy
-         Q6DQ==
+        bh=6xhP3iFZu+KY4p6uA7nxYzqv59edNtjKSfjSMfB8u+8=;
+        b=UrHguNnD28eUc06ATqkWwzWIuediGZIT8Dojl9XpKM6si+KEAo2f5PlG2pg95exakT
+         MLQxBCSC0qc93Qq2SzWaa+AwWlvX/zyeoXg1MayvY31RwVgkoOtordjOHMGHlSVZLPMg
+         S+KEoJ3I563xPNO/nG1AY7RFJKNM/VFPv1RIVXB7XTxWormA7mXAKRE377Hu+7b8ND0G
+         x+cdGEukxB69l9/3f2p86X01VUTaygkoyEsimE8CxVnUK2xV0N9EDoFujiLjJslz+/2m
+         djYhUUeDzLr4GTVaaFvF/pA6/hlj3MOTyhBmUnSpeZYF6POoYJXZ5vffMub2r9C0QT6Z
+         HMBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=VgAxxxrE6pIe5JTLS0o6AyfzRnkrf0ffQkkxm2skhIs=;
-        b=a/9c8wC+eG67on3AYWJWUXSck8oRSkpBHw7u3hEMBrk4BhHIldOgcm77vSJFRJHJJE
-         UtMiMM/TB6hB1uPpghjmB4hKhfANjQDbSbrEXnQTDtEChox5SxSBVxPGbFi0hzIGPcCM
-         Wjp9HyXLEEQDmhFHU7+p5eVBSL9C+Cswe8ct5XlzCjqqgBwDmBJNuZSryaPDv8MtaPQP
-         aFFBIIzaI2MU8PXAzTylwAEyDtYhaabMjFxeTl5wXdbAOW/+e+ykuqjQ41GSQyBqb99F
-         SH3Z2xLoFhNDHrTSICzZqKrPNszR4EAFK66+5IR4wHdaPrHy5wfo9LaHk5iQ81dT/kXo
-         POzg==
-X-Gm-Message-State: AJcUukdfm2pvqALrQScltorXeak4D5hXt/dMGN3aiNUNE9TUdfcw8JcX
-        +tbIkjxO+avNoluW3Gk7MDt/+A==
-X-Google-Smtp-Source: ALg8bN4nyD2T6zQMNgtL4W8BL1pVd0S3wpHD2PAgGqsQj2Jddccq+pQoiit13O0Qe7Uu62vSOHCN/A==
-X-Received: by 2002:a1c:f71a:: with SMTP id v26mr14743094wmh.131.1547818708127;
-        Fri, 18 Jan 2019 05:38:28 -0800 (PST)
+        bh=6xhP3iFZu+KY4p6uA7nxYzqv59edNtjKSfjSMfB8u+8=;
+        b=r45wfmIefxDyOe78sBj3mUerSSfNo9gdjendMmqs68N02Kz4XVI+48QWOLDYTMKysW
+         gC6GqMP9hQOJUi20GUrQ4CDN1M09RlSiZbW4Vqkx+Ony2WJrwmMRllH+dZu7GJHod7ji
+         uF3jNzaVUVsSuvOThfNmajBOo6LbjyeBaNstHPQ0dLzGuzInCvK7YNC9uBasOI6xvcGl
+         ECK7ubHYbAZGcROzw/vc2F8zrwdHiaWqrfyf/gVvc1+1BPhwBsyweoV8C9DwDi5W5pVn
+         51exKuaq4pwB/DqQXOGzsP63jPSfEG2cWQiALRWxhfLjmcxvhhTjx1o35FyZePiOj0FC
+         ccUQ==
+X-Gm-Message-State: AJcUukcOSHHfVSNi+TlWVm8Ax1bsfUs4Q3e8c4aT7Z/lRDJ0ppyvTJ0g
+        wINwM+xiN42txfhbAY4iD4EeLisqWJQ=
+X-Google-Smtp-Source: ALg8bN6q8pkGJRQqKhQVSRwKN5gJFmOp6G9FcYQc3pwLEAsOrr31MF/rkKFXCJD++LEhcH5RIccvsg==
+X-Received: by 2002:a1c:3d44:: with SMTP id k65mr15541959wma.76.1547819066534;
+        Fri, 18 Jan 2019 05:44:26 -0800 (PST)
 Received: from localhost.localdomain ([51.15.160.169])
-        by smtp.googlemail.com with ESMTPSA id b7sm77748826wrs.47.2019.01.18.05.38.26
+        by smtp.googlemail.com with ESMTPSA id y13sm65912208wrn.73.2019.01.18.05.44.25
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Fri, 18 Jan 2019 05:38:27 -0800 (PST)
+        Fri, 18 Jan 2019 05:44:25 -0800 (PST)
 From:   Corentin Labbe <clabbe@baylibre.com>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH] Documentation: DMA-API: fix two typos
-Date:   Fri, 18 Jan 2019 13:38:22 +0000
-Message-Id: <1547818702-40035-1-git-send-email-clabbe@baylibre.com>
+To:     corbet@lwn.net, hch@lst.de, m.szyprowski@samsung.com,
+        robin.murphy@arm.com
+Cc:     iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>
+Subject: [PATCH v2] dma-debug: add dumping facility via debugfs
+Date:   Fri, 18 Jan 2019 13:44:18 +0000
+Message-Id: <1547819058-3552-1-git-send-email-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch fixes two typos, a missing "e" and dma-api/driver_filter was
-incorrectly typed dma-api/driver-filter.
+While debugging a DMA mapping leak, I needed to access
+debug_dma_dump_mappings() but easily from user space.
+
+This patch adds a /sys/kernel/debug/dma-api/dump file which contain all
+current DMA mapping.
 
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- Documentation/DMA-API.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Changes since v1:
+- Use DEFINE_SHOW_ATTRIBUTE
+- Add Documentation
+
+ Documentation/DMA-API.txt |  3 +++
+ kernel/dma/debug.c        | 36 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 39 insertions(+)
 
 diff --git a/Documentation/DMA-API.txt b/Documentation/DMA-API.txt
-index 78114ee63057..bd009f3069f8 100644
+index e133ccd60228..78114ee63057 100644
 --- a/Documentation/DMA-API.txt
 +++ b/Documentation/DMA-API.txt
-@@ -531,7 +531,7 @@ that simply cannot make consistent memory.
- 		       dma_addr_t dma_handle, unsigned long attrs)
+@@ -696,6 +696,9 @@ dma-api/disabled		This read-only file contains the character 'Y'
+ 				happen when it runs out of memory or if it was
+ 				disabled at boot time
  
- Free memory allocated by the dma_alloc_attrs().  All parameters common
--parameters must identical to those otherwise passed to dma_fre_coherent,
-+parameters must identical to those otherwise passed to dma_free_coherent,
- and the attrs argument must be identical to the attrs passed to
- dma_alloc_attrs().
++dma-api/dump			This read-only file contains current DMA
++				mappings.
++
+ dma-api/error_count		This file is read-only and shows the total
+ 				numbers of errors found.
  
-@@ -720,7 +720,7 @@ dma-api/num_free_entries	The current number of free dma_debug_entries
- dma-api/nr_total_entries	The total number of dma_debug_entries in the
- 				allocator, both free and used.
+diff --git a/kernel/dma/debug.c b/kernel/dma/debug.c
+index 23cf5361bcf1..b4827b1c9070 100644
+--- a/kernel/dma/debug.c
++++ b/kernel/dma/debug.c
+@@ -144,6 +144,7 @@ static struct dentry *num_free_entries_dent __read_mostly;
+ static struct dentry *min_free_entries_dent __read_mostly;
+ static struct dentry *nr_total_entries_dent __read_mostly;
+ static struct dentry *filter_dent           __read_mostly;
++static struct dentry *dump_dent             __read_mostly;
  
--dma-api/driver-filter		You can write a name of a driver into this file
-+dma-api/driver_filter		You can write a name of a driver into this file
- 				to limit the debug output to requests from that
- 				particular driver. Write an empty string to
- 				that file to disable the filter and see
+ /* per-driver filter related state */
+ 
+@@ -840,6 +841,36 @@ static const struct file_operations filter_fops = {
+ 	.llseek = default_llseek,
+ };
+ 
++static int dump_show(struct seq_file *seq, void *v)
++{
++	int idx;
++
++	for (idx = 0; idx < HASH_SIZE; idx++) {
++		struct hash_bucket *bucket = &dma_entry_hash[idx];
++		struct dma_debug_entry *entry;
++		unsigned long flags;
++
++		spin_lock_irqsave(&bucket->lock, flags);
++
++		list_for_each_entry(entry, &bucket->list, list) {
++			seq_printf(seq,
++				   "%s %s %s idx %d P=%llx N=%lx D=%llx L=%llx %s %s\n",
++				   dev_name(entry->dev),
++				   dev_driver_string(entry->dev),
++				   type2name[entry->type], idx,
++				   phys_addr(entry), entry->pfn,
++				   entry->dev_addr, entry->size,
++				   dir2name[entry->direction],
++				   maperr2str[entry->map_err_type]);
++		}
++
++		spin_unlock_irqrestore(&bucket->lock, flags);
++	}
++	return 0;
++}
++
++DEFINE_SHOW_ATTRIBUTE(dump);
++
+ static int dma_debug_fs_init(void)
+ {
+ 	dma_debug_dent = debugfs_create_dir("dma-api", NULL);
+@@ -894,6 +925,11 @@ static int dma_debug_fs_init(void)
+ 	if (!filter_dent)
+ 		goto out_err;
+ 
++	dump_dent = debugfs_create_file("dump", 0444,
++					dma_debug_dent, NULL, &dump_fops);
++	if (!dump_dent)
++		goto out_err;
++
+ 	return 0;
+ 
+ out_err:
 -- 
 2.19.2
 
