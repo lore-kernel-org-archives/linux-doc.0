@@ -1,108 +1,121 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A8A4C7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 07:33:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 086C87D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 18 Jan 2019 09:16:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727173AbfARHdg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 18 Jan 2019 02:33:36 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:38501 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727138AbfARHdg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Jan 2019 02:33:36 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 927EBC556;
-        Fri, 18 Jan 2019 02:33:34 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Fri, 18 Jan 2019 02:33:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=fOZ44BA0UAtWnElZYWB7HaN0ObM
-        bDewklA4+wof8+Fw=; b=AiRs/oCMpQmLKne+UItqcAm9nUhsWft3Y+HNYrVNAQS
-        HFregg8paijdnX1CD1XL+is7WVgP6obkUpmAdljP6gQaHZZ9GAO0nEwfYZ+2Fkbg
-        GJH17oLjhm1j0VZq9lB2KUCUsV8Tw/DdnytD/IScM7nirDzZwTlw6jgOdxXXhss/
-        fIkLUtuTgyFbfVRTMG7y2EF8oIwvFCObhNBbdiAE9BlbqyQDuPefJLm3Ei1SlIlI
-        dLnO+WYCkJ5mAKXFxpvY43WFiDR6gA3cA6BIiTLYZwOE8ednnB70ouhpPmckQ6/1
-        cEoRMYEefEZ4BaoD7la8pqwzFlJcXTERc6icBdw5s6A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=fOZ44B
-        A0UAtWnElZYWB7HaN0ObMbDewklA4+wof8+Fw=; b=IT912YEvVU2QQWIVXhoYLt
-        3Rb561fJeTOHva6wkR0pIZClRNlHmI35LH6aaXCD5uF76s3nmhPA85kaWCiDLGre
-        P/KiS43OcDT84SU0bSuLi0GTZfOPMLoOyFXMkrD5TZ8qjCTJBNWM5y6yBEk8GK6z
-        CpuMbDVnIR6UBfMDUpBx3wfvYNl2DgJtZBMgfCxENVBvKJjrsvctzIT5Dddk4TO3
-        eMt6ZH/X3R4aCfd6+jTlker67odUvWpl5E+1wTG23JxiId/tV2sG7zTmFqsrGIqD
-        YgS5/3dXsf3OlPx+5kMriNevhy/BmxOiR77+pJA+ZREXf5dIPF4d63UD02TuV83g
-        ==
-X-ME-Sender: <xms:TYFBXMbBd_dEPjlNpiL4vAKUXHWuyPbnvxVGyHVsDiIrd3ZxrtvTRw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedtledrgeelgddutdeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfquhhtnecuuegrihhlohhuthemucef
-    tddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenogfuphgrmhfkphculdeftd
-    dtmdenucfjughrpeffhffvuffkfhggtggujggfsehttdertddtredvnecuhfhrohhmpefi
-    rhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucfkphepkeefrdekiedrke
-    elrddutdejnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtgho
-    mhenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:TYFBXN2GZ1Y2fMtNkiQzxNCBwNj9S6inzSz9PGY9iZZv0BRjXdnrlg>
-    <xmx:TYFBXEeuCZFnejiKaZPsybQvfEshtSDmAiImkNWx_ykcUQFovTIeNw>
-    <xmx:TYFBXPAL4S3WjYPA_MM6286q4Fc41-Kjw9XL3flDYB-LMGr0BSuM3w>
-    <xmx:ToFBXNoqFik0fp0rUeg0d3VJiWT0YeJOUBmUL_I6bVgbBTYBDWQzgg>
-Received: from localhost (5356596b.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 32772100E4;
-        Fri, 18 Jan 2019 02:33:33 -0500 (EST)
-Date:   Fri, 18 Jan 2019 08:33:31 +0100
-From:   Greg KH <greg@kroah.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: doc: stable-api-nonsense missing link
-Message-ID: <20190118073331.GA13493@kroah.com>
-References: <3122599.2K0FN2NGh9@harkonnen>
- <20190117151953.2ab38ecc@lwn.net>
- <20190118072031.GH11050@kroah.com>
+        id S1725938AbfARJQ5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 18 Jan 2019 04:16:57 -0500
+Received: from foss.arm.com ([217.140.101.70]:53224 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725924AbfARJQ5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 18 Jan 2019 04:16:57 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34A1EEBD;
+        Fri, 18 Jan 2019 01:16:56 -0800 (PST)
+Received: from queper01-lin (queper01-lin.cambridge.arm.com [10.1.195.48])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2197B3F5C1;
+        Fri, 18 Jan 2019 01:16:53 -0800 (PST)
+Date:   Fri, 18 Jan 2019 09:16:52 +0000
+From:   Quentin Perret <quentin.perret@arm.com>
+To:     Juri Lelli <juri.lelli@redhat.com>
+Cc:     corbet@lwn.net, peterz@infradead.org, rjw@rjwysocki.net,
+        mingo@redhat.com, morten.rasmussen@arm.com, qais.yousef@arm.com,
+        patrick.bellasi@arm.com, dietmar.eggemann@arm.com,
+        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] sched: Document Energy Aware Scheduling
+Message-ID: <20190118091652.xn6iw52tccwh6vap@queper01-lin>
+References: <20190110110546.8101-1-quentin.perret@arm.com>
+ <20190110110546.8101-3-quentin.perret@arm.com>
+ <20190117155117.GG14385@localhost.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190118072031.GH11050@kroah.com>
-User-Agent: Mutt/1.11.2 (2019-01-07)
+In-Reply-To: <20190117155117.GG14385@localhost.localdomain>
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 18, 2019 at 08:20:31AM +0100, Greg KH wrote:
-> On Thu, Jan 17, 2019 at 03:19:53PM -0700, Jonathan Corbet wrote:
-> > On Thu, 17 Jan 2019 23:14:08 +0100
-> > Federico Vaga <federico.vaga@vaga.pv.it> wrote:
-> > 
-> > > in this document
-> > > 
-> > > Documentation/process/stable-api-nonsense.rst
-> > > 
-> > > there is this note:
-> > > 
-> > > <insert link to leech comment from Andrew and Linus here>
-> > > 
-> > > Is it possible to get it fixed with the proper link? I searched for it without 
-> > > success. If that comment is impossible to find I will send a patch to remove 
-> > > that note, but first I wanted to ask you if you know where to get it.
-> > 
-> > That sounds like a question for Greg (copied).  Given that this document
-> > predates the Git era, though, I suspect that whatever reference that was
-> > meant to be is long since lost.
+Hi Juri,
+
+On Thursday 17 Jan 2019 at 16:51:17 (+0100), Juri Lelli wrote:
+> On 10/01/19 11:05, Quentin Perret wrote:
+[...]
+> > +The idea behind introducing an EM is to allow the scheduler to evaluate the
+> > +implications of its decisions rather than blindly applying energy-saving
+> > +techniques that may have positive effects only on some platforms. At the same
+> > +time, the EM must be as simple as possible to minimize the scheduler latency
+> > +impact.
+> > +
+> > +In short, EAS changes the way CFS tasks are assigned to CPUs. When it is time
 > 
-> It was referring to an email thread about this topic that happened at
-> the time I wrote the document.  Let me try to dig through my archives,
-> but given that it was written well over a decade ago, I don't know if I
-> will be able to find it easily...
+> Not sure if we want to remark the fact that EAS is looking at CFS tasks
+> only ATM.
 
-I can't find it at the moment, so taking out the text in <...> is fine
-with me.
+Oh, what's wrong about mentioning it ? I mean, it is a fact ATM ...
 
-thanks,
+> > +for the scheduler to decide where a task should run (during wake-up), the EM
+> > +is used to break the tie between several good CPU candidates and pick the one
+> > +that is predicted to yield the best energy consumption without harming the
+> > +system's throughput. The predictions made by EAS rely on specific elements of
+> > +knowledge about the platform's topology, which include the 'capacity' of CPUs,
+> 
+> Add a reference to DT bindings docs defining 'capacity' (or define it
+> somewhere)?
 
-greg k-h
+Right, I can mention this is defined in the next section. But are you
+sure about the reference to the DT bindings ? They're arm-specific right ?
+Maybe I can give that as an example or something ...
+
+> > +and their respective energy costs.
+> > +
+> > +
+> > +3. Topology information
+> > +-----------------------
+> > +
+> > +EAS (as well as the rest of the scheduler) uses the notion of 'capacity' to
+> > +differentiate CPUs with different computing throughput. The 'capacity' of a CPU
+> > +represents the amount of work it can absorb when running at its highest
+> > +frequency compared to the most capable CPU of the system. Capacity values are
+> > +normalized in a 1024 range, and are comparable with the utilization signals of
+> > +tasks and CPUs computed by the Per-Entity Load Tracking (PELT) mechanism. Thanks
+> > +to capacity and utilization values, EAS is able to estimate how big/busy a
+> > +task/CPU is, and to take this into consideration when evaluating performance vs
+> > +energy trade-offs. The capacity of CPUs is provided via arch-specific code
+> > +through the arch_scale_cpu_capacity() callback.
+> 
+> Ah, it's here, mmm, maybe still introduce it before (or point here from
+> above) and still point to dt bindings doc?
+
+Yep, I'll add a pointer above.
+
+
+[...]
+> > +the most energy efficient CPUs of the system more than the others if that can be
+> > +done without harming throughput. So, the load-balancer is disabled to prevent
+> 
+> Load-balancing being disabled in EAS mode it's quite an important thing
+> to notice IMHO. Maybe state it clearly somewhere above?
+
+Right, this needs to be emphasized more. I'll mention it in the
+introduction.
+
+
+[...]
+> > +So, in order to use EAS on your platform your architecture must implement the
+> 
+> Mmm, using 'your' form is a change of 'style', no?
+
+Good point, I will try to unify this section with the rest of the doc.
+There are loads of 'your platform' below too.
+
+
+Thank you very much for the typos as well :-)
+Quentin
