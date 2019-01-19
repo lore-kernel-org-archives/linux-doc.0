@@ -1,36 +1,53 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 723937D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 19 Jan 2019 10:36:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4E90F7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 19 Jan 2019 16:26:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727850AbfASKgJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 19 Jan 2019 05:36:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55986 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727827AbfASKgI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 19 Jan 2019 05:36:08 -0500
-Received: from localhost (5356596B.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C01192086D;
-        Sat, 19 Jan 2019 10:36:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1547894168;
-        bh=3U4PIQl/PrnKDmY+bpECiFyQLnpE3k13kHJ+S61pFJ4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GqFZanZIO5CuU3U3KzpVqStPJXT+j3N2Jw8jHp0cX9G50DtfQuqnwphW69TP3WoXV
-         N4JxTJS4Zhl4W1kvZLP483X+PFIvylo996ydL0zNZOzdDWYQA16yeRqCtVURYk1U9F
-         Cp+Kp1omBKfy3Pkr5Sme9U11jhVd3aTrNVAjjE0E=
-Date:   Sat, 19 Jan 2019 11:36:06 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
+        id S1728524AbfASQ0r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 19 Jan 2019 11:26:47 -0500
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:32795 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728387AbfASQ0r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Jan 2019 11:26:47 -0500
+Received: by mail-qt1-f194.google.com with SMTP id l11so18730055qtp.0
+        for <linux-doc@vger.kernel.org>; Sat, 19 Jan 2019 08:26:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=7OUnerQ4yTyTrQePDak9CT3pVNHgW0ADgz6GmAK0nY4=;
+        b=VlT9DB4TMtFUaZbyE8/yG1JgIO29NXxCr5Iu/BUl3VWMppZt8shMSTnCQ1qiPAQSsG
+         JMSuYVFIhGigXgJGrrOT0oLnPB7Vzecgsla8xTPP2Yym5P4Zo9JWtuf+v6lZAGv+dOXP
+         VH4RRctrV6OAvZPfJYQquA8viJggbwlWLnupo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=7OUnerQ4yTyTrQePDak9CT3pVNHgW0ADgz6GmAK0nY4=;
+        b=j+5VEAbQDf1uLhYYDVPn1hlAVCWiJuTiAwfb5OQ7c00oeHcLqIGhLRo/G2TGxGEHvh
+         BgjPXXQitCtd4r/Ch5hRgeoogoonUB8wX+nwC4Zy10RdVxB1+xnXdoHIa/NvAB33b/OI
+         yEwIpx10/7oFg8zpwF14pNixuV2Wtn4QzV4vSBPsle5PcjSOD8FbmjOLsS1sFuP8axgf
+         tDMxc+twFyzbVNlKzdGZZnEeaVTUuVV4DBIDcntU5ZV3sfhrqPkMjkLOoqjIyPxNB0Ev
+         CPCSj0rBrhgrJ2oM9O2FwF5iUaPbocxaMaJQ33fQ+pb2HkGPpRGnpG6loqISjf5arEH1
+         OYcg==
+X-Gm-Message-State: AJcUukeStld+G+/b3hANzPNhwH/tuP8GoPhudRxIkJz24lk/TrEwUqqF
+        AH2YkqapnUHTnqpkO2uH5HQYPDCinsU=
+X-Google-Smtp-Source: ALg8bN4+g8l6SuaVS6iPbHQvFy+/gF9CJpZ1A8TDREyF5KOrq2YpeiAv1XWighDKGdvAwmClnwEnvA==
+X-Received: by 2002:ac8:19e2:: with SMTP id s31mr20921029qtk.215.1547915206309;
+        Sat, 19 Jan 2019 08:26:46 -0800 (PST)
+Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
+        by smtp.gmail.com with ESMTPSA id 70sm15846448qkc.52.2019.01.19.08.26.44
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 19 Jan 2019 08:26:44 -0800 (PST)
+Date:   Sat, 19 Jan 2019 11:26:44 -0500
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Christoph Hellwig <hch@infradead.org>,
         linux-kernel@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
         atishp04@gmail.com, Borislav Petkov <bp@alien8.de>,
@@ -48,35 +65,57 @@ Cc:     Joel Fernandes <joel@joelfernandes.org>,
         yhs@fb.com
 Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
  kernel
-Message-ID: <20190119103606.GA17400@kroah.com>
+Message-ID: <20190119162644.GA231277@google.com>
 References: <20190118225543.86996-1-joel@joelfernandes.org>
  <20190119102800.GB17723@infradead.org>
+ <20190119103606.GA17400@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190119102800.GB17723@infradead.org>
-User-Agent: Mutt/1.11.2 (2019-01-07)
+In-Reply-To: <20190119103606.GA17400@kroah.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jan 19, 2019 at 02:28:00AM -0800, Christoph Hellwig wrote:
-> This seems like a pretty horrible idea and waste of kernel memory.
+On Sat, Jan 19, 2019 at 11:36:06AM +0100, Greg KH wrote:
+> On Sat, Jan 19, 2019 at 02:28:00AM -0800, Christoph Hellwig wrote:
+> > This seems like a pretty horrible idea and waste of kernel memory.
+> 
+> It's only a waste if you want it to be a waste, i.e. if you load the
+> kernel module.
+> 
+> This really isn't any different from how /proc/config.gz works.
 
-It's only a waste if you want it to be a waste, i.e. if you load the
-kernel module.
+Yes, that's right, it can be built as a module and loaded and unloaded on
+demand to free the kernel memory. Also such a module can be made a part of
+the initrd image itself (like other kernel modules that are built into an
+initrd), so this solution is already initrd-ready if anyone really wants it
+that way.
 
-This really isn't any different from how /proc/config.gz works.
+> > Just add support to kbuild to store a compressed archive in initramfs
+> > and unpack it in the right place.
+> 
+> I think the issue is that some devices do not use initramfs, or switch
+> away from it after init happens or something like that.  Joel has all of
+> the looney details that he can provide.
 
-> Just add support to kbuild to store a compressed archive in initramfs
-> and unpack it in the right place.
+Initially I had written this as an image embedded into an init section,
+similar to the initramfs. On boot if a boot argument was passed, then the
+archive embedded was allocated additional non-init kernel memory to store it for
+retrieval through /proc. After that, the image that's embedded would be
+dropped entirely as its init memory. If no boot argument was passed, then no
+additional memory is used at all. Even though I got that working, I decided
+not to go with it because it was clunky because: 1. It required modification
+of the linker scripts in the kernel to embed the image into the init section,
+and also required a boot argument to be passed which makes the decision on
+whether to have headers as a boot-time decision than a post-boot decision.
+For these reasons, it is much cleaner to just have a loadable module and make
+it on-demand, as I am doing in this patch similar to what /proc/config.gz
+does.
 
-I think the issue is that some devices do not use initramfs, or switch
-away from it after init happens or something like that.  Joel has all of
-the looney details that he can provide.
+thanks!
 
-thanks,
-
-greg k-h
+ - Joel
 
