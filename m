@@ -1,88 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 292437D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 19 Jan 2019 09:28:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EB2B57D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 19 Jan 2019 10:28:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727674AbfASJ2N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 19 Jan 2019 04:28:13 -0500
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:33370 "EHLO
-        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727646AbfASJ2N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Jan 2019 04:28:13 -0500
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.09240498|-1;CH=green;FP=0|0|0|0|0|-1|-1|-1;HT=e01e01454;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=13;RT=13;SR=0;TI=SMTPD_---.Dnpj7IF_1547890080;
-Received: from 172.16.10.102(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.Dnpj7IF_1547890080)
-          by smtp.aliyun-inc.com(10.147.43.230);
-          Sat, 19 Jan 2019 17:28:01 +0800
-From:   liaoweixiong <liaoweixiong@allwinnertech.com>
-Subject: Re: [RFC v5 2/4] pstore/blk: add sample for pstore_blk
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <1546862462-19640-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1546862462-19640-3-git-send-email-liaoweixiong@allwinnertech.com>
- <CAGXu5j+4QdqSYokE-0Y_pm5RgBp6i+xMgeXjTnNGVVMKeUafYg@mail.gmail.com>
- <CAGXu5jKbqP=SaAGqUeP5yhObeLbWnDLXN1=tVQZAaOHxo+D5VQ@mail.gmail.com>
-Message-ID: <665538df-98c4-b09e-565e-424a3551332c@allwinnertech.com>
-Date:   Sat, 19 Jan 2019 17:28:03 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1726663AbfASK2J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 19 Jan 2019 05:28:09 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:57614 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726541AbfASK2J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Jan 2019 05:28:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=QqYhpraz2T5DKlyFklHd2H2zgLOLDp2vx7iyLks+BLA=; b=BA+XFgqGvneirc1cwRxhITEl8
+        AA3+AG2XztsCqQC3cvJTybc7lKHSNq8PoGV5+skZtU9xS7pFDVFjcW8UwMkaczs9vNcvfczTfE6Q+
+        kEssNrZgvD8zZGgx6RrN09xdKjnKN2+BQFGauFRGOIVhg4smbEGsLxrLXyWDwNb/60142kCzD+Aiw
+        ++Wol1YEGTYEF8h881JcCdG9tTM5ISIShOPVn++aY7il1Mqi0KttUN0MTgv0MK5DWnRT/1Ioy6lLq
+        ne8yFZheosE2GnL9QXOwJL5s9mK4sDPi3HKYvTa18D6q1XmMmi2HrKBeBQTfFcEqpQcCATQzZJxFE
+        Q++7bwpsg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gknr6-0005zW-VI; Sat, 19 Jan 2019 10:28:00 +0000
+Date:   Sat, 19 Jan 2019 02:28:00 -0800
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atishp04@gmail.com, Borislav Petkov <bp@alien8.de>,
+        dancol@google.com, gregkh@linuxfoundation.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+        karim.yaghmour@opersys.com, Kees Cook <keescook@chromium.org>,
+        kernel-team@android.com, linux-doc@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        paulmck@linux.vnet.ibm.com,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        rdunlap@infradead.org, rostedt@goodmis.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        yhs@fb.com
+Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
+ kernel
+Message-ID: <20190119102800.GB17723@infradead.org>
+References: <20190118225543.86996-1-joel@joelfernandes.org>
 MIME-Version: 1.0
-In-Reply-To: <CAGXu5jKbqP=SaAGqUeP5yhObeLbWnDLXN1=tVQZAaOHxo+D5VQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190118225543.86996-1-joel@joelfernandes.org>
+User-Agent: Mutt/1.9.2 (2017-12-15)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-resend this email.
-
-On 2019-01-18 08:21, Kees Cook wrote:
-> On Thu, Jan 17, 2019 at 4:15 PM Kees Cook <keescook@chromium.org> wrote:
->>
->> On Mon, Jan 7, 2019 at 4:01 AM liaoweixiong
->> <liaoweixiong@allwinnertech.com> wrote:
->>>
->>> It is a sample for pstore_blk, using general ram rather than block device.
->>> According to pstore_blk, the data will be saved to ram buffer if not
->>> register device path and apis for panic. So, it can only used to dump
->>> Oops and some things will not reboot.
->>
->> I'm not sure I see the purpose of this implementation? Doesn't this
->> just cause all the pstore machinery to skip any actions? i.e. without
->> bzinfo->part_path, won't blkz_sample_write() just return -EINVAL, etc?
-> 
-> Say, instead of a no-op driver, can you build something like the how
-> ramoops processes module parameters, so that a person can define an
-> arbitrary device at boot time for blkoops? This also allows for easier
-> runtime testing too.
-
-Sure, i will do it in next version. But it can only use for oops,
-excluding panic.
-I have no idea how to pass panic operation parameters.
-
-> 
-> This all looks good, with some minor tweaks as mentioned. And on
-> closer review, yeah, it doesn't look like it shares much with ramoops.
-> :)
-> 
-> Thanks for sending this series; I look forward to the next version. :)
-> 
-> -Kees
-> 
+This seems like a pretty horrible idea and waste of kernel memory.
+Just add support to kbuild to store a compressed archive in initramfs
+and unpack it in the right place.
