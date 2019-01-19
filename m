@@ -1,110 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 28D7D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 19 Jan 2019 22:14:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 093047D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 19 Jan 2019 23:25:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729599AbfASWOd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 19 Jan 2019 17:14:33 -0500
-Received: from mx.kolabnow.com ([95.128.36.42]:32064 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729056AbfASWOd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 19 Jan 2019 17:14:33 -0500
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id 51D9C4096E;
-        Sat, 19 Jan 2019 23:14:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-transfer-encoding:content-type:content-type:mime-version
-        :message-id:date:date:subject:subject:from:from:received
-        :received:received; s=dkim20160331; t=1547936069; x=1549750470;
-         bh=zHFnMDyZIxNoE+ed2rs2uO2cxPB4wAjjtdRPvpo3nUw=; b=AB6Kl1F8USEV
-        ZJ9xUrsj7tbBB8TzTkFjimQxHTQ0bWD+qDo4vj8D6phkvIwW62pwXuhunSllGJmb
-        egw46zOSaeS44GzYfyJ7Y+Ew/WW7kyQFp6KP9AofUFsS9oP4LZz7bYs7izqdvxyc
-        L/VBMI71ECZ0HKOSmjl0PHSw93YCsJdvGB/OpXBQS2a20bNPfXcKSURms0RcNX8p
-        NrUyYKYdweu156OR+LvY8wwj7Mzp1bZS//IQUkOrsB5Ax9WwjiG/1ggQDtuSDW89
-        Oye/Be3if0FcrvOSJgHdTemFXCAQtLv08kjpwsk5NH9gdYqTq37hg+UkFwrDI5Hg
-        zjr+bsZXRYbumF701ayPC65b1hTHvifM5gqp9hhGrSE/zbV/q8INcrVhf4fO4RwA
-        Zv+yCq5yDNhh/+gsz2dzuMMbkOJduorCSx87TmNc4f75KZzn/6ZyG+k5iJbsWQaF
-        F2KeDYfHSYtKDhGksMkH6AgQLZE7xhtIT2zi9tGWxu1tZ7bUgd5+EOJgXaMxUgKZ
-        4R2FMn0uUMMi1yu6rC9KrVXMUAuys5orjbKUknhJ11FeKmA22VR0NB70lYQ+MAe8
-        wwEQbqZXJxTZm2JWyF1+48cuuSxXmyGbYzPsT0EtOmgrUF4VCbiGEZRzDUbmEqBk
-        L/XKlvaL6Rm5pkMw72f812Nhb6kncrQ=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 2susRot6k9LE; Sat, 19 Jan 2019 23:14:29 +0100 (CET)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 9FAC140497;
-        Sat, 19 Jan 2019 23:14:29 +0100 (CET)
-Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id 2B4A7B55;
-        Sat, 19 Jan 2019 23:14:29 +0100 (CET)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: [PATCH] doc:it_IT: documentation alignment
-Date:   Sat, 19 Jan 2019 23:14:22 +0100
-Message-Id: <20190119221422.3685-1-federico.vaga@vaga.pv.it>
+        id S1729815AbfASXZH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 19 Jan 2019 18:25:07 -0500
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:37717 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729766AbfASXZH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 19 Jan 2019 18:25:07 -0500
+Received: by mail-qt1-f195.google.com with SMTP id t33so19254242qtt.4
+        for <linux-doc@vger.kernel.org>; Sat, 19 Jan 2019 15:25:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=5UkPRGKfdEvlsfd9/KG3M4goE5oDuersbmF8B1UJNXc=;
+        b=lUsbKLz4EzaLSR59z0DgsAcdOVzLsZO0QlWVX3TRWZ0NBqlreUnFzXtjhkThjV84uE
+         GuzPJcNI4BWHh02smeWz5yEPQoaxHG7LFG2YI+zSynFZsBrdGVy2hHwm9jhblX7zQsDM
+         WdoTd2bLsW6OkOc3pbAojs2iGB4v/7XzD677E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=5UkPRGKfdEvlsfd9/KG3M4goE5oDuersbmF8B1UJNXc=;
+        b=lQKlQzDkiIBKp/JtnEukeM2EJ0K66Zcl3pIZpQ6HpMOT3nnrV8nDAwjMEK953vDyZh
+         fdN6ZTarGUw93yndJ65GZ/kZwbmnWObMCxTpAZAL1cIp9h7KAW9RwKOshyyYAO7OZ6TY
+         ymzrOUECGB5iTGXhnXK6O5K75L0wK0ztL/2ZbMYocfu7L7aoYQABRdWlT/+vC868Kfvp
+         +ecqRpXE3xzj0rq+YoZQl47xR01+nBEfSTSayx1rx62FE5vmYdrXuHaIj9n2lVX5KUtF
+         pGDTc/6DyI4V96FJAQENvwfCDKQEt0ANuDOXNJIsCeLgoxzrvmBBKgGQw0wpH9t8SVpt
+         w7Mw==
+X-Gm-Message-State: AJcUukcOjwBEWODvX+BeUhneVlHnPlOTvQz/qVUtqVnsccsEYOV//QrR
+        vV0f1lXPv17iGukpOpXodPyifw==
+X-Google-Smtp-Source: ALg8bN5saY132+VlxETzJxTpMSASF96ZMV8ZAJZRk1NsRlgIR6HNEypknFd+MC5a/LcuMm0H2NCc7g==
+X-Received: by 2002:a0c:8322:: with SMTP id j31mr20773690qva.56.1547940305781;
+        Sat, 19 Jan 2019 15:25:05 -0800 (PST)
+Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
+        by smtp.gmail.com with ESMTPSA id 14sm4092733qka.37.2019.01.19.15.25.03
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 19 Jan 2019 15:25:04 -0800 (PST)
+Date:   Sat, 19 Jan 2019 18:25:03 -0500
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Daniel Colascione <dancol@google.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atishp04@gmail.com, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+        karim.yaghmour@opersys.com, Kees Cook <keescook@chromium.org>,
+        kernel-team@android.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>, rostedt@goodmis.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        yhs@fb.com
+Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
+ kernel
+Message-ID: <20190119232503.GA149403@google.com>
+References: <20190118225543.86996-1-joel@joelfernandes.org>
+ <20190119082532.GA9004@kroah.com>
+ <20190119162754.GC231277@google.com>
+ <CAKOZuet+7a4jdox6rebMN=kJtDn5RUYzvNjFh+Pzn2UkuP0Y8Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKOZuet+7a4jdox6rebMN=kJtDn5RUYzvNjFh+Pzn2UkuP0Y8Q@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It aligns the italian translation with the latest changes:
+On Sat, Jan 19, 2019 at 12:43:35PM -0500, Daniel Colascione wrote:
+> On Sat, Jan 19, 2019 at 11:27 AM Joel Fernandes <joel@joelfernandes.org> wrote:
+> >
+> > On Sat, Jan 19, 2019 at 09:25:32AM +0100, Greg KH wrote:
+> > > On Fri, Jan 18, 2019 at 05:55:43PM -0500, Joel Fernandes wrote:
+> > > > --- /dev/null
+> > > > +++ b/kernel/kheaders.c
+> 
+> Thanks a ton for this work. It'll make it much easier to do cool
+> things with BPF.
 
-ae67ee6c5e1d docs: fix Co-Developed-by docs
-3fe5dbfef47e Documentation/process/coding-style.rst: don't use "extern" with function prototypes
+You're welcome, thanks.
 
-Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
----
- Documentation/translations/it_IT/process/coding-style.rst     | 3 +++
- .../translations/it_IT/process/submitting-patches.rst         | 4 ++--
- 2 files changed, 5 insertions(+), 2 deletions(-)
+> One question: I can imagine wanting to probe
+> structures that are defined, not in headers, but in random
+> implementation files. Would it be possible to optionally include *all*
+> kernel source files?
 
-diff --git a/Documentation/translations/it_IT/process/coding-style.rst b/Documentation/translations/it_IT/process/coding-style.rst
-index 67c6d9ea7257..dfdefb951b89 100644
---- a/Documentation/translations/it_IT/process/coding-style.rst
-+++ b/Documentation/translations/it_IT/process/coding-style.rst
-@@ -449,6 +449,9 @@ Nonostante questo non sia richiesto dal linguaggio C, in Linux viene preferito
- perché è un modo semplice per aggiungere informazioni importanti per il
- lettore.
- 
-+Non usate la parola chiave ``extern`` coi prototipi di funzione perché
-+rende le righe più lunghe e non è strettamente necessario.
-+
- 7) Centralizzare il ritorno delle funzioni
- ------------------------------------------
- 
-diff --git a/Documentation/translations/it_IT/process/submitting-patches.rst b/Documentation/translations/it_IT/process/submitting-patches.rst
-index b6368a45a8e4..2ab9c1401aa1 100644
---- a/Documentation/translations/it_IT/process/submitting-patches.rst
-+++ b/Documentation/translations/it_IT/process/submitting-patches.rst
-@@ -534,7 +534,7 @@ alle persone che vogliono seguire i vostri sorgenti, e quelle che cercano
- dei bachi.
- 
- 
--12) Quando utilizzare Acked-by:, Cc:, e Co-Developed-by:
-+12) Quando utilizzare Acked-by:, Cc:, e Co-developed-by:
- --------------------------------------------------------
- 
- L'etichetta Signed-off-by: indica che il firmatario è stato coinvolto nello
-@@ -567,7 +567,7 @@ alcunché - ma dovrebbe indicare che la persona ha ricevuto una copia della
- patch.  Questa etichetta documenta che terzi potenzialmente interessati sono
- stati inclusi nella discussione.
- 
--L'etichetta Co-Developed-by: indica che la patch è stata scritta dall'autore in
-+L'etichetta Co-developed-by: indica che la patch è stata scritta dall'autore in
- collaborazione con un altro sviluppatore.  Qualche volta questo è utile quando
- più persone lavorano sulla stessa patch.  Notate, questa persona deve avere
- nella patch anche una riga Signed-off-by:.
--- 
-2.20.1
+That would be prohibitively too large to justify keeping it in memory, even
+compressed. Arguably, such structures should be moved into include/ if
+modules or whatever is extending the kernel like eBPF needs them.
+
+> If not, what about a hash, so we could at least
+> do precise correlation between a candidate local tree and what's
+> actually on device?
+
+That would make a tool too difficult to write wouldn't it, since they you have to
+correlate every possible hash and keep updating eBPF tools with new hashes -
+probably not scalable. I think what you want is to use the kernel version to
+assume what such internal structures look like although that's still not
+robust.
+
+> BTW, I'm not sure that the magic constants you've defined are long
+> enough.  I'd feel more comfortable with two UUIDs (16 bytes each).
+
+Ok, I'll expand it.
+
+> I'd also strongly consider LZMA compression: xz -9 on the kernel
+> headers (with comments) brings the size down to 5MB, compared to the
+> 7MB I get for gzip -9. Considering that this feature is optional, I
+> think it's okay to introduce a dependency on widespread modern
+> compression tools. (For comparison, bzip2 -9 gets us 6MB.)
+
+Ok, I'll look into LZMA. Thanks for checking the compression sizes.
+
+- Joel
 
