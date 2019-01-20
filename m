@@ -3,153 +3,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 789EF7D099
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 20 Jan 2019 15:58:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E74F07D099
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 20 Jan 2019 16:10:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726004AbfATP6l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 20 Jan 2019 10:58:41 -0500
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:38728 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725985AbfATP6l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Jan 2019 10:58:41 -0500
-Received: by mail-qt1-f195.google.com with SMTP id p17so20575149qtl.5
-        for <linux-doc@vger.kernel.org>; Sun, 20 Jan 2019 07:58:40 -0800 (PST)
+        id S1726749AbfATQKG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 20 Jan 2019 11:10:06 -0500
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:33919 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725985AbfATQKG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Jan 2019 11:10:06 -0500
+Received: by mail-qt1-f193.google.com with SMTP id r14so20656207qtp.1
+        for <linux-doc@vger.kernel.org>; Sun, 20 Jan 2019 08:10:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=jTmIghGjwE8iHAb3Dh6gyTw5bykolHFzGqZYxXOr2j4=;
-        b=v/l9nPGTlkHu6FuY5yAwwmDsblcdJb5KPsIbmx7UFTrLehP1ann8DWpXqMPg0hj1QM
-         8IyvYAh22vUnNQkdlhuR7ZqPufE4+31/zcOC528V1UG0DLtZ/J00sW5fBgy+eQwfl0Nw
-         JlowaEMaZyxnRBY2jZBpfGaxzLB9mbe3F3UDQ=
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=gJLe9NCacgEEA/W4lTVsKxupjgEOAu7y//ExpgweGGQ=;
+        b=beePmekC5ybj6xweHrQRBJOocc00LddL5ESR8RnA0m0vIJacHdoxDo7u4C8fJvnGws
+         jnWtnziu/4VRu/dl7BRtZuHJbhftt+kmxXRB6qSizh9pkpDzEH/5vbUqhZ6PaYKVGeVb
+         txaZJIlgqQkfQRfL6aEdZQ4jAp3neAfv+oxvU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=jTmIghGjwE8iHAb3Dh6gyTw5bykolHFzGqZYxXOr2j4=;
-        b=bZuxD29YOs5orxWD52gU7NGnOF4Z/ItfTVXEB8s9t8VqA1ePe8G5fbNuH8rZYveYz7
-         eRgM5wfI/W6dsK1rfPmXjBqbJe8jFCx9lh4J+GgD6V5Wbj+0jCV7LqXrk8qGLV2cpz3Y
-         dJuC9QUjo2JwyAc1uvWWo258JkeOQfpQHYHsZAq6C+Yx92GPPIQAF71LPbLSHyV24gve
-         FJtJ9ld4U6vmN8HEpZgvYnTPS2wmvu2NUwNQMaYhADSRywKuI3wDwbsT0VEkLJy4sLI+
-         zfif6hbx5eTTfIfFIHWWRXV2Y0+vfFVf+Yc6WIg97a7wkv5PyNbjnbzWg+akJ7+KTDJ4
-         PUuQ==
-X-Gm-Message-State: AJcUukdbmgKEMyUkyUnk3BsAIa/0HHuxbOuNWQ25kezEdOUvRJDtNAau
-        A9ITPmpf8ycsCVC9ZouoDMvfAw==
-X-Google-Smtp-Source: ALg8bN4lsruMAyRqU0ZYWrFBs3u2WffgphkfI6XIyyyI1N2qY+H1zEGQ4PgNNRC40HeCXR+sb83g9w==
-X-Received: by 2002:ac8:1712:: with SMTP id w18mr23293243qtj.76.1547999920270;
-        Sun, 20 Jan 2019 07:58:40 -0800 (PST)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=gJLe9NCacgEEA/W4lTVsKxupjgEOAu7y//ExpgweGGQ=;
+        b=XXBLb1aEhnxNmsWgOdVGj59cHk5CFh5aY132sDTk4RbD9sNUIIyQvUrsJnvb8jbkZo
+         Q6Fhv72SqjG4Cet5ZJh3hRU80kaSixPXgHZ3nxfkzMwmtSuGEwU3g9XS5Bdz9tlysHFs
+         ZVsWo5kcRQCqsvRligtDODYRKd5y0olbDVKGGScrsVXRWaiqQODHPMZfuEsQnbgeNixx
+         h1x7+t1FXnnPZlrOHRuESEHYNYpU8YQeCEcZOgEgp0WMXSymvbXlrP92YU6Z+NgKLHs5
+         UKvfnm3Eb7IqhEfZ9NEqvw7jh+smfwg1Ds3ZYQF1heF+A37ityPoV0Rjf4XH2B/FwWJN
+         r8Bw==
+X-Gm-Message-State: AJcUukf9P7DYQm2rST3EAA645U7inqVTQWw0a8aGaKwtvfESm75xZyET
+        ir9kR0IaDP8iB6JW3vIOuX1kqw==
+X-Google-Smtp-Source: ALg8bN6KJE00o/malmqZdmRdZvOb/jUIiOlw7+4LQSyoLHCmTbEuruu9Uw2zLVo3FVtldY8C/ppHEQ==
+X-Received: by 2002:ac8:43d0:: with SMTP id w16mr23699498qtn.78.1548000605188;
+        Sun, 20 Jan 2019 08:10:05 -0800 (PST)
 Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
-        by smtp.gmail.com with ESMTPSA id a17sm55244827qth.93.2019.01.20.07.58.39
+        by smtp.gmail.com with ESMTPSA id a17sm55260394qth.93.2019.01.20.08.10.04
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 20 Jan 2019 07:58:39 -0800 (PST)
-Date:   Sun, 20 Jan 2019 10:58:38 -0500
+        Sun, 20 Jan 2019 08:10:04 -0800 (PST)
+Date:   Sun, 20 Jan 2019 11:10:03 -0500
 From:   Joel Fernandes <joel@joelfernandes.org>
 To:     hpa@zytor.com
-Cc:     Daniel Colascione <dancol@google.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-kernel@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
         atishp04@gmail.com, Borislav Petkov <bp@alien8.de>,
-        Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        dancol@google.com, Ingo Molnar <mingo@redhat.com>,
+        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+        karim.yaghmour@opersys.com, Kees Cook <keescook@chromium.org>,
+        kernel-team@android.com, linux-doc@vger.kernel.org,
         Manoj Rao <linux@manojrajarao.com>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        paulmck@linux.vnet.ibm.com,
         "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>, rostedt@goodmis.org,
+        rdunlap@infradead.org, rostedt@goodmis.org,
         Thomas Gleixner <tglx@linutronix.de>,
         "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
         yhs@fb.com
 Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
  kernel
-Message-ID: <20190120155838.GA23827@google.com>
+Message-ID: <20190120161003.GB23827@google.com>
 References: <20190118225543.86996-1-joel@joelfernandes.org>
- <20190119082532.GA9004@kroah.com>
- <20190119162754.GC231277@google.com>
- <CAKOZuet+7a4jdox6rebMN=kJtDn5RUYzvNjFh+Pzn2UkuP0Y8Q@mail.gmail.com>
- <20190119232503.GA149403@google.com>
- <78AACAF1-8EBF-4DF3-BE94-5B14E78BA791@zytor.com>
+ <20190119102800.GB17723@infradead.org>
+ <20190119103606.GA17400@kroah.com>
+ <8BD4CB7A-944C-4EC5-A198-1D85C9EE28D6@zytor.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <78AACAF1-8EBF-4DF3-BE94-5B14E78BA791@zytor.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8BD4CB7A-944C-4EC5-A198-1D85C9EE28D6@zytor.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jan 19, 2019 at 03:44:48PM -0800, hpa@zytor.com wrote:
-> On January 19, 2019 3:25:03 PM PST, Joel Fernandes <joel@joelfernandes.org> wrote:
-> >On Sat, Jan 19, 2019 at 12:43:35PM -0500, Daniel Colascione wrote:
-> >> On Sat, Jan 19, 2019 at 11:27 AM Joel Fernandes
-> ><joel@joelfernandes.org> wrote:
-> >> >
-> >> > On Sat, Jan 19, 2019 at 09:25:32AM +0100, Greg KH wrote:
-> >> > > On Fri, Jan 18, 2019 at 05:55:43PM -0500, Joel Fernandes wrote:
-> >> > > > --- /dev/null
-> >> > > > +++ b/kernel/kheaders.c
-> >> 
-> >> Thanks a ton for this work. It'll make it much easier to do cool
-> >> things with BPF.
+On Sat, Jan 19, 2019 at 11:01:13PM -0800, hpa@zytor.com wrote:
+> On January 19, 2019 2:36:06 AM PST, Greg KH <gregkh@linuxfoundation.org> wrote:
+> >On Sat, Jan 19, 2019 at 02:28:00AM -0800, Christoph Hellwig wrote:
+> >> This seems like a pretty horrible idea and waste of kernel memory.
 > >
-> >You're welcome, thanks.
+> >It's only a waste if you want it to be a waste, i.e. if you load the
+> >kernel module.
 > >
-> >> One question: I can imagine wanting to probe
-> >> structures that are defined, not in headers, but in random
-> >> implementation files. Would it be possible to optionally include
-> >*all*
-> >> kernel source files?
+> >This really isn't any different from how /proc/config.gz works.
 > >
-> >That would be prohibitively too large to justify keeping it in memory,
-> >even
-> >compressed. Arguably, such structures should be moved into include/ if
-> >modules or whatever is extending the kernel like eBPF needs them.
+> >> Just add support to kbuild to store a compressed archive in initramfs
+> >> and unpack it in the right place.
 > >
-> >> If not, what about a hash, so we could at least
-> >> do precise correlation between a candidate local tree and what's
-> >> actually on device?
+> >I think the issue is that some devices do not use initramfs, or switch
+> >away from it after init happens or something like that.  Joel has all
+> >of
+> >the looney details that he can provide.
 > >
-> >That would make a tool too difficult to write wouldn't it, since they
-> >you have to
-> >correlate every possible hash and keep updating eBPF tools with new
-> >hashes -
-> >probably not scalable. I think what you want is to use the kernel
-> >version to
-> >assume what such internal structures look like although that's still
-> >not
-> >robust.
+> >thanks,
 > >
-> >> BTW, I'm not sure that the magic constants you've defined are long
-> >> enough.  I'd feel more comfortable with two UUIDs (16 bytes each).
-> >
-> >Ok, I'll expand it.
-> >
-> >> I'd also strongly consider LZMA compression: xz -9 on the kernel
-> >> headers (with comments) brings the size down to 5MB, compared to the
-> >> 7MB I get for gzip -9. Considering that this feature is optional, I
-> >> think it's okay to introduce a dependency on widespread modern
-> >> compression tools. (For comparison, bzip2 -9 gets us 6MB.)
-> >
-> >Ok, I'll look into LZMA. Thanks for checking the compression sizes.
-> >
-> >- Joel
+> >greg k-h
 > 
-> Don't use lzma, use xz if you are going to do something.
+> Yeah, well... but it is kind of a losing game... the more in-kernel stuff there is the less smiley are things to actually be supported.
 
-Ok, sounds good.
+It is better than nothing, and if this makes things a bit easier and solves
+real-world issues people have been having, and is optional, then I don't see
+why not.
 
-> However, it seems unlikely to me that someone not willing to spend the space in the filesystem will spend unswappable kernel memory.
+> Modularizing is it in some ways even crazier in the sense that at that point you are relying on the filesystem containing the module, which has to be loaded into the kernel by a root user. One could even wonder if a better way to do this would be to have "make modules_install" park an archive file – or even a directory as opposed to a symlink – with this stuff in /lib/modules. We could even provide a tmpfs shim which autoloads such an archive via the firmware loader; this might even be generically useful, who knows.
+
+All this seems to assume where the modules are located. In Android, we don't
+have /lib/modules. This patch generically fits into the grand scheme things
+and I think is just better made a part of the kernel since it is not that
+huge once compressed, as Dan also pointed. The more complex, and the more
+assumptions we make, the less likely people writing tools will get it right
+and be able to easily use it.
+
 > 
-> It would seem that a far saner way to do this is to use inittmpfs or perhaps an auxiliary "ktmpfs" so it can at least be swapped out if you have swap.
+> Note also that initramfs contents can be built into the kernel. Extracting such content into a single-instance tmpfs would again be a possibility
 
-But this is already possible with the proposed solution, you would load the
-module, extract it into a tmpfs, and unload the module. TMPFS pages can
-already be swapped.
+Such an approach would bloat the kernel image size though, which may not work
+for everyone. The module based approach, on the other hand, gives an option
+to the user to enable the feature, but not have it loaded into memory or used
+until it is really needed.
 
 thanks,
 
