@@ -1,87 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D199D7D099
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 20 Jan 2019 11:17:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0FE6B7D099
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 20 Jan 2019 12:01:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730474AbfATLRC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 20 Jan 2019 06:17:02 -0500
-Received: from mx.kolabnow.com ([95.128.36.42]:37496 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728781AbfATLRB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 20 Jan 2019 06:17:01 -0500
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id 80F14403E6;
-        Sun, 20 Jan 2019 12:16:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-transfer-encoding:mime-version:message-id:date:date
-        :subject:subject:from:from:received:received:received; s=
-        dkim20160331; t=1547983018; x=1549797419; bh=u5PJQeq4w4A5yhgLWfl
-        aalMoIP8exjuFkUijpjiiGZc=; b=V4T9QiZGuFNjVv2DnTQ7UAYec0oCZCbTsAc
-        yb/OLWpmehnEO8DVce0K5M6y7Tjj0EFd6fxyAfy/7089tPfze+O4ho3x9OIpnf6D
-        qPuxygFyETspT8aO5TF4HGhZBFJ9vya3EwjxNv7XVSt7ZNFTd/oQ2P9bF7xXFk7t
-        YLQsjf4C59xufLmPP9QS4CeO+3kJTfG4jW/9nwvuXI8FHhIUbo6vcwnjoAisbIwO
-        McyG/VZWIsbMlI0k3+tAbfjLxWp9LXXaaaNwpRZCREwKuA2DW+/g3WjS0BS1NY+1
-        8jSRSIGfdh+P8L5OK8v2ewH6GZCQWPV+vCTjDFssWbvEIVFwynuOL0N7L9h6xDlI
-        RSbxmUIs/p6zgWh8GTjuXML+tdmlfH4Q5Et+1zEfJeFEGnQQXc1jgQH3xcj78yPG
-        XJEC0Tro8QLJdC9AQpdqibY0TCbnbnNnyqC20ygZagX8R8PIOujY9fbH6ZVFZ3jz
-        c8YmW5REWE26XaaZoWh5NqJ3jjvlPzftObhVpqowX0Ps1HlwmNDH5DGZ1ULY73Uh
-        ON8YmDlriCj3S4CIBFfMn9fjl8h1TrJI1R5rvgM9tIwE8/XlEX8iMH3szC2N00+k
-        hFXCnyNpV8avmsI7cnjl9owgNFwFZgvvApI7L0Oby09X8DbVI7g/Ms2VmslkpOlr
-        M9kFuRM4=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id lm-C7Rw9fiJH; Sun, 20 Jan 2019 12:16:58 +0100 (CET)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id DFDB8403BB;
-        Sun, 20 Jan 2019 12:16:58 +0100 (CET)
-Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id 6E1E83D7;
-        Sun, 20 Jan 2019 12:16:58 +0100 (CET)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: [PATCH] doc:process: add missing internal link in stable-kernel-rules
-Date:   Sun, 20 Jan 2019 12:16:29 +0100
-Message-Id: <20190120111629.31681-1-federico.vaga@vaga.pv.it>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1730531AbfATMBr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 20 Jan 2019 07:01:47 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:53230 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730484AbfATMBr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 20 Jan 2019 07:01:47 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x0KBsMDW119267
+        for <linux-doc@vger.kernel.org>; Sun, 20 Jan 2019 07:01:45 -0500
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2q4htgxwra-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Sun, 20 Jan 2019 07:01:45 -0500
+Received: from localhost
+        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Sun, 20 Jan 2019 12:01:44 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Sun, 20 Jan 2019 12:01:41 -0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x0KC1eFH46071976
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sun, 20 Jan 2019 12:01:40 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 257044C04A;
+        Sun, 20 Jan 2019 12:01:40 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A33804C046;
+        Sun, 20 Jan 2019 12:01:38 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.8.236])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Sun, 20 Jan 2019 12:01:38 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Sun, 20 Jan 2019 14:01:37 +0200
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     linux-mm@kvack.org
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
+Subject: [PATCH 0/3] docs/core-api/mm: fix return value descriptions
+Date:   Sun, 20 Jan 2019 14:01:34 +0200
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+x-cbid: 19012012-4275-0000-0000-00000301A72F
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19012012-4276-0000-0000-0000380FD1D2
+Message-Id: <1547985697-24588-1-git-send-email-rppt@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-20_07:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=981 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1901200099
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Keep consistent the document. In the document, option references
-are always linked, except for the one I fixed with this patch
+Many kernel-doc comments referenced by Documentation/core-api/mm-api.rst
+have the return value descriptions misformatted or lack it completely. This
+makes kernel-doc script unhappy and produces more than 100 warnings when
+running 
 
-Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
----
- Documentation/process/stable-kernel-rules.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+	make htmldocs V=1
 
-diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
-index 0de6f6145cc6..070e3f04d183 100644
---- a/Documentation/process/stable-kernel-rules.rst
-+++ b/Documentation/process/stable-kernel-rules.rst
-@@ -98,9 +98,9 @@ text, like this:
- 
-     commit <sha1> upstream.
- 
--Additionally, some patches submitted via Option 1 may have additional patch
--prerequisites which can be cherry-picked. This can be specified in the following
--format in the sign-off area:
-+Additionally, some patches submitted via :ref:`option_1` may have additional
-+patch prerequisites which can be cherry-picked. This can be specified in the
-+following format in the sign-off area:
- 
- .. code-block:: none
- 
+These patches fix the formatting of present return value descriptions and
+add some new ones.
+
+Side note:
+----------
+I've noticed that kernel-doc produces
+
+	warning: contents before sections
+
+when it is parsing description of a function that has no parameters, but
+does have a return value, i.e.
+
+	unsigned long nr_free_buffer_pages(void)
+
+As far as I can tell, the generated html is ok no matter if the detailed
+description present before 'the sections', so probably this warning is not
+really needed?
+
+Mike Rapoport (3):
+  docs/mm: vmalloc: re-indent kernel-doc comemnts
+  docs/core-api/mm: fix user memory accessors formatting
+  docs/core-api/mm: fix return value descriptions in mm/
+
+ arch/x86/include/asm/uaccess.h |  24 +--
+ arch/x86/lib/usercopy_32.c     |   8 +-
+ mm/dmapool.c                   |  13 +-
+ mm/filemap.c                   |  73 ++++++--
+ mm/memory.c                    |  26 ++-
+ mm/mempool.c                   |   8 +
+ mm/page-writeback.c            |  24 ++-
+ mm/page_alloc.c                |  24 ++-
+ mm/readahead.c                 |   2 +
+ mm/slab.c                      |  14 ++
+ mm/slab_common.c               |   6 +
+ mm/truncate.c                  |   6 +-
+ mm/util.c                      |  37 ++--
+ mm/vmalloc.c                   | 394 ++++++++++++++++++++++-------------------
+ 14 files changed, 409 insertions(+), 250 deletions(-)
+
 -- 
-2.20.1
+2.7.4
 
