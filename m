@@ -5,48 +5,48 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 114947D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Jan 2019 08:43:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0563C7D161
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Jan 2019 08:47:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728953AbfAUInA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 Jan 2019 03:43:00 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:36045 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728928AbfAUInA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jan 2019 03:43:00 -0500
-Received: by mail-wm1-f68.google.com with SMTP id p6so9856543wmc.1
-        for <linux-doc@vger.kernel.org>; Mon, 21 Jan 2019 00:42:58 -0800 (PST)
+        id S1728970AbfAUIrm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 Jan 2019 03:47:42 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:39775 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729634AbfAUIrl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jan 2019 03:47:41 -0500
+Received: by mail-wr1-f67.google.com with SMTP id t27so22256970wra.6
+        for <linux-doc@vger.kernel.org>; Mon, 21 Jan 2019 00:47:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=mena-vt-edu.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=cHRFL44h2OEM1lGSXPFKxqS991ECPuCJqpPKgvIlapQ=;
-        b=1K05vbsbiCFg1uDMFOk6XT6m4OZTKGiD/ZqJKFxK5KMAqMLoaEfcotniRiGyZkp6k8
-         bQH7NeJOcciWncnukc4dIIDAZP0vHyfWHgidmxQX0E8E/X4xfgjYkghTiqxibK/NMAfK
-         7f/ddrBKo8XB/scx7PQrslNBw7bT9kI33S6ysDMsq2VHyEX04DCNxdxdVaARwebRIa2K
-         kWVsjT8orert5hb6mAvvO+MMwOcSa6++VfblQRjkXuNJDPmFPfMZGYbjdod4Q5lsZjDI
-         CANrz1MgyNFK1dGyIE52Ns7wGy7KObs+vtG/O9PN75UQ8ok8S3iOxccEviGs2MrfgIcK
-         mvew==
+        bh=JVFrpeC80OLPbUMIpkWyZ48VgZSdWjNoszlgtYxl1bA=;
+        b=Iyzp/Z0tl0zUVSzsrk15rnenCu3gmeS9BbVxPnOR2X0A/wDa67TG2ErOw86zlPJST0
+         ANFCzpKMRXGco1+Q+3Xcmq6VS5TIB1TJJIBddBx70n1IFKfzNY5MOmuXo2QN65LKCHnj
+         ep/Xjc3Z/aKRTl59oK6xkKe2rVc/4jCaxo4NH6VqNDXMq3RlS1SbKVFhGGgNi0VwBB7M
+         pEP9qVG9dyo/IQNHMP515X2fAyKiTuXAIWzb7siMHqd6STQsv7KzjPufW5NceEhq4S7P
+         ZcXRbcoQ989ppL5tObtjpUtor1QP/joOnD9UK/zK6PKLelzhLR+l6+O9aDF/pqCptwT6
+         dkOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cHRFL44h2OEM1lGSXPFKxqS991ECPuCJqpPKgvIlapQ=;
-        b=qQGEnJpw816fsLM7vQBzSpFbiSASl9rK/TWp1aLR5Oklx/JMxSHV/879DDWFalwYX9
-         FRsaElOe8qEO3OoueB7W4sKxskrFZe7R32yTrdGKjotanrvVzPoqdPboIM0BtNw1AAdN
-         N5I+3l0ss2g5PnZhjgfbZo47VB1G79zPBka8jPBgGK/jmBqXVpxfuTwY1te5zqwxmc3X
-         UGcByaFBPW8qjGhcveKETzQIer0zAEESisBtmmiKfEOeiziaFPbo2FpgLt8VPFnZgSIz
-         RQEpPEMVKFw3+PlDQdDCfIm8bCZsF+h+1QXcfqN3MNMxLbV3LeJkdGEYIf7VybdMDm+J
-         fj9g==
-X-Gm-Message-State: AJcUukdBLPmvu6RUB+o+e3gdUOrEmBgehrptG6zJpVNrWSX1GD1ijtMu
-        7q3e+fgJIkhgdh3HPbZ7RXYNzSKPbDY=
-X-Google-Smtp-Source: ALg8bN4CAzW3Z7hD2q8jAG4vnDTlcFzSVnLGfjSxq1S5eVp+69Eb3PEdTH6rN1KzAkxGPHYjjHsBiA==
-X-Received: by 2002:a1c:cc19:: with SMTP id h25mr22437444wmb.80.1548027703919;
-        Sun, 20 Jan 2019 15:41:43 -0800 (PST)
+        bh=JVFrpeC80OLPbUMIpkWyZ48VgZSdWjNoszlgtYxl1bA=;
+        b=JTn7fz1GnMvScCrI1JxqSaIuIG9+V/9ii1+/q98zEbvW00ZFjZTtZLDYOQxdCRizeg
+         yhCHw3NFkXaI1nl1Qh27LemMo1Jg2lunxc+uJrK3k11cZFBEwWhROzkSk+F9hMPCsz4d
+         /oRRs1Es5xj02QBwTQ+mBtpQcpISc77qsYfCCV+x3tT9+sgpUoFbR3YmMTLCq8grq2Y5
+         ReLCzoBDljQzRmGekQVCsY8MQbHebJQfG/1PMoZkQypnp2dAydGRQGWXaRnBHIfqZOMu
+         PVSTs80zNXXCzr6+nkuXdYktdSbElm+DogMMH1KPWDchkKCFt4lJLR+hvKyQ1/MYMfE/
+         48Cw==
+X-Gm-Message-State: AJcUukcvdqrHaLdC1h6IPneYFl1Yx8pp4vzTuy1ECsGhv5KJ0Mo+EXTq
+        GwrpdMvgYmKO3dCauRy+bOO8h9NRJSw=
+X-Google-Smtp-Source: ALg8bN7yd4LLsUEEVxWZ6AaI+n5mCvGMx2xoXPiVv6mpYsuArzhbuv6KL8o8fpyT9SQ/Ftboiosjgg==
+X-Received: by 2002:adf:ff09:: with SMTP id k9mr24408212wrr.97.1548027669143;
+        Sun, 20 Jan 2019 15:41:09 -0800 (PST)
 Received: from localhost.localdomain ([156.212.82.83])
-        by smtp.gmail.com with ESMTPSA id e9sm76576753wro.16.2019.01.20.15.41.41
+        by smtp.gmail.com with ESMTPSA id e9sm76576753wro.16.2019.01.20.15.41.05
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 20 Jan 2019 15:41:43 -0800 (PST)
+        Sun, 20 Jan 2019 15:41:08 -0800 (PST)
 From:   Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
 To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Jonathan Corbet <corbet@lwn.net>,
@@ -59,9 +59,9 @@ To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Boris Lukashev <blukashev@sempervictus.com>,
         Igor Stoppa <igor.stoppa@gmail.com>
 Cc:     Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-Subject: [RESEND PATCH V8 11/11] KVM: ROE: Store protected chunks in red black tree
-Date:   Mon, 21 Jan 2019 01:39:40 +0200
-Message-Id: <20190120233940.15282-12-ahmedsoliman@mena.vt.edu>
+Subject: [RESEND PATCH V8 02/11] KVM: X86: Add arbitrary data pointer in kvm memslot iterator functions
+Date:   Mon, 21 Jan 2019 01:39:31 +0200
+Message-Id: <20190120233940.15282-3-ahmedsoliman@mena.vt.edu>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <20190120233940.15282-1-ahmedsoliman@mena.vt.edu>
 References: <20190120233940.15282-1-ahmedsoliman@mena.vt.edu>
@@ -72,382 +72,246 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The old way of storing protected chunks was a linked list. That made
-linear overhead when searching for chunks. When reaching 2000 chunk, The
-time taken two read the last chunk was about 10 times slower than the
-first chunk. This patch stores the chunks as tree for faster search.
+This will help sharing data into the slot_level_handler callback. In my
+case I need to a share a counter for the pages traversed to use it in some
+bitmap. Being able to send arbitrary memory pointer into the
+slot_level_handler callback made it easy.
 
 Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
 ---
- include/linux/kvm_host.h |  36 ++++++-
- virt/kvm/roe.c           | 228 +++++++++++++++++++++++++++------------
- virt/kvm/roe_generic.h   |   3 +
- 3 files changed, 197 insertions(+), 70 deletions(-)
+ arch/x86/kvm/mmu.c | 65 ++++++++++++++++++++++++++--------------------
+ 1 file changed, 37 insertions(+), 28 deletions(-)
 
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 9acf5f54ac..5f4bec0662 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -9,6 +9,7 @@
- #include <linux/types.h>
- #include <linux/hardirq.h>
- #include <linux/list.h>
-+#include <linux/rbtree.h>
- #include <linux/mutex.h>
- #include <linux/spinlock.h>
- #include <linux/signal.h>
-@@ -301,7 +302,7 @@ static inline int kvm_vcpu_exiting_guest_mode(struct kvm_vcpu *vcpu)
- struct protected_chunk {
- 	gpa_t gpa;
- 	u64 size;
--	struct list_head list;
-+	struct rb_node node;
- };
+diff --git a/arch/x86/kvm/mmu.c b/arch/x86/kvm/mmu.c
+index ce770b4462..098df7d135 100644
+--- a/arch/x86/kvm/mmu.c
++++ b/arch/x86/kvm/mmu.c
+@@ -1525,7 +1525,7 @@ static bool spte_write_protect(u64 *sptep, bool pt_protect)
  
- static inline bool kvm_roe_range_overlap(struct protected_chunk *chunk,
-@@ -316,12 +317,43 @@ static inline bool kvm_roe_range_overlap(struct protected_chunk *chunk,
- 		(gpa + len - 1 >= chunk->gpa);
+ static bool __rmap_write_protect(struct kvm *kvm,
+ 				 struct kvm_rmap_head *rmap_head,
+-				 bool pt_protect)
++				 bool pt_protect, void *data)
+ {
+ 	u64 *sptep;
+ 	struct rmap_iterator iter;
+@@ -1564,7 +1564,8 @@ static bool wrprot_ad_disabled_spte(u64 *sptep)
+  *	- W bit on ad-disabled SPTEs.
+  * Returns true iff any D or W bits were cleared.
+  */
+-static bool __rmap_clear_dirty(struct kvm *kvm, struct kvm_rmap_head *rmap_head)
++static bool __rmap_clear_dirty(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
++				void *data)
+ {
+ 	u64 *sptep;
+ 	struct rmap_iterator iter;
+@@ -1590,7 +1591,8 @@ static bool spte_set_dirty(u64 *sptep)
+ 	return mmu_spte_update(sptep, spte);
  }
  
-+static inline int kvm_roe_range_cmp_position(struct protected_chunk *chunk,
-+		gpa_t gpa, int len) {
-+	/*
-+	 * returns -1 if the gpa and len are smaller than chunk.
-+	 * returns 0 if they overlap or strictly adjacent
-+	 * returns 1 if gpa and len are bigger than the chunk
-+	 */
-+
-+	if (gpa + len <= chunk->gpa)
-+		return -1;
-+	if (gpa >= chunk->gpa + chunk->size)
-+		return 1;
-+	return 0;
-+}
-+
-+static inline int kvm_roe_range_cmp_mergability(struct protected_chunk *chunk,
-+		gpa_t gpa, int len) {
-+	/*
-+	 * returns -1 if the gpa and len are smaller than chunk and not adjacent
-+	 * to it
-+	 * returns 0 if they overlap or strictly adjacent
-+	 * returns 1 if gpa and len are bigger than the chunk and not adjacent
-+	 * to it
-+	 */
-+	if (gpa + len < chunk->gpa)
-+		return -1;
-+	if (gpa > chunk->gpa + chunk->size)
-+		return 1;
-+	return 0;
-+
-+}
- struct kvm_memory_slot {
- 	gfn_t base_gfn;
- 	unsigned long npages;
- 	unsigned long *roe_bitmap;
- 	unsigned long *partial_roe_bitmap;
--	struct list_head *prot_list;
-+	struct rb_root  *prot_root;
- 	unsigned long *dirty_bitmap;
- 	struct kvm_arch_memory_slot arch;
- 	unsigned long userspace_addr;
-diff --git a/virt/kvm/roe.c b/virt/kvm/roe.c
-index e424b45e1c..15297c0e57 100644
---- a/virt/kvm/roe.c
-+++ b/virt/kvm/roe.c
-@@ -23,10 +23,10 @@ int kvm_roe_init(struct kvm_memory_slot *slot)
- 			sizeof(unsigned long), GFP_KERNEL);
- 	if (!slot->partial_roe_bitmap)
- 		goto fail2;
--	slot->prot_list = kvzalloc(sizeof(struct list_head), GFP_KERNEL);
--	if (!slot->prot_list)
-+	slot->prot_root = kvzalloc(sizeof(struct rb_root), GFP_KERNEL);
-+	if (!slot->prot_root)
- 		goto fail3;
--	INIT_LIST_HEAD(slot->prot_list);
-+	*slot->prot_root = RB_ROOT;
- 	return 0;
- fail3:
- 	kvfree(slot->partial_roe_bitmap);
-@@ -40,12 +40,19 @@ int kvm_roe_init(struct kvm_memory_slot *slot)
- static bool kvm_roe_protected_range(struct kvm_memory_slot *slot, gpa_t gpa,
- 		int len)
+-static bool __rmap_set_dirty(struct kvm *kvm, struct kvm_rmap_head *rmap_head)
++static bool __rmap_set_dirty(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
++				void *data)
  {
--	struct list_head *pos;
--	struct protected_chunk *cur_chunk;
--
--	list_for_each(pos, slot->prot_list) {
--		cur_chunk = list_entry(pos, struct protected_chunk, list);
--		if (kvm_roe_range_overlap(cur_chunk, gpa, len))
-+	struct rb_node *node = slot->prot_root->rb_node;
-+
-+	while (node) {
-+		struct protected_chunk *cur_chunk;
-+		int cmp;
-+
-+		cur_chunk = rb_entry(node, struct protected_chunk, node);
-+		cmp = kvm_roe_range_cmp_position(cur_chunk, gpa, len);
-+		if (cmp < 0)/*target chunk is before current node*/
-+			node = node->rb_left;
-+		else if (cmp > 0)/*target chunk is after current node*/
-+			node = node->rb_right;
-+		else
- 			return true;
+ 	u64 *sptep;
+ 	struct rmap_iterator iter;
+@@ -1622,7 +1624,7 @@ static void kvm_mmu_write_protect_pt_masked(struct kvm *kvm,
+ 	while (mask) {
+ 		rmap_head = __gfn_to_rmap(slot->base_gfn + gfn_offset + __ffs(mask),
+ 					  PT_PAGE_TABLE_LEVEL, slot);
+-		__rmap_write_protect(kvm, rmap_head, false);
++		__rmap_write_protect(kvm, rmap_head, false, NULL);
+ 
+ 		/* clear the first set bit */
+ 		mask &= mask - 1;
+@@ -1648,7 +1650,7 @@ void kvm_mmu_clear_dirty_pt_masked(struct kvm *kvm,
+ 	while (mask) {
+ 		rmap_head = __gfn_to_rmap(slot->base_gfn + gfn_offset + __ffs(mask),
+ 					  PT_PAGE_TABLE_LEVEL, slot);
+-		__rmap_clear_dirty(kvm, rmap_head);
++		__rmap_clear_dirty(kvm, rmap_head, NULL);
+ 
+ 		/* clear the first set bit */
+ 		mask &= mask - 1;
+@@ -1701,7 +1703,8 @@ bool kvm_mmu_slot_gfn_write_protect(struct kvm *kvm,
+ 
+ 	for (i = PT_PAGE_TABLE_LEVEL; i <= PT_MAX_HUGEPAGE_LEVEL; ++i) {
+ 		rmap_head = __gfn_to_rmap(gfn, i, slot);
+-		write_protected |= __rmap_write_protect(kvm, rmap_head, true);
++		write_protected |= __rmap_write_protect(kvm, rmap_head, true,
++				NULL);
  	}
- 	return false;
-@@ -62,18 +69,24 @@ bool kvm_roe_check_range(struct kvm_memory_slot *slot, gfn_t gfn, int offset,
- }
- EXPORT_SYMBOL_GPL(kvm_roe_check_range);
  
--void kvm_roe_free(struct kvm_memory_slot *slot)
-+static void kvm_roe_destroy_tree(struct rb_node *node)
+ 	return write_protected;
+@@ -1715,7 +1718,8 @@ static bool rmap_write_protect(struct kvm_vcpu *vcpu, u64 gfn)
+ 	return kvm_mmu_slot_gfn_write_protect(vcpu->kvm, slot, gfn);
+ }
+ 
+-static bool kvm_zap_rmapp(struct kvm *kvm, struct kvm_rmap_head *rmap_head)
++static bool kvm_zap_rmapp(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
++		void *data)
  {
--	struct protected_chunk *pos, *n;
--	struct list_head *head = slot->prot_list;
-+	struct protected_chunk *cur_chunk;
-+
-+	if (!node)
-+		return;
-+	kvm_roe_destroy_tree(node->rb_left);
-+	kvm_roe_destroy_tree(node->rb_right);
-+	cur_chunk = rb_entry(node, struct protected_chunk, node);
-+	kvfree(cur_chunk);
-+}
- 
-+void kvm_roe_free(struct kvm_memory_slot *slot)
-+{
- 	kvfree(slot->roe_bitmap);
- 	kvfree(slot->partial_roe_bitmap);
--	list_for_each_entry_safe(pos, n, head, list) {
--		list_del(&pos->list);
--		kvfree(pos);
--	}
--	kvfree(slot->prot_list);
-+	kvm_roe_destroy_tree(slot->prot_root->rb_node);
-+	kvfree(slot->prot_root);
- }
- 
- static void kvm_warning_roe_violation(u64 addr, const void *data, int len)
-@@ -193,40 +206,119 @@ static int kvm_roe_full_protect_range(struct kvm_vcpu *vcpu, u64 gva,
- 	return count;
- }
- 
--static int kvm_roe_insert_chunk_next(struct list_head *pos, u64 gpa, u64 size)
--{
--	struct protected_chunk *chunk;
--
--	chunk = kvzalloc(sizeof(struct protected_chunk), GFP_KERNEL);
--	chunk->gpa = gpa;
--	chunk->size = size;
--	INIT_LIST_HEAD(&chunk->list);
--	list_add(&chunk->list, pos);
--	return size;
--}
--
--static int kvm_roe_expand_chunk(struct protected_chunk *pos, u64 gpa, u64 size)
-+static u64 kvm_roe_expand_chunk(struct protected_chunk *pos, u64 gpa, u64 size)
+ 	u64 *sptep;
+ 	struct rmap_iterator iter;
+@@ -1735,7 +1739,7 @@ static int kvm_unmap_rmapp(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
+ 			   struct kvm_memory_slot *slot, gfn_t gfn, int level,
+ 			   unsigned long data)
  {
- 	u64 old_ptr = pos->gpa;
- 	u64 old_size = pos->size;
-+	u64 ret = 0;
- 
--	if (gpa < old_ptr)
-+	if (gpa < old_ptr) {
- 		pos->gpa = gpa;
--	if (gpa + size > old_ptr + old_size)
-+		ret |= KVM_ROE_MERGE_LEFT;
-+	}
-+	if (gpa + size > old_ptr + old_size) {
- 		pos->size = gpa + size - pos->gpa;
--	return size;
-+		ret |= KVM_ROE_MERGE_RIGHT;
-+	}
-+	return ret;
- }
-+static void kvm_roe_merge_left(struct rb_root *root, struct rb_node *start)
-+{
-+	struct rb_root fake_root;
-+	struct protected_chunk *target, *first;
-+	struct rb_node *node, *stop;
-+	u64 i, count = 0;
- 
--static bool kvm_roe_merge_chunks(struct protected_chunk *chunk)
-+	if (!start->rb_left)
-+		return;
-+	fake_root = (struct rb_root) {start->rb_left};
-+	stop = rb_prev(rb_first(&fake_root));
-+	/* Back traverse till no node can be merged*/
-+	target = container_of(start, struct protected_chunk, node);
-+	for (node = rb_last(&fake_root); node != stop; node = rb_prev(node)) {
-+		struct protected_chunk *pos;
-+
-+		pos = container_of(node, struct protected_chunk, node);
-+		if (kvm_roe_range_cmp_mergability(target, pos->gpa, pos->size))
-+			break;
-+		count += 1;
-+	}
-+	if (!count)
-+		return;
-+	/* merging step*/
-+	node = rb_next(node);
-+	first = container_of(node, struct protected_chunk, node);
-+	kvm_roe_expand_chunk(target, first->gpa, first->size);
-+	/* forward traverse and delete all in between*/
-+	for (i = 0; i < count; i++) {
-+		struct protected_chunk *pos;
-+
-+		pos = container_of(node, struct protected_chunk, node);
-+		rb_erase(node, root);
-+		kvfree(pos);
-+		node = rb_next(node);
-+	}
-+}
-+
-+static void kvm_roe_merge_right(struct rb_root *root, struct rb_node *start)
- {
--	/*attempt merging 2 consecutive given the first one*/
--	struct protected_chunk *next = list_next_entry(chunk, list);
-+	struct rb_root fake_root;
-+	struct protected_chunk *target, *first;
-+	struct rb_node *node, *stop;
-+	u64 i, count = 0;
- 
--	if (!kvm_roe_range_overlap(chunk, next->gpa, next->size))
--		return false;
--	kvm_roe_expand_chunk(chunk, next->gpa, next->size);
--	list_del(&next->list);
--	kvfree(next);
-+	if (!start->rb_right)
-+		return;
-+	fake_root = (struct rb_root) {start->rb_right};
-+	stop = rb_next(rb_last(&fake_root));
-+	/* Forward traverse till no node can be merged*/
-+	target = container_of(start, struct protected_chunk, node);
-+	for (node = rb_first(&fake_root); node != stop; node = rb_next(node)) {
-+		struct protected_chunk *pos;
-+
-+		pos = container_of(node, struct protected_chunk, node);
-+		if (kvm_roe_range_cmp_mergability(target, pos->gpa, pos->size))
-+			break;
-+		count += 1;
-+	}
-+	if (!count)
-+		return;
-+	/* merging step*/
-+	node = rb_prev(node);
-+	first = container_of(node, struct protected_chunk, node);
-+	kvm_roe_expand_chunk(target, first->gpa, first->size);
-+	/* Backward traverse and delete all in between*/
-+	for (i = 0; i < count; i++) {
-+		struct protected_chunk *pos;
-+
-+		pos = container_of(node, struct protected_chunk, node);
-+		rb_erase(node, root);
-+		kvfree(pos);
-+		node = rb_prev(node);
-+	}
-+}
-+
-+static bool kvm_roe_merge_chunks(struct rb_root *root, struct rb_node *target,
-+		u64 gpa, u64 size)
-+{
-+	/*
-+	 * attempt merging all adjacent chunks after inserting a chunk that is
-+	 * adjacent or inersecting with  an existing chunk
-+	 */
-+	struct protected_chunk *cur;
-+	u64 merge;
-+
-+	cur = container_of(target, struct protected_chunk, node);
-+	merge = kvm_roe_expand_chunk(cur, gpa, size);
-+	/*
-+	 * We will not have to worry about the parent node while merging
-+	 * If it was mergeable with the new to be inserted chunk we wouldn't
-+	 * have gone deeper.
-+	 **/
-+	if (merge & KVM_ROE_MERGE_LEFT)
-+		kvm_roe_merge_left(root, target);
-+	if (merge & KVM_ROE_MERGE_RIGHT)
-+		kvm_roe_merge_right(root, target);
- 	return true;
+-	return kvm_zap_rmapp(kvm, rmap_head);
++	return kvm_zap_rmapp(kvm, rmap_head, NULL);
  }
  
-@@ -234,35 +326,35 @@ static int __kvm_roe_insert_chunk(struct kvm_memory_slot *slot, u64 gpa,
- 		u64 size)
+ static int kvm_set_pte_rmapp(struct kvm *kvm, struct kvm_rmap_head *rmap_head,
+@@ -5552,13 +5556,15 @@ void kvm_mmu_uninit_vm(struct kvm *kvm)
+ }
+ 
+ /* The return value indicates if tlb flush on all vcpus is needed. */
+-typedef bool (*slot_level_handler) (struct kvm *kvm, struct kvm_rmap_head *rmap_head);
++typedef bool (*slot_level_handler) (struct kvm *kvm,
++		struct kvm_rmap_head *rmap_head, void *data);
+ 
+ /* The caller should hold mmu-lock before calling this function. */
+ static __always_inline bool
+ slot_handle_level_range(struct kvm *kvm, struct kvm_memory_slot *memslot,
+ 			slot_level_handler fn, int start_level, int end_level,
+-			gfn_t start_gfn, gfn_t end_gfn, bool lock_flush_tlb)
++			gfn_t start_gfn, gfn_t end_gfn, bool lock_flush_tlb,
++			void *data)
  {
- 	/* kvm->slots_lock must be acquired*/
--	struct protected_chunk *pos;
--	struct list_head *head = slot->prot_list;
--
--	if (list_empty(head))
--		return kvm_roe_insert_chunk_next(head, gpa, size);
--	/*
--	 * pos here will never get deleted maybe the next one will
--	 * that is why list_for_each_entry_safe is completely unsafe
--	 */
--	list_for_each_entry(pos, head, list) {
--		if (kvm_roe_range_overlap(pos, gpa, size)) {
--			int ret = kvm_roe_expand_chunk(pos, gpa, size);
--
--			while (head != pos->list.next)
--				if (!kvm_roe_merge_chunks(pos))
--					break;
--			return ret;
--		}
--		if (pos->gpa > gpa) {
--			struct protected_chunk *prev;
--
--			prev = list_prev_entry(pos, list);
--			return kvm_roe_insert_chunk_next(&prev->list, gpa,
--					size);
-+	struct rb_node **new = &(slot->prot_root->rb_node), *parent = NULL;
-+	struct protected_chunk *insert_me;
-+	bool merge = false;
-+
-+	while (*new) {
-+		struct protected_chunk *chunk;
-+		int cmp;
-+
-+		chunk = container_of(*new, struct protected_chunk, node);
-+		cmp = kvm_roe_range_cmp_mergability(chunk, gpa, size);
-+		parent = *new;
-+		if (cmp < 0) {
-+			new = &((*new)->rb_left);
-+		} else if (cmp > 0) {
-+			new = &((*new)->rb_right);
-+		} else {
-+			merge = true;
-+			kvm_roe_merge_chunks(slot->prot_root, *new, gpa, size);
-+			break;
+ 	struct slot_rmap_walk_iterator iterator;
+ 	bool flush = false;
+@@ -5566,7 +5572,7 @@ slot_handle_level_range(struct kvm *kvm, struct kvm_memory_slot *memslot,
+ 	for_each_slot_rmap_range(memslot, start_level, end_level, start_gfn,
+ 			end_gfn, &iterator) {
+ 		if (iterator.rmap)
+-			flush |= fn(kvm, iterator.rmap);
++			flush |= fn(kvm, iterator.rmap, data);
+ 
+ 		if (need_resched() || spin_needbreak(&kvm->mmu_lock)) {
+ 			if (flush && lock_flush_tlb) {
+@@ -5588,36 +5594,36 @@ slot_handle_level_range(struct kvm *kvm, struct kvm_memory_slot *memslot,
+ static __always_inline bool
+ slot_handle_level(struct kvm *kvm, struct kvm_memory_slot *memslot,
+ 		  slot_level_handler fn, int start_level, int end_level,
+-		  bool lock_flush_tlb)
++		  bool lock_flush_tlb, void *data)
+ {
+ 	return slot_handle_level_range(kvm, memslot, fn, start_level,
+ 			end_level, memslot->base_gfn,
+ 			memslot->base_gfn + memslot->npages - 1,
+-			lock_flush_tlb);
++			lock_flush_tlb, data);
+ }
+ 
+ static __always_inline bool
+ slot_handle_all_level(struct kvm *kvm, struct kvm_memory_slot *memslot,
+-		      slot_level_handler fn, bool lock_flush_tlb)
++		      slot_level_handler fn, bool lock_flush_tlb, void *data)
+ {
+ 	return slot_handle_level(kvm, memslot, fn, PT_PAGE_TABLE_LEVEL,
+-				 PT_MAX_HUGEPAGE_LEVEL, lock_flush_tlb);
++				 PT_MAX_HUGEPAGE_LEVEL, lock_flush_tlb, data);
+ }
+ 
+ static __always_inline bool
+ slot_handle_large_level(struct kvm *kvm, struct kvm_memory_slot *memslot,
+-			slot_level_handler fn, bool lock_flush_tlb)
++			slot_level_handler fn, bool lock_flush_tlb, void *data)
+ {
+ 	return slot_handle_level(kvm, memslot, fn, PT_PAGE_TABLE_LEVEL + 1,
+-				 PT_MAX_HUGEPAGE_LEVEL, lock_flush_tlb);
++				 PT_MAX_HUGEPAGE_LEVEL, lock_flush_tlb, data);
+ }
+ 
+ static __always_inline bool
+ slot_handle_leaf(struct kvm *kvm, struct kvm_memory_slot *memslot,
+-		 slot_level_handler fn, bool lock_flush_tlb)
++		 slot_level_handler fn, bool lock_flush_tlb, void *data)
+ {
+ 	return slot_handle_level(kvm, memslot, fn, PT_PAGE_TABLE_LEVEL,
+-				 PT_PAGE_TABLE_LEVEL, lock_flush_tlb);
++				 PT_PAGE_TABLE_LEVEL, lock_flush_tlb, data);
+ }
+ 
+ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
+@@ -5645,7 +5651,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
+ 			flush |= slot_handle_level_range(kvm, memslot,
+ 					kvm_zap_rmapp, PT_PAGE_TABLE_LEVEL,
+ 					PT_MAX_HUGEPAGE_LEVEL, start,
+-					end - 1, flush_tlb);
++					end - 1, flush_tlb, NULL);
  		}
  	}
--	pos = list_last_entry(head, struct protected_chunk, list);
--
--	return kvm_roe_insert_chunk_next(&pos->list, gpa, size);
-+	if (merge)
-+		return size;
-+	insert_me = kvzalloc(sizeof(struct protected_chunk), GFP_KERNEL);
-+	insert_me->gpa = gpa;
-+	insert_me->size = size;
-+	rb_link_node(&insert_me->node, parent, new);
-+	rb_insert_color(&insert_me->node, slot->prot_root);
-+	return size;
+ 
+@@ -5657,9 +5663,10 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
  }
  
- static int kvm_roe_insert_chunk(struct kvm *kvm, u64 gpa, u64 size)
-diff --git a/virt/kvm/roe_generic.h b/virt/kvm/roe_generic.h
-index 6c5f0cf381..8e42c9795c 100644
---- a/virt/kvm/roe_generic.h
-+++ b/virt/kvm/roe_generic.h
-@@ -10,6 +10,9 @@
-  *
-  */
+ static bool slot_rmap_write_protect(struct kvm *kvm,
+-				    struct kvm_rmap_head *rmap_head)
++				    struct kvm_rmap_head *rmap_head,
++				    void *data)
+ {
+-	return __rmap_write_protect(kvm, rmap_head, false);
++	return __rmap_write_protect(kvm, rmap_head, false, data);
+ }
  
-+#define KVM_ROE_MERGE_LEFT	0x1
-+#define KVM_ROE_MERGE_RIGHT	0x2
-+
- void kvm_roe_free(struct kvm_memory_slot *slot);
- int kvm_roe_init(struct kvm_memory_slot *slot);
- bool kvm_roe_check_range(struct kvm_memory_slot *slot, gfn_t gfn, int offset,
+ void kvm_mmu_slot_remove_write_access(struct kvm *kvm,
+@@ -5669,7 +5676,7 @@ void kvm_mmu_slot_remove_write_access(struct kvm *kvm,
+ 
+ 	spin_lock(&kvm->mmu_lock);
+ 	flush = slot_handle_all_level(kvm, memslot, slot_rmap_write_protect,
+-				      false);
++				      false, NULL);
+ 	spin_unlock(&kvm->mmu_lock);
+ 
+ 	/*
+@@ -5696,7 +5703,8 @@ void kvm_mmu_slot_remove_write_access(struct kvm *kvm,
+ }
+ 
+ static bool kvm_mmu_zap_collapsible_spte(struct kvm *kvm,
+-					 struct kvm_rmap_head *rmap_head)
++					 struct kvm_rmap_head *rmap_head,
++					 void *data)
+ {
+ 	u64 *sptep;
+ 	struct rmap_iterator iter;
+@@ -5740,7 +5748,7 @@ void kvm_mmu_zap_collapsible_sptes(struct kvm *kvm,
+ 	/* FIXME: const-ify all uses of struct kvm_memory_slot.  */
+ 	spin_lock(&kvm->mmu_lock);
+ 	slot_handle_leaf(kvm, (struct kvm_memory_slot *)memslot,
+-			 kvm_mmu_zap_collapsible_spte, true);
++			 kvm_mmu_zap_collapsible_spte, true, NULL);
+ 	spin_unlock(&kvm->mmu_lock);
+ }
+ 
+@@ -5750,7 +5758,7 @@ void kvm_mmu_slot_leaf_clear_dirty(struct kvm *kvm,
+ 	bool flush;
+ 
+ 	spin_lock(&kvm->mmu_lock);
+-	flush = slot_handle_leaf(kvm, memslot, __rmap_clear_dirty, false);
++	flush = slot_handle_leaf(kvm, memslot, __rmap_clear_dirty, false, NULL);
+ 	spin_unlock(&kvm->mmu_lock);
+ 
+ 	lockdep_assert_held(&kvm->slots_lock);
+@@ -5774,7 +5782,7 @@ void kvm_mmu_slot_largepage_remove_write_access(struct kvm *kvm,
+ 
+ 	spin_lock(&kvm->mmu_lock);
+ 	flush = slot_handle_large_level(kvm, memslot, slot_rmap_write_protect,
+-					false);
++					false, NULL);
+ 	spin_unlock(&kvm->mmu_lock);
+ 
+ 	/* see kvm_mmu_slot_remove_write_access */
+@@ -5792,7 +5800,8 @@ void kvm_mmu_slot_set_dirty(struct kvm *kvm,
+ 	bool flush;
+ 
+ 	spin_lock(&kvm->mmu_lock);
+-	flush = slot_handle_all_level(kvm, memslot, __rmap_set_dirty, false);
++	flush = slot_handle_all_level(kvm, memslot, __rmap_set_dirty, false,
++			NULL);
+ 	spin_unlock(&kvm->mmu_lock);
+ 
+ 	lockdep_assert_held(&kvm->slots_lock);
 -- 
 2.19.2
 
