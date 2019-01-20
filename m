@@ -5,48 +5,48 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3D8E17D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Jan 2019 08:39:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 114947D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Jan 2019 08:43:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728910AbfAUIj2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 Jan 2019 03:39:28 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:34964 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728583AbfAUIj2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jan 2019 03:39:28 -0500
-Received: by mail-wr1-f68.google.com with SMTP id 96so22267462wrb.2
-        for <linux-doc@vger.kernel.org>; Mon, 21 Jan 2019 00:39:26 -0800 (PST)
+        id S1728953AbfAUInA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 Jan 2019 03:43:00 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:36045 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728928AbfAUInA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jan 2019 03:43:00 -0500
+Received: by mail-wm1-f68.google.com with SMTP id p6so9856543wmc.1
+        for <linux-doc@vger.kernel.org>; Mon, 21 Jan 2019 00:42:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=mena-vt-edu.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ba3tDASNTotjNQKnGm55/6Aw1NBRDm2GVVzFiCk5Tjc=;
-        b=xt1IaSpMNL7ziYvM+rZnBGX/PKTiPlj5tS9UtgSyiPJn92VBAFynaLivIruQFoWrCb
-         LWwmR1ZBO4JmpORKmpVZMKLjGdeji5S4uPPgk/3NMH/2MRqC/jA7/CI6b0fUhpdTkHfJ
-         V5my0sqbH76wXLJ5UwMA8Uxu1T/CddVtzUkb/HNFRtxIwdOgLeYRDOcPntoayD4/9vgn
-         VLkI1KDpyRjLH7DfuaWSnV/UHNEm9SG4NRSDK+ctqa/B0J5XaZtSW7FPOPc7vqvGrbzt
-         IadnMIC/hexahdFXpeqoIqD3dhm2k/Ax8jV8mj26WBPQ+KgBU/Szwfkjkp+fYwqJRBOP
-         3EnQ==
+        bh=cHRFL44h2OEM1lGSXPFKxqS991ECPuCJqpPKgvIlapQ=;
+        b=1K05vbsbiCFg1uDMFOk6XT6m4OZTKGiD/ZqJKFxK5KMAqMLoaEfcotniRiGyZkp6k8
+         bQH7NeJOcciWncnukc4dIIDAZP0vHyfWHgidmxQX0E8E/X4xfgjYkghTiqxibK/NMAfK
+         7f/ddrBKo8XB/scx7PQrslNBw7bT9kI33S6ysDMsq2VHyEX04DCNxdxdVaARwebRIa2K
+         kWVsjT8orert5hb6mAvvO+MMwOcSa6++VfblQRjkXuNJDPmFPfMZGYbjdod4Q5lsZjDI
+         CANrz1MgyNFK1dGyIE52Ns7wGy7KObs+vtG/O9PN75UQ8ok8S3iOxccEviGs2MrfgIcK
+         mvew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ba3tDASNTotjNQKnGm55/6Aw1NBRDm2GVVzFiCk5Tjc=;
-        b=RSNQ36WXnMKxjrnNrPqMm+P11OwrQa1xDXj79ZSmd+pdiVmao8kMz+CVc/68/zrVts
-         O5gsMXL60LH6dExbRcgeBMkR45MfkNPKY46n4XG42LgIg73g9X8Xb2WtEJbtCw7bcYeN
-         Jqf0cJIuT6jajVXERVFphf9BlZmo/k5vzvFhOH25zpGMy+EG29zyWb+5M4a/eeF8dpyy
-         bDBiuc5U9YnxlZlAqat3AolD6LHsg6bG739ZKGGmEzbxAl7oeMpPLmREW4hscdelHLRc
-         /i5AeCTJMKSITfderHX3P9z9YUMPPUQRWYxQ93ypQmrG4YIAAdrebZc7gIsKHhHyjx5A
-         HuAw==
-X-Gm-Message-State: AJcUukdoCyBufReto4IeFkpTPkdG6UiHx6pTg8Gb1To1zmA60WwkWdfu
-        FkrBonN18GYz2cCXic2lM1E+hrZaorU=
-X-Google-Smtp-Source: ALg8bN7ul2pdzsg6zMf4tyvqYVChZ72Zkyxhd1WnH7clqi7jYMFuxYuMyxLoCiPtpUytkSGt+Q8+Aw==
-X-Received: by 2002:a5d:444a:: with SMTP id x10mr26249203wrr.162.1548027680378;
-        Sun, 20 Jan 2019 15:41:20 -0800 (PST)
+        bh=cHRFL44h2OEM1lGSXPFKxqS991ECPuCJqpPKgvIlapQ=;
+        b=qQGEnJpw816fsLM7vQBzSpFbiSASl9rK/TWp1aLR5Oklx/JMxSHV/879DDWFalwYX9
+         FRsaElOe8qEO3OoueB7W4sKxskrFZe7R32yTrdGKjotanrvVzPoqdPboIM0BtNw1AAdN
+         N5I+3l0ss2g5PnZhjgfbZo47VB1G79zPBka8jPBgGK/jmBqXVpxfuTwY1te5zqwxmc3X
+         UGcByaFBPW8qjGhcveKETzQIer0zAEESisBtmmiKfEOeiziaFPbo2FpgLt8VPFnZgSIz
+         RQEpPEMVKFw3+PlDQdDCfIm8bCZsF+h+1QXcfqN3MNMxLbV3LeJkdGEYIf7VybdMDm+J
+         fj9g==
+X-Gm-Message-State: AJcUukdBLPmvu6RUB+o+e3gdUOrEmBgehrptG6zJpVNrWSX1GD1ijtMu
+        7q3e+fgJIkhgdh3HPbZ7RXYNzSKPbDY=
+X-Google-Smtp-Source: ALg8bN4CAzW3Z7hD2q8jAG4vnDTlcFzSVnLGfjSxq1S5eVp+69Eb3PEdTH6rN1KzAkxGPHYjjHsBiA==
+X-Received: by 2002:a1c:cc19:: with SMTP id h25mr22437444wmb.80.1548027703919;
+        Sun, 20 Jan 2019 15:41:43 -0800 (PST)
 Received: from localhost.localdomain ([156.212.82.83])
-        by smtp.gmail.com with ESMTPSA id e9sm76576753wro.16.2019.01.20.15.41.17
+        by smtp.gmail.com with ESMTPSA id e9sm76576753wro.16.2019.01.20.15.41.41
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 20 Jan 2019 15:41:19 -0800 (PST)
+        Sun, 20 Jan 2019 15:41:43 -0800 (PST)
 From:   Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
 To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Jonathan Corbet <corbet@lwn.net>,
@@ -59,9 +59,9 @@ To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
         Boris Lukashev <blukashev@sempervictus.com>,
         Igor Stoppa <igor.stoppa@gmail.com>
 Cc:     Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-Subject: [RESEND PATCH V8 05/11] KVM: Create architecture independent ROE skeleton
-Date:   Mon, 21 Jan 2019 01:39:34 +0200
-Message-Id: <20190120233940.15282-6-ahmedsoliman@mena.vt.edu>
+Subject: [RESEND PATCH V8 11/11] KVM: ROE: Store protected chunks in red black tree
+Date:   Mon, 21 Jan 2019 01:39:40 +0200
+Message-Id: <20190120233940.15282-12-ahmedsoliman@mena.vt.edu>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <20190120233940.15282-1-ahmedsoliman@mena.vt.edu>
 References: <20190120233940.15282-1-ahmedsoliman@mena.vt.edu>
@@ -72,323 +72,382 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch introduces a hypercall that can assist against subset of kernel
-rootkits, it works by place readonly protection in shadow PTE. The end
-result protection is also kept in a bitmap for each kvm_memory_slot and is
-used as reference when updating SPTEs. The whole goal is to protect the
-guest kernel static data from modification if attacker is running from
-guest ring 0, for this reason there is no hypercall to revert effect of
-Memory ROE hypercall. This patch doesn't implement integrity check on guest
-TLB so obvious attack on the current implementation will involve guest
-virtual address -> guest physical address remapping, but there are plans to
-fix that. For this patch to work on a given arch/ one would need to
-implement 2 function that are architecture specific:
-kvm_roe_arch_commit_protection() and kvm_roe_arch_is_userspace(). Also it
-would need to have kvm_roe invoked using the appropriate hypercall
-mechanism.
+The old way of storing protected chunks was a linked list. That made
+linear overhead when searching for chunks. When reaching 2000 chunk, The
+time taken two read the last chunk was about 10 times slower than the
+first chunk. This patch stores the chunks as tree for faster search.
 
 Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
 ---
- include/kvm/roe.h             |  16 ++++
- include/linux/kvm_host.h      |   1 +
- include/uapi/linux/kvm_para.h |   4 +
- virt/kvm/kvm_main.c           |  19 +++--
- virt/kvm/roe.c                | 136 ++++++++++++++++++++++++++++++++++
- virt/kvm/roe_generic.h        |  19 +++++
- 6 files changed, 190 insertions(+), 5 deletions(-)
- create mode 100644 include/kvm/roe.h
- create mode 100644 virt/kvm/roe.c
- create mode 100644 virt/kvm/roe_generic.h
+ include/linux/kvm_host.h |  36 ++++++-
+ virt/kvm/roe.c           | 228 +++++++++++++++++++++++++++------------
+ virt/kvm/roe_generic.h   |   3 +
+ 3 files changed, 197 insertions(+), 70 deletions(-)
 
-diff --git a/include/kvm/roe.h b/include/kvm/roe.h
-new file mode 100644
-index 0000000000..6a86866623
---- /dev/null
-+++ b/include/kvm/roe.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef __KVM_ROE_H__
-+#define __KVM_ROE_H__
-+/*
-+ * KVM Read Only Enforcement
-+ * Copyright (c) 2018 Ahmed Abd El Mawgood
-+ *
-+ * Author Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-+ *
-+ */
-+void kvm_roe_arch_commit_protection(struct kvm *kvm,
-+		struct kvm_memory_slot *slot);
-+int kvm_roe(struct kvm_vcpu *vcpu, u64 a0, u64 a1, u64 a2, u64 a3);
-+bool kvm_roe_arch_is_userspace(struct kvm_vcpu *vcpu);
-+#endif
 diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index c38cc5eb7e..a627c6e81a 100644
+index 9acf5f54ac..5f4bec0662 100644
 --- a/include/linux/kvm_host.h
 +++ b/include/linux/kvm_host.h
-@@ -297,6 +297,7 @@ static inline int kvm_vcpu_exiting_guest_mode(struct kvm_vcpu *vcpu)
- struct kvm_memory_slot {
- 	gfn_t base_gfn;
- 	unsigned long npages;
-+	unsigned long *roe_bitmap;
- 	unsigned long *dirty_bitmap;
- 	struct kvm_arch_memory_slot arch;
- 	unsigned long userspace_addr;
-diff --git a/include/uapi/linux/kvm_para.h b/include/uapi/linux/kvm_para.h
-index 6c0ce49931..e6004e0750 100644
---- a/include/uapi/linux/kvm_para.h
-+++ b/include/uapi/linux/kvm_para.h
-@@ -28,7 +28,11 @@
- #define KVM_HC_MIPS_CONSOLE_OUTPUT	8
- #define KVM_HC_CLOCK_PAIRING		9
- #define KVM_HC_SEND_IPI		10
-+#define KVM_HC_ROE			11
+@@ -9,6 +9,7 @@
+ #include <linux/types.h>
+ #include <linux/hardirq.h>
+ #include <linux/list.h>
++#include <linux/rbtree.h>
+ #include <linux/mutex.h>
+ #include <linux/spinlock.h>
+ #include <linux/signal.h>
+@@ -301,7 +302,7 @@ static inline int kvm_vcpu_exiting_guest_mode(struct kvm_vcpu *vcpu)
+ struct protected_chunk {
+ 	gpa_t gpa;
+ 	u64 size;
+-	struct list_head list;
++	struct rb_node node;
+ };
  
-+/* ROE Functionality parameters */
-+#define ROE_VERSION			0
-+#define ROE_MPROTECT			1
- /*
-  * hypercalls use architecture specific
-  */
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 2f37b4b6a2..88b5fbcbb0 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -61,6 +61,7 @@
- #include "coalesced_mmio.h"
- #include "async_pf.h"
- #include "vfio.h"
-+#include "roe_generic.h"
- 
- #define CREATE_TRACE_POINTS
- #include <trace/events/kvm.h>
-@@ -551,9 +552,10 @@ static void kvm_free_memslot(struct kvm *kvm, struct kvm_memory_slot *free,
- 			      struct kvm_memory_slot *dont,
- 			      enum kvm_mr_change change)
- {
--	if (change == KVM_MR_DELETE)
-+	if (change == KVM_MR_DELETE) {
-+		kvm_roe_free(free);
- 		kvm_destroy_dirty_bitmap(free);
--
-+	}
- 	kvm_arch_free_memslot(kvm, free, dont);
- 
- 	free->npages = 0;
-@@ -1018,6 +1020,8 @@ int __kvm_set_memory_region(struct kvm *kvm,
- 		if (kvm_create_dirty_bitmap(&new) < 0)
- 			goto out_free;
- 	}
-+	if (kvm_roe_init(&new) < 0)
-+		goto out_free;
- 
- 	slots = kvzalloc(sizeof(struct kvm_memslots), GFP_KERNEL);
- 	if (!slots)
-@@ -1348,13 +1352,18 @@ static bool memslot_is_readonly(struct kvm_memory_slot *slot)
- 	return slot->flags & KVM_MEM_READONLY;
+ static inline bool kvm_roe_range_overlap(struct protected_chunk *chunk,
+@@ -316,12 +317,43 @@ static inline bool kvm_roe_range_overlap(struct protected_chunk *chunk,
+ 		(gpa + len - 1 >= chunk->gpa);
  }
  
-+static bool gfn_is_readonly(struct kvm_memory_slot *slot, gfn_t gfn)
-+{
-+	return gfn_is_full_roe(slot, gfn) || memslot_is_readonly(slot);
++static inline int kvm_roe_range_cmp_position(struct protected_chunk *chunk,
++		gpa_t gpa, int len) {
++	/*
++	 * returns -1 if the gpa and len are smaller than chunk.
++	 * returns 0 if they overlap or strictly adjacent
++	 * returns 1 if gpa and len are bigger than the chunk
++	 */
++
++	if (gpa + len <= chunk->gpa)
++		return -1;
++	if (gpa >= chunk->gpa + chunk->size)
++		return 1;
++	return 0;
 +}
 +
- static unsigned long __gfn_to_hva_many(struct kvm_memory_slot *slot, gfn_t gfn,
- 				       gfn_t *nr_pages, bool write)
- {
- 	if (!slot || slot->flags & KVM_MEMSLOT_INVALID)
- 		return KVM_HVA_ERR_BAD;
- 
--	if (memslot_is_readonly(slot) && write)
-+	if (gfn_is_readonly(slot, gfn) && write)
- 		return KVM_HVA_ERR_RO_BAD;
- 
- 	if (nr_pages)
-@@ -1402,7 +1411,7 @@ unsigned long gfn_to_hva_memslot_prot(struct kvm_memory_slot *slot,
- 	unsigned long hva = __gfn_to_hva_many(slot, gfn, NULL, false);
- 
- 	if (!kvm_is_error_hva(hva) && writable)
--		*writable = !memslot_is_readonly(slot);
-+		*writable = !gfn_is_readonly(slot, gfn);
- 
- 	return hva;
- }
-@@ -1640,7 +1649,7 @@ kvm_pfn_t __gfn_to_pfn_memslot(struct kvm_memory_slot *slot, gfn_t gfn,
- 	}
- 
- 	/* Do not map writable pfn in the readonly memslot. */
--	if (writable && memslot_is_readonly(slot)) {
-+	if (writable && gfn_is_readonly(slot, gfn)) {
- 		*writable = false;
- 		writable = NULL;
- 	}
-diff --git a/virt/kvm/roe.c b/virt/kvm/roe.c
-new file mode 100644
-index 0000000000..33d3a4f507
---- /dev/null
-+++ b/virt/kvm/roe.c
-@@ -0,0 +1,136 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * KVM Read Only Enforcement
-+ * Copyright (c) 2018 Ahmed Abd El Mawgood
-+ *
-+ * Author: Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-+ *
-+ */
-+#include <linux/kvm_host.h>
-+#include <linux/kvm.h>
-+#include <linux/kvm_para.h>
-+#include <kvm/roe.h>
-+
-+int kvm_roe_init(struct kvm_memory_slot *slot)
-+{
-+	slot->roe_bitmap = kvzalloc(BITS_TO_LONGS(slot->npages) *
-+			sizeof(unsigned long), GFP_KERNEL);
-+	if (!slot->roe_bitmap)
-+		return -ENOMEM;
++static inline int kvm_roe_range_cmp_mergability(struct protected_chunk *chunk,
++		gpa_t gpa, int len) {
++	/*
++	 * returns -1 if the gpa and len are smaller than chunk and not adjacent
++	 * to it
++	 * returns 0 if they overlap or strictly adjacent
++	 * returns 1 if gpa and len are bigger than the chunk and not adjacent
++	 * to it
++	 */
++	if (gpa + len < chunk->gpa)
++		return -1;
++	if (gpa > chunk->gpa + chunk->size)
++		return 1;
 +	return 0;
 +
 +}
+ struct kvm_memory_slot {
+ 	gfn_t base_gfn;
+ 	unsigned long npages;
+ 	unsigned long *roe_bitmap;
+ 	unsigned long *partial_roe_bitmap;
+-	struct list_head *prot_list;
++	struct rb_root  *prot_root;
+ 	unsigned long *dirty_bitmap;
+ 	struct kvm_arch_memory_slot arch;
+ 	unsigned long userspace_addr;
+diff --git a/virt/kvm/roe.c b/virt/kvm/roe.c
+index e424b45e1c..15297c0e57 100644
+--- a/virt/kvm/roe.c
++++ b/virt/kvm/roe.c
+@@ -23,10 +23,10 @@ int kvm_roe_init(struct kvm_memory_slot *slot)
+ 			sizeof(unsigned long), GFP_KERNEL);
+ 	if (!slot->partial_roe_bitmap)
+ 		goto fail2;
+-	slot->prot_list = kvzalloc(sizeof(struct list_head), GFP_KERNEL);
+-	if (!slot->prot_list)
++	slot->prot_root = kvzalloc(sizeof(struct rb_root), GFP_KERNEL);
++	if (!slot->prot_root)
+ 		goto fail3;
+-	INIT_LIST_HEAD(slot->prot_list);
++	*slot->prot_root = RB_ROOT;
+ 	return 0;
+ fail3:
+ 	kvfree(slot->partial_roe_bitmap);
+@@ -40,12 +40,19 @@ int kvm_roe_init(struct kvm_memory_slot *slot)
+ static bool kvm_roe_protected_range(struct kvm_memory_slot *slot, gpa_t gpa,
+ 		int len)
+ {
+-	struct list_head *pos;
+-	struct protected_chunk *cur_chunk;
+-
+-	list_for_each(pos, slot->prot_list) {
+-		cur_chunk = list_entry(pos, struct protected_chunk, list);
+-		if (kvm_roe_range_overlap(cur_chunk, gpa, len))
++	struct rb_node *node = slot->prot_root->rb_node;
 +
++	while (node) {
++		struct protected_chunk *cur_chunk;
++		int cmp;
++
++		cur_chunk = rb_entry(node, struct protected_chunk, node);
++		cmp = kvm_roe_range_cmp_position(cur_chunk, gpa, len);
++		if (cmp < 0)/*target chunk is before current node*/
++			node = node->rb_left;
++		else if (cmp > 0)/*target chunk is after current node*/
++			node = node->rb_right;
++		else
+ 			return true;
+ 	}
+ 	return false;
+@@ -62,18 +69,24 @@ bool kvm_roe_check_range(struct kvm_memory_slot *slot, gfn_t gfn, int offset,
+ }
+ EXPORT_SYMBOL_GPL(kvm_roe_check_range);
+ 
+-void kvm_roe_free(struct kvm_memory_slot *slot)
++static void kvm_roe_destroy_tree(struct rb_node *node)
+ {
+-	struct protected_chunk *pos, *n;
+-	struct list_head *head = slot->prot_list;
++	struct protected_chunk *cur_chunk;
++
++	if (!node)
++		return;
++	kvm_roe_destroy_tree(node->rb_left);
++	kvm_roe_destroy_tree(node->rb_right);
++	cur_chunk = rb_entry(node, struct protected_chunk, node);
++	kvfree(cur_chunk);
++}
+ 
 +void kvm_roe_free(struct kvm_memory_slot *slot)
 +{
-+	kvfree(slot->roe_bitmap);
-+}
-+
-+static void kvm_roe_protect_slot(struct kvm *kvm, struct kvm_memory_slot *slot,
-+		gfn_t gfn, u64 npages)
-+{
-+	int i;
-+
-+	for (i = gfn - slot->base_gfn; i < gfn + npages - slot->base_gfn; i++)
-+		set_bit(i, slot->roe_bitmap);
-+	kvm_roe_arch_commit_protection(kvm, slot);
-+}
-+
-+
-+static int __kvm_roe_protect_range(struct kvm *kvm, gpa_t gpa, u64 npages)
-+{
-+	struct kvm_memory_slot *slot;
-+	gfn_t gfn = gpa >> PAGE_SHIFT;
-+	int count = 0;
-+
-+	while (npages != 0) {
-+		slot = gfn_to_memslot(kvm, gfn);
-+		if (!slot) {
-+			gfn += 1;
-+			npages -= 1;
-+			continue;
-+		}
-+		if (gfn + npages > slot->base_gfn + slot->npages) {
-+			u64 _npages = slot->base_gfn + slot->npages - gfn;
-+
-+			kvm_roe_protect_slot(kvm, slot, gfn, _npages);
-+			gfn += _npages;
-+			count += _npages;
-+			npages -= _npages;
-+		} else {
-+			kvm_roe_protect_slot(kvm, slot, gfn, npages);
-+			count += npages;
-+			npages = 0;
-+		}
+ 	kvfree(slot->roe_bitmap);
+ 	kvfree(slot->partial_roe_bitmap);
+-	list_for_each_entry_safe(pos, n, head, list) {
+-		list_del(&pos->list);
+-		kvfree(pos);
+-	}
+-	kvfree(slot->prot_list);
++	kvm_roe_destroy_tree(slot->prot_root->rb_node);
++	kvfree(slot->prot_root);
+ }
+ 
+ static void kvm_warning_roe_violation(u64 addr, const void *data, int len)
+@@ -193,40 +206,119 @@ static int kvm_roe_full_protect_range(struct kvm_vcpu *vcpu, u64 gva,
+ 	return count;
+ }
+ 
+-static int kvm_roe_insert_chunk_next(struct list_head *pos, u64 gpa, u64 size)
+-{
+-	struct protected_chunk *chunk;
+-
+-	chunk = kvzalloc(sizeof(struct protected_chunk), GFP_KERNEL);
+-	chunk->gpa = gpa;
+-	chunk->size = size;
+-	INIT_LIST_HEAD(&chunk->list);
+-	list_add(&chunk->list, pos);
+-	return size;
+-}
+-
+-static int kvm_roe_expand_chunk(struct protected_chunk *pos, u64 gpa, u64 size)
++static u64 kvm_roe_expand_chunk(struct protected_chunk *pos, u64 gpa, u64 size)
+ {
+ 	u64 old_ptr = pos->gpa;
+ 	u64 old_size = pos->size;
++	u64 ret = 0;
+ 
+-	if (gpa < old_ptr)
++	if (gpa < old_ptr) {
+ 		pos->gpa = gpa;
+-	if (gpa + size > old_ptr + old_size)
++		ret |= KVM_ROE_MERGE_LEFT;
 +	}
-+	if (count == 0)
-+		return -EINVAL;
-+	return count;
-+}
-+
-+static int kvm_roe_protect_range(struct kvm *kvm, gpa_t gpa, u64 npages)
-+{
-+	int r;
-+
-+	mutex_lock(&kvm->slots_lock);
-+	r = __kvm_roe_protect_range(kvm, gpa, npages);
-+	mutex_unlock(&kvm->slots_lock);
-+	return r;
-+}
-+
-+
-+static int kvm_roe_full_protect_range(struct kvm_vcpu *vcpu, u64 gva,
-+		u64 npages)
-+{
-+	struct kvm *kvm = vcpu->kvm;
-+	gpa_t gpa;
-+	u64 hva;
-+	u64 count = 0;
-+	int i;
-+	int status;
-+
-+	if (gva & ~PAGE_MASK)
-+		return -EINVAL;
-+	// We need to make sure that there will be no overflow
-+	if ((npages << PAGE_SHIFT) >> PAGE_SHIFT != npages || npages == 0)
-+		return -EINVAL;
-+	for (i = 0; i < npages; i++) {
-+		gpa = kvm_mmu_gva_to_gpa_system(vcpu, gva + (i << PAGE_SHIFT),
-+				NULL);
-+		hva = gfn_to_hva(kvm, gpa >> PAGE_SHIFT);
-+		if (kvm_is_error_hva(hva))
-+			continue;
-+		if (!access_ok(hva, 1 << PAGE_SHIFT))
-+			continue;
-+		status =  kvm_roe_protect_range(vcpu->kvm, gpa, 1);
-+		if (status > 0)
-+			count += status;
-+	}
-+	if (count == 0)
-+		return -EINVAL;
-+	return count;
-+}
-+
-+int kvm_roe(struct kvm_vcpu *vcpu, u64 a0, u64 a1, u64 a2, u64 a3)
-+{
-+	int ret;
-+	/*
-+	 * First we need to make sure that we are running from something that
-+	 * isn't usermode
-+	 */
-+	if (kvm_roe_arch_is_userspace(vcpu))
-+		return -KVM_ENOSYS;
-+	switch (a0) {
-+	case ROE_VERSION:
-+		ret = 1; //current version
-+		break;
-+	case ROE_MPROTECT:
-+		ret = kvm_roe_full_protect_range(vcpu, a1, a2);
-+		break;
-+	default:
-+		ret = -EINVAL;
++	if (gpa + size > old_ptr + old_size) {
+ 		pos->size = gpa + size - pos->gpa;
+-	return size;
++		ret |= KVM_ROE_MERGE_RIGHT;
 +	}
 +	return ret;
-+}
-+EXPORT_SYMBOL_GPL(kvm_roe);
-diff --git a/virt/kvm/roe_generic.h b/virt/kvm/roe_generic.h
-new file mode 100644
-index 0000000000..36e5b52c5b
---- /dev/null
-+++ b/virt/kvm/roe_generic.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef __KVM_ROE_GENERIC_H__
-+#define __KVM_ROE_GENERIC_H__
-+/*
-+ * KVM Read Only Enforcement
-+ * Copyright (c) 2018 Ahmed Abd El Mawgood
-+ *
-+ * Author Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-+ *
-+ */
-+
-+void kvm_roe_free(struct kvm_memory_slot *slot);
-+int kvm_roe_init(struct kvm_memory_slot *slot);
-+static inline bool gfn_is_full_roe(struct kvm_memory_slot *slot, gfn_t gfn)
+ }
++static void kvm_roe_merge_left(struct rb_root *root, struct rb_node *start)
 +{
-+	return test_bit(gfn - slot->base_gfn, slot->roe_bitmap);
++	struct rb_root fake_root;
++	struct protected_chunk *target, *first;
++	struct rb_node *node, *stop;
++	u64 i, count = 0;
+ 
+-static bool kvm_roe_merge_chunks(struct protected_chunk *chunk)
++	if (!start->rb_left)
++		return;
++	fake_root = (struct rb_root) {start->rb_left};
++	stop = rb_prev(rb_first(&fake_root));
++	/* Back traverse till no node can be merged*/
++	target = container_of(start, struct protected_chunk, node);
++	for (node = rb_last(&fake_root); node != stop; node = rb_prev(node)) {
++		struct protected_chunk *pos;
++
++		pos = container_of(node, struct protected_chunk, node);
++		if (kvm_roe_range_cmp_mergability(target, pos->gpa, pos->size))
++			break;
++		count += 1;
++	}
++	if (!count)
++		return;
++	/* merging step*/
++	node = rb_next(node);
++	first = container_of(node, struct protected_chunk, node);
++	kvm_roe_expand_chunk(target, first->gpa, first->size);
++	/* forward traverse and delete all in between*/
++	for (i = 0; i < count; i++) {
++		struct protected_chunk *pos;
++
++		pos = container_of(node, struct protected_chunk, node);
++		rb_erase(node, root);
++		kvfree(pos);
++		node = rb_next(node);
++	}
 +}
-+#endif
++
++static void kvm_roe_merge_right(struct rb_root *root, struct rb_node *start)
+ {
+-	/*attempt merging 2 consecutive given the first one*/
+-	struct protected_chunk *next = list_next_entry(chunk, list);
++	struct rb_root fake_root;
++	struct protected_chunk *target, *first;
++	struct rb_node *node, *stop;
++	u64 i, count = 0;
+ 
+-	if (!kvm_roe_range_overlap(chunk, next->gpa, next->size))
+-		return false;
+-	kvm_roe_expand_chunk(chunk, next->gpa, next->size);
+-	list_del(&next->list);
+-	kvfree(next);
++	if (!start->rb_right)
++		return;
++	fake_root = (struct rb_root) {start->rb_right};
++	stop = rb_next(rb_last(&fake_root));
++	/* Forward traverse till no node can be merged*/
++	target = container_of(start, struct protected_chunk, node);
++	for (node = rb_first(&fake_root); node != stop; node = rb_next(node)) {
++		struct protected_chunk *pos;
++
++		pos = container_of(node, struct protected_chunk, node);
++		if (kvm_roe_range_cmp_mergability(target, pos->gpa, pos->size))
++			break;
++		count += 1;
++	}
++	if (!count)
++		return;
++	/* merging step*/
++	node = rb_prev(node);
++	first = container_of(node, struct protected_chunk, node);
++	kvm_roe_expand_chunk(target, first->gpa, first->size);
++	/* Backward traverse and delete all in between*/
++	for (i = 0; i < count; i++) {
++		struct protected_chunk *pos;
++
++		pos = container_of(node, struct protected_chunk, node);
++		rb_erase(node, root);
++		kvfree(pos);
++		node = rb_prev(node);
++	}
++}
++
++static bool kvm_roe_merge_chunks(struct rb_root *root, struct rb_node *target,
++		u64 gpa, u64 size)
++{
++	/*
++	 * attempt merging all adjacent chunks after inserting a chunk that is
++	 * adjacent or inersecting with  an existing chunk
++	 */
++	struct protected_chunk *cur;
++	u64 merge;
++
++	cur = container_of(target, struct protected_chunk, node);
++	merge = kvm_roe_expand_chunk(cur, gpa, size);
++	/*
++	 * We will not have to worry about the parent node while merging
++	 * If it was mergeable with the new to be inserted chunk we wouldn't
++	 * have gone deeper.
++	 **/
++	if (merge & KVM_ROE_MERGE_LEFT)
++		kvm_roe_merge_left(root, target);
++	if (merge & KVM_ROE_MERGE_RIGHT)
++		kvm_roe_merge_right(root, target);
+ 	return true;
+ }
+ 
+@@ -234,35 +326,35 @@ static int __kvm_roe_insert_chunk(struct kvm_memory_slot *slot, u64 gpa,
+ 		u64 size)
+ {
+ 	/* kvm->slots_lock must be acquired*/
+-	struct protected_chunk *pos;
+-	struct list_head *head = slot->prot_list;
+-
+-	if (list_empty(head))
+-		return kvm_roe_insert_chunk_next(head, gpa, size);
+-	/*
+-	 * pos here will never get deleted maybe the next one will
+-	 * that is why list_for_each_entry_safe is completely unsafe
+-	 */
+-	list_for_each_entry(pos, head, list) {
+-		if (kvm_roe_range_overlap(pos, gpa, size)) {
+-			int ret = kvm_roe_expand_chunk(pos, gpa, size);
+-
+-			while (head != pos->list.next)
+-				if (!kvm_roe_merge_chunks(pos))
+-					break;
+-			return ret;
+-		}
+-		if (pos->gpa > gpa) {
+-			struct protected_chunk *prev;
+-
+-			prev = list_prev_entry(pos, list);
+-			return kvm_roe_insert_chunk_next(&prev->list, gpa,
+-					size);
++	struct rb_node **new = &(slot->prot_root->rb_node), *parent = NULL;
++	struct protected_chunk *insert_me;
++	bool merge = false;
++
++	while (*new) {
++		struct protected_chunk *chunk;
++		int cmp;
++
++		chunk = container_of(*new, struct protected_chunk, node);
++		cmp = kvm_roe_range_cmp_mergability(chunk, gpa, size);
++		parent = *new;
++		if (cmp < 0) {
++			new = &((*new)->rb_left);
++		} else if (cmp > 0) {
++			new = &((*new)->rb_right);
++		} else {
++			merge = true;
++			kvm_roe_merge_chunks(slot->prot_root, *new, gpa, size);
++			break;
+ 		}
+ 	}
+-	pos = list_last_entry(head, struct protected_chunk, list);
+-
+-	return kvm_roe_insert_chunk_next(&pos->list, gpa, size);
++	if (merge)
++		return size;
++	insert_me = kvzalloc(sizeof(struct protected_chunk), GFP_KERNEL);
++	insert_me->gpa = gpa;
++	insert_me->size = size;
++	rb_link_node(&insert_me->node, parent, new);
++	rb_insert_color(&insert_me->node, slot->prot_root);
++	return size;
+ }
+ 
+ static int kvm_roe_insert_chunk(struct kvm *kvm, u64 gpa, u64 size)
+diff --git a/virt/kvm/roe_generic.h b/virt/kvm/roe_generic.h
+index 6c5f0cf381..8e42c9795c 100644
+--- a/virt/kvm/roe_generic.h
++++ b/virt/kvm/roe_generic.h
+@@ -10,6 +10,9 @@
+  *
+  */
+ 
++#define KVM_ROE_MERGE_LEFT	0x1
++#define KVM_ROE_MERGE_RIGHT	0x2
++
+ void kvm_roe_free(struct kvm_memory_slot *slot);
+ int kvm_roe_init(struct kvm_memory_slot *slot);
+ bool kvm_roe_check_range(struct kvm_memory_slot *slot, gfn_t gfn, int offset,
 -- 
 2.19.2
 
