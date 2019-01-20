@@ -1,99 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 24C497D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Jan 2019 07:30:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D0FAB7D912
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Jan 2019 07:38:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727176AbfAUHaZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 Jan 2019 02:30:25 -0500
-Received: from wes1-so2-b.wedos.net ([46.28.106.45]:39309 "EHLO
-        wes1-so2.wedos.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726630AbfAUHaY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jan 2019 02:30:24 -0500
-Received: from localhost (ip4-46-39-182-135.cust.nbox.cz [46.39.182.135])
-        by wes1-so2.wedos.net (Postfix) with ESMTPSA id 43jjrG01NRztc;
-        Mon, 21 Jan 2019 08:30:21 +0100 (CET)
-Date:   Mon, 21 Jan 2019 08:30:20 +0100
-From:   Otto Sabart <ottosabart@seberm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH v2 1/1] doc: networking: integrate scaling document into
- doc tree
-Message-ID: <20190121073020.GA10146@personal>
-References: <cover.1547843156.git.ottosabart@seberm.com>
- <3eddcfcf3916ef8e89230971359fc9b6bef35d20.1547843156.git.ottosabart@seberm.com>
- <20190120191359.41e5de0c@lwn.net>
+        id S1728434AbfAUHiI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 Jan 2019 02:38:08 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:37270 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728477AbfAUHiH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jan 2019 02:38:07 -0500
+Received: by mail-wm1-f65.google.com with SMTP id g67so9684056wmd.2
+        for <linux-doc@vger.kernel.org>; Sun, 20 Jan 2019 23:38:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mena-vt-edu.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ibxTSM7aAfMxp0mh34e5XoCF9bu27Z34+6gCZTrPT34=;
+        b=lcJa/9GoZ/Y6WfC0bylBfI5oCVTUbuuQaazcglM7FxSXk53oJ3EwA7gQ6DK+WxiFMb
+         Tlrgwvc736fHcfg+YAswmtczDWnSSBMIcGSSXYg6i0MRH/ZIX2y9cpGSxmZ+J63hsT4/
+         QTQXtg0gQ8OgWOCw2BrEXgDSkegRbpVoC0R+6nlx8MG5HL4zfx/R+JZ6gMYPKE+l1tLJ
+         AXI8c4Qwl9aiXZE+hXoOGirioCNsW/YzcD/4+02Q9kHE3d1EMNxtT20zPoj7Mcuv0039
+         pK40Sk4UGAAo1eF1IXEqWJ3/lN+mYFSzRQBsmUcXjgxuNNvUwayW8QCEFaj6ijFFXHa+
+         HtKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ibxTSM7aAfMxp0mh34e5XoCF9bu27Z34+6gCZTrPT34=;
+        b=dUZ5ClMSX8ldJ+HOTs7RObyDPvIJ/93lU/oemZQs+m84LqaIKd9GRGdfwJ2Q2bQNg5
+         GO79MnNVwksRG1UbezC0WFdaE80NEx7K6WYHDjeH/NaFGb1r5cgu7COsmI+2APmF2Uaz
+         woVJF4PyCEYOsbHOyYAa1sapysZaAPls+ZGl1aw+Bv9ssgm7FOpI7kEsu6WGpPxGCyf0
+         iL6R4cEE200wb7ocYC7UnhAGva9zbUvIllQ6wPwifkWiRX8ekBe3qPiylIAy6AHyv+Ll
+         xUnb9bAl6piRCZie1P4UfJUTd9sqU79K5amp7Rv4TV5/JDcteUVOFGEgiLCak/2CEu75
+         zWFg==
+X-Gm-Message-State: AJcUukfA74eJHZ8s7Rtm/TIm1M2T7Gmw6pPL9xnZkxFTuQvsR9UlxfjB
+        52VRNYgE8y7k+0Usp+iYv4u9h6/0mR8=
+X-Google-Smtp-Source: ALg8bN6p9RWZDpkENLmzoXwCtF9v6nAyN1W721G5G6yv2ozcu7srm3C8FwlQtG+MKjShLdYSf4N48A==
+X-Received: by 2002:a1c:9a4c:: with SMTP id c73mr23491864wme.35.1548027691743;
+        Sun, 20 Jan 2019 15:41:31 -0800 (PST)
+Received: from localhost.localdomain ([156.212.82.83])
+        by smtp.gmail.com with ESMTPSA id e9sm76576753wro.16.2019.01.20.15.41.28
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 20 Jan 2019 15:41:31 -0800 (PST)
+From:   Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
+To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        hpa@zytor.com, x86@kernel.org, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ahmedsoliman0x666@gmail.com, ovich00@gmail.com,
+        kernel-hardening@lists.openwall.com, nigel.edwards@hpe.com,
+        Boris Lukashev <blukashev@sempervictus.com>,
+        Igor Stoppa <igor.stoppa@gmail.com>
+Cc:     Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
+Subject: [RESEND PATCH V8 08/11] KVM: X86: Port ROE_MPROTECT_CHUNK to x86
+Date:   Mon, 21 Jan 2019 01:39:37 +0200
+Message-Id: <20190120233940.15282-9-ahmedsoliman@mena.vt.edu>
+X-Mailer: git-send-email 2.19.2
+In-Reply-To: <20190120233940.15282-1-ahmedsoliman@mena.vt.edu>
+References: <20190120233940.15282-1-ahmedsoliman@mena.vt.edu>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="PEIAKu/WMn1b1Hv9"
-Content-Disposition: inline
-In-Reply-To: <20190120191359.41e5de0c@lwn.net>
-X-PGP-Key: http://seberm.com/pubkey.asc
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Apply d->memslot->partial_roe_bitmap to shadow page table entries
+too.
 
---PEIAKu/WMn1b1Hv9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
+---
+ arch/x86/kvm/roe.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-On 20. Jan (Sunday) v 19:13:59 -0700 2019, Jonathan Corbet wrote:
-> On Fri, 18 Jan 2019 21:38:32 +0100
-> Otto Sabart <ottosabart@seberm.com> wrote:
->=20
-> > Convert scaling document into reStructuredText and add reference to
-> > scaling document into main table of contents in network documentation.
-> >=20
-> > There are no semantic changes.
-> >=20
-> > There are no references to "scaling.txt" file. Whole kernel tree was
-> > checked using:
-> > $ grep -r "scaling\.txt"
-> >=20
-> > Signed-off-by: Otto Sabart <ottosabart@seberm.com>
->=20
-> So this didn't apply cleanly to docs-next due to a conflict with
-> commit d96bedb2b248 ("doc: networking: add offload documents into main
-> index file") by one Otto Sabart.
+diff --git a/arch/x86/kvm/roe.c b/arch/x86/kvm/roe.c
+index f787106be8..700f69823b 100644
+--- a/arch/x86/kvm/roe.c
++++ b/arch/x86/kvm/roe.c
+@@ -25,11 +25,14 @@ static bool __rmap_write_protect_roe(struct kvm *kvm,
+ 	struct rmap_iterator iter;
+ 	bool prot;
+ 	bool flush = false;
++	void *full_bmp =  memslot->roe_bitmap;
++	void *part_bmp = memslot->partial_roe_bitmap;
+ 
+ 	for_each_rmap_spte(rmap_head, &iter, sptep) {
+ 		int idx = spte_to_gfn(sptep) - memslot->base_gfn;
+ 
+-		prot = !test_bit(idx, memslot->roe_bitmap) && pt_protect;
++		prot = !(test_bit(idx, full_bmp) || test_bit(idx, part_bmp));
++		prot = prot && pt_protect;
+ 		flush |= spte_write_protect(sptep, prot);
+ 	}
+ 	return flush;
+-- 
+2.19.2
 
-Yeah, .. I always just checked if it merges cleanly against the Linus's
-tree.
-
-> I've fixed that up, but in the future it will be helpful if you can be
-> sure that your patches are against the docs tree if you want me to
-> merge them.
-
-Will do. Thank you Jon and sorry for the merge conflict.
-
-Ota
-
---PEIAKu/WMn1b1Hv9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlxFdQkACgkQgjuumfi+
-Hjy22BAAg5Dr+yuc8g/4NcxpMWe17kK6wxywsH75zTvAiKlKd82Qq3be8jF6KyvA
-4X0/DsiPl9CSEkEu0S7SNQ0cESwl3IH3mqRXcICUC2HSBmOPdqjftPZ0pj0LdBlm
-3FrlFgHHy+S3tkDPUfGbo24/W50JmYmWldtXR/3/RuuDtcx7PKz1Gcwx/FQ7Icq/
-nABm62EGgmODsZpzRSFb1NchbOpFWb1RbnRkEZI0uSJHI1GNbPhvxOnNNZnAdQ8Y
-ePd6K9IeTWMQ+lQef1WhDL+p8j2XgdnLpFQErTG3RQP4xTRLugFnSxYmyeTSg7nd
-vO6ZFa2WnlCoysEAb8paAi/cHGE+k13R6GPcYvtOWbjmkcXWjifSXwRN+rod5r+1
-C4JHbbjyJSTtHPvKc8clP15PTMELO92yHV7ar/2SjpaLBVGM6vvT4fyfQafZxuws
-ffSS6nt14rNKfaxFhyQIDH4Kzg7OCAIFtDrwNoaznP6gGwvLFLaW9KU2R0amH4+k
-Srkxudf7wyLE2AsTa69fjdRNtiuRyD1BlMvDr+J55MsCDZdIdM/eaPTBa7gsei02
-VMwUG3gpcHmVR4CSloYAU0dywQ0oFuqQCXsPMM+8S8PfGpfbEdRZZrD5+TP8bUfV
-m91ueO+0qZ2nJ7t38YWQLSf9wQ+4aS6Txn4btNtDkct2tGKmGNo=
-=mwlX
------END PGP SIGNATURE-----
-
---PEIAKu/WMn1b1Hv9--
