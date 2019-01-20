@@ -1,84 +1,223 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C991E7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 20 Jan 2019 07:02:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A707D7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 20 Jan 2019 08:36:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726693AbfATHCi convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 20 Jan 2019 02:02:38 -0500
-Received: from terminus.zytor.com ([198.137.202.136]:57191 "EHLO
-        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726636AbfATHCi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 20 Jan 2019 02:02:38 -0500
-Received: from wld62.hos.anvin.org (c-24-5-245-234.hsd1.ca.comcast.net [24.5.245.234] (may be forged))
-        (authenticated bits=0)
-        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x0K71LVK1953801
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-        Sat, 19 Jan 2019 23:01:21 -0800
-Date:   Sat, 19 Jan 2019 23:01:13 -0800
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20190119103606.GA17400@kroah.com>
-References: <20190118225543.86996-1-joel@joelfernandes.org> <20190119102800.GB17723@infradead.org> <20190119103606.GA17400@kroah.com>
+        id S1729586AbfATIgx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 20 Jan 2019 03:36:53 -0500
+Received: from mx.kolabnow.com ([95.128.36.42]:36350 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730165AbfATIgx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 20 Jan 2019 03:36:53 -0500
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id C7217403E6;
+        Sun, 20 Jan 2019 09:36:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        message-id:references:in-reply-to:subject:subject:from:from:date
+        :date:content-transfer-encoding:content-type:content-type
+        :mime-version:received:received:received; s=dkim20160331; t=
+        1547973407; x=1549787808; bh=TTVPnRcE+PRphWFfRW2KiIjaeeSDCecIt2g
+        VMQUOmD0=; b=sa77OWw3WNHBmn7KSfLguBDPqNLpPuqhsad48sR40lQrhI0KPJ0
+        iAPv1ueS8d6pn4GqXxosRTm1v5cE3RGenLM5PEU2yBSpeHjpSjEhHrx9xhcUlTnY
+        JD4j0qPpAVrsnwueLlwtfI++CU196NF82Wbdes6JdbjaGLDsPh684JWTNK4OH7Xi
+        wlizKMJ0xdc+6DE3vhXDcGe+hJWFApuVXF9+eqXO8s/jQr8fAWEShtrinvQNaiiD
+        QUoQifg5jes+xTD+eMyKL7F8lKVII4Qtxu/PfUrhWsiSVO68O5R/SpzFB+6vlV8b
+        4y4XHKWnFiTVdQ7Wzj5+qO/F6UKQNYD9LqOr17rKBPGF3RmFiCB06uCMsJQ4OYeY
+        gEQhihJYQqbUjJPyp7CKG1OA6Pk6coJVc/wupIv7H/0a9onCEvXtDrUky2Q39APK
+        +TIeX2G0nRleIz+LomkB9ZIOJHErVFVVVQIMSEWXGuEX3qAhJ9LlSZdKOV1LHkAY
+        xZX/jxtI0aJF/7Rln4LfKn7HvHJaSzv0MvSCmAEi2CVPCem4qs0WW4AygJrAuLdN
+        Bn6hnBugRAjkPHPbScpZ46bLyBZO+1sMVnWjmV+LIZl6f+APy6UDnJk5o4VIESeX
+        sY7FmPfUeX0v3/dGTO6hsmwpKVR12wvaHENUiD1feT30V9C8l9t5+jdw=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 5hUV-TII8Ss6; Sun, 20 Jan 2019 09:36:47 +0100 (CET)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 781B840389;
+        Sun, 20 Jan 2019 09:36:47 +0100 (CET)
+Received: from int-subm003.mykolab.com (unknown [10.9.37.3])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id A7D9B18D;
+        Sun, 20 Jan 2019 09:36:45 +0100 (CET)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the kernel
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Christoph Hellwig <hch@infradead.org>
-CC:     Joel Fernandes <joel@joelfernandes.org>,
-        linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
-        atishp04@gmail.com, Borislav Petkov <bp@alien8.de>,
-        dancol@google.com, Ingo Molnar <mingo@redhat.com>,
-        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
-        karim.yaghmour@opersys.com, Kees Cook <keescook@chromium.org>,
-        kernel-team@android.com, linux-doc@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        paulmck@linux.vnet.ibm.com,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        rdunlap@infradead.org, rostedt@goodmis.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        yhs@fb.com
-From:   hpa@zytor.com
-Message-ID: <8BD4CB7A-944C-4EC5-A198-1D85C9EE28D6@zytor.com>
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Sun, 20 Jan 2019 09:36:43 +0100
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Joe Perches <joe@perches.com>, Gal Pressman <galpress@amazon.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Stephen Warren <swarren@wwwdotorg.org>,
+        Tariq Toukan <tariqt@mellanox.com>, xavier.huwei@huawei.com,
+        netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+        Doug Ledford <dledford@redhat.com>,
+        Stephen Warren <swarren@nvidia.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] coding-style: Clarify the expectations around bool
+In-Reply-To: <20190118225047.GH4759@ziepe.ca>
+References: <20190118225047.GH4759@ziepe.ca>
+Message-ID: <69366f385e6bdf23d67589850d98cf51@vaga.pv.it>
+X-Sender: federico.vaga@vaga.pv.it
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On January 19, 2019 2:36:06 AM PST, Greg KH <gregkh@linuxfoundation.org> wrote:
->On Sat, Jan 19, 2019 at 02:28:00AM -0800, Christoph Hellwig wrote:
->> This seems like a pretty horrible idea and waste of kernel memory.
->
->It's only a waste if you want it to be a waste, i.e. if you load the
->kernel module.
->
->This really isn't any different from how /proc/config.gz works.
->
->> Just add support to kbuild to store a compressed archive in initramfs
->> and unpack it in the right place.
->
->I think the issue is that some devices do not use initramfs, or switch
->away from it after init happens or something like that.  Joel has all
->of
->the looney details that he can provide.
->
->thanks,
->
->greg k-h
+On 2019-01-18 23:50, Jason Gunthorpe wrote:
+> There has been some confusion since checkpatch started warning about 
+> bool
+> use in structures, and people have been avoiding using it.
+> 
+> Many people feel there is still a legitimate place for bool in 
+> structures,
+> so provide some guidance on bool usage derived from the entire thread 
+> that
+> spawned the checkpatch warning.
+> 
+> Link:
+> https://lkml.kernel.org/r/CA+55aFwVZk1OfB9T2v014PTAKFhtVan_Zj2dOjnCy3x6E4UJfA@mail.gmail.com
+> Signed-off-by: Joe Perches <joe@perches.com>
+> Acked-by: Joe Perches <joe@perches.com>
+> Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
+> Reviewed-by: Joey Pabalinas <joeypabalinas@gmail.com>
+> Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
+Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
-Yeah, well... but it is kind of a losing game... the more in-kernel stuff there is the less smiley are things to actually be supported.
+> ---
+>  Documentation/process/coding-style.rst | 38 +++++++++++++++++++++++---
+>  scripts/checkpatch.pl                  | 13 ---------
+>  2 files changed, 34 insertions(+), 17 deletions(-)
+> 
+> v5:
+>  - Wording updates from JoeyP, MatthewW, FedericoV
+> 
+> diff --git a/Documentation/process/coding-style.rst
+> b/Documentation/process/coding-style.rst
+> index b78dd680c03809..de889deaf29c42 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -921,7 +921,37 @@ result.  Typical examples would be functions that
+> return pointers; they use
+>  NULL or the ERR_PTR mechanism to report failure.
+> 
+> 
+> -17) Don't re-invent the kernel macros
+> +17) Using bool
+> +--------------
+> +
+> +The Linux kernel bool type is an alias for the C99 _Bool type. bool 
+> values can
+> +only evaluate to 0 or 1, and implicit or explicit conversion to bool
+> +automatically converts the value to true or false. When using bool 
+> types the
+> +!! construction is not needed, which eliminates a class of bugs.
+> +
+> +When working with bool values the true and false definitions should be 
+> used
+> +instead of 1 and 0.
+> +
+> +bool function return types and stack variables are always fine to use 
+> whenever
+> +appropriate. Use of bool is encouraged to improve readability and is 
+> often a
+> +better option than 'int' for storing boolean values.
+> +
+> +Do not use bool if cache line layout or size of the value matters, as 
+> its size
+> +and alignment varies based on the compiled architecture. Structures 
+> that are
+> +optimized for alignment and size should not use bool.
+> +
+> +If a structure has many true/false values, consider consolidating them 
+> into a
+> +bitfield with 1 bit members, or using an appropriate fixed width type, 
+> such as
+> +u8.
+> +
+> +Similarly for function arguments, many true/false values can be 
+> consolidated
+> +into a single bitwise 'flags' argument and 'flags' can often be a more
+> +readable alternative if the call-sites have naked true/false 
+> constants.
+> +
+> +Otherwise limited use of bool in structures and arguments can improve
+> +readability.
+> +
+> +18) Don't re-invent the kernel macros
+>  -------------------------------------
+> 
+>  The header file include/linux/kernel.h contains a number of macros 
+> that
+> @@ -944,7 +974,7 @@ need them.  Feel free to peruse that header file
+> to see what else is already
+>  defined that you shouldn't reproduce in your code.
+> 
+> 
+> -18) Editor modelines and other cruft
+> +19) Editor modelines and other cruft
+>  ------------------------------------
+> 
+>  Some editors can interpret configuration information embedded in 
+> source files,
+> @@ -978,7 +1008,7 @@ own custom mode, or may have some other magic
+> method for making indentation
+>  work correctly.
+> 
+> 
+> -19) Inline assembly
+> +20) Inline assembly
+>  -------------------
+> 
+>  In architecture-specific code, you may need to use inline assembly to 
+> interface
+> @@ -1010,7 +1040,7 @@ the next instruction in the assembly output:
+>  	     : /* outputs */ : /* inputs */ : /* clobbers */);
+> 
+> 
+> -20) Conditional Compilation
+> +21) Conditional Compilation
+>  ---------------------------
+> 
+>  Wherever possible, don't use preprocessor conditionals (#if, #ifdef) 
+> in .c
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index b737ca9d720441..d62abd032885a1 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -6368,19 +6368,6 @@ sub process {
+>  			}
+>  		}
+> 
+> -# check for bool bitfields
+> -		if ($sline =~ /^.\s+bool\s*$Ident\s*:\s*\d+\s*;/) {
+> -			WARN("BOOL_BITFIELD",
+> -			     "Avoid using bool as bitfield.  Prefer bool bitfields as
+> unsigned int or u<8|16|32>\n" . $herecurr);
+> -		}
+> -
+> -# check for bool use in .h files
+> -		if ($realfile =~ /\.h$/ &&
+> -		    $sline =~ /^.\s+bool\s*$Ident\s*(?::\s*d+\s*)?;/) {
+> -			CHK("BOOL_MEMBER",
+> -			    "Avoid using bool structure members because of possible
+> alignment issues - see: https://lkml.org/lkml/2017/11/21/384\n" .
+> $herecurr);
+> -		}
+> -
+>  # check for semaphores initialized locked
+>  		if ($line =~ /^.\s*sema_init.+,\W?0\W?\)/) {
+>  			WARN("CONSIDER_COMPLETION",
 
-Modularizing is it in some ways even crazier in the sense that at that point you are relying on the filesystem containing the module, which has to be loaded into the kernel by a root user. One could even wonder if a better way to do this would be to have "make modules_install" park an archive file – or even a directory as opposed to a symlink – with this stuff in /lib/modules. We could even provide a tmpfs shim which autoloads such an archive via the firmware loader; this might even be generically useful, who knows.
-
-Note also that initramfs contents can be built into the kernel. Extracting such content into a single-instance tmpfs would again be a possibility.
 -- 
-Sent from my Android device with K-9 Mail. Please excuse my brevity.
+Federico Vaga
+http://www.federicovaga.it/
