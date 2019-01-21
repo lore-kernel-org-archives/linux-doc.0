@@ -2,90 +2,71 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B11897D910
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Jan 2019 11:18:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 910497D161
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Jan 2019 14:38:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727931AbfAULRf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 Jan 2019 06:17:35 -0500
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:59778 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726165AbfAULRd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 21 Jan 2019 06:17:33 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6A48915AB;
-        Mon, 21 Jan 2019 03:17:33 -0800 (PST)
-Received: from queper01-lin.cambridge.arm.com (queper01-lin.cambridge.arm.com [10.1.195.48])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 561A03F5C1;
-        Mon, 21 Jan 2019 03:17:31 -0800 (PST)
-From:   Quentin Perret <quentin.perret@arm.com>
-To:     corbet@lwn.net, peterz@infradead.org, rjw@rjwysocki.net,
-        juri.lelli@redhat.com
-Cc:     mingo@redhat.com, morten.rasmussen@arm.com, qais.yousef@arm.com,
-        patrick.bellasi@arm.com, dietmar.eggemann@arm.com,
-        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/3] PM / EM: Fix broken kerneldoc
-Date:   Mon, 21 Jan 2019 11:17:22 +0000
-Message-Id: <20190121111724.18234-2-quentin.perret@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190121111724.18234-1-quentin.perret@arm.com>
-References: <20190121111724.18234-1-quentin.perret@arm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1729185AbfAUOi1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 Jan 2019 09:38:27 -0500
+Received: from mga01.intel.com ([192.55.52.88]:44420 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729176AbfAUOi1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 Jan 2019 09:38:27 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Jan 2019 06:38:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,503,1539673200"; 
+   d="scan'208";a="127679745"
+Received: from epg-ubt28.iil.intel.com ([143.185.152.137])
+  by orsmga002.jf.intel.com with ESMTP; 21 Jan 2019 06:38:24 -0800
+From:   Ramon Fried <ramon.fried@linux.intel.com>
+To:     linus.walleij@linaro.org, corbet@lwn.net
+Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Ramon Fried <ramon.fried@linux.intel.com>
+Subject: [PATCH] pinctrl.txt: Remove outdated information
+Date:   Mon, 21 Jan 2019 16:38:22 +0200
+Message-Id: <20190121143822.20225-1-ramon.fried@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some of the kerneldoc comments about the Energy Model framework are
-slightly broken, hence causing errors when compiling the html doc.
+Returning -EAGAIN is no longer supported by pin_config_group_set()
+since ad42fc6c8479 ("pinctrl: rip out the direct pinconf API")
 
-Fix them.
+Remove the relevant section from the documentation.
 
-Signed-off-by: Quentin Perret <quentin.perret@arm.com>
+Signed-off-by: Ramon Fried <ramon.fried@linux.intel.com>
 ---
- include/linux/energy_model.h | 4 ++--
- kernel/power/energy_model.c  | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ Documentation/driver-api/pinctl.rst | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/include/linux/energy_model.h b/include/linux/energy_model.h
-index aa027f7bcb3e..57889589e638 100644
---- a/include/linux/energy_model.h
-+++ b/include/linux/energy_model.h
-@@ -11,7 +11,7 @@
+diff --git a/Documentation/driver-api/pinctl.rst b/Documentation/driver-api/pinctl.rst
+index 6cb68d67fa75..2bb1bc484278 100644
+--- a/Documentation/driver-api/pinctl.rst
++++ b/Documentation/driver-api/pinctl.rst
+@@ -274,15 +274,6 @@ configuration in the pin controller ops like this::
+ 		.confops = &foo_pconf_ops,
+ 	};
  
- #ifdef CONFIG_ENERGY_MODEL
- /**
-- * em_cap_state - Capacity state of a performance domain
-+ * struct em_cap_state - Capacity state of a performance domain
-  * @frequency:	The CPU frequency in KHz, for consistency with CPUFreq
-  * @power:	The power consumed by 1 CPU at this level, in milli-watts
-  * @cost:	The cost coefficient associated with this level, used during
-@@ -24,7 +24,7 @@ struct em_cap_state {
- };
+-Since some controllers have special logic for handling entire groups of pins
+-they can exploit the special whole-group pin control function. The
+-pin_config_group_set() callback is allowed to return the error code -EAGAIN,
+-for groups it does not want to handle, or if it just wants to do some
+-group-level handling and then fall through to iterate over all pins, in which
+-case each individual pin will be treated by separate pin_config_set() calls as
+-well.
+-
+-
+ Interaction with the GPIO subsystem
+ ===================================
  
- /**
-- * em_perf_domain - Performance domain
-+ * struct em_perf_domain - Performance domain
-  * @table:		List of capacity states, in ascending order
-  * @nr_cap_states:	Number of capacity states
-  * @cpus:		Cpumask covering the CPUs of the domain
-diff --git a/kernel/power/energy_model.c b/kernel/power/energy_model.c
-index d9dc2c38764a..1e3a88ea4728 100644
---- a/kernel/power/energy_model.c
-+++ b/kernel/power/energy_model.c
-@@ -137,7 +137,7 @@ EXPORT_SYMBOL_GPL(em_cpu_get);
-  * If multiple clients register the same performance domain, all but the first
-  * registration will be ignored.
-  *
-- * Return 0 on success
-+ * Return: 0 on success
-  */
- int em_register_perf_domain(cpumask_t *span, unsigned int nr_states,
- 						struct em_data_callback *cb)
 -- 
-2.20.1
+2.17.1
 
