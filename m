@@ -1,68 +1,38 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F0C307D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Jan 2019 09:02:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 676CA7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Jan 2019 11:17:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725977AbfAUJC1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 Jan 2019 04:02:27 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:34938 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725908AbfAUJC1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jan 2019 04:02:27 -0500
-Received: by mail-wm1-f66.google.com with SMTP id t200so9982762wmt.0
-        for <linux-doc@vger.kernel.org>; Mon, 21 Jan 2019 01:02:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mena-vt-edu.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0OqLvzW5MQrfuIe3z+jSnzLo7imHs95KAnl9HGxJMCo=;
-        b=yYRLSmZx3VakZ8SKuXrzKmyFkiZSRROicdX91CWyuDz2CpJsuwBZqzVx+TTunJPC9u
-         DbS3TheV5EpcJtKTnE2cTarW+D/3QE7v2a9nmoEa+ASANRSjmIrLbKI+3KxpULyIANb6
-         yToEv62OeTxhE51skHEFtLvs6yj/5djd2pvKgnbXwAnNngFw366FR29+ml186uYd7Khw
-         R5k/JfXmWQqvWw7b4jIPBiA0Tlc+W314aZVasBI6HZCcAX5SFgqGjBsY/CGO0YiN5etm
-         G8v8QsVNF3cZEimpSIqICXk9thPLONCGp0fQbaX+h4EkBZJlitVFO1itfPyP/YhsL+AF
-         huGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0OqLvzW5MQrfuIe3z+jSnzLo7imHs95KAnl9HGxJMCo=;
-        b=gf4gYNEnbJyc8aZYwMglBcpbuLUEukllwjbYJ65EfP9ec2/o40+kUuoTLCqhUOXQ9q
-         Hbkk/U+YEz7OU+8tyZvPHrn+EOMzKlsotCV7n8LicGMtOJCX/QTmjw6nSZMA5EuhYwHE
-         uGgOOGalr0xzAQ5X3IwdqTdnW9lR6h7I9sCe1PEPZxYzBZhdFuPVA1HgRtCITFCuwK9B
-         NXCCpXFHeioxBGIh0fa6IDdjPofrBMeSUQRrcbRNgmB5L3h0StURf5UNwdjn/y+sj7CQ
-         Nip5MpfrHset3qWn6vjtozhptZZVuoiOIK+FPc86OKdcHHxwg+UTU9QnlwGqvNhhkXD6
-         FsXQ==
-X-Gm-Message-State: AJcUukcL0unNZfoL6kds8PxqoH9DaAsiYruPLRTin9lZF7mM56R5qcnc
-        G7hqjt9NCrucNEhTFUQdcc0+Rg56iFE=
-X-Google-Smtp-Source: ALg8bN7BspABjC4Tx0mR0cZ5bDtUcpbUbN1oLlRuJgMW19CJxqAW3DqnuLdB+LHgxaAFJeHcsg6aqw==
-X-Received: by 2002:a1c:d752:: with SMTP id o79mr6401523wmg.100.1548027662972;
-        Sun, 20 Jan 2019 15:41:02 -0800 (PST)
-Received: from localhost.localdomain ([156.212.82.83])
-        by smtp.gmail.com with ESMTPSA id e9sm76576753wro.16.2019.01.20.15.40.59
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 20 Jan 2019 15:41:02 -0800 (PST)
-From:   Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        hpa@zytor.com, x86@kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ahmedsoliman0x666@gmail.com, ovich00@gmail.com,
-        kernel-hardening@lists.openwall.com, nigel.edwards@hpe.com,
-        Boris Lukashev <blukashev@sempervictus.com>,
-        Igor Stoppa <igor.stoppa@gmail.com>
-Cc:     Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-Subject: [RESEND PATCH V8 0/11] KVM: X86: Introducing ROE Protection Kernel Hardening
-Date:   Mon, 21 Jan 2019 01:39:29 +0200
-Message-Id: <20190120233940.15282-1-ahmedsoliman@mena.vt.edu>
-X-Mailer: git-send-email 2.19.2
+        id S1727984AbfAULRh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 Jan 2019 06:17:37 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:59788 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726165AbfAULRg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 Jan 2019 06:17:36 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BB69C15BE;
+        Mon, 21 Jan 2019 03:17:35 -0800 (PST)
+Received: from queper01-lin.cambridge.arm.com (queper01-lin.cambridge.arm.com [10.1.195.48])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A777B3F5C1;
+        Mon, 21 Jan 2019 03:17:33 -0800 (PST)
+From:   Quentin Perret <quentin.perret@arm.com>
+To:     corbet@lwn.net, peterz@infradead.org, rjw@rjwysocki.net,
+        juri.lelli@redhat.com
+Cc:     mingo@redhat.com, morten.rasmussen@arm.com, qais.yousef@arm.com,
+        patrick.bellasi@arm.com, dietmar.eggemann@arm.com,
+        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 2/3] PM / EM: Document the Energy Model framework
+Date:   Mon, 21 Jan 2019 11:17:23 +0000
+Message-Id: <20190121111724.18234-3-quentin.perret@arm.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190121111724.18234-1-quentin.perret@arm.com>
+References: <20190121111724.18234-1-quentin.perret@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -70,206 +40,194 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
--- Summary --
+Introduce a documentation file summarizing the key design points and
+APIs of the newly introduced Energy Model framework.
 
-ROE is a hypercall that enables host operating system to restrict guest's access
-to its own memory. This will provide a hardening mechanism that can be used to
-stop rootkits from manipulating kernel static data structures and code. Once a
-memory region is protected the guest kernel can't even request undoing the
-protection.
+Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
+Signed-off-by: Quentin Perret <quentin.perret@arm.com>
 
-Memory protected by ROE should be non-swapable because even if the ROE protected
-page got swapped out, It won't be possible to write anything in its place.
+---
 
-ROE hypercall should be capable of either protecting a whole memory frame or
-parts of it. With these two, it should be possible for guest kernel to protect
-its memory and all the page table entries for that memory inside the page table.
-I am still not sure whether this should be part of ROE job or the guest's job.
+Juri: Although I did change some things to the doc in v2 (translated to
+rst mainly), I kept your 'Reviewed-by' as the content is still pretty
+much the same. Please scream if you disagree :-)
 
-Our threat model assumes that an attacker got full root access to a running
-guest and his goal is to manipulate kernel code/data (hook syscalls, overwrite
-IDT ..etc).
+Thanks,
+Quentin
+---
+ Documentation/driver-api/pm/energy-model.rst | 150 +++++++++++++++++++
+ Documentation/driver-api/pm/index.rst        |   1 +
+ 2 files changed, 151 insertions(+)
+ create mode 100644 Documentation/driver-api/pm/energy-model.rst
 
+diff --git a/Documentation/driver-api/pm/energy-model.rst b/Documentation/driver-api/pm/energy-model.rst
+new file mode 100644
+index 000000000000..c447528c4e29
+--- /dev/null
++++ b/Documentation/driver-api/pm/energy-model.rst
+@@ -0,0 +1,150 @@
++====================
++Energy Model of CPUs
++====================
++
++Overview
++========
++
++The Energy Model (EM) framework serves as an interface between drivers knowing
++the power consumed by CPUs at various performance levels, and the kernel
++subsystems willing to use that information to make energy-aware decisions.
++
++The source of the information about the power consumed by CPUs can vary greatly
++from one platform to another. These power costs can be estimated using
++devicetree data in some cases. In others, the firmware will know better.
++Alternatively, userspace might be best positioned. And so on. In order to avoid
++each and every client subsystem to re-implement support for each and every
++possible source of information on its own, the EM framework intervenes as an
++abstraction layer which standardizes the format of power cost tables in the
++kernel, hence enabling to avoid redundant work.
++
++The figure below depicts an example of drivers (Arm-specific here, but the
++approach is applicable to any architecture) providing power costs to the EM
++framework, and interested clients reading the data from it.
++
++.. code-block:: none
++
++          +---------------+  +-----------------+  +---------------+
++          | Thermal (IPA) |  | Scheduler (EAS) |  |     Other     |
++          +---------------+  +-----------------+  +---------------+
++                  |                   | em_pd_energy()    |
++                  |                   | em_cpu_get()      |
++                  +---------+         |         +---------+
++                            |         |         |
++                            v         v         v
++                           +---------------------+
++                           |    Energy Model     |
++                           |     Framework       |
++                           +---------------------+
++                              ^       ^       ^
++                              |       |       | em_register_perf_domain()
++                   +----------+       |       +---------+
++                   |                  |                 |
++           +---------------+  +---------------+  +--------------+
++           |  cpufreq-dt   |  |   arm_scmi    |  |    Other     |
++           +---------------+  +---------------+  +--------------+
++                   ^                  ^                 ^
++                   |                  |                 |
++           +--------------+   +---------------+  +--------------+
++           | Device Tree  |   |   Firmware    |  |      ?       |
++           +--------------+   +---------------+  +--------------+
++
++The EM framework manages power cost tables per 'performance domain' in the
++system. A performance domain is a group of CPUs whose performance is scaled
++together. Performance domains generally have a 1-to-1 mapping with CPUFreq
++policies. All CPUs in a performance domain are required to have the same
++micro-architecture. CPUs in different performance domains can have different
++micro-architectures.
++
++
++Core APIs overview
++==================
++
++Config options
++--------------
++
++`CONFIG_ENERGY_MODEL` must be enabled to use the EM framework.
++
++
++Registration of performance domains
++-----------------------------------
++
++Drivers are expected to register performance domains into the EM framework by
++calling the :c:func:`em_register_perf_domain()` API. Drivers must specify the
++CPUs of the performance domains using a cpumask, and provide a callback function
++returning <frequency, power> tuples for each capacity state. The callback
++function provided by the driver is free to fetch data from any relevant location
++(DT, firmware, ...), and by any mean deemed necessary.
++
++
++Accessing performance domains
++-----------------------------
++
++Subsystems interested in the energy model of a CPU can retrieve it using the
++:c:func:`em_cpu_get()` API. The energy model tables are allocated once upon
++creation of the performance domains, and kept in memory untouched.
++
++The energy consumed by a performance domain can be estimated using the
++:c:func:`em_pd_energy()` API. The estimation is performed assuming that the
++schedutil CPUfreq governor is in use.
++
++
++Example driver
++==============
++
++This section provides a simple example of a CPUFreq driver registering a
++performance domain in the Energy Model framework using the (fake) `foo`
++protocol. The driver implements an :c:func:`est_power()` function to be provided
++to the EM framework.
++
++:file:`drivers/cpufreq/foo_cpufreq.c`:
++
++.. code-block:: c
++   :linenos:
++
++   static int est_power(unsigned long *mW, unsigned long *KHz, int cpu)
++   {
++   	long freq, power;
++
++   	/* Use the 'foo' protocol to ceil the frequency */
++   	freq = foo_get_freq_ceil(cpu, *KHz);
++   	if (freq < 0);
++   		return freq;
++
++   	/* Estimate the power cost for the CPU at the relevant freq. */
++   	power = foo_estimate_power(cpu, freq);
++   	if (power < 0);
++   		return power;
++
++   	/* Return the values to the EM framework */
++   	*mW = power;
++   	*KHz = freq;
++
++   	return 0;
++   }
++
++   static int foo_cpufreq_init(struct cpufreq_policy *policy)
++   {
++   	struct em_data_callback em_cb = EM_DATA_CB(est_power);
++   	int nr_opp, ret;
++
++   	/* Do the actual CPUFreq init work ... */
++   	ret = do_foo_cpufreq_init(policy);
++   	if (ret)
++   		return ret;
++
++   	/* Find the number of OPPs for this policy */
++   	nr_opp = foo_get_nr_opp(policy);
++
++   	/* And register the new performance domain */
++   	em_register_perf_domain(policy->cpus, nr_opp, &em_cb);
++
++           return 0;
++   }
++
++
++Inline kernel documentation
++===========================
++
++.. kernel-doc:: include/linux/energy_model.h
++.. kernel-doc:: kernel/power/energy_model.c
+diff --git a/Documentation/driver-api/pm/index.rst b/Documentation/driver-api/pm/index.rst
+index 2f6d0e9cf6b7..d3a582adef4c 100644
+--- a/Documentation/driver-api/pm/index.rst
++++ b/Documentation/driver-api/pm/index.rst
+@@ -5,6 +5,7 @@ Device Power Management
+ .. toctree::
+ 
+    devices
++   energy-model
+    notifiers
+    types
+ 
+-- 
+2.20.1
 
--- Why didn't I implement ROE in host's userspace ? --
-
-The reason why it would be better to implement this from inside kvm: It will
-become a big performance hit to vmexit and switch to user space mode on each
-fault, on the other hand, having the permission handled by EPT should make some
-remarkable performance gain when writing in non protected page that contains
-protected chunks. My tests showed that the bottle neck is the time taken in
-context switching, reducing the number of switches did improve performance a
-lot. Full lengthy explanation with numbers can be found in [2].
-
-
--- Future Work -- 
-There is future work in progress to also put some sort of protection on the page
-table register CR3 and other critical registers that can be intercepted by KVM.
-This way it won't be possible for an attacker to manipulate any part of the
-guests page table.
-
-
--- Test Case --
-
-I was requested to add a test to tools/testing/selftests/kvm/. But the original
-testing suite didn't work on my machine, I experienced shutdown due to triple
-fault because of EPT fault with the current tests. I tried bisecting but the
-triple fault was there from the very first commit.
-
-So instead I would provide here a demo kernel module to test the current
-implementation:
-
-```
-	#include <linux/init.h>
-	#include <linux/module.h>
-	#include <linux/kernel.h>
-	#include <linux/slab.h>
-	#include <linux/kvm_para.h>
-	#include <linux/mm.h>
-	MODULE_LICENSE("GPL");
-	MODULE_AUTHOR("OddCoder");
-	MODULE_DESCRIPTION("ROE Hello world Module");
-	MODULE_VERSION("0.0.1");
-
-	#define KVM_HC_ROE 11
-	#define ROE_VERSION 0
-	#define ROE_MPROTECT 1
-	#define ROE_MPROTECT_CHUNK 2
-
-	static long roe_version(void){
-		return kvm_hypercall1 (KVM_HC_ROE, ROE_VERSION);
-	}
-
-	static long roe_mprotect(void *addr, long pg_count) {
-		return kvm_hypercall3 (KVM_HC_ROE, ROE_MPROTECT, (u64)addr, pg_count);
-	}
-
-	static long roe_mprotect_chunk(void *addr, long size) {
-		return kvm_hypercall3 (KVM_HC_ROE, ROE_MPROTECT_CHUNK, (u64)addr, size);
-	}
-
- 	static int __init hello(void ) {
-		int x;
-		struct page *pg1, *pg2;
-		void *memory;
-		pg1 = alloc_page(GFP_KERNEL);
-		pg2 = alloc_page(GFP_KERNEL);
-		memory = page_to_virt(pg1);
-		pr_info ("ROE_VERSION: %ld\n", roe_version());
-		pr_info ("Allocated memory: 0x%llx\n", (u64)memory);
-		pr_info("Physical Address: 0x%llx\n", virt_to_phys(memory));
-		strcpy((char *)memory, "ROE PROTECTED");
-		pr_info("memory_content: %s\n", (char *)memory);
-		x = roe_mprotect((void *)memory, 1);
-		strcpy((char *)memory, "The strcpy should silently fail and"
-					"memory content won't be modified");
-		pr_info("memory_content: %s\n", (char *)memory);
-		memory = page_to_virt(pg2);
-		pr_info ("Allocated memory: 0x%llx\n", (u64)memory);
-		pr_info("Physical Address: 0x%llx\n", virt_to_phys(memory));
-		strcpy((char *)memory, "ROE PROTECTED PARTIALLY");
-		roe_mprotect_chunk((void *)memory, strlen((char *)memory));
-		pr_info("memory_content: %s\n", (char *)memory);
-		strcpy((char *)memory, "XXXXXXXXXXXXXXXXXXXXXXX"
-					" <- Text here not modified still Can concat");
-		pr_info("memory_content: %s\n", (char *)memory);
-		return 0;
-	}
-	static void __exit bye(void) {
-		pr_info("Allocated Memory May never be freed at all!\n");
-		pr_info("Actually this is more of an ABI demonstration\n");
-		pr_info("than actual use case\n");
-		}
-	module_init(hello);
-	module_exit(bye);
-
-```
-
-I tried this on Gentoo host with Ubuntu guest and Qemu from git after applying
-the following changes to Qemu
-
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 4880a05399..57d0973aca 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -2035,6 +2035,9 @@ int kvm_cpu_exec(CPUState *cpu)
-                              run->mmio.is_write);
-             ret = 0;
-             break;
-+	case KVM_EXIT_ROE:
-+	    ret = 0;
-+	    break;
-         case KVM_EXIT_IRQ_WINDOW_OPEN:
-             DPRINTF("irq_window_open\n");
-             ret = EXCP_INTERRUPT;
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index f11a7eb49c..67aded8f00 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -235,7 +235,7 @@ struct kvm_hyperv_exit {
- #define KVM_EXIT_S390_STSI        25
- #define KVM_EXIT_IOAPIC_EOI       26
- #define KVM_EXIT_HYPERV           27
--
-+#define KVM_EXIT_ROE              28
- /* For KVM_EXIT_INTERNAL_ERROR */
- /* Emulate instruction failed. */
- #define KVM_INTERNAL_ERROR_EMULATION	1
-
-
-
--- Change log V7 -> V8 --
-
-- Bug fix in patch 10, (it didn't work).
-- Replacing the linked list structure used to store protected chunks with a red
-  black tree. That offered huge performance improvement where the query time
-  when writing to a linked list of ~2000 chunks was almost constant.
-
-
--- Known Issues --
-
-- THP is not supported yet. In general it is not supported when the guest frame
-  size is not the same as the equivalent EPT frame size.
-
-The previous version (V7) of the patch set can be found at [1]
-
--- links --
-
-[1] https://lkml.org/lkml/2018/12/7/345
-[2] https://lkml.org/lkml/2018/12/21/340
-
--- List of patches --
-
-[PATCH V8 01/11] KVM: State whether memory should be freed in
-[PATCH V8 02/11] KVM: X86: Add arbitrary data pointer in kvm memslot
-[PATCH V8 03/11] KVM: X86: Add helper function to convert SPTE to GFN
-[PATCH V8 04/11] KVM: Document Memory ROE
-[PATCH V8 05/11] KVM: Create architecture independent ROE skeleton
-[PATCH V8 06/11] KVM: X86: Enable ROE for x86
-[PATCH V8 07/11] KVM: Add support for byte granular memory ROE
-[PATCH V8 08/11] KVM: X86: Port ROE_MPROTECT_CHUNK to x86
-[PATCH V8 09/11] KVM: Add new exit reason For ROE violations
-[PATCH V8 10/11] KVM: Log ROE violations in system log
-[PATCH V8 11/11] KVM: ROE: Store protected chunks in red black tree
-
--- Difstat --
-
-Documentation/virtual/kvm/hypercalls.txt |  40 +++
-arch/x86/include/asm/kvm_host.h          |   2 +-
-arch/x86/kvm/Makefile                    |   4 +-
-arch/x86/kvm/mmu.c                       | 121 ++++-----
-arch/x86/kvm/mmu.h                       |  31 ++-
-arch/x86/kvm/roe.c                       | 104 ++++++++
-arch/x86/kvm/roe_arch.h                  |  28 ++
-arch/x86/kvm/x86.c                       |  21 +-
-include/kvm/roe.h                        |  28 ++
-include/linux/kvm_host.h                 |  57 ++++
-include/uapi/linux/kvm.h                 |   2 +-
-include/uapi/linux/kvm_para.h            |   5 +
-virt/kvm/kvm_main.c                      |  54 +++-
-virt/kvm/roe.c                           | 445 +++++++++++++++++++++++++++++++
-virt/kvm/roe_generic.h                   |  22 ++
-15 files changed, 868 insertions(+), 96 deletions(-)
-
-
-Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
