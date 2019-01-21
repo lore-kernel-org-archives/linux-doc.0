@@ -1,196 +1,185 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D61107D099
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Jan 2019 07:22:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 03FFD7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Jan 2019 07:26:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728037AbfAUHW1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 Jan 2019 02:22:27 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:40073 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727156AbfAUHW1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jan 2019 02:22:27 -0500
-Received: by mail-wr1-f68.google.com with SMTP id p4so21980214wrt.7
-        for <linux-doc@vger.kernel.org>; Sun, 20 Jan 2019 23:22:25 -0800 (PST)
+        id S1728012AbfAUH00 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 Jan 2019 02:26:26 -0500
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:45812 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728602AbfAUH00 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jan 2019 02:26:26 -0500
+Received: by mail-qk1-f194.google.com with SMTP id y78so11712604qka.12
+        for <linux-doc@vger.kernel.org>; Sun, 20 Jan 2019 23:26:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mena-vt-edu.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=FcIt9r2n/mEgqCNb5UT29WUXJF2aCPaNHWPRCZT6MPQ=;
-        b=1c9y8M8u1GlScRssrmufW1/Y7fhxLH4q1jt/CA5XKaXFsNAdtbu0w9xJ2Qx9oc50kG
-         jNFY65vUmtflsLNaOdQyDTK3ARCroDpnifxvPaAW79sXXeb4IJqUXimuiBGpaUlYHwq7
-         cZu2ZqpZUh9Yg10KJKG9SEzo7YGdtIOzH8maEzfl3X5BYCRRcQpqurbS2ftuZ5VuFZYG
-         UacqMhRQougz3i0vLt1pouYosIW92Ax47uLaYXP0teBu7W5AHJ36K+5RXmYlxJBPFWs7
-         k9pEtFLWsg+tSppbCbX1eqBgb8Kw/rb1Rb1MaEkCfsEQM56SMpRCHdZIg7MV3aRHZoW5
-         FT5g==
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=lONtkiqyKhw6wJdDMgAWrhoxueC0crWy4Gbu5d+6KMA=;
+        b=CkKS14Lo9uQGM6OeAi7F4Ea4m7bmBemzauxSmPJR8q8lHnT0+I9VSHEpiJgB26L5yY
+         IiU1U/bK2q9UGg7uU3Grx/NGJmRKBsjrkcXTOXXgTL5Cdq8SkP3NK/4/0aODciA+9qM9
+         SITNZP/KbEK5izWX+Eql6+AjgkYk72mkTff/k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=FcIt9r2n/mEgqCNb5UT29WUXJF2aCPaNHWPRCZT6MPQ=;
-        b=TFy/eveg09Pak6qdfxaOJolV6eSb2TZkJp2U79MnSntWwMg7xMHr96okrqvPhVJ5Dh
-         zdSWwlb/2+xGbZTsv19e8ytZSrpNH0p8r0aynOtsQlopXHIlugn37zqgp+VCldMj3gLW
-         FjEeq1XR5g2Ep7llP8jsJvQAhizgmZsMPmN7Mf18xKwVcon75scbLaaZ+WFZF2S4rKNN
-         w4qbAbZPZorCmQGaOJd45Hc2C03JiTifkCJCPXMeFQxY5L64nD/aqs/08CT/LihblUPF
-         A9vWxRlwi0WOPPMV4dQ5KGiNREEumqgy68epJEIv2HUw8Lt2vsw4MWD2mYbL83Fgd72t
-         VN7A==
-X-Gm-Message-State: AJcUukefEhJATzGsBhV/MrqkWel6GtNt+Fh8bjWvtRv6+xoqBeF/CHQr
-        a09JFZexZ9rGsSCoG+UBrX8g3T1HuZw=
-X-Google-Smtp-Source: ALg8bN4DTv7SHsMAYfU64me5hoPQjfKcJBRkYkXoG2pmxBtf2ZQEC5d/5sRI+8BCLbZJXWgDqNZGlQ==
-X-Received: by 2002:a5d:470b:: with SMTP id y11mr25418979wrq.16.1548027694264;
-        Sun, 20 Jan 2019 15:41:34 -0800 (PST)
-Received: from localhost.localdomain ([156.212.82.83])
-        by smtp.gmail.com with ESMTPSA id e9sm76576753wro.16.2019.01.20.15.41.31
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 20 Jan 2019 15:41:33 -0800 (PST)
-From:   Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
-        Jonathan Corbet <corbet@lwn.net>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=lONtkiqyKhw6wJdDMgAWrhoxueC0crWy4Gbu5d+6KMA=;
+        b=Bh1KbkpwEshvoF1SiIi6mEDLv+VEIiIIrBgjNqGf0CBwKMj/rnaSFATRmxVqeeiVkp
+         Wx+4jSSipHKLi60D90EUPbO+h3knUQkfkWLMTsks+kj7YuVoRXF7LRdnw8PxQVlgcerg
+         7heDUZ/AorJZTE6YLhy72uMYG6X9MwT0/F/ABbn7LVCYiKKFcCcZst2cbNDjskHeHORt
+         /zpnIbnarVRyHu83ZEa6ifheODC5Y4dh5z2LuGGJoEWTlLp6WZ0ZPk0IXAO0RqhCSyE+
+         9D2BgiIQtssPb4oiUXQl0V40juEWPn1lRQAQBLzbrIy7Oin2eqqyohfejGgeqTdUIpg+
+         PvbA==
+X-Gm-Message-State: AJcUukcQ6kj+Yzl7xnsj662L+axG8IIlxkexOb2HG5SIcIpS4K/dFcHF
+        430IJ/Ht8Gdcq3lG4uy/YESSJA==
+X-Google-Smtp-Source: ALg8bN7gG3MUR1B2ZzE7xUVa0/MOltiUFuC3YhpjOFEk+sIMU51vjqEydy3HqT9DKmC1xvfKsIRnTg==
+X-Received: by 2002:a37:2714:: with SMTP id n20mr22697209qkn.349.1548035155889;
+        Sun, 20 Jan 2019 17:45:55 -0800 (PST)
+Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
+        by smtp.gmail.com with ESMTPSA id c12sm84665129qka.42.2019.01.20.17.45.54
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 20 Jan 2019 17:45:54 -0800 (PST)
+Date:   Sun, 20 Jan 2019 20:45:53 -0500
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     hpa@zytor.com
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atishp04@gmail.com, Borislav Petkov <bp@alien8.de>,
+        dancol@google.com, Ingo Molnar <mingo@redhat.com>,
+        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+        karim.yaghmour@opersys.com, Kees Cook <keescook@chromium.org>,
+        kernel-team@android.com, linux-doc@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        paulmck@linux.vnet.ibm.com,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        rdunlap@infradead.org, rostedt@goodmis.org,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        hpa@zytor.com, x86@kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ahmedsoliman0x666@gmail.com, ovich00@gmail.com,
-        kernel-hardening@lists.openwall.com, nigel.edwards@hpe.com,
-        Boris Lukashev <blukashev@sempervictus.com>,
-        Igor Stoppa <igor.stoppa@gmail.com>
-Cc:     Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-Subject: [RESEND PATCH V8 09/11] KVM: Add new exit reason For ROE violations
-Date:   Mon, 21 Jan 2019 01:39:38 +0200
-Message-Id: <20190120233940.15282-10-ahmedsoliman@mena.vt.edu>
-X-Mailer: git-send-email 2.19.2
-In-Reply-To: <20190120233940.15282-1-ahmedsoliman@mena.vt.edu>
-References: <20190120233940.15282-1-ahmedsoliman@mena.vt.edu>
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        yhs@fb.com
+Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
+ kernel
+Message-ID: <20190121014553.GD23827@google.com>
+References: <20190118225543.86996-1-joel@joelfernandes.org>
+ <20190119102800.GB17723@infradead.org>
+ <20190119103606.GA17400@kroah.com>
+ <8BD4CB7A-944C-4EC5-A198-1D85C9EE28D6@zytor.com>
+ <20190120161003.GB23827@google.com>
+ <A40C22DF-B43F-44BA-8148-FC0881087315@zytor.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <A40C22DF-B43F-44BA-8148-FC0881087315@zytor.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The problem is that qemu will not be able to detect ROE violations, so
-one option would be create host API to tell if a given page is ROE
-protected, or create ROE violation exit reason.
+On Sun, Jan 20, 2019 at 01:58:15PM -0800, hpa@zytor.com wrote:
+> On January 20, 2019 8:10:03 AM PST, Joel Fernandes <joel@joelfernandes.org> wrote:
+> >On Sat, Jan 19, 2019 at 11:01:13PM -0800, hpa@zytor.com wrote:
+> >> On January 19, 2019 2:36:06 AM PST, Greg KH
+> ><gregkh@linuxfoundation.org> wrote:
+> >> >On Sat, Jan 19, 2019 at 02:28:00AM -0800, Christoph Hellwig wrote:
+> >> >> This seems like a pretty horrible idea and waste of kernel memory.
+> >> >
+> >> >It's only a waste if you want it to be a waste, i.e. if you load the
+> >> >kernel module.
+> >> >
+> >> >This really isn't any different from how /proc/config.gz works.
+> >> >
+> >> >> Just add support to kbuild to store a compressed archive in
+> >initramfs
+> >> >> and unpack it in the right place.
+> >> >
+> >> >I think the issue is that some devices do not use initramfs, or
+> >switch
+> >> >away from it after init happens or something like that.  Joel has
+> >all
+> >> >of
+> >> >the looney details that he can provide.
+> >> >
+> >> >thanks,
+> >> >
+> >> >greg k-h
+> >> 
+> >> Yeah, well... but it is kind of a losing game... the more in-kernel
+> >stuff there is the less smiley are things to actually be supported.
+> >
+> >It is better than nothing, and if this makes things a bit easier and
+> >solves
+> >real-world issues people have been having, and is optional, then I
+> >don't see
+> >why not.
+> >
+> >> Modularizing is it in some ways even crazier in the sense that at
+> >that point you are relying on the filesystem containing the module,
+> >which has to be loaded into the kernel by a root user. One could even
+> >wonder if a better way to do this would be to have "make
+> >modules_install" park an archive file – or even a directory as opposed
+> >to a symlink – with this stuff in /lib/modules. We could even provide a
+> >tmpfs shim which autoloads such an archive via the firmware loader;
+> >this might even be generically useful, who knows.
+> >
+> >All this seems to assume where the modules are located. In Android, we
+> >don't
+> >have /lib/modules. This patch generically fits into the grand scheme
+> >things
+> >and I think is just better made a part of the kernel since it is not
+> >that
+> >huge once compressed, as Dan also pointed. The more complex, and the
+> >more
+> >assumptions we make, the less likely people writing tools will get it
+> >right
+> >and be able to easily use it.
+> >
+> >> 
+> >> Note also that initramfs contents can be built into the kernel.
+> >Extracting such content into a single-instance tmpfs would again be a
+> >possibility
+> >
+> >Such an approach would bloat the kernel image size though, which may
+> >not work
+> >for everyone. The module based approach, on the other hand, gives an
+> >option
+> >to the user to enable the feature, but not have it loaded into memory
+> >or used
+> >until it is really needed.
+> >
+> >thanks,
+> >
+> > - Joel
+> 
+> Well, where are the modules? They must exist in the filesystem.
 
-Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
----
- arch/x86/kvm/x86.c       | 10 +++++++++-
- include/kvm/roe.h        | 12 ++++++++++++
- include/uapi/linux/kvm.h |  2 +-
- virt/kvm/kvm_main.c      |  1 +
- virt/kvm/roe.c           |  2 +-
- virt/kvm/roe_generic.h   |  9 +--------
- 6 files changed, 25 insertions(+), 11 deletions(-)
+The scheme of loading a module doesn't depend on _where_ the module is on the
+filesystem. As long as a distro knows how to load a module in its own way (by
+looking into whichever paths it cares about), that's all that matters.  And
+the module contains compressed headers which saves space, vs storing it
+uncompressed on the file system.
 
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 19b0f2307e..368e3d99fd 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -5409,6 +5409,7 @@ static int emulator_read_write(struct x86_emulate_ctxt *ctxt,
- 			const struct read_write_emulator_ops *ops)
- {
- 	struct kvm_vcpu *vcpu = emul_to_vcpu(ctxt);
-+	struct kvm_memory_slot *slot;
- 	gpa_t gpa;
- 	int rc;
- 
-@@ -5450,7 +5451,14 @@ static int emulator_read_write(struct x86_emulate_ctxt *ctxt,
- 
- 	vcpu->run->mmio.len = min(8u, vcpu->mmio_fragments[0].len);
- 	vcpu->run->mmio.is_write = vcpu->mmio_is_write = ops->write;
--	vcpu->run->exit_reason = KVM_EXIT_MMIO;
-+	slot = kvm_vcpu_gfn_to_memslot(vcpu, gpa >> PAGE_SHIFT);
-+	if (slot && ops->write && (kvm_roe_check_range(slot, gpa>>PAGE_SHIFT,
-+			gpa - (gpa & PAGE_MASK), bytes) ||
-+			gfn_is_full_roe(slot, gpa>>PAGE_SHIFT)))
-+		vcpu->run->exit_reason = KVM_EXIT_ROE;
-+	else
-+		vcpu->run->exit_reason = KVM_EXIT_MMIO;
-+
- 	vcpu->run->mmio.phys_addr = gpa;
- 
- 	return ops->read_write_exit_mmio(vcpu, gpa, val, bytes);
-diff --git a/include/kvm/roe.h b/include/kvm/roe.h
-index 6a86866623..3121a67753 100644
---- a/include/kvm/roe.h
-+++ b/include/kvm/roe.h
-@@ -13,4 +13,16 @@ void kvm_roe_arch_commit_protection(struct kvm *kvm,
- 		struct kvm_memory_slot *slot);
- int kvm_roe(struct kvm_vcpu *vcpu, u64 a0, u64 a1, u64 a2, u64 a3);
- bool kvm_roe_arch_is_userspace(struct kvm_vcpu *vcpu);
-+bool kvm_roe_check_range(struct kvm_memory_slot *slot, gfn_t gfn, int offset,
-+		int len);
-+static inline bool gfn_is_full_roe(struct kvm_memory_slot *slot, gfn_t gfn)
-+{
-+	return test_bit(gfn - slot->base_gfn, slot->roe_bitmap);
-+
-+}
-+static inline bool gfn_is_partial_roe(struct kvm_memory_slot *slot, gfn_t gfn)
-+{
-+	return test_bit(gfn - slot->base_gfn, slot->partial_roe_bitmap);
-+}
-+
- #endif
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 6d4ea4b6c9..0a386bb5f2 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -235,7 +235,7 @@ struct kvm_hyperv_exit {
- #define KVM_EXIT_S390_STSI        25
- #define KVM_EXIT_IOAPIC_EOI       26
- #define KVM_EXIT_HYPERV           27
--
-+#define KVM_EXIT_ROE		  28
- /* For KVM_EXIT_INTERNAL_ERROR */
- /* Emulate instruction failed. */
- #define KVM_INTERNAL_ERROR_EMULATION	1
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 819033f475..d92d300539 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -62,6 +62,7 @@
- #include "async_pf.h"
- #include "vfio.h"
- #include "roe_generic.h"
-+#include <kvm/roe.h>
- 
- #define CREATE_TRACE_POINTS
- #include <trace/events/kvm.h>
-diff --git a/virt/kvm/roe.c b/virt/kvm/roe.c
-index 4393a6a6a2..9540473f89 100644
---- a/virt/kvm/roe.c
-+++ b/virt/kvm/roe.c
-@@ -60,7 +60,7 @@ bool kvm_roe_check_range(struct kvm_memory_slot *slot, gfn_t gfn, int offset,
- 		return false;
- 	return kvm_roe_protected_range(slot, gpa, len);
- }
--
-+EXPORT_SYMBOL_GPL(kvm_roe_check_range);
- 
- void kvm_roe_free(struct kvm_memory_slot *slot)
- {
-diff --git a/virt/kvm/roe_generic.h b/virt/kvm/roe_generic.h
-index ad121372f2..f1ce4a8aec 100644
---- a/virt/kvm/roe_generic.h
-+++ b/virt/kvm/roe_generic.h
-@@ -14,12 +14,5 @@ void kvm_roe_free(struct kvm_memory_slot *slot);
- int kvm_roe_init(struct kvm_memory_slot *slot);
- bool kvm_roe_check_range(struct kvm_memory_slot *slot, gfn_t gfn, int offset,
- 		int len);
--static inline bool gfn_is_full_roe(struct kvm_memory_slot *slot, gfn_t gfn)
--{
--	return test_bit(gfn - slot->base_gfn, slot->roe_bitmap);
--}
--static inline bool gfn_is_partial_roe(struct kvm_memory_slot *slot, gfn_t gfn)
--{
--	return test_bit(gfn - slot->base_gfn, slot->partial_roe_bitmap);
--}
-+
- #endif
--- 
-2.19.2
+To remove complete reliance on the filesystem, there is an option of not
+building it as a module, and making it as a built-in.
+
+I think I see your point now - you're saying if its built-in, then it
+becomes kernel memory that is lost and unswappable. Did I get that right?
+I am saying that if that's a major concern, then:
+1. Don't make it a built-in, make it a module.
+2. Don't enable it at for your distro, and use a linux-headers package or
+whatever else you have been using so far that works for you.
+
+thanks,
+
+ - Joel
 
