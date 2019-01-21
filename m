@@ -1,131 +1,185 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DD4B67D910
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Jan 2019 07:59:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4CB717D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Jan 2019 08:02:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728631AbfAUH7x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 Jan 2019 02:59:53 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:52071 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728085AbfAUH7x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jan 2019 02:59:53 -0500
-Received: by mail-wm1-f65.google.com with SMTP id b11so9792104wmj.1
-        for <linux-doc@vger.kernel.org>; Sun, 20 Jan 2019 23:59:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mena-vt-edu.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=S5NVvoOgAgdZo8wmN11QDMw/7RKccGkERCz5dFRhs3I=;
-        b=BdDxLGM1dmo0GQ+oCKzyAyW/P0iJv04mOqd5KTQC7iP2RnAShme5aGa8+eljPHQD5R
-         9UmVk6y1JS7PQ1SLhctISAowhr2r0ah2arCKYzHwcPIMBUI450ApL7L8k0GqISPqpioD
-         UxI4E6VVT0p3jaEWvnULiJntikx2nuzcq1kWXgGHNp3baPwmjmhoIgkO7KuC6y813yud
-         zvXyPUwiIOeN+gu9q5I5gKTTvdXNundyTG6tPOqDVEezJVRkPGQ+ow29IgF9qiH/lwsP
-         cnQMPZD9X9blbOT7wc7fTFkK8bEjOwn4Wu1NeUueXVV60brUtY0RSwlBTv9y0t/tG3Nh
-         GlJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=S5NVvoOgAgdZo8wmN11QDMw/7RKccGkERCz5dFRhs3I=;
-        b=qAzCdWyrhesNGw46JYaPa43Qv0A98sYI3UGyI+9DTQ4k59phE0IMTqxJCEPOTfh7uQ
-         dgJNEf8XVU/kWaRqjZlzy/9X0bktj7DYU0S5s38UY0nzhk7QcD4wskR6kbz8XQ8B+FRF
-         yVD0tmvsfCJc65Dug0ETkltiqfrzNV08aG6LbBVusHC1XFyxDFT3umU17+Gzvi4v3woE
-         2dRwjf4+s3EXENpMHFA9HfkEcZRS6jJV4lyWzhlyr5yL2jr59zfZ3++FphfrEBIfvWIr
-         Z5YaBm2LbWDkZ9834pM2Po8K5g63vyyoo7RsuxVJQcwXPFgdvqEv2rTbMHu7r9+216Du
-         uLFw==
-X-Gm-Message-State: AJcUukdYCBnd7AHXMNxHOASv9G1CaE22zNbRRjLx2wbbROmVUCXK89x7
-        w+bUrqWYWGyYdHm4A6G4GOjJaECi9V4=
-X-Google-Smtp-Source: ALg8bN4kc5ObGqv6NoNo2QHDN6CCtu/mF6luBJqOGiE2VJKAp52yGhiJxl9kbMkt/ISKNQ1uC0ZBkw==
-X-Received: by 2002:a1c:7409:: with SMTP id p9mr23272500wmc.136.1548027677700;
-        Sun, 20 Jan 2019 15:41:17 -0800 (PST)
-Received: from localhost.localdomain ([156.212.82.83])
-        by smtp.gmail.com with ESMTPSA id e9sm76576753wro.16.2019.01.20.15.41.14
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 20 Jan 2019 15:41:17 -0800 (PST)
-From:   Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        hpa@zytor.com, x86@kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ahmedsoliman0x666@gmail.com, ovich00@gmail.com,
-        kernel-hardening@lists.openwall.com, nigel.edwards@hpe.com,
-        Boris Lukashev <blukashev@sempervictus.com>,
-        Igor Stoppa <igor.stoppa@gmail.com>
-Cc:     Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-Subject: [RESEND PATCH V8 04/11] KVM: Document Memory ROE
-Date:   Mon, 21 Jan 2019 01:39:33 +0200
-Message-Id: <20190120233940.15282-5-ahmedsoliman@mena.vt.edu>
-X-Mailer: git-send-email 2.19.2
-In-Reply-To: <20190120233940.15282-1-ahmedsoliman@mena.vt.edu>
-References: <20190120233940.15282-1-ahmedsoliman@mena.vt.edu>
+        id S1728726AbfAUICf convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 Jan 2019 03:02:35 -0500
+Received: from terminus.zytor.com ([198.137.202.136]:59021 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728530AbfAUICf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 Jan 2019 03:02:35 -0500
+Received: from wld62.hos.anvin.org (c-24-5-245-234.hsd1.ca.comcast.net [24.5.245.234] (may be forged))
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x0L2o9ub2336097
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+        Sun, 20 Jan 2019 18:50:10 -0800
+Date:   Sun, 20 Jan 2019 18:49:56 -0800
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20190121014553.GD23827@google.com>
+References: <20190118225543.86996-1-joel@joelfernandes.org> <20190119102800.GB17723@infradead.org> <20190119103606.GA17400@kroah.com> <8BD4CB7A-944C-4EC5-A198-1D85C9EE28D6@zytor.com> <20190120161003.GB23827@google.com> <A40C22DF-B43F-44BA-8148-FC0881087315@zytor.com> <20190121014553.GD23827@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the kernel
+To:     Joel Fernandes <joel@joelfernandes.org>
+CC:     Greg KH <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atishp04@gmail.com, Borislav Petkov <bp@alien8.de>,
+        dancol@google.com, Ingo Molnar <mingo@redhat.com>,
+        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+        karim.yaghmour@opersys.com, Kees Cook <keescook@chromium.org>,
+        kernel-team@android.com, linux-doc@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        paulmck@linux.vnet.ibm.com,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        rdunlap@infradead.org, rostedt@goodmis.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        yhs@fb.com
+From:   hpa@zytor.com
+Message-ID: <BC774ED4-C0FC-4AA6-9BAF-36930A661D9B@zytor.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ROE version documented here is implemented in the next 2 patches
-Signed-off-by: Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
----
- Documentation/virtual/kvm/hypercalls.txt | 40 ++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+On January 20, 2019 5:45:53 PM PST, Joel Fernandes <joel@joelfernandes.org> wrote:
+>On Sun, Jan 20, 2019 at 01:58:15PM -0800, hpa@zytor.com wrote:
+>> On January 20, 2019 8:10:03 AM PST, Joel Fernandes
+><joel@joelfernandes.org> wrote:
+>> >On Sat, Jan 19, 2019 at 11:01:13PM -0800, hpa@zytor.com wrote:
+>> >> On January 19, 2019 2:36:06 AM PST, Greg KH
+>> ><gregkh@linuxfoundation.org> wrote:
+>> >> >On Sat, Jan 19, 2019 at 02:28:00AM -0800, Christoph Hellwig
+>wrote:
+>> >> >> This seems like a pretty horrible idea and waste of kernel
+>memory.
+>> >> >
+>> >> >It's only a waste if you want it to be a waste, i.e. if you load
+>the
+>> >> >kernel module.
+>> >> >
+>> >> >This really isn't any different from how /proc/config.gz works.
+>> >> >
+>> >> >> Just add support to kbuild to store a compressed archive in
+>> >initramfs
+>> >> >> and unpack it in the right place.
+>> >> >
+>> >> >I think the issue is that some devices do not use initramfs, or
+>> >switch
+>> >> >away from it after init happens or something like that.  Joel has
+>> >all
+>> >> >of
+>> >> >the looney details that he can provide.
+>> >> >
+>> >> >thanks,
+>> >> >
+>> >> >greg k-h
+>> >> 
+>> >> Yeah, well... but it is kind of a losing game... the more
+>in-kernel
+>> >stuff there is the less smiley are things to actually be supported.
+>> >
+>> >It is better than nothing, and if this makes things a bit easier and
+>> >solves
+>> >real-world issues people have been having, and is optional, then I
+>> >don't see
+>> >why not.
+>> >
+>> >> Modularizing is it in some ways even crazier in the sense that at
+>> >that point you are relying on the filesystem containing the module,
+>> >which has to be loaded into the kernel by a root user. One could
+>even
+>> >wonder if a better way to do this would be to have "make
+>> >modules_install" park an archive file – or even a directory as
+>opposed
+>> >to a symlink – with this stuff in /lib/modules. We could even
+>provide a
+>> >tmpfs shim which autoloads such an archive via the firmware loader;
+>> >this might even be generically useful, who knows.
+>> >
+>> >All this seems to assume where the modules are located. In Android,
+>we
+>> >don't
+>> >have /lib/modules. This patch generically fits into the grand scheme
+>> >things
+>> >and I think is just better made a part of the kernel since it is not
+>> >that
+>> >huge once compressed, as Dan also pointed. The more complex, and the
+>> >more
+>> >assumptions we make, the less likely people writing tools will get
+>it
+>> >right
+>> >and be able to easily use it.
+>> >
+>> >> 
+>> >> Note also that initramfs contents can be built into the kernel.
+>> >Extracting such content into a single-instance tmpfs would again be
+>a
+>> >possibility
+>> >
+>> >Such an approach would bloat the kernel image size though, which may
+>> >not work
+>> >for everyone. The module based approach, on the other hand, gives an
+>> >option
+>> >to the user to enable the feature, but not have it loaded into
+>memory
+>> >or used
+>> >until it is really needed.
+>> >
+>> >thanks,
+>> >
+>> > - Joel
+>> 
+>> Well, where are the modules? They must exist in the filesystem.
+>
+>The scheme of loading a module doesn't depend on _where_ the module is
+>on the
+>filesystem. As long as a distro knows how to load a module in its own
+>way (by
+>looking into whichever paths it cares about), that's all that matters. 
+>And
+>the module contains compressed headers which saves space, vs storing it
+>uncompressed on the file system.
+>
+>To remove complete reliance on the filesystem, there is an option of
+>not
+>building it as a module, and making it as a built-in.
+>
+>I think I see your point now - you're saying if its built-in, then it
+>becomes kernel memory that is lost and unswappable. Did I get that
+>right?
+>I am saying that if that's a major concern, then:
+>1. Don't make it a built-in, make it a module.
+>2. Don't enable it at for your distro, and use a linux-headers package
+>or
+>whatever else you have been using so far that works for you.
+>
+>thanks,
+>
+> - Joel
 
-diff --git a/Documentation/virtual/kvm/hypercalls.txt b/Documentation/virtual/kvm/hypercalls.txt
-index da24c138c8..a31f316ce6 100644
---- a/Documentation/virtual/kvm/hypercalls.txt
-+++ b/Documentation/virtual/kvm/hypercalls.txt
-@@ -141,3 +141,43 @@ a0 corresponds to the APIC ID in the third argument (a2), bit 1
- corresponds to the APIC ID a2+1, and so on.
- 
- Returns the number of CPUs to which the IPIs were delivered successfully.
-+
-+7. KVM_HC_ROE
-+----------------
-+Architecture: x86
-+Status: active
-+Purpose: Hypercall used to apply Read-Only Enforcement to guest memory and
-+registers
-+Usage 1:
-+     a0: ROE_VERSION
-+
-+Returns non-signed number that represents the current version of ROE
-+implementation current version.
-+
-+Usage 2:
-+
-+     a0: ROE_MPROTECT	(requires version >= 1)
-+     a1: Start address aligned to page boundary.
-+     a2: Number of pages to be protected.
-+
-+This configuration lets a guest kernel have part of its read/write memory
-+converted into read-only.  This action is irreversible.
-+Upon successful run, the number of pages protected is returned.
-+
-+Usage 3:
-+     a0: ROE_MPROTECT_CHUNK	(requires version >= 2)
-+     a1: Start address aligned to page boundary.
-+     a2: Number of bytes to be protected.
-+This configuration lets a guest kernel have part of its read/write memory
-+converted into read-only with bytes granularity. ROE_MPROTECT_CHUNK is
-+relatively slow compared to ROE_MPROTECT. This action is irreversible.
-+Upon successful run, the number of bytes protected is returned.
-+
-+Error codes:
-+	-KVM_ENOSYS: system call being triggered from ring 3 or it is not
-+	implemented.
-+	-EINVAL: error based on given parameters.
-+
-+Notes: KVM_HC_ROE can not be triggered from guest Ring 3 (user mode). The
-+reason is that user mode malicious software can make use of it to enforce read
-+only protection on an arbitrary memory page thus crashing the kernel.
+My point is that if we're going to actually solve a problem, we need to make it so that the distro won't just disable it anyway, and it ought to be something scalable; otherwise nothing is gained.
+
+I am *not* disagreeing with the problem statement!
+
+Now, /proc isn't something that will autoload modules. A filesystem *will*, although you need to be able to mount it; furthermore, it makes it trivially to extend it (and the firmware interface provides an . easy way to feed the data to such a filesystem without having to muck with anything magic.)
+
+Heck, we could even make it a squashfs image that can just be mounted.
+
+So, first of all, where does Android keep its modules, and what is actually included? Is /sbin/modprobe used to load the modules, as is normal? We might even be able to address this with some fairly trivial enhancements to modprobe; specifically to search in the module paths for something that isn't a module per se.
+
+The best scenario would be if we could simply have the tools find the location equivalent of /lib/modules/$version/source...
 -- 
-2.19.2
-
+Sent from my Android device with K-9 Mail. Please excuse my brevity.
