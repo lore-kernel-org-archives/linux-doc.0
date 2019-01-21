@@ -1,72 +1,75 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 910497D161
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Jan 2019 14:38:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D561D7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 21 Jan 2019 18:18:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729185AbfAUOi1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 Jan 2019 09:38:27 -0500
-Received: from mga01.intel.com ([192.55.52.88]:44420 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729176AbfAUOi1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 21 Jan 2019 09:38:27 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Jan 2019 06:38:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,503,1539673200"; 
-   d="scan'208";a="127679745"
-Received: from epg-ubt28.iil.intel.com ([143.185.152.137])
-  by orsmga002.jf.intel.com with ESMTP; 21 Jan 2019 06:38:24 -0800
-From:   Ramon Fried <ramon.fried@linux.intel.com>
-To:     linus.walleij@linaro.org, corbet@lwn.net
-Cc:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Ramon Fried <ramon.fried@linux.intel.com>
-Subject: [PATCH] pinctrl.txt: Remove outdated information
-Date:   Mon, 21 Jan 2019 16:38:22 +0200
-Message-Id: <20190121143822.20225-1-ramon.fried@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
+        id S1727592AbfAUSSb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 21 Jan 2019 13:18:31 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:36916 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726840AbfAUSSb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Jan 2019 13:18:31 -0500
+Received: by mail-wm1-f67.google.com with SMTP id g67so11726108wmd.2
+        for <linux-doc@vger.kernel.org>; Mon, 21 Jan 2019 10:18:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=s6fjiMt5/w7JQak43ZIPVGitqcTBThRisYLePsE7nkA=;
+        b=c65EuClwqcpXo3N7m/Kium2ldu6821SixE4VZn7laXFDVUfeNGZDO4tWrnuWDzLsET
+         lGorOZ/WwKo2YSeoblVifabKke5EKeN2Xi5zhl8/YWgICLtwqA3KFT1j2kNSzAA6RsPo
+         WpGoXcNSPDyrx9FE/qVRDUTriNlqw2WhfjHTXYNAm2T99tqwTbPGNoPFSKVQ1jhT8Ai0
+         5h/U98MASP7nUbBHX9NRZ0yAb7T9wMnVgudcrjw8S5feXX8ouUeu8yI1ODmBKzYyUmUR
+         kXEuldpXTSxujU0MDmTg13qM5nYxhpzonV+iDNfO5y12LmtuboFWeKv4C12JJd+ojDEB
+         41fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=s6fjiMt5/w7JQak43ZIPVGitqcTBThRisYLePsE7nkA=;
+        b=WeBS7ql1/rmnPVQCITaKtl6iyOsOGWVNOdmPZNVXeZmEog929LBpJIFZw4ZPICWQOj
+         gaFFpO0Lqm7WO+F753ID5SmdobGv+TJgzt63UXoOSx6/1vMD4O6FW/J0NVKqY2ylYnhD
+         mToKxD5+pPVXf48gQdqtnZPZdwPXI3TRHyaRo9SM9SVofG+vAabfREC5zIPeBAQojire
+         ck7iJOk00+McEg7QIOK87JZg69jwikJcQIBchIk2e2iniUBH8KPslAiU3Wqo52HHpt43
+         Lew49o5gZGqe1fpacUfcwcBMMUDblQhd8yeJIpWfuZCqPvd0mWCnR4yyq1C389Y9eKRE
+         PqmQ==
+X-Gm-Message-State: AJcUukdrIhMePQZ6jOr+s6jniByWLFRPvQH/ij7kfkIrjYw4cfyBeuWy
+        hQz9cVFW88Q6wjsM8byPh+ffioCz+OfYM7t9ODk=
+X-Google-Smtp-Source: ALg8bN5e2+/xeVDZKgMNqt0vlzD1A0WeAcNJ8fiAPLsWlGbenkZsDOU4Z7SAtDIZM21VVcPeCAtgvrDedJSpIgL/krw=
+X-Received: by 2002:a1c:f71a:: with SMTP id v26mr401648wmh.131.1548094709736;
+ Mon, 21 Jan 2019 10:18:29 -0800 (PST)
+MIME-Version: 1.0
+Received: by 2002:adf:804c:0:0:0:0:0 with HTTP; Mon, 21 Jan 2019 10:18:29
+ -0800 (PST)
+Reply-To: mercykings2000@gmail.com
+From:   Mercy Kings <mercykings01@gmail.com>
+Date:   Mon, 21 Jan 2019 18:18:29 +0000
+Message-ID: <CALnHs9qndGm9mKeBeL=fQDa-2=vnEp+nO2-EbgaVxSW3cd-vqQ@mail.gmail.com>
+Subject: Dearest Friend
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Returning -EAGAIN is no longer supported by pin_config_group_set()
-since ad42fc6c8479 ("pinctrl: rip out the direct pinconf API")
+Dearest One
 
-Remove the relevant section from the documentation.
+First i thanks your attention to me, I am mercy kings My parents
+Mr.and Mrs.kings were assassinated here in IVORY COAST. Before my
+Before my father's death he had (USD $5.9M) Five Million Nine Hundred
+Thousand United State Dollars deposited in a bank here in Abidjan. I
+want you to do me a favour to receive these funds to a safe account
+in your country or any safer place as the beneficiary. I want to come
+over to your country for the safety of my life from the hands of this
+wicked assassins.I have plans to do investment in your country, like
+real estate and industrial production This is my reason for writing to
+you.
 
-Signed-off-by: Ramon Fried <ramon.fried@linux.intel.com>
----
- Documentation/driver-api/pinctl.rst | 9 ---------
- 1 file changed, 9 deletions(-)
-
-diff --git a/Documentation/driver-api/pinctl.rst b/Documentation/driver-api/pinctl.rst
-index 6cb68d67fa75..2bb1bc484278 100644
---- a/Documentation/driver-api/pinctl.rst
-+++ b/Documentation/driver-api/pinctl.rst
-@@ -274,15 +274,6 @@ configuration in the pin controller ops like this::
- 		.confops = &foo_pconf_ops,
- 	};
- 
--Since some controllers have special logic for handling entire groups of pins
--they can exploit the special whole-group pin control function. The
--pin_config_group_set() callback is allowed to return the error code -EAGAIN,
--for groups it does not want to handle, or if it just wants to do some
--group-level handling and then fall through to iterate over all pins, in which
--case each individual pin will be treated by separate pin_config_set() calls as
--well.
--
--
- Interaction with the GPIO subsystem
- ===================================
- 
--- 
-2.17.1
-
+Your sister mercy kings.
