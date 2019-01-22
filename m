@@ -1,69 +1,257 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4CF7C7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Jan 2019 10:23:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4C6647D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Jan 2019 13:39:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727624AbfAVKXr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 Jan 2019 05:23:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59394 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727469AbfAVKXr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 22 Jan 2019 05:23:47 -0500
-Received: from localhost (5356596B.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AB6CD2084A;
-        Tue, 22 Jan 2019 10:23:46 +0000 (UTC)
-Date:   Tue, 22 Jan 2019 11:23:44 +0100
-From:   Greg KH <greg@kroah.com>
-To:     Adam Borowski <kilobyte@angband.pl>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc: process: GPL -> GPL-compatible
-Message-ID: <20190122102344.GA31836@kroah.com>
-References: <20190122093408.16756-1-kilobyte@angband.pl>
+        id S1728633AbfAVNjF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 Jan 2019 08:39:05 -0500
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:39530 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728631AbfAVNjE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jan 2019 08:39:04 -0500
+Received: by mail-qt1-f196.google.com with SMTP id u47so27526594qtj.6
+        for <linux-doc@vger.kernel.org>; Tue, 22 Jan 2019 05:39:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=PLvsx6f933HE12QycTyTTWhcZyknWhiFD28MZXToxe8=;
+        b=IdPNs1CNY7sb8hq/PjvHns7d9F9Y6qguml1iRu6Y06cqwZKW34EFEmUAkisV4ljGQ9
+         aLXUtXTyzwcXTCskjPey7JB69G7FUvm4HikMM0Irym31Tl4UfEKIejmAiR1WluZ/hNbp
+         f87G60cz6koykpRGNVSDqpguKX+e6Rqlsaoog=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=PLvsx6f933HE12QycTyTTWhcZyknWhiFD28MZXToxe8=;
+        b=pg7+Tbk4aN/xrsXjXTQcyLNL1EZnJvfLQQ3qwq8MBPDy5vDafNm7jT5PYTw4FUaQXZ
+         BDFaWqDBjM6kOBGKUBao2DzB6JITQampVQQ7xdE8WQWsm1PQaFCE38KCVQGuyTQLSLF4
+         egNsn+tbn7TyuN5OowLoqAQopPo12Ro7s81oSTrRhjgSS89lEcsN9U1uO+AmI2hB68YM
+         wAjLfg39yyjUr21oAuCSgAYDhxYWiBe3p2r43JMsEUTzWUrb8ac6CPb2zaviA/2180k7
+         v4WQd9fy/UEOxCH7oOsLgQwZJULVQvVFDdzCq/y2ESbIt2phLFVW9m5zxLhUDAruqrSq
+         gPEg==
+X-Gm-Message-State: AJcUukc6QKv96NJGNveB6P80sZo12RIa/hca4OuF8paeHD1H3CDx8jHv
+        G3QDHxC9IglKqI+GjX44HRdysQ==
+X-Google-Smtp-Source: ALg8bN7n9449nMLPXBAY/VK+aaob9lVLNDiAC7U+IjRp0tdb2PYmgPuetj3aPdHtt95ruuEEp9Y7gg==
+X-Received: by 2002:ac8:4104:: with SMTP id q4mr31608662qtl.349.1548164343054;
+        Tue, 22 Jan 2019 05:39:03 -0800 (PST)
+Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
+        by smtp.gmail.com with ESMTPSA id d14sm23325739qkl.64.2019.01.22.05.39.01
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 22 Jan 2019 05:39:01 -0800 (PST)
+Date:   Tue, 22 Jan 2019 08:39:01 -0500
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     hpa@zytor.com
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atishp04@gmail.com, Borislav Petkov <bp@alien8.de>,
+        dancol@google.com, Ingo Molnar <mingo@redhat.com>,
+        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+        karim.yaghmour@opersys.com, Kees Cook <keescook@chromium.org>,
+        kernel-team@android.com, linux-doc@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        paulmck@linux.vnet.ibm.com,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        rdunlap@infradead.org, rostedt@goodmis.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        yhs@fb.com
+Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
+ kernel
+Message-ID: <20190122133901.GA189736@google.com>
+References: <20190118225543.86996-1-joel@joelfernandes.org>
+ <20190119102800.GB17723@infradead.org>
+ <20190119103606.GA17400@kroah.com>
+ <8BD4CB7A-944C-4EC5-A198-1D85C9EE28D6@zytor.com>
+ <20190120161003.GB23827@google.com>
+ <A40C22DF-B43F-44BA-8148-FC0881087315@zytor.com>
+ <20190121014553.GD23827@google.com>
+ <BC774ED4-C0FC-4AA6-9BAF-36930A661D9B@zytor.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190122093408.16756-1-kilobyte@angband.pl>
-User-Agent: Mutt/1.11.2 (2019-01-07)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <BC774ED4-C0FC-4AA6-9BAF-36930A661D9B@zytor.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 22, 2019 at 10:34:08AM +0100, Adam Borowski wrote:
-> Drivers under MIT, BSD-17-clause, or uncle-Bob's-newest-take-on-PD are
-> all fine, not just GPL.
-> 
-> Signed-off-by: Adam Borowski <kilobyte@angband.pl>
-> ---
-> Not reformatting to fill lines, it'll semi-conflict with another patch
-> that's been acked but not yet pushed.
-> 
->  Documentation/process/stable-api-nonsense.rst | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/process/stable-api-nonsense.rst b/Documentation/process/stable-api-nonsense.rst
-> index 24f5aeecee91..9b69fb08b65e 100644
-> --- a/Documentation/process/stable-api-nonsense.rst
-> +++ b/Documentation/process/stable-api-nonsense.rst
-> @@ -170,7 +170,8 @@ nightmare, and trying to keep up with an ever changing kernel interface
->  is also a rough job.
->  
->  Simple, get your kernel driver into the main kernel tree (remember we
-> -are talking about GPL released drivers here, if your code doesn't fall
-> +are talking about drivers released under a GPL-compatible license here,
-> +if your code doesn't fall
->  under this category, good luck, you are on your own here, you leech
->  <insert link to leech comment from Andrew and Linus here>.)  If your
->  driver is in the tree, and a kernel interface changes, it will be fixed
+Hi Hans,
 
-Nice fix:
+Thanks for the discussion and sorry for my late reply due to the holidays.
+I replied inline below:
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On Sun, Jan 20, 2019 at 06:49:56PM -0800, hpa@zytor.com wrote:
+> On January 20, 2019 5:45:53 PM PST, Joel Fernandes <joel@joelfernandes.org> wrote:
+> >On Sun, Jan 20, 2019 at 01:58:15PM -0800, hpa@zytor.com wrote:
+> >> On January 20, 2019 8:10:03 AM PST, Joel Fernandes
+> ><joel@joelfernandes.org> wrote:
+> >> >On Sat, Jan 19, 2019 at 11:01:13PM -0800, hpa@zytor.com wrote:
+> >> >> On January 19, 2019 2:36:06 AM PST, Greg KH
+> >> ><gregkh@linuxfoundation.org> wrote:
+> >> >> >On Sat, Jan 19, 2019 at 02:28:00AM -0800, Christoph Hellwig
+> >wrote:
+> >> >> >> This seems like a pretty horrible idea and waste of kernel
+> >memory.
+> >> >> >
+> >> >> >It's only a waste if you want it to be a waste, i.e. if you load
+> >the
+> >> >> >kernel module.
+> >> >> >
+> >> >> >This really isn't any different from how /proc/config.gz works.
+> >> >> >
+> >> >> >> Just add support to kbuild to store a compressed archive in
+> >> >initramfs
+> >> >> >> and unpack it in the right place.
+> >> >> >
+> >> >> >I think the issue is that some devices do not use initramfs, or
+> >> >switch
+> >> >> >away from it after init happens or something like that.  Joel has
+> >> >all
+> >> >> >of
+> >> >> >the looney details that he can provide.
+> >> >> >
+> >> >> >thanks,
+> >> >> >
+> >> >> >greg k-h
+> >> >> 
+> >> >> Yeah, well... but it is kind of a losing game... the more
+> >in-kernel
+> >> >stuff there is the less smiley are things to actually be supported.
+> >> >
+> >> >It is better than nothing, and if this makes things a bit easier and
+> >> >solves
+> >> >real-world issues people have been having, and is optional, then I
+> >> >don't see
+> >> >why not.
+> >> >
+> >> >> Modularizing is it in some ways even crazier in the sense that at
+> >> >that point you are relying on the filesystem containing the module,
+> >> >which has to be loaded into the kernel by a root user. One could
+> >even
+> >> >wonder if a better way to do this would be to have "make
+> >> >modules_install" park an archive file – or even a directory as
+> >opposed
+> >> >to a symlink – with this stuff in /lib/modules. We could even
+> >provide a
+> >> >tmpfs shim which autoloads such an archive via the firmware loader;
+> >> >this might even be generically useful, who knows.
+> >> >
+> >> >All this seems to assume where the modules are located. In Android,
+> >we
+> >> >don't
+> >> >have /lib/modules. This patch generically fits into the grand scheme
+> >> >things
+> >> >and I think is just better made a part of the kernel since it is not
+> >> >that
+> >> >huge once compressed, as Dan also pointed. The more complex, and the
+> >> >more
+> >> >assumptions we make, the less likely people writing tools will get
+> >it
+> >> >right
+> >> >and be able to easily use it.
+> >> >
+> >> >> 
+> >> >> Note also that initramfs contents can be built into the kernel.
+> >> >Extracting such content into a single-instance tmpfs would again be
+> >a
+> >> >possibility
+> >> >
+> >> >Such an approach would bloat the kernel image size though, which may
+> >> >not work
+> >> >for everyone. The module based approach, on the other hand, gives an
+> >> >option
+> >> >to the user to enable the feature, but not have it loaded into
+> >memory
+> >> >or used
+> >> >until it is really needed.
+> >> >
+> >> >thanks,
+> >> >
+> >> > - Joel
+> >> 
+> >> Well, where are the modules? They must exist in the filesystem.
+> >
+> >The scheme of loading a module doesn't depend on _where_ the module is
+> >on the
+> >filesystem. As long as a distro knows how to load a module in its own
+> >way (by
+> >looking into whichever paths it cares about), that's all that matters. 
+> >And
+> >the module contains compressed headers which saves space, vs storing it
+> >uncompressed on the file system.
+> >
+> >To remove complete reliance on the filesystem, there is an option of
+> >not
+> >building it as a module, and making it as a built-in.
+> >
+> >I think I see your point now - you're saying if its built-in, then it
+> >becomes kernel memory that is lost and unswappable. Did I get that
+> >right?
+> >I am saying that if that's a major concern, then:
+> >1. Don't make it a built-in, make it a module.
+> >2. Don't enable it at for your distro, and use a linux-headers package
+> >or
+> >whatever else you have been using so far that works for you.
+> >
+> >thanks,
+> >
+> > - Joel
+> 
+> My point is that if we're going to actually solve a problem, we need to make it so that the distro won't just disable it anyway, and it ought to be something scalable; otherwise nothing is gained.
+
+Agreed. Although there are many ways distros can misconfigure a kernel and
+shoot themselves in the foot.
+
+> I am *not* disagreeing with the problem statement!
+
+Ok, that's great to know. Thanks for all the discussions!
+
+> Now, /proc isn't something that will autoload modules. A filesystem *will*, although you need to be able to mount it; furthermore, it makes it trivially to extend it (and the firmware interface provides an . easy way to feed the data to such a filesystem without having to muck with anything magic.)
+
+My thought is for the tools needing the module to try to load them, if they
+need the headers. And then unload the module once they are done with it.
+
+> Heck, we could even make it a squashfs image that can just be mounted.
+
+That would add another dependency on a kernel configuration though.
+
+> So, first of all, where does Android keep its modules, and what is actually included? Is /sbin/modprobe used to load the modules, as is normal? We might even be able to address this with some fairly trivial enhancements to modprobe; specifically to search in the module paths for something that isn't a module per se.
+> The best scenario would be if we could simply have the tools find the location equivalent of /lib/modules/$version/source...
+
+Sandeep answered this in the other thread, modprobe is there in Android.
+About storing sources on the filesystem, I already went down this route (this
+was my first effort) and there is quite some resistance to ship sources on
+the filesystem of an Android device due to Licensing reasons. A kernel module
+though is something that's a binary artifact and is not something
+"distributed" by Google.
+
+The other issue is with enforcing different OEM vendors that they should
+store kernel-header sources on their Android products. That's much harder to
+enforce, however we can easily enforce kernel config options be enabled,
+since we already enforce a kernel configuration options that are needed for
+Android to work correctly:
+https://source.android.com/devices/architecture/kernel/config. So this config
+option can just be another one.
+
+By the way, we can easily write a script to just extract the .ko directly -
+if the whole "load it as a module" thing bothers you. The kheaders.ko can
+just be thought of as a tarball. There's already a script to extract
+/proc/config.gz in the same/similar way: scripts/extract-ikconfig
+
+thanks,
+
+ - Joel
+
