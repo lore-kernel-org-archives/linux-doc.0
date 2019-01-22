@@ -1,74 +1,171 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C06D37D099
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Jan 2019 03:06:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CA7BB7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Jan 2019 09:17:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726839AbfAVDGw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 21 Jan 2019 22:06:52 -0500
-Received: from mga17.intel.com ([192.55.52.151]:18910 "EHLO mga17.intel.com"
+        id S1727763AbfAVJRq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 Jan 2019 04:17:46 -0500
+Received: from mx.kolabnow.com ([95.128.36.42]:4592 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726823AbfAVDGw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 21 Jan 2019 22:06:52 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Jan 2019 19:06:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,504,1539673200"; 
-   d="scan'208";a="293314382"
-Received: from gao-cwp.sh.intel.com (HELO gao-cwp) ([10.239.159.25])
-  by orsmga005.jf.intel.com with ESMTP; 21 Jan 2019 19:06:48 -0800
-Date:   Tue, 22 Jan 2019 11:10:50 +0800
-From:   Chao Gao <chao.gao@intel.com>
-To:     Ahmed Abd El Mawgood <ahmedsoliman@mena.vt.edu>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        hpa@zytor.com, x86@kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ahmedsoliman0x666@gmail.com, ovich00@gmail.com,
-        kernel-hardening@lists.openwall.com, nigel.edwards@hpe.com,
-        Boris Lukashev <blukashev@sempervictus.com>,
-        Igor Stoppa <igor.stoppa@gmail.com>
-Subject: Re: [RESEND PATCH V8 05/11] KVM: Create architecture independent ROE
- skeleton
-Message-ID: <20190122031049.GA18314@gao-cwp>
-References: <20190120233940.15282-1-ahmedsoliman@mena.vt.edu>
- <20190120233940.15282-6-ahmedsoliman@mena.vt.edu>
+        id S1727318AbfAVJRp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 22 Jan 2019 04:17:45 -0500
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 5C8FC365;
+        Tue, 22 Jan 2019 10:17:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1548148661; x=1549963062; bh=Sy9fz5u8T6Z9GyAEQ9KlgkUvpSAzdBo8ty7
+        rb+lWWq4=; b=1sNZKwjXrYpcnAUF7+GL+wgQt81zAudZQ1TmzY4gGsQihOJUda8
+        SEslQrCKBUzR1vYDKOfcMGnJBCHAkYT+1blK5CoLISvIm41ukhj6UA6oldEBBplg
+        fIFxz5V4aEDe2wo/03bsiyfDQ08UulJTpDN9B/Sn0hxdFw0ghETP+gE5n/bWsguf
+        0WsStwtl4nx3LprE7nmq+I6It+akTyqIb367KX1n7znBqrtGYvLkuAuXqO3Sbzl6
+        rpPHD4ExJrZnMMKpvSuKedwi9E/I99mBU2T55HUmyUkKuEElb+imhUx3ygO20tDK
+        hEC7fjccPEe3ywsg8trSsz/6mdn07IW8hAx6SFOL3a7npc89x4Xsx4JjCy5bYP7O
+        8rVl+W+aGMvN9Y0RYm1/TkKyVaQnRx0SMNS15aXxi+uFSyhfkwoIIt9x453iaBad
+        V/cYDchDnSKtkVljSQKCCb9KtmBVx3VkRat+uc8K+UXJZ93EHG9wa0EK6UV7tuD0
+        viKqY/Dj2JpgF/W9Rfv+aHvU8Sqn3ek5vWXts+OtEFUEFXna8fDuYtcAcwlY4FLj
+        3Zw6xwqA36eoTIINOBwNz0nOH3nCUj4VVqIYDvYOiIT80Uynv+NOw1IA6xAqGoOw
+        1TKUF3ZsCUko44DEsMJYTMkrOump8rQ7ljEHdXoL2JArWfqQ3AJORXtA=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id TyOWCGE6S0LL; Tue, 22 Jan 2019 10:17:41 +0100 (CET)
+Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id DAEB031F;
+        Tue, 22 Jan 2019 10:17:41 +0100 (CET)
+Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id 880AF2513;
+        Tue, 22 Jan 2019 10:17:41 +0100 (CET)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Greg KH <greg@kroah.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc:process: remove note from 'stable api nonsense'
+Date:   Tue, 22 Jan 2019 10:17:40 +0100
+Message-ID: <7591367.SLz3PkBNkD@pcbe13614>
+In-Reply-To: <20190121083708.GA6462@kroah.com>
+References: <20190118215804.3340-1-federico.vaga@vaga.pv.it> <53383524.y9DmdCAcNX@pcbe13614> <20190121083708.GA6462@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190120233940.15282-6-ahmedsoliman@mena.vt.edu>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 21, 2019 at 01:39:34AM +0200, Ahmed Abd El Mawgood wrote:
->This patch introduces a hypercall that can assist against subset of kernel
->rootkits, it works by place readonly protection in shadow PTE. The end
->result protection is also kept in a bitmap for each kvm_memory_slot and is
->used as reference when updating SPTEs. The whole goal is to protect the
->guest kernel static data from modification if attacker is running from
->guest ring 0, for this reason there is no hypercall to revert effect of
->Memory ROE hypercall. This patch doesn't implement integrity check on guest
->TLB so obvious attack on the current implementation will involve guest
->virtual address -> guest physical address remapping, but there are plans to
->fix that.
+On Monday, January 21, 2019 9:37:08 AM CET Greg KH wrote:
+> On Mon, Jan 21, 2019 at 09:14:00AM +0100, Federico Vaga wrote:
+> > On Monday, January 21, 2019 2:43:38 AM CET Jonathan Corbet wrote:
+> > > On Fri, 18 Jan 2019 22:58:04 +0100
+> > >=20
+> > > Federico Vaga <federico.vaga@vaga.pv.it> wrote:
+> > > > The link referred by the note can't be retrieved: this patch just
+> > > > remove that old note.
+> > > >=20
+> > > > Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+> > > > ---
+> > > >=20
+> > > >  Documentation/process/stable-api-nonsense.rst | 3 +--
+> > > >  1 file changed, 1 insertion(+), 2 deletions(-)
+> > > >=20
+> > > > diff --git a/Documentation/process/stable-api-nonsense.rst
+> > > > b/Documentation/process/stable-api-nonsense.rst index
+> > > > 24f5aeecee91..57d95a49c096 100644
+> > > > --- a/Documentation/process/stable-api-nonsense.rst
+> > > > +++ b/Documentation/process/stable-api-nonsense.rst
+> > > > @@ -171,8 +171,7 @@ is also a rough job.
+> > > >=20
+> > > >  Simple, get your kernel driver into the main kernel tree (remember=
+ we
+> > > >  are talking about GPL released drivers here, if your code doesn't
+> > > >  fall
+> > > >=20
+> > > > -under this category, good luck, you are on your own here, you leech
+> > > > -<insert link to leech comment from Andrew and Linus here>.)  If yo=
+ur
+> > > > +under this category, good luck, you are on your own here, you leec=
+h).
+> > > >  If
+> > > > your>
+> > > >=20
+> > > >  driver is in the tree, and a kernel interface changes, it will be
+> > > >  fixed
+> > > >  up by the person who did the kernel change in the first place.  Th=
+is
+> > > >  ensures that your driver is always buildable, and works over time,
+> > > >  with
+> > >=20
+> > > I've applied this.  I do wonder if the "you leech" should maybe come =
+out
+> > > too, though.  I don't think that parasitic worms are a protected class
+> > > under the CoC, but they might still suffer emotionally from being
+> > > compared to the purveyors of proprietary modules...
+> >=20
+> > I agree, do you want me to change the patch?
+>=20
+> I would leave it as-is for now please.  When this was written, there was
+> a lot of discussion about closed source modules, and how the companies
+> that created them were leeches on our development community.  No one
+> disagreed with that statement, and a number of companies privately
+> agreed with us.
+>=20
+> That still has not changed.
+>=20
+> So I would like to see this remain.
 
-Hello Ahmed,
+I agree on the message, but I disagree on the usage of "you leech".
 
-I don't quite understand the attack. Do you mean that even one guest
-page is protected by ROE, an attacker can map the virtual address to
-another unprotected guest page by editing guest page table?
+My 2 Cents
 
-Thanks
-Chao
+I do not like political correctness statements, but in this case the docume=
+nt=20
+is talking to other developers - who typically do not take decisions about=
+=20
+license - and comparing them to a leech: isn't it too much?
+
+
+Alternatives without direct comparison to leech.
+
+
+Here, I just played with punctuation to create some emphasis around "You ar=
+e=20
+on your own here".
+=2D----8<-----
+Simple, get your kernel driver into the main kernel tree. Remember we are=20
+talking about GPL released drivers here, if your code doesn=E2=80=99t fall =
+under this=20
+category, good luck. You are on your own here.
+=2D----8<-----
+
+And here I just made the reference indirect
+=2D----8<-----
+(remember we are talking about GPL released drivers here, if your code does=
+n=E2=80=99t=20
+fall under this category, good luck, you are on your own here, leeching has=
+=20
+its negative sides)
+=2D----8<-----
+
+
+I will not insist more, it is just a minor discussion about the rights of a=
+=20
+poor worm :)
+
+>=20
+> thanks,
+>=20
+> greg k-h
+
+
+=2D-=20
+=46ederico Vaga
+http://www.federicovaga.it/
+
+
