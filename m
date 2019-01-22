@@ -5,67 +5,257 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 611E17D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Jan 2019 09:34:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C2A3A7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Jan 2019 10:01:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726872AbfAVJeU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 Jan 2019 04:34:20 -0500
-Received: from tartarus.angband.pl ([54.37.238.230]:42876 "EHLO
-        tartarus.angband.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726752AbfAVJeU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jan 2019 04:34:20 -0500
-Received: from [2a02:a31c:853f:a300::6] (helo=umbar.angband.pl)
-        by tartarus.angband.pl with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <kilobyte@angband.pl>)
-        id 1glsRh-00066C-Th; Tue, 22 Jan 2019 10:34:15 +0100
-Received: from kilobyte by umbar.angband.pl with local (Exim 4.92-RC4)
-        (envelope-from <kilobyte@umbar.angband.pl>)
-        id 1glsRh-0004N3-3O; Tue, 22 Jan 2019 10:34:13 +0100
-From:   Adam Borowski <kilobyte@angband.pl>
-To:     Jonathan Corbet <corbet@lwn.net>, Greg KH <greg@kroah.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Adam Borowski <kilobyte@angband.pl>
-Date:   Tue, 22 Jan 2019 10:34:08 +0100
-Message-Id: <20190122093408.16756-1-kilobyte@angband.pl>
-X-Mailer: git-send-email 2.20.1
+        id S1727813AbfAVKBE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 22 Jan 2019 05:01:04 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57702 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727985AbfAVKBE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Jan 2019 05:01:04 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x0M9x5uT140224
+        for <linux-doc@vger.kernel.org>; Tue, 22 Jan 2019 05:01:02 -0500
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2q5ypuk8xs-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 22 Jan 2019 05:01:02 -0500
+Received: from localhost
+        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <joeln@il.ibm.com>;
+        Tue, 22 Jan 2019 10:00:59 -0000
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 22 Jan 2019 10:00:57 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x0MA0uOF65077294
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 22 Jan 2019 10:00:56 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 4C510A4051;
+        Tue, 22 Jan 2019 10:00:56 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id ACF56A405F;
+        Tue, 22 Jan 2019 10:00:54 +0000 (GMT)
+Received: from tal (unknown [9.148.32.96])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Tue, 22 Jan 2019 10:00:54 +0000 (GMT)
+Received: by tal (sSMTP sendmail emulation); Tue, 22 Jan 2019 12:00:54 +0200
+From:   Joel Nider <joeln@il.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+        Doug Ledford <dledford@redhat.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Joel Nider <joeln@il.ibm.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/3] docs-rst: Convert user verbs doc to rst
+Date:   Tue, 22 Jan 2019 12:00:33 +0200
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1548151235-386-1-git-send-email-joeln@il.ibm.com>
+References: <1548151235-386-1-git-send-email-joeln@il.ibm.com>
+X-TM-AS-GCONF: 00
+x-cbid: 19012210-0012-0000-0000-000002EB4529
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19012210-0013-0000-0000-000021227006
+Message-Id: <1548151235-386-2-git-send-email-joeln@il.ibm.com>
+Content-Type:   text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a02:a31c:853f:a300::6
-X-SA-Exim-Mail-From: kilobyte@angband.pl
-Subject: [PATCH] doc: process: GPL -> GPL-compatible
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on tartarus.angband.pl)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-22_04:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1901220081
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Drivers under MIT, BSD-17-clause, or uncle-Bob's-newest-take-on-PD are
-all fine, not just GPL.
+Move user_verbs from infiniband to userspace while changing the
+format. Replace the existing Documentation/infiniband/user_verbs.txt
+with Documentation/userspace-api/rdma_user_verbs.rst. No substantial
+changes to the content - just some minor reformatting to have the
+rendering come out nicely.
 
-Signed-off-by: Adam Borowski <kilobyte@angband.pl>
+Since this documents a userspace API, its home should be with the
+other userspace API docs.
+
+Signed-off-by: Joel Nider <joeln@il.ibm.com>
 ---
-Not reformatting to fill lines, it'll semi-conflict with another patch
-that's been acked but not yet pushed.
+ Documentation/infiniband/user_verbs.txt         | 69 ------------------------
+ Documentation/userspace-api/index.rst           |  1 +
+ Documentation/userspace-api/rdma_user_verbs.rst | 70 +++++++++++++++++++++++++
+ 3 files changed, 71 insertions(+), 69 deletions(-)
+ delete mode 100644 Documentation/infiniband/user_verbs.txt
+ create mode 100644 Documentation/userspace-api/rdma_user_verbs.rst
 
- Documentation/process/stable-api-nonsense.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/process/stable-api-nonsense.rst b/Documentation/process/stable-api-nonsense.rst
-index 24f5aeecee91..9b69fb08b65e 100644
---- a/Documentation/process/stable-api-nonsense.rst
-+++ b/Documentation/process/stable-api-nonsense.rst
-@@ -170,7 +170,8 @@ nightmare, and trying to keep up with an ever changing kernel interface
- is also a rough job.
+diff --git a/Documentation/infiniband/user_verbs.txt b/Documentation/infiniband/user_verbs.txt
+deleted file mode 100644
+index df049b9..0000000
+--- a/Documentation/infiniband/user_verbs.txt
++++ /dev/null
+@@ -1,69 +0,0 @@
+-USERSPACE VERBS ACCESS
+-
+-  The ib_uverbs module, built by enabling CONFIG_INFINIBAND_USER_VERBS,
+-  enables direct userspace access to IB hardware via "verbs," as
+-  described in chapter 11 of the InfiniBand Architecture Specification.
+-
+-  To use the verbs, the libibverbs library, available from
+-  https://github.com/linux-rdma/rdma-core, is required. libibverbs contains a
+-  device-independent API for using the ib_uverbs interface.
+-  libibverbs also requires appropriate device-dependent kernel and
+-  userspace driver for your InfiniBand hardware.  For example, to use
+-  a Mellanox HCA, you will need the ib_mthca kernel module and the
+-  libmthca userspace driver be installed.
+-
+-User-kernel communication
+-
+-  Userspace communicates with the kernel for slow path, resource
+-  management operations via the /dev/infiniband/uverbsN character
+-  devices.  Fast path operations are typically performed by writing
+-  directly to hardware registers mmap()ed into userspace, with no
+-  system call or context switch into the kernel.
+-
+-  Commands are sent to the kernel via write()s on these device files.
+-  The ABI is defined in drivers/infiniband/include/ib_user_verbs.h.
+-  The structs for commands that require a response from the kernel
+-  contain a 64-bit field used to pass a pointer to an output buffer.
+-  Status is returned to userspace as the return value of the write()
+-  system call.
+-
+-Resource management
+-
+-  Since creation and destruction of all IB resources is done by
+-  commands passed through a file descriptor, the kernel can keep track
+-  of which resources are attached to a given userspace context.  The
+-  ib_uverbs module maintains idr tables that are used to translate
+-  between kernel pointers and opaque userspace handles, so that kernel
+-  pointers are never exposed to userspace and userspace cannot trick
+-  the kernel into following a bogus pointer.
+-
+-  This also allows the kernel to clean up when a process exits and
+-  prevent one process from touching another process's resources.
+-
+-Memory pinning
+-
+-  Direct userspace I/O requires that memory regions that are potential
+-  I/O targets be kept resident at the same physical address.  The
+-  ib_uverbs module manages pinning and unpinning memory regions via
+-  get_user_pages() and put_page() calls.  It also accounts for the
+-  amount of memory pinned in the process's locked_vm, and checks that
+-  unprivileged processes do not exceed their RLIMIT_MEMLOCK limit.
+-
+-  Pages that are pinned multiple times are counted each time they are
+-  pinned, so the value of locked_vm may be an overestimate of the
+-  number of pages pinned by a process.
+-
+-/dev files
+-
+-  To create the appropriate character device files automatically with
+-  udev, a rule like
+-
+-    KERNEL=="uverbs*", NAME="infiniband/%k"
+-
+-  can be used.  This will create device nodes named
+-
+-    /dev/infiniband/uverbs0
+-
+-  and so on.  Since the InfiniBand userspace verbs should be safe for
+-  use by non-privileged processes, it may be useful to add an
+-  appropriate MODE or GROUP to the udev rule.
+diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
+index a3233da..b82720f 100644
+--- a/Documentation/userspace-api/index.rst
++++ b/Documentation/userspace-api/index.rst
+@@ -20,6 +20,7 @@ place where this information is gathered.
+    seccomp_filter
+    unshare
+    spec_ctrl
++   rdma_user_verbs
  
- Simple, get your kernel driver into the main kernel tree (remember we
--are talking about GPL released drivers here, if your code doesn't fall
-+are talking about drivers released under a GPL-compatible license here,
-+if your code doesn't fall
- under this category, good luck, you are on your own here, you leech
- <insert link to leech comment from Andrew and Linus here>.)  If your
- driver is in the tree, and a kernel interface changes, it will be fixed
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/userspace-api/rdma_user_verbs.rst b/Documentation/userspace-api/rdma_user_verbs.rst
+new file mode 100644
+index 0000000..ffc4aec
+--- /dev/null
++++ b/Documentation/userspace-api/rdma_user_verbs.rst
+@@ -0,0 +1,70 @@
++======================
++Userspace Verbs Access
++======================
++The ib_uverbs module, built by enabling CONFIG_INFINIBAND_USER_VERBS,
++enables direct userspace access to IB hardware via "verbs," as
++described in chapter 11 of the InfiniBand Architecture Specification.
++
++To use the verbs, the libibverbs library, available from
++https://github.com/linux-rdma/rdma-core, is required. libibverbs contains a
++device-independent API for using the ib_uverbs interface.
++libibverbs also requires appropriate device-dependent kernel and
++userspace driver for your InfiniBand hardware.  For example, to use
++a Mellanox HCA, you will need the ib_mthca kernel module and the
++libmthca userspace driver be installed.
++
++User-kernel communication
++=========================
++Userspace communicates with the kernel for slow path, resource
++management operations via the /dev/infiniband/uverbsN character
++devices.  Fast path operations are typically performed by writing
++directly to hardware registers mmap()ed into userspace, with no
++system call or context switch into the kernel.
++
++Commands are sent to the kernel via write()s on these device files.
++The ABI is defined in drivers/infiniband/include/ib_user_verbs.h.
++The structs for commands that require a response from the kernel
++contain a 64-bit field used to pass a pointer to an output buffer.
++Status is returned to userspace as the return value of the write()
++system call.
++
++Resource management
++===================
++Since creation and destruction of all IB resources is done by
++commands passed through a file descriptor, the kernel can keep track
++of which resources are attached to a given userspace context.  The
++ib_uverbs module maintains idr tables that are used to translate
++between kernel pointers and opaque userspace handles, so that kernel
++pointers are never exposed to userspace and userspace cannot trick
++the kernel into following a bogus pointer.
++
++This also allows the kernel to clean up when a process exits and
++prevent one process from touching another process's resources.
++
++Memory pinning
++==============
++Direct userspace I/O requires that memory regions that are potential
++I/O targets be kept resident at the same physical address.  The
++ib_uverbs module manages pinning and unpinning memory regions via
++get_user_pages() and put_page() calls.  It also accounts for the
++amount of memory pinned in the process's locked_vm, and checks that
++unprivileged processes do not exceed their RLIMIT_MEMLOCK limit.
++
++Pages that are pinned multiple times are counted each time they are
++pinned, so the value of locked_vm may be an overestimate of the
++number of pages pinned by a process.
++
++/dev files
++==========
++To create the appropriate character device files automatically with
++udev, a rule like::
++
++   KERNEL=="uverbs*", NAME="infiniband/%k"
++
++can be used.  This will create device nodes named::
++
++    /dev/infiniband/uverbs0
++
++and so on.  Since the InfiniBand userspace verbs should be safe for
++use by non-privileged processes, it may be useful to add an
++appropriate MODE or GROUP to the udev rule.
 -- 
-2.20.1
+2.7.4
 
