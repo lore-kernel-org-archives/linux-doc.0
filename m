@@ -1,126 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DB5047D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Jan 2019 14:32:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 163FC7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Jan 2019 15:33:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727065AbfAWOcB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 Jan 2019 09:32:01 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:38539 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725995AbfAWOcA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Jan 2019 09:32:00 -0500
-Received: by mail-pf1-f195.google.com with SMTP id q1so1271770pfi.5;
-        Wed, 23 Jan 2019 06:31:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=q6zr4duEuqkHqp/AxXwzIfvCn+2hBll4m8lmlyLiYcA=;
-        b=d1YXDq03trpU1Gc53mbDtCXSdqiT25thEg03HzDBoL4dEY233GcfkVFoMPj6NiPadE
-         A2bwQTdA15w7R+Wozlx2jxDxxjVHOSknrLu3Tesw4V2o/TAbV5D/fSo98wG/IXiMj/Ir
-         My/veSriRP/3p7fXHtDnpuT5WtTJ6pibHb3bL4fp38BX+VpVH7rAI60uANRqQ6mLjC3v
-         qOH8AmKZ5KU29dy/hj9xOh7O+3RDbNKPZ9mVZbB0Y/YifyoyaJhT5miOrLS/s4FWmecx
-         3Z7vyxXkZCB1lIgTJT9odhOfHTb4mlgj+YZ7XDzHJ1iu9VdiJnY0YHBYhk0J1zpmjwDo
-         BGfA==
+        id S1726096AbfAWPdX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 Jan 2019 10:33:23 -0500
+Received: from mail-ua1-f68.google.com ([209.85.222.68]:39934 "EHLO
+        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725930AbfAWPdX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Jan 2019 10:33:23 -0500
+Received: by mail-ua1-f68.google.com with SMTP id c12so843970uas.6;
+        Wed, 23 Jan 2019 07:33:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=q6zr4duEuqkHqp/AxXwzIfvCn+2hBll4m8lmlyLiYcA=;
-        b=VnL6qQkpRLRf+brBBnTpenKHsRKyXNQ2WK1AdNSpT0Xc0GE84GoBGqGqRt14XnkMVf
-         S3F/yVAgJL1liczhNoXoasxk2mizkpF3Zh/kVLZh0f7BdMWTqwLhAwN/BVmD8zUOLJvz
-         58UqMyF4YxHW75XeQvudYUQwNZiFfo/iINyCl9mr9Exn9iuK9IQ6i916tmelv99IHrMC
-         CB0MzynLedkrqCbcR7Q0G/r6kZuk+b21XfSschSuXzXHYwag4/IAQnzwjLfrsBMm7XTn
-         5BI1TZhI2C9bWH2bpE6/T8O4ThrseOYWSuWAn3K6rvy+RH2oJXJVSDYFY4kOhwFUcodt
-         RjHQ==
-X-Gm-Message-State: AJcUukdHR5xyjDXWaqMVjKtNPvHA8UUAupVqZYm2W5ihf6g0Q0oSJ1NF
-        UA1bUFm7wiA8ZKUoDtanhSqVKj0CTCY=
-X-Google-Smtp-Source: ALg8bN7tWAzWd9WdstBK53g+Xbj8sxXWFsslmLyqSE3AbFUZsb7/5+DQRrDsORffy03cxkdl02+Gvg==
-X-Received: by 2002:a63:9256:: with SMTP id s22mr2085019pgn.224.1548253919646;
-        Wed, 23 Jan 2019 06:31:59 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id y1sm24595808pfe.9.2019.01.23.06.31.57
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 23 Jan 2019 06:31:58 -0800 (PST)
-Subject: Re: [PATCH v8 05/26] clocksource: Add driver for the Ingenic JZ47xx
- OST
-To:     Mathieu Malaterre <malat@debian.org>,
-        Paul Cercueil <paul@crapouillou.net>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ezequiel Garcia <ezequiel@collabora.co.uk>,
-        PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>,
-        linux-pwm@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        linux-watchdog@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org, od@zcrc.me,
-        Maarten ter Huurne <maarten@treewalker.org>
-References: <20181212220922.18759-1-paul@crapouillou.net>
- <20181212220922.18759-6-paul@crapouillou.net>
- <CA+7wUsxNN2SL9_7tDh0DiBAgdUwxd_osgmi=09HP7110Tm0DYQ@mail.gmail.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <128675a5-7ede-4114-a649-89a536346dc8@roeck-us.net>
-Date:   Wed, 23 Jan 2019 06:31:57 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZSHkQMfLLdepeDCVQenJz5d2pdB1BZBSB6tWTabXfX0=;
+        b=a+pWmVEeJw/FwjM9W2UzJIOxPfUFRTe94DPW3itwK3v1VTFAkfTByG+pVmZk2RTWkg
+         QW5blRCuctw/w+JpiGU+KxTbNw++cdHABlezWkj+rj3qtRpsum8TQtajV4BV7qECWRv9
+         xnmMdp4sadtKJsYXnN/S/Az+ZOrfOBdGSS+dduTtcadO+sxOsS3TYV+mfHlFGJmGqGO4
+         c65vsa+nk4DLTfQ2HQ99e85MRJvenBGDhEBjlgknUdGZwHZu7J+qmRwMGmvlTyONjP+c
+         p0391ex47YSXJ4cXbpcOM5o85OkiGbdOlk24F6DJ/y4jvXsqZhBc8b5wUdhDs1OGAfFP
+         JBoQ==
+X-Gm-Message-State: AJcUukfa2pXPnNmHGwbc2qsZXmRMS36ozOrWJASOAZ6IJqnpB4bPvEj5
+        6fJt7SwU38GJwlN7mJsDlE0VpcqA1g0WB+nXVyQQg5ck
+X-Google-Smtp-Source: ALg8bN411XN+/POecIOHkbERwk16PlKxGOoUzZRR+A06ByaQtAch2faN4J7KsCjNSKQqXO/AlB0D4mENUIQ4ibIYn7I=
+X-Received: by 2002:ab0:1393:: with SMTP id m19mr976671uae.75.1548257602011;
+ Wed, 23 Jan 2019 07:33:22 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CA+7wUsxNN2SL9_7tDh0DiBAgdUwxd_osgmi=09HP7110Tm0DYQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20181211202406.27721-1-robh@kernel.org>
+In-Reply-To: <20181211202406.27721-1-robh@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 23 Jan 2019 16:33:10 +0100
+Message-ID: <CAMuHMdUZHi87Dv=m4USocfQ60s6_uHmny5DvCVm+hZ98+ROvdA@mail.gmail.com>
+Subject: Re: [PATCH v4] kbuild: Add support for DT binding schema checks
+To:     Rob Herring <robh@kernel.org>
+Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Sean Hudson <darknighte@darknighte.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Grant Likely <grant.likely@arm.com>,
+        Kumar Gala <kumar.gala@linaro.org>, arm-soc <arm@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/23/19 4:58 AM, Mathieu Malaterre wrote:
-> On Wed, Dec 12, 2018 at 11:09 PM Paul Cercueil <paul@crapouillou.net> wrote:
->>
->> From: Maarten ter Huurne <maarten@treewalker.org>
->>
->> OST is the OS Timer, a 64-bit timer/counter with buffered reading.
->>
->> SoCs before the JZ4770 had (if any) a 32-bit OST; the JZ4770 and
->> JZ4780 have a 64-bit OST.
->>
->> This driver will register both a clocksource and a sched_clock to the
->> system.
->>
->> Signed-off-by: Maarten ter Huurne <maarten@treewalker.org>
->> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->> ---
->>
->> Notes:
->>       v5: New patch
->>
->>       v6: - Get rid of SoC IDs; pass pointer to ingenic_ost_soc_info as
->>             devicetree match data instead.
->>           - Use device_get_match_data() instead of the of_* variant
->>           - Handle error of dev_get_regmap() properly
->>
->>       v7: Fix section mismatch by using builtin_platform_driver_probe()
->>
->>       v8: builtin_platform_driver_probe() does not work anymore in
->>           4.20-rc6? The probe function won't be called. Work around this
->>           for now by using late_initcall.
->>
+Hi Rob,
 
-Did anyone notice this ? Either something is wrong with the driver, or
-with the kernel core. Hacking around it seems like the worst possible
-"solution".
+On Tue, Dec 11, 2018 at 9:24 PM Rob Herring <robh@kernel.org> wrote:
+> This adds the build infrastructure for checking DT binding schema
+> documents and validating dts files using the binding schema.
+>
+> Check DT binding schema documents:
+> make dt_binding_check
+>
+> Build dts files and check using DT binding schema:
+> make dtbs_check
+>
+> Optionally, DT_SCHEMA_FILES can be passed in with a schema file(s) to
+> use for validation. This makes it easier to find and fix errors
+> generated by a specific schema.
+>
+> Currently, the validation targets are separate from a normal build to
+> avoid a hard dependency on the external DT schema project and because
+> there are lots of warnings generated.
 
-Guenter
+Thanks, I'm giving this a try, and get errors like:
+
+      DTC     arch/arm/boot/dts/emev2-kzm9d.dt.yaml
+    FATAL ERROR: No markers present in property 'cpu0' value
+
+and
+
+      DTC     arch/arm64/boot/dts/renesas/r8a7795-salvator-x.dt.yaml
+    FATAL ERROR: No markers present in property 'audio_clk_a' value
+
+Do you have a clue?
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
