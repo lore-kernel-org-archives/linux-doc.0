@@ -1,147 +1,233 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-4.5 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,RCVD_IN_SORBS_WEB autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EDF4B7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Jan 2019 20:23:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 465067D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Jan 2019 21:29:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726101AbfAWUXW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 Jan 2019 15:23:22 -0500
-Received: from mx.kolabnow.com ([95.128.36.42]:35008 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726035AbfAWUXW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 23 Jan 2019 15:23:22 -0500
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id E5A95658;
-        Wed, 23 Jan 2019 21:23:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-transfer-encoding:content-type:content-type:mime-version
-        :message-id:date:date:subject:subject:from:from:received
-        :received:received; s=dkim20160331; t=1548274997; x=1550089398;
-         bh=pPaA/6PU9D8RLaJ3eAVllinKWh+K6DClev5miX+hjCo=; b=5EDDlqTKcePT
-        LUBwxZFSTVckO1Fct05mnQYw51/FB/0H7f0bVn0ajORmihlDgN8kxriUtj5Q0b+w
-        7MA4FwDGV+Bay1pJhldR5ScllugpuOOAdRsyDaduQxgzSvx2jWXKrj4sjWHGj9ut
-        ee/+QeoGP3aaNkgT/CSwguzfQNDxcjzbmucXs8S5ieV+zbnJdAjGDcz6X5XgRcqT
-        y73lTUGnEWUUmG+kjB+WHxK2+aCdVLPDyNHS/fGlNGt4ahANs7jjHbSlsf6Xo4h+
-        7wKRjngroYBVVlln0+tTlY6A/66JGMBFwrj6QODuARvkYHYbaXsAznXVNA/FIKFb
-        spPUWHITqWMdcQXXbg0XfuheyUJmHh/sOSLvFgZVySoR2iT4U2fleITaNxsM9ChL
-        6I2P5YvLASXNKw5j4OUj1RfRo8QCVL7HjGtZrOMX7r8Uh6S9ZgiX2cTtMe/D70k2
-        u7CaB0PBiDR+sHNEQl78HpwLOcVEVVliNM0Dp9Jdh4NJio921JZhYCDOahfFjbOO
-        MBKsatChVOlsWqojoJbVpMf1/u2nTYlaazMpsHES31hY26VzLWcQKMqJm165Voph
-        y1rdzGDXJ9ytJ2WPuj5Jw1No+cqZ+/ZtVlrK+B34/VTLTI1B/O3LfMtAYsbVUusL
-        uKudwyUAyM05BtTZbPJvC0MiuDT71eM=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id NgeO-eEFlnhv; Wed, 23 Jan 2019 21:23:17 +0100 (CET)
-Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id A3ED0B6;
-        Wed, 23 Jan 2019 21:23:17 +0100 (CET)
-Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
-        by int-mx002.mykolab.com (Postfix) with ESMTPS id 3BAC325A6;
-        Wed, 23 Jan 2019 21:23:17 +0100 (CET)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: [PATCH] doc:it_IT: update coding-style - expectations around bool
-Date:   Wed, 23 Jan 2019 21:22:55 +0100
-Message-Id: <20190123202255.16479-1-federico.vaga@vaga.pv.it>
+        id S1726982AbfAWV32 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 Jan 2019 16:29:28 -0500
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:35446 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726352AbfAWV32 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Jan 2019 16:29:28 -0500
+Received: by mail-ed1-f67.google.com with SMTP id x30so2916358edx.2
+        for <linux-doc@vger.kernel.org>; Wed, 23 Jan 2019 13:29:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=opersys-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=NtPwTB8HjhhIEWo/aYz8QPWMMTlqzbdNK2buzkp8Dxo=;
+        b=WOXxP/Z0GGoaivWqmpurkMtewZVQOTYSIMaOViKQM2tUBNiQj0Re6f1WV9AC0Git49
+         +rKFHYy/XbIudgQ0SclB5WBgAjOJkB6UKs1hUjZVrnb3GCaA691dyZP347vlOMMD5mUN
+         vB6fnRHkpR4sUJPGVzINJo16EDtS4JWB8iySY7TIesGHfSufYsZAB/+Dossh6wwxiDaU
+         oDTUFxUgWMXN9By6mfOvE67g04ff/JfK+q7FpdnbOBeU7VWm17YCW8+i0foh+FOYepaj
+         GjQEKwylaQDC+t2Qj0CXngQg/RN3LC0it1NNdT2JeA5FMZi9jDRq1O8ZGFeYMlhmKGEF
+         ReWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=NtPwTB8HjhhIEWo/aYz8QPWMMTlqzbdNK2buzkp8Dxo=;
+        b=Jli/ddttGSnfZKKFinchUWkp/GTsXHIdylFutLEnXQHkD81jt139HCr5ZdYXGLgTxj
+         8aiJSaBHGBG65cLYMsR5sY1csmCPV6SqmoWEKWdhsJKfpNELtcxCboDZ038i2+DWdy5A
+         aajfuFkq8q5zFXpYWZyGViDYQQDqnVSL+XbtJXFLTjbcIghOpkvMfqrd7cD00JVDw/7m
+         uXpVnTgUI67XCsiB12XkGj7147QObEDwVed6bprrQcO9SPIQ37qmgaiatk5Q4yAOyQ/H
+         nBS34+OIsqe/rp/Lzo4lVqunajPi9X54jgrr+/5iPz61IixH/E0cnGB8zDob8QooCfvq
+         XhLw==
+X-Gm-Message-State: AJcUukd45wR4QLlJevdcwhfJPLVc+Wlm9hCQNdoJIeB38uVmuH5wbt+m
+        rIIHa9fHH3U8nYMHq3aaeBAHMQ==
+X-Google-Smtp-Source: ALg8bN6br09mJj2UPzniCd+JKwqHsdJ7LYv+/fDjGICwZNa2bCEJ9rDwfIOBWmLHpsS+FuqB0NyzGg==
+X-Received: by 2002:a50:c408:: with SMTP id v8mr4136946edf.144.1548278966510;
+        Wed, 23 Jan 2019 13:29:26 -0800 (PST)
+Received: from [192.168.1.101] ([62.140.137.151])
+        by smtp.googlemail.com with ESMTPSA id 97sm10658923edq.45.2019.01.23.13.29.24
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 23 Jan 2019 13:29:25 -0800 (PST)
+Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
+ kernel
+To:     Joel Fernandes <joel@joelfernandes.org>, hpa@zytor.com
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atishp04@gmail.com, Borislav Petkov <bp@alien8.de>,
+        dancol@google.com, Ingo Molnar <mingo@redhat.com>,
+        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        paulmck@linux.vnet.ibm.com,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        rdunlap@infradead.org, rostedt@goodmis.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        yhs@fb.com
+References: <20190118225543.86996-1-joel@joelfernandes.org>
+ <20190119102800.GB17723@infradead.org> <20190119103606.GA17400@kroah.com>
+ <8BD4CB7A-944C-4EC5-A198-1D85C9EE28D6@zytor.com>
+ <20190120161003.GB23827@google.com>
+ <A40C22DF-B43F-44BA-8148-FC0881087315@zytor.com>
+ <20190121014553.GD23827@google.com>
+ <BC774ED4-C0FC-4AA6-9BAF-36930A661D9B@zytor.com>
+ <20190122133901.GA189736@google.com>
+From:   Karim Yaghmour <karim.yaghmour@opersys.com>
+Message-ID: <117d2f96-b0e9-2376-69b7-836fa0c52539@opersys.com>
+Date:   Wed, 23 Jan 2019 22:29:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190122133901.GA189736@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch translates in Italian the content of the following patch
 
-7967656ffbfa coding-style: Clarify the expectations around bool
+On 1/22/19 2:39 PM, Joel Fernandes wrote:
+[snip]
+> On Sun, Jan 20, 2019 at 06:49:56PM -0800, hpa@zytor.com wrote:
+[snip]
+>> My point is that if we're going to actually solve a problem, we need to make it so that the distro won't just disable it anyway, and it ought to be something scalable; otherwise nothing is gained.
+> 
+> Agreed. Although there are many ways distros can misconfigure a kernel and
+> shoot themselves in the foot.
+> 
+>> I am *not* disagreeing with the problem statement!
+> 
+> Ok, that's great to know. Thanks for all the discussions!
+> 
+>> Now, /proc isn't something that will autoload modules. A filesystem *will*, although you need to be able to mount it; furthermore, it makes it trivially to extend it (and the firmware interface provides an . easy way to feed the data to such a filesystem without having to muck with anything magic.)
+> 
+> My thought is for the tools needing the module to try to load them, if they
+> need the headers. And then unload the module once they are done with it.
+> 
+>> Heck, we could even make it a squashfs image that can just be mounted.
+> 
+> That would add another dependency on a kernel configuration though.
+> 
+>> So, first of all, where does Android keep its modules, and what is actually included? Is /sbin/modprobe used to load the modules, as is normal? We might even be able to address this with some fairly trivial enhancements to modprobe; specifically to search in the module paths for something that isn't a module per se.
+>> The best scenario would be if we could simply have the tools find the location equivalent of /lib/modules/$version/source...
+> 
+> Sandeep answered this in the other thread, modprobe is there in Android.
+> About storing sources on the filesystem, I already went down this route (this
+> was my first effort) and there is quite some resistance to ship sources on
+> the filesystem of an Android device due to Licensing reasons. A kernel module
+> though is something that's a binary artifact and is not something
+> "distributed" by Google.
+> 
+> The other issue is with enforcing different OEM vendors that they should
+> store kernel-header sources on their Android products. That's much harder to
+> enforce, however we can easily enforce kernel config options be enabled,
+> since we already enforce a kernel configuration options that are needed for
+> Android to work correctly:
+> https://source.android.com/devices/architecture/kernel/config. So this config
+> option can just be another one.
+> 
+> By the way, we can easily write a script to just extract the .ko directly -
+> if the whole "load it as a module" thing bothers you. The kheaders.ko can
+> just be thought of as a tarball. There's already a script to extract
+> /proc/config.gz in the same/similar way: scripts/extract-ikconfig
 
-Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
----
- .../it_IT/process/coding-style.rst            | 43 ++++++++++++++++---
- 1 file changed, 38 insertions(+), 5 deletions(-)
+If I may add a few more thoughts here ... in no specific order:
 
-diff --git a/Documentation/translations/it_IT/process/coding-style.rst b/Documentation/translations/it_IT/process/coding-style.rst
-index dfdefb951b89..2fd0e7f79d55 100644
---- a/Documentation/translations/it_IT/process/coding-style.rst
-+++ b/Documentation/translations/it_IT/process/coding-style.rst
-@@ -949,7 +949,40 @@ qualche valore fuori dai limiti.  Un tipico esempio è quello delle funzioni
- che ritornano un puntatore; queste utilizzano NULL o ERR_PTR come meccanismo
- di notifica degli errori.
- 
--17) Non reinventate le macro del kernel
-+17) L'uso di bool
-+-----------------
-+
-+Nel kernel Linux il tipo bool deriva dal tipo _Bool dello standard C99.
-+Un valore bool può assumere solo i valori 0 o 1, e implicitamente o
-+esplicitamente la conversione a bool converte i valori in vero (*true*) o
-+falso (*false*).  Quando si usa un tipo bool il costrutto !! non sarà più
-+necessario, e questo va ad eliminare una certa serie di bachi.
-+
-+Quando si usano i valori booleani, dovreste utilizzare le definizioni di true
-+e false al posto dei valori 1 e 0.
-+
-+Per il valore di ritorno delle funzioni e per le variabili sullo stack, l'uso
-+del tipo bool è sempre appropriato.  L'uso di bool viene incoraggiato per
-+migliorare la leggibilità e spesso è molto meglio di 'int' nella gestione di
-+valori booleani.
-+
-+Non usate bool se per voi sono importanti l'ordine delle righe di cache o
-+la loro dimensione; la dimensione e l'allineamento cambia a seconda
-+dell'architettura per la quale è stato compilato.  Le strutture che sono state
-+ottimizzate per l'allineamento o la dimensione non dovrebbero usare bool.
-+
-+Se una struttura ha molti valori true/false, considerate l'idea di raggrupparli
-+in un intero usando campi da 1 bit, oppure usate un tipo dalla larghezza fissa,
-+come u8.
-+
-+Come per gli argomenti delle funzioni, molti valori true/false possono essere
-+raggruppati in un singolo argomento a bit denominato 'flags'; spesso 'flags' è
-+un'alternativa molto più leggibile se si hanno valori costanti per true/false.
-+
-+Detto ciò, un uso parsimonioso di bool nelle strutture dati e negli argomenti
-+può migliorare la leggibilità.
-+
-+18) Non reinventate le macro del kernel
- ---------------------------------------
- 
- Il file di intestazione include/linux/kernel.h contiene un certo numero
-@@ -973,7 +1006,7 @@ rigido sui tipi.  Sentitevi liberi di leggere attentamente questo file
- d'intestazione per scoprire cos'altro è stato definito che non dovreste
- reinventare nel vostro codice.
- 
--18) Linee di configurazione degli editor e altre schifezze
-+19) Linee di configurazione degli editor e altre schifezze
- -----------------------------------------------------------
- 
- Alcuni editor possono interpretare dei parametri di configurazione integrati
-@@ -1007,8 +1040,8 @@ d'indentazione e di modalità d'uso.  Le persone potrebbero aver configurato una
- modalità su misura, oppure potrebbero avere qualche altra magia per far
- funzionare bene l'indentazione.
- 
--19) Inline assembly
-----------------------
-+20) Inline assembly
-+-------------------
- 
- Nel codice specifico per un'architettura, potreste aver bisogno di codice
- *inline assembly* per interfacciarvi col processore o con una funzionalità
-@@ -1040,7 +1073,7 @@ al fine di allineare correttamente l'assembler che verrà generato:
- 	     "more_magic %reg2, %reg3"
- 	     : /* outputs */ : /* inputs */ : /* clobbers */);
- 
--20) Compilazione sotto condizione
-+21) Compilazione sotto condizione
- ---------------------------------
- 
- Ovunque sia possibile, non usate le direttive condizionali del preprocessore
+I've been helping customers put Android in all sorts of weird devices 
+over the past decade, handsets included, and have had a front-row seat 
+to how this ecosystem works/has-evolved (Google, SoC vendors, 
+manufacturers, etc.) One thing that stands out is that while the outside 
+perception might be that Google has a stronghold on what "partners" do, 
+the reality is that almost any rule that can be broken will be broken by 
+someone in the ecosystem. And yet, still, Google somehow has to manage 
+and provide app developers and, ultimately, consumers with a coherent 
+experience, while still herding everyone to more-or-less go in the same 
+direction ...
+
+ From that point of view, if something comes from or is rooted in 
+mainline, instead of being mandated, it's usually easier to find it 
+across the board. A perfect example of this is ftrace. The fact that 
+it's in mainline has enabled google to: a) instrument their entire stack 
+to log events to it (see 
+http://www.opersys.com/downloads/cc-slides/android-debug/slides-main-181012.html#/82 
+and 
+http://www.opersys.com/downloads/cc-slides/android-debug/slides-main-181012.html#/83), 
+and b) provide app-developer-facing tools (see 
+https://developer.android.com/studio/command-line/systrace). Since this 
+tracing functionality is now integrated into Android Studio (look for 
+"System Trace" here: 
+https://developer.android.com/studio/profile/cpu-profiler), it's very 
+much "standard android" and additional proof, if any was needed, that 
+tracing is useful to everyone.
+
+A few years back I was asked by a customer to put together some class 
+material for internal Android debugging and performance analysis 
+(commercial disclaimer applies, but slides/exercises are under 
+"courseware": 
+http://www.opersys.com/training/android-debug-and-performance). ftrace 
+was very much in those early versions and it was great to show people 
+that they could use it "out of the box". Recently I wanted to update 
+this class material to cover eBPF and its applicability in Android. Holy 
+cow. That turned out to be less obvious than necessary and somewhat 
+peculiar to pull off. In this specific case, Joel tried a few things 
+(see 
+http://www.opersys.com/downloads/cc-slides/android-debug/slides-main-181012.html#/111) 
+before eventually settling on loading a Debian chroot jail into a live 
+Android (https://github.com/joelagnel/adeb) ... all of which require a 
+proper set of kernel headers to properly function. Don't get me wrong, 
+Joel's Androdeb makes this easy, but it's still outside the standard 
+Android MO.
+
+In short, let's just say that, contrary to ftrace, I don't see the path 
+for eBPF to being part of the standard toolset used by app developers 
+any time soon. The recently-released bpftrace might help in that regard, 
+but the kernel headers aren't too far in that regard either.
+
+Personally I advocated a more aggressive approach with Joel in private: 
+just put the darn headers straight into the kernel image, it's the 
+*only* artifact we're sure will follow the Android device whatever 
+happens to it (like built-in ftrace). To that end, I even had some crazy 
+ideas on how to compress the headers even further than with std 
+compression algorithms -- here's a snippet from an email I sent Joel 
+some time back detailing such a hack:
+> Since C headers have fairly constrained semantics and since the types of semantics generally used to name structs, etc. in the Linux kernel are well established, we can likely devise a very customized compression algorithm for the purpose.
+> 
+> We know, for example, that there are quite a few ascii characters that can't be found in a normal header. So we can play some games. Say, replace all the "#" dictionary with 2 bytes, the first being a magic (illegal) ascii character and the 2nd with a constant. As such, we could replace all #foo entries with 2 bytes:
+> #define goes from 7 bytes to 2
+> #include from 8 to 2
+> #ifdef from 6 to 2
+> etc.
+> 
+> The same goes for several keywords of the C language and words very often found in Linux kernel headers:
+> struct from 6 to 2
+> linux from 5 to 2
+> CONFIG from 6 to 2
+> "unsigned long" from 13 to 2
+> etc.
+> 
+> And if we run out of space with one magic character (256), we can start using a next one.
+> 
+> We'd have a script that runs at build time that does this replacement, and we could even package the counter-script as part of the kernel image the to convert the "cooked" headers back to their original format; ex: Steven has a README in the ftrace directory.
+> 
+> Such a replacement strategy combined with stripping comments and gzipping the result may provide some very interesting compression results. 
+
+Whether such craziness makes sense or is adopted or not isn't mine to 
+chart, but I certainly can't see eBPF reaching the same mass deployment 
+ftrace has within the Android ecosystem until there's a way to use it 
+without having to chase kernel headers independently of kernel images. 
+There are "too many clicks" involved and someone somewhere will drop the 
+ball if it's not glued to the kernel in some way shape or form. Any 
+solution that solves this is one I'd love to hear about.
+
+My $0.02
+
 -- 
-2.20.1
-
+Karim Yaghmour
+CEO - Opersys inc. / www.opersys.com
+http://twitter.com/karimyaghmour
