@@ -1,73 +1,142 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7248A7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 22 Jan 2019 18:46:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9396D7D8A9
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 23 Jan 2019 11:01:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726015AbfAVSqg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 22 Jan 2019 13:46:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33308 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725984AbfAVSqf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 22 Jan 2019 13:46:35 -0500
-Received: from localhost (5356596B.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A112D21019;
-        Tue, 22 Jan 2019 18:46:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1548182795;
-        bh=tl9DCLKXjAhXy9ycBvnviTa/2UvZp7jSj4VYZkcOkmA=;
-        h=Date:From:To:Cc:Subject:From;
-        b=hzMnRk08UUUJER3sBFFjC/OWuKamTjdtDHi8eRKcqlkCF1ggVJhgGaGsCvvYvlmwB
-         eVym28nmG4SfkSsuLSpeqrxIo/p7LLS5qJCEGHaTiXr4ubCXm3lNJcKngh3pynyt8L
-         Z49rv483ClfyDwH54U5yDw6QW7yyDExqFqB0NVZE=
-Date:   Tue, 22 Jan 2019 19:46:32 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Sasha Levin <sashal@kernel.org>, stable@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH] stable-kernel-rules.rst: add link to networking patch queue
-Message-ID: <20190122184632.GA32510@kroah.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.11.2 (2019-01-07)
+        id S1727110AbfAWLBl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 Jan 2019 06:01:41 -0500
+Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:44882 "EHLO
+        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726207AbfAWLBl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Jan 2019 06:01:41 -0500
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436312|-1;CH=green;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03301;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=17;RT=17;SR=0;TI=SMTPD_---.Dpcewgu_1548241289;
+Received: from PC-liaoweixiong.allwinnertech.com(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.Dpcewgu_1548241289)
+          by smtp.aliyun-inc.com(10.147.42.198);
+          Wed, 23 Jan 2019 19:01:36 +0800
+From:   liaoweixiong <liaoweixiong@allwinnertech.com>
+To:     Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        liaoweixiong <liaoweixiong@allwinnertech.com>
+Subject: [RFC v6 0/4] pstore/block: new support logger for block devices
+Date:   Wed, 23 Jan 2019 19:00:56 +0800
+Message-Id: <1548241260-4679-1-git-send-email-liaoweixiong@allwinnertech.com>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The networking maintainer keeps a public list of the patches being
-queued up for the next round of stable releases.  Be sure to check there
-before asking for a patch to be applied so that you do not waste
-people's time.
+Why should we need pstore_block?
+1. Most embedded intelligent equipment have no persistent ram, which
+increases costs. We perfer to cheaper solutions, like block devices.
+In fast, there is already a sample for block device logger in driver
+MTD (drivers/mtd/mtdoops.c).
+2. Do not any equipment have battery, which means that it lost all data
+on general ram if power failure. Pstore has little to do for these
+equipments.
 
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Acked-by: David S. Miller <davem@davemloft.net>
----
+[PATCH v6]
+On patch 1:
+1. Fix according to email from Kees Cook, including spelling mistakes, explicit
+   overflow test, none of the zeroing etc.
+2. Do not recover data but metadata of dmesg when panic.
+3. No need to take recovery when do erase.
+4. Do not use "blkoops" for blkzone any more because "blkoops" is used for other
+   module now.(rename blkbuf to blkoops)
+On patch 2:
+1. Rename blkbuf to blkoops.
+2. Add Kconfig/device tree/module parameters settings for blkoops.
+3. Add document for device tree.
+On patch 3:
+1. Blkoops support pmsg.
+2. Fix description for new version patch.
+On patch 4:
+1. Fix description for new version patch.
 
-Jon, I can take this through one of my trees if you don't want to, which
-ever is easier for you.
+[PATCH v5]
+On patch 1:
+1. rename pstore/rom to pstore/blk
+2. Do not allocate any memory in the write path of panic. So, use local
+array instead in function romz_recover_dmesg_meta.
+3. Add C header file "linux/fs.h" to fix implicit declaration of function
+   'filp_open','kernel_read'...
+On patch 3:
+1. If panic, do not recover pmsg but flush if it is dirty.
+2. Fix erase pmsg failed.
+On patch 4:
+1. Create a document for pstore/blk
 
+[PATCH v4]
+On patch 1:
+1. Fix always true condition '(--i >= 0) => (0-u32max >= 0)' in function
+   romz_init_zones by defining variable i to 'int' rahter than
+   'unsigned int'.
+2. To make codes more easily to read, we use macro READ_NEXT_ZONE for
+   return value of romz_dmesg_read if it need to read next zone.
+   Moveover, we assign READ_NEXT_ZONE -1024 rather than 0.
+3. Add 'FLUSH_META' to 'enum romz_flush_mode' and rename 'NOT_FLUSH' to
+   'FLUSH_NONE'
+4. Function romz_zone_write work badly with FLUSH_PART mode as badly
+   address and offset to write.
+On patch 3:
+NEW SUPPORT psmg for pstore_rom.
 
-diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
-index 0de6f6145cc6..7ba8cd567f84 100644
---- a/Documentation/process/stable-kernel-rules.rst
-+++ b/Documentation/process/stable-kernel-rules.rst
-@@ -38,6 +38,9 @@ Procedure for submitting patches to the -stable tree
-  - If the patch covers files in net/ or drivers/net please follow netdev stable
-    submission guidelines as described in
-    :ref:`Documentation/networking/netdev-FAQ.rst <netdev-FAQ>`
-+   after first checking the stable networking queue at
-+   https://patchwork.ozlabs.org/bundle/davem/stable/?series=&submitter=&state=*&q=&archive=
-+   to ensure the requested patch is not already queued up.
-  - Security patches should not be handled (solely) by the -stable review
-    process but should follow the procedures in
-    :ref:`Documentation/admin-guide/security-bugs.rst <securitybugs>`.
+[PATCH v3]
+On patch 1:
+Fix build as module error for undefined 'vfs_read' and 'vfs_write'
+Both of 'vfs_read' and 'vfs_write' haven't be exproted yet, so we use
+'kernel_read' and 'kernel_write' instead.
+
+[PATCH v2]
+On patch 1:
+Fix build as module error for redefinition of 'romz_unregister' and
+'romz_register'
+
+[PATCH v1]
+On patch 1:
+Core codes of pstore_rom, which works well on allwinner(sunxi) platform.
+On patch 2:
+A sample for pstore_rom, using general ram rather than block device.
+
+liaoweixiong (4):
+  pstore/blk: new support logger for block devices
+  pstore/blk: add blkoops for pstore_blk
+  pstore/blk: support pmsg for pstore block
+  Documentation: pstore/blk: create document for pstore_blk
+
+ Documentation/admin-guide/pstore-block.rst         |  227 ++++
+ .../devicetree/bindings/pstore-block/blkoops.txt   |   32 +
+ MAINTAINERS                                        |    4 +-
+ fs/pstore/Kconfig                                  |  128 +++
+ fs/pstore/Makefile                                 |    5 +
+ fs/pstore/blkoops.c                                |  250 +++++
+ fs/pstore/blkzone.c                                | 1163 ++++++++++++++++++++
+ include/linux/pstore_blk.h                         |   62 ++
+ 8 files changed, 1870 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/admin-guide/pstore-block.rst
+ create mode 100644 Documentation/devicetree/bindings/pstore-block/blkoops.txt
+ create mode 100644 fs/pstore/blkoops.c
+ create mode 100644 fs/pstore/blkzone.c
+ create mode 100644 include/linux/pstore_blk.h
+
+-- 
+1.9.1
+
