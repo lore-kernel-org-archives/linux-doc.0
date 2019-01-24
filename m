@@ -1,161 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 39E387D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Jan 2019 21:16:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 69C937D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Jan 2019 21:26:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727639AbfAXVPl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 Jan 2019 16:15:41 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:40959 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725936AbfAXVPl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jan 2019 16:15:41 -0500
-Received: by mail-pl1-f196.google.com with SMTP id u18so3470039plq.7
-        for <linux-doc@vger.kernel.org>; Thu, 24 Jan 2019 13:15:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xO/xPi1H9RcNh3zL0bmtPchp8X0vIpi2bmKGvABys10=;
-        b=nEU93vo9p1DcR+610e4VL627dSQ3fC1I2asgSaFjUWi4z8xBZmpbzT1frZ2MDGNByX
-         8posn5i2ohAcTxoWWwj4UvqlcfIFKFCmvAt3kLd01Pk6Dsy1ZF2ID7VJH4Q6CHnzG64i
-         oWOI7QJQwqJ4xz0mOWcXzel1GuFklJ6xYsgj4waaHRSB0B1AU3CvfqF/ow+AqO1ov6kY
-         rNpJ1cPOT1qFOLTVDqxjspdFbVXmmDwk+97A0e4Ut4cJm04TH2EnkPuCxGb/dincba2K
-         pjZqQMLs8h794KA62MZm5LXikOYg7Cb77228LjWdROmB+LoXMm2TSCOxJOEAp7db4pK7
-         DGKA==
+        id S1727743AbfAXV0Y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 Jan 2019 16:26:24 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:36572 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726095AbfAXV0Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jan 2019 16:26:24 -0500
+Received: by mail-oi1-f194.google.com with SMTP id x23so6120205oix.3;
+        Thu, 24 Jan 2019 13:26:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xO/xPi1H9RcNh3zL0bmtPchp8X0vIpi2bmKGvABys10=;
-        b=X7LoMicrHlTVA1YKz9wiMjxymeXCxGpVaKM2gwjL3CVwDX9pzlsMl+KJRV6wmGB8WT
-         aJtTKLnOFaKBg/jLhmTBuYkGamk2qN1QugHXD2uT5NDl2UKSz+0MS+2fI8Qf+YJP7ssX
-         U82LkN+xQyoAT2BYfOwrMXpXpA0xJ7oy4JJUMMI5cpRC6JsOVstejlXEob8TSNelKfhj
-         TZMLd7bFdGsktDyAsro9ZMtKFecE+oC+E8lDmjmVOuN++VPE/fdcA6nyiHXmHziP3DI4
-         NbW2wFHCXI1wKPMc04OTSGx18xVa9vLrnMRsJx1cCK1iNq5KPJhZ++Fqoj/Jvn6FpZFb
-         GqLA==
-X-Gm-Message-State: AJcUukfDx6/9R5NIpyXv+141b+4aIMiEcTn4uGmyFMA4KHSGnPj7zvJC
-        yHFQz1zmrnTYIGaykVpk0bwTNg==
-X-Google-Smtp-Source: ALg8bN61idbTluJOJwYMGOZ1awTthKG4I4dpmY3hOSMr3gMUs1dElf+ZY2FrGHicAlxE6OKULRh2Ig==
-X-Received: by 2002:a17:902:4624:: with SMTP id o33mr7963957pld.289.1548364539901;
-        Thu, 24 Jan 2019 13:15:39 -0800 (PST)
-Received: from surenb0.mtv.corp.google.com ([2620:0:1000:1612:3320:4357:47df:276b])
-        by smtp.googlemail.com with ESMTPSA id j197sm29626418pgc.76.2019.01.24.13.15.38
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 24 Jan 2019 13:15:38 -0800 (PST)
-From:   Suren Baghdasaryan <surenb@google.com>
-To:     gregkh@linuxfoundation.org
-Cc:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
-        axboe@kernel.dk, dennis@kernel.org, dennisszhou@gmail.com,
-        mingo@redhat.com, peterz@infradead.org, akpm@linux-foundation.org,
-        corbet@lwn.net, cgroups@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-team@android.com, Suren Baghdasaryan <surenb@google.com>
-Subject: [PATCH v3 0/5] psi: pressure stall monitors v3
-Date:   Thu, 24 Jan 2019 13:15:13 -0800
-Message-Id: <20190124211518.244221-1-surenb@google.com>
-X-Mailer: git-send-email 2.20.1.321.g9e740568ce-goog
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3BKASeLMZBaJ/TSA8g4AVbiUtB0M/I+YsAh4EUI6f1I=;
+        b=mDtGIznVqujHLrgFv5n+7AyN5AubPd3qnXa+qSLCYmp0zzvpxKZWx4ahzJWfcG1d2p
+         BxJ4ACl3yaIDL2T+bvHqWvUBet4fJol6Q4DwJ9W4bv2EgSMhNnE1f/tth9zxwlQQ+4oE
+         Kl0r2p8MwQr5u/kcrOS830UlZDZmaf/Rk33fUa+Oo3HqNi59JPD2itaQ39tCXAZLY0Zr
+         DTsFUlsWGq2DXlB2c+cEjCgexOragOK742bQyypeGwLYZ6TIgj76beeRGZRi2MDG5XMA
+         iUalQOSe3p2RP+WGFF13QxgvQc3gV6kOwUmXTRLmpihwck8yyGv+foFm7fuslMcvpo3u
+         DzYw==
+X-Gm-Message-State: AJcUukerRzh2GAGduKjuMY0STW1N8gXROmUXczutRcKaQTFd0iTpNFGa
+        QssSBU1Gm69iinqS7y1RDvirnEO3gXV4rz+x0wA=
+X-Google-Smtp-Source: ALg8bN7I3dzDDE37T4ya0I4Yuv8D8lZBMBAURA28lB6dUyh12DiW6fMx2EYsyoDEAfqqSDW+YjKTTsdBaZHHFjc0U1s=
+X-Received: by 2002:aca:5117:: with SMTP id f23mr2405614oib.72.1548365182672;
+ Thu, 24 Jan 2019 13:26:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20181212220922.18759-1-paul@crapouillou.net>
+In-Reply-To: <20181212220922.18759-1-paul@crapouillou.net>
+From:   Mathieu Malaterre <malat@debian.org>
+Date:   Thu, 24 Jan 2019 22:26:11 +0100
+Message-ID: <CA+7wUszMOvGoPSVOKP7F_KHxgJvjBGT7oJmn5EO62hGGTQK4KA@mail.gmail.com>
+Subject: Re: [PATCH v8 00/26] Ingenic TCU patchset v8
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ezequiel Garcia <ezequiel@collabora.co.uk>,
+        PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>,
+        linux-pwm@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        linux-watchdog@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org, od@zcrc.me
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is respin of:
-  https://lwn.net/ml/linux-kernel/20190110220718.261134-1-surenb@google.com/
+Paul,
 
-Android is adopting psi to detect and remedy memory pressure that
-results in stuttering and decreased responsiveness on mobile devices.
+On Wed, Dec 12, 2018 at 11:09 PM Paul Cercueil <paul@crapouillou.net> wrote:
+>
+> Hi,
+>
+> Here's the version 8 and hopefully final version of my patchset, which
+> adds support for the Timer/Counter Unit found in JZ47xx SoCs from
+> Ingenic.
 
-Psi gives us the stall information, but because we're dealing with
-latencies in the millisecond range, periodically reading the pressure
-files to detect stalls in a timely fashion is not feasible. Psi also
-doesn't aggregate its averages at a high-enough frequency right now.
+I can no longer boot my MIPS Creator CI20 with this series (merged
+opendingux/for-upstream-timer-v8).
 
-This patch series extends the psi interface such that users can
-configure sensitive latency thresholds and use poll() and friends to
-be notified when these are breached.
+Using screen+ttyUSB, I can see messages stopping at:
 
-As high-frequency aggregation is costly, it implements an aggregation
-method that is optimized for fast, short-interval averaging, and makes
-the aggregation frequency adaptive, such that high-frequency updates
-only happen while monitored stall events are actively occurring.
+...
+[  OK  ] Started Cgroup management daemon.
+         Starting Regular background program processing daemon...
+[  OK  ] Started Regular background program processing daemon.
+         Starting System Logging Service...
+         Starting Provide limited super user privileges to specific users...
+         Starting Restore /etc/resolv.conf if the system cras...s shut down....
+         Starting WPA supplicant...
+         Starting D-Bus System Message Bus...
+[  OK  ] Started D-Bus System Message Bus.
 
-With these patches applied, Android can monitor for, and ward off,
-mounting memory shortages before they cause problems for the user.
-For example, using memory stall monitors in userspace low memory
-killer daemon (lmkd) we can detect mounting pressure and kill less
-important processes before device becomes visibly sluggish. In our
-memory stress testing psi memory monitors produce roughly 10x less
-false positives compared to vmpressure signals. Having ability to
-specify multiple triggers for the same psi metric allows other parts
-of Android framework to monitor memory state of the device and act
-accordingly.
+Nothing really stands out in the error messages. Could you suggest
+things to try out to get into a bootable state ?
 
-The new interface is straight-forward. The user opens one of the
-pressure files for writing and writes a trigger description into the
-file descriptor that defines the stall state - some or full, and the
-maximum stall time over a given window of time. E.g.:
 
-        /* Signal when stall time exceeds 100ms of a 1s window */
-        char trigger[] = "full 100000 1000000"
-        fd = open("/proc/pressure/memory")
-        write(fd, trigger, sizeof(trigger))
-        while (poll() >= 0) {
-                ...
-        };
-        close(fd);
-
-When the monitored stall state is entered, psi adapts its aggregation
-frequency according to what the configured time window requires in
-order to emit event signals in a timely fashion. Once the stalling
-subsides, aggregation reverts back to normal.
-
-The trigger is associated with the open file descriptor. To stop
-monitoring, the user only needs to close the file descriptor and the
-trigger is discarded.
-
-Patches 1-4 prepare the psi code for polling support. Patch 5
-implements the adaptive polling logic, the pressure growth detection
-optimized for short intervals, and hooks up write() and poll() on the
-pressure files.
-
-The patches were developed in collaboration with Johannes Weiner.
-
-The patches are based on 4.20-rc7.
-
-Johannes Weiner (2):
-  fs: kernfs: add poll file operation
-  kernel: cgroup: add poll file operation
-
-Suren Baghdasaryan (3):
-  psi: introduce state_mask to represent stalled psi states
-  psi: rename psi fields in preparation for psi trigger addition
-  psi: introduce psi monitor
-
- Documentation/accounting/psi.txt | 104 ++++++
- fs/kernfs/file.c                 |  31 +-
- include/linux/cgroup-defs.h      |   4 +
- include/linux/kernfs.h           |   6 +
- include/linux/psi.h              |  10 +
- include/linux/psi_types.h        |  83 ++++-
- kernel/cgroup/cgroup.c           | 119 +++++-
- kernel/sched/psi.c               | 605 ++++++++++++++++++++++++++++---
- 8 files changed, 891 insertions(+), 71 deletions(-)
-
-Changes in v3:
-- Added smp_mb in the slowpath, as per Peter
-- Changed psi_group.polling flag to atomic_t, as per Peter
-- Added a comment in the hotpath about implicit smp_wmb in the
-chmxchg, as per Johannes
-- Minimized line-breaks wherever possible, as per Peter
-
--- 
-2.20.1.321.g9e740568ce-goog
-
+> The big change is that the timer driver has been simplified. The code to
+> dynamically update the system timer or clocksource to a new channel has
+> been removed. Now, the system timer and clocksource are provided as
+> children nodes in the devicetree, and the TCU channel to use for these
+> is deduced from their respective memory resource. The PWM driver will
+> also deduce from its memory resources whether a given PWM channel can be
+> used, or is reserved for the system timers.
+>
+> Kind regards,
+> - Paul Cercueil
+>
