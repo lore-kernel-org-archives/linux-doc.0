@@ -1,116 +1,125 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A73387D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Jan 2019 13:27:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5387E7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Jan 2019 14:18:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727556AbfAXN1d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 Jan 2019 08:27:33 -0500
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:41738 "EHLO
-        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726105AbfAXN1d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jan 2019 08:27:33 -0500
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07492714|-1;CH=green;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03305;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=14;RT=14;SR=0;TI=SMTPD_---.Dq7P6Ro_1548336445;
-Received: from 172.16.10.102(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.Dq7P6Ro_1548336445)
-          by smtp.aliyun-inc.com(10.147.42.22);
-          Thu, 24 Jan 2019 21:27:26 +0800
-Subject: Re: [RFC v5 1/4] pstore/blk: new support logger for block devices
-To:     Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Kees Cook <keescook@chromium.org>
-Cc:     Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S1727562AbfAXOS0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 Jan 2019 09:18:26 -0500
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:36206 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727600AbfAXOSY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jan 2019 09:18:24 -0500
+Received: by mail-qt1-f196.google.com with SMTP id t13so6674020qtn.3
+        for <linux-doc@vger.kernel.org>; Thu, 24 Jan 2019 06:18:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Skgo5z9eJrMNa3iKEaytgJwZNUVdVDbHbeZE63F3NTM=;
+        b=yNHjIS0RUjmjSVgNCZuEmnai/AWXdZdxhVo5KnKrxFp3CLCpxQ1O/FHQSPzhDnoCz+
+         4km35tLrGopa6q5oXvRlY9UWTkOCCM309D5pLu1ZCsr7UlXnSwIpkajKcWmHXZC7QbH6
+         ZlcC6Xh4DNGrDG8F2yWbCFEPwCpVqkWh0/AQU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Skgo5z9eJrMNa3iKEaytgJwZNUVdVDbHbeZE63F3NTM=;
+        b=FDdZ+MRHRB8dqcD8PnXEMxz5Xrvp8L0MQP859+0CRf6oNQjaMKTdH4td3LVeyFRRy6
+         AymVpfbrKEgvpgBYgeVw2Swml5RPwxq5Q6gN6q2UQHBLNPdtDCwm+IvApAuX7sCw7eKg
+         RNrFWCcWFUn6HAjwjgH6Xtve0Nju0PeUKijjPDp2BG5ok+vcEXl19dirP2oDuXx81qgp
+         iI6hwr8qKYvV5yzuwebQxY6UMPxSzGhDk1Vw6X4u1AtyLItPYRcfyyStilO9p7+eDqE2
+         MxIxZeNm5MT8yQHxtPI97Dh8dBIuEylYUrBbLhccJd+DFCjr1nIRlfI8osm8O2gI0ZTF
+         ybXQ==
+X-Gm-Message-State: AJcUukc98Usq52A3nvr5CDIOyI60V9ykpRPhlVRCbFjW5zsXKUylrfKL
+        13QsatGNQrGCDSEykVRe05b+HA==
+X-Google-Smtp-Source: ALg8bN6H+RibSIYE5wCeIFQjFIrYx+ErfTeIQamXHGqjBXY088xzCNCHQGFWRafEGYms1bySHwklJQ==
+X-Received: by 2002:a0c:d0a8:: with SMTP id z37mr6326530qvg.86.1548339502151;
+        Thu, 24 Jan 2019 06:18:22 -0800 (PST)
+Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
+        by smtp.gmail.com with ESMTPSA id r24sm76718067qtr.2.2019.01.24.06.18.20
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 24 Jan 2019 06:18:20 -0800 (PST)
+Date:   Thu, 24 Jan 2019 09:18:20 -0500
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Daniel Colascione <dancol@google.com>
+Cc:     Karim Yaghmour <karim.yaghmour@opersys.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atish patra <atishp04@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
+        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <1546862462-19640-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1546862462-19640-2-git-send-email-liaoweixiong@allwinnertech.com>
- <CAGXu5jKjTPJNf0BgGAB_T3hFgwP3infRuegzJ-+qGxfGxpBgmA@mail.gmail.com>
- <1497804b-f921-b0cf-1327-3b17beaf9ce7@allwinnertech.com>
- <20190123181949.GC2792@darkstar.musicnaut.iki.fi>
-From:   liaoweixiong <liaoweixiong@allwinnertech.com>
-Message-ID: <8f02a568-c1ab-fb10-7654-cb5db2d7a745@allwinnertech.com>
-Date:   Thu, 24 Jan 2019 21:27:30 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>, rostedt@goodmis.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        yhs@fb.com
+Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
+ kernel
+Message-ID: <20190124141820.GA75378@google.com>
+References: <20190119103606.GA17400@kroah.com>
+ <8BD4CB7A-944C-4EC5-A198-1D85C9EE28D6@zytor.com>
+ <20190120161003.GB23827@google.com>
+ <A40C22DF-B43F-44BA-8148-FC0881087315@zytor.com>
+ <20190121014553.GD23827@google.com>
+ <BC774ED4-C0FC-4AA6-9BAF-36930A661D9B@zytor.com>
+ <20190122133901.GA189736@google.com>
+ <117d2f96-b0e9-2376-69b7-836fa0c52539@opersys.com>
+ <CAKOZuesWgo3CZj49aUChX_-dpijCrVLxgVZChyLLmOWXCLQf-Q@mail.gmail.com>
+ <20190124023216.GA75730@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20190123181949.GC2792@darkstar.musicnaut.iki.fi>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190124023216.GA75730@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019-01-24 02:19, Aaro Koskinen wrote:
-> Hi,
+On Wed, Jan 23, 2019 at 09:32:16PM -0500, Joel Fernandes wrote:
+> On Wed, Jan 23, 2019 at 02:37:47PM -0800, Daniel Colascione wrote:
+> > On Wed, Jan 23, 2019 at 1:29 PM Karim Yaghmour
+> > <karim.yaghmour@opersys.com> wrote:
+> [...]
+> > > Personally I advocated a more aggressive approach with Joel in private:
+> > > just put the darn headers straight into the kernel image, it's the
+> > > *only* artifact we're sure will follow the Android device whatever
+> > > happens to it (like built-in ftrace).
+> > 
+> > I was thinking along similar lines. Ordinarily, we make loadable
+> > kernel modules. What we kind of want here is a non-loadable kernel
+> > module --- or a non-loadable section in the kernel image proper. I'm
+> > not familiar with early-stage kernel loader operation: I know it's
+> > possible to crease discardable sections in the kernel image, but can
+> > we create sections that are never slurped into memory in the first
+> > place? If not, maybe loading and immediately discarding the header
+> > section is good enough.
 > 
-> On Sat, Jan 19, 2019 at 04:53:48PM +0800, liaoweixiong wrote:
->> On 2019-01-18 08:12, Kees Cook wrote:
->>>> MTD (drivers/mtd/mtdoops.c).
->>>
->>> Would mtdoops get dropped in favor of pstore/blk, or do they not share
->>> features?
->>
->> We can show them what pstore/blk do. I think they will be interested in it.
->> They should do a little work, including make a function for panic read,
->> then they gain enhanced features, including present logs as a file,
->> record multiple logs.
+> I am happy to see if I can shrink it down further. Especially using xz and
+> stripping all comments period. I am optimistic this can be brought down
+> further to a point where it would make sense to everyone to build it into the
+> kernel. Lets see.
 > 
-> mtdoops has been in use over a decade and known working. What benefits
-> this new framework would offer? (BTW I don't see MTD as "block device".)
-> 
+> Last time I stripped comments, it went down by ~40%. What I haven't tried is
+> doing this *with* xz compression. I am also open to brainstorming what else
+> can be stripped.
 
-Pstore/blk is NOT to replace mtdoops, but to enhance it. Mtdoops provides
-operation interface for panic and pstore/blk manage the special
-partition space.
+Removing comments (/* */) with xz compression brings it down to 3.3MB.
 
-The combination of pstore/blk and mtdoops brings follow benefits:
-1. Not only panic/oops, but also all feature of pstore, such as console,
-ftrace, pmsg, etc.
-2. Display log as a file. Pstore/blk can save multiple records and
-display all of them as files. Users have no need to parse the partition,
-just read files to get what they wants.
-3. User can get more information, such as the trigger time, the trigger
-count, etc.
-4. ... perhaps other benefits that I can't think of right now
+thanks,
 
-> Why should there be a panic read? That adds complexity. This codes runs
-> on panic path, so it should be as simple and fast as possible.
-> 
+ - Joel
 
-Read operation is only used to recover old data. Pstore/blk will do
-recovery only one time before write (when trigger a new crash) and read
-(when mount pstore filesystem). Most of the time, pstore/blk will do
-read by general operation rather than panic read. However, how if kernel
-panic when pstore/blk do not recover yet? That's why we need panic read.
-
-In addition, pstore/blk do not recover log when panic. It just recover
-the trigger counter and next position. Pstore/blk need old count to
-accumulate count, next position to avoid damage to old records.
-
-> Also compatibility has to be there. E.g. user upgrades an old system
-> (with mtdoops and related userspace) to a new kernel. Upgrade fails,
-> so the old software must be able to read the panic dumps properly to
-> tell the user why.
-> 
-
-This is really a problem, because the header of each records is very
-different between pstore/blk and mtdoops. But i think it is not fatal.
-
-> A.
-> 
-
--- 
-liaoweixiong
