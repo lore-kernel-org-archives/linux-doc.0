@@ -1,119 +1,76 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C4FD27D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Jan 2019 21:42:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CE3137D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Jan 2019 21:56:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727548AbfAXVmB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 Jan 2019 16:42:01 -0500
-Received: from outils.crapouillou.net ([89.234.176.41]:55058 "EHLO
-        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726347AbfAXVmB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jan 2019 16:42:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1548366117; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=CvRzEbTgAQ9trPEVGxl/lVEhzA9RVr/wI5nkhToSdgg=;
-        b=oChVkpbeL3xIHMcvcFvke5Gn2a3wSxpeTab0ZXH0owYo46vXNHQYHSpDX9YndxIpSQSt6i
-        /eU15Wt7jHeKzldO+xpCQfHnm9FN/2P16qqpq9nPweT/ILXKfKMFdsuJFfG9xrPFPaxXaB
-        rIwv/bG+wLDX7Q1U3j0xecUFwp3P6OM=
-Date:   Thu, 24 Jan 2019 18:41:35 -0300
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v8 00/26] Ingenic TCU patchset v8
-To:     Mathieu Malaterre <malat@debian.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ezequiel Garcia <ezequiel@collabora.co.uk>,
-        PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>,
-        linux-pwm@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        linux-watchdog@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org, od@zcrc.me
-Message-Id: <1548366095.3881.1@crapouillou.net>
-In-Reply-To: <CA+7wUszMOvGoPSVOKP7F_KHxgJvjBGT7oJmn5EO62hGGTQK4KA@mail.gmail.com>
-References: <20181212220922.18759-1-paul@crapouillou.net>
-        <CA+7wUszMOvGoPSVOKP7F_KHxgJvjBGT7oJmn5EO62hGGTQK4KA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+        id S1728033AbfAXV4G (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 Jan 2019 16:56:06 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:39508 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727264AbfAXV4G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jan 2019 16:56:06 -0500
+Received: by mail-pg1-f194.google.com with SMTP id w6so3266058pgl.6;
+        Thu, 24 Jan 2019 13:56:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=T+fv3v7JZhFM4KScnOfIU+Wzz4uiNEPlJBmf2fLB6L4=;
+        b=Pw9ZpEJG/QcIyvMwCM9CN8hkB44HI8KijmZAs597f9WG0POOttIZqCtUydmWg8Iiy3
+         y5RaUc4SQhIaDSnKLU5s3iNOn22Tl3Dz94kOW5W2lYJ1IIN59vruAdKzdjATXnbbfs+p
+         ZaZBlF4+euOKtbmYrVJICVB3o15Tg1dqH5QuIsP07J+jgCTs9agoEELN6KIUOHxN9VSA
+         vIb3fhfXYHWmit/BsQhceEdYm9xqtpIQHGxkpS9u/jJezbVhi7CjgI4T1kib4P4IKtNV
+         qYwsuwueeRwrGdXVdQO21bCv91vYzW5BXmzrKppF+q7X1cYC4nFTAGYS3g2fXH0ta8QP
+         xMTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=T+fv3v7JZhFM4KScnOfIU+Wzz4uiNEPlJBmf2fLB6L4=;
+        b=GWPmiwjpLSxRaTPdzXz+f6sa0dzxFP97v1ZG+wmJrpAsQMTeyb6ZaSrxKkI1jePZRn
+         PXZvVmMr5HsFl8f5uGOBw/VWslGtwKPIHVb2Zu8x0e/w8RnRergHGdYqBbyL9Ryq8nL+
+         1bOlWAT4Jwc70uJFDQi+0pYmqqZi5YypdRI7GhBJZaxo87n/PLwOZZvNHjJyKIl519m4
+         fE6QoARNZWch7cPVQTaLDvwZQhqL4/0LkkCcfVR5A+TTUR8k3ya3TVtQJAk9KrOr0bNK
+         4g+BWyo7tgU26BcM21fnW715w6OW0FvFA+H5r7RNJtVkgHlUyLYE+kVFfKt60C/L2SJF
+         kyfg==
+X-Gm-Message-State: AJcUukfjAyh6aCDen5rSSveJV9kodrS/o1E1iPW1AVdippMiRcjy2BEG
+        syt5mF7/MU2xzRf6D7HPcHDzKyx3
+X-Google-Smtp-Source: ALg8bN4Thxcgnnc3xa3IoUlFJcO6YHJhAy0Fp2EzYUs8ggBeNomBBKubB6wkId46dMzyTF4G1QcpZQ==
+X-Received: by 2002:a63:3602:: with SMTP id d2mr7428913pga.404.1548366965394;
+        Thu, 24 Jan 2019 13:56:05 -0800 (PST)
+Received: from localhost.localdomain ([147.46.240.179])
+        by smtp.gmail.com with ESMTPSA id g26sm29122593pfh.61.2019.01.24.13.56.03
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Thu, 24 Jan 2019 13:56:04 -0800 (PST)
+From:   SeongJae Park <sj38.park@gmail.com>
+To:     paulmck@linux.ibm.com
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        SeongJae Park <sj38.park@gmail.com>
+Subject: [PATCH 0/2] Korean translation of memory-barriers.txt update
+Date:   Fri, 25 Jan 2019 06:55:46 +0900
+Message-Id: <20190124215548.4991-1-sj38.park@gmail.com>
+X-Mailer: git-send-email 2.10.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mathieu,
+This patchset updates the Korean translation of memory-barriers.txt to follow
+latest changes.  It has been reviewed by my one Korean colleague.
 
-Le jeu. 24 janv. 2019 =E0 18:26, Mathieu Malaterre <malat@debian.org> a=20
-=E9crit :
-> Paul,
->=20
-> On Wed, Dec 12, 2018 at 11:09 PM Paul Cercueil <paul@crapouillou.net>=20
-> wrote:
->>=20
->>  Hi,
->>=20
->>  Here's the version 8 and hopefully final version of my patchset,=20
->> which
->>  adds support for the Timer/Counter Unit found in JZ47xx SoCs from
->>  Ingenic.
->=20
-> I can no longer boot my MIPS Creator CI20 with this series (merged
-> opendingux/for-upstream-timer-v8).
->=20
-> Using screen+ttyUSB, I can see messages stopping at:
->=20
-> ...
-> [  OK  ] Started Cgroup management daemon.
->          Starting Regular background program processing daemon...
-> [  OK  ] Started Regular background program processing daemon.
->          Starting System Logging Service...
->          Starting Provide limited super user privileges to specific=20
-> users...
->          Starting Restore /etc/resolv.conf if the system cras...s=20
-> shut down....
->          Starting WPA supplicant...
->          Starting D-Bus System Message Bus...
-> [  OK  ] Started D-Bus System Message Bus.
->=20
-> Nothing really stands out in the error messages. Could you suggest
-> things to try out to get into a bootable state ?
+SeongJae Park (2):
+  sched/Documentation/kokr: Update Korean translation to update
+    wake_up() & co. memory-barrier guarantees
+  locking/memory-barriers/kokr: Update Korean translation to replace
+    smp_cond_acquire() with smp_cond_load_acquire()
 
-I'm debugging it right now on jz4740, it seems to happen when the=20
-clocksource
-from the ingenic-timer driver is used. Is it your case? It should not=20
-happen
-if you have CONFIG_INGENIC_OST set.
+ .../translations/ko_KR/memory-barriers.txt         | 49 ++++++++++++----------
+ 1 file changed, 28 insertions(+), 21 deletions(-)
 
->>  The big change is that the timer driver has been simplified. The=20
->> code to
->>  dynamically update the system timer or clocksource to a new channel=20
->> has
->>  been removed. Now, the system timer and clocksource are provided as
->>  children nodes in the devicetree, and the TCU channel to use for=20
->> these
->>  is deduced from their respective memory resource. The PWM driver=20
->> will
->>  also deduce from its memory resources whether a given PWM channel=20
->> can be
->>  used, or is reserved for the system timers.
->>=20
->>  Kind regards,
->>  - Paul Cercueil
->>=20
-=
+-- 
+2.10.0
 
