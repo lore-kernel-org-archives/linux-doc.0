@@ -1,121 +1,83 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 328AF7D913
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Jan 2019 08:21:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D7CC17D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Jan 2019 12:16:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727465AbfAXIVT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 Jan 2019 03:21:19 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:34972 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725939AbfAXIVS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jan 2019 03:21:18 -0500
-Received: by mail-pf1-f193.google.com with SMTP id z9so2636117pfi.2;
-        Thu, 24 Jan 2019 00:21:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=0y1ezL9X/SIUgFdkrB4elxMQTqNblnhcJB9m76gUSaM=;
-        b=EbQkg16PB7kARzTvW1R18r0nA/Lt1GH1mks3yVpOr/PnsKgva6Og/9uDWG5/XvpE3X
-         Lf8dJpMLKUQqklA1zqu9lyz35HoLMPqa2cR9R9K/mYnT20kKWf0lANEbl66y6PcZvw7w
-         MeOCzPDkQNEE/Od4Jg0H7AP3b8Jb7Rje8DQWTAvDwrpp4vFdnFh7WPchO4CloARQ7hLP
-         dKuA9B7N75n5jiAvJdqOBugJJvhn3EhNc6EYmLdUSEQCe/rJWCJwmmd1pD0MPKBEtatQ
-         6JpGJ+WWq/PF8zWblbwA8SwhPTYikN+HtbAe8ZzJuhn3JXnKnaOoKbxBd/NAIlnbW5/R
-         MFtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=0y1ezL9X/SIUgFdkrB4elxMQTqNblnhcJB9m76gUSaM=;
-        b=h4Xve+/vHYpWPEB7QXHmiU40+yD0nWUNdiC5ak0IwhZf8JmWQLSrD5SVBDlKpVLV66
-         0YJKFt2jfPEjpEohxZc6CnP4+dzxwvm8iGzHLpb9/b6tvTvcHxtk6QxajVLuiImXTXDk
-         gGgSXoUpLBA65fHs6VMLSVyUQEUYLtRoyHKqYrPccQXZPmbGAsTLA1Wz4RdmyA57dET/
-         ETnHcJ50nDYejxnK0n8CF1v3az54LrWp2qJya8vrmeQmZN4wx9lkjoVMO7Hc6ifwmB9m
-         ds/Lok+wRLfqszOqOlJe6O7xF5Y/vJMhdpJsKMuNsIW1DVy938NmZTVG3b2wxRkGjpvp
-         b8UQ==
-X-Gm-Message-State: AJcUukcN+dblp0MkZ0mYJGv5KlyP7WxfqfrZQpu1mHRo4SuEiZGEl6ez
-        3eLtkr28ZqK9cjQiuIi/9CI=
-X-Google-Smtp-Source: ALg8bN5a3L74lBlg1shkQDMc7YrpzWADC4QopioNqMdCSQmhtdS8pZaMn7ZlJXg/tA+ZxIupGXifbg==
-X-Received: by 2002:a62:d885:: with SMTP id e127mr5473236pfg.197.1548318075589;
-        Thu, 24 Jan 2019 00:21:15 -0800 (PST)
-Received: from localhost.localdomain ([147.46.240.179])
-        by smtp.gmail.com with ESMTPSA id 125sm31623378pfd.124.2019.01.24.00.21.13
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Thu, 24 Jan 2019 00:21:14 -0800 (PST)
-From:   SeongJae Park <sj38.park@gmail.com>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        SeongJae Park <sj38.park@gmail.com>
-Subject: [PATCH 5/5] doc:process:kokr: Update Korean translation to add links where missing
-Date:   Thu, 24 Jan 2019 17:20:32 +0900
-Message-Id: <20190124082032.32327-5-sj38.park@gmail.com>
-X-Mailer: git-send-email 2.10.0
-In-Reply-To: <20190124082032.32327-1-sj38.park@gmail.com>
-References: <20190124082032.32327-1-sj38.park@gmail.com>
+        id S1727556AbfAXMQj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 Jan 2019 07:16:39 -0500
+Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:52975 "EHLO
+        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726105AbfAXMQj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jan 2019 07:16:39 -0500
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.08874351|-1;CH=green;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03311;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=17;RT=17;SR=0;TI=SMTPD_---.Dq5zod3_1548332185;
+Received: from 172.16.10.102(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.Dq5zod3_1548332185)
+          by smtp.aliyun-inc.com(10.147.43.230);
+          Thu, 24 Jan 2019 20:16:26 +0800
+Subject: Re: [RFC v7 0/5] pstore/block: new support logger for block devices
+To:     Aaro Koskinen <aaro.koskinen@iki.fi>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <1548245116-6360-1-git-send-email-liaoweixiong@allwinnertech.com>
+ <20190123182638.GD2792@darkstar.musicnaut.iki.fi>
+From:   liaoweixiong <liaoweixiong@allwinnertech.com>
+Message-ID: <5f243418-c6bd-061e-1161-1c0139ad84bf@allwinnertech.com>
+Date:   Thu, 24 Jan 2019 20:16:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190123182638.GD2792@darkstar.musicnaut.iki.fi>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate this commit to Korean:
+On 2019-01-24 02:26, Aaro Koskinen wrote:
+> Hi,
+> 
+> On Wed, Jan 23, 2019 at 08:05:11PM +0800, liaoweixiong wrote:
+>> Why should we need pstore_block?
+>> 1. Most embedded intelligent equipment have no persistent ram, which
+>> increases costs. We perfer to cheaper solutions, like block devices.
+>> In fast, there is already a sample for block device logger in driver
+>> MTD (drivers/mtd/mtdoops.c).
+> 
+> I think you should add a patch for some actual block device using this
+> new framework to show that it can work. What HW you think would be
+> using things?
+> 
 
-  f77af637f29d ("doc:process: add links where missing")
+I will try to add a patch. Actually, I have implemented it on allwinner
+platform, but unfortunately these codes are unsuitable to submit to
+upper stream.
 
-Signed-off-by: SeongJae Park <sj38.park@gmail.com>
----
- Documentation/translations/ko_KR/howto.rst | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+In addition, there is already a sample for pstore/blk on patch 3 of
+version 7. It names
+blkoops. Blkoops is suitable for most block device as what it need is
+just a path of a partition. We can use it to test most of features but
+panic.
 
-diff --git a/Documentation/translations/ko_KR/howto.rst b/Documentation/translations/ko_KR/howto.rst
-index cfd6a42..1525243 100644
---- a/Documentation/translations/ko_KR/howto.rst
-+++ b/Documentation/translations/ko_KR/howto.rst
-@@ -298,9 +298,9 @@ Andrew Morton의 글이 있다.
- 4.x.y는 "stable" 팀<stable@vger.kernel.org>에 의해 관리되며 거의 매번 격주로
- 배포된다.
- 
--커널 트리 문서들 내에 Documentation/process/stable-kernel-rules.rst 파일은 어떤
--종류의 변경들이 -stable 트리로 들어왔는지와 배포 프로세스가 어떻게
--진행되는지를 설명한다.
-+커널 트리 문서들 내의 :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
-+파일은 어떤 종류의 변경들이 -stable 트리로 들어왔는지와
-+배포 프로세스가 어떻게 진행되는지를 설명한다.
- 
- 4.x -git 패치들
- ~~~~~~~~~~~~~~~
-@@ -355,9 +355,10 @@ https://bugzilla.kernel.org 는 리눅스 커널 개발자들이 커널의 버
- 
-     https://bugzilla.kernel.org/page.cgi?id=faq.html
- 
--메인 커널 소스 디렉토리에 있는 admin-guide/reporting-bugs.rst 파일은 커널 버그라고 생각되는
--것을 보고하는 방법에 관한 좋은 템플릿이며 문제를 추적하기 위해서 커널
--개발자들이 필요로 하는 정보가 무엇들인지를 상세히 설명하고 있다.
-+메인 커널 소스 디렉토리에 있는 :ref:`admin-guide/reporting-bugs.rst <reportingbugs>`
-+파일은 커널 버그라고 생각되는 것을 보고하는 방법에 관한 좋은 템플릿이며 문제를
-+추적하기 위해서 커널 개발자들이 필요로 하는 정보가 무엇들인지를 상세히 설명하고
-+있다.
- 
- 
- 버그 리포트들의 관리
-@@ -417,7 +418,8 @@ https://bugzilla.kernel.org 는 리눅스 커널 개발자들이 커널의 버
- "John 커널해커는 작성했다...."를 유지하며 여러분들의 의견을 그 메일의 윗부분에
- 작성하지 말고 각 인용한 단락들 사이에 넣어라.
- 
--여러분들이 패치들을 메일에 넣는다면 그것들은 Documentation/process/submitting-patches.rst에
-+여러분들이 패치들을 메일에 넣는다면 그것들은
-+:ref:`Documentation/process/submitting-patches.rst <submittingpatches>` 에
- 나와있는데로 명백히(plain) 읽을 수 있는 텍스트여야 한다. 커널 개발자들은
- 첨부파일이나 압축된 패치들을 원하지 않는다. 그들은 여러분들의 패치의
- 각 라인 단위로 코멘트를 하길 원하며 압축하거나 첨부하지 않고 보내는 것이
+> A.
+> 
+
 -- 
-2.10.0
-
+liaoweixiong
