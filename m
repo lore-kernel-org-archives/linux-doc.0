@@ -1,163 +1,149 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E947B7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Jan 2019 20:59:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 379797D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Jan 2019 21:15:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727488AbfAXU7d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 Jan 2019 15:59:33 -0500
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:35878 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725991AbfAXU7d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jan 2019 15:59:33 -0500
-Received: by mail-qk1-f196.google.com with SMTP id o125so4203459qkf.3
-        for <linux-doc@vger.kernel.org>; Thu, 24 Jan 2019 12:59:32 -0800 (PST)
+        id S1727969AbfAXVPr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 Jan 2019 16:15:47 -0500
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:42109 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727743AbfAXVPq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jan 2019 16:15:46 -0500
+Received: by mail-pl1-f195.google.com with SMTP id y1so3462013plp.9
+        for <linux-doc@vger.kernel.org>; Thu, 24 Jan 2019 13:15:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=aRNwGLE8LI/Zl1nGU/FWo041WRJfKNZhtu8divJKOdM=;
-        b=gVvM1nY6f0nVGRtscgO9nZZIeaxIBt/gZ43likKjKc0ms85PMGoAMQ77DkX68FfQdl
-         /W33GfY1Ou9eWe+GKMkVBQA/K4XYmjWgti8OKatQHFg9Wb8sbq2muWEyuPWrbGSro8Ok
-         Rf/7g/eEPTiurdeXbJKUQPL+pWGi+ks9iC9E4=
+        d=google.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=hQMXtShjYz4LIok46DuN+DSpcNGcRKZs3McroLRrGJw=;
+        b=j20YsKHGwaT+e7qtfX+pJMn7EqgnnAg98DHCtEKAcNNAthLRLG8JE/6hRv7KyQ5Iiz
+         g0cQdc6pIJoSNiXlKr5WinqrLgPEyyyT3ueTy2KBOv5V7YP+cZAFTlF+rB9CIxSpQJxG
+         r43vq8LUoKlLqhCQAloIuMQU+cSFgagDdDNtqJu/3gx84lgakSYZqN2brhiwObjRTIf1
+         X++KVwfttX10Q5Dwj4X55d7C4wtHOvzDch/8RmJjhBu2y0rDPFeIHjbFfjE540Fv/dvd
+         jBcaZipg2xsJp2QnwLiTyYtSLmwgKypskSEK4EcIDc/gjPZnGZm3zMY3OayW//GIfrhe
+         DCuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=aRNwGLE8LI/Zl1nGU/FWo041WRJfKNZhtu8divJKOdM=;
-        b=oVkWNHSlVX3jKSzEfsGFgjpgCLjsBtWtzE2WkSA077CICrCMMwFcZSa3IL4K8kYpIQ
-         kIDEYw52BlBlXKYZFypIKOvE+wqT5kAs8n/xD0QIqsavdcJy97KOIZz8hd4mNhOvDBT1
-         e3liq2FK5cXs54Ox4q9ABkVaECBs5WrAiN1+9bq4Bkt/mK2h54OENXfy7i0Cfd9tD7t2
-         9b2cEf1sSBnF4Lh9IIrCsg8nLt6dvFnZeoTLq8ZZ/3Hhkuve/5RLEIpnKXYUch3XswKE
-         KgU1U3NptujebgaMdCp0H2nd2l5AoMTmzNdKqF830b3SAytF8Sl0hh6xo+GFKi5LoJP2
-         UFJA==
-X-Gm-Message-State: AJcUukcKAsW9AMjfTSzl+6Y8h/uFGgKLwOEetqxChz1VqnSnONfqOnNd
-        OgpY+kVghRMYu3CfL19uAjH+4w==
-X-Google-Smtp-Source: ALg8bN6V2SrPXfdXzl+z+4Tzb7L+g2/jPP1I2gHkSpMiqBWJMwlIbCCjVh7H1gX+E1ZOJ8ugiStKvA==
-X-Received: by 2002:ae9:dcc4:: with SMTP id q187mr7202478qkf.97.1548363571559;
-        Thu, 24 Jan 2019 12:59:31 -0800 (PST)
-Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
-        by smtp.gmail.com with ESMTPSA id r24sm77512575qtr.2.2019.01.24.12.59.30
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 24 Jan 2019 12:59:30 -0800 (PST)
-Date:   Thu, 24 Jan 2019 15:59:29 -0500
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Karim Yaghmour <karim.yaghmour@opersys.com>
-Cc:     Daniel Colascione <dancol@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
-        atish patra <atishp04@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
-        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>, rostedt@goodmis.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        yhs@fb.com
-Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
- kernel
-Message-ID: <20190124205929.GA141510@google.com>
-References: <20190119103606.GA17400@kroah.com>
- <8BD4CB7A-944C-4EC5-A198-1D85C9EE28D6@zytor.com>
- <20190120161003.GB23827@google.com>
- <A40C22DF-B43F-44BA-8148-FC0881087315@zytor.com>
- <20190121014553.GD23827@google.com>
- <BC774ED4-C0FC-4AA6-9BAF-36930A661D9B@zytor.com>
- <20190122133901.GA189736@google.com>
- <117d2f96-b0e9-2376-69b7-836fa0c52539@opersys.com>
- <CAKOZuesWgo3CZj49aUChX_-dpijCrVLxgVZChyLLmOWXCLQf-Q@mail.gmail.com>
- <6f82d99a-d877-aeae-3e63-95dff260c445@opersys.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=hQMXtShjYz4LIok46DuN+DSpcNGcRKZs3McroLRrGJw=;
+        b=imNwCVVLQ3LbEU1bwMYXmQludhKVoXEYkxxng7SvLmN7JWtMMAxaaHWOxyAeYFqKiN
+         Ho+1g8pb/UybYc2CrmeZK1TX74tr787hl+bvFFlVaXpNnt8pue5x6p1A1syQomDhPuA2
+         1pEWkCSH1A6Pl7A3X7NQbZhHctVhPNQB9SyRhic2HM7UEH3jHxd7rISM5TeHRGFhqpY4
+         xKJk+3UvSViYaZ/XPbDT1s4gDOMDfd//KrU4cmdBzosvJPrwImuYZM+ZY7az+XBrj45t
+         T3HUWCbZAPy6ONGCCdvLlwnlI3o/30huC+MDmnmkQexncc1YstxeeGpLe9VjbxeZa4pj
+         0Usw==
+X-Gm-Message-State: AJcUukeWSzmNqoNXlFFoYs6umb5thh3TbXEDp4OznDVaZPBHri5tBikL
+        MMU7SH7ck1cPAtqSbU5Mitr71A==
+X-Google-Smtp-Source: ALg8bN7nCufI9BYh2GZ0ogHwAUMbkmGJZbvBktdzlwXxc4JpxluUrMJcb20Y/QlbwgK+in4KOP50ww==
+X-Received: by 2002:a17:902:d697:: with SMTP id v23mr8003217ply.261.1548364545767;
+        Thu, 24 Jan 2019 13:15:45 -0800 (PST)
+Received: from surenb0.mtv.corp.google.com ([2620:0:1000:1612:3320:4357:47df:276b])
+        by smtp.googlemail.com with ESMTPSA id j197sm29626418pgc.76.2019.01.24.13.15.44
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 24 Jan 2019 13:15:45 -0800 (PST)
+From:   Suren Baghdasaryan <surenb@google.com>
+To:     gregkh@linuxfoundation.org
+Cc:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
+        axboe@kernel.dk, dennis@kernel.org, dennisszhou@gmail.com,
+        mingo@redhat.com, peterz@infradead.org, akpm@linux-foundation.org,
+        corbet@lwn.net, cgroups@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-team@android.com, Suren Baghdasaryan <surenb@google.com>
+Subject: [PATCH v3 2/5] kernel: cgroup: add poll file operation
+Date:   Thu, 24 Jan 2019 13:15:15 -0800
+Message-Id: <20190124211518.244221-3-surenb@google.com>
+X-Mailer: git-send-email 2.20.1.321.g9e740568ce-goog
+In-Reply-To: <20190124211518.244221-1-surenb@google.com>
+References: <20190124211518.244221-1-surenb@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6f82d99a-d877-aeae-3e63-95dff260c445@opersys.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 24, 2019 at 07:57:26PM +0100, Karim Yaghmour wrote:
-> 
-> On 1/23/19 11:37 PM, Daniel Colascione wrote:
-[..]
-> > > Personally I advocated a more aggressive approach with Joel in private:
-> > > just put the darn headers straight into the kernel image, it's the
-> > > *only* artifact we're sure will follow the Android device whatever
-> > > happens to it (like built-in ftrace).
-> > 
-> > I was thinking along similar lines. Ordinarily, we make loadable
-> > kernel modules. What we kind of want here is a non-loadable kernel
-> > module --- or a non-loadable section in the kernel image proper. I'm
-> > not familiar with early-stage kernel loader operation: I know it's
-> > possible to crease discardable sections in the kernel image, but can
-> > we create sections that are never slurped into memory in the first
-> > place? If not, maybe loading and immediately discarding the header
-> > section is good enough.
-> 
-> Interesting. Maybe just append it to the image but have it not loaded and
-> have a kernel parameter than enables a "/proc/kheaders" driver to know where
-> the fetch the appended headers from storage at runtime. There would be no
-> RAM loading whatsoever of the headers, just some sort of
-> "kheaders=/dev/foobar:offset:size" parameter. If you turn the option on, you
-> get a fatter kernel image size to store on permanent storage, but no impact
-> on what's loaded at boot time.
+From: Johannes Weiner <hannes@cmpxchg.org>
 
-Embedding anything into the kernel image does impact boot time though because
-it increase the time spent by bootloader. A module OTOH would not have such
-overhead.
+Cgroup has a standardized poll/notification mechanism for waking all
+pollers on all fds when a filesystem node changes. To allow polling
+for custom events, add a .poll callback that can override the default.
 
-Also a kernel can be booted in any number of ways other than mass storage so
-it is not a generic Linux-wide solution to have a kheaders= option like that.
-If the option is forgotten, then the running system can't use the feature.
-The other issue is it requires a kernel command line option / bootloader
-changes for that which adds more configuration burden, which not be needed
-with a module.
+This is in preparation for pollable cgroup pressure files which have
+per-fd trigger configurations.
 
-> > Would such a thing really do better than LZMA? LZMA already has very
-> > clever techniques for eliminating long-range redundancies in
-> > compressible text, including redundancies at the sub-byte level. I can
-> > certainly understand the benefit of stripping comments, since removing
-> > comments really does decrease the total amount of information the
-> > compressor has to preserve, but I'm not sure how much the encoding
-> > scheme you propose below would help, since it reminds me of the
-> > encoding scheme that LZMA would discover automatically.
-> 
-> I'm no compression algorithm expert. If you say LZMA would do the
-> same/better than what I suggested then I have no reason to contest that. My
-> goal is to see the headers as part of the kernel image that's distributed on
-> devices so that they don't have to be chased around. I'm just trying to make
-> it as palatable as possible.
+Signed-off-by: Johannes Weiner <hannes@cmpxchg.org>
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+---
+ include/linux/cgroup-defs.h |  4 ++++
+ kernel/cgroup/cgroup.c      | 12 ++++++++++++
+ 2 files changed, 16 insertions(+)
 
-I believe LZMA is really good at that sort of thing too.
-
-Also at 3.3MB of module size, I think we are really good size-wise. But Dan
-is helping look at possibly reducing further if he gets time. Many modules in
-my experience are much bigger. amdgpu.ko on my Linux machine is 6.1MB.
-
-I really think making it a module is the best way to make sure this is
-bundled with the kernel on the widest number of Android and other Linux
-systems, without incurring boot time overhead, or any other command line
-configuration burden.
-
-I spoke to so many people at LPC personally with other kernel contributors,
-and many folks told me one word - MODULE :D.  Even though I hesitated at
-first, now it seems the right solution.
-
-If no one seriously objects, I'll clean this up and post a v2 and with the
-RFC tag taken off. Thank you!
-
- - Joel
+diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
+index 8fcbae1b8db0..aad3babef007 100644
+--- a/include/linux/cgroup-defs.h
++++ b/include/linux/cgroup-defs.h
+@@ -32,6 +32,7 @@ struct kernfs_node;
+ struct kernfs_ops;
+ struct kernfs_open_file;
+ struct seq_file;
++struct poll_table_struct;
+ 
+ #define MAX_CGROUP_TYPE_NAMELEN 32
+ #define MAX_CGROUP_ROOT_NAMELEN 64
+@@ -574,6 +575,9 @@ struct cftype {
+ 	ssize_t (*write)(struct kernfs_open_file *of,
+ 			 char *buf, size_t nbytes, loff_t off);
+ 
++	__poll_t (*poll)(struct kernfs_open_file *of,
++			 struct poll_table_struct *pt);
++
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ 	struct lock_class_key	lockdep_key;
+ #endif
+diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+index f31bd61c9466..e8cd12c6a553 100644
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -3533,6 +3533,16 @@ static ssize_t cgroup_file_write(struct kernfs_open_file *of, char *buf,
+ 	return ret ?: nbytes;
+ }
+ 
++static __poll_t cgroup_file_poll(struct kernfs_open_file *of, poll_table *pt)
++{
++	struct cftype *cft = of->kn->priv;
++
++	if (cft->poll)
++		return cft->poll(of, pt);
++
++	return kernfs_generic_poll(of, pt);
++}
++
+ static void *cgroup_seqfile_start(struct seq_file *seq, loff_t *ppos)
+ {
+ 	return seq_cft(seq)->seq_start(seq, ppos);
+@@ -3571,6 +3581,7 @@ static struct kernfs_ops cgroup_kf_single_ops = {
+ 	.open			= cgroup_file_open,
+ 	.release		= cgroup_file_release,
+ 	.write			= cgroup_file_write,
++	.poll			= cgroup_file_poll,
+ 	.seq_show		= cgroup_seqfile_show,
+ };
+ 
+@@ -3579,6 +3590,7 @@ static struct kernfs_ops cgroup_kf_ops = {
+ 	.open			= cgroup_file_open,
+ 	.release		= cgroup_file_release,
+ 	.write			= cgroup_file_write,
++	.poll			= cgroup_file_poll,
+ 	.seq_start		= cgroup_seqfile_start,
+ 	.seq_next		= cgroup_seqfile_next,
+ 	.seq_stop		= cgroup_seqfile_stop,
+-- 
+2.20.1.321.g9e740568ce-goog
 
