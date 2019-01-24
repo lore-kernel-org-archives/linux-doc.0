@@ -1,159 +1,222 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 937477D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Jan 2019 02:32:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 33CB57D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Jan 2019 04:28:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726519AbfAXCcU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 Jan 2019 21:32:20 -0500
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:35944 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726249AbfAXCcT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Jan 2019 21:32:19 -0500
-Received: by mail-qt1-f194.google.com with SMTP id t13so4909475qtn.3
-        for <linux-doc@vger.kernel.org>; Wed, 23 Jan 2019 18:32:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=CGuClkjsH6Nm5oWhdq5m1OKE4/YFrdge0arIdi6haBM=;
-        b=MTUFYL4uz20ZkJdQhBGq81oRQWYM/a5LaWZ3I2DMb0GPKDgW3mOaYzvDCEXEC6ECvI
-         RQEiAEm/QayLuH9k2zjTSD2J4QfCvJ4VmXSfnISUcdMH0bpVanUC1/u7ofTELrIdCUtx
-         7yUACNXLezQ7OAFylAuhiAP2YzBLqdjQX5fY8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=CGuClkjsH6Nm5oWhdq5m1OKE4/YFrdge0arIdi6haBM=;
-        b=DAWpezzoIZ54PG0Vou4gDx8QLNXDWBrC3mh+HtzodjTpYn1S7GDWpOVYcNVL6CiUL9
-         v7arJTdsZSgSBHDsXjvowSPPv3AmmKryAfsrMMEaNPPdBfB3kUxQMzQz007ii2J3YzTK
-         aOx90kNsK4Gzi7oIelpLjvpTGxP7DPrRmfcnOfQ6/AxNhQujMbzqKgzWTQJMUVfeXLLu
-         b9eM8qurc+TbzCUO7gluyxlhvrdziTVaGFNXr2UW+VWY6ZUzJBj4sIh12Nf0NqnPftMH
-         Sl8t1iFhgOdZ4V+QpxtrnK5RaeyRxI+0nnoz2YasPXjfpQEu0MOqobjbWVvVYOIIEnrH
-         Nj6g==
-X-Gm-Message-State: AJcUukcBfHiiVl8Gvx/N2srnrYwePkakWEibUMzNEQTTnxtWVGWKv1X6
-        mhqfl35FanZiQuWPo/wYv0hXmA==
-X-Google-Smtp-Source: ALg8bN7aN7ApDa5XT1RO4Ay8vsWyXjf1hbfxsBVmO4Oq+Zselgl4KwUOIWbugtyUXahcn4bIJ9l0JQ==
-X-Received: by 2002:a0c:a144:: with SMTP id d62mr4370503qva.50.1548297138371;
-        Wed, 23 Jan 2019 18:32:18 -0800 (PST)
-Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
-        by smtp.gmail.com with ESMTPSA id a17sm73484791qtk.82.2019.01.23.18.32.17
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 23 Jan 2019 18:32:17 -0800 (PST)
-Date:   Wed, 23 Jan 2019 21:32:16 -0500
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Daniel Colascione <dancol@google.com>
-Cc:     Karim Yaghmour <karim.yaghmour@opersys.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
-        atish patra <atishp04@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
-        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>, rostedt@goodmis.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        yhs@fb.com
-Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
- kernel
-Message-ID: <20190124023216.GA75730@google.com>
-References: <20190119102800.GB17723@infradead.org>
- <20190119103606.GA17400@kroah.com>
- <8BD4CB7A-944C-4EC5-A198-1D85C9EE28D6@zytor.com>
- <20190120161003.GB23827@google.com>
- <A40C22DF-B43F-44BA-8148-FC0881087315@zytor.com>
- <20190121014553.GD23827@google.com>
- <BC774ED4-C0FC-4AA6-9BAF-36930A661D9B@zytor.com>
- <20190122133901.GA189736@google.com>
- <117d2f96-b0e9-2376-69b7-836fa0c52539@opersys.com>
- <CAKOZuesWgo3CZj49aUChX_-dpijCrVLxgVZChyLLmOWXCLQf-Q@mail.gmail.com>
+        id S1726322AbfAXE17 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 23 Jan 2019 23:27:59 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:31416 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726249AbfAXE17 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Jan 2019 23:27:59 -0500
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id x0O4RrMH009840;
+        Thu, 24 Jan 2019 13:27:54 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x0O4RrMH009840
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1548304074;
+        bh=0aM3PdeikPRCFwAg9of/ClD8tBLmk10HiBjT/FcJeOk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=TICoo8k3FXDJVd0FNq2PIF5eDSLdoiPttht4r+rot7U/NLb6HF0JmVF4z7ysI5vbV
+         4loIt/F1jqMpv3sKoZRh86dm9fUxgrtMQtBQgC2sNO+TH2ZzW60HQK+2R7F4W7TpFO
+         hTVcYwBFrIBvhOuvLnWYsE1qL3MvppKWeNVGV1/zpoH1/gNWTkS90gJzDMvfD8g6Fq
+         2FuR9lI4TvYjOuejHq0FheEiKC/kJvdcJCEV0CDfR2PZAWvkMn6GG+xIfZfBid5bcZ
+         1omLfvSwBIAYBErBBHbg3I0OnlOh9+Gj04WUmGsrHGOCi/URX0cV2ZSHJaAgrPOqDj
+         CYcewCNpO+d0Q==
+X-Nifty-SrcIP: [209.85.222.51]
+Received: by mail-ua1-f51.google.com with SMTP id z11so1535500uaa.10;
+        Wed, 23 Jan 2019 20:27:54 -0800 (PST)
+X-Gm-Message-State: AJcUukfPo56//76IjhTj/09aLzM/x3aiEYmHrFEbe4/8mWwn+UMJMPJR
+        L4Db2U8+NagK1UXXo9HkBYvn8++mYjVArvVbxgE=
+X-Google-Smtp-Source: ALg8bN7IiPJwjFC+sWMjuT50RuTYXE8WMdFsSWf1PZSi8wq/pNsvzM+WTDOmJMcTvi+ulV47ma0STrCkmNRPwxo27Iw=
+X-Received: by 2002:ab0:849:: with SMTP id b9mr2060318uaf.93.1548304073124;
+ Wed, 23 Jan 2019 20:27:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKOZuesWgo3CZj49aUChX_-dpijCrVLxgVZChyLLmOWXCLQf-Q@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1547683804-17956-1-git-send-email-yamada.masahiro@socionext.com>
+In-Reply-To: <1547683804-17956-1-git-send-email-yamada.masahiro@socionext.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Thu, 24 Jan 2019 13:27:17 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS=4nfM0eFBt8_JbtWhtOcDthpmxkLNZkMBut9djnDWpg@mail.gmail.com>
+Message-ID: <CAK7LNAS=4nfM0eFBt8_JbtWhtOcDthpmxkLNZkMBut9djnDWpg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] kbuild: remove top-level built-in.a
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 23, 2019 at 02:37:47PM -0800, Daniel Colascione wrote:
-> On Wed, Jan 23, 2019 at 1:29 PM Karim Yaghmour
-> <karim.yaghmour@opersys.com> wrote:
-[...]
-> > Personally I advocated a more aggressive approach with Joel in private:
-> > just put the darn headers straight into the kernel image, it's the
-> > *only* artifact we're sure will follow the Android device whatever
-> > happens to it (like built-in ftrace).
-> 
-> I was thinking along similar lines. Ordinarily, we make loadable
-> kernel modules. What we kind of want here is a non-loadable kernel
-> module --- or a non-loadable section in the kernel image proper. I'm
-> not familiar with early-stage kernel loader operation: I know it's
-> possible to crease discardable sections in the kernel image, but can
-> we create sections that are never slurped into memory in the first
-> place? If not, maybe loading and immediately discarding the header
-> section is good enough.
+On Thu, Jan 17, 2019 at 10:23 AM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
+>
+> The symbol table in the final archive is unneeded; the linker does not
+> require the symbol table after the --whole-archive option. Every object
+> file in the archive is included in the link anyway.
+>
+> Pass thin archives from subdirectories directly to the linker, and
+> remove the final archiving step.
+>
+> Fix up the document and comments as well.
+>
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Acked-by: Nicholas Piggin <npiggin@gmail.com>
+> ---
 
-I am happy to see if I can shrink it down further. Especially using xz and
-stripping all comments period. I am optimistic this can be brought down
-further to a point where it would make sense to everyone to build it into the
-kernel. Lets see.
-
-Last time I stripped comments, it went down by ~40%. What I haven't tried is
-doing this *with* xz compression. I am also open to brainstorming what else
-can be stripped.
-
-OTOH the reason I didn't focus much on size is: modules are pretty much
-universal and I'm confident of wide spread use of this feature for Android-based
-products and not needing of "chasing headers" if we modularize it, since
-Android's project treble has modularized things and modules are now default
-enabled. Putting headers into a module lets us enjoy the ride there.
-
-I am quite hosed for the next week or so to work on this, but I should be
-able to get back to it after.
-
-cheers,
-
- - Joel
+Applied to linux-kbuild.
 
 
-> 
-> > To that end, I even had some crazy
-> > ideas on how to compress the headers even further than with std
-> > compression algorithms -- here's a snippet from an email I sent Joel
-> > some time back detailing such a hack:
-> > > Since C headers have fairly constrained semantics and since the types of semantics generally used to name structs, etc. in the Linux kernel are well established, we can likely devise a very customized compression algorithm for the purpose.
-> 
-> Would such a thing really do better than LZMA? LZMA already has very
-> clever techniques for eliminating long-range redundancies in
-> compressible text, including redundancies at the sub-byte level. I can
-> certainly understand the benefit of stripping comments, since removing
-> comments really does decrease the total amount of information the
-> compressor has to preserve, but I'm not sure how much the encoding
-> scheme you propose below would help, since it reminds me of the
-> encoding scheme that LZMA would discover automatically.
-> 
-> > Whether such craziness makes sense or is adopted or not isn't mine to
-> > chart, but I certainly can't see eBPF reaching the same mass deployment
-> > ftrace has within the Android ecosystem until there's a way to use it
-> > without having to chase kernel headers independently of kernel images.
-> > There are "too many clicks" involved and someone somewhere will drop the
-> > ball if it's not glued to the kernel in some way shape or form. Any
-> > solution that solves this is one I'd love to hear about.
-> 
-> I agree. There definitely needs to be a "just collect a damn trace"
-> button that works on any device, and for this button to work and
-> incorporate eBPF, the system needs to be able to describe itself.
+
+> Changes in v3: None
+> Changes in v2:
+>  - Update the document and comments
+>  - Add Nicholas' Ack
+>
+>  Documentation/kbuild/makefiles.txt |  9 ++-------
+>  scripts/Makefile.build             |  8 ++------
+>  scripts/link-vmlinux.sh            | 30 ++++++------------------------
+>  3 files changed, 10 insertions(+), 37 deletions(-)
+>
+> diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
+> index bf28c47..48eab0b 100644
+> --- a/Documentation/kbuild/makefiles.txt
+> +++ b/Documentation/kbuild/makefiles.txt
+> @@ -154,13 +154,8 @@ more details, with real examples.
+>
+>         Kbuild compiles all the $(obj-y) files.  It then calls
+>         "$(AR) rcSTP" to merge these files into one built-in.a file.
+> -       This is a thin archive without a symbol table, which makes it
+> -       unsuitable as a linker input.
+> -
+> -       The scripts/link-vmlinux.sh script later makes an aggregate
+> -       built-in.a with "${AR} rcsTP", which creates the thin archive
+> -       with a symbol table and an index, making it a valid input for
+> -       the final vmlinux link passes.
+> +       This is a thin archive without a symbol table. It will be later
+> +       linked into vmlinux by scripts/link-vmlinux.sh
+>
+>         The order of files in $(obj-y) is significant.  Duplicates in
+>         the lists are allowed: the first instance will be linked into
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index fd03d60..681ab58 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -394,14 +394,10 @@ $(obj)/%.asn1.c $(obj)/%.asn1.h: $(src)/%.asn1 $(objtree)/scripts/asn1_compiler
+>  $(sort $(subdir-obj-y)): $(subdir-ym) ;
+>
+>  #
+> -# Rule to compile a set of .o files into one .o file
+> +# Rule to compile a set of .o files into one .a file (without symbol table)
+>  #
+>  ifdef builtin-target
+>
+> -# built-in.a archives are made with no symbol table or index which
+> -# makes them small and fast, but unable to be used by the linker.
+> -# scripts/link-vmlinux.sh builds an aggregate built-in.a with a symbol
+> -# table and index.
+>  quiet_cmd_ar_builtin = AR      $@
+>        cmd_ar_builtin = rm -f $@; \
+>                       $(AR) rcSTP$(KBUILD_ARFLAGS) $@ $(filter $(real-obj-y), $^)
+> @@ -426,7 +422,7 @@ $(modorder-target): $(subdir-ym) FORCE
+>         $(Q)(cat /dev/null; $(modorder-cmds)) > $@
+>
+>  #
+> -# Rule to compile a set of .o files into one .a file
+> +# Rule to compile a set of .o files into one .a file (with symbol table)
+>  #
+>  ifdef lib-target
+>  quiet_cmd_link_l_target = AR      $@
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index c8cf453..4788def 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -44,24 +44,6 @@ info()
+>         fi
+>  }
+>
+> -# Thin archive build here makes a final archive with symbol table and indexes
+> -# from vmlinux objects INIT and MAIN, which can be used as input to linker.
+> -# KBUILD_VMLINUX_LIBS archives should already have symbol table and indexes
+> -# added.
+> -#
+> -# Traditional incremental style of link does not require this step
+> -#
+> -# built-in.a output file
+> -#
+> -archive_builtin()
+> -{
+> -       info AR built-in.a
+> -       rm -f built-in.a;
+> -       ${AR} rcsTP${KBUILD_ARFLAGS} built-in.a                 \
+> -                               ${KBUILD_VMLINUX_INIT}          \
+> -                               ${KBUILD_VMLINUX_MAIN}
+> -}
+> -
+>  # Link of vmlinux.o used for section mismatch analysis
+>  # ${1} output file
+>  modpost_link()
+> @@ -69,7 +51,8 @@ modpost_link()
+>         local objects
+>
+>         objects="--whole-archive                                \
+> -               built-in.a                                      \
+> +               ${KBUILD_VMLINUX_INIT}                          \
+> +               ${KBUILD_VMLINUX_MAIN}                          \
+>                 --no-whole-archive                              \
+>                 --start-group                                   \
+>                 ${KBUILD_VMLINUX_LIBS}                          \
+> @@ -88,7 +71,8 @@ vmlinux_link()
+>
+>         if [ "${SRCARCH}" != "um" ]; then
+>                 objects="--whole-archive                        \
+> -                       built-in.a                              \
+> +                       ${KBUILD_VMLINUX_INIT}                  \
+> +                       ${KBUILD_VMLINUX_MAIN}                  \
+>                         --no-whole-archive                      \
+>                         --start-group                           \
+>                         ${KBUILD_VMLINUX_LIBS}                  \
+> @@ -99,7 +83,8 @@ vmlinux_link()
+>                         -T ${lds} ${objects}
+>         else
+>                 objects="-Wl,--whole-archive                    \
+> -                       built-in.a                              \
+> +                       ${KBUILD_VMLINUX_INIT}                  \
+> +                       ${KBUILD_VMLINUX_MAIN}                  \
+>                         -Wl,--no-whole-archive                  \
+>                         -Wl,--start-group                       \
+>                         ${KBUILD_VMLINUX_LIBS}                  \
+> @@ -160,7 +145,6 @@ cleanup()
+>         rm -f .tmp_System.map
+>         rm -f .tmp_kallsyms*
+>         rm -f .tmp_vmlinux*
+> -       rm -f built-in.a
+>         rm -f System.map
+>         rm -f vmlinux
+>         rm -f vmlinux.o
+> @@ -217,8 +201,6 @@ fi;
+>  # final build of init/
+>  ${MAKE} -f "${srctree}/scripts/Makefile.build" obj=init
+>
+> -archive_builtin
+> -
+>  #link vmlinux.o
+>  info LD vmlinux.o
+>  modpost_link vmlinux.o
+> --
+> 2.7.4
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
