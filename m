@@ -1,153 +1,163 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0DA2A7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Jan 2019 20:46:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E947B7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Jan 2019 20:59:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727858AbfAXUq5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 24 Jan 2019 15:46:57 -0500
-Received: from outils.crapouillou.net ([89.234.176.41]:52230 "EHLO
-        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727664AbfAXUq5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jan 2019 15:46:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1548362813; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6S8WqaR8jL4inlJRV8cYTRGRLMje5ISJrfQpJ6yoSXM=;
-        b=Hg5FfwzGKF9kVKeamT12Dmllt4zC044UtiXjaNcdDL4QL0QwbK9xI3cUIZvQ8jf6ubG/GB
-        6sCS8goRmMVntSdDE8JKhrP1C/2vex0wJdYYhWimiEJEH0ZRFi4Drd6t2w1j+bn7WT8mTt
-        T6gL+ejH9KPq3VEnNDhJd+fA2lXu6F8=
-Date:   Thu, 24 Jan 2019 17:46:28 -0300
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v8 05/26] clocksource: Add driver for the Ingenic JZ47xx
- OST
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Mathieu Malaterre <malat@debian.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        id S1727488AbfAXU7d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 Jan 2019 15:59:33 -0500
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:35878 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725991AbfAXU7d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jan 2019 15:59:33 -0500
+Received: by mail-qk1-f196.google.com with SMTP id o125so4203459qkf.3
+        for <linux-doc@vger.kernel.org>; Thu, 24 Jan 2019 12:59:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=aRNwGLE8LI/Zl1nGU/FWo041WRJfKNZhtu8divJKOdM=;
+        b=gVvM1nY6f0nVGRtscgO9nZZIeaxIBt/gZ43likKjKc0ms85PMGoAMQ77DkX68FfQdl
+         /W33GfY1Ou9eWe+GKMkVBQA/K4XYmjWgti8OKatQHFg9Wb8sbq2muWEyuPWrbGSro8Ok
+         Rf/7g/eEPTiurdeXbJKUQPL+pWGi+ks9iC9E4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=aRNwGLE8LI/Zl1nGU/FWo041WRJfKNZhtu8divJKOdM=;
+        b=oVkWNHSlVX3jKSzEfsGFgjpgCLjsBtWtzE2WkSA077CICrCMMwFcZSa3IL4K8kYpIQ
+         kIDEYw52BlBlXKYZFypIKOvE+wqT5kAs8n/xD0QIqsavdcJy97KOIZz8hd4mNhOvDBT1
+         e3liq2FK5cXs54Ox4q9ABkVaECBs5WrAiN1+9bq4Bkt/mK2h54OENXfy7i0Cfd9tD7t2
+         9b2cEf1sSBnF4Lh9IIrCsg8nLt6dvFnZeoTLq8ZZ/3Hhkuve/5RLEIpnKXYUch3XswKE
+         KgU1U3NptujebgaMdCp0H2nd2l5AoMTmzNdKqF830b3SAytF8Sl0hh6xo+GFKi5LoJP2
+         UFJA==
+X-Gm-Message-State: AJcUukcKAsW9AMjfTSzl+6Y8h/uFGgKLwOEetqxChz1VqnSnONfqOnNd
+        OgpY+kVghRMYu3CfL19uAjH+4w==
+X-Google-Smtp-Source: ALg8bN6V2SrPXfdXzl+z+4Tzb7L+g2/jPP1I2gHkSpMiqBWJMwlIbCCjVh7H1gX+E1ZOJ8ugiStKvA==
+X-Received: by 2002:ae9:dcc4:: with SMTP id q187mr7202478qkf.97.1548363571559;
+        Thu, 24 Jan 2019 12:59:31 -0800 (PST)
+Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
+        by smtp.gmail.com with ESMTPSA id r24sm77512575qtr.2.2019.01.24.12.59.30
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 24 Jan 2019 12:59:30 -0800 (PST)
+Date:   Thu, 24 Jan 2019 15:59:29 -0500
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Karim Yaghmour <karim.yaghmour@opersys.com>
+Cc:     Daniel Colascione <dancol@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atish patra <atishp04@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
+        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>, rostedt@goodmis.org,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ezequiel Garcia <ezequiel@collabora.co.uk>,
-        PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>,
-        linux-pwm@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        linux-watchdog@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org, od@zcrc.me,
-        Maarten ter Huurne <maarten@treewalker.org>
-Message-Id: <1548362788.3881.0@crapouillou.net>
-In-Reply-To: <154835808767.136743.14531363127962557756@swboyd.mtv.corp.google.com>
-References: <20181212220922.18759-1-paul@crapouillou.net>
-        <20181212220922.18759-6-paul@crapouillou.net>
-        <CA+7wUsxNN2SL9_7tDh0DiBAgdUwxd_osgmi=09HP7110Tm0DYQ@mail.gmail.com>
-        <128675a5-7ede-4114-a649-89a536346dc8@roeck-us.net>
-        <1548264353.3173.1@crapouillou.net> <20190123180155.GB9781@roeck-us.net>
-        <154835808767.136743.14531363127962557756@swboyd.mtv.corp.google.com>
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        yhs@fb.com
+Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
+ kernel
+Message-ID: <20190124205929.GA141510@google.com>
+References: <20190119103606.GA17400@kroah.com>
+ <8BD4CB7A-944C-4EC5-A198-1D85C9EE28D6@zytor.com>
+ <20190120161003.GB23827@google.com>
+ <A40C22DF-B43F-44BA-8148-FC0881087315@zytor.com>
+ <20190121014553.GD23827@google.com>
+ <BC774ED4-C0FC-4AA6-9BAF-36930A661D9B@zytor.com>
+ <20190122133901.GA189736@google.com>
+ <117d2f96-b0e9-2376-69b7-836fa0c52539@opersys.com>
+ <CAKOZuesWgo3CZj49aUChX_-dpijCrVLxgVZChyLLmOWXCLQf-Q@mail.gmail.com>
+ <6f82d99a-d877-aeae-3e63-95dff260c445@opersys.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6f82d99a-d877-aeae-3e63-95dff260c445@opersys.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Jan 24, 2019 at 07:57:26PM +0100, Karim Yaghmour wrote:
+> 
+> On 1/23/19 11:37 PM, Daniel Colascione wrote:
+[..]
+> > > Personally I advocated a more aggressive approach with Joel in private:
+> > > just put the darn headers straight into the kernel image, it's the
+> > > *only* artifact we're sure will follow the Android device whatever
+> > > happens to it (like built-in ftrace).
+> > 
+> > I was thinking along similar lines. Ordinarily, we make loadable
+> > kernel modules. What we kind of want here is a non-loadable kernel
+> > module --- or a non-loadable section in the kernel image proper. I'm
+> > not familiar with early-stage kernel loader operation: I know it's
+> > possible to crease discardable sections in the kernel image, but can
+> > we create sections that are never slurped into memory in the first
+> > place? If not, maybe loading and immediately discarding the header
+> > section is good enough.
+> 
+> Interesting. Maybe just append it to the image but have it not loaded and
+> have a kernel parameter than enables a "/proc/kheaders" driver to know where
+> the fetch the appended headers from storage at runtime. There would be no
+> RAM loading whatsoever of the headers, just some sort of
+> "kheaders=/dev/foobar:offset:size" parameter. If you turn the option on, you
+> get a fatter kernel image size to store on permanent storage, but no impact
+> on what's loaded at boot time.
 
+Embedding anything into the kernel image does impact boot time though because
+it increase the time spent by bootloader. A module OTOH would not have such
+overhead.
 
-Le jeu. 24 janv. 2019 =E0 16:28, Stephen Boyd <sboyd@kernel.org> a=20
-=E9crit :
-> Quoting Guenter Roeck (2019-01-23 10:01:55)
->>  On Wed, Jan 23, 2019 at 02:25:53PM -0300, Paul Cercueil wrote:
->>  > Hi,
->>  >
->>  > Le mer. 23 janv. 2019 =C3  11:31, Guenter Roeck=20
->> <linux@roeck-us.net> a =C3=A9crit :
->>  > >On 1/23/19 4:58 AM, Mathieu Malaterre wrote:
->>  > >>On Wed, Dec 12, 2018 at 11:09 PM Paul Cercueil=20
->> <paul@crapouillou.net>
->>  > >>wrote:
->>  > >>>
->>  > >>>From: Maarten ter Huurne <maarten@treewalker.org>
->>  > >>>
->>  > >>>OST is the OS Timer, a 64-bit timer/counter with buffered=20
->> reading.
->>  > >>>
->>  > >>>SoCs before the JZ4770 had (if any) a 32-bit OST; the JZ4770=20
->> and
->>  > >>>JZ4780 have a 64-bit OST.
->>  > >>>
->>  > >>>This driver will register both a clocksource and a sched_clock=20
->> to the
->>  > >>>system.
->>  > >>>
->>  > >>>Signed-off-by: Maarten ter Huurne <maarten@treewalker.org>
->>  > >>>Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>  > >>>---
->>  > >>>
->>  > >>>Notes:
->>  > >>>      v5: New patch
->>  > >>>
->>  > >>>      v6: - Get rid of SoC IDs; pass pointer to=20
->> ingenic_ost_soc_info
->>  > >>>as
->>  > >>>            devicetree match data instead.
->>  > >>>          - Use device_get_match_data() instead of the of_*=20
->> variant
->>  > >>>          - Handle error of dev_get_regmap() properly
->>  > >>>
->>  > >>>      v7: Fix section mismatch by using
->>  > >>>builtin_platform_driver_probe()
->>  > >>>
->>  > >>>      v8: builtin_platform_driver_probe() does not work=20
->> anymore in
->>  > >>>          4.20-rc6? The probe function won't be called. Work=20
->> around
->>  > >>>this
->>  > >>>          for now by using late_initcall.
->>  > >>>
->>  > >
->>  > >Did anyone notice this ? Either something is wrong with the=20
->> driver, or
->>  > >with the kernel core. Hacking around it seems like the worst=20
->> possible
->>  > >"solution".
->>  >
->>  > I can confirm it still happens on 5.0-rc3.
->>  >
->>  > Just to explain what I'm doing:
->>  >
->>  > My ingenic-timer driver probes with builtin_platform_driver_probe=20
->> (this
->>  > works),
->>  > and then calls of_platform_populate to probe its children. This=20
->> driver,
->>  > ingenic-ost, is one of them, and will fail to probe with
->>  > builtin_platform_driver_probe.
->>  >
->>=20
->>  The big question is _why_ it fails to probe.
->>=20
->=20
-> Are you sharing the device tree node between a 'normal' platform=20
-> device
-> driver and something more low level DT that marks the device's backing
-> DT node as OF_POPULATED early on? That's my only guess why it's not
-> working.
+Also a kernel can be booted in any number of ways other than mass storage so
+it is not a generic Linux-wide solution to have a kheaders= option like that.
+If the option is forgotten, then the running system can't use the feature.
+The other issue is it requires a kernel command line option / bootloader
+changes for that which adds more configuration burden, which not be needed
+with a module.
 
-I do, but I clear the OF_POPULATED flag so that it is then probed as a
-normal platform device, and it's not on this driver's node but its=20
-parent.
-=
+> > Would such a thing really do better than LZMA? LZMA already has very
+> > clever techniques for eliminating long-range redundancies in
+> > compressible text, including redundancies at the sub-byte level. I can
+> > certainly understand the benefit of stripping comments, since removing
+> > comments really does decrease the total amount of information the
+> > compressor has to preserve, but I'm not sure how much the encoding
+> > scheme you propose below would help, since it reminds me of the
+> > encoding scheme that LZMA would discover automatically.
+> 
+> I'm no compression algorithm expert. If you say LZMA would do the
+> same/better than what I suggested then I have no reason to contest that. My
+> goal is to see the headers as part of the kernel image that's distributed on
+> devices so that they don't have to be chased around. I'm just trying to make
+> it as palatable as possible.
+
+I believe LZMA is really good at that sort of thing too.
+
+Also at 3.3MB of module size, I think we are really good size-wise. But Dan
+is helping look at possibly reducing further if he gets time. Many modules in
+my experience are much bigger. amdgpu.ko on my Linux machine is 6.1MB.
+
+I really think making it a module is the best way to make sure this is
+bundled with the kernel on the widest number of Android and other Linux
+systems, without incurring boot time overhead, or any other command line
+configuration burden.
+
+I spoke to so many people at LPC personally with other kernel contributors,
+and many folks told me one word - MODULE :D.  Even though I hesitated at
+first, now it seems the right solution.
+
+If no one seriously objects, I'll clean this up and post a v2 and with the
+RFC tag taken off. Thank you!
+
+ - Joel
 
