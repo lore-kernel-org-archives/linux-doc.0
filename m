@@ -1,222 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 33CB57D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Jan 2019 04:28:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5BDF77D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 24 Jan 2019 08:20:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726322AbfAXE17 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 23 Jan 2019 23:27:59 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:31416 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726249AbfAXE17 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Jan 2019 23:27:59 -0500
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id x0O4RrMH009840;
-        Thu, 24 Jan 2019 13:27:54 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x0O4RrMH009840
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1548304074;
-        bh=0aM3PdeikPRCFwAg9of/ClD8tBLmk10HiBjT/FcJeOk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=TICoo8k3FXDJVd0FNq2PIF5eDSLdoiPttht4r+rot7U/NLb6HF0JmVF4z7ysI5vbV
-         4loIt/F1jqMpv3sKoZRh86dm9fUxgrtMQtBQgC2sNO+TH2ZzW60HQK+2R7F4W7TpFO
-         hTVcYwBFrIBvhOuvLnWYsE1qL3MvppKWeNVGV1/zpoH1/gNWTkS90gJzDMvfD8g6Fq
-         2FuR9lI4TvYjOuejHq0FheEiKC/kJvdcJCEV0CDfR2PZAWvkMn6GG+xIfZfBid5bcZ
-         1omLfvSwBIAYBErBBHbg3I0OnlOh9+Gj04WUmGsrHGOCi/URX0cV2ZSHJaAgrPOqDj
-         CYcewCNpO+d0Q==
-X-Nifty-SrcIP: [209.85.222.51]
-Received: by mail-ua1-f51.google.com with SMTP id z11so1535500uaa.10;
-        Wed, 23 Jan 2019 20:27:54 -0800 (PST)
-X-Gm-Message-State: AJcUukfPo56//76IjhTj/09aLzM/x3aiEYmHrFEbe4/8mWwn+UMJMPJR
-        L4Db2U8+NagK1UXXo9HkBYvn8++mYjVArvVbxgE=
-X-Google-Smtp-Source: ALg8bN7IiPJwjFC+sWMjuT50RuTYXE8WMdFsSWf1PZSi8wq/pNsvzM+WTDOmJMcTvi+ulV47ma0STrCkmNRPwxo27Iw=
-X-Received: by 2002:ab0:849:: with SMTP id b9mr2060318uaf.93.1548304073124;
- Wed, 23 Jan 2019 20:27:53 -0800 (PST)
+        id S1725986AbfAXIUu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 24 Jan 2019 03:20:50 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:46129 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725939AbfAXIUu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Jan 2019 03:20:50 -0500
+Received: by mail-pf1-f194.google.com with SMTP id c73so2603629pfe.13;
+        Thu, 24 Jan 2019 00:20:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=m7+0rLgas8mzKJJDakwIpFKNN1Y9X2cNHTlvkHgqjDc=;
+        b=PLBgtPhGwJGVwlxb2DfqY3kneg7JBOwmuAh9J5fxzTJU16jjwtBJgbaMoqqxoOZQXT
+         n6rUnurQ8SjG6arRIrE1xJnVgH4WxLzWGEy0Vyo5oD6sAUHn/IR8eAk98zNY1EJyGZN+
+         U6tJMehaOcqgRLtfCEAR9pFi1zclg+VRd2BOOQUxKtmj7PDLvmaG7T6+2s2fWoBtK91a
+         l8BDrtaeF+lZ7dntY7L/1N5J31zbnfXwKWGLllAQX6/D8d7Z2G5u3DkNMmDN4eXqFQDr
+         V6TQHXurfySjsT6sd46QNJgQ7WfN9CgLq3WmrG6yZp3vgjFt903dQeJa+CUCx0njPLZd
+         Xycw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=m7+0rLgas8mzKJJDakwIpFKNN1Y9X2cNHTlvkHgqjDc=;
+        b=rqW3EIwLUa/jVCEal1/vkuNrRm0RjAhb6HXG0oLPsnPaLjzIw80E61jZFjN5aoafst
+         58IZ2DJSVx/cOZpxCXDEsQuPcmpOeSbOnYjmLJM4ai0V+PNTlFEwgZBukj/U+qz3RLNQ
+         OPM9TcbseFP1HUSmbTweTLGWl2RzzICwOSI4x+t8xYM9NuOOr0CSssrHe/2YLdG0/6wh
+         hyR6yw6cT6rqbA0e1GvwHxaES+D4xayvi/tL8nX0E/EbpfdZHOw/F5Lpb0aIa9yklodW
+         g/Y5CwEdjwWImoQPkRoO62H1rJuhjN+d7yrUWClFlt85xEaY6Frg7KAdNgZaWbZ4pYPf
+         TY6g==
+X-Gm-Message-State: AJcUukeiIMWaXmS4wqPa1O/zI7HHk0ant3M/r78JqV3zegkxBXgHS0AH
+        1kpIpS6yXNB9vdRsJSKf2XxilYCi
+X-Google-Smtp-Source: ALg8bN6WTg32Sjq0WtiIzmpaSokJrOft3k9VEVSdBXCfbf+l+OKHytuLoT2xdwl3+LhakWWAXqBGCA==
+X-Received: by 2002:a62:81c1:: with SMTP id t184mr5698027pfd.40.1548318049685;
+        Thu, 24 Jan 2019 00:20:49 -0800 (PST)
+Received: from localhost.localdomain ([147.46.240.179])
+        by smtp.gmail.com with ESMTPSA id 125sm31623378pfd.124.2019.01.24.00.20.47
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Thu, 24 Jan 2019 00:20:48 -0800 (PST)
+From:   SeongJae Park <sj38.park@gmail.com>
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        SeongJae Park <sj38.park@gmail.com>
+Subject: [PATCH 1/5] Documentation/kr: Update Korean translation to delete reference to the kernel-mentors mailing list
+Date:   Thu, 24 Jan 2019 17:20:28 +0900
+Message-Id: <20190124082032.32327-1-sj38.park@gmail.com>
+X-Mailer: git-send-email 2.10.0
 MIME-Version: 1.0
-References: <1547683804-17956-1-git-send-email-yamada.masahiro@socionext.com>
-In-Reply-To: <1547683804-17956-1-git-send-email-yamada.masahiro@socionext.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Thu, 24 Jan 2019 13:27:17 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS=4nfM0eFBt8_JbtWhtOcDthpmxkLNZkMBut9djnDWpg@mail.gmail.com>
-Message-ID: <CAK7LNAS=4nfM0eFBt8_JbtWhtOcDthpmxkLNZkMBut9djnDWpg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] kbuild: remove top-level built-in.a
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 17, 2019 at 10:23 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> The symbol table in the final archive is unneeded; the linker does not
-> require the symbol table after the --whole-archive option. Every object
-> file in the archive is included in the link anyway.
->
-> Pass thin archives from subdirectories directly to the linker, and
-> remove the final archiving step.
->
-> Fix up the document and comments as well.
->
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Acked-by: Nicholas Piggin <npiggin@gmail.com>
-> ---
+Translate this commit to Korean:
 
-Applied to linux-kbuild.
+  bc0ef4a7e4c3 ("Documentation: Delete reference to the kernel-mentors mailing list")
 
+Signed-off-by: SeongJae Park <sj38.park@gmail.com>
+---
+ Documentation/translations/ko_KR/howto.rst | 7 -------
+ 1 file changed, 7 deletions(-)
 
-
-> Changes in v3: None
-> Changes in v2:
->  - Update the document and comments
->  - Add Nicholas' Ack
->
->  Documentation/kbuild/makefiles.txt |  9 ++-------
->  scripts/Makefile.build             |  8 ++------
->  scripts/link-vmlinux.sh            | 30 ++++++------------------------
->  3 files changed, 10 insertions(+), 37 deletions(-)
->
-> diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
-> index bf28c47..48eab0b 100644
-> --- a/Documentation/kbuild/makefiles.txt
-> +++ b/Documentation/kbuild/makefiles.txt
-> @@ -154,13 +154,8 @@ more details, with real examples.
->
->         Kbuild compiles all the $(obj-y) files.  It then calls
->         "$(AR) rcSTP" to merge these files into one built-in.a file.
-> -       This is a thin archive without a symbol table, which makes it
-> -       unsuitable as a linker input.
-> -
-> -       The scripts/link-vmlinux.sh script later makes an aggregate
-> -       built-in.a with "${AR} rcsTP", which creates the thin archive
-> -       with a symbol table and an index, making it a valid input for
-> -       the final vmlinux link passes.
-> +       This is a thin archive without a symbol table. It will be later
-> +       linked into vmlinux by scripts/link-vmlinux.sh
->
->         The order of files in $(obj-y) is significant.  Duplicates in
->         the lists are allowed: the first instance will be linked into
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index fd03d60..681ab58 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -394,14 +394,10 @@ $(obj)/%.asn1.c $(obj)/%.asn1.h: $(src)/%.asn1 $(objtree)/scripts/asn1_compiler
->  $(sort $(subdir-obj-y)): $(subdir-ym) ;
->
->  #
-> -# Rule to compile a set of .o files into one .o file
-> +# Rule to compile a set of .o files into one .a file (without symbol table)
->  #
->  ifdef builtin-target
->
-> -# built-in.a archives are made with no symbol table or index which
-> -# makes them small and fast, but unable to be used by the linker.
-> -# scripts/link-vmlinux.sh builds an aggregate built-in.a with a symbol
-> -# table and index.
->  quiet_cmd_ar_builtin = AR      $@
->        cmd_ar_builtin = rm -f $@; \
->                       $(AR) rcSTP$(KBUILD_ARFLAGS) $@ $(filter $(real-obj-y), $^)
-> @@ -426,7 +422,7 @@ $(modorder-target): $(subdir-ym) FORCE
->         $(Q)(cat /dev/null; $(modorder-cmds)) > $@
->
->  #
-> -# Rule to compile a set of .o files into one .a file
-> +# Rule to compile a set of .o files into one .a file (with symbol table)
->  #
->  ifdef lib-target
->  quiet_cmd_link_l_target = AR      $@
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index c8cf453..4788def 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -44,24 +44,6 @@ info()
->         fi
->  }
->
-> -# Thin archive build here makes a final archive with symbol table and indexes
-> -# from vmlinux objects INIT and MAIN, which can be used as input to linker.
-> -# KBUILD_VMLINUX_LIBS archives should already have symbol table and indexes
-> -# added.
-> -#
-> -# Traditional incremental style of link does not require this step
-> -#
-> -# built-in.a output file
-> -#
-> -archive_builtin()
-> -{
-> -       info AR built-in.a
-> -       rm -f built-in.a;
-> -       ${AR} rcsTP${KBUILD_ARFLAGS} built-in.a                 \
-> -                               ${KBUILD_VMLINUX_INIT}          \
-> -                               ${KBUILD_VMLINUX_MAIN}
-> -}
-> -
->  # Link of vmlinux.o used for section mismatch analysis
->  # ${1} output file
->  modpost_link()
-> @@ -69,7 +51,8 @@ modpost_link()
->         local objects
->
->         objects="--whole-archive                                \
-> -               built-in.a                                      \
-> +               ${KBUILD_VMLINUX_INIT}                          \
-> +               ${KBUILD_VMLINUX_MAIN}                          \
->                 --no-whole-archive                              \
->                 --start-group                                   \
->                 ${KBUILD_VMLINUX_LIBS}                          \
-> @@ -88,7 +71,8 @@ vmlinux_link()
->
->         if [ "${SRCARCH}" != "um" ]; then
->                 objects="--whole-archive                        \
-> -                       built-in.a                              \
-> +                       ${KBUILD_VMLINUX_INIT}                  \
-> +                       ${KBUILD_VMLINUX_MAIN}                  \
->                         --no-whole-archive                      \
->                         --start-group                           \
->                         ${KBUILD_VMLINUX_LIBS}                  \
-> @@ -99,7 +83,8 @@ vmlinux_link()
->                         -T ${lds} ${objects}
->         else
->                 objects="-Wl,--whole-archive                    \
-> -                       built-in.a                              \
-> +                       ${KBUILD_VMLINUX_INIT}                  \
-> +                       ${KBUILD_VMLINUX_MAIN}                  \
->                         -Wl,--no-whole-archive                  \
->                         -Wl,--start-group                       \
->                         ${KBUILD_VMLINUX_LIBS}                  \
-> @@ -160,7 +145,6 @@ cleanup()
->         rm -f .tmp_System.map
->         rm -f .tmp_kallsyms*
->         rm -f .tmp_vmlinux*
-> -       rm -f built-in.a
->         rm -f System.map
->         rm -f vmlinux
->         rm -f vmlinux.o
-> @@ -217,8 +201,6 @@ fi;
->  # final build of init/
->  ${MAKE} -f "${srctree}/scripts/Makefile.build" obj=init
->
-> -archive_builtin
-> -
->  #link vmlinux.o
->  info LD vmlinux.o
->  modpost_link vmlinux.o
-> --
-> 2.7.4
->
-
-
+diff --git a/Documentation/translations/ko_KR/howto.rst b/Documentation/translations/ko_KR/howto.rst
+index a8197e0..c8b0612 100644
+--- a/Documentation/translations/ko_KR/howto.rst
++++ b/Documentation/translations/ko_KR/howto.rst
+@@ -220,13 +220,6 @@ ReST 마크업을 사용하는 문서들은 Documentation/output 에 생성된
+ 가지고 있지 않다면 다음에 무엇을 해야할지에 관한 방향을 배울 수 있을
+ 것이다.
+ 
+-여러분들이 이미 커널 트리에 반영하길 원하는 코드 묶음을 가지고 있지만
+-올바른 포맷으로 포장하는데 도움이 필요하다면 그러한 문제를 돕기 위해
+-만들어진 kernel-mentors 프로젝트가 있다. 그곳은 메일링 리스트이며
+-다음에서 참조할 수 있다.
+-
+-         https://selenic.com/mailman/listinfo/kernel-mentors
+-
+ 리눅스 커널 코드에 실제 변경을 하기 전에 반드시 그 코드가 어떻게
+ 동작하는지 이해하고 있어야 한다. 코드를 분석하기 위하여 특정한 툴의
+ 도움을 빌려서라도 코드를 직접 읽는 것보다 좋은 것은 없다(대부분의
 -- 
-Best Regards
-Masahiro Yamada
+2.10.0
+
