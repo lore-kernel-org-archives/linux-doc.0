@@ -1,65 +1,54 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C1BDC7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Jan 2019 19:16:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B09E47D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Jan 2019 20:28:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726611AbfAYTQF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 25 Jan 2019 14:16:05 -0500
-Received: from mail-vs1-f66.google.com ([209.85.217.66]:38316 "EHLO
-        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726179AbfAYTQF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Jan 2019 14:16:05 -0500
-Received: by mail-vs1-f66.google.com with SMTP id x64so6313380vsa.5
-        for <linux-doc@vger.kernel.org>; Fri, 25 Jan 2019 11:16:04 -0800 (PST)
+        id S1726179AbfAYU2t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 Jan 2019 15:28:49 -0500
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:41856 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725778AbfAYU2s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Jan 2019 15:28:48 -0500
+Received: by mail-qk1-f196.google.com with SMTP id 189so6155890qkj.8
+        for <linux-doc@vger.kernel.org>; Fri, 25 Jan 2019 12:28:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/7Y64zvImJ/l8+Mb7NaJsUqw6G3Q8+3FYs/tZTNEYOw=;
-        b=oFyRYAmt7R6OB+f6NuBoyfidjBty3zzpp6LUcdkHDJODvIXWkTVTbXpN6ufabOSPe9
-         RRzy4a4ZcdbcU26KA9qmricLXlfftpOVmDS6sQc72x3fXmOiYLab8Fnf/IuHl8+wNJO3
-         0snoWt3fR40d5o0YkslllVuoSezpfaaagSZVB3+rTKxnTN/RYbP3XF0eVK46VOE81fno
-         9z2u14F8ypavdaVcTrQIiNLjPix7K4xogRA9k9dCF/5ON26fLEKTm3ui47D/xPLivHsU
-         gMeCb7QMayGj+H5j4b3IFRDp5InlLC9dpM0CY5FtJf+Fhqd5Tro1cwONYd4kJiRTUmy4
-         iZ+Q==
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=rloHtCzsoeLaTQKYgrEGKieu6LvAn6lHlK+PiRSdvck=;
+        b=ab2BnOS7dEcTEbQ6bG45KiicHHApZnLV/eV9bhB6IjqeGxJ93YwBctmScADULqSTGZ
+         mQHZ/4CckO3xXV6sEDGim4X4bGY/i/j07oAiEtIAOMPc9xiEKinUBCUB3uD1ho8inGBz
+         OtdXZHFGXeobUwhGcduGykc9L/hpcWFZwQEXU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/7Y64zvImJ/l8+Mb7NaJsUqw6G3Q8+3FYs/tZTNEYOw=;
-        b=O7u+ZBuSh41wqqCh86YJEsPXZsICOIPoCEiEMHJ3dsqk1kxkimul0/mwv0ernZLEbg
-         vjupBbaJAg4mjIqqAeMRE2+T0NhOiJXe3MTQtK2Umx/lgLIUTb3qgyQfDs51+fcoHwsQ
-         /lfT09sdBvwUl2dR0Cv/yjUwWd0EuIl+UXfGLVtoszKd22wX+Tm0VO7Y0CIDqS+dKSdV
-         xWk38ipcQvOKICiiQ7iA89p7a8llB5Fn592AnCImASP6qLpktTkVeGUkPquEGuvOYfBW
-         +Bga/JkK91k74oZMcMccjQQ4YiNyflhABLuHUcd0RHL801urvaTZ8ZFK4cmd1kMZEG1x
-         AFIg==
-X-Gm-Message-State: AJcUukfhVIe//x0yxHwwKjkYLtbxFGsZZiPy4kcEn9av5e2BtDLyuiqr
-        czj0fM/EyjLXDvCeEzTRIH5abpgrSORBpP2yjU+aKw==
-X-Google-Smtp-Source: ALg8bN5RXXgEDEMoIaB9HBV1uWF3rSUMk8MNCCdgNYvfZMDbywb4Cb9KyT0G+p8Jq0xnGCH+NAwX5v06t30E6lBqy6w=
-X-Received: by 2002:a67:f943:: with SMTP id u3mr5245486vsq.149.1548443763447;
- Fri, 25 Jan 2019 11:16:03 -0800 (PST)
-MIME-Version: 1.0
-References: <20190119103606.GA17400@kroah.com> <8BD4CB7A-944C-4EC5-A198-1D85C9EE28D6@zytor.com>
- <20190120161003.GB23827@google.com> <A40C22DF-B43F-44BA-8148-FC0881087315@zytor.com>
- <20190121014553.GD23827@google.com> <BC774ED4-C0FC-4AA6-9BAF-36930A661D9B@zytor.com>
- <20190122133901.GA189736@google.com> <117d2f96-b0e9-2376-69b7-836fa0c52539@opersys.com>
- <CAKOZuesWgo3CZj49aUChX_-dpijCrVLxgVZChyLLmOWXCLQf-Q@mail.gmail.com>
- <6f82d99a-d877-aeae-3e63-95dff260c445@opersys.com> <20190124205929.GA141510@google.com>
- <50511D3D-7193-4B1C-952E-CCC37FA71388@zytor.com>
-In-Reply-To: <50511D3D-7193-4B1C-952E-CCC37FA71388@zytor.com>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Fri, 25 Jan 2019 11:15:52 -0800
-Message-ID: <CAKOZuesOBTr82vsZo3OUa7hs03EbYMPg2cAhKyZW2QsS3uQXAQ@mail.gmail.com>
-Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the kernel
-To:     "H. Peter Anvin" <hpa@zytor.com>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=rloHtCzsoeLaTQKYgrEGKieu6LvAn6lHlK+PiRSdvck=;
+        b=QhW4xrcOZLjk578Z5sCXjNqtlLJc6SsJxy+m/iWfCHs2tb4ZHCS/iNIEaqbsWXNhDP
+         EeAo0bOebrC2l/86/wV4pgAMo303IaefTrIanPF1grRVFW4LMzcXKMavdxcMRMEzw8zS
+         /oqe3GNI3m6CBW40D4Y/TDqZ919Yp2Ck6JjQZ5apTPktCTJtrScTBy1MUygoDKkrOV+o
+         fgpKsZ2ROvj4i+ygdcJMjIAdJ3sr+7VOtNHLOmi/HKEKenkRm1oTdr972HQw5Ho4L0zd
+         A31cIQTPzTWxbUJctHRGGJrRgQu4O21pE4Zv64lS/wCcvAMbNvuG3zdbjYiuLpasZNGC
+         ewHg==
+X-Gm-Message-State: AJcUukcb83vXEa6i5L5m1yX2EaeZnDq2SKsPIuoKZrbuyZphrFqxSlmF
+        GEpE/B3ZlfQqL9tuq1QZrckbDg==
+X-Google-Smtp-Source: ALg8bN6FZf8Zn8ICgt+YYNOYtJShBXgGr3V+FayYAaSnq60ThavCLwOyf2+fPY0WFZNZ/mMfhPiTgg==
+X-Received: by 2002:a05:620a:1435:: with SMTP id k21mr10678200qkj.83.1548448127212;
+        Fri, 25 Jan 2019 12:28:47 -0800 (PST)
+Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
+        by smtp.gmail.com with ESMTPSA id w15sm82990902qta.16.2019.01.25.12.28.45
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 25 Jan 2019 12:28:46 -0800 (PST)
+Date:   Fri, 25 Jan 2019 15:28:45 -0500
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     hpa@zytor.com
+Cc:     Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Daniel Colascione <dancol@google.com>,
         Greg KH <gregkh@linuxfoundation.org>,
         Christoph Hellwig <hch@infradead.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
@@ -77,17 +66,33 @@ Cc:     Joel Fernandes <joel@joelfernandes.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
         yhs@fb.com
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
+ kernel
+Message-ID: <20190125202845.GA235983@google.com>
+References: <20190120161003.GB23827@google.com>
+ <A40C22DF-B43F-44BA-8148-FC0881087315@zytor.com>
+ <20190121014553.GD23827@google.com>
+ <BC774ED4-C0FC-4AA6-9BAF-36930A661D9B@zytor.com>
+ <20190122133901.GA189736@google.com>
+ <117d2f96-b0e9-2376-69b7-836fa0c52539@opersys.com>
+ <CAKOZuesWgo3CZj49aUChX_-dpijCrVLxgVZChyLLmOWXCLQf-Q@mail.gmail.com>
+ <6f82d99a-d877-aeae-3e63-95dff260c445@opersys.com>
+ <20190124205929.GA141510@google.com>
+ <50511D3D-7193-4B1C-952E-CCC37FA71388@zytor.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <50511D3D-7193-4B1C-952E-CCC37FA71388@zytor.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 25, 2019 at 11:01 AM <hpa@zytor.com> wrote:
->
+On Fri, Jan 25, 2019 at 11:00:25AM -0800, hpa@zytor.com wrote:
 > On January 24, 2019 12:59:29 PM PST, Joel Fernandes <joel@joelfernandes.org> wrote:
 > >On Thu, Jan 24, 2019 at 07:57:26PM +0100, Karim Yaghmour wrote:
-> >>
+> >> 
 > >> On 1/23/19 11:37 PM, Daniel Colascione wrote:
 > >[..]
 > >> > > Personally I advocated a more aggressive approach with Joel in
@@ -97,7 +102,7 @@ On Fri, Jan 25, 2019 at 11:01 AM <hpa@zytor.com> wrote:
 > >> > > *only* artifact we're sure will follow the Android device
 > >whatever
 > >> > > happens to it (like built-in ftrace).
-> >> >
+> >> > 
 > >> > I was thinking along similar lines. Ordinarily, we make loadable
 > >> > kernel modules. What we kind of want here is a non-loadable kernel
 > >> > module --- or a non-loadable section in the kernel image proper.
@@ -108,7 +113,7 @@ On Fri, Jan 25, 2019 at 11:01 AM <hpa@zytor.com> wrote:
 > >> > we create sections that are never slurped into memory in the first
 > >> > place? If not, maybe loading and immediately discarding the header
 > >> > section is good enough.
-> >>
+> >> 
 > >> Interesting. Maybe just append it to the image but have it not loaded
 > >and
 > >> have a kernel parameter than enables a "/proc/kheaders" driver to
@@ -151,7 +156,7 @@ On Fri, Jan 25, 2019 at 11:01 AM <hpa@zytor.com> wrote:
 > >> > compressor has to preserve, but I'm not sure how much the encoding
 > >> > scheme you propose below would help, since it reminds me of the
 > >> > encoding scheme that LZMA would discover automatically.
-> >>
+> >> 
 > >> I'm no compression algorithm expert. If you say LZMA would do the
 > >> same/better than what I suggested then I have no reason to contest
 > >that. My
@@ -186,29 +191,33 @@ On Fri, Jan 25, 2019 at 11:01 AM <hpa@zytor.com> wrote:
 > >RFC tag taken off. Thank you!
 > >
 > > - Joel
->
+> 
 > So let me throw in a different notion.
->
+> 
 > A kernel module really is nothing other than a kernel build system artifact stored in the filesystem.
->
+> 
 > I really don't at any reason whatsoever why this is direct from just producing an archive and putting it in the module directory, except that the latter is far simpler.
->
+> 
 > I see literally *no* problem, social or technical, you are solvin by actually making it a kernel ELF object.
 
-Joel does have a point. Suppose we're on Android and we're testing a
-random local kernel we've built. We can command the device to boot
-into the bootloader, then send our locally-built kernel to the device
-with "fastboot boot mykernelz". Having booted the device this way,
-there's no on-disk artifact corresponding to mykernelz: we just sent
-the boot kernel directly to the device's memory. Now, suppose I want
-to attach DCTV or some other fancy ftrace-based analysis tool to the
-device in order to study how mykernelz acts in some scenario I care
-about. With Joel's approach, DCTV would be able to grab the kernel
-headers from the running kernel, compile whatever kprobe or BPF
-incantations needed, and have everything Just Work. If we put the
-headers only on disk without any way to retrieve them at runtime, we'd
-need a different path for kernel self-description in the case where a
-running kernel doesn't have an on-disk representation, and that adds a
-lot of complexity for everyone everywhere. By providing
-guaranteed-correct kernel headers via some runtime interface, we make
-a lot of things Just Work, and that has value.
+I think you may not be seeing the point being made here, Hans. A module can
+be in any number of locations. The work to do the search of the modules is
+already done by modprobe. Diverse userspaces already know how to look for and
+load modules - whether its Android or some other user space. Modules are
+universal and integrated well within the kernel's ecosystem even though the
+Linux systems are so diverse.
+
+Also, as I was saying before - there is an option to build it into the kernel
+too with this proposal, if you hate modules so much.
+
+This is exactly why /proc/config.gz is so popular and used widely by people
+debugging the kernel. Same with /proc/kallsysms. So if we had it your way,
+then you might as well make those non-ELF artifacts right?
+
+You can look at it as a convenince option. Making things more convenient for
+users is solving problems, I'm sorry you don't see it that way.
+
+thanks,
+
+ - Joel
+
