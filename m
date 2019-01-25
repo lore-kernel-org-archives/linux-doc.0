@@ -2,103 +2,168 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 055227D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Jan 2019 18:08:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D3C8A7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Jan 2019 19:02:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729200AbfAYSHY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 25 Jan 2019 13:07:24 -0500
-Received: from foss.arm.com ([217.140.101.70]:51770 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729135AbfAYSHX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 25 Jan 2019 13:07:23 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3220F1650;
-        Fri, 25 Jan 2019 10:07:23 -0800 (PST)
-Received: from beelzebub.austin.arm.com (beelzebub.austin.arm.com [10.118.12.119])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 78E013F5AF;
-        Fri, 25 Jan 2019 10:07:22 -0800 (PST)
-From:   Jeremy Linton <jeremy.linton@arm.com>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     catalin.marinas@arm.com, will.deacon@arm.com, marc.zyngier@arm.com,
-        suzuki.poulose@arm.com, dave.martin@arm.com,
-        shankerd@codeaurora.org, linux-kernel@vger.kernel.org,
-        ykaukab@suse.de, julien.thierry@arm.com, mlangsdo@redhat.com,
-        steven.price@arm.com, stefan.wahren@i2se.com,
-        Jeremy Linton <jeremy.linton@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH v4 02/12] arm64: Provide a command line to disable spectre_v2 mitigation
-Date:   Fri, 25 Jan 2019 12:07:01 -0600
-Message-Id: <20190125180711.1970973-3-jeremy.linton@arm.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20190125180711.1970973-1-jeremy.linton@arm.com>
-References: <20190125180711.1970973-1-jeremy.linton@arm.com>
+        id S1726468AbfAYTCM convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 Jan 2019 14:02:12 -0500
+Received: from terminus.zytor.com ([198.137.202.136]:33105 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726329AbfAYTCM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 25 Jan 2019 14:02:12 -0500
+Received: from [IPv6:2601:646:8881:66f1:3131:71d3:81a5:3525] ([IPv6:2601:646:8881:66f1:3131:71d3:81a5:3525])
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x0PJ0YK0239202
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+        Fri, 25 Jan 2019 11:00:38 -0800
+Date:   Fri, 25 Jan 2019 11:00:25 -0800
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20190124205929.GA141510@google.com>
+References: <20190119103606.GA17400@kroah.com> <8BD4CB7A-944C-4EC5-A198-1D85C9EE28D6@zytor.com> <20190120161003.GB23827@google.com> <A40C22DF-B43F-44BA-8148-FC0881087315@zytor.com> <20190121014553.GD23827@google.com> <BC774ED4-C0FC-4AA6-9BAF-36930A661D9B@zytor.com> <20190122133901.GA189736@google.com> <117d2f96-b0e9-2376-69b7-836fa0c52539@opersys.com> <CAKOZuesWgo3CZj49aUChX_-dpijCrVLxgVZChyLLmOWXCLQf-Q@mail.gmail.com> <6f82d99a-d877-aeae-3e63-95dff260c445@opersys.com> <20190124205929.GA141510@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the kernel
+To:     Joel Fernandes <joel@joelfernandes.org>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>
+CC:     Daniel Colascione <dancol@google.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atish patra <atishp04@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
+        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>, rostedt@goodmis.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        yhs@fb.com
+From:   hpa@zytor.com
+Message-ID: <50511D3D-7193-4B1C-952E-CCC37FA71388@zytor.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are various reasons, including bencmarking, to disable spectrev2
-mitigation on a machine. Provide a command-line to do so.
+On January 24, 2019 12:59:29 PM PST, Joel Fernandes <joel@joelfernandes.org> wrote:
+>On Thu, Jan 24, 2019 at 07:57:26PM +0100, Karim Yaghmour wrote:
+>> 
+>> On 1/23/19 11:37 PM, Daniel Colascione wrote:
+>[..]
+>> > > Personally I advocated a more aggressive approach with Joel in
+>private:
+>> > > just put the darn headers straight into the kernel image, it's
+>the
+>> > > *only* artifact we're sure will follow the Android device
+>whatever
+>> > > happens to it (like built-in ftrace).
+>> > 
+>> > I was thinking along similar lines. Ordinarily, we make loadable
+>> > kernel modules. What we kind of want here is a non-loadable kernel
+>> > module --- or a non-loadable section in the kernel image proper.
+>I'm
+>> > not familiar with early-stage kernel loader operation: I know it's
+>> > possible to crease discardable sections in the kernel image, but
+>can
+>> > we create sections that are never slurped into memory in the first
+>> > place? If not, maybe loading and immediately discarding the header
+>> > section is good enough.
+>> 
+>> Interesting. Maybe just append it to the image but have it not loaded
+>and
+>> have a kernel parameter than enables a "/proc/kheaders" driver to
+>know where
+>> the fetch the appended headers from storage at runtime. There would
+>be no
+>> RAM loading whatsoever of the headers, just some sort of
+>> "kheaders=/dev/foobar:offset:size" parameter. If you turn the option
+>on, you
+>> get a fatter kernel image size to store on permanent storage, but no
+>impact
+>> on what's loaded at boot time.
+>
+>Embedding anything into the kernel image does impact boot time though
+>because
+>it increase the time spent by bootloader. A module OTOH would not have
+>such
+>overhead.
+>
+>Also a kernel can be booted in any number of ways other than mass
+>storage so
+>it is not a generic Linux-wide solution to have a kheaders= option like
+>that.
+>If the option is forgotten, then the running system can't use the
+>feature.
+>The other issue is it requires a kernel command line option /
+>bootloader
+>changes for that which adds more configuration burden, which not be
+>needed
+>with a module.
+>
+>> > Would such a thing really do better than LZMA? LZMA already has
+>very
+>> > clever techniques for eliminating long-range redundancies in
+>> > compressible text, including redundancies at the sub-byte level. I
+>can
+>> > certainly understand the benefit of stripping comments, since
+>removing
+>> > comments really does decrease the total amount of information the
+>> > compressor has to preserve, but I'm not sure how much the encoding
+>> > scheme you propose below would help, since it reminds me of the
+>> > encoding scheme that LZMA would discover automatically.
+>> 
+>> I'm no compression algorithm expert. If you say LZMA would do the
+>> same/better than what I suggested then I have no reason to contest
+>that. My
+>> goal is to see the headers as part of the kernel image that's
+>distributed on
+>> devices so that they don't have to be chased around. I'm just trying
+>to make
+>> it as palatable as possible.
+>
+>I believe LZMA is really good at that sort of thing too.
+>
+>Also at 3.3MB of module size, I think we are really good size-wise. But
+>Dan
+>is helping look at possibly reducing further if he gets time. Many
+>modules in
+>my experience are much bigger. amdgpu.ko on my Linux machine is 6.1MB.
+>
+>I really think making it a module is the best way to make sure this is
+>bundled with the kernel on the widest number of Android and other Linux
+>systems, without incurring boot time overhead, or any other command
+>line
+>configuration burden.
+>
+>I spoke to so many people at LPC personally with other kernel
+>contributors,
+>and many folks told me one word - MODULE :D.  Even though I hesitated
+>at
+>first, now it seems the right solution.
+>
+>If no one seriously objects, I'll clean this up and post a v2 and with
+>the
+>RFC tag taken off. Thank you!
+>
+> - Joel
 
-Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/admin-guide/kernel-parameters.txt |  8 ++++----
- arch/arm64/kernel/cpu_errata.c                  | 11 +++++++++++
- 2 files changed, 15 insertions(+), 4 deletions(-)
+So let me throw in a different notion.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 9475f02c79da..2ae77979488e 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2849,10 +2849,10 @@
- 			check bypass). With this option data leaks are possible
- 			in the system.
- 
--	nospectre_v2	[X86,PPC_FSL_BOOK3E] Disable all mitigations for the Spectre variant 2
--			(indirect branch prediction) vulnerability. System may
--			allow data leaks with this option, which is equivalent
--			to spectre_v2=off.
-+	nospectre_v2	[X86,PPC_FSL_BOOK3E,ARM64] Disable all mitigations for
-+			the Spectre variant 2 (indirect branch prediction)
-+			vulnerability. System may allow data leaks with this
-+			option.
- 
- 	nospec_store_bypass_disable
- 			[HW] Disable all mitigations for the Speculative Store Bypass vulnerability
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index 9950bb0cbd52..9a7b5fca51a0 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -220,6 +220,14 @@ static void qcom_link_stack_sanitization(void)
- 		     : "=&r" (tmp));
- }
- 
-+static bool __nospectre_v2;
-+static int __init parse_nospectre_v2(char *str)
-+{
-+	__nospectre_v2 = true;
-+	return 0;
-+}
-+early_param("nospectre_v2", parse_nospectre_v2);
-+
- static void
- enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
- {
-@@ -231,6 +239,9 @@ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
- 	if (!entry->matches(entry, SCOPE_LOCAL_CPU))
- 		return;
- 
-+	if (__nospectre_v2)
-+		return;
-+
- 	if (psci_ops.smccc_version == SMCCC_VERSION_1_0)
- 		return;
- 
+A kernel module really is nothing other than a kernel build system artifact stored in the filesystem.
+
+I really don't at any reason whatsoever why this is direct from just producing an archive and putting it in the module directory, except that the latter is far simpler.
+
+I see literally *no* problem, social or technical, you are solvin by actually making it a kernel ELF object.
 -- 
-2.17.2
-
+Sent from my Android device with K-9 Mail. Please excuse my brevity.
