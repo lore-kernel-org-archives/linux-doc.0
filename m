@@ -1,79 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-4.9 required=5.0 tests=DATE_IN_PAST_06_12,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 20FA67D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 26 Jan 2019 11:12:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 57C377D8A9
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 26 Jan 2019 15:58:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726174AbfAZLMq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 26 Jan 2019 06:12:46 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:52134 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726165AbfAZLMq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Jan 2019 06:12:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=FJKum3GJtQIvHBxioIJqV6AyPnxFB83YWnRJG5/xPnw=; b=KogQy9A10FlLXi0k2fLCIJht+
-        4LZdBc8ferZn1Jr0w5UP8FRr0XtyVglVtRa2xlD/MsU/6x9DocJhz9VOz9xtwFSmmo+PbuIcBcKnG
-        bbn0zsGKNg8+pr+Kvgp6dDeqNuA/g44zvSYgvSoqF0MxoodaEnOD1qPR3K+45IPS9sMfWTiu5/eT1
-        78GZXccDOY4CnzIF3pNV+FqBbtz5rt5OfuvFW6chf+dEvr4ZTedJOQHltfCg8VCnU/KGMP7lOmcls
-        yvKK9XTRUtA6t43zlT+FoZycCVeJl+z8PDRm9t9QTnmj5icWHxuaKH5RkyyBlSr0IOvb3ocjsoDIh
-        p8S+wTsTw==;
-Received: from 177.157.109.120.dynamic.adsl.gvt.net.br ([177.157.109.120] helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gnLtF-0005KX-Gz; Sat, 26 Jan 2019 11:12:45 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.91)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1gnLtC-0005tJ-6d; Sat, 26 Jan 2019 09:12:42 -0200
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Subject: [PATCH] media: vicodec>: get_next_header is static
-Date:   Sat, 26 Jan 2019 09:12:41 -0200
-Message-Id: <a8c649a5d1aa0c0b6056423a9a4b3a8a0a42a8b7.1548501159.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.20.1
+        id S1726165AbfAZP6l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 26 Jan 2019 10:58:41 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55034 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726148AbfAZP6l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Jan 2019 10:58:41 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x0QFnEuq021943
+        for <linux-doc@vger.kernel.org>; Sat, 26 Jan 2019 10:58:40 -0500
+Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2q8mxnhfus-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Sat, 26 Jan 2019 10:58:40 -0500
+Received: from localhost
+        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Sat, 26 Jan 2019 15:58:39 -0000
+Received: from b01cxnp23032.gho.pok.ibm.com (9.57.198.27)
+        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Sat, 26 Jan 2019 15:58:37 -0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x0QFwaMK23265382
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sat, 26 Jan 2019 15:58:36 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 58125B2064;
+        Sat, 26 Jan 2019 15:58:36 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3A075B205F;
+        Sat, 26 Jan 2019 15:58:36 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.80.216.199])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Sat, 26 Jan 2019 15:58:36 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 113A216C6997; Fri, 25 Jan 2019 22:30:38 -0800 (PST)
+Date:   Fri, 25 Jan 2019 22:30:38 -0800
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     SeongJae Park <sj38.park@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/2] Korean translation of memory-barriers.txt update
+Reply-To: paulmck@linux.ibm.com
+References: <20190124215548.4991-1-sj38.park@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190124215548.4991-1-sj38.park@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 19012615-2213-0000-0000-000003451459
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00010481; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000277; SDB=6.01152095; UDB=6.00600533; IPR=6.00932445;
+ MB=3.00025301; MTD=3.00000008; XFM=3.00000015; UTC=2019-01-26 15:58:38
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19012615-2214-0000-0000-00005D1F73AC
+Message-Id: <20190126063038.GG4240@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-26_10:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1901260120
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-drivers/media/platform/vicodec/vicodec-core.c:drivers/media/platform/vicodec/vicodec-core.c:210:23:  warning: symbol 'get_next_header' was not declared. Should it be static?
-drivers/media/platform/vicodec/vicodec-core.c:210:23: warning: no previous prototype for 'get_next_header' [-Wmissing-prototypes]
- enum vb2_buffer_state get_next_header(struct vicodec_ctx *ctx, u8 **pp, u32 sz)
-                       ^~~~~~~~~~~~~~~
+On Fri, Jan 25, 2019 at 06:55:46AM +0900, SeongJae Park wrote:
+> This patchset updates the Korean translation of memory-barriers.txt to follow
+> latest changes.  It has been reviewed by my one Korean colleague.
+> 
+> SeongJae Park (2):
+>   sched/Documentation/kokr: Update Korean translation to update
+>     wake_up() & co. memory-barrier guarantees
+>   locking/memory-barriers/kokr: Update Korean translation to replace
+>     smp_cond_acquire() with smp_cond_load_acquire()
+> 
+>  .../translations/ko_KR/memory-barriers.txt         | 49 ++++++++++++----------
+>  1 file changed, 28 insertions(+), 21 deletions(-)
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- drivers/media/platform/vicodec/vicodec-core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Queued on the strength of the Reviewed-bys.
 
-diff --git a/drivers/media/platform/vicodec/vicodec-core.c b/drivers/media/platform/vicodec/vicodec-core.c
-index 28c3a3d57783..3703b587e25e 100644
---- a/drivers/media/platform/vicodec/vicodec-core.c
-+++ b/drivers/media/platform/vicodec/vicodec-core.c
-@@ -207,7 +207,8 @@ static int device_process(struct vicodec_ctx *ctx,
- /*
-  * mem2mem callbacks
-  */
--enum vb2_buffer_state get_next_header(struct vicodec_ctx *ctx, u8 **pp, u32 sz)
-+static enum vb2_buffer_state get_next_header(struct vicodec_ctx *ctx,
-+					     u8 **pp, u32 sz)
- {
- 	static const u8 magic[] = {
- 		0x4f, 0x4f, 0x4f, 0x4f, 0xff, 0xff, 0xff, 0xff
--- 
-2.20.1
+							Thanx, Paul
 
