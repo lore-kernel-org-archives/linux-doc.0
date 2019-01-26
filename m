@@ -2,268 +2,201 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E3A337D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 25 Jan 2019 20:46:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 84D717D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 26 Jan 2019 04:07:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726589AbfAYUqW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 25 Jan 2019 15:46:22 -0500
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:35071 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725778AbfAYUqW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Jan 2019 15:46:22 -0500
-Received: by mail-qt1-f194.google.com with SMTP id v11so12204559qtc.2
-        for <linux-doc@vger.kernel.org>; Fri, 25 Jan 2019 12:46:21 -0800 (PST)
+        id S1726589AbfAZEHB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 25 Jan 2019 23:07:01 -0500
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:43063 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725975AbfAZEHA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 25 Jan 2019 23:07:00 -0500
+Received: by mail-ed1-f67.google.com with SMTP id f9so8895879eds.10;
+        Fri, 25 Jan 2019 20:06:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=SH7HawfDHykVBL7gB7LjZtrkqvMZWqj5kZcd86OtO0U=;
-        b=gC9H1gxNhiqw6qRY75JO6h4mppNki46pVqvQ/XEuvOlhQd1toYwnj0108TLto1nUSK
-         Wc47+BTBK2TxPvNO66ccnMWN0EapQ4z2JoFKIY7ky6Wa3/DjyUj89+GvbN/jq46+XK3s
-         jLnAJWw1yOOMGJiPtjP+pc0Zv6CYPhE+VWW8U=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=bzGp4f5mj60UhOCZqN/eEORXWRoInqsbZGO2akYdCy0=;
+        b=h+bujeUeE17D0y8QwbvANrZPFPrItuMxLv41QWHuHQe7jZxsqQoTg/QafkQp36HV8W
+         r3ndwX/etR3BfSi/GkeCpKUx4ABXQ1JT74yW7aozIImuFau803R/L+J9jOGtusMEz5Pi
+         Qfh95S2bYYTyy9JrT2TpZdYiAgsgbhrRNMvx602yVwUAvbM5/9qBq4TZKybXm4KBVU8X
+         mIC720jVoOn/UhPRuwKPZijb4Pjpao1qToD7j4hs/cu5nuFZ5t/vW5EUhjx/eCoS4w14
+         wnGMegSGGNqHcjALkFIOotIHGUoHiqcz0p7dQAMMxTH2MdbV7I4bj5hrHQavAs/LyK5K
+         9uJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=SH7HawfDHykVBL7gB7LjZtrkqvMZWqj5kZcd86OtO0U=;
-        b=qa7EcmymemaL9DfeImqfX0mLIEUilWvSGvLjMZ2sWqYEmAKV/LEDZ5ZhoPolQecr+k
-         k06bCDoSoaTMnmEGY5QGeyAs0ZUmur6uQ/CVOm0VnaOTMRxseCEm3Od0VFKyHar7VrAZ
-         RQxNoNy3Yb5RjQHSfgkoKcYjNeZBGabWd2NbUW2aqlHyM253gLEnY21vgoH3CEWpLj4m
-         TJcC4gS5nsokXOF/WxbtY5ypK87yQQHdVerkwHIKlvhe1LQ/4gHVdg13Ww75lLMtMtkC
-         +dPZf56FzoNHjbhHcE5hqomJEcnRpkU31uK+U2DMMzv2YBydKC7pA67DNYHALzbA9gU7
-         boFA==
-X-Gm-Message-State: AJcUukcSjzM0S71RujJGFjqRlVqNiTpJF+LLG8un9RdufbOWHowG/FSn
-        iG6cYRWkKGDylhWUZg02RceM5g==
-X-Google-Smtp-Source: ALg8bN7HPd3W7ZOoTVJkyqifMvSOx4SVVY6++FgUcXGT0WD8egbKay7m1zj/hIoeFcR92Ugux0/Wsg==
-X-Received: by 2002:ac8:2dc3:: with SMTP id q3mr12720953qta.178.1548449180570;
-        Fri, 25 Jan 2019 12:46:20 -0800 (PST)
-Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
-        by smtp.gmail.com with ESMTPSA id d85sm36841118qkb.89.2019.01.25.12.46.19
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 25 Jan 2019 12:46:19 -0800 (PST)
-Date:   Fri, 25 Jan 2019 15:46:18 -0500
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Daniel Colascione <dancol@google.com>
-Cc:     "H. Peter Anvin" <hpa@zytor.com>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
-        atish patra <atishp04@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
-        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>, rostedt@goodmis.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        yhs@fb.com
-Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
- kernel
-Message-ID: <20190125204618.GA240590@google.com>
-References: <BC774ED4-C0FC-4AA6-9BAF-36930A661D9B@zytor.com>
- <20190122133901.GA189736@google.com>
- <117d2f96-b0e9-2376-69b7-836fa0c52539@opersys.com>
- <CAKOZuesWgo3CZj49aUChX_-dpijCrVLxgVZChyLLmOWXCLQf-Q@mail.gmail.com>
- <6f82d99a-d877-aeae-3e63-95dff260c445@opersys.com>
- <20190124205929.GA141510@google.com>
- <50511D3D-7193-4B1C-952E-CCC37FA71388@zytor.com>
- <CAKOZuesOBTr82vsZo3OUa7hs03EbYMPg2cAhKyZW2QsS3uQXAQ@mail.gmail.com>
- <48D020BD-D344-41CC-9D32-033F592605EB@zytor.com>
- <CAKOZuesqiiETDRQdPxvgRKLA1sjhiySg_tTPHCB=xGVY4uMstw@mail.gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=bzGp4f5mj60UhOCZqN/eEORXWRoInqsbZGO2akYdCy0=;
+        b=eoVFFPvNo35CkPx9X0165LafH6aPGURgE5IqsdSRwYKBjXNJMgskmRsoNco9ARPGF7
+         kfi1PzxOj9irEP4hhdJe4SGYsjz+JNeeUBUcZfyKTh111m9LJ9Wo6sHEhVsPY6fCWlwi
+         lM4PBywYcK8tWZ7zB+OD0VWqJpsMC6dGCAgJj3ouO7kRMfCP6wouby5cCiGNy5aI0cxt
+         aR7cl/C16oqVbPN8qdLSjPnfBiZTzsNqZPW8PsgUS7NixKmHAzPcJkaRQroBXnEbgvu7
+         SBqdhJJm7U5qA1i9bgHx4c/aRnRHmvkXyk6nB2QSArfRuzcGxTB/PV04hFX+7BukhqSd
+         wPZQ==
+X-Gm-Message-State: AJcUukdXgcQl+M4vGOtKQiWWlNOYOqDU2J4JmUTd9WVAYfCWPuSLpbiZ
+        YBI5pHiv2Fo64+FHRfDhqR2ROo8tpY+6NQ==
+X-Google-Smtp-Source: ALg8bN53xR6ipP+cZObsAMMommYUAv3P6GEQwW2RXGorZmvuAPPXcmhaLuts5aIImEo5svuz/9oCNw==
+X-Received: by 2002:a50:8863:: with SMTP id c32mr12583176edc.156.1548475618118;
+        Fri, 25 Jan 2019 20:06:58 -0800 (PST)
+Received: from localhost.localdomain ([2a01:4f9:2a:1fae::2])
+        by smtp.gmail.com with ESMTPSA id s46sm12047978edd.9.2019.01.25.20.06.56
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 25 Jan 2019 20:06:57 -0800 (PST)
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Russell King <linux@armlinux.org.uk>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, Tri Vo <trong@android.com>,
+        Stefan Agner <stefan@agner.ch>,
+        Nicolas Pitre <nicolas.pitre@linaro.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nicolas Pitre <nico@linaro.org>
+Subject: [PATCH RESEND] ARM: Ensure that NEON code always compiles with Clang
+Date:   Fri, 25 Jan 2019 21:01:13 -0700
+Message-Id: <20190126040111.9013-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20181215212304.19390-1-natechancellor@gmail.com>
+References: <20181215212304.19390-1-natechancellor@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKOZuesqiiETDRQdPxvgRKLA1sjhiySg_tTPHCB=xGVY4uMstw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 25, 2019 at 12:34:52PM -0800, Daniel Colascione wrote:
-> On Fri, Jan 25, 2019 at 12:28 PM <hpa@zytor.com> wrote:
-> >
-> > On January 25, 2019 11:15:52 AM PST, Daniel Colascione <dancol@google.com> wrote:
-> > >On Fri, Jan 25, 2019 at 11:01 AM <hpa@zytor.com> wrote:
-> > >>
-> > >> On January 24, 2019 12:59:29 PM PST, Joel Fernandes
-> > ><joel@joelfernandes.org> wrote:
-> > >> >On Thu, Jan 24, 2019 at 07:57:26PM +0100, Karim Yaghmour wrote:
-> > >> >>
-> > >> >> On 1/23/19 11:37 PM, Daniel Colascione wrote:
-> > >> >[..]
-> > >> >> > > Personally I advocated a more aggressive approach with Joel in
-> > >> >private:
-> > >> >> > > just put the darn headers straight into the kernel image, it's
-> > >> >the
-> > >> >> > > *only* artifact we're sure will follow the Android device
-> > >> >whatever
-> > >> >> > > happens to it (like built-in ftrace).
-> > >> >> >
-> > >> >> > I was thinking along similar lines. Ordinarily, we make loadable
-> > >> >> > kernel modules. What we kind of want here is a non-loadable
-> > >kernel
-> > >> >> > module --- or a non-loadable section in the kernel image proper.
-> > >> >I'm
-> > >> >> > not familiar with early-stage kernel loader operation: I know
-> > >it's
-> > >> >> > possible to crease discardable sections in the kernel image, but
-> > >> >can
-> > >> >> > we create sections that are never slurped into memory in the
-> > >first
-> > >> >> > place? If not, maybe loading and immediately discarding the
-> > >header
-> > >> >> > section is good enough.
-> > >> >>
-> > >> >> Interesting. Maybe just append it to the image but have it not
-> > >loaded
-> > >> >and
-> > >> >> have a kernel parameter than enables a "/proc/kheaders" driver to
-> > >> >know where
-> > >> >> the fetch the appended headers from storage at runtime. There
-> > >would
-> > >> >be no
-> > >> >> RAM loading whatsoever of the headers, just some sort of
-> > >> >> "kheaders=/dev/foobar:offset:size" parameter. If you turn the
-> > >option
-> > >> >on, you
-> > >> >> get a fatter kernel image size to store on permanent storage, but
-> > >no
-> > >> >impact
-> > >> >> on what's loaded at boot time.
-> > >> >
-> > >> >Embedding anything into the kernel image does impact boot time
-> > >though
-> > >> >because
-> > >> >it increase the time spent by bootloader. A module OTOH would not
-> > >have
-> > >> >such
-> > >> >overhead.
-> > >> >
-> > >> >Also a kernel can be booted in any number of ways other than mass
-> > >> >storage so
-> > >> >it is not a generic Linux-wide solution to have a kheaders= option
-> > >like
-> > >> >that.
-> > >> >If the option is forgotten, then the running system can't use the
-> > >> >feature.
-> > >> >The other issue is it requires a kernel command line option /
-> > >> >bootloader
-> > >> >changes for that which adds more configuration burden, which not be
-> > >> >needed
-> > >> >with a module.
-> > >> >
-> > >> >> > Would such a thing really do better than LZMA? LZMA already has
-> > >> >very
-> > >> >> > clever techniques for eliminating long-range redundancies in
-> > >> >> > compressible text, including redundancies at the sub-byte level.
-> > >I
-> > >> >can
-> > >> >> > certainly understand the benefit of stripping comments, since
-> > >> >removing
-> > >> >> > comments really does decrease the total amount of information
-> > >the
-> > >> >> > compressor has to preserve, but I'm not sure how much the
-> > >encoding
-> > >> >> > scheme you propose below would help, since it reminds me of the
-> > >> >> > encoding scheme that LZMA would discover automatically.
-> > >> >>
-> > >> >> I'm no compression algorithm expert. If you say LZMA would do the
-> > >> >> same/better than what I suggested then I have no reason to contest
-> > >> >that. My
-> > >> >> goal is to see the headers as part of the kernel image that's
-> > >> >distributed on
-> > >> >> devices so that they don't have to be chased around. I'm just
-> > >trying
-> > >> >to make
-> > >> >> it as palatable as possible.
-> > >> >
-> > >> >I believe LZMA is really good at that sort of thing too.
-> > >> >
-> > >> >Also at 3.3MB of module size, I think we are really good size-wise.
-> > >But
-> > >> >Dan
-> > >> >is helping look at possibly reducing further if he gets time. Many
-> > >> >modules in
-> > >> >my experience are much bigger. amdgpu.ko on my Linux machine is
-> > >6.1MB.
-> > >> >
-> > >> >I really think making it a module is the best way to make sure this
-> > >is
-> > >> >bundled with the kernel on the widest number of Android and other
-> > >Linux
-> > >> >systems, without incurring boot time overhead, or any other command
-> > >> >line
-> > >> >configuration burden.
-> > >> >
-> > >> >I spoke to so many people at LPC personally with other kernel
-> > >> >contributors,
-> > >> >and many folks told me one word - MODULE :D.  Even though I
-> > >hesitated
-> > >> >at
-> > >> >first, now it seems the right solution.
-> > >> >
-> > >> >If no one seriously objects, I'll clean this up and post a v2 and
-> > >with
-> > >> >the
-> > >> >RFC tag taken off. Thank you!
-> > >> >
-> > >> > - Joel
-> > >>
-> > >> So let me throw in a different notion.
-> > >>
-> > >> A kernel module really is nothing other than a kernel build system
-> > >artifact stored in the filesystem.
-> > >>
-> > >> I really don't at any reason whatsoever why this is direct from just
-> > >producing an archive and putting it in the module directory, except
-> > >that the latter is far simpler.
-> > >>
-> > >> I see literally *no* problem, social or technical, you are solvin by
-> > >actually making it a kernel ELF object.
-> > >
-> > >Joel does have a point. Suppose we're on Android and we're testing a
-> > >random local kernel we've built. We can command the device to boot
-> > >into the bootloader, then send our locally-built kernel to the device
-> > >with "fastboot boot mykernelz". Having booted the device this way,
-> > >there's no on-disk artifact corresponding to mykernelz: we just sent
-> > >the boot kernel directly to the device's memory. Now, suppose I want
-> > >to attach DCTV or some other fancy ftrace-based analysis tool to the
-> > >device in order to study how mykernelz acts in some scenario I care
-> > >about. With Joel's approach, DCTV would be able to grab the kernel
-> > >headers from the running kernel, compile whatever kprobe or BPF
-> > >incantations needed, and have everything Just Work. If we put the
-> > >headers only on disk without any way to retrieve them at runtime, we'd
-> > >need a different path for kernel self-description in the case where a
-> > >running kernel doesn't have an on-disk representation, and that adds a
-> > >lot of complexity for everyone everywhere. By providing
-> > >guaranteed-correct kernel headers via some runtime interface, we make
-> > >a lot of things Just Work, and that has value.
-> >
-> > Joel specifically is talking about using a module, which *does* have to be in the filesystem.
-> >
-> > You can't have it both ways, unfortunately.
+While building arm32 allyesconfig, I ran into the following errors:
 
-You can have it whichever way is convenient to you, do all Linux users have
-the same CONFIG options?
+  arch/arm/lib/xor-neon.c:17:2: error: You should compile this file with
+  '-mfloat-abi=softfp -mfpu=neon'
 
-For me its module, for Dan its built-in. So what's your point? :)
+  In file included from lib/raid6/neon1.c:27:
+  /home/nathan/cbl/prebuilt/lib/clang/8.0.0/include/arm_neon.h:28:2:
+  error: "NEON support not enabled"
 
-> In general, whatever we support in module form, we also support as
-> part of the kernel image itself.
+Building V=1 showed NEON_FLAGS getting passed along to Clang but
+__ARM_NEON__ was not getting defined. Ultimately, it boils down to Clang
+only defining __ARM_NEON__ when targeting armv7, rather than armv6k,
+which is the '-march' value for allyesconfig.
 
-Exactly.
+>From lib/Basic/Targets/ARM.cpp in the Clang source:
 
-thanks,
+  // This only gets set when Neon instructions are actually available, unlike
+  // the VFP define, hence the soft float and arch check. This is subtly
+  // different from gcc, we follow the intent which was that it should be set
+  // when Neon instructions are actually available.
+  if ((FPU & NeonFPU) && !SoftFloat && ArchVersion >= 7) {
+    Builder.defineMacro("__ARM_NEON", "1");
+    Builder.defineMacro("__ARM_NEON__");
+    // current AArch32 NEON implementations do not support double-precision
+    // floating-point even when it is present in VFP.
+    Builder.defineMacro("__ARM_NEON_FP",
+                        "0x" + Twine::utohexstr(HW_FP & ~HW_FP_DP));
+  }
 
- - Joel
+Ard Biesheuvel recommended explicitly adding '-march=armv7-a' at the
+beginning of the NEON_FLAGS definitions so that __ARM_NEON__ always gets
+definined by Clang. This doesn't functionally change anything because
+that code will only run where NEON is supported, which is implicitly
+armv7.
+
+Link: https://github.com/ClangBuiltLinux/linux/issues/287
+Suggested-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+Acked-by: Nicolas Pitre <nico@linaro.org>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+
+Resending with Nicolas's ack and Nick's review, to give others a chance
+to pitch in with review/testing before submitting it to the patch
+system (specifically Stefan, sorry I should have included you in the
+previous posting).
+
+With this patch and:
+* A tip of tree LLVM build (I used apt.llvm.org)
+* Clang GCOV support: https://lore.kernel.org/lkml/20190122233749.42220-1-trong@android.com/
+* Two minor hacks for unrelated issues that are still being worked through:
+  * https://raw.githubusercontent.com/nathanchance/patches/c313b2fa0efb/linux/build-hax/0003-DO-NOT-UPSTREAM-ARM-Don-t-select-HAVE_FUNCTION_TRACE.patch (see https://github.com/ClangBuiltLinux/linux/issues/35)
+  * https://gist.githubusercontent.com/nathanchance/b2f5a4015abade1a41e78d5fc3235c5b/raw/744321882ab05511331f26896bad7c9f0056a6a5/gistfile1.txt (see https://github.com/ClangBuiltLinux/linux/issues/325)
+
+I can build and link a little endian allyesconfig ARM kernel. This
+patch alone works with GCC 8.2.0 and binutils 2.31.1.
+
+ Documentation/arm/kernel_mode_neon.txt | 4 ++--
+ arch/arm/lib/Makefile                  | 2 +-
+ arch/arm/lib/xor-neon.c                | 2 +-
+ lib/raid6/Makefile                     | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/arm/kernel_mode_neon.txt b/Documentation/arm/kernel_mode_neon.txt
+index 525452726d31..b9e060c5b61e 100644
+--- a/Documentation/arm/kernel_mode_neon.txt
++++ b/Documentation/arm/kernel_mode_neon.txt
+@@ -6,7 +6,7 @@ TL;DR summary
+ * Use only NEON instructions, or VFP instructions that don't rely on support
+   code
+ * Isolate your NEON code in a separate compilation unit, and compile it with
+-  '-mfpu=neon -mfloat-abi=softfp'
++  '-march=armv7-a -mfpu=neon -mfloat-abi=softfp'
+ * Put kernel_neon_begin() and kernel_neon_end() calls around the calls into your
+   NEON code
+ * Don't sleep in your NEON code, and be aware that it will be executed with
+@@ -87,7 +87,7 @@ instructions appearing in unexpected places if no special care is taken.
+ Therefore, the recommended and only supported way of using NEON/VFP in the
+ kernel is by adhering to the following rules:
+ * isolate the NEON code in a separate compilation unit and compile it with
+-  '-mfpu=neon -mfloat-abi=softfp';
++  '-march=armv7-a -mfpu=neon -mfloat-abi=softfp';
+ * issue the calls to kernel_neon_begin(), kernel_neon_end() as well as the calls
+   into the unit containing the NEON code from a compilation unit which is *not*
+   built with the GCC flag '-mfpu=neon' set.
+diff --git a/arch/arm/lib/Makefile b/arch/arm/lib/Makefile
+index ad25fd1872c7..0bff0176db2c 100644
+--- a/arch/arm/lib/Makefile
++++ b/arch/arm/lib/Makefile
+@@ -39,7 +39,7 @@ $(obj)/csumpartialcopy.o:	$(obj)/csumpartialcopygeneric.S
+ $(obj)/csumpartialcopyuser.o:	$(obj)/csumpartialcopygeneric.S
+ 
+ ifeq ($(CONFIG_KERNEL_MODE_NEON),y)
+-  NEON_FLAGS			:= -mfloat-abi=softfp -mfpu=neon
++  NEON_FLAGS			:= -march=armv7-a -mfloat-abi=softfp -mfpu=neon
+   CFLAGS_xor-neon.o		+= $(NEON_FLAGS)
+   obj-$(CONFIG_XOR_BLOCKS)	+= xor-neon.o
+ endif
+diff --git a/arch/arm/lib/xor-neon.c b/arch/arm/lib/xor-neon.c
+index 2c40aeab3eaa..c691b901092f 100644
+--- a/arch/arm/lib/xor-neon.c
++++ b/arch/arm/lib/xor-neon.c
+@@ -14,7 +14,7 @@
+ MODULE_LICENSE("GPL");
+ 
+ #ifndef __ARM_NEON__
+-#error You should compile this file with '-mfloat-abi=softfp -mfpu=neon'
++#error You should compile this file with '-march=armv7-a -mfloat-abi=softfp -mfpu=neon'
+ #endif
+ 
+ /*
+diff --git a/lib/raid6/Makefile b/lib/raid6/Makefile
+index 4e90d443d1b0..e723eacf7868 100644
+--- a/lib/raid6/Makefile
++++ b/lib/raid6/Makefile
+@@ -39,7 +39,7 @@ endif
+ ifeq ($(CONFIG_KERNEL_MODE_NEON),y)
+ NEON_FLAGS := -ffreestanding
+ ifeq ($(ARCH),arm)
+-NEON_FLAGS += -mfloat-abi=softfp -mfpu=neon
++NEON_FLAGS += -march=armv7-a -mfloat-abi=softfp -mfpu=neon
+ endif
+ CFLAGS_recov_neon_inner.o += $(NEON_FLAGS)
+ ifeq ($(ARCH),arm64)
+-- 
+2.20.1
 
