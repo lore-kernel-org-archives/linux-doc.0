@@ -1,96 +1,201 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.9 required=5.0 tests=DATE_IN_PAST_06_12,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 57C377D8A9
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 26 Jan 2019 15:58:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4BC237D099
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 26 Jan 2019 16:48:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726165AbfAZP6l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 26 Jan 2019 10:58:41 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55034 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726148AbfAZP6l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Jan 2019 10:58:41 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x0QFnEuq021943
-        for <linux-doc@vger.kernel.org>; Sat, 26 Jan 2019 10:58:40 -0500
-Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2q8mxnhfus-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sat, 26 Jan 2019 10:58:40 -0500
-Received: from localhost
-        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Sat, 26 Jan 2019 15:58:39 -0000
-Received: from b01cxnp23032.gho.pok.ibm.com (9.57.198.27)
-        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sat, 26 Jan 2019 15:58:37 -0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x0QFwaMK23265382
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sat, 26 Jan 2019 15:58:36 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 58125B2064;
-        Sat, 26 Jan 2019 15:58:36 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3A075B205F;
-        Sat, 26 Jan 2019 15:58:36 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.80.216.199])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Sat, 26 Jan 2019 15:58:36 +0000 (GMT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id 113A216C6997; Fri, 25 Jan 2019 22:30:38 -0800 (PST)
-Date:   Fri, 25 Jan 2019 22:30:38 -0800
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     SeongJae Park <sj38.park@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/2] Korean translation of memory-barriers.txt update
-Reply-To: paulmck@linux.ibm.com
-References: <20190124215548.4991-1-sj38.park@gmail.com>
+        id S1726038AbfAZQsh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 26 Jan 2019 11:48:37 -0500
+Received: from mail.kmu-office.ch ([178.209.48.109]:52262 "EHLO
+        mail.kmu-office.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726070AbfAZQsh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 26 Jan 2019 11:48:37 -0500
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+        by mail.kmu-office.ch (Postfix) with ESMTPSA id 5C3ED5C00D5;
+        Sat, 26 Jan 2019 17:48:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+        t=1548521313;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=zmrneEBPESZO4rZ5YaNDNI0pxmdcbOzgYqXq0Y2bbBQ=;
+        b=eaqcRrV1MQrUTIEgZuuch0+kNMaNqiI4CuhxKMKO3iMcoleILAHFNsxr6aIOqFz4xogg6u
+        6eByMgx1djO69qnxID8p8zgVQiWGOdGQEYJ8aaflfOcrJ5/iqyd6XlUOnEnw+O4IDqZ/bm
+        gqZzaUfWYW6MHs2pQBZOtfPmSglyr00=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190124215548.4991-1-sj38.park@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 19012615-2213-0000-0000-000003451459
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00010481; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000277; SDB=6.01152095; UDB=6.00600533; IPR=6.00932445;
- MB=3.00025301; MTD=3.00000008; XFM=3.00000015; UTC=2019-01-26 15:58:38
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19012615-2214-0000-0000-00005D1F73AC
-Message-Id: <20190126063038.GG4240@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-26_10:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1901260120
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Date:   Sat, 26 Jan 2019 17:48:33 +0100
+From:   Stefan Agner <stefan@agner.ch>
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Russell King <linux@armlinux.org.uk>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Tri Vo <trong@android.com>,
+        Nicolas Pitre <nicolas.pitre@linaro.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Pitre <nico@linaro.org>
+Subject: Re: [PATCH RESEND] ARM: Ensure that NEON code always compiles with
+ Clang
+In-Reply-To: <20190126040111.9013-1-natechancellor@gmail.com>
+References: <20181215212304.19390-1-natechancellor@gmail.com>
+ <20190126040111.9013-1-natechancellor@gmail.com>
+Message-ID: <20e649cde3fadfa63d7ae9fefbda4915@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.7
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 25, 2019 at 06:55:46AM +0900, SeongJae Park wrote:
-> This patchset updates the Korean translation of memory-barriers.txt to follow
-> latest changes.  It has been reviewed by my one Korean colleague.
+On 26.01.2019 05:01, Nathan Chancellor wrote:
+> While building arm32 allyesconfig, I ran into the following errors:
 > 
-> SeongJae Park (2):
->   sched/Documentation/kokr: Update Korean translation to update
->     wake_up() & co. memory-barrier guarantees
->   locking/memory-barriers/kokr: Update Korean translation to replace
->     smp_cond_acquire() with smp_cond_load_acquire()
+>   arch/arm/lib/xor-neon.c:17:2: error: You should compile this file with
+>   '-mfloat-abi=softfp -mfpu=neon'
 > 
->  .../translations/ko_KR/memory-barriers.txt         | 49 ++++++++++++----------
->  1 file changed, 28 insertions(+), 21 deletions(-)
+>   In file included from lib/raid6/neon1.c:27:
+>   /home/nathan/cbl/prebuilt/lib/clang/8.0.0/include/arm_neon.h:28:2:
+>   error: "NEON support not enabled"
+> 
+> Building V=1 showed NEON_FLAGS getting passed along to Clang but
+> __ARM_NEON__ was not getting defined. Ultimately, it boils down to Clang
+> only defining __ARM_NEON__ when targeting armv7, rather than armv6k,
+> which is the '-march' value for allyesconfig.
+> 
+>>From lib/Basic/Targets/ARM.cpp in the Clang source:
+> 
+>   // This only gets set when Neon instructions are actually available, unlike
+>   // the VFP define, hence the soft float and arch check. This is subtly
+>   // different from gcc, we follow the intent which was that it should be set
+>   // when Neon instructions are actually available.
+>   if ((FPU & NeonFPU) && !SoftFloat && ArchVersion >= 7) {
+>     Builder.defineMacro("__ARM_NEON", "1");
+>     Builder.defineMacro("__ARM_NEON__");
+>     // current AArch32 NEON implementations do not support double-precision
+>     // floating-point even when it is present in VFP.
+>     Builder.defineMacro("__ARM_NEON_FP",
+>                         "0x" + Twine::utohexstr(HW_FP & ~HW_FP_DP));
+>   }
+> 
+> Ard Biesheuvel recommended explicitly adding '-march=armv7-a' at the
+> beginning of the NEON_FLAGS definitions so that __ARM_NEON__ always gets
+> definined by Clang. This doesn't functionally change anything because
+> that code will only run where NEON is supported, which is implicitly
+> armv7.
+> 
+> Link: https://github.com/ClangBuiltLinux/linux/issues/287
+> Suggested-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+> Acked-by: Nicolas Pitre <nico@linaro.org>
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+> 
+> Resending with Nicolas's ack and Nick's review, to give others a chance
+> to pitch in with review/testing before submitting it to the patch
+> system (specifically Stefan, sorry I should have included you in the
+> previous posting).
 
-Queued on the strength of the Reviewed-bys.
+No worries.
 
-							Thanx, Paul
+Looks good to me.
 
+Reviewed-by: Stefan Agner <stefan@agner.ch>
+
+--
+Stefan
+
+> 
+> With this patch and:
+> * A tip of tree LLVM build (I used apt.llvm.org)
+> * Clang GCOV support:
+> https://lore.kernel.org/lkml/20190122233749.42220-1-trong@android.com/
+> * Two minor hacks for unrelated issues that are still being worked through:
+>   *
+> https://raw.githubusercontent.com/nathanchance/patches/c313b2fa0efb/linux/build-hax/0003-DO-NOT-UPSTREAM-ARM-Don-t-select-HAVE_FUNCTION_TRACE.patch
+> (see https://github.com/ClangBuiltLinux/linux/issues/35)
+>   *
+> https://gist.githubusercontent.com/nathanchance/b2f5a4015abade1a41e78d5fc3235c5b/raw/744321882ab05511331f26896bad7c9f0056a6a5/gistfile1.txt
+> (see https://github.com/ClangBuiltLinux/linux/issues/325)
+> 
+> I can build and link a little endian allyesconfig ARM kernel. This
+> patch alone works with GCC 8.2.0 and binutils 2.31.1.
+> 
+>  Documentation/arm/kernel_mode_neon.txt | 4 ++--
+>  arch/arm/lib/Makefile                  | 2 +-
+>  arch/arm/lib/xor-neon.c                | 2 +-
+>  lib/raid6/Makefile                     | 2 +-
+>  4 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/arm/kernel_mode_neon.txt
+> b/Documentation/arm/kernel_mode_neon.txt
+> index 525452726d31..b9e060c5b61e 100644
+> --- a/Documentation/arm/kernel_mode_neon.txt
+> +++ b/Documentation/arm/kernel_mode_neon.txt
+> @@ -6,7 +6,7 @@ TL;DR summary
+>  * Use only NEON instructions, or VFP instructions that don't rely on support
+>    code
+>  * Isolate your NEON code in a separate compilation unit, and compile it with
+> -  '-mfpu=neon -mfloat-abi=softfp'
+> +  '-march=armv7-a -mfpu=neon -mfloat-abi=softfp'
+>  * Put kernel_neon_begin() and kernel_neon_end() calls around the
+> calls into your
+>    NEON code
+>  * Don't sleep in your NEON code, and be aware that it will be executed with
+> @@ -87,7 +87,7 @@ instructions appearing in unexpected places if no
+> special care is taken.
+>  Therefore, the recommended and only supported way of using NEON/VFP in the
+>  kernel is by adhering to the following rules:
+>  * isolate the NEON code in a separate compilation unit and compile it with
+> -  '-mfpu=neon -mfloat-abi=softfp';
+> +  '-march=armv7-a -mfpu=neon -mfloat-abi=softfp';
+>  * issue the calls to kernel_neon_begin(), kernel_neon_end() as well
+> as the calls
+>    into the unit containing the NEON code from a compilation unit which is *not*
+>    built with the GCC flag '-mfpu=neon' set.
+> diff --git a/arch/arm/lib/Makefile b/arch/arm/lib/Makefile
+> index ad25fd1872c7..0bff0176db2c 100644
+> --- a/arch/arm/lib/Makefile
+> +++ b/arch/arm/lib/Makefile
+> @@ -39,7 +39,7 @@ $(obj)/csumpartialcopy.o:	$(obj)/csumpartialcopygeneric.S
+>  $(obj)/csumpartialcopyuser.o:	$(obj)/csumpartialcopygeneric.S
+>  
+>  ifeq ($(CONFIG_KERNEL_MODE_NEON),y)
+> -  NEON_FLAGS			:= -mfloat-abi=softfp -mfpu=neon
+> +  NEON_FLAGS			:= -march=armv7-a -mfloat-abi=softfp -mfpu=neon
+>    CFLAGS_xor-neon.o		+= $(NEON_FLAGS)
+>    obj-$(CONFIG_XOR_BLOCKS)	+= xor-neon.o
+>  endif
+> diff --git a/arch/arm/lib/xor-neon.c b/arch/arm/lib/xor-neon.c
+> index 2c40aeab3eaa..c691b901092f 100644
+> --- a/arch/arm/lib/xor-neon.c
+> +++ b/arch/arm/lib/xor-neon.c
+> @@ -14,7 +14,7 @@
+>  MODULE_LICENSE("GPL");
+>  
+>  #ifndef __ARM_NEON__
+> -#error You should compile this file with '-mfloat-abi=softfp -mfpu=neon'
+> +#error You should compile this file with '-march=armv7-a
+> -mfloat-abi=softfp -mfpu=neon'
+>  #endif
+>  
+>  /*
+> diff --git a/lib/raid6/Makefile b/lib/raid6/Makefile
+> index 4e90d443d1b0..e723eacf7868 100644
+> --- a/lib/raid6/Makefile
+> +++ b/lib/raid6/Makefile
+> @@ -39,7 +39,7 @@ endif
+>  ifeq ($(CONFIG_KERNEL_MODE_NEON),y)
+>  NEON_FLAGS := -ffreestanding
+>  ifeq ($(ARCH),arm)
+> -NEON_FLAGS += -mfloat-abi=softfp -mfpu=neon
+> +NEON_FLAGS += -march=armv7-a -mfloat-abi=softfp -mfpu=neon
+>  endif
+>  CFLAGS_recov_neon_inner.o += $(NEON_FLAGS)
+>  ifeq ($(ARCH),arm64)
