@@ -1,65 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3E67C7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Jan 2019 09:50:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 089807D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Jan 2019 15:35:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726667AbfA1JuY convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 28 Jan 2019 04:50:24 -0500
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:42313 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726521AbfA1JuY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jan 2019 04:50:24 -0500
-X-Originating-IP: 90.88.29.206
-Received: from xps13 (aaubervilliers-681-1-87-206.w90-88.abo.wanadoo.fr [90.88.29.206])
-        (Authenticated sender: miquel.raynal@bootlin.com)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id A8EA860017;
-        Mon, 28 Jan 2019 09:50:20 +0000 (UTC)
-Date:   Mon, 28 Jan 2019 10:50:19 +0100
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Boris Brezillon <bbrezillon@kernel.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mtd@lists.infradead.org,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Boris Brezillon <boris.brezillon@bootlin.com>,
-        Richard Weinberger <richard@nod.at>
-Subject: Re: [PATCH] mtd: nand: fix kernel-doc warnings
-Message-ID: <20190128105019.5aa8edeb@xps13>
-In-Reply-To: <20190128104319.7a9effde@bbrezillon>
-References: <21d5edd7-1335-2731-6d53-5b15d053462c@infradead.org>
-        <20190128104319.7a9effde@bbrezillon>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726825AbfA1PfB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 Jan 2019 10:35:01 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52078 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726678AbfA1PfB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 28 Jan 2019 10:35:01 -0500
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CE7D121741;
+        Mon, 28 Jan 2019 15:34:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1548689700;
+        bh=NZmE/2MZuC2Pg/w/22LZvSE7CCI06iRQKfA1qY1cgu0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=LhayHQp6GYG7uw8Zd5CbicwmBepg9ykEKPLIvCHzl7aD2Qj4WGmPGOukJ1DVG0HRD
+         YRb1vyEQz8kVB7eoTVMxP2Rhn4w5kOwkH9g/a6YNTMp0jiygRcaRbVDJCIBMUYxcJ9
+         PcJW4pHFFont0kUcymbL9rK4B55h8nKSOKHGpRO4=
+Received: by mail-qk1-f182.google.com with SMTP id o125so9602231qkf.3;
+        Mon, 28 Jan 2019 07:34:59 -0800 (PST)
+X-Gm-Message-State: AJcUukcxPXlIHpg9cMHc+XzBwL2vVKlEOwmYyuiVfSNbeP6+pvVmloW8
+        Kmd703sEhjjx5h9zDAQw39kOSD/X67Ib8XEs/Q==
+X-Google-Smtp-Source: ALg8bN7/6xUWddlpOWTZGyOMvMZN+9ik8FtdIbA1p+CzxDg9H/QULhFgM1PqM4cJaz5SKqu8x4tT/ivAdUkyr38+528=
+X-Received: by 2002:a37:a483:: with SMTP id n125mr19292602qke.184.1548689698974;
+ Mon, 28 Jan 2019 07:34:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+References: <20181211202406.27721-1-robh@kernel.org> <CAMuHMdUdGvBUX7EsOrwJM4_LzR_Pe2exJ1Pfo48Vt5_scrdy0w@mail.gmail.com>
+In-Reply-To: <CAMuHMdUdGvBUX7EsOrwJM4_LzR_Pe2exJ1Pfo48Vt5_scrdy0w@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Mon, 28 Jan 2019 09:34:47 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKG8d+yONY2ikeiCaORYBfWhLe_rAsir11R8zRAD84MmA@mail.gmail.com>
+Message-ID: <CAL_JsqKG8d+yONY2ikeiCaORYBfWhLe_rAsir11R8zRAD84MmA@mail.gmail.com>
+Subject: Re: [PATCH v4] kbuild: Add support for DT binding schema checks
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Sean Hudson <darknighte@darknighte.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Grant Likely <grant.likely@arm.com>,
+        Kumar Gala <kumar.gala@linaro.org>, arm-soc <arm@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Randy,
+On Mon, Jan 28, 2019 at 3:43 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Rob,
+>
+> On Tue, Dec 11, 2018 at 9:24 PM Rob Herring <robh@kernel.org> wrote:
+> > This adds the build infrastructure for checking DT binding schema
+> > documents and validating dts files using the binding schema.
+> >
+> > Check DT binding schema documents:
+> > make dt_binding_check
+> >
+> > Build dts files and check using DT binding schema:
+> > make dtbs_check
+> >
+> > Optionally, DT_SCHEMA_FILES can be passed in with a schema file(s) to
+> > use for validation. This makes it easier to find and fix errors
+> > generated by a specific schema.
+> >
+> > Currently, the validation targets are separate from a normal build to
+> > avoid a hard dependency on the external DT schema project and because
+> > there are lots of warnings generated.
+> >
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: Mark Rutland <mark.rutland@arm.com>
+> > Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> > Cc: Michal Marek <michal.lkml@markovi.net>
+> > Cc: linux-doc@vger.kernel.org
+> > Cc: devicetree@vger.kernel.org
+> > Cc: linux-kbuild@vger.kernel.org
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+>
+> BTW, what are the CONFIG dependencies for this to work?
+> E.g. defconfig on x86_64 fails, even after enabling CONFIG_OF:
 
-Boris Brezillon <bbrezillon@kernel.org> wrote on Mon, 28 Jan 2019
-10:43:38 +0100:
+I generally use allmodconfig which enables building all DTs.
 
-> On Sun, 27 Jan 2019 18:21:42 -0800
-> Randy Dunlap <rdunlap@infradead.org> wrote:
-> 
-> > From: Randy Dunlap <rdunlap@infradead.org>
-> > 
-> > Fix kernel-doc warnings in drivers/mtd/nand/raw:
+Yes, there's a dependency on CONFIG_DTC which isn't always enabled
+with CONFIG_OF. Maybe it should be. The only other solutions I've
+thought of are either always build dtc or make the targets conditional
+on CONFIG_DTC. The latter would only change the error message.
 
-With the prefix changed to "mtd: rawnand:"
-
-Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
-
-
-Thanks,
-Miquèl
+Rob
