@@ -1,48 +1,46 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AC9817DE79
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Jan 2019 17:47:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4B6C17D913
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Jan 2019 17:54:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728674AbfA1PtT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 28 Jan 2019 10:49:19 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35006 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726846AbfA1PtS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 28 Jan 2019 10:49:18 -0500
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D8DE6217F5;
-        Mon, 28 Jan 2019 15:49:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1548690557;
-        bh=zb+nISiRI73A+qDN+B8FR5Vq4TOtoLMt5EaVYuqlw3k=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=wzh4I8U3m/doHXMuJs+U+XcvJZn5zi1aPkPRWnb6CY8m95I8YmDIc6Uw7YnK81NYm
-         Mfbr3fYfkAfw4k61uN3DmjPVgzP4Tri3fAkSCon1PPU5/oB2DRqsiSnF/2umkD+A4r
-         s45+o7+CeYhBM3T85YQBs94xOMyjKEb3UIlybgHo=
-Received: by mail-qt1-f178.google.com with SMTP id t13so18723174qtn.3;
-        Mon, 28 Jan 2019 07:49:16 -0800 (PST)
-X-Gm-Message-State: AJcUukdHZxljYiMFSgctbx81OIZM2A69nN0gJG+HNxKaX0uOZTyZ82uz
-        89YQPkywrs3r78djkUGoR1FfNeuEGSQKrfCyqQ==
-X-Google-Smtp-Source: ALg8bN6aAd3dUU8SPZKh3Ue5xmkf45/Ph2BX3YSHn6GYh7OyqXrJ80LErM0PgHIMouF7sP1yus5diSXLSD4ZYYMcubc=
-X-Received: by 2002:aed:29a6:: with SMTP id o35mr21234047qtd.257.1548690556001;
- Mon, 28 Jan 2019 07:49:16 -0800 (PST)
+        id S1727157AbfA1PoD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 Jan 2019 10:44:03 -0500
+Received: from mail-vs1-f66.google.com ([209.85.217.66]:42456 "EHLO
+        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727146AbfA1PoB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jan 2019 10:44:01 -0500
+Received: by mail-vs1-f66.google.com with SMTP id b74so9969091vsd.9;
+        Mon, 28 Jan 2019 07:44:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=x2wa+K5YNPI9+zY5xomP72xSduPXvimTTHXp1XsjO7E=;
+        b=Lcwew0REURerg7vQiHlKSAZpMK1SyOMljwGAXArOREXQHOEFDGeiV56Ypmd35wKnBN
+         yzpHg3iJ+N/lSDrkM5J5x4ClZHg6Dns5g7/blQAYkcfUoZLpiRT2vlnYz135KX7CBLv9
+         ZbJUXQ24iwW6lthTgAz65oVe4yVFiEv8zNLsPoGNGvctGaKzp7tyVE3gQHB9k0hB1QvM
+         JOVmI9vaOEpjAKxb/F1Fd6Wxp35uCg9CLz58jdVAx2HIEAXVHT7SX5K4ssdq4Q2ldOV+
+         JII1BM8lVDRee9hbYA3XpfDjEbdzQo8M2Ya/61sZoaM51VKBgJYKmUIHi8KsLBpzxm+p
+         NThg==
+X-Gm-Message-State: AHQUAuYxH0IT5vLG1UCJRQJAVTgffemxwbOSFFrrwegZ+fVca9OaAsXn
+        izSuW4c1zUfJiXZckhjm0RH6BRL3XQkEOktk1NI=
+X-Google-Smtp-Source: AHgI3IaCNqFqxYF5jcFRcCRr3F8u3p45e8vOxEGJ+OqOd1kuIKX0RovOS/tgzMJSBqB2qpmVtJ11sRlLqYSVlIaIAgE=
+X-Received: by 2002:a67:c202:: with SMTP id i2mr148070vsj.11.1548690240249;
+ Mon, 28 Jan 2019 07:44:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20181211202406.27721-1-robh@kernel.org> <CAMuHMdUZHi87Dv=m4USocfQ60s6_uHmny5DvCVm+hZ98+ROvdA@mail.gmail.com>
- <CAL_JsqJKhOmp+UKS=B-_8txHhRbqheG3GuogcZpXJ+aYcO5Oqg@mail.gmail.com> <CAMuHMdU3Om44R3wB69jeyHFER8syGDeJQsYd-pXqEKHBMZW2ow@mail.gmail.com>
-In-Reply-To: <CAMuHMdU3Om44R3wB69jeyHFER8syGDeJQsYd-pXqEKHBMZW2ow@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Mon, 28 Jan 2019 09:49:04 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+5RpZ2WmxnFz-wa=NTGQ2=6MqjdysmXH8PTrRfke8-=A@mail.gmail.com>
-Message-ID: <CAL_Jsq+5RpZ2WmxnFz-wa=NTGQ2=6MqjdysmXH8PTrRfke8-=A@mail.gmail.com>
+References: <20181211202406.27721-1-robh@kernel.org> <CAMuHMdUdGvBUX7EsOrwJM4_LzR_Pe2exJ1Pfo48Vt5_scrdy0w@mail.gmail.com>
+ <CAL_JsqKG8d+yONY2ikeiCaORYBfWhLe_rAsir11R8zRAD84MmA@mail.gmail.com>
+In-Reply-To: <CAL_JsqKG8d+yONY2ikeiCaORYBfWhLe_rAsir11R8zRAD84MmA@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 28 Jan 2019 16:43:47 +0100
+Message-ID: <CAMuHMdWy2D-keyOuKtgCLe0_76qR74Jk7Aa=_FzxvEG7rfKpCA@mail.gmail.com>
 Subject: Re: [PATCH v4] kbuild: Add support for DT binding schema checks
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
+To:     Rob Herring <robh@kernel.org>
 Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -64,97 +62,54 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 28, 2019 at 2:59 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Rob,
->
-> On Sun, Jan 27, 2019 at 4:00 AM Rob Herring <robh@kernel.org> wrote:
-> > On Wed, Jan 23, 2019 at 9:33 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > On Tue, Dec 11, 2018 at 9:24 PM Rob Herring <robh@kernel.org> wrote:
-> > > > This adds the build infrastructure for checking DT binding schema
-> > > > documents and validating dts files using the binding schema.
-> > > >
-> > > > Check DT binding schema documents:
-> > > > make dt_binding_check
-> > > >
-> > > > Build dts files and check using DT binding schema:
-> > > > make dtbs_check
-> > > >
-> > > > Optionally, DT_SCHEMA_FILES can be passed in with a schema file(s) to
-> > > > use for validation. This makes it easier to find and fix errors
-> > > > generated by a specific schema.
-> > > >
-> > > > Currently, the validation targets are separate from a normal build to
-> > > > avoid a hard dependency on the external DT schema project and because
-> > > > there are lots of warnings generated.
+Hi Rob,
+
+On Mon, Jan 28, 2019 at 4:35 PM Rob Herring <robh@kernel.org> wrote:
+> On Mon, Jan 28, 2019 at 3:43 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Tue, Dec 11, 2018 at 9:24 PM Rob Herring <robh@kernel.org> wrote:
+> > > This adds the build infrastructure for checking DT binding schema
+> > > documents and validating dts files using the binding schema.
 > > >
-> > > Thanks, I'm giving this a try, and get errors like:
+> > > Check DT binding schema documents:
+> > > make dt_binding_check
 > > >
-> > >       DTC     arch/arm/boot/dts/emev2-kzm9d.dt.yaml
-> > >     FATAL ERROR: No markers present in property 'cpu0' value
+> > > Build dts files and check using DT binding schema:
+> > > make dtbs_check
 > > >
-> > > and
+> > > Optionally, DT_SCHEMA_FILES can be passed in with a schema file(s) to
+> > > use for validation. This makes it easier to find and fix errors
+> > > generated by a specific schema.
 > > >
-> > >       DTC     arch/arm64/boot/dts/renesas/r8a7795-salvator-x.dt.yaml
-> > >     FATAL ERROR: No markers present in property 'audio_clk_a' value
-> > >
-> > > Do you have a clue?
-> >
-> > That's really strange because those aren't even properties. Are other
-> > dts files okay? This is the in tree dtc?
-> >
-> > The only time you should be missing markers is if you did a dts -> dts
-> > -> dt.yaml.
+> > > Currently, the validation targets are separate from a normal build to
+> > > avoid a hard dependency on the external DT schema project and because
+> > > there are lots of warnings generated.
+
+> > BTW, what are the CONFIG dependencies for this to work?
+> > E.g. defconfig on x86_64 fails, even after enabling CONFIG_OF:
 >
-> Found it: make dtbs_check doesn't play well with my local change to
-> add symbols for DT overlays:
-
-Now that makes sense.
-
->     --- a/scripts/Makefile.lib
->     +++ b/scripts/Makefile.lib
->     @@ -285,6 +285,10 @@ cmd_dt_S_dtb=
->              \
->      $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
->             $(call if_changed,dt_S_dtb)
+> I generally use allmodconfig which enables building all DTs.
 >
->     +ifeq ($(CONFIG_OF_OVERLAY),y)
->     +DTC_FLAGS += -@
->     +endif
->     +
->      quiet_cmd_dtc = DTC     $@
->      cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
->             $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o
-> $(dtc-tmp) $< ; \
->
-> Do you see a way to handle that better?
+> Yes, there's a dependency on CONFIG_DTC which isn't always enabled
+> with CONFIG_OF. Maybe it should be. The only other solutions I've
 
-We need to have the code that generates these properties to also add
-markers. Or we could drop the __symbols__ nodes on YAML output. Or
-ignore the option when doing YAML output.
+Oh, didn't think of CONFIG_DTC.
 
-> Apart from a few expected issues, I'm seeing one other strange message:
->
->     arch/arm/boot/dts/sh73a0-kzm9g.dt.yaml: interrupts: [[2, 4], [3,
-> 4]] is too long
->
-> This is the interrupts property in the adi,adxl345 node in
-> arch/arm/boot/dts/sh73a0-kzm9g.dts.
-> Apparently the check complains if more than one interrupt is listed here.
-> Is this a known issue?
+> thought of are either always build dtc or make the targets conditional
+> on CONFIG_DTC. The latter would only change the error message.
 
-There are lots of warnings... I've gone thru and checked some to make
-sure they are valid, but certainly not all. There's probably some
-cases that are too strict too.
+Making the target conditional may make it more obvious to the user
+what's going on. Cfr. "make modules_install" giving a nice explanation
+when CONFIG_MODULES=n.
 
-This one is because this device is listed in trivial-devices.yaml and
-you can't have 2 interrupts for a trivial device (because you need to
-define the interrupt order). Looks like we have a binding doc for it
-too, so we should just remove it from trivial-devices.yaml.
+Thanks.
 
-There are lots of '... is too (long|short)' messages because of how
-the dts file property values are bracketed. This used to not matter,
-but is significant in the YAML output. I have a dtc patch to give
-warnings on all these (and dtc will give source location).
+Gr{oetje,eeting}s,
 
-Rob
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
