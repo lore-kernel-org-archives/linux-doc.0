@@ -1,73 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A48907D161
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Jan 2019 09:08:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0AC567D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Jan 2019 09:43:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726672AbfA1JIk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 28 Jan 2019 04:08:40 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:42673 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726611AbfA1JIk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jan 2019 04:08:40 -0500
-Received: by mail-lj1-f194.google.com with SMTP id l15-v6so13533561lja.9
-        for <linux-doc@vger.kernel.org>; Mon, 28 Jan 2019 01:08:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0FEn/jn/6ZmaKXY4ewFiv4XfKfXIhmGqV/zM3n2EaLw=;
-        b=e4qqhgBLbBj6Y9VthzIU9HCaiYZgOTkYQ45MJk5MFHHnh5rsMCf0a25Rcfv83zKD5n
-         gKvpgQt6U7iSdH6NWJExvFu/jTYSvxqUIy+BIKag2R3meY0lF35vMOwUfQTW+ENwsB3d
-         EvRGXKMm17E9wYImwE/fL3shvEQ5vpRKeqOjU=
+        id S1726695AbfA1Jni (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 Jan 2019 04:43:38 -0500
+Received: from mail-vs1-f67.google.com ([209.85.217.67]:44286 "EHLO
+        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726611AbfA1Jni (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jan 2019 04:43:38 -0500
+Received: by mail-vs1-f67.google.com with SMTP id u11so9343574vsp.11;
+        Mon, 28 Jan 2019 01:43:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=0FEn/jn/6ZmaKXY4ewFiv4XfKfXIhmGqV/zM3n2EaLw=;
-        b=JDlnHBqVN5izbL7aLYmomaZQjFYOMnxLCvecujAiF6FNUaJ319mrPL74+xovZqN2n1
-         OBekRKij27JqykhY7h/bdDiYtKaHHNhBKvzOP9SsEjuy65HnR6bHT44uLs2whFzDKQHe
-         F5X85x0nT7IogNyk/vHFvcnssNESHgMhMUXQCl7uIk01tqZ8hV7frp2iKsJlJHrNl2fK
-         zGbKkPxNRd+oZ3Jq3Bilm2hAMhhDe4XE1E1+NTGvlKeEof2ttEV3IO3enWgAhMU5xZlH
-         BR++JYcnFKjr/N+zy5O23JqDUBVPX9MLOFF1XAHQv+Uf3bnGPMt+d/mxPFoDqtzC1rQ8
-         AUWA==
-X-Gm-Message-State: AJcUukfMy0LBetblBKjjTaL2nGEypXewCc13kd9SyAyKZA4/EelFs1qR
-        6SlN/QCX2zhBn02iXugykaYiuN6CxL58LQ8/Mh9JEopo
-X-Google-Smtp-Source: ALg8bN7g8C0muF261PwxkGrap2+4ML4yaUpXFHweRhs0KTimHWgsMyXdOH5tTcvzMOG5/V03nDQiaPLNa1fFJJvOzmQ=
-X-Received: by 2002:a2e:131a:: with SMTP id 26-v6mr15950792ljt.107.1548666517943;
- Mon, 28 Jan 2019 01:08:37 -0800 (PST)
+        bh=I7v2CVhzSApSnN73x2sP5/c9efgR0kyTQcHVcX3dt8I=;
+        b=WRr0foEVCCKPyQlOpq83RbEJp3J21TDk3G4zBJHr4FM7Re5vzUCtEk1aKiWSodN04f
+         nZztLfFMEr1XCc4Yzj7MQT7cwtv+Y9DXwNxM4UokaeVpWdFkpoFqCeF3Ya6UH9Qr3FiU
+         TeezhnENle+qmbhc5PfhkrF5kTtLnp/cMiDGx5j/nvHrEO0CBW4oO4CalpCifkaL9JaC
+         9RNUNmRvR7L2tzFvRP4Z+impJ0g2rYc2MJHX9DXMtET6qo9UbYtGcM5jetig+S0X50bq
+         g1m5D7SqlQbjGv2MaRDDWB34T1Bm0xyCPu1zIjat6w9FJdH7+xVr0n5Gv33+TkhagnZi
+         V2oQ==
+X-Gm-Message-State: AJcUukeUQoWGgojVESi0T8q6+vH+zYFhl1TqwhHPImzxp9GYVMOe7YLG
+        dxaNjjGKLc5R5BAtDnHt5mAkdytNqYPeLv0S93k=
+X-Google-Smtp-Source: ALg8bN762N4hfLRHQtO9IsXp0QGWHGsVqfaF50zLAbLpKMuStIzjLEcZvyXnYM8xWjxpj+QEIGLDs/D7L8pc0VRBDvk=
+X-Received: by 2002:a67:b60d:: with SMTP id d13mr8815146vsm.152.1548668616811;
+ Mon, 28 Jan 2019 01:43:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20190121143822.20225-1-ramon.fried@linux.intel.com>
-In-Reply-To: <20190121143822.20225-1-ramon.fried@linux.intel.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 28 Jan 2019 10:08:26 +0100
-Message-ID: <CACRpkdbgq-FdsBghLMgSpPWX0LrEBL4bhSXRh24E1oaQ1OdjiA@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl.txt: Remove outdated information
-To:     Ramon Fried <ramon.fried@linux.intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20181211202406.27721-1-robh@kernel.org>
+In-Reply-To: <20181211202406.27721-1-robh@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 28 Jan 2019 10:43:25 +0100
+Message-ID: <CAMuHMdUdGvBUX7EsOrwJM4_LzR_Pe2exJ1Pfo48Vt5_scrdy0w@mail.gmail.com>
+Subject: Re: [PATCH v4] kbuild: Add support for DT binding schema checks
+To:     Rob Herring <robh@kernel.org>
+Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Sean Hudson <darknighte@darknighte.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Grant Likely <grant.likely@arm.com>,
+        Kumar Gala <kumar.gala@linaro.org>, arm-soc <arm@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 21, 2019 at 3:38 PM Ramon Fried <ramon.fried@linux.intel.com> wrote:
+Hi Rob,
 
-> Returning -EAGAIN is no longer supported by pin_config_group_set()
-> since ad42fc6c8479 ("pinctrl: rip out the direct pinconf API")
+On Tue, Dec 11, 2018 at 9:24 PM Rob Herring <robh@kernel.org> wrote:
+> This adds the build infrastructure for checking DT binding schema
+> documents and validating dts files using the binding schema.
 >
-> Remove the relevant section from the documentation.
+> Check DT binding schema documents:
+> make dt_binding_check
 >
-> Signed-off-by: Ramon Fried <ramon.fried@linux.intel.com>
+> Build dts files and check using DT binding schema:
+> make dtbs_check
+>
+> Optionally, DT_SCHEMA_FILES can be passed in with a schema file(s) to
+> use for validation. This makes it easier to find and fix errors
+> generated by a specific schema.
+>
+> Currently, the validation targets are separate from a normal build to
+> avoid a hard dependency on the external DT schema project and because
+> there are lots of warnings generated.
+>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-kbuild@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Patch applied!
+BTW, what are the CONFIG dependencies for this to work?
+E.g. defconfig on x86_64 fails, even after enabling CONFIG_OF:
 
-Yours,
-Linus Walleij
+$ make dt_binding_check
+  SCHEMA  Documentation/devicetree/bindings/processed-schema.yaml
+  CHKDT   Documentation/devicetree/bindings/arm/primecell.yaml
+  ...
+  CHKDT   Documentation/devicetree/bindings/trivial-devices.yaml
+make[1]: *** No rule to make target
+'Documentation/devicetree/bindings/arm/primecell.example.dtb', needed
+by '__build'.  Stop.
+
+Obviously it does work for arm/arm64.
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
