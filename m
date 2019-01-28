@@ -1,106 +1,97 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 241497D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 27 Jan 2019 03:00:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C137D7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Jan 2019 02:22:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726523AbfA0DA3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 26 Jan 2019 22:00:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38716 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726435AbfA0DA3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 26 Jan 2019 22:00:29 -0500
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6761C21920;
-        Sun, 27 Jan 2019 03:00:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1548558028;
-        bh=VQZ9p5D0SjFbMo7+hJBCYP4JqQfOx1wEolKfSx+wZwI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=OnHAFGAZgzXIyZqT+g4jjiJKbgFOMZ5tVZGorAneODvYXAbnF++XmCbdha+HsDAfL
-         QG4hvFL6gZ3ryA+6bxYykz9SJ57Z8mdvtnVyx+tnYCQudufzFJA+iNSoV+2n/wfA2e
-         eEQNNkcSNRCWK7Y0O0iD2qU+STnoObBx6AYj2qSQ=
-Received: by mail-qk1-f170.google.com with SMTP id y16so7637835qki.7;
-        Sat, 26 Jan 2019 19:00:28 -0800 (PST)
-X-Gm-Message-State: AJcUukdhX4YL+XCo98U7r3Jy0n7fVuaNloxqSk01bRPY7E13ktMUb1Sc
-        a0aaA+mefpoDqwSHIn7T77M2AZV/JKHAeN8VWg==
-X-Google-Smtp-Source: ALg8bN4jf4q7gzMidj4mMrXVcLr7bxoeZvYw6qytdthD58afqiisLh4HxHLUZEeywpFTlVr/F9bqu62NPHmWrvLDXuA=
-X-Received: by 2002:a37:a483:: with SMTP id n125mr14681058qke.184.1548558027423;
- Sat, 26 Jan 2019 19:00:27 -0800 (PST)
+        id S1726597AbfA1CWE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 27 Jan 2019 21:22:04 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:57990 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726566AbfA1CWE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Jan 2019 21:22:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=9A2bhWdt92f//3IxfhrgEcbYlio1W9MKRsGBBIyHXas=; b=blIAZz3YetoYoTO4kEHkF8k9S5
+        4vaBZs4gU0gmVbLeOTo/XDvwW2mKjB+9Y08abpE4oox949ifkRI9zMZatjHNArCQjDBgG3G7GR5xr
+        V+Fw+0GTm3wtLiz1wTRqbSakIssVrCvEKqqb7n0Ok/OX9A9akpy9fzHNkffKf0HksjmhSJCwfHwMn
+        nz859Y6KwFg6He4m24FXrj2tt7du7RH4Ps/MXj9GxQYXHnw50kZqfB7giCtHQDS4/zXTmEpaF461H
+        ZQnxs1Ut2kJSKl4j7a9V52+8q/mg33X1deDo7p+aTVBdkaS8+rsBvesK6ZcRz/ADf1BaxaWxlp/mu
+        Jk/UqMMw==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gnwYb-0002xR-6O; Mon, 28 Jan 2019 02:21:53 +0000
+To:     LKML <linux-kernel@vger.kernel.org>, linux-mtd@lists.infradead.org,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] mtd: nand: fix kernel-doc warnings
+Message-ID: <21d5edd7-1335-2731-6d53-5b15d053462c@infradead.org>
+Date:   Sun, 27 Jan 2019 18:21:42 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.0
 MIME-Version: 1.0
-References: <20181211202406.27721-1-robh@kernel.org> <CAMuHMdUZHi87Dv=m4USocfQ60s6_uHmny5DvCVm+hZ98+ROvdA@mail.gmail.com>
-In-Reply-To: <CAMuHMdUZHi87Dv=m4USocfQ60s6_uHmny5DvCVm+hZ98+ROvdA@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Sat, 26 Jan 2019 21:00:16 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJKhOmp+UKS=B-_8txHhRbqheG3GuogcZpXJ+aYcO5Oqg@mail.gmail.com>
-Message-ID: <CAL_JsqJKhOmp+UKS=B-_8txHhRbqheG3GuogcZpXJ+aYcO5Oqg@mail.gmail.com>
-Subject: Re: [PATCH v4] kbuild: Add support for DT binding schema checks
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Sean Hudson <darknighte@darknighte.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Grant Likely <grant.likely@arm.com>,
-        Kumar Gala <kumar.gala@linaro.org>, arm-soc <arm@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 23, 2019 at 9:33 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Rob,
->
-> On Tue, Dec 11, 2018 at 9:24 PM Rob Herring <robh@kernel.org> wrote:
-> > This adds the build infrastructure for checking DT binding schema
-> > documents and validating dts files using the binding schema.
-> >
-> > Check DT binding schema documents:
-> > make dt_binding_check
-> >
-> > Build dts files and check using DT binding schema:
-> > make dtbs_check
-> >
-> > Optionally, DT_SCHEMA_FILES can be passed in with a schema file(s) to
-> > use for validation. This makes it easier to find and fix errors
-> > generated by a specific schema.
-> >
-> > Currently, the validation targets are separate from a normal build to
-> > avoid a hard dependency on the external DT schema project and because
-> > there are lots of warnings generated.
->
-> Thanks, I'm giving this a try, and get errors like:
->
->       DTC     arch/arm/boot/dts/emev2-kzm9d.dt.yaml
->     FATAL ERROR: No markers present in property 'cpu0' value
->
-> and
->
->       DTC     arch/arm64/boot/dts/renesas/r8a7795-salvator-x.dt.yaml
->     FATAL ERROR: No markers present in property 'audio_clk_a' value
->
-> Do you have a clue?
+From: Randy Dunlap <rdunlap@infradead.org>
 
-That's really strange because those aren't even properties. Are other
-dts files okay? This is the in tree dtc?
+Fix kernel-doc warnings in drivers/mtd/nand/raw:
 
-The only time you should be missing markers is if you did a dts -> dts
--> dt.yaml.
+../drivers/mtd/nand/raw/nand_base.c:420: warning: Function parameter or member 'chip' not described in 'nand_fill_oob'
+../drivers/mtd/nand/raw/nand_bbt.c:173: warning: Function parameter or member 'this' not described in 'read_bbt'
+../drivers/mtd/nand/raw/nand_bbt.c:173: warning: Excess function parameter 'chip' description in 'read_bbt'
 
-Rob
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Boris Brezillon <boris.brezillon@bootlin.com>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: linux-mtd@lists.infradead.org
+---
+Do you want Fixes: tags for these:
+
+Fixes: 0813621ba898a ("mtd: rawnand: Stop passing mtd_info objects to internal functions")
+Fixes: 99f3351a6d6e0 ("mtd: rawnand: Reorganize code to avoid forward declarations")
+
+ drivers/mtd/nand/raw/nand_base.c |    1 +
+ drivers/mtd/nand/raw/nand_bbt.c  |    2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+--- lnx-50-rc4.orig/drivers/mtd/nand/raw/nand_base.c
++++ lnx-50-rc4/drivers/mtd/nand/raw/nand_base.c
+@@ -410,6 +410,7 @@ static int nand_check_wp(struct nand_chi
+ 
+ /**
+  * nand_fill_oob - [INTERN] Transfer client buffer to oob
++ * @chip: NAND chip object
+  * @oob: oob data buffer
+  * @len: oob data write length
+  * @ops: oob ops structure
+--- lnx-50-rc4.orig/drivers/mtd/nand/raw/nand_bbt.c
++++ lnx-50-rc4/drivers/mtd/nand/raw/nand_bbt.c
+@@ -158,7 +158,7 @@ static u32 add_marker_len(struct nand_bb
+ 
+ /**
+  * read_bbt - [GENERIC] Read the bad block table starting from page
+- * @chip: NAND chip object
++ * @this: NAND chip object
+  * @buf: temporary buffer
+  * @page: the starting page
+  * @num: the number of bbt descriptors to read
+
+
