@@ -1,147 +1,73 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 877477D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Jan 2019 08:59:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A48907D161
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Jan 2019 09:08:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726937AbfA1I7b (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 28 Jan 2019 03:59:31 -0500
-Received: from mail-ua1-f67.google.com ([209.85.222.67]:35222 "EHLO
-        mail-ua1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726919AbfA1I7a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jan 2019 03:59:30 -0500
-Received: by mail-ua1-f67.google.com with SMTP id d2so5337047ual.2;
-        Mon, 28 Jan 2019 00:59:29 -0800 (PST)
+        id S1726672AbfA1JIk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 Jan 2019 04:08:40 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:42673 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726611AbfA1JIk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Jan 2019 04:08:40 -0500
+Received: by mail-lj1-f194.google.com with SMTP id l15-v6so13533561lja.9
+        for <linux-doc@vger.kernel.org>; Mon, 28 Jan 2019 01:08:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0FEn/jn/6ZmaKXY4ewFiv4XfKfXIhmGqV/zM3n2EaLw=;
+        b=e4qqhgBLbBj6Y9VthzIU9HCaiYZgOTkYQ45MJk5MFHHnh5rsMCf0a25Rcfv83zKD5n
+         gKvpgQt6U7iSdH6NWJExvFu/jTYSvxqUIy+BIKag2R3meY0lF35vMOwUfQTW+ENwsB3d
+         EvRGXKMm17E9wYImwE/fL3shvEQ5vpRKeqOjU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=MWXadM6v1/BrjCPM0KXC31G3yYpSsxrtCBcUvwcG1D8=;
-        b=cgsMB8MkQdWYMOWCG2xGDn9jjLp7igmdrlEmfJ6Ze0d5J7ZP9Eb9RtmS/CWuCrs8dp
-         JvwqiivF3thFSJkzbraWi0wlu2ibmv1ZE5jnNr1c4292KxXhBz4uyY96GYLhmx5OkBPF
-         RjmFdwcsK0tq6+jkK7YDdPLRhukhGKJCtDETJDik70CW4gcj42WJ4wO1Oiq6+NEWZAFs
-         bD3hWT0Mt+r7R7nzrzLlvhaenma4DGGQsso6clOfXJwL4ZkavV7t0sFVMUhFT56nRuqD
-         kZpcH47wi3+ocUzgNdqQEDaD8NEH5ywyDCaY6hY4/J7ysZXcJhn9EeB0GGRMs1RDQLsW
-         GOeg==
-X-Gm-Message-State: AJcUukfexcyxJrxkRR8CTGGPxPUjWGzDPLnlo1ZELk03IU+7uqynUx1g
-        PrwP3IZDFnRLWcb70vzsrLC4EIOKswifeLp95OE=
-X-Google-Smtp-Source: AHgI3IZCtxnlqEb43WDzFI4/ibLeSYAnaqLRjvAhFCOKh3TgiAmEZ4Zzoj0/nmPt+UCqpb2z7ffEYeRjE4eQi+VGVdo=
-X-Received: by 2002:a9f:2726:: with SMTP id a35mr4943200uaa.75.1548665968589;
- Mon, 28 Jan 2019 00:59:28 -0800 (PST)
+        bh=0FEn/jn/6ZmaKXY4ewFiv4XfKfXIhmGqV/zM3n2EaLw=;
+        b=JDlnHBqVN5izbL7aLYmomaZQjFYOMnxLCvecujAiF6FNUaJ319mrPL74+xovZqN2n1
+         OBekRKij27JqykhY7h/bdDiYtKaHHNhBKvzOP9SsEjuy65HnR6bHT44uLs2whFzDKQHe
+         F5X85x0nT7IogNyk/vHFvcnssNESHgMhMUXQCl7uIk01tqZ8hV7frp2iKsJlJHrNl2fK
+         zGbKkPxNRd+oZ3Jq3Bilm2hAMhhDe4XE1E1+NTGvlKeEof2ttEV3IO3enWgAhMU5xZlH
+         BR++JYcnFKjr/N+zy5O23JqDUBVPX9MLOFF1XAHQv+Uf3bnGPMt+d/mxPFoDqtzC1rQ8
+         AUWA==
+X-Gm-Message-State: AJcUukfMy0LBetblBKjjTaL2nGEypXewCc13kd9SyAyKZA4/EelFs1qR
+        6SlN/QCX2zhBn02iXugykaYiuN6CxL58LQ8/Mh9JEopo
+X-Google-Smtp-Source: ALg8bN7g8C0muF261PwxkGrap2+4ML4yaUpXFHweRhs0KTimHWgsMyXdOH5tTcvzMOG5/V03nDQiaPLNa1fFJJvOzmQ=
+X-Received: by 2002:a2e:131a:: with SMTP id 26-v6mr15950792ljt.107.1548666517943;
+ Mon, 28 Jan 2019 01:08:37 -0800 (PST)
 MIME-Version: 1.0
-References: <20181211202406.27721-1-robh@kernel.org> <CAMuHMdUZHi87Dv=m4USocfQ60s6_uHmny5DvCVm+hZ98+ROvdA@mail.gmail.com>
- <CAL_JsqJKhOmp+UKS=B-_8txHhRbqheG3GuogcZpXJ+aYcO5Oqg@mail.gmail.com>
-In-Reply-To: <CAL_JsqJKhOmp+UKS=B-_8txHhRbqheG3GuogcZpXJ+aYcO5Oqg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 28 Jan 2019 09:59:16 +0100
-Message-ID: <CAMuHMdU3Om44R3wB69jeyHFER8syGDeJQsYd-pXqEKHBMZW2ow@mail.gmail.com>
-Subject: Re: [PATCH v4] kbuild: Add support for DT binding schema checks
-To:     Rob Herring <robh@kernel.org>
-Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Sean Hudson <darknighte@darknighte.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Grant Likely <grant.likely@arm.com>,
-        Kumar Gala <kumar.gala@linaro.org>, arm-soc <arm@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>
+References: <20190121143822.20225-1-ramon.fried@linux.intel.com>
+In-Reply-To: <20190121143822.20225-1-ramon.fried@linux.intel.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 28 Jan 2019 10:08:26 +0100
+Message-ID: <CACRpkdbgq-FdsBghLMgSpPWX0LrEBL4bhSXRh24E1oaQ1OdjiA@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl.txt: Remove outdated information
+To:     Ramon Fried <ramon.fried@linux.intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
+On Mon, Jan 21, 2019 at 3:38 PM Ramon Fried <ramon.fried@linux.intel.com> wrote:
 
-On Sun, Jan 27, 2019 at 4:00 AM Rob Herring <robh@kernel.org> wrote:
-> On Wed, Jan 23, 2019 at 9:33 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Tue, Dec 11, 2018 at 9:24 PM Rob Herring <robh@kernel.org> wrote:
-> > > This adds the build infrastructure for checking DT binding schema
-> > > documents and validating dts files using the binding schema.
-> > >
-> > > Check DT binding schema documents:
-> > > make dt_binding_check
-> > >
-> > > Build dts files and check using DT binding schema:
-> > > make dtbs_check
-> > >
-> > > Optionally, DT_SCHEMA_FILES can be passed in with a schema file(s) to
-> > > use for validation. This makes it easier to find and fix errors
-> > > generated by a specific schema.
-> > >
-> > > Currently, the validation targets are separate from a normal build to
-> > > avoid a hard dependency on the external DT schema project and because
-> > > there are lots of warnings generated.
-> >
-> > Thanks, I'm giving this a try, and get errors like:
-> >
-> >       DTC     arch/arm/boot/dts/emev2-kzm9d.dt.yaml
-> >     FATAL ERROR: No markers present in property 'cpu0' value
-> >
-> > and
-> >
-> >       DTC     arch/arm64/boot/dts/renesas/r8a7795-salvator-x.dt.yaml
-> >     FATAL ERROR: No markers present in property 'audio_clk_a' value
-> >
-> > Do you have a clue?
+> Returning -EAGAIN is no longer supported by pin_config_group_set()
+> since ad42fc6c8479 ("pinctrl: rip out the direct pinconf API")
 >
-> That's really strange because those aren't even properties. Are other
-> dts files okay? This is the in tree dtc?
+> Remove the relevant section from the documentation.
 >
-> The only time you should be missing markers is if you did a dts -> dts
-> -> dt.yaml.
+> Signed-off-by: Ramon Fried <ramon.fried@linux.intel.com>
 
-Found it: make dtbs_check doesn't play well with my local change to
-add symbols for DT overlays:
+Patch applied!
 
-    --- a/scripts/Makefile.lib
-    +++ b/scripts/Makefile.lib
-    @@ -285,6 +285,10 @@ cmd_dt_S_dtb=
-             \
-     $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
-            $(call if_changed,dt_S_dtb)
-
-    +ifeq ($(CONFIG_OF_OVERLAY),y)
-    +DTC_FLAGS += -@
-    +endif
-    +
-     quiet_cmd_dtc = DTC     $@
-     cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
-            $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o
-$(dtc-tmp) $< ; \
-
-Do you see a way to handle that better?
-
-Apart from a few expected issues, I'm seeing one other strange message:
-
-    arch/arm/boot/dts/sh73a0-kzm9g.dt.yaml: interrupts: [[2, 4], [3,
-4]] is too long
-
-This is the interrupts property in the adi,adxl345 node in
-arch/arm/boot/dts/sh73a0-kzm9g.dts.
-Apparently the check complains if more than one interrupt is listed here.
-Is this a known issue?
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Yours,
+Linus Walleij
