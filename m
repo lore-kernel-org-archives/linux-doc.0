@@ -1,97 +1,114 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C137D7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Jan 2019 02:22:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 19BB57D161
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 28 Jan 2019 08:47:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726597AbfA1CWE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 27 Jan 2019 21:22:04 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:57990 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726566AbfA1CWE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 27 Jan 2019 21:22:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=9A2bhWdt92f//3IxfhrgEcbYlio1W9MKRsGBBIyHXas=; b=blIAZz3YetoYoTO4kEHkF8k9S5
-        4vaBZs4gU0gmVbLeOTo/XDvwW2mKjB+9Y08abpE4oox949ifkRI9zMZatjHNArCQjDBgG3G7GR5xr
-        V+Fw+0GTm3wtLiz1wTRqbSakIssVrCvEKqqb7n0Ok/OX9A9akpy9fzHNkffKf0HksjmhSJCwfHwMn
-        nz859Y6KwFg6He4m24FXrj2tt7du7RH4Ps/MXj9GxQYXHnw50kZqfB7giCtHQDS4/zXTmEpaF461H
-        ZQnxs1Ut2kJSKl4j7a9V52+8q/mg33X1deDo7p+aTVBdkaS8+rsBvesK6ZcRz/ADf1BaxaWxlp/mu
-        Jk/UqMMw==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gnwYb-0002xR-6O; Mon, 28 Jan 2019 02:21:53 +0000
-To:     LKML <linux-kernel@vger.kernel.org>, linux-mtd@lists.infradead.org,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Cc:     Boris Brezillon <boris.brezillon@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] mtd: nand: fix kernel-doc warnings
-Message-ID: <21d5edd7-1335-2731-6d53-5b15d053462c@infradead.org>
-Date:   Sun, 27 Jan 2019 18:21:42 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1726556AbfA1Ir4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 28 Jan 2019 03:47:56 -0500
+Received: from mail-eopbgr60062.outbound.protection.outlook.com ([40.107.6.62]:11808
+        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726415AbfA1Ir4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 28 Jan 2019 03:47:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cern.onmicrosoft.com;
+ s=selector1-cern-ch;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Gq0zvXEJIlFKGTZaqpfHDnDphUIkFh7Ye6QXX4/eq5U=;
+ b=D2kbpFK/aDNZd8DYLs6eftWvCpYWoNKGhgDtEHS5wZGT+Ehw7KWSuuBGMyRA49xtvqhtj7vo/flx47I9I1rOrudcwAcCpUcc1M9vUEirpKMSq1wRzuLbQohDctu9eO0FHxCPsqe68aqOd6JG6I5Z6CmbaDCS/V9QOWNjmWZpBe4=
+Received: from AM5PR0601CA0033.eurprd06.prod.outlook.com
+ (2603:10a6:203:68::19) by VI1PR0601MB2271.eurprd06.prod.outlook.com
+ (2603:10a6:801:b::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1558.21; Mon, 28 Jan
+ 2019 08:47:51 +0000
+Received: from AM5EUR02FT031.eop-EUR02.prod.protection.outlook.com
+ (2a01:111:f400:7e1e::207) by AM5PR0601CA0033.outlook.office365.com
+ (2603:10a6:203:68::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1558.16 via Frontend
+ Transport; Mon, 28 Jan 2019 08:47:51 +0000
+Authentication-Results: spf=pass (sender IP is 188.184.36.46)
+ smtp.mailfrom=cern.ch; kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=bestguesspass action=none
+ header.from=cern.ch;
+Received-SPF: Pass (protection.outlook.com: domain of cern.ch designates
+ 188.184.36.46 as permitted sender) receiver=protection.outlook.com;
+ client-ip=188.184.36.46; helo=cernmxgwlb4.cern.ch;
+Received: from cernmxgwlb4.cern.ch (188.184.36.46) by
+ AM5EUR02FT031.mail.protection.outlook.com (10.152.8.83) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.1580.10 via Frontend Transport; Mon, 28 Jan 2019 08:47:51 +0000
+Received: from cernfe03.cern.ch (188.184.36.39) by cernmxgwlb4.cern.ch
+ (188.184.36.46) with Microsoft SMTP Server (TLS) id 14.3.408.0; Mon, 28 Jan
+ 2019 09:47:49 +0100
+Received: from pcbe13614.localnet (2001:1458:202:121::100:40) by smtp.cern.ch
+ (2001:1458:201:66::100:14) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+ Mon, 28 Jan 2019 09:47:50 +0100
+From:   Federico Vaga <federico.vaga@cern.ch>
+To:     Vinod Koul <vkoul@kernel.org>
+Reply-To: <federico.vaga@cern.ch>
+CC:     <dmaengine@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: DMA Engine Documentation: TX Descriptor and Submission
+Date:   Mon, 28 Jan 2019 09:47:50 +0100
+Message-ID: <1655406.8MLMLfCWyH@pcbe13614>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [2001:1458:202:121::100:40]
+X-EOPAttributedMessage: 0
+X-Forefront-Antispam-Report: CIP:188.184.36.46;IPV:NLI;CTRY:CH;EFV:NLI;SFV:NSPM;SFS:(10001)(10009020)(459900002);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR0601MB2271;H:cernmxgwlb4.cern.ch;FPR:;SPF:None;LANG:en;
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 574a7355-db8f-441a-7bc6-08d684fd49a9
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600110)(711020)(4605077)(4608076)(4709027)(5565046)(2017052603328)(7153060)(7193020);SRVR:VI1PR0601MB2271;
+X-MS-TrafficTypeDiagnostic: VI1PR0601MB2271:
+X-Microsoft-Exchange-Diagnostics: 1;VI1PR0601MB2271;20:4P5pLgsvW9f5EnHt8L0C7y3s2VUcqAKkez18U3n7Aieym5KrFz01VaumYGM0qNcZjG25jtq9K3rrCRtuVCiW20VjUD5LsR/MnJJqRZOcbKnhHfpfJD/JR7u12+3h9brrTjbBP20yPmfXahzP105zxGvnezl0JDm1X/x1/n/rVgcVZJn/xKHkxuUzpkKbggNEmHwkaYURfqN5Puv4NTODICGwSK0we0k1bgnUv2/CIA2O2GN7jV26F2DX/5iBpgyTA4p4fOp5F9rpwdAdyZNuOKOUCoWt3UFYDAlkaiqlhq/98iUTQu32GBhIni+Ne4ovO5Alz0l+e7Kr4xyL//nwg28U0+IAqQzLsCQRzYZYfjuA06huw6QddbVnPEr/asyn2c9XOAznDOSoSWL+MicJfKVlDfyOk9UpbqOPq9s68LiwcILTSEyeZv268CFakqhjyjr9uiJylqWJxcjZp4vc1Jv4noCD/AEUGSkLGIjtD2dG4qloylFvtudpmvkIQL5L;4:Mn3RdSp9MYMEgXDkdXDmgV50SVhrs27Vnq31v1i+yzyoG8HlLk2BxNFcC/qaNraImitXLBfZHazFxL/mf/YCrgz5y/cIhsE1gxBYK1ftJST9QJD7S6MPtaPOpbdLaxitCr+LdKpWQBUDGoBEKrbHl77Paf6sZQF9LOYnGR5qmtgW/wLjLGlqLq6iqgApipQOw1m2o/9WWk0xlVr3tsHCRgi9xPQ5dwLCb07NIiz3dx9laSEZwYKxRnYX03g5koGp5miNKRj4MRclLnftsCN+gv7YhBi94J3BKcqld8eY6ef49e1lasJCpM05LnrD2BZA
+X-Microsoft-Antispam-PRVS: <VI1PR0601MB22715DF5A500532A15147BF7EF960@VI1PR0601MB2271.eurprd06.prod.outlook.com>
+X-Forefront-PRVS: 0931CB1479
+X-Microsoft-Exchange-Diagnostics: 1;VI1PR0601MB2271;23:9uQBGjRRar1RctjJH6LQClppmK7jwkQ8wi5QjXqM20zTqeOW/D4I8qJa6CMfQucP7h0Ae704Zwh+M153VGLi5lF048Qf/CjI1hMswbDQf9Oq3UtlmWV/XewhGEwS/YYCbiK+8OrM0xneXb3O1P+h74d0y826ElFJqiv2If2tS+7sl9iVuc084d99PHnvw9Vj;6:2JiwceOyZRy7hfh3iyMlwiIO0sRbEsllxC9VSOjUnQcKNuz+v7e5FEIvXlPOk0o1eubkalCxgjL7dEntNbDIxAdyMMuuDFCZmTOlcWOytVZYDIQOnGbmzAKjt8QdA4cTYoD0hEt+vBS1b3FZkxURr5hRcFRlEoJnYR0bUTqQuItxWbr32MEtfAq7g5kLdgqQXbk2t4n2QCm8MfS63Qp0Py8gGqJ4+p0kNwHBMeHj6v7l/LScsjTqJSYnfbbbIlPUAoUTgvWWjauWNsjEXq8qBWyutjlLPqNJehGoVG0mEhgeSd2YK2EF0s6k5X8e2TLa5PbbmGgRplyLSdsQE+2IA2bNoVv1mzP4kjuP5NejmB/bH9JlzzFM4poQueVMEYkKzCQV3Y93eAuu7PoxZp7Ihlgor6ZzJPMQoNhx6HFjoTsYGjTjnle1kdvka9/vUGABpujFfLKhBm4uO9J0Sdk0qw==;5:liR/A+SLN77wrUUCyZc+Lt0d2DUGbTeE/popl4wbk0p+pZjunfr2Z8j550DXu7j5imS/DABvxf9RlT1pS9Vz1Qr3KZnND3pDxJRLab9Kx4dxzOg2C11Dpf0g/lugglufXrCNvcJJAexnn44wtVoH41u9H+t2rkRj64bh1KUWTo9NiO23OvIfC3UwnS4Qh3mpzGZYmjgF109weSmEqHfkNg==
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Message-Info: xK/Th0aT76rfP6uRnVjMXxbHOAIt6L+pdJ2h11rmu+7V+cOOsHCAc1e6paT9ScChr3lUvtWE3CXydALLjxQCDmwqMqJZ6ehsSVPF+P4BcyalosYvQkDuTSVzmVCN5q5ISlxc6ocMYxDCsLdTpQwUDGuDqnQls86s+stFASwap7OJHguwuyrdF1PL3G3UJB6X/yhY0gRYnFuqxN1KqEgdoKnbgrSGaxOFrqmrWBNDnVuEgW9KO3e+CcX41RDGbFqdG68o5ikQoVL+fqmQXncorAjWl7eJJV+RpVJuI4D7FHq31Dsy2jSphoe0+LK2/wgS1s57v66vriqa6mrXjhAl0ZSZpjg/E9hgO5F+cXHesXXnqfNMpZ1YcQo68WojXKqT9DwkT58xml19bAmyJ1e59uSOMXx1y3e1WJ2L4Xpga1mflUkVX+ifIKa/bXjv5stDr9oHhCq+paX23BGA5iscnEU7BolGXLryMFSgEfmKFHGgylFXMMruF/rYac9OFPaB9Aqiakv5a6ETKehBDHRIUd9dihiy4OtdeNubo3iAuz0=
+X-Microsoft-Exchange-Diagnostics: 1;VI1PR0601MB2271;7:osWSFSS+ahnAVYhyEjqObQKbmpAyomGcLrYDRCY8bqBXvkbdkT2BeAXYavDbzyBZZx3pcqolco+k4lV8jZVAcLXWq44Wvk3Rq7evCUcsi4f0Nak16XQdOmJz4xfcvl/ITvL2E0lHdpnui/KW68ZBYA==
+X-OriginatorOrg: cern.ch
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2019 08:47:51.4518
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 574a7355-db8f-441a-7bc6-08d684fd49a9
+X-MS-Exchange-CrossTenant-Id: c80d3499-4a40-4a8c-986e-abce017d6b19
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=c80d3499-4a40-4a8c-986e-abce017d6b19;Ip=[188.184.36.46];Helo=[cernmxgwlb4.cern.ch]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0601MB2271
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+Hi,
 
-Fix kernel-doc warnings in drivers/mtd/nand/raw:
+I have a new question concerning documentation.
 
-../drivers/mtd/nand/raw/nand_base.c:420: warning: Function parameter or member 'chip' not described in 'nand_fill_oob'
-../drivers/mtd/nand/raw/nand_bbt.c:173: warning: Function parameter or member 'this' not described in 'read_bbt'
-../drivers/mtd/nand/raw/nand_bbt.c:173: warning: Excess function parameter 'chip' description in 'read_bbt'
+https://www.kernel.org/doc/html/latest/driver-api/dmaengine/client.html
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Boris Brezillon <boris.brezillon@bootlin.com>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Richard Weinberger <richard@nod.at>
-Cc: linux-mtd@lists.infradead.org
----
-Do you want Fixes: tags for these:
+From this document it is not really clear, at least to me, if clients can 
+consider valid the `struct dma_async_tx_descriptor` after submission to the 
+DMA engine.
 
-Fixes: 0813621ba898a ("mtd: rawnand: Stop passing mtd_info objects to internal functions")
-Fixes: 99f3351a6d6e0 ("mtd: rawnand: Reorganize code to avoid forward declarations")
+Clients get a TX descriptor from a DMA engine using things like 
+`dmaengine_prep_*`. These calls - may - allocate new descriptors and return 
+them to the caller; this may include other structures which are not visible to 
+clients. So, if my understanding is correct, this means that it's the DMA 
+engine that, on TX completion, releases any TX descriptor allocated by 
+`dmaengine_prep_*`. This implies that the pointer that the client is using 
+must be considered invalid right after `dmaengine_submit()`.
 
- drivers/mtd/nand/raw/nand_base.c |    1 +
- drivers/mtd/nand/raw/nand_bbt.c  |    2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+If what I understood by reading the documentation and the code is correct, 
+then I think that this should be mentioned in the Documentation.
+If I'm wrong, please tell me where :)
 
---- lnx-50-rc4.orig/drivers/mtd/nand/raw/nand_base.c
-+++ lnx-50-rc4/drivers/mtd/nand/raw/nand_base.c
-@@ -410,6 +410,7 @@ static int nand_check_wp(struct nand_chi
- 
- /**
-  * nand_fill_oob - [INTERN] Transfer client buffer to oob
-+ * @chip: NAND chip object
-  * @oob: oob data buffer
-  * @len: oob data write length
-  * @ops: oob ops structure
---- lnx-50-rc4.orig/drivers/mtd/nand/raw/nand_bbt.c
-+++ lnx-50-rc4/drivers/mtd/nand/raw/nand_bbt.c
-@@ -158,7 +158,7 @@ static u32 add_marker_len(struct nand_bb
- 
- /**
-  * read_bbt - [GENERIC] Read the bad block table starting from page
-- * @chip: NAND chip object
-+ * @this: NAND chip object
-  * @buf: temporary buffer
-  * @page: the starting page
-  * @num: the number of bbt descriptors to read
+Thanks
+
+
 
 
