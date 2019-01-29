@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1EA4D7D913
+	by archive.lwn.net (Postfix) with ESMTP id 3408B7D917
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Jan 2019 16:00:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727032AbfA2QA1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1726996AbfA2QA1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Tue, 29 Jan 2019 11:00:27 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:53862 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:53870 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725788AbfA2QA1 (ORCPT
+        with ESMTP id S1726298AbfA2QA1 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Jan 2019 11:00:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,18 +20,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=sPpTiMWIgOhi3yU6eyNIva14qn4dMy6XfRuC8vP5GH4=; b=aIe7QwPPbBWRz4UMWsuNlOvWsw
-        CAIWx2F9tgTQnC+mpG3H5YPSB5MtcmkXZnlH/Pp0sjPxy77vrTZQwreH/fhuowCg0x/wk7e0WoymF
-        l8auKL0aAqZF9Zqr3bhPa3VWTmUyzpbSyCj9xCbwlotIw1zJQMCaBNvwMru0FpwCp1NfgiuZHj4aD
-        X+oslEskYkvmhvDuOXpKyCtM2FnOITuBa/b1S3hXUoOawL1/k+CppTSK+O3aDGMWpvLhNdJni+jWa
-        Y5RitHBMfvG8B9MDOZiSIUkcbQyL4Z9Ayji8lCSciDWC+PwL8Jzsegk3nSa58OWix6dcurnctRz8P
-        iLC30+Zg==;
+        bh=696h5dEItVGLUJjaWq/e86n6ScvucQYWrO9+DOhIgmw=; b=vAQFGp39Y4Ae3EfkJi9/Id6Ofz
+        9Zj2GEXrFsrnM87XC4m/PFwVwjF4M/BoToij5Ms2QOahnleguXc43aq1ojHSTktyikTbgVF4Z21ON
+        HwFG5aw/XPPvI1/9FNwB5s2FVoQzRAEBvmsnFD6md2s2szvD0ub3ZBXRs3peoBmah3FPd38lsZ/In
+        L8fBmbC0NZaztz69fYtBQj7TfBx7RoZrfExDFRa0TJ66oUquY48WPWl2QbwpRNSM+eafLB7EWQ8bB
+        NpzGxKMRaINhIv+259eZNV+7HTDk1LdnpcU7ozG1kn6/Hs3D1AdlKRIVvb+nx4PJQDc+/OpMEbaTi
+        JIlkNXQg==;
 Received: from 177.43.31.175.dynamic.adsl.gvt.net.br ([177.43.31.175] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1goVoI-0006o3-K8; Tue, 29 Jan 2019 16:00:26 +0000
+        id 1goVoI-0006oB-R9; Tue, 29 Jan 2019 16:00:26 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.91)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1goVoD-0006UR-Av; Tue, 29 Jan 2019 14:00:21 -0200
+        id 1goVoD-0006UV-Bh; Tue, 29 Jan 2019 14:00:21 -0200
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
@@ -40,11 +40,12 @@ Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Ezequiel Garcia <ezequiel@collabora.com>,
-        Anton Leontiev <scileont@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [PATCH 2/3] media: vim2m: use per-file handler work queue
-Date:   Tue, 29 Jan 2019 14:00:16 -0200
-Message-Id: <7ff2d5c791473c746ae07c012d1890c6bdd08f6d.1548776693.git.mchehab+samsung@kernel.org>
+        Tomasz Figa <tfiga@chromium.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Anton Leontiev <scileont@gmail.com>
+Subject: [PATCH 3/3] media: vim2m: allow setting the default transaction time via parameter
+Date:   Tue, 29 Jan 2019 14:00:17 -0200
+Message-Id: <24e5cd4c01e918ef09a14352fc5f9afbe3b1fd3b.1548776693.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1548776693.git.mchehab+samsung@kernel.org>
 References: <cover.1548776693.git.mchehab+samsung@kernel.org>
@@ -55,157 +56,81 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It doesn't make sense to have a per-device work queue, as the
-scheduler should be called per file handler. Having a single
-one causes failures if multiple streams are filtered by vim2m.
+While there's a control to allow setting it at runtime, as the
+control handler is per file handler, only the application setting
+the m2m device can change it. As this is a custom control, it is
+unlikely that existing apps would be able to set it.
 
-So, move it to be inside the context structure.
+Due to that, and due to the fact that v4l2-mem2mem serializes all
+accesses to a m2m device, trying to setup two GStreamer
+v4l2videoconvert instance at the same time will cause frame drops.
+
+So, add an alternate way of setting its default via a modprobe parameter.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- drivers/media/platform/vim2m.c | 38 +++++++++++++++++-----------------
- 1 file changed, 19 insertions(+), 19 deletions(-)
+ drivers/media/platform/vim2m.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/media/platform/vim2m.c b/drivers/media/platform/vim2m.c
-index ccd0576c766e..a9e43070567e 100644
+index a9e43070567e..0e7814b2327e 100644
 --- a/drivers/media/platform/vim2m.c
 +++ b/drivers/media/platform/vim2m.c
-@@ -146,9 +146,6 @@ struct vim2m_dev {
+@@ -41,6 +41,12 @@ static unsigned debug;
+ module_param(debug, uint, 0644);
+ MODULE_PARM_DESC(debug, "activates debug info");
  
- 	atomic_t		num_inst;
- 	struct mutex		dev_mutex;
--	spinlock_t		irqlock;
--
--	struct delayed_work	work_run;
- 
- 	struct v4l2_m2m_dev	*m2m_dev;
- };
-@@ -167,6 +164,10 @@ struct vim2m_ctx {
- 	/* Transaction time (i.e. simulated processing time) in milliseconds */
- 	u32			transtime;
- 
-+	struct mutex		vb_mutex;
-+	struct delayed_work	work_run;
-+	spinlock_t		irqlock;
++/* Default transaction time in msec */
++static unsigned default_transtime = 40; /* Max 25 fps */
++module_param(default_transtime, uint, 0644);
++MODULE_PARM_DESC(default_transtime, "default transaction time in ms");
 +
- 	/* Abort requested by m2m */
- 	int			aborting;
++
+ #define MIN_W 32
+ #define MIN_H 32
+ #define MAX_W 640
+@@ -58,9 +64,6 @@ MODULE_PARM_DESC(debug, "activates debug info");
+ /* In bytes, per queue */
+ #define MEM2MEM_VID_MEM_LIMIT	(16 * 1024 * 1024)
  
-@@ -490,7 +491,6 @@ static void job_abort(void *priv)
- static void device_run(void *priv)
- {
- 	struct vim2m_ctx *ctx = priv;
--	struct vim2m_dev *dev = ctx->dev;
- 	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+-/* Default transaction time in msec */
+-#define MEM2MEM_DEF_TRANSTIME	40
+-
+ /* Flags that indicate processing mode */
+ #define MEM2MEM_HFLIP	(1 << 0)
+ #define MEM2MEM_VFLIP	(1 << 1)
+@@ -764,6 +767,8 @@ static int vim2m_s_ctrl(struct v4l2_ctrl *ctrl)
  
- 	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
-@@ -507,18 +507,18 @@ static void device_run(void *priv)
- 				   &ctx->hdl);
+ 	case V4L2_CID_TRANS_TIME_MSEC:
+ 		ctx->transtime = ctrl->val;
++		if (ctx->transtime < 1)
++			ctx->transtime = 1;
+ 		break;
  
- 	/* Run delayed work, which simulates a hardware irq  */
--	schedule_delayed_work(&dev->work_run, msecs_to_jiffies(ctx->transtime));
-+	schedule_delayed_work(&ctx->work_run, msecs_to_jiffies(ctx->transtime));
- }
- 
- static void device_work(struct work_struct *w)
- {
--	struct vim2m_dev *vim2m_dev =
--		container_of(w, struct vim2m_dev, work_run.work);
- 	struct vim2m_ctx *curr_ctx;
-+	struct vim2m_dev *vim2m_dev;
- 	struct vb2_v4l2_buffer *src_vb, *dst_vb;
- 	unsigned long flags;
- 
--	curr_ctx = v4l2_m2m_get_curr_priv(vim2m_dev->m2m_dev);
-+	curr_ctx = container_of(w, struct vim2m_ctx, work_run.work);
-+	vim2m_dev = curr_ctx->dev;
- 
- 	if (NULL == curr_ctx) {
- 		pr_err("Instance released before the end of transaction\n");
-@@ -530,10 +530,10 @@ static void device_work(struct work_struct *w)
- 
- 	curr_ctx->num_processed++;
- 
--	spin_lock_irqsave(&vim2m_dev->irqlock, flags);
-+	spin_lock_irqsave(&curr_ctx->irqlock, flags);
- 	v4l2_m2m_buf_done(src_vb, VB2_BUF_STATE_DONE);
- 	v4l2_m2m_buf_done(dst_vb, VB2_BUF_STATE_DONE);
--	spin_unlock_irqrestore(&vim2m_dev->irqlock, flags);
-+	spin_unlock_irqrestore(&curr_ctx->irqlock, flags);
- 
- 	if (curr_ctx->num_processed == curr_ctx->translen
- 	    || curr_ctx->aborting) {
-@@ -893,11 +893,10 @@ static int vim2m_start_streaming(struct vb2_queue *q, unsigned count)
- static void vim2m_stop_streaming(struct vb2_queue *q)
- {
- 	struct vim2m_ctx *ctx = vb2_get_drv_priv(q);
--	struct vim2m_dev *dev = ctx->dev;
- 	struct vb2_v4l2_buffer *vbuf;
- 	unsigned long flags;
- 
--	cancel_delayed_work_sync(&dev->work_run);
-+	cancel_delayed_work_sync(&ctx->work_run);
- 	for (;;) {
- 		if (V4L2_TYPE_IS_OUTPUT(q->type))
- 			vbuf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
-@@ -907,9 +906,9 @@ static void vim2m_stop_streaming(struct vb2_queue *q)
- 			return;
- 		v4l2_ctrl_request_complete(vbuf->vb2_buf.req_obj.req,
- 					   &ctx->hdl);
--		spin_lock_irqsave(&ctx->dev->irqlock, flags);
-+		spin_lock_irqsave(&ctx->irqlock, flags);
- 		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
--		spin_unlock_irqrestore(&ctx->dev->irqlock, flags);
-+		spin_unlock_irqrestore(&ctx->irqlock, flags);
- 	}
- }
- 
-@@ -943,7 +942,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *ds
- 	src_vq->ops = &vim2m_qops;
- 	src_vq->mem_ops = &vb2_vmalloc_memops;
- 	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
--	src_vq->lock = &ctx->dev->dev_mutex;
-+	src_vq->lock = &ctx->vb_mutex;
- 	src_vq->supports_requests = true;
- 
- 	ret = vb2_queue_init(src_vq);
-@@ -957,7 +956,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *ds
- 	dst_vq->ops = &vim2m_qops;
- 	dst_vq->mem_ops = &vb2_vmalloc_memops;
- 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
--	dst_vq->lock = &ctx->dev->dev_mutex;
-+	dst_vq->lock = &ctx->vb_mutex;
- 
+ 	case V4L2_CID_TRANS_NUM_BUFS:
+@@ -961,12 +966,11 @@ static int queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *ds
  	return vb2_queue_init(dst_vq);
  }
-@@ -1032,6 +1031,10 @@ static int vim2m_open(struct file *file)
  
- 	ctx->fh.m2m_ctx = v4l2_m2m_ctx_init(dev->m2m_dev, ctx, &queue_init);
- 
-+	mutex_init(&ctx->vb_mutex);
-+	spin_lock_init(&ctx->irqlock);
-+	INIT_DELAYED_WORK(&ctx->work_run, device_work);
+-static const struct v4l2_ctrl_config vim2m_ctrl_trans_time_msec = {
++static struct v4l2_ctrl_config vim2m_ctrl_trans_time_msec = {
+ 	.ops = &vim2m_ctrl_ops,
+ 	.id = V4L2_CID_TRANS_TIME_MSEC,
+ 	.name = "Transaction Time (msec)",
+ 	.type = V4L2_CTRL_TYPE_INTEGER,
+-	.def = MEM2MEM_DEF_TRANSTIME,
+ 	.min = 1,
+ 	.max = 10001,
+ 	.step = 1,
+@@ -1008,6 +1012,8 @@ static int vim2m_open(struct file *file)
+ 	v4l2_ctrl_handler_init(hdl, 4);
+ 	v4l2_ctrl_new_std(hdl, &vim2m_ctrl_ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
+ 	v4l2_ctrl_new_std(hdl, &vim2m_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
 +
- 	if (IS_ERR(ctx->fh.m2m_ctx)) {
- 		rc = PTR_ERR(ctx->fh.m2m_ctx);
- 
-@@ -1112,8 +1115,6 @@ static int vim2m_probe(struct platform_device *pdev)
- 	if (!dev)
- 		return -ENOMEM;
- 
--	spin_lock_init(&dev->irqlock);
--
- 	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
- 	if (ret)
- 		return ret;
-@@ -1125,7 +1126,6 @@ static int vim2m_probe(struct platform_device *pdev)
- 	vfd = &dev->vfd;
- 	vfd->lock = &dev->dev_mutex;
- 	vfd->v4l2_dev = &dev->v4l2_dev;
--	INIT_DELAYED_WORK(&dev->work_run, device_work);
- 
- 	ret = video_register_device(vfd, VFL_TYPE_GRABBER, 0);
- 	if (ret) {
++	vim2m_ctrl_trans_time_msec.def = default_transtime;
+ 	v4l2_ctrl_new_custom(hdl, &vim2m_ctrl_trans_time_msec, NULL);
+ 	v4l2_ctrl_new_custom(hdl, &vim2m_ctrl_trans_num_bufs, NULL);
+ 	if (hdl->error) {
 -- 
 2.20.1
 
