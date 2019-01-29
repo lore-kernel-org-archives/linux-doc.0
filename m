@@ -1,66 +1,129 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 616237D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Jan 2019 12:39:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6DF2E7D982
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Jan 2019 13:37:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727033AbfA2MjB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 Jan 2019 07:39:01 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:55428 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725783AbfA2MjB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Jan 2019 07:39:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=hcUmsWqOlUZoA0tGVtVxZVeGi9/WntceTQMLGURqW8U=; b=PBeiAFj84XF4ohPPYvNWj4Frx
-        zy33xge/EQv0zpd59PDLm9VtSeIzpXE/lJEW4322H3P7tFLk4zvJP6dZ4NEifr60zfHbqnunPMmh7
-        BNEYVN7SeJ/JCiD5JBo3xBvAF9RI/9ho2qVbgzxCcw6ZhcIBUooP2sen9hW8s1fkr46WXVF8hVJlj
-        a5nWrftCspTUGFGV3K0hjkbch5lEitgg+JzHUbTusZps2AsgxgAaYnQ5ToQnDYoMaaPIXiscx/v+o
-        t6qBu0lTsYS/Iq+N4raF0oQZ+VLiBr7q1ajxAP7N6NplyLoU7Zvns33ALWYK968MQoCR7KZslxNfw
-        CmIApdPvA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1goSf8-0003BI-LX; Tue, 29 Jan 2019 12:38:46 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 0A4FD2042CFA9; Tue, 29 Jan 2019 13:38:44 +0100 (CET)
-Date:   Tue, 29 Jan 2019 13:38:44 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     gregkh@linuxfoundation.org, tj@kernel.org, lizefan@huawei.com,
-        hannes@cmpxchg.org, axboe@kernel.dk, dennis@kernel.org,
-        dennisszhou@gmail.com, mingo@redhat.com, akpm@linux-foundation.org,
-        corbet@lwn.net, cgroups@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v3 5/5] psi: introduce psi monitor
-Message-ID: <20190129123843.GK28467@hirez.programming.kicks-ass.net>
-References: <20190124211518.244221-1-surenb@google.com>
- <20190124211518.244221-6-surenb@google.com>
+        id S1728762AbfA2NhM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 Jan 2019 08:37:12 -0500
+Received: from mx2.suse.de ([195.135.220.15]:57644 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728023AbfA2NhK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 29 Jan 2019 08:37:10 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 0A4EDAD25;
+        Tue, 29 Jan 2019 13:37:09 +0000 (UTC)
+Subject: Re: [PATCH v2 2/2] efi: x86: convert x86 EFI earlyprintk into generic
+ earlycon implementation
+To:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        linux-efi@vger.kernel.org
+Cc:     corbet@lwn.net, leif.lindholm@linaro.org,
+        graeme.gregory@linaro.org, mingo@redhat.com, tglx@linutronix.de,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        pjones@redhat.com
+References: <20190129092150.15184-1-ard.biesheuvel@linaro.org>
+ <20190129092150.15184-3-ard.biesheuvel@linaro.org>
+From:   Alexander Graf <agraf@suse.de>
+Message-ID: <0ea153fd-1c2b-c4e6-54d9-e31189f1b90c@suse.de>
+Date:   Tue, 29 Jan 2019 14:37:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190124211518.244221-6-surenb@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190129092150.15184-3-ard.biesheuvel@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 24, 2019 at 01:15:18PM -0800, Suren Baghdasaryan wrote:
-> +			atomic_set(&group->polling, polling);
-> +			/*
-> +			 * Memory barrier is needed to order group->polling
-> +			 * write before times[] read in collect_percpu_times()
-> +			 */
-> +			smp_mb__after_atomic();
+On 01/29/2019 10:21 AM, Ard Biesheuvel wrote:
+> Move the x86 EFI earlyprintk implementation to a shared location under
+> drivers/firmware and tweak it slightly so we can expose it as an earlycon
+> implementation (which is generic) rather than earlyprintk (which is only
+> implemented for a few architectures)
+>
+> This also involves switching to write-combine mappings by default (which
+> is required on ARM since device mappings lack memory semantics, and so
+> memcpy/memset may not be used on them), and adding support for shared
+> memory framebuffers on cache coherent non-x86 systems (which do not
+> tolerate mismatched attributes)
+>
+> Note that 32-bit ARM does not populate its struct screen_info early
+> enough for earlycon=efifb to work, so it is disabled there.
+>
+> Signed-off-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+> ---
+>   Documentation/admin-guide/kernel-parameters.txt |   8 +-
+>   arch/x86/Kconfig.debug                          |  10 -
+>   arch/x86/include/asm/efi.h                      |   1 -
+>   arch/x86/kernel/early_printk.c                  |   4 -
+>   arch/x86/platform/efi/Makefile                  |   1 -
+>   arch/x86/platform/efi/early_printk.c            | 240 --------------------
+>   drivers/firmware/efi/Kconfig                    |   6 +
+>   drivers/firmware/efi/Makefile                   |   1 +
+>   drivers/firmware/efi/earlycon.c                 | 208 +++++++++++++++++
+>   9 files changed, 222 insertions(+), 257 deletions(-)
+>
 
-That's broken, smp_mb__{before,after}_atomic() can only be used on
-atomic RmW operations, something atomic_set() is _not_.
+[...]
+
+> +static int __init efi_earlycon_setup(struct earlycon_device *device,
+> +				     const char *opt)
+> +{
+> +	struct screen_info *si;
+> +	u16 xres, yres;
+> +	u32 i;
+> +
+> +	if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI)
+> +		return -ENODEV;
+> +
+> +	fb_base = screen_info.lfb_base;
+> +	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
+> +		fb_base |= (u64)screen_info.ext_lfb_base << 32;
+> +
+> +	if (opt && !strcmp(opt, "ram"))
+> +		fb_prot = PAGE_KERNEL;
+> +	else
+> +		fb_prot = pgprot_writecombine(PAGE_KERNEL);
+
+Can you determine the default from the UEFI memory map?
+
+Also, doesn't the current logic map it as WC on x86 too? Is that 
+intentional?
+
+
+Alex
+
+> +
+> +	si = &screen_info;
+> +	xres = si->lfb_width;
+> +	yres = si->lfb_height;
+> +
+> +	/*
+> +	 * efi_earlycon_write_char() implicitly assumes a framebuffer with
+> +	 * 32-bits per pixel.
+> +	 */
+> +	if (si->lfb_depth != 32)
+> +		return -ENODEV;
+> +
+> +	font = get_default_font(xres, yres, -1, -1);
+> +	if (!font)
+> +		return -ENODEV;
+> +
+> +	efi_y = rounddown(yres, font->height) - font->height;
+> +	for (i = 0; i < (yres - efi_y) / font->height; i++)
+> +		efi_earlycon_scroll_up();
+> +
+> +	device->con->write = efi_earlycon_write;
+> +	return 0;
+> +}
+> +EARLYCON_DECLARE(efifb, efi_earlycon_setup);
+
+
