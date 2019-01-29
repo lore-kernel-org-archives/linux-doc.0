@@ -1,116 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6A80D7D917
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Jan 2019 15:28:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E639D7D161
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Jan 2019 16:00:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727347AbfA2P2E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 Jan 2019 10:28:04 -0500
-Received: from mout.gmx.net ([212.227.15.19]:34001 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725730AbfA2P2E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 29 Jan 2019 10:28:04 -0500
-Received: from longitude ([109.90.232.48]) by mail.gmx.com (mrgmx002
- [212.227.17.190]) with ESMTPSA (Nemesis) id 0M70Td-1h38NA3m0j-00woWp; Tue, 29
- Jan 2019 16:27:30 +0100
-Date:   Tue, 29 Jan 2019 16:27:25 +0100
-From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     Kepplinger Martin <Martin.Kepplinger@ginzinger.com>
-Cc:     Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Markus Heiser <markus.heiser@darmarit.de>,
-        Minghui Liu <minghui.liu.95@gmail.com>,
-        Michael Rodin <michael-git@rodin.online>,
-        Grigory Shipunov <mail@oxapentane.com>,
-        Alessia Mantegazza <amantegazza@vaga.pv.it>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Takashi Iwai <tiwai@suse.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] doc: Change LXR references to elixir.bootlin.com
-Message-ID: <20190129152725.GA19354@latitude>
-References: <20190129142923.5743-1-j.neuschaefer@gmx.net>
- <2755754cdd8e4bd3956648f9fb6315c2@ginzinger.com>
+        id S1725788AbfA2QA1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 Jan 2019 11:00:27 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:53866 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726239AbfA2QA1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Jan 2019 11:00:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=ltMCFt0IChxo9BfX+Ar/RRAcv3z7Ot7U9ITKEPdwBm0=; b=c9yrPNci1gePQYTgJjqkHHh9Z
+        x/2d4rOaNcUXlRzp+aIKRDHYS5HmOM3+V0MKzRE9SxfOx1zZ1Ey+da85EEv2VjvlTsHG9v+1rnhNn
+        cQ8RaCNGsC/+l75OK4MhHG2rPGDrHWbAqyAFWg60a7ozplvGYR3wJ1gvdjdaNUCO+OFTO8crpyu6Z
+        P+gsHM8U6i5pUxYV2qusFpQEvHhp9RyfeZ0Dh60YXV6f5GebQXDzZPsRxdmWxdTycw2m7w2mMgV48
+        lfXTvLkRerBQw3RxeGsjVLrrALHjPW8j+bW4/z846oTyg716ho74AtLoui3ZGYJP2pZp/6zXG9ycv
+        gxke0700g==;
+Received: from 177.43.31.175.dynamic.adsl.gvt.net.br ([177.43.31.175] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1goVoI-0006o4-P5; Tue, 29 Jan 2019 16:00:26 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.91)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1goVoD-0006UK-7S; Tue, 29 Jan 2019 14:00:21 -0200
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Anton Leontiev <scileont@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH 0/3] vim2m: make it work properly
+Date:   Tue, 29 Jan 2019 14:00:14 -0200
+Message-Id: <cover.1548776693.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="n8g4imXOkfNTN/H1"
-Content-Disposition: inline
-In-Reply-To: <2755754cdd8e4bd3956648f9fb6315c2@ginzinger.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Provags-ID: V03:K1:eUjZXuKwDQpXkUKKXHxMm628c2zMQJH1aGeeYMXNjTfCal5RL2P
- gu+8HBbr835LdsiCPRjZ16h6dQrEoI/FXdgxLvc3AJ6O2LRHWKww2EUQkOnTekRITBHC+OW
- IgKttBGa8tzYDOPnWvS59kGHbyd4iDlT6q7KKEi+o7kjBB8DUteyQAy2aNEKSC3Kv1A/Xxv
- wPDxVotaNJIZxYSpOiveA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4qAnvEWiT/g=:FdRXxko351pFFTnbHueEyu
- kXE9n5GbC5YoCMpCAQnK3Xitra9XhAqEgO2w4/yifcNRUPpnKBp9EAa4X4C4gbjjIA4v2Ng71
- Abki7KkTOX9RyOiTDcDLuzb/KsmlrRUQXCsMJ4679DjRMo+mWKfLjvW2ogUe/D8b09XhE7QTI
- aUkxJuetnQfGelq6MYzuXWHq2i0IHnJ6uEs0Qq7ld8uq1De76vbiDIwVMrsJjiYrW0q2/PyHm
- rkps+w2xVqI+k3w+Sn58+VTA6o0u/QVyjv9AkqLpxJkE50fYRyXt2vmdejt7RoAXq7507bA1c
- 20QBCvlHL43NBYTC0qZNQGQWeAlvI7MUctlyZXPKGdQw7HqkFj1Ymw5UxHbeKowT87E5NsUKA
- Egy42BaAVSrJPe/tMcdwQdvWViEI7izc71+/4C3qdvQod6m190GV+Mlk3blMnx5XG56tyOOA3
- +KL5CBAx4sxfwbjz/v7P1WiAU+Ph+qW43lM93erUSDC7iEsKHuaQWOAp69dDU2jm36+8PY3m1
- iT6SW/rAP7DtGsu/+6SmXazh0ue96ezmk3jCHWukHjJb2D+xBkyjKcEZG5+f9btFWWL2oY4t0
- eqChTgyFDsE9X9ZJ38LfwG7agDnmNQuqnVzhTY2KFxSyi/nn5dG7sgDnZv8zxPQ2Ji84knjfT
- M5DpIkevkstuPoKYzGxfccZcg6MtvPcqAMNYLg7BBw4ap/JZL0XPXSYfhuh0ANrnraR5ofQVS
- k1pgGI0l+f/If18FC4iCXYFXgETXgZIv2MewYT5jeDIWGOS5BYRzhxJCRu5pSRYVa+KiLf1Em
- jBbSUumIjQO2ayA2pkCY6jmfS/TYutgZS8msprgo+UOnyb8wa/6fFO2bjJabaFhuPu+YDD1I1
- IX80Z4VFkyejBN3LaBJla0dj6wrJ4x8c7bVdt8ABwSXrddm18ZFqU4xXs1YvYNElWm/G0mRq5
- z9t4wZrCdHw==
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The vim2m driver has some issues... 
 
---n8g4imXOkfNTN/H1
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It currently fakes supporting two video formats, when in fact, it just
+copies the data to the buffer;
 
-On Tue, Jan 29, 2019 at 03:01:18PM +0000, Kepplinger Martin wrote:
-[...]
-> -.. [4] http://lxr.free-electrons.com/ident?i=3Dxpad_device
-> +.. [4] https://elixir.bootlin.com/ident?i=3Dxpad_device
->=20
-> that seems to be wrong. I think it's https://elixir.bootlin.com/linux/lat=
-est/ident/xpad_device
+It says it supports hflip, when, in fact, it does a 8 tiles flip...
+that doesn't end well, though, due to the lack of proper video
+format;
 
-Oops. Indeed, it doesn't work with the old syntax. I'll fix this in v2.
+If more than one open() is called, it sometimes go to some dead lock,
+preventing to stop all pipelines;
 
-> other than that, good.
+By default, it can be used only one instance, as it takes too long
+to generate data (40 msecs). This is actually by purpose, as it
+uses a delay work queue for that.
 
-Thanks,
-Jonathan Neusch=C3=A4fer
+This patch series solve all the above issues. For the last one, a
+new modprobe parameter was added, in order to allow changing the
+default. For example, with this:
 
---n8g4imXOkfNTN/H1
-Content-Type: application/pgp-signature; name="signature.asc"
+	# sudo modprobe vim2m default_transtime=1
 
------BEGIN PGP SIGNATURE-----
+the delay is reduced to 1 ms. On my tests with this pipeline:
 
-iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAlxQcNYACgkQCDBEmo7z
-X9u4Ew/9FelWYWndNdMHR93IecjDouiZCV0jCiaO1/yx2wnqPx+mnEBnIxkrTcBw
-V41za5eEdhwOX+kxS8sHupBZHbdLZxBR5xgEgnwc9P8PwogFJa6wx2CY0NnHAhSI
-B7k1BVLMYuDIAWrSyMEN8GWbKFiCdlgzQMeDK+g9bDu9Hlo41AJxxa1foTpEFPue
-d9zH0t0nL+WRwykPPOcG6MmjPMIpLfQLFHV0FOIee7KFY9ZpUPUdnpYSJEzA/7sS
-/hCu3BU+d96H8VrcmxKP6Zv2p4Y+tlz3K/AhhOBQLe2jyWORBsBAT77oqxajs6u2
-5VXABKrWmm72roFkMd4ePm9aOEsoEZmA+nYGRB2zQ6z3mXWsMlb5IOOqIEEmH8mx
-85kljFP9HUvuwaQQ956SEtBHFVWRfqubM8oVTqjz+SR61I3OrWHTX5QuZ3HBH2/R
-H1pJYkxTqEvUtQ47DEkum1SqKDnrPf4cCYrNV8herSvJC5h4tHks+whbHRH3lCzV
-Fpxmi/gbCygzfpRecNu90j+gfW3RksIp4hh1odERUR6d/eyX1Oi98OPbvYf6aoTS
-XJlK1vY2FqTV8rEdSzRwExEW8j8S2GraPTOYUUieLVTWpqV78J9yNLawS5BZxlsh
-mkMuOYNv8hP8iHzXLOOw3ywJz3uD69NjOf9/xTasM+9j2ZLLJwk=
-=Rd97
------END PGP SIGNATURE-----
+$ gst-launch-1.0 videotestsrc ! video/x-raw,format=YUY2 ! v4l2video0convert disable-passthrough=1 extra-controls="s,horizontal_flip=0,vertical_flip=0" ! video/x-raw,format=YUY2 ! videoconvert ! fpsdisplaysink
 
---n8g4imXOkfNTN/H1--
+and a similar one:
+
+$ gst-launch-1.0 videotestsrc ! video/x-raw,format=YUY2 ! v4l2video0convert disable-passthrough=1 extra-controls="s,horizontal_flip=1,vertical_flip=1" ! video/x-raw,format=RGB16 ! videoconvert ! ximagesink
+
+I was able to create 17 such pipelines keeping the frame rate at 30
+frames per second, and up to 27 pipelines without losing frames, with
+a framerate close to 20 fps.
+
+My tests were done on a 3rd generation i7core machine (i7-3630QM).
+
+So, it sounds good enough to be used for testing m2m, even on nowadays
+CPUs with less performance.
+
+I opted to keep the default time to 40 ms to 1 ms, in order to allow
+multiple streams, but, in practice, I suspect that just one instance
+should be enough for most usecases. So, I ended by keping the 40 ms
+timing.
+
+PS.: the first patch is identical to the one I submitted before,
+except for a minor change on its description.
+
+This patch series can be found on my development tree:
+
+    https://git.linuxtv.org/mchehab/experimental.git/log/?h=vim2m
+
+Mauro Carvalho Chehab (3):
+  media: vim2m: fix driver for it to handle different fourcc formats
+  media: vim2m: use per-file handler work queue
+  media: vim2m: allow setting the default transaction time via parameter
+
+ drivers/media/platform/vim2m.c | 434 ++++++++++++++++++++-------------
+ 1 file changed, 270 insertions(+), 164 deletions(-)
+
+-- 
+2.20.1
+
+
