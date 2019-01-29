@@ -1,133 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F05B47D161
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Jan 2019 17:24:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1A34E7D912
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Jan 2019 18:06:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727628AbfA2RYr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 Jan 2019 12:24:47 -0500
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:43275 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726374AbfA2RYr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Jan 2019 12:24:47 -0500
-Received: by mail-ed1-f67.google.com with SMTP id f9so16592785eds.10
-        for <linux-doc@vger.kernel.org>; Tue, 29 Jan 2019 09:24:46 -0800 (PST)
+        id S1728021AbfA2SFW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 Jan 2019 13:05:22 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:54408 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727787AbfA2SFV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Jan 2019 13:05:21 -0500
+Received: by mail-wm1-f66.google.com with SMTP id a62so18881990wmh.4
+        for <linux-doc@vger.kernel.org>; Tue, 29 Jan 2019 10:05:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=NAFVoizaosN71zZm/X9CLdjq/oxFfZcUfKedX6U7XvA=;
-        b=DgaAuG9T+BAXzDejZ8U9ULmE6Mj8aiX30V3nHSDuOCplow81pD0KRZ9QW34FLSjidr
-         TmRXo8SXe348VdjwQL1hBd4invHc8wFLqgkXBRl0gxiCnK5Gq+q8+e/bY4v5HBG1AexX
-         ugZq+HFnJEmuUNkLLuamC0Ny8tFzgCOvVR7js=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Y+ap6Bq9i9Bosxjv/aC11VsPIK0N0Zh2bt/qMaK7RFo=;
+        b=pTMYdsjVGlPjGB46EzZOJP2ZzDqCQrAqtMKteb4meGoxCxhdPbKwQR1sea+cC+6KTW
+         G+seq4FJVEvK5CRhVUtH84btkAFM7Xc4jxG+SDLF8sUlDknTuC2WFvELFSNqQRh3hYCG
+         CvcEgmI2ubiEKT3037EZFz8oCFJ9h2vrXZeY/DN5KatkMVTeIUt85CojWalyztZWPCu9
+         5UNFCramOZsutLuabzLGoYyV22vjYFlPJrv+sIbEz+foWtJ/T43QYM6ELa5elREGVVhI
+         DNszJWv4OwXbAtfHWrgmqegPvT7xs193W6REmvUd1rwEKb5NxMrkXxmOSbFn7DV+Sf2Z
+         wrqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=NAFVoizaosN71zZm/X9CLdjq/oxFfZcUfKedX6U7XvA=;
-        b=pix8GCt9CDo0Ee8wDpB7B53ZKfWFsNUKQh4VN0FvnaRWMzyctOKJMLM/8dofd1O6b6
-         HGnPQ2XKPaKh0jRRk2bo8jsNXboq7Im8W/OshUQUIYeQdKheTVs97tHKKXctIkmNl1R1
-         ng1iIgyuD+sDVSYjOG4bulz4wWaVnXHRfvu42sVaAmUx1uY8HDnw86J3Kn9vux19cGqv
-         n059/ZLYY0Zo6MGLmSSyf4vecX5fcq4dio1e285NQ7NKlkfMt4ZcKRJPAck/kaEqewDF
-         QVi0ZwP+H0/DVMzNXfbQhjgE0V2RehdEl/QC5psvTGelNedRG6KyrmcoFt5AKZzCPu5y
-         reqw==
-X-Gm-Message-State: AJcUukdy/Q6TAB3TDY68XgYupM9M7cDLbF5iXID8hzcyslbWPS7y+jEd
-        7zkFekMzeYgWTZBrdezaHHTuSw==
-X-Google-Smtp-Source: ALg8bN5/KgEAKRSU00DnhTzxRuDUZh3pT8EMqaaDpR0/NwtoGOKul1xsivnk5/bLA6ZcWrd3j0/YxA==
-X-Received: by 2002:a17:906:6a44:: with SMTP id n4mr18744717ejs.20.1548782685791;
-        Tue, 29 Jan 2019 09:24:45 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
-        by smtp.gmail.com with ESMTPSA id m20sm3574796ejs.68.2019.01.29.09.24.43
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 29 Jan 2019 09:24:43 -0800 (PST)
-Date:   Tue, 29 Jan 2019 18:24:41 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Sean Paul <sean@poorly.run>
-Cc:     dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
-        Sean Paul <seanpaul@chromium.org>,
-        Ville =?iso-8859-1?Q?Syrj=E4l=E4?= 
-        <ville.syrjala@linux.intel.com>, Sam Ravnborg <sam@ravnborg.org>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] drm/TODO: Add vrefresh replacement to the todo
-Message-ID: <20190129172441.GX3271@phenom.ffwll.local>
-References: <20190129163544.GE20097@intel.com>
- <20190129164542.252814-1-sean@poorly.run>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Y+ap6Bq9i9Bosxjv/aC11VsPIK0N0Zh2bt/qMaK7RFo=;
+        b=p6/NBzGWOKspuHsJJezwy/Kz1X5yxvxSnc8QsIkFO1wq+4mOfGI6kP7xp8+GMR8OTW
+         TN0CWAR8cplH5MmYaPmPSV+3shuevcX5YzGc0pBHYjiIyAV94P5tgVwcIjDwcezqnhn/
+         xbuJvXb+5KtGWascsxP+hIyJMdMfR92AnSN4MdLS7yNbC2/HmY1c3sxCBuLzrV/9xpcw
+         V3Kuf2sB8PxeCiKjAfWlNk3f0Ts5MJMDJ0VPm6Lhfo3dp2Oh4JV1FgnLzE6Ql3GYRdjQ
+         Aqd4TnsTXDDoqVpfwVb5xREKTS34ZlC2ZnMawzHb64JJWRsvBNSNp7Oe5ROXBj0rWFX4
+         JytQ==
+X-Gm-Message-State: AJcUukcVp1TLKRXlK6BNcx4VT5W1gVMHJATtv+krVzoMjcMB9vJoDO0y
+        GXwgJrQee6Lsb7Mzo3xBmKOLUlNbTFmCWOHdrh8YvQ==
+X-Google-Smtp-Source: ALg8bN7LYSdl+dRdBBbTvxW1GBHoyD6o/TBUVTnGWPtKZpAzgWSqhyM1ZtFKfRYRVtnOYo2pX0CGBDOWEMoPtBdoZiE=
+X-Received: by 2002:a7b:c04e:: with SMTP id u14mr20579255wmc.133.1548785118461;
+ Tue, 29 Jan 2019 10:05:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190129164542.252814-1-sean@poorly.run>
-X-Operating-System: Linux phenom 4.19.0-1-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190124211518.244221-1-surenb@google.com> <20190124211518.244221-6-surenb@google.com>
+ <20190129104431.GJ28467@hirez.programming.kicks-ass.net>
+In-Reply-To: <20190129104431.GJ28467@hirez.programming.kicks-ass.net>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Tue, 29 Jan 2019 10:05:07 -0800
+Message-ID: <CAJuCfpH3k0rrZZw_HhrjXYuFX31p283qg_5vQEnyd_wAMaxbqA@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] psi: introduce psi monitor
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tejun Heo <tj@kernel.org>, lizefan@huawei.com,
+        Johannes Weiner <hannes@cmpxchg.org>, axboe@kernel.dk,
+        dennis@kernel.org, Dennis Zhou <dennisszhou@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 29, 2019 at 11:45:10AM -0500, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
-> 
-> Changes in v2:
-> - Add drm_display_mode.vrefresh removal (Ville)
-> - Add Sam's R-b and bonus points
+Thanks for review Peter!
 
-hsync has the same problem, maybe add that too. With that:
+On Tue, Jan 29, 2019 at 2:44 AM Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> On Thu, Jan 24, 2019 at 01:15:18PM -0800, Suren Baghdasaryan wrote:
+> >  static void psi_update_work(struct work_struct *work)
+> >  {
+> >       struct delayed_work *dwork;
+> >       struct psi_group *group;
+> > +     bool first_pass = true;
+> > +     u64 next_update;
+> > +     u32 change_mask;
+> > +     int polling;
+> >       bool nonidle;
+> > +     u64 now;
+> >
+> >       dwork = to_delayed_work(work);
+> >       group = container_of(dwork, struct psi_group, clock_work);
+> >
+> > +     now = sched_clock();
+> > +
+> > +     mutex_lock(&group->update_lock);
+>
+> actually acquiring a mutex can take a fairly long while; would it not
+> make more sense to take the @now timestanp _after_ it, instead of
+> before?
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Yes, that makes sense. As long as *now* is set before the *retry*
+label, otherwise the retry mechanism would get even more complicated
+to understand with floating *now* timestamp. Will move the assignment
+right after the mutex_lock()
 
-
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> Bonus-points-awarded-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> ---
->  Documentation/gpu/todo.rst | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 38360ede12215..1bbfc5e1b2a46 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -262,6 +262,24 @@ As a reference, take a look at the conversions already completed in drm core.
->  
->  Contact: Sean Paul, respective driver maintainers
->  
-> +Convert direct mode.vrefresh accesses to use drm_mode_vrefresh()
-> +----------------------------------------------------------------
-> +
-> +drm_display_mode.vrefresh isn't guaranteed to be populated. As such, using it
-> +is risky and has been known to cause div-by-zero bugs. Fortunately, drm core
-> +has helper which will use mode.vrefresh if it's !0 and will calculate it from
-> +the timings when it's 0.
-> +
-> +Use simple search/replace, or (more fun) cocci to replace instances of direct
-> +vrefresh access with a call to the helper. Check out
-> +https://lists.freedesktop.org/archives/dri-devel/2019-January/205186.html for
-> +inspiration.
-> +
-> +Once all instances of vrefresh have been converted, consider removing vrefresh
-> +from drm_display_mode to avoid future use.
-> +
-> +Contact: Sean Paul
-> +
->  Core refactorings
->  =================
->  
-> -- 
-> Sean Paul, Software Engineer, Google / Chromium OS
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> --
+> You received this message because you are subscribed to the Google Groups "kernel-team" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
+>
