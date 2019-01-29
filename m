@@ -5,42 +5,42 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C482F7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Jan 2019 16:28:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C4A547D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 29 Jan 2019 16:35:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726420AbfA2Q2X (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 29 Jan 2019 11:28:23 -0500
-Received: from asavdk4.altibox.net ([109.247.116.15]:56243 "EHLO
-        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726201AbfA2Q2X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Jan 2019 11:28:23 -0500
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by asavdk4.altibox.net (Postfix) with ESMTPS id 88C35803A1;
-        Tue, 29 Jan 2019 17:28:20 +0100 (CET)
-Date:   Tue, 29 Jan 2019 17:28:19 +0100
-From:   Sam Ravnborg <sam@ravnborg.org>
+        id S1727848AbfA2Qfs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 29 Jan 2019 11:35:48 -0500
+Received: from mga04.intel.com ([192.55.52.120]:49572 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726117AbfA2Qfs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 29 Jan 2019 11:35:48 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Jan 2019 08:35:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,537,1539673200"; 
+   d="scan'208";a="142414817"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+  by fmsmga001.fm.intel.com with SMTP; 29 Jan 2019 08:35:45 -0800
+Received: by stinkbox (sSMTP sendmail emulation); Tue, 29 Jan 2019 18:35:44 +0200
+Date:   Tue, 29 Jan 2019 18:35:44 +0200
+From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To:     Sean Paul <sean@poorly.run>
 Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
         Maxime Ripard <maxime.ripard@bootlin.com>,
         David Airlie <airlied@linux.ie>,
         Sean Paul <seanpaul@chromium.org>
 Subject: Re: [PATCH] drm/TODO: Add vrefresh replacement to the todo
-Message-ID: <20190129162819.GA30803@ravnborg.org>
+Message-ID: <20190129163544.GE20097@intel.com>
 References: <20190129161611.241599-1-sean@poorly.run>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20190129161611.241599-1-sean@poorly.run>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=UpRNyd4B c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=kj9zAlcOel0A:10 a=cm27Pg_UAAAA:8 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
-        a=jPffMzPaPsipmjaQQJAA:9 a=yLM0eJMvxk8QBGgi:21 a=rDyO8_-3u5PkMvxz:21
-        a=CjuIK1q_8ugA:10 a=Ctdz5JVgVzkA:10 a=xmb-EsYY8bH0VWELuYED:22
-        a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -51,8 +51,6 @@ On Tue, Jan 29, 2019 at 11:15:51AM -0500, Sean Paul wrote:
 > 
 > Suggested-by: Daniel Vetter <daniel@ffwll.ch>
 > Signed-off-by: Sean Paul <seanpaul@chromium.org>
-
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 > ---
 >  Documentation/gpu/todo.rst | 15 +++++++++++++++
 >  1 file changed, 15 insertions(+)
@@ -77,6 +75,25 @@ Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 > +vrefresh access with a call to the helper. Check out
 > +https://lists.freedesktop.org/archives/dri-devel/2019-January/205186.html for
 > +inspiration.
-Bonus points for the link!
 
-	Sam
+I would suggest just nuking mode.vrefresh entirely because we
+don't want to risk drm_mode_vrefresh() returning some stale
+value.
+
+> +
+> +Contact: Sean Paul
+> +
+>  Core refactorings
+>  =================
+>  
+> -- 
+> Sean Paul, Software Engineer, Google / Chromium OS
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- 
+Ville Syrjälä
+Intel
