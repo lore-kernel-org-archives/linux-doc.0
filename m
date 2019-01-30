@@ -1,138 +1,176 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C43827D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Jan 2019 16:07:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C01907D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Jan 2019 16:15:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730902AbfA3QHK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 Jan 2019 11:07:10 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:35770 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728943AbfA3QHK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Jan 2019 11:07:10 -0500
-Received: by mail-ot1-f65.google.com with SMTP id 81so65182otj.2;
-        Wed, 30 Jan 2019 08:07:09 -0800 (PST)
+        id S1731709AbfA3QPC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 Jan 2019 11:15:02 -0500
+Received: from mail-it1-f196.google.com ([209.85.166.196]:32822 "EHLO
+        mail-it1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727359AbfA3QPC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Jan 2019 11:15:02 -0500
+Received: by mail-it1-f196.google.com with SMTP id m8so11523itk.0
+        for <linux-doc@vger.kernel.org>; Wed, 30 Jan 2019 08:15:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sweptlaser-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=yrq93au3oJ2dDM7QTKg4qsC2yIDdT7nuUkBxd+KI7Ck=;
+        b=N2WHyfGnz0FXfh9XYdxqt5P55gq8ixYlS5bBxzI18t56btVqdiw48LD8CamOF+xv/9
+         1UqOiiBSQGxByk/5Nn81AECQkzksMrwyH0m618LIbq6e7E3Vu35s+T2idZnWBZLPGUMY
+         jIZ9+E8dxoHkxq3g3OisSXCursJLvhnJjI5OfS+9QnnbgiOa7DEtGzSqNxvxEwLYgzPx
+         XEklNAcaot9HPnNKRqxDJuAonKtuB82ySmJFMq1xqm/tOjfihFlg/N/CSZ3zW4n6w+nM
+         i4+Ac61u/octZWczU6UK9CFSA4XssjXP1P95mzgetrAv/RTrE7iPGrg2y37R18r9jpIa
+         RdRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=g2YVABEOYLcMlUm2t8Parde08+vXwjS1kxc3IjzVaM0=;
-        b=bhyZi95r+mp/XCQTSZGbwIP2iJGv++ReOo7Yr+eDDX/cQcgW+HicDXAtJkTdZOM4Kw
-         H2ByyReUihGsCmmIyfS5PDj+NQYKKzS5mHHYHWmiY/bMP4+Z2Zk1ew1m5LBduqrG5GBy
-         Sm8zM0m7E2H/XLLifx+NFVoz59JP4pkSJzgqLPriIgQUwomBUXvzYLtlyfY56TfnjVbT
-         iYjmXym+DQjxAzIkF/vk72Vd/Ia2QCpF01Pt8e8aEsP2quJFw+BFlNWmGjWmiO8mHMSz
-         eek4UosvbSNk2oV3w4aYyAoq4MKb6lPh2fekNt3w/8Rki73x1RfFY5W2SZg8Kse3FFNv
-         FmSw==
-X-Gm-Message-State: AJcUukdEWvKV5uwBjwvmIuobIWI+SWHo1WFvXQY2s6JF1t6mVQGNHteU
-        /vFXKlH72FmdcUONHY7LMULa0BY=
-X-Google-Smtp-Source: ALg8bN61w4RcI3Wx58qjC+ljn2ByYOU452ZYGnsKTzGjhCHLAAxMV4BeuKBMSKz6ck77BF2PuDSEdg==
-X-Received: by 2002:a9d:2184:: with SMTP id s4mr24453896otb.46.1548864429221;
-        Wed, 30 Jan 2019 08:07:09 -0800 (PST)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 102sm668062otj.65.2019.01.30.08.07.08
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 30 Jan 2019 08:07:08 -0800 (PST)
-Date:   Wed, 30 Jan 2019 10:07:07 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     liaoweixiong <liaoweixiong@allwinnertech.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [RFC v7 2/5] dt-bindings: pstore-block: new support for blkoops
-Message-ID: <20190130160707.GA31844@bogus>
-References: <1548245116-6360-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1548245116-6360-3-git-send-email-liaoweixiong@allwinnertech.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1548245116-6360-3-git-send-email-liaoweixiong@allwinnertech.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references;
+        bh=yrq93au3oJ2dDM7QTKg4qsC2yIDdT7nuUkBxd+KI7Ck=;
+        b=DEXG1WwEBbFJMfbeO4p4ppMZWCjknPUBn6fcpoLOgQ6kCqWlltvgNWS40Tq2wzJsdx
+         qp7GG97TEsUaTSoSAl53U2e59mwIWpMhm+bpJcuf+0vHk0qYqydeI190+Lyd8RP3Z1lr
+         v0i6edZNph/vmBmiLj6+yXxkaSnIeCVxL4YRraZZ9nYZXrmFdsgDL+pQ6hrgPV/Q4yK1
+         +AGWz3r/a/3ZGUYRZVzTPf4zVmoUeKbt/SDDwSQ4Cq7fYiTqHUdh/uV/G0sO1owMZyZL
+         ARVHKGEI3grQMl9bWirfPT4hjJYEFUtlkjuRqHki86wG0XGw9sJPRWPGCdQorqwocc0t
+         ONrw==
+X-Gm-Message-State: AJcUukd/OSFrrRbLNNPhl+0amRSuw4da5KViItFhYZezzn5TuzPnS9JZ
+        08LJ5SqIogFvQfs5yst4OlHA8A==
+X-Google-Smtp-Source: ALg8bN7tQLMuCew9n4iSOOWyqdnYoMWjvEC1dFlpH33Rr5cpmNErLq1pd62L//HM/hM5OHH04pKLEQ==
+X-Received: by 2002:a05:660c:3c7:: with SMTP id c7mr13602440itl.131.1548864900873;
+        Wed, 30 Jan 2019 08:15:00 -0800 (PST)
+Received: from yngvi.hq.sweptlaser.com ([63.147.146.226])
+        by smtp.googlemail.com with ESMTPSA id 15sm838678iog.59.2019.01.30.08.14.59
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 30 Jan 2019 08:15:00 -0800 (PST)
+From:   Jeremy Gebben <jgebben@sweptlaser.com>
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH resend 1/3] hwmon: (lm85) remove freq_map size hardcodes
+Date:   Wed, 30 Jan 2019 09:14:45 -0700
+Message-Id: <20190130161447.19946-1-jgebben@sweptlaser.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190129212920.27921-1-jgebben@sweptlaser.com>
+References: <20190129212920.27921-1-jgebben@sweptlaser.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 23, 2019 at 08:05:13PM +0800, liaoweixiong wrote:
-> Create DT binding document for blkoops.
-> 
-> Signed-off-by: liaoweixiong <liaoweixiong@allwinnertech.com>
-> ---
->  .../devicetree/bindings/pstore-block/blkoops.txt   | 32 ++++++++++++++++++++++
 
-/bindings/pstore/...
+Allow support for chips that support more than 8 frequencies.
+The size still must be a power of two.
 
-I wouldn't call it blkoops either. I believe ramoops is called that to 
-maintain compatibility keeping the same kernel module name that 
-preceeded pstore.
+Signed-off-by: Jeremy Gebben <jgebben@sweptlaser.com>
+---
+ drivers/hwmon/lm85.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
->  MAINTAINERS                                        |  1 +
->  2 files changed, 33 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pstore-block/blkoops.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/pstore-block/blkoops.txt b/Documentation/devicetree/bindings/pstore-block/blkoops.txt
-> new file mode 100644
-> index 0000000..a25835b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pstore-block/blkoops.txt
-> @@ -0,0 +1,32 @@
-> +Blkoops oops logger
-> +===================
-> +
-> +Blkoops provides a block partition for oops, excluding panics now, so they can
-> +be recovered after a reboot.
-> +
-> +Any space of block partition will be used for a circular buffer of oops records.
-> +These records have a configurable size, with a size of 0 indicating that they
-> +should be disabled.
-> +
-> +"partition-size" and at least one of "dmesg-size" or "pmsg-size" must be set
-> +non-zero, but are otherwise optional as listed below.
-> +
-> +Blkoops will take value from Kconfig if device tree do not set, but settings
-> +from module parameters can also overwrite them.
+diff --git a/drivers/hwmon/lm85.c b/drivers/hwmon/lm85.c
+index 0a325878e8f5..48f59667a88c 100644
+--- a/drivers/hwmon/lm85.c
++++ b/drivers/hwmon/lm85.c
+@@ -198,13 +198,13 @@ static int RANGE_TO_REG(long range)
+ #define RANGE_FROM_REG(val)	lm85_range_map[(val) & 0x0f]
+ 
+ /* These are the PWM frequency encodings */
+-static const int lm85_freq_map[8] = { /* 1 Hz */
++static const int lm85_freq_map[] = { /* 1 Hz */
+ 	10, 15, 23, 30, 38, 47, 61, 94
+ };
+-static const int adm1027_freq_map[8] = { /* 1 Hz */
++
++static const int adm1027_freq_map[] = { /* 1 Hz */
+ 	11, 15, 22, 29, 35, 44, 59, 88
+ };
+-#define FREQ_MAP_LEN	8
+ 
+ static int FREQ_TO_REG(const int *map,
+ 		       unsigned int map_size, unsigned long freq)
+@@ -212,9 +212,9 @@ static int FREQ_TO_REG(const int *map,
+ 	return find_closest(freq, map, map_size);
+ }
+ 
+-static int FREQ_FROM_REG(const int *map, u8 reg)
++static int FREQ_FROM_REG(const int *map, unsigned int map_size, u8 reg)
+ {
+-	return map[reg & 0x07];
++	return map[reg & (map_size - 1)];
+ }
+ 
+ /*
+@@ -296,6 +296,8 @@ struct lm85_data {
+ 	struct i2c_client *client;
+ 	const struct attribute_group *groups[6];
+ 	const int *freq_map;
++	unsigned int freq_map_mask;
++
+ 	enum chips type;
+ 
+ 	bool has_vid5;	/* true if VID5 is configured for ADT7463 or ADT7468 */
+@@ -514,7 +516,7 @@ static struct lm85_data *lm85_update_device(struct device *dev)
+ 			data->autofan[i].config =
+ 			    lm85_read_value(client, LM85_REG_AFAN_CONFIG(i));
+ 			val = lm85_read_value(client, LM85_REG_AFAN_RANGE(i));
+-			data->pwm_freq[i] = val & 0x07;
++			data->pwm_freq[i] = val & data->freq_map_mask;
+ 			data->zone[i].range = val >> 4;
+ 			data->autofan[i].min_pwm =
+ 			    lm85_read_value(client, LM85_REG_AFAN_MINPWM(i));
+@@ -791,7 +793,8 @@ static ssize_t show_pwm_freq(struct device *dev,
+ 	if (IS_ADT7468_HFPWM(data))
+ 		freq = 22500;
+ 	else
+-		freq = FREQ_FROM_REG(data->freq_map, data->pwm_freq[nr]);
++		freq = FREQ_FROM_REG(data->freq_map, data->freq_map_mask + 1,
++				     data->pwm_freq[nr]);
+ 
+ 	return sprintf(buf, "%d\n", freq);
+ }
+@@ -820,7 +823,7 @@ static ssize_t set_pwm_freq(struct device *dev,
+ 		lm85_write_value(client, ADT7468_REG_CFG5, data->cfg5);
+ 	} else {					/* Low freq. mode */
+ 		data->pwm_freq[nr] = FREQ_TO_REG(data->freq_map,
+-						 FREQ_MAP_LEN, val);
++						 data->freq_map_mask + 1, val);
+ 		lm85_write_value(client, LM85_REG_AFAN_RANGE(nr),
+ 				 (data->zone[nr].range << 4)
+ 				 | data->pwm_freq[nr]);
+@@ -1196,7 +1199,7 @@ static ssize_t set_temp_auto_temp_min(struct device *dev,
+ 		TEMP_FROM_REG(data->zone[nr].limit));
+ 	lm85_write_value(client, LM85_REG_AFAN_RANGE(nr),
+ 		((data->zone[nr].range & 0x0f) << 4)
+-		| (data->pwm_freq[nr] & 0x07));
++		| data->pwm_freq[nr]);
+ 
+ 	mutex_unlock(&data->update_lock);
+ 	return count;
+@@ -1232,7 +1235,7 @@ static ssize_t set_temp_auto_temp_max(struct device *dev,
+ 		val - min);
+ 	lm85_write_value(client, LM85_REG_AFAN_RANGE(nr),
+ 		((data->zone[nr].range & 0x0f) << 4)
+-		| (data->pwm_freq[nr] & 0x07));
++		| data->pwm_freq[nr]);
+ 	mutex_unlock(&data->update_lock);
+ 	return count;
+ }
+@@ -1569,9 +1572,11 @@ static int lm85_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 	case emc6d103:
+ 	case emc6d103s:
+ 		data->freq_map = adm1027_freq_map;
++		data->freq_map_mask = ARRAY_SIZE(adm1027_freq_map) - 1;
+ 		break;
+ 	default:
+ 		data->freq_map = lm85_freq_map;
++		data->freq_map_mask = ARRAY_SIZE(lm85_freq_map) - 1;
+ 	}
+ 
+ 	/* Set the VRM version */
+-- 
+2.17.1
 
-That's all kernel details not relevant to the binidng.
-
-> +
-> +Required properties:
-> +
-> +- compatible: must be "blkoops".
-> +
-> +- partition-size: size in kbytes, must be a multiple of 4.
-
-This seems unnecessary given a partition has a known size.
-
-> +
-> +Optional properties:
-> +
-> +- partition-path: strings must begin with "/dev", tell blkoops which partition
-> +  it can used. If it is not set, blkoops will drop all data when reboot.
-
-No. '/dev/...' is a Linux thing and doesn't belong in DT.
-
-You should define a partition UUID and/or label and the kernel can find 
-the right partition to use.
-
-> +
-> +- dmesg-size: maximum size in kbytes of each dump done on oops, which must be a
-> +  multiple of 4.
-> +
-> +- pmsg-size: maximum size in kbytes for userspace messages, which must be a
-> +  multiple of 4.
-
-Common properties shared with ramoops should be in a common doc.
-
-Rob
