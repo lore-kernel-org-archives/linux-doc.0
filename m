@@ -2,26 +2,26 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 68A147D917
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Jan 2019 18:53:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CABEB7D099
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Jan 2019 18:53:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733287AbfA3SxU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 Jan 2019 13:53:20 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:47074 "EHLO mx1.redhat.com"
+        id S2387400AbfA3SxJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 Jan 2019 13:53:09 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:46874 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387433AbfA3SxP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 Jan 2019 13:53:15 -0500
+        id S1729401AbfA3SxI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Jan 2019 13:53:08 -0500
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 30B8388E62;
-        Wed, 30 Jan 2019 18:53:14 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 1F1B37AE8B;
+        Wed, 30 Jan 2019 18:53:07 +0000 (UTC)
 Received: from llong.com (dhcp-17-59.bos.redhat.com [10.18.17.59])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 57FBD5D6A6;
-        Wed, 30 Jan 2019 18:53:12 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E2A925D6A6;
+        Wed, 30 Jan 2019 18:53:02 +0000 (UTC)
 From:   Waiman Long <longman@redhat.com>
 To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -41,219 +41,69 @@ Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         "Wangkai (Kevin C)" <wangkai86@huawei.com>,
         Michal Hocko <mhocko@kernel.org>,
         Waiman Long <longman@redhat.com>
-Subject: [RESEND PATCH v4 3/3] fs/dcache: Track & report number of negative dentries
-Date:   Wed, 30 Jan 2019 13:52:38 -0500
-Message-Id: <1548874358-6189-4-git-send-email-longman@redhat.com>
-In-Reply-To: <1548874358-6189-1-git-send-email-longman@redhat.com>
-References: <1548874358-6189-1-git-send-email-longman@redhat.com>
+Subject: [RESEND PATCH v4 0/3] fs/dcache: Track # of negative dentries
+Date:   Wed, 30 Jan 2019 13:52:35 -0500
+Message-Id: <1548874358-6189-1-git-send-email-longman@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Wed, 30 Jan 2019 18:53:14 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Wed, 30 Jan 2019 18:53:07 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current dentry number tracking code doesn't distinguish between
-positive & negative dentries. It just reports the total number of
-dentries in the LRU lists.
+ v3->v4:
+  - Drop patch 4 as it is just a minor optimization.
+  - Add a cc:stable tag to patch 1.
+  - Clean up some comments in patch 3.
 
-As excessive number of negative dentries can have an impact on system
-performance, it will be wise to track the number of positive and
-negative dentries separately.
+ v2->v3:
+  - With confirmation that the dummy array in dentry_stat structure
+    was never a replacement of a previously used field, patch 3 is now
+    reverted back to use one of dummy field as the negative dentry count
+    instead of adding a new field.
 
-This patch adds tracking for the total number of negative dentries
-in the system LRU lists and reports it in the 5th field in the
-/proc/sys/fs/dentry-state file. The number, however, does not include
-negative dentries that are in flight but not in the LRU yet as well
-as those in the shrinker lists which are on the way out anyway.
+ v1->v2:
+  - Clarify what the new nr_dentry_negative per-cpu counter is tracking
+    and open-code the increment and decrement as suggested by Dave Chinner.
+  - Append the new nr_dentry_negative count as the 7th element of dentry-state
+    instead of replacing one of the dummy entries.
+  - Remove patch "fs/dcache: Make negative dentries easier to be
+    reclaimed" for now as I need more time to think about what
+    to do with it.
+  - Add 2 more patches to address issues found while reviewing the
+    dentry code.
+  - Add another patch to change the conditional branch of
+    nr_dentry_negative accounting to conditional move so as to reduce
+    the performance impact of the accounting code.
 
-The number of positive dentries in the LRU lists can be roughly found
-by subtracting the number of negative dentries from the unused count.
+This patchset addresses 2 issues found in the dentry code and adds a
+new nr_dentry_negative per-cpu counter to track the total number of
+negative dentries in all the LRU lists.
 
-Matthew Wilcox had confirmed that since the introduction of the
-dentry_stat structure in 2.1.60, the dummy array was there, probably for
-future extension. They were not replacements of pre-existing fields. So
-no sane applications that read the value of /proc/sys/fs/dentry-state
-will do dummy thing if the last 2 fields of the sysctl parameter are
-not zero. IOW, it will be safe to use one of the dummy array entry for
-negative dentry count.
+Patch 1 fixes a bug in the accounting of nr_dentry_unused in
+shrink_dcache_sb().
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
+Patch 2 removes the ____cacheline_aligned_in_smp tag from super_block
+LRU lists.
+
+Patch 3 adds the new nr_dentry_negative per-cpu counter.
+
+Various filesystem related tests were run and no statistically
+significant changes in performance outside of the possible noise range
+was observed.
+
+Waiman Long (3):
+  fs/dcache: Fix incorrect nr_dentry_unused accounting in
+    shrink_dcache_sb()
+  fs: Don't need to put list_lru into its own cacheline
+  fs/dcache: Track & report number of negative dentries
+
  Documentation/sysctl/fs.txt | 26 ++++++++++++++++----------
- fs/dcache.c                 | 32 ++++++++++++++++++++++++++++++++
+ fs/dcache.c                 | 38 +++++++++++++++++++++++++++++++++-----
  include/linux/dcache.h      |  7 ++++---
- 3 files changed, 52 insertions(+), 13 deletions(-)
+ include/linux/fs.h          |  9 +++++----
+ 4 files changed, 58 insertions(+), 22 deletions(-)
 
-diff --git a/Documentation/sysctl/fs.txt b/Documentation/sysctl/fs.txt
-index 819caf8..58649bd 100644
---- a/Documentation/sysctl/fs.txt
-+++ b/Documentation/sysctl/fs.txt
-@@ -56,26 +56,32 @@ of any kernel data structures.
- 
- dentry-state:
- 
--From linux/fs/dentry.c:
-+From linux/include/linux/dcache.h:
- --------------------------------------------------------------
--struct {
-+struct dentry_stat_t dentry_stat {
-         int nr_dentry;
-         int nr_unused;
-         int age_limit;         /* age in seconds */
-         int want_pages;        /* pages requested by system */
--        int dummy[2];
--} dentry_stat = {0, 0, 45, 0,};
---------------------------------------------------------------- 
--
--Dentries are dynamically allocated and deallocated, and
--nr_dentry seems to be 0 all the time. Hence it's safe to
--assume that only nr_unused, age_limit and want_pages are
--used. Nr_unused seems to be exactly what its name says.
-+        int nr_negative;       /* # of unused negative dentries */
-+        int dummy;             /* Reserved for future use */
-+};
-+--------------------------------------------------------------
-+
-+Dentries are dynamically allocated and deallocated.
-+
-+nr_dentry shows the total number of dentries allocated (active
-++ unused). nr_unused shows the number of dentries that are not
-+actively used, but are saved in the LRU list for future reuse.
-+
- Age_limit is the age in seconds after which dcache entries
- can be reclaimed when memory is short and want_pages is
- nonzero when shrink_dcache_pages() has been called and the
- dcache isn't pruned yet.
- 
-+nr_negative shows the number of unused dentries that are also
-+negative dentries which do not mapped to actual files.
-+
- ==============================================================
- 
- dquot-max & dquot-nr:
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 44e5652..aac41ad 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -119,6 +119,7 @@ struct dentry_stat_t dentry_stat = {
- 
- static DEFINE_PER_CPU(long, nr_dentry);
- static DEFINE_PER_CPU(long, nr_dentry_unused);
-+static DEFINE_PER_CPU(long, nr_dentry_negative);
- 
- #if defined(CONFIG_SYSCTL) && defined(CONFIG_PROC_FS)
- 
-@@ -152,11 +153,22 @@ static long get_nr_dentry_unused(void)
- 	return sum < 0 ? 0 : sum;
- }
- 
-+static long get_nr_dentry_negative(void)
-+{
-+	int i;
-+	long sum = 0;
-+
-+	for_each_possible_cpu(i)
-+		sum += per_cpu(nr_dentry_negative, i);
-+	return sum < 0 ? 0 : sum;
-+}
-+
- int proc_nr_dentry(struct ctl_table *table, int write, void __user *buffer,
- 		   size_t *lenp, loff_t *ppos)
- {
- 	dentry_stat.nr_dentry = get_nr_dentry();
- 	dentry_stat.nr_unused = get_nr_dentry_unused();
-+	dentry_stat.nr_negative = get_nr_dentry_negative();
- 	return proc_doulongvec_minmax(table, write, buffer, lenp, ppos);
- }
- #endif
-@@ -317,6 +329,8 @@ static inline void __d_clear_type_and_inode(struct dentry *dentry)
- 	flags &= ~(DCACHE_ENTRY_TYPE | DCACHE_FALLTHRU);
- 	WRITE_ONCE(dentry->d_flags, flags);
- 	dentry->d_inode = NULL;
-+	if (dentry->d_flags & DCACHE_LRU_LIST)
-+		this_cpu_inc(nr_dentry_negative);
- }
- 
- static void dentry_free(struct dentry *dentry)
-@@ -371,6 +385,11 @@ static void dentry_unlink_inode(struct dentry * dentry)
-  * The per-cpu "nr_dentry_unused" counters are updated with
-  * the DCACHE_LRU_LIST bit.
-  *
-+ * The per-cpu "nr_dentry_negative" counters are only updated
-+ * when deleted from or added to the per-superblock LRU list, not
-+ * from/to the shrink list. That is to avoid an unneeded dec/inc
-+ * pair when moving from LRU to shrink list in select_collect().
-+ *
-  * These helper functions make sure we always follow the
-  * rules. d_lock must be held by the caller.
-  */
-@@ -380,6 +399,8 @@ static void d_lru_add(struct dentry *dentry)
- 	D_FLAG_VERIFY(dentry, 0);
- 	dentry->d_flags |= DCACHE_LRU_LIST;
- 	this_cpu_inc(nr_dentry_unused);
-+	if (d_is_negative(dentry))
-+		this_cpu_inc(nr_dentry_negative);
- 	WARN_ON_ONCE(!list_lru_add(&dentry->d_sb->s_dentry_lru, &dentry->d_lru));
- }
- 
-@@ -388,6 +409,8 @@ static void d_lru_del(struct dentry *dentry)
- 	D_FLAG_VERIFY(dentry, DCACHE_LRU_LIST);
- 	dentry->d_flags &= ~DCACHE_LRU_LIST;
- 	this_cpu_dec(nr_dentry_unused);
-+	if (d_is_negative(dentry))
-+		this_cpu_dec(nr_dentry_negative);
- 	WARN_ON_ONCE(!list_lru_del(&dentry->d_sb->s_dentry_lru, &dentry->d_lru));
- }
- 
-@@ -418,6 +441,8 @@ static void d_lru_isolate(struct list_lru_one *lru, struct dentry *dentry)
- 	D_FLAG_VERIFY(dentry, DCACHE_LRU_LIST);
- 	dentry->d_flags &= ~DCACHE_LRU_LIST;
- 	this_cpu_dec(nr_dentry_unused);
-+	if (d_is_negative(dentry))
-+		this_cpu_dec(nr_dentry_negative);
- 	list_lru_isolate(lru, &dentry->d_lru);
- }
- 
-@@ -426,6 +451,8 @@ static void d_lru_shrink_move(struct list_lru_one *lru, struct dentry *dentry,
- {
- 	D_FLAG_VERIFY(dentry, DCACHE_LRU_LIST);
- 	dentry->d_flags |= DCACHE_SHRINK_LIST;
-+	if (d_is_negative(dentry))
-+		this_cpu_dec(nr_dentry_negative);
- 	list_lru_isolate_move(lru, &dentry->d_lru, list);
- }
- 
-@@ -1816,6 +1843,11 @@ static void __d_instantiate(struct dentry *dentry, struct inode *inode)
- 	WARN_ON(d_in_lookup(dentry));
- 
- 	spin_lock(&dentry->d_lock);
-+	/*
-+	 * Decrement negative dentry count if it was in the LRU list.
-+	 */
-+	if (dentry->d_flags & DCACHE_LRU_LIST)
-+		this_cpu_dec(nr_dentry_negative);
- 	hlist_add_head(&dentry->d_u.d_alias, &inode->i_dentry);
- 	raw_write_seqcount_begin(&dentry->d_seq);
- 	__d_set_inode_and_type(dentry, inode, add_flags);
-diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-index ef4b70f..60996e6 100644
---- a/include/linux/dcache.h
-+++ b/include/linux/dcache.h
-@@ -62,9 +62,10 @@ struct qstr {
- struct dentry_stat_t {
- 	long nr_dentry;
- 	long nr_unused;
--	long age_limit;          /* age in seconds */
--	long want_pages;         /* pages requested by system */
--	long dummy[2];
-+	long age_limit;		/* age in seconds */
-+	long want_pages;	/* pages requested by system */
-+	long nr_negative;	/* # of unused negative dentries */
-+	long dummy;		/* Reserved for future use */
- };
- extern struct dentry_stat_t dentry_stat;
- 
 -- 
 1.8.3.1
 
