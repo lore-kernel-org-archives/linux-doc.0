@@ -1,197 +1,179 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C1F577D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Jan 2019 17:25:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 78A0A7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Jan 2019 17:27:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726802AbfA3RZN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 Jan 2019 12:25:13 -0500
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:38380 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726464AbfA3RZN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Jan 2019 12:25:13 -0500
-Received: by mail-pl1-f195.google.com with SMTP id e5so122632plb.5;
-        Wed, 30 Jan 2019 09:25:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=AQPDSHP9hNMnLitiXzM8O9j1dhPkTvS3uxdzzAIMsFs=;
-        b=Ds1mWKMR5YWnhEvdxYknQDw0lnF23+xU05aex8x4uipUvo8HJtk0mURLl6Uvkgrc41
-         ZeBhEo+nanw4N0YEZjVHMdKCW95V2Vod59TjHPcEJtshujvS8GWnvx8BOi5XYdrwFwtA
-         zXe0oTmPRHNdA4JyWvUEGGCuVmO4B66ytMesHOXSJsZ0SRARbjRQ4g0A/Uv0F/MhKBqt
-         +c2TsvTfzgjDotGhRPqHAXoOSDVrBM8SPLls5d0MF7/mPF2BJcoiUp2fOxmPsb2vxonF
-         5MOIA2a8V678agooOIEP2Z5Ms0YbNkTgiO6X3WIyxVdyJv8CC6kk4qUeRDi0pAmpdluN
-         s8FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=AQPDSHP9hNMnLitiXzM8O9j1dhPkTvS3uxdzzAIMsFs=;
-        b=foEQGsTHdveTrmzfxO7d1/tZuaTlpRAHSjBy1pV6rCUafhSUWhNpgYGfyQP4UGY58n
-         cvwzn5b3b52aShVVsb8bPY1cuNg0jGGqnW7kIAqSCB/XXS9jeCA/j9xmPPHIYgXeGYGA
-         t65kvhEY2ynF4nBA9LrpS7Yw6NjkL3keNrAJFXzJeOh7vPFXjXfahHsV6RI0vF8NzBWf
-         ONt6uVmMoJRa7FxvujzKTH7uDOeYM9YS/55M9+CKfzSkxf5bk8uP5eD6PBsJgwYvI5vi
-         2KInRz8n6lPy7hinH5ZnJCaOxbSeC5XBEchF6ec2EJKrI/Yjzf2CrujQL8Zs2ac2kH0I
-         HmaA==
-X-Gm-Message-State: AJcUukfzx4B5+nHdgNJg6DjXgySpYbI9YBQwjAx0MSk0/NCbUs1vwL2w
-        wbCvdlug5/LZpNXpp1Swqog=
-X-Google-Smtp-Source: ALg8bN53aP35E/kUx5BQPqrbDp0k0KVgLflCrHG+CeT89vYfjKC7WvekSbE+SEc7AEcT2Ljeyx9ibw==
-X-Received: by 2002:a17:902:20c8:: with SMTP id v8mr31683244plg.319.1548869112203;
-        Wed, 30 Jan 2019 09:25:12 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id j21sm3385752pfn.175.2019.01.30.09.25.11
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 30 Jan 2019 09:25:11 -0800 (PST)
-Date:   Wed, 30 Jan 2019 09:25:10 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Jeremy Gebben <jgebben@sweptlaser.com>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        id S1728998AbfA3R1N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 Jan 2019 12:27:13 -0500
+Received: from mout.gmx.net ([212.227.15.18]:48737 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727680AbfA3R1M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Jan 2019 12:27:12 -0500
+Received: from longitude ([109.90.232.48]) by mail.gmx.com (mrgmx003
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 0MEnjW-1gw3Hg3Vik-00FwvB; Wed, 30
+ Jan 2019 18:26:23 +0100
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-doc@vger.kernel.org
+Cc:     Kepplinger Martin <Martin.Kepplinger@ginzinger.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Markus Heiser <markus.heiser@darmarit.de>,
+        Alessia Mantegazza <amantegazza@vaga.pv.it>,
+        Michael Rodin <michael-git@rodin.online>,
+        Minghui Liu <minghui.liu.95@gmail.com>,
+        Grigory Shipunov <mail@oxapentane.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Charles Keepax <ckeepax@opensource.wolfsonmicro.com>,
+        Coly Li <colyli@suse.de>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH resend 1/3] hwmon: (lm85) remove freq_map size hardcodes
-Message-ID: <20190130172510.GB14781@roeck-us.net>
-References: <20190129212920.27921-1-jgebben@sweptlaser.com>
- <20190130161447.19946-1-jgebben@sweptlaser.com>
+Subject: [PATCH v2] doc: Change LXR references to elixir.bootlin.com
+Date:   Wed, 30 Jan 2019 18:25:15 +0100
+Message-Id: <20190130172528.7552-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190130161447.19946-1-jgebben@sweptlaser.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Izlj8DYGsbjhIDjiHvZ8LpDgM5Ec8dPM/FUjQeN9WrbKKYUM8+Z
+ aPKK2quRfb2VCH1ODe4pLjFoy5A1nxoYrhNhKEqxE7d3ZR1EsPH1Dh9jWa/Q6dYILYT5lbO
+ adv/rSW461RIca2K6CZuhip6ztaBXLFvxNj5j1a5CpRBfX29zb+FRBSyr5MqVl+jiqQCoCe
+ jFm1/ku8TsP5E9K2kr7yg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tTyR5ZCQ/9k=:EnnhhhPiWEfitx8cp9fq8i
+ EJYtmrs49u6BFoep2n07zkxvO4druC38+RJ0P7wV+3zcR0HxS3Tssk7oRrWwUwMYg+Ge5rGBT
+ 4qFjqCRo8FUFUK7LWKLPk9mzJgvue3SWqbSjV+qaivPfISd9t4IsKfnAWOTcwzIN1QE8kjTiW
+ LzCYIHQGUv98Dn7Yp2LAi6pHfD1hfgmV++zBBqM0pxUMcwknrunJfUwhYM1szrMS6GAo7lKW4
+ AHZJD/eR9zk7PJQQQwgp41G8ybJE6x0CKIQlSSet7Mi8u453GQ0TNQEn++xY8kqZsPrtpsQHk
+ ERmKVOULqdM/G2DiMiURCWrbiHr8KlLJQ0dH9JAfINDMdREffBF5JbRTXrzIxRisFoXeFvpz7
+ rhZ2svUVVaKTD4wBZlBGYp+c2PY531+KNU1aYyc27DZqw9BPgXC5aHlcrl6rsheb8T6PoxzSB
+ p61XTBMJkS8RxGf8kDvvnvtt3n/ZX6jWZuw4KYeKpG9Gne7MutOKtU/+tIMzOjYtPVLpZzp4j
+ kuFyHUpcIkECltzihw8Snw/drcIrAbYCcqFDFCQKbdY6jRzIQgiMtBno2X+KQLeTBh0mZ4QIi
+ CfIQlGPycrKacHrVWSqtetnyD001puDzni8HV5v1FDc7jABT1zlJwwO7bZ/GJPx1Y+6ZCsCl6
+ XJmUW4vN3Ns+T5dr4Es2ndRtYc2ZjtATyIPF5DOFMGOWA8cBcJ1GiYrWe6aFFOWvMFBh/PArz
+ atFkgmop3bcWIZZ3hcc3wpJlDKhz+U+2e82he8xVzPzWZxrTp/wNE3q8nRivomdrkUQmzMPEc
+ 33duuHEbzOZDXWKQmmgWFc1lSTX9QG4oiV421SlLF9/QbwzjGXFpxSl36f5NJt36wt69i31ez
+ Pcort8v2UlhkIj6WPu3ygM4mZeR8EPMgehEwPebRztC2N0JNbMyfLKRguJNkOE8mI00o37gs9
+ iPNlstYhOzQ==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 30, 2019 at 09:14:45AM -0700, Jeremy Gebben wrote:
-> 
-> Allow support for chips that support more than 8 frequencies.
-> The size still must be a power of two.
-> 
-This is risky. Someone later may not know/remember and 
-expand the table without maintaining that restriction.
-I would suggest to use map_size instead of map_mask.
-While that adds some divide operations, none of those are
-in a critical path, and the code would be much more robust.
+Recently, Free Electrons was renamed to Bootlin[1]. Less recently, the
+Linux Cross Reference (LXR) at lxr.free-electrons.com was replaced by
+Elixir[2], and lxr.free-electrons.com redirected first to
+elixir.free-electrons.com and now to elixir.bootlin.com.
 
-> Signed-off-by: Jeremy Gebben <jgebben@sweptlaser.com>
-> ---
->  drivers/hwmon/lm85.c | 25 +++++++++++++++----------
->  1 file changed, 15 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/hwmon/lm85.c b/drivers/hwmon/lm85.c
-> index 0a325878e8f5..48f59667a88c 100644
-> --- a/drivers/hwmon/lm85.c
-> +++ b/drivers/hwmon/lm85.c
-> @@ -198,13 +198,13 @@ static int RANGE_TO_REG(long range)
->  #define RANGE_FROM_REG(val)	lm85_range_map[(val) & 0x0f]
->  
->  /* These are the PWM frequency encodings */
-> -static const int lm85_freq_map[8] = { /* 1 Hz */
-> +static const int lm85_freq_map[] = { /* 1 Hz */
->  	10, 15, 23, 30, 38, 47, 61, 94
->  };
-> -static const int adm1027_freq_map[8] = { /* 1 Hz */
-> +
-> +static const int adm1027_freq_map[] = { /* 1 Hz */
->  	11, 15, 22, 29, 35, 44, 59, 88
->  };
-> -#define FREQ_MAP_LEN	8
->  
->  static int FREQ_TO_REG(const int *map,
->  		       unsigned int map_size, unsigned long freq)
-> @@ -212,9 +212,9 @@ static int FREQ_TO_REG(const int *map,
->  	return find_closest(freq, map, map_size);
->  }
->  
-> -static int FREQ_FROM_REG(const int *map, u8 reg)
-> +static int FREQ_FROM_REG(const int *map, unsigned int map_size, u8 reg)
->  {
-> -	return map[reg & 0x07];
-> +	return map[reg & (map_size - 1)];
+[1]: https://bootlin.com/blog/free-electrons-becomes-bootlin/
+[2]: https://github.com/free-electrons/elixir
 
-Passing in map_size (calculated as map_mask + 1) just to subtract one
-doesn't make sense.
+Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+---
 
->  }
->  
->  /*
-> @@ -296,6 +296,8 @@ struct lm85_data {
->  	struct i2c_client *client;
->  	const struct attribute_group *groups[6];
->  	const int *freq_map;
-> +	unsigned int freq_map_mask;
-> +
->  	enum chips type;
->  
->  	bool has_vid5;	/* true if VID5 is configured for ADT7463 or ADT7468 */
-> @@ -514,7 +516,7 @@ static struct lm85_data *lm85_update_device(struct device *dev)
->  			data->autofan[i].config =
->  			    lm85_read_value(client, LM85_REG_AFAN_CONFIG(i));
->  			val = lm85_read_value(client, LM85_REG_AFAN_RANGE(i));
-> -			data->pwm_freq[i] = val & 0x07;
-> +			data->pwm_freq[i] = val & data->freq_map_mask;
->  			data->zone[i].range = val >> 4;
->  			data->autofan[i].min_pwm =
->  			    lm85_read_value(client, LM85_REG_AFAN_MINPWM(i));
-> @@ -791,7 +793,8 @@ static ssize_t show_pwm_freq(struct device *dev,
->  	if (IS_ADT7468_HFPWM(data))
->  		freq = 22500;
->  	else
-> -		freq = FREQ_FROM_REG(data->freq_map, data->pwm_freq[nr]);
-> +		freq = FREQ_FROM_REG(data->freq_map, data->freq_map_mask + 1,
-> +				     data->pwm_freq[nr]);
->  
->  	return sprintf(buf, "%d\n", freq);
->  }
-> @@ -820,7 +823,7 @@ static ssize_t set_pwm_freq(struct device *dev,
->  		lm85_write_value(client, ADT7468_REG_CFG5, data->cfg5);
->  	} else {					/* Low freq. mode */
->  		data->pwm_freq[nr] = FREQ_TO_REG(data->freq_map,
-> -						 FREQ_MAP_LEN, val);
-> +						 data->freq_map_mask + 1, val);
->  		lm85_write_value(client, LM85_REG_AFAN_RANGE(nr),
->  				 (data->zone[nr].range << 4)
->  				 | data->pwm_freq[nr]);
-> @@ -1196,7 +1199,7 @@ static ssize_t set_temp_auto_temp_min(struct device *dev,
->  		TEMP_FROM_REG(data->zone[nr].limit));
->  	lm85_write_value(client, LM85_REG_AFAN_RANGE(nr),
->  		((data->zone[nr].range & 0x0f) << 4)
-> -		| (data->pwm_freq[nr] & 0x07));
-> +		| data->pwm_freq[nr]);
->  
->  	mutex_unlock(&data->update_lock);
->  	return count;
-> @@ -1232,7 +1235,7 @@ static ssize_t set_temp_auto_temp_max(struct device *dev,
->  		val - min);
->  	lm85_write_value(client, LM85_REG_AFAN_RANGE(nr),
->  		((data->zone[nr].range & 0x0f) << 4)
-> -		| (data->pwm_freq[nr] & 0x07));
-> +		| data->pwm_freq[nr]);
->  	mutex_unlock(&data->update_lock);
->  	return count;
->  }
-> @@ -1569,9 +1572,11 @@ static int lm85_probe(struct i2c_client *client, const struct i2c_device_id *id)
->  	case emc6d103:
->  	case emc6d103s:
->  		data->freq_map = adm1027_freq_map;
-> +		data->freq_map_mask = ARRAY_SIZE(adm1027_freq_map) - 1;
->  		break;
->  	default:
->  		data->freq_map = lm85_freq_map;
-> +		data->freq_map_mask = ARRAY_SIZE(lm85_freq_map) - 1;
->  	}
+v2:
+- Fix ident search URL, as suggested by Martin Kepplinger
+- Add trailing slash, which I accidentally dropped in v1 in
+  Documentation/translations/it_IT/process/howto.rst
 
-You'd have to make sure that freq_map_mask is indeed a mask, ie that
-ARRAY_SIZE() is a power of two. I would suggest to use freq_map_size
-instead.
+v1: https://lore.kernel.org/lkml/20190129142923.5743-1-j.neuschaefer@gmx.net/
+---
+ Documentation/input/devices/xpad.rst               | 2 +-
+ Documentation/process/howto.rst                    | 2 +-
+ Documentation/process/kernel-docs.rst              | 2 +-
+ Documentation/translations/it_IT/process/howto.rst | 2 +-
+ Documentation/translations/ja_JP/howto.rst         | 2 +-
+ Documentation/translations/ko_KR/howto.rst         | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
->  
->  	/* Set the VRM version */
-> -- 
-> 2.17.1
-> 
+diff --git a/Documentation/input/devices/xpad.rst b/Documentation/input/devices/xpad.rst
+index b8bd65962dd8..173c2acda9fd 100644
+--- a/Documentation/input/devices/xpad.rst
++++ b/Documentation/input/devices/xpad.rst
+@@ -218,7 +218,7 @@ References
+ .. [1] http://euc.jp/periphs/xbox-controller.ja.html (ITO Takayuki)
+ .. [2] http://xpad.xbox-scene.com/
+ .. [3] http://www.markosweb.com/www/xboxhackz.com/
+-.. [4] http://lxr.free-electrons.com/ident?i=xpad_device
++.. [4] https://elixir.bootlin.com/linux/latest/ident/xpad_device
+ 
+ 
+ Historic Edits
+diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+index 00c8ddd2ed2c..64deab5cfb3b 100644
+--- a/Documentation/process/howto.rst
++++ b/Documentation/process/howto.rst
+@@ -225,7 +225,7 @@ Cross-Reference project, which is able to present source code in a
+ self-referential, indexed webpage format. An excellent up-to-date
+ repository of the kernel code may be found at:
+ 
+-	http://lxr.free-electrons.com/
++	https://elixir.bootlin.com/
+ 
+ 
+ The development process
+diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
+index 3fb28de556e4..ab12dddc773e 100644
+--- a/Documentation/process/kernel-docs.rst
++++ b/Documentation/process/kernel-docs.rst
+@@ -565,7 +565,7 @@ Miscellaneous
+ 
+     * Name: **Cross-Referencing Linux**
+ 
+-      :URL: http://lxr.free-electrons.com/
++      :URL: https://elixir.bootlin.com/
+       :Keywords: Browsing source code.
+       :Description: Another web-based Linux kernel source code browser.
+         Lots of cross references to variables and functions. You can see
+diff --git a/Documentation/translations/it_IT/process/howto.rst b/Documentation/translations/it_IT/process/howto.rst
+index 909e6a55bc43..f9a44b1af89d 100644
+--- a/Documentation/translations/it_IT/process/howto.rst
++++ b/Documentation/translations/it_IT/process/howto.rst
+@@ -234,7 +234,7 @@ il progetto Linux Cross-Reference, che è in grado di presentare codice
+ sorgente in un formato autoreferenziale ed indicizzato. Un eccellente ed
+ aggiornata fonte di consultazione del codice del kernel la potete trovare qui:
+ 
+-	http://lxr.free-electrons.com/
++	https://elixir.bootlin.com/
+ 
+ 
+ Il processo di sviluppo
+diff --git a/Documentation/translations/ja_JP/howto.rst b/Documentation/translations/ja_JP/howto.rst
+index f3116381c26b..2ca9389d5915 100644
+--- a/Documentation/translations/ja_JP/howto.rst
++++ b/Documentation/translations/ja_JP/howto.rst
+@@ -245,7 +245,7 @@ Linux カーネルソースツリーの中に含まれる、きれいにし、
+ できます。この最新の素晴しいカーネルコードのリポジトリは以下で見つかり
+ ます -
+ 
+-	http://lxr.free-electrons.com/
++	https://elixir.bootlin.com/
+ 
+ 開発プロセス
+ ------------
+diff --git a/Documentation/translations/ko_KR/howto.rst b/Documentation/translations/ko_KR/howto.rst
+index a8197e072599..9fc869087e9c 100644
+--- a/Documentation/translations/ko_KR/howto.rst
++++ b/Documentation/translations/ko_KR/howto.rst
+@@ -235,7 +235,7 @@ ReST 마크업을 사용하는 문서들은 Documentation/output 에 생성된
+ 소스코드를 인덱스된 웹 페이지들의 형태로 보여준다. 최신의 멋진 커널
+ 코드 저장소는 다음을 통하여 참조할 수 있다.
+ 
+-      http://lxr.free-electrons.com/
++      https://elixir.bootlin.com/
+ 
+ 
+ 개발 프로세스
+-- 
+2.20.1
+
