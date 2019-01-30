@@ -1,53 +1,42 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E59DA7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Jan 2019 18:00:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 56EC77D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Jan 2019 18:02:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725613AbfA3SAW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 Jan 2019 13:00:22 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:38918 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725446AbfA3SAW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Jan 2019 13:00:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=+fp22wRjDuvf0HjSO8AgYUAG6uPqCbeEVitFBjX0C00=; b=SFk7vWy09CX3ERJQyWQqc4poY
-        AgneMhFfymavz1bqszn150tZRQeQL37nxWmXaXqIb0SV1HjcF4wypK47zqj/rsuZ6V4qQFWrtHWPW
-        adBK3RK61k7hVO8nWlsQAht7/X57StGhq3Tw9hwAa+kEbAjtnb2lv0ZGbtRM+C/nqiB4fYc/LLwVu
-        X5TUMJMooQKHJ0Z8WJOjX7i0c29TUXN64H7Rsb4ainH4FxNhcN/Ii87h6YLybsjEO3bwEJrXhFMcT
-        chFn8CLo4pvTIbclPiZvNBCPC0SCqunwVKe/Yr0BT9tA0bu0yhJb4wX2uS6IpPzw5PYUSvZYC11FB
-        Vw+CeDHWQ==;
-Received: from [177.43.31.175] (helo=silica.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gou9r-0007z4-Pk; Wed, 30 Jan 2019 18:00:20 +0000
-Date:   Wed, 30 Jan 2019 16:00:04 -0200
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Anton Leontiev <scileont@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH 2/3] media: vim2m: use per-file handler work queue
-Message-ID: <20190130160004.4433b922@silica.lan>
-In-Reply-To: <755a24c6fd7ccc34f3d3ccda8caa1dda715241ea.camel@collabora.com>
-References: <cover.1548776693.git.mchehab+samsung@kernel.org>
-        <7ff2d5c791473c746ae07c012d1890c6bdd08f6d.1548776693.git.mchehab+samsung@kernel.org>
-        <0f25ab2f936e3fcb8cd68b55682838027e46eec5.camel@collabora.com>
-        <20190130111933.313ed5a0@silica.lan>
-        <755a24c6fd7ccc34f3d3ccda8caa1dda715241ea.camel@collabora.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727446AbfA3SCx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 Jan 2019 13:02:53 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:59120 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725770AbfA3SCx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 30 Jan 2019 13:02:53 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4217F80D;
+        Wed, 30 Jan 2019 10:02:53 -0800 (PST)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 935993F557;
+        Wed, 30 Jan 2019 10:02:50 -0800 (PST)
+Date:   Wed, 30 Jan 2019 18:02:47 +0000
+From:   Andre Przywara <andre.przywara@arm.com>
+To:     Jeremy Linton <jeremy.linton@arm.com>
+Cc:     linux-arm-kernel@lists.infradead.org, stefan.wahren@i2se.com,
+        Jonathan Corbet <corbet@lwn.net>, mlangsdo@redhat.com,
+        linux-doc@vger.kernel.org, suzuki.poulose@arm.com,
+        marc.zyngier@arm.com, catalin.marinas@arm.com,
+        julien.thierry@arm.com, will.deacon@arm.com,
+        linux-kernel@vger.kernel.org, steven.price@arm.com,
+        ykaukab@suse.de, dave.martin@arm.com, shankerd@codeaurora.org
+Subject: Re: [PATCH v4 01/12] Documentation: Document arm64 kpti control
+Message-ID: <20190130180247.15ab0577@donnerap.cambridge.arm.com>
+In-Reply-To: <20190125180711.1970973-2-jeremy.linton@arm.com>
+References: <20190125180711.1970973-1-jeremy.linton@arm.com>
+        <20190125180711.1970973-2-jeremy.linton@arm.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -56,73 +45,48 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 30 Jan 2019 11:56:58 -0300
-Ezequiel Garcia <ezequiel@collabora.com> escreveu:
+On Fri, 25 Jan 2019 12:07:00 -0600
+Jeremy Linton <jeremy.linton@arm.com> wrote:
 
-> Hey Mauro,
+Hi,
+
+> For a while Arm64 has been capable of force enabling
+> or disabling the kpti mitigations. Lets make sure the
+> documentation reflects that.
 > 
-> On Wed, 2019-01-30 at 11:19 -0200, Mauro Carvalho Chehab wrote:
-> > Em Wed, 30 Jan 2019 09:41:44 -0300
-> > Ezequiel Garcia <ezequiel@collabora.com> escreveu:
-> >   
-> > > On Tue, 2019-01-29 at 14:00 -0200, Mauro Carvalho Chehab wrote:  
-> > > > It doesn't make sense to have a per-device work queue, as the
-> > > > scheduler should be called per file handler. Having a single
-> > > > one causes failures if multiple streams are filtered by vim2m.
-> > > >     
-> > > 
-> > > Having a per-device workqueue should emulate a real device more closely.  
-> > 
-> > Yes.
-> >   
-> > > But more importantly, why would having a single workqeueue fail if multiple
-> > > streams are run? The m2m should take care of the proper serialization
-> > > between multiple contexts, unless I am missing something here.  
-> > 
-> > Yes, the m2m core serializes the access to m2m src/dest buffer per device.
-> > 
-> > So, two instances can't access the buffer at the same time. That makes
-> > sense for a real physical hardware, although specifically for the virtual
-> > one, it doesn't (any may not make sense for some stateless codec, if
-> > the codec would internally be able to handle multiple requests at the same
-> > time).
-> > 
-> > Without this patch, when multiple instances are used, sometimes it ends 
-> > into a dead lock preventing to stop all of them.
-> > 
-> > I didn't have time to debug where exactly it happens, but I suspect that
-> > the issue is related to using the same mutex for both VB and open/release
-> > instances.
-> > 
-> > Yet, I ended by opting to move all queue-specific mutex/semaphore to be
-> > instance-based, as this makes a lot more sense, IMHO. Also, if some day
-> > we end by allowing support for some hardware that would have support to
-> > run multiple m2m instances in parallel, vim2m would already be ready.
-> >   
+> Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> I don't oppose to the idea of having a per-context workqueue.
-> 
-> However, I'm not too comfortable with having a bug somewhere (and not knowing
-> whert) and instead of fixing it, working around it. I'd rather
-> fix the bug instead, then decide about the workqueue.
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt
+> b/Documentation/admin-guide/kernel-parameters.txt index
+> b799bcf67d7b..9475f02c79da 100644 ---
+> a/Documentation/admin-guide/kernel-parameters.txt +++
+> b/Documentation/admin-guide/kernel-parameters.txt @@ -1982,6 +1982,12
+> @@ Built with CONFIG_DEBUG_KMEMLEAK_DEFAULT_OFF=y,
+>  			the default is off.
+>  
+> +	kpti=		[ARM64] Control page table isolation of
+> user
+> +			and kernel address spaces.
+> +			Default: enabled on cores which need
+> mitigation.
 
-I suspect that just using a separate mutex for open/release could
-be enough to make the upstream version stable, when multiple instances
-are running.
-
-
-However, it has been a challenge for me to debug it here, as I'm traveling
-with limited resources. I'm using the same machine for both desktop, to run
-a VM to access some corp resources and to do Kernel devel.
-
-That's usually a very bad idea. Yet, I'm pretty sure that after this patch,
-things are stable, as I've been able to test it without any issues and
-without needing to reboot my machine.
-
-If you have enough time, feel free to test. Otherwise, I intend to just
-apply this patch series, as it fixes a few bugs and make vim2m to
-actually display what it would be expected, instead of plotting just some
-weird image that the current version shows.
+Would this be a good place to mention that we enable it when
+CONFIG_RANDOMIZE_BASE is enabled and we have a valid kaslr_offset? I
+found this somewhat surprising, also it's unrelated to the
+vulnerability.
 
 Cheers,
-Mauro
+Andre
+
+> +			0: force disabled
+> +			1: force enabled
+> +
+>  	kvm.ignore_msrs=[KVM] Ignore guest accesses to unhandled
+> MSRs. Default is 0 (don't ignore, but inject #GP)
+>  
+
