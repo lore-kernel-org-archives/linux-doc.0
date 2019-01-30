@@ -1,123 +1,197 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 093BF7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Jan 2019 16:40:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C1F577D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Jan 2019 17:25:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732272AbfA3Qk1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 Jan 2019 11:40:27 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:36162 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732090AbfA3Qk1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 Jan 2019 11:40:27 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 48371C04958E;
-        Wed, 30 Jan 2019 16:40:26 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-59.bos.redhat.com [10.18.17.59])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 197E3608C1;
-        Wed, 30 Jan 2019 16:40:23 +0000 (UTC)
-Subject: Re: [RESEND PATCH v4 0/3] fs/dcache: Track # of negative dentries
-From:   Waiman Long <longman@redhat.com>
-To:     Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org, mcgrof@kernel.org,
-        Kees Cook <keescook@chromium.org>, Jan Kara <jack@suse.cz>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
-        Ingo Molnar <mingo@kernel.org>, mszeredi@redhat.com,
-        Matthew Wilcox <willy@infradead.org>, lwoodman@redhat.com,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        wangkai86@huawei.com, Michal Hocko <mhocko@kernel.org>
-References: <1544824384-17668-1-git-send-email-longman@redhat.com>
- <CAHk-=wi-V7LjAAzFuxg+eLQAdp+Ay4WmVJdTNxgPjqKXaj-3Xw@mail.gmail.com>
- <0433488a-c8ad-e31a-6144-648e45478c07@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- weim8xU=
-Organization: Red Hat
-Message-ID: <260e6cdb-42b7-1891-e525-54048d168b5c@redhat.com>
-Date:   Wed, 30 Jan 2019 11:40:23 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1726802AbfA3RZN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 Jan 2019 12:25:13 -0500
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:38380 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726464AbfA3RZN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Jan 2019 12:25:13 -0500
+Received: by mail-pl1-f195.google.com with SMTP id e5so122632plb.5;
+        Wed, 30 Jan 2019 09:25:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=AQPDSHP9hNMnLitiXzM8O9j1dhPkTvS3uxdzzAIMsFs=;
+        b=Ds1mWKMR5YWnhEvdxYknQDw0lnF23+xU05aex8x4uipUvo8HJtk0mURLl6Uvkgrc41
+         ZeBhEo+nanw4N0YEZjVHMdKCW95V2Vod59TjHPcEJtshujvS8GWnvx8BOi5XYdrwFwtA
+         zXe0oTmPRHNdA4JyWvUEGGCuVmO4B66ytMesHOXSJsZ0SRARbjRQ4g0A/Uv0F/MhKBqt
+         +c2TsvTfzgjDotGhRPqHAXoOSDVrBM8SPLls5d0MF7/mPF2BJcoiUp2fOxmPsb2vxonF
+         5MOIA2a8V678agooOIEP2Z5Ms0YbNkTgiO6X3WIyxVdyJv8CC6kk4qUeRDi0pAmpdluN
+         s8FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=AQPDSHP9hNMnLitiXzM8O9j1dhPkTvS3uxdzzAIMsFs=;
+        b=foEQGsTHdveTrmzfxO7d1/tZuaTlpRAHSjBy1pV6rCUafhSUWhNpgYGfyQP4UGY58n
+         cvwzn5b3b52aShVVsb8bPY1cuNg0jGGqnW7kIAqSCB/XXS9jeCA/j9xmPPHIYgXeGYGA
+         t65kvhEY2ynF4nBA9LrpS7Yw6NjkL3keNrAJFXzJeOh7vPFXjXfahHsV6RI0vF8NzBWf
+         ONt6uVmMoJRa7FxvujzKTH7uDOeYM9YS/55M9+CKfzSkxf5bk8uP5eD6PBsJgwYvI5vi
+         2KInRz8n6lPy7hinH5ZnJCaOxbSeC5XBEchF6ec2EJKrI/Yjzf2CrujQL8Zs2ac2kH0I
+         HmaA==
+X-Gm-Message-State: AJcUukfzx4B5+nHdgNJg6DjXgySpYbI9YBQwjAx0MSk0/NCbUs1vwL2w
+        wbCvdlug5/LZpNXpp1Swqog=
+X-Google-Smtp-Source: ALg8bN53aP35E/kUx5BQPqrbDp0k0KVgLflCrHG+CeT89vYfjKC7WvekSbE+SEc7AEcT2Ljeyx9ibw==
+X-Received: by 2002:a17:902:20c8:: with SMTP id v8mr31683244plg.319.1548869112203;
+        Wed, 30 Jan 2019 09:25:12 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id j21sm3385752pfn.175.2019.01.30.09.25.11
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 30 Jan 2019 09:25:11 -0800 (PST)
+Date:   Wed, 30 Jan 2019 09:25:10 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Jeremy Gebben <jgebben@sweptlaser.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH resend 1/3] hwmon: (lm85) remove freq_map size hardcodes
+Message-ID: <20190130172510.GB14781@roeck-us.net>
+References: <20190129212920.27921-1-jgebben@sweptlaser.com>
+ <20190130161447.19946-1-jgebben@sweptlaser.com>
 MIME-Version: 1.0
-In-Reply-To: <0433488a-c8ad-e31a-6144-648e45478c07@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Wed, 30 Jan 2019 16:40:26 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190130161447.19946-1-jgebben@sweptlaser.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/15/2019 04:27 PM, Waiman Long wrote:
-> On 12/16/2018 02:37 PM, Linus Torvalds wrote:
->> On Fri, Dec 14, 2018 at 1:53 PM Waiman Long <longman@redhat.com> wrote:
->>> This patchset addresses 2 issues found in the dentry code and adds a
->>> new nr_dentry_negative per-cpu counter to track the total number of
->>> negative dentries in all the LRU lists.
->> The series looks sane to me. I'm assuming I'll get it either though
->> -mm or from Al..
->>
->>             Linus
-> Could anyone pick up this patchset?
->
-> Thanks,
-> Longman
->
-Ping. Will this patch be picked up?
+On Wed, Jan 30, 2019 at 09:14:45AM -0700, Jeremy Gebben wrote:
+> 
+> Allow support for chips that support more than 8 frequencies.
+> The size still must be a power of two.
+> 
+This is risky. Someone later may not know/remember and 
+expand the table without maintaining that restriction.
+I would suggest to use map_size instead of map_mask.
+While that adds some divide operations, none of those are
+in a critical path, and the code would be much more robust.
 
-Thanks,
-Longman
+> Signed-off-by: Jeremy Gebben <jgebben@sweptlaser.com>
+> ---
+>  drivers/hwmon/lm85.c | 25 +++++++++++++++----------
+>  1 file changed, 15 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/hwmon/lm85.c b/drivers/hwmon/lm85.c
+> index 0a325878e8f5..48f59667a88c 100644
+> --- a/drivers/hwmon/lm85.c
+> +++ b/drivers/hwmon/lm85.c
+> @@ -198,13 +198,13 @@ static int RANGE_TO_REG(long range)
+>  #define RANGE_FROM_REG(val)	lm85_range_map[(val) & 0x0f]
+>  
+>  /* These are the PWM frequency encodings */
+> -static const int lm85_freq_map[8] = { /* 1 Hz */
+> +static const int lm85_freq_map[] = { /* 1 Hz */
+>  	10, 15, 23, 30, 38, 47, 61, 94
+>  };
+> -static const int adm1027_freq_map[8] = { /* 1 Hz */
+> +
+> +static const int adm1027_freq_map[] = { /* 1 Hz */
+>  	11, 15, 22, 29, 35, 44, 59, 88
+>  };
+> -#define FREQ_MAP_LEN	8
+>  
+>  static int FREQ_TO_REG(const int *map,
+>  		       unsigned int map_size, unsigned long freq)
+> @@ -212,9 +212,9 @@ static int FREQ_TO_REG(const int *map,
+>  	return find_closest(freq, map, map_size);
+>  }
+>  
+> -static int FREQ_FROM_REG(const int *map, u8 reg)
+> +static int FREQ_FROM_REG(const int *map, unsigned int map_size, u8 reg)
+>  {
+> -	return map[reg & 0x07];
+> +	return map[reg & (map_size - 1)];
 
+Passing in map_size (calculated as map_mask + 1) just to subtract one
+doesn't make sense.
+
+>  }
+>  
+>  /*
+> @@ -296,6 +296,8 @@ struct lm85_data {
+>  	struct i2c_client *client;
+>  	const struct attribute_group *groups[6];
+>  	const int *freq_map;
+> +	unsigned int freq_map_mask;
+> +
+>  	enum chips type;
+>  
+>  	bool has_vid5;	/* true if VID5 is configured for ADT7463 or ADT7468 */
+> @@ -514,7 +516,7 @@ static struct lm85_data *lm85_update_device(struct device *dev)
+>  			data->autofan[i].config =
+>  			    lm85_read_value(client, LM85_REG_AFAN_CONFIG(i));
+>  			val = lm85_read_value(client, LM85_REG_AFAN_RANGE(i));
+> -			data->pwm_freq[i] = val & 0x07;
+> +			data->pwm_freq[i] = val & data->freq_map_mask;
+>  			data->zone[i].range = val >> 4;
+>  			data->autofan[i].min_pwm =
+>  			    lm85_read_value(client, LM85_REG_AFAN_MINPWM(i));
+> @@ -791,7 +793,8 @@ static ssize_t show_pwm_freq(struct device *dev,
+>  	if (IS_ADT7468_HFPWM(data))
+>  		freq = 22500;
+>  	else
+> -		freq = FREQ_FROM_REG(data->freq_map, data->pwm_freq[nr]);
+> +		freq = FREQ_FROM_REG(data->freq_map, data->freq_map_mask + 1,
+> +				     data->pwm_freq[nr]);
+>  
+>  	return sprintf(buf, "%d\n", freq);
+>  }
+> @@ -820,7 +823,7 @@ static ssize_t set_pwm_freq(struct device *dev,
+>  		lm85_write_value(client, ADT7468_REG_CFG5, data->cfg5);
+>  	} else {					/* Low freq. mode */
+>  		data->pwm_freq[nr] = FREQ_TO_REG(data->freq_map,
+> -						 FREQ_MAP_LEN, val);
+> +						 data->freq_map_mask + 1, val);
+>  		lm85_write_value(client, LM85_REG_AFAN_RANGE(nr),
+>  				 (data->zone[nr].range << 4)
+>  				 | data->pwm_freq[nr]);
+> @@ -1196,7 +1199,7 @@ static ssize_t set_temp_auto_temp_min(struct device *dev,
+>  		TEMP_FROM_REG(data->zone[nr].limit));
+>  	lm85_write_value(client, LM85_REG_AFAN_RANGE(nr),
+>  		((data->zone[nr].range & 0x0f) << 4)
+> -		| (data->pwm_freq[nr] & 0x07));
+> +		| data->pwm_freq[nr]);
+>  
+>  	mutex_unlock(&data->update_lock);
+>  	return count;
+> @@ -1232,7 +1235,7 @@ static ssize_t set_temp_auto_temp_max(struct device *dev,
+>  		val - min);
+>  	lm85_write_value(client, LM85_REG_AFAN_RANGE(nr),
+>  		((data->zone[nr].range & 0x0f) << 4)
+> -		| (data->pwm_freq[nr] & 0x07));
+> +		| data->pwm_freq[nr]);
+>  	mutex_unlock(&data->update_lock);
+>  	return count;
+>  }
+> @@ -1569,9 +1572,11 @@ static int lm85_probe(struct i2c_client *client, const struct i2c_device_id *id)
+>  	case emc6d103:
+>  	case emc6d103s:
+>  		data->freq_map = adm1027_freq_map;
+> +		data->freq_map_mask = ARRAY_SIZE(adm1027_freq_map) - 1;
+>  		break;
+>  	default:
+>  		data->freq_map = lm85_freq_map;
+> +		data->freq_map_mask = ARRAY_SIZE(lm85_freq_map) - 1;
+>  	}
+
+You'd have to make sure that freq_map_mask is indeed a mask, ie that
+ARRAY_SIZE() is a power of two. I would suggest to use freq_map_size
+instead.
+
+>  
+>  	/* Set the VRM version */
+> -- 
+> 2.17.1
+> 
