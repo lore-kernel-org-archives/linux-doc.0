@@ -2,207 +2,129 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8A8A17D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Jan 2019 12:41:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6A9677D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 30 Jan 2019 12:57:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727008AbfA3Ml4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 Jan 2019 07:41:56 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:38856 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725768AbfA3Ml4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Jan 2019 07:41:56 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id CD2D727DE8E
-Message-ID: <0f25ab2f936e3fcb8cd68b55682838027e46eec5.camel@collabora.com>
-Subject: Re: [PATCH 2/3] media: vim2m: use per-file handler work queue
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Anton Leontiev <scileont@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Date:   Wed, 30 Jan 2019 09:41:44 -0300
-In-Reply-To: <7ff2d5c791473c746ae07c012d1890c6bdd08f6d.1548776693.git.mchehab+samsung@kernel.org>
-References: <cover.1548776693.git.mchehab+samsung@kernel.org>
-         <7ff2d5c791473c746ae07c012d1890c6bdd08f6d.1548776693.git.mchehab+samsung@kernel.org>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.3-1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1726915AbfA3M52 convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 Jan 2019 07:57:28 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57240 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725768AbfA3M52 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Jan 2019 07:57:28 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x0UCtSlG014754
+        for <linux-doc@vger.kernel.org>; Wed, 30 Jan 2019 07:57:27 -0500
+Received: from smtp.notes.na.collabserv.com (smtp.notes.na.collabserv.com [192.155.248.73])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2qbaykvbuk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 30 Jan 2019 07:57:27 -0500
+Received: from localhost
+        by smtp.notes.na.collabserv.com with smtp.notes.na.collabserv.com ESMTP
+        for <linux-doc@vger.kernel.org> from <JOELN@il.ibm.com>;
+        Wed, 30 Jan 2019 12:57:26 -0000
+Received: from us1a3-smtp01.a3.dal06.isc4sb.com (10.106.154.95)
+        by smtp.notes.na.collabserv.com (10.106.227.90) with smtp.notes.na.collabserv.com ESMTP;
+        Wed, 30 Jan 2019 12:57:21 -0000
+Received: from us1a3-mail108.a3.dal06.isc4sb.com ([10.146.45.126])
+          by us1a3-smtp01.a3.dal06.isc4sb.com
+          with ESMTP id 2019013012572150-480607 ;
+          Wed, 30 Jan 2019 12:57:21 +0000 
+In-Reply-To: <1548151235-386-1-git-send-email-joeln@il.ibm.com>
+To:     "Jonathan Corbet" <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Mike Rapoport" <rppt@linux.ibm.com>
+Subject: Re: [PATCH v3 0/3] update infiniband uverbs documentation
+From:   "Joel Nider" <JOELN@il.ibm.com>
+Date:   Wed, 30 Jan 2019 14:57:21 +0200
+References: <1548151235-386-1-git-send-email-joeln@il.ibm.com>
+MIME-Version: 1.0
+X-KeepSent: 639BB113:4704AA4E-C2258392:004719E1;
+ type=4; name=$KeepSent
+X-Mailer: IBM Notes Release 9.0.1FP7 August 18, 2016
+X-LLNOutbound: False
+X-Disclaimed: 51099
+X-TNEFEvaluated: 1
+x-cbid: 19013012-3107-0000-0000-000009CF548B
+X-IBM-SpamModules-Scores: BY=0; FL=0; FP=0; FZ=0; HX=0; KW=0; PH=0;
+ SC=0.40962; ST=0; TS=0; UL=0; ISC=; MB=0.037177
+X-IBM-SpamModules-Versions: BY=3.00010503; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000277; SDB=6.01153919; UDB=6.00601641; IPR=6.00934293;
+ BA=6.00006218; NDR=6.00000001; ZLA=6.00000005; ZF=6.00000009; ZB=6.00000000;
+ ZP=6.00000000; ZH=6.00000000; ZU=6.00000002; MB=3.00025353; XFM=3.00000015;
+ UTC=2019-01-30 12:57:25
+X-IBM-AV-DETECTION: SAVI=unsuspicious REMOTE=unsuspicious XFE=unused
+X-IBM-AV-VERSION: SAVI=2019-01-30 06:25:17 - 6.00009527
+x-cbparentid: 19013012-3108-0000-0000-000031F36174
+Message-Id: <OF639BB113.4704AA4E-ONC2258392.004719E1-C2258392.00472B4C@notes.na.collabserv.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 8BIT
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-30_10:,,
+ signatures=0
+X-Proofpoint-Spam-Reason: safe
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2019-01-29 at 14:00 -0200, Mauro Carvalho Chehab wrote:
-> It doesn't make sense to have a per-device work queue, as the
-> scheduler should be called per file handler. Having a single
-> one causes failures if multiple streams are filtered by vim2m.
-> 
+Hi Jon,
 
-Having a per-device workqueue should emulate a real device more closely.
-
-But more importantly, why would having a single workqeueue fail if multiple
-streams are run? The m2m should take care of the proper serialization
-between multiple contexts, unless I am missing something here.
+Have you had a chance to review this patchset?
 
 Thanks,
-Eze
 
-> So, move it to be inside the context structure.
+Joel Nider/Haifa/IBM@IBMIL wrote on 01/22/2019 12:00:32 PM:
+
+> From: Joel Nider/Haifa/IBM@IBMIL
+> To: "Jonathan Corbet" <corbet@lwn.net>
+> Cc: "Jason Gunthorpe" <jgg@ziepe.ca>, "Leon Romanovsky" 
+<leon@kernel.org>, 
+> "Doug Ledford" <dledford@redhat.com>, "Mike Rapoport" 
+<rppt@linux.ibm.com>, 
+> Joel Nider/Haifa/IBM@IBMIL, linux-doc@vger.kernel.org, 
+linux-kernel@vger.kernel.org
+> Date: 01/22/2019 12:00 PM
+> Subject: [PATCH v3 0/3] update infiniband uverbs documentation
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  drivers/media/platform/vim2m.c | 38 +++++++++++++++++-----------------
->  1 file changed, 19 insertions(+), 19 deletions(-)
+> A small patchset to update the verbs API documentation with some
+> information regarding the ioctl syscall. First patch converts the
+> file format to ReST, since this is the new preferred format, moves
+> the file to Documentation/userspace-api, and updates the index.
+> The 2nd patch adds the new content, documenting a bit of the internal
+> workings of the kernel side of the API functions. The goal is to make
+> it easier for developers unfamiliar with the structure to understand
+> what is going on when adding a new function.
+> The 3rd patch updates the MAINTAINERS file.
 > 
-> diff --git a/drivers/media/platform/vim2m.c b/drivers/media/platform/vim2m.c
-> index ccd0576c766e..a9e43070567e 100644
-> --- a/drivers/media/platform/vim2m.c
-> +++ b/drivers/media/platform/vim2m.c
-> @@ -146,9 +146,6 @@ struct vim2m_dev {
->  
->  	atomic_t		num_inst;
->  	struct mutex		dev_mutex;
-> -	spinlock_t		irqlock;
-> -
-> -	struct delayed_work	work_run;
->  
->  	struct v4l2_m2m_dev	*m2m_dev;
->  };
-> @@ -167,6 +164,10 @@ struct vim2m_ctx {
->  	/* Transaction time (i.e. simulated processing time) in milliseconds */
->  	u32			transtime;
->  
-> +	struct mutex		vb_mutex;
-> +	struct delayed_work	work_run;
-> +	spinlock_t		irqlock;
-> +
->  	/* Abort requested by m2m */
->  	int			aborting;
->  
-> @@ -490,7 +491,6 @@ static void job_abort(void *priv)
->  static void device_run(void *priv)
->  {
->  	struct vim2m_ctx *ctx = priv;
-> -	struct vim2m_dev *dev = ctx->dev;
->  	struct vb2_v4l2_buffer *src_buf, *dst_buf;
->  
->  	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
-> @@ -507,18 +507,18 @@ static void device_run(void *priv)
->  				   &ctx->hdl);
->  
->  	/* Run delayed work, which simulates a hardware irq  */
-> -	schedule_delayed_work(&dev->work_run, msecs_to_jiffies(ctx->transtime));
-> +	schedule_delayed_work(&ctx->work_run, msecs_to_jiffies(ctx->transtime));
->  }
->  
->  static void device_work(struct work_struct *w)
->  {
-> -	struct vim2m_dev *vim2m_dev =
-> -		container_of(w, struct vim2m_dev, work_run.work);
->  	struct vim2m_ctx *curr_ctx;
-> +	struct vim2m_dev *vim2m_dev;
->  	struct vb2_v4l2_buffer *src_vb, *dst_vb;
->  	unsigned long flags;
->  
-> -	curr_ctx = v4l2_m2m_get_curr_priv(vim2m_dev->m2m_dev);
-> +	curr_ctx = container_of(w, struct vim2m_ctx, work_run.work);
-> +	vim2m_dev = curr_ctx->dev;
->  
->  	if (NULL == curr_ctx) {
->  		pr_err("Instance released before the end of transaction\n");
-> @@ -530,10 +530,10 @@ static void device_work(struct work_struct *w)
->  
->  	curr_ctx->num_processed++;
->  
-> -	spin_lock_irqsave(&vim2m_dev->irqlock, flags);
-> +	spin_lock_irqsave(&curr_ctx->irqlock, flags);
->  	v4l2_m2m_buf_done(src_vb, VB2_BUF_STATE_DONE);
->  	v4l2_m2m_buf_done(dst_vb, VB2_BUF_STATE_DONE);
-> -	spin_unlock_irqrestore(&vim2m_dev->irqlock, flags);
-> +	spin_unlock_irqrestore(&curr_ctx->irqlock, flags);
->  
->  	if (curr_ctx->num_processed == curr_ctx->translen
->  	    || curr_ctx->aborting) {
-> @@ -893,11 +893,10 @@ static int vim2m_start_streaming(struct vb2_queue *q, unsigned count)
->  static void vim2m_stop_streaming(struct vb2_queue *q)
->  {
->  	struct vim2m_ctx *ctx = vb2_get_drv_priv(q);
-> -	struct vim2m_dev *dev = ctx->dev;
->  	struct vb2_v4l2_buffer *vbuf;
->  	unsigned long flags;
->  
-> -	cancel_delayed_work_sync(&dev->work_run);
-> +	cancel_delayed_work_sync(&ctx->work_run);
->  	for (;;) {
->  		if (V4L2_TYPE_IS_OUTPUT(q->type))
->  			vbuf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
-> @@ -907,9 +906,9 @@ static void vim2m_stop_streaming(struct vb2_queue *q)
->  			return;
->  		v4l2_ctrl_request_complete(vbuf->vb2_buf.req_obj.req,
->  					   &ctx->hdl);
-> -		spin_lock_irqsave(&ctx->dev->irqlock, flags);
-> +		spin_lock_irqsave(&ctx->irqlock, flags);
->  		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
-> -		spin_unlock_irqrestore(&ctx->dev->irqlock, flags);
-> +		spin_unlock_irqrestore(&ctx->irqlock, flags);
->  	}
->  }
->  
-> @@ -943,7 +942,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *ds
->  	src_vq->ops = &vim2m_qops;
->  	src_vq->mem_ops = &vb2_vmalloc_memops;
->  	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> -	src_vq->lock = &ctx->dev->dev_mutex;
-> +	src_vq->lock = &ctx->vb_mutex;
->  	src_vq->supports_requests = true;
->  
->  	ret = vb2_queue_init(src_vq);
-> @@ -957,7 +956,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *ds
->  	dst_vq->ops = &vim2m_qops;
->  	dst_vq->mem_ops = &vb2_vmalloc_memops;
->  	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> -	dst_vq->lock = &ctx->dev->dev_mutex;
-> +	dst_vq->lock = &ctx->vb_mutex;
->  
->  	return vb2_queue_init(dst_vq);
->  }
-> @@ -1032,6 +1031,10 @@ static int vim2m_open(struct file *file)
->  
->  	ctx->fh.m2m_ctx = v4l2_m2m_ctx_init(dev->m2m_dev, ctx, &queue_init);
->  
-> +	mutex_init(&ctx->vb_mutex);
-> +	spin_lock_init(&ctx->irqlock);
-> +	INIT_DELAYED_WORK(&ctx->work_run, device_work);
-> +
->  	if (IS_ERR(ctx->fh.m2m_ctx)) {
->  		rc = PTR_ERR(ctx->fh.m2m_ctx);
->  
-> @@ -1112,8 +1115,6 @@ static int vim2m_probe(struct platform_device *pdev)
->  	if (!dev)
->  		return -ENOMEM;
->  
-> -	spin_lock_init(&dev->irqlock);
-> -
->  	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
->  	if (ret)
->  		return ret;
-> @@ -1125,7 +1126,6 @@ static int vim2m_probe(struct platform_device *pdev)
->  	vfd = &dev->vfd;
->  	vfd->lock = &dev->dev_mutex;
->  	vfd->v4l2_dev = &dev->v4l2_dev;
-> -	INIT_DELAYED_WORK(&dev->work_run, device_work);
->  
->  	ret = video_register_device(vfd, VFL_TYPE_GRABBER, 0);
->  	if (ret) {
+> v3 addresses comments from Jon, Willy and Jason:
+>  The location of the new content should be driver-api
+>  The location of the old (converted) content should be userspace-api
+>  MAINTAINERS file must be updated
+> 
+> Joel Nider (3):
+>   docs-rst: Convert user verbs doc to rst
+>   docs-rst: driver-api: Add infiniband interface documentation
+>   MAINTAINERS: add new RDMA/Infiniband documentation
+> 
+>  Documentation/driver-api/index.rst              |  1 +
+>  Documentation/driver-api/infiniband.rst         | 73 
++++++++++++++++++++++++++
+>  Documentation/infiniband/user_verbs.txt         | 69 
+-----------------------
+>  Documentation/userspace-api/index.rst           |  1 +
+>  Documentation/userspace-api/rdma_user_verbs.rst | 70 
+++++++++++++++++++++++++
+>  MAINTAINERS                                     |  2 +
+>  6 files changed, 147 insertions(+), 69 deletions(-)
+>  create mode 100644 Documentation/driver-api/infiniband.rst
+>  delete mode 100644 Documentation/infiniband/user_verbs.txt
+>  create mode 100644 Documentation/userspace-api/rdma_user_verbs.rst
+> 
+> -- 
+> 2.7.4
+> 
 
 
