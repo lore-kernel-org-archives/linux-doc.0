@@ -5,81 +5,124 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 586B37D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Jan 2019 17:59:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 11BB57D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Jan 2019 18:23:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727862AbfAaR7D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 Jan 2019 12:59:03 -0500
-Received: from foss.arm.com ([217.140.101.70]:48998 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727838AbfAaR7D (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 31 Jan 2019 12:59:03 -0500
+        id S1728295AbfAaSXz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 Jan 2019 13:23:55 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:49358 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726455AbfAaSXz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 31 Jan 2019 13:23:55 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 96CDCA78;
-        Thu, 31 Jan 2019 09:59:02 -0800 (PST)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DDFEA3F59C;
-        Thu, 31 Jan 2019 09:58:59 -0800 (PST)
-Date:   Thu, 31 Jan 2019 17:58:56 +0000
-From:   Andre Przywara <andre.przywara@arm.com>
-To:     Jeremy Linton <jeremy.linton@arm.com>
-Cc:     linux-arm-kernel@lists.infradead.org, stefan.wahren@i2se.com,
-        Jonathan Corbet <corbet@lwn.net>, mlangsdo@redhat.com,
-        linux-doc@vger.kernel.org, suzuki.poulose@arm.com,
-        marc.zyngier@arm.com, catalin.marinas@arm.com,
-        julien.thierry@arm.com, will.deacon@arm.com,
-        linux-kernel@vger.kernel.org, steven.price@arm.com,
-        ykaukab@suse.de, dave.martin@arm.com, shankerd@codeaurora.org
-Subject: Re: [PATCH v4 01/12] Documentation: Document arm64 kpti control
-Message-ID: <20190131175856.2ce5e226@donnerap.cambridge.arm.com>
-In-Reply-To: <20190125180711.1970973-2-jeremy.linton@arm.com>
-References: <20190125180711.1970973-1-jeremy.linton@arm.com>
-        <20190125180711.1970973-2-jeremy.linton@arm.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 16EAEA78;
+        Thu, 31 Jan 2019 10:23:55 -0800 (PST)
+Received: from e113632-lin.cambridge.arm.com (e113632-lin.cambridge.arm.com [10.1.194.37])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8DA963F59C;
+        Thu, 31 Jan 2019 10:23:52 -0800 (PST)
+From:   Valentin Schneider <valentin.schneider@arm.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Julien Grall <julien.grall@arm.com>,
+        Julien Thierry <julien.thierry@arm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: [RFC PATCH 0/3] arm/arm64: entry: Remove need_resched() loop
+Date:   Thu, 31 Jan 2019 18:23:36 +0000
+Message-Id: <20190131182339.9835-1-valentin.schneider@arm.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 25 Jan 2019 12:07:00 -0600
-Jeremy Linton <jeremy.linton@arm.com> wrote:
+A while back (before [1]), i386 had this in the tail of its irq
+handling code:
 
-> For a while Arm64 has been capable of force enabling
-> or disabling the kpti mitigations. Lets make sure the
-> documentation reflects that.
-> 
-> Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
+  need_resched:
+	  movl TI_flags(%ebp), %ecx       # need_resched set ?
+	  testb $_TIF_NEED_RESCHED, %cl
+	  jz restore_all
+	  testl $IF_MASK,EFLAGS(%esp)     # interrupts off (exception path) ?
+	  jz restore_all
+	  sti
+	  call preempt_schedule
+	  cli
+	  movl $0,TI_preempt_count(%ebp)
+	  jmp need_resched
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+preempt_schedule() already had an inner need_resched() loop introduced by
 
-Cheers,
-Andre.
+  commit 4d0b85ea4610 ("[PATCH] kernel preemption bits (2/2)")
 
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt
-> b/Documentation/admin-guide/kernel-parameters.txt
-> index b799bcf67d7b..9475f02c79da 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1982,6 +1982,12 @@
->  			Built with CONFIG_DEBUG_KMEMLEAK_DEFAULT_OFF=y,
->  			the default is off.
->  
-> +	kpti=		[ARM64] Control page table isolation of user
-> +			and kernel address spaces.
-> +			Default: enabled on cores which need mitigation.
-> +			0: force disabled
-> +			1: force enabled
-> +
->  	kvm.ignore_msrs=[KVM] Ignore guest accesses to unhandled MSRs.
->   			Default is 0 (don't ignore, but inject #GP)
->  
+and the outer loop was needed since, as the above commit explains, it
+was possible to return from preempt_schedule(), get an interrupt and
+have need_resched() true.
+
+This was eventually changed when preempt_schedule_irq() was introduced
+by [1]:
+
+  commit b268264c6299 ("[PATCH] sched: fix preemption race (Core/i386)")
+
+which moved the enabling & disabling of interrupts inside the then
+new preempt_schedule_irq(). From then on, the arch-code loop was no
+longer necessary, providing preempt_schedule_irq() was used. This was
+talked over on LKML in [2].
+
+It's worth noting that it seems most archs calling
+preempt_schedule_irq() have that outer loop, and for most of them it
+really looks like they could get rid of it as well.
+
+FWIW the suspects are
+
+$ grep -r -I "preempt_schedule_irq" arch/ | cut -d/ -f2 | sort | uniq
+
+  arc
+  arm
+  arm64
+  c6x
+  csky
+  h8300
+  ia64
+  m68k
+  microblaze
+  mips
+  nds32
+  nios2
+  parisc
+  powerpc
+  s390
+  sh
+  sparc
+  x86
+  xtensa
+
+
+- Patches 1-2 remove the loop for arm & arm64
+- Patch 3 adds a bit of documentation to point out the loop isn't needed
+  to try and spread the word.
+
+[2]: https://lore.kernel.org/lkml/cc989920-a13b-d53b-db83-1584a7f53edc@arm.com/
+
+Valentin Schneider (3):
+  arm64: entry: Remove unneeded need_resched() loop
+  ARM: entry: Remove unneeded need_resched() loop
+  sched/Documentation: Point out use of preempt_schedule_irq()
+
+ Documentation/scheduler/sched-arch.txt | 10 ++++++++++
+ arch/arm/kernel/entry-armv.S           | 12 +-----------
+ arch/arm64/kernel/entry.S              | 11 +----------
+ 3 files changed, 12 insertions(+), 21 deletions(-)
+
+--
+2.20.1
+
