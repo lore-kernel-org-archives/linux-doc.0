@@ -5,254 +5,127 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 38BEB7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Jan 2019 10:14:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1961C7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Jan 2019 11:04:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731688AbfAaKOj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 Jan 2019 05:14:39 -0500
-Received: from mx-ginzinger.sigmacloud.services ([185.154.235.147]:54068 "EHLO
-        mx-ginzinger.sigmacloud.services" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727501AbfAaKOi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Jan 2019 05:14:38 -0500
-Received: from [31.193.165.228] (port=32328 helo=mx-ginzinger.sigmacloud.services)
-        by mx-ginzinger.sigmacloud.services with esmtps (TLSv1.2:AES256-GCM-SHA384:256)
-        (Exim 4.82_1-5b7a7c0-XX)
-        (envelope-from <Martin.Kepplinger@ginzinger.com>)
-        id 1gp9Me-00017h-0h; Thu, 31 Jan 2019 11:14:32 +0100
-Received: from martin-laptop.buero.ginzinger.com (10.10.1.120) by
- exc1.buero.ginzinger.com (10.1.1.204) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1466.3; Thu, 31 Jan 2019 11:14:31 +0100
-X-CTCH-RefID: str=0001.0A0B0213.5C52CA88.002F,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
-From:   Martin Kepplinger <martin.kepplinger@ginzinger.com>
-To:     <corbet@lwn.net>, <davem@davemloft.net>, <kuznet@ms2.inr.ac.ru>,
-        <yoshfuji@linux-ipv6.org>, <linux-doc@vger.kernel.org>,
-        <netdev@vger.kernel.org>
-CC:     <linux-kernel@vger.kernel.org>, <manfred.schlaegl@ginzinger.com>
-Subject: [PATCH v2] ipconfig: add carrier_timeout kernel parameter
-Date:   Thu, 31 Jan 2019 11:14:18 +0100
-Message-ID: <20190131101419.3988-1-martin.kepplinger@ginzinger.com>
-X-Mailer: git-send-email 2.20.1
-X-Originating-IP: [10.10.1.120]
-X-ClientProxiedBy: exc1.buero.ginzinger.com (10.1.1.204) To
- exc1.buero.ginzinger.com (10.1.1.204)
-X-EXCLAIMER-MD-ORIGINAL-SUBJECT: [NOSIG][NODISC][PATCH v2] ipconfig: add
- carrier_timeout kernel parameter
-X-EXCLAIMER-MD-CONFIG: 9dd172f7-de2e-4231-b886-ec11f46e03b3
+        id S1726852AbfAaLEi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 Jan 2019 06:04:38 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38794 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726500AbfAaLEi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Jan 2019 06:04:38 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x0VB0O16073022
+        for <linux-doc@vger.kernel.org>; Thu, 31 Jan 2019 06:04:37 -0500
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2qbx6nmrrw-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Thu, 31 Jan 2019 06:04:36 -0500
+Received: from localhost
+        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Thu, 31 Jan 2019 11:04:35 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Thu, 31 Jan 2019 11:04:32 -0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x0VB4VUE7537112
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 31 Jan 2019 11:04:31 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3EC2F11C05B;
+        Thu, 31 Jan 2019 11:04:31 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BD04111C054;
+        Thu, 31 Jan 2019 11:04:30 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.8.84])
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Thu, 31 Jan 2019 11:04:30 +0000 (GMT)
+Date:   Thu, 31 Jan 2019 13:04:29 +0200
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     linux-mm@kvack.org
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] docs/core-api/mm: fix return value descriptions
+References: <1547985697-24588-1-git-send-email-rppt@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----8EDB5FE805D0693FED72579692F915AE"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1547985697-24588-1-git-send-email-rppt@linux.ibm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 19013111-0008-0000-0000-000002B94618
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19013111-0009-0000-0000-000022254859
+Message-Id: <20190131110428.GJ28876@rapoport-lnx>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-31_04:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1901310088
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an S/MIME signed message
+Any comments on these?
 
-------8EDB5FE805D0693FED72579692F915AE
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+On Sun, Jan 20, 2019 at 02:01:34PM +0200, Mike Rapoport wrote:
+> Many kernel-doc comments referenced by Documentation/core-api/mm-api.rst
+> have the return value descriptions misformatted or lack it completely. This
+> makes kernel-doc script unhappy and produces more than 100 warnings when
+> running 
+> 
+> 	make htmldocs V=1
+> 
+> These patches fix the formatting of present return value descriptions and
+> add some new ones.
+> 
+> Side note:
+> ----------
+> I've noticed that kernel-doc produces
+> 
+> 	warning: contents before sections
+> 
+> when it is parsing description of a function that has no parameters, but
+> does have a return value, i.e.
+> 
+> 	unsigned long nr_free_buffer_pages(void)
+> 
+> As far as I can tell, the generated html is ok no matter if the detailed
+> description present before 'the sections', so probably this warning is not
+> really needed?
+> 
+> Mike Rapoport (3):
+>   docs/mm: vmalloc: re-indent kernel-doc comemnts
+>   docs/core-api/mm: fix user memory accessors formatting
+>   docs/core-api/mm: fix return value descriptions in mm/
+> 
+>  arch/x86/include/asm/uaccess.h |  24 +--
+>  arch/x86/lib/usercopy_32.c     |   8 +-
+>  mm/dmapool.c                   |  13 +-
+>  mm/filemap.c                   |  73 ++++++--
+>  mm/memory.c                    |  26 ++-
+>  mm/mempool.c                   |   8 +
+>  mm/page-writeback.c            |  24 ++-
+>  mm/page_alloc.c                |  24 ++-
+>  mm/readahead.c                 |   2 +
+>  mm/slab.c                      |  14 ++
+>  mm/slab_common.c               |   6 +
+>  mm/truncate.c                  |   6 +-
+>  mm/util.c                      |  37 ++--
+>  mm/vmalloc.c                   | 394 ++++++++++++++++++++++-------------------
+>  14 files changed, 409 insertions(+), 250 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
-commit 3fb72f1e6e61 ("ipconfig wait for carrier") added a
-"wait for carrier" policy, with a fixed worst case maximum wait
-of two minutes.
-
-Now make the wait for carrier timeout configurable on the kernel
-commandline and use the 120s as the default.
-
-The timeout messages introduced with
-commit 5e404cd65860 ("ipconfig: add informative timeout messages while
-waiting for carrier") are done in a fixed interval of 20 seconds, just
-like they were before (240/12).
-
-Signed-off-by: Martin Kepplinger <martin.kepplinger@ginzinger.com>
----
-
-so the "carrier_timeout" name really is a first suggestion and
-feels a bit too generic, but from reading other parameters I took
-that for now.
-
-thanks
-                            martin
-
-
-
-revision history
-----------------
-v2: create a kernel parameter instead
-v1: initial idea using kconfig
-
-
- .../admin-guide/kernel-parameters.txt         |  5 ++++
- net/ipv4/ipconfig.c                           | 27 +++++++++++++++----
- 2 files changed, 27 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 17ce83cc48f4..45743ed3e7b6 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -461,6 +461,11 @@
- 			possible to determine what the correct size should be.
- 			This option provides an override for these situations.
- 
-+	carrier_timeout=
-+			[NET] Specifies amount of time (in seconds) that
-+			the kernel should wait for a network carrier. By default
-+			it waits 120 seconds.
-+
- 	ca_keys=	[KEYS] This parameter identifies a specific key(s) on
- 			the system trusted keyring to be used for certificate
- 			trust validation.
-diff --git a/net/ipv4/ipconfig.c b/net/ipv4/ipconfig.c
-index b9a9873c25c6..9bcca08efec9 100644
---- a/net/ipv4/ipconfig.c
-+++ b/net/ipv4/ipconfig.c
-@@ -85,7 +85,6 @@
- 
- /* Define the friendly delay before and after opening net devices */
- #define CONF_POST_OPEN		10	/* After opening: 10 msecs */
--#define CONF_CARRIER_TIMEOUT	120000	/* Wait for carrier timeout */
- 
- /* Define the timeout for waiting for a DHCP/BOOTP/RARP reply */
- #define CONF_OPEN_RETRIES 	2	/* (Re)open devices twice */
-@@ -101,6 +100,9 @@
- #define NONE cpu_to_be32(INADDR_NONE)
- #define ANY cpu_to_be32(INADDR_ANY)
- 
-+/* Wait for carrier timeout default in seconds */
-+static unsigned int carrier_timeout = 120;
-+
- /*
-  * Public IP configuration
-  */
-@@ -268,9 +270,9 @@ static int __init ic_open_devs(void)
- 
- 	/* wait for a carrier on at least one device */
- 	start = jiffies;
--	next_msg = start + msecs_to_jiffies(CONF_CARRIER_TIMEOUT/12);
-+	next_msg = start + msecs_to_jiffies(20000);
- 	while (time_before(jiffies, start +
--			   msecs_to_jiffies(CONF_CARRIER_TIMEOUT))) {
-+			   msecs_to_jiffies(carrier_timeout * 1000))) {
- 		int wait, elapsed;
- 
- 		for_each_netdev(&init_net, dev)
-@@ -283,9 +285,9 @@ static int __init ic_open_devs(void)
- 			continue;
- 
- 		elapsed = jiffies_to_msecs(jiffies - start);
--		wait = (CONF_CARRIER_TIMEOUT - elapsed + 500)/1000;
-+		wait = (carrier_timeout * 1000 - elapsed + 500) / 1000;
- 		pr_info("Waiting up to %d more seconds for network.\n", wait);
--		next_msg = jiffies + msecs_to_jiffies(CONF_CARRIER_TIMEOUT/12);
-+		next_msg = jiffies + msecs_to_jiffies(20000);
- 	}
- have_carrier:
- 	rtnl_unlock();
-@@ -1780,3 +1782,18 @@ static int __init vendor_class_identifier_setup(char *addrs)
- 	return 1;
- }
- __setup("dhcpclass=", vendor_class_identifier_setup);
-+
-+static int __init set_carrier_timeout(char *str)
-+{
-+	ssize_t ret;
-+
-+	if (!str)
-+		return 0;
-+
-+	ret = kstrtouint(str, 0, &carrier_timeout);
-+	if (ret)
-+		return 0;
-+
-+	return 1;
-+}
-+__setup("carrier_timeout=", set_carrier_timeout);
 -- 
-2.20.1
-
-
-------8EDB5FE805D0693FED72579692F915AE
-Content-Type: application/x-pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-
-MIIOHAYJKoZIhvcNAQcCoIIODTCCDgkCAQExDzANBglghkgBZQMEAgEFADALBgkq
-hkiG9w0BBwGgggshMIIF5jCCA86gAwIBAgIQapvhODv/K2ufAdXZuKdSVjANBgkq
-hkiG9w0BAQwFADCBhTELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFu
-Y2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExp
-bWl0ZWQxKzApBgNVBAMTIkNPTU9ETyBSU0EgQ2VydGlmaWNhdGlvbiBBdXRob3Jp
-dHkwHhcNMTMwMTEwMDAwMDAwWhcNMjgwMTA5MjM1OTU5WjCBlzELMAkGA1UEBhMC
-R0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9y
-ZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBS
-U0EgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0EwggEi
-MA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC+s55XrCh2dUAWxzgDmNPGGHYh
-UPMleQtMtaDRfTpYPpynMS6n9jR22YRq2tA9NEjk6vW7rN/5sYFLIP1of3l0NKZ6
-fLWfF2VgJ5cijKYy/qlAckY1wgOkUMgzKlWlVJGyK+UlNEQ1/5ErCsHq9x9aU/x1
-KwTdF/LCrT03Rl/FwFrf1XTCwa2QZYL55AqLPikFlgqOtzk06kb2qvGlnHJvijjI
-03BOrNpo+kZGpcHsgyO1/u1OZTaOo8wvEU17VVeP1cHWse9tGKTDyUGg2hJZjrqc
-k39UIm/nKbpDSZ0JsMoIw/JtOOg0JC56VzQgBo7ictReTQE5LFLG3yQK+xS1AgMB
-AAGjggE8MIIBODAfBgNVHSMEGDAWgBS7r34CPfqm8TyEjq3uOJjs2TIy1DAdBgNV
-HQ4EFgQUgq9sjPjF/pZhfOgfPStxSF7Ei8AwDgYDVR0PAQH/BAQDAgGGMBIGA1Ud
-EwEB/wQIMAYBAf8CAQAwEQYDVR0gBAowCDAGBgRVHSAAMEwGA1UdHwRFMEMwQaA/
-oD2GO2h0dHA6Ly9jcmwuY29tb2RvY2EuY29tL0NPTU9ET1JTQUNlcnRpZmljYXRp
-b25BdXRob3JpdHkuY3JsMHEGCCsGAQUFBwEBBGUwYzA7BggrBgEFBQcwAoYvaHR0
-cDovL2NydC5jb21vZG9jYS5jb20vQ09NT0RPUlNBQWRkVHJ1c3RDQS5jcnQwJAYI
-KwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmNvbW9kb2NhLmNvbTANBgkqhkiG9w0BAQwF
-AAOCAgEAeFyygSg0TzzuX1bOn5dW7I+iaxf28/ZJCAbU2C81zd9A/tNx4+jsQgwR
-GiHjZrAYayZrrm78hOx7aEpkfNPQIHGG6Fvq3EzWf/Lvx7/hk6zSPwIal9v5IkDc
-ZoFD7f3iT7PdkHJY9B51csvU50rxpEg1OyOT8fk2zvvPBuM4qQNqbGWlnhMpIMwp
-WZT89RY0wpJO+2V6eXEGGHsROs3njeP9DqqqAJaBa4wBeKOdGCWn1/Jp2oY6dyNm
-NppI4ZNMUH4Tam85S1j6E95u4+1Nuru84OrMIzqvISE2HN/56ebTOWlcrurffade
-2022O/tUU1gb4jfWCcyvB8czm12FgX/y/lRjmDbEA08QJNB2729Y+io1IYO3ztve
-BdvUCIYZojTq/OCR6MvnzS6X72HP0PRLRTiOSEmIDsS5N5w/8IW1Hva5hEFy6fDA
-fd9yI+O+IMMAj1KcL/Zo9jzJ16HO5m60ttl1Enk8MQkz/W3JlHaeI5iKFn4UJu1/
-cP2YHXYPiWf2JyBzsLBrGk1II+3yL8aorYew6CQvdVifC3HtwlSam9V1niiCfOBe
-2C12TdKGu05LWIA3ZkFcWJGaNXOZ6Ggyh/TqvXG5v7zmEVDNXFnHn9tFpMpOUvxh
-csjycBtH0dZ0WrNw6gH+HF8TIhCnH3+zzWuDN0Rk6h9KVkfKehIwggUzMIIEG6AD
-AgECAhBNQrEzGzrZ6FVYh1EEYH4+MA0GCSqGSIb3DQEBCwUAMIGXMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxm
-b3JkMRowGAYDVQQKExFDT01PRE8gQ0EgTGltaXRlZDE9MDsGA1UEAxM0Q09NT0RP
-IFJTQSBDbGllbnQgQXV0aGVudGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQTAe
-Fw0xODA3MTgwMDAwMDBaFw0yMTA3MTcyMzU5NTlaMDAxLjAsBgkqhkiG9w0BCQEW
-H21hcnRpbi5rZXBwbGluZ2VyQGdpbnppbmdlci5jb20wggEiMA0GCSqGSIb3DQEB
-AQUAA4IBDwAwggEKAoIBAQDsMC77L0D+2D8I8X5ubnBhADLgU+HtlwMTFt/WJIhc
-kgbvnawYXWrCIpk8F6BJ0R/iFCykPdG7741EmlcHRKOJfhVxjXhwnoGFqnYmurCt
-fvZLR3+mT3FWnVv2RAdrXscXH3BpijqqWabdtTbiTvmcl86Zc6mNlVhYZSbDul/E
-voIGZotGcGIWrgZxN+8MQJQHKb0KHyWlPVPkrjvEfOJHKKLFsBNSnNMR95Ijg3Sp
-h8/8RG490/zRHflGzUlxDSlLyY9YJGzSdDzcFKoYcc4oaaUY5N3uhRna43TLUIQh
-6ybt3DKVz1Pw/ikwYJrOsulJrVr3D8KVHdGxq7HYl7jnAgMBAAGjggHfMIIB2zAf
-BgNVHSMEGDAWgBSCr2yM+MX+lmF86B89K3FIXsSLwDAdBgNVHQ4EFgQU/GtSUbHg
-14sPDlmo27eQYwtjaS0wDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYD
-VR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMCMEYGA1UdIAQ/MD0wOwYMKwYBBAGy
-MQECAQMFMCswKQYIKwYBBQUHAgEWHWh0dHBzOi8vc2VjdXJlLmNvbW9kby5uZXQv
-Q1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuY29tb2RvY2EuY29tL0NP
-TU9ET1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmww
-gYsGCCsGAQUFBwEBBH8wfTBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5jb21vZG9j
-YS5jb20vQ09NT0RPUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFp
-bENBLmNydDAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuY29tb2RvY2EuY29tMCoG
-A1UdEQQjMCGBH21hcnRpbi5rZXBwbGluZ2VyQGdpbnppbmdlci5jb20wDQYJKoZI
-hvcNAQELBQADggEBAGEuG01K1tt5i3gUdQkYem/KpbJUYBZd43QwmoTa0TGXUiYq
-b+g/TeGG9QQ1yq+73xOr8fu6oT2608C7EiJc6JmjTs485/OZmTqgYkrLfs71F1kB
-3Z59WPf5aoR/pnn5vdfkkoO29V1cKPJR4z+iOG2hOlcK/dXrX8i6mnL5DGIe8l5n
-udUPvIbUhbMavrDd6kwhs0oCjylwdKGlFkCpKMn3HPflfDeHuV9Z8Nrpeq/7+Pm0
-I/fLPkaYlULASJoJCucMYcedY9rmuro9JhV+NuVXaqLIrQPc1vyKFeRuLHh84M6c
-1h1DArdGTykXZUwjXnnHtuOtzjIAzkx2Ns43vEsxggK/MIICuwIBATCBrDCBlzEL
-MAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UE
-BxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMT
-NENPTU9ETyBSU0EgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1h
-aWwgQ0ECEE1CsTMbOtnoVViHUQRgfj4wDQYJYIZIAWUDBAIBBQCggeQwGAYJKoZI
-hvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMTkwMTMxMTAxNDM1
-WjAvBgkqhkiG9w0BCQQxIgQghglsO2C1qY4uJfJRBJWD/Sy/RMRnW9JyvHdMJZEj
-QFkweQYJKoZIhvcNAQkPMWwwajALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsG
-CWCGSAFlAwQBAjAKBggqhkiG9w0DBzAOBggqhkiG9w0DAgICAIAwDQYIKoZIhvcN
-AwICAUAwBwYFKw4DAgcwDQYIKoZIhvcNAwICASgwDQYJKoZIhvcNAQEBBQAEggEA
-IztRid92+gQ0szOpRohx/7Qc4pNYXxzEY2nwI492qEgkicrZr3QLfizDQY7CA9nO
-cL0F9Bv4oXR1gPfaXMbffByp04thdqSffXVi4AGnQ0zUL7ZVYM1amnguFvQ+jI1E
-ClNFiczZlFKB5MZ/2tKD5MpOwmYfMPSThq4EMjvGX5mUr9rPOiYUYbGW75qam/7I
-xwMs7TnkrNFizfd5mb6KCkPLRNUaXqh/wpYHFgXcz+Gb5vK53JR5KnnKLiAGF4pa
-oKNbgfJf+ikjGbZALLhzUjJ3BD0bx0FlzJKZNiyYBU5iklFnz0L7CsBaMWgU0sC5
-xtRTdsYRaUgcwewpViZIkw==
-
-------8EDB5FE805D0693FED72579692F915AE--
+Sincerely yours,
+Mike.
 
