@@ -1,131 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1961C7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Jan 2019 11:04:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1A76A7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Jan 2019 11:32:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726852AbfAaLEi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 Jan 2019 06:04:38 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38794 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726500AbfAaLEi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Jan 2019 06:04:38 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x0VB0O16073022
-        for <linux-doc@vger.kernel.org>; Thu, 31 Jan 2019 06:04:37 -0500
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2qbx6nmrrw-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 31 Jan 2019 06:04:36 -0500
-Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Thu, 31 Jan 2019 11:04:35 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 31 Jan 2019 11:04:32 -0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x0VB4VUE7537112
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 31 Jan 2019 11:04:31 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3EC2F11C05B;
-        Thu, 31 Jan 2019 11:04:31 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BD04111C054;
-        Thu, 31 Jan 2019 11:04:30 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.8.84])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Thu, 31 Jan 2019 11:04:30 +0000 (GMT)
-Date:   Thu, 31 Jan 2019 13:04:29 +0200
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     linux-mm@kvack.org
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] docs/core-api/mm: fix return value descriptions
-References: <1547985697-24588-1-git-send-email-rppt@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1547985697-24588-1-git-send-email-rppt@linux.ibm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 19013111-0008-0000-0000-000002B94618
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19013111-0009-0000-0000-000022254859
-Message-Id: <20190131110428.GJ28876@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-01-31_04:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1901310088
+        id S1732355AbfAaLb5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 Jan 2019 06:31:57 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46854 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726221AbfAaLb4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 31 Jan 2019 06:31:56 -0500
+Received: from localhost.localdomain (91-160-177-164.subs.proxad.net [91.160.177.164])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3E921218AF;
+        Thu, 31 Jan 2019 11:31:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1548934316;
+        bh=CFNbtJd+HTIcAODO15KHtEXEDRLG5gvGDaSJGKxRtQo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:From;
+        b=swMG2U+eYiKpOIJ5IIzZfqxj/JckfF3BCKo3CE9zmVtrVxh2t8AaO/dO3vTbcCrdU
+         zN1Kk5gkojHtnjlW2yKPrLLbG8rY1k1KwYa2IuSr4CvgjO6j0pPdLTu+ic42C1ku/7
+         gsWkjLTCKbMX5x4U9w78aPqg7FuUvFLcurpn1zWg=
+From:   Boris Brezillon <bbrezillon@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mtd@lists.infradead.org,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Cc:     Boris Brezillon <bbrezillon@kernel.org>,
+        Boris Brezillon <boris.brezillon@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: mtd: nand: fix kernel-doc warnings
+Date:   Thu, 31 Jan 2019 12:31:47 +0100
+Message-Id: <20190131113147.18826-1-bbrezillon@kernel.org>
+X-Mailer: git-send-email 2.17.1
+X-linux-mtd-patch-notification: thanks
+X-linux-mtd-patch-commit: b79bbbfec3a0b70f7f5c460ba58458baa499332e
+In-Reply-To: <21d5edd7-1335-2731-6d53-5b15d053462c@infradead.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Any comments on these?
+On Mon, 2019-01-28 at 02:21:42 UTC, Randy Dunlap wrote:
+> From: Randy Dunlap <rdunlap@infradead.org>
+> 
+> Fix kernel-doc warnings in drivers/mtd/nand/raw:
+> 
+> ../drivers/mtd/nand/raw/nand_base.c:420: warning: Function parameter or member 'chip' not described in 'nand_fill_oob'
+> ../drivers/mtd/nand/raw/nand_bbt.c:173: warning: Function parameter or member 'this' not described in 'read_bbt'
+> ../drivers/mtd/nand/raw/nand_bbt.c:173: warning: Excess function parameter 'chip' description in 'read_bbt'
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Boris Brezillon <boris.brezillon@bootlin.com>
+> Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+> Cc: Richard Weinberger <richard@nod.at>
+> Cc: linux-mtd@lists.infradead.org
 
-On Sun, Jan 20, 2019 at 02:01:34PM +0200, Mike Rapoport wrote:
-> Many kernel-doc comments referenced by Documentation/core-api/mm-api.rst
-> have the return value descriptions misformatted or lack it completely. This
-> makes kernel-doc script unhappy and produces more than 100 warnings when
-> running 
-> 
-> 	make htmldocs V=1
-> 
-> These patches fix the formatting of present return value descriptions and
-> add some new ones.
-> 
-> Side note:
-> ----------
-> I've noticed that kernel-doc produces
-> 
-> 	warning: contents before sections
-> 
-> when it is parsing description of a function that has no parameters, but
-> does have a return value, i.e.
-> 
-> 	unsigned long nr_free_buffer_pages(void)
-> 
-> As far as I can tell, the generated html is ok no matter if the detailed
-> description present before 'the sections', so probably this warning is not
-> really needed?
-> 
-> Mike Rapoport (3):
->   docs/mm: vmalloc: re-indent kernel-doc comemnts
->   docs/core-api/mm: fix user memory accessors formatting
->   docs/core-api/mm: fix return value descriptions in mm/
-> 
->  arch/x86/include/asm/uaccess.h |  24 +--
->  arch/x86/lib/usercopy_32.c     |   8 +-
->  mm/dmapool.c                   |  13 +-
->  mm/filemap.c                   |  73 ++++++--
->  mm/memory.c                    |  26 ++-
->  mm/mempool.c                   |   8 +
->  mm/page-writeback.c            |  24 ++-
->  mm/page_alloc.c                |  24 ++-
->  mm/readahead.c                 |   2 +
->  mm/slab.c                      |  14 ++
->  mm/slab_common.c               |   6 +
->  mm/truncate.c                  |   6 +-
->  mm/util.c                      |  37 ++--
->  mm/vmalloc.c                   | 394 ++++++++++++++++++++++-------------------
->  14 files changed, 409 insertions(+), 250 deletions(-)
-> 
-> -- 
-> 2.7.4
-> 
+Applied to http://git.infradead.org/linux-mtd.git mtd/fixes, thanks.
 
--- 
-Sincerely yours,
-Mike.
-
+Boris
