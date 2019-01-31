@@ -5,62 +5,62 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1D44D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Jan 2019 04:06:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7E09F7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Jan 2019 04:06:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726906AbfAaEGr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 30 Jan 2019 23:06:47 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:55901 "EHLO
+        id S1727309AbfAaEGu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 30 Jan 2019 23:06:50 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:36711 "EHLO
         out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726863AbfAaEGr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Jan 2019 23:06:47 -0500
+        by vger.kernel.org with ESMTP id S1726863AbfAaEGu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Jan 2019 23:06:50 -0500
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id A09A42228A;
-        Wed, 30 Jan 2019 23:06:46 -0500 (EST)
+        by mailout.nyi.internal (Postfix) with ESMTP id E954E22379;
+        Wed, 30 Jan 2019 23:06:48 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Wed, 30 Jan 2019 23:06:46 -0500
+  by compute5.internal (MEProxy); Wed, 30 Jan 2019 23:06:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=from
         :to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm2; bh=o70yMcTALVCpH
-        SQ2vqyfrInczVfUorzvjPoiDAcmaJ0=; b=VJBdntec4+RBe+1B5ugt226HR3FdV
-        2cnj86zNKwo389jyzRdQXVNxcHHazN/VB66KHIeEW8ms2FvhyOGA7HtmKrm9zXkJ
-        D413JYhuryoi97dL4bckcgPz8Rb8tYgLo18tL5k/fQsMEZxSc+kOUbuC54PDVhLS
-        0sP3FQOTTNH/lhPYW/Lt2N9C92qSN+RB4qcpHFhx8yAl6GlPIFEDQa3FkIXOUkhO
-        OGsirqyV/GBalSysPQZfnK/Cdq9yNZczRftrMKj4rJbWiSLfgPHHrXWugkokNDZ7
-        vl8FEgLjQA0JK7aHvM6bk4cLUGUZS+eOg1m7W0VHZ2Nxm93M0o2x5ugIg==
+        :mime-version:content-transfer-encoding; s=fm2; bh=vO60dR2e22Xp4
+        dXd9SAGOxUNsYqzKSRswNuAvPihAWk=; b=iZKxeDtQPYVArE8l+G36Q9eiJfZZo
+        /p5PTxpgRzvZQffpj93gOp1WK60RDf+wgwtuuMYth+RT1zJfHbOBuHlPKZUc2Gol
+        jlznzt40ldKlEDBh7on4LnnxpyCdDuCFurTfrG8L38hoy7oFAa9gL+cyS/Avqopq
+        1xSdNeXlGNDbWbSsODyob/qAA11WLXwge+wvDvII4qwYZHuQ3vg43bd2CU4XFKTC
+        OKBCJIV7qZTSvdiGvgZinAbiUvxCUInWnoZCCwdB5ngw7fXvqZNukftL+3LveDAU
+        hhzcyG4p8xTiECKm84iM/8kPkyEpEomIhc+PXyjbBHLuJSmu9U3hMEjnA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; bh=o70yMcTALVCpHSQ2vqyfrInczVfUorzvjPoiDAcmaJ0=; b=QQVVZmEd
-        7jlBL2eTH33dH4MeD5+Dd/rjHTZRiIoadxy4pbtpj6a6SzBIvrU2BGzZT2RbJIJI
-        29xH3caSrcg/0kT1GshP8jZQvNmtqy1+hglufHlJr1Canh1Pg/kCJuGub7YNUfw3
-        q2+4sCxLMjmyeHTHhb+s3FDRNG2ywM7s4rH4crFiHYJWo1bo0TJOj3n93EHEfPiL
-        fIuuDNfeFcD871/YjDhnAFm2HfFWmWz6FmCaOadWFdfChGmH4Ql7rJYq7JLlPst8
-        8+dozxSvGoV2I1xBFtC57yhNIdbU7FU5BX39wT26Q44csi54moIBDLywl0/xV9/Q
-        Nv/nFjCXy7Dk6w==
-X-ME-Sender: <xms:VnRSXIc4142EN3iSK3XQM-n1MfXOJMfENTNcHztOYxpJOdIkVJV1mA>
+        fm1; bh=vO60dR2e22Xp4dXd9SAGOxUNsYqzKSRswNuAvPihAWk=; b=pP3qz8lJ
+        PBmgJR34RzPYMdHxPkz0jMhyZhuaWY+jIXsryjUddSSRZ0csHJk/+WFNb8fvRI/u
+        6wQ5gNkfQi3+juxxFge6tt2jhpKfR6or93DW0ozrY77oyoGyQ9csWRGhKJIcqunF
+        va6aV3KRbmmkL42uajwjfxwhrcIL1FyJDD4vtgMd/RCd53Qcze9BHtHDwKfsLyxx
+        G84BnMEAFd29t+Tmt3QGfWFMp0UiNEhQTxxpxr6kbBqagC0nNk21pQ5BYZoa7B7y
+        LD+QxqY6xceB4rH+ju8Gx7HkS8+0m0JeiOvhYtQik3+ziZ1KTZxCfJHi5A2m62p2
+        OZusPJ00yK2s9w==
+X-ME-Sender: <xms:WHRSXEbR9ea2YrMu8GEk5DJRrIfjLWVii_oLxUuLR-x84yACK32KWg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedtledrjeehgdeijecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfhuthenuceurghilhhouhhtmecufedt
     tdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegfrhhlucfvnfffucdlfedtmd
     enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepfdfvohgs
     ihhnucevrdcujfgrrhguihhnghdfuceomhgvsehtohgsihhnrdgttgeqnecukfhppeduud
     ekrddvuddurddvudefrdduvddvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmvgesthho
-    sghinhdrtggtnecuvehluhhsthgvrhfuihiivgepfe
-X-ME-Proxy: <xmx:VnRSXMklArimpFY3iu51bSaGscILk1wtAAR-6ixbZvlD5W94p24r1g>
-    <xmx:VnRSXEEHjT07xg31cfdCISAYuBL94EUIgLgo3b8FmQEm42kdIIZ0JQ>
-    <xmx:VnRSXIff5n5dYtwZXahtoeWmmHY4hFxDKpODXTGWWRwuGQHsbII8hg>
-    <xmx:VnRSXLWLk5keUsQJr0Lzu2dTt1Y60MxudKOiafTIl2W2MbTWRQMZUQ>
+    sghinhdrtggtnecuvehluhhsthgvrhfuihiivgepge
+X-ME-Proxy: <xmx:WHRSXKQaM0d4C1WTTlbk2u7eQSFDW2eoyFGpDHzvD50KtHkpxUUN7Q>
+    <xmx:WHRSXJL7R9P2y0rUFJYIc4hQguBqZlPMLnkjtvwpRiLxM5Trfm3b4w>
+    <xmx:WHRSXAWHQvj1cX3JhiMk222zxQT-C_5r4vVEwOfjbp-wEHVb6he65w>
+    <xmx:WHRSXKEC1WKux1hRynWwGo9HNA6NfnMj4RIMnoiKYrQP9WodG0Ztww>
 Received: from eros.localdomain (ppp118-211-213-122.bras1.syd2.internode.on.net [118.211.213.122])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 79A0E10312;
-        Wed, 30 Jan 2019 23:06:44 -0500 (EST)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 01BF510086;
+        Wed, 30 Jan 2019 23:06:46 -0500 (EST)
 From:   "Tobin C. Harding" <me@tobin.cc>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     "Tobin C. Harding" <tobin@kernel.org>,
         Christopher Lameter <cl@linux.com>, linux-doc@vger.kernel.org
-Subject: [PATCH 1/3] docs: Fix SLUB docs typo
-Date:   Thu, 31 Jan 2019 15:06:21 +1100
-Message-Id: <20190131040623.15569-2-me@tobin.cc>
+Subject: [PATCH 2/3] docs: Add missing colon
+Date:   Thu, 31 Jan 2019 15:06:22 +1100
+Message-Id: <20190131040623.15569-3-me@tobin.cc>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190131040623.15569-1-me@tobin.cc>
 References: <20190131040623.15569-1-me@tobin.cc>
@@ -73,9 +73,13 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: "Tobin C. Harding" <tobin@kernel.org>
 
-There is a minor typo in SLUB documentation.
+sphinx emits warning
 
-Fix typo.
+       WARNING: Inline emphasis start-string without end-string.
+
+This is caused by a missing colon.
+
+Add missing colon, clearing shpinx build warning.
 
 Signed-off-by: Tobin C. Harding <tobin@kernel.org>
 ---
@@ -83,18 +87,18 @@ Signed-off-by: Tobin C. Harding <tobin@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Documentation/vm/slub.rst b/Documentation/vm/slub.rst
-index 195928808..0871c5849 100644
+index 0871c5849..933ada436 100644
 --- a/Documentation/vm/slub.rst
 +++ b/Documentation/vm/slub.rst
-@@ -141,7 +141,7 @@ can be influenced by kernel parameters:
- 	(list_lock) where contention may occur.
+@@ -66,7 +66,7 @@ Trying to find an issue in the dentry cache? Try::
+ to only enable debugging on the dentry cache.  You may use an asterisk at the
+ end of the slab name, in order to cover all slabs with the same prefix.  For
+ example, here's how you can poison the dentry cache as well as all kmalloc
+-slabs:
++slabs::
  
- ``slub_min_order``
--	specifies a minim order of slabs. A similar effect like
-+	specifies a minimum order of slabs. A similar effect like
- 	``slub_min_objects``.
+ 	slub_debug=P,kmalloc-*,dentry
  
- ``slub_max_order``
 -- 
 2.20.1
 
