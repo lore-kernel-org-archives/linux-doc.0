@@ -2,42 +2,37 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 11BB57D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Jan 2019 18:23:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1BB6C7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Jan 2019 18:24:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728295AbfAaSXz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 Jan 2019 13:23:55 -0500
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:49358 "EHLO
+        id S1728370AbfAaSYJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 Jan 2019 13:24:09 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:49402 "EHLO
         foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726455AbfAaSXz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 31 Jan 2019 13:23:55 -0500
+        id S1726455AbfAaSYI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 31 Jan 2019 13:24:08 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 16EAEA78;
-        Thu, 31 Jan 2019 10:23:55 -0800 (PST)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B6F4A1596;
+        Thu, 31 Jan 2019 10:24:07 -0800 (PST)
 Received: from e113632-lin.cambridge.arm.com (e113632-lin.cambridge.arm.com [10.1.194.37])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8DA963F59C;
-        Thu, 31 Jan 2019 10:23:52 -0800 (PST)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 3DB393F59C;
+        Thu, 31 Jan 2019 10:24:06 -0800 (PST)
 From:   Valentin Schneider <valentin.schneider@arm.com>
 To:     linux-kernel@vger.kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Julien Grall <julien.grall@arm.com>,
-        Julien Thierry <julien.thierry@arm.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: [RFC PATCH 0/3] arm/arm64: entry: Remove need_resched() loop
-Date:   Thu, 31 Jan 2019 18:23:36 +0000
-Message-Id: <20190131182339.9835-1-valentin.schneider@arm.com>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Julien Thierry <julien.thierry@arm.com>,
+        linux-doc@vger.kernel.org
+Subject: [RFC PATCH 3/3] sched/Documentation: Point out use of preempt_schedule_irq()
+Date:   Thu, 31 Jan 2019 18:23:39 +0000
+Message-Id: <20190131182339.9835-4-valentin.schneider@arm.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190131182339.9835-1-valentin.schneider@arm.com>
+References: <20190131182339.9835-1-valentin.schneider@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -45,84 +40,41 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A while back (before [1]), i386 had this in the tail of its irq
-handling code:
+Since there are a few archs out there that call preempt_schedule_irq()
+within a need_resched() loop, point out that it's not needed.
 
-  need_resched:
-	  movl TI_flags(%ebp), %ecx       # need_resched set ?
-	  testb $_TIF_NEED_RESCHED, %cl
-	  jz restore_all
-	  testl $IF_MASK,EFLAGS(%esp)     # interrupts off (exception path) ?
-	  jz restore_all
-	  sti
-	  call preempt_schedule
-	  cli
-	  movl $0,TI_preempt_count(%ebp)
-	  jmp need_resched
-
-preempt_schedule() already had an inner need_resched() loop introduced by
-
-  commit 4d0b85ea4610 ("[PATCH] kernel preemption bits (2/2)")
-
-and the outer loop was needed since, as the above commit explains, it
-was possible to return from preempt_schedule(), get an interrupt and
-have need_resched() true.
-
-This was eventually changed when preempt_schedule_irq() was introduced
-by [1]:
-
-  commit b268264c6299 ("[PATCH] sched: fix preemption race (Core/i386)")
-
-which moved the enabling & disabling of interrupts inside the then
-new preempt_schedule_irq(). From then on, the arch-code loop was no
-longer necessary, providing preempt_schedule_irq() was used. This was
-talked over on LKML in [2].
-
-It's worth noting that it seems most archs calling
-preempt_schedule_irq() have that outer loop, and for most of them it
-really looks like they could get rid of it as well.
-
-FWIW the suspects are
-
-$ grep -r -I "preempt_schedule_irq" arch/ | cut -d/ -f2 | sort | uniq
-
-  arc
-  arm
-  arm64
-  c6x
-  csky
-  h8300
-  ia64
-  m68k
-  microblaze
-  mips
-  nds32
-  nios2
-  parisc
-  powerpc
-  s390
-  sh
-  sparc
-  x86
-  xtensa
-
-
-- Patches 1-2 remove the loop for arm & arm64
-- Patch 3 adds a bit of documentation to point out the loop isn't needed
-  to try and spread the word.
-
-[2]: https://lore.kernel.org/lkml/cc989920-a13b-d53b-db83-1584a7f53edc@arm.com/
-
-Valentin Schneider (3):
-  arm64: entry: Remove unneeded need_resched() loop
-  ARM: entry: Remove unneeded need_resched() loop
-  sched/Documentation: Point out use of preempt_schedule_irq()
-
+Signed-off-by: Valentin Schneider <valentin.schneider@arm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Julien Thierry <julien.thierry@arm.com>
+Cc: linux-doc@vger.kernel.org
+---
  Documentation/scheduler/sched-arch.txt | 10 ++++++++++
- arch/arm/kernel/entry-armv.S           | 12 +-----------
- arch/arm64/kernel/entry.S              | 11 +----------
- 3 files changed, 12 insertions(+), 21 deletions(-)
+ 1 file changed, 10 insertions(+)
 
+diff --git a/Documentation/scheduler/sched-arch.txt b/Documentation/scheduler/sched-arch.txt
+index a2f27bbf2cba..ae41a94da700 100644
+--- a/Documentation/scheduler/sched-arch.txt
++++ b/Documentation/scheduler/sched-arch.txt
+@@ -59,6 +59,16 @@ Your cpu_idle routines need to obey the following rules:
+ arch/x86/kernel/process.c has examples of both polling and
+ sleeping idle functions.
+ 
++Kernel preemption
++=================
++When returning from interrupt context, you should call either of
++preempt_schedule() or preempt_schedule_irq() if preemption is enabled
++and need_resched() is true.
++
++Note that, unlike preempt_schedule(), preempt_schedule_irq() handles the
++enabling and disabling of IRQs. Since it also loops on need_resched(),
++you don't need to have that loop in your arch code. See
++arch/arm64/kernel/entry.S for an example.
+ 
+ Possible arch/ problems
+ =======================
 --
 2.20.1
 
