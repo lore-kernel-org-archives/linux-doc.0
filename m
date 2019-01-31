@@ -1,154 +1,188 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 40A7A7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Jan 2019 19:09:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A9A4C7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 31 Jan 2019 19:29:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727856AbfAaTJe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 Jan 2019 14:09:34 -0500
-Received: from mail-yw1-f67.google.com ([209.85.161.67]:46494 "EHLO
-        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726135AbfAaTJe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Jan 2019 14:09:34 -0500
-Received: by mail-yw1-f67.google.com with SMTP id t13so1692210ywe.13
-        for <linux-doc@vger.kernel.org>; Thu, 31 Jan 2019 11:09:33 -0800 (PST)
+        id S1729421AbfAaT3U (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 Jan 2019 14:29:20 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:44215 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729439AbfAaT3U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Jan 2019 14:29:20 -0500
+Received: by mail-pl1-f196.google.com with SMTP id e11so1912186plt.11
+        for <linux-doc@vger.kernel.org>; Thu, 31 Jan 2019 11:29:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=poorly.run; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=XgwnBkch8z7PYW1ID2wpAYNarKeIF7oIWm4bEmN0rc0=;
-        b=YysiqCV3H3oDH4co7pKx5rwapbqI3IbkkLH93GOYyoDkOOqzsTx6MXNnRg/p7ApplF
-         1Q1NqnQaVUNcucNrptJJEa6AKmEl6PeL0dDCLY+ZL+kWeCmRhdnDRUmfd4aFzyb/g9PT
-         ohlDKprB5RiiwSXHEyxenuaHEInDnG3986P/1OtNwLSR8iMCA8bYdOi9IycRDWgPME7J
-         wN4S7vhOTo0KEqw4qLS0h0cV5eDSP5TPYu+LpIUT/fkw76RnkU4hJyX55u8Nu8lCSeAs
-         MoAd0W9PDXpGEPgD4iyC53rh2Vv1obQYG9vpHjynNU6a0PJeNiwrBy0VkDtdo3TLuOci
-         nYZQ==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=MFJ2wRRAA6IcXGO+/YjG1KwDtDZI3ZJyGSkT8C93+ng=;
+        b=bummAweVarfI8k6oygDBubQOq0LmgOcN0J+QZblexpy8/IhsmXIWhZQep1j4JxBHCi
+         9M3wp41b1RA0JpXrPwzKUXMe2wlknzlm38/yVJxZ2VisEsShjKcd37T3/XgmFxqWOxEH
+         mrkHCwpMgxQiKPgnIa990XbwbI1+A6HThvwIk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=XgwnBkch8z7PYW1ID2wpAYNarKeIF7oIWm4bEmN0rc0=;
-        b=aIcRld3gyEV06hXPURh/fjTwWfs5kKnbmvX8EBFzy9XoKPLfLA29LGrYRh5jLxEPXX
-         v5+gDqtiTYTgsisNB7h98IbzkaVgqaEWmPDApnO2mDK8lahbRx8gOFhQBArM+9PM70VB
-         oDGg3BRrVw+OPSRI3x+5nHTZzqPbO48Wd+c4phdbdEAfK+nqjZYYufQzvP8S+EgAvhLm
-         7hwiFBL3rXV3ufZi9o+RkUglvK0CN+f6EjPEnSHK2mw/2o3bjIVpzBZ5p3URr58kjHvb
-         8uLR5EgW3F8zPU+zppDC2gjy2Vvyu+k6UTIw5BHgvOYN46xawgE3qZPrjR1SiK0tkfnO
-         N4/Q==
-X-Gm-Message-State: AJcUukek1GvXhDVJVij/bbErsY41vS5njymWpSJQPJN22nxSn55QGygW
-        bgoeK1L5pbng9V3gq9gLAGA8XA==
-X-Google-Smtp-Source: ALg8bN7G4iWXSxltjPpElF3BqYyyAIohYHxZihpuUxZOcMT0WlI5SZoJEcEaNmLQpXLDtyN8gbDrWQ==
-X-Received: by 2002:a81:af1f:: with SMTP id n31mr34266085ywh.383.1548961773215;
-        Thu, 31 Jan 2019 11:09:33 -0800 (PST)
-Received: from localhost ([2620:0:1013:11:89c6:2139:5435:371d])
-        by smtp.gmail.com with ESMTPSA id a71sm1793749ywe.66.2019.01.31.11.09.32
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 31 Jan 2019 11:09:32 -0800 (PST)
-Date:   Thu, 31 Jan 2019 14:09:32 -0500
-From:   Sean Paul <sean@poorly.run>
-To:     dri-devel@lists.freedesktop.org
-Cc:     daniel@ffwll.ch, Sean Paul <seanpaul@chromium.org>,
-        Ville =?iso-8859-1?Q?Syrj=E4l=E4?= 
-        <ville.syrjala@linux.intel.com>, Sam Ravnborg <sam@ravnborg.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=MFJ2wRRAA6IcXGO+/YjG1KwDtDZI3ZJyGSkT8C93+ng=;
+        b=g0N7huFhEavsXVOCBvqq3D4VGHTPz5nym/lmo8qS/8JJZDVzcseFaBDi8IDcgvUEgJ
+         x6UHJ3VQGtlTJ/gHe5ezBxyWo5vl6DQqVEU1PuYYXmKpNmQpduJcC7n4TvzsZJylJkkG
+         h7JOzoManee9ru4xZ9D8Mm//nxd6ptlJDKljidTicDY5DoDBfLt+FruQpQITMOZwlNUC
+         W0Ne9asoMsF1jlji1ku2guoPhDoks/bMYhAKzUVLrNiG7zx+8r7eI0EAbrazC+w8Gr/a
+         RgQOoibmNL36+uHSKGG4OmMhsVIQe5+n1IFsTI1jpEFjuUwHPAQS71Ps6w6aiaDfwUbA
+         JqAg==
+X-Gm-Message-State: AJcUukeE6wF0OLPdGLWOhYN1GUyxeJK4wlV8WiwD2vT0+vnglu+tphmr
+        /xr/NMHlJ2dnoAJxXpchw5TsXA==
+X-Google-Smtp-Source: ALg8bN620UGZSWSXLJlom6YH/iGy7rMQgOcXdIpYO/yDV0hBkdq6i4rBx/QaIGQWhCFld0FOFHOD0w==
+X-Received: by 2002:a17:902:704b:: with SMTP id h11mr36294891plt.157.1548962959435;
+        Thu, 31 Jan 2019 11:29:19 -0800 (PST)
+Received: from skynet.sea.corp.google.com ([2620:15c:17:4:29de:3bb1:1270:e679])
+        by smtp.gmail.com with ESMTPSA id s130sm11164399pgc.60.2019.01.31.11.29.18
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 31 Jan 2019 11:29:18 -0800 (PST)
+From:   Thomas Garnier <thgarnie@chromium.org>
+To:     kernel-hardening@lists.openwall.com
+Cc:     kristen@linux.intel.com, Thomas Garnier <thgarnie@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Baoquan He <bhe@redhat.com>,
+        Thomas Garnier <thgarnie@google.com>,
+        Alexander Popov <alex.popov@linux.com>,
+        Joerg Roedel <jroedel@suse.de>,
+        Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] drm/TODO: Add drm_display_mode.hsync/vrefresh removal
-Message-ID: <20190131190932.GX114153@art_vandelay>
-References: <20190129172441.GX3271@phenom.ffwll.local>
- <20190129192637.73296-1-sean@poorly.run>
+Subject: [PATCH v6 22/27] x86/modules: Add option to start module section after kernel
+Date:   Thu, 31 Jan 2019 11:24:29 -0800
+Message-Id: <20190131192533.34130-23-thgarnie@chromium.org>
+X-Mailer: git-send-email 2.20.1.495.gaa96b0ce6b-goog
+In-Reply-To: <20190131192533.34130-1-thgarnie@chromium.org>
+References: <20190131192533.34130-1-thgarnie@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190129192637.73296-1-sean@poorly.run>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 29, 2019 at 02:26:29PM -0500, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
-> 
-> Drivers shouldn't be using these values, add a TODO so someone removes
-> them.
-> 
-> Changes in v2:
-> - Add drm_display_mode.vrefresh removal (Ville)
-> - Add Sam's R-b and bonus points
-> Changes in v3:
-> - Add hsync removal todo item (Daniel)
-> - Change vrefresh wording to make removal less optional
-> 
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-> Reviewed-by: Daniel Vetter <daniel@ffwll.ch>
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> Bonus-points-awarded-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+Add an option so the module section is just after the mapped kernel. It
+will ensure position independent modules are always at the right
+distance from the kernel and do not require mcmodule=large. It also
+optimize the available size for modules by getting rid of the empty
+space on kernel randomization range.
 
-And applied to -misc-next.
+Signed-off-by: Thomas Garnier <thgarnie@chromium.org>
+---
+ Documentation/x86/x86_64/mm.txt         | 3 +++
+ arch/x86/Kconfig                        | 4 ++++
+ arch/x86/include/asm/pgtable_64_types.h | 6 ++++++
+ arch/x86/kernel/head64.c                | 5 ++++-
+ arch/x86/mm/dump_pagetables.c           | 3 ++-
+ 5 files changed, 19 insertions(+), 2 deletions(-)
 
-Thanks for the reviews, all.
-
-Sean
-
-> ---
-> 
-> This time with feeling.
-> 
->  Documentation/gpu/todo.rst | 28 ++++++++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 38360ede12215..f67c84b92873c 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -262,6 +262,34 @@ As a reference, take a look at the conversions already completed in drm core.
->  
->  Contact: Sean Paul, respective driver maintainers
->  
-> +Convert direct mode.vrefresh accesses to use drm_mode_vrefresh()
-> +----------------------------------------------------------------
-> +
-> +drm_display_mode.vrefresh isn't guaranteed to be populated. As such, using it
-> +is risky and has been known to cause div-by-zero bugs. Fortunately, drm core
-> +has helper which will use mode.vrefresh if it's !0 and will calculate it from
-> +the timings when it's 0.
-> +
-> +Use simple search/replace, or (more fun) cocci to replace instances of direct
-> +vrefresh access with a call to the helper. Check out
-> +https://lists.freedesktop.org/archives/dri-devel/2019-January/205186.html for
-> +inspiration.
-> +
-> +Once all instances of vrefresh have been converted, remove vrefresh from
-> +drm_display_mode to avoid future use.
-> +
-> +Contact: Sean Paul
-> +
-> +Remove drm_display_mode.hsync
-> +-----------------------------
-> +
-> +We have drm_mode_hsync() to calculate this from hsync_start/end, since drivers
-> +shouldn't/don't use this, remove this member to avoid any temptations to use it
-> +in the future. If there is any debug code using drm_display_mode.hsync, convert
-> +it to use drm_mode_hsync() instead.
-> +
-> +Contact: Sean Paul
-> +
->  Core refactorings
->  =================
->  
-> -- 
-> Sean Paul, Software Engineer, Google / Chromium OS
-> 
-
+diff --git a/Documentation/x86/x86_64/mm.txt b/Documentation/x86/x86_64/mm.txt
+index 804f9426ed17..35b845d695d5 100644
+--- a/Documentation/x86/x86_64/mm.txt
++++ b/Documentation/x86/x86_64/mm.txt
+@@ -151,3 +151,6 @@ correct as KASAN disables KASLR.
+ 
+ For both 4- and 5-level layouts, the STACKLEAK_POISON value in the last 2MB
+ hole: ffffffffffff4111
++
++If CONFIG_DYNAMIC_MODULE_BASE is enabled, the module section follows the end of
++the mapped kernel.
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 263d81c570b2..c3ad1b0ae1a1 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -2221,6 +2221,10 @@ config RANDOMIZE_MEMORY_PHYSICAL_PADDING
+ 
+ 	   If unsure, leave at the default value.
+ 
++# Module section starts just after the end of the kernel module
++config DYNAMIC_MODULE_BASE
++	bool
++
+ config X86_GLOBAL_STACKPROTECTOR
+ 	bool "Stack cookie using a global variable"
+ 	depends on CC_STACKPROTECTOR_AUTO
+diff --git a/arch/x86/include/asm/pgtable_64_types.h b/arch/x86/include/asm/pgtable_64_types.h
+index 88bca456da99..d1bb676ec376 100644
+--- a/arch/x86/include/asm/pgtable_64_types.h
++++ b/arch/x86/include/asm/pgtable_64_types.h
+@@ -7,6 +7,7 @@
+ #ifndef __ASSEMBLY__
+ #include <linux/types.h>
+ #include <asm/kaslr.h>
++#include <asm/sections.h>
+ 
+ /*
+  * These are used to make use of C type-checking..
+@@ -141,7 +142,12 @@ extern unsigned int ptrs_per_p4d;
+ 
+ #define VMALLOC_END		(VMALLOC_START + (VMALLOC_SIZE_TB << 40) - 1)
+ 
++#ifdef CONFIG_DYNAMIC_MODULE_BASE
++#define MODULES_VADDR		ALIGN(((unsigned long)_end + PAGE_SIZE), PMD_SIZE)
++#else
+ #define MODULES_VADDR		(__START_KERNEL_map + KERNEL_IMAGE_SIZE)
++#endif
++
+ /* The module sections ends with the start of the fixmap */
+ #define MODULES_END		_AC(0xffffffffff000000, UL)
+ #define MODULES_LEN		(MODULES_END - MODULES_VADDR)
+diff --git a/arch/x86/kernel/head64.c b/arch/x86/kernel/head64.c
+index 22e81275495b..ca2f6ff431af 100644
+--- a/arch/x86/kernel/head64.c
++++ b/arch/x86/kernel/head64.c
+@@ -411,12 +411,15 @@ asmlinkage __visible void __init x86_64_start_kernel(char * real_mode_data)
+ 	 * Build-time sanity checks on the kernel image and module
+ 	 * area mappings. (these are purely build-time and produce no code)
+ 	 */
++#ifndef CONFIG_DYNAMIC_MODULE_BASE
+ 	BUILD_BUG_ON(MODULES_VADDR < __START_KERNEL_map);
+ 	BUILD_BUG_ON(MODULES_VADDR - __START_KERNEL_map < KERNEL_IMAGE_SIZE);
+-	BUILD_BUG_ON(MODULES_LEN + KERNEL_IMAGE_SIZE > 2*PUD_SIZE);
++	BUILD_BUG_ON(!IS_ENABLED(CONFIG_RANDOMIZE_BASE_LARGE) &&
++		     MODULES_LEN + KERNEL_IMAGE_SIZE > 2*PUD_SIZE);
+ 	BUILD_BUG_ON((__START_KERNEL_map & ~PMD_MASK) != 0);
+ 	BUILD_BUG_ON((MODULES_VADDR & ~PMD_MASK) != 0);
+ 	BUILD_BUG_ON(!(MODULES_VADDR > __START_KERNEL));
++#endif
+ 	MAYBE_BUILD_BUG_ON(!(((MODULES_END - 1) & PGDIR_MASK) ==
+ 				(__START_KERNEL & PGDIR_MASK)));
+ 	BUILD_BUG_ON(__fix_to_virt(__end_of_fixed_addresses) <= MODULES_END);
+diff --git a/arch/x86/mm/dump_pagetables.c b/arch/x86/mm/dump_pagetables.c
+index e3cdc85ce5b6..3172bd968215 100644
+--- a/arch/x86/mm/dump_pagetables.c
++++ b/arch/x86/mm/dump_pagetables.c
+@@ -104,7 +104,7 @@ static struct addr_marker address_markers[] = {
+ 	[EFI_END_NR]		= { EFI_VA_END,		"EFI Runtime Services" },
+ #endif
+ 	[HIGH_KERNEL_NR]	= { __START_KERNEL_map,	"High Kernel Mapping" },
+-	[MODULES_VADDR_NR]	= { MODULES_VADDR,	"Modules" },
++	[MODULES_VADDR_NR]	= { 0/*MODULES_VADDR*/,	"Modules" },
+ 	[MODULES_END_NR]	= { MODULES_END,	"End Modules" },
+ 	[FIXADDR_START_NR]	= { FIXADDR_START,	"Fixmap Area" },
+ 	[END_OF_SPACE_NR]	= { -1,			NULL }
+@@ -623,6 +623,7 @@ static int __init pt_dump_init(void)
+ 	address_markers[KASAN_SHADOW_START_NR].start_address = KASAN_SHADOW_START;
+ 	address_markers[KASAN_SHADOW_END_NR].start_address = KASAN_SHADOW_END;
+ #endif
++	address_markers[MODULES_VADDR_NR].start_address = MODULES_VADDR;
+ #endif
+ #ifdef CONFIG_X86_32
+ 	address_markers[VMALLOC_START_NR].start_address = VMALLOC_START;
 -- 
-Sean Paul, Software Engineer, Google / Chromium OS
+2.20.1.495.gaa96b0ce6b-goog
+
