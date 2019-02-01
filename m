@@ -1,92 +1,258 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 979DA7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Feb 2019 10:27:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9D5367D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Feb 2019 14:19:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728453AbfBAK16 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Feb 2019 05:27:58 -0500
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:57582 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726450AbfBAK16 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 Feb 2019 05:27:58 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 60DB415BE;
-        Fri,  1 Feb 2019 02:27:57 -0800 (PST)
-Received: from [10.1.194.37] (e113632-lin.cambridge.arm.com [10.1.194.37])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2C15D3F71E;
-        Fri,  1 Feb 2019 02:27:56 -0800 (PST)
-Subject: Re: [RFC PATCH 3/3] sched/Documentation: Point out use of
- preempt_schedule_irq()
-To:     Julien Thierry <julien.thierry@arm.com>,
-        linux-kernel@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>, linux-doc@vger.kernel.org
-References: <20190131182339.9835-1-valentin.schneider@arm.com>
- <20190131182339.9835-4-valentin.schneider@arm.com>
- <cd1b1ea6-7b5f-0468-1512-eaabba77a98a@arm.com>
-From:   Valentin Schneider <valentin.schneider@arm.com>
-Message-ID: <53775bec-67cf-3b5e-796f-0a09993d1628@arm.com>
-Date:   Fri, 1 Feb 2019 10:27:54 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        id S1726270AbfBAOTj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Feb 2019 09:19:39 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:52088 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725817AbfBAOTj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Feb 2019 09:19:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=ivSoliHjZWxVwS1NysO7e9tbKT+uKVwKJJqrcFCTkuU=; b=QRIH+VP1CPiTUGkcMTSqknxtS
+        KqjGxzyWZuGPz2bHM3nT9qWariqIJLpDy5QbVYPVo+w2nR2/E4ZWBHH0y7I17PBVtCOcD34V4duRK
+        pyKLidLOvtmeh0XZsMVC/cE7UMUuK+j/0iv3qb5ABQIaBPbtP4eIVPSvMrguX545YjLOEHrYMYU7w
+        xUyHPsCwtJoEGAnMOcWn1iblAbIbhbOOQ3MD+JfA4xY6kFWlznPubVQx/Q3iayc5fMFcW2FwyWijJ
+        dJbJvEo5DzCPgefTMb+pvhBqNDnBG2Md7SDXGwLbEDukUpeJxEIjWJm7cEDH+qplT8aTcr40QwBKr
+        +Ocdss22Q==;
+Received: from 179.187.106.61.dynamic.adsl.gvt.net.br ([179.187.106.61] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gpZfN-00038D-U3; Fri, 01 Feb 2019 14:19:37 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.91)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1gpYyu-0006VM-Ou; Fri, 01 Feb 2019 11:35:44 -0200
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Anton Leontiev <scileont@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>
+Subject: [PATCH] media: vim2m: add bayer capture formats
+Date:   Fri,  1 Feb 2019 11:35:43 -0200
+Message-Id: <7fd6ccf110b7c167a2304ffd482e6c04252c4909.1549028130.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <cd1b1ea6-7b5f-0468-1512-eaabba77a98a@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/02/2019 08:45, Julien Thierry wrote:
-[...]
->> +Kernel preemption
->> +=================
->> +When returning from interrupt context, you should call either of
->> +preempt_schedule() or preempt_schedule_irq() if preemption is enabled
->> +and need_resched() is true.
->> +
-> 
-> I don't think preempt_schedule() is really an option for a return from
-> interrupt. First thing preempt_schedule() does is:
-> 
->         if (likely(!preemptible()))
-> 		return;
-> 
-> And preemptible() is:
-> 
-> preempt_count() == 0 && !irqs_disabled()
-> 
-> Generally on return from interrupt context interrupts are disabled, so
-> we would never be preemptible() and preempt_schedule() would just do
-> nothing.
-> 
-> Unless I'm missing something.
-> 
+The vim2m device is interesting to simulate a webcam. As most
+sensors are arranged using bayer formats, the best is to support
+to output data using those formats.
 
-No, I think you're right. The main reason I still mentioned it here is to
-be conservative, although I must admit I've started confusing what we
-have vs what we used to have since my dive into the history.
+So, add support for them.
 
-If I look at some archs that don't use preempt_schedule_irq() (e.g. alpha,
-unicore32), they seem to be calling schedule() directly - but I don't see
-any (*current*) user of preempt_schedule() on interrupt return.
+All 4 8-bit bayer formats tested with:
 
-preempt_schedule() still has this comment attached to it:
+	$ qvidcap -p &
+	$ v4l2-ctl --stream-mmap --stream-out-mmap --stream-to-host localhost --stream-lossless --stream-out-hor-speed 1 -v pixelformat=RGGB
 
- * this is the entry point to schedule() from in-kernel preemption
- * off of preempt_enable. Kernel preemptions off return from interrupt
- * occur there and call schedule directly.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ drivers/media/platform/vim2m.c | 97 ++++++++++++++++++++++++++++++++--
+ 1 file changed, 92 insertions(+), 5 deletions(-)
 
-So I might just remove the mention to preempt_schedule() in the doc and
-also change the comment.
+diff --git a/drivers/media/platform/vim2m.c b/drivers/media/platform/vim2m.c
+index e31c14c7d37f..6240878def80 100644
+--- a/drivers/media/platform/vim2m.c
++++ b/drivers/media/platform/vim2m.c
+@@ -82,24 +82,47 @@ static struct platform_device vim2m_pdev = {
+ struct vim2m_fmt {
+ 	u32	fourcc;
+ 	int	depth;
++	/* Types the format can be used for */
++	u32     types;
+ };
+ 
+ static struct vim2m_fmt formats[] = {
+ 	{
+ 		.fourcc	= V4L2_PIX_FMT_RGB565,  /* rrrrrggg gggbbbbb */
+ 		.depth	= 16,
++		.types  = MEM2MEM_CAPTURE | MEM2MEM_OUTPUT,
+ 	}, {
+ 		.fourcc	= V4L2_PIX_FMT_RGB565X, /* gggbbbbb rrrrrggg */
+ 		.depth	= 16,
++		.types  = MEM2MEM_CAPTURE | MEM2MEM_OUTPUT,
+ 	}, {
+ 		.fourcc	= V4L2_PIX_FMT_RGB24,
+ 		.depth	= 24,
++		.types  = MEM2MEM_CAPTURE | MEM2MEM_OUTPUT,
+ 	}, {
+ 		.fourcc	= V4L2_PIX_FMT_BGR24,
+ 		.depth	= 24,
++		.types  = MEM2MEM_CAPTURE | MEM2MEM_OUTPUT,
+ 	}, {
+ 		.fourcc	= V4L2_PIX_FMT_YUYV,
+ 		.depth	= 16,
++		.types  = MEM2MEM_CAPTURE | MEM2MEM_OUTPUT,
++	}, {
++		.fourcc	= V4L2_PIX_FMT_SBGGR8,
++		.depth	= 8,
++		.types  = MEM2MEM_CAPTURE,
++	}, {
++		.fourcc	= V4L2_PIX_FMT_SGBRG8,
++		.depth	= 8,
++		.types  = MEM2MEM_CAPTURE,
++	}, {
++		.fourcc	= V4L2_PIX_FMT_SGRBG8,
++		.depth	= 8,
++		.types  = MEM2MEM_CAPTURE,
++	}, {
++		.fourcc	= V4L2_PIX_FMT_SRGGB8,
++		.depth	= 8,
++		.types  = MEM2MEM_CAPTURE,
+ 	},
+ };
+ 
+@@ -208,7 +231,7 @@ static struct vim2m_q_data *get_q_data(struct vim2m_ctx *ctx,
+ 	(u8)(((__color) > 0xff) ? 0xff : (((__color) < 0) ? 0 : (__color)))
+ 
+ static void copy_two_pixels(struct vim2m_fmt *in, struct vim2m_fmt *out,
+-			    u8 **src, u8 **dst, bool reverse)
++			    u8 **src, u8 **dst, int y, bool reverse)
+ {
+ 	u8 _r[2], _g[2], _b[2], *r, *g, *b;
+ 	int i, step;
+@@ -379,7 +402,8 @@ static void copy_two_pixels(struct vim2m_fmt *in, struct vim2m_fmt *out,
+ 			*(*dst)++ = *r++;
+ 		}
+ 		return;
+-	default: /* V4L2_PIX_FMT_YUYV */
++	case V4L2_PIX_FMT_YUYV:
++	default:
+ 	{
+ 		u8 y, y1, u, v;
+ 
+@@ -399,6 +423,42 @@ static void copy_two_pixels(struct vim2m_fmt *in, struct vim2m_fmt *out,
+ 		*(*dst)++ = v;
+ 		return;
+ 	}
++	case V4L2_PIX_FMT_SBGGR8:
++		if (!(y & 1)) {
++			*(*dst)++ = *b;
++			*(*dst)++ = *++g;
++		} else {
++			*(*dst)++ = *g;
++			*(*dst)++ = *++r;
++		}
++		return;
++	case V4L2_PIX_FMT_SGBRG8:
++		if (!(y & 1)) {
++			*(*dst)++ = *g;
++			*(*dst)++ = *++b;
++		} else {
++			*(*dst)++ = *r;
++			*(*dst)++ = *++g;
++		}
++		return;
++	case V4L2_PIX_FMT_SGRBG8:
++		if (!(y & 1)) {
++			*(*dst)++ = *g;
++			*(*dst)++ = *++r;
++		} else {
++			*(*dst)++ = *b;
++			*(*dst)++ = *++g;
++		}
++		return;
++	case V4L2_PIX_FMT_SRGGB8:
++		if (!(y & 1)) {
++			*(*dst)++ = *r;
++			*(*dst)++ = *++g;
++		} else {
++			*(*dst)++ = *g;
++			*(*dst)++ = *++b;
++		}
++		return;
+ 	}
+ }
+ 
+@@ -449,7 +509,7 @@ static int device_process(struct vim2m_ctx *ctx,
+ 			p += bytesperline - (q_data_in->fmt->depth >> 3);
+ 
+ 		for (x = 0; x < width >> 1; x++)
+-			copy_two_pixels(in, out, &p, &p_out,
++			copy_two_pixels(in, out, &p, &p_out, y,
+ 					ctx->mode & MEM2MEM_HFLIP);
+ 	}
+ 
+@@ -562,11 +622,25 @@ static int vidioc_querycap(struct file *file, void *priv,
+ 
+ static int enum_fmt(struct v4l2_fmtdesc *f, u32 type)
+ {
++	int i, num;
+ 	struct vim2m_fmt *fmt;
+ 
+-	if (f->index < NUM_FORMATS) {
++	num = 0;
++
++	for (i = 0; i < NUM_FORMATS; ++i) {
++		if (formats[i].types & type) {
++			/* index-th format of type type found ? */
++			if (num == f->index)
++				break;
++			/* Correct type but haven't reached our index yet,
++			 * just increment per-type index */
++			++num;
++		}
++	}
++
++	if (i < NUM_FORMATS) {
+ 		/* Format found */
+-		fmt = &formats[f->index];
++		fmt = &formats[i];
+ 		f->pixelformat = fmt->fourcc;
+ 		return 0;
+ 	}
+@@ -657,6 +731,12 @@ static int vidioc_try_fmt_vid_cap(struct file *file, void *priv,
+ 		f->fmt.pix.pixelformat = formats[0].fourcc;
+ 		fmt = find_format(f);
+ 	}
++	if (!(fmt->types & MEM2MEM_CAPTURE)) {
++		v4l2_err(&ctx->dev->v4l2_dev,
++			 "Fourcc format (0x%08x) invalid.\n",
++			 f->fmt.pix.pixelformat);
++		return -EINVAL;
++	}
+ 	f->fmt.pix.colorspace = ctx->colorspace;
+ 	f->fmt.pix.xfer_func = ctx->xfer_func;
+ 	f->fmt.pix.ycbcr_enc = ctx->ycbcr_enc;
+@@ -669,12 +749,19 @@ static int vidioc_try_fmt_vid_out(struct file *file, void *priv,
+ 				  struct v4l2_format *f)
+ {
+ 	struct vim2m_fmt *fmt;
++	struct vim2m_ctx *ctx = file2ctx(file);
+ 
+ 	fmt = find_format(f);
+ 	if (!fmt) {
+ 		f->fmt.pix.pixelformat = formats[0].fourcc;
+ 		fmt = find_format(f);
+ 	}
++	if (!(fmt->types & MEM2MEM_OUTPUT)) {
++		v4l2_err(&ctx->dev->v4l2_dev,
++			 "Fourcc format (0x%08x) invalid.\n",
++			 f->fmt.pix.pixelformat);
++		return -EINVAL;
++	}
+ 	if (!f->fmt.pix.colorspace)
+ 		f->fmt.pix.colorspace = V4L2_COLORSPACE_REC709;
+ 
+-- 
+2.20.1
 
-Thanks,
-Valentin
