@@ -5,129 +5,132 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 678897D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Feb 2019 07:31:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AF0B47D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Feb 2019 08:40:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726172AbfBAHbF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Feb 2019 02:31:05 -0500
-Received: from mga05.intel.com ([192.55.52.43]:56904 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726110AbfBAHbE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 Feb 2019 02:31:04 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 31 Jan 2019 23:31:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,547,1539673200"; 
-   d="scan'208";a="143307941"
-Received: from linux.intel.com ([10.54.29.200])
-  by fmsmga001.fm.intel.com with ESMTP; 31 Jan 2019 23:31:03 -0800
-Received: from [10.125.252.37] (abudanko-mobl.ccr.corp.intel.com [10.125.252.37])
-        by linux.intel.com (Postfix) with ESMTP id 9DBC15803DC;
-        Thu, 31 Jan 2019 23:30:59 -0800 (PST)
-Subject: [PATCH v1 3/3] perf-security: document perf_events/Perf resource
- control
-From:   Alexey Budankov <alexey.budankov@linux.intel.com>
-To:     Jonatan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>
-Cc:     Jann Horn <jannh@google.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        "kernel-hardening@lists.openwall.com" 
-        <kernel-hardening@lists.openwall.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-References: <9cfbf7a1-72dd-f9d0-8137-0f120fa74d21@linux.intel.com>
-Organization: Intel Corp.
-Message-ID: <5ac4b7aa-b640-d8a4-1926-cf612fada974@linux.intel.com>
-Date:   Fri, 1 Feb 2019 10:30:58 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+        id S1728787AbfBAIkr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Feb 2019 03:40:47 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:41020 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726665AbfBAIkr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Feb 2019 03:40:47 -0500
+Received: by mail-lf1-f65.google.com with SMTP id c16so4413232lfj.8;
+        Fri, 01 Feb 2019 00:40:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=g8Nn8cm8MH4bDwP0jLK8AviReQWhxX4FZpgV/LsFZsY=;
+        b=Rwu4uvtKCf7SPAlAZuDh8GlxoKM7f7qB3xhKxVeluulE635jScOwfu7SGuP7yBNYBK
+         CaiCVobrIToO1PC6ih6/9158vGpLLN3noSTD7My8cruXaNJEe1MH8XU8IVzPhtoA51mi
+         Qm/+LhqE+4dtfh+VxGxt9gLRpmPsCjdyaKeTPtjWSu6qNZgWaGRUTYWAgRpWlxcaJ2js
+         bBSKKMN+5ZmHixtFMptv/1km/ZGtc2PJRY5qipfO7fcfJooXOd+nVZNq/2VxKke5pBAY
+         hlsuMVUiXYsFhY8xznlpVT47wAofSk2AH4ybCrYDRmza3L7ywbRZUQHasUOeBW0n9jRt
+         GdLQ==
+X-Gm-Message-State: AJcUukfZGjxUimQMKdWyNMnHyFVplDbb0qGVPJzc21U4v9HmqVzkd7FD
+        7x/MZTaV/USPNuYzg3yUBgI=
+X-Google-Smtp-Source: ALg8bN6Nmz3lHJ3DhKu3nfxwFSM037ts91UOX9a13vuzSYgmR/ABG3bePWR9SNQOS/MbFSRajryeow==
+X-Received: by 2002:a19:ced3:: with SMTP id e202mr31727905lfg.13.1549010444341;
+        Fri, 01 Feb 2019 00:40:44 -0800 (PST)
+Received: from localhost.localdomain ([213.255.186.46])
+        by smtp.gmail.com with ESMTPSA id y23-v6sm1177586ljk.95.2019.02.01.00.40.42
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 01 Feb 2019 00:40:43 -0800 (PST)
+Date:   Fri, 1 Feb 2019 10:40:40 +0200
+From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Russell King - ARM Linux admin <linux@armlinux.org.uk>,
+        mazziesaccount@gmail.com, corbet@lwn.net, cw00.choi@samsung.com,
+        krzk@kernel.org, b.zolnierkie@samsung.com, mturquette@baylibre.com,
+        pombredanne@nexb.com, sre@kernel.org, vkoul@kernel.org,
+        linux@roeck-us.net, pavel@ucw.cz, sjhuang@iluvatar.ai,
+        andrew.smirnov@gmail.com, djkurtz@chromium.org,
+        akshu.agrawal@amd.com, rafael.j.wysocki@intel.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v7 0/3] clk: clkdev add managed lookup registrations
+Message-ID: <20190201084040.GE23791@localhost.localdomain>
+References: <cover.1544177090.git.matti.vaittinen@fi.rohmeurope.com>
+ <20190131132452.GD23791@localhost.localdomain>
+ <20190131152147.tzxabhyhlyy2rwhy@e5254000004ec.dyn.armlinux.org.uk>
+ <154896351763.169292.2557542540041822337@swboyd.mtv.corp.google.com>
 MIME-Version: 1.0
-In-Reply-To: <9cfbf7a1-72dd-f9d0-8137-0f120fa74d21@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <154896351763.169292.2557542540041822337@swboyd.mtv.corp.google.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Jan 31, 2019 at 11:38:37AM -0800, Stephen Boyd wrote:
+> Quoting Russell King - ARM Linux admin (2019-01-31 07:21:47)
+> > On Thu, Jan 31, 2019 at 03:24:52PM +0200, Matti Vaittinen wrote:
+> > > Hello All,
+> > > 
+> > > On Fri, Dec 07, 2018 at 01:09:00PM +0200, Matti Vaittinen wrote:
+> > > > Series adds managed clkdev lookup interfaces and cleans few drivers
+> > > > 
+> > > > Few clk drivers appear to be leaking clkdev lookup registrations at
+> > > > driver remove. The patch series adds devm versions of lookup
+> > > > registrations and cleans up few drivers. Driver clean-up patches have
+> > > > not been tested as I lack the HW. All testing and comments if
+> > > > driver/device removal is even possible for changed drivers is highly
+> > > > appreciated. If removal is not possible I will gladly drop the patches
+> > > > from series - although leaking lookups may serve as bad example for new
+> > > > developers =)
+> > > > 
+> > > > Changed drivers are:
+> > > > clk-max77686 and clk-st
+> > > > 
+> > > > Please note that the patch #2 requires this change to work correctly:
+> > > > https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/commit/?h=clk-next&id=05502bf9eb7a7297f5fa6f1d17b169b3d5b53570
+> > > 
+> > > I guess the dependency mentioned abowe is already in (most) of the
+> > > trees. (I can't say for sure as I don't know what is the correct tree
+> > > for clkdev - is it linux-arm.git as Russel is maintaining clkdev?
+> > 
+> > Yes, I'm supposed to be maintaining clkdev, but I'm busy with other
+> > stuff (such as reorganising my network, helping people with SFP issues,
+> > I'm supposed to be replying to Arend over a brcmfmac issue that has been
+> > on-going since Christmas which I haven't yet been able to doing the next
+> > test...)
+> > 
+> > > If yes, then the commit 05502bf9eb7a7297f5fa6f1d17b169b3d5b53570
+> > > "clk: of-provider: look at parent if registered device has no
+> > > provider info" seems to be sitting in maser branch).
+> > 
+> > It's there because it's part of the mainline kernel and has been
+> > since v5.0-rc1.  So, if you depend on that commit, basing off
+> > v5.0-rc1 is probably sane, unless there's something else that
+> > conflicts.
+> > 
+> 
+> I can pick up the patches in the clk tree. Clk drivers will be the users
+> so it's probably simplest to merge the clkdev patch in clk tree and then
+> consumers can be updated at the same time in a patch stack on top of
+> that.
 
-Elaborate on possible perf_event/Perf privileged users groups
-and document steps about creating such groups.
+This sounds good to me if it is Ok to Russel. Please just let me know if
+you want me to rebase (to clk-next?) and resend the series.
 
-Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
----
- Documentation/admin-guide/perf-security.rst | 43 +++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+> Otherwise, if I can get a stable branch/tag to pile the clk driver
+> patches on I can apply them that way and then the clkdev patch can go
+> via Russell.
 
-diff --git a/Documentation/admin-guide/perf-security.rst b/Documentation/admin-guide/perf-security.rst
-index 7da7fa459718..fe90f8952be9 100644
---- a/Documentation/admin-guide/perf-security.rst
-+++ b/Documentation/admin-guide/perf-security.rst
-@@ -73,6 +73,48 @@ enable capturing of additional data required for later performance analysis of
- monitored processes or a system. For example, CAP_SYSLOG capability permits
- reading kernel space memory addresses from /proc/kallsyms file.
- 
-+perf_events/Perf privileged users
-+---------------------------------
-+
-+Mechanisms of capabilities, privileged capability-dumb files [6]_ and file system
-+ACLs [10]_ can be used to create a dedicated group of perf_events/Perf privileged
-+users who are permitted to execute performance monitoring without *scope* limits.
-+The following steps can be taken to create such a group of privileged Perf users.
-+
-+1. Create perf_users group of privileged Perf users, assign perf_users group to
-+   Perf tool executable and limit *access* to the executable for other users in
-+   the system:
-+
-+::
-+
-+   # groupadd perf_users
-+   # ls -alhF
-+   -rwxr-xr-x  2 root root  11M Oct 19 15:12 perf
-+   # chgrp perf_users perf
-+   # ls -alhF
-+   -rwxr-xr-x  2 root perf_users  11M Oct 19 15:12 perf
-+   # chmod o-rwx perf
-+   # ls -alhF
-+   -rwxr-x---  2 root perf_users  11M Oct 19 15:12 perf
-+
-+2. Assign required capabilities to the Perf tool executable file and enable
-+   members of perf_users group with performance monitoring privileges [6]_ :
-+
-+::
-+
-+   # setcap "cap_sys_admin,cap_sys_ptrace,cap_syslog=ep" perf
-+   # setcap -v "cap_sys_admin,cap_sys_ptrace,cap_syslog=ep" perf
-+   perf: OK
-+   # getcap perf
-+   perf = cap_sys_ptrace,cap_sys_admin,cap_syslog+ep
-+
-+As a result, members of perf_users group are capable of conducting performance
-+monitoring by using functionality of the configured Perf tool executable that,
-+when executes, passes perf_events subsystem *scope* checks.
-+
-+This specific *access* control management is only available to superuser or root
-+running processes with CAP_SETPCAP, CAP_SETFCAP [6]_ capabilities.
-+
- perf_events/Perf unprivileged users
- -----------------------------------
- 
-@@ -156,6 +198,7 @@ Bibliography
- .. [7] `<http://man7.org/linux/man-pages/man2/ptrace.2.html>`_
- .. [8] `<https://en.wikipedia.org/wiki/Hardware_performance_counter>`_
- .. [9] `<https://en.wikipedia.org/wiki/Model-specific_register>`_
-+.. [10] `<http://man7.org/linux/man-pages/man5/acl.5.html>`_
- .. [11] `<http://man7.org/linux/man-pages/man2/getrlimit.2.html>`_
- .. [12] `<http://man7.org/linux/man-pages/man5/limits.conf.5.html>`_
+I can for sure go with this approach as well if it has some advantages
+to you. Again, please just let me know if I should resend series and if
+I should use something else but clk-next as a base.
 
+Br,
+	Matti Vaittinen
+
+-- 
+Matti Vaittinen, Linux device drivers
+ROHM Semiconductors, Finland SWDC
+Kiviharjunlenkki 1E
+90220 OULU
+FINLAND
+
+~~~ "I don't think so," said Rene Descartes.  Just then, he vanished ~~~
