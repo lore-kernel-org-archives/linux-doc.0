@@ -4,58 +4,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5FFAA7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Feb 2019 21:55:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 588507D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Feb 2019 22:05:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726552AbfBAVzU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Feb 2019 16:55:20 -0500
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:38315 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726449AbfBAVzU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Feb 2019 16:55:20 -0500
-Received: by mail-pl1-f195.google.com with SMTP id e5so3874347plb.5;
-        Fri, 01 Feb 2019 13:55:20 -0800 (PST)
+        id S1726549AbfBAWE5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Feb 2019 17:04:57 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:45295 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726054AbfBAWE5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Feb 2019 17:04:57 -0500
+Received: by mail-pf1-f196.google.com with SMTP id g62so3860063pfd.12;
+        Fri, 01 Feb 2019 14:04:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=NWV0/MkQD8wm4D8WdJgA8Ao1Dly2o2dkq1lRefkWuhA=;
-        b=IWtlQOf0bS2UwUETfIdYd9fo93fsmpq67NhspXWzbmYr9QT2Sjg88S036mNwwSh8zS
-         UAvdb9/Rqzm7D0RHeqecXEY7HqYg1Yv/m+vhJWm4S0K2HHkgrSgWTbk4y+PYZbCNZHbd
-         ofr9EYz8BnzjSv5b7wWdUq4PnkknlMMc7x19n9OEdHgw1UMPlt/j87andHsRBKUZjdQT
-         ITdHCHJFK4mwiK19VIfv+Mq0/YPVTL0AAoR4+eM5fXrGtWV4WZGbpFoXGu08sgSruxOH
-         lFfdLwpBeZarpedxQxLC5Dwq9jCsu2yZYSwAXlXquqSBDGN+7Gg7V9+EhFSJIXQDTCm8
-         NXOQ==
+        bh=4P8+iVxP1Rc69Xy9s4QzrHaTbw2Spe9hTWw2t2Qy5+I=;
+        b=IdxORsXOL3tXzTC912bnW7m4bHgPythoQBB5l3aFWj9mNRtg/ZwNMmVQdS8qPc+jFo
+         Gv4xsMVg644d9mrB1uTi2HOy+GJtv+n9IdeDwunaF7XVrDWDQ6KpgN/AkJvQRu4JTbwu
+         8Dxrx0GoYMf7SA6l34v7skc1caq58leAO/I05V5WI2C1ORf4WiyR99AcDrE5yOrnveeY
+         PVI3N0NKxllvNzQBvEcwNbQT7zzMBqrc9VOJxzVgqjJQ0x8EsF36i8kGg9BQjNOa1iaQ
+         wn9keSZi+zggv4j++C2A36B/Y8jnRpUcD4qggMcLZ6hVxKOwuPf7q1L1hJJdVyNdA8VI
+         BItw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=NWV0/MkQD8wm4D8WdJgA8Ao1Dly2o2dkq1lRefkWuhA=;
-        b=bQe2CWaWzdz2L4KuQ8AlFWA/xuVzNDBV+XQeYyIzsOqZqANGlYw9y9lu9PlnWtYX8N
-         W9O7nJoIkPBdNoQP5087eKQHBxnU++WHaswVZWmHjkoaMEQHZ5+Xb3oJcph4bH18aIez
-         mLq1pjWndYMUF8d4NM8fIC9dw4gq4cEOIJYzTe4pBr6C1jhtF7RQhqM0f/99TTh4D/wN
-         5s0swRtkAakTW6aDREOJoZJGvDuuqRXvfe/Jraj2shpc2edkx5tzXZdl3XIrY3C0DHEa
-         3s0ud8UgRePlBTNQQ+AWJJH6UcW7EI3on2eYD6Bet1IteeGBCBE3BUowvfPmHujX7aG8
-         R6qg==
-X-Gm-Message-State: AJcUukd5l87BRCzGV1xOJs5iW3+NW839Bv7xFo1+L+LC8Xk0WQ1VxDFG
-        IuYyT7+/bCqbNDWvUDHITM9h41uK
-X-Google-Smtp-Source: ALg8bN7XN5DWIA2v/lRy8EwKgqXpFm1LZJWPhLttzPZwY+8eBQDgRiuH9O9IrQY5wuRjyRZ/iR02Wg==
-X-Received: by 2002:a17:902:7588:: with SMTP id j8mr41980398pll.215.1549058119557;
-        Fri, 01 Feb 2019 13:55:19 -0800 (PST)
+        bh=4P8+iVxP1Rc69Xy9s4QzrHaTbw2Spe9hTWw2t2Qy5+I=;
+        b=ke7TzADk+WlgxpMktxbFfl+cZeGOoueXlfgGuNiU19NLtUfk0whAVdWFtlzovY8Vr/
+         8Jqxz9ZX7PRmFcvrKr/e9K8yCWrINMJ/aUeUO/j4+gVxR3Fjvtr5PWLz1QS5THZMr8yg
+         O5bexHWNXqikicmkEwDZKw5doTSXOPkIEOc9ZJjNN7s6610qasPqo6jLrx9qNR7b17ek
+         fXmjmbKZuLBCqVU2LMcFVp6zTiitIZRWVmLHRYjPVqwD24Wd4iW7ChoK6FxIyRPIsO52
+         7ddLoeb+fRk9JT7v6i12/l7t+1TNj1aOAacNFyTpOdwuAAbMd/KLFVYOkT9tLAbHtulu
+         iXjw==
+X-Gm-Message-State: AHQUAuY07rExjKGUWxqiN/6//eyIVK2Jn4PDU8wObHZK9HpDoDD0DNRl
+        5WAZWqtNGmLvTzeYw+86zAw=
+X-Google-Smtp-Source: AHgI3IYND01rz5wIsLScyPYo9j891DNUQYdL1M3qhSaNl/oPzjajPGuYLR+uHBD6dCZgWnybjnb+Vw==
+X-Received: by 2002:a63:40c6:: with SMTP id n189mr3905788pga.355.1549058696122;
+        Fri, 01 Feb 2019 14:04:56 -0800 (PST)
 Received: from localhost.localdomain (c-24-6-192-50.hsd1.ca.comcast.net. [24.6.192.50])
-        by smtp.gmail.com with ESMTPSA id m20sm10561851pgv.93.2019.02.01.13.55.18
+        by smtp.gmail.com with ESMTPSA id c7sm28026597pfh.18.2019.02.01.14.04.55
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Fri, 01 Feb 2019 13:55:18 -0800 (PST)
+        Fri, 01 Feb 2019 14:04:55 -0800 (PST)
 From:   frowand.list@gmail.com
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>,
         Joris Gutjahr <joris.gutjahr@gmail.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: kernel-doc: update commands to generate man page
-Date:   Fri,  1 Feb 2019 13:54:39 -0800
-Message-Id: <1549058079-10582-1-git-send-email-frowand.list@gmail.com>
+Subject: [PATCH] docs: kernel-doc: typo "documentaion"
+Date:   Fri,  1 Feb 2019 14:04:16 -0800
+Message-Id: <1549058656-11119-1-git-send-email-frowand.list@gmail.com>
 X-Mailer: git-send-email 1.9.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -64,42 +64,26 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Frank Rowand <frank.rowand@sony.com>
 
-(1) The command to generate man pages is truncated in the pdf version
-of the document.  Reformat the command into multiple lines to prevent
-the truncation.
-
-(2) Older versions of git do not support all variants of pathspec
-syntax.  Provide commands to generate man pages for various
-alternate syntax.
+Fix a typo in kernel-doc.rst
 
 Signed-off-by: Frank Rowand <frank.rowand@sony.com>
 ---
- Documentation/doc-guide/kernel-doc.rst | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ Documentation/doc-guide/kernel-doc.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-index 51be62aa4385..450ac634e92e 100644
+index 450ac634e92e..6513c16b7e4f 100644
 --- a/Documentation/doc-guide/kernel-doc.rst
 +++ b/Documentation/doc-guide/kernel-doc.rst
-@@ -517,4 +517,17 @@ How to use kernel-doc to generate man pages
- If you just want to use kernel-doc to generate man pages you can do this
- from the kernel git tree::
+@@ -490,7 +490,7 @@ doc: *title*
  
--  $ scripts/kernel-doc -man $(git grep -l '/\*\*' -- :^Documentation :^tools) | scripts/split-man.pl /tmp/man
-+  $ scripts/kernel-doc -man \
-+    $(git grep -l '/\*\*' -- :^Documentation :^tools) \
-+    | scripts/split-man.pl /tmp/man
-+
-+Some older versions of git do not support some of the variants of syntax for
-+path exclusion.  One of the following commands may work for those versions::
-+
-+  $ scripts/kernel-doc -man \
-+    $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \
-+    | scripts/split-man.pl /tmp/man
-+
-+  $ scripts/kernel-doc -man \
-+    $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)tools") \
-+    | scripts/split-man.pl /tmp/man
+ functions: *[ function ...]*
+   Include documentation for each *function* in *source*.
+-  If no *function* if specified, the documentaion for all functions
++  If no *function* if specified, the documentation for all functions
+   and types in the *source* will be included.
+ 
+   Examples::
 -- 
 Frank Rowand <frank.rowand@sony.com>
 
