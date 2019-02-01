@@ -1,75 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8C41B7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Feb 2019 04:19:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 767A27D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Feb 2019 07:23:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726944AbfBAETU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 Jan 2019 23:19:20 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55634 "EHLO mail.kernel.org"
+        id S1727085AbfBAHXc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Feb 2019 02:23:32 -0500
+Received: from mga14.intel.com ([192.55.52.115]:21282 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726116AbfBAETU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 31 Jan 2019 23:19:20 -0500
-Received: from localhost (unknown [171.76.100.40])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B51E920823;
-        Fri,  1 Feb 2019 04:19:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1548994759;
-        bh=UcMoDYJZ37NgRES6tkRz3UM54m3048QvIhNCj28nZQM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RxuvSSzo1+POeTY+u+7YGfmuiNllAmkhJ2sf8ezEFLUtV1f/qmj2CIVifBLLPK/Ny
-         tTh+hsuG6TWsBN/8oVOjfgYCbZG5f5i66Rq+thzoke6969pOrBdWark7yr4XdoP8hl
-         Pz30IkCNaqg7CJpQ4g5T9GYFt1TJDXAXsHb5VvU8=
-Date:   Fri, 1 Feb 2019 09:47:50 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Federico Vaga <federico.vaga@cern.ch>
-Cc:     dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: DMA Engine Documentation: TX Descriptor and Submission
-Message-ID: <20190201041750.GM4635@vkoul-mobl>
-References: <1655406.8MLMLfCWyH@pcbe13614>
+        id S1726092AbfBAHXc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Feb 2019 02:23:32 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 31 Jan 2019 23:23:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.56,547,1539673200"; 
+   d="scan'208";a="140690330"
+Received: from linux.intel.com ([10.54.29.200])
+  by fmsmga004.fm.intel.com with ESMTP; 31 Jan 2019 23:23:31 -0800
+Received: from [10.125.252.37] (abudanko-mobl.ccr.corp.intel.com [10.125.252.37])
+        by linux.intel.com (Postfix) with ESMTP id 174945803DC;
+        Thu, 31 Jan 2019 23:23:26 -0800 (PST)
+From:   Alexey Budankov <alexey.budankov@linux.intel.com>
+Subject: [PATCH v1 0/3] admin-guide: extend perf-security with resource
+ control, data categories and privileged users
+To:     Jonatan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>
+Cc:     Jann Horn <jannh@google.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        "kernel-hardening@lists.openwall.com" 
+        <kernel-hardening@lists.openwall.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Organization: Intel Corp.
+Message-ID: <9cfbf7a1-72dd-f9d0-8137-0f120fa74d21@linux.intel.com>
+Date:   Fri, 1 Feb 2019 10:23:24 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1655406.8MLMLfCWyH@pcbe13614>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28-01-19, 09:47, Federico Vaga wrote:
-> Hi,
-> 
-> I have a new question concerning documentation.
-> 
-> https://www.kernel.org/doc/html/latest/driver-api/dmaengine/client.html
-> 
-> >From this document it is not really clear, at least to me, if clients can 
-> consider valid the `struct dma_async_tx_descriptor` after submission to the 
-> DMA engine.
 
-Nope they can't and should not touch the descriptor after submission.
-The client get cookie and that is supposed to be used
-> 
-> Clients get a TX descriptor from a DMA engine using things like 
-> `dmaengine_prep_*`. These calls - may - allocate new descriptors and return 
-> them to the caller; this may include other structures which are not visible to 
-> clients. So, if my understanding is correct, this means that it's the DMA 
-> engine that, on TX completion, releases any TX descriptor allocated by 
-> `dmaengine_prep_*`. This implies that the pointer that the client is using 
-> must be considered invalid right after `dmaengine_submit()`.
-> If what I understood by reading the documentation and the code is correct, 
-> then I think that this should be mentioned in the Documentation.
-> If I'm wrong, please tell me where :)
+The patch set extends the first version of perf-security.rst documentation
+file [1], [2], [3] with the following topics:
 
-And what exactly are you trying to do here..?
+1) perf_events/Perf resource limits and control management that describes
+   RLIMIT_NOFILE and perf_event_mlock_kb settings for processes conducting
+   performance monitoring;
 
--- 
-~Vinod
+2) categories of system and performance data that can be captured by
+   perf_events/Perf with explicit designation of process sensitive data;
+
+3) possible steps to create perf_event/Perf privileged users groups for 
+   the current implementations of perf_events syscall API [4] and Perf tool;
+
+---
+Alexey Budankov (3):
+  perf-security: document perf_events/Perf resource control
+  perf-security: document collected perf_events/Perf data categories
+  perf-security: document perf_events/Perf resource control
+
+ Documentation/admin-guide/perf-security.rst | 111 +++++++++++++++++++-
+ 1 file changed, 109 insertions(+), 2 deletions(-)
+
+---
+[1] https://marc.info/?l=linux-kernel&m=153736008310781&w=2
+[2] https://lkml.org/lkml/2018/5/21/156
+[3] https://lkml.org/lkml/2018/11/27/604
+[4] http://man7.org/linux/man-pages/man2/perf_event_open.2.html
