@@ -5,132 +5,94 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AF0B47D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Feb 2019 08:40:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 525A97D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Feb 2019 08:45:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728787AbfBAIkr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Feb 2019 03:40:47 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:41020 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726665AbfBAIkr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Feb 2019 03:40:47 -0500
-Received: by mail-lf1-f65.google.com with SMTP id c16so4413232lfj.8;
-        Fri, 01 Feb 2019 00:40:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=g8Nn8cm8MH4bDwP0jLK8AviReQWhxX4FZpgV/LsFZsY=;
-        b=Rwu4uvtKCf7SPAlAZuDh8GlxoKM7f7qB3xhKxVeluulE635jScOwfu7SGuP7yBNYBK
-         CaiCVobrIToO1PC6ih6/9158vGpLLN3noSTD7My8cruXaNJEe1MH8XU8IVzPhtoA51mi
-         Qm/+LhqE+4dtfh+VxGxt9gLRpmPsCjdyaKeTPtjWSu6qNZgWaGRUTYWAgRpWlxcaJ2js
-         bBSKKMN+5ZmHixtFMptv/1km/ZGtc2PJRY5qipfO7fcfJooXOd+nVZNq/2VxKke5pBAY
-         hlsuMVUiXYsFhY8xznlpVT47wAofSk2AH4ybCrYDRmza3L7ywbRZUQHasUOeBW0n9jRt
-         GdLQ==
-X-Gm-Message-State: AJcUukfZGjxUimQMKdWyNMnHyFVplDbb0qGVPJzc21U4v9HmqVzkd7FD
-        7x/MZTaV/USPNuYzg3yUBgI=
-X-Google-Smtp-Source: ALg8bN6Nmz3lHJ3DhKu3nfxwFSM037ts91UOX9a13vuzSYgmR/ABG3bePWR9SNQOS/MbFSRajryeow==
-X-Received: by 2002:a19:ced3:: with SMTP id e202mr31727905lfg.13.1549010444341;
-        Fri, 01 Feb 2019 00:40:44 -0800 (PST)
-Received: from localhost.localdomain ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id y23-v6sm1177586ljk.95.2019.02.01.00.40.42
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 01 Feb 2019 00:40:43 -0800 (PST)
-Date:   Fri, 1 Feb 2019 10:40:40 +0200
-From:   Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Russell King - ARM Linux admin <linux@armlinux.org.uk>,
-        mazziesaccount@gmail.com, corbet@lwn.net, cw00.choi@samsung.com,
-        krzk@kernel.org, b.zolnierkie@samsung.com, mturquette@baylibre.com,
-        pombredanne@nexb.com, sre@kernel.org, vkoul@kernel.org,
-        linux@roeck-us.net, pavel@ucw.cz, sjhuang@iluvatar.ai,
-        andrew.smirnov@gmail.com, djkurtz@chromium.org,
-        akshu.agrawal@amd.com, rafael.j.wysocki@intel.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v7 0/3] clk: clkdev add managed lookup registrations
-Message-ID: <20190201084040.GE23791@localhost.localdomain>
-References: <cover.1544177090.git.matti.vaittinen@fi.rohmeurope.com>
- <20190131132452.GD23791@localhost.localdomain>
- <20190131152147.tzxabhyhlyy2rwhy@e5254000004ec.dyn.armlinux.org.uk>
- <154896351763.169292.2557542540041822337@swboyd.mtv.corp.google.com>
+        id S1729167AbfBAIpi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Feb 2019 03:45:38 -0500
+Received: from foss.arm.com ([217.140.101.70]:56060 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728704AbfBAIpf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Feb 2019 03:45:35 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 50F9BA78;
+        Fri,  1 Feb 2019 00:45:35 -0800 (PST)
+Received: from [10.1.197.45] (e112298-lin.cambridge.arm.com [10.1.197.45])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3986E3F71E;
+        Fri,  1 Feb 2019 00:45:33 -0800 (PST)
+Subject: Re: [RFC PATCH 3/3] sched/Documentation: Point out use of
+ preempt_schedule_irq()
+To:     Valentin Schneider <valentin.schneider@arm.com>,
+        linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>, linux-doc@vger.kernel.org
+References: <20190131182339.9835-1-valentin.schneider@arm.com>
+ <20190131182339.9835-4-valentin.schneider@arm.com>
+From:   Julien Thierry <julien.thierry@arm.com>
+Message-ID: <cd1b1ea6-7b5f-0468-1512-eaabba77a98a@arm.com>
+Date:   Fri, 1 Feb 2019 08:45:30 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <154896351763.169292.2557542540041822337@swboyd.mtv.corp.google.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+In-Reply-To: <20190131182339.9835-4-valentin.schneider@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 31, 2019 at 11:38:37AM -0800, Stephen Boyd wrote:
-> Quoting Russell King - ARM Linux admin (2019-01-31 07:21:47)
-> > On Thu, Jan 31, 2019 at 03:24:52PM +0200, Matti Vaittinen wrote:
-> > > Hello All,
-> > > 
-> > > On Fri, Dec 07, 2018 at 01:09:00PM +0200, Matti Vaittinen wrote:
-> > > > Series adds managed clkdev lookup interfaces and cleans few drivers
-> > > > 
-> > > > Few clk drivers appear to be leaking clkdev lookup registrations at
-> > > > driver remove. The patch series adds devm versions of lookup
-> > > > registrations and cleans up few drivers. Driver clean-up patches have
-> > > > not been tested as I lack the HW. All testing and comments if
-> > > > driver/device removal is even possible for changed drivers is highly
-> > > > appreciated. If removal is not possible I will gladly drop the patches
-> > > > from series - although leaking lookups may serve as bad example for new
-> > > > developers =)
-> > > > 
-> > > > Changed drivers are:
-> > > > clk-max77686 and clk-st
-> > > > 
-> > > > Please note that the patch #2 requires this change to work correctly:
-> > > > https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/commit/?h=clk-next&id=05502bf9eb7a7297f5fa6f1d17b169b3d5b53570
-> > > 
-> > > I guess the dependency mentioned abowe is already in (most) of the
-> > > trees. (I can't say for sure as I don't know what is the correct tree
-> > > for clkdev - is it linux-arm.git as Russel is maintaining clkdev?
-> > 
-> > Yes, I'm supposed to be maintaining clkdev, but I'm busy with other
-> > stuff (such as reorganising my network, helping people with SFP issues,
-> > I'm supposed to be replying to Arend over a brcmfmac issue that has been
-> > on-going since Christmas which I haven't yet been able to doing the next
-> > test...)
-> > 
-> > > If yes, then the commit 05502bf9eb7a7297f5fa6f1d17b169b3d5b53570
-> > > "clk: of-provider: look at parent if registered device has no
-> > > provider info" seems to be sitting in maser branch).
-> > 
-> > It's there because it's part of the mainline kernel and has been
-> > since v5.0-rc1.  So, if you depend on that commit, basing off
-> > v5.0-rc1 is probably sane, unless there's something else that
-> > conflicts.
-> > 
+Hi Valentin,
+
+On 31/01/2019 18:23, Valentin Schneider wrote:
+> Since there are a few archs out there that call preempt_schedule_irq()
+> within a need_resched() loop, point out that it's not needed.
 > 
-> I can pick up the patches in the clk tree. Clk drivers will be the users
-> so it's probably simplest to merge the clkdev patch in clk tree and then
-> consumers can be updated at the same time in a patch stack on top of
-> that.
+> Signed-off-by: Valentin Schneider <valentin.schneider@arm.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Julien Thierry <julien.thierry@arm.com>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/scheduler/sched-arch.txt | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/Documentation/scheduler/sched-arch.txt b/Documentation/scheduler/sched-arch.txt
+> index a2f27bbf2cba..ae41a94da700 100644
+> --- a/Documentation/scheduler/sched-arch.txt
+> +++ b/Documentation/scheduler/sched-arch.txt
+> @@ -59,6 +59,16 @@ Your cpu_idle routines need to obey the following rules:
+>  arch/x86/kernel/process.c has examples of both polling and
+>  sleeping idle functions.
+>  
+> +Kernel preemption
+> +=================
+> +When returning from interrupt context, you should call either of
+> +preempt_schedule() or preempt_schedule_irq() if preemption is enabled
+> +and need_resched() is true.
+> +
 
-This sounds good to me if it is Ok to Russel. Please just let me know if
-you want me to rebase (to clk-next?) and resend the series.
+I don't think preempt_schedule() is really an option for a return from
+interrupt. First thing preempt_schedule() does is:
 
-> Otherwise, if I can get a stable branch/tag to pile the clk driver
-> patches on I can apply them that way and then the clkdev patch can go
-> via Russell.
+        if (likely(!preemptible()))
+		return;
 
-I can for sure go with this approach as well if it has some advantages
-to you. Again, please just let me know if I should resend series and if
-I should use something else but clk-next as a base.
+And preemptible() is:
 
-Br,
-	Matti Vaittinen
+preempt_count() == 0 && !irqs_disabled()
+
+Generally on return from interrupt context interrupts are disabled, so
+we would never be preemptible() and preempt_schedule() would just do
+nothing.
+
+Unless I'm missing something.
+
+Cheers,
 
 -- 
-Matti Vaittinen, Linux device drivers
-ROHM Semiconductors, Finland SWDC
-Kiviharjunlenkki 1E
-90220 OULU
-FINLAND
-
-~~~ "I don't think so," said Rene Descartes.  Just then, he vanished ~~~
+Julien Thierry
