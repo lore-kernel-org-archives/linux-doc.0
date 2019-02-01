@@ -1,55 +1,75 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 350DE7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Feb 2019 03:41:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8C41B7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Feb 2019 04:19:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725807AbfBADlJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 31 Jan 2019 22:41:09 -0500
-Received: from ms.lwn.net ([45.79.88.28]:56064 "EHLO ms.lwn.net"
+        id S1726944AbfBAETU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 31 Jan 2019 23:19:20 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55634 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725787AbfBADlJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 31 Jan 2019 22:41:09 -0500
-Received: from localhost.localdomain (localhost [127.0.0.1])
+        id S1726116AbfBAETU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 31 Jan 2019 23:19:20 -0500
+Received: from localhost (unknown [171.76.100.40])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CDF83AAC;
-        Fri,  1 Feb 2019 03:41:04 +0000 (UTC)
-Date:   Thu, 31 Jan 2019 20:40:45 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Tobin C. Harding" <me@tobin.cc>
-Cc:     "Randy Dunlap" <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Subject: Re: docs tree
-Message-ID: <20190131204045.28aef19c@lwn.net>
-In-Reply-To: <c81c580c-71c4-4058-9e04-dd06e8c231c2@www.fastmail.com>
-References: <20190131012553.GA30122@eros.localdomain>
-        <84dc9207-a6c3-f40d-c0be-815a4563fc83@infradead.org>
-        <c81c580c-71c4-4058-9e04-dd06e8c231c2@www.fastmail.com>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        by mail.kernel.org (Postfix) with ESMTPSA id B51E920823;
+        Fri,  1 Feb 2019 04:19:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1548994759;
+        bh=UcMoDYJZ37NgRES6tkRz3UM54m3048QvIhNCj28nZQM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RxuvSSzo1+POeTY+u+7YGfmuiNllAmkhJ2sf8ezEFLUtV1f/qmj2CIVifBLLPK/Ny
+         tTh+hsuG6TWsBN/8oVOjfgYCbZG5f5i66Rq+thzoke6969pOrBdWark7yr4XdoP8hl
+         Pz30IkCNaqg7CJpQ4g5T9GYFt1TJDXAXsHb5VvU8=
+Date:   Fri, 1 Feb 2019 09:47:50 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Federico Vaga <federico.vaga@cern.ch>
+Cc:     dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: DMA Engine Documentation: TX Descriptor and Submission
+Message-ID: <20190201041750.GM4635@vkoul-mobl>
+References: <1655406.8MLMLfCWyH@pcbe13614>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1655406.8MLMLfCWyH@pcbe13614>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 30 Jan 2019 21:16:21 -0500
-"Tobin C. Harding" <me@tobin.cc> wrote:
+On 28-01-19, 09:47, Federico Vaga wrote:
+> Hi,
+> 
+> I have a new question concerning documentation.
+> 
+> https://www.kernel.org/doc/html/latest/driver-api/dmaengine/client.html
+> 
+> >From this document it is not really clear, at least to me, if clients can 
+> consider valid the `struct dma_async_tx_descriptor` after submission to the 
+> DMA engine.
 
-> Ouch, failing in public is fun.  Thanks Randy
+Nope they can't and should not touch the descriptor after submission.
+The client get cookie and that is supposed to be used
+> 
+> Clients get a TX descriptor from a DMA engine using things like 
+> `dmaengine_prep_*`. These calls - may - allocate new descriptors and return 
+> them to the caller; this may include other structures which are not visible to 
+> clients. So, if my understanding is correct, this means that it's the DMA 
+> engine that, on TX completion, releases any TX descriptor allocated by 
+> `dmaengine_prep_*`. This implies that the pointer that the client is using 
+> must be considered invalid right after `dmaengine_submit()`.
+> If what I understood by reading the documentation and the code is correct, 
+> then I think that this should be mentioned in the Documentation.
+> If I'm wrong, please tell me where :)
 
-That's how kernel development is done in the end...:)
+And what exactly are you trying to do here..?
 
-I'd be curious to know how you got the git3.lwn.net name in your remote,
-though, if by any chance you can remember.  That shouldn't have leaked
-out anywhere...
-
-Thanks,
-
-jon
+-- 
+~Vinod
