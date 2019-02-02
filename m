@@ -1,107 +1,58 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C574B7D099
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Feb 2019 19:30:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BC28B7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Feb 2019 20:56:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726737AbfBBTaw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 2 Feb 2019 14:30:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48908 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726527AbfBBTaw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 2 Feb 2019 14:30:52 -0500
-Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 38B652084C;
-        Sat,  2 Feb 2019 19:30:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1549135851;
-        bh=XNgHHiJjLJu1vQSrtbA5+eojGYwqlHSIquzIOzrotKE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gLqdlmKAfsBEd+2IMHPkWXHtZYwg4DvGrZe7WXp9uBuT1R9Ale21sJ41l/dqZ30Fg
-         bkeOQrzdBEYPXQ8Gy3YExeuUIjvXAn4yiw1u8Df3q+vTh3Tcm8vnvm0apO7+yKekfW
-         xyFBpyNffgk7JH7Xl7I0Zt4Xn1/E+JAN/dI0d5+E=
-Date:   Sat, 2 Feb 2019 14:30:50 -0500
-From:   Sasha Levin <sashal@kernel.org>
-To:     Reinette Chatre <reinette.chatre@intel.com>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Babu Moger <Babu.Moger@amd.com>, Borislav Petkov <bp@suse.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        "Chang S. Bae" <chang.seok.bae@intel.com>,
-        David Miller <davem@davemloft.net>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Dmitry Safonov <dima@arista.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Joerg Roedel <jroedel@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Pu Wen <puwen@hygon.cn>, qianyue.zj@alibaba-inc.com,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Rian Hunter <rian@alum.mit.edu>,
-        Sherry Hurwitz <sherry.hurwitz@amd.com>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thomas Lendacky <Thomas.Lendacky@amd.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>, xiaochen.shen@intel.com
-Subject: Re: [PATCH AUTOSEL 4.19 059/258] x86/resctrl: Fixup the user-visible
- strings
-Message-ID: <20190202193050.GA3973@sasha-vm>
-References: <20190128155924.51521-1-sashal@kernel.org>
- <20190128155924.51521-59-sashal@kernel.org>
- <c9c45e03-aef3-e1be-2c81-d903a1669499@intel.com>
+        id S1726609AbfBBU4Z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 2 Feb 2019 15:56:25 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:59850 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726527AbfBBU4Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Feb 2019 15:56:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=M243DSMfdijggio3CMfPh2Nru9m2Wu7hx9OpFqVoJqk=; b=cEs+CMcwTllLbxE6h98rlTi3x
+        +M8ZutbKQDOtXbA+QvnOO6z2317m2Vg7A/VL/jHQi2O6cw6RXX+AioZE+3GBLskMVW1qsMaQm8h8P
+        s96KoNqtbKjG7YAxi8K0r6+wKM2mJvZiqE7qG/PitsK961RLrdH4tct0QziX6/uo7jgBPsF4Clzir
+        q9mQWcX9JilQUp0jiTGldFzhcJKt8YR/zx9elhbiuCeFOBsvFeeRbysZvr1gMJAZ+FkfpPka3DyRG
+        Wlv+W4MIhQ4d8rhqh8bw3fzqHKzXLfIj2104w8nyLscLUcdokZJGA0v4Wf26UtUz1cJ3blTA3MrLn
+        mS96KK4Nw==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gq2Kr-0004yq-1u; Sat, 02 Feb 2019 20:56:21 +0000
+Date:   Sat, 2 Feb 2019 12:56:20 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     frowand.list@gmail.com
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Joris Gutjahr <joris.gutjahr@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: kernel-doc: typo "documentaion"
+Message-ID: <20190202205620.GA13285@bombadil.infradead.org>
+References: <1549058656-11119-1-git-send-email-frowand.list@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c9c45e03-aef3-e1be-2c81-d903a1669499@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1549058656-11119-1-git-send-email-frowand.list@gmail.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 28, 2019 at 11:07:34AM -0800, Reinette Chatre wrote:
->Hi Sasha,
->
->On 1/28/2019 7:56 AM, Sasha Levin wrote:
->> From: Babu Moger <Babu.Moger@amd.com>
->>
->> [ Upstream commit 723f1a0dd8e26a7523ba068204bee11c95ded38d ]
->>
->> Fix the messages in rdt_last_cmd_printf() and rdt_last_cmd_puts() to
->> make them more meaningful and consistent.
->
->It is not clear to me why this patch is considered for stable since it
->just changes user visible strings to be more consistent.
->
->If user visible string consistency/correctness is of concern and is what
->prompted its consideration then please also consider to include upstream
->commit
->456824896de2b68df40b3ea5777ef49dc6cc8fda "x86/resctrl: Use
->rdt_last_cmd_puts() where possible" that fixes two typos that was
->introduced in this commit. This may introduce difficultly though since
->the file layout changed between the kernel versions these patches are
->found in.
+On Fri, Feb 01, 2019 at 02:04:16PM -0800, frowand.list@gmail.com wrote:
+>    Include documentation for each *function* in *source*.
+> -  If no *function* if specified, the documentaion for all functions
+> +  If no *function* if specified, the documentation for all functions
+>    and types in the *source* will be included.
 
-I've dropped it, it shouldn't have been included to begin with.
-
---
-Thanks,
-Sasha
+Could you fix the if/is mistake while you're at it?
