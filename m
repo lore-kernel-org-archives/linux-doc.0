@@ -1,118 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 163567D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Feb 2019 14:32:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C574B7D099
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Feb 2019 19:30:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726210AbfBBOcT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 2 Feb 2019 09:32:19 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33502 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725853AbfBBOcT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Feb 2019 09:32:19 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x12ESZeh106020
-        for <linux-doc@vger.kernel.org>; Sat, 2 Feb 2019 09:32:18 -0500
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2qd8kns706-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sat, 02 Feb 2019 09:32:18 -0500
-Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Sat, 2 Feb 2019 14:32:16 -0000
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sat, 2 Feb 2019 14:32:13 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x12EWC8c35782774
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sat, 2 Feb 2019 14:32:12 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D64E55204E;
-        Sat,  2 Feb 2019 14:32:12 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.205.162])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 45A8C52051;
-        Sat,  2 Feb 2019 14:32:12 +0000 (GMT)
-Date:   Sat, 2 Feb 2019 16:32:10 +0200
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "Tobin C. Harding" <me@tobin.cc>,
-        "Tobin C. Harding" <tobin@kernel.org>,
-        Christopher Lameter <cl@linux.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/3] docs: Use underscore not hyphen in label
-References: <20190131040623.15569-1-me@tobin.cc>
- <20190131040623.15569-4-me@tobin.cc>
- <20190131092757.GF28876@rapoport-lnx>
- <20190131205608.GB1329@eros.localdomain>
- <20190201160310.5b98eb69@lwn.net>
+        id S1726737AbfBBTaw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 2 Feb 2019 14:30:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48908 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726527AbfBBTaw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 2 Feb 2019 14:30:52 -0500
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 38B652084C;
+        Sat,  2 Feb 2019 19:30:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1549135851;
+        bh=XNgHHiJjLJu1vQSrtbA5+eojGYwqlHSIquzIOzrotKE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gLqdlmKAfsBEd+2IMHPkWXHtZYwg4DvGrZe7WXp9uBuT1R9Ale21sJ41l/dqZ30Fg
+         bkeOQrzdBEYPXQ8Gy3YExeuUIjvXAn4yiw1u8Df3q+vTh3Tcm8vnvm0apO7+yKekfW
+         xyFBpyNffgk7JH7Xl7I0Zt4Xn1/E+JAN/dI0d5+E=
+Date:   Sat, 2 Feb 2019 14:30:50 -0500
+From:   Sasha Levin <sashal@kernel.org>
+To:     Reinette Chatre <reinette.chatre@intel.com>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Babu Moger <Babu.Moger@amd.com>, Borislav Petkov <bp@suse.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Brijesh Singh <brijesh.singh@amd.com>,
+        "Chang S. Bae" <chang.seok.bae@intel.com>,
+        David Miller <davem@davemloft.net>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Dmitry Safonov <dima@arista.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jann Horn <jannh@google.com>, Joerg Roedel <jroedel@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Philippe Ombredanne <pombredanne@nexb.com>,
+        Pu Wen <puwen@hygon.cn>, qianyue.zj@alibaba-inc.com,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Rian Hunter <rian@alum.mit.edu>,
+        Sherry Hurwitz <sherry.hurwitz@amd.com>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Lendacky <Thomas.Lendacky@amd.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>, xiaochen.shen@intel.com
+Subject: Re: [PATCH AUTOSEL 4.19 059/258] x86/resctrl: Fixup the user-visible
+ strings
+Message-ID: <20190202193050.GA3973@sasha-vm>
+References: <20190128155924.51521-1-sashal@kernel.org>
+ <20190128155924.51521-59-sashal@kernel.org>
+ <c9c45e03-aef3-e1be-2c81-d903a1669499@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20190201160310.5b98eb69@lwn.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 19020214-0008-0000-0000-000002BA3B0A
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19020214-0009-0000-0000-000022264532
-Message-Id: <20190202143209.GA8620@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-02-02_09:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1902020120
+In-Reply-To: <c9c45e03-aef3-e1be-2c81-d903a1669499@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 01, 2019 at 04:03:10PM -0700, Jonathan Corbet wrote:
-> On Fri, 1 Feb 2019 07:56:08 +1100
-> "Tobin C. Harding" <me@tobin.cc> wrote:
-> 
-> > > > From: "Tobin C. Harding" <tobin@kernel.org>
-> > > > 
-> > > > sphinx emits warning
-> > > > 
-> > > >        WARNING: undefined label: memory-allocation ...  
-> > > 
-> > > Weird, for me it works fine. The generated html at kernel.org [1] also
-> > > seems to be Ok...
-> > > 
-> > > What version of sphinx do you use?  
-> > 
-> > Thanks for looking at this Mike.  I was running 1.4, I see there is a v2
-> > out so I'll upgrade but if the warning doesn't show for you then I'd say
-> > we just drop this patch.
-> > 
-> > Jon,
-> > 
-> > Is it within your usual workflow to take just the first two patches from
-> > this series or would you like me to spin another version without the
-> > final patch in it?
-> 
-> We currently document that 1.4 is supposed to work, so we should stick to
-> that; I think I'll go ahead and apply all three patches.
+On Mon, Jan 28, 2019 at 11:07:34AM -0800, Reinette Chatre wrote:
+>Hi Sasha,
 >
-> We should maybe consider dragging our minimum version forward a bit, or
-> else we might want to document this particular gotcha.
+>On 1/28/2019 7:56 AM, Sasha Levin wrote:
+>> From: Babu Moger <Babu.Moger@amd.com>
+>>
+>> [ Upstream commit 723f1a0dd8e26a7523ba068204bee11c95ded38d ]
+>>
+>> Fix the messages in rdt_last_cmd_printf() and rdt_last_cmd_puts() to
+>> make them more meaningful and consistent.
+>
+>It is not clear to me why this patch is considered for stable since it
+>just changes user visible strings to be more consistent.
+>
+>If user visible string consistency/correctness is of concern and is what
+>prompted its consideration then please also consider to include upstream
+>commit
+>456824896de2b68df40b3ea5777ef49dc6cc8fda "x86/resctrl: Use
+>rdt_last_cmd_puts() where possible" that fixes two typos that was
+>introduced in this commit. This may introduce difficultly though since
+>the file layout changed between the kernel versions these patches are
+>found in.
 
-I have 1.4.6 (the one listed in sphinx.rst) and everything worked just
-fine...
- 
-> Thanks,
-> 
-> jon
-> 
+I've dropped it, it shouldn't have been included to begin with.
 
--- 
-Sincerely yours,
-Mike.
-
+--
+Thanks,
+Sasha
