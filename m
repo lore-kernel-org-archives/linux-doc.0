@@ -1,74 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 839767D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Feb 2019 07:39:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 586547D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Feb 2019 09:37:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726504AbfBBHjw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 2 Feb 2019 02:39:52 -0500
-Received: from smtp1.goneo.de ([85.220.129.30]:43900 "EHLO smtp1.goneo.de"
+        id S1726613AbfBBJhO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 2 Feb 2019 04:37:14 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40534 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726011AbfBBHjv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 2 Feb 2019 02:39:51 -0500
-X-Greylist: delayed 314 seconds by postgrey-1.27 at vger.kernel.org; Sat, 02 Feb 2019 02:39:51 EST
-Received: from localhost (localhost [127.0.0.1])
-        by smtp1.goneo.de (Postfix) with ESMTP id 91EFC23F504;
-        Sat,  2 Feb 2019 08:34:35 +0100 (CET)
-X-Virus-Scanned: by goneo
-Received: from smtp1.goneo.de ([127.0.0.1])
-        by localhost (smtp1.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id N5zwgftFrcMw; Sat,  2 Feb 2019 08:34:34 +0100 (CET)
-Received: from [192.168.1.127] (dyndsl-037-138-234-027.ewe-ip-backbone.de [37.138.234.27])
-        by smtp1.goneo.de (Postfix) with ESMTPSA id 2476023F101;
-        Sat,  2 Feb 2019 08:34:34 +0100 (CET)
-Subject: Re: docs tree
-To:     "Tobin C. Harding" <me@tobin.cc>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-References: <20190131012553.GA30122@eros.localdomain>
- <84dc9207-a6c3-f40d-c0be-815a4563fc83@infradead.org>
- <c81c580c-71c4-4058-9e04-dd06e8c231c2@www.fastmail.com>
- <20190131204045.28aef19c@lwn.net>
- <772c4bb4-f390-4b3c-9e85-ec0b13239544@www.fastmail.com>
-From:   Markus Heiser <markus.heiser@darmarit.de>
-Message-ID: <07317254-5011-647d-f020-1c323f57440e@darmarit.de>
-Date:   Sat, 2 Feb 2019 08:34:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+        id S1725857AbfBBJhO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 2 Feb 2019 04:37:14 -0500
+Received: from localhost (unknown [125.16.100.118])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5373720870;
+        Sat,  2 Feb 2019 09:37:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1549100234;
+        bh=UsFfb+3BH4+0XTBnl8zNtli9MDcvDqpzNijtUOXfqAg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NIKBiQJCwY+hT99SMRtJJuZkWBqs3MQ8Gyhc58wY9iCDp6GflyFa9fQmCdt6OEJ+a
+         FFHUGudbzzF911Oxf0tS4U7zGwHGFZYuS5hvhxcyAuhVnT1ioahYZd2bXcKGIW2ef3
+         lZxQFtRLU9/RaA3Oh5ShtbCB40+xVaadoK2BTlUk=
+Date:   Sat, 2 Feb 2019 15:05:43 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Federico Vaga <federico.vaga@cern.ch>
+Cc:     dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: DMA Engine Documentation: TX Descriptor and Submission
+Message-ID: <20190202093226.GC4296@vkoul-mobl>
+References: <1655406.8MLMLfCWyH@pcbe13614>
+ <20190201041750.GM4635@vkoul-mobl>
+ <77C59695-001C-46B3-9C41-C4C7A763D001@cern.ch>
 MIME-Version: 1.0
-In-Reply-To: <772c4bb4-f390-4b3c-9e85-ec0b13239544@www.fastmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: de-DE
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <77C59695-001C-46B3-9C41-C4C7A763D001@cern.ch>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 02.02.19 um 02:49 schrieb Tobin C. Harding:
-> On Fri, Feb 1, 2019, at 14:41, Jonathan Corbet wrote:
->> On Wed, 30 Jan 2019 21:16:21 -0500
->> "Tobin C. Harding" <me@tobin.cc> wrote:
->>
->>> Ouch, failing in public is fun.  Thanks Randy
->>
->> That's how kernel development is done in the end...:)
+On 01-02-19, 09:59, Federico Vaga wrote:
 > 
-> It is actually one of the things I like about it.  Keeps one honest and humble.
+> 
+> On February 1, 2019 4:17:50 AM UTC, Vinod Koul <vkoul@kernel.org> wrote:
+> >On 28-01-19, 09:47, Federico Vaga wrote:
+> >> Hi,
+> >> 
+> >> I have a new question concerning documentation.
+> >> 
+> >>
+> >https://www.kernel.org/doc/html/latest/driver-api/dmaengine/client.html
+> >> 
+> >> >From this document it is not really clear, at least to me, if
+> >clients can 
+> >> consider valid the `struct dma_async_tx_descriptor` after submission
+> >to the 
+> >> DMA engine.
+> >
+> >Nope they can't and should not touch the descriptor after submission.
+> >The client get cookie and that is supposed to be used
+> 
+> Good, thanks
+> 
+> 
+> >> 
+> >> Clients get a TX descriptor from a DMA engine using things like 
+> >> `dmaengine_prep_*`. These calls - may - allocate new descriptors and
+> >return 
+> >> them to the caller; this may include other structures which are not
+> >visible to 
+> >> clients. So, if my understanding is correct, this means that it's the
+> >DMA 
+> >> engine that, on TX completion, releases any TX descriptor allocated
+> >by 
+> >> `dmaengine_prep_*`. This implies that the pointer that the client is
+> >using 
+> >> must be considered invalid right after `dmaengine_submit()`.
+> >> If what I understood by reading the documentation and the code is
+> >correct, 
+> >> then I think that this should be mentioned in the Documentation.
+> >> If I'm wrong, please tell me where :)
+> >
+> >And what exactly are you trying to do here..?
 > 
 
-Can't beleve how the sum of all these fails pruduce such a elegance.  It must be
-a kind of darwinism, the one I really like to follow.  Even if I'am not a
-kernel developer, here I learn so much.  You can't beleve what I say, then take
-a look e.g. to the 'in-kernel headers' discussion [1], which lets me thirsts
-every day for new messages.
+Please wrap your replies within 80chars
 
-[1] https://lkml.org/lkml/2019/1/18/975
+> What if I answer: "the right thing"? Joking. I just expressed my
+> understanding of something which is not documented properly (my
+> opinion). I wanted to be sure that the logic, the reasons behind are
+> the ones that I understood. I will propose a patch to the
+> documentation, unless you want to do it.  -- Inviato dal mio
+> dispositivo Android con K-9 Mail. Perdonate la brevità.
 
-With best regards and thanks for 'failing' ;)
+Sure please feel free to send a patch :)
 
-   -- Markus --
+Mostly people ask these questions based on a driver they are working
+off, and it makes sense to fix the assumptions by asking what they are
+trying to achieve...
 
+-- 
+~Vinod
