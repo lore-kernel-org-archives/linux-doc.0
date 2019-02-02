@@ -1,111 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 586547D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Feb 2019 09:37:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 163567D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Feb 2019 14:32:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726613AbfBBJhO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 2 Feb 2019 04:37:14 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40534 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725857AbfBBJhO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 2 Feb 2019 04:37:14 -0500
-Received: from localhost (unknown [125.16.100.118])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5373720870;
-        Sat,  2 Feb 2019 09:37:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1549100234;
-        bh=UsFfb+3BH4+0XTBnl8zNtli9MDcvDqpzNijtUOXfqAg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NIKBiQJCwY+hT99SMRtJJuZkWBqs3MQ8Gyhc58wY9iCDp6GflyFa9fQmCdt6OEJ+a
-         FFHUGudbzzF911Oxf0tS4U7zGwHGFZYuS5hvhxcyAuhVnT1ioahYZd2bXcKGIW2ef3
-         lZxQFtRLU9/RaA3Oh5ShtbCB40+xVaadoK2BTlUk=
-Date:   Sat, 2 Feb 2019 15:05:43 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Federico Vaga <federico.vaga@cern.ch>
-Cc:     dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: DMA Engine Documentation: TX Descriptor and Submission
-Message-ID: <20190202093226.GC4296@vkoul-mobl>
-References: <1655406.8MLMLfCWyH@pcbe13614>
- <20190201041750.GM4635@vkoul-mobl>
- <77C59695-001C-46B3-9C41-C4C7A763D001@cern.ch>
+        id S1726210AbfBBOcT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 2 Feb 2019 09:32:19 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33502 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725853AbfBBOcT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Feb 2019 09:32:19 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x12ESZeh106020
+        for <linux-doc@vger.kernel.org>; Sat, 2 Feb 2019 09:32:18 -0500
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2qd8kns706-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Sat, 02 Feb 2019 09:32:18 -0500
+Received: from localhost
+        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Sat, 2 Feb 2019 14:32:16 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Sat, 2 Feb 2019 14:32:13 -0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x12EWC8c35782774
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sat, 2 Feb 2019 14:32:12 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D64E55204E;
+        Sat,  2 Feb 2019 14:32:12 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.205.162])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 45A8C52051;
+        Sat,  2 Feb 2019 14:32:12 +0000 (GMT)
+Date:   Sat, 2 Feb 2019 16:32:10 +0200
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Tobin C. Harding" <me@tobin.cc>,
+        "Tobin C. Harding" <tobin@kernel.org>,
+        Christopher Lameter <cl@linux.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 3/3] docs: Use underscore not hyphen in label
+References: <20190131040623.15569-1-me@tobin.cc>
+ <20190131040623.15569-4-me@tobin.cc>
+ <20190131092757.GF28876@rapoport-lnx>
+ <20190131205608.GB1329@eros.localdomain>
+ <20190201160310.5b98eb69@lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <77C59695-001C-46B3-9C41-C4C7A763D001@cern.ch>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190201160310.5b98eb69@lwn.net>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 19020214-0008-0000-0000-000002BA3B0A
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19020214-0009-0000-0000-000022264532
+Message-Id: <20190202143209.GA8620@rapoport-lnx>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-02-02_09:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1902020120
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01-02-19, 09:59, Federico Vaga wrote:
+On Fri, Feb 01, 2019 at 04:03:10PM -0700, Jonathan Corbet wrote:
+> On Fri, 1 Feb 2019 07:56:08 +1100
+> "Tobin C. Harding" <me@tobin.cc> wrote:
 > 
+> > > > From: "Tobin C. Harding" <tobin@kernel.org>
+> > > > 
+> > > > sphinx emits warning
+> > > > 
+> > > >        WARNING: undefined label: memory-allocation ...  
+> > > 
+> > > Weird, for me it works fine. The generated html at kernel.org [1] also
+> > > seems to be Ok...
+> > > 
+> > > What version of sphinx do you use?  
+> > 
+> > Thanks for looking at this Mike.  I was running 1.4, I see there is a v2
+> > out so I'll upgrade but if the warning doesn't show for you then I'd say
+> > we just drop this patch.
+> > 
+> > Jon,
+> > 
+> > Is it within your usual workflow to take just the first two patches from
+> > this series or would you like me to spin another version without the
+> > final patch in it?
 > 
-> On February 1, 2019 4:17:50 AM UTC, Vinod Koul <vkoul@kernel.org> wrote:
-> >On 28-01-19, 09:47, Federico Vaga wrote:
-> >> Hi,
-> >> 
-> >> I have a new question concerning documentation.
-> >> 
-> >>
-> >https://www.kernel.org/doc/html/latest/driver-api/dmaengine/client.html
-> >> 
-> >> >From this document it is not really clear, at least to me, if
-> >clients can 
-> >> consider valid the `struct dma_async_tx_descriptor` after submission
-> >to the 
-> >> DMA engine.
-> >
-> >Nope they can't and should not touch the descriptor after submission.
-> >The client get cookie and that is supposed to be used
-> 
-> Good, thanks
-> 
-> 
-> >> 
-> >> Clients get a TX descriptor from a DMA engine using things like 
-> >> `dmaengine_prep_*`. These calls - may - allocate new descriptors and
-> >return 
-> >> them to the caller; this may include other structures which are not
-> >visible to 
-> >> clients. So, if my understanding is correct, this means that it's the
-> >DMA 
-> >> engine that, on TX completion, releases any TX descriptor allocated
-> >by 
-> >> `dmaengine_prep_*`. This implies that the pointer that the client is
-> >using 
-> >> must be considered invalid right after `dmaengine_submit()`.
-> >> If what I understood by reading the documentation and the code is
-> >correct, 
-> >> then I think that this should be mentioned in the Documentation.
-> >> If I'm wrong, please tell me where :)
-> >
-> >And what exactly are you trying to do here..?
-> 
+> We currently document that 1.4 is supposed to work, so we should stick to
+> that; I think I'll go ahead and apply all three patches.
+>
+> We should maybe consider dragging our minimum version forward a bit, or
+> else we might want to document this particular gotcha.
 
-Please wrap your replies within 80chars
-
-> What if I answer: "the right thing"? Joking. I just expressed my
-> understanding of something which is not documented properly (my
-> opinion). I wanted to be sure that the logic, the reasons behind are
-> the ones that I understood. I will propose a patch to the
-> documentation, unless you want to do it.  -- Inviato dal mio
-> dispositivo Android con K-9 Mail. Perdonate la brevità.
-
-Sure please feel free to send a patch :)
-
-Mostly people ask these questions based on a driver they are working
-off, and it makes sense to fix the assumptions by asking what they are
-trying to achieve...
+I have 1.4.6 (the one listed in sphinx.rst) and everything worked just
+fine...
+ 
+> Thanks,
+> 
+> jon
+> 
 
 -- 
-~Vinod
+Sincerely yours,
+Mike.
+
