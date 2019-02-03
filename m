@@ -5,162 +5,99 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A18CB7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  3 Feb 2019 13:57:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A80FB7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  3 Feb 2019 20:00:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728313AbfBCN5j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 3 Feb 2019 08:57:39 -0500
-Received: from shadbolt.e.decadent.org.uk ([88.96.1.126]:53888 "EHLO
-        shadbolt.e.decadent.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728379AbfBCNuC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Feb 2019 08:50:02 -0500
-Received: from cable-78.29.236.164.coditel.net ([78.29.236.164] helo=deadeye)
-        by shadbolt.decadent.org.uk with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1gqI9T-0003to-Dn; Sun, 03 Feb 2019 13:49:39 +0000
-Received: from ben by deadeye with local (Exim 4.92-RC4)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1gqI9T-0006nI-ES; Sun, 03 Feb 2019 14:49:39 +0100
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+        id S1726779AbfBCUAZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 3 Feb 2019 15:00:25 -0500
+Received: from wes1-so2.wedos.net ([46.28.106.16]:59250 "EHLO
+        wes1-so2.wedos.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726737AbfBCUAY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Feb 2019 15:00:24 -0500
+Received: from localhost (ip4-46-39-182-135.cust.nbox.cz [46.39.182.135])
+        by wes1-so2.wedos.net (Postfix) with ESMTPSA id 43t1sf2nPszvK;
+        Sun,  3 Feb 2019 21:00:22 +0100 (CET)
+Date:   Sun, 3 Feb 2019 21:00:19 +0100
+From:   Otto Sabart <ottosabart@seberm.com>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>
+Subject: [PATCH 1/1] doc: kernel-parameters.txt: fix documentation of
+ elevator parameter
+Message-ID: <6775e969738a795c578dbc3072f3bebcd6cf7247.1549223107.git.ottosabart@seberm.com>
 MIME-Version: 1.0
-From:   Ben Hutchings <ben@decadent.org.uk>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-CC:     akpm@linux-foundation.org, Denis Kirjanov <kda@linux-powerpc.org>,
-        kasan-dev@googlegroups.com, "Dave Young" <dyoung@redhat.com>,
-        "Andy Lutomirski" <luto@kernel.org>,
-        "Arnd Bergmann" <arnd@arndb.de>,
-        "Andrey Ryabinin" <aryabinin@virtuozzo.com>,
-        "Dmitry Vyukov" <dvyukov@google.com>,
-        "Alexander Potapenko" <glider@google.com>,
-        "Konrad Rzeszutek Wilk" <konrad.wilk@oracle.com>,
-        linux-efi@vger.kernel.org, "Jonathan Corbet" <corbet@lwn.net>,
-        "Brijesh Singh" <brijesh.singh@amd.com>,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        "Paolo Bonzini" <pbonzini@redhat.com>,
-        "Toshimitsu Kani" <toshi.kani@hpe.com>, linux-doc@vger.kernel.org,
-        "Borislav Petkov" <bp@alien8.de>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Wenkuan Wang" <Wenkuan.Wang@windriver.com>,
-        "Tom Lendacky" <thomas.lendacky@amd.com>,
-        linux-arch@vger.kernel.org, "Rik van Riel" <riel@redhat.com>,
-        "Matt Fleming" <matt@codeblueprint.co.uk>,
-        "Larry Woodman" <lwoodman@redhat.com>, kvm@vger.kernel.org,
-        linux-mm@kvack.org, "Ingo Molnar" <mingo@kernel.org>,
-        "Linus Torvalds" <torvalds@linux-foundation.org>,
-        "Andi Kleen" <ak@linux.intel.com>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        "Borislav Petkov" <bp@suse.de>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        "Radim =?UTF-8?Q?Kr=C4=8Dm=C3=A1=C5=99?=" <rkrcmar@redhat.com>
-Date:   Sun, 03 Feb 2019 14:45:08 +0100
-Message-ID: <lsq.1549201508.3242952@decadent.org.uk>
-X-Mailer: LinuxStableQueue (scripts by bwh)
-X-Patchwork-Hint: ignore
-Subject: [PATCH 3.16 004/305] x86/mm: Simplify p[g4um]d_page() macros
-In-Reply-To: <lsq.1549201507.384106140@decadent.org.uk>
-X-SA-Exim-Connect-IP: 78.29.236.164
-X-SA-Exim-Mail-From: ben@decadent.org.uk
-X-SA-Exim-Scanned: No (on shadbolt.decadent.org.uk); SAEximRunCond expanded to false
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="VS++wcV0S1rZb1Fb"
+Content-Disposition: inline
+X-PGP-Key: http://seberm.com/pubkey.asc
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-3.16.63-rc1 review patch.  If anyone has any objections, please let me know.
 
-------------------
+--VS++wcV0S1rZb1Fb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-From: Tom Lendacky <thomas.lendacky@amd.com>
+Legacy IO schedulers (cfq, deadline and noop) were removed in
+f382fb0bcef4.
 
-commit fd7e315988b784509ba3f1b42f539bd0b1fca9bb upstream.
+The documentation for deadline was retained because it carries over to
+mq-deadline as well, but location of the doc file was changed over time.
 
-Create a pgd_pfn() macro similar to the p[4um]d_pfn() macros and then
-use the p[g4um]d_pfn() macros in the p[g4um]d_page() macros instead of
-duplicating the code.
+The old iosched algorithms were removed from elevator=3D kernel parameter
+and mq-deadline, kyber and bfq were added with a reference to their
+documentation.
 
-Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
-Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
-Reviewed-by: Borislav Petkov <bp@suse.de>
-Cc: Alexander Potapenko <glider@google.com>
-Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
-Cc: Andy Lutomirski <luto@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Brijesh Singh <brijesh.singh@amd.com>
-Cc: Dave Young <dyoung@redhat.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-Cc: Larry Woodman <lwoodman@redhat.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Matt Fleming <matt@codeblueprint.co.uk>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Radim Krčmář <rkrcmar@redhat.com>
-Cc: Rik van Riel <riel@redhat.com>
-Cc: Toshimitsu Kani <toshi.kani@hpe.com>
-Cc: kasan-dev@googlegroups.com
-Cc: kvm@vger.kernel.org
-Cc: linux-arch@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-efi@vger.kernel.org
-Cc: linux-mm@kvack.org
-Link: http://lkml.kernel.org/r/e61eb533a6d0aac941db2723d8aa63ef6b882dee.1500319216.git.thomas.lendacky@amd.com
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
-[Backported to 4.9 stable by AK, suggested by Michael Hocko]
-Signed-off-by: Andi Kleen <ak@linux.intel.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Wenkuan Wang <Wenkuan.Wang@windriver.com>
-Signed-off-by: Ben Hutchings <ben@decadent.org.uk>
+Fixes: f382fb0bcef4 ("block: remove legacy IO schedulers")
+Signed-off-by: Otto Sabart <ottosabart@seberm.com>
 ---
- arch/x86/include/asm/pgtable.h | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
---- a/arch/x86/include/asm/pgtable.h
-+++ b/arch/x86/include/asm/pgtable.h
-@@ -166,6 +166,11 @@ static inline unsigned long pud_pfn(pud_
- 	return (pfn & pud_pfn_mask(pud)) >> PAGE_SHIFT;
- }
- 
-+static inline unsigned long pgd_pfn(pgd_t pgd)
-+{
-+	return (pgd_val(pgd) & PTE_PFN_MASK) >> PAGE_SHIFT;
-+}
-+
- #define pte_page(pte)	pfn_to_page(pte_pfn(pte))
- 
- static inline int pmd_large(pmd_t pte)
-@@ -591,8 +596,7 @@ static inline unsigned long pmd_page_vad
-  * Currently stuck as a macro due to indirect forward reference to
-  * linux/mmzone.h's __section_mem_map_addr() definition:
-  */
--#define pmd_page(pmd)		\
--	pfn_to_page((pmd_val(pmd) & pmd_pfn_mask(pmd)) >> PAGE_SHIFT)
-+#define pmd_page(pmd)	pfn_to_page(pmd_pfn(pmd))
- 
- /*
-  * the pmd page can be thought of an array like this: pmd_t[PTRS_PER_PMD]
-@@ -665,8 +669,7 @@ static inline unsigned long pud_page_vad
-  * Currently stuck as a macro due to indirect forward reference to
-  * linux/mmzone.h's __section_mem_map_addr() definition:
-  */
--#define pud_page(pud)		\
--	pfn_to_page((pud_val(pud) & pud_pfn_mask(pud)) >> PAGE_SHIFT)
-+#define pud_page(pud)	pfn_to_page(pud_pfn(pud))
- 
- /* Find an entry in the second-level page table.. */
- static inline pmd_t *pmd_offset(pud_t *pud, unsigned long address)
-@@ -706,7 +709,7 @@ static inline unsigned long pgd_page_vad
-  * Currently stuck as a macro due to indirect forward reference to
-  * linux/mmzone.h's __section_mem_map_addr() definition:
-  */
--#define pgd_page(pgd)		pfn_to_page(pgd_val(pgd) >> PAGE_SHIFT)
-+#define pgd_page(pgd)		pfn_to_page(pgd_pfn(pgd))
- 
- /* to find an entry in a page-table-directory. */
- static inline unsigned long pud_index(unsigned long address)
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentatio=
+n/admin-guide/kernel-parameters.txt
+index b799bcf67d7b..2238fb3c7dcf 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1182,9 +1182,10 @@
+ 			arch/x86/kernel/cpu/cpufreq/elanfreq.c.
+=20
+ 	elevator=3D	[IOSCHED]
+-			Format: {"cfq" | "deadline" | "noop"}
+-			See Documentation/block/cfq-iosched.txt and
+-			Documentation/block/deadline-iosched.txt for details.
++			Format: { "mq-deadline" | "kyber" | "bfq" }
++			See Documentation/block/deadline-iosched.txt,
++			Documentation/block/kyber-iosched.txt and
++			Documentation/block/bfq-iosched.txt for details.
+=20
+ 	elfcorehdr=3D[size[KMG]@]offset[KMG] [IA64,PPC,SH,X86,S390]
+ 			Specifies physical address of start of kernel core
+--=20
+2.17.2
 
+
+--VS++wcV0S1rZb1Fb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEb6VOpv2s03VHGoilgjuumfi+HjwFAlxXSE4ACgkQgjuumfi+
+HjxFGQ//UBS1wEua/ZrvxRxfVgMyP0irPMoF4T9Jlgh4OEHz4HBAqH5L9eJrxWur
+T63zvGElC1qkt0Yrw4gHxVq2vPD70okzSXTMgOTKH2haxPRIukCiTBzCuRlGhSDn
+i6t+hMsSpKRJ+n0hHDh13nH6Qae0VxGp6MXmclQZtZry+jEQJTRZiVT/8V10Z65Q
+wKzd/Z161wlre0REgzICLpM1fp8JvbiIjBaJwio+ai2uRxcG6+AgwlLK+q2892qg
+sM0Ic1txR15A0v/YSrFce8wyWnxfcKky0rF5J3DinWI/MY6MonPG2cYGaGizGDaw
+xp4VapD36iTbUVmqKxa4mjRIHWaaTMTqdkn/P+6ssVNnK8svk2E/VTxvgrKjbZYd
+vmThTipj4mYJtmNPpNxpp4kUBkv+QNMLx1DADJz4bJ9ybylzzlGBuA6ot5RIu+LT
+rkRHPJal6Z7YbVjDo2LqLHjc+0B7vFYQ8jf1YbV2d6q5MpzrzE+GIDbnAYg+VXyA
+ObVh1v5DMivmUggT2J+4i0fhCKUmTr7+LDEiT7M0GvZsHFHhuqzx5CZBFlWypqZy
+OhRxZi/3YUCbWmL7mIWjdLcJDwXdz3ZsxMpU9QNNVZVcxE7NzvJHswBR4d6Vp2Xq
+7GlxyON9P1AA4DUPK/mZZOnXVvrquwnLALaRaRAnrY1dg3bgDPI=
+=nh6T
+-----END PGP SIGNATURE-----
+
+--VS++wcV0S1rZb1Fb--
