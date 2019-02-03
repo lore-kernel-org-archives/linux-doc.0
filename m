@@ -1,101 +1,166 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SORTED_RECIPS
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 87EB27D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  3 Feb 2019 12:55:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A18CB7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  3 Feb 2019 13:57:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727561AbfBCMzD convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 3 Feb 2019 07:55:03 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38020 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726709AbfBCMzD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Feb 2019 07:55:03 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x13Cn9je141695
-        for <linux-doc@vger.kernel.org>; Sun, 3 Feb 2019 07:55:02 -0500
-Received: from smtp.notes.na.collabserv.com (smtp.notes.na.collabserv.com [192.155.248.91])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2qds155x3e-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sun, 03 Feb 2019 07:55:02 -0500
-Received: from localhost
-        by smtp.notes.na.collabserv.com with smtp.notes.na.collabserv.com ESMTP
-        for <linux-doc@vger.kernel.org> from <JOELN@il.ibm.com>;
-        Sun, 3 Feb 2019 12:55:01 -0000
-Received: from us1a3-smtp08.a3.dal06.isc4sb.com (10.146.103.57)
-        by smtp.notes.na.collabserv.com (10.106.227.143) with smtp.notes.na.collabserv.com ESMTP;
-        Sun, 3 Feb 2019 12:54:54 -0000
-Received: from us1a3-mail108.a3.dal06.isc4sb.com ([10.146.45.126])
-          by us1a3-smtp08.a3.dal06.isc4sb.com
-          with ESMTP id 2019020312545418-264105 ;
-          Sun, 3 Feb 2019 12:54:54 +0000 
-In-Reply-To: <20190201161533.5000ad95@lwn.net>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
-Subject: Re: [PATCH v3 0/3] update infiniband uverbs documentation
-From:   "Joel Nider" <JOELN@il.ibm.com>
-Date:   Sun, 3 Feb 2019 14:54:53 +0200
-References: <1548151235-386-1-git-send-email-joeln@il.ibm.com><20190201165252.GA13002@ziepe.ca>
- <20190201161533.5000ad95@lwn.net>
+        id S1728313AbfBCN5j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 3 Feb 2019 08:57:39 -0500
+Received: from shadbolt.e.decadent.org.uk ([88.96.1.126]:53888 "EHLO
+        shadbolt.e.decadent.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728379AbfBCNuC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Feb 2019 08:50:02 -0500
+Received: from cable-78.29.236.164.coditel.net ([78.29.236.164] helo=deadeye)
+        by shadbolt.decadent.org.uk with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <ben@decadent.org.uk>)
+        id 1gqI9T-0003to-Dn; Sun, 03 Feb 2019 13:49:39 +0000
+Received: from ben by deadeye with local (Exim 4.92-RC4)
+        (envelope-from <ben@decadent.org.uk>)
+        id 1gqI9T-0006nI-ES; Sun, 03 Feb 2019 14:49:39 +0100
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-X-KeepSent: 13737DE3:9F96BF4B-C2258396:0046B3B2;
- type=4; name=$KeepSent
-X-Mailer: IBM Notes Release 9.0.1FP7 August 18, 2016
-X-LLNOutbound: False
-X-Disclaimed: 7727
-X-TNEFEvaluated: 1
-x-cbid: 19020312-9951-0000-0000-00000B3212F9
-X-IBM-SpamModules-Scores: BY=0; FL=0; FP=0; FZ=0; HX=0; KW=0; PH=0;
- SC=0.40962; ST=0; TS=0; UL=0; ISC=; MB=0.000078
-X-IBM-SpamModules-Versions: BY=3.00010527; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000277; SDB=6.01155763; UDB=6.00602793; IPR=6.00936211;
- BA=6.00006221; NDR=6.00000001; ZLA=6.00000005; ZF=6.00000009; ZB=6.00000000;
- ZP=6.00000000; ZH=6.00000000; ZU=6.00000002; MB=3.00025418; XFM=3.00000015;
- UTC=2019-02-03 12:54:59
-X-IBM-AV-DETECTION: SAVI=unsuspicious REMOTE=unsuspicious XFE=unused
-X-IBM-AV-VERSION: SAVI=2019-02-03 10:56:28 - 6.00009543
-x-cbparentid: 19020312-9952-0000-0000-00001B46141C
-Message-Id: <OF13737DE3.9F96BF4B-ONC2258396.0046B3B2-C2258396.0046F1B2@notes.na.collabserv.com>
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 8BIT
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-02-03_06:,,
- signatures=0
-X-Proofpoint-Spam-Reason: safe
+From:   Ben Hutchings <ben@decadent.org.uk>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+CC:     akpm@linux-foundation.org, Denis Kirjanov <kda@linux-powerpc.org>,
+        kasan-dev@googlegroups.com, "Dave Young" <dyoung@redhat.com>,
+        "Andy Lutomirski" <luto@kernel.org>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        "Andrey Ryabinin" <aryabinin@virtuozzo.com>,
+        "Dmitry Vyukov" <dvyukov@google.com>,
+        "Alexander Potapenko" <glider@google.com>,
+        "Konrad Rzeszutek Wilk" <konrad.wilk@oracle.com>,
+        linux-efi@vger.kernel.org, "Jonathan Corbet" <corbet@lwn.net>,
+        "Brijesh Singh" <brijesh.singh@amd.com>,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        "Paolo Bonzini" <pbonzini@redhat.com>,
+        "Toshimitsu Kani" <toshi.kani@hpe.com>, linux-doc@vger.kernel.org,
+        "Borislav Petkov" <bp@alien8.de>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Wenkuan Wang" <Wenkuan.Wang@windriver.com>,
+        "Tom Lendacky" <thomas.lendacky@amd.com>,
+        linux-arch@vger.kernel.org, "Rik van Riel" <riel@redhat.com>,
+        "Matt Fleming" <matt@codeblueprint.co.uk>,
+        "Larry Woodman" <lwoodman@redhat.com>, kvm@vger.kernel.org,
+        linux-mm@kvack.org, "Ingo Molnar" <mingo@kernel.org>,
+        "Linus Torvalds" <torvalds@linux-foundation.org>,
+        "Andi Kleen" <ak@linux.intel.com>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        "Borislav Petkov" <bp@suse.de>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        "Radim =?UTF-8?Q?Kr=C4=8Dm=C3=A1=C5=99?=" <rkrcmar@redhat.com>
+Date:   Sun, 03 Feb 2019 14:45:08 +0100
+Message-ID: <lsq.1549201508.3242952@decadent.org.uk>
+X-Mailer: LinuxStableQueue (scripts by bwh)
+X-Patchwork-Hint: ignore
+Subject: [PATCH 3.16 004/305] x86/mm: Simplify p[g4um]d_page() macros
+In-Reply-To: <lsq.1549201507.384106140@decadent.org.uk>
+X-SA-Exim-Connect-IP: 78.29.236.164
+X-SA-Exim-Mail-From: ben@decadent.org.uk
+X-SA-Exim-Scanned: No (on shadbolt.decadent.org.uk); SAEximRunCond expanded to false
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet <corbet@lwn.net> wrote on 02/02/2019 01:15:33 AM:
+3.16.63-rc1 review patch.  If anyone has any objections, please let me know.
 
-> Subject: Re: [PATCH v3 0/3] update infiniband uverbs documentation
-> 
-> On Fri, 1 Feb 2019 09:52:52 -0700
-> Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> 
-> > Doc folks, what is the feedback on these patches? Should I take
-> > them through the rdma tree?
-> 
-> If you think they are ready (it seemed that there were still comments on
-> one of the patches?) I'll take them, just let me know.
+------------------
 
-From Jason's latest review, it looks like 90% of what I wrote is no longer 
-relevant:
-> This array was deleted recently
-> IB_VERBS_DELCARE_CMD is also deleted
-> DECLARE_UVERBS_OBJECT_TREE as well
+From: Tom Lendacky <thomas.lendacky@amd.com>
 
-So I'm abandoning this patch.
+commit fd7e315988b784509ba3f1b42f539bd0b1fca9bb upstream.
 
-> Thanks,
-> 
-> jon (aka "doc folks" :)
-> 
+Create a pgd_pfn() macro similar to the p[4um]d_pfn() macros and then
+use the p[g4um]d_pfn() macros in the p[g4um]d_page() macros instead of
+duplicating the code.
 
+Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Borislav Petkov <bp@suse.de>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Andrey Ryabinin <aryabinin@virtuozzo.com>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Brijesh Singh <brijesh.singh@amd.com>
+Cc: Dave Young <dyoung@redhat.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Cc: Larry Woodman <lwoodman@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Matt Fleming <matt@codeblueprint.co.uk>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Radim Krčmář <rkrcmar@redhat.com>
+Cc: Rik van Riel <riel@redhat.com>
+Cc: Toshimitsu Kani <toshi.kani@hpe.com>
+Cc: kasan-dev@googlegroups.com
+Cc: kvm@vger.kernel.org
+Cc: linux-arch@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-efi@vger.kernel.org
+Cc: linux-mm@kvack.org
+Link: http://lkml.kernel.org/r/e61eb533a6d0aac941db2723d8aa63ef6b882dee.1500319216.git.thomas.lendacky@amd.com
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+[Backported to 4.9 stable by AK, suggested by Michael Hocko]
+Signed-off-by: Andi Kleen <ak@linux.intel.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Wenkuan Wang <Wenkuan.Wang@windriver.com>
+Signed-off-by: Ben Hutchings <ben@decadent.org.uk>
+---
+ arch/x86/include/asm/pgtable.h | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+--- a/arch/x86/include/asm/pgtable.h
++++ b/arch/x86/include/asm/pgtable.h
+@@ -166,6 +166,11 @@ static inline unsigned long pud_pfn(pud_
+ 	return (pfn & pud_pfn_mask(pud)) >> PAGE_SHIFT;
+ }
+ 
++static inline unsigned long pgd_pfn(pgd_t pgd)
++{
++	return (pgd_val(pgd) & PTE_PFN_MASK) >> PAGE_SHIFT;
++}
++
+ #define pte_page(pte)	pfn_to_page(pte_pfn(pte))
+ 
+ static inline int pmd_large(pmd_t pte)
+@@ -591,8 +596,7 @@ static inline unsigned long pmd_page_vad
+  * Currently stuck as a macro due to indirect forward reference to
+  * linux/mmzone.h's __section_mem_map_addr() definition:
+  */
+-#define pmd_page(pmd)		\
+-	pfn_to_page((pmd_val(pmd) & pmd_pfn_mask(pmd)) >> PAGE_SHIFT)
++#define pmd_page(pmd)	pfn_to_page(pmd_pfn(pmd))
+ 
+ /*
+  * the pmd page can be thought of an array like this: pmd_t[PTRS_PER_PMD]
+@@ -665,8 +669,7 @@ static inline unsigned long pud_page_vad
+  * Currently stuck as a macro due to indirect forward reference to
+  * linux/mmzone.h's __section_mem_map_addr() definition:
+  */
+-#define pud_page(pud)		\
+-	pfn_to_page((pud_val(pud) & pud_pfn_mask(pud)) >> PAGE_SHIFT)
++#define pud_page(pud)	pfn_to_page(pud_pfn(pud))
+ 
+ /* Find an entry in the second-level page table.. */
+ static inline pmd_t *pmd_offset(pud_t *pud, unsigned long address)
+@@ -706,7 +709,7 @@ static inline unsigned long pgd_page_vad
+  * Currently stuck as a macro due to indirect forward reference to
+  * linux/mmzone.h's __section_mem_map_addr() definition:
+  */
+-#define pgd_page(pgd)		pfn_to_page(pgd_val(pgd) >> PAGE_SHIFT)
++#define pgd_page(pgd)		pfn_to_page(pgd_pfn(pgd))
+ 
+ /* to find an entry in a page-table-directory. */
+ static inline unsigned long pud_index(unsigned long address)
 
