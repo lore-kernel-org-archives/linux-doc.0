@@ -1,58 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+X-Spam-Status: No, score=-3.5 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SORTED_RECIPS
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BC28B7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Feb 2019 20:56:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 87EB27D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  3 Feb 2019 12:55:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726609AbfBBU4Z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 2 Feb 2019 15:56:25 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:59850 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726527AbfBBU4Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Feb 2019 15:56:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=M243DSMfdijggio3CMfPh2Nru9m2Wu7hx9OpFqVoJqk=; b=cEs+CMcwTllLbxE6h98rlTi3x
-        +M8ZutbKQDOtXbA+QvnOO6z2317m2Vg7A/VL/jHQi2O6cw6RXX+AioZE+3GBLskMVW1qsMaQm8h8P
-        s96KoNqtbKjG7YAxi8K0r6+wKM2mJvZiqE7qG/PitsK961RLrdH4tct0QziX6/uo7jgBPsF4Clzir
-        q9mQWcX9JilQUp0jiTGldFzhcJKt8YR/zx9elhbiuCeFOBsvFeeRbysZvr1gMJAZ+FkfpPka3DyRG
-        Wlv+W4MIhQ4d8rhqh8bw3fzqHKzXLfIj2104w8nyLscLUcdokZJGA0v4Wf26UtUz1cJ3blTA3MrLn
-        mS96KK4Nw==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gq2Kr-0004yq-1u; Sat, 02 Feb 2019 20:56:21 +0000
-Date:   Sat, 2 Feb 2019 12:56:20 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     frowand.list@gmail.com
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Joris Gutjahr <joris.gutjahr@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: kernel-doc: typo "documentaion"
-Message-ID: <20190202205620.GA13285@bombadil.infradead.org>
-References: <1549058656-11119-1-git-send-email-frowand.list@gmail.com>
+        id S1727561AbfBCMzD convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 3 Feb 2019 07:55:03 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38020 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726709AbfBCMzD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Feb 2019 07:55:03 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x13Cn9je141695
+        for <linux-doc@vger.kernel.org>; Sun, 3 Feb 2019 07:55:02 -0500
+Received: from smtp.notes.na.collabserv.com (smtp.notes.na.collabserv.com [192.155.248.91])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2qds155x3e-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Sun, 03 Feb 2019 07:55:02 -0500
+Received: from localhost
+        by smtp.notes.na.collabserv.com with smtp.notes.na.collabserv.com ESMTP
+        for <linux-doc@vger.kernel.org> from <JOELN@il.ibm.com>;
+        Sun, 3 Feb 2019 12:55:01 -0000
+Received: from us1a3-smtp08.a3.dal06.isc4sb.com (10.146.103.57)
+        by smtp.notes.na.collabserv.com (10.106.227.143) with smtp.notes.na.collabserv.com ESMTP;
+        Sun, 3 Feb 2019 12:54:54 -0000
+Received: from us1a3-mail108.a3.dal06.isc4sb.com ([10.146.45.126])
+          by us1a3-smtp08.a3.dal06.isc4sb.com
+          with ESMTP id 2019020312545418-264105 ;
+          Sun, 3 Feb 2019 12:54:54 +0000 
+In-Reply-To: <20190201161533.5000ad95@lwn.net>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [PATCH v3 0/3] update infiniband uverbs documentation
+From:   "Joel Nider" <JOELN@il.ibm.com>
+Date:   Sun, 3 Feb 2019 14:54:53 +0200
+References: <1548151235-386-1-git-send-email-joeln@il.ibm.com><20190201165252.GA13002@ziepe.ca>
+ <20190201161533.5000ad95@lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1549058656-11119-1-git-send-email-frowand.list@gmail.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+X-KeepSent: 13737DE3:9F96BF4B-C2258396:0046B3B2;
+ type=4; name=$KeepSent
+X-Mailer: IBM Notes Release 9.0.1FP7 August 18, 2016
+X-LLNOutbound: False
+X-Disclaimed: 7727
+X-TNEFEvaluated: 1
+x-cbid: 19020312-9951-0000-0000-00000B3212F9
+X-IBM-SpamModules-Scores: BY=0; FL=0; FP=0; FZ=0; HX=0; KW=0; PH=0;
+ SC=0.40962; ST=0; TS=0; UL=0; ISC=; MB=0.000078
+X-IBM-SpamModules-Versions: BY=3.00010527; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000277; SDB=6.01155763; UDB=6.00602793; IPR=6.00936211;
+ BA=6.00006221; NDR=6.00000001; ZLA=6.00000005; ZF=6.00000009; ZB=6.00000000;
+ ZP=6.00000000; ZH=6.00000000; ZU=6.00000002; MB=3.00025418; XFM=3.00000015;
+ UTC=2019-02-03 12:54:59
+X-IBM-AV-DETECTION: SAVI=unsuspicious REMOTE=unsuspicious XFE=unused
+X-IBM-AV-VERSION: SAVI=2019-02-03 10:56:28 - 6.00009543
+x-cbparentid: 19020312-9952-0000-0000-00001B46141C
+Message-Id: <OF13737DE3.9F96BF4B-ONC2258396.0046B3B2-C2258396.0046F1B2@notes.na.collabserv.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 8BIT
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-02-03_06:,,
+ signatures=0
+X-Proofpoint-Spam-Reason: safe
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 01, 2019 at 02:04:16PM -0800, frowand.list@gmail.com wrote:
->    Include documentation for each *function* in *source*.
-> -  If no *function* if specified, the documentaion for all functions
-> +  If no *function* if specified, the documentation for all functions
->    and types in the *source* will be included.
+Jonathan Corbet <corbet@lwn.net> wrote on 02/02/2019 01:15:33 AM:
 
-Could you fix the if/is mistake while you're at it?
+> Subject: Re: [PATCH v3 0/3] update infiniband uverbs documentation
+> 
+> On Fri, 1 Feb 2019 09:52:52 -0700
+> Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> 
+> > Doc folks, what is the feedback on these patches? Should I take
+> > them through the rdma tree?
+> 
+> If you think they are ready (it seemed that there were still comments on
+> one of the patches?) I'll take them, just let me know.
+
+From Jason's latest review, it looks like 90% of what I wrote is no longer 
+relevant:
+> This array was deleted recently
+> IB_VERBS_DELCARE_CMD is also deleted
+> DECLARE_UVERBS_OBJECT_TREE as well
+
+So I'm abandoning this patch.
+
+> Thanks,
+> 
+> jon (aka "doc folks" :)
+> 
+
+
