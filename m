@@ -1,30 +1,44 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 70CC77D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Feb 2019 22:28:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 134E07D099
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Feb 2019 22:31:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727547AbfBDW2F (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Feb 2019 17:28:05 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:33860 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727532AbfBDW2E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 4 Feb 2019 17:28:04 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id A6F8C13D726;
-        Mon,  4 Feb 2019 22:28:03 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-91.bos.redhat.com [10.18.17.91])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DDA1076FEC;
-        Mon,  4 Feb 2019 22:28:00 +0000 (UTC)
-Subject: Re: [RESEND PATCH v4 3/3] fs/dcache: Track & report number of
- negative dentries
-To:     Luis Chamberlain <mcgrof@kernel.org>
+        id S1727934AbfBDWbi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Feb 2019 17:31:38 -0500
+Received: from mail-yb1-f195.google.com ([209.85.219.195]:33098 "EHLO
+        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727894AbfBDWbe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Feb 2019 17:31:34 -0500
+Received: by mail-yb1-f195.google.com with SMTP id m132so275437ybf.0;
+        Mon, 04 Feb 2019 14:31:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=XgmVIz2EDz4KH+I2dNa7InV3AIXUsuAuDfIa1Ztp+LU=;
+        b=rAJV4o/EHq1u8MJEbIL9gP1ZB9wqTYb9w3cIcX+IxeDK//8KLYxZ10ibklO0fjdICX
+         OJwur+yIwfWdnGK9oeDyVpvbVdjGHSUFq0FgsaIVBFBwVp+hJY9gTwiI2MIplqVwAKwy
+         efHpoaAg5pHiQcXpq7tcNMS0bVWDYfBGpNoiSree1BXfBK6c9kTUdh9slAG/nRkm0O/R
+         Wqu8nEQBdBxVHff+5/BzrbNAp1zqdaEA5KlpecY7quhuWG/7cvD9hlCBjF0nf7pLZOPW
+         h0k+zRh95KkFC6cnwqNaTWxpHWgErJdDrFsklLb1A70aDQ8yibO3UnKpJfYBFdi7ExIJ
+         Gflw==
+X-Gm-Message-State: AHQUAuabDzlYkdLHZNunNpWYiNtYjYwUCBkWMUWu9xFlDChG5rETEjGV
+        jTezJY6YEDFOUIepuiPDzZE=
+X-Google-Smtp-Source: AHgI3IaGtjxjCx24VN1GfDKJS3LM3t0K8xjiEXGakYlCt/nHmX1FEb2AZ6giwBbuKR8d1ABddMjVRA==
+X-Received: by 2002:a25:b1a6:: with SMTP id h38mr1470469ybj.58.1549319493408;
+        Mon, 04 Feb 2019 14:31:33 -0800 (PST)
+Received: from garbanzo.do-not-panic.com (c-73-71-40-85.hsd1.ca.comcast.net. [73.71.40.85])
+        by smtp.gmail.com with ESMTPSA id y2sm1837098ywy.107.2019.02.04.14.31.29
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 04 Feb 2019 14:31:32 -0800 (PST)
+Received: by garbanzo.do-not-panic.com (sSMTP sendmail emulation); Mon, 04 Feb 2019 14:31:27 -0800
+Date:   Mon, 4 Feb 2019 14:31:27 -0800
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Waiman Long <longman@redhat.com>
 Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -41,87 +55,40 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         James Bottomley <James.Bottomley@HansenPartnership.com>,
         "Wangkai (Kevin C)" <wangkai86@huawei.com>,
         Michal Hocko <mhocko@kernel.org>
+Subject: Re: [RESEND PATCH v4 3/3] fs/dcache: Track & report number of
+ negative dentries
+Message-ID: <20190204223127.GS11489@garbanzo.do-not-panic.com>
 References: <1548874358-6189-1-git-send-email-longman@redhat.com>
  <1548874358-6189-4-git-send-email-longman@redhat.com>
  <20190204222339.GQ11489@garbanzo.do-not-panic.com>
-From:   Waiman Long <longman@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- weim8xU=
-Organization: Red Hat
-Message-ID: <cef8c6ab-6aaf-cca2-1e94-e90c2278afaa@redhat.com>
-Date:   Mon, 4 Feb 2019 17:28:00 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ <cef8c6ab-6aaf-cca2-1e94-e90c2278afaa@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190204222339.GQ11489@garbanzo.do-not-panic.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Mon, 04 Feb 2019 22:28:04 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cef8c6ab-6aaf-cca2-1e94-e90c2278afaa@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 02/04/2019 05:23 PM, Luis Chamberlain wrote:
-> Small nit below.
->
-> On Wed, Jan 30, 2019 at 01:52:38PM -0500, Waiman Long wrote:
->> diff --git a/Documentation/sysctl/fs.txt b/Documentation/sysctl/fs.txt
->>  
->> +nr_negative shows the number of unused dentries that are also
->> +negative dentries which do not mapped to actual files.
->                      which are not mapped to actual files
->
-> Is that what you meant?
->
->   Luis
+On Mon, Feb 04, 2019 at 05:28:00PM -0500, Waiman Long wrote:
+> On 02/04/2019 05:23 PM, Luis Chamberlain wrote:
+> > Small nit below.
+> >
+> > On Wed, Jan 30, 2019 at 01:52:38PM -0500, Waiman Long wrote:
+> >> diff --git a/Documentation/sysctl/fs.txt b/Documentation/sysctl/fs.txt
+> >>  
+> >> +nr_negative shows the number of unused dentries that are also
+> >> +negative dentries which do not mapped to actual files.
+> >                      which are not mapped to actual files
+> >
+> > Is that what you meant?
+> >
+> >   Luis
+> 
+> Sorry for the grammatical error. Maybe I should send a patch to fix that.
 
-Sorry for the grammatical error. Maybe I should send a patch to fix that.
+If its already merged sure. Otherwise I don't care.
 
-Thanks,
-Longman
-
+  Luis
