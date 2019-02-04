@@ -1,135 +1,127 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3F89C7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Feb 2019 20:22:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 434147D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Feb 2019 21:12:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727928AbfBDUWV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Feb 2019 15:22:21 -0500
-Received: from mail-it1-f193.google.com ([209.85.166.193]:39928 "EHLO
-        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727927AbfBDUTc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Feb 2019 15:19:32 -0500
-Received: by mail-it1-f193.google.com with SMTP id a6so2920343itl.4
-        for <linux-doc@vger.kernel.org>; Mon, 04 Feb 2019 12:19:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sweptlaser-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=nXElogSJfxXDiCsM3B30I0wm02vakS82aG0ktAJScis=;
-        b=QLypJWLMLOhLnYVSx5E2XKPhzmj6DdRBkMXwxZk5EX/GFtGOhjZO0Wky9kSglICgLQ
-         taC7D5RwM8lvwm4XLLhQ3fs+A9QZNP8DnSCq6TOp6cRAkVdiDNlqxph4YAFp/RKivApn
-         fORyq3QYUnO/iI9hGUYkFLe7VodPSX69dSR6OOSagwO2j3D9AkMnOfuw7be1fvEdKpHg
-         oO2/vLR8Oq9ufgWla9HGA6Dzvhvpsr5lFrDYiqnsOlozexIgQhrWTFCcPa4OKYqXvOFo
-         9rU/NJSX84H+w2eB+YZm0eORLY5Si3DkN1Ki+0SBwp9QKFVAjsf7TMtGOTI0h3W4AAXH
-         FJVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=nXElogSJfxXDiCsM3B30I0wm02vakS82aG0ktAJScis=;
-        b=mHKVP9B26VQESFV5QNk0koHzszD5xcMNpEkT6RabKlVLrS7cWdbdx4QAR5aIX6nF2Y
-         ulOPn66P8j056UueccPPzuNyakG75qTFvyjGFXmSiG0K0Fj6z9MmWdRKZ5buyRjUfju2
-         0T0RiohJ55Os84koJqx65NSHX4bbREqRmRZ2w/CA/w54Ft5BcPB/lW/vO6Jx5Twratip
-         ZsEKiWRURm8GPXck74fAOUVR75HHEN2sQIxp1s5xRp/jHEJafcVJ3/a0/L/JkYdIPz2u
-         VX5r/OngkP5uIjkxAUg5ZVptdYbmIoM3Lj+5pta45Ca7SOv626CjOO3usLozJ3X9jlkM
-         DkpQ==
-X-Gm-Message-State: AHQUAuZhB9c7hTulS2jjbRURqzKlXdqP/ZfVM+NCumybQFjlJa/NoMEz
-        nT67yaeZvAsMnnh380Wm27ohbQ==
-X-Google-Smtp-Source: AHgI3IYBkfdUvhxV7oZPlkWqRxDaTqgCl+ocNyekIIsdwGqHgnCOpesWCPWMMEvr9+CfnCSvQ0f8og==
-X-Received: by 2002:a6b:c9c8:: with SMTP id z191mr768514iof.13.1549311571680;
-        Mon, 04 Feb 2019 12:19:31 -0800 (PST)
-Received: from yngvi.hq.sweptlaser.com ([63.147.146.226])
-        by smtp.googlemail.com with ESMTPSA id x79sm470003ita.34.2019.02.04.12.19.30
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 04 Feb 2019 12:19:31 -0800 (PST)
-From:   Jeremy Gebben <jgebben@sweptlaser.com>
-To:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/4] hwmon: (lm85) support the LM96000
-Date:   Mon,  4 Feb 2019 13:19:05 -0700
-Message-Id: <20190204201906.8859-4-jgebben@sweptlaser.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190204201906.8859-1-jgebben@sweptlaser.com>
-References: <20190204201906.8859-1-jgebben@sweptlaser.com>
+        id S1728004AbfBDVMh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Feb 2019 16:12:37 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:55663 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726843AbfBDVMh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Feb 2019 16:12:37 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id A59802227E;
+        Mon,  4 Feb 2019 16:12:36 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 04 Feb 2019 16:12:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
+        :from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=EJYum4721TK1QHLmPWann/68xaT
+        5TQkkQVastKXzpqs=; b=hjAOLmWb6z/Vn41NzPTbD+tPmZ39rM34cclFZyH/HFF
+        nnAnkj2PjA6Yi/iU4hwlDdEgyY2qiL6d0+VUGUpAnESDrpcN1DoV8pUdJU0cyXII
+        66BVnm+/FoZBh8vGoFR7M6UW+T72JHh59juibuf9Pb4AUDWuOeQ2Rc3oEUi9YVo8
+        53xf9NGsyZnNAWrLCPzMTnCl8w+Qd99+N1A+cHDxcrxqkQhs5raqZHbYIyxaK4t5
+        lHuyuIkGetOnNVkoSj21nHxiyn0OzeKMh5NU9UXGiKGhXKPnE5bYNOXd3LvAMxSA
+        W0rknUGSEl7BDpFxTxx5hwfRx5rHM5tPHqkRHnjfc3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=EJYum4
+        721TK1QHLmPWann/68xaT5TQkkQVastKXzpqs=; b=W/LG7u+cKKCdOcB58gLHc0
+        f3SSmReXMtvlQCnRvCx9OUs/C3yk0Ro6WTJkfSBotJltwRWrwi/S49SItUkrxeCy
+        DcZxOJ0CbMUUg6K2/EsNh3yuxpeVsBvovu31y+i4BqNmCryLfL7xwgpxgE/nFLrB
+        /lXOolz7z83/ohv6xfdvYsOT7QRIVpyTVZ+pNC/WSXLMv+5DA6Iy8ZFE+oOcwUvr
+        CQqi7DYKl0FAflVnB2HWxqM8Nz20if9zap3nO1XOatPcPChhV0q+bsPh/Q6YhU6k
+        liFDPDzNeM8RemSSvs0n0KBRwByHziK636C+7sHtmFsECBpLBn/RqaBKQre8kkcQ
+        ==
+X-ME-Sender: <xms:w6pYXMtcpG0kQr4s5_7wzoInZk4Hx0UIz0YdJA-oGHFDwt0ETfAz5Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedtledrkeeggddugeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfquhhtnecuuegrihhlohhuthemucef
+    tddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfghrlhcuvffnffculdeftd
+    dmnecujfgurhepfffhvffukfhfgggtuggjofgfsehttdertdforedvnecuhfhrohhmpedf
+    vfhosghinhcuvedrucfjrghrughinhhgfdcuoehmvgesthhosghinhdrtggtqeenucffoh
+    hmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeduvddurdeggedrvddukedrvddtuden
+    ucfrrghrrghmpehmrghilhhfrhhomhepmhgvsehtohgsihhnrdgttgenucevlhhushhtvg
+    hrufhiiigvpedt
+X-ME-Proxy: <xmx:w6pYXKB7DqtZwmPecgqfvcnzhYLln7psFknmzn4qobv5vq6TPP-mWg>
+    <xmx:w6pYXI9xmeP2MUXdDLpYSkkYl3TRkol4OyR8tiFfAgdARC6NlGnipg>
+    <xmx:w6pYXI7oaFLsnz2Lg5Wt_xFOR7xOZ1x0E1EkmVgoBS8blVBDX_XGQg>
+    <xmx:xKpYXMtGkhQXbR0GBK7uUMHe4_qJdm4z8Vap4TN8CnAAjwM3eMQ2iA>
+Received: from localhost (ppp121-44-218-201.bras1.syd2.internode.on.net [121.44.218.201])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 0255BE412C;
+        Mon,  4 Feb 2019 16:12:33 -0500 (EST)
+Date:   Tue, 5 Feb 2019 08:12:20 +1100
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Mike Rapoport <rppt@linux.ibm.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "Tobin C. Harding" <tobin@kernel.org>,
+        Christopher Lameter <cl@linux.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 3/3] docs: Use underscore not hyphen in label
+Message-ID: <20190204211220.GA8601@eros.localdomain>
+References: <20190131040623.15569-1-me@tobin.cc>
+ <20190131040623.15569-4-me@tobin.cc>
+ <20190131092757.GF28876@rapoport-lnx>
+ <20190131205608.GB1329@eros.localdomain>
+ <20190201160310.5b98eb69@lwn.net>
+ <20190202143209.GA8620@rapoport-lnx>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190202143209.GA8620@rapoport-lnx>
+X-Mailer: Mutt 1.11.3 (2019-02-01)
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It has been supported as a generic lm85 for quite some time.
+On Sat, Feb 02, 2019 at 04:32:10PM +0200, Mike Rapoport wrote:
+> On Fri, Feb 01, 2019 at 04:03:10PM -0700, Jonathan Corbet wrote:
+> > On Fri, 1 Feb 2019 07:56:08 +1100
+> > "Tobin C. Harding" <me@tobin.cc> wrote:
+> > 
+> > > > > From: "Tobin C. Harding" <tobin@kernel.org>
+> > > > > 
+> > > > > sphinx emits warning
+> > > > > 
+> > > > >        WARNING: undefined label: memory-allocation ...  
+> > > > 
+> > > > Weird, for me it works fine. The generated html at kernel.org [1] also
+> > > > seems to be Ok...
+> > > > 
+> > > > What version of sphinx do you use?  
+> > > 
+> > > Thanks for looking at this Mike.  I was running 1.4, I see there is a v2
+> > > out so I'll upgrade but if the warning doesn't show for you then I'd say
+> > > we just drop this patch.
+> > > 
+> > > Jon,
+> > > 
+> > > Is it within your usual workflow to take just the first two patches from
+> > > this series or would you like me to spin another version without the
+> > > final patch in it?
+> > 
+> > We currently document that 1.4 is supposed to work, so we should stick to
+> > that; I think I'll go ahead and apply all three patches.
+> >
+> > We should maybe consider dragging our minimum version forward a bit, or
+> > else we might want to document this particular gotcha.
+> 
+> I have 1.4.6 (the one listed in sphinx.rst) and everything worked just
+> fine...
 
-Signed-off-by: Jeremy Gebben <jgebben@sweptlaser.com>
----
- Documentation/hwmon/lm85 | 6 +++++-
- drivers/hwmon/lm85.c     | 9 +++++++--
- 2 files changed, 12 insertions(+), 3 deletions(-)
+I tried to investigate this further and I am unable to reproduce the
+original warning.  I'm using python virtual environment as directed by
+the output of `make htmldocs` so the environment should not have
+changed.  The only other plausible explanation seems to be that I've
+gone mad and can't remember what I was doing three days ago.
 
-diff --git a/Documentation/hwmon/lm85 b/Documentation/hwmon/lm85
-index 7c49feaa79d2..4f531f4acc3f 100644
---- a/Documentation/hwmon/lm85
-+++ b/Documentation/hwmon/lm85
-@@ -3,9 +3,13 @@ Kernel driver lm85
- 
- Supported chips:
-   * National Semiconductor LM85 (B and C versions)
--    Prefix: 'lm85'
-+    Prefix: 'lm85b' or 'lm85c'
-     Addresses scanned: I2C 0x2c, 0x2d, 0x2e
-     Datasheet: http://www.national.com/pf/LM/LM85.html
-+  * Texas Instruments LM96000
-+    Prefix: 'lm9600'
-+    Addresses scanned: I2C 0x2c, 0x2d, 0x2e
-+    Datasheet: http://www.ti.com/lit/ds/symlink/lm96000.pdf
-   * Analog Devices ADM1027
-     Prefix: 'adm1027'
-     Addresses scanned: I2C 0x2c, 0x2d, 0x2e
-diff --git a/drivers/hwmon/lm85.c b/drivers/hwmon/lm85.c
-index 4b15193d195c..b23cf8e4c54b 100644
---- a/drivers/hwmon/lm85.c
-+++ b/drivers/hwmon/lm85.c
-@@ -41,7 +41,7 @@
- static const unsigned short normal_i2c[] = { 0x2c, 0x2d, 0x2e, I2C_CLIENT_END };
- 
- enum chips {
--	lm85,
-+	lm85, lm96000,
- 	adm1027, adt7463, adt7468,
- 	emc6d100, emc6d102, emc6d103, emc6d103s
- };
-@@ -1499,7 +1499,7 @@ static int lm85_detect(struct i2c_client *client, struct i2c_board_info *info)
- 					"Found Winbond WPCD377I, ignoring\n");
- 				return -ENODEV;
- 			}
--			type_name = "lm85";
-+			type_name = "lm96000";
- 			break;
- 		}
- 	} else if (company == LM85_COMPANY_ANALOG_DEV) {
-@@ -1623,6 +1623,7 @@ static const struct i2c_device_id lm85_id[] = {
- 	{ "lm85", lm85 },
- 	{ "lm85b", lm85 },
- 	{ "lm85c", lm85 },
-+	{ "lm96000", lm96000 },
- 	{ "emc6d100", emc6d100 },
- 	{ "emc6d101", emc6d100 },
- 	{ "emc6d102", emc6d102 },
-@@ -1657,6 +1658,10 @@ static const struct of_device_id lm85_of_match[] = {
- 		.compatible = "national,lm85c",
- 		.data = (void *)lm85
- 	},
-+	{
-+		.compatible = "ti,lm96000",
-+		.data = (void *)lm96000
-+	},
- 	{
- 		.compatible = "smsc,emc6d100",
- 		.data = (void *)emc6d100
--- 
-2.17.1
+Thanks for your patience.
 
+
+	Tobin.
