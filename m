@@ -1,338 +1,156 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 905527D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Feb 2019 21:22:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EFD257D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Feb 2019 22:55:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726205AbfBFVWN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Feb 2019 16:22:13 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45340 "EHLO mail.kernel.org"
+        id S1726161AbfBFWzq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Feb 2019 17:55:46 -0500
+Received: from mx.kolabnow.com ([95.128.36.42]:7128 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725983AbfBFVWN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 6 Feb 2019 16:22:13 -0500
-Received: from localhost (unknown [69.71.4.100])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C84F2218B0;
-        Wed,  6 Feb 2019 21:22:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1549488131;
-        bh=p8rqAzjOJt+cwwDEORI1nwyRPD6aCHKFkNofaAGLfP4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lBc41plIFBGELCVCKyq3f4RCLd8VHZedEyKzgDKoIStxLrBDhdNZc/axy6WF9BYMt
-         AtjuTfJfKdWxleVkHQQuVI5p9Tdl6jeaszNEPU7frLtbRNTSIAJV/JZagb1ZSdtaZO
-         UQDsNpV1vJmZdsMurYzP1Y/jovWNjLW394ly+4sI=
-Date:   Wed, 6 Feb 2019 15:22:06 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Nicholas Johnson <nicholas.johnson-opensource@outlook.com.au>
-Cc:     "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Thymo van Beers <thymovanbeers@gmail.com>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        David Rientjes <rientjes@google.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH 1/2] PCI: fix serious bug when sizing bridges with
- additional size
-Message-ID: <20190206212206.GE7268@google.com>
-References: <PS2P216MB064285AB6C7C1045AB86FC24806F0@PS2P216MB0642.KORP216.PROD.OUTLOOK.COM>
+        id S1725959AbfBFWzq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 6 Feb 2019 17:55:46 -0500
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id B0BE141271;
+        Wed,  6 Feb 2019 23:55:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        message-id:references:in-reply-to:subject:subject:from:from:date
+        :date:content-transfer-encoding:content-type:content-type
+        :mime-version:received:received:received; s=dkim20160331; t=
+        1549493741; x=1551308142; bh=cSQFj/e5yeGepIM3HPm2zA/jH/JLbnQ2e9W
+        gDu570x8=; b=vbaTSr4M+5x9m8kSnp9/IJ+XU9LydHKtsZsU1xWK/STgoVXXaPF
+        q/ZXEhhKeBYdKxrV7ys5yXZ5O6QBzBA0tIb7/vWOSkEKXNMhjb8wuUqxX/Y0Nsfw
+        nN0CTNrtlFXJrO4Ux7btqjAqUnKyb/pQXAKYzxeh3DbqiuRrtfiTTx59JqGN/tux
+        rtaqKD5diZqMFndrOWD8SDP7uECQ3ET0p71MvQwVuU1vaptVOarvzjw5Ew9IIfGd
+        aXglVKv0xfpQnx2z56ym+JlCeIgM32OIcaMjIot6HYpNu2fF1RnoE9GMQRRrM7Xb
+        OZA+KghBqgPe9bN3LNbmMlepT8orYLfwAx82QPv3V0zAw3AihPSq9RW3ydNgveG9
+        Llzdz8FPii8L7WDO0SF4hc0QPvMs4aKwrYDxbTa8tQ0EF7Kj4P8VidntfzOGhWkE
+        ZOM/JU2Ibpqwx94XnbJKJ7fCCruSPBjvGZV74fWnk0Q+4mQtS9u+JkLjecC0fH1p
+        T2Y7skMexfnnlGlOFn8G+VS0uVaqEHTks+DMH48PfhFAtIynL8w4+GVuAm/S7/A6
+        YABNM9PPYQeHUvx/Oz7FGat2+8Vfo+Kbl7IcnRSflLRQYV8USjL/nlVnDAFyTj+M
+        iX6b+uKYuFyktu+L9LM2ELjqbV7To0Jez/puGlssyeg91ZX9la/8bpcM=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id n9TDrdILpYHs; Wed,  6 Feb 2019 23:55:41 +0100 (CET)
+Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id A42ED41254;
+        Wed,  6 Feb 2019 23:55:41 +0100 (CET)
+Received: from int-subm002.mykolab.com (unknown [10.9.37.2])
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id 289B3265C;
+        Wed,  6 Feb 2019 23:55:41 +0100 (CET)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PS2P216MB064285AB6C7C1045AB86FC24806F0@PS2P216MB0642.KORP216.PROD.OUTLOOK.COM>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Wed, 06 Feb 2019 23:55:38 +0100
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc:it_IT: add translations in process/
+In-Reply-To: <2146324.8BP4ZdZamE@pcbe13614>
+References: <20190119221341.3622-1-federico.vaga@vaga.pv.it>
+ <20190120185617.44a7f275@lwn.net> <2146324.8BP4ZdZamE@pcbe13614>
+Message-ID: <aa09cd3309bc9787b6ff3b1331508bb2@vaga.pv.it>
+X-Sender: federico.vaga@vaga.pv.it
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Can you please add a cover letter and series revision the next time
-you post this?  See the list archives for samples.  That helps me know
-when I can ignore old patches when they've been superseded.
-
-I think you also need to put something in the "To:" header.  I usually
-use linux-pci@vger.kernel.org when there's no other obvious candidate.
-Mutt doesn't seem to handle the empty To: header correctly; I see this
-when responding:
-
-  Cc: no To-header on input <;,
-	"mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>,
-	...
-
-You could probably also trim the CC: list.  I'm not sure *all* of them
-will be interested in PCI details like this.  But I don't really want
-to offend any of them by suggesting names to remove :)
-
-On Wed, Feb 06, 2019 at 10:25:13AM +0000, Nicholas Johnson wrote:
-> Background: I discovered a bug while preparing my next patch for
-> Thunderbolt native PCI enumeration. This bugfix is vital for that next
-> Thunderbolt patch. They are related and could be put together but I am
-> presenting them as separate patches.
+On 2019-01-21 09:11, Federico Vaga wrote:
+> On Monday, January 21, 2019 2:56:17 AM CET Jonathan Corbet wrote:
+>> On Sat, 19 Jan 2019 23:13:41 +0100
+>> 
+>> Federico Vaga <federico.vaga@vaga.pv.it> wrote:
+>> > This patch adds the Italian translation for the following documents
+>> > in Documentation/process:
+>> >
+>> > - applying-patches
+>> > - submit-checklist
+>> > - submitting-drivers
+>> > - changes
+>> > - stable api nonsense
+>> >
+>> > Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+>> 
+>> In general, this looks good.  One thing jumped at me, though...(OK, 
+>> more
+>> 
+>> than one, but only one to fix):
+>> > +Perl
+>> > +----
+>> > +
+>> > +Per compilare il kernel vi servirà perl 5 e i seguenti moduli
+>> > ``Getopt::Long``, +``Getopt::Std``, ``File::Basename``, e ``File::Find``.
+>> 
+>> Didn't Rob Landley go though some considerable pain a while back to
+>> eliminate Perl from the basic kernel build?  This, perhaps, should 
+>> come out
+>> of the original.  (As long as it's still there, it makes sense to be 
+>> in the
+>> translation, of course).
 > 
-> Nature of problem: On boot, the PCI bridges are handled in the function
-> pci_assign_unassigned_root_bus_resources(). This function makes multiple
-> passes / attempts to assign all of the resources. It calls
-> __pci_bus_size_bridges() which tries to assign required resources, plus
-> additional requested space. It makes calls to pbus_size_io() and
-> pbus_size_mem() which return zero on success. However, these functions
-> misleadingly return non-zero if the resource is already assigned.
+> I can have a deeper look and try to fix the original document too
 > 
-> The fallout: If the first attempt to allocate resources on a bridge
-> succeeds in 64-bit MMIO_PREF, but fails in 32-bit MMIO, then a second
-> attempt is made. Then, the __pbus_size_mem() returns non-zero for
-> MMIO_PREF because the resource is already assigned. That makes
-> __pci_bus_size_bridges() think there is no space (ENOSPC) and it
-> attempts to assign the sum of the MMIO_PREF and MMIO sizes into a 32-bit
-> window. This means that it tries to request the sum of the the MMIO and
-> MMIO_PREF size into the MMIO window. In the best case, the MMIO size is
-> equal to the MMIO_PREF size and we get double the window in MMIO, and
-> the correct size in MMIO_PREF, and nothing bad happens. In a worse case,
-> doubling the size makes it fail due to lack of space in the miniscule
-> MMIO 32-bit address space. In that case, we might be able to reduce the
-> requested size. In the worst case, we have requested for a vast amount
-> of MMIO_PREF, and a small amount of MMIO. The kernel tries to assign the
-> sum of the sizes of the two types in the MMIO window, leaving us with
-> MMIO_PREF assigned and MMIO unassigned due to the requested size being
-> too large to assign. In this case, there is nothing we can do about it.
-> If a massive additional MMIO_PREF and a small non-zero amount of
-> additional MMIO are needed, then we cannot reduce the requested
-> MMIO_PREF to work around the bug.
+>> 
+>> > +Modifiche architetturali
+>> > +------------------------
+>> > +
+>> > +DevFS è stato reso obsoleto da udev
+>> > +(http://www.kernel.org/pub/linux/utils/kernel/hotplug/)
+>> > +
+>> > +Il supporto per UID a 32-bit è ora disponibile.  Divertitevi!
+>> 
+>> Speaking of stuff that should come out of the original...this is not
+>> exactly news at this point...
 > 
-> The cause: pbus_size_io() and pbus_size_mem() both call
-> find_free_bus_resource() to identify which bridge window of the bus
-> meets the criteria. This function explicitly skips resources with a
-> parent, inevitably returning NULL. The functions pbus_size_io() and
-> pbus_size_mem() return -ENOSPC if find_free_bus_resource() returns NULL,
-> meaning an assigned resource is interpreted as having been failed to
-> assign, potentially causing it to try to allocate it again in another
-> window.
-> 
-> The solution: my proposed patch renames find_free_bus_resource() to
-> find_bus_resource_of_type() and modifies it to not skip resources with
-> r->parent. The name change is because returning an assigned resource
-> makes the resource potentially not "free". The calling functions,
-> pbus_size_io() and pbus_size_mem() have checks added for b_res->parent
-> and they return 0 (success) in this case. This is because a resource
-> with a parent is already assigned and should be interpreted as a
-> success, not a failure.
-> 
-> Testing: I have tested my proposed patch and it appears to work
-> flawlessly. It has the added benefit of slashing the number of attempts
-> taken to assign a given BAR, meaning a much cleaner dmesg. In fact, in
-> my configuration, it has gone from very messy to mainly IO BAR failures.
-> There is nothing that can be done about IO BARs because of the 16-bit
-> hardware limitation, meaning the amount of available space cannot be
-> increased. All that I am left with is a few "failed to assign [mem
-> size]" very early in boot, before those BARs succeed in the next
-> attempt. After the small initial set of failures for MEM, there are no
-> more "failed to assign" whatsoever for non-IO BARs.
+> Well, generally speaking this document mix things from the past and the
+> "present". Probably it requires a review.
 
-If it's possible to distill a concrete example of an actual case that
-previously failed and now works, with real addresses from dmesg or
-similar, that is as small as possible, that might help understand the
-changes you're making.
+I am having a look at this document and I am wandering if this is an 
+useful
+document? Clearly I see value in the table with all requirements 
+summarised,
+but I do not see it for the rest of the document.
 
-> Remarks: I fixed some other block comments to comply with kernel code
-> styling standards. I had to modify the one block comment to reflect the
-> changes, and checkpatch.pl got really angry and yelled at me. So I
-> figured I may as well fix the lot.
+So, I propose to actually rename change.rst to requirements.rst and 
+remove
+everything but the requirements chapter and the links.
 
-Thanks for the comment cleanups.  I do want those, but it's better if
-you can do the minimal changes required to accompany the code changes,
-followed by a second patch that does *only* the reformatting required
-by checkpatch.  That way the second patch will be trivial to review,
-since it's obvious that it doesn't change any code.  It also avoids
-cluttering the actual bug-fix or feature-add patches with changes to
-unrelated comments.  It's OK if the bug-fix patch is not 100%
-checkpatch-clean, as long as it doesn't make things *worse*.  It's
-even OK if the final patch is not 100% checkpatch-clean; human
-judgment is required to interpret the things it complains about.
+(proposal)
+Release changes probably need a CHANGELOG file, to describe new and
+deprecated things.
 
-I would wait a few days before reposting to address that.  Sometimes
-other people will comment and you can take care of those comments at
-the same time.  It's a little frustrating as a reviewer to spend a
-lot of time reviewing v1 only to find that v2 and v3 have been
-posted with significant changes while you were looking at v1.
+And information about tools should be in other document.
+(/proposal)
 
-> Signed-off-by: Nicholas Johnson <nicholas.johnson-opensource@outlook.com.au>
-> ---
->  drivers/pci/setup-bus.c | 82 +++++++++++++++++++++++++----------------
->  1 file changed, 51 insertions(+), 31 deletions(-)
+What do you think?
+
+>> Meanwhile, here is the thing that actually needs to be fixed:
+>> > +Raiserfsprogs
+>> > +-------------
+>> > +
+>> > +Il pacchetto raiserfsprogs dovrebbe essere usato con raiserfs-3.6.x
+>> > (Linux
+>> > +kernel 2.4.x).  Questo è un pacchetto combinato che contiene versioni
+>> > +funzionanti di ``mkreiserfs``, ``resize_reiserfs``, ``debugreiserfs`` e
+>> > +``reiserfsck``.  Questi programmi funzionano sulle piattaforme i386 e
+>> > alpha.
+>> Even in Italian, I believe that 'Reiser" is spelled "Reiser"...
 > 
-> diff --git a/drivers/pci/setup-bus.c b/drivers/pci/setup-bus.c
-> index a8be1a90f..c7e0a5e2b 100644
-> --- a/drivers/pci/setup-bus.c
-> +++ b/drivers/pci/setup-bus.c
-> @@ -563,17 +563,19 @@ void pci_setup_cardbus(struct pci_bus *bus)
->  }
->  EXPORT_SYMBOL(pci_setup_cardbus);
->  
-> -/* Initialize bridges with base/limit values we have collected.
-> -   PCI-to-PCI Bridge Architecture Specification rev. 1.1 (1998)
-> -   requires that if there is no I/O ports or memory behind the
-> -   bridge, corresponding range must be turned off by writing base
-> -   value greater than limit to the bridge's base/limit registers.
-> -
-> -   Note: care must be taken when updating I/O base/limit registers
-> -   of bridges which support 32-bit I/O. This update requires two
-> -   config space writes, so it's quite possible that an I/O window of
-> -   the bridge will have some undesirable address (e.g. 0) after the
-> -   first write. Ditto 64-bit prefetchable MMIO.  */
-> +/*
-> + * Initialize bridges with base/limit values we have collected.
-> + * PCI-to-PCI Bridge Architecture Specification rev. 1.1 (1998)
-> + * requires that if there is no I/O ports or memory behind the
-> + * bridge, corresponding range must be turned off by writing base
-> + * value greater than limit to the bridge's base/limit registers.
-> + *
-> + * Note: care must be taken when updating I/O base/limit registers
-> + * of bridges which support 32-bit I/O. This update requires two
-> + * config space writes, so it's quite possible that an I/O window of
-> + * the bridge will have some undesirable address (e.g. 0) after the
-> + * first write. Ditto 64-bit prefetchable MMIO.
-> + */
->  static void pci_setup_bridge_io(struct pci_dev *bridge)
->  {
->  	struct resource *res;
-> @@ -636,9 +638,11 @@ static void pci_setup_bridge_mmio_pref(struct pci_dev *bridge)
->  	struct pci_bus_region region;
->  	u32 l, bu, lu;
->  
-> -	/* Clear out the upper 32 bits of PREF limit.
-> -	   If PCI_PREF_BASE_UPPER32 was non-zero, this temporarily
-> -	   disables PREF range, which is ok. */
-> +	/*
-> +	 * Clear out the upper 32 bits of PREF limit.
-> +	 * If PCI_PREF_BASE_UPPER32 was non-zero, this temporarily
-> +	 * disables PREF range, which is ok.
-> +	 */
->  	pci_write_config_dword(bridge, PCI_PREF_LIMIT_UPPER32, 0);
->  
->  	/* Set up PREF base/limit. */
-> @@ -730,9 +734,11 @@ int pci_claim_bridge_resource(struct pci_dev *bridge, int i)
->  	return -EINVAL;
->  }
->  
-> -/* Check whether the bridge supports optional I/O and
-> -   prefetchable memory ranges. If not, the respective
-> -   base/limit registers must be read-only and read as 0. */
-> +/*
-> + * Check whether the bridge supports optional I/O and
-> + * prefetchable memory ranges. If not, the respective
-> + * base/limit registers must be read-only and read as 0.
-> + */
->  static void pci_bridge_check_ranges(struct pci_bus *bus)
->  {
->  	u16 io;
-> @@ -752,9 +758,11 @@ static void pci_bridge_check_ranges(struct pci_bus *bus)
->  	if (io)
->  		b_res[0].flags |= IORESOURCE_IO;
->  
-> -	/*  DECchip 21050 pass 2 errata: the bridge may miss an address
-> -	    disconnect boundary by one PCI data phase.
-> -	    Workaround: do not use prefetching on this device. */
-> +	/*
-> +	 * DECchip 21050 pass 2 errata: the bridge may miss an address
-> +	 * disconnect boundary by one PCI data phase.
-> +	 * Workaround: do not use prefetching on this device.
-> +	 */
->  	if (bridge->vendor == PCI_VENDOR_ID_DEC && bridge->device == 0x0001)
->  		return;
->  
-> @@ -789,11 +797,17 @@ static void pci_bridge_check_ranges(struct pci_bus *bus)
->  	}
->  }
->  
-> -/* Helper function for sizing routines: find first available
-> -   bus resource of a given type. Note: we intentionally skip
-> -   the bus resources which have already been assigned (that is,
-> -   have non-NULL parent resource). */
-> -static struct resource *find_free_bus_resource(struct pci_bus *bus,
-> +/*
-> + * Helper function for sizing routines: find first bus resource of a
-> + * given type. Note: we do not skip the bus resources which have already
-> + * been assigned (r->parent != NULL). This is because a resource that is
-> + * already assigned (nothing more to be done) will be indistinguishable
-> + * from one that failed due to lack of space if we skip assigned
-> + * resources. If the caller function cannot tell the difference then it
-> + * might try to place the resources in a different window, doubling up on
-> + * resources or causing unforeseeable issues.
-> + */
-> +static struct resource *find_bus_resource_of_type(struct pci_bus *bus,
->  			 unsigned long type_mask, unsigned long type)
->  {
->  	int i;
-> @@ -802,7 +816,7 @@ static struct resource *find_free_bus_resource(struct pci_bus *bus,
->  	pci_bus_for_each_resource(bus, r, i) {
->  		if (r == &ioport_resource || r == &iomem_resource)
->  			continue;
-> -		if (r && (r->flags & type_mask) == type && !r->parent)
-> +		if (r && (r->flags & type_mask) == type)
->  			return r;
->  	}
->  	return NULL;
-> @@ -820,8 +834,10 @@ static resource_size_t calculate_iosize(resource_size_t size,
->  		size = min_size;
->  	if (old_size == 1)
->  		old_size = 0;
-> -	/* To be fixed in 2.5: we should have sort of HAVE_ISA
-> -	   flag in the struct pci_bus. */
-> +	/*
-> +	 * To be fixed in 2.5: we should have sort of HAVE_ISA
-> +	 * flag in the struct pci_bus.
-> +	 */
->  #if defined(CONFIG_ISA) || defined(CONFIG_EISA)
->  	size = (size & 0xff) + ((size & ~0xffUL) << 2);
->  #endif
-> @@ -900,14 +916,16 @@ static void pbus_size_io(struct pci_bus *bus, resource_size_t min_size,
->  		resource_size_t add_size, struct list_head *realloc_head)
->  {
->  	struct pci_dev *dev;
-> -	struct resource *b_res = find_free_bus_resource(bus, IORESOURCE_IO,
-> -							IORESOURCE_IO);
-> +	struct resource *b_res = find_bus_resource_of_type(bus, IORESOURCE_IO,
-> +					IORESOURCE_IO);
->  	resource_size_t size = 0, size0 = 0, size1 = 0;
->  	resource_size_t children_add_size = 0;
->  	resource_size_t min_align, align;
->  
->  	if (!b_res)
->  		return;
-> +	if (b_res->parent)
-> +		return;
->  
->  	min_align = window_alignment(bus, IORESOURCE_IO);
->  	list_for_each_entry(dev, &bus->devices, bus_list) {
-> @@ -1012,7 +1030,7 @@ static int pbus_size_mem(struct pci_bus *bus, unsigned long mask,
->  	resource_size_t min_align, align, size, size0, size1;
->  	resource_size_t aligns[18];	/* Alignments from 1Mb to 128Gb */
->  	int order, max_order;
-> -	struct resource *b_res = find_free_bus_resource(bus,
-> +	struct resource *b_res = find_bus_resource_of_type(bus,
->  					mask | IORESOURCE_PREFETCH, type);
->  	resource_size_t children_add_size = 0;
->  	resource_size_t children_add_align = 0;
-> @@ -1020,6 +1038,8 @@ static int pbus_size_mem(struct pci_bus *bus, unsigned long mask,
->  
->  	if (!b_res)
->  		return -ENOSPC;
-> +	if (b_res->parent)
-> +		return 0;
->  
->  	memset(aligns, 0, sizeof(aligns));
->  	max_order = 0;
-> -- 
-> 2.19.1
+> oops, your are right. I will fix this and send a V2 patch. Then I will 
+> have a
+> look at the original document and try to update it
 > 
+>> Thanks,
+>> 
+>> jon
+
+-- 
+Federico Vaga
+http://www.federicovaga.it/
