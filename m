@@ -1,109 +1,99 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 95F897D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Feb 2019 19:24:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3898F7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Feb 2019 19:32:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726489AbfBFTYZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Feb 2019 14:24:25 -0500
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:57326 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726480AbfBFTYZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 6 Feb 2019 14:24:25 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3F8C680D;
-        Wed,  6 Feb 2019 11:24:24 -0800 (PST)
-Received: from [192.168.100.241] (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 98CEB3F719;
-        Wed,  6 Feb 2019 11:24:22 -0800 (PST)
-Subject: Re: [PATCH v4 01/12] Documentation: Document arm64 kpti control
-To:     Andre Przywara <andre.przywara@arm.com>
-Cc:     linux-arm-kernel@lists.infradead.org, stefan.wahren@i2se.com,
-        Jonathan Corbet <corbet@lwn.net>, mlangsdo@redhat.com,
-        linux-doc@vger.kernel.org, suzuki.poulose@arm.com,
-        marc.zyngier@arm.com, catalin.marinas@arm.com,
-        julien.thierry@arm.com, will.deacon@arm.com,
-        linux-kernel@vger.kernel.org, steven.price@arm.com,
-        ykaukab@suse.de, dave.martin@arm.com, shankerd@codeaurora.org
-References: <20190125180711.1970973-1-jeremy.linton@arm.com>
- <20190125180711.1970973-2-jeremy.linton@arm.com>
- <20190130180247.15ab0577@donnerap.cambridge.arm.com>
-From:   Jeremy Linton <jeremy.linton@arm.com>
-Message-ID: <69fceac6-7e83-7b38-44fb-2c02245f51df@arm.com>
-Date:   Wed, 6 Feb 2019 13:24:17 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+        id S1726561AbfBFTcD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Feb 2019 14:32:03 -0500
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:37898 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726480AbfBFTcD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Feb 2019 14:32:03 -0500
+Received: by mail-qt1-f195.google.com with SMTP id 2so9246643qtb.5;
+        Wed, 06 Feb 2019 11:32:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=fXuxx5T/6D9bSfkO0RAbEIoq3LFv9bHNAJi6o1eR5OA=;
+        b=ZhJ7CA6PwSLaSrTXJuESX7ByjaQci/oAAJrHsLuc/LNaki+sbPjncobhN5ytbx9HVP
+         y6yA6t3KYlkQXUiC2AZFTCw23YfXKO1dwW4+5QLGbloIojDULkyF28w5UR4+Mt+57F+h
+         ZX38ubSCTo81gNBNTWqrAi96vcPJ1nruu+MxR0u5OXTwSBZzSUBWqVvGuyLtnCCWrz4r
+         DIMbWyE1Fe0YoovOuBuw5u8ehgHDQw/Q0Ti5YJZtYL2MZL3mIXypVNJIvdkq2EBSQyAC
+         K9XC7MfOtwdHaHM1N3nlCHIqccRVyOJT5jL2/QVXVb7QmYeLsOoNj8ZnjvMvhtOvST2s
+         NC1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=fXuxx5T/6D9bSfkO0RAbEIoq3LFv9bHNAJi6o1eR5OA=;
+        b=iwv/dT4ER7UZh+cNtr1XhhBk4HXzbtfCDGQfqkr46OQuy4brrHe94dqGl3QKn97udE
+         QpgRnfuYlbIKNt4Yz/7FfzWO2PtA2hFFkQPeqySm7mOeIdw4TD/Jz6enqzcDBP54Q26L
+         TiEwP+p5FRBCAVmpvg1/X9nNDzq5cfK2GhxykXNo7HluyOiu0Y48it9c2CWOBYvRqXrN
+         NYMe7d31yEvktIb58FriVIWS2TTyhZvezBlWi23uB+rR34AoEa9gA5qYD9jJlyYMJ8Fi
+         wY6cVbPqdOnvYXynmOxiNSj0MnqpSffrTEOMPUyMiV1/PlCPOOI6MmUVyVA1k8U084Zs
+         E4Mg==
+X-Gm-Message-State: AHQUAuYNG7iCiLzpunp57/dtCE/MsDlHccYn13pA6vuodwFzKCMjSn3r
+        2Sx6/ym5vTzHHKaWSUwb0fk=
+X-Google-Smtp-Source: AHgI3IaQ6bI6uVbMNf3XZtM8bst1WZLRhfQWU7MWJzAr+s690HDG1MFbTzpT5A8JcOo29qIjVjw//Q==
+X-Received: by 2002:ac8:728f:: with SMTP id v15mr8749234qto.260.1549481522067;
+        Wed, 06 Feb 2019 11:32:02 -0800 (PST)
+Received: from smtp.gmail.com ([143.107.45.1])
+        by smtp.gmail.com with ESMTPSA id n92sm16491759qtd.85.2019.02.06.11.31.59
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 06 Feb 2019 11:32:01 -0800 (PST)
+Date:   Wed, 6 Feb 2019 17:31:57 -0200
+From:   Shayenne Moura <shayenneluzmoura@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/doc: Remove solved "VBlank issues"
+Message-ID: <20190206193157.3b53ipdxtcqc4hv4@smtp.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190130180247.15ab0577@donnerap.cambridge.arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: NeoMutt/20171215
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Remove the list of broken tests on VKMS solved by patchset
+https://patchwork.freedesktop.org/series/55994/
 
+Signed-off-by: Shayenne Moura <shayenneluzmoura@gmail.com>
+---
+ Documentation/gpu/vkms.rst | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-I just realized I replied to this off-list.
-
-On 01/30/2019 12:02 PM, Andre Przywara wrote:
-> On Fri, 25 Jan 2019 12:07:00 -0600
-> Jeremy Linton <jeremy.linton@arm.com> wrote:
-> 
-> Hi,
-> 
->> For a while Arm64 has been capable of force enabling
->> or disabling the kpti mitigations. Lets make sure the
->> documentation reflects that.
->>
->> Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: linux-doc@vger.kernel.org
->> ---
->>   Documentation/admin-guide/kernel-parameters.txt | 6 ++++++
->>   1 file changed, 6 insertions(+)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt
->> b/Documentation/admin-guide/kernel-parameters.txt index
->> b799bcf67d7b..9475f02c79da 100644 ---
->> a/Documentation/admin-guide/kernel-parameters.txt +++
->> b/Documentation/admin-guide/kernel-parameters.txt @@ -1982,6 +1982,12
->> @@ Built with CONFIG_DEBUG_KMEMLEAK_DEFAULT_OFF=y,
->>   			the default is off.
->>   
->> +	kpti=		[ARM64] Control page table isolation of
->> user
->> +			and kernel address spaces.
->> +			Default: enabled on cores which need
->> mitigation.
-> 
-> Would this be a good place to mention that we enable it when
-> CONFIG_RANDOMIZE_BASE is enabled and we have a valid kaslr_offset? I
-> found this somewhat surprising, also it's unrelated to the
-> vulnerability.
-
-Maybe, but I tend to think since this command line forces it on/off 
-regardless of RANDOMIZE_BASE, that a better place to mention that 
-RANDOMIZE_BASE forces kpti on is the Kconfig option.
-
-BTW: Thanks for reviewing this.
-
-
-> 
-> Cheers,
-> Andre
-> 
->> +			0: force disabled
->> +			1: force enabled
->> +
->>   	kvm.ignore_msrs=[KVM] Ignore guest accesses to unhandled
->> MSRs. Default is 0 (don't ignore, but inject #GP)
->>   
-> 
+diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+index 7dfc349a4508..61586fc861bb 100644
+--- a/Documentation/gpu/vkms.rst
++++ b/Documentation/gpu/vkms.rst
+@@ -23,17 +23,6 @@ CRC API Improvements
+ - Add igt test to check extreme alpha values i.e. fully opaque and fully
+   transparent (intermediate values are affected by hw-specific rounding modes).
+ 
+-Vblank issues
+--------------
+-
+-Some IGT test cases are failing. Need to analyze why and fix the issues:
+-
+-- plain-flip-fb-recreate
+-- plain-flip-ts-check
+-- flip-vs-blocking-wf-vblank
+-- plain-flip-fb-recreate-interruptible
+-- flip-vs-wf_vblank-interruptible
+-
+ Runtime Configuration
+ ---------------------
+ 
+-- 
+2.17.1
 
