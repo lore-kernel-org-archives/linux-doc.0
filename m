@@ -1,99 +1,139 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3898F7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Feb 2019 19:32:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0DFDA7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Feb 2019 20:28:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726561AbfBFTcD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Feb 2019 14:32:03 -0500
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:37898 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726480AbfBFTcD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Feb 2019 14:32:03 -0500
-Received: by mail-qt1-f195.google.com with SMTP id 2so9246643qtb.5;
-        Wed, 06 Feb 2019 11:32:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=fXuxx5T/6D9bSfkO0RAbEIoq3LFv9bHNAJi6o1eR5OA=;
-        b=ZhJ7CA6PwSLaSrTXJuESX7ByjaQci/oAAJrHsLuc/LNaki+sbPjncobhN5ytbx9HVP
-         y6yA6t3KYlkQXUiC2AZFTCw23YfXKO1dwW4+5QLGbloIojDULkyF28w5UR4+Mt+57F+h
-         ZX38ubSCTo81gNBNTWqrAi96vcPJ1nruu+MxR0u5OXTwSBZzSUBWqVvGuyLtnCCWrz4r
-         DIMbWyE1Fe0YoovOuBuw5u8ehgHDQw/Q0Ti5YJZtYL2MZL3mIXypVNJIvdkq2EBSQyAC
-         K9XC7MfOtwdHaHM1N3nlCHIqccRVyOJT5jL2/QVXVb7QmYeLsOoNj8ZnjvMvhtOvST2s
-         NC1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=fXuxx5T/6D9bSfkO0RAbEIoq3LFv9bHNAJi6o1eR5OA=;
-        b=iwv/dT4ER7UZh+cNtr1XhhBk4HXzbtfCDGQfqkr46OQuy4brrHe94dqGl3QKn97udE
-         QpgRnfuYlbIKNt4Yz/7FfzWO2PtA2hFFkQPeqySm7mOeIdw4TD/Jz6enqzcDBP54Q26L
-         TiEwP+p5FRBCAVmpvg1/X9nNDzq5cfK2GhxykXNo7HluyOiu0Y48it9c2CWOBYvRqXrN
-         NYMe7d31yEvktIb58FriVIWS2TTyhZvezBlWi23uB+rR34AoEa9gA5qYD9jJlyYMJ8Fi
-         wY6cVbPqdOnvYXynmOxiNSj0MnqpSffrTEOMPUyMiV1/PlCPOOI6MmUVyVA1k8U084Zs
-         E4Mg==
-X-Gm-Message-State: AHQUAuYNG7iCiLzpunp57/dtCE/MsDlHccYn13pA6vuodwFzKCMjSn3r
-        2Sx6/ym5vTzHHKaWSUwb0fk=
-X-Google-Smtp-Source: AHgI3IaQ6bI6uVbMNf3XZtM8bst1WZLRhfQWU7MWJzAr+s690HDG1MFbTzpT5A8JcOo29qIjVjw//Q==
-X-Received: by 2002:ac8:728f:: with SMTP id v15mr8749234qto.260.1549481522067;
-        Wed, 06 Feb 2019 11:32:02 -0800 (PST)
-Received: from smtp.gmail.com ([143.107.45.1])
-        by smtp.gmail.com with ESMTPSA id n92sm16491759qtd.85.2019.02.06.11.31.59
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 06 Feb 2019 11:32:01 -0800 (PST)
-Date:   Wed, 6 Feb 2019 17:31:57 -0200
-From:   Shayenne Moura <shayenneluzmoura@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/doc: Remove solved "VBlank issues"
-Message-ID: <20190206193157.3b53ipdxtcqc4hv4@smtp.gmail.com>
+        id S1726037AbfBFU2g (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Feb 2019 15:28:36 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:42321 "EHLO
+        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726022AbfBFU2g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Feb 2019 15:28:36 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 65C3821C48;
+        Wed,  6 Feb 2019 15:28:35 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 06 Feb 2019 15:28:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
+        :from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=TTWvcmZyfjNMBXBOqsgqUg3LojQ
+        3JNdyJr4S/FFW1lY=; b=OEM1qlWNY6OrdawOX7F+TwnDkLncWe/FnPKJAWpqagM
+        C6hoCd2gnPw9iiVzNsrC3ehXl9z2yKHOf5kf+vlmiE6JFAh+9nZgjLGEYwNZ9iCU
+        NjyzT70dwmsTHVuvRUUFUoVUBNbDbGFHD9VdeHD624jKfZwhZxKB79d/PMHBzLli
+        apMHomoIq7TUD4ksAVThaxkYzh/625XnyCB87WGq03ezLBr2FVyxp2EcDxNkZb23
+        piRd6d2i539hYlBi8TyVtGzS+eXFVsnADCoA7D9PWucsxlM/MUFeR4oQIJbFn4w4
+        9j7ePUvhZnqU5Dzf7SYE5aC9xJZdL349NcmVQse8h9g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=TTWvcm
+        ZyfjNMBXBOqsgqUg3LojQ3JNdyJr4S/FFW1lY=; b=BlitvqDfvUWJ0INHq7xhs2
+        32Cd9xy/MPrE63X2Vw9gQ/jcSNFHel98G8kI7coqu5k3oA1Qo3G/7F6Cemly4/xW
+        rQ4IsPKAAnSFRjU9vpaoKfq4Od5oABV9mvB7uCoMOv2WhjIDOxBaJuBGh6/r/sZz
+        u4Y82GAn5MG8e8Ko77WzVXHLEiRvm4Dz+B5n/o7rZDi2p11eK1mLRntib4KM5kIN
+        JUcSam6AnlFj7rLLfOtAvt4vrnT6c/MKJvyYltsiWrr7KLkMhyAUH+wh0pKSzBb+
+        gqgwjh/dEHFAadkVQ+/+fQndGWRsgv/QnqrryfKhzibS8VBRBOMBgNlGC9wIQCqw
+        ==
+X-ME-Sender: <xms:ckNbXPl4_4Nr2yglZbvTk1K4SPe3bZH2xfLAqTqhd1lgMVYVk_tBMA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedtledrkeekgddugedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfquhhtnecuuegrihhlohhuthemucef
+    tddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfghrlhcuvffnffculddutd
+    dmnecujfgurhepfffhvffukfhfgggtuggjofgfsehttdertdforedvnecuhfhrohhmpedf
+    vfhosghinhcuvedrucfjrghrughinhhgfdcuoehmvgesthhosghinhdrtggtqeenucffoh
+    hmrghinhepkhgvrhhnvghlrdhorhhgpdhsphhhihhngidqughotgdrohhrghdpshhouhhr
+    tggvfhhorhhgvgdrnhgvthenucfkphepuddvuddrgeegrddvvdeirddujeelnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpehmvgesthhosghinhdrtggtnecuvehluhhsthgvrhfuihii
+    vgeptd
+X-ME-Proxy: <xmx:ckNbXIDGQFbZc82fo1o0AFR20wjt7MG_a4uTYmZnivz9NeYJ59Oa6w>
+    <xmx:ckNbXGiCo8qqxrDSgVyDruNNmqBphA9dJldumL05TVlWVOxnzINJ5Q>
+    <xmx:ckNbXNxGaxk_L8n_1Wvsrj-6B6MbSF-hVAWaX6OKpTR0X6v1hUER5g>
+    <xmx:c0NbXOjn-qMvgepyI_W1NlyNwTv-Rtuwdyg5h0Gczv7zMFW4t_XIUg>
+Received: from localhost (ppp121-44-226-179.bras2.syd2.internode.on.net [121.44.226.179])
+        by mail.messagingengine.com (Postfix) with ESMTPA id C2F16E4210;
+        Wed,  6 Feb 2019 15:28:33 -0500 (EST)
+Date:   Thu, 7 Feb 2019 07:28:29 +1100
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Markus Heiser <markus.heiser@darmarit.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        "Tobin C. Harding" <tobin@kernel.org>,
+        Christopher Lameter <cl@linux.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 3/3] docs: Use underscore not hyphen in label
+Message-ID: <20190206202829.GC24938@eros.localdomain>
+References: <20190131040623.15569-4-me@tobin.cc>
+ <20190131092757.GF28876@rapoport-lnx>
+ <20190131205608.GB1329@eros.localdomain>
+ <20190201160310.5b98eb69@lwn.net>
+ <20190202143209.GA8620@rapoport-lnx>
+ <20190204211220.GA8601@eros.localdomain>
+ <20190204160336.12fe82f6@lwn.net>
+ <c19a1a84-72cd-407a-f4f1-180c5b0d4bf0@darmarit.de>
+ <20190206042755.GC16761@eros.localdomain>
+ <c4ee1d24-6a14-d87f-3a0c-88b13e56590f@darmarit.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: NeoMutt/20171215
+In-Reply-To: <c4ee1d24-6a14-d87f-3a0c-88b13e56590f@darmarit.de>
+X-Mailer: Mutt 1.11.3 (2019-02-01)
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove the list of broken tests on VKMS solved by patchset
-https://patchwork.freedesktop.org/series/55994/
+On Wed, Feb 06, 2019 at 08:49:38AM +0100, Markus Heiser wrote:
+> Am 06.02.19 um 05:27 schrieb Tobin C. Harding:
+> > Seems we either change them all or none of them.
+> 
+> Both are OK .. from the spec ...
+> 
+> "Simple reference names are single words consisting of alphanumerics plus
+> isolated (no two adjacent) internal hyphens, underscores, periods, colons
+> and plus signs; no whitespace or other characters are allowed." [1]
+> 
+> 
+> >> Many errors are not reported again in rebuilds.
+> >
+> > It's more than that.  Seems that no .o files means dependencies are not
+> > the same in docs directories to *usual* source code directories, as in
+> > this example, a file with an outdated label was not rebuilt since it
+> > wasn't touched.
+> 
+> Right, this is what they call the 'doctree' files (see [2] for build
+> phases), one for every source file.  ATM they are located in the hidden
+> folder 'output/.doctree'.  OT here, just to mentioning: this will result in
+> the folder being exported at the end, e.g. kernel.org:
+> 
+>   https://www.kernel.org/doc/html/latest/.doctrees/
+> 
+> > Note to self, always do clean build for docs patches.  Thanks.
+> >
+> >> To reproduce this error run 'make cleandocs htmldocs' first.  Then you will see
+> >> this error message (I'am on current docs-next from Jon using Sphinx v1.8.3 ):
+> >>
+> >>    Documentation/core-api/mm-api.rst:22: WARNING: undefined label: \
+> >>      memory-allocation (if the link has no caption ...)
+> >
+> > Can confirm I also get this warning,
+> ..
+> > With patch reverted, on docs-next, I've got 0 'undefined labels'
+> > warnings.
+> 
+> Thanks for verification.
+> 
+> [1] http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#reference-names
+> [2] http://www.sphinx-doc.org/en/master/extdev/index.html#build-phases
+> 
+> 
+>  -- Markus --
+> 
 
-Signed-off-by: Shayenne Moura <shayenneluzmoura@gmail.com>
----
- Documentation/gpu/vkms.rst | 11 -----------
- 1 file changed, 11 deletions(-)
+Thanks Markus, I appreciate the information.
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index 7dfc349a4508..61586fc861bb 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -23,17 +23,6 @@ CRC API Improvements
- - Add igt test to check extreme alpha values i.e. fully opaque and fully
-   transparent (intermediate values are affected by hw-specific rounding modes).
- 
--Vblank issues
---------------
--
--Some IGT test cases are failing. Need to analyze why and fix the issues:
--
--- plain-flip-fb-recreate
--- plain-flip-ts-check
--- flip-vs-blocking-wf-vblank
--- plain-flip-fb-recreate-interruptible
--- flip-vs-wf_vblank-interruptible
--
- Runtime Configuration
- ---------------------
- 
--- 
-2.17.1
 
+	Tobin.
