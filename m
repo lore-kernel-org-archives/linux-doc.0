@@ -5,70 +5,65 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 27E3E7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 18:03:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2A3B67D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 20:13:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726401AbfBGSDV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Feb 2019 13:03:21 -0500
-Received: from smtp2-4.goneo.de ([85.220.129.36]:57931 "EHLO smtp2-4.goneo.de"
+        id S1727379AbfBGUN1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Feb 2019 15:13:27 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:55160 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726171AbfBGSDV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Feb 2019 13:03:21 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by smtp2.goneo.de (Postfix) with ESMTP id 6F48823F4C2;
-        Thu,  7 Feb 2019 19:03:19 +0100 (CET)
-X-Virus-Scanned: by goneo
-Received: from smtp2.goneo.de ([127.0.0.1])
-        by localhost (smtp2.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id LsDd7IH-3Icj; Thu,  7 Feb 2019 19:03:18 +0100 (CET)
-Received: from [192.168.1.127] (dyndsl-178-142-135-081.ewe-ip-backbone.de [178.142.135.81])
-        by smtp2.goneo.de (Postfix) with ESMTPSA id 82B5E23F02C;
-        Thu,  7 Feb 2019 19:03:18 +0100 (CET)
-Subject: Re: Return: vs Returns:
-From:   Markus Heiser <markus.heiser@darmarit.de>
-To:     Joe Perches <joe@perches.com>, Matthew Wilcox <willy@infradead.org>
-Cc:     Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org
-References: <20190207135924.GV21860@bombadil.infradead.org>
- <20190207153056.GB9120@rapoport-lnx>
- <8cacba6c-32c1-f60b-dfb0-0c74ef09d53c@darmarit.de>
- <20190207161852.GC8040@rapoport-lnx>
- <596652fd8f0a3637649167b47805f1c6ac848f25.camel@perches.com>
- <20190207173448.GZ21860@bombadil.infradead.org>
- <77f029f635867f45e8c0192fc4db5928a00076ef.camel@perches.com>
- <5ab01a70-edbc-71b4-8c38-8eee0859889d@darmarit.de>
-Message-ID: <dd7b41bc-ceca-93fb-873d-0bb1a8b3ba1a@darmarit.de>
-Date:   Thu, 7 Feb 2019 19:03:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
-MIME-Version: 1.0
-In-Reply-To: <5ab01a70-edbc-71b4-8c38-8eee0859889d@darmarit.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: de-DE
-Content-Transfer-Encoding: 8bit
+        id S1727282AbfBGUN1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Feb 2019 15:13:27 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 59AF120276;
+        Thu,  7 Feb 2019 20:13:27 +0000 (UTC)
+Received: from llong.com (dhcp-17-35.bos.redhat.com [10.18.17.35])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6D5B218780;
+        Thu,  7 Feb 2019 20:13:21 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH] Documentation: Fix grammatical error in sysctl/fs.txt & clarify negative dentry
+Date:   Thu,  7 Feb 2019 15:13:13 -0500
+Message-Id: <1549570393-2140-1-git-send-email-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]); Thu, 07 Feb 2019 20:13:27 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Fix a grammatical error in the dentry-state text and clarify the usage
+of negative dentries.
 
-Am 07.02.19 um 18:58 schrieb Markus Heiser:
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ Documentation/sysctl/fs.txt | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> 
-> BTW: kernel-doc parser accept 'return' and 'returns':
-> 
->      } elsif ($newsection =~ m/^return?$/i) {
->          $newsection = $section_return;
+diff --git a/Documentation/sysctl/fs.txt b/Documentation/sysctl/fs.txt
+index 58649bd..ebc679b 100644
+--- a/Documentation/sysctl/fs.txt
++++ b/Documentation/sysctl/fs.txt
+@@ -80,7 +80,9 @@ nonzero when shrink_dcache_pages() has been called and the
+ dcache isn't pruned yet.
+ 
+ nr_negative shows the number of unused dentries that are also
+-negative dentries which do not mapped to actual files.
++negative dentries which do not map to any files. Instead,
++they help speeding up rejection of non-existing files provided
++by the users.
+ 
+ ==============================================================
+ 
+-- 
+1.8.3.1
 
-Sorry wrong C&P, here is the one from the source:
-
-	} elsif ($newsection =~ m/^returns?$/i) {
-	    $newsection = $section_return;
-	} elsif ($newsection =~ m/^\@return$/) {
-
--- Markus --
-
-> 
-> Is there really a need to be standardize this? From the list above I think
-> there are only a few where it fails.
-> 
-> -- Markus --
