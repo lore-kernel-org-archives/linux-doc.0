@@ -5,56 +5,52 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 72B087D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 13:14:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A26687D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 13:23:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726860AbfBGNOm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Feb 2019 08:14:42 -0500
-Received: from mga18.intel.com ([134.134.136.126]:16674 "EHLO mga18.intel.com"
+        id S1726786AbfBGNX2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Feb 2019 08:23:28 -0500
+Received: from mga12.intel.com ([192.55.52.136]:44431 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726558AbfBGNOl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Feb 2019 08:14:41 -0500
+        id S1726448AbfBGNX2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Feb 2019 08:23:28 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Feb 2019 05:14:41 -0800
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Feb 2019 05:23:27 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.58,344,1544515200"; 
-   d="scan'208";a="113124962"
+   d="scan'208";a="136627754"
 Received: from linux.intel.com ([10.54.29.200])
-  by orsmga007.jf.intel.com with ESMTP; 07 Feb 2019 05:14:41 -0800
+  by orsmga001.jf.intel.com with ESMTP; 07 Feb 2019 05:23:27 -0800
 Received: from [10.125.252.152] (abudanko-mobl.ccr.corp.intel.com [10.125.252.152])
-        by linux.intel.com (Postfix) with ESMTP id 162E25800E0;
-        Thu,  7 Feb 2019 05:14:36 -0800 (PST)
-From:   Alexey Budankov <alexey.budankov@linux.intel.com>
-Subject: Re: [PATCH v1 1/3] perf-security: document perf_events/Perf resource
- control
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>,
+        by linux.intel.com (Postfix) with ESMTP id AA9E05800E0;
+        Thu,  7 Feb 2019 05:23:23 -0800 (PST)
+To:     Jonatan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>, Jann Horn <jannh@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Jann Horn <jannh@google.com>,
         Arnaldo Carvalho de Melo <acme@kernel.org>,
         Jiri Olsa <jolsa@redhat.com>,
         Namhyung Kim <namhyung@kernel.org>,
         Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Mark Rutland <mark.rutland@arm.com>,
         Andi Kleen <ak@linux.intel.com>,
+        Mark Rutland <mark.rutland@arm.com>,
         Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
         "kernel-hardening@lists.openwall.com" 
         <kernel-hardening@lists.openwall.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         linux-kernel <linux-kernel@vger.kernel.org>
-References: <9cfbf7a1-72dd-f9d0-8137-0f120fa74d21@linux.intel.com>
- <bfd0e4bb-a4a5-e65d-e8e2-d2c9d03f3160@linux.intel.com>
- <20190206165858.19fdaf58@lwn.net>
+From:   Alexey Budankov <alexey.budankov@linux.intel.com>
+Subject: [PATCH v2 0/3] admin-guide: extend perf-security with resource
+ control, data categories and privileged users
 Organization: Intel Corp.
-Message-ID: <a4122ef0-011e-b667-b742-1b58cab187a6@linux.intel.com>
-Date:   Thu, 7 Feb 2019 16:14:35 +0300
+Message-ID: <fd896eec-7833-f23a-ad2f-95005dca5fff@linux.intel.com>
+Date:   Thu, 7 Feb 2019 16:23:22 +0300
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
  Thunderbird/60.5.0
 MIME-Version: 1.0
-In-Reply-To: <20190206165858.19fdaf58@lwn.net>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -64,162 +60,36 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-On 07.02.2019 2:58, Jonathan Corbet wrote:
-> On Fri, 1 Feb 2019 10:29:11 +0300
-> Alexey Budankov <alexey.budankov@linux.intel.com> wrote:
-> 
->> Extend perf-security.rst file with perf_events/Perf resource control
->> section describing RLIMIT_NOFILE and perf_event_mlock_kb settings for
->> performance monitoring user processes.
->>
->> Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
-> 
-> Overall these patches seem reasonable, though I have some nits to pick.
-> I'm happy to apply them but wouldn't mind an ack from the perf camp.
-> 
-> Alexey, could you wrap your paragraphs at 72-75 columns?
+The patch set extends the first version of perf-security.rst documentation
+file [1], [2], [3] with the following topics:
 
-Sure, let's have it as the forth patch in the series in order not to 
-mix the actual content with formatting.
+1) perf_events/Perf resource limits and control management that describes
+   RLIMIT_NOFILE and perf_event_mlock_kb settings for processes conducting
+   performance monitoring;
 
-> 
->> ---
->>  Documentation/admin-guide/perf-security.rst | 36 +++++++++++++++++++++
->>  1 file changed, 36 insertions(+)
->>
->> diff --git a/Documentation/admin-guide/perf-security.rst b/Documentation/admin-guide/perf-security.rst
->> index f73ebfe9bfe2..ff6832191577 100644
->> --- a/Documentation/admin-guide/perf-security.rst
->> +++ b/Documentation/admin-guide/perf-security.rst
->> @@ -84,6 +84,40 @@ governed by perf_event_paranoid [2]_ setting:
->>       locking limit is imposed but ignored for unprivileged processes with
->>       CAP_IPC_LOCK capability.
->>  
->> +perf_events/Perf resource control
->> +---------------------------------
->> +
->> +perf_events system call API [2]_ allocates file descriptors for every configured
-> 
-> *The* perf_events system call API
+2) categories of system and performance data that can be captured by
+   perf_events/Perf with explicit designation of process sensitive data;
 
-Accepted.
+3) possible steps to create perf_event/Perf privileged users groups for 
+   the current implementations of perf_events syscall API [4] and Perf tool;
 
-> 
->> +PMU event. Open file descriptors are a per-process accountable *resource* governed
->> +by RLIMIT_NOFILE [11]_ limit (ulimit -n), which is usually derived from the login
-> 
-> by *the* RLIMIT_NOFILE
+---
+Alexey Budankov (4):
+  perf-security: document perf_events/Perf resource control
+  perf-security: document collected perf_events/Perf data categories
+  perf-security: elaborate on perf_events/Perf privileged users
+  perf-security: wrap paragraphs on 72 columns
 
-Accepted.
+ Documentation/admin-guide/perf-security.rst | 247 +++++++++++++++-----
+ 1 file changed, 187 insertions(+), 60 deletions(-)
 
-> 
->> +shell process. When configuring Perf collection for a long list of events on a
->> +large server system, this limit can be easily hit preventing required monitoring
->> +configuration. RLIMIT_NOFILE limit can be increased on per-user basis modifying
->> +content of limits.conf file [12]_ on some systems. Ordinary Perf sampling session
-> 
-> of *the* limits.conf file
-> 
-> Ordinarily, a Perf
+---
+Changes in v2:
+- addressed comments for v1
+- added fourth patch implementing 72 columns paragraph width
 
-Accepted.
-
-> 
->> +(perf record) requires an amount of open perf_event file descriptors that is not
->> +less than a number of monitored events multiplied by a number of monitored CPUs.
->> +
->> +An amount of memory available to user processes for capturing performance monitoring
->> +data is governed by perf_event_mlock_kb [2]_ setting. This perf_event specific
-> 
-> by *the* perf_event_mlock_kb
-
-Accepted.
-
-> 
->> +*resource* setting defines overall per-cpu limits of memory allowed for mapping
-> 
-> Why the *emphasis* here?
-
-Avoided emphasis here and in the other places of this paragraphs.
-
-> 
->> +by the user processes to execute performance monitoring. The setting essentially
->> +extends RLIMIT_MEMLOCK [11]_ limit but only for memory regions mapped specially
-> 
-> extends *the* RMLIMIT_MEMLOCK limit *,* but only
-
-Accepted.
-
-> 
->> +for capturing monitored performance events and related data.
->> +
->> +For example, if a machine has eight cores and perf_event_mlock_kb limit is set
->> +to 516 KiB then a user process is provided with 516 KiB * 8 = 4128 KiB of memory
-> 
-> Kib, then
-
-Comma accepted, Kib = 1024 bits and this is not what is meant here - KiB=1024 Bytes.
-
-> 
->> +above RLIMIT_MEMLOCK limit (ulimit -l) for perf_event mmap buffers. In particular
-> 
-> above *the* RLIMIT_MEMLOCK
-> 
-> particular,
-
-Accepted.
-
-> 
->> +this means that if the user wants to start two or more performance monitoring
-> 
-> that, if
-
-Accepted.
-
-> 
->> +processes, it is required to manually distribute available 4128 KiB between the
-> 
-> s/it is/they are/
-
-Not sure what you mean here. I want to say that the users is required to distribute 
-memory among the processes using --mmap-pages. Replaced 'it' with 'the user'.
-
-> 
->> +monitoring processes, for example, using --mmap-pages Perf record mode option.
-> 
-> using *the* --mmap-pages option
-
-Accepted.
-
-> 
->> +Otherwise, the first started performance monitoring process allocates all available
->> +4128 KiB and the other processes will fail to proceed due to the lack of memory.
->> +
->> +RLIMIT_MEMLOCK and perf_event_mlock_kb *resource* constraints are ignored for
->> +processes with CAP_IPC_LOCK capability. Thus, perf_events/Perf privileged users
-> 
-> with *the* CAP_IPC_LOCK
-
-Accepted.
-
-> 
->> +can be provided with memory above the constraints for perf_events/Perf performance
->> +monitoring purpose by providing the Perf executable with CAP_IPC_LOCK capability.
->> +
->>  Bibliography
->>  ------------
->>  
->> @@ -94,4 +128,6 @@ Bibliography
->>  .. [5] `<https://www.kernel.org/doc/html/latest/security/credentials.html>`_
->>  .. [6] `<http://man7.org/linux/man-pages/man7/capabilities.7.html>`_
->>  .. [7] `<http://man7.org/linux/man-pages/man2/ptrace.2.html>`_
->> +.. [11] `<http://man7.org/linux/man-pages/man2/getrlimit.2.html>`_
->> +.. [12] `<http://man7.org/linux/man-pages/man5/limits.conf.5.html>`_
-> 
-> Thanks,
-> 
-> jon
-> 
-
-Thanks,
-Alexey
+---
+[1] https://marc.info/?l=linux-kernel&m=153736008310781&w=2
+[2] https://lkml.org/lkml/2018/5/21/156
+[3] https://lkml.org/lkml/2018/11/27/604
+[4] http://man7.org/linux/man-pages/man2/perf_event_open.2.html
