@@ -1,94 +1,360 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 799D37D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 20:47:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A15507D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 21:11:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727354AbfBGUrG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Feb 2019 15:47:06 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:33671 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726718AbfBGUrF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Feb 2019 15:47:05 -0500
-Received: by mail-wm1-f68.google.com with SMTP id h22so5266567wmb.0;
-        Thu, 07 Feb 2019 12:47:04 -0800 (PST)
+        id S1727539AbfBGVLN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Feb 2019 16:11:13 -0500
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:36919 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727445AbfBGVLN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Feb 2019 16:11:13 -0500
+Received: by mail-qt1-f195.google.com with SMTP id a48so1607611qtb.4
+        for <linux-doc@vger.kernel.org>; Thu, 07 Feb 2019 13:11:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=kxMUWUSSEJzEo3fq5gCt2EQxQAklB+Gkyf8IA+NJrtk=;
-        b=f/k3NCq3z+jbF4N5fzwV5/FtzRllhFv4gcmrQnkNG4e8HN1t8cSjUcLwBOSbz9w8to
-         oDiLn4ufOsi1A5PElBbfAU/vpBFJeWZwUzoUegU0lgqPwuV736pt5ZM8ZrLkWZV63aua
-         qD5SwTgU1nqI54UT5IncfaGIO88nVRLDxDdl5Xg1VhwfglG+VQ/+XU6hc2fPFJbLQBG/
-         LC/IHhu6hSt0LalJpATAQePH70VEO4fyA3UEhazsYgI7cFhPiT8NMNWIbfzdDzGeWzZJ
-         VCzY0msdRv37fIk9O2nZEXS8NJrDf4UT7y0wJ/xj9/hXuZGzxpEGfgaKadYe03CKKiC5
-         PGnA==
+        d=joelfernandes.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=506iggCwjUov+wxboSi2JHOUIlui0OJeyiN/05dB3Ec=;
+        b=iMa7YZiJJ6TAAaN1tJ14LKd8rQFv7Tio4r+PglScG32adMrCalbiKl+XlKhhtmgVzO
+         c9/9RuL0TtmriQTowIhkFq6X03WHrUV+/peKr7rpS2GhQwyCdN9qRvU31hPpJeNH042l
+         GEGb5eKbfjvmO0sgCOyLHQj3dCPz1/6hn/Myk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=kxMUWUSSEJzEo3fq5gCt2EQxQAklB+Gkyf8IA+NJrtk=;
-        b=oIbtadRGhhkRkAZUJDm2E2LKW98eBiqOytuh0ejZlrwe8F6AcbWOBtL93oF7LSVTcK
-         WHo1YzPfcVMf1kJrTuPuIZqoYLynj5pHVneTf6y8wDBlf4LsNbIZdKF75KpZUpxqu9Hf
-         7bSLqoNRlt8xzqabk8L1jxyB+dYo1lBCr6mjrrgAwM16M7sx011v7FSRf111NH3UZOri
-         8nfqmeOYTJ7+v+7PRcX+3T9YWvNYx90aGGUJJWvluBXU9h9zsq4+h63ihLvueT8oyMqb
-         fLvzuB4H7MV0EcXXBJR8ESKQzjNC4qN6ybKgbC3OFti/eF6M10XIP2y1SQKHw4N8P6gs
-         dBKg==
-X-Gm-Message-State: AHQUAubiWlbWoFJxqRBKdGVU0tpCzzC4HCbvC7YiWv/t9Sx6uCLIf140
-        aQhQib03OUVhXu4jOwb8gDMvnYhXZ/M=
-X-Google-Smtp-Source: AHgI3IacXpa8/QRaBxc6yjOsDs3eHrxj7Cfm6u2WLFDQ/oOUa+8+8GqqYpemuOK9giFLLtJKVVpuZA==
-X-Received: by 2002:a1c:a104:: with SMTP id k4mr8640657wme.54.1549572423624;
-        Thu, 07 Feb 2019 12:47:03 -0800 (PST)
-Received: from [192.168.1.200] (host31-48-208-136.range31-48.btcentralplus.com. [31.48.208.136])
-        by smtp.gmail.com with ESMTPSA id z3sm266198wmi.32.2019.02.07.12.47.02
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=506iggCwjUov+wxboSi2JHOUIlui0OJeyiN/05dB3Ec=;
+        b=YEddlZdXXBCtave+b8QJAONfQR8RO+mFpzNutBBVd3NVTD0BfFR6H5xFJlXO5SoVWP
+         IGa2IpWKc4hwXW2ODhA8z+00EN++/ixfCdYcGfGhTIinNO4AhGpz1qd5YeDEkZHOlox3
+         K4p9qi2a65pZHUYhcqJOe0czrEIRFwrlGosbEyZjJxc6v+qoWEX7/De6MUzO1oS9N3l1
+         3msJlZIwg31gN5I1e5yw8s3J6gfCRmvsdaamfn0J2AC6CrjIwxEQJ2he9m1KmY0VQAK9
+         SW2WlViB/Bflr4+rkqCwgcWxYB4rlneZvoKBUG3gahDdydyUzvMzt/FW3ZjAISmw+Z7Y
+         iOPA==
+X-Gm-Message-State: AHQUAubOpRIidnV6r6cX6wdPH3Jx94jCsWU0moJq6P+YZ/uo0WKBxnrB
+        y6ie9oEqx3DrcV+3rY+kWvRnSA==
+X-Google-Smtp-Source: AHgI3IaVMOu7cHNhxYiio5PlVkRwfcbqsbZRb2Q4fHXtpse0yetyec6fjsLMC4fgMBZsKWBap6iq3g==
+X-Received: by 2002:aed:3c7d:: with SMTP id u58mr13918563qte.198.1549573871270;
+        Thu, 07 Feb 2019 13:11:11 -0800 (PST)
+Received: from joelaf.cam.corp.google.com ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
+        by smtp.gmail.com with ESMTPSA id b77sm162681qka.5.2019.02.07.13.11.09
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 07 Feb 2019 12:47:03 -0800 (PST)
-To:     linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org
-From:   Richard Fearn <richardfearn@gmail.com>
-Subject: [PATCH] fbcon: add new font TER16x32 to boot options documentation
-Message-ID: <990625e7-a0b1-81f9-3371-808159c31df9@gmail.com>
-Date:   Thu, 7 Feb 2019 20:47:02 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        Thu, 07 Feb 2019 13:11:10 -0800 (PST)
+From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atishp04@gmail.com, dancol@google.com,
+        Dan Williams <dan.j.williams@intel.com>,
+        gregkh@linuxfoundation.org, Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        paulmck@linux.vnet.ibm.com,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        rdunlap@infradead.org, rostedt@goodmis.org,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        yhs@fb.com
+Subject: [PATCH 1/2] Provide in-kernel headers for making it easy to extend the kernel
+Date:   Thu,  7 Feb 2019 16:11:01 -0500
+Message-Id: <20190207211102.154634-1-joel@joelfernandes.org>
+X-Mailer: git-send-email 2.20.1.611.gfbb209baf1-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: sv-FI
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-TER16x32 was added in ac8b6f148fc9.
+Introduce in-kernel headers and other artifacts which are made available
+as an archive through proc (/proc/kheaders.txz file). This archive makes
+it possible to build kernel modules, run eBPF programs, and other
+tracing programs that need to extend the kernel for tracing purposes
+without any dependency on the file system having headers and build
+artifacts.
 
-Compare the list in fbcon.txt with the output of:
+On Android and embedded systems, it is common to switch kernels but not
+have kernel headers available on the file system. Raw kernel headers
+also cannot be copied into the filesystem like they can be on other
+distros, due to licensing and other issues. There's no linux-headers
+package on Android. Further once a different kernel is booted, any
+headers stored on the file system will no longer be useful. By storing
+the headers as a compressed archive within the kernel, we can avoid these
+issues that have been a hindrance for a long time.
 
-   $ fgrep -h .name lib/fonts/*.c | sort
+The feature is also buildable as a module just in case the user desires
+it not being part of the kernel image. This makes it possible to load
+and unload the headers on demand. A tracing program, or a kernel module
+builder can load the module, do its operations, and then unload the
+module to save kernel memory. The total memory needed is 3.8MB.
 
-Signed-off-by: Richard Fearn <richardfearn@gmail.com>
+The code to read the headers is based on /proc/config.gz code and uses
+the same technique to embed the headers.
+
+To build a module, the below steps have been tested on an x86 machine:
+modprobe kheaders
+rm -rf $HOME/headers
+mkdir -p $HOME/headers
+tar -xvf /proc/kheaders.txz -C $HOME/headers >/dev/null
+cd my-kernel-module
+make -C $HOME/headers M=$(pwd) modules
+rmmod kheaders
+
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
-  Documentation/fb/fbcon.txt | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
+Changes since RFC:
+Both changes bring size down to 3.8MB:
+- use xz for compression
+- strip comments except SPDX lines
+- Call out the module name in Kconfig
+- Also added selftests in second patch to ensure headers are always
+working.
 
-diff --git a/Documentation/fb/fbcon.txt b/Documentation/fb/fbcon.txt
-index 60a5ec04e8f0..97bf1d19dec2 100644
---- a/Documentation/fb/fbcon.txt
-+++ b/Documentation/fb/fbcon.txt
-@@ -78,8 +78,8 @@ C. Boot options
-  1. fbcon=font:<name>
+ Documentation/dontdiff    |  1 +
+ arch/x86/Makefile         |  2 ++
+ init/Kconfig              | 11 ++++++
+ kernel/.gitignore         |  2 ++
+ kernel/Makefile           | 29 +++++++++++++++
+ kernel/kheaders.c         | 74 +++++++++++++++++++++++++++++++++++++++
+ scripts/gen_ikh_data.sh   | 19 ++++++++++
+ scripts/strip-comments.pl |  8 +++++
+ 8 files changed, 146 insertions(+)
+ create mode 100644 kernel/kheaders.c
+ create mode 100755 scripts/gen_ikh_data.sh
+ create mode 100755 scripts/strip-comments.pl
 
-          Select the initial font to use. The value 'name' can be any of the
--        compiled-in fonts: 10x18, 6x10, 7x14, Acorn8x8, MINI4x6,
--        PEARL8x8, ProFont6x11, SUN12x22, SUN8x16, VGA8x16, VGA8x8.
-+        compiled-in fonts: 10x18, 6x10, 7x14, Acorn8x8, MINI4x6, PEARL8x8,
-+        ProFont6x11, SUN12x22, SUN8x16, TER16x32, VGA8x16, VGA8x8.
-
-  	Note, not all drivers can handle font with widths not divisible by 8,
-          such as vga16fb.
+diff --git a/Documentation/dontdiff b/Documentation/dontdiff
+index 2228fcc8e29f..05a2319ee2a2 100644
+--- a/Documentation/dontdiff
++++ b/Documentation/dontdiff
+@@ -151,6 +151,7 @@ int8.c
+ kallsyms
+ kconfig
+ keywords.c
++kheaders_data.h*
+ ksym.c*
+ ksym.h*
+ kxgettext
+diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+index 88398fdf8129..ad176d669da4 100644
+--- a/arch/x86/Makefile
++++ b/arch/x86/Makefile
+@@ -240,6 +240,8 @@ archmacros:
+ ASM_MACRO_FLAGS = -Wa,arch/x86/kernel/macros.s
+ export ASM_MACRO_FLAGS
+ KBUILD_CFLAGS += $(ASM_MACRO_FLAGS)
++IKH_EXTRA += arch/x86/kernel/macros.s
++export IKH_EXTRA
+ 
+ ###
+ # Kernel objects
+diff --git a/init/Kconfig b/init/Kconfig
+index a4112e95724a..b95d769b6098 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -549,6 +549,17 @@ config IKCONFIG_PROC
+ 	  This option enables access to the kernel configuration file
+ 	  through /proc/config.gz.
+ 
++config IKHEADERS_PROC
++	tristate "Enable kernel header artifacts through /proc/kheaders.txz"
++	select BUILD_BIN2C
++	depends on PROC_FS
++	help
++	  This option enables access to the kernel header and other artifacts that
++          are generated during the build process. These can be used to build kernel
++          modules, and other in-kernel programs such as those generated by eBPF
++          and systemtap tools. If you build the headers as a module, a module
++          called kheaders.ko is built which can be loaded to get access to them.
++
+ config LOG_BUF_SHIFT
+ 	int "Kernel log buffer size (16 => 64KB, 17 => 128KB)"
+ 	range 12 25
+diff --git a/kernel/.gitignore b/kernel/.gitignore
+index b3097bde4e9c..6acf71acbdcb 100644
+--- a/kernel/.gitignore
++++ b/kernel/.gitignore
+@@ -3,5 +3,7 @@
+ #
+ config_data.h
+ config_data.gz
++kheaders_data.h
++kheaders_data.txz
+ timeconst.h
+ hz.bc
+diff --git a/kernel/Makefile b/kernel/Makefile
+index 7343b3a9bff0..aa2d3f9b9f49 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -73,6 +73,7 @@ obj-$(CONFIG_UTS_NS) += utsname.o
+ obj-$(CONFIG_USER_NS) += user_namespace.o
+ obj-$(CONFIG_PID_NS) += pid_namespace.o
+ obj-$(CONFIG_IKCONFIG) += configs.o
++obj-$(CONFIG_IKHEADERS_PROC) += kheaders.o
+ obj-$(CONFIG_SMP) += stop_machine.o
+ obj-$(CONFIG_KPROBES_SANITY_TEST) += test_kprobes.o
+ obj-$(CONFIG_AUDIT) += audit.o auditfilter.o
+@@ -131,3 +132,31 @@ $(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
+ targets += config_data.h
+ $(obj)/config_data.h: $(obj)/config_data.gz FORCE
+ 	$(call filechk,ikconfiggz)
++
++# Build a list of in-kernel headers for building kernel modules
++# Any other files will be stored in IKH_EXTRA variable.
++ikh_file_list := include/
++ikh_file_list += arch/$(ARCH)/Makefile
++ikh_file_list += arch/$(ARCH)/include/
++ikh_file_list += $(IKH_EXTRA)
++ikh_file_list += scripts/
++ikh_file_list += Makefile
++ikh_file_list += Module.symvers
++ifeq ($(CONFIG_STACK_VALIDATION), y)
++ikh_file_list += $(objtree)/tools/objtool/objtool
++endif
++
++$(obj)/kheaders.o: $(obj)/kheaders_data.h
++
++targets += kheaders_data.txz
++
++quiet_cmd_genikh = GEN     $(obj)/kheaders_data.txz
++cmd_genikh = $(srctree)/scripts/gen_ikh_data.sh $@ $^ >/dev/null 2>&1
++$(obj)/kheaders_data.txz: $(ikh_file_list) FORCE
++	$(call cmd,genikh)
++
++filechk_ikheadersxz = (echo "static const char kernel_headers_data[] __used = KH_MAGIC_START"; cat $< | scripts/bin2c; echo "KH_MAGIC_END;")
++
++targets += kheaders_data.h
++$(obj)/kheaders_data.h: $(obj)/kheaders_data.txz FORCE
++	$(call filechk,ikheadersxz)
+diff --git a/kernel/kheaders.c b/kernel/kheaders.c
+new file mode 100644
+index 000000000000..c39930f51202
+--- /dev/null
++++ b/kernel/kheaders.c
+@@ -0,0 +1,74 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * kernel/kheaders.c
++ * Provide headers and artifacts needed to build kernel modules.
++ * (Borrowed code from kernel/configs.c)
++ */
++
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/proc_fs.h>
++#include <linux/seq_file.h>
++#include <linux/init.h>
++#include <linux/uaccess.h>
++
++/*
++ * Define kernel_headers_data and kernel_headers_data_size, which contains the
++ * compressed kernel headers.  The file is first compressed with xz and then
++ * bounded by two eight byte magic numbers to allow extraction from a binary
++ * kernel image:
++ *
++ *   IKHD_ST
++ *   <image>
++ *   IKHD_ED
++ */
++#define KH_MAGIC_START	"IKHD_ST"
++#define KH_MAGIC_END	"IKHD_ED"
++#include "kheaders_data.h"
++
++
++#define KH_MAGIC_SIZE (sizeof(KH_MAGIC_START) - 1)
++#define kernel_headers_data_size \
++	(sizeof(kernel_headers_data) - 1 - KH_MAGIC_SIZE * 2)
++
++static ssize_t
++ikheaders_read_current(struct file *file, char __user *buf,
++		      size_t len, loff_t *offset)
++{
++	return simple_read_from_buffer(buf, len, offset,
++				       kernel_headers_data + KH_MAGIC_SIZE,
++				       kernel_headers_data_size);
++}
++
++static const struct file_operations ikheaders_file_ops = {
++	.owner = THIS_MODULE,
++	.read = ikheaders_read_current,
++	.llseek = default_llseek,
++};
++
++static int __init ikheaders_init(void)
++{
++	struct proc_dir_entry *entry;
++
++	/* create the current headers file */
++	entry = proc_create("kheaders.txz", S_IFREG | S_IRUGO, NULL,
++			    &ikheaders_file_ops);
++	if (!entry)
++		return -ENOMEM;
++
++	proc_set_size(entry, kernel_headers_data_size);
++
++	return 0;
++}
++
++static void __exit ikheaders_cleanup(void)
++{
++	remove_proc_entry("kheaders.txz", NULL);
++}
++
++module_init(ikheaders_init);
++module_exit(ikheaders_cleanup);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Joel Fernandes");
++MODULE_DESCRIPTION("Echo the kernel header artifacts used to build the kernel");
+diff --git a/scripts/gen_ikh_data.sh b/scripts/gen_ikh_data.sh
+new file mode 100755
+index 000000000000..609196b5cea2
+--- /dev/null
++++ b/scripts/gen_ikh_data.sh
+@@ -0,0 +1,19 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
++
++spath="$(dirname "$(readlink -f "$0")")"
++
++rm -rf $1.tmp
++mkdir $1.tmp
++
++for f in "${@:2}";
++	do find "$f" ! -name "*.c" ! -name "*.o" ! -name "*.cmd" ! -name ".*";
++done | cpio -pd $1.tmp
++
++for f in $(find $1.tmp); do
++	$spath/strip-comments.pl $f
++done
++
++tar -Jcf $1 -C $1.tmp/ . > /dev/null
++
++rm -rf $1.tmp
+diff --git a/scripts/strip-comments.pl b/scripts/strip-comments.pl
+new file mode 100755
+index 000000000000..f8ada87c5802
+--- /dev/null
++++ b/scripts/strip-comments.pl
+@@ -0,0 +1,8 @@
++#!/usr/bin/perl -pi
++# SPDX-License-Identifier: GPL-2.0
++
++# This script removes /**/ comments from a file, unless such comments
++# contain "SPDX". It is used when building compressed in-kernel headers.
++
++BEGIN {undef $/;}
++s/\/\*((?!SPDX).)*?\*\///smg;
 -- 
-2.19.1
+2.20.1.611.gfbb209baf1-goog
