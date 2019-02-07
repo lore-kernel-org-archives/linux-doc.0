@@ -5,34 +5,32 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 714817D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 00:25:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DEB967D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 00:32:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726614AbfBGAZ5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Feb 2019 19:25:57 -0500
-Received: from ms.lwn.net ([45.79.88.28]:35606 "EHLO ms.lwn.net"
+        id S1726598AbfBGAca (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Feb 2019 19:32:30 -0500
+Received: from ms.lwn.net ([45.79.88.28]:35670 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726424AbfBGAZ4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 6 Feb 2019 19:25:56 -0500
+        id S1726424AbfBGAca (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 6 Feb 2019 19:32:30 -0500
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D5C419AE;
-        Thu,  7 Feb 2019 00:25:55 +0000 (UTC)
-Date:   Wed, 6 Feb 2019 17:25:54 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id 64AD44FA;
+        Thu,  7 Feb 2019 00:32:29 +0000 (UTC)
+Date:   Wed, 6 Feb 2019 17:32:28 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jeremy Linton <jeremy.linton@arm.com>
-Cc:     linux-arm-kernel@lists.infradead.org, catalin.marinas@arm.com,
-        will.deacon@arm.com, marc.zyngier@arm.com, suzuki.poulose@arm.com,
-        dave.martin@arm.com, shankerd@codeaurora.org,
-        linux-kernel@vger.kernel.org, ykaukab@suse.de,
-        julien.thierry@arm.com, mlangsdo@redhat.com, steven.price@arm.com,
-        stefan.wahren@i2se.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 01/12] Documentation: Document arm64 kpti control
-Message-ID: <20190206172554.45a8950d@lwn.net>
-In-Reply-To: <20190125180711.1970973-2-jeremy.linton@arm.com>
-References: <20190125180711.1970973-1-jeremy.linton@arm.com>
-        <20190125180711.1970973-2-jeremy.linton@arm.com>
+To:     Quentin Perret <quentin.perret@arm.com>
+Cc:     peterz@infradead.org, rjw@rjwysocki.net, juri.lelli@redhat.com,
+        mingo@redhat.com, morten.rasmussen@arm.com, qais.yousef@arm.com,
+        patrick.bellasi@arm.com, dietmar.eggemann@arm.com,
+        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] Documentation: Explain EAS and EM
+Message-ID: <20190206173228.30e99cf4@lwn.net>
+In-Reply-To: <20190121111724.18234-1-quentin.perret@arm.com>
+References: <20190121111724.18234-1-quentin.perret@arm.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -42,17 +40,23 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 25 Jan 2019 12:07:00 -0600
-Jeremy Linton <jeremy.linton@arm.com> wrote:
+On Mon, 21 Jan 2019 11:17:21 +0000
+Quentin Perret <quentin.perret@arm.com> wrote:
 
-> For a while Arm64 has been capable of force enabling
-> or disabling the kpti mitigations. Lets make sure the
-> documentation reflects that.
-> 
-> Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
+> The recently introduced Energy Aware Scheduling (EAS) feature relies on
+> a large set of concepts, assumptions, and design choices that are
+> probably not obvious for an outsider. Moreover, enabling EAS on a
+> particular platform isn't straightforward because of all its
+> dependencies. This series tries to address this by introducing proper
+> documentation files for the scheduler's part of EAS and for the newly
+> introduced Energy Model (EM) framework. These are meant to explain not
+> only the design choices of EAS but also to list its dependencies in a
+> human-readable location.
 
-I've applied this, thanks.
+So these have been sitting in my folder waiting for acks or some other
+sort of discussion, but it's been awfully quiet.  Should I take them, or
+do they need further work or ... ?
+
+Thanks,
 
 jon
