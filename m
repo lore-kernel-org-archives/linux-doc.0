@@ -1,100 +1,158 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5B5407D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 08:11:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3F19C7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 13:14:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726789AbfBGILl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Feb 2019 03:11:41 -0500
-Received: from mail-eopbgr70043.outbound.protection.outlook.com ([40.107.7.43]:22579
-        "EHLO EUR04-HE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726780AbfBGILk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Feb 2019 03:11:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector1-arm-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vUqCD1ay5pBxorL+HAf32kV9eIP4tgyk1CHcu7lwPyk=;
- b=Cb0q//zQeutn+yM+BnVBQNM6UoyB73ee5KFyYFpyhLb2P5Giu0+6H1t6fuEd+bgibrKubNtvzDpxQVsjnzj6bpz6GDpnvS0KBW8rI0mLmhDqy2yZC19sBL/82gee/ILcPMwsbcaXV1sYf6QHnzZSuBZ0kzNmNM1s4iWAo1XluKs=
-Received: from VI1PR08MB3325.eurprd08.prod.outlook.com (52.134.31.18) by
- VI1PR08MB0879.eurprd08.prod.outlook.com (10.164.93.153) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1580.22; Thu, 7 Feb 2019 08:11:35 +0000
-Received: from VI1PR08MB3325.eurprd08.prod.outlook.com
- ([fe80::392d:a765:a17f:da3c]) by VI1PR08MB3325.eurprd08.prod.outlook.com
- ([fe80::392d:a765:a17f:da3c%4]) with mapi id 15.20.1601.016; Thu, 7 Feb 2019
- 08:11:35 +0000
-From:   Quentin Perret <Quentin.Perret@arm.com>
+        id S1726740AbfBGNOX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Feb 2019 08:14:23 -0500
+Received: from mga04.intel.com ([192.55.52.120]:52216 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726558AbfBGNOX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Feb 2019 08:14:23 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Feb 2019 05:14:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.58,344,1544515200"; 
+   d="scan'208";a="141469710"
+Received: from linux.intel.com ([10.54.29.200])
+  by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2019 05:14:22 -0800
+Received: from [10.125.252.152] (abudanko-mobl.ccr.corp.intel.com [10.125.252.152])
+        by linux.intel.com (Postfix) with ESMTP id A46165800E0;
+        Thu,  7 Feb 2019 05:14:18 -0800 (PST)
+From:   Alexey Budankov <alexey.budankov@linux.intel.com>
+Subject: Re: [PATCH v1 3/3] perf-security: document perf_events/Perf resource
+ control
 To:     Jonathan Corbet <corbet@lwn.net>
-CC:     "peterz@infradead.org" <peterz@infradead.org>,
-        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
-        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        Morten Rasmussen <Morten.Rasmussen@arm.com>,
-        Qais Yousef <Qais.Yousef@arm.com>,
-        Patrick Bellasi <Patrick.Bellasi@arm.com>,
-        Dietmar Eggemann <Dietmar.Eggemann@arm.com>,
+Cc:     Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>, Jann Horn <jannh@google.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        "kernel-hardening@lists.openwall.com" 
+        <kernel-hardening@lists.openwall.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        nd <nd@arm.com>
-Subject: Re: [PATCH v2 0/3] Documentation: Explain EAS and EM
-Thread-Topic: [PATCH v2 0/3] Documentation: Explain EAS and EM
-Thread-Index: AQHUsXroS6fjhCSoFEKDzuzKKILyxqXTlj8AgAB/IcU=
-Date:   Thu, 7 Feb 2019 08:11:35 +0000
-Message-ID: <VI1PR08MB332543BE1C0D6B27BCD3AA2C9D680@VI1PR08MB3325.eurprd08.prod.outlook.com>
-References: <20190121111724.18234-1-quentin.perret@arm.com>,<20190206173228.30e99cf4@lwn.net>
-In-Reply-To: <20190206173228.30e99cf4@lwn.net>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Quentin.Perret@arm.com; 
-x-originating-ip: [2a00:23c6:5483:1500:6839:cda7:e31a:4bb0]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1;VI1PR08MB0879;6:nNEfU/I5SGuuKIMNB4lwkPzxK8YHFBrK+wUuBOE137BMF+S6p2n2uHBpEu+ihYV2l/d6vTvXuvWGu+a+KvEkBBI8Q9p+5Ct8FsXFMn+1x6icP2F4HWoyH1t+fg4EmRYcOPVKooq1HjTpkr6n2r0L0Wft0q/egBGmfyyYLBEW7gyCUZj+JVW/nwhMJL+HWoJFYz2kTDJw/7Ma+C1zIhCPUCzbRL46O5xf+BnTLP7OkoPR2HXhtJHxJ2MqWwYjFFJ8dYjrqsNeIRADx66wcY5S8oZHqGuS5xqeaFxEThZZ43AdClKg0EiUYjJ9dkIyr6iHmNSlQbdWo1Pgy69pWzRG9U3tjxQPkfapFegM6jxcJedU5UEmH+1PZKPiWh17hPQEEhE90bOqfrHHQbEVV8dTJy8JU53ceSC6awV4EG/bmiGOWV+QarHYEf8Vf0ZAR5YcqNGsM5p7z1iL1Knz6PrtYg==;5:ryp9WjJuIJzq7db4XHd+IARcVwR64OCSUkT2TR72gFJRKtKWUtHW7/o+jd+bqnx6alr+ErFFf7t38LOLZS2WW7P3Y5olOYVnm+O8Kjh+vuCFY7sHG3S+kFQZ5M4fINOpme2mC4f3StcJINZ/+L3t66plr+u58p9MIn341G0ZnGufRDaQUo0yFx5TXaFhYYVJf8y0zFqAUY+0+UMiH5Azbg==;7:mimGekSEB1paXCDlDGzxJmGGmfdwoZuRGOiLxzuuJCNxST/b03TCbyoJLGNx1ygyg96RpPtK/o1QhTqVwKCl1Ej6ohWMT3qXsouAbu7tFF5l6qX7FREKJa+AzvH1LgxmUj+Sy/KeAAiYgTpj2kZ0rw==
-x-ms-office365-filtering-correlation-id: 50b0c280-ba36-4b23-69f6-08d68cd3e0de
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600110)(711020)(4605077)(4618075)(2017052603328)(7153060)(7193020);SRVR:VI1PR08MB0879;
-x-ms-traffictypediagnostic: VI1PR08MB0879:
-nodisclaimer: True
-x-microsoft-antispam-prvs: <VI1PR08MB0879C34A5BAA58E7EE52C7869D680@VI1PR08MB0879.eurprd08.prod.outlook.com>
-x-forefront-prvs: 0941B96580
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(366004)(396003)(39860400002)(346002)(376002)(189003)(199004)(106356001)(105586002)(54906003)(25786009)(6436002)(558084003)(9686003)(55016002)(8676002)(97736004)(7736002)(305945005)(74316002)(478600001)(2906002)(72206003)(81166006)(8936002)(81156014)(14454004)(68736007)(186003)(102836004)(6506007)(33656002)(71200400001)(46003)(446003)(7696005)(76176011)(11346002)(71190400001)(316002)(86362001)(6116002)(6246003)(53936002)(229853002)(4326008)(6916009)(256004)(476003)(99286004)(486006);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR08MB0879;H:VI1PR08MB3325.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: arm.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: D7cFiBogJtvHlz2ImMSU3FksEYRH0Qt3vQR4ex3kgeqLEXaHiSP6WEJILSMZ8Y51JVqepMt64/MA/VLhO15Qg/K3WgG6+tc0GLY8STFJLP6oxEZXv9AVd37KP22Pvshfb4sefZDWqivboDo2ZppFlhN2HznvPxrMFVS4e2W3C+bNRtgAd0u/9QOOnSYzwj0YRElSO4uKmKFHUCr4Uvea+YtQOq8zy1UxLzFqZPilv7nY6yBjY6FS97ujryJv4rspSszPvujimfq6CFtQohe8WVMwg5vFYbMZcFds+IyAw6ZxLvmzkKsF9Pt122aFFFJKKpAgybDHYTqwluhPMROb5BWyps1TFqCPAjWbQlvbYk/yJk/5Zm6T6jTgHCDsie11RbU5TEPtZ1oQgH4qZ8lHSxMR+ZpXlI57pM7t4v2XyGQ=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        linux-kernel <linux-kernel@vger.kernel.org>
+References: <9cfbf7a1-72dd-f9d0-8137-0f120fa74d21@linux.intel.com>
+ <5ac4b7aa-b640-d8a4-1926-cf612fada974@linux.intel.com>
+ <20190206170151.00c92333@lwn.net>
+Organization: Intel Corp.
+Message-ID: <e3bbc79a-fd7e-6cae-6385-97dca1fc7f85@linux.intel.com>
+Date:   Thu, 7 Feb 2019 16:14:16 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.0
 MIME-Version: 1.0
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 50b0c280-ba36-4b23-69f6-08d68cd3e0de
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Feb 2019 08:11:35.6633
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB0879
+In-Reply-To: <20190206170151.00c92333@lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
 
-> So these have been sitting in my folder waiting for acks or some other
-> sort of discussion, but it's been awfully quiet.=A0 Should I take them, o=
-r
-> do they need further work or ... ?
+On 07.02.2019 3:01, Jonathan Corbet wrote:
+> On Fri, 1 Feb 2019 10:30:58 +0300
+> Alexey Budankov <alexey.budankov@linux.intel.com> wrote:
+> 
+>> Elaborate on possible perf_event/Perf privileged users groups
+>> and document steps about creating such groups.
+>>
+>> Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
+>> ---
+>>  Documentation/admin-guide/perf-security.rst | 43 +++++++++++++++++++++
+>>  1 file changed, 43 insertions(+)
+>>
+>> diff --git a/Documentation/admin-guide/perf-security.rst b/Documentation/admin-guide/perf-security.rst
+>> index 7da7fa459718..fe90f8952be9 100644
+>> --- a/Documentation/admin-guide/perf-security.rst
+>> +++ b/Documentation/admin-guide/perf-security.rst
+>> @@ -73,6 +73,48 @@ enable capturing of additional data required for later performance analysis of
+>>  monitored processes or a system. For example, CAP_SYSLOG capability permits
+>>  reading kernel space memory addresses from /proc/kallsyms file.
+>>  
+>> +perf_events/Perf privileged users
+>> +---------------------------------
+>> +
+>> +Mechanisms of capabilities, privileged capability-dumb files [6]_ and file system
+>> +ACLs [10]_ can be used to create a dedicated group of perf_events/Perf privileged
+>> +users who are permitted to execute performance monitoring without *scope* limits.
+>> +The following steps can be taken to create such a group of privileged Perf user
+>> +
+>> +1. Create perf_users group of privileged Perf users, assign perf_users group to
+>> +   Perf tool executable and limit *access* to the executable for other users in
+>> +   the system:
+>> +
+>> +::
+>> +
+>> +   # groupadd perf_users
+>> +   # ls -alhF
+>> +   -rwxr-xr-x  2 root root  11M Oct 19 15:12 perf
+>> +   # chgrp perf_users perf
+>> +   # ls -alhF
+>> +   -rwxr-xr-x  2 root perf_users  11M Oct 19 15:12 perf
+>> +   # chmod o-rwx perf
+>> +   # ls -alhF
+>> +   -rwxr-x---  2 root perf_users  11M Oct 19 15:12 perf
+> 
+> Since we're giving basic sysadmin info here, we should probably say
+> explicitly that this will block access to the perf binary to anybody who
+> is not in the perf_users group.
 
-These (well, the v1 actually) have been picked recently up by Ingo
-in tip/sched/core.
+We already say that above:
+	"limit *access* to the executable for other users in the system".
+
+Let's have it this way then:
+	"limit access to the executable for other users in the system 
+         who are not in the perf_users group".
+
+> 
+>> +2. Assign required capabilities to the Perf tool executable file and enable
+> 
+> Assign *the* required
+
+Accepted.
+
+> 
+>> +   members of perf_users group with performance monitoring privileges [6]_ :
+>> +
+>> +::
+>> +
+>> +   # setcap "cap_sys_admin,cap_sys_ptrace,cap_syslog=ep" perf
+>> +   # setcap -v "cap_sys_admin,cap_sys_ptrace,cap_syslog=ep" perf
+>> +   perf: OK
+>> +   # getcap perf
+>> +   perf = cap_sys_ptrace,cap_sys_admin,cap_syslog+ep
+>> +
+>> +As a result, members of perf_users group are capable of conducting performance
+>> +monitoring by using functionality of the configured Perf tool executable that,
+>> +when executes, passes perf_events subsystem *scope* checks.
+>> +
+>> +This specific *access* control management is only available to superuser or root
+> 
+> Why the *emphasis* here?  We prefer to minimize this kind of markup
+> whenever possible.
+
+Avoided emphasis here and in the other places of this paragraph.
+
+> 
+> Thanks,
+> 
+> jon
+> 
 
 Thanks,
-Quentun=
+Alexey
