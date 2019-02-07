@@ -5,28 +5,34 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2DC977D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 00:24:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 714817D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 00:25:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726496AbfBGAY4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Feb 2019 19:24:56 -0500
-Received: from ms.lwn.net ([45.79.88.28]:35596 "EHLO ms.lwn.net"
+        id S1726614AbfBGAZ5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Feb 2019 19:25:57 -0500
+Received: from ms.lwn.net ([45.79.88.28]:35606 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726424AbfBGAY4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 6 Feb 2019 19:24:56 -0500
+        id S1726424AbfBGAZ4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 6 Feb 2019 19:25:56 -0500
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 23D914FA;
-        Thu,  7 Feb 2019 00:24:56 +0000 (UTC)
-Date:   Wed, 6 Feb 2019 17:24:55 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id D5C419AE;
+        Thu,  7 Feb 2019 00:25:55 +0000 (UTC)
+Date:   Wed, 6 Feb 2019 17:25:54 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V3] doc:it_IT: add translations in process/
-Message-ID: <20190206172455.124819ca@lwn.net>
-In-Reply-To: <20190204213047.10494-1-federico.vaga@vaga.pv.it>
-References: <20190204213047.10494-1-federico.vaga@vaga.pv.it>
+To:     Jeremy Linton <jeremy.linton@arm.com>
+Cc:     linux-arm-kernel@lists.infradead.org, catalin.marinas@arm.com,
+        will.deacon@arm.com, marc.zyngier@arm.com, suzuki.poulose@arm.com,
+        dave.martin@arm.com, shankerd@codeaurora.org,
+        linux-kernel@vger.kernel.org, ykaukab@suse.de,
+        julien.thierry@arm.com, mlangsdo@redhat.com, steven.price@arm.com,
+        stefan.wahren@i2se.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 01/12] Documentation: Document arm64 kpti control
+Message-ID: <20190206172554.45a8950d@lwn.net>
+In-Reply-To: <20190125180711.1970973-2-jeremy.linton@arm.com>
+References: <20190125180711.1970973-1-jeremy.linton@arm.com>
+        <20190125180711.1970973-2-jeremy.linton@arm.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -36,20 +42,17 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon,  4 Feb 2019 22:30:47 +0100
-Federico Vaga <federico.vaga@vaga.pv.it> wrote:
+On Fri, 25 Jan 2019 12:07:00 -0600
+Jeremy Linton <jeremy.linton@arm.com> wrote:
 
-> This patch adds the Italian translation for the following documents
-> in Documentation/process:
+> For a while Arm64 has been capable of force enabling
+> or disabling the kpti mitigations. Lets make sure the
+> documentation reflects that.
 > 
-> - applying-patches
-> - submit-checklist
-> - submitting-drivers
-> - changes
-> - stable api nonsense
-> 
-> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+> Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
 
-Applied, thanks.
+I've applied this, thanks.
 
 jon
