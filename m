@@ -1,91 +1,70 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 762907D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 17:33:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CBC547D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 17:34:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726676AbfBGRdi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Feb 2019 12:33:38 -0500
-Received: from smtp2-4.goneo.de ([85.220.129.36]:39333 "EHLO smtp2-4.goneo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726401AbfBGRdh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Feb 2019 12:33:37 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by smtp2.goneo.de (Postfix) with ESMTP id 6BFD623F4EC;
-        Thu,  7 Feb 2019 18:33:35 +0100 (CET)
-X-Virus-Scanned: by goneo
-Received: from smtp2.goneo.de ([127.0.0.1])
-        by localhost (smtp2.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id EodSraGa33Fa; Thu,  7 Feb 2019 18:33:34 +0100 (CET)
-Received: from [192.168.1.127] (dyndsl-178-142-135-081.ewe-ip-backbone.de [178.142.135.81])
-        by smtp2.goneo.de (Postfix) with ESMTPSA id 6076723F484;
-        Thu,  7 Feb 2019 18:33:34 +0100 (CET)
+        id S1726733AbfBGRex (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Feb 2019 12:34:53 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:39906 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726718AbfBGRex (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Feb 2019 12:34:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=FZsgl4hnQWbo9l+b8WvgIjUxh/zlhT5dNbFTN9feJ2g=; b=at4WJe5FCotJQOgNgbyN9QsBc
+        x1N+CKns7Eyev8KDVYpPh6QSyP4aU1SdMJhhjGDN+jR8vfcxP04n93FDia2Z6VrsR8WQh8+zvjB0D
+        nP/JJo948LfATFTBi7Gf+FlPvBhBOrEyzDsHx7t9D3kHGTA0A2gsFlJ07QzJsMoMTJ/waq6Cf5qub
+        p5ZaPSh5q2uViY7TmwPE13i3fm57X0FZDcE3jNGm3kYaiAIb8sG3B7Kv2qrh1lDzQ895gp9PwDmrV
+        AHH77oy+VrrL9AxIsLE0m6nbk5ydjrbekXuAIOPoexKBPMvKyFIm+JK4rxE7xTrSbMM4GO6jYoJK9
+        6eYa0Zqww==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1grnZY-0004dj-N6; Thu, 07 Feb 2019 17:34:48 +0000
+Date:   Thu, 7 Feb 2019 09:34:48 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Joe Perches <joe@perches.com>
+Cc:     Mike Rapoport <rppt@linux.ibm.com>,
+        Markus Heiser <markus.heiser@darmarit.de>,
+        linux-doc@vger.kernel.org
 Subject: Re: Return: vs Returns:
-To:     Mike Rapoport <rppt@linux.ibm.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org
+Message-ID: <20190207173448.GZ21860@bombadil.infradead.org>
 References: <20190207135924.GV21860@bombadil.infradead.org>
  <20190207153056.GB9120@rapoport-lnx>
  <8cacba6c-32c1-f60b-dfb0-0c74ef09d53c@darmarit.de>
  <20190207161852.GC8040@rapoport-lnx>
-From:   Markus Heiser <markus.heiser@darmarit.de>
-Message-ID: <e038da5e-bc39-59f4-5b7f-c97467563173@darmarit.de>
-Date:   Thu, 7 Feb 2019 18:33:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ <596652fd8f0a3637649167b47805f1c6ac848f25.camel@perches.com>
 MIME-Version: 1.0
-In-Reply-To: <20190207161852.GC8040@rapoport-lnx>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: de-DE
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <596652fd8f0a3637649167b47805f1c6ac848f25.camel@perches.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Feb 07, 2019 at 09:31:20AM -0800, Joe Perches wrote:
+> It's not clear to me what you are asking checkpatch to do here.
+> 
+> It may be reasonable for checkpatch to invoke kernel-doc on some
+> portion of a patch, but I'm not sure how valuable it will be.
 
-Am 07.02.19 um 17:18 schrieb Mike Rapoport:
->>> Does checkpatch checks the kernel-doc parts at all?
->> No.  I guess there are to many places to fail / to hard to put someone in
->> charge.  E.g. if you do include a single kernel-doc comment from a source all
->> kernel-docs in the source will be parsed and may produce (error/warning)
->> essages.  What we have, are some targets:
->>
->> -linkcheckdocs
->>   check for broken external links (will connect to external hosts)
->>
->> - refcheckdocs
->>    check for references to non-existing files under Documentation
-> Right, but these should be checked explicitly and I doubt many people do it
-> before submitting patches. OTOH, checkpatch is something that's widely used
-> and if it had verified the kernel-doc parts, more comments would be
-> following the convention.
->   
+I was just hoping to match:
 
-I'am with you, but I do not have any clue how to solve this Gordian Knot
-faithful and without massive collateral damage / sorry :|
+ * Returns:
 
-The only thing I know, we have the -none option:
+Or to quote it properly for regexes ...
 
-$ ./scripts/kernel-doc -none ./include/media/cec.h
-./include/media/cec.h:51: warning: Function parameter or member 'lock' not 
-described in 'cec_devnode'
+^ +\* *Returns:
 
-But this is nothing more than noise if the patch does not touch cec_devnode.
-And there is another problem I see, if we want to check refs ...
+(I think ...)
 
- >> -linkcheckdocs
- >>   check for broken external links (will connect to external hosts)
- >>
- >> - refcheckdocs
- >>    check for references to non-existing files under Documentation
-
-The refs are solved late in the sphinx build process when .rst files and
-kernel-doc comments come together .. so we need sphinx for checkpatch,
-I gues this is a no-go (?)
-
--- Markus --
+I can't see that matching C or assembler.
