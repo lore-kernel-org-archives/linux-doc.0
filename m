@@ -5,44 +5,31 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8C7D37D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 00:01:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 743437D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 00:18:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726549AbfBGABy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Feb 2019 19:01:54 -0500
-Received: from ms.lwn.net ([45.79.88.28]:35490 "EHLO ms.lwn.net"
+        id S1726561AbfBGASH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Feb 2019 19:18:07 -0500
+Received: from ms.lwn.net ([45.79.88.28]:35550 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725959AbfBGABx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 6 Feb 2019 19:01:53 -0500
+        id S1725959AbfBGASG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 6 Feb 2019 19:18:06 -0500
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3174B9AE;
-        Thu,  7 Feb 2019 00:01:52 +0000 (UTC)
-Date:   Wed, 6 Feb 2019 17:01:51 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id 52BA49AE;
+        Thu,  7 Feb 2019 00:18:06 +0000 (UTC)
+Date:   Wed, 6 Feb 2019 17:18:05 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Alexey Budankov <alexey.budankov@linux.intel.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>, Jann Horn <jannh@google.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        "kernel-hardening@lists.openwall.com" 
-        <kernel-hardening@lists.openwall.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1 3/3] perf-security: document perf_events/Perf
- resource control
-Message-ID: <20190206170151.00c92333@lwn.net>
-In-Reply-To: <5ac4b7aa-b640-d8a4-1926-cf612fada974@linux.intel.com>
-References: <9cfbf7a1-72dd-f9d0-8137-0f120fa74d21@linux.intel.com>
-        <5ac4b7aa-b640-d8a4-1926-cf612fada974@linux.intel.com>
+To:     Federico Vaga <federico.vaga@vaga.pv.it>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc:it_IT: add translations in process/
+Message-ID: <20190206171805.52c73f6e@lwn.net>
+In-Reply-To: <aa09cd3309bc9787b6ff3b1331508bb2@vaga.pv.it>
+References: <20190119221341.3622-1-federico.vaga@vaga.pv.it>
+        <20190120185617.44a7f275@lwn.net>
+        <2146324.8BP4ZdZamE@pcbe13614>
+        <aa09cd3309bc9787b6ff3b1331508bb2@vaga.pv.it>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -52,75 +39,22 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 1 Feb 2019 10:30:58 +0300
-Alexey Budankov <alexey.budankov@linux.intel.com> wrote:
+On Wed, 06 Feb 2019 23:55:38 +0100
+Federico Vaga <federico.vaga@vaga.pv.it> wrote:
 
-> Elaborate on possible perf_event/Perf privileged users groups
-> and document steps about creating such groups.
+> I am having a look at this document and I am wandering if this is an 
+> useful
+> document? Clearly I see value in the table with all requirements 
+> summarised,
+> but I do not see it for the rest of the document.
 > 
-> Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
-> ---
->  Documentation/admin-guide/perf-security.rst | 43 +++++++++++++++++++++
->  1 file changed, 43 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/perf-security.rst b/Documentation/admin-guide/perf-security.rst
-> index 7da7fa459718..fe90f8952be9 100644
-> --- a/Documentation/admin-guide/perf-security.rst
-> +++ b/Documentation/admin-guide/perf-security.rst
-> @@ -73,6 +73,48 @@ enable capturing of additional data required for later performance analysis of
->  monitored processes or a system. For example, CAP_SYSLOG capability permits
->  reading kernel space memory addresses from /proc/kallsyms file.
->  
-> +perf_events/Perf privileged users
-> +---------------------------------
-> +
-> +Mechanisms of capabilities, privileged capability-dumb files [6]_ and file system
-> +ACLs [10]_ can be used to create a dedicated group of perf_events/Perf privileged
-> +users who are permitted to execute performance monitoring without *scope* limits.
-> +The following steps can be taken to create such a group of privileged Perf users.
-> +
-> +1. Create perf_users group of privileged Perf users, assign perf_users group to
-> +   Perf tool executable and limit *access* to the executable for other users in
-> +   the system:
-> +
-> +::
-> +
-> +   # groupadd perf_users
-> +   # ls -alhF
-> +   -rwxr-xr-x  2 root root  11M Oct 19 15:12 perf
-> +   # chgrp perf_users perf
-> +   # ls -alhF
-> +   -rwxr-xr-x  2 root perf_users  11M Oct 19 15:12 perf
-> +   # chmod o-rwx perf
-> +   # ls -alhF
-> +   -rwxr-x---  2 root perf_users  11M Oct 19 15:12 perf
+> So, I propose to actually rename change.rst to requirements.rst and 
+> remove
+> everything but the requirements chapter and the links.
 
-Since we're giving basic sysadmin info here, we should probably say
-explicitly that this will block access to the perf binary to anybody who
-is not in the perf_users group.
-
-> +2. Assign required capabilities to the Perf tool executable file and enable
-
-Assign *the* required
-
-> +   members of perf_users group with performance monitoring privileges [6]_ :
-> +
-> +::
-> +
-> +   # setcap "cap_sys_admin,cap_sys_ptrace,cap_syslog=ep" perf
-> +   # setcap -v "cap_sys_admin,cap_sys_ptrace,cap_syslog=ep" perf
-> +   perf: OK
-> +   # getcap perf
-> +   perf = cap_sys_ptrace,cap_sys_admin,cap_syslog+ep
-> +
-> +As a result, members of perf_users group are capable of conducting performance
-> +monitoring by using functionality of the configured Perf tool executable that,
-> +when executes, passes perf_events subsystem *scope* checks.
-> +
-> +This specific *access* control management is only available to superuser or root
-
-Why the *emphasis* here?  We prefer to minimize this kind of markup
-whenever possible.
+Removing obsolete information is fine with me.  I'd resist the temptation
+to rename the file, though; people haven't forgiven us yet for the last
+round of renaming, and this is a relatively well-known name.
 
 Thanks,
 
