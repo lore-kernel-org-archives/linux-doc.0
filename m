@@ -1,132 +1,185 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ADC527D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 22:58:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 90A537D099
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 23:39:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726650AbfBGW6V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Feb 2019 17:58:21 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:46252 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726622AbfBGW6V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Feb 2019 17:58:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=nSee9vn3ui7QGmIO5421TKMAowDx4TIVEscC2C546FM=; b=Nhoq7i5WDo+WVMdTXkNfNCexV
-        vh0wcaQhW1BYqKPNN9LqYTBL3azM7tXxOgvRY6MNMy7/WwsAy/XQVlEX7Cad4TKjgg5AI/wAAyxbS
-        VBO6siypV3bS69vB+cK/x/BOe54h8XP7vQrlWCD+eCyvp3m1DzR/snePqXH/ElFKXD3XjDFfaVjWD
-        OX/YXsDyHbnp0wYyvgFzvg+NtdHEnczlAd5zzsB+IT/bBA4INLbOY0mD/XAZ+Enm71AWEA7ZNK4vU
-        9WkSCsfb0HsP6dzzHVQV0U8eV15KLmBxddJP8csk3dcLdgxxgFBjbBAJ3IqF+KiyP6CPXkEc27GCO
-        gFGdx91AA==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1grscd-0003lk-Oy; Thu, 07 Feb 2019 22:58:19 +0000
-Subject: Re: [PATCH 1/1] docs: powerpc: Convert to RST format
-To:     "Tobin C. Harding" <tobin@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
-References: <20190207060316.3221-1-tobin@kernel.org>
- <20190207060316.3221-2-tobin@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <2fc7fe53-af80-f3b8-1f17-ff7c2dc2be3c@infradead.org>
-Date:   Thu, 7 Feb 2019 14:58:18 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1726401AbfBGXjG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Feb 2019 18:39:06 -0500
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:34289 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726651AbfBGXjF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Feb 2019 18:39:05 -0500
+Received: by mail-qt1-f196.google.com with SMTP id b8so2055921qtj.1
+        for <linux-doc@vger.kernel.org>; Thu, 07 Feb 2019 15:39:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=2XnrAy6YnHFz9HrPjyh/wZzHeOBeBqHUpkLz+64XGAM=;
+        b=Nz81abuWvxYZmdsXzP1Biib2wDMxyaVq5Yq8Me6Rhn/JFruGzY47yMPGP06h/Ep0nC
+         PNN3MXQNfk6QLgITf9vaDfhBFrBullOvTWk28ok/uDUeHiFPV20a2DL6JCaBaa8dmEpr
+         GuyNs6wXA87HuIDZ3X70SNl/IL4YfQaw25YKk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=2XnrAy6YnHFz9HrPjyh/wZzHeOBeBqHUpkLz+64XGAM=;
+        b=NvWbQJLF8JddWdvrWWS04HogtGr2TgV4b7H0grQ4gbNm/q9vcex6cyFDbJoncSS9vt
+         gzKDNHqmTePNXbxOLvGkEixrk5wySB2HPhSLqpbgd4MR02gqB9NAm7pxPY9mt7NFKfRG
+         sH4hdubqXyUPjPgsEauB3K2NAv1Pf623wLzniLbKM0N37Vjavi+9s92rLggnkjPzvA7b
+         Zcz4s5GYZij03hv8wLcCN3QE2+GaYaIHwJDJnzn+NPsYfqd8cTUnMkAk+tRAcr9elLbq
+         QzddJ0xFW6K/+uC015cSmJL7rQgTPKI2Dr8r9xxDtHttiSWRKLVFn3d3k/4/LG6PKyXf
+         Czfg==
+X-Gm-Message-State: AHQUAuYBwW8Nbz4XGpapODjGuw9HeekWgmGlZYjlZ4mW85YA/I96BR0d
+        LxPRaZv4sQm9WMXuAYTHdraLoQ==
+X-Google-Smtp-Source: AHgI3Ibve4ApL0O7bTS9O10kFgM9lMKCDuM/GSoR8G51GLFRhVq1wL/++MX96FZKECSh44sK+zarFg==
+X-Received: by 2002:ac8:4882:: with SMTP id i2mr14116293qtq.225.1549582744391;
+        Thu, 07 Feb 2019 15:39:04 -0800 (PST)
+Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
+        by smtp.gmail.com with ESMTPSA id q195sm370955qke.58.2019.02.07.15.39.03
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 07 Feb 2019 15:39:03 -0800 (PST)
+Date:   Thu, 7 Feb 2019 18:39:02 -0500
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atishp04@gmail.com, dancol@google.com,
+        Dan Williams <dan.j.williams@intel.com>,
+        gregkh@linuxfoundation.org, Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        paulmck@linux.vnet.ibm.com,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        rdunlap@infradead.org, Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        yhs@fb.com
+Subject: Re: [PATCH 1/2] Provide in-kernel headers for making it easy to
+ extend the kernel
+Message-ID: <20190207233902.GA193818@google.com>
+References: <20190207211102.154634-1-joel@joelfernandes.org>
+ <20190207175239.0607f5eb@gandalf.local.home>
 MIME-Version: 1.0
-In-Reply-To: <20190207060316.3221-2-tobin@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190207175239.0607f5eb@gandalf.local.home>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/6/19 10:03 PM, Tobin C. Harding wrote:
-> The PowerPC docs have yet to be converted to RST format.  Let's kick it
-> off by doing all the files that _don't_ contain ASCII art.
-> 
-> - Add SPDX license identifier to each new RST file.
-> 
->     .. SPDX-License-Identifier: GPL-2.0
-> 
-> - User correct heading adornments.
-> 
-> - Make all lines < 72 characters in width.
-> 
-> - Use correct indentation for code blocks, add syntax highlighting
-> 
-> - Sparingly use double ticks if it makes the files easier to parse
->   both in text and on the web.
-> 
-> - Fix any super obvious typos (lean towards not making changes so that
->   we don't introduce errors).
-> 
-> Edited as text files (obviously) and formatted as HTML to verify
-> rendering, no other formats verified.
-> 
-> Convert docs to RST format, adding license.
-> 
-> Signed-off-by: Tobin C. Harding <tobin@kernel.org>
+Hi Steve,
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+On Thu, Feb 07, 2019 at 05:52:39PM -0500, Steven Rostedt wrote:
+> On Thu,  7 Feb 2019 16:11:01 -0500
+> "Joel Fernandes (Google)" <joel@joelfernandes.org> wrote:
+> 
+> > +
+> > +# Build a list of in-kernel headers for building kernel modules
+> > +# Any other files will be stored in IKH_EXTRA variable.
+> > +ikh_file_list := include/
+> > +ikh_file_list += arch/$(ARCH)/Makefile
+> > +ikh_file_list += arch/$(ARCH)/include/
+> > +ikh_file_list += $(IKH_EXTRA)
+> > +ikh_file_list += scripts/
+> > +ikh_file_list += Makefile
+> > +ikh_file_list += Module.symvers
+> > +ifeq ($(CONFIG_STACK_VALIDATION), y)
+> > +ikh_file_list += $(objtree)/tools/objtool/objtool
+> > +endif
+> > +
+> > +$(obj)/kheaders.o: $(obj)/kheaders_data.h
+> > +
+> > +targets += kheaders_data.txz
+> > +
+> > +quiet_cmd_genikh = GEN     $(obj)/kheaders_data.txz
+> > +cmd_genikh = $(srctree)/scripts/gen_ikh_data.sh $@ $^ >/dev/null 2>&1
+> > +$(obj)/kheaders_data.txz: $(ikh_file_list) FORCE
+> > +	$(call cmd,genikh)
+> > +
+> > +filechk_ikheadersxz = (echo "static const char kernel_headers_data[] __used = KH_MAGIC_START"; cat $< | scripts/bin2c; echo "KH_MAGIC_END;")
+> > +
+> > +targets += kheaders_data.h
+> > +$(obj)/kheaders_data.h: $(obj)/kheaders_data.txz FORCE
+> > +	$(call filechk,ikheadersxz)
+> > diff --git a/scripts/gen_ikh_data.sh b/scripts/gen_ikh_data.sh
+> > new file mode 100755
+> > index 000000000000..609196b5cea2
+> > --- /dev/null
+> > +++ b/scripts/gen_ikh_data.sh
+> > @@ -0,0 +1,19 @@
+> > +#!/bin/bash
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +
+> > +spath="$(dirname "$(readlink -f "$0")")"
+> > +
+> > +rm -rf $1.tmp
+> > +mkdir $1.tmp
+> > +
+> > +for f in "${@:2}";
+> > +	do find "$f" ! -name "*.c" ! -name "*.o" ! -name "*.cmd" ! -name ".*";
+> 
+> I wonder if it is a good idea to pick all files in the directories
+> defined in ikh_file_list, and not just explicitly list what we want,
+> with a '*.h' and such?
 
-thanks.
+I also need few files in the archive that are not .h, these don't take up
+much space but are needed to make an out-of-tree kernel module build succeed.
 
+One of my goals with this was to make a self-contained module that could be
+loaded to build other modules. Majority of the files are kernel headers, but
+some are not, such as Module.symvers and other scripts. Then one can run
+systemtap on Android which can be made to build modules using the embedded
+headers.
 
-> ---
->  Documentation/index.rst                       |   1 +
->  Documentation/powerpc/DAWR-POWER9.rst         |  60 ++++
->  Documentation/powerpc/DAWR-POWER9.txt         |  58 ---
->  Documentation/powerpc/bootwrapper.rst         | 140 ++++++++
->  Documentation/powerpc/bootwrapper.txt         | 141 --------
->  Documentation/powerpc/conf.py                 |  10 +
->  Documentation/powerpc/cpu_features.rst        |  62 ++++
->  Documentation/powerpc/cpu_features.txt        |  56 ---
->  .../powerpc/eeh-pci-error-recovery.rst        | 319 +++++++++++++++++
->  .../powerpc/eeh-pci-error-recovery.txt        | 334 ------------------
->  Documentation/powerpc/index.rst               |  21 ++
->  Documentation/powerpc/isa-versions.rst        | 234 ++++++++----
->  Documentation/powerpc/mpc52xx.rst             |  52 +++
->  Documentation/powerpc/mpc52xx.txt             |  39 --
->  Documentation/powerpc/pmu-ebb.rst             | 148 ++++++++
->  Documentation/powerpc/pmu-ebb.txt             | 137 -------
->  Documentation/powerpc/ptrace.rst              | 177 ++++++++++
->  Documentation/powerpc/ptrace.txt              | 151 --------
->  .../{syscall64-abi.txt => syscall64-abi.rst}  |  80 +++--
->  .../powerpc/transactional_memory.rst          | 259 ++++++++++++++
->  .../powerpc/transactional_memory.txt          | 244 -------------
->  21 files changed, 1460 insertions(+), 1263 deletions(-)
->  create mode 100644 Documentation/powerpc/DAWR-POWER9.rst
->  delete mode 100644 Documentation/powerpc/DAWR-POWER9.txt
->  create mode 100644 Documentation/powerpc/bootwrapper.rst
->  delete mode 100644 Documentation/powerpc/bootwrapper.txt
->  create mode 100644 Documentation/powerpc/conf.py
->  create mode 100644 Documentation/powerpc/cpu_features.rst
->  delete mode 100644 Documentation/powerpc/cpu_features.txt
->  create mode 100644 Documentation/powerpc/eeh-pci-error-recovery.rst
->  delete mode 100644 Documentation/powerpc/eeh-pci-error-recovery.txt
->  create mode 100644 Documentation/powerpc/index.rst
->  create mode 100644 Documentation/powerpc/mpc52xx.rst
->  delete mode 100644 Documentation/powerpc/mpc52xx.txt
->  create mode 100644 Documentation/powerpc/pmu-ebb.rst
->  delete mode 100644 Documentation/powerpc/pmu-ebb.txt
->  create mode 100644 Documentation/powerpc/ptrace.rst
->  delete mode 100644 Documentation/powerpc/ptrace.txt
->  rename Documentation/powerpc/{syscall64-abi.txt => syscall64-abi.rst} (58%)
->  create mode 100644 Documentation/powerpc/transactional_memory.rst
->  delete mode 100644 Documentation/powerpc/transactional_memory.txt
+> > +done | cpio -pd $1.tmp
+> > +
+> > +for f in $(find $1.tmp); do
+> > +	$spath/strip-comments.pl $f
+> > +done
+> > +
+> > +tar -Jcf $1 -C $1.tmp/ . > /dev/null
+> > +
+> > +rm -rf $1.tmp
+> > diff --git a/scripts/strip-comments.pl b/scripts/strip-comments.pl
+> > new file mode 100755
+> > index 000000000000..f8ada87c5802
+> > --- /dev/null
+> > +++ b/scripts/strip-comments.pl
+> > @@ -0,0 +1,8 @@
+> > +#!/usr/bin/perl -pi
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +
+> > +# This script removes /**/ comments from a file, unless such comments
+> > +# contain "SPDX". It is used when building compressed in-kernel headers.
+> > +
+> > +BEGIN {undef $/;}
+> > +s/\/\*((?!SPDX).)*?\*\///smg;
+> 
+> Hmm, I'm also wondering if we could us the C pre-processor for the
+> stripping of everything from the header file. We would then even get
+> the header files only having what is necessary for the running kernel.
 
+I thought about this too. An issue with that is it is going to be really slow
+due to the large number of headers. The other is, I think it will actually
+make the headers bigger and take up more space - because all the include
+directives will also be expanded and have more duplication. Let me know if I
+missed something though.
 
--- 
-~Randy
+thanks,
+
+ - Joel
+
