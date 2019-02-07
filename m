@@ -1,52 +1,27 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 90A537D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 23:39:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E786B7D099
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 23:50:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726401AbfBGXjG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Feb 2019 18:39:06 -0500
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:34289 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726651AbfBGXjF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Feb 2019 18:39:05 -0500
-Received: by mail-qt1-f196.google.com with SMTP id b8so2055921qtj.1
-        for <linux-doc@vger.kernel.org>; Thu, 07 Feb 2019 15:39:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=2XnrAy6YnHFz9HrPjyh/wZzHeOBeBqHUpkLz+64XGAM=;
-        b=Nz81abuWvxYZmdsXzP1Biib2wDMxyaVq5Yq8Me6Rhn/JFruGzY47yMPGP06h/Ep0nC
-         PNN3MXQNfk6QLgITf9vaDfhBFrBullOvTWk28ok/uDUeHiFPV20a2DL6JCaBaa8dmEpr
-         GuyNs6wXA87HuIDZ3X70SNl/IL4YfQaw25YKk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=2XnrAy6YnHFz9HrPjyh/wZzHeOBeBqHUpkLz+64XGAM=;
-        b=NvWbQJLF8JddWdvrWWS04HogtGr2TgV4b7H0grQ4gbNm/q9vcex6cyFDbJoncSS9vt
-         gzKDNHqmTePNXbxOLvGkEixrk5wySB2HPhSLqpbgd4MR02gqB9NAm7pxPY9mt7NFKfRG
-         sH4hdubqXyUPjPgsEauB3K2NAv1Pf623wLzniLbKM0N37Vjavi+9s92rLggnkjPzvA7b
-         Zcz4s5GYZij03hv8wLcCN3QE2+GaYaIHwJDJnzn+NPsYfqd8cTUnMkAk+tRAcr9elLbq
-         QzddJ0xFW6K/+uC015cSmJL7rQgTPKI2Dr8r9xxDtHttiSWRKLVFn3d3k/4/LG6PKyXf
-         Czfg==
-X-Gm-Message-State: AHQUAuYBwW8Nbz4XGpapODjGuw9HeekWgmGlZYjlZ4mW85YA/I96BR0d
-        LxPRaZv4sQm9WMXuAYTHdraLoQ==
-X-Google-Smtp-Source: AHgI3Ibve4ApL0O7bTS9O10kFgM9lMKCDuM/GSoR8G51GLFRhVq1wL/++MX96FZKECSh44sK+zarFg==
-X-Received: by 2002:ac8:4882:: with SMTP id i2mr14116293qtq.225.1549582744391;
-        Thu, 07 Feb 2019 15:39:04 -0800 (PST)
-Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
-        by smtp.gmail.com with ESMTPSA id q195sm370955qke.58.2019.02.07.15.39.03
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 07 Feb 2019 15:39:03 -0800 (PST)
-Date:   Thu, 7 Feb 2019 18:39:02 -0500
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
+        id S1726622AbfBGXur (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Feb 2019 18:50:47 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47902 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726650AbfBGXuq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Feb 2019 18:50:46 -0500
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A4EEE2173B;
+        Thu,  7 Feb 2019 23:50:43 +0000 (UTC)
+Date:   Thu, 7 Feb 2019 18:50:42 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
 Cc:     linux-kernel@vger.kernel.org,
         Alexandre Torgue <alexandre.torgue@st.com>,
         Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
@@ -68,118 +43,89 @@ Cc:     linux-kernel@vger.kernel.org,
         yhs@fb.com
 Subject: Re: [PATCH 1/2] Provide in-kernel headers for making it easy to
  extend the kernel
-Message-ID: <20190207233902.GA193818@google.com>
+Message-ID: <20190207185042.76c7d68f@gandalf.local.home>
+In-Reply-To: <20190207233902.GA193818@google.com>
 References: <20190207211102.154634-1-joel@joelfernandes.org>
- <20190207175239.0607f5eb@gandalf.local.home>
+        <20190207175239.0607f5eb@gandalf.local.home>
+        <20190207233902.GA193818@google.com>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190207175239.0607f5eb@gandalf.local.home>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Steve,
-
-On Thu, Feb 07, 2019 at 05:52:39PM -0500, Steven Rostedt wrote:
-> On Thu,  7 Feb 2019 16:11:01 -0500
-> "Joel Fernandes (Google)" <joel@joelfernandes.org> wrote:
+On Thu, 7 Feb 2019 18:39:02 -0500
+Joel Fernandes <joel@joelfernandes.org> wrote:
+> > > +
+> > > +spath="$(dirname "$(readlink -f "$0")")"
+> > > +
+> > > +rm -rf $1.tmp
+> > > +mkdir $1.tmp
+> > > +
+> > > +for f in "${@:2}";
+> > > +	do find "$f" ! -name "*.c" ! -name "*.o" ! -name "*.cmd" ! -name ".*";  
+> > 
+> > I wonder if it is a good idea to pick all files in the directories
+> > defined in ikh_file_list, and not just explicitly list what we want,
+> > with a '*.h' and such?  
 > 
-> > +
-> > +# Build a list of in-kernel headers for building kernel modules
-> > +# Any other files will be stored in IKH_EXTRA variable.
-> > +ikh_file_list := include/
-> > +ikh_file_list += arch/$(ARCH)/Makefile
-> > +ikh_file_list += arch/$(ARCH)/include/
-> > +ikh_file_list += $(IKH_EXTRA)
-> > +ikh_file_list += scripts/
-> > +ikh_file_list += Makefile
-> > +ikh_file_list += Module.symvers
-> > +ifeq ($(CONFIG_STACK_VALIDATION), y)
-> > +ikh_file_list += $(objtree)/tools/objtool/objtool
-> > +endif
-> > +
-> > +$(obj)/kheaders.o: $(obj)/kheaders_data.h
-> > +
-> > +targets += kheaders_data.txz
-> > +
-> > +quiet_cmd_genikh = GEN     $(obj)/kheaders_data.txz
-> > +cmd_genikh = $(srctree)/scripts/gen_ikh_data.sh $@ $^ >/dev/null 2>&1
-> > +$(obj)/kheaders_data.txz: $(ikh_file_list) FORCE
-> > +	$(call cmd,genikh)
-> > +
-> > +filechk_ikheadersxz = (echo "static const char kernel_headers_data[] __used = KH_MAGIC_START"; cat $< | scripts/bin2c; echo "KH_MAGIC_END;")
-> > +
-> > +targets += kheaders_data.h
-> > +$(obj)/kheaders_data.h: $(obj)/kheaders_data.txz FORCE
-> > +	$(call filechk,ikheadersxz)
-> > diff --git a/scripts/gen_ikh_data.sh b/scripts/gen_ikh_data.sh
-> > new file mode 100755
-> > index 000000000000..609196b5cea2
-> > --- /dev/null
-> > +++ b/scripts/gen_ikh_data.sh
-> > @@ -0,0 +1,19 @@
-> > +#!/bin/bash
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +
-> > +spath="$(dirname "$(readlink -f "$0")")"
-> > +
-> > +rm -rf $1.tmp
-> > +mkdir $1.tmp
-> > +
-> > +for f in "${@:2}";
-> > +	do find "$f" ! -name "*.c" ! -name "*.o" ! -name "*.cmd" ! -name ".*";
+> I also need few files in the archive that are not .h, these don't take up
+> much space but are needed to make an out-of-tree kernel module build succeed.
 > 
-> I wonder if it is a good idea to pick all files in the directories
-> defined in ikh_file_list, and not just explicitly list what we want,
-> with a '*.h' and such?
+> One of my goals with this was to make a self-contained module that could be
+> loaded to build other modules. Majority of the files are kernel headers, but
+> some are not, such as Module.symvers and other scripts. Then one can run
+> systemtap on Android which can be made to build modules using the embedded
+> headers.
 
-I also need few files in the archive that are not .h, these don't take up
-much space but are needed to make an out-of-tree kernel module build succeed.
+Have you audited what it picks up? My main concern is that we start
+adding files that are not necessary or just simply added in the
+directory that are not needed for this.
 
-One of my goals with this was to make a self-contained module that could be
-loaded to build other modules. Majority of the files are kernel headers, but
-some are not, such as Module.symvers and other scripts. Then one can run
-systemtap on Android which can be made to build modules using the embedded
-headers.
-
-> > +done | cpio -pd $1.tmp
-> > +
-> > +for f in $(find $1.tmp); do
-> > +	$spath/strip-comments.pl $f
-> > +done
-> > +
-> > +tar -Jcf $1 -C $1.tmp/ . > /dev/null
-> > +
-> > +rm -rf $1.tmp
-> > diff --git a/scripts/strip-comments.pl b/scripts/strip-comments.pl
-> > new file mode 100755
-> > index 000000000000..f8ada87c5802
-> > --- /dev/null
-> > +++ b/scripts/strip-comments.pl
-> > @@ -0,0 +1,8 @@
-> > +#!/usr/bin/perl -pi
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +
-> > +# This script removes /**/ comments from a file, unless such comments
-> > +# contain "SPDX". It is used when building compressed in-kernel headers.
-> > +
-> > +BEGIN {undef $/;}
-> > +s/\/\*((?!SPDX).)*?\*\///smg;
 > 
-> Hmm, I'm also wondering if we could us the C pre-processor for the
-> stripping of everything from the header file. We would then even get
-> the header files only having what is necessary for the running kernel.
+> > > +done | cpio -pd $1.tmp
+> > > +
+> > > +for f in $(find $1.tmp); do
+> > > +	$spath/strip-comments.pl $f
+> > > +done
+> > > +
+> > > +tar -Jcf $1 -C $1.tmp/ . > /dev/null
+> > > +
+> > > +rm -rf $1.tmp
+> > > diff --git a/scripts/strip-comments.pl b/scripts/strip-comments.pl
+> > > new file mode 100755
+> > > index 000000000000..f8ada87c5802
+> > > --- /dev/null
+> > > +++ b/scripts/strip-comments.pl
+> > > @@ -0,0 +1,8 @@
+> > > +#!/usr/bin/perl -pi
+> > > +# SPDX-License-Identifier: GPL-2.0
+> > > +
+> > > +# This script removes /**/ comments from a file, unless such comments
+> > > +# contain "SPDX". It is used when building compressed in-kernel headers.
+> > > +
+> > > +BEGIN {undef $/;}
+> > > +s/\/\*((?!SPDX).)*?\*\///smg;  
+> > 
+> > Hmm, I'm also wondering if we could us the C pre-processor for the
+> > stripping of everything from the header file. We would then even get
+> > the header files only having what is necessary for the running kernel.  
+> 
+> I thought about this too. An issue with that is it is going to be really slow
+> due to the large number of headers. The other is, I think it will actually
+> make the headers bigger and take up more space - because all the include
+> directives will also be expanded and have more duplication. Let me know if I
+> missed something though.
+> 
 
-I thought about this too. An issue with that is it is going to be really slow
-due to the large number of headers. The other is, I think it will actually
-make the headers bigger and take up more space - because all the include
-directives will also be expanded and have more duplication. Let me know if I
-missed something though.
+Good point about the duplication. I was mostly thinking of getting rid
+of "#ifdef" blocks.
 
-thanks,
+BTW, these comments are more of a "have you thought about this" and not
+really action comments.
 
- - Joel
+-- Steve
 
