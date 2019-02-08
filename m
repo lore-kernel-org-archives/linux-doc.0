@@ -5,126 +5,192 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DBD987D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Feb 2019 10:56:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 95EFF7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Feb 2019 11:46:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726565AbfBHK4H (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Feb 2019 05:56:07 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46434 "EHLO
+        id S1726567AbfBHLp7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Feb 2019 06:45:59 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42832 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726068AbfBHK4H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Feb 2019 05:56:07 -0500
+        by vger.kernel.org with ESMTP id S1727257AbfBHLp7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Feb 2019 06:45:59 -0500
 Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x18AnkHC028201
-        for <linux-doc@vger.kernel.org>; Fri, 8 Feb 2019 05:56:05 -0500
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x18BhwCd079971
+        for <linux-doc@vger.kernel.org>; Fri, 8 Feb 2019 06:45:57 -0500
 Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2qh6vs477u-1
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2qh6vs6bv0-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 08 Feb 2019 05:56:05 -0500
+        for <linux-doc@vger.kernel.org>; Fri, 08 Feb 2019 06:45:57 -0500
 Received: from localhost
         by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Fri, 8 Feb 2019 10:56:04 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        Fri, 8 Feb 2019 11:45:55 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
         by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 8 Feb 2019 10:56:01 -0000
+        Fri, 8 Feb 2019 11:45:53 -0000
 Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x18Au0om55246878
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x18BjqlN9109728
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 8 Feb 2019 10:56:00 GMT
+        Fri, 8 Feb 2019 11:45:52 GMT
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id A703BA4053;
-        Fri,  8 Feb 2019 10:56:00 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id 973F9A4040;
+        Fri,  8 Feb 2019 11:45:52 +0000 (GMT)
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 281AEA4040;
-        Fri,  8 Feb 2019 10:56:00 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id 05412A404D;
+        Fri,  8 Feb 2019 11:45:51 +0000 (GMT)
 Received: from rapoport-lnx (unknown [9.148.205.183])
         by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Fri,  8 Feb 2019 10:56:00 +0000 (GMT)
-Date:   Fri, 8 Feb 2019 12:55:58 +0200
+        Fri,  8 Feb 2019 11:45:50 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Fri, 08 Feb 2019 13:45:50 +0200
 From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Markus Heiser <markus.heiser@darmarit.de>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org
-Subject: Re: Return: vs Returns:
-References: <20190207135924.GV21860@bombadil.infradead.org>
- <20190207153056.GB9120@rapoport-lnx>
- <8cacba6c-32c1-f60b-dfb0-0c74ef09d53c@darmarit.de>
- <20190207161852.GC8040@rapoport-lnx>
- <e038da5e-bc39-59f4-5b7f-c97467563173@darmarit.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e038da5e-bc39-59f4-5b7f-c97467563173@darmarit.de>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mike Rapoport <rppt@linux.ibm.com>
+Subject: [PATCH] memblock: update comments and kernel-doc
+Date:   Fri,  8 Feb 2019 13:45:47 +0200
+X-Mailer: git-send-email 2.7.4
 X-TM-AS-GCONF: 00
-x-cbid: 19020810-0028-0000-0000-000003462717
+x-cbid: 19020811-0028-0000-0000-000003462BE3
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19020810-0029-0000-0000-000024043B17
-Message-Id: <20190208105557.GE11096@rapoport-lnx>
+x-cbparentid: 19020811-0029-0000-0000-00002404400E
+Message-Id: <1549626347-25461-1-git-send-email-rppt@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-02-08_07:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1902080078
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1902080086
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 07, 2019 at 06:33:34PM +0100, Markus Heiser wrote:
-> 
-> Am 07.02.19 um 17:18 schrieb Mike Rapoport:
-> >>>Does checkpatch checks the kernel-doc parts at all?
-> >>No.  I guess there are to many places to fail / to hard to put someone in
-> >>charge.  E.g. if you do include a single kernel-doc comment from a source all
-> >>kernel-docs in the source will be parsed and may produce (error/warning)
-> >>essages.  What we have, are some targets:
-> >>
-> >>-linkcheckdocs
-> >>  check for broken external links (will connect to external hosts)
-> >>
-> >>- refcheckdocs
-> >>   check for references to non-existing files under Documentation
-> >Right, but these should be checked explicitly and I doubt many people do it
-> >before submitting patches. OTOH, checkpatch is something that's widely used
-> >and if it had verified the kernel-doc parts, more comments would be
-> >following the convention.
-> 
-> I'am with you, but I do not have any clue how to solve this Gordian Knot
-> faithful and without massive collateral damage / sorry :|
-> 
-> The only thing I know, we have the -none option:
-> 
-> $ ./scripts/kernel-doc -none ./include/media/cec.h
-> ./include/media/cec.h:51: warning: Function parameter or member 'lock' not
-> described in 'cec_devnode'
-> 
-> But this is nothing more than noise if the patch does not touch cec_devnode.
-> And there is another problem I see, if we want to check refs ...
+* Remove comments mentioning bootmem
+* Extend "DOC: memblock overview"
+* Add kernel-doc comments for several more functions
 
-Well, the case when a patch changes function parameters but forgets to
-update the kernel-doc part is particularly annoying.
-I believe it's possible to match function parameter changes with the
-corresponding kernel-doc changes (or lack of them).
+Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+---
+
+The patch is against the current -mm tree which seems the best route for it
+as well :)
+
+ mm/memblock.c | 60 ++++++++++++++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 43 insertions(+), 17 deletions(-)
+
+diff --git a/mm/memblock.c b/mm/memblock.c
+index f87d3ae..900c95b 100644
+--- a/mm/memblock.c
++++ b/mm/memblock.c
+@@ -69,8 +69,19 @@
+  * :c:func:`memblock_set_node`. The :c:func:`memblock_add_node`
+  * performs such an assignment directly.
+  *
+- * Once memblock is setup the memory can be allocated using either
+- * memblock or bootmem APIs.
++ * Once memblock is setup the memory can be allocated using one of the
++ * API variants:
++ *
++ * * :c:func:`memblock_phys_alloc*` - these functions return the
++ *   **physical** address of the allocated memory
++ * * :c:func:`memblock_alloc*` - these functions return the **virtual**
++ *   address of the allocated memory.
++ *
++ * Note, that both API variants use implict assumptions about allowed
++ * memory ranges and the fallback methods. Consult the documentation
++ * of :c:func:`memblock_alloc_internal` and
++ * :c:func:`memblock_alloc_range_nid` functions for more elaboarte
++ * description.
+  *
+  * As the system boot progresses, the architecture specific
+  * :c:func:`mem_init` function frees all the memory to the buddy page
+@@ -428,17 +439,7 @@ static int __init_memblock memblock_double_array(struct memblock_type *type,
+ 	else
+ 		in_slab = &memblock_reserved_in_slab;
  
-> >> -linkcheckdocs
-> >>   check for broken external links (will connect to external hosts)
-> >>
-> >> - refcheckdocs
-> >>    check for references to non-existing files under Documentation
-> 
-> The refs are solved late in the sphinx build process when .rst files and
-> kernel-doc comments come together .. so we need sphinx for checkpatch,
-> I gues this is a no-go (?)
-> 
-> -- Markus --
-> 
-
+-	/* Try to find some space for it.
+-	 *
+-	 * WARNING: We assume that either slab_is_available() and we use it or
+-	 * we use MEMBLOCK for allocations. That means that this is unsafe to
+-	 * use when bootmem is currently active (unless bootmem itself is
+-	 * implemented on top of MEMBLOCK which isn't the case yet)
+-	 *
+-	 * This should however not be an issue for now, as we currently only
+-	 * call into MEMBLOCK while it's still active, or much later when slab
+-	 * is active for memory hotplug operations
+-	 */
++	/* Try to find some space for it */
+ 	if (use_slab) {
+ 		new_array = kmalloc(new_size, GFP_KERNEL);
+ 		addr = new_array ? __pa(new_array) : 0;
+@@ -982,7 +983,7 @@ static bool should_skip_region(struct memblock_region *m, int nid, int flags)
+ }
+ 
+ /**
+- * __next__mem_range - next function for for_each_free_mem_range() etc.
++ * __next_mem_range - next function for for_each_free_mem_range() etc.
+  * @idx: pointer to u64 loop variable
+  * @nid: node selector, %NUMA_NO_NODE for all nodes
+  * @flags: pick from blocks based on memory attributes
+@@ -1392,6 +1393,18 @@ static phys_addr_t __init memblock_alloc_range_nid(phys_addr_t size,
+ 	return found;
+ }
+ 
++/**
++ * memblock_phys_alloc_range - allocate a memory block inside specified range
++ * @size: size of memory block to be allocated in bytes
++ * @align: alignment of the region and block's size
++ * @start: the lower bound of the memory region to allocate (physical address)
++ * @end: the upper bound of the memory region to allocate (physical address)
++ *
++ * Allocate @size bytes in the between @start and @end.
++ *
++ * Return: physical address of the allocated memory block on success,
++ * %0 on failure.
++ */
+ phys_addr_t __init memblock_phys_alloc_range(phys_addr_t size,
+ 					     phys_addr_t align,
+ 					     phys_addr_t start,
+@@ -1400,6 +1413,19 @@ phys_addr_t __init memblock_phys_alloc_range(phys_addr_t size,
+ 	return memblock_alloc_range_nid(size, align, start, end, NUMA_NO_NODE);
+ }
+ 
++/**
++ * memblock_phys_alloc_range - allocate a memory block from specified MUMA node
++ * @size: size of memory block to be allocated in bytes
++ * @align: alignment of the region and block's size
++ * @nid: nid of the free area to find, %NUMA_NO_NODE for any node
++ *
++ * Allocates memory block from the specified NUMA node. If the node
++ * has no available memory, attempts to allocated from any node in the
++ * system.
++ *
++ * Return: physical address of the allocated memory block on success,
++ * %0 on failure.
++ */
+ phys_addr_t __init memblock_phys_alloc_try_nid(phys_addr_t size, phys_addr_t align, int nid)
+ {
+ 	return memblock_alloc_range_nid(size, align, 0,
+@@ -1526,13 +1552,13 @@ void * __init memblock_alloc_try_nid(
+ }
+ 
+ /**
+- * __memblock_free_late - free bootmem block pages directly to buddy allocator
++ * __memblock_free_late - free pages directly to buddy allocator
+  * @base: phys starting address of the  boot memory block
+  * @size: size of the boot memory block in bytes
+  *
+- * This is only useful when the bootmem allocator has already been torn
++ * This is only useful when the memblock allocator has already been torn
+  * down, but we are still initializing the system.  Pages are released directly
+- * to the buddy allocator, no bootmem metadata is updated because it is gone.
++ * to the buddy allocator.
+  */
+ void __init __memblock_free_late(phys_addr_t base, phys_addr_t size)
+ {
 -- 
-Sincerely yours,
-Mike.
+2.7.4
 
