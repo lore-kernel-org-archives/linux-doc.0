@@ -5,31 +5,34 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1CDF17D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Feb 2019 20:00:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5908E7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Feb 2019 20:08:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726990AbfBHUAg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Feb 2019 15:00:36 -0500
-Received: from ms.lwn.net ([45.79.88.28]:56278 "EHLO ms.lwn.net"
+        id S1726860AbfBHUIQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Feb 2019 15:08:16 -0500
+Received: from ms.lwn.net ([45.79.88.28]:56324 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726860AbfBHUAg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 8 Feb 2019 15:00:36 -0500
+        id S1726211AbfBHUIP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 8 Feb 2019 15:08:15 -0500
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E5A692CD;
-        Fri,  8 Feb 2019 20:00:35 +0000 (UTC)
-Date:   Fri, 8 Feb 2019 13:00:34 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id 381392CD;
+        Fri,  8 Feb 2019 20:08:15 +0000 (UTC)
+Date:   Fri, 8 Feb 2019 13:08:14 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Michael Ellerman <mpe@ellerman.id.au>
-Cc:     "Tobin C. Harding" <tobin@kernel.org>, linux-doc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/1] Start conversion of PowerPC docs
-Message-ID: <20190208130034.6bccffbd@lwn.net>
-In-Reply-To: <87ef8jj6c3.fsf@concordia.ellerman.id.au>
-References: <20190207060316.3221-1-tobin@kernel.org>
-        <20190207170131.1fd2bb03@lwn.net>
-        <87ef8jj6c3.fsf@concordia.ellerman.id.au>
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Joris Gutjahr <joris.gutjahr@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: kernel-doc: typo "documentaion"
+Message-ID: <20190208130814.3d1534cd@lwn.net>
+In-Reply-To: <9dc7fd5f-3ed6-f36d-5b84-8fcd3c477181@gmail.com>
+References: <1549058656-11119-1-git-send-email-frowand.list@gmail.com>
+        <20190202205620.GA13285@bombadil.infradead.org>
+        <9dc7fd5f-3ed6-f36d-5b84-8fcd3c477181@gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -39,69 +42,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 08 Feb 2019 14:40:28 +1100
-Michael Ellerman <mpe@ellerman.id.au> wrote:
+On Mon, 4 Feb 2019 16:29:31 -0800
+Frank Rowand <frowand.list@gmail.com> wrote:
 
-> > - I don't think this should be a top-level directory full of docs; the top
-> >   level is already rather overpopulated.  At worst, we should create an
-> >   arch/ directory for architecture-specific docs.  
+> On 2/2/19 12:56 PM, Matthew Wilcox wrote:
+> > On Fri, Feb 01, 2019 at 02:04:16PM -0800, frowand.list@gmail.com wrote:  
+> >>    Include documentation for each *function* in *source*.
+> >> -  If no *function* if specified, the documentaion for all functions
+> >> +  If no *function* if specified, the documentation for all functions
+> >>    and types in the *source* will be included.  
+> > 
+> > Could you fix the if/is mistake while you're at it?
+> >   
 > 
-> We currently have arch specific directories for arm, arm64, ia64, m68k,
-> nios2, openrisc, parisc, powerpc, s390, sh, sparc, x86, xtensa.
 > 
-> Do you mean they should all be moved to Documentation/arch ?
-
-Over time I'm really trying to bring some organization to Documentation/,
-and to have that reflected in an RST tree that looks like somebody actually
-thought about it.  So yes, I would eventually like to see something like
-Documentation/arch, just like we have arch/ in the top-level directory.
-
-> >   I kind of think that
-> >   this should be thought through a bit more, though, with an eye toward
-> >   who the audience is.  Some of it is clearly developer documentation, and
-> >   some of it is aimed at admins; ptrace.rst is user-space API stuff.
-> >   Nobody ever welcomes me saying this, but we should really split things
-> >   into the appropriate manuals according to audience.  
+> Jon,
 > 
-> I don't think any of it's aimed at admins, but I haven't read every
-> word. I see it as aimed at kernel devs or people writing directly to the
-> kernel API, eg. gdb developers reading ptrace.rst.
-> 
-> If Documentation/ wants to be more user focused and nicely curated
-> perhaps we need arch/foo/docs/ for these developer centric docs?
+> Since you already accepted the patch, is it easy for you to revert the
+> patch and apply a v2 with the change Mathew pointed out?  If so, I will
+> do a v2.
 
-Stuff for GDB developers is best placed in the userspace-api docbook; we're
-trying to concentrate that there.  Stuff for kernel developers is a bit
-more diffuse still; arch/foo/docs may end up being the best place for it in
-the end, yes.
-
-> > - It would be good to know how much of this stuff is still relevant.
-> >   bootwrapper.txt hasn't been modified since it was added in 2008.  
-> 
-> It hasn't been modified but AFAIK it's still pretty much accurate and
-> definitely something we want to have documented.
-
-That's fine for this (and all the others); I'm just hoping that somebody
-has thought about it.  We're carrying a *lot* of dusty old stuff that, IMO,
-can only serve to confuse those who read it.  If these files don't fall
-into that category, that's great.
-
-> We support some hardware that is ~25 years old, so we have some old
-> documentation too, and I'd rather we didn't drop things just because
-> they're old.
-
-I agree, as long as they remain correct and relevant.
-
-> > - I'm glad you're adding SPDX lines, but do you know that the license is
-> >   correct in each case?  It's best to be careful with such things.  
-> 
-> None of the files have licenses so I think we just fall back to COPYING
-> don't we? In which case GPL-2.0 is correct for all files.
-
-That's often the best choice, though some people have resorted to some
-rather more in-depth archeology to try to figure out what the original
-author actually intended.  Again, I'm just asking so that we're sure it's
-the best choice.
+How about you just send another with the second fix?  Seems just as easy
+in the end...
 
 Thanks,
 
