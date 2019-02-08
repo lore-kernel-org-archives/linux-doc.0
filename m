@@ -1,91 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8693A7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Feb 2019 15:35:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 35CEA7D8A9
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Feb 2019 17:02:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727643AbfBHPfp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Feb 2019 10:35:45 -0500
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:34785 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727473AbfBHPfp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Feb 2019 10:35:45 -0500
-Received: by mail-qt1-f195.google.com with SMTP id b8so4359209qtj.1;
-        Fri, 08 Feb 2019 07:35:44 -0800 (PST)
+        id S1727115AbfBHRBz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Feb 2019 12:01:55 -0500
+Received: from mail-yw1-f65.google.com ([209.85.161.65]:39348 "EHLO
+        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727139AbfBHRBy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Feb 2019 12:01:54 -0500
+Received: by mail-yw1-f65.google.com with SMTP id k188so1635721ywa.6;
+        Fri, 08 Feb 2019 09:01:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=m48btDFIA378+ayDeuzi7R/YAoo5Rj7FXo5HjH4KBS8=;
-        b=kIare5xkTh2vQzCvkA8P/YZouylww1X9CqhJ0ENfKpHsnWhWxq/c/gP1An2IQJO2MN
-         mNPjq8zhvxVY+MGb100NM0szULFSG6vmzimdCLRVr8SFLGdu4Q2Cdl/lTAl4WgeZuoAW
-         Mu4WERwXmjWt3drH74SmZTEzl/mwFm+xIH3uN44WdMTjJK8zTms+kQLLoHET/NE4LOEG
-         qtBI6BDulq4LGTndVjHgARpZBcQXeNaRAVyX5ISHgaseQsd0yQUHSkRY/o9vTdEnRkDo
-         bzfhNY4SvWO4eTnLk92dykIo87vb8LzaydhfzhAH9oDzOCU897VLcEK4mvN6+DMHWjS3
-         RuKw==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=lGI1b90+7lYWM0s1T2HpYMGvNcMnNrIxPnTv5GxwsM0=;
+        b=UnMSSAZs66S/hfxO2XxunZCkHAq9/NUTbbj0q0AstJWVPZpkrnzRPLLpJRZyCIaitQ
+         hL0BGhJYbYq+YWRogwHcT4OtEqwpqp4O+I3hqv6Qjq1/v9Ev2TKznNsID5jKWBqKgG3+
+         hN9zcXfnjvvs44MEqF6K6UM/9bJzhV3iXU9ciFGfxJlfdCwHvlizb3rV+DWZ85ACAVE5
+         +VF0dQrwY97aVKZZKRgwBqXNitGraHoHiFAarjjPMx3pQsesVuaCJl2i7enmKaQ6vcbi
+         WtU0CBB6fTJ77qULESA3x9T6O8wkBDmMlLUfgNDqlm8UOzCDhVntFqTXG/UNdNbUPhgM
+         P9jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=m48btDFIA378+ayDeuzi7R/YAoo5Rj7FXo5HjH4KBS8=;
-        b=d/0dBHJIH9+tv7+PgyRna1seH4BbS4FREVeXKwSZ/gT7RBtxPnGQ/9uQRHIuDZgO1V
-         AaK4wcaqmOYDybccfoAZLRu71ZDjp61s0N6J/VD6ClIGyXoLTE76dyoSqEAX7dLKoQvM
-         kYb2SUEqYA4wHQBk2XC+0WvwGFXTfQbnCLApPEUnzJOimKYv1VAgW+AmfRFp6z7epubR
-         igl4ENS4aHZ5rg+/xlnYacGMpIAuvY0bdonE5TncOecWZ7Ae2UUwUlh6y3yDPeIG13QW
-         aWKpaK0lvapbTrTBHZtTqyrTJCtCoCnHu3NEeDZxrylclhz4ThK6yDm+LNeP8SbkZPR5
-         QrpQ==
-X-Gm-Message-State: AHQUAuZ+PoB0A7NKj+PGuqDZp36ia26piJ7v4MZdxa6tgSYhgPkT7eWs
-        Ob4NbsMVDk9cJJLvmZBxbQI+sNJ1
-X-Google-Smtp-Source: AHgI3IbEyOBwTz3GeYdlEUh+mBy9Uf05fSese0e3g7o45/35Gb+Mg4cYc9bpxRcwNZqOPofmemGukQ==
-X-Received: by 2002:ac8:2614:: with SMTP id u20mr17029810qtu.28.1549640143738;
-        Fri, 08 Feb 2019 07:35:43 -0800 (PST)
-Received: from smtp.gmail.com ([143.107.45.1])
-        by smtp.gmail.com with ESMTPSA id m63sm2276897qkd.37.2019.02.08.07.35.42
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 08 Feb 2019 07:35:43 -0800 (PST)
-Date:   Fri, 8 Feb 2019 13:35:39 -0200
-From:   Shayenne Moura <shayenneluzmoura@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/doc: Remove solved KMS cleanup task
-Message-ID: <20190208153539.esik2dy7xvoi4p4e@smtp.gmail.com>
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=lGI1b90+7lYWM0s1T2HpYMGvNcMnNrIxPnTv5GxwsM0=;
+        b=oHcFrQU7PPnRCjSH/f+6P/xrBHHPmcyuINd3IRs/uP1XB72FtCx29KzUchQNI6Iqyh
+         VA8VhO2Pif43YMyoit9p6c6W3//I2tHX2rMMBbXyHLn2642T/0q5DfRhrCphN5IkuVhD
+         fV8exdHxlNLYf2JWsS+OzS3lJOi20AQkneS4WcrANdEl9/eE2LO7mbNmyLhmIBlfHoGC
+         ZBLaOSN+419/MdfFkfR+fMUqbECCQroD2OXuXvEkbPBudN8mQ2W3mhR6kkxz635qhhfk
+         c4/15ptFV/FiYRNMSn6DKWfPKJQx3duJTYaYD9ucIYAb++l6LUb4ordNkc8VNV3RC5qV
+         DpYg==
+X-Gm-Message-State: AHQUAuadWHTwfh+hQW0atBqF+PjPIMtc/f8jvZrqUve8NmtXqxy+U5Hx
+        RIat6gXZnJfZvybv4RBXkfE=
+X-Google-Smtp-Source: AHgI3Iax8sTODIL6T3+AtZiR40B2SQJJEl3dnxIHEWpYT3nL/O8yWPmaEkaNNWWzfVzkJ6oAoGiLXw==
+X-Received: by 2002:a0d:d857:: with SMTP id a84mr10627970ywe.121.1549645313605;
+        Fri, 08 Feb 2019 09:01:53 -0800 (PST)
+Received: from localhost ([2620:10d:c091:180::1:1597])
+        by smtp.gmail.com with ESMTPSA id n2sm922139ywe.37.2019.02.08.09.01.52
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 08 Feb 2019 09:01:52 -0800 (PST)
+Date:   Fri, 8 Feb 2019 09:01:50 -0800
+From:   Tejun Heo <tj@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: cgroup-v2: eliminate markup warnings
+Message-ID: <20190208170150.GK50184@devbig004.ftw2.facebook.com>
+References: <7ba0d6eb-8f45-7f4d-4e84-53dab1158da4@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: NeoMutt/20171215
+In-Reply-To: <7ba0d6eb-8f45-7f4d-4e84-53dab1158da4@infradead.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove KMS cleanup task from documentation solved by patchset
-https://patchwork.freedesktop.org/series/54310/
+On Wed, Feb 06, 2019 at 04:59:00PM -0800, Randy Dunlap wrote:
+> From: Randy Dunlap <rdunlap@infradead.org>
+> 
+> Fix markup warnings in cgroup-v2.rst:
+> 
+> Documentation/admin-guide/cgroup-v2.rst:1509: WARNING: Block quote ends without a blank line; unexpected unindent.
+> Documentation/admin-guide/cgroup-v2.rst:1511: WARNING: Block quote ends without a blank line; unexpected unindent.
+> Documentation/admin-guide/cgroup-v2.rst:1512: WARNING: Block quote ends without a blank line; unexpected unindent.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Tejun Heo <tj@kernel.org>
+> Cc: Li Zefan <lizefan@huawei.com>
+> Cc: Johannes Weiner <hannes@cmpxchg.org>
+> Cc: cgroups@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
 
-Signed-off-by: Shayenne Moura <shayenneluzmoura@gmail.com>
----
- Documentation/gpu/todo.rst | 4 ----
- 1 file changed, 4 deletions(-)
+Applied to cgroup/for-5.0.
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index cda4a37a02f0..159a4aba49e6 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -398,10 +398,6 @@ KMS cleanups
- 
- Some of these date from the very introduction of KMS in 2008 ...
- 
--- drm_display_mode doesn't need to be derived from drm_mode_object. That's
--  leftovers from older (never merged into upstream) KMS designs where modes
--  where set using their ID, including support to add/remove modes.
--
- - Make ->funcs and ->helper_private vtables optional. There's a bunch of empty
-   function tables in drivers, but before we can remove them we need to make sure
-   that all the users in helpers and drivers do correctly check for a NULL
+Thanks.
+
 -- 
-2.17.1
-
+tejun
