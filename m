@@ -5,66 +5,76 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5908E7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Feb 2019 20:08:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F2FBD7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Feb 2019 22:40:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726860AbfBHUIQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Feb 2019 15:08:16 -0500
-Received: from ms.lwn.net ([45.79.88.28]:56324 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726211AbfBHUIP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 8 Feb 2019 15:08:15 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 381392CD;
-        Fri,  8 Feb 2019 20:08:15 +0000 (UTC)
-Date:   Fri, 8 Feb 2019 13:08:14 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Frank Rowand <frowand.list@gmail.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Joris Gutjahr <joris.gutjahr@gmail.com>,
+        id S1726353AbfBHWkt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Feb 2019 17:40:49 -0500
+Received: from mail.linuxfoundation.org ([140.211.169.12]:37420 "EHLO
+        mail.linuxfoundation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726222AbfBHWkt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Feb 2019 17:40:49 -0500
+Received: from akpm3.svl.corp.google.com (unknown [104.133.8.65])
+        by mail.linuxfoundation.org (Postfix) with ESMTPSA id 7ADF6CA08;
+        Fri,  8 Feb 2019 22:40:48 +0000 (UTC)
+Date:   Fri, 8 Feb 2019 14:40:47 -0800
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Mike Rapoport <rppt@linux.ibm.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: kernel-doc: typo "documentaion"
-Message-ID: <20190208130814.3d1534cd@lwn.net>
-In-Reply-To: <9dc7fd5f-3ed6-f36d-5b84-8fcd3c477181@gmail.com>
-References: <1549058656-11119-1-git-send-email-frowand.list@gmail.com>
-        <20190202205620.GA13285@bombadil.infradead.org>
-        <9dc7fd5f-3ed6-f36d-5b84-8fcd3c477181@gmail.com>
-Organization: LWN.net
-MIME-Version: 1.0
+Subject: Re: [PATCH] memblock: update comments and kernel-doc
+Message-Id: <20190208144047.66254b6d08edfea462e6466a@linux-foundation.org>
+In-Reply-To: <1549626347-25461-1-git-send-email-rppt@linux.ibm.com>
+References: <1549626347-25461-1-git-send-email-rppt@linux.ibm.com>
+X-Mailer: Sylpheed 3.6.0 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 4 Feb 2019 16:29:31 -0800
-Frank Rowand <frowand.list@gmail.com> wrote:
+On Fri,  8 Feb 2019 13:45:47 +0200 Mike Rapoport <rppt@linux.ibm.com> wrote:
 
-> On 2/2/19 12:56 PM, Matthew Wilcox wrote:
-> > On Fri, Feb 01, 2019 at 02:04:16PM -0800, frowand.list@gmail.com wrote:  
-> >>    Include documentation for each *function* in *source*.
-> >> -  If no *function* if specified, the documentaion for all functions
-> >> +  If no *function* if specified, the documentation for all functions
-> >>    and types in the *source* will be included.  
-> > 
-> > Could you fix the if/is mistake while you're at it?
-> >   
+> * Remove comments mentioning bootmem
+> * Extend "DOC: memblock overview"
+> * Add kernel-doc comments for several more functions
 > 
-> 
-> Jon,
-> 
-> Since you already accepted the patch, is it easy for you to revert the
-> patch and apply a v2 with the change Mathew pointed out?  If so, I will
-> do a v2.
+> ...
+>
+> @@ -1400,6 +1413,19 @@ phys_addr_t __init memblock_phys_alloc_range(phys_addr_t size,
+>  	return memblock_alloc_range_nid(size, align, start, end, NUMA_NO_NODE);
+>  }
+>  
+> +/**
+> + * memblock_phys_alloc_range - allocate a memory block from specified MUMA node
+> + * @size: size of memory block to be allocated in bytes
+> + * @align: alignment of the region and block's size
+> + * @nid: nid of the free area to find, %NUMA_NO_NODE for any node
+> + *
+> + * Allocates memory block from the specified NUMA node. If the node
+> + * has no available memory, attempts to allocated from any node in the
+> + * system.
+> + *
+> + * Return: physical address of the allocated memory block on success,
+> + * %0 on failure.
+> + */
+>  phys_addr_t __init memblock_phys_alloc_try_nid(phys_addr_t size, phys_addr_t align, int nid)
+>  {
+>  	return memblock_alloc_range_nid(size, align, 0,
 
-How about you just send another with the second fix?  Seems just as easy
-in the end...
+copy-n-paste!
 
-Thanks,
+--- a/mm/memblock.c~memblock-update-comments-and-kernel-doc-fix
++++ a/mm/memblock.c
+@@ -1414,7 +1414,7 @@ phys_addr_t __init memblock_phys_alloc_r
+ }
+ 
+ /**
+- * memblock_phys_alloc_range - allocate a memory block from specified MUMA node
++ * memblock_phys_alloc_try_nid - allocate a memory block from specified MUMA node
+  * @size: size of memory block to be allocated in bytes
+  * @align: alignment of the region and block's size
+  * @nid: nid of the free area to find, %NUMA_NO_NODE for any node
 
-jon
