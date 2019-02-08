@@ -1,93 +1,54 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 35CEA7D8A9
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Feb 2019 17:02:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C6AB07D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Feb 2019 19:47:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727115AbfBHRBz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Feb 2019 12:01:55 -0500
-Received: from mail-yw1-f65.google.com ([209.85.161.65]:39348 "EHLO
-        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727139AbfBHRBy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Feb 2019 12:01:54 -0500
-Received: by mail-yw1-f65.google.com with SMTP id k188so1635721ywa.6;
-        Fri, 08 Feb 2019 09:01:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=lGI1b90+7lYWM0s1T2HpYMGvNcMnNrIxPnTv5GxwsM0=;
-        b=UnMSSAZs66S/hfxO2XxunZCkHAq9/NUTbbj0q0AstJWVPZpkrnzRPLLpJRZyCIaitQ
-         hL0BGhJYbYq+YWRogwHcT4OtEqwpqp4O+I3hqv6Qjq1/v9Ev2TKznNsID5jKWBqKgG3+
-         hN9zcXfnjvvs44MEqF6K6UM/9bJzhV3iXU9ciFGfxJlfdCwHvlizb3rV+DWZ85ACAVE5
-         +VF0dQrwY97aVKZZKRgwBqXNitGraHoHiFAarjjPMx3pQsesVuaCJl2i7enmKaQ6vcbi
-         WtU0CBB6fTJ77qULESA3x9T6O8wkBDmMlLUfgNDqlm8UOzCDhVntFqTXG/UNdNbUPhgM
-         P9jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=lGI1b90+7lYWM0s1T2HpYMGvNcMnNrIxPnTv5GxwsM0=;
-        b=oHcFrQU7PPnRCjSH/f+6P/xrBHHPmcyuINd3IRs/uP1XB72FtCx29KzUchQNI6Iqyh
-         VA8VhO2Pif43YMyoit9p6c6W3//I2tHX2rMMBbXyHLn2642T/0q5DfRhrCphN5IkuVhD
-         fV8exdHxlNLYf2JWsS+OzS3lJOi20AQkneS4WcrANdEl9/eE2LO7mbNmyLhmIBlfHoGC
-         ZBLaOSN+419/MdfFkfR+fMUqbECCQroD2OXuXvEkbPBudN8mQ2W3mhR6kkxz635qhhfk
-         c4/15ptFV/FiYRNMSn6DKWfPKJQx3duJTYaYD9ucIYAb++l6LUb4ordNkc8VNV3RC5qV
-         DpYg==
-X-Gm-Message-State: AHQUAuadWHTwfh+hQW0atBqF+PjPIMtc/f8jvZrqUve8NmtXqxy+U5Hx
-        RIat6gXZnJfZvybv4RBXkfE=
-X-Google-Smtp-Source: AHgI3Iax8sTODIL6T3+AtZiR40B2SQJJEl3dnxIHEWpYT3nL/O8yWPmaEkaNNWWzfVzkJ6oAoGiLXw==
-X-Received: by 2002:a0d:d857:: with SMTP id a84mr10627970ywe.121.1549645313605;
-        Fri, 08 Feb 2019 09:01:53 -0800 (PST)
-Received: from localhost ([2620:10d:c091:180::1:1597])
-        by smtp.gmail.com with ESMTPSA id n2sm922139ywe.37.2019.02.08.09.01.52
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 08 Feb 2019 09:01:52 -0800 (PST)
-Date:   Fri, 8 Feb 2019 09:01:50 -0800
-From:   Tejun Heo <tj@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: cgroup-v2: eliminate markup warnings
-Message-ID: <20190208170150.GK50184@devbig004.ftw2.facebook.com>
-References: <7ba0d6eb-8f45-7f4d-4e84-53dab1158da4@infradead.org>
+        id S1726852AbfBHTrN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Feb 2019 14:47:13 -0500
+Received: from ms.lwn.net ([45.79.88.28]:56240 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726522AbfBHTrN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 8 Feb 2019 14:47:13 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id C16199AE;
+        Fri,  8 Feb 2019 19:47:12 +0000 (UTC)
+Date:   Fri, 8 Feb 2019 12:47:11 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Shayenne Moura <shayenneluzmoura@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/doc: Remove solved KMS cleanup task
+Message-ID: <20190208124711.030102e0@lwn.net>
+In-Reply-To: <20190208153539.esik2dy7xvoi4p4e@smtp.gmail.com>
+References: <20190208153539.esik2dy7xvoi4p4e@smtp.gmail.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7ba0d6eb-8f45-7f4d-4e84-53dab1158da4@infradead.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 06, 2019 at 04:59:00PM -0800, Randy Dunlap wrote:
-> From: Randy Dunlap <rdunlap@infradead.org>
-> 
-> Fix markup warnings in cgroup-v2.rst:
-> 
-> Documentation/admin-guide/cgroup-v2.rst:1509: WARNING: Block quote ends without a blank line; unexpected unindent.
-> Documentation/admin-guide/cgroup-v2.rst:1511: WARNING: Block quote ends without a blank line; unexpected unindent.
-> Documentation/admin-guide/cgroup-v2.rst:1512: WARNING: Block quote ends without a blank line; unexpected unindent.
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Tejun Heo <tj@kernel.org>
-> Cc: Li Zefan <lizefan@huawei.com>
-> Cc: Johannes Weiner <hannes@cmpxchg.org>
-> Cc: cgroups@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
+On Fri, 8 Feb 2019 13:35:39 -0200
+Shayenne Moura <shayenneluzmoura@gmail.com> wrote:
 
-Applied to cgroup/for-5.0.
+> Remove KMS cleanup task from documentation solved by patchset
+> https://patchwork.freedesktop.org/series/54310/
+> 
+> Signed-off-by: Shayenne Moura <shayenneluzmoura@gmail.com>
 
-Thanks.
+This seems like a worthy change, but Documentation/gpu is managed by the
+DRM maintainers.  Could I ask you to resend the patch to them instead?
+You can find the relevant addresses in the MAINTAINERS file or with
+scripts/get_maintainer.pl.
 
--- 
-tejun
+Thanks,
+
+jon
