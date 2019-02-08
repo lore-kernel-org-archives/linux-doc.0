@@ -5,127 +5,77 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E786B7D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Feb 2019 23:50:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D101B7D099
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Feb 2019 00:01:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726622AbfBGXur (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Feb 2019 18:50:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47902 "EHLO mail.kernel.org"
+        id S1726651AbfBHABd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Feb 2019 19:01:33 -0500
+Received: from ms.lwn.net ([45.79.88.28]:50604 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726650AbfBGXuq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Feb 2019 18:50:46 -0500
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        id S1726622AbfBHABd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Feb 2019 19:01:33 -0500
+Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A4EEE2173B;
-        Thu,  7 Feb 2019 23:50:43 +0000 (UTC)
-Date:   Thu, 7 Feb 2019 18:50:42 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
-        atishp04@gmail.com, dancol@google.com,
-        Dan Williams <dan.j.williams@intel.com>,
-        gregkh@linuxfoundation.org, Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        paulmck@linux.vnet.ibm.com,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        rdunlap@infradead.org, Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        yhs@fb.com
-Subject: Re: [PATCH 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-Message-ID: <20190207185042.76c7d68f@gandalf.local.home>
-In-Reply-To: <20190207233902.GA193818@google.com>
-References: <20190207211102.154634-1-joel@joelfernandes.org>
-        <20190207175239.0607f5eb@gandalf.local.home>
-        <20190207233902.GA193818@google.com>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        by ms.lwn.net (Postfix) with ESMTPSA id 9CF722AE;
+        Fri,  8 Feb 2019 00:01:32 +0000 (UTC)
+Date:   Thu, 7 Feb 2019 17:01:31 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     "Tobin C. Harding" <tobin@kernel.org>
+Cc:     Michael Ellerman <mpe@ellerman.id.au>, linux-doc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/1] Start conversion of PowerPC docs
+Message-ID: <20190207170131.1fd2bb03@lwn.net>
+In-Reply-To: <20190207060316.3221-1-tobin@kernel.org>
+References: <20190207060316.3221-1-tobin@kernel.org>
+Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 7 Feb 2019 18:39:02 -0500
-Joel Fernandes <joel@joelfernandes.org> wrote:
-> > > +
-> > > +spath="$(dirname "$(readlink -f "$0")")"
-> > > +
-> > > +rm -rf $1.tmp
-> > > +mkdir $1.tmp
-> > > +
-> > > +for f in "${@:2}";
-> > > +	do find "$f" ! -name "*.c" ! -name "*.o" ! -name "*.cmd" ! -name ".*";  
-> > 
-> > I wonder if it is a good idea to pick all files in the directories
-> > defined in ikh_file_list, and not just explicitly list what we want,
-> > with a '*.h' and such?  
+On Thu,  7 Feb 2019 17:03:15 +1100
+"Tobin C. Harding" <tobin@kernel.org> wrote:
+
+> As discussed at LCA here is the start to the docs conversion for PowerPC
+> to RST.
 > 
-> I also need few files in the archive that are not .h, these don't take up
-> much space but are needed to make an out-of-tree kernel module build succeed.
+> This applies cleanly on top of the mainline (5.20-rc5) and Jon's tree
+> (docs-next branch).
 > 
-> One of my goals with this was to make a self-contained module that could be
-> loaded to build other modules. Majority of the files are kernel headers, but
-> some are not, such as Module.symvers and other scripts. Then one can run
-> systemtap on Android which can be made to build modules using the embedded
-> headers.
+> I'm guessing it should go in through the PowerPC tree because I doubt
+> you want to review this Jon, it's one big single patch (all blame for
+> that falls on mpe ;)
 
-Have you audited what it picks up? My main concern is that we start
-adding files that are not necessary or just simply added in the
-directory that are not needed for this.
+Well, I went and took a look anyway, being a glutton for punishment.  So
+naturally I do have some comments...
 
-> 
-> > > +done | cpio -pd $1.tmp
-> > > +
-> > > +for f in $(find $1.tmp); do
-> > > +	$spath/strip-comments.pl $f
-> > > +done
-> > > +
-> > > +tar -Jcf $1 -C $1.tmp/ . > /dev/null
-> > > +
-> > > +rm -rf $1.tmp
-> > > diff --git a/scripts/strip-comments.pl b/scripts/strip-comments.pl
-> > > new file mode 100755
-> > > index 000000000000..f8ada87c5802
-> > > --- /dev/null
-> > > +++ b/scripts/strip-comments.pl
-> > > @@ -0,0 +1,8 @@
-> > > +#!/usr/bin/perl -pi
-> > > +# SPDX-License-Identifier: GPL-2.0
-> > > +
-> > > +# This script removes /**/ comments from a file, unless such comments
-> > > +# contain "SPDX". It is used when building compressed in-kernel headers.
-> > > +
-> > > +BEGIN {undef $/;}
-> > > +s/\/\*((?!SPDX).)*?\*\///smg;  
-> > 
-> > Hmm, I'm also wondering if we could us the C pre-processor for the
-> > stripping of everything from the header file. We would then even get
-> > the header files only having what is necessary for the running kernel.  
-> 
-> I thought about this too. An issue with that is it is going to be really slow
-> due to the large number of headers. The other is, I think it will actually
-> make the headers bigger and take up more space - because all the include
-> directives will also be expanded and have more duplication. Let me know if I
-> missed something though.
-> 
+- I don't think this should be a top-level directory full of docs; the top
+  level is already rather overpopulated.  At worst, we should create an
+  arch/ directory for architecture-specific docs.  I kind of think that
+  this should be thought through a bit more, though, with an eye toward
+  who the audience is.  Some of it is clearly developer documentation, and
+  some of it is aimed at admins; ptrace.rst is user-space API stuff.
+  Nobody ever welcomes me saying this, but we should really split things
+  into the appropriate manuals according to audience.
 
-Good point about the duplication. I was mostly thinking of getting rid
-of "#ifdef" blocks.
+- It would be good to know how much of this stuff is still relevant.
+  bootwrapper.txt hasn't been modified since it was added in 2008.
+  cpu_features.txt predates the git era, as does mpc52xx.txt; hvcs.txt is
+  nearly as old. And so on.  Can we perhaps stop dragging some of those
+  docs around?
 
-BTW, these comments are more of a "have you thought about this" and not
-really action comments.
+- The use of flat-table in isa-versions.rst totally wrecks the readability
+  of those tables in the plain-text version.  Said tables are pretty close
+  to being RST in their original form; it would be far better to just fix
+  anything needing fixing but to keep that form.
 
--- Steve
+- I'm glad you're adding SPDX lines, but do you know that the license is
+  correct in each case?  It's best to be careful with such things.
 
+Thanks,
+
+jon
