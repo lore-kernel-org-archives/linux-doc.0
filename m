@@ -1,163 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1562E7D099
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Feb 2019 00:12:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 395C77D099
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Feb 2019 03:40:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726718AbfBHALo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Feb 2019 19:11:44 -0500
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:34190 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726731AbfBHALn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Feb 2019 19:11:43 -0500
-Received: by mail-qk1-f194.google.com with SMTP id a15so1152070qkc.1
-        for <linux-doc@vger.kernel.org>; Thu, 07 Feb 2019 16:11:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=2jvMzZml8G1fBRXACrLnRWMkKrhzgtpwyBjFhfxntJU=;
-        b=DcrbpoxUmYXvksaE6PpHmTeR9ReoaHaRVZuN6U2gq3JgO8YnWQ1R5k6z/8sUjTjq++
-         1iO9LRkj+vDobeMt6zIo0Ba00oJTLfBcloI0p+PgDeMv15KySEAUXxSo7uhasG4xaxIn
-         0hOYiIv8QygM2GrjCdIBBVHGjZzXDVVXVThas=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=2jvMzZml8G1fBRXACrLnRWMkKrhzgtpwyBjFhfxntJU=;
-        b=c1VUJpixvQjZyMzw2iGKePMF0VogBOSmoIwc3ffZeGck9vCRX2+bSkaTCtDajUg9/L
-         rohdPmkvIXbVmmByDzPmZisD6joXvzOWCINVwwe3wUGEdJ8Os8q4lqoobGYmBZxTiBhj
-         au2zCbwlM2xeVmyW/mvEhiMRMHmhQs6aoUYeawTz9SbGvr/9w8R/TSHAl6v355BQCYrj
-         Poy/lpO4oVTv6g2u8n0omzfkwWYSdTyz08q72j844jlAAjQtLi36Z0YpFPnswJPGUfNO
-         EikDp1vaW7y0S4TEmIt6QSFeG+uHxkQV4VRGpOi9cRHaPOP77Jhrh2tM6AXsbm3fzZqY
-         8z9A==
-X-Gm-Message-State: AHQUAub3FCdH33qyXNlPGnrem7GLg55eTwGtzv5XXaiLMge+3qGlPwzb
-        FVhi78+g7KXSvSWvwXtmwhRG5w==
-X-Google-Smtp-Source: AHgI3IYLbR8/lq5nz5ehxKfAm/ssVexEm9+/zT9zfG28C3dRLjUJnqtnhbZrO22bKtn61bsY5noBPA==
-X-Received: by 2002:a37:8784:: with SMTP id j126mr5455923qkd.228.1549584700638;
-        Thu, 07 Feb 2019 16:11:40 -0800 (PST)
-Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
-        by smtp.gmail.com with ESMTPSA id w34sm842757qtj.27.2019.02.07.16.11.39
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 07 Feb 2019 16:11:39 -0800 (PST)
-Date:   Thu, 7 Feb 2019 19:11:39 -0500
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
-        atishp04@gmail.com, dancol@google.com,
-        Dan Williams <dan.j.williams@intel.com>,
-        gregkh@linuxfoundation.org, Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        paulmck@linux.vnet.ibm.com,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        rdunlap@infradead.org, Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        yhs@fb.com
-Subject: Re: [PATCH 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-Message-ID: <20190208001139.GB193818@google.com>
-References: <20190207211102.154634-1-joel@joelfernandes.org>
- <20190207175239.0607f5eb@gandalf.local.home>
- <20190207233902.GA193818@google.com>
- <20190207185042.76c7d68f@gandalf.local.home>
+        id S1726718AbfBHDke (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Feb 2019 22:40:34 -0500
+Received: from ozlabs.org ([203.11.71.1]:58925 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726676AbfBHDke (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Feb 2019 22:40:34 -0500
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by ozlabs.org (Postfix) with ESMTPSA id 43wgtl337Tz9sBZ;
+        Fri,  8 Feb 2019 14:40:31 +1100 (AEDT)
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        "Tobin C. Harding" <tobin@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/1] Start conversion of PowerPC docs
+In-Reply-To: <20190207170131.1fd2bb03@lwn.net>
+References: <20190207060316.3221-1-tobin@kernel.org> <20190207170131.1fd2bb03@lwn.net>
+Date:   Fri, 08 Feb 2019 14:40:28 +1100
+Message-ID: <87ef8jj6c3.fsf@concordia.ellerman.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190207185042.76c7d68f@gandalf.local.home>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 07, 2019 at 06:50:42PM -0500, Steven Rostedt wrote:
-> On Thu, 7 Feb 2019 18:39:02 -0500
-> Joel Fernandes <joel@joelfernandes.org> wrote:
-> > > > +
-> > > > +spath="$(dirname "$(readlink -f "$0")")"
-> > > > +
-> > > > +rm -rf $1.tmp
-> > > > +mkdir $1.tmp
-> > > > +
-> > > > +for f in "${@:2}";
-> > > > +	do find "$f" ! -name "*.c" ! -name "*.o" ! -name "*.cmd" ! -name ".*";  
-> > > 
-> > > I wonder if it is a good idea to pick all files in the directories
-> > > defined in ikh_file_list, and not just explicitly list what we want,
-> > > with a '*.h' and such?  
-> > 
-> > I also need few files in the archive that are not .h, these don't take up
-> > much space but are needed to make an out-of-tree kernel module build succeed.
-> > 
-> > One of my goals with this was to make a self-contained module that could be
-> > loaded to build other modules. Majority of the files are kernel headers, but
-> > some are not, such as Module.symvers and other scripts. Then one can run
-> > systemtap on Android which can be made to build modules using the embedded
-> > headers.
-> 
-> Have you audited what it picks up? My main concern is that we start
-> adding files that are not necessary or just simply added in the
-> directory that are not needed for this.
+Jonathan Corbet <corbet@lwn.net> writes:
+> On Thu,  7 Feb 2019 17:03:15 +1100
+> "Tobin C. Harding" <tobin@kernel.org> wrote:
+>
+>> As discussed at LCA here is the start to the docs conversion for PowerPC
+>> to RST.
+>> 
+>> This applies cleanly on top of the mainline (5.20-rc5) and Jon's tree
+>> (docs-next branch).
+>> 
+>> I'm guessing it should go in through the PowerPC tree because I doubt
+>> you want to review this Jon, it's one big single patch (all blame for
+>> that falls on mpe ;)
+>
+> Well, I went and took a look anyway, being a glutton for punishment.  So
+> naturally I do have some comments...
+>
+> - I don't think this should be a top-level directory full of docs; the top
+>   level is already rather overpopulated.  At worst, we should create an
+>   arch/ directory for architecture-specific docs.
 
-Yes, I audited what is needed to be picked up. It turned out that I ended up
-nitpicking files for not much space-saving advantage while causing the list
-of files that need to be picked to be long, because most of the space is
-taken by the headers.
+We currently have arch specific directories for arm, arm64, ia64, m68k,
+nios2, openrisc, parisc, powerpc, s390, sh, sparc, x86, xtensa.
 
-> > > > +done | cpio -pd $1.tmp
-> > > > +
-> > > > +for f in $(find $1.tmp); do
-> > > > +	$spath/strip-comments.pl $f
-> > > > +done
-> > > > +
-> > > > +tar -Jcf $1 -C $1.tmp/ . > /dev/null
-> > > > +
-> > > > +rm -rf $1.tmp
-> > > > diff --git a/scripts/strip-comments.pl b/scripts/strip-comments.pl
-> > > > new file mode 100755
-> > > > index 000000000000..f8ada87c5802
-> > > > --- /dev/null
-> > > > +++ b/scripts/strip-comments.pl
-> > > > @@ -0,0 +1,8 @@
-> > > > +#!/usr/bin/perl -pi
-> > > > +# SPDX-License-Identifier: GPL-2.0
-> > > > +
-> > > > +# This script removes /**/ comments from a file, unless such comments
-> > > > +# contain "SPDX". It is used when building compressed in-kernel headers.
-> > > > +
-> > > > +BEGIN {undef $/;}
-> > > > +s/\/\*((?!SPDX).)*?\*\///smg;  
-> > > 
-> > > Hmm, I'm also wondering if we could us the C pre-processor for the
-> > > stripping of everything from the header file. We would then even get
-> > > the header files only having what is necessary for the running kernel.  
-> > 
-> > I thought about this too. An issue with that is it is going to be really slow
-> > due to the large number of headers. The other is, I think it will actually
-> > make the headers bigger and take up more space - because all the include
-> > directives will also be expanded and have more duplication. Let me know if I
-> > missed something though.
-> > 
-> 
-> Good point about the duplication. I was mostly thinking of getting rid
-> of "#ifdef" blocks.
-> BTW, these comments are more of a "have you thought about this" and not
-> really action comments.
+Do you mean they should all be moved to Documentation/arch ?
 
-Ok, thanks for the comments :)
+>   I kind of think that
+>   this should be thought through a bit more, though, with an eye toward
+>   who the audience is.  Some of it is clearly developer documentation, and
+>   some of it is aimed at admins; ptrace.rst is user-space API stuff.
+>   Nobody ever welcomes me saying this, but we should really split things
+>   into the appropriate manuals according to audience.
 
- - Joel
+I don't think any of it's aimed at admins, but I haven't read every
+word. I see it as aimed at kernel devs or people writing directly to the
+kernel API, eg. gdb developers reading ptrace.rst.
 
+If Documentation/ wants to be more user focused and nicely curated
+perhaps we need arch/foo/docs/ for these developer centric docs?
+
+> - It would be good to know how much of this stuff is still relevant.
+>   bootwrapper.txt hasn't been modified since it was added in 2008.
+
+It hasn't been modified but AFAIK it's still pretty much accurate and
+definitely something we want to have documented.
+
+>   cpu_features.txt predates the git era
+
+But so does the code it's documenting.
+
+>   as does mpc52xx.txt; hvcs.txt is nearly as old. And so on. Can we
+>   perhaps stop dragging some of those docs around?
+
+We support some hardware that is ~25 years old, so we have some old
+documentation too, and I'd rather we didn't drop things just because
+they're old.
+
+> - The use of flat-table in isa-versions.rst totally wrecks the readability
+>   of those tables in the plain-text version.  Said tables are pretty close
+>   to being RST in their original form; it would be far better to just fix
+>   anything needing fixing but to keep that form.
+
+Yes agree, I'd like the docs to be as readable as possible as plain text.
+
+> - I'm glad you're adding SPDX lines, but do you know that the license is
+>   correct in each case?  It's best to be careful with such things.
+
+None of the files have licenses so I think we just fall back to COPYING
+don't we? In which case GPL-2.0 is correct for all files.
+
+cheers
