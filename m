@@ -1,125 +1,76 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D02597D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  9 Feb 2019 08:59:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F124E7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  9 Feb 2019 15:05:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726896AbfBII7z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 9 Feb 2019 03:59:55 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59906 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726047AbfBII7v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Feb 2019 03:59:51 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x198wvat006633
-        for <linux-doc@vger.kernel.org>; Sat, 9 Feb 2019 03:59:49 -0500
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2qhur786jg-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Sat, 09 Feb 2019 03:59:49 -0500
-Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Sat, 9 Feb 2019 08:59:48 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sat, 9 Feb 2019 08:59:44 -0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x198xi4T63242430
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 9 Feb 2019 08:59:44 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0344CA4062;
-        Sat,  9 Feb 2019 08:59:44 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 672EAA405F;
-        Sat,  9 Feb 2019 08:59:43 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.205.132])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Sat,  9 Feb 2019 08:59:43 +0000 (GMT)
-Date:   Sat, 9 Feb 2019 10:59:41 +0200
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] memblock: update comments and kernel-doc
-References: <1549626347-25461-1-git-send-email-rppt@linux.ibm.com>
- <20190208144047.66254b6d08edfea462e6466a@linux-foundation.org>
+        id S1726832AbfBIPFn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 9 Feb 2019 10:05:43 -0500
+Received: from mout.gmx.net ([212.227.17.22]:47603 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726484AbfBIPFn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 9 Feb 2019 10:05:43 -0500
+Received: from [192.168.65.3] ([92.249.131.222]) by mail.gmx.com (mrgmx101
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 0Lx4dh-1hCKU218vJ-016gvJ; Sat, 09
+ Feb 2019 16:05:35 +0100
+Date:   Sat, 9 Feb 2019 16:05:33 +0100 (CET)
+From:   Tibor Billes <tbilles@gmx.com>
+X-X-Sender: tbilles@serpens
+To:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, tj@kernel.org
+Subject: [PATCH] cgroup: add documentation for pids.events file
+Message-ID: <alpine.DEB.2.20.1902091539220.29523@serpens>
+User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190208144047.66254b6d08edfea462e6466a@linux-foundation.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 19020908-0008-0000-0000-000002BE604F
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19020908-0009-0000-0000-0000222A70B2
-Message-Id: <20190209085941.GA13657@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-02-09_08:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=968 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1902090067
+Content-Type: text/plain; charset=US-ASCII
+X-Provags-ID: V03:K1:ncWfTqeBAE78cpiwACoqwjrfIY+SM2XNhMGeOBrOaTneNy2vQ1m
+ +2D2lBCfcsUHdn1zOqZNeXVLGbKYBWUeM92gRIrHIrVRuY5XI+b9q0Mwh2N59K6yem3uWNO
+ 6xjHhbIaJNoffxNDRqq/CsjyHG/MGx+pzpNpkaIsDeE/zsPcwl1HM4yQInpnlMWiG4Q0d22
+ qYhtfT59/USeGOCIbci8w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:anvuXEKq8nw=:NZBSYOztDbPn7GJAOHiMeX
+ S6l9T0Gj3ZYYpzvAq0OmDMhiFmDoyg8hVHmCRZ0643RT35a0PWU5R0bHxDdorgXtKkkiSBow5
+ HIKZS9cC6+qjprQq+0fDivne9je1+GK13fsaqTBbNvJAbdEqVc3kQq14o+4fslJ1+5Qc1pSZY
+ l1z2FnTRc1s8+YvWKJ26W/UOWZAtJc66zj+8GFbM2FziYa/Tj2nW3vaJKV+fZLEcZ0uSUNT7Y
+ rRYjiCyYrKTXpgp3YAL6aZ4/p0XUK198E0Wyh6tpABu5X1Dt7d2ZPGjTvU6fcqAJ/J3hQLJ21
+ SsmzXw2b7itZp7TWDOXpeKnluQywlE9T+rUQ9hdfpRbJOHMJWpswvzKuUYGkWCAA4jb5XuDeV
+ L0GMBlWpSwFnhplQXy2s9GdvyruAD/IfKEfvZOvA8R9j5/eCIA+FOknvJb6lWniTV4EtcZGrD
+ rnLpBVr2je9CvCfW5mkqzGK0ZC9gTrbBMzvirxZ8lORsK4PFcL0eOVbSUm05iYFokLihQOID9
+ jc9kTSHuCGamutRPHgBWfEIoIyB79+6Afy3zKiMO3llCz6BUyGsNdNOFQoZA4vZ+mwT11dPCR
+ AUCpx0cUYj/Si0t/3W+O0SgGYmLjj6uldQvIkwwYET9b90hawmX0HdalQt5KJshQ7XPJQX5iv
+ pU5GrA8JYbxdyhD90DbCk2UE3r2i275Cft0P12thAmFgw/iZ4e5AhoU48mgHmLH9PcTZNF6Vm
+ eJvkr25iCqTuuzMUrcPcV4Ljj60m983cR0yMMahFHybVRGT2J3gqQivJXd2Y6xUIaNZkI1KMC
+ XXJMpBkECGBHy/n7OyBh44/CN6FFUPF6jHqGLl441ksXUZyuv68KAZjUcJ/U4r5s9MGJSxwpO
+ HzJfRNoXt3MRZfOhcnp8VOAiVApVLi2F6PY5xU0RumjM0U7sTgUWm7LlEkAlqtxtXtzhQ/DC8
+ CGgdthapJyA==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 08, 2019 at 02:40:47PM -0800, Andrew Morton wrote:
-> On Fri,  8 Feb 2019 13:45:47 +0200 Mike Rapoport <rppt@linux.ibm.com> wrote:
-> 
-> > * Remove comments mentioning bootmem
-> > * Extend "DOC: memblock overview"
-> > * Add kernel-doc comments for several more functions
-> > 
-> > ...
-> >
-> > @@ -1400,6 +1413,19 @@ phys_addr_t __init memblock_phys_alloc_range(phys_addr_t size,
-> >  	return memblock_alloc_range_nid(size, align, start, end, NUMA_NO_NODE);
-> >  }
-> >  
-> > +/**
-> > + * memblock_phys_alloc_range - allocate a memory block from specified MUMA node
-> > + * @size: size of memory block to be allocated in bytes
-> > + * @align: alignment of the region and block's size
-> > + * @nid: nid of the free area to find, %NUMA_NO_NODE for any node
-> > + *
-> > + * Allocates memory block from the specified NUMA node. If the node
-> > + * has no available memory, attempts to allocated from any node in the
-> > + * system.
-> > + *
-> > + * Return: physical address of the allocated memory block on success,
-> > + * %0 on failure.
-> > + */
-> >  phys_addr_t __init memblock_phys_alloc_try_nid(phys_addr_t size, phys_addr_t align, int nid)
-> >  {
-> >  	return memblock_alloc_range_nid(size, align, 0,
-> 
-> copy-n-paste!
+cgroup: add documentation for pids.events file
 
-Oops, thanks for the fix!
+Document the event counters file for pid cgroups.
+
+Signed-off-by: Tibor Billes <tbilles@gmx.com>
+---
+ Documentation/cgroup-v1/pids.txt | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/Documentation/cgroup-v1/pids.txt b/Documentation/cgroup-v1/pids.txt
+index 1a078b5..e105d70 100644
+--- a/Documentation/cgroup-v1/pids.txt
++++ b/Documentation/cgroup-v1/pids.txt
+@@ -33,6 +33,9 @@ limit in the hierarchy is followed).
+ pids.current tracks all child cgroup hierarchies, so parent/pids.current is a
+ superset of parent/child/pids.current.
  
-> --- a/mm/memblock.c~memblock-update-comments-and-kernel-doc-fix
-> +++ a/mm/memblock.c
-> @@ -1414,7 +1414,7 @@ phys_addr_t __init memblock_phys_alloc_r
->  }
->  
->  /**
-> - * memblock_phys_alloc_range - allocate a memory block from specified MUMA node
-> + * memblock_phys_alloc_try_nid - allocate a memory block from specified MUMA node
->   * @size: size of memory block to be allocated in bytes
->   * @align: alignment of the region and block's size
->   * @nid: nid of the free area to find, %NUMA_NO_NODE for any node
-> 
-
--- 
-Sincerely yours,
-Mike.
-
++The pids.events file contains event counters:
++  - max: Number of times fork failed because limit was hit.
++
+ Example
+ -------
+ 
