@@ -1,93 +1,126 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CB0737D161
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 10 Feb 2019 17:13:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 43E797D099
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 10 Feb 2019 22:34:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726118AbfBJRNT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 10 Feb 2019 12:13:19 -0500
-Received: from mout.gmx.net ([212.227.17.22]:45519 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725896AbfBJRNT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 10 Feb 2019 12:13:19 -0500
-Received: from longitude ([109.90.232.48]) by mail.gmx.com (mrgmx103
- [212.227.17.168]) with ESMTPSA (Nemesis) id 0MAQMg-1gmr2z3i2M-00BdVO; Sun, 10
- Feb 2019 18:13:12 +0100
-From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     linux-doc@vger.kernel.org
-Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Markus Heiser <markus.heiser@darmarit.de>,
-        Alessia Mantegazza <amantegazza@vaga.pv.it>,
-        Michael Rodin <michael-git@rodin.online>,
-        Minghui Liu <minghui.liu.95@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: process: Remove outdated info about -git patches
-Date:   Sun, 10 Feb 2019 18:12:59 +0100
-Message-Id: <20190210171300.29613-1-j.neuschaefer@gmx.net>
-X-Mailer: git-send-email 2.20.1
+        id S1726340AbfBJWeq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 10 Feb 2019 17:34:46 -0500
+Received: from Galois.linutronix.de ([146.0.238.70]:37466 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726093AbfBJWeq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Feb 2019 17:34:46 -0500
+Received: from p5492e0d8.dip0.t-ipconnect.de ([84.146.224.216] helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1gsxg6-0001iM-KO; Sun, 10 Feb 2019 23:34:22 +0100
+Date:   Sun, 10 Feb 2019 23:34:21 +0100 (CET)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Alexey Budankov <alexey.budankov@linux.intel.com>
+cc:     Jonatan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Jann Horn <jannh@google.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        "kernel-hardening@lists.openwall.com" 
+        <kernel-hardening@lists.openwall.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/4] perf-security: document perf_events/Perf resource
+ control
+In-Reply-To: <a108c800-d6c1-fac1-b73b-e390e579e6ef@linux.intel.com>
+Message-ID: <alpine.DEB.2.21.1902102300210.8784@nanos.tec.linutronix.de>
+References: <fd896eec-7833-f23a-ad2f-95005dca5fff@linux.intel.com> <a108c800-d6c1-fac1-b73b-e390e579e6ef@linux.intel.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Ne/n2nt2NCY/z5BBLwg6CsLy2INPVZTMxvGaaVuhr1aRBLw1Fv5
- bI0XQgf0b9mSUicf8Sv9ZuvamGPRRVJB40cN5GzoOoRxz+U9gkmYOKxFGQ8TBLOEdocbG8I
- dBC/5otkJsEEaF17d2J83pQx/XsG5raUm5nz2yEGm2DvaSs+iJ2ENSERvky3KzoROwSRsTy
- gSkWVwIWgjamn6VPXW9MA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:yPCI9k78WLM=:PqNRkwg683gaFu2U6TL5SB
- OiLi25fOfsaHlAFExC3hrqQwC7QCw39uWKUli/RAX64Q5tGSWI/uUXgPsxjiFRDM7gdMYjWSM
- GVCw+GrHGYtvIKbtBmiYqj5nb7RKX30PlVSpYmnH9N+ipFDWwtw6UZvgWJWmMroAn1zp1Sk53
- 6oe6iVTqx7nqo1n3Tl3j074tcT0GzkbTty4YPFcSkszXRbNPEmxDPCA9zKTXD1yIv/cl3Nc45
- eHVy80VOeY7JaAW/7/SroQgMwLvDxn+ueFpSL8SKgL7sxWTFIlLk3UEJm1f1aKw5qubbPhzS3
- wGLWcQF6jvx7rw/MA5qcvJl2/N4s529cQ1vBV5RLvuy2ctKl5czkBV2VI2auX0qZULSHEzPmR
- CgQ19IofXF/oNxZD+9dM5jaqP1VfgZOaWHVfyJGgHG6h+jVWILpBxbLY4VZ/b14svqSFEkGBa
- 4f0+fqiY5JgquR9YH+kU1E3M4K4uBbAkf5IgJ6tWokA8XDFv7BCajDNJEpJgi3Ow5u937oYHg
- Q0URg+PIH18xGkrykjJAMWz7WSSKWsBQB17OWI9KS+cEdhcg+SjZMGOCMkOwUGFemPOBuOBDa
- Ff75c/S3jDVJq5zEoiTqic460de5PCSHcfXQ+jO0gsWz5+xTu0b3eKw0Hg20EOE7THhhmlxK9
- 3rbsitX3pOh+yoXIMR7+63kyb973Msq/C9IOhjkkyx4kkANlR74+BZ2DCE5vhmYVEQJd1OHt1
- ee6BI5Tr/oqAbgT7vzm2ZPDYKDZe8v4rHSbqBG178PL9kH6xcO/L3yoRLENtMuT+WCt+eG87G
- DUTN7biGzsciXtJo0Tm6wwJw3BlXjZ2Qy9F0k43xxP9iMdq3+r/RYqdB805VhwTfMLp2Lt6Le
- +YjcUql0XHqA+SoV0Hw9/z4UPJTIor9s5WZPohZ88HQAIntBVgJn+XgVwuyBvhqtPOdbsYjtg
- fi71LihaioA==
+Content-Type: text/plain; charset=US-ASCII
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As can be seen by clicking around the timeline on web.archive.org[1],
-there were no -git patches/tarballs on kernel.org since release 3.1.
+On Thu, 7 Feb 2019, Alexey Budankov wrote:
 
-[1]: https://web.archive.org/web/20111103073843/http://www.kernel.org/
+General note: Please stay in the 80 char limit for all of the text.
 
-Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
----
- Documentation/process/howto.rst | 9 ---------
- 1 file changed, 9 deletions(-)
+> +The perf_events system call API [2]_ allocates file descriptors for every configured
+> +PMU event. Open file descriptors are a per-process accountable resource governed
+> +by the RLIMIT_NOFILE [11]_ limit (ulimit -n), which is usually derived from the login
+> +shell process. When configuring Perf collection for a long list of events on a
+> +large server system, this limit can be easily hit preventing required monitoring
+> +configuration.
 
-diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
-index 58b2f46c4f98..00c8ddd2ed2c 100644
---- a/Documentation/process/howto.rst
-+++ b/Documentation/process/howto.rst
-@@ -302,15 +302,6 @@ The file :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rule
- in the kernel tree documents what kinds of changes are acceptable for
- the -stable tree, and how the release process works.
- 
--4.x -git patches
--~~~~~~~~~~~~~~~~
--
--These are daily snapshots of Linus' kernel tree which are managed in a
--git repository (hence the name.) These patches are usually released
--daily and represent the current state of Linus' tree.  They are more
--experimental than -rc kernels since they are generated automatically
--without even a cursory glance to see if they are sane.
--
- Subsystem Specific kernel trees and patches
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--- 
-2.20.1
+I'd move this sentence into a different paragraph and keep those related to
+RLIMIT_NOFILE together.
 
+> ... RLIMIT_NOFILE limit can be increased on per-user basis modifying
+> +content of the limits.conf file [12]_ on some systems.
+
+On some systems?
+
+> Ordinarily, a Perf sampling session
+> +(perf record) requires an amount of open perf_event file descriptors that is not
+> +less than a number of monitored events multiplied by a number of monitored CPUs.
+
+  s/a number of/the number of/
+
+The ordinary use case is:
+
+    perf CMD pile-of-events PROCESS
+
+which does not specify the monitored CPUs at all. Then the number of file
+descriptors is NR_EVENTS * NR_ONLINE_CPUS.
+
+> +An amount of memory available to user processes for capturing performance monitoring
+
+The amount ...
+
+> +data is governed by the perf_event_mlock_kb [2]_ setting. This perf_event specific
+> +resource setting defines overall per-cpu limits of memory allowed for mapping
+> +by the user processes to execute performance monitoring. The setting essentially
+> +extends the RLIMIT_MEMLOCK [11]_ limit, but only for memory regions mapped specially
+
+s/specially/specifically/
+
+> +for capturing monitored performance events and related data.
+> +
+> +For example, if a machine has eight cores and perf_event_mlock_kb limit is set
+> +to 516 KiB, then a user process is provided with 516 KiB * 8 = 4128 KiB of memory
+> +above the RLIMIT_MEMLOCK limit (ulimit -l) for perf_event mmap buffers. In particular,
+> +this means that, if the user wants to start two or more performance monitoring
+> +processes, the user is required to manually distribute available 4128 KiB between the
+
+distribute the available
+
+> +monitoring processes, for example, using the --mmap-pages Perf record mode option.
+> +Otherwise, the first started performance monitoring process allocates all available
+> +4128 KiB and the other processes will fail to proceed due to the lack of memory.
+> +
+> +RLIMIT_MEMLOCK and perf_event_mlock_kb resource costraints are ignored for
+
+constraints.
+
+> +processes with the CAP_IPC_LOCK capability. Thus, perf_events/Perf privileged users
+
+what means perf_events/Perf ?
+
+> +can be provided with memory above the constraints for perf_events/Perf performance
+> +monitoring purpose by providing the Perf executable with CAP_IPC_LOCK capability.
+
+Thanks,
+
+	tglx
