@@ -2,92 +2,80 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A66377D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 07:43:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B34A87D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 08:10:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726012AbfBKHnR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Feb 2019 02:43:17 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:37461 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725939AbfBKHnR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Feb 2019 02:43:17 -0500
-Received: by mail-pl1-f194.google.com with SMTP id b5so4935850plr.4;
-        Sun, 10 Feb 2019 23:43:16 -0800 (PST)
+        id S1725951AbfBKIKQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Feb 2019 03:10:16 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:41848 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725931AbfBKIKQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Feb 2019 03:10:16 -0500
+Received: by mail-lj1-f195.google.com with SMTP id e17-v6so1019791lja.8
+        for <linux-doc@vger.kernel.org>; Mon, 11 Feb 2019 00:10:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=LzdxB19zhApMwZH0H6vEn1LPmCbo2CeSOy3HttPM3Rk=;
-        b=vQXX5IB20a2Re4fUEbSuRpgaZX4KGwVOHSTJWplqnNZf+8Y7r/l1ONh6IHkDNA/Hdk
-         z4jy8vmTkP0N8GPyswCSk7dZkh4GpRNyvSP+7GFwGQ3NB1CwAUCKztvNaS37l+aTRjE9
-         XGRKCtF/TDhLHml8qClvXaoORE2FZvSgzDJ+RB/xyyo53aT24zEsbPs3i/bBcVqpouO5
-         mHRXz8GLZfJSYshQLLWnsIob2pZSHLkbzbpPlPUXA0yg2OITeDEpXfInkfKtTcnZxDs4
-         vVBOpFe+QLlo5RH60Dae8kxggrxrtJ7c/qrPDyvObgEkLDnc5bAGcXiogTGN8FR7mzNz
-         l30w==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HTufqxdwVyd5xvnixmRcXTj5wWcKWgsmg6B4AXxL778=;
+        b=saW8/hGeXOlXC4KQdSwD/ePjV+PWNSwUhaQU/ZZt0zElqGSuzdyV2JQ4OzQGUNxlrZ
+         puxkNe1wC9LfRIzqJHT/YIh6oHJTOQ+ipH4cCcapEB+ARt68rnP/bifs9Qr6MNpNny8k
+         mB7UIEtz8/8udtzfKshYqHiPqSA/74wEiS7nNoFIcClqRgxjlUwsXYGeOJU1U34J3+gN
+         U+MVXgdwe/xHWXXBESQWGWN5csIkt4eg7MK5EguKxMaYNV9GFvDFwfPxR5Ym6iqr8LcK
+         A8zIRGmvKt4CU1+bqpyg2xZHTwaRD6aSqhT8T0aLHFkcYzf641kywbP/p5jpvA2PEutK
+         9ckg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=LzdxB19zhApMwZH0H6vEn1LPmCbo2CeSOy3HttPM3Rk=;
-        b=b0/s5BJrlOvveJMTYl5P5eQU7k+q7Sa18p+vpL+qbVRB6rtsa5JHepzNAQKCgZw+yA
-         fX3HcdgLPah9bql50SO1Iqm+lybBOzSdbtRjxtw9c81uNAciqXP+qCutRigokMFKBb81
-         gjT1y7nViOyUHblYenOtHTs5Q2dLPl8hNwGOGygHCQise24HAf7j+itPc4azEpYrXpJC
-         AKMh4kuF+xz0c51AG/hFoi28Nm0eP9iKP5uUa0N8XH+OUV2dwo3WF4+lwkNCc83OFgB2
-         xl9fAvjPOabec2Ud4iiSTeDL47BlqzuCTbLu2uJ98oWzoGcEu3g/gy4CYhm0Ih2vST4o
-         0H9Q==
-X-Gm-Message-State: AHQUAuat3Dr3PIvsgQeYAWaAH7CIUdeiOcJvS+bne4S88SbhjIAmTDxz
-        dLDhOq0AqyyAFzZfChaKw34=
-X-Google-Smtp-Source: AHgI3Iaf1MpBbJJ8uTMAYdhLdQxO4kI5hHbwP4MylJcKIuOLER1MTDBVTSxWgqEvQA/FP/c65uS2YA==
-X-Received: by 2002:a17:902:2bc9:: with SMTP id l67mr1863808plb.241.1549870996468;
-        Sun, 10 Feb 2019 23:43:16 -0800 (PST)
-Received: from localhost ([175.223.48.87])
-        by smtp.gmail.com with ESMTPSA id a90sm17164079pfj.109.2019.02.10.23.43.15
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 10 Feb 2019 23:43:15 -0800 (PST)
-Date:   Mon, 11 Feb 2019 16:43:12 +0900
-From:   Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-To:     Mike Rapoport <rppt@linux.ibm.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Christoph Lameter <cl@linux.com>,
-        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-Subject: Re: [PATCH] Documentation: fix vm/slub.rst warning
-Message-ID: <20190211074312.GA26364@jagdpanzerIV>
-References: <1e992162-c4ac-fe4e-f1b0-d8a16a51d5e7@infradead.org>
- <20190211073537.GA25868@rapoport-lnx>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HTufqxdwVyd5xvnixmRcXTj5wWcKWgsmg6B4AXxL778=;
+        b=hyXoyzSZdScdW5QKyNbSGwofLyMjHarIHWIe92gvu9pfWjO3OTNJ59c8IaV6R16yn0
+         riYeysyLUr9H+F7IsEOn7hJANQYip0MTq0GmXcEP8uoe70zds5BX1sH9SnU/7+I1GlWJ
+         nK7twKgY2K8zIL8b5pGIzpc0h9ZMNdpVvuLv9b8Ljn4cjtijImfC0GAgO2kzY8wuBMBP
+         K8kdROOrgz9vMkhGmrkGAPP0thkAzQR1q6WXcFv70bYi9jyQE2yKx0C36gG1eJJCL2tG
+         xS+hH9wT/+KlTqYX7qYVdpNzd1jona9a7m3RdWHFtkHm8ZldkHMef3pw+a/ospxa2vrP
+         bi8A==
+X-Gm-Message-State: AHQUAuaBle1CCEE6T6tFTv5JPrzz5gVUh8GvciqQIol6BudtXuLuVK2C
+        idNi/2dGd5AOqn8OCpqXiD8GBQJy83U4a+w7WjbiNQ==
+X-Google-Smtp-Source: AHgI3IYtAGtrQysea3hu7s2wg7C8AGK93eOXhuR30JYV0qZQ1Bl8JmGH6irtUBqh9d1hB6s+UJv+Xks3vAV140PumUQ=
+X-Received: by 2002:a2e:874b:: with SMTP id q11-v6mr941391ljj.97.1549872614339;
+ Mon, 11 Feb 2019 00:10:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190211073537.GA25868@rapoport-lnx>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+References: <13290065-5568-c0d0-9e7b-7a02ad71dbb0@infradead.org>
+In-Reply-To: <13290065-5568-c0d0-9e7b-7a02ad71dbb0@infradead.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 11 Feb 2019 09:10:03 +0100
+Message-ID: <CACRpkdb+YefEc4nWifPm1pjOuDLg=DiAPOM9gaftJAc4xmDODA@mail.gmail.com>
+Subject: Re: [PATCH] Documenation: driver-api: fix gpio/board.rst warning
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On (02/11/19 09:35), Mike Rapoport wrote:
-> On Sun, Feb 10, 2019 at 10:34:11PM -0800, Randy Dunlap wrote:
-> > From: Randy Dunlap <rdunlap@infradead.org>
-> > 
-> > Fix markup warning by quoting the '*' character with a backslash.
-> > 
-> > Documentation/vm/slub.rst:71: WARNING: Inline emphasis start-string without end-string.
-> > 
-> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> > Cc: Christoph Lameter <cl@linux.com>
-> > Cc: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-> 
-> Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+On Mon, Feb 11, 2019 at 7:28 AM Randy Dunlap <rdunlap@infradead.org> wrote:
 
-FWIW,
-Reviewed-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+> From: Randy Dunlap <rdunlap@infradead.org>
+>
+> Fix markup warning: insert a blank line before the list.
+>
+> Documentation/driver-api/gpio/board.rst:209: WARNING: Unexpected indentation.
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> Cc: linux-gpio@vger.kernel.org
 
-	-ss
+Patch applied.
+
+Yours,
+Linus Walleij
