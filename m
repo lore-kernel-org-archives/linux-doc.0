@@ -2,38 +2,30 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3070F7D099
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 13:45:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9AE377D099
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 14:16:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728124AbfBKNpB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Feb 2019 08:45:01 -0500
-Received: from mga05.intel.com ([192.55.52.43]:33684 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727106AbfBKNpB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Feb 2019 08:45:01 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Feb 2019 05:45:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,358,1544515200"; 
-   d="scan'208";a="143282103"
-Received: from linux.intel.com ([10.54.29.200])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Feb 2019 05:44:59 -0800
-Received: from [10.125.252.196] (abudanko-mobl.ccr.corp.intel.com [10.125.252.196])
-        by linux.intel.com (Postfix) with ESMTP id 1F8095800C6;
-        Mon, 11 Feb 2019 05:44:55 -0800 (PST)
-Subject: [PATCH v3 3/4] perf-security: elaborate on perf_events/Perf
- privileged users
-From:   Alexey Budankov <alexey.budankov@linux.intel.com>
-To:     Jonatan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Jann Horn <jannh@google.com>,
+        id S1726994AbfBKOQN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Feb 2019 09:16:13 -0500
+Received: from Galois.linutronix.de ([146.0.238.70]:39343 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726940AbfBKOQN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Feb 2019 09:16:13 -0500
+Received: from [5.158.153.55] (helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1gtCNN-0006vA-Hj; Mon, 11 Feb 2019 15:16:01 +0100
+Date:   Mon, 11 Feb 2019 15:15:55 +0100 (CET)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Alexey Budankov <alexey.budankov@linux.intel.com>
+cc:     Jonatan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Jann Horn <jannh@google.com>,
         Arnaldo Carvalho de Melo <acme@kernel.org>,
         Jiri Olsa <jolsa@redhat.com>,
         Namhyung Kim <namhyung@kernel.org>,
@@ -45,88 +37,33 @@ Cc:     Jann Horn <jannh@google.com>,
         <kernel-hardening@lists.openwall.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         linux-kernel <linux-kernel@vger.kernel.org>
-References: <784bbe0d-56c1-bd63-1879-b7db988e40c0@linux.intel.com>
-Organization: Intel Corp.
-Message-ID: <52e8b9ee-795c-5e48-661b-0c1dc10ae3e1@linux.intel.com>
-Date:   Mon, 11 Feb 2019 16:44:55 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.0
+Subject: Re: [PATCH v2 1/4] perf-security: document perf_events/Perf resource
+ control
+In-Reply-To: <969b6ea5-a5bf-70b7-7031-38b07538f744@linux.intel.com>
+Message-ID: <alpine.DEB.2.21.1902111514550.3197@nanos.tec.linutronix.de>
+References: <fd896eec-7833-f23a-ad2f-95005dca5fff@linux.intel.com> <a108c800-d6c1-fac1-b73b-e390e579e6ef@linux.intel.com> <alpine.DEB.2.21.1902102300210.8784@nanos.tec.linutronix.de> <969b6ea5-a5bf-70b7-7031-38b07538f744@linux.intel.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <784bbe0d-56c1-bd63-1879-b7db988e40c0@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, 11 Feb 2019, Alexey Budankov wrote:
+> On 11.02.2019 1:34, Thomas Gleixner wrote:
+> > On Thu, 7 Feb 2019, Alexey Budankov wrote:
+> > 
+> > General note: Please stay in the 80 char limit for all of the text.
+> 
+> Yes, sure. [PATCH v2 4/4] implements wrapping at 72 columns.
 
-Elaborate on possible perf_event/Perf privileged users groups
-and document steps about creating such groups.
+So you provide crappy formatted stuff first, just to reformat it at the
+end. I'm missing the logic behind that.
 
-Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
----
- Documentation/admin-guide/perf-security.rst | 43 +++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+Thanks,
 
-diff --git a/Documentation/admin-guide/perf-security.rst b/Documentation/admin-guide/perf-security.rst
-index 8772d44a5912..dccbf2ec0c9e 100644
---- a/Documentation/admin-guide/perf-security.rst
-+++ b/Documentation/admin-guide/perf-security.rst
-@@ -73,6 +73,48 @@ enable capturing of additional data required for later performance analysis of
- monitored processes or a system. For example, CAP_SYSLOG capability permits
- reading kernel space memory addresses from /proc/kallsyms file.
- 
-+perf_events/Perf privileged users
-+---------------------------------
-+
-+Mechanisms of capabilities, privileged capability-dumb files [6]_ and file system
-+ACLs [10]_ can be used to create a dedicated group of perf_events/Perf privileged
-+users who are permitted to execute performance monitoring without scope limits.
-+The following steps can be taken to create such a group of privileged Perf users.
-+
-+1. Create perf_users group of privileged Perf users, assign perf_users group to
-+   Perf tool executable and limit access to the executable for other users in the
-+   system who are not in the perf_users group:
-+
-+::
-+
-+   # groupadd perf_users
-+   # ls -alhF
-+   -rwxr-xr-x  2 root root  11M Oct 19 15:12 perf
-+   # chgrp perf_users perf
-+   # ls -alhF
-+   -rwxr-xr-x  2 root perf_users  11M Oct 19 15:12 perf
-+   # chmod o-rwx perf
-+   # ls -alhF
-+   -rwxr-x---  2 root perf_users  11M Oct 19 15:12 perf
-+
-+2. Assign the required capabilities to the Perf tool executable file and enable
-+   members of perf_users group with performance monitoring privileges [6]_ :
-+
-+::
-+
-+   # setcap "cap_sys_admin,cap_sys_ptrace,cap_syslog=ep" perf
-+   # setcap -v "cap_sys_admin,cap_sys_ptrace,cap_syslog=ep" perf
-+   perf: OK
-+   # getcap perf
-+   perf = cap_sys_ptrace,cap_sys_admin,cap_syslog+ep
-+
-+As a result, members of perf_users group are capable of conducting performance
-+monitoring by using functionality of the configured Perf tool executable that,
-+when executes, passes perf_events subsystem scope checks.
-+
-+This specific access control management is only available to superuser or root
-+running processes with CAP_SETPCAP, CAP_SETFCAP [6]_ capabilities.
-+
- perf_events/Perf unprivileged users
- -----------------------------------
- 
-@@ -162,6 +204,7 @@ Bibliography
- .. [7] `<http://man7.org/linux/man-pages/man2/ptrace.2.html>`_
- .. [8] `<https://en.wikipedia.org/wiki/Hardware_performance_counter>`_
- .. [9] `<https://en.wikipedia.org/wiki/Model-specific_register>`_
-+.. [10] `<http://man7.org/linux/man-pages/man5/acl.5.html>`_
- .. [11] `<http://man7.org/linux/man-pages/man2/getrlimit.2.html>`_
- .. [12] `<http://man7.org/linux/man-pages/man5/limits.conf.5.html>`_
+	tglx
