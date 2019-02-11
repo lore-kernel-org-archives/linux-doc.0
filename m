@@ -1,142 +1,307 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B28927D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 19:27:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 54E307D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 20:33:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731837AbfBKT14 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Feb 2019 14:27:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51730 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730233AbfBKT14 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Feb 2019 14:27:56 -0500
-Received: from localhost (5356596B.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3A488218A1;
-        Mon, 11 Feb 2019 19:27:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1549913274;
-        bh=Lz7tJbgIT8LNC7DBEv3tyMK2p3xMYrTBIDvho7Jryvw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Nj+ukbPpvXaTr7WXTOY/SmFLEWZS1mMswjBlD+JH1ItOT+3R6eBzB7w+JlGVdBY8Z
-         BJOORJCpBQzyrLPs55Y32ND8eLWgVDNjfmGUCR+SuYfHzebgy/sxNlMlQHBbe9dICf
-         oJhThuKp/PD/sMokWMHzd8g7iDYjLXdG7csEC59g=
-Date:   Mon, 11 Feb 2019 20:27:52 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Reinette Chatre <reinette.chatre@intel.com>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Babu Moger <babu.moger@amd.com>, Borislav Petkov <bp@suse.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        "Chang S. Bae" <chang.seok.bae@intel.com>,
-        David Miller <davem@davemloft.net>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Dmitry Safonov <dima@arista.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jann Horn <jannh@google.com>, Joerg Roedel <jroedel@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Pu Wen <puwen@hygon.cn>, qianyue.zj@alibaba-inc.com,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Rian Hunter <rian@alum.mit.edu>,
-        Sherry Hurwitz <sherry.hurwitz@amd.com>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thomas Lendacky <Thomas.Lendacky@amd.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        xiaochen.shen@intel.com, Sasha Levin <sashal@kernel.org>
-Subject: Re: [PATCH 4.19 054/313] x86/resctrl: Fixup the user-visible strings
-Message-ID: <20190211192752.GC13134@kroah.com>
-References: <20190211141852.749630980@linuxfoundation.org>
- <20190211141857.375396128@linuxfoundation.org>
- <046b7dbd-3480-d8a0-e454-bc1576d5834e@intel.com>
+        id S1727250AbfBKUdJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Feb 2019 15:33:09 -0500
+Received: from mail-vk1-f194.google.com ([209.85.221.194]:32790 "EHLO
+        mail-vk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727172AbfBKUdJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Feb 2019 15:33:09 -0500
+Received: by mail-vk1-f194.google.com with SMTP id d201so71785vka.0
+        for <linux-doc@vger.kernel.org>; Mon, 11 Feb 2019 12:33:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=r6VRajPoqaThCJT0Dvdiha6ogbe9QcNkbuaAo7A6Lms=;
+        b=BmQVHGsbVwhoYZdBSedRkqIv6og7RMSliRadT3+x3j6C1gbIKUuwcxXzqv5jKmWvjo
+         KdPJxVpmNCDYVgKTbZX5dzd/F00C4iJjDGN6QzwEks6s+CaJpSauJ9LlIoNCdIKimi6c
+         JGhlLjiLL1uqvF8XnV5O7YMCfE0Cjq5ccbC9r8DysKVu1r5mFlDQX1dL97frVsvPHyu0
+         9mrkSPWrFbpeP0Eqh9roRzPndd+Sq7oG4Q2uFQvXNygHhtEZpexHI0RTL5IyfFXeJLib
+         sht/JwBIBWaNTiZTNYltal2S7DIierzLBZLEKpRhAH9hiD5e/iEv2Qz7CxmUv+6ZtP7X
+         /Qfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=r6VRajPoqaThCJT0Dvdiha6ogbe9QcNkbuaAo7A6Lms=;
+        b=PNDkrXklYXiax+1u4lltEXjJ2ATTngLX14EzDY2N537QIomYbwRTWNVIUR0p7Xr2K8
+         r9y+Q8u+WMzM2DT/mnkWoAldUckhGC4FTeqxDR8Nqld810TOJ/BgoVRKuGKpl7XnKdAt
+         IGDBa/VfdkFqVRl76ztR7MvUrqJDlvTf081Nzcrnq9RmYTvOirrZLp8OnVGIEjSEuOzk
+         XRG6Mowo2t1PjtFcsjWIftG/lTxB1wuR5MsEUlj9zXn7BESulwoiRiJx811RMy3Ab2H+
+         t3veD3S4DidbN3zi284K2rzoZLhiUNIYPXQnPGKPFUqaaDYCSR7VoT4wHoQE+cU17PTC
+         jb2Q==
+X-Gm-Message-State: AHQUAuZHdnihqEGOTieT/YE3uIo6YAxxHk5ryAhYaT4B7Bl9AJTzj456
+        tAR7oxdhSyqw+f6e3iA7+x2E8+QAKUcYuYmvV1MFDQ==
+X-Google-Smtp-Source: AHgI3IYRoxxh5UANRY+c7YFpbiuZIVnkRpZEjVgGacZzLPAQLpz/3AFD8Mhp7mukXr/ijhZ1DgvcmKgyBVxi4v5h/0s=
+X-Received: by 2002:a1f:9042:: with SMTP id s63mr29880vkd.17.1549917187324;
+ Mon, 11 Feb 2019 12:33:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <046b7dbd-3480-d8a0-e454-bc1576d5834e@intel.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+References: <cover.1544445454.git.andreyknvl@google.com> <20181210143044.12714-1-vincenzo.frascino@arm.com>
+ <CAAeHK+xPZ-Z9YUAq=3+hbjj4uyJk32qVaxZkhcSAHYC4mHAkvQ@mail.gmail.com>
+ <20181212150230.GH65138@arrakis.emea.arm.com> <CAAeHK+zxYJDJ7DJuDAOuOMgGvckFwMAoVUTDJzb6MX3WsXhRTQ@mail.gmail.com>
+ <20181218175938.GD20197@arrakis.emea.arm.com> <20181219125249.GB22067@e103592.cambridge.arm.com>
+ <9bbacb1b-6237-f0bb-9bec-b4cf8d42bfc5@arm.com>
+In-Reply-To: <9bbacb1b-6237-f0bb-9bec-b4cf8d42bfc5@arm.com>
+From:   Evgenii Stepanov <eugenis@google.com>
+Date:   Mon, 11 Feb 2019 12:32:55 -0800
+Message-ID: <CAFKCwrhH5R3e5ntX0t-gxcE6zzbCNm06pzeFfYEN2K13c5WLTg@mail.gmail.com>
+Subject: Re: [RFC][PATCH 0/3] arm64 relaxed ABI
+To:     Kevin Brodsky <kevin.brodsky@arm.com>
+Cc:     Dave Martin <Dave.Martin@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 11, 2019 at 10:12:46AM -0800, Reinette Chatre wrote:
-> Hi Greg,
-> 
-> On 2/11/2019 6:15 AM, Greg Kroah-Hartman wrote:
-> > 4.19-stable review patch.  If anyone has any objections, please let me know.
-> > 
-> > ------------------
-> > 
-> > [ Upstream commit 723f1a0dd8e26a7523ba068204bee11c95ded38d ]
-> > 
-> > Fix the messages in rdt_last_cmd_printf() and rdt_last_cmd_puts() to
-> > make them more meaningful and consistent.
-> > 
-> >  [ bp: s/cpu/CPU/; s/mem\W/memory ]
-> > 
-> > Signed-off-by: Babu Moger <babu.moger@amd.com>
-> > Signed-off-by: Borislav Petkov <bp@suse.de>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: Andy Lutomirski <luto@kernel.org>
-> > Cc: Arnd Bergmann <arnd@arndb.de>
-> > Cc: Brijesh Singh <brijesh.singh@amd.com>
-> > Cc: "Chang S. Bae" <chang.seok.bae@intel.com>
-> > Cc: David Miller <davem@davemloft.net>
-> > Cc: David Woodhouse <dwmw2@infradead.org>
-> > Cc: Dmitry Safonov <dima@arista.com>
-> > Cc: Fenghua Yu <fenghua.yu@intel.com>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: "H. Peter Anvin" <hpa@zytor.com>
-> > Cc: Ingo Molnar <mingo@redhat.com>
-> > Cc: Jann Horn <jannh@google.com>
-> > Cc: Joerg Roedel <jroedel@suse.de>
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: Josh Poimboeuf <jpoimboe@redhat.com>
-> > Cc: Kate Stewart <kstewart@linuxfoundation.org>
-> > Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> > Cc: <linux-doc@vger.kernel.org>
-> > Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: Peter Zijlstra <peterz@infradead.org>
-> > Cc: Philippe Ombredanne <pombredanne@nexb.com>
-> > Cc: Pu Wen <puwen@hygon.cn>
-> > Cc: <qianyue.zj@alibaba-inc.com>
-> > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> > Cc: Reinette Chatre <reinette.chatre@intel.com>
-> > Cc: Rian Hunter <rian@alum.mit.edu>
-> > Cc: Sherry Hurwitz <sherry.hurwitz@amd.com>
-> > Cc: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-> > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > Cc: Thomas Lendacky <Thomas.Lendacky@amd.com>
-> > Cc: Tony Luck <tony.luck@intel.com>
-> > Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-> > Cc: <xiaochen.shen@intel.com>
-> > Link: https://lkml.kernel.org/r/20181121202811.4492-11-babu.moger@amd.com
-> > Signed-off-by: Sasha Levin <sashal@kernel.org>
-> 
-> Could you please drop this patch from consideration for stable?
-> 
-> Sasha already confirmed that it should not have been included:
-> http://lkml.kernel.org/r/20190202193050.GA3973@sasha-vm
+On Mon, Feb 11, 2019 at 9:28 AM Kevin Brodsky <kevin.brodsky@arm.com> wrote:
+>
+> On 19/12/2018 12:52, Dave Martin wrote:
+> > On Tue, Dec 18, 2018 at 05:59:38PM +0000, Catalin Marinas wrote:
+> >> On Tue, Dec 18, 2018 at 04:03:38PM +0100, Andrey Konovalov wrote:
+> >>> On Wed, Dec 12, 2018 at 4:02 PM Catalin Marinas<catalin.marinas@arm.com>  wrote:
+> >>>> The summary of our internal discussions (mostly between kernel
+> >>>> developers) is that we can't properly describe a user ABI that covers
+> >>>> future syscalls or syscall extensions while not all syscalls accept
+> >>>> tagged pointers. So we tweaked the requirements slightly to only allow
+> >>>> tagged pointers back into the kernel *if* the originating address is
+> >>>> from an anonymous mmap() or below sbrk(0). This should cover some of the
+> >>>> ioctls or getsockopt(TCP_ZEROCOPY_RECEIVE) where the user passes a
+> >>>> pointer to a buffer obtained via mmap() on the device operations.
+> >>>>
+> >>>> (sorry for not being clear on what Vincenzo's proposal implies)
+> >>> OK, I see. So I need to make the following changes to my patchset AFAIU.
+> >>>
+> >>> 1. Make sure that we only allow tagged user addresses that originate
+> >>> from an anonymous mmap() or below sbrk(0). How exactly should this
+> >>> check be performed?
+> >> I don't think we should perform such checks. That's rather stating that
+> >> the kernel only guarantees that the tagged pointers work if they
+> >> originated from these memory ranges.
+> > I concur.
+> >
+> > Really, the kernel should do the expected thing with all "non-weird"
+> > memory.
+> >
+> > In lieu of a proper definition of "non-weird", I think we should have
+> > some lists of things that are explicitly included, and also excluded:
+> >
+> > OK:
+> >       kernel-allocated process stack
+> >       brk area
+> >       MAP_ANONYMOUS | MAP_PRIVATE
+> >       MAP_PRIVATE mappings of /dev/zero
+> >
+> > Not OK:
+> >       MAP_SHARED
+> >       mmaps of non-memory-like devices
+> >       mmaps of anything that is not a regular file
+> >       the VDSO
+> >       ...
+> >
+> > In general, userspace can tag memory that it "owns", and we do not assume
+> > a transfer of ownership except in the "OK" list above.  Otherwise, it's
+> > the kernel's memory, or the owner is simply not well defined.
+>
+> Agreed on the general idea: a process should be able to pass tagged pointers at the
+> syscall interface, as long as they point to memory privately owned by the process. I
+> think it would be possible to simplify the definition of "non-weird" memory by using
+> only this "OK" list:
+> - mmap() done by the process itself, where either:
+>    * flags = MAP_PRIVATE | MAP_ANONYMOUS
+>    * flags = MAP_PRIVATE and fd refers to a regular file or a well-defined list of
+> device files (like /dev/zero)
+> - brk() done by the process itself
+> - Any memory mapped by the kernel in the new process's address space during execve(),
+> with the same restrictions as above ([vdso]/[vvar] are therefore excluded)
+>
+> > I would also like to see advice for userspace developers, particularly
+> > things like (strawman, please challenge!):
+>
+> To some extent, one could call me a userspace developer, so I'll try to help :)
+>
+> >   * Userspace should set tags at the point of allocation only.
+>
+> Yes, tags are only supposed to be set at the point of either allocation or
+> deallocation/reallocation. However, allocators can in principle be nested, so an
+> allocator could  take a region allocated by malloc() as input and subdivide it
+> (changing tags in the process). That said, this suballocator must not free() that
+> region until all the suballocations themselves have been freed (thereby restoring the
+> tags initially set by malloc()).
+>
+> >   * If you don't know how an object was allocated, you cannot modify the
+> >     tag, period.
+>
+> Agreed, allocators that tag memory can only operate on memory with a well-defined
+> provenance (for instance anonymous mmap() or malloc()).
+>
+> >   * A single C object should be accessed using a single, fixed pointer tag
+> >     throughout its entire lifetime.
+>
+> Agreed. Allocators themselves may need to be excluded though, depending on how they
+> represent their managed memory.
+>
+> >   * Tags can be changed only when there are no outstanding pointers to
+> >     the affected object or region that may be used to access the object
+> >     or region (i.e., if the object were allocated from the C heap and
+> >     is it safe to realloc() it, then it is safe to change the tag; for
+> >     other types of allocation, analogous arguments can be applied).
+>
+> Tags can only be changed at the point of deallocation/reallocation. Pointers to the
+> object become invalid and cannot be used after it has been deallocated; memory
+> tagging allows to catch such invalid usage.
+>
+> >   * When the kernel dereferences a pointer on userspace's behalf, it
+> >     shall behave equivalently to userspace dereferencing the same pointer,
+> >     including use of the same tag (where passed by userspace).
+> >
+> >   * Where the pointer tag affects pointer dereference behaviour (i.e.,
+> >     with hardware memory colouring) the kernel makes no guarantee to
+> >     honour pointer tags correctly for every location a buffer based on a
+> >     pointer passed by userspace to the kernel.
+> >
+> >     (This means for example that for a read(fd, buf, size), we can check
+> >     the tag for a single arbitrary location in *(char (*)[size])buf
+> >     before passing the buffer to get_user_pages().  Hopefully this could
+> >     be done in get_user_pages() itself rather than hunting call sites.
+> >     For userspace, it means that you're on your own if you ask the
+> >     kernel to operate on a buffer than spans multiple, independently-
+> >     allocated objects, or a deliberately striped single object.)
+>
+> I think both points are reasonable. It is very valuable for the kernel to access
+> userspace memory using the user-provided tag, because it enables kernel accesses to
+> be checked in the same way as user accesses, allowing to detect bugs that are
+> potentially hard to find. For instance, if a pointer to an object is passed to the
+> kernel after it has been deallocated, this is invalid and should be detected.
+> However, you are absolutely right that the kernel cannot *guarantee* that such a
+> check is carried out for the entire memory range (or in fact at all); it should be a
+> best-effort approach.
 
-Now dropped, thanks.
+It would also be valuable to narrow down the set of "relaxed" (i.e.
+not tag-checking) syscalls as reasonably possible. We would want to
+provide tag-checking userspace wrappers for any important calls that
+are not checked in the kernel. Is it correct to assume that anything
+that goes through copy_from_user  / copy_to_user is checked?
 
-greg k-h
+>
+> >   * The kernel shall not extend the lifetime of user pointers in ways
+> >     that are not clear from the specification of the syscall or
+> >     interface to which the pointer is passed (and in any case shall not
+> >     extend pointer lifetimes without good reason).
+> >
+> >     So no clever transparent caching between syscalls, unless it _really_
+> >     is transparent in the presence of tags.
+>
+> Do you have any particular case in mind? If such caching is really valuable, it is
+> always possible to access the object while ignoring the tag. For sure, the
+> user-provided tag can only be used during the syscall handling itself, not
+> asynchronously later on, unless otherwise specified.
+
+For aio* operations it would be nice if the tag was checked at the
+time of the actual userspace read/write, either instead of or in
+addition to at the time of the system call.
+
+>
+> >   * For purposes other than dereference, the kernel shall accept any
+> >     legitimately tagged pointer (according to the above rules) as
+> >     identifying the associated memory location.
+> >
+> >     So, mprotect(some_page_aligned_object, ...); is valid irrespective
+> >     of where page_aligned_object() came from.  There is no implicit
+> >     derefence by the kernel here, hence no tag check.
+> >
+> >     The kernel does not guarantee to work correctly if the wrong tag
+> >     is used, but there is not always a well-defined "right" tag, so
+> >     we can't really guarantee to check it.  So a pointer derived by
+> >     any reasonable means by userspace has to be treated as equally
+> >     valid.
+>
+> This is a disputed point :) In my opinion, this is the the most reasonable approach.
+
+Yes, it would be nice if the kernel explicitly promised, ex.
+mprotect() over a range of differently tagged pages to be allowed
+(i.e. address tag should be unchecked).
+
+
+>
+> Cheers,
+> Kevin
+>
+> > We would need to get some cross-arch buy-in for this, otherwise core
+> > maintainers might just refuse to maintain the necessary guarantees.
+> >
+> >
+> >>> 2. Allow tagged addressed passed to memory syscalls (as long as (1) is
+> >>> satisfied). Do I understand correctly that this means that I need to
+> >>> locate all find_vma() callers outside of mm/ and fix them up as well?
+> >> Yes (unless anyone as a better idea or objections to this approach).
+> > Also, watch out for code that pokes about inside struct vma directly.
+> >
+> > I'm wondering, could we define an explicit type, say,
+> >
+> >       struct user_vaddr {
+> >               unsigned long addr;
+> >       };
+> >
+> > to replace the unsigned longs in struct vma the mm API?  This would
+> > turn ad-hoc (unsigned long) casts into build breaks.  We could have
+> > an explicit conversion functions, say,
+> >
+> >       struct user_vaddr __user_vaddr_unsafe(void __user *);
+> >       void __user *__user_ptr_unsafe(struct user_vaddr);
+> >
+> > that we robotically insert in all the relevant places to mark
+> > unaudited code.
+> >
+> > This allows us to keep the kernel buildable, while flagging things
+> > that will need review.  We would also need to warn the mm folks to
+> > reject any new code using these unsafe conversions.
+> >
+> > Of course, it would be a non-trivial effort...
+> >
+> >> BTW, I'll be off until the new year, so won't be able to follow up.
+> > Cheers
+> > ---Dave
+> >
+> > _______________________________________________
+> > linux-arm-kernel mailing list
+> > linux-arm-kernel@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+>
