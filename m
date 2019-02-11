@@ -1,92 +1,102 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 417C67D161
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 17:31:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 10FF87D161
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 17:33:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727440AbfBKRbm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Feb 2019 12:31:42 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:41000 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727393AbfBKRbm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Feb 2019 12:31:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=BvHOGo1g8yWo1gRoRLczgUpiw0DBDlt2BwWSm5YsHr0=; b=MHT4nG1dwudLVuNb9uk/lYi9C
-        Ld+XmRNlSqXb3sl80y8roVhsnsLcDrU7QLhZD/rMYuw/+gYPZHdhyfqeaMqkpbUFFk9rwiK0r4VFm
-        V2qSXAdaisVAOikr3Xso+aUmgYxoZJKF6B/IPfuLpNNLAqTVkOXEJW1lm46BuBIUqBEbFQ2fRNTYB
-        D75MY13KTo1xiNsOfHL1R/B1rruuCNsSzlv4JKsqLhQN3ULxnP9VX1BPD1HK290Aq/o8vTe5ITXLM
-        JBciWTtVahiE9SU1OFS//O0/y+RKqRdWuXdd4z1j4YaR8vhiyhcbEpPiqvzY1crui8ytlOsG/UW+b
-        yNv3z/a9g==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gtFQg-00022a-Uf; Mon, 11 Feb 2019 17:31:39 +0000
-Subject: Re: [PATCH] Documentation: fix vm/slub.rst warning
-To:     Jonathan Corbet <corbet@lwn.net>, Linux MM <linux-mm@kvack.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Christoph Lameter <cl@linux.com>,
-        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        "Tobin C. Harding" <tobin@kernel.org>
-References: <1e992162-c4ac-fe4e-f1b0-d8a16a51d5e7@infradead.org>
- <20190211082705.0ff3d86b@lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <2a14eb40-ea42-fcf0-6f1a-458e13f9983d@infradead.org>
-Date:   Mon, 11 Feb 2019 09:31:37 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1731612AbfBKRdC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Feb 2019 12:33:02 -0500
+Received: from foss.arm.com ([217.140.101.70]:54640 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727393AbfBKRdC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Feb 2019 12:33:02 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DF954EBD;
+        Mon, 11 Feb 2019 09:33:01 -0800 (PST)
+Received: from fuggles.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 19D9A3F675;
+        Mon, 11 Feb 2019 09:32:58 -0800 (PST)
+Date:   Mon, 11 Feb 2019 17:32:56 +0000
+From:   Will Deacon <will.deacon@arm.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>, j.alglave@ucl.ac.uk,
+        luc.maranget@inria.fr, Matthew Wilcox <willy@infradead.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        David Laight <David.Laight@aculab.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH RFC LKMM 5/7] docs/memory-barriers.txt: Enforce heavy
+ ordering for port I/O accesses
+Message-ID: <20190211173256.GB2994@fuggles.cambridge.arm.com>
+References: <20190109210706.GA27268@linux.ibm.com>
+ <20190109210748.29074-5-paulmck@linux.ibm.com>
+ <20190211153043.GC32385@fuggles.cambridge.arm.com>
+ <CAK8P3a3bkQoVfkV-+pNniirLN5Z_Wv3eG2TXW35kdJixCOH9_Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190211082705.0ff3d86b@lwn.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a3bkQoVfkV-+pNniirLN5Z_Wv3eG2TXW35kdJixCOH9_Q@mail.gmail.com>
+User-Agent: Mutt/1.11.1+86 (6f28e57d73f2) ()
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/11/19 7:27 AM, Jonathan Corbet wrote:
-> On Sun, 10 Feb 2019 22:34:11 -0800
-> Randy Dunlap <rdunlap@infradead.org> wrote:
-> 
->> From: Randy Dunlap <rdunlap@infradead.org>
->>
->> Fix markup warning by quoting the '*' character with a backslash.
->>
->> Documentation/vm/slub.rst:71: WARNING: Inline emphasis start-string without end-string.
->>
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> Cc: Christoph Lameter <cl@linux.com>
->> Cc: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
->> ---
->>  Documentation/vm/slub.rst |    2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> --- lnx-50-rc6.orig/Documentation/vm/slub.rst
->> +++ lnx-50-rc6/Documentation/vm/slub.rst
->> @@ -68,7 +68,7 @@ end of the slab name, in order to cover
->>  example, here's how you can poison the dentry cache as well as all kmalloc
->>  slabs:
->>  
->> -	slub_debug=P,kmalloc-*,dentry
->> +	slub_debug=P,kmalloc-\*,dentry
->>  
->>  Red zoning and tracking may realign the slab.  We can just apply sanity checks
->>  to the dentry cache with::
-> 
-> The better fix here is to make that a literal block ("slabs::").  Happily
-> for all of us, Tobin already did that in 11ede50059d0.
+Hi Arnd,
 
-Thanks for the info.
+On Mon, Feb 11, 2019 at 06:11:48PM +0100, Arnd Bergmann wrote:
+> On Mon, Feb 11, 2019 at 4:30 PM Will Deacon <will.deacon@arm.com> wrote:
+> 
+> > Given the lack of Intel response here, I went away to do some digging.
+> > As evidenced by the commit message, there is certainly an understanding
+> > amongst some developers that inX/outX() are strongly ordered on x86 and
+> > this was re-enforced by Linus in March last year:
+> >
+> > https://www.mail-archive.com/linuxppc-dev@lists.ozlabs.org/msg131212.html
+> >
+> > It was this information on which I based my patch. The Intel SDM is not
+> > quite as assertive in its claims.
+> >
+> > However, it has also occurred to me that this patch is actually missing
+> > the point. memory-barriers.txt should be documenting the *Linux* memory
+> > model, not the x86 one, and so the port accessors should be defined to
+> > have the same ordering semantics as the MMIO accessors. If this wasn't
+> > the case, then macros such as ioreadX() and iowriteX() would be unusable
+> > in portable driver code.
+> 
+> My interpretation of the ioreadX() and iowriteX() semantics is that they
+> only guarantee readl()/writel() barrier semantics, even though they
+> may in fact provide stronger barriers for PIO on architectures that use
+> CONFIG_GENERIC_IOMAP (which falls back to inX()/outX()).
+> 
+> > The inX/outX implementation in asm-generic would
+> > also be bogus, despite being widely used.
+> 
+> They likely are. The asm-generic files tend to provide a generic
+> abstraction as much as that is possible, but without having access
+> to the architecture specific semantics, they raditionally don't know
+> what should be done here. We now have __io_pbw()/__io_paw()/
+> __io_pbr()/__io_par() to let architectures get it right, but that is
+> a fairly recent addition, so nothing other than riscv defines them
+> today.
+> To make things worse, a lot of machines are unable to provide
+> __io_paw(), e.g. when all bus writes are posted.
 
--- 
-~Randy
+So I've just sent an RFC (you're on cc) that attempts to rewrite this part
+of memory-barriers.txt to reflect reality. Hopefully that can act as a
+starting point for discussion if we decide we want to change the documented
+behaviour and/or implementation.
+
+Will
