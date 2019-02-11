@@ -2,36 +2,38 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 160FC7D910
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 15:27:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2A4E47D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 15:28:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727194AbfBKP1J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Feb 2019 10:27:09 -0500
-Received: from ms.lwn.net ([45.79.88.28]:46130 "EHLO ms.lwn.net"
+        id S1727876AbfBKP2O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Feb 2019 10:28:14 -0500
+Received: from ms.lwn.net ([45.79.88.28]:46140 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727141AbfBKP1I (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Feb 2019 10:27:08 -0500
+        id S1727763AbfBKP2O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Feb 2019 10:28:14 -0500
 Received: from localhost.localdomain (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E98502F3;
-        Mon, 11 Feb 2019 15:27:06 +0000 (UTC)
-Date:   Mon, 11 Feb 2019 08:27:05 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id 841622F3;
+        Mon, 11 Feb 2019 15:28:13 +0000 (UTC)
+Date:   Mon, 11 Feb 2019 08:28:11 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>, Linux MM <linux-mm@kvack.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Matan Ziv-Av <matan@svgalib.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Christoph Lameter <cl@linux.com>,
-        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        "Tobin C. Harding" <tobin@kernel.org>
-Subject: Re: [PATCH] Documentation: fix vm/slub.rst warning
-Message-ID: <20190211082705.0ff3d86b@lwn.net>
-In-Reply-To: <1e992162-c4ac-fe4e-f1b0-d8a16a51d5e7@infradead.org>
-References: <1e992162-c4ac-fe4e-f1b0-d8a16a51d5e7@infradead.org>
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>
+Subject: Re: [PATCH] Documentation: fix lg-laptop.rst warnings
+Message-ID: <20190211082811.3831e35e@lwn.net>
+In-Reply-To: <CAHp75VeLCFD8EKG+hHGNUyoE9VJrFEgTvv9aD23NH49n6SMOgg@mail.gmail.com>
+References: <16ce109c-69a3-1f27-7fd4-9b99c9780565@infradead.org>
+        <CAHp75VeLCFD8EKG+hHGNUyoE9VJrFEgTvv9aD23NH49n6SMOgg@mail.gmail.com>
 Organization: LWN.net
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -42,37 +44,23 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 10 Feb 2019 22:34:11 -0800
-Randy Dunlap <rdunlap@infradead.org> wrote:
+On Mon, 11 Feb 2019 13:31:58 +0200
+Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
 
-> From: Randy Dunlap <rdunlap@infradead.org>
+> > From: Randy Dunlap <rdunlap@infradead.org>
+> >
+> > Fix markup warnings by inserting blank lines.
+> > Also correct one typo.
+> >
+> > Documentation/laptops/lg-laptop.rst:2: WARNING: Explicit markup ends without a blank line; unexpected unindent.
+> > Documentation/laptops/lg-laptop.rst:16: WARNING: Unexpected indentation.
+> > Documentation/laptops/lg-laptop.rst:17: WARNING: Block quote ends without a blank line; unexpected unindent.
+> >  
 > 
-> Fix markup warning by quoting the '*' character with a backslash.
+> Thanks!
 > 
-> Documentation/vm/slub.rst:71: WARNING: Inline emphasis start-string without end-string.
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Christoph Lameter <cl@linux.com>
-> Cc: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-> ---
->  Documentation/vm/slub.rst |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> --- lnx-50-rc6.orig/Documentation/vm/slub.rst
-> +++ lnx-50-rc6/Documentation/vm/slub.rst
-> @@ -68,7 +68,7 @@ end of the slab name, in order to cover
->  example, here's how you can poison the dentry cache as well as all kmalloc
->  slabs:
->  
-> -	slub_debug=P,kmalloc-*,dentry
-> +	slub_debug=P,kmalloc-\*,dentry
->  
->  Red zoning and tracking may realign the slab.  We can just apply sanity checks
->  to the dentry cache with::
+> Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-The better fix here is to make that a literal block ("slabs::").  Happily
-for all of us, Tobin already did that in 11ede50059d0.
-
-Thanks,
+Applied, thanks.
 
 jon
