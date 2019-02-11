@@ -1,72 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0462C7D099
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 13:43:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E220E7D099
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 13:44:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728078AbfBKNn1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Feb 2019 08:43:27 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:42648 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727106AbfBKNn1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Feb 2019 08:43:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=7mIeXN+0tiI07JhwEfSGFWIvqsFOrT6KPcLvNs3Ys54=; b=o/3nb4O6CAnFpgqLCpHgNyRlv
-        1p+SjsRqcBPgG//drQjLQ3nejCGzunZmjxpA/ctAKWownVEtQ6LBc3l42uEutebTrP8RCRKMSG5GM
-        wEVcy/HNQeURBbkHzU59v0fiTq1q6JXaabEW2NPLJQX+vBULNz5a8Tc1KlaInHOCEQqyrH/HvQ3z8
-        kT91adSzU32y0TekB0QcwBpp5cGiSj1yzwGDqEf+qakTm3/KAtnnTGI4QlXZc7UpNDvE+dml9Ex32
-        aHu8k1/fCpkwCSacNLkceMmouiL1nH/Kr0JDdd6ZbrTX40lQbLsB4S1C2w/OlhqeT1R+2S7cwKx8r
-        m8Eb6e/yg==;
-Received: from 089144210182.atnat0019.highway.a1.net ([89.144.210.182] helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gtBrq-0005ik-Hg; Mon, 11 Feb 2019 13:43:26 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation/DMA-ISA-LPC: fix an incorrect reference
-Date:   Mon, 11 Feb 2019 14:43:23 +0100
-Message-Id: <20190211134323.30856-1-hch@lst.de>
-X-Mailer: git-send-email 2.20.1
+        id S1727726AbfBKNoA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Feb 2019 08:44:00 -0500
+Received: from mga12.intel.com ([192.55.52.136]:36596 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727106AbfBKNoA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Feb 2019 08:44:00 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Feb 2019 05:43:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.58,358,1544515200"; 
+   d="scan'208";a="145882060"
+Received: from linux.intel.com ([10.54.29.200])
+  by fmsmga001.fm.intel.com with ESMTP; 11 Feb 2019 05:43:58 -0800
+Received: from [10.125.252.196] (abudanko-mobl.ccr.corp.intel.com [10.125.252.196])
+        by linux.intel.com (Postfix) with ESMTP id 268525804B4;
+        Mon, 11 Feb 2019 05:43:54 -0800 (PST)
+Subject: [PATCH v3 2/4] perf-security: document collected perf_events/Perf
+ data categories
+From:   Alexey Budankov <alexey.budankov@linux.intel.com>
+To:     Jonatan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Jann Horn <jannh@google.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        "kernel-hardening@lists.openwall.com" 
+        <kernel-hardening@lists.openwall.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+References: <784bbe0d-56c1-bd63-1879-b7db988e40c0@linux.intel.com>
+Organization: Intel Corp.
+Message-ID: <a44361cf-869d-fc0b-bf34-384a01785c87@linux.intel.com>
+Date:   Mon, 11 Feb 2019 16:43:54 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <784bbe0d-56c1-bd63-1879-b7db988e40c0@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-AFAIK we never had a isa_virt_to_phys, it always was
-isa_virt_to_bus.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
+Document and categorize system and performance data into groups that
+can be captured by perf_events/Perf and explicitly indicate the group
+that can contain process sensitive data.
+
+Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
 ---
- Documentation/DMA-ISA-LPC.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/perf-security.rst | 32 +++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/DMA-ISA-LPC.txt b/Documentation/DMA-ISA-LPC.txt
-index 8c2b8be6e45b..b1ec7b16c21f 100644
---- a/Documentation/DMA-ISA-LPC.txt
-+++ b/Documentation/DMA-ISA-LPC.txt
-@@ -52,8 +52,8 @@ Address translation
- -------------------
+diff --git a/Documentation/admin-guide/perf-security.rst b/Documentation/admin-guide/perf-security.rst
+index bac599e3c55f..8772d44a5912 100644
+--- a/Documentation/admin-guide/perf-security.rst
++++ b/Documentation/admin-guide/perf-security.rst
+@@ -11,8 +11,34 @@ impose a considerable risk of leaking sensitive data accessed by monitored
+ processes. The data leakage is possible both in scenarios of direct usage of
+ perf_events system call API [2]_ and over data files generated by Perf tool user
+ mode utility (Perf) [3]_ , [4]_ . The risk depends on the nature of data that
+-perf_events performance monitoring units (PMU) [2]_ collect and expose for
+-performance analysis. Having that said perf_events/Perf performance monitoring
++perf_events performance monitoring units (PMU) [2]_ and Perf collect and expose
++for performance analysis. Collected system and performance data may be split into
++several categories:
++
++1. System hardware and software configuration data, for example: a CPU model and
++   its cache configuration, an amount of available memory and its topology, used
++   kernel and Perf versions, performance monitoring setup including experiment
++   time, events configuration, Perf command line parameters, etc.
++
++2. User and kernel module paths and their load addresses with sizes, process and
++   thread names with their PIDs and TIDs, timestamps for captured hardware and
++   software events.
++
++3. Content of kernel software counters (e.g., for context switches, page faults,
++   CPU migrations), architectural hardware performance counters (PMC) [8]_ and
++   machine specific registers (MSR) [9]_ that provide execution metrics for
++   various monitored parts of the system (e.g., memory controller (IMC), interconnect
++   (QPI/UPI) or peripheral (PCIe) uncore counters) without direct attribution to any
++   execution context state.
++
++4. Content of architectural execution context registers (e.g., RIP, RSP, RBP on
++   x86_64), process user and kernel space memory addresses and data, content of
++   various architectural MSRs that capture data from this category.
++
++Data that belong to the fourth category can potentially contain sensitive process
++data. If PMUs in some monitoring modes capture values of execution context registers
++or data from process memory then access to such monitoring capabilities requires
++to be ordered and secured properly. So, perf_events/Perf performance monitoring
+ is the subject for security access control management [5]_ .
  
- To translate the virtual address to a bus address, use the normal DMA
--API. Do _not_ use isa_virt_to_phys() even though it does the same
--thing. The reason for this is that the function isa_virt_to_phys()
-+API. Do _not_ use isa_virt_to_bus() even though it does the same
-+thing. The reason for this is that the function isa_virt_to_bus()
- will require a Kconfig dependency to ISA, not just ISA_DMA_API which
- is really all you need. Remember that even though the DMA controller
- has its origins in ISA it is used elsewhere.
--- 
-2.20.1
-
+ perf_events/Perf access control
+@@ -134,6 +160,8 @@ Bibliography
+ .. [5] `<https://www.kernel.org/doc/html/latest/security/credentials.html>`_
+ .. [6] `<http://man7.org/linux/man-pages/man7/capabilities.7.html>`_
+ .. [7] `<http://man7.org/linux/man-pages/man2/ptrace.2.html>`_
++.. [8] `<https://en.wikipedia.org/wiki/Hardware_performance_counter>`_
++.. [9] `<https://en.wikipedia.org/wiki/Model-specific_register>`_
+ .. [11] `<http://man7.org/linux/man-pages/man2/getrlimit.2.html>`_
+ .. [12] `<http://man7.org/linux/man-pages/man5/limits.conf.5.html>`_
