@@ -1,178 +1,80 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 68A417D099
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 17:02:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4C2B67D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 17:11:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728581AbfBKRCY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Feb 2019 12:02:24 -0500
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:54058 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727117AbfBKRCX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Feb 2019 12:02:23 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EBEC780D;
-        Mon, 11 Feb 2019 09:02:22 -0800 (PST)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ABF053F675;
-        Mon, 11 Feb 2019 09:02:18 -0800 (PST)
-Date:   Mon, 11 Feb 2019 17:02:16 +0000
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, Will Deacon <will.deacon@arm.com>,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-        linux-arch@vger.kernel.org, Jacob Bramley <Jacob.Bramley@arm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Kostya Serebryany <kcc@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: Re: [PATCH v9 0/8] arm64: untag user pointers passed to the kernel
-Message-ID: <20190211170212.GH3567@e103592.cambridge.arm.com>
-References: <cover.1544445454.git.andreyknvl@google.com>
- <20181212170108.GZ3505@e103592.cambridge.arm.com>
- <20190211113511.GA165128@arrakis.emea.arm.com>
+        id S1727908AbfBKRL2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Feb 2019 12:11:28 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:45810 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727347AbfBKRL2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Feb 2019 12:11:28 -0500
+Received: by mail-lf1-f68.google.com with SMTP id b20so8332478lfa.12
+        for <linux-doc@vger.kernel.org>; Mon, 11 Feb 2019 09:11:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=s0Ke2D+YQhyUTnHYmCz/UEaq2bJ6aXQCp0Q6/PcRnJc=;
+        b=P2U8JPxpfd1ZC1nnCAC7878wfYW5iOSdJ7BZrPQlgP1hmfq9YCb/OQhCjqze+rZ25R
+         +PReXxR/RT7BXDLgu2+qyY6oqvA9NK5NQuR/tac2OVjYDMDpiRlaiCuHmkHI6w4eSmQ9
+         PXxuoLuXsBXuot/ECFNQF9pZdrrw+0zYXrtZo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=s0Ke2D+YQhyUTnHYmCz/UEaq2bJ6aXQCp0Q6/PcRnJc=;
+        b=nwwwe3q7SZs3MrLjM3C5XSPtN5REgHzIVBa597Ttd1Sh6A/hGreMgK49R1NhA1aHpX
+         LNLzAGyQuaquX1wzMibrZyYpJlKV7CQ+iCGwR4PF2oWpzAWAwABJ8Y52+Js8vz0EhkB6
+         wakVHF8Tp8GGerD5gsXEdSY/3ys89y69p95m030X2RuD2Bt4lzpKDLYPHqWWWGKNZWZH
+         SskURGaQxCPCcrWGeAeMZOX+tkoyBUiaojtvr614qrEODaMphqH+h/nNkMdnq8VO85Sc
+         oPj8Su/0Y/CNoGq6LEZviAcABz4wGO6OUIzVfxXEb6bJsVVAL1e1BdSaMrhff6I7wny0
+         312w==
+X-Gm-Message-State: AHQUAuZEP4XbbMVAl1rixA3MbVOKcNyN/6/A3oNLlthGjbfR1J6OkQKc
+        EHz5RIKK3fLLKka2p2adsUid49gKXyY=
+X-Google-Smtp-Source: AHgI3IbkOCqofV2wkjpDYkF9HeQMCP/D/0y+s52ksA7bvji/uGEK+Cj9Gs8aS16yJdzLQJgWI+6IcQ==
+X-Received: by 2002:a19:2242:: with SMTP id i63mr7642000lfi.39.1549905085463;
+        Mon, 11 Feb 2019 09:11:25 -0800 (PST)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
+        by smtp.gmail.com with ESMTPSA id n12-v6sm2155809ljj.32.2019.02.11.09.11.24
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 11 Feb 2019 09:11:24 -0800 (PST)
+Received: by mail-lf1-f47.google.com with SMTP id b20so8332373lfa.12
+        for <linux-doc@vger.kernel.org>; Mon, 11 Feb 2019 09:11:24 -0800 (PST)
+X-Received: by 2002:a19:9813:: with SMTP id a19mr22653642lfe.103.1549905083849;
+ Mon, 11 Feb 2019 09:11:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190211113511.GA165128@arrakis.emea.arm.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+References: <1549570542-2471-1-git-send-email-longman@redhat.com> <20190211083911.22f64578@lwn.net>
+In-Reply-To: <20190211083911.22f64578@lwn.net>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 11 Feb 2019 09:11:06 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wgvHhe+3HSpLSZEQm5ToJW4AFiynMvYBiqu=2zBVZnt-A@mail.gmail.com>
+Message-ID: <CAHk-=wgvHhe+3HSpLSZEQm5ToJW4AFiynMvYBiqu=2zBVZnt-A@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: Fix grammatical error in sysctl/fs.txt
+ & clarify negative dentry
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Waiman Long <longman@redhat.com>, linux-doc@vger.kernel.org,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 11, 2019 at 11:35:12AM +0000, Catalin Marinas wrote:
-> Hi Dave,
-> 
-> On Wed, Dec 12, 2018 at 05:01:12PM +0000, Dave P Martin wrote:
-> > On Mon, Dec 10, 2018 at 01:50:57PM +0100, Andrey Konovalov wrote:
-> > > arm64 has a feature called Top Byte Ignore, which allows to embed pointer
-> > > tags into the top byte of each pointer. Userspace programs (such as
-> > > HWASan, a memory debugging tool [1]) might use this feature and pass
-> > > tagged user pointers to the kernel through syscalls or other interfaces.
-> [...]
-> > It looks like there's been a lot of progress made here towards smoking
-> > out most of the sites in the kernel where pointers need to be untagged.
-> 
-> In summary, based on last summer's analysis, there are two main (and
-> rather broad) scenarios of __user pointers use in the kernel: (a)
-> uaccess macros, together with access_ok() checks and (b) identifying
-> of user address ranges (find_vma() and related, some ioctls). The
-> patches here handle the former by allowing sign-extension in access_ok()
-> and subsequent uaccess routines work fine with tagged pointers.
-> Identifying the latter is a bit more problematic and the approach we
-> took was tracking down pointer to long conversion which seems to cover
-> the majority of cases. However, this approach doesn't scale as, for
-> example, we'd rather change get_user_pages() to sign-extend the address
-> rather than all the callers. In lots of other cases we don't even need
-> untagging as we don't expect user space to tag such pointers (i.e.
-> mmap() of device memory).
-> 
-> We might be able to improve the static analysis by introducing a
-> virt_addr_t but that's significant effort and we still won't cover all
-> cases (e.g. it doesn't necessarily catch tcp_zerocopy_receive() which
-> wouldn't use a pointer, just a u64 for address).
-> 
-> > However, I do think that we need a clear policy for how existing kernel
-> > interfaces are to be interpreted in the presence of tagged pointers.
-> > Unless we have that nailed down, we are likely to be able to make only
-> > vague guarantees to userspace about what works, and the ongoing risk
-> > of ABI regressions and inconsistencies seems high.
-> 
-> I agree.
-> 
-> > Can we define an opt-in for tagged-pointer userspace, that rejects all
-> > syscalls that we haven't checked and whitelisted (or that are
-> > uncheckable like ioctl)? 
-> 
-> Defining an opt-in is not a problem, however, rejecting all syscalls
-> that we haven't whitelisted is not feasible. We can have an opt-in per
-> process (that's what we were going to do with MTE) but the only thing
-> we can reasonably do is change the behaviour of access_ok(). That's too
-> big a knob and a new syscall that we haven't got around to whitelist may
-> just work. This eventually leads to de-facto ABI and our whitelist would
-> simply be ignored.
-> 
-> I'm not really keen on a big syscall shim in the arm64 kernel which
-> checks syscall arguments, including in-struct values. If we are to do
-> this, I'd rather keep it in user space as part of the C library.
-> 
-> > In the meantime, I think we really need to nail down the kernel's
-> > policies on
-> > 
-> >  * in the default configuration (without opt-in), is the presence of
-> > non-address bits in pointers exchanged with the kernel simply
-> > considered broken?  (Even with this series, the de factor answer
-> > generally seems to be "yes", although many specific things will now
-> > work fine)
-> 
-> Without these patches, passing non-address bits in pointers is
-> considered broken. I couldn't find a case where it would still work with
-> non-zero tag but maybe I haven't looked hard enough.
-> 
-> >  * if not, how do we tighten syscall / interface specifications to
-> > describe what happens with pointers containing non-address bits, while
-> > keeping the existing behaviour for untagged pointers?
-> > 
-> > We would want a general recipe that gives clear guidance on what
-> > userspace should expect an arbitrarily chosen syscall to do with its
-> > pointers, without having to enumerate each and every case.
-> 
-> That's what we are aiming with the pointer origins, to move away from a
-> syscall whitelist to a generic definition. That said, the two approaches
-> are orthogonal, we can use the pointer origins as the base rule for
-> which syscalls can be whitelisted.
-> 
-> If we step back a bit to look at the use-case for TBI (and MTE), the
-> normal application programmer shouldn't really care about this ABI
-> (well, most of the time). The app gets a tagged pointer from the C
-> library as a result of a malloc()/realloc() (possibly alloca()) call and
-> it expects to be able to pass it back into the kernel (usually via the C
-> library) without any awareness of the non-address bits. Now, we can't
-> define a user/kernel ABI based on the provenance of the pointer in user
-> space (i.e. we only support tags for heap and stack), so we are trying
-> to generalise this based where the pointer originated from in the kernel
-> (e.g. anonymous mmap()).
+On Mon, Feb 11, 2019 at 7:39 AM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> Linus, perhaps you'd like to take this one directly?
 
-This sounds generally reasonable.
+Done.
 
-It is not adequate for describing changing the tag on already-tagged
-memory (which a memory allocator will definitely do), but we may be able
-to come up with some weasel words to cover that.
-
-It is also not adequete for describing tagging (and retagging) regions
-of the stack -- but as you say, we can rule that use-case out for now
-in the interest of simplicity, since we know we wouldn't be able to
-deploy it widely for now anyway due to the incompability with non-MTE-
-capable hardware.
-
-
-Ideally we would clarify user/kernel interface semantics in terms of
-object and pointer lifetimes and accessibility, but that's a larger
-project that should be pursued separately (if at all).
-
-I could also quibble about whether "anonymous mmap" is the right thing
-here -- we should still give specific examples of things that do / don't
-qualify, to make it clear what we mean.
-
-Cheers
----Dave
+               Linus
