@@ -3,43 +3,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D41307D161
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 06:30:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 222C07D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 06:32:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725951AbfBKGa4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Feb 2019 01:30:56 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:37356 "EHLO
+        id S1725939AbfBKGcs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Feb 2019 01:32:48 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:37364 "EHLO
         merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725939AbfBKGa4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Feb 2019 01:30:56 -0500
+        with ESMTP id S1725931AbfBKGcs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Feb 2019 01:32:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
         MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
         Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
         :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
         List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=YSty9LSkdCwUjCD0Q0UDaGYhiSyiUos1dC/o9gA7iwY=; b=NAbLcshw8Lxqo4D2q54MOQ5oaa
-        g4x4D6N8PbO75mYgFCd6q+hho4tqnJpj1Ex4Orj+r17Oma3RU2IxDJ9V5lR7GvWITvp8yoVBk8VWw
-        wY+S2cOo6LcpgMkZh3WMslQb1ik5oUa1P2xh3i6DQOUrupDJLXtZpF2gJjF04nl2skxi3zBuGjjDd
-        Ham/MV/xtOk+nWTzqiY55cT/pGxN4aCnpP1I3vGfifcbO9Rf9cHFh94E4cGoWCpWuxBUuAcJuVwjA
-        DdgooMwT12LdmfGU217heQ8/eaa0yARVZn+S08Yzev6eAQwEQ1dga8fISSQQSGfXtPM8xNnG7KFXh
-        +BBAq56Q==;
+        bh=A9yfSa/GlOfbhq+KKfxh/v4/59o0owbl0pBknXEThec=; b=3Rw4UQjxcIIeapnFvbxFUmHPQL
+        OlHIR5ulF+E7xBwwllnPKw5P4giUBig+ro/V/2pLsrjSN8wiwOxJ2XDMO4z3zfhOV79kkoV6ha9SQ
+        igoj+JC4wbMDf8AcLZQQI6FLD6++MCo921Zmkp2mR4DeG39I0kg/tLS3RpyWltdw3lO5JLTykffyY
+        y16gKjVRw1d88mfJeL6hKTyedXoXgvBd8i5TkqbaPWzGL1+tC9gco4I0tQ5LhY5em7qhC60zlccY9
+        WRwbpM6W0dcQb3czZfRA84mw6dRR5GJxjZhl5AdtwMgIbtoQ6llzmohNUWcHYBKAXsyhxIyBFN29p
+        8ZsMS26w==;
 Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=dragon.dunlab)
         by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gt57D-00049h-19; Mon, 11 Feb 2019 06:30:51 +0000
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Matan Ziv-Av <matan@svgalib.org>,
-        platform-driver-x86@vger.kernel.org,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>
+        id 1gt593-0004B1-Iq; Mon, 11 Feb 2019 06:32:45 +0000
+To:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Cc:     Stuart Yoder <stuyoder@gmail.com>,
+        Laurentiu Tudor <laurentiu.tudor@nxp.com>,
+        Ioana Radulescu <ruxandra.radulescu@nxp.com>,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        David Miller <davem@davemloft.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
 From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation: fix lg-laptop.rst warnings
-Message-ID: <16ce109c-69a3-1f27-7fd4-9b99c9780565@infradead.org>
-Date:   Sun, 10 Feb 2019 22:30:49 -0800
+Subject: [PATCH] Documentation: fix some freescale dpio-driver.rst warnings
+Message-ID: <99c9792a-7218-76d9-9b53-8477afa69f79@infradead.org>
+Date:   Sun, 10 Feb 2019 22:32:42 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.3.0
 MIME-Version: 1.0
@@ -53,44 +53,57 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Randy Dunlap <rdunlap@infradead.org>
 
-Fix markup warnings by inserting blank lines.
-Also correct one typo.
+Fix markup warnings for one list by using correct list syntax.
+Fix markup warnings for another list by using blank lines before the
+list.
 
-Documentation/laptops/lg-laptop.rst:2: WARNING: Explicit markup ends without a blank line; unexpected unindent.
-Documentation/laptops/lg-laptop.rst:16: WARNING: Unexpected indentation.
-Documentation/laptops/lg-laptop.rst:17: WARNING: Block quote ends without a blank line; unexpected unindent.
+Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst:30: WARNING: Unexpected indentation.
+Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst:143: WARNING: Unexpected indentation.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Matan Ziv-Av <matan@svgalib.org>
-Cc: platform-driver-x86@vger.kernel.org
+Cc: Stuart Yoder <stuyoder@gmail.com>
+Cc: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+Cc: Ioana Radulescu <ruxandra.radulescu@nxp.com>
+Cc: netdev@vger.kernel.org
+Cc: Madalin Bucur <madalin.bucur@nxp.com>
 ---
- Documentation/laptops/lg-laptop.rst |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+This still leaves 2 other warnings that I don't yet see how to fix.
 
---- lnx-50-rc6.orig/Documentation/laptops/lg-laptop.rst
-+++ lnx-50-rc6/Documentation/laptops/lg-laptop.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0+
+ Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst |   14 +++++-----
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+--- lnx-50-rc6.orig/Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst
++++ lnx-50-rc6/Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst
+@@ -27,11 +27,12 @@ Driver Overview
+ 
+ The DPIO driver is bound to DPIO objects discovered on the fsl-mc bus and
+ provides services that:
+-  A) allow other drivers, such as the Ethernet driver, to enqueue and dequeue
 +
- LG Gram laptop extra features
- =============================
++  A. allow other drivers, such as the Ethernet driver, to enqueue and dequeue
+      frames for their respective objects
+-  B) allow drivers to register callbacks for data availability notifications
++  B. allow drivers to register callbacks for data availability notifications
+      when data becomes available on a queue or channel
+-  C) allow drivers to manage hardware buffer pools
++  C. allow drivers to manage hardware buffer pools
  
-@@ -9,6 +10,7 @@ Hotkeys
- -------
+ The Linux DPIO driver consists of 3 primary components--
+    DPIO object driver-- fsl-mc driver that manages the DPIO object
+@@ -140,11 +141,10 @@ QBman portal interface (qbman-portal.c)
  
- The following FN keys are ignored by the kernel without this driver:
-+
- - FN-F1 (LG control panel)   - Generates F15
- - FN-F5 (Touchpad toggle)    - Generates F13
- - FN-F6 (Airplane mode)      - Generates RFKILL
-@@ -16,7 +18,7 @@ The following FN keys are ignored by the
-   This key also changes keyboard backlight mode.
- - FN-F9 (Reader mode)        - Generates F14
+    The qbman-portal component provides APIs to do the low level hardware
+    bit twiddling for operations such as:
+-      -initializing Qman software portals
+-
+-      -building and sending portal commands
  
--The rest of the FN key work without a need for a special driver.
-+The rest of the FN keys work without a need for a special driver.
+-      -portal interrupt configuration and processing
++      - initializing Qman software portals
++      - building and sending portal commands
++      - portal interrupt configuration and processing
  
- 
- Reader mode
+    The qbman-portal APIs are not public to other drivers, and are
+    only used by dpio-service.
 
 
