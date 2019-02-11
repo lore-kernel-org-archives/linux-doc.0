@@ -1,33 +1,37 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 342207D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 18:12:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B28927D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 19:27:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731209AbfBKSMw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Feb 2019 13:12:52 -0500
-Received: from mga04.intel.com ([192.55.52.120]:4178 "EHLO mga04.intel.com"
+        id S1731837AbfBKT14 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Feb 2019 14:27:56 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51730 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727007AbfBKSMw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Feb 2019 13:12:52 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Feb 2019 10:12:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,359,1544515200"; 
-   d="scan'208";a="143346536"
-Received: from rchatre-mobl.amr.corp.intel.com (HELO [10.24.14.131]) ([10.24.14.131])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Feb 2019 10:12:50 -0800
-Subject: Re: [PATCH 4.19 054/313] x86/resctrl: Fixup the user-visible strings
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Cc:     stable@vger.kernel.org, Babu Moger <babu.moger@amd.com>,
-        Borislav Petkov <bp@suse.de>,
+        id S1730233AbfBKT14 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Feb 2019 14:27:56 -0500
+Received: from localhost (5356596B.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3A488218A1;
+        Mon, 11 Feb 2019 19:27:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1549913274;
+        bh=Lz7tJbgIT8LNC7DBEv3tyMK2p3xMYrTBIDvho7Jryvw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Nj+ukbPpvXaTr7WXTOY/SmFLEWZS1mMswjBlD+JH1ItOT+3R6eBzB7w+JlGVdBY8Z
+         BJOORJCpBQzyrLPs55Y32ND8eLWgVDNjfmGUCR+SuYfHzebgy/sxNlMlQHBbe9dICf
+         oJhThuKp/PD/sMokWMHzd8g7iDYjLXdG7csEC59g=
+Date:   Mon, 11 Feb 2019 20:27:52 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Reinette Chatre <reinette.chatre@intel.com>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Babu Moger <babu.moger@amd.com>, Borislav Petkov <bp@suse.de>,
         Andrew Morton <akpm@linux-foundation.org>,
         Andy Lutomirski <luto@kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -58,83 +62,81 @@ Cc:     stable@vger.kernel.org, Babu Moger <babu.moger@amd.com>,
         Tony Luck <tony.luck@intel.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         xiaochen.shen@intel.com, Sasha Levin <sashal@kernel.org>
+Subject: Re: [PATCH 4.19 054/313] x86/resctrl: Fixup the user-visible strings
+Message-ID: <20190211192752.GC13134@kroah.com>
 References: <20190211141852.749630980@linuxfoundation.org>
  <20190211141857.375396128@linuxfoundation.org>
-From:   Reinette Chatre <reinette.chatre@intel.com>
-Message-ID: <046b7dbd-3480-d8a0-e454-bc1576d5834e@intel.com>
-Date:   Mon, 11 Feb 2019 10:12:46 -0800
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.0
+ <046b7dbd-3480-d8a0-e454-bc1576d5834e@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20190211141857.375396128@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <046b7dbd-3480-d8a0-e454-bc1576d5834e@intel.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Greg,
-
-On 2/11/2019 6:15 AM, Greg Kroah-Hartman wrote:
-> 4.19-stable review patch.  If anyone has any objections, please let me know.
+On Mon, Feb 11, 2019 at 10:12:46AM -0800, Reinette Chatre wrote:
+> Hi Greg,
 > 
-> ------------------
+> On 2/11/2019 6:15 AM, Greg Kroah-Hartman wrote:
+> > 4.19-stable review patch.  If anyone has any objections, please let me know.
+> > 
+> > ------------------
+> > 
+> > [ Upstream commit 723f1a0dd8e26a7523ba068204bee11c95ded38d ]
+> > 
+> > Fix the messages in rdt_last_cmd_printf() and rdt_last_cmd_puts() to
+> > make them more meaningful and consistent.
+> > 
+> >  [ bp: s/cpu/CPU/; s/mem\W/memory ]
+> > 
+> > Signed-off-by: Babu Moger <babu.moger@amd.com>
+> > Signed-off-by: Borislav Petkov <bp@suse.de>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: Andy Lutomirski <luto@kernel.org>
+> > Cc: Arnd Bergmann <arnd@arndb.de>
+> > Cc: Brijesh Singh <brijesh.singh@amd.com>
+> > Cc: "Chang S. Bae" <chang.seok.bae@intel.com>
+> > Cc: David Miller <davem@davemloft.net>
+> > Cc: David Woodhouse <dwmw2@infradead.org>
+> > Cc: Dmitry Safonov <dima@arista.com>
+> > Cc: Fenghua Yu <fenghua.yu@intel.com>
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Cc: "H. Peter Anvin" <hpa@zytor.com>
+> > Cc: Ingo Molnar <mingo@redhat.com>
+> > Cc: Jann Horn <jannh@google.com>
+> > Cc: Joerg Roedel <jroedel@suse.de>
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: Josh Poimboeuf <jpoimboe@redhat.com>
+> > Cc: Kate Stewart <kstewart@linuxfoundation.org>
+> > Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> > Cc: <linux-doc@vger.kernel.org>
+> > Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > Cc: Peter Zijlstra <peterz@infradead.org>
+> > Cc: Philippe Ombredanne <pombredanne@nexb.com>
+> > Cc: Pu Wen <puwen@hygon.cn>
+> > Cc: <qianyue.zj@alibaba-inc.com>
+> > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> > Cc: Reinette Chatre <reinette.chatre@intel.com>
+> > Cc: Rian Hunter <rian@alum.mit.edu>
+> > Cc: Sherry Hurwitz <sherry.hurwitz@amd.com>
+> > Cc: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+> > Cc: Thomas Gleixner <tglx@linutronix.de>
+> > Cc: Thomas Lendacky <Thomas.Lendacky@amd.com>
+> > Cc: Tony Luck <tony.luck@intel.com>
+> > Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
+> > Cc: <xiaochen.shen@intel.com>
+> > Link: https://lkml.kernel.org/r/20181121202811.4492-11-babu.moger@amd.com
+> > Signed-off-by: Sasha Levin <sashal@kernel.org>
 > 
-> [ Upstream commit 723f1a0dd8e26a7523ba068204bee11c95ded38d ]
+> Could you please drop this patch from consideration for stable?
 > 
-> Fix the messages in rdt_last_cmd_printf() and rdt_last_cmd_puts() to
-> make them more meaningful and consistent.
-> 
->  [ bp: s/cpu/CPU/; s/mem\W/memory ]
-> 
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> Signed-off-by: Borislav Petkov <bp@suse.de>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Brijesh Singh <brijesh.singh@amd.com>
-> Cc: "Chang S. Bae" <chang.seok.bae@intel.com>
-> Cc: David Miller <davem@davemloft.net>
-> Cc: David Woodhouse <dwmw2@infradead.org>
-> Cc: Dmitry Safonov <dima@arista.com>
-> Cc: Fenghua Yu <fenghua.yu@intel.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Jann Horn <jannh@google.com>
-> Cc: Joerg Roedel <jroedel@suse.de>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Josh Poimboeuf <jpoimboe@redhat.com>
-> Cc: Kate Stewart <kstewart@linuxfoundation.org>
-> Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> Cc: <linux-doc@vger.kernel.org>
-> Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Philippe Ombredanne <pombredanne@nexb.com>
-> Cc: Pu Wen <puwen@hygon.cn>
-> Cc: <qianyue.zj@alibaba-inc.com>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Reinette Chatre <reinette.chatre@intel.com>
-> Cc: Rian Hunter <rian@alum.mit.edu>
-> Cc: Sherry Hurwitz <sherry.hurwitz@amd.com>
-> Cc: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Thomas Lendacky <Thomas.Lendacky@amd.com>
-> Cc: Tony Luck <tony.luck@intel.com>
-> Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-> Cc: <xiaochen.shen@intel.com>
-> Link: https://lkml.kernel.org/r/20181121202811.4492-11-babu.moger@amd.com
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> Sasha already confirmed that it should not have been included:
+> http://lkml.kernel.org/r/20190202193050.GA3973@sasha-vm
 
-Could you please drop this patch from consideration for stable?
+Now dropped, thanks.
 
-Sasha already confirmed that it should not have been included:
-http://lkml.kernel.org/r/20190202193050.GA3973@sasha-vm
-
-Thank you
-
-Reinette
-
+greg k-h
