@@ -5,368 +5,245 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A02CF7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Feb 2019 14:41:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B92967D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Feb 2019 18:02:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728884AbfBLOlg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 12 Feb 2019 09:41:36 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:38399 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727428AbfBLOlg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Feb 2019 09:41:36 -0500
-Received: from wuerfel.lan ([109.192.41.194]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.145]) with ESMTPA (Nemesis) id
- 1M8QBa-1gxwxj3E80-004VsU; Tue, 12 Feb 2019 15:41:27 +0100
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: change linux-4.x references to 5.x
-Date:   Tue, 12 Feb 2019 15:41:01 +0100
-Message-Id: <20190212144126.18487-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
+        id S1729700AbfBLSCc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 12 Feb 2019 13:02:32 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:41474 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726975AbfBLSCc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 Feb 2019 13:02:32 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 70F181596;
+        Tue, 12 Feb 2019 10:02:31 -0800 (PST)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDEF33F675;
+        Tue, 12 Feb 2019 10:02:26 -0800 (PST)
+Date:   Tue, 12 Feb 2019 18:02:24 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Evgenii Stepanov <eugenis@google.com>
+Cc:     Kevin Brodsky <kevin.brodsky@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Kostya Serebryany <kcc@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Re: [RFC][PATCH 0/3] arm64 relaxed ABI
+Message-ID: <20190212180223.GD199333@arrakis.emea.arm.com>
+References: <cover.1544445454.git.andreyknvl@google.com>
+ <20181210143044.12714-1-vincenzo.frascino@arm.com>
+ <CAAeHK+xPZ-Z9YUAq=3+hbjj4uyJk32qVaxZkhcSAHYC4mHAkvQ@mail.gmail.com>
+ <20181212150230.GH65138@arrakis.emea.arm.com>
+ <CAAeHK+zxYJDJ7DJuDAOuOMgGvckFwMAoVUTDJzb6MX3WsXhRTQ@mail.gmail.com>
+ <20181218175938.GD20197@arrakis.emea.arm.com>
+ <20181219125249.GB22067@e103592.cambridge.arm.com>
+ <9bbacb1b-6237-f0bb-9bec-b4cf8d42bfc5@arm.com>
+ <CAFKCwrhH5R3e5ntX0t-gxcE6zzbCNm06pzeFfYEN2K13c5WLTg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Tk0w5l7Ubt8+ZUP/168LKRK/vEugGWzP6ICFUZte1fOrmHN7r16
- HWKqflstXzE4IAbqtiC02GxdaqKWVVVR2Gq+wuuZIvl+IRTjU7l+aMuemtzGXTBT3WLd0lA
- bJ0Z0RhgkpK5QpfYGGL8a9KD5o35FBPgO0d/tm4M4uWxCZ8yzWvZpcIMzmq5zqexRsJb+Y8
- 0iQYzt61nthQXCjF33F+g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vBbULCsPxF0=:Zw+t8pFBxSczIoNK5S32fL
- zk7sMmzKYRT86lsGk1dU3j8M42XLf8FDJ7fbLXkHmrSZMKh1K/3BYRtuQKKwsnkh6F2/ngsTk
- INfA+XCgkA5iUUjXjVN9UOuNGR8EfwZeprvz18yBHHtpU6cdY0z1kgthYIuf3rozvLErd8h8f
- P0KBn9IoGIznWk4aDPHYUN5e6mm2ymQh97Y+9U6gvLnDwJEMbY0HGlX6kWOQeGjBdQ0nJDYvh
- VtK2jzyVpFW0icOkENP3gHTFL9Xd3bbeLoqIoBsQP7/oJNIt12/GGztxaEzXsa3SBkieb0njB
- LzgPXrNL5YrVHON9bkJDtl9cgCH2xehHbliCKEREbdawNyzkjMxi4ztWPbrRqC41c1Rl/TR0m
- 8SkUy2WiCCm9whcllQWSfIxINRcVVC2ahzoWSR0CamS7Fa89Qc3CfDOj08C6OUFeY5FjYnEgi
- ud4Wra+OJ9fnYW4Voapy6tstd6Ej0z6OiQLAMslF3nTlF7g8KI28RFndvoTxxK/zBzmRgqHC9
- oxJEsQNzLvSp8uKi+uNc0w+7ZmMeXbyIkJNWhz/yK0Ke/TrQC2O57VknrtJ6IITXOv74XGCCH
- GJI/aPVKm7fM5byZ88wsZq0g/Rj9neT2Pe3itL6YKeNy3qgQ7/dJUYsnzX4bAj9Jl5ZH+ZKgo
- fwfPzLcKrfC15SwVADNjGk8JF0f9SeeOuFgR6NqV5JX9MowTi9RUpLVUKvIEZ9MtYuEdmlqH0
- APcg3Jq//HRrC1/T4096AlF0kVbOaBvW2wYC3g==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFKCwrhH5R3e5ntX0t-gxcE6zzbCNm06pzeFfYEN2K13c5WLTg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As linux-5.0.x is coming up soon, the documentation should match,
-in particular the README.rst file, so change all 4.x references
-accordingly. There was a mix of lowercase and uppercase X here,
-which I changed to using lowercase consistently.
+On Mon, Feb 11, 2019 at 12:32:55PM -0800, Evgenii Stepanov wrote:
+> On Mon, Feb 11, 2019 at 9:28 AM Kevin Brodsky <kevin.brodsky@arm.com> wrote:
+> > On 19/12/2018 12:52, Dave Martin wrote:
+> > > Really, the kernel should do the expected thing with all "non-weird"
+> > > memory.
+> > >
+> > > In lieu of a proper definition of "non-weird", I think we should have
+> > > some lists of things that are explicitly included, and also excluded:
+> > >
+> > > OK:
+> > >       kernel-allocated process stack
+> > >       brk area
+> > >       MAP_ANONYMOUS | MAP_PRIVATE
+> > >       MAP_PRIVATE mappings of /dev/zero
+> > >
+> > > Not OK:
+> > >       MAP_SHARED
+> > >       mmaps of non-memory-like devices
+> > >       mmaps of anything that is not a regular file
+> > >       the VDSO
+> > >       ...
+> > >
+> > > In general, userspace can tag memory that it "owns", and we do not assume
+> > > a transfer of ownership except in the "OK" list above.  Otherwise, it's
+> > > the kernel's memory, or the owner is simply not well defined.
+> >
+> > Agreed on the general idea: a process should be able to pass tagged pointers at the
+> > syscall interface, as long as they point to memory privately owned by the process. I
+> > think it would be possible to simplify the definition of "non-weird" memory by using
+> > only this "OK" list:
+> > - mmap() done by the process itself, where either:
+> >    * flags = MAP_PRIVATE | MAP_ANONYMOUS
+> >    * flags = MAP_PRIVATE and fd refers to a regular file or a well-defined list of
+> > device files (like /dev/zero)
+> > - brk() done by the process itself
+> > - Any memory mapped by the kernel in the new process's address space during execve(),
+> > with the same restrictions as above ([vdso]/[vvar] are therefore excluded)
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- Documentation/admin-guide/README.rst          |  32 ++---
- Documentation/process/applying-patches.rst    | 117 +++++++++---------
- .../translations/it_IT/admin-guide/README.rst |   2 +-
- 3 files changed, 78 insertions(+), 73 deletions(-)
+Sounds reasonable.
 
-diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-index 0797eec76be1..47e577264198 100644
---- a/Documentation/admin-guide/README.rst
-+++ b/Documentation/admin-guide/README.rst
-@@ -1,9 +1,9 @@
- .. _readme:
- 
--Linux kernel release 4.x <http://kernel.org/>
-+Linux kernel release 5.x <http://kernel.org/>
- =============================================
- 
--These are the release notes for Linux version 4.  Read them carefully,
-+These are the release notes for Linux version 5.  Read them carefully,
- as they tell you what this is all about, explain how to install the
- kernel, and what to do if something goes wrong.
- 
-@@ -63,7 +63,7 @@ Installing the kernel source
-    directory where you have permissions (e.g. your home directory) and
-    unpack it::
- 
--     xz -cd linux-4.X.tar.xz | tar xvf -
-+     xz -cd linux-5.x.tar.xz | tar xvf -
- 
-    Replace "X" with the version number of the latest kernel.
- 
-@@ -72,26 +72,26 @@ Installing the kernel source
-    files.  They should match the library, and not get messed up by
-    whatever the kernel-du-jour happens to be.
- 
-- - You can also upgrade between 4.x releases by patching.  Patches are
-+ - You can also upgrade between 5.x releases by patching.  Patches are
-    distributed in the xz format.  To install by patching, get all the
-    newer patch files, enter the top level directory of the kernel source
--   (linux-4.X) and execute::
-+   (linux-5.x) and execute::
- 
--     xz -cd ../patch-4.x.xz | patch -p1
-+     xz -cd ../patch-5.x.xz | patch -p1
- 
--   Replace "x" for all versions bigger than the version "X" of your current
-+   Replace "x" for all versions bigger than the version "x" of your current
-    source tree, **in_order**, and you should be ok.  You may want to remove
-    the backup files (some-file-name~ or some-file-name.orig), and make sure
-    that there are no failed patches (some-file-name# or some-file-name.rej).
-    If there are, either you or I have made a mistake.
- 
--   Unlike patches for the 4.x kernels, patches for the 4.x.y kernels
-+   Unlike patches for the 5.x kernels, patches for the 5.x.y kernels
-    (also known as the -stable kernels) are not incremental but instead apply
--   directly to the base 4.x kernel.  For example, if your base kernel is 4.0
--   and you want to apply the 4.0.3 patch, you must not first apply the 4.0.1
--   and 4.0.2 patches. Similarly, if you are running kernel version 4.0.2 and
--   want to jump to 4.0.3, you must first reverse the 4.0.2 patch (that is,
--   patch -R) **before** applying the 4.0.3 patch. You can read more on this in
-+   directly to the base 5.x kernel.  For example, if your base kernel is 5.0
-+   and you want to apply the 5.0.3 patch, you must not first apply the 5.0.1
-+   and 5.0.2 patches. Similarly, if you are running kernel version 5.0.2 and
-+   want to jump to 5.0.3, you must first reverse the 5.0.2 patch (that is,
-+   patch -R) **before** applying the 5.0.3 patch. You can read more on this in
-    :ref:`Documentation/process/applying-patches.rst <applying_patches>`.
- 
-    Alternatively, the script patch-kernel can be used to automate this
-@@ -114,7 +114,7 @@ Installing the kernel source
- Software requirements
- ---------------------
- 
--   Compiling and running the 4.x kernels requires up-to-date
-+   Compiling and running the 5.x kernels requires up-to-date
-    versions of various software packages.  Consult
-    :ref:`Documentation/process/changes.rst <changes>` for the minimum version numbers
-    required and how to get updates for these packages.  Beware that using
-@@ -132,12 +132,12 @@ Build directory for the kernel
-    place for the output files (including .config).
-    Example::
- 
--     kernel source code: /usr/src/linux-4.X
-+     kernel source code: /usr/src/linux-5.x
-      build directory:    /home/name/build/kernel
- 
-    To configure and build the kernel, use::
- 
--     cd /usr/src/linux-4.X
-+     cd /usr/src/linux-5.x
-      make O=/home/name/build/kernel menuconfig
-      make O=/home/name/build/kernel
-      sudo make O=/home/name/build/kernel modules_install install
-diff --git a/Documentation/process/applying-patches.rst b/Documentation/process/applying-patches.rst
-index dc2ddc345044..fbb9297e6360 100644
---- a/Documentation/process/applying-patches.rst
-+++ b/Documentation/process/applying-patches.rst
-@@ -216,14 +216,14 @@ You can use the ``interdiff`` program (http://cyberelk.net/tim/patchutils/) to
- generate a patch representing the differences between two patches and then
- apply the result.
- 
--This will let you move from something like 4.7.2 to 4.7.3 in a single
-+This will let you move from something like 5.7.2 to 5.7.3 in a single
- step. The -z flag to interdiff will even let you feed it patches in gzip or
- bzip2 compressed form directly without the use of zcat or bzcat or manual
- decompression.
- 
--Here's how you'd go from 4.7.2 to 4.7.3 in a single step::
-+Here's how you'd go from 5.7.2 to 5.7.3 in a single step::
- 
--	interdiff -z ../patch-4.7.2.gz ../patch-4.7.3.gz | patch -p1
-+	interdiff -z ../patch-5.7.2.gz ../patch-5.7.3.gz | patch -p1
- 
- Although interdiff may save you a step or two you are generally advised to
- do the additional steps since interdiff can get things wrong in some cases.
-@@ -245,62 +245,67 @@ The patches are available at http://kernel.org/
- Most recent patches are linked from the front page, but they also have
- specific homes.
- 
--The 4.x.y (-stable) and 4.x patches live at
-+The 5.x.y (-stable) and 5.x patches live at
- 
--	https://www.kernel.org/pub/linux/kernel/v4.x/
-+	https://www.kernel.org/pub/linux/kernel/v5.x/
- 
--The -rc patches live at
-+The -rc patches are not stored on the webserver but are generated on
-+demand from git tags such as
- 
--	https://www.kernel.org/pub/linux/kernel/v4.x/testing/
-+	https://git.kernel.org/torvalds/p/v5.1-rc1/v5.0
- 
-+The stable -rc patches live at
- 
--The 4.x kernels
-+	https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/
-+
-+
-+The 5.x kernels
- ===============
- 
- These are the base stable releases released by Linus. The highest numbered
- release is the most recent.
- 
- If regressions or other serious flaws are found, then a -stable fix patch
--will be released (see below) on top of this base. Once a new 4.x base
-+will be released (see below) on top of this base. Once a new 5.x base
- kernel is released, a patch is made available that is a delta between the
--previous 4.x kernel and the new one.
-+previous 5.x kernel and the new one.
- 
--To apply a patch moving from 4.6 to 4.7, you'd do the following (note
--that such patches do **NOT** apply on top of 4.x.y kernels but on top of the
--base 4.x kernel -- if you need to move from 4.x.y to 4.x+1 you need to
--first revert the 4.x.y patch).
-+To apply a patch moving from 5.6 to 5.7, you'd do the following (note
-+that such patches do **NOT** apply on top of 5.x.y kernels but on top of the
-+base 5.x kernel -- if you need to move from 5.x.y to 5.x+1 you need to
-+first revert the 5.x.y patch).
- 
- Here are some examples::
- 
--	# moving from 4.6 to 4.7
-+	# moving from 5.6 to 5.7
- 
--	$ cd ~/linux-4.6		# change to kernel source dir
--	$ patch -p1 < ../patch-4.7	# apply the 4.7 patch
-+	$ cd ~/linux-5.6		# change to kernel source dir
-+	$ patch -p1 < ../patch-5.7	# apply the 5.7 patch
- 	$ cd ..
--	$ mv linux-4.6 linux-4.7	# rename source dir
-+	$ mv linux-5.6 linux-5.7	# rename source dir
- 
--	# moving from 4.6.1 to 4.7
-+	# moving from 5.6.1 to 5.7
- 
--	$ cd ~/linux-4.6.1		# change to kernel source dir
--	$ patch -p1 -R < ../patch-4.6.1	# revert the 4.6.1 patch
--					# source dir is now 4.6
--	$ patch -p1 < ../patch-4.7	# apply new 4.7 patch
-+	$ cd ~/linux-5.6.1		# change to kernel source dir
-+	$ patch -p1 -R < ../patch-5.6.1	# revert the 5.6.1 patch
-+					# source dir is now 5.6
-+	$ patch -p1 < ../patch-5.7	# apply new 5.7 patch
- 	$ cd ..
--	$ mv linux-4.6.1 linux-4.7	# rename source dir
-+	$ mv linux-5.6.1 linux-5.7	# rename source dir
- 
- 
--The 4.x.y kernels
-+The 5.x.y kernels
- =================
- 
- Kernels with 3-digit versions are -stable kernels. They contain small(ish)
- critical fixes for security problems or significant regressions discovered
--in a given 4.x kernel.
-+in a given 5.x kernel.
- 
- This is the recommended branch for users who want the most recent stable
- kernel and are not interested in helping test development/experimental
- versions.
- 
--If no 4.x.y kernel is available, then the highest numbered 4.x kernel is
-+If no 5.x.y kernel is available, then the highest numbered 5.x kernel is
- the current stable kernel.
- 
- .. note::
-@@ -308,23 +313,23 @@ the current stable kernel.
-  The -stable team usually do make incremental patches available as well
-  as patches against the latest mainline release, but I only cover the
-  non-incremental ones below. The incremental ones can be found at
-- https://www.kernel.org/pub/linux/kernel/v4.x/incr/
-+ https://www.kernel.org/pub/linux/kernel/v5.x/incr/
- 
--These patches are not incremental, meaning that for example the 4.7.3
--patch does not apply on top of the 4.7.2 kernel source, but rather on top
--of the base 4.7 kernel source.
-+These patches are not incremental, meaning that for example the 5.7.3
-+patch does not apply on top of the 5.7.2 kernel source, but rather on top
-+of the base 5.7 kernel source.
- 
--So, in order to apply the 4.7.3 patch to your existing 4.7.2 kernel
--source you have to first back out the 4.7.2 patch (so you are left with a
--base 4.7 kernel source) and then apply the new 4.7.3 patch.
-+So, in order to apply the 5.7.3 patch to your existing 5.7.2 kernel
-+source you have to first back out the 5.7.2 patch (so you are left with a
-+base 5.7 kernel source) and then apply the new 5.7.3 patch.
- 
- Here's a small example::
- 
--	$ cd ~/linux-4.7.2		# change to the kernel source dir
--	$ patch -p1 -R < ../patch-4.7.2	# revert the 4.7.2 patch
--	$ patch -p1 < ../patch-4.7.3	# apply the new 4.7.3 patch
-+	$ cd ~/linux-5.7.2		# change to the kernel source dir
-+	$ patch -p1 -R < ../patch-5.7.2	# revert the 5.7.2 patch
-+	$ patch -p1 < ../patch-5.7.3	# apply the new 5.7.3 patch
- 	$ cd ..
--	$ mv linux-4.7.2 linux-4.7.3	# rename the kernel source dir
-+	$ mv linux-5.7.2 linux-5.7.3	# rename the kernel source dir
- 
- The -rc kernels
- ===============
-@@ -343,38 +348,38 @@ This is a good branch to run for people who want to help out testing
- development kernels but do not want to run some of the really experimental
- stuff (such people should see the sections about -next and -mm kernels below).
- 
--The -rc patches are not incremental, they apply to a base 4.x kernel, just
--like the 4.x.y patches described above. The kernel version before the -rcN
-+The -rc patches are not incremental, they apply to a base 5.x kernel, just
-+like the 5.x.y patches described above. The kernel version before the -rcN
- suffix denotes the version of the kernel that this -rc kernel will eventually
- turn into.
- 
--So, 4.8-rc5 means that this is the fifth release candidate for the 4.8
--kernel and the patch should be applied on top of the 4.7 kernel source.
-+So, 5.8-rc5 means that this is the fifth release candidate for the 5.8
-+kernel and the patch should be applied on top of the 5.7 kernel source.
- 
- Here are 3 examples of how to apply these patches::
- 
--	# first an example of moving from 4.7 to 4.8-rc3
-+	# first an example of moving from 5.7 to 5.8-rc3
- 
--	$ cd ~/linux-4.7			# change to the 4.7 source dir
--	$ patch -p1 < ../patch-4.8-rc3		# apply the 4.8-rc3 patch
-+	$ cd ~/linux-5.7			# change to the 5.7 source dir
-+	$ patch -p1 < ../patch-5.8-rc3		# apply the 5.8-rc3 patch
- 	$ cd ..
--	$ mv linux-4.7 linux-4.8-rc3		# rename the source dir
-+	$ mv linux-5.7 linux-5.8-rc3		# rename the source dir
- 
--	# now let's move from 4.8-rc3 to 4.8-rc5
-+	# now let's move from 5.8-rc3 to 5.8-rc5
- 
--	$ cd ~/linux-4.8-rc3			# change to the 4.8-rc3 dir
--	$ patch -p1 -R < ../patch-4.8-rc3	# revert the 4.8-rc3 patch
--	$ patch -p1 < ../patch-4.8-rc5		# apply the new 4.8-rc5 patch
-+	$ cd ~/linux-5.8-rc3			# change to the 5.8-rc3 dir
-+	$ patch -p1 -R < ../patch-5.8-rc3	# revert the 5.8-rc3 patch
-+	$ patch -p1 < ../patch-5.8-rc5		# apply the new 5.8-rc5 patch
- 	$ cd ..
--	$ mv linux-4.8-rc3 linux-4.8-rc5	# rename the source dir
-+	$ mv linux-5.8-rc3 linux-5.8-rc5	# rename the source dir
- 
--	# finally let's try and move from 4.7.3 to 4.8-rc5
-+	# finally let's try and move from 5.7.3 to 5.8-rc5
- 
--	$ cd ~/linux-4.7.3			# change to the kernel source dir
--	$ patch -p1 -R < ../patch-4.7.3		# revert the 4.7.3 patch
--	$ patch -p1 < ../patch-4.8-rc5		# apply new 4.8-rc5 patch
-+	$ cd ~/linux-5.7.3			# change to the kernel source dir
-+	$ patch -p1 -R < ../patch-5.7.3		# revert the 5.7.3 patch
-+	$ patch -p1 < ../patch-5.8-rc5		# apply new 5.8-rc5 patch
- 	$ cd ..
--	$ mv linux-4.7.3 linux-4.8-rc5		# rename the kernel source dir
-+	$ mv linux-5.7.3 linux-5.8-rc5		# rename the kernel source dir
- 
- 
- The -mm patches and the linux-next tree
-diff --git a/Documentation/translations/it_IT/admin-guide/README.rst b/Documentation/translations/it_IT/admin-guide/README.rst
-index 80f5ffc94a9e..b37166817842 100644
---- a/Documentation/translations/it_IT/admin-guide/README.rst
-+++ b/Documentation/translations/it_IT/admin-guide/README.rst
-@@ -4,7 +4,7 @@
- 
- .. _it_readme:
- 
--Rilascio del kernel Linux  4.x <http://kernel.org/>
-+Rilascio del kernel Linux  5.x <http://kernel.org/>
- ===================================================
- 
- .. warning::
+> > >   * Userspace should set tags at the point of allocation only.
+> >
+> > Yes, tags are only supposed to be set at the point of either allocation or
+> > deallocation/reallocation. However, allocators can in principle be nested, so an
+> > allocator could  take a region allocated by malloc() as input and subdivide it
+> > (changing tags in the process). That said, this suballocator must not free() that
+> > region until all the suballocations themselves have been freed (thereby restoring the
+> > tags initially set by malloc()).
+> >
+> > >   * If you don't know how an object was allocated, you cannot modify the
+> > >     tag, period.
+> >
+> > Agreed, allocators that tag memory can only operate on memory with a well-defined
+> > provenance (for instance anonymous mmap() or malloc()).
+> >
+> > >   * A single C object should be accessed using a single, fixed pointer tag
+> > >     throughout its entire lifetime.
+> >
+> > Agreed. Allocators themselves may need to be excluded though, depending on how they
+> > represent their managed memory.
+> >
+> > >   * Tags can be changed only when there are no outstanding pointers to
+> > >     the affected object or region that may be used to access the object
+> > >     or region (i.e., if the object were allocated from the C heap and
+> > >     is it safe to realloc() it, then it is safe to change the tag; for
+> > >     other types of allocation, analogous arguments can be applied).
+> >
+> > Tags can only be changed at the point of deallocation/reallocation. Pointers to the
+> > object become invalid and cannot be used after it has been deallocated; memory
+> > tagging allows to catch such invalid usage.
+
+All the above sound well but that's mostly a guideline on what a C
+library can do. It doesn't help much with defining the kernel ABI.
+Anyway, it's good to clarify the use-cases.
+
+> > >   * When the kernel dereferences a pointer on userspace's behalf, it
+> > >     shall behave equivalently to userspace dereferencing the same pointer,
+> > >     including use of the same tag (where passed by userspace).
+> > >
+> > >   * Where the pointer tag affects pointer dereference behaviour (i.e.,
+> > >     with hardware memory colouring) the kernel makes no guarantee to
+> > >     honour pointer tags correctly for every location a buffer based on a
+> > >     pointer passed by userspace to the kernel.
+> > >
+> > >     (This means for example that for a read(fd, buf, size), we can check
+> > >     the tag for a single arbitrary location in *(char (*)[size])buf
+> > >     before passing the buffer to get_user_pages().  Hopefully this could
+> > >     be done in get_user_pages() itself rather than hunting call sites.
+> > >     For userspace, it means that you're on your own if you ask the
+> > >     kernel to operate on a buffer than spans multiple, independently-
+> > >     allocated objects, or a deliberately striped single object.)
+> >
+> > I think both points are reasonable. It is very valuable for the kernel to access
+> > userspace memory using the user-provided tag, because it enables kernel accesses to
+> > be checked in the same way as user accesses, allowing to detect bugs that are
+> > potentially hard to find. For instance, if a pointer to an object is passed to the
+> > kernel after it has been deallocated, this is invalid and should be detected.
+> > However, you are absolutely right that the kernel cannot *guarantee* that such a
+> > check is carried out for the entire memory range (or in fact at all); it should be a
+> > best-effort approach.
+> 
+> It would also be valuable to narrow down the set of "relaxed" (i.e.
+> not tag-checking) syscalls as reasonably possible. We would want to
+> provide tag-checking userspace wrappers for any important calls that
+> are not checked in the kernel. Is it correct to assume that anything
+> that goes through copy_from_user  / copy_to_user is checked?
+
+I lost track of the context of this thread but if it's just about
+relaxing the ABI for hwasan, the kernel has no idea of the compiler
+generated structures in user space, so nothing is checked.
+
+If we talk about tags in the context of MTE, than yes, with the current
+proposal the tag would be checked by copy_*_user() functions.
+
+> > >   * The kernel shall not extend the lifetime of user pointers in ways
+> > >     that are not clear from the specification of the syscall or
+> > >     interface to which the pointer is passed (and in any case shall not
+> > >     extend pointer lifetimes without good reason).
+> > >
+> > >     So no clever transparent caching between syscalls, unless it _really_
+> > >     is transparent in the presence of tags.
+> >
+> > Do you have any particular case in mind? If such caching is really valuable, it is
+> > always possible to access the object while ignoring the tag. For sure, the
+> > user-provided tag can only be used during the syscall handling itself, not
+> > asynchronously later on, unless otherwise specified.
+> 
+> For aio* operations it would be nice if the tag was checked at the
+> time of the actual userspace read/write, either instead of or in
+> addition to at the time of the system call.
+
+With aio* (and synchronous iovec-based syscalls), the kernel may access
+the memory while the corresponding user process is scheduled out. Given
+that such access is not done in the context of the user process (and
+using the user VA like copy_*_user), the kernel cannot handle potential
+tag faults. Moreover, the transfer may be done by DMA and the device
+does not understand tags.
+
+I'd like to keep tags as a property of the pointer in a specific virtual
+address space. The moment you convert it to a different address space
+(e.g. kernel linear map, physical address), the tag property is stripped
+and I don't think we should re-build it (and have it checked).
+
+> > >   * For purposes other than dereference, the kernel shall accept any
+> > >     legitimately tagged pointer (according to the above rules) as
+> > >     identifying the associated memory location.
+> > >
+> > >     So, mprotect(some_page_aligned_object, ...); is valid irrespective
+> > >     of where page_aligned_object() came from.  There is no implicit
+> > >     derefence by the kernel here, hence no tag check.
+> > >
+> > >     The kernel does not guarantee to work correctly if the wrong tag
+> > >     is used, but there is not always a well-defined "right" tag, so
+> > >     we can't really guarantee to check it.  So a pointer derived by
+> > >     any reasonable means by userspace has to be treated as equally
+> > >     valid.
+> >
+> > This is a disputed point :) In my opinion, this is the the most reasonable approach.
+> 
+> Yes, it would be nice if the kernel explicitly promised, ex.
+> mprotect() over a range of differently tagged pages to be allowed
+> (i.e. address tag should be unchecked).
+
+I don't think mprotect() over differently tagged pages was ever a
+problem. I originally asked that mprotect() and friends do not accept
+tagged pointers since these functions deal with memory ranges rather
+than dereferencing such pointer (the reason being minimal kernel
+changes). However, given how complicated it is to specify an ABI, I came
+to the conclusion that a pointer passed to such function should be
+allowed to have non-zero top byte. It would be the kernel's
+responsibility to strip it out as appropriate.
+
 -- 
-2.20.0
-
+Catalin
