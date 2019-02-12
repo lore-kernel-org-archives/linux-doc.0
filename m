@@ -1,197 +1,155 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D98477D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Feb 2019 03:15:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 892A27D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Feb 2019 04:26:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726811AbfBLDPD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Feb 2019 22:15:03 -0500
-Received: from conuserg-07.nifty.com ([210.131.2.74]:61441 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726699AbfBLDPD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Feb 2019 22:15:03 -0500
-Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id x1C3Cw6G008379;
-        Tue, 12 Feb 2019 12:12:59 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x1C3Cw6G008379
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1549941179;
-        bh=qMy6FZDSu1/xHp/khIDpyofAIIqjTVr/9btizRrU+vU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=iE426UAV8AFI66i46nLGzTF0pKBescU33o/j4v1ff6KNJH8xnx46gO7MCyGRmhF+d
-         /tP8x8FjR6bmnzdnsts8cjPE5kborpIAW2rtWjDkRMX8UqtA+QBvuAbqekVo9rCxnI
-         VVdhE511UhqF+lsoiIN6mlkS+COxixcGCBbkWcuK9Bwr0iAbnkVMFdpdb08ew2wkzh
-         dtgVDbUinS58afa/mALmhTqJVmnmyS/T9jLnJlyyVC+ogAtaUV15hMFmJiN9Re+JDF
-         +5CfiV+CtW5xjQb3h3yZYxsqzgIOXJIJNq3c2LGoH2G9+pc69OYAAwg8n7mSXO4VKP
-         O6ci9oYCDmk1Q==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Alexander Popov <alex.popov@linux.com>,
-        Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Richard Guy Briggs <rgb@redhat.com>
-Subject: [PATCH] kernel/configs: use .incbin directive to embed config_data.gz
-Date:   Tue, 12 Feb 2019 12:12:40 +0900
-Message-Id: <1549941160-8084-1-git-send-email-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.7.4
+        id S1727045AbfBLE0h (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Feb 2019 23:26:37 -0500
+Received: from mail-yb1-f194.google.com ([209.85.219.194]:33261 "EHLO
+        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726940AbfBLE0h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Feb 2019 23:26:37 -0500
+Received: by mail-yb1-f194.google.com with SMTP id w2so545061ybi.0;
+        Mon, 11 Feb 2019 20:26:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Gba9WykhJ5rM28xsivvRKvyobudRZQaNNdY3QkpntKc=;
+        b=XG83/AvIOeFO4Nmk4M4/NCfWx79rMojwQsgD1Wh1HtRyvVAHtbtn20Nnmzepux1l9o
+         M18iL1ZGm9pwmVKU4jTnVHNpRgjRDMi4NCIzcV1diT6AW03WlmnN4Is+Ew22rLvAKlBA
+         A0mWYdca4HZxi4sM46HFlkcmkQ7UYawc2pDb4YMg/WgnoUHiw07P6Eq0kV8ATh5Y8r9m
+         Ax8TmE5dWg5BNN3ZQgC1vYz/JVFSjKohIbUEoDbLfGmX3YYstyFN1KIAP8zucmskLw0+
+         tsXXvZes32XI8S6nUDRfTpMlFK9DeZN6Igr0Us9My5iD+I3Mu/XNhw2ssaB81kUuGOxF
+         nnCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Gba9WykhJ5rM28xsivvRKvyobudRZQaNNdY3QkpntKc=;
+        b=ScNt5lOD46oNIYr3NP+7SAETzSDIXovO1nSu5s/fIStsjLe+rkPLeRV/wj7Iwjka7w
+         He4nyqQlGxJFtitsM718jZeIQBZjBwvngs0IaIw/zT09uc3fcwJWb9G03ojdtDuUKhfi
+         mpo9DhdCq1DeLdtM6pLPSBPpHn9OQLqbGGe1EgWblwNggVNeCumFV8DmTEOWcO7DbN9Q
+         WRuR7yNsMSYIrio4ZTQy3qPkcVL/WtF55urn2KT2mUQeYRPmKSlGqPsEx0guTUv8TwLr
+         oQKN7bSsMmFkM/Kg7xN/cVXjgWmFoflA4uTetzYHKDuUcG52MIN7AW42MH2PM527prxp
+         TKOA==
+X-Gm-Message-State: AHQUAuZLacWNvpQs05XXwzXdGC+R926xvJVmbEh8t3aDfAPxZuPkj/4z
+        eQCTrRCT+3KMsDzgdLrowB1L03bEZZZYdmqye4w=
+X-Google-Smtp-Source: AHgI3Ia+x534/JLzaqoMfi2L8qLWsDV97xI0iJ+EV+My+u4xb8vh/8cupze8w9x+IkEeZB4FyvKyx7kl8R5CZfrpkPU=
+X-Received: by 2002:a25:1488:: with SMTP id 130mr1315005ybu.507.1549945596196;
+ Mon, 11 Feb 2019 20:26:36 -0800 (PST)
+MIME-Version: 1.0
+References: <CA+EzBbDyoPF8=mZyG8HQAoHTm4h4MSCe=5WX_SBqRwPej=4uFg@mail.gmail.com>
+In-Reply-To: <CA+EzBbDyoPF8=mZyG8HQAoHTm4h4MSCe=5WX_SBqRwPej=4uFg@mail.gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Tue, 12 Feb 2019 06:26:24 +0200
+Message-ID: <CAOQ4uxh7OayzbGFk0cxoZf_t9jGxesv9k6zPPOA=+5MDsqWOzA@mail.gmail.com>
+Subject: Re: Documenting the crash consistency guarantees of file systems
+To:     Jayashree Mohan <jayashree2912@gmail.com>
+Cc:     fstests <fstests@vger.kernel.org>, "Theodore Ts'o" <tytso@mit.edu>,
+        Filipe Manana <fdmanana@gmail.com>,
+        Dave Chinner <david@fromorbit.com>, Chris Mason <clm@fb.com>,
+        Vijaychidambaram Velayudhan Pillai <vijay@cs.utexas.edu>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This slightly optimizes the kernel/configs.c build.
+[CC: linux-fsdevel,linux-doc]
 
-bin2c is not very efficient because it converts a data file into a
-huge array to embed it into a *.c file.
+On Sat, Feb 9, 2019 at 12:47 AM Jayashree Mohan <jayashree2912@gmail.com> wrote:
+>
+> Hi all,
+>
+> We all understand that providing strong crash consistency guarantees
+> while not impacting performance, can be tricky. While you strive to
+> achieve that, it is worth documenting the expected/current guarantees
+> provided by each file system so that users can report buggy behaviors
+> and stop pursuing potential dead ends.
+>
+> In the course of developing our crash-consistency testing tool:
+> CrashMonkey, we've had several interesting discussions with
+> file-system developers regarding the guarantees provided by
+> file-system operations. For example, the crash-consistency guarantees
+> of symlink does not ensure that the symlink-ed file survives a crash,
+> even if it was persisted explicitly before the crash. This is because,
+> unlike hard links, symlinks are not regular files and it is not
+> possible to directly open them to fsync() [1].
+>
+> Similarly, most file systems today provide guarantees more
+> than what the POSIX expects; however, these are not formally
+> documented. For example, in btrfs, fsync() of any file should be
+> enough to persist that file in its current directory; it does
+> not require that its parent directory be explicitly persisted [2].
+> f2fs on the other hand, offers multiple fsync() modes like
+> FSYNC_MODE_STRICT, FSYNC_MODE_POSIX etc, each with different
+> guarantees. As a user, we are unaware of these differences in
+> guarantees each file system has to offer.
+>
+> More recently, there was a bug report which stated that chmod'ed
+> permissions on special files were not persisted upon fsync() [3].
+> While Ted explained that special files don't have a fsync() function
+> defined, thereby making it a no-op, we believe such information is
+> crucial and worth documenting.
+>
+> In this context, how about adding a new file to the Linux kernel
+> documentation, for example,
+> linux/Documentation/filesystems/crash-consistency-guarantees.txt,
+> where developers or users could contribute their knowledge on such
+> special cases where persistence guarantees are not applicable, or the
+> extent of crash-guarantees each file system provides? If this sounds
+> good, we will be happy to send out a patch detailing the information
+> we gathered about each file-system's guarantees while testing them
+> with CrashMonkey. This would serve as a one-stop destination for all
+> information related to crash-consistency guarantees and encourage any
+> future conversations pertaining to crash consistency to be documented
+> here.
+>
+> [1] https://www.spinics.net/lists/linux-btrfs/msg76835.html
+> [2] https://www.spinics.net/lists/linux-btrfs/msg77340.html
+> [3] https://bugzilla.kernel.org/show_bug.cgi?id=202485
+>
+>
 
-Instead, we can use the .incbin directive.
+Hi Jayashree,
 
-Also, this simplifies the code; Makefile is cleaner, and the way to
-get the offset/size of the config_data.gz is more straightforward.
+I think we would be fools to decline an offer for better documentation ;)
+Your project has certainly collected some valuable inputs.
+The most valuable outcome IMO, besides finding bugs obviously,
+is the xfstests that you submitted and working on - ain't nothing like
+documentation that checks the code...
 
-I used the "asm" statement in *.c instead of splitting it into *.S
-because MODULE_* tags are not supported in *.S files.
+But when approaching a task of documenting existing behavior
+there are some challenges:
+- Behavior may change and documentation may become stale
+- Filesystem maintainers may not be happy about committing
+  to specific behavior by documenting it
 
-I also cleaned up kernel/.gitignore; "config_data.gz" is unneeded
-because the top-level .gitignore takes care of the "*.gz" pattern.
+If I were you, I would start with documenting:
+1. Existing user space APIs for making changes durable and what
+    they guaranty in POSIX vs. Linux (e.g. fsync of symlink)
+2. "strictly ordered metadata" - according to Google, Dave Chinner
+    was the first to coin this term and claim that ext4, xfs, btrfs all
+    abide to those semantics. I think it would be great to have a
+    document that describes those semantics, so that we can refer
+    people to the doc when trying to explain some crash behavior
+    or performance issue that is a by product of these semantics.
+3. More tricky would be to find and document behavior that is set in
+    stone by applications that grew to expect it despite no guaranty.
+    A concrete example is the order guaranties between data and
+    metadata operations [1]. I honestly don't know if and what could
+    be documented in that regard.
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+Thanks,
+Amir.
 
- Documentation/dontdiff |  1 -
- kernel/.gitignore      |  2 --
- kernel/Makefile        | 11 +----------
- kernel/configs.c       | 41 +++++++++++++++++++----------------------
- 4 files changed, 20 insertions(+), 35 deletions(-)
-
-diff --git a/Documentation/dontdiff b/Documentation/dontdiff
-index 2228fcc..ef25a06 100644
---- a/Documentation/dontdiff
-+++ b/Documentation/dontdiff
-@@ -106,7 +106,6 @@ compile.h*
- conf
- config
- config-*
--config_data.h*
- config.mak
- config.mak.autogen
- conmakehash
-diff --git a/kernel/.gitignore b/kernel/.gitignore
-index b3097bd..6e69910 100644
---- a/kernel/.gitignore
-+++ b/kernel/.gitignore
-@@ -1,7 +1,5 @@
- #
- # Generated files
- #
--config_data.h
--config_data.gz
- timeconst.h
- hz.bc
-diff --git a/kernel/Makefile b/kernel/Makefile
-index 6aa7543..6c57e78 100644
---- a/kernel/Makefile
-+++ b/kernel/Makefile
-@@ -116,17 +116,8 @@ obj-$(CONFIG_GCC_PLUGIN_STACKLEAK) += stackleak.o
- KASAN_SANITIZE_stackleak.o := n
- KCOV_INSTRUMENT_stackleak.o := n
- 
--$(obj)/configs.o: $(obj)/config_data.h
-+$(obj)/configs.o: $(obj)/config_data.gz
- 
- targets += config_data.gz
- $(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
- 	$(call if_changed,gzip)
--
--filechk_ikconfiggz = \
--	echo "static const char kernel_config_data[] __used = MAGIC_START"; \
--	cat $< | scripts/bin2c; \
--	echo "MAGIC_END;"
--
--targets += config_data.h
--$(obj)/config_data.h: $(obj)/config_data.gz FORCE
--	$(call filechk,ikconfiggz)
-diff --git a/kernel/configs.c b/kernel/configs.c
-index 2df132b..684c5d8 100644
---- a/kernel/configs.c
-+++ b/kernel/configs.c
-@@ -30,37 +30,34 @@
- #include <linux/init.h>
- #include <linux/uaccess.h>
- 
--/**************************************************/
--/* the actual current config file                 */
--
- /*
-- * Define kernel_config_data and kernel_config_data_size, which contains the
-- * wrapped and compressed configuration file.  The file is first compressed
-- * with gzip and then bounded by two eight byte magic numbers to allow
-- * extraction from a binary kernel image:
-- *
-- *   IKCFG_ST
-- *   <image>
-- *   IKCFG_ED
-+ * "IKCFG_ST" and "IKCFG_ED" are used to extract the config data from
-+ * a binary kernel image or a module. See scripts/extract-ikconfig.
-  */
--#define MAGIC_START	"IKCFG_ST"
--#define MAGIC_END	"IKCFG_ED"
--#include "config_data.h"
--
--
--#define MAGIC_SIZE (sizeof(MAGIC_START) - 1)
--#define kernel_config_data_size \
--	(sizeof(kernel_config_data) - 1 - MAGIC_SIZE * 2)
-+asm (
-+"	.section .rodata, \"a\"			\n"
-+"	.ascii \"IKCFG_ST\"			\n"
-+"	.global kernel_config_data		\n"
-+"kernel_config_data:				\n"
-+"	.incbin \"kernel/config_data.gz\"	\n"
-+"	.global kernel_config_data_end		\n"
-+"kernel_config_data_end:			\n"
-+"	.ascii \"IKCFG_ED\"			\n"
-+);
- 
- #ifdef CONFIG_IKCONFIG_PROC
- 
-+extern char kernel_config_data;
-+extern char kernel_config_data_end;
-+
- static ssize_t
- ikconfig_read_current(struct file *file, char __user *buf,
- 		      size_t len, loff_t * offset)
- {
- 	return simple_read_from_buffer(buf, len, offset,
--				       kernel_config_data + MAGIC_SIZE,
--				       kernel_config_data_size);
-+				       &kernel_config_data,
-+				       &kernel_config_data_end -
-+				       &kernel_config_data);
- }
- 
- static const struct file_operations ikconfig_file_ops = {
-@@ -79,7 +76,7 @@ static int __init ikconfig_init(void)
- 	if (!entry)
- 		return -ENOMEM;
- 
--	proc_set_size(entry, kernel_config_data_size);
-+	proc_set_size(entry, &kernel_config_data_end - &kernel_config_data);
- 
- 	return 0;
- }
--- 
-2.7.4
-
+[1] https://thunk.org/tytso/blog/2009/03/12/delayed-allocation-and-the-zero-length-file-problem/
