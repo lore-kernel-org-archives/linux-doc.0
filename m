@@ -1,91 +1,197 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7070F7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Feb 2019 22:38:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D98477D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Feb 2019 03:15:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727325AbfBKWiu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Feb 2019 17:38:50 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:42058 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727006AbfBKWiu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Feb 2019 17:38:50 -0500
-Received: by mail-pf1-f194.google.com with SMTP id n74so242175pfi.9;
-        Mon, 11 Feb 2019 14:38:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=JQuk6gaSYidWAupxn52YYTluQwwumv4EPvoIuLpowtU=;
-        b=RfCgJXnCWdzS85qc+00rbkQDV/XnUQ1VaAfLf8i3nuoe8inm5OLyShnpZlhkyfAWP1
-         3DnWa1PRbN5mm+IkXdFI7aVTXZ50NsxytPM1ifPjOnYbQst+S35h28QhomH+2gS0br2w
-         xiZM2zvuS5pDuPhFdqFNK//g9BV8T0XGwb19YKXtKtNbbm4fl3qGzB69i6WXi85aMQKO
-         Hd3IDGv2kqj5RTIUOL7jXmfEKhpC/DeSSJmG+8d5F/q39vwPRQ69VjM2ocxDZKLDhmbE
-         fC3hT4ZaIJOpHOQQscC5Hx/y0MSSLIIPS3jamaOA0H+e9ol+MLsU1xFnCCXYERR04UQ1
-         +d7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=JQuk6gaSYidWAupxn52YYTluQwwumv4EPvoIuLpowtU=;
-        b=JXyoz6chehH1aQzI6KgbTrfFjPGMV2udaYYF02383bA4jbPzDQZYM2cSNQ5nwy2mN1
-         o9YjacWDmBtUaTeyD2W8aW+KJQCIRrpPH3NIIfy+D2y7QMfdPj/AAhla/0X9gH19NAt6
-         AL1PqjXJ+EAJFyKUvAeTfoDLw5bxiWnVW5kOTMKRRaaFbHwqmbe+XYu7ZAaGodtB+1MV
-         L75xbtUiehQ1zxy4tXGzDgRRwU1A92gfMJLFOG6WrKOC5wi1u9gbalOBwYTltGyLQV4n
-         x8ZQ4xy4y6HwiU9jJw2K51EL3xnLMws1KbTiXDZ99TuJv2nXbuGQ/z7uzKVoeYAvQ9Io
-         xEyA==
-X-Gm-Message-State: AHQUAuaypTSNAAOkBg/Y9aDfT5sfU5Ut2suHix9a9s9PVm+7bObsklUb
-        4X26iugoQhVIWNA16UAm+dk=
-X-Google-Smtp-Source: AHgI3IZRVjTNPdMXIoDgwoxFPgjsDMfUUsh4/IV90ummd7I2jVERh9++6zH3rcxT7jc/wXmxUNFJWw==
-X-Received: by 2002:a62:62c5:: with SMTP id w188mr630010pfb.160.1549924729501;
-        Mon, 11 Feb 2019 14:38:49 -0800 (PST)
-Received: from localhost.localdomain (c-24-6-192-50.hsd1.ca.comcast.net. [24.6.192.50])
-        by smtp.gmail.com with ESMTPSA id z186sm15275018pfz.119.2019.02.11.14.38.48
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 11 Feb 2019 14:38:48 -0800 (PST)
-From:   frowand.list@gmail.com
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Joris Gutjahr <joris.gutjahr@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: kernel-doc: typo "if ... if" -> "if ... is"
-Date:   Mon, 11 Feb 2019 14:38:04 -0800
-Message-Id: <1549924684-2148-1-git-send-email-frowand.list@gmail.com>
-X-Mailer: git-send-email 1.9.1
+        id S1726811AbfBLDPD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Feb 2019 22:15:03 -0500
+Received: from conuserg-07.nifty.com ([210.131.2.74]:61441 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726699AbfBLDPD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Feb 2019 22:15:03 -0500
+Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id x1C3Cw6G008379;
+        Tue, 12 Feb 2019 12:12:59 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x1C3Cw6G008379
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1549941179;
+        bh=qMy6FZDSu1/xHp/khIDpyofAIIqjTVr/9btizRrU+vU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=iE426UAV8AFI66i46nLGzTF0pKBescU33o/j4v1ff6KNJH8xnx46gO7MCyGRmhF+d
+         /tP8x8FjR6bmnzdnsts8cjPE5kborpIAW2rtWjDkRMX8UqtA+QBvuAbqekVo9rCxnI
+         VVdhE511UhqF+lsoiIN6mlkS+COxixcGCBbkWcuK9Bwr0iAbnkVMFdpdb08ew2wkzh
+         dtgVDbUinS58afa/mALmhTqJVmnmyS/T9jLnJlyyVC+ogAtaUV15hMFmJiN9Re+JDF
+         +5CfiV+CtW5xjQb3h3yZYxsqzgIOXJIJNq3c2LGoH2G9+pc69OYAAwg8n7mSXO4VKP
+         O6ci9oYCDmk1Q==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Alexander Popov <alex.popov@linux.com>,
+        Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Richard Guy Briggs <rgb@redhat.com>
+Subject: [PATCH] kernel/configs: use .incbin directive to embed config_data.gz
+Date:   Tue, 12 Feb 2019 12:12:40 +0900
+Message-Id: <1549941160-8084-1-git-send-email-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Frank Rowand <frank.rowand@sony.com>
+This slightly optimizes the kernel/configs.c build.
 
-"If no *function* if specified" should instead be
-"If no *function* is specified".
+bin2c is not very efficient because it converts a data file into a
+huge array to embed it into a *.c file.
 
-Reported-by: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: Frank Rowand <frank.rowand@sony.com>
+Instead, we can use the .incbin directive.
+
+Also, this simplifies the code; Makefile is cleaner, and the way to
+get the offset/size of the config_data.gz is more straightforward.
+
+I used the "asm" statement in *.c instead of splitting it into *.S
+because MODULE_* tags are not supported in *.S files.
+
+I also cleaned up kernel/.gitignore; "config_data.gz" is unneeded
+because the top-level .gitignore takes care of the "*.gz" pattern.
+
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
- Documentation/doc-guide/kernel-doc.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-index 6513c16b7e4f..f96059767c8c 100644
---- a/Documentation/doc-guide/kernel-doc.rst
-+++ b/Documentation/doc-guide/kernel-doc.rst
-@@ -490,7 +490,7 @@ doc: *title*
+ Documentation/dontdiff |  1 -
+ kernel/.gitignore      |  2 --
+ kernel/Makefile        | 11 +----------
+ kernel/configs.c       | 41 +++++++++++++++++++----------------------
+ 4 files changed, 20 insertions(+), 35 deletions(-)
+
+diff --git a/Documentation/dontdiff b/Documentation/dontdiff
+index 2228fcc..ef25a06 100644
+--- a/Documentation/dontdiff
++++ b/Documentation/dontdiff
+@@ -106,7 +106,6 @@ compile.h*
+ conf
+ config
+ config-*
+-config_data.h*
+ config.mak
+ config.mak.autogen
+ conmakehash
+diff --git a/kernel/.gitignore b/kernel/.gitignore
+index b3097bd..6e69910 100644
+--- a/kernel/.gitignore
++++ b/kernel/.gitignore
+@@ -1,7 +1,5 @@
+ #
+ # Generated files
+ #
+-config_data.h
+-config_data.gz
+ timeconst.h
+ hz.bc
+diff --git a/kernel/Makefile b/kernel/Makefile
+index 6aa7543..6c57e78 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -116,17 +116,8 @@ obj-$(CONFIG_GCC_PLUGIN_STACKLEAK) += stackleak.o
+ KASAN_SANITIZE_stackleak.o := n
+ KCOV_INSTRUMENT_stackleak.o := n
  
- functions: *[ function ...]*
-   Include documentation for each *function* in *source*.
--  If no *function* if specified, the documentation for all functions
-+  If no *function* is specified, the documentation for all functions
-   and types in the *source* will be included.
+-$(obj)/configs.o: $(obj)/config_data.h
++$(obj)/configs.o: $(obj)/config_data.gz
  
-   Examples::
+ targets += config_data.gz
+ $(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
+ 	$(call if_changed,gzip)
+-
+-filechk_ikconfiggz = \
+-	echo "static const char kernel_config_data[] __used = MAGIC_START"; \
+-	cat $< | scripts/bin2c; \
+-	echo "MAGIC_END;"
+-
+-targets += config_data.h
+-$(obj)/config_data.h: $(obj)/config_data.gz FORCE
+-	$(call filechk,ikconfiggz)
+diff --git a/kernel/configs.c b/kernel/configs.c
+index 2df132b..684c5d8 100644
+--- a/kernel/configs.c
++++ b/kernel/configs.c
+@@ -30,37 +30,34 @@
+ #include <linux/init.h>
+ #include <linux/uaccess.h>
+ 
+-/**************************************************/
+-/* the actual current config file                 */
+-
+ /*
+- * Define kernel_config_data and kernel_config_data_size, which contains the
+- * wrapped and compressed configuration file.  The file is first compressed
+- * with gzip and then bounded by two eight byte magic numbers to allow
+- * extraction from a binary kernel image:
+- *
+- *   IKCFG_ST
+- *   <image>
+- *   IKCFG_ED
++ * "IKCFG_ST" and "IKCFG_ED" are used to extract the config data from
++ * a binary kernel image or a module. See scripts/extract-ikconfig.
+  */
+-#define MAGIC_START	"IKCFG_ST"
+-#define MAGIC_END	"IKCFG_ED"
+-#include "config_data.h"
+-
+-
+-#define MAGIC_SIZE (sizeof(MAGIC_START) - 1)
+-#define kernel_config_data_size \
+-	(sizeof(kernel_config_data) - 1 - MAGIC_SIZE * 2)
++asm (
++"	.section .rodata, \"a\"			\n"
++"	.ascii \"IKCFG_ST\"			\n"
++"	.global kernel_config_data		\n"
++"kernel_config_data:				\n"
++"	.incbin \"kernel/config_data.gz\"	\n"
++"	.global kernel_config_data_end		\n"
++"kernel_config_data_end:			\n"
++"	.ascii \"IKCFG_ED\"			\n"
++);
+ 
+ #ifdef CONFIG_IKCONFIG_PROC
+ 
++extern char kernel_config_data;
++extern char kernel_config_data_end;
++
+ static ssize_t
+ ikconfig_read_current(struct file *file, char __user *buf,
+ 		      size_t len, loff_t * offset)
+ {
+ 	return simple_read_from_buffer(buf, len, offset,
+-				       kernel_config_data + MAGIC_SIZE,
+-				       kernel_config_data_size);
++				       &kernel_config_data,
++				       &kernel_config_data_end -
++				       &kernel_config_data);
+ }
+ 
+ static const struct file_operations ikconfig_file_ops = {
+@@ -79,7 +76,7 @@ static int __init ikconfig_init(void)
+ 	if (!entry)
+ 		return -ENOMEM;
+ 
+-	proc_set_size(entry, kernel_config_data_size);
++	proc_set_size(entry, &kernel_config_data_end - &kernel_config_data);
+ 
+ 	return 0;
+ }
 -- 
-Frank Rowand <frank.rowand@sony.com>
+2.7.4
 
