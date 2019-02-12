@@ -1,249 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B92967D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Feb 2019 18:02:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 689B37D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Feb 2019 18:48:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729700AbfBLSCc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 12 Feb 2019 13:02:32 -0500
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:41474 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726975AbfBLSCc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 12 Feb 2019 13:02:32 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 70F181596;
-        Tue, 12 Feb 2019 10:02:31 -0800 (PST)
-Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDEF33F675;
-        Tue, 12 Feb 2019 10:02:26 -0800 (PST)
-Date:   Tue, 12 Feb 2019 18:02:24 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Evgenii Stepanov <eugenis@google.com>
-Cc:     Kevin Brodsky <kevin.brodsky@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Kostya Serebryany <kcc@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: Re: [RFC][PATCH 0/3] arm64 relaxed ABI
-Message-ID: <20190212180223.GD199333@arrakis.emea.arm.com>
-References: <cover.1544445454.git.andreyknvl@google.com>
- <20181210143044.12714-1-vincenzo.frascino@arm.com>
- <CAAeHK+xPZ-Z9YUAq=3+hbjj4uyJk32qVaxZkhcSAHYC4mHAkvQ@mail.gmail.com>
- <20181212150230.GH65138@arrakis.emea.arm.com>
- <CAAeHK+zxYJDJ7DJuDAOuOMgGvckFwMAoVUTDJzb6MX3WsXhRTQ@mail.gmail.com>
- <20181218175938.GD20197@arrakis.emea.arm.com>
- <20181219125249.GB22067@e103592.cambridge.arm.com>
- <9bbacb1b-6237-f0bb-9bec-b4cf8d42bfc5@arm.com>
- <CAFKCwrhH5R3e5ntX0t-gxcE6zzbCNm06pzeFfYEN2K13c5WLTg@mail.gmail.com>
+        id S1732150AbfBLSsc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 12 Feb 2019 13:48:32 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:40698 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732158AbfBLSsZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Feb 2019 13:48:25 -0500
+Received: by mail-pl1-f193.google.com with SMTP id bj4so1711978plb.7;
+        Tue, 12 Feb 2019 10:48:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=0hgV92wDT2ZmcOau/wgDvn2O7fusGY5Cr61uoT+/hFU=;
+        b=XOdAZ4ejroaV8XQrbRNs0Bo9BtzFbOVrVwqyUebTzCyOdhZf4ZBNLWi30bbeHVYcKK
+         XI8XOTU81zGsFSZoukFtA6eQJva7mkLs7zpqhnZiI1C8fU0VGHPovaLeZjRP95HMAHZb
+         HW/XRcRxjERl+cDMu5KzyXlqCVLTAywtdN7l3r84bRmbYAFDuBK6DIu3+jysI3ra1xs1
+         V2HdoIczc8kmGA+/SddU6DWhrnEWr5D3rNfX4osYhjNQf71L20ZrdOf7nAu4bZ/oaqeB
+         AF6PWWWnTbNFU1lWR5gAgEIc7c4M6uluA6avxYsUc0D82sUV5bwa86kSeUkHoFHPepE7
+         Aqcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=0hgV92wDT2ZmcOau/wgDvn2O7fusGY5Cr61uoT+/hFU=;
+        b=YED5Sqexfr533wQL13mubPJFM1NGCYdrJC1Byms0csReIPeqi2DGPrdrk9EbDs7j+u
+         Tm2WmTLk9YUUnT6UE28tBZcJ1lwSrIyZkTe0bS970Zlm67z9q/10rLxvO9JOm8DB8g7R
+         CHrv+94IG+KH6nBJsgFmD9cEAh348R0iUZfYafIMWxyO+T03kWtIOJn7yHCc2oOHFv8k
+         0okUrZmGqc0Hk6L+KvwycVZDy6eLKQvFsS/EWFCVS4j2YDawXnZsLr5EMl/cl+7cGClI
+         QcYYzRNdofyGOr2gXF64adJ20pfh9JDYbPo4eVl8MQpj1YfOCNxUmpJwlfwOXB/XHC3H
+         52TA==
+X-Gm-Message-State: AHQUAuZydxFixjL04adI+aKWVyClIqZRosCs2m5XLG8lJ1Vaalktgfe1
+        qD14Tqn95hS3m+xJdP6kFomBWI4310Q=
+X-Google-Smtp-Source: AHgI3IYeuDp1vcysP0tH2EoKM0pCJ0lPuK4U1AEQ5YqQ5NsmTeDVAQ3HWrp6An3Et9Z/srpcijixhw==
+X-Received: by 2002:a17:902:112c:: with SMTP id d41mr5245192pla.144.1549997305108;
+        Tue, 12 Feb 2019 10:48:25 -0800 (PST)
+Received: from tower.thefacebook.com ([2620:10d:c090:200::5:4d62])
+        by smtp.gmail.com with ESMTPSA id f67sm25480102pfc.141.2019.02.12.10.48.23
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 12 Feb 2019 10:48:24 -0800 (PST)
+From:   Roman Gushchin <guroan@gmail.com>
+X-Google-Original-From: Roman Gushchin <guro@fb.com>
+To:     Tejun Heo <tj@kernel.org>, Oleg Nesterov <oleg@redhat.com>
+Cc:     kernel-team@fb.com, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Roman Gushchin <guro@fb.com>,
+        Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org
+Subject: [PATCH v7 7/7] cgroup: document cgroup v2 freezer interface
+Date:   Tue, 12 Feb 2019 10:48:07 -0800
+Message-Id: <20190212184807.20304-8-guro@fb.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190212184807.20304-1-guro@fb.com>
+References: <20190212184807.20304-1-guro@fb.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFKCwrhH5R3e5ntX0t-gxcE6zzbCNm06pzeFfYEN2K13c5WLTg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 11, 2019 at 12:32:55PM -0800, Evgenii Stepanov wrote:
-> On Mon, Feb 11, 2019 at 9:28 AM Kevin Brodsky <kevin.brodsky@arm.com> wrote:
-> > On 19/12/2018 12:52, Dave Martin wrote:
-> > > Really, the kernel should do the expected thing with all "non-weird"
-> > > memory.
-> > >
-> > > In lieu of a proper definition of "non-weird", I think we should have
-> > > some lists of things that are explicitly included, and also excluded:
-> > >
-> > > OK:
-> > >       kernel-allocated process stack
-> > >       brk area
-> > >       MAP_ANONYMOUS | MAP_PRIVATE
-> > >       MAP_PRIVATE mappings of /dev/zero
-> > >
-> > > Not OK:
-> > >       MAP_SHARED
-> > >       mmaps of non-memory-like devices
-> > >       mmaps of anything that is not a regular file
-> > >       the VDSO
-> > >       ...
-> > >
-> > > In general, userspace can tag memory that it "owns", and we do not assume
-> > > a transfer of ownership except in the "OK" list above.  Otherwise, it's
-> > > the kernel's memory, or the owner is simply not well defined.
-> >
-> > Agreed on the general idea: a process should be able to pass tagged pointers at the
-> > syscall interface, as long as they point to memory privately owned by the process. I
-> > think it would be possible to simplify the definition of "non-weird" memory by using
-> > only this "OK" list:
-> > - mmap() done by the process itself, where either:
-> >    * flags = MAP_PRIVATE | MAP_ANONYMOUS
-> >    * flags = MAP_PRIVATE and fd refers to a regular file or a well-defined list of
-> > device files (like /dev/zero)
-> > - brk() done by the process itself
-> > - Any memory mapped by the kernel in the new process's address space during execve(),
-> > with the same restrictions as above ([vdso]/[vvar] are therefore excluded)
+Describe cgroup v2 freezer interface in the cgroup v2 admin guide.
 
-Sounds reasonable.
+Signed-off-by: Roman Gushchin <guro@fb.com>
+Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
+Cc: Tejun Heo <tj@kernel.org>
+Cc: linux-doc@vger.kernel.org
+Cc: kernel-team@fb.com
+---
+ Documentation/admin-guide/cgroup-v2.rst | 27 +++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-> > >   * Userspace should set tags at the point of allocation only.
-> >
-> > Yes, tags are only supposed to be set at the point of either allocation or
-> > deallocation/reallocation. However, allocators can in principle be nested, so an
-> > allocator could  take a region allocated by malloc() as input and subdivide it
-> > (changing tags in the process). That said, this suballocator must not free() that
-> > region until all the suballocations themselves have been freed (thereby restoring the
-> > tags initially set by malloc()).
-> >
-> > >   * If you don't know how an object was allocated, you cannot modify the
-> > >     tag, period.
-> >
-> > Agreed, allocators that tag memory can only operate on memory with a well-defined
-> > provenance (for instance anonymous mmap() or malloc()).
-> >
-> > >   * A single C object should be accessed using a single, fixed pointer tag
-> > >     throughout its entire lifetime.
-> >
-> > Agreed. Allocators themselves may need to be excluded though, depending on how they
-> > represent their managed memory.
-> >
-> > >   * Tags can be changed only when there are no outstanding pointers to
-> > >     the affected object or region that may be used to access the object
-> > >     or region (i.e., if the object were allocated from the C heap and
-> > >     is it safe to realloc() it, then it is safe to change the tag; for
-> > >     other types of allocation, analogous arguments can be applied).
-> >
-> > Tags can only be changed at the point of deallocation/reallocation. Pointers to the
-> > object become invalid and cannot be used after it has been deallocated; memory
-> > tagging allows to catch such invalid usage.
-
-All the above sound well but that's mostly a guideline on what a C
-library can do. It doesn't help much with defining the kernel ABI.
-Anyway, it's good to clarify the use-cases.
-
-> > >   * When the kernel dereferences a pointer on userspace's behalf, it
-> > >     shall behave equivalently to userspace dereferencing the same pointer,
-> > >     including use of the same tag (where passed by userspace).
-> > >
-> > >   * Where the pointer tag affects pointer dereference behaviour (i.e.,
-> > >     with hardware memory colouring) the kernel makes no guarantee to
-> > >     honour pointer tags correctly for every location a buffer based on a
-> > >     pointer passed by userspace to the kernel.
-> > >
-> > >     (This means for example that for a read(fd, buf, size), we can check
-> > >     the tag for a single arbitrary location in *(char (*)[size])buf
-> > >     before passing the buffer to get_user_pages().  Hopefully this could
-> > >     be done in get_user_pages() itself rather than hunting call sites.
-> > >     For userspace, it means that you're on your own if you ask the
-> > >     kernel to operate on a buffer than spans multiple, independently-
-> > >     allocated objects, or a deliberately striped single object.)
-> >
-> > I think both points are reasonable. It is very valuable for the kernel to access
-> > userspace memory using the user-provided tag, because it enables kernel accesses to
-> > be checked in the same way as user accesses, allowing to detect bugs that are
-> > potentially hard to find. For instance, if a pointer to an object is passed to the
-> > kernel after it has been deallocated, this is invalid and should be detected.
-> > However, you are absolutely right that the kernel cannot *guarantee* that such a
-> > check is carried out for the entire memory range (or in fact at all); it should be a
-> > best-effort approach.
-> 
-> It would also be valuable to narrow down the set of "relaxed" (i.e.
-> not tag-checking) syscalls as reasonably possible. We would want to
-> provide tag-checking userspace wrappers for any important calls that
-> are not checked in the kernel. Is it correct to assume that anything
-> that goes through copy_from_user  / copy_to_user is checked?
-
-I lost track of the context of this thread but if it's just about
-relaxing the ABI for hwasan, the kernel has no idea of the compiler
-generated structures in user space, so nothing is checked.
-
-If we talk about tags in the context of MTE, than yes, with the current
-proposal the tag would be checked by copy_*_user() functions.
-
-> > >   * The kernel shall not extend the lifetime of user pointers in ways
-> > >     that are not clear from the specification of the syscall or
-> > >     interface to which the pointer is passed (and in any case shall not
-> > >     extend pointer lifetimes without good reason).
-> > >
-> > >     So no clever transparent caching between syscalls, unless it _really_
-> > >     is transparent in the presence of tags.
-> >
-> > Do you have any particular case in mind? If such caching is really valuable, it is
-> > always possible to access the object while ignoring the tag. For sure, the
-> > user-provided tag can only be used during the syscall handling itself, not
-> > asynchronously later on, unless otherwise specified.
-> 
-> For aio* operations it would be nice if the tag was checked at the
-> time of the actual userspace read/write, either instead of or in
-> addition to at the time of the system call.
-
-With aio* (and synchronous iovec-based syscalls), the kernel may access
-the memory while the corresponding user process is scheduled out. Given
-that such access is not done in the context of the user process (and
-using the user VA like copy_*_user), the kernel cannot handle potential
-tag faults. Moreover, the transfer may be done by DMA and the device
-does not understand tags.
-
-I'd like to keep tags as a property of the pointer in a specific virtual
-address space. The moment you convert it to a different address space
-(e.g. kernel linear map, physical address), the tag property is stripped
-and I don't think we should re-build it (and have it checked).
-
-> > >   * For purposes other than dereference, the kernel shall accept any
-> > >     legitimately tagged pointer (according to the above rules) as
-> > >     identifying the associated memory location.
-> > >
-> > >     So, mprotect(some_page_aligned_object, ...); is valid irrespective
-> > >     of where page_aligned_object() came from.  There is no implicit
-> > >     derefence by the kernel here, hence no tag check.
-> > >
-> > >     The kernel does not guarantee to work correctly if the wrong tag
-> > >     is used, but there is not always a well-defined "right" tag, so
-> > >     we can't really guarantee to check it.  So a pointer derived by
-> > >     any reasonable means by userspace has to be treated as equally
-> > >     valid.
-> >
-> > This is a disputed point :) In my opinion, this is the the most reasonable approach.
-> 
-> Yes, it would be nice if the kernel explicitly promised, ex.
-> mprotect() over a range of differently tagged pages to be allowed
-> (i.e. address tag should be unchecked).
-
-I don't think mprotect() over differently tagged pages was ever a
-problem. I originally asked that mprotect() and friends do not accept
-tagged pointers since these functions deal with memory ranges rather
-than dereferencing such pointer (the reason being minimal kernel
-changes). However, given how complicated it is to specify an ABI, I came
-to the conclusion that a pointer passed to such function should be
-allowed to have non-zero top byte. It would be the kernel's
-responsibility to strip it out as appropriate.
-
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 61f8bbb0a1b2..78f078ddbe9c 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -864,6 +864,8 @@ All cgroup core files are prefixed with "cgroup."
+ 	  populated
+ 		1 if the cgroup or its descendants contains any live
+ 		processes; otherwise, 0.
++	  frozen
++		1 if the cgroup is frozen; otherwise, 0.
+ 
+   cgroup.max.descendants
+ 	A read-write single value files.  The default is "max".
+@@ -897,6 +899,31 @@ All cgroup core files are prefixed with "cgroup."
+ 		A dying cgroup can consume system resources not exceeding
+ 		limits, which were active at the moment of cgroup deletion.
+ 
++  cgroup.freeze
++	A read-write single value file which exists on non-root cgroups.
++	Allowed values are "0" and "1". The default is "0".
++
++	Writing "1" to the file causes freezing of the cgroup and all
++	descendant cgroups. This means that all belonging processes will
++	be stopped and will not run until the cgroup will be explicitly
++	unfrozen. Freezing of the cgroup may take some time; when this action
++	is completed, the "frozen" value in the cgroup.events control file
++	will be updated to "1" and the corresponding notification will be
++	issued.
++
++	A cgroup can be frozen either by its own settings, or by settings
++	of any ancestor cgroups. If any of ancestor cgroups is frozen, the
++	cgroup will remain frozen.
++
++	Processes in the frozen cgroup can be killed by a fatal signal.
++	They also can enter and leave a frozen cgroup: either by an explicit
++	move by a user, or if freezing of the cgroup races with fork().
++	If a process is moved to a frozen cgroup, it stops. If a process is
++	moved out of a frozen cgroup, it becomes running.
++
++	Frozen status of a cgroup doesn't affect any cgroup tree operations:
++	it's possible to delete a frozen (and empty) cgroup, as well as
++	create new sub-cgroups.
+ 
+ Controllers
+ ===========
 -- 
-Catalin
+2.20.1
+
