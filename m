@@ -1,81 +1,166 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D28AF7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Feb 2019 17:11:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BC5F87D913
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Feb 2019 17:43:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732309AbfBMRLt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Feb 2019 12:11:49 -0500
-Received: from newman.cs.utexas.edu ([128.83.139.110]:34279 "EHLO
-        newman.cs.utexas.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729760AbfBMRLs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Feb 2019 12:11:48 -0500
-X-Greylist: delayed 312 seconds by postgrey-1.27 at vger.kernel.org; Wed, 13 Feb 2019 12:11:47 EST
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
-        (authenticated bits=0)
-        by newman.cs.utexas.edu (8.14.4/8.14.4/Debian-4.1ubuntu1.1) with ESMTP id x1DH6XfJ012475
-        (version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-        Wed, 13 Feb 2019 11:06:34 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cs.utexas.edu;
-        s=default; t=1550077594;
-        bh=1QlJIQtxfwERiZJ9qKHWBnmsxzTVuktds1zC4B3Ikbw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=hB+AZ69uLzElebAz33e+QGcOZ6tyD4xnbZisydJYv2Md+gK/m52P8FmhKjrL4BCSb
-         gK/D4fTDMViZA0DOYnMvhs581b6XTyxvRxfN4TmozCKZGzigG1gQ9khdraE0D4oihj
-         yBE9DS+h15NftAcz7TXhJLfC2mgqX5B90nzHysPw=
-Received: by mail-ua1-f54.google.com with SMTP id s15so1020105uap.6;
-        Wed, 13 Feb 2019 09:06:33 -0800 (PST)
-X-Gm-Message-State: AHQUAua8UPQJc4TUmJRZbMZUNi/X/wd7YVFMp/PSRdfPhffKBHHhfcuq
-        NEw1ZmKNQ/DEkQHTAFPYQUwndWbc7B3T70cUl2g=
-X-Google-Smtp-Source: AHgI3IZ9gpJ+Cu7Ep/pik8G8wTdvsH8LZfvSTy6yttAx2xTkOV9mEzIUZJfItn76mTkE8OoPrqphfk8VK1y/OmogGxI=
-X-Received: by 2002:ab0:3259:: with SMTP id r25mr592923uan.108.1550077593352;
- Wed, 13 Feb 2019 09:06:33 -0800 (PST)
+        id S2389886AbfBMRn1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Feb 2019 12:43:27 -0500
+Received: from foss.arm.com ([217.140.101.70]:58118 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730494AbfBMRn1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 13 Feb 2019 12:43:27 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 098A6A78;
+        Wed, 13 Feb 2019 09:43:27 -0800 (PST)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2F30E3F675;
+        Wed, 13 Feb 2019 09:43:22 -0800 (PST)
+Date:   Wed, 13 Feb 2019 17:43:19 +0000
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Kevin Brodsky <kevin.brodsky@arm.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Branislav Rankov <Branislav.Rankov@arm.com>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Re: [RFC][PATCH 0/3] arm64 relaxed ABI
+Message-ID: <20190213174318.GM3567@e103592.cambridge.arm.com>
+References: <CAAeHK+xPZ-Z9YUAq=3+hbjj4uyJk32qVaxZkhcSAHYC4mHAkvQ@mail.gmail.com>
+ <20181212150230.GH65138@arrakis.emea.arm.com>
+ <CAAeHK+zxYJDJ7DJuDAOuOMgGvckFwMAoVUTDJzb6MX3WsXhRTQ@mail.gmail.com>
+ <20181218175938.GD20197@arrakis.emea.arm.com>
+ <20181219125249.GB22067@e103592.cambridge.arm.com>
+ <9bbacb1b-6237-f0bb-9bec-b4cf8d42bfc5@arm.com>
+ <CAFKCwrhH5R3e5ntX0t-gxcE6zzbCNm06pzeFfYEN2K13c5WLTg@mail.gmail.com>
+ <20190212180223.GD199333@arrakis.emea.arm.com>
+ <20190213145834.GJ3567@e103592.cambridge.arm.com>
+ <90c54249-00dd-f8dd-6873-6bb8615c2c8a@arm.com>
 MIME-Version: 1.0
-References: <CA+EzBbDyoPF8=mZyG8HQAoHTm4h4MSCe=5WX_SBqRwPej=4uFg@mail.gmail.com>
- <CAOQ4uxh7OayzbGFk0cxoZf_t9jGxesv9k6zPPOA=+5MDsqWOzA@mail.gmail.com>
-In-Reply-To: <CAOQ4uxh7OayzbGFk0cxoZf_t9jGxesv9k6zPPOA=+5MDsqWOzA@mail.gmail.com>
-From:   Jayashree Mohan <jaya@cs.utexas.edu>
-Date:   Wed, 13 Feb 2019 11:06:23 -0600
-X-Gmail-Original-Message-ID: <CA+EzBbC5c-O0ZBuC+UaL7Ftp2Vh8K8d46_6HTBWetY2Otd=tiA@mail.gmail.com>
-Message-ID: <CA+EzBbC5c-O0ZBuC+UaL7Ftp2Vh8K8d46_6HTBWetY2Otd=tiA@mail.gmail.com>
-Subject: Re: Documenting the crash consistency guarantees of file systems
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     fstests <fstests@vger.kernel.org>, "Theodore Ts'o" <tytso@mit.edu>,
-        Filipe Manana <fdmanana@gmail.com>,
-        Dave Chinner <david@fromorbit.com>, Chris Mason <clm@fb.com>,
-        Vijaychidambaram Velayudhan Pillai <vijay@cs.utexas.edu>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.3.9 (newman.cs.utexas.edu [128.83.139.110]); Wed, 13 Feb 2019 11:06:34 -0600 (CST)
-X-Virus-Scanned: clamav-milter 0.98.7 at newman
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <90c54249-00dd-f8dd-6873-6bb8615c2c8a@arm.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Amir!
+On Wed, Feb 13, 2019 at 04:42:11PM +0000, Kevin Brodsky wrote:
+> (+Cc other people with MTE experience: Branislav, Ruben)
 
-Thanks for putting across your thoughts on this. Your suggestions
-definitely make sense, and we'll compile these information and submit
-a patch for review.
+[...]
 
-When it comes to strictly ordered metadata consistency, to the best of
-our knowledge only xfs claims to provide it explicitly. In ext4,
-delayed allocation and fsync of a file not persisting all its hard
-links[1] are examples of violation to the strictly ordered metadata
-consistency right? And for btrfs, they don't seem to explicit about
-providing such semantics. Look at this thread[2] for example, owing to
-the lack of specification, btrfs does not commit to providing such
-guarantees.
+> >I'm wondering whether we can piggy-back on existing concepts.
+> >
+> >We could say that recolouring memory is safe when and only when
+> >unmapping of the page or removing permissions on the page (via
+> >munmap/mremap/mprotect) would be safe.  Otherwise, the resulting
+> >behaviour of the process is undefined.
+> 
+> Is that a sufficient requirement? I don't think that anything prevents you
+> from using mprotect() on say [vvar], but we don't necessarily want to map
+> [vvar] as tagged. I'm not sure it's easy to define what "safe" would mean
+> here.
 
-Thanks,
-Jayashree
+I think the origin rules have to apply too: [vvar] is not a regular,
+private page but a weird, shared thing mapped for you by the kernel.
 
-[1] https://www.spinics.net/lists/linux-btrfs/msg77340.html
-[2] https://www.spinics.net/lists/linux-btrfs/msg76957.html
+Presumably userspace _cannot_ do mprotect(PROT_WRITE) on it.
+
+I'm also assuming that userspace cannot recolour memory in read-only
+pages.  That sounds bad if there's no way to prevent it.
+
+[...]
+
+> >It might be reasonable to do the check in access_ok() and skip it in
+> >__put_user() etc.
+> >
+> >(I seem to remember some separate discussion about abolishing
+> >__put_user() and friends though, due to the accident risk they pose.)
+> 
+> Keep in mind that with MTE, there is no need to do any explicit check when
+> accessing user memory via a user-provided pointer. The tagged user pointer
+> is directly passed to copy_*_user() or put_user(). If the load/store causes
+> a tag fault, then it is handled just like a page fault (i.e. invoking the
+> fixup handler). As far as I can tell, there's no need to do anything special
+> in access_ok() in that case.
+> 
+> [The above applies to precise mode. In imprecise mode, some more work will
+> be needed after the load/store to check whether a tag fault happened.]
+
+Fair enough, I'm a bit hazy on the details as of right now..
+
+[...]
+
+> There are many possible ways to deploy MTE, and debugging is just one of
+> them. For instance, you may want to turn on heap colouring for some
+> processes in the system, including in production.
+
+To implement enforceable protection, or as a diagnostic tool for when
+something goes wrong?
+
+In the latter case it's still OK for the kernel's tag checking not to be
+exhaustive.
+
+> Regarding those cases where it is impossible to check tags at the point of
+> accessing user memory, it is indeed possible to check the memory tags at the
+> point of stripping the tag from the user pointer. Given that some MTE
+> use-cases favour performance over tag check coverage, the ideal approach
+> would be to make these checks configurable (e.g. check one granule, check
+> all of them, or check none). I don't know how feasible this is in practice.
+
+Check all granules of a massive DMA buffer?
+
+That doesn't sounds feasible without explicit support in the hardware to
+have the DMA check tags itself as the memory is accessed.  MTE by itself
+doesn't provide for this IIUC (at least, it would require support in the
+platform, not just the CPU).
+
+We do not want to bake any assumptions into the ABI about whether a
+given data transfer may or may not be offloaded to DMA.  That feels
+like a slippery slope.
+
+Providing we get the checks for free in put_user/get_user/
+copy_{to,from}_user(), those will cover a lot of cases though, for
+non-bulk-IO cases.
+
+
+My assumption has been that at this point in time we are mainly aiming
+to support the debug/diagnostic use cases today.
+
+At least, those are the low(ish)-hanging fruit.
+
+Others are better placed than me to comment on the goals here.
+
+Cheers
+---Dave
