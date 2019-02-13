@@ -5,150 +5,149 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 42D5A7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Feb 2019 13:51:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2D47E7D099
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Feb 2019 14:07:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732753AbfBMNvj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Feb 2019 08:51:39 -0500
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:39721 "EHLO
+        id S2391613AbfBMOHe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Feb 2019 09:07:34 -0500
+Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:50134 "EHLO
         smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727452AbfBMNvi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Feb 2019 08:51:38 -0500
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07513279|-1;CH=green;FP=0|0|0|0|0|-1|-1|-1;HT=e01l07426;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=16;RT=16;SR=0;TI=SMTPD_---.Dy6Id.T_1550065891;
-Received: from 172.16.10.102(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.Dy6Id.T_1550065891)
-          by smtp.aliyun-inc.com(10.147.43.230);
-          Wed, 13 Feb 2019 21:51:32 +0800
+        by vger.kernel.org with ESMTP id S2391585AbfBMOHd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Feb 2019 09:07:33 -0500
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.06712975|-1;CH=green;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03307;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=16;RT=16;SR=0;TI=SMTPD_---.Dy6iQiS_1550066841;
+Received: from PC-liaoweixiong.allwinnertech.com(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.Dy6iQiS_1550066841)
+          by smtp.aliyun-inc.com(10.147.40.233);
+          Wed, 13 Feb 2019 22:07:27 +0800
 From:   liaoweixiong <liaoweixiong@allwinnertech.com>
-Subject: Re: [RFC v7 2/5] dt-bindings: pstore-block: new support for blkoops
-To:     Rob Herring <robh@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>,
+To:     Kees Cook <keescook@chromium.org>,
         Anton Vorontsov <anton@enomsg.org>,
         Colin Cross <ccross@android.com>,
         Tony Luck <tony.luck@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
+        liaoweixiong <liaoweixiong@allwinnertech.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "David S. Miller" <davem@davemloft.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <1548245116-6360-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1548245116-6360-3-git-send-email-liaoweixiong@allwinnertech.com>
- <20190130160707.GA31844@bogus>
-Message-ID: <ab72f73d-b7ea-4688-f768-509d55964be0@allwinnertech.com>
-Date:   Wed, 13 Feb 2019 21:52:02 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20190130160707.GA31844@bogus>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [RFC v8 0/5] pstore/block: new support logger for block devices
+Date:   Wed, 13 Feb 2019 22:07:03 +0800
+Message-Id: <1550066828-18806-1-git-send-email-liaoweixiong@allwinnertech.com>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Why should we need pstore_block?
+1. Most embedded intelligent equipment have no persistent ram, which
+increases costs. We perfer to cheaper solutions, like block devices.
+In fast, there is already a sample for block device logger in driver
+MTD (drivers/mtd/mtdoops.c).
+2. Do not any equipment have battery, which means that it lost all data
+on general ram if power failure. Pstore has little to do for these
+equipments.
 
-On 2019-01-31 00:07, Rob Herring wrote:> On Wed, Jan 23, 2019 at
-08:05:13PM +0800, liaoweixiong wrote:
->> Create DT binding document for blkoops.
->>
->> Signed-off-by: liaoweixiong <liaoweixiong@allwinnertech.com>
->> ---
->>  .../devicetree/bindings/pstore-block/blkoops.txt   | 32 ++++++++++++++++++++++
-> 
-> /bindings/pstore/...
-> 
-> I wouldn't call it blkoops either. I believe ramoops is called that to 
-> maintain compatibility keeping the same kernel module name that 
-> preceeded pstore.
-> 
+[PATCH v8]
+On patch 2:
+1. move DT to /bindings/pstore
+2. Delete details for kernel.
 
-Fixed.
+[PATCH v7]
+On patch 1:
+1. Fix line over 80 characters.
+On patch 2:
+1. Insert a separate patch for DT bindings.
 
-In addition, I don't known whether should we move
-ramreserved-memory/ooos.txt to /bindings/pstore. This is for maintainer
-to decide, and do it on other patch.
+[PATCH v6]
+On patch 1:
+1. Fix according to email from Kees Cook, including spelling mistakes,
+   explicit overflow test, none of the zeroing etc.
+2. Do not recover data but metadata of dmesg when panic.
+3. No need to take recovery when do erase.
+4. Do not use "blkoops" for blkzone any more because "blkoops" is used for
+   other module now. (rename blkbuf to blkoops)
+On patch 2:
+1. Rename blkbuf to blkoops.
+2. Add Kconfig/device tree/module parameters settings for blkoops.
+3. Add document for device tree.
+On patch 3:
+1. Blkoops support pmsg.
+2. Fix description for new version patch.
+On patch 4:
+1. Fix description for new version patch.
 
->>  MAINTAINERS                                        |  1 +
->>  2 files changed, 33 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/pstore-block/blkoops.txt
->>
->> diff --git a/Documentation/devicetree/bindings/pstore-block/blkoops.txt b/Documentation/devicetree/bindings/pstore-block/blkoops.txt
->> new file mode 100644
->> index 0000000..a25835b
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/pstore-block/blkoops.txt
->> @@ -0,0 +1,32 @@
->> +Blkoops oops logger
->> +===================
->> +
->> +Blkoops provides a block partition for oops, excluding panics now, so they can
->> +be recovered after a reboot.
->> +
->> +Any space of block partition will be used for a circular buffer of oops records.
->> +These records have a configurable size, with a size of 0 indicating that they
->> +should be disabled.
->> +
->> +"partition-size" and at least one of "dmesg-size" or "pmsg-size" must be set
->> +non-zero, but are otherwise optional as listed below.
->> +
->> +Blkoops will take value from Kconfig if device tree do not set, but settings
->> +from module parameters can also overwrite them.
-> 
-> That's all kernel details not relevant to the binidng.
-> 
+[PATCH v5]
+On patch 1:
+1. rename pstore/rom to pstore/blk
+2. Do not allocate any memory in the write path of panic. So, use local
+array instead in function romz_recover_dmesg_meta.
+3. Add C header file "linux/fs.h" to fix implicit declaration of function
+   'filp_open','kernel_read'...
+On patch 3:
+1. If panic, do not recover pmsg but flush if it is dirty.
+2. Fix erase pmsg failed.
+On patch 4:
+1. Create a document for pstore/blk
 
-Deleted.
+[PATCH v4]
+On patch 1:
+1. Fix always true condition '(--i >= 0) => (0-u32max >= 0)' in function
+   romz_init_zones by defining variable i to 'int' rahter than
+   'unsigned int'.
+2. To make codes more easily to read, we use macro READ_NEXT_ZONE for
+   return value of romz_dmesg_read if it need to read next zone.
+   Moveover, we assign READ_NEXT_ZONE -1024 rather than 0.
+3. Add 'FLUSH_META' to 'enum romz_flush_mode' and rename 'NOT_FLUSH' to
+   'FLUSH_NONE'
+4. Function romz_zone_write work badly with FLUSH_PART mode as badly
+   address and offset to write.
+On patch 3:
+NEW SUPPORT psmg for pstore_rom.
 
->> +
->> +Required properties:
->> +
->> +- compatible: must be "blkoops".
->> +
->> +- partition-size: size in kbytes, must be a multiple of 4.
-> 
-> This seems unnecessary given a partition has a known size.
-> 
+[PATCH v3]
+On patch 1:
+Fix build as module error for undefined 'vfs_read' and 'vfs_write'
+Both of 'vfs_read' and 'vfs_write' haven't be exproted yet, so we use
+'kernel_read' and 'kernel_write' instead.
 
-partition-size is necessary for psotre/blk. User should tell pstore/blk
-how large space can it use.
+[PATCH v2]
+On patch 1:
+Fix build as module error for redefinition of 'romz_unregister' and
+'romz_register'
 
->> +
->> +Optional properties:
->> +
->> +- partition-path: strings must begin with "/dev", tell blkoops which partition
->> +  it can used. If it is not set, blkoops will drop all data when reboot.
-> 
-> No. '/dev/...' is a Linux thing and doesn't belong in DT.
-> 
-> You should define a partition UUID and/or label and the kernel can find 
-> the right partition to use.
-> 
+[PATCH v1]
+On patch 1:
+Core codes of pstore_rom, which works well on allwinner(sunxi) platform.
+On patch 2:
+A sample for pstore_rom, using general ram rather than block device.
 
-pstore/blk do general read/write by filp_open/kernel_read/kernel_write,
-which need device path.
-In addition, i have no idea how to use UUID and/or label to do general
-read/write on kernel layer, can you give me a tip?
+liaoweixiong (5):
+  pstore/blk: new support logger for block devices
+  dt-bindings: pstore-block: new support for blkoops
+  pstore/blk: add blkoops for pstore_blk
+  pstore/blk: support pmsg for pstore block
+  Documentation: pstore/blk: create document for pstore_blk
 
->> +
->> +- dmesg-size: maximum size in kbytes of each dump done on oops, which must be a
->> +  multiple of 4.
->> +
->> +- pmsg-size: maximum size in kbytes for userspace messages, which must be a
->> +  multiple of 4.
-> 
-> Common properties shared with ramoops should be in a common doc.
-> 
-
-The size limit are different. Size for ramoops must be power of 2, but
-be a multiple of 4k for pstore/blk.
-
-> Rob
-> 
+ Documentation/admin-guide/pstore-block.rst         |  227 ++++
+ .../devicetree/bindings/pstore/blkoops.txt         |   29 +
+ MAINTAINERS                                        |    4 +-
+ fs/pstore/Kconfig                                  |  128 +++
+ fs/pstore/Makefile                                 |    5 +
+ fs/pstore/blkoops.c                                |  250 +++++
+ fs/pstore/blkzone.c                                | 1164 ++++++++++++++++++++
+ include/linux/pstore_blk.h                         |   62 ++
+ 8 files changed, 1868 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/admin-guide/pstore-block.rst
+ create mode 100644 Documentation/devicetree/bindings/pstore/blkoops.txt
+ create mode 100644 fs/pstore/blkoops.c
+ create mode 100644 fs/pstore/blkzone.c
+ create mode 100644 include/linux/pstore_blk.h
 
 -- 
-liaoweixiong
+1.9.1
+
