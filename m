@@ -1,166 +1,112 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BC5F87D913
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Feb 2019 17:43:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 04EF67D912
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Feb 2019 18:23:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389886AbfBMRn1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Feb 2019 12:43:27 -0500
-Received: from foss.arm.com ([217.140.101.70]:58118 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730494AbfBMRn1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 13 Feb 2019 12:43:27 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 098A6A78;
-        Wed, 13 Feb 2019 09:43:27 -0800 (PST)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2F30E3F675;
-        Wed, 13 Feb 2019 09:43:22 -0800 (PST)
-Date:   Wed, 13 Feb 2019 17:43:19 +0000
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Kevin Brodsky <kevin.brodsky@arm.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Kostya Serebryany <kcc@google.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Branislav Rankov <Branislav.Rankov@arm.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: Re: [RFC][PATCH 0/3] arm64 relaxed ABI
-Message-ID: <20190213174318.GM3567@e103592.cambridge.arm.com>
-References: <CAAeHK+xPZ-Z9YUAq=3+hbjj4uyJk32qVaxZkhcSAHYC4mHAkvQ@mail.gmail.com>
- <20181212150230.GH65138@arrakis.emea.arm.com>
- <CAAeHK+zxYJDJ7DJuDAOuOMgGvckFwMAoVUTDJzb6MX3WsXhRTQ@mail.gmail.com>
- <20181218175938.GD20197@arrakis.emea.arm.com>
- <20181219125249.GB22067@e103592.cambridge.arm.com>
- <9bbacb1b-6237-f0bb-9bec-b4cf8d42bfc5@arm.com>
- <CAFKCwrhH5R3e5ntX0t-gxcE6zzbCNm06pzeFfYEN2K13c5WLTg@mail.gmail.com>
- <20190212180223.GD199333@arrakis.emea.arm.com>
- <20190213145834.GJ3567@e103592.cambridge.arm.com>
- <90c54249-00dd-f8dd-6873-6bb8615c2c8a@arm.com>
+        id S1729458AbfBMSW0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Feb 2019 13:22:26 -0500
+Received: from mail-yw1-f45.google.com ([209.85.161.45]:44672 "EHLO
+        mail-yw1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728875AbfBMSW0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Feb 2019 13:22:26 -0500
+Received: by mail-yw1-f45.google.com with SMTP id x21so1260082ywx.11;
+        Wed, 13 Feb 2019 10:22:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Dg3RdrX+6wa29rJnwRD1inxjW4WOCRgTGsRiDy4Ng9c=;
+        b=NuHsL9KcvErT3WBt4KXyotmjlW7RA+xy+sqeZMZ7mwc1KxMpeuTp3wUGmVwFzQR0uw
+         Jzenl1iH69I2K957dlQ9fp48fb3W/l53KBnG56u1lD/Z1O2edcFRl6U2hIepzGfZAaPv
+         6YyBDLWtYtUZR+X62BAI3NYjjmyUZ6v3ZK+N6hTKNynIpHnJ7UHiMkC40B6A4WD/4DPI
+         w/PWGEOj0g90sWz3MLhyGUIUpGJLBdMtRaRGUD4E+UC4hRPAXqOs2AKJD1s/Fqk9AsTF
+         lihignpO9p6v5LGpC54uMLreZqJDTbP5KFgoJQ6dLFEgNjoZ+cWF0oy0GyRVv2VkZt/o
+         fnxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Dg3RdrX+6wa29rJnwRD1inxjW4WOCRgTGsRiDy4Ng9c=;
+        b=gKm41WeYB38MzYTX1DSbLODoUWe8x/njL3xbxGFvxN6ubcn0b+xpi3ElNEDoU6s9pc
+         oc8/FXDJVADAxzeQasKsLsiJSCuaRB1WOOh+rDI2zMuz4KIpf3JVx/qj+sLu24fGt22S
+         oXD4Q0g4zwMp/2FANHZF/au0/FzduV6xkCYBD9+aDDewFQ5wfLC4JzcurM5JpfhSI0PX
+         +L5MdBmApSN0FuJxAzU8HCVInj45fKWErxcyepeytdgiGBpns+6zJwrYZkAfz5ID2n82
+         9gBptYBE7PVdDpItLCWByAGOb3lod3NiHvJauuJIYV2HFJpp0I5sFRmE54f/IgApuLGv
+         yeDQ==
+X-Gm-Message-State: AHQUAuarLeBMV/04t+AI0/dRpW82XtzgAK7xC93nF4nOmL5MpbaP/Q94
+        wp4jq2ENBje6foJagrozlMtXUc72eLFL+vJDFlE=
+X-Google-Smtp-Source: AHgI3Iac7yYgZTCP0I9ogeVU0fH9DXbbmgQ8zOTY0qasRz1ct6iCERWIRwlinMtBc8jQ9muc5TLoFe4BEOWnjZ/yL6k=
+X-Received: by 2002:a81:5509:: with SMTP id j9mr5937704ywb.409.1550082144799;
+ Wed, 13 Feb 2019 10:22:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <90c54249-00dd-f8dd-6873-6bb8615c2c8a@arm.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+References: <CA+EzBbDyoPF8=mZyG8HQAoHTm4h4MSCe=5WX_SBqRwPej=4uFg@mail.gmail.com>
+ <CAOQ4uxh7OayzbGFk0cxoZf_t9jGxesv9k6zPPOA=+5MDsqWOzA@mail.gmail.com> <CA+EzBbC5c-O0ZBuC+UaL7Ftp2Vh8K8d46_6HTBWetY2Otd=tiA@mail.gmail.com>
+In-Reply-To: <CA+EzBbC5c-O0ZBuC+UaL7Ftp2Vh8K8d46_6HTBWetY2Otd=tiA@mail.gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Wed, 13 Feb 2019 20:22:13 +0200
+Message-ID: <CAOQ4uxi=riQHbaaBxK64SdWdQ1bbHPrPTyXaoOrinG1zggK5gQ@mail.gmail.com>
+Subject: Re: Documenting the crash consistency guarantees of file systems
+To:     Jayashree Mohan <jaya@cs.utexas.edu>
+Cc:     fstests <fstests@vger.kernel.org>, "Theodore Ts'o" <tytso@mit.edu>,
+        Filipe Manana <fdmanana@gmail.com>,
+        Dave Chinner <david@fromorbit.com>, Chris Mason <clm@fb.com>,
+        Vijaychidambaram Velayudhan Pillai <vijay@cs.utexas.edu>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 13, 2019 at 04:42:11PM +0000, Kevin Brodsky wrote:
-> (+Cc other people with MTE experience: Branislav, Ruben)
+On Wed, Feb 13, 2019 at 7:06 PM Jayashree Mohan <jaya@cs.utexas.edu> wrote:
+>
+> Hi Amir!
+>
+> Thanks for putting across your thoughts on this. Your suggestions
+> definitely make sense, and we'll compile these information and submit
+> a patch for review.
+>
+> When it comes to strictly ordered metadata consistency, to the best of
+> our knowledge only xfs claims to provide it explicitly. In ext4,
+> delayed allocation and fsync of a file not persisting all its hard
+> links[1] are examples of violation to the strictly ordered metadata
+> consistency right?
 
-[...]
+No, I don't think they are.
+At least that is not how understand what Ted wrote.
 
-> >I'm wondering whether we can piggy-back on existing concepts.
-> >
-> >We could say that recolouring memory is safe when and only when
-> >unmapping of the page or removing permissions on the page (via
-> >munmap/mremap/mprotect) would be safe.  Otherwise, the resulting
-> >behaviour of the process is undefined.
-> 
-> Is that a sufficient requirement? I don't think that anything prevents you
-> from using mprotect() on say [vvar], but we don't necessarily want to map
-> [vvar] as tagged. I'm not sure it's easy to define what "safe" would mean
-> here.
+> And for btrfs, they don't seem to explicit about
+> providing such semantics. Look at this thread[2] for example, owing to
+> the lack of specification, btrfs does not commit to providing such
+> guarantees.
 
-I think the origin rules have to apply too: [vvar] is not a regular,
-private page but a weird, shared thing mapped for you by the kernel.
+The discussion is not about ordered metadata, is it about what
+fsync(file) should do. They are related if we decide that fsync(file)
+should persist nlink, but I think all fs maintainers are in agreement
+that it doesn't matter and btrfs choice is as valid as ext4/xfs choice.
 
-Presumably userspace _cannot_ do mprotect(PROT_WRITE) on it.
+That said, I don't know if btrfs does strictly ordered metadata or not.
+Order metadata means if user does op A then op B, you should not be
+able to see consequence of op B after crash without seeing the
+consequence of op A.
 
-I'm also assuming that userspace cannot recolour memory in read-only
-pages.  That sounds bad if there's no way to prevent it.
+Can you give a counter example for btrfs? for ext4?
 
-[...]
+The different fsync() guaranties in different filesystems confuse you
+because if you expect fsync() to persist op B, then you expect op A
+to persist as well, but it may be the former (fsync) expectation that is
+failing and not the latter (ordered).
 
-> >It might be reasonable to do the check in access_ok() and skip it in
-> >__put_user() etc.
-> >
-> >(I seem to remember some separate discussion about abolishing
-> >__put_user() and friends though, due to the accident risk they pose.)
-> 
-> Keep in mind that with MTE, there is no need to do any explicit check when
-> accessing user memory via a user-provided pointer. The tagged user pointer
-> is directly passed to copy_*_user() or put_user(). If the load/store causes
-> a tag fault, then it is handled just like a page fault (i.e. invoking the
-> fixup handler). As far as I can tell, there's no need to do anything special
-> in access_ok() in that case.
-> 
-> [The above applies to precise mode. In imprecise mode, some more work will
-> be needed after the load/store to check whether a tag fault happened.]
+Thanks,
+Amir.
 
-Fair enough, I'm a bit hazy on the details as of right now..
-
-[...]
-
-> There are many possible ways to deploy MTE, and debugging is just one of
-> them. For instance, you may want to turn on heap colouring for some
-> processes in the system, including in production.
-
-To implement enforceable protection, or as a diagnostic tool for when
-something goes wrong?
-
-In the latter case it's still OK for the kernel's tag checking not to be
-exhaustive.
-
-> Regarding those cases where it is impossible to check tags at the point of
-> accessing user memory, it is indeed possible to check the memory tags at the
-> point of stripping the tag from the user pointer. Given that some MTE
-> use-cases favour performance over tag check coverage, the ideal approach
-> would be to make these checks configurable (e.g. check one granule, check
-> all of them, or check none). I don't know how feasible this is in practice.
-
-Check all granules of a massive DMA buffer?
-
-That doesn't sounds feasible without explicit support in the hardware to
-have the DMA check tags itself as the memory is accessed.  MTE by itself
-doesn't provide for this IIUC (at least, it would require support in the
-platform, not just the CPU).
-
-We do not want to bake any assumptions into the ABI about whether a
-given data transfer may or may not be offloaded to DMA.  That feels
-like a slippery slope.
-
-Providing we get the checks for free in put_user/get_user/
-copy_{to,from}_user(), those will cover a lot of cases though, for
-non-bulk-IO cases.
-
-
-My assumption has been that at this point in time we are mainly aiming
-to support the debug/diagnostic use cases today.
-
-At least, those are the low(ish)-hanging fruit.
-
-Others are better placed than me to comment on the goals here.
-
-Cheers
----Dave
+>
+> [1] https://www.spinics.net/lists/linux-btrfs/msg77340.html
+> [2] https://www.spinics.net/lists/linux-btrfs/msg76957.html
