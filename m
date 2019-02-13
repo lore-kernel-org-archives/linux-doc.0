@@ -2,459 +2,208 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 821B57D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Feb 2019 14:08:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D59647D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Feb 2019 14:58:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391713AbfBMOHr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Feb 2019 09:07:47 -0500
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:32788 "EHLO
-        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2391646AbfBMOHr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Feb 2019 09:07:47 -0500
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.06712966|-1;CH=green;FP=0|0|0|0|0|-1|-1|-1;HT=e01a16384;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=16;RT=16;SR=0;TI=SMTPD_---.Dy6iQiS_1550066841;
-Received: from PC-liaoweixiong.allwinnertech.com(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.Dy6iQiS_1550066841)
-          by smtp.aliyun-inc.com(10.147.40.233);
-          Wed, 13 Feb 2019 22:07:38 +0800
-From:   liaoweixiong <liaoweixiong@allwinnertech.com>
-To:     Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
+        id S2403990AbfBMO6p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Feb 2019 09:58:45 -0500
+Received: from foss.arm.com ([217.140.101.70]:55676 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728298AbfBMO6p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 13 Feb 2019 09:58:45 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BDAAD80D;
+        Wed, 13 Feb 2019 06:58:44 -0800 (PST)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 145323F589;
+        Wed, 13 Feb 2019 06:58:39 -0800 (PST)
+Date:   Wed, 13 Feb 2019 14:58:37 +0000
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Evgenii Stepanov <eugenis@google.com>,
         Mark Rutland <mark.rutland@arm.com>,
-        liaoweixiong <liaoweixiong@allwinnertech.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: [RFC v8 3/5] pstore/blk: add blkoops for pstore_blk
-Date:   Wed, 13 Feb 2019 22:07:06 +0800
-Message-Id: <1550066828-18806-4-git-send-email-liaoweixiong@allwinnertech.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1550066828-18806-1-git-send-email-liaoweixiong@allwinnertech.com>
-References: <1550066828-18806-1-git-send-email-liaoweixiong@allwinnertech.com>
+        LKML <linux-kernel@vger.kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [RFC][PATCH 0/3] arm64 relaxed ABI
+Message-ID: <20190213145834.GJ3567@e103592.cambridge.arm.com>
+References: <cover.1544445454.git.andreyknvl@google.com>
+ <20181210143044.12714-1-vincenzo.frascino@arm.com>
+ <CAAeHK+xPZ-Z9YUAq=3+hbjj4uyJk32qVaxZkhcSAHYC4mHAkvQ@mail.gmail.com>
+ <20181212150230.GH65138@arrakis.emea.arm.com>
+ <CAAeHK+zxYJDJ7DJuDAOuOMgGvckFwMAoVUTDJzb6MX3WsXhRTQ@mail.gmail.com>
+ <20181218175938.GD20197@arrakis.emea.arm.com>
+ <20181219125249.GB22067@e103592.cambridge.arm.com>
+ <9bbacb1b-6237-f0bb-9bec-b4cf8d42bfc5@arm.com>
+ <CAFKCwrhH5R3e5ntX0t-gxcE6zzbCNm06pzeFfYEN2K13c5WLTg@mail.gmail.com>
+ <20190212180223.GD199333@arrakis.emea.arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190212180223.GD199333@arrakis.emea.arm.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-blkoops is a sample for pstore/blk. It can only record oops, excluding
-panics as no read/write apis for panic registered. It support settings
-on Kconfg/device tree/module parameters. It can record oops log even
-power failure if "PSTORE_BLKOOPS_PART_PATH" on Kconfig or
-"partition-path" on dts or "part_path" on module parameter is valid.
-Otherwise, it can only record data to ram buffer, which will be dropped
-when reboot.
+On Tue, Feb 12, 2019 at 06:02:24PM +0000, Catalin Marinas wrote:
+> On Mon, Feb 11, 2019 at 12:32:55PM -0800, Evgenii Stepanov wrote:
+> > On Mon, Feb 11, 2019 at 9:28 AM Kevin Brodsky <kevin.brodsky@arm.com> wrote:
+> > > On 19/12/2018 12:52, Dave Martin wrote:
 
-Signed-off-by: liaoweixiong <liaoweixiong@allwinnertech.com>
----
- MAINTAINERS         |   2 +-
- fs/pstore/Kconfig   | 117 +++++++++++++++++++++++++
- fs/pstore/Makefile  |   2 +
- fs/pstore/blkoops.c | 239 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 359 insertions(+), 1 deletion(-)
- create mode 100644 fs/pstore/blkoops.c
+[...]
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f49dd37..44647a8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12319,7 +12319,7 @@ F:	drivers/acpi/apei/erst.c
- F:	Documentation/admin-guide/ramoops.rst
- F:	Documentation/devicetree/bindings/reserved-memory/ramoops.txt
- F:	Documentation/devicetree/bindings/pstore-block/
--K:	\b(pstore|ramoops)
-+K:	\b(pstore|ramoops|blkoops)
- 
- PTP HARDWARE CLOCK SUPPORT
- M:	Richard Cochran <richardcochran@gmail.com>
-diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
-index a881c53..f0a1a49 100644
---- a/fs/pstore/Kconfig
-+++ b/fs/pstore/Kconfig
-@@ -159,3 +159,120 @@ config PSTORE_BLK
- 	help
- 	  This enables panic and oops message to be logged to a block dev
- 	  where it can be read back at some later point.
-+
-+config PSTORE_BLKOOPS
-+	tristate "pstore block with oops logger"
-+	depends on PSTORE_BLK
-+	help
-+	  This is a sample for pstore block with oops logger.
-+
-+	  It CANNOT record panic log as no read/write apis for panic registered.
-+
-+	  It CAN record oops log even power failure if
-+	  "PSTORE_BLKOOPS_PART_PATH" on Kconfig or "partition-path" on dts or
-+	  "part_path" on module parameter is valid.
-+
-+	  Otherwise, it can only record data to ram buffer, which will be
-+	  dropped when reboot.
-+
-+	  NOTE that, there are three ways to set parameters of blkoops and
-+	  prioritize according to configuration flexibility. That is
-+	  Kconfig < device tree < module parameters. It means that the value can
-+	  be overwritten by higher priority settings.
-+	  1. Kconfig
-+	     It	just sets a default value.
-+	  2. device tree
-+	     It is set on device tree, which will overwrites value from Kconfig,
-+	     but can also be overwritten by module parameters.
-+	  3. module parameters
-+	     It is the first priority. Take care of that blkoops will take lower
-+	     priority settings if higher priority one do not set.
-+
-+config PSTORE_BLKOOPS_DMESG_SIZE
-+	int "dmesg_size in kbytes for blkoops"
-+	depends on PSTORE_BLKOOPS
-+	default 64
-+	help
-+	  This just sets size of dmesg (dmesg_size) for pstore/blk. The value
-+	  must be a multiple of 4096.
-+
-+	  NOTE that, there are three ways to set parameters of blkoops and
-+	  prioritize according to configuration flexibility. That is
-+	  Kconfig < device tree < module parameters. It means that the value can
-+	  be overwritten by higher priority settings.
-+	  1. Kconfig
-+	     It	just sets a default value.
-+	  2. device tree
-+	     It is set on device tree, which will overwrites value from Kconfig,
-+	     but can also be overwritten by module parameters.
-+	  3. module parameters
-+	     It is the first priority. Take care of that blkoops will take lower
-+	     priority settings if higher priority one do not set.
-+
-+config PSTORE_BLKOOPS_PMSG_SIZE
-+	int "pmsg_size in kbytes for blkoops"
-+	depends on PSTORE_BLKOOPS
-+	default 64
-+	help
-+	  This just sets size of pmsg (pmsg_size) for pstore/blk. The value must
-+	  be a multiple of 4096. Pmsg work only if "part_path" is set.
-+
-+	  NOTE that, there are three ways to set parameters of blkoops and
-+	  prioritize according to configuration flexibility. That is
-+	  Kconfig < device tree < module parameters. It means that the value can
-+	  be overwritten by higher priority settings.
-+	  1. Kconfig
-+	     It	just sets a default value.
-+	  2. device tree
-+	     It is set on device tree, which will overwrites value from Kconfig,
-+	     but can also be overwritten by module parameters.
-+	  3. module parameters
-+	     It is the first priority. Take care of that blkoops will take lower
-+	     priority settings if higher priority one do not set.
-+
-+config PSTORE_BLKOOPS_PART_SIZE
-+	int "part_size in kbytes for blkoops"
-+	depends on PSTORE_BLKOOPS
-+	default 1024
-+	help
-+	  This just sets partition size (part_size) for pstore/blk. Pstore/blk
-+	  will allocate part_size memory to temporarily hold the data. It's the
-+	  size of partition on part_path. The value must be a multiple of 4096.
-+
-+	  NOTE that, there are three ways to set parameters of blkoops and
-+	  prioritize according to configuration flexibility. That is
-+	  Kconfig < device tree < module parameters. It means that the value can
-+	  be overwritten by higher priority settings.
-+	  1. Kconfig
-+	     It	just sets a default value.
-+	  2. device tree
-+	     It is set on device tree, which will overwrites value from Kconfig,
-+	     but can also be overwritten by module parameters.
-+	  3. module parameters
-+	     It is the first priority. Take care of that blkoops will take lower
-+	     priority settings if higher priority one do not set.
-+
-+config PSTORE_BLKOOPS_PART_PATH
-+	string "part_path for blkoops"
-+	depends on PSTORE_BLKOOPS
-+	default ""
-+	help
-+	  This just sets partition path (part_path) for pstore/blk. Pstore/blk
-+	  will record data to this block partition to avoid losing data due to
-+	  power failure. So, If it is not set, pstore/blk will drop all data
-+	  when reboot.
-+
-+	  The strings must begin with "/dev/".
-+
-+	  NOTE that, there are three ways to set parameters of blkoops and
-+	  prioritize according to configuration flexibility. That is
-+	  Kconfig < device tree < module parameters. It means that the value can
-+	  be overwritten by higher priority settings.
-+	  1. Kconfig
-+	     It	just sets a default value.
-+	  2. device tree
-+	     It is set on device tree, which will overwrites value from Kconfig,
-+	     but can also be overwritten by module parameters.
-+	  3. module parameters
-+	     It is the first priority. Take care of that blkoops will take lower
-+	     priority settings if higher priority one do not set.
-diff --git a/fs/pstore/Makefile b/fs/pstore/Makefile
-index 0ee2fc8..24b3d48 100644
---- a/fs/pstore/Makefile
-+++ b/fs/pstore/Makefile
-@@ -15,3 +15,5 @@ obj-$(CONFIG_PSTORE_RAM)	+= ramoops.o
- 
- obj-$(CONFIG_PSTORE_BLK) += pstore_blk.o
- pstore_blk-y += blkzone.o
-+
-+obj-$(CONFIG_PSTORE_BLKOOPS) += blkoops.o
-diff --git a/fs/pstore/blkoops.c b/fs/pstore/blkoops.c
-new file mode 100644
-index 0000000..fd926a5
---- /dev/null
-+++ b/fs/pstore/blkoops.c
-@@ -0,0 +1,239 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ *
-+ * blkoops.c: Block device Oops logger
-+ *
-+ * Copyright (C) 2019 liaoweixiong <liaoweixiong@gallwinnertech.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-+ * GNU General Public License for more details.
-+ *
-+ */
-+#define MODNAME "blkoops"
-+#define pr_fmt(fmt) MODNAME ": " fmt
-+
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/string.h>
-+#include <linux/platform_device.h>
-+#include <linux/of.h>
-+#include <linux/of_address.h>
-+#include <linux/pstore_blk.h>
-+
-+static long dmesg_size = -1;
-+module_param(dmesg_size, long, 0400);
-+MODULE_PARM_DESC(dmesg_size, "demsg size in kbytes");
-+
-+static long part_size = -1;
-+module_param(part_size, long, 0400);
-+MODULE_PARM_DESC(part_size, "partition size in kbytes");
-+
-+#define PART_PATH_INVALID "INVALID"
-+static char part_path[80] = {PART_PATH_INVALID};
-+module_param_string(part_path, part_path, 80, 0400);
-+MODULE_PARM_DESC(part_path, "path of partition in /dev for general read/write");
-+
-+struct blkz_info blkz_info = {
-+	.owner = THIS_MODULE,
-+	.name = "blkoops",
-+	.dump_oops = true,
-+};
-+
-+struct blkoops_info {
-+	unsigned long dmesg_size;
-+	unsigned long part_size;
-+	const char *part_path;
-+};
-+struct blkoops_info blkoops_info = {
-+	.dmesg_size = CONFIG_PSTORE_BLKOOPS_DMESG_SIZE * 1024,
-+	.part_size = CONFIG_PSTORE_BLKOOPS_PART_SIZE * 1024,
-+	.part_path = CONFIG_PSTORE_BLKOOPS_PART_PATH,
-+};
-+
-+static struct platform_device *dummy;
-+
-+static int blkoops_parse_dt_size(struct device_node *np,
-+		const char *propname, u32 *value)
-+{
-+	u32 val32 = 0;
-+	int ret;
-+
-+	ret = of_property_read_u32(np, propname, &val32);
-+	if (ret < 0) {
-+		if (ret != -EINVAL)
-+			pr_err("failed to parse property %s: %d\n",
-+				propname, ret);
-+		return ret;
-+	}
-+
-+	if (val32 * 1024 > INT_MAX) {
-+		pr_err("%s %u > INT_MAX\n", propname, val32);
-+		return -EOVERFLOW;
-+	}
-+
-+	*value = val32 * 1024;
-+	return 0;
-+}
-+
-+static int __init blkoops_parse_dt(struct blkoops_info *info,
-+		struct device_node *np)
-+{
-+	int ret;
-+	u32 value;
-+
-+	pr_info("using device tree\n");
-+
-+	ret = of_property_read_string(np, "partition-path",
-+			&info->part_path);
-+	if (ret < 0 && ret != -EINVAL) {
-+		pr_err("failed to parse partition path : %d\n", ret);
-+		return ret;
-+	}
-+
-+#define parse_size(name, field) {					\
-+		ret = blkoops_parse_dt_size(np, name, &value);		\
-+		if (ret < 0 && ret != -EINVAL)				\
-+			return ret;					\
-+		else if (ret == 0)					\
-+			field = value;					\
-+	}
-+
-+	parse_size("partition-size", info->part_size);
-+	parse_size("dmesg-size", info->dmesg_size);
-+
-+#undef parse_size
-+	return 0;
-+}
-+
-+static int blkoops_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct device_node *of_node = dev_of_node(dev);
-+	struct blkoops_info *info = dev->platform_data;
-+
-+	if (of_node && !info) {
-+		int err;
-+
-+		info = &blkoops_info;
-+		err = blkoops_parse_dt(info, of_node);
-+		if (err)
-+			return err;
-+	}
-+
-+	if (!strcmp(info->part_path, PART_PATH_INVALID) ||
-+			strlen(info->part_path) == 0) {
-+		pr_info("no path for block partition, use ram buffer only\n");
-+	} else if (strncmp(info->part_path, "/dev/", 5) != 0) {
-+		pr_err("invalid partition path %s, use ram buffer only\n",
-+				info->part_path);
-+	} else {
-+		pr_debug("path for block partition: %s\n", info->part_path);
-+		blkz_info.part_path = info->part_path;
-+	}
-+
-+#define check_size(name, size) {					\
-+		if (info->name & (size - 1)) {				\
-+			pr_err(#name " must be a multiple of %d\n",	\
-+					(size));			\
-+			return -EINVAL;					\
-+		}							\
-+		blkz_info.name = info->name;				\
-+	}
-+
-+	check_size(part_size, 4096);
-+	check_size(dmesg_size, 4096);
-+
-+#undef check_size
-+
-+	/*
-+	 * Update the module parameter variables as well so they are visible
-+	 * through /sys/module/blkoops/parameters/
-+	 */
-+	dmesg_size = blkz_info.dmesg_size;
-+	part_size = blkz_info.part_size;
-+	if (blkz_info.part_path)
-+		strncpy(part_path, blkz_info.part_path, 80 - 1);
-+	else
-+		part_path[0] = '\0';
-+	return blkz_register(&blkz_info);
-+}
-+
-+static int blkoops_remove(struct platform_device *pdev)
-+{
-+	blkz_unregister(&blkz_info);
-+	return 0;
-+}
-+
-+static const struct of_device_id dt_match[] = {
-+	{ .compatible = MODNAME},
-+	{}
-+};
-+
-+static struct platform_driver blkoops_driver = {
-+	.probe		= blkoops_probe,
-+	.remove		= blkoops_remove,
-+	.driver		= {
-+		.name		= MODNAME,
-+		.of_match_table	= dt_match,
-+	},
-+};
-+
-+void blkoops_register_dummy(void)
-+{
-+	struct blkoops_info *info = &blkoops_info;
-+	/*
-+	 * Prepare a dummy platform data structure to carry the module
-+	 * parameters. If mem_size isn't set, then there are no module
-+	 * parameters, and we can skip this.
-+	 */
-+	if (part_size < 0)
-+		return;
-+
-+	pr_info("using module parameters\n");
-+
-+	info->part_size = (unsigned long)part_size * 1024;
-+	if (strcmp(part_path, PART_PATH_INVALID))
-+		info->part_path = (const char *)part_path;
-+	if (dmesg_size >= 0)
-+		info->dmesg_size = (unsigned long)dmesg_size * 1024;
-+
-+	dummy = platform_device_register_data(NULL, MODNAME, -1, info,
-+			sizeof(*info));
-+	if (IS_ERR(dummy)) {
-+		pr_err("could not create platform device: %ld\n",
-+			PTR_ERR(dummy));
-+		dummy = NULL;
-+	}
-+}
-+
-+static int __init blkoops_init(void)
-+{
-+	int ret;
-+
-+	blkoops_register_dummy();
-+	ret = platform_driver_register(&blkoops_driver);
-+	if (ret != 0) {
-+		platform_device_unregister(dummy);
-+		dummy = NULL;
-+	}
-+	return ret;
-+}
-+module_init(blkoops_init);
-+
-+static void __exit blkoops_exit(void)
-+{
-+	platform_driver_unregister(&blkoops_driver);
-+	platform_device_unregister(dummy);
-+	dummy = NULL;
-+}
-+module_exit(blkoops_exit);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("liaoweixiong <liaoweixiong@allwinnertech.com>");
-+MODULE_DESCRIPTION("Sample for Pstore BLK with Oops logger");
--- 
-1.9.1
+> > > >   * A single C object should be accessed using a single, fixed
+> > > >     pointer tag throughout its entire lifetime.
+> > >
+> > > Agreed.  Allocators themselves may need to be excluded though,
+> > > depending on how they represent their managed memory.
+> > >
+> > > >   * Tags can be changed only when there are no outstanding pointers to
+> > > >     the affected object or region that may be used to access the object
+> > > >     or region (i.e., if the object were allocated from the C heap and
+> > > >     is it safe to realloc() it, then it is safe to change the tag; for
+> > > >     other types of allocation, analogous arguments can be applied).
+> > >
+> > > Tags can only be changed at the point of deallocation/
+> > > reallocation.  Pointers to the object become invalid and cannot
+> > > be used after it has been deallocated; memory tagging allows to
+> > > catch such invalid usage.
+>
+> All the above sound well but that's mostly a guideline on what a C
+> library can do. It doesn't help much with defining the kernel ABI.
+> Anyway, it's good to clarify the use-cases.
 
+My aim was to clarify the use case in userspace, since I wasn't directly
+involved in that.  The kernel ABI needs to be compatible with the the
+use case, but doesn't need to specify must of it.
+
+I'm wondering whether we can piggy-back on existing concepts.
+
+We could say that recolouring memory is safe when and only when
+unmapping of the page or removing permissions on the page (via
+munmap/mremap/mprotect) would be safe.  Otherwise, the resulting
+behaviour of the process is undefined.
+
+Hopefully there are friendly fuzzers testing this kind of thing.
+
+[...]
+
+> > It would also be valuable to narrow down the set of "relaxed" (i.e.
+> > not tag-checking) syscalls as reasonably possible. We would want to
+> > provide tag-checking userspace wrappers for any important calls that
+> > are not checked in the kernel. Is it correct to assume that anything
+> > that goes through copy_from_user  / copy_to_user is checked?
+> 
+> I lost track of the context of this thread but if it's just about
+> relaxing the ABI for hwasan, the kernel has no idea of the compiler
+> generated structures in user space, so nothing is checked.
+> 
+> If we talk about tags in the context of MTE, than yes, with the current
+> proposal the tag would be checked by copy_*_user() functions.
+
+Also put_user() and friends?
+
+It might be reasonable to do the check in access_ok() and skip it in
+__put_user() etc.
+
+(I seem to remember some separate discussion about abolishing
+__put_user() and friends though, due to the accident risk they pose.)
+
+> > For aio* operations it would be nice if the tag was checked at the
+> > time of the actual userspace read/write, either instead of or in
+> > addition to at the time of the system call.
+> 
+> With aio* (and synchronous iovec-based syscalls), the kernel may access
+> the memory while the corresponding user process is scheduled out. Given
+> that such access is not done in the context of the user process (and
+> using the user VA like copy_*_user), the kernel cannot handle potential
+> tag faults. Moreover, the transfer may be done by DMA and the device
+> does not understand tags.
+> 
+> I'd like to keep tags as a property of the pointer in a specific virtual
+> address space. The moment you convert it to a different address space
+> (e.g. kernel linear map, physical address), the tag property is stripped
+> and I don't think we should re-build it (and have it checked).
+
+This is probably reasonable.
+
+Ideally we would check the tag at the point of stripping it off, but
+most likely it's going to be rather best-effort.
+
+If memory tagging is essential a debugging feature then this seems
+an acceptable compromise.
+
+> > > >   * For purposes other than dereference, the kernel shall accept any
+> > > >     legitimately tagged pointer (according to the above rules) as
+> > > >     identifying the associated memory location.
+> > > >
+> > > >     So, mprotect(some_page_aligned_object, ...); is valid irrespective
+> > > >     of where page_aligned_object() came from.  There is no implicit
+> > > >     derefence by the kernel here, hence no tag check.
+> > > >
+> > > >     The kernel does not guarantee to work correctly if the wrong tag
+> > > >     is used, but there is not always a well-defined "right" tag, so
+> > > >     we can't really guarantee to check it.  So a pointer derived by
+> > > >     any reasonable means by userspace has to be treated as equally
+> > > >     valid.
+> > >
+> > > This is a disputed point :) In my opinion, this is the the most
+> > > reasonable approach.
+> > 
+> > Yes, it would be nice if the kernel explicitly promised, ex.
+> > mprotect() over a range of differently tagged pages to be allowed
+> > (i.e. address tag should be unchecked).
+> 
+> I don't think mprotect() over differently tagged pages was ever a
+> problem. I originally asked that mprotect() and friends do not accept
+> tagged pointers since these functions deal with memory ranges rather
+> than dereferencing such pointer (the reason being minimal kernel
+> changes). However, given how complicated it is to specify an ABI, I came
+> to the conclusion that a pointer passed to such function should be
+> allowed to have non-zero top byte. It would be the kernel's
+> responsibility to strip it out as appropriate.
+
+I think that if the page range is all the same colour then it should be
+legitimate to pass a matching tag.
+
+But it doesn't seem reasonable for the kernel to require this.  If
+free() calls munmap(), the page(s) will contain possibly randomly-
+coloured garbage.  There's no correct tag to pass in such a case.
+
+The most obvious solution is just to ignore the tags passed by userspace
+to such syscalls.  This would imply that the kernel must explicitly
+strip it out, as you suggest.
+
+The number of affected syscalls is relatively small though.
+
+Cheers
+---Dave
