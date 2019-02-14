@@ -1,203 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0F6A37D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Feb 2019 01:50:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3C2F97D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Feb 2019 01:52:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730099AbfBNBu0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Feb 2019 20:50:26 -0500
-Received: from conuserg-07.nifty.com ([210.131.2.74]:50509 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726392AbfBNBu0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Feb 2019 20:50:26 -0500
-Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id x1E1mU1f030693;
-        Thu, 14 Feb 2019 10:48:30 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x1E1mU1f030693
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1550108911;
-        bh=0BvUdvCRw6PHAEM4VEzTZq100sYqySqWIxigW0cVcLM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=fWzf4TNNn/shTYGZ7qsdt21aRq1IBwEDxBlCliK/k2ABtep601ErBHSs/zLtXTMtx
-         S6Bki/FtMoE/2pIaIrubwC5vnPnM2eeV35zhOFKKdyKcwwRF8Ut7Fb4YDxkhv8elRr
-         DrRl/qnv/Cam6XkTZdpFlUQi0WzGXtE1w1cqd+4EXXCPcez85R5CL0erM3Rx/3hr2u
-         z8/CU4qhpHtz11IXUSjvyG/QmeJW8smxo+v0Qj7Qct0Pok+/SOgswbvn+PUX1iLeEf
-         kjMxacVuaV8A0f2sdTQwl1OyR2EKaebgkM8dfmZQDVGRJHdF9M9rlTwaH2xrLFCO7H
-         6Ed1ElISGJ36Q==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Alexander Popov <alex.popov@linux.com>,
-        Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Richard Guy Briggs <rgb@redhat.com>
-Subject: [PATCH v2] kernel/configs: use .incbin directive to embed config_data.gz
-Date:   Thu, 14 Feb 2019 10:48:13 +0900
-Message-Id: <1550108893-21226-1-git-send-email-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.7.4
+        id S2390555AbfBNBwg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Feb 2019 20:52:36 -0500
+Received: from ipmail02.adl2.internode.on.net ([150.101.137.139]:5406 "EHLO
+        ipmail02.adl2.internode.on.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726392AbfBNBwg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Feb 2019 20:52:36 -0500
+X-Greylist: delayed 303 seconds by postgrey-1.27 at vger.kernel.org; Wed, 13 Feb 2019 20:52:35 EST
+Received: from ppp59-167-129-252.static.internode.on.net (HELO dastard) ([59.167.129.252])
+  by ipmail02.adl2.internode.on.net with ESMTP; 14 Feb 2019 12:17:29 +1030
+Received: from dave by dastard with local (Exim 4.80)
+        (envelope-from <david@fromorbit.com>)
+        id 1gu67d-0005Sz-0z; Thu, 14 Feb 2019 12:47:29 +1100
+Date:   Thu, 14 Feb 2019 12:47:28 +1100
+From:   Dave Chinner <david@fromorbit.com>
+To:     Vijay Chidambaram <vijay@cs.utexas.edu>
+Cc:     Amir Goldstein <amir73il@gmail.com>,
+        Jayashree Mohan <jaya@cs.utexas.edu>,
+        fstests <fstests@vger.kernel.org>, Theodore Ts'o <tytso@mit.edu>,
+        Filipe Manana <fdmanana@gmail.com>, Chris Mason <clm@fb.com>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: Documenting the crash consistency guarantees of file systems
+Message-ID: <20190214014728.GQ20493@dastard>
+References: <CA+EzBbDyoPF8=mZyG8HQAoHTm4h4MSCe=5WX_SBqRwPej=4uFg@mail.gmail.com>
+ <CAOQ4uxh7OayzbGFk0cxoZf_t9jGxesv9k6zPPOA=+5MDsqWOzA@mail.gmail.com>
+ <CA+EzBbC5c-O0ZBuC+UaL7Ftp2Vh8K8d46_6HTBWetY2Otd=tiA@mail.gmail.com>
+ <CAOQ4uxi=riQHbaaBxK64SdWdQ1bbHPrPTyXaoOrinG1zggK5gQ@mail.gmail.com>
+ <CAHWVdUUQ4=jWJj3eJMyv54n3O3svT8S_BJM9E8gbY4UCc1Rwow@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHWVdUUQ4=jWJj3eJMyv54n3O3svT8S_BJM9E8gbY4UCc1Rwow@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This slightly optimizes the kernel/configs.c build.
+On Wed, Feb 13, 2019 at 12:35:16PM -0600, Vijay Chidambaram wrote:
+> On Wed, Feb 13, 2019 at 12:22 PM Amir Goldstein <amir73il@gmail.com> wrote:
+> > On Wed, Feb 13, 2019 at 7:06 PM Jayashree Mohan <jaya@cs.utexas.edu> wrote:
+> AFAIK, any file system which persists things out of order to increase
+> performance does not provide strictly ordered metadata semantics.
 
-bin2c is not very efficient because it converts a data file into a
-huge array to embed it into a *.c file.
+Define "things", please.
 
-Instead, we can use the .incbin directive.
+And while you are there, define "persist", please.
 
-Also, this simplifies the code; Makefile is cleaner, and the way to
-get the offset/size of the config_data.gz is more straightforward.
+XFS can "persist" "things" out of order because it has a multi-phase
+checkpointing subsystem and we can't control IO ordering during
+concurrent checkpoint writeout. The out of order checkpoints don't
+get put back in order until recovery is run - it reorders everything
+that is in the journal into correct sequence order before it starts
+recovery.
 
-I used the "asm" statement in *.c instead of splitting it into *.S
-because MODULE_* tags are not supported in *.S files.
+IOWs, the assertion that we must "persist" things in strict order to
+maintain ordered metadata semantics is incorrect. /Replay/ of the
+changes being recovered must be done in order, but that does not
+require them to be persisted to stable storage in strict order.
 
-I also cleaned up kernel/.gitignore; "config_data.gz" is unneeded
-because the top-level .gitignore takes care of the "*.gz" pattern.
+> These semantics seem to indicate a total ordering among all
+> operations, and an fsync should persist all previous operations (as
+> ext3 used to do).
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+No, absolutely not.
 
-Changes in v2:
-  - The .section directive in v1 accidentally moved executable code
-    from .text into .rodata (reported by kbuild test robot).
-    .pushsection and .popsection should be used here.
+You're talking about /globally ordered metadata/. This was the
+Achille's Heel of ext3, resulting in fsync being indistinguishable
+from sync and hence being horrifically slow. This caused a
+generation of linux application developers to avoid using fsync and
+causing users (and fs developers who got blamed for losing data)
+endless amounts of pain when files went missing after crashes.
+Hindsight teaches us that ext3's behaviour was a horrible mistake
+and not one we want to repeat.
 
- Documentation/dontdiff |  1 -
- kernel/.gitignore      |  2 --
- kernel/Makefile        | 11 +----------
- kernel/configs.c       | 42 ++++++++++++++++++++----------------------
- 4 files changed, 21 insertions(+), 35 deletions(-)
+Strictly ordered metadata only requires persisting all the previous
+dependent modifications to the objects we need to persist.
+i.e. if you fsync an inode we just allocated, then we also have to
+persist the changes in the same transaction and then all the
+previous changes that are dependent on that set of objects, and so
+one all the way back to objects being clean on disk. If we crash,
+we can then rebuild all of the information the user persisted
+correctly.
 
-diff --git a/Documentation/dontdiff b/Documentation/dontdiff
-index 2228fcc..ef25a06 100644
---- a/Documentation/dontdiff
-+++ b/Documentation/dontdiff
-@@ -106,7 +106,6 @@ compile.h*
- conf
- config
- config-*
--config_data.h*
- config.mak
- config.mak.autogen
- conmakehash
-diff --git a/kernel/.gitignore b/kernel/.gitignore
-index b3097bd..6e69910 100644
---- a/kernel/.gitignore
-+++ b/kernel/.gitignore
-@@ -1,7 +1,5 @@
- #
- # Generated files
- #
--config_data.h
--config_data.gz
- timeconst.h
- hz.bc
-diff --git a/kernel/Makefile b/kernel/Makefile
-index 6aa7543..6c57e78 100644
---- a/kernel/Makefile
-+++ b/kernel/Makefile
-@@ -116,17 +116,8 @@ obj-$(CONFIG_GCC_PLUGIN_STACKLEAK) += stackleak.o
- KASAN_SANITIZE_stackleak.o := n
- KCOV_INSTRUMENT_stackleak.o := n
- 
--$(obj)/configs.o: $(obj)/config_data.h
-+$(obj)/configs.o: $(obj)/config_data.gz
- 
- targets += config_data.gz
- $(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
- 	$(call if_changed,gzip)
--
--filechk_ikconfiggz = \
--	echo "static const char kernel_config_data[] __used = MAGIC_START"; \
--	cat $< | scripts/bin2c; \
--	echo "MAGIC_END;"
--
--targets += config_data.h
--$(obj)/config_data.h: $(obj)/config_data.gz FORCE
--	$(call filechk,ikconfiggz)
-diff --git a/kernel/configs.c b/kernel/configs.c
-index 2df132b..b062425 100644
---- a/kernel/configs.c
-+++ b/kernel/configs.c
-@@ -30,37 +30,35 @@
- #include <linux/init.h>
- #include <linux/uaccess.h>
- 
--/**************************************************/
--/* the actual current config file                 */
--
- /*
-- * Define kernel_config_data and kernel_config_data_size, which contains the
-- * wrapped and compressed configuration file.  The file is first compressed
-- * with gzip and then bounded by two eight byte magic numbers to allow
-- * extraction from a binary kernel image:
-- *
-- *   IKCFG_ST
-- *   <image>
-- *   IKCFG_ED
-+ * "IKCFG_ST" and "IKCFG_ED" are used to extract the config data from
-+ * a binary kernel image or a module. See scripts/extract-ikconfig.
-  */
--#define MAGIC_START	"IKCFG_ST"
--#define MAGIC_END	"IKCFG_ED"
--#include "config_data.h"
--
--
--#define MAGIC_SIZE (sizeof(MAGIC_START) - 1)
--#define kernel_config_data_size \
--	(sizeof(kernel_config_data) - 1 - MAGIC_SIZE * 2)
-+asm (
-+"	.pushsection .rodata, \"a\"		\n"
-+"	.ascii \"IKCFG_ST\"			\n"
-+"	.global kernel_config_data		\n"
-+"kernel_config_data:				\n"
-+"	.incbin \"kernel/config_data.gz\"	\n"
-+"	.global kernel_config_data_end		\n"
-+"kernel_config_data_end:			\n"
-+"	.ascii \"IKCFG_ED\"			\n"
-+"	.popsection				\n"
-+);
- 
- #ifdef CONFIG_IKCONFIG_PROC
- 
-+extern char kernel_config_data;
-+extern char kernel_config_data_end;
-+
- static ssize_t
- ikconfig_read_current(struct file *file, char __user *buf,
- 		      size_t len, loff_t * offset)
- {
- 	return simple_read_from_buffer(buf, len, offset,
--				       kernel_config_data + MAGIC_SIZE,
--				       kernel_config_data_size);
-+				       &kernel_config_data,
-+				       &kernel_config_data_end -
-+				       &kernel_config_data);
- }
- 
- static const struct file_operations ikconfig_file_ops = {
-@@ -79,7 +77,7 @@ static int __init ikconfig_init(void)
- 	if (!entry)
- 		return -ENOMEM;
- 
--	proc_set_size(entry, kernel_config_data_size);
-+	proc_set_size(entry, &kernel_config_data_end - &kernel_config_data);
- 
- 	return 0;
- }
+There is no requirement for any other newly created inode elsewhere
+in the filesystem to be present after fsync of the first file.
+Indepdnent file creation will only be persisted by the fsync if
+there is a shared object modification dependency between those two
+files elsewhere in metadata. e.g. they are both in the same inode
+cluster so share an inode btree block modification that marks them
+as used, hence if one it persisted, the btree block is persisted,
+and hence the other inode and all it's dependencies need to be
+persisted as well.
+
+That dependency tree is the "strict ordering" we talk about. At
+times it can look like "globally ordered metadata", but for
+indepedent changes it will only result in the small number of
+dependencies being persisted and not the entire filesystem (as per
+ext3).
+
+> Note that Jayashree and I aren't arguing file systems should provide
+> this semantics, merely that ext4 and btrfs violate it at certain
+> points.
+
+As does XFS.
+
+http://xfs.org/index.php/XFS_FAQ#Q:_Why_do_I_see_binary_NULLS_in_some_files_after_recovery_when_I_unplugged_the_power.3F
+
+ext4 inherited all it's delalloc vs metadata ordering issues from
+XFS as ext4 really just copied the XFS design without understanding
+all the problems it had. Then when users started reporting problems
+the problems we'd fixed with XFS they copied a number of the
+mitigations from XFS as well....
+
+
 -- 
-2.7.4
-
+Dave Chinner
+david@fromorbit.com
