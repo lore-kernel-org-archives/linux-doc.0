@@ -1,158 +1,203 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E68607D099
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Feb 2019 22:50:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0F6A37D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Feb 2019 01:50:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404292AbfBMWuP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Feb 2019 17:50:15 -0500
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:47095 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389512AbfBMWuP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Feb 2019 17:50:15 -0500
-Received: by mail-qt1-f194.google.com with SMTP id y20so4634152qtm.13
-        for <linux-doc@vger.kernel.org>; Wed, 13 Feb 2019 14:50:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=opersys-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=876lWphbsxP4xAMtmnbDcEkFfg0qKgoTXqyTwzzagIU=;
-        b=XrjhqvASFrVKmiqZk7sOFHUF7I/3BDq5GEkoxMoikC7eHs75vtU3RAEHNBqWNpDLcB
-         85lBEgNOXU/J5HRBslvy/KcSHWnONNlQNhwhAksUvnN87crjaaSmgzdTY42RzEpNwhbd
-         Ov4PK3yqP8OPCp0Lr/b9Eibrxu1as+br7jH8xD6il6KKVePwI03khUNjXKEPowFemUhm
-         VFU1yxxOcTmzrrP6Ywe+MgSo9xVsdKvhNRgx+4AsRwbaZWDKSCqBs9sN4JVvdFN80Nt8
-         xTORa4ut6mfmHv763tKKK+OZiyapJY77HTbgTBoxrXmJ88/0Dj2Z4Rr7mYvlRisbIhrM
-         JIoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=876lWphbsxP4xAMtmnbDcEkFfg0qKgoTXqyTwzzagIU=;
-        b=J8KEu5MdW2wtvc78HaU4drxFDUGkgsCMpd1qYhH1w6EGov7ZNCe7a1dGBYulLtNPQM
-         sJMMJUNClf4Yr9ch28O+ut56lnd9eqperHE8Ud57RG4stQ6j+Gwxh4oKPLgOT6qaQt9s
-         brde8hetHErLPQLNF1vc7frZjyvdtVFQrSP5101pICU1Ey7KDfc33bd43hYMjo/7h57H
-         SeY9h6iqDvwq/2K5nlDmjwXRQ79NeEQYNoFUIjPamyqOzWDB9aTQ+PKn29tVsBbJDIl1
-         xK518Yd3olQ4RTSGqT8yanIXZtER+FXviTvKI6RAjntNqAhXJbh5JOgqhPa56cBfGVxu
-         GunQ==
-X-Gm-Message-State: AHQUAubyiyzT/Bx7r0P1Jaj+y950qjiH4Mt+5Mc1VKWBZob5EFUTlcWV
-        q8QmP9+A5Fg4dCm/34xDB1/XmA==
-X-Google-Smtp-Source: AHgI3IYSi+vYRWpJBkv/89G2267qmoOOtNbwDomi2zgUIy4ifLEHjEgysSrqJGJPdws9hgVv3JQnaA==
-X-Received: by 2002:ac8:3fa1:: with SMTP id d30mr451389qtk.217.1550098213753;
-        Wed, 13 Feb 2019 14:50:13 -0800 (PST)
-Received: from [192.168.202.103] (modemcable170.15-70-69.static.videotron.ca. [69.70.15.170])
-        by smtp.googlemail.com with ESMTPSA id 97sm264352qtc.83.2019.02.13.14.50.11
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 13 Feb 2019 14:50:12 -0800 (PST)
-Subject: Re: [PATCH v2 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        linux-kernel@vger.kernel.org
-Cc:     Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
-        atishp04@gmail.com, dancol@google.com,
-        Dan Williams <dan.j.williams@intel.com>,
-        gregkh@linuxfoundation.org, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
+        id S1730099AbfBNBu0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Feb 2019 20:50:26 -0500
+Received: from conuserg-07.nifty.com ([210.131.2.74]:50509 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726392AbfBNBu0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Feb 2019 20:50:26 -0500
+Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id x1E1mU1f030693;
+        Thu, 14 Feb 2019 10:48:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x1E1mU1f030693
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1550108911;
+        bh=0BvUdvCRw6PHAEM4VEzTZq100sYqySqWIxigW0cVcLM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=fWzf4TNNn/shTYGZ7qsdt21aRq1IBwEDxBlCliK/k2ABtep601ErBHSs/zLtXTMtx
+         S6Bki/FtMoE/2pIaIrubwC5vnPnM2eeV35zhOFKKdyKcwwRF8Ut7Fb4YDxkhv8elRr
+         DrRl/qnv/Cam6XkTZdpFlUQi0WzGXtE1w1cqd+4EXXCPcez85R5CL0erM3Rx/3hr2u
+         z8/CU4qhpHtz11IXUSjvyG/QmeJW8smxo+v0Qj7Qct0Pok+/SOgswbvn+PUX1iLeEf
+         kjMxacVuaV8A0f2sdTQwl1OyR2EKaebgkM8dfmZQDVGRJHdF9M9rlTwaH2xrLFCO7H
+         6Ed1ElISGJ36Q==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        paulmck@linux.vnet.ibm.com,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        rdunlap@infradead.org, rostedt@goodmis.org,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, yhs@fb.com
-References: <20190211143600.15021-1-joel@joelfernandes.org>
-From:   Karim Yaghmour <karim.yaghmour@opersys.com>
-Message-ID: <c035159d-3a56-61d8-bad6-79401b25a227@opersys.com>
-Date:   Wed, 13 Feb 2019 17:50:10 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
-MIME-Version: 1.0
-In-Reply-To: <20190211143600.15021-1-joel@joelfernandes.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Arnd Bergmann <arnd@arndb.de>,
+        Alexander Popov <alex.popov@linux.com>,
+        Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Richard Guy Briggs <rgb@redhat.com>
+Subject: [PATCH v2] kernel/configs: use .incbin directive to embed config_data.gz
+Date:   Thu, 14 Feb 2019 10:48:13 +0900
+Message-Id: <1550108893-21226-1-git-send-email-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This slightly optimizes the kernel/configs.c build.
 
-On 2/11/19 9:35 AM, Joel Fernandes (Google) wrote:
-> Introduce in-kernel headers and other artifacts which are made available
-> as an archive through proc (/proc/kheaders.txz file). This archive makes
-> it possible to build kernel modules, run eBPF programs, and other
-> tracing programs that need to extend the kernel for tracing purposes
-> without any dependency on the file system having headers and build
-> artifacts.
-> 
-> On Android and embedded systems, it is common to switch kernels but not
-> have kernel headers available on the file system. Raw kernel headers
-> also cannot be copied into the filesystem like they can be on other
-> distros, due to licensing and other issues. There's no linux-headers
-> package on Android. Further once a different kernel is booted, any
-> headers stored on the file system will no longer be useful. By storing
-> the headers as a compressed archive within the kernel, we can avoid these
-> issues that have been a hindrance for a long time.
-> 
-> The feature is also buildable as a module just in case the user desires
-> it not being part of the kernel image. This makes it possible to load
-> and unload the headers on demand. A tracing program, or a kernel module
-> builder can load the module, do its operations, and then unload the
-> module to save kernel memory. The total memory needed is 3.8MB.
-> 
-> The code to read the headers is based on /proc/config.gz code and uses
-> the same technique to embed the headers.
-> 
-> To build a module, the below steps have been tested on an x86 machine:
-> modprobe kheaders
-> rm -rf $HOME/headers
-> mkdir -p $HOME/headers
-> tar -xvf /proc/kheaders.txz -C $HOME/headers >/dev/null
-> cd my-kernel-module
-> make -C $HOME/headers M=$(pwd) modules
-> rmmod kheaders
-> 
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+bin2c is not very efficient because it converts a data file into a
+huge array to embed it into a *.c file.
 
-Acked-by: Karim Yaghmour <karim.yaghmour@opersys.com>
+Instead, we can use the .incbin directive.
 
-> ---
-> 
-> Changes since v1:
-> - removed IKH_EXTRA variable, not needed (Masahiro Yamada)
-> - small fix ups to selftest
->     - added target to main Makefile etc
->     - added MODULE_LICENSE to test module
->     - made selftest more quiet
-> 
-> Changes since RFC:
-> Both changes bring size down to 3.8MB:
-> - use xz for compression
-> - strip comments except SPDX lines
-> - Call out the module name in Kconfig
-> - Also added selftests in second patch to ensure headers are always
-> working.
-> 
->   Documentation/dontdiff    |  1 +
->   init/Kconfig              | 11 ++++++
->   kernel/.gitignore         |  2 ++
->   kernel/Makefile           | 27 ++++++++++++++
->   kernel/kheaders.c         | 74 +++++++++++++++++++++++++++++++++++++++
->   scripts/gen_ikh_data.sh   | 19 ++++++++++
->   scripts/strip-comments.pl |  8 +++++
->   7 files changed, 142 insertions(+)
->   create mode 100644 kernel/kheaders.c
->   create mode 100755 scripts/gen_ikh_data.sh
->   create mode 100755 scripts/strip-comments.pl
+Also, this simplifies the code; Makefile is cleaner, and the way to
+get the offset/size of the config_data.gz is more straightforward.
 
-[snip]
+I used the "asm" statement in *.c instead of splitting it into *.S
+because MODULE_* tags are not supported in *.S files.
 
+I also cleaned up kernel/.gitignore; "config_data.gz" is unneeded
+because the top-level .gitignore takes care of the "*.gz" pattern.
+
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
+
+Changes in v2:
+  - The .section directive in v1 accidentally moved executable code
+    from .text into .rodata (reported by kbuild test robot).
+    .pushsection and .popsection should be used here.
+
+ Documentation/dontdiff |  1 -
+ kernel/.gitignore      |  2 --
+ kernel/Makefile        | 11 +----------
+ kernel/configs.c       | 42 ++++++++++++++++++++----------------------
+ 4 files changed, 21 insertions(+), 35 deletions(-)
+
+diff --git a/Documentation/dontdiff b/Documentation/dontdiff
+index 2228fcc..ef25a06 100644
+--- a/Documentation/dontdiff
++++ b/Documentation/dontdiff
+@@ -106,7 +106,6 @@ compile.h*
+ conf
+ config
+ config-*
+-config_data.h*
+ config.mak
+ config.mak.autogen
+ conmakehash
+diff --git a/kernel/.gitignore b/kernel/.gitignore
+index b3097bd..6e69910 100644
+--- a/kernel/.gitignore
++++ b/kernel/.gitignore
+@@ -1,7 +1,5 @@
+ #
+ # Generated files
+ #
+-config_data.h
+-config_data.gz
+ timeconst.h
+ hz.bc
+diff --git a/kernel/Makefile b/kernel/Makefile
+index 6aa7543..6c57e78 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -116,17 +116,8 @@ obj-$(CONFIG_GCC_PLUGIN_STACKLEAK) += stackleak.o
+ KASAN_SANITIZE_stackleak.o := n
+ KCOV_INSTRUMENT_stackleak.o := n
+ 
+-$(obj)/configs.o: $(obj)/config_data.h
++$(obj)/configs.o: $(obj)/config_data.gz
+ 
+ targets += config_data.gz
+ $(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
+ 	$(call if_changed,gzip)
+-
+-filechk_ikconfiggz = \
+-	echo "static const char kernel_config_data[] __used = MAGIC_START"; \
+-	cat $< | scripts/bin2c; \
+-	echo "MAGIC_END;"
+-
+-targets += config_data.h
+-$(obj)/config_data.h: $(obj)/config_data.gz FORCE
+-	$(call filechk,ikconfiggz)
+diff --git a/kernel/configs.c b/kernel/configs.c
+index 2df132b..b062425 100644
+--- a/kernel/configs.c
++++ b/kernel/configs.c
+@@ -30,37 +30,35 @@
+ #include <linux/init.h>
+ #include <linux/uaccess.h>
+ 
+-/**************************************************/
+-/* the actual current config file                 */
+-
+ /*
+- * Define kernel_config_data and kernel_config_data_size, which contains the
+- * wrapped and compressed configuration file.  The file is first compressed
+- * with gzip and then bounded by two eight byte magic numbers to allow
+- * extraction from a binary kernel image:
+- *
+- *   IKCFG_ST
+- *   <image>
+- *   IKCFG_ED
++ * "IKCFG_ST" and "IKCFG_ED" are used to extract the config data from
++ * a binary kernel image or a module. See scripts/extract-ikconfig.
+  */
+-#define MAGIC_START	"IKCFG_ST"
+-#define MAGIC_END	"IKCFG_ED"
+-#include "config_data.h"
+-
+-
+-#define MAGIC_SIZE (sizeof(MAGIC_START) - 1)
+-#define kernel_config_data_size \
+-	(sizeof(kernel_config_data) - 1 - MAGIC_SIZE * 2)
++asm (
++"	.pushsection .rodata, \"a\"		\n"
++"	.ascii \"IKCFG_ST\"			\n"
++"	.global kernel_config_data		\n"
++"kernel_config_data:				\n"
++"	.incbin \"kernel/config_data.gz\"	\n"
++"	.global kernel_config_data_end		\n"
++"kernel_config_data_end:			\n"
++"	.ascii \"IKCFG_ED\"			\n"
++"	.popsection				\n"
++);
+ 
+ #ifdef CONFIG_IKCONFIG_PROC
+ 
++extern char kernel_config_data;
++extern char kernel_config_data_end;
++
+ static ssize_t
+ ikconfig_read_current(struct file *file, char __user *buf,
+ 		      size_t len, loff_t * offset)
+ {
+ 	return simple_read_from_buffer(buf, len, offset,
+-				       kernel_config_data + MAGIC_SIZE,
+-				       kernel_config_data_size);
++				       &kernel_config_data,
++				       &kernel_config_data_end -
++				       &kernel_config_data);
+ }
+ 
+ static const struct file_operations ikconfig_file_ops = {
+@@ -79,7 +77,7 @@ static int __init ikconfig_init(void)
+ 	if (!entry)
+ 		return -ENOMEM;
+ 
+-	proc_set_size(entry, kernel_config_data_size);
++	proc_set_size(entry, &kernel_config_data_end - &kernel_config_data);
+ 
+ 	return 0;
+ }
 -- 
-Karim Yaghmour
-CEO - Opersys inc. / www.opersys.com
-http://twitter.com/karimyaghmour
+2.7.4
+
