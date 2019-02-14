@@ -2,215 +2,202 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7172E7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Feb 2019 09:49:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9C2E27D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Feb 2019 11:23:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392733AbfBNJs7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Feb 2019 04:48:59 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:48311 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387897AbfBNJs7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Feb 2019 04:48:59 -0500
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1guDdX-0002QE-8N; Thu, 14 Feb 2019 10:48:55 +0100
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1guDdV-0007aa-Qi; Thu, 14 Feb 2019 10:48:53 +0100
-Date:   Thu, 14 Feb 2019 10:48:53 +0100
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Claudiu.Beznea@microchip.com
-Cc:     thierry.reding@gmail.com, linux-pwm@vger.kernel.org,
-        alexandre.belloni@bootlin.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ludovic.Desroches@microchip.com,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v8 1/6] pwm: extend PWM framework with PWM modes
-Message-ID: <20190214094853.zs45m5k27hgtvyxt@pengutronix.de>
-References: <1546522081-23659-1-git-send-email-claudiu.beznea@microchip.com>
- <1546522081-23659-2-git-send-email-claudiu.beznea@microchip.com>
- <20190105210522.ho2o2a4gc7r7ijeq@pengutronix.de>
- <67e881c5-0ea7-3d2f-5910-534729097d11@microchip.com>
- <20190107221040.uos5qlnkjmcayv73@pengutronix.de>
- <20190205230125.GE1372@mithrandir>
- <20190206082432.6imbcuwlxhtsw4s4@pengutronix.de>
- <de382486-e8da-b000-7846-39fd6710cc89@microchip.com>
+        id S2405707AbfBNLXA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Feb 2019 06:23:00 -0500
+Received: from foss.arm.com ([217.140.101.70]:41790 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726405AbfBNLXA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Feb 2019 06:23:00 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4C283EBD;
+        Thu, 14 Feb 2019 03:22:59 -0800 (PST)
+Received: from [10.1.199.35] (e107154-lin.cambridge.arm.com [10.1.199.35])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3EECD3F675;
+        Thu, 14 Feb 2019 03:22:54 -0800 (PST)
+Subject: Re: [RFC][PATCH 0/3] arm64 relaxed ABI
+To:     Evgenii Stepanov <eugenis@google.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Will Deacon <will.deacon@arm.com>,
+        Kostya Serebryany <kcc@google.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Shuah Khan <shuah@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Branislav Rankov <Branislav.Rankov@arm.com>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+References: <CAAeHK+xPZ-Z9YUAq=3+hbjj4uyJk32qVaxZkhcSAHYC4mHAkvQ@mail.gmail.com>
+ <20181212150230.GH65138@arrakis.emea.arm.com>
+ <CAAeHK+zxYJDJ7DJuDAOuOMgGvckFwMAoVUTDJzb6MX3WsXhRTQ@mail.gmail.com>
+ <20181218175938.GD20197@arrakis.emea.arm.com>
+ <20181219125249.GB22067@e103592.cambridge.arm.com>
+ <9bbacb1b-6237-f0bb-9bec-b4cf8d42bfc5@arm.com>
+ <CAFKCwrhH5R3e5ntX0t-gxcE6zzbCNm06pzeFfYEN2K13c5WLTg@mail.gmail.com>
+ <20190212180223.GD199333@arrakis.emea.arm.com>
+ <20190213145834.GJ3567@e103592.cambridge.arm.com>
+ <90c54249-00dd-f8dd-6873-6bb8615c2c8a@arm.com>
+ <20190213174318.GM3567@e103592.cambridge.arm.com>
+ <CAFKCwrgV0VNJ_jEU79XwkX0o7qLFcqh3MbVMg2=Vs8VKYyY9=Q@mail.gmail.com>
+From:   Kevin Brodsky <kevin.brodsky@arm.com>
+Message-ID: <8047504c-3b9d-0c46-c0cf-9d584f5ca241@arm.com>
+Date:   Thu, 14 Feb 2019 11:22:52 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <de382486-e8da-b000-7846-39fd6710cc89@microchip.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+In-Reply-To: <CAFKCwrgV0VNJ_jEU79XwkX0o7qLFcqh3MbVMg2=Vs8VKYyY9=Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+On 13/02/2019 21:41, Evgenii Stepanov wrote:
+> On Wed, Feb 13, 2019 at 9:43 AM Dave Martin <Dave.Martin@arm.com> wrote:
+>> On Wed, Feb 13, 2019 at 04:42:11PM +0000, Kevin Brodsky wrote:
+>>> (+Cc other people with MTE experience: Branislav, Ruben)
+>> [...]
+>>
+>>>> I'm wondering whether we can piggy-back on existing concepts.
+>>>>
+>>>> We could say that recolouring memory is safe when and only when
+>>>> unmapping of the page or removing permissions on the page (via
+>>>> munmap/mremap/mprotect) would be safe.  Otherwise, the resulting
+>>>> behaviour of the process is undefined.
+>>> Is that a sufficient requirement? I don't think that anything prevents you
+>>> from using mprotect() on say [vvar], but we don't necessarily want to map
+>>> [vvar] as tagged. I'm not sure it's easy to define what "safe" would mean
+>>> here.
+>> I think the origin rules have to apply too: [vvar] is not a regular,
+>> private page but a weird, shared thing mapped for you by the kernel.
+>>
+>> Presumably userspace _cannot_ do mprotect(PROT_WRITE) on it.
+>>
+>> I'm also assuming that userspace cannot recolour memory in read-only
+>> pages.  That sounds bad if there's no way to prevent it.
+> That sounds like something we would like to do to catch out of bounds
+> read of .rodata globals.
+> Another potentially interesting use case for MTE is infinite hardware
+> watchpoints - that would require trapping reads for individual tagging
+> granules, include those in read-only binary segment.
 
-On Wed, Feb 13, 2019 at 03:38:46PM +0000, Claudiu.Beznea@microchip.com wrote:
-> On 06.02.2019 10:24, Uwe Kleine-König wrote:
-> > On Wed, Feb 06, 2019 at 12:01:26AM +0100, Thierry Reding wrote:
-> >> But I really don't see the point in having consumers jump through hoops
-> >> to set one of the standard modes just to have the driver jump through
-> >> more hoops to determine which mode was meant.
-> > 
-> > I think my approach is more natural and not more complicated at all. In
-> > all modes where this secondary output makes sense both outputs share the
-> > period length. In all modes both outputs have a falling and a raising
-> > edge each. Let's assume we support
-> > 
-> >  - normal mode (one output, secondary (if available) inactive)
-> >  - complementary mode (secondary output is the inverse of primary
-> >    output)
-> >  - push-pull mode (primary output only does every second active phase,
-> >    the secondy output does the ones that are skiped by the primary one)
-> >  - complementary mode with deadtime (like above but there is a pause
-> >    where both signals are inactive at the switch points, so the active
-> >    phase of the secondary output is $deadtime_pre + $deadtime_post
-> >    shorter than the primary output's inactive phase).
-> > 
-> > To describe these modes we need with the approach suggested by Claudiu
-> > the following defines:
-> > 
-> >  enum mode {
-> >  	NORMAL,
-> > 	COMPLEMENTARY,
-> > 	PUSH_PULL
-> > 	PUSH_PULL_WITH_DEADTIME
+I think we should keep this discussion for a later, separate thread. Vincenzo's 
+proposal is about allowing userspace to pass tags at the syscall interface. The set 
+of mappings allowed to be tagged by userspace (in MTE) should be contained in the set 
+of mappings that userspace can pass tagged pointers to (at the syscall interface), 
+but they are not necessarily the same. Private read-only mappings are an edge case 
+(you can pass tagged pointers to them, the memory may or may not be mapped as tagged, 
+but in any case it is not possible to change the memory tags via such mapping).
 
-Here I made a mistake, I should have written about
-COMPLEMENTARY_WITH_DEADTIME, not PUSH_PULL_WITH_DEADTIME. The
-argumentation is analogous however. PUSH_PULL_WITH_DEADTIME is
-completely unintuitive when thinking about the needed parameters, I'll
-skip talking about this.
- 
-> I see push-pull mode as a particular mode of complementary mode with
-> dead-times equal to a half of a period.
+>
+>> [...]
+>>
+>>>> It might be reasonable to do the check in access_ok() and skip it in
+>>>> __put_user() etc.
+>>>>
+>>>> (I seem to remember some separate discussion about abolishing
+>>>> __put_user() and friends though, due to the accident risk they pose.)
+>>> Keep in mind that with MTE, there is no need to do any explicit check when
+>>> accessing user memory via a user-provided pointer. The tagged user pointer
+>>> is directly passed to copy_*_user() or put_user(). If the load/store causes
+>>> a tag fault, then it is handled just like a page fault (i.e. invoking the
+>>> fixup handler). As far as I can tell, there's no need to do anything special
+>>> in access_ok() in that case.
+>>>
+>>> [The above applies to precise mode. In imprecise mode, some more work will
+>>> be needed after the load/store to check whether a tag fault happened.]
+>> Fair enough, I'm a bit hazy on the details as of right now..
+>>
+>> [...]
+>>
+>>> There are many possible ways to deploy MTE, and debugging is just one of
+>>> them. For instance, you may want to turn on heap colouring for some
+>>> processes in the system, including in production.
+>> To implement enforceable protection, or as a diagnostic tool for when
+>> something goes wrong?
+>>
+>> In the latter case it's still OK for the kernel's tag checking not to be
+>> exhaustive.
+>>
+>>> Regarding those cases where it is impossible to check tags at the point of
+>>> accessing user memory, it is indeed possible to check the memory tags at the
+>>> point of stripping the tag from the user pointer. Given that some MTE
+>>> use-cases favour performance over tag check coverage, the ideal approach
+>>> would be to make these checks configurable (e.g. check one granule, check
+>>> all of them, or check none). I don't know how feasible this is in practice.
+>> Check all granules of a massive DMA buffer?
+>>
+>> That doesn't sounds feasible without explicit support in the hardware to
+>> have the DMA check tags itself as the memory is accessed.  MTE by itself
+>> doesn't provide for this IIUC (at least, it would require support in the
+>> platform, not just the CPU).
+>>
+>> We do not want to bake any assumptions into the ABI about whether a
+>> given data transfer may or may not be offloaded to DMA.  That feels
+>> like a slippery slope.
+>>
+>> Providing we get the checks for free in put_user/get_user/
+>> copy_{to,from}_user(), those will cover a lot of cases though, for
+>> non-bulk-IO cases.
+>>
+>>
+>> My assumption has been that at this point in time we are mainly aiming
+>> to support the debug/diagnostic use cases today.
 
-<pedantic>It's not half a period that you need to use as dead-time, but
-period/2 - duty_cycle.</pedantic>
+MTE can be used both for diagnostics (imprecise mode is especially suitable for 
+that), and to halt execution when something wrong is detected. Even in the latter 
+case, one cannot expect exhaustive checking from MTE, because the way it works is 
+fundamentally statistical; an invalid pointer may by chance have the right tag to 
+access the given location. So again, I think that a best-effort approach is 
+appropriate when the kernel accesses user memory, in terms of checking that tags match.
 
-This means that we could model "complementary" and "push pull" (and even
-"push pull with deadtime") if we only had "complementary with deadtime".
-So the latter seems to be the universal we should implement, right?
-(Otherwise a driver for a hardware that is flexible enough to actually
-do it has to implement three or so different ways to yield requested
-waveforms when a single one would be enough.)
+More specifically, different use-cases come with different tradeoffs (performance / 
+tag check coverage). That's why I am suggesting that in the cases where tag checks 
+would need to be done _explicitly_ (before losing the user-provided tag), it would be 
+nice to be able to choose how much should be checked. I am not suggesting that always 
+checking all the granules by default is sane. Maybe checking just the first granule 
+is the right default.
 
-The parameters for that are:
+I don't think we need to get to the bottom of this specific aspect at this point. 
+This ABI proposal is not about memory tagging, so there is no need to specify how or 
+when tag checking is done. As long as this ABI allows tagged pointers, pointing to 
+mappings that could be potentially tagged, to be passed to syscalls, I don't think 
+further relaxations are needed to enable memory tagging.
 
-	- period length
-	- duty_cycle
-	- pre_deadtime
-	- post_deadtime
+Kevin
 
-. The expressiveness is identical to my suggestion (with alt_duty_cycle
-and alt_offset), just that this uses more artificial and unintuitive
-characteristics of the wave to describe it. (An indication is that you
-got it wrong above, see my pedantic note.)
+>>
+>> At least, those are the low(ish)-hanging fruit.
+>>
+>> Others are better placed than me to comment on the goals here.
+>>
+>> Cheers
+>> ---Dave
 
-I'd say only abstract using "modes" if they are really orthonal which
-you seem to agree isn't the case here. In fact we only need a single
-mode that driver authors need to grasp and if there are two or more
-different ways to describe the same waves we're only make it harder for
-them.
-
-The argument "But not all hardware has the flexibility to implement
-all wave forms that are decribable with any of these abstractions."
-isn't really a problem. We already have now the situation with only
-.period, .duty_cycle and .polarity that not all drivers can implement
-everything. So there has to be a mechanism to handle inability to
-implement a given request anyhow.
-
-> I don't get the meaning of push-pull with dead-times, there is already
-> there a deadtime pre, post value equal with 1/2 of period.
-
-FTR: in my argumentation COMPLEMENTARY is just what you defined it to
-be. I.e. it doesn't have deadtimes. But as shown above this doesn't
-really matter. Both COMPLEMENTARY with deadtimes and my suggestion have
-the same expressive power, just use different characteristics to
-describe a wave form. To summarize, requesting the following wave:
-
-
-                     ______                ______
-secondary __________/      \______________/      \____
-             __                    __
-primary   __/  \__________________/  \________________
-            ^                     ^
-A           `--'					.duty_cycle
-B           `-------'      				.alt_offset
-C                   `------'				.alt_duty_cycle
-D              `----'					.pre_dead_time
-E                          `------'			.post_dead_time
-
-You need apart from the period length which is needed for all:
-
- - With my suggestion you need to pass A, B and C; and
- - with COMPLEMENTARY and deadtimes you need to provide A, D and E.
-
-Isn't A, B and C the most intuitive set, given that when describing only
-only the primary output you need A and for the secondary output you need
-only C?
-
-Also note that for PUSH_PULL with deadtime the deadtimes might be
-negative. The boundary checks for my approach are:
-
-	0 <= .duty_cycle <= .period (as we already have today)
-	0 <= .alt_duty_cycle <= .period (which is analogous to the above line)
-	0 <= .alt_offset < .period
-
-With COMPLEMENTARY and deadtimes it is harder, as there are conditions
-that have to speak about both .pre_dead_time and .post_dead_time.
-
-> >  struct pwm_state {
-> >  	unsigned int period;
-> > 	unsigned int duty_cycle;
-> > 	enum pwm_polarity polarity;
-> > 	bool enabled;
-> > 	enum mode mode;
-> > 	unsigned int deadtime_pre;
-> > 	unsigned int deadtime_post;
-> >  }
-> > 
-> > This has the following downsides:
-> > 
-> >  - The period in push-pull mode is somehow wrong because the signal
-> >    combination repeats only every 2x $period ns. (I guess this is an
-> >    implementation detail of the atmel hardware that leaks into the API
-> >    here.)
-> 
-> As far as I'm concern of the PWM push-pull mode it is a specific PWM
-> working mode, not related to Atmel, which can be used to drive half-bridge
-> converters.
-
-This is not what I meant. The point I wanted to make here is, that I
-would consider it more natural to define the period length of the
-following wave form pair as the time between the two carets, not half of
-it as you suggested in your patch.
-
-                  __                    __
-    _____________/  \__________________/  \_____
-       __                    __
-    __/  \__________________/  \________________
-      ^                     ^
-
-That's because then for all wave forms the period of both outputs matches
-the period variable.
-
-Best regards
-Uwe
-
--- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
