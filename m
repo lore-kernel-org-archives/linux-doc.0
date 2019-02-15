@@ -1,84 +1,61 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D30097D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Feb 2019 07:34:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2A0317D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Feb 2019 14:46:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389853AbfBOHeX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Feb 2019 02:34:23 -0500
-Received: from www.osadl.org ([62.245.132.105]:47006 "EHLO www.osadl.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727993AbfBOHeX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 Feb 2019 02:34:23 -0500
-Received: from debian01.hofrr.at (178.115.242.59.static.drei.at [178.115.242.59])
-        by www.osadl.org (8.13.8/8.13.8/OSADL-2007092901) with ESMTP id x1F7YCNR007759;
-        Fri, 15 Feb 2019 08:34:12 +0100
-From:   Nicholas Mc Guire <hofrat@osadl.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nicholas Mc Guire <hofrat@osadl.org>
-Subject: [PATCH V2] sysfs.txt: add note on available attribute macros
-Date:   Fri, 15 Feb 2019 08:29:48 +0100
-Message-Id: <1550215788-19883-1-git-send-email-hofrat@osadl.org>
-X-Mailer: git-send-email 2.1.4
+        id S1728289AbfBOOqF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Feb 2019 09:46:05 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:34764 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727212AbfBOOqF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Feb 2019 09:46:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=r8G03LgrF5xsPbw0IizLF7d6LIB5NmOjr3dY3ocUbcQ=; b=fqIKzCx0Nrm0gK6a5CDiE2mm2
+        dVPMbOcy5YPiSfJ249GeSpmkzX7K3TrcdRcdyOlNYsbLIQGuY9qKss7U8+v580kBG6jvc2KRGup3P
+        blC7vhlvb9dmjY4R+UVE5Jr+RFiuiIVj64PXGXoc3JtqVMB0AemPUeG1PrYMv/spXVfFJqA93KlIQ
+        XivSCb0c9q++kgSfOfYXlDPtLDnNpPvGVrREAA7TLwZvthIZ1vNIKEC767DgBUySaIA/zTescRopi
+        3wRz8SLwbVcuxeuradbV3KGqmPtqXR9i9P7pR+11r1ZaZnTrw9bJzL1gKEa50sGAxkO7baz6mH+Yx
+        VUhSb9TYA==;
+Received: from [91.112.108.175] (helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1guekb-0005PD-Od; Fri, 15 Feb 2019 14:46:02 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Helge Deller <deller@gmx.de>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        iommu@lists.linux-foundation.org, sparclinux@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: allow larger than require DMA masks
+Date:   Fri, 15 Feb 2019 15:45:54 +0100
+Message-Id: <20190215144559.8777-1-hch@lst.de>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The common cases of attributes wrappers should probably be using the
-__ATTR_XXX macros to make code more concise and readable but the current
-sysfs.txt does not point developers to those convenience macros. Further
-there is no note in sysfs.txt currently explaining why trying to set a
-sysfs file to mode 0666 will fail respectively revert to 0664.
+Hi all,
 
-Signed-off-by: Nicholas Mc Guire <hofrat@osadl.org>
----
-
-V2: the descriptions were not too helpful as noted by 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-    so lets see if V2 is any better...
-
- Documentation/filesystems/sysfs.txt | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
-
-diff --git a/Documentation/filesystems/sysfs.txt b/Documentation/filesystems/sysfs.txt
-index 41411b0..b003123 100644
---- a/Documentation/filesystems/sysfs.txt
-+++ b/Documentation/filesystems/sysfs.txt
-@@ -116,6 +116,27 @@ static struct device_attribute dev_attr_foo = {
- 	.store = store_foo,
- };
- 
-+Note as stated in include/linux/kernel.h "OTHER_WRITABLE?  Generally
-+considered a bad idea." so trying to set a sysfs file writable for
-+everyone will fail reverting to RO mode for "Others".
-+
-+For the common cases sysfs.h provides convenience macros to make
-+defining attributes easier as well as making code more concise and
-+readable. The above case could be shortened to:
-+
-+static struct device_attribute dev_attr_foo = __ATTR_RW(foo);
-+
-+the list of helpers available to define your wrapper function is:
-+__ATTR_RO(name): assumes default name_show and mode 0444
-+__ATTR_WO(name): assumes a name_store only and is restricted to mode
-+                 0200 that is root write access only.
-+__ATTR_RO_MODE(name, mode): fore more restrictive RO access currently
-+                 only use case is the EFI System Resource Table
-+                 (see drivers/firmware/efi/esrt.c)
-+__ATTR_RW(name): assumes default name_show, name_store and setting
-+                 mode to 0644.
-+__ATTR_NULL: which sets the name to NULL and is used as end of list
-+                 indicator (see: kernel/workqueue.c)
- 
- Subsystem-Specific Callbacks
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- 
-2.1.4
+this series finishes off converting our dma mask model to split between
+device capabilities (dev->dma_mask and dev->coherent_dma_mask) and system
+limitations (dev->bus_dma_mask).  We already accept larger than required
+masks in most dma_map_ops implementation, in case of x86 and
+implementations based on it since the dawn of time.  Only one parisc
+and two sparc64 instances failed larger than required DMA masks, and
+this series fixes that up and updates the documentation that devices
+don't need to handle DMA mask fallbacks.
 
