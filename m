@@ -5,29 +5,44 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 03BC17D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 17 Feb 2019 22:53:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C95817D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 17 Feb 2019 23:15:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726304AbfBQWxg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 17 Feb 2019 17:53:36 -0500
-Received: from ms.lwn.net ([45.79.88.28]:38042 "EHLO ms.lwn.net"
+        id S1726969AbfBQXPI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 17 Feb 2019 18:15:08 -0500
+Received: from ms.lwn.net ([45.79.88.28]:38146 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726283AbfBQWxg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 17 Feb 2019 17:53:36 -0500
+        id S1726283AbfBQXPI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 17 Feb 2019 18:15:08 -0500
 Received: from localhost.localdomain (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0A294300;
-        Sun, 17 Feb 2019 22:53:31 +0000 (UTC)
-Date:   Sun, 17 Feb 2019 15:53:19 -0700
+        by ms.lwn.net (Postfix) with ESMTPSA id 690392DC;
+        Sun, 17 Feb 2019 23:14:52 +0000 (UTC)
+Date:   Sun, 17 Feb 2019 16:14:28 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Nicholas Mc Guire <hofrat@osadl.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2] sysfs.txt: add note on available attribute macros
-Message-ID: <20190217155319.7686ce91@lwn.net>
-In-Reply-To: <1550215788-19883-1-git-send-email-hofrat@osadl.org>
-References: <1550215788-19883-1-git-send-email-hofrat@osadl.org>
+To:     Alexey Budankov <alexey.budankov@linux.intel.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Jann Horn <jannh@google.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        "kernel-hardening@lists.openwall.com" 
+        <kernel-hardening@lists.openwall.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 0/3] admin-guide: extend perf-security with resource
+ control, data categories and privileged users
+Message-ID: <20190217161428.6b43608a@lwn.net>
+In-Reply-To: <784bbe0d-56c1-bd63-1879-b7db988e40c0@linux.intel.com>
+References: <784bbe0d-56c1-bd63-1879-b7db988e40c0@linux.intel.com>
 Organization: LWN.net
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -38,17 +53,22 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 15 Feb 2019 08:29:48 +0100
-Nicholas Mc Guire <hofrat@osadl.org> wrote:
+On Mon, 11 Feb 2019 16:32:33 +0300
+Alexey Budankov <alexey.budankov@linux.intel.com> wrote:
 
-> The common cases of attributes wrappers should probably be using the
-> __ATTR_XXX macros to make code more concise and readable but the current
-> sysfs.txt does not point developers to those convenience macros. Further
-> there is no note in sysfs.txt currently explaining why trying to set a
-> sysfs file to mode 0666 will fail respectively revert to 0664.
+> The patch set extends the first version of perf-security.rst documentation
+> file [1], [2], [3] with the following topics:
 > 
-> Signed-off-by: Nicholas Mc Guire <hofrat@osadl.org>
+> 1) perf_events/Perf resource limits and control management that describes
+>    RLIMIT_NOFILE and perf_event_mlock_kb settings for processes conducting
+>    performance monitoring;
+> 
+> 2) categories of system and performance data that can be captured by
+>    perf_events/Perf with explicit designation of process sensitive data;
+> 
+> 3) possible steps to create perf_event/Perf privileged users groups for 
+>    the current implementations of perf_events syscall API [4] and Perf tool;
 
-I've applied this, thanks.
+I've applied the set, thanks.
 
 jon
