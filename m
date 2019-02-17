@@ -1,91 +1,57 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 79EAF7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 17 Feb 2019 22:19:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D8ED47D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 17 Feb 2019 22:39:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726283AbfBQWTE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 17 Feb 2019 17:19:04 -0500
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:43609 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726349AbfBQWTE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Feb 2019 17:19:04 -0500
-Received: by mail-pl1-f195.google.com with SMTP id f90so7712232plb.10
-        for <linux-doc@vger.kernel.org>; Sun, 17 Feb 2019 14:19:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=ehJ5l7zl5GcH3pulBWL6yMGSbcSlnXfgoJd7ExWqT38=;
-        b=SG0l6A6P/hPKBrUCZmQ1cNdv/oQgJqyPC46MdB+dLeXVy0s60tcGq/qq58OX288Wpc
-         zNmUYEoslb6O6Sb3aWmN2o6CX0WUdri2hF/xwSeT+Kug0bcMASTEps46yQ4ivHbyDEke
-         61qJrupamV64Y4n0Lk345Nyf5U7y44j+civJE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=ehJ5l7zl5GcH3pulBWL6yMGSbcSlnXfgoJd7ExWqT38=;
-        b=KJNye/PmwwFsvGBD2ba8RYcJKpkja7n62w6ozsZOr4LeVT9P3QMOGNW+NtqJ5jE2Tw
-         9UYTUf3ETn81vsFZ5JG3rbl8Gyn5q1V4FlLXkGgGe0NB6frk+eEekwAYmomz+Gtu3XhH
-         UdwdOQAdZD0nd+MSj3AW4J1/bwu58fCpIrQaEiRhSa648ehPSMVArppsWAVZqYETp6Ba
-         VRzSteB9nr47CAlGfjv/7TIbK4NQ8tQqVT/V7QMIeiRGyllMaDG7ua/dmVU2WwQS/y7U
-         lz7ck9AUSy4Z91yMiLYNLR8dfLuFZjfF5BWX31NCTKRiGjAZz00iYkVMfrnht9JOh9lV
-         sRuQ==
-X-Gm-Message-State: AHQUAuYSIJBkb5Ft/38OVPE2Rbsj0nnemu/52VEaMucZJM2/3y54v5Tp
-        FD1Jf6RTLZNRBTSCtdPbZe4ekg==
-X-Google-Smtp-Source: AHgI3IZHgxNUIg/i9IZSRczYFFgfpXkJy1F7TJw0LzZ6blHPsBl8PYxJW4ZPTBdZf1yNq6jlczN/yg==
-X-Received: by 2002:a17:902:8f98:: with SMTP id z24mr21577540plo.40.1550441943714;
-        Sun, 17 Feb 2019 14:19:03 -0800 (PST)
-Received: from www.outflux.net (173-164-112-133-Oregon.hfc.comcastbusiness.net. [173.164.112.133])
-        by smtp.gmail.com with ESMTPSA id 64sm18521293pfe.143.2019.02.17.14.19.02
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 17 Feb 2019 14:19:02 -0800 (PST)
-Date:   Sun, 17 Feb 2019 14:19:01 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     efremov <efremov@ispras.ru>, James Morris <jmorris@namei.org>,
-        linux-doc@vger.kernel.org,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH] doc: security: Add kern-doc for lsm_hooks.h
-Message-ID: <20190217221901.GA41920@beast>
+        id S1726423AbfBQWja (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 17 Feb 2019 17:39:30 -0500
+Received: from ms.lwn.net ([45.79.88.28]:37956 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726304AbfBQWja (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 17 Feb 2019 17:39:30 -0500
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 1A8CF300;
+        Sun, 17 Feb 2019 22:39:22 +0000 (UTC)
+Date:   Sun, 17 Feb 2019 15:39:08 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     frowand.list@gmail.com
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Joris Gutjahr <joris.gutjahr@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: kernel-doc: typo "if ... if" -> "if ... is"
+Message-ID: <20190217153908.78646071@lwn.net>
+In-Reply-To: <1549924684-2148-1-git-send-email-frowand.list@gmail.com>
+References: <1549924684-2148-1-git-send-email-frowand.list@gmail.com>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There is a lot of kern-doc for the LSM internals, but it wasn't visible
-in the HTML output. This exposes some formatting flaws in lsm_hooks.h
-that will be fixed in a later series of patches.
+On Mon, 11 Feb 2019 14:38:04 -0800
+frowand.list@gmail.com wrote:
 
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- Documentation/security/LSM.rst | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+> From: Frank Rowand <frank.rowand@sony.com>
+> 
+> "If no *function* if specified" should instead be
+> "If no *function* is specified".
+> 
+> Reported-by: Matthew Wilcox <willy@infradead.org>
+> Signed-off-by: Frank Rowand <frank.rowand@sony.com>
 
-diff --git a/Documentation/security/LSM.rst b/Documentation/security/LSM.rst
-index 8b9ee597e9d0..31d92bc5fdd2 100644
---- a/Documentation/security/LSM.rst
-+++ b/Documentation/security/LSM.rst
-@@ -11,4 +11,7 @@ that end users and distros can make a more informed decision about which
- LSMs suit their requirements.
- 
- For extensive documentation on the available LSM hook interfaces, please
--see ``include/linux/lsm_hooks.h``.
-+see ``include/linux/lsm_hooks.h`` and associated structures:
-+
-+.. kernel-doc:: include/linux/lsm_hooks.h
-+   :internal:
--- 
-2.17.1
+Applied, thanks.
 
-
--- 
-Kees Cook
+jon
