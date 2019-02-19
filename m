@@ -5,43 +5,42 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 355E87D099
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Feb 2019 16:49:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CAB937D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Feb 2019 16:56:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726321AbfBSQtK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Feb 2019 11:49:10 -0500
-Received: from mga04.intel.com ([192.55.52.120]:58146 "EHLO mga04.intel.com"
+        id S1729317AbfBSQ46 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Feb 2019 11:56:58 -0500
+Received: from mga11.intel.com ([192.55.52.93]:58324 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725820AbfBSQtK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Feb 2019 11:49:10 -0500
+        id S1729137AbfBSQ46 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Feb 2019 11:56:58 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Feb 2019 08:49:09 -0800
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Feb 2019 08:56:57 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.58,388,1544515200"; 
-   d="scan'208";a="135501899"
+   d="scan'208";a="321621624"
 Received: from linux.intel.com ([10.54.29.200])
-  by orsmga002.jf.intel.com with ESMTP; 19 Feb 2019 08:49:09 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 19 Feb 2019 08:56:57 -0800
 Received: from [10.254.80.103] (kliang2-mobl1.ccr.corp.intel.com [10.254.80.103])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by linux.intel.com (Postfix) with ESMTPS id A5223580310;
-        Tue, 19 Feb 2019 08:49:08 -0800 (PST)
-Subject: Re: [PATCH 03/11] x86 topology: Add CPUID.1F multi-die/package
- support
+        by linux.intel.com (Postfix) with ESMTPS id 9AA82580310;
+        Tue, 19 Feb 2019 08:56:56 -0800 (PST)
+Subject: Re: [PATCH 05/11] x86 topology: export die_siblings
 To:     Len Brown <lenb@kernel.org>, x86@kernel.org
 Cc:     linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>,
         linux-doc@vger.kernel.org
 References: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
- <07d2908dc72bf964b27380999e1c826587d69136.1550545163.git.len.brown@intel.com>
+ <0d54a56186fb9be7a8f622a4625a41dc600dd7a4.1550545163.git.len.brown@intel.com>
 From:   "Liang, Kan" <kan.liang@linux.intel.com>
-Message-ID: <2e7fd7b3-9013-d05f-233b-9cd2110f3c73@linux.intel.com>
-Date:   Tue, 19 Feb 2019 11:49:06 -0500
+Message-ID: <59e07a24-dc44-c21b-91d4-ea04e8d0653e@linux.intel.com>
+Date:   Tue, 19 Feb 2019 11:56:55 -0500
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
  Thunderbird/60.5.1
 MIME-Version: 1.0
-In-Reply-To: <07d2908dc72bf964b27380999e1c826587d69136.1550545163.git.len.brown@intel.com>
+In-Reply-To: <0d54a56186fb9be7a8f622a4625a41dc600dd7a4.1550545163.git.len.brown@intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -55,260 +54,205 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On 2/18/2019 10:40 PM, Len Brown wrote:
 > From: Len Brown <len.brown@intel.com>
 > 
-> Some new systems have multiple software-visible die within each package.
-> The new CPUID.1F leaf can enumerate this multi-die/package topology.
+> like core_siblings, except it shows which die are in the same package.
 > 
-> CPUID.1F a super-set of the CPUID.B "Extended Toplogy Leaf",
-> and a common updated routine can parse either leaf.
-> 
-> Legacy systems without CPUID.1F, and systems without multi-die/package
-> hardware, will see no functional change from this patch series.
-> 
-> Multi-die/package systems will use CPUID.B before this patch,
-> and CPUID.1F after this patch.  In the CPUID.B case, all die appear
-> (incorrectly) to software as individual packages.  In the CPUID.1F case,
-> the package id's reflect reality, and die_id's become meaningful.
-> 
-> Subsequent patches in this series update the kernel to be multi-die aware.
-> In particular, some software needs to know the difference between
-> a die-scope MSR and a package-scope MSR.
+> This is needed for lscpu(1) to correctly display die topology.
 > 
 > Signed-off-by: Len Brown <len.brown@intel.com>
 > Cc: linux-doc@vger.kernel.org
 > Signed-off-by: Len Brown <len.brown@intel.com>
 > ---
->   Documentation/x86/topology.txt   |  4 ++
->   arch/x86/include/asm/processor.h |  4 +-
->   arch/x86/kernel/cpu/topology.c   | 82 ++++++++++++++++++++++++--------
->   arch/x86/kernel/smpboot.c        |  4 +-
->   4 files changed, 73 insertions(+), 21 deletions(-)
+>   Documentation/cputopology.txt   | 10 ++++++++++
+>   arch/x86/include/asm/smp.h      |  1 +
+>   arch/x86/include/asm/topology.h |  1 +
+>   arch/x86/kernel/smpboot.c       | 20 ++++++++++++++++++++
+>   arch/x86/xen/smp_pv.c           |  1 +
+>   drivers/base/topology.c         |  6 ++++++
+>   include/linux/topology.h        |  3 +++
+>   7 files changed, 42 insertions(+)
 > 
-> diff --git a/Documentation/x86/topology.txt b/Documentation/x86/topology.txt
-> index 06b3cdbc4048..8107b6cfc9ea 100644
-> --- a/Documentation/x86/topology.txt
-> +++ b/Documentation/x86/topology.txt
-> @@ -46,6 +46,10 @@ The topology of a system is described in the units of:
+> diff --git a/Documentation/cputopology.txt b/Documentation/cputopology.txt
+> index 287213b4517b..7dd2ae3df233 100644
+> --- a/Documentation/cputopology.txt
+> +++ b/Documentation/cputopology.txt
+> @@ -56,6 +56,16 @@ core_siblings_list:
+>   	human-readable list of cpuX's hardware threads within the same
+>   	die_id.
 >   
->       The number of cores in a package. This information is retrieved via CPUID.
->   
-> +  - cpuinfo_x86.x86_max_dies:
+> +die_siblings:
 > +
-> +    The number of dies in a package. This information is retrieved via CPUID.
+> +	internal kernel map of cpuX's hardware threads within the same
+> +	physical_package_id.
 > +
->     - cpuinfo_x86.phys_proc_id:
+> +die_siblings_list:
+> +
+> +	human-readable list of cpuX's hardware threads within the same
+> +	physical_package_id.
+> +
+>   book_siblings:
 >   
->       The physical ID of the package. This information is retrieved via CPUID
-> diff --git a/arch/x86/include/asm/processor.h b/arch/x86/include/asm/processor.h
-> index 33051436c864..f2856fe03715 100644
-> --- a/arch/x86/include/asm/processor.h
-> +++ b/arch/x86/include/asm/processor.h
-> @@ -105,7 +105,8 @@ struct cpuinfo_x86 {
->   	int			x86_power;
->   	unsigned long		loops_per_jiffy;
->   	/* cpuid returned max cores value: */
-> -	u16			 x86_max_cores;
-> +	u16			x86_max_cores;
-> +	u16			x86_max_dies;
->   	u16			apicid;
->   	u16			initial_apicid;
->   	u16			x86_clflush_size;
-> @@ -117,6 +118,7 @@ struct cpuinfo_x86 {
->   	u16			logical_proc_id;
->   	/* Core id: */
->   	u16			cpu_core_id;
-> +	u16			cpu_die_id;
->   	/* Index into per_cpu list: */
->   	u16			cpu_index;
->   	u32			microcode;
-> diff --git a/arch/x86/kernel/cpu/topology.c b/arch/x86/kernel/cpu/topology.c
-> index 8f6c784141d1..6dce6ee77849 100644
-> --- a/arch/x86/kernel/cpu/topology.c
-> +++ b/arch/x86/kernel/cpu/topology.c
-> @@ -15,33 +15,61 @@
->   /* leaf 0xb SMT level */
->   #define SMT_LEVEL	0
+>   	internal kernel map of cpuX's hardware threads within the same
+> diff --git a/arch/x86/include/asm/smp.h b/arch/x86/include/asm/smp.h
+> index 2e95b6c1bca3..39266d193597 100644
+> --- a/arch/x86/include/asm/smp.h
+> +++ b/arch/x86/include/asm/smp.h
+> @@ -23,6 +23,7 @@ extern unsigned int num_processors;
 >   
-> -/* leaf 0xb sub-leaf types */
-> +/* extended topology sub-leaf types */
->   #define INVALID_TYPE	0
->   #define SMT_TYPE	1
->   #define CORE_TYPE	2
-> +#define DIE_TYPE	5
+>   DECLARE_PER_CPU_READ_MOSTLY(cpumask_var_t, cpu_sibling_map);
+>   DECLARE_PER_CPU_READ_MOSTLY(cpumask_var_t, cpu_core_map);
+> +DECLARE_PER_CPU_READ_MOSTLY(cpumask_var_t, cpu_die_map);
+>   /* cpus sharing the last level cache: */
+>   DECLARE_PER_CPU_READ_MOSTLY(cpumask_var_t, cpu_llc_shared_map);
+>   DECLARE_PER_CPU_READ_MOSTLY(u16, cpu_llc_id);
+> diff --git a/arch/x86/include/asm/topology.h b/arch/x86/include/asm/topology.h
+> index 281be6bbc80d..a52a572147ba 100644
+> --- a/arch/x86/include/asm/topology.h
+> +++ b/arch/x86/include/asm/topology.h
+> @@ -110,6 +110,7 @@ extern const struct cpumask *cpu_coregroup_mask(int cpu);
+>   #define topology_core_id(cpu)			(cpu_data(cpu).cpu_core_id)
 >   
->   #define LEAFB_SUBTYPE(ecx)		(((ecx) >> 8) & 0xff)
->   #define BITS_SHIFT_NEXT_LEVEL(eax)	((eax) & 0x1f)
->   #define LEVEL_MAX_SIBLINGS(ebx)		((ebx) & 0xffff)
->   
-> -int detect_extended_topology_early(struct cpuinfo_x86 *c)
-> -{
 >   #ifdef CONFIG_SMP
-> +/*
-> + * Check if given CPUID extended toplogy "leaf" is implemented
-> + */
-> +static int check_extended_topology_leaf(int leaf)
-> +{
->   	unsigned int eax, ebx, ecx, edx;
->   
-> -	if (c->cpuid_level < 0xb)
-> +	cpuid_count(leaf, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
-> +
-> +	if (ebx == 0 || (LEAFB_SUBTYPE(ecx) != SMT_TYPE))
->   		return -1;
->   
-> -	cpuid_count(0xb, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
-> +	return 0;
-> +}
-> +/*
-> + * Return best CPUID Extended Toplogy Leaf supported
-> + */
-> +static int detect_extended_topology_leaf(struct cpuinfo_x86 *c)
-> +{
-> +	if (c->cpuid_level >= 0x1f)
-> +		if (check_extended_topology_leaf(0x1f) == 0)
-> +			return 0x1f;
->   
-> -	/*
-> -	 * check if the cpuid leaf 0xb is actually implemented.
-> -	 */
-> -	if (ebx == 0 || (LEAFB_SUBTYPE(ecx) != SMT_TYPE))
-> +	if (c->cpuid_level >= 0xb)
-> +		if (check_extended_topology_leaf(0xb) == 0)
-> +			return 0xb;
-> +
-> +	return -1;
-> +}
-> +#endif
-> +
-> +int detect_extended_topology_early(struct cpuinfo_x86 *c)
-> +{
-> +#ifdef CONFIG_SMP
-> +	unsigned int eax, ebx, ecx, edx;
-> +	int leaf;
-> +
-> +	leaf = detect_extended_topology_leaf(c);
-> +	if (leaf < 0)
->   		return -1;
->   
->   	set_cpu_cap(c, X86_FEATURE_XTOPOLOGY);
->   
-> +	cpuid_count(leaf, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
->   	/*
->   	 * initial apic id, which also represents 32-bit extended x2apic id.
->   	 */
-> @@ -52,7 +80,7 @@ int detect_extended_topology_early(struct cpuinfo_x86 *c)
->   }
->   
->   /*
-> - * Check for extended topology enumeration cpuid leaf 0xb and if it
-> + * Check for extended topology enumeration cpuid leaf, and if it
->    * exists, use it for populating initial_apicid and cpu topology
->    * detection.
->    */
-> @@ -60,46 +88,62 @@ int detect_extended_topology(struct cpuinfo_x86 *c)
->   {
->   #ifdef CONFIG_SMP
->   	unsigned int eax, ebx, ecx, edx, sub_index;
-> -	unsigned int ht_mask_width, core_plus_mask_width;
-> +	unsigned int ht_mask_width, core_plus_mask_width, die_plus_mask_width;
->   	unsigned int core_select_mask, core_level_siblings;
-> +	unsigned int die_select_mask, die_level_siblings;
-> +	int leaf;
->   
-> -	if (detect_extended_topology_early(c) < 0)
-> +	leaf = detect_extended_topology_leaf(c);
-> +	if (leaf  < 0)
->   		return -1;
->   
->   	/*
->   	 * Populate HT related information from sub-leaf level 0.
->   	 */
-> -	cpuid_count(0xb, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
-> +	cpuid_count(leaf, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
-> +	c->initial_apicid = edx;
->   	core_level_siblings = smp_num_siblings = LEVEL_MAX_SIBLINGS(ebx);
->   	core_plus_mask_width = ht_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
-> +	die_level_siblings = LEVEL_MAX_SIBLINGS(ebx);
-> +	die_plus_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
->   
->   	sub_index = 1;
->   	do {
-> -		cpuid_count(0xb, sub_index, &eax, &ebx, &ecx, &edx);
-> +		cpuid_count(leaf, sub_index, &eax, &ebx, &ecx, &edx);
->   
->   		/*
->   		 * Check for the Core type in the implemented sub leaves.
->   		 */
->   		if (LEAFB_SUBTYPE(ecx) == CORE_TYPE) {
->   			core_level_siblings = LEVEL_MAX_SIBLINGS(ebx);
-> +			die_level_siblings = core_level_siblings;
->   			core_plus_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
-> -			break;
-> +		}
-> +		if (LEAFB_SUBTYPE(ecx) == DIE_TYPE) {
-> +			die_level_siblings = LEVEL_MAX_SIBLINGS(ebx);
-> +			die_plus_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
->   		}
->   
->   		sub_index++;
->   	} while (LEAFB_SUBTYPE(ecx) != INVALID_TYPE);
->   
->   	core_select_mask = (~(-1 << core_plus_mask_width)) >> ht_mask_width;
-> -
-> -	c->cpu_core_id = apic->phys_pkg_id(c->initial_apicid, ht_mask_width)
-> -						 & core_select_mask;
-> -	c->phys_proc_id = apic->phys_pkg_id(c->initial_apicid, core_plus_mask_width);
-> +	die_select_mask = (~(-1 << die_plus_mask_width)) >>
-> +				core_plus_mask_width;
-> +
-> +	c->cpu_core_id = apic->phys_pkg_id(c->initial_apicid,
-> +				ht_mask_width) & core_select_mask;
-> +	c->cpu_die_id = apic->phys_pkg_id(c->initial_apicid,
-> +				core_plus_mask_width) & die_select_mask;
-> +	c->phys_proc_id = apic->phys_pkg_id(c->initial_apicid,
-> +				die_plus_mask_width);
->   	/*
->   	 * Reinit the apicid, now that we have extended initial_apicid.
->   	 */
->   	c->apicid = apic->phys_pkg_id(c->initial_apicid, 0);
->   
->   	c->x86_max_cores = (core_level_siblings / smp_num_siblings);
-> +	c->x86_max_dies = (die_level_siblings / core_level_siblings);
->   #endif
->   	return 0;
->   }
-> diff --git a/arch/x86/kernel/smpboot.c b/arch/x86/kernel/smpboot.c
-> index ccd1f2a8e557..4250a87f57db 100644
-> --- a/arch/x86/kernel/smpboot.c
-> +++ b/arch/x86/kernel/smpboot.c
-> @@ -393,6 +393,7 @@ static bool match_smt(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
->   		int cpu1 = c->cpu_index, cpu2 = o->cpu_index;
->   
->   		if (c->phys_proc_id == o->phys_proc_id &&
-> +		    c->cpu_die_id == o->cpu_die_id &&
->   		    per_cpu(cpu_llc_id, cpu1) == per_cpu(cpu_llc_id, cpu2)) {
->   			if (c->cpu_core_id == o->cpu_core_id)
->   				return topology_sane(c, o, "smt");
-> @@ -404,6 +405,7 @@ static bool match_smt(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
->   		}
->   
->   	} else if (c->phys_proc_id == o->phys_proc_id &&
-> +		   c->cpu_die_id == o->cpu_die_id &&
->   		   c->cpu_core_id == o->cpu_core_id) {
->   		return topology_sane(c, o, "smt");
->   	}
-> @@ -461,7 +463,7 @@ static bool match_llc(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
->    */
->   static bool match_die(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
->   {
-> -	if (c->phys_proc_id == o->phys_proc_id)
-> +	if (c->cpu_die_id == o->cpu_die_id)
->   		return true;
->   	return false;
->   }
+> +#define topology_die_cpumask(cpu)		(per_cpu(cpu_die_map, cpu))
+>   #define topology_core_cpumask(cpu)		(per_cpu(cpu_core_map, cpu))
 
-Shouldn't we check the unique_die_id here?
-Die from different package can have the same cpu_die_id.
+Could you please update the document regarding to topology_die_cpumask 
+and topology_core_cpumask in Documentation/x86/topology.txt
 
 Thanks,
 Kan
 
+>   #define topology_sibling_cpumask(cpu)		(per_cpu(cpu_sibling_map, cpu))
+>   
+> diff --git a/arch/x86/kernel/smpboot.c b/arch/x86/kernel/smpboot.c
+> index 4250a87f57db..42d37e4a1918 100644
+> --- a/arch/x86/kernel/smpboot.c
+> +++ b/arch/x86/kernel/smpboot.c
+> @@ -90,6 +90,10 @@ EXPORT_PER_CPU_SYMBOL(cpu_sibling_map);
+>   DEFINE_PER_CPU_READ_MOSTLY(cpumask_var_t, cpu_core_map);
+>   EXPORT_PER_CPU_SYMBOL(cpu_core_map);
+>   
+> +/* representing HT and core and die siblings of each logical CPU */
+> +DEFINE_PER_CPU_READ_MOSTLY(cpumask_var_t, cpu_die_map);
+> +EXPORT_PER_CPU_SYMBOL(cpu_die_map);
+> +
+>   DEFINE_PER_CPU_READ_MOSTLY(cpumask_var_t, cpu_llc_shared_map);
+>   
+>   /* Per CPU bogomips and other parameters */
+> @@ -461,6 +465,12 @@ static bool match_llc(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
+>    * multicore group inside a NUMA node.  If this happens, we will
+>    * discard the MC level of the topology later.
+>    */
+> +static bool match_pkg(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
+> +{
+> +	if (c->phys_proc_id == o->phys_proc_id)
+> +		return true;
+> +	return false;
+> +}
+>   static bool match_die(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
+>   {
+>   	if (c->cpu_die_id == o->cpu_die_id)
+> @@ -530,6 +540,7 @@ void set_cpu_sibling_map(int cpu)
+>   		cpumask_set_cpu(cpu, topology_sibling_cpumask(cpu));
+>   		cpumask_set_cpu(cpu, cpu_llc_shared_mask(cpu));
+>   		cpumask_set_cpu(cpu, topology_core_cpumask(cpu));
+> +		cpumask_set_cpu(cpu, topology_die_cpumask(cpu));
+>   		c->booted_cores = 1;
+>   		return;
+>   	}
+> @@ -576,8 +587,12 @@ void set_cpu_sibling_map(int cpu)
+>   			} else if (i != cpu && !c->booted_cores)
+>   				c->booted_cores = cpu_data(i).booted_cores;
+>   		}
+> +
+>   		if (match_die(c, o) && !topology_same_node(c, o))
+>   			x86_has_numa_in_package = true;
+> +
+> +		if ((i == cpu) || (has_mp && match_pkg(c, o)))
+> +			link_mask(topology_die_cpumask, cpu, i);
+>   	}
+>   
+>   	threads = cpumask_weight(topology_sibling_cpumask(cpu));
+> @@ -1173,6 +1188,7 @@ static __init void disable_smp(void)
+>   		physid_set_mask_of_physid(0, &phys_cpu_present_map);
+>   	cpumask_set_cpu(0, topology_sibling_cpumask(0));
+>   	cpumask_set_cpu(0, topology_core_cpumask(0));
+> +	cpumask_set_cpu(0, topology_die_cpumask(0));
+>   }
+>   
+>   /*
+> @@ -1268,6 +1284,7 @@ void __init native_smp_prepare_cpus(unsigned int max_cpus)
+>   	for_each_possible_cpu(i) {
+>   		zalloc_cpumask_var(&per_cpu(cpu_sibling_map, i), GFP_KERNEL);
+>   		zalloc_cpumask_var(&per_cpu(cpu_core_map, i), GFP_KERNEL);
+> +		zalloc_cpumask_var(&per_cpu(cpu_die_map, i), GFP_KERNEL);
+>   		zalloc_cpumask_var(&per_cpu(cpu_llc_shared_map, i), GFP_KERNEL);
+>   	}
+>   
+> @@ -1488,6 +1505,8 @@ static void remove_siblinginfo(int cpu)
+>   			cpu_data(sibling).booted_cores--;
+>   	}
+>   
+> +	for_each_cpu(sibling, topology_die_cpumask(cpu))
+> +		cpumask_clear_cpu(cpu, topology_die_cpumask(sibling));
+>   	for_each_cpu(sibling, topology_sibling_cpumask(cpu))
+>   		cpumask_clear_cpu(cpu, topology_sibling_cpumask(sibling));
+>   	for_each_cpu(sibling, cpu_llc_shared_mask(cpu))
+> @@ -1495,6 +1514,7 @@ static void remove_siblinginfo(int cpu)
+>   	cpumask_clear(cpu_llc_shared_mask(cpu));
+>   	cpumask_clear(topology_sibling_cpumask(cpu));
+>   	cpumask_clear(topology_core_cpumask(cpu));
+> +	cpumask_clear(topology_die_cpumask(cpu));
+>   	c->cpu_core_id = 0;
+>   	c->booted_cores = 0;
+>   	cpumask_clear_cpu(cpu, cpu_sibling_setup_mask);
+> diff --git a/arch/x86/xen/smp_pv.c b/arch/x86/xen/smp_pv.c
+> index 145506f9fdbe..ac13b0be8448 100644
+> --- a/arch/x86/xen/smp_pv.c
+> +++ b/arch/x86/xen/smp_pv.c
+> @@ -251,6 +251,7 @@ static void __init xen_pv_smp_prepare_cpus(unsigned int max_cpus)
+>   	for_each_possible_cpu(i) {
+>   		zalloc_cpumask_var(&per_cpu(cpu_sibling_map, i), GFP_KERNEL);
+>   		zalloc_cpumask_var(&per_cpu(cpu_core_map, i), GFP_KERNEL);
+> +		zalloc_cpumask_var(&per_cpu(cpu_die_map, i), GFP_KERNEL);
+>   		zalloc_cpumask_var(&per_cpu(cpu_llc_shared_map, i), GFP_KERNEL);
+>   	}
+>   	set_cpu_sibling_map(0);
+> diff --git a/drivers/base/topology.c b/drivers/base/topology.c
+> index 50352cf96f85..5b1317ae3262 100644
+> --- a/drivers/base/topology.c
+> +++ b/drivers/base/topology.c
+> @@ -57,6 +57,10 @@ define_siblings_show_func(core_siblings, core_cpumask);
+>   static DEVICE_ATTR_RO(core_siblings);
+>   static DEVICE_ATTR_RO(core_siblings_list);
+>   
+> +define_siblings_show_func(die_siblings, die_cpumask);
+> +static DEVICE_ATTR_RO(die_siblings);
+> +static DEVICE_ATTR_RO(die_siblings_list);
+> +
+>   #ifdef CONFIG_SCHED_BOOK
+>   define_id_show_func(book_id);
+>   static DEVICE_ATTR_RO(book_id);
+> @@ -81,6 +85,8 @@ static struct attribute *default_attrs[] = {
+>   	&dev_attr_thread_siblings_list.attr,
+>   	&dev_attr_core_siblings.attr,
+>   	&dev_attr_core_siblings_list.attr,
+> +	&dev_attr_die_siblings.attr,
+> +	&dev_attr_die_siblings_list.attr,
+>   #ifdef CONFIG_SCHED_BOOK
+>   	&dev_attr_book_id.attr,
+>   	&dev_attr_book_siblings.attr,
+> diff --git a/include/linux/topology.h b/include/linux/topology.h
+> index 5cc8595dd0e4..47a3e3c08036 100644
+> --- a/include/linux/topology.h
+> +++ b/include/linux/topology.h
+> @@ -196,6 +196,9 @@ static inline int cpu_to_mem(int cpu)
+>   #ifndef topology_core_cpumask
+>   #define topology_core_cpumask(cpu)		cpumask_of(cpu)
+>   #endif
+> +#ifndef topology_die_cpumask
+> +#define topology_die_cpumask(cpu)		cpumask_of(cpu)
+> +#endif
+>   
+>   #ifdef CONFIG_SCHED_SMT
+>   static inline const struct cpumask *cpu_smt_mask(int cpu)
+> 
