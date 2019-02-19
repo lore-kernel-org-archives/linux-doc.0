@@ -2,58 +2,59 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BA8C27D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Feb 2019 03:23:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 73CCF7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Feb 2019 03:41:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726165AbfBSDXS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Feb 2019 22:23:18 -0500
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:46423 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726142AbfBSDXS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Feb 2019 22:23:18 -0500
-Received: by mail-qk1-f195.google.com with SMTP id i5so11204787qkd.13
-        for <linux-doc@vger.kernel.org>; Mon, 18 Feb 2019 19:23:17 -0800 (PST)
+        id S1726380AbfBSDkb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Feb 2019 22:40:31 -0500
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:34479 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726366AbfBSDka (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Feb 2019 22:40:30 -0500
+Received: by mail-qt1-f194.google.com with SMTP id w4so21690310qtc.1;
+        Mon, 18 Feb 2019 19:40:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :reply-to:organization;
-        bh=0CHIYMXtLSQiCHEdH2Adu3kjFWhpSsn8ZoAoGBRGXM0=;
-        b=uC9FH/bs/dP431Cht+OYLOhAaYT+CfOPLhYqQBwaxAgz/UR9SINpj5h/oKUMreFInL
-         Ou4TB5zPz69GxKS5bQ0T6Wzb8WXmtN/pIeKO6EfmMnzU1+76vgRUAbi397HMwRAG4/Ql
-         kQds+Db4RnCtLwKKTcSRpYdPhB4Uxf6HIF0uH+wPC60kaaCzDmmB5DNL2hhU0e9zvyAh
-         g28h8hjgyLR1YenEqTgcz//qsbszus9QQNdiZ+J5UtqPF/jfKRxhVJgd2VE/VnSxg9WM
-         vpJBK5bB7p4jEriEbie945Qj264sm5TkRahB/GNOJIrWTdP527jq4ylpENI04RVvsxO0
-         WXMg==
+        bh=CLfh/WUtGvxdVy504t8JDKdret4iaIChUZ+IoIQnZuA=;
+        b=A1KRYuliNAk11zEbvbgQuMh37xIYSLFFxZ5QaNj5v36BUIpcVnurHE1JP/WQ0NgSY9
+         njxJ4aZqSZ68/gLo2UtdJeZosIAlhc7jDhLhEZGYuaVto1DxSzFtPsMjdMc2188pl5Dj
+         Nn2dHGCOeFizbW69GVvh9+5LNgSueFvlOR3seOcRSyyNyNNwxLR5jksI8aJTtfiCZsv+
+         JHxmS1mDgO9LMOUL7ziLGMipujg6+xbukgbx/uLqnOnqTwLgSGupo0qkQjbPl/RFv6Nd
+         8Obr5gYXpe1nKaHlSozLN6Pa6fVdMhYU3/BA8J/9wzChH8gFYF74ijj6HE3ZUBkChgfj
+         DV4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:reply-to:organization;
-        bh=0CHIYMXtLSQiCHEdH2Adu3kjFWhpSsn8ZoAoGBRGXM0=;
-        b=tHwArq7FNIdDoEzla9D+PNHQrafM90R/li4mAIoTkmcUfz4tJDfHX4+MRtbZKP/YS/
-         icRfg9tgE33eT+emD/uYnu+rGZLSrYX/p5CdvCy4Q4C7fm/m668QbrwsZl5jGq3GVlit
-         QAUyD75pk8R+I3+bjPcJbF1i7D+KFdxLQdt41z6qFMi+PNrjaY/t3Uwv0jNgl8mGQxWg
-         VNhLPxW0WvJys26WwbTZHM7wj+sIoEdlvvVOLiombdJWO5XwyrEDqTaM5zPnu9QORSco
-         hIiSQA4HT03omZRBSODqhBScMpy1wn0jXrIlHrCYSW2EzOSqFhCbRsBQA/zJDy/R/BQN
-         9Juw==
-X-Gm-Message-State: AHQUAua6i5Kku6F8WjSMpU7BpiSfcZuzSzTDXcYuVW/N9qxnf6Jl/GTa
-        53OtcmPsYwRXRD4r63YOEd6GBcgw
-X-Google-Smtp-Source: AHgI3IaEgzOW49MkYIbIGU+Xaik/ZjSrccJqnoEeeInnaZdX0KY9CxuSM2IMl13jxJuBDvUUxIAyZA==
-X-Received: by 2002:a37:9585:: with SMTP id x127mr19152903qkd.315.1550546596765;
-        Mon, 18 Feb 2019 19:23:16 -0800 (PST)
+        bh=CLfh/WUtGvxdVy504t8JDKdret4iaIChUZ+IoIQnZuA=;
+        b=Oe9sV9SO40fOdx2RQnCZ9NJ5/YUIrSLJJPPozlhwfPzuEefa1nXaqZwuHXnIIFXaZ5
+         Hmc04AuEqy0InFW25YCJWxeedAWmSz9eRvTqJN8EDUQ0EOxnsimRjMzdRsTFCIM/wcjw
+         ft060ic8jICFO40KNGoDnM7wOWm2dZYigxIk4l0sBwI+/8ZHp90CN9UTp3aRD0aTCXlR
+         BWcujJKtABcFSCVE+c8K/io/KzmEZ+JF9xUpIknRAClntmdtNhBTkjOMvjd6WDPHez3e
+         U59tf+3B9s6mpaK+R+lhLu1m95a14OclgnW/HEpFeBO5cTmPxshsydz4YZbvH+p+Uckk
+         +/zQ==
+X-Gm-Message-State: AHQUAubcrNVsDCB59skONfJBcn/xfD0B43rR3tSog3Nczgcb/UZaD//j
+        kTVXhMSPYRiyLuUlb4xpids=
+X-Google-Smtp-Source: AHgI3IZ5Xg39f7XjOJWV3Vx1a4z6XeLwsVddkRL9Yap5Mn4rXP0eyPdIu1kYWpgKtWGN7qRlZNZKaQ==
+X-Received: by 2002:aed:2534:: with SMTP id v49mr20805338qtc.90.1550547628760;
+        Mon, 18 Feb 2019 19:40:28 -0800 (PST)
 Received: from kbl.fios-router.home (pool-96-233-42-17.bstnma.fios.verizon.net. [96.233.42.17])
-        by smtp.gmail.com with ESMTPSA id l31sm205282qtb.20.2019.02.18.19.23.15
+        by smtp.gmail.com with ESMTPSA id u5sm7327680qtg.37.2019.02.18.19.40.27
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Feb 2019 19:23:16 -0800 (PST)
+        Mon, 18 Feb 2019 19:40:28 -0800 (PST)
 From:   Len Brown <lenb@kernel.org>
-X-Google-Original-From: Len Brown <len.brown@intel.com>
-To:     linux-drivers-review@linux.intel.com
-Cc:     linux-doc@vger.kernel.org
+To:     x86@kernel.org
+Cc:     linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>,
+        linux-doc@vger.kernel.org
 Subject: [PATCH 05/11] x86 topology: export die_siblings
-Date:   Mon, 18 Feb 2019 22:22:53 -0500
-Message-Id: <0d54a56186fb9be7a8f622a4625a41dc600dd7a4.1550545163.git.len.brown@intel.com>
+Date:   Mon, 18 Feb 2019 22:40:07 -0500
+Message-Id:
+ <0d54a56186fb9be7a8f622a4625a41dc600dd7a4.1550545163.git.len.brown@intel.com>
 X-Mailer: git-send-email 2.18.0-rc0
 In-Reply-To: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
 References: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
@@ -63,6 +64,9 @@ Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
+Message-ID: <20190219034007.jiuiL9Em0JK0SFGJuI7s5-vjdQwXi_SvIUsZYpKSIio@z>
+
+From: Len Brown <len.brown@intel.com>
 
 like core_siblings, except it shows which die are in the same package.
 
