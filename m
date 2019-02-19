@@ -5,55 +5,55 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BFEB27D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Feb 2019 03:23:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3B8757D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Feb 2019 03:23:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726130AbfBSDXO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Feb 2019 22:23:14 -0500
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:42250 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725770AbfBSDXO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Feb 2019 22:23:14 -0500
-Received: by mail-qk1-f195.google.com with SMTP id y140so11229143qkb.9
-        for <linux-doc@vger.kernel.org>; Mon, 18 Feb 2019 19:23:13 -0800 (PST)
+        id S1726149AbfBSDXP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Feb 2019 22:23:15 -0500
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:41747 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725770AbfBSDXP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Feb 2019 22:23:15 -0500
+Received: by mail-qt1-f193.google.com with SMTP id v10so21607085qtp.8
+        for <linux-doc@vger.kernel.org>; Mon, 18 Feb 2019 19:23:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :reply-to:organization;
-        bh=lTcyxmG4prkS5riKCUkqxeogt3Pv08ytXyGNonTbMhk=;
-        b=isG73o+UjuCYsFra+acMSqEynnntPbCZ+VZxbcqzBs0nBenJ40uJe1fYT8+kv24L4C
-         Jaj1zBYrIGIZAT6Qpva8kcFn/nAB9W/HpVdTnbEi66M1hFaIK5ryVuM5yYwS6weW2o+1
-         9r4ct7W6wqIJW05pKxqUHpFFVHLcEZ9cAAVAUxSzrHP3cEAityYSB9oEWGZF6BPP0fR4
-         WoDcTX8fSAOCSGmmD1ckRFu7rsMzogoQdte26zIuGDXq0dqBLGkEyGDKFZnQxrz5LXpm
-         6zrP575SttYFE/k6Btq3gUpuIDNJC0aPBwnLr4pWDxkEg2T+Prfn1CEYIUab/18g0Yya
-         vZWQ==
+        bh=WgTYaVCAPMdQ72F4tdQTFJIHduZXpi/qhCwoMKsngCM=;
+        b=fVuAYpXUeh2sQkL/XkMeS1T4n3c4wmMXq358O/E62b6vRHxesgeKu74reEze1ZL4g+
+         WMulBkzO2JVFxaqpdN3frAX4ZrR9IoAQks7HnXEQr8rDnMngHDj7U4hEGUJJoQB3kSSX
+         8JUeg7PhTU3upAO9FwzaaaJtheMe6r5B5OOuvbzwpr0wfvqeIf04QkhiIf0oT+n2Kv6l
+         hOTOx+LQnSvs8xVuTyCLudE8pB8A+rxBuTrS/vr74Nj6Fr+4wfa9RhLzJtUcrq9eg5qk
+         Qx2xfqUfIXBylzixxWBCMG7gVoshntbL4apLebray+NlT1aPXBULTeGsbGdtgkumf3Pw
+         GoYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:reply-to:organization;
-        bh=lTcyxmG4prkS5riKCUkqxeogt3Pv08ytXyGNonTbMhk=;
-        b=im/ONk1yFfB+vAdsqQMKAj2ldjDBpagYQEGu6hpYuyvoqd1I1kfxKT9l475X2rofnM
-         0SXLO/C3XJdWxIPpHk4+T/pnajFOqElyrKllV3YEdBB1z7eJztpPv6KDH6AXPx7tPNfY
-         0iNGYeWEdztNbqv8C/NfCkFZGK5ODMIvRyHdVWShfbaXrRCiA7l5yw/MO1bq1I6x14lX
-         +cVhM/HOH/nWHPoDA4m8Xb5ngXwAGxZGyOJLkQh0zUpPEgpNnt/jvaL7XXYSEtnqcNWn
-         +R6UQoOAncapiiWDF8V4C/uPsw74Wfm7d0bTIRq87pq6lhbzu4EH3k/VUz/anFM/edJX
-         Jc7g==
-X-Gm-Message-State: AHQUAuZYIuF5a2pidHbqyYKCKYrwGtbp3MkOzKJDHiIm4eoqSE1GAIjJ
-        AIYlTa34hBm+CwgEINh3+F0pqUdC
-X-Google-Smtp-Source: AHgI3IbqLdYRjHMCJ/CcsBsJFlcGnGXE7PnRjIQT1FLawwTeiTGmmlA/QFphorXh3bqLQ1rBrFIEQQ==
-X-Received: by 2002:a05:620a:109b:: with SMTP id g27mr18862719qkk.128.1550546593080;
-        Mon, 18 Feb 2019 19:23:13 -0800 (PST)
+        bh=WgTYaVCAPMdQ72F4tdQTFJIHduZXpi/qhCwoMKsngCM=;
+        b=GfLrkksKf4tkgDJRaKdpztoxaU/ZCXKp1KTBBkpbQ3Xx4WQQXqi+qaXXpXqJ9a3tto
+         OePCU78uzvPGlGmtLqy6R3KBseF+szPn0l911yZbz/3sH7OgqfgEI8urzX1wZtBpFZUh
+         h0hu8pNNoS2xsfXUVpeT1/WtOQZjeLsW72aokWYM5XFdFuqXUttCNh8EwzhLptZeqsNK
+         tlrmwdQpA+Q870TNOk+WPqlOA/B3dUcS6t77xtYXNQTg99NM6xdy/cWefOT0+W8pmNzi
+         cbNOLWH4C4dIRHCKhWUQVHuF5yD+LzGJh+yCB6AKsDvK2ST0i1vOPplNQOX3UMaZjpES
+         tINg==
+X-Gm-Message-State: AHQUAuaUK5yeziDCLe+N2JJnJR90s2YOUUOVJ+MD4D02qp9vKdYJBifd
+        SNdTFzxX+8nFUrG9A2bfHrWsAulc
+X-Google-Smtp-Source: AHgI3IaGClzzO1xzGAFB74H7wc1tudbeUVbkSzSvDTQ1vbzO7W32+LV+Hu6KxbXrY9KqVfmn18zqvg==
+X-Received: by 2002:a0c:91bb:: with SMTP id n56mr20338714qvn.77.1550546594328;
+        Mon, 18 Feb 2019 19:23:14 -0800 (PST)
 Received: from kbl.fios-router.home (pool-96-233-42-17.bstnma.fios.verizon.net. [96.233.42.17])
-        by smtp.gmail.com with ESMTPSA id l31sm205282qtb.20.2019.02.18.19.23.11
+        by smtp.gmail.com with ESMTPSA id l31sm205282qtb.20.2019.02.18.19.23.13
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Feb 2019 19:23:12 -0800 (PST)
+        Mon, 18 Feb 2019 19:23:13 -0800 (PST)
 From:   Len Brown <lenb@kernel.org>
 X-Google-Original-From: Len Brown <len.brown@intel.com>
 To:     linux-drivers-review@linux.intel.com
 Cc:     linux-doc@vger.kernel.org
-Subject: [PATCH 02/11] topolgy: simplify cputopology.txt formatting and wording
-Date:   Mon, 18 Feb 2019 22:22:50 -0500
-Message-Id: <e13cb72d48bdaed80b681abf89bc77d58931db51.1550545163.git.len.brown@intel.com>
+Subject: [PATCH 03/11] x86 topology: Add CPUID.1F multi-die/package support
+Date:   Mon, 18 Feb 2019 22:22:51 -0500
+Message-Id: <07d2908dc72bf964b27380999e1c826587d69136.1550545163.git.len.brown@intel.com>
 X-Mailer: git-send-email 2.18.0-rc0
 In-Reply-To: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
 References: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
@@ -64,113 +64,256 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-No semantic changes.
+Some new systems have multiple software-visible die within each package.
+The new CPUID.1F leaf can enumerate this multi-die/package topology.
+
+CPUID.1F a super-set of the CPUID.B "Extended Toplogy Leaf",
+and a common updated routine can parse either leaf.
+
+Legacy systems without CPUID.1F, and systems without multi-die/package
+hardware, will see no functional change from this patch series.
+
+Multi-die/package systems will use CPUID.B before this patch,
+and CPUID.1F after this patch.  In the CPUID.B case, all die appear
+(incorrectly) to software as individual packages.  In the CPUID.1F case,
+the package id's reflect reality, and die_id's become meaningful.
+
+Subsequent patches in this series update the kernel to be multi-die aware.
+In particular, some software needs to know the difference between
+a die-scope MSR and a package-scope MSR.
 
 Signed-off-by: Len Brown <len.brown@intel.com>
 Cc: linux-doc@vger.kernel.org
 Signed-off-by: Len Brown <len.brown@intel.com>
 ---
- Documentation/cputopology.txt | 34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+ Documentation/x86/topology.txt   |  4 ++
+ arch/x86/include/asm/processor.h |  4 +-
+ arch/x86/kernel/cpu/topology.c   | 82 ++++++++++++++++++++++++--------
+ arch/x86/kernel/smpboot.c        |  4 +-
+ 4 files changed, 73 insertions(+), 21 deletions(-)
 
-diff --git a/Documentation/cputopology.txt b/Documentation/cputopology.txt
-index c6e7e9196a8b..2698da7e4f49 100644
---- a/Documentation/cputopology.txt
-+++ b/Documentation/cputopology.txt
-@@ -3,76 +3,76 @@ How CPU topology info is exported via sysfs
- ===========================================
+diff --git a/Documentation/x86/topology.txt b/Documentation/x86/topology.txt
+index 06b3cdbc4048..8107b6cfc9ea 100644
+--- a/Documentation/x86/topology.txt
++++ b/Documentation/x86/topology.txt
+@@ -46,6 +46,10 @@ The topology of a system is described in the units of:
  
- Export CPU topology info via sysfs. Items (attributes) are similar
--to /proc/cpuinfo output of some architectures:
-+to /proc/cpuinfo output of some architectures.  They reside in
-+/sys/devices/system/cpu/cpuX/topology/:
+     The number of cores in a package. This information is retrieved via CPUID.
  
--1) /sys/devices/system/cpu/cpuX/topology/physical_package_id:
-+physical_package_id:
++  - cpuinfo_x86.x86_max_dies:
++
++    The number of dies in a package. This information is retrieved via CPUID.
++
+   - cpuinfo_x86.phys_proc_id:
  
- 	physical package id of cpuX. Typically corresponds to a physical
- 	socket number, but the actual value is architecture and platform
- 	dependent.
+     The physical ID of the package. This information is retrieved via CPUID
+diff --git a/arch/x86/include/asm/processor.h b/arch/x86/include/asm/processor.h
+index 33051436c864..f2856fe03715 100644
+--- a/arch/x86/include/asm/processor.h
++++ b/arch/x86/include/asm/processor.h
+@@ -105,7 +105,8 @@ struct cpuinfo_x86 {
+ 	int			x86_power;
+ 	unsigned long		loops_per_jiffy;
+ 	/* cpuid returned max cores value: */
+-	u16			 x86_max_cores;
++	u16			x86_max_cores;
++	u16			x86_max_dies;
+ 	u16			apicid;
+ 	u16			initial_apicid;
+ 	u16			x86_clflush_size;
+@@ -117,6 +118,7 @@ struct cpuinfo_x86 {
+ 	u16			logical_proc_id;
+ 	/* Core id: */
+ 	u16			cpu_core_id;
++	u16			cpu_die_id;
+ 	/* Index into per_cpu list: */
+ 	u16			cpu_index;
+ 	u32			microcode;
+diff --git a/arch/x86/kernel/cpu/topology.c b/arch/x86/kernel/cpu/topology.c
+index 8f6c784141d1..6dce6ee77849 100644
+--- a/arch/x86/kernel/cpu/topology.c
++++ b/arch/x86/kernel/cpu/topology.c
+@@ -15,33 +15,61 @@
+ /* leaf 0xb SMT level */
+ #define SMT_LEVEL	0
  
--2) /sys/devices/system/cpu/cpuX/topology/core_id:
-+core_id:
+-/* leaf 0xb sub-leaf types */
++/* extended topology sub-leaf types */
+ #define INVALID_TYPE	0
+ #define SMT_TYPE	1
+ #define CORE_TYPE	2
++#define DIE_TYPE	5
  
- 	the CPU core ID of cpuX. Typically it is the hardware platform's
- 	identifier (rather than the kernel's).  The actual value is
- 	architecture and platform dependent.
+ #define LEAFB_SUBTYPE(ecx)		(((ecx) >> 8) & 0xff)
+ #define BITS_SHIFT_NEXT_LEVEL(eax)	((eax) & 0x1f)
+ #define LEVEL_MAX_SIBLINGS(ebx)		((ebx) & 0xffff)
  
--3) /sys/devices/system/cpu/cpuX/topology/book_id:
-+book_id:
+-int detect_extended_topology_early(struct cpuinfo_x86 *c)
+-{
+ #ifdef CONFIG_SMP
++/*
++ * Check if given CPUID extended toplogy "leaf" is implemented
++ */
++static int check_extended_topology_leaf(int leaf)
++{
+ 	unsigned int eax, ebx, ecx, edx;
  
- 	the book ID of cpuX. Typically it is the hardware platform's
- 	identifier (rather than the kernel's).	The actual value is
- 	architecture and platform dependent.
+-	if (c->cpuid_level < 0xb)
++	cpuid_count(leaf, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
++
++	if (ebx == 0 || (LEAFB_SUBTYPE(ecx) != SMT_TYPE))
+ 		return -1;
  
--4) /sys/devices/system/cpu/cpuX/topology/drawer_id:
-+drawer_id:
+-	cpuid_count(0xb, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
++	return 0;
++}
++/*
++ * Return best CPUID Extended Toplogy Leaf supported
++ */
++static int detect_extended_topology_leaf(struct cpuinfo_x86 *c)
++{
++	if (c->cpuid_level >= 0x1f)
++		if (check_extended_topology_leaf(0x1f) == 0)
++			return 0x1f;
  
- 	the drawer ID of cpuX. Typically it is the hardware platform's
- 	identifier (rather than the kernel's).	The actual value is
- 	architecture and platform dependent.
+-	/*
+-	 * check if the cpuid leaf 0xb is actually implemented.
+-	 */
+-	if (ebx == 0 || (LEAFB_SUBTYPE(ecx) != SMT_TYPE))
++	if (c->cpuid_level >= 0xb)
++		if (check_extended_topology_leaf(0xb) == 0)
++			return 0xb;
++
++	return -1;
++}
++#endif
++
++int detect_extended_topology_early(struct cpuinfo_x86 *c)
++{
++#ifdef CONFIG_SMP
++	unsigned int eax, ebx, ecx, edx;
++	int leaf;
++
++	leaf = detect_extended_topology_leaf(c);
++	if (leaf < 0)
+ 		return -1;
  
--5) /sys/devices/system/cpu/cpuX/topology/thread_siblings:
-+thread_siblings:
+ 	set_cpu_cap(c, X86_FEATURE_XTOPOLOGY);
  
- 	internal kernel map of cpuX's hardware threads within the same
- 	core as cpuX.
++	cpuid_count(leaf, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
+ 	/*
+ 	 * initial apic id, which also represents 32-bit extended x2apic id.
+ 	 */
+@@ -52,7 +80,7 @@ int detect_extended_topology_early(struct cpuinfo_x86 *c)
+ }
  
--6) /sys/devices/system/cpu/cpuX/topology/thread_siblings_list:
-+thread_siblings_list:
+ /*
+- * Check for extended topology enumeration cpuid leaf 0xb and if it
++ * Check for extended topology enumeration cpuid leaf, and if it
+  * exists, use it for populating initial_apicid and cpu topology
+  * detection.
+  */
+@@ -60,46 +88,62 @@ int detect_extended_topology(struct cpuinfo_x86 *c)
+ {
+ #ifdef CONFIG_SMP
+ 	unsigned int eax, ebx, ecx, edx, sub_index;
+-	unsigned int ht_mask_width, core_plus_mask_width;
++	unsigned int ht_mask_width, core_plus_mask_width, die_plus_mask_width;
+ 	unsigned int core_select_mask, core_level_siblings;
++	unsigned int die_select_mask, die_level_siblings;
++	int leaf;
  
- 	human-readable list of cpuX's hardware threads within the same
- 	core as cpuX.
+-	if (detect_extended_topology_early(c) < 0)
++	leaf = detect_extended_topology_leaf(c);
++	if (leaf  < 0)
+ 		return -1;
  
--7) /sys/devices/system/cpu/cpuX/topology/core_siblings:
-+core_siblings:
+ 	/*
+ 	 * Populate HT related information from sub-leaf level 0.
+ 	 */
+-	cpuid_count(0xb, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
++	cpuid_count(leaf, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
++	c->initial_apicid = edx;
+ 	core_level_siblings = smp_num_siblings = LEVEL_MAX_SIBLINGS(ebx);
+ 	core_plus_mask_width = ht_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
++	die_level_siblings = LEVEL_MAX_SIBLINGS(ebx);
++	die_plus_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
  
- 	internal kernel map of cpuX's hardware threads within the same
- 	physical_package_id.
+ 	sub_index = 1;
+ 	do {
+-		cpuid_count(0xb, sub_index, &eax, &ebx, &ecx, &edx);
++		cpuid_count(leaf, sub_index, &eax, &ebx, &ecx, &edx);
  
--8) /sys/devices/system/cpu/cpuX/topology/core_siblings_list:
-+core_siblings_list:
+ 		/*
+ 		 * Check for the Core type in the implemented sub leaves.
+ 		 */
+ 		if (LEAFB_SUBTYPE(ecx) == CORE_TYPE) {
+ 			core_level_siblings = LEVEL_MAX_SIBLINGS(ebx);
++			die_level_siblings = core_level_siblings;
+ 			core_plus_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
+-			break;
++		}
++		if (LEAFB_SUBTYPE(ecx) == DIE_TYPE) {
++			die_level_siblings = LEVEL_MAX_SIBLINGS(ebx);
++			die_plus_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
+ 		}
  
- 	human-readable list of cpuX's hardware threads within the same
- 	physical_package_id.
+ 		sub_index++;
+ 	} while (LEAFB_SUBTYPE(ecx) != INVALID_TYPE);
  
--9) /sys/devices/system/cpu/cpuX/topology/book_siblings:
-+book_siblings:
+ 	core_select_mask = (~(-1 << core_plus_mask_width)) >> ht_mask_width;
+-
+-	c->cpu_core_id = apic->phys_pkg_id(c->initial_apicid, ht_mask_width)
+-						 & core_select_mask;
+-	c->phys_proc_id = apic->phys_pkg_id(c->initial_apicid, core_plus_mask_width);
++	die_select_mask = (~(-1 << die_plus_mask_width)) >>
++				core_plus_mask_width;
++
++	c->cpu_core_id = apic->phys_pkg_id(c->initial_apicid,
++				ht_mask_width) & core_select_mask;
++	c->cpu_die_id = apic->phys_pkg_id(c->initial_apicid,
++				core_plus_mask_width) & die_select_mask;
++	c->phys_proc_id = apic->phys_pkg_id(c->initial_apicid,
++				die_plus_mask_width);
+ 	/*
+ 	 * Reinit the apicid, now that we have extended initial_apicid.
+ 	 */
+ 	c->apicid = apic->phys_pkg_id(c->initial_apicid, 0);
  
- 	internal kernel map of cpuX's hardware threads within the same
- 	book_id.
+ 	c->x86_max_cores = (core_level_siblings / smp_num_siblings);
++	c->x86_max_dies = (die_level_siblings / core_level_siblings);
+ #endif
+ 	return 0;
+ }
+diff --git a/arch/x86/kernel/smpboot.c b/arch/x86/kernel/smpboot.c
+index ccd1f2a8e557..4250a87f57db 100644
+--- a/arch/x86/kernel/smpboot.c
++++ b/arch/x86/kernel/smpboot.c
+@@ -393,6 +393,7 @@ static bool match_smt(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
+ 		int cpu1 = c->cpu_index, cpu2 = o->cpu_index;
  
--10) /sys/devices/system/cpu/cpuX/topology/book_siblings_list:
-+book_siblings_list:
+ 		if (c->phys_proc_id == o->phys_proc_id &&
++		    c->cpu_die_id == o->cpu_die_id &&
+ 		    per_cpu(cpu_llc_id, cpu1) == per_cpu(cpu_llc_id, cpu2)) {
+ 			if (c->cpu_core_id == o->cpu_core_id)
+ 				return topology_sane(c, o, "smt");
+@@ -404,6 +405,7 @@ static bool match_smt(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
+ 		}
  
- 	human-readable list of cpuX's hardware threads within the same
- 	book_id.
- 
--11) /sys/devices/system/cpu/cpuX/topology/drawer_siblings:
-+drawer_siblings:
- 
- 	internal kernel map of cpuX's hardware threads within the same
- 	drawer_id.
- 
--12) /sys/devices/system/cpu/cpuX/topology/drawer_siblings_list:
-+drawer_siblings_list:
- 
- 	human-readable list of cpuX's hardware threads within the same
- 	drawer_id.
- 
--To implement it in an architecture-neutral way, a new source file,
--drivers/base/topology.c, is to export the 6 to 12 attributes. The book
--and drawer related sysfs files will only be created if CONFIG_SCHED_BOOK
--and CONFIG_SCHED_DRAWER are selected.
-+Architecture-neutral, drivers/base/topology.c, exports these attributes.
-+However, the book and drawer related sysfs files will only be created if
-+CONFIG_SCHED_BOOK and CONFIG_SCHED_DRAWER are selected, respectively.
- 
- CONFIG_SCHED_BOOK and CONFIG_DRAWER are currently only used on s390, where
- they reflect the cpu and cache hierarchy.
+ 	} else if (c->phys_proc_id == o->phys_proc_id &&
++		   c->cpu_die_id == o->cpu_die_id &&
+ 		   c->cpu_core_id == o->cpu_core_id) {
+ 		return topology_sane(c, o, "smt");
+ 	}
+@@ -461,7 +463,7 @@ static bool match_llc(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
+  */
+ static bool match_die(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
+ {
+-	if (c->phys_proc_id == o->phys_proc_id)
++	if (c->cpu_die_id == o->cpu_die_id)
+ 		return true;
+ 	return false;
+ }
 -- 
 2.18.0-rc0
 
