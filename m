@@ -1,48 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
-X-Spam-Level: **
-X-Spam-Status: No, score=2.7 required=5.0 tests=AXB_XMAILER_MIMEOLE_OL_024C2,
-	FAKE_REPLY_C,FORGED_MUA_OUTLOOK,FREEMAIL_REPLYTO_END_DIGIT,
-	FSL_CTYPE_WIN1251,FSL_NEW_HELO_USER,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MSM_PRIO_REPTO,MSOE_MID_WRONG_CASE,
-	RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_HI autolearn=no
-	autolearn_force=no version=3.4.2
+X-Spam-Level: 
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1281F7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Feb 2019 21:22:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8A3BA7D912
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Feb 2019 22:03:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725859AbfBSVWx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Feb 2019 16:22:53 -0500
-Received: from ns2.juuki.net ([119.18.217.113]:55409 "EHLO ns2.juuki.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725829AbfBSVWx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Feb 2019 16:22:53 -0500
-Received: from User ([216.250.126.131])
-        (authenticated bits=0)
-        by ns2.juuki.net (8.13.1/8.13.1) with ESMTP id x1INeuqN026022;
-        Tue, 19 Feb 2019 08:40:58 +0900
-Message-Id: <201902182340.x1INeuqN026022@ns2.juuki.net>
-Reply-To: <pablomancilla1@orange.es>
-From:   "Pablo Mancilla" <goose@simnet.is>
-Subject: Re:
-Date:   Mon, 18 Feb 2019 23:41:05 -0000
+        id S1729914AbfBSWDM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Feb 2019 17:03:12 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:35863 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729884AbfBSWDK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Feb 2019 17:03:10 -0500
+Received: by mail-pg1-f196.google.com with SMTP id r124so10770238pgr.3;
+        Tue, 19 Feb 2019 14:03:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=0hgV92wDT2ZmcOau/wgDvn2O7fusGY5Cr61uoT+/hFU=;
+        b=C7absAylMscTk4Wjtt7Y4IbaIyGuHygs0J94JlBR7eQX7eVs9S1ayeofPfpDjrKJK3
+         45a6P1EgyNgQxDbGU3ZpHrTyGYFZGCwNf1VOe5gmznWb/4Ppz8HIZVfVr0LrGIb2jdiv
+         gk3Pi9USbefmrKl9z/DrgtP7XLh8bXvhK3UW+go7HEhNnFi5nu6iuDAbx/5TDPLCEWNg
+         1lRvkfVrk2zFBfm+jkImsL1WcU1/6D902qxA0m3JFvt5ZKNOLeAdfKIKeSOhxM0Jn396
+         kV3J+FObFkdo957p4OSioHkZP5N9iCkpp9JghZ3qdrcmn56lkILFWxMSDu08rSTAmMac
+         h4yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=0hgV92wDT2ZmcOau/wgDvn2O7fusGY5Cr61uoT+/hFU=;
+        b=JX5C7CR33wJLmGnQCKuxJtQd7dSNfzKAE787m0YXs932gtkC+aU20dLdAheU2c17Ec
+         f11DRS0eXSkUTNsPF0BNKYncwR0GYsg7cCy/8It+E3laPQ4Trebq2M33KHKwR555EQlO
+         CpyXzZQ4MNRiFoTF+Wtg99PrXTSUEsYYZv8tTb6uyymxqOeVeTHyIY1LZSRhgebFu+19
+         3qLv1jcf2htxrZvUNtEWaVxGxd5OkjDQkmk1Cq2roqJbWjJAmpS0HoQdqoa2Ea1LlY55
+         u2e7mPhVxYKnwy+4uyLQdhGWCiTEdv3+U+N31T8L2ObU4u1BIn+YH1ZkypKc6GaeUAM9
+         3gGA==
+X-Gm-Message-State: AHQUAuY1sTeVz+Ke07d9VyrH5dvrVZyWTJKdBD15sRVY3h9KOdc2P+ia
+        t9OrhReW9B6baK80MnqwAqaN5TjgcYc=
+X-Google-Smtp-Source: AHgI3IZK/aAcXXln+ubV5L0uRdVx43Y7pNJRTzMywNs93NFIfXPSMEzZJJEQyGJ20s7zIg8M95jiCg==
+X-Received: by 2002:a63:ed42:: with SMTP id m2mr26126163pgk.147.1550613789961;
+        Tue, 19 Feb 2019 14:03:09 -0800 (PST)
+Received: from tower.thefacebook.com ([2620:10d:c090:200::5:161b])
+        by smtp.gmail.com with ESMTPSA id e6sm33539779pfe.59.2019.02.19.14.03.08
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 19 Feb 2019 14:03:09 -0800 (PST)
+From:   Roman Gushchin <guroan@gmail.com>
+X-Google-Original-From: Roman Gushchin <guro@fb.com>
+To:     Tejun Heo <tj@kernel.org>, Oleg Nesterov <oleg@redhat.com>
+Cc:     kernel-team@fb.com, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Roman Gushchin <guro@fb.com>,
+        Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org
+Subject: [PATCH v8 7/7] cgroup: document cgroup v2 freezer interface
+Date:   Tue, 19 Feb 2019 14:02:52 -0800
+Message-Id: <20190219220252.4906-8-guro@fb.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190219220252.4906-1-guro@fb.com>
+References: <20190219220252.4906-1-guro@fb.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Good day,
-I did send you an email on charity works and I
-dont know if you got it.Please reach me for updates or let me know if to
-resend
+Describe cgroup v2 freezer interface in the cgroup v2 admin guide.
 
-Pablo Mancilla
+Signed-off-by: Roman Gushchin <guro@fb.com>
+Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
+Cc: Tejun Heo <tj@kernel.org>
+Cc: linux-doc@vger.kernel.org
+Cc: kernel-team@fb.com
+---
+ Documentation/admin-guide/cgroup-v2.rst | 27 +++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 61f8bbb0a1b2..78f078ddbe9c 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -864,6 +864,8 @@ All cgroup core files are prefixed with "cgroup."
+ 	  populated
+ 		1 if the cgroup or its descendants contains any live
+ 		processes; otherwise, 0.
++	  frozen
++		1 if the cgroup is frozen; otherwise, 0.
+ 
+   cgroup.max.descendants
+ 	A read-write single value files.  The default is "max".
+@@ -897,6 +899,31 @@ All cgroup core files are prefixed with "cgroup."
+ 		A dying cgroup can consume system resources not exceeding
+ 		limits, which were active at the moment of cgroup deletion.
+ 
++  cgroup.freeze
++	A read-write single value file which exists on non-root cgroups.
++	Allowed values are "0" and "1". The default is "0".
++
++	Writing "1" to the file causes freezing of the cgroup and all
++	descendant cgroups. This means that all belonging processes will
++	be stopped and will not run until the cgroup will be explicitly
++	unfrozen. Freezing of the cgroup may take some time; when this action
++	is completed, the "frozen" value in the cgroup.events control file
++	will be updated to "1" and the corresponding notification will be
++	issued.
++
++	A cgroup can be frozen either by its own settings, or by settings
++	of any ancestor cgroups. If any of ancestor cgroups is frozen, the
++	cgroup will remain frozen.
++
++	Processes in the frozen cgroup can be killed by a fatal signal.
++	They also can enter and leave a frozen cgroup: either by an explicit
++	move by a user, or if freezing of the cgroup races with fork().
++	If a process is moved to a frozen cgroup, it stops. If a process is
++	moved out of a frozen cgroup, it becomes running.
++
++	Frozen status of a cgroup doesn't affect any cgroup tree operations:
++	it's possible to delete a frozen (and empty) cgroup, as well as
++	create new sub-cgroups.
+ 
+ Controllers
+ ===========
+-- 
+2.20.1
+
