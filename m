@@ -1,172 +1,62 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	TVD_SPACE_RATIO autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C48777D922
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Feb 2019 11:54:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E9D9D7D917
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Feb 2019 12:08:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728161AbfBSLx3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Feb 2019 06:53:29 -0500
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:46369 "EHLO
-        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726180AbfBSLx3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Feb 2019 06:53:29 -0500
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.06712966|-1;CH=green;DM=CONTINUE|CONTINUE|true|0.100355-0.118623-0.781023;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03299;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=16;RT=16;SR=0;TI=SMTPD_---.E-W9w0Q_1550577197;
-Received: from PC-liaoweixiong.allwinnertech.com(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.E-W9w0Q_1550577197)
-          by smtp.aliyun-inc.com(10.147.40.233);
-          Tue, 19 Feb 2019 19:53:23 +0800
-From:   liaoweixiong <liaoweixiong@allwinnertech.com>
-To:     Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        liaoweixiong <liaoweixiong@allwinnertech.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: [RFC v9 0/5] pstore/block: new support logger for block devices
-Date:   Tue, 19 Feb 2019 19:52:45 +0800
-Message-Id: <1550577170-18761-1-git-send-email-liaoweixiong@allwinnertech.com>
-X-Mailer: git-send-email 1.9.1
+        id S1727246AbfBSMIk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Feb 2019 07:08:40 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:33715 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727694AbfBSMHp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Feb 2019 07:07:45 -0500
+Received: by mail-ot1-f65.google.com with SMTP id i20so33808199otl.0
+        for <linux-doc@vger.kernel.org>; Tue, 19 Feb 2019 04:07:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=DscZRUrk84jwx76L4Vnu8EKksnI5Lk9+UHaRb8R8US3hNmE+Mi5cFEvm5IZM6cFKmU
+         i0UnCR5VTuXI2/RJI0psKLaxpGtC7ybyDGQw4HkWBiN+IVZzywgODaiIzz9HpXyPRreC
+         lfAhNXErQHSguzQhTFKbmVQmfuJ1XCojBYFv893KG7HG85gQR2uNXmZpR9MuS8gvzwEo
+         xTzKn8ydkxe+1OmxuDLGM4pPucVtMcDcI7bqSNQ2K3UgSjAM/aZM1d4MHpVYmreXRqUL
+         YG1RKILXHDFJfQZiiu3ucNAKQ6N2+xtO3N+pcarUEvvREuopqrGTYZxHIcDfeBvima0r
+         Y4Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=gPeLDjlvQ+v45+gWz/SzReCIuBsjWJqz/6xMbjhXYAX1apia1oAvRn+jIDFB30ReNd
+         S9pfEPsg+POM83r1MpwYqKrVQ4cMTDzFvBWS9Y12W/omhrW46AUKF+kEZNtJNStCQQQj
+         3RhWwYHwu+oRYRjz/tFGSFbPh7rVEBiXHPmPaZ6YF2o34E8TNwK+NJeQnkfVdv++HzSa
+         Xo87gzd6k+P6S2VzAblZjxrsquRN1F1/yQ/nwNb0zQNR+az2um9aF/JSdLagvrsx4xAR
+         s064pjjX2nrnI9zlvPPzhydWVoeFqOhh90mRdBoGUk/xnJWHCdUzPqh3XPFJUkHuUDgh
+         S6Ow==
+X-Gm-Message-State: AHQUAuZqRrR+G4dQX2rQKuzNP+wVyENpMe8ghlywcPk2vYhvRG8dpHaN
+        VZiIMcIm1gdV8fSrT9wEJ3cVeQSeY+roNWNDSzo=
+X-Google-Smtp-Source: AHgI3IaqPTEyZ3Pd73drOClT6i4aI0wX1onOQYoOPRA7fQduVL80XX0EsIfm71mrhTsQIQSSOuL5Q+3k3ivfa+1vyx0=
+X-Received: by 2002:aca:c7d7:: with SMTP id x206mr2347311oif.85.1550578064508;
+ Tue, 19 Feb 2019 04:07:44 -0800 (PST)
+MIME-Version: 1.0
+Reply-To: mrkubennaidoo@webmail.co.za
+Received: by 2002:ac9:498b:0:0:0:0:0 with HTTP; Tue, 19 Feb 2019 04:07:42
+ -0800 (PST)
+From:   First Commercial Bank London <sarbma15@gmail.com>
+Date:   Tue, 19 Feb 2019 14:07:42 +0200
+X-Google-Sender-Auth: K6BB5upG78906PaVCTsWamPhGds
+Message-ID: <CAPDxukO1xuv4Bu+CPhDc_wX+=MK+xm5+LAM3Un0qMa9x=yO8+g@mail.gmail.com>
+Subject: overdue payment
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Why should we need pstore_block?
-1. Most embedded intelligent equipment have no persistent ram, which
-increases costs. We perfer to cheaper solutions, like block devices.
-In fast, there is already a sample for block device logger in driver
-MTD (drivers/mtd/mtdoops.c).
-2. Do not any equipment have battery, which means that it lost all data
-on general ram if power failure. Pstore has little to do for these
-equipments.
-
-[PATCH v9]
-On patch 1:
-1. rename part_path/part_size, members of blkz_info, to blkdev/total_size
-2. if total_size is zero, get size from @blkdev
-3. support multiple variants for @blkdev, such as partuuid, major with minor,
-   and /dev/xxxx. See details on Documentation.
-4. get size from block device
-5. add depends on CONFIG_BLOCK
-On patch 2:
-1. update document
-On patch 3:
-1. update codes for new blkzone. Blkoops support insmod without total_size.
-   for example: "insmod ./blkoops.ko blkdev=93:6" (major:minor).
-2. use late_initcalls rather than module_init, to avoid block device not ready.
-3. support for block driver to add panic apis to blkoops. By this, block
-   driver can do the least work that just provides panic operations.
-On patch 5:
-1. update document
-
-[PATCH v8]
-On patch 2:
-1. move DT to /bindings/pstore
-2. Delete details for kernel.
-
-[PATCH v7]
-On patch 1:
-1. Fix line over 80 characters.
-On patch 2:
-1. Insert a separate patch for DT bindings.
-
-[PATCH v6]
-On patch 1:
-1. Fix according to email from Kees Cook, including spelling mistakes,
-   explicit overflow test, none of the zeroing etc.
-2. Do not recover data but metadata of dmesg when panic.
-3. No need to take recovery when do erase.
-4. Do not use "blkoops" for blkzone any more because "blkoops" is used for
-   other module now. (rename blkbuf to blkoops)
-On patch 2:
-1. Rename blkbuf to blkoops.
-2. Add Kconfig/device tree/module parameters settings for blkoops.
-3. Add document for device tree.
-On patch 3:
-1. Blkoops support pmsg.
-2. Fix description for new version patch.
-On patch 4:
-1. Fix description for new version patch.
-
-[PATCH v5]
-On patch 1:
-1. rename pstore/rom to pstore/blk
-2. Do not allocate any memory in the write path of panic. So, use local
-array instead in function romz_recover_dmesg_meta.
-3. Add C header file "linux/fs.h" to fix implicit declaration of function
-   'filp_open','kernel_read'...
-On patch 3:
-1. If panic, do not recover pmsg but flush if it is dirty.
-2. Fix erase pmsg failed.
-On patch 4:
-1. Create a document for pstore/blk
-
-[PATCH v4]
-On patch 1:
-1. Fix always true condition '(--i >= 0) => (0-u32max >= 0)' in function
-   romz_init_zones by defining variable i to 'int' rahter than
-   'unsigned int'.
-2. To make codes more easily to read, we use macro READ_NEXT_ZONE for
-   return value of romz_dmesg_read if it need to read next zone.
-   Moveover, we assign READ_NEXT_ZONE -1024 rather than 0.
-3. Add 'FLUSH_META' to 'enum romz_flush_mode' and rename 'NOT_FLUSH' to
-   'FLUSH_NONE'
-4. Function romz_zone_write work badly with FLUSH_PART mode as badly
-   address and offset to write.
-On patch 3:
-NEW SUPPORT psmg for pstore_rom.
-
-[PATCH v3]
-On patch 1:
-Fix build as module error for undefined 'vfs_read' and 'vfs_write'
-Both of 'vfs_read' and 'vfs_write' haven't be exproted yet, so we use
-'kernel_read' and 'kernel_write' instead.
-
-[PATCH v2]
-On patch 1:
-Fix build as module error for redefinition of 'romz_unregister' and
-'romz_register'
-
-[PATCH v1]
-On patch 1:
-Core codes of pstore_rom, which works well on allwinner(sunxi) platform.
-On patch 2:
-A sample for pstore_rom, using general ram rather than block device.
-
-liaoweixiong (5):
-  pstore/blk: new support logger for block devices
-  dt-bindings: pstore-block: new support for blkoops
-  pstore/blk: add blkoops for pstore_blk
-  pstore/blk: support pmsg for pstore block
-  Documentation: pstore/blk: create document for pstore_blk
-
- Documentation/admin-guide/pstore-block.rst         |  233 ++++
- .../devicetree/bindings/pstore/blkoops.txt         |   53 +
- MAINTAINERS                                        |    4 +-
- fs/pstore/Kconfig                                  |  147 +++
- fs/pstore/Makefile                                 |    5 +
- fs/pstore/blkoops.c                                |  265 +++++
- fs/pstore/blkzone.c                                | 1223 ++++++++++++++++++++
- include/linux/pstore_blk.h                         |   87 ++
- 8 files changed, 2016 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/admin-guide/pstore-block.rst
- create mode 100644 Documentation/devicetree/bindings/pstore/blkoops.txt
- create mode 100644 fs/pstore/blkoops.c
- create mode 100644 fs/pstore/blkzone.c
- create mode 100644 include/linux/pstore_blk.h
-
--- 
-1.9.1
 
