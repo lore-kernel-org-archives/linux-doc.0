@@ -1,54 +1,55 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E6B617D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Feb 2019 04:34:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A1DA87D099
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Feb 2019 04:43:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726461AbfBSEem (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Feb 2019 23:34:42 -0500
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:41120 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726423AbfBSEel (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Feb 2019 23:34:41 -0500
-Received: by mail-qt1-f194.google.com with SMTP id v10so21729424qtp.8
-        for <linux-doc@vger.kernel.org>; Mon, 18 Feb 2019 20:34:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=1FCE5iC4BBC2eXOp5i6IQ7gQBc6Hx/LSa8ABhtHuGCU=;
-        b=YA+kICQrBmV0PLuxaiOxmorWhb75h4kt+gKZ5Sh6PjIdfKyZjqeHUzx7+oFcLCQIeB
-         dkKwjFaucvxeTVT+hl0vrEDD2TwGxPUrhuM8lY0OyiA0Li515i8LU9lldyvdb0JmwRFp
-         c6kdd4tRKtX8HWyyzqLC8zuFgLilL+oPODNEA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=1FCE5iC4BBC2eXOp5i6IQ7gQBc6Hx/LSa8ABhtHuGCU=;
-        b=BFOidQQ02qVwtOG++Ah7eYU8Q6++luyJ6+OE+Kay7WbYl+hqyIh80iKHFHD3TkwC5o
-         q1bsg4qLo2IWTiUIljXkAZ2zy6SBCQ/pPSxLfrdXujdo3D9IGzyhJ0kgS5j9wcxOeAJq
-         NxWn1QyPxEXnDAOay71WrjUZYFkhauOCIFZh5duNdUygbiOZABMadPBTWxP5B6M7aAfe
-         PJ0vWSNlXsLS7D1YCaObcGZ3spnNJcRUV5h7xdDdDTJaH102paTREZ5TAPhILdzFtTvS
-         phFs3JAolF2aRggNAzEW8F1cRg/wybR/OnSoXnHRc0uF1N+MmZQlrI5QXLGwKb40KFHA
-         YeXw==
-X-Gm-Message-State: AHQUAuY9XlGov46xhyi24SpXUK/NFpBeaVjHQCiHPymT/aMdGYH/YFTw
-        dRcdDkSvIN/2Ue5UDRFjgKo5rw==
-X-Google-Smtp-Source: AHgI3IbIEXB71RRU4F0E57ZPpEw15kxNZPxOfffBh1cbGliozorDBZzaJ8pPM85NQI2di/ryDPR7CA==
-X-Received: by 2002:ac8:2cd1:: with SMTP id 17mr20832074qtx.299.1550550880201;
-        Mon, 18 Feb 2019 20:34:40 -0800 (PST)
-Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
-        by smtp.gmail.com with ESMTPSA id a3sm8047255qkd.86.2019.02.18.20.34.39
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 18 Feb 2019 20:34:39 -0800 (PST)
-Date:   Mon, 18 Feb 2019 23:34:38 -0500
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Networking <netdev@vger.kernel.org>,
+        id S1725787AbfBSEnM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Feb 2019 23:43:12 -0500
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:56277 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725730AbfBSEnM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Feb 2019 23:43:12 -0500
+X-Greylist: delayed 1696 seconds by postgrey-1.27 at vger.kernel.org; Mon, 18 Feb 2019 23:43:10 EST
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x1J4gom1002993;
+        Tue, 19 Feb 2019 13:42:50 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x1J4gom1002993
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1550551371;
+        bh=Ouc8G4KLNZaE6lveGhLr5rpPmdwDIB4HyR9ERDNDPIE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=xQavpI6Vzfdk7kv0oqLKCznvBpaMj9/ZR/FqLArqmriudYyOSAI7btDhXj/0gGIAj
+         Yu4TKaae76BGnPGfFQ6TIaFc67vB9TEHMuMejJeD7EW1dNNNXFYJGMdz6+pP/tLx3t
+         /3j2kvIdl1+hDDvSj1qLi/V5z2MZvMIKuRcqb20czXkLOOXTw3e3ZALkhYBz7YkWfZ
+         JB3MhxBgqmwiU7mMA+Z3AvlGUru6SZ06WLPo7sKsIEGXCynrf4Lbf77dOWkBZfA+aY
+         q28hQekDK6jNLVKnKJTwKZE5ICx7y5FkgPl9LgOKusq4OUSY0aTprDemaUEV1ZXess
+         YG3kzkVklocKg==
+X-Nifty-SrcIP: [209.85.217.43]
+Received: by mail-vs1-f43.google.com with SMTP id w14so3997885vso.6;
+        Mon, 18 Feb 2019 20:42:50 -0800 (PST)
+X-Gm-Message-State: AHQUAuaZ7a/rxYeBfeTXXTz5O5QWlaiBLLD5RomGagxzHtp84/WptqdM
+        W9FPijBOCKs9kWA5f65Px7GBuZi6cHsd+A8fCKk=
+X-Google-Smtp-Source: AHgI3IYnm0B/yD23GE1FOk2xDlSaKzk45t+t4haO0qql7ZKhC1nkKgfoSRCwu5lfwmlBRHfY9auboKM1NXZBq/OdDQg=
+X-Received: by 2002:a05:6102:18f:: with SMTP id r15mr7742118vsq.215.1550551369552;
+ Mon, 18 Feb 2019 20:42:49 -0800 (PST)
+MIME-Version: 1.0
+References: <20190211143600.15021-1-joel@joelfernandes.org>
+ <20190215031926.ljzluy2cfxp64u6o@ast-mbp> <CAK7LNAThSm1n1B_Ss0gRDZ3H-DWj2bvpZ+6Ui2jEo4Pt9YynEA@mail.gmail.com>
+In-Reply-To: <CAK7LNAThSm1n1B_Ss0gRDZ3H-DWj2bvpZ+6Ui2jEo4Pt9YynEA@mail.gmail.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Tue, 19 Feb 2019 13:42:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATf4adEEqWko2YO46wHHi-Vvc+_LBjQGNnM7rt8GSOgZQ@mail.gmail.com>
+Message-ID: <CAK7LNATf4adEEqWko2YO46wHHi-Vvc+_LBjQGNnM7rt8GSOgZQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] Provide in-kernel headers for making it easy to
+ extend the kernel
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     Networking <netdev@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexei Starovoitov <ast@kernel.org>,
@@ -70,37 +71,29 @@ Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
         Shuah Khan <shuah@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Yonghong Song <yhs@fb.com>
-Subject: Re: [PATCH v2 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-Message-ID: <20190219043438.GC201007@google.com>
-References: <20190211143600.15021-1-joel@joelfernandes.org>
- <20190215031926.ljzluy2cfxp64u6o@ast-mbp>
- <CAK7LNAThSm1n1B_Ss0gRDZ3H-DWj2bvpZ+6Ui2jEo4Pt9YynEA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAThSm1n1B_Ss0gRDZ3H-DWj2bvpZ+6Ui2jEo4Pt9YynEA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 19, 2019 at 01:14:11PM +0900, Masahiro Yamada wrote:
+On Tue, Feb 19, 2019 at 1:14 PM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
+>
 > On Fri, Feb 15, 2019 at 11:48 PM Alexei Starovoitov
 > <alexei.starovoitov@gmail.com> wrote:
 > >
 > > On Mon, Feb 11, 2019 at 09:35:59AM -0500, Joel Fernandes (Google) wrote:
 > > > Introduce in-kernel headers and other artifacts which are made available
 > > > as an archive through proc (/proc/kheaders.txz file).
-> 
-> 
+>
+>
 > The extension '.txz' is not used in kernel code.
-> 
-> 
+>
+>
 > '.tar.xz' is used for 'tarxz-pkg', 'perf-tarxz-src-pkg' etc.
-> 
-> 
+>
+>
 > $ git grep  '\.txz'
 > $ git grep  '\.tar\.xz'
 > Documentation/admin-guide/README.rst:     xz -cd linux-4.X.tar.xz | tar xvf -
@@ -115,26 +108,28 @@ On Tue, Feb 19, 2019 at 01:14:11PM +0900, Masahiro Yamada wrote:
 > $(perf-tar).tar.xz source tarball'
 > tools/testing/selftests/gen_kselftest_tar.sh:
 >  ext=".tar.xz"
-> 
-> 
-> 
+>
+>
+>
 > I prefer '.tar.xz' for consistency.
-
-Ok, I will change it to that.
-
+>
+>
+>
+>
+>
+>
 > BTW, have you ever looked at scripts/extract-ikconfig?
-> 
+>
 > You added IKHD_ST and IKHD_ED
 > just to mimic kernel/configs.c
-> 
+>
 > It is currently pointless without the extracting tool,
 > but you might think it is useful to extract headers
 > from vmlinux or the module without mounting procfs.
-
-I am planing add to extraction support in the future, so I prefer to leave the
-markers as it is for now. Hope that's Ok with you.
-
-
+>
+>
+>
+>
 > > > This archive makes
 > > > it possible to build kernel modules, run eBPF programs, and other
 > > > tracing programs that need to extend the kernel for tracing purposes
@@ -153,24 +148,24 @@ markers as it is for now. Hope that's Ok with you.
 > > The set looks good to me and since the main use case is building bpf progs
 > > I can route it via bpf-next tree if there are no objections.
 > > Masahiro, could you please ack it?
-> 
-> 
+>
+>
 > Honestly, I was not tracking this thread
 > since I did not know I was responsible for this.
-> 
-> 
+>
+>
 > I just started to take a closer look, then immediately got scared.
-> 
+>
 > This version is not mature enough for the merge.
+>
+>
+>
 > First of all, this patch cannot be compiled out-of-tree (O= option).
-
-Oh, ok. This is not how I build the kernel. So I am sorry for missing that. I
-will try this out-of-tree build option and fix it.
-
-
+>
+>
 > I do not know why 0-day bot did not catch this apparent breakage.
-> 
-> 
+>
+>
 > $ make -j8 O=hoge
 > make[1]: Entering directory '/home/masahiro/workspace/bsp/linux/hoge'
 >   GEN     Makefile
@@ -188,101 +183,35 @@ will try this out-of-tree build option and fix it.
 > make[1]: Leaving directory '/home/masahiro/workspace/bsp/linux/hoge'
 > Makefile:152: recipe for target 'sub-make' failed
 > make: *** [sub-make] Error 2
-> 
-> 
-> 
-> 
-> 
-> I was able to compile it in-tree
-> but it makes the incremental build extremely slow.
-> 
-> (Here, the incremental build means
-> "make" without changing any code after the full build.)
-> 
-> 
-> 
-> 
-> Before this patch, "make -j8" took 11 sec on my machine.
-> 
-> real 0m11.777s
-> user 0m16.608s
-> sys 0m5.164s
-> 
-> 
-> 
-> After this patch, x86_64_defconfig + CONFIG_IKHEADERS_PROC=y
-> takes 53 sec for me since kernel/kheaders_data.txz is regenerated
-> every time even when you did not touch any source file.
-
-Hmm, true. Let me know look into that as well..
 
 
-> $ time make -j8
->   DESCEND  objtool
->   CALL    scripts/checksyscalls.sh
->   CHK     include/generated/compile.h
->   GEN     kernel/kheaders_data.txz
->   UPD     kernel/kheaders_data.h
->   CC      kernel/kheaders.o
->   AR      kernel/built-in.a
->   GEN     .version
->   CHK     include/generated/compile.h
->   UPD     include/generated/compile.h
->   CC      init/version.o
->   AR      init/built-in.a
->   AR      built-in.a
->   LD      vmlinux.o
->   MODPOST vmlinux.o
->   KSYM    .tmp_kallsyms1.o
->   KSYM    .tmp_kallsyms2.o
->   LD      vmlinux
->   SORTEX  vmlinux
->   SYSMAP  System.map
->   Building modules, stage 2.
->   CC      arch/x86/boot/version.o
->   MODPOST 17 modules
->   VOFFSET arch/x86/boot/compressed/../voffset.h
->   OBJCOPY arch/x86/boot/compressed/vmlinux.bin
->   RELOCS  arch/x86/boot/compressed/vmlinux.relocs
->   CC      arch/x86/boot/compressed/kaslr.o
->   GZIP    arch/x86/boot/compressed/vmlinux.bin.gz
->   CC      arch/x86/boot/compressed/misc.o
->   MKPIGGY arch/x86/boot/compressed/piggy.S
->   AS      arch/x86/boot/compressed/piggy.o
->   LD      arch/x86/boot/compressed/vmlinux
->   ZOFFSET arch/x86/boot/zoffset.h
->   OBJCOPY arch/x86/boot/vmlinux.bin
->   AS      arch/x86/boot/header.o
->   LD      arch/x86/boot/setup.elf
->   OBJCOPY arch/x86/boot/setup.bin
->   BUILD   arch/x86/boot/bzImage
-> Setup is 15612 bytes (padded to 15872 bytes).
-> System is 12673 kB
-> CRC 697aaf88
-> Kernel: arch/x86/boot/bzImage is ready  (#6)
-> 
-> real 0m53.024s
-> user 0m32.076s
-> sys 0m9.296s
-> 
-> 
-> 
-> 
-> Also, I notice $(ARCH) must be fixed to $(SRCARCH),
-> but that is one of minor issues.
 
-Ok.
 
-> We should take time for careful review and test.
+I saw this build error for in-tree building as well.
 
-Yes, I agree.
+We cannot build this from a pristine source tree.
 
-> Please give me more time for thorough review.
+For example, I observed the build error in the following procedure.
 
-Sure. Thanks a lot for the feedback provided so far. I will send another
-revision soon with all the suggestions addressed.
+$ make mrproper
+$ make defconfig
+ Set CONFIG_IKHEADERS_PROC=y
+$ make
 
-thanks,
 
- - Joel
 
+
+Module.symvers is generated in the modpost stage
+(the very last stage of build).
+
+But, vmlinux depends on kernel/kheaders_data.txz,
+which includes Module.symvers.
+
+So, this is not so simple since it is a circular dependency...
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
