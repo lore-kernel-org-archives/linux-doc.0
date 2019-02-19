@@ -1,180 +1,273 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 849907D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Feb 2019 03:41:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CF71B7D099
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Feb 2019 04:14:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725805AbfBSDlQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Feb 2019 22:41:16 -0500
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:45076 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726220AbfBSDkZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Feb 2019 22:40:25 -0500
-Received: by mail-qt1-f194.google.com with SMTP id d18so11579883qtg.12;
-        Mon, 18 Feb 2019 19:40:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :reply-to:organization;
-        bh=mixtgFOHJ8rVnEdEHA1KmScKmbK09f7UjWOhOlQYjQ4=;
-        b=u+9RKvrLS1qfQSFA04RRDPpK2KO03Ck+9Iwzl4Q+TQozBtQHsujCUjlC3hli+BwGQX
-         mXr2BnVD+6ERoWMluVODzPf+e+E0XDWMymqIDmLIRpRO6wWF8Imi3OBBfE2a8ne1JnLn
-         9r3FN1n8R57/lO0FGuxT3BnWu/q2v06I/1cVzyeM3WY6h/t6oVtcjNVJz+0UT2nBaDno
-         SMq6RkwbzuJAeh+np5LR0MuKP7tyk3nSDnab19v5Z6wczZXWX+n2nuVSGdKOYXoG81xw
-         YbjXZZoeJ1koDj4nwLSbKUYSj4iFmThpkugSmNLbICrZL6cx1l7fnazHw/7DuFQNyC8t
-         78Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references:reply-to:organization;
-        bh=mixtgFOHJ8rVnEdEHA1KmScKmbK09f7UjWOhOlQYjQ4=;
-        b=C/2c9UFvj12V/Cr8kNibrhXECIq0HiSdPptWHJx6bhGJ23sjpvMorln4GNFJEKQSPE
-         cYSA+6chPeK+oWDupgQ9tKVAVQ258TU/0c01MaqeQ13SgkJbvyDBCp/XpC1dokC8s73Y
-         st5f+vzq9c+x3MkoGtQzaY/AFFjmn4ELvjC3hg51+4xluX/RpcecfQC+gwjvH9Y2spoB
-         Igh3zZUGsxnoPauspeRoymDBalDi/2Dl/MDIESv7ZNd2kkhbT9l59XprKm+r+HxqG5+T
-         iDK2T+d8yFvun2DTV2H2Urv6eqsCMQAcCdNh/ZGAa8wFK8N+Z1ZvTG55lJOdDUQ+Sjyh
-         GNCQ==
-X-Gm-Message-State: AHQUAuZaNfvbiS0NvSY9X2IHrzkPQQQ7btG1X6R4XxhyetjxUkKR9AGp
-        nRNBu9k0N61QxAj9IiBsfvbpErid
-X-Google-Smtp-Source: AHgI3IapO2q1+ptdRtqq9LGBMlzTMhS/3pH+v6tDYIBpLk4yImUKbukZhVauSVYxf52ItTfLMbtHgw==
-X-Received: by 2002:ac8:b0e:: with SMTP id e14mr21430413qti.336.1550547623751;
-        Mon, 18 Feb 2019 19:40:23 -0800 (PST)
-Received: from kbl.fios-router.home (pool-96-233-42-17.bstnma.fios.verizon.net. [96.233.42.17])
-        by smtp.gmail.com with ESMTPSA id u5sm7327680qtg.37.2019.02.18.19.40.22
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Feb 2019 19:40:23 -0800 (PST)
-From:   Len Brown <lenb@kernel.org>
-To:     x86@kernel.org
-Cc:     linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 02/11] topolgy: simplify cputopology.txt formatting and wording
-Date:   Mon, 18 Feb 2019 22:40:04 -0500
-Message-Id:
- <e13cb72d48bdaed80b681abf89bc77d58931db51.1550545163.git.len.brown@intel.com>
-X-Mailer: git-send-email 2.18.0-rc0
-In-Reply-To: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
-References: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
-Reply-To: Len Brown <lenb@kernel.org>
-Organization: Intel Open Source Technology Center
+        id S1725730AbfBSEO5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Feb 2019 23:14:57 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:31526 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725497AbfBSEO5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Feb 2019 23:14:57 -0500
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id x1J4ElIV008320;
+        Tue, 19 Feb 2019 13:14:48 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com x1J4ElIV008320
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1550549688;
+        bh=s2rmefywG5qxRfRX9Ispy/WfF/VrvGNX/NJKAR+FOgQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=P3L6jNDwzr1EB2636z7AQnlpfMbyj+LnMf900heL9+Ndk32TtOinAaxEoM3eg+Rx2
+         9UD1YGia+VwuHWVHrP5DpQrvjb24LS7gHlBFwiABApsAfYA2q/6jhCyn/n8gsmI2R6
+         YJ1iTbdLAhIQkXKUnVN+swpGv6BrGoyJXF2pH+4HJJ9dc3iOknEdQJKqhTRnjPdl+3
+         IWtdazLHP57x2qtdxlz0hNMBQD1BTbDxlRJL5qIAD2LuEsKf8RxI/aClvzL5kPMALD
+         zmSKYsfFuM5w9pPqk8kG5b6bjJJ3ZBX9AJHkxIJEO5JtP1ks/3AS2cvjIxa0URQMba
+         lwjkl1ykuQvfw==
+X-Nifty-SrcIP: [209.85.221.169]
+Received: by mail-vk1-f169.google.com with SMTP id h128so4351596vkg.11;
+        Mon, 18 Feb 2019 20:14:48 -0800 (PST)
+X-Gm-Message-State: AHQUAubfAMYUu67mKnQIpRCqchKHKFB9RGW2qWI8VRveEh3YZP2BIpkd
+        jlveAJCpEanCqP8+NXrT0wvn1yVNq/ph7aw2wFw=
+X-Google-Smtp-Source: AHgI3IZo5AE7PNvPF825jn5n7M6ABkfNkD3bMbBFDTxwEOkbOxLdQFDki0790yv0sV2JLjhr45qp9yNq9QHzV7LaeY4=
+X-Received: by 2002:a1f:5e96:: with SMTP id s144mr13298575vkb.74.1550549687283;
+ Mon, 18 Feb 2019 20:14:47 -0800 (PST)
+MIME-Version: 1.0
+References: <20190211143600.15021-1-joel@joelfernandes.org> <20190215031926.ljzluy2cfxp64u6o@ast-mbp>
+In-Reply-To: <20190215031926.ljzluy2cfxp64u6o@ast-mbp>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Tue, 19 Feb 2019 13:14:11 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAThSm1n1B_Ss0gRDZ3H-DWj2bvpZ+6Ui2jEo4Pt9YynEA@mail.gmail.com>
+Message-ID: <CAK7LNAThSm1n1B_Ss0gRDZ3H-DWj2bvpZ+6Ui2jEo4Pt9YynEA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] Provide in-kernel headers for making it easy to
+ extend the kernel
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     Networking <netdev@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Manoj Rao <linux@manojrajarao.com>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Yonghong Song <yhs@fb.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
-Message-ID: <20190219034004.ToM-PQkEOfLlvPjsZSQtO7x0jeP1VPuouSEYu7Op-_Q@z>
 
-From: Len Brown <len.brown@intel.com>
+On Fri, Feb 15, 2019 at 11:48 PM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+>
+> On Mon, Feb 11, 2019 at 09:35:59AM -0500, Joel Fernandes (Google) wrote:
+> > Introduce in-kernel headers and other artifacts which are made available
+> > as an archive through proc (/proc/kheaders.txz file).
 
-No semantic changes.
 
-Signed-off-by: Len Brown <len.brown@intel.com>
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Len Brown <len.brown@intel.com>
----
- Documentation/cputopology.txt | 34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+The extension '.txz' is not used in kernel code.
 
-diff --git a/Documentation/cputopology.txt b/Documentation/cputopology.txt
-index c6e7e9196a8b..2698da7e4f49 100644
---- a/Documentation/cputopology.txt
-+++ b/Documentation/cputopology.txt
-@@ -3,76 +3,76 @@ How CPU topology info is exported via sysfs
- ===========================================
- 
- Export CPU topology info via sysfs. Items (attributes) are similar
--to /proc/cpuinfo output of some architectures:
-+to /proc/cpuinfo output of some architectures.  They reside in
-+/sys/devices/system/cpu/cpuX/topology/:
- 
--1) /sys/devices/system/cpu/cpuX/topology/physical_package_id:
-+physical_package_id:
- 
- 	physical package id of cpuX. Typically corresponds to a physical
- 	socket number, but the actual value is architecture and platform
- 	dependent.
- 
--2) /sys/devices/system/cpu/cpuX/topology/core_id:
-+core_id:
- 
- 	the CPU core ID of cpuX. Typically it is the hardware platform's
- 	identifier (rather than the kernel's).  The actual value is
- 	architecture and platform dependent.
- 
--3) /sys/devices/system/cpu/cpuX/topology/book_id:
-+book_id:
- 
- 	the book ID of cpuX. Typically it is the hardware platform's
- 	identifier (rather than the kernel's).	The actual value is
- 	architecture and platform dependent.
- 
--4) /sys/devices/system/cpu/cpuX/topology/drawer_id:
-+drawer_id:
- 
- 	the drawer ID of cpuX. Typically it is the hardware platform's
- 	identifier (rather than the kernel's).	The actual value is
- 	architecture and platform dependent.
- 
--5) /sys/devices/system/cpu/cpuX/topology/thread_siblings:
-+thread_siblings:
- 
- 	internal kernel map of cpuX's hardware threads within the same
- 	core as cpuX.
- 
--6) /sys/devices/system/cpu/cpuX/topology/thread_siblings_list:
-+thread_siblings_list:
- 
- 	human-readable list of cpuX's hardware threads within the same
- 	core as cpuX.
- 
--7) /sys/devices/system/cpu/cpuX/topology/core_siblings:
-+core_siblings:
- 
- 	internal kernel map of cpuX's hardware threads within the same
- 	physical_package_id.
- 
--8) /sys/devices/system/cpu/cpuX/topology/core_siblings_list:
-+core_siblings_list:
- 
- 	human-readable list of cpuX's hardware threads within the same
- 	physical_package_id.
- 
--9) /sys/devices/system/cpu/cpuX/topology/book_siblings:
-+book_siblings:
- 
- 	internal kernel map of cpuX's hardware threads within the same
- 	book_id.
- 
--10) /sys/devices/system/cpu/cpuX/topology/book_siblings_list:
-+book_siblings_list:
- 
- 	human-readable list of cpuX's hardware threads within the same
- 	book_id.
- 
--11) /sys/devices/system/cpu/cpuX/topology/drawer_siblings:
-+drawer_siblings:
- 
- 	internal kernel map of cpuX's hardware threads within the same
- 	drawer_id.
- 
--12) /sys/devices/system/cpu/cpuX/topology/drawer_siblings_list:
-+drawer_siblings_list:
- 
- 	human-readable list of cpuX's hardware threads within the same
- 	drawer_id.
- 
--To implement it in an architecture-neutral way, a new source file,
--drivers/base/topology.c, is to export the 6 to 12 attributes. The book
--and drawer related sysfs files will only be created if CONFIG_SCHED_BOOK
--and CONFIG_SCHED_DRAWER are selected.
-+Architecture-neutral, drivers/base/topology.c, exports these attributes.
-+However, the book and drawer related sysfs files will only be created if
-+CONFIG_SCHED_BOOK and CONFIG_SCHED_DRAWER are selected, respectively.
- 
- CONFIG_SCHED_BOOK and CONFIG_DRAWER are currently only used on s390, where
- they reflect the cpu and cache hierarchy.
--- 
-2.18.0-rc0
 
+'.tar.xz' is used for 'tarxz-pkg', 'perf-tarxz-src-pkg' etc.
+
+
+$ git grep  '\.txz'
+$ git grep  '\.tar\.xz'
+Documentation/admin-guide/README.rst:     xz -cd linux-4.X.tar.xz | tar xvf -
+arch/x86/crypto/camellia-aesni-avx-asm_64.S: *
+http://koti.mbnet.fi/axh/crypto/camellia-BSD-1.2.0-aesni1.tar.xz
+crypto/testmgr.h: *   https://bench.cr.yp.to/supercop/supercop-20170228.tar.xz
+crypto/testmgr.h: *   https://bench.cr.yp.to/supercop/supercop-20170228.tar.xz
+crypto/testmgr.h: *   https://bench.cr.yp.to/supercop/supercop-20170228.tar.xz
+crypto/testmgr.h: *   https://bench.cr.yp.to/supercop/supercop-20170228.tar.xz
+crypto/testmgr.h: *   https://bench.cr.yp.to/supercop/supercop-20170228.tar.xz
+scripts/package/Makefile:       @echo '  perf-tarxz-src-pkg  - Build
+$(perf-tar).tar.xz source tarball'
+tools/testing/selftests/gen_kselftest_tar.sh:
+ ext=".tar.xz"
+
+
+
+I prefer '.tar.xz' for consistency.
+
+
+
+
+
+
+BTW, have you ever looked at scripts/extract-ikconfig?
+
+You added IKHD_ST and IKHD_ED
+just to mimic kernel/configs.c
+
+It is currently pointless without the extracting tool,
+but you might think it is useful to extract headers
+from vmlinux or the module without mounting procfs.
+
+
+
+
+> > This archive makes
+> > it possible to build kernel modules, run eBPF programs, and other
+> > tracing programs that need to extend the kernel for tracing purposes
+> > without any dependency on the file system having headers and build
+> > artifacts.
+> >
+> > On Android and embedded systems, it is common to switch kernels but not
+> > have kernel headers available on the file system. Raw kernel headers
+> > also cannot be copied into the filesystem like they can be on other
+> > distros, due to licensing and other issues. There's no linux-headers
+> > package on Android. Further once a different kernel is booted, any
+> > headers stored on the file system will no longer be useful. By storing
+> > the headers as a compressed archive within the kernel, we can avoid these
+> > issues that have been a hindrance for a long time.
+>
+> The set looks good to me and since the main use case is building bpf progs
+> I can route it via bpf-next tree if there are no objections.
+> Masahiro, could you please ack it?
+
+
+Honestly, I was not tracking this thread
+since I did not know I was responsible for this.
+
+
+I just started to take a closer look, then immediately got scared.
+
+This version is not mature enough for the merge.
+
+
+
+First of all, this patch cannot be compiled out-of-tree (O= option).
+
+
+I do not know why 0-day bot did not catch this apparent breakage.
+
+
+$ make -j8 O=hoge
+make[1]: Entering directory '/home/masahiro/workspace/bsp/linux/hoge'
+  GEN     Makefile
+  Using .. as source for kernel
+  DESCEND  objtool
+  CALL    ../scripts/checksyscalls.sh
+  CHK     include/generated/compile.h
+make[2]: *** No rule to make target 'Module.symvers', needed by
+'kernel/kheaders_data.txz'.  Stop.
+make[2]: *** Waiting for unfinished jobs....
+/home/masahiro/workspace/bsp/linux/Makefile:1043: recipe for target
+'kernel' failed
+make[1]: *** [kernel] Error 2
+make[1]: *** Waiting for unfinished jobs....
+make[1]: Leaving directory '/home/masahiro/workspace/bsp/linux/hoge'
+Makefile:152: recipe for target 'sub-make' failed
+make: *** [sub-make] Error 2
+
+
+
+
+
+I was able to compile it in-tree
+but it makes the incremental build extremely slow.
+
+(Here, the incremental build means
+"make" without changing any code after the full build.)
+
+
+
+
+Before this patch, "make -j8" took 11 sec on my machine.
+
+real 0m11.777s
+user 0m16.608s
+sys 0m5.164s
+
+
+
+After this patch, x86_64_defconfig + CONFIG_IKHEADERS_PROC=y
+takes 53 sec for me since kernel/kheaders_data.txz is regenerated
+every time even when you did not touch any source file.
+
+
+$ time make -j8
+  DESCEND  objtool
+  CALL    scripts/checksyscalls.sh
+  CHK     include/generated/compile.h
+  GEN     kernel/kheaders_data.txz
+  UPD     kernel/kheaders_data.h
+  CC      kernel/kheaders.o
+  AR      kernel/built-in.a
+  GEN     .version
+  CHK     include/generated/compile.h
+  UPD     include/generated/compile.h
+  CC      init/version.o
+  AR      init/built-in.a
+  AR      built-in.a
+  LD      vmlinux.o
+  MODPOST vmlinux.o
+  KSYM    .tmp_kallsyms1.o
+  KSYM    .tmp_kallsyms2.o
+  LD      vmlinux
+  SORTEX  vmlinux
+  SYSMAP  System.map
+  Building modules, stage 2.
+  CC      arch/x86/boot/version.o
+  MODPOST 17 modules
+  VOFFSET arch/x86/boot/compressed/../voffset.h
+  OBJCOPY arch/x86/boot/compressed/vmlinux.bin
+  RELOCS  arch/x86/boot/compressed/vmlinux.relocs
+  CC      arch/x86/boot/compressed/kaslr.o
+  GZIP    arch/x86/boot/compressed/vmlinux.bin.gz
+  CC      arch/x86/boot/compressed/misc.o
+  MKPIGGY arch/x86/boot/compressed/piggy.S
+  AS      arch/x86/boot/compressed/piggy.o
+  LD      arch/x86/boot/compressed/vmlinux
+  ZOFFSET arch/x86/boot/zoffset.h
+  OBJCOPY arch/x86/boot/vmlinux.bin
+  AS      arch/x86/boot/header.o
+  LD      arch/x86/boot/setup.elf
+  OBJCOPY arch/x86/boot/setup.bin
+  BUILD   arch/x86/boot/bzImage
+Setup is 15612 bytes (padded to 15872 bytes).
+System is 12673 kB
+CRC 697aaf88
+Kernel: arch/x86/boot/bzImage is ready  (#6)
+
+real 0m53.024s
+user 0m32.076s
+sys 0m9.296s
+
+
+
+
+Also, I notice $(ARCH) must be fixed to $(SRCARCH),
+but that is one of minor issues.
+
+
+
+We should take time for careful review and test.
+
+
+Please give me more time for thorough review.
+
+
+
+--
+Best Regards
+Masahiro Yamada
