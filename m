@@ -1,56 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2D9877D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Feb 2019 22:35:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C27FC7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Feb 2019 22:46:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725851AbfBTWfD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Feb 2019 17:35:03 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50338 "EHLO mail.kernel.org"
+        id S1725939AbfBTWqv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Feb 2019 17:46:51 -0500
+Received: from mx.kolabnow.com ([95.128.36.41]:8640 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725826AbfBTWfD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 20 Feb 2019 17:35:03 -0500
-Subject: Re: [GIT PULL] One 5.0 docs fix
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1550702103;
-        bh=8ejO3t2qL1fTtQ8NHzc7Ndxkbhl1g5O84vIfPnXS8ok=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=ktGyOCE8EfTUs04LANw6BCXpZRkylmWNVsWq/Q+AvW1sfqrG5ZISCJyhvhKguUsyO
-         o9teeI4R7GAWXa3ZmBo5f1pXxXYu0LKccRsS/FwU5PiBrrjvP1RPIxwimeD1KB2xuW
-         UM+ONY4KOY+7MiZoNAvzetMNn8N5CTlYMIb1katk=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20190220140859.122694ba@lwn.net>
-References: <20190220140859.122694ba@lwn.net>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20190220140859.122694ba@lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.0-fix
-X-PR-Tracked-Commit-Id: 0358affb5cd8bbd685a6ab163a36dd28a818da73
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: f6163d67cc31b8f2a946c4df82be3c6dd918412d
-Message-Id: <155070210301.24450.13385064231161991074.pr-tracker-bot@kernel.org>
-Date:   Wed, 20 Feb 2019 22:35:03 +0000
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+        id S1725847AbfBTWqv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 20 Feb 2019 17:46:51 -0500
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 918E1398E;
+        Wed, 20 Feb 2019 23:46:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-transfer-encoding:mime-version:message-id:date:date
+        :subject:subject:from:from:received:received:received; s=
+        dkim20160331; t=1550702807; x=1552517208; bh=BT14RPWUUCvsr+25bL6
+        6MvXX3meb4PexJ4ucdFkRJvw=; b=KsVc6q5a2aBAsTeNixj02lmkYJYRjo6t/MQ
+        R1wEavmkuUHzI65zsDvfsu02QOyYvuLimhNThHYDgygJp3k7Ot7yHUE407zUX+Nn
+        zWe0FkQY2nlWa+QO3cxLbBcRxqkbcQVkxjWYxrhzhDdCF24LXOLqfbo4ntofXvig
+        pPRM9R2RF+IGr6wF4gIUlA1+x7SOkfTeKiFnpsHvdMwdNbEVQ30oZN0mYIK6FlYH
+        Ia1qX3vw4eCfqVGxHv4ogpbiS5qHOUJhK0wDdQC8ZXTKAo5bQUZItuUyDSSZbnz0
+        JiJ73dS4EyPy1O+eOE8uAdNdbx9DNC8Fru3yBkrFJ/VoEBdRE53b88su96/bZpRl
+        GNuLn6na3/WfXyacjlCW6xiesFnJdPpEPK1A4ekkwQlBz0I656L6fUSYmBTLjgaT
+        v2PcFkimyye238sxcxPmgXOiZcStopu9yAiAJRm/Z0z7xdRLacyLFsS7LNFUdTuT
+        mWjbK7eG2nw8ITSxtbT2xmoqhs70Az1XJyXIHpk+Zelj0RPwkTdh9H84AyWNO7gv
+        PEyEC9Kr3SGy3NWEdjfK7/jnq+w+YWqx2LRscQikd3KkW4CYBgFjGOxkpCu0aRvU
+        EdUUye4ylOVTuEl/XxDHZ96PdF28SmZt/QhfsCL4s10MOlmxnR1ZVY8exG2Kf5Vj
+        EJtgLTiI=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id hHhqJzoPgOsa; Wed, 20 Feb 2019 23:46:47 +0100 (CET)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id 183D5DE4;
+        Wed, 20 Feb 2019 23:46:47 +0100 (CET)
+Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id 957B0226;
+        Wed, 20 Feb 2019 23:46:46 +0100 (CET)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Markus Heiser <markus.heiser@darmarit.de>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: [PATCH] doc: fix typos in license-rules.rst
+Date:   Wed, 20 Feb 2019 23:46:09 +0100
+Message-Id: <20190220224609.17721-1-federico.vaga@vaga.pv.it>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Wed, 20 Feb 2019 14:08:59 -0700:
+The patches fixes some typos in process/license-rules.rst
 
-> git://git.lwn.net/linux.git tags/docs-5.0-fix
+Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+---
+ Documentation/process/license-rules.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/f6163d67cc31b8f2a946c4df82be3c6dd918412d
-
-Thank you!
-
+diff --git a/Documentation/process/license-rules.rst b/Documentation/process/license-rules.rst
+index 2bb8c0fc2238..d9798d61fe64 100644
+--- a/Documentation/process/license-rules.rst
++++ b/Documentation/process/license-rules.rst
+@@ -62,7 +62,7 @@ License identifier syntax
+ 
+    The SPDX license identifier in kernel files shall be added at the first
+    possible line in a file which can contain a comment.  For the majority
+-   or files this is the first line, except for scripts which require the
++   of files this is the first line, except for scripts which require the
+    '#!PATH_TO_INTERPRETER' in the first line.  For those scripts the SPDX
+    identifier goes into the second line.
+ 
+@@ -368,7 +368,7 @@ kernel, can be broken down into:
+ 
+ 
+ All SPDX license identifiers and exceptions must have a corresponding file
+-in the LICENSE subdirectories. This is required to allow tool
++in the LICENSES subdirectories. This is required to allow tool
+ verification (e.g. checkpatch.pl) and to have the licenses ready to read
+ and extract right from the source, which is recommended by various FOSS
+ organizations, e.g. the `FSFE REUSE initiative <https://reuse.software/>`_.
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+2.20.1
+
