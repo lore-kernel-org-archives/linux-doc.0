@@ -1,82 +1,259 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6E6087D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Feb 2019 06:10:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E55DF7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Feb 2019 10:55:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726529AbfBTGKS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Feb 2019 01:10:18 -0500
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:33772 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725922AbfBTGKR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Feb 2019 01:10:17 -0500
-Received: by mail-ed1-f67.google.com with SMTP id c55so1118370edb.0;
-        Tue, 19 Feb 2019 22:10:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=L8u77boUVqczyZNaPnGObdhKIJY3Plmdl6iUPLJuvlE=;
-        b=GabgM1SvoeBrTHHPD4SrtmynfbCBvTX4GYZB52XvQQDuxL+BUmIjoFzDZFpaP5A6on
-         W9gs2Rtp6YFOrA90YkoYytxwOU8MJJygn/0ofUcAV+qz2yyoaq0CppKeR2A2pFBQK7Ui
-         l/URjKVdO0FKHzzr/SQTY3ofwbEGS56uq3E6Z7GVehuz3pkiBH7af9Xcfh1Jtd/ZTgfQ
-         VZiX4QbxCUoZHKWrXam4JsiNVxK9sQWmjYTBf4KRQosW9yFhrIuyb+IwyAlrx9GnKXaA
-         TDORFX9q05GmDghcKNRrzPpc1UDKhpjNPmkNd8kxlozQZCfW7qhKDfTew5jRQlbuNPPx
-         r+dQ==
-X-Gm-Message-State: AHQUAuZg+Bmo4D2ZwCl56OiOpVLSddjA4EsDzspwaQd9hwdoKhlSrO42
-        noaIP1VcEJH66DTmySJFVsHy3gAp3yUF5jTQZKk=
-X-Google-Smtp-Source: AHgI3IYrviR1ZX0zn8iUsY0rZEmHjY9wXh7Yss8hXkMnHyc1gOYTZk2POxmDZBA54nHWSdoUHt+BjMGio9qhuS1W/ZE=
-X-Received: by 2002:a17:906:114f:: with SMTP id i15mr18254341eja.29.1550643015769;
- Tue, 19 Feb 2019 22:10:15 -0800 (PST)
-MIME-Version: 1.0
-References: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
- <07d2908dc72bf964b27380999e1c826587d69136.1550545163.git.len.brown@intel.com> <4b9c3b83-5e45-068f-57fc-5a0e626ff0f3@linux.intel.com>
-In-Reply-To: <4b9c3b83-5e45-068f-57fc-5a0e626ff0f3@linux.intel.com>
-From:   Len Brown <lenb@kernel.org>
-Date:   Wed, 20 Feb 2019 01:10:04 -0500
-Message-ID: <CAJvTdKm+vGmWn=U+MLW1TzxnpAFxAiJRimO=HMArNp3FX1HXYA@mail.gmail.com>
-Subject: Re: [PATCH 03/11] x86 topology: Add CPUID.1F multi-die/package support
-To:     Like Xu <like.xu@linux.intel.com>
-Cc:     X86 ML <x86@kernel.org>, linux-kernel@vger.kernel.org,
+        id S1726888AbfBTKzw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Feb 2019 05:55:52 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:41738 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726317AbfBTKzw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Feb 2019 05:55:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=3bhsLBuKCRyniv8xa/iQpLENJCU4eXVL7iXAnhBZsps=; b=nV3AJ2ySG31wC5+DdiuX4ZEOm
+        qK6mhogjeYEfK+c5a76UHt1wEM+l+3nJg5sS/sQd59d7+dG9RhyaO0a5oezlUIRAwUXltnbeXqIIe
+        nHvB9hVDcMQbI2vQ13XhpbcN2LcIqRXT5auXgTjox4UMLhbkmtSzljbhu8n8IYGM7r4jY+RmUZGK1
+        rB3SyPOT7oWVOqRkQTXSSJK/qbsOYNF8Cmu4kQ0e854UQ2xtgoXZ4BHHBld5gaaRI8ydH+tTkOGCn
+        DAlTSwIU8hU/C9E+WVxAr2NkXSQXmqGqc4vKHmxHhzdiArrrKFQNdZAh0O6FLqXhy/tlgJQaIOWpu
+        uC7v1nCFA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gwPXW-0006H2-Nm; Wed, 20 Feb 2019 10:55:47 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id B7494202BC402; Wed, 20 Feb 2019 11:55:42 +0100 (CET)
+Date:   Wed, 20 Feb 2019 11:55:42 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Len Brown <lenb@kernel.org>
+Cc:     x86@kernel.org, linux-kernel@vger.kernel.org,
         Len Brown <len.brown@intel.com>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 03/11] x86 topology: Add CPUID.1F multi-die/package
+ support
+Message-ID: <20190220105542.GB17969@hirez.programming.kicks-ass.net>
+References: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
+ <07d2908dc72bf964b27380999e1c826587d69136.1550545163.git.len.brown@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <07d2908dc72bf964b27380999e1c826587d69136.1550545163.git.len.brown@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 19, 2019 at 9:59 PM Like Xu <like.xu@linux.intel.com> wrote:
+On Mon, Feb 18, 2019 at 10:40:05PM -0500, Len Brown wrote:
+> From: Len Brown <len.brown@intel.com>
+> 
+> Some new systems have multiple software-visible die within each package.
+> The new CPUID.1F leaf can enumerate this multi-die/package topology.
+> 
+> CPUID.1F a super-set of the CPUID.B "Extended Toplogy Leaf",
+> and a common updated routine can parse either leaf.
+> 
+> Legacy systems without CPUID.1F, and systems without multi-die/package
+> hardware, will see no functional change from this patch series.
+> 
+> Multi-die/package systems will use CPUID.B before this patch,
+> and CPUID.1F after this patch.  In the CPUID.B case, all die appear
+> (incorrectly) to software as individual packages.  In the CPUID.1F case,
+> the package id's reflect reality, and die_id's become meaningful.
+> 
+> Subsequent patches in this series update the kernel to be multi-die aware.
+> In particular, some software needs to know the difference between
+> a die-scope MSR and a package-scope MSR.
 
-> > -/* leaf 0xb sub-leaf types */
-> > +/* extended topology sub-leaf types */
-> >   #define INVALID_TYPE        0
-> >   #define SMT_TYPE    1
-> >   #define CORE_TYPE   2
-> > +#define DIE_TYPE     5
->
-> This patch set is going to export die topology via sysfs
-> while the extended topology sub-leaf type could be one of followings:
-> SMT/Core/Module/Tile/Die according to CPUID.1F from SDM.
->
-> Why not choose to export module/tile topology as well?
+It would've been nice to have the CPUID instruction 1F leaf reference
+3B-3.9 in the SDM, and maybe mention this here too.
 
-Excellent question.  (and thank you for reading the SDM:-)
+Also, figure 8-6 uses Q,R ID, without prior mention.
 
-While it is true that there are shipping products with
-software-visible CPU modules and tiles,
-they shipped before this mechanism was available.  As a result, there
-are currently zero
-products that use this mechanism to enumerate modules and tiles.  If
-future products
-have software-visible modules and tiles, and they choose to use this mechanism,
-we can add support for them.  But I do not advocate adding code to the kernel
-"just in case".
+> +/*
+> + * Check if given CPUID extended toplogy "leaf" is implemented
+> + */
+> +static int check_extended_topology_leaf(int leaf)
+> +{
+>  	unsigned int eax, ebx, ecx, edx;
+>  
+> +	cpuid_count(leaf, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
+> +
+> +	if (ebx == 0 || (LEAFB_SUBTYPE(ecx) != SMT_TYPE))
+>  		return -1;
+>  
+> +	return 0;
+> +}
+> +/*
+> + * Return best CPUID Extended Toplogy Leaf supported
+> + */
+> +static int detect_extended_topology_leaf(struct cpuinfo_x86 *c)
+> +{
+> +	if (c->cpuid_level >= 0x1f)
+> +		if (check_extended_topology_leaf(0x1f) == 0)
+> +			return 0x1f;
 
-In contrast, the need to support multi-die/package products as soon as
-possible is quite clear.
+Coding-style requires { } on the outer if-stmt.
 
-thanks,
-Len Brown, Intel Open Source Technology Center
+>  
+> +	if (c->cpuid_level >= 0xb)
+> +		if (check_extended_topology_leaf(0xb) == 0)
+> +			return 0xb;
+
+idem.
+
+> +	return -1;
+> +}
+> +#endif
+> +
+> +int detect_extended_topology_early(struct cpuinfo_x86 *c)
+> +{
+> +#ifdef CONFIG_SMP
+> +	unsigned int eax, ebx, ecx, edx;
+> +	int leaf;
+> +
+> +	leaf = detect_extended_topology_leaf(c);
+> +	if (leaf < 0)
+>  		return -1;
+>  
+>  	set_cpu_cap(c, X86_FEATURE_XTOPOLOGY);
+>  
+> +	cpuid_count(leaf, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
+>  	/*
+>  	 * initial apic id, which also represents 32-bit extended x2apic id.
+>  	 */
+> @@ -52,7 +80,7 @@ int detect_extended_topology_early(struct cpuinfo_x86 *c)
+>  }
+>  
+>  /*
+> + * Check for extended topology enumeration cpuid leaf, and if it
+>   * exists, use it for populating initial_apicid and cpu topology
+>   * detection.
+>   */
+> @@ -60,46 +88,62 @@ int detect_extended_topology(struct cpuinfo_x86 *c)
+>  {
+>  #ifdef CONFIG_SMP
+>  	unsigned int eax, ebx, ecx, edx, sub_index;
+> +	unsigned int ht_mask_width, core_plus_mask_width, die_plus_mask_width;
+>  	unsigned int core_select_mask, core_level_siblings;
+> +	unsigned int die_select_mask, die_level_siblings;
+> +	int leaf;
+>  
+> +	leaf = detect_extended_topology_leaf(c);
+> +	if (leaf  < 0)
+
+s/  / /
+
+>  		return -1;
+>  
+>  	/*
+>  	 * Populate HT related information from sub-leaf level 0.
+>  	 */
+> +	cpuid_count(leaf, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
+> +	c->initial_apicid = edx;
+>  	core_level_siblings = smp_num_siblings = LEVEL_MAX_SIBLINGS(ebx);
+>  	core_plus_mask_width = ht_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
+> +	die_level_siblings = LEVEL_MAX_SIBLINGS(ebx);
+> +	die_plus_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
+>  
+>  	sub_index = 1;
+>  	do {
+> +		cpuid_count(leaf, sub_index, &eax, &ebx, &ecx, &edx);
+>  
+>  		/*
+>  		 * Check for the Core type in the implemented sub leaves.
+>  		 */
+>  		if (LEAFB_SUBTYPE(ecx) == CORE_TYPE) {
+>  			core_level_siblings = LEVEL_MAX_SIBLINGS(ebx);
+> +			die_level_siblings = core_level_siblings;
+>  			core_plus_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
+> -			break;
+> +		}
+> +		if (LEAFB_SUBTYPE(ecx) == DIE_TYPE) {
+> +			die_level_siblings = LEVEL_MAX_SIBLINGS(ebx);
+> +			die_plus_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
+>  		}
+>  
+>  		sub_index++;
+>  	} while (LEAFB_SUBTYPE(ecx) != INVALID_TYPE);
+
+Personally I much prefer union based decoding of cpuid leafs over this
+macro magic (git grep cpuid10_):
+
+union cpuid1f_eax {
+	struct {
+		unsigned int x2apic_shift : 5;
+	} split;
+	unsigned int full;
+};
+
+union cpuid1f_ebx {
+	struct {
+		unsigned int nr_cpus : 16;
+	} split;
+	unsigned int full;
+};
+
+enum level_type_enum {
+	invalid_type = 0,
+	smt_type,
+	core_type,
+	module_type,
+	tile_type,
+	die_type,
+};
+
+union cpuid1f_ecx {
+	struct {
+		unsigned int subleaf : 8;
+		unsigned int level_type : 8;
+	} split;
+	unsigned int full;
+};
+
+>  	core_select_mask = (~(-1 << core_plus_mask_width)) >> ht_mask_width;
+> +	die_select_mask = (~(-1 << die_plus_mask_width)) >>
+> +				core_plus_mask_width;
+> +
+> +	c->cpu_core_id = apic->phys_pkg_id(c->initial_apicid,
+> +				ht_mask_width) & core_select_mask;
+> +	c->cpu_die_id = apic->phys_pkg_id(c->initial_apicid,
+> +				core_plus_mask_width) & die_select_mask;
+> +	c->phys_proc_id = apic->phys_pkg_id(c->initial_apicid,
+> +				die_plus_mask_width);
+>  	/*
+>  	 * Reinit the apicid, now that we have extended initial_apicid.
+>  	 */
+>  	c->apicid = apic->phys_pkg_id(c->initial_apicid, 0);
+>  
+>  	c->x86_max_cores = (core_level_siblings / smp_num_siblings);
+> +	c->x86_max_dies = (die_level_siblings / core_level_siblings);
+>  #endif
+>  	return 0;
+>  }
+
+
+> @@ -461,7 +463,7 @@ static bool match_llc(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
+>   */
+>  static bool match_die(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
+>  {
+> -	if (c->phys_proc_id == o->phys_proc_id)
+> +	if (c->cpu_die_id == o->cpu_die_id)
+>  		return true;
+>  	return false;
+>  }
+
+You haven't explained, and I can't readily find it in the SDM either,
+how these topology bits relate to caches and interconnects.
+
+Will these die thingies share LLC, or will LLC be per die. Will NUMA
+span dies or not.
+
+
