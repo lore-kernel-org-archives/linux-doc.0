@@ -1,128 +1,310 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8A3BA7D912
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Feb 2019 22:03:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 30D9B7D099
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Feb 2019 02:59:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729914AbfBSWDM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Feb 2019 17:03:12 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:35863 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729884AbfBSWDK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Feb 2019 17:03:10 -0500
-Received: by mail-pg1-f196.google.com with SMTP id r124so10770238pgr.3;
-        Tue, 19 Feb 2019 14:03:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=0hgV92wDT2ZmcOau/wgDvn2O7fusGY5Cr61uoT+/hFU=;
-        b=C7absAylMscTk4Wjtt7Y4IbaIyGuHygs0J94JlBR7eQX7eVs9S1ayeofPfpDjrKJK3
-         45a6P1EgyNgQxDbGU3ZpHrTyGYFZGCwNf1VOe5gmznWb/4Ppz8HIZVfVr0LrGIb2jdiv
-         gk3Pi9USbefmrKl9z/DrgtP7XLh8bXvhK3UW+go7HEhNnFi5nu6iuDAbx/5TDPLCEWNg
-         1lRvkfVrk2zFBfm+jkImsL1WcU1/6D902qxA0m3JFvt5ZKNOLeAdfKIKeSOhxM0Jn396
-         kV3J+FObFkdo957p4OSioHkZP5N9iCkpp9JghZ3qdrcmn56lkILFWxMSDu08rSTAmMac
-         h4yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=0hgV92wDT2ZmcOau/wgDvn2O7fusGY5Cr61uoT+/hFU=;
-        b=JX5C7CR33wJLmGnQCKuxJtQd7dSNfzKAE787m0YXs932gtkC+aU20dLdAheU2c17Ec
-         f11DRS0eXSkUTNsPF0BNKYncwR0GYsg7cCy/8It+E3laPQ4Trebq2M33KHKwR555EQlO
-         CpyXzZQ4MNRiFoTF+Wtg99PrXTSUEsYYZv8tTb6uyymxqOeVeTHyIY1LZSRhgebFu+19
-         3qLv1jcf2htxrZvUNtEWaVxGxd5OkjDQkmk1Cq2roqJbWjJAmpS0HoQdqoa2Ea1LlY55
-         u2e7mPhVxYKnwy+4uyLQdhGWCiTEdv3+U+N31T8L2ObU4u1BIn+YH1ZkypKc6GaeUAM9
-         3gGA==
-X-Gm-Message-State: AHQUAuY1sTeVz+Ke07d9VyrH5dvrVZyWTJKdBD15sRVY3h9KOdc2P+ia
-        t9OrhReW9B6baK80MnqwAqaN5TjgcYc=
-X-Google-Smtp-Source: AHgI3IZK/aAcXXln+ubV5L0uRdVx43Y7pNJRTzMywNs93NFIfXPSMEzZJJEQyGJ20s7zIg8M95jiCg==
-X-Received: by 2002:a63:ed42:: with SMTP id m2mr26126163pgk.147.1550613789961;
-        Tue, 19 Feb 2019 14:03:09 -0800 (PST)
-Received: from tower.thefacebook.com ([2620:10d:c090:200::5:161b])
-        by smtp.gmail.com with ESMTPSA id e6sm33539779pfe.59.2019.02.19.14.03.08
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 19 Feb 2019 14:03:09 -0800 (PST)
-From:   Roman Gushchin <guroan@gmail.com>
-X-Google-Original-From: Roman Gushchin <guro@fb.com>
-To:     Tejun Heo <tj@kernel.org>, Oleg Nesterov <oleg@redhat.com>
-Cc:     kernel-team@fb.com, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Roman Gushchin <guro@fb.com>,
-        Mike Rapoport <rppt@linux.ibm.com>, linux-doc@vger.kernel.org
-Subject: [PATCH v8 7/7] cgroup: document cgroup v2 freezer interface
-Date:   Tue, 19 Feb 2019 14:02:52 -0800
-Message-Id: <20190219220252.4906-8-guro@fb.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190219220252.4906-1-guro@fb.com>
-References: <20190219220252.4906-1-guro@fb.com>
+        id S1725916AbfBTC7K (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Feb 2019 21:59:10 -0500
+Received: from mga09.intel.com ([134.134.136.24]:36842 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725616AbfBTC7K (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Feb 2019 21:59:10 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Feb 2019 18:59:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.58,388,1544515200"; 
+   d="scan'208";a="119283176"
+Received: from likexu-mobl1.ccr.corp.intel.com (HELO [10.239.196.155]) ([10.239.196.155])
+  by orsmga008.jf.intel.com with ESMTP; 19 Feb 2019 18:59:07 -0800
+Subject: Re: [PATCH 03/11] x86 topology: Add CPUID.1F multi-die/package
+ support
+To:     Len Brown <lenb@kernel.org>, x86@kernel.org
+Cc:     linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>,
+        linux-doc@vger.kernel.org
+References: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
+ <07d2908dc72bf964b27380999e1c826587d69136.1550545163.git.len.brown@intel.com>
+From:   Like Xu <like.xu@linux.intel.com>
+Organization: Intel OTC
+Message-ID: <4b9c3b83-5e45-068f-57fc-5a0e626ff0f3@linux.intel.com>
+Date:   Wed, 20 Feb 2019 10:59:05 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <07d2908dc72bf964b27380999e1c826587d69136.1550545163.git.len.brown@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Describe cgroup v2 freezer interface in the cgroup v2 admin guide.
+On 2019/2/19 11:40, Len Brown wrote:
+> From: Len Brown <len.brown@intel.com>
+> 
+> Some new systems have multiple software-visible die within each package.
+> The new CPUID.1F leaf can enumerate this multi-die/package topology.
+> 
+> CPUID.1F a super-set of the CPUID.B "Extended Toplogy Leaf",
+> and a common updated routine can parse either leaf.
+> 
+> Legacy systems without CPUID.1F, and systems without multi-die/package
+> hardware, will see no functional change from this patch series.
+> 
+> Multi-die/package systems will use CPUID.B before this patch,
+> and CPUID.1F after this patch.  In the CPUID.B case, all die appear
+> (incorrectly) to software as individual packages.  In the CPUID.1F case,
+> the package id's reflect reality, and die_id's become meaningful.
+> 
+> Subsequent patches in this series update the kernel to be multi-die aware.
+> In particular, some software needs to know the difference between
+> a die-scope MSR and a package-scope MSR.
+> 
+> Signed-off-by: Len Brown <len.brown@intel.com>
+> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: Len Brown <len.brown@intel.com>
+> ---
+>   Documentation/x86/topology.txt   |  4 ++
+>   arch/x86/include/asm/processor.h |  4 +-
+>   arch/x86/kernel/cpu/topology.c   | 82 ++++++++++++++++++++++++--------
+>   arch/x86/kernel/smpboot.c        |  4 +-
+>   4 files changed, 73 insertions(+), 21 deletions(-)
+> 
+> diff --git a/Documentation/x86/topology.txt b/Documentation/x86/topology.txt
+> index 06b3cdbc4048..8107b6cfc9ea 100644
+> --- a/Documentation/x86/topology.txt
+> +++ b/Documentation/x86/topology.txt
+> @@ -46,6 +46,10 @@ The topology of a system is described in the units of:
+>   
+>       The number of cores in a package. This information is retrieved via CPUID.
+>   
+> +  - cpuinfo_x86.x86_max_dies:
+> +
+> +    The number of dies in a package. This information is retrieved via CPUID.
+> +
+>     - cpuinfo_x86.phys_proc_id:
+>   
+>       The physical ID of the package. This information is retrieved via CPUID
+> diff --git a/arch/x86/include/asm/processor.h b/arch/x86/include/asm/processor.h
+> index 33051436c864..f2856fe03715 100644
+> --- a/arch/x86/include/asm/processor.h
+> +++ b/arch/x86/include/asm/processor.h
+> @@ -105,7 +105,8 @@ struct cpuinfo_x86 {
+>   	int			x86_power;
+>   	unsigned long		loops_per_jiffy;
+>   	/* cpuid returned max cores value: */
+> -	u16			 x86_max_cores;
+> +	u16			x86_max_cores;
+> +	u16			x86_max_dies;
+>   	u16			apicid;
+>   	u16			initial_apicid;
+>   	u16			x86_clflush_size;
+> @@ -117,6 +118,7 @@ struct cpuinfo_x86 {
+>   	u16			logical_proc_id;
+>   	/* Core id: */
+>   	u16			cpu_core_id;
+> +	u16			cpu_die_id;
+>   	/* Index into per_cpu list: */
+>   	u16			cpu_index;
+>   	u32			microcode;
+> diff --git a/arch/x86/kernel/cpu/topology.c b/arch/x86/kernel/cpu/topology.c
+> index 8f6c784141d1..6dce6ee77849 100644
+> --- a/arch/x86/kernel/cpu/topology.c
+> +++ b/arch/x86/kernel/cpu/topology.c
+> @@ -15,33 +15,61 @@
+>   /* leaf 0xb SMT level */
+>   #define SMT_LEVEL	0
+>   
+> -/* leaf 0xb sub-leaf types */
+> +/* extended topology sub-leaf types */
+>   #define INVALID_TYPE	0
+>   #define SMT_TYPE	1
+>   #define CORE_TYPE	2
+> +#define DIE_TYPE	5
 
-Signed-off-by: Roman Gushchin <guro@fb.com>
-Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
-Cc: Tejun Heo <tj@kernel.org>
-Cc: linux-doc@vger.kernel.org
-Cc: kernel-team@fb.com
----
- Documentation/admin-guide/cgroup-v2.rst | 27 +++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+This patch set is going to export die topology via sysfs
+while the extended topology sub-leaf type could be one of followings:
+SMT/Core/Module/Tile/Die according to CPUID.1F from SDM.
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 61f8bbb0a1b2..78f078ddbe9c 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -864,6 +864,8 @@ All cgroup core files are prefixed with "cgroup."
- 	  populated
- 		1 if the cgroup or its descendants contains any live
- 		processes; otherwise, 0.
-+	  frozen
-+		1 if the cgroup is frozen; otherwise, 0.
- 
-   cgroup.max.descendants
- 	A read-write single value files.  The default is "max".
-@@ -897,6 +899,31 @@ All cgroup core files are prefixed with "cgroup."
- 		A dying cgroup can consume system resources not exceeding
- 		limits, which were active at the moment of cgroup deletion.
- 
-+  cgroup.freeze
-+	A read-write single value file which exists on non-root cgroups.
-+	Allowed values are "0" and "1". The default is "0".
-+
-+	Writing "1" to the file causes freezing of the cgroup and all
-+	descendant cgroups. This means that all belonging processes will
-+	be stopped and will not run until the cgroup will be explicitly
-+	unfrozen. Freezing of the cgroup may take some time; when this action
-+	is completed, the "frozen" value in the cgroup.events control file
-+	will be updated to "1" and the corresponding notification will be
-+	issued.
-+
-+	A cgroup can be frozen either by its own settings, or by settings
-+	of any ancestor cgroups. If any of ancestor cgroups is frozen, the
-+	cgroup will remain frozen.
-+
-+	Processes in the frozen cgroup can be killed by a fatal signal.
-+	They also can enter and leave a frozen cgroup: either by an explicit
-+	move by a user, or if freezing of the cgroup races with fork().
-+	If a process is moved to a frozen cgroup, it stops. If a process is
-+	moved out of a frozen cgroup, it becomes running.
-+
-+	Frozen status of a cgroup doesn't affect any cgroup tree operations:
-+	it's possible to delete a frozen (and empty) cgroup, as well as
-+	create new sub-cgroups.
- 
- Controllers
- ===========
--- 
-2.20.1
+Why not choose to export module/tile topology as well?
+
+>   
+>   #define LEAFB_SUBTYPE(ecx)		(((ecx) >> 8) & 0xff)
+>   #define BITS_SHIFT_NEXT_LEVEL(eax)	((eax) & 0x1f)
+>   #define LEVEL_MAX_SIBLINGS(ebx)		((ebx) & 0xffff)
+>   
+> -int detect_extended_topology_early(struct cpuinfo_x86 *c)
+> -{
+>   #ifdef CONFIG_SMP
+> +/*
+> + * Check if given CPUID extended toplogy "leaf" is implemented
+> + */
+> +static int check_extended_topology_leaf(int leaf)
+> +{
+>   	unsigned int eax, ebx, ecx, edx;
+>   
+> -	if (c->cpuid_level < 0xb)
+> +	cpuid_count(leaf, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
+> +
+> +	if (ebx == 0 || (LEAFB_SUBTYPE(ecx) != SMT_TYPE))
+>   		return -1;
+>   
+> -	cpuid_count(0xb, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
+> +	return 0;
+> +}
+> +/*
+> + * Return best CPUID Extended Toplogy Leaf supported
+> + */
+> +static int detect_extended_topology_leaf(struct cpuinfo_x86 *c)
+> +{
+> +	if (c->cpuid_level >= 0x1f)
+> +		if (check_extended_topology_leaf(0x1f) == 0)
+> +			return 0x1f;
+>   
+> -	/*
+> -	 * check if the cpuid leaf 0xb is actually implemented.
+> -	 */
+> -	if (ebx == 0 || (LEAFB_SUBTYPE(ecx) != SMT_TYPE))
+> +	if (c->cpuid_level >= 0xb)
+> +		if (check_extended_topology_leaf(0xb) == 0)
+> +			return 0xb;
+> +
+> +	return -1;
+> +}
+> +#endif
+> +
+> +int detect_extended_topology_early(struct cpuinfo_x86 *c)
+> +{
+> +#ifdef CONFIG_SMP
+> +	unsigned int eax, ebx, ecx, edx;
+> +	int leaf;
+> +
+> +	leaf = detect_extended_topology_leaf(c);
+> +	if (leaf < 0)
+>   		return -1;
+>   
+>   	set_cpu_cap(c, X86_FEATURE_XTOPOLOGY);
+>   
+> +	cpuid_count(leaf, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
+>   	/*
+>   	 * initial apic id, which also represents 32-bit extended x2apic id.
+>   	 */
+> @@ -52,7 +80,7 @@ int detect_extended_topology_early(struct cpuinfo_x86 *c)
+>   }
+>   
+>   /*
+> - * Check for extended topology enumeration cpuid leaf 0xb and if it
+> + * Check for extended topology enumeration cpuid leaf, and if it
+>    * exists, use it for populating initial_apicid and cpu topology
+>    * detection.
+>    */
+> @@ -60,46 +88,62 @@ int detect_extended_topology(struct cpuinfo_x86 *c)
+>   {
+>   #ifdef CONFIG_SMP
+>   	unsigned int eax, ebx, ecx, edx, sub_index;
+> -	unsigned int ht_mask_width, core_plus_mask_width;
+> +	unsigned int ht_mask_width, core_plus_mask_width, die_plus_mask_width;
+>   	unsigned int core_select_mask, core_level_siblings;
+> +	unsigned int die_select_mask, die_level_siblings;
+> +	int leaf;
+>   
+> -	if (detect_extended_topology_early(c) < 0)
+> +	leaf = detect_extended_topology_leaf(c);
+> +	if (leaf  < 0)
+>   		return -1;
+>   
+>   	/*
+>   	 * Populate HT related information from sub-leaf level 0.
+>   	 */
+> -	cpuid_count(0xb, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
+> +	cpuid_count(leaf, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
+> +	c->initial_apicid = edx;
+>   	core_level_siblings = smp_num_siblings = LEVEL_MAX_SIBLINGS(ebx);
+>   	core_plus_mask_width = ht_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
+> +	die_level_siblings = LEVEL_MAX_SIBLINGS(ebx);
+> +	die_plus_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
+>   
+>   	sub_index = 1;
+>   	do {
+> -		cpuid_count(0xb, sub_index, &eax, &ebx, &ecx, &edx);
+> +		cpuid_count(leaf, sub_index, &eax, &ebx, &ecx, &edx);
+>   
+>   		/*
+>   		 * Check for the Core type in the implemented sub leaves.
+>   		 */
+>   		if (LEAFB_SUBTYPE(ecx) == CORE_TYPE) {
+>   			core_level_siblings = LEVEL_MAX_SIBLINGS(ebx);
+> +			die_level_siblings = core_level_siblings;
+>   			core_plus_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
+> -			break;
+> +		}
+> +		if (LEAFB_SUBTYPE(ecx) == DIE_TYPE) {
+> +			die_level_siblings = LEVEL_MAX_SIBLINGS(ebx);
+> +			die_plus_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
+>   		}
+>   
+>   		sub_index++;
+>   	} while (LEAFB_SUBTYPE(ecx) != INVALID_TYPE);
+>   
+>   	core_select_mask = (~(-1 << core_plus_mask_width)) >> ht_mask_width;
+> -
+> -	c->cpu_core_id = apic->phys_pkg_id(c->initial_apicid, ht_mask_width)
+> -						 & core_select_mask;
+> -	c->phys_proc_id = apic->phys_pkg_id(c->initial_apicid, core_plus_mask_width);
+> +	die_select_mask = (~(-1 << die_plus_mask_width)) >>
+> +				core_plus_mask_width;
+> +
+> +	c->cpu_core_id = apic->phys_pkg_id(c->initial_apicid,
+> +				ht_mask_width) & core_select_mask;
+> +	c->cpu_die_id = apic->phys_pkg_id(c->initial_apicid,
+> +				core_plus_mask_width) & die_select_mask;
+> +	c->phys_proc_id = apic->phys_pkg_id(c->initial_apicid,
+> +				die_plus_mask_width);
+>   	/*
+>   	 * Reinit the apicid, now that we have extended initial_apicid.
+>   	 */
+>   	c->apicid = apic->phys_pkg_id(c->initial_apicid, 0);
+>   
+>   	c->x86_max_cores = (core_level_siblings / smp_num_siblings);
+> +	c->x86_max_dies = (die_level_siblings / core_level_siblings);
+>   #endif
+>   	return 0;
+>   }
+> diff --git a/arch/x86/kernel/smpboot.c b/arch/x86/kernel/smpboot.c
+> index ccd1f2a8e557..4250a87f57db 100644
+> --- a/arch/x86/kernel/smpboot.c
+> +++ b/arch/x86/kernel/smpboot.c
+> @@ -393,6 +393,7 @@ static bool match_smt(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
+>   		int cpu1 = c->cpu_index, cpu2 = o->cpu_index;
+>   
+>   		if (c->phys_proc_id == o->phys_proc_id &&
+> +		    c->cpu_die_id == o->cpu_die_id &&
+>   		    per_cpu(cpu_llc_id, cpu1) == per_cpu(cpu_llc_id, cpu2)) {
+>   			if (c->cpu_core_id == o->cpu_core_id)
+>   				return topology_sane(c, o, "smt");
+> @@ -404,6 +405,7 @@ static bool match_smt(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
+>   		}
+>   
+>   	} else if (c->phys_proc_id == o->phys_proc_id &&
+> +		   c->cpu_die_id == o->cpu_die_id &&
+>   		   c->cpu_core_id == o->cpu_core_id) {
+>   		return topology_sane(c, o, "smt");
+>   	}
+> @@ -461,7 +463,7 @@ static bool match_llc(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
+>    */
+>   static bool match_die(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
+>   {
+> -	if (c->phys_proc_id == o->phys_proc_id)
+> +	if (c->cpu_die_id == o->cpu_die_id)
+>   		return true;
+>   	return false;
+>   }
+> 
 
