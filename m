@@ -1,160 +1,56 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D6D5A7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Feb 2019 21:53:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2D9877D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Feb 2019 22:35:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726137AbfBTVxH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Feb 2019 16:53:07 -0500
-Received: from mail2-relais-roc.national.inria.fr ([192.134.164.83]:47250 "EHLO
-        mail2-relais-roc.national.inria.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725869AbfBTVxH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Feb 2019 16:53:07 -0500
-X-IronPort-AV: E=Sophos;i="5.58,392,1544482800"; 
-   d="scan'208";a="370232574"
-Received: from 91-160-5-165.subs.proxad.net (HELO [192.168.44.23]) ([91.160.5.165])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/AES128-SHA; 20 Feb 2019 22:52:40 +0100
-Subject: Re: [PATCH 05/11] x86 topology: export die_siblings
-To:     Len Brown <lenb@kernel.org>, x86@kernel.org
-Cc:     linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>,
-        linux-doc@vger.kernel.org
-References: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
- <0d54a56186fb9be7a8f622a4625a41dc600dd7a4.1550545163.git.len.brown@intel.com>
-From:   Brice Goglin <Brice.Goglin@inria.fr>
-Openpgp: preference=signencrypt
-Autocrypt: addr=Brice.Goglin@inria.fr; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <ceb7549e-6ccb-c6c7-241c-36c6e5c30770@inria.fr>
-Date:   Wed, 20 Feb 2019 22:52:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.0
-MIME-Version: 1.0
-In-Reply-To: <0d54a56186fb9be7a8f622a4625a41dc600dd7a4.1550545163.git.len.brown@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+        id S1725851AbfBTWfD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Feb 2019 17:35:03 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50338 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725826AbfBTWfD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 20 Feb 2019 17:35:03 -0500
+Subject: Re: [GIT PULL] One 5.0 docs fix
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1550702103;
+        bh=8ejO3t2qL1fTtQ8NHzc7Ndxkbhl1g5O84vIfPnXS8ok=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=ktGyOCE8EfTUs04LANw6BCXpZRkylmWNVsWq/Q+AvW1sfqrG5ZISCJyhvhKguUsyO
+         o9teeI4R7GAWXa3ZmBo5f1pXxXYu0LKccRsS/FwU5PiBrrjvP1RPIxwimeD1KB2xuW
+         UM+ONY4KOY+7MiZoNAvzetMNn8N5CTlYMIb1katk=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20190220140859.122694ba@lwn.net>
+References: <20190220140859.122694ba@lwn.net>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20190220140859.122694ba@lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.0-fix
+X-PR-Tracked-Commit-Id: 0358affb5cd8bbd685a6ab163a36dd28a818da73
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: f6163d67cc31b8f2a946c4df82be3c6dd918412d
+Message-Id: <155070210301.24450.13385064231161991074.pr-tracker-bot@kernel.org>
+Date:   Wed, 20 Feb 2019 22:35:03 +0000
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Le 19/02/2019 à 04:40, Len Brown a écrit :
-> From: Len Brown <len.brown@intel.com>
->
-> like core_siblings, except it shows which die are in the same package.
->
-> This is needed for lscpu(1) to correctly display die topology.
->
-> Signed-off-by: Len Brown <len.brown@intel.com>
-> Cc: linux-doc@vger.kernel.org
-> Signed-off-by: Len Brown <len.brown@intel.com>
-> ---
->  Documentation/cputopology.txt   | 10 ++++++++++
->  arch/x86/include/asm/smp.h      |  1 +
->  arch/x86/include/asm/topology.h |  1 +
->  arch/x86/kernel/smpboot.c       | 20 ++++++++++++++++++++
->  arch/x86/xen/smp_pv.c           |  1 +
->  drivers/base/topology.c         |  6 ++++++
->  include/linux/topology.h        |  3 +++
->  7 files changed, 42 insertions(+)
->
-> diff --git a/Documentation/cputopology.txt b/Documentation/cputopology.txt
-> index 287213b4517b..7dd2ae3df233 100644
-> --- a/Documentation/cputopology.txt
-> +++ b/Documentation/cputopology.txt
-> @@ -56,6 +56,16 @@ core_siblings_list:
->  	human-readable list of cpuX's hardware threads within the same
->  	die_id.
->  
-> +die_siblings:
-> +
-> +	internal kernel map of cpuX's hardware threads within the same
-> +	physical_package_id.
-> +
-> +die_siblings_list:
-> +
-> +	human-readable list of cpuX's hardware threads within the same
-> +	physical_package_id.
-> +
+The pull request you sent on Wed, 20 Feb 2019 14:08:59 -0700:
 
+> git://git.lwn.net/linux.git tags/docs-5.0-fix
 
-Hello Len,
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/f6163d67cc31b8f2a946c4df82be3c6dd918412d
 
-Patches #4 and #5 are changing the meaning the core_siblings (in the
-past, it always returned all threads in the entire package). All
-existing user-space tools will see each die as a separate package until
-they are updated to read die_siblings too. It only matters for multi-die
-CPUs when running a recent kernel with an old userspace tool, but it may
-still be consider as a sysfs ABI change.
+Thank you!
 
-Worse, things will break again if you ever add tile_siblings for
-CPUID.1f "Tiles". User-space will suddenly see 2 dies of 2 cores instead
-1 die of 2 tiles of 2 cores.
-
-I understand that this isn't easy to fix. But I want to make sure people
-are aware of the meaning of this change.
-
-The proper way to avoid this is to stop having file foo_siblings refer
-to "the container of foo" instead of "foo itself" (because that
-container changes when you add intermediate levels). Rename sysfs files
-like below, and you don't get any breakage anymore when adding
-intermediate levels:
-
-thread_siblings -> core_threads (can we do sysfs alias or symlink to
-keep the old name?)
-
-core_siblings -> die_threads
-
-die_siblings -> package_threads (needs an alias too)
-
-The documentation would also be much easier to read since "die_threads"
-is obviously "human-readable list of cpuX's hardware threads within the
-same die_id". And no need to modify the doc anymore when adding levels :)
-
-Brice
-
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
