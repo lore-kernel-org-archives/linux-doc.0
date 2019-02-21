@@ -1,134 +1,76 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A42A77D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Feb 2019 13:12:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 16C187D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Feb 2019 13:37:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725823AbfBUNMv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Feb 2019 08:12:51 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:46890 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725385AbfBUNMv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 Feb 2019 08:12:51 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 9E5B2356EA;
-        Thu, 21 Feb 2019 13:12:50 +0000 (UTC)
-Received: from prarit.khw1.lab.eng.bos.redhat.com (prarit-guest.khw1.lab.eng.bos.redhat.com [10.16.200.63])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7721060C44;
-        Thu, 21 Feb 2019 13:12:27 +0000 (UTC)
-From:   Prarit Bhargava <prarit@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Prarit Bhargava <prarit@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        id S1725891AbfBUNhx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Feb 2019 08:37:53 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:45754 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725385AbfBUNhx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Feb 2019 08:37:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=NpcwRPiUBsDTC6WNdOOEbdvIamRDbsI3Cs5FT6037R8=; b=sKTb2zMH+dfxctWPPWpR688XG
+        mqopdVXZ9O38IK/NurCTVcomtPrLltsxwM2s0Fovr/Ma4AxUi9BiufcItxFOh+IAzCmTJ4e9BD5MT
+        i/9lTb/y9pltS6JU7kirEYzWlIFlicaBi8F49ifSSR9mgfnpHt5hT9IgiE4BUTGa4gTmaQLfFmCBh
+        esWCHGuM/g81Y4yMwBLzINqQ+5iOL2eD/91svq7i8ICFUtd93V6xqVIcAsWdSeWP1sAlYBm7JwEL7
+        2ReQbGlADfasbSi1gRZ4WAsoBCpV9EJjMILQR5syTAJbvQ9KlFNwP0rvGrnowcSGa1AVJxwonIf+I
+        UhaHhHZEg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gwoXr-00015i-Cm; Thu, 21 Feb 2019 13:37:47 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id CADF92030EE5E; Thu, 21 Feb 2019 14:37:45 +0100 (CET)
+Date:   Thu, 21 Feb 2019 14:37:45 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Prarit Bhargava <prarit@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <ak@linux.intel.com>,
         x86@kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH] x86/fpu: Parse comma separated list passed in clearcpuid
-Date:   Thu, 21 Feb 2019 08:12:25 -0500
-Message-Id: <20190221131225.22063-1-prarit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Thu, 21 Feb 2019 13:12:50 +0000 (UTC)
+Subject: Re: [PATCH] x86/fpu: Parse comma separated list passed in clearcpuid
+Message-ID: <20190221133745.GP32494@hirez.programming.kicks-ass.net>
+References: <20190221131225.22063-1-prarit@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190221131225.22063-1-prarit@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Users cannot disable multiple CPU features with the kernel parameter
-clearcpuid=.  For example, "clearcpuid=154 clearcpuid=227" only disables
-CPUID bit 154.
+On Thu, Feb 21, 2019 at 08:12:25AM -0500, Prarit Bhargava wrote:
+> Users cannot disable multiple CPU features with the kernel parameter
+> clearcpuid=.  For example, "clearcpuid=154 clearcpuid=227" only disables
+> CPUID bit 154.
+> 
+> Previous to commit 0c2a3913d6f5 ("x86/fpu: Parse clearcpuid= as early XSAVE
+> argument") it was possible to pass multiple clearcpuid options as kernel
+> parameters using individual entries.  With the new code it isn't easy to
+> replicate exactly that behaviour but a comma separated list can be easily
+> implemented, eg) "clearcpuid=154,227"
+> 
+> Make the clearcpuid parse a comma-separated list of values instead of only
+> a single value.
 
-Previous to commit 0c2a3913d6f5 ("x86/fpu: Parse clearcpuid= as early XSAVE
-argument") it was possible to pass multiple clearcpuid options as kernel
-parameters using individual entries.  With the new code it isn't easy to
-replicate exactly that behaviour but a comma separated list can be easily
-implemented, eg) "clearcpuid=154,227"
+So I think the feature is broken as is; because it doesn't clear the
+CPUID bits for userspace.
 
-Make the clearcpuid parse a comma-separated list of values instead of only
-a single value.
+something along the lines of:
 
-Signed-off-by: Prarit Bhargava <prarit@redhat.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Andi Kleen <ak@linux.intel.com>
-Cc: x86@kernel.org
-Cc: linux-doc@vger.kernel.org
----
- .../admin-guide/kernel-parameters.txt         | 10 ++++----
- arch/x86/kernel/fpu/init.c                    | 25 ++++++++++++++-----
- 2 files changed, 24 insertions(+), 11 deletions(-)
+https://lkml.kernel.org/r/20190212164833.GK32494@hirez.programming.kicks-ass.net
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 858b6c0b9a15..0084fb0a0781 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -559,11 +559,11 @@
- 			systems.
- 
- 	clearcpuid=BITNUM [X86]
--			Disable CPUID feature X for the kernel. See
--			arch/x86/include/asm/cpufeatures.h for the valid bit
--			numbers. Note the Linux specific bits are not necessarily
--			stable over kernel options, but the vendor specific
--			ones should be.
-+			Disable the comma-separated list of CPUID features for
-+			the kernel. See arch/x86/include/asm/cpufeatures.h for
-+			the valid bit numbers. Note the Linux specific bits
-+			are not necessarily stable over kernel options, but
-+			the vendor specific ones should be.
- 			Also note that user programs calling CPUID directly
- 			or using the feature without checking anything
- 			will still see it. This just prevents it from
-diff --git a/arch/x86/kernel/fpu/init.c b/arch/x86/kernel/fpu/init.c
-index 6abd83572b01..14bb3ab769d2 100644
---- a/arch/x86/kernel/fpu/init.c
-+++ b/arch/x86/kernel/fpu/init.c
-@@ -251,7 +251,8 @@ static void __init fpu__init_parse_early_param(void)
- {
- 	char arg[32];
- 	char *argptr = arg;
--	int bit;
-+	char *argptrend;
-+	int bit, i, ret;
- 
- 	if (cmdline_find_option_bool(boot_command_line, "no387"))
- 		setup_clear_cpu_cap(X86_FEATURE_FPU);
-@@ -272,11 +273,23 @@ static void __init fpu__init_parse_early_param(void)
- 		setup_clear_cpu_cap(X86_FEATURE_XSAVES);
- 
- 	if (cmdline_find_option(boot_command_line, "clearcpuid", arg,
--				sizeof(arg)) &&
--	    get_option(&argptr, &bit) &&
--	    bit >= 0 &&
--	    bit < NCAPINTS * 32)
--		setup_clear_cpu_cap(bit);
-+				sizeof(arg))) {
-+		argptrend = argptr + strlen(argptr) - 1;
-+		for (i = 0; i < (argptrend - argptr); i++)
-+			if (arg[i] == ',')
-+				arg[i] = '\0';
-+		while (argptr < argptrend) {
-+			ret = kstrtoint(argptr, 10, &bit);
-+			if (!ret && (bit >= 0 && bit < NCAPINTS * 32))
-+				setup_clear_cpu_cap(bit);
-+			else {
-+				pr_warn("x86/fpu: clearcpuid invalid entry %s\n",
-+					arg);
-+				return;
-+			}
-+			argptr += strlen(argptr) + 1;
-+		}
-+	}
- }
- 
- /*
--- 
-2.17.2
+would be required to make it so.
 
