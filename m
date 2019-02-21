@@ -1,126 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5B3BD7D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Feb 2019 07:41:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CF7067D099
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Feb 2019 08:38:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725850AbfBUHlo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Feb 2019 02:41:44 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:43244 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725831AbfBUHln (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Feb 2019 02:41:43 -0500
-Received: by mail-ed1-f66.google.com with SMTP id m35so18247322ede.10;
-        Wed, 20 Feb 2019 23:41:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SBo2jtopDSY25tMk59SLMtIPfmFBSxFG9vz6EUEjXCo=;
-        b=U4mnPVGes2cdaoQZr+D4VG8JSRceDOeHX4j3wFqaJG7v6qxm8Ap6njQYjHkJlJum7H
-         Q25tDf3u7LgwBTsWOEWTOHG4QhYWoFSk1YBEPqoHF6LXQ6aTJcTWx0zdITikRbiRo3SM
-         +hGu9+21+yKspMaa0bZwHVI+x0TjZRWsAynfDD2hvuIZCsi4EZYDYo3IceVzH0qGSVYa
-         oQA24F69SNlEDtUt9FIZ8oWkjg+zKKFxFd0S6tYmSspPz8jTfuoaopKzDfn6ATGRv6ae
-         DdEi9azLsXvYFa6I5l4A5Kn99w7grNtSt8xEh2BV+1EeDn20iFP/mLUMf75IRe1BEytY
-         Lckw==
-X-Gm-Message-State: AHQUAubByWaj6LLzUYzoO0SbqpMez1ek5NKXPsFAQoIRGMuXEtnMnerO
-        re0u4h/bx7SAEdAxyGKuCAS2AM+FilPGUN73Fyo=
-X-Google-Smtp-Source: AHgI3IaUGKBAqovN3qvSMtXYv4yejp9hIMDsaA9ZU0KsM0O17UQrWgqGtb2NkN6yaHlxF8SOsmV9w8a2ECChV5hvR3Y=
-X-Received: by 2002:a50:b641:: with SMTP id c1mr671484ede.155.1550734901888;
- Wed, 20 Feb 2019 23:41:41 -0800 (PST)
-MIME-Version: 1.0
-References: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
- <0d54a56186fb9be7a8f622a4625a41dc600dd7a4.1550545163.git.len.brown@intel.com> <ceb7549e-6ccb-c6c7-241c-36c6e5c30770@inria.fr>
-In-Reply-To: <ceb7549e-6ccb-c6c7-241c-36c6e5c30770@inria.fr>
-From:   Len Brown <lenb@kernel.org>
-Date:   Thu, 21 Feb 2019 02:41:30 -0500
-Message-ID: <CAJvTdKm3gqY9G6nOVq_a3r0QX4ECcew7Z3cdr1OxDBGRVgUpkg@mail.gmail.com>
+        id S1727397AbfBUIiu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Feb 2019 03:38:50 -0500
+Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:19566
+        "EHLO mail3-relais-sop.national.inria.fr" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727395AbfBUIiu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Feb 2019 03:38:50 -0500
+X-IronPort-AV: E=Sophos;i="5.58,394,1544482800"; 
+   d="scan'208";a="296848570"
+Received: from unknown (HELO [193.50.110.170]) ([193.50.110.170])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/AES128-SHA; 21 Feb 2019 09:38:46 +0100
 Subject: Re: [PATCH 05/11] x86 topology: export die_siblings
-To:     Brice Goglin <Brice.Goglin@inria.fr>
+To:     Len Brown <lenb@kernel.org>
 Cc:     X86 ML <x86@kernel.org>, linux-kernel@vger.kernel.org,
         Len Brown <len.brown@intel.com>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+References: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
+ <0d54a56186fb9be7a8f622a4625a41dc600dd7a4.1550545163.git.len.brown@intel.com>
+ <ceb7549e-6ccb-c6c7-241c-36c6e5c30770@inria.fr>
+ <CAJvTdKm3gqY9G6nOVq_a3r0QX4ECcew7Z3cdr1OxDBGRVgUpkg@mail.gmail.com>
+From:   Brice Goglin <Brice.Goglin@inria.fr>
+Openpgp: preference=signencrypt
+Autocrypt: addr=Brice.Goglin@inria.fr; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <0fc109c7-28e4-9686-c683-d78cf4e5980b@inria.fr>
+Date:   Thu, 21 Feb 2019 09:38:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.0
+MIME-Version: 1.0
+In-Reply-To: <CAJvTdKm3gqY9G6nOVq_a3r0QX4ECcew7Z3cdr1OxDBGRVgUpkg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Brice,
-Thank you for your suggestions!
 
-> Patches #4 and #5 are changing the meaning the core_siblings (in the
-> past, it always returned all threads in the entire package). All
-> existing user-space tools will see each die as a separate package until
-> they are updated to read die_siblings too. It only matters for multi-die
-> CPUs when running a recent kernel with an old userspace tool, but it may
-> still be consider as a sysfs ABI change.
-
-I agree.
-
-Exhibit 1 is the "lscpu" program.
-
-> Worse, things will break again if you ever add tile_siblings for
-> CPUID.1f "Tiles". User-space will suddenly see 2 dies of 2 cores instead
-> 1 die of 2 tiles of 2 cores.
-
-Agreed, the existing naming scheme is not resilient to future additions.
-
-> I understand that this isn't easy to fix. But I want to make sure people
-> are aware of the meaning of this change.
-
-Here is my list of applications that care about the new CPUID leaf
-and the concepts of packages and die:
-
-cpuid
-lscpu
-x86_energy_perf_policy
-turbostat
-
-> The proper way to avoid this is to stop having file foo_siblings refer
-> to "the container of foo" instead of "foo itself" (because that
-> container changes when you add intermediate levels). Rename sysfs files
-> like below, and you don't get any breakage anymore when adding
-> intermediate levels:
+Le 21/02/2019 à 08:41, Len Brown a écrit :
 >
-> thread_siblings -> core_threads (can we do sysfs alias or symlink to
-> keep the old name?)
+> Here is my list of applications that care about the new CPUID leaf
+> and the concepts of packages and die:
 >
-> core_siblings -> die_threads
->
-> die_siblings -> package_threads (needs an alias too)
->
-> The documentation would also be much easier to read since "die_threads"
-> is obviously "human-readable list of cpuX's hardware threads within the
-> same die_id". And no need to modify the doc anymore when adding levels :)
+> cpuid
+> lscpu
+> x86_energy_perf_policy
+> turbostat
 
-I like your idea!
 
-Hm, I think i'd skip creating "die_siblings", as it adds to the
-fragile legacy naming scheme
-that we want to deprecate.
+You may add hwloc/lstopo which is used by most HPC runtimes (including
+your employers' OpenMP and MPI commercial products :))
 
-And although it is ill-defined and has a mis-leading name, I now think
-it would be
-better to leave "core_siblings" as defined -- a legacy synonym for
-"package_threads".  Deprecate it, but keep its original definition
-until it is removed.
+Brice
 
-Updated applications would use:
 
-core_threads
-die_threads
-package_threads
-
-and they'll be future proof if/when we add any new levels.
-
-the legacy thread_siblings and core_siblings will stick around as aliases:
-
-core_threads (thread_siblings)
-die_threads
-package_threads (core_siblings)
-
-thanks!
-Len Brown, Intel Open Source Technology Center
