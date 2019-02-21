@@ -1,75 +1,126 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C67B87D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Feb 2019 04:02:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5B3BD7D099
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Feb 2019 07:41:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726978AbfBUECl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Feb 2019 23:02:41 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:53286 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726172AbfBUECk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Feb 2019 23:02:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=vsPzHYPJ3SLvu6G+KNCT25YWSC8o4+43mJGgoS6NFW8=; b=u5PLU9XNyuHLYcOEmbUvmF3OuX
-        LYCT1KRjxQpTo2+AVJi67XqU/DR1+R2Hh6h+in3pPXX18ypQDGb9kbnu9GgUih+3DKKc1ddMEuRUn
-        iw8uJ+cqVOazIV+uh9HLoz/GzEqw7RXunY4ZtGNChKopOtZoX/fh0ppyPCRl99bWyRYzUq7zuRNdK
-        /FZxtZlUajnFi6+g/UFd5UvQMnngDCIlC9BGFXwKcJgGQXXdn8iZ88DkJu+S6K5cRx/mwl2fpoypU
-        YZ7ff0RrXZHRF7iMwWz+Cgux8QS+ZfgTD+xANeEiKkWVKueZjUBnw5k9gSKPHF92gfhUciS81elTL
-        /WfskGhA==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gwfZD-0005Pk-H3; Thu, 21 Feb 2019 04:02:36 +0000
-To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Matthew Wilcox <willy@infradead.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation: fix admin-guide/README.rst minimum gcc version
- requirement
-Message-ID: <ecb653af-79e5-6233-a7f6-edbb61715d3b@infradead.org>
-Date:   Wed, 20 Feb 2019 20:02:33 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1725850AbfBUHlo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Feb 2019 02:41:44 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:43244 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725831AbfBUHln (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Feb 2019 02:41:43 -0500
+Received: by mail-ed1-f66.google.com with SMTP id m35so18247322ede.10;
+        Wed, 20 Feb 2019 23:41:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SBo2jtopDSY25tMk59SLMtIPfmFBSxFG9vz6EUEjXCo=;
+        b=U4mnPVGes2cdaoQZr+D4VG8JSRceDOeHX4j3wFqaJG7v6qxm8Ap6njQYjHkJlJum7H
+         Q25tDf3u7LgwBTsWOEWTOHG4QhYWoFSk1YBEPqoHF6LXQ6aTJcTWx0zdITikRbiRo3SM
+         +hGu9+21+yKspMaa0bZwHVI+x0TjZRWsAynfDD2hvuIZCsi4EZYDYo3IceVzH0qGSVYa
+         oQA24F69SNlEDtUt9FIZ8oWkjg+zKKFxFd0S6tYmSspPz8jTfuoaopKzDfn6ATGRv6ae
+         DdEi9azLsXvYFa6I5l4A5Kn99w7grNtSt8xEh2BV+1EeDn20iFP/mLUMf75IRe1BEytY
+         Lckw==
+X-Gm-Message-State: AHQUAubByWaj6LLzUYzoO0SbqpMez1ek5NKXPsFAQoIRGMuXEtnMnerO
+        re0u4h/bx7SAEdAxyGKuCAS2AM+FilPGUN73Fyo=
+X-Google-Smtp-Source: AHgI3IaUGKBAqovN3qvSMtXYv4yejp9hIMDsaA9ZU0KsM0O17UQrWgqGtb2NkN6yaHlxF8SOsmV9w8a2ECChV5hvR3Y=
+X-Received: by 2002:a50:b641:: with SMTP id c1mr671484ede.155.1550734901888;
+ Wed, 20 Feb 2019 23:41:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
+ <0d54a56186fb9be7a8f622a4625a41dc600dd7a4.1550545163.git.len.brown@intel.com> <ceb7549e-6ccb-c6c7-241c-36c6e5c30770@inria.fr>
+In-Reply-To: <ceb7549e-6ccb-c6c7-241c-36c6e5c30770@inria.fr>
+From:   Len Brown <lenb@kernel.org>
+Date:   Thu, 21 Feb 2019 02:41:30 -0500
+Message-ID: <CAJvTdKm3gqY9G6nOVq_a3r0QX4ECcew7Z3cdr1OxDBGRVgUpkg@mail.gmail.com>
+Subject: Re: [PATCH 05/11] x86 topology: export die_siblings
+To:     Brice Goglin <Brice.Goglin@inria.fr>
+Cc:     X86 ML <x86@kernel.org>, linux-kernel@vger.kernel.org,
+        Len Brown <len.brown@intel.com>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+Hi Brice,
+Thank you for your suggestions!
 
-Fix minimum gcc version as specified in Documentation/process/changes.rst.
+> Patches #4 and #5 are changing the meaning the core_siblings (in the
+> past, it always returned all threads in the entire package). All
+> existing user-space tools will see each die as a separate package until
+> they are updated to read die_siblings too. It only matters for multi-die
+> CPUs when running a recent kernel with an old userspace tool, but it may
+> still be consider as a sysfs ABI change.
 
-Suggested-by: Matthew Wilcox <willy@infradead.org>
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
- Documentation/admin-guide/README.rst |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I agree.
 
---- lnx-50-rc7.orig/Documentation/admin-guide/README.rst
-+++ lnx-50-rc7/Documentation/admin-guide/README.rst
-@@ -251,7 +251,7 @@ Configuring the kernel
- Compiling the kernel
- --------------------
- 
-- - Make sure you have at least gcc 3.2 available.
-+ - Make sure you have at least gcc 4.6 available.
-    For more information, refer to :ref:`Documentation/process/changes.rst <changes>`.
- 
-    Please note that you can still run a.out user programs with this kernel.
+Exhibit 1 is the "lscpu" program.
 
+> Worse, things will break again if you ever add tile_siblings for
+> CPUID.1f "Tiles". User-space will suddenly see 2 dies of 2 cores instead
+> 1 die of 2 tiles of 2 cores.
 
+Agreed, the existing naming scheme is not resilient to future additions.
+
+> I understand that this isn't easy to fix. But I want to make sure people
+> are aware of the meaning of this change.
+
+Here is my list of applications that care about the new CPUID leaf
+and the concepts of packages and die:
+
+cpuid
+lscpu
+x86_energy_perf_policy
+turbostat
+
+> The proper way to avoid this is to stop having file foo_siblings refer
+> to "the container of foo" instead of "foo itself" (because that
+> container changes when you add intermediate levels). Rename sysfs files
+> like below, and you don't get any breakage anymore when adding
+> intermediate levels:
+>
+> thread_siblings -> core_threads (can we do sysfs alias or symlink to
+> keep the old name?)
+>
+> core_siblings -> die_threads
+>
+> die_siblings -> package_threads (needs an alias too)
+>
+> The documentation would also be much easier to read since "die_threads"
+> is obviously "human-readable list of cpuX's hardware threads within the
+> same die_id". And no need to modify the doc anymore when adding levels :)
+
+I like your idea!
+
+Hm, I think i'd skip creating "die_siblings", as it adds to the
+fragile legacy naming scheme
+that we want to deprecate.
+
+And although it is ill-defined and has a mis-leading name, I now think
+it would be
+better to leave "core_siblings" as defined -- a legacy synonym for
+"package_threads".  Deprecate it, but keep its original definition
+until it is removed.
+
+Updated applications would use:
+
+core_threads
+die_threads
+package_threads
+
+and they'll be future proof if/when we add any new levels.
+
+the legacy thread_siblings and core_siblings will stick around as aliases:
+
+core_threads (thread_siblings)
+die_threads
+package_threads (core_siblings)
+
+thanks!
+Len Brown, Intel Open Source Technology Center
