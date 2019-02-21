@@ -5,33 +5,33 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 16C187D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Feb 2019 13:37:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 727C77D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Feb 2019 13:48:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725891AbfBUNhx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Feb 2019 08:37:53 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:45754 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725385AbfBUNhx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Feb 2019 08:37:53 -0500
+        id S1725991AbfBUNs4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Feb 2019 08:48:56 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:35422 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727531AbfBUNsz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Feb 2019 08:48:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=NpcwRPiUBsDTC6WNdOOEbdvIamRDbsI3Cs5FT6037R8=; b=sKTb2zMH+dfxctWPPWpR688XG
-        mqopdVXZ9O38IK/NurCTVcomtPrLltsxwM2s0Fovr/Ma4AxUi9BiufcItxFOh+IAzCmTJ4e9BD5MT
-        i/9lTb/y9pltS6JU7kirEYzWlIFlicaBi8F49ifSSR9mgfnpHt5hT9IgiE4BUTGa4gTmaQLfFmCBh
-        esWCHGuM/g81Y4yMwBLzINqQ+5iOL2eD/91svq7i8ICFUtd93V6xqVIcAsWdSeWP1sAlYBm7JwEL7
-        2ReQbGlADfasbSi1gRZ4WAsoBCpV9EJjMILQR5syTAJbvQ9KlFNwP0rvGrnowcSGa1AVJxwonIf+I
-        UhaHhHZEg==;
+         bh=2rPPAY8WwyxwJOXAkSPfsMtHotY7LD6OL0J+ly1aVDQ=; b=IuIVjhxZHynyB8/RHU30bh9+0
+        tbxA0JHKv/qeUoq2F0WkfWR8K8UvfsU4pKUlpefkH1nAk93TD3Ndo0sAgY8BVonLXiHFfAIySTsn4
+        15LmroOAtuveHRssgRsawm1Nmu+/q0WQTR5hlayOGpgaNipdw0aQ0p4/BkCPXP1D97Gv/5eN6QGDq
+        wGQg+6Md5W9B9INh+UFnKQzBiViEmcnYRy5Ze26EWQWYKMEANFvehpA39z0iEPhZxHDIihEQzphgK
+        XlPqRuYCLdazJedYIThbfLlr+NkeZHW9Kl8WhFHKVghun50nYt7BHNdt4TS3ciPtrmuMqX1ubbiRN
+        bUZ6VpZTQ==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gwoXr-00015i-Cm; Thu, 21 Feb 2019 13:37:47 +0000
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gwoiX-0001Er-Eb; Thu, 21 Feb 2019 13:48:49 +0000
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id CADF92030EE5E; Thu, 21 Feb 2019 14:37:45 +0100 (CET)
-Date:   Thu, 21 Feb 2019 14:37:45 +0100
+        id F033522BBEAF7; Thu, 21 Feb 2019 14:48:47 +0100 (CET)
+Date:   Thu, 21 Feb 2019 14:48:47 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     Prarit Bhargava <prarit@redhat.com>
 Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
@@ -39,7 +39,7 @@ Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
         "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <ak@linux.intel.com>,
         x86@kernel.org, linux-doc@vger.kernel.org
 Subject: Re: [PATCH] x86/fpu: Parse comma separated list passed in clearcpuid
-Message-ID: <20190221133745.GP32494@hirez.programming.kicks-ass.net>
+Message-ID: <20190221134847.GQ32494@hirez.programming.kicks-ass.net>
 References: <20190221131225.22063-1-prarit@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -65,12 +65,7 @@ On Thu, Feb 21, 2019 at 08:12:25AM -0500, Prarit Bhargava wrote:
 > Make the clearcpuid parse a comma-separated list of values instead of only
 > a single value.
 
-So I think the feature is broken as is; because it doesn't clear the
-CPUID bits for userspace.
+Can we also please kill the value thing entirely and only accept
+strings. Having to reverse engineer the numbers is madness.
 
-something along the lines of:
-
-https://lkml.kernel.org/r/20190212164833.GK32494@hirez.programming.kicks-ass.net
-
-would be required to make it so.
-
+Also, wth would you want to disable XSAVE and EPB ?
