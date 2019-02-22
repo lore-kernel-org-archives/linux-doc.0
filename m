@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8C9957D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Feb 2019 23:04:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 09A7F7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Feb 2019 23:06:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725980AbfBVXDR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 22 Feb 2019 18:03:17 -0500
-Received: from mga14.intel.com ([192.55.52.115]:20829 "EHLO mga14.intel.com"
+        id S1725922AbfBVXFw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 22 Feb 2019 18:05:52 -0500
+Received: from mga02.intel.com ([134.134.136.20]:16641 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726080AbfBVXDQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 22 Feb 2019 18:03:16 -0500
+        id S1725900AbfBVXFw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 22 Feb 2019 18:05:52 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Feb 2019 15:03:16 -0800
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Feb 2019 15:05:51 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.58,401,1544515200"; 
-   d="scan'208";a="120102341"
+   d="scan'208";a="120102718"
 Received: from ray.jf.intel.com (HELO [10.7.201.17]) ([10.7.201.17])
-  by orsmga008.jf.intel.com with ESMTP; 22 Feb 2019 15:03:15 -0800
-Subject: Re: [PATCH v10 06/12] fs, arm64: untag user pointers in
- copy_mount_options
+  by orsmga008.jf.intel.com with ESMTP; 22 Feb 2019 15:05:50 -0800
+Subject: Re: [PATCH v10 07/12] fs, arm64: untag user pointers in
+ fs/userfaultfd.c
 To:     Andrey Konovalov <andreyknvl@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -54,7 +54,7 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Kevin Brodsky <kevin.brodsky@arm.com>,
         Szabolcs Nagy <Szabolcs.Nagy@arm.com>
 References: <cover.1550839937.git.andreyknvl@google.com>
- <a958e202cdbe6e1bac8a37b7f3d9881d1b22993d.1550839937.git.andreyknvl@google.com>
+ <8343cd77ca301df15839796f3b446b75ce5ffbbf.1550839937.git.andreyknvl@google.com>
 From:   Dave Hansen <dave.hansen@intel.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=dave.hansen@intel.com; keydata=
@@ -100,36 +100,25 @@ Autocrypt: addr=dave.hansen@intel.com; keydata=
  MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
  hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
  vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-Message-ID: <a38275b0-f6cd-20e1-3c48-544846586a16@intel.com>
-Date:   Fri, 22 Feb 2019 15:03:15 -0800
+Message-ID: <73f2f3fe-9a66-22a1-5aae-c282779a75f5@intel.com>
+Date:   Fri, 22 Feb 2019 15:05:51 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <a958e202cdbe6e1bac8a37b7f3d9881d1b22993d.1550839937.git.andreyknvl@google.com>
+In-Reply-To: <8343cd77ca301df15839796f3b446b75ce5ffbbf.1550839937.git.andreyknvl@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 2/22/19 4:53 AM, Andrey Konovalov wrote:
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -2730,7 +2730,7 @@ void *copy_mount_options(const void __user * data)
->  	 * the remainder of the page.
->  	 */
->  	/* copy_from_user cannot cross TASK_SIZE ! */
-> -	size = TASK_SIZE - (unsigned long)data;
-> +	size = TASK_SIZE - (unsigned long)untagged_addr(data);
->  	if (size > PAGE_SIZE)
->  		size = PAGE_SIZE;
+> userfaultfd_register() and userfaultfd_unregister() use provided user
+> pointers for vma lookups, which can only by done with untagged pointers.
 
-I would have thought that copy_from_user() *is* entirely capable of
-detecting and returning an error in the case that its arguments cross
-TASK_SIZE.  It will fail and return an error, but that's what it's
-supposed to do.
-
-I'd question why this code needs to be doing its own checking in the
-first place.  Is there something subtle going on?
+So, we have to patch all these sites before the tagged values get to the
+point of hitting the vma lookup functions.  Dumb question: Why don't we
+just patch the vma lookup functions themselves instead of all of these
+callers?
