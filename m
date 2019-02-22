@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 187927D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Feb 2019 12:53:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A77577D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Feb 2019 12:54:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727308AbfBVMxu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 22 Feb 2019 07:53:50 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:45515 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727283AbfBVMxt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Feb 2019 07:53:49 -0500
-Received: by mail-wr1-f67.google.com with SMTP id w17so2227045wrn.12
-        for <linux-doc@vger.kernel.org>; Fri, 22 Feb 2019 04:53:48 -0800 (PST)
+        id S1726928AbfBVMxz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 22 Feb 2019 07:53:55 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:38189 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727351AbfBVMxz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Feb 2019 07:53:55 -0500
+Received: by mail-wm1-f65.google.com with SMTP id v26so1866740wmh.3
+        for <linux-doc@vger.kernel.org>; Fri, 22 Feb 2019 04:53:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=2tCXxaQ0AcT215cB6TyMBJl5HSukg9TNH5t025IrNLw=;
-        b=B3gwK58HnJ85CmTL2efZvH+J/Nm20KCnydLNY0dw7gbtvGIUGcldP8npiWTUpDXgKz
-         /u11H7eQqGQOsrUx9Bjjx9CGJcxvqjtgzrsVE+c4Cnr2aH4wSMA3cBw28f4m5dvZcDtW
-         dE9QsCl+18tkcm6KtqrSMoS1/n9nvYZMf6UFWkly4U8pHmTr2bgB/2tzCG5OvgHPbq1p
-         LygIpIzOhXUWhS3SS/cArJu5XyCYKaSFAA2Xlb21EPCN/ry2nFAF1xMDOUEnala+awoK
-         ndjVy074STqch02YUSBKRqql7aX75kVTJAVZrchuqsIoYuA52Cu849nBt6+cAxrGpU8H
-         43FQ==
+        bh=xP0EP9+s7jJBuNL20aZNoIWDJO0QH7KitwsXHnWrFcE=;
+        b=ngTaPZFjbMr8UVnv+XHv855CtRTNvKpoDmCRTtKsyfuCSVAX1fHkkeEopamnkFNUkO
+         2AxeqdOMs5OS1aAzAdqqAMH6oIYxxx7HXZvCiuu5mGrP4+JLSS3N1MvyfwgLIUpYg7XA
+         36WRCDQmvGeM5dFPaSlrAtGT6lqE+t1iYacqOuNf0WL0AvYMXookG0ZRXOCwQj/yAJ64
+         Ava6JpCXLFI/teW898eqAG2k52RXgpD4kz9ufk+Lk99Zo8v2WsRFs8gVa3BZjwmle1GK
+         pfRIrNVVanNCc8AEbJlDtvFhw5/QlKpS67K/2EsIOQEy8hvKVuwcPksCJr25OCE/XBBn
+         QqYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=2tCXxaQ0AcT215cB6TyMBJl5HSukg9TNH5t025IrNLw=;
-        b=eQoaDTU8BK0TIaacBt+TIRXywEMjb6XVP7U9M0AQtXRzXvxP03wScfKHzoMBvv2Cn2
-         Ny/BFmO38WvIBzwhx51CxznommIvFSlCrJziiJbTlEJsj3+XK4riE4LLcz6tX5umEeIW
-         q4CahswYeowEunV39JR+Wv2CYPZZio8R+qiikuuo6stI5UOZc9Jzu64Ykb+6AmZY6kEB
-         HPQFy/pB0uBQN0wEb93PwHCJzsYrVjEP/y6UVqZMH0MPuFY9nm7edMu04W7YemIrtIT4
-         uYfQHPzK6LbeBZhs0FEcYUdBs8p9x4FnGw6dsrwOEQjX8Ruz42izEZJwhZ9XrvgXDZ92
-         SnyA==
-X-Gm-Message-State: AHQUAuZJVbyvlpmZxNOb8Ekl6ytkenuZpqH3sIk9R80sISszNdTvR/XQ
-        3I/ZkN+x1X1NVCDF9nCv1J3Cyg==
-X-Google-Smtp-Source: AHgI3IYJ4JqjThJgosMpQUX8CWU96fplWtblPpUxW7NKKKm/ffsucHxns87xgSXmASXlP8q7nFWW4A==
-X-Received: by 2002:adf:ed0f:: with SMTP id a15mr2881069wro.249.1550840027447;
-        Fri, 22 Feb 2019 04:53:47 -0800 (PST)
+        bh=xP0EP9+s7jJBuNL20aZNoIWDJO0QH7KitwsXHnWrFcE=;
+        b=NLucxoAdlxLe5XUBMa6IW3aFP0UUlzglhK6NYjUtErvfYEuAiNzig1dk487zgYKZah
+         P9JrFyHgUl2rZTvoMVdAVcXLsyapmNTbxJ+uom1+euemVSD1gitGATX66hS70R8HYupC
+         GVEeG5CxTQM2iwS1cxrXSmr9rjCcRbzuT3oWEbKuV66qKS2Vkrm+GJDdTyNkAXqLurTP
+         evDy1Q7T6VEDokUvyRSAuuCvgA+cOyWkKrXsOTW6UbkQkabTJ0cY9SqKPuTfXL7uLwiu
+         k4klvum2gTuygi4EYxeJF7W39cyNiJJAOaktjnosf2Cv8dmLx0KYLgqBMckHAMzlsZNO
+         R79Q==
+X-Gm-Message-State: AHQUAua3DlyQjTRQRK5lrjg9reQN346WlGu40SsvdaExPc964PBQlji8
+        Rmzwx/V/QFlRynhH5MW7AEQgJw==
+X-Google-Smtp-Source: AHgI3IYWY7Ghxi/h12hQKyhtNx7Svt8SN9NDulSxokwzQOKjvHqoGwEA6m30t17PvUiKofsiFVoIUA==
+X-Received: by 2002:a7b:c457:: with SMTP id l23mr2410289wmi.2.1550840033285;
+        Fri, 22 Feb 2019 04:53:53 -0800 (PST)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:13:8ce:d7fa:9f4c:492])
-        by smtp.gmail.com with ESMTPSA id o14sm808209wrp.34.2019.02.22.04.53.45
+        by smtp.gmail.com with ESMTPSA id o14sm808209wrp.34.2019.02.22.04.53.51
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 22 Feb 2019 04:53:46 -0800 (PST)
+        Fri, 22 Feb 2019 04:53:52 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -77,9 +77,9 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Kevin Brodsky <kevin.brodsky@arm.com>,
         Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v10 09/12] kernel, arm64: untag user pointers in prctl_set_mm*
-Date:   Fri, 22 Feb 2019 13:53:21 +0100
-Message-Id: <d6febfc14cf0190f4ccd84fc1bf9bd077a6d6a9f.1550839937.git.andreyknvl@google.com>
+Subject: [PATCH v10 12/12] selftests, arm64: add a selftest for passing tagged pointers to kernel
+Date:   Fri, 22 Feb 2019 13:53:24 +0100
+Message-Id: <8c08cda0dfdef1b062695241a6f6594487eaa3cb.1550839937.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.21.0.rc0.258.g878e2cd30e-goog
 In-Reply-To: <cover.1550839937.git.andreyknvl@google.com>
 References: <cover.1550839937.git.andreyknvl@google.com>
@@ -90,48 +90,89 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-prctl_set_mm() and prctl_set_mm_map() use provided user pointers for vma
-lookups, which can only by done with untagged pointers.
-
-Untag user pointers in these functions.
+This patch adds a simple test, that calls the uname syscall with a
+tagged user pointer as an argument. Without the kernel accepting tagged
+user pointers the test fails with EFAULT.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- kernel/sys.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ tools/testing/selftests/arm64/.gitignore      |  1 +
+ tools/testing/selftests/arm64/Makefile        | 11 +++++++++++
+ .../testing/selftests/arm64/run_tags_test.sh  | 12 ++++++++++++
+ tools/testing/selftests/arm64/tags_test.c     | 19 +++++++++++++++++++
+ 4 files changed, 43 insertions(+)
+ create mode 100644 tools/testing/selftests/arm64/.gitignore
+ create mode 100644 tools/testing/selftests/arm64/Makefile
+ create mode 100755 tools/testing/selftests/arm64/run_tags_test.sh
+ create mode 100644 tools/testing/selftests/arm64/tags_test.c
 
-diff --git a/kernel/sys.c b/kernel/sys.c
-index f7eb62eceb24..12910be94b7f 100644
---- a/kernel/sys.c
-+++ b/kernel/sys.c
-@@ -1992,6 +1992,18 @@ static int prctl_set_mm_map(int opt, const void __user *addr, unsigned long data
- 	if (copy_from_user(&prctl_map, addr, sizeof(prctl_map)))
- 		return -EFAULT;
- 
-+	prctl_map->start_code	= untagged_addr(prctl_map.start_code);
-+	prctl_map->end_code	= untagged_addr(prctl_map.end_code);
-+	prctl_map->start_data	= untagged_addr(prctl_map.start_data);
-+	prctl_map->end_data	= untagged_addr(prctl_map.end_data);
-+	prctl_map->start_brk	= untagged_addr(prctl_map.start_brk);
-+	prctl_map->brk		= untagged_addr(prctl_map.brk);
-+	prctl_map->start_stack	= untagged_addr(prctl_map.start_stack);
-+	prctl_map->arg_start	= untagged_addr(prctl_map.arg_start);
-+	prctl_map->arg_end	= untagged_addr(prctl_map.arg_end);
-+	prctl_map->env_start	= untagged_addr(prctl_map.env_start);
-+	prctl_map->env_end	= untagged_addr(prctl_map.env_end);
+diff --git a/tools/testing/selftests/arm64/.gitignore b/tools/testing/selftests/arm64/.gitignore
+new file mode 100644
+index 000000000000..e8fae8d61ed6
+--- /dev/null
++++ b/tools/testing/selftests/arm64/.gitignore
+@@ -0,0 +1 @@
++tags_test
+diff --git a/tools/testing/selftests/arm64/Makefile b/tools/testing/selftests/arm64/Makefile
+new file mode 100644
+index 000000000000..a61b2e743e99
+--- /dev/null
++++ b/tools/testing/selftests/arm64/Makefile
+@@ -0,0 +1,11 @@
++# SPDX-License-Identifier: GPL-2.0
 +
- 	error = validate_prctl_map(&prctl_map);
- 	if (error)
- 		return error;
-@@ -2105,6 +2117,8 @@ static int prctl_set_mm(int opt, unsigned long addr,
- 			      opt != PR_SET_MM_MAP_SIZE)))
- 		return -EINVAL;
- 
-+	addr = untagged_addr(addr);
++# ARCH can be overridden by the user for cross compiling
++ARCH ?= $(shell uname -m 2>/dev/null || echo not)
 +
- #ifdef CONFIG_CHECKPOINT_RESTORE
- 	if (opt == PR_SET_MM_MAP || opt == PR_SET_MM_MAP_SIZE)
- 		return prctl_set_mm_map(opt, (const void __user *)addr, arg4);
++ifneq (,$(filter $(ARCH),aarch64 arm64))
++TEST_GEN_PROGS := tags_test
++TEST_PROGS := run_tags_test.sh
++endif
++
++include ../lib.mk
+diff --git a/tools/testing/selftests/arm64/run_tags_test.sh b/tools/testing/selftests/arm64/run_tags_test.sh
+new file mode 100755
+index 000000000000..745f11379930
+--- /dev/null
++++ b/tools/testing/selftests/arm64/run_tags_test.sh
+@@ -0,0 +1,12 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++
++echo "--------------------"
++echo "running tags test"
++echo "--------------------"
++./tags_test
++if [ $? -ne 0 ]; then
++	echo "[FAIL]"
++else
++	echo "[PASS]"
++fi
+diff --git a/tools/testing/selftests/arm64/tags_test.c b/tools/testing/selftests/arm64/tags_test.c
+new file mode 100644
+index 000000000000..1452ed7d33f9
+--- /dev/null
++++ b/tools/testing/selftests/arm64/tags_test.c
+@@ -0,0 +1,19 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <stdio.h>
++#include <unistd.h>
++#include <stdint.h>
++#include <sys/utsname.h>
++
++#define SHIFT_TAG(tag)		((uint64_t)(tag) << 56)
++#define SET_TAG(ptr, tag)	(((uint64_t)(ptr) & ~SHIFT_TAG(0xff)) | \
++					SHIFT_TAG(tag))
++
++int main(void)
++{
++	struct utsname utsname;
++	void *ptr = &utsname;
++	void *tagged_ptr = (void *)SET_TAG(ptr, 0x42);
++	int err = uname(tagged_ptr);
++	return err;
++}
 -- 
 2.21.0.rc0.258.g878e2cd30e-goog
 
