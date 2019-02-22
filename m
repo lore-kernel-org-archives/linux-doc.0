@@ -1,126 +1,177 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3198E7D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Feb 2019 22:43:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5D4457D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Feb 2019 00:28:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726074AbfBUWnD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Feb 2019 17:43:03 -0500
-Received: from mail-ua1-f68.google.com ([209.85.222.68]:34880 "EHLO
-        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725891AbfBUWnD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Feb 2019 17:43:03 -0500
-Received: by mail-ua1-f68.google.com with SMTP id f88so265151uaf.2
-        for <linux-doc@vger.kernel.org>; Thu, 21 Feb 2019 14:43:02 -0800 (PST)
+        id S1726178AbfBVA2v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Feb 2019 19:28:51 -0500
+Received: from mail-it1-f196.google.com ([209.85.166.196]:37144 "EHLO
+        mail-it1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726067AbfBVA2u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Feb 2019 19:28:50 -0500
+Received: by mail-it1-f196.google.com with SMTP id z124so767932itc.2;
+        Thu, 21 Feb 2019 16:28:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yeeHN5A8TYuXfyBLqkC461JBDCYqSC4jUmx5jzSnVf8=;
-        b=HtJsTwMZ/y6bodUGz8ah6aWBE3c5suzmjH4E3AscE/Q0tKHjQ0EQyLo22c9SGNSZID
-         feywrxucg+iY26CdlDvcsjAEzrTIy5kXaAVoUzrKJUmenp3tjnpB62AMFm+D8MJJ7GYJ
-         GOqZIAqTnGopfeQD2vySUflTZPZUYpRUV3zEU=
+         :cc:content-transfer-encoding;
+        bh=WIxBzC1qZr0Cp0NDovR/cu0oFlL1ogM53Z5Zrpsubm8=;
+        b=CqMSFs2eyj7pb6TL9yKLBDho/iqxXnASXKd4T715uT9m9XdYgZt/Vpu5gOeXjwEieY
+         8SvFe7/h3bKU96k//rEE0snkEZiPEgtgmanLDmz6IYQm+3EsXeNEU/P3CtTfhO9tUkc/
+         hvJUJTdcVWnf8EbByXalCXY47+j/RODAeTxmqZy+/ljqEArk0XxmgAsiBGBmWkT7o9qj
+         bn6r+bp3rjam7mKdnZiCk8Tf9UxJNZyLIrQMFyitPd4OJxu8TUrUhicV3+Lus464qoOL
+         hgb7QrtmHPzUPebdkbv4eCGIar+RCVdqJJn1l+WaEAwyJkMlKOHLCzHEWaa1gc/btVc6
+         uqcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yeeHN5A8TYuXfyBLqkC461JBDCYqSC4jUmx5jzSnVf8=;
-        b=DAs5CQhSTpk5OoasfGmJdTk8V2lSko9eWi0afiCzsPq1aHfwKjAFvNJeiL3LYM08jS
-         a93biAz8iF7MUdR2OYnjcwhtL2WfuG507v6VazbomPEAFK3JZY1Yec8BBEDB8sXMuBp+
-         BuY/FMBmULL7pqjpTzv8cMx0DR0/qokCA7xxrlV5vSI4oiq+GIE7WjaiHRBz8qVWNatc
-         f74JP0eQO+wP9HbA/wFHyOpAnNcPyMHMHEjLQ7V72t71wAuB6ZFK8UUr18EbDN9dx3Tn
-         CdBBRnIZlJtWr54hnm1DzOx8S7uni8oNvx+LLpCmPjW2URsI43n4UiJ6tlI9LxbK4nax
-         cbGA==
-X-Gm-Message-State: AHQUAuazC6W1OGQYwimZvpzzPMAi8sT+vYo5IbtFnHLku1uqnxVCou2l
-        IP2DM1fk/MchRt4nMm6Jso60D0wh+PA=
-X-Google-Smtp-Source: AHgI3IZzAb5q8wZyev/3rT/MapTcJWG75k7+oyeUIy6r1WSJNsJaxmvMUMVM3rJ8KqZvuJ7geFFo6w==
-X-Received: by 2002:ab0:234c:: with SMTP id h12mr556402uao.92.1550788981885;
-        Thu, 21 Feb 2019 14:43:01 -0800 (PST)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
-        by smtp.gmail.com with ESMTPSA id o6sm34000vkb.15.2019.02.21.14.43.00
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 21 Feb 2019 14:43:00 -0800 (PST)
-Received: by mail-vk1-f170.google.com with SMTP id b6so62893vkf.8
-        for <linux-doc@vger.kernel.org>; Thu, 21 Feb 2019 14:43:00 -0800 (PST)
-X-Received: by 2002:a1f:a5d3:: with SMTP id o202mr621947vke.40.1550788979940;
- Thu, 21 Feb 2019 14:42:59 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=WIxBzC1qZr0Cp0NDovR/cu0oFlL1ogM53Z5Zrpsubm8=;
+        b=jXY7nOU4/8boZkFdz462h2tptsvFaetmvdZLcuZwU24iX5/O1D7XYa2LHy8JJDKeTV
+         9BJHZVR7cyUNTy+g9GXcc0Ol2cql4XBh9Bl2b9K0kF/ow5bjY347i2Yv41pnCjUMGFiF
+         cC05gmQgV2Qf1/4l+3nJCu17jIxJjXNr9BDQ3VuudYex0i4iwj+3XJApgg1xiWaOlGAw
+         hF+PlFx/LTeVHbNZ/Wajlh+Akh+HvT3JymooQQzkfhKUp/BIfop4ZndbJxymaJ1uH4Ch
+         mlyKTLof/i2Zag5bEYMlkpJfYqsiYl55o9JID4ybdHaA5zIYcfm69r0v5BUdClKrFlPY
+         4C4w==
+X-Gm-Message-State: AHQUAuZsyzKKMY0TQj68YpYtZqH4KQXFw3La5HQIVcqEjMQrVqnCwQPo
+        TmHx1XV8UnsQY4OvJClZGEBNKhQA0GpPUulmRdc=
+X-Google-Smtp-Source: AHgI3IZB16asG07nzkyrLUUWpkia12FQy+BoxPh674iaHbOLUbFyAK7J7ajv3psk0nW0CQrGcN9R/TDviJSpnVbaeHg=
+X-Received: by 2002:a24:6c46:: with SMTP id w67mr818694itb.13.1550795329734;
+ Thu, 21 Feb 2019 16:28:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20190221203334.24504-1-helen.koike@collabora.com>
-In-Reply-To: <20190221203334.24504-1-helen.koike@collabora.com>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Thu, 21 Feb 2019 14:42:47 -0800
-X-Gmail-Original-Message-ID: <CAGXu5jL2xQL9rgwQsqfraGQwzOd2+yr-2qkKvZYNwXYGTV8TZA@mail.gmail.com>
-Message-ID: <CAGXu5jL2xQL9rgwQsqfraGQwzOd2+yr-2qkKvZYNwXYGTV8TZA@mail.gmail.com>
-Subject: Re: [PATCH v12] dm: add support to directly boot to a mapped device
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     device-mapper development <dm-devel@redhat.com>,
-        Will Drewry <wad@chromium.org>,
-        Mike Snitzer <snitzer@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        richard -rw- weinberger <richard.weinberger@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-lvm@redhat.com,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        kernel@collabora.com, Alasdair G Kergon <agk@redhat.com>
+References: <20190221203000.10194-1-federico.vaga@vaga.pv.it> <20190221203000.10194-2-federico.vaga@vaga.pv.it>
+In-Reply-To: <20190221203000.10194-2-federico.vaga@vaga.pv.it>
+From:   SeongJae Park <sj38.park@gmail.com>
+Date:   Fri, 22 Feb 2019 09:28:23 +0900
+Message-ID: <CAEjAshqs2xwauz2JPgkp+nuNZdjo596mGf4kgXjtspUn+iPTZA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] doc: process: complete removal of info about -git patches
+To:     Federico Vaga <federico.vaga@vaga.pv.it>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Harry Wei <harryxiyou@gmail.com>,
+        Alessia Mantegazza <amantegazza@vaga.pv.it>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-kernel@zh-kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 21, 2019 at 12:33 PM Helen Koike <helen.koike@collabora.com> wrote:
->
-> Add a "create" module parameter, which allows device-mapper targets to be
-> configured at boot time. This enables early use of dm targets in the boot
-> process (as the root device or otherwise) without the need of an initramfs.
->
-> The syntax used in the boot param is based on the concise format from the
-> dmsetup tool to follow the rule of least surprise:
->
->         sudo dmsetup table --concise /dev/mapper/lroot
->
-> Which is:
->         dm-mod.create=<name>,<uuid>,<minor>,<flags>,<table>[,<table>+][;<name>,<uuid>,<minor>,<flags>,<table>[,<table>+]+]
->
-> Where,
->         <name>          ::= The device name.
->         <uuid>          ::= xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | ""
->         <minor>         ::= The device minor number | ""
->         <flags>         ::= "ro" | "rw"
->         <table>         ::= <start_sector> <num_sectors> <target_type> <target_args>
->         <target_type>   ::= "verity" | "linear" | ...
->
-> For example, the following could be added in the boot parameters:
-> dm-mod.create="lroot,,,rw, 0 4096 linear 98:16 0, 4096 4096 linear 98:32 0" root=/dev/dm-0
->
-> Only the targets that were tested are allowed and the ones that doesn't
-> change any block device when the dm is create as read-only. For example,
-> mirror and cache targets are not allowed. The rationale behind this is
-> that if the user makes a mistake, choosing the wrong device to be the
-> mirror or the cache can corrupt data.
->
-> The only targets allowed are:
-> * crypt
-> * delay
-> * linear
-> * snapshot-origin
-> * striped
-> * verity
->
-> Co-developed-by: Will Drewry <wad@chromium.org>
-> Co-developed-by: Kees Cook <keescook@chromium.org>
-> Co-developed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+Acked-by: SeongJae Park <sj38.park@gmail.com>
 
-Thanks! This appears to have everything Chrome OS needs. I've asked a
-few other folks to look at it too.
-
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
--- 
-Kees Cook
+On Fri, Feb 22, 2019 at 5:30 AM Federico Vaga <federico.vaga@vaga.pv.it> wr=
+ote:
+>
+> The following patch forgot to remove a reference to the -git
+> patches
+>
+> commit 2c71d305caf9 ("docs: process: Remove outdated info about -git patc=
+hes")
+>
+> This patch complete the removal and update all translations
+>
+> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+> ---
+>  Documentation/process/howto.rst                    | 1 -
+>  Documentation/translations/it_IT/process/howto.rst | 1 -
+>  Documentation/translations/ja_JP/howto.rst         | 1 -
+>  Documentation/translations/ko_KR/howto.rst         | 1 -
+>  Documentation/translations/zh_CN/HOWTO             | 1 -
+>  5 files changed, 5 deletions(-)
+>
+> diff --git a/Documentation/process/howto.rst b/Documentation/process/howt=
+o.rst
+> index bdd2eda81a1c..80488a5e6738 100644
+> --- a/Documentation/process/howto.rst
+> +++ b/Documentation/process/howto.rst
+> @@ -237,7 +237,6 @@ branches.  These different branches are:
+>
+>    - main 4.x kernel tree
+>    - 4.x.y -stable kernel tree
+> -  - 4.x -git kernel patches
+>    - subsystem specific kernel trees and patches
+>    - the 4.x -next kernel tree for integration tests
+>
+> diff --git a/Documentation/translations/it_IT/process/howto.rst b/Documen=
+tation/translations/it_IT/process/howto.rst
+> index 15199aa5b4df..9903ac7c566b 100644
+> --- a/Documentation/translations/it_IT/process/howto.rst
+> +++ b/Documentation/translations/it_IT/process/howto.rst
+> @@ -244,7 +244,6 @@ e di molti altri rami per specifici sottosistemi. Que=
+sti rami sono:
+>
+>    - I sorgenti kernel 4.x
+>    - I sorgenti stabili del kernel 4.x.y -stable
+> -  - Le modifiche in 4.x -git
+>    - Sorgenti dei sottosistemi del kernel e le loro modifiche
+>    - Il kernel 4.x -next per test d'integrazione
+>
+> diff --git a/Documentation/translations/ja_JP/howto.rst b/Documentation/t=
+ranslations/ja_JP/howto.rst
+> index 4fbf40552728..2621b770a745 100644
+> --- a/Documentation/translations/ja_JP/howto.rst
+> +++ b/Documentation/translations/ja_JP/howto.rst
+> @@ -256,7 +256,6 @@ Linux =E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=AE=
+=E9=96=8B=E7=99=BA=E3=83=97=E3=83=AD=E3=82=BB=E3=82=B9=E3=81=AF=E7=8F=BE=E5=
+=9C=A8=E5=B9=BE=E3=81=A4=E3=81=8B=E3=81=AE=E7=95=B0=E3=81=AA=E3=82=8B=E3=83=
+=A1=E3=82=A4=E3=83=B3
+>
+>    - =E3=83=A1=E3=82=A4=E3=83=B3=E3=81=AE 4.x =E3=82=AB=E3=83=BC=E3=83=8D=
+=E3=83=AB=E3=83=84=E3=83=AA=E3=83=BC
+>    - 4.x.y -stable =E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=83=84=E3=83=AA=
+=E3=83=BC
+> -  - 4.x -git =E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=83=91=E3=83=83=E3=
+=83=81
+>    - =E3=82=B5=E3=83=96=E3=82=B7=E3=82=B9=E3=83=86=E3=83=A0=E6=AF=8E=E3=
+=81=AE=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=83=84=E3=83=AA=E3=83=BC=E3=81=
+=A8=E3=83=91=E3=83=83=E3=83=81
+>    - =E7=B5=B1=E5=90=88=E3=83=86=E3=82=B9=E3=83=88=E3=81=AE=E3=81=9F=E3=
+=82=81=E3=81=AE 4.x -next =E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=83=84=E3=
+=83=AA=E3=83=BC
+>
+> diff --git a/Documentation/translations/ko_KR/howto.rst b/Documentation/t=
+ranslations/ko_KR/howto.rst
+> index d8acf255ac5f..bcd63731b80a 100644
+> --- a/Documentation/translations/ko_KR/howto.rst
+> +++ b/Documentation/translations/ko_KR/howto.rst
+> @@ -242,7 +242,6 @@ ReST =EB=A7=88=ED=81=AC=EC=97=85=EC=9D=84 =EC=82=AC=
+=EC=9A=A9=ED=95=98=EB=8A=94 =EB=AC=B8=EC=84=9C=EB=93=A4=EC=9D=80 Documentat=
+ion/output =EC=97=90 =EC=83=9D=EC=84=B1=EB=90=9C
+>
+>    - main 4.x =EC=BB=A4=EB=84=90 =ED=8A=B8=EB=A6=AC
+>    - 4.x.y - =EC=95=88=EC=A0=95=EB=90=9C =EC=BB=A4=EB=84=90 =ED=8A=B8=EB=
+=A6=AC
+> -  - 4.x -git =EC=BB=A4=EB=84=90 =ED=8C=A8=EC=B9=98=EB=93=A4
+>    - =EC=84=9C=EB=B8=8C=EC=8B=9C=EC=8A=A4=ED=85=9C=EC=9D=84 =EC=9C=84=ED=
+=95=9C =EC=BB=A4=EB=84=90 =ED=8A=B8=EB=A6=AC=EB=93=A4=EA=B3=BC =ED=8C=A8=EC=
+=B9=98=EB=93=A4
+>    - 4.x - =ED=86=B5=ED=95=A9 =ED=85=8C=EC=8A=A4=ED=8A=B8=EB=A5=BC =EC=9C=
+=84=ED=95=9C next =EC=BB=A4=EB=84=90 =ED=8A=B8=EB=A6=AC
+>
+> diff --git a/Documentation/translations/zh_CN/HOWTO b/Documentation/trans=
+lations/zh_CN/HOWTO
+> index 8e7dee80a087..7a00a8a4eb15 100644
+> --- a/Documentation/translations/zh_CN/HOWTO
+> +++ b/Documentation/translations/zh_CN/HOWTO
+> @@ -192,7 +192,6 @@ Linux=E5=86=85=E6=A0=B8=E4=BB=A3=E7=A0=81=E4=B8=AD=E5=
+=8C=85=E5=90=AB=E6=9C=89=E5=A4=A7=E9=87=8F=E7=9A=84=E6=96=87=E6=A1=A3=E3=80=
+=82=E8=BF=99=E4=BA=9B=E6=96=87=E6=A1=A3=E5=AF=B9=E4=BA=8E=E5=AD=A6=E4=B9=A0=
+=E5=A6=82=E4=BD=95=E4=B8=8E
+>  =E4=BA=9B=E5=88=86=E6=94=AF=E5=8C=85=E6=8B=AC=EF=BC=9A
+>    - 2.6.x=E4=B8=BB=E5=86=85=E6=A0=B8=E6=BA=90=E7=A0=81=E6=A0=91
+>    - 2.6.x.y -stable=E5=86=85=E6=A0=B8=E6=BA=90=E7=A0=81=E6=A0=91
+> -  - 2.6.x -git=E5=86=85=E6=A0=B8=E8=A1=A5=E4=B8=81=E9=9B=86
+>    - 2.6.x -mm=E5=86=85=E6=A0=B8=E8=A1=A5=E4=B8=81=E9=9B=86
+>    - =E5=AD=90=E7=B3=BB=E7=BB=9F=E7=9B=B8=E5=85=B3=E7=9A=84=E5=86=85=E6=
+=A0=B8=E6=BA=90=E7=A0=81=E6=A0=91=E5=92=8C=E8=A1=A5=E4=B8=81=E9=9B=86
+>
+> --
+> 2.20.1
+>
