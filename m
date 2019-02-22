@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EAA447D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Feb 2019 12:53:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 187927D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Feb 2019 12:53:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727252AbfBVMxq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 22 Feb 2019 07:53:46 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:33930 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727231AbfBVMxn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Feb 2019 07:53:43 -0500
-Received: by mail-wr1-f65.google.com with SMTP id f14so2288223wrg.1
-        for <linux-doc@vger.kernel.org>; Fri, 22 Feb 2019 04:53:42 -0800 (PST)
+        id S1727308AbfBVMxu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 22 Feb 2019 07:53:50 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:45515 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727283AbfBVMxt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Feb 2019 07:53:49 -0500
+Received: by mail-wr1-f67.google.com with SMTP id w17so2227045wrn.12
+        for <linux-doc@vger.kernel.org>; Fri, 22 Feb 2019 04:53:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=QRzSxiJgMYZtPmoiWjDl90NjyZgMYTYzeKBtn1CA2K4=;
-        b=bOHZq9GtneVcqI+7dx1dPlGbKg1NqyMwC/3dQj65R9b+AaL1dEw6WnsEFnvda6QlbD
-         lx5q7BJ+HMum/sxb5KUmNx4YqHmnliyifP16MSQibp7C2IHgTBNe1hU9pCqsXLkuat1c
-         znpbV/DdU4KpgxO4goYtaVe+u2TyXP6kbQ1RoQds32uwFxEU5JLU4SpkXRt6LADYtjAl
-         WI1hDIyHVRaaElIfgQVsUPN+J6MsWMExP4yrdvC2wBzICHHXVDfMEKh4sCD1RwZwqDI3
-         3IZIK/md1m1LDI9VJmKIDCuhLJSumlID2vVjptcouY1GMsQmr4PDIVNhj6rbpSyQdU/5
-         NOjw==
+        bh=2tCXxaQ0AcT215cB6TyMBJl5HSukg9TNH5t025IrNLw=;
+        b=B3gwK58HnJ85CmTL2efZvH+J/Nm20KCnydLNY0dw7gbtvGIUGcldP8npiWTUpDXgKz
+         /u11H7eQqGQOsrUx9Bjjx9CGJcxvqjtgzrsVE+c4Cnr2aH4wSMA3cBw28f4m5dvZcDtW
+         dE9QsCl+18tkcm6KtqrSMoS1/n9nvYZMf6UFWkly4U8pHmTr2bgB/2tzCG5OvgHPbq1p
+         LygIpIzOhXUWhS3SS/cArJu5XyCYKaSFAA2Xlb21EPCN/ry2nFAF1xMDOUEnala+awoK
+         ndjVy074STqch02YUSBKRqql7aX75kVTJAVZrchuqsIoYuA52Cu849nBt6+cAxrGpU8H
+         43FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=QRzSxiJgMYZtPmoiWjDl90NjyZgMYTYzeKBtn1CA2K4=;
-        b=QKT1QYs8ve85TkJiJcdkZUBTqAJdcUcLEPKNLshsxdQVRtmymyxEsdjwI1/yUCJdT/
-         sKlZioHZrLm2c7MSGmxFRRCr8AKg2FAdVQ4I4o0mhEfVheBnju5rZpZtPxWr409asEtl
-         hECd6vBhI7sA1QskeS28lOBuc4grQf1hFB5A1DJ2WLTl8iOxgD8Rd05GNXEQKUEB3HPq
-         uusEjstoj7g4z0u5L93tRqaI5Qv4CGx22R2Elqhycw2ethUmKeiAvQj3YzfribQp7Jf8
-         a6HKZvYafqk860OANaR7P/jXLiM6oPBQ8rT6bowQqvEkALH4zFtFRYEwgoAPPLMHJJwj
-         GGGQ==
-X-Gm-Message-State: AHQUAubqu4yCynq4FJfw5oq88jE6XNZHGAwGdduwnUThroz1ceD5K0wg
-        FkBB3actYC9Yv+DuL//UNsy5ow==
-X-Google-Smtp-Source: AHgI3IY2qC70XZTghQybUySJZNUvHOQ7jsxQuTtoFLsrp3D/CO4zCTUsA3Qs8Io1jJiy1nb1Hyjy/g==
-X-Received: by 2002:adf:822d:: with SMTP id 42mr2852354wrb.63.1550840021805;
-        Fri, 22 Feb 2019 04:53:41 -0800 (PST)
+        bh=2tCXxaQ0AcT215cB6TyMBJl5HSukg9TNH5t025IrNLw=;
+        b=eQoaDTU8BK0TIaacBt+TIRXywEMjb6XVP7U9M0AQtXRzXvxP03wScfKHzoMBvv2Cn2
+         Ny/BFmO38WvIBzwhx51CxznommIvFSlCrJziiJbTlEJsj3+XK4riE4LLcz6tX5umEeIW
+         q4CahswYeowEunV39JR+Wv2CYPZZio8R+qiikuuo6stI5UOZc9Jzu64Ykb+6AmZY6kEB
+         HPQFy/pB0uBQN0wEb93PwHCJzsYrVjEP/y6UVqZMH0MPuFY9nm7edMu04W7YemIrtIT4
+         uYfQHPzK6LbeBZhs0FEcYUdBs8p9x4FnGw6dsrwOEQjX8Ruz42izEZJwhZ9XrvgXDZ92
+         SnyA==
+X-Gm-Message-State: AHQUAuZJVbyvlpmZxNOb8Ekl6ytkenuZpqH3sIk9R80sISszNdTvR/XQ
+        3I/ZkN+x1X1NVCDF9nCv1J3Cyg==
+X-Google-Smtp-Source: AHgI3IYJ4JqjThJgosMpQUX8CWU96fplWtblPpUxW7NKKKm/ffsucHxns87xgSXmASXlP8q7nFWW4A==
+X-Received: by 2002:adf:ed0f:: with SMTP id a15mr2881069wro.249.1550840027447;
+        Fri, 22 Feb 2019 04:53:47 -0800 (PST)
 Received: from andreyknvl0.muc.corp.google.com ([2a00:79e0:15:13:8ce:d7fa:9f4c:492])
-        by smtp.gmail.com with ESMTPSA id o14sm808209wrp.34.2019.02.22.04.53.39
+        by smtp.gmail.com with ESMTPSA id o14sm808209wrp.34.2019.02.22.04.53.45
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 22 Feb 2019 04:53:40 -0800 (PST)
+        Fri, 22 Feb 2019 04:53:46 -0800 (PST)
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -77,9 +77,9 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Kevin Brodsky <kevin.brodsky@arm.com>,
         Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
         Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v10 06/12] fs, arm64: untag user pointers in copy_mount_options
-Date:   Fri, 22 Feb 2019 13:53:18 +0100
-Message-Id: <a958e202cdbe6e1bac8a37b7f3d9881d1b22993d.1550839937.git.andreyknvl@google.com>
+Subject: [PATCH v10 09/12] kernel, arm64: untag user pointers in prctl_set_mm*
+Date:   Fri, 22 Feb 2019 13:53:21 +0100
+Message-Id: <d6febfc14cf0190f4ccd84fc1bf9bd077a6d6a9f.1550839937.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.21.0.rc0.258.g878e2cd30e-goog
 In-Reply-To: <cover.1550839937.git.andreyknvl@google.com>
 References: <cover.1550839937.git.andreyknvl@google.com>
@@ -90,32 +90,48 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In copy_mount_options a user address is being subtracted from TASK_SIZE.
-If the address is lower than TASK_SIZE, the size is calculated to not
-allow the exact_copy_from_user() call to cross TASK_SIZE boundary.
-However if the address is tagged, then the size will be calculated
-incorrectly.
+prctl_set_mm() and prctl_set_mm_map() use provided user pointers for vma
+lookups, which can only by done with untagged pointers.
 
-Untag the address before subtracting.
+Untag user pointers in these functions.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- fs/namespace.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ kernel/sys.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index a677b59efd74..d4b7adef9204 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -2730,7 +2730,7 @@ void *copy_mount_options(const void __user * data)
- 	 * the remainder of the page.
- 	 */
- 	/* copy_from_user cannot cross TASK_SIZE ! */
--	size = TASK_SIZE - (unsigned long)data;
-+	size = TASK_SIZE - (unsigned long)untagged_addr(data);
- 	if (size > PAGE_SIZE)
- 		size = PAGE_SIZE;
+diff --git a/kernel/sys.c b/kernel/sys.c
+index f7eb62eceb24..12910be94b7f 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -1992,6 +1992,18 @@ static int prctl_set_mm_map(int opt, const void __user *addr, unsigned long data
+ 	if (copy_from_user(&prctl_map, addr, sizeof(prctl_map)))
+ 		return -EFAULT;
  
++	prctl_map->start_code	= untagged_addr(prctl_map.start_code);
++	prctl_map->end_code	= untagged_addr(prctl_map.end_code);
++	prctl_map->start_data	= untagged_addr(prctl_map.start_data);
++	prctl_map->end_data	= untagged_addr(prctl_map.end_data);
++	prctl_map->start_brk	= untagged_addr(prctl_map.start_brk);
++	prctl_map->brk		= untagged_addr(prctl_map.brk);
++	prctl_map->start_stack	= untagged_addr(prctl_map.start_stack);
++	prctl_map->arg_start	= untagged_addr(prctl_map.arg_start);
++	prctl_map->arg_end	= untagged_addr(prctl_map.arg_end);
++	prctl_map->env_start	= untagged_addr(prctl_map.env_start);
++	prctl_map->env_end	= untagged_addr(prctl_map.env_end);
++
+ 	error = validate_prctl_map(&prctl_map);
+ 	if (error)
+ 		return error;
+@@ -2105,6 +2117,8 @@ static int prctl_set_mm(int opt, unsigned long addr,
+ 			      opt != PR_SET_MM_MAP_SIZE)))
+ 		return -EINVAL;
+ 
++	addr = untagged_addr(addr);
++
+ #ifdef CONFIG_CHECKPOINT_RESTORE
+ 	if (opt == PR_SET_MM_MAP || opt == PR_SET_MM_MAP_SIZE)
+ 		return prctl_set_mm_map(opt, (const void __user *)addr, arg4);
 -- 
 2.21.0.rc0.258.g878e2cd30e-goog
 
