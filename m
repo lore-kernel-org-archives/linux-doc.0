@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 09A7F7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Feb 2019 23:06:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 94A307D918
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Feb 2019 23:08:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725922AbfBVXFw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 22 Feb 2019 18:05:52 -0500
-Received: from mga02.intel.com ([134.134.136.20]:16641 "EHLO mga02.intel.com"
+        id S1726648AbfBVXHq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 22 Feb 2019 18:07:46 -0500
+Received: from mga05.intel.com ([192.55.52.43]:22412 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725900AbfBVXFw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 22 Feb 2019 18:05:52 -0500
+        id S1726387AbfBVXHq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 22 Feb 2019 18:07:46 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Feb 2019 15:05:51 -0800
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Feb 2019 15:07:43 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.58,401,1544515200"; 
-   d="scan'208";a="120102718"
+   d="scan'208";a="120103065"
 Received: from ray.jf.intel.com (HELO [10.7.201.17]) ([10.7.201.17])
-  by orsmga008.jf.intel.com with ESMTP; 22 Feb 2019 15:05:50 -0800
-Subject: Re: [PATCH v10 07/12] fs, arm64: untag user pointers in
- fs/userfaultfd.c
+  by orsmga008.jf.intel.com with ESMTP; 22 Feb 2019 15:07:44 -0800
+Subject: Re: [PATCH v10 04/12] mm, arm64: untag user pointers passed to memory
+ syscalls
 To:     Andrey Konovalov <andreyknvl@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -54,7 +54,7 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Kevin Brodsky <kevin.brodsky@arm.com>,
         Szabolcs Nagy <Szabolcs.Nagy@arm.com>
 References: <cover.1550839937.git.andreyknvl@google.com>
- <8343cd77ca301df15839796f3b446b75ce5ffbbf.1550839937.git.andreyknvl@google.com>
+ <3875fa863b755d8cb43afa7bb0fe543e5fd05a5d.1550839937.git.andreyknvl@google.com>
 From:   Dave Hansen <dave.hansen@intel.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=dave.hansen@intel.com; keydata=
@@ -100,25 +100,43 @@ Autocrypt: addr=dave.hansen@intel.com; keydata=
  MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
  hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
  vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-Message-ID: <73f2f3fe-9a66-22a1-5aae-c282779a75f5@intel.com>
-Date:   Fri, 22 Feb 2019 15:05:51 -0800
+Message-ID: <81ea4e77-90a4-4fd9-2bc8-135e0da30044@intel.com>
+Date:   Fri, 22 Feb 2019 15:07:45 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <8343cd77ca301df15839796f3b446b75ce5ffbbf.1550839937.git.andreyknvl@google.com>
+In-Reply-To: <3875fa863b755d8cb43afa7bb0fe543e5fd05a5d.1550839937.git.andreyknvl@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 2/22/19 4:53 AM, Andrey Konovalov wrote:
-> userfaultfd_register() and userfaultfd_unregister() use provided user
-> pointers for vma lookups, which can only by done with untagged pointers.
+> --- a/mm/mprotect.c
+> +++ b/mm/mprotect.c
+> @@ -578,6 +578,7 @@ static int do_mprotect_pkey(unsigned long start, size_t len,
+>  SYSCALL_DEFINE3(mprotect, unsigned long, start, size_t, len,
+>  		unsigned long, prot)
+>  {
+> +	start = untagged_addr(start);
+>  	return do_mprotect_pkey(start, len, prot, -1);
+>  }
+>  
+> @@ -586,6 +587,7 @@ SYSCALL_DEFINE3(mprotect, unsigned long, start, size_t, len,
+>  SYSCALL_DEFINE4(pkey_mprotect, unsigned long, start, size_t, len,
+>  		unsigned long, prot, int, pkey)
+>  {
+> +	start = untagged_addr(start);
+>  	return do_mprotect_pkey(start, len, prot, pkey);
+>  }
 
-So, we have to patch all these sites before the tagged values get to the
-point of hitting the vma lookup functions.  Dumb question: Why don't we
-just patch the vma lookup functions themselves instead of all of these
-callers?
+This seems to have taken the approach of going as close as possible to
+the syscall boundary and untagging the pointer there.  I guess that's
+OK, but it does lead to more churn than necessary.  For instance, why
+not just do the untagging in do_mprotect_pkey()?
+
+I think that's an overall design question.  I kinda asked the same thing
+about patching call sites vs. VMA lookup functions.
