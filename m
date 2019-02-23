@@ -1,142 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 94A307D918
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 22 Feb 2019 23:08:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C19047D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 23 Feb 2019 01:18:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726648AbfBVXHq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 22 Feb 2019 18:07:46 -0500
-Received: from mga05.intel.com ([192.55.52.43]:22412 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726387AbfBVXHq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 22 Feb 2019 18:07:46 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Feb 2019 15:07:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,401,1544515200"; 
-   d="scan'208";a="120103065"
-Received: from ray.jf.intel.com (HELO [10.7.201.17]) ([10.7.201.17])
-  by orsmga008.jf.intel.com with ESMTP; 22 Feb 2019 15:07:44 -0800
-Subject: Re: [PATCH v10 04/12] mm, arm64: untag user pointers passed to memory
- syscalls
-To:     Andrey Konovalov <andreyknvl@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
+        id S1726834AbfBWBSZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 22 Feb 2019 20:18:25 -0500
+Received: from outils.crapouillou.net ([89.234.176.41]:54142 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725811AbfBWBSZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Feb 2019 20:18:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1550884700; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=U2Gzx13EM6NHHpEWkJGNYC/vDL9E3xqHovmRZEC0C7Y=;
+        b=PYc1r9QhSE1uAxYeMTY4hpm+IGKCnis5GhyYUKQnw/6PPV4cVISFdST77HlfrNhUMOz0Bp
+        BRF2HJ1/2YQhU+tQMqm56e8vzEkS65K+EHViYNfX/n5SfRSw+Db1YfNL0x0owV0544oPY8
+        bUllPRgZKDjLKFqIqSLVKYTWHXHQSTk=
+Date:   Fri, 22 Feb 2019 22:17:58 -0300
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v9 14/27] pwm: jz4740: Improve algorithm of clock
+ calculation
+To:     Uwe =?iso-8859-1?q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Stephen Boyd <sboyd@kernel.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-References: <cover.1550839937.git.andreyknvl@google.com>
- <3875fa863b755d8cb43afa7bb0fe543e5fd05a5d.1550839937.git.andreyknvl@google.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-Message-ID: <81ea4e77-90a4-4fd9-2bc8-135e0da30044@intel.com>
-Date:   Fri, 22 Feb 2019 15:07:45 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-pwm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Russell King <linux@armlinux.org.uk>
+Message-Id: <1550884678.20534.0@crapouillou.net>
+In-Reply-To: <1547129096.16183.0@crapouillou.net>
+References: <20181227181319.31095-1-paul@crapouillou.net>
+        <20181227181319.31095-15-paul@crapouillou.net>
+        <20190105195725.cuxfge6zkpbt3cyk@pengutronix.de>
+        <1546722339.30174.0@crapouillou.net>
+        <20190105212711.s765knwwerceytvk@pengutronix.de>
+        <1547129096.16183.0@crapouillou.net>
 MIME-Version: 1.0
-In-Reply-To: <3875fa863b755d8cb43afa7bb0fe543e5fd05a5d.1550839937.git.andreyknvl@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/22/19 4:53 AM, Andrey Konovalov wrote:
-> --- a/mm/mprotect.c
-> +++ b/mm/mprotect.c
-> @@ -578,6 +578,7 @@ static int do_mprotect_pkey(unsigned long start, size_t len,
->  SYSCALL_DEFINE3(mprotect, unsigned long, start, size_t, len,
->  		unsigned long, prot)
->  {
-> +	start = untagged_addr(start);
->  	return do_mprotect_pkey(start, len, prot, -1);
->  }
->  
-> @@ -586,6 +587,7 @@ SYSCALL_DEFINE3(mprotect, unsigned long, start, size_t, len,
->  SYSCALL_DEFINE4(pkey_mprotect, unsigned long, start, size_t, len,
->  		unsigned long, prot, int, pkey)
->  {
-> +	start = untagged_addr(start);
->  	return do_mprotect_pkey(start, len, prot, pkey);
->  }
+Hi,
 
-This seems to have taken the approach of going as close as possible to
-the syscall boundary and untagging the pointer there.  I guess that's
-OK, but it does lead to more churn than necessary.  For instance, why
-not just do the untagging in do_mprotect_pkey()?
+Le jeu. 10 janv. 2019 =E0 11:04, Paul Cercueil <paul@crapouillou.net> a=20
+=E9crit :
+> Adding Stephen to the discussion.
+> Adding Stephen to the discussion.
+>=20
+> On Sat, Jan 5, 2019 at 6:27 PM, Uwe Kleine-K=F6nig=20
+> <u.kleine-koenig@pengutronix.de> wrote:
+>> Hello Paul,
+>>=20
+>> On Sat, Jan 05, 2019 at 06:05:38PM -0300, Paul Cercueil wrote:
+>>>  On Sat, Jan 5, 2019 at 4:57 PM, Uwe Kleine-K=F6nig
+>>>  <u.kleine-koenig@pengutronix.de> wrote:
+>>>  > You are assuming stuff here about the parent clk which isn't=20
+>>> =7F=7Fguaranteed
+>>>  > (AFAICT) by the clk framework: If you call clk_round_rate(clk,=20
+>>> =7F=7Frate - 1)
+>>>  > this might well return rate even if the clock could run slower=20
+>>> =7F=7Fthan
+>>>  > rate.
+>>>=20
+>>>  It may not be guaranteed by the clock framework itself, but it is=20
+>>> =7F=7Fguaranteed
+>>>  to behave like that on this family of SoCs.
+>>=20
+>> You shouldn't rely on that. Experience shows that people will start
+>> copying code to machines where this is not guaranteed. Even if they
+>> don't copy and only learn from reading this is bad. Also how do you
+>> guarantee that this won't change in the future making the pwm code=20
+>> =7Fbreak
+>> without noticing?
+>>=20
+>> If you use an API better don't assume more things given than are
+>> guaranteed by the API.
+>>=20
+>> Having said that I would consider it sensible to introduce something
+>> like clk_roundup_rate() and clk_rounddown_rate() which would allow
+>> calculations like that.
+>=20
+> @Stephen:
+> Some context: my algorithm makes use of clk_round_rate(clk, rate - 1)=20
+> to get the
+> next (smaller) clock rate that a clock support.
+>=20
+> Is it something safe to assume? If not is there a better way?
 
-I think that's an overall design question.  I kinda asked the same thing
-about patching call sites vs. VMA lookup functions.
+Bump.
+
+What should I do here?
+
+>>>  > Wouldn't it make sense to start iterating with rate =3D 0xffff *=20
+>>> =7F=7F1e9 /
+>>>  > period? Otherwise you get bad configurations if rate is=20
+>>> =7F=7Fconsiderable
+>>>  > slower than necessary.
+>>>=20
+>>>  The algorithm will start with 'rate' being the parent clock's=20
+>>> rate, =7F=7Fwhich
+>>>  will always be the highest rate that the child clock will support.
+>>=20
+>> Ah right, I missed that bit.
+
+Thanks,
+-Paul
+=
+
