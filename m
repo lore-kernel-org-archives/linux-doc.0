@@ -6,87 +6,134 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8043D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 24 Feb 2019 15:25:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 528137D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 24 Feb 2019 15:45:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728264AbfBXPZq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 24 Feb 2019 10:25:46 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:40647 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726464AbfBXPZq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Feb 2019 10:25:46 -0500
-Received: by mail-wm1-f65.google.com with SMTP id t15so5801607wmi.5;
-        Sun, 24 Feb 2019 07:25:45 -0800 (PST)
+        id S1725944AbfBXPpl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 24 Feb 2019 10:45:41 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:34363 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725860AbfBXPpl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Feb 2019 10:45:41 -0500
+Received: by mail-pf1-f194.google.com with SMTP id u9so3304190pfn.1;
+        Sun, 24 Feb 2019 07:45:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=N/EUgNr/k/daE3cAolP/p1gAbhHHAZXCAp5AFoE+Ago=;
-        b=qTSakQJcRztdiUJVW84wLwm2rI3CVdwYRWAXR3qy2TKl9bhAiqL9BiyjNBrlEmb4Kx
-         HkZjMN0zvNIovWve1SOEyRd4UTzxeZfZFG6J1VQ8lyoRHLt00nRCSXUrKYkxAap2ZFKV
-         TkGkhh9p0Nl5whxhAifYa1Fljfu3emZfmEmh8Nr8wT9vq5FE0c3riUWAEOQhdgE81C6f
-         xzrjIOMy8WGeZ0AXllHppGDu/KPVUR8o8O0H0o8UjpWn0m2+pwxKrwia6AnTUivsu/1p
-         fab/r453bwM61PZNOHWl6mum+1d9a6j+wlwlNoC6sFCmtNvI+gi7feuMTmZ1ohNP80wp
-         5gSQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=CtA84kazj2gAOPwBK1+toscY4GtDlJXc5RLYGVLYvFw=;
+        b=RKxBlN7OYz+OvkczpkGUTUBnXrGyweFTyqRFWW77HA9iPyj5o9hZW4e2F50+oWyQ5F
+         Q8KPIam13kkj1ZndMyhtlL6kKiuI22BJ+MWCSGJAJ8TZ8S7k/kmCotmwlQQf8yvPg4Xe
+         i5E06LSvV2GTRcyy8kBZ3/jJPNb4KYisJqrSbJmbOJBDLAMCs12TyxZgRbXWiS4f69Ua
+         8LiLHmMqNukmnG/ITQvkNa4i9zcjMWbU3P9RmuHKhWbyKhqD+wxE2oPx2o5zGhS3nAxD
+         btGtKap/0Kpq3hR992JtRAL8RfYl6jM8L1SRwnr6Ejw+LZDf6c8kgwenMMOjvguRuqKx
+         mCkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=N/EUgNr/k/daE3cAolP/p1gAbhHHAZXCAp5AFoE+Ago=;
-        b=qiSK4dsdOeW88Ox1TjQOZfRbczo2hL+HEk1CzK7VguOqBBeKhrIdDfg2c4XKPrPkUO
-         GXtia2Uur0nneClzCzPPNLOHGnhojtjLN/XEAkVV52qpzH3SVwl5Jfj1X7vn8sSRwiwU
-         4KbKPRvUelfDuGtR2TvpD4loXBQIoHAFCPCgMxmBCZ6csEqM8zmdF02BVqaEOD16/ekt
-         csMhFjm3RR18smvq2fINR3iz7KGCHIPEJw2KQApA7TOUZHBYGV+tzEkB/HSH3gKaXpSG
-         minkixDj4peRYS8q3vGGZgfud+i9iUpX+pFFM5N7OXNL621SIurbadUUZMZhrISj+h0+
-         9lgA==
-X-Gm-Message-State: AHQUAubWNavpRCjMlSF0DqreK4y5ghy3gNevTeG1m1SfVsWHoyjdjCup
-        OJMiUdzaDW7I4ooxx9lkdRamWdSdWF8YVaepiLzWK19jrG0=
-X-Google-Smtp-Source: AHgI3IYXBHeOCB4NKR3V9YXHECmYCD3BvmuIf28YFr5CBFErzmXeI5ZHPDGK2/aLL0cf0yQaV4vR75ocv14Szr+mdyM=
-X-Received: by 2002:a7b:c752:: with SMTP id w18mr8364866wmk.97.1551021944567;
- Sun, 24 Feb 2019 07:25:44 -0800 (PST)
-MIME-Version: 1.0
-References: <CAKcZhuWHU+udbAyL910JW8rhZsbpomz5TXs0z2FD4m5c5Sf8hw@mail.gmail.com>
- <20190224125318.GB10876@kroah.com>
-In-Reply-To: <20190224125318.GB10876@kroah.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=CtA84kazj2gAOPwBK1+toscY4GtDlJXc5RLYGVLYvFw=;
+        b=V66iQtxTau8NuO7sH55ToYNPVXrGePWPZSRjoVhPPVynlsml3hTXPLi2ut4FIJm+Lp
+         LQF50MBdqxZOvgEopUBiU+p+ZmQRQNvv46Biswmjc+R2WEfbbLEw27yfYopfk39Y1woy
+         bkg3gdltrStm5BzcmFpY/GAOAFrLQpMRxfanGNlg3me8NJOj1OBpnYCaAM9crlXMoo3Q
+         rJlRwkps6pUKqoq68W7R5L1df7iqGP4oXPGGMUPN5mvfL8t/53gOd21xpc1qo1YnoutJ
+         pe25nKJ7/91lMYqfvlidpz6Wd9oW8Kp7nFd+L/hz3rO6pDvLNp+0+SSaDGD7b+DrEvXh
+         kqMQ==
+X-Gm-Message-State: AHQUAubZbSHzxmR4w7azNzfXVQaJn0UEyCex+czOwEPMT2vjKXWIGSJK
+        O0eZ1JT2DcW+icBRxlgOy6Q=
+X-Google-Smtp-Source: AHgI3IYcLEpZ0PgAkfH4ewcStrUKmRELvnasdsRQ3RmbDsvXCcnNGPsUjlKPQfEM3tQeJdGNzvqOoQ==
+X-Received: by 2002:aa7:8286:: with SMTP id s6mr14658090pfm.63.1551023140422;
+        Sun, 24 Feb 2019 07:45:40 -0800 (PST)
+Received: from ubuntuu.lan ([112.10.94.48])
+        by smtp.gmail.com with ESMTPSA id 33sm18326147pgs.81.2019.02.24.07.45.36
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Sun, 24 Feb 2019 07:45:39 -0800 (PST)
 From:   Zenghui Yu <zenghuiyu96@gmail.com>
-Date:   Sun, 24 Feb 2019 23:25:33 +0800
-Message-ID: <CAKcZhuVq36qsiptFAuuK9j79ANdOkd4i4dQjwM-UZ8t_pkqd7Q@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/process/howto: Update for 4.x -> 5.x versioning
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     corbet@lwn.net, gregkh@linuxfoundation.org
+Cc:     akpm@linux-foundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Zenghui Yu <zenghuiyu96@gmail.com>
+Subject: [PATCH v2] Documentation/process/howto: Update for 4.x -> 5.x versioning
+Date:   Sun, 24 Feb 2019 23:45:23 +0800
+Message-Id: <1551023123-5031-1-git-send-email-zenghuiyu96@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Feb 24, 2019 at 8:53 PM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Sun, Feb 24, 2019 at 04:43:20PM +0800, Zenghui Yu wrote:
-> > As linux-5.0 is coming up soon, the howto.rst document can be
-> > updated for the new kernel version. Change all 4.x references
-> > to 5.x now.
-> >
-> > Signed-off-by: Zenghui Yu <zenghuiyu96@gmail.com>
-> > ---
-> >  Documentation/process/howto.rst | 24 ++++++++++++------------
-> >  1 file changed, 12 insertions(+), 12 deletions(-)
->
-> I think Jon already sent a patch for this last week, you might want to
-> look in the archives.
->
+As linux-5.0 is coming up soon, the howto.rst document can be
+updated for the new kernel version. Change all 4.x references
+to 5.x now.
 
-Thanks for the reminder. After looking into the archives:
+Signed-off-by: Zenghui Yu <zenghuiyu96@gmail.com>
+---
+ Documentation/process/howto.rst | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-        https://marc.info/?l=linux-doc
+diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+index f16242b..19001e2 100644
+--- a/Documentation/process/howto.rst
++++ b/Documentation/process/howto.rst
+@@ -235,16 +235,16 @@ Linux kernel development process currently consists of a few different
+ main kernel "branches" and lots of different subsystem-specific kernel
+ branches.  These different branches are:
+ 
+-  - main 4.x kernel tree
+-  - 4.x.y -stable kernel tree
++  - main 5.x kernel tree
++  - 5.x.y -stable kernel tree
+   - subsystem specific kernel trees and patches
+-  - the 4.x -next kernel tree for integration tests
++  - the 5.x -next kernel tree for integration tests
+ 
+-4.x kernel tree
++5.x kernel tree
+ ~~~~~~~~~~~~~~~
+ 
+-4.x kernels are maintained by Linus Torvalds, and can be found on
+-https://kernel.org in the pub/linux/kernel/v4.x/ directory.  Its development
++5.x kernels are maintained by Linus Torvalds, and can be found on
++https://kernel.org in the pub/linux/kernel/v5.x/ directory.  Its development
+ process is as follows:
+ 
+   - As soon as a new kernel is released a two weeks window is open,
+@@ -277,21 +277,21 @@ mailing list about kernel releases:
+ 	released according to perceived bug status, not according to a
+ 	preconceived timeline."*
+ 
+-4.x.y -stable kernel tree
++5.x.y -stable kernel tree
+ ~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ Kernels with 3-part versions are -stable kernels. They contain
+ relatively small and critical fixes for security problems or significant
+-regressions discovered in a given 4.x kernel.
++regressions discovered in a given 5.x kernel.
+ 
+ This is the recommended branch for users who want the most recent stable
+ kernel and are not interested in helping test development/experimental
+ versions.
+ 
+-If no 4.x.y kernel is available, then the highest numbered 4.x
++If no 5.x.y kernel is available, then the highest numbered 5.x
+ kernel is the current stable kernel.
+ 
+-4.x.y are maintained by the "stable" team <stable@vger.kernel.org>, and
++5.x.y are maintained by the "stable" team <stable@vger.kernel.org>, and
+ are released as needs dictate.  The normal release period is approximately
+ two weeks, but it can be longer if there are no pressing problems.  A
+ security-related problem, instead, can cause a release to happen almost
+@@ -326,10 +326,10 @@ revisions to it, and maintainers can mark patches as under review,
+ accepted, or rejected.  Most of these patchwork sites are listed at
+ https://patchwork.kernel.org/.
+ 
+-4.x -next kernel tree for integration tests
++5.x -next kernel tree for integration tests
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-Before updates from subsystem trees are merged into the mainline 4.x
++Before updates from subsystem trees are merged into the mainline 5.x
+ tree, they need to be integration-tested.  For this purpose, a special
+ testing repository exists into which virtually all subsystem trees are
+ pulled on an almost daily basis:
+-- 
+2.7.4
 
-I find something about the "4.x -> 5.x versioning" have already been fixed.
-But Documentation/process/howto.rst seems to be missed.
-
-Also, I realized I've sent my patch using Gmail WEB client... and now I find
-some embarrassing format problems in it. So if still needed, I will send a V2.
-
-Thanks,
-Zenghui
