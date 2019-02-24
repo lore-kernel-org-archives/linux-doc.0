@@ -1,142 +1,169 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0EBA17D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 24 Feb 2019 10:04:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 85C237D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 24 Feb 2019 10:17:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728257AbfBXKE3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 24 Feb 2019 05:04:29 -0500
-Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:31453
-        "EHLO mail3-relais-sop.national.inria.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728284AbfBXKE3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Feb 2019 05:04:29 -0500
-X-IronPort-AV: E=Sophos;i="5.58,407,1544482800"; 
-   d="scan'208";a="297142024"
-Received: from chs44-2-88-182-78-114.fbx.proxad.net (HELO [192.168.0.24]) ([88.182.78.114])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/AES128-SHA; 24 Feb 2019 11:04:26 +0100
-Subject: Re: [PATCH 03/11] x86 topology: Add CPUID.1F multi-die/package
- support
-To:     Len Brown <lenb@kernel.org>, x86@kernel.org
-Cc:     linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>,
-        linux-doc@vger.kernel.org, Like Xu <like.xu@linux.intel.com>
-References: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
- <07d2908dc72bf964b27380999e1c826587d69136.1550545163.git.len.brown@intel.com>
-From:   Brice Goglin <Brice.Goglin@inria.fr>
-Openpgp: preference=signencrypt
-Autocrypt: addr=Brice.Goglin@inria.fr; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <3ac80787-f282-ce94-77dc-f0e6ea9d4431@inria.fr>
-Date:   Sun, 24 Feb 2019 11:04:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.0
+        id S1727943AbfBXKRD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 24 Feb 2019 05:17:03 -0500
+Received: from mx.kolabnow.com ([95.128.36.42]:44684 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725956AbfBXKRC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 24 Feb 2019 05:17:02 -0500
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id B5584411BC;
+        Sun, 24 Feb 2019 11:16:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1551003418; x=1552817819; bh=xdV37zz4/GvWEA2lccx1zgAyXjF337MhHYd
+        cnsFq/kQ=; b=ailYQkdBJ3szCQ6N8rt26jkWluDELDO8WY1cHv/AbIzHlYs04ap
+        GwxLifxH5in6sJTgztuQ+HHMs9WLT6aD/sgmHgTXgkRzupqxVwNbA1ZDqYBQ26fN
+        RffGI/1ShDLRz2t/+zONPKDKVBbXwTgQS719Z3AQDn1yMHnAYShLju/iidmO467m
+        6AYskTXA3W+TI5Hznu+HbSls3O/DiYeLofzgJSHMFaGhbpyZKl/9YLufDwSQLPsF
+        c6Bdg6/6ze8tpyhJf4lL76DgewS/gH5FtC+bXVfZ9k2k1APTi4qT4g6aIca+x5Ry
+        Hat8dUM6XKaH7dr4ih/tk4HjIJVfszDxQQREoXdniTO+YRDmupCJH2eGonkYC7rK
+        yugw6q6COoP39VxkNAK0ge/ObY/b7ULpRv7BLARk52uxImUjUcTJkxW63jeACE/1
+        OD2IgE5xEyOtC6HsNZiV8UirOZf6Nac7STEn7wH0oKQdbB/WBM/zmv+HDzJ06z2G
+        R3IaSh8PeY6I3MQwAXUr2AGRNbm6EAUAsYnjQQVocbEmbwQv3lW7OWpOPIQIt/QX
+        xUwLX+ykFSYaS8LfwLu6X0CKkhldfhoypuzPlLyz8RaV8mFJRuyot242lsPq+YTv
+        8DOCKXWQMpZbKt1z12QRlXoFLINhT2/hVMFoogcoPFAMyXKBzw7jIpMY=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id tPSNoP8s587B; Sun, 24 Feb 2019 11:16:58 +0100 (CET)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 815F8404B2;
+        Sun, 24 Feb 2019 11:16:58 +0100 (CET)
+Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id EF0D0B88;
+        Sun, 24 Feb 2019 11:16:57 +0100 (CET)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Zenghui Yu <zenghuiyu96@gmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, gregkh@linuxfoundation.org,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH] Documentation/process/howto: Update for 4.x -> 5.x versioning
+Date:   Sun, 24 Feb 2019 11:16:56 +0100
+Message-ID: <4160738.QP7Yp4kBzP@harkonnen>
+In-Reply-To: <CAKcZhuWHU+udbAyL910JW8rhZsbpomz5TXs0z2FD4m5c5Sf8hw@mail.gmail.com>
+References: <CAKcZhuWHU+udbAyL910JW8rhZsbpomz5TXs0z2FD4m5c5Sf8hw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <07d2908dc72bf964b27380999e1c826587d69136.1550545163.git.len.brown@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Le 19/02/2019 à 04:40, Len Brown a écrit :
-> diff --git a/arch/x86/kernel/smpboot.c b/arch/x86/kernel/smpboot.c
-> index ccd1f2a8e557..4250a87f57db 100644
-> --- a/arch/x86/kernel/smpboot.c
-> +++ b/arch/x86/kernel/smpboot.c
-> @@ -393,6 +393,7 @@ static bool match_smt(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
->  		int cpu1 = c->cpu_index, cpu2 = o->cpu_index;
->  
->  		if (c->phys_proc_id == o->phys_proc_id &&
-> +		    c->cpu_die_id == o->cpu_die_id &&
->  		    per_cpu(cpu_llc_id, cpu1) == per_cpu(cpu_llc_id, cpu2)) {
->  			if (c->cpu_core_id == o->cpu_core_id)
->  				return topology_sane(c, o, "smt");
-> @@ -404,6 +405,7 @@ static bool match_smt(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
->  		}
->  
->  	} else if (c->phys_proc_id == o->phys_proc_id &&
-> +		   c->cpu_die_id == o->cpu_die_id &&
->  		   c->cpu_core_id == o->cpu_core_id) {
->  		return topology_sane(c, o, "smt");
->  	}
-> @@ -461,7 +463,7 @@ static bool match_llc(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
->   */
->  static bool match_die(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
->  {
-> -	if (c->phys_proc_id == o->phys_proc_id)
-> +	if (c->cpu_die_id == o->cpu_die_id)
->  		return true;
->  	return false;
->  }
+hello,
 
-Hello Len,
+I have just a general observation for the community, not related to the 
+content of this patch, but related with the idea behind.
 
-I am testing your patches in a VM with CPUID.1f QEMU patches (author Like Xu is CC'ed),
-booted to get 2 packages with 1 NUMA node each and 2 dies each:
+Is it really important to specify the major release number in the documents? . 
+Can't we just use a generic x.y.z, or a more generic statement?
 
--smp cpus=16,threads=2,cores=2,dies=2,sockets=2 -numa node,cpus=0-7,nodeid=0 -numa node,cpus=8-15,nodeid=1
+When you open a documentation page like
 
-sysfs files expose wrong information:
-core_siblings contains threads of the local die AND of die with same number in other processors,
-eg cpu 0-3 and 8-11 instead of 0-3 only.
+https://www.kernel.org/doc/html/latest/
 
-The issue is that you seem to assume that die ids will always be unique across multiple packages.
-Is this a valid assumption? If so, QEMU patches should be fixed.
-If not, I fixed the issue by changing match_die() to check both phys_proc_id and cpu_die_id:
+you will see the release number in the top left corner, which implies that 
+what you read is (should be) valid for that version. And if you read from the 
+sources you should know which version you checked out, and if you don't you
+can always verify.
 
-static bool match_die(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
-{
-	if (c->phys_proc_id == o->phys_proc_id && c->cpu_die_id == o->cpu_die_id)
- 		return true;
-	return false;
-}
+I do not see the added value of having those numbers in the documents, unless 
+the purpose is to highlight some specific exceptions.
 
-Thanks
-Brice
+Am I missing some important reasons that justify these numbers?
+
+Thank you
+
+On Sunday, February 24, 2019 9:43:20 AM CET Zenghui Yu wrote:
+> As linux-5.0 is coming up soon, the howto.rst document can be
+> updated for the new kernel version. Change all 4.x references
+> to 5.x now.
+> 
+> Signed-off-by: Zenghui Yu <zenghuiyu96@gmail.com>
+> ---
+>  Documentation/process/howto.rst | 24 ++++++++++++------------
+>  1 file changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/Documentation/process/howto.rst
+> b/Documentation/process/howto.rst index f16242b..19001e2 100644
+> --- a/Documentation/process/howto.rst
+> +++ b/Documentation/process/howto.rst
+> @@ -235,16 +235,16 @@ Linux kernel development process currently
+> consists of a few different
+>  main kernel "branches" and lots of different subsystem-specific kernel
+>  branches.  These different branches are:
+> 
+> -  - main 4.x kernel tree
+> -  - 4.x.y -stable kernel tree
+> +  - main 5.x kernel tree
+> +  - 5.x.y -stable kernel tree
+>    - subsystem specific kernel trees and patches
+> -  - the 4.x -next kernel tree for integration tests
+> +  - the 5.x -next kernel tree for integration tests
+> 
+> -4.x kernel tree
+> +5.x kernel tree
+>  ~~~~~~~~~~~~~~~
+> 
+> -4.x kernels are maintained by Linus Torvalds, and can be found on
+> -https://kernel.org in the pub/linux/kernel/v4.x/ directory.  Its
+> development +5.x kernels are maintained by Linus Torvalds, and can be found
+> on +https://kernel.org in the pub/linux/kernel/v5.x/ directory.  Its
+> development process is as follows:
+> 
+>    - As soon as a new kernel is released a two weeks window is open,
+> @@ -277,21 +277,21 @@ mailing list about kernel releases:
+>   released according to perceived bug status, not according to a
+>   preconceived timeline."*
+> 
+> -4.x.y -stable kernel tree
+> +5.x.y -stable kernel tree
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+>  Kernels with 3-part versions are -stable kernels. They contain
+>  relatively small and critical fixes for security problems or significant
+> -regressions discovered in a given 4.x kernel.
+> +regressions discovered in a given 5.x kernel.
+> 
+>  This is the recommended branch for users who want the most recent stable
+>  kernel and are not interested in helping test development/experimental
+>  versions.
+> 
+> -If no 4.x.y kernel is available, then the highest numbered 4.x
+> +If no 5.x.y kernel is available, then the highest numbered 5.x
+>  kernel is the current stable kernel.
+> 
+> -4.x.y are maintained by the "stable" team <stable@vger.kernel.org>, and
+> +5.x.y are maintained by the "stable" team <stable@vger.kernel.org>, and
+>  are released as needs dictate.  The normal release period is approximately
+>  two weeks, but it can be longer if there are no pressing problems.  A
+>  security-related problem, instead, can cause a release to happen almost
+> @@ -326,10 +326,10 @@ revisions to it, and maintainers can mark
+> patches as under review,
+>  accepted, or rejected.  Most of these patchwork sites are listed at
+>  https://patchwork.kernel.org/.
+> 
+> -4.x -next kernel tree for integration tests
+> +5.x -next kernel tree for integration tests
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> -Before updates from subsystem trees are merged into the mainline 4.x
+> +Before updates from subsystem trees are merged into the mainline 5.x
+>  tree, they need to be integration-tested.  For this purpose, a special
+>  testing repository exists into which virtually all subsystem trees are
+>  pulled on an almost daily basis:
+
+
 
 
