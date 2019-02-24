@@ -1,325 +1,50 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A0B727D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 23 Feb 2019 13:09:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A3E4F7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 24 Feb 2019 02:38:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727779AbfBWNIA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 23 Feb 2019 08:08:00 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:45628 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727752AbfBWNH7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Feb 2019 08:07:59 -0500
-Received: by mail-wr1-f65.google.com with SMTP id w17so5158859wrn.12
-        for <linux-doc@vger.kernel.org>; Sat, 23 Feb 2019 05:07:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=TCClcj1oSiSPcPMDubqhYNK1kcD8iCYJHgBypgIkPDM=;
-        b=o4YHW4xgFylGbkxUSYC0GG+U75E+GPhR5lns9upGhfTBSwJNGOT9j6oxpDZ+oxqqtK
-         B+yaf/Pu4EtBUZ4R4s7Ju58m7gzjabKBnLZaDVk1+6eNBhYEFndyg4hSAV8QBrkcQZBM
-         dOgXtFRcsLGEWXsXMZq3ejUubd0IubdgXTQ1t6kScU19RUFCU5IMT88SKUnoWe8E1ZEj
-         ZYWnIDS9RUkGQSbDCbh+4/WwC2EL9IqLuCrhzqA3idGxcr7o3DXXGPi+3iwNg7o88rCv
-         PEl9XJyDiwZQ3rS+d1qDMU2QKyiFu8+VkW4Jd/JiJlnIhrCkjnv/7ajo/RprtCW8oedb
-         s/Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=TCClcj1oSiSPcPMDubqhYNK1kcD8iCYJHgBypgIkPDM=;
-        b=oVttytX50Ix5sJIj57uSHqhEAOgfluXQijkme6voF1twaeW/nW8Vd48S3Zcf75Y4Jw
-         eVHyEbftDQA9rFN3r5rEvQaAfhJ6EmDN7qgIL4TpUwre7DWEe5pjaovucGQHZp7EuOFe
-         5OFKhji4zi0ijhgFy44fxUYy9+iNDaD1ZTu+TY5TRMq6WM6p373D06V63i0Ygx6ODqCC
-         fh8zwQgjjaQzRU+lToqhhiB8tQsC3alzTMxdIuq5bHzAd3G3qXk0Ei2hKea4tqAHkVow
-         2SxZj8b8EoOCe01b5PXy63XQrtOU1KgoOHKdh/yuvI1A/EZhlaFyWOILUHYV3ydvrtAA
-         /M6Q==
-X-Gm-Message-State: AHQUAuZbzPoVVyKenLSS5RWKLl9hkUjVpJBAtgYJsATBSlfvjXk+uVQD
-        HtDzcNC1Nghq1rnsgv1Adxb7Bg==
-X-Google-Smtp-Source: AHgI3IZNkuz+m5Ejp3xW4tgiml8Mo6/tpsIA9zy3A2an7NL3APQd/rOnsix/yqTLx9zA7OOmGp9oGg==
-X-Received: by 2002:adf:c704:: with SMTP id k4mr6856685wrg.142.1550927276091;
-        Sat, 23 Feb 2019 05:07:56 -0800 (PST)
-Received: from clegane.local (189.126.130.77.rev.sfr.net. [77.130.126.189])
-        by smtp.gmail.com with ESMTPSA id i12sm7830746wrq.21.2019.02.23.05.07.54
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 23 Feb 2019 05:07:55 -0800 (PST)
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-To:     tglx@linutronix.de
-Cc:     linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
-        stable@vger.kernel.org, Maxime Ripard <maxime.ripard@bootlin.com>,
-        Andre Przywara <andre.przywara@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        linux-arm-kernel@lists.infradead.org (moderated list:ARM64 PORT
-        (AARCH64 ARCHITECTURE)),
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [PATCH 02/18] clocksource/drivers/arch_timer: Workaround for Allwinner A64 timer instability
-Date:   Sat, 23 Feb 2019 14:06:50 +0100
-Message-Id: <20190223130707.16704-2-daniel.lezcano@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190223130707.16704-1-daniel.lezcano@linaro.org>
-References: <b5d75b05-b78c-535c-2b35-9a1f5a3a853f@linaro.org>
- <20190223130707.16704-1-daniel.lezcano@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        id S1727948AbfBXCir (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 23 Feb 2019 21:38:47 -0500
+Received: from shards.monkeyblade.net ([23.128.96.9]:44932 "EHLO
+        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726405AbfBXCir (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Feb 2019 21:38:47 -0500
+Received: from localhost (unknown [IPv6:2601:601:9f80:35cd::bf5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 6C85514BF7A60;
+        Sat, 23 Feb 2019 18:38:46 -0800 (PST)
+Date:   Sat, 23 Feb 2019 18:38:45 -0800 (PST)
+Message-Id: <20190223.183845.1860714149812694686.davem@davemloft.net>
+To:     hauke@hauke-m.de
+Cc:     arkadis@mellanox.com, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] net: dsa: Remove documentation for port_fdb_prepare
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <20190222190745.28020-1-hauke@hauke-m.de>
+References: <20190222190745.28020-1-hauke@hauke-m.de>
+X-Mailer: Mew version 6.8 on Emacs 26.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Sat, 23 Feb 2019 18:38:46 -0800 (PST)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Samuel Holland <samuel@sholland.org>
+From: Hauke Mehrtens <hauke@hauke-m.de>
+Date: Fri, 22 Feb 2019 20:07:45 +0100
 
-The Allwinner A64 SoC is known[1] to have an unstable architectural
-timer, which manifests itself most obviously in the time jumping forward
-a multiple of 95 years[2][3]. This coincides with 2^56 cycles at a
-timer frequency of 24 MHz, implying that the time went slightly backward
-(and this was interpreted by the kernel as it jumping forward and
-wrapping around past the epoch).
+> This callback was removed some time ago, also remove the documentation.
+> 
+> Fixes: 1b6dd556c304 ("net: dsa: Remove prepare phase for FDB")
+> Signed-off-by: Hauke Mehrtens <hauke@hauke-m.de>
 
-Investigation revealed instability in the low bits of CNTVCT at the
-point a high bit rolls over. This leads to power-of-two cycle forward
-and backward jumps. (Testing shows that forward jumps are about twice as
-likely as backward jumps.) Since the counter value returns to normal
-after an indeterminate read, each "jump" really consists of both a
-forward and backward jump from the software perspective.
-
-Unless the kernel is trapping CNTVCT reads, a userspace program is able
-to read the register in a loop faster than it changes. A test program
-running on all 4 CPU cores that reported jumps larger than 100 ms was
-run for 13.6 hours and reported the following:
-
- Count | Event
--------+---------------------------
-  9940 | jumped backward      699ms
-   268 | jumped backward     1398ms
-     1 | jumped backward     2097ms
- 16020 | jumped forward       175ms
-  6443 | jumped forward       699ms
-  2976 | jumped forward      1398ms
-     9 | jumped forward    356516ms
-     9 | jumped forward    357215ms
-     4 | jumped forward    714430ms
-     1 | jumped forward   3578440ms
-
-This works out to a jump larger than 100 ms about every 5.5 seconds on
-each CPU core.
-
-The largest jump (almost an hour!) was the following sequence of reads:
-    0x0000007fffffffff → 0x00000093feffffff → 0x0000008000000000
-
-Note that the middle bits don't necessarily all read as all zeroes or
-all ones during the anomalous behavior; however the low 10 bits checked
-by the function in this patch have never been observed with any other
-value.
-
-Also note that smaller jumps are much more common, with backward jumps
-of 2048 (2^11) cycles observed over 400 times per second on each core.
-(Of course, this is partially explained by lower bits rolling over more
-frequently.) Any one of these could have caused the 95 year time skip.
-
-Similar anomalies were observed while reading CNTPCT (after patching the
-kernel to allow reads from userspace). However, the CNTPCT jumps are
-much less frequent, and only small jumps were observed. The same program
-as before (except now reading CNTPCT) observed after 72 hours:
-
- Count | Event
--------+---------------------------
-    17 | jumped backward      699ms
-    52 | jumped forward       175ms
-  2831 | jumped forward       699ms
-     5 | jumped forward      1398ms
-
-Further investigation showed that the instability in CNTPCT/CNTVCT also
-affected the respective timer's TVAL register. The following values were
-observed immediately after writing CNVT_TVAL to 0x10000000:
-
- CNTVCT             | CNTV_TVAL  | CNTV_CVAL          | CNTV_TVAL Error
---------------------+------------+--------------------+-----------------
- 0x000000d4a2d8bfff | 0x10003fff | 0x000000d4b2d8bfff | +0x00004000
- 0x000000d4a2d94000 | 0x0fffffff | 0x000000d4b2d97fff | -0x00004000
- 0x000000d4a2d97fff | 0x10003fff | 0x000000d4b2d97fff | +0x00004000
- 0x000000d4a2d9c000 | 0x0fffffff | 0x000000d4b2d9ffff | -0x00004000
-
-The pattern of errors in CNTV_TVAL seemed to depend on exactly which
-value was written to it. For example, after writing 0x10101010:
-
- CNTVCT             | CNTV_TVAL  | CNTV_CVAL          | CNTV_TVAL Error
---------------------+------------+--------------------+-----------------
- 0x000001ac3effffff | 0x1110100f | 0x000001ac4f10100f | +0x1000000
- 0x000001ac40000000 | 0x1010100f | 0x000001ac5110100f | -0x1000000
- 0x000001ac58ffffff | 0x1110100f | 0x000001ac6910100f | +0x1000000
- 0x000001ac66000000 | 0x1010100f | 0x000001ac7710100f | -0x1000000
- 0x000001ac6affffff | 0x1110100f | 0x000001ac7b10100f | +0x1000000
- 0x000001ac6e000000 | 0x1010100f | 0x000001ac7f10100f | -0x1000000
-
-I was also twice able to reproduce the issue covered by Allwinner's
-workaround[4], that writing to TVAL sometimes fails, and both CVAL and
-TVAL are left with entirely bogus values. One was the following values:
-
- CNTVCT             | CNTV_TVAL  | CNTV_CVAL
---------------------+------------+--------------------------------------
- 0x000000d4a2d6014c | 0x8fbd5721 | 0x000000d132935fff (615s in the past)
-Reviewed-by: Marc Zyngier <marc.zyngier@arm.com>
-
-========================================================================
-
-Because the CPU can read the CNTPCT/CNTVCT registers faster than they
-change, performing two reads of the register and comparing the high bits
-(like other workarounds) is not a workable solution. And because the
-timer can jump both forward and backward, no pair of reads can
-distinguish a good value from a bad one. The only way to guarantee a
-good value from consecutive reads would be to read _three_ times, and
-take the middle value only if the three values are 1) each unique and
-2) increasing. This takes at minimum 3 counter cycles (125 ns), or more
-if an anomaly is detected.
-
-However, since there is a distinct pattern to the bad values, we can
-optimize the common case (1022/1024 of the time) to a single read by
-simply ignoring values that match the error pattern. This still takes no
-more than 3 cycles in the worst case, and requires much less code. As an
-additional safety check, we still limit the loop iteration to the number
-of max-frequency (1.2 GHz) CPU cycles in three 24 MHz counter periods.
-
-For the TVAL registers, the simple solution is to not use them. Instead,
-read or write the CVAL and calculate the TVAL value in software.
-
-Although the manufacturer is aware of at least part of the erratum[4],
-there is no official name for it. For now, use the kernel-internal name
-"UNKNOWN1".
-
-[1]: https://github.com/armbian/build/commit/a08cd6fe7ae9
-[2]: https://forum.armbian.com/topic/3458-a64-datetime-clock-issue/
-[3]: https://irclog.whitequark.org/linux-sunxi/2018-01-26
-[4]: https://github.com/Allwinner-Homlet/H6-BSP4.9-linux/blob/master/drivers/clocksource/arm_arch_timer.c#L272
-
-Acked-by: Maxime Ripard <maxime.ripard@bootlin.com>
-Tested-by: Andre Przywara <andre.przywara@arm.com>
-Signed-off-by: Samuel Holland <samuel@sholland.org>
-Cc: stable@vger.kernel.org
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
----
- Documentation/arm64/silicon-errata.txt |  2 +
- drivers/clocksource/Kconfig            | 10 +++++
- drivers/clocksource/arm_arch_timer.c   | 55 ++++++++++++++++++++++++++
- 3 files changed, 67 insertions(+)
-
-diff --git a/Documentation/arm64/silicon-errata.txt b/Documentation/arm64/silicon-errata.txt
-index 1f09d043d086..ddb8ce5333ba 100644
---- a/Documentation/arm64/silicon-errata.txt
-+++ b/Documentation/arm64/silicon-errata.txt
-@@ -44,6 +44,8 @@ stable kernels.
- 
- | Implementor    | Component       | Erratum ID      | Kconfig                     |
- +----------------+-----------------+-----------------+-----------------------------+
-+| Allwinner      | A64/R18         | UNKNOWN1        | SUN50I_ERRATUM_UNKNOWN1     |
-+|                |                 |                 |                             |
- | ARM            | Cortex-A53      | #826319         | ARM64_ERRATUM_826319        |
- | ARM            | Cortex-A53      | #827319         | ARM64_ERRATUM_827319        |
- | ARM            | Cortex-A53      | #824069         | ARM64_ERRATUM_824069        |
-diff --git a/drivers/clocksource/Kconfig b/drivers/clocksource/Kconfig
-index a9e26f6a81a1..8dfd3bc448d0 100644
---- a/drivers/clocksource/Kconfig
-+++ b/drivers/clocksource/Kconfig
-@@ -360,6 +360,16 @@ config ARM64_ERRATUM_858921
- 	  The workaround will be dynamically enabled when an affected
- 	  core is detected.
- 
-+config SUN50I_ERRATUM_UNKNOWN1
-+	bool "Workaround for Allwinner A64 erratum UNKNOWN1"
-+	default y
-+	depends on ARM_ARCH_TIMER && ARM64 && ARCH_SUNXI
-+	select ARM_ARCH_TIMER_OOL_WORKAROUND
-+	help
-+	  This option enables a workaround for instability in the timer on
-+	  the Allwinner A64 SoC. The workaround will only be active if the
-+	  allwinner,erratum-unknown1 property is found in the timer node.
-+
- config ARM_GLOBAL_TIMER
- 	bool "Support for the ARM global timer" if COMPILE_TEST
- 	select TIMER_OF if OF
-diff --git a/drivers/clocksource/arm_arch_timer.c b/drivers/clocksource/arm_arch_timer.c
-index 9a7d4dc00b6e..a8b20b65bd4b 100644
---- a/drivers/clocksource/arm_arch_timer.c
-+++ b/drivers/clocksource/arm_arch_timer.c
-@@ -326,6 +326,48 @@ static u64 notrace arm64_1188873_read_cntvct_el0(void)
- }
- #endif
- 
-+#ifdef CONFIG_SUN50I_ERRATUM_UNKNOWN1
-+/*
-+ * The low bits of the counter registers are indeterminate while bit 10 or
-+ * greater is rolling over. Since the counter value can jump both backward
-+ * (7ff -> 000 -> 800) and forward (7ff -> fff -> 800), ignore register values
-+ * with all ones or all zeros in the low bits. Bound the loop by the maximum
-+ * number of CPU cycles in 3 consecutive 24 MHz counter periods.
-+ */
-+#define __sun50i_a64_read_reg(reg) ({					\
-+	u64 _val;							\
-+	int _retries = 150;						\
-+									\
-+	do {								\
-+		_val = read_sysreg(reg);				\
-+		_retries--;						\
-+	} while (((_val + 1) & GENMASK(9, 0)) <= 1 && _retries);	\
-+									\
-+	WARN_ON_ONCE(!_retries);					\
-+	_val;								\
-+})
-+
-+static u64 notrace sun50i_a64_read_cntpct_el0(void)
-+{
-+	return __sun50i_a64_read_reg(cntpct_el0);
-+}
-+
-+static u64 notrace sun50i_a64_read_cntvct_el0(void)
-+{
-+	return __sun50i_a64_read_reg(cntvct_el0);
-+}
-+
-+static u32 notrace sun50i_a64_read_cntp_tval_el0(void)
-+{
-+	return read_sysreg(cntp_cval_el0) - sun50i_a64_read_cntpct_el0();
-+}
-+
-+static u32 notrace sun50i_a64_read_cntv_tval_el0(void)
-+{
-+	return read_sysreg(cntv_cval_el0) - sun50i_a64_read_cntvct_el0();
-+}
-+#endif
-+
- #ifdef CONFIG_ARM_ARCH_TIMER_OOL_WORKAROUND
- DEFINE_PER_CPU(const struct arch_timer_erratum_workaround *, timer_unstable_counter_workaround);
- EXPORT_SYMBOL_GPL(timer_unstable_counter_workaround);
-@@ -423,6 +465,19 @@ static const struct arch_timer_erratum_workaround ool_workarounds[] = {
- 		.read_cntvct_el0 = arm64_1188873_read_cntvct_el0,
- 	},
- #endif
-+#ifdef CONFIG_SUN50I_ERRATUM_UNKNOWN1
-+	{
-+		.match_type = ate_match_dt,
-+		.id = "allwinner,erratum-unknown1",
-+		.desc = "Allwinner erratum UNKNOWN1",
-+		.read_cntp_tval_el0 = sun50i_a64_read_cntp_tval_el0,
-+		.read_cntv_tval_el0 = sun50i_a64_read_cntv_tval_el0,
-+		.read_cntpct_el0 = sun50i_a64_read_cntpct_el0,
-+		.read_cntvct_el0 = sun50i_a64_read_cntvct_el0,
-+		.set_next_event_phys = erratum_set_next_event_tval_phys,
-+		.set_next_event_virt = erratum_set_next_event_tval_virt,
-+	},
-+#endif
- };
- 
- typedef bool (*ate_match_fn_t)(const struct arch_timer_erratum_workaround *,
--- 
-2.17.1
-
+Applied.
