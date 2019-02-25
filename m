@@ -5,110 +5,117 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C862E7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Feb 2019 05:31:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9E9087D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Feb 2019 08:08:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726270AbfBYFbr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Feb 2019 00:31:47 -0500
-Received: from mga18.intel.com ([134.134.136.126]:28671 "EHLO mga18.intel.com"
+        id S1725900AbfBYII2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Feb 2019 03:08:28 -0500
+Received: from mga02.intel.com ([134.134.136.20]:6109 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726171AbfBYFbr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Feb 2019 00:31:47 -0500
+        id S1725863AbfBYII1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Feb 2019 03:08:27 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Feb 2019 21:31:46 -0800
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Feb 2019 00:08:26 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.58,410,1544515200"; 
-   d="scan'208";a="118805501"
-Received: from likexu-mobl1.ccr.corp.intel.com (HELO [10.239.196.180]) ([10.239.196.180])
-  by orsmga006.jf.intel.com with ESMTP; 24 Feb 2019 21:31:45 -0800
-Subject: Re: [PATCH 03/11] x86 topology: Add CPUID.1F multi-die/package
- support
+   d="scan'208";a="149700532"
+Received: from fmsmsx104.amr.corp.intel.com ([10.18.124.202])
+  by fmsmga001.fm.intel.com with ESMTP; 25 Feb 2019 00:08:25 -0800
+Received: from fmsmsx155.amr.corp.intel.com (10.18.116.71) by
+ fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server (TLS)
+ id 14.3.408.0; Mon, 25 Feb 2019 00:08:25 -0800
+Received: from fmsmsx126.amr.corp.intel.com ([169.254.1.212]) by
+ FMSMSX155.amr.corp.intel.com ([169.254.5.88]) with mapi id 14.03.0415.000;
+ Mon, 25 Feb 2019 00:08:25 -0800
+From:   "Brown, Len" <len.brown@intel.com>
 To:     Brice Goglin <Brice.Goglin@inria.fr>, Len Brown <lenb@kernel.org>,
-        x86@kernel.org
-Cc:     linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>,
-        linux-doc@vger.kernel.org
+        "x86@kernel.org" <x86@kernel.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Like Xu <like.xu@linux.intel.com>
+Subject: RE: [PATCH 03/11] x86 topology: Add CPUID.1F multi-die/package
+ support
+Thread-Topic: [PATCH 03/11] x86 topology: Add CPUID.1F multi-die/package
+ support
+Thread-Index: AQHUzChcVlqtZssCY0GgoMB6HEOS36XwJ88w
+Date:   Mon, 25 Feb 2019 08:08:24 +0000
+Message-ID: <1A7043D5F58CCB44A599DFD55ED4C9485C5BA396@FMSMSX126.amr.corp.intel.com>
 References: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
  <07d2908dc72bf964b27380999e1c826587d69136.1550545163.git.len.brown@intel.com>
  <3ac80787-f282-ce94-77dc-f0e6ea9d4431@inria.fr>
-From:   Like Xu <like.xu@linux.intel.com>
-Organization: Intel OTC
-Message-ID: <415eae36-6421-749d-f28b-31657e124321@linux.intel.com>
-Date:   Mon, 25 Feb 2019 13:31:44 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
-MIME-Version: 1.0
 In-Reply-To: <3ac80787-f282-ce94-77dc-f0e6ea9d4431@inria.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMTYxZmYyNjEtZmE1Ny00YWY0LWE0YjItZGY0NTZjODQyMWQ4IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoibHpVeVpMeVQ5Nzhwa203bkdKamVmQVwvMGFJb0lpOG5YOE1SZzJGcUxPcGZ0UjRySEh3UDlqVEpJRnRUXC85XC9nMSJ9
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.106]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019/2/24 18:04, Brice Goglin wrote:
-> Le 19/02/2019 à 04:40, Len Brown a écrit :
->> diff --git a/arch/x86/kernel/smpboot.c b/arch/x86/kernel/smpboot.c
->> index ccd1f2a8e557..4250a87f57db 100644
->> --- a/arch/x86/kernel/smpboot.c
->> +++ b/arch/x86/kernel/smpboot.c
->> @@ -393,6 +393,7 @@ static bool match_smt(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
->>   		int cpu1 = c->cpu_index, cpu2 = o->cpu_index;
->>   
->>   		if (c->phys_proc_id == o->phys_proc_id &&
->> +		    c->cpu_die_id == o->cpu_die_id &&
->>   		    per_cpu(cpu_llc_id, cpu1) == per_cpu(cpu_llc_id, cpu2)) {
->>   			if (c->cpu_core_id == o->cpu_core_id)
->>   				return topology_sane(c, o, "smt");
->> @@ -404,6 +405,7 @@ static bool match_smt(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
->>   		}
->>   
->>   	} else if (c->phys_proc_id == o->phys_proc_id &&
->> +		   c->cpu_die_id == o->cpu_die_id &&
->>   		   c->cpu_core_id == o->cpu_core_id) {
->>   		return topology_sane(c, o, "smt");
->>   	}
->> @@ -461,7 +463,7 @@ static bool match_llc(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
->>    */
->>   static bool match_die(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
->>   {
->> -	if (c->phys_proc_id == o->phys_proc_id)
->> +	if (c->cpu_die_id == o->cpu_die_id)
->>   		return true;
->>   	return false;
->>   }
-> 
-> Hello Len,
-> 
-> I am testing your patches in a VM with CPUID.1f QEMU patches (author Like Xu is CC'ed),
-> booted to get 2 packages with 1 NUMA node each and 2 dies each:
-> 
-> -smp cpus=16,threads=2,cores=2,dies=2,sockets=2 -numa node,cpus=0-7,nodeid=0 -numa node,cpus=8-15,nodeid=1
-> 
-> sysfs files expose wrong information:
-> core_siblings contains threads of the local die AND of die with same number in other processors,
-> eg cpu 0-3 and 8-11 instead of 0-3 only.
-> 
-> The issue is that you seem to assume that die ids will always be unique across multiple packages.
-
-I don't think the intel MCP topolohgy has this global uniqueness 
-assumption for die_id according to CPUID.1F SDM.
-
-> Is this a valid assumption? If so, QEMU patches should be fixed.
-> If not, I fixed the issue by changing match_die() to check both phys_proc_id and cpu_die_id:
-> 
-> static bool match_die(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
-> {
-> 	if (c->phys_proc_id == o->phys_proc_id && c->cpu_die_id == o->cpu_die_id)
->   		return true;
-> 	return false;
-> }
-> 
-> Thanks
-> Brice
-> 
-> 
-> 
-
+SGkgQnJpY2UsDQoNClllcywgeW91IHJlLWRpc2NvdmVyZWQgdGhlIGJ1ZyB0aGF0IEthbiBMaWFu
+ZyBwb2ludGVkIG91dCBsYXN0IHdlZWsuDQoNCkkgaGF2ZSB1cGRhdGVkIHRoaXMgcGF0Y2ggc2V0
+LCBhbmQgdGhlIGxhdGVzdCBmb3IgdGVzdGluZyBpcyBpbiBteSBnaXQgdHJlZSBvbiBrZXJuZWwu
+b3JnIG9yDQoNCmh0dHBzOi8vZ2l0aHViLmNvbS9sZW5iL2xpbnV4LmdpdCB4ODYNCg0KTm90ZSB0
+aGF0IEkgdG9vayB5b3VyIGFkdmljZSBhbmQgbGVmdCB0aGUgY29yZV9zaWJsaW5ncyB3aXRoIGl0
+cyBvcmlnaW5hbCBkZWZpbml0aW9uLA0KQW5kIGNyZWF0ZWQgcGFja2FnZV90aHJlYWRzIGFzIGEg
+c3lub255bS4gIEkgd2lsbCBlLW1haWwgb3V0IHRoZSBwYXRjaCBzZXQgYWdhaW4NCldoZW4gSSBk
+byAyIG1vcmUgdGhpbmdzOg0KDQoxLiBhZGQgY29yZV90aHJlYWRzIG1hcCB0byBzeXNmcw0KMi4g
+cmVwbGFjZSB1bmlxdWVfZGllX2lkIHdpdGggbG9naWNhbF9kaWVfaWQgLS0gdHVybnMgb3V0IGl0
+IGlzIHVzZWZ1bCBmb3Igc2FtZSByZWFzb24gYXMgbG9naWNhbF9wYWNrYWdlX2lkLg0KDQpUaGFu
+a3MsDQotTGVuDQoNCg0KDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBCcmlj
+ZSBHb2dsaW4gW21haWx0bzpCcmljZS5Hb2dsaW5AaW5yaWEuZnJdIA0KU2VudDogU3VuZGF5LCBG
+ZWJydWFyeSAyNCwgMjAxOSA1OjA0IEFNDQpUbzogTGVuIEJyb3duIDxsZW5iQGtlcm5lbC5vcmc+
+OyB4ODZAa2VybmVsLm9yZw0KQ2M6IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IEJyb3du
+LCBMZW4gPGxlbi5icm93bkBpbnRlbC5jb20+OyBsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnOyBM
+aWtlIFh1IDxsaWtlLnh1QGxpbnV4LmludGVsLmNvbT4NClN1YmplY3Q6IFJlOiBbUEFUQ0ggMDMv
+MTFdIHg4NiB0b3BvbG9neTogQWRkIENQVUlELjFGIG11bHRpLWRpZS9wYWNrYWdlIHN1cHBvcnQN
+Cg0KTGUgMTkvMDIvMjAxOSDDoCAwNDo0MCwgTGVuIEJyb3duIGEgw6ljcml0wqA6DQo+IGRpZmYg
+LS1naXQgYS9hcmNoL3g4Ni9rZXJuZWwvc21wYm9vdC5jIGIvYXJjaC94ODYva2VybmVsL3NtcGJv
+b3QuYyANCj4gaW5kZXggY2NkMWYyYThlNTU3Li40MjUwYTg3ZjU3ZGIgMTAwNjQ0DQo+IC0tLSBh
+L2FyY2gveDg2L2tlcm5lbC9zbXBib290LmMNCj4gKysrIGIvYXJjaC94ODYva2VybmVsL3NtcGJv
+b3QuYw0KPiBAQCAtMzkzLDYgKzM5Myw3IEBAIHN0YXRpYyBib29sIG1hdGNoX3NtdChzdHJ1Y3Qg
+Y3B1aW5mb194ODYgKmMsIHN0cnVjdCBjcHVpbmZvX3g4NiAqbykNCj4gIAkJaW50IGNwdTEgPSBj
+LT5jcHVfaW5kZXgsIGNwdTIgPSBvLT5jcHVfaW5kZXg7DQo+ICANCj4gIAkJaWYgKGMtPnBoeXNf
+cHJvY19pZCA9PSBvLT5waHlzX3Byb2NfaWQgJiYNCj4gKwkJICAgIGMtPmNwdV9kaWVfaWQgPT0g
+by0+Y3B1X2RpZV9pZCAmJg0KPiAgCQkgICAgcGVyX2NwdShjcHVfbGxjX2lkLCBjcHUxKSA9PSBw
+ZXJfY3B1KGNwdV9sbGNfaWQsIGNwdTIpKSB7DQo+ICAJCQlpZiAoYy0+Y3B1X2NvcmVfaWQgPT0g
+by0+Y3B1X2NvcmVfaWQpDQo+ICAJCQkJcmV0dXJuIHRvcG9sb2d5X3NhbmUoYywgbywgInNtdCIp
+OyBAQCAtNDA0LDYgKzQwNSw3IEBAIHN0YXRpYyANCj4gYm9vbCBtYXRjaF9zbXQoc3RydWN0IGNw
+dWluZm9feDg2ICpjLCBzdHJ1Y3QgY3B1aW5mb194ODYgKm8pDQo+ICAJCX0NCj4gIA0KPiAgCX0g
+ZWxzZSBpZiAoYy0+cGh5c19wcm9jX2lkID09IG8tPnBoeXNfcHJvY19pZCAmJg0KPiArCQkgICBj
+LT5jcHVfZGllX2lkID09IG8tPmNwdV9kaWVfaWQgJiYNCj4gIAkJICAgYy0+Y3B1X2NvcmVfaWQg
+PT0gby0+Y3B1X2NvcmVfaWQpIHsNCj4gIAkJcmV0dXJuIHRvcG9sb2d5X3NhbmUoYywgbywgInNt
+dCIpOw0KPiAgCX0NCj4gQEAgLTQ2MSw3ICs0NjMsNyBAQCBzdGF0aWMgYm9vbCBtYXRjaF9sbGMo
+c3RydWN0IGNwdWluZm9feDg2ICpjLCBzdHJ1Y3QgY3B1aW5mb194ODYgKm8pDQo+ICAgKi8NCj4g
+IHN0YXRpYyBib29sIG1hdGNoX2RpZShzdHJ1Y3QgY3B1aW5mb194ODYgKmMsIHN0cnVjdCBjcHVp
+bmZvX3g4NiAqbykgIA0KPiB7DQo+IC0JaWYgKGMtPnBoeXNfcHJvY19pZCA9PSBvLT5waHlzX3By
+b2NfaWQpDQo+ICsJaWYgKGMtPmNwdV9kaWVfaWQgPT0gby0+Y3B1X2RpZV9pZCkNCj4gIAkJcmV0
+dXJuIHRydWU7DQo+ICAJcmV0dXJuIGZhbHNlOw0KPiAgfQ0KDQpIZWxsbyBMZW4sDQoNCkkgYW0g
+dGVzdGluZyB5b3VyIHBhdGNoZXMgaW4gYSBWTSB3aXRoIENQVUlELjFmIFFFTVUgcGF0Y2hlcyAo
+YXV0aG9yIExpa2UgWHUgaXMgQ0MnZWQpLCBib290ZWQgdG8gZ2V0IDIgcGFja2FnZXMgd2l0aCAx
+IE5VTUEgbm9kZSBlYWNoIGFuZCAyIGRpZXMgZWFjaDoNCg0KLXNtcCBjcHVzPTE2LHRocmVhZHM9
+Mixjb3Jlcz0yLGRpZXM9Mixzb2NrZXRzPTIgLW51bWEgbm9kZSxjcHVzPTAtNyxub2RlaWQ9MCAt
+bnVtYSBub2RlLGNwdXM9OC0xNSxub2RlaWQ9MQ0KDQpzeXNmcyBmaWxlcyBleHBvc2Ugd3Jvbmcg
+aW5mb3JtYXRpb246DQpjb3JlX3NpYmxpbmdzIGNvbnRhaW5zIHRocmVhZHMgb2YgdGhlIGxvY2Fs
+IGRpZSBBTkQgb2YgZGllIHdpdGggc2FtZSBudW1iZXIgaW4gb3RoZXIgcHJvY2Vzc29ycywgZWcg
+Y3B1IDAtMyBhbmQgOC0xMSBpbnN0ZWFkIG9mIDAtMyBvbmx5Lg0KDQpUaGUgaXNzdWUgaXMgdGhh
+dCB5b3Ugc2VlbSB0byBhc3N1bWUgdGhhdCBkaWUgaWRzIHdpbGwgYWx3YXlzIGJlIHVuaXF1ZSBh
+Y3Jvc3MgbXVsdGlwbGUgcGFja2FnZXMuDQpJcyB0aGlzIGEgdmFsaWQgYXNzdW1wdGlvbj8gSWYg
+c28sIFFFTVUgcGF0Y2hlcyBzaG91bGQgYmUgZml4ZWQuDQpJZiBub3QsIEkgZml4ZWQgdGhlIGlz
+c3VlIGJ5IGNoYW5naW5nIG1hdGNoX2RpZSgpIHRvIGNoZWNrIGJvdGggcGh5c19wcm9jX2lkIGFu
+ZCBjcHVfZGllX2lkOg0KDQpzdGF0aWMgYm9vbCBtYXRjaF9kaWUoc3RydWN0IGNwdWluZm9feDg2
+ICpjLCBzdHJ1Y3QgY3B1aW5mb194ODYgKm8pIHsNCglpZiAoYy0+cGh5c19wcm9jX2lkID09IG8t
+PnBoeXNfcHJvY19pZCAmJiBjLT5jcHVfZGllX2lkID09IG8tPmNwdV9kaWVfaWQpDQogCQlyZXR1
+cm4gdHJ1ZTsNCglyZXR1cm4gZmFsc2U7DQp9DQoNClRoYW5rcw0KQnJpY2UNCg0KDQo=
