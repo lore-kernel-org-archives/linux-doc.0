@@ -1,155 +1,141 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5BFA87D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Feb 2019 18:26:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CF2E47D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Feb 2019 20:23:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728885AbfBYS0n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Feb 2019 13:26:43 -0500
-Received: from ms.lwn.net ([45.79.88.28]:42578 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725936AbfBYS0m (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Feb 2019 13:26:42 -0500
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BDDAB304;
-        Mon, 25 Feb 2019 18:26:41 +0000 (UTC)
-Date:   Mon, 25 Feb 2019 11:26:40 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Zenghui Yu <zenghuiyu96@gmail.com>
-Cc:     gregkh@linuxfoundation.org, akpm@linux-foundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation/process/howto: Update for 4.x -> 5.x
- versioning
-Message-ID: <20190225112640.50d6a2c5@lwn.net>
-In-Reply-To: <1551023123-5031-1-git-send-email-zenghuiyu96@gmail.com>
-References: <1551023123-5031-1-git-send-email-zenghuiyu96@gmail.com>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727060AbfBYUXz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Feb 2019 15:23:55 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:44918 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727021AbfBYUXz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Feb 2019 15:23:55 -0500
+Received: by mail-lj1-f194.google.com with SMTP id q128so8611166ljb.11;
+        Mon, 25 Feb 2019 12:23:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/ZZbDJ03fuvRTtOjkU1SQSqYPNvtWoI29SVzP7AwhVw=;
+        b=cxep7No9mmfbbUWbJ830/O89fa1vM6POERPWIScRoV/bm3G1C4eFXcPeaX/RPe/A5q
+         3n+jY0nYXVRIO7dbNl+EUx0Nyd9sPiUzbLZ4p76gddMqi04i5PGDgxJakRbSgI4a7X7N
+         V+iE1cOEBbuug1GNztE6gZ3GBUL1UU8yRCux8U1cOEJ999wT6lqUSzXngliRtSy4+Qdx
+         OQlIezOZzkuANgGvHjSRdS46St+D4oORt0DJbvMANCJ2LtY2OCpcvv6BbrlORLSmBEis
+         +JHRuKw5IV8MMZKevhBErSv0m8julpNU6z4rRxrWOEboSvAFnokE3XWWxAnbfwxKbUL/
+         IsFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/ZZbDJ03fuvRTtOjkU1SQSqYPNvtWoI29SVzP7AwhVw=;
+        b=kKZnTWAeWcAV4Z95KvOHoH3jtfKjyVP3ioAxNaEJLDzA5VEmGkRQ74Kz9zb1LuqVMq
+         PTtbJNR3JxtE7/88+lXHQAMHU5usORq9x8neRWOlagcZfDO7SnjBTkh4whDWlFpH1XmD
+         1P8u5S4wp/Y3Gft7pQ+X+b2k6kot2F2Kwbfz9KC3FwO5Fwjyeoth5JoVB9QQjYd7Z7eM
+         8TN2VKoarT1Ak1flUN8YAwXiZHFeZLHc0rHzvVL/LKDCyreuaZCm7vkhAIohUCZhPWUl
+         nQPu6ZvH2+QSfH/sxkOoACCNgKgtH6Bi/UyvKN4dLA72oshAjMrCBUdmhKSQm43UbTbx
+         NB+w==
+X-Gm-Message-State: AHQUAuYfrb0UkUht9+Okeb2uBfAyAte3vZmTJK7jPNKNhjFgn0F2coWw
+        oES3B4ezitDl3c1ig3JsYsHL5RTfyZw=
+X-Google-Smtp-Source: AHgI3IZJWz8/WgB7k1CGtY680C4WP4CPq/iUOd/tOpkEM/W4UnL6NEYrM1weRbzlr16/Oal+PpkVlQ==
+X-Received: by 2002:a2e:5357:: with SMTP id t23mr10953668ljd.8.1551126232172;
+        Mon, 25 Feb 2019 12:23:52 -0800 (PST)
+Received: from arch.domain.name (89-70-37-207.dynamic.chello.pl. [89.70.37.207])
+        by smtp.gmail.com with ESMTPSA id 5sm2449485ljf.86.2019.02.25.12.23.50
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 25 Feb 2019 12:23:51 -0800 (PST)
+From:   Tomasz Duszynski <tduszyns@gmail.com>
+To:     linux-iio@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net, Tomasz Duszynski <tduszyns@gmail.com>
+Subject: [PATCH] docs: driver-api: iio: fix errors in documentation
+Date:   Mon, 25 Feb 2019 21:23:26 +0100
+Message-Id: <20190225202326.17178-1-tduszyns@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 24 Feb 2019 23:45:23 +0800
-Zenghui Yu <zenghuiyu96@gmail.com> wrote:
+Improve IIO documentation by fixing a few mistakes.
 
-> As linux-5.0 is coming up soon, the howto.rst document can be
-> updated for the new kernel version. Change all 4.x references
-> to 5.x now.
-> 
-> Signed-off-by: Zenghui Yu <zenghuiyu96@gmail.com>
+Signed-off-by: Tomasz Duszynski <tduszyns@gmail.com>
+---
+ Documentation/driver-api/iio/buffers.rst     | 2 +-
+ Documentation/driver-api/iio/core.rst        | 6 +++---
+ Documentation/driver-api/iio/hw-consumer.rst | 2 +-
+ Documentation/driver-api/iio/triggers.rst    | 2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
-Overall: I think there's value in having the docs reflect current
-numbers, though it would be better if the docs as a whole were kept
-current at the same time.  howto.rst hasn't been updated yet, so this
-attention is welcome - thanks for taking a look at it.  That said, I
-really think we can do a little better.
+diff --git a/Documentation/driver-api/iio/buffers.rst b/Documentation/driver-api/iio/buffers.rst
+index 02c99a6bee18..e9036ef9f8f4 100644
+--- a/Documentation/driver-api/iio/buffers.rst
++++ b/Documentation/driver-api/iio/buffers.rst
+@@ -26,7 +26,7 @@ IIO buffer setup
+ ================
 
->  Documentation/process/howto.rst | 24 ++++++++++++------------
->  1 file changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
-> index f16242b..19001e2 100644
-> --- a/Documentation/process/howto.rst
-> +++ b/Documentation/process/howto.rst
-> @@ -235,16 +235,16 @@ Linux kernel development process currently consists of a few different
->  main kernel "branches" and lots of different subsystem-specific kernel
->  branches.  These different branches are:
->  
-> -  - main 4.x kernel tree
-> -  - 4.x.y -stable kernel tree
-> +  - main 5.x kernel tree
-> +  - 5.x.y -stable kernel tree
->    - subsystem specific kernel trees and patches
-> -  - the 4.x -next kernel tree for integration tests
-> +  - the 5.x -next kernel tree for integration tests
+ The meta information associated with a channel reading placed in a buffer is
+-called a scan element . The important bits configuring scan elements are
++called a scan element. The important bits configuring scan elements are
+ exposed to userspace applications via the
+ :file:`/sys/bus/iio/iio:device{X}/scan_elements/*` directory. This file contains
+ attributes of the following form:
+diff --git a/Documentation/driver-api/iio/core.rst b/Documentation/driver-api/iio/core.rst
+index 9a34ae03b679..54f193edbf8b 100644
+--- a/Documentation/driver-api/iio/core.rst
++++ b/Documentation/driver-api/iio/core.rst
+@@ -2,8 +2,8 @@
+ Core elements
+ =============
 
-One thing I think we can do is to simply get rid of version numbers in a
-lot of places and make this process easier when 6.x comes around.  What
-this is really trying to say is that we have:
+-The Industrial I/O core offers a unified framework for writing drivers for
+-many different types of embedded sensors. a standard interface to user space
++The Industrial I/O core offers both a unified framework for writing drivers for
++many different types of embedded sensors and a standard interface to user space
+ applications manipulating sensors. The implementation can be found under
+ :file:`drivers/iio/industrialio-*`
 
- - Linus's mainline tree
- - Various stable trees with multiple major numbers
- - Subsystem-specific trees
- - linux-next
+@@ -11,7 +11,7 @@ Industrial I/O Devices
+ ----------------------
 
-If we could rework this along those lines, it will more accurately
-reflect reality and not require updating next time.
+ * struct :c:type:`iio_dev` - industrial I/O device
+-* :c:func:`iio_device_alloc()` - alocate an :c:type:`iio_dev` from a driver
++* :c:func:`iio_device_alloc()` - allocate an :c:type:`iio_dev` from a driver
+ * :c:func:`iio_device_free()` - free an :c:type:`iio_dev` from a driver
+ * :c:func:`iio_device_register()` - register a device with the IIO subsystem
+ * :c:func:`iio_device_unregister()` - unregister a device from the IIO
+diff --git a/Documentation/driver-api/iio/hw-consumer.rst b/Documentation/driver-api/iio/hw-consumer.rst
+index 8facce6a6733..e0fe0b98230e 100644
+--- a/Documentation/driver-api/iio/hw-consumer.rst
++++ b/Documentation/driver-api/iio/hw-consumer.rst
+@@ -1,7 +1,7 @@
+ ===========
+ HW consumer
+ ===========
+-An IIO device can be directly connected to another device in hardware. in this
++An IIO device can be directly connected to another device in hardware. In this
+ case the buffers between IIO provider and IIO consumer are handled by hardware.
+ The Industrial I/O HW consumer offers a way to bond these IIO devices without
+ software buffer for data. The implementation can be found under
+diff --git a/Documentation/driver-api/iio/triggers.rst b/Documentation/driver-api/iio/triggers.rst
+index f89d37e7dd82..5c2156de6284 100644
+--- a/Documentation/driver-api/iio/triggers.rst
++++ b/Documentation/driver-api/iio/triggers.rst
+@@ -38,7 +38,7 @@ There are two locations in sysfs related to triggers:
 
-> -4.x kernel tree
-> +5.x kernel tree
->  ~~~~~~~~~~~~~~~
->  
-> -4.x kernels are maintained by Linus Torvalds, and can be found on
-> -https://kernel.org in the pub/linux/kernel/v4.x/ directory.  Its development
-> +5.x kernels are maintained by Linus Torvalds, and can be found on
-> +https://kernel.org in the pub/linux/kernel/v5.x/ directory.  Its development
->  process is as follows:
+ * :file:`/sys/bus/iio/devices/iio:device{X}/trigger/*`, this directory is
+   created once the device supports a triggered buffer. We can associate a
+-  trigger with our  device by writing the trigger's name in the
++  trigger with our device by writing the trigger's name in the
+   :file:`current_trigger` file.
 
-And here too I think we can just say "mainline" and that they can be
-found at https://kernel.org/ or in the repo.
+ IIO trigger setup
+--
+2.20.1
 
->    - As soon as a new kernel is released a two weeks window is open,
-> @@ -277,21 +277,21 @@ mailing list about kernel releases:
->  	released according to perceived bug status, not according to a
->  	preconceived timeline."*
->  
-> -4.x.y -stable kernel tree
-> +5.x.y -stable kernel tree
->  ~~~~~~~~~~~~~~~~~~~~~~~~~
->  
->  Kernels with 3-part versions are -stable kernels. They contain
->  relatively small and critical fixes for security problems or significant
-> -regressions discovered in a given 4.x kernel.
-> +regressions discovered in a given 5.x kernel.
-
-Here too, especially since most of the outstanding stable kernels won't
-be 5.x for a long time.
-
->  This is the recommended branch for users who want the most recent stable
->  kernel and are not interested in helping test development/experimental
->  versions.
->  
-> -If no 4.x.y kernel is available, then the highest numbered 4.x
-> +If no 5.x.y kernel is available, then the highest numbered 5.x
->  kernel is the current stable kernel.
-
-...and this, I believe, is misleading at best.  I'd just take that
-sentence out.
-
-> -4.x.y are maintained by the "stable" team <stable@vger.kernel.org>, and
-> +5.x.y are maintained by the "stable" team <stable@vger.kernel.org>, and
->  are released as needs dictate.  The normal release period is approximately
->  two weeks, but it can be longer if there are no pressing problems.  A
->  security-related problem, instead, can cause a release to happen almost
-> @@ -326,10 +326,10 @@ revisions to it, and maintainers can mark patches as under review,
->  accepted, or rejected.  Most of these patchwork sites are listed at
->  https://patchwork.kernel.org/.
->  
-> -4.x -next kernel tree for integration tests
-> +5.x -next kernel tree for integration tests
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  
-> -Before updates from subsystem trees are merged into the mainline 4.x
-> +Before updates from subsystem trees are merged into the mainline 5.x
->  tree, they need to be integration-tested.  For this purpose, a special
->  testing repository exists into which virtually all subsystem trees are
->  pulled on an almost daily basis:
-
-linux-next is called "linux-next"; we should just use that name.
-
-So what do you think?  Can we maybe get a version that removes most (or
-all) of the explicit version numbers from this file?
-
-Thanks,
-
-jon
