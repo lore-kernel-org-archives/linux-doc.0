@@ -1,78 +1,155 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5045F7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Feb 2019 18:05:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5BFA87D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Feb 2019 18:26:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728755AbfBYSFi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Feb 2019 13:05:38 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60162 "EHLO mail.kernel.org"
+        id S1728885AbfBYS0n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Feb 2019 13:26:43 -0500
+Received: from ms.lwn.net ([45.79.88.28]:42578 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725936AbfBYSFi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Feb 2019 13:05:38 -0500
-Received: from localhost (unknown [104.132.1.66])
+        id S1725936AbfBYS0m (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Feb 2019 13:26:42 -0500
+Received: from localhost.localdomain (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 700752084D;
-        Mon, 25 Feb 2019 18:05:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1551117937;
-        bh=k+vmLvK+0++f+kWKz3J36/Su8BnPxbv98PYo9fdA//U=;
-        h=In-Reply-To:References:Cc:From:To:Subject:Date:From;
-        b=XEU0juzihUj+xbQI6HAb0psTj7MEGhhpLFsIm4PQqlNqgEvA5FB/66LXvcRarxYpV
-         MQ8WFsw4g+qFVHPtKinjMWP8lN0l1sT3X5ryuLike/di4PQb1qRfh8J6unwnigB5FK
-         xmHQtoikSDkwRAulbsRTv3lyCxnuZULWCgHQHQP4=
-Content-Type: text/plain; charset="utf-8"
+        by ms.lwn.net (Postfix) with ESMTPSA id BDDAB304;
+        Mon, 25 Feb 2019 18:26:41 +0000 (UTC)
+Date:   Mon, 25 Feb 2019 11:26:40 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Zenghui Yu <zenghuiyu96@gmail.com>
+Cc:     gregkh@linuxfoundation.org, akpm@linux-foundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation/process/howto: Update for 4.x -> 5.x
+ versioning
+Message-ID: <20190225112640.50d6a2c5@lwn.net>
+In-Reply-To: <1551023123-5031-1-git-send-email-zenghuiyu96@gmail.com>
+References: <1551023123-5031-1-git-send-email-zenghuiyu96@gmail.com>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <1550891845.20534.1@crapouillou.net>
-User-Agent: alot/0.8
-References: <20181212220922.18759-1-paul@crapouillou.net> <CA+7wUsxNN2SL9_7tDh0DiBAgdUwxd_osgmi=09HP7110Tm0DYQ@mail.gmail.com> <128675a5-7ede-4114-a649-89a536346dc8@roeck-us.net> <1548264353.3173.1@crapouillou.net> <20190123180155.GB9781@roeck-us.net> <154835808767.136743.14531363127962557756@swboyd.mtv.corp.google.com> <1548362788.3881.0@crapouillou.net> <154836998080.136743.17683029101430122926@swboyd.mtv.corp.google.com> <1548370388.3881.2@crapouillou.net> <1550891845.20534.1@crapouillou.net>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Mathieu Malaterre <malat@debian.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ezequiel Garcia <ezequiel@collabora.co.uk>,
-        PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>,
-        linux-pwm@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        linux-watchdog@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org, od@zcrc.me,
-        Maarten ter Huurne <maarten@treewalker.org>
-From:   Stephen Boyd <sboyd@kernel.org>
-To:     Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v8 05/26] clocksource: Add driver for the Ingenic JZ47xx OST
-Message-ID: <155111793658.191923.2540746255375959460@swboyd.mtv.corp.google.com>
-Date:   Mon, 25 Feb 2019 10:05:36 -0800
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Paul Cercueil (2019-02-22 19:17:25)
-> Hi,
->=20
-> Anything new on this? It still happens on 5.0-rc7.
-> It probes with late_initcall, and not with device_initcall.
-> I have no clue what's going on.
->=20
+On Sun, 24 Feb 2019 23:45:23 +0800
+Zenghui Yu <zenghuiyu96@gmail.com> wrote:
 
-I'm not sure what's going on either. You'll probably have to debug when
-the device is created and when it is probed by enabling the debug
-printing in the driver core or by adding in extra debug prints to narrow
-down the problem. For example, add a '#define DEBUG 1' at the top of
-drivers/base/dd.c and see if that helps give some info on what's going
-on with the drivers and devices.
+> As linux-5.0 is coming up soon, the howto.rst document can be
+> updated for the new kernel version. Change all 4.x references
+> to 5.x now.
+> 
+> Signed-off-by: Zenghui Yu <zenghuiyu96@gmail.com>
 
+Overall: I think there's value in having the docs reflect current
+numbers, though it would be better if the docs as a whole were kept
+current at the same time.  howto.rst hasn't been updated yet, so this
+attention is welcome - thanks for taking a look at it.  That said, I
+really think we can do a little better.
+
+>  Documentation/process/howto.rst | 24 ++++++++++++------------
+>  1 file changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+> index f16242b..19001e2 100644
+> --- a/Documentation/process/howto.rst
+> +++ b/Documentation/process/howto.rst
+> @@ -235,16 +235,16 @@ Linux kernel development process currently consists of a few different
+>  main kernel "branches" and lots of different subsystem-specific kernel
+>  branches.  These different branches are:
+>  
+> -  - main 4.x kernel tree
+> -  - 4.x.y -stable kernel tree
+> +  - main 5.x kernel tree
+> +  - 5.x.y -stable kernel tree
+>    - subsystem specific kernel trees and patches
+> -  - the 4.x -next kernel tree for integration tests
+> +  - the 5.x -next kernel tree for integration tests
+
+One thing I think we can do is to simply get rid of version numbers in a
+lot of places and make this process easier when 6.x comes around.  What
+this is really trying to say is that we have:
+
+ - Linus's mainline tree
+ - Various stable trees with multiple major numbers
+ - Subsystem-specific trees
+ - linux-next
+
+If we could rework this along those lines, it will more accurately
+reflect reality and not require updating next time.
+
+> -4.x kernel tree
+> +5.x kernel tree
+>  ~~~~~~~~~~~~~~~
+>  
+> -4.x kernels are maintained by Linus Torvalds, and can be found on
+> -https://kernel.org in the pub/linux/kernel/v4.x/ directory.  Its development
+> +5.x kernels are maintained by Linus Torvalds, and can be found on
+> +https://kernel.org in the pub/linux/kernel/v5.x/ directory.  Its development
+>  process is as follows:
+
+And here too I think we can just say "mainline" and that they can be
+found at https://kernel.org/ or in the repo.
+
+>    - As soon as a new kernel is released a two weeks window is open,
+> @@ -277,21 +277,21 @@ mailing list about kernel releases:
+>  	released according to perceived bug status, not according to a
+>  	preconceived timeline."*
+>  
+> -4.x.y -stable kernel tree
+> +5.x.y -stable kernel tree
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~
+>  
+>  Kernels with 3-part versions are -stable kernels. They contain
+>  relatively small and critical fixes for security problems or significant
+> -regressions discovered in a given 4.x kernel.
+> +regressions discovered in a given 5.x kernel.
+
+Here too, especially since most of the outstanding stable kernels won't
+be 5.x for a long time.
+
+>  This is the recommended branch for users who want the most recent stable
+>  kernel and are not interested in helping test development/experimental
+>  versions.
+>  
+> -If no 4.x.y kernel is available, then the highest numbered 4.x
+> +If no 5.x.y kernel is available, then the highest numbered 5.x
+>  kernel is the current stable kernel.
+
+...and this, I believe, is misleading at best.  I'd just take that
+sentence out.
+
+> -4.x.y are maintained by the "stable" team <stable@vger.kernel.org>, and
+> +5.x.y are maintained by the "stable" team <stable@vger.kernel.org>, and
+>  are released as needs dictate.  The normal release period is approximately
+>  two weeks, but it can be longer if there are no pressing problems.  A
+>  security-related problem, instead, can cause a release to happen almost
+> @@ -326,10 +326,10 @@ revisions to it, and maintainers can mark patches as under review,
+>  accepted, or rejected.  Most of these patchwork sites are listed at
+>  https://patchwork.kernel.org/.
+>  
+> -4.x -next kernel tree for integration tests
+> +5.x -next kernel tree for integration tests
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>  
+> -Before updates from subsystem trees are merged into the mainline 4.x
+> +Before updates from subsystem trees are merged into the mainline 5.x
+>  tree, they need to be integration-tested.  For this purpose, a special
+>  testing repository exists into which virtually all subsystem trees are
+>  pulled on an almost daily basis:
+
+linux-next is called "linux-next"; we should just use that name.
+
+So what do you think?  Can we maybe get a version that removes most (or
+all) of the explicit version numbers from this file?
+
+Thanks,
+
+jon
