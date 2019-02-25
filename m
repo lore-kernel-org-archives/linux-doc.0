@@ -1,29 +1,36 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CC9D07D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Feb 2019 16:57:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 07E877D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Feb 2019 18:03:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728298AbfBYQ53 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Feb 2019 11:57:29 -0500
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:35036 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728076AbfBYQ53 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Feb 2019 11:57:29 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 896D180D;
-        Mon, 25 Feb 2019 08:57:28 -0800 (PST)
-Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8F15B3F703;
-        Mon, 25 Feb 2019 08:57:23 -0800 (PST)
-Date:   Mon, 25 Feb 2019 16:57:21 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Cc:     Evgenii Stepanov <eugenis@google.com>, nd <nd@arm.com>,
+        id S1727709AbfBYSDB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Feb 2019 13:03:01 -0500
+Received: from mail-eopbgr150075.outbound.protection.outlook.com ([40.107.15.75]:24689
+        "EHLO EUR01-DB5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726225AbfBYSDB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Feb 2019 13:03:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector1-arm-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZVQNAfInftjEKQdTVIgTyS8KZ8vMtQLsmwmdsQqTnUs=;
+ b=qwySljr2JLUM1To822DuvPb+GGxsMOxL9U0s00GYzpPGwPJiYh2gHT3W0KOhvpr/WoO+qVw69gXSAnTWnhhApFRLc5M0Y0+5Tv12+cIkeaah//xjHmWClpXPf5EotXN8NOdIvlCajTW1ptVFCbPJxqCSHHYcATKq5mYlu5uvTnE=
+Received: from VI1PR08MB4223.eurprd08.prod.outlook.com (20.178.13.96) by
+ VI1PR08MB3088.eurprd08.prod.outlook.com (52.133.15.17) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1643.14; Mon, 25 Feb 2019 18:02:51 +0000
+Received: from VI1PR08MB4223.eurprd08.prod.outlook.com
+ ([fe80::896c:c125:b2a3:2f52]) by VI1PR08MB4223.eurprd08.prod.outlook.com
+ ([fe80::896c:c125:b2a3:2f52%6]) with mapi id 15.20.1643.019; Mon, 25 Feb 2019
+ 18:02:51 +0000
+From:   Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+To:     Catalin Marinas <Catalin.Marinas@arm.com>
+CC:     nd <nd@arm.com>, Evgenii Stepanov <eugenis@google.com>,
         Kevin Brodsky <Kevin.Brodsky@arm.com>,
         Dave P Martin <Dave.Martin@arm.com>,
         Mark Rutland <Mark.Rutland@arm.com>,
@@ -54,7 +61,10 @@ Cc:     Evgenii Stepanov <eugenis@google.com>, nd <nd@arm.com>,
         Robin Murphy <Robin.Murphy@arm.com>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
 Subject: Re: [RFC][PATCH 0/3] arm64 relaxed ABI
-Message-ID: <20190225165720.GA79300@arrakis.emea.arm.com>
+Thread-Topic: [RFC][PATCH 0/3] arm64 relaxed ABI
+Thread-Index: AQHUyFD8LSHMwEYo7kaikjJNt8xTtqXnc/kAgAlRvYCAABJJAA==
+Date:   Mon, 25 Feb 2019 18:02:50 +0000
+Message-ID: <7afa18b8-f135-036d-943c-b6216e7da481@arm.com>
 References: <20181210143044.12714-1-vincenzo.frascino@arm.com>
  <CAAeHK+xPZ-Z9YUAq=3+hbjj4uyJk32qVaxZkhcSAHYC4mHAkvQ@mail.gmail.com>
  <20181212150230.GH65138@arrakis.emea.arm.com>
@@ -65,103 +75,129 @@ References: <20181210143044.12714-1-vincenzo.frascino@arm.com>
  <CAFKCwrhH5R3e5ntX0t-gxcE6zzbCNm06pzeFfYEN2K13c5WLTg@mail.gmail.com>
  <20190212180223.GD199333@arrakis.emea.arm.com>
  <ac8f4e3b-84b8-6067-6a7a-fac7dc48daea@arm.com>
+ <20190225165720.GA79300@arrakis.emea.arm.com>
+In-Reply-To: <20190225165720.GA79300@arrakis.emea.arm.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
+x-originating-ip: [217.140.106.51]
+x-clientproxiedby: LO2P265CA0362.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a3::14) To VI1PR08MB4223.eurprd08.prod.outlook.com
+ (2603:10a6:803:b5::32)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Szabolcs.Nagy@arm.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: eb85d342-77cb-4df6-4dab-08d69b4b74ee
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600110)(711020)(4605104)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7153060)(7193020);SRVR:VI1PR08MB3088;
+x-ms-traffictypediagnostic: VI1PR08MB3088:
+nodisclaimer: True
+x-microsoft-exchange-diagnostics: 1;VI1PR08MB3088;20:yrrnYBcp1F1tDfbY9DStaCTmCCp6zvFBmtTxtKRPIlMNTNJHp0tbQw3hytMUKmbW2rNC7iwqFReQnBVFJT9BErOv75UHU2FXTVAEQPH/6ggtvbMGbIRzrR29IArW6rOIypAw6VIZo5fHyXRHGdVVqQHf121+FBxcgNHgbvNmBsE=
+x-microsoft-antispam-prvs: <VI1PR08MB3088F036F706BCB18FCA38BAED7A0@VI1PR08MB3088.eurprd08.prod.outlook.com>
+x-forefront-prvs: 095972DF2F
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(396003)(376002)(136003)(366004)(346002)(199004)(189003)(65826007)(86362001)(99286004)(93886005)(6512007)(6862004)(478600001)(386003)(71190400001)(71200400001)(6506007)(37006003)(65956001)(54906003)(14444005)(256004)(53546011)(31696002)(305945005)(8936002)(65806001)(66066001)(68736007)(53936002)(5660300002)(7736002)(6246003)(44832011)(81166006)(476003)(2616005)(486006)(81156014)(11346002)(446003)(8676002)(26005)(106356001)(3846002)(6486002)(6436002)(4326008)(14454004)(6116002)(97736004)(102836004)(76176011)(316002)(36756003)(52116002)(58126008)(229853002)(7416002)(64126003)(25786009)(6636002)(31686004)(105586002)(72206003)(2906002)(186003);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR08MB3088;H:VI1PR08MB4223.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: arm.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: NW+5VgZcT8Krza092sQKHPkVSFrh5m+AWwqIzbaFCm1qZ7945lZq7Ao/IarsyF1eMosvpDOaQK8VxyLJL57ge9vPBj4/ZD4t/fxQbMNw4JNocR+4RK1Qw3iRKKP98e2n6KuKnb13sZuv2VGKu4AUUIemjtqCACZ8jATjl3pkQZxkFz5yg3BWtz+xtNEIE2xMmyEVTgAHnzRahrPyNBdlpuBWvP5e83a0GBhaMcF/Yt3qVA+sOEIkSpiR9lSSLmfec0N5Va0IK58cxTtOUPuleLXzLKtK2tBgUEKTAmFvC7F6wQtBRuVe+nbzo9nyGd/tGP9BnSgMUVSDHKSra9T7eg+LJo+uOFvu9DybXxF83iqvC3qq6ih0CYR78aS5YBcpM3KdTsM0AJJTiWT0e0fP+N9Zdk1QPmDpRnFWDcpAUKQ=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <63E1CE8D940678418B16F5E6DCE4B04A@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ac8f4e3b-84b8-6067-6a7a-fac7dc48daea@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb85d342-77cb-4df6-4dab-08d69b4b74ee
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Feb 2019 18:02:49.1159
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3088
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Szabolcs,
-
-Thanks for looking into this. Comments below.
-
-On Tue, Feb 19, 2019 at 06:38:31PM +0000, Szabolcs Nagy wrote:
-> i think these rules work for the cases i care about, a more
-> tricky question is when/how to check for the new syscall abi
-> and when/how the TCR_EL1.TBI0 setting may be turned off.
-
-I don't think turning TBI0 off is critical (it's handy for PAC with
-52-bit VA but then it's short-lived if you want more security features
-like MTE).
-
-> consider the following cases (tb == top byte):
-> 
-> binary 1: user tb = any, syscall tb = 0
->   tbi is on, "legacy binary"
-> 
-> binary 2: user tb = any, syscall tb = any
->   tbi is on, "new binary using tb"
->   for backward compat it needs to check for new syscall abi.
-> 
-> binary 3: user tb = 0, syscall tb = 0
->   tbi can be off, "new binary",
->   binary is marked to indicate unused tb,
->   kernel may turn tbi off: additional pac bits.
-> 
-> binary 4: user tb = mte, syscall tb = mte
->   like binary 3, but with mte, "new binary using mte"
->   does it have to check for new syscall abi?
->   or MTE HWCAP would imply it?
->   (is it possible to use mte without new syscall abi?)
-
-I think MTE HWCAP should imply it.
-
-> in userspace we want most binaries to be like binary 3 and 4
-> eventually, i.e. marked as not-relying-on-tbi, if a dso is
-> loaded that is unmarked (legacy or new tb user), then either
-> the load fails (e.g. if mte is already used? or can we turn
-> mte off at runtime?) or tbi has to be enabled (prctl? does
-> this work with pac? or multi-threads?).
-
-We could enable it via prctl. That's the plan for MTE as well (in
-addition maybe to some ELF flag).
-
-> as for checking the new syscall abi: i don't see much semantic
-> difference between AT_HWCAP and AT_FLAGS (either way, the user
-> has to check a feature flag before using the feature of the
-> underlying system and it does not matter much if it's a syscall
-> abi feature or cpu feature), but i don't see anything wrong
-> with AT_FLAGS if the kernel prefers that.
-
-The AT_FLAGS is aimed at capturing binary 2 case above, i.e. the
-relaxation of the syscall ABI to accept tb = any. The MTE support will
-have its own AT_HWCAP, likely in addition to AT_FLAGS. Arguably,
-AT_FLAGS is either redundant here if MTE implies it (and no harm in
-keeping it around) or the meaning is different: a tb != 0 may be checked
-by the kernel against the allocation tag (i.e. get_user() could fail,
-the tag is not entirely ignored).
-
-> the discussion here was mostly about binary 2,
-
-That's because passing tb != 0 into the syscall ABI is the main blocker
-here that needs clearing out before merging the MTE support. There is,
-of course, a variation of binary 1 for MTE:
-
-binary 5: user tb = mte, syscall tb = 0
-
-but this requires a lot of C lib changes to support properly.
-
-> but for
-> me the open question is if we can make binary 3/4 work.
-> (which requires some elf binary marking, that is recognised
-> by the kernel and dynamic loader, and efficient handling of
-> the TBI0 bit, ..if it's not possible, then i don't see how
-> mte will be deployed).
-
-If we ignore binary 3, we can keep TBI0 = 1 permanently, whether we have
-MTE or not.
-
-> and i guess on the kernel side the open question is if the
-> rules 1/2/3/4 can be made to work in corner cases e.g. when
-> pointers embedded into structs are passed down in ioctl.
-
-We've been trying to track these down since last summer and we came to
-the conclusion that it should be (mostly) fine for the non-weird memory
-described above.
-
--- 
-Catalin
+T24gMjUvMDIvMjAxOSAxNjo1NywgQ2F0YWxpbiBNYXJpbmFzIHdyb3RlOg0KPiBPbiBUdWUsIEZl
+YiAxOSwgMjAxOSBhdCAwNjozODozMVBNICswMDAwLCBTemFib2xjcyBOYWd5IHdyb3RlOg0KPj4g
+aSB0aGluayB0aGVzZSBydWxlcyB3b3JrIGZvciB0aGUgY2FzZXMgaSBjYXJlIGFib3V0LCBhIG1v
+cmUNCj4+IHRyaWNreSBxdWVzdGlvbiBpcyB3aGVuL2hvdyB0byBjaGVjayBmb3IgdGhlIG5ldyBz
+eXNjYWxsIGFiaQ0KPj4gYW5kIHdoZW4vaG93IHRoZSBUQ1JfRUwxLlRCSTAgc2V0dGluZyBtYXkg
+YmUgdHVybmVkIG9mZi4NCj4gDQo+IEkgZG9uJ3QgdGhpbmsgdHVybmluZyBUQkkwIG9mZiBpcyBj
+cml0aWNhbCAoaXQncyBoYW5keSBmb3IgUEFDIHdpdGgNCj4gNTItYml0IFZBIGJ1dCB0aGVuIGl0
+J3Mgc2hvcnQtbGl2ZWQgaWYgeW91IHdhbnQgbW9yZSBzZWN1cml0eSBmZWF0dXJlcw0KPiBsaWtl
+IE1URSkuDQoNCnllcywgaSBtYWRlIGEgbWlzdGFrZSBhc3N1bWluZyBUQkkwIG9mZiBpcw0KcmVx
+dWlyZWQgZm9yIChvciBhdCBsZWFzdCBjb21wYXRpYmxlIHdpdGgpIE1URS4NCg0KaWYgVEJJMCBu
+ZWVkcyB0byBiZSBvbiBmb3IgTVRFIHRoZW4gc29tZSBvZiBteQ0KYW5hbHlzaXMgaXMgd3Jvbmcs
+IGFuZCBpIGV4cGVjdCBUQkkwIHRvIGJlIG9uDQppbiB0aGUgZm9yZXNlZWFibGUgZnV0dXJlLg0K
+DQo+PiBjb25zaWRlciB0aGUgZm9sbG93aW5nIGNhc2VzICh0YiA9PSB0b3AgYnl0ZSk6DQo+Pg0K
+Pj4gYmluYXJ5IDE6IHVzZXIgdGIgPSBhbnksIHN5c2NhbGwgdGIgPSAwDQo+PiAgIHRiaSBpcyBv
+biwgImxlZ2FjeSBiaW5hcnkiDQo+Pg0KPj4gYmluYXJ5IDI6IHVzZXIgdGIgPSBhbnksIHN5c2Nh
+bGwgdGIgPSBhbnkNCj4+ICAgdGJpIGlzIG9uLCAibmV3IGJpbmFyeSB1c2luZyB0YiINCj4+ICAg
+Zm9yIGJhY2t3YXJkIGNvbXBhdCBpdCBuZWVkcyB0byBjaGVjayBmb3IgbmV3IHN5c2NhbGwgYWJp
+Lg0KPj4NCj4+IGJpbmFyeSAzOiB1c2VyIHRiID0gMCwgc3lzY2FsbCB0YiA9IDANCj4+ICAgdGJp
+IGNhbiBiZSBvZmYsICJuZXcgYmluYXJ5IiwNCj4+ICAgYmluYXJ5IGlzIG1hcmtlZCB0byBpbmRp
+Y2F0ZSB1bnVzZWQgdGIsDQo+PiAgIGtlcm5lbCBtYXkgdHVybiB0Ymkgb2ZmOiBhZGRpdGlvbmFs
+IHBhYyBiaXRzLg0KPj4NCj4+IGJpbmFyeSA0OiB1c2VyIHRiID0gbXRlLCBzeXNjYWxsIHRiID0g
+bXRlDQo+PiAgIGxpa2UgYmluYXJ5IDMsIGJ1dCB3aXRoIG10ZSwgIm5ldyBiaW5hcnkgdXNpbmcg
+bXRlIg0KDQpzbyB0aGlzIHNob3VsZCBiZSAibGlrZSBiaW5hcnkgMiwgYnV0IHdpdGggbXRlIi4N
+Cg0KPj4gICBkb2VzIGl0IGhhdmUgdG8gY2hlY2sgZm9yIG5ldyBzeXNjYWxsIGFiaT8NCj4+ICAg
+b3IgTVRFIEhXQ0FQIHdvdWxkIGltcGx5IGl0Pw0KPj4gICAoaXMgaXQgcG9zc2libGUgdG8gdXNl
+IG10ZSB3aXRob3V0IG5ldyBzeXNjYWxsIGFiaT8pDQo+IA0KPiBJIHRoaW5rIE1URSBIV0NBUCBz
+aG91bGQgaW1wbHkgaXQuDQo+IA0KPj4gaW4gdXNlcnNwYWNlIHdlIHdhbnQgbW9zdCBiaW5hcmll
+cyB0byBiZSBsaWtlIGJpbmFyeSAzIGFuZCA0DQo+PiBldmVudHVhbGx5LCBpLmUuIG1hcmtlZCBh
+cyBub3QtcmVseWluZy1vbi10YmksIGlmIGEgZHNvIGlzDQo+PiBsb2FkZWQgdGhhdCBpcyB1bm1h
+cmtlZCAobGVnYWN5IG9yIG5ldyB0YiB1c2VyKSwgdGhlbiBlaXRoZXINCj4+IHRoZSBsb2FkIGZh
+aWxzIChlLmcuIGlmIG10ZSBpcyBhbHJlYWR5IHVzZWQ/IG9yIGNhbiB3ZSB0dXJuDQo+PiBtdGUg
+b2ZmIGF0IHJ1bnRpbWU/KSBvciB0YmkgaGFzIHRvIGJlIGVuYWJsZWQgKHByY3RsPyBkb2VzDQo+
+PiB0aGlzIHdvcmsgd2l0aCBwYWM/IG9yIG11bHRpLXRocmVhZHM/KS4NCj4gDQo+IFdlIGNvdWxk
+IGVuYWJsZSBpdCB2aWEgcHJjdGwuIFRoYXQncyB0aGUgcGxhbiBmb3IgTVRFIGFzIHdlbGwgKGlu
+DQo+IGFkZGl0aW9uIG1heWJlIHRvIHNvbWUgRUxGIGZsYWcpLg0KPiANCj4+IGFzIGZvciBjaGVj
+a2luZyB0aGUgbmV3IHN5c2NhbGwgYWJpOiBpIGRvbid0IHNlZSBtdWNoIHNlbWFudGljDQo+PiBk
+aWZmZXJlbmNlIGJldHdlZW4gQVRfSFdDQVAgYW5kIEFUX0ZMQUdTIChlaXRoZXIgd2F5LCB0aGUg
+dXNlcg0KPj4gaGFzIHRvIGNoZWNrIGEgZmVhdHVyZSBmbGFnIGJlZm9yZSB1c2luZyB0aGUgZmVh
+dHVyZSBvZiB0aGUNCj4+IHVuZGVybHlpbmcgc3lzdGVtIGFuZCBpdCBkb2VzIG5vdCBtYXR0ZXIg
+bXVjaCBpZiBpdCdzIGEgc3lzY2FsbA0KPj4gYWJpIGZlYXR1cmUgb3IgY3B1IGZlYXR1cmUpLCBi
+dXQgaSBkb24ndCBzZWUgYW55dGhpbmcgd3JvbmcNCj4+IHdpdGggQVRfRkxBR1MgaWYgdGhlIGtl
+cm5lbCBwcmVmZXJzIHRoYXQuDQo+IA0KPiBUaGUgQVRfRkxBR1MgaXMgYWltZWQgYXQgY2FwdHVy
+aW5nIGJpbmFyeSAyIGNhc2UgYWJvdmUsIGkuZS4gdGhlDQo+IHJlbGF4YXRpb24gb2YgdGhlIHN5
+c2NhbGwgQUJJIHRvIGFjY2VwdCB0YiA9IGFueS4gVGhlIE1URSBzdXBwb3J0IHdpbGwNCj4gaGF2
+ZSBpdHMgb3duIEFUX0hXQ0FQLCBsaWtlbHkgaW4gYWRkaXRpb24gdG8gQVRfRkxBR1MuIEFyZ3Vh
+Ymx5LA0KPiBBVF9GTEFHUyBpcyBlaXRoZXIgcmVkdW5kYW50IGhlcmUgaWYgTVRFIGltcGxpZXMg
+aXQgKGFuZCBubyBoYXJtIGluDQo+IGtlZXBpbmcgaXQgYXJvdW5kKSBvciB0aGUgbWVhbmluZyBp
+cyBkaWZmZXJlbnQ6IGEgdGIgIT0gMCBtYXkgYmUgY2hlY2tlZA0KPiBieSB0aGUga2VybmVsIGFn
+YWluc3QgdGhlIGFsbG9jYXRpb24gdGFnIChpLmUuIGdldF91c2VyKCkgY291bGQgZmFpbCwNCj4g
+dGhlIHRhZyBpcyBub3QgZW50aXJlbHkgaWdub3JlZCkuDQo+IA0KPj4gdGhlIGRpc2N1c3Npb24g
+aGVyZSB3YXMgbW9zdGx5IGFib3V0IGJpbmFyeSAyLA0KPiANCj4gVGhhdCdzIGJlY2F1c2UgcGFz
+c2luZyB0YiAhPSAwIGludG8gdGhlIHN5c2NhbGwgQUJJIGlzIHRoZSBtYWluIGJsb2NrZXINCj4g
+aGVyZSB0aGF0IG5lZWRzIGNsZWFyaW5nIG91dCBiZWZvcmUgbWVyZ2luZyB0aGUgTVRFIHN1cHBv
+cnQuIFRoZXJlIGlzLA0KPiBvZiBjb3Vyc2UsIGEgdmFyaWF0aW9uIG9mIGJpbmFyeSAxIGZvciBN
+VEU6DQo+IA0KPiBiaW5hcnkgNTogdXNlciB0YiA9IG10ZSwgc3lzY2FsbCB0YiA9IDANCj4gDQo+
+IGJ1dCB0aGlzIHJlcXVpcmVzIGEgbG90IG9mIEMgbGliIGNoYW5nZXMgdG8gc3VwcG9ydCBwcm9w
+ZXJseS4NCg0KeWVzLCBpIGRvbid0IHRoaW5rIHdlIHdhbnQgdG8gZG8gdGhhdC4NCg0KYnV0IGl0
+J3Mgb2sgdG8gaGF2ZSBib3RoIHN5c2NhbGwgdGJpIEFUX0ZMQUdTIGFuZCBNVEUgSFdDQVAuDQoN
+Cj4+IGJ1dCBmb3INCj4+IG1lIHRoZSBvcGVuIHF1ZXN0aW9uIGlzIGlmIHdlIGNhbiBtYWtlIGJp
+bmFyeSAzLzQgd29yay4NCj4+ICh3aGljaCByZXF1aXJlcyBzb21lIGVsZiBiaW5hcnkgbWFya2lu
+ZywgdGhhdCBpcyByZWNvZ25pc2VkDQo+PiBieSB0aGUga2VybmVsIGFuZCBkeW5hbWljIGxvYWRl
+ciwgYW5kIGVmZmljaWVudCBoYW5kbGluZyBvZg0KPj4gdGhlIFRCSTAgYml0LCAuLmlmIGl0J3Mg
+bm90IHBvc3NpYmxlLCB0aGVuIGkgZG9uJ3Qgc2VlIGhvdw0KPj4gbXRlIHdpbGwgYmUgZGVwbG95
+ZWQpLg0KPiANCj4gSWYgd2UgaWdub3JlIGJpbmFyeSAzLCB3ZSBjYW4ga2VlcCBUQkkwID0gMSBw
+ZXJtYW5lbnRseSwgd2hldGhlciB3ZSBoYXZlDQo+IE1URSBvciBub3QuDQo+IA0KPj4gYW5kIGkg
+Z3Vlc3Mgb24gdGhlIGtlcm5lbCBzaWRlIHRoZSBvcGVuIHF1ZXN0aW9uIGlzIGlmIHRoZQ0KPj4g
+cnVsZXMgMS8yLzMvNCBjYW4gYmUgbWFkZSB0byB3b3JrIGluIGNvcm5lciBjYXNlcyBlLmcuIHdo
+ZW4NCj4+IHBvaW50ZXJzIGVtYmVkZGVkIGludG8gc3RydWN0cyBhcmUgcGFzc2VkIGRvd24gaW4g
+aW9jdGwuDQo+IA0KPiBXZSd2ZSBiZWVuIHRyeWluZyB0byB0cmFjayB0aGVzZSBkb3duIHNpbmNl
+IGxhc3Qgc3VtbWVyIGFuZCB3ZSBjYW1lIHRvDQo+IHRoZSBjb25jbHVzaW9uIHRoYXQgaXQgc2hv
+dWxkIGJlIChtb3N0bHkpIGZpbmUgZm9yIHRoZSBub24td2VpcmQgbWVtb3J5DQo+IGRlc2NyaWJl
+ZCBhYm92ZS4NCg0KaSB0aGluayBhbiBpbnRlcmVzdGluZyBjYXNlIGlzIHdoZW4gdXNlcnNwYWNl
+IHBhc3Nlcw0KYSBwb2ludGVyIHRvIHRoZSBrZXJuZWwgYW5kIGxhdGVyIGdldHMgaXQgYmFjaywN
+CndoaWNoIGlzIHdoeSBpIHByb3Bvc2VkIHJ1bGUgNCAoa2VybmVsIGhhcyB0byBrZWVwDQp0aGUg
+dGFnIHRoZW4pLg0KDQpidXQgaSB3b25kZXIgd2hhdCdzIHRoZSByaWdodCB0aGluZyB0byBkbyBm
+b3Igc3ANCih1c2VyIGNhbiBtYWxsb2MgdGhyZWFkL3NpZ2FsdC9tYWtlY29udGV4dCBzdGFjaw0K
+d2hpY2ggd2lsbCBiZSBtdGUgdGFnZ2VkIGluIHByYWN0aWNlIHdpdGggbXRlIG9uKQ0KZG9lcyB0
+YWdnZWQgc3Agd29yaz8gc2hvdWxkIHVzZXJzcGFjZSB1bnRhZyB0aGUNCnN0YWNrIG1lbW9yeSBi
+ZWZvcmUgc2V0dGluZyBpdCB1cCBhcyBhIHN0YWNrPw0KKGJ1dCB0aGVuIHVzZXIgcG9pbnRlcnMg
+dG8gdGhhdCBhbGxvY2F0aW9uIG1heSBnZXQNCmJyb2tlbi4uKQ0K
