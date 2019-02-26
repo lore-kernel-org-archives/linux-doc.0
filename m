@@ -1,202 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A7E9C7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Feb 2019 17:09:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B31317D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Feb 2019 17:18:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726624AbfBZRJA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Feb 2019 12:09:00 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:39570 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726602AbfBZRI7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Feb 2019 12:08:59 -0500
-Received: by mail-wr1-f65.google.com with SMTP id l5so14803424wrw.6;
-        Tue, 26 Feb 2019 09:08:58 -0800 (PST)
+        id S1727638AbfBZRSi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Feb 2019 12:18:38 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:40688 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727077AbfBZRSi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Feb 2019 12:18:38 -0500
+Received: by mail-pf1-f195.google.com with SMTP id h1so6546932pfo.7
+        for <linux-doc@vger.kernel.org>; Tue, 26 Feb 2019 09:18:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=T+xP4MHoEDgcyGpah3uADNPf3QtVMs/krcpmuCnfJaY=;
-        b=acttV7G4xniAFRj+3YnXqXfNblC65aC5OpqZ9DFb0klXQQWPJC59z6e8veM/Pqlstz
-         5Wy+YSQ3IRGT6hUCP33uVRZ5Vjt9DLdVKG1OzWHKPYK4iDcx/ccO6en9MqVsMmX/SnZ1
-         xjJziFHVKQPjNUQ2PjaomJeZCTBN3piW7aAsnkCl6Hk3iyY1Lf0bkm78JzeOPS8TZULD
-         4926WC+YEepxbs65rb2SipSwm06oi1BYPapu0AJNvTR8JlQS1C3GpEhKk/zGZf8sEd7Y
-         TamWRmMSLQh1iiHL9aJoNLSL6He9qGbvdp5oEkiFN7G9KGwqNa/Rbxivbe0P6q6GurU9
-         36Og==
+        bh=OOLLQFuNWZNcLbvoTKuul2PBnwLCZZV2yl5Rkby6ik0=;
+        b=jKQxnJ/2x4dghTfRCCMI3Ml+fWRz4qrTqCcicLGZ011UNcos0yKVjUpXrkbq1VSVeW
+         thw1sbzK7pCfkew2gQKrUI4Um5IJtqCZYZl1rRF7/8YMUzhpPVGNh8aOoaGrih+yhLcy
+         LCoJSquWccU9cGAkJnes4V09W4/XvNYzxNcibfJSCuI99Gg6RPHY5pmjvUZ1DuZqFDit
+         ziJwyd/cyIJEi3eTWqcjGCyQMJaZAOTApXtCDMV5IOpvOaGfw5zzajED6bFcBJNSmM3I
+         YcDKPQPB7vjE9vMtguW2z7/5cxVHfa+F/TkDtfCUR0jZU+bpcDyeyF4vkjHEHWHZXTfm
+         OCaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=T+xP4MHoEDgcyGpah3uADNPf3QtVMs/krcpmuCnfJaY=;
-        b=LEEXF/grEPYAyoWuBsP5oINHZJRbZjqIleLhX0eabuYtzN6tHvIqEOTicdnl8QkcV9
-         p2omjZdmFyQ4UDzUlBAcFYteMA7anNfidUtivsiqcqgM0uHGC4R6KETC3AsRyLjB668/
-         8c8sQye4TX3akdtAfBqb9x4KQzi883KDpYCQxQllRq2ROJdhbtDOt7hUYa8zniZVhp6G
-         wx+MGiYdBaGLYO23IpmikcaveNV+TVsF6Mpb0VofR3AygZdzSgIT3EmEa1m8r+mXqzEF
-         knCcdAJpOgVhxfduCvEPs69yeAC00rTJkrHIYWMr1H0dIp6LUQl8BjechTOP5c40s7FX
-         ghvQ==
-X-Gm-Message-State: AHQUAubWWK3fDS/wGWLvtOtOrRAAdEMxHUO+SIZIap+Vtpga9OetLpnY
-        i+tAjIgtVCrWrY3sy3At5iyb2j5iG5vbEZGtR+opCqx6
-X-Google-Smtp-Source: AHgI3IbceMYfeuX/nswSigzqJQNrkO7PAw7oCjdrp1GhZjHj00IENA2unlSR4zp84uaMl/QQ4ZnImAGXp3izEx85Soc=
-X-Received: by 2002:a5d:6209:: with SMTP id y9mr18530356wru.140.1551200937432;
- Tue, 26 Feb 2019 09:08:57 -0800 (PST)
+        bh=OOLLQFuNWZNcLbvoTKuul2PBnwLCZZV2yl5Rkby6ik0=;
+        b=NN1Mzs9Yi/CiFXbEJbNV/gSe8dWUtgZpCorORUvsQ1EP7q3IwV6vje1ngb4542WGOC
+         PeQ4U0KHa15xIJc3JU8VO9hP/xgSmtR6xr3cK+Dmdd4zdOPV1uppECE+IkQjMOmV89BZ
+         ttzJxTGY6mO0cJATBC9FyRH71A7eLMlzok+RC06mAkEONY+TSHEeVC6olmTZTcSgaj0Q
+         +YRfs5B0auzvHh9yuSQh649/c8ttSLY46xA01DsGqzhHS2L1SLDVwbYTK35rpzNhj+7U
+         o3Pys2bJMn0jnkHhurcANVo+8kVmbS+JuwARJdyHn8NJos04S1YFcBZjYYpmAZlw4Wda
+         Bmwg==
+X-Gm-Message-State: AHQUAuaQ7fXgHOzyKT5T+T2HoQK6t5Mw+5J5AMYbxs7zxhH+H63vr1Jm
+        nNYiVUET1j4kCoUILrSYpzedhhn7oOT/0Gl/CrzfBg==
+X-Google-Smtp-Source: AHgI3IaXslkW65Krggxq02hHR+yQdwUvqf+Fm8usmvuxZoEAwJCPo0+6iEl0097nd7G7eW84XOO0Y0ABXCeIR1f9/5I=
+X-Received: by 2002:a63:d80b:: with SMTP id b11mr25226432pgh.168.1551201516864;
+ Tue, 26 Feb 2019 09:18:36 -0800 (PST)
 MIME-Version: 1.0
-References: <1551023123-5031-1-git-send-email-zenghuiyu96@gmail.com> <20190225112640.50d6a2c5@lwn.net>
-In-Reply-To: <20190225112640.50d6a2c5@lwn.net>
-From:   Zenghui Yu <zenghuiyu96@gmail.com>
-Date:   Wed, 27 Feb 2019 01:08:45 +0800
-Message-ID: <CAKcZhuVqEJvO=wWYqkwNsnPULGA1WA7VPBh0rh7W0u3upgnvmA@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation/process/howto: Update for 4.x -> 5.x versioning
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
+References: <cover.1550839937.git.andreyknvl@google.com> <2ad5f897-25c0-90cf-f54f-827876873a0a@intel.com>
+In-Reply-To: <2ad5f897-25c0-90cf-f54f-827876873a0a@intel.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Tue, 26 Feb 2019 18:18:25 +0100
+Message-ID: <CAAeHK+xCi2MxaykYWCz9mwbOzNpjrFcHex7B-VXektNNWBT+Hw@mail.gmail.com>
+Subject: Re: [PATCH v10 00/12] arm64: untag user pointers passed to the kernel
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
-
-On Tue, Feb 26, 2019 at 2:26 AM Jonathan Corbet <corbet@lwn.net> wrote:
+On Fri, Feb 22, 2019 at 11:55 PM Dave Hansen <dave.hansen@intel.com> wrote:
 >
-> On Sun, 24 Feb 2019 23:45:23 +0800
-> Zenghui Yu <zenghuiyu96@gmail.com> wrote:
->
-> > As linux-5.0 is coming up soon, the howto.rst document can be
-> > updated for the new kernel version. Change all 4.x references
-> > to 5.x now.
+> On 2/22/19 4:53 AM, Andrey Konovalov wrote:
+> > The following testing approaches has been taken to find potential issues
+> > with user pointer untagging:
 > >
-> > Signed-off-by: Zenghui Yu <zenghuiyu96@gmail.com>
+> > 1. Static testing (with sparse [3] and separately with a custom static
+> >    analyzer based on Clang) to track casts of __user pointers to integer
+> >    types to find places where untagging needs to be done.
 >
-> Overall: I think there's value in having the docs reflect current
-> numbers, though it would be better if the docs as a whole were kept
-> current at the same time.  howto.rst hasn't been updated yet, so this
-> attention is welcome - thanks for taking a look at it.  That said, I
-> really think we can do a little better.
-
-Thanks for your reviewing and nice suggestions.  Now I have realized that
-simply changing version numbers in howto.rst (like what I've done ...) is
-shortsighted. And yeah, we can do it better.
-
-> >  Documentation/process/howto.rst | 24 ++++++++++++------------
-> >  1 file changed, 12 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
-> > index f16242b..19001e2 100644
-> > --- a/Documentation/process/howto.rst
-> > +++ b/Documentation/process/howto.rst
-> > @@ -235,16 +235,16 @@ Linux kernel development process currently consists of a few different
-> >  main kernel "branches" and lots of different subsystem-specific kernel
-> >  branches.  These different branches are:
-> >
-> > -  - main 4.x kernel tree
-> > -  - 4.x.y -stable kernel tree
-> > +  - main 5.x kernel tree
-> > +  - 5.x.y -stable kernel tree
-> >    - subsystem specific kernel trees and patches
-> > -  - the 4.x -next kernel tree for integration tests
-> > +  - the 5.x -next kernel tree for integration tests
+> First of all, it's really cool that you took this approach.  Sounds like
+> there was a lot of systematic work to fix up the sites in the existing
+> codebase.
 >
-> One thing I think we can do is to simply get rid of version numbers in a
-> lot of places and make this process easier when 6.x comes around.  What
-> this is really trying to say is that we have:
->
->  - Linus's mainline tree
->  - Various stable trees with multiple major numbers
->  - Subsystem-specific trees
->  - linux-next
->
-> If we could rework this along those lines, it will more accurately
-> reflect reality and not require updating next time.
+> But, isn't this a _bit_ fragile going forward?  Folks can't just "make
+> sparse" to find issues with missing untags.
 
-Obviously a better classification. Will follow your suggestion and modify it.
+Yes, this static approach can only be used as a hint to find some
+places where untagging is needed, but certainly not all.
 
-> > -4.x kernel tree
-> > +5.x kernel tree
-> >  ~~~~~~~~~~~~~~~
-> >
-> > -4.x kernels are maintained by Linus Torvalds, and can be found on
-> > -https://kernel.org in the pub/linux/kernel/v4.x/ directory.  Its development
-> > +5.x kernels are maintained by Linus Torvalds, and can be found on
-> > +https://kernel.org in the pub/linux/kernel/v5.x/ directory.  Its development
-> >  process is as follows:
->
-> And here too I think we can just say "mainline" and that they can be
-> found at https://kernel.org/ or in the repo.
+> This seems like something
+> where we would ideally add an __tagged annotation (or something) to the
+> source tree and then have sparse rules that can look for missed untags.
 
-Will modify.
+This has been suggested before, search for __untagged here [1].
+However there are many places in the kernel where a __user pointer is
+casted into unsigned long and passed further. I'm not sure if it's
+possible apply a __tagged/__untagged kind of attribute to non-pointer
+types, is it?
 
-> >    - As soon as a new kernel is released a two weeks window is open,
-> > @@ -277,21 +277,21 @@ mailing list about kernel releases:
-> >       released according to perceived bug status, not according to a
-> >       preconceived timeline."*
-> >
-> > -4.x.y -stable kernel tree
-> > +5.x.y -stable kernel tree
-> >  ~~~~~~~~~~~~~~~~~~~~~~~~~
-> >
-> >  Kernels with 3-part versions are -stable kernels. They contain
-> >  relatively small and critical fixes for security problems or significant
-> > -regressions discovered in a given 4.x kernel.
-> > +regressions discovered in a given 5.x kernel.
->
-> Here too, especially since most of the outstanding stable kernels won't
-> be 5.x for a long time.
-
-Yes. Actually, I hesitated too when I was changing "4.x.y -stable kernel tree"
-to "5.x.y -stable kernel tree" :)
-Using "stable trees" instead will be better.
-
-> >  This is the recommended branch for users who want the most recent stable
-> >  kernel and are not interested in helping test development/experimental
-> >  versions.
-> >
-> > -If no 4.x.y kernel is available, then the highest numbered 4.x
-> > +If no 5.x.y kernel is available, then the highest numbered 5.x
-> >  kernel is the current stable kernel.
->
-> ...and this, I believe, is misleading at best.  I'd just take that
-> sentence out.
-
-Yes, I'll delete it.
-
-> > -4.x.y are maintained by the "stable" team <stable@vger.kernel.org>, and
-> > +5.x.y are maintained by the "stable" team <stable@vger.kernel.org>, and
-> >  are released as needs dictate.  The normal release period is approximately
-> >  two weeks, but it can be longer if there are no pressing problems.  A
-> >  security-related problem, instead, can cause a release to happen almost
-> > @@ -326,10 +326,10 @@ revisions to it, and maintainers can mark patches as under review,
-> >  accepted, or rejected.  Most of these patchwork sites are listed at
-> >  https://patchwork.kernel.org/.
-> >
-> > -4.x -next kernel tree for integration tests
-> > +5.x -next kernel tree for integration tests
-> >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >
-> > -Before updates from subsystem trees are merged into the mainline 4.x
-> > +Before updates from subsystem trees are merged into the mainline 5.x
-> >  tree, they need to be integration-tested.  For this purpose, a special
-> >  testing repository exists into which virtually all subsystem trees are
-> >  pulled on an almost daily basis:
->
-> linux-next is called "linux-next"; we should just use that name.
-
-Will modify.
-
-> So what do you think?  Can we maybe get a version that removes most (or
-> all) of the explicit version numbers from this file?
-
-Actually, jon, you have already kindly pointed out everywhere to be noticed in
-this patch. What I need to do is just follow your detailed suggestions and send
-a V3 :)  And I think all of the explicit version numbers can be removed.
-
-
-Many thanks,
-
-zenghui
+[1] https://patchwork.kernel.org/patch/10581535/
