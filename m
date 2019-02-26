@@ -3,55 +3,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4D6D57D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Feb 2019 14:35:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C1EEE7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Feb 2019 14:39:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727390AbfBZOf5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Feb 2019 09:35:57 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:42960 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725977AbfBZOfx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Feb 2019 09:35:53 -0500
-Received: by mail-pf1-f195.google.com with SMTP id n74so6332491pfi.9
-        for <linux-doc@vger.kernel.org>; Tue, 26 Feb 2019 06:35:52 -0800 (PST)
+        id S1727180AbfBZOjU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Feb 2019 09:39:20 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:40514 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726810AbfBZOjU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Feb 2019 09:39:20 -0500
+Received: by mail-pg1-f196.google.com with SMTP id u9so6308994pgo.7
+        for <linux-doc@vger.kernel.org>; Tue, 26 Feb 2019 06:39:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=AUt4iAfRYbk6BwjoCKxvIK1Q45AuJd2RFSG+AdGqGGc=;
-        b=XRKcLkoJARsdGGCLNMsEu1Vu8sk3uYCwX73ehOf3+cVLv75cO4w/3UTqMluqhaIGyh
-         cCy4xvROzeQSaFXI2Iu8ow09wzrfeUVrM4ZBHYRiwLLWx0shcllKfcDdFKilrD1Kr8Mf
-         pLE8gRxiLBO8WSSp7OrsZFKA+euo20XGdvScqo95ZZCUwpBjOnXMacjezDCcsLkt/Mth
-         pHEFCvychKIJQf6QLymBizZy5Tzkwkra5iyXKKlgGp2QSjfkxadk85kayKTWgP4jHqma
-         lYOKPh4aOy50Vdd3ysijeaTRxrjd48CuRB+UX9PdLo8hQkWNFjb25zGeU7TCq+mn7l5N
-         FWRw==
+        bh=dfiBLpo8ppzHN31Df3pK9Pue7IUmmemEwHEq/+qIHW8=;
+        b=qrniw8KQBsnVcBdkLwXYTHP1tzALWjLL3wqY47zLDB86u7VpyXqsBCFNMPUvx2rcQ5
+         tleEIn43VcQEIxdaz5Lq3qoXKxfo59ovHYPtXDa7JwcKInE8AMfYDGNxNizwMWMWQjde
+         EhSO6jW2VXILtMDY8JQSd+bipZZVCQ+CR0EOZ2zJgqQHGK2gbFfefcVUCOF/9F/FdN4j
+         khe0Gzu8tDmq3gffWUNVCHAG7gYifd/AMvfrRv8bNWrE6v7GDGV6bjcxEvsAriDj0zwX
+         9ukzSjG/hOjO6EfG3Aixqm8fiGMNQyIAiftpSDpkdyIWPy343s9BUOUiQ9YAblVGHraC
+         nJQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=AUt4iAfRYbk6BwjoCKxvIK1Q45AuJd2RFSG+AdGqGGc=;
-        b=my4m5Fo7ejcqdDYvdDSXjtz34ey/EFGN4o38CAAOaeTDvO8EFh3s7AOuicv/UidfSJ
-         2xR1Xtycy44n+uMkTSXR6sHDEzEnjsK5eF3niWjrXCgTA6PtKLK3DkObl8rp9LiNH6hh
-         WyDSUJBVpNXEeRvQausN/VN02iAUAYtf2uW5LSTFvke0rGpvvyE6yGfKWVbPH4qIPG3j
-         9l2ZtrIrMffZ1NY8457u5tWo6AJJKPxjGKqxfCW/9TqkDhEKGtb1qCQRMeim3ZtsU9TI
-         h+wuc3aeCbstpOHcsa0eVRrAWLIEE4v0pHaHEsmIJi/FsTIgIqsjwLvfJh/g1A/G6LY5
-         jnug==
-X-Gm-Message-State: AHQUAuYYUBXEiue8noljNn/3k5VDM/Aj7WkQNYVZ6bHF1TUjANp1GS11
-        AJGlW8LA2uytO5ZgXSMsgSpwlByAmtkjP7JG8Jor1Q==
-X-Google-Smtp-Source: AHgI3IbiQNlPq53/tUpD5IAq8EfXkU5pkBI8V4LoDzop7lQaXJ2OSriJDpc1tkZELm721YxkXsfJtn4Ts8mziEe1cTs=
-X-Received: by 2002:a62:6383:: with SMTP id x125mr25941741pfb.239.1551191751796;
- Tue, 26 Feb 2019 06:35:51 -0800 (PST)
+        bh=dfiBLpo8ppzHN31Df3pK9Pue7IUmmemEwHEq/+qIHW8=;
+        b=KCFOjHeuHHfgN4S7i/Ili/3MjsT8UYbTSiQa6F9unOJUT7FGxXtna/oxqkVwLk21IU
+         dyporQZVJphVSw0d4N5uxg4jfZvtY2HCyeR+Uud5YGoTYjhuIx7Vt378ofcBBXrOySx9
+         8ndDlgXMNU0WKAZnvUrABWE0eqek03VOnfxuUtRO0A0dhBTuQb7npgEP+GfayXNqT1lz
+         GxHHeyVvx8xwQ0Eehyadcf5gHd9WJFhf3nAeZuaf6dXJLZEIJRe6mjcuv55lpYCUhNt5
+         fIf6MnC1SK7weJXW5OqufykeDnEwZMAdu/KJVl82KqDQWVljcbXkD1ABzz5tSKaUhjKy
+         qk3w==
+X-Gm-Message-State: AHQUAuaY4Ni8mlJYjn+K+GCdzq8BqQu/ksjwU5B9TpR1mi5OUvDL2zwj
+        +IvrGRq48B8Mk56ENoODp61MjTqg5j3ZAsVlyS1laA==
+X-Google-Smtp-Source: AHgI3IbzQ3IeJ3DdtureLg8xHbfzWl4k26RcwSMIdPdFZQbQ2oXfH0JWdLJfU9vlDhlDrZoE5TP5lbkNIdumuA65DBY=
+X-Received: by 2002:a65:6651:: with SMTP id z17mr23465185pgv.95.1551191958932;
+ Tue, 26 Feb 2019 06:39:18 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1550839937.git.andreyknvl@google.com> <a958e202cdbe6e1bac8a37b7f3d9881d1b22993d.1550839937.git.andreyknvl@google.com>
- <a38275b0-f6cd-20e1-3c48-544846586a16@intel.com>
-In-Reply-To: <a38275b0-f6cd-20e1-3c48-544846586a16@intel.com>
+References: <cover.1550839937.git.andreyknvl@google.com> <8343cd77ca301df15839796f3b446b75ce5ffbbf.1550839937.git.andreyknvl@google.com>
+ <73f2f3fe-9a66-22a1-5aae-c282779a75f5@intel.com>
+In-Reply-To: <73f2f3fe-9a66-22a1-5aae-c282779a75f5@intel.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 26 Feb 2019 15:35:40 +0100
-Message-ID: <CAAeHK+wLm7zSUC8dJv3LgdyvpkBN8u_24ene6b91PgM570VWbQ@mail.gmail.com>
-Subject: Re: [PATCH v10 06/12] fs, arm64: untag user pointers in copy_mount_options
+Date:   Tue, 26 Feb 2019 15:39:08 +0100
+Message-ID: <CAAeHK+yQU8khtOoyDKqmHterCa16P7oWe9AMiPnrxE+Gyb_7aw@mail.gmail.com>
+Subject: Re: [PATCH v10 07/12] fs, arm64: untag user pointers in fs/userfaultfd.c
 To:     Dave Hansen <dave.hansen@intel.com>
 Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -90,31 +90,17 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 23, 2019 at 12:03 AM Dave Hansen <dave.hansen@intel.com> wrote:
+On Sat, Feb 23, 2019 at 12:06 AM Dave Hansen <dave.hansen@intel.com> wrote:
 >
 > On 2/22/19 4:53 AM, Andrey Konovalov wrote:
-> > --- a/fs/namespace.c
-> > +++ b/fs/namespace.c
-> > @@ -2730,7 +2730,7 @@ void *copy_mount_options(const void __user * data)
-> >        * the remainder of the page.
-> >        */
-> >       /* copy_from_user cannot cross TASK_SIZE ! */
-> > -     size = TASK_SIZE - (unsigned long)data;
-> > +     size = TASK_SIZE - (unsigned long)untagged_addr(data);
-> >       if (size > PAGE_SIZE)
-> >               size = PAGE_SIZE;
+> > userfaultfd_register() and userfaultfd_unregister() use provided user
+> > pointers for vma lookups, which can only by done with untagged pointers.
 >
-> I would have thought that copy_from_user() *is* entirely capable of
-> detecting and returning an error in the case that its arguments cross
-> TASK_SIZE.  It will fail and return an error, but that's what it's
-> supposed to do.
->
-> I'd question why this code needs to be doing its own checking in the
-> first place.  Is there something subtle going on?
+> So, we have to patch all these sites before the tagged values get to the
+> point of hitting the vma lookup functions.  Dumb question: Why don't we
+> just patch the vma lookup functions themselves instead of all of these
+> callers?
 
-The comment above exact_copy_from_user() states:
-
-Some copy_from_user() implementations do not return the exact number of
-bytes remaining to copy on a fault.  But copy_mount_options() requires that.
-Note that this function differs from copy_from_user() in that it will oops
-on bad values of `to', rather than returning a short copy.
+That might be a working approach as well. We'll still need to fix up
+places where the vma fields are accessed directly. Catalin, what do
+you think?
