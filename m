@@ -1,134 +1,120 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 267E77D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Feb 2019 13:54:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4D6D57D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Feb 2019 14:35:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727528AbfBZNye (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Feb 2019 08:54:34 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:52640 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727520AbfBZNye (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Feb 2019 08:54:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=ApI7uZCGExBqpKLg2Rlr6XR9LkoMfgsFnCmf0EFObto=; b=U+fyuYgIf5oUsS2fGyYUrd2Zg
-        lx97ZPl0aIEbsOSs7f4pBFqMcFBGeOK5zoI1TWNMc6hTbYRriI7sTQ1PWlzHCuoVltlp4ArDCfs7T
-        zbOO/kK9FpGAiQg7OQmpIVXqz266UID4V8cDRxRW8x4OKy6w3F5Rc242hGAQXztB/T68rkM+ihaKw
-        BMaYqu29wxIqA+JoXgm2+U+sCBdeEf4n2z0cTfnzUs2AFeogC1XorWUsOgkjMlAlHlmPyYEyaL7sH
-        Uow/Ac9JdTO1EQgU40b25AM3iuPNicG39AYdsYY9pUXV+qKyX9QX+LLuMOoet1R5Xv/p7xyT0ItHJ
-        0jICfgnpg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gydBl-0006EI-1d; Tue, 26 Feb 2019 13:54:29 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 7908F20269AFA; Tue, 26 Feb 2019 14:54:26 +0100 (CET)
-Date:   Tue, 26 Feb 2019 14:54:26 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Len Brown <lenb@kernel.org>
-Cc:     X86 ML <x86@kernel.org>, linux-kernel@vger.kernel.org,
-        Len Brown <len.brown@intel.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 03/11] x86 topology: Add CPUID.1F multi-die/package
- support
-Message-ID: <20190226135426.GU32477@hirez.programming.kicks-ass.net>
-References: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
- <07d2908dc72bf964b27380999e1c826587d69136.1550545163.git.len.brown@intel.com>
- <20190220105542.GB17969@hirez.programming.kicks-ass.net>
- <CAJvTdK=+Lw1_WFE4_aGqxtRPK_JafmmzcmGSqScMOB4EK-xH5g@mail.gmail.com>
+        id S1727390AbfBZOf5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Feb 2019 09:35:57 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:42960 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725977AbfBZOfx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Feb 2019 09:35:53 -0500
+Received: by mail-pf1-f195.google.com with SMTP id n74so6332491pfi.9
+        for <linux-doc@vger.kernel.org>; Tue, 26 Feb 2019 06:35:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AUt4iAfRYbk6BwjoCKxvIK1Q45AuJd2RFSG+AdGqGGc=;
+        b=XRKcLkoJARsdGGCLNMsEu1Vu8sk3uYCwX73ehOf3+cVLv75cO4w/3UTqMluqhaIGyh
+         cCy4xvROzeQSaFXI2Iu8ow09wzrfeUVrM4ZBHYRiwLLWx0shcllKfcDdFKilrD1Kr8Mf
+         pLE8gRxiLBO8WSSp7OrsZFKA+euo20XGdvScqo95ZZCUwpBjOnXMacjezDCcsLkt/Mth
+         pHEFCvychKIJQf6QLymBizZy5Tzkwkra5iyXKKlgGp2QSjfkxadk85kayKTWgP4jHqma
+         lYOKPh4aOy50Vdd3ysijeaTRxrjd48CuRB+UX9PdLo8hQkWNFjb25zGeU7TCq+mn7l5N
+         FWRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AUt4iAfRYbk6BwjoCKxvIK1Q45AuJd2RFSG+AdGqGGc=;
+        b=my4m5Fo7ejcqdDYvdDSXjtz34ey/EFGN4o38CAAOaeTDvO8EFh3s7AOuicv/UidfSJ
+         2xR1Xtycy44n+uMkTSXR6sHDEzEnjsK5eF3niWjrXCgTA6PtKLK3DkObl8rp9LiNH6hh
+         WyDSUJBVpNXEeRvQausN/VN02iAUAYtf2uW5LSTFvke0rGpvvyE6yGfKWVbPH4qIPG3j
+         9l2ZtrIrMffZ1NY8457u5tWo6AJJKPxjGKqxfCW/9TqkDhEKGtb1qCQRMeim3ZtsU9TI
+         h+wuc3aeCbstpOHcsa0eVRrAWLIEE4v0pHaHEsmIJi/FsTIgIqsjwLvfJh/g1A/G6LY5
+         jnug==
+X-Gm-Message-State: AHQUAuYYUBXEiue8noljNn/3k5VDM/Aj7WkQNYVZ6bHF1TUjANp1GS11
+        AJGlW8LA2uytO5ZgXSMsgSpwlByAmtkjP7JG8Jor1Q==
+X-Google-Smtp-Source: AHgI3IbiQNlPq53/tUpD5IAq8EfXkU5pkBI8V4LoDzop7lQaXJ2OSriJDpc1tkZELm721YxkXsfJtn4Ts8mziEe1cTs=
+X-Received: by 2002:a62:6383:: with SMTP id x125mr25941741pfb.239.1551191751796;
+ Tue, 26 Feb 2019 06:35:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJvTdK=+Lw1_WFE4_aGqxtRPK_JafmmzcmGSqScMOB4EK-xH5g@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <cover.1550839937.git.andreyknvl@google.com> <a958e202cdbe6e1bac8a37b7f3d9881d1b22993d.1550839937.git.andreyknvl@google.com>
+ <a38275b0-f6cd-20e1-3c48-544846586a16@intel.com>
+In-Reply-To: <a38275b0-f6cd-20e1-3c48-544846586a16@intel.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Tue, 26 Feb 2019 15:35:40 +0100
+Message-ID: <CAAeHK+wLm7zSUC8dJv3LgdyvpkBN8u_24ene6b91PgM570VWbQ@mail.gmail.com>
+Subject: Re: [PATCH v10 06/12] fs, arm64: untag user pointers in copy_mount_options
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 20, 2019 at 10:08:48AM -0500, Len Brown wrote:
-> Thanks for the comments, Peter. I'll update the patch to address the
-> syntax points.  (Maybe checkpatch.pl should be updated to reflect your
-> preferences?).
+On Sat, Feb 23, 2019 at 12:03 AM Dave Hansen <dave.hansen@intel.com> wrote:
+>
+> On 2/22/19 4:53 AM, Andrey Konovalov wrote:
+> > --- a/fs/namespace.c
+> > +++ b/fs/namespace.c
+> > @@ -2730,7 +2730,7 @@ void *copy_mount_options(const void __user * data)
+> >        * the remainder of the page.
+> >        */
+> >       /* copy_from_user cannot cross TASK_SIZE ! */
+> > -     size = TASK_SIZE - (unsigned long)data;
+> > +     size = TASK_SIZE - (unsigned long)untagged_addr(data);
+> >       if (size > PAGE_SIZE)
+> >               size = PAGE_SIZE;
+>
+> I would have thought that copy_from_user() *is* entirely capable of
+> detecting and returning an error in the case that its arguments cross
+> TASK_SIZE.  It will fail and return an error, but that's what it's
+> supposed to do.
+>
+> I'd question why this code needs to be doing its own checking in the
+> first place.  Is there something subtle going on?
 
-Don't know about checkpatch; I ignore plenty of its output. I think tglx
-started a document somewhere for what tip prefers, but I'm not sure
-where that went.
+The comment above exact_copy_from_user() states:
 
-> About macros vs C.  I agree with your preference.
-> I used macros to be consistent with the existing code, and to be as
-> backport friendly as possible.
-> (a number of distros need to pull these patches into their supported kernels)
-> Sure, I'm willing to write in a cosmetic-only patch, after the
-> functional changes are upstream.
-
-Fair enough.
-
-> > It would've been nice to have the CPUID instruction 1F leaf reference
-> > 3B-3.9 in the SDM, and maybe mention this here too.
-> 
-> I didn't mention SDM sections because they change -- leaving stale
-> pointers in our commit messages.  The SDM is re-published 4 times per
-> year.
-
-Yah, I know. Which is why I keep all SDMs. So if you say, book 3 section
-8 of Jul'17, I can find it :-)
-
-> > You haven't explained, and I can't readily find it in the SDM either,
-> > how these topology bits relate to caches and interconnects.
-> >
-> > Will these die thingies share LLC, or will LLC be per die. Will NUMA
-> > span dies or not.
-> 
-> Excellent question.
-> Cache enumeration in Leaf-4 is totally unchanged.
-> ACPI NUMA tables are totally unchanged.
-
-Sure; and yet Sub-NUMA-Clustering broke stuff in interesting ways. I'm
-trying to get a feel for how these levels will interact with all that.
-
-Before that SNC stuff, caches had never spanned NODEs (and I still
-think that is 'creative' at best).
-
-> From a scheduler point of view, imagine that a SKX system with 4 die
-> in 4 packages was mechanically re-designed so that those 4 die resided
-> in 2 double-sized packages.
-> 
-> They may have tweaked the links between the die, but logically it is
-> identical and compatible, and the legacy kernel will function
-> properly.
-
-This example has LLC in die and yes that works.
-
-But I can imagine things like L2 in tile and L3 across tiles but within
-DIE and then it _might_ make sense to still consider the tile for
-scheduling.
-
-Another option is having the LLC off die; also not unheard of.
-
-And then there's many creative and slightly crazy ways this can all be
-combined :/
-
-> So the effect of Leaf B,1F is that it defines the scope of MSRs.  eg.
-> what processors does a die-scope MSR cover.  That is why the rest of
-> the patch is about sysfs topology, and about package MSR scope.
-> 
-> Yes, there will be more exotic MSR situations in future products --
-> the first ones are pretty simple -- something  called a
-> package-scope-MSR  in the SDM today becomes a die-scope-MSR in this
-> generation on a multi-die/package system.
-
-Yes :-(
-
-> It also reflects how many packages appear in sysfs, and this can
-> effect licensing of some kinds of software.
-
-That's just plain insanity and we should not let that affect our sysfs
-interfaces.
+Some copy_from_user() implementations do not return the exact number of
+bytes remaining to copy on a fault.  But copy_mount_options() requires that.
+Note that this function differs from copy_from_user() in that it will oops
+on bad values of `to', rather than returning a short copy.
