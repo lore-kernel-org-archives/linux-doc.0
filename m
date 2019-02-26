@@ -1,136 +1,180 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 441F87D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Feb 2019 17:35:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 28A9F7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Feb 2019 18:23:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728133AbfBZRf1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Feb 2019 12:35:27 -0500
-Received: from mga09.intel.com ([134.134.136.24]:57629 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727549AbfBZRf1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Feb 2019 12:35:27 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Feb 2019 09:35:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,416,1544515200"; 
-   d="scan'208";a="141812367"
-Received: from clr-a1e54e448e8f449b8e005ba5c22473eb.jf.intel.com (HELO [10.7.201.133]) ([10.7.201.133])
-  by orsmga001.jf.intel.com with ESMTP; 26 Feb 2019 09:35:26 -0800
-Subject: Re: [PATCH v10 00/12] arm64: untag user pointers passed to the kernel
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-References: <cover.1550839937.git.andreyknvl@google.com>
- <2ad5f897-25c0-90cf-f54f-827876873a0a@intel.com>
- <CAAeHK+xCi2MxaykYWCz9mwbOzNpjrFcHex7B-VXektNNWBT+Hw@mail.gmail.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-Message-ID: <6abc8c6a-c7aa-72ec-8a4e-7dcfeb9ea09b@intel.com>
-Date:   Tue, 26 Feb 2019 09:35:26 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAAeHK+xCi2MxaykYWCz9mwbOzNpjrFcHex7B-VXektNNWBT+Hw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S1728793AbfBZSXN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Feb 2019 13:23:13 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:33000 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728814AbfBZSXN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Feb 2019 13:23:13 -0500
+Received: by mail-pf1-f193.google.com with SMTP id i19so6647764pfd.0;
+        Tue, 26 Feb 2019 10:23:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=l8oFWUQ41dJ49oxhIQmprIfY2YfSLtyDWk2PutMXuyg=;
+        b=Sqd2wEn3x4uEINFh77sfnkmC/3Pf1MbOBcYaOEH4cQLm6ZkRnS7SYrttEgUvPFg64j
+         by4yPwy1R3nIioQDBndLvivsyjrPuUR3VX2ZSB7bbxnRyA23U2qwve6kf14DdwNNe8qJ
+         ocZhxgSMHD7tU+2Drm0nTgbjssPhmQ+R53DGLHrOQCxbEjcLm5BFBVSU5iBXpsTFt4Bu
+         BWd2kCJikkmdJRtTMyB42FGBxgJrlbc7WRiFpFZoWwwcCUvYLT+emdrfgpxu6G1iuyuD
+         EZfe5j8aK0Hu57oNevBjJGzi4poGZTJxsWbMxILgdS9c6zLMEFfgWRf9eGI8Bv5KTtUX
+         4IgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=l8oFWUQ41dJ49oxhIQmprIfY2YfSLtyDWk2PutMXuyg=;
+        b=fmV+bEt5ZlVe9KnJ7+nI7O6egHKEZcCbFK7SKvFx6qAuxY6nuJpJg4j/TCNhiLOjpi
+         gHi58+R7re2ZP9wg47G/w/3OH8B4BhLIqYTuPz0JAtaLf9Ac+W43ScqhzfSUTgV/hzoX
+         YYM5AAjfK1awhOyEA9ZhN71pbZY1L/v+VeeA3s2ZzdnSEX7N+DIGF1IbmO3ubE6Im9Hn
+         rjwFxW4g9o2fcTz/i/DtLYk/JuwY7eOx06GQWlC2/ObsRbFgC8l4t3EO0G3JNYilxmDB
+         4cWdRGMMFNkEyDRJYJxCccZap4FUcSF2bEE05XCjC51Kaji8LfCLdiTG7fdwy4gxS9IM
+         /5cg==
+X-Gm-Message-State: AHQUAuaV7G/Q3kvOY0SOHNafoRwObJXGgv65Yw8+pmF0xS2SAV2Zwfjp
+        fnKF2jP9g5JK7lT8wpZSmCE=
+X-Google-Smtp-Source: AHgI3IZVhcLXBSkKDX//3L/0vP+k4d/jOckRQKFuwAczGR14EqugarRrg8LPSbl2/5OPQomuHQhsuQ==
+X-Received: by 2002:a62:fb10:: with SMTP id x16mr27532105pfm.5.1551205392467;
+        Tue, 26 Feb 2019 10:23:12 -0800 (PST)
+Received: from ubuntuu.lan ([112.10.94.48])
+        by smtp.gmail.com with ESMTPSA id f3sm18142475pfn.100.2019.02.26.10.23.08
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Tue, 26 Feb 2019 10:23:11 -0800 (PST)
+From:   Zenghui Yu <zenghuiyu96@gmail.com>
+To:     corbet@lwn.net
+Cc:     gregkh@linuxfoundation.org, akpm@linux-foundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Zenghui Yu <zenghuiyu96@gmail.com>
+Subject: [PATCH v3] Documentation/process/howto: Update for 4.x -> 5.x versioning
+Date:   Wed, 27 Feb 2019 02:22:22 +0800
+Message-Id: <1551205342-5630-1-git-send-email-zenghuiyu96@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/26/19 9:18 AM, Andrey Konovalov wrote:
->> This seems like something
->> where we would ideally add an __tagged annotation (or something) to the
->> source tree and then have sparse rules that can look for missed untags.
-> This has been suggested before, search for __untagged here [1].
-> However there are many places in the kernel where a __user pointer is
-> casted into unsigned long and passed further. I'm not sure if it's
-> possible apply a __tagged/__untagged kind of attribute to non-pointer
-> types, is it?
-> 
-> [1] https://patchwork.kernel.org/patch/10581535/
+As linux-5.0 is coming up soon, the howto.rst document can be
+updated for the new kernel version. Instead of changing all 4.x
+references to 5.x, this time we git rid of all explicit version
+numbers and rework some kernel trees' name to keep the docs
+current and real.
 
-I believe we have sparse checking __GFP_* flags.  We also have a gfp_t
-for them and I'm unsure whether the sparse support is tied to _that_ or
-whether it's just by tagging the type itself as being part of a discrete
-address space.
+Signed-off-by: Zenghui Yu <zenghuiyu96@gmail.com>
+---
+ Documentation/process/howto.rst | 47 +++++++++++++++++++----------------------
+ 1 file changed, 22 insertions(+), 25 deletions(-)
+
+ Change since v2:
+ - remove explicit version numbers and rework kernel trees' name
+   by Jon's suggestions
+
+diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+index f16242b..ad2b6c8 100644
+--- a/Documentation/process/howto.rst
++++ b/Documentation/process/howto.rst
+@@ -235,22 +235,21 @@ Linux kernel development process currently consists of a few different
+ main kernel "branches" and lots of different subsystem-specific kernel
+ branches.  These different branches are:
+ 
+-  - main 4.x kernel tree
+-  - 4.x.y -stable kernel tree
+-  - subsystem specific kernel trees and patches
+-  - the 4.x -next kernel tree for integration tests
++  - Linus's mainline tree
++  - Various stable trees with multiple major numbers
++  - Subsystem-specific trees
++  - linux-next integration testing tree
+ 
+-4.x kernel tree
+-~~~~~~~~~~~~~~~
++Mainline tree
++~~~~~~~~~~~~~
+ 
+-4.x kernels are maintained by Linus Torvalds, and can be found on
+-https://kernel.org in the pub/linux/kernel/v4.x/ directory.  Its development
+-process is as follows:
++Mainline tree are maintained by Linus Torvalds, and can be found at
++https://kernel.org or in the repo.  Its development process is as follows:
+ 
+   - As soon as a new kernel is released a two weeks window is open,
+     during this period of time maintainers can submit big diffs to
+     Linus, usually the patches that have already been included in the
+-    -next kernel for a few weeks.  The preferred way to submit big changes
++    linux-next for a few weeks.  The preferred way to submit big changes
+     is using git (the kernel's source management tool, more information
+     can be found at https://git-scm.com/) but plain patches are also just
+     fine.
+@@ -277,21 +276,19 @@ mailing list about kernel releases:
+ 	released according to perceived bug status, not according to a
+ 	preconceived timeline."*
+ 
+-4.x.y -stable kernel tree
+-~~~~~~~~~~~~~~~~~~~~~~~~~
++Various stable trees with multiple major numbers
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ Kernels with 3-part versions are -stable kernels. They contain
+ relatively small and critical fixes for security problems or significant
+-regressions discovered in a given 4.x kernel.
++regressions discovered in a given major mainline release, with the first
++2-part of version number are the same correspondingly.
+ 
+ This is the recommended branch for users who want the most recent stable
+ kernel and are not interested in helping test development/experimental
+ versions.
+ 
+-If no 4.x.y kernel is available, then the highest numbered 4.x
+-kernel is the current stable kernel.
+-
+-4.x.y are maintained by the "stable" team <stable@vger.kernel.org>, and
++Stable trees are maintained by the "stable" team <stable@vger.kernel.org>, and
+ are released as needs dictate.  The normal release period is approximately
+ two weeks, but it can be longer if there are no pressing problems.  A
+ security-related problem, instead, can cause a release to happen almost
+@@ -301,8 +298,8 @@ The file :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rule
+ in the kernel tree documents what kinds of changes are acceptable for
+ the -stable tree, and how the release process works.
+ 
+-Subsystem Specific kernel trees and patches
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++Subsystem-specific trees
++~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ The maintainers of the various kernel subsystems --- and also many
+ kernel subsystem developers --- expose their current state of
+@@ -326,19 +323,19 @@ revisions to it, and maintainers can mark patches as under review,
+ accepted, or rejected.  Most of these patchwork sites are listed at
+ https://patchwork.kernel.org/.
+ 
+-4.x -next kernel tree for integration tests
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++linux-next integration testing tree
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-Before updates from subsystem trees are merged into the mainline 4.x
+-tree, they need to be integration-tested.  For this purpose, a special
++Before updates from subsystem trees are merged into the mainline tree,
++they need to be integration-tested.  For this purpose, a special
+ testing repository exists into which virtually all subsystem trees are
+ pulled on an almost daily basis:
+ 
+ 	https://git.kernel.org/?p=linux/kernel/git/next/linux-next.git
+ 
+-This way, the -next kernel gives a summary outlook onto what will be
++This way, the linux-next gives a summary outlook onto what will be
+ expected to go into the mainline kernel at the next merge period.
+-Adventurous testers are very welcome to runtime-test the -next kernel.
++Adventurous testers are very welcome to runtime-test the linux-next.
+ 
+ 
+ Bug Reporting
+-- 
+2.7.4
+
