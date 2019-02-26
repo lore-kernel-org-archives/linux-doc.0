@@ -6,52 +6,52 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C1EEE7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Feb 2019 14:39:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 72D207D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Feb 2019 14:41:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727180AbfBZOjU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Feb 2019 09:39:20 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:40514 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726810AbfBZOjU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Feb 2019 09:39:20 -0500
-Received: by mail-pg1-f196.google.com with SMTP id u9so6308994pgo.7
-        for <linux-doc@vger.kernel.org>; Tue, 26 Feb 2019 06:39:19 -0800 (PST)
+        id S1727646AbfBZOlj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Feb 2019 09:41:39 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:40555 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727612AbfBZOli (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Feb 2019 09:41:38 -0500
+Received: by mail-pf1-f196.google.com with SMTP id h1so6341866pfo.7
+        for <linux-doc@vger.kernel.org>; Tue, 26 Feb 2019 06:41:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dfiBLpo8ppzHN31Df3pK9Pue7IUmmemEwHEq/+qIHW8=;
-        b=qrniw8KQBsnVcBdkLwXYTHP1tzALWjLL3wqY47zLDB86u7VpyXqsBCFNMPUvx2rcQ5
-         tleEIn43VcQEIxdaz5Lq3qoXKxfo59ovHYPtXDa7JwcKInE8AMfYDGNxNizwMWMWQjde
-         EhSO6jW2VXILtMDY8JQSd+bipZZVCQ+CR0EOZ2zJgqQHGK2gbFfefcVUCOF/9F/FdN4j
-         khe0Gzu8tDmq3gffWUNVCHAG7gYifd/AMvfrRv8bNWrE6v7GDGV6bjcxEvsAriDj0zwX
-         9ukzSjG/hOjO6EfG3Aixqm8fiGMNQyIAiftpSDpkdyIWPy343s9BUOUiQ9YAblVGHraC
-         nJQA==
+        bh=ORID1v1ozYXyKv1mw/ofFm5kiuOuJ/TBoHbnGpDrQY0=;
+        b=Jk4s/BkFrIcxrk4e9Mx5smnm1MMtapGUCpafH868xdIWYkLK7M78NPFfkO1hXlBR3s
+         fHSFCSGQY90XYaDQqb63dSKPREtSbEi2GwRgT00jYvnEy0yQetugEzlFqBmtB3qipsAd
+         q/rhOJ6CKsqxpXxBDrJDcb0ls8JRx8hPmbNL5pXQCFMY5+3weHhsnBcu5hbxiUG4WqQl
+         pBEq1Wji+wh6z+8emU3AosXH6snGNQBpu8akU3FP96jjwWcneLVMTgn776abphESvY54
+         iMhXTsCqkSEIu1VQDJchEorqdn4d1RpFfWm51ZaV3ypfOUhUpwNhpwhi50tHIgnGBRqu
+         SjeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dfiBLpo8ppzHN31Df3pK9Pue7IUmmemEwHEq/+qIHW8=;
-        b=KCFOjHeuHHfgN4S7i/Ili/3MjsT8UYbTSiQa6F9unOJUT7FGxXtna/oxqkVwLk21IU
-         dyporQZVJphVSw0d4N5uxg4jfZvtY2HCyeR+Uud5YGoTYjhuIx7Vt378ofcBBXrOySx9
-         8ndDlgXMNU0WKAZnvUrABWE0eqek03VOnfxuUtRO0A0dhBTuQb7npgEP+GfayXNqT1lz
-         GxHHeyVvx8xwQ0Eehyadcf5gHd9WJFhf3nAeZuaf6dXJLZEIJRe6mjcuv55lpYCUhNt5
-         fIf6MnC1SK7weJXW5OqufykeDnEwZMAdu/KJVl82KqDQWVljcbXkD1ABzz5tSKaUhjKy
-         qk3w==
-X-Gm-Message-State: AHQUAuaY4Ni8mlJYjn+K+GCdzq8BqQu/ksjwU5B9TpR1mi5OUvDL2zwj
-        +IvrGRq48B8Mk56ENoODp61MjTqg5j3ZAsVlyS1laA==
-X-Google-Smtp-Source: AHgI3IbzQ3IeJ3DdtureLg8xHbfzWl4k26RcwSMIdPdFZQbQ2oXfH0JWdLJfU9vlDhlDrZoE5TP5lbkNIdumuA65DBY=
-X-Received: by 2002:a65:6651:: with SMTP id z17mr23465185pgv.95.1551191958932;
- Tue, 26 Feb 2019 06:39:18 -0800 (PST)
+        bh=ORID1v1ozYXyKv1mw/ofFm5kiuOuJ/TBoHbnGpDrQY0=;
+        b=SJVfLQO+Svv6RyfmsE0MNAR13beyJPURdYXaVYEszORLqdzmDxOs8a9JLq/P+HFeCm
+         ifWEE/kmfhCjBw/4zc7XTbWZmB2SyFM8jHjMHtJYOc2yvhRfx+Cnm7/k7XzBLS7wC5ch
+         7dMx2/X2dlktxGJFWvaO9aJBEVTannOI9QVsqHwp9uk5cf3QUtnxfi6QPBdJw7UmrFcQ
+         cMua+CK/4P7WFb2FILtwNrS5oJdg30v2lQuEMCLeBhHfPzBv4rsGvmYuhQFW4UlwHStf
+         RnZdrOpOyvHAloueknWXojrYc0K9/xf7duELeyWy6KISz32evFB9klOyB3qDMG6/x+9p
+         jMNw==
+X-Gm-Message-State: AHQUAubDi/DiyQxok9f2ZWHXmcLEyTQjr4fnP/WyjsREojqM1+cCVypg
+        wtGyqO2JoMPJm7zN+chVRPdpo0/8oMjC3BNb8luOqg==
+X-Google-Smtp-Source: AHgI3IZRaeChYbi2J79TLZ2OQNrL+zd2lHSInwkIpfXgbjWxpzJly0F0LoxycLTV6qaHuDyyWxELKtQh0Gjyn9jKmaE=
+X-Received: by 2002:a62:4299:: with SMTP id h25mr26113838pfd.165.1551192097850;
+ Tue, 26 Feb 2019 06:41:37 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1550839937.git.andreyknvl@google.com> <8343cd77ca301df15839796f3b446b75ce5ffbbf.1550839937.git.andreyknvl@google.com>
- <73f2f3fe-9a66-22a1-5aae-c282779a75f5@intel.com>
-In-Reply-To: <73f2f3fe-9a66-22a1-5aae-c282779a75f5@intel.com>
+References: <cover.1550839937.git.andreyknvl@google.com> <3875fa863b755d8cb43afa7bb0fe543e5fd05a5d.1550839937.git.andreyknvl@google.com>
+ <81ea4e77-90a4-4fd9-2bc8-135e0da30044@intel.com>
+In-Reply-To: <81ea4e77-90a4-4fd9-2bc8-135e0da30044@intel.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 26 Feb 2019 15:39:08 +0100
-Message-ID: <CAAeHK+yQU8khtOoyDKqmHterCa16P7oWe9AMiPnrxE+Gyb_7aw@mail.gmail.com>
-Subject: Re: [PATCH v10 07/12] fs, arm64: untag user pointers in fs/userfaultfd.c
+Date:   Tue, 26 Feb 2019 15:41:26 +0100
+Message-ID: <CAAeHK+z2qw__Kpeih2mEyhVJ-gbor1vYsOZddT5E71JDiSg7pg@mail.gmail.com>
+Subject: Re: [PATCH v10 04/12] mm, arm64: untag user pointers passed to memory syscalls
 To:     Dave Hansen <dave.hansen@intel.com>
 Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -90,17 +90,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 23, 2019 at 12:06 AM Dave Hansen <dave.hansen@intel.com> wrote:
+On Sat, Feb 23, 2019 at 12:07 AM Dave Hansen <dave.hansen@intel.com> wrote:
 >
 > On 2/22/19 4:53 AM, Andrey Konovalov wrote:
-> > userfaultfd_register() and userfaultfd_unregister() use provided user
-> > pointers for vma lookups, which can only by done with untagged pointers.
+> > --- a/mm/mprotect.c
+> > +++ b/mm/mprotect.c
+> > @@ -578,6 +578,7 @@ static int do_mprotect_pkey(unsigned long start, size_t len,
+> >  SYSCALL_DEFINE3(mprotect, unsigned long, start, size_t, len,
+> >               unsigned long, prot)
+> >  {
+> > +     start = untagged_addr(start);
+> >       return do_mprotect_pkey(start, len, prot, -1);
+> >  }
+> >
+> > @@ -586,6 +587,7 @@ SYSCALL_DEFINE3(mprotect, unsigned long, start, size_t, len,
+> >  SYSCALL_DEFINE4(pkey_mprotect, unsigned long, start, size_t, len,
+> >               unsigned long, prot, int, pkey)
+> >  {
+> > +     start = untagged_addr(start);
+> >       return do_mprotect_pkey(start, len, prot, pkey);
+> >  }
 >
-> So, we have to patch all these sites before the tagged values get to the
-> point of hitting the vma lookup functions.  Dumb question: Why don't we
-> just patch the vma lookup functions themselves instead of all of these
-> callers?
+> This seems to have taken the approach of going as close as possible to
+> the syscall boundary and untagging the pointer there.  I guess that's
+> OK, but it does lead to more churn than necessary.  For instance, why
+> not just do the untagging in do_mprotect_pkey()?
 
-That might be a working approach as well. We'll still need to fix up
-places where the vma fields are accessed directly. Catalin, what do
-you think?
+I think that makes more sense, will do in the next version, thanks!
+
+>
+> I think that's an overall design question.  I kinda asked the same thing
+> about patching call sites vs. VMA lookup functions.
+
+Replied in the other thread.
