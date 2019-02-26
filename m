@@ -1,323 +1,202 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 05A077D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Feb 2019 17:00:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A7E9C7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Feb 2019 17:09:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727286AbfBZRAb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Feb 2019 12:00:31 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:45332 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727704AbfBZRAb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Feb 2019 12:00:31 -0500
-Received: by mail-pl1-f194.google.com with SMTP id r14so6502403pls.12
-        for <linux-doc@vger.kernel.org>; Tue, 26 Feb 2019 09:00:30 -0800 (PST)
+        id S1726624AbfBZRJA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Feb 2019 12:09:00 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:39570 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726602AbfBZRI7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Feb 2019 12:08:59 -0500
+Received: by mail-wr1-f65.google.com with SMTP id l5so14803424wrw.6;
+        Tue, 26 Feb 2019 09:08:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=+dlwH5mhQa9AGOo/L/0pHUnERl1xupoKAAdgQEuEs4o=;
-        b=TKhusmiYgp/r/qYrAihKQnLxpnkSF9gVjEAmYDzz/PC1SlpVJK5w6qzCKSLFvpz8Xu
-         rKEKwm1dwsKZhAKWLlqcCR2Jz5zQU1CTYYd4BY759+nuGE70ovO9ZgV0qxY6Mx3jG0tb
-         CjxnxDd8NnMbTcqWq81L1IU/A7l372p+mBgWFr+1vvX8ojRCnIuPwYOWFFrKC19NnWCc
-         fu1VUiIHs4m5DhexG7MgwodYUTISDjwqERkPT2zhmRFtv5IpfBlYmcIi+ACwGyBQDNOI
-         c7+1sqWCg2gny5CbD5AsF1nFyYjaA/4gXzTN9haMtWeYNdtCbmy9GnfEBf7y6Mzs4NVk
-         TneQ==
+        bh=T+xP4MHoEDgcyGpah3uADNPf3QtVMs/krcpmuCnfJaY=;
+        b=acttV7G4xniAFRj+3YnXqXfNblC65aC5OpqZ9DFb0klXQQWPJC59z6e8veM/Pqlstz
+         5Wy+YSQ3IRGT6hUCP33uVRZ5Vjt9DLdVKG1OzWHKPYK4iDcx/ccO6en9MqVsMmX/SnZ1
+         xjJziFHVKQPjNUQ2PjaomJeZCTBN3piW7aAsnkCl6Hk3iyY1Lf0bkm78JzeOPS8TZULD
+         4926WC+YEepxbs65rb2SipSwm06oi1BYPapu0AJNvTR8JlQS1C3GpEhKk/zGZf8sEd7Y
+         TamWRmMSLQh1iiHL9aJoNLSL6He9qGbvdp5oEkiFN7G9KGwqNa/Rbxivbe0P6q6GurU9
+         36Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+dlwH5mhQa9AGOo/L/0pHUnERl1xupoKAAdgQEuEs4o=;
-        b=gevjJFgOqfI+AiuHHTQf0nMgezU8wyQe9O5LljWh2AUtsI48K8FCYUQz6Mpc5VewG7
-         3fQUe79nynl19iFRz+Pvpe43F/fO6ckSpo0GlhlhXqwS76Zg5sLzTqgGgDwyu1F8Y0QQ
-         ZA5pJsZONeyPbJkTAFXQjAUzH+JrNROtPjgw0BrediOYbpzjX7SwVwEMU6nmaaNB//m0
-         LV4kvSN1Ty2iKeyXwin0RpacIuvv9vhRXydT3ldQdC8vX5d0PCm1n1yfgp5Fd/0jS+gG
-         sbYR1rxrWW3TFZ/pQx44/LkZL7z5n0f2Izgd+aKTnYKDfzvjk7mZ0OVVNokuTxBcO88J
-         CVsQ==
-X-Gm-Message-State: AHQUAuYi1S911UgkHMTPS0Rv7BcXnYf+J77LAdr6yQT7VvAChi/y/Gnz
-        rEpR7vKe0TJZbfCT4MWVupODMUhdH/Yne03HRisDoQ==
-X-Google-Smtp-Source: AHgI3IZN1u3daoyBMzsmk5B7rJJGPUG92+iDsiQMh3vRso6YV3aDYejN/KFxUnPEQqZrzQv/qz0XzLbqBA8Ck1FyBz0=
-X-Received: by 2002:a17:902:1122:: with SMTP id d31mr27061375pla.246.1551200429919;
- Tue, 26 Feb 2019 09:00:29 -0800 (PST)
+        bh=T+xP4MHoEDgcyGpah3uADNPf3QtVMs/krcpmuCnfJaY=;
+        b=LEEXF/grEPYAyoWuBsP5oINHZJRbZjqIleLhX0eabuYtzN6tHvIqEOTicdnl8QkcV9
+         p2omjZdmFyQ4UDzUlBAcFYteMA7anNfidUtivsiqcqgM0uHGC4R6KETC3AsRyLjB668/
+         8c8sQye4TX3akdtAfBqb9x4KQzi883KDpYCQxQllRq2ROJdhbtDOt7hUYa8zniZVhp6G
+         wx+MGiYdBaGLYO23IpmikcaveNV+TVsF6Mpb0VofR3AygZdzSgIT3EmEa1m8r+mXqzEF
+         knCcdAJpOgVhxfduCvEPs69yeAC00rTJkrHIYWMr1H0dIp6LUQl8BjechTOP5c40s7FX
+         ghvQ==
+X-Gm-Message-State: AHQUAubWWK3fDS/wGWLvtOtOrRAAdEMxHUO+SIZIap+Vtpga9OetLpnY
+        i+tAjIgtVCrWrY3sy3At5iyb2j5iG5vbEZGtR+opCqx6
+X-Google-Smtp-Source: AHgI3IbceMYfeuX/nswSigzqJQNrkO7PAw7oCjdrp1GhZjHj00IENA2unlSR4zp84uaMl/QQ4ZnImAGXp3izEx85Soc=
+X-Received: by 2002:a5d:6209:: with SMTP id y9mr18530356wru.140.1551200937432;
+ Tue, 26 Feb 2019 09:08:57 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1550839937.git.andreyknvl@google.com> <464111f3-e255-ad45-8964-58462d889e6f@arm.com>
- <CAAeHK+wCZK7F7T1k+Kg_HkK47J8R9ugtH1g1ciLYH_KJ22ZVjg@mail.gmail.com> <96d1086c-ca82-d6d7-24c3-f6686d98d47a@arm.com>
-In-Reply-To: <96d1086c-ca82-d6d7-24c3-f6686d98d47a@arm.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 26 Feb 2019 18:00:18 +0100
-Message-ID: <CAAeHK+z65WjTWp8h4RrLpqopAk3o7S6VqC3XL-iXbbp9rQuQsA@mail.gmail.com>
-Subject: Re: [PATCH v10 00/12] arm64: untag user pointers passed to the kernel
-To:     Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Cc:     nd <nd@arm.com>, Catalin Marinas <Catalin.Marinas@arm.com>,
-        Will Deacon <Will.Deacon@arm.com>,
-        Mark Rutland <Mark.Rutland@arm.com>,
-        Robin Murphy <Robin.Murphy@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+References: <1551023123-5031-1-git-send-email-zenghuiyu96@gmail.com> <20190225112640.50d6a2c5@lwn.net>
+In-Reply-To: <20190225112640.50d6a2c5@lwn.net>
+From:   Zenghui Yu <zenghuiyu96@gmail.com>
+Date:   Wed, 27 Feb 2019 01:08:45 +0800
+Message-ID: <CAKcZhuVqEJvO=wWYqkwNsnPULGA1WA7VPBh0rh7W0u3upgnvmA@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation/process/howto: Update for 4.x -> 5.x versioning
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincenzo Frascino <Vincenzo.Frascino@arm.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave P Martin <Dave.Martin@arm.com>,
-        Kevin Brodsky <Kevin.Brodsky@arm.com>
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 22, 2019 at 5:10 PM Szabolcs Nagy <Szabolcs.Nagy@arm.com> wrote:
+Hi Jon,
+
+On Tue, Feb 26, 2019 at 2:26 AM Jonathan Corbet <corbet@lwn.net> wrote:
 >
-> On 22/02/2019 15:40, Andrey Konovalov wrote:
-> > On Fri, Feb 22, 2019 at 4:35 PM Szabolcs Nagy <Szabolcs.Nagy@arm.com> wrote:
-> >>
-> >> On 22/02/2019 12:53, Andrey Konovalov wrote:
-> >>> This patchset is meant to be merged together with "arm64 relaxed ABI" [1].
-> >>>
-> >>> arm64 has a feature called Top Byte Ignore, which allows to embed pointer
-> >>> tags into the top byte of each pointer. Userspace programs (such as
-> >>> HWASan, a memory debugging tool [2]) might use this feature and pass
-> >>> tagged user pointers to the kernel through syscalls or other interfaces.
-> >>>
-> >>> Right now the kernel is already able to handle user faults with tagged
-> >>> pointers, due to these patches:
-> >>>
-> >>> 1. 81cddd65 ("arm64: traps: fix userspace cache maintenance emulation on a
-> >>>              tagged pointer")
-> >>> 2. 7dcd9dd8 ("arm64: hw_breakpoint: fix watchpoint matching for tagged
-> >>>             pointers")
-> >>> 3. 276e9327 ("arm64: entry: improve data abort handling of tagged
-> >>>             pointers")
-> >>>
-> >>> This patchset extends tagged pointer support to syscall arguments.
-> >>>
-> >>> For non-memory syscalls this is done by untaging user pointers when the
-> >>> kernel performs pointer checking to find out whether the pointer comes
-> >>> from userspace (most notably in access_ok). The untagging is done only
-> >>> when the pointer is being checked, the tag is preserved as the pointer
-> >>> makes its way through the kernel.
-> >>>
-> >>> Since memory syscalls (mmap, mprotect, etc.) don't do memory accesses but
-> >>> rather deal with memory ranges, untagged pointers are better suited to
-> >>> describe memory ranges internally. Thus for memory syscalls we untag
-> >>> pointers completely when they enter the kernel.
-> >>
-> >> i think the same is true when user pointers are compared.
-> >>
-> >> e.g. i suspect there may be issues with tagged robust mutex
-> >> list pointers because the kernel does
-> >>
-> >> futex.c:3541:   while (entry != &head->list) {
-> >>
-> >> where entry is a user pointer that may be tagged, and
-> >> &head->list is probably not tagged.
+> On Sun, 24 Feb 2019 23:45:23 +0800
+> Zenghui Yu <zenghuiyu96@gmail.com> wrote:
+>
+> > As linux-5.0 is coming up soon, the howto.rst document can be
+> > updated for the new kernel version. Change all 4.x references
+> > to 5.x now.
 > >
-> > You're right. I'll expand the cover letter in the next version to
-> > describe this more accurately. The patchset however contains "mm,
-> > arm64: untag user pointers in mm/gup.c" that should take care of futex
-> > pointers.
+> > Signed-off-by: Zenghui Yu <zenghuiyu96@gmail.com>
 >
-> the robust mutex list pointer is not a futex pointer,
-> i'm not sure how the mm/gup.c patch helps.
+> Overall: I think there's value in having the docs reflect current
+> numbers, though it would be better if the docs as a whole were kept
+> current at the same time.  howto.rst hasn't been updated yet, so this
+> attention is welcome - thanks for taking a look at it.  That said, I
+> really think we can do a little better.
 
-Oh, I've misinterpreted what you said, sorry.
+Thanks for your reviewing and nice suggestions.  Now I have realized that
+simply changing version numbers in howto.rst (like what I've done ...) is
+shortsighted. And yeah, we can do it better.
 
-I've looked at the robust futex list implementation, and I'm not sure
-if we need to add untagging here.
-
-> >> futex.c:3541:   while (entry != &head->list) {
-
-Here head has whatever value user has set via the set_robust_list
-syscall and it might be tagged. AFAIU this loop iterates over the
-robust list stored in userspace, until it encounters the head pointer
-again, at which point the kernel decides that it has iterated over the
-whole list and stops. The question is whether we want the user to use
-the same tag for the pointer that is passed to the set_robust_list
-syscall and the pointer that is used to mark the end of the robust
-list.
-
-Catalin, what do you think?
-
+> >  Documentation/process/howto.rst | 24 ++++++++++++------------
+> >  1 file changed, 12 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+> > index f16242b..19001e2 100644
+> > --- a/Documentation/process/howto.rst
+> > +++ b/Documentation/process/howto.rst
+> > @@ -235,16 +235,16 @@ Linux kernel development process currently consists of a few different
+> >  main kernel "branches" and lots of different subsystem-specific kernel
+> >  branches.  These different branches are:
+> >
+> > -  - main 4.x kernel tree
+> > -  - 4.x.y -stable kernel tree
+> > +  - main 5.x kernel tree
+> > +  - 5.x.y -stable kernel tree
+> >    - subsystem specific kernel trees and patches
+> > -  - the 4.x -next kernel tree for integration tests
+> > +  - the 5.x -next kernel tree for integration tests
 >
-> >>
-> >>> One of the alternative approaches to untagging that was considered is to
-> >>> completely strip the pointer tag as the pointer enters the kernel with
-> >>> some kind of a syscall wrapper, but that won't work with the countless
-> >>> number of different ioctl calls. With this approach we would need a custom
-> >>> wrapper for each ioctl variation, which doesn't seem practical.
-> >>>
-> >>> The following testing approaches has been taken to find potential issues
-> >>> with user pointer untagging:
-> >>>
-> >>> 1. Static testing (with sparse [3] and separately with a custom static
-> >>>    analyzer based on Clang) to track casts of __user pointers to integer
-> >>>    types to find places where untagging needs to be done.
-> >>>
-> >>> 2. Static testing with grep to find parts of the kernel that call
-> >>>    find_vma() (and other similar functions) or directly compare against
-> >>>    vm_start/vm_end fields of vma.
-> >>>
-> >>> 3. Static testing with grep to find parts of the kernel that compare
-> >>>    user pointers with TASK_SIZE or other similar consts and macros.
-> >>>
-> >>> 4. Dynamic testing: adding BUG_ON(has_tag(addr)) to find_vma() and running
-> >>>    a modified syzkaller version that passes tagged pointers to the kernel.
-> >>>
-> >>> Based on the results of the testing the requried patches have been added
-> >>> to the patchset.
-> >>>
-> >>> This patchset has been merged into the Pixel 2 kernel tree and is now
-> >>> being used to enable testing of Pixel 2 phones with HWASan.
-> >>>
-> >>> This patchset is a prerequisite for ARM's memory tagging hardware feature
-> >>> support [4].
-> >>>
-> >>> Thanks!
-> >>>
-> >>> [1] https://lkml.org/lkml/2018/12/10/402
-> >>>
-> >>> [2] http://clang.llvm.org/docs/HardwareAssistedAddressSanitizerDesign.html
-> >>>
-> >>> [3] https://github.com/lucvoo/sparse-dev/commit/5f960cb10f56ec2017c128ef9d16060e0145f292
-> >>>
-> >>> [4] https://community.arm.com/processors/b/blog/posts/arm-a-profile-architecture-2018-developments-armv85a
-> >>>
-> >>> Changes in v10:
-> >>> - Added "mm, arm64: untag user pointers passed to memory syscalls" back.
-> >>> - New patch "fs, arm64: untag user pointers in fs/userfaultfd.c".
-> >>> - New patch "net, arm64: untag user pointers in tcp_zerocopy_receive".
-> >>> - New patch "kernel, arm64: untag user pointers in prctl_set_mm*".
-> >>> - New patch "tracing, arm64: untag user pointers in seq_print_user_ip".
-> >>>
-> >>> Changes in v9:
-> >>> - Rebased onto 4.20-rc6.
-> >>> - Used u64 instead of __u64 in type casts in the untagged_addr macro for
-> >>>   arm64.
-> >>> - Added braces around (addr) in the untagged_addr macro for other arches.
-> >>>
-> >>> Changes in v8:
-> >>> - Rebased onto 65102238 (4.20-rc1).
-> >>> - Added a note to the cover letter on why syscall wrappers/shims that untag
-> >>>   user pointers won't work.
-> >>> - Added a note to the cover letter that this patchset has been merged into
-> >>>   the Pixel 2 kernel tree.
-> >>> - Documentation fixes, in particular added a list of syscalls that don't
-> >>>   support tagged user pointers.
-> >>>
-> >>> Changes in v7:
-> >>> - Rebased onto 17b57b18 (4.19-rc6).
-> >>> - Dropped the "arm64: untag user address in __do_user_fault" patch, since
-> >>>   the existing patches already handle user faults properly.
-> >>> - Dropped the "usb, arm64: untag user addresses in devio" patch, since the
-> >>>   passed pointer must come from a vma and therefore be untagged.
-> >>> - Dropped the "arm64: annotate user pointers casts detected by sparse"
-> >>>   patch (see the discussion to the replies of the v6 of this patchset).
-> >>> - Added more context to the cover letter.
-> >>> - Updated Documentation/arm64/tagged-pointers.txt.
-> >>>
-> >>> Changes in v6:
-> >>> - Added annotations for user pointer casts found by sparse.
-> >>> - Rebased onto 050cdc6c (4.19-rc1+).
-> >>>
-> >>> Changes in v5:
-> >>> - Added 3 new patches that add untagging to places found with static
-> >>>   analysis.
-> >>> - Rebased onto 44c929e1 (4.18-rc8).
-> >>>
-> >>> Changes in v4:
-> >>> - Added a selftest for checking that passing tagged pointers to the
-> >>>   kernel succeeds.
-> >>> - Rebased onto 81e97f013 (4.18-rc1+).
-> >>>
-> >>> Changes in v3:
-> >>> - Rebased onto e5c51f30 (4.17-rc6+).
-> >>> - Added linux-arch@ to the list of recipients.
-> >>>
-> >>> Changes in v2:
-> >>> - Rebased onto 2d618bdf (4.17-rc3+).
-> >>> - Removed excessive untagging in gup.c.
-> >>> - Removed untagging pointers returned from __uaccess_mask_ptr.
-> >>>
-> >>> Changes in v1:
-> >>> - Rebased onto 4.17-rc1.
-> >>>
-> >>> Changes in RFC v2:
-> >>> - Added "#ifndef untagged_addr..." fallback in linux/uaccess.h instead of
-> >>>   defining it for each arch individually.
-> >>> - Updated Documentation/arm64/tagged-pointers.txt.
-> >>> - Dropped "mm, arm64: untag user addresses in memory syscalls".
-> >>> - Rebased onto 3eb2ce82 (4.16-rc7).
-> >>>
-> >>> Reviewed-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-> >>> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> >>>
-> >>> Andrey Konovalov (12):
-> >>>   uaccess: add untagged_addr definition for other arches
-> >>>   arm64: untag user pointers in access_ok and __uaccess_mask_ptr
-> >>>   lib, arm64: untag user pointers in strn*_user
-> >>>   mm, arm64: untag user pointers passed to memory syscalls
-> >>>   mm, arm64: untag user pointers in mm/gup.c
-> >>>   fs, arm64: untag user pointers in copy_mount_options
-> >>>   fs, arm64: untag user pointers in fs/userfaultfd.c
-> >>>   net, arm64: untag user pointers in tcp_zerocopy_receive
-> >>>   kernel, arm64: untag user pointers in prctl_set_mm*
-> >>>   tracing, arm64: untag user pointers in seq_print_user_ip
-> >>>   arm64: update Documentation/arm64/tagged-pointers.txt
-> >>>   selftests, arm64: add a selftest for passing tagged pointers to kernel
-> >>>
-> >>>  Documentation/arm64/tagged-pointers.txt       | 25 +++++++++++--------
-> >>>  arch/arm64/include/asm/uaccess.h              | 10 +++++---
-> >>>  fs/namespace.c                                |  2 +-
-> >>>  fs/userfaultfd.c                              |  5 ++++
-> >>>  include/linux/memory.h                        |  4 +++
-> >>>  ipc/shm.c                                     |  2 ++
-> >>>  kernel/sys.c                                  | 14 +++++++++++
-> >>>  kernel/trace/trace_output.c                   |  2 +-
-> >>>  lib/strncpy_from_user.c                       |  2 ++
-> >>>  lib/strnlen_user.c                            |  2 ++
-> >>>  mm/gup.c                                      |  4 +++
-> >>>  mm/madvise.c                                  |  2 ++
-> >>>  mm/mempolicy.c                                |  5 ++++
-> >>>  mm/migrate.c                                  |  1 +
-> >>>  mm/mincore.c                                  |  2 ++
-> >>>  mm/mlock.c                                    |  5 ++++
-> >>>  mm/mmap.c                                     |  7 ++++++
-> >>>  mm/mprotect.c                                 |  2 ++
-> >>>  mm/mremap.c                                   |  2 ++
-> >>>  mm/msync.c                                    |  2 ++
-> >>>  net/ipv4/tcp.c                                |  2 ++
-> >>>  tools/testing/selftests/arm64/.gitignore      |  1 +
-> >>>  tools/testing/selftests/arm64/Makefile        | 11 ++++++++
-> >>>  .../testing/selftests/arm64/run_tags_test.sh  | 12 +++++++++
-> >>>  tools/testing/selftests/arm64/tags_test.c     | 19 ++++++++++++++
-> >>>  25 files changed, 129 insertions(+), 16 deletions(-)
-> >>>  create mode 100644 tools/testing/selftests/arm64/.gitignore
-> >>>  create mode 100644 tools/testing/selftests/arm64/Makefile
-> >>>  create mode 100755 tools/testing/selftests/arm64/run_tags_test.sh
-> >>>  create mode 100644 tools/testing/selftests/arm64/tags_test.c
-> >>>
-> >>
+> One thing I think we can do is to simply get rid of version numbers in a
+> lot of places and make this process easier when 6.x comes around.  What
+> this is really trying to say is that we have:
 >
+>  - Linus's mainline tree
+>  - Various stable trees with multiple major numbers
+>  - Subsystem-specific trees
+>  - linux-next
+>
+> If we could rework this along those lines, it will more accurately
+> reflect reality and not require updating next time.
+
+Obviously a better classification. Will follow your suggestion and modify it.
+
+> > -4.x kernel tree
+> > +5.x kernel tree
+> >  ~~~~~~~~~~~~~~~
+> >
+> > -4.x kernels are maintained by Linus Torvalds, and can be found on
+> > -https://kernel.org in the pub/linux/kernel/v4.x/ directory.  Its development
+> > +5.x kernels are maintained by Linus Torvalds, and can be found on
+> > +https://kernel.org in the pub/linux/kernel/v5.x/ directory.  Its development
+> >  process is as follows:
+>
+> And here too I think we can just say "mainline" and that they can be
+> found at https://kernel.org/ or in the repo.
+
+Will modify.
+
+> >    - As soon as a new kernel is released a two weeks window is open,
+> > @@ -277,21 +277,21 @@ mailing list about kernel releases:
+> >       released according to perceived bug status, not according to a
+> >       preconceived timeline."*
+> >
+> > -4.x.y -stable kernel tree
+> > +5.x.y -stable kernel tree
+> >  ~~~~~~~~~~~~~~~~~~~~~~~~~
+> >
+> >  Kernels with 3-part versions are -stable kernels. They contain
+> >  relatively small and critical fixes for security problems or significant
+> > -regressions discovered in a given 4.x kernel.
+> > +regressions discovered in a given 5.x kernel.
+>
+> Here too, especially since most of the outstanding stable kernels won't
+> be 5.x for a long time.
+
+Yes. Actually, I hesitated too when I was changing "4.x.y -stable kernel tree"
+to "5.x.y -stable kernel tree" :)
+Using "stable trees" instead will be better.
+
+> >  This is the recommended branch for users who want the most recent stable
+> >  kernel and are not interested in helping test development/experimental
+> >  versions.
+> >
+> > -If no 4.x.y kernel is available, then the highest numbered 4.x
+> > +If no 5.x.y kernel is available, then the highest numbered 5.x
+> >  kernel is the current stable kernel.
+>
+> ...and this, I believe, is misleading at best.  I'd just take that
+> sentence out.
+
+Yes, I'll delete it.
+
+> > -4.x.y are maintained by the "stable" team <stable@vger.kernel.org>, and
+> > +5.x.y are maintained by the "stable" team <stable@vger.kernel.org>, and
+> >  are released as needs dictate.  The normal release period is approximately
+> >  two weeks, but it can be longer if there are no pressing problems.  A
+> >  security-related problem, instead, can cause a release to happen almost
+> > @@ -326,10 +326,10 @@ revisions to it, and maintainers can mark patches as under review,
+> >  accepted, or rejected.  Most of these patchwork sites are listed at
+> >  https://patchwork.kernel.org/.
+> >
+> > -4.x -next kernel tree for integration tests
+> > +5.x -next kernel tree for integration tests
+> >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >
+> > -Before updates from subsystem trees are merged into the mainline 4.x
+> > +Before updates from subsystem trees are merged into the mainline 5.x
+> >  tree, they need to be integration-tested.  For this purpose, a special
+> >  testing repository exists into which virtually all subsystem trees are
+> >  pulled on an almost daily basis:
+>
+> linux-next is called "linux-next"; we should just use that name.
+
+Will modify.
+
+> So what do you think?  Can we maybe get a version that removes most (or
+> all) of the explicit version numbers from this file?
+
+Actually, jon, you have already kindly pointed out everywhere to be noticed in
+this patch. What I need to do is just follow your detailed suggestions and send
+a V3 :)  And I think all of the explicit version numbers can be removed.
+
+
+Many thanks,
+
+zenghui
