@@ -1,81 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C15D47D099
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Feb 2019 23:48:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C874F7D099
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Feb 2019 23:54:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730189AbfB0XsO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Feb 2019 18:48:14 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:35042 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728397AbfB0XsO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Feb 2019 18:48:14 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id D73364AD50;
-        Wed, 27 Feb 2019 23:48:13 +0000 (UTC)
-Received: from prarit.bos.redhat.com (prarit-guest.khw1.lab.eng.bos.redhat.com [10.16.200.63])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7D2245ED32;
-        Wed, 27 Feb 2019 23:48:12 +0000 (UTC)
-Subject: Re: [PATCH] x86/fpu: Parse comma separated list passed in clearcpuid
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <ak@linux.intel.com>,
-        x86@kernel.org, linux-doc@vger.kernel.org
-References: <20190221131225.22063-1-prarit@redhat.com>
- <20190221134847.GQ32494@hirez.programming.kicks-ass.net>
-From:   Prarit Bhargava <prarit@redhat.com>
-Message-ID: <388fecd4-9b99-f405-fed4-1f6c3b53bc8b@redhat.com>
-Date:   Wed, 27 Feb 2019 18:48:11 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+        id S1729986AbfB0Xy4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Feb 2019 18:54:56 -0500
+Received: from outils.crapouillou.net ([89.234.176.41]:60472 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728397AbfB0Xy4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Feb 2019 18:54:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1551311691; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=cJ6fULrEGLrLtO/O+I4SpN9dM7a0vaIBbaxUxFE0zew=;
+        b=vz6Gts0AlF1ZMxzNvwztMEwxrlMYtUm8vCZGrHH2K38uvYsNaQEwsGoASa1KbumPTB+Z6A
+        88PY/c9CQ9QkAnmFVsij8HjTByhDB1NR1aR4C+wZhWzvjIocvGJMOFJt+2Di8Cg69huwZl
+        zA1bw5utq6/tPI8K1f1TGueCFOzSWK4=
+Date:   Wed, 27 Feb 2019 20:54:28 -0300
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v8 05/26] clocksource: Add driver for the Ingenic JZ47xx
+ OST
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Mathieu Malaterre <malat@debian.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ezequiel Garcia <ezequiel@collabora.co.uk>,
+        PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>,
+        linux-pwm@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        linux-watchdog@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org, od@zcrc.me,
+        Maarten ter Huurne <maarten@treewalker.org>
+Message-Id: <1551311669.21164.1@crapouillou.net>
+In-Reply-To: <155111793658.191923.2540746255375959460@swboyd.mtv.corp.google.com>
+References: <20181212220922.18759-1-paul@crapouillou.net>
+        <CA+7wUsxNN2SL9_7tDh0DiBAgdUwxd_osgmi=09HP7110Tm0DYQ@mail.gmail.com>
+        <128675a5-7ede-4114-a649-89a536346dc8@roeck-us.net>
+        <1548264353.3173.1@crapouillou.net> <20190123180155.GB9781@roeck-us.net>
+        <154835808767.136743.14531363127962557756@swboyd.mtv.corp.google.com>
+        <1548362788.3881.0@crapouillou.net>
+        <154836998080.136743.17683029101430122926@swboyd.mtv.corp.google.com>
+        <1548370388.3881.2@crapouillou.net> <1550891845.20534.1@crapouillou.net>
+        <155111793658.191923.2540746255375959460@swboyd.mtv.corp.google.com>
 MIME-Version: 1.0
-In-Reply-To: <20190221134847.GQ32494@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Wed, 27 Feb 2019 23:48:14 +0000 (UTC)
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
 
+Le lun. 25 f=E9vr. 2019 =E0 15:05, Stephen Boyd <sboyd@kernel.org> a=20
+=E9crit :
+> Quoting Paul Cercueil (2019-02-22 19:17:25)
+>>  Hi,
+>>=20
+>>  Anything new on this? It still happens on 5.0-rc7.
+>>  It probes with late_initcall, and not with device_initcall.
+>>  I have no clue what's going on.
+>>=20
+>=20
+> I'm not sure what's going on either. You'll probably have to debug=20
+> when
+> the device is created and when it is probed by enabling the debug
+> printing in the driver core or by adding in extra debug prints to=20
+> narrow
+> down the problem. For example, add a '#define DEBUG 1' at the top of
+> drivers/base/dd.c and see if that helps give some info on what's going
+> on with the drivers and devices.
 
-On 2/21/19 8:48 AM, Peter Zijlstra wrote:
-> On Thu, Feb 21, 2019 at 08:12:25AM -0500, Prarit Bhargava wrote:
->> Users cannot disable multiple CPU features with the kernel parameter
->> clearcpuid=.  For example, "clearcpuid=154 clearcpuid=227" only disables
->> CPUID bit 154.
->>
->> Previous to commit 0c2a3913d6f5 ("x86/fpu: Parse clearcpuid= as early XSAVE
->> argument") it was possible to pass multiple clearcpuid options as kernel
->> parameters using individual entries.  With the new code it isn't easy to
->> replicate exactly that behaviour but a comma separated list can be easily
->> implemented, eg) "clearcpuid=154,227"
->>
->> Make the clearcpuid parse a comma-separated list of values instead of only
->> a single value.
-> 
-> Can we also please kill the value thing entirely and only accept
-> strings. Having to reverse engineer the numbers is madness.
-> 
-> Also, wth would you want to disable XSAVE and EPB ?
-> 
+The doc of __platform_driver_probe says:
+"Use this instead of platform_driver_register() when you know the device
+is not hotpluggable and has already been registered".
 
-It looks like Fenghua has implemented this here:
+When the parent device and child device are both probed with
+builtin_platform_driver_probe(), and the parent calls
+devm_of_platform_populate(), it is not certain that the parent's
+probe will happen before the child's, and if it does not, the child
+device has not been registered and its probe is not allowed to defer.
+So it turned out not to be a core bug, rather a misuse of the API.
 
-https://marc.info/?l=linux-kernel&m=154908490105208&w=2
+So I will keep the builtin_platform_driver_probe() in the child, and=20
+use a
+subsys_initcall() in the parent. That works fine.
 
-so please drop this patch.
+Regards,
+-Paul
+=
 
-Thanks,
-
-P.
