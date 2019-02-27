@@ -2,80 +2,105 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3B7F17D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Feb 2019 00:50:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD9F67D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Feb 2019 01:06:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729038AbfB0AuN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Feb 2019 19:50:13 -0500
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:32783 "EHLO
-        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729128AbfB0AuN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Feb 2019 19:50:13 -0500
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.08317383|-1;CH=green;DM=CONTINUE|CONTINUE|true|0.21743-0.010436-0.772134;FP=0|0|0|0|0|-1|-1|-1;HT=e01a16368;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=13;RT=13;SR=0;TI=SMTPD_---.E1n3gWn_1551228607;
-Received: from 172.16.10.102(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.E1n3gWn_1551228607)
-          by smtp.aliyun-inc.com(10.147.41.120);
-          Wed, 27 Feb 2019 08:50:08 +0800
-Subject: Re: [RFC v10 0/4] pstore/block: new support logger for block devices
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1551162825-28943-1-git-send-email-liaoweixiong@allwinnertech.com>
- <20190226112033.GA16900@kroah.com>
-From:   liaoweixiong <liaoweixiong@allwinnertech.com>
-Message-ID: <34916ace-7020-06e8-7958-f3652aef6604@allwinnertech.com>
-Date:   Wed, 27 Feb 2019 08:50:18 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20190226112033.GA16900@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1729453AbfB0BGC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Feb 2019 20:06:02 -0500
+Received: from foss.arm.com ([217.140.101.70]:55586 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729446AbfB0BGC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 26 Feb 2019 20:06:02 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 87320EBD;
+        Tue, 26 Feb 2019 17:06:01 -0800 (PST)
+Received: from beelzebub.austin.arm.com (beelzebub.austin.arm.com [10.118.12.119])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D660B3F5C1;
+        Tue, 26 Feb 2019 17:06:00 -0800 (PST)
+From:   Jeremy Linton <jeremy.linton@arm.com>
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     catalin.marinas@arm.com, will.deacon@arm.com, marc.zyngier@arm.com,
+        suzuki.poulose@arm.com, Dave.Martin@arm.com,
+        shankerd@codeaurora.org, julien.thierry@arm.com,
+        mlangsdo@redhat.com, stefan.wahren@i2e.com, Andre.Przywara@arm.com,
+        linux-kernel@vger.kernel.org,
+        Jeremy Linton <jeremy.linton@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v5 01/10] arm64: Provide a command line to disable spectre_v2 mitigation
+Date:   Tue, 26 Feb 2019 19:05:35 -0600
+Message-Id: <20190227010544.597579-2-jeremy.linton@arm.com>
+X-Mailer: git-send-email 2.17.2
+In-Reply-To: <20190227010544.597579-1-jeremy.linton@arm.com>
+References: <20190227010544.597579-1-jeremy.linton@arm.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+There are various reasons, including bencmarking, to disable spectrev2
+mitigation on a machine. Provide a command-line to do so.
 
-On 2019-02-26 19:20, Greg Kroah-Hartman wrote:
-> On Tue, Feb 26, 2019 at 02:33:41PM +0800, liaoweixiong wrote:
->> Why should we need pstore_block?
->> 1. Most embedded intelligent equipment have no persistent ram, which
->> increases costs. We perfer to cheaper solutions, like block devices.
->> In fast, there is already a sample for block device logger in driver
->> MTD (drivers/mtd/mtdoops.c).
->> 2. Do not any equipment have battery, which means that it lost all data
->> on general ram if power failure. Pstore has little to do for these
->> equipments.
->>
->> [PATCH v10]
-> 
-> Why are you still labeling these as "RFC"?  No one should actually be
-> applying a Request For Comments patchset, as you obviously are not
-> thinking it is ready to be merged :(
-> 
-> After 10 revisions, I hope you are confident in this patchset :)
-> 
+Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/admin-guide/kernel-parameters.txt |  8 ++++----
+ arch/arm64/kernel/cpu_errata.c                  | 13 +++++++++++++
+ 2 files changed, 17 insertions(+), 4 deletions(-)
 
-I'm confident in this patchset :) . It is first time for me to submit
-RFC patches, i just don't know i should change the label to PATCH. Thank
-you for reminding me.
-
-> thanks,
-> 
-> greg k-h
-> 
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 858b6c0b9a15..4d4d6a9537ae 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2842,10 +2842,10 @@
+ 			check bypass). With this option data leaks are possible
+ 			in the system.
+ 
+-	nospectre_v2	[X86,PPC_FSL_BOOK3E] Disable all mitigations for the Spectre variant 2
+-			(indirect branch prediction) vulnerability. System may
+-			allow data leaks with this option, which is equivalent
+-			to spectre_v2=off.
++	nospectre_v2	[X86,PPC_FSL_BOOK3E,ARM64] Disable all mitigations for
++			the Spectre variant 2 (indirect branch prediction)
++			vulnerability. System may allow data leaks with this
++			option.
+ 
+ 	nospec_store_bypass_disable
+ 			[HW] Disable all mitigations for the Speculative Store Bypass vulnerability
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index 9950bb0cbd52..d2b2c69d31bb 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -220,6 +220,14 @@ static void qcom_link_stack_sanitization(void)
+ 		     : "=&r" (tmp));
+ }
+ 
++static bool __nospectre_v2;
++static int __init parse_nospectre_v2(char *str)
++{
++	__nospectre_v2 = true;
++	return 0;
++}
++early_param("nospectre_v2", parse_nospectre_v2);
++
+ static void
+ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
+ {
+@@ -231,6 +239,11 @@ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
+ 	if (!entry->matches(entry, SCOPE_LOCAL_CPU))
+ 		return;
+ 
++	if (__nospectre_v2) {
++		pr_info_once("spectrev2 mitigation disabled by command line option\n");
++		return;
++	}
++
+ 	if (psci_ops.smccc_version == SMCCC_VERSION_1_0)
+ 		return;
+ 
 -- 
-liaoweixiong
+2.20.1
+
