@@ -1,152 +1,81 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 71E3A7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Feb 2019 00:09:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3B7F17D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Feb 2019 00:50:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728768AbfB0AJt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Feb 2019 19:09:49 -0500
-Received: from mail-ua1-f65.google.com ([209.85.222.65]:39478 "EHLO
-        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728736AbfB0AJs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Feb 2019 19:09:48 -0500
-Received: by mail-ua1-f65.google.com with SMTP id s15so13671987uap.6
-        for <linux-doc@vger.kernel.org>; Tue, 26 Feb 2019 16:09:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ds0WqW8zu42b+RQJaaWHjZ1tefZnYdq98gy323FUHsk=;
-        b=az/Vs4op/y4ME89TBe6RS2WAr04BVnCCONZoLG2ITlsHi+EwWrfGg5um6b1Tya1PcL
-         BBVJzTaM2cs523ujbIkl5TBECtsWTnPBF1C41coCWx51OPqWMgNGqZCRsLEuT0UKAuuj
-         BwjnozYT4GJGWJDe6HPKig0dBaI3KovotpaLk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ds0WqW8zu42b+RQJaaWHjZ1tefZnYdq98gy323FUHsk=;
-        b=TMO9/7BGeDZPFpMnmDfrqAyi/jQszBJ7nxH4Qnkhbld+mXygIPrfukydgUVSJ4pSOF
-         Zyv8SzQp/uVG2LfvTMB76VkTq4IUp9QLEDraVy6odlL/4UrN6ez6UichshPcpzCzC8Z5
-         qq/RW1pkS90Wk9TkqDVxyPtlCKgjUfW03OAsVcxJrL+dTWjIU0B/d3fUtids92t/7z3x
-         /oYjjUSa+rRkL6BX4IKMXrvhtWoX+/YkPW1cpWfuhUQlkhTLApi35gbJtrGCHqizJAQl
-         zFsaHAq4CZZ7RzcXXUl82nMYaOoIhyu/zAHrD3ukOnTKjAo6LhPFrxCdKrkasmjoqyGh
-         K4YQ==
-X-Gm-Message-State: AHQUAuY38cpIiZSuGdCHrvrsxy8HUT09fWeYJEqxcNfXLs2bNWjRaHKz
-        0YiW6pptM8SmcpG5ZKx+fQGXu+CBFYo=
-X-Google-Smtp-Source: AHgI3IZF9rtAqD0shm7pZ/EwVYoe6iPzfmqrk+Lp/L5ZEYkj65a4TDp2wBQw0m/zdKo/oYTEiway5Q==
-X-Received: by 2002:a67:6849:: with SMTP id d70mr254942vsc.61.1551226187502;
-        Tue, 26 Feb 2019 16:09:47 -0800 (PST)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
-        by smtp.gmail.com with ESMTPSA id q75sm2668240vke.2.2019.02.26.16.09.46
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 26 Feb 2019 16:09:47 -0800 (PST)
-Received: by mail-ua1-f48.google.com with SMTP id v26so13698723uap.4
-        for <linux-doc@vger.kernel.org>; Tue, 26 Feb 2019 16:09:46 -0800 (PST)
-X-Received: by 2002:ab0:645:: with SMTP id f63mr478618uaf.106.1551226186505;
- Tue, 26 Feb 2019 16:09:46 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1551213058.git.efremov@ispras.ru>
-In-Reply-To: <cover.1551213058.git.efremov@ispras.ru>
-From:   Kees Cook <keescook@chromium.org>
-Date:   Tue, 26 Feb 2019 16:09:35 -0800
-X-Gmail-Original-Message-ID: <CAGXu5jKzDi42Hazh7JsPQpzH-xdQQTQ+oD06Bb1N6tbYzB3uuA@mail.gmail.com>
-Message-ID: <CAGXu5jKzDi42Hazh7JsPQpzH-xdQQTQ+oD06Bb1N6tbYzB3uuA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/11] LSM documentation update
-To:     Denis Efremov <efremov@ispras.ru>
-Cc:     Casey Schaufler <casey@schaufler-ca.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Eric Paris <eparis@parisplace.org>,
-        John Johansen <john.johansen@canonical.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Kentaro Takeda <takedakn@nttdata.co.jp>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+        id S1729038AbfB0AuN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Feb 2019 19:50:13 -0500
+Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:32783 "EHLO
+        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729128AbfB0AuN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Feb 2019 19:50:13 -0500
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.08317383|-1;CH=green;DM=CONTINUE|CONTINUE|true|0.21743-0.010436-0.772134;FP=0|0|0|0|0|-1|-1|-1;HT=e01a16368;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=13;RT=13;SR=0;TI=SMTPD_---.E1n3gWn_1551228607;
+Received: from 172.16.10.102(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.E1n3gWn_1551228607)
+          by smtp.aliyun-inc.com(10.147.41.120);
+          Wed, 27 Feb 2019 08:50:08 +0800
+Subject: Re: [RFC v10 0/4] pstore/block: new support logger for block devices
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1551162825-28943-1-git-send-email-liaoweixiong@allwinnertech.com>
+ <20190226112033.GA16900@kroah.com>
+From:   liaoweixiong <liaoweixiong@allwinnertech.com>
+Message-ID: <34916ace-7020-06e8-7958-f3652aef6604@allwinnertech.com>
+Date:   Wed, 27 Feb 2019 08:50:18 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20190226112033.GA16900@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 26, 2019 at 12:49 PM Denis Efremov <efremov@ispras.ru> wrote:
-> Recent "New LSM Hooks" discussion has led me to the
-> thought that it might be a good idea to slightly
-> update the current documentation. The patchset adds
-> nothing new to the documentation, only fixes the old
-> description of hooks to reflect their current state.
->
-> V2 adds the clarification on arguments for some hooks.
-> The format of the documentation is also slightly updated
-> for better html. However, there are still 10 hooks without
-> documentation at all. I think that this should be fixed
-> separatedly.
->
-> Denis Efremov (11):
->   LSM: fix documentation for sb_copy_data hook
->   LSM: fix documentation for the syslog hook
->   LSM: fix documentation for the socket_post_create hook
->   LSM: fix documentation for the task_setscheduler hook
->   LSM: fix documentation for the socket_getpeersec_dgram hook
->   LSM: fix documentation for the path_chmod hook
->   LSM: fix documentation for the audit_* hooks
->   LSM: fix documentation for the msg_queue_* hooks
->   LSM: fix documentation for the sem_* hooks
->   LSM: fix documentation for the shm_* hooks
->   LSM: lsm_hooks.h: fix documentation format
->
->  include/linux/lsm_hooks.h | 170 ++++++++++++++++++--------------------
->  1 file changed, 81 insertions(+), 89 deletions(-)
 
-Awesome; thanks! This fixes several warnings in "make htmldocs":
+On 2019-02-26 19:20, Greg Kroah-Hartman wrote:
+> On Tue, Feb 26, 2019 at 02:33:41PM +0800, liaoweixiong wrote:
+>> Why should we need pstore_block?
+>> 1. Most embedded intelligent equipment have no persistent ram, which
+>> increases costs. We perfer to cheaper solutions, like block devices.
+>> In fast, there is already a sample for block device logger in driver
+>> MTD (drivers/mtd/mtdoops.c).
+>> 2. Do not any equipment have battery, which means that it lost all data
+>> on general ram if power failure. Pstore has little to do for these
+>> equipments.
+>>
+>> [PATCH v10]
+> 
+> Why are you still labeling these as "RFC"?  No one should actually be
+> applying a Request For Comments patchset, as you obviously are not
+> thinking it is ready to be merged :(
+> 
+> After 10 revisions, I hope you are confident in this patchset :)
+> 
 
-./include/linux/lsm_hooks.h:1783: warning: Function parameter or
-member 'task_setioprio' not described in 'security_list_options'
-./include/linux/lsm_hooks.h:1783: warning: Function parameter or
-member 'task_getioprio' not described in 'security_list_options'
-./include/linux/lsm_hooks.h:1783: warning: Function parameter or
-member 'task_movememory' not described in 'security_list_options'
-./include/linux/lsm_hooks.h:1783: warning: Function parameter or
-member 'secmark_refcount_inc' not described in 'security_list_options'
-./include/linux/lsm_hooks.h:1783: warning: Function parameter or
-member 'secmark_refcount_dec' not described in 'security_list_options'
+I'm confident in this patchset :) . It is first time for me to submit
+RFC patches, i just don't know i should change the label to PATCH. Thank
+you for reminding me.
 
-So, for the series:
-
-Acked-by: Kees Cook <keescook@chromium.org>
-
-If you want more work, I do notice the following warnings are still present:
-
-./include/linux/lsm_hooks.h:1775: warning: Function parameter or
-member 'quotactl' not described in 'security_list_options'
-./include/linux/lsm_hooks.h:1775: warning: Function parameter or
-member 'quota_on' not described in 'security_list_options'
-./include/linux/lsm_hooks.h:1775: warning: Function parameter or
-member 'sb_free_mnt_opts' not described in 'security_list_options'
-./include/linux/lsm_hooks.h:1775: warning: Function parameter or
-member 'sb_eat_lsm_opts' not described in 'security_list_options'
-./include/linux/lsm_hooks.h:1775: warning: Function parameter or
-member 'sb_kern_mount' not described in 'security_list_options'
-./include/linux/lsm_hooks.h:1775: warning: Function parameter or
-member 'sb_show_options' not described in 'security_list_options'
-./include/linux/lsm_hooks.h:1775: warning: Function parameter or
-member 'sb_add_mnt_opt' not described in 'security_list_options'
-./include/linux/lsm_hooks.h:1775: warning: Function parameter or
-member 'd_instantiate' not described in 'security_list_options'
-./include/linux/lsm_hooks.h:1775: warning: Function parameter or
-member 'getprocattr' not described in 'security_list_options'
-./include/linux/lsm_hooks.h:1775: warning: Function parameter or
-member 'setprocattr' not described in 'security_list_options'
-
-:)
+> thanks,
+> 
+> greg k-h
+> 
 
 -- 
-Kees Cook
+liaoweixiong
