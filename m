@@ -1,137 +1,152 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A6AFA7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Feb 2019 23:17:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 71E3A7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Feb 2019 00:09:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729283AbfBZXRy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Feb 2019 18:17:54 -0500
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:34710 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729038AbfBZXRy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Feb 2019 18:17:54 -0500
-Received: by mail-ed1-f65.google.com with SMTP id a16so12331156edn.1;
-        Tue, 26 Feb 2019 15:17:52 -0800 (PST)
+        id S1728768AbfB0AJt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Feb 2019 19:09:49 -0500
+Received: from mail-ua1-f65.google.com ([209.85.222.65]:39478 "EHLO
+        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728736AbfB0AJs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Feb 2019 19:09:48 -0500
+Received: by mail-ua1-f65.google.com with SMTP id s15so13671987uap.6
+        for <linux-doc@vger.kernel.org>; Tue, 26 Feb 2019 16:09:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=F/ZWUspDnO9H+N1b+3KaSbEisQ9DROKLGDc6Wk9zF/Q=;
-        b=Ns64+bkuLm12DoKtMqYvm9spiyuFy91esqRW620Tr8a7c6yO/zBoKktXkM25pJWO7N
-         KYZHrHySgbKp0ukEqgvOhVKztZuddf20j5XWcS8omSkG42v0aRxVNYrlBxPtJ5MKsME7
-         ICL0xa9DMOfylbdIxpEwAZmOFNWw8UhcTBw6asiXQj4RekvDc6+JweuyVSjAgI3eHELu
-         vrpNWsBvdmFuFoBrNOxVtfbPgEBXp3J4Y4DdxNVAhdJW9HKxxO6kJVWQ6cQR3MOt6yFp
-         sJZMlrFYPfy5nxUdukFrBbjcMPSYdZIfmqc7x6DDDKYm9VEv7xqnU2PBR6i514uULX4k
-         dhBw==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ds0WqW8zu42b+RQJaaWHjZ1tefZnYdq98gy323FUHsk=;
+        b=az/Vs4op/y4ME89TBe6RS2WAr04BVnCCONZoLG2ITlsHi+EwWrfGg5um6b1Tya1PcL
+         BBVJzTaM2cs523ujbIkl5TBECtsWTnPBF1C41coCWx51OPqWMgNGqZCRsLEuT0UKAuuj
+         BwjnozYT4GJGWJDe6HPKig0dBaI3KovotpaLk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=F/ZWUspDnO9H+N1b+3KaSbEisQ9DROKLGDc6Wk9zF/Q=;
-        b=PInyJwQ3bxoIhfe6qFrVbVSVhuzdQVNxRMZDpbXkTKEebgurTmJumQhrEb/oWjqxVP
-         bTOnbTH3yNvwQWcBxETP2IeoCODFdPSsycThk/kPg8IJ+ezriGbaOLu4JgDNYjj7jRmW
-         5+bW/asmJQ4AWWxsoVMe91LxyEaQujMYOBV9oit2RO3m5UF1ivb6S0OwSlz70pTfKz+d
-         5xmoZMz9+qICnRl4WfXxTps7H+L2p1HGpa42zMQvxnC7www6T/dvxmmjbWqEVmy0BDDB
-         Y1SZjsGX9KbdErHqBAbj3waXdSbOFLBN1VM4n2lRaAv0MCZxf7dYz9Uex5jVcjpS2dWw
-         66Ow==
-X-Gm-Message-State: AHQUAuZbox7xhCX0UPBwsCUwTYZ+9PDratzLpN+Y3I2J9OAiShLcKNW8
-        MVVSaKC0E7Y4FQn7jcTv/Rw=
-X-Google-Smtp-Source: AHgI3IY1BbDU8p0Py+W8Y6W1UeY89PQP3LwkVqNuoCAqT9ACsIxnL06lQwM6hryAvvVGWelTdqrUAA==
-X-Received: by 2002:a50:ca41:: with SMTP id e1mr3769377edi.73.1551223071600;
-        Tue, 26 Feb 2019 15:17:51 -0800 (PST)
-Received: from ltop.local ([2a02:a03f:4034:3c00:69ad:1253:f4b5:5458])
-        by smtp.gmail.com with ESMTPSA id fy6sm2459233ejb.52.2019.02.26.15.17.49
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ds0WqW8zu42b+RQJaaWHjZ1tefZnYdq98gy323FUHsk=;
+        b=TMO9/7BGeDZPFpMnmDfrqAyi/jQszBJ7nxH4Qnkhbld+mXygIPrfukydgUVSJ4pSOF
+         Zyv8SzQp/uVG2LfvTMB76VkTq4IUp9QLEDraVy6odlL/4UrN6ez6UichshPcpzCzC8Z5
+         qq/RW1pkS90Wk9TkqDVxyPtlCKgjUfW03OAsVcxJrL+dTWjIU0B/d3fUtids92t/7z3x
+         /oYjjUSa+rRkL6BX4IKMXrvhtWoX+/YkPW1cpWfuhUQlkhTLApi35gbJtrGCHqizJAQl
+         zFsaHAq4CZZ7RzcXXUl82nMYaOoIhyu/zAHrD3ukOnTKjAo6LhPFrxCdKrkasmjoqyGh
+         K4YQ==
+X-Gm-Message-State: AHQUAuY38cpIiZSuGdCHrvrsxy8HUT09fWeYJEqxcNfXLs2bNWjRaHKz
+        0YiW6pptM8SmcpG5ZKx+fQGXu+CBFYo=
+X-Google-Smtp-Source: AHgI3IZF9rtAqD0shm7pZ/EwVYoe6iPzfmqrk+Lp/L5ZEYkj65a4TDp2wBQw0m/zdKo/oYTEiway5Q==
+X-Received: by 2002:a67:6849:: with SMTP id d70mr254942vsc.61.1551226187502;
+        Tue, 26 Feb 2019 16:09:47 -0800 (PST)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id q75sm2668240vke.2.2019.02.26.16.09.46
+        for <linux-doc@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 26 Feb 2019 15:17:50 -0800 (PST)
-Date:   Wed, 27 Feb 2019 00:17:49 +0100
-From:   Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Dave Hansen <dave.hansen@intel.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Subject: Re: [PATCH v10 00/12] arm64: untag user pointers passed to the kernel
-Message-ID: <20190226231747.z3lc6yr6xmrw5q2z@ltop.local>
-References: <cover.1550839937.git.andreyknvl@google.com>
- <2ad5f897-25c0-90cf-f54f-827876873a0a@intel.com>
- <CAAeHK+xCi2MxaykYWCz9mwbOzNpjrFcHex7B-VXektNNWBT+Hw@mail.gmail.com>
+        Tue, 26 Feb 2019 16:09:47 -0800 (PST)
+Received: by mail-ua1-f48.google.com with SMTP id v26so13698723uap.4
+        for <linux-doc@vger.kernel.org>; Tue, 26 Feb 2019 16:09:46 -0800 (PST)
+X-Received: by 2002:ab0:645:: with SMTP id f63mr478618uaf.106.1551226186505;
+ Tue, 26 Feb 2019 16:09:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+xCi2MxaykYWCz9mwbOzNpjrFcHex7B-VXektNNWBT+Hw@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+References: <cover.1551213058.git.efremov@ispras.ru>
+In-Reply-To: <cover.1551213058.git.efremov@ispras.ru>
+From:   Kees Cook <keescook@chromium.org>
+Date:   Tue, 26 Feb 2019 16:09:35 -0800
+X-Gmail-Original-Message-ID: <CAGXu5jKzDi42Hazh7JsPQpzH-xdQQTQ+oD06Bb1N6tbYzB3uuA@mail.gmail.com>
+Message-ID: <CAGXu5jKzDi42Hazh7JsPQpzH-xdQQTQ+oD06Bb1N6tbYzB3uuA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/11] LSM documentation update
+To:     Denis Efremov <efremov@ispras.ru>
+Cc:     Casey Schaufler <casey@schaufler-ca.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Eric Paris <eparis@parisplace.org>,
+        John Johansen <john.johansen@canonical.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Kentaro Takeda <takedakn@nttdata.co.jp>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 26, 2019 at 06:18:25PM +0100, Andrey Konovalov wrote:
-> On Fri, Feb 22, 2019 at 11:55 PM Dave Hansen <dave.hansen@intel.com> wrote:
-> >
-> > On 2/22/19 4:53 AM, Andrey Konovalov wrote:
-> > > The following testing approaches has been taken to find potential issues
-> > > with user pointer untagging:
-> > >
-> > > 1. Static testing (with sparse [3] and separately with a custom static
-> > >    analyzer based on Clang) to track casts of __user pointers to integer
-> > >    types to find places where untagging needs to be done.
-> >
-> > First of all, it's really cool that you took this approach.  Sounds like
-> > there was a lot of systematic work to fix up the sites in the existing
-> > codebase.
-> >
-> > But, isn't this a _bit_ fragile going forward?  Folks can't just "make
-> > sparse" to find issues with missing untags.
-> 
-> Yes, this static approach can only be used as a hint to find some
-> places where untagging is needed, but certainly not all.
-> 
-> > This seems like something
-> > where we would ideally add an __tagged annotation (or something) to the
-> > source tree and then have sparse rules that can look for missed untags.
-> 
-> This has been suggested before, search for __untagged here [1].
-> However there are many places in the kernel where a __user pointer is
-> casted into unsigned long and passed further. I'm not sure if it's
-> possible apply a __tagged/__untagged kind of attribute to non-pointer
-> types, is it?
-> 
-> [1] https://patchwork.kernel.org/patch/10581535/
+On Tue, Feb 26, 2019 at 12:49 PM Denis Efremov <efremov@ispras.ru> wrote:
+> Recent "New LSM Hooks" discussion has led me to the
+> thought that it might be a good idea to slightly
+> update the current documentation. The patchset adds
+> nothing new to the documentation, only fixes the old
+> description of hooks to reflect their current state.
+>
+> V2 adds the clarification on arguments for some hooks.
+> The format of the documentation is also slightly updated
+> for better html. However, there are still 10 hooks without
+> documentation at all. I think that this should be fixed
+> separatedly.
+>
+> Denis Efremov (11):
+>   LSM: fix documentation for sb_copy_data hook
+>   LSM: fix documentation for the syslog hook
+>   LSM: fix documentation for the socket_post_create hook
+>   LSM: fix documentation for the task_setscheduler hook
+>   LSM: fix documentation for the socket_getpeersec_dgram hook
+>   LSM: fix documentation for the path_chmod hook
+>   LSM: fix documentation for the audit_* hooks
+>   LSM: fix documentation for the msg_queue_* hooks
+>   LSM: fix documentation for the sem_* hooks
+>   LSM: fix documentation for the shm_* hooks
+>   LSM: lsm_hooks.h: fix documentation format
+>
+>  include/linux/lsm_hooks.h | 170 ++++++++++++++++++--------------------
+>  1 file changed, 81 insertions(+), 89 deletions(-)
 
-It's something that should need to be added to sparse since it's
-different from what sparse already have (the existing __bitwise and
-concept of address-space doesn't seem to do the job here).
+Awesome; thanks! This fixes several warnings in "make htmldocs":
 
--- Luc Van Oostenryck
+./include/linux/lsm_hooks.h:1783: warning: Function parameter or
+member 'task_setioprio' not described in 'security_list_options'
+./include/linux/lsm_hooks.h:1783: warning: Function parameter or
+member 'task_getioprio' not described in 'security_list_options'
+./include/linux/lsm_hooks.h:1783: warning: Function parameter or
+member 'task_movememory' not described in 'security_list_options'
+./include/linux/lsm_hooks.h:1783: warning: Function parameter or
+member 'secmark_refcount_inc' not described in 'security_list_options'
+./include/linux/lsm_hooks.h:1783: warning: Function parameter or
+member 'secmark_refcount_dec' not described in 'security_list_options'
+
+So, for the series:
+
+Acked-by: Kees Cook <keescook@chromium.org>
+
+If you want more work, I do notice the following warnings are still present:
+
+./include/linux/lsm_hooks.h:1775: warning: Function parameter or
+member 'quotactl' not described in 'security_list_options'
+./include/linux/lsm_hooks.h:1775: warning: Function parameter or
+member 'quota_on' not described in 'security_list_options'
+./include/linux/lsm_hooks.h:1775: warning: Function parameter or
+member 'sb_free_mnt_opts' not described in 'security_list_options'
+./include/linux/lsm_hooks.h:1775: warning: Function parameter or
+member 'sb_eat_lsm_opts' not described in 'security_list_options'
+./include/linux/lsm_hooks.h:1775: warning: Function parameter or
+member 'sb_kern_mount' not described in 'security_list_options'
+./include/linux/lsm_hooks.h:1775: warning: Function parameter or
+member 'sb_show_options' not described in 'security_list_options'
+./include/linux/lsm_hooks.h:1775: warning: Function parameter or
+member 'sb_add_mnt_opt' not described in 'security_list_options'
+./include/linux/lsm_hooks.h:1775: warning: Function parameter or
+member 'd_instantiate' not described in 'security_list_options'
+./include/linux/lsm_hooks.h:1775: warning: Function parameter or
+member 'getprocattr' not described in 'security_list_options'
+./include/linux/lsm_hooks.h:1775: warning: Function parameter or
+member 'setprocattr' not described in 'security_list_options'
+
+:)
+
+-- 
+Kees Cook
