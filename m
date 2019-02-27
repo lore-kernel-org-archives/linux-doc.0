@@ -2,105 +2,178 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AD9F67D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Feb 2019 01:06:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 895577D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Feb 2019 01:35:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729453AbfB0BGC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 26 Feb 2019 20:06:02 -0500
-Received: from foss.arm.com ([217.140.101.70]:55586 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729446AbfB0BGC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Feb 2019 20:06:02 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 87320EBD;
-        Tue, 26 Feb 2019 17:06:01 -0800 (PST)
-Received: from beelzebub.austin.arm.com (beelzebub.austin.arm.com [10.118.12.119])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D660B3F5C1;
-        Tue, 26 Feb 2019 17:06:00 -0800 (PST)
-From:   Jeremy Linton <jeremy.linton@arm.com>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     catalin.marinas@arm.com, will.deacon@arm.com, marc.zyngier@arm.com,
-        suzuki.poulose@arm.com, Dave.Martin@arm.com,
-        shankerd@codeaurora.org, julien.thierry@arm.com,
-        mlangsdo@redhat.com, stefan.wahren@i2e.com, Andre.Przywara@arm.com,
-        linux-kernel@vger.kernel.org,
-        Jeremy Linton <jeremy.linton@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH v5 01/10] arm64: Provide a command line to disable spectre_v2 mitigation
-Date:   Tue, 26 Feb 2019 19:05:35 -0600
-Message-Id: <20190227010544.597579-2-jeremy.linton@arm.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20190227010544.597579-1-jeremy.linton@arm.com>
-References: <20190227010544.597579-1-jeremy.linton@arm.com>
+        id S1729324AbfB0Bf7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Feb 2019 20:35:59 -0500
+Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:54640 "EHLO
+        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729323AbfB0Bf6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Feb 2019 20:35:58 -0500
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436282|-1;CH=green;DM=CONTINUE|CONTINUE|true|0.0971239-0.103795-0.799081;FP=8778589189101638810|1|1|11|0|-1|-1|-1;HT=e02c03306;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=14;RT=14;SR=0;TI=SMTPD_---.E1o79E1_1551231346;
+Received: from PC-liaoweixiong.allwinnertech.com(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.E1o79E1_1551231346)
+          by smtp.aliyun-inc.com(10.147.40.7);
+          Wed, 27 Feb 2019 09:35:52 +0800
+From:   liaoweixiong <liaoweixiong@allwinnertech.com>
+To:     Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        liaoweixiong <liaoweixiong@allwinnertech.com>
+Subject: [PATCH v11 0/4] pstore/block: new support logger for block devices
+Date:   Wed, 27 Feb 2019 09:35:42 +0800
+Message-Id: <1551231346-16554-1-git-send-email-liaoweixiong@allwinnertech.com>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are various reasons, including bencmarking, to disable spectrev2
-mitigation on a machine. Provide a command-line to do so.
+Why should we need pstore_block?
+1. Most embedded intelligent equipment have no persistent ram, which
+increases costs. We perfer to cheaper solutions, like block devices.
+In fast, there is already a sample for block device logger in driver
+MTD (drivers/mtd/mtdoops.c).
+2. Do not any equipment have battery, which means that it lost all data
+on general ram if power failure. Pstore has little to do for these
+equipments.
 
-Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/admin-guide/kernel-parameters.txt |  8 ++++----
- arch/arm64/kernel/cpu_errata.c                  | 13 +++++++++++++
- 2 files changed, 17 insertions(+), 4 deletions(-)
+[PATCH v11]
+Change patchset label from RFC to PATCH
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 858b6c0b9a15..4d4d6a9537ae 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2842,10 +2842,10 @@
- 			check bypass). With this option data leaks are possible
- 			in the system.
- 
--	nospectre_v2	[X86,PPC_FSL_BOOK3E] Disable all mitigations for the Spectre variant 2
--			(indirect branch prediction) vulnerability. System may
--			allow data leaks with this option, which is equivalent
--			to spectre_v2=off.
-+	nospectre_v2	[X86,PPC_FSL_BOOK3E,ARM64] Disable all mitigations for
-+			the Spectre variant 2 (indirect branch prediction)
-+			vulnerability. System may allow data leaks with this
-+			option.
- 
- 	nospec_store_bypass_disable
- 			[HW] Disable all mitigations for the Speculative Store Bypass vulnerability
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index 9950bb0cbd52..d2b2c69d31bb 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -220,6 +220,14 @@ static void qcom_link_stack_sanitization(void)
- 		     : "=&r" (tmp));
- }
- 
-+static bool __nospectre_v2;
-+static int __init parse_nospectre_v2(char *str)
-+{
-+	__nospectre_v2 = true;
-+	return 0;
-+}
-+early_param("nospectre_v2", parse_nospectre_v2);
-+
- static void
- enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
- {
-@@ -231,6 +239,11 @@ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
- 	if (!entry->matches(entry, SCOPE_LOCAL_CPU))
- 		return;
- 
-+	if (__nospectre_v2) {
-+		pr_info_once("spectrev2 mitigation disabled by command line option\n");
-+		return;
-+	}
-+
- 	if (psci_ops.smccc_version == SMCCC_VERSION_1_0)
- 		return;
- 
+[PATCH v10]
+Cancel DT support for blkoops temporarily.
+On patch 1:
+1. pstore/blk should unlink PSTORE_BLKDEV when unregister.
+On patch 2:
+1. cancel DT support temporarily. I will submit other patches to support DT
+   when DT maintainers acked.
+2. add spin lock to protect blkz_info when modify panic operations.
+3. change default value of total size on Kconfig from 1024 to 0.
+
+[PATCH v9]
+On patch 1:
+1. rename part_path/part_size, members of blkz_info, to blkdev/total_size
+2. if total_size is zero, get size from @blkdev
+3. support multiple variants for @blkdev, such as partuuid, major with minor,
+   and /dev/xxxx. See details on Documentation.
+4. get size from block device
+5. add depends on CONFIG_BLOCK
+On patch 2:
+1. update document
+On patch 3:
+1. update codes for new blkzone. Blkoops support insmod without total_size.
+   for example: "insmod ./blkoops.ko blkdev=93:6" (major:minor).
+2. use late_initcalls rather than module_init, to avoid block device not ready.
+3. support for block driver to add panic apis to blkoops. By this, block
+   driver can do the least work that just provides panic operations.
+On patch 5:
+1. update document
+
+[PATCH v8]
+On patch 2:
+1. move DT to /bindings/pstore
+2. Delete details for kernel.
+
+[PATCH v7]
+On patch 1:
+1. Fix line over 80 characters.
+On patch 2:
+1. Insert a separate patch for DT bindings.
+
+[PATCH v6]
+On patch 1:
+1. Fix according to email from Kees Cook, including spelling mistakes,
+   explicit overflow test, none of the zeroing etc.
+2. Do not recover data but metadata of dmesg when panic.
+3. No need to take recovery when do erase.
+4. Do not use "blkoops" for blkzone any more because "blkoops" is used for
+   other module now. (rename blkbuf to blkoops)
+On patch 2:
+1. Rename blkbuf to blkoops.
+2. Add Kconfig/device tree/module parameters settings for blkoops.
+3. Add document for device tree.
+On patch 3:
+1. Blkoops support pmsg.
+2. Fix description for new version patch.
+On patch 4:
+1. Fix description for new version patch.
+
+[PATCH v5]
+On patch 1:
+1. rename pstore/rom to pstore/blk
+2. Do not allocate any memory in the write path of panic. So, use local
+array instead in function romz_recover_dmesg_meta.
+3. Add C header file "linux/fs.h" to fix implicit declaration of function
+   'filp_open','kernel_read'...
+On patch 3:
+1. If panic, do not recover pmsg but flush if it is dirty.
+2. Fix erase pmsg failed.
+On patch 4:
+1. Create a document for pstore/blk
+
+[PATCH v4]
+On patch 1:
+1. Fix always true condition '(--i >= 0) => (0-u32max >= 0)' in function
+   romz_init_zones by defining variable i to 'int' rahter than
+   'unsigned int'.
+2. To make codes more easily to read, we use macro READ_NEXT_ZONE for
+   return value of romz_dmesg_read if it need to read next zone.
+   Moveover, we assign READ_NEXT_ZONE -1024 rather than 0.
+3. Add 'FLUSH_META' to 'enum romz_flush_mode' and rename 'NOT_FLUSH' to
+   'FLUSH_NONE'
+4. Function romz_zone_write work badly with FLUSH_PART mode as badly
+   address and offset to write.
+On patch 3:
+NEW SUPPORT psmg for pstore_rom.
+
+[PATCH v3]
+On patch 1:
+Fix build as module error for undefined 'vfs_read' and 'vfs_write'
+Both of 'vfs_read' and 'vfs_write' haven't be exproted yet, so we use
+'kernel_read' and 'kernel_write' instead.
+
+[PATCH v2]
+On patch 1:
+Fix build as module error for redefinition of 'romz_unregister' and
+'romz_register'
+
+[PATCH v1]
+On patch 1:
+Core codes of pstore_rom, which works well on allwinner(sunxi) platform.
+On patch 2:
+A sample for pstore_rom, using general ram rather than block device.
+
+liaoweixiong (4):
+  pstore/blk: new support logger for block devices
+  pstore/blk: add blkoops for pstore_blk
+  pstore/blk: support pmsg for pstore block
+  Documentation: pstore/blk: create document for pstore_blk
+
+ Documentation/admin-guide/pstore-block.rst |  233 ++++++
+ MAINTAINERS                                |    3 +-
+ fs/pstore/Kconfig                          |  147 ++++
+ fs/pstore/Makefile                         |    5 +
+ fs/pstore/blkoops.c                        |  208 +++++
+ fs/pstore/blkzone.c                        | 1242 ++++++++++++++++++++++++++++
+ include/linux/pstore_blk.h                 |   87 ++
+ 7 files changed, 1924 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/admin-guide/pstore-block.rst
+ create mode 100644 fs/pstore/blkoops.c
+ create mode 100644 fs/pstore/blkzone.c
+ create mode 100644 include/linux/pstore_blk.h
+
 -- 
-2.20.1
+1.9.1
 
