@@ -1,83 +1,64 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 833C37D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 17:02:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3F18E7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 17:56:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731196AbfB1RCY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Feb 2019 12:02:24 -0500
-Received: from mail-vk1-f196.google.com ([209.85.221.196]:42951 "EHLO
-        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726093AbfB1RCX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Feb 2019 12:02:23 -0500
-Received: by mail-vk1-f196.google.com with SMTP id j195so4910727vkj.9;
-        Thu, 28 Feb 2019 09:02:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=POVTPlfVJwZaOxs4m9qyzvl+1kGmgNX22BYhGnBCjuM=;
-        b=XNDSNzTFRFf5AIgxgu27g/eWteKZ1ZtweWLlXtxOAI0ZNc6rS0rEfmW8/Nuq4xsgXP
-         cv97fAvxpAUFJ1Nw1iHvM7D9jLjq7hxf/5EbHBJgjs+4IO8J9yE8V3yzkHGTNC+G50qS
-         To94FF9L04zSCR38k8czt4fg1uimaA9LsF+0pemHQyEj12rfdTya5a9kywCl0GwsDIrP
-         +sd2hplIhqM5/Jm7lAy8oup/0rlM/Ea1/9ql2Xfr9HwzuByACmNUmw/s8b9Mze7EZJ8h
-         gj/qsE8Atg8kyGrYQpzG0EHXl2IWB9F2tGEKqxTIH7hql1EQs/fz/Pg4xLo863mdTj8g
-         bDjg==
-X-Gm-Message-State: APjAAAUCo5V5/2VzLNx2wDem7mpv6W67gEru2dxO+zNUsBuijtZHlz2C
-        QA3b1XufArutqdHJ0G82FBXzZSOMheEr9GbtSJs=
-X-Google-Smtp-Source: APXvYqw3ZbJrTWe7z62y+LBRUE1+qfgT3CnTePAFlYTzdbjG8wvefk0GDuYHgcvEnIM//k3VsgA3M9yVd35Dkwue4WA=
-X-Received: by 2002:a1f:711:: with SMTP id 17mr266313vkh.65.1551373342603;
- Thu, 28 Feb 2019 09:02:22 -0800 (PST)
+        id S2388270AbfB1R4u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Feb 2019 12:56:50 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:37700 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726214AbfB1R4u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Feb 2019 12:56:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=mAezheR5Ts58PLPCR6fzktl3Y7U/H/Na9KcQGEBTSbg=; b=TexdUqPIudUzLoK2q5Z60Hn77
+        bv/JGELmEVTuHUEQpn0Z4qTIwltpNXHJeJRn/e4nQlJ2CN9HOzPphF870wJPHlZ+R1LEHNvr22rIM
+        eF566F35a/AUMs5IdO3IgAeGSxzxrWAw9GjD3bo2QpES6XqjoIv2KpCsXdfupZ2lOv5Bn+4NDtOP3
+        xivAiqDXe1h51DnvFkGd2458ryFYqYt8S63wDjwe8FRgEAxQBCHcDSjyj/cnH0AFCuHTvZNs/NQL/
+        hkH4nTXHXlMyKg5xRhkwigcyaUhregZW7h/H5+QF2MD2X3NT1sF3p/WBpY+AYth61gLUh9hGvD6t3
+        fAFluEurA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1gzPvM-0008Gb-TG; Thu, 28 Feb 2019 17:56:49 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 42581202C2DA7; Thu, 28 Feb 2019 18:56:47 +0100 (CET)
+Date:   Thu, 28 Feb 2019 18:56:47 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Len Brown <lenb@kernel.org>
+Cc:     X86 ML <x86@kernel.org>, linux-kernel@vger.kernel.org,
+        Len Brown <len.brown@intel.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 03/11] x86 topology: Add CPUID.1F multi-die/package
+ support
+Message-ID: <20190228175647.GH32494@hirez.programming.kicks-ass.net>
+References: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
+ <07d2908dc72bf964b27380999e1c826587d69136.1550545163.git.len.brown@intel.com>
+ <20190220105542.GB17969@hirez.programming.kicks-ass.net>
+ <CAJvTdK=+Lw1_WFE4_aGqxtRPK_JafmmzcmGSqScMOB4EK-xH5g@mail.gmail.com>
+ <20190226135426.GU32477@hirez.programming.kicks-ass.net>
+ <CAJvTdKk6B0rWMukNv3OKimSvbDqP+c83dTQpO4kFvbL7ETGPvg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20190228105731.1092-1-geert+renesas@glider.be> <20190228165122.GT4072@linux.ibm.com>
-In-Reply-To: <20190228165122.GT4072@linux.ibm.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 28 Feb 2019 18:02:09 +0100
-Message-ID: <CAMuHMdW42VTYBB-jZ21cbt6_ypy_TFYhCHyGML74C0aBrxq80w@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/locking/lockdep: Drop last two chars of
- sample states
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJvTdKk6B0rWMukNv3OKimSvbDqP+c83dTQpO4kFvbL7ETGPvg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Paul,
+On Thu, Feb 28, 2019 at 10:59:19AM -0500, Len Brown wrote:
 
-On Thu, Feb 28, 2019 at 5:51 PM Paul E. McKenney <paulmck@linux.ibm.com> wrote:
-> On Thu, Feb 28, 2019 at 11:57:31AM +0100, Geert Uytterhoeven wrote:
-> > Since the removal of FS_RECLAIM annotations, lockdep states contain six
-> > characters, not four.
->
-> Does the above want to instead say "four characters, not six"?
+> The SDM is like software -- usually (but not always) you are better
+> off with the latest version:-)
 
-Yes it does. Thanks for noticing!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+If only it existed as a .tex file in a git repo. It has been very useful
+to have older versions around a number of times.
