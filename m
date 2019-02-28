@@ -1,326 +1,124 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CE54B7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 07:13:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5DC227D099
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 08:34:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731542AbfB1HMm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Feb 2019 02:12:42 -0500
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:42698 "EHLO
-        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731533AbfB1HMk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Feb 2019 02:12:40 -0500
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436282|-1;CH=green;DM=CONTINUE|CONTINUE|true|0.0909187-0.0611423-0.847939;FP=0|0|0|0|0|-1|-1|-1;HT=e01a16370;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=15;RT=15;SR=0;TI=SMTPD_---.E2MIXMl_1551337935;
-Received: from PC-liaoweixiong.allwinnertech.com(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.E2MIXMl_1551337935)
-          by smtp.aliyun-inc.com(10.147.40.44);
-          Thu, 28 Feb 2019 15:12:28 +0800
-From:   liaoweixiong <liaoweixiong@allwinnertech.com>
-To:     Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        liaoweixiong <liaoweixiong@allwinnertech.com>
-Subject: [PATCH v12 4/4] Documentation: pstore/blk: create document for pstore_blk
-Date:   Thu, 28 Feb 2019 15:12:28 +0800
-Message-Id: <1551337948-16451-5-git-send-email-liaoweixiong@allwinnertech.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1551337948-16451-1-git-send-email-liaoweixiong@allwinnertech.com>
-References: <1551337948-16451-1-git-send-email-liaoweixiong@allwinnertech.com>
+        id S1730549AbfB1Iev (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Feb 2019 03:34:51 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42370 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725999AbfB1Iev (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 Feb 2019 03:34:51 -0500
+Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 60F7F2184A;
+        Thu, 28 Feb 2019 08:34:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1551342890;
+        bh=1Ok9YCr1jJh+ph2hLY5yswrP0Etv+EN2lqnJ2dIYNEQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=i7vNW/WnLyGCiFP/iPFpM9V6ReNy4dm+oKYu1clucazlY5Hp828V+u5ybb/eOqxgC
+         RUlyvXnxAP50ZBYbd4repUlMsHsPn/LhP9lYEgR08hDKK8V10cuKB+vFnn1eGCuEgh
+         SDr6s1zLoYhUky0DwEeyp1OjbH3vIDHEp9uCKqTw=
+Date:   Thu, 28 Feb 2019 17:34:44 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atishp04@gmail.com, dancol@google.com,
+        Dan Williams <dan.j.williams@intel.com>,
+        gregkh@linuxfoundation.org, Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        mhiramat@kernel.org, paulmck@linux.vnet.ibm.com,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        qais.yousef@arm.com, rdunlap@infradead.org, rostedt@goodmis.org,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, yhs@fb.com
+Subject: Re: [PATCH v3 1/2] Provide in-kernel headers for making it easy to
+ extend the kernel
+Message-Id: <20190228173444.54403795211d80ba540b61cb@kernel.org>
+In-Reply-To: <20190227193748.132301-1-joel@joelfernandes.org>
+References: <20190227193748.132301-1-joel@joelfernandes.org>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The document, at Documentation/admin-guide/pstore-block.rst,
-tells user how to use pstore_blk and the attentions about panic
-read/write
+Hi Joel,
 
-Signed-off-by: liaoweixiong <liaoweixiong@allwinnertech.com>
----
- Documentation/admin-guide/pstore-block.rst | 233 +++++++++++++++++++++++++++++
- MAINTAINERS                                |   1 +
- fs/pstore/Kconfig                          |   4 +
- 3 files changed, 238 insertions(+)
- create mode 100644 Documentation/admin-guide/pstore-block.rst
+On Wed, 27 Feb 2019 14:37:47 -0500
+"Joel Fernandes (Google)" <joel@joelfernandes.org> wrote:
 
-diff --git a/Documentation/admin-guide/pstore-block.rst b/Documentation/admin-guide/pstore-block.rst
-new file mode 100644
-index 0000000..c22245d
---- /dev/null
-+++ b/Documentation/admin-guide/pstore-block.rst
-@@ -0,0 +1,233 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Pstore block oops/panic logger
-+==============================
-+
-+Introduction
-+------------
-+
-+Pstore block (pstore_blk) is an oops/panic logger that write its logs to a block
-+device before the system crashes. Pstore_blk needs the block device driver
-+to register a partition of the block device, like /dev/mmcblk0p7 for MMC
-+driver, and read/write APIs for this partition when on panic.
-+
-+Pstore block concepts
-+---------------------
-+
-+Pstore block begins at function ``blkz_register``, by which a block driver
-+registers to pstore_blk. Note that the block driver should register to
-+pstore_blk after block device has registered. The Block driver transfers a
-+structure ``blkz_info`` which is defined in *linux/pstore_blk.h*.
-+
-+The following key members of ``struct blkz_info`` may be of interest to you.
-+
-+blkdev
-+~~~~~~
-+
-+The block device to use. Most of the time, it is a partition of block device.
-+It's ok to keep it as NULL if you are passing ``read`` and ``write`` in
-+blkz_info as ``blkdev`` is used by blkz_default_general_read/write. If both of
-+``blkdev``, ``read`` and ``write`` are NULL, no block device is effective and
-+the data will only be saved in RAM.
-+
-+It accept the following variants:
-+
-+1. <hex_major><hex_minor> device number in hexadecimal represents itself; no
-+   leading 0x, for example b302.
-+#. /dev/<disk_name> represents the device number of disk
-+#. /dev/<disk_name><decimal> represents the device number of partition - device
-+   number of disk plus the partition number
-+#. /dev/<disk_name>p<decimal> - same as the above; this form is used when disk
-+   name of partitioned disk ends with a digit.
-+#. PARTUUID=00112233-4455-6677-8899-AABBCCDDEEFF representing the unique id of
-+   a partition if the partition table provides it. The UUID may be either an
-+   EFI/GPT UUID, or refer to an MSDOS partition using the format SSSSSSSS-PP,
-+   where SSSSSSSS is a zero-filled hex representation of the 32-bit
-+   "NT disk signature", and PP is a zero-filled hex representation of the
-+   1-based partition number.
-+#. PARTUUID=<UUID>/PARTNROFF=<int> to select a partition in relation to a
-+   partition with a known unique id.
-+#. <major>:<minor> major and minor number of the device separated by a colon.
-+
-+See more in section **read/write**.
-+
-+total_size
-+~~~~~~~~~~
-+
-+The total size in bytes of block device used for pstore_blk. It **MUST** be less
-+than or equal to size of block device if ``blkdev`` valid. It **MUST** be a
-+multiple of 4096. If ``total_size`` is zero with ``blkdev``, ``total_size`` will be
-+set to equal to size of ``blkdev``.
-+
-+The block device area is divided into many chunks, and each event writes a chunk
-+of information.
-+
-+dmesg_size
-+~~~~~~~~~~
-+
-+The chunk size in bytes for dmesg(oops/panic). It **MUST** be a multiple of
-+SECTOR_SIZE (Most of the time, the SECTOR_SIZE is 512). If you don't need dmesg,
-+you can safely to set it to 0.
-+
-+NOTE that, the remaining space, except ``pmsg_size`` and others, belongs to
-+dmesg. It means that there are multiple chunks for dmesg.
-+
-+Pstore_blk will log to dmesg chunks one by one, and always overwrite the oldest
-+chunk if no free chunk.
-+
-+pmsg_size
-+~~~~~~~~~
-+
-+The chunk size in bytes for pmsg. It **MUST** be a multiple of SECTOR_SIZE (Most
-+of the time, the SECTOR_SIZE is 512). If you don't need pmsg, you can safely set
-+it to 0.
-+
-+There is only one chunk for pmsg.
-+
-+Pmsg is a user space accessible pstore object. Writes to */dev/pmsg0* are
-+appended to the chunk. On reboot the contents are available in
-+/sys/fs/pstore/pmsg-pstore-blk-0.
-+
-+dump_oops
-+~~~~~~~~~
-+
-+Dumping both oopses and panics can be done by setting 1 in the ``dump_oops``
-+member while setting 0 in that variable dumps only the panics.
-+
-+read/write
-+~~~~~~~~~~
-+
-+They are general ``read/write`` APIs. It is safe and recommended to ignore it,
-+but set ``blkdev``.
-+
-+These general APIs are used all the time expect panic. The ``read`` API is
-+usually used to recover data from block device, and the ``write`` API is usually
-+to flush new data and erase to block device.
-+
-+Pstore_blk will temporarily hold all new data before block device is ready. If
-+you ignore both of ``read/write`` and ``blkdev``, the old data will be lost.
-+
-+NOTE that the general APIs must check whether the block device is ready if
-+self-defined.
-+
-+panic_read/panic_write
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+They are ``read/write`` APIs for panic. They are like the general
-+``read/write`` but will be used only when on panic.
-+
-+The attentions for panic read/write see section
-+**Attentions in panic read/write APIs**.
-+
-+Register to pstore block
-+------------------------
-+
-+Block device driver call ``blkz_register`` to register to Pstore_blk.
-+For example:
-+
-+.. code-block:: c
-+
-+ #include <linux/pstore_blk.h>
-+ [...]
-+
-+ static ssize_t XXXX_panic_read(char *buf, size bytes, loff_t pos)
-+ {
-+    [...]
-+ }
-+
-+ static ssize_t XXXX_panic_write(const char *buf, size_t bytes, loff_t pos)
-+ {
-+        [...]
-+ }
-+
-+ struct blkz_info XXXX_info = {
-+        .onwer = THIS_MODULE,
-+        .name = <...>,
-+        .dmesg_size = <...>,
-+        .pmsg_size = <...>,
-+        .dump_oops = true,
-+        .panic_read = XXXX_panic_read,
-+        .panic_write = XXXX_panic_write,
-+ };
-+
-+ static int __init XXXX_init(void)
-+ {
-+        [... get block device information ...]
-+        XXXX_info.blkdev = <...>;
-+        XXXX_info.total_size = <...>;
-+
-+        [...]
-+        return blkz_register(&XXXX_info);
-+ }
-+
-+There are multiple ways by which you can get block device information.
-+
-+A. Use the module parameters and kernel cmdline.
-+B. Use Device Tree bindings.
-+C. Use Kconfig.
-+D. Use Driver Feature.
-+   For example, traverse all MTD devices by ``register_mtd_user``, and get the
-+   matching name MTD partition.
-+
-+NOTE that all of the above are done by the block driver rather then pstore_blk.
-+You can get sample on blkoops.
-+
-+The attentions for panic read/write see section
-+**Attentions in panic read/write APIs**.
-+
-+Compression and header
-+----------------------
-+
-+Block device is large enough, it is not necessary to compress dmesg data.
-+Actually, we recommend not compressing because pstore_blk will insert some
-+information into the first line of dmesg data if no compression.
-+For example::
-+
-+        Panic: Total 16 times
-+
-+It means that it's the 16th times panic log since the first booting.
-+Sometimes, the oops|panic counter since burning is very important for embedded
-+device to judge whether the system is stable.
-+
-+The following line is inserted by pstore filesystem.
-+For example::
-+
-+        Oops#2 Part1
-+
-+It means that it's the 2nd times oops log on last booting.
-+
-+Reading the data
-+----------------
-+
-+The dump data can be read from the pstore filesystem. The format for these
-+files is ``dmesg-pstore-blk-[N]`` for dmesg(oops|panic) and
-+``pmsg-pstore-blk-0`` for pmsg, where N is the record number. To delete a stored
-+record from block device, simply unlink the respective pstore file. The
-+timestamp of the dump file records the trigger time.
-+
-+Attentions in panic read/write APIs
-+-----------------------------------
-+
-+If on panic, the kernel is not going to be running for much longer. The tasks
-+will not be scheduled and the most kernel resources will be out of service. It
-+looks like a single-threaded program running on a single-core computer.
-+
-+The following points need special attention for panic read/write APIs:
-+
-+1. Can **NOT** allocate any memory.
-+   If you need memory, just allocate while the block driver is initializing
-+   rather than waiting until the panic.
-+#. Must be polled, **NOT** interrupt driven.
-+   No task schedule any more. The block driver should delay to ensure the write
-+   succeeds, but NOT sleep.
-+#. Can **NOT** take any lock.
-+   There is no other task, nor any share resource; you are safe to break all
-+   locks.
-+#. Just use CPU to transfer.
-+   Do not use DMA to transfer unless you are sure that DMA will not keep lock.
-+#. Operate register directly.
-+   Try not to use Linux kernel resources. Do I/O map while initializing rather
-+   than waiting until the panic.
-+#. Reset your block device and controller if necessary.
-+   If you are not sure the state of you block device and controller when panic,
-+   you are safe to stop and reset them.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4e9242a..9ddca0e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12317,6 +12317,7 @@ F:	include/linux/pstore*
- F:	drivers/firmware/efi/efi-pstore.c
- F:	drivers/acpi/apei/erst.c
- F:	Documentation/admin-guide/ramoops.rst
-+F:	Documentation/admin-guide/pstore-block.rst
- F:	Documentation/devicetree/bindings/reserved-memory/ramoops.txt
- K:	\b(pstore|ramoops|blkoops)
- 
-diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
-index b417bf5..3921a63 100644
---- a/fs/pstore/Kconfig
-+++ b/fs/pstore/Kconfig
-@@ -161,6 +161,10 @@ config PSTORE_BLK
- 	  This enables panic and oops message to be logged to a block dev
- 	  where it can be read back at some later point.
- 
-+	  For more information, see Documentation/admin-guide/pstore-block.rst.
-+
-+	  If unsure, say N.
-+
- config PSTORE_BLKOOPS
- 	tristate "pstore block with oops logger"
- 	depends on PSTORE_BLK
+> Introduce in-kernel headers and other artifacts which are made available
+> as an archive through proc (/proc/kheaders.tar.xz file). This archive makes
+> it possible to build kernel modules, run eBPF programs, and other
+> tracing programs that need to extend the kernel for tracing purposes
+> without any dependency on the file system having headers and build
+> artifacts.
+> 
+> On Android and embedded systems, it is common to switch kernels but not
+> have kernel headers available on the file system. Raw kernel headers
+> also cannot be copied into the filesystem like they can be on other
+> distros, due to licensing and other issues. There's no linux-headers
+> package on Android. Further once a different kernel is booted, any
+> headers stored on the file system will no longer be useful. By storing
+> the headers as a compressed archive within the kernel, we can avoid these
+> issues that have been a hindrance for a long time.
+
+Hmm, isn't it easier to add kernel-headers package on Android?
+
+> The feature is also buildable as a module just in case the user desires
+> it not being part of the kernel image. This makes it possible to load
+> and unload the headers on demand. A tracing program, or a kernel module
+> builder can load the module, do its operations, and then unload the
+> module to save kernel memory. The total memory needed is 3.8MB.
+
+But it also requires to install build environment (tools etc.)
+on the target system...
+
+> 
+> The code to read the headers is based on /proc/config.gz code and uses
+> the same technique to embed the headers.
+> 
+> To build a module, the below steps have been tested on an x86 machine:
+> modprobe kheaders
+> rm -rf $HOME/headers
+> mkdir -p $HOME/headers
+> tar -xvf /proc/kheaders.tar.xz -C $HOME/headers >/dev/null
+> cd my-kernel-module
+> make -C $HOME/headers M=$(pwd) modules
+> rmmod kheaders
+
+It seems a bit complex, but no difference from compared with carrying
+kheaders.tar.gz. I think we would better have a psudo filesystem
+which can mount this compressed header file directly :) Then it becomes
+simpler, like
+
+modprobe headerfs
+mkdir $HOME/headers
+mount -t headerfs $HOME/headers
+
+And this doesn't consume any disk-space.
+
+Thank you,
+
+
+
+
 -- 
-1.9.1
-
+Masami Hiramatsu <mhiramat@kernel.org>
