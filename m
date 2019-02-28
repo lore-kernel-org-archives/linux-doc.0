@@ -1,78 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DD0027D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 18:42:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A3C847D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 18:47:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387681AbfB1Sme (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Feb 2019 13:42:34 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42584 "EHLO mail.kernel.org"
+        id S1731439AbfB1Srk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Feb 2019 13:47:40 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:38138 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726232AbfB1Sme (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 Feb 2019 13:42:34 -0500
-Received: from localhost (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726203AbfB1Srk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 Feb 2019 13:47:40 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 15E4D20863;
-        Thu, 28 Feb 2019 18:42:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1551379353;
-        bh=oLvNdA/M/UKLXZYqQYq+ZFgHkuM+Rc/ZO2DPIBogeu8=;
-        h=In-Reply-To:To:Subject:References:From:Cc:Date:From;
-        b=NHhvjKfZ0S2SmY3fzFrEisgq9iBjLgtBixr81bonO7/cd74Bl0bXj7JRTKH0BPZOB
-         gpvHNZiaGqy+E/OauSBFdEhVavO5AMwE8Z+JSeLwNjjzEbIn90ZvlqHJZpUw0SxYnw
-         rCLAgD6VYA+TfR4L6Np3MB8QERrXRxY6H8PVtZtg=
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <1550884678.20534.0@crapouillou.net>
-To:     Paul Cercueil <paul@crapouillou.net>,
-        <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v9 14/27] pwm: jz4740: Improve algorithm of clock calculation
-Message-ID: <155137935225.16805.10412318501940648799@swboyd.mtv.corp.google.com>
-References: <20181227181319.31095-1-paul@crapouillou.net> <20181227181319.31095-15-paul@crapouillou.net> <20190105195725.cuxfge6zkpbt3cyk@pengutronix.de> <1546722339.30174.0@crapouillou.net> <20190105212711.s765knwwerceytvk@pengutronix.de> <1547129096.16183.0@crapouillou.net> <1550884678.20534.0@crapouillou.net>
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-pwm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Russell King <linux@armlinux.org.uk>
-User-Agent: alot/0.8
-Date:   Thu, 28 Feb 2019 10:42:32 -0800
+        by mx1.redhat.com (Postfix) with ESMTPS id 52BBBC07C563;
+        Thu, 28 Feb 2019 18:47:39 +0000 (UTC)
+Received: from llong.com (ovpn-121-201.rdu2.redhat.com [10.10.121.201])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 221B019C5B;
+        Thu, 28 Feb 2019 18:47:35 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>,
+        Manfred Spraul <manfred@colorfullife.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v12 0/3] ipc: Increase IPCMNI limit
+Date:   Thu, 28 Feb 2019 13:47:22 -0500
+Message-Id: <1551379645-819-1-git-send-email-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.32]); Thu, 28 Feb 2019 18:47:39 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Paul Cercueil (2019-02-22 17:17:58)
-> Bump.
->=20
-> What should I do here?
->=20
+v11->v12:
+ - As suggested by Matthew, change patch 2 to increment sequence number
+   when there is a wrap around in generated ID instead of after a
+   ID deletion.
 
-I thought I replied to the list but maybe it got rejected because my MUA
-is currently failing hard at sending 8-bit mails without
-using quoted printable. Let me remove all non-ascii characters from this
-mail!
+v10->v11:
+ - Remove the sysctl parameter. Now delete mode is the only way the
+   sequence number is updated. The only choice users had to make is
+   whether they need to specify ipcmni_extend in the boot command line
+   or not.
+ - Cyclical id allocation is enabled only in the ipcmni_extend mode.
+ - Increase max # of ids in ipcmni_extend mode to 16M.
 
-If someone has the mail please rebounce it to the list. Otherwise, I
-think I basically said this is OK because clk_round_rate() semantics are
-specifically vague here to allow the implementation to decide how rates
-are rounded (up, down, closest, etc). As long as the whole rate space is
-searched with a +1 or a -1 style of search it should be work. We're not
-going to add round_up() or round_down() APIs as far as I'm concerned,
-and you can look on the list to see previous proposals on that topic to
-get some background on why they aren't liked.
+v9  patch: https://lkml.org/lkml/2018/9/7/1141
+v10 patch: https://lkml.org/lkml/2018/11/5/791
+v11 patch: https://lkml.org/lkml/2018/11/10/32
+
+There are users out there requesting increase in the IPCMNI value to
+more than 32k. This patchset does that by using a boot kernel parameter
+"ipcmni_extend" to increase the IPCMNI limit from 32k to 16M when that
+boot command line option is specified.
+
+Patch 1 adds a "ipcmni_extend" boot command line parameter to extend
+the IPCMNI limit from 32k to 16M.
+
+Patch 2 changes how the sequence number within an id is being generated
+by incrementing it only when the generated id is not greater than the
+previous one. That reduces the chance of id reuse whether "ipcmni_extend"
+is set or not.
+
+Patch 3 makes identifier allocation go cyclical through the entire
+24-bit id space with "ipcmni_extend" only to further reduce the chance
+of id reuse, but probably with a slight memory and performance overhead.
+
+The cyclical id allocation isn't done for non-ipcmni_extend mode as the
+potential memory and performance overhead may be problematic on system
+with slow CPU and little memory. Systems that run applications which need
+more than 32k IPC identifiers can certainly afford the extra overhead.
+
+Waiman Long (3):
+  ipc: Allow boot time extension of IPCMNI from 32k to 16M
+  ipc: Conserve sequence numbers in ipcmni_extend mode
+  ipc: Do cyclic id allocation with ipcmni_extend mode
+
+ Documentation/admin-guide/kernel-parameters.txt |  6 ++++
+ include/linux/ipc_namespace.h                   |  1 +
+ ipc/ipc_sysctl.c                                | 14 +++++++-
+ ipc/util.c                                      | 27 ++++++++++-----
+ ipc/util.h                                      | 46 ++++++++++++++++++++-----
+ 5 files changed, 76 insertions(+), 18 deletions(-)
+
+-- 
+1.8.3.1
 
