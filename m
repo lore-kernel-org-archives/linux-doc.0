@@ -5,95 +5,72 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6034B7D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 10:57:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 71D337D099
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 10:59:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731156AbfB1K5r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Feb 2019 05:57:47 -0500
-Received: from andre.telenet-ops.be ([195.130.132.53]:36304 "EHLO
-        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727810AbfB1K5q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Feb 2019 05:57:46 -0500
+        id S1727849AbfB1K7j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Feb 2019 05:59:39 -0500
+Received: from albert.telenet-ops.be ([195.130.137.90]:36806 "EHLO
+        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726029AbfB1K7i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Feb 2019 05:59:38 -0500
 Received: from ramsan ([84.194.111.163])
-        by andre.telenet-ops.be with bizsmtp
-        id iAxd1z00K3XaVaC01Axdl7; Thu, 28 Feb 2019 11:57:44 +0100
+        by albert.telenet-ops.be with bizsmtp
+        id iAzc1z00c3XaVaC06AzcK8; Thu, 28 Feb 2019 11:59:36 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1gzJNh-0007Qs-9z; Thu, 28 Feb 2019 11:57:37 +0100
+        id 1gzJPc-0007Ru-Ci; Thu, 28 Feb 2019 11:59:36 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1gzJNh-0000IO-6O; Thu, 28 Feb 2019 11:57:37 +0100
+        id 1gzJPc-0000Lc-AQ; Thu, 28 Feb 2019 11:59:36 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Will Deacon <will.deacon@arm.com>
-Cc:     "Paul E . McKenney" <paulmck@linux.ibm.com>,
-        Josh Triplett <josh@joshtriplett.org>,
+        "Paul E . McKenney" <paulmck@linux.ibm.com>
+Cc:     Josh Triplett <josh@joshtriplett.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
         Joel Fernandes <joel@joelfernandes.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] Documentation/locking/lockdep: Drop last two chars of sample states
-Date:   Thu, 28 Feb 2019 11:57:31 +0100
-Message-Id: <20190228105731.1092-1-geert+renesas@glider.be>
+Subject: [PATCH] doc: rcu: Suspicious RCU usage is a warning
+Date:   Thu, 28 Feb 2019 11:59:32 +0100
+Message-Id: <20190228105932.1274-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since the removal of FS_RECLAIM annotations, lockdep states contain six
-characters, not four.
+Suspicious RCU usage messages are reported as warnings.
 
-Fixes: e5684bbfc3f03480 ("Documentation/locking/lockdep: Update info about states")
-Fixes: d92a8cfcb37ecd13 ("locking/lockdep: Rework FS_RECLAIM annotation")
+Fixes: a5dd63efda3d07b5 ("lockdep: Use "WARNING" tag on lockdep splats")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- Documentation/RCU/lockdep-splat.txt      | 6 +++---
- Documentation/locking/lockdep-design.txt | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+And before that, they were printed as errors, which was also never
+reflected in the documentation...
+---
+ Documentation/RCU/lockdep-splat.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/Documentation/RCU/lockdep-splat.txt b/Documentation/RCU/lockdep-splat.txt
-index 238e9f61352f6187..9423b633526d14df 100644
+index 9423b633526d14df..9c015976b174123f 100644
 --- a/Documentation/RCU/lockdep-splat.txt
 +++ b/Documentation/RCU/lockdep-splat.txt
-@@ -24,11 +24,11 @@ other info that might help us debug this:
+@@ -14,9 +14,9 @@ being the real world and all that.
+ So let's look at an example RCU lockdep splat from 3.0-rc5, one that
+ has long since been fixed:
  
- rcu_scheduler_active = 1, debug_locks = 0
- 3 locks held by scsi_scan_6/1552:
-- #0:  (&shost->scan_mutex){+.+.+.}, at: [<ffffffff8145efca>]
-+ #0:  (&shost->scan_mutex){+.+.}, at: [<ffffffff8145efca>]
- scsi_scan_host_selected+0x5a/0x150
-- #1:  (&eq->sysfs_lock){+.+...}, at: [<ffffffff812a5032>]
-+ #1:  (&eq->sysfs_lock){+.+.}, at: [<ffffffff812a5032>]
- elevator_exit+0x22/0x60
-- #2:  (&(&q->__queue_lock)->rlock){-.-...}, at: [<ffffffff812b6233>]
-+ #2:  (&(&q->__queue_lock)->rlock){-.-.}, at: [<ffffffff812b6233>]
- cfq_exit_queue+0x43/0x190
+-===============================
+-[ INFO: suspicious RCU usage. ]
+--------------------------------
++=============================
++WARNING: suspicious RCU usage
++-----------------------------
+ block/cfq-iosched.c:2776 suspicious rcu_dereference_protected() usage!
  
- stack backtrace:
-diff --git a/Documentation/locking/lockdep-design.txt b/Documentation/locking/lockdep-design.txt
-index 49f58a07ee7b19c8..39fae143c9cbf5ff 100644
---- a/Documentation/locking/lockdep-design.txt
-+++ b/Documentation/locking/lockdep-design.txt
-@@ -45,10 +45,10 @@ When locking rules are violated, these state bits are presented in the
- locking error messages, inside curlies. A contrived example:
- 
-    modprobe/2287 is trying to acquire lock:
--    (&sio_locks[i].lock){-.-...}, at: [<c02867fd>] mutex_lock+0x21/0x24
-+    (&sio_locks[i].lock){-.-.}, at: [<c02867fd>] mutex_lock+0x21/0x24
- 
-    but task is already holding lock:
--    (&sio_locks[i].lock){-.-...}, at: [<c02867fd>] mutex_lock+0x21/0x24
-+    (&sio_locks[i].lock){-.-.}, at: [<c02867fd>] mutex_lock+0x21/0x24
- 
- 
- The bit position indicates STATE, STATE-read, for each of the states listed
+ other info that might help us debug this:
 -- 
 2.17.1
 
