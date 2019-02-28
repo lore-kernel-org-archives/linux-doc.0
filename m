@@ -5,77 +5,72 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 22B957D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 16:51:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 74E417D912
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 16:51:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733022AbfB1Qv3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Feb 2019 11:51:29 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43724 "EHLO
+        id S1733252AbfB1Qvw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Feb 2019 11:51:52 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38914 "EHLO
         mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731063AbfB1Qv3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Feb 2019 11:51:29 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x1SGoIg7143186
-        for <linux-doc@vger.kernel.org>; Thu, 28 Feb 2019 11:51:28 -0500
-Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2qxjxasxu0-1
+        by vger.kernel.org with ESMTP id S1733202AbfB1Qvu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Feb 2019 11:51:50 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x1SGoHex113457
+        for <linux-doc@vger.kernel.org>; Thu, 28 Feb 2019 11:51:49 -0500
+Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2qxjy1a1h8-1
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 28 Feb 2019 11:51:28 -0500
+        for <linux-doc@vger.kernel.org>; Thu, 28 Feb 2019 11:51:49 -0500
 Received: from localhost
-        by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
         for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Thu, 28 Feb 2019 16:51:26 -0000
+        Thu, 28 Feb 2019 16:51:48 -0000
 Received: from b01cxnp22034.gho.pok.ibm.com (9.57.198.24)
-        by e15.ny.us.ibm.com (146.89.104.202) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        by e16.ny.us.ibm.com (146.89.104.203) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
         (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 28 Feb 2019 16:51:22 -0000
+        Thu, 28 Feb 2019 16:51:43 -0000
 Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x1SGpLdY23920872
+        by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x1SGpg1I21758146
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 28 Feb 2019 16:51:22 GMT
+        Thu, 28 Feb 2019 16:51:42 GMT
 Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D9754B2064;
-        Thu, 28 Feb 2019 16:51:21 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id AA4FBB205F;
+        Thu, 28 Feb 2019 16:51:42 +0000 (GMT)
 Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BADABB205F;
-        Thu, 28 Feb 2019 16:51:21 +0000 (GMT)
+        by IMSVA (Postfix) with ESMTP id 8CA1EB2066;
+        Thu, 28 Feb 2019 16:51:42 +0000 (GMT)
 Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.188])
         by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Thu, 28 Feb 2019 16:51:21 +0000 (GMT)
+        Thu, 28 Feb 2019 16:51:42 +0000 (GMT)
 Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id A6E5A16C4295; Thu, 28 Feb 2019 08:51:22 -0800 (PST)
-Date:   Thu, 28 Feb 2019 08:51:22 -0800
+        id 7BBEE16C42B8; Thu, 28 Feb 2019 08:51:43 -0800 (PST)
+Date:   Thu, 28 Feb 2019 08:51:43 -0800
 From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Will Deacon <will.deacon@arm.com>,
         Josh Triplett <josh@joshtriplett.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
         Joel Fernandes <joel@joelfernandes.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation/locking/lockdep: Drop last two chars of
- sample states
+Subject: Re: [PATCH] doc: rcu: Suspicious RCU usage is a warning
 Reply-To: paulmck@linux.ibm.com
-References: <20190228105731.1092-1-geert+renesas@glider.be>
+References: <20190228105932.1274-1-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190228105731.1092-1-geert+renesas@glider.be>
+In-Reply-To: <20190228105932.1274-1-geert+renesas@glider.be>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 X-TM-AS-GCONF: 00
-x-cbid: 19022816-0068-0000-0000-0000039BC920
+x-cbid: 19022816-0072-0000-0000-0000040199FD
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00010680; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000281; SDB=6.01167658; UDB=6.00610029; IPR=6.00948272;
- MB=3.00025782; MTD=3.00000008; XFM=3.00000015; UTC=2019-02-28 16:51:26
+ PH=3.00000004; SC=3.00000281; SDB=6.01167659; UDB=6.00610029; IPR=6.00948272;
+ MB=3.00025782; MTD=3.00000008; XFM=3.00000015; UTC=2019-02-28 16:51:46
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19022816-0069-0000-0000-000047A8C9B6
-Message-Id: <20190228165122.GT4072@linux.ibm.com>
+x-cbparentid: 19022816-0073-0000-0000-00004B548AB8
+Message-Id: <20190228165143.GU4072@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-02-28_09:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
@@ -88,58 +83,38 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 28, 2019 at 11:57:31AM +0100, Geert Uytterhoeven wrote:
-> Since the removal of FS_RECLAIM annotations, lockdep states contain six
-> characters, not four.
-
-Does the above want to instead say "four characters, not six"?
-
-							Thanx, Paul
-
-> Fixes: e5684bbfc3f03480 ("Documentation/locking/lockdep: Update info about states")
-> Fixes: d92a8cfcb37ecd13 ("locking/lockdep: Rework FS_RECLAIM annotation")
+On Thu, Feb 28, 2019 at 11:59:32AM +0100, Geert Uytterhoeven wrote:
+> Suspicious RCU usage messages are reported as warnings.
+> 
+> Fixes: a5dd63efda3d07b5 ("lockdep: Use "WARNING" tag on lockdep splats")
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Paul E. McKenney <paulmck@linux.ibm.com>
+
 > ---
->  Documentation/RCU/lockdep-splat.txt      | 6 +++---
->  Documentation/locking/lockdep-design.txt | 4 ++--
->  2 files changed, 5 insertions(+), 5 deletions(-)
+> And before that, they were printed as errors, which was also never
+> reflected in the documentation...
+> ---
+>  Documentation/RCU/lockdep-splat.txt | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
 > diff --git a/Documentation/RCU/lockdep-splat.txt b/Documentation/RCU/lockdep-splat.txt
-> index 238e9f61352f6187..9423b633526d14df 100644
+> index 9423b633526d14df..9c015976b174123f 100644
 > --- a/Documentation/RCU/lockdep-splat.txt
 > +++ b/Documentation/RCU/lockdep-splat.txt
-> @@ -24,11 +24,11 @@ other info that might help us debug this:
+> @@ -14,9 +14,9 @@ being the real world and all that.
+>  So let's look at an example RCU lockdep splat from 3.0-rc5, one that
+>  has long since been fixed:
 >  
->  rcu_scheduler_active = 1, debug_locks = 0
->  3 locks held by scsi_scan_6/1552:
-> - #0:  (&shost->scan_mutex){+.+.+.}, at: [<ffffffff8145efca>]
-> + #0:  (&shost->scan_mutex){+.+.}, at: [<ffffffff8145efca>]
->  scsi_scan_host_selected+0x5a/0x150
-> - #1:  (&eq->sysfs_lock){+.+...}, at: [<ffffffff812a5032>]
-> + #1:  (&eq->sysfs_lock){+.+.}, at: [<ffffffff812a5032>]
->  elevator_exit+0x22/0x60
-> - #2:  (&(&q->__queue_lock)->rlock){-.-...}, at: [<ffffffff812b6233>]
-> + #2:  (&(&q->__queue_lock)->rlock){-.-.}, at: [<ffffffff812b6233>]
->  cfq_exit_queue+0x43/0x190
+> -===============================
+> -[ INFO: suspicious RCU usage. ]
+> --------------------------------
+> +=============================
+> +WARNING: suspicious RCU usage
+> +-----------------------------
+>  block/cfq-iosched.c:2776 suspicious rcu_dereference_protected() usage!
 >  
->  stack backtrace:
-> diff --git a/Documentation/locking/lockdep-design.txt b/Documentation/locking/lockdep-design.txt
-> index 49f58a07ee7b19c8..39fae143c9cbf5ff 100644
-> --- a/Documentation/locking/lockdep-design.txt
-> +++ b/Documentation/locking/lockdep-design.txt
-> @@ -45,10 +45,10 @@ When locking rules are violated, these state bits are presented in the
->  locking error messages, inside curlies. A contrived example:
->  
->     modprobe/2287 is trying to acquire lock:
-> -    (&sio_locks[i].lock){-.-...}, at: [<c02867fd>] mutex_lock+0x21/0x24
-> +    (&sio_locks[i].lock){-.-.}, at: [<c02867fd>] mutex_lock+0x21/0x24
->  
->     but task is already holding lock:
-> -    (&sio_locks[i].lock){-.-...}, at: [<c02867fd>] mutex_lock+0x21/0x24
-> +    (&sio_locks[i].lock){-.-.}, at: [<c02867fd>] mutex_lock+0x21/0x24
->  
->  
->  The bit position indicates STATE, STATE-read, for each of the states listed
+>  other info that might help us debug this:
 > -- 
 > 2.17.1
 > 
