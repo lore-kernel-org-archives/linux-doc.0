@@ -1,80 +1,152 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 45DF97D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 15:45:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CA3D07D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 15:59:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726918AbfB1PpQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Feb 2019 10:45:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39088 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726269AbfB1PpQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 Feb 2019 10:45:16 -0500
-Received: from localhost (5356596B.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2A43C218AE;
-        Thu, 28 Feb 2019 15:45:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1551368715;
-        bh=Ydlgv1/bff/mSevUXLvGNXBcCLd3Pdau1gdmz5r23FM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cWAoikD7kg5yMucDCVwxzJBeOoHS9h/sXmVFivUTpJVwFv6lcCsNkJqIDj/LWKl8L
-         erMNTmz2y3HRmsPqHWPXc8G1lrxDe0hCEGhErpnqWDzr3jxhokXWiuegE6NfImPGji
-         zyM8cQQqqK2wxxKYjjqfBkdhhuJoKUVoucEXoRc0=
-Date:   Thu, 28 Feb 2019 16:45:13 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
-        atishp04@gmail.com, dancol@google.com,
-        Dan Williams <dan.j.williams@intel.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        paulmck@linux.vnet.ibm.com,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        qais.yousef@arm.com, rdunlap@infradead.org, rostedt@goodmis.org,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, yhs@fb.com
-Subject: Re: [PATCH v3 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-Message-ID: <20190228154513.GA12050@kroah.com>
-References: <20190227193748.132301-1-joel@joelfernandes.org>
- <20190228173444.54403795211d80ba540b61cb@kernel.org>
- <20190228150054.GB156098@google.com>
- <20190228153026.GG8481@kroah.com>
- <20190228153741.GA168373@google.com>
+        id S1731135AbfB1P7d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Feb 2019 10:59:33 -0500
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:38799 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726343AbfB1P7d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Feb 2019 10:59:33 -0500
+Received: by mail-ed1-f68.google.com with SMTP id h58so17416638edb.5;
+        Thu, 28 Feb 2019 07:59:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=S5D2QMDutFUGJ1AbgQc468F84xPwM7FhWp31+MeV1/U=;
+        b=ogG8i30u7TYbomGy/+8wsCzyahd7ekI3gM5x6wAi2O6sPpEEATjmH/NcfYuOxkyT1A
+         lnbo0q+udIaQDEH+OWy6uorTBSiW6ptd2t9EY2GzsVK+6WsN+sJ1fRidWl9L90gqC6Gj
+         Ov+sLMKCl+uj5sRZYgHpzz0QDhTkgEdUGbM43pW8csaqX+TzbMGticjn3hD/eE6rhWl+
+         dKNy+Fxcwvf0hrIbw0LMtJ4vaN6CbJPcHbAlpEOJR5nZ1qq2Wky0ow8ThPR51TRH8L0S
+         popAFhRB6NoxnyLIr+rrD+YbiC6WZbI2PoetmaAWZUMPfNXcCOGaES3s+XC2hcPCfbvo
+         +95w==
+X-Gm-Message-State: APjAAAWvovoiC4xMCrOZ8FADaMu/qxqXsJByzz6mDFE8Fro3ggTthksU
+        QWDRt1mzx5NnNg0/csYozshczAf4GB/Tpm1zAoQaXQ==
+X-Google-Smtp-Source: APXvYqwOyiVObY5qbn9dbufD06mSn8A85Det+YcbUXvud9o4AT9KoKijpnvw9kqcFA7SODPhc5mzsHb+RpV4a2Cu5PY=
+X-Received: by 2002:a50:9e61:: with SMTP id z88mr287620ede.100.1551369571116;
+ Thu, 28 Feb 2019 07:59:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190228153741.GA168373@google.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+References: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
+ <07d2908dc72bf964b27380999e1c826587d69136.1550545163.git.len.brown@intel.com>
+ <20190220105542.GB17969@hirez.programming.kicks-ass.net> <CAJvTdK=+Lw1_WFE4_aGqxtRPK_JafmmzcmGSqScMOB4EK-xH5g@mail.gmail.com>
+ <20190226135426.GU32477@hirez.programming.kicks-ass.net>
+In-Reply-To: <20190226135426.GU32477@hirez.programming.kicks-ass.net>
+From:   Len Brown <lenb@kernel.org>
+Date:   Thu, 28 Feb 2019 10:59:19 -0500
+Message-ID: <CAJvTdKk6B0rWMukNv3OKimSvbDqP+c83dTQpO4kFvbL7ETGPvg@mail.gmail.com>
+Subject: Re: [PATCH 03/11] x86 topology: Add CPUID.1F multi-die/package support
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     X86 ML <x86@kernel.org>, linux-kernel@vger.kernel.org,
+        Len Brown <len.brown@intel.com>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 28, 2019 at 10:37:41AM -0500, Joel Fernandes wrote:
-> In any case, it is not practical to provide headers for every kernel version on
-> the system image and maintain them, it will take up too much space and has to
-> be periodically packaged. Not to mention that there will be kernel versions
-> that are booting Android that simply don't have anyone maintaining headers
-> for. So the proposed solution is an easier path.
+On Tue, Feb 26, 2019 at 8:54 AM Peter Zijlstra <peterz@infradead.org> wrote:
 
-I totally agree with this, and with your proposed patches, just wanting
-to clear up some potential anti-GPL-FUD before it got spread any further :)
+> > > It would've been nice to have the CPUID instruction 1F leaf reference
+> > > 3B-3.9 in the SDM, and maybe mention this here too.
+> >
+> > I didn't mention SDM sections because they change -- leaving stale
+> > pointers in our commit messages.  The SDM is re-published 4 times per
+> > year.
+>
+> Yah, I know. Which is why I keep all SDMs. So if you say, book 3 section
+> 8 of Jul'17, I can find it :-)
+
+The SDM is like software -- usually (but not always) you are better
+off with the latest version:-)
+
+> > Cache enumeration in Leaf-4 is totally unchanged.
+> > ACPI NUMA tables are totally unchanged.
+>
+> Sure; and yet Sub-NUMA-Clustering broke stuff in interesting ways. I'm
+> trying to get a feel for how these levels will interact with all that.
+>
+> Before that SNC stuff, caches had never spanned NODEs (and I still
+> think that is 'creative' at best).
+
+Yeah, SNC is sort of a curve ball.  I guess it made enough stuff run better that
+it is available as an option.  But it doesn't help everything, so it is disabled
+by default...
+
+I think from a scheduler point of view, sticking with the output of
+CPUID.4 for the cache topology, and the ACPI tables for the
+node topology/distances, is the right strategy.
+
+> > From a scheduler point of view, imagine that a SKX system with 4 die
+> > in 4 packages was mechanically re-designed so that those 4 die resided
+> > in 2 double-sized packages.
+> >
+> > They may have tweaked the links between the die, but logically it is
+> > identical and compatible, and the legacy kernel will function
+> > properly.
+>
+> This example has LLC in die and yes that works.
+>
+> But I can imagine things like L2 in tile and L3 across tiles but within
+> DIE and then it _might_ make sense to still consider the tile for
+> scheduling.
+>
+> Another option is having the LLC off die; also not unheard of.
+>
+> And then there's many creative and slightly crazy ways this can all be
+> combined :/
+
+If any of those crazy things happen,  CPUID.B/CPUID.1F are not
+going to help software understand it -- CPUID.4 and the NUMA tables
+are the tool of choice.
+
+> > So the effect of Leaf B,1F is that it defines the scope of MSRs.  eg.
+> > what processors does a die-scope MSR cover.  That is why the rest of
+> > the patch is about sysfs topology, and about package MSR scope.
+> >
+> > Yes, there will be more exotic MSR situations in future products --
+> > the first ones are pretty simple -- something  called a
+> > package-scope-MSR  in the SDM today becomes a die-scope-MSR in this
+> > generation on a multi-die/package system.
+>
+> Yes :-(
+>
+> > It also reflects how many packages appear in sysfs, and this can
+> > effect licensing of some kinds of software.
+>
+> That's just plain insanity and we should not let that affect our sysfs
+> interfaces.
+
+This change isn't made for compatibility with per-package licensing.
+Indeed, vendors, who license  based on package-count need to
+be made aware that on a system with multi-die/package, they'll
+see their package count go _down_ as a result of this change.
+Thankfully, I'm told that per-package licensing is quite rare --
+most stuff that cares has moved to per-CPU.
+
+I think a good semantic side effect of this series is that it
+maintains the invariant that a physical package and a socket are synonymous.
+While we don't use the word "socket" in Linux anymore, the industry
+broadly assume that the two are synonyms.  And people expect that a
+physical package really is a physical package -- you can see it,
+buy it in a box, and hold it in your hand.
+
+Functionally, the bottom line is that it allows software to discover topology
+levels that previously needed to be discovered by looking up family/model,
+in the past, which was sort of annoying.  The things that care are
+things that care about MSR scope.   Thankfully, the list of things that care
+about MSR scope is quite finite.
 
 thanks,
+-Len
 
-greg k-h
+
+
+
+--
+Len Brown, Intel Open Source Technology Center
