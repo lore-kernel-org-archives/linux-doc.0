@@ -1,124 +1,99 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5DC227D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 08:34:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6034B7D099
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 10:57:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730549AbfB1Iev (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Feb 2019 03:34:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42370 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725999AbfB1Iev (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 Feb 2019 03:34:51 -0500
-Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 60F7F2184A;
-        Thu, 28 Feb 2019 08:34:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1551342890;
-        bh=1Ok9YCr1jJh+ph2hLY5yswrP0Etv+EN2lqnJ2dIYNEQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=i7vNW/WnLyGCiFP/iPFpM9V6ReNy4dm+oKYu1clucazlY5Hp828V+u5ybb/eOqxgC
-         RUlyvXnxAP50ZBYbd4repUlMsHsPn/LhP9lYEgR08hDKK8V10cuKB+vFnn1eGCuEgh
-         SDr6s1zLoYhUky0DwEeyp1OjbH3vIDHEp9uCKqTw=
-Date:   Thu, 28 Feb 2019 17:34:44 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
-        atishp04@gmail.com, dancol@google.com,
-        Dan Williams <dan.j.williams@intel.com>,
-        gregkh@linuxfoundation.org, Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        mhiramat@kernel.org, paulmck@linux.vnet.ibm.com,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        qais.yousef@arm.com, rdunlap@infradead.org, rostedt@goodmis.org,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, yhs@fb.com
-Subject: Re: [PATCH v3 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-Message-Id: <20190228173444.54403795211d80ba540b61cb@kernel.org>
-In-Reply-To: <20190227193748.132301-1-joel@joelfernandes.org>
-References: <20190227193748.132301-1-joel@joelfernandes.org>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1731156AbfB1K5r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Feb 2019 05:57:47 -0500
+Received: from andre.telenet-ops.be ([195.130.132.53]:36304 "EHLO
+        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727810AbfB1K5q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Feb 2019 05:57:46 -0500
+Received: from ramsan ([84.194.111.163])
+        by andre.telenet-ops.be with bizsmtp
+        id iAxd1z00K3XaVaC01Axdl7; Thu, 28 Feb 2019 11:57:44 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1gzJNh-0007Qs-9z; Thu, 28 Feb 2019 11:57:37 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1gzJNh-0000IO-6O; Thu, 28 Feb 2019 11:57:37 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Will Deacon <will.deacon@arm.com>
+Cc:     "Paul E . McKenney" <paulmck@linux.ibm.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] Documentation/locking/lockdep: Drop last two chars of sample states
+Date:   Thu, 28 Feb 2019 11:57:31 +0100
+Message-Id: <20190228105731.1092-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Joel,
+Since the removal of FS_RECLAIM annotations, lockdep states contain six
+characters, not four.
 
-On Wed, 27 Feb 2019 14:37:47 -0500
-"Joel Fernandes (Google)" <joel@joelfernandes.org> wrote:
+Fixes: e5684bbfc3f03480 ("Documentation/locking/lockdep: Update info about states")
+Fixes: d92a8cfcb37ecd13 ("locking/lockdep: Rework FS_RECLAIM annotation")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ Documentation/RCU/lockdep-splat.txt      | 6 +++---
+ Documentation/locking/lockdep-design.txt | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-> Introduce in-kernel headers and other artifacts which are made available
-> as an archive through proc (/proc/kheaders.tar.xz file). This archive makes
-> it possible to build kernel modules, run eBPF programs, and other
-> tracing programs that need to extend the kernel for tracing purposes
-> without any dependency on the file system having headers and build
-> artifacts.
-> 
-> On Android and embedded systems, it is common to switch kernels but not
-> have kernel headers available on the file system. Raw kernel headers
-> also cannot be copied into the filesystem like they can be on other
-> distros, due to licensing and other issues. There's no linux-headers
-> package on Android. Further once a different kernel is booted, any
-> headers stored on the file system will no longer be useful. By storing
-> the headers as a compressed archive within the kernel, we can avoid these
-> issues that have been a hindrance for a long time.
-
-Hmm, isn't it easier to add kernel-headers package on Android?
-
-> The feature is also buildable as a module just in case the user desires
-> it not being part of the kernel image. This makes it possible to load
-> and unload the headers on demand. A tracing program, or a kernel module
-> builder can load the module, do its operations, and then unload the
-> module to save kernel memory. The total memory needed is 3.8MB.
-
-But it also requires to install build environment (tools etc.)
-on the target system...
-
-> 
-> The code to read the headers is based on /proc/config.gz code and uses
-> the same technique to embed the headers.
-> 
-> To build a module, the below steps have been tested on an x86 machine:
-> modprobe kheaders
-> rm -rf $HOME/headers
-> mkdir -p $HOME/headers
-> tar -xvf /proc/kheaders.tar.xz -C $HOME/headers >/dev/null
-> cd my-kernel-module
-> make -C $HOME/headers M=$(pwd) modules
-> rmmod kheaders
-
-It seems a bit complex, but no difference from compared with carrying
-kheaders.tar.gz. I think we would better have a psudo filesystem
-which can mount this compressed header file directly :) Then it becomes
-simpler, like
-
-modprobe headerfs
-mkdir $HOME/headers
-mount -t headerfs $HOME/headers
-
-And this doesn't consume any disk-space.
-
-Thank you,
-
-
-
-
+diff --git a/Documentation/RCU/lockdep-splat.txt b/Documentation/RCU/lockdep-splat.txt
+index 238e9f61352f6187..9423b633526d14df 100644
+--- a/Documentation/RCU/lockdep-splat.txt
++++ b/Documentation/RCU/lockdep-splat.txt
+@@ -24,11 +24,11 @@ other info that might help us debug this:
+ 
+ rcu_scheduler_active = 1, debug_locks = 0
+ 3 locks held by scsi_scan_6/1552:
+- #0:  (&shost->scan_mutex){+.+.+.}, at: [<ffffffff8145efca>]
++ #0:  (&shost->scan_mutex){+.+.}, at: [<ffffffff8145efca>]
+ scsi_scan_host_selected+0x5a/0x150
+- #1:  (&eq->sysfs_lock){+.+...}, at: [<ffffffff812a5032>]
++ #1:  (&eq->sysfs_lock){+.+.}, at: [<ffffffff812a5032>]
+ elevator_exit+0x22/0x60
+- #2:  (&(&q->__queue_lock)->rlock){-.-...}, at: [<ffffffff812b6233>]
++ #2:  (&(&q->__queue_lock)->rlock){-.-.}, at: [<ffffffff812b6233>]
+ cfq_exit_queue+0x43/0x190
+ 
+ stack backtrace:
+diff --git a/Documentation/locking/lockdep-design.txt b/Documentation/locking/lockdep-design.txt
+index 49f58a07ee7b19c8..39fae143c9cbf5ff 100644
+--- a/Documentation/locking/lockdep-design.txt
++++ b/Documentation/locking/lockdep-design.txt
+@@ -45,10 +45,10 @@ When locking rules are violated, these state bits are presented in the
+ locking error messages, inside curlies. A contrived example:
+ 
+    modprobe/2287 is trying to acquire lock:
+-    (&sio_locks[i].lock){-.-...}, at: [<c02867fd>] mutex_lock+0x21/0x24
++    (&sio_locks[i].lock){-.-.}, at: [<c02867fd>] mutex_lock+0x21/0x24
+ 
+    but task is already holding lock:
+-    (&sio_locks[i].lock){-.-...}, at: [<c02867fd>] mutex_lock+0x21/0x24
++    (&sio_locks[i].lock){-.-.}, at: [<c02867fd>] mutex_lock+0x21/0x24
+ 
+ 
+ The bit position indicates STATE, STATE-read, for each of the states listed
 -- 
-Masami Hiramatsu <mhiramat@kernel.org>
+2.17.1
+
