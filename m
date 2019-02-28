@@ -1,64 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3F18E7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 17:56:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B3E8C7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 18:14:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388270AbfB1R4u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Feb 2019 12:56:50 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:37700 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726214AbfB1R4u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Feb 2019 12:56:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=mAezheR5Ts58PLPCR6fzktl3Y7U/H/Na9KcQGEBTSbg=; b=TexdUqPIudUzLoK2q5Z60Hn77
-        bv/JGELmEVTuHUEQpn0Z4qTIwltpNXHJeJRn/e4nQlJ2CN9HOzPphF870wJPHlZ+R1LEHNvr22rIM
-        eF566F35a/AUMs5IdO3IgAeGSxzxrWAw9GjD3bo2QpES6XqjoIv2KpCsXdfupZ2lOv5Bn+4NDtOP3
-        xivAiqDXe1h51DnvFkGd2458ryFYqYt8S63wDjwe8FRgEAxQBCHcDSjyj/cnH0AFCuHTvZNs/NQL/
-        hkH4nTXHXlMyKg5xRhkwigcyaUhregZW7h/H5+QF2MD2X3NT1sF3p/WBpY+AYth61gLUh9hGvD6t3
-        fAFluEurA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1gzPvM-0008Gb-TG; Thu, 28 Feb 2019 17:56:49 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 42581202C2DA7; Thu, 28 Feb 2019 18:56:47 +0100 (CET)
-Date:   Thu, 28 Feb 2019 18:56:47 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Len Brown <lenb@kernel.org>
-Cc:     X86 ML <x86@kernel.org>, linux-kernel@vger.kernel.org,
-        Len Brown <len.brown@intel.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 03/11] x86 topology: Add CPUID.1F multi-die/package
- support
-Message-ID: <20190228175647.GH32494@hirez.programming.kicks-ass.net>
-References: <635b2bf8b1151a191cd9299276b75791a818c0c2.1550545163.git.len.brown@intel.com>
- <07d2908dc72bf964b27380999e1c826587d69136.1550545163.git.len.brown@intel.com>
- <20190220105542.GB17969@hirez.programming.kicks-ass.net>
- <CAJvTdK=+Lw1_WFE4_aGqxtRPK_JafmmzcmGSqScMOB4EK-xH5g@mail.gmail.com>
- <20190226135426.GU32477@hirez.programming.kicks-ass.net>
- <CAJvTdKk6B0rWMukNv3OKimSvbDqP+c83dTQpO4kFvbL7ETGPvg@mail.gmail.com>
+        id S1731687AbfB1SOj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Feb 2019 13:14:39 -0500
+Received: from foss.arm.com ([217.140.101.70]:52354 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725955AbfB1SOj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 Feb 2019 13:14:39 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6E321EBD;
+        Thu, 28 Feb 2019 10:14:38 -0800 (PST)
+Received: from [10.1.196.93] (en101.cambridge.arm.com [10.1.196.93])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 303403F5C1;
+        Thu, 28 Feb 2019 10:14:36 -0800 (PST)
+Subject: Re: [PATCH v5 01/10] arm64: Provide a command line to disable
+ spectre_v2 mitigation
+To:     jeremy.linton@arm.com, linux-arm-kernel@lists.infradead.org
+Cc:     catalin.marinas@arm.com, will.deacon@arm.com, marc.zyngier@arm.com,
+        dave.martin@arm.com, shankerd@codeaurora.org,
+        julien.thierry@arm.com, mlangsdo@redhat.com, stefan.wahren@i2e.com,
+        andre.przywara@arm.com, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org
+References: <20190227010544.597579-1-jeremy.linton@arm.com>
+ <20190227010544.597579-2-jeremy.linton@arm.com>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+Message-ID: <a0524741-e17a-a4b1-9d7c-3d001b2b581f@arm.com>
+Date:   Thu, 28 Feb 2019 18:14:34 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJvTdKk6B0rWMukNv3OKimSvbDqP+c83dTQpO4kFvbL7ETGPvg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190227010544.597579-2-jeremy.linton@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 28, 2019 at 10:59:19AM -0500, Len Brown wrote:
+Hi Jeremy
 
-> The SDM is like software -- usually (but not always) you are better
-> off with the latest version:-)
+On 27/02/2019 01:05, Jeremy Linton wrote:
+> There are various reasons, including bencmarking, to disable spectrev2
+> mitigation on a machine. Provide a command-line to do so.
+> 
+> Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
 
-If only it existed as a .tex file in a git repo. It has been very useful
-to have older versions around a number of times.
+
+> diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+> index 9950bb0cbd52..d2b2c69d31bb 100644
+> --- a/arch/arm64/kernel/cpu_errata.c
+> +++ b/arch/arm64/kernel/cpu_errata.c
+> @@ -220,6 +220,14 @@ static void qcom_link_stack_sanitization(void)
+>   		     : "=&r" (tmp));
+>   }
+>   
+> +static bool __nospectre_v2;
+> +static int __init parse_nospectre_v2(char *str)
+> +{
+> +	__nospectre_v2 = true;
+> +	return 0;
+> +}
+> +early_param("nospectre_v2", parse_nospectre_v2);
+> +
+>   static void
+>   enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
+>   {
+> @@ -231,6 +239,11 @@ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
+>   	if (!entry->matches(entry, SCOPE_LOCAL_CPU))
+>   		return;
+>   
+> +	if (__nospectre_v2) {
+> +		pr_info_once("spectrev2 mitigation disabled by command line option\n");
+> +		return;
+> +	}
+> +
+
+Could we not disable the "cap" altogether instead, rather than disabling the
+work around ? Or do we need that information ?
+
+Cheers
+Suzuki
