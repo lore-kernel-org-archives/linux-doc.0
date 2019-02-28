@@ -1,109 +1,184 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C874F7D099
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Feb 2019 23:54:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EA3197D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 02:20:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729986AbfB0Xy4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Feb 2019 18:54:56 -0500
-Received: from outils.crapouillou.net ([89.234.176.41]:60472 "EHLO
-        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728397AbfB0Xy4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Feb 2019 18:54:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1551311691; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cJ6fULrEGLrLtO/O+I4SpN9dM7a0vaIBbaxUxFE0zew=;
-        b=vz6Gts0AlF1ZMxzNvwztMEwxrlMYtUm8vCZGrHH2K38uvYsNaQEwsGoASa1KbumPTB+Z6A
-        88PY/c9CQ9QkAnmFVsij8HjTByhDB1NR1aR4C+wZhWzvjIocvGJMOFJt+2Di8Cg69huwZl
-        zA1bw5utq6/tPI8K1f1TGueCFOzSWK4=
-Date:   Wed, 27 Feb 2019 20:54:28 -0300
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v8 05/26] clocksource: Add driver for the Ingenic JZ47xx
- OST
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Mathieu Malaterre <malat@debian.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ezequiel Garcia <ezequiel@collabora.co.uk>,
-        PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>,
-        linux-pwm@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        linux-watchdog@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org, od@zcrc.me,
-        Maarten ter Huurne <maarten@treewalker.org>
-Message-Id: <1551311669.21164.1@crapouillou.net>
-In-Reply-To: <155111793658.191923.2540746255375959460@swboyd.mtv.corp.google.com>
-References: <20181212220922.18759-1-paul@crapouillou.net>
-        <CA+7wUsxNN2SL9_7tDh0DiBAgdUwxd_osgmi=09HP7110Tm0DYQ@mail.gmail.com>
-        <128675a5-7ede-4114-a649-89a536346dc8@roeck-us.net>
-        <1548264353.3173.1@crapouillou.net> <20190123180155.GB9781@roeck-us.net>
-        <154835808767.136743.14531363127962557756@swboyd.mtv.corp.google.com>
-        <1548362788.3881.0@crapouillou.net>
-        <154836998080.136743.17683029101430122926@swboyd.mtv.corp.google.com>
-        <1548370388.3881.2@crapouillou.net> <1550891845.20534.1@crapouillou.net>
-        <155111793658.191923.2540746255375959460@swboyd.mtv.corp.google.com>
+        id S1730702AbfB1CTx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Feb 2019 21:19:53 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:41904 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730649AbfB1CSt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Feb 2019 21:18:49 -0500
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id x1S2IR5l004720;
+        Thu, 28 Feb 2019 11:18:28 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x1S2IR5l004720
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1551320308;
+        bh=n7mhpj2aC7Mve2C5o3EJ+uLUinm0cPgyBJ+lD5dirS0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ishsd/C0l9syvAMcejOYpPHGxTmJm2/72m4tLMiDWPDOEBjSsgCBoTWvgBVjzLmQ7
+         b173cgYtygwaXWP7pJ/tbyNxU/OClqklKyOPR1ukfLFasbXg254jdRKR0oe/umyDtE
+         6WJl8UZQ4jF5khjKPu81Iw5W9NEFOIvqa3oHEMFYtE2sWBSoZcrLOUg3u4wErJpH+S
+         g4Y6F2UgOm2seAkebWv6B63nAWAg/hpVFeRQF2/15XwgCqrnb/W/3lFFRg1/G8ltV/
+         4uK+awRFtWQnhmpnMs3PnAihVM6sURAbcoH9UM55lotVGhHf6ilaDVQ3tjfEwy548S
+         yngLVGFboG9JQ==
+X-Nifty-SrcIP: [209.85.222.43]
+Received: by mail-ua1-f43.google.com with SMTP id u1so16703963uae.12;
+        Wed, 27 Feb 2019 18:18:28 -0800 (PST)
+X-Gm-Message-State: AHQUAuY9OquMMA0oFL+p2pOuaTvQ/bMfkBZw/xK9cWSyx/tu/pxH6uA5
+        SgFcNlLShfbfT+6GtbMuTQ8T1twsWK+4PeIIXqE=
+X-Google-Smtp-Source: AHgI3IbhBk+562qaiz15OAPhPLDC6T88xJ42uk/xzNQ1LvtsiTxZNM51pAkmLgyLs9h83u+0Vm/TbGP+NS3zDJvAepc=
+X-Received: by 2002:a67:7bd3:: with SMTP id w202mr3591054vsc.179.1551320306983;
+ Wed, 27 Feb 2019 18:18:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+References: <20190227193748.132301-1-joel@joelfernandes.org>
+In-Reply-To: <20190227193748.132301-1-joel@joelfernandes.org>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Thu, 28 Feb 2019 11:17:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR=dpw7y+Y20m0n4ZqzQtqY2XrS3CKk5bQA-Azhp0SN6g@mail.gmail.com>
+Message-ID: <CAK7LNAR=dpw7y+Y20m0n4ZqzQtqY2XrS3CKk5bQA-Azhp0SN6g@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] Provide in-kernel headers for making it easy to
+ extend the kernel
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        qais.yousef@arm.com, Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Yonghong Song <yhs@fb.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hi Joel,
 
-Le lun. 25 f=E9vr. 2019 =E0 15:05, Stephen Boyd <sboyd@kernel.org> a=20
-=E9crit :
-> Quoting Paul Cercueil (2019-02-22 19:17:25)
->>  Hi,
->>=20
->>  Anything new on this? It still happens on 5.0-rc7.
->>  It probes with late_initcall, and not with device_initcall.
->>  I have no clue what's going on.
->>=20
->=20
-> I'm not sure what's going on either. You'll probably have to debug=20
-> when
-> the device is created and when it is probed by enabling the debug
-> printing in the driver core or by adding in extra debug prints to=20
-> narrow
-> down the problem. For example, add a '#define DEBUG 1' at the top of
-> drivers/base/dd.c and see if that helps give some info on what's going
-> on with the drivers and devices.
 
-The doc of __platform_driver_probe says:
-"Use this instead of platform_driver_register() when you know the device
-is not hotpluggable and has already been registered".
+On Thu, Feb 28, 2019 at 4:40 AM Joel Fernandes (Google)
+<joel@joelfernandes.org> wrote:
+>
+> Introduce in-kernel headers and other artifacts which are made available
+> as an archive through proc (/proc/kheaders.tar.xz file). This archive makes
+> it possible to build kernel modules, run eBPF programs, and other
+> tracing programs that need to extend the kernel for tracing purposes
+> without any dependency on the file system having headers and build
+> artifacts.
+>
+> On Android and embedded systems, it is common to switch kernels but not
+> have kernel headers available on the file system. Raw kernel headers
+> also cannot be copied into the filesystem like they can be on other
+> distros, due to licensing and other issues. There's no linux-headers
+> package on Android. Further once a different kernel is booted, any
+> headers stored on the file system will no longer be useful. By storing
+> the headers as a compressed archive within the kernel, we can avoid these
+> issues that have been a hindrance for a long time.
+>
+> The feature is also buildable as a module just in case the user desires
+> it not being part of the kernel image. This makes it possible to load
+> and unload the headers on demand. A tracing program, or a kernel module
+> builder can load the module, do its operations, and then unload the
+> module to save kernel memory. The total memory needed is 3.8MB.
+>
+> The code to read the headers is based on /proc/config.gz code and uses
+> the same technique to embed the headers.
 
-When the parent device and child device are both probed with
-builtin_platform_driver_probe(), and the parent calls
-devm_of_platform_populate(), it is not certain that the parent's
-probe will happen before the child's, and if it does not, the child
-device has not been registered and its probe is not allowed to defer.
-So it turned out not to be a core bug, rather a misuse of the API.
 
-So I will keep the builtin_platform_driver_probe() in the child, and=20
-use a
-subsys_initcall() in the parent. That works fine.
 
-Regards,
--Paul
-=
+Please let me ask a question about the actual use-case.
 
+
+To build embedded systems including Android,
+I use an x86 build machine.
+
+In other words, I cross-compile vmlinux and in-tree modules.
+So,
+
+  target-arch: arm64
+  host-arch:   x86
+
+
+
+> To build a module, the below steps have been tested on an x86 machine:
+> modprobe kheaders
+> rm -rf $HOME/headers
+> mkdir -p $HOME/headers
+> tar -xvf /proc/kheaders.tar.xz -C $HOME/headers >/dev/null
+> cd my-kernel-module
+> make -C $HOME/headers M=$(pwd) modules
+> rmmod kheaders
+
+I am guessing the user will run these commands
+on the target system.
+In other words, external modules are native-compiled.
+So,
+
+  target-arch: arm64
+  host-arch:   arm64
+
+
+Is this correct?
+
+
+If I understood the assumed use-case correctly,
+kheaders.tar.xw will contain host-programs compiled for x86,
+which will not work on the target system.
+
+
+
+
+Masahiro
+
+
+
+
+> Additional notes:
+> (1)
+> A limitation of module building with this is, since Module.symvers is
+> not available in the archive due to a cyclic dependency with building of
+> the archive into the kernel or module binaries, the modules built using
+> the archive will not contain symbol versioning (modversion). This is
+> usually not an issue since the idea of this patch is to build a kernel
+> module on the fly and load it into the same kernel. An appropriate
+> warning is already printed by the kernel to alert the user of modules
+> not having modversions when built using the archive. For building with
+> modversions, the user can use traditional header packages. For our
+> tracing usecases, we build modules on the fly with this so it is not a
+> concern.
+>
+> (2) I have left IKHD_ST and IKHD_ED markers as is to facilitate
+> future patches that would extract the headers from a kernel or module
+> image.
+>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> ---
+
+
+
+--
+Best Regards
+Masahiro Yamada
