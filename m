@@ -2,25 +2,25 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 680A07D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 16:23:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D5D8C7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 16:48:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732097AbfB1QWz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Feb 2019 11:22:55 -0500
-Received: from foss.arm.com ([217.140.101.70]:51212 "EHLO foss.arm.com"
+        id S1727878AbfB1QsJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Feb 2019 11:48:09 -0500
+Received: from foss.arm.com ([217.140.101.70]:51462 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726269AbfB1QWy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 Feb 2019 11:22:54 -0500
+        id S1726717AbfB1QsJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 Feb 2019 11:48:09 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1539EA78;
-        Thu, 28 Feb 2019 08:22:54 -0800 (PST)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3BC6EEBD;
+        Thu, 28 Feb 2019 08:48:08 -0800 (PST)
 Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.17])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C8DD23F720;
-        Thu, 28 Feb 2019 08:22:49 -0800 (PST)
-Date:   Thu, 28 Feb 2019 16:22:46 +0000
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EF7463F720;
+        Thu, 28 Feb 2019 08:48:03 -0800 (PST)
+Date:   Thu, 28 Feb 2019 16:48:01 +0000
 From:   Qais Yousef <qais.yousef@arm.com>
 To:     Dietmar Eggemann <dietmar.eggemann@arm.com>
 Cc:     Joel Fernandes <joel@joelfernandes.org>,
@@ -42,7 +42,7 @@ Cc:     Joel Fernandes <joel@joelfernandes.org>,
         Thomas Gleixner <tglx@linutronix.de>, yhs@fb.com
 Subject: Re: [PATCH v3 1/2] Provide in-kernel headers for making it easy to
  extend the kernel
-Message-ID: <20190228162246.yhqts47g7h3dqbjs@e107158-lin.cambridge.arm.com>
+Message-ID: <20190228164801.iahwphx5o2zeks4n@e107158-lin.cambridge.arm.com>
 References: <20190227193748.132301-1-joel@joelfernandes.org>
  <20190228135343.23kzkilig3bsioov@e107158-lin.cambridge.arm.com>
  <20190228144759.GA156098@google.com>
@@ -112,17 +112,6 @@ On 02/28/19 17:04, Dietmar Eggemann wrote:
 >  #define KH_MAGIC_END "IKHD_ED"
 >                       ^
 > kernel/kheaders_data.h:1:1: note: in expansion of macro ‘KH_MAGIC_END’
-
-I believe this is caused by this change ad774086356d (kbuild: change filechk
-to surround the given command with { }) which changes how filechk defined - and
-since filechk_ikheadersxz is used to generate kheaders_data.h it fails when
-backported because the syntax has changed.
-
-HTH
-
---
-Qais Yousef
-
 >  KH_MAGIC_END;
 >  ^~~~~~~~~~~~
 > kernel/kheaders.c: In function ‘ikheaders_read_current’:
@@ -151,6 +140,25 @@ Qais Yousef
 > The reason for me to stay on v4.20 is that with v5.0-rc8 I don't have ebpf
 > 'raw tracepoint' support any more on my arm64 board. But this issue is not
 > related to your patch though.
+
+And this is caused by a38d1107f937 (bpf: support raw tracepoints in modules)
+which renamed bpf_find_raw_tracepoint() which bcc-tools relies on to detect if
+raw tracepoints are supported..
+
+https://github.com/iovisor/bcc/blob/master/src/python/bcc/__init__.py#L860
+
+Speaking of fragile depedencies :-)
+
+I guess the check can be extended to check for both symbols - but it'll stay
+fragile. Not sure if they can do better.
+
+I filed a bug
+
+https://github.com/iovisor/bcc/issues/2240
+
+--
+Qais Yousef
+
 > 
 > Another point which supports the functionality your patch provides is the
 > fact that maintainers don't want to see new TRACE_EVENTs in their code. So
