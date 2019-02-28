@@ -1,106 +1,80 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E49727D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 15:43:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 45DF97D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Feb 2019 15:45:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727781AbfB1Pnn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Feb 2019 10:43:43 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:46359 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726918AbfB1Pnn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Feb 2019 10:43:43 -0500
-Received: by mail-ed1-f66.google.com with SMTP id f2so17339322edy.13;
-        Thu, 28 Feb 2019 07:43:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KnnpQR0gxcxZFG4JmKjKJF97aHrwdFBLqkL5gz1v6b4=;
-        b=rPd1O6b0IbhqPLxSXfB895v1/t6TD7UOqDbdj6GYpLVQOmwj3Rt5mpeJwUPq6R6ttl
-         bXFRcwQasYN0+xJkllA4yAyQYFcSabfdCtGbvndhGdicTG4Lqtitf9pj6mN0LRwO5PyY
-         je6Ey7mmewHztICxFzNqhxsghszYXPUZ8UYdA0dFEUvhBTTz8AokIORkGTCb8vocY+R2
-         +EOXjKFu/xM/YA7AB1EvIDordXG/R3ecItpQKN4kGLGPkNGvFbY8wct2XV35koo3x8ZZ
-         TM8OSQd3rPIwgljFG+Q2TL3qKd6tVE8J5HgTOp+nCW1z125Ej1e/tr/Gw+FV3ovEqTcx
-         oH4w==
-X-Gm-Message-State: AHQUAuaj9Cnn/aY/vAkNovxQg0XGbcdx5zkMGE3LWSYVjbbAOX0eIAJ4
-        okC+WOTVDtCURDPsOjUCK5sVVxSNZdSuPRPPsk8=
-X-Google-Smtp-Source: AHgI3IbgWlP8DIKYGnzDmO7EPBRxW4H6GLIc/GpqOVJ+j1FoXTQgzw6tjv9PC/OmJWR5bGcf13BhPlhLBNGpcJtq5RE=
-X-Received: by 2002:a17:906:d0cb:: with SMTP id bq11mr5828761ejb.185.1551368621113;
- Thu, 28 Feb 2019 07:43:41 -0800 (PST)
+        id S1726918AbfB1PpQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Feb 2019 10:45:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39088 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726269AbfB1PpQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 Feb 2019 10:45:16 -0500
+Received: from localhost (5356596B.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2A43C218AE;
+        Thu, 28 Feb 2019 15:45:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1551368715;
+        bh=Ydlgv1/bff/mSevUXLvGNXBcCLd3Pdau1gdmz5r23FM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cWAoikD7kg5yMucDCVwxzJBeOoHS9h/sXmVFivUTpJVwFv6lcCsNkJqIDj/LWKl8L
+         erMNTmz2y3HRmsPqHWPXc8G1lrxDe0hCEGhErpnqWDzr3jxhokXWiuegE6NfImPGji
+         zyM8cQQqqK2wxxKYjjqfBkdhhuJoKUVoucEXoRc0=
+Date:   Thu, 28 Feb 2019 16:45:13 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atishp04@gmail.com, dancol@google.com,
+        Dan Williams <dan.j.williams@intel.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        paulmck@linux.vnet.ibm.com,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        qais.yousef@arm.com, rdunlap@infradead.org, rostedt@goodmis.org,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, yhs@fb.com
+Subject: Re: [PATCH v3 1/2] Provide in-kernel headers for making it easy to
+ extend the kernel
+Message-ID: <20190228154513.GA12050@kroah.com>
+References: <20190227193748.132301-1-joel@joelfernandes.org>
+ <20190228173444.54403795211d80ba540b61cb@kernel.org>
+ <20190228150054.GB156098@google.com>
+ <20190228153026.GG8481@kroah.com>
+ <20190228153741.GA168373@google.com>
 MIME-Version: 1.0
-References: <e2810a5317d3a109a98204e883fd1461f77b9339.1551160674.git.len.brown@intel.com>
- <204e9bf2afff8e6cb7a8a39d86038075f1bb4ab8.1551160674.git.len.brown@intel.com> <cacc41fd-240b-0589-ddd0-5e2dbf6df30d@intel.com>
-In-Reply-To: <cacc41fd-240b-0589-ddd0-5e2dbf6df30d@intel.com>
-From:   Len Brown <lenb@kernel.org>
-Date:   Thu, 28 Feb 2019 10:43:29 -0500
-Message-ID: <CAJvTdKn_-DSW557o4k12381eOVX9o57x6k+ohXV76RNN0rEXXg@mail.gmail.com>
-Subject: Re: [PATCH 04/14] x86 topology: Add CPUID.1F multi-die/package support
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     X86 ML <x86@kernel.org>, linux-kernel@vger.kernel.org,
-        Len Brown <len.brown@intel.com>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190228153741.GA168373@google.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 26, 2019 at 2:46 PM Dave Hansen <dave.hansen@intel.com> wrote:
->
-> On 2/25/19 10:20 PM, Len Brown wrote:
-> > -/* leaf 0xb sub-leaf types */
-> > +/* extended topology sub-leaf types */
-> >  #define INVALID_TYPE 0
-> >  #define SMT_TYPE     1
-> >  #define CORE_TYPE    2
-> > +#define DIE_TYPE     5
->
-> Looking in the SDM, Vol. 3A "8.9.1 Hierarchical Mapping of Shared
-> Resources", there are a _couple_ of new levels: Die, Tile and Module.
-> But, this patch only covers Dies.
->
-> Was there a reason for that?
+On Thu, Feb 28, 2019 at 10:37:41AM -0500, Joel Fernandes wrote:
+> In any case, it is not practical to provide headers for every kernel version on
+> the system image and maintain them, it will take up too much space and has to
+> be periodically packaged. Not to mention that there will be kernel versions
+> that are booting Android that simply don't have anyone maintaining headers
+> for. So the proposed solution is an easier path.
 
-We have software visible modules and tiles in past products,
-and those were discovered by family/model checks, rather than
-enumerated.  I'm content to let that sleeping dog lay.
-We don't have software visible modules or die enumerated with this
-mechanism in any current or about to be current products.
-When (and if) such products do come along, only then will we know
-why software *cares* about die and tiles -- and that will be the time
-to add that support.  Per below, I think this series cleanly prepares us
-for that time.
-
-> I wonder if we'll end up with different (better) infrastructure if we do
-> these all at once instead of hacking them in one at a time.
-
-Assuming that "hacking in" is a derogatory term, let me make the case
-that this patch series cleanly sets the stage for the future.
-
-old:
-
-thread_siblings:  the threads that are in the same core
-core_siblings: the threads that are in the same package
-
-This naming scheme assumed that there would never be a topology level
-between a core and a package.  Though we leave "core_siblings" intact
-for legacy SW that depends on it, we mark it depreciated.
-
-new:
-
-core_threads: the threads in the same core
-die_threads: the threads in the same die
-package_threads: the threads in the same package
-
-So in the future we could always add...
-
-dave_threads: the threads in the same dave
-
-So I think we are ready for whatever the future may throw at us,
-while remaining compatible, consistent, and no "hacking in" required.
+I totally agree with this, and with your proposed patches, just wanting
+to clear up some potential anti-GPL-FUD before it got spread any further :)
 
 thanks,
-Len Brown, Intel Open Source Technology Center
+
+greg k-h
