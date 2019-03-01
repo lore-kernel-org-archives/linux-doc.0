@@ -1,120 +1,192 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CFF507D910
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Mar 2019 06:54:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 16F477D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Mar 2019 07:03:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726088AbfCAGy3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Mar 2019 01:54:29 -0500
-Received: from foss.arm.com ([217.140.101.70]:58474 "EHLO foss.arm.com"
+        id S1731163AbfCAHDR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Mar 2019 02:03:17 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55578 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725290AbfCAGy2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 Mar 2019 01:54:28 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6EFDCEBD;
-        Thu, 28 Feb 2019 22:54:28 -0800 (PST)
-Received: from [172.20.0.134] (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A8A23F5C1;
-        Thu, 28 Feb 2019 22:54:27 -0800 (PST)
-Subject: Re: [PATCH v5 01/10] arm64: Provide a command line to disable
- spectre_v2 mitigation
-To:     Jeremy Linton <jeremy.linton@arm.com>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     catalin.marinas@arm.com, will.deacon@arm.com, marc.zyngier@arm.com,
-        suzuki.poulose@arm.com, Dave.Martin@arm.com,
-        shankerd@codeaurora.org, julien.thierry@arm.com,
-        mlangsdo@redhat.com, stefan.wahren@i2e.com,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-References: <20190227010544.597579-1-jeremy.linton@arm.com>
- <20190227010544.597579-2-jeremy.linton@arm.com>
-From:   Andre Przywara <andre.przywara@arm.com>
-Message-ID: <c993f3c5-a2c1-98c8-7b63-2c7b22aeeb23@foss.arm.com>
-Date:   Fri, 1 Mar 2019 00:54:19 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
-MIME-Version: 1.0
-In-Reply-To: <20190227010544.597579-2-jeremy.linton@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+        id S1725290AbfCAHDQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Mar 2019 02:03:16 -0500
+Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2B4892084F;
+        Fri,  1 Mar 2019 07:03:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1551423795;
+        bh=FPijZllBu5a7gpOenCVYmY8UC/Q7eD6ly4oHVzasmmM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ytGsC9tlAlLY1wRTzjvgWqUcxUZgnQUspZ5TUmI/9TJxHaJEiaax6/8KBrw5YJxvN
+         SfVjhn2RiF/iRK51MuMGaArzaO1AFG+Kp79o4HiZ5ILaVDYVdN2qhbqmVOmUqaSybE
+         n8cXGishrYBa9g6jMjiH9nRCk5OX/Yw4PRVdT1yQ=
+Date:   Fri, 1 Mar 2019 16:03:09 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atishp04@gmail.com, dancol@google.com,
+        Dan Williams <dan.j.williams@intel.com>,
+        gregkh@linuxfoundation.org, Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        paulmck@linux.vnet.ibm.com,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        qais.yousef@arm.com, rdunlap@infradead.org, rostedt@goodmis.org,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, yhs@fb.com
+Subject: Re: [PATCH v3 1/2] Provide in-kernel headers for making it easy to
+ extend the kernel
+Message-Id: <20190301160309.2ddadeeb4aadbab4cdc88171@kernel.org>
+In-Reply-To: <20190301032611.GA78818@google.com>
+References: <20190227193748.132301-1-joel@joelfernandes.org>
+        <20190228173444.54403795211d80ba540b61cb@kernel.org>
+        <20190228150054.GB156098@google.com>
+        <20190301112826.ced40b59fb7e8118fa5b40d6@kernel.org>
+        <20190301032611.GA78818@google.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hi Joel,
 
-On 2/26/19 7:05 PM, Jeremy Linton wrote:
-> There are various reasons, including bencmarking, to disable spectrev2
-> mitigation on a machine. Provide a command-line to do so.
+On Thu, 28 Feb 2019 22:26:11 -0500
+Joel Fernandes <joel@joelfernandes.org> wrote:
+
+> On Fri, Mar 01, 2019 at 11:28:26AM +0900, Masami Hiramatsu wrote:
+> > Hi Joel,
 > 
-> Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
-Andre.
-
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
->   Documentation/admin-guide/kernel-parameters.txt |  8 ++++----
->   arch/arm64/kernel/cpu_errata.c                  | 13 +++++++++++++
->   2 files changed, 17 insertions(+), 4 deletions(-)
+> Hi Masami,
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 858b6c0b9a15..4d4d6a9537ae 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2842,10 +2842,10 @@
->   			check bypass). With this option data leaks are possible
->   			in the system.
->   
-> -	nospectre_v2	[X86,PPC_FSL_BOOK3E] Disable all mitigations for the Spectre variant 2
-> -			(indirect branch prediction) vulnerability. System may
-> -			allow data leaks with this option, which is equivalent
-> -			to spectre_v2=off.
-> +	nospectre_v2	[X86,PPC_FSL_BOOK3E,ARM64] Disable all mitigations for
-> +			the Spectre variant 2 (indirect branch prediction)
-> +			vulnerability. System may allow data leaks with this
-> +			option.
->   
->   	nospec_store_bypass_disable
->   			[HW] Disable all mitigations for the Speculative Store Bypass vulnerability
-> diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-> index 9950bb0cbd52..d2b2c69d31bb 100644
-> --- a/arch/arm64/kernel/cpu_errata.c
-> +++ b/arch/arm64/kernel/cpu_errata.c
-> @@ -220,6 +220,14 @@ static void qcom_link_stack_sanitization(void)
->   		     : "=&r" (tmp));
->   }
->   
-> +static bool __nospectre_v2;
-> +static int __init parse_nospectre_v2(char *str)
-> +{
-> +	__nospectre_v2 = true;
-> +	return 0;
-> +}
-> +early_param("nospectre_v2", parse_nospectre_v2);
-> +
->   static void
->   enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
->   {
-> @@ -231,6 +239,11 @@ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
->   	if (!entry->matches(entry, SCOPE_LOCAL_CPU))
->   		return;
->   
-> +	if (__nospectre_v2) {
-> +		pr_info_once("spectrev2 mitigation disabled by command line option\n");
-> +		return;
-> +	}
-> +
->   	if (psci_ops.smccc_version == SMCCC_VERSION_1_0)
->   		return;
->   
+> > On Thu, 28 Feb 2019 10:00:54 -0500
+> > Joel Fernandes <joel@joelfernandes.org> wrote:
+> > 
+> > > > Hmm, isn't it easier to add kernel-headers package on Android?
+> > > 
+> > > I have already been down that road. In the Android ecosystem, the Android
+> > > teams only provide a "userspace system image" which goes on the system
+> > > partition of the flash (and a couple other images are also provided but
+> > > system is the main one). The system image cannot contain GPL source code. It
+> > > is also not possible to put kernel headers for every kernel version on the
+> > > system images that ship and is not practical. Android boots on 1000s of forked
+> > > kernels. It does not make sense to provide headers on the system image for
+> > > every kernel version and I already had many discussions on the subject with
+> > > the teams, it is something that is just not done. Now for kernel modules,
+> > > there's another image called the "vendor image" which is flashed onto the
+> > > vendor parition, this is where kernel modules go.  This vendor image is not
+> > > provided by Google for non-Pixel devices. So we have no control over what
+> > > goes there BUT we do know that kernel modules that are enabled will go there,
+> > > and we do have control over enforcing that certain kernel modules should be
+> > > built and available as they are mandatory for Android to function properly.
+> > > We would also possibly make it a built-in option as well. Anyway my point is
+> > > keeping it in the kernel is really the easiest and the smartest choice IMO.
+> > 
+> > Sorry, I'm not convinced yet. This sounds like "because Android decided not
+> > to put the header files on vendor partition, but kernel module is OK"
+> > Why don't google ask vendors to put their kernel headers (or header tarball)
+> > on vendor partition instead?
 > 
+> May be Google can do that, but I think you missed the point of the patches.
+> Making it a module is not mandatory, people can build it into the kernel as
+> well (CONFIG_IKHEADERS_PROC=y). In this case, the proc entry will be
+> available on boot without any dependency on the filesystem. If you go through
+> the other threads such as folks from ARM who replied, they just boot a kernel
+> image for debug purpose and want headers on device available without any
+> additional step of copying headers to the filesystem. And folks from Google
+> also said that they wanted a built-in option.
+
+Agreed. Making it built-in is reasonable, since it will not involves any
+other files. :) 
+
+> There are many usecases for this, I have often run into issues with Linux
+> over the years not only with Android, but other distros, where I boot custom
+> kernels with no linux-headers package. This is quite painful. It is
+> convenient to have it as /proc file since the file is dependent on kernel
+> being booted up and this will work across all Linux distros and systems. I
+> feel that if you can keep an open mind about it, you will see that a lot of
+> people will use this feature if it is accepted and there is a lot of positive
+> feedback in earlier posts of this set.
+
+I don't complain about having headers for custom boot kernel. I agree with you
+that having kernel headers for debugging is always good. :)
+So google recommends built-in, it is reasonable.
+
+> > > > > The code to read the headers is based on /proc/config.gz code and uses
+> > > > > the same technique to embed the headers.
+> > > > > 
+> > > > > To build a module, the below steps have been tested on an x86 machine:
+> > > > > modprobe kheaders
+> > > > > rm -rf $HOME/headers
+> > > > > mkdir -p $HOME/headers
+> > > > > tar -xvf /proc/kheaders.tar.xz -C $HOME/headers >/dev/null
+> > > > > cd my-kernel-module
+> > > > > make -C $HOME/headers M=$(pwd) modules
+> > > > > rmmod kheaders
+> > > > 
+> > > > It seems a bit complex, but no difference from compared with carrying
+> > > > kheaders.tar.gz. I think we would better have a psudo filesystem
+> > > > which can mount this compressed header file directly :) Then it becomes
+> > > > simpler, like
+> > > > 
+> > > > modprobe headerfs
+> > > > mkdir $HOME/headers
+> > > > mount -t headerfs $HOME/headers
+> > > > 
+> > > > And this doesn't consume any disk-space.
+> > > 
+> > > I felt using a compressed tar is really the easiest way because of all the
+> > > tools are already available.
+> > 
+> > As I asked above, if the pure tarball is useful, you can simply ask vendors
+> > to put the header tarball on their vendor directory. I feel making it as
+> > a module is not a right way.
+> 
+> I don't see what is the drawback of making it a module, it makes it well
+> integrated into kernel build and ecosystem. I also didn't see any
+> justification you're providing about why it cannot be a module. If you go
+> through this and earlier threads, a lot of people are Ok with having a module
+> option. And I asked several top kernel maintainers at LPC and many people
+> suggested having it as a module.
+
+I meant, if we have a tarball, we don't need any operation of loading/unloading
+kmodules. But if we have this as built-in, yes, this would be much easier to
+deploy it to device.
+
+Anyway, having that option (make it as a module) is not bad. IMHO, that may
+be more complicated than just have a tarball file, but it is a user's choice.
+
+OK, now I understand it.
+
+> > > There isn't a compressed in-ram filesystem right
+> > > now that I'm aware off that can achieve the kind of high compression ratio
+> > > this patchset does.
+> > 
+> > I think if linux can support something like tarfs(or compressed initramfs)
+> > in kernel, it gives linux an improvement not only a hack. :-)
+> 
+> Agreed, that sounds like a good idea. I will consider doing it once the
+> series in its current form can be accepted. I am saying so since this series
+> is simple, and I can do that as a next step since that idea will take a lot
+> of time to implement. But I am keen on doing it.
+
+I look forward to it :-)
+
+Thank you!
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
