@@ -1,192 +1,129 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 16F477D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Mar 2019 07:03:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6DCD97D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Mar 2019 07:11:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731163AbfCAHDR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Mar 2019 02:03:17 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55578 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725290AbfCAHDQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 Mar 2019 02:03:16 -0500
-Received: from devbox (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2B4892084F;
-        Fri,  1 Mar 2019 07:03:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1551423795;
-        bh=FPijZllBu5a7gpOenCVYmY8UC/Q7eD6ly4oHVzasmmM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ytGsC9tlAlLY1wRTzjvgWqUcxUZgnQUspZ5TUmI/9TJxHaJEiaax6/8KBrw5YJxvN
-         SfVjhn2RiF/iRK51MuMGaArzaO1AFG+Kp79o4HiZ5ILaVDYVdN2qhbqmVOmUqaSybE
-         n8cXGishrYBa9g6jMjiH9nRCk5OX/Yw4PRVdT1yQ=
-Date:   Fri, 1 Mar 2019 16:03:09 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
-        atishp04@gmail.com, dancol@google.com,
-        Dan Williams <dan.j.williams@intel.com>,
-        gregkh@linuxfoundation.org, Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        paulmck@linux.vnet.ibm.com,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        qais.yousef@arm.com, rdunlap@infradead.org, rostedt@goodmis.org,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, yhs@fb.com
-Subject: Re: [PATCH v3 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-Message-Id: <20190301160309.2ddadeeb4aadbab4cdc88171@kernel.org>
-In-Reply-To: <20190301032611.GA78818@google.com>
-References: <20190227193748.132301-1-joel@joelfernandes.org>
-        <20190228173444.54403795211d80ba540b61cb@kernel.org>
-        <20190228150054.GB156098@google.com>
-        <20190301112826.ced40b59fb7e8118fa5b40d6@kernel.org>
-        <20190301032611.GA78818@google.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1731853AbfCAHLH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Mar 2019 02:11:07 -0500
+Received: from conuserg-10.nifty.com ([210.131.2.77]:17147 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726036AbfCAHLH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Mar 2019 02:11:07 -0500
+Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id x217APws017759;
+        Fri, 1 Mar 2019 16:10:26 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x217APws017759
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1551424226;
+        bh=ePc3zu1pq/u4/yjsicbC/fuitXjH2YJiwIfWsJXCxDg=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=A2BS+upCGQVuwDAR31FfzgDjbuwt0ph2DhwutBFWobEcpXMzfpoPSJ31RsjRgO+4R
+         0o8lcb+HbBfd2JdNF2hJhc6gbjKfdXEjIxqnI4MrCZd5vtM6hHT6bvPpcSbL406vAK
+         Gb5PySYpZGyIhbYQDzO5WM+xt+6nqqTG29K4S51hoDgxtsazwKTkDbnXZcFkdo4M2b
+         SkxvANNV1VBHW9GF3oa2Awg5w09vm85sEl8zT9XMRgAiigJKLQObYNyU+wJcAqVjkA
+         VkoIgrDrG4xTyr9AEJcHxtFlxK8NFlwUIFJxzATmjlOqbs1q4gSNj/DnNhiNHQZ1jP
+         tm0Xw9aQQ4HaA==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: [PATCH 2/3] kbuild: remove cc-version macro
+Date:   Fri,  1 Mar 2019 16:10:21 +0900
+Message-Id: <1551424222-3727-2-git-send-email-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1551424222-3727-1-git-send-email-yamada.masahiro@socionext.com>
+References: <1551424222-3727-1-git-send-email-yamada.masahiro@socionext.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Joel,
+There is no more direct user of this macro; it is only used by
+cc-ifversion.
 
-On Thu, 28 Feb 2019 22:26:11 -0500
-Joel Fernandes <joel@joelfernandes.org> wrote:
+Calling this macro is not efficient since it invokes the compiler to
+get the compiler version. CONFIG_GCC_VERSION is already calculated in
+the Kconfig stage, so Makefile can reuse it.
 
-> On Fri, Mar 01, 2019 at 11:28:26AM +0900, Masami Hiramatsu wrote:
-> > Hi Joel,
-> 
-> Hi Masami,
-> 
-> > On Thu, 28 Feb 2019 10:00:54 -0500
-> > Joel Fernandes <joel@joelfernandes.org> wrote:
-> > 
-> > > > Hmm, isn't it easier to add kernel-headers package on Android?
-> > > 
-> > > I have already been down that road. In the Android ecosystem, the Android
-> > > teams only provide a "userspace system image" which goes on the system
-> > > partition of the flash (and a couple other images are also provided but
-> > > system is the main one). The system image cannot contain GPL source code. It
-> > > is also not possible to put kernel headers for every kernel version on the
-> > > system images that ship and is not practical. Android boots on 1000s of forked
-> > > kernels. It does not make sense to provide headers on the system image for
-> > > every kernel version and I already had many discussions on the subject with
-> > > the teams, it is something that is just not done. Now for kernel modules,
-> > > there's another image called the "vendor image" which is flashed onto the
-> > > vendor parition, this is where kernel modules go.  This vendor image is not
-> > > provided by Google for non-Pixel devices. So we have no control over what
-> > > goes there BUT we do know that kernel modules that are enabled will go there,
-> > > and we do have control over enforcing that certain kernel modules should be
-> > > built and available as they are mandatory for Android to function properly.
-> > > We would also possibly make it a built-in option as well. Anyway my point is
-> > > keeping it in the kernel is really the easiest and the smartest choice IMO.
-> > 
-> > Sorry, I'm not convinced yet. This sounds like "because Android decided not
-> > to put the header files on vendor partition, but kernel module is OK"
-> > Why don't google ask vendors to put their kernel headers (or header tarball)
-> > on vendor partition instead?
-> 
-> May be Google can do that, but I think you missed the point of the patches.
-> Making it a module is not mandatory, people can build it into the kernel as
-> well (CONFIG_IKHEADERS_PROC=y). In this case, the proc entry will be
-> available on boot without any dependency on the filesystem. If you go through
-> the other threads such as folks from ARM who replied, they just boot a kernel
-> image for debug purpose and want headers on device available without any
-> additional step of copying headers to the filesystem. And folks from Google
-> also said that they wanted a built-in option.
+Here is a note about the slight difference between cc-version and
+CONFIG_GCC_VERSION:
 
-Agreed. Making it built-in is reasonable, since it will not involves any
-other files. :) 
+When using Clang, cc-version is evaluated to '0402' because Clang
+defines __GNUC__ and __GNUC__MINOR__, and looks like GCC 4.2 in the
+version point of view. On the other hand, CONFIG_GCC_VERSION=0
+when $(CC) is clang.
 
-> There are many usecases for this, I have often run into issues with Linux
-> over the years not only with Android, but other distros, where I boot custom
-> kernels with no linux-headers package. This is quite painful. It is
-> convenient to have it as /proc file since the file is dependent on kernel
-> being booted up and this will work across all Linux distros and systems. I
-> feel that if you can keep an open mind about it, you will see that a lot of
-> people will use this feature if it is accepted and there is a lot of positive
-> feedback in earlier posts of this set.
+There are currently two users of cc-ifversion:
+  arch/mips/loongson64/Platform
+  arch/powerpc/Makefile
 
-I don't complain about having headers for custom boot kernel. I agree with you
-that having kernel headers for debugging is always good. :)
-So google recommends built-in, it is reasonable.
+They are not affected by this change.
 
-> > > > > The code to read the headers is based on /proc/config.gz code and uses
-> > > > > the same technique to embed the headers.
-> > > > > 
-> > > > > To build a module, the below steps have been tested on an x86 machine:
-> > > > > modprobe kheaders
-> > > > > rm -rf $HOME/headers
-> > > > > mkdir -p $HOME/headers
-> > > > > tar -xvf /proc/kheaders.tar.xz -C $HOME/headers >/dev/null
-> > > > > cd my-kernel-module
-> > > > > make -C $HOME/headers M=$(pwd) modules
-> > > > > rmmod kheaders
-> > > > 
-> > > > It seems a bit complex, but no difference from compared with carrying
-> > > > kheaders.tar.gz. I think we would better have a psudo filesystem
-> > > > which can mount this compressed header file directly :) Then it becomes
-> > > > simpler, like
-> > > > 
-> > > > modprobe headerfs
-> > > > mkdir $HOME/headers
-> > > > mount -t headerfs $HOME/headers
-> > > > 
-> > > > And this doesn't consume any disk-space.
-> > > 
-> > > I felt using a compressed tar is really the easiest way because of all the
-> > > tools are already available.
-> > 
-> > As I asked above, if the pure tarball is useful, you can simply ask vendors
-> > to put the header tarball on their vendor directory. I feel making it as
-> > a module is not a right way.
-> 
-> I don't see what is the drawback of making it a module, it makes it well
-> integrated into kernel build and ecosystem. I also didn't see any
-> justification you're providing about why it cannot be a module. If you go
-> through this and earlier threads, a lot of people are Ok with having a module
-> option. And I asked several top kernel maintainers at LPC and many people
-> suggested having it as a module.
+The format of cc-version is <major><minor>, while CONFIG_GCC_VERSION
+<major><minor><patch>. I adjusted cc-ifversion for the difference of
+the number of digits.
 
-I meant, if we have a tarball, we don't need any operation of loading/unloading
-kmodules. But if we have this as built-in, yes, this would be much easier to
-deploy it to device.
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-Anyway, having that option (make it as a module) is not bad. IMHO, that may
-be more complicated than just have a tarball file, but it is a user's choice.
+ Documentation/kbuild/makefiles.txt | 17 -----------------
+ scripts/Kbuild.include             |  5 +----
+ 2 files changed, 1 insertion(+), 21 deletions(-)
 
-OK, now I understand it.
-
-> > > There isn't a compressed in-ram filesystem right
-> > > now that I'm aware off that can achieve the kind of high compression ratio
-> > > this patchset does.
-> > 
-> > I think if linux can support something like tarfs(or compressed initramfs)
-> > in kernel, it gives linux an improvement not only a hack. :-)
-> 
-> Agreed, that sounds like a good idea. I will consider doing it once the
-> series in its current form can be accepted. I am saying so since this series
-> is simple, and I can do that as a next step since that idea will take a lot
-> of time to implement. But I am keen on doing it.
-
-I look forward to it :-)
-
-Thank you!
-
+diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
+index 48eab0b..f124be6 100644
+--- a/Documentation/kbuild/makefiles.txt
++++ b/Documentation/kbuild/makefiles.txt
+@@ -499,23 +499,6 @@ more details, with real examples.
+ 	In the above example, -Wno-unused-but-set-variable will be added to
+ 	KBUILD_CFLAGS only if gcc really accepts it.
+ 
+-    cc-version
+-	cc-version returns a numerical version of the $(CC) compiler version.
+-	The format is <major><minor> where both are two digits. So for example
+-	gcc 3.41 would return 0341.
+-	cc-version is useful when a specific $(CC) version is faulty in one
+-	area, for example -mregparm=3 was broken in some gcc versions
+-	even though the option was accepted by gcc.
+-
+-	Example:
+-		#arch/x86/Makefile
+-		cflags-y += $(shell \
+-		if [ $(cc-version) -ge 0300 ] ; then \
+-			echo "-mregparm=3"; fi ;)
+-
+-	In the above example, -mregparm=3 is only used for gcc version greater
+-	than or equal to gcc 3.0.
+-
+     cc-ifversion
+ 	cc-ifversion tests the version of $(CC) and equals the fourth parameter
+ 	if version expression is true, or the fifth (if given) if the version
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index d93250b..b59983e 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -138,12 +138,9 @@ cc-option-yn = $(call try-run,\
+ cc-disable-warning = $(call try-run,\
+ 	$(CC) -Werror $(KBUILD_CPPFLAGS) $(CC_OPTION_CFLAGS) -W$(strip $(1)) -c -x c /dev/null -o "$$TMP",-Wno-$(strip $(1)))
+ 
+-# cc-version
+-cc-version = $(shell $(CONFIG_SHELL) $(srctree)/scripts/gcc-version.sh $(CC))
+-
+ # cc-ifversion
+ # Usage:  EXTRA_CFLAGS += $(call cc-ifversion, -lt, 0402, -O1)
+-cc-ifversion = $(shell [ $(cc-version) $(1) $(2) ] && echo $(3) || echo $(4))
++cc-ifversion = $(shell [ $(CONFIG_GCC_VERSION)0 $(1) $(2)000 ] && echo $(3) || echo $(4))
+ 
+ # cc-ldoption
+ # Usage: ldflags += $(call cc-ldoption, -Wl$(comma)--hash-style=both)
 -- 
-Masami Hiramatsu <mhiramat@kernel.org>
+2.7.4
+
