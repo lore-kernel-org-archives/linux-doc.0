@@ -1,188 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5EE057D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Mar 2019 16:09:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2070E7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Mar 2019 16:59:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728172AbfCAQJ2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Mar 2019 11:09:28 -0500
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:44669 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388808AbfCAQJS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Mar 2019 11:09:18 -0500
-Received: by mail-qt1-f193.google.com with SMTP id d2so28266244qti.11
-        for <linux-doc@vger.kernel.org>; Fri, 01 Mar 2019 08:09:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=3tUTcdFJpn3In6T+iaMar4GvTuGhsqDUqTo6MJRj8sI=;
-        b=sUw9QIFnN2LrpfvVfFpST4G5uVljpmzsdyXRNB2d6DMD8mR5pytmy504BkpbtFIuTd
-         g7CR8mD0edAKCM7GHP/+t8WHKqNXuWWLlFg7QhjKJqbf4GLGFBSzr+HXzB9GCJOnDo53
-         MZQtEAUY6jNt6BO44pXLLmgqwsOH8CbZQGnr0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=3tUTcdFJpn3In6T+iaMar4GvTuGhsqDUqTo6MJRj8sI=;
-        b=VJq/H6todmrnQgnPzLwexVz7AmxFMEawIdVjunMAUROl8R1yfMFTi1JlWpZMir1Dnh
-         6X8acBv6pHombuJwxlKYq102nUTB6Rv9yVrxLeKNtN03f8q9aBhio+tga9GA2eOj9+PD
-         uSMtK51csoVghAWG8jeUPh+14NFomGSWjOpEX3nBMGfnEjjJkGxdlBfpgpjENP2/8ojr
-         6qvdxzdpXl9vVWlMY+20P8M93C8TU+hOKg7IWlCOOO2cWwE8dhkVXFudFPlJoDRRPMi5
-         2Q1vWot2dzvNCR7+3255AgKZwTfwTBvTenIX/VEM7Clz2i6LJmTCZYi5Jq6O1sfF5urb
-         DByw==
-X-Gm-Message-State: APjAAAUP2sdKwcEFbje3q5rCJicUQpLe6Og5l28aAmEV8embNt11qd37
-        mXMMEgb8Mrf7LPCJGEZUimCTXQ==
-X-Google-Smtp-Source: APXvYqwrpF3GxKEve06ijUFVBlAuHPWKJADUWB3w6qkI2dQQS4NtvvEPoO771XOvovLszirLk2DoLw==
-X-Received: by 2002:ac8:fbb:: with SMTP id b56mr4684257qtk.41.1551456557165;
-        Fri, 01 Mar 2019 08:09:17 -0800 (PST)
-Received: from joelaf.cam.corp.google.com ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
-        by smtp.gmail.com with ESMTPSA id h58sm15090062qtb.89.2019.03.01.08.09.15
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 01 Mar 2019 08:09:16 -0800 (PST)
-From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
-        atishp04@gmail.com, dancol@google.com,
-        Dan Williams <dan.j.williams@intel.com>,
-        dietmar.eggemann@arm.com, gregkh@linuxfoundation.org,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        mhiramat@kernel.org, qais.yousef@arm.com, rdunlap@infradead.org,
-        rostedt@goodmis.org, Shuah Khan <shuah@kernel.org>, yhs@fb.com
-Subject: [PATCH v4 2/2] Add selftests for module build using in-kernel headers
-Date:   Fri,  1 Mar 2019 11:08:56 -0500
-Message-Id: <20190301160856.129678-2-joel@joelfernandes.org>
-X-Mailer: git-send-email 2.21.0.352.gf09ad66450-goog
-In-Reply-To: <20190301160856.129678-1-joel@joelfernandes.org>
-References: <20190301160856.129678-1-joel@joelfernandes.org>
+        id S2389222AbfCAQ7Q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Mar 2019 11:59:16 -0500
+Received: from foss.arm.com ([217.140.101.70]:39128 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389170AbfCAQ7Q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Mar 2019 11:59:16 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D6B7080D;
+        Fri,  1 Mar 2019 08:59:15 -0800 (PST)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0CD8F3F575;
+        Fri,  1 Mar 2019 08:59:10 -0800 (PST)
+Date:   Fri, 1 Mar 2019 16:59:08 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Dave Hansen <dave.hansen@intel.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Subject: Re: [PATCH v10 07/12] fs, arm64: untag user pointers in
+ fs/userfaultfd.c
+Message-ID: <20190301165908.GA130541@arrakis.emea.arm.com>
+References: <cover.1550839937.git.andreyknvl@google.com>
+ <8343cd77ca301df15839796f3b446b75ce5ffbbf.1550839937.git.andreyknvl@google.com>
+ <73f2f3fe-9a66-22a1-5aae-c282779a75f5@intel.com>
+ <CAAeHK+yQU8khtOoyDKqmHterCa16P7oWe9AMiPnrxE+Gyb_7aw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAeHK+yQU8khtOoyDKqmHterCa16P7oWe9AMiPnrxE+Gyb_7aw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This test tries to build a module successfully using the in-kernel
-headers found in /proc/kheaders.tar.xz.
+On Tue, Feb 26, 2019 at 03:39:08PM +0100, Andrey Konovalov wrote:
+> On Sat, Feb 23, 2019 at 12:06 AM Dave Hansen <dave.hansen@intel.com> wrote:
+> >
+> > On 2/22/19 4:53 AM, Andrey Konovalov wrote:
+> > > userfaultfd_register() and userfaultfd_unregister() use provided user
+> > > pointers for vma lookups, which can only by done with untagged pointers.
+> >
+> > So, we have to patch all these sites before the tagged values get to the
+> > point of hitting the vma lookup functions.  Dumb question: Why don't we
+> > just patch the vma lookup functions themselves instead of all of these
+> > callers?
+> 
+> That might be a working approach as well. We'll still need to fix up
+> places where the vma fields are accessed directly. Catalin, what do
+> you think?
 
-Verified pass and fail scenarios by running:
-make -C tools/testing/selftests TARGETS=kheaders run_tests
+Most callers of find_vma*() always follow it by a check of
+vma->vma_start against some tagged address ('end' in the
+userfaultfd_(un)register()) case. So it's not sufficient to untag it in
+find_vma().
 
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
----
- tools/testing/selftests/Makefile              |  1 +
- tools/testing/selftests/kheaders/Makefile     |  5 +++++
- tools/testing/selftests/kheaders/config       |  1 +
- .../kheaders/run_kheaders_modbuild.sh         | 18 +++++++++++++++++
- .../selftests/kheaders/testmod/Makefile       |  3 +++
- .../testing/selftests/kheaders/testmod/test.c | 20 +++++++++++++++++++
- 6 files changed, 48 insertions(+)
- create mode 100644 tools/testing/selftests/kheaders/Makefile
- create mode 100644 tools/testing/selftests/kheaders/config
- create mode 100755 tools/testing/selftests/kheaders/run_kheaders_modbuild.sh
- create mode 100644 tools/testing/selftests/kheaders/testmod/Makefile
- create mode 100644 tools/testing/selftests/kheaders/testmod/test.c
-
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 400ee81a3043..5a9287fddd0d 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -20,6 +20,7 @@ TARGETS += intel_pstate
- TARGETS += ipc
- TARGETS += ir
- TARGETS += kcmp
-+TARGETS += kheaders
- TARGETS += kvm
- TARGETS += lib
- TARGETS += membarrier
-diff --git a/tools/testing/selftests/kheaders/Makefile b/tools/testing/selftests/kheaders/Makefile
-new file mode 100644
-index 000000000000..51035ab0732b
---- /dev/null
-+++ b/tools/testing/selftests/kheaders/Makefile
-@@ -0,0 +1,5 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+TEST_PROGS := run_kheaders_modbuild.sh
-+
-+include ../lib.mk
-diff --git a/tools/testing/selftests/kheaders/config b/tools/testing/selftests/kheaders/config
-new file mode 100644
-index 000000000000..5221f9fb5e79
---- /dev/null
-+++ b/tools/testing/selftests/kheaders/config
-@@ -0,0 +1 @@
-+CONFIG_IKHEADERS_PROC=y
-diff --git a/tools/testing/selftests/kheaders/run_kheaders_modbuild.sh b/tools/testing/selftests/kheaders/run_kheaders_modbuild.sh
-new file mode 100755
-index 000000000000..f001568e08b0
---- /dev/null
-+++ b/tools/testing/selftests/kheaders/run_kheaders_modbuild.sh
-@@ -0,0 +1,18 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+
-+HEADERS_XZ=/proc/kheaders.tar.xz
-+TMP_DIR_HEADERS=$(mktemp -d)
-+TMP_DIR_MODULE=$(mktemp -d)
-+SPATH="$(dirname "$(readlink -f "$0")")"
-+
-+tar -xvf $HEADERS_XZ -C $TMP_DIR_HEADERS > /dev/null
-+
-+cp -r $SPATH/testmod $TMP_DIR_MODULE/
-+
-+pushd $TMP_DIR_MODULE/testmod > /dev/null
-+make -C $TMP_DIR_HEADERS M=$(pwd) modules
-+popd > /dev/null
-+
-+rm -rf $TMP_DIR_HEADERS
-+rm -rf $TMP_DIR_MODULE
-diff --git a/tools/testing/selftests/kheaders/testmod/Makefile b/tools/testing/selftests/kheaders/testmod/Makefile
-new file mode 100644
-index 000000000000..7083e28706e8
---- /dev/null
-+++ b/tools/testing/selftests/kheaders/testmod/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+obj-m += test.o
-diff --git a/tools/testing/selftests/kheaders/testmod/test.c b/tools/testing/selftests/kheaders/testmod/test.c
-new file mode 100644
-index 000000000000..6eb0b8492ffa
---- /dev/null
-+++ b/tools/testing/selftests/kheaders/testmod/test.c
-@@ -0,0 +1,20 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/module.h>
-+#include <linux/kernel.h>
-+#include <linux/init.h>
-+
-+static int __init hello_init(void)
-+{
-+	printk(KERN_INFO "Hello, world\n");
-+	return 0;
-+}
-+
-+static void __exit hello_exit(void)
-+{
-+	printk(KERN_INFO "Goodbye, world\n");
-+}
-+
-+module_init(hello_init);
-+module_exit(hello_exit);
-+MODULE_LICENSE("GPL v2");
 -- 
-2.21.0.352.gf09ad66450-goog
-
+Catalin
