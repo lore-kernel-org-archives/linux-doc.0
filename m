@@ -5,92 +5,149 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2070E7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Mar 2019 16:59:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 80EE47D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Mar 2019 17:06:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389222AbfCAQ7Q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Mar 2019 11:59:16 -0500
-Received: from foss.arm.com ([217.140.101.70]:39128 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389170AbfCAQ7Q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 Mar 2019 11:59:16 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D6B7080D;
-        Fri,  1 Mar 2019 08:59:15 -0800 (PST)
-Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0CD8F3F575;
-        Fri,  1 Mar 2019 08:59:10 -0800 (PST)
-Date:   Fri, 1 Mar 2019 16:59:08 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Dave Hansen <dave.hansen@intel.com>,
+        id S2389282AbfCARGz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Mar 2019 12:06:55 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48132 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728507AbfCARGy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Mar 2019 12:06:54 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x21H3x9x123381
+        for <linux-doc@vger.kernel.org>; Fri, 1 Mar 2019 12:06:53 -0500
+Received: from e13.ny.us.ibm.com (e13.ny.us.ibm.com [129.33.205.203])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2qy6vqxfq3-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 01 Mar 2019 12:06:53 -0500
+Received: from localhost
+        by e13.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Fri, 1 Mar 2019 17:06:52 -0000
+Received: from b01cxnp23033.gho.pok.ibm.com (9.57.198.28)
+        by e13.ny.us.ibm.com (146.89.104.200) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 1 Mar 2019 17:06:48 -0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x21H6l4k20971706
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 1 Mar 2019 17:06:48 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id CF579B2066;
+        Fri,  1 Mar 2019 17:06:47 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id AFAA3B2064;
+        Fri,  1 Mar 2019 17:06:47 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.188])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Fri,  1 Mar 2019 17:06:47 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 0FA0616C4294; Fri,  1 Mar 2019 09:06:50 -0800 (PST)
+Date:   Fri, 1 Mar 2019 09:06:50 -0800
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
         Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Subject: Re: [PATCH v10 07/12] fs, arm64: untag user pointers in
- fs/userfaultfd.c
-Message-ID: <20190301165908.GA130541@arrakis.emea.arm.com>
-References: <cover.1550839937.git.andreyknvl@google.com>
- <8343cd77ca301df15839796f3b446b75ce5ffbbf.1550839937.git.andreyknvl@google.com>
- <73f2f3fe-9a66-22a1-5aae-c282779a75f5@intel.com>
- <CAAeHK+yQU8khtOoyDKqmHterCa16P7oWe9AMiPnrxE+Gyb_7aw@mail.gmail.com>
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation/locking/lockdep: Drop last two chars of
+ sample states
+Reply-To: paulmck@linux.ibm.com
+References: <20190301094052.11288-1-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAAeHK+yQU8khtOoyDKqmHterCa16P7oWe9AMiPnrxE+Gyb_7aw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190301094052.11288-1-geert+renesas@glider.be>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 19030117-0064-0000-0000-000003B192D7
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00010686; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000281; SDB=6.01168142; UDB=6.00610319; IPR=6.00948757;
+ MB=3.00025797; MTD=3.00000008; XFM=3.00000015; UTC=2019-03-01 17:06:52
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19030117-0065-0000-0000-00003C937E85
+Message-Id: <20190301170650.GF4072@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-03-01_12:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1903010120
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 26, 2019 at 03:39:08PM +0100, Andrey Konovalov wrote:
-> On Sat, Feb 23, 2019 at 12:06 AM Dave Hansen <dave.hansen@intel.com> wrote:
-> >
-> > On 2/22/19 4:53 AM, Andrey Konovalov wrote:
-> > > userfaultfd_register() and userfaultfd_unregister() use provided user
-> > > pointers for vma lookups, which can only by done with untagged pointers.
-> >
-> > So, we have to patch all these sites before the tagged values get to the
-> > point of hitting the vma lookup functions.  Dumb question: Why don't we
-> > just patch the vma lookup functions themselves instead of all of these
-> > callers?
+On Fri, Mar 01, 2019 at 10:40:52AM +0100, Geert Uytterhoeven wrote:
+> Since the removal of FS_RECLAIM annotations, lockdep states contain four
+> characters, not six.
 > 
-> That might be a working approach as well. We'll still need to fix up
-> places where the vma fields are accessed directly. Catalin, what do
-> you think?
+> Fixes: e5684bbfc3f03480 ("Documentation/locking/lockdep: Update info about states")
+> Fixes: d92a8cfcb37ecd13 ("locking/lockdep: Rework FS_RECLAIM annotation")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Most callers of find_vma*() always follow it by a check of
-vma->vma_start against some tagged address ('end' in the
-userfaultfd_(un)register()) case. So it's not sufficient to untag it in
-find_vma().
+Acked-by: Paul E. McKenney <paulmck@linux.ibm.com>
 
--- 
-Catalin
+Or let me know if you would rather me take this via the -rcu tree, either
+way works for me!
+
+							Thanx, Paul
+
+> ---
+> v2:
+>   - Fix silly before/after inversion in patch description.
+> ---
+>  Documentation/RCU/lockdep-splat.txt      | 6 +++---
+>  Documentation/locking/lockdep-design.txt | 4 ++--
+>  2 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/RCU/lockdep-splat.txt b/Documentation/RCU/lockdep-splat.txt
+> index 238e9f61352f6187..9423b633526d14df 100644
+> --- a/Documentation/RCU/lockdep-splat.txt
+> +++ b/Documentation/RCU/lockdep-splat.txt
+> @@ -24,11 +24,11 @@ other info that might help us debug this:
+>  
+>  rcu_scheduler_active = 1, debug_locks = 0
+>  3 locks held by scsi_scan_6/1552:
+> - #0:  (&shost->scan_mutex){+.+.+.}, at: [<ffffffff8145efca>]
+> + #0:  (&shost->scan_mutex){+.+.}, at: [<ffffffff8145efca>]
+>  scsi_scan_host_selected+0x5a/0x150
+> - #1:  (&eq->sysfs_lock){+.+...}, at: [<ffffffff812a5032>]
+> + #1:  (&eq->sysfs_lock){+.+.}, at: [<ffffffff812a5032>]
+>  elevator_exit+0x22/0x60
+> - #2:  (&(&q->__queue_lock)->rlock){-.-...}, at: [<ffffffff812b6233>]
+> + #2:  (&(&q->__queue_lock)->rlock){-.-.}, at: [<ffffffff812b6233>]
+>  cfq_exit_queue+0x43/0x190
+>  
+>  stack backtrace:
+> diff --git a/Documentation/locking/lockdep-design.txt b/Documentation/locking/lockdep-design.txt
+> index 49f58a07ee7b19c8..39fae143c9cbf5ff 100644
+> --- a/Documentation/locking/lockdep-design.txt
+> +++ b/Documentation/locking/lockdep-design.txt
+> @@ -45,10 +45,10 @@ When locking rules are violated, these state bits are presented in the
+>  locking error messages, inside curlies. A contrived example:
+>  
+>     modprobe/2287 is trying to acquire lock:
+> -    (&sio_locks[i].lock){-.-...}, at: [<c02867fd>] mutex_lock+0x21/0x24
+> +    (&sio_locks[i].lock){-.-.}, at: [<c02867fd>] mutex_lock+0x21/0x24
+>  
+>     but task is already holding lock:
+> -    (&sio_locks[i].lock){-.-...}, at: [<c02867fd>] mutex_lock+0x21/0x24
+> +    (&sio_locks[i].lock){-.-.}, at: [<c02867fd>] mutex_lock+0x21/0x24
+>  
+>  
+>  The bit position indicates STATE, STATE-read, for each of the states listed
+> -- 
+> 2.17.1
+> 
+
