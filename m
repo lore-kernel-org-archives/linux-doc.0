@@ -1,159 +1,139 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EF2157D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Mar 2019 17:22:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D1DCF7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Mar 2019 18:37:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726416AbfCARWB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Mar 2019 12:22:01 -0500
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:34533 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387418AbfCARWB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Mar 2019 12:22:01 -0500
-Received: by mail-qt1-f194.google.com with SMTP id w4so28677297qtc.1
-        for <linux-doc@vger.kernel.org>; Fri, 01 Mar 2019 09:22:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=U/9thOjurA+lIRFK0bp+ZG70JtmlEraTbsN+PJD2O9I=;
-        b=Le5Ueu53kunQMlXpyqwk2e4kYM6t5IvX9AiUfdGQPxrJ+VxZfmHQWHOJuSdMOPIR34
-         PQ6VZS1rE/d5mtizV/jGDXMz0UYRflhcUPSg5ynGCSn8TDqDFvpGOx85DqwQtavqgkFR
-         +TzA2XnKhu3cb9avBoiHXkJ4xszJSyLbVco+s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=U/9thOjurA+lIRFK0bp+ZG70JtmlEraTbsN+PJD2O9I=;
-        b=hgEc8aUYCD5H6msaRppRj80xu+aJEI/84SLsOkTzFDNxr9BSegZSKyFwRk3A7Ybvu9
-         K0PkMdUMGNw8NzAdWwx7YZDvhB/UeQvY1KQ6WDABdWy+g8vEUdqDYC99A/OAvkDIZwPN
-         gqtMtpjfDunR+Ky0zh8tPt2Ua3cCe/PE+05QMTOjrw2nJZyG4IeUMIzcYU7X1jkZYU5z
-         gx6f333zEyWLyy5NwBCUPXtJRzaUGX4YgIl3eFWgvuoqBiX4QKX6ZHu5z7iLHdFB8CnV
-         S4wHiYTVmSuF5xtfv2JWGX5VJC/ChdOeeSvRDzFELn6UWGyTJNEAgCe9MgqGllMORT2Z
-         7TPQ==
-X-Gm-Message-State: APjAAAX5ZrVca8bv6ThyTavC8nTVSdGMr/UQSwI3lprXrTFyQNzXZqUj
-        YkWxptv/uahYHFawB2el91CBdg==
-X-Google-Smtp-Source: APXvYqx8qELjvvbvGFW2ax0aQPeF/drI8AnPQBY3nP2jPcGHy8fpGhR7rluWFXj7RpbHZCvxdQ0R2w==
-X-Received: by 2002:ac8:2bc1:: with SMTP id n1mr4777281qtn.176.1551460919817;
-        Fri, 01 Mar 2019 09:21:59 -0800 (PST)
-Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
-        by smtp.gmail.com with ESMTPSA id j139sm12403640qke.26.2019.03.01.09.21.58
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 01 Mar 2019 09:21:58 -0800 (PST)
-Date:   Fri, 1 Mar 2019 12:21:58 -0500
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
-        atishp04@gmail.com, dancol@google.com,
-        Dan Williams <dan.j.williams@intel.com>,
-        gregkh@linuxfoundation.org, Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        paulmck@linux.vnet.ibm.com,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        qais.yousef@arm.com, rdunlap@infradead.org, rostedt@goodmis.org,
+        id S1727359AbfCAShG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Mar 2019 13:37:06 -0500
+Received: from mga04.intel.com ([192.55.52.120]:27834 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726835AbfCAShG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Mar 2019 13:37:06 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Mar 2019 10:37:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.58,428,1544515200"; 
+   d="scan'208";a="303646974"
+Received: from unknown (HELO [10.7.201.142]) ([10.7.201.142])
+  by orsmga005.jf.intel.com with ESMTP; 01 Mar 2019 10:37:04 -0800
+Subject: Re: [PATCH v10 07/12] fs, arm64: untag user pointers in
+ fs/userfaultfd.c
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>
+Cc:     Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, yhs@fb.com
-Subject: Re: [PATCH v3 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-Message-ID: <20190301172158.GB217990@google.com>
-References: <20190227193748.132301-1-joel@joelfernandes.org>
- <20190228173444.54403795211d80ba540b61cb@kernel.org>
- <20190228150054.GB156098@google.com>
- <20190301112826.ced40b59fb7e8118fa5b40d6@kernel.org>
- <20190301032611.GA78818@google.com>
- <20190301160309.2ddadeeb4aadbab4cdc88171@kernel.org>
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Chintan Pandya <cpandya@codeaurora.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+References: <cover.1550839937.git.andreyknvl@google.com>
+ <8343cd77ca301df15839796f3b446b75ce5ffbbf.1550839937.git.andreyknvl@google.com>
+ <73f2f3fe-9a66-22a1-5aae-c282779a75f5@intel.com>
+ <CAAeHK+yQU8khtOoyDKqmHterCa16P7oWe9AMiPnrxE+Gyb_7aw@mail.gmail.com>
+ <20190301165908.GA130541@arrakis.emea.arm.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+Message-ID: <fb721f0b-fad7-2310-4f17-8bf046413d40@intel.com>
+Date:   Fri, 1 Mar 2019 10:37:04 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190301160309.2ddadeeb4aadbab4cdc88171@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190301165908.GA130541@arrakis.emea.arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 01, 2019 at 04:03:09PM +0900, Masami Hiramatsu wrote:
-> Hi Joel,
-> 
-> On Thu, 28 Feb 2019 22:26:11 -0500
-> Joel Fernandes <joel@joelfernandes.org> wrote:
-> 
-> > On Fri, Mar 01, 2019 at 11:28:26AM +0900, Masami Hiramatsu wrote:
-[..]
-> > There are many usecases for this, I have often run into issues with Linux
-> > over the years not only with Android, but other distros, where I boot custom
-> > kernels with no linux-headers package. This is quite painful. It is
-> > convenient to have it as /proc file since the file is dependent on kernel
-> > being booted up and this will work across all Linux distros and systems. I
-> > feel that if you can keep an open mind about it, you will see that a lot of
-> > people will use this feature if it is accepted and there is a lot of positive
-> > feedback in earlier posts of this set.
-> 
-> I don't complain about having headers for custom boot kernel. I agree with you
-> that having kernel headers for debugging is always good. :)
-> So google recommends built-in, it is reasonable.
+On 3/1/19 8:59 AM, Catalin Marinas wrote:
+>>> So, we have to patch all these sites before the tagged values get to the
+>>> point of hitting the vma lookup functions.  Dumb question: Why don't we
+>>> just patch the vma lookup functions themselves instead of all of these
+>>> callers?
+>> That might be a working approach as well. We'll still need to fix up
+>> places where the vma fields are accessed directly. Catalin, what do
+>> you think?
+> Most callers of find_vma*() always follow it by a check of
+> vma->vma_start against some tagged address ('end' in the
+> userfaultfd_(un)register()) case. So it's not sufficient to untag it in
+> find_vma().
 
-Ok, thanks :)
-
-> > > > > > The code to read the headers is based on /proc/config.gz code and uses
-> > > > > > the same technique to embed the headers.
-> > > > > > 
-> > > > > > To build a module, the below steps have been tested on an x86 machine:
-> > > > > > modprobe kheaders
-> > > > > > rm -rf $HOME/headers
-> > > > > > mkdir -p $HOME/headers
-> > > > > > tar -xvf /proc/kheaders.tar.xz -C $HOME/headers >/dev/null
-> > > > > > cd my-kernel-module
-> > > > > > make -C $HOME/headers M=$(pwd) modules
-> > > > > > rmmod kheaders
-> > > > > 
-> > > > > It seems a bit complex, but no difference from compared with carrying
-> > > > > kheaders.tar.gz. I think we would better have a psudo filesystem
-> > > > > which can mount this compressed header file directly :) Then it becomes
-> > > > > simpler, like
-> > > > > 
-> > > > > modprobe headerfs
-> > > > > mkdir $HOME/headers
-> > > > > mount -t headerfs $HOME/headers
-> > > > > 
-> > > > > And this doesn't consume any disk-space.
-> > > > 
-> > > > I felt using a compressed tar is really the easiest way because of all the
-> > > > tools are already available.
-> > > 
-> > > As I asked above, if the pure tarball is useful, you can simply ask vendors
-> > > to put the header tarball on their vendor directory. I feel making it as
-> > > a module is not a right way.
-> > 
-> > I don't see what is the drawback of making it a module, it makes it well
-> > integrated into kernel build and ecosystem. I also didn't see any
-> > justification you're providing about why it cannot be a module. If you go
-> > through this and earlier threads, a lot of people are Ok with having a module
-> > option. And I asked several top kernel maintainers at LPC and many people
-> > suggested having it as a module.
-> 
-> I meant, if we have a tarball, we don't need any operation of loading/unloading
-> kmodules. But if we have this as built-in, yes, this would be much easier to
-> deploy it to device.
-> 
-> Anyway, having that option (make it as a module) is not bad. IMHO, that may
-> be more complicated than just have a tarball file, but it is a user's choice.
-> 
-> OK, now I understand it.
-
-Sounds good. :) Just sent out v4.
-
-thanks,
-
- - Joel
-
+If that's truly the common case, sounds like we should have a find_vma()
+that does the vma_end checking as well.  Then at least the common case
+would not have to worry about tagging.
