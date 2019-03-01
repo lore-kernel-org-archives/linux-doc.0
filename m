@@ -1,220 +1,120 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B97A27D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Mar 2019 06:26:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CFF507D910
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  1 Mar 2019 06:54:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726393AbfCAGZ7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 1 Mar 2019 01:25:59 -0500
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:41369 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725913AbfCAGZ7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Mar 2019 01:25:59 -0500
-X-Greylist: delayed 101229 seconds by postgrey-1.27 at vger.kernel.org; Fri, 01 Mar 2019 01:25:57 EST
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x216PgT9019527;
-        Fri, 1 Mar 2019 15:25:43 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x216PgT9019527
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1551421543;
-        bh=CPTIQj4MJjEqWQPvI7EAGkqlSEzE35Ksp0rPBhizPpc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=jlitbj2tuEj96fvC7Iv3DwItUhmOGKWjIgTFjL75XOg+Mzinqmo+OcJMUw26T4X/R
-         sY13fXi5UYPLsCNBOKPdpWiCmwsY0cASLEeYd+nmqOD/VVF06OGzAVSzf82meTSGmg
-         ucyiftFJRGgDJhHmtVIiMdd8d6iSD8nuGBSTtibSG7+4xOu9edu7tvUAzRuTfCL5Fs
-         lu0OVMQHXmzDwRsRT7Gczfi50xMwwIlZ7MsfZeCe7oW0z0hOnMW8fNdqvC2u7RSC6L
-         TCaF6nSK1rbG4Pq6jecL/3jzWSMD+aRtQg+QNG1bNJfvaKRy9g8n3pVofN6R/Hze/p
-         2H6u50rqdNHUA==
-X-Nifty-SrcIP: [209.85.222.49]
-Received: by mail-ua1-f49.google.com with SMTP id s15so21449771uap.6;
-        Thu, 28 Feb 2019 22:25:43 -0800 (PST)
-X-Gm-Message-State: APjAAAVOpB/6OK5GsF3WCxSbRKQ9X1HqhN4Ootinau7AsM6fRaYCeoep
-        M1dZ3CGCV+xKefWJlPMUhH/sQQRpydCCGnOE3kE=
-X-Google-Smtp-Source: APXvYqyO9icQE5soySUmzB8GfMt5HnNE/JNtqj1SEDSugKyv8JvaVQ7JQ4VBi120aSeFDO3UmQZl00jja98Q29etx3I=
-X-Received: by 2002:ab0:2a01:: with SMTP id o1mr1643096uar.42.1551421542201;
- Thu, 28 Feb 2019 22:25:42 -0800 (PST)
+        id S1726088AbfCAGy3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 1 Mar 2019 01:54:29 -0500
+Received: from foss.arm.com ([217.140.101.70]:58474 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725290AbfCAGy2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 1 Mar 2019 01:54:28 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6EFDCEBD;
+        Thu, 28 Feb 2019 22:54:28 -0800 (PST)
+Received: from [172.20.0.134] (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A8A23F5C1;
+        Thu, 28 Feb 2019 22:54:27 -0800 (PST)
+Subject: Re: [PATCH v5 01/10] arm64: Provide a command line to disable
+ spectre_v2 mitigation
+To:     Jeremy Linton <jeremy.linton@arm.com>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     catalin.marinas@arm.com, will.deacon@arm.com, marc.zyngier@arm.com,
+        suzuki.poulose@arm.com, Dave.Martin@arm.com,
+        shankerd@codeaurora.org, julien.thierry@arm.com,
+        mlangsdo@redhat.com, stefan.wahren@i2e.com,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+References: <20190227010544.597579-1-jeremy.linton@arm.com>
+ <20190227010544.597579-2-jeremy.linton@arm.com>
+From:   Andre Przywara <andre.przywara@arm.com>
+Message-ID: <c993f3c5-a2c1-98c8-7b63-2c7b22aeeb23@foss.arm.com>
+Date:   Fri, 1 Mar 2019 00:54:19 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
 MIME-Version: 1.0
-References: <20190227193748.132301-1-joel@joelfernandes.org>
- <CAK7LNAR=dpw7y+Y20m0n4ZqzQtqY2XrS3CKk5bQA-Azhp0SN6g@mail.gmail.com> <20190228144306.GA138215@google.com>
-In-Reply-To: <20190228144306.GA138215@google.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Fri, 1 Mar 2019 15:25:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARTHJP=HzyBg_oBBL4whpxHXeijqk=zKLYpt=1GBLNGAA@mail.gmail.com>
-Message-ID: <CAK7LNARTHJP=HzyBg_oBBL4whpxHXeijqk=zKLYpt=1GBLNGAA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        qais.yousef@arm.com, Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Yonghong Song <yhs@fb.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190227010544.597579-2-jeremy.linton@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 1, 2019 at 12:06 AM Joel Fernandes <joel@joelfernandes.org> wrote:
->
-> On Thu, Feb 28, 2019 at 11:17:51AM +0900, Masahiro Yamada wrote:
-> > Hi Joel,
-> >
-> >
-> > On Thu, Feb 28, 2019 at 4:40 AM Joel Fernandes (Google)
-> > <joel@joelfernandes.org> wrote:
-> > >
-> > > Introduce in-kernel headers and other artifacts which are made available
-> > > as an archive through proc (/proc/kheaders.tar.xz file). This archive makes
-> > > it possible to build kernel modules, run eBPF programs, and other
-> > > tracing programs that need to extend the kernel for tracing purposes
-> > > without any dependency on the file system having headers and build
-> > > artifacts.
-> > >
-> > > On Android and embedded systems, it is common to switch kernels but not
-> > > have kernel headers available on the file system. Raw kernel headers
-> > > also cannot be copied into the filesystem like they can be on other
-> > > distros, due to licensing and other issues. There's no linux-headers
-> > > package on Android. Further once a different kernel is booted, any
-> > > headers stored on the file system will no longer be useful. By storing
-> > > the headers as a compressed archive within the kernel, we can avoid these
-> > > issues that have been a hindrance for a long time.
-> > >
-> > > The feature is also buildable as a module just in case the user desires
-> > > it not being part of the kernel image. This makes it possible to load
-> > > and unload the headers on demand. A tracing program, or a kernel module
-> > > builder can load the module, do its operations, and then unload the
-> > > module to save kernel memory. The total memory needed is 3.8MB.
-> > >
-> > > The code to read the headers is based on /proc/config.gz code and uses
-> > > the same technique to embed the headers.
-> >
-> >
-> >
-> > Please let me ask a question about the actual use-case.
-> >
-> >
-> > To build embedded systems including Android,
-> > I use an x86 build machine.
-> >
-> > In other words, I cross-compile vmlinux and in-tree modules.
-> > So,
-> >
-> >   target-arch: arm64
-> >   host-arch:   x86
-> >
-> >
-> >
-> > > To build a module, the below steps have been tested on an x86 machine:
-> > > modprobe kheaders
-> > > rm -rf $HOME/headers
-> > > mkdir -p $HOME/headers
-> > > tar -xvf /proc/kheaders.tar.xz -C $HOME/headers >/dev/null
-> > > cd my-kernel-module
-> > > make -C $HOME/headers M=$(pwd) modules
-> > > rmmod kheaders
-> >
-> > I am guessing the user will run these commands
-> > on the target system.
-> > In other words, external modules are native-compiled.
-> > So,
-> >
-> >   target-arch: arm64
-> >   host-arch:   arm64
-> >
-> >
-> > Is this correct?
-> >
-> >
-> > If I understood the assumed use-case correctly,
-> > kheaders.tar.xw will contain host-programs compiled for x86,
-> > which will not work on the target system.
-> >
->
-> You are right, the above commands in the commit message work only if the
-> host/target are same arch due to scripts.
->
-> However we can build with arm64 device connected to a host, like this (which
-> I tested):
->
-> adb shell modprobe kheaders; adb pull /proc/kheaders.tar.xz
-> rm -rf $HOME/headers; mkdir -p $HOME/headers
-> tar -xvf /proc/kheaders.tar.xz -C $HOME/headers >/dev/null
-> cd my-kernel-module
-> make -C $HOME/headers M=$(pwd) ARCH=arm64 CROSS_COMPILE=aarch64- modules
-> adb push test.ko /data/; adb shell rmmod kheaders
->
-> The other way we can make this work is using x86 usermode emulation inside a
-> chroot on the Android device which will make the earlier commands work. One
-> thing to note is that Android also runs on x86 hardware so the commands in
-> the commit message will work even for x86 Android targets already.
->
-> Also note that this the "module building" part is really only one of the
-> usecases. eBPF is another which needs the headers - and the headers are vast
-> majority of the archive. Headers take 3.1MB out of 3.6MB of the archive on
-> arm64 builds.
->
-> How do you want to proceed here, should I mention these points in the commit
-> message?
+Hi,
 
+On 2/26/19 7:05 PM, Jeremy Linton wrote:
+> There are various reasons, including bencmarking, to disable spectrev2
+> mitigation on a machine. Provide a command-line to do so.
+> 
+> Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
 
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
-I do not request a re-spin just for a matter of commit log,
-but this version produces an empty tarball.
-So, you will have a chance to update the patch anyway.
+Cheers,
+Andre.
 
-In the next version, it would be nice to note that
-"external modules must be built on the same host arch
-as built vmlinux".
-
-
-
-
-Let me ask one more question.
-
-I guess this patch is motivated by
-how difficult to convey kernel headers
-from vendors to users.
-
-In that situation, how will the user find
-the right compiler to use for building external modules?
-
-
-
-
-Greg KH said:
-
-We don't ever support the system of loading a module built with anything
-other than the _exact_ same compiler than the kernel was.
-
-
-For the full context, see this:
-https://lore.kernel.org/patchwork/patch/836247/#1031547
-
-
--- 
-Best Regards
-Masahiro Yamada
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>   Documentation/admin-guide/kernel-parameters.txt |  8 ++++----
+>   arch/arm64/kernel/cpu_errata.c                  | 13 +++++++++++++
+>   2 files changed, 17 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 858b6c0b9a15..4d4d6a9537ae 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2842,10 +2842,10 @@
+>   			check bypass). With this option data leaks are possible
+>   			in the system.
+>   
+> -	nospectre_v2	[X86,PPC_FSL_BOOK3E] Disable all mitigations for the Spectre variant 2
+> -			(indirect branch prediction) vulnerability. System may
+> -			allow data leaks with this option, which is equivalent
+> -			to spectre_v2=off.
+> +	nospectre_v2	[X86,PPC_FSL_BOOK3E,ARM64] Disable all mitigations for
+> +			the Spectre variant 2 (indirect branch prediction)
+> +			vulnerability. System may allow data leaks with this
+> +			option.
+>   
+>   	nospec_store_bypass_disable
+>   			[HW] Disable all mitigations for the Speculative Store Bypass vulnerability
+> diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+> index 9950bb0cbd52..d2b2c69d31bb 100644
+> --- a/arch/arm64/kernel/cpu_errata.c
+> +++ b/arch/arm64/kernel/cpu_errata.c
+> @@ -220,6 +220,14 @@ static void qcom_link_stack_sanitization(void)
+>   		     : "=&r" (tmp));
+>   }
+>   
+> +static bool __nospectre_v2;
+> +static int __init parse_nospectre_v2(char *str)
+> +{
+> +	__nospectre_v2 = true;
+> +	return 0;
+> +}
+> +early_param("nospectre_v2", parse_nospectre_v2);
+> +
+>   static void
+>   enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
+>   {
+> @@ -231,6 +239,11 @@ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
+>   	if (!entry->matches(entry, SCOPE_LOCAL_CPU))
+>   		return;
+>   
+> +	if (__nospectre_v2) {
+> +		pr_info_once("spectrev2 mitigation disabled by command line option\n");
+> +		return;
+> +	}
+> +
+>   	if (psci_ops.smccc_version == SMCCC_VERSION_1_0)
+>   		return;
+>   
+> 
