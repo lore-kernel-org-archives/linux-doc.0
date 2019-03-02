@@ -3,25 +3,25 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2F2BB7D099
+	by archive.lwn.net (Postfix) with ESMTP id 639D47D917
 	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Mar 2019 23:36:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727370AbfCBXgB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 2 Mar 2019 18:36:01 -0500
-Received: from outils.crapouillou.net ([89.234.176.41]:34528 "EHLO
+        id S1727786AbfCBXgH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 2 Mar 2019 18:36:07 -0500
+Received: from outils.crapouillou.net ([89.234.176.41]:34612 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726958AbfCBXgB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Mar 2019 18:36:01 -0500
+        with ESMTP id S1726958AbfCBXgG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Mar 2019 18:36:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1551569757; h=from:from:sender:reply-to:subject:subject:date:date:
+        s=mail; t=1551569763; h=from:from:sender:reply-to:subject:subject:date:date:
          message-id:message-id:to:to:cc:cc:mime-version:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=T5gM9fNr36oTxFv1YWXbA8rrY8lrYbbD1rX18qV1k78=;
-        b=rnnAc4Z9csRKPiG4x9NkmzbqXZ5L7zsGSSmV8buOUWJTfsh4v22a9Qb2FW9u2XVSQLo2gy
-        5oZUSeZaM5jkJyT+3zV2Ietg55z4p/5axVVuAKs88B13u1oVHb6YhvpeUzCZWf7hheFZmj
-        mia1rOU2tFj1TyheATgXR2XVJBA3hIs=
+        bh=5u9wJOcsmHwHyJffBgLzKv9/tQWZhgJvE36/wVYRcIE=;
+        b=dOqEFBKbX47G2Kp1yl5zIYoRv/AeRxdVeE7ZsZuVGvBlG0AbJtLGM6bloaVYjsimKxBjjq
+        rOzEX/r1d2kZIC4DpFH4kqvZn9g6dNxGaBp2Q25k+J1gy2osCMi3c+bx8Lcdow74J0kKA6
+        H+u6GUQe+p63a+hwYztwWnOanF8/2fo=
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
@@ -37,9 +37,9 @@ Cc:     Mathieu Malaterre <malat@debian.org>, od@zcrc.me,
         linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
         linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v10 14/27] pwm: jz4740: Improve algorithm of clock calculation
-Date:   Sat,  2 Mar 2019 20:34:00 -0300
-Message-Id: <20190302233413.14813-15-paul@crapouillou.net>
+Subject: [PATCH v10 15/27] pwm: jz4740: Allow selection of PWM channels 0 and 1
+Date:   Sat,  2 Mar 2019 20:34:01 -0300
+Message-Id: <20190302233413.14813-16-paul@crapouillou.net>
 In-Reply-To: <20190302233413.14813-1-paul@crapouillou.net>
 References: <20190302233413.14813-1-paul@crapouillou.net>
 Sender: linux-doc-owner@vger.kernel.org
@@ -47,9 +47,8 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The previous algorithm hardcoded details about how the TCU clocks work.
-The new algorithm will use clk_round_rate to find the perfect clock rate
-for the PWM channel.
+The TCU channels 0 and 1 were previously reserved for system tasks, and
+thus unavailable for PWM.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 Tested-by: Mathieu Malaterre <malat@debian.org>
@@ -57,96 +56,39 @@ Tested-by: Artur Rojek <contact@artur-rojek.eu>
 ---
 
 Notes:
-         v9: New patch
+         v6: New patch
     
-        v10: - New algorithm. Instead of starting with the maximum clock rate
-               and using clk_round_rate(rate - 1) to get the next (smaller)
-    	   clock, we compute the maximum rate we can use before the
-    	   register overflows, and apply it with clk_set_max_rate.
-    	   Then we read the new clock rate and compute the register values
-    	   of the period and duty from that.
-    	 - Use NSEC_PER_SEC instead of magic 1000000000 value
+         v7: No change
+    
+         v8: ingenic_tcu_[request,release]_channel are dropped. We now use
+             the memory resources provided to the driver to detect whether
+    	 or not we are allowed to use the TCU channel.
+    
+         v9: Drop previous system. Call a API function provided by the
+             clocksource driver to know if we can use the channel as PWM.
+    
+         v10: No change
 
- drivers/pwm/pwm-jz4740.c | 49 ++++++++++++++++++++++++++++++++----------------
- 1 file changed, 33 insertions(+), 16 deletions(-)
+ drivers/pwm/pwm-jz4740.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/drivers/pwm/pwm-jz4740.c b/drivers/pwm/pwm-jz4740.c
-index c6136bd4434b..f497388fc818 100644
+index f497388fc818..c914589d547b 100644
 --- a/drivers/pwm/pwm-jz4740.c
 +++ b/drivers/pwm/pwm-jz4740.c
-@@ -110,24 +110,45 @@ static int jz4740_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
- 	struct jz4740_pwm_chip *jz4740 = to_jz4740(pwm->chip);
- 	struct clk *clk = jz4740->clks[pwm->hwpwm],
- 		   *parent_clk = clk_get_parent(clk);
--	unsigned long rate, period, duty;
-+	unsigned long rate, parent_rate, period, duty;
- 	unsigned long long tmp;
--	unsigned int prescaler = 0;
-+	int ret;
+@@ -44,11 +44,7 @@ static int jz4740_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+ 	char clk_name[16];
+ 	int ret;
  
--	rate = clk_get_rate(parent_clk);
--	tmp = (unsigned long long)rate * state->period;
--	do_div(tmp, 1000000000);
--	period = tmp;
-+	parent_rate = clk_get_rate(parent_clk);
-+
-+	jz4740_pwm_disable(chip, pwm);
-+
-+	/* Reset the clock to the maximum rate, and we'll reduce it if needed */
-+	ret = clk_set_rate(clk, parent_rate);
-+	if (ret)
-+		return ret;
+-	/*
+-	 * Timers 0 and 1 are used for system tasks, so they are unavailable
+-	 * for use as PWMs.
+-	 */
+-	if (pwm->hwpwm < 2)
++	if (!ingenic_tcu_pwm_can_use_chn(pwm->hwpwm))
+ 		return -EBUSY;
  
--	while (period > 0xffff && prescaler < 6) {
--		period >>= 2;
--		rate >>= 2;
--		++prescaler;
-+	/* Limit the clock to a maximum rate that still gives us a period value
-+	 * which fits in 16 bits.
-+	 */
-+	tmp = 0xffffull * NSEC_PER_SEC;
-+	do_div(tmp, state->period);
-+
-+	ret = clk_set_max_rate(clk, tmp);
-+	if (ret) {
-+		dev_err(chip->dev, "Unable to set max rate: %i\n", ret);
-+		return ret;
- 	}
- 
--	if (prescaler == 6)
--		return -EINVAL;
-+	/* Read back the clock rate, as it may have been modified by
-+	 * clk_set_max_rate()
-+	 */
-+	rate = clk_get_rate(clk);
- 
-+	if (rate != parent_rate)
-+		dev_dbg(chip->dev, "PWM clock updated to %lu Hz\n", rate);
-+
-+	/* Calculate period value */
-+	tmp = (unsigned long long)rate * state->period;
-+	do_div(tmp, NSEC_PER_SEC);
-+	period = (unsigned long)tmp;
-+
-+	/* Calculate duty value */
- 	tmp = (unsigned long long)period * state->duty_cycle;
- 	do_div(tmp, state->period);
- 	duty = period - tmp;
-@@ -135,14 +156,10 @@ static int jz4740_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
- 	if (duty >= period)
- 		duty = period - 1;
- 
--	jz4740_pwm_disable(chip, pwm);
--
- 	/* Set abrupt shutdown */
- 	regmap_update_bits(jz4740->map, TCU_REG_TCSRc(pwm->hwpwm),
- 			   TCU_TCSR_PWM_SD, TCU_TCSR_PWM_SD);
- 
--	clk_set_rate(clk, rate);
--
- 	/* Reset counter to 0 */
- 	regmap_write(jz4740->map, TCU_REG_TCNTc(pwm->hwpwm), 0);
- 
+ 	snprintf(clk_name, sizeof(clk_name), "timer%u", pwm->hwpwm);
 -- 
 2.11.0
 
