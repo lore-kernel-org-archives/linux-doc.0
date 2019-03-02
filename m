@@ -3,25 +3,25 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2ED5A7D91B
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Mar 2019 23:35:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 686E87D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  2 Mar 2019 23:35:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727371AbfCBXfI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 2 Mar 2019 18:35:08 -0500
-Received: from outils.crapouillou.net ([89.234.176.41]:33248 "EHLO
+        id S1727127AbfCBXen (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 2 Mar 2019 18:34:43 -0500
+Received: from outils.crapouillou.net ([89.234.176.41]:60998 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727355AbfCBXfH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Mar 2019 18:35:07 -0500
+        with ESMTP id S1726592AbfCBXem (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Mar 2019 18:34:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1551569704; h=from:from:sender:reply-to:subject:subject:date:date:
+        s=mail; t=1551569678; h=from:from:sender:reply-to:subject:subject:date:date:
          message-id:message-id:to:to:cc:cc:mime-version:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=FLf1PPEGL4Q6G2B75DGJJOm4/PpnKZH0MDIaX2F5ALI=;
-        b=EyCKpZU4Qm/mmt7BexX2aBEpOrJGJyUv+FKpq0s8IYv18CiLIeztbKMwIMyI+8DDuZ9dFV
-        GF+/sszUO2rxLQheRE8y1l1+KcEEkFWlVsXW9KhNhkjMuKTs14Lnee3f5/qh6q3XekjASJ
-        Zj4Ie+ZIpGoG5NdipClztVGGIPjYt8o=
+        bh=N4v8+wdBeOgQbaT/bQsNDNnAnZy/yPyWfkfuNUGkTUk=;
+        b=ryVDKtHkThV/tcO8A/QCM3/KioXu2DLEhi8+95/9pTbccVquWz5xEDOu3WivdAaGT9tM1M
+        L8aYKSsZsD8baH/Scr1ScO7lEmHQsWCF0ja2ioSEy+TxluhzqN+4JcBrDY6EcTa5cZlUMU
+        NzM2HnnoEb0rhannwK49Rz0/Ip1VzMc=
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
@@ -37,9 +37,9 @@ Cc:     Mathieu Malaterre <malat@debian.org>, od@zcrc.me,
         linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
         linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v10 06/27] MAINTAINERS: Add myself as maintainer for Ingenic TCU drivers
-Date:   Sat,  2 Mar 2019 20:33:52 -0300
-Message-Id: <20190302233413.14813-7-paul@crapouillou.net>
+Subject: [PATCH v10 02/27] doc: Add doc for the Ingenic TCU hardware
+Date:   Sat,  2 Mar 2019 20:33:48 -0300
+Message-Id: <20190302233413.14813-3-paul@crapouillou.net>
 In-Reply-To: <20190302233413.14813-1-paul@crapouillou.net>
 References: <20190302233413.14813-1-paul@crapouillou.net>
 Sender: linux-doc-owner@vger.kernel.org
@@ -47,7 +47,50 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add myself as maintainer for the ingenic-timer and ingenic-ost drivers.
+Add a documentation file about the Timer/Counter Unit (TCU) present in
+the Ingenic JZ47xx SoCs.
+
+The Timer/Counter Unit (TCU) in Ingenic JZ47xx SoCs is a multi-function
+hardware block. It features up to to eight channels, that can be used as
+counters, timers, or PWM.
+
+- JZ4725B, JZ4750, JZ4755 only have six TCU channels. The other SoCs all
+  have eight channels.
+
+- JZ4725B introduced a separate channel, called Operating System Timer
+  (OST). It is a 32-bit programmable timer. On JZ4770 and above, it is
+  64-bit.
+
+- Each one of the TCU channels has its own clock, which can be reparented
+  to three different clocks (pclk, ext, rtc), gated, and reclocked, through
+  their TCSR register.
+  * The watchdog and OST hardware blocks also feature a TCSR register with
+    the same format in their register space.
+  * The TCU registers used to gate/ungate can also gate/ungate the watchdog
+    and OST clocks.
+
+- Each TCU channel works in one of two modes:
+  * mode TCU1: channels cannot work in sleep mode, but are easier to
+    operate.
+  * mode TCU2: channels can work in sleep mode, but the operation is a bit
+    more complicated than with TCU1 channels.
+
+- The mode of each TCU channel depends on the SoC used:
+  * On the oldest SoCs (up to JZ4740), all of the eight channels operate in
+    TCU1 mode.
+  * On JZ4725B, channel 5 operates as TCU2, the others operate as TCU1.
+  * On newest SoCs (JZ4750 and above), channels 1-2 operate as TCU2, the
+    others operate as TCU1.
+
+- Each channel can generate an interrupt. Some channels share an interrupt
+  line, some don't, and this changes between SoC versions:
+  * on older SoCs (JZ4740 and below), channel 0 and channel 1 have their
+    own interrupt line; channels 2-7 share the last interrupt line.
+  * On JZ4725B, channel 0 has its own interrupt; channels 1-5 share one
+    interrupt line; the OST uses the last interrupt line.
+  * on newer SoCs (JZ4750 and above), channel 5 has its own interrupt;
+    channels 0-4 and (if eight channels) 6-7 all share one interrupt line;
+    the OST uses the last interrupt line.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 Tested-by: Mathieu Malaterre <malat@debian.org>
@@ -55,15 +98,12 @@ Tested-by: Artur Rojek <contact@artur-rojek.eu>
 ---
 
 Notes:
-         v2: No change
+         v4: New patch in this series
     
-         v3: No change
+         v5: Added information about number of channels, and improved
+             documentation about channel modes
     
-         v4: No change
-    
-         v5: Update with new files
-    
-         v6: No change
+         v6: Add info about OST (can be 32-bit on older SoCs)
     
          v7: No change
     
@@ -73,29 +113,76 @@ Notes:
     
          v10: No change
 
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ Documentation/mips/ingenic-tcu.txt | 60 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
+ create mode 100644 Documentation/mips/ingenic-tcu.txt
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dce5c099f43c..3347efa545f1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7515,6 +7515,15 @@ L:	linux-mtd@lists.infradead.org
- S:	Maintained
- F:	drivers/mtd/nand/raw/jz4780_*
- 
-+INGENIC TCU driver
-+M:	Paul Cercueil <paul@crapouillou.net>
-+S:	Maintained
-+F:	drivers/clocksource/ingenic-ost.c
-+F:	drivers/clocksource/ingenic-timer.c
-+F:	drivers/clocksource/ingenic-timer.h
-+F:	include/linux/mfd/ingenic-tcu.h
-+F:	include/dt-bindings/clock/ingenic,tcu.h
+diff --git a/Documentation/mips/ingenic-tcu.txt b/Documentation/mips/ingenic-tcu.txt
+new file mode 100644
+index 000000000000..0ea35b2a46da
+--- /dev/null
++++ b/Documentation/mips/ingenic-tcu.txt
+@@ -0,0 +1,60 @@
++Ingenic JZ47xx SoCs Timer/Counter Unit hardware
++-----------------------------------------------
 +
- INOTIFY
- M:	Jan Kara <jack@suse.cz>
- R:	Amir Goldstein <amir73il@gmail.com>
++The Timer/Counter Unit (TCU) in Ingenic JZ47xx SoCs is a multi-function
++hardware block. It features up to to eight channels, that can be used as
++counters, timers, or PWM.
++
++- JZ4725B, JZ4750, JZ4755 only have six TCU channels. The other SoCs all
++  have eight channels.
++
++- JZ4725B introduced a separate channel, called Operating System Timer
++  (OST). It is a 32-bit programmable timer. On JZ4770 and above, it is
++  64-bit.
++
++- Each one of the TCU channels has its own clock, which can be reparented
++  to three different clocks (pclk, ext, rtc), gated, and reclocked, through
++  their TCSR register.
++  * The watchdog and OST hardware blocks also feature a TCSR register with
++    the same format in their register space.
++  * The TCU registers used to gate/ungate can also gate/ungate the watchdog
++    and OST clocks.
++
++- Each TCU channel works in one of two modes:
++  * mode TCU1: channels cannot work in sleep mode, but are easier to
++    operate.
++  * mode TCU2: channels can work in sleep mode, but the operation is a bit
++    more complicated than with TCU1 channels.
++
++- The mode of each TCU channel depends on the SoC used:
++  * On the oldest SoCs (up to JZ4740), all of the eight channels operate in
++    TCU1 mode.
++  * On JZ4725B, channel 5 operates as TCU2, the others operate as TCU1.
++  * On newest SoCs (JZ4750 and above), channels 1-2 operate as TCU2, the
++    others operate as TCU1.
++
++- Each channel can generate an interrupt. Some channels share an interrupt
++  line, some don't, and this changes between SoC versions:
++  * on older SoCs (JZ4740 and below), channel 0 and channel 1 have their
++    own interrupt line; channels 2-7 share the last interrupt line.
++  * On JZ4725B, channel 0 has its own interrupt; channels 1-5 share one
++    interrupt line; the OST uses the last interrupt line.
++  * on newer SoCs (JZ4750 and above), channel 5 has its own interrupt;
++    channels 0-4 and (if eight channels) 6-7 all share one interrupt line;
++    the OST uses the last interrupt line.
++
++Implementation
++--------------
++
++The functionalities of the TCU hardware are spread across multiple drivers:
++- clocks/irq/timer: drivers/clocksource/ingenic-timer.c
++- PWM:              drivers/pwm/pwm-jz4740.c
++- watchdog:         drivers/watchdog/jz4740_wdt.c
++- OST:              drivers/clocksource/ingenic-ost.c
++
++Because various functionalities of the TCU that belong to different drivers
++and frameworks can be controlled from the same registers, all of these
++drivers access their registers through the same regmap.
++
++For more information regarding the devicetree bindings of the TCU drivers,
++have a look at Documentation/devicetree/bindings/mfd/ingenic,tcu.txt.
 -- 
 2.11.0
 
