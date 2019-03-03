@@ -1,98 +1,61 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_HK_NAME_FM_MR_MRS
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2412B7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  3 Mar 2019 12:38:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2BB797D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  3 Mar 2019 12:53:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726173AbfCCMi0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 3 Mar 2019 07:38:26 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:51256 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726171AbfCCMi0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Mar 2019 07:38:26 -0500
-Received: by mail-wm1-f66.google.com with SMTP id n19so2079527wmi.1
-        for <linux-doc@vger.kernel.org>; Sun, 03 Mar 2019 04:38:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kragniz.eu; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wmaRd8ftTs0lTwJsk22PI1aI1d7YGIyjW6+ZlePZZRA=;
-        b=FxCPFdBUCe/SxF0aNwT2urt3QRwAYO+32y3KXD4NuawGGWWesM+V1s3j51RWhqWy/g
-         dHSzL7u/vb39uewF5j5S0qOjap2XQRWo2rN4+peaLR6HJROoBv4+FzmXU9OurngAvvUq
-         +mAdo2zvj2sU4HDrsbuMjVTIA6sUn2JI9Wzoo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wmaRd8ftTs0lTwJsk22PI1aI1d7YGIyjW6+ZlePZZRA=;
-        b=In0kI7gJxAio7RdaOy5uIkRTvI59vTSqCB3MscZAieFFppbUaoPg2NglyDiD9DqU3l
-         lqnSPaRNIDEt1BEA/bLhSD/B5cUtYzB00j0DWEHP6ny8qXUJmfGcgB47JUEovRxoTKG7
-         H9MRyKnjawJ4ifmt7EmCcKT72QBJVFitxXs4xN490qR9Y/hpvr6RcuPKKnrExhWtbYC5
-         aUdDgStBZG9x1x+Nl+opr9IYkCgQxtsUWqGXRZ6PoFLfyXTZaxyMQphXaM/vkTr3sbXz
-         JBsnqImLGuwqQCwe1Wfw0HW+0mgoGFh4S0Vdg/gsaddr7FVO9rYHA8KlHSS13QUKkNxz
-         Xvcw==
-X-Gm-Message-State: AHQUAuaM+040nsn++pr05k1LPUb2ONZWpK3t+SN8zVqUJfRlSpov9Bho
-        VW7xy3ntYSMF5hKEOqzBuyrRFA==
-X-Google-Smtp-Source: AHgI3IZkppvMGYiC8GNycYO8l2mL3PmpFcD4Znjme3vwD5cqO4IeHBz31wAvId4+qri99+h9IJxrBg==
-X-Received: by 2002:a7b:cbcd:: with SMTP id n13mr8701045wmi.92.1551616704496;
-        Sun, 03 Mar 2019 04:38:24 -0800 (PST)
-Received: from localhost.localdomain ([95.149.160.3])
-        by smtp.gmail.com with ESMTPSA id t202sm9450783wmt.0.2019.03.03.04.38.22
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 03 Mar 2019 04:38:23 -0800 (PST)
-From:   Louis Taylor <louis@kragniz.eu>
-To:     corbet@lwn.net
-Cc:     pmladek@suse.com, geert+renesas@glider.be,
-        andriy.shevchenko@linux.intel.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
-        ndesaulniers@google.com, jflat@chromium.org,
-        Louis Taylor <louis@kragniz.eu>
-Subject: [PATCH] docs: add extra integer types to printk-formats
-Date:   Sun,  3 Mar 2019 12:36:47 +0000
-Message-Id: <20190303123647.22020-1-louis@kragniz.eu>
-X-Mailer: git-send-email 2.20.1
+        id S1726266AbfCCMxL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 3 Mar 2019 07:53:11 -0500
+Received: from sonic302-20.consmr.mail.sg3.yahoo.com ([106.10.242.140]:35388
+        "EHLO sonic302-20.consmr.mail.sg3.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726227AbfCCMxK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Mar 2019 07:53:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1551617587; bh=k2w9F0I1Oso4spkegQ9xjHjgDmZoacDPEUM/s4SyYLk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=lF90jfqL9XT5aM8Cb6FuXmGYE/WPbOYZ5jOVmF9iY/ycpDEksX5yn2f0TCmCy7SEtDxvKgaIVGLUgQvLCR57ZFV81pPznXZLcZWHszXRBCPseoyt/Agni6HyCp4xtOeBXZmAnmQWI1jUqITADdNrFcEWTAVAkoHKjFOJrxu1eLgPtBgavVu35VNFpexzZFdJGuXYJvGUPQe/Q77Y3delxC/t/tzE5/DALJrbKOqzoTxAI6V7GY1QUtN99Wc2iXABJcSx+hKmGLPg57TqIg3tLY7/OF4hdcYoU3A5TazIF0Nu4g1MlEc23Rgsdg/L9KNAYTGSSZcs6P99Ey2C9nqcpQ==
+X-YMail-OSG: qrKmq2sVM1lNDizgYiHGeGKwSbsAF5PD0pSbhOGPd8fX2h56d4cHjWF1eXZbsns
+ zmT6Vlaz12LRfi2jAyRpSTLnoQNj866W9oQYIa0CKE2XEhBll9fgvkgWNEnRts6xnlGATghIsuwW
+ E9bFkbqGrm9lcqxgOIoHLPtsW9L78P9Jt3tO6y4aHXPi9xi2i.KthHDKa8XJH9UjK4M7CMRQXFKi
+ kg9me7AMkQukyUoYgraDmY2Ahm2axhcny6e2c78iO.C8agyNjGj8p0p46yC.2gmF2a6ksa_rBJoQ
+ X.P.QNnOc6uB44oodlfMpccbjV334gQYCVqXDu9gWNJnuponbGVWgpxU0q0ToXF_LGaDK5tgMWAM
+ K9zhImNytfPRaP1Qx0qePs1JgDdxSkRLeXeisznCyTHVCmNJytPO50HGIxL6DGAbggFYFN4Jpf1_
+ CqeX39VZ8gphRPFaWzdncdmD0fbsJ6A2q.GT1Q_qGz3awwCW8Uw.wW1IfxBmnF8vlJMdXLAt0AJH
+ 2NUyJwmY3qCkCsryEkgMk8gvbrVvGfUdkt2xYpurIx2EFDLsavNAw.7iAMUEaPfbbkWglOheawUG
+ V7tPJ76_yAr6RqjChq6dNzBgoD8V5Fd8_7hFa31C0n6y.xqI0NNfmSier1EXise6cSXLCEY9CnHp
+ SBgJg0s21bsn_ZDw_sI8CAJW7ZjgJR59djP6PpydXlu0.ivsbBjECWtHGL39J.Lzc9g--
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic302.consmr.mail.sg3.yahoo.com with HTTP; Sun, 3 Mar 2019 12:53:07 +0000
+Date:   Sun, 3 Mar 2019 12:53:05 +0000 (UTC)
+From:   "Mrs. Elia Rodrigues" <albiz@freemail.gr>
+Reply-To: "Mrs. Elia Rodrigues" <eliarodrigues@yahoo.com>
+Message-ID: <1141171476.7769008.1551617585564@mail.yahoo.com>
+Subject: From Mrs. Elia Rodrigues,
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <1141171476.7769008.1551617585564.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.13123 YahooMailBasic Mozilla/5.0 (Windows NT 6.1; rv:11.0) Gecko/20100101 Firefox/11.0 CometBird/11.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A few commonly used integer types were absent from this table, so add
-them.
 
-Link: https://github.com/ClangBuiltLinux/linux/issues/378
-Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
-Signed-off-by: Louis Taylor <louis@kragniz.eu>
----
- Documentation/core-api/printk-formats.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index a7fae4538946..6f08b1b6240a 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -19,8 +19,16 @@ Integer types
- 		unsigned long		%lu or %lx
- 		long long		%lld or %llx
- 		unsigned long long	%llu or %llx
-+		short int		%hd or %hx
-+		unsigned short int	%hu or %hx
-+		char			%hhd or %hhx
-+		unsigned char		%hhu or %hhx
- 		size_t			%zu or %zx
- 		ssize_t			%zd or %zx
-+		s8			%hhd or %hhx
-+		u8			%hhu or %hhx
-+		s16			%hd or %hx
-+		u16			%hu or %hx
- 		s32			%d or %x
- 		u32			%u or %x
- 		s64			%lld or %llx
--- 
-2.20.1
+Hello 
 
+I am Mrs. Elia Rodrigues I have been diagnosed with cancer. It has defied all forms of medical treatment, and right now I have only about a few months to live, according to medical experts. I have not particularly lived my life so well, as I never really cared for anyone (not even myself) but my business. Though I am very rich, I was never generous. I was always hostile to People and only focused on my business as that was the only thing I cared for. But now I regret all this as I now know that there is more to life than just wanting to have or make all the money in the world. I believe when God gives me a second chance to come to this world I would live my life a different way from how I have lived it.
+
+I would want to have a Personal and Trustworthy Relationship with you, as I intend and willing to empower the change of ownership for the transfer of my Deposits to your personal possession for Charity Disbursement to the Less Privilege and Homeless. I want this fund to be used in liberation work Activities like, help to Orphanages, and Christian schools, helping widows and up keeping of the Churches and propagating the word of God and to endeavor that the house of God is maintained. I am not afraid of death hence I know where I am going. I know that I am going to be in the bosom of the Lord. Exodus 14 vs 14 says that the lord will fight my case and I shall hold my peace.
+Because of my health condition when i try to speak it leads to a serious coughing out of blood. I will send you the photos of me,
+
+As soon as I receive your reply I shall give you the details on how to contact the bank directly for onward transfer. I will also issue you an authority letter that will prove you as the present beneficiary of my funds. I want you and your family to always pray for me but the lord is my shepherd.
+
+Thank you for your due consideration. God be with you
+
+Yours Sister in the Lord.
+
+Mrs. Elia Rodrigues
