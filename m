@@ -1,148 +1,127 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0FE577D099
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Mar 2019 09:33:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ADF797D099
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Mar 2019 11:59:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726104AbfCDJdN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Mar 2019 04:33:13 -0500
-Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:36912 "EHLO
-        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726090AbfCDJdN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Mar 2019 04:33:13 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R801e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04455;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0TLvQcDH_1551691990;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TLvQcDH_1551691990)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 04 Mar 2019 17:33:10 +0800
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-To:     linux-doc@vger.kernel.org, corbet@lwn.net,
-        Harry Wei <harryxiyou@gmail.com>,
-        linux-kernel@zh-kernel.org (moderated list:CHINESE DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Cc:     linux-kernel@vger.kernel.org,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Li Yang <leoyang.li@nxp.com>
-Subject: [PATCH 21/21] docs/zh_CN: change translaters email address
-Date:   Mon,  4 Mar 2019 17:32:58 +0800
-Message-Id: <20190304093259.52598-1-alex.shi@linux.alibaba.com>
-X-Mailer: git-send-email 2.19.1.856.g8858448bb
+        id S1725974AbfCDL7N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Mar 2019 06:59:13 -0500
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:34081 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726224AbfCDL7M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Mar 2019 06:59:12 -0500
+Received: by mail-ed1-f65.google.com with SMTP id a16so4028149edn.1;
+        Mon, 04 Mar 2019 03:59:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=0SXc/ccBIqDOJFDdSRXSkpspHO0OCRRSHCA1+2sr5WA=;
+        b=JyGou3wFbwGmsPDE99fghHzJcuJpz3zT2b/dih9xdl6tw4JSIUAOpnD8/Ci+zTwZ7P
+         qYpFakUauHhAbwpTyTgqC/uCrtx8Hwq+JyajluO/kyFpSgF/cDIbr3zHxI4HBI9ofX1Z
+         ggCb5iCotUMUuYmvVXHvd/MSTIQiy383yrfgfpZU4n25zdlCtJvmxYyLRUDFG3WPTzYy
+         xA67Bwug3tRBmJaF5dfEcKVfKd2UTmKqUas15A+knYLusl+xpgX8hXWVXVM6Zxg7W4lN
+         6mN6xbqXm9P01x/oxpr+G5+oe8PTvnEtvbTAUz/IkqwrpzWZo73iz85YOeZz7EWHIugV
+         OoHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=0SXc/ccBIqDOJFDdSRXSkpspHO0OCRRSHCA1+2sr5WA=;
+        b=FbCxhrF65ZIQz6tvC6pV5IsoKiTK8bwrMRYNkazjyTNMmLgx+yS4LX4g9mQ3HS7lRY
+         +VGmkl0LxA6cVkJXrIM4RGrLaIpVNPxbOvde55yen7DB9vltCb/4XQxskTkWIpXPphJO
+         gRAoXkEgCz6xq/gnIaa9+d/QGDtUJa6Jvdm8DleA91dPTtNrd5FwKnzvpydhvbzy7e8T
+         0rNKcYpNSv+l9mmCCZKtBHRvV+12B2Z/x+RWCsRt4PAd/K9sAHSIoMjkgTx6nbA3HQQI
+         gN2v4rqMFx9z2HnJ1iEwulKA++kCXMI2f1uFbO0/OZsjPpXPHslBUMu2zx5A1xOtTHwb
+         /YrQ==
+X-Gm-Message-State: APjAAAWXH2bQOtU2vTuzaZSkU8YeDlZAsroe4fNLcmnNUq6tSiX/XTov
+        5fucq4LT1PpF8CkihF45G0w=
+X-Google-Smtp-Source: APXvYqy6rcZGrjftTo+4MbdLz8wqDGECwGBXyvFG7KXPhXYwLG0KgJD234CzYcz706qDeh0Vv45XTA==
+X-Received: by 2002:a50:978e:: with SMTP id e14mr14463735edb.234.1551700749634;
+        Mon, 04 Mar 2019 03:59:09 -0800 (PST)
+Received: from localhost (pD9E51D2D.dip0.t-ipconnect.de. [217.229.29.45])
+        by smtp.gmail.com with ESMTPSA id z49sm2025549edb.15.2019.03.04.03.59.08
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 04 Mar 2019 03:59:08 -0800 (PST)
+Date:   Mon, 4 Mar 2019 12:59:07 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Mathieu Malaterre <malat@debian.org>, od@zcrc.me,
+        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH v10 11/27] pwm: jz4740: Apply configuration atomically
+Message-ID: <20190304115907.GB9040@ulmo>
+References: <20190302233413.14813-1-paul@crapouillou.net>
+ <20190302233413.14813-12-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="qlTNgmc+xy1dBmNv"
+Content-Disposition: inline
+In-Reply-To: <20190302233413.14813-12-paul@crapouillou.net>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Change leoli@freescale.com and leo@zh-kernel.org to active address:
-leoyang.li@nxp.com
 
-Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-Cc: Li Yang <leoyang.li@nxp.com>
----
- Documentation/translations/zh_CN/oops-tracing.txt           | 2 +-
- .../translations/zh_CN/process/stable-api-nonsense.rst      | 2 +-
- .../translations/zh_CN/process/stable-kernel-rules.rst      | 2 +-
- .../translations/zh_CN/process/submitting-drivers.rst       | 4 ++--
- .../translations/zh_CN/process/submitting-patches.rst       | 2 +-
- Documentation/translations/zh_CN/sparse.txt                 | 6 +++---
- 6 files changed, 9 insertions(+), 9 deletions(-)
+--qlTNgmc+xy1dBmNv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/translations/zh_CN/oops-tracing.txt b/Documentation/translations/zh_CN/oops-tracing.txt
-index a893f04dfd5d..93fa061cf9e4 100644
---- a/Documentation/translations/zh_CN/oops-tracing.txt
-+++ b/Documentation/translations/zh_CN/oops-tracing.txt
-@@ -16,7 +16,7 @@ Documentation/admin-guide/bug-hunting.rst 的中文翻译
- 
- 中文版维护者： 杨瑞 Dave Young <hidave.darkstar@gmail.com>
- 中文版翻译者： 杨瑞 Dave Young <hidave.darkstar@gmail.com>
--中文版校译者： 李阳 Li Yang <leo@zh-kernel.org>
-+中文版校译者： 李阳 Li Yang <leoyang.li@nxp.com>
-                王聪 Wang Cong <xiyou.wangcong@gmail.com>
- 
- 以下为正文
-diff --git a/Documentation/translations/zh_CN/process/stable-api-nonsense.rst b/Documentation/translations/zh_CN/process/stable-api-nonsense.rst
-index 963783847604..4d6f4b8af949 100644
---- a/Documentation/translations/zh_CN/process/stable-api-nonsense.rst
-+++ b/Documentation/translations/zh_CN/process/stable-api-nonsense.rst
-@@ -12,7 +12,7 @@
-         英文版维护者： Greg Kroah-Hartman <greg@kroah.com>
-         中文版维护者： 钟宇  TripleX Chung <zhongyu@18mail.cn>
-         中文版翻译者： 钟宇  TripleX Chung <zhongyu@18mail.cn>
--        中文版校译者： 李阳  Li Yang <leoli@freescale.com>
-+        中文版校译者： 李阳  Li Yang <leoyang.li@nxp.com>
- 
- Linux 内核驱动接口
- ==================
-diff --git a/Documentation/translations/zh_CN/process/stable-kernel-rules.rst b/Documentation/translations/zh_CN/process/stable-kernel-rules.rst
-index 425d06f99ac2..3d5a10dfc1ae 100644
---- a/Documentation/translations/zh_CN/process/stable-kernel-rules.rst
-+++ b/Documentation/translations/zh_CN/process/stable-kernel-rules.rst
-@@ -11,7 +11,7 @@
-         中文版维护者： 钟宇  TripleX Chung <triplex@zh-kernel.org>
-         中文版翻译者： 钟宇  TripleX Chung <triplex@zh-kernel.org>
-         中文版校译者：
--            - 李阳  Li Yang <leo@zh-kernel.org>
-+            - 李阳  Li Yang <leoyang.li@nxp.com>
-             - Kangkai Yin <e12051@motorola.com>
- 
- 所有你想知道的事情 - 关于linux稳定版发布
-diff --git a/Documentation/translations/zh_CN/process/submitting-drivers.rst b/Documentation/translations/zh_CN/process/submitting-drivers.rst
-index c90ab5ae233d..fade72515b04 100644
---- a/Documentation/translations/zh_CN/process/submitting-drivers.rst
-+++ b/Documentation/translations/zh_CN/process/submitting-drivers.rst
-@@ -9,8 +9,8 @@
- 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
- 译存在问题，请联系中文版维护者::
- 
--        中文版维护者： 李阳  Li Yang <leo@zh-kernel.org>
--        中文版翻译者： 李阳  Li Yang <leo@zh-kernel.org>
-+        中文版维护者： 李阳  Li Yang <leoyang.li@nxp.com>
-+        中文版翻译者： 李阳  Li Yang <leoyang.li@nxp.com>
-         中文版校译者： 陈琦 Maggie Chen <chenqi@beyondsoft.com>
-                        王聪 Wang Cong <xiyou.wangcong@gmail.com>
-                        张巍 Zhang Wei <Wei.Zhang@freescale.com>
-diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
-index 2a2989733c8d..54d2d45e27df 100644
---- a/Documentation/translations/zh_CN/process/submitting-patches.rst
-+++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
-@@ -10,7 +10,7 @@
- 
-         中文版维护者： 钟宇 TripleX Chung <triplex@zh-kernel.org>
-         中文版翻译者： 钟宇 TripleX Chung <triplex@zh-kernel.org>
--        中文版校译者： 李阳 Li Yang <leo@zh-kernel.org>
-+        中文版校译者： 李阳 Li Yang <leoyang.li@nxp.com>
-                        王聪 Wang Cong <xiyou.wangcong@gmail.com>
- 
- 
-diff --git a/Documentation/translations/zh_CN/sparse.txt b/Documentation/translations/zh_CN/sparse.txt
-index 2f728962a8e2..47fc4a06ebe8 100644
---- a/Documentation/translations/zh_CN/sparse.txt
-+++ b/Documentation/translations/zh_CN/sparse.txt
-@@ -6,7 +6,7 @@ communicating in English you can also ask the Chinese maintainer for
- help.  Contact the Chinese maintainer if this translation is outdated
- or if there is a problem with the translation.
- 
--Chinese maintainer: Li Yang <leo@zh-kernel.org>
-+Chinese maintainer: Li Yang <leoyang.li@nxp.com>
- ---------------------------------------------------------------------
- Documentation/dev-tools/sparse.rst 的中文翻译
- 
-@@ -14,8 +14,8 @@ Documentation/dev-tools/sparse.rst 的中文翻译
- 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
- 译存在问题，请联系中文版维护者。
- 
--中文版维护者： 李阳  Li Yang <leo@zh-kernel.org>
--中文版翻译者： 李阳  Li Yang <leo@zh-kernel.org>
-+中文版维护者： 李阳  Li Yang <leoyang.li@nxp.com>
-+中文版翻译者： 李阳  Li Yang <leoyang.li@nxp.com>
- 
- 
- 以下为正文
--- 
-2.19.1.856.g8858448bb
+On Sat, Mar 02, 2019 at 08:33:57PM -0300, Paul Cercueil wrote:
+> This is cleaner, more future-proof, and incidentally it also fixes the
+> PWM resetting its config when stopped/started several times.
+>=20
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Tested-by: Mathieu Malaterre <malat@debian.org>
+> Tested-by: Artur Rojek <contact@artur-rojek.eu>
+> ---
+>=20
+> Notes:
+>          v9: New patch
+>    =20
+>          v10: No change
+>=20
+>  drivers/pwm/pwm-jz4740.c | 37 ++++++++++++-------------------------
+>  1 file changed, 12 insertions(+), 25 deletions(-)
 
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--qlTNgmc+xy1dBmNv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlx9EwsACgkQ3SOs138+
+s6Fifw//f2H2kWj6n++VBIr3qcpgyLlpnGP7IdO8SjFN1SopHRC1vHqhKao7IdRf
+7HfK6sbCuisohUtSedMVcj5aD8fDlf2eUoaLwmErr/RKtQZiOmS7oSsYCFXaWvCf
+YpXCycCtRX00UT0dVAw3uVIftDnYJ1sYJbXBM4SPZC9VmYSBz4UVOy7XoY+HhOBv
+f+4LKs61FYgZmKDY10FWW2Wpq8Tw36Pdh8Szl9f8H8pFc+tgGCue7EaO7JN+TR3d
+ZTSJmxlF0hwzzGbouA7Y1UcLDnZrCZqgkf/SCSpyOqn4JkbaxWUdYwtIUTD9N22Q
+STfBGCCLlfXVEHQkEBvbgk84PwWBlEmPCcs/6ujnJCtD9mBKUJleOnF3aiqOpfCA
+KplgKB+tR+YN866fG+A9JhbbX0JkAwdiCF/DRdJAajqW4gY2pyxkiEC1FwmIe/YM
+vqLqaU7KqqeDso4HHjMbpBiJkznvUszfRJDrkboMygZ9WoMkUCseRJSLKXlyoRLX
+buG5vHVkjJkhhuEL5Af7CguZzNUvTIMrvKd5Zn4/fRdMolj7m5vksQ1V1Wb7qWTI
+G6CvNQO8S8cYwBkKYpXuMYWmsB8agHFnmzr98op8R6toc9/3i8EGOo0kV9V8NxmX
+21KrsQr738C981dGRLoBVJRVlfnSHZgv67Dni+uj2+y2MBElhxk=
+=DBKx
+-----END PGP SIGNATURE-----
+
+--qlTNgmc+xy1dBmNv--
