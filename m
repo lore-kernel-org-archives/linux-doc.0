@@ -1,140 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 29FA57D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Mar 2019 05:41:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 917F57D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Mar 2019 06:21:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725998AbfCDFl2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Mar 2019 00:41:28 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:47900 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725781AbfCDFl2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Mar 2019 00:41:28 -0500
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id x245fLAA025290;
-        Mon, 4 Mar 2019 14:41:21 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x245fLAA025290
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1551678082;
-        bh=fd7Of/RFciDnI4bwj/V+dn8GdN2GPKprLJQyL4wxXBo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=rzeLVpeHhvhjaYqrZPwzSjiGj6fQr4nHdGGLHLFTTlTm+KNTfqrW7SeR3dxmJn+7H
-         9v9gxfe54Sc9/lZtmsFsyLvhfcBrFeaFicXGLuMgsIERwGXnDrnCP+yTF9VlaQ+pEk
-         D4/YgkC0oghPcx9AtlWf3BkfmHhNntzwjlhYuAC8CYsYfdEzixo+wUarLU6IdoMrqS
-         OYF578TAkJPHdHFDV9lHa5nRKXp4oKcu7oVjovg40/om8cZYP1Wkto9+BM/jfq2uE8
-         TIIcCU47G7R1TxKr3xci3lacfra1k+pxwLKgqw5d4/N32BcgpnVeQnhyluVEFC22T+
-         XUE+LBmyDtoTw==
-X-Nifty-SrcIP: [209.85.222.41]
-Received: by mail-ua1-f41.google.com with SMTP id f88so3341693uaf.2;
-        Sun, 03 Mar 2019 21:41:21 -0800 (PST)
-X-Gm-Message-State: APjAAAVC2XSIcRt+dvC2VOiCt6dE5PoAdLvZ2Q7XFFXPOftYQYP/2gDp
-        heKxP4qL2KhCBZ+FOB3/PzYPv2txAYwcLJl3GAI=
-X-Google-Smtp-Source: APXvYqyPPEx0wGlFVEm5kGkNBVxHvI83kgzQe50YS8QPN8XSsohyGA0FlLJZ79hNleEgd4ICUcEybcckSWwaCV9cGyk=
-X-Received: by 2002:a05:6102:18f:: with SMTP id r15mr8771531vsq.215.1551678080712;
- Sun, 03 Mar 2019 21:41:20 -0800 (PST)
+        id S1725550AbfCDGVx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Mar 2019 01:21:53 -0500
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:50664 "EHLO
+        out30-130.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725982AbfCDGVx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Mar 2019 01:21:53 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R571e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04452;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0TLuBIy3_1551680508;
+Received: from Alexs-MacBook-Pro.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TLuBIy3_1551680508)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Mon, 04 Mar 2019 14:21:49 +0800
+Subject: Re: [PATCH 01/20] docs/zh_CN: add disclaimer file
+To:     linux-kernel@zh-kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, harryxiyou@gmail.com, corbet@lwn.net
+Cc:     Li Zefan <lizefan@huawei.com>, Shawn Guo <shawn.guo@linaro.org>,
+        Fengguang Wu <fengguang.wu@intel.com>,
+        Coly Li <colyli@suse.de>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Li Yang <leoyang.li@nxp.com>
+References: <20190304035744.155203-1-alex.shi@linux.alibaba.com>
+ <20190304035744.155203-2-alex.shi@linux.alibaba.com>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <b2cb92de-ef4a-d628-0dd3-76d8d1b953d0@linux.alibaba.com>
+Date:   Mon, 4 Mar 2019 14:21:48 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.5.0
 MIME-Version: 1.0
-References: <20190227193748.132301-1-joel@joelfernandes.org>
- <CAK7LNAR=dpw7y+Y20m0n4ZqzQtqY2XrS3CKk5bQA-Azhp0SN6g@mail.gmail.com>
- <20190228144306.GA138215@google.com> <CAK7LNARTHJP=HzyBg_oBBL4whpxHXeijqk=zKLYpt=1GBLNGAA@mail.gmail.com>
- <20190301171954.GA217990@google.com> <CAK7LNAShVt=zOPP1TUuBbR_H8kmc+zuLAyRXucjMMKrALkW_6A@mail.gmail.com>
- <20190302023940.GA55262@google.com>
-In-Reply-To: <20190302023940.GA55262@google.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Mon, 4 Mar 2019 14:40:44 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATjNE2g_HJnuqvTU7NuUeeUCa0Ogxf0Qru0yzkOT+n2-w@mail.gmail.com>
-Message-ID: <CAK7LNATjNE2g_HJnuqvTU7NuUeeUCa0Ogxf0Qru0yzkOT+n2-w@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        qais.yousef@arm.com, Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Yonghong Song <yhs@fb.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190304035744.155203-2-alex.shi@linux.alibaba.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > > > Let me ask one more question.
-> > > >
-> > > > I guess this patch is motivated by
-> > > > how difficult to convey kernel headers
-> > > > from vendors to users.
-> > > >
-> > > > In that situation, how will the user find
-> > > > the right compiler to use for building external modules?
-> > > >
-> > > >
-> > > >
-> > > >
-> > > > Greg KH said:
-> > > >
-> > > > We don't ever support the system of loading a module built with anything
-> > > > other than the _exact_ same compiler than the kernel was.
-> > > >
-> > > >
-> > > > For the full context, see this:
-> > > > https://lore.kernel.org/patchwork/patch/836247/#1031547
-> > >
-> > > IMO this issue is not related to this patch but is just an issue with
-> > > building external modules in general.
-> >
-> >
-> > I do not think it is an issue of the build system, at least.
-> >
-> > As far as I understood Greg's comment, it is troublesome
-> > without the assumption that vmlinux and modules are built
-> > by the same compiler.
-> > It is related to this patch since this patch assumes use-cases
-> > where external modules are built in a completely different environment,
-> > where a different compiler is probably installed.
+BTW, Corbet,
+
+Some of email address are unused and zh-kernel.org web site are unused and on sale. That are:
+
+TripleX Chung <triplex@zh-kernel.org>
+李阳 Li Yang <leo@zh-kernel.org>
+Zhang Wei <zw@zh-kernel.org>
+
+Do we need to remove them in kernel doc and MAINTAINERS? Or remove but get a word for credit?
+
+Thanks
+Alex
+
+
+On 2019/3/4 11:57 上午, Alex Shi wrote:
+> This a disclaimer file which will be included in Chinese files
+> as header. To reduce the same common contents copy.
 >
-> Yes, but what I'm trying to say is the same issue exists with all other
-> solutions today that do this. Such as debian you have linux-headers package.
-
-
-Distributions provide the compiler in the standard path (/usr/bin/gcc),
-and users are supposed to use it for building external modules.
-That's the difference.
-
-
-
-> A user could totally use the build artifacts obtained from somewhere to build
-> a kernel module with a completely different compiler. That issue has just to
-> do with the reality, and isn't an issue caused by any one solution such as
-> this one.  I agree care must be taken whenever user is building external
-> kernel modules independent of kernel sources.  Did I miss something else?
+> Most of contents quoted from Federico Vaga's file:
+> Documentation/translations/it_IT/disclaimer-ita.rst.
+> Thanks a lot!
 >
-> thanks a lot,
+> Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
+> Cc: Harry Wei <harryxiyou@gmail.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Li Zefan <lizefan@huawei.com>
+> Cc: Shawn Guo <shawn.guo@linaro.org>
+> Cc: Fengguang Wu <fengguang.wu@intel.com>
+> Cc: Coly Li <colyli@suse.de>
+> Cc: Federico Vaga <federico.vaga@vaga.pv.it>
+> ---
+>  Documentation/translations/zh_CN/disclaimer-zh_CN.rst | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/disclaimer-zh_CN.rst
 >
->  - Joel
->
+> diff --git a/Documentation/translations/zh_CN/disclaimer-zh_CN.rst b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
+> new file mode 100644
+> index 000000000000..0de5dfb069ca
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
+> @@ -0,0 +1,11 @@
+> +:orphan:
+> +
+> +.. warning::
+> +   The purpose of this file is to be easier to read and understand for Chinese
+> +   speakers and is not intended as a fork. So, if you have any comments or
+> +   updates for this file please try to update the original English file first.
+> +
+> +.. note::
+> +   If you find any difference between this document and the original file or a
+> +   problem with the translation, please contact the maintainer of this file,
+> +   or get help from Alex Shi <alex.shi@linux.alibaba.com>
 
---
-Best Regards
-Masahiro Yamada
