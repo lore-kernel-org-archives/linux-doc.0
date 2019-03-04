@@ -5,59 +5,107 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6FB647D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Mar 2019 21:07:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ED1F27D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Mar 2019 22:06:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726170AbfCDVHy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Mar 2019 16:07:54 -0500
-Received: from 7.mo2.mail-out.ovh.net ([188.165.48.182]:48527 "EHLO
-        7.mo2.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726038AbfCDVHx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Mar 2019 16:07:53 -0500
-X-Greylist: delayed 2151 seconds by postgrey-1.27 at vger.kernel.org; Mon, 04 Mar 2019 16:07:53 EST
-Received: from player789.ha.ovh.net (unknown [10.109.160.62])
-        by mo2.mail-out.ovh.net (Postfix) with ESMTP id AED1A186788
-        for <linux-doc@vger.kernel.org>; Mon,  4 Mar 2019 21:32:00 +0100 (CET)
-Received: from jwilk.net (ip-5-172-255-165.free.aero2.net.pl [5.172.255.165])
-        (Authenticated sender: jwilk@jwilk.net)
-        by player789.ha.ovh.net (Postfix) with ESMTPSA id E2A953462004;
-        Mon,  4 Mar 2019 20:31:56 +0000 (UTC)
-From:   Jakub Wilk <jwilk@jwilk.net>
-To:     linux-doc@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>
-Subject: [PATCH 1/2] Documentation: seccomp: fix reST markup
-Date:   Mon,  4 Mar 2019 21:31:51 +0100
-Message-Id: <20190304203152.8236-1-jwilk@jwilk.net>
-X-Mailer: git-send-email 2.20.1
+        id S1726054AbfCDWGu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Mar 2019 17:06:50 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:45301 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726038AbfCDWGu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Mar 2019 17:06:50 -0500
+Received: by mail-oi1-f194.google.com with SMTP id t82so5164622oie.12;
+        Mon, 04 Mar 2019 14:06:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yEyot52pk8Ldlk5r3GKuiPyQ5a4ywT/yX936T5Y6ff0=;
+        b=ATePOj1t9xL6Z/IumBxT0Uame8/eTcc3+GaK7FDSuw59eGW44vDVrIDcFFltBM2NGG
+         m4kHeg0WB/SG6Autjd41zD2zZcbK0ZeP6p2PF7jNveXG2AC2A6sYA+hn453keoXbGLVH
+         PUQBdKLBomTvgD9eHuKv/bW9ZwnIorlWYHFevuj+acFlxvl+F3Sx990gq90p6APsuhqA
+         7TdXnDC3yySqMs3hi4iaZ2QYnE1+FCHqPpIL5oGBTXO3qRtHCQmPTowK1dSvKvN74Jf6
+         Qfk4DW5EQHBhDbexkfqfS6asUjrCGcOfqwX595DlT+j/VrVnfi71WrVLElMcw5G5IkT8
+         67Vw==
+X-Gm-Message-State: APjAAAVUAR3iGo1lVDBJpfaZ4mygyM0P/Q28qZu9Hof6VIIECYJlWdBc
+        LcW8uLuHzhHph9WlHtlfJWLYRht3w981rmBN8Zo=
+X-Google-Smtp-Source: APXvYqySnGNHTEf0RC32XYkwTimUuJwqyBkjf0cn1Dhp5/eEdoNLQvAYmTww+uMfALKH1NUayiQP8OWBdndWMcWksuA=
+X-Received: by 2002:aca:c2c4:: with SMTP id s187mr9484oif.175.1551737209456;
+ Mon, 04 Mar 2019 14:06:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 10034019973716825996
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedutddrfedugddufeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+References: <20190304035744.155203-1-alex.shi@linux.alibaba.com> <20190304035744.155203-2-alex.shi@linux.alibaba.com>
+In-Reply-To: <20190304035744.155203-2-alex.shi@linux.alibaba.com>
+From:   Li Yang <leoli@freescale.com>
+Date:   Mon, 4 Mar 2019 16:06:38 -0600
+Message-ID: <CADRPPNT6=848XjB3uNAhgDRwFb+KsLY7pR3xFVaMLkGjqGpy5g@mail.gmail.com>
+Subject: Re: [PATCH 01/20] docs/zh_CN: add disclaimer file
+To:     Alex Shi <alex.shi@linux.alibaba.com>
+Cc:     =?UTF-8?B?TGludXggS2VybmVsIOS4reaWh+ekvuWMug==?= 
+        <linux-kernel@zh-kernel.org>, linux-doc@vger.kernel.org,
+        lkml <linux-kernel@vger.kernel.org>, harryxiyou@gmail.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Li Zefan <lizefan@huawei.com>,
+        Shawn Guo <shawn.guo@linaro.org>,
+        Fengguang Wu <fengguang.wu@intel.com>,
+        Coly Li <colyli@suse.de>,
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
----
- Documentation/userspace-api/seccomp_filter.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Sun, Mar 3, 2019 at 10:03 PM Alex Shi <alex.shi@linux.alibaba.com> wrote:
+>
+> This a disclaimer file which will be included in Chinese files
+> as header. To reduce the same common contents copy.
 
-diff --git a/Documentation/userspace-api/seccomp_filter.rst b/Documentation/userspace-api/seccomp_filter.rst
-index b1b846d8a094..0f09a63ea923 100644
---- a/Documentation/userspace-api/seccomp_filter.rst
-+++ b/Documentation/userspace-api/seccomp_filter.rst
-@@ -133,7 +133,7 @@ In precedence order, they are:
- 	call.  If there is no tracer present, ``-ENOSYS`` is returned to
- 	userland and the system call is not executed.
- 
--	A tracer will be notified if it requests ``PTRACE_O_TRACESECCOM``P
-+	A tracer will be notified if it requests ``PTRACE_O_TRACESECCOMP``
- 	using ``ptrace(PTRACE_SETOPTIONS)``.  The tracer will be notified
- 	of a ``PTRACE_EVENT_SECCOMP`` and the ``SECCOMP_RET_DATA`` portion of
- 	the BPF program return value will be available to the tracer
+It is great for reducing the duplication.  But since this is in the
+translation folder, probably it will be even better to include a
+translated version of this disclaimer too?
+
+Regards,
+Leo
+
+>
+> Most of contents quoted from Federico Vaga's file:
+> Documentation/translations/it_IT/disclaimer-ita.rst.
+> Thanks a lot!
+>
+> Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
+> Cc: Harry Wei <harryxiyou@gmail.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Li Zefan <lizefan@huawei.com>
+> Cc: Shawn Guo <shawn.guo@linaro.org>
+> Cc: Fengguang Wu <fengguang.wu@intel.com>
+> Cc: Coly Li <colyli@suse.de>
+> Cc: Federico Vaga <federico.vaga@vaga.pv.it>
+> ---
+>  Documentation/translations/zh_CN/disclaimer-zh_CN.rst | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/disclaimer-zh_CN.rst
+>
+> diff --git a/Documentation/translations/zh_CN/disclaimer-zh_CN.rst b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
+> new file mode 100644
+> index 000000000000..0de5dfb069ca
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
+> @@ -0,0 +1,11 @@
+> +:orphan:
+> +
+> +.. warning::
+> +   The purpose of this file is to be easier to read and understand for Chinese
+> +   speakers and is not intended as a fork. So, if you have any comments or
+> +   updates for this file please try to update the original English file first.
+> +
+> +.. note::
+> +   If you find any difference between this document and the original file or a
+> +   problem with the translation, please contact the maintainer of this file,
+> +   or get help from Alex Shi <alex.shi@linux.alibaba.com>
+> --
+> 2.19.1.856.g8858448bb
+>
+
+
 -- 
-2.20.1
-
+- Leo
