@@ -2,32 +2,32 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A73497D2F0
+	by archive.lwn.net (Postfix) with ESMTP id BC1557D8A4
 	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Mar 2019 03:59:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726436AbfCDD6w (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 3 Mar 2019 22:58:52 -0500
-Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:56508 "EHLO
-        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726266AbfCDD6Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Mar 2019 22:58:24 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07488;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0TLtrF8-_1551671899;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TLtrF8-_1551671899)
+        id S1726266AbfCDD67 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 3 Mar 2019 22:58:59 -0500
+Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:44059 "EHLO
+        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726241AbfCDD6W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Mar 2019 22:58:22 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R851e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07487;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0TLtryVh_1551671898;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TLtryVh_1551671898)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 04 Mar 2019 11:58:20 +0800
+          Mon, 04 Mar 2019 11:58:18 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
 To:     linux-kernel@zh-kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, harryxiyou@gmail.com, corbet@lwn.net
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>, Li Yang <leo@zh-kernel.org>,
-        Li Zefan <lizefan@huawei.com>,
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Bryan Wu <bryan.wu@analog.com>, Li Zefan <lizefan@huawei.com>,
         Shawn Guo <shawn.guo@linaro.org>,
         Fengguang Wu <fengguang.wu@intel.com>, Coly Li <colyli@suse.de>
-Subject: [PATCH 16/20] docs/zh_CN: format submitting drivers as rst
-Date:   Mon,  4 Mar 2019 11:57:39 +0800
-Message-Id: <20190304035744.155203-17-alex.shi@linux.alibaba.com>
+Subject: [PATCH 14/20] docs/zh_CN: volatile doc format changes
+Date:   Mon,  4 Mar 2019 11:57:37 +0800
+Message-Id: <20190304035744.155203-15-alex.shi@linux.alibaba.com>
 X-Mailer: git-send-email 2.19.1.856.g8858448bb
 In-Reply-To: <20190304035744.155203-1-alex.shi@linux.alibaba.com>
 References: <20190304035744.155203-1-alex.shi@linux.alibaba.com>
@@ -39,27 +39,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-to Make it readble for html etc docs making.
+make it readble as rst format for html etc doc making.
 
 Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
 Cc: Harry Wei <harryxiyou@gmail.com>
 Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Li Yang <leo@zh-kernel.org>
+Cc: Bryan Wu <bryan.wu@analog.com>
 Cc: Li Zefan <lizefan@huawei.com>
 Cc: Shawn Guo <shawn.guo@linaro.org>
 Cc: Fengguang Wu <fengguang.wu@intel.com>
 Cc: Coly Li <colyli@suse.de>
 ---
- .../zh_CN/process/submitting-drivers.rst      | 30 +++++++------------
- 1 file changed, 11 insertions(+), 19 deletions(-)
+ .../process/volatile-considered-harmful.rst   | 35 ++++++++-----------
+ 1 file changed, 14 insertions(+), 21 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/process/submitting-drivers.rst b/Documentation/translations/zh_CN/process/submitting-drivers.rst
-index 15e73562f710..c90ab5ae233d 100644
---- a/Documentation/translations/zh_CN/process/submitting-drivers.rst
-+++ b/Documentation/translations/zh_CN/process/submitting-drivers.rst
-@@ -1,30 +1,22 @@
--﻿Chinese translated version of Documentation/process/submitting-drivers.rst
-+﻿.. _cn_submittingdrivers:
+diff --git a/Documentation/translations/zh_CN/process/volatile-considered-harmful.rst b/Documentation/translations/zh_CN/process/volatile-considered-harmful.rst
+index 475125967197..48b32ce58ef1 100644
+--- a/Documentation/translations/zh_CN/process/volatile-considered-harmful.rst
++++ b/Documentation/translations/zh_CN/process/volatile-considered-harmful.rst
+@@ -1,30 +1,23 @@
+-Chinese translated version of Documentation/process/volatile-considered-harmful.rst
++.. _cn_volatile_considered_harmful:
  
 -If you have any comment or update to the content, please contact the
 -original document maintainer directly.  However, if you have a problem
@@ -68,37 +68,56 @@ index 15e73562f710..c90ab5ae233d 100644
 -or if there is a problem with the translation.
 +.. include:: ../disclaimer-zh_CN.rst
  
--Chinese maintainer: Li Yang <leo@zh-kernel.org>
+-Maintainer: Jonathan Corbet <corbet@lwn.net>
+-Chinese maintainer: Bryan Wu <bryan.wu@analog.com>
 ----------------------------------------------------------------------
--Documentation/process/submitting-drivers.rst 的中文翻译
-+:Original: :ref:`Documentation/process/submitting-drivers.rst
-+           <submittingdrivers>`
+-Documentation/process/volatile-considered-harmful.rst 的中文翻译
++:Original: :ref:`Documentation/process/volatile-considered-harmful.rst
++           <volatile_considered_harmful>`
  
  如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
  交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
 -译存在问题，请联系中文版维护者。
 +译存在问题，请联系中文版维护者::
  
--中文版维护者： 李阳  Li Yang <leo@zh-kernel.org>
--中文版翻译者： 李阳  Li Yang <leo@zh-kernel.org>
--中文版校译者： 陈琦 Maggie Chen <chenqi@beyondsoft.com>
--               王聪 Wang Cong <xiyou.wangcong@gmail.com>
--               张巍 Zhang Wei <Wei.Zhang@freescale.com>
--
+-英文版维护者： Jonathan Corbet <corbet@lwn.net>
+-中文版维护者： 伍鹏  Bryan Wu <bryan.wu@analog.com>
+-中文版翻译者： 伍鹏  Bryan Wu <bryan.wu@analog.com>
+-中文版校译者： 张汉辉  Eugene Teo <eugeneteo@kernel.sg>
+-               杨瑞  Dave Young <hidave.darkstar@gmail.com>
 -以下为正文
 ----------------------------------------------------------------------
-+        中文版维护者： 李阳  Li Yang <leo@zh-kernel.org>
-+        中文版翻译者： 李阳  Li Yang <leo@zh-kernel.org>
-+        中文版校译者： 陈琦 Maggie Chen <chenqi@beyondsoft.com>
-+                       王聪 Wang Cong <xiyou.wangcong@gmail.com>
-+                       张巍 Zhang Wei <Wei.Zhang@freescale.com>
++        英文版维护者： Jonathan Corbet <corbet@lwn.net>
++        中文版维护者： 伍鹏  Bryan Wu <bryan.wu@analog.com>
++        中文版翻译者： 伍鹏  Bryan Wu <bryan.wu@analog.com>
++        中文版校译者： 张汉辉  Eugene Teo <eugeneteo@kernel.sg>
++                       杨瑞  Dave Young <hidave.darkstar@gmail.com>
++                       时奎亮 Alex Shi <alex.shi@linux.alibaba.com>
  
- 如何向 Linux 内核提交驱动程序
-------------------------------
-+=============================
+ 为什么不应该使用“volatile”类型
+-------------------------------
++==============================
  
- 这篇文档将会解释如何向不同的内核源码树提交设备驱动程序。请注意，如果你感
- 兴趣的是显卡驱动程序，你也许应该访问 XFree86 项目(http://www.xfree86.org/)
+ C程序员通常认为volatile表示某个变量可以在当前执行的线程之外被改变；因此，在内核
+ 中用到共享数据结构时，常常会有C程序员喜欢使用volatile这类变量。换句话说，他们经
+@@ -41,7 +34,7 @@ C程序员通常认为volatile表示某个变量可以在当前执行的线程
+ 必要再使用volatile。如果仍然必须使用volatile，那么几乎可以肯定在代码的某处有一
+ 个bug。在正确设计的内核代码中，volatile能带来的仅仅是使事情变慢。
+ 
+-思考一下这段典型的内核代码：
++思考一下这段典型的内核代码::
+ 
+     spin_lock(&the_lock);
+     do_something_on(&shared_data);
+@@ -66,7 +59,7 @@ volatile的存储类型最初是为那些内存映射的I/O寄存器而定义。
+ 是必需的。
+ 
+ 另一种引起用户可能使用volatile的情况是当处理器正忙着等待一个变量的值。正确执行一
+-个忙等待的方法是：
++个忙等待的方法是::
+ 
+     while (my_variable != what_i_want)
+         cpu_relax();
 -- 
 2.19.1.856.g8858448bb
 
