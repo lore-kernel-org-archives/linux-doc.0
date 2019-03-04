@@ -5,61 +5,68 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 088257D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Mar 2019 19:56:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C85277D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Mar 2019 20:01:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726190AbfCDT4C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Mar 2019 14:56:02 -0500
-Received: from ms.lwn.net ([45.79.88.28]:34474 "EHLO ms.lwn.net"
+        id S1726098AbfCDUBb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Mar 2019 15:01:31 -0500
+Received: from ms.lwn.net ([45.79.88.28]:34516 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726054AbfCDT4B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 4 Mar 2019 14:56:01 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8AEEF2D9;
-        Mon,  4 Mar 2019 19:56:00 +0000 (UTC)
-Date:   Mon, 4 Mar 2019 12:55:59 -0700
+        id S1726038AbfCDUBb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 4 Mar 2019 15:01:31 -0500
+Received: from meer.lwn.net (localhost [127.0.0.1])
+        by ms.lwn.net (Postfix) with ESMTPA id 8D65F2B4;
+        Mon,  4 Mar 2019 20:01:30 +0000 (UTC)
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Will Deacon <will.deacon@arm.com>,
-        "Paul E . McKenney" <paulmck@linux.ibm.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation/locking/lockdep: Drop last two chars
- of sample states
-Message-ID: <20190304125559.1dd63e4a@lwn.net>
-In-Reply-To: <20190301094052.11288-1-geert+renesas@glider.be>
-References: <20190301094052.11288-1-geert+renesas@glider.be>
-Organization: LWN.net
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>, axboe@kernel.dk,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [RESEND PATCH 0/2] docs: Add some struct file refcounting information 
+Date:   Mon,  4 Mar 2019 13:01:17 -0700
+Message-Id: <20190304200119.4567-1-corbet@lwn.net>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  1 Mar 2019 10:40:52 +0100
-Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+[No changes since the previous mailing; resending in hopes that somebody
+will actually look at it :)  I may yet try to sneak the first patch into
+5.1 if nobody screams; the second one definitely needs a more affirmative
+ack, though. ]
 
-> Since the removal of FS_RECLAIM annotations, lockdep states contain four
-> characters, not six.
-> 
-> Fixes: e5684bbfc3f03480 ("Documentation/locking/lockdep: Update info about states")
-> Fixes: d92a8cfcb37ecd13 ("locking/lockdep: Rework FS_RECLAIM annotation")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v2:
->   - Fix silly before/after inversion in patch description.
+Al Viro's recent "braindump" on how struct file refcounting works is too
+good to lose, so let's capture it in Documentation/.  There are two changes
+here:
 
-Applied, thanks.
+ - Clean up the filesystem book, move stuff around, and generally try to
+   create some order here.  No text changes other than some connecting
+   text.
 
-jon
+ - Bring in Al's text, with a fair amount of language tweaking and later
+   corrections applied.
+
+Hopefully this is just the beginning.
+
+Jonathan Corbet (2):
+  docs: Bring some order to filesystem documentation
+  docs: Add struct file refcounting and SCM_RIGHTS mess info
+
+ Documentation/filesystems/api-summary.rst | 150 ++++++++
+ Documentation/filesystems/index.rst       | 395 ++--------------------
+ Documentation/filesystems/journalling.rst | 184 ++++++++++
+ Documentation/filesystems/lifecycles.rst  | 357 +++++++++++++++++++
+ Documentation/filesystems/path-lookup.rst |  15 +
+ Documentation/filesystems/splice.rst      |  22 ++
+ 6 files changed, 753 insertions(+), 370 deletions(-)
+ create mode 100644 Documentation/filesystems/api-summary.rst
+ create mode 100644 Documentation/filesystems/journalling.rst
+ create mode 100644 Documentation/filesystems/lifecycles.rst
+ create mode 100644 Documentation/filesystems/splice.rst
+
+-- 
+2.20.1
+
