@@ -2,99 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,NORMAL_HTTP_TO_IP,RCVD_IN_DNSWL_HI,
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 14BE57D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  3 Mar 2019 20:10:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1D71D7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Mar 2019 03:58:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726526AbfCCUKV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 3 Mar 2019 15:10:21 -0500
-Received: from mga17.intel.com ([192.55.52.151]:15469 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726525AbfCCUKV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 3 Mar 2019 15:10:21 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Mar 2019 12:10:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,437,1544515200"; 
-   d="scan'208";a="148923767"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.72.86])
-  by fmsmga004.fm.intel.com with ESMTP; 03 Mar 2019 12:10:18 -0800
-Received: from andy by smile with local (Exim 4.92-RC6)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1h0XRA-0000wE-Kr; Sun, 03 Mar 2019 22:10:16 +0200
-Date:   Sun, 3 Mar 2019 22:10:16 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Louis Taylor <louis@kragniz.eu>
-Cc:     corbet@lwn.net, pmladek@suse.com, geert+renesas@glider.be,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com, ndesaulniers@google.com,
-        jflat@chromium.org
-Subject: Re: [PATCH] docs: add extra integer types to printk-formats
-Message-ID: <20190303201016.GO9224@smile.fi.intel.com>
-References: <20190303123647.22020-1-louis@kragniz.eu>
+        id S1725981AbfCDD6A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 3 Mar 2019 22:58:00 -0500
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:36741 "EHLO
+        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725974AbfCDD6A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Mar 2019 22:58:00 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R921e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04397;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0TLtwN0Q_1551671875;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TLtwN0Q_1551671875)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Mon, 04 Mar 2019 11:57:56 +0800
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+To:     linux-kernel@zh-kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, harryxiyou@gmail.com, corbet@lwn.net
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>
+Subject: [PATCH 00/20] origanize Chinese kernel docs
+Date:   Mon,  4 Mar 2019 11:57:23 +0800
+Message-Id: <20190304035744.155203-1-alex.shi@linux.alibaba.com>
+X-Mailer: git-send-email 2.19.1.856.g8858448bb
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190303123647.22020-1-louis@kragniz.eu>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 03, 2019 at 12:36:47PM +0000, Louis Taylor wrote:
-> A few commonly used integer types were absent from this table, so add
-> them.
 
-I'm not against the patch, but isn't obvious by reading POSIX and / or man
-printf(3)?
+The following patch aims to upstream kernel doc.
 
-> Link: https://github.com/ClangBuiltLinux/linux/issues/378
+you can view them with the link http://176.122.172.82/translations/zh_CN/index.html 
 
-Thanks for the link.
+Or make and review docs on your self box:
 
-It's interesting to see how compiler type mindset applies to fixing drivers and
-hardware related code...
+	make htmldocs SPHINXDIRS=translations/zh_CN 
+	lynx Documentation/output/translations/zh_CN/index.html
 
-> Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
-> Signed-off-by: Louis Taylor <louis@kragniz.eu>
-> ---
->  Documentation/core-api/printk-formats.rst | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-> index a7fae4538946..6f08b1b6240a 100644
-> --- a/Documentation/core-api/printk-formats.rst
-> +++ b/Documentation/core-api/printk-formats.rst
-> @@ -19,8 +19,16 @@ Integer types
->  		unsigned long		%lu or %lx
->  		long long		%lld or %llx
->  		unsigned long long	%llu or %llx
-> +		short int		%hd or %hx
-> +		unsigned short int	%hu or %hx
-> +		char			%hhd or %hhx
-> +		unsigned char		%hhu or %hhx
->  		size_t			%zu or %zx
->  		ssize_t			%zd or %zx
-> +		s8			%hhd or %hhx
-> +		u8			%hhu or %hhx
-> +		s16			%hd or %hx
-> +		u16			%hu or %hx
->  		s32			%d or %x
->  		u32			%u or %x
->  		s64			%lld or %llx
-> -- 
-> 2.20.1
-> 
+Any comments are appreciated!
+
+Cheers!
+Alex
+
+---
+Alex Shi (20):
+  docs/zh_CN: add disclaimer file
+  docs/zh_CN: move process related docs into process dir
+  docs/zh_CN: change Chinese index to know process dir
+  docs/zh_CN: add index file into process dir
+  docs/zh_CN: rename HOWTO into process directory
+  docs/zh_CN: howto format changes
+  docs/zh_CN: rename SubmittingPatches for html links
+  docs/zh_CN: format the submitting-patches doc to rst
+  docs/zh_CN: rename stable_kernel_rules doc
+  docs/zh_CN: rst format change for stable-kernel-rules
+  docs/zh_CN: rename email-clients.txt as email-clients.rst
+  docs/zh_CN: do rst format for email-clients.rst
+  docs/zh_CN: rename volatile-consider-harmful doc
+  docs/zh_CN: volatile doc format changes
+  docs/zh_CN: rename SubmittingDrivers
+  docs/zh_CN: format submitting drivers as rst
+  docs/zh_CN: rename magic-numbers as rst doc
+  docs/zh_CN: format the magic-number doc as rst
+  docs/zh_CN: rename stable_api_nonsense.txt as stable-api-nonsense.rst
+  docs/zh_CN: format stable-api-nonsense
+
+ .../translations/zh_CN/disclaimer-zh_CN.rst   |  11 ++
+ Documentation/translations/zh_CN/index.rst    |  17 +-
+ .../translations/zh_CN/magic-number.txt       | 153 ------------------
+ .../zh_CN/{ => process}/coding-style.rst      |   0
+ .../email-clients.rst}                        |  53 +++---
+ .../zh_CN/{HOWTO => process/howto.rst}        |  37 ++---
+ .../translations/zh_CN/process/index.rst      |  55 +++++++
+ .../zh_CN/process/magic-number.rst            | 151 +++++++++++++++++
+ .../stable-api-nonsense.rst}                  |  32 ++--
+ .../stable-kernel-rules.rst}                  |  32 ++--
+ .../submitting-drivers.rst}                   |  30 ++--
+ .../submitting-patches.rst}                   |  36 ++---
+ .../volatile-considered-harmful.rst}          |  35 ++--
+ 13 files changed, 334 insertions(+), 308 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/disclaimer-zh_CN.rst
+ delete mode 100644 Documentation/translations/zh_CN/magic-number.txt
+ rename Documentation/translations/zh_CN/{ => process}/coding-style.rst (100%)
+ rename Documentation/translations/zh_CN/{email-clients.txt => process/email-clients.rst} (82%)
+ rename Documentation/translations/zh_CN/{HOWTO => process/howto.rst} (95%)
+ create mode 100644 Documentation/translations/zh_CN/process/index.rst
+ create mode 100644 Documentation/translations/zh_CN/process/magic-number.rst
+ rename Documentation/translations/zh_CN/{stable_api_nonsense.txt => process/stable-api-nonsense.rst} (89%)
+ rename Documentation/translations/zh_CN/{stable_kernel_rules.txt => process/stable-kernel-rules.rst} (76%)
+ rename Documentation/translations/zh_CN/{SubmittingDrivers => process/submitting-drivers.rst} (86%)
+ rename Documentation/translations/zh_CN/{SubmittingPatches => process/submitting-patches.rst} (93%)
+ rename Documentation/translations/zh_CN/{volatile-considered-harmful.txt => process/volatile-considered-harmful.rst} (81%)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.19.1.856.g8858448bb
 
