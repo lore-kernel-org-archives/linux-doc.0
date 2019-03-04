@@ -5,94 +5,144 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 917F57D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Mar 2019 06:21:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0FE577D099
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  4 Mar 2019 09:33:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725550AbfCDGVx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Mar 2019 01:21:53 -0500
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:50664 "EHLO
-        out30-130.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725982AbfCDGVx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Mar 2019 01:21:53 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R571e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04452;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0TLuBIy3_1551680508;
-Received: from Alexs-MacBook-Pro.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TLuBIy3_1551680508)
+        id S1726104AbfCDJdN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Mar 2019 04:33:13 -0500
+Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:36912 "EHLO
+        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726090AbfCDJdN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Mar 2019 04:33:13 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R801e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04455;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0TLvQcDH_1551691990;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TLvQcDH_1551691990)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 04 Mar 2019 14:21:49 +0800
-Subject: Re: [PATCH 01/20] docs/zh_CN: add disclaimer file
-To:     linux-kernel@zh-kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, harryxiyou@gmail.com, corbet@lwn.net
-Cc:     Li Zefan <lizefan@huawei.com>, Shawn Guo <shawn.guo@linaro.org>,
-        Fengguang Wu <fengguang.wu@intel.com>,
-        Coly Li <colyli@suse.de>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Li Yang <leoyang.li@nxp.com>
-References: <20190304035744.155203-1-alex.shi@linux.alibaba.com>
- <20190304035744.155203-2-alex.shi@linux.alibaba.com>
+          Mon, 04 Mar 2019 17:33:10 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <b2cb92de-ef4a-d628-0dd3-76d8d1b953d0@linux.alibaba.com>
-Date:   Mon, 4 Mar 2019 14:21:48 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.5.0
+To:     linux-doc@vger.kernel.org, corbet@lwn.net,
+        Harry Wei <harryxiyou@gmail.com>,
+        linux-kernel@zh-kernel.org (moderated list:CHINESE DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Cc:     linux-kernel@vger.kernel.org,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Li Yang <leoyang.li@nxp.com>
+Subject: [PATCH 21/21] docs/zh_CN: change translaters email address
+Date:   Mon,  4 Mar 2019 17:32:58 +0800
+Message-Id: <20190304093259.52598-1-alex.shi@linux.alibaba.com>
+X-Mailer: git-send-email 2.19.1.856.g8858448bb
 MIME-Version: 1.0
-In-Reply-To: <20190304035744.155203-2-alex.shi@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-BTW, Corbet,
+Change leoli@freescale.com and leo@zh-kernel.org to active address:
+leoyang.li@nxp.com
 
-Some of email address are unused and zh-kernel.org web site are unused and on sale. That are:
+Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
+Cc: Li Yang <leoyang.li@nxp.com>
+---
+ Documentation/translations/zh_CN/oops-tracing.txt           | 2 +-
+ .../translations/zh_CN/process/stable-api-nonsense.rst      | 2 +-
+ .../translations/zh_CN/process/stable-kernel-rules.rst      | 2 +-
+ .../translations/zh_CN/process/submitting-drivers.rst       | 4 ++--
+ .../translations/zh_CN/process/submitting-patches.rst       | 2 +-
+ Documentation/translations/zh_CN/sparse.txt                 | 6 +++---
+ 6 files changed, 9 insertions(+), 9 deletions(-)
 
-TripleX Chung <triplex@zh-kernel.org>
-李阳 Li Yang <leo@zh-kernel.org>
-Zhang Wei <zw@zh-kernel.org>
-
-Do we need to remove them in kernel doc and MAINTAINERS? Or remove but get a word for credit?
-
-Thanks
-Alex
-
-
-On 2019/3/4 11:57 上午, Alex Shi wrote:
-> This a disclaimer file which will be included in Chinese files
-> as header. To reduce the same common contents copy.
->
-> Most of contents quoted from Federico Vaga's file:
-> Documentation/translations/it_IT/disclaimer-ita.rst.
-> Thanks a lot!
->
-> Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-> Cc: Harry Wei <harryxiyou@gmail.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Li Zefan <lizefan@huawei.com>
-> Cc: Shawn Guo <shawn.guo@linaro.org>
-> Cc: Fengguang Wu <fengguang.wu@intel.com>
-> Cc: Coly Li <colyli@suse.de>
-> Cc: Federico Vaga <federico.vaga@vaga.pv.it>
-> ---
->  Documentation/translations/zh_CN/disclaimer-zh_CN.rst | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/disclaimer-zh_CN.rst
->
-> diff --git a/Documentation/translations/zh_CN/disclaimer-zh_CN.rst b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
-> new file mode 100644
-> index 000000000000..0de5dfb069ca
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
-> @@ -0,0 +1,11 @@
-> +:orphan:
-> +
-> +.. warning::
-> +   The purpose of this file is to be easier to read and understand for Chinese
-> +   speakers and is not intended as a fork. So, if you have any comments or
-> +   updates for this file please try to update the original English file first.
-> +
-> +.. note::
-> +   If you find any difference between this document and the original file or a
-> +   problem with the translation, please contact the maintainer of this file,
-> +   or get help from Alex Shi <alex.shi@linux.alibaba.com>
+diff --git a/Documentation/translations/zh_CN/oops-tracing.txt b/Documentation/translations/zh_CN/oops-tracing.txt
+index a893f04dfd5d..93fa061cf9e4 100644
+--- a/Documentation/translations/zh_CN/oops-tracing.txt
++++ b/Documentation/translations/zh_CN/oops-tracing.txt
+@@ -16,7 +16,7 @@ Documentation/admin-guide/bug-hunting.rst 的中文翻译
+ 
+ 中文版维护者： 杨瑞 Dave Young <hidave.darkstar@gmail.com>
+ 中文版翻译者： 杨瑞 Dave Young <hidave.darkstar@gmail.com>
+-中文版校译者： 李阳 Li Yang <leo@zh-kernel.org>
++中文版校译者： 李阳 Li Yang <leoyang.li@nxp.com>
+                王聪 Wang Cong <xiyou.wangcong@gmail.com>
+ 
+ 以下为正文
+diff --git a/Documentation/translations/zh_CN/process/stable-api-nonsense.rst b/Documentation/translations/zh_CN/process/stable-api-nonsense.rst
+index 963783847604..4d6f4b8af949 100644
+--- a/Documentation/translations/zh_CN/process/stable-api-nonsense.rst
++++ b/Documentation/translations/zh_CN/process/stable-api-nonsense.rst
+@@ -12,7 +12,7 @@
+         英文版维护者： Greg Kroah-Hartman <greg@kroah.com>
+         中文版维护者： 钟宇  TripleX Chung <zhongyu@18mail.cn>
+         中文版翻译者： 钟宇  TripleX Chung <zhongyu@18mail.cn>
+-        中文版校译者： 李阳  Li Yang <leoli@freescale.com>
++        中文版校译者： 李阳  Li Yang <leoyang.li@nxp.com>
+ 
+ Linux 内核驱动接口
+ ==================
+diff --git a/Documentation/translations/zh_CN/process/stable-kernel-rules.rst b/Documentation/translations/zh_CN/process/stable-kernel-rules.rst
+index 425d06f99ac2..3d5a10dfc1ae 100644
+--- a/Documentation/translations/zh_CN/process/stable-kernel-rules.rst
++++ b/Documentation/translations/zh_CN/process/stable-kernel-rules.rst
+@@ -11,7 +11,7 @@
+         中文版维护者： 钟宇  TripleX Chung <triplex@zh-kernel.org>
+         中文版翻译者： 钟宇  TripleX Chung <triplex@zh-kernel.org>
+         中文版校译者：
+-            - 李阳  Li Yang <leo@zh-kernel.org>
++            - 李阳  Li Yang <leoyang.li@nxp.com>
+             - Kangkai Yin <e12051@motorola.com>
+ 
+ 所有你想知道的事情 - 关于linux稳定版发布
+diff --git a/Documentation/translations/zh_CN/process/submitting-drivers.rst b/Documentation/translations/zh_CN/process/submitting-drivers.rst
+index c90ab5ae233d..fade72515b04 100644
+--- a/Documentation/translations/zh_CN/process/submitting-drivers.rst
++++ b/Documentation/translations/zh_CN/process/submitting-drivers.rst
+@@ -9,8 +9,8 @@
+ 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+ 译存在问题，请联系中文版维护者::
+ 
+-        中文版维护者： 李阳  Li Yang <leo@zh-kernel.org>
+-        中文版翻译者： 李阳  Li Yang <leo@zh-kernel.org>
++        中文版维护者： 李阳  Li Yang <leoyang.li@nxp.com>
++        中文版翻译者： 李阳  Li Yang <leoyang.li@nxp.com>
+         中文版校译者： 陈琦 Maggie Chen <chenqi@beyondsoft.com>
+                        王聪 Wang Cong <xiyou.wangcong@gmail.com>
+                        张巍 Zhang Wei <Wei.Zhang@freescale.com>
+diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
+index 2a2989733c8d..54d2d45e27df 100644
+--- a/Documentation/translations/zh_CN/process/submitting-patches.rst
++++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
+@@ -10,7 +10,7 @@
+ 
+         中文版维护者： 钟宇 TripleX Chung <triplex@zh-kernel.org>
+         中文版翻译者： 钟宇 TripleX Chung <triplex@zh-kernel.org>
+-        中文版校译者： 李阳 Li Yang <leo@zh-kernel.org>
++        中文版校译者： 李阳 Li Yang <leoyang.li@nxp.com>
+                        王聪 Wang Cong <xiyou.wangcong@gmail.com>
+ 
+ 
+diff --git a/Documentation/translations/zh_CN/sparse.txt b/Documentation/translations/zh_CN/sparse.txt
+index 2f728962a8e2..47fc4a06ebe8 100644
+--- a/Documentation/translations/zh_CN/sparse.txt
++++ b/Documentation/translations/zh_CN/sparse.txt
+@@ -6,7 +6,7 @@ communicating in English you can also ask the Chinese maintainer for
+ help.  Contact the Chinese maintainer if this translation is outdated
+ or if there is a problem with the translation.
+ 
+-Chinese maintainer: Li Yang <leo@zh-kernel.org>
++Chinese maintainer: Li Yang <leoyang.li@nxp.com>
+ ---------------------------------------------------------------------
+ Documentation/dev-tools/sparse.rst 的中文翻译
+ 
+@@ -14,8 +14,8 @@ Documentation/dev-tools/sparse.rst 的中文翻译
+ 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+ 译存在问题，请联系中文版维护者。
+ 
+-中文版维护者： 李阳  Li Yang <leo@zh-kernel.org>
+-中文版翻译者： 李阳  Li Yang <leo@zh-kernel.org>
++中文版维护者： 李阳  Li Yang <leoyang.li@nxp.com>
++中文版翻译者： 李阳  Li Yang <leoyang.li@nxp.com>
+ 
+ 
+ 以下为正文
+-- 
+2.19.1.856.g8858448bb
 
