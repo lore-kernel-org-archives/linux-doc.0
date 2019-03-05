@@ -1,82 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 92E0F7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 04:07:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D3E157D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 04:49:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726956AbfCEEHE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Mar 2019 23:07:04 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:33848 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726942AbfCEEHE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Mar 2019 23:07:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=xr1bc2DdygcwOkBklfprv3E+jDI8FdBTpji1CbQhPPc=; b=SpUF8XfqGtWJjCNAT0hZWUQP9
-        3sZnZsOJUJzM22HY4zMuGNO7KF6eBSs1mJevypJhnf7yLtgNipMvSzeqGBSaQgNmDYdrTE77o/U/Z
-        1d+0+s9AE/NLIR7x0U+1G2OcYicHjF6R4uVtPcvlNIlBEygWGzzBplVt7QU2V7ehr9ZpV3LIh6bTC
-        m4KZeloHTewDzRIDayhafcYt72lb5WuMYIt30j+jGF99Z73VFq5Cs8p9D2sVA3r1X4qdZSkMtQTCJ
-        VPZEBVdxtQlOYTBJpjKYonndHE+n/PX7I97cB0szujPy2T9OET61nrcKxpTfRoSQi5aAzgdrdXk4N
-        0yHue5UAA==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1h11Lo-00056k-NH; Tue, 05 Mar 2019 04:06:44 +0000
-Date:   Mon, 4 Mar 2019 20:06:44 -0800
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Alex Shi <alex.shi@linux.alibaba.com>
-Cc:     Li Yang <leoyang.li@nxp.com>, Coly Li <colyli@suse.de>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Fengguang Wu <fengguang.wu@intel.com>,
-        Li Zefan <lizefan@huawei.com>,
-        Shawn Guo <shawn.guo@linaro.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "harryxiyou@gmail.com" <harryxiyou@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-kernel@zh-kernel.org" <linux-kernel@zh-kernel.org>
-Subject: Re: [PATCH 01/20] docs/zh_CN: add disclaimer file
-Message-ID: <20190305040644.GB13380@bombadil.infradead.org>
-References: <20190304035744.155203-1-alex.shi@linux.alibaba.com>
- <20190304035744.155203-2-alex.shi@linux.alibaba.com>
- <b2cb92de-ef4a-d628-0dd3-76d8d1b953d0@linux.alibaba.com>
- <CADRPPNSjf4P14bwUMsa10XzBUVLszx4iMsL6gk-XQ0x3vTFr+g@mail.gmail.com>
- <e342a3fa-20f6-46cd-4240-8403fa1aa736@linux.alibaba.com>
- <AM6PR04MB586370DDB6E73A43673339568F710@AM6PR04MB5863.eurprd04.prod.outlook.com>
- <CADRPPNTxDDquY=OT4MV6cQ8OHhAdbazMjngDhtRBCE9_UESg_w@mail.gmail.com>
- <450bd6aa-ec98-b89e-51bc-bb4a22ce7d42@linux.alibaba.com>
+        id S1726942AbfCEEtn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Mar 2019 23:49:43 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:37506 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726783AbfCEEtn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Mar 2019 23:49:43 -0500
+Received: by mail-pg1-f194.google.com with SMTP id q206so4728891pgq.4
+        for <linux-doc@vger.kernel.org>; Mon, 04 Mar 2019 20:49:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=k7wULXXbasfiJzjma87EPvIMtuy4uP4l7hd9LnQo2Ms=;
+        b=gpYMhnbKloRJllZAIQBHZnN6i9bi2oW1nE6dif/rEpAZgs+d/Lv/sDiIRV7P3NgZbl
+         z8UpIfBYynxakaFKKJOmy7kSG/1lQHNalLyzz+opU/2/gf7hy68X1KNS5YYq2Ol8GaUU
+         mKV9E5e1rk4CAuliDncKlP26YiT8FF0CbWMtc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=k7wULXXbasfiJzjma87EPvIMtuy4uP4l7hd9LnQo2Ms=;
+        b=oN37n4GcerZOAF88jnvwQfjef1+5v03flJOXZBbJ1gEq1zGV+he2EkhSzHEif3utDm
+         CohmZhh0DNxicetoUakeC6hI81U+WujVqt/aM7DsLoMUQenu5GPzZne58SzwRdjIcweX
+         WZLHNuO7xZO+waDw0c4xg+JcnHqgtCmljdRI5yOipyXizWWMgZ0XwQzYLSSAZTxomPdY
+         NUGIcEFMtkiZyBy6u1ZO1Y8GkIoYMmYRVBWr38V+MRo6ytcugrVA4oEEQY3HI0oqSIdd
+         CVjBdoewEhIXRXSqNQasIR+eu2kvXpH3dNSdkHykUF4K5DT1xG2nXdMkMv3wzn6qE0Rb
+         K+NQ==
+X-Gm-Message-State: APjAAAXvciIVsqDDPTzJvI05JyGqbOSSN81eyfDq8aLgecBYjUJHQrJv
+        f/oRI7eb9axPA+fBmqlK8M6XXg==
+X-Google-Smtp-Source: APXvYqxagnb2X0j1Cs0vJg2qbYSrSE8QmUo3yMrLrSnBV7OTdM7NjrAI6FU/U6zf7NNZAy0A50Vn+Q==
+X-Received: by 2002:a17:902:6f08:: with SMTP id w8mr24407125plk.5.1551761382586;
+        Mon, 04 Mar 2019 20:49:42 -0800 (PST)
+Received: from exogeni.mtv.corp.google.com ([2620:15c:202:1:db8d:8e3f:2514:5db8])
+        by smtp.gmail.com with ESMTPSA id z15sm15893883pgc.25.2019.03.04.20.49.41
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 04 Mar 2019 20:49:41 -0800 (PST)
+From:   Derek Basehore <dbasehore@chromium.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-doc@vger.kernel.org,
+        sboyd@kernel.org, mturquette@baylibre.com, heiko@sntech.de,
+        aisheng.dong@nxp.com, mchehab+samsung@kernel.org, corbet@lwn.net,
+        jbrunet@baylibre.com, Derek Basehore <dbasehore@chromium.org>
+Subject: [PATCH v2 0/6] Coordinated Clks
+Date:   Mon,  4 Mar 2019 20:49:30 -0800
+Message-Id: <20190305044936.22267-1-dbasehore@chromium.org>
+X-Mailer: git-send-email 2.21.0.352.gf09ad66450-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <450bd6aa-ec98-b89e-51bc-bb4a22ce7d42@linux.alibaba.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 05, 2019 at 09:44:28AM +0800, Alex Shi wrote:
-> >> Hi Alex,
-> >>
-> >> I will try to get the new email addresses for others too.   Yes.  But probably I will use a private email for this instead of the company email.
-> > Here are the updated email address for me and others.
-> >
-> > TripleX Chung <xxx.phy@gmail.com>
-> > Li Yang <pku.leo@gmail.com>
-> > Zhang Wei <wezhang@outlook.com>
-> >
-> > Since you have created the patch to update my email address to my
-> > company email, it is ok to keep that.  Thanks a lot for the effort to
-> > address the issue.
-> >
-> I will update all others email address, and keep your company email address as its your last decision. :)
+v2 changes:
+-Unrolled recursion in unprepare/disable for
+"clk: Remove recursion in clk_core_{prepare,enable}()"
+-Fixed issue with "clk: fix clk_calc_subtree compute duplications"
+-Fixed bug with too few allocated clk_change structs in
+"clk: add coordinated clk changes support"
+-Further cleaned up patches
 
-Don't forget to update .mailmap with the new addresses so scripts which
-look for email addresses in commits will use the new addresses for old
-commits under the previous names.
+Here's the first set of patches that I'm working on for the Common
+Clk Framework. Part of this patch series adds a new clk op,
+pre_rate_req. This is designed to replace the clk notifier approach
+that many clk drivers use right now to setup alt parents or temporary
+dividers. This should allow for the removal of the
+CLK_RECALC_NEW_RATES flag and the implementation of a better locking
+scheme for the prepare lock.
+
+Derek Basehore (5):
+  clk: fix clk_calc_subtree compute duplications
+  clk: change rates via list iteration
+  clk: add coordinated clk changes support
+  docs: driver-api: add pre_rate_req to clk documentation
+  clk: rockchip: use pre_rate_req for cpuclk
+
+Stephen Boyd (1):
+  clk: Remove recursion in clk_core_{prepare,enable}()
+
+ Documentation/driver-api/clk.rst |   7 +-
+ drivers/clk/clk.c                | 659 +++++++++++++++++++++++--------
+ drivers/clk/rockchip/clk-cpu.c   | 256 ++++++------
+ include/linux/clk-provider.h     |  10 +
+ 4 files changed, 642 insertions(+), 290 deletions(-)
+
+-- 
+2.21.0.352.gf09ad66450-goog
+
