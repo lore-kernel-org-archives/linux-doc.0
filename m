@@ -1,150 +1,81 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 259277D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 16:27:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AE9A47D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 16:49:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726535AbfCEQ1D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Mar 2019 11:27:03 -0500
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:38399 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726561AbfCEQ1D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 11:27:03 -0500
-Received: by mail-qk1-f194.google.com with SMTP id p15so5088582qkl.5
-        for <linux-doc@vger.kernel.org>; Tue, 05 Mar 2019 08:27:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=d/RWTJYqTpuZTyuFKaESBOTYVSFBlzsLQJKVAB32I58=;
-        b=hvmEqbCdYzsIqNYNZhPSlod6L2/r1WLETDpIHrXsLekgc9v1El22InXdQfaxdlU6v/
-         khZCqUzFW4O/b3Go6GnU9s8Y5OI31FCwvUVUQprsQHxYJPniY4bmNkUN1LOSwm6GkARA
-         KzV3HrL5yIAEDapL21jvW8tIpAklee/viHBK8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=d/RWTJYqTpuZTyuFKaESBOTYVSFBlzsLQJKVAB32I58=;
-        b=lNY+NvHW78vIgwC+1K4O6jmmmgjSW7dLLbRnEFqUuZwglOpVfdwdKxUPQnxkkBs9C+
-         8CwVOh3tuxxD1ZQJqbluJQg1dEHrMzp9NPG1ZLHzoNbSGAaU6BHdZLe7FAC/0xtagqy+
-         uuJjDxJKvcKCYE436SpuQ+8JsM8LgU27KUfy/kYYMXHDJGASji8Fg1U94TPnfKl77qQK
-         FxPGGzuRlq1F/UGYaGUG9S7cSXvdh55iixcl+Zis1sMwZF2xsVimSgBV4WIyBUjqN2hS
-         xLN5Ax94aWKv4dXLVsdc9I7oWcfXYOeI4Q0hW789Wdd+FKYR5oCbhVhAWJzbu1dgevNV
-         wQyw==
-X-Gm-Message-State: APjAAAWVcmZO0xz8wabw0S4Yog0IatkKyEm7MAirj5tujhNUJpamHZhD
-        5EKfRgGyRZH10gFVcy+5m1BJ7g==
-X-Google-Smtp-Source: APXvYqw4rGj9VsJbXrMjYMyf9dK6MwNKmsds+4gEH8EbhNT6/YBj/DaGJvHtB0iYoSFX4uCsxsgrqQ==
-X-Received: by 2002:ae9:f112:: with SMTP id k18mr2291507qkg.231.1551803221801;
-        Tue, 05 Mar 2019 08:27:01 -0800 (PST)
-Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
-        by smtp.gmail.com with ESMTPSA id v26sm5798571qtk.22.2019.03.05.08.27.00
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 05 Mar 2019 08:27:00 -0800 (PST)
-Date:   Tue, 5 Mar 2019 11:27:00 -0500
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Qais Yousef <qais.yousef@arm.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
-        atishp04@gmail.com, dancol@google.com,
-        Dan Williams <dan.j.williams@intel.com>,
-        dietmar.eggemann@arm.com, gregkh@linuxfoundation.org,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        mhiramat@kernel.org, rdunlap@infradead.org, rostedt@goodmis.org,
-        Shuah Khan <shuah@kernel.org>, yhs@fb.com
-Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-Message-ID: <20190305162700.GB78911@google.com>
-References: <20190301160856.129678-1-joel@joelfernandes.org>
- <20190304140059.5t2bhq7x27jbiuqx@e107158-lin.cambridge.arm.com>
+        id S1726550AbfCEQtt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Mar 2019 11:49:49 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:42192 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726221AbfCEQtt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 11:49:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=bFk91jKxd3aIAkFlI94CiNWivddxpmM/piQyxKdIfmU=; b=eTxQ5CJPZS9cH6D8BO3QRg6iB
+        GhvuEUxuHh9xggxAwsfVuIfZPseWCmcBxBGlGqWBxAOdPMVS7C+MbF/CR5/sm1/lZtzkYimAbxCTE
+        t/yWIvlavZPjsdZPV0RpUSQKG4nVks/REJ72KuKgZI5/LKmsdClA3WJ3zOUPpsQ01r+PBHpzeOj38
+        nvsW5VNpfEdHYWytPWs5phnzCNWIKphYUYXuMgQobu11F+Wv/8uP9f7gYFlwgbi04zS9AN8T+zZT2
+        qi+jtbBmieFgYAzQ4v2azMLhWNVw2xGv8/vO6ZcuMgY81vECqSwDpFcdrXqwSwYSXd6ORsQMTWJiM
+        ibKkrHoTg==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1h1DGG-0000g1-47; Tue, 05 Mar 2019 16:49:48 +0000
+Subject: Re: [PATCH] Documentation: admin-guide: Fix minimum required gcc
+ version
+To:     =?UTF-8?Q?Timoth=c3=a9e_Isnard?= <timotheecisnard@gmail.com>,
+        linux-doc@vger.kernel.org
+Cc:     corbet@lwn.net, trivial@kernel.org
+References: <20190305105303.30838-1-timotheecisnard@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <aa1db51a-f13f-6dd9-9350-2ba5950d1777@infradead.org>
+Date:   Tue, 5 Mar 2019 08:49:46 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190304140059.5t2bhq7x27jbiuqx@e107158-lin.cambridge.arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190305105303.30838-1-timotheecisnard@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 04, 2019 at 02:00:59PM +0000, Qais Yousef wrote:
-> On 03/01/19 11:08, Joel Fernandes (Google) wrote:
-> > Introduce in-kernel headers and other artifacts which are made available
-> > as an archive through proc (/proc/kheaders.tar.xz file). This archive makes
-> > it possible to build kernel modules, run eBPF programs, and other
-> > tracing programs that need to extend the kernel for tracing purposes
-> > without any dependency on the file system having headers and build
-> > artifacts.
-> > 
-> > On Android and embedded systems, it is common to switch kernels but not
-> > have kernel headers available on the file system. Raw kernel headers
-> > also cannot be copied into the filesystem like they can be on other
-> > distros, due to licensing and other issues. There's no linux-headers
-> > package on Android. Further once a different kernel is booted, any
-> > headers stored on the file system will no longer be useful. By storing
-> > the headers as a compressed archive within the kernel, we can avoid these
-> > issues that have been a hindrance for a long time.
-> > 
-> > The feature is also buildable as a module just in case the user desires
-> > it not being part of the kernel image. This makes it possible to load
-> > and unload the headers on demand. A tracing program, or a kernel module
-> > builder can load the module, do its operations, and then unload the
-> > module to save kernel memory. The total memory needed is 3.8MB.
-> > 
-> > The code to read the headers is based on /proc/config.gz code and uses
-> > the same technique to embed the headers.
-> > 
-> > To build a module, the below steps have been tested on an x86 machine:
-> > modprobe kheaders
-> > rm -rf $HOME/headers
-> > mkdir -p $HOME/headers
-> > tar -xvf /proc/kheaders.tar.xz -C $HOME/headers >/dev/null
-> > cd my-kernel-module
-> > make -C $HOME/headers M=$(pwd) modules
-> > rmmod kheaders
-> > 
-> > Additional notes:
-> > (1) external modules must be built on the same arch as the host that
-> > built vmlinux. This can be done either in a qemu emulated chroot on the
-> > target, or natively. This is due to host arch dependency of kernel
-> > scripts.
-> > 
-> > (2)
-> > A limitation of module building with this is, since Module.symvers is
-> > not available in the archive due to a cyclic dependency with building of
-> > the archive into the kernel or module binaries, the modules built using
-> > the archive will not contain symbol versioning (modversion). This is
-> > usually not an issue since the idea of this patch is to build a kernel
-> > module on the fly and load it into the same kernel. An appropriate
-> > warning is already printed by the kernel to alert the user of modules
-> > not having modversions when built using the archive. For building with
-> > modversions, the user can use traditional header packages. For our
-> > tracing usecases, we build modules on the fly with this so it is not a
-> > concern.
-> > 
-> > (3) I have left IKHD_ST and IKHD_ED markers as is to facilitate
-> > future patches that would extract the headers from a kernel or module
-> > image.
-> > 
-> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+On 3/5/19 2:53 AM, Timothée Isnard wrote:
+> Signed-off-by: Timothée Isnard <timotheecisnard@gmail.com>
+> ---
+>  Documentation/admin-guide/README.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> I could get the headers using this patch in both built-in and modules options.
+
+already sent and merged into the docs tree:
+
+https://lore.kernel.org/lkml/ecb653af-79e5-6233-a7f6-edbb61715d3b@infradead.org/
+
+> diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+> index 47e577264198..a582c780c3bd 100644
+> --- a/Documentation/admin-guide/README.rst
+> +++ b/Documentation/admin-guide/README.rst
+> @@ -251,7 +251,7 @@ Configuring the kernel
+>  Compiling the kernel
+>  --------------------
+>  
+> - - Make sure you have at least gcc 3.2 available.
+> + - Make sure you have at least gcc 4.6 available.
+>     For more information, refer to :ref:`Documentation/process/changes.rst <changes>`.
+>  
+>     Please note that you can still run a.out user programs with this kernel.
 > 
-> You can add my tested-and-reviewed-by: Qais Yousef <qais.yousef@arm.com>
-> 
-> I am not familiar with running kselftests so didn't get a chance to try the
-> next patch.
 
-Thanks a lot for testing! Will repost with the tags soon.
 
- - Joel
-
+-- 
+~Randy
