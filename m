@@ -1,87 +1,78 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DEEFB7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 05:51:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 256C07D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 06:58:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725782AbfCEFvQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Mar 2019 00:51:16 -0500
-Received: from conuserg-07.nifty.com ([210.131.2.74]:38923 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726026AbfCEFvP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 00:51:15 -0500
-Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id x255mOrU002400;
-        Tue, 5 Mar 2019 14:48:25 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x255mOrU002400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1551764906;
-        bh=DlyhqYro9PRu0qrY7RWF8lCRod8hQNrPuAp+sT2sllM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DW2LOFlaDxv4HLHO4dev3+zueBOI0AgAkAWHqnfdgLujx4ciMN8idX70sVMkt5BS0
-         7BMpWchM8gUCFhZEzrH0Jk8ARcHP/wt2BQRbf/NC7iPNmM62l5bF6JCdTViV0cVIvS
-         Kde05GQtYFo74TFpNcp+zhV5ofeU9XMQ+/lRE60JCgL9d8i1fJH7TCKAgqKK7OR5AW
-         JxHp9Np6/Kckbfs4500erUUOB8/TCGGkgICqvcKexzCxMxJDDt2GuScve0TxRbVYhA
-         3aX3SKmXCfufEfgcaGtKc+qKBVLA9Qn1LqPlh1PhgxOudD28vBH6j/l0mka+dcp+9i
-         b/OjsfjWTq4Pw==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     Ingo Molnar <mingo@redhat.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Douglas Anderson <dianders@chromium.org>,
-        Robin Meijboom <robin@meijboom.info>,
-        Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Sam Ravnborg <sam@ravnborg.org>, linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] objtool: move stack-validation.txt to Documentation/
-Date:   Tue,  5 Mar 2019 14:48:15 +0900
-Message-Id: <1551764896-8453-2-git-send-email-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1551764896-8453-1-git-send-email-yamada.masahiro@socionext.com>
-References: <1551764896-8453-1-git-send-email-yamada.masahiro@socionext.com>
+        id S1725835AbfCEG6f (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Mar 2019 01:58:35 -0500
+Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:49635 "EHLO
+        out30-44.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725818AbfCEG6f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 01:58:35 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04427;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0TM.l8T0_1551769107;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TM.l8T0_1551769107)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Tue, 05 Mar 2019 14:58:27 +0800
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        harryxiyou@gmail.com, corbet@lwn.net, leoyang.li@nxp.com
+Cc:     colyli@suse.de, fengguang.wu@intel.com, shawn.guo@linaro.org,
+        lizefan@huawei.com, Alex Shi <alex.shi@linux.alibaba.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: [PATCH v2 01/27] docs/zh_CN: add disclaimer file
+Date:   Tue,  5 Mar 2019 14:57:48 +0800
+Message-Id: <20190305065815.157964-2-alex.shi@linux.alibaba.com>
+X-Mailer: git-send-email 2.19.1.856.g8858448bb
+In-Reply-To: <20190305065815.157964-1-alex.shi@linux.alibaba.com>
+References: <20190305065815.157964-1-alex.shi@linux.alibaba.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Move the document to the standard Documentation/ directory instead of
-creating the same directory structure under objtool/.
+This a disclaimer file which will be included in Chinese files
+as header. To reduce the same common contents copy.
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+Part of contents quoted from Federico Vaga's file:
+    Documentation/translations/it_IT/disclaimer-ita.rst.
+Thanks a lot!
+
+Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
+Cc: Harry Wei <harryxiyou@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Li Zefan <lizefan@huawei.com>
+Cc: Shawn Guo <shawn.guo@linaro.org>
+Cc: Fengguang Wu <fengguang.wu@intel.com>
+Cc: Coly Li <colyli@suse.de>
+Cc: Federico Vaga <federico.vaga@vaga.pv.it>
 ---
+ Documentation/translations/zh_CN/disclaimer-zh_CN.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/disclaimer-zh_CN.rst
 
- {tools/objtool/Documentation => Documentation}/stack-validation.txt | 0
- Documentation/x86/orc-unwinder.txt                                  | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename {tools/objtool/Documentation => Documentation}/stack-validation.txt (100%)
-
-diff --git a/tools/objtool/Documentation/stack-validation.txt b/Documentation/stack-validation.txt
-similarity index 100%
-rename from tools/objtool/Documentation/stack-validation.txt
-rename to Documentation/stack-validation.txt
-diff --git a/Documentation/x86/orc-unwinder.txt b/Documentation/x86/orc-unwinder.txt
-index cd4b29b..3aeff80 100644
---- a/Documentation/x86/orc-unwinder.txt
-+++ b/Documentation/x86/orc-unwinder.txt
-@@ -137,7 +137,7 @@ Unwinder implementation details
- 
- Objtool generates the ORC data by integrating with the compile-time
- stack metadata validation feature, which is described in detail in
--tools/objtool/Documentation/stack-validation.txt.  After analyzing all
-+Documentation/stack-validation.txt.  After analyzing all
- the code paths of a .o file, it creates an array of orc_entry structs,
- and a parallel array of instruction addresses associated with those
- structs, and writes them to the .orc_unwind and .orc_unwind_ip sections
+diff --git a/Documentation/translations/zh_CN/disclaimer-zh_CN.rst b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
+new file mode 100644
+index 000000000000..5934369b2606
+--- /dev/null
++++ b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
+@@ -0,0 +1,9 @@
++:orphan:
++
++.. warning::
++     此文件的目的是为让中文读者更容易阅读和理解，而不是作为一个分支。 因此，如果
++     您对此文件有任何意见或更新，请先尝试更新原始英文文件。
++
++.. note::
++     如果您发现本文档与原始文件有任何不同或者有翻译问题，请联系该文件的维护者，
++     或者请求时奎亮的帮助：<alex.shi@linux.alibaba.com>。
 -- 
-2.7.4
+2.19.1.856.g8858448bb
 
