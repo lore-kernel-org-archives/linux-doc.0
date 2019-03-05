@@ -1,91 +1,83 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8FD467D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 18:49:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9B6587D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 19:59:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726837AbfCESth (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Mar 2019 13:49:37 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44788 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726190AbfCEStg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 Mar 2019 13:49:36 -0500
-Received: from localhost (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 15CBF208E4;
-        Tue,  5 Mar 2019 18:49:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1551811776;
-        bh=k+Iq3xwBIbt9ZPAisBgeg2pj+qY/jWn5gCD7h7gjDnA=;
-        h=In-Reply-To:References:From:Subject:Cc:To:Date:From;
-        b=mC6lKazT6lIrm9i+G1AcAWAwRkMzT8/Ne7BEWwXlNXjNPYIOYPwlaerFACuAP2N03
-         X9CvpctEsfCQmrSSWm6IOqDTjv7d6VVZ4oGqXbf0ZrgJOd/XLwzYm3joGozHT8cp9A
-         gYfeXENWzH1wYz6K9nVJbSL2DeYeMr5Zxvx68/Eo=
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20190305044936.22267-2-dbasehore@chromium.org>
-References: <20190305044936.22267-1-dbasehore@chromium.org> <20190305044936.22267-2-dbasehore@chromium.org>
-From:   Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH v2 1/6] clk: Remove recursion in clk_core_{prepare,enable}()
-Cc:     linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-doc@vger.kernel.org,
-        mturquette@baylibre.com, heiko@sntech.de, aisheng.dong@nxp.com,
-        mchehab+samsung@kernel.org, corbet@lwn.net, jbrunet@baylibre.com,
-        Stephen Boyd <sboyd@codeaurora.org>,
-        Derek Basehore <dbasehore@chromium.org>
-To:     Derek Basehore <dbasehore@chromium.org>,
-        linux-kernel@vger.kernel.org
-Message-ID: <155181177527.20095.15680753964583935841@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.8
-Date:   Tue, 05 Mar 2019 10:49:35 -0800
+        id S1726927AbfCET7g (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Mar 2019 14:59:36 -0500
+Received: from smtprelay0251.hostedemail.com ([216.40.44.251]:47128 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726695AbfCET7g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 14:59:36 -0500
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay05.hostedemail.com (Postfix) with ESMTP id 3234F1804DF7E;
+        Tue,  5 Mar 2019 19:59:34 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: light17_8d7e215a2710d
+X-Filterd-Recvd-Size: 2239
+Received: from XPS-9350.home (unknown [47.151.153.53])
+        (Authenticated sender: joe@perches.com)
+        by omf15.hostedemail.com (Postfix) with ESMTPA;
+        Tue,  5 Mar 2019 19:59:32 +0000 (UTC)
+Message-ID: <e244390e3d245c94d6d2fb036943e63111ada86d.camel@perches.com>
+Subject: Re: [PATCH] docs: add extra integer types to printk-formats
+From:   Joe Perches <joe@perches.com>
+To:     Nick Desaulniers <ndesaulniers@google.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Louis Taylor <louis@kragniz.eu>, Jonathan Corbet <corbet@lwn.net>,
+        pmladek@suse.com, geert+renesas@glider.be,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        clang-built-linux@googlegroups.com,
+        Jon Flatley <jflat@chromium.org>
+Date:   Tue, 05 Mar 2019 11:59:30 -0800
+In-Reply-To: <CAKwvOdm4uCWCtSMVQDVTSKavpT0dCo+ayuwvoXtewmk+ksn5sA@mail.gmail.com>
+References: <20190303123647.22020-1-louis@kragniz.eu>
+         <20190303201016.GO9224@smile.fi.intel.com>
+         <CAKwvOdm4uCWCtSMVQDVTSKavpT0dCo+ayuwvoXtewmk+ksn5sA@mail.gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.30.1-1build1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Derek Basehore (2019-03-04 20:49:31)
-> From: Stephen Boyd <sboyd@codeaurora.org>
->=20
-> Enabling and preparing clocks can be written quite naturally with
-> recursion. We start at some point in the tree and recurse up the
-> tree to find the oldest parent clk that needs to be enabled or
-> prepared. Then we enable/prepare and return to the caller, going
-> back to the clk we started at and enabling/preparing along the
-> way. This also unroll the recursion in unprepare,disable which can
-> just be done in the order of walking up the clk tree.
->=20
-> The problem is recursion isn't great for kernel code where we
-> have a limited stack size. Furthermore, we may be calling this
-> code inside clk_set_rate() which also has recursion in it, so
-> we're really not looking good if we encounter a tall clk tree.
->=20
-> Let's create a stack instead by looping over the parent chain and
-> collecting clks of interest. Then the enable/prepare becomes as
-> simple as iterating over that list and calling enable.
->=20
-> Modified verison of https://lore.kernel.org/patchwork/patch/814369/
-> -Fixed kernel warning
-> -unrolled recursion in unprepare/disable too
->=20
-> Cc: Jerome Brunet <jbrunet@baylibre.com>
-> Signed-off-by: Stephen Boyd <sboyd@codeaurora.org>
-> Signed-off-by: Derek Basehore <dbasehore@chromium.org>
-> ---
+On Mon, 2019-03-04 at 09:59 -0800, Nick Desaulniers wrote:
+> On Sun, Mar 3, 2019 at 12:10 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Sun, Mar 03, 2019 at 12:36:47PM +0000, Louis Taylor wrote:
+> > > A few commonly used integer types were absent from this table, so add
+> > > them.
+> > 
+> > I'm not against the patch, but isn't obvious by reading POSIX and / or man
+> > printf(3)?
+> 
+> You'd think; but based on the sheer number of -Wformat warnings
+> (~450), I'm not so sure.
 
-From the original post:
+<shrug>  software defects are always present.
 
-"I have some vague fear that this may not work if a clk op is framework=20
-reentrant and attemps to call consumer clk APIs from within the clk ops.
-If the reentrant call tries to add a clk that's already in the list then
-we'll corrupt the list. Ugh."
+Many of the -Wformat warnings are bogus too.
 
-Do we have this sort of problem here? Or are you certain that we don't
-have clks that prepare or enable something that is already in the
-process of being prepared or enabled?
+There's nothing wrong with using %x for a unsigned int
+of less than long size. (u8/u16)
+
+>   At least with this patch they're "above the
+> fold."
+
+I'd personally go with
+"posix plus kernel specific deletions and extensions"
+
+> The kernel also has its own format flag extensions, and does not
+> implement %n (for good reason), so it's better to be explicit than
+> imply posix or glibc compat.
+
+%i is also supported and used a few hundred times
+
 
