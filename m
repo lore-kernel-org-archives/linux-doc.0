@@ -2,141 +2,60 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY,WEIRD_QUOTING
-	autolearn=ham autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 62B647DC63
+	by archive.lwn.net (Postfix) with ESMTP id 8DFC17DD29
 	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 07:00:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727471AbfCEG7i (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Mar 2019 01:59:38 -0500
-Received: from out4437.biz.mail.alibaba.com ([47.88.44.37]:20782 "EHLO
-        out4437.biz.mail.alibaba.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725838AbfCEG7g (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 01:59:36 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R231e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04428;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0TM.WBLF_1551769126;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TM.WBLF_1551769126)
+        id S1727123AbfCEG7r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Mar 2019 01:59:47 -0500
+Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:34614 "EHLO
+        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727217AbfCEG7B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 01:59:01 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04455;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0TM.l8Wu_1551769117;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TM.l8Wu_1551769117)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 05 Mar 2019 14:58:46 +0800
+          Tue, 05 Mar 2019 14:58:37 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         harryxiyou@gmail.com, corbet@lwn.net, leoyang.li@nxp.com
 Cc:     colyli@suse.de, fengguang.wu@intel.com, shawn.guo@linaro.org,
         lizefan@huawei.com, Alex Shi <alex.shi@linux.alibaba.com>,
-        TripleX Chung <xxx.phy@gmail.com>
-Subject: [PATCH v2 24/27] docs/zh_CN: fix indent issue in stable-api-nonsense file
-Date:   Tue,  5 Mar 2019 14:58:12 +0800
-Message-Id: <20190305065815.157964-26-alex.shi@linux.alibaba.com>
+        Bryan Wu <bryan.wu@analog.com>
+Subject: [PATCH v2 13/27] docs/zh_CN: rename volatile-consider-harmful doc
+Date:   Tue,  5 Mar 2019 14:58:00 +0800
+Message-Id: <20190305065815.157964-14-alex.shi@linux.alibaba.com>
 X-Mailer: git-send-email 2.19.1.856.g8858448bb
 In-Reply-To: <20190305065815.157964-1-alex.shi@linux.alibaba.com>
 References: <20190305065815.157964-1-alex.shi@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tame the 'make htmldocs' to avoid 'ERROR: Unexpected indentation'
-etc errors.
+Make it available for html etc docs making.
 
 Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
 Cc: Harry Wei <harryxiyou@gmail.com>
 Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Li Yang <leoyang.li@nxp.com>
-Cc: TripleX Chung <xxx.phy@gmail.com>
+Cc: Bryan Wu <bryan.wu@analog.com>
+Cc: Li Zefan <lizefan@huawei.com>
+Cc: Shawn Guo <shawn.guo@linaro.org>
+Cc: Fengguang Wu <fengguang.wu@intel.com>
+Cc: Coly Li <colyli@suse.de>
 ---
- .../zh_CN/process/stable-api-nonsense.rst     | 33 +++++++++++--------
- 1 file changed, 19 insertions(+), 14 deletions(-)
+ ...ile-considered-harmful.txt => volatile-considered-harmful.rst} | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename Documentation/translations/zh_CN/process/{volatile-considered-harmful.txt => volatile-considered-harmful.rst} (100%)
 
-diff --git a/Documentation/translations/zh_CN/process/stable-api-nonsense.rst b/Documentation/translations/zh_CN/process/stable-api-nonsense.rst
-index 42d974e6dc35..beb94200b35e 100644
---- a/Documentation/translations/zh_CN/process/stable-api-nonsense.rst
-+++ b/Documentation/translations/zh_CN/process/stable-api-nonsense.rst
-@@ -54,18 +54,22 @@ Linux能成为强壮，稳定，成熟的操作系统，这也是你最开始选
- --------------
- 假如我们有一个稳定的内核源代码接口，那么自然而然的，我们就拥有了稳定的
- 二进制接口，是这样的吗？错。让我们看看关于Linux内核的几点事实：
-+
-     - 取决于所用的C编译器的版本，不同的内核数据结构里的结构体的对齐方
--式会有差别，代码中不同函数的表现形式也不一样（函数是不是被inline编译取
--决于编译器行为）。不同的函数的表现形式并不重要，但是数据结构内部的对齐
--方式很关键。
-+      式会有差别，代码中不同函数的表现形式也不一样（函数是不是被inline
-+      编译取决于编译器行为）。不同的函数的表现形式并不重要，但是数据
-+      结构内部的对齐方式很关键。
-+
-     - 取决于内核的配置选项，不同的选项会让内核的很多东西发生改变：
-+
-       - 同一个结构体可能包含不同的成员变量
-       - 有的函数可能根本不会被实现（比如编译的时候没有选择SMP支持
--，一些锁函数就会被定义成空函数）。
-+        一些锁函数就会被定义成空函数）。
-       - 内核使用的内存会以不同的方式对齐，这取决于不同的内核配置选
--项。
-+        项。
-+
-     - Linux可以在很多的不同体系结构的处理器上运行。在某个体系结构上编
--译好的二进制驱动程序，不可能在另外一个体系结构上正确的运行。
-+      译好的二进制驱动程序，不可能在另外一个体系结构上正确的运行。
- 
- 对于一个特定的内核，满足这些条件并不难，使用同一个C编译器和同样的内核配
- 置选项来编译驱动程序模块就可以了。这对于给一个特定Linux发布的特定版本提
-@@ -85,7 +89,7 @@ Linux能成为强壮，稳定，成熟的操作系统，这也是你最开始选
- 
- 如果有人不将他的内核驱动程序，放入公版内核的源代码树，而又想让驱动程序
- 一直保持在最新的内核中可用，那么这个话题将会变得没完没了。
-- 内核开发是持续而且快节奏的，从来都不会慢下来。内核开发人员在当前接口中
-+内核开发是持续而且快节奏的，从来都不会慢下来。内核开发人员在当前接口中
- 找到bug，或者找到更好的实现方式。一旦发现这些，他们就很快会去修改当前的
- 接口。修改接口意味着，函数名可能会改变，结构体可能被扩充或者删减，函数
- 的参数也可能发生改变。一旦接口被修改，内核中使用这些接口的地方需要同时
-@@ -93,21 +97,22 @@ Linux能成为强壮，稳定，成熟的操作系统，这也是你最开始选
- 
- 举一个例子，内核的USB驱动程序接口在USB子系统的整个生命周期中，至少经历
- 了三次重写。这些重写解决以下问题：
-+
-     - 把数据流从同步模式改成非同步模式，这个改动减少了一些驱动程序的
--复杂度，提高了所有USB驱动程序的吞吐率，这样几乎所有的USB设备都能以最大
--速率工作了。
-+      复杂度，提高了所有USB驱动程序的吞吐率，这样几乎所有的USB设备都
-+      能以最大速率工作了。
-     - 修改了USB核心代码中为USB驱动分配数据包内存的方式，所有的驱动都
--需要提供更多的参数给USB核心，以修正了很多已经被记录在案的死锁。
-+      需要提供更多的参数给USB核心，以修正了很多已经被记录在案的死锁。
- 
- 这和一些封闭源代码的操作系统形成鲜明的对比，在那些操作系统上，不得不额
- 外的维护旧的USB接口。这导致了一个可能性，新的开发者依然会不小心使用旧的
- 接口，以不恰当的方式编写代码，进而影响到操作系统的稳定性。
-- 在上面的例子中，所有的开发者都同意这些重要的改动，在这样的情况下修改代
-+在上面的例子中，所有的开发者都同意这些重要的改动，在这样的情况下修改代
- 价很低。如果Linux保持一个稳定的内核源代码接口，那么就得创建一个新的接口
- ；旧的，有问题的接口必须一直维护，给Linux USB开发者带来额外的工作。既然
- 所有的Linux USB驱动的作者都是利用自己的时间工作，那么要求他们去做毫无意
- 义的免费额外工作，是不可能的。
-- 安全问题对Linux来说十分重要。一个安全问题被发现，就会在短时间内得到修
-+安全问题对Linux来说十分重要。一个安全问题被发现，就会在短时间内得到修
- 正。在很多情况下，这将导致Linux内核中的一些接口被重写，以从根本上避免安
- 全问题。一旦接口被重写，所有使用这些接口的驱动程序，必须同时得到修正，
- 以确定安全问题已经得到修复并且不可能在未来还有同样的安全问题。如果内核
-@@ -132,14 +137,14 @@ Linux能成为强壮，稳定，成熟的操作系统，这也是你最开始选
- 做什么事情。
- 
- 把驱动放到内核源代码树里会有很多的好处：
-+
-     - 驱动的质量会提升，而维护成本（对原始作者来说）会下降。
-     - 其他人会给驱动添加新特性。
-     - 其他人会找到驱动中的bug并修复。
-     - 其他人会在驱动中找到性能优化的机会。
-     - 当外部的接口的改变需要修改驱动程序的时候，其他人会修改驱动程序
--。
-     - 不需要联系任何发行商，这个驱动会自动的随着所有的Linux发布一起发
--布。
-+      布。
- 
- 和别的操作系统相比，Linux为更多不同的设备提供现成的驱动，而且能在更多不
- 同体系结构的处理器上支持这些设备。这个经过考验的开发模式，必然是错不了
+diff --git a/Documentation/translations/zh_CN/process/volatile-considered-harmful.txt b/Documentation/translations/zh_CN/process/volatile-considered-harmful.rst
+similarity index 100%
+rename from Documentation/translations/zh_CN/process/volatile-considered-harmful.txt
+rename to Documentation/translations/zh_CN/process/volatile-considered-harmful.rst
 -- 
 2.19.1.856.g8858448bb
 
