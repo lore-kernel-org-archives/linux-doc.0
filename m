@@ -5,30 +5,29 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EEE407D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 01:44:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B77177D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 02:47:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726178AbfCEBop (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 4 Mar 2019 20:44:45 -0500
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:50319 "EHLO
-        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726170AbfCEBop (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Mar 2019 20:44:45 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R521e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01424;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0TM-45Jo_1551750268;
-Received: from Alexs-MacBook-Pro.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TM-45Jo_1551750268)
+        id S1726660AbfCECru (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 4 Mar 2019 21:47:50 -0500
+Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:38450 "EHLO
+        out30-42.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726553AbfCECru (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Mar 2019 21:47:50 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R761e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04392;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0TM-P.jp_1551754062;
+Received: from Alexs-MacBook-Pro.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TM-P.jp_1551754062)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 05 Mar 2019 09:44:29 +0800
+          Tue, 05 Mar 2019 10:47:43 +0800
 Subject: Re: [PATCH 01/20] docs/zh_CN: add disclaimer file
 To:     Li Yang <leoyang.li@nxp.com>
-Cc:     Coly Li <colyli@suse.de>, Federico Vaga <federico.vaga@vaga.pv.it>,
+Cc:     wezhang@outlook.com, wei.zhang@freescale.com,
         Fengguang Wu <fengguang.wu@intel.com>,
         Li Zefan <lizefan@huawei.com>,
         Shawn Guo <shawn.guo@linaro.org>,
         "corbet@lwn.net" <corbet@lwn.net>,
         "harryxiyou@gmail.com" <harryxiyou@gmail.com>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-kernel@zh-kernel.org" <linux-kernel@zh-kernel.org>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 References: <20190304035744.155203-1-alex.shi@linux.alibaba.com>
  <20190304035744.155203-2-alex.shi@linux.alibaba.com>
  <b2cb92de-ef4a-d628-0dd3-76d8d1b953d0@linux.alibaba.com>
@@ -37,14 +36,14 @@ References: <20190304035744.155203-1-alex.shi@linux.alibaba.com>
  <AM6PR04MB586370DDB6E73A43673339568F710@AM6PR04MB5863.eurprd04.prod.outlook.com>
  <CADRPPNTxDDquY=OT4MV6cQ8OHhAdbazMjngDhtRBCE9_UESg_w@mail.gmail.com>
 From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <450bd6aa-ec98-b89e-51bc-bb4a22ce7d42@linux.alibaba.com>
-Date:   Tue, 5 Mar 2019 09:44:28 +0800
+Message-ID: <c9ec2af6-82e2-4ac2-050f-d36622a25c55@linux.alibaba.com>
+Date:   Tue, 5 Mar 2019 10:47:42 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
  Gecko/20100101 Thunderbird/60.5.0
 MIME-Version: 1.0
 In-Reply-To: <CADRPPNTxDDquY=OT4MV6cQ8OHhAdbazMjngDhtRBCE9_UESg_w@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -52,20 +51,16 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
->> Hi Alex,
->>
->> I will try to get the new email addresses for others too.   Yes.  But probably I will use a private email for this instead of the company email.
-> Here are the updated email address for me and others.
->
-> TripleX Chung <xxx.phy@gmail.com>
-> Li Yang <pku.leo@gmail.com>
-> Zhang Wei <wezhang@outlook.com>
->
-> Since you have created the patch to update my email address to my
-> company email, it is ok to keep that.  Thanks a lot for the effort to
-> address the issue.
->
-I will update all others email address, and keep your company email address as its your last decision. :)
 
-Thanks!
+On 2019/3/5 7:31 上午, Li Yang wrote:
+> Zhang Wei <wezhang@outlook.com>
+The only usage of 'Zhang wei' in kernel is freescale's driver maintainer. I am not sure the outlook.com address is better than Zhang Wei's freescale email address. So I'd rather leave this one to Zhang Wei himself.
+
+Thanks
 Alex
+
+FREESCALE DMA DRIVER
+M:      Li Yang <leoyang.li@nxp.com>
+M:      Zhang Wei <zw@zh-kernel.org>
+L:      linuxppc-dev@lists.ozlabs.org
+S:      Maintained
