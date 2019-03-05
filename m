@@ -5,57 +5,68 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D82087D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 07:00:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0DF637D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 07:00:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727238AbfCEG6y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Mar 2019 01:58:54 -0500
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:56969 "EHLO
-        out30-130.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727180AbfCEG6v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 01:58:51 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04455;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0TM.WBIv_1551769121;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TM.WBIv_1551769121)
+        id S1727286AbfCEG7B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Mar 2019 01:59:01 -0500
+Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:45954 "EHLO
+        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727251AbfCEG7A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 01:59:00 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07488;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0TM.WBLe_1551769127;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TM.WBLe_1551769127)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 05 Mar 2019 14:58:42 +0800
+          Tue, 05 Mar 2019 14:58:47 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         harryxiyou@gmail.com, corbet@lwn.net, leoyang.li@nxp.com
 Cc:     colyli@suse.de, fengguang.wu@intel.com, shawn.guo@linaro.org,
         lizefan@huawei.com, Alex Shi <alex.shi@linux.alibaba.com>,
         TripleX Chung <xxx.phy@gmail.com>
-Subject: [PATCH v2 19/27] docs/zh_CN: rename stable_api_nonsense.txt as stable-api-nonsense.rst
-Date:   Tue,  5 Mar 2019 14:58:06 +0800
-Message-Id: <20190305065815.157964-20-alex.shi@linux.alibaba.com>
+Subject: [PATCH v2 25/27] docs/zh_CN: fix indent issue in submitting-drivers
+Date:   Tue,  5 Mar 2019 14:58:13 +0800
+Message-Id: <20190305065815.157964-27-alex.shi@linux.alibaba.com>
 X-Mailer: git-send-email 2.19.1.856.g8858448bb
 In-Reply-To: <20190305065815.157964-1-alex.shi@linux.alibaba.com>
 References: <20190305065815.157964-1-alex.shi@linux.alibaba.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-make it available in html etc doc making
+Tame 'make htmldocs' w/o indent complains.
 
 Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
 Cc: Harry Wei <harryxiyou@gmail.com>
 Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Li Yang <leoyang.li@nxp.com>
 Cc: TripleX Chung <xxx.phy@gmail.com>
-Cc: Li Zefan <lizefan@huawei.com>
-Cc: Shawn Guo <shawn.guo@linaro.org>
-Cc: Fengguang Wu <fengguang.wu@intel.com>
-Cc: Coly Li <colyli@suse.de>
 ---
- .../process/{stable_api_nonsense.txt => stable-api-nonsense.rst}  | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename Documentation/translations/zh_CN/process/{stable_api_nonsense.txt => stable-api-nonsense.rst} (100%)
+ .../translations/zh_CN/process/submitting-drivers.rst         | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/translations/zh_CN/process/stable_api_nonsense.txt b/Documentation/translations/zh_CN/process/stable-api-nonsense.rst
-similarity index 100%
-rename from Documentation/translations/zh_CN/process/stable_api_nonsense.txt
-rename to Documentation/translations/zh_CN/process/stable-api-nonsense.rst
+diff --git a/Documentation/translations/zh_CN/process/submitting-drivers.rst b/Documentation/translations/zh_CN/process/submitting-drivers.rst
+index fade72515b04..d29032007112 100644
+--- a/Documentation/translations/zh_CN/process/submitting-drivers.rst
++++ b/Documentation/translations/zh_CN/process/submitting-drivers.rst
+@@ -137,9 +137,13 @@ Linux 设备驱动程序，第三版（探讨 2.6.10 版内核）：
+ 
+ LWN.net:
+ 	每周内核开发活动摘要 - http://lwn.net/
++
+ 	2.6 版中 API 的变更：
++
+ 		http://lwn.net/Articles/2.6-kernel-api/
++
+ 	将旧版内核的驱动程序移植到 2.6 版：
++
+ 		http://lwn.net/Articles/driver-porting/
+ 
+ 内核新手(KernelNewbies):
 -- 
 2.19.1.856.g8858448bb
 
