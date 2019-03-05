@@ -1,100 +1,145 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 35C717D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 21:00:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3C7827D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 22:06:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727505AbfCEVAo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Mar 2019 16:00:44 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:60524 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726069AbfCEVAo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 16:00:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=fd7HlNj4BVhChnF/JU6V3ls1u236HBTBzQQ0AiL7ksM=; b=oApk3sEdw6pOQx4uuwXXezXtm
-        haHQr0xy2HC+k8crumF4HNyoA8W/gHu64PlFaN/msolLByx+F1dpSHvkoVHmp5224Z8tKHf6RchZ1
-        mrqddJedxx7UyWlyFhrr5KjHuOzFyqXo43xVvVwvZJC/9OrjOk3d+z8zV96FF1R5J2wS/hXdy9OTS
-        KX4AUUopiXbitJJU/ajTw4G/QRGR3xXDILLdo0t6tgE9yt6qmw4sVwuNl60oPhljvsjpgdQnXJVvH
-        0pCNuuxyr6L5/JVBGqV/OLUgGuBI1qYKIftih+pq4xYGJhLyLTEnLb/97g5jfRzi6m3PCZMowB34Q
-        jWf/4bZTw==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1h1HB4-0002IR-Bk; Tue, 05 Mar 2019 21:00:42 +0000
-Subject: Re: [PATCH] docs: add extra integer types to printk-formats
-To:     Joe Perches <joe@perches.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Louis Taylor <louis@kragniz.eu>, Jonathan Corbet <corbet@lwn.net>,
-        pmladek@suse.com, geert+renesas@glider.be,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux@googlegroups.com,
-        Jon Flatley <jflat@chromium.org>
-References: <20190303123647.22020-1-louis@kragniz.eu>
- <20190303201016.GO9224@smile.fi.intel.com>
- <CAKwvOdm4uCWCtSMVQDVTSKavpT0dCo+ayuwvoXtewmk+ksn5sA@mail.gmail.com>
- <e244390e3d245c94d6d2fb036943e63111ada86d.camel@perches.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <a13c431c-5bfe-1bef-78c8-dbac942ca02b@infradead.org>
-Date:   Tue, 5 Mar 2019 13:00:41 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+        id S1726069AbfCEWGi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Mar 2019 17:06:38 -0500
+Received: from mx.kolabnow.com ([95.128.36.42]:25528 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726052AbfCEWGi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 Mar 2019 17:06:38 -0500
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id C18791375;
+        Tue,  5 Mar 2019 23:06:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-transfer-encoding:content-type:content-type:mime-version
+        :message-id:date:date:subject:subject:from:from:received
+        :received:received; s=dkim20160331; t=1551823594; x=1553637995;
+         bh=1WgQPcZMgBjRpPSwCDSEun053eYRjBQsDu5d8vYZo2g=; b=WhDtygvS+stp
+        EVS6ATm0xGD+GXjmU9KwXW/WiJg4P9Nt11tdbWZWR9k8UYB2tiaIZEZVDRk5xEU+
+        tChtXpGQzUk0KFd+QLTGBDjeM0sy2yAUMlT5w9YlqU7quptp/cTPl1PdVQ5ZgAJ3
+        jBnZJcaAoXhKp2O+m+HMs+BE7bKpIAequPPjKH6g8JHjI/YGzLqIP10Iap2K70bm
+        esa4tP6e0gXRcHwKGXcnRK4EyXy9Nq8PWGmxEi9HRKL1Ec+D912W6PzjaC6VotNx
+        KANTOzbAo41flPXj93j0YYG22ZGgLkS5ZC/lN//pr2YjbT7gN5TYypIYn8KVT9hQ
+        XJUuYzZ6jQFhxRpmd+UjdCFFYokuESBKA+jvGiC3Mo/Y5GA8GM+IfJekG9d/szhi
+        PqU35GM6yZwxerQE150Rs9Q1izYY5/1WtMjklARHWXsjeUWyUJS422MZ1u0W3Ssc
+        ZjpbsysejoCbSltfQys19wbohl/zElheqiDSTwBpWtoHjJ4pFabm+qHLq1EFjn1u
+        W6Au3uUmLhCBes7wtQzIhy2UX8LBTERdQGP/ZbGyS5La1XHwL02PpvDGRlidDVfk
+        ilbh1g/Y/FdndWOad08yOY8o9Vzdj7ETrAnid5R9iT9ByQaVAdBOvc4/qqZuE2/H
+        KZG6WLNcbyxBKb8WAx81QNBPk3fla+o=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id iJMYZpJhU1ot; Tue,  5 Mar 2019 23:06:34 +0100 (CET)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 9DB04110D;
+        Tue,  5 Mar 2019 23:06:34 +0100 (CET)
+Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id 2C845202C;
+        Tue,  5 Mar 2019 23:06:34 +0100 (CET)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     linux-doc@vger.kernel.org
+Cc:     lkml <linux-kernel@vger.kernel.org>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Jonathan Corbet <corbet@lwn.net>, harryxiyou@gmail.com,
+        Li Zefan <lizefan@huawei.com>,
+        Shawn Guo <shawn.guo@linaro.org>,
+        Fengguang Wu <fengguang.wu@intel.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: [RFC PATCH] doc: translation disclaimer
+Date:   Tue,  5 Mar 2019 23:06:11 +0100
+Message-Id: <20190305220611.13136-1-federico.vaga@vaga.pv.it>
 MIME-Version: 1.0
-In-Reply-To: <e244390e3d245c94d6d2fb036943e63111ada86d.camel@perches.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/5/19 11:59 AM, Joe Perches wrote:
-> On Mon, 2019-03-04 at 09:59 -0800, Nick Desaulniers wrote:
->> On Sun, Mar 3, 2019 at 12:10 PM Andy Shevchenko
->> <andriy.shevchenko@linux.intel.com> wrote:
->>> On Sun, Mar 03, 2019 at 12:36:47PM +0000, Louis Taylor wrote:
->>>> A few commonly used integer types were absent from this table, so add
->>>> them.
->>>
->>> I'm not against the patch, but isn't obvious by reading POSIX and / or man
->>> printf(3)?
->>
->> You'd think; but based on the sheer number of -Wformat warnings
->> (~450), I'm not so sure.
-> 
-> <shrug>  software defects are always present.
-> 
-> Many of the -Wformat warnings are bogus too.
-> 
-> There's nothing wrong with using %x for a unsigned int
-> of less than long size. (u8/u16)
-> 
->>   At least with this patch they're "above the
->> fold."
-> 
-> I'd personally go with
-> "posix plus kernel specific deletions and extensions"
+This is only an example to propose a structure for translation's
+disclaimers. The actual text needs some thoughs.
 
-Yeah, I don't think that all of the "standard" types/formats need
-to be in there.  Just the differences.
+Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+---
+ Documentation/translations/index.rst           | 18 ++++++++++++++++++
+ .../translations/it_IT/disclaimer-ita.rst      | 13 +++----------
+ Documentation/translations/it_IT/index.rst     |  6 ++++++
+ 3 files changed, 27 insertions(+), 10 deletions(-)
 
->> The kernel also has its own format flag extensions, and does not
->> implement %n (for good reason), so it's better to be explicit than
->> imply posix or glibc compat.
-> 
-> %i is also supported and used a few hundred times
-> 
-> 
-
-
+diff --git a/Documentation/translations/index.rst b/Documentation/translations/index.rst
+index 7f77c52d33aa..b46c8ce98d6e 100644
+--- a/Documentation/translations/index.rst
++++ b/Documentation/translations/index.rst
+@@ -4,6 +4,24 @@
+ Translations
+ ============
+ 
++.. _translations_disclaimer:
++
++Disclaimer
++----------
++Write some text in English here to explain that:
++
++- its purpose is to ease reading and understanding in other languages
++- this is not a fork
++- the only official documentation is :ref:`linux_doc`
++- there are not guarantee about translations being in line with the
++  main documentation
++- translation's maintainer can help people who can't write in English
++- only comments and patches about translations are accepted, any other
++  discussion about Documentation does not belong here
++
++Translations
++------------
++
+ .. toctree::
+    :maxdepth: 1
+ 
+diff --git a/Documentation/translations/it_IT/disclaimer-ita.rst b/Documentation/translations/it_IT/disclaimer-ita.rst
+index d68e52de6a5d..aacc1a0346db 100644
+--- a/Documentation/translations/it_IT/disclaimer-ita.rst
++++ b/Documentation/translations/it_IT/disclaimer-ita.rst
+@@ -1,13 +1,6 @@
+ :orphan:
+ 
+-.. note::
+-   This document is maintained by Federico Vaga <federico.vaga@vaga.pv.it>.
+-   If you find any difference between this document and the original file or a
+-   problem with the translation, please contact the maintainer of this file.
+-   Following people helped to translate or review:
+-   Alessia Mantegazza <amantegazza@vaga.pv.it>
+-
+ .. warning::
+-   The purpose of this file is to be easier to read and understand for Italian
+-   speakers and is not intended as a fork. So, if you have any comments or
+-   updates for this file please try to update the original English file first.
++   Short (to not pollute the document) text in Italian to explain that for any
++   doubt about the documentation content people should refer to the English
++   documentation. Read the :ref:`it_disclaimer`.
+diff --git a/Documentation/translations/it_IT/index.rst b/Documentation/translations/it_IT/index.rst
+index ea9b2916b3e4..4b0b3da97c73 100644
+--- a/Documentation/translations/it_IT/index.rst
++++ b/Documentation/translations/it_IT/index.rst
+@@ -4,6 +4,12 @@
+ Traduzione italiana
+ ===================
+ 
++.. _it_disclaimer:
++
++Disclaimer
++==========
++The following text should be the translation of :ref:`translations_disclaimer`
++
+ L'obiettivo di questa traduzione è di rendere più facile la lettura e
+ la comprensione per chi preferisce leggere in lingua italiana.
+ Tenete presente che la documentazione di riferimento rimane comunque
 -- 
-~Randy
+2.20.1
+
