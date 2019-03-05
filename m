@@ -1,157 +1,125 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FAKE_REPLY_C,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7439D7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 07:13:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 89F427D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 08:13:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725818AbfCEHNi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Mar 2019 02:13:38 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:42096 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725782AbfCEHNg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 02:13:36 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x2574HGO052297;
-        Tue, 5 Mar 2019 07:13:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type : in-reply-to;
- s=corp-2018-07-02; bh=DwMrWW13R97QKkCvcoBfMSTbzIahT4nyU9ajZ4Nvks8=;
- b=JE7X3XqloNto1yYDy/ck/ZlXn6pbXpNq3DA8NefpnsPDyZlAJ+m5leiMowKkSsb2UAjU
- KORaqeNloxOLyJbvRyHqamgiSJEdo/AUkb3NfYD8Rx1FgzLRQPeC88XUwnJxy/GuofId
- r0pmNIdXAwwJmUsgFnVytUT6S7nguS0O9/qaFiLvPTWxACA6hbZRnJXPchJR4PE9iS29
- 01W7ZIcCb0h5KhvnodvUULk1lLBzI7QmW6PCRL+oy2/kscQE6dPnNOy1UiMiRvAMyREJ
- ltvr0asrBC+6uAkpoaMVAQZXx3dh/W99vqhuhERgPxNKp3UtX84cH78ZBGx6afEqHFFs xg== 
-Received: from userv0021.oracle.com (userv0021.oracle.com [156.151.31.71])
-        by aserp2130.oracle.com with ESMTP id 2qyfbe3sbu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 05 Mar 2019 07:13:02 +0000
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userv0021.oracle.com (8.14.4/8.14.4) with ESMTP id x257D0XE003975
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 5 Mar 2019 07:13:00 GMT
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x257CtJZ023915;
-        Tue, 5 Mar 2019 07:12:55 GMT
-Received: from kadam (/197.157.34.180)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 04 Mar 2019 23:12:54 -0800
-Date:   Tue, 5 Mar 2019 10:12:43 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     kbuild@01.org, liaoweixiong <liaoweixiong@allwinnertech.com>
-Cc:     kbuild-all@01.org, Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        liaoweixiong <liaoweixiong@allwinnertech.com>
-Subject: Re: [PATCH v12 1/4] pstore/blk: new support logger for block devices
-Message-ID: <20190305071242.GF13452@kadam>
+        id S1725818AbfCEINh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Mar 2019 03:13:37 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:49242 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726179AbfCEINh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 Mar 2019 03:13:37 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id A9DEBF4980AA6D152A86;
+        Tue,  5 Mar 2019 16:13:34 +0800 (CST)
+Received: from linux-ibm.site (10.175.102.37) by
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.408.0; Tue, 5 Mar 2019 16:13:26 +0800
+From:   Hanjun Guo <guohanjun@huawei.com>
+To:     <linuxarm@huawei.com>
+CC:     John Garry <john.garry@huawei.com>,
+        Zhangshaokun <zhangshaokun@hisilicon.com>,
+        Daode Huang <huangdaode@hisilicon.com>,
+        "Jeremy Linton" <jeremy.linton@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        Hanjun Guo <guohanjun@huawei.com>
+Subject: [PATCH hulk-4.19-next 2/2] arm64: Provide a command line to disable spectre_v2 mitigation
+Date:   Tue, 5 Mar 2019 16:12:26 +0800
+Message-ID: <1551773546-28683-5-git-send-email-guohanjun@huawei.com>
+X-Mailer: git-send-email 1.7.12.4
+In-Reply-To: <1551773546-28683-1-git-send-email-guohanjun@huawei.com>
+References: <1551773546-28683-1-git-send-email-guohanjun@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1551337948-16451-2-git-send-email-liaoweixiong@allwinnertech.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9185 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1903050052
+Content-Type: text/plain
+X-Originating-IP: [10.175.102.37]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi liaoweixiong,
+From: Jeremy Linton <jeremy.linton@arm.com>
 
-url:    https://github.com/0day-ci/linux/commits/liaoweixiong/pstore-block-new-support-logger-for-block-devices/20190303-142003
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/pstore
+euler inclusion
+category: feature
+bugzilla: 11011
+DTS: NA
+CVE: NA
 
-smatch warnings:
-fs/pstore/blkzone.c:180 blkz_zone_write() error: we previously assumed 'zone->buffer' could be null (see line 167)
+Patch will be in mainlien kernel 5.2
+--------------------------------------------------
 
-# https://github.com/0day-ci/linux/commit/113727d0f1946ad094dbc6531d653a88c7a221bf
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 113727d0f1946ad094dbc6531d653a88c7a221bf
-vim +180 fs/pstore/blkzone.c
+There are various reasons, including bencmarking, to disable spectrev2
+mitigation on a machine. Provide a command-line to do so.
 
-113727d0 liaoweixiong 2019-02-28  153  
-113727d0 liaoweixiong 2019-02-28  154  static int blkz_zone_write(struct blkz_zone *zone,
-113727d0 liaoweixiong 2019-02-28  155  		enum blkz_flush_mode flush_mode, const char *buf,
-113727d0 liaoweixiong 2019-02-28  156  		size_t len, unsigned long off)
-113727d0 liaoweixiong 2019-02-28  157  {
-113727d0 liaoweixiong 2019-02-28  158  	struct blkz_info *info = blkz_cxt.bzinfo;
-113727d0 liaoweixiong 2019-02-28  159  	ssize_t wcnt;
-113727d0 liaoweixiong 2019-02-28  160  	ssize_t (*writeop)(const char *buf, size_t bytes, loff_t pos);
-113727d0 liaoweixiong 2019-02-28  161  	size_t wlen;
-113727d0 liaoweixiong 2019-02-28  162  
-113727d0 liaoweixiong 2019-02-28  163  	if (off > zone->buffer_size)
-113727d0 liaoweixiong 2019-02-28  164  		return -EINVAL;
-113727d0 liaoweixiong 2019-02-28  165  	wlen = min_t(size_t, len, zone->buffer_size - off);
-113727d0 liaoweixiong 2019-02-28  166  	if (flush_mode != FLUSH_META && flush_mode != FLUSH_NONE) {
-113727d0 liaoweixiong 2019-02-28 @167  		if (buf && zone->buffer)
-                                                           ^^^^^^^^^^^^
-Check.
-
-113727d0 liaoweixiong 2019-02-28  168  			memcpy(zone->buffer->data + off, buf, wlen);
-113727d0 liaoweixiong 2019-02-28  169  		atomic_set(&zone->buffer->datalen, wlen + off);
-113727d0 liaoweixiong 2019-02-28  170  	}
-113727d0 liaoweixiong 2019-02-28  171  
-113727d0 liaoweixiong 2019-02-28  172  	writeop = is_on_panic() ? info->panic_write : info->write;
-113727d0 liaoweixiong 2019-02-28  173  	if (!writeop)
-113727d0 liaoweixiong 2019-02-28  174  		return -EINVAL;
-113727d0 liaoweixiong 2019-02-28  175  
-113727d0 liaoweixiong 2019-02-28  176  	switch (flush_mode) {
-113727d0 liaoweixiong 2019-02-28  177  	case FLUSH_NONE:
-113727d0 liaoweixiong 2019-02-28  178  		return 0;
-113727d0 liaoweixiong 2019-02-28  179  	case FLUSH_PART:
-113727d0 liaoweixiong 2019-02-28 @180  		wcnt = writeop((const char *)zone->buffer->data + off, wlen,
-                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Unchecked.
-
-113727d0 liaoweixiong 2019-02-28  181  				zone->off + sizeof(*zone->buffer) + off);
-                                                                                    ^^^^^^^^^^^^
-This is weird.  I can't fetch for-next/pstore so I don't know what
-type "buffer" is.  It's vague.  We also have ->buffer_size which seems
-like a more expected way to describe the size.
-
-113727d0 liaoweixiong 2019-02-28  182  		if (wcnt != wlen)
-113727d0 liaoweixiong 2019-02-28  183  			goto set_dirty;
-113727d0 liaoweixiong 2019-02-28  184  	case FLUSH_META:
-113727d0 liaoweixiong 2019-02-28  185  		wlen = sizeof(struct blkz_buffer);
-113727d0 liaoweixiong 2019-02-28  186  		wcnt = writeop((const char *)zone->buffer, wlen, zone->off);
-113727d0 liaoweixiong 2019-02-28  187  		if (wcnt != wlen)
-113727d0 liaoweixiong 2019-02-28  188  			goto set_dirty;
-113727d0 liaoweixiong 2019-02-28  189  		break;
-113727d0 liaoweixiong 2019-02-28  190  	case FLUSH_ALL:
-113727d0 liaoweixiong 2019-02-28  191  		wlen = buffer_datalen(zone) + sizeof(*zone->buffer);
-113727d0 liaoweixiong 2019-02-28  192  		wcnt = writeop((const char *)zone->buffer, wlen, zone->off);
-113727d0 liaoweixiong 2019-02-28  193  		if (wcnt != wlen)
-113727d0 liaoweixiong 2019-02-28  194  			goto set_dirty;
-113727d0 liaoweixiong 2019-02-28  195  		break;
-113727d0 liaoweixiong 2019-02-28  196  	}
-113727d0 liaoweixiong 2019-02-28  197  
-113727d0 liaoweixiong 2019-02-28  198  	return 0;
-113727d0 liaoweixiong 2019-02-28  199  set_dirty:
-113727d0 liaoweixiong 2019-02-28  200  	pr_err("write failed with %zd returned, set dirty\n", wcnt);
-113727d0 liaoweixiong 2019-02-28  201  	atomic_set(&zone->dirty, true);
-113727d0 liaoweixiong 2019-02-28  202  	return -EBUSY;
-113727d0 liaoweixiong 2019-02-28  203  }
-113727d0 liaoweixiong 2019-02-28  204  
-
+Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+[Hanjun: fix conflicts which we don't have PPC PPC_FSL_BOOK3E
+ arch spectre-v2 mitigation in 4.19 kernel, so remvoe PPC_FSL_BOOK3E]
+Conflicts:
+	Documentation/admin-guide/kernel-parameters.txt
+Signed-off-by: Hanjun Guo <guohanjun@huawei.com>
 ---
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+ Documentation/admin-guide/kernel-parameters.txt |  8 ++++----
+ arch/arm64/kernel/cpu_errata.c                  | 13 +++++++++++++
+ 2 files changed, 17 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index b43fbaa..bbc34c03 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2828,10 +2828,10 @@
+ 			check bypass). With this option data leaks are possible
+ 			in the system.
+ 
+-	nospectre_v2	[X86] Disable all mitigations for the Spectre variant 2
+-			(indirect branch prediction) vulnerability. System may
+-			allow data leaks with this option, which is equivalent
+-			to spectre_v2=off.
++	nospectre_v2	[X86,ARM64] Disable all mitigations for
++			the Spectre variant 2 (indirect branch prediction)
++			vulnerability. System may allow data leaks with this
++			option.
+ 
+ 	nospec_store_bypass_disable
+ 			[HW] Disable all mitigations for the Speculative Store Bypass vulnerability
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index 74e9e80..7e5682c 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -210,6 +210,14 @@ static void qcom_link_stack_sanitization(void)
+ 		     : "=&r" (tmp));
+ }
+ 
++static bool __nospectre_v2;
++static int __init parse_nospectre_v2(char *str)
++{
++	__nospectre_v2 = true;
++	return 0;
++}
++early_param("nospectre_v2", parse_nospectre_v2);
++
+ static void
+ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
+ {
+@@ -221,6 +229,11 @@ static void qcom_link_stack_sanitization(void)
+ 	if (!entry->matches(entry, SCOPE_LOCAL_CPU))
+ 		return;
+ 
++	if (__nospectre_v2) {
++		pr_info_once("spectrev2 mitigation disabled by command line option\n");
++		return;
++	}
++
+ 	if (psci_ops.smccc_version == SMCCC_VERSION_1_0)
+ 		return;
+ 
+-- 
+1.7.12.4
+
