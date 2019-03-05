@@ -1,85 +1,146 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 917CE7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 20:15:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 15BD77D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 20:56:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728480AbfCEUPN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Mar 2019 15:15:13 -0500
-Received: from smtprelay0059.hostedemail.com ([216.40.44.59]:43965 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726534AbfCEUPN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 15:15:13 -0500
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 4FE6818224BAE;
-        Tue,  5 Mar 2019 20:15:11 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: fog92_84595543a7c23
-X-Filterd-Recvd-Size: 2575
-Received: from XPS-9350.home (unknown [47.151.153.53])
-        (Authenticated sender: joe@perches.com)
-        by omf17.hostedemail.com (Postfix) with ESMTPA;
-        Tue,  5 Mar 2019 20:15:09 +0000 (UTC)
-Message-ID: <c0ecfffb979efbe38dd02d843c175d40342e40ed.camel@perches.com>
-Subject: Re: [PATCH] docs: add extra integer types to printk-formats
-From:   Joe Perches <joe@perches.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Louis Taylor <louis@kragniz.eu>,
-        Jonathan Corbet <corbet@lwn.net>, pmladek@suse.com,
-        geert+renesas@glider.be, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux@googlegroups.com,
-        Jon Flatley <jflat@chromium.org>
-Date:   Tue, 05 Mar 2019 12:15:08 -0800
-In-Reply-To: <20190305200725.GG13380@bombadil.infradead.org>
-References: <20190303123647.22020-1-louis@kragniz.eu>
-         <20190303201016.GO9224@smile.fi.intel.com>
-         <CAKwvOdm4uCWCtSMVQDVTSKavpT0dCo+ayuwvoXtewmk+ksn5sA@mail.gmail.com>
-         <e244390e3d245c94d6d2fb036943e63111ada86d.camel@perches.com>
-         <20190305200725.GG13380@bombadil.infradead.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.30.1-1build1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1726539AbfCEU40 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Mar 2019 15:56:26 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:43741 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726427AbfCEU40 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 15:56:26 -0500
+Received: by mail-lf1-f67.google.com with SMTP id p73so6617423lfe.10;
+        Tue, 05 Mar 2019 12:56:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=WE0JkjBhL2D3ZwDI3KhHguSjafeFaOI1IIth7XaAq5U=;
+        b=S4Onm1RDenpAoQv20D6kO8ovJbXePT5gbblV3YYnd2wy4IKwVpNZ293ZWD9ZahTJPh
+         BjtW7znsMWz2l0YAgnJWh1S1I8CODtzdAFeQo1Vt10Blds18rW9z5VHKD/OsKG+0AQqY
+         Z4D2mUak55vTSNdI4bfKX2NYfMIH8+VkCaYTS7rT2PGQxSGdUQjTkVHk6DjIM20nJ1wy
+         i+4Q+IBh65aiBSYt1J3srcxr5syxvG3Mm9P+j425RUjmlvHEVxpBIHV9jA5shCbi3Wrh
+         sVJ9ncEgqIQdk6oSivcCDCkoPp8gtyK/dogle85liIwQ4UgkA8gpOvgTjmGeqm4tcFkY
+         qrQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=WE0JkjBhL2D3ZwDI3KhHguSjafeFaOI1IIth7XaAq5U=;
+        b=O1+AIobj8BUxJG+hXHY3an636vrBuTlLrlDrHOSozwHTG89U4v2sVj+nOh7QWewmZt
+         hbpLD2Q73JeCUL0eI6Gwq0klBRKrQaO8pN7Lie4S15Zv3I61ykkMUKehGymU/jrCYIl0
+         /jfTsWnkQtCbLHP5Euzu2YVelTagVviOy1i/vxQDCDA2faOq1P42ih1/Rm9EKndj9N93
+         oQ+eqcYNEb4U5Ipu9c6wc74/Ipvnh9b0JZ8ox7nNzCsha9bCVhIC7hc3wWKL4ebxIBmE
+         OIwDFt6w12RSOAhTzR6nHMQfebn+c5IUatdvNFSUTZrwwz1+U0b9torlxbDxDaEdCtiQ
+         iGcQ==
+X-Gm-Message-State: APjAAAV0eNYevjyBQSAGY2DrvNyCfdd9QzEekqGAKclqJbKi9A3CXv3w
+        IUkQ5/KRnJ9OHWAqBvs4tJY=
+X-Google-Smtp-Source: APXvYqy29jLiIHUYtLqgV8EJpQYcmDXVGiEaQ/a/70crp6G+M3YK2JJEhdG0t4Mkpubs8+3KmXdr3Q==
+X-Received: by 2002:ac2:4192:: with SMTP id z18mr1814838lfh.39.1551819383329;
+        Tue, 05 Mar 2019 12:56:23 -0800 (PST)
+Received: from localhost ([94.25.171.210])
+        by smtp.gmail.com with ESMTPSA id s21sm524371lfc.53.2019.03.05.12.56.21
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 05 Mar 2019 12:56:22 -0800 (PST)
+From:   Yury Norov <yury.norov@gmail.com>
+X-Google-Original-From: Yury Norov <ynorov@marvell.com>
+Date:   Tue, 5 Mar 2019 23:56:20 +0300
+To:     Yury Norov <ynorov@caviumnetworks.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, Adam Borowski <kilobyte@angband.pl>,
+        Alexander Graf <agraf@suse.de>,
+        Alexey Klimov <klimov.linux@gmail.com>,
+        Andreas Schwab <schwab@suse.de>,
+        Andrew Pinski <pinskia@gmail.com>,
+        Bamvor Zhangjian <bamv2005@gmail.com>,
+        Chris Metcalf <cmetcalf@mellanox.com>,
+        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Florian Weimer <fweimer@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        James Hogan <james.hogan@imgtec.com>,
+        James Morse <james.morse@arm.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        Lin Yongting <linyongting@huawei.com>,
+        Manuel Montezelo <manuel.montezelo@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+        Nathan_Lynch <Nathan_Lynch@mentor.com>,
+        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
+        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
+        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
+        Steve Ellcey <sellcey@caviumnetworks.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>, yury.norov@gmail.com
+Subject: Re: [PATCH v9 00/24] ILP32 for ARM64
+Message-ID: <20190305205620.GA3805@yury-thinkpad>
+References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180516081910.10067-1-ynorov@caviumnetworks.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2019-03-05 at 12:07 -0800, Matthew Wilcox wrote:
-> On Tue, Mar 05, 2019 at 11:59:30AM -0800, Joe Perches wrote:
-> > Many of the -Wformat warnings are bogus too.
-> > 
-> > There's nothing wrong with using %x for a unsigned int
-> > of less than long size. (u8/u16)
+On Wed, May 16, 2018 at 11:18:45AM +0300, Yury Norov wrote:
+> This series enables AARCH64 with ILP32 mode.
 > 
-> I believe you to be incorrect.
+> As supporting work, it introduces ARCH_32BIT_OFF_T configuration
+> option that is enabled for existing 32-bit architectures but disabled
+> for new arches (so 64-bit off_t userspace type is used by new userspace).
+> Also it deprecates getrlimit and setrlimit syscalls prior to prlimit64.
 > 
-> 6.5.2.2 Function calls
+> Based on kernel v4.16. Tested with LTP, glibc testsuite, trinity, lmbench,
+> CPUSpec.
 > 
-> 7 If the expression that denotes the called function has a type that does
->   include a prototype, the arguments are implicitly converted, as if by
->   assignment, to the types of the corresponding parameters, taking the
->   type of each parameter to be the unqualified version of its declared
->   type. The ellipsis notation in a function prototype declarator causes
->   argument type conversion to stop after the last declared parameter. The
->   default argument promotions are performed on trailing arguments.
+> This series on github: 
+> https://github.com/norov/linux/tree/ilp32-4.16
+> Linaro toolchain:
+> http://snapshots.linaro.org/components/toolchain/binaries/7.3-2018.04-rc1/aarch64-linux-gnu_ilp32/
+> Debian repo:
+> http://people.linaro.org/~wookey/ilp32/
+> OpenSUSE repo:
+> https://build.opensuse.org/project/show/devel:ARM:Factory:Contrib:ILP32
+> 
+> Changes:
+> v3: https://lkml.org/lkml/2014/9/3/704
+> v4: https://lkml.org/lkml/2015/4/13/691
+> v5: https://lkml.org/lkml/2015/9/29/911
+> v6: https://lkml.org/lkml/2016/5/23/661
+> v7: https://lkml.org/lkml/2017/1/9/213
+> v8: https://lkml.org/lkml/2017/6/19/624
+> v9: - rebased on top of v4.16;
+>     - signal subsystem reworked to avoid code duplication, as requested
+>       by Dave Martin (patches 18 and 20);
+>     - new files introduced in series use SPDX notation for license;
+>     - linux-api and linux-arch CCed as the series changes kernel ABI;
+>     - checkpatch and other minor fixes.
+>     - Zhou Chengming's reported-by for patch 2 and signed-off-by for
+>       patch 21 removed because his email became invalid. Zhou, please
+>       share your new email.
 
-Look at default argument promotions for varargs functions.
-(integer promotions)
+Hi all,
 
-> I could define a calling convention for my CPU which says to pack u8s
-> and u16s as tightly as possible in registers (or on the stack), rather
-> than the prevailing calling convention of having each argument take up
-> at least one register-sized slot.
+This is the 5.0-based version.
+https://github.com/norov/linux/tree/ilp32-5.0
 
-Doesn't matter for varargs.  See above.
+Since 4.20:
+ - all new files are consistently GPL2.0-licensed;
+ - AUDIT_ARCH_AARCH64ILP32 added to let syscall_get_arch()
+   differentiate ARM64/ILP32 from ARM64/ILP32.
 
-cheers, Joe
-
+Yury
