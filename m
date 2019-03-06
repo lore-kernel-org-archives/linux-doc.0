@@ -2,25 +2,25 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9C3757D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Mar 2019 22:13:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D9BD67D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Mar 2019 22:14:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726737AbfCFWNg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Mar 2019 17:13:36 -0500
+        id S1726765AbfCFWNh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Mar 2019 17:13:37 -0500
 Received: from mga07.intel.com ([134.134.136.100]:13420 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726364AbfCFWNg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 6 Mar 2019 17:13:36 -0500
+        id S1726388AbfCFWNh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 6 Mar 2019 17:13:37 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Mar 2019 14:13:34 -0800
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Mar 2019 14:13:35 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.58,449,1544515200"; 
-   d="scan'208";a="149937650"
+   d="scan'208";a="149937654"
 Received: from skuppusw-desk.jf.intel.com ([10.54.74.33])
   by fmsmga004.fm.intel.com with ESMTP; 06 Mar 2019 14:13:34 -0800
 From:   sathyanarayanan.kuppuswamy@linux.intel.com
@@ -31,9 +31,9 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         <sathyanarayanan.kuppuswamy@linux.intel.com>,
         Ashok Raj <ashok.raj@intel.com>,
         Keith Busch <keith.busch@intel.com>
-Subject: [PATCH v1 2/5] PCI/ATS: Fix PRI PF/VF dependency issues
-Date:   Wed,  6 Mar 2019 14:11:15 -0800
-Message-Id: <cc4123764e3f6b02259d3806419553c01b59edcf.1551909341.git.sathyanarayanan.kuppuswamy@linux.intel.com>
+Subject: [PATCH v1 3/5] PCI/ATS: Fix PASID PF/VF dependency issues
+Date:   Wed,  6 Mar 2019 14:11:16 -0800
+Message-Id: <ef7d85dcf69255c1cfee8082e986409a46ed8f49.1551909341.git.sathyanarayanan.kuppuswamy@linux.intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1551909341.git.sathyanarayanan.kuppuswamy@linux.intel.com>
 References: <cover.1551909341.git.sathyanarayanan.kuppuswamy@linux.intel.com>
@@ -46,127 +46,145 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
 
-As per PCIe spec r4.0, sec 9.3.7.11 ("Page Request Interface (PRI)"),
-all VFs associated with PF can only use the Page Request Interface
-of the PF and not implement it. So for any PRI capability related
-queries on a VF device use associated PF device capabilities. Also
-disable PRI on PF only when all related VFs disable PRI.
+As per PCIe spec r4.0, sec 9.3.7.14 ("PASID"), all VFs associated
+with PF can only use the PASID of the PF and not implement it.
+So for any PASID capability related queries on a VF device use
+associated PF device capabilities. Also disable PASID support on
+a PF device only when all related VFs disable PASID.
 
 Cc: Ashok Raj <ashok.raj@intel.com>
 Cc: Keith Busch <keith.busch@intel.com>
 Suggested-by: Ashok Raj <ashok.raj@intel.com>
 Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
 ---
- drivers/pci/ats.c   | 47 ++++++++++++++++++++++++++++++++++++++++++++-
+ drivers/pci/ats.c   | 62 +++++++++++++++++++++++++++++++++++++++++++++
  include/linux/pci.h |  1 +
- 2 files changed, 47 insertions(+), 1 deletion(-)
+ 2 files changed, 63 insertions(+)
 
 diff --git a/drivers/pci/ats.c b/drivers/pci/ats.c
-index 5b78f3b1b918..3fcef4544c4c 100644
+index 3fcef4544c4c..28bbf7dad425 100644
 --- a/drivers/pci/ats.c
 +++ b/drivers/pci/ats.c
-@@ -154,10 +154,33 @@ int pci_enable_pri(struct pci_dev *pdev, u32 reqs)
- 	u16 control, status;
- 	u32 max_requests;
+@@ -314,6 +314,7 @@ int pci_enable_pasid(struct pci_dev *pdev, int features)
+ {
+ 	u16 control, supported;
  	int pos;
 +	struct pci_dev *pf;
  
- 	if (WARN_ON(pdev->pri_enabled))
+ 	if (WARN_ON(pdev->pasid_enabled))
  		return -EBUSY;
+@@ -321,6 +322,29 @@ int pci_enable_pasid(struct pci_dev *pdev, int features)
+ 	if (!pdev->eetlp_prefix_path)
+ 		return -EINVAL;
  
-+	/* If PRI Capability is invalid, return error */
++	/* If PASID capability is invalid, return error */
 +	if (pdev->is_virtfn || pdev->is_physfn) {
-+		if (pdev->invalid_cap & PCI_IOV_INVALID_PRI)
++		if (pdev->invalid_cap & PCI_IOV_INVALID_PASID)
 +			return -EINVAL;
 +	}
 +
 +	if (pdev->is_virtfn) {
++		/* Since VF shares PASID with PF, use PF config */
 +		pf = pci_physfn(pdev);
 +
 +		/* If VF config does not match with PF, return error */
-+		if (!pf->pri_enabled)
++		if (!pf->pasid_enabled || pf->pasid_features != features)
 +			return -EINVAL;
 +
-+		pdev->pri_reqs_alloc = pf->pri_reqs_alloc;
-+		pdev->pri_enabled = 1;
++		pdev->pasid_features = features;
++		pdev->pasid_enabled = 1;
 +
-+		/* Increment PF PRI refcount */
-+		atomic_inc(&pf->pri_ref_cnt);
++		/* Increment PF PASID refcount */
++		atomic_inc(&pf->pasid_ref_cnt);
 +
 +		return 0;
 +	}
 +
- 	pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_PRI);
+ 	pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_PASID);
  	if (!pos)
  		return -EINVAL;
-@@ -175,7 +198,6 @@ int pci_enable_pri(struct pci_dev *pdev, u32 reqs)
- 	pci_write_config_word(pdev, pos + PCI_PRI_CTRL, control);
- 
- 	pdev->pri_enabled = 1;
--
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(pci_enable_pri);
-@@ -190,10 +212,27 @@ void pci_disable_pri(struct pci_dev *pdev)
+@@ -351,10 +375,27 @@ void pci_disable_pasid(struct pci_dev *pdev)
  {
- 	u16 control;
+ 	u16 control = 0;
  	int pos;
 +	struct pci_dev *pf;
  
- 	if (WARN_ON(!pdev->pri_enabled))
+ 	if (WARN_ON(!pdev->pasid_enabled))
  		return;
  
-+	/* All VFs should be disabled before disabling PF */
-+	if (atomic_read(&pdev->pri_ref_cnt))
++	/* All VFs PASID should be disabled before disabling PF PASID*/
++	if (atomic_read(&pdev->pasid_ref_cnt))
 +		return;
 +
 +	if (pdev->is_virtfn) {
-+		/* Since VF shares PRI with PF, use PF config. */
++		/* Since VF shares PASID with PF, use PF config. */
 +		pf = pci_physfn(pdev);
 +
-+		/* Decrement PF PRI refcount */
-+		atomic_dec(&pf->pri_ref_cnt);
++		/* Decrement PF PASID refcount */
++		atomic_dec(&pf->pasid_ref_cnt);
 +
-+		pdev->pri_enabled = 0;
++		pdev->pasid_enabled = 0;
 +
 +		return;
 +	}
 +
- 	pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_PRI);
+ 	pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_PASID);
  	if (!pos)
  		return;
-@@ -219,6 +258,9 @@ void pci_restore_pri_state(struct pci_dev *pdev)
- 	if (!pdev->pri_enabled)
+@@ -377,6 +418,9 @@ void pci_restore_pasid_state(struct pci_dev *pdev)
+ 	if (!pdev->pasid_enabled)
  		return;
  
 +	if (pdev->is_virtfn)
 +		return;
 +
- 	pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_PRI);
+ 	pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_PASID);
  	if (!pos)
  		return;
-@@ -243,6 +285,9 @@ int pci_reset_pri(struct pci_dev *pdev)
- 	if (WARN_ON(pdev->pri_enabled))
- 		return -EBUSY;
+@@ -401,6 +445,15 @@ int pci_pasid_features(struct pci_dev *pdev)
+ 	u16 supported;
+ 	int pos;
  
-+	if (pdev->is_virtfn)
-+		return 0;
++	/* If PASID Cap is invalid then return error */
++	if (pdev->is_virtfn || pdev->is_physfn) {
++		if (pdev->invalid_cap & PCI_IOV_INVALID_PASID)
++			return -EINVAL;
++	}
 +
- 	pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_PRI);
++	if (pdev->is_virtfn)
++		pdev = pci_physfn(pdev);
++
+ 	pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_PASID);
+ 	if (!pos)
+ 		return -EINVAL;
+@@ -427,6 +480,15 @@ int pci_max_pasids(struct pci_dev *pdev)
+ 	u16 supported;
+ 	int pos;
+ 
++	/* If PASID Cap is invalid then return error */
++	if (pdev->is_virtfn || pdev->is_physfn) {
++		if (pdev->invalid_cap & PCI_IOV_INVALID_PASID)
++			return -EINVAL;
++	}
++
++	if (pdev->is_virtfn)
++		pdev = pci_physfn(pdev);
++
+ 	pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_PASID);
  	if (!pos)
  		return -EINVAL;
 diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 489fc0f68bb1..d5df80ab2645 100644
+index d5df80ab2645..c6c413c52403 100644
 --- a/include/linux/pci.h
 +++ b/include/linux/pci.h
-@@ -448,6 +448,7 @@ struct pci_dev {
- #endif
- #ifdef CONFIG_PCI_PRI
- 	u32		pri_reqs_alloc;	/* Number of PRI requests allocated */
-+	atomic_t	pri_ref_cnt;	/* Number of VFs with PRI enabled */
+@@ -452,6 +452,7 @@ struct pci_dev {
  #endif
  #ifdef CONFIG_PCI_PASID
  	u16		pasid_features;
++	atomic_t	pasid_ref_cnt;	/* Number of VFs with PASID enabled */
+ #endif
+ #ifdef CONFIG_PCI_P2PDMA
+ 	struct pci_p2pdma *p2pdma;
 -- 
 2.20.1
 
