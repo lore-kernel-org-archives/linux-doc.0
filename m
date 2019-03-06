@@ -5,107 +5,87 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 57EF77D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Mar 2019 23:09:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6ACBE7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Mar 2019 23:36:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726159AbfCFXJr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Mar 2019 18:09:47 -0500
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:57438 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725788AbfCFXJr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Mar 2019 18:09:47 -0500
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 51C8480457; Thu,  7 Mar 2019 00:09:38 +0100 (CET)
-Date:   Thu, 7 Mar 2019 00:09:44 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     hpa@zytor.com, Daniel Colascione <dancol@google.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
+        id S1726010AbfCFXgX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Mar 2019 18:36:23 -0500
+Received: from terminus.zytor.com ([198.137.202.136]:47525 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725747AbfCFXgX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 6 Mar 2019 18:36:23 -0500
+Received: from hanvin-mobl2.amr.corp.intel.com (jfdmzpr04-ext.jf.intel.com [134.134.139.73])
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x26NZ67O1932541
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Wed, 6 Mar 2019 15:35:07 -0800
+Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
+ kernel
+To:     Pavel Machek <pavel@ucw.cz>,
+        Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
         atishp04@gmail.com, Borislav Petkov <bp@alien8.de>,
+        dancol@google.com, gregkh@linuxfoundation.org,
         Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>,
         Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
         Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Manoj Rao <linux@manojrajarao.com>,
+        linux-doc@vger.kernel.org, Manoj Rao <linux@manojrajarao.com>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        paulmck@linux.vnet.ibm.com,
         "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>, rostedt@goodmis.org,
+        rdunlap@infradead.org, rostedt@goodmis.org,
         Thomas Gleixner <tglx@linutronix.de>,
         "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
         yhs@fb.com
-Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
- kernel
-Message-ID: <20190306230944.GB7915@amd>
 References: <20190118225543.86996-1-joel@joelfernandes.org>
- <20190119082532.GA9004@kroah.com>
- <20190119162754.GC231277@google.com>
- <CAKOZuet+7a4jdox6rebMN=kJtDn5RUYzvNjFh+Pzn2UkuP0Y8Q@mail.gmail.com>
- <20190119232503.GA149403@google.com>
- <78AACAF1-8EBF-4DF3-BE94-5B14E78BA791@zytor.com>
- <20190120155838.GA23827@google.com>
+ <20190306230934.GA7915@amd>
+From:   "H. Peter Anvin" <hpa@zytor.com>
+Message-ID: <3ada6062-d9f1-867e-828b-2796fb8d0a66@zytor.com>
+Date:   Wed, 6 Mar 2019 15:35:05 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="aM3YZ0Iwxop3KEKx"
-Content-Disposition: inline
-In-Reply-To: <20190120155838.GA23827@google.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20190306230934.GA7915@amd>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 3/6/19 3:09 PM, Pavel Machek wrote:
+> On Fri 2019-01-18 17:55:43, Joel Fernandes wrote:
+>> From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+>>
+>> Introduce in-kernel headers and other artifacts which are made available
+>> as an archive through proc (/proc/kheaders.tgz file). This archive makes
+>> it possible to build kernel modules, run eBPF programs, and other
+>> tracing programs that need to extend the kernel for tracing purposes
+>> without any dependency on the file system having headers and build
+>> artifacts.
+>>
+>> On Android and embedded systems, it is common to switch kernels but not
+>> have kernel headers available on the file system. Raw kernel headers
+>> also cannot be copied into the filesystem like they can be on other
+>> distros, due to licensing and other issues. There's no linux-headers
+> 
+> If your licensing prevents you from having headers on the
+> filesystem... then I guess you should fix the licensing.
+> 
+> I agree with Christoph, this looks pretty horrible.
+> 									Pavel
+> 
 
---aM3YZ0Iwxop3KEKx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The argument that "it can be a module" is basically an admission of
+failure - if it isn't part of the kernel image itself there is no
+benefit over where the modules are stored, which will be *somewhere* in
+the filesystem.
 
+What I *do* think makes sense is to create an archive with this
+information and stuff it in the same place as the modules. It reduces
+the amount it is possible to muck it up.
 
-> > >Ok, I'll look into LZMA. Thanks for checking the compression sizes.
-> > >
-> > >- Joel
-> >=20
-> > Don't use lzma, use xz if you are going to do something.
->=20
-> Ok, sounds good.
->=20
-> > However, it seems unlikely to me that someone not willing to spend the =
-space in the filesystem will spend unswappable kernel memory.
-> >=20
-> > It would seem that a far saner way to do this is to use inittmpfs or pe=
-rhaps an auxiliary "ktmpfs" so it can at least be swapped out if you have s=
-wap.
->=20
-> But this is already possible with the proposed solution, you would load t=
-he
-> module, extract it into a tmpfs, and unload the module. TMPFS pages can
-> already be swapped.
+	-hpa
 
-So your licensing requirements prevent you from having headers in the
-filesystem, but allow module with the headers hidden inside on the
-filesystem?
-
-Looks like you should just tar xvzf
-this-is-a-kernel-module-I-promise.ko /usr/src/linux/include :-).
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---aM3YZ0Iwxop3KEKx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlyAUzgACgkQMOfwapXb+vJQHQCdE/XXkghlja4N42Pg3cnPr7S7
-iKsAoJZ4ULf9mtuzWpfcFy+DYm/5G5fJ
-=dKWB
------END PGP SIGNATURE-----
-
---aM3YZ0Iwxop3KEKx--
