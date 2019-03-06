@@ -1,106 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4C12B7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Mar 2019 01:16:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DAC437D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Mar 2019 01:35:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728289AbfCFBQx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Mar 2019 20:16:53 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:52050 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727725AbfCFBQx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 20:16:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=uF2s2oN/pA5324ShmIRECBh1pVl3sWAB0R8+ZfXphDk=; b=av/E9wUzwVagWuKpOKY+hdp4/
-        A90DIkuzqoq+i8WbCnwv4OMQFonfnpJGaBSz0b/XtvmqY5U6HAADg3fmama72dhOP10wBzlxwkz7F
-        crMC2CnS2a31IiZGu1MOgT32b9DNeU9seT2qx5/MfDt3+GEPtPJDoi786tjsjWt74Y0i0qU9vNCYP
-        3wK6TT4oAALWD/5avebyR+s00SmVS2HzsOGEp7ACwRrk5s+0zFW6Qm0fqlCAsMSq6M2VyZww5+hph
-        71NBSG0kwJotHU4ZSENiE9gZFjLZCmBCKNoq6tqQjD5DPvJtpqq1JVrjnATcg8CT8JsFQ6vUwSWxu
-        7gtWdaicA==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=dragon.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1h1LAu-0000Km-UL; Wed, 06 Mar 2019 01:16:48 +0000
-Subject: Re: [PATCH v12 3/4] pstore/blk: support pmsg for pstore block
-To:     liaoweixiong <liaoweixiong@allwinnertech.com>,
-        Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1551337948-16451-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1551337948-16451-4-git-send-email-liaoweixiong@allwinnertech.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <a7ae72c0-2425-a43a-da53-22f30a173f7e@infradead.org>
-Date:   Tue, 5 Mar 2019 17:16:41 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1727299AbfCFBfh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Mar 2019 20:35:37 -0500
+Received: from mail-it1-f193.google.com ([209.85.166.193]:50244 "EHLO
+        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726655AbfCFBfh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 20:35:37 -0500
+Received: by mail-it1-f193.google.com with SMTP id m137so7144458ita.0
+        for <linux-doc@vger.kernel.org>; Tue, 05 Mar 2019 17:35:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nnH5gTz+dmOUwUqdWQFZb+nIuHdSODZLbf2vioXCAnk=;
+        b=fCP/wRgIYLeiTmFflgsjdwwp0QsBmy7GKbkTMNUOTJN3bUEiQK5DVFEB7vr0vLRi3f
+         +FA4NcDElVBKw69oVPwkI9Q8bCo8TQHlIw2YfWd4UxOAm1MHrBA4B54FXVURqogfRZY4
+         M50OogYNM13dMbHJZnx4IH69KvHbBup6d/KoM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nnH5gTz+dmOUwUqdWQFZb+nIuHdSODZLbf2vioXCAnk=;
+        b=YKXZ8I/bE+9gR4l8pXPu9q+VRBF8FJgZmvaa2O0bGc/aevkWP/ccrj9vnbkRaZIs7r
+         k4xIgCIo8tOdKKi1CbiNngWkuFLYJJq9cnBkfzxYzBkxjwHTQZ7XAI6zZYOFZQ4yPyZa
+         H1rlN9uaoqWByhlyFLWXZMLUNWT9mXY+ZJ8Vcvc4EJbxmG+h1BzejR+7j5iai6H17BgP
+         sdKwdWNi7eHRW9toTuUfyAlbngEbi6QItuF1WsqrizuRkzYvPj9JHTfVvVsMQRu2c+Ec
+         ip/nL+vPdim6jwmH6OwBg3VM0Vzlx1mIDx2jX1zV1nBBH/pd8y5e3XYRk0Y+19OTTh3t
+         tcKQ==
+X-Gm-Message-State: APjAAAW4iX+sA64DJuf6mlIEzwEJuCsyrDEOrwF1iCsJkwNJgWqFuK3p
+        cmEiqibC7YqfFd2vlbqFqWJW+F67v3Ge1TE3XGHRMw==
+X-Google-Smtp-Source: APXvYqxej0lhInzne5NXHvBkXSEhPEAZJNAeSRcEpKwOs9nJoEQyJXn9c82lVv/8xPPEFiqnHi+itxduPEsOPHOWRTY=
+X-Received: by 2002:a24:38c:: with SMTP id e134mr764476ite.24.1551836136101;
+ Tue, 05 Mar 2019 17:35:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1551337948-16451-4-git-send-email-liaoweixiong@allwinnertech.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190305044936.22267-1-dbasehore@chromium.org>
+ <20190305044936.22267-2-dbasehore@chromium.org> <155181177527.20095.15680753964583935841@swboyd.mtv.corp.google.com>
+In-Reply-To: <155181177527.20095.15680753964583935841@swboyd.mtv.corp.google.com>
+From:   "dbasehore ." <dbasehore@chromium.org>
+Date:   Tue, 5 Mar 2019 17:35:24 -0800
+Message-ID: <CAGAzgso9-1j2XDsHQn+RbSTtV8Vqideu_nG=2qCJD94iyaxFFQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] clk: Remove recursion in clk_core_{prepare,enable}()
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-doc@vger.kernel.org,
+        Michael Turquette <mturquette@baylibre.com>,
+        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        aisheng.dong@nxp.com, mchehab+samsung@kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, jbrunet@baylibre.com,
+        Stephen Boyd <sboyd@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Tue, Mar 5, 2019 at 10:49 AM Stephen Boyd <sboyd@kernel.org> wrote:
+>
+> Quoting Derek Basehore (2019-03-04 20:49:31)
+> > From: Stephen Boyd <sboyd@codeaurora.org>
+> >
+> > Enabling and preparing clocks can be written quite naturally with
+> > recursion. We start at some point in the tree and recurse up the
+> > tree to find the oldest parent clk that needs to be enabled or
+> > prepared. Then we enable/prepare and return to the caller, going
+> > back to the clk we started at and enabling/preparing along the
+> > way. This also unroll the recursion in unprepare,disable which can
+> > just be done in the order of walking up the clk tree.
+> >
+> > The problem is recursion isn't great for kernel code where we
+> > have a limited stack size. Furthermore, we may be calling this
+> > code inside clk_set_rate() which also has recursion in it, so
+> > we're really not looking good if we encounter a tall clk tree.
+> >
+> > Let's create a stack instead by looping over the parent chain and
+> > collecting clks of interest. Then the enable/prepare becomes as
+> > simple as iterating over that list and calling enable.
+> >
+> > Modified verison of https://lore.kernel.org/patchwork/patch/814369/
+> > -Fixed kernel warning
+> > -unrolled recursion in unprepare/disable too
+> >
+> > Cc: Jerome Brunet <jbrunet@baylibre.com>
+> > Signed-off-by: Stephen Boyd <sboyd@codeaurora.org>
+> > Signed-off-by: Derek Basehore <dbasehore@chromium.org>
+> > ---
+>
+> From the original post:
+>
+> "I have some vague fear that this may not work if a clk op is framework
+> reentrant and attemps to call consumer clk APIs from within the clk ops.
+> If the reentrant call tries to add a clk that's already in the list then
+> we'll corrupt the list. Ugh."
+>
+> Do we have this sort of problem here? Or are you certain that we don't
+> have clks that prepare or enable something that is already in the
+> process of being prepared or enabled?
 
-On 2/27/19 11:12 PM, liaoweixiong wrote:
-> diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
-> index 7dfe00b..b417bf5 100644
-> --- a/fs/pstore/Kconfig
-> +++ b/fs/pstore/Kconfig
-> @@ -210,6 +210,27 @@ config PSTORE_BLKOOPS_DMESG_SIZE
->  	     It is the first priority. Take care of that blkoops will take lower
->  	     priority settings if higher priority one do not set.
->  
-> +config PSTORE_BLKOOPS_PMSG_SIZE
-> +	int "pmsg size in kbytes for blkoops"
-> +	depends on PSTORE_BLKOOPS
-> +	default 64
-> +	help
-> +	  This just sets size of pmsg (pmsg_size) for pstore/blk. The value must
-> +	  be a multiple of 4096. Pmsg work only if "blkdev" is set.
+I can look into whether anything's doing this and add a WARN_ON which
+returns an error if we ever hit that case. If this is happening on
+some platform, we'd want to correct that anyways.
 
-	                              works
-
-> +
-> +	  NOTE that, there are three ways to set parameters of blkoops and
-> +	  prioritize according to configuration flexibility. That is
-> +	  Kconfig < device tree < module parameters. It means that the value can
-> +	  be overwritten by higher priority settings.
-> +	  1. Kconfig
-> +	     It	just sets a default value.
-> +	  2. device tree
-> +	     It is set on device tree, which will overwrites value from Kconfig,
-
-	                                          overwrite the value from Kconfig,
-
-> +	     but can also be overwritten by module parameters.
-> +	  3. module parameters
-> +	     It is the first priority. Take care of that blkoops will take lower
-> +	     priority settings if higher priority one do not set.
-> +
->  config PSTORE_BLKOOPS_TOTAL_SIZE
->  	int "total size in kbytes for blkoops"
->  	depends on PSTORE_BLKOOPS
-
-cheers.
--- 
-~Randy
+>
