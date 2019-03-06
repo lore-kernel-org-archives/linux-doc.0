@@ -1,312 +1,289 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C767D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Mar 2019 09:14:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 818987D910
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Mar 2019 12:26:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729593AbfCFJOn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Mar 2019 04:14:43 -0500
-Received: from mail-yw1-f68.google.com ([209.85.161.68]:37679 "EHLO
-        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729323AbfCFJOn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Mar 2019 04:14:43 -0500
-Received: by mail-yw1-f68.google.com with SMTP id k14so9379768ywe.4;
-        Wed, 06 Mar 2019 01:14:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=alYKQPUHca4uLIkfx/1bE4mCFPho4yjweOaZSvmjk0Y=;
-        b=dlH9AVAS0340BUXZ+L+i8Qv5pip0T2bIeE+pJmCPehbYEgy4+ZDXawy7BvmtMXaFKI
-         zAN020441WmeTUi0+mlNgXy9c08xZM45LS3bWgy7d5xw64J48BBJ71KGskz60TITz6UT
-         q6ch/tIjeF8yp6EvyIRamTFTSLDSB+/5bdUypGzXNCX0KS58kfiqrmB98GRBGhrN3+UY
-         Xgiu2QihkSNTvJV2CgnYMZssv4NIJn5MOleOqKWzIYM72gtTX9Gs+GXfQ5DyIO7M7SZE
-         8huoDAUR5qJzIV8n2EYzEN5tCCWTrwJZFqLkTlNnXk+YEWTLJBwA1ujXspoaNcfD8uCU
-         YGiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=alYKQPUHca4uLIkfx/1bE4mCFPho4yjweOaZSvmjk0Y=;
-        b=A3cEw1yzjRStSV43Mw7XpUsJL39pavX5Ia7tI/zrs5ItZTktHbMC8e5cWYFJ+zaTPt
-         56luFgnWXYLIZOE05TprjidCfb1Xj1/er7YzPkgB/fEcjOQWF4YB90HQfE8gxw84c3o0
-         CTYxZCpGtiSgJrbyhJjp1+8cYjtCTH+oSqvA48LKVxKEAlDX8OtFYjLzS62RIO1CUEN7
-         RDy9/uq6CvHhJfoytj5TeQm8Nxukwp1jFpU08o0BDdF1iJu/2mBNCokgvCTirn17SyrT
-         DJ9uVMpeGisqWng/xBloYLe7n2PbSnjwRRjB70RDnBxNGKWmkR3HbH7SJr8oFFTK9/79
-         T9gg==
-X-Gm-Message-State: APjAAAUgN7tKHEzXh7yTvO7h/PUW+0igVJvHsJ9fqQ152SnuB7tPmyJI
-        zmOADje3JF8R6vc7CNKPPyDUqEl2yDZaDVN/QbKr9yxI
-X-Google-Smtp-Source: APXvYqzxujte6zVDBDz2nBPPhOqKmZKHMmso8TKtUt4bxxE/eTOE8NRNHspyGpLuHNXVnF5g3A4S/JKyOR8w8i0Xxpg=
-X-Received: by 2002:a81:1b4b:: with SMTP id b72mr4346441ywb.211.1551863681544;
- Wed, 06 Mar 2019 01:14:41 -0800 (PST)
+        id S1729593AbfCFM07 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Mar 2019 07:26:59 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:32979 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727222AbfCFM06 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Mar 2019 07:26:58 -0500
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id x26CQpg4002356;
+        Wed, 6 Mar 2019 21:26:52 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x26CQpg4002356
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1551875212;
+        bh=4Xv1H+Zj6i1W+ilWTSvJEfS0gmCIi4GCEjoHtRx3Yt8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=xWAGuuFXT1rrYsrsCicokNerJUGqlHlb6XOC7GIvjL2yC//W/qLbzCgiY+WuUdhxR
+         RIG705blC05xPHbxAt6Rf8OhkPQFG7WMtEhwFfP9RygDt+417awoBUEkUP0Z9ljJfD
+         dBHQmn1NlSyCX3/aN+fGgyXWjVy+5C6mXlJOn/QSMWkfQwG6/GmSYBHGI0GKZW8dfH
+         oINrPngu1T4WHoBwlIyPktt3kXF8qJVIjaLjr2ykzYtvEXDZzMbJaFDuWXYxadCIJM
+         63lsZ/qVo/nXSxkU87PRlwKVc44qdVqfb8KDrFU0H3q3/thqcN3wQM7r7LCzv0Kzna
+         lGiu7j8/y+b6w==
+X-Nifty-SrcIP: [209.85.221.171]
+Received: by mail-vk1-f171.google.com with SMTP id i68so2761836vke.6;
+        Wed, 06 Mar 2019 04:26:51 -0800 (PST)
+X-Gm-Message-State: APjAAAVeZ161T9ArYu/eBeFXhZMc9AzzKX40t7R28sOWB3PB1W5d9xLr
+        eBAXgP3Zw+h/sgNDJHzqZZn7U3pL0pP1/6pjJGk=
+X-Google-Smtp-Source: APXvYqxzOL94o4BToMag0LNlf7SNHkOmde2zwl3rU++3Ssim6ndvo7Zb3ew2c196YSoRiS2pYq6O91IK6yHuul+r3Bo=
+X-Received: by 2002:a1f:b754:: with SMTP id h81mr2953428vkf.64.1551875210686;
+ Wed, 06 Mar 2019 04:26:50 -0800 (PST)
 MIME-Version: 1.0
-References: <1551841140-3708-1-git-send-email-jaya@cs.utexas.edu>
-In-Reply-To: <1551841140-3708-1-git-send-email-jaya@cs.utexas.edu>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Wed, 6 Mar 2019 11:14:30 +0200
-Message-ID: <CAOQ4uxgOq_QVs7MmkG1gUYHyo2+4s8pnZCNPxV0zURjsw3aTjQ@mail.gmail.com>
-Subject: Re: [PATCH] Documenting the crash-recovery guarantees of Linux file systems
-To:     Jayashree <jaya@cs.utexas.edu>
-Cc:     fstests <fstests@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        Vijaychidambaram Velayudhan Pillai <vijay@cs.utexas.edu>,
-        Dave Chinner <david@fromorbit.com>,
-        Theodore Tso <tytso@mit.edu>,
-        Filipe Manana <fdmanana@gmail.com>, chao@kernel.org
+References: <20190301160856.129678-1-joel@joelfernandes.org>
+ <201903030526.3AuYFiuN%fengguang.wu@intel.com> <CAJWu+op541tQ_TBJs-kOyRRBYDWiN0Znpb=cUQFxuLg-SmjO_g@mail.gmail.com>
+In-Reply-To: <CAJWu+op541tQ_TBJs-kOyRRBYDWiN0Znpb=cUQFxuLg-SmjO_g@mail.gmail.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed, 6 Mar 2019 21:26:14 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARGQE9y6hr7ZoTbn5-GkPBN2Gk-4=3=Cfnr7Oy-+q69kg@mail.gmail.com>
+Message-ID: <CAK7LNARGQE9y6hr7ZoTbn5-GkPBN2Gk-4=3=Cfnr7Oy-+q69kg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
+ extend the kernel
+To:     Joel Fernandes <joelaf@google.com>
+Cc:     kbuild test robot <lkp@intel.com>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        kbuild-all@01.org, LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 6, 2019 at 4:59 AM Jayashree <jaya@cs.utexas.edu> wrote:
+On Mon, Mar 4, 2019 at 1:15 AM Joel Fernandes <joelaf@google.com> wrote:
 >
->  In this file, we document the crash-recovery guarantees
->  provided by four Linux file systems - xfs, ext4, F2FS and btrfs. We also
->  present Dave Chinner's proposal of Strictly-Ordered Metadata Consistency
->  (SOMC), which is provided by xfs. It is not clear to us if other file sy=
-stems
->  provide SOMC
-
-Nice work.
-You may add
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-
-Few nits below.
-
-> ; we would be happy to modify the document if file-system
->  developers claim that their system provides (or aims to provide) SOMC.
-
-This part belongs after the --- line
-IOW, it does not belong in the commit message.
-
+> This report is for an older version of the patch so ignore it. The
+> issue is already resolved.
 >
-> Signed-off-by: Jayashree Mohan <jaya@cs.utexas.edu>
-> ---
->  .../filesystems/crash-recovery-guarantees.txt      | 173 +++++++++++++++=
-++++++
->  1 file changed, 173 insertions(+)
->  create mode 100644 Documentation/filesystems/crash-recovery-guarantees.t=
-xt
->
-> diff --git a/Documentation/filesystems/crash-recovery-guarantees.txt b/Do=
-cumentation/filesystems/crash-recovery-guarantees.txt
-> new file mode 100644
-> index 0000000..4d1a9c6b
-> --- /dev/null
-> +++ b/Documentation/filesystems/crash-recovery-guarantees.txt
-> @@ -0,0 +1,173 @@
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +File System Crash-Recovery Guarantees
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Linux file systems provide certain guarantees to user-space
-> +applications about what happens to their data if the system crashes
-> +(due to power loss or kernel panic). These are termed crash-recovery
-> +guarantees.
-> +
-> +Crash-recovery guarantees only pertain to data or metadata that has
-> +been explicitly persisted to storage with fsync(), fdatasync(), or
-> +sync() system calls. By default, write(), mkdir(), and other
-> +file-system related system calls only affect the in-memory state of
-> +the file system.
-> +
-> +The crash-recovery guarantees provided by most Linux file systems are
-> +significantly stronger than what is required by POSIX. POSIX is vague,
-> +even allowing fsync() to do nothing (Mac OSX takes advantage of
-> +this). However, the guarantees provided by file systems are not
-> +documented, and vary between file systems. This document seeks to
-> +describe the current crash-recovery guarantees provided by major Linux
-> +file systems.
-> +
-> +What does the fsync() operation guarantee?
-> +----------------------------------------------------
-> +fsync() operation is meant to force the physical write of data
-> +corresponding to a file from the buffer cache, along with the file
-> +metadata. Note that the guarantees mentioned for each file system below
-> +are in addition to the ones provided by POSIX.
-> +
-> +POSIX
-> +-----
-> +fsync(file) : Flushes the data and metadata associated with the
-> +file. However, if the directory entry for the file has not been
-> +previously persisted, or has been modified, it is not guaranteed to be
-> +persisted by the fsync of the file [1]. What this means is, if a file
-> +is newly created, you will have to fsync(parent directory) in addition
-> +to fsync(file) in order to ensure that the file data has safely
-> +reached the disk.
+> On Sat, Mar 2, 2019 at 2:00 PM kbuild test robot <lkp@intel.com> wrote:
+> >
+> > Hi Joel,
+> >
+> > Thank you for the patch! Yet something to improve:
+> >
+> > [auto build test ERROR on linus/master]
+> > [also build test ERROR on v5.0-rc8]
+> > [cannot apply to next-20190301]
+> > [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+> >
+> > url:    https://github.com/0day-ci/linux/commits/Joel-Fernandes-Google/Provide-in-kernel-headers-for-making-it-easy-to-extend-the-kernel/20190303-014850
+> > config: sh-allmodconfig (attached as .config)
+> > compiler: sh4-linux-gnu-gcc (Debian 8.2.0-11) 8.2.0
+> > reproduce:
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         # save the attached .config to linux build tree
+> >         GCC_VERSION=8.2.0 make.cross ARCH=sh
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> > >> find: 'arch/sh/kernel/module.lds': No such file or directory
+> > >> find: 'arch/sh/kernel/module.lds': No such file or directory
+> >
+> > ---
+> > 0-DAY kernel test infrastructure                Open Source Technology Center
+> > https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+> >
+> > --
+> > You received this message because you are subscribed to the Google Groups "kernel-team" group.
+> > To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
 
-No. In order to ensure that the file's *directory entry* will persist.
-Throughout the doc, if you just say "file will persist" the meaning
-is ambiguous. "file data will persist" "file metadata will persist"
-and "file directory entry will persist" are three distinguished
-outcomes.
 
-> +
-> +fsync(dir) : Flushes directory data and directory entries. However if
-> +you created a new file within the directory and wrote data to the
-> +file, then the file data is not guaranteed to be persisted, unless an
-> +explicit fsync() is issued on the file.
-> +
-> +ext4
-> +-----
-> +fsync(file) : Ensures that a newly created file is persisted (no need
 
-newly created file directory entry is persisted
+Honestly speaking, I am worried about some flaws
+in this feature, but anyway I read your code.
 
-> +to explicitly persist the parent directory). However, if you create
-> +multiple names of the file (hard links), then they are not guaranteed
-> +to persist unless each one of the hard links are persisted [2].
+Here are just comments from the build system point of view
+in case something might be useful.
 
-"...then the hard linked directory entries are not guarantied to persist
-unless each one of the parent directories are persisted."
+Please feel free to adopt some of them if you think they are good.
 
-> +
-> +fsync(dir) : All file names within the persisted directory will exist,
-> +but does not guarantee file data.
-> +
-> +btrfs
-> +------
-> +fsync(file) : Ensures that the newly created file is persisted, along
-> +with all its hard links. You do not need to persist individual hard
-> +links to the file.
+(I do not think you need to re-post a patch just for
+adding Reviewed-by/Tested-by tags, but anyway looks like you are
+planning to post a new version.)
 
-Rephrase to disambiguate
 
-> +
-> +fsync(dir) : All the file names within the directory persist. All the
-> +rename and unlink operations within the directory are persisted. Due
-> +to the design choices made by btrfs, fsync of a directory could lead
-> +to an iterative fsync on sub-directories, thereby requiring a full
-> +file system commit. So btrfs does not advocate persisting directories
-> +[2].
-> +
-> +fsync(symlink)
-> +-------------
-> +A symlink inode cannot be directly opened for IO, which means there is
-> +no such thing as fsync of a symlink [3]. You could be tricked by the
-> +fact that open and fsync of a symlink succeeds without returning a
-> +error, but what happens in reality is as follows.
-> +
-> +Suppose we have a symlink =E2=80=9Cfoo=E2=80=9D, which points to the fil=
-e =E2=80=9CA/bar=E2=80=9D
-> +
-> +fd =3D open(=E2=80=9Cfoo=E2=80=9D, O_CREAT | O_RDWR)
-> +fsync(fd)
-> +
-> +Both the above operations succeed, but if you crash after fsync, the
-> +symlink could be still missing.
-> +
-> +When you try to open the symlink =E2=80=9Cfoo=E2=80=9D, you are actually=
- trying to
-> +open the file that the symlink resolves to, which in this case is
-> +=E2=80=9CA/bar=E2=80=9D. When you fsync the inode returned by the open s=
-ystem call, you
-> +are actually persisting the file =E2=80=9CA/bar=E2=80=9D and not the sym=
-link. Note
-> +that if the file =E2=80=9CA/bar=E2=80=9D does not exist and you try the =
-open the
-> +symlink =E2=80=9Cfoo=E2=80=9D without the O_CREAT flag, then file open w=
-ill fail. To
-> +obtain the file descriptor associated with the symlink inode, you
-> +could open the symlink using =E2=80=9CO_PATH | O_NOFOLLOW=E2=80=9D flags=
-. However, the
-> +file descriptor obtained this way can be only used to indicate a
-> +location in the file-system tree and to perform operations that act
-> +purely at the file descriptor level. Operations like read(), write(),
-> +fsync() etc cannot be performed on such file descriptors.
-> +
-> +Bottomline : You cannot fsync() a symlink.
-> +
-> +fsync(special files)
-> +--------------------
-> +Special files in Linux include block and character device files
-> +(created using mknod), FIFO (created using mkfifo) etc. Just like the
-> +behavior of fsync on symlinks described above, these special files do
-> +not have a fsync function defined. Similar to symlinks, you
-> +cannot fsync a special file [4].
-> +
-> +
-> +Strictly Ordered Metadata Consistency
-> +-------------------------------------
-> +With each file system providing varying levels of persistence
-> +guarantees, a consensus in this regard, will benefit application
-> +developers to work with certain fixed assumptions about file system
-> +guarantees. Dave Chinner proposed a unified model called the
-> +Strictly Ordered Metadata Consistency (SOMC) [5].
-> +
-> +Under this scheme, the file system guarantees to persist all previous
-> +dependent modifications to the object upon fsync().  If you fsync() an
-> +inode, it will persist all the changes required to reference the inode
-> +and its data. SOMC can be defined as follows [6]:
-> +
-> +If op1 precedes op2 in program order (in-memory execution order), and
-> +op1 and op2 share a dependency, then op2 must not be observed by a
-> +user after recovery without also observing op1.
-> +
-> +Unfortunately, SOMC's definition depends upon whether two operations
-> +share a dependency, which is file-system specific. A developer would
-> +need to understand file-system internals to know if SOMC would order
-> +one operation before another. It is worth noting that a file system
-> +can be crash-consistent (according to POSIX), without providing SOMC
-> +[7].
-> +
-> +Example
-> +-------
-> +touch A/foo
-> +echo =E2=80=9Chello=E2=80=9D >  A/foo
-> +sync
-> +
-> +mv A/foo A/bar
-> +echo =E2=80=9Cworld=E2=80=9D > A/foo
-> +fsync A/foo
-> +CRASH
-> +
-> +What would you expect on recovery, if the file system crashed after
-> +the final fsync returned successfully?
-> +
-> +Non SOMC file systems will not persist the file
-> +A/bar because it was not explicitly fsync-ed. But this means, you will
-> +find only the file A/foo with data =E2=80=9Cworld=E2=80=9D after crash, =
-thereby losing
-> +the previously persisted file with data =E2=80=9Chello=E2=80=9D [8]. You=
- will need to
-> +explicitly persist the directory A to ensure the rename operation is
-> +safely persisted on disk.
-> +
-> +Under SOMC, to correctly reference the new inode via A/foo,
-> +the previous rename operation must persist as well. Therefore,
-> +fsync() of A/foo will persist the renamed file A/bar as well.
-> +On recovery you will find both A/bar (with data =E2=80=9Chello=E2=80=9D)
-> +and A/foo (with data =E2=80=9Cworld=E2=80=9D).
-> +
-> +It is noteworthy that xfs, ext4, F2FS (when mounted with fsync_mode=3Dst=
-rict)
-> +and btrfs provide SOMC like behaviour in this particular example.
-> +However, on document, only XFS claims to provide SOMC.
-> +It is not clear if ext4, F2FS and btrfs provide strictly ordered
-> +metadata consistency.
-> +
-> +--------------------------------------------------------
-> +[1] http://man7.org/linux/man-pages/man2/fdatasync.2.html
-> +[2] https://www.spinics.net/lists/linux-btrfs/msg77340.html
-> +[3] https://www.spinics.net/lists/fstests/msg09370.html
-> +[4] https://bugzilla.kernel.org/show_bug.cgi?id=3D202485
-> +[5] https://marc.info/?l=3Dfstests&m=3D155010885626284&w=3D2
-> +[6] https://marc.info/?l=3Dfstests&m=3D155011123126916&w=3D2
-> +[7] https://www.spinics.net/lists/fstests/msg09379.html
-> +[8] https://patchwork.kernel.org/patch/10132305/
-> +
-> --
-> 2.7.4
->
+
+[1]
+
+Please do not ignore kbuild test robot.
+
+It never makes such a mistake like
+replying to a new patch about the test result from old version.
+
+The reports are really addressing this version (v4).
+
+I see the error message even on x86.
+
+
+[2]
+
+The shell script keeps running
+even when an error occurs.
+
+If any line in a shell script fails,
+probably it went already wrong.
+
+I highly recommend to add 'set -e'
+at the very beginning of your shell script.
+
+It will propagate the error to Make.
+
+
+
+[3]
+
+targets += kheaders_data.tar.xz
+targets += kheaders_data.h
+targets += kheaders.md5
+
+These three lines are unneeded because
+'targets' is necessary just for if_changed or if_changed_rule.
+
+Instead, please add
+
+clean-files := kheaders_data.tar.xz kheaders_data.h kheaders.md5
+
+
+[4]
+
+It is pointless to pass 'ikh_file_list'
+from Makefile to the shell script.
+
+
+You can directly describe the following in gen_ikh_data.sh
+
+You do not need to use sed.
+
+
+src_file_list="
+include/
+arch/$SRCARCH/Makefile
+arch/$SRCARCH/include/
+arch/$SRCARCH/kernel/module.lds
+scripts/
+Makefile
+"
+
+obj_file_list="
+scripts/
+include/
+arch/$SRCARCH/include/
+"
+
+if grep -q "^CONFIG_STACK_VALIDATION=y" $KCONFIG_CONFIG; then
+        obj_file_list="$obj_file_list tools/objtool/objtool"
+fi
+
+
+
+Be careful about module.lds
+so that it will work for all architectures.
+
+
+
+
+[5]
+strip-comments.pl is short enough,
+and I do not assume any other user.
+
+
+IMHO, it would be cleaner to embed the one-liner perl
+into the shell script, for example, like follows:
+
+find  $cpio_dir -type f -print0 |
+ xargs -0 -P8 -n1 perl -pi -e 'BEGIN {undef $/;}; s/\/\*((?!SPDX).)*?\*\///smg;'
+
+
+
+[6]
+It might be better to move
+scripts/gen_ikh_data.sh to kernel/gen_ikh_data.sh
+
+It will make this feature self-contained in kernel/.
+And (more importantly to me), it would reduce my maintenance field.
+
+
+
+[7]
+I do not understand for what 'tarfile_md5' is used.
+Is it necessary?
+
+
+
+[8]
+Is it more efficient to pipe the header files
+to perl script like this?
+
+
+ cat (header) | perl 'do something' > (tmp directory)
+
+
+Actually, I am not sure if it is more efficient than
+stripping comments in-line. I could be wrong...
+
+
+[9]
+
+I'd prefer avoiding 'pushd && popd' if possible.
+
+Hint: Kbuild already runs at the top directory
+of objtree.
+
+
+It is OK if the change would mess up the script.
+
+
+[10]
+
+You can embed a binary directly into C file
+without producing a giant header file.
+
+I refactored kernel/configs.c
+https://lore.kernel.org/patchwork/patch/1042013/
+
+Be careful; my patch has not been merged yet into the mainline.
+
+It has been a while in linux-next,
+and I have not received any problem report.
+
+So, I am guessing it will probably be merged
+in the current MW.
+
+
+
+
+That's all from me.
+
+
+-- 
+Best Regards
+Masahiro Yamada
