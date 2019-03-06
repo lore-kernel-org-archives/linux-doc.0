@@ -1,113 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DAC437D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Mar 2019 01:35:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 001917D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Mar 2019 01:57:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727299AbfCFBfh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Mar 2019 20:35:37 -0500
-Received: from mail-it1-f193.google.com ([209.85.166.193]:50244 "EHLO
-        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726655AbfCFBfh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 20:35:37 -0500
-Received: by mail-it1-f193.google.com with SMTP id m137so7144458ita.0
-        for <linux-doc@vger.kernel.org>; Tue, 05 Mar 2019 17:35:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nnH5gTz+dmOUwUqdWQFZb+nIuHdSODZLbf2vioXCAnk=;
-        b=fCP/wRgIYLeiTmFflgsjdwwp0QsBmy7GKbkTMNUOTJN3bUEiQK5DVFEB7vr0vLRi3f
-         +FA4NcDElVBKw69oVPwkI9Q8bCo8TQHlIw2YfWd4UxOAm1MHrBA4B54FXVURqogfRZY4
-         M50OogYNM13dMbHJZnx4IH69KvHbBup6d/KoM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nnH5gTz+dmOUwUqdWQFZb+nIuHdSODZLbf2vioXCAnk=;
-        b=YKXZ8I/bE+9gR4l8pXPu9q+VRBF8FJgZmvaa2O0bGc/aevkWP/ccrj9vnbkRaZIs7r
-         k4xIgCIo8tOdKKi1CbiNngWkuFLYJJq9cnBkfzxYzBkxjwHTQZ7XAI6zZYOFZQ4yPyZa
-         H1rlN9uaoqWByhlyFLWXZMLUNWT9mXY+ZJ8Vcvc4EJbxmG+h1BzejR+7j5iai6H17BgP
-         sdKwdWNi7eHRW9toTuUfyAlbngEbi6QItuF1WsqrizuRkzYvPj9JHTfVvVsMQRu2c+Ec
-         ip/nL+vPdim6jwmH6OwBg3VM0Vzlx1mIDx2jX1zV1nBBH/pd8y5e3XYRk0Y+19OTTh3t
-         tcKQ==
-X-Gm-Message-State: APjAAAW4iX+sA64DJuf6mlIEzwEJuCsyrDEOrwF1iCsJkwNJgWqFuK3p
-        cmEiqibC7YqfFd2vlbqFqWJW+F67v3Ge1TE3XGHRMw==
-X-Google-Smtp-Source: APXvYqxej0lhInzne5NXHvBkXSEhPEAZJNAeSRcEpKwOs9nJoEQyJXn9c82lVv/8xPPEFiqnHi+itxduPEsOPHOWRTY=
-X-Received: by 2002:a24:38c:: with SMTP id e134mr764476ite.24.1551836136101;
- Tue, 05 Mar 2019 17:35:36 -0800 (PST)
+        id S1727808AbfCFB5P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Mar 2019 20:57:15 -0500
+Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:46768 "EHLO
+        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726069AbfCFB5P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 20:57:15 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04427;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0TM3zbX._1551837426;
+Received: from Alexs-MacBook-Pro.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TM3zbX._1551837426)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Wed, 06 Mar 2019 09:57:06 +0800
+Subject: Re: [RFC PATCH] doc: translation disclaimer
+To:     Federico Vaga <federico.vaga@vaga.pv.it>, linux-doc@vger.kernel.org
+Cc:     lkml <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, harryxiyou@gmail.com,
+        Li Zefan <lizefan@huawei.com>,
+        Shawn Guo <shawn.guo@linaro.org>,
+        Fengguang Wu <fengguang.wu@intel.com>
+References: <20190305220611.13136-1-federico.vaga@vaga.pv.it>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <02cb673f-eaf0-f78a-49f3-e95340748694@linux.alibaba.com>
+Date:   Wed, 6 Mar 2019 09:57:05 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.5.0
 MIME-Version: 1.0
-References: <20190305044936.22267-1-dbasehore@chromium.org>
- <20190305044936.22267-2-dbasehore@chromium.org> <155181177527.20095.15680753964583935841@swboyd.mtv.corp.google.com>
-In-Reply-To: <155181177527.20095.15680753964583935841@swboyd.mtv.corp.google.com>
-From:   "dbasehore ." <dbasehore@chromium.org>
-Date:   Tue, 5 Mar 2019 17:35:24 -0800
-Message-ID: <CAGAzgso9-1j2XDsHQn+RbSTtV8Vqideu_nG=2qCJD94iyaxFFQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] clk: Remove recursion in clk_core_{prepare,enable}()
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-doc@vger.kernel.org,
-        Michael Turquette <mturquette@baylibre.com>,
-        =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
-        aisheng.dong@nxp.com, mchehab+samsung@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, jbrunet@baylibre.com,
-        Stephen Boyd <sboyd@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190305220611.13136-1-federico.vaga@vaga.pv.it>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 5, 2019 at 10:49 AM Stephen Boyd <sboyd@kernel.org> wrote:
->
-> Quoting Derek Basehore (2019-03-04 20:49:31)
-> > From: Stephen Boyd <sboyd@codeaurora.org>
-> >
-> > Enabling and preparing clocks can be written quite naturally with
-> > recursion. We start at some point in the tree and recurse up the
-> > tree to find the oldest parent clk that needs to be enabled or
-> > prepared. Then we enable/prepare and return to the caller, going
-> > back to the clk we started at and enabling/preparing along the
-> > way. This also unroll the recursion in unprepare,disable which can
-> > just be done in the order of walking up the clk tree.
-> >
-> > The problem is recursion isn't great for kernel code where we
-> > have a limited stack size. Furthermore, we may be calling this
-> > code inside clk_set_rate() which also has recursion in it, so
-> > we're really not looking good if we encounter a tall clk tree.
-> >
-> > Let's create a stack instead by looping over the parent chain and
-> > collecting clks of interest. Then the enable/prepare becomes as
-> > simple as iterating over that list and calling enable.
-> >
-> > Modified verison of https://lore.kernel.org/patchwork/patch/814369/
-> > -Fixed kernel warning
-> > -unrolled recursion in unprepare/disable too
-> >
-> > Cc: Jerome Brunet <jbrunet@baylibre.com>
-> > Signed-off-by: Stephen Boyd <sboyd@codeaurora.org>
-> > Signed-off-by: Derek Basehore <dbasehore@chromium.org>
-> > ---
->
-> From the original post:
->
-> "I have some vague fear that this may not work if a clk op is framework
-> reentrant and attemps to call consumer clk APIs from within the clk ops.
-> If the reentrant call tries to add a clk that's already in the list then
-> we'll corrupt the list. Ugh."
->
-> Do we have this sort of problem here? Or are you certain that we don't
-> have clks that prepare or enable something that is already in the
-> process of being prepared or enabled?
+Generally It looks good! A short guide to translator is good as well as a disclaimer.
 
-I can look into whether anything's doing this and add a WARN_ON which
-returns an error if we ever hit that case. If this is happening on
-some platform, we'd want to correct that anyways.
 
+On 2019/3/6 6:06 上午, Federico Vaga wrote:
+> This is only an example to propose a structure for translation's
+> disclaimers. The actual text needs some thoughs.
 >
+> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+> ---
+>  Documentation/translations/index.rst           | 18 ++++++++++++++++++
+>  .../translations/it_IT/disclaimer-ita.rst      | 13 +++----------
+>  Documentation/translations/it_IT/index.rst     |  6 ++++++
+>  3 files changed, 27 insertions(+), 10 deletions(-)
+>
+> diff --git a/Documentation/translations/index.rst b/Documentation/translations/index.rst
+> index 7f77c52d33aa..b46c8ce98d6e 100644
+> --- a/Documentation/translations/index.rst
+> +++ b/Documentation/translations/index.rst
+> @@ -4,6 +4,24 @@
+>  Translations
+>  ============
+>  
+> +.. _translations_disclaimer:
+> +
+> +Disclaimer
+> +----------
+> +Write some text in English here to explain that:
+> +
+> +- its purpose is to ease reading and understanding in other languages
+> +- this is not a fork
+> +- the only official documentation is :ref:`linux_doc`
+Could we merge the 2nd and 3rd into one, like this is not a fork of original file :ref:`xxxx`
+> +- there are not guarantee about translations being in line with the
+> +  main documentation
+Could we merge this one with 1st item, like its purpose is to xxxx without any guarantee of translations ....
+> +- translation's maintainer can help people who can't write in English
+> +- only comments and patches about translations are accepted, any other
+> +  discussion about Documentation does not belong here.
+
+I am not very good at English. is the following words are bit more clear? like, only translation related update are accepted here, contents change need goes to original files ...
+
+
+> +
+> +Translations
+> +------------
+> +
+>  .. toctree::
+>     :maxdepth: 1
+>  
+> diff --git a/Documentation/translations/it_IT/disclaimer-ita.rst b/Documentation/translations/it_IT/disclaimer-ita.rst
+> index d68e52de6a5d..aacc1a0346db 100644
+> --- a/Documentation/translations/it_IT/disclaimer-ita.rst
+> +++ b/Documentation/translations/it_IT/disclaimer-ita.rst
+> @@ -1,13 +1,6 @@
+>  :orphan:
+why the orphan here? does that mean no maintainer for it_IT currently?
+
+Thanks
+Alex
+>  
+> -.. note::
+> -   This document is maintained by Federico Vaga <federico.vaga@vaga.pv.it>.
+> -   If you find any difference between this document and the original file or a
+> -   problem with the translation, please contact the maintainer of this file.
+> -   Following people helped to translate or review:
+> -   Alessia Mantegazza <amantegazza@vaga.pv.it>
+> -
+>  .. warning::
+> -   The purpose of this file is to be easier to read and understand for Italian
+> -   speakers and is not intended as a fork. So, if you have any comments or
+> -   updates for this file please try to update the original English file first.
+> +   Short (to not pollute the document) text in Italian to explain that for any
+> +   doubt about the documentation content people should refer to the English
+> +   documentation. Read the :ref:`it_disclaimer`.
+> diff --git a/Documentation/translations/it_IT/index.rst b/Documentation/translations/it_IT/index.rst
+> index ea9b2916b3e4..4b0b3da97c73 100644
+> --- a/Documentation/translations/it_IT/index.rst
+> +++ b/Documentation/translations/it_IT/index.rst
+> @@ -4,6 +4,12 @@
+>  Traduzione italiana
+>  ===================
+>  
+> +.. _it_disclaimer:
+> +
+> +Disclaimer
+> +==========
+> +The following text should be the translation of :ref:`translations_disclaimer`
+> +
+>  L'obiettivo di questa traduzione è di rendere più facile la lettura e
+>  la comprensione per chi preferisce leggere in lingua italiana.
+>  Tenete presente che la documentazione di riferimento rimane comunque
+
