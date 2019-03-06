@@ -1,145 +1,228 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3C7827D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  5 Mar 2019 22:06:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6D54A7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Mar 2019 01:14:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726069AbfCEWGi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 5 Mar 2019 17:06:38 -0500
-Received: from mx.kolabnow.com ([95.128.36.42]:25528 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726052AbfCEWGi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 Mar 2019 17:06:38 -0500
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id C18791375;
-        Tue,  5 Mar 2019 23:06:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-transfer-encoding:content-type:content-type:mime-version
-        :message-id:date:date:subject:subject:from:from:received
-        :received:received; s=dkim20160331; t=1551823594; x=1553637995;
-         bh=1WgQPcZMgBjRpPSwCDSEun053eYRjBQsDu5d8vYZo2g=; b=WhDtygvS+stp
-        EVS6ATm0xGD+GXjmU9KwXW/WiJg4P9Nt11tdbWZWR9k8UYB2tiaIZEZVDRk5xEU+
-        tChtXpGQzUk0KFd+QLTGBDjeM0sy2yAUMlT5w9YlqU7quptp/cTPl1PdVQ5ZgAJ3
-        jBnZJcaAoXhKp2O+m+HMs+BE7bKpIAequPPjKH6g8JHjI/YGzLqIP10Iap2K70bm
-        esa4tP6e0gXRcHwKGXcnRK4EyXy9Nq8PWGmxEi9HRKL1Ec+D912W6PzjaC6VotNx
-        KANTOzbAo41flPXj93j0YYG22ZGgLkS5ZC/lN//pr2YjbT7gN5TYypIYn8KVT9hQ
-        XJUuYzZ6jQFhxRpmd+UjdCFFYokuESBKA+jvGiC3Mo/Y5GA8GM+IfJekG9d/szhi
-        PqU35GM6yZwxerQE150Rs9Q1izYY5/1WtMjklARHWXsjeUWyUJS422MZ1u0W3Ssc
-        ZjpbsysejoCbSltfQys19wbohl/zElheqiDSTwBpWtoHjJ4pFabm+qHLq1EFjn1u
-        W6Au3uUmLhCBes7wtQzIhy2UX8LBTERdQGP/ZbGyS5La1XHwL02PpvDGRlidDVfk
-        ilbh1g/Y/FdndWOad08yOY8o9Vzdj7ETrAnid5R9iT9ByQaVAdBOvc4/qqZuE2/H
-        KZG6WLNcbyxBKb8WAx81QNBPk3fla+o=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id iJMYZpJhU1ot; Tue,  5 Mar 2019 23:06:34 +0100 (CET)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 9DB04110D;
-        Tue,  5 Mar 2019 23:06:34 +0100 (CET)
-Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id 2C845202C;
-        Tue,  5 Mar 2019 23:06:34 +0100 (CET)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     linux-doc@vger.kernel.org
-Cc:     lkml <linux-kernel@vger.kernel.org>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Jonathan Corbet <corbet@lwn.net>, harryxiyou@gmail.com,
-        Li Zefan <lizefan@huawei.com>,
-        Shawn Guo <shawn.guo@linaro.org>,
-        Fengguang Wu <fengguang.wu@intel.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: [RFC PATCH] doc: translation disclaimer
-Date:   Tue,  5 Mar 2019 23:06:11 +0100
-Message-Id: <20190305220611.13136-1-federico.vaga@vaga.pv.it>
+        id S1727773AbfCFBOo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 5 Mar 2019 20:14:44 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:36998 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727725AbfCFBOn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Mar 2019 20:14:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=G5pA0rqA7fr0Jdt28cHKdei5ddKqqnTKnJ8VNABGE58=; b=d7ozVUe3tsE5a5KmVTHZUZGsTp
+        pmKutwsxR/gGjvlL2N10p4lP4tsBUVRwupQmxMEAAq990J/1BO6LfnCLEjCwQDET1hftz/GeIOe3B
+        jb8+5HFzsQE3zL0F8GCot9k5FBA6+P2w+UfwpzNiEEkPtMOyBzvThmPvjjYchq20eKMkIcQWL9KJi
+        cjM8S6nDxSip8aWoZ/T7grQygYDOWXn4evSHthN3cAy85fkVOOga5+NjpNsHz1bNU+vC53/GoPv+x
+        RFAKDCDoa8KBhL7q6hdy8+WJAD+QJ2vvqSySwUVhEe/RjfDqQiqKJXZ+XTkUHPX14wKzGaoNXFvNF
+        PHz9h34A==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=dragon.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1h1L8h-0003xa-Tg; Wed, 06 Mar 2019 01:14:32 +0000
+Subject: Re: [PATCH v12 2/4] pstore/blk: add blkoops for pstore_blk
+To:     liaoweixiong <liaoweixiong@allwinnertech.com>,
+        Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1551337948-16451-1-git-send-email-liaoweixiong@allwinnertech.com>
+ <1551337948-16451-3-git-send-email-liaoweixiong@allwinnertech.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <21827ba0-1c89-c16e-0d64-0a508eeae915@infradead.org>
+Date:   Tue, 5 Mar 2019 17:14:09 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1551337948-16451-3-git-send-email-liaoweixiong@allwinnertech.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is only an example to propose a structure for translation's
-disclaimers. The actual text needs some thoughs.
+Hi,
 
-Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
----
- Documentation/translations/index.rst           | 18 ++++++++++++++++++
- .../translations/it_IT/disclaimer-ita.rst      | 13 +++----------
- Documentation/translations/it_IT/index.rst     |  6 ++++++
- 3 files changed, 27 insertions(+), 10 deletions(-)
+On 2/27/19 11:12 PM, liaoweixiong wrote:
+> diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
+> index defcb75..7dfe00b 100644
+> --- a/fs/pstore/Kconfig
+> +++ b/fs/pstore/Kconfig
+> @@ -160,3 +160,117 @@ config PSTORE_BLK
+>  	help
+>  	  This enables panic and oops message to be logged to a block dev
+>  	  where it can be read back at some later point.
+> +
+> +config PSTORE_BLKOOPS
+> +	tristate "pstore block with oops logger"
+> +	depends on PSTORE_BLK
+> +	help
+> +	  This is a sample for pstore block with oops logger.
+> +
+> +	  It CANNOT record panic log as no read/write apis for panic registered.
 
-diff --git a/Documentation/translations/index.rst b/Documentation/translations/index.rst
-index 7f77c52d33aa..b46c8ce98d6e 100644
---- a/Documentation/translations/index.rst
-+++ b/Documentation/translations/index.rst
-@@ -4,6 +4,24 @@
- Translations
- ============
- 
-+.. _translations_disclaimer:
-+
-+Disclaimer
-+----------
-+Write some text in English here to explain that:
-+
-+- its purpose is to ease reading and understanding in other languages
-+- this is not a fork
-+- the only official documentation is :ref:`linux_doc`
-+- there are not guarantee about translations being in line with the
-+  main documentation
-+- translation's maintainer can help people who can't write in English
-+- only comments and patches about translations are accepted, any other
-+  discussion about Documentation does not belong here
-+
-+Translations
-+------------
-+
- .. toctree::
-    :maxdepth: 1
- 
-diff --git a/Documentation/translations/it_IT/disclaimer-ita.rst b/Documentation/translations/it_IT/disclaimer-ita.rst
-index d68e52de6a5d..aacc1a0346db 100644
---- a/Documentation/translations/it_IT/disclaimer-ita.rst
-+++ b/Documentation/translations/it_IT/disclaimer-ita.rst
-@@ -1,13 +1,6 @@
- :orphan:
- 
--.. note::
--   This document is maintained by Federico Vaga <federico.vaga@vaga.pv.it>.
--   If you find any difference between this document and the original file or a
--   problem with the translation, please contact the maintainer of this file.
--   Following people helped to translate or review:
--   Alessia Mantegazza <amantegazza@vaga.pv.it>
--
- .. warning::
--   The purpose of this file is to be easier to read and understand for Italian
--   speakers and is not intended as a fork. So, if you have any comments or
--   updates for this file please try to update the original English file first.
-+   Short (to not pollute the document) text in Italian to explain that for any
-+   doubt about the documentation content people should refer to the English
-+   documentation. Read the :ref:`it_disclaimer`.
-diff --git a/Documentation/translations/it_IT/index.rst b/Documentation/translations/it_IT/index.rst
-index ea9b2916b3e4..4b0b3da97c73 100644
---- a/Documentation/translations/it_IT/index.rst
-+++ b/Documentation/translations/it_IT/index.rst
-@@ -4,6 +4,12 @@
- Traduzione italiana
- ===================
- 
-+.. _it_disclaimer:
-+
-+Disclaimer
-+==========
-+The following text should be the translation of :ref:`translations_disclaimer`
-+
- L'obiettivo di questa traduzione è di rendere più facile la lettura e
- la comprensione per chi preferisce leggere in lingua italiana.
- Tenete presente che la documentazione di riferimento rimane comunque
+	                                              APIs
+
+> +
+> +	  It CAN record oops log even power failure if
+> +	  "PSTORE_BLKOOPS_BLKDEV" on Kconfig or "block-device" on dts or
+> +	  "blkdev" on module parameter is valid.
+> +
+> +	  Otherwise, it can only record data to ram buffer, which will be
+> +	  dropped when reboot.
+
+	  dropped on reboot.
+or
+	  dropped when rebooting.
+
+> +
+> +	  NOTE that, there are three ways to set parameters of blkoops and
+> +	  prioritize according to configuration flexibility. That is
+> +	  Kconfig < device tree < module parameters. It means that the value can
+> +	  be overwritten by higher priority settings.
+> +	  1. Kconfig
+> +	     It	just sets a default value.
+> +	  2. device tree
+> +	     It is set on device tree, which will overwrites value from Kconfig,
+
+	                                          overwrite the value from Kconfig,
+
+> +	     but can also be overwritten by module parameters.
+> +	  3. module parameters
+> +	     It is the first priority. Take care of that blkoops will take lower
+> +	     priority settings if higher priority one do not set.
+> +
+> +config PSTORE_BLKOOPS_DMESG_SIZE
+> +	int "dmesg size in kbytes for blkoops"
+> +	depends on PSTORE_BLKOOPS
+> +	default 64
+> +	help
+> +	  This just sets size of dmesg (dmesg_size) for pstore/blk. The value
+> +	  must be a multiple of 4096.
+> +
+> +	  NOTE that, there are three ways to set parameters of blkoops and
+> +	  prioritize according to configuration flexibility. That is
+> +	  Kconfig < device tree < module parameters. It means that the value can
+> +	  be overwritten by higher priority settings.
+> +	  1. Kconfig
+> +	     It	just sets a default value.
+> +	  2. device tree
+> +	     It is set on device tree, which will overwrites value from Kconfig,
+
+	                                          overwrite the value from Kconfig,
+
+> +	     but can also be overwritten by module parameters.
+> +	  3. module parameters
+> +	     It is the first priority. Take care of that blkoops will take lower
+> +	     priority settings if higher priority one do not set.
+> +
+> +config PSTORE_BLKOOPS_TOTAL_SIZE
+> +	int "total size in kbytes for blkoops"
+> +	depends on PSTORE_BLKOOPS
+> +	default 0
+> +	help
+> +	  The total size in kbytes pstore/blk can use. It must be less than or
+> +	  equal to size of block device if @blkdev valid. If @total_size is zero
+> +	  with @blkdev, @total_size will be set to equal to size of @blkdev.
+
+	                                    set equal to size of @blkdev.
+
+> +	  The value must be a multiple of 4096.
+> +
+> +	  NOTE that, there are three ways to set parameters of blkoops and
+> +	  prioritize according to configuration flexibility. That is
+> +	  Kconfig < device tree < module parameters. It means that the value can
+> +	  be overwritten by higher priority settings.
+> +	  1. Kconfig
+> +	     It	just sets a default value.
+> +	  2. device tree
+> +	     It is set on device tree, which will overwrites value from Kconfig,
+
+	                                          overwrite the value from Kconfig,
+
+> +	     but can also be overwritten by module parameters.
+> +	  3. module parameters
+> +	     It is the first priority. Take care of that blkoops will take lower
+> +	     priority settings if higher priority one do not set.
+> +
+> +config PSTORE_BLKOOPS_BLKDEV
+> +	string "block device for blkoops"
+> +	depends on PSTORE_BLKOOPS
+> +	default ""
+> +	help
+> +	  This just sets block device (blkdev) for pstore/blk. Pstore/blk
+> +	  will record data to this block device to avoid losing data due to
+> +	  power failure. So, If it is not set, pstore/blk will drop all data
+
+	                     if
+
+> +	  when reboot.
+
+	  on reboot.
+
+> +
+> +	  It accpet the following variants:
+
+	     accepts
+
+> +	  1) <hex_major><hex_minor> device number in hexadecimal represents
+> +	     itself no leading 0x, for example b302.
+> +	  2) /dev/<disk_name> represents the device number of disk
+> +	  3) /dev/<disk_name><decimal> represents the device number
+> +	     of partition - device number of disk plus the partition number
+> +	  4) /dev/<disk_name>p<decimal> - same as the above, that form is
+
+	                                              above; this form is
+
+> +	     used when disk name of partitioned disk ends on a digit.
+
+	                                             ends with a digit.
+
+> +	  5) PARTUUID=00112233-4455-6677-8899-AABBCCDDEEFF representing the
+> +	     unique id of a partition if the partition table provides it.
+> +	     The UUID may be either an EFI/GPT UUID, or refer to an MSDOS
+> +	     partition using the format SSSSSSSS-PP, where SSSSSSSS is a zero-
+> +	     filled hex representation of the 32-bit "NT disk signature", and PP
+> +	     is a zero-filled hex representation of the 1-based partition number.
+> +	  6) PARTUUID=<UUID>/PARTNROFF=<int> to select a partition in relation
+> +	     to a partition with a known unique id.
+> +	  7) <major>:<minor> major and minor number of the device separated by
+> +	     a colon.
+> +
+> +	  NOTE that, there are three ways to set parameters of blkoops and
+> +	  prioritize according to configuration flexibility. That is
+> +	  Kconfig < device tree < module parameters. It means that the value can
+> +	  be overwritten by higher priority settings.
+> +	  1. Kconfig
+> +	     It	just sets a default value.
+> +	  2. device tree
+> +	     It is set on device tree, which will overwrites value from Kconfig,
+
+	                                          overwrite the value from Kconfig,
+
+> +	     but can also be overwritten by module parameters.
+> +	  3. module parameters
+> +	     It is the first priority. Take care of that blkoops will take lower
+> +	     priority settings if higher priority one do not set.
+
+
 -- 
-2.20.1
-
+~Randy
