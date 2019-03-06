@@ -1,214 +1,305 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 118097D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Mar 2019 15:17:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 96A777D099
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Mar 2019 17:49:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728066AbfCFPRY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Mar 2019 10:17:24 -0500
-Received: from mx.kolabnow.com ([95.128.36.42]:42508 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728112AbfCFPRY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 6 Mar 2019 10:17:24 -0500
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id C27FA410CB;
-        Wed,  6 Mar 2019 16:17:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1551885440; x=1553699841; bh=PBpVRARdgUEjNaRRthuRb9Kv3eWs38Z7fjx
-        uasaKjWU=; b=daPxCSQJH3t1+FIo6w7VEwUwknyUMZ15yTpLO8BpUJySPYKV2QU
-        fKCdTppVXY/Gi6fSzmKTfk+ivnUOqnZ6HbK46PoH0ykhKhDb7KHgqfBcVMf9Kt4H
-        WUu8Z3ffVLvWxShBld6lF8oietM9zIsIaPeICvIj7h3GzoVHUAfVO5H9W2f+97jO
-        3XN1UD0LQIWn6jmK1wWzBpQQbmCzQKdGI7R3A0pYAM1CX48eTiCYdTAZLGriVMqG
-        BtPDv6Gq17eSS3sybW4B/rn4JoG/KMRtV1Hm9A+4uOu8/mUv+hKF3K+nyii0OEpm
-        fo+wq89EFrYj4GZYcR3gBF0xdlbdwTMwpPLO1ClUEl0N2RMzwRI+X8WMdVglRKpX
-        w5VsP8WEYkQOqh4fjBYjY+M6QkkYkRJtBfy3HG85SFNMF+uUwQlEIw8uO3hrjU0b
-        GMV6rKSCiVHYPrOjuZqYPSgpaZVfTaDsHn/WFNnwIJCPCITuN1WiVfMdx+vDyHEs
-        0LkzqYrBJ36kPGpsj2qBU8RMea8sWCN3f5GjfNlAt/j1gVxvzB2aUW9sofNW69oj
-        UeIjEl2uIt/mCJUZld6IodMmm6bW8XdW//Othl+64P730Z9vomKuNb50hetnZ8dU
-        qy5muv/PNBgp7WPgLzXotQ3ZLnzw+V4u2YMVytTaAHvKtWhGYlEroYLQ=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id sc0izOWnpQyl; Wed,  6 Mar 2019 16:17:20 +0100 (CET)
-Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 95AF640148;
-        Wed,  6 Mar 2019 16:17:20 +0100 (CET)
-Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
-        by int-mx002.mykolab.com (Postfix) with ESMTPS id 5BE9B2579;
-        Wed,  6 Mar 2019 16:17:20 +0100 (CET)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Alex Shi <alex.shi@linux.alibaba.com>
-Cc:     linux-doc@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, harryxiyou@gmail.com,
-        Li Zefan <lizefan@huawei.com>,
-        Shawn Guo <shawn.guo@linaro.org>,
-        Fengguang Wu <fengguang.wu@intel.com>
-Subject: Re: [RFC PATCH] doc: translation disclaimer
-Date:   Wed, 06 Mar 2019 16:17:19 +0100
-Message-ID: <1683884.6qb0gnyTyR@pcbe13614>
-In-Reply-To: <02cb673f-eaf0-f78a-49f3-e95340748694@linux.alibaba.com>
-References: <20190305220611.13136-1-federico.vaga@vaga.pv.it> <02cb673f-eaf0-f78a-49f3-e95340748694@linux.alibaba.com>
+        id S1727767AbfCFRtI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Mar 2019 12:49:08 -0500
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:40809 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727557AbfCFRtH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Mar 2019 12:49:07 -0500
+Received: by mail-qt1-f195.google.com with SMTP id j36so13819134qta.7
+        for <linux-doc@vger.kernel.org>; Wed, 06 Mar 2019 09:49:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=BZwtFx2fooFRjiTR1TCKpWsbKo6ADG45oouWEdHr+9Q=;
+        b=m4M/csyxSRB84j6I57zfVmr8mQSwULuc27umU4eF0Q//esDgB5YZ4p2ZsWgfkukxRD
+         4yjvHtX4X9oQLUarWFFkdfcj4GSMKmJ6rJwQhDGh87gY8VBOx3LSXu8C3rHSbXppf8ZQ
+         MDyqGiwgi4ZuYeoxpp/TPITUfktu3vkSvfWtg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=BZwtFx2fooFRjiTR1TCKpWsbKo6ADG45oouWEdHr+9Q=;
+        b=TTFLn0z1ggJKVd6IqILF/0niAj1jjBvgrUGitbyuHBNa4OagTCDYN5lOKMKJBwMkia
+         /3LooeO6AXwNegMlQV3JzILE3QMZQtqme61QVdg0D4zfM4MjXnlUoAZcBDJ+ulcAXAy1
+         cM0DIBAfeBUD2lKnj6MqTRJrP8PumP6ybAWm6FHzrcHiY3OpSqDxFvwISUv2Sn3P5LTc
+         7UpjLSJxc7Ajb1AeDmdqXEm67uoWjfH0I8M7oO0OX+Pd8+nVsX9MRt/myBjhiwsMzVin
+         RmFbA8LkZJ2qu3iW43fH9vx03B9j2Tn+u7iQ04eu4C3FJDhCx91wQWIaqurr3GlqmiX9
+         vg9Q==
+X-Gm-Message-State: APjAAAVEEJzqAncXoVRD3nskrNM2OdOwkc5t0mFAfoi7dWFx6N4jTqwI
+        tvnxKU4p1s1Rvn8l0IgrZXWD6w==
+X-Google-Smtp-Source: APXvYqxsaDJBsmLrCsybAMOeo8iG9yeTUngwNzYZbzRHP1l5LM78cmoyqx301D8YV0q1fGD3iC1MYw==
+X-Received: by 2002:a0c:954d:: with SMTP id m13mr7138102qvm.243.1551894545801;
+        Wed, 06 Mar 2019 09:49:05 -0800 (PST)
+Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
+        by smtp.gmail.com with ESMTPSA id 14sm1085321qkj.93.2019.03.06.09.49.04
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 06 Mar 2019 09:49:04 -0800 (PST)
+Date:   Wed, 6 Mar 2019 12:49:04 -0500
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     kbuild test robot <lkp@intel.com>, kbuild-all@01.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
+Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
+ extend the kernel
+Message-ID: <20190306174904.GA34256@google.com>
+References: <20190301160856.129678-1-joel@joelfernandes.org>
+ <201903030526.3AuYFiuN%fengguang.wu@intel.com>
+ <CAJWu+op541tQ_TBJs-kOyRRBYDWiN0Znpb=cUQFxuLg-SmjO_g@mail.gmail.com>
+ <CAK7LNARGQE9y6hr7ZoTbn5-GkPBN2Gk-4=3=Cfnr7Oy-+q69kg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNARGQE9y6hr7ZoTbn5-GkPBN2Gk-4=3=Cfnr7Oy-+q69kg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alex,
+Hi Masahiro,
+Thanks for review, my replies are inline:
 
-On Wednesday, March 6, 2019 2:57:05 AM CET Alex Shi wrote:
-> Generally It looks good! A short guide to translator is good as well as a
-> disclaimer.
-> On 2019/3/6 6:06 =E4=B8=8A=E5=8D=88, Federico Vaga wrote:
-> > This is only an example to propose a structure for translation's
-> > disclaimers. The actual text needs some thoughs.
-> >=20
-> > Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
-> > ---
-> >=20
-> >  Documentation/translations/index.rst           | 18 ++++++++++++++++++
-> >  .../translations/it_IT/disclaimer-ita.rst      | 13 +++----------
-> >  Documentation/translations/it_IT/index.rst     |  6 ++++++
-> >  3 files changed, 27 insertions(+), 10 deletions(-)
-> >=20
-> > diff --git a/Documentation/translations/index.rst
-> > b/Documentation/translations/index.rst index 7f77c52d33aa..b46c8ce98d6e
-> > 100644
-> > --- a/Documentation/translations/index.rst
-> > +++ b/Documentation/translations/index.rst
-> > @@ -4,6 +4,24 @@
-> >=20
-> >  Translations
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
-> > +.. _translations_disclaimer:
-> > +
-> > +Disclaimer
-> > +----------
-> > +Write some text in English here to explain that:
-> > +
-> > +- its purpose is to ease reading and understanding in other languages
-> > +- this is not a fork
-> > +- the only official documentation is :ref:`linux_doc`
->=20
-> Could we merge the 2nd and 3rd into one, like this is not a fork of origi=
-nal
-> file :ref:`xxxx`
+On Wed, Mar 06, 2019 at 09:26:14PM +0900, Masahiro Yamada wrote:
+> On Mon, Mar 4, 2019 at 1:15 AM Joel Fernandes <joelaf@google.com> wrote:
+> >
+> > This report is for an older version of the patch so ignore it. The
+> > issue is already resolved.
+> >
+> > On Sat, Mar 2, 2019 at 2:00 PM kbuild test robot <lkp@intel.com> wrote:
+> > >
+> > > Hi Joel,
+> > >
+> > > Thank you for the patch! Yet something to improve:
+> > >
+> > > [auto build test ERROR on linus/master]
+> > > [also build test ERROR on v5.0-rc8]
+> > > [cannot apply to next-20190301]
+> > > [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+> > >
+> > > url:    https://github.com/0day-ci/linux/commits/Joel-Fernandes-Google/Provide-in-kernel-headers-for-making-it-easy-to-extend-the-kernel/20190303-014850
+> > > config: sh-allmodconfig (attached as .config)
+> > > compiler: sh4-linux-gnu-gcc (Debian 8.2.0-11) 8.2.0
+> > > reproduce:
+> > >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> > >         chmod +x ~/bin/make.cross
+> > >         # save the attached .config to linux build tree
+> > >         GCC_VERSION=8.2.0 make.cross ARCH=sh
+> > >
+> > > All errors (new ones prefixed by >>):
+> > >
+> > > >> find: 'arch/sh/kernel/module.lds': No such file or directory
+> > > >> find: 'arch/sh/kernel/module.lds': No such file or directory
+> > >
+> > > ---
+> > > 0-DAY kernel test infrastructure                Open Source Technology Center
+> > > https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+> > >
+> > > --
+> > > You received this message because you are subscribed to the Google Groups "kernel-team" group.
+> > > To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
+> 
+> 
+> 
+> Honestly speaking, I am worried about some flaws
+> in this feature, but anyway I read your code.
 
-yes
+I am not sure what you mean by that :-(. All the previous series's comments
+were addressed and it has been well tested by me and others. This looks quite
+solid to me. Sorry it took so many revisions, this was not that easy to get right.
 
-> > +- there are not guarantee about translations being in line with the
-> > +  main documentation
->=20
-> Could we merge this one with 1st item, like its purpose is to xxxx without
-> any guarantee of translations ....
+> Here are just comments from the build system point of view
+> in case something might be useful.
+> 
+> Please feel free to adopt some of them if you think they are good.
+>> [1]
+> 
+> Please do not ignore kbuild test robot.
+> 
+> It never makes such a mistake like
+> replying to a new patch about the test result from old version.
+> 
+> The reports are really addressing this version (v4).
+> 
+> I see the error message even on x86.
 
-yes, why not.
+I did not mean to. By the way - the error does not cause any issues. It is
+just find being noisy. You are right I missed this, and I will correct this
+in v5. However, it does not cause any issues to the feature/functionality at all.
 
-I did a list of items to separate the ingredients for the final text.
+> [2]
+> 
+> The shell script keeps running
+> even when an error occurs.
+> 
+> If any line in a shell script fails,
+> probably it went already wrong.
+> 
+> I highly recommend to add 'set -e'
+> at the very beginning of your shell script.
+> 
+> It will propagate the error to Make.
 
-> > +- translation's maintainer can help people who can't write in English
-> > +- only comments and patches about translations are accepted, any other
-> > +  discussion about Documentation does not belong here.
->=20
-> I am not very good at English. is the following words are bit more clear?
-> like, only translation related update are accepted here, contents change
-> need goes to original files ...
+Ok I will consider making it -e. But please note that, the script itself does
+not have any bugs. When you say it this way, it looks a bit bad to the
+onlooker as if there is bugs in the code, but there aren't any that I know
+off. All the comments in this round of review from view are just cosmetic
+changes.
 
-As I wrote in the commit message, this is just a  example to show the=20
-structure and share the main message.
+> [3]
+> 
+> targets += kheaders_data.tar.xz
+> targets += kheaders_data.h
+> targets += kheaders.md5
+> 
+> These three lines are unneeded because
+> 'targets' is necessary just for if_changed or if_changed_rule.
+> 
+> Instead, please add
+> 
+> clean-files := kheaders_data.tar.xz kheaders_data.h kheaders.md5
 
-What I wrote is just a 10 minutes sketch, to share an idea. This is **not**=
-=20
-the text that I'm proposing; what I'm proposing here are the structure and =
-the=20
-concepts/ideas/messages. The final patch will be written appropriately, but=
-=20
-before doing it I would like to collect the messages that we want to put in=
-=20
-it; I listed above what I think is necessary to say.
+Ok.
 
-> > +
-> > +Translations
-> > +------------
-> > +
-> >=20
-> >  .. toctree::
-> >     :maxdepth: 1
-> >=20
-> > diff --git a/Documentation/translations/it_IT/disclaimer-ita.rst
-> > b/Documentation/translations/it_IT/disclaimer-ita.rst index
-> > d68e52de6a5d..aacc1a0346db 100644
-> > --- a/Documentation/translations/it_IT/disclaimer-ita.rst
-> > +++ b/Documentation/translations/it_IT/disclaimer-ita.rst
-> > @@ -1,13 +1,6 @@
-> >=20
-> >  :orphan:
-> why the orphan here? does that mean no maintainer for it_IT currently?
+> [4]
+> 
+> It is pointless to pass 'ikh_file_list'
+> from Makefile to the shell script.
+> 
+> 
+> You can directly describe the following in gen_ikh_data.sh
+> 
+> You do not need to use sed.
+> 
+> 
+> src_file_list="
+> include/
+> arch/$SRCARCH/Makefile
+> arch/$SRCARCH/include/
+> arch/$SRCARCH/kernel/module.lds
+> scripts/
+> Makefile
+> "
+> 
+> obj_file_list="
+> scripts/
+> include/
+> arch/$SRCARCH/include/
+> "
 
-It is a Sphinx tag to avoid warnings at build time. Instead of re-writing=20
-exactly the same text in all files, this one is included at the top of all=
-=20
-translated documents. But, since it is not a real document this is not=20
-included in any TOC and sphinx complains; that's why we need the orphan tag
+Honestly, I prefer to keep it in Makefile.
 
-http://www.sphinx-doc.org/en/master/usage/restructuredtext/field-lists.html=
-#metadata
+> if grep -q "^CONFIG_STACK_VALIDATION=y" $KCONFIG_CONFIG; then
+>         obj_file_list="$obj_file_list tools/objtool/objtool"
+> fi
+> 
+> 
+> 
+> Be careful about module.lds
+> so that it will work for all architectures.
 
->=20
-> Thanks
-> Alex
->=20
-> > -.. note::
-> > -   This document is maintained by Federico Vaga
-> > <federico.vaga@vaga.pv.it>. -   If you find any difference between this
-> > document and the original file or a -   problem with the translation,
-> > please contact the maintainer of this file. -   Following people helped
-> > to translate or review:
-> > -   Alessia Mantegazza <amantegazza@vaga.pv.it>
-> > -
-> >=20
-> >  .. warning::
-> > -   The purpose of this file is to be easier to read and understand for
-> > Italian -   speakers and is not intended as a fork. So, if you have any
-> > comments or -   updates for this file please try to update the original
-> > English file first. +   Short (to not pollute the document) text in
-> > Italian to explain that for any +   doubt about the documentation conte=
-nt
-> > people should refer to the English +   documentation. Read the
-> > :ref:`it_disclaimer`.
-> > diff --git a/Documentation/translations/it_IT/index.rst
-> > b/Documentation/translations/it_IT/index.rst index
-> > ea9b2916b3e4..4b0b3da97c73 100644
-> > --- a/Documentation/translations/it_IT/index.rst
-> > +++ b/Documentation/translations/it_IT/index.rst
-> > @@ -4,6 +4,12 @@
-> >=20
-> >  Traduzione italiana
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
-> > +.. _it_disclaimer:
-> > +
-> > +Disclaimer
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +The following text should be the translation of
-> > :ref:`translations_disclaimer` +
-> >=20
-> >  L'obiettivo di questa traduzione =C3=A8 di rendere pi=C3=B9 facile la =
-lettura e
-> >  la comprensione per chi preferisce leggere in lingua italiana.
-> >  Tenete presente che la documentazione di riferimento rimane comunque
+Yes.
 
-=46ederico Vaga
-http://www.federicovaga.it/
+> [5]
+> strip-comments.pl is short enough,
+> and I do not assume any other user.
+> 
+> 
+> IMHO, it would be cleaner to embed the one-liner perl
+> into the shell script, for example, like follows:
+> 
+> find  $cpio_dir -type f -print0 |
+>  xargs -0 -P8 -n1 perl -pi -e 'BEGIN {undef $/;}; s/\/\*((?!SPDX).)*?\*\///smg;'
 
+This does not work. I already tried it. But I guess I could generate the
+script on the fly.
+
+> [6]
+> It might be better to move
+> scripts/gen_ikh_data.sh to kernel/gen_ikh_data.sh
+> 
+> It will make this feature self-contained in kernel/.
+> And (more importantly to me), it would reduce my maintenance field.
+
+Sure.
+
+> [7]
+> I do not understand for what 'tarfile_md5' is used.
+> Is it necessary?
+
+It is just precaution, incase tar got corrupted and needs to be regenerated.
+
+> [8]
+> Is it more efficient to pipe the header files
+> to perl script like this?
+> 
+> 
+>  cat (header) | perl 'do something' > (tmp directory)
+
+I don't think so.
+
+> [9]
+> 
+> I'd prefer avoiding 'pushd && popd' if possible.
+> 
+> Hint: Kbuild already runs at the top directory
+> of objtree.
+> 
+> 
+> It is OK if the change would mess up the script.
+
+This is needed to make out of tree builds work.
+
+> [10]
+> 
+> You can embed a binary directly into C file
+> without producing a giant header file.
+> 
+> I refactored kernel/configs.c
+> https://lore.kernel.org/patchwork/patch/1042013/
+> 
+> Be careful; my patch has not been merged yet into the mainline.
+> 
+> It has been a while in linux-next,
+> and I have not received any problem report.
+> 
+> So, I am guessing it will probably be merged
+> in the current MW.
+
+Ok I will consider doing this.
+
+Thanks for the review!
+
+ - Joel
 
