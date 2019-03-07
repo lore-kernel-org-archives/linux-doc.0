@@ -2,108 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 560C77D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 01:05:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5E6777D918
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 01:28:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726094AbfCGBFI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Mar 2019 20:05:08 -0500
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:53174 "EHLO
-        smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725790AbfCGBFI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Mar 2019 20:05:08 -0500
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07447757|-1;CH=green;DM=CONTINUE|CONTINUE|true|0.229133-0.10439-0.666477;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03278;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=14;RT=14;SR=0;TI=SMTPD_---.E4ziVM4_1551920701;
-Received: from 172.16.10.102(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.E4ziVM4_1551920701)
-          by smtp.aliyun-inc.com(10.147.41.137);
-          Thu, 07 Mar 2019 09:05:02 +0800
-Subject: Re: [PATCH v12 3/4] pstore/blk: support pmsg for pstore block
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1551337948-16451-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1551337948-16451-4-git-send-email-liaoweixiong@allwinnertech.com>
- <a7ae72c0-2425-a43a-da53-22f30a173f7e@infradead.org>
-From:   liaoweixiong <liaoweixiong@allwinnertech.com>
-Message-ID: <e88aed98-a96b-6e78-9183-5ff50dfa64e7@allwinnertech.com>
-Date:   Thu, 7 Mar 2019 09:05:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1727374AbfCGBZj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Mar 2019 20:25:39 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:43899 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727367AbfCGBZi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Mar 2019 20:25:38 -0500
+Received: from [192.168.1.110] ([95.118.27.116]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MhlCg-1gX1l51mr2-00dotm; Thu, 07 Mar 2019 02:22:59 +0100
+Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
+ kernel
+To:     Daniel Colascione <dancol@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atish patra <atishp04@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
+        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>, rostedt@goodmis.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        yhs@fb.com
+References: <20190118225543.86996-1-joel@joelfernandes.org>
+ <20190119082532.GA9004@kroah.com> <20190119162754.GC231277@google.com>
+ <CAKOZuet+7a4jdox6rebMN=kJtDn5RUYzvNjFh+Pzn2UkuP0Y8Q@mail.gmail.com>
+ <20190119232503.GA149403@google.com>
+ <78AACAF1-8EBF-4DF3-BE94-5B14E78BA791@zytor.com>
+ <20190120155838.GA23827@google.com> <20190306230944.GB7915@amd>
+ <CAKOZuetOePf89cXRkvmWeGnvG7zYN=SW1yyrZibuyOqZQFTGkg@mail.gmail.com>
+ <754146f0-8b57-8644-81c1-528b5ca7dba1@zytor.com>
+ <CAKOZuesjYZ2EH=BHBAJAFFaTOHjWU7BELJUV3QC9cjXVB2HhUw@mail.gmail.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <0c46ab5f-8bd6-6916-fc4a-b6f00d456011@metux.net>
+Date:   Thu, 7 Mar 2019 02:22:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <a7ae72c0-2425-a43a-da53-22f30a173f7e@infradead.org>
+In-Reply-To: <CAKOZuesjYZ2EH=BHBAJAFFaTOHjWU7BELJUV3QC9cjXVB2HhUw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:6swaBrmdOtKyStgzefBtaJvrQ/G1ygCASH7FQKPujuq2ntSpB2K
+ pPrgRD7taWECi9OILna5x315j0I3BNV3zOCyxpvKI36jRp6rOQjP9ZQwjbEg1J7p0zH+yNy
+ yQZUxxGU12ftn88SraxyG0Npff4NqhmAklpwcK8Fhy34BRUhHRDW4i/DfCS3hnYyfErZITt
+ SYM23+oxl/4SfaEGCbBSA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eQEu1S8QLu8=:PpCvODzuiFdAoA5nSbVvLj
+ ty+U7oGcir6yr/IsVQF+ao9bI+UN8EDHOB7vYKwAlvCsED/5v85YpbDdL0+6LgPieQSR4BnUt
+ SnHX5S2FjopLutDWYw69Uvp7tGB1kIUDjgPgfO/otRkJ8AqRQnTW38dBTdZv9R8+PG0XKQ04M
+ 8sF84DPNPd428caBOq3ey3qYLIMbaRv8PJ4jbMhOMaYxyIOm3V9pfhOnURA3NSaB2Ktm6UK+R
+ m/mfED3WHSgfrQul3oCHhKM+T13PIPuXScDBbcuxz9kFzEhs+4YLgeHN6XjW6kx3l0NY58e86
+ 0iU7p6kiUj4Kd3iJ6XAoKLELJ8DoddaUfglefBuPFI12aOtxevUOn/13nCn9whe+TqzuvaaJw
+ s2A/i/+C3QDOKvE0yIomfPEphYWuc/pvONomheF3HE9HwcbvBI9BKByA+tQ+cVcuOSSza3Cbm
+ EqmJ7xysZ38MKdYNrzs2jPR8lwaNNcb+D0+gJrBqVQIT7LYlf3n4jlj09ah8E6V5LxQAKFCHq
+ wSthuWd4yfCHPev/JZ1qe43X+C7kwraUSQ/2LOgzS+iWZV4pLQfYhOFJWf8WA2vTXeQ+iw/p+
+ jZAczvYZi+O2w3nJoBl8vxKkpcjW/mlDopeN7hDD4ecfYImH8D83yANm/SkVLmDXQSfakMyY8
+ qLnudDtSEjhizvu4Qa5Qtoo5s2YH6XiW6o+ZGsUyDrItDP1vixqCW6HN3zCHXdRaLIkMXI270
+ GBRw8Q0nKC67bJNL5leg6KzskEfmcItwNnXBpeaSX/7I4yeIJWEtr7o10IY=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On 07.03.19 01:33, Daniel Colascione wrote:
 
-On 2019-03-06 09:16, Randy Dunlap wrote:
-> Hi,
-> 
-> On 2/27/19 11:12 PM, liaoweixiong wrote:
->> diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
->> index 7dfe00b..b417bf5 100644
->> --- a/fs/pstore/Kconfig
->> +++ b/fs/pstore/Kconfig
->> @@ -210,6 +210,27 @@ config PSTORE_BLKOOPS_DMESG_SIZE
->>  	     It is the first priority. Take care of that blkoops will take lower
->>  	     priority settings if higher priority one do not set.
->>  
->> +config PSTORE_BLKOOPS_PMSG_SIZE
->> +	int "pmsg size in kbytes for blkoops"
->> +	depends on PSTORE_BLKOOPS
->> +	default 64
->> +	help
->> +	  This just sets size of pmsg (pmsg_size) for pstore/blk. The value must
->> +	  be a multiple of 4096. Pmsg work only if "blkdev" is set.
-> 
-> 	                              works
-> 
+> *There* *may* *be* *no* *filesystem*. 
 
-Fixed.
+A Linux system w/o any filesystem at all ? Well, that's interesting.
 
->> +
->> +	  NOTE that, there are three ways to set parameters of blkoops and
->> +	  prioritize according to configuration flexibility. That is
->> +	  Kconfig < device tree < module parameters. It means that the value can
->> +	  be overwritten by higher priority settings.
->> +	  1. Kconfig
->> +	     It	just sets a default value.
->> +	  2. device tree
->> +	     It is set on device tree, which will overwrites value from Kconfig,
-> 
-> 	                                          overwrite the value from Kconfig,
-> 
+> The only thing the kernel can really guarantee is its own> existence --- it should be entire in itself.
 
-Fixed.
+I vaguely recall some option for linking in an initrd ... does this
+still exist ?
 
->> +	     but can also be overwritten by module parameters.
->> +	  3. module parameters
->> +	     It is the first priority. Take care of that blkoops will take lower
->> +	     priority settings if higher priority one do not set.
->> +
->>  config PSTORE_BLKOOPS_TOTAL_SIZE
->>  	int "total size in kbytes for blkoops"
->>  	depends on PSTORE_BLKOOPS
-> 
-> cheers.
-> 
+> If I'm hacking on an> Android kernel and say "fastboot boot mykernel" without making any>
+changes to the device's boot filesystem, I should still be able to use>
+tracing tools that rely on knowing the headers for the kernel with
 
-Thank you. Cheers.
+Fix fastboot to support initrd or use a remote filesystem ?
+
+I'm doing embedded development all the day, and one of the first things
+I usually set up for a project is an fully automatic netboot (or at
+least usb boot). Shouldn't be so hard, and is a more generic solution.
+
+
+--mtx
 
 -- 
-liaoweixiong
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
