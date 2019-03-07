@@ -1,154 +1,147 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 30BE67D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 16:54:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5A0187D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 17:38:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726420AbfCGQyh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Mar 2019 11:54:37 -0500
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:42881 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726270AbfCGQyh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 11:54:37 -0500
-Received: by mail-qt1-f194.google.com with SMTP id u7so17871053qtg.9
-        for <linux-doc@vger.kernel.org>; Thu, 07 Mar 2019 08:54:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=AXHynj04NMZ0CS1NnWbfes4n6qunWNiY93VEbJEipOQ=;
-        b=VzAx11ixOrKiy7adFBoN7ejFE8lbSz504yc3bt7PTgL1AQ7iGkqvPLM4JSAWH1k68a
-         xTF7lVX8FjOa9kgqFtdvTb89sxk/WHkOHdxrdSlX+nWLLjkZb2MrTeKWS/sHzUq2XOrR
-         9u87K/SBUPFgfPeUboPRvJ87GW7TvwunI/hSk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=AXHynj04NMZ0CS1NnWbfes4n6qunWNiY93VEbJEipOQ=;
-        b=fUKVuok/60bpK7tjjbFBnmi1MqwnQfQi5qSBJ6f5ldqwYTxiEuG56zWMOaiXANGe3h
-         1f8PAA2uDRzdItIG5ECAYzVdnJlIapKK3B5K1IRtdD9QN1EeHVqkVQOTG3W/Kjiw4IWP
-         IWVbOLXeeLiigxMfEagk8k5N996FOakJGpZ8Ur0CDU/AmjteDyrRKhWl4zvu+FCcXMep
-         E/DA1lqwY1QScZ1CFzzu4MkDA8oxVJrksW9UCfvFW6rmSCm3i0d/mLRqbESCV5RHb9iJ
-         6uqfLj9Fny1tOY6C0iyol3AG7EJYBYryvkZJ37JI4z+kTIAwToez+BZWTs/70dWzKHvd
-         a5hg==
-X-Gm-Message-State: APjAAAXtg4Ia1LfTBhRrJVlPfYHdDQYsaa45mOGmISSffeblXRww+YTJ
-        qKs3m77JzfGtzrje4K1snuffkA==
-X-Google-Smtp-Source: APXvYqzliPKVOu92j04Ka4Y1e5wW04bOnsUK+2QUpv8l1kUxUiPSAh7U5UqyGITxuZtQfYmyyjSfLw==
-X-Received: by 2002:a0c:b758:: with SMTP id q24mr11372279qve.149.1551977675747;
-        Thu, 07 Mar 2019 08:54:35 -0800 (PST)
-Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
-        by smtp.gmail.com with ESMTPSA id g20sm279630qtg.4.2019.03.07.08.54.34
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 07 Mar 2019 08:54:34 -0800 (PST)
-Date:   Thu, 7 Mar 2019 11:54:33 -0500
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>, atishp04@gmail.com,
-        dancol@google.com, Dan Williams <dan.j.williams@intel.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Guenter Roeck <groeck@chromium.org>,
+        id S1726217AbfCGRir (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Mar 2019 12:38:47 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:44935 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726185AbfCGRiq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 12:38:46 -0500
+Received: from [192.168.1.110] ([77.9.35.131]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MKKER-1hN3e82Z7X-00Ljum; Thu, 07 Mar 2019 18:37:23 +0100
+Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
+ kernel
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, hpa@zytor.com,
+        Daniel Colascione <dancol@google.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atishp04@gmail.com, Borislav Petkov <bp@alien8.de>,
+        Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>,
         Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
         Manoj Rao <linux@manojrajarao.com>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>, qais.yousef@arm.com,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>, yhs@fb.com
-Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-Message-ID: <20190307165433.GA90983@google.com>
-References: <20190301160856.129678-1-joel@joelfernandes.org>
- <CAMuHMdU77UyUs-LvRx-NN_k0Y7MZXQkBdgL2i83veCkvdzeeqA@mail.gmail.com>
- <20190307150343.GB258852@google.com>
- <20190307152303.GA9819@kroah.com>
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>, rostedt@goodmis.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        yhs@fb.com
+References: <20190118225543.86996-1-joel@joelfernandes.org>
+ <20190119082532.GA9004@kroah.com> <20190119162754.GC231277@google.com>
+ <CAKOZuet+7a4jdox6rebMN=kJtDn5RUYzvNjFh+Pzn2UkuP0Y8Q@mail.gmail.com>
+ <20190119232503.GA149403@google.com>
+ <78AACAF1-8EBF-4DF3-BE94-5B14E78BA791@zytor.com>
+ <20190120155838.GA23827@google.com> <20190306230944.GB7915@amd>
+ <742b4797-9954-fb54-cce8-47fcad750c69@metux.net>
+ <20190307014802.GA193359@google.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <226424d3-d29f-2a83-2d04-81ad4aab1be2@metux.net>
+Date:   Thu, 7 Mar 2019 18:37:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190307152303.GA9819@kroah.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190307014802.GA193359@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:4ETAHTk3UP4TuYHqVVKcSHFKei7GUTdggkrl0NzVL7qOpavZ6zj
+ R3QqVB+x2OnaykgLH+gyOVJtlB0pWy0HX3VekSafxXlbbd9OJ23pyV3o+wgInFddTEZnnVe
+ fkYjRd5zWQAjtYjGoRAwt4YVK/8fqsSqKoNjKYanm6K9i0/0dYrtWMVTrCb8Jh/suWwqUcA
+ jK0d/L5phzF4mN2Q6VLsA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ahvefg0OvLo=:XEIDzNC39yIDS9QcsqrY+G
+ d+NUU8gEUunHGQssYR7TJ5K/kw3WncyCcPOgx2P1z+MBllZejKOUHIMY04rv8Fa3gx24Qwr45
+ z/kcfDd70UJbxPxpkyhsgK9ojBNdYR/lhwxh2+/gHeQzXwgNyY3T+52Hofj3hnseblCyy47Aj
+ uBr1GxoPqXZux4cuJE50N8bQrJygcZRJsT0QssJO0JrZu3uYj89PX+GLw+EG7GBf8NyI2PuaE
+ FZNLotSwfExnPWcUu0IU+WThVqIN5po43jRzPLavNA9X8NQ5FE5vMXr1k4MRkJS/3lGp9xJJ1
+ R6mHEe0eKV4rJC0m1IujXQbzpj1DJ58b4dOMHdWSKtGPQ1SmurBLIVIXWtB9jXG4WQcOQAc7B
+ Zf+6H8CNOZ+7WLBDRZspFAa1BZCO/qhI/AHSE/zCv9ealuOsYgGIVVvv54SDfQs3ZktKA1geJ
+ xPJ5m84q5EKXsB6KuqgfuzqMIfvaY//XnPCOkIALejbLIUCbhWvZpwUYcuEsrPHs3x+03wJe+
+ Oy1kKOiQx+Dn3n9sIhc+Z6oGNynopEFslEIEwFU1hjWuRO0lVurZX+gGimEIVMWP++xoGxduz
+ y5BDX06ykwejsMSENzptbhjaICMevs4t/ZU3nZwheNg6XizWcWJoNrPSZQNQYPp7UNkHeJ2/F
+ XKVGqn0xW8SXKdGHHN6pu41iTrjh80g4r40VzcYQJ9GzsARZ1JzSuWEGxFwTccSEG/DsrnBgg
+ EqUwEo5VquPGdcBkaA+EknfOxnK2VidUMOjnzkJvnJpHPCxkfvKAU1eoMqw=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 07, 2019 at 04:23:03PM +0100, Greg KH wrote:
-> > > On Fri, Mar 1, 2019 at 5:10 PM Joel Fernandes (Google)
-> > > <joel@joelfernandes.org> wrote:
-> > > > Introduce in-kernel headers and other artifacts which are made available
-> > > > as an archive through proc (/proc/kheaders.tar.xz file). This archive makes
-> > > > it possible to build kernel modules, run eBPF programs, and other
-> > > > tracing programs that need to extend the kernel for tracing purposes
-> > > > without any dependency on the file system having headers and build
-> > > > artifacts.
-> > > >
-> > > > On Android and embedded systems, it is common to switch kernels but not
-> > > > have kernel headers available on the file system. Raw kernel headers
-> > > > also cannot be copied into the filesystem like they can be on other
-> > > > distros, due to licensing and other issues. There's no linux-headers
-> > > > package on Android. Further once a different kernel is booted, any
-> > > > headers stored on the file system will no longer be useful. By storing
-> > > > the headers as a compressed archive within the kernel, we can avoid these
-> > > > issues that have been a hindrance for a long time.
-> > > >
-> > > > The feature is also buildable as a module just in case the user desires
-> > > > it not being part of the kernel image. This makes it possible to load
-> > > > and unload the headers on demand. A tracing program, or a kernel module
-> > > > builder can load the module, do its operations, and then unload the
-> > > > module to save kernel memory. The total memory needed is 3.8MB.
-> > > >
-> > > > The code to read the headers is based on /proc/config.gz code and uses
-> > > > the same technique to embed the headers.
-> > > >
-> > > > To build a module, the below steps have been tested on an x86 machine:
-> > > > modprobe kheaders
-> > > > rm -rf $HOME/headers
-> > > > mkdir -p $HOME/headers
-> > > > tar -xvf /proc/kheaders.tar.xz -C $HOME/headers >/dev/null
-> > > > cd my-kernel-module
-> > > > make -C $HOME/headers M=$(pwd) modules
-> > > > rmmod kheaders
-> > > 
-> > > As the usage pattern will be accessing the individual files, what about
-> > > implementing a file system that provides read-only access to the internal
-> > > kheaders archive?
-> > > 
-> > >     mount kheaders $HOME/headers -t kheaders
-> > 
-> > I thought about it already. This is easier said than done though. The archive
-> > is compressed from 40MB to 3.6MB. If we leave it uncompressed in RAM, then it
-> > will take up the entire 40MB of RAM and in Android we don't even use
-> > disk-based swap.
-> > 
-> > So we will need some kind of intra file compressed memory representation that
-> > a filesystem can use for the backing store. I thought of RAM-backed squashfs
-> > but it requires squashfs-tools to be installed at build time (which my host
-> > distro itself didn't have).
-> > 
-> > It is just so much easier to use tar + xz at build time, and leave the
-> > decompression task to the user. After decompression, the files will live on
-> > the disk and the page-cache mechanism will free memory when/if the files fall
-> > off the LRUs.
-> > 
-> > WDYT?
+On 07.03.19 02:48, Joel Fernandes wrote:
+>> I'm confused.
 > 
-> I think the compressed tarball is much simpler/easier overall.  If
-> someone really wants the filesystem, they just uncompress it into a
-> tmpfs mount.  It's much less moving kernel code to worry about.
+> Take a look at this thread: https://lkml.org/lkml/2019/2/28/634
 
-Agreed, I also feel the same. thanks,
+Okay, replying to that mail:
 
- - Joel
+> > > There's no linux-headers
 
+That's the first fundamental problem. Actually, there's not even any
+decent package management at all (no, apk seriously doesn't count as
+that, not if you're used to apt+frieds for over 20 years)
+
+> I have already been down that road. In the Android ecosystem, the
+> Android teams only provide a "userspace system image" which goes on
+> the system partition of the flash (and a couple other images are also
+> provided but system is the main one).
+
+These Android teams should learn how GNU/Linux distros and package
+management works for over 20 years. Really, this is pretty trivial.
+
+For such kind of general purpose devices, where users can install
+arbitrary applications, I'd never come to the strange idea of deploying
+whole operating system and applications in one image. (most likely not
+even initially in the factory)
+
+> The system image cannot contain GPL source code.
+
+Why exactly ? Beacuse Big Manitu said so ?
+
+Don't these folks that GPL doesn't prohibit shipping binaries on
+disk/flash images ?
+
+> It is also not possible to put kernel headers for every kernel version
+> on the system images that ship and is not practical.
+
+Of course not. They should only be deployed when needed, for the
+versions needed.
+
+> Android boots on 1000s of forked kernels.
+
+Next big fundamental problem. Why all these forks in the first place ?
+
+I'm not talking about the small patch queue ontop of mainline (or maybe
+Andoid kernel baseline) - that's something we do all the day in embedded
+world (of course we try to mainline as much as we can).
+
+But what I usually see from the Andoid vendors are pretty much full
+forks (full of horrible hacks) that quickly aren't maintained anymore.
+
+If I'd be the responsible manager @google, that'd be one of the very
+first things I'd care for: mainline first. (and, of course, ban all
+proprietary binary-only kernel modules).
+
+> Now for kernel modules, there's another image called the "vendor
+> image" which is flashed onto the vendor parition, this is where kernel
+> modules go.
+
+Okay, then why not just putting a tarball there ?
+
+
+--mtx
+
+-- 
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
