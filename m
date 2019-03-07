@@ -2,341 +2,163 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 98B2D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 15:59:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2D4007D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 16:27:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726334AbfCGP6v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Mar 2019 10:58:51 -0500
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:34183 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726518AbfCGP6s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 10:58:48 -0500
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x27FkcsM001047;
-        Thu, 7 Mar 2019 16:58:42 +0100
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2r2ng25n7s-1
-        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Thu, 07 Mar 2019 16:58:42 +0100
-Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 00FCB3A;
-        Thu,  7 Mar 2019 15:58:41 +0000 (GMT)
-Received: from Webmail-eu.st.com (Safex1hubcas22.st.com [10.75.90.92])
-        by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C8C465323;
-        Thu,  7 Mar 2019 15:58:41 +0000 (GMT)
-Received: from SAFEX1HUBCAS23.st.com (10.75.90.47) by Safex1hubcas22.st.com
- (10.75.90.92) with Microsoft SMTP Server (TLS) id 14.3.361.1; Thu, 7 Mar 2019
- 16:58:41 +0100
-Received: from localhost (10.129.4.33) by webmail-ga.st.com (10.75.90.48) with
- Microsoft SMTP Server (TLS) id 14.3.361.1; Thu, 7 Mar 2019 16:58:41 +0100
-From:   Fabien Dessenne <fabien.dessenne@st.com>
-To:     Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        <linux-remoteproc@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     Fabien Dessenne <fabien.dessenne@st.com>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>
-Subject: [PATCH 2/2] hwspinlock: add the 'in_atomic' API
-Date:   Thu, 7 Mar 2019 16:58:23 +0100
-Message-ID: <1551974303-24542-3-git-send-email-fabien.dessenne@st.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1551974303-24542-1-git-send-email-fabien.dessenne@st.com>
-References: <1551974303-24542-1-git-send-email-fabien.dessenne@st.com>
+        id S1726159AbfCGQ1t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Mar 2019 11:27:49 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:45283 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726127AbfCGQ1t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 11:27:49 -0500
+Received: from [192.168.1.110] ([77.9.35.131]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MekvV-1gTgrc1AQP-00aiib; Thu, 07 Mar 2019 17:24:25 +0100
+Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
+ kernel
+To:     Joel Fernandes <joel@joelfernandes.org>,
+        "H. Peter Anvin" <hpa@zytor.com>
+Cc:     Daniel Colascione <dancol@google.com>, Pavel Machek <pavel@ucw.cz>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atish patra <atishp04@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
+        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>, rostedt@goodmis.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        yhs@fb.com
+References: <20190118225543.86996-1-joel@joelfernandes.org>
+ <20190119082532.GA9004@kroah.com> <20190119162754.GC231277@google.com>
+ <CAKOZuet+7a4jdox6rebMN=kJtDn5RUYzvNjFh+Pzn2UkuP0Y8Q@mail.gmail.com>
+ <20190119232503.GA149403@google.com>
+ <78AACAF1-8EBF-4DF3-BE94-5B14E78BA791@zytor.com>
+ <20190120155838.GA23827@google.com> <20190306230944.GB7915@amd>
+ <CAKOZuetOePf89cXRkvmWeGnvG7zYN=SW1yyrZibuyOqZQFTGkg@mail.gmail.com>
+ <754146f0-8b57-8644-81c1-528b5ca7dba1@zytor.com>
+ <20190307014251.GA184167@google.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <8c76dd7d-5964-9704-ba3a-0ea56b6a558c@metux.net>
+Date:   Thu, 7 Mar 2019 17:24:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.129.4.33]
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-03-07_08:,,
- signatures=0
+In-Reply-To: <20190307014251.GA184167@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:QvywTqOd1uNPR7K2X4O10MRv5nFc+u0oD7vtETqPVHY0lVKZkvC
+ g8tS/bm3n2XEPK8b3qRte7/JJb2AzVSJxe0EuMtb7lOkQZ9wdcodanuzJKlZk7MhQraIOTo
+ VoA4jxjMFud3P//TlHYcmqP04EJwMthMuhIdGgJ/GEKFm4/7IVZZr/S7/YcEDwFQRMTC6aY
+ rUYLPzr5FByUvt+cMoHfg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wtkf7o79wFE=:0I10qi2Oa9B5YCxYn6A0jx
+ F+cNDJHZFh+w5g5M3JIAOGNfFiOU3/zkFqynB8OLTOPYkE7xCpCKMBkYHvbJd8Jxspxbd3/ip
+ xgbGA31j0i0+HNdExGjirNvWX81DfR5kdcfYKZTpYBztmuoadjscfkIILt6gKFiqejZ59hGUJ
+ S69f/FKwV4hnx1jGUW0k6TKBn6GhT8zGXbB/Pctmlf0nruA6laxSBlzoo4bSyl1ZehXG9F7b2
+ KfmmsCNfYVPoDrRMX+wWxvCKUTWezuckMfYzf9OAB+lnhvm9RYmVKMS/G43C4ucmJH4Ut5KnW
+ JtibTRsqAmbLZnvXQkYGKmJeCQc1ZT7w6T6zy4zgHQWv+BfnP/v1qpZ3/HlxsJwWB8U82Zb3G
+ 1YXpt8RCZwi6vMxBVX/M+leJuR+Abl1EiVeeFiTQ56EEiCizub3FXaMU9XdRi9yuf7Z1jvdjP
+ facYExHr+/xA2AZT1Iy8C1b+EjOqcf128j93kNYUVxOrjXf5KMifGMtvLakyb+dMiMWUb2Jtt
+ 3v2lnPudJKLKt6gLT2v/ttn++w+6C28qPewBvFc8lH2JUJPhJsCAX4cNsoDKL2ExIB03a7VuQ
+ s5CXh1frchXRwHIgbxco+mdDEcF4nTTwNVNwQW0KvlDGCazAGI5fvGhIi+hdemVGimpewPOYE
+ 9AjWsEwrPBGmeoM/k4qXH2V62UlAqIzkOetP/UMqEoDOzRGuIxhSsArej7/l9izz+eBnSVpog
+ iHGyu/JKMhnafsEQLMxwX2mHKw1NdT8CsI6l/NFsZSLMGXdQkQvz3LQqzgk=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the 'in_atomic' mode which can be called from an atomic context.
-This mode relies on the existing 'raw' mode (no lock, no preemption/irq
-disabling) with the difference that the timeout is not based on jiffies
-(jiffies won't increase when irq are disabled) but handled with
-busy-waiting udelay() calls.
+On 07.03.19 02:42, Joel Fernandes wrote:
 
-Signed-off-by: Fabien Dessenne <fabien.dessenne@st.com>
----
- Documentation/hwspinlock.txt         | 39 +++++++++++++++++++++++
- drivers/hwspinlock/hwspinlock_core.c | 43 +++++++++++++++++--------
- include/linux/hwspinlock.h           | 61 ++++++++++++++++++++++++++++++++++--
- 3 files changed, 127 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/hwspinlock.txt b/Documentation/hwspinlock.txt
-index c3403f9..6f03713 100644
---- a/Documentation/hwspinlock.txt
-+++ b/Documentation/hwspinlock.txt
-@@ -153,6 +153,22 @@ The function will never sleep.
- 
- ::
- 
-+  int hwspin_lock_timeout_in_atomic(struct hwspinlock *hwlock, unsigned int to);
-+
-+Lock a previously-assigned hwspinlock with a timeout limit (specified in
-+msecs). If the hwspinlock is already taken, the function will busy loop
-+waiting for it to be released, but give up when the timeout elapses.
-+
-+This function shall be called only from an atomic context and the timeout
-+value shall not exceed a few msecs.
-+
-+Returns 0 when successful and an appropriate error code otherwise (most
-+notably -ETIMEDOUT if the hwspinlock is still busy after timeout msecs).
-+
-+The function will never sleep.
-+
-+::
-+
-   int hwspin_trylock(struct hwspinlock *hwlock);
- 
- 
-@@ -218,6 +234,19 @@ The function will never sleep.
- 
- ::
- 
-+  int hwspin_trylock_in_atomic(struct hwspinlock *hwlock);
-+
-+Attempt to lock a previously-assigned hwspinlock, but immediately fail if
-+it is already taken.
-+
-+This function shall be called only from an atomic context.
-+
-+Returns 0 on success and an appropriate error code otherwise (most
-+notably -EBUSY if the hwspinlock was already taken).
-+The function will never sleep.
-+
-+::
-+
-   void hwspin_unlock(struct hwspinlock *hwlock);
- 
- Unlock a previously-locked hwspinlock. Always succeed, and can be called
-@@ -264,6 +293,16 @@ This function will never sleep.
- 
- ::
- 
-+  void hwspin_unlock_in_atomic(struct hwspinlock *hwlock);
-+
-+Unlock a previously-locked hwspinlock.
-+
-+The caller should **never** unlock an hwspinlock which is already unlocked.
-+Doing so is considered a bug (there is no protection against this).
-+This function will never sleep.
-+
-+::
-+
-   int hwspin_lock_get_id(struct hwspinlock *hwlock);
- 
- Retrieve id number of a given hwspinlock. This is needed when an
-diff --git a/drivers/hwspinlock/hwspinlock_core.c b/drivers/hwspinlock/hwspinlock_core.c
-index 2bad40d..1d61fad 100644
---- a/drivers/hwspinlock/hwspinlock_core.c
-+++ b/drivers/hwspinlock/hwspinlock_core.c
-@@ -9,6 +9,7 @@
- 
- #define pr_fmt(fmt)    "%s: " fmt, __func__
- 
-+#include <linux/delay.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/spinlock.h>
-@@ -23,6 +24,9 @@
- 
- #include "hwspinlock_internal.h"
- 
-+/* retry delay used in atomic context */
-+#define HWSPINLOCK_RETRY_DELAY_US	100
-+
- /* radix tree tags */
- #define HWSPINLOCK_UNUSED	(0) /* tags an hwspinlock as unused */
- 
-@@ -68,11 +72,11 @@ static DEFINE_MUTEX(hwspinlock_tree_lock);
-  * user need some time-consuming or sleepable operations under the hardware
-  * lock, they need one sleepable lock (like mutex) to protect the operations.
-  *
-- * If the mode is not HWLOCK_RAW, upon a successful return from this function,
-- * preemption (and possibly interrupts) is disabled, so the caller must not
-- * sleep, and is advised to release the hwspinlock as soon as possible. This is
-- * required in order to minimize remote cores polling on the hardware
-- * interconnect.
-+ * If the mode is neither HWLOCK_IN_ATOMIC nor HWLOCK_RAW, upon a successful
-+ * return from this function, preemption (and possibly interrupts) is disabled,
-+ * so the caller must not sleep, and is advised to release the hwspinlock as
-+ * soon as possible. This is required in order to minimize remote cores polling
-+ * on the hardware interconnect.
-  *
-  * The user decides whether local interrupts are disabled or not, and if yes,
-  * whether he wants their previous state to be saved. It is up to the user
-@@ -112,6 +116,7 @@ int __hwspin_trylock(struct hwspinlock *hwlock, int mode, unsigned long *flags)
- 		ret = spin_trylock_irq(&hwlock->lock);
- 		break;
- 	case HWLOCK_RAW:
-+	case HWLOCK_IN_ATOMIC:
- 		ret = 1;
- 		break;
- 	default:
-@@ -136,6 +141,7 @@ int __hwspin_trylock(struct hwspinlock *hwlock, int mode, unsigned long *flags)
- 			spin_unlock_irq(&hwlock->lock);
- 			break;
- 		case HWLOCK_RAW:
-+		case HWLOCK_IN_ATOMIC:
- 			/* Nothing to do */
- 			break;
- 		default:
-@@ -179,11 +185,14 @@ EXPORT_SYMBOL_GPL(__hwspin_trylock);
-  * user need some time-consuming or sleepable operations under the hardware
-  * lock, they need one sleepable lock (like mutex) to protect the operations.
-  *
-- * If the mode is not HWLOCK_RAW, upon a successful return from this function,
-- * preemption is disabled (and possibly local interrupts, too), so the caller
-- * must not sleep, and is advised to release the hwspinlock as soon as possible.
-- * This is required in order to minimize remote cores polling on the
-- * hardware interconnect.
-+ * If the mode is HWLOCK_IN_ATOMIC (called from an atomic context) the timeout
-+ * is handled with busy-waiting delays, hence shall not exceed few msecs.
-+ *
-+ * If the mode is neither HWLOCK_IN_ATOMIC nor HWLOCK_RAW, upon a successful
-+ * return from this function, preemption (and possibly interrupts) is disabled,
-+ * so the caller must not sleep, and is advised to release the hwspinlock as
-+ * soon as possible. This is required in order to minimize remote cores polling
-+ * on the hardware interconnect.
-  *
-  * The user decides whether local interrupts are disabled or not, and if yes,
-  * whether he wants their previous state to be saved. It is up to the user
-@@ -198,7 +207,7 @@ int __hwspin_lock_timeout(struct hwspinlock *hwlock, unsigned int to,
- 					int mode, unsigned long *flags)
- {
- 	int ret;
--	unsigned long expire;
-+	unsigned long expire, atomic_delay = 0;
- 
- 	expire = msecs_to_jiffies(to) + jiffies;
- 
-@@ -212,8 +221,15 @@ int __hwspin_lock_timeout(struct hwspinlock *hwlock, unsigned int to,
- 		 * The lock is already taken, let's check if the user wants
- 		 * us to try again
- 		 */
--		if (time_is_before_eq_jiffies(expire))
--			return -ETIMEDOUT;
-+		if (mode == HWLOCK_IN_ATOMIC) {
-+			udelay(HWSPINLOCK_RETRY_DELAY_US);
-+			atomic_delay += HWSPINLOCK_RETRY_DELAY_US;
-+			if (atomic_delay > to * 1000)
-+				return -ETIMEDOUT;
-+		} else {
-+			if (time_is_before_eq_jiffies(expire))
-+				return -ETIMEDOUT;
-+		}
- 
- 		/*
- 		 * Allow platform-specific relax handlers to prevent
-@@ -276,6 +292,7 @@ void __hwspin_unlock(struct hwspinlock *hwlock, int mode, unsigned long *flags)
- 		spin_unlock_irq(&hwlock->lock);
- 		break;
- 	case HWLOCK_RAW:
-+	case HWLOCK_IN_ATOMIC:
- 		/* Nothing to do */
- 		break;
- 	default:
-diff --git a/include/linux/hwspinlock.h b/include/linux/hwspinlock.h
-index 0afe693..bfe7c1f 100644
---- a/include/linux/hwspinlock.h
-+++ b/include/linux/hwspinlock.h
-@@ -14,9 +14,10 @@
- #include <linux/sched.h>
- 
- /* hwspinlock mode argument */
--#define HWLOCK_IRQSTATE	0x01	/* Disable interrupts, save state */
--#define HWLOCK_IRQ	0x02	/* Disable interrupts, don't save state */
--#define HWLOCK_RAW	0x03
-+#define HWLOCK_IRQSTATE		0x01 /* Disable interrupts, save state */
-+#define HWLOCK_IRQ		0x02 /* Disable interrupts, don't save state */
-+#define HWLOCK_RAW		0x03
-+#define HWLOCK_IN_ATOMIC	0x04 /* Called while in atomic context */
- 
- struct device;
- struct device_node;
-@@ -223,6 +224,23 @@ static inline int hwspin_trylock_raw(struct hwspinlock *hwlock)
- }
- 
- /**
-+ * hwspin_trylock_in_atomic() - attempt to lock a specific hwspinlock
-+ * @hwlock: an hwspinlock which we want to trylock
-+ *
-+ * This function attempts to lock an hwspinlock, and will immediately fail
-+ * if the hwspinlock is already taken.
-+ *
-+ * This function shall be called only from an atomic context.
-+ *
-+ * Returns 0 if we successfully locked the hwspinlock, -EBUSY if
-+ * the hwspinlock was already taken, and -EINVAL if @hwlock is invalid.
-+ */
-+static inline int hwspin_trylock_in_atomic(struct hwspinlock *hwlock)
-+{
-+	return __hwspin_trylock(hwlock, HWLOCK_IN_ATOMIC, NULL);
-+}
-+
-+/**
-  * hwspin_trylock() - attempt to lock a specific hwspinlock
-  * @hwlock: an hwspinlock which we want to trylock
-  *
-@@ -313,6 +331,28 @@ int hwspin_lock_timeout_raw(struct hwspinlock *hwlock, unsigned int to)
- }
- 
- /**
-+ * hwspin_lock_timeout_in_atomic() - lock an hwspinlock with timeout limit
-+ * @hwlock: the hwspinlock to be locked
-+ * @to: timeout value in msecs
-+ *
-+ * This function locks the underlying @hwlock. If the @hwlock
-+ * is already taken, the function will busy loop waiting for it to
-+ * be released, but give up when @timeout msecs have elapsed.
-+ *
-+ * This function shall be called only from an atomic context and the timeout
-+ * value shall not exceed a few msecs.
-+ *
-+ * Returns 0 when the @hwlock was successfully taken, and an appropriate
-+ * error code otherwise (most notably an -ETIMEDOUT if the @hwlock is still
-+ * busy after @timeout msecs). The function will never sleep.
-+ */
-+static inline
-+int hwspin_lock_timeout_in_atomic(struct hwspinlock *hwlock, unsigned int to)
-+{
-+	return __hwspin_lock_timeout(hwlock, to, HWLOCK_IN_ATOMIC, NULL);
-+}
-+
-+/**
-  * hwspin_lock_timeout() - lock an hwspinlock with timeout limit
-  * @hwlock: the hwspinlock to be locked
-  * @to: timeout value in msecs
-@@ -387,6 +427,21 @@ static inline void hwspin_unlock_raw(struct hwspinlock *hwlock)
- }
- 
- /**
-+ * hwspin_unlock_in_atomic() - unlock hwspinlock
-+ * @hwlock: a previously-acquired hwspinlock which we want to unlock
-+ *
-+ * This function will unlock a specific hwspinlock.
-+ *
-+ * @hwlock must be already locked (e.g. by hwspin_trylock()) before calling
-+ * this function: it is a bug to call unlock on a @hwlock that is already
-+ * unlocked.
-+ */
-+static inline void hwspin_unlock_in_atomic(struct hwspinlock *hwlock)
-+{
-+	__hwspin_unlock(hwlock, HWLOCK_IN_ATOMIC, NULL);
-+}
-+
-+/**
-  * hwspin_unlock() - unlock hwspinlock
-  * @hwlock: a previously-acquired hwspinlock which we want to unlock
-  *
+Speaking as an embedded linux architect, who's daily job for a large
+part is to getting bootloader, kernel, userland and customer
+applications play nice together, in a stable, secure and easily
+maintainable way:
+
+
+> They would include the module because we can enforce that certain> config options in the kernel need to be enabled for Android features
+to work.
+
+Ok, but then you could also enforce them to simply put a tarball to the
+module directory.
+
+The modules need to built and deployed together with the kernel image
+itself anyways, as well as they need to live on some filesystem that
+has to be mounted at runtime. So, putting a tarball there is obvious
+and trivial. No need to invent extra tools to build and use that stuff,
+don't even need to touch the kernel source for that.
+
+> As I said in previous posts, some people want to boot a kernel image without> any update to FS, for debug purposes.
+
+So, it's just a workaround for your weird build/deployment mechanisms ?
+(sorry, but I've got a hard time containing myself from starting a
+really big rant against the Android architecture and build/deployment)
+
+> In the Android/embedded world,> developers want to build and boot a single binary blob (for debugging).
+
+Maybe in Android world (I didn't touch this for aeons - I'm just too
+lazy add another hdd for it and wait days for everything pulled and
+compiled), but in embedded world (speaking of: industrial machinery,
+power plants, freighter ships, locomotives, medical devices or even
+TV sets - that's the stuff I'm doing all the day), we usually either
+build and deploy full system images (including the whole userland)
+or use package management (eg. dpkg, ipkg, etc).
+
+For me, as an embedded linux architect, the whole idea of having the
+kernel have a completely different lifecycle process (even from a
+completely different vendor) than the userland, is a really weird idea.
+
+[ Yes: I've sometimes got customers with similar weird ideas (like BSP
+coming from the board vendor, as a binary image, and they "just" put
+their application ontop), but sooner or later this heavily crashes
+against the wall, and then I can teach them how to do it right. ]
+
+> Once they are done debugging, they can switch the CONFIG option back to> module instead of building it in and consuming memory, so that it is
+not> loaded into memory until needed.
+Okay, if it's just for debugging (in the lab, not in the field), then
+why not fixing your development environment ? Why do you need that very
+android specific stuff mainlined ?
+
+Quite frankly: the whole thing really reminds me to the folks who wanna
+push desktop bus into the kernel, just because their strange init system
+is entirely based on that and they've created some nasty circular
+dependencies. Please not yet another flamewar of that kind.
+
+IMHO, you've got a serious architectural userland and development
+environment problem (the massive problem of many millions completely
+unmaintained and insecure devices in the field comes from exactly
+that. Begins with the same fundamental mistakes which MS also still
+refused learn, over decades - lack of a decent package management).
+
+I doubt that workarounds in the kernel are good solution to that.
+
+>> 3. Use a squashfs image instead of an archive.>
+> This point number 3 sounds like a non-starter because it will make the kernel
+> build system fail if squashfs-tools is not available. 
+
+apt-get install squashfs-tools ?
+
+Sorry, but the whole Android build machinery is so *extremly* huge,
+that adding yet another tiny tool, which is in all relevant distros
+for  aeons, really shouldn't be a problem worth even talking about.
+
+
+--mtx
+
 -- 
-2.7.4
-
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
