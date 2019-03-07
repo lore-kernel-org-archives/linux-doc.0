@@ -1,118 +1,126 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5F42E7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 20:55:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 541A57D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 21:12:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726344AbfCGUzJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Mar 2019 15:55:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60746 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726259AbfCGUzI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Mar 2019 15:55:08 -0500
-Received: from localhost (5356596B.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E1BE720684;
-        Thu,  7 Mar 2019 20:55:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1551992107;
-        bh=Z8ExJUXfOihxLauWUj9aMlmQzss/q/n71+IPpaYmzJo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=znI9BTlOoRGBn9f8JaFDuausGFCjHPcefx+jgvBgUPGPZlFz+hNvUVdPHVDpu9fyN
-         owr8HjpcYI1O0UuUWZORmem9xXzT4yMDD0NuRF6GK1hjDJEvgwp0eK8CDQyoKH5TzP
-         YB8Ta3uz+MMbKUcULyL57CzQZxalfixN/p1Nsspk=
-Date:   Thu, 7 Mar 2019 21:55:05 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     Daniel Colascione <dancol@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Pavel Machek <pavel@ucw.cz>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
-        atish patra <atishp04@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
-        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>, rostedt@goodmis.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        yhs@fb.com
-Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
- kernel
-Message-ID: <20190307205505.GB30028@kroah.com>
-References: <20190119232503.GA149403@google.com>
- <78AACAF1-8EBF-4DF3-BE94-5B14E78BA791@zytor.com>
- <20190120155838.GA23827@google.com>
- <20190306230944.GB7915@amd>
- <CAKOZuetOePf89cXRkvmWeGnvG7zYN=SW1yyrZibuyOqZQFTGkg@mail.gmail.com>
- <754146f0-8b57-8644-81c1-528b5ca7dba1@zytor.com>
- <CAKOZuesjYZ2EH=BHBAJAFFaTOHjWU7BELJUV3QC9cjXVB2HhUw@mail.gmail.com>
- <0c46ab5f-8bd6-6916-fc4a-b6f00d456011@metux.net>
- <CAKOZuevksKGAPif_pUYVzFpbuBCxOZ5WzT6ukLCYm4TzyLUTMw@mail.gmail.com>
- <5ebec282-57b0-6ebe-0876-ce0dd7b0c11c@metux.net>
+        id S1726234AbfCGVMY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Mar 2019 16:12:24 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:41611 "EHLO
+        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726186AbfCGVMY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 16:12:24 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.west.internal (Postfix) with ESMTP id 15DF43026;
+        Thu,  7 Mar 2019 16:12:23 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Thu, 07 Mar 2019 16:12:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=/tHVp1gtEeRLSAoer
+        mLBJfxzsdFUrHewWYgWmWrrgbI=; b=1cvKLABHN1eTIWzvMQBdkQXYiib6cn0rQ
+        EAtoXXctgUhikAa4HbwBvRr+o9rZl1O4HyZjy26SBIe+N844bAEBdmBLOf2q9QC+
+        N8ktX12wJxTzfKt0902ZiL0Zc8+dTcyFLatKZjxEkp65RNWyTbmf2RhlBIRAT1GG
+        pw/7Tu1bMUeOppENXxHFbNbCmZ2/vMGfpJUpH/fYmiVMm8mM+zcv7mfcyMcBtuPY
+        W8BCNr768gDCwLHHy1QRtNqN60tjFtwUqjW51CO73aiXJ92GuYAw0jrJtzcBf2A5
+        mUza4JM5jnyz38CNjx9jIQjBMkIMpa9umeKn5eujkzoQJCnibNvJg==
+X-ME-Sender: <xms:NYmBXEW8Wf4vdNqqcXvlGRBypP6ThUxWxBQShUqbl_omOwaKBmJ2Iw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrfeekgdduhedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpedfvfhosghinhcu
+    vedrucfjrghrughinhhgfdcuoehtohgsihhnsehkvghrnhgvlhdrohhrgheqnecukfhppe
+    duvdegrdduieelrdehrdduheeknecurfgrrhgrmhepmhgrihhlfhhrohhmpehtohgsihhn
+    sehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:NYmBXOOQln3BGQuKl91Ls9IaX1Y7DBb0IBT-36GJRZq_mxQeY1nXog>
+    <xmx:NYmBXAdYY2D2f2MWwknKmQLSnAXn2UBlH3zyUePNOjOrS7hhIbk2Aw>
+    <xmx:NYmBXMCfJtIq3TWCgRIhrp2yLFtAkKOieeKyify5e7rv7qLVAa1BUw>
+    <xmx:NomBXOSz827_33fUKdgTwrA9aqXS-wNLiRFGLMouP74V1Datl22Z5w>
+Received: from eros.localdomain (124-169-5-158.dyn.iinet.net.au [124.169.5.158])
+        by mail.messagingengine.com (Postfix) with ESMTPA id CFE6510341;
+        Thu,  7 Mar 2019 16:12:19 -0500 (EST)
+From:   "Tobin C. Harding" <tobin@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Tobin C. Harding" <tobin@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/9] docs: Fix various build warnings/errors
+Date:   Fri,  8 Mar 2019 08:11:44 +1100
+Message-Id: <20190307211153.28400-1-tobin@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5ebec282-57b0-6ebe-0876-ce0dd7b0c11c@metux.net>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 07, 2019 at 09:41:24PM +0100, Enrico Weigelt, metux IT consult wrote:
-> On 07.03.19 02:49, Daniel Colascione wrote:
-> 
-> > Entirely FS-less operation is uncommon, granted. :-) I guess I've just
-> > spent too much time debugging emulators that refuse to mount their> root filesystems. :-)
-> 
-> Fix these emulators ?
-> 
-> > There are legitimate reasons why a device's> filesystems might not be rw-mountable though, and I can imagine a
-> > world where I want to attach tracing tools *very* early.
-> 
-> Ok, but the filesystem where the modules live is mountable, right ?
-> 
-> > Sure. There's some support for a ramdisk already in fastboot. But just
-> > including a blob in initrd doesn't *automatically* make it available
-> > to userspace in any uniform way. With Joel's approach --- which> defines both a propagation mechanism and an access interface --- we
-> 
-> I can define such an interface with a few words:
-> 
-> * the kernel headers lives in a (compressed) squashfs image in the
->   module directory for the corresponding kernel version:
->       /lib/modules/<version>-<flavour>/headers.img"
-> * this image shall be mounted at a canonical mountpoint, eg:
->       /usr/src/linux-headers-<version>-<flavour>
-> * the kernel needs to support squashfs (may be module or built-in)
-> 
-> That's it. I don't need to touch a single line of kernel code for that,
-> just a very simple and small convention.
+Hi,
 
-Ick, no, no more squashfs please, let's just kill that mess once and for
-all :)
+I had a few hours to spare so I thought I'd clear some Sphinx build
+warnings/errors.  There isn't anything too controversial here.  The only
+interesting thing I hit was in patch 7 (docs: Remove unknown 'hint'
+directive), I couldn't work out if this was a serious directive, a joke,
+or a typo.  Please review that patch more carefully than the others.
 
-Again, putting this in a simple compressed tar image allows anyone to do
-whatever they need to with this.  If they want a full filesystem,
-uncompress it and use it there.  If they just want it in-memory where
-they can uncompress it and then discard it, that works too.
+Patch 4 adds :ref: and raises an issue I've come across a few times now,
+could I have your opinion on it please (if you have the time/inclination
+to share it)
 
-And if no one wants this, just don't select the config option and do not
-load the module with this data in it.  Just like /proc/config.gz is
-today.
+:ref:`/Documentation/path/to/file.rst <label>`
+
+vs
+
+:ref:`label`
+
+Undeniably the second is better in HTML.  The first is, on one hand,
+arguable better to parse when reading the textual file (since you can
+see which file it refers to) but on the other hand kinda looks ugly
+since it often line wraps poorly and is a bit cluttered if all you want to
+see is the path.  Having only the label doesn't _really_ make it worse
+in text because often you already know (or don't care) what the path is
+(e.g. when there are multiple refs to the same label) and if you do care
+you can just grep the docs for the label.
+
+Do you have an opinion on this?
+
+Oh also, do you have a script by any chance that does a clean build of
+the docs, saves stderr output, applies a patch, cleanly re-builds the
+docs and then diffs the two outputs?  Then rinse-and-repeat for a whole
+patch series. Thought I'd ask before I write one.
 
 thanks,
+Tobin.
 
-greg k-h
+Tobin C. Harding (9):
+  docs: Fix spelling mistake
+  docs: Add colon clearing sphinx warning
+  docs: Remove unnecessary reference link title
+  docs: Use reference to link to rst file
+  docs: Replace backtick with apostrophe.
+  docs: Use correct list markup character
+  docs: Remove unknown 'hint' directive
+  docs: Fix Title underline too short warning
+  docs: Add blank line after SPDX licence identifier
+
+ .../admin-guide/mm/numa_memory_policy.rst     |  9 ++-
+ .../driver-api/dmaengine/dmatest.rst          |  4 +-
+ Documentation/driver-api/gpio/board.rst       |  5 +-
+ Documentation/filesystems/path-lookup.rst     | 24 ++++----
+ Documentation/laptops/lg-laptop.rst           | 13 +++--
+ Documentation/misc-devices/ibmvmc.rst         |  1 +
+ Documentation/networking/snmp_counter.rst     | 58 +++++++++----------
+ Documentation/process/howto.rst               |  2 +-
+ Documentation/vm/numa.rst                     |  4 +-
+ Documentation/vm/slub.rst                     |  2 +-
+ include/linux/kernel.h                        |  2 +-
+ include/linux/wait.h                          |  2 +-
+ 12 files changed, 64 insertions(+), 62 deletions(-)
+
+-- 
+2.21.0
+
