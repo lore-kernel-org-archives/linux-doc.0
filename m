@@ -5,85 +5,118 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6B87A7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 09:58:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9ADCD7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 14:45:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726028AbfCGJ6N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Mar 2019 04:58:13 -0500
-Received: from smtp2-4.goneo.de ([85.220.129.36]:56232 "EHLO smtp2-4.goneo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725747AbfCGJ6M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Mar 2019 04:58:12 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by smtp2.goneo.de (Postfix) with ESMTP id 7F80524055A;
-        Thu,  7 Mar 2019 10:58:09 +0100 (CET)
-X-Virus-Scanned: by goneo
-Received: from smtp2.goneo.de ([127.0.0.1])
-        by localhost (smtp2.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id xkPxj5zYLTRh; Thu,  7 Mar 2019 10:58:08 +0100 (CET)
-Received: from [192.168.1.127] (host-091-097-250-091.ewe-ip-backbone.de [91.97.250.91])
-        by smtp2.goneo.de (Postfix) with ESMTPSA id 0C97223F56F;
-        Thu,  7 Mar 2019 10:58:08 +0100 (CET)
-Subject: Re: undefined label
-To:     "Tobin C. Harding" <me@tobin.cc>, Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org
-References: <20190307091734.GB9152@eros.localdomain>
-From:   Markus Heiser <markus.heiser@darmarit.de>
-Message-ID: <c24a75bf-5bd5-aca8-7764-e05a03495e01@darmarit.de>
-Date:   Thu, 7 Mar 2019 10:58:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+        id S1726298AbfCGOp4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Mar 2019 09:45:56 -0500
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:46458 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726297AbfCGOp4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Mar 2019 09:45:56 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 98C68EBD;
+        Thu,  7 Mar 2019 06:45:55 -0800 (PST)
+Received: from e105550-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 88B493F71D;
+        Thu,  7 Mar 2019 06:45:54 -0800 (PST)
+Date:   Thu, 7 Mar 2019 14:45:52 +0000
+From:   Morten Rasmussen <morten.rasmussen@arm.com>
+To:     Len Brown <lenb@kernel.org>
+Cc:     x86@kernel.org, linux-kernel@vger.kernel.org,
+        Len Brown <len.brown@intel.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 05/14] cpu topology: Export die_id
+Message-ID: <20190307144552.GC19434@e105550-lin.cambridge.arm.com>
+References: <e2810a5317d3a109a98204e883fd1461f77b9339.1551160674.git.len.brown@intel.com>
+ <43f15c3d7b5e0fd7e3f257d4c0736200f6198971.1551160674.git.len.brown@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20190307091734.GB9152@eros.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: de-DE
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <43f15c3d7b5e0fd7e3f257d4c0736200f6198971.1551160674.git.len.brown@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 07.03.19 um 10:17 schrieb Tobin C. Harding:
-> Hi Jon,
-> 
-> I hit that undefined label warning again today.  Then just now I was
-> sitting enjoying a quite scotch and the reason came to me.  It is caused
-> by building part of the docs instead of the whole tree i.e. using
-> 
-> 	make SPHINXDIRS=admin-guide htmldocs
-> 
-> Gives the warning
-> 
-> 	WARNING: undefined label: numa (if the link has no caption the label must precede a section header)
+Hi Len,
 
-The label 'numa' is not a part of the admin-guide (book), it is set in
-the vm (book): Documentation/vm/numa.rst:1
-
-If compiling only a book like admin-guide, those links are broken.  Its not only
-'numa' which is broken and its not only the admin-guide which has cross-books
-links in.
-
-To close such cross-books links we can use intersphinx [1] and map to e.g.
-
-   intersphinx_mapping = {
-       'kernel': ('https://www.kernel.org/doc/html/latest/', None)}
-
-If there is any interest in, I can implement a RFC for this.
-
--- Markus --
-
-[1] https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html
-
+On Tue, Feb 26, 2019 at 01:20:03AM -0500, Len Brown wrote:
+> From: Len Brown <len.brown@intel.com>
 > 
-> This is a hell of a gotcha, I wasted a bunch of cycles baffled as to why
-> that label was not defined today :(  Super excited that I worked out why
-> while day dreaming though.
+> Export die_id in cpu topology, for the benefit of hardware that
+> has multiple-die/package.
 > 
-> Last time I sent in the 'fix' I must built with SPHINXDIRS, patched then
-> built without SPHINXDIRS and thought the patch fixed it.
+> Signed-off-by: Len Brown <len.brown@intel.com>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/cputopology.txt   | 6 ++++++
+>  arch/x86/include/asm/topology.h | 1 +
+>  drivers/base/topology.c         | 4 ++++
+>  include/linux/topology.h        | 3 +++
+>  4 files changed, 14 insertions(+)
 > 
-> Anyways, hope you get a chuckle out of this.
-> 
-> All the best,
-> Tobin.
-> 
+> diff --git a/Documentation/cputopology.txt b/Documentation/cputopology.txt
+> index cb61277e2308..4e6be7f68fd8 100644
+> --- a/Documentation/cputopology.txt
+> +++ b/Documentation/cputopology.txt
+> @@ -12,6 +12,12 @@ physical_package_id:
+>  	socket number, but the actual value is architecture and platform
+>  	dependent.
+>  
+> +die_id:
+> +
+> +	the CPU die ID of cpuX. Typically it is the hardware platform's
+> +	identifier (rather than the kernel's).  The actual value is
+> +	architecture and platform dependent.
+> +
+>  core_id:
+
+Can we add the details about die_id further down in cputopology.txt as
+well?
+
+diff --git a/Documentation/cputopology.txt b/Documentation/cputopology.txt
+index 6c25ce682c90..77b65583081e 100644
+--- a/Documentation/cputopology.txt
++++ b/Documentation/cputopology.txt
+@@ -97,6 +97,7 @@ For an architecture to support this feature, it must define some of
+ these macros in include/asm-XXX/topology.h::
+ 
+ 	#define topology_physical_package_id(cpu)
++	#define topology_die_id(cpu)
+ 	#define topology_core_id(cpu)
+ 	#define topology_book_id(cpu)
+ 	#define topology_drawer_id(cpu)
+@@ -116,10 +117,11 @@ provides default definitions for any of the above macros that are
+ not defined by include/asm-XXX/topology.h:
+ 
+ 1) topology_physical_package_id: -1
+-2) topology_core_id: 0
+-3) topology_sibling_cpumask: just the given CPU
+-4) topology_core_cpumask: just the given CPU
+-5) topology_die_cpumask: just the given CPU
++2) topology_die_id: -1
++3) topology_core_id: 0
++4) topology_sibling_cpumask: just the given CPU
++5) topology_core_cpumask: just the given CPU
++6) topology_die_cpumask: just the given CPU
+ 
+>  
+>  	the CPU core ID of cpuX. Typically it is the hardware platform's
+> diff --git a/arch/x86/include/asm/topology.h b/arch/x86/include/asm/topology.h
+> index 453cf38a1c33..281be6bbc80d 100644
+> --- a/arch/x86/include/asm/topology.h
+> +++ b/arch/x86/include/asm/topology.h
+> @@ -106,6 +106,7 @@ extern const struct cpumask *cpu_coregroup_mask(int cpu);
+>  
+>  #define topology_logical_package_id(cpu)	(cpu_data(cpu).logical_proc_id)
+>  #define topology_physical_package_id(cpu)	(cpu_data(cpu).phys_proc_id)
+> +#define topology_die_id(cpu)			(cpu_data(cpu).cpu_die_id)
+>  #define topology_core_id(cpu)			(cpu_data(cpu).cpu_core_id)
+>  
+>  #ifdef CONFIG_SMP
+
+The above is x86 specific and seems to fit better with the next patch in
+the series.
+
+Morten
