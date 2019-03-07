@@ -5,53 +5,56 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 541A57D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 21:12:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 10AD67D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 21:12:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726234AbfCGVMY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Mar 2019 16:12:24 -0500
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:41611 "EHLO
+        id S1726186AbfCGVMg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Mar 2019 16:12:36 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:46891 "EHLO
         wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726186AbfCGVMY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 16:12:24 -0500
+        by vger.kernel.org with ESMTP id S1726380AbfCGVMf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 16:12:35 -0500
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id 15DF43026;
-        Thu,  7 Mar 2019 16:12:23 -0500 (EST)
+        by mailout.west.internal (Postfix) with ESMTP id A459E3540;
+        Thu,  7 Mar 2019 16:12:34 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Thu, 07 Mar 2019 16:12:23 -0500
+  by compute3.internal (MEProxy); Thu, 07 Mar 2019 16:12:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=/tHVp1gtEeRLSAoer
-        mLBJfxzsdFUrHewWYgWmWrrgbI=; b=1cvKLABHN1eTIWzvMQBdkQXYiib6cn0rQ
-        EAtoXXctgUhikAa4HbwBvRr+o9rZl1O4HyZjy26SBIe+N844bAEBdmBLOf2q9QC+
-        N8ktX12wJxTzfKt0902ZiL0Zc8+dTcyFLatKZjxEkp65RNWyTbmf2RhlBIRAT1GG
-        pw/7Tu1bMUeOppENXxHFbNbCmZ2/vMGfpJUpH/fYmiVMm8mM+zcv7mfcyMcBtuPY
-        W8BCNr768gDCwLHHy1QRtNqN60tjFtwUqjW51CO73aiXJ92GuYAw0jrJtzcBf2A5
-        mUza4JM5jnyz38CNjx9jIQjBMkIMpa9umeKn5eujkzoQJCnibNvJg==
-X-ME-Sender: <xms:NYmBXEW8Wf4vdNqqcXvlGRBypP6ThUxWxBQShUqbl_omOwaKBmJ2Iw>
+        :in-reply-to:message-id:mime-version:references:subject:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; bh=w6DnkOJdeCd08m/4a4WGsB39s0VMdxxDOkNHYP72TR8=; b=rSe+ZWxN
+        TJBdt0GtTxchF/IYxpnEqnpUCTAA3NGeZMP5+UAStGs3CTQXyjkCw+Ui+uhgc+f6
+        U9AqiJYXKh58OJBetVxzU4bTCyLVAxdxVi7ePTrvCrH9vuU9g3tDPP8EcUKsPVdF
+        XWWubhvcUzKwTZbPq2on1zXwKSm+Ox3CquusZY1uopbytZCZ3Th/lEbRsXKNzmns
+        N5/aLb4Adfsi0oTcL82jFN0Oi7Pob87feGrMgYrbeQTiBrkngHCDVGA9OGqGqguq
+        gSVYlrdHhVSIKrthFl9Jfd4VvbFlsSv8Z5aykIW5xOQaS01V/H5OUnCjkGn1yBCj
+        UmhuLO9ayPkm2w==
+X-ME-Sender: <xms:QomBXJ-Ofx2_E9-1UQ6GeOe8M6X8yMb31Z4A2sFOK6fet6MMPPtK2Q>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrfeekgdduhedtucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpedfvfhosghinhcu
-    vedrucfjrghrughinhhgfdcuoehtohgsihhnsehkvghrnhgvlhdrohhrgheqnecukfhppe
-    duvdegrdduieelrdehrdduheeknecurfgrrhgrmhepmhgrihhlfhhrohhmpehtohgsihhn
-    sehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:NYmBXOOQln3BGQuKl91Ls9IaX1Y7DBb0IBT-36GJRZq_mxQeY1nXog>
-    <xmx:NYmBXAdYY2D2f2MWwknKmQLSnAXn2UBlH3zyUePNOjOrS7hhIbk2Aw>
-    <xmx:NYmBXMCfJtIq3TWCgRIhrp2yLFtAkKOieeKyify5e7rv7qLVAa1BUw>
-    <xmx:NomBXOSz827_33fUKdgTwrA9aqXS-wNLiRFGLMouP74V1Datl22Z5w>
+    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpedfvfhosghi
+    nhcuvedrucfjrghrughinhhgfdcuoehtohgsihhnsehkvghrnhgvlhdrohhrgheqnecukf
+    hppeduvdegrdduieelrdehrdduheeknecurfgrrhgrmhepmhgrihhlfhhrohhmpehtohgs
+    ihhnsehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpeef
+X-ME-Proxy: <xmx:QomBXIM7wjCxkawoIYlxLtAyDPZnDncXbJaYwZUKHRoJJ_PyHxslng>
+    <xmx:QomBXD-mFAHmjewsiqT85RImXsrlzo5ZP1re78Pfct2kQbfFPoQZEw>
+    <xmx:QomBXAIqqAKOqME0jz__6CQd-68jk4MAl2-U0QIWR5sK6TN9XvcfpQ>
+    <xmx:QomBXKwX2WewgJIiWaWRxJ6M4jbgYTlonbp36mhnxXKuDNjJRXo6Bg>
 Received: from eros.localdomain (124-169-5-158.dyn.iinet.net.au [124.169.5.158])
-        by mail.messagingengine.com (Postfix) with ESMTPA id CFE6510341;
-        Thu,  7 Mar 2019 16:12:19 -0500 (EST)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 445FC10310;
+        Thu,  7 Mar 2019 16:12:31 -0500 (EST)
 From:   "Tobin C. Harding" <tobin@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     "Tobin C. Harding" <tobin@kernel.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 0/9] docs: Fix various build warnings/errors
-Date:   Fri,  8 Mar 2019 08:11:44 +1100
-Message-Id: <20190307211153.28400-1-tobin@kernel.org>
+Subject: [PATCH 5/9] docs: Replace backtick with apostrophe.
+Date:   Fri,  8 Mar 2019 08:11:49 +1100
+Message-Id: <20190307211153.28400-6-tobin@kernel.org>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190307211153.28400-1-tobin@kernel.org>
+References: <20190307211153.28400-1-tobin@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -59,68 +62,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Sphinx emits:
 
-I had a few hours to spare so I thought I'd clear some Sphinx build
-warnings/errors.  There isn't anything too controversial here.  The only
-interesting thing I hit was in patch 7 (docs: Remove unknown 'hint'
-directive), I couldn't work out if this was a serious directive, a joke,
-or a typo.  Please review that patch more carefully than the others.
+	WARNING: Inline interpreted text or phrase reference
+	start-string without end-string.
 
-Patch 4 adds :ref: and raises an issue I've come across a few times now,
-could I have your opinion on it please (if you have the time/inclination
-to share it)
+This is caused by a spurious backtick.
 
-:ref:`/Documentation/path/to/file.rst <label>`
+Replace backtick with apostrophe.
 
-vs
+Signed-off-by: Tobin C. Harding <tobin@kernel.org>
+---
+ include/linux/kernel.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-:ref:`label`
-
-Undeniably the second is better in HTML.  The first is, on one hand,
-arguable better to parse when reading the textual file (since you can
-see which file it refers to) but on the other hand kinda looks ugly
-since it often line wraps poorly and is a bit cluttered if all you want to
-see is the path.  Having only the label doesn't _really_ make it worse
-in text because often you already know (or don't care) what the path is
-(e.g. when there are multiple refs to the same label) and if you do care
-you can just grep the docs for the label.
-
-Do you have an opinion on this?
-
-Oh also, do you have a script by any chance that does a clean build of
-the docs, saves stderr output, applies a patch, cleanly re-builds the
-docs and then diffs the two outputs?  Then rinse-and-repeat for a whole
-patch series. Thought I'd ask before I write one.
-
-thanks,
-Tobin.
-
-Tobin C. Harding (9):
-  docs: Fix spelling mistake
-  docs: Add colon clearing sphinx warning
-  docs: Remove unnecessary reference link title
-  docs: Use reference to link to rst file
-  docs: Replace backtick with apostrophe.
-  docs: Use correct list markup character
-  docs: Remove unknown 'hint' directive
-  docs: Fix Title underline too short warning
-  docs: Add blank line after SPDX licence identifier
-
- .../admin-guide/mm/numa_memory_policy.rst     |  9 ++-
- .../driver-api/dmaengine/dmatest.rst          |  4 +-
- Documentation/driver-api/gpio/board.rst       |  5 +-
- Documentation/filesystems/path-lookup.rst     | 24 ++++----
- Documentation/laptops/lg-laptop.rst           | 13 +++--
- Documentation/misc-devices/ibmvmc.rst         |  1 +
- Documentation/networking/snmp_counter.rst     | 58 +++++++++----------
- Documentation/process/howto.rst               |  2 +-
- Documentation/vm/numa.rst                     |  4 +-
- Documentation/vm/slub.rst                     |  2 +-
- include/linux/kernel.h                        |  2 +-
- include/linux/wait.h                          |  2 +-
- 12 files changed, 64 insertions(+), 62 deletions(-)
-
+diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+index 8f0e68e250a7..59c16c763086 100644
+--- a/include/linux/kernel.h
++++ b/include/linux/kernel.h
+@@ -134,7 +134,7 @@
+  * Rounds @x up to next multiple of @y. If @y will always be a power
+  * of 2, consider using the faster round_up().
+  *
+- * The `const' here prevents gcc-3.3 from calling __divdi3
++ * The 'const' here prevents gcc-3.3 from calling __divdi3
+  */
+ #define roundup(x, y) (					\
+ {							\
 -- 
 2.21.0
 
