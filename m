@@ -2,23 +2,23 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 91FDB7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 01:01:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 560C77D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 01:05:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725793AbfCGBBL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Mar 2019 20:01:11 -0500
-Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:34309 "EHLO
+        id S1726094AbfCGBFI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Mar 2019 20:05:08 -0500
+Received: from smtp2207-205.mail.aliyun.com ([121.197.207.205]:53174 "EHLO
         smtp2207-205.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725790AbfCGBBK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Mar 2019 20:01:10 -0500
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07436282|-1;CH=green;DM=SPAM|CONTINUE|true|0.696362-0.054115-0.249523;FP=0|0|0|0|0|-1|-1|-1;HT=e01l07440;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=14;RT=14;SR=0;TI=SMTPD_---.E4zQJRN_1551920463;
-Received: from 172.16.10.102(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.E4zQJRN_1551920463)
-          by smtp.aliyun-inc.com(10.147.40.7);
-          Thu, 07 Mar 2019 09:01:04 +0800
-Subject: Re: [PATCH v12 2/4] pstore/blk: add blkoops for pstore_blk
+        by vger.kernel.org with ESMTP id S1725790AbfCGBFI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Mar 2019 20:05:08 -0500
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07447757|-1;CH=green;DM=CONTINUE|CONTINUE|true|0.229133-0.10439-0.666477;FP=0|0|0|0|0|-1|-1|-1;HT=e02c03278;MF=liaoweixiong@allwinnertech.com;NM=1;PH=DS;RN=14;RT=14;SR=0;TI=SMTPD_---.E4ziVM4_1551920701;
+Received: from 172.16.10.102(mailfrom:liaoweixiong@allwinnertech.com fp:SMTPD_---.E4ziVM4_1551920701)
+          by smtp.aliyun-inc.com(10.147.41.137);
+          Thu, 07 Mar 2019 09:05:02 +0800
+Subject: Re: [PATCH v12 3/4] pstore/blk: support pmsg for pstore block
 To:     Randy Dunlap <rdunlap@infradead.org>,
         Kees Cook <keescook@chromium.org>,
         Anton Vorontsov <anton@enomsg.org>,
@@ -32,15 +32,15 @@ To:     Randy Dunlap <rdunlap@infradead.org>,
         Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <1551337948-16451-1-git-send-email-liaoweixiong@allwinnertech.com>
- <1551337948-16451-3-git-send-email-liaoweixiong@allwinnertech.com>
- <21827ba0-1c89-c16e-0d64-0a508eeae915@infradead.org>
+ <1551337948-16451-4-git-send-email-liaoweixiong@allwinnertech.com>
+ <a7ae72c0-2425-a43a-da53-22f30a173f7e@infradead.org>
 From:   liaoweixiong <liaoweixiong@allwinnertech.com>
-Message-ID: <de396c69-0ae5-d594-393a-be77bf80a304@allwinnertech.com>
-Date:   Thu, 7 Mar 2019 09:01:33 +0800
+Message-ID: <e88aed98-a96b-6e78-9183-5ff50dfa64e7@allwinnertech.com>
+Date:   Thu, 7 Mar 2019 09:05:32 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <21827ba0-1c89-c16e-0d64-0a508eeae915@infradead.org>
+In-Reply-To: <a7ae72c0-2425-a43a-da53-22f30a173f7e@infradead.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -51,111 +51,31 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi,
 
-I will fix all on next version. Thank you very much.
-
-On 2019-03-06 09:14, Randy Dunlap wrote:
+On 2019-03-06 09:16, Randy Dunlap wrote:
 > Hi,
 > 
 > On 2/27/19 11:12 PM, liaoweixiong wrote:
 >> diff --git a/fs/pstore/Kconfig b/fs/pstore/Kconfig
->> index defcb75..7dfe00b 100644
+>> index 7dfe00b..b417bf5 100644
 >> --- a/fs/pstore/Kconfig
 >> +++ b/fs/pstore/Kconfig
->> @@ -160,3 +160,117 @@ config PSTORE_BLK
->>  	help
->>  	  This enables panic and oops message to be logged to a block dev
->>  	  where it can be read back at some later point.
->> +
->> +config PSTORE_BLKOOPS
->> +	tristate "pstore block with oops logger"
->> +	depends on PSTORE_BLK
->> +	help
->> +	  This is a sample for pstore block with oops logger.
->> +
->> +	  It CANNOT record panic log as no read/write apis for panic registered.
-> 
-> 	                                              APIs
-> 
-
-Fixed.
-
->> +
->> +	  It CAN record oops log even power failure if
->> +	  "PSTORE_BLKOOPS_BLKDEV" on Kconfig or "block-device" on dts or
->> +	  "blkdev" on module parameter is valid.
->> +
->> +	  Otherwise, it can only record data to ram buffer, which will be
->> +	  dropped when reboot.
-> 
-> 	  dropped on reboot.
-> or
-> 	  dropped when rebooting.
-> 
-
-Fixed.
-
->> +
->> +	  NOTE that, there are three ways to set parameters of blkoops and
->> +	  prioritize according to configuration flexibility. That is
->> +	  Kconfig < device tree < module parameters. It means that the value can
->> +	  be overwritten by higher priority settings.
->> +	  1. Kconfig
->> +	     It	just sets a default value.
->> +	  2. device tree
->> +	     It is set on device tree, which will overwrites value from Kconfig,
-> 
-> 	                                          overwrite the value from Kconfig,
-> 
-
-Fixed.
-
->> +	     but can also be overwritten by module parameters.
->> +	  3. module parameters
->> +	     It is the first priority. Take care of that blkoops will take lower
->> +	     priority settings if higher priority one do not set.
->> +
->> +config PSTORE_BLKOOPS_DMESG_SIZE
->> +	int "dmesg size in kbytes for blkoops"
+>> @@ -210,6 +210,27 @@ config PSTORE_BLKOOPS_DMESG_SIZE
+>>  	     It is the first priority. Take care of that blkoops will take lower
+>>  	     priority settings if higher priority one do not set.
+>>  
+>> +config PSTORE_BLKOOPS_PMSG_SIZE
+>> +	int "pmsg size in kbytes for blkoops"
 >> +	depends on PSTORE_BLKOOPS
 >> +	default 64
 >> +	help
->> +	  This just sets size of dmesg (dmesg_size) for pstore/blk. The value
->> +	  must be a multiple of 4096.
->> +
->> +	  NOTE that, there are three ways to set parameters of blkoops and
->> +	  prioritize according to configuration flexibility. That is
->> +	  Kconfig < device tree < module parameters. It means that the value can
->> +	  be overwritten by higher priority settings.
->> +	  1. Kconfig
->> +	     It	just sets a default value.
->> +	  2. device tree
->> +	     It is set on device tree, which will overwrites value from Kconfig,
+>> +	  This just sets size of pmsg (pmsg_size) for pstore/blk. The value must
+>> +	  be a multiple of 4096. Pmsg work only if "blkdev" is set.
 > 
-> 	                                          overwrite the value from Kconfig,
-> 
-
-It cancels device tree support. I forget to delete it.
-
->> +	     but can also be overwritten by module parameters.
->> +	  3. module parameters
->> +	     It is the first priority. Take care of that blkoops will take lower
->> +	     priority settings if higher priority one do not set.
->> +
->> +config PSTORE_BLKOOPS_TOTAL_SIZE
->> +	int "total size in kbytes for blkoops"
->> +	depends on PSTORE_BLKOOPS
->> +	default 0
->> +	help
->> +	  The total size in kbytes pstore/blk can use. It must be less than or
->> +	  equal to size of block device if @blkdev valid. If @total_size is zero
->> +	  with @blkdev, @total_size will be set to equal to size of @blkdev.
-> 
-> 	                                    set equal to size of @blkdev.
+> 	                              works
 > 
 
 Fixed.
 
->> +	  The value must be a multiple of 4096.
 >> +
 >> +	  NOTE that, there are three ways to set parameters of blkoops and
 >> +	  prioritize according to configuration flexibility. That is
@@ -176,85 +96,14 @@ Fixed.
 >> +	     It is the first priority. Take care of that blkoops will take lower
 >> +	     priority settings if higher priority one do not set.
 >> +
->> +config PSTORE_BLKOOPS_BLKDEV
->> +	string "block device for blkoops"
->> +	depends on PSTORE_BLKOOPS
->> +	default ""
->> +	help
->> +	  This just sets block device (blkdev) for pstore/blk. Pstore/blk
->> +	  will record data to this block device to avoid losing data due to
->> +	  power failure. So, If it is not set, pstore/blk will drop all data
+>>  config PSTORE_BLKOOPS_TOTAL_SIZE
+>>  	int "total size in kbytes for blkoops"
+>>  	depends on PSTORE_BLKOOPS
 > 
-> 	                     if
+> cheers.
 > 
 
-Fixed.
-
->> +	  when reboot.
-> 
-> 	  on reboot.
-> 
-
-Fixed.
-
->> +
->> +	  It accpet the following variants:
-> 
-> 	     accepts
-> 
-
-Fixed.
-
->> +	  1) <hex_major><hex_minor> device number in hexadecimal represents
->> +	     itself no leading 0x, for example b302.
->> +	  2) /dev/<disk_name> represents the device number of disk
->> +	  3) /dev/<disk_name><decimal> represents the device number
->> +	     of partition - device number of disk plus the partition number
->> +	  4) /dev/<disk_name>p<decimal> - same as the above, that form is
-> 
-> 	                                              above; this form is
-> 
-
-Fixed.
-
->> +	     used when disk name of partitioned disk ends on a digit.
-> 
-> 	                                             ends with a digit.
-> 
-
-Fixed.
-
->> +	  5) PARTUUID=00112233-4455-6677-8899-AABBCCDDEEFF representing the
->> +	     unique id of a partition if the partition table provides it.
->> +	     The UUID may be either an EFI/GPT UUID, or refer to an MSDOS
->> +	     partition using the format SSSSSSSS-PP, where SSSSSSSS is a zero-
->> +	     filled hex representation of the 32-bit "NT disk signature", and PP
->> +	     is a zero-filled hex representation of the 1-based partition number.
->> +	  6) PARTUUID=<UUID>/PARTNROFF=<int> to select a partition in relation
->> +	     to a partition with a known unique id.
->> +	  7) <major>:<minor> major and minor number of the device separated by
->> +	     a colon.
->> +
->> +	  NOTE that, there are three ways to set parameters of blkoops and
->> +	  prioritize according to configuration flexibility. That is
->> +	  Kconfig < device tree < module parameters. It means that the value can
->> +	  be overwritten by higher priority settings.
->> +	  1. Kconfig
->> +	     It	just sets a default value.
->> +	  2. device tree
->> +	     It is set on device tree, which will overwrites value from Kconfig,
-> 
-> 	                                          overwrite the value from Kconfig,
-> 
-
-Fixed.
-
->> +	     but can also be overwritten by module parameters.
->> +	  3. module parameters
->> +	     It is the first priority. Take care of that blkoops will take lower
->> +	     priority settings if higher priority one do not set.
-> 
-> 
+Thank you. Cheers.
 
 -- 
 liaoweixiong
