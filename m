@@ -1,123 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5BFD67D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 08:58:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D2A947D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 09:17:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726148AbfCGI6i (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Mar 2019 03:58:38 -0500
-Received: from mail-ua1-f67.google.com ([209.85.222.67]:34342 "EHLO
-        mail-ua1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726143AbfCGI6h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 03:58:37 -0500
-Received: by mail-ua1-f67.google.com with SMTP id a42so9950505uad.1;
-        Thu, 07 Mar 2019 00:58:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kzfE04vMH7gLJVW787Hjtm/7lSGeh2p+9g333/HMtVs=;
-        b=mlcCQ9nizPyltaPtWgfxxkAZk4bUhlYWDPgZbec4d6RgcNAhCno+8tG1cYtUeuRCgQ
-         bHuwmsX9a8tcmopd6tXHaiP6GIJyOX1mdox1EZ1g2U0hKJvHzyC/xIKM2w9ySul9fGvn
-         TJAy+sOdO58/MWhol2nQ8Pk/r0K8DwNvuGtI/0zEgy9m6qsIpj8vgX3LxDnnfCfcL0rP
-         kywgI26knh8fcer9A3wzh9mDqv7OFHIM4kezJgnkWS1mQSUAhhiOgua4cZ4HNOFmXZF5
-         +qIg5/8JUa3MT//HNqVLA5uf43KT47tpnUV/pKJjl7a8dE+T6Z2r3tFAOviY7IufD/OH
-         LKvQ==
-X-Gm-Message-State: APjAAAX1E2/9UhylZZ2edTLM05ndzSSZEKpKLHI5qVWAoGGYjBiI3RaV
-        2yafkfkYpiXVdSSHXW3gJeZq/mRIbMp2D8zwSUM=
-X-Google-Smtp-Source: APXvYqyEUghFrAtY7qZEMPA1GVSq8i6Lxl4st8GZgGvA3sEjedoQ3XydQkJfNjP2qaoddEMaDODpnLO/Ncn9M9zuURo=
-X-Received: by 2002:ab0:6419:: with SMTP id x25mr6308005uao.20.1551949115911;
- Thu, 07 Mar 2019 00:58:35 -0800 (PST)
+        id S1726131AbfCGJR4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Mar 2019 04:17:56 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:46989 "EHLO
+        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725747AbfCGJR4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 04:17:56 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 069183687;
+        Thu,  7 Mar 2019 04:17:54 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Thu, 07 Mar 2019 04:17:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
+        :from:to:cc:subject:message-id:mime-version:content-type; s=fm2;
+         bh=X3oTW5OOyghLjcGAQCeKxKToHRfOmbiWEDMJjabEwDM=; b=UsmyJm28Hksu
+        DumytrLKVfPfZJMrbiu7mk1Mel0Mz35gzpVTJuTBHCpWraZr25s2H3j0yDOkd548
+        GxZyGgtKtIxQNsIVucqfohXMOcV1B3YLaGMHroQ50GBcOW4vlKSOoh1oJ/fHu5Ux
+        YBdoDMr5MBkVIF5+6LolTuBRO3QyxnXCa98dMEyNmsqgVP0X1rOEAUxTPdi0Gu6o
+        hgb/3cOAgTWl6DHLRC2RZvM4+VM+nfMjgkmi2uDkuex1dqV4kjmkWAcWfqltBVA+
+        340YRdq8hx/t92pj/sqilLG/QccyYUNJsbNkX/hhpqCuovwGSzBgvger5E1/pRKD
+        I5PVQknokA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:message-id
+        :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm2; bh=X3oTW5OOyghLjcGAQCeKxKToHRfOm
+        biWEDMJjabEwDM=; b=S+AmaVCqZcsmC6/thnQXyKHlMZJs/Bi0uF+IO307kiMlm
+        3kH6AFGkWIaZaWY0dA/oe7owW02nCq/TJzsl/C5XgEKxhdf2H+Vj/8nUt97pjhWm
+        pW4Z7xpjLtLwbru3qPNB50vsju0+9h9+Q+VohJfMESf4YvSd06y/TEpUTPfLrbdp
+        7KU/bjfIVk+Gg/IvnEelJ9NTqwjPa9a9hgXPU9e4Y6UG6QsRkc0lQgToI6YEZOqF
+        3rcVK3TJIGVPtKTbMpnyDRgIn2oVzHX2IuYD0kBl86x2hI8rgdpuy3+/qVpJe+qA
+        26m0PURx0vdJ+n0WZsNiFiAVX1ZAxsDhJu+EP5fAw==
+X-ME-Sender: <xms:wuGAXAJoS2PIgswDWAQj89wAY5SSjR9GbZedTIErZCKv4M9V3xuriQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrfeekgddtvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
+    hrlhcuvffnffculdeftddmnecujfgurhepfffhvffukfggtgguofgfsehttdertdforedv
+    necuhfhrohhmpedfvfhosghinhcuvedrucfjrghrughinhhgfdcuoehmvgesthhosghinh
+    drtggtqeenucfkphepuddvgedrudeiledrhedrudehkeenucfrrghrrghmpehmrghilhhf
+    rhhomhepmhgvsehtohgsihhnrdgttgenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:wuGAXH_QtcL4DyEUYD9RHu4RPhOs0zCuG0ybJ1ZGPpS6yRQhYZnOTg>
+    <xmx:wuGAXMF4FALAXbzXtzFc4Bj7IVf2JenP5olO7O7nxpPFrw-DAUP2Pw>
+    <xmx:wuGAXHMo5SFRsmuXNtbQltAdwX-r25jbqxWWvzI1O89wShinG80UKg>
+    <xmx:wuGAXKhr-VpTh26IhmT9m8Ol8C_t6IkCWc2xrzYeLihP4fMTJE0ZLg>
+Received: from localhost (124-169-5-158.dyn.iinet.net.au [124.169.5.158])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 74733E4548;
+        Thu,  7 Mar 2019 04:17:53 -0500 (EST)
+Date:   Thu, 7 Mar 2019 20:17:34 +1100
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org
+Subject: undefined label
+Message-ID: <20190307091734.GB9152@eros.localdomain>
 MIME-Version: 1.0
-References: <20190301160856.129678-1-joel@joelfernandes.org>
-In-Reply-To: <20190301160856.129678-1-joel@joelfernandes.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 7 Mar 2019 09:58:24 +0100
-Message-ID: <CAMuHMdU77UyUs-LvRx-NN_k0Y7MZXQkBdgL2i83veCkvdzeeqA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>, atishp04@gmail.com,
-        dancol@google.com, Dan Williams <dan.j.williams@intel.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>, qais.yousef@arm.com,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>, yhs@fb.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: Mutt 1.11.3 (2019-02-01)
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Joel,
+Hi Jon,
 
-On Fri, Mar 1, 2019 at 5:10 PM Joel Fernandes (Google)
-<joel@joelfernandes.org> wrote:
-> Introduce in-kernel headers and other artifacts which are made available
-> as an archive through proc (/proc/kheaders.tar.xz file). This archive makes
-> it possible to build kernel modules, run eBPF programs, and other
-> tracing programs that need to extend the kernel for tracing purposes
-> without any dependency on the file system having headers and build
-> artifacts.
->
-> On Android and embedded systems, it is common to switch kernels but not
-> have kernel headers available on the file system. Raw kernel headers
-> also cannot be copied into the filesystem like they can be on other
-> distros, due to licensing and other issues. There's no linux-headers
-> package on Android. Further once a different kernel is booted, any
-> headers stored on the file system will no longer be useful. By storing
-> the headers as a compressed archive within the kernel, we can avoid these
-> issues that have been a hindrance for a long time.
->
-> The feature is also buildable as a module just in case the user desires
-> it not being part of the kernel image. This makes it possible to load
-> and unload the headers on demand. A tracing program, or a kernel module
-> builder can load the module, do its operations, and then unload the
-> module to save kernel memory. The total memory needed is 3.8MB.
->
-> The code to read the headers is based on /proc/config.gz code and uses
-> the same technique to embed the headers.
->
-> To build a module, the below steps have been tested on an x86 machine:
-> modprobe kheaders
-> rm -rf $HOME/headers
-> mkdir -p $HOME/headers
-> tar -xvf /proc/kheaders.tar.xz -C $HOME/headers >/dev/null
-> cd my-kernel-module
-> make -C $HOME/headers M=$(pwd) modules
-> rmmod kheaders
+I hit that undefined label warning again today.  Then just now I was
+sitting enjoying a quite scotch and the reason came to me.  It is caused
+by building part of the docs instead of the whole tree i.e. using
 
-As the usage pattern will be accessing the individual files, what about
-implementing a file system that provides read-only access to the internal
-kheaders archive?
+	make SPHINXDIRS=admin-guide htmldocs
 
-    mount kheaders $HOME/headers -t kheaders
+Gives the warning
 
-Gr{oetje,eeting}s,
+	WARNING: undefined label: numa (if the link has no caption the label must precede a section header)
 
-                        Geert
+This is a hell of a gotcha, I wasted a bunch of cycles baffled as to why
+that label was not defined today :(  Super excited that I worked out why
+while day dreaming though.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Last time I sent in the 'fix' I must built with SPHINXDIRS, patched then
+built without SPHINXDIRS and thought the patch fixed it.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Anyways, hope you get a chuckle out of this.
+
+All the best,
+Tobin.
