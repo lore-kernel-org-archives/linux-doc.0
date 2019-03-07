@@ -5,53 +5,54 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D64317D90F
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 21:13:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 709317D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 21:13:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726320AbfCGVMb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Mar 2019 16:12:31 -0500
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:44645 "EHLO
+        id S1726285AbfCGVM1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Mar 2019 16:12:27 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:36267 "EHLO
         wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726224AbfCGVM2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 16:12:28 -0500
+        by vger.kernel.org with ESMTP id S1726186AbfCGVM0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 16:12:26 -0500
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id 53DC33556;
-        Thu,  7 Mar 2019 16:12:27 -0500 (EST)
+        by mailout.west.internal (Postfix) with ESMTP id 9A3883026;
+        Thu,  7 Mar 2019 16:12:24 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Thu, 07 Mar 2019 16:12:27 -0500
+  by compute3.internal (MEProxy); Thu, 07 Mar 2019 16:12:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; bh=yul0rYWeVhXSUyknp6WDYiMWC3yNoiMnSNHOntK0nOk=; b=oIuCYf/N
-        ywjtUo/yYXybjx5Xck/KGBVQTB+RJbpZU7+TsLXDyaye9o1AiksThpw7dCeKkjr0
-        jPsOm8PRNoJz5wwEPuZ1ZwND/afFKYHDqMhEE60kz2wMyGhfQJzenAYGD9cWh5Gt
-        TUNO1jrL7i9GBr5DrUxQSauXuH0C8FoVVuue1Yp9Xf5hyxWqD9pT18HAAWfusjC7
-        KylPw/F9YgBdAuQj2bfmh3S0doSkV/1iHnOqre3ZtBcwwaJUC2httorn7ajsfcCs
-        sMO/fsY4YfwnEsnGPQO94Gzjc1S4V5Le4eaxVHJqDiqpmmbFJ11npSAfAmFSJ3D5
-        v9P6m5DDmGVA1g==
-X-ME-Sender: <xms:OomBXDTQ2vBlcDskgBgggoeqehhdGjdggCTOhz_JyjMPlbDCr-Ay7A>
+        fm2; bh=fvDUUrSZWfNWQF1kal+TwFBvkWfhzWW906Ay9fl3GSE=; b=Z4tbxDkG
+        N/t0m1Q14yaXumHhw9m1HldI/T/IS/IQZPtOhkhH/3lDF9aQhCg4xFPLCHzJHCEg
+        R6m3cSKUpInuDNwiCegHjwPemO2RAPl8oUN4ZOw+hfmm5/RQNIE1vs3i9SN7NK+/
+        jOpsfoVcHyA5WVBl0nTzK9TWCF91ptHdQEMCp21G3u833NNSKz8Ewp4Y1TaTou71
+        8u/YzRKN5CRqmeU1B+0XnqsjbYV5adShz8p0tzKlwULO1X4yFsqwNP6k0ZEmCd+Z
+        jFy0jufMSnFE0g94vYHoTsy0BcB4tRHpp+m932/EHcJJaxp/cQH2gFNAPdWhuMAO
+        SfQwvwWkb92EyQ==
+X-ME-Sender: <xms:OImBXNLNiVxg0qxILpXS4e430EGJdy0eD886HSpwpTThMdxhzQlpwg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrfeekgdduhedtucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpedfvfhosghi
-    nhcuvedrucfjrghrughinhhgfdcuoehtohgsihhnsehkvghrnhgvlhdrohhrgheqnecukf
-    hppeduvdegrdduieelrdehrdduheeknecurfgrrhgrmhepmhgrihhlfhhrohhmpehtohgs
-    ihhnsehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:OomBXF0V2hMk8rnK4kAvlvNFCpP3hCr_2ChwkoaxwZCZOzus3DEWiw>
-    <xmx:OomBXLx7UPFB_X2Ysfhv75xwNvOL0-QrfWtkRprA18agbr-FSjehzg>
-    <xmx:OomBXAvdmXqexAWzJTebQggklkbcwhBvvhW_B3-3XWNVrMs-qSABLQ>
-    <xmx:OomBXObFgbgi7eMRHiXcjX5b2jFUS24CDTmxcJ9SfT5rrGoMlTY8TQ>
+    nhcuvedrucfjrghrughinhhgfdcuoehtohgsihhnsehkvghrnhgvlhdrohhrgheqnecuff
+    homhgrihhnpehsphgugidrohhrghenucfkphepuddvgedrudeiledrhedrudehkeenucfr
+    rghrrghmpehmrghilhhfrhhomhepthhosghinheskhgvrhhnvghlrdhorhhgnecuvehluh
+    hsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:OImBXFc72tADfUGXb_VCleRNk_qKFRYgkovMZr_qL0OpxFDJeaTBmA>
+    <xmx:OImBXId3bjPRfYXMvT2_xN0M4jiWyaaXSlgjZQHeVB51as3iFbGCHw>
+    <xmx:OImBXAPOc0Bd7fq-6Act60mH3Ed4xAWXz50LT2_kbsXZGUV2fl6pxw>
+    <xmx:OImBXGph-gxdgsLfJcwsAiDVbFY5uWgKrlESoCHcBnBhhaLhTFlvNQ>
 Received: from eros.localdomain (124-169-5-158.dyn.iinet.net.au [124.169.5.158])
-        by mail.messagingengine.com (Postfix) with ESMTPA id E70BE10310;
-        Thu,  7 Mar 2019 16:12:24 -0500 (EST)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 3856F1033F;
+        Thu,  7 Mar 2019 16:12:21 -0500 (EST)
 From:   "Tobin C. Harding" <tobin@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     "Tobin C. Harding" <tobin@kernel.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 2/9] docs: Add colon clearing sphinx warning
-Date:   Fri,  8 Mar 2019 08:11:46 +1100
-Message-Id: <20190307211153.28400-3-tobin@kernel.org>
+Subject: [PATCH 1/9] docs: Fix spelling mistake
+Date:   Fri,  8 Mar 2019 08:11:45 +1100
+Message-Id: <20190307211153.28400-2-tobin@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190307211153.28400-1-tobin@kernel.org>
 References: <20190307211153.28400-1-tobin@kernel.org>
@@ -62,48 +63,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sphinx emits various warnings all caused by missing colons before code
-blocks:
+Documentation contains a spelling mistake / typo.
 
-	WARNING: Inline emphasis start-string without end-string.
-	WARNING: Block quote ends without a blank line; unexpected unindent.
-	ERROR: Unexpected indentation.
-	WARNING: Block quote ends without a blank line; unexpected unindent.
+s/descibed/described/
 
-Add the colon, clearing sphinx warnings.
+Fix spelling mistake.
 
 Signed-off-by: Tobin C. Harding <tobin@kernel.org>
 ---
- Documentation/vm/slub.rst | 2 +-
- include/linux/wait.h      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ Documentation/process/howto.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/vm/slub.rst b/Documentation/vm/slub.rst
-index 195928808bac..610510d90c33 100644
---- a/Documentation/vm/slub.rst
-+++ b/Documentation/vm/slub.rst
-@@ -66,7 +66,7 @@ Trying to find an issue in the dentry cache? Try::
- to only enable debugging on the dentry cache.  You may use an asterisk at the
- end of the slab name, in order to cover all slabs with the same prefix.  For
- example, here's how you can poison the dentry cache as well as all kmalloc
--slabs:
-+slabs::
- 
- 	slub_debug=P,kmalloc-*,dentry
- 
-diff --git a/include/linux/wait.h b/include/linux/wait.h
-index ed7c122cb31f..deedfe2b9ffe 100644
---- a/include/linux/wait.h
-+++ b/include/linux/wait.h
-@@ -101,7 +101,7 @@ init_waitqueue_func_entry(struct wait_queue_entry *wq_entry, wait_queue_func_t f
-  * lead to sporadic and non-obvious failure.
-  *
-  * Use either while holding wait_queue_head::lock or when used for wakeups
-- * with an extra smp_mb() like:
-+ * with an extra smp_mb() like::
-  *
-  *      CPU0 - waker                    CPU1 - waiter
-  *
+diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+index 58b2f46c4f98..5cac67f8fb17 100644
+--- a/Documentation/process/howto.rst
++++ b/Documentation/process/howto.rst
+@@ -62,7 +62,7 @@ Legal Issues
+ The Linux kernel source code is released under the GPL.  Please see the file
+ COPYING in the main directory of the source tree. The Linux kernel licensing
+ rules and how to use `SPDX <https://spdx.org/>`_ identifiers in source code are
+-descibed in :ref:`Documentation/process/license-rules.rst <kernel_licensing>`.
++described in :ref:`Documentation/process/license-rules.rst <kernel_licensing>`.
+ If you have further questions about the license, please contact a lawyer, and do
+ not ask on the Linux kernel mailing list.  The people on the mailing lists are
+ not lawyers, and you should not rely on their statements on legal matters.
 -- 
 2.21.0
 
