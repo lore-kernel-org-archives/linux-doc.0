@@ -1,92 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 709317D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 21:13:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0B8387D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 22:16:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726285AbfCGVM1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Mar 2019 16:12:27 -0500
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:36267 "EHLO
-        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726186AbfCGVM0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 16:12:26 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id 9A3883026;
-        Thu,  7 Mar 2019 16:12:24 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Thu, 07 Mar 2019 16:12:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :in-reply-to:message-id:mime-version:references:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; bh=fvDUUrSZWfNWQF1kal+TwFBvkWfhzWW906Ay9fl3GSE=; b=Z4tbxDkG
-        N/t0m1Q14yaXumHhw9m1HldI/T/IS/IQZPtOhkhH/3lDF9aQhCg4xFPLCHzJHCEg
-        R6m3cSKUpInuDNwiCegHjwPemO2RAPl8oUN4ZOw+hfmm5/RQNIE1vs3i9SN7NK+/
-        jOpsfoVcHyA5WVBl0nTzK9TWCF91ptHdQEMCp21G3u833NNSKz8Ewp4Y1TaTou71
-        8u/YzRKN5CRqmeU1B+0XnqsjbYV5adShz8p0tzKlwULO1X4yFsqwNP6k0ZEmCd+Z
-        jFy0jufMSnFE0g94vYHoTsy0BcB4tRHpp+m932/EHcJJaxp/cQH2gFNAPdWhuMAO
-        SfQwvwWkb92EyQ==
-X-ME-Sender: <xms:OImBXNLNiVxg0qxILpXS4e430EGJdy0eD886HSpwpTThMdxhzQlpwg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrfeekgdduhedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpedfvfhosghi
-    nhcuvedrucfjrghrughinhhgfdcuoehtohgsihhnsehkvghrnhgvlhdrohhrgheqnecuff
-    homhgrihhnpehsphgugidrohhrghenucfkphepuddvgedrudeiledrhedrudehkeenucfr
-    rghrrghmpehmrghilhhfrhhomhepthhosghinheskhgvrhhnvghlrdhorhhgnecuvehluh
-    hsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:OImBXFc72tADfUGXb_VCleRNk_qKFRYgkovMZr_qL0OpxFDJeaTBmA>
-    <xmx:OImBXId3bjPRfYXMvT2_xN0M4jiWyaaXSlgjZQHeVB51as3iFbGCHw>
-    <xmx:OImBXAPOc0Bd7fq-6Act60mH3Ed4xAWXz50LT2_kbsXZGUV2fl6pxw>
-    <xmx:OImBXGph-gxdgsLfJcwsAiDVbFY5uWgKrlESoCHcBnBhhaLhTFlvNQ>
-Received: from eros.localdomain (124-169-5-158.dyn.iinet.net.au [124.169.5.158])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 3856F1033F;
-        Thu,  7 Mar 2019 16:12:21 -0500 (EST)
-From:   "Tobin C. Harding" <tobin@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "Tobin C. Harding" <tobin@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 1/9] docs: Fix spelling mistake
-Date:   Fri,  8 Mar 2019 08:11:45 +1100
-Message-Id: <20190307211153.28400-2-tobin@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190307211153.28400-1-tobin@kernel.org>
-References: <20190307211153.28400-1-tobin@kernel.org>
+        id S1726227AbfCGWP7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Mar 2019 17:15:59 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:39767 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726166AbfCGWP7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 17:15:59 -0500
+Received: from [192.168.1.110] ([77.9.35.131]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1Mhnnc-1gX4CG0lea-00dryB; Thu, 07 Mar 2019 23:11:28 +0100
+Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
+ kernel
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Daniel Colascione <dancol@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Pavel Machek <pavel@ucw.cz>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atish patra <atishp04@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
+        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>, rostedt@goodmis.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        yhs@fb.com
+References: <20190119232503.GA149403@google.com>
+ <78AACAF1-8EBF-4DF3-BE94-5B14E78BA791@zytor.com>
+ <20190120155838.GA23827@google.com> <20190306230944.GB7915@amd>
+ <CAKOZuetOePf89cXRkvmWeGnvG7zYN=SW1yyrZibuyOqZQFTGkg@mail.gmail.com>
+ <754146f0-8b57-8644-81c1-528b5ca7dba1@zytor.com>
+ <CAKOZuesjYZ2EH=BHBAJAFFaTOHjWU7BELJUV3QC9cjXVB2HhUw@mail.gmail.com>
+ <0c46ab5f-8bd6-6916-fc4a-b6f00d456011@metux.net>
+ <CAKOZuevksKGAPif_pUYVzFpbuBCxOZ5WzT6ukLCYm4TzyLUTMw@mail.gmail.com>
+ <5ebec282-57b0-6ebe-0876-ce0dd7b0c11c@metux.net>
+ <20190307205505.GB30028@kroah.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <5e558126-9038-1ca5-4519-7b5864ca9fa1@metux.net>
+Date:   Thu, 7 Mar 2019 23:11:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190307205505.GB30028@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:uNHDc1vwsilvfnytZZnjZFhbo4iFIljuaLhsiywyHRse+80WyM/
+ GnHSLC3p+pyS0Y+KVzPihft8B0zjDsqIl4K8S2WQKujpbBBUejz/ZcWcCkdGs+Enrm7rGv8
+ 1Nh92C0QcQDhiU2gtnl7lweLMH+jkRb5qGg0lo5NVtIqEncLBEfXBz11YYV9KFChfkFeGS6
+ 2titgnjdKx5r3HAPOqQlw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kfCuygT8KeE=:roVvJS4UdsEyGwhMLrOlRd
+ 2FamOXbZvtvugZFhyFsSBEhT00sh9MgzJNxhLZoKM+WGMYkc6VCGUetfafElfybAvWvFiwibj
+ QHjaEvb3GGuabd7+hrsUJvP9XZC9HCwaJJ0Mn/gGOVVMeF4pzry0gTSJoTtUb02VLqqcf3vyA
+ DckiN4rV3XNfOvHzXsxAAX+UAUJgRM+MAF6voqhgN2iH4agHil0DQ2IMojjViTN+Orw0CJGsO
+ mvTKGkNauJ+AZPXvzZ+wNvU4l7gqbP5ufmUNePYZ2+jHWUrEyTfPGhLRN8/iipRXgQIuC6/Yg
+ h/2TlY37C17y7a9JccaJvXhqznHJZudBPQvi3bHfUqVUIS9XSEIlPsfeoDr6iUvsPRQsiay4J
+ gUPE+7x4f3LMHI7QJ3q5E0H39x1x8Fno1OwnJUSVb1Td0eF7J79QPQKk5aEyJDD+fFf2fXvEb
+ qnXlZDNyEjK4WKMAdpZA7ztX0/T3yDLcw+MjhhEHnD0ccXXBmksJ9aSdRBmmcP80r+Z1p2IPV
+ SNe5Iun6B+ZoYve1fHVacyOLJjO1ii+LnQ+On5DSfD6Zhz8jCrt6KU+JLihrwJAj+UzW3sbcn
+ rqLD3RfXWdeV5BhL8H/E2qeEkoJ2N7JAfALKmZXNnsjb1o5qEjsn/pLhJmKKswnUadRKtGTqm
+ C5Gqq9W6kwtlyfVwCKGvwJH6EI4xQzQsurRUgqArS5Nmo+qhQIGMKX0KhiX8Jfrpqr7U9pZck
+ gsUtK3ehX066ALq85L0FGGXqj8ZAZG9pSuL4TrAC0HglFNSZizQpzEaBExEd/6pT6snuql4xd
+ zHFlHwmv4TbwbPISDHSQ39C+YUywuMQ0T0218X5C2VmK3vyt8Yw7eKhJo3oYN8uz91FhkDd
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Documentation contains a spelling mistake / typo.
+On 07.03.19 21:55, Greg KH wrote:
 
-s/descibed/described/
+> Ick, no, no more squashfs please, let's just kill that mess once and for
+> all :)
 
-Fix spelling mistake.
+okay, then: s/squashfs/whatever_fs_image_or_archive_you_like/;
 
-Signed-off-by: Tobin C. Harding <tobin@kernel.org>
----
- Documentation/process/howto.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Again, putting this in a simple compressed tar image allows anyone to do
+> whatever they need to with this.  If they want a full filesystem,
+> uncompress it and use it there.  If they just want it in-memory where
+> they can uncompress it and then discard it, that works too.
 
-diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
-index 58b2f46c4f98..5cac67f8fb17 100644
---- a/Documentation/process/howto.rst
-+++ b/Documentation/process/howto.rst
-@@ -62,7 +62,7 @@ Legal Issues
- The Linux kernel source code is released under the GPL.  Please see the file
- COPYING in the main directory of the source tree. The Linux kernel licensing
- rules and how to use `SPDX <https://spdx.org/>`_ identifiers in source code are
--descibed in :ref:`Documentation/process/license-rules.rst <kernel_licensing>`.
-+described in :ref:`Documentation/process/license-rules.rst <kernel_licensing>`.
- If you have further questions about the license, please contact a lawyer, and do
- not ask on the Linux kernel mailing list.  The people on the mailing lists are
- not lawyers, and you should not rely on their statements on legal matters.
+And let me stress the point: doesn't need any kernel changes at all,
+when it's just a file in the same place where the .ko's live.
+
+
+--mtx
+
 -- 
-2.21.0
-
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
