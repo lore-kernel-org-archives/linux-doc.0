@@ -1,330 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 90D1C7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 05:00:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C767C7D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 08:41:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725554AbfCGFAK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Mar 2019 00:00:10 -0500
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:46146 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725294AbfCGFAJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 00:00:09 -0500
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id x274xmsP003673;
-        Thu, 7 Mar 2019 13:59:49 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x274xmsP003673
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1551934789;
-        bh=EhslO5mW2tJvOiZPDEwlUauDtM5OB51SHkG98AZ1Ay4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Y9Aqhn0kQESTTEMWphSBeR0j70mvISayDrniv1RfGZvbIA7YveCIaerXT1H2WtXnq
-         6+PICfsyBdid7YRvrKFkk/6mhDixwQIw0Tcj1t5Z64tiITDNBUCK8L7fWW9Up3T1pc
-         zcCiNnJRqzjhEM5WVOzuYNpLkMahxAPuEDR7DuObaR5TzVlgrgzPl0DRKcF5pPmVW/
-         666amDMmrnSlYEbUgcF2KBmK1uvLhBeDclfhs07v0ovUqoaR+ooFx8rXNwOBw4z9Ri
-         Q6eaZsuQ/0ZxmU5rmVoAnuUPM2hdzPst0t4ECOAvNpFIDvM77CYr0kiBeoCxjw25r6
-         /1/d6tckRhVmA==
-X-Nifty-SrcIP: [209.85.221.172]
-Received: by mail-vk1-f172.google.com with SMTP id v131so3410173vkd.3;
-        Wed, 06 Mar 2019 20:59:49 -0800 (PST)
-X-Gm-Message-State: APjAAAWMIAdbU1NUJZhc/efY+DhffFuWsCOX9guJ3OrhySniSRyonwhA
-        E6vUpNX421uRpacE1tgRYHQyNMeMvcf+4kl3erg=
-X-Google-Smtp-Source: APXvYqwgVadxJTWQr9yPUtRUxPsGO1lU+FNu08vSz8dcwdIqlMA7cTm7tG99M0hhZBp0tIEQLRVSdCIOKi4UPodoVcY=
-X-Received: by 2002:a1f:9350:: with SMTP id v77mr5008152vkd.84.1551934788070;
- Wed, 06 Mar 2019 20:59:48 -0800 (PST)
+        id S1726278AbfCGIlY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Mar 2019 03:41:24 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:47764 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726224AbfCGIlX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Mar 2019 03:41:23 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 3AFE8C0467FA;
+        Thu,  7 Mar 2019 08:41:23 +0000 (UTC)
+Received: from [10.36.117.175] (ovpn-117-175.ams2.redhat.com [10.36.117.175])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 352CD60139;
+        Thu,  7 Mar 2019 08:41:20 +0000 (UTC)
+Subject: Re: [PATCH v2] makedumpfile: exclude pages that are logically offline
+To:     Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "devel@linuxdriverproject.org" <devel@linuxdriverproject.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+        kexec-ml <kexec@lists.infradead.org>,
+        "pv-drivers@vmware.com" <pv-drivers@vmware.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>
+References: <20181122100627.5189-1-david@redhat.com>
+ <20181122100938.5567-1-david@redhat.com>
+ <4AE2DC15AC0B8543882A74EA0D43DBEC03561800@BPXM09GP.gisp.nec.co.jp>
+From:   David Hildenbrand <david@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ SE+xAvmumFBY
+Organization: Red Hat GmbH
+Message-ID: <7c9d6d5c-d6cf-00a7-7f23-bf28cbb382af@redhat.com>
+Date:   Thu, 7 Mar 2019 09:41:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-References: <20190301160856.129678-1-joel@joelfernandes.org>
- <201903030526.3AuYFiuN%fengguang.wu@intel.com> <CAJWu+op541tQ_TBJs-kOyRRBYDWiN0Znpb=cUQFxuLg-SmjO_g@mail.gmail.com>
- <CAK7LNARGQE9y6hr7ZoTbn5-GkPBN2Gk-4=3=Cfnr7Oy-+q69kg@mail.gmail.com> <20190306174904.GA34256@google.com>
-In-Reply-To: <20190306174904.GA34256@google.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Thu, 7 Mar 2019 13:59:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARe2AT+LNGh6Xqvd=iW2HmdMcmH-rJqzvPw0Fnumu88SA@mail.gmail.com>
-Message-ID: <CAK7LNARe2AT+LNGh6Xqvd=iW2HmdMcmH-rJqzvPw0Fnumu88SA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     kbuild test robot <lkp@intel.com>, kbuild-all@01.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <4AE2DC15AC0B8543882A74EA0D43DBEC03561800@BPXM09GP.gisp.nec.co.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Thu, 07 Mar 2019 08:41:23 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 7, 2019 at 5:13 AM Joel Fernandes <joel@joelfernandes.org> wrote:
->
-> Hi Masahiro,
-> Thanks for review, my replies are inline:
->
-> On Wed, Mar 06, 2019 at 09:26:14PM +0900, Masahiro Yamada wrote:
-> > On Mon, Mar 4, 2019 at 1:15 AM Joel Fernandes <joelaf@google.com> wrote:
-> > >
-> > > This report is for an older version of the patch so ignore it. The
-> > > issue is already resolved.
-> > >
-> > > On Sat, Mar 2, 2019 at 2:00 PM kbuild test robot <lkp@intel.com> wrote:
-> > > >
-> > > > Hi Joel,
-> > > >
-> > > > Thank you for the patch! Yet something to improve:
-> > > >
-> > > > [auto build test ERROR on linus/master]
-> > > > [also build test ERROR on v5.0-rc8]
-> > > > [cannot apply to next-20190301]
-> > > > [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
-> > > >
-> > > > url:    https://github.com/0day-ci/linux/commits/Joel-Fernandes-Google/Provide-in-kernel-headers-for-making-it-easy-to-extend-the-kernel/20190303-014850
-> > > > config: sh-allmodconfig (attached as .config)
-> > > > compiler: sh4-linux-gnu-gcc (Debian 8.2.0-11) 8.2.0
-> > > > reproduce:
-> > > >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> > > >         chmod +x ~/bin/make.cross
-> > > >         # save the attached .config to linux build tree
-> > > >         GCC_VERSION=8.2.0 make.cross ARCH=sh
-> > > >
-> > > > All errors (new ones prefixed by >>):
-> > > >
-> > > > >> find: 'arch/sh/kernel/module.lds': No such file or directory
-> > > > >> find: 'arch/sh/kernel/module.lds': No such file or directory
-> > > >
-> > > > ---
-> > > > 0-DAY kernel test infrastructure                Open Source Technology Center
-> > > > https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
-> > > >
-> > > > --
-> > > > You received this message because you are subscribed to the Google Groups "kernel-team" group.
-> > > > To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
-> >
-> >
-> >
-> > Honestly speaking, I am worried about some flaws
-> > in this feature, but anyway I read your code.
->
-> I am not sure what you mean by that :-(. All the previous series's comments
-> were addressed and it has been well tested by me and others. This looks quite
-> solid to me. Sorry it took so many revisions, this was not that easy to get right.
->
-> > Here are just comments from the build system point of view
-> > in case something might be useful.
-> >
-> > Please feel free to adopt some of them if you think they are good.
-> >> [1]
-> >
-> > Please do not ignore kbuild test robot.
-> >
-> > It never makes such a mistake like
-> > replying to a new patch about the test result from old version.
-> >
-> > The reports are really addressing this version (v4).
-> >
-> > I see the error message even on x86.
->
-> I did not mean to. By the way - the error does not cause any issues. It is
-> just find being noisy. You are right I missed this, and I will correct this
-> in v5. However, it does not cause any issues to the feature/functionality at all.
->
-> > [2]
-> >
-> > The shell script keeps running
-> > even when an error occurs.
-> >
-> > If any line in a shell script fails,
-> > probably it went already wrong.
-> >
-> > I highly recommend to add 'set -e'
-> > at the very beginning of your shell script.
-> >
-> > It will propagate the error to Make.
->
-> Ok I will consider making it -e. But please note that, the script itself does
-> not have any bugs.
+On 27.11.18 17:32, Kazuhito Hagio wrote:
+>> Linux marks pages that are logically offline via a page flag (map count).
+>> Such pages e.g. include pages infated as part of a balloon driver or
+>> pages that were not actually onlined when onlining the whole section.
+>>
+>> While the hypervisor usually allows to read such inflated memory, we
+>> basically read and dump data that is completely irrelevant. Also, this
+>> might result in quite some overhead in the hypervisor. In addition,
+>> we saw some problems under Hyper-V, whereby we can crash the kernel by
+>> dumping, when reading memory of a partially onlined memory segment
+>> (for memory added by the Hyper-V balloon driver).
+>>
+>> Therefore, don't read and dump pages that are marked as being logically
+>> offline.
+>>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+> 
+> Thanks for the v2 update.
+> I'm going to merge this patch after the kernel patches are merged
+> and it tests fine with the kernel.
+> 
+> Kazu
 
-Heh.
-I do not know why you are so confident with your code, though.
+Hi Kazu,
 
-OK, let's say this script has no bug.
+the patches are now upstream. Thanks!
 
-But, the script may fail for a different reason.
-For example, what if cpio is not installed on the user's machine.
+-- 
 
-In such a situation, this script will produce empty
-kernel/kheaders_data.tar.xz, but the build system
-will continue running, and succeed.
+Thanks,
 
-Don't you think it will better to let the build immediately fail
-than letting the user debug a wrongly created image ?
-
-
-
-> When you say it this way, it looks a bit bad to the
-> onlooker as if there is bugs in the code, but there aren't any that I know
-> off. All the comments in this round of review from view are just cosmetic
-> changes.
->
-> > [3]
-> >
-> > targets += kheaders_data.tar.xz
-> > targets += kheaders_data.h
-> > targets += kheaders.md5
-> >
-> > These three lines are unneeded because
-> > 'targets' is necessary just for if_changed or if_changed_rule.
-> >
-> > Instead, please add
-> >
-> > clean-files := kheaders_data.tar.xz kheaders_data.h kheaders.md5
->
-> Ok.
->
-> > [4]
-> >
-> > It is pointless to pass 'ikh_file_list'
-> > from Makefile to the shell script.
-> >
-> >
-> > You can directly describe the following in gen_ikh_data.sh
-> >
-> > You do not need to use sed.
-> >
-> >
-> > src_file_list="
-> > include/
-> > arch/$SRCARCH/Makefile
-> > arch/$SRCARCH/include/
-> > arch/$SRCARCH/kernel/module.lds
-> > scripts/
-> > Makefile
-> > "
-> >
-> > obj_file_list="
-> > scripts/
-> > include/
-> > arch/$SRCARCH/include/
-> > "
->
-> Honestly, I prefer to keep it in Makefile.
->
-> > if grep -q "^CONFIG_STACK_VALIDATION=y" $KCONFIG_CONFIG; then
-> >         obj_file_list="$obj_file_list tools/objtool/objtool"
-> > fi
-> >
-> >
-> >
-> > Be careful about module.lds
-> > so that it will work for all architectures.
->
-> Yes.
->
-> > [5]
-> > strip-comments.pl is short enough,
-> > and I do not assume any other user.
-> >
-> >
-> > IMHO, it would be cleaner to embed the one-liner perl
-> > into the shell script, for example, like follows:
-> >
-> > find  $cpio_dir -type f -print0 |
-> >  xargs -0 -P8 -n1 perl -pi -e 'BEGIN {undef $/;}; s/\/\*((?!SPDX).)*?\*\///smg;'
->
-> This does not work. I already tried it. But I guess I could generate the
-> script on the fly.
-
-
-I tested my code, and it worked for me.
-
-perl -e <command_line>
-
-is useful to run short code directly.
-
-I do not know why you say it does not work.
-
-
-
-Masahiro
-
-
-> > [6]
-> > It might be better to move
-> > scripts/gen_ikh_data.sh to kernel/gen_ikh_data.sh
-> >
-> > It will make this feature self-contained in kernel/.
-> > And (more importantly to me), it would reduce my maintenance field.
->
-> Sure.
->
-> > [7]
-> > I do not understand for what 'tarfile_md5' is used.
-> > Is it necessary?
->
-> It is just precaution, incase tar got corrupted and needs to be regenerated.
->
-> > [8]
-> > Is it more efficient to pipe the header files
-> > to perl script like this?
-> >
-> >
-> >  cat (header) | perl 'do something' > (tmp directory)
->
-> I don't think so.
->
-> > [9]
-> >
-> > I'd prefer avoiding 'pushd && popd' if possible.
-> >
-> > Hint: Kbuild already runs at the top directory
-> > of objtree.
-> >
-> >
-> > It is OK if the change would mess up the script.
->
-> This is needed to make out of tree builds work.
->
-> > [10]
-> >
-> > You can embed a binary directly into C file
-> > without producing a giant header file.
-> >
-> > I refactored kernel/configs.c
-> > https://lore.kernel.org/patchwork/patch/1042013/
-> >
-> > Be careful; my patch has not been merged yet into the mainline.
-> >
-> > It has been a while in linux-next,
-> > and I have not received any problem report.
-> >
-> > So, I am guessing it will probably be merged
-> > in the current MW.
->
-> Ok I will consider doing this.
->
-> Thanks for the review!
->
->  - Joel
->
+David / dhildenb
