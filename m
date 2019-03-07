@@ -1,305 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 112B17D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 23:24:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A16047D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 23:42:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726237AbfCGXYI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Mar 2019 18:24:08 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:42229 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726217AbfCGXYI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 18:24:08 -0500
-Received: by mail-oi1-f194.google.com with SMTP id s16so14407292oih.9;
-        Thu, 07 Mar 2019 15:24:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7VBSHA+WxXPkvH5992iKN87Ve5ZMjfwqdkC0IRGIpAI=;
-        b=JDfPjtJS7c5Cf4fiHicFPpwy8VqKuUlNiqU0y0QZ3WZ3LZbU0UQHJqKOuEsjRevVd9
-         RZIpdUf0HglWHXmiSDNJx4cGa/RrXIQBq1FQnzZ+A+m9ilKo8/KliHeWRJUWBouoyy2X
-         2vW+a+Ny7bU9PrBnh6ahAVrvaxUA9/m4PWs7qu6bR2F6fIe1hL5BPMcSBETdjIRoDEaw
-         YC7ydEoWOOO1nPjixPRqnUCDUMYqnNOBDK3ZHz7p1QwHXvvN0Rza2J+UsGJzv/oC+oqZ
-         2Hvjeq2j0oIsnAFB07ZnF8P4shPwJs08es2tnrqPwi8tdGEx8D0rVMRyvNLWg0ZKueIU
-         zU/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7VBSHA+WxXPkvH5992iKN87Ve5ZMjfwqdkC0IRGIpAI=;
-        b=U/FiKtE8lE8kjpBpZadmnSJiS5Ynth5DF++0kFIuz7luNm1/5uqRf33WAlZpYh68v1
-         aT3Jr135/hztG29LHtiIIIGT7NOV0kdOUDr8VBIS/oICDFvf5Rn5KNg/bvp8hPXzHIgw
-         hbqBW1aX6sfjYJYxDNFqlMWUmtnITlzWqvpHpt5M9t/hgdjGF+NHVs9/fepOxf3KBUL6
-         rPNDXYx/s2mrWm8AA+eAgsmNt3fAbR8gCRy6/QAUbGnJI/6jNCdKhO4UJRfMG+Pw5dr2
-         Oh9Gn9QNi58obuElcCSiuv3h07UANdtnInQ6zvSkjNMf655ABIgcOI/By/E4+nWAAUOX
-         M1MQ==
-X-Gm-Message-State: APjAAAVpV2Q3Z2PL58h2j4fSBybjFjLOsQrjvjJMbmorPz7qIICmRU50
-        nWjqOsHVeIkO2IxIpCJMDOlT2ttAdXtbJgx8sj4=
-X-Google-Smtp-Source: APXvYqyaDviuw7AaOm4vDIQljhJAzaSqVlluEefSCC8JIPcACD+kustCRNLQRZyJYWYfTwf44GTjdvpXL1J5j512+OY=
-X-Received: by 2002:aca:5e8b:: with SMTP id s133mr6669769oib.2.1552001046561;
- Thu, 07 Mar 2019 15:24:06 -0800 (PST)
+        id S1726248AbfCGXmC convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Mar 2019 18:42:02 -0500
+Received: from terminus.zytor.com ([198.137.202.136]:38737 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726172AbfCGXmC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Mar 2019 18:42:02 -0500
+Received: from [10.175.10.100] ([134.134.139.92])
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x27Negpo2390837
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+        Thu, 7 Mar 2019 15:40:42 -0800
+Date:   Thu, 07 Mar 2019 15:40:37 -0800
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20190307231207.GA51897@google.com>
+References: <20190120155838.GA23827@google.com> <20190306230944.GB7915@amd> <CAKOZuetOePf89cXRkvmWeGnvG7zYN=SW1yyrZibuyOqZQFTGkg@mail.gmail.com> <754146f0-8b57-8644-81c1-528b5ca7dba1@zytor.com> <CAKOZuesjYZ2EH=BHBAJAFFaTOHjWU7BELJUV3QC9cjXVB2HhUw@mail.gmail.com> <0c46ab5f-8bd6-6916-fc4a-b6f00d456011@metux.net> <CAKOZuevksKGAPif_pUYVzFpbuBCxOZ5WzT6ukLCYm4TzyLUTMw@mail.gmail.com> <5ebec282-57b0-6ebe-0876-ce0dd7b0c11c@metux.net> <20190307205505.GB30028@kroah.com> <5e558126-9038-1ca5-4519-7b5864ca9fa1@metux.net> <20190307231207.GA51897@google.com>
 MIME-Version: 1.0
-References: <20190301160856.129678-1-joel@joelfernandes.org>
- <201903030526.3AuYFiuN%fengguang.wu@intel.com> <CAJWu+op541tQ_TBJs-kOyRRBYDWiN0Znpb=cUQFxuLg-SmjO_g@mail.gmail.com>
- <CAK7LNARGQE9y6hr7ZoTbn5-GkPBN2Gk-4=3=Cfnr7Oy-+q69kg@mail.gmail.com>
-In-Reply-To: <CAK7LNARGQE9y6hr7ZoTbn5-GkPBN2Gk-4=3=Cfnr7Oy-+q69kg@mail.gmail.com>
-From:   Justin Capella <justincapella@gmail.com>
-Date:   Thu, 7 Mar 2019 15:23:54 -0800
-Message-ID: <CAMrEMU-SXOmHgxtoMRV+g_uHGBfkQs514RTbEmQDpZo07CvACg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Joel Fernandes <joelaf@google.com>,
-        kbuild test robot <lkp@intel.com>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        kbuild-all@01.org, LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the kernel
+To:     Joel Fernandes <joel@joelfernandes.org>,
+        "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+CC:     Greg KH <gregkh@linuxfoundation.org>,
         Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Pavel Machek <pavel@ucw.cz>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atish patra <atishp04@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
+        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
         Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
         Manoj Rao <linux@manojrajarao.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-Content-Type: text/plain; charset="UTF-8"
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Paul McKenney <paulmck@linux.vnet.ibm.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>, rostedt@goodmis.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        yhs@fb.com
+From:   hpa@zytor.com
+Message-ID: <6773AB0F-C197-4465-80D2-3F7DA28EF790@zytor.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Would you consider this more reliable than the make install_headers,
-and am curious about DKMS applications / whether this should be
-preferable to the /lib/modules/kernver/biuld symlinks
+On March 7, 2019 3:12:07 PM PST, Joel Fernandes <joel@joelfernandes.org> wrote:
+>Enrico,
+>
+>On Thu, Mar 07, 2019 at 11:11:22PM +0100, Enrico Weigelt, metux IT
+>consult wrote:
+>> On 07.03.19 21:55, Greg KH wrote:
+>> 
+>> > Ick, no, no more squashfs please, let's just kill that mess once
+>and for
+>> > all :)
+>> 
+>> okay, then: s/squashfs/whatever_fs_image_or_archive_you_like/;
+>> 
+>> > Again, putting this in a simple compressed tar image allows anyone
+>to do
+>> > whatever they need to with this.  If they want a full filesystem,
+>> > uncompress it and use it there.  If they just want it in-memory
+>where
+>> > they can uncompress it and then discard it, that works too.
+>> 
+>> And let me stress the point: doesn't need any kernel changes at all,
+>> when it's just a file in the same place where the .ko's live.
+>
+>Yes, but you're missing the point that some people would also opt to
+>build it
+>into the kernel during their development/debugging (Config=y). For such
+>folks, they don't want to update the FS with anything during debug runs
+>either. Your "whole same place where the .ko lives" doesn't address
+>Daniel's
+>usecase. You may say "initrd", but this is a much cleaner solution to
+>that
+>IMO. There is no initrd needed and the path to the header files will be
+>at a
+>standard location that is already pre-decided by the kernel.
+>
+>As Greg said, you are welcome to keep it disabled for yourself if you
+>don't
+>want it. This doesn't affect anyone else who doesn't use it.
 
-On Wed, Mar 6, 2019 at 6:48 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> On Mon, Mar 4, 2019 at 1:15 AM Joel Fernandes <joelaf@google.com> wrote:
-> >
-> > This report is for an older version of the patch so ignore it. The
-> > issue is already resolved.
-> >
-> > On Sat, Mar 2, 2019 at 2:00 PM kbuild test robot <lkp@intel.com> wrote:
-> > >
-> > > Hi Joel,
-> > >
-> > > Thank you for the patch! Yet something to improve:
-> > >
-> > > [auto build test ERROR on linus/master]
-> > > [also build test ERROR on v5.0-rc8]
-> > > [cannot apply to next-20190301]
-> > > [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
-> > >
-> > > url:    https://github.com/0day-ci/linux/commits/Joel-Fernandes-Google/Provide-in-kernel-headers-for-making-it-easy-to-extend-the-kernel/20190303-014850
-> > > config: sh-allmodconfig (attached as .config)
-> > > compiler: sh4-linux-gnu-gcc (Debian 8.2.0-11) 8.2.0
-> > > reproduce:
-> > >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> > >         chmod +x ~/bin/make.cross
-> > >         # save the attached .config to linux build tree
-> > >         GCC_VERSION=8.2.0 make.cross ARCH=sh
-> > >
-> > > All errors (new ones prefixed by >>):
-> > >
-> > > >> find: 'arch/sh/kernel/module.lds': No such file or directory
-> > > >> find: 'arch/sh/kernel/module.lds': No such file or directory
-> > >
-> > > ---
-> > > 0-DAY kernel test infrastructure                Open Source Technology Center
-> > > https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
-> > >
-> > > --
-> > > You received this message because you are subscribed to the Google Groups "kernel-team" group.
-> > > To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
->
->
->
-> Honestly speaking, I am worried about some flaws
-> in this feature, but anyway I read your code.
->
-> Here are just comments from the build system point of view
-> in case something might be useful.
->
-> Please feel free to adopt some of them if you think they are good.
->
-> (I do not think you need to re-post a patch just for
-> adding Reviewed-by/Tested-by tags, but anyway looks like you are
-> planning to post a new version.)
->
->
->
-> [1]
->
-> Please do not ignore kbuild test robot.
->
-> It never makes such a mistake like
-> replying to a new patch about the test result from old version.
->
-> The reports are really addressing this version (v4).
->
-> I see the error message even on x86.
->
->
-> [2]
->
-> The shell script keeps running
-> even when an error occurs.
->
-> If any line in a shell script fails,
-> probably it went already wrong.
->
-> I highly recommend to add 'set -e'
-> at the very beginning of your shell script.
->
-> It will propagate the error to Make.
->
->
->
-> [3]
->
-> targets += kheaders_data.tar.xz
-> targets += kheaders_data.h
-> targets += kheaders.md5
->
-> These three lines are unneeded because
-> 'targets' is necessary just for if_changed or if_changed_rule.
->
-> Instead, please add
->
-> clean-files := kheaders_data.tar.xz kheaders_data.h kheaders.md5
->
->
-> [4]
->
-> It is pointless to pass 'ikh_file_list'
-> from Makefile to the shell script.
->
->
-> You can directly describe the following in gen_ikh_data.sh
->
-> You do not need to use sed.
->
->
-> src_file_list="
-> include/
-> arch/$SRCARCH/Makefile
-> arch/$SRCARCH/include/
-> arch/$SRCARCH/kernel/module.lds
-> scripts/
-> Makefile
-> "
->
-> obj_file_list="
-> scripts/
-> include/
-> arch/$SRCARCH/include/
-> "
->
-> if grep -q "^CONFIG_STACK_VALIDATION=y" $KCONFIG_CONFIG; then
->         obj_file_list="$obj_file_list tools/objtool/objtool"
-> fi
->
->
->
-> Be careful about module.lds
-> so that it will work for all architectures.
->
->
->
->
-> [5]
-> strip-comments.pl is short enough,
-> and I do not assume any other user.
->
->
-> IMHO, it would be cleaner to embed the one-liner perl
-> into the shell script, for example, like follows:
->
-> find  $cpio_dir -type f -print0 |
->  xargs -0 -P8 -n1 perl -pi -e 'BEGIN {undef $/;}; s/\/\*((?!SPDX).)*?\*\///smg;'
->
->
->
-> [6]
-> It might be better to move
-> scripts/gen_ikh_data.sh to kernel/gen_ikh_data.sh
->
-> It will make this feature self-contained in kernel/.
-> And (more importantly to me), it would reduce my maintenance field.
->
->
->
-> [7]
-> I do not understand for what 'tarfile_md5' is used.
-> Is it necessary?
->
->
->
-> [8]
-> Is it more efficient to pipe the header files
-> to perl script like this?
->
->
->  cat (header) | perl 'do something' > (tmp directory)
->
->
-> Actually, I am not sure if it is more efficient than
-> stripping comments in-line. I could be wrong...
->
->
-> [9]
->
-> I'd prefer avoiding 'pushd && popd' if possible.
->
-> Hint: Kbuild already runs at the top directory
-> of objtree.
->
->
-> It is OK if the change would mess up the script.
->
->
-> [10]
->
-> You can embed a binary directly into C file
-> without producing a giant header file.
->
-> I refactored kernel/configs.c
-> https://lore.kernel.org/patchwork/patch/1042013/
->
-> Be careful; my patch has not been merged yet into the mainline.
->
-> It has been a while in linux-next,
-> and I have not received any problem report.
->
-> So, I am guessing it will probably be merged
-> in the current MW.
->
->
->
->
-> That's all from me.
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+You do know that initrd can be built into the kernel, right?
+-- 
+Sent from my Android device with K-9 Mail. Please excuse my brevity.
