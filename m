@@ -1,63 +1,28 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D8BFE7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  6 Mar 2019 23:38:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 837037D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 00:08:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726101AbfCFXiA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Mar 2019 18:38:00 -0500
-Received: from mail-ua1-f66.google.com ([209.85.222.66]:42359 "EHLO
-        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725788AbfCFXiA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Mar 2019 18:38:00 -0500
-Received: by mail-ua1-f66.google.com with SMTP id s26so9582098uao.9
-        for <linux-doc@vger.kernel.org>; Wed, 06 Mar 2019 15:37:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hyIXuMAw3n37zrTrlY9c88XciPug8WFdBmEA+CderNw=;
-        b=uCsRLqNtWhXUtsEEK6bPI72H5cWAHlNq//Ib9KikhKPTZRnMNQxED80+ibu/t97NY2
-         LkLgIFWgDhX6DMwjPx/EbwLNcrBbw/Y/CRPOWOMmyVbotRXh15Q5sZC701Q6vP0FS+NS
-         Re/+nkiMwwwyRkhI+NjU8XCEWVZWRSkTe+m1c1xTue9ndjt8sJSEs5Ylr/71YLZGqTpf
-         YP540IdupWVW1TwCvBbRq9HWRQpkBzCU1twYdBsT1HrE+NXcyHHMM8ZDbnzLa3tculaV
-         Ch2WTW2A15tjaTnC3l92+lrCCD9j+s/DEiwr0kMAMt0ppv4D6FRWptNNPUZwZU40RtM2
-         uIjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hyIXuMAw3n37zrTrlY9c88XciPug8WFdBmEA+CderNw=;
-        b=pwTj/oELROUy7JIrlxFmaleVtZxFsFjXth28PmcV6nHL22Y7WNdwAHFDGrljUIXHET
-         xKbC5ho8dmed9cKRWx3TFO9+zPftH2pvNyf0+JB3f7NHaOVhl+myGL98iIH6Lswk2WwX
-         lxBuvp7lnDLyECgcz+FJdO93p1Rp1KDqefM6Sff+hFG/rIObRYd5/jx6SRzEcySlY7Wm
-         VXutjrUqVyEaVLMoTZxsoKkRH3E/Eew28+jpBlFEUgtmhlvCmMbDDmN/QSSzHgSrFIEK
-         mQx7lkodNI3aHGXVTTNzgqc9rCO5t6dFGUs5hOIr60IlMBaYQo3FvTpvUaH6EQShthes
-         uklQ==
-X-Gm-Message-State: APjAAAVGozG7XGmbGnN2H2pSPKLqu4RCAhidxMDhExz8JhLdmd89BkQb
-        gcFpX5dEdQ4cZQ6FmG6IDP9zbjwwOfDDB+NTiMiBkA==
-X-Google-Smtp-Source: APXvYqxl2vnDcH06eYQoG5A8az88PWIvkNvB1YKVYdVfgq1P6vYd7Kp1BYV0v6NiBvp46uFi0bMjQv3gIF44bPYLx74=
-X-Received: by 2002:a9f:3591:: with SMTP id t17mr5511602uad.11.1551915478236;
- Wed, 06 Mar 2019 15:37:58 -0800 (PST)
-MIME-Version: 1.0
-References: <20190118225543.86996-1-joel@joelfernandes.org>
- <20190119082532.GA9004@kroah.com> <20190119162754.GC231277@google.com>
- <CAKOZuet+7a4jdox6rebMN=kJtDn5RUYzvNjFh+Pzn2UkuP0Y8Q@mail.gmail.com>
- <20190119232503.GA149403@google.com> <78AACAF1-8EBF-4DF3-BE94-5B14E78BA791@zytor.com>
- <20190120155838.GA23827@google.com> <20190306230944.GB7915@amd>
-In-Reply-To: <20190306230944.GB7915@amd>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Wed, 6 Mar 2019 15:37:46 -0800
-Message-ID: <CAKOZuetOePf89cXRkvmWeGnvG7zYN=SW1yyrZibuyOqZQFTGkg@mail.gmail.com>
-Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the kernel
-To:     Pavel Machek <pavel@ucw.cz>
+        id S1726207AbfCGAI1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Mar 2019 19:08:27 -0500
+Received: from terminus.zytor.com ([198.137.202.136]:51137 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725790AbfCGAI0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 6 Mar 2019 19:08:26 -0500
+Received: from hanvin-mobl2.amr.corp.intel.com ([192.55.54.40])
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x2707HlQ1943640
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Wed, 6 Mar 2019 16:07:18 -0800
+Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the
+ kernel
+To:     Daniel Colascione <dancol@google.com>, Pavel Machek <pavel@ucw.cz>
 Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
         Greg KH <gregkh@linuxfoundation.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
@@ -75,60 +40,90 @@ Cc:     Joel Fernandes <joel@joelfernandes.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
         yhs@fb.com
-Content-Type: text/plain; charset="UTF-8"
+References: <20190118225543.86996-1-joel@joelfernandes.org>
+ <20190119082532.GA9004@kroah.com> <20190119162754.GC231277@google.com>
+ <CAKOZuet+7a4jdox6rebMN=kJtDn5RUYzvNjFh+Pzn2UkuP0Y8Q@mail.gmail.com>
+ <20190119232503.GA149403@google.com>
+ <78AACAF1-8EBF-4DF3-BE94-5B14E78BA791@zytor.com>
+ <20190120155838.GA23827@google.com> <20190306230944.GB7915@amd>
+ <CAKOZuetOePf89cXRkvmWeGnvG7zYN=SW1yyrZibuyOqZQFTGkg@mail.gmail.com>
+From:   "H. Peter Anvin" <hpa@zytor.com>
+Message-ID: <754146f0-8b57-8644-81c1-528b5ca7dba1@zytor.com>
+Date:   Wed, 6 Mar 2019 16:07:13 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.0
+MIME-Version: 1.0
+In-Reply-To: <CAKOZuetOePf89cXRkvmWeGnvG7zYN=SW1yyrZibuyOqZQFTGkg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 6, 2019 at 3:09 PM Pavel Machek <pavel@ucw.cz> wrote:
->
->
-> > > >Ok, I'll look into LZMA. Thanks for checking the compression sizes.
-> > > >
-> > > >- Joel
-> > >
-> > > Don't use lzma, use xz if you are going to do something.
-> >
-> > Ok, sounds good.
+On 3/6/19 3:37 PM, Daniel Colascione wrote:
+> 
+> I just don't get the opposition to Joel's work. The rest of the thread
+> already goes into detail about the problems with pure-filesystem
+> solutions, and you and others are just totally ignoring those
+> well-thought-out rationales for the module approach and doing
+> inflooping on "lol just use a tarball". That's not productive.
+> 
+> Look; here's the bottom line: without this work, doing certain kinds
+> of system tracing is a nightmare, and with this patch, it Just Works.
+> You're arguing that various tools should do a better job of keeping
+> the filesystem in sync with the kernel. Maybe you're right. But we
+> don't live in a world where they will, because if this coherence were
+> going to happen, it'd work already. But this work solves the problem:
+> by necessity, anything that changes a kernel image *must* update
+> modules coherently, whether the kernel image and module come from the
+> filesystem, network boot, some kind of SQL database, or carrier
+> pigeon. There's nothing wrong with work that very cheaply makes the
+> kernel self-describing (introspection is elegant) and that takes
+> advantage of *existing* kernel tooling infrastructure to transparently
+> do a new thing.
+> 
+> You don't have to use this patch if you don't want to. Please stop
+> trying to block it.
+> 
 
-XZ is a file format for LZMA2. Everyone's right. :-)
+No, that's not how this works. It is far worse to do something the wrong
+way than not doing it at all, when it affects the kernel-user space
+interactions.
 
-> >
-> > > However, it seems unlikely to me that someone not willing to spend the space in the filesystem will spend unswappable kernel memory.
-> > >
-> > > It would seem that a far saner way to do this is to use inittmpfs or perhaps an auxiliary "ktmpfs" so it can at least be swapped out if you have swap.
-> >
-> > But this is already possible with the proposed solution, you would load the
-> > module, extract it into a tmpfs, and unload the module. TMPFS pages can
-> > already be swapped.
->
-> So your licensing requirements prevent you from having headers in the
-> filesystem, but allow module with the headers hidden inside on the
-> filesystem?
->
-> Looks like you should just tar xvzf
-> this-is-a-kernel-module-I-promise.ko /usr/src/linux/include :-).
+Experience -- and we have almost 30 years of it -- has shown that hacks
+of this nature become engrained and all of a sudden is "mandatory". At
+the *very least* it needs to comply with the zero-one-infinity rule
+rather than being yet another ad hoc hack.
 
-I just don't get the opposition to Joel's work. The rest of the thread
-already goes into detail about the problems with pure-filesystem
-solutions, and you and others are just totally ignoring those
-well-thought-out rationales for the module approach and doing
-inflooping on "lol just use a tarball". That's not productive.
+More fundamentally, we already have multiple ways to handle objects that
+need to go into the filesystem: they can be installed with (or as)
+modules, they can use the firmware interface, and so on.
 
-Look; here's the bottom line: without this work, doing certain kinds
-of system tracing is a nightmare, and with this patch, it Just Works.
-You're arguing that various tools should do a better job of keeping
-the filesystem in sync with the kernel. Maybe you're right. But we
-don't live in a world where they will, because if this coherence were
-going to happen, it'd work already. But this work solves the problem:
-by necessity, anything that changes a kernel image *must* update
-modules coherently, whether the kernel image and module come from the
-filesystem, network boot, some kind of SQL database, or carrier
-pigeon. There's nothing wrong with work that very cheaply makes the
-kernel self-describing (introspection is elegant) and that takes
-advantage of *existing* kernel tooling infrastructure to transparently
-do a new thing.
+Saying "it can be a module" is worse than a copout: even if dynamically
+loaded -- and many setups lock out post-boot module loadings for
+security reasons -- there is nothing to cause it to unload.
 
-You don't have to use this patch if you don't want to. Please stop
-trying to block it.
+The bottom line is that in the end there is no difference between making
+this an archive of some sort and a module, except that to use the module
+you need privilege that you otherwise may not need. If your argument is
+that someone may not be providing the whole set of items provided by
+"make modules_install", what is there to say that they would include
+your specific module?
+
+Here are some better ways of implementation I can see:
+
+1. Include an archive in "make modules_install". Most trivial; no kernel
+   changes at all.
+2. Generalize the initramfs code to be able to create a pre-populated
+   tmpfs at any time, that can be populated from an archive provided by
+   the firmware loading mechanism; like all firmware allows it to either
+   be built in or fetched from the filesystem. This allows it to be
+   built in to the kernel image if that becomes necessary; using tmpfs
+   means that it can be pushed out to swap rather than permanently
+   stored in kernel memory, and this filesystem can be unmounted freeing
+   its memory.
+3. Use a squashfs image instead of an archive.
+
+	-hpa
