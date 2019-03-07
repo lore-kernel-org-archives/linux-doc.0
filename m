@@ -1,143 +1,176 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B99F07D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 01:49:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 012F27D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 04:55:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726197AbfCGBth (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 6 Mar 2019 20:49:37 -0500
-Received: from mail-ua1-f65.google.com ([209.85.222.65]:34743 "EHLO
-        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726121AbfCGBth (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Mar 2019 20:49:37 -0500
-Received: by mail-ua1-f65.google.com with SMTP id a42so9690384uad.1
-        for <linux-doc@vger.kernel.org>; Wed, 06 Mar 2019 17:49:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AAeH1gNy0DK/BA4kCaPxyXCrvJFNgZfYM1U1Y+MkbbU=;
-        b=M948pGmED2nuxikAGTw8mupvcP63pCEr/eVYtQP5111j61YsaMMoE7JRs+8GCFhW6v
-         8zHWRi6llPkkvJPYNXmpvvib9h7BRuUeh+5d30Qlu/qa5jx0aJPwZpXSm4+JEwm0I0pv
-         CowKQd7kl/ft3+fOGeTfie1ygsp6ZEdy3hV5yNZVC+IWR/XExoDF48FRwAmNnJcDenaY
-         lccSZVdjqbGcODA7ZDzrmpHJKNwYlh7CU8/yEyVJYerrWSxb4NqXZoz/yh6lncPjsTF/
-         COYgtMiOcampj5jZdmwrKc8roMJp9BYC98WS52xF547+L4poRlf6OThdDpoLRUu49Joc
-         JBvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AAeH1gNy0DK/BA4kCaPxyXCrvJFNgZfYM1U1Y+MkbbU=;
-        b=exs09pUSC0EBBRxDyzgT82exbsPtoJ0v8vIhSu0rIzKtD+XTYCgoYnIVIfdc+8zO+u
-         f/Ah7VZgJ2+HuyNTbl2kyKtjkArhJdiAFjjxeJgBKH+nPUZByI1+oxP8L3XCL0+51xZ7
-         J5ltYNt1pwSkR06WY2aDnERcGdsqP1oVEKT9SAu3xjXETafhGJJMsH/lJyq56Jol17oR
-         IUo9Sgh80U85C30eizGu3BG66o3u66k8T/adPV+IMTKoUPHYzcH/aGx9BfsGbo2g8C5O
-         39CjqV7PNhuQljxa3/IGTxVPL/Czh+sgNBQi5EPLkZE6HmS3+z8YB3QVVMhmSuYq2Zcx
-         5F3w==
-X-Gm-Message-State: APjAAAXDWzIqVUMWd80mro1Y8F7rWtS06Mp5UHAX1rnHOIK1C65PH177
-        os2JpeP3zWaU+AHF0s0VZvMuRosRGXN1T7qWGu1YLw==
-X-Google-Smtp-Source: APXvYqwp0Po10VD6PfYy4hM+LRfCJm0d64PtmZjtjTsQbeOvgYXglmUkcdf3JoReYzl/pDSq8h+LKWGgQRf2Zm+zQQY=
-X-Received: by 2002:ab0:72d8:: with SMTP id g24mr5431056uap.126.1551923375236;
- Wed, 06 Mar 2019 17:49:35 -0800 (PST)
+        id S1726264AbfCGEzw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 6 Mar 2019 23:55:52 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:22334 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726010AbfCGEzw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Mar 2019 23:55:52 -0500
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id x274tSK2032053;
+        Thu, 7 Mar 2019 13:55:29 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com x274tSK2032053
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1551934529;
+        bh=PpW95JxYtdXbkqbQPk1bd6lORF0vm9jJx2XfKgLDnqo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=tpugztEe1nq7dtPn1N1FCpeE92dIkmohpjUQAt8DhTVp5s4rUA2dER9qm9otL8DG8
+         QWvBnmSVzzy75+kbjN8zl3yDngu2ZUhinrdC1E6G87FqHcAQpPpmGPvNIASV+WgfIh
+         t6kAx0auiZre2pnSl+ER7tsYblLc4KqwSsZODIGX/rt92JG351KRVQ0tcDktBcp5zH
+         dLb5adi4SGacS1zyfXnrA32q5wgXx95tf71lHvb35zRD76tpLeDFBukG183in4liy7
+         fAIua0Lm1PgTFj1iqGgPTbxWtauSvPutZDg/K2cXnOmxHwpOD6iByeRlt2heBZVVZ5
+         cWs/bcI/NqcOg==
+X-Nifty-SrcIP: [209.85.222.42]
+Received: by mail-ua1-f42.google.com with SMTP id d4so9786001uap.5;
+        Wed, 06 Mar 2019 20:55:29 -0800 (PST)
+X-Gm-Message-State: APjAAAWdz51iQ3DOOCM/ggSf00UN6Igne5FJS2LwHXwtu8gDvWig3V/n
+        4Aqxrf66YMS2ILx66H2bat/e5QfHVXBlhqu671Y=
+X-Google-Smtp-Source: APXvYqw9PPb0RIg2L2+ex+hnNFItuZuyY5MWfWnwi4RQJ60YtE7MiYjPQf1Wsv2u1NXK1saCKpRUdz7tLnMm79mNaTY=
+X-Received: by 2002:ab0:c07:: with SMTP id a7mr5861604uak.55.1551934528072;
+ Wed, 06 Mar 2019 20:55:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20190118225543.86996-1-joel@joelfernandes.org>
- <20190119082532.GA9004@kroah.com> <20190119162754.GC231277@google.com>
- <CAKOZuet+7a4jdox6rebMN=kJtDn5RUYzvNjFh+Pzn2UkuP0Y8Q@mail.gmail.com>
- <20190119232503.GA149403@google.com> <78AACAF1-8EBF-4DF3-BE94-5B14E78BA791@zytor.com>
- <20190120155838.GA23827@google.com> <20190306230944.GB7915@amd>
- <CAKOZuetOePf89cXRkvmWeGnvG7zYN=SW1yyrZibuyOqZQFTGkg@mail.gmail.com>
- <754146f0-8b57-8644-81c1-528b5ca7dba1@zytor.com> <CAKOZuesjYZ2EH=BHBAJAFFaTOHjWU7BELJUV3QC9cjXVB2HhUw@mail.gmail.com>
- <0c46ab5f-8bd6-6916-fc4a-b6f00d456011@metux.net>
-In-Reply-To: <0c46ab5f-8bd6-6916-fc4a-b6f00d456011@metux.net>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Wed, 6 Mar 2019 17:49:23 -0800
-Message-ID: <CAKOZuevksKGAPif_pUYVzFpbuBCxOZ5WzT6ukLCYm4TzyLUTMw@mail.gmail.com>
-Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the kernel
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     "H. Peter Anvin" <hpa@zytor.com>, Pavel Machek <pavel@ucw.cz>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+References: <20190301160856.129678-1-joel@joelfernandes.org>
+ <201903030526.3AuYFiuN%fengguang.wu@intel.com> <CAJWu+op541tQ_TBJs-kOyRRBYDWiN0Znpb=cUQFxuLg-SmjO_g@mail.gmail.com>
+ <20190306181653.GB34256@google.com>
+In-Reply-To: <20190306181653.GB34256@google.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Thu, 7 Mar 2019 13:54:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARA0_C2a8sRCfAr3EV4xF-z5vEq4KkwUcyr7jCKhRpKFg@mail.gmail.com>
+Message-ID: <CAK7LNARA0_C2a8sRCfAr3EV4xF-z5vEq4KkwUcyr7jCKhRpKFg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
+ extend the kernel
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     kbuild test robot <lkp@intel.com>, kbuild-all@01.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
         atish patra <atishp04@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
-        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+        Daniel Colascione <dancol@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        Kees Cook <keescook@chromium.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
         Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>, rostedt@goodmis.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        yhs@fb.com
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 6, 2019 at 5:23 PM Enrico Weigelt, metux IT consult
-<lkml@metux.net> wrote:
+On Thu, Mar 7, 2019 at 5:31 AM Joel Fernandes <joel@joelfernandes.org> wrote:
 >
-> On 07.03.19 01:33, Daniel Colascione wrote:
 >
-> > *There* *may* *be* *no* *filesystem*.
+> > On Sat, Mar 2, 2019 at 2:00 PM kbuild test robot <lkp@intel.com> wrote:
+> > >
+> > > Hi Joel,
+> > >
+> > > Thank you for the patch! Yet something to improve:
+> > >
+> > > [auto build test ERROR on linus/master]
+> > > [also build test ERROR on v5.0-rc8]
+> > > [cannot apply to next-20190301]
+> > > [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+> > >
+> > > url:    https://github.com/0day-ci/linux/commits/Joel-Fernandes-Google/Provide-in-kernel-headers-for-making-it-easy-to-extend-the-kernel/20190303-014850
+> > > config: sh-allmodconfig (attached as .config)
+> > > compiler: sh4-linux-gnu-gcc (Debian 8.2.0-11) 8.2.0
+> > > reproduce:
+> > >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> > >         chmod +x ~/bin/make.cross
+> > >         # save the attached .config to linux build tree
+> > >         GCC_VERSION=8.2.0 make.cross ARCH=sh
+> > >
+> > > All errors (new ones prefixed by >>):
+> > >
+> > > >> find: 'arch/sh/kernel/module.lds': No such file or directory
+> > > >> find: 'arch/sh/kernel/module.lds': No such file or directory
+> On Sun, Mar 03, 2019 at 08:11:59AM -0800, Joel Fernandes wrote:
+> > This report is for an older version of the patch so ignore it. The
+> > issue is already resolved.
+> >
 >
-> A Linux system w/o any filesystem at all ? Well, that's interesting.
-
-Entirely FS-less operation is uncommon, granted. :-) I guess I've just
-spent too much time debugging emulators that refuse to mount their
-root filesystems. :-) There are legitimate reasons why a device's
-filesystems might not be rw-mountable though, and I can imagine a
-world where I want to attach tracing tools *very* early.
-
-> > The only thing the kernel can really guarantee is its own> existence --- it should be entire in itself.
+> Apologies, this issue is real. However it does not cause any failure. It is
+> only causing find command to be a bit noisy.
 >
-> I vaguely recall some option for linking in an initrd ... does this
-> still exist ?
+> The below diff fixes it and I'll update the patch for v5:
+
+
+
+Let's take a look a little bit closer.
+
+
+$ find  arch  -name module.lds
+arch/ia64/module.lds
+arch/powerpc/kernel/module.lds
+arch/riscv/kernel/module.lds
+arch/arm/kernel/module.lds
+arch/m68k/kernel/module.lds
+arch/arm64/kernel/module.lds
+
+
+
+(1) module.lds may not exist for some architectures
+(2) module.lds may be located in a different directory (ia64)
+
+Your fix-up missed (2).
+
+
+
+
+
+
+
+> diff --git a/scripts/gen_ikh_data.sh b/scripts/gen_ikh_data.sh
+> index 1fa5628fcc30..9a7ea856acbc 100755
+> --- a/scripts/gen_ikh_data.sh
+> +++ b/scripts/gen_ikh_data.sh
+> @@ -1,5 +1,6 @@
+>  #!/bin/bash
+>  # SPDX-License-Identifier: GPL-2.0
+> +set -e
 >
-> > If I'm hacking on an> Android kernel and say "fastboot boot mykernel" without making any>
-> changes to the device's boot filesystem, I should still be able to use>
-> tracing tools that rely on knowing the headers for the kernel with
+>  spath="$(dirname "$(readlink -f "$0")")"
+>  kroot="$spath/.."
+> @@ -11,12 +12,14 @@ file_list=${@:2}
 >
-> Fix fastboot to support initrd or use a remote filesystem ?
+>  src_file_list=""
+>  for f in $file_list; do
+> +       if [ ! -f "$kroot/$f" ] && [ ! -d "$kroot/$f" ]; then continue; fi
+>         src_file_list="$src_file_list $(echo $f | grep -v OBJDIR)"
+>  done
+>
+>  obj_file_list=""
+>  for f in $file_list; do
+>         f=$(echo $f | grep OBJDIR | sed -e 's/OBJDIR\///g')
+> +       if [ ! -f $f ] && [ ! -d $f ]; then continue; fi
+>         obj_file_list="$obj_file_list $f";
+>  done
+>
+> --
+> 2.21.0.352.gf09ad66450-goog
+>
 
-Sure. There's some support for a ramdisk already in fastboot. But just
-including a blob in initrd doesn't *automatically* make it available
-to userspace in any uniform way. With Joel's approach --- which
-defines both a propagation mechanism and an access interface --- we
-have a chance to make very useful tools work transparently everywhere,
-and without additional work across a fragmented and uncoordinated
-ecosystem. That's not nothing! While I appreciate the purity merits of
-a file-based approach, insisting on it will lead to a world where
-it'll be many more years before we can apply these powerful analysis
-tools universally. Human factors are just as important as technical
-ones if you want to actually get anything done, and in this case, a
-consideration of the human factors points toward the kernel as
-coordination point for kernel metadata. It'd be different if we were
-working in a more-coordinated system NT or FreeBSD, but this is Linux,
-where fragmentation starts as soon as you exit ring zero.
-
-That said, I think it's fair to want the configuration blob to be
-swappable and removable even in a monolothic, no-module system. There
-are lots of ways of meeting these requirements.
-
-> I'm doing embedded development all the day, and one of the first things
-> I usually set up for a project is an fully automatic netboot (or at
-> least usb boot). Shouldn't be so hard, and is a more generic solution.
-
-Yeah. I think every embedded developer quickly developers a rich set
-of shell scripts for this stuff. That's part of my point: if we can
-pull it off, existing toolsets, which we can't possibly change all at
-once, should properly propagate this kernel metadata without having to
-even realize that they're doing it. Practically speaking, the only
-universal mechanism is to bake something into the kernel image or one
-of its modules.
+--
+Best Regards
+Masahiro Yamada
