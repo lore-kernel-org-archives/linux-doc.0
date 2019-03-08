@@ -1,56 +1,26 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D1E8D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 13:42:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B7E737D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 13:58:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726508AbfCHNmq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Mar 2019 08:42:46 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:38556 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726380AbfCHNmq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Mar 2019 08:42:46 -0500
-Received: by mail-lf1-f67.google.com with SMTP id k136so4011229lfg.5
-        for <linux-doc@vger.kernel.org>; Fri, 08 Mar 2019 05:42:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Na2ICTCaMZ0QcHDv8RWM3swi5O8VFI4ZuZ2NbpUHrhU=;
-        b=ssezaFnNfCTxDFxOwKtDQzdR9rpAu8PUWYVEF1UNq8770sFlQv53heVquoasbermH/
-         HU4KvcFGnY3tiN4cZfB6C5umE35JPTFc0N20EebyAIxzeHzy4qmgAn0vUTKvAM4P75hD
-         wvql1OikAYjzWupCLpGs8N4HH2rn+aPLpu70c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Na2ICTCaMZ0QcHDv8RWM3swi5O8VFI4ZuZ2NbpUHrhU=;
-        b=qj4yky4cjqIo3OTBTJxYJlhSjWa1hVxfCqTA+//8ODLoqEJoMtBe7kaKoj14i4ei+J
-         N+9JtuRNmwzpVNHk2/goRwgw+aNADPZvylfX+0vgG++F6aQigKEt3wGxv5DlU/NhHu9g
-         7I2CxTQmHs9NhTmAOgD2XN66V67bvjviGPqXkbVfNj5XlV63m1ZdmaKMRLQMoN3Bwxc7
-         8JbiYRaQ/xp2YUkmwytCa3Z3QPU3UmkfvIdtQd3pnrsryB+8eF+ll/2KXI8t+VjRILgP
-         nWc4N4t2IjHYxElwF6kVrnOwSxMqeVGguVkPMa9BLx+oU3I117ScyMef/YKvVFtbSXKQ
-         2WDQ==
-X-Gm-Message-State: APjAAAUHabpzm7xW5X9Uvy0+esIHUU16GZVsP8dDL+oCCLt6+YNjaP2T
-        GvCteSTZlUx6H1cPYnBEfvVGFBaCtHZG6B1KxP8tsg==
-X-Google-Smtp-Source: APXvYqyzWoypEqoT1oITYeUwNCwjb9vm61eT6BS7cBFz9jHtc8tf3vM63v6xdDxXMuteDgdGCzCS0SSwIXDskAdTkuc=
-X-Received: by 2002:ac2:51b2:: with SMTP id f18mr10219675lfk.21.1552052563784;
- Fri, 08 Mar 2019 05:42:43 -0800 (PST)
-MIME-Version: 1.0
-References: <20190301160856.129678-1-joel@joelfernandes.org>
- <CAMuHMdU77UyUs-LvRx-NN_k0Y7MZXQkBdgL2i83veCkvdzeeqA@mail.gmail.com>
- <20190307150343.GB258852@google.com> <CAMuHMdW_7BTZREsnz7uMTToCZ4HDOZboMJH8k8UZica2pB=Jew@mail.gmail.com>
-In-Reply-To: <CAMuHMdW_7BTZREsnz7uMTToCZ4HDOZboMJH8k8UZica2pB=Jew@mail.gmail.com>
-From:   Joel Fernandes <joel@joelfernandes.org>
-Date:   Fri, 8 Mar 2019 05:42:32 -0800
-Message-ID: <CAEXW_YQUcA+bnav20tAFQPXYE=epMie4X85diudKs_s-TJ7dsw@mail.gmail.com>
+        id S1726770AbfCHN6g (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Mar 2019 08:58:36 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:43301 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726613AbfCHN6g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Mar 2019 08:58:36 -0500
+Received: from [192.168.1.110] ([95.117.97.241]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MI5Dj-1hGEFK20Hf-00F7vX; Fri, 08 Mar 2019 14:57:29 +0100
 Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
  extend the kernel
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
+To:     Joel Fernandes <joel@joelfernandes.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexei Starovoitov <ast@kernel.org>,
@@ -75,29 +45,79 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <20190301160856.129678-1-joel@joelfernandes.org>
+ <CAMuHMdU77UyUs-LvRx-NN_k0Y7MZXQkBdgL2i83veCkvdzeeqA@mail.gmail.com>
+ <20190307150343.GB258852@google.com>
+ <CAMuHMdW_7BTZREsnz7uMTToCZ4HDOZboMJH8k8UZica2pB=Jew@mail.gmail.com>
+ <CAEXW_YQUcA+bnav20tAFQPXYE=epMie4X85diudKs_s-TJ7dsw@mail.gmail.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <05942dfd-b05d-0a26-f8e4-85e2a73b8feb@metux.net>
+Date:   Fri, 8 Mar 2019 14:57:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+MIME-Version: 1.0
+In-Reply-To: <CAEXW_YQUcA+bnav20tAFQPXYE=epMie4X85diudKs_s-TJ7dsw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:2vZUapQY62LzxQIv2azTdMjatX+RspFAoH+I9f/VwU+9Oy45DZw
+ IdzRFwmMxw2XlX/yCTRLR3fVyw3KKVAFe2poEyG+anw49/m49tzSl29xRfbUrEWkNdLAdCS
+ S3jS668IVRLDu8a34PY5hPHUcL4YfrX7x0814DEbmIvAJm6KoKXeNSQd9Zak0mHIQwZFalf
+ V8yYGwbIGpiYnGsyPBiYA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ewfJ7fN90DI=:w4MjO0df0JnP1eSpJXr4RG
+ QnYrYAyzLAschlet8asvYWGt/F2ygLTFRjRSF+mqh46jzfTpOhjOBTOyBLVe8zanMpvjsAy8A
+ vETqngOPlPSj05RfJU7YnuniwKc5jWCXcLbmKSnOhigKpWtbn6ierlbd+apJrMxeVrXJisc6c
+ 0KqewOIJt/B49zl49Fl3hKs25ppthrVeZD/il+FfXnSmfS35DlcWCwR+kc8ae8CQxKcCxXGOE
+ 1S3PgOEkEUlMOl3bPefaK/9Z6FCNCJye5Dh9yMjIUqcMqUL9G0GfQffy3peo0+SG++Y6bD5s0
+ 07BYpKSDlpA5hyZW9s6XPo7aVgWyRTF2P/4qQczZSZA89HYg/4/+WhtsgM6rRerjpu3feY6o0
+ 93W464420Ur2s7FNVmXyk8ibsHh9cq4+Tnx/+WB8smaSbsyzHDlLpWShy3o5Gm68nrNzBoR6P
+ aqx27BzXRJ3lpgalpDuZnrshWOrs77n0Xj4Fa/yRj+xSCuUXanez5puZxzQkNLQ/yIjqEZOHe
+ PyO7NqNC/tbPnI5lmjN9pEcem+9Q/cikRFNqCUToZCp9SaVav2M6rHG1NUkpRPGHq3uH2c606
+ NM1i4/C/1BGSxem3wJ8YKT1n7hYpzaZIUUCK0iRT86MfjPx8VodCDg5rysDT1rdO2q9ftwAt8
+ UKp6Ks1qJP/m/ZZuf6jTDdPTMpV2b1RW/mR1W8CuLlSwhe/bFIQcGhQoM7hDR5kOKC6shuPWQ
+ xAjMmZUyC9d1J51Fx/JIyC2+1FjJiAuNYpTL1INcwI6tgm95Cp8TPnDwQug=
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-HI Geert,
+On 08.03.19 14:42, Joel Fernandes wrote:
 
-On Fri, Mar 8, 2019, 3:53 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > It is just so much easier to use tar + xz at build time, and leave the
-> > decompression task to the user. After decompression, the files will live on
-> > the disk and the page-cache mechanism will free memory when/if the files fall
-> > off the LRUs.
->
-> I'm also considering how generic and extensible the solution is.
-> What if people need other build artifacts in the future (e.g. signing key to
-> load signed modules)?
+Hi folks,
 
-That sounds like it could be useful. I don't see any reason off the
-top why that would not be possible to add to the list of archived
-files in the future. The patch allows populating the list of files
-from Kbuild using ikh_file_list variable.
+> That sounds like it could be useful. I don't see any reason off the
+> top why that would not be possible to add to the list of archived
+> files in the future. The patch allows populating the list of files
+> from Kbuild using ikh_file_list variable.
 
-thanks,
+It seems the whole thing's going into a direction where a whole own
+subtopic is coming up: compressed built-in filesystem.
 
- - Joel
+Haven't had a deeper thought about it yet, whether or not existing
+filesystems like squashfs, initramfs, etc are the right thing for that,
+or something new should be invented, but a generic mechanism for
+compiled-in compressed (ro) filesystems could also be interesting
+for very small devices, that perhaps even dont need any persistence.
+
+Some requirements coming up in mind:
+
+1. it shall be possible to have any number of instances - possibly by
+   separate modules.
+2. it shall be possible to use an bootloader/firmware provided image
+   (so it can serve as initrd)
+2. data should stay compressed as long as possible, but uncompressed
+   data might be cached - do decompression on-demand
+3. only needs to be ro (write access could be done via unionfs+friends)
+4. it shall be swappable (if swap is enabled)
+
+In that scenario, these in-kernel headers would just one consumer,
+I can imagine lots of others.
+
+
+--mtx
+
+-- 
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
