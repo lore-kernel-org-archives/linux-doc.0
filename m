@@ -1,90 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 353227D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 03:51:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8A0807D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 04:57:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726250AbfCHDv2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Mar 2019 22:51:28 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:52714 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726248AbfCHDv1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 22:51:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=2mqmIhNNu2ViXSd4nQ1v+FGWQsQv77TjYllAwKK3HbI=; b=hATF+G+PEBCLc3+jvymBO1mHd
-        Sk/RswNAuc0e9Ju4oxk9Um2j6XlS8SAImZTkDvoBEfPl0zpsfRGBNcyC1U7Ieb9XSC6exD7mtLSIp
-        qhmMQj/WOZ8HVOCXrh0Aw+yBMzTDGut5loXPNXKylrxcozSaPDAkr3d9hBZX+qEW/YVUXrHbJrAF/
-        ORwpm1lbaINiOyEWsB2J56gD//0k1zsIzdevnIbW8gKUDNYlxVdqBaXhdGtJfqOOX0ZEA1+sHthx0
-        3+6kFCuVXC6qyjXHZUKYWIhc2VdZhuVpcOaL3jyhVhvM+b2mbkUR6hqo9XnEoFLs6K8sAqxrh/uwH
-        7lbO9EfyQ==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1h26Xf-00010Z-Ap; Fri, 08 Mar 2019 03:51:27 +0000
-Subject: Re: [PATCH 7/9] docs: Remove unknown 'hint' directive
-To:     "Tobin C. Harding" <tobin@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+        id S1726270AbfCHE5p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Mar 2019 23:57:45 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:39607 "EHLO
+        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726250AbfCHE5o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 23:57:44 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 890B2369B;
+        Thu,  7 Mar 2019 23:57:43 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Thu, 07 Mar 2019 23:57:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
+        :from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=o2MepDzSP35m0IiRL/9IyDqlu2i
+        fmBOioFrdhQpCCc8=; b=p34Wd6ThiD7bDjxFY+xZ0ykeyvQbBHAGizyfm4/5p23
+        FPq+C9zaUqKTg8TMgXYugJb93HwXchptCg5SFgO5l0uuPEGJsWu+44h6vc4oSFfn
+        +Ld5ne/OlBkGrYcfuQgr7SpcTq1jdaDpRJ01ghYfJLtjeBeSx7tSh31BkhhhuTlC
+        cglx9CbdsZ9xTWQUKWPdvudXy+LaF9iRHWgH7Ass5ntNnHQf5Q8jWkKbALlhdj37
+        SGZtFQfSbX7duajz4Ueed56dGtRDuKXeKhZgBgA/1vkHGPY0bPoy4MZo1aFfz4IB
+        GyU93vRjiLU0lLIS5LMIwR7VhO9SP0YEF8dM6RB/UCA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=o2MepD
+        zSP35m0IiRL/9IyDqlu2ifmBOioFrdhQpCCc8=; b=dNnI+ALy0gyMsbBt/1GHRs
+        nNM9ujddCChzZouf2dmBWohvKcryzfAvS4ScFS1U8rVh1LWEs6DfJzra55G0ckxF
+        aZ6xyQICU5bG78aFprQ+yqdrr5xb2XbR0taI0f5DLyvnpQScmy38raQi7wcb9unj
+        2whGpvbX/rQG96Dr2Pu6BaM1Wm3tpkS2TQurwt7Egz7zMbDTdura3rls4zfA2bCz
+        WKZDWYK+CTz8wpkHMdDIjQncpNLMIeO4Aa9DZwVlxfZ+ClBJj62T9l/AhZvWmp4M
+        UJkEPDEHcL9ZV3MdC4MH5JVPOxKoRKsgKLQqjwfcM9a10Q3iqfW+gKJkffp/CvEw
+        ==
+X-ME-Sender: <xms:RvaBXKmfh0aBEtfFzD7myewcupgvIpFdo4o2BaQbDobdbD82_730KA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrfeelgdejvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
+    hrlhcuvffnffculdduhedmnecujfgurhepfffhvffukfhfgggtuggjofgfsehttdertdfo
+    redvnecuhfhrohhmpedfvfhosghinhcuvedrucfjrghrughinhhgfdcuoehmvgesthhosg
+    hinhdrtggtqeenucfkphepuddvgedrudeiledrhedrudehkeenucfrrghrrghmpehmrghi
+    lhhfrhhomhepmhgvsehtohgsihhnrdgttgenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:RvaBXJvbp7lW87E_cwBy1w6C-YuSIZiKnXKj5GpYfWkoZMe6PCoKKw>
+    <xmx:RvaBXIAiXWy7Y3HqmJuRXsRmT3qQHXStHEjcEITdcHBRkQ5XyB19UA>
+    <xmx:RvaBXGU4-LLoAbcCL6gsssQZtQNVW_9weDby6yQjhWDDN9kmSO8LwQ>
+    <xmx:R_aBXE8DALOEnvjci6K_e6fsmXEXncoquILxhbQ6wow715S-fVapQQ>
+Received: from localhost (124-169-5-158.dyn.iinet.net.au [124.169.5.158])
+        by mail.messagingengine.com (Postfix) with ESMTPA id B9AA91030F;
+        Thu,  7 Mar 2019 23:57:41 -0500 (EST)
+Date:   Fri, 8 Mar 2019 15:57:14 +1100
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     "Tobin C. Harding" <tobin@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 8/9] docs: Fix Title underline too short warning
+Message-ID: <20190308045714.GA17221@eros.localdomain>
 References: <20190307211153.28400-1-tobin@kernel.org>
- <20190307211153.28400-8-tobin@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <77efd92e-f882-bb32-e58c-6836e4307744@infradead.org>
-Date:   Thu, 7 Mar 2019 19:51:26 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+ <20190307211153.28400-9-tobin@kernel.org>
+ <a195b380-4be4-512d-0a24-9f83082b9d83@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <20190307211153.28400-8-tobin@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a195b380-4be4-512d-0a24-9f83082b9d83@infradead.org>
+X-Mailer: Mutt 1.11.3 (2019-02-01)
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/7/19 1:11 PM, Tobin C. Harding wrote:
-> Current RST file contains an unknown directive causing Sphinx to emit
+On Thu, Mar 07, 2019 at 07:42:03PM -0800, Randy Dunlap wrote:
+> On 3/7/19 1:11 PM, Tobin C. Harding wrote:
+> > Sphinx emits a bunch of 'Title underline too short' warnings.  We can
+> > fix these by using the correct length underlines.
+> > 
+> > Fix Title underline too short warning by amending heading underline.
+> > 
+> > Signed-off-by: Tobin C. Harding <tobin@kernel.org>
+> > ---
+> >  Documentation/filesystems/path-lookup.rst | 24 +++++-----
+> >  Documentation/networking/snmp_counter.rst | 58 +++++++++++------------
+> >  2 files changed, 41 insertions(+), 41 deletions(-)
 > 
-> 	ERROR: Unexpected indentation.
+> Hi,
 > 
-> Use normal language construct instead.
-> 
-> Signed-off-by: Tobin C. Harding <tobin@kernel.org>
+> These are already fixed.  Did you try the pending docs tree
+> (for which a pull request was sent a few hours ago)?
 
-This is a good idea.  My previous patch eliminated the warning but the
-..hint is not presented very well in the generated output.  :)
+Oh man, - face palm.  I've been hacking on mm lately and they use
+mainline, thanks for response.
 
-Thanks.
-
-> ---
->  Documentation/driver-api/dmaengine/dmatest.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/dmaengine/dmatest.rst b/Documentation/driver-api/dmaengine/dmatest.rst
-> index 8d81f1a7169b..25eecd2769b0 100644
-> --- a/Documentation/driver-api/dmaengine/dmatest.rst
-> +++ b/Documentation/driver-api/dmaengine/dmatest.rst
-> @@ -59,8 +59,8 @@ parameter, that specific channel is requested using the dmaengine and a thread
->  is created with the existing parameters. This thread is set as pending
->  and will be executed once run is set to 1. Any parameters set after the thread
->  is created are not applied.
-> -.. hint::
-> -  available channel list could be extracted by running the following command::
-> +
-> +Hint: available channel list could be extracted by running the following command::
->  
->      % ls -1 /sys/class/dma/
->  
-> 
-
-
--- 
-~Randy
+	  Tobin
