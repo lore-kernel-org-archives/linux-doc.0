@@ -5,30 +5,29 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8DF047D099
+	by archive.lwn.net (Postfix) with ESMTP id 559167D04D
 	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 03:11:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726399AbfCHDLg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Mar 2019 22:11:36 -0500
-Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:49308 "EHLO
-        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726540AbfCHDKS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 22:10:18 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04397;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0TMDq0c7_1552014613;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMDq0c7_1552014613)
+        id S1726537AbfCHDKQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Mar 2019 22:10:16 -0500
+Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:35001 "EHLO
+        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726521AbfCHDKQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 22:10:16 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04391;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0TMDq0bT_1552014609;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMDq0bT_1552014609)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 08 Mar 2019 11:10:13 +0800
+          Fri, 08 Mar 2019 11:10:10 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         harryxiyou@gmail.com, corbet@lwn.net
 Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        TripleX Chung <xxx.phy@gmail.com>,
-        Li Zefan <lizefan@huawei.com>,
+        Li Yang <leoyang.li@nxp.com>, Li Zefan <lizefan@huawei.com>,
         Shawn Guo <shawn.guo@linaro.org>,
         Fengguang Wu <fengguang.wu@intel.com>, Coly Li <colyli@suse.de>
-Subject: [PATCH v3 10/31] docs/zh_CN: rst format change for stable-kernel-rules
-Date:   Fri,  8 Mar 2019 11:08:57 +0800
-Message-Id: <20190308030918.22337-11-alex.shi@linux.alibaba.com>
+Subject: [PATCH v3 06/31] docs/zh_CN: howto format changes
+Date:   Fri,  8 Mar 2019 11:08:53 +0800
+Message-Id: <20190308030918.22337-7-alex.shi@linux.alibaba.com>
 X-Mailer: git-send-email 2.19.1.856.g8858448bb
 In-Reply-To: <20190308030918.22337-1-alex.shi@linux.alibaba.com>
 References: <20190308030918.22337-1-alex.shi@linux.alibaba.com>
@@ -40,27 +39,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-to Make it readble with rst format.
+also with few contents changes
 
 Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
 Cc: Harry Wei <harryxiyou@gmail.com>
 Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: TripleX Chung <xxx.phy@gmail.com>
+Cc: Li Yang <leoyang.li@nxp.com>
 Cc: Li Zefan <lizefan@huawei.com>
 Cc: Shawn Guo <shawn.guo@linaro.org>
 Cc: Fengguang Wu <fengguang.wu@intel.com>
 Cc: Coly Li <colyli@suse.de>
 ---
- .../zh_CN/process/stable-kernel-rules.rst     | 32 +++++++++----------
- 1 file changed, 15 insertions(+), 17 deletions(-)
+ .../translations/zh_CN/process/howto.rst      | 37 ++++++++-----------
+ 1 file changed, 15 insertions(+), 22 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/process/stable-kernel-rules.rst b/Documentation/translations/zh_CN/process/stable-kernel-rules.rst
-index db4ba5a0c39a..425d06f99ac2 100644
---- a/Documentation/translations/zh_CN/process/stable-kernel-rules.rst
-+++ b/Documentation/translations/zh_CN/process/stable-kernel-rules.rst
-@@ -1,31 +1,26 @@
--Chinese translated version of Documentation/process/stable-kernel-rules.rst
-+.. _cn_stable_kernel_rules:
+diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
+index 5f6d09edc9ac..e4e800591ae9 100644
+--- a/Documentation/translations/zh_CN/process/howto.rst
++++ b/Documentation/translations/zh_CN/process/howto.rst
+@@ -1,32 +1,23 @@
+-﻿Chinese translated version of Documentation/process/howto.rst
++﻿.. _cn_process_howto:
  
 -If you have any comment or update to the content, please contact the
 -original document maintainer directly.  However, if you have a problem
@@ -69,61 +68,58 @@ index db4ba5a0c39a..425d06f99ac2 100644
 -or if there is a problem with the translation.
 +.. include:: ../disclaimer-zh_CN.rst
  
--Chinese maintainer: TripleX Chung <triplex@zh-kernel.org>
+-Maintainer: Greg Kroah-Hartman <greg@kroah.com>
+-Chinese maintainer: Li Yang <leoli@freescale.com>
 ----------------------------------------------------------------------
--Documentation/process/stable-kernel-rules.rst 的中文翻译
-+:Original: :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
+-Documentation/process/howto.rst 的中文翻译
++:Original: :ref:`Documentation/process/howto.rst <process_howto>`
  
  如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
  交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
 -译存在问题，请联系中文版维护者。
 +译存在问题，请联系中文版维护者::
  
-+        中文版维护者： 钟宇  TripleX Chung <triplex@zh-kernel.org>
-+        中文版翻译者： 钟宇  TripleX Chung <triplex@zh-kernel.org>
-+        中文版校译者：
-+            - 李阳  Li Yang <leo@zh-kernel.org>
-+            - Kangkai Yin <e12051@motorola.com>
- 
--中文版维护者： 钟宇  TripleX Chung <triplex@zh-kernel.org>
--中文版翻译者： 钟宇  TripleX Chung <triplex@zh-kernel.org>
--中文版校译者： 李阳  Li Yang <leo@zh-kernel.org>
--               Kangkai Yin <e12051@motorola.com>
+-英文版维护者： Greg Kroah-Hartman <greg@kroah.com>
+-中文版维护者： 李阳  Li Yang <leoli@freescale.com>
+-中文版翻译者： 李阳  Li Yang <leoli@freescale.com>
+-中文版校译者： 钟宇  TripleX Chung <xxx.phy@gmail.com>
+-               陈琦  Maggie Chen <chenqi@beyondsoft.com>
+-               王聪  Wang Cong <xiyou.wangcong@gmail.com>
 -
 -以下为正文
 ----------------------------------------------------------------------
-+所有你想知道的事情 - 关于linux稳定版发布
-+========================================
++    英文版维护者： Greg Kroah-Hartman <greg@kroah.com>
++    中文版维护者： 李阳  Li Yang <leoli@freescale.com>
++    中文版翻译者： 李阳  Li Yang <leoli@freescale.com>
++    中文版校译者:
++                   钟宇  TripleX Chung <xxx.phy@gmail.com>
++                   陈琦  Maggie Chen <chenqi@beyondsoft.com>
++                   王聪  Wang Cong <xiyou.wangcong@gmail.com>
  
- 关于Linux 2.6稳定版发布，所有你想知道的事情。
+ 如何参与Linux内核开发
+----------------------
++=====================
  
- 关于哪些类型的补丁可以被接收进入稳定版代码树，哪些不可以的规则：
-+----------------------------------------------------------------
+ 这是一篇将如何参与Linux内核开发的相关问题一网打尽的终极秘笈。它将指导你
+ 成为一名Linux内核开发者，并且学会如何同Linux内核开发社区合作。它尽可能不
+@@ -114,6 +105,7 @@ Linux内核代码中包含有大量的文档。这些文档对于学习如何与
+     "The Perfect Patch"
+         http://www.ozlabs.org/~akpm/stuff/tpp.txt
+     "Linux kernel patch submission format"
++
+         http://linux.yyz.us/patch-format.html
  
-   - 必须是显而易见的正确，并且经过测试的。
-   - 连同上下文，不能大于100行。
-@@ -41,6 +36,7 @@ Documentation/process/stable-kernel-rules.rst 的中文翻译
-   - 必须遵循Documentation/process/submitting-patches.rst里的规则。
+   Documentation/process/stable-api-nonsense.rst
+@@ -519,7 +511,8 @@ Linux内核社区并不喜欢一下接收大段的代码。修改需要被恰当
+ 很多人已经做到了，而他们都曾经和现在的你站在同样的起点上。
  
- 向稳定版代码树提交补丁的过程：
-+------------------------------
  
-   - 在确认了补丁符合以上的规则后，将补丁发送到stable@vger.kernel.org。
-   - 如果补丁被接受到队列里，发送者会收到一个ACK回复，如果没有被接受，收
-@@ -49,6 +45,7 @@ Documentation/process/stable-kernel-rules.rst 的中文翻译
-   - 安全方面的补丁不要发到这个列表，应该发送到security@kernel.org。
- 
- 审查周期：
-+----------
- 
-   - 当稳定版的维护者决定开始一个审查周期，补丁将被发送到审查委员会，以
-     及被补丁影响的领域的维护者（除非提交者就是该领域的维护者）并且抄送
-@@ -63,4 +60,5 @@ Documentation/process/stable-kernel-rules.rst 的中文翻译
-     通常的审查周期。请联系内核安全小组以获得关于这个过程的更多细节。
- 
- 审查委员会：
-+------------
-   - 由一些自愿承担这项任务的内核开发者，和几个非志愿的组成。
+----------------
++感谢
++----
+ 感谢Paolo Ciarrocchi允许“开发流程”部分基于他所写的文章
+ (http://www.kerneltravel.net/newbie/2.6-development_process)，感谢Randy
+ Dunlap和Gerrit Huizenga完善了应该说和不该说的列表。感谢Pat Mochel, Hanna
 -- 
 2.19.1.856.g8858448bb
 
