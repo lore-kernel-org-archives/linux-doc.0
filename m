@@ -5,19 +5,19 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 10D697D099
+	by archive.lwn.net (Postfix) with ESMTP id 302467D918
 	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 03:11:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726444AbfCHDK5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Mar 2019 22:10:57 -0500
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:51487 "EHLO
-        out30-130.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726561AbfCHDKW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 22:10:22 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R231e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04396;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0TMDq0cv_1552014616;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMDq0cv_1552014616)
+        id S1726746AbfCHDLH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Mar 2019 22:11:07 -0500
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:34526 "EHLO
+        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726567AbfCHDLG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 22:11:06 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R841e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04392;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0TMDnmaw_1552014608;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMDnmaw_1552014608)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 08 Mar 2019 11:10:16 +0800
+          Fri, 08 Mar 2019 11:10:09 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         harryxiyou@gmail.com, corbet@lwn.net
@@ -25,9 +25,9 @@ Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
         Li Yang <leoyang.li@nxp.com>, Li Zefan <lizefan@huawei.com>,
         Shawn Guo <shawn.guo@linaro.org>,
         Fengguang Wu <fengguang.wu@intel.com>, Coly Li <colyli@suse.de>
-Subject: [PATCH v3 15/31] docs/zh_CN: rename SubmittingDrivers
-Date:   Fri,  8 Mar 2019 11:09:02 +0800
-Message-Id: <20190308030918.22337-16-alex.shi@linux.alibaba.com>
+Subject: [PATCH v3 05/31] docs/zh_CN: rename HOWTO into process directory
+Date:   Fri,  8 Mar 2019 11:08:52 +0800
+Message-Id: <20190308030918.22337-6-alex.shi@linux.alibaba.com>
 X-Mailer: git-send-email 2.19.1.856.g8858448bb
 In-Reply-To: <20190308030918.22337-1-alex.shi@linux.alibaba.com>
 References: <20190308030918.22337-1-alex.shi@linux.alibaba.com>
@@ -38,7 +38,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rename the file to make it available in html etc docs making.
+Make it available in htmldocs
 
 Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
 Cc: Harry Wei <harryxiyou@gmail.com>
@@ -49,14 +49,14 @@ Cc: Shawn Guo <shawn.guo@linaro.org>
 Cc: Fengguang Wu <fengguang.wu@intel.com>
 Cc: Coly Li <colyli@suse.de>
 ---
- .../zh_CN/process/{SubmittingDrivers => submitting-drivers.rst}   | 0
+ Documentation/translations/zh_CN/process/{HOWTO => howto.rst} | 0
  1 file changed, 0 insertions(+), 0 deletions(-)
- rename Documentation/translations/zh_CN/process/{SubmittingDrivers => submitting-drivers.rst} (100%)
+ rename Documentation/translations/zh_CN/process/{HOWTO => howto.rst} (100%)
 
-diff --git a/Documentation/translations/zh_CN/process/SubmittingDrivers b/Documentation/translations/zh_CN/process/submitting-drivers.rst
+diff --git a/Documentation/translations/zh_CN/process/HOWTO b/Documentation/translations/zh_CN/process/howto.rst
 similarity index 100%
-rename from Documentation/translations/zh_CN/process/SubmittingDrivers
-rename to Documentation/translations/zh_CN/process/submitting-drivers.rst
+rename from Documentation/translations/zh_CN/process/HOWTO
+rename to Documentation/translations/zh_CN/process/howto.rst
 -- 
 2.19.1.856.g8858448bb
 
