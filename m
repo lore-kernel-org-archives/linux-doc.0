@@ -1,60 +1,78 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E65B87D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 11:43:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 230E87D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 12:06:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726296AbfCHLnQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Mar 2019 06:43:16 -0500
-Received: from mx2.suse.de ([195.135.220.15]:44434 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725789AbfCHLnQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 8 Mar 2019 06:43:16 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 7D564AD93;
-        Fri,  8 Mar 2019 11:43:14 +0000 (UTC)
-From:   Juergen Gross <jgross@suse.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     x86@kernel.org, corbet@lwn.net, hpa@zytor.com, bp@alien8.de,
+        id S1726334AbfCHMGC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Mar 2019 07:06:02 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:41864 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726286AbfCHMGC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Mar 2019 07:06:02 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x28BxH0n073639;
+        Fri, 8 Mar 2019 12:05:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2018-07-02;
+ bh=6gunmPRtyzB5p7Uqgto3EMIlLRmF1oYfz9uTONoRbZw=;
+ b=hz1QMyZrEiitthXmvZXzMwwlqT43iY/18jjgb9Jf46Ern9xXv7lQ11WYsdTBvF8vt11z
+ XRadEL0Bheei6b710dCZDpwEPH8Q2X+6vcFvmyHsrxEyd+wmiMjmuJo7xQJ0lI6bRSyS
+ 5k75X3o4IRDlvTzDUYaeUO3m4p7KIfXkSaG83TMHswHU7wyXe/ha1olSGWiHQrvPWIRw
+ 0bNSyo6rLJs4laPjR0ac5eMwDBt4tgedU6rjyf6nZyYRZ7lTE9xRNxLKw1vLTqBik2Bs
+ Lm9zSp0vd43yVTjNyunsNM43ajLDbecFFeAd+JXcIsg2Kv/LIVlpuAmGWDQ7yW5ykeiC Ow== 
+Received: from userv0022.oracle.com (userv0022.oracle.com [156.151.31.74])
+        by userp2120.oracle.com with ESMTP id 2qyjfrytbh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 08 Mar 2019 12:05:38 +0000
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userv0022.oracle.com (8.14.4/8.14.4) with ESMTP id x28C5bGL005253
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 8 Mar 2019 12:05:37 GMT
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x28C5aVl023568;
+        Fri, 8 Mar 2019 12:05:37 GMT
+Received: from tomti.i.net-space.pl (/10.175.206.91)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 08 Mar 2019 04:05:36 -0800
+Date:   Fri, 8 Mar 2019 13:05:31 +0100
+From:   Daniel Kiper <daniel.kiper@oracle.com>
+To:     Juergen Gross <jgross@suse.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        x86@kernel.org, corbet@lwn.net, hpa@zytor.com, bp@alien8.de,
         mingo@redhat.com, tglx@linutronix.de, konrad.wilk@oracle.com,
-        mfleming@suse.com, ross.philipson@oracle.com,
-        daniel.kiper@oracle.com, Juergen Gross <jgross@suse.com>
-Subject: [PATCH] doc: add boot protocol 2.13 description to Documentation/x86/boot.txt
-Date:   Fri,  8 Mar 2019 12:43:10 +0100
-Message-Id: <20190308114310.25041-1-jgross@suse.com>
-X-Mailer: git-send-email 2.16.4
+        mfleming@suse.com, ross.philipson@oracle.com
+Subject: Re: [PATCH] doc: add boot protocol 2.13 description to
+ Documentation/x86/boot.txt
+Message-ID: <20190308120531.4qn2g3ahm2v2awb2@tomti.i.net-space.pl>
+References: <20190308114310.25041-1-jgross@suse.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190308114310.25041-1-jgross@suse.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9188 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=933 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1903080086
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Documentation/x86/boot.txt is missing protocol 2.13 description.
+On Fri, Mar 08, 2019 at 12:43:10PM +0100, Juergen Gross wrote:
+> Documentation/x86/boot.txt is missing protocol 2.13 description.
+>
+> Signed-off-by: Juergen Gross <jgross@suse.com>
 
-Signed-off-by: Juergen Gross <jgross@suse.com>
----
- Documentation/x86/boot.txt | 4 ++++
- 1 file changed, 4 insertions(+)
+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 
-diff --git a/Documentation/x86/boot.txt b/Documentation/x86/boot.txt
-index f4c2a97bfdbd..223e484a1304 100644
---- a/Documentation/x86/boot.txt
-+++ b/Documentation/x86/boot.txt
-@@ -61,6 +61,10 @@ Protocol 2.12:	(Kernel 3.8) Added the xloadflags field and extension fields
- 		to struct boot_params for loading bzImage and ramdisk
- 		above 4G in 64bit.
- 
-+Protocol 2.13:	(Kernel 3.14) Support 32- and 64-bit flags being set in
-+		xloadflags to support booting a 64-bit kernel from 32-bit
-+		EFI
-+
- **** MEMORY LAYOUT
- 
- The traditional memory map for the kernel loader, used for Image or
--- 
-2.16.4
-
+Daniel
