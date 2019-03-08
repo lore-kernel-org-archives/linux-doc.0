@@ -2,100 +2,129 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,NORMAL_HTTP_TO_IP,RCVD_IN_DNSWL_HI,
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A16047D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  7 Mar 2019 23:42:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BC6117D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 03:09:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726248AbfCGXmC convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Mar 2019 18:42:02 -0500
-Received: from terminus.zytor.com ([198.137.202.136]:38737 "EHLO
-        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726172AbfCGXmC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Mar 2019 18:42:02 -0500
-Received: from [10.175.10.100] ([134.134.139.92])
-        (authenticated bits=0)
-        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x27Negpo2390837
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-        Thu, 7 Mar 2019 15:40:42 -0800
-Date:   Thu, 07 Mar 2019 15:40:37 -0800
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20190307231207.GA51897@google.com>
-References: <20190120155838.GA23827@google.com> <20190306230944.GB7915@amd> <CAKOZuetOePf89cXRkvmWeGnvG7zYN=SW1yyrZibuyOqZQFTGkg@mail.gmail.com> <754146f0-8b57-8644-81c1-528b5ca7dba1@zytor.com> <CAKOZuesjYZ2EH=BHBAJAFFaTOHjWU7BELJUV3QC9cjXVB2HhUw@mail.gmail.com> <0c46ab5f-8bd6-6916-fc4a-b6f00d456011@metux.net> <CAKOZuevksKGAPif_pUYVzFpbuBCxOZ5WzT6ukLCYm4TzyLUTMw@mail.gmail.com> <5ebec282-57b0-6ebe-0876-ce0dd7b0c11c@metux.net> <20190307205505.GB30028@kroah.com> <5e558126-9038-1ca5-4519-7b5864ca9fa1@metux.net> <20190307231207.GA51897@google.com>
+        id S1726283AbfCHDJu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Mar 2019 22:09:50 -0500
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:38288 "EHLO
+        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726261AbfCHDJu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 22:09:50 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01424;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0TMDisGd_1552014583;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMDisGd_1552014583)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 08 Mar 2019 11:09:44 +0800
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        harryxiyou@gmail.com, corbet@lwn.net
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>
+Subject: [PATCH v3 00/31] clean up and reorg Chinese kernel docs 
+Date:   Fri,  8 Mar 2019 11:08:47 +0800
+Message-Id: <20190308030918.22337-1-alex.shi@linux.alibaba.com>
+X-Mailer: git-send-email 2.19.1.856.g8858448bb
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Subject: Re: [RFC] Provide in-kernel headers for making it easy to extend the kernel
-To:     Joel Fernandes <joel@joelfernandes.org>,
-        "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-CC:     Greg KH <gregkh@linuxfoundation.org>,
-        Daniel Colascione <dancol@google.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
-        atish patra <atishp04@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
-        Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Paul McKenney <paulmck@linux.vnet.ibm.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>, rostedt@goodmis.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        yhs@fb.com
-From:   hpa@zytor.com
-Message-ID: <6773AB0F-C197-4465-80D2-3F7DA28EF790@zytor.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On March 7, 2019 3:12:07 PM PST, Joel Fernandes <joel@joelfernandes.org> wrote:
->Enrico,
->
->On Thu, Mar 07, 2019 at 11:11:22PM +0100, Enrico Weigelt, metux IT
->consult wrote:
->> On 07.03.19 21:55, Greg KH wrote:
->> 
->> > Ick, no, no more squashfs please, let's just kill that mess once
->and for
->> > all :)
->> 
->> okay, then: s/squashfs/whatever_fs_image_or_archive_you_like/;
->> 
->> > Again, putting this in a simple compressed tar image allows anyone
->to do
->> > whatever they need to with this.  If they want a full filesystem,
->> > uncompress it and use it there.  If they just want it in-memory
->where
->> > they can uncompress it and then discard it, that works too.
->> 
->> And let me stress the point: doesn't need any kernel changes at all,
->> when it's just a file in the same place where the .ko's live.
->
->Yes, but you're missing the point that some people would also opt to
->build it
->into the kernel during their development/debugging (Config=y). For such
->folks, they don't want to update the FS with anything during debug runs
->either. Your "whole same place where the .ko lives" doesn't address
->Daniel's
->usecase. You may say "initrd", but this is a much cleaner solution to
->that
->IMO. There is no initrd needed and the path to the header files will be
->at a
->standard location that is already pre-decided by the kernel.
->
->As Greg said, you are welcome to keep it disabled for yourself if you
->don't
->want it. This doesn't affect anyone else who doesn't use it.
+Hi All,
 
-You do know that initrd can be built into the kernel, right?
+The following patches change existing Chinese kernel docs to rst format
+and reorg them to make them alive in 'make htmldocs'.
+
+you can view the generated htmldocs from:
+	http://176.122.172.82/translations/zh_CN/index.html 
+
+Or make and review docs on your self box:
+
+	make htmldocs SPHINXDIRS=translations/zh_CN 
+	lynx Documentation/output/translations/zh_CN/index.html
+
+Any comments are appreciated!
+
+V3 changes:
+1, fix a zh_CN/index.rst display issue
+2, update .mailmap for zh_CN transolators'r email address
+
+V2 changes:
+1, change the disclaimer file to Chinese version,
+2, replace the obsolete translator's email address in related files.
+3, fix couple of format issues in couple files
+
+Cheers!
+Alex
+
+
+Alex Shi (31):
+  docs/zh_CN: add disclaimer file
+  docs/zh_CN: move process related docs into process dir
+  docs/zh_CN: change Chinese index to know process dir
+  docs/zh_CN: add index file into process dir
+  docs/zh_CN: rename HOWTO into process directory
+  docs/zh_CN: howto format changes
+  docs/zh_CN: rename SubmittingPatches for html links
+  docs/zh_CN: format the submitting-patches doc to rst
+  docs/zh_CN: rename stable_kernel_rules doc
+  docs/zh_CN: rst format change for stable-kernel-rules
+  docs/zh_CN: rename email-clients.txt as email-clients.rst
+  docs/zh_CN: do rst format for email-clients.rst
+  docs/zh_CN: rename volatile-consider-harmful doc
+  docs/zh_CN: volatile doc format changes
+  docs/zh_CN: rename SubmittingDrivers
+  docs/zh_CN: format submitting drivers as rst
+  docs/zh_CN: rename magic-numbers as rst doc
+  docs/zh_CN: format the magic-number doc as rst
+  docs/zh_CN: rename stable_api_nonsense.txt as stable-api-nonsense.rst
+  docs/zh_CN: format stable-api-nonsense
+  docs/zh_CN: update Li Yang's email address
+  mailmap: update Li Yang's email address
+  docs/zh_CN: update Zhang Wei's email address
+  mailmap: update email address for Triplex
+  docs/zh_CN: update TripleX chung's email address
+  docs/zh_CN: fix rst format errors in howto.rst
+  docs/zh_CN: fix indent issue in stable-api-nonsense file
+  docs/zh_CN: fix indent issue in submitting-drivers
+  docs/zh_CN: fix rst format issue in submitting-patch
+  docs/zh_CN: remove zh-kernel.org in MAINTAINERS
+  mailmap: update my obsolete email address
+
+ .mailmap                                      |   6 +
+ .../translations/zh_CN/disclaimer-zh_CN.rst   |   9 ++
+ Documentation/translations/zh_CN/index.rst    |  17 +-
+ .../translations/zh_CN/magic-number.txt       | 153 ------------------
+ .../translations/zh_CN/oops-tracing.txt       |   2 +-
+ .../zh_CN/{ => process}/coding-style.rst      |   0
+ .../email-clients.rst}                        |  53 +++---
+ .../zh_CN/{HOWTO => process/howto.rst}        |  69 +++++---
+ .../translations/zh_CN/process/index.rst      |  53 ++++++
+ .../zh_CN/process/magic-number.rst            | 151 +++++++++++++++++
+ .../stable-api-nonsense.rst}                  |  67 ++++----
+ .../stable-kernel-rules.rst}                  |  32 ++--
+ .../submitting-drivers.rst}                   |  34 ++--
+ .../submitting-patches.rst}                   |  60 ++++---
+ .../volatile-considered-harmful.rst}          |  35 ++--
+ Documentation/translations/zh_CN/sparse.txt   |   6 +-
+ MAINTAINERS                                   |   1 -
+ 17 files changed, 408 insertions(+), 340 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/disclaimer-zh_CN.rst
+ delete mode 100644 Documentation/translations/zh_CN/magic-number.txt
+ rename Documentation/translations/zh_CN/{ => process}/coding-style.rst (100%)
+ rename Documentation/translations/zh_CN/{email-clients.txt => process/email-clients.rst} (82%)
+ rename Documentation/translations/zh_CN/{HOWTO => process/howto.rst} (95%)
+ create mode 100644 Documentation/translations/zh_CN/process/index.rst
+ create mode 100644 Documentation/translations/zh_CN/process/magic-number.rst
+ rename Documentation/translations/zh_CN/{stable_api_nonsense.txt => process/stable-api-nonsense.rst} (80%)
+ rename Documentation/translations/zh_CN/{stable_kernel_rules.txt => process/stable-kernel-rules.rst} (76%)
+ rename Documentation/translations/zh_CN/{SubmittingDrivers => process/submitting-drivers.rst} (86%)
+ rename Documentation/translations/zh_CN/{SubmittingPatches => process/submitting-patches.rst} (92%)
+ rename Documentation/translations/zh_CN/{volatile-considered-harmful.txt => process/volatile-considered-harmful.rst} (81%)
+
 -- 
-Sent from my Android device with K-9 Mail. Please excuse my brevity.
+2.19.1.856.g8858448bb
+
