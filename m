@@ -1,78 +1,75 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 230E87D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 12:06:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 276827D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 12:17:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726334AbfCHMGC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Mar 2019 07:06:02 -0500
-Received: from userp2120.oracle.com ([156.151.31.85]:41864 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726286AbfCHMGC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Mar 2019 07:06:02 -0500
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x28BxH0n073639;
-        Fri, 8 Mar 2019 12:05:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2018-07-02;
- bh=6gunmPRtyzB5p7Uqgto3EMIlLRmF1oYfz9uTONoRbZw=;
- b=hz1QMyZrEiitthXmvZXzMwwlqT43iY/18jjgb9Jf46Ern9xXv7lQ11WYsdTBvF8vt11z
- XRadEL0Bheei6b710dCZDpwEPH8Q2X+6vcFvmyHsrxEyd+wmiMjmuJo7xQJ0lI6bRSyS
- 5k75X3o4IRDlvTzDUYaeUO3m4p7KIfXkSaG83TMHswHU7wyXe/ha1olSGWiHQrvPWIRw
- 0bNSyo6rLJs4laPjR0ac5eMwDBt4tgedU6rjyf6nZyYRZ7lTE9xRNxLKw1vLTqBik2Bs
- Lm9zSp0vd43yVTjNyunsNM43ajLDbecFFeAd+JXcIsg2Kv/LIVlpuAmGWDQ7yW5ykeiC Ow== 
-Received: from userv0022.oracle.com (userv0022.oracle.com [156.151.31.74])
-        by userp2120.oracle.com with ESMTP id 2qyjfrytbh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 08 Mar 2019 12:05:38 +0000
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by userv0022.oracle.com (8.14.4/8.14.4) with ESMTP id x28C5bGL005253
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 8 Mar 2019 12:05:37 GMT
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x28C5aVl023568;
-        Fri, 8 Mar 2019 12:05:37 GMT
-Received: from tomti.i.net-space.pl (/10.175.206.91)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 08 Mar 2019 04:05:36 -0800
-Date:   Fri, 8 Mar 2019 13:05:31 +0100
-From:   Daniel Kiper <daniel.kiper@oracle.com>
-To:     Juergen Gross <jgross@suse.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        x86@kernel.org, corbet@lwn.net, hpa@zytor.com, bp@alien8.de,
-        mingo@redhat.com, tglx@linutronix.de, konrad.wilk@oracle.com,
-        mfleming@suse.com, ross.philipson@oracle.com
-Subject: Re: [PATCH] doc: add boot protocol 2.13 description to
- Documentation/x86/boot.txt
-Message-ID: <20190308120531.4qn2g3ahm2v2awb2@tomti.i.net-space.pl>
-References: <20190308114310.25041-1-jgross@suse.com>
+        id S1726296AbfCHMRu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Mar 2019 07:17:50 -0500
+Received: from mga14.intel.com ([192.55.52.115]:2244 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726286AbfCHMRu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 8 Mar 2019 07:17:50 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Mar 2019 04:17:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.58,455,1544515200"; 
+   d="scan'208";a="153221075"
+Received: from kumarjai-mobl.ger.corp.intel.com (HELO localhost) ([10.252.42.2])
+  by fmsmga001.fm.intel.com with ESMTP; 08 Mar 2019 04:17:48 -0800
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Markus Heiser <markus.heiser@darmarit.de>,
+        "Tobin C. Harding" <me@tobin.cc>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: undefined label
+In-Reply-To: <f0891518-ae90-904b-1001-477c122f1abb@darmarit.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20190307091734.GB9152@eros.localdomain> <c24a75bf-5bd5-aca8-7764-e05a03495e01@darmarit.de> <20190307203041.GC21937@eros.localdomain> <f0891518-ae90-904b-1001-477c122f1abb@darmarit.de>
+Date:   Fri, 08 Mar 2019 14:17:47 +0200
+Message-ID: <878sxp7e6s.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190308114310.25041-1-jgross@suse.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9188 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=933 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1903080086
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 08, 2019 at 12:43:10PM +0100, Juergen Gross wrote:
-> Documentation/x86/boot.txt is missing protocol 2.13 description.
+On Fri, 08 Mar 2019, Markus Heiser <markus.heiser@darmarit.de> wrote:
+> Hi Tobin,
 >
-> Signed-off-by: Juergen Gross <jgross@suse.com>
+> Am 07.03.19 um 21:30 schrieb Tobin C. Harding:
+>> On Thu, Mar 07, 2019 at 10:58:07AM +0100, Markus Heiser wrote:
+> [...]
+>>> If there is any interest in, I can implement a RFC for this.
+>> 
+>> Cool!  I think this would be super useful, I for one like using
+>> SPHINXDIRS when developing docs incrementally so removing false warnings
+>> would be nice.  I doubt I'm the only one to be baffled about Sphinx
+>> references.  I'd be happy to review and test your RFC if you CC me.
+>
+> Intersphinx has also drawbacks. E.g.:
+>
+>  >> To close such cross-books links we can use intersphinx [1] and map to e.g.
+>  >>
+>  >>    intersphinx_mapping = {
+>  >>        'kernel': ('https://www.kernel.org/doc/html/latest/', None)}
+>
+> This requires online access while building the output.  Anyway, as soon as
+> I have some time to spare I will send a RFC with more explanation about
+> (you will receive it in CC).
 
-Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+Please remember to call out the online access in the patch series. Such
+a requirement is going to draw a lot of opposition.
 
-Daniel
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
