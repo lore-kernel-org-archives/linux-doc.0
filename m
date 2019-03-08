@@ -1,111 +1,228 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 178A87D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 17:59:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B809E7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 18:43:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727029AbfCHR7j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Mar 2019 12:59:39 -0500
-Received: from mail-vs1-f67.google.com ([209.85.217.67]:33865 "EHLO
-        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726694AbfCHR7i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Mar 2019 12:59:38 -0500
-Received: by mail-vs1-f67.google.com with SMTP id h7so7162794vsl.1;
-        Fri, 08 Mar 2019 09:59:37 -0800 (PST)
+        id S1726961AbfCHSnX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Mar 2019 13:43:23 -0500
+Received: from mail-io1-f74.google.com ([209.85.166.74]:54254 "EHLO
+        mail-io1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727749AbfCHSnX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Mar 2019 13:43:23 -0500
+Received: by mail-io1-f74.google.com with SMTP id z14so16067278ioh.20
+        for <linux-doc@vger.kernel.org>; Fri, 08 Mar 2019 10:43:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=KOFnefpWm/MGJVRwB1q3IBuYjFO05z5JkA9pY57L9o8=;
+        b=Fq0xrXkGnIBrB8IPGplA3ONIgs9/AtsDhXfa957pzUu8VveDvKt9hXCBFa4g03sXKf
+         RfWWaxlEQ4HMi5vxnjFLw0BKcyO38p2v6BTsg3bUqecPc73aVEV+OsaDwDNDaCJH+wWy
+         INLmlffLQotYNi+/k8wdjfNeG3pHvI1zRa3+65vy9XYgbxHRqsdmJIZ65avsqwaIYnCV
+         +NEYwgx7MeOOuLV0XrUYK5/r0T2bYFqkh10ng3mN4+EvqUVSn8H/Zq8rxGvGY4cJDq1t
+         SRBPt0IdkWFekzJX7pCy5JUaQRUXNXYgt9SSXeiLuvF1MmrTFVn6uK34PQ+Nv20lBiQ3
+         aQIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Bl23IqlXVLl4dYGtmdvkTWrze0qrDnnH2IRJyRYQ07A=;
-        b=Ji01P01h5hyyxyyp6yKIIczbonBI9eBQP6wlkptiqGmBcxLypFENFRcj2+1Iytl9Eh
-         ArKd03pQ0c6y8ZxzBOC4K9wH/QU+1SqLLSolDuHO4HbmNTSDoO4WQjrsgpvFL0E7keBI
-         pCC8/KjX8QMgFXQ54kEKq5tT6/c1Cj3h4p/Wna6aXFYIpu5w+VbGWK430yi/E/cw3T5B
-         h/21LpDK9OzbkPWLKAVbuOMA6bKhpWJ3Dbi7HwjQdId7Jho4QzwvOwVcHxNFsDkzMb35
-         sWc7fohzrjtyQqgpBiM1e7J+jtizpb8ezUPLqv2XCiDrdro9wrviTixVrglvZqEQ3Frl
-         STzw==
-X-Gm-Message-State: APjAAAXH+knGDrkbvJ0zJypbzLTMEq32TgdTcB1hx1jHf+X1jAbYy8TL
-        h52U9y2HpodlYOURJq+FjJGNvf7ZUJCjYOGBwz4=
-X-Google-Smtp-Source: APXvYqxNU0D/qLTuYnHQcOn7djLmaMNaAdJtt5VLHICD1D64fK6fLPvqzV1httDPl0lGr28w+SEkOKlMXij+q9SlbI8=
-X-Received: by 2002:a67:fc9a:: with SMTP id x26mr10580270vsp.166.1552067976545;
- Fri, 08 Mar 2019 09:59:36 -0800 (PST)
-MIME-Version: 1.0
-References: <20190301160856.129678-1-joel@joelfernandes.org>
- <CAMuHMdU77UyUs-LvRx-NN_k0Y7MZXQkBdgL2i83veCkvdzeeqA@mail.gmail.com>
- <20190307150343.GB258852@google.com> <CAMuHMdW_7BTZREsnz7uMTToCZ4HDOZboMJH8k8UZica2pB=Jew@mail.gmail.com>
- <CAEXW_YQUcA+bnav20tAFQPXYE=epMie4X85diudKs_s-TJ7dsw@mail.gmail.com> <20190308140251.GC25768@kroah.com>
-In-Reply-To: <20190308140251.GC25768@kroah.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 8 Mar 2019 18:59:23 +0100
-Message-ID: <CAMuHMdUmnrJtu8bBeUgtiU6y_TLHM27z1WxpPia4dXMpApeijw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=KOFnefpWm/MGJVRwB1q3IBuYjFO05z5JkA9pY57L9o8=;
+        b=Hb47n4Ihf4erO/Wxk3aLw6VyK0WGMut9ymDf+vpb9PHof6g2A5EJGKYChjD2fgHceg
+         0zDXd3MsOcMwjPlbCXV7TacU4+bZ71lPhATShGr1XqCHlvhoLgN1yo3qMEt7x1VOY3Eb
+         TvxNyw2o9M3Y52RRPuuYJBZHnxRXGWjWOv9aWOk0L8Z4NJl2BoaOfQP/WtT48ckFibWS
+         Ql/WNorExVQkC7TJBOhVizf9dYyanWKYe9kv87ammx9aaeyIRkuGrFnzYwMMzXUR40wF
+         4s7gxcS8fW/wBcKPpLw/RGm73M13F2cmuAbeXEGtiXDObmE52EhTAQg8sRLg3q7WaiVy
+         C35w==
+X-Gm-Message-State: APjAAAWz4SEjBipzNziJbBF5S8o4GuvLVirQ0scqfPJwdan/xLmYl7gK
+        x4r9WvrH8/H1DoiXpOJ31OWBn58UCLg=
+X-Google-Smtp-Source: APXvYqzVQIDO3zH6/Mcc0ykLp0T9S36f2LzzA98NkiJ7Xxv2hG0pOuBW+mRWBRsSFt8RyW5EjF/qZ8iyxt4=
+X-Received: by 2002:a24:8088:: with SMTP id g130mr13087838itd.28.1552070601978;
+ Fri, 08 Mar 2019 10:43:21 -0800 (PST)
+Date:   Fri,  8 Mar 2019 10:43:05 -0800
+In-Reply-To: <20190308184311.144521-1-surenb@google.com>
+Message-Id: <20190308184311.144521-2-surenb@google.com>
+Mime-Version: 1.0
+References: <20190308184311.144521-1-surenb@google.com>
+X-Mailer: git-send-email 2.21.0.360.g471c308f928-goog
+Subject: [PATCH v5 1/7] psi: introduce state_mask to represent stalled psi states
+From:   Suren Baghdasaryan <surenb@google.com>
+To:     gregkh@linuxfoundation.org
+Cc:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
+        axboe@kernel.dk, dennis@kernel.org, dennisszhou@gmail.com,
+        mingo@redhat.com, peterz@infradead.org, akpm@linux-foundation.org,
+        corbet@lwn.net, cgroups@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-team@android.com, Suren Baghdasaryan <surenb@google.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Greg,
+The psi monitoring patches will need to determine the same states as
+record_times().  To avoid calculating them twice, maintain a state mask
+that can be consulted cheaply.  Do this in a separate patch to keep the
+churn in the main feature patch at a minimum.
 
-On Fri, Mar 8, 2019 at 6:05 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> On Fri, Mar 08, 2019 at 05:42:32AM -0800, Joel Fernandes wrote:
-> > On Fri, Mar 8, 2019, 3:53 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > It is just so much easier to use tar + xz at build time, and leave the
-> > > > decompression task to the user. After decompression, the files will live on
-> > > > the disk and the page-cache mechanism will free memory when/if the files fall
-> > > > off the LRUs.
-> > >
-> > > I'm also considering how generic and extensible the solution is.
-> > > What if people need other build artifacts in the future (e.g. signing key to
-> > > load signed modules)?
-> >
-> > That sounds like it could be useful. I don't see any reason off the
-> > top why that would not be possible to add to the list of archived
-> > files in the future. The patch allows populating the list of files
-> > from Kbuild using ikh_file_list variable.
->
-> Um, no, you don't want the signing key in the kernel itself, as that
-> totally defeats the purpose of the signing key :)
+This adds 4-byte state_mask member into psi_group_cpu struct which results
+in its first cacheline-aligned part becoming 52 bytes long.  Add explicit
+values to enumeration element counters that affect psi_group_cpu struct
+size.
 
-In a loadable module?
-He who has the module, can build and sign more modules.
+Link: http://lkml.kernel.org/r/20190124211518.244221-4-surenb@google.com
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Dennis Zhou <dennis@kernel.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Li Zefan <lizefan@huawei.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Tejun Heo <tj@kernel.org>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ include/linux/psi_types.h |  9 ++++++---
+ kernel/sched/psi.c        | 29 +++++++++++++++++++----------
+ 2 files changed, 25 insertions(+), 13 deletions(-)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
+index 2cf422db5d18..762c6bb16f3c 100644
+--- a/include/linux/psi_types.h
++++ b/include/linux/psi_types.h
+@@ -11,7 +11,7 @@ enum psi_task_count {
+ 	NR_IOWAIT,
+ 	NR_MEMSTALL,
+ 	NR_RUNNING,
+-	NR_PSI_TASK_COUNTS,
++	NR_PSI_TASK_COUNTS = 3,
+ };
+ 
+ /* Task state bitmasks */
+@@ -24,7 +24,7 @@ enum psi_res {
+ 	PSI_IO,
+ 	PSI_MEM,
+ 	PSI_CPU,
+-	NR_PSI_RESOURCES,
++	NR_PSI_RESOURCES = 3,
+ };
+ 
+ /*
+@@ -41,7 +41,7 @@ enum psi_states {
+ 	PSI_CPU_SOME,
+ 	/* Only per-CPU, to weigh the CPU in the global average: */
+ 	PSI_NONIDLE,
+-	NR_PSI_STATES,
++	NR_PSI_STATES = 6,
+ };
+ 
+ struct psi_group_cpu {
+@@ -53,6 +53,9 @@ struct psi_group_cpu {
+ 	/* States of the tasks belonging to this group */
+ 	unsigned int tasks[NR_PSI_TASK_COUNTS];
+ 
++	/* Aggregate pressure state derived from the tasks */
++	u32 state_mask;
++
+ 	/* Period time sampling buckets for each state of interest (ns) */
+ 	u32 times[NR_PSI_STATES];
+ 
+diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+index 0e97ca9306ef..22c1505ad290 100644
+--- a/kernel/sched/psi.c
++++ b/kernel/sched/psi.c
+@@ -213,17 +213,17 @@ static bool test_state(unsigned int *tasks, enum psi_states state)
+ static void get_recent_times(struct psi_group *group, int cpu, u32 *times)
+ {
+ 	struct psi_group_cpu *groupc = per_cpu_ptr(group->pcpu, cpu);
+-	unsigned int tasks[NR_PSI_TASK_COUNTS];
+ 	u64 now, state_start;
++	enum psi_states s;
+ 	unsigned int seq;
+-	int s;
++	u32 state_mask;
+ 
+ 	/* Snapshot a coherent view of the CPU state */
+ 	do {
+ 		seq = read_seqcount_begin(&groupc->seq);
+ 		now = cpu_clock(cpu);
+ 		memcpy(times, groupc->times, sizeof(groupc->times));
+-		memcpy(tasks, groupc->tasks, sizeof(groupc->tasks));
++		state_mask = groupc->state_mask;
+ 		state_start = groupc->state_start;
+ 	} while (read_seqcount_retry(&groupc->seq, seq));
+ 
+@@ -239,7 +239,7 @@ static void get_recent_times(struct psi_group *group, int cpu, u32 *times)
+ 		 * (u32) and our reported pressure close to what's
+ 		 * actually happening.
+ 		 */
+-		if (test_state(tasks, s))
++		if (state_mask & (1 << s))
+ 			times[s] += now - state_start;
+ 
+ 		delta = times[s] - groupc->times_prev[s];
+@@ -407,15 +407,15 @@ static void record_times(struct psi_group_cpu *groupc, int cpu,
+ 	delta = now - groupc->state_start;
+ 	groupc->state_start = now;
+ 
+-	if (test_state(groupc->tasks, PSI_IO_SOME)) {
++	if (groupc->state_mask & (1 << PSI_IO_SOME)) {
+ 		groupc->times[PSI_IO_SOME] += delta;
+-		if (test_state(groupc->tasks, PSI_IO_FULL))
++		if (groupc->state_mask & (1 << PSI_IO_FULL))
+ 			groupc->times[PSI_IO_FULL] += delta;
+ 	}
+ 
+-	if (test_state(groupc->tasks, PSI_MEM_SOME)) {
++	if (groupc->state_mask & (1 << PSI_MEM_SOME)) {
+ 		groupc->times[PSI_MEM_SOME] += delta;
+-		if (test_state(groupc->tasks, PSI_MEM_FULL))
++		if (groupc->state_mask & (1 << PSI_MEM_FULL))
+ 			groupc->times[PSI_MEM_FULL] += delta;
+ 		else if (memstall_tick) {
+ 			u32 sample;
+@@ -436,10 +436,10 @@ static void record_times(struct psi_group_cpu *groupc, int cpu,
+ 		}
+ 	}
+ 
+-	if (test_state(groupc->tasks, PSI_CPU_SOME))
++	if (groupc->state_mask & (1 << PSI_CPU_SOME))
+ 		groupc->times[PSI_CPU_SOME] += delta;
+ 
+-	if (test_state(groupc->tasks, PSI_NONIDLE))
++	if (groupc->state_mask & (1 << PSI_NONIDLE))
+ 		groupc->times[PSI_NONIDLE] += delta;
+ }
+ 
+@@ -448,6 +448,8 @@ static void psi_group_change(struct psi_group *group, int cpu,
+ {
+ 	struct psi_group_cpu *groupc;
+ 	unsigned int t, m;
++	enum psi_states s;
++	u32 state_mask = 0;
+ 
+ 	groupc = per_cpu_ptr(group->pcpu, cpu);
+ 
+@@ -480,6 +482,13 @@ static void psi_group_change(struct psi_group *group, int cpu,
+ 		if (set & (1 << t))
+ 			groupc->tasks[t]++;
+ 
++	/* Calculate state mask representing active states */
++	for (s = 0; s < NR_PSI_STATES; s++) {
++		if (test_state(groupc->tasks, s))
++			state_mask |= (1 << s);
++	}
++	groupc->state_mask = state_mask;
++
+ 	write_seqcount_end(&groupc->seq);
+ }
+ 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.21.0.360.g471c308f928-goog
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
